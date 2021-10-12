@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA17B42AFCF
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 00:47:50 +0200 (CEST)
-Received: from localhost ([::1]:53550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D5E842AFBF
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 00:41:35 +0200 (CEST)
+Received: from localhost ([::1]:39574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maQYn-0001gM-QG
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 18:47:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35596)
+	id 1maQSk-0008MG-Bd
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 18:41:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1maQMM-0007Jl-PH
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 18:34:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37565)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1maQMP-0007T3-F5
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 18:35:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1maQMK-000229-Ps
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 18:34:58 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1maQMN-00024h-RR
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 18:35:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634078096;
+ s=mimecast20190719; t=1634078099;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pSdIz8CiUBbT8USmvrUdSUS5bmUQM66Ixkm6CX9Jdbo=;
- b=Q8TXRLkwpNKvabUtpwKmrObSLMVPGg5biVWL/bQbeBBaELmSR0e/sHpTHeMMTuS1mfZEHf
- 3hWEuRAcRXuG6a3ts7e2YOpcY1o8ROS7RPUrDhEmsaIWYi+te75SxJ8e0J3NQ1oFHtyD4l
- lanGGr+yJB3eGG7AGxOcj4qc2NEMpdk=
+ bh=IfUhWIQMyzDuyQeQUlBjGdFg2ZRWTSCaqhJFWUYA5sI=;
+ b=OpXVfzjnnEJHi9hpo83M15PcKSpszP0qBgH++U9QKMbXveXdFtFz+z0P+1TMHqT3UBRAuH
+ Kvfl/+BuccHZOLU5dkFKJArpC2OALS9G+M8MVqPoPMFysIWQ18QSkczc8Eoz6SSpxCSVip
+ LEEKvDUbtIpke6uJF/bCkUi1XTxkIlk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-ST6xYP3qPASLQRNixJLOQA-1; Tue, 12 Oct 2021 18:34:55 -0400
-X-MC-Unique: ST6xYP3qPASLQRNixJLOQA-1
+ us-mta-254-97QeX6_nMJK5ZHmF4FRt_Q-1; Tue, 12 Oct 2021 18:34:56 -0400
+X-MC-Unique: 97QeX6_nMJK5ZHmF4FRt_Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBBA7800FF0;
- Tue, 12 Oct 2021 22:34:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BDA410A8E00;
+ Tue, 12 Oct 2021 22:34:55 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D85E19C79;
- Tue, 12 Oct 2021 22:34:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1ECAA19729;
+ Tue, 12 Oct 2021 22:34:54 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/7] python/aqmp: Create sync QMP wrapper for iotests
-Date: Tue, 12 Oct 2021 18:34:44 -0400
-Message-Id: <20211012223445.1051101-7-jsnow@redhat.com>
+Subject: [PATCH v3 7/7] python, iotests: replace qmp with aqmp
+Date: Tue, 12 Oct 2021 18:34:45 -0400
+Message-Id: <20211012223445.1051101-8-jsnow@redhat.com>
 In-Reply-To: <20211012223445.1051101-1-jsnow@redhat.com>
 References: <20211012223445.1051101-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,162 +84,46 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a wrapper around the async QMPClient that mimics the old,
-synchronous QEMUMonitorProtocol class. It is designed to be
-interchangeable with the old implementation.
+Swap out the synchronous QEMUMonitorProtocol from qemu.qmp with the sync
+wrapper from qemu.aqmp instead.
 
-It does not, however, attempt to mimic Exception compatibility.
+Add an escape hatch in the form of the environment variable
+QEMU_PYTHON_LEGACY_QMP which allows you to cajole QEMUMachine into using
+the old implementatin, proving that both implementations work
+concurrently.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Tested-by: Hanna Reitz <hreitz@redhat.com>
 ---
- python/qemu/aqmp/legacy.py | 138 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 138 insertions(+)
- create mode 100644 python/qemu/aqmp/legacy.py
+ python/qemu/machine/machine.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
-new file mode 100644
-index 00000000000..9e7b9fb80b9
---- /dev/null
-+++ b/python/qemu/aqmp/legacy.py
-@@ -0,0 +1,138 @@
-+"""
-+Sync QMP Wrapper
-+
-+This class pretends to be qemu.qmp.QEMUMonitorProtocol.
-+"""
-+
-+import asyncio
-+from typing import (
-+    Awaitable,
-+    List,
-+    Optional,
-+    TypeVar,
-+    Union,
-+)
-+
-+import qemu.qmp
-+from qemu.qmp import QMPMessage, QMPReturnValue, SocketAddrT
-+
-+from .qmp_client import QMPClient
+diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+index a0cf69786b4..a487c397459 100644
+--- a/python/qemu/machine/machine.py
++++ b/python/qemu/machine/machine.py
+@@ -41,7 +41,6 @@
+ )
+ 
+ from qemu.qmp import (  # pylint: disable=import-error
+-    QEMUMonitorProtocol,
+     QMPMessage,
+     QMPReturnValue,
+     SocketAddrT,
+@@ -50,6 +49,12 @@
+ from . import console_socket
+ 
+ 
++if os.environ.get('QEMU_PYTHON_LEGACY_QMP'):
++    from qemu.qmp import QEMUMonitorProtocol
++else:
++    from qemu.aqmp.legacy import QEMUMonitorProtocol
 +
 +
-+# pylint: disable=missing-docstring
-+
-+
-+class QEMUMonitorProtocol(qemu.qmp.QEMUMonitorProtocol):
-+    def __init__(self, address: SocketAddrT,
-+                 server: bool = False,
-+                 nickname: Optional[str] = None):
-+
-+        # pylint: disable=super-init-not-called
-+        self._aqmp = QMPClient(nickname)
-+        self._aloop = asyncio.get_event_loop()
-+        self._address = address
-+        self._timeout: Optional[float] = None
-+
-+    _T = TypeVar('_T')
-+
-+    def _sync(
-+            self, future: Awaitable[_T], timeout: Optional[float] = None
-+    ) -> _T:
-+        return self._aloop.run_until_complete(
-+            asyncio.wait_for(future, timeout=timeout)
-+        )
-+
-+    def _get_greeting(self) -> Optional[QMPMessage]:
-+        if self._aqmp.greeting is not None:
-+            # pylint: disable=protected-access
-+            return self._aqmp.greeting._asdict()
-+        return None
-+
-+    # __enter__ and __exit__ need no changes
-+    # parse_address needs no changes
-+
-+    def connect(self, negotiate: bool = True) -> Optional[QMPMessage]:
-+        self._aqmp.await_greeting = negotiate
-+        self._aqmp.negotiate = negotiate
-+
-+        self._sync(
-+            self._aqmp.connect(self._address)
-+        )
-+        return self._get_greeting()
-+
-+    def accept(self, timeout: Optional[float] = 15.0) -> QMPMessage:
-+        self._aqmp.await_greeting = True
-+        self._aqmp.negotiate = True
-+
-+        self._sync(
-+            self._aqmp.accept(self._address),
-+            timeout
-+        )
-+
-+        ret = self._get_greeting()
-+        assert ret is not None
-+        return ret
-+
-+    def cmd_obj(self, qmp_cmd: QMPMessage) -> QMPMessage:
-+        return dict(
-+            self._sync(
-+                # pylint: disable=protected-access
-+
-+                # _raw() isn't a public API, because turning off
-+                # automatic ID assignment is discouraged. For
-+                # compatibility with iotests *only*, do it anyway.
-+                self._aqmp._raw(qmp_cmd, assign_id=False),
-+                self._timeout
-+            )
-+        )
-+
-+    # Default impl of cmd() delegates to cmd_obj
-+
-+    def command(self, cmd: str, **kwds: object) -> QMPReturnValue:
-+        return self._sync(
-+            self._aqmp.execute(cmd, kwds),
-+            self._timeout
-+        )
-+
-+    def pull_event(self,
-+                   wait: Union[bool, float] = False) -> Optional[QMPMessage]:
-+        if not wait:
-+            # wait is False/0: "do not wait, do not except."
-+            if self._aqmp.events.empty():
-+                return None
-+
-+        # If wait is 'True', wait forever. If wait is False/0, the events
-+        # queue must not be empty; but it still needs some real amount
-+        # of time to complete.
-+        timeout = None
-+        if wait and isinstance(wait, float):
-+            timeout = wait
-+
-+        return dict(
-+            self._sync(
-+                self._aqmp.events.get(),
-+                timeout
-+            )
-+        )
-+
-+    def get_events(self, wait: Union[bool, float] = False) -> List[QMPMessage]:
-+        events = [dict(x) for x in self._aqmp.events.clear()]
-+        if events:
-+            return events
-+
-+        event = self.pull_event(wait)
-+        return [event] if event is not None else []
-+
-+    def clear_events(self) -> None:
-+        self._aqmp.events.clear()
-+
-+    def close(self) -> None:
-+        self._sync(
-+            self._aqmp.disconnect()
-+        )
-+
-+    def settimeout(self, timeout: Optional[float]) -> None:
-+        self._timeout = timeout
-+
-+    def send_fd_scm(self, fd: int) -> None:
-+        self._aqmp.send_fd_scm(fd)
+ LOG = logging.getLogger(__name__)
+ 
+ 
 -- 
 2.31.1
 
