@@ -2,62 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42533429D96
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 08:18:00 +0200 (CEST)
-Received: from localhost ([::1]:39214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9557C429DBB
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 08:31:06 +0200 (CEST)
+Received: from localhost ([::1]:43346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maB6t-0003YX-B1
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 02:17:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59912)
+	id 1maBJZ-0006zx-DW
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 02:31:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1maB5k-0001yX-1Y
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 02:16:49 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:34499)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1maBH9-0005nc-DQ
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 02:28:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1maB5i-00082H-EZ
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 02:16:47 -0400
-Received: from [192.168.100.1] ([82.142.24.54]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MxV8b-1myJkY35ir-00xwLV; Tue, 12 Oct 2021 08:16:43 +0200
-Subject: Re: [PATCH 7/9] linux-user/nios2: Fix sigmask in setup_rt_frame
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211001153347.1736014-1-richard.henderson@linaro.org>
- <20211001153347.1736014-10-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <c5b718d1-caf7-3862-6ff9-099a3d851840@vivier.eu>
-Date: Tue, 12 Oct 2021 08:16:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1maBH6-0007MX-9B
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 02:28:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634020110;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Fkz3jmm9zDMbjt2jPr3rfcxJhIp3dbw5kGkAYnq7gnE=;
+ b=EwdZ2uYT86hhGVFMYDXIoNxcyDD2c/XFZav9MiRmQPDijBYxQwpJWFP4uqLitESMDKp+qY
+ xem2Pv061NWmzP+Vi87BLMnfNP6C5tVjJmpHSdDMEHT78mpWXX8gg35UQZpi6eOnqzrfn7
+ pHasqF3niEhMTBM8FlS2wgEE4SWjnE8=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-188-URb5k1C5MHSyipcrNJqsKw-1; Tue, 12 Oct 2021 02:28:29 -0400
+X-MC-Unique: URb5k1C5MHSyipcrNJqsKw-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ u9-20020a0cf889000000b003834c01c6e8so8909071qvn.4
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 23:28:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Fkz3jmm9zDMbjt2jPr3rfcxJhIp3dbw5kGkAYnq7gnE=;
+ b=Kw4TCjQ/FKEvEdir3SR5tYaEUZt1BZ4fpfjFKXe/rWrwBS03Qvi7i9gCSHIT5GpjVQ
+ vD6I6OAnquKmx+EZoVLWD0KKN+GMaFRAd3/JZxaG9WBkLDcPU3rRyWg/ZE9fKR+25vDB
+ fG9Xp2+w1wlvuHzOoANW8PItuhOqqsKnB5RRluT/avB4FHsZDIBVg9P4u6epgk7qCzno
+ t4YmIg/gmFntrXx9xtl/9HUhH8WG4aDpZQjBFGHKRaA1QJo3vdOVK9RaDbAuLCQbRY0S
+ JiqDop+w5ISVCwy/+c+XM/5QDmXTmECSu1IZfNPdwkr3OfsqHQ0IG/vVHyeVz4PEhgl9
+ g0Zw==
+X-Gm-Message-State: AOAM5322GYhkpAbNXDQTBS1nA7AZmOMJ4SGzm09O7VGmJKqIEJU3dnD9
+ Qk5LBHjqgbwP2ngU+dHYohFKZitnLKq2FqdDCgKazoeQ+nGpbVdG1US5wjVxEdZFKsqGBzFupKt
+ cU05CG8HQFljOH9P07B4WIY2fzMfArUk=
+X-Received: by 2002:ac8:5bcf:: with SMTP id b15mr20573468qtb.178.1634020108671; 
+ Mon, 11 Oct 2021 23:28:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwhHXMcpi+lYKfPnp3oQXYyjL4ylp/40ruoaUjGZwlEb3EyCvqpvm8lI7WaspbvcZ+OvzQtjeLox5Kxl2j9nEM=
+X-Received: by 2002:ac8:5bcf:: with SMTP id b15mr20573434qtb.178.1634020108343; 
+ Mon, 11 Oct 2021 23:28:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211001153347.1736014-10-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:cZuCqW/dpssCHMTo9/Nle5uIsdPOFPw8CJvnS/Ct1DM0+Lu2naK
- +Josohx5AwAuDo5KeMBySUz1Yf8JdJT0AJ2Q9qippeAh093qGI5S3OIg2gVbhAClYRxTh0T
- ZYja5hf0+0gNlKK9cJ6h35vHtw58NP2HIKLRSaDwmwHbkB0mZ1cB32fw3TrFpyPCYUsJzJp
- iVkK4JrUIMiHgi50vdpjg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dKzbZ/dl8/Q=:3PfzHjXviFOTciPEPkV9ck
- DWoUIDPLNhyt5W6L2U8/wtUDmqkm2IwpSGYC0B3SHzwVhWj9NpghvbzHmQAW7GfGAQSi5iW8S
- drl6OnFhcoe5Lnr4O2By2Lnfo81nlwVvbGfdZoZltBqUVoA/htyJoXRJupMxU2+2KhGqn9J0P
- 3JiLkE6z/b+xWatsF8aBhLYX7iOTYW/lFWRSoERa3iFC08N4o0q3pGuuY2jj9MoTYE2UgdtGc
- cX978w4oTRCafKOtAOpN+I/WxKDsQ/mF3Tya0rJJYylWJQG4idhH+zmAC1Rodk4mKpxndqTg2
- VHgW915jOSzuFCQ/9aQIiwqAAMQ2PtEmyOjm3pvqheSsvxKF6UfrWWYBmE1YWoWkr9k54tRa2
- pCnnnpukGPg0foujf+GgxV1HUOSK2mFv3k9d17/Wgwxg1zPpa1R8INcVRVQ7YUWdjOJxBnvJY
- VUOyhn+M0KkmIPENcTZ48NwsoUSwWfPA0MhO6bk3n0odyi1OblY38fpoi61mFtPT4kbs8gpsv
- VcuMLH3AsY7yZfuy3ucmJPBIHGDeSPpwQlO1hio8Lx5ep6pl6qcQvSjC/dM4fvTlCO2mPrqDa
- qDmzCLrLZpIF2cBdaCNC+savFoFTggp8Z2vXqKw2vZdw3r8bmrH6nV2byD3lPqtn3Z5BPSyIF
- Vu+e3gfveBop1sdjeh9eAWUJDw9bZTtQlEQuCC7tQymevB3awEIb3AsZw8jizOKXAmgIgqiOf
- ZP3zuArkzkX97Rsocrn5aRwmIv4T2M84wmOsag==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20211005134843.439050-1-eperezma@redhat.com>
+ <20211005134843.439050-4-eperezma@redhat.com>
+ <CACGkMEsGAKroQysXsNnQHVVnCZcEBsL34-qnDry9JEMcefVRAw@mail.gmail.com>
+In-Reply-To: <CACGkMEsGAKroQysXsNnQHVVnCZcEBsL34-qnDry9JEMcefVRAw@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 12 Oct 2021 08:27:52 +0200
+Message-ID: <CAJaqyWec_h5nHPuWxZHLzOTVde57ghOXVat7HNPMryccb91mXQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] vdpa: Check for iova range at mappings changes
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,33 +92,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, crwulff@gmail.com, alex.bennee@linaro.org
+Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 01/10/2021 à 17:33, Richard Henderson a écrit :
-> Do not cast the signal mask elements; trust __put_user.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/nios2/signal.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/linux-user/nios2/signal.c b/linux-user/nios2/signal.c
-> index 20b65aa06e..80e3d42fc9 100644
-> --- a/linux-user/nios2/signal.c
-> +++ b/linux-user/nios2/signal.c
-> @@ -168,8 +168,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
->      target_save_altstack(&frame->uc.tuc_stack, env);
->      rt_setup_ucontext(&frame->uc, env);
->      for (i = 0; i < TARGET_NSIG_WORDS; i++) {
-> -        __put_user((abi_ulong)set->sig[i],
-> -                   (abi_ulong *)&frame->uc.tuc_sigmask.sig[i]);
-> +        __put_user(set->sig[i], &frame->uc.tuc_sigmask.sig[i]);
->      }
->  
->      /* Set up to return from userspace; jump to fixed address sigreturn
-> 
+On Tue, Oct 12, 2021 at 5:50 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Tue, Oct 5, 2021 at 9:49 PM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
+rote:
+> >
+> > Check vdpa device range before updating memory regions so we don't add
+> > any outside of it, and report the invalid change if any.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >  include/hw/virtio/vhost-vdpa.h |  2 +
+> >  hw/virtio/vhost-vdpa.c         | 68 ++++++++++++++++++++++++++--------
+> >  hw/virtio/trace-events         |  1 +
+> >  3 files changed, 55 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-v=
+dpa.h
+> > index a8963da2d9..c288cf7ecb 100644
+> > --- a/include/hw/virtio/vhost-vdpa.h
+> > +++ b/include/hw/virtio/vhost-vdpa.h
+> > @@ -13,6 +13,7 @@
+> >  #define HW_VIRTIO_VHOST_VDPA_H
+> >
+> >  #include "hw/virtio/virtio.h"
+> > +#include "standard-headers/linux/vhost_types.h"
+> >
+> >  typedef struct VhostVDPAHostNotifier {
+> >      MemoryRegion mr;
+> > @@ -24,6 +25,7 @@ typedef struct vhost_vdpa {
+> >      uint32_t msg_type;
+> >      bool iotlb_batch_begin_sent;
+> >      MemoryListener listener;
+> > +    struct vhost_vdpa_iova_range iova_range;
+> >      struct vhost_dev *dev;
+> >      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> >  } VhostVDPA;
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index be7c63b4ba..6654287050 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -37,20 +37,34 @@ static Int128 vhost_vdpa_section_end(const MemoryRe=
+gionSection *section)
+> >      return llend;
+> >  }
+> >
+> > -static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *s=
+ection)
+> > -{
+> > -    return (!memory_region_is_ram(section->mr) &&
+> > -            !memory_region_is_iommu(section->mr)) ||
+> > -            memory_region_is_protected(section->mr) ||
+> > -           /* vhost-vDPA doesn't allow MMIO to be mapped  */
+> > -            memory_region_is_ram_device(section->mr) ||
+> > -           /*
+> > -            * Sizing an enabled 64-bit BAR can cause spurious mappings=
+ to
+> > -            * addresses in the upper part of the 64-bit address space.=
+  These
+> > -            * are never accessed by the CPU and beyond the address wid=
+th of
+> > -            * some IOMMU hardware.  TODO: VDPA should tell us the IOMM=
+U width.
+> > -            */
+> > -           section->offset_within_address_space & (1ULL << 63);
+> > +static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *s=
+ection,
+> > +                                                uint64_t iova_min,
+> > +                                                uint64_t iova_max)
+> > +{
+> > +    Int128 llend;
+> > +
+> > +    if ((!memory_region_is_ram(section->mr) &&
+> > +         !memory_region_is_iommu(section->mr)) ||
+> > +        memory_region_is_protected(section->mr) ||
+> > +        /* vhost-vDPA doesn't allow MMIO to be mapped  */
+> > +        memory_region_is_ram_device(section->mr)) {
+> > +        return true;
+> > +    }
+> > +
+> > +    if (section->offset_within_address_space < iova_min) {
+> > +        error_report("RAM section out of device range (min=3D%lu, addr=
+=3D%lu)",
+> > +                     iova_min, section->offset_within_address_space);
+> > +        return true;
+> > +    }
+> > +
+> > +    llend =3D vhost_vdpa_section_end(section);
+> > +    if (int128_gt(llend, int128_make64(iova_max))) {
+> > +        error_report("RAM section out of device range (max=3D%lu, end =
+addr=3D%lu)",
+> > +                     iova_max, int128_get64(llend));
+> > +        return true;
+> > +    }
+> > +
+> > +    return false;
+> >  }
+> >
+> >  static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwadd=
+r size,
+> > @@ -162,7 +176,8 @@ static void vhost_vdpa_listener_region_add(MemoryLi=
+stener *listener,
+> >      void *vaddr;
+> >      int ret;
+> >
+> > -    if (vhost_vdpa_listener_skipped_section(section)) {
+> > +    if (vhost_vdpa_listener_skipped_section(section, v->iova_range.fir=
+st,
+> > +                                            v->iova_range.last)) {
+> >          return;
+> >      }
+> >
+> > @@ -220,7 +235,8 @@ static void vhost_vdpa_listener_region_del(MemoryLi=
+stener *listener,
+> >      Int128 llend, llsize;
+> >      int ret;
+> >
+> > -    if (vhost_vdpa_listener_skipped_section(section)) {
+> > +    if (vhost_vdpa_listener_skipped_section(section, v->iova_range.fir=
+st,
+> > +                                            v->iova_range.last)) {
+> >          return;
+> >      }
+> >
+> > @@ -288,9 +304,24 @@ static void vhost_vdpa_add_status(struct vhost_dev=
+ *dev, uint8_t status)
+> >      vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
+> >  }
+> >
+> > +static int vhost_vdpa_get_iova_range(struct vhost_vdpa *v)
+> > +{
+> > +    int ret;
+> > +
+> > +    ret =3D vhost_vdpa_call(v->dev, VHOST_VDPA_GET_IOVA_RANGE, &v->iov=
+a_range);
+> > +    if (ret !=3D 0) {
+> > +        return ret;
+> > +    }
+>
+> I think we need a fallback for the kernel that does not support
+> VHOST_VDPA_GET_IOVA_RANGE?
+>
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+I'm fine with giving a default, but only "old" kernels will not have
+the syscall. Future kernels will return success and [0, ULLONG_MAX]
+range, won't it?
+
+Taking that into account, what is the good default value? Before this
+commit the valid range was [0, 2^63). Although that seems too wide for
+every iommu, I would go with that one. The kernel considers fine [0,
+ULLONG_MAX] in case the device and iommu domain does not support
+them...
+
+Thanks!
+
+> Thanks
+>
+> > +
+> > +    trace_vhost_vdpa_get_iova_range(v->dev, v->iova_range.first,
+> > +                                    v->iova_range.last);
+> > +    return ret;
+> > +}
+> > +
+> >  static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error =
+**errp)
+> >  {
+> >      struct vhost_vdpa *v;
+> > +    int r;
+> >      assert(dev->vhost_ops->backend_type =3D=3D VHOST_BACKEND_TYPE_VDPA=
+);
+> >      trace_vhost_vdpa_init(dev, opaque);
+> >
+> > @@ -300,6 +331,11 @@ static int vhost_vdpa_init(struct vhost_dev *dev, =
+void *opaque, Error **errp)
+> >      v->listener =3D vhost_vdpa_memory_listener;
+> >      v->msg_type =3D VHOST_IOTLB_MSG_V2;
+> >
+> > +    r =3D vhost_vdpa_get_iova_range(v);
+> > +    if (unlikely(!r)) {
+> > +        return r;
+> > +    }
+> > +
+> >      vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> >                                 VIRTIO_CONFIG_S_DRIVER);
+> >
+> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> > index 8ed19e9d0c..650e521e35 100644
+> > --- a/hw/virtio/trace-events
+> > +++ b/hw/virtio/trace-events
+> > @@ -52,6 +52,7 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int ind=
+ex, int fd) "dev: %p index:
+> >  vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p feature=
+s: 0x%"PRIx64
+> >  vhost_vdpa_set_owner(void *dev) "dev: %p"
+> >  vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, u=
+int64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user=
+_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
+> > +vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint64_t last) "d=
+ev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
+> >
+> >  # virtio.c
+> >  virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsign=
+ed out_num) "elem %p size %zd in_num %u out_num %u"
+> > --
+> > 2.27.0
+> >
+>
+
 
