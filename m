@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2A042BBEA
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:48:18 +0200 (CEST)
-Received: from localhost ([::1]:40242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 608D142BBCC
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:39:37 +0200 (CEST)
+Received: from localhost ([::1]:46882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maarx-0004im-PS
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:48:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54920)
+	id 1maajY-0006wY-DL
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:39:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEz-0002cW-BE
+ id 1maaF0-0002cZ-9l
  for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:08:06 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:46993)
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:43718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEu-0005zc-Vf
+ id 1maaEv-0005zp-ID
  for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:08:01 -0400
-Received: by mail-ed1-x531.google.com with SMTP id z20so7133128edc.13
+Received: by mail-ed1-x532.google.com with SMTP id i20so7138765edj.10
  for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:07:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0p6Xy3m/q/Jw9/CEOKm+gyba6CHxYqCDNm/LIuD+WsE=;
- b=U9UH7fWTuqWmMC/IGtuL9mPzj0m7lqwYGhLmk/hQjyni+2ucKQ6cfPiJurjtaa23yD
- xh0mcQ23iHiQBNKl3UjSz9nbkyJpkjJPWdhZG/QEhTFV5p54fMHRNWugrsTLzG8WfkBq
- 9ngsxEuQxO8xkMzh2slE9BYeSuzx2JIf+/P5JRTdizuVbSOnfDOcwat5/3M/0X5aVKMS
- i1BzL6mFQwWXQVKjlSZz4lqbXpUljd/inlHYbDcUoqgYCg1UF8+mH6v482dFVnVJwBXc
- RRb7JiPN51fyERUfRzDLhfiAM/gVZwf4fU8P5BuOu1DZb5+mnyQQUP5iO2rR27wgQ7td
- QmZQ==
+ bh=armVoq3TN3IYSGrDgw8VqfJc8agou8DDdYHEuf07qwY=;
+ b=GqZmrBLCTj55qaFEA+p1fP2RBWsvyUApTzoHb95M2oCuTaCnp/huHdud2Wj3UFW8Jb
+ a70z168ALbdS1xCIeGu1Vcmd7pGblANZiYc4kZRRGzaQKRgwpOabkK9H3rO5XKtMzQ4x
+ WXJ1IzBXi72enXAUas36mI6Iy8NkayX57r6t+2or3lVv5S/ggyOEV2UyClRLYf1Mbzgd
+ WxMT/7Z6J9DbWJ+V+P8gqy8rNVPiyRixWhxEW4vZdmortWbaHhthuiOGUzhxFgvAbNQG
+ LImfdmyvx9DrwQOEOh2kcudGbMqABm2tHiLR9gAsAb1jf7Rto5b16jzOj6MerVzFk6Ys
+ 0juA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0p6Xy3m/q/Jw9/CEOKm+gyba6CHxYqCDNm/LIuD+WsE=;
- b=3iF91EEf2GNS060q5BdK8sabfPsHfOPsMa/IE02DIp+UTYnai0QcftDKPAjWxfKp2v
- +WpoZgjgmgIakI70i9g+guoNE5giTfT18vPnFl/YSR8GRJBae+yiazVlt8k5+6CI3zQD
- ZDkpIgmpKPWqVHFq+tC3Xaijax5LzTNr6kp3d37eU7IlxACTN0LTAWSJPMivHEXqbdtN
- Atd21EqeULDuxQuxKe3H1CHFscxvBTC7UKp0F5zJsBSxolTIMz5PXz/B3dhnldmwVpE8
- X2AIR0DsZJH/9OjQ6R8JJhqY6ENsz9SOtdBO9qSGE2nlCfw3qBui2c6wk20Org4f8Wew
- UgNw==
-X-Gm-Message-State: AOAM530vPj4EimdPXTaPSQzlW+gEHEZHGBc6OTK1hI8OUfF12L0wOzbx
- qSbT67lC9lrZg8A+NfbdobEmnDixWkE=
-X-Google-Smtp-Source: ABdhPJwf+gQbmOMwDdKFNuXodTbtxF2CngOME6P9thpG9OECIQUlu+tec4IL+chk3rxE9rn6v9rqAw==
-X-Received: by 2002:a17:906:ccde:: with SMTP id
- ot30mr17459446ejb.121.1634116075336; 
- Wed, 13 Oct 2021 02:07:55 -0700 (PDT)
+ bh=armVoq3TN3IYSGrDgw8VqfJc8agou8DDdYHEuf07qwY=;
+ b=koMH2OURFN64DxRyCkagMDUAa+MKw2r9a+Ln96ID3mKoLY07Rko2B77dZ6FI3JJztW
+ H4mitKJMc0OkKovcmbGs5Ktm+Dr0//J1DYOC8e7sFdNdGrtsJMvS3e+VH4Y8cVxotIn2
+ VGWKgsPgbUMxlp+YxT1s1cAr5jxXxsZLAiXyYeBAYJb7buKCxDZKEHvsw6IBB5gWa27x
+ +lsUCCrJGimw6lKgGE4FsuzxUHQrcUUqVytu9dOO9vxyz18SWWKtT2Wu2xARBT7xasT/
+ VCubhvrVyCVNleSniHmIAYroGxUH+EWfT33zTrG2HgwE3YAw/kT4sguzZNPs4xmKK8GK
+ i9oA==
+X-Gm-Message-State: AOAM5316IESDRhu1w0LOQ3C3GqNUJKVi+Ub/CH+xyTJMuU9SrE5gw1pl
+ 7thLpkLsnJ6V5+Wt2/tRzFFmODaJGsE=
+X-Google-Smtp-Source: ABdhPJyMdpUwoJ7/ueDferHasYEX0qA96qizybafZLGWLwZ6G9orc+fb1UNp6HkMSxonPAlE2f8sjg==
+X-Received: by 2002:a17:907:629b:: with SMTP id
+ nd27mr38775100ejc.24.1634116076010; 
+ Wed, 13 Oct 2021 02:07:56 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.54
+ by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 13 Oct 2021 02:07:55 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/40] monitor: Tidy up find_device_state()
-Date: Wed, 13 Oct 2021 11:07:25 +0200
-Message-Id: <20211013090728.309365-38-pbonzini@redhat.com>
+Subject: [PULL 38/40] target/i386/sev: Use local variable for
+ kvm_sev_launch_start
+Date: Wed, 13 Oct 2021 11:07:26 +0200
+Message-Id: <20211013090728.309365-39-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211013090728.309365-1-pbonzini@redhat.com>
 References: <20211013090728.309365-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,81 +85,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Dov Murik <dovmurik@linux.ibm.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
 
-Commit 6287d827d4 "monitor: allow device_del to accept QOM paths"
-extended find_device_state() to accept QOM paths in addition to qdev
-IDs.  This added a checked conversion to TYPE_DEVICE at the end, which
-duplicates the check done for the qdev ID case earlier, except it sets
-a *different* error: GenericError "ID is not a hotpluggable device"
-when passed a QOM path, and DeviceNotFound "Device 'ID' not found"
-when passed a qdev ID.  Fortunately, the latter won't happen as long
-as we add only devices to /machine/peripheral/.
+The struct kvm_sev_launch_start has a constant and small size, and
+therefore we can use a regular local variable for it instead of
+allocating and freeing heap memory for it.
 
-Earlier, commit b6cc36abb2 "qdev: device_del: Search for to be
-unplugged device in 'peripheral' container" rewrote the lookup by qdev
-ID to use QOM instead of qdev_find_recursive(), so it can handle
-buss-less devices.  It does so by constructing an absolute QOM path.
-Works, but object_resolve_path_component() is easier.  Switching to it
-also gets rid of the unclean duplication described above.
-
-While there, avoid converting to TYPE_DEVICE twice, first to check
-whether it's possible, and then for real.
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210916111707.84999-1-armbru@redhat.com>
+Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20211011173026.2454294-2-dovmurik@linux.ibm.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/qdev-monitor.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ target/i386/sev.c | 23 ++++++++++-------------
+ 1 file changed, 10 insertions(+), 13 deletions(-)
 
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 0705f00846..3df99ce9fc 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -836,16 +836,12 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
- static DeviceState *find_device_state(const char *id, Error **errp)
- {
-     Object *obj;
-+    DeviceState *dev;
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 4c64c68244..0062566c71 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -647,31 +647,29 @@ sev_launch_start(SevGuestState *sev)
+     gsize sz;
+     int ret = 1;
+     int fw_error, rc;
+-    struct kvm_sev_launch_start *start;
++    struct kvm_sev_launch_start start = {
++        .handle = sev->handle, .policy = sev->policy
++    };
+     guchar *session = NULL, *dh_cert = NULL;
  
-     if (id[0] == '/') {
-         obj = object_resolve_path(id, NULL);
-     } else {
--        char *root_path = object_get_canonical_path(qdev_get_peripheral());
--        char *path = g_strdup_printf("%s/%s", root_path, id);
+-    start = g_new0(struct kvm_sev_launch_start, 1);
 -
--        g_free(root_path);
--        obj = object_resolve_path_type(path, TYPE_DEVICE, NULL);
--        g_free(path);
-+        obj = object_resolve_path_component(qdev_get_peripheral(), id);
+-    start->handle = sev->handle;
+-    start->policy = sev->policy;
+     if (sev->session_file) {
+         if (sev_read_file_base64(sev->session_file, &session, &sz) < 0) {
+             goto out;
+         }
+-        start->session_uaddr = (unsigned long)session;
+-        start->session_len = sz;
++        start.session_uaddr = (unsigned long)session;
++        start.session_len = sz;
      }
  
-     if (!obj) {
-@@ -854,12 +850,13 @@ static DeviceState *find_device_state(const char *id, Error **errp)
-         return NULL;
+     if (sev->dh_cert_file) {
+         if (sev_read_file_base64(sev->dh_cert_file, &dh_cert, &sz) < 0) {
+             goto out;
+         }
+-        start->dh_uaddr = (unsigned long)dh_cert;
+-        start->dh_len = sz;
++        start.dh_uaddr = (unsigned long)dh_cert;
++        start.dh_len = sz;
      }
  
--    if (!object_dynamic_cast(obj, TYPE_DEVICE)) {
-+    dev = (DeviceState *)object_dynamic_cast(obj, TYPE_DEVICE);
-+    if (!dev) {
-         error_setg(errp, "%s is not a hotpluggable device", id);
-         return NULL;
+-    trace_kvm_sev_launch_start(start->policy, session, dh_cert);
+-    rc = sev_ioctl(sev->sev_fd, KVM_SEV_LAUNCH_START, start, &fw_error);
++    trace_kvm_sev_launch_start(start.policy, session, dh_cert);
++    rc = sev_ioctl(sev->sev_fd, KVM_SEV_LAUNCH_START, &start, &fw_error);
+     if (rc < 0) {
+         error_report("%s: LAUNCH_START ret=%d fw_error=%d '%s'",
+                 __func__, ret, fw_error, fw_error_to_str(fw_error));
+@@ -679,11 +677,10 @@ sev_launch_start(SevGuestState *sev)
      }
  
--    return DEVICE(obj);
-+    return dev;
- }
+     sev_set_guest_state(sev, SEV_STATE_LAUNCH_UPDATE);
+-    sev->handle = start->handle;
++    sev->handle = start.handle;
+     ret = 0;
  
- void qdev_unplug(DeviceState *dev, Error **errp)
+ out:
+-    g_free(start);
+     g_free(session);
+     g_free(dh_cert);
+     return ret;
 -- 
 2.31.1
 
