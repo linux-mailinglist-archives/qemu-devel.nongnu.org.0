@@ -2,85 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5249942C007
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 14:30:10 +0200 (CEST)
-Received: from localhost ([::1]:38092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB13342C00A
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 14:31:15 +0200 (CEST)
+Received: from localhost ([::1]:39620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1madOb-0004iI-6T
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 08:30:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44074)
+	id 1madPe-0005lW-SV
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 08:31:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1madJh-0007ps-KF
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 08:25:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45631)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1madNU-0003qQ-9y
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 08:29:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1madJd-0007dz-6W
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 08:25:03 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1madNF-0002Hv-TW
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 08:28:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634127900;
+ s=mimecast20190719; t=1634128125;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3NtOzxvADTQDRxUqq39GhmNI5frCiu0QqcftxeM4E6Y=;
- b=SFwK9pKjAHMDjMRTHhl+c0Xr1vH2exLwb6yUmMcmAK5JdK8r2vnVz90Res9Ve2SiXRcvSh
- dZHH+MPuDKgIOmj40Rp3k8IJrTIROJ9+G0VitQXBF6Equ9QGobxGbIcLyqKDdz3VfQa9MD
- OYWufBnUKCZHFRJxg1/1xKjaVdCHB3s=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-D6t6VfrSPn6ZHT0p87OaHw-1; Wed, 13 Oct 2021 08:24:59 -0400
-X-MC-Unique: D6t6VfrSPn6ZHT0p87OaHw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- s18-20020adfbc12000000b00160b2d4d5ebso1855560wrg.7
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 05:24:59 -0700 (PDT)
+ bh=NFgz1IAqlGo7rz6MUri7AbBAjWEGAFzPXQfCQbPxTj8=;
+ b=NuRjCWnoP9YbenL6uX7nSE2T2mgnx0/y0SZ1fUvLpgbzUSXBt2OvMJCwFaw3kvOOoPJF2L
+ wDL0ahVwpb9+VedgTS1pmyzQMHErovH4axkJNxI+ulvo5TNufldgwKupH+dKvc+jYZGDN4
+ FyO8vGEtxnt7yVeUws+QVu8BaYjtJD4=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-469-reYquC-RPtiFGIddTnxrOw-1; Wed, 13 Oct 2021 08:28:44 -0400
+X-MC-Unique: reYquC-RPtiFGIddTnxrOw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ u23-20020a50a417000000b003db23c7e5e2so2075572edb.8
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 05:28:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=3NtOzxvADTQDRxUqq39GhmNI5frCiu0QqcftxeM4E6Y=;
- b=JQXExiIJz9fPPeVlCfDEap1Vx2nEZmhZMCTlJqvwks8/I0IZRKHI1VPKqu6GGC6ix5
- 8rk8jhOYmGbXcYKZMZBDRIPh8Bh46aL8aMhDPouFSqJAgEjFuCnHefnD7GGIucJ0w3wF
- E3S/3AAoM17EWqFaZnpWCeu+wJLynY2KB24FASVg01iXudJwh9uwtZTDDkTo7RFa5DZY
- EjZH4XA8iow9YeNwStbZkBzthIxQRbfncIocrGPwC+0vlv664PAA6d+DtqDyZ5zNP4wr
- iX+x9FQwDC5NtkEt5N6Rzoe0eqgJeu96aAmUciiCLcY7Kvv/3o3wmzAm1GHnS2TvKO+H
- DSLw==
-X-Gm-Message-State: AOAM53145MKyrXSV8RMDcElxIgP2L6sPR4x6WFIf5uO8+K81xY/39chM
- p0HzDhuqTFpbs6VydcciCBJ2+/vcy9ez0BiqzyR07AuMB48RzYLHDdEB85fr1LfyLiawpr5vOow
- x1J6fUCdu81OiL8k=
-X-Received: by 2002:adf:a455:: with SMTP id e21mr39490164wra.232.1634127898285; 
- Wed, 13 Oct 2021 05:24:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyDSFMe16ogpHVDRTaFOz/jIPakQIZOos3qRZcdyyohISEjdGqG71pBPixTxJCG6KjC1I5tyQ==
-X-Received: by 2002:adf:a455:: with SMTP id e21mr39490144wra.232.1634127898093; 
- Wed, 13 Oct 2021 05:24:58 -0700 (PDT)
-Received: from redhat.com ([2.55.30.112])
- by smtp.gmail.com with ESMTPSA id r3sm6850548wrw.55.2021.10.13.05.24.55
+ bh=NFgz1IAqlGo7rz6MUri7AbBAjWEGAFzPXQfCQbPxTj8=;
+ b=1+T18Fejya7qlGDhajJAuqZHEc9F98AA1vXBFNMU1OzJDho/O1mUhI78zMbG3NxFf+
+ sG+S3PSDDXS/0mp6Geu/t7BXZe4y04keRPWkGmPR3ETiW/eNf3JAHLSMXzntBW68DpIB
+ E6vBTnDLL8ptCW5z2fF620O+sXn5+MVaR19fwBFrefPsIj4uODTx0CJx2TslCJsGc4Nc
+ bTwqKgl4cDVSpx1eO1waa+0meF1zQMrUEnusBqM/+nTPf8KcuWV8d86KAma78u9+5khs
+ S7fZDaA2rQRVmiC9XwrSZR+VSlUb1tPN9MRtYR8x6jPsUl77iPDeEznep6Bf1yisFehO
+ IO9Q==
+X-Gm-Message-State: AOAM5335Ywt3RYu66cK6xNQhqs4i2IoDynn1h6DK++L0lCM2fsbHhFPe
+ kYjIbB/XTRe4sT/u8ky1FuCHgf7SPmXZAAKSCbBSKf2W8h1pGZFB5FDDUsL6wOuCizcwQaW69lm
+ af8c0tWL0a0S7JyA=
+X-Received: by 2002:a17:906:d937:: with SMTP id
+ rn23mr40944164ejb.101.1634128122737; 
+ Wed, 13 Oct 2021 05:28:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz9GD7B8K2D0VtLudeqTjI3WU9mAg3SzoDbizLtZjabzoPBydLmQOEUzfVULy5J8fka5BFn5g==
+X-Received: by 2002:a17:906:d937:: with SMTP id
+ rn23mr40944120ejb.101.1634128122361; 
+ Wed, 13 Oct 2021 05:28:42 -0700 (PDT)
+Received: from gator.home (cst2-174-28.cust.vodafone.cz. [31.30.174.28])
+ by smtp.gmail.com with ESMTPSA id h10sm7870522edf.85.2021.10.13.05.28.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 05:24:57 -0700 (PDT)
-Date: Wed, 13 Oct 2021 08:24:53 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: Re: [PATCH v3 1/1] virtio: write back F_VERSION_1 before validate
-Message-ID: <20211013081836-mutt-send-email-mst@kernel.org>
-References: <20211011053921.1198936-1-pasic@linux.ibm.com>
- <20211013060923-mutt-send-email-mst@kernel.org>
- <96561e29-e0d6-9a4d-3657-999bad59914e@de.ibm.com>
+ Wed, 13 Oct 2021 05:28:41 -0700 (PDT)
+Date: Wed, 13 Oct 2021 14:28:40 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v3 1/2] numa: Require distance map when empty node exists
+Message-ID: <20211013122840.fi4ufle4czyzegtb@gator.home>
+References: <20211013045805.192165-1-gshan@redhat.com>
+ <20211013045805.192165-2-gshan@redhat.com>
+ <20211013133011.62b8812d@redhat.com>
+ <20211013113544.4xrfagduw4nlbvou@gator.home>
+ <20211013135346.3a8f6c9a@redhat.com>
+ <20211013121125.sdewyrxcipsi3o22@gator.home>
 MIME-Version: 1.0
-In-Reply-To: <96561e29-e0d6-9a4d-3657-999bad59914e@de.ibm.com>
+In-Reply-To: <20211013121125.sdewyrxcipsi3o22@gator.home>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,113 +99,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, markver@us.ibm.com, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- virtualization@lists.linux-foundation.org, Halil Pasic <pasic@linux.ibm.com>,
- Xie Yongji <xieyongji@bytedance.com>, stefanha@redhat.com,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: peter.maydell@linaro.org, Gavin Shan <gshan@redhat.com>,
+ ehabkost@redhat.com, robh@kernel.org, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 13, 2021 at 01:23:50PM +0200, Christian Borntraeger wrote:
-> 
-> 
-> Am 13.10.21 um 12:10 schrieb Michael S. Tsirkin:
-> > On Mon, Oct 11, 2021 at 07:39:21AM +0200, Halil Pasic wrote:
-> > > The virtio specification virtio-v1.1-cs01 states: "Transitional devices
-> > > MUST detect Legacy drivers by detecting that VIRTIO_F_VERSION_1 has not
-> > > been acknowledged by the driver."  This is exactly what QEMU as of 6.1
-> > > has done relying solely on VIRTIO_F_VERSION_1 for detecting that.
-> > > 
-> > > However, the specification also says: "... the driver MAY read (but MUST
-> > > NOT write) the device-specific configuration fields to check that it can
-> > > support the device ..." before setting FEATURES_OK.
-> > > 
-> > > In that case, any transitional device relying solely on
-> > > VIRTIO_F_VERSION_1 for detecting legacy drivers will return data in
-> > > legacy format.  In particular, this implies that it is in big endian
-> > > format for big endian guests. This naturally confuses the driver which
-> > > expects little endian in the modern mode.
-> > > 
-> > > It is probably a good idea to amend the spec to clarify that
-> > > VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
-> > > is complete. Before validate callback existed, config space was only
-> > > read after FEATURES_OK. However, we already have two regressions, so
-> > > let's address this here as well.
-> > > 
-> > > The regressions affect the VIRTIO_NET_F_MTU feature of virtio-net and
-> > > the VIRTIO_BLK_F_BLK_SIZE feature of virtio-blk for BE guests when
-> > > virtio 1.0 is used on both sides. The latter renders virtio-blk unusable
-> > > with DASD backing, because things simply don't work with the default.
-> > > See Fixes tags for relevant commits.
-> > > 
-> > > For QEMU, we can work around the issue by writing out the feature bits
-> > > with VIRTIO_F_VERSION_1 bit set.  We (ab)use the finalize_features
-> > > config op for this. This isn't enough to address all vhost devices since
-> > > these do not get the features until FEATURES_OK, however it looks like
-> > > the affected devices actually never handled the endianness for legacy
-> > > mode correctly, so at least that's not a regression.
-> > > 
-> > > No devices except virtio net and virtio blk seem to be affected.
-> > > 
-> > > Long term the right thing to do is to fix the hypervisors.
-> > > 
-> > > Cc: <stable@vger.kernel.org> #v4.11
-> > > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> > > Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in config space")
-> > > Fixes: fe36cbe0671e ("virtio_net: clear MTU when out of range")
-> > > Reported-by: markver@us.ibm.com
-> > > Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+On Wed, Oct 13, 2021 at 02:11:25PM +0200, Andrew Jones wrote:
+> On Wed, Oct 13, 2021 at 01:53:46PM +0200, Igor Mammedov wrote:
+> > On Wed, 13 Oct 2021 13:35:44 +0200
+> > Andrew Jones <drjones@redhat.com> wrote:
 > > 
-> > OK this looks good! How about a QEMU patch to make it spec compliant on
-> > BE?
-> 
-> Who is going to do that? Halil? you? Conny?
+> > > On Wed, Oct 13, 2021 at 01:30:11PM +0200, Igor Mammedov wrote:
+> > > > On Wed, 13 Oct 2021 12:58:04 +0800
+> > > > Gavin Shan <gshan@redhat.com> wrote:
+> > > >   
+> > > > > The following option is used to specify the distance map. It's
+> > > > > possible the option isn't provided by user. In this case, the
+> > > > > distance map isn't populated and exposed to platform. On the
+> > > > > other hand, the empty NUMA node, where no memory resides, is
+> > > > > allowed on platforms like ARM64 virt. For these empty NUMA
+> > > > > nodes, their corresponding device-tree nodes aren't populated,
+> > > > > but their NUMA IDs should be included in the "/distance-map"
+> > > > > device-tree node, so that kernel can probe them properly if
+> > > > > device-tree is used.
+> > > > > 
+> > > > >   -numa,dist,src=<numa_id>,dst=<numa_id>,val=<distance>
+> > > > > 
+> > > > > This adds extra check after the machine is initialized, to
+> > > > > ask for the distance map from user when empty nodes exist in
+> > > > > device-tree.
+> > > > > 
+> > > > > Signed-off-by: Gavin Shan <gshan@redhat.com>
+> > > > > ---
+> > > > >  hw/core/machine.c     |  4 ++++
+> > > > >  hw/core/numa.c        | 24 ++++++++++++++++++++++++
+> > > > >  include/sysemu/numa.h |  1 +
+> > > > >  3 files changed, 29 insertions(+)
+> > > > > 
+> > > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > > > index b8d95eec32..c0765ad973 100644
+> > > > > --- a/hw/core/machine.c
+> > > > > +++ b/hw/core/machine.c
+> > > > > @@ -1355,6 +1355,10 @@ void machine_run_board_init(MachineState *machine)
+> > > > >      accel_init_interfaces(ACCEL_GET_CLASS(machine->accelerator));
+> > > > >      machine_class->init(machine);
+> > > > >      phase_advance(PHASE_MACHINE_INITIALIZED);
+> > > > > +
+> > > > > +    if (machine->numa_state) {
+> > > > > +        numa_complete_validation(machine);
+> > > > > +    }
+> > > > >  }
+> > > > >  
+> > > > >  static NotifierList machine_init_done_notifiers =
+> > > > > diff --git a/hw/core/numa.c b/hw/core/numa.c
+> > > > > index 510d096a88..7404b7dd38 100644
+> > > > > --- a/hw/core/numa.c
+> > > > > +++ b/hw/core/numa.c
+> > > > > @@ -727,6 +727,30 @@ void numa_complete_configuration(MachineState *ms)
+> > > > >      }
+> > > > >  }
+> > > > >  
+> > > > > +/*
+> > > > > + * When device-tree is used by the machine, the empty node IDs should
+> > > > > + * be included in the distance map. So we need provide pairs of distances
+> > > > > + * in this case.
+> > > > > + */
+> > > > > +void numa_complete_validation(MachineState *ms)
+> > > > > +{
+> > > > > +    NodeInfo *numa_info = ms->numa_state->nodes;
+> > > > > +    int nb_numa_nodes = ms->numa_state->num_nodes;
+> > > > > +    int i;
+> > > > > +
+> > > > > +    if (!ms->fdt || ms->numa_state->have_numa_distance) {  
+> > > > 
+> > > > also skip check/limitation when VM is launched with ACPI enabled?  
 
-Halil said he'll do it... Right, Halil?
+On second thought, I guess it's a good idea to not error out when ACPI is
+enabled. There's no point in burdening the ACPI user.
 
-> Can we get this kernel patch queued for 5.15 and stable without waiting for the QEMU patch
-> as we have a regression with 4.14?
-
-Probably. Still trying to decide between this and plain revert for 5.15
-and back. Maybe both?
-
+> > > 
+> > > Even with ACPI enabled we generate a DT and would like that DT to be as
+> > > complete as possible. Of course we should generate a SLIT table with
 > > 
-> > > ---
+> > Guest will work just fine without distance map as SRAT describes
+> > all numa nodes.
+> > You are forcing VM to have SLIT just for the sake of 'completeness'
+> > that's practically unused.
+> > 
+> > I'm still unsure about pushing all of this in generic numa code,
+> > as this will be used only by ARM for now. It's better to keep it
+> > ARM specific, and when RISCV machine will start using this, it
+> > could be moved to generic code.
+
+I think RISCV could start using it now. Linux shares the mem/numa DT
+parsing code between Arm and RISCV. If RISCV QEMU wanted to start
+exposing NUMA nodes, then they might as well support empty ones from
+the start.
+
+> 
+> I don't see a problem in providing this DT node / ACPI table to guests
+> with empty NUMA nodes. I don't even see a problem with providing the
+> distance information unconditionally. Can you explain why we should
+> prefer not to provide optional HW descriptions?
+
+I'm still curious why we should be so reluctant to add HW descriptions.
+I agree we should be reluctant to error out, though. So, when ACPI is
+enabled, let's skip the enforcement of the SLIT table generation, even
+if there are empty nodes, as you suggest.
+
+Thanks,
+drew
+
+> 
+> Thanks,
+> drew 
+> 
+> > 
+> > > the distance information the user provides on the command line in order
+> > > to satisfy the check, and we will, since we already have that code in
+> > > place.
+> > 
+> > 
 > > > 
-> > > @Connie: I made some more commit message changes to accommodate Michael's
-> > > requests. I just assumed these will work or you as well and kept your
-> > > r-b. Please shout at me if it needs to be dropped :)
-> > > ---
-> > >   drivers/virtio/virtio.c | 11 +++++++++++
-> > >   1 file changed, 11 insertions(+)
+> > > Thanks,
+> > > drew
 > > > 
-> > > diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-> > > index 0a5b54034d4b..236081afe9a2 100644
-> > > --- a/drivers/virtio/virtio.c
-> > > +++ b/drivers/virtio/virtio.c
-> > > @@ -239,6 +239,17 @@ static int virtio_dev_probe(struct device *_d)
-> > >   		driver_features_legacy = driver_features;
-> > >   	}
-> > > +	/*
-> > > +	 * Some devices detect legacy solely via F_VERSION_1. Write
-> > > +	 * F_VERSION_1 to force LE config space accesses before FEATURES_OK for
-> > > +	 * these when needed.
-> > > +	 */
-> > > +	if (drv->validate && !virtio_legacy_is_little_endian()
-> > > +			  && device_features & BIT_ULL(VIRTIO_F_VERSION_1)) {
-> > > +		dev->features = BIT_ULL(VIRTIO_F_VERSION_1);
-> > > +		dev->config->finalize_features(dev);
-> > > +	}
-> > > +
-> > >   	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
-> > >   		dev->features = driver_features & device_features;
-> > >   	else
+> > > >   
+> > > > > +        return;
+> > > > > +    }
+> > > > > +
+> > > > > +    for (i = 0; i < nb_numa_nodes; i++) {
+> > > > > +        if (numa_info[i].present && !numa_info[i].node_mem) {
+> > > > > +            error_report("Empty node %d found, please provide "
+> > > > > +                         "distance map.", i);
+> > > > > +            exit(EXIT_FAILURE);
+> > > > > +        }
+> > > > > +    }
+> > > > > +}
+> > > > > +
+> > > > >  void parse_numa_opts(MachineState *ms)
+> > > > >  {
+> > > > >      qemu_opts_foreach(qemu_find_opts("numa"), parse_numa, ms, &error_fatal);
+> > > > > diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
+> > > > > index 4173ef2afa..80f25ab830 100644
+> > > > > --- a/include/sysemu/numa.h
+> > > > > +++ b/include/sysemu/numa.h
+> > > > > @@ -104,6 +104,7 @@ void parse_numa_hmat_lb(NumaState *numa_state, NumaHmatLBOptions *node,
+> > > > >  void parse_numa_hmat_cache(MachineState *ms, NumaHmatCacheOptions *node,
+> > > > >                             Error **errp);
+> > > > >  void numa_complete_configuration(MachineState *ms);
+> > > > > +void numa_complete_validation(MachineState *ms);
+> > > > >  void query_numa_node_mem(NumaNodeMem node_mem[], MachineState *ms);
+> > > > >  extern QemuOptsList qemu_numa_opts;
+> > > > >  void numa_cpu_pre_plug(const struct CPUArchId *slot, DeviceState *dev,  
+> > > >   
 > > > 
-> > > base-commit: 60a9483534ed0d99090a2ee1d4bb0b8179195f51
-> > > -- 
-> > > 2.25.1
 > > 
 
 
