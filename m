@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F30AA42CA76
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 21:54:58 +0200 (CEST)
-Received: from localhost ([::1]:54016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 278EF42CA7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 21:56:35 +0200 (CEST)
+Received: from localhost ([::1]:56554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1makL4-0003c2-3Y
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 15:54:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52814)
+	id 1makMc-0005On-Ai
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 15:56:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1makIu-0001UK-1x
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 15:52:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27700)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1makIq-0001P7-At
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 15:52:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634154759;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9Bt6pdkI9efYxb2PaM1vRt2x7pgoGbklMN/ZpR9EusM=;
- b=SxI8AMOmJJBNPhQK6Vluo+Fz64WwRJfA518EZCHz3McWz6awwsTetr+1jolMxCiPuJ8fqe
- sjJB1vQ3c9ttQoyU7ymcYRKr6JPFZGg1A/Opjlx5Z/cNj1gxAAj+smHk3uoKO2Y8IhClMB
- QVkgYLGXBSQXILuwtScNUGY8M6chQt4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-Wp-nIAvtPW2Y9SZ5XPm0Zg-1; Wed, 13 Oct 2021 15:52:38 -0400
-X-MC-Unique: Wp-nIAvtPW2Y9SZ5XPm0Zg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51318802936;
- Wed, 13 Oct 2021 19:52:37 +0000 (UTC)
-Received: from starship (unknown [10.35.206.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F7E75F4EA;
- Wed, 13 Oct 2021 19:52:02 +0000 (UTC)
-Message-ID: <01068d813041258eba607c38f33f7cb13b1026a4.camel@redhat.com>
-Subject: Re: [PATCH 2/3] gdbstub: implement NOIRQ support for single step on
- KVM
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Date: Wed, 13 Oct 2021 22:52:01 +0300
-In-Reply-To: <87v920vs1v.fsf@linaro.org>
-References: <20210914155214.105415-1-mlevitsk@redhat.com>
- <20210914155214.105415-3-mlevitsk@redhat.com> <87v920vs1v.fsf@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1makLg-0004eY-H6
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 15:55:36 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:42705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1makLe-0003qe-IV
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 15:55:36 -0400
+Received: by mail-pf1-x436.google.com with SMTP id m14so3412618pfc.9
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 12:55:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:references:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=1zR7X9vL8MbEad4Y0H6fooLaidRcYCNq2qUr09s+j30=;
+ b=nXZt18NpzlDfz5e9znDX4W3AgTzLvcvAFKl/qWwIuAC+/EapywPXcjdvqGwWvgE1R5
+ KyMLZlGGlWbDFVblzxHzAGTJDmpZNUPxSw93MpFT1rfj3IRIXI3/wrCX5iKZwfqosRJB
+ i3Qio1vyqSg/+kzhQCEBAbNXkMdtg8qrz4Rd8UPxzHALmqWzPYrqTLSoobGDS5PFh6zn
+ QaCdyNbd4T/f3fsJ95YFLJjrOXjmvZB/WgmML2C49CrxYwCrPuKcV/W+bmLn9InkTEqT
+ gb9fphtJL1y5y4aqI5HKpxulL1PxCETpI17WUPFKi7SIESLLEEqNEwQv8IzC9pOSUwu3
+ ONgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:from:to:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1zR7X9vL8MbEad4Y0H6fooLaidRcYCNq2qUr09s+j30=;
+ b=AO9vcbQQ3HUJfAATJ0rtHaAkuXk5sJCu8a4YtBY10x7+OP6bIuUJY6UY77ei7qS3FY
+ QT2D8prVjEZ2IvOXHtHUTMuMFELVnz4iC+zMmbRPKyl03APcIaXSSQ9b0bLWYi3cRUZJ
+ 1q7lnmg2jt/KxU5HqajorunhM9d4LtQpdm07rzAZmQYvLhfUHM+IU3LCKXMiYJBpkBb6
+ Qz4YT+VlcRkrWCp9bTHKEzdXbqK/UrZNcniJORfK1hEXgIxT91vq9mtTJga9jSlFSTKI
+ EW4ACQuIBP43dZl+Zv8FBQubegbEan8MRO8e3YLYqU04fsjqA7pl4UVtyDJSzorGY4nE
+ Ezfg==
+X-Gm-Message-State: AOAM531/0HSzullG+FoelC1F8Jkc7+6pdel49Mi7sCvjT37aDEs1y7Sp
+ XrmmOVVbYOn/vphEXigyCxAke5I8z2Gw9A==
+X-Google-Smtp-Source: ABdhPJwI+0egYIMUDcQZzAXVyNqiwBmLOYxpwrFa8X3iiOX9EkXMS5qDDbgKQrrNrsNSYVpdmNI4Pg==
+X-Received: by 2002:a63:e10d:: with SMTP id z13mr910019pgh.375.1634154931074; 
+ Wed, 13 Oct 2021 12:55:31 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id d14sm288044pfr.123.2021.10.13.12.55.30
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Oct 2021 12:55:30 -0700 (PDT)
+Subject: Re: [PULL 00/15] tcg patch queue
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20211013182239.991127-1-richard.henderson@linaro.org>
+Message-ID: <baa7ae9d-53e9-6755-c856-07a500793ecf@linaro.org>
+Date: Wed, 13 Oct 2021 12:55:29 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+In-Reply-To: <20211013182239.991127-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,157 +87,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2021-10-13 at 16:50 +0100, Alex Bennée wrote:
-> Maxim Levitsky <mlevitsk@redhat.com> writes:
+On 10/13/21 11:22 AM, Richard Henderson wrote:
+> The following changes since commit ee26ce674a93c824713542cec3b6a9ca85459165:
 > 
-> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > ---
-> >  accel/kvm/kvm-all.c  | 25 ++++++++++++++++++
-> >  gdbstub.c            | 60 ++++++++++++++++++++++++++++++++++++--------
-> >  include/sysemu/kvm.h | 13 ++++++++++
-> >  3 files changed, 88 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> > index 6b187e9c96..e141260796 100644
-> > --- a/accel/kvm/kvm-all.c
-> > +++ b/accel/kvm/kvm-all.c
-> > @@ -169,6 +169,8 @@ bool kvm_vm_attributes_allowed;
-> >  bool kvm_direct_msi_allowed;
-> >  bool kvm_ioeventfd_any_length_allowed;
-> >  bool kvm_msi_use_devid;
-> > +bool kvm_has_guest_debug;
-> > +int kvm_sstep_flags;
-> >  static bool kvm_immediate_exit;
-> >  static hwaddr kvm_max_slot_size = ~0;
-> >  
-> > @@ -2559,6 +2561,25 @@ static int kvm_init(MachineState *ms)
-> >      kvm_sregs2 =
-> >          (kvm_check_extension(s, KVM_CAP_SREGS2) > 0);
-> >  
-> > +    kvm_has_guest_debug =
-> > +        (kvm_check_extension(s, KVM_CAP_SET_GUEST_DEBUG) > 0);
-> > +
-> > +    kvm_sstep_flags = 0;
-> > +
-> > +    if (kvm_has_guest_debug) {
-> > +        /* Assume that single stepping is supported */
-> > +        kvm_sstep_flags = SSTEP_ENABLE;
-> > +
-> > +        int guest_debug_flags =
-> > +            kvm_check_extension(s, KVM_CAP_SET_GUEST_DEBUG2);
-> > +
-> > +        if (guest_debug_flags > 0) {
-> > +            if (guest_debug_flags & KVM_GUESTDBG_BLOCKIRQ) {
-> > +                kvm_sstep_flags |= SSTEP_NOIRQ;
-> > +            }
-> > +        }
-> > +    }
-> > +
-> >      kvm_state = s;
-> >  
-> >      ret = kvm_arch_init(ms, s);
-> > @@ -3188,6 +3209,10 @@ int kvm_update_guest_debug(CPUState *cpu, unsigned long reinject_trap)
-> >  
-> >      if (cpu->singlestep_enabled) {
-> >          data.dbg.control |= KVM_GUESTDBG_ENABLE | KVM_GUESTDBG_SINGLESTEP;
-> > +
-> > +        if (cpu->singlestep_enabled & SSTEP_NOIRQ) {
-> > +            data.dbg.control |= KVM_GUESTDBG_BLOCKIRQ;
-> > +        }
-> >      }
-> >      kvm_arch_update_guest_debug(cpu, &data.dbg);
-> >  
-> > diff --git a/gdbstub.c b/gdbstub.c
-> > index 5d8e6ae3cd..48bb803bae 100644
-> > --- a/gdbstub.c
-> > +++ b/gdbstub.c
-> > @@ -368,12 +368,11 @@ typedef struct GDBState {
-> >      gdb_syscall_complete_cb current_syscall_cb;
-> >      GString *str_buf;
-> >      GByteArray *mem_buf;
-> > +    int sstep_flags;
-> > +    int supported_sstep_flags;
-> >  } GDBState;
-> >  
-> > -/* By default use no IRQs and no timers while single stepping so as to
-> > - * make single stepping like an ICE HW step.
-> > - */
-> > -static int sstep_flags = SSTEP_ENABLE|SSTEP_NOIRQ|SSTEP_NOTIMER;
-> > +static GDBState gdbserver_state;
-> >  
-> >  /* Retrieves flags for single step mode. */
-> >  static int get_sstep_flags(void)
-> > @@ -385,11 +384,10 @@ static int get_sstep_flags(void)
-> >      if (replay_mode != REPLAY_MODE_NONE) {
-> >          return SSTEP_ENABLE;
-> >      } else {
-> > -        return sstep_flags;
-> > +        return gdbserver_state.sstep_flags;
-> >      }
-> >  }
-> >  
-> > -static GDBState gdbserver_state;
-> >  
-> >  static void init_gdbserver_state(void)
-> >  {
-> > @@ -399,6 +397,23 @@ static void init_gdbserver_state(void)
-> >      gdbserver_state.str_buf = g_string_new(NULL);
-> >      gdbserver_state.mem_buf = g_byte_array_sized_new(MAX_PACKET_LENGTH);
-> >      gdbserver_state.last_packet = g_byte_array_sized_new(MAX_PACKET_LENGTH + 4);
-> > +
-> > +
-> > +    if (kvm_enabled()) {
-> > +        gdbserver_state.supported_sstep_flags = kvm_get_supported_sstep_flags();
-> > +    } else {
-> > +        gdbserver_state.supported_sstep_flags =
-> > +            SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_NOTIMER;
-> > +    }
+>    Merge remote-tracking branch 'remotes/jsnow/tags/python-pull-request' into staging (2021-10-12 16:08:33 -0700)
 > 
-> This fails to build:
+> are available in the Git repository at:
 > 
-> o -c ../../gdbstub.c
-> ../../gdbstub.c: In function ‘init_gdbserver_state’:
-> ../../gdbstub.c:403:49: error: implicit declaration of function ‘kvm_get_supported_sstep_flags’ [-Werror=implicit-function-declaration]
->   403 |         gdbserver_state.supported_sstep_flags = kvm_get_supported_sstep_flags();
->       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ../../gdbstub.c:403:49: error: nested extern declaration of ‘kvm_get_supported_sstep_flags’ [-Werror=nested-externs]
-> ../../gdbstub.c: In function ‘gdbserver_start’:
-> ../../gdbstub.c:3531:27: error: implicit declaration of function ‘kvm_supports_guest_debug’; did you mean ‘kvm_update_guest_debug’? [-Werror=implicit-function-declaration]
->  3531 |     if (kvm_enabled() && !kvm_supports_guest_debug()) {
->       |                           ^~~~~~~~~~~~~~~~~~~~~~~~
->       |                           kvm_update_guest_debug
-> ../../gdbstub.c:3531:27: error: nested extern declaration of ‘kvm_supports_guest_debug’ [-Werror=nested-externs]
-> cc1: all warnings being treated as errors
+>    https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20211013
 > 
-> In fact looking back I can see I mentioned this last time:
+> for you to fetch changes up to 76e366e728549b3324cc2dee6745d6a4f1af18e6:
 > 
->   Subject: Re: [PATCH 2/2] gdbstub: implement NOIRQ support for single step on
->    KVM, when kvm's KVM_GUESTDBG_BLOCKIRQ debug flag is supported.
->   Date: Mon, 19 Apr 2021 17:29:25 +0100
->   In-reply-to: <20210401144152.1031282-3-mlevitsk@redhat.com>
->   Message-ID: <871rb69qqk.fsf@linaro.org>
+>    tcg: Canonicalize alignment flags in MemOp (2021-10-13 09:14:35 -0700)
 > 
-> Please in future could you include a revision number for your spin and
-> mention bellow the --- what changes have been made since the last
-> posting.
+> ----------------------------------------------------------------
+> Use MO_128 for 16-byte atomic memory operations.
+> Add cpu_ld/st_mmu memory primitives.
+> Move helper_ld/st memory helpers out of tcg.h.
+> Canonicalize alignment flags in MemOp.
+> 
+> ----------------------------------------------------------------
+> BALATON Zoltan (1):
+>        memory: Log access direction for invalid accesses
+> 
+> Richard Henderson (14):
+>        target/arm: Use MO_128 for 16 byte atomics
+>        target/i386: Use MO_128 for 16 byte atomics
+>        target/ppc: Use MO_128 for 16 byte atomics
+>        target/s390x: Use MO_128 for 16 byte atomics
+>        target/hexagon: Implement cpu_mmu_index
+>        accel/tcg: Add cpu_{ld,st}*_mmu interfaces
+>        accel/tcg: Move cpu_atomic decls to exec/cpu_ldst.h
+>        target/mips: Use cpu_*_data_ra for msa load/store
+>        target/mips: Use 8-byte memory ops for msa load/store
+>        target/s390x: Use cpu_*_mmu instead of helper_*_mmu
+>        target/sparc: Use cpu_*_mmu instead of helper_*_mmu
+>        target/arm: Use cpu_*_mmu instead of helper_*_mmu
+>        tcg: Move helper_*_mmu decls to tcg/tcg-ldst.h
+>        tcg: Canonicalize alignment flags in MemOp
+> 
+>   docs/devel/loads-stores.rst   |  52 +++++-
+>   include/exec/cpu_ldst.h       | 332 ++++++++++++++++++-----------------
+>   include/tcg/tcg-ldst.h        |  74 ++++++++
+>   include/tcg/tcg.h             | 158 -----------------
+>   target/hexagon/cpu.h          |   9 +
+>   accel/tcg/cputlb.c            | 393 ++++++++++++++----------------------------
+>   accel/tcg/user-exec.c         | 385 +++++++++++++++++------------------------
+>   softmmu/memory.c              |  20 +--
+>   target/arm/helper-a64.c       |  61 ++-----
+>   target/arm/m_helper.c         |   6 +-
+>   target/i386/tcg/mem_helper.c  |   2 +-
+>   target/m68k/op_helper.c       |   1 -
+>   target/mips/tcg/msa_helper.c  | 389 ++++++++++-------------------------------
+>   target/ppc/mem_helper.c       |   1 -
+>   target/ppc/translate.c        |  12 +-
+>   target/s390x/tcg/mem_helper.c |  13 +-
+>   target/sparc/ldst_helper.c    |  14 +-
+>   tcg/tcg-op.c                  |   7 +-
+>   tcg/tcg.c                     |   1 +
+>   tcg/tci.c                     |   1 +
+>   accel/tcg/ldst_common.c.inc   | 307 +++++++++++++++++++++++++++++++++
+>   21 files changed, 1032 insertions(+), 1206 deletions(-)
+>   create mode 100644 include/tcg/tcg-ldst.h
+>   create mode 100644 accel/tcg/ldst_common.c.inc
 
-You mean it fails to build without KVM? I swear I tested build with TTG only after you mentioned this 
-(or as it seems I only tried to).
+Applied, thanks.
 
-Could you give me the ./configure parameters you used?
-
-Sorry for this!
-Best regards,
-	Maxim Levitsky
-
-> 
-> 
-
+r~
 
 
