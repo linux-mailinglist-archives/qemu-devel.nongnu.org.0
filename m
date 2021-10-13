@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4F542B1C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 03:07:26 +0200 (CEST)
-Received: from localhost ([::1]:49626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C549B42B1D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 03:08:40 +0200 (CEST)
+Received: from localhost ([::1]:52310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maSjr-0006XO-Vm
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 21:07:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39334)
+	id 1maSl5-0008RE-HM
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 21:08:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1maSeG-0007wO-7x
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 21:01:36 -0400
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:45737)
+ (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1maSeI-00080B-5A
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 21:01:38 -0400
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:46701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1maSeE-0005A4-Ow
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 21:01:35 -0400
+ (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1maSeG-0005BH-0v
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 21:01:37 -0400
 Received: by mail-ot1-x330.google.com with SMTP id
- l16-20020a9d6a90000000b0054e7ab56f27so1494276otq.12
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 18:01:34 -0700 (PDT)
+ 62-20020a9d0a44000000b00552a6f8b804so948490otg.13
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 18:01:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xj1e/TwUMhnPg0EzSwAwQl/XvDUpfzlFFnWUPRvfKb0=;
- b=FhEa3FvxmdLpOq45YAjfZ9GlHPDA57GYj9Fd0qpKPJCNrdQ7i0Stg+HcMM7oplDcka
- 0uJVf3avJ+nutoLa/tPXFD6OsCqoNVc6gZpvvNI8uOERWSsWpWfNWqNzNX4dAJ61f6BJ
- 4yVGrN6Fy3VaGlwExiKpnFWK6M+LV31Tqnytk=
+ bh=Qs6OtSk6zJ9FRk9lRiM3peYXousM3D2wLYGHTF6JOlU=;
+ b=Se80Er7KIwSBltydWwJdve2RDntBATdX57RMzbcPVEbObHrTa00YnZuUzrjHLiTKzb
+ 00rUpKHfRyeBB3/aEs2hZzYnLlejFZ9t2uBSqxyKeNbQh0FkNcwkQ7jd308WqowZIH14
+ c105ZqZjPqpQMn6i2d1w+vx1JUsefRm2j1r04=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xj1e/TwUMhnPg0EzSwAwQl/XvDUpfzlFFnWUPRvfKb0=;
- b=XxgAiSoDU3h9hAhW5xTDPdTphzEfj6W6P7wkWYQ5iFN/Yf4uE6ZNESDzLjoC8ZvtXw
- +z6g/I0Gw+JqR6XGdsqifxedK/Ajqbwt/lbF66i5DSAwonvkbc3HDDIDiXcVSx9Nqm3P
- JB62eVahgycR+1pP4VK6nzJvuye/ehR+wMgnH6NN9aY97allQObKb1MGX16/E9VjexA9
- lFkKNu9KZOemoc5ZEs3kg+Ou5wt4JNdmg52n1KlZmP4R5BQCTEGXTlOaHlRohL5qK2II
- UfAsepOcQk24fvt8BkuejiF4x5oa8oYYtWu8K98IB4mNjsHGDZp5k06xMab0vE6gH9ok
- lLeA==
-X-Gm-Message-State: AOAM530Eymrt4XgaQ5bBI82Hszdz7UHwRQx9dhlS/erSuoqIRDc02Dk0
- KOCl4JTOkM0P2uAytAdAA4n1Ew==
-X-Google-Smtp-Source: ABdhPJy0TemTw6auYJIG00wP8FppUlfLn32uE9pt8D9NiZN/nbvLYvGg4mQ+pn0GLW6kJh8t2B+1Xg==
-X-Received: by 2002:a9d:69c9:: with SMTP id v9mr28161771oto.127.1634086893619; 
- Tue, 12 Oct 2021 18:01:33 -0700 (PDT)
+ bh=Qs6OtSk6zJ9FRk9lRiM3peYXousM3D2wLYGHTF6JOlU=;
+ b=qGYytr7qbHj/Gb39Zf8v+ICmFA1LC3xLWo4qtDTeLYzk3JStXyQtMRDs5EPGT/oChz
+ J/xyJhGS5XIuMdfXvzl5fhol+HHHEmijyxVsRz8cFtbKzi3t5XcPscOsBRs23pXhA8gs
+ zp3/Q4BAuQyXSvzOnbruIPyzaAbvGPiTDIZIzqiDBzusymlbRsXwu7L/N82XDKsdT/sh
+ EgRI0aUmgvzDlBtqdA2hjnsxxv57n3ps6IMvQ7o9DDa8V3LoDGT4A6eV0Pn69BUJ7Rf1
+ qNrcDGZGMaRLNaMvuH0LkMTZ1CuS+G/Qz7Wt4+jlj7YNHFGl+H/Fc0kCED8KaBepGM6I
+ MkMQ==
+X-Gm-Message-State: AOAM5336UhHYUYq3gJw6Mf64aNj0fYvkS3RLhD9IcXHMSbbkhfQ/91ZG
+ 26KJ5XAziR9elpJvVxnxBbShdw==
+X-Google-Smtp-Source: ABdhPJxNgsDGT1BgL5NIFHnLs5exfG7EEgQJdTk1IisgLbPyDkvEtsjOkZnQqBVCb+Dm6FtlAIfiFQ==
+X-Received: by 2002:a05:6830:2258:: with SMTP id
+ t24mr1383106otd.211.1634086894962; 
+ Tue, 12 Oct 2021 18:01:34 -0700 (PDT)
 Received: from kiwi.bld.corp.google.com (c-67-190-101-114.hsd1.co.comcast.net.
  [67.190.101.114])
- by smtp.gmail.com with ESMTPSA id a10sm238107otb.7.2021.10.12.18.01.32
+ by smtp.gmail.com with ESMTPSA id a10sm238107otb.7.2021.10.12.18.01.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 18:01:33 -0700 (PDT)
+ Tue, 12 Oct 2021 18:01:34 -0700 (PDT)
 From: Simon Glass <sjg@chromium.org>
 To: U-Boot Mailing List <u-boot@lists.denx.de>
-Subject: [PATCH 03/16] riscv: qemu: Explain how to extract the generate
- devicetree
-Date: Tue, 12 Oct 2021 19:01:07 -0600
-Message-Id: <20211013010120.96851-4-sjg@chromium.org>
+Subject: [PATCH 04/16] arm: qemu: Add a devicetree file for qemu_arm
+Date: Tue, 12 Oct 2021 19:01:08 -0600
+Message-Id: <20211013010120.96851-5-sjg@chromium.org>
 X-Mailer: git-send-email 2.33.0.882.g93a45727a2-goog
 In-Reply-To: <20211013010120.96851-1-sjg@chromium.org>
 References: <20211013010120.96851-1-sjg@chromium.org>
@@ -80,43 +80,464 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Rini <trini@konsulko.com>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>, Simon Glass <sjg@chromium.org>,
- Bin Meng <bin.meng@windriver.com>, Rick Chen <rick@andestech.com>,
- qemu-devel@nongnu.org, Atish Patra <atish.patra@wdc.com>
+Cc: Tom Rini <trini@konsulko.com>, Albert Aribaud <albert.u.boot@aribaud.net>,
+ qemu-devel@nongnu.org, Andre Przywara <andre.przywara@arm.com>,
+ Simon Glass <sjg@chromium.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Christian Hewitt <christianshewitt@gmail.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Rick Chen <rick@andestech.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
+ Jagan Teki <jagan@amarulasolutions.com>, Sean Anderson <seanga2@gmail.com>,
+ Heiko Schocher <hs@denx.de>, Fabio Estevam <festevam@gmail.com>,
+ Tim Harvey <tharvey@gateworks.com>, Peter Robinson <pbrobinson@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU currently generates a devicetree for use with U-Boot. Explain how to
-obtain it.
+Add this file, generated from qemu, so there is a reference devicetree
+in the U-Boot tree.
 
 Signed-off-by: Simon Glass <sjg@chromium.org>
 ---
 
- doc/board/emulation/qemu-riscv.rst | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ arch/arm/dts/Makefile      |   2 +
+ arch/arm/dts/qemu-arm.dts  | 402 +++++++++++++++++++++++++++++++++++++
+ configs/qemu_arm_defconfig |   1 +
+ 3 files changed, 405 insertions(+)
+ create mode 100644 arch/arm/dts/qemu-arm.dts
 
-diff --git a/doc/board/emulation/qemu-riscv.rst b/doc/board/emulation/qemu-riscv.rst
-index 4b8e104a215..b3cf7085847 100644
---- a/doc/board/emulation/qemu-riscv.rst
-+++ b/doc/board/emulation/qemu-riscv.rst
-@@ -113,3 +113,15 @@ An attached disk can be emulated by adding::
-     -device ide-hd,drive=mydisk,bus=ahci.0
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index b8a382d1539..e2fc0cb65fc 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -1145,6 +1145,8 @@ dtb-$(CONFIG_TARGET_IMX8MM_CL_IOT_GATE) += imx8mm-cl-iot-gate.dtb
  
- You will have to run 'scsi scan' to use it.
+ dtb-$(CONFIG_TARGET_EA_LPC3250DEVKITV2) += lpc3250-ea3250.dtb
+ 
++dtb-$(CONFIG_ARCH_QEMU) += qemu-arm.dtb
 +
-+Obtaining the QEMU devicetree
-+-----------------------------
+ targets += $(dtb-y)
+ 
+ # Add any required device tree compiler flags here
+diff --git a/arch/arm/dts/qemu-arm.dts b/arch/arm/dts/qemu-arm.dts
+new file mode 100644
+index 00000000000..790571a9d9e
+--- /dev/null
++++ b/arch/arm/dts/qemu-arm.dts
+@@ -0,0 +1,402 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * Sample device tree for qemu_arm
 +
-+QEMU generates its own devicetree to pass to U-Boot and does this by default.
-+You can use `-dtb u-boot.dtb` to force QEMU to use U-Boot's in-tree version.
++ * Copyright 2021 Google LLC
++ */
 +
-+To obtain the devicetree that qemu generates, add `-machine dumpdtb=dtb.dtb`,
-+e.g.::
++/dts-v1/;
 +
-+    qemu-system-riscv64 -nographic -machine virt -bios u-boot \
-+	    -machine dumpdtb=dtb.dtb
++/ {
++	interrupt-parent = <0x8001>;
++	#size-cells = <0x02>;
++	#address-cells = <0x02>;
++	compatible = "linux,dummy-virt";
++
++	psci {
++		migrate = <0x84000005>;
++		cpu_on = <0x84000003>;
++		cpu_off = <0x84000002>;
++		cpu_suspend = <0x84000001>;
++		method = "hvc";
++		compatible = "arm,psci-0.2\0arm,psci";
++	};
++
++	memory@40000000 {
++		reg = <0x00 0x40000000 0x00 0x8000000>;
++		device_type = "memory";
++	};
++
++	platform@c000000 {
++		interrupt-parent = <0x8001>;
++		ranges = <0x00 0x00 0xc000000 0x2000000>;
++		#address-cells = <0x01>;
++		#size-cells = <0x01>;
++		compatible = "qemu,platform\0simple-bus";
++	};
++
++	fw-cfg@9020000 {
++		dma-coherent;
++		reg = <0x00 0x9020000 0x00 0x18>;
++		compatible = "qemu,fw-cfg-mmio";
++	};
++
++	virtio_mmio@a000000 {
++		dma-coherent;
++		interrupts = <0x00 0x10 0x01>;
++		reg = <0x00 0xa000000 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a000200 {
++		dma-coherent;
++		interrupts = <0x00 0x11 0x01>;
++		reg = <0x00 0xa000200 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a000400 {
++		dma-coherent;
++		interrupts = <0x00 0x12 0x01>;
++		reg = <0x00 0xa000400 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a000600 {
++		dma-coherent;
++		interrupts = <0x00 0x13 0x01>;
++		reg = <0x00 0xa000600 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a000800 {
++		dma-coherent;
++		interrupts = <0x00 0x14 0x01>;
++		reg = <0x00 0xa000800 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a000a00 {
++		dma-coherent;
++		interrupts = <0x00 0x15 0x01>;
++		reg = <0x00 0xa000a00 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a000c00 {
++		dma-coherent;
++		interrupts = <0x00 0x16 0x01>;
++		reg = <0x00 0xa000c00 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a000e00 {
++		dma-coherent;
++		interrupts = <0x00 0x17 0x01>;
++		reg = <0x00 0xa000e00 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a001000 {
++		dma-coherent;
++		interrupts = <0x00 0x18 0x01>;
++		reg = <0x00 0xa001000 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a001200 {
++		dma-coherent;
++		interrupts = <0x00 0x19 0x01>;
++		reg = <0x00 0xa001200 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a001400 {
++		dma-coherent;
++		interrupts = <0x00 0x1a 0x01>;
++		reg = <0x00 0xa001400 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a001600 {
++		dma-coherent;
++		interrupts = <0x00 0x1b 0x01>;
++		reg = <0x00 0xa001600 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a001800 {
++		dma-coherent;
++		interrupts = <0x00 0x1c 0x01>;
++		reg = <0x00 0xa001800 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a001a00 {
++		dma-coherent;
++		interrupts = <0x00 0x1d 0x01>;
++		reg = <0x00 0xa001a00 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a001c00 {
++		dma-coherent;
++		interrupts = <0x00 0x1e 0x01>;
++		reg = <0x00 0xa001c00 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a001e00 {
++		dma-coherent;
++		interrupts = <0x00 0x1f 0x01>;
++		reg = <0x00 0xa001e00 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a002000 {
++		dma-coherent;
++		interrupts = <0x00 0x20 0x01>;
++		reg = <0x00 0xa002000 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a002200 {
++		dma-coherent;
++		interrupts = <0x00 0x21 0x01>;
++		reg = <0x00 0xa002200 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a002400 {
++		dma-coherent;
++		interrupts = <0x00 0x22 0x01>;
++		reg = <0x00 0xa002400 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a002600 {
++		dma-coherent;
++		interrupts = <0x00 0x23 0x01>;
++		reg = <0x00 0xa002600 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a002800 {
++		dma-coherent;
++		interrupts = <0x00 0x24 0x01>;
++		reg = <0x00 0xa002800 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a002a00 {
++		dma-coherent;
++		interrupts = <0x00 0x25 0x01>;
++		reg = <0x00 0xa002a00 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a002c00 {
++		dma-coherent;
++		interrupts = <0x00 0x26 0x01>;
++		reg = <0x00 0xa002c00 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a002e00 {
++		dma-coherent;
++		interrupts = <0x00 0x27 0x01>;
++		reg = <0x00 0xa002e00 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a003000 {
++		dma-coherent;
++		interrupts = <0x00 0x28 0x01>;
++		reg = <0x00 0xa003000 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a003200 {
++		dma-coherent;
++		interrupts = <0x00 0x29 0x01>;
++		reg = <0x00 0xa003200 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a003400 {
++		dma-coherent;
++		interrupts = <0x00 0x2a 0x01>;
++		reg = <0x00 0xa003400 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a003600 {
++		dma-coherent;
++		interrupts = <0x00 0x2b 0x01>;
++		reg = <0x00 0xa003600 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a003800 {
++		dma-coherent;
++		interrupts = <0x00 0x2c 0x01>;
++		reg = <0x00 0xa003800 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a003a00 {
++		dma-coherent;
++		interrupts = <0x00 0x2d 0x01>;
++		reg = <0x00 0xa003a00 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a003c00 {
++		dma-coherent;
++		interrupts = <0x00 0x2e 0x01>;
++		reg = <0x00 0xa003c00 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	virtio_mmio@a003e00 {
++		dma-coherent;
++		interrupts = <0x00 0x2f 0x01>;
++		reg = <0x00 0xa003e00 0x00 0x200>;
++		compatible = "virtio,mmio";
++	};
++
++	gpio-keys {
++		#address-cells = <0x01>;
++		#size-cells = <0x00>;
++		compatible = "gpio-keys";
++
++		poweroff {
++			gpios = <0x8003 0x03 0x00>;
++			linux,code = <0x74>;
++			label = "GPIO Key Poweroff";
++		};
++	};
++
++	pl061@9030000 {
++		phandle = <0x8003>;
++		clock-names = "apb_pclk";
++		clocks = <0x8000>;
++		interrupts = <0x00 0x07 0x04>;
++		gpio-controller;
++		#gpio-cells = <0x02>;
++		compatible = "arm,pl061\0arm,primecell";
++		reg = <0x00 0x9030000 0x00 0x1000>;
++	};
++
++	pcie@10000000 {
++		interrupt-map-mask = <0x1800 0x00 0x00 0x07>;
++		interrupt-map = <0x00 0x00 0x00 0x01 0x8001 0x00 0x00 0x00
++			0x03 0x04 0x00 0x00 0x00 0x02 0x8001 0x00
++			0x00 0x00 0x04 0x04 0x00 0x00 0x00 0x03
++			0x8001 0x00 0x00 0x00 0x05 0x04 0x00 0x00
++			0x00 0x04 0x8001 0x00 0x00 0x00 0x06 0x04
++			0x800 0x00 0x00 0x01 0x8001 0x00 0x00 0x00
++			0x04 0x04 0x800 0x00 0x00 0x02 0x8001 0x00
++			0x00 0x00 0x05 0x04 0x800 0x00 0x00 0x03
++			0x8001 0x00 0x00 0x00 0x06 0x04 0x800 0x00
++			0x00 0x04 0x8001 0x00 0x00 0x00 0x03 0x04
++			0x1000 0x00 0x00 0x01 0x8001 0x00 0x00 0x00
++			0x05 0x04 0x1000 0x00 0x00 0x02 0x8001 0x00
++			0x00 0x00 0x06 0x04 0x1000 0x00 0x00 0x03
++			0x8001 0x00 0x00 0x00 0x03 0x04 0x1000 0x00
++			0x00 0x04 0x8001 0x00 0x00 0x00 0x04 0x04
++			0x1800 0x00 0x00 0x01 0x8001 0x00 0x00 0x00
++			0x06 0x04 0x1800 0x00 0x00 0x02 0x8001 0x00
++			0x00 0x00 0x03 0x04 0x1800 0x00 0x00 0x03
++			0x8001 0x00 0x00 0x00 0x04 0x04 0x1800 0x00
++			0x00 0x04 0x8001 0x00 0x00 0x00 0x05 0x04>;
++		#interrupt-cells = <0x01>;
++		ranges = <0x1000000 0x00 0x00 0x00
++			0x3eff0000 0x00 0x10000 0x2000000
++			0x00 0x10000000 0x00 0x10000000
++			0x00 0x2eff0000 0x3000000 0x80
++			0x00 0x80 0x00 0x80
++			0x00>;
++		reg = <0x00 0x3f000000 0x00 0x1000000>;
++		msi-parent = <0x8002>;
++		dma-coherent;
++		bus-range = <0x00 0x0f>;
++		linux,pci-domain = <0x00>;
++		#size-cells = <0x02>;
++		#address-cells = <0x03>;
++		device_type = "pci";
++		compatible = "pci-host-ecam-generic";
++	};
++
++	pl031@9010000 {
++		clock-names = "apb_pclk";
++		clocks = <0x8000>;
++		interrupts = <0x00 0x02 0x04>;
++		reg = <0x00 0x9010000 0x00 0x1000>;
++		compatible = "arm,pl031\0arm,primecell";
++	};
++
++	pl011@9000000 {
++		clock-names = "uartclk\0apb_pclk";
++		clocks = <0x8000 0x8000>;
++		interrupts = <0x00 0x01 0x04>;
++		reg = <0x00 0x9000000 0x00 0x1000>;
++		compatible = "arm,pl011\0arm,primecell";
++	};
++
++	pmu {
++	};
++
++	intc@8000000 {
++		phandle = <0x8001>;
++		reg = <0x00 0x8000000 0x00 0x10000 0x00 0x8010000 0x00 0x10000>;
++		compatible = "arm,cortex-a15-gic";
++		ranges;
++		#size-cells = <0x02>;
++		#address-cells = <0x02>;
++		interrupt-controller;
++		#interrupt-cells = <0x03>;
++
++		v2m@8020000 {
++			phandle = <0x8002>;
++			reg = <0x00 0x8020000 0x00 0x1000>;
++			msi-controller;
++			compatible = "arm,gic-v2m-frame";
++		};
++	};
++
++	flash@0 {
++		bank-width = <0x04>;
++		reg = <0x00 0x00 0x00 0x4000000 0x00 0x4000000 0x00 0x4000000>;
++		compatible = "cfi-flash";
++	};
++
++	cpus {
++		#size-cells = <0x00>;
++		#address-cells = <0x01>;
++
++		cpu@0 {
++			reg = <0x00>;
++			compatible = "arm,cortex-a15";
++			device_type = "cpu";
++		};
++	};
++
++	timer {
++		interrupts = <0x01 0x0d 0x104 0x01 0x0e 0x104 0x01 0x0b 0x104 0x01 0x0a 0x104>;
++		always-on;
++		compatible = "arm,armv7-timer";
++	};
++
++	apb-pclk {
++		phandle = <0x8000>;
++		clock-output-names = "clk24mhz";
++		clock-frequency = <0x16e3600>;
++		#clock-cells = <0x00>;
++		compatible = "fixed-clock";
++	};
++
++	chosen {
++		stdout-path = "/pl011@9000000";
++	};
++};
+diff --git a/configs/qemu_arm_defconfig b/configs/qemu_arm_defconfig
+index ded58d387ad..81ca4ca9166 100644
+--- a/configs/qemu_arm_defconfig
++++ b/configs/qemu_arm_defconfig
+@@ -5,6 +5,7 @@ CONFIG_NR_DRAM_BANKS=1
+ CONFIG_ENV_SIZE=0x40000
+ CONFIG_ENV_SECT_SIZE=0x40000
+ CONFIG_SYS_MALLOC_LEN=0x1000000
++CONFIG_DEFAULT_DEVICE_TREE="qemu-arm"
+ CONFIG_TARGET_QEMU_ARM_32BIT=y
+ CONFIG_ARMV7_LPAE=y
+ CONFIG_AHCI=y
 -- 
 2.33.0.882.g93a45727a2-goog
 
