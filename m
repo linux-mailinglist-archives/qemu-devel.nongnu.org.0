@@ -2,99 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471FC42BC6E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 12:05:47 +0200 (CEST)
-Received: from localhost ([::1]:52226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B2D142BC72
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 12:07:30 +0200 (CEST)
+Received: from localhost ([::1]:54930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mab8s-0007TP-D4
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 06:05:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33532)
+	id 1mabAX-000125-IN
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 06:07:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1maanq-0001Az-Jm
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:44:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35123)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1maanc-00066j-Ov
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:44:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634118228;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gVKeMCzKTVLPYKcFBzM15Jh1PEN7WWvVdsY0GHYudcQ=;
- b=gmux/v2h7tlD+w3UrL1xYmB5rAfcD0Jm2Mud4O2vvSEAhlbJOI/rIHOP+a7WpjRRcYbAmS
- 0Oy9GEvKK3uszs6jLKLOLOs1zA2fTt7Tzp9Po8WPuC/VZNb8JUXEIUGnqQipxuDlfgKAH9
- /xZKwlYRsu/kUrZlxdZ1ZdydKRlnneQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-tJnCunY5OyCBZaG0b1DBTw-1; Wed, 13 Oct 2021 05:43:44 -0400
-X-MC-Unique: tJnCunY5OyCBZaG0b1DBTw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- x5-20020a50f185000000b003db0f796903so1699143edl.18
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:43:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gVKeMCzKTVLPYKcFBzM15Jh1PEN7WWvVdsY0GHYudcQ=;
- b=xWkWpOQTovl0O+tzye4R8noR4LAMtNNuBv1Ny2Any8z2fkTW3mmPMXQzhZ34PXVQF2
- FLH4yQq84LU7tXrftxRrqNAGrKNbdGnlKk3TxLw2RTE3pCGX652qAeDJ2TJvcRp+9YyJ
- ViWNB43vs5qq0QrPRoRvaRTR0gwhvX9FY5CauU9T+231HL7wj1kxrLyE/q0IRPpskQIl
- 6avdySWejcpvER0gS+6eD4MViV6IsUmNpOGO+hYUjMrFTH+UiVMm95iQLdgGKVrlbJHv
- sIOUIPA/k34h/X3ipMEH+5WOCKHUI3sGPAkWrryA1MU9Uor7gKx2vhrTI5lZ91AOnuBc
- BGWA==
-X-Gm-Message-State: AOAM531OuAfW/fYffsvV+4Et6lfFafcOMyDsuJmDGcTjzTXmdUWFsllC
- 8usTTtVt/aT8gDfkx6YUIAdB7BUUFkzQZyDaouv9ttfQ5TWgSqIPfqIe+m4EVNtyrFQGEk7g2hw
- a3R7III4uNpEtVsc=
-X-Received: by 2002:a05:6402:2748:: with SMTP id
- z8mr8151611edd.25.1634118223683; 
- Wed, 13 Oct 2021 02:43:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdg9i1VuCFbtLDlbvdRlkRp8IujkGBLpHa+t+1itrF0KcZLcX9oiNx18GGScFx2M0pPkSZKA==
-X-Received: by 2002:a05:6402:2748:: with SMTP id
- z8mr8151592edd.25.1634118223530; 
- Wed, 13 Oct 2021 02:43:43 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id kd8sm6369571ejc.69.2021.10.13.02.43.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 02:43:43 -0700 (PDT)
-Date: Wed, 13 Oct 2021 11:43:42 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v1 2/2] memory: Update description of
- memory_region_is_mapped()
-Message-ID: <20211013114342.43e99dac@redhat.com>
-In-Reply-To: <067a10ee-0897-df8d-2eff-b347c5958b03@redhat.com>
-References: <20211011174522.14351-1-david@redhat.com>
- <20211011174522.14351-3-david@redhat.com>
- <93dead18-5ea5-0afe-18c1-de9a06773687@linaro.org>
- <8108c69d-a596-d6c9-a116-783f47904deb@amsat.org>
- <845d3d5f-f9e9-d59d-c868-5a9825eb7fba@redhat.com>
- <20211012105300.1ef25440@redhat.com>
- <a2078241-1dc9-782e-38a3-eab06c1b162c@redhat.com>
- <20211012120059.14e19dc1@redhat.com>
- <84adb9d1-6e30-7d5e-a362-0a81ea4b8b01@redhat.com>
- <067a10ee-0897-df8d-2eff-b347c5958b03@redhat.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <andre.przywara@arm.com>)
+ id 1maau1-00032L-Oy
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:50:26 -0400
+Received: from foss.arm.com ([217.140.110.172]:51958)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <andre.przywara@arm.com>) id 1maatw-00032M-4R
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:50:23 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E8BFC1063;
+ Wed, 13 Oct 2021 02:50:15 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 71B973F70D;
+ Wed, 13 Oct 2021 02:50:09 -0700 (PDT)
+Date: Wed, 13 Oct 2021 10:50:05 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Simon Glass <sjg@chromium.org>
+Subject: Re: [PATCH 00/16] fdt: Make OF_BOARD a boolean option
+Message-ID: <20211013105005.4cf27c8b@donnerap.cambridge.arm.com>
+In-Reply-To: <20211013010120.96851-1-sjg@chromium.org>
+References: <20211013010120.96851-1-sjg@chromium.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=andre.przywara@arm.com; helo=foss.arm.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,87 +56,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Liviu Dudau <liviu.dudau@foss.arm.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Sean Anderson <seanga2@gmail.com>,
+ U-Boot Mailing List <u-boot@lists.denx.de>, Zong Li <zong.li@sifive.com>,
+ Stefan Roese <sr@denx.de>, Fabio Estevam <festevam@gmail.com>,
+ Rainer Boschung <rainer.boschung@hitachi-powergrids.com>,
+ Tom Rini <trini@konsulko.com>, Stephen Warren <swarren@nvidia.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>, Niel Fourie <lusus@denx.de>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Marek =?UTF-8?B?QmVow7pu?= <marek.behun@nic.cz>,
+ Jerry Van Baren <vanbaren@cideas.com>, Ramon Fried <rfried.dev@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Valentin Longchamp <valentin.longchamp@hitachi-powergrids.com>,
+ Heiko Schocher <hs@denx.de>, Rob Herring <robh@kernel.org>,
+ Peter Robinson <pbrobinson@gmail.com>, Sinan Akman <sinan@writeme.com>,
+ Thomas Fitzsimmons <fitzsim@fitzsim.org>, Wolfgang Denk <wd@denx.de>,
+ Stephen Warren <swarren@wwwdotorg.org>, qemu-devel@nongnu.org,
+ Tim Harvey <tharvey@gateworks.com>,
+ Ashok Reddy Soma <ashok.reddy.soma@xilinx.com>, Rick Chen <rick@andestech.com>,
+ Alexander Graf <agraf@csgraf.de>, Green Wan <green.wan@sifive.com>,
+ T Karthik Reddy <t.karthik.reddy@xilinx.com>,
+ Anastasiia Lukianenko <anastasiia_lukianenko@epam.com>,
+ Albert Aribaud <albert.u.boot@aribaud.net>, Michal Simek <monstr@monstr.eu>,
+ Matthias Brugger <mbrugger@suse.com>, Leo <ycliang@andestech.com>,
+ Tero Kristo <kristo@kernel.org>, Atish Patra <atish.patra@wdc.com>,
+ David Abdurachmanov <david.abdurachmanov@sifive.com>,
+ Priyanka Jain <priyanka.jain@nxp.com>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Christian Hewitt <christianshewitt@gmail.com>,
+ Aaron Williams <awilliams@marvell.com>,
+ Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
+ Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+ Tianrui Wei <tianrui-wei@outlook.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
+ Dimitri John Ledkov <dimitri.ledkov@canonical.com>,
+ Padmarao Begari <padmarao.begari@microchip.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 13 Oct 2021 09:14:35 +0200
-David Hildenbrand <david@redhat.com> wrote:
+On Tue, 12 Oct 2021 19:01:04 -0600
+Simon Glass <sjg@chromium.org> wrote:
 
-> On 12.10.21 12:09, David Hildenbrand wrote:
-> >>
-> >> The less confusing would be one where check works for any memory region
-> >> involved.  
-> > 
-> > Exactly, so for any alias, even in-between another alias and the target.
-> >   
-> >>      
-> >>>>
-> >>>>       
-> >>>>>         I am not aware of actual issues, this is rather a cleanup.
-> >>>>>         
-> >>>>>         Signed-off-by: David Hildenbrand <david@redhat.com>
-> >>>>>
-> >>>>> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> >>>>> index 75b4f600e3..93d0190202 100644
-> >>>>> --- a/include/exec/memory.h
-> >>>>> +++ b/include/exec/memory.h
-> >>>>> @@ -728,6 +728,7 @@ struct MemoryRegion {
-> >>>>>          const MemoryRegionOps *ops;
-> >>>>>          void *opaque;
-> >>>>>          MemoryRegion *container;
-> >>>>> +    int mapped_via_alias; /* Mapped via an alias, container might be NULL */
-> >>>>>          Int128 size;
-> >>>>>          hwaddr addr;
-> >>>>>          void (*destructor)(MemoryRegion *mr);
-> >>>>> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> >>>>> index 3bcfc3899b..1168a00819 100644
-> >>>>> --- a/softmmu/memory.c
-> >>>>> +++ b/softmmu/memory.c
-> >>>>> @@ -2535,8 +2535,13 @@ static void memory_region_add_subregion_common(MemoryRegion *mr,
-> >>>>>                                                     hwaddr offset,
-> >>>>>                                                     MemoryRegion *subregion)
-> >>>>>      {
-> >>>>> +    MemoryRegion *alias;
-> >>>>> +
-> >>>>>          assert(!subregion->container);
-> >>>>>          subregion->container = mr;
-> >>>>> +    for (alias = subregion->alias; alias; alias = alias->alias) {
-> >>>>> +       alias->mapped_via_alias++;  
-> >>>>
-> >>>> it it necessary to update mapped_via_alias for intermediate aliases?
-> >>>> Why not just update on counter only on leaf (aliased region)?  
-> >>>
-> >>> Assume we have alias0 -> alias1 -> region and map alias0.
-> >>>
-> >>> Once alias0 is mapped it will have ->container set and
-> >>> memory_region_is_mapped(alias0) will return "true".
-> >>>
-> >>> With my patch, both, "alias1" and the region will be marked
-> >>> "mapped_via_alias" and memory_region_is_mapped() will succeed on both of
-> >>> them. With what you propose, memory_region_is_mapped() would only
-> >>> succeed on the region (well, and on alias 0) but not on alias1.  
-> >>
-> >> as long as add_subregion increments counter on leaf it doesn't matter
-> >> how many intermediate aliases are there. Check on every one of them
-> >> should end up at the leaf counter (at expense of traversing
-> >> chain on every check but less state to track/think about).
-> >>  
-> > 
-> > Sure, we could also let memory_region_is_mapped() walk all aliases to
-> > the leaf. Not sure though, if it really simplifies things. It merely
-> > adds another loop and doesn't get rid of the others :) But I don't
-> > particularly care.
-> >   
+Hi,
+
+> With Ilias' efforts we have dropped OF_PRIOR_STAGE and OF_HOSTFILE so
+> there are only three ways to obtain a devicetree:
 > 
-> I just realized that this might not be what we want: we could get false 
-> positives when a memory region is referenced via multiple alias and only 
-> one of them is mapped. memory_region_is_mapped() could return "true" for 
-> an alias that isn't actually mapped.
-Agreed, that would be inconsistent.
+>    - OF_SEPARATE - the normal way, where the devicetree is built and
+>       appended to U-Boot
+>    - OF_EMBED - for development purposes, the devicetree is embedded in
+>       the ELF file (also used for EFI)
+>    - OF_BOARD - the board figures it out on its own
+> 
+> The last one is currently set up so that no devicetree is needed at all
+> in the U-Boot tree. Most boards do provide one, but some don't. Some
+> don't even provide instructions on how to boot on the board.
+> 
+> The problems with this approach are documented at [1].
+> 
+> In practice, OF_BOARD is not really distinct from OF_SEPARATE. Any board
+> can obtain its devicetree at runtime, even it is has a devicetree built
+> in U-Boot. This is because U-Boot may be a second-stage bootloader and its
+> caller may have a better idea about the hardware available in the machine.
+> This is the case with a few QEMU boards, for example.
+> 
+> So it makes no sense to have OF_BOARD as a 'choice'. It should be an
+> option, available with either OF_SEPARATE or OF_EMBED.
+
+So I am possibly fine with that, but:
+
+> This series makes this change, adding various missing devicetree files
+> (and placeholders) to make the build work.
+
+If we just need it to make the build work, we not just have pure stub DTs,
+as you do for highbank, everywhere?
+Adding *some* DT files for those platforms that actually do the right
+thing seems like the wrong direction to me.
+Providing DTs in the source repositories of the actual consumers is more
+of a bad habit that dragged on since Linux started this around 10 years
+ago (for practical reasons). For *some* platforms U-Boot is the firmware
+component that is in the best situation to provide the DTB (because it's
+more than a mere bootloader), but for other it's just not. And this is not
+even looking at really dynamic platforms like QEMU, where providing some
+kind of fixed DT is just not working.
+
+I don't get the argument that people would need to see the DT in the tree
+to develop code. The DT spec and binding documentation (currently living
+in the Linux kernel source tree) provide the specification to code
+against, and the platform specific selection of drivers in Kconfig and
+_defconfig select the drivers for the devices that people are expected to
+see. Why does one need actual DT files in the tree?
+
+I totally agree on adding more documentation, possibly *pointing* to example
+DTs or giving commands on how to obtain the actual copy (-dumpdtb,
+/sys/firmware/devicetree), but don't think that adding some .dts files for
+platforms that don't need them is the right way.
+
+Cheers,
+Andre.
+
+> 
+> It also provides a few qemu clean-ups discovered along the way.
+> 
+> This series is based on Ilias' two series for OF_HOSTFILE and
+> OF_PRIOR_STAGE removal.
+> 
+> It is available at u-boot-dm/ofb-working
+> 
+> [1]
+> https://patchwork.ozlabs.org/project/uboot/patch/20210919215111.3830278-3-sjg@chromium.org/
+> 
+> 
+> Simon Glass (16):
+>   arm: qemu: Mention -nographic in the docs
+>   arm: qemu: Explain how to extract the generate devicetree
+>   riscv: qemu: Explain how to extract the generate devicetree
+>   arm: qemu: Add a devicetree file for qemu_arm
+>   arm: qemu: Add a devicetree file for qemu_arm64
+>   riscv: qemu: Add devicetree files for qemu_riscv32/64
+>   arm: rpi: Add a devicetree file for rpi_4
+>   arm: vexpress: Add a devicetree file for juno
+>   arm: xenguest_arm64: Add a fake devicetree file
+>   arm: octeontx: Add a fake devicetree file
+>   arm: xilinx_versal_virt: Add a devicetree file
+>   arm: bcm7xxx: Add a devicetree file
+>   arm: qemu-ppce500: Add a devicetree file
+>   arm: highbank: Add a fake devicetree file
+>   fdt: Make OF_BOARD a bool option
+>   Drop CONFIG_BINMAN_STANDALONE_FDT
+> 
+>  Makefile                               |    3 +-
+>  arch/arm/dts/Makefile                  |   20 +-
+>  arch/arm/dts/bcm2711-rpi-4-b.dts       | 1958 ++++++++++++++++++++++++
+>  arch/arm/dts/bcm7xxx.dts               |   15 +
+>  arch/arm/dts/highbank.dts              |   14 +
+>  arch/arm/dts/juno-r2.dts               | 1038 +++++++++++++
+>  arch/arm/dts/octeontx.dts              |   14 +
+>  arch/arm/dts/qemu-arm.dts              |  402 +++++
+>  arch/arm/dts/qemu-arm64.dts            |  381 +++++
+>  arch/arm/dts/xenguest-arm64.dts        |   15 +
+>  arch/arm/dts/xilinx-versal-virt.dts    |  307 ++++
+>  arch/powerpc/dts/Makefile              |    1 +
+>  arch/powerpc/dts/qemu-ppce500.dts      |  264 ++++
+>  arch/riscv/dts/Makefile                |    2 +-
+>  arch/riscv/dts/qemu-virt.dts           |    8 -
+>  arch/riscv/dts/qemu-virt32.dts         |  217 +++
+>  arch/riscv/dts/qemu-virt64.dts         |  217 +++
+>  configs/bcm7260_defconfig              |    1 +
+>  configs/bcm7445_defconfig              |    1 +
+>  configs/highbank_defconfig             |    2 +-
+>  configs/octeontx2_95xx_defconfig       |    1 +
+>  configs/octeontx2_96xx_defconfig       |    1 +
+>  configs/octeontx_81xx_defconfig        |    1 +
+>  configs/octeontx_83xx_defconfig        |    1 +
+>  configs/qemu-ppce500_defconfig         |    2 +
+>  configs/qemu-riscv32_defconfig         |    1 +
+>  configs/qemu-riscv32_smode_defconfig   |    1 +
+>  configs/qemu-riscv32_spl_defconfig     |    4 +-
+>  configs/qemu-riscv64_defconfig         |    1 +
+>  configs/qemu-riscv64_smode_defconfig   |    1 +
+>  configs/qemu-riscv64_spl_defconfig     |    3 +-
+>  configs/qemu_arm64_defconfig           |    1 +
+>  configs/qemu_arm_defconfig             |    1 +
+>  configs/rpi_4_32b_defconfig            |    1 +
+>  configs/rpi_4_defconfig                |    1 +
+>  configs/rpi_arm64_defconfig            |    1 +
+>  configs/vexpress_aemv8a_juno_defconfig |    1 +
+>  configs/xenguest_arm64_defconfig       |    1 +
+>  configs/xilinx_versal_virt_defconfig   |    1 +
+>  doc/board/emulation/qemu-arm.rst       |   19 +-
+>  doc/board/emulation/qemu-riscv.rst     |   12 +
+>  dts/Kconfig                            |   27 +-
+>  tools/binman/binman.rst                |   20 -
+>  43 files changed, 4922 insertions(+), 61 deletions(-)
+>  create mode 100644 arch/arm/dts/bcm2711-rpi-4-b.dts
+>  create mode 100644 arch/arm/dts/bcm7xxx.dts
+>  create mode 100644 arch/arm/dts/highbank.dts
+>  create mode 100644 arch/arm/dts/juno-r2.dts
+>  create mode 100644 arch/arm/dts/octeontx.dts
+>  create mode 100644 arch/arm/dts/qemu-arm.dts
+>  create mode 100644 arch/arm/dts/qemu-arm64.dts
+>  create mode 100644 arch/arm/dts/xenguest-arm64.dts
+>  create mode 100644 arch/arm/dts/xilinx-versal-virt.dts
+>  create mode 100644 arch/powerpc/dts/qemu-ppce500.dts
+>  delete mode 100644 arch/riscv/dts/qemu-virt.dts
+>  create mode 100644 arch/riscv/dts/qemu-virt32.dts
+>  create mode 100644 arch/riscv/dts/qemu-virt64.dts
+> 
 
 
