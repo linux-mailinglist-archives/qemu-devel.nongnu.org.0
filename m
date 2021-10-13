@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B5342CFC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 03:00:28 +0200 (CEST)
-Received: from localhost ([::1]:44958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFEE942CFC6
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 03:02:08 +0200 (CEST)
+Received: from localhost ([::1]:46610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1map6f-0007t5-5p
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 21:00:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44370)
+	id 1map8J-0000Xe-Tw
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 21:02:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1malqt-0003Sj-PW
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:31:56 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:37874)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1manID-0003yA-Vb
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 19:04:15 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:39774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1malqr-00029A-Ur
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:31:55 -0400
-Received: by mail-qk1-x731.google.com with SMTP id bl14so3648274qkb.4
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 14:31:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1manIC-0002XS-DD
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 19:04:13 -0400
+Received: by mail-qk1-x735.google.com with SMTP id 77so3836267qkh.6
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 16:04:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=8EVNQMNzwxLHYQpPmLnvNYYKGvgSqgWQ7JXCmQkgB/w=;
- b=EwgnWpG5DcjTNOBZIrARRkYzV2y6B0nSlyCecAV8zE/8aw2X9hLrM9IZFuMuRBWy8f
- tgUuScVHs42IaBXfdU3ZEk9OCDpJehedkA/g7uJZrWVPWfea8XFChZzemQUhNgACW/H9
- AC0dCKKm9D8ffwqUCrlHPu0cR8f7wQBIx6aKXPTugXM6FK37s0Ksu/GOMozlgzXR8nMA
- ln1K2iAhffVXJx9U9F67P1bPkPNoTY1VI/mPF+IYU5UXnYZTW0q/nj4g+3mjKqmymIfy
- scpusEEuRsiigoh/z3IFnD2cea8eXC7I/jmgiN+cVic9K7WeXpUdhvDpZ5BQCVnLmzfm
- 6KNQ==
+ bh=oaPrjBwE27qYYg6zPdefExmELvRJbh0hYIwQ025UvmQ=;
+ b=WpKD50UPtaa3zC/tyopGQf0lBQN+OpJPhrgVgfAyAbXa1yn6E8Xpog/xOaXqpgdoQm
+ upiSqNY6++tGOgb3Lx+yhpXG/e0NRBO5Ewz3Hu90kfRraU2SikS/dbOTYLB0R9EUELh4
+ 8DxaSdPmqnrbA/ngMeAApOYrcMa1Mnt8Q/0oMyR20P2kw/cjAyliTy9kbKYIdha1rnAt
+ jXy6uDlvLeRB43xXaIp7lCcNKFx/ozclks74CmrjM0mgRbexNE58kBw+5Gmy19qdLgc4
+ UzFti/8lStENjBfbb+HjzuzviVkB4iOffCMerZCgtBycvIlkq/WB8eGyDaRMIBRxmTq+
+ 04kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=8EVNQMNzwxLHYQpPmLnvNYYKGvgSqgWQ7JXCmQkgB/w=;
- b=zBUuMhFbkS+uaHYSOXJAHTwvDQeN1ZrYKjsuJP+f1EkCwNoWH1WfV7xyOVHYobI66f
- nw6NhS/PE5xCU3hk+DMnSvdSQm3bd3fXyAzGEhORO1z6+KIIraYjGeMr+GQMElr31iP/
- KG1TvRNohogCoCK2j8pWdYsMfGgFkQiVIyJXq3iJr2yVJsXKCNtlWY0MzUCJjyAuuuyq
- qmt1kaPMyh/L19sf3oRdHF1UDyU/xo30kh8dzivHA6XlsBH0IEnLSZxaKONi3t/rwWA7
- Bno+/LdJ82L3F9W2nhzJ0JmndnanBf5HkgmKYEQJQzYpr+acnUAx5LV4wV7yOlNd+rQU
- wGyQ==
-X-Gm-Message-State: AOAM533kW2xjGKb/EozYaUqqNfUM3n0qbhtkVRTLYn7VGLGRP3moqtBY
- oj2RSuqGcCQenTFV7ozQs21tTdA1pzt6lw==
-X-Google-Smtp-Source: ABdhPJxgYzpNF4juIwk8jYbwCFpA/x8u34Ge4En6znUhR/VV40HJyCZJ4vjURgFDLpxZf8rZmA9/sA==
-X-Received: by 2002:a37:a050:: with SMTP id j77mr1506699qke.337.1634160712673; 
- Wed, 13 Oct 2021 14:31:52 -0700 (PDT)
+ bh=oaPrjBwE27qYYg6zPdefExmELvRJbh0hYIwQ025UvmQ=;
+ b=TLNKKFIwaewL1YRF4zL1i4xN/KigfUGDyKgJ5SWQmhZHhDfhPmq6m1NI+XlAr8WxS6
+ tRwW3bDYpZYBDj/qTqC8qgo5yO/BQ2ZsduYQbe8IGWaR2aGVxjs5cR4UZpfDj7bH6Iqd
+ NPrN5Rp5Fz2LXcNClO4BIEn063dui/Wcc2H5XKJ0uwky46TE2HLQl3g+NwI5GUD/UTn4
+ OtvtDEBJSQY5fCVPiGDd/NsiZilvg3AREtYDuk9gTifFSdlsB4EYtVgNZ2IQcjhmxbvF
+ 7dmxnjROycWXEG6wCBqzNdtXuSxbnOktwjyuDoyTIJWu+shCR5gvF9obC+WEpPP+ZOc6
+ wwBw==
+X-Gm-Message-State: AOAM530xjiqMebwy40nUI1CoD9HFjI0ZOWIJbh323V7tN5cHlZQkNK8n
+ qefL3zfvQ6KJThQ1WXIncHmRa7TzIdlhdQ==
+X-Google-Smtp-Source: ABdhPJxI8AXpKOFtfb6gFANBx4PudyLrdwi0Rg+at7X0X5v5VfLd6HrnxZ4CpbNrB0OtN/Jd+Y095g==
+X-Received: by 2002:a37:6303:: with SMTP id x3mr1830417qkb.465.1634166251152; 
+ Wed, 13 Oct 2021 16:04:11 -0700 (PDT)
 Received: from localhost.localdomain
  (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
  [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id n123sm406752qke.36.2021.10.13.14.31.52
+ by smtp.gmail.com with ESMTPSA id w11sm778680qta.50.2021.10.13.16.04.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 13 Oct 2021 14:31:52 -0700 (PDT)
+ Wed, 13 Oct 2021 16:04:10 -0700 (PDT)
 From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
 Subject: [PATCH 00/11] 9p: Add support for Darwin 
-Date: Wed, 13 Oct 2021 17:31:37 -0400
-Message-Id: <20211013213148.26134-1-wwcohen@gmail.com>
+Date: Wed, 13 Oct 2021 19:03:54 -0400
+Message-Id: <20211013230405.32170-1-wwcohen@gmail.com>
 X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=wwcohen@gmail.com; helo=mail-qk1-x731.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=wwcohen@gmail.com; helo=mail-qk1-x735.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,12 +87,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is a continuation of a patch series adding 9p server support for Darwin,
 originally submitted by Keno Fischer in mid-2018
-(https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg04643.html).
+(https://lists.nongnu.org/archive/html/qemu-devel/2018-06/msg04643.html). In
+some sense, this could be considered [PATCH v4] of that process, but I assume
+that the multi-year gap merits a fresh start..
 
 It has since been updated and rebased for NixOS by Michael Roitzsch
 (https://github.com/NixOS/nixpkgs/pull/122420) with a goal of resubmitting
-upstream. I am submitting his patch set as suggested, as developed by him, with
-his Signed-off-by headers included in full.
+upstream. I am submitting his patch set as suggested, as developed by Michael,
+with his Signed-off-by headers included in full.
 
 Additionally, I have run the patches through checkpatch.pl and adjusted coding
 style accordingly (with the exception of ignoring warnings about avoid
