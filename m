@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E5C42B321
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 05:09:01 +0200 (CEST)
-Received: from localhost ([::1]:51508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E91E42B316
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 05:06:21 +0200 (CEST)
+Received: from localhost ([::1]:43104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maUdY-0008Ch-KY
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 23:09:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57040)
+	id 1maUay-0002FY-Ia
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 23:06:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maUHx-0004wS-5I
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:42 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:41699)
+ id 1maUHv-0004vD-91
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:40 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:43698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maUHs-00053K-2P
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:40 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id d23so878260pgh.8
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 19:46:35 -0700 (PDT)
+ id 1maUHs-000541-TQ
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:38 -0400
+Received: by mail-pg1-x535.google.com with SMTP id r2so870418pgl.10
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 19:46:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=slyF7IqLapKeWo1JxWwPfUqGwcDiZ/hynums2qQtXjA=;
- b=jZRVnYXmBkd4Xm26xudwezcNBS3hox2n+vw+Z5oqyo04uizt+kcqzTw0lxNTanzZtV
- CUF73o00EZy41wxEr5QUfaP3CDR3UyuCerbL54LjdIQWjWi1JmqxsgYSCnYo9dQmUPut
- I1TIWP5UAnTQCsA+VeD3bAH/VisTta4YLMnqsvo8HQ++JWf9RaSgeSXAhNOkF52D/8zx
- llbPVrDAoCDb6qN3bu8Gx5fHR34EoZm2D30s11OKrezuAPTUaueOkefNTXw2HrJoj07e
- xgJKBs+OUbYBTm7AqbH0SjBPXcOUzy5YbPvTPUASoSujjXpNyl0tBeZU/uIAbBGFtVJy
- dhuQ==
+ bh=ou9TZeIkVFlPgVg0RJ88Oh2ksyVGkR6IUoehchstShA=;
+ b=UGwFSpjuT2sipPdArEKXbNaaG6OMAitioeoMThq23Z0N9iPMzlbsS8Ihu7Dqo5bg+V
+ zVv4yOtOetSRDFEngWVou4TM2TrtjVxf6dGD3cyV45mnFQkujUnrBFflmNo2TaSgtjaj
+ eKBjeauLhTyRFlBjZtSO49oPliPtQBEC6ImtAW9aDMisu/AbiAjLFdw4XR9wce1wbpu9
+ 6em9BpU5E91KrXnthhMXuqE0zDoWNX01O72zi7AnKshRX7hGgPaTrhFoi8fs2eBhKUAC
+ 8x+1QhlBfmIswENFPwvpQvSVnPmNGSjSLdRD8KE0vRu7s+0+qOcAN2xBkL3QXFLq1DMa
+ 6R6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=slyF7IqLapKeWo1JxWwPfUqGwcDiZ/hynums2qQtXjA=;
- b=4wlD4zx1C/2rGwEkQuIpzHekg4VDTKmFodoGVm17GmZ+8IgPrcnX6llOtzPQ3AbuQP
- 0jy7k1a9OqmPHu0RZKzizy0Qt+qvvcdq/sC3YsWdIz23cQK+qRTgjPSaU1n/lnDmXoao
- 5TKQBOIAnLEEpuiADZyfSeSwm2RlyIbWBRRKwqnzyTPO4NwqvekxBdojXi3sSXGeSmZx
- qRu3xuFRHhZ1ya/s3EtdZ1iT+Bba4laBFru9W2iY7ZClVTY7h5SRcm7OJhDqhtuIHiz9
- Zr7rxoQP99Z5bwvb3YooYg0b1UxpTLqq5sxp1/w3s78zyc6Ly+urCxC7WoDHdyL9S3GW
- GAdw==
-X-Gm-Message-State: AOAM531n7IrIfFaf79+Z69tK4LdxPFrlRGegWSmx74aa/DrBvKLacVaS
- LThb/tACnz1prW5PEiqf6KMEvR3yALBNSA==
-X-Google-Smtp-Source: ABdhPJwaRZiZDPdF397vN8RlcWtnI4mI1LDURfKh31fE20fHdtKWaWK2EFp4KDq+dqdQQj6CDSIFww==
-X-Received: by 2002:a05:6a00:2b1:b0:44d:b18:8192 with SMTP id
- q17-20020a056a0002b100b0044d0b188192mr18416721pfs.35.1634093194491; 
- Tue, 12 Oct 2021 19:46:34 -0700 (PDT)
+ bh=ou9TZeIkVFlPgVg0RJ88Oh2ksyVGkR6IUoehchstShA=;
+ b=vQBYte3rMiN3TTCFU6IoPW2mvH0LXyPn+CJFT/ziWdsF+GW4x1jIBlF92uYrF56L/F
+ OHltskXbHVWTn1G2kTvzVGLjuZ5Gsb9OuSFmBjYk98OuVDTcBL/sXqLaUJXxb/YxmTyt
+ zZiqB/7QtbCeF/uophjhjfoeB27NCbcEwJgSvEK3QIMJWaRPuPV64AuhtcqoB3ZsTp9M
+ 7KPdPaWxaOnqvUNaGozzRXKub0RK/7Fcw+rCQmmiqwdmjaWTRTPxchq9rGUlkwwrkKI+
+ ifr8OWuGoqi5hZ/a9IETgcmsuKpwxBhPVI2abutYX72XsfM51COXZOKwnAHN8wPHza0W
+ 9bJQ==
+X-Gm-Message-State: AOAM530InOXQMC0ztwfD+XD3WF/z3ZSRrW15zkmw3GZOhdnJN2/HdNzx
+ tODFOfzXFC/QDxPB56vPkb05cH2lLohiUA==
+X-Google-Smtp-Source: ABdhPJxsMu2P7RPTFdqp7vK14nTic18hTDdU1nOIXS6tKnXYdQhU80mmtEPQUD0NcaGBLtsfVraSVQ==
+X-Received: by 2002:aa7:8042:0:b0:44c:78ec:c9a9 with SMTP id
+ y2-20020aa78042000000b0044c78ecc9a9mr34827330pfm.45.1634093195348; 
+ Tue, 12 Oct 2021 19:46:35 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
  by smtp.gmail.com with ESMTPSA id qe17sm4855014pjb.39.2021.10.12.19.46.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 19:46:34 -0700 (PDT)
+ Tue, 12 Oct 2021 19:46:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 25/48] target/mips: Use 8-byte memory ops for msa load/store
-Date: Tue, 12 Oct 2021 19:45:44 -0700
-Message-Id: <20211013024607.731881-26-richard.henderson@linaro.org>
+Subject: [PATCH v4 26/48] target/s390x: Use cpu_*_mmu instead of helper_*_mmu
+Date: Tue, 12 Oct 2021 19:45:45 -0700
+Message-Id: <20211013024607.731881-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211013024607.731881-1-richard.henderson@linaro.org>
 References: <20211013024607.731881-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,296 +84,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than use 4-16 separate operations, use 2 operations
-plus some byte reordering as necessary.
+The helper_*_mmu functions were the only thing available
+when this code was written.  This could have been adjusted
+when we added cpu_*_mmuidx_ra, but now we can most easily
+use the newest set of interfaces.
 
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/mips/tcg/msa_helper.c | 201 +++++++++++++----------------------
- 1 file changed, 71 insertions(+), 130 deletions(-)
+ target/s390x/tcg/mem_helper.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/mips/tcg/msa_helper.c b/target/mips/tcg/msa_helper.c
-index a8880ce81c..e40c1b7057 100644
---- a/target/mips/tcg/msa_helper.c
-+++ b/target/mips/tcg/msa_helper.c
-@@ -8218,47 +8218,31 @@ void helper_msa_ffint_u_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- #define MEMOP_IDX(DF)
+diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
+index f50c3f88a2..362a30d99e 100644
+--- a/target/s390x/tcg/mem_helper.c
++++ b/target/s390x/tcg/mem_helper.c
+@@ -241,13 +241,13 @@ static void do_access_memset(CPUS390XState *env, vaddr vaddr, char *haddr,
+          * page. This is especially relevant to speed up TLB_NOTDIRTY.
+          */
+         g_assert(size > 0);
+-        helper_ret_stb_mmu(env, vaddr, byte, oi, ra);
++        cpu_stb_mmu(env, vaddr, byte, oi, ra);
+         haddr = tlb_vaddr_to_host(env, vaddr, MMU_DATA_STORE, mmu_idx);
+         if (likely(haddr)) {
+             memset(haddr + 1, byte, size - 1);
+         } else {
+             for (i = 1; i < size; i++) {
+-                helper_ret_stb_mmu(env, vaddr + i, byte, oi, ra);
++                cpu_stb_mmu(env, vaddr + i, byte, oi, ra);
+             }
+         }
+     }
+@@ -283,7 +283,7 @@ static uint8_t do_access_get_byte(CPUS390XState *env, vaddr vaddr, char **haddr,
+      * Do a single access and test if we can then get access to the
+      * page. This is especially relevant to speed up TLB_NOTDIRTY.
+      */
+-    byte = helper_ret_ldub_mmu(env, vaddr + offset, oi, ra);
++    byte = cpu_ldb_mmu(env, vaddr + offset, oi, ra);
+     *haddr = tlb_vaddr_to_host(env, vaddr, MMU_DATA_LOAD, mmu_idx);
+     return byte;
  #endif
- 
-+#ifdef TARGET_WORDS_BIGENDIAN
-+static inline uint64_t bswap16x4(uint64_t x)
-+{
-+    uint64_t m = 0x00ff00ff00ff00ffull;
-+    return ((x & m) << 8) | ((x >> 8) & m);
-+}
-+
-+static inline uint64_t bswap32x2(uint64_t x)
-+{
-+    return ror64(bswap64(x), 32);
-+}
-+#endif
-+
- void helper_msa_ld_b(CPUMIPSState *env, uint32_t wd,
-                      target_ulong addr)
- {
-     wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-     uintptr_t ra = GETPC();
-+    uint64_t d0, d1;
- 
--#if !defined(HOST_WORDS_BIGENDIAN)
--    pwd->b[0]  = cpu_ldub_data_ra(env, addr + (0  << DF_BYTE), ra);
--    pwd->b[1]  = cpu_ldub_data_ra(env, addr + (1  << DF_BYTE), ra);
--    pwd->b[2]  = cpu_ldub_data_ra(env, addr + (2  << DF_BYTE), ra);
--    pwd->b[3]  = cpu_ldub_data_ra(env, addr + (3  << DF_BYTE), ra);
--    pwd->b[4]  = cpu_ldub_data_ra(env, addr + (4  << DF_BYTE), ra);
--    pwd->b[5]  = cpu_ldub_data_ra(env, addr + (5  << DF_BYTE), ra);
--    pwd->b[6]  = cpu_ldub_data_ra(env, addr + (6  << DF_BYTE), ra);
--    pwd->b[7]  = cpu_ldub_data_ra(env, addr + (7  << DF_BYTE), ra);
--    pwd->b[8]  = cpu_ldub_data_ra(env, addr + (8  << DF_BYTE), ra);
--    pwd->b[9]  = cpu_ldub_data_ra(env, addr + (9  << DF_BYTE), ra);
--    pwd->b[10] = cpu_ldub_data_ra(env, addr + (10 << DF_BYTE), ra);
--    pwd->b[11] = cpu_ldub_data_ra(env, addr + (11 << DF_BYTE), ra);
--    pwd->b[12] = cpu_ldub_data_ra(env, addr + (12 << DF_BYTE), ra);
--    pwd->b[13] = cpu_ldub_data_ra(env, addr + (13 << DF_BYTE), ra);
--    pwd->b[14] = cpu_ldub_data_ra(env, addr + (14 << DF_BYTE), ra);
--    pwd->b[15] = cpu_ldub_data_ra(env, addr + (15 << DF_BYTE), ra);
--#else
--    pwd->b[0]  = cpu_ldub_data_ra(env, addr + (7  << DF_BYTE), ra);
--    pwd->b[1]  = cpu_ldub_data_ra(env, addr + (6  << DF_BYTE), ra);
--    pwd->b[2]  = cpu_ldub_data_ra(env, addr + (5  << DF_BYTE), ra);
--    pwd->b[3]  = cpu_ldub_data_ra(env, addr + (4  << DF_BYTE), ra);
--    pwd->b[4]  = cpu_ldub_data_ra(env, addr + (3  << DF_BYTE), ra);
--    pwd->b[5]  = cpu_ldub_data_ra(env, addr + (2  << DF_BYTE), ra);
--    pwd->b[6]  = cpu_ldub_data_ra(env, addr + (1  << DF_BYTE), ra);
--    pwd->b[7]  = cpu_ldub_data_ra(env, addr + (0  << DF_BYTE), ra);
--    pwd->b[8]  = cpu_ldub_data_ra(env, addr + (15 << DF_BYTE), ra);
--    pwd->b[9]  = cpu_ldub_data_ra(env, addr + (14 << DF_BYTE), ra);
--    pwd->b[10] = cpu_ldub_data_ra(env, addr + (13 << DF_BYTE), ra);
--    pwd->b[11] = cpu_ldub_data_ra(env, addr + (12 << DF_BYTE), ra);
--    pwd->b[12] = cpu_ldub_data_ra(env, addr + (11 << DF_BYTE), ra);
--    pwd->b[13] = cpu_ldub_data_ra(env, addr + (10 << DF_BYTE), ra);
--    pwd->b[14] = cpu_ldub_data_ra(env, addr + (9 << DF_BYTE), ra);
--    pwd->b[15] = cpu_ldub_data_ra(env, addr + (8 << DF_BYTE), ra);
--#endif
-+    /* Load 8 bytes at a time.  Vector element ordering makes this LE.  */
-+    d0 = cpu_ldq_le_data_ra(env, addr + 0, ra);
-+    d1 = cpu_ldq_le_data_ra(env, addr + 8, ra);
-+    pwd->d[0] = d0;
-+    pwd->d[1] = d1;
- }
- 
- void helper_msa_ld_h(CPUMIPSState *env, uint32_t wd,
-@@ -8266,26 +8250,20 @@ void helper_msa_ld_h(CPUMIPSState *env, uint32_t wd,
- {
-     wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-     uintptr_t ra = GETPC();
-+    uint64_t d0, d1;
- 
--#if !defined(HOST_WORDS_BIGENDIAN)
--    pwd->h[0] = cpu_lduw_data_ra(env, addr + (0 << DF_HALF), ra);
--    pwd->h[1] = cpu_lduw_data_ra(env, addr + (1 << DF_HALF), ra);
--    pwd->h[2] = cpu_lduw_data_ra(env, addr + (2 << DF_HALF), ra);
--    pwd->h[3] = cpu_lduw_data_ra(env, addr + (3 << DF_HALF), ra);
--    pwd->h[4] = cpu_lduw_data_ra(env, addr + (4 << DF_HALF), ra);
--    pwd->h[5] = cpu_lduw_data_ra(env, addr + (5 << DF_HALF), ra);
--    pwd->h[6] = cpu_lduw_data_ra(env, addr + (6 << DF_HALF), ra);
--    pwd->h[7] = cpu_lduw_data_ra(env, addr + (7 << DF_HALF), ra);
--#else
--    pwd->h[0] = cpu_lduw_data_ra(env, addr + (3 << DF_HALF), ra);
--    pwd->h[1] = cpu_lduw_data_ra(env, addr + (2 << DF_HALF), ra);
--    pwd->h[2] = cpu_lduw_data_ra(env, addr + (1 << DF_HALF), ra);
--    pwd->h[3] = cpu_lduw_data_ra(env, addr + (0 << DF_HALF), ra);
--    pwd->h[4] = cpu_lduw_data_ra(env, addr + (7 << DF_HALF), ra);
--    pwd->h[5] = cpu_lduw_data_ra(env, addr + (6 << DF_HALF), ra);
--    pwd->h[6] = cpu_lduw_data_ra(env, addr + (5 << DF_HALF), ra);
--    pwd->h[7] = cpu_lduw_data_ra(env, addr + (4 << DF_HALF), ra);
-+    /*
-+     * Load 8 bytes at a time.  Use little-endian load, then for
-+     * big-endian target, we must then swap the four halfwords.
-+     */
-+    d0 = cpu_ldq_le_data_ra(env, addr + 0, ra);
-+    d1 = cpu_ldq_le_data_ra(env, addr + 8, ra);
-+#ifdef TARGET_WORDS_BIGENDIAN
-+    d0 = bswap16x4(d0);
-+    d1 = bswap16x4(d1);
+@@ -317,7 +317,7 @@ static void do_access_set_byte(CPUS390XState *env, vaddr vaddr, char **haddr,
+      * Do a single access and test if we can then get access to the
+      * page. This is especially relevant to speed up TLB_NOTDIRTY.
+      */
+-    helper_ret_stb_mmu(env, vaddr + offset, byte, oi, ra);
++    cpu_stb_mmu(env, vaddr + offset, byte, oi, ra);
+     *haddr = tlb_vaddr_to_host(env, vaddr, MMU_DATA_STORE, mmu_idx);
  #endif
-+    pwd->d[0] = d0;
-+    pwd->d[1] = d1;
- }
- 
- void helper_msa_ld_w(CPUMIPSState *env, uint32_t wd,
-@@ -8293,18 +8271,20 @@ void helper_msa_ld_w(CPUMIPSState *env, uint32_t wd,
- {
-     wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-     uintptr_t ra = GETPC();
-+    uint64_t d0, d1;
- 
--#if !defined(HOST_WORDS_BIGENDIAN)
--    pwd->w[0] = cpu_ldl_data_ra(env, addr + (0 << DF_WORD), ra);
--    pwd->w[1] = cpu_ldl_data_ra(env, addr + (1 << DF_WORD), ra);
--    pwd->w[2] = cpu_ldl_data_ra(env, addr + (2 << DF_WORD), ra);
--    pwd->w[3] = cpu_ldl_data_ra(env, addr + (3 << DF_WORD), ra);
--#else
--    pwd->w[0] = cpu_ldl_data_ra(env, addr + (1 << DF_WORD), ra);
--    pwd->w[1] = cpu_ldl_data_ra(env, addr + (0 << DF_WORD), ra);
--    pwd->w[2] = cpu_ldl_data_ra(env, addr + (3 << DF_WORD), ra);
--    pwd->w[3] = cpu_ldl_data_ra(env, addr + (2 << DF_WORD), ra);
-+    /*
-+     * Load 8 bytes at a time.  Use little-endian load, then for
-+     * big-endian target, we must then bswap the two words.
-+     */
-+    d0 = cpu_ldq_le_data_ra(env, addr + 0, ra);
-+    d1 = cpu_ldq_le_data_ra(env, addr + 8, ra);
-+#ifdef TARGET_WORDS_BIGENDIAN
-+    d0 = bswap32x2(d0);
-+    d1 = bswap32x2(d1);
- #endif
-+    pwd->d[0] = d0;
-+    pwd->d[1] = d1;
- }
- 
- void helper_msa_ld_d(CPUMIPSState *env, uint32_t wd,
-@@ -8312,9 +8292,12 @@ void helper_msa_ld_d(CPUMIPSState *env, uint32_t wd,
- {
-     wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-     uintptr_t ra = GETPC();
-+    uint64_t d0, d1;
- 
--    pwd->d[0] = cpu_ldq_data_ra(env, addr + (0 << DF_DOUBLE), ra);
--    pwd->d[1] = cpu_ldq_data_ra(env, addr + (1 << DF_DOUBLE), ra);
-+    d0 = cpu_ldq_data_ra(env, addr + 0, ra);
-+    d1 = cpu_ldq_data_ra(env, addr + 8, ra);
-+    pwd->d[0] = d0;
-+    pwd->d[1] = d1;
- }
- 
- #define MSA_PAGESPAN(x) \
-@@ -8344,41 +8327,9 @@ void helper_msa_st_b(CPUMIPSState *env, uint32_t wd,
- 
-     ensure_writable_pages(env, addr, mmu_idx, ra);
- 
--#if !defined(HOST_WORDS_BIGENDIAN)
--    cpu_stb_data_ra(env, addr + (0  << DF_BYTE), pwd->b[0], ra);
--    cpu_stb_data_ra(env, addr + (1  << DF_BYTE), pwd->b[1], ra);
--    cpu_stb_data_ra(env, addr + (2  << DF_BYTE), pwd->b[2], ra);
--    cpu_stb_data_ra(env, addr + (3  << DF_BYTE), pwd->b[3], ra);
--    cpu_stb_data_ra(env, addr + (4  << DF_BYTE), pwd->b[4], ra);
--    cpu_stb_data_ra(env, addr + (5  << DF_BYTE), pwd->b[5], ra);
--    cpu_stb_data_ra(env, addr + (6  << DF_BYTE), pwd->b[6], ra);
--    cpu_stb_data_ra(env, addr + (7  << DF_BYTE), pwd->b[7], ra);
--    cpu_stb_data_ra(env, addr + (8  << DF_BYTE), pwd->b[8], ra);
--    cpu_stb_data_ra(env, addr + (9  << DF_BYTE), pwd->b[9], ra);
--    cpu_stb_data_ra(env, addr + (10 << DF_BYTE), pwd->b[10], ra);
--    cpu_stb_data_ra(env, addr + (11 << DF_BYTE), pwd->b[11], ra);
--    cpu_stb_data_ra(env, addr + (12 << DF_BYTE), pwd->b[12], ra);
--    cpu_stb_data_ra(env, addr + (13 << DF_BYTE), pwd->b[13], ra);
--    cpu_stb_data_ra(env, addr + (14 << DF_BYTE), pwd->b[14], ra);
--    cpu_stb_data_ra(env, addr + (15 << DF_BYTE), pwd->b[15], ra);
--#else
--    cpu_stb_data_ra(env, addr + (7  << DF_BYTE), pwd->b[0], ra);
--    cpu_stb_data_ra(env, addr + (6  << DF_BYTE), pwd->b[1], ra);
--    cpu_stb_data_ra(env, addr + (5  << DF_BYTE), pwd->b[2], ra);
--    cpu_stb_data_ra(env, addr + (4  << DF_BYTE), pwd->b[3], ra);
--    cpu_stb_data_ra(env, addr + (3  << DF_BYTE), pwd->b[4], ra);
--    cpu_stb_data_ra(env, addr + (2  << DF_BYTE), pwd->b[5], ra);
--    cpu_stb_data_ra(env, addr + (1  << DF_BYTE), pwd->b[6], ra);
--    cpu_stb_data_ra(env, addr + (0  << DF_BYTE), pwd->b[7], ra);
--    cpu_stb_data_ra(env, addr + (15 << DF_BYTE), pwd->b[8], ra);
--    cpu_stb_data_ra(env, addr + (14 << DF_BYTE), pwd->b[9], ra);
--    cpu_stb_data_ra(env, addr + (13 << DF_BYTE), pwd->b[10], ra);
--    cpu_stb_data_ra(env, addr + (12 << DF_BYTE), pwd->b[11], ra);
--    cpu_stb_data_ra(env, addr + (11 << DF_BYTE), pwd->b[12], ra);
--    cpu_stb_data_ra(env, addr + (10 << DF_BYTE), pwd->b[13], ra);
--    cpu_stb_data_ra(env, addr + (9  << DF_BYTE), pwd->b[14], ra);
--    cpu_stb_data_ra(env, addr + (8  << DF_BYTE), pwd->b[15], ra);
--#endif
-+    /* Store 8 bytes at a time.  Vector element ordering makes this LE.  */
-+    cpu_stq_le_data_ra(env, addr + 0, pwd->d[0], ra);
-+    cpu_stq_le_data_ra(env, addr + 0, pwd->d[1], ra);
- }
- 
- void helper_msa_st_h(CPUMIPSState *env, uint32_t wd,
-@@ -8387,28 +8338,19 @@ void helper_msa_st_h(CPUMIPSState *env, uint32_t wd,
-     wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-     int mmu_idx = cpu_mmu_index(env, false);
-     uintptr_t ra = GETPC();
-+    uint64_t d0, d1;
- 
-     ensure_writable_pages(env, addr, mmu_idx, ra);
- 
--#if !defined(HOST_WORDS_BIGENDIAN)
--    cpu_stw_data_ra(env, addr + (0 << DF_HALF), pwd->h[0], ra);
--    cpu_stw_data_ra(env, addr + (1 << DF_HALF), pwd->h[1], ra);
--    cpu_stw_data_ra(env, addr + (2 << DF_HALF), pwd->h[2], ra);
--    cpu_stw_data_ra(env, addr + (3 << DF_HALF), pwd->h[3], ra);
--    cpu_stw_data_ra(env, addr + (4 << DF_HALF), pwd->h[4], ra);
--    cpu_stw_data_ra(env, addr + (5 << DF_HALF), pwd->h[5], ra);
--    cpu_stw_data_ra(env, addr + (6 << DF_HALF), pwd->h[6], ra);
--    cpu_stw_data_ra(env, addr + (7 << DF_HALF), pwd->h[7], ra);
--#else
--    cpu_stw_data_ra(env, addr + (3 << DF_HALF), pwd->h[0], ra);
--    cpu_stw_data_ra(env, addr + (2 << DF_HALF), pwd->h[1], ra);
--    cpu_stw_data_ra(env, addr + (1 << DF_HALF), pwd->h[2], ra);
--    cpu_stw_data_ra(env, addr + (0 << DF_HALF), pwd->h[3], ra);
--    cpu_stw_data_ra(env, addr + (7 << DF_HALF), pwd->h[4], ra);
--    cpu_stw_data_ra(env, addr + (6 << DF_HALF), pwd->h[5], ra);
--    cpu_stw_data_ra(env, addr + (5 << DF_HALF), pwd->h[6], ra);
--    cpu_stw_data_ra(env, addr + (4 << DF_HALF), pwd->h[7], ra);
-+    /* Store 8 bytes at a time.  See helper_msa_ld_h. */
-+    d0 = pwd->d[0];
-+    d1 = pwd->d[1];
-+#ifdef TARGET_WORDS_BIGENDIAN
-+    d0 = bswap16x4(d0);
-+    d1 = bswap16x4(d1);
- #endif
-+    cpu_stq_le_data_ra(env, addr + 0, d0, ra);
-+    cpu_stq_le_data_ra(env, addr + 8, d1, ra);
- }
- 
- void helper_msa_st_w(CPUMIPSState *env, uint32_t wd,
-@@ -8417,20 +8359,19 @@ void helper_msa_st_w(CPUMIPSState *env, uint32_t wd,
-     wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-     int mmu_idx = cpu_mmu_index(env, false);
-     uintptr_t ra = GETPC();
-+    uint64_t d0, d1;
- 
-     ensure_writable_pages(env, addr, mmu_idx, ra);
- 
--#if !defined(HOST_WORDS_BIGENDIAN)
--    cpu_stl_data_ra(env, addr + (0 << DF_WORD), pwd->w[0], ra);
--    cpu_stl_data_ra(env, addr + (1 << DF_WORD), pwd->w[1], ra);
--    cpu_stl_data_ra(env, addr + (2 << DF_WORD), pwd->w[2], ra);
--    cpu_stl_data_ra(env, addr + (3 << DF_WORD), pwd->w[3], ra);
--#else
--    cpu_stl_data_ra(env, addr + (1 << DF_WORD), pwd->w[0], ra);
--    cpu_stl_data_ra(env, addr + (0 << DF_WORD), pwd->w[1], ra);
--    cpu_stl_data_ra(env, addr + (3 << DF_WORD), pwd->w[2], ra);
--    cpu_stl_data_ra(env, addr + (2 << DF_WORD), pwd->w[3], ra);
-+    /* Store 8 bytes at a time.  See helper_msa_ld_w. */
-+    d0 = pwd->d[0];
-+    d1 = pwd->d[1];
-+#ifdef TARGET_WORDS_BIGENDIAN
-+    d0 = bswap32x2(d0);
-+    d1 = bswap32x2(d1);
- #endif
-+    cpu_stq_le_data_ra(env, addr + 0, d0, ra);
-+    cpu_stq_le_data_ra(env, addr + 8, d1, ra);
- }
- 
- void helper_msa_st_d(CPUMIPSState *env, uint32_t wd,
-@@ -8442,6 +8383,6 @@ void helper_msa_st_d(CPUMIPSState *env, uint32_t wd,
- 
-     ensure_writable_pages(env, addr, mmu_idx, GETPC());
- 
--    cpu_stq_data_ra(env, addr + (0 << DF_DOUBLE), pwd->d[0], ra);
--    cpu_stq_data_ra(env, addr + (1 << DF_DOUBLE), pwd->d[1], ra);
-+    cpu_stq_data_ra(env, addr + 0, pwd->d[0], ra);
-+    cpu_stq_data_ra(env, addr + 8, pwd->d[1], ra);
  }
 -- 
 2.25.1
