@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F01542BB4D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:16:23 +0200 (CEST)
-Received: from localhost ([::1]:34718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 956A242BB59
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:18:52 +0200 (CEST)
+Received: from localhost ([::1]:43064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maaN4-0002xr-1e
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:16:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54520)
+	id 1maaPT-0000Ca-K8
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:18:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEl-0002Fa-E8
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:48 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:35653)
+ id 1maaEn-0002GA-2R
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:49 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:34749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEh-0005hm-9Z
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:47 -0400
-Received: by mail-ed1-x531.google.com with SMTP id w19so7362093edd.2
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:07:38 -0700 (PDT)
+ id 1maaEj-0005hs-41
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:48 -0400
+Received: by mail-ed1-x534.google.com with SMTP id g10so7368841edj.1
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:07:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vu1dBQYjlPMeD+bu2re3t6lrd4Enxp4xeWWzptccB38=;
- b=p01dKUSbEV49MZMNsEcKPIzfqdfmtkwBQu4b9cIhX7TOS7DBY/77eH9x/gJh8XX55n
- nXEWDo2Xqe1QwEVyLJmtRIOOI8ujn0OEfJzMKWn6k2BrX0MnoRzgMQ2aBNdpTTGOtETd
- kN4ZJbRpD4kgH8zkrat7wPpgaGSmejG3PH7QaVKikRpIUviO/GLcvWY/x37s13VHxlWF
- JMdBPB9sQ9FSDgYN/jEA+WEL1U/YWqgQx134KmS1J/wTNXc1pD5XAo6mBb58JFgU1IgI
- JYChvqHHXQfPJ62aKkEXlluZYv5Bh10rSDk0lwG7lBRcm7+lhwy0poSTKTq2AUmT8+rD
- ad0g==
+ bh=i5Q7ravtNv+LMTi+DPhAh6MiXPOowmkPtgZBEGRvYxw=;
+ b=UU7SB4gpAd6W5zpYb2XNv3qd4I0ApCL5ICNX1zbXDhLdH0neOH12371u4bG3lMetXq
+ NqCmSyRTMvoUnI2mLBSqCe2gX9XeRRAbHkjyDlwVQ1Gqs3lhap6G9Jkdb9w7zgNA7w2y
+ tEtTifHHzDtG6CvEF7CAHatJxTeEwr/zn/DTquSlbj6l7lkDBxT1WcBbodBaZNXWUZVW
+ 4JqPIzJQRZQQBtjVJMOcplrP0MbFjtIAQ8In59+nHjACKiTXw7QMcaUi7/jg92QR7KwI
+ lIdiGBFWNhoW6NPyBb8o/3oxoT11VwxnegqCNSjOcKgCIY7xb/ZefNUygBGcqJE1Wd0i
+ 1IXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=vu1dBQYjlPMeD+bu2re3t6lrd4Enxp4xeWWzptccB38=;
- b=22RWF5fHf0eQpIz+wYVH3Z7POUXp9e5t8Ep44BXFaeAiAbfA46rwFTh+HrLJS/gLsE
- OIfxA4VZmzRavPldAvyBoFOrZREyPyA/5nnVFGmRlsNPVBEWb6pfKg1vk7f6mnAdXqdT
- c/VZCmShYl/lyPtWEq35BlIx+e0jj8nideox1NW7T0iljyPwOr5RP68xO+Lr1qXBzcaH
- bBczwC4PhHrxZuPHRSd8LAgjI4Fcna6YbU4WzXA0VmHjNa8KRESPVVvicx9yXobFxoWK
- BNx/IuKMt2VPpWRpRmDGHdfT2Ct0+ejxo6oQJg+A0BhMK/t4l1M4qNpx/OqdxZF2R2Qk
- 4aPQ==
-X-Gm-Message-State: AOAM530bUgQX7O9qoUlwnN9v1UcAWZahinTZ7dq53/n1gv1SnZ4Oa3am
- 8EUAhNyHBOEF3psCmKpsSykMpyPBG4U=
-X-Google-Smtp-Source: ABdhPJw9+8z42YwwztR8UCTDcYE97tDFmDTiB/bwO+5zo5V+j5y8/lHbeIKPjsOAx5iCIoZjKnuDBQ==
-X-Received: by 2002:a17:906:ccde:: with SMTP id
- ot30mr17457924ejb.121.1634116057603; 
- Wed, 13 Oct 2021 02:07:37 -0700 (PDT)
+ bh=i5Q7ravtNv+LMTi+DPhAh6MiXPOowmkPtgZBEGRvYxw=;
+ b=B66VhRgwTUfGJi7SxShT0h4hQIj+Tv5wTulYUNPhqevmnUXEHKdZaDP0uTlREKWM8J
+ FkGnqglngZ4tIiQJwNOXd3/dknUfm6emJHIyuwZ+1U6QobWG7fzNeizpfjAQAm1ujeV/
+ 5zGByJnFyLGsjrENruZWRAnpxokrveFQlT2pZTnW4/H/CY6+diTuEJOO3C5mma0393Yk
+ TW2VwHpScORS4qGLDRoGas9B35RT3bKojCU2k/3YEc7H0oxbZ+qWG2G7rQXx/GBRvsr4
+ mvMunhowvq1QpUszguaoV28hdkMu6BTphxylBaeZfMHe3qsmo9ieBg7mL+OOxmmXquVv
+ lt5g==
+X-Gm-Message-State: AOAM5321MLkv+h4uo2o9UKHKHm3zOCUJrj5IADVCjdYj3unjbxXGBUDD
+ Lf2iEvY7Sj2pduKhf/NYZzPmQEow2lA=
+X-Google-Smtp-Source: ABdhPJwxzUko1PGQ/mRLHHvFIh05S+ZpMb2kdFvgffXnlG6JD+6mKsfEWosfkWcK15iPXxHOsAn3xw==
+X-Received: by 2002:a17:907:629b:: with SMTP id
+ nd27mr38773630ejc.24.1634116058275; 
+ Wed, 13 Oct 2021 02:07:38 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.36
+ by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 13 Oct 2021 02:07:37 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/40] target/i386/monitor: Return QMP error when SEV is not
- enabled for guest
-Date: Wed, 13 Oct 2021 11:06:59 +0200
-Message-Id: <20211013090728.309365-12-pbonzini@redhat.com>
+Subject: [PULL 12/40] target/i386/cpu: Add missing 'qapi/error.h' header
+Date: Wed, 13 Oct 2021 11:07:00 +0200
+Message-Id: <20211013090728.309365-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211013090728.309365-1-pbonzini@redhat.com>
 References: <20211013090728.309365-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,65 +93,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-If the management layer tries to inject a secret, it gets an empty
-response in case the guest doesn't have SEV enabled, or the binary
-is built without SEV:
-
-  { "execute": "sev-inject-launch-secret",
-    "arguments": { "packet-header": "mypkt", "secret": "mypass", "gpa": 4294959104 }
-  }
-  {
-      "return": {
-      }
-  }
-
-Make it clearer by returning an error:
-
-  { "execute": "sev-inject-launch-secret",
-    "arguments": { "packet-header": "mypkt", "secret": "mypass", "gpa": 4294959104 }
-  }
-  {
-      "error": {
-          "class": "GenericError",
-          "desc": "SEV not enabled for guest"
-      }
-  }
-
-Note: we will remove the sev_inject_launch_secret() stub in few commits,
-      so we don't bother to add error_setg() there.
+Commit 00b81053244 ("target-i386: Remove assert_no_error usage")
+forgot to add the "qapi/error.h" for &error_abort, add it now.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20211007161716.453984-7-philmd@redhat.com>
+Message-Id: <20211007161716.453984-8-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/monitor.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/i386/cpu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index eabbeb9be9..ea836678f5 100644
---- a/target/i386/monitor.c
-+++ b/target/i386/monitor.c
-@@ -28,6 +28,7 @@
- #include "monitor/hmp-target.h"
- #include "monitor/hmp.h"
- #include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qerror.h"
- #include "sysemu/kvm.h"
- #include "sysemu/sev.h"
- #include "qapi/error.h"
-@@ -743,6 +744,10 @@ void qmp_sev_inject_launch_secret(const char *packet_hdr,
-                                   bool has_gpa, uint64_t gpa,
-                                   Error **errp)
- {
-+    if (!sev_enabled()) {
-+        error_setg(errp, "SEV not enabled for guest");
-+        return;
-+    }
-     if (!has_gpa) {
-         uint8_t *data;
-         struct sev_secret_area *area;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index a7b1b6aa93..b54b98551e 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -27,6 +27,7 @@
+ #include "sysemu/hvf.h"
+ #include "kvm/kvm_i386.h"
+ #include "sev_i386.h"
++#include "qapi/error.h"
+ #include "qapi/qapi-visit-machine.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/qapi-commands-machine-target.h"
 -- 
 2.31.1
 
