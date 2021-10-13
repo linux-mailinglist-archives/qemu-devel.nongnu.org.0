@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45AF42B337
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 05:15:52 +0200 (CEST)
-Received: from localhost ([::1]:41554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 824EF42B334
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 05:14:31 +0200 (CEST)
+Received: from localhost ([::1]:37366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maUk4-0004Lq-Ps
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 23:15:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57146)
+	id 1maUis-0001TF-IQ
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 23:14:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maUI5-000525-1G
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:50 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:46689)
+ id 1maUI7-00055b-7M
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:51 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:51081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maUI1-0005D8-UM
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:48 -0400
-Received: by mail-pl1-x630.google.com with SMTP id 21so785554plo.13
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 19:46:45 -0700 (PDT)
+ id 1maUI4-0005Dd-2U
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:50 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id k23so1113286pji.0
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 19:46:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=O7p/UQX85gsSrL9h3Ho/u9/oHHasfkLJHADwG/5kd8Q=;
- b=fHs3XehzsGDqCr8ErW7D8aaZ0wYaIj2GHZaxrSkfE5rfa9uGZg6SC24C/3Hbx+rtt4
- hzWnKUaOirUFhwuJLD/sOSupqsZrLsTUawW+p4xEZ2MJFtxTneQnbtR+Kz5hqkQp9W0u
- YrA+CAm/QDzkjJawmh6tWRJA7CaBrGHc3DITt6XFax8IqkHtJylLpzFN6tEDaTZHipSe
- C+Ec3fFy/DgZsUqG1BfCXT3OKP27kRGolA/Rug5KMroY1AGLyNO7JD8fdjvasjQHnF1f
- CdafEchjdu01eY+abVzPqjPcCHSIMWM+3Pv+8CIjJQZLE6Bw9Ct9Ex02q2hNr7NXy8kX
- DKlw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Vm1+Nxqkm8aDvZQThXFEpUZIhlx3FOc7BMXpuaOc1Q8=;
+ b=xc7Ks3+lCpaP913FtEZPnaK9DKS36FoxxS5HakJwqJUR055xGDrpXGQVPC5WsJ+Onw
+ itI3QEu6jwLDXIjhc8pRo/qcsC0nBahEIXJZH0/UAo8ZkAJ982b9af3TmzHZPX8Kpt9N
+ AWrvmlDQFlso+hWktEVeMYzFyVK6W8m0obEriWzRgclyALiPxnzr8l3vEDaem346d6t1
+ T7g8Pqu5gq51DGCRBE9jCeo85B8TAWRxI8DD85rl6zktl+uPrzlTDr37jTsr3vKPCcpq
+ LeW00VWhy4nJ3n4eylxBKvnZwBWdfCmdCc+ohcRuMraYMdTtjFXLSAo3WOnlZIvx45E9
+ qecw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=O7p/UQX85gsSrL9h3Ho/u9/oHHasfkLJHADwG/5kd8Q=;
- b=rmWYlyBAGmj3rn92QlW3Fiiwxle3SIdTNN6dc+z8g+ipejp21xus4IJO2GCwTVgIS6
- vHUJHm9qDsKYmO3NYyo5Pvzas4GaZ55Z/ypqMcDQMv6JWKUKZB2FA5uH3izZRDjPf+EM
- 2iOOV73PRSQMubRSCofHzBRYXaxyh72LoDmLiD+zRB6a1wJspYYwX0MFYT8n0Uy8xiFh
- E/jMiEx/NDEHPDVwp3NhvQG1qLj+a0Igo89BzQdM78IqZ6kNKM1oF30XVAohRaBZeqpA
- bFPpkx2dm5If3pSVk/hgC6rCz/bd15yFLeSvPhaT0v+JSWwmEBWOCHiGKp2RtghrXrY9
- mALA==
-X-Gm-Message-State: AOAM531/byOzD1OvZgi85iLrNNJp4NFVXS8GZCOjbHdgvxcSoU2yuf70
- z3HYjPBDfFwAFRginePO2BjeI8DHmj82lg==
-X-Google-Smtp-Source: ABdhPJzy9VXqZ9OFAjLyvXVY3MgWrKkOimg8nnNx84fprgiP1krU9+yftt0BvgXSpazAmQHKnL+Myg==
-X-Received: by 2002:a17:90a:c081:: with SMTP id
- o1mr10645683pjs.24.1634093204660; 
- Tue, 12 Oct 2021 19:46:44 -0700 (PDT)
+ bh=Vm1+Nxqkm8aDvZQThXFEpUZIhlx3FOc7BMXpuaOc1Q8=;
+ b=FFqBJ6NCxF+9dF1cJqbMJvQRpI8N6+xDFe9NrcDYtbFF1JFnwj5BD27JraocWinU3l
+ QmOup9GCAToQ4s6GHxjjcZApV9ZUUna/LHS60nS+0kS30ZZk0egU5jGXohhahf8g3GIo
+ gVZsIg3CbAVO2cQitKaewXiGxohBOruXhJRqIBciU9XJWl3klJG7xXvmybObuOhEXWp5
+ SD3Dv1ecZVqo5G8SqLkVG0e/s//45ODEg+ZjPSzLlQLv1HosKR4DsBWvEyJLAp1C08OM
+ bjIW+7d7tBvjs+VoSHUn99+I1xKsXYBPMF+nl5y5GtSPj4fGhuKgf9xrPLjfdJ+eRBaY
+ 5USw==
+X-Gm-Message-State: AOAM5336yrbhssoVd6Ow+weZTnv9QXhSueDtlgagtKLi49Q3Nw2zCfme
+ ZyChUsZ84ax5u8WHb8aegjHj96imNydj8Q==
+X-Google-Smtp-Source: ABdhPJww0x+l+rCFv4dzcu+nk6IVfJ6uqD+jO5+/xcybK+qJATOIopiQkcGdAAeIzKzKOfThWsnkRA==
+X-Received: by 2002:a17:90a:6b0a:: with SMTP id
+ v10mr10383617pjj.130.1634093205466; 
+ Tue, 12 Oct 2021 19:46:45 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id qe17sm4855014pjb.39.2021.10.12.19.46.43
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id qe17sm4855014pjb.39.2021.10.12.19.46.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 19:46:44 -0700 (PDT)
+ Tue, 12 Oct 2021 19:46:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 35/48] target/alpha: Reorg fp memory operations
-Date: Tue, 12 Oct 2021 19:45:54 -0700
-Message-Id: <20211013024607.731881-36-richard.henderson@linaro.org>
+Subject: [PATCH v4 36/48] target/alpha: Reorg integer memory operations
+Date: Tue, 12 Oct 2021 19:45:55 -0700
+Message-Id: <20211013024607.731881-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211013024607.731881-1-richard.henderson@linaro.org>
 References: <20211013024607.731881-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,184 +83,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pass in the context to each mini-helper, instead of an
-incorrectly named "flags".  Separate gen_load_fp and
-gen_store_fp, away from the integer helpers.
+Pass in the MemOp instead of a callback.
+Drop the fp argument; add a locked argument.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/alpha/translate.c | 83 +++++++++++++++++++++++++++-------------
- 1 file changed, 57 insertions(+), 26 deletions(-)
+ target/alpha/translate.c | 104 +++++++++++++++------------------------
+ 1 file changed, 40 insertions(+), 64 deletions(-)
 
 diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-index b034206688..bfdd485508 100644
+index bfdd485508..0eee3a1bcc 100644
 --- a/target/alpha/translate.c
 +++ b/target/alpha/translate.c
-@@ -267,30 +267,47 @@ static inline DisasJumpType gen_invalid(DisasContext *ctx)
-     return gen_excp(ctx, EXCP_OPCDEC, 0);
+@@ -308,27 +308,10 @@ static void gen_load_fp(DisasContext *ctx, int ra, int rb, int32_t disp16,
+     }
  }
  
--static inline void gen_qemu_ldf(TCGv t0, TCGv t1, int flags)
-+static void gen_ldf(DisasContext *ctx, TCGv dest, TCGv addr)
+-static inline void gen_qemu_ldl_l(TCGv t0, TCGv t1, int flags)
++static void gen_load_int(DisasContext *ctx, int ra, int rb, int32_t disp16,
++                         MemOp op, bool clear, bool locked)
  {
-     TCGv_i32 tmp32 = tcg_temp_new_i32();
--    tcg_gen_qemu_ld_i32(tmp32, t1, flags, MO_LEUL);
--    gen_helper_memory_to_f(t0, tmp32);
-+    tcg_gen_qemu_ld_i32(tmp32, addr, ctx->mem_idx, MO_LEUL);
-+    gen_helper_memory_to_f(dest, tmp32);
-     tcg_temp_free_i32(tmp32);
- }
+-    tcg_gen_qemu_ld_i64(t0, t1, flags, MO_LESL);
+-    tcg_gen_mov_i64(cpu_lock_addr, t1);
+-    tcg_gen_mov_i64(cpu_lock_value, t0);
+-}
+-
+-static inline void gen_qemu_ldq_l(TCGv t0, TCGv t1, int flags)
+-{
+-    tcg_gen_qemu_ld_i64(t0, t1, flags, MO_LEQ);
+-    tcg_gen_mov_i64(cpu_lock_addr, t1);
+-    tcg_gen_mov_i64(cpu_lock_value, t0);
+-}
+-
+-static inline void gen_load_mem(DisasContext *ctx,
+-                                void (*tcg_gen_qemu_load)(TCGv t0, TCGv t1,
+-                                                          int flags),
+-                                int ra, int rb, int32_t disp16, bool fp,
+-                                bool clear)
+-{
+-    TCGv tmp, addr, va;
++    TCGv addr, dest;
  
--static inline void gen_qemu_ldg(TCGv t0, TCGv t1, int flags)
-+static void gen_ldg(DisasContext *ctx, TCGv dest, TCGv addr)
- {
-     TCGv tmp = tcg_temp_new();
--    tcg_gen_qemu_ld_i64(tmp, t1, flags, MO_LEQ);
--    gen_helper_memory_to_g(t0, tmp);
-+    tcg_gen_qemu_ld_i64(tmp, addr, ctx->mem_idx, MO_LEQ);
-+    gen_helper_memory_to_g(dest, tmp);
-     tcg_temp_free(tmp);
- }
+     /* LDQ_U with ra $31 is UNOP.  Other various loads are forms of
+        prefetches, which we can treat as nops.  No worries about
+@@ -337,22 +320,20 @@ static inline void gen_load_mem(DisasContext *ctx,
+         return;
+     }
  
--static inline void gen_qemu_lds(TCGv t0, TCGv t1, int flags)
-+static void gen_lds(DisasContext *ctx, TCGv dest, TCGv addr)
- {
-     TCGv_i32 tmp32 = tcg_temp_new_i32();
--    tcg_gen_qemu_ld_i32(tmp32, t1, flags, MO_LEUL);
--    gen_helper_memory_to_s(t0, tmp32);
-+    tcg_gen_qemu_ld_i32(tmp32, addr, ctx->mem_idx, MO_LEUL);
-+    gen_helper_memory_to_s(dest, tmp32);
-     tcg_temp_free_i32(tmp32);
- }
- 
-+static void gen_ldt(DisasContext *ctx, TCGv dest, TCGv addr)
-+{
-+    tcg_gen_qemu_ld_i64(dest, addr, ctx->mem_idx, MO_LEQ);
-+}
-+
-+static void gen_load_fp(DisasContext *ctx, int ra, int rb, int32_t disp16,
-+                        void (*func)(DisasContext *, TCGv, TCGv))
-+{
-+    /* Loads to $f31 are prefetches, which we can treat as nops. */
-+    if (likely(ra != 31)) {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_addi_i64(addr, load_gpr(ctx, rb), disp16);
-+        func(ctx, cpu_fir[ra], addr);
-+        tcg_temp_free(addr);
-+    }
-+}
-+
- static inline void gen_qemu_ldl_l(TCGv t0, TCGv t1, int flags)
- {
-     tcg_gen_qemu_ld_i64(t0, t1, flags, MO_LESL);
-@@ -338,30 +355,44 @@ static inline void gen_load_mem(DisasContext *ctx,
-     tcg_temp_free(tmp);
- }
- 
--static inline void gen_qemu_stf(TCGv t0, TCGv t1, int flags)
-+static void gen_stf(DisasContext *ctx, TCGv src, TCGv addr)
- {
-     TCGv_i32 tmp32 = tcg_temp_new_i32();
--    gen_helper_f_to_memory(tmp32, t0);
--    tcg_gen_qemu_st_i32(tmp32, t1, flags, MO_LEUL);
-+    gen_helper_f_to_memory(tmp32, addr);
-+    tcg_gen_qemu_st_i32(tmp32, addr, ctx->mem_idx, MO_LEUL);
-     tcg_temp_free_i32(tmp32);
- }
- 
--static inline void gen_qemu_stg(TCGv t0, TCGv t1, int flags)
-+static void gen_stg(DisasContext *ctx, TCGv src, TCGv addr)
- {
-     TCGv tmp = tcg_temp_new();
--    gen_helper_g_to_memory(tmp, t0);
--    tcg_gen_qemu_st_i64(tmp, t1, flags, MO_LEQ);
-+    gen_helper_g_to_memory(tmp, src);
-+    tcg_gen_qemu_st_i64(tmp, addr, ctx->mem_idx, MO_LEQ);
-     tcg_temp_free(tmp);
- }
- 
--static inline void gen_qemu_sts(TCGv t0, TCGv t1, int flags)
-+static void gen_sts(DisasContext *ctx, TCGv src, TCGv addr)
- {
-     TCGv_i32 tmp32 = tcg_temp_new_i32();
--    gen_helper_s_to_memory(tmp32, t0);
--    tcg_gen_qemu_st_i32(tmp32, t1, flags, MO_LEUL);
-+    gen_helper_s_to_memory(tmp32, src);
-+    tcg_gen_qemu_st_i32(tmp32, addr, ctx->mem_idx, MO_LEUL);
-     tcg_temp_free_i32(tmp32);
- }
- 
-+static void gen_stt(DisasContext *ctx, TCGv src, TCGv addr)
-+{
-+    tcg_gen_qemu_st_i64(src, addr, ctx->mem_idx, MO_LEQ);
-+}
-+
-+static void gen_store_fp(DisasContext *ctx, int ra, int rb, int32_t disp16,
-+                         void (*func)(DisasContext *, TCGv, TCGv))
-+{
-+    TCGv addr = tcg_temp_new();
+-    tmp = tcg_temp_new();
+-    addr = load_gpr(ctx, rb);
+-
+-    if (disp16) {
+-        tcg_gen_addi_i64(tmp, addr, disp16);
+-        addr = tmp;
+-    }
++    addr = tcg_temp_new();
 +    tcg_gen_addi_i64(addr, load_gpr(ctx, rb), disp16);
-+    func(ctx, load_fpr(ctx, ra), addr);
+     if (clear) {
+-        tcg_gen_andi_i64(tmp, addr, ~0x7);
+-        addr = tmp;
++        tcg_gen_andi_i64(addr, addr, ~0x7);
+     }
+ 
+-    va = (fp ? cpu_fir[ra] : ctx->ir[ra]);
+-    tcg_gen_qemu_load(va, addr, ctx->mem_idx);
++    dest = ctx->ir[ra];
++    tcg_gen_qemu_ld_i64(dest, addr, ctx->mem_idx, op);
+ 
+-    tcg_temp_free(tmp);
++    if (locked) {
++        tcg_gen_mov_i64(cpu_lock_addr, addr);
++        tcg_gen_mov_i64(cpu_lock_value, dest);
++    }
 +    tcg_temp_free(addr);
-+}
-+
- static inline void gen_store_mem(DisasContext *ctx,
-                                  void (*tcg_gen_qemu_store)(TCGv t0, TCGv t1,
-                                                             int flags),
-@@ -2776,42 +2807,42 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-     case 0x20:
-         /* LDF */
-         REQUIRE_FEN;
--        gen_load_mem(ctx, &gen_qemu_ldf, ra, rb, disp16, 1, 0);
-+        gen_load_fp(ctx, ra, rb, disp16, gen_ldf);
+ }
+ 
+ static void gen_stf(DisasContext *ctx, TCGv src, TCGv addr)
+@@ -393,30 +374,21 @@ static void gen_store_fp(DisasContext *ctx, int ra, int rb, int32_t disp16,
+     tcg_temp_free(addr);
+ }
+ 
+-static inline void gen_store_mem(DisasContext *ctx,
+-                                 void (*tcg_gen_qemu_store)(TCGv t0, TCGv t1,
+-                                                            int flags),
+-                                 int ra, int rb, int32_t disp16, bool fp,
+-                                 bool clear)
++static void gen_store_int(DisasContext *ctx, int ra, int rb, int32_t disp16,
++                          MemOp op, bool clear)
+ {
+-    TCGv tmp, addr, va;
++    TCGv addr, src;
+ 
+-    tmp = tcg_temp_new();
+-    addr = load_gpr(ctx, rb);
+-
+-    if (disp16) {
+-        tcg_gen_addi_i64(tmp, addr, disp16);
+-        addr = tmp;
+-    }
++    addr = tcg_temp_new();
++    tcg_gen_addi_i64(addr, load_gpr(ctx, rb), disp16);
+     if (clear) {
+-        tcg_gen_andi_i64(tmp, addr, ~0x7);
+-        addr = tmp;
++        tcg_gen_andi_i64(addr, addr, ~0x7);
+     }
+ 
+-    va = (fp ? load_fpr(ctx, ra) : load_gpr(ctx, ra));
+-    tcg_gen_qemu_store(va, addr, ctx->mem_idx);
++    src = load_gpr(ctx, ra);
++    tcg_gen_qemu_st_i64(src, addr, ctx->mem_idx, op);
+ 
+-    tcg_temp_free(tmp);
++    tcg_temp_free(addr);
+ }
+ 
+ static DisasJumpType gen_store_conditional(DisasContext *ctx, int ra, int rb,
+@@ -1511,30 +1483,30 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+     case 0x0A:
+         /* LDBU */
+         REQUIRE_AMASK(BWX);
+-        gen_load_mem(ctx, &tcg_gen_qemu_ld8u, ra, rb, disp16, 0, 0);
++        gen_load_int(ctx, ra, rb, disp16, MO_UB, 0, 0);
          break;
-     case 0x21:
-         /* LDG */
-         REQUIRE_FEN;
--        gen_load_mem(ctx, &gen_qemu_ldg, ra, rb, disp16, 1, 0);
-+        gen_load_fp(ctx, ra, rb, disp16, gen_ldg);
+     case 0x0B:
+         /* LDQ_U */
+-        gen_load_mem(ctx, &tcg_gen_qemu_ld64, ra, rb, disp16, 0, 1);
++        gen_load_int(ctx, ra, rb, disp16, MO_LEQ, 1, 0);
          break;
-     case 0x22:
-         /* LDS */
-         REQUIRE_FEN;
--        gen_load_mem(ctx, &gen_qemu_lds, ra, rb, disp16, 1, 0);
-+        gen_load_fp(ctx, ra, rb, disp16, gen_lds);
+     case 0x0C:
+         /* LDWU */
+         REQUIRE_AMASK(BWX);
+-        gen_load_mem(ctx, &tcg_gen_qemu_ld16u, ra, rb, disp16, 0, 0);
++        gen_load_int(ctx, ra, rb, disp16, MO_LEUW, 0, 0);
          break;
-     case 0x23:
-         /* LDT */
-         REQUIRE_FEN;
--        gen_load_mem(ctx, &tcg_gen_qemu_ld64, ra, rb, disp16, 1, 0);
-+        gen_load_fp(ctx, ra, rb, disp16, gen_ldt);
+     case 0x0D:
+         /* STW */
+         REQUIRE_AMASK(BWX);
+-        gen_store_mem(ctx, &tcg_gen_qemu_st16, ra, rb, disp16, 0, 0);
++        gen_store_int(ctx, ra, rb, disp16, MO_LEUW, 0);
          break;
-     case 0x24:
-         /* STF */
-         REQUIRE_FEN;
--        gen_store_mem(ctx, &gen_qemu_stf, ra, rb, disp16, 1, 0);
-+        gen_store_fp(ctx, ra, rb, disp16, gen_stf);
+     case 0x0E:
+         /* STB */
+         REQUIRE_AMASK(BWX);
+-        gen_store_mem(ctx, &tcg_gen_qemu_st8, ra, rb, disp16, 0, 0);
++        gen_store_int(ctx, ra, rb, disp16, MO_UB, 0);
          break;
-     case 0x25:
-         /* STG */
-         REQUIRE_FEN;
--        gen_store_mem(ctx, &gen_qemu_stg, ra, rb, disp16, 1, 0);
-+        gen_store_fp(ctx, ra, rb, disp16, gen_stg);
+     case 0x0F:
+         /* STQ_U */
+-        gen_store_mem(ctx, &tcg_gen_qemu_st64, ra, rb, disp16, 0, 1);
++        gen_store_int(ctx, ra, rb, disp16, MO_LEQ, 1);
          break;
-     case 0x26:
-         /* STS */
-         REQUIRE_FEN;
--        gen_store_mem(ctx, &gen_qemu_sts, ra, rb, disp16, 1, 0);
-+        gen_store_fp(ctx, ra, rb, disp16, gen_sts);
-         break;
-     case 0x27:
-         /* STT */
-         REQUIRE_FEN;
--        gen_store_mem(ctx, &tcg_gen_qemu_st64, ra, rb, disp16, 1, 0);
-+        gen_store_fp(ctx, ra, rb, disp16, gen_stt);
+ 
+     case 0x10:
+@@ -2489,11 +2461,15 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+                 break;
+             case 0x2:
+                 /* Longword physical access with lock (hw_ldl_l/p) */
+-                gen_qemu_ldl_l(va, addr, MMU_PHYS_IDX);
++                tcg_gen_qemu_ld_i64(va, addr, MMU_PHYS_IDX, MO_LESL);
++                tcg_gen_mov_i64(cpu_lock_addr, addr);
++                tcg_gen_mov_i64(cpu_lock_value, va);
+                 break;
+             case 0x3:
+                 /* Quadword physical access with lock (hw_ldq_l/p) */
+-                gen_qemu_ldq_l(va, addr, MMU_PHYS_IDX);
++                tcg_gen_qemu_ld_i64(va, addr, MMU_PHYS_IDX, MO_LEQ);
++                tcg_gen_mov_i64(cpu_lock_addr, addr);
++                tcg_gen_mov_i64(cpu_lock_value, va);
+                 break;
+             case 0x4:
+                 /* Longword virtual PTE fetch (hw_ldl/v) */
+@@ -2846,27 +2822,27 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
          break;
      case 0x28:
          /* LDL */
+-        gen_load_mem(ctx, &tcg_gen_qemu_ld32s, ra, rb, disp16, 0, 0);
++        gen_load_int(ctx, ra, rb, disp16, MO_LESL, 0, 0);
+         break;
+     case 0x29:
+         /* LDQ */
+-        gen_load_mem(ctx, &tcg_gen_qemu_ld64, ra, rb, disp16, 0, 0);
++        gen_load_int(ctx, ra, rb, disp16, MO_LEQ, 0, 0);
+         break;
+     case 0x2A:
+         /* LDL_L */
+-        gen_load_mem(ctx, &gen_qemu_ldl_l, ra, rb, disp16, 0, 0);
++        gen_load_int(ctx, ra, rb, disp16, MO_LESL, 0, 1);
+         break;
+     case 0x2B:
+         /* LDQ_L */
+-        gen_load_mem(ctx, &gen_qemu_ldq_l, ra, rb, disp16, 0, 0);
++        gen_load_int(ctx, ra, rb, disp16, MO_LEQ, 0, 1);
+         break;
+     case 0x2C:
+         /* STL */
+-        gen_store_mem(ctx, &tcg_gen_qemu_st32, ra, rb, disp16, 0, 0);
++        gen_store_int(ctx, ra, rb, disp16, MO_LEUL, 0);
+         break;
+     case 0x2D:
+         /* STQ */
+-        gen_store_mem(ctx, &tcg_gen_qemu_st64, ra, rb, disp16, 0, 0);
++        gen_store_int(ctx, ra, rb, disp16, MO_LEQ, 0);
+         break;
+     case 0x2E:
+         /* STL_C */
 -- 
 2.25.1
 
