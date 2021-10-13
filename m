@@ -2,91 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9C342BF93
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 14:14:00 +0200 (CEST)
-Received: from localhost ([::1]:41698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 932E342BF9F
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 14:14:59 +0200 (CEST)
+Received: from localhost ([::1]:44952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mad8x-0002mF-P9
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 08:13:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40292)
+	id 1mad9u-0004xw-No
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 08:14:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mad78-0000VO-O7
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 08:12:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48157)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mad8G-00035P-3t; Wed, 13 Oct 2021 08:13:16 -0400
+Received: from out28-195.mail.aliyun.com ([115.124.28.195]:60033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mad6v-0006PD-Ie
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 08:12:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634127112;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ftob7pc5ipls5GFjsmqODT1xpP0Tgjyktr/E0CYP6vg=;
- b=ZXGS4DzdQAMo8BiHtkfZxNOsCwMVkDro7il45omhCupJJtoPRcxoYjZ35jKSRiesH27l5m
- PpKW5f1MxzxCdonmgmX7Eq+A/kp9JXueWZXvYPewh7QMyYOuoBbCgRy+hnzSXcoHMpAJi9
- Mrf6C6sohFqzDaiAFr0yx3lhcGb2Fx4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-p9NQmnS2MlyAHqjBAvh0EA-1; Wed, 13 Oct 2021 08:11:49 -0400
-X-MC-Unique: p9NQmnS2MlyAHqjBAvh0EA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- 41-20020adf812c000000b00160dfbfe1a2so1833650wrm.3
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 05:11:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Ftob7pc5ipls5GFjsmqODT1xpP0Tgjyktr/E0CYP6vg=;
- b=pMeRWyPnLuD/rWCHTrN5uXI4vxuoYgmdpVYeydzfmKqkrvXvJo259bUV96seNJUgj9
- QTtdqRDnHj2kNtVAtyAis0BVT03PhaQRPei6QP2u9LBP46te/bVOcGuKrYOn+sAB79dU
- APl8oiTCjPaA5AGbsBRYO72ZPHVjGS+hccJ62P6Jgz2XX0Ck8SP4mXRlmYfYAeQn1968
- jO1Oxe4Z5kXR/ZHsmn1dFbdbAYgeHySgvL9m/vqNdsnqaYYfvatrprnrG50CYMfuB444
- TTzgaYUQOXmWVaiiNuG1u8urAee7iYf522dzIqO0KupgfRts49KQKy2hZsy8Y34QXNgV
- MPSg==
-X-Gm-Message-State: AOAM533xrCgjhOXBWvT2NfnScuf9rsTcTprQ3A1M340rz3vnMaa026d8
- iO/XonIk8wxl4ydX5xb4MgU88XRiw2O1FqMJwOmteiY88gLV3elbxycvyBcUwKoahHGDX7m6vA+
- oah5eXBvDd2zOaCI=
-X-Received: by 2002:a1c:ac86:: with SMTP id v128mr12289864wme.3.1634127108321; 
- Wed, 13 Oct 2021 05:11:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzsFwoEXEYZ8n+sJ45km5O0xAIm2idGsc+sGCNjDLtk1CuwZWsadqU40PKScvB2EvVQ+btd4g==
-X-Received: by 2002:a1c:ac86:: with SMTP id v128mr12289832wme.3.1634127108019; 
- Wed, 13 Oct 2021 05:11:48 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1e48:3780:4451:9a65:d4e9:9bb6?
- ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
- by smtp.gmail.com with ESMTPSA id e5sm13210076wrd.1.2021.10.13.05.11.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Oct 2021 05:11:47 -0700 (PDT)
-Message-ID: <19f3d6b1-f3bc-55e8-0fe0-79daf081a778@redhat.com>
-Date: Wed, 13 Oct 2021 14:11:46 +0200
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mad8D-0007KU-5J; Wed, 13 Oct 2021 08:13:15 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436283|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.148267-0.000326356-0.851407;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047213; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.LYVMRPv_1634127185; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.LYVMRPv_1634127185)
+ by smtp.aliyun-inc.com(10.147.41.178);
+ Wed, 13 Oct 2021 20:13:06 +0800
+Subject: Re: [PATCH 01/13] target/riscv: Move cpu_get_tb_cpu_state out of line
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211007174722.929993-1-richard.henderson@linaro.org>
+ <20211007174722.929993-2-richard.henderson@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <1b2d4e4e-62f8-1f4c-495e-f6f6ea216099@c-sky.com>
+Date: Wed, 13 Oct 2021 20:13:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 10/13] iotests/linters: Add entry point for linting via
- Python CI
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20211004210503.1455391-1-jsnow@redhat.com>
- <20211004210503.1455391-11-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211004210503.1455391-11-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211007174722.929993-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+Received-SPF: none client-ip=115.124.28.195; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-195.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.452,
- DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,102 +60,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>
+Cc: qemu-riscv@nongnu.org, frederic.petrot@univ-grenoble-alpes.fr,
+ alistair.francis@wdc.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04.10.21 23:05, John Snow wrote:
-> We need at least a tiny little shim here to join test file discovery
-> with test invocation. This logic could conceivably be hosted somewhere
-> in python/, but I felt it was strictly the least-rude thing to keep the
-> test logic here in iotests/, even if this small function isn't itself an
-> iotest.
+
+On 2021/10/8 上午1:47, Richard Henderson wrote:
+> Move the function to cpu_helper.c, as it is large and growing.
 >
-> Note that we don't actually even need the executable bit here, we'll be
-> relying on the ability to run this module as a script using Python CLI
-> arguments. No chance it gets misunderstood as an actual iotest that way.
->
-> (It's named, not in tests/, doesn't have the execute bit, and doesn't
-> have an execution shebang.)
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
->
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
+
+Zhiwei
 > ---
+>   target/riscv/cpu.h        | 47 ++-------------------------------------
+>   target/riscv/cpu_helper.c | 46 ++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 48 insertions(+), 45 deletions(-)
 >
-> (1) I think that the test file discovery logic and skip list belong together,
->      and that those items belong in iotests/. I think they also belong in
->      whichever directory pylintrc and mypy.ini are in, also in iotests/.
-
-Agreed.
-
-> (2) Moving this logic into python/tests/ is challenging because I'd have
->      to import iotests code from elsewhere in the source tree, which just
->      inverts an existing problem I have been trying to rid us of --
->      needing to muck around with PYTHONPATH or sys.path hacking in python
->      scripts. I'm keen to avoid this.
-
-OK.
-
-> (3) If we moved all python tests into tests/ and gave them *.py
->      extensions, we wouldn't even need the test discovery functions
->      anymore, and all of linters.py could be removed entirely, including
->      this execution shim. We could rely on mypy/pylint's own file
->      discovery mechanisms at that point. More work than I'm up for with
->      just this series, but I could be coaxed into doing it if there was
->      some promise of not rejecting all that busywork ;)
-
-I believe the only real value this would gain is that the tests would 
-have nicer names and we would have to delint them.  If we find those 
-goals to justify the effort, then we can put in the effort; and we can 
-do that slowly, test by test.  I don’t think we must do it now in one 
-big lump just to get rid of the file discovery functions.
-
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   tests/qemu-iotests/linters.py | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
->
-> diff --git a/tests/qemu-iotests/linters.py b/tests/qemu-iotests/linters.py
-> index f6a2dc139fd..191df173064 100644
-> --- a/tests/qemu-iotests/linters.py
-> +++ b/tests/qemu-iotests/linters.py
-> @@ -16,6 +16,7 @@
->   import os
->   import re
->   import subprocess
-> +import sys
->   from typing import List, Mapping, Optional
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 9e55b2f5b1..7084efc452 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -413,51 +413,8 @@ static inline uint32_t vext_get_vlmax(RISCVCPU *cpu, target_ulong vtype)
+>       return cpu->cfg.vlen >> (sew + 3 - lmul);
+>   }
 >   
+> -static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+> -                                        target_ulong *cs_base, uint32_t *pflags)
+> -{
+> -    uint32_t flags = 0;
+> -
+> -    *pc = env->pc;
+> -    *cs_base = 0;
+> -
+> -    if (riscv_has_ext(env, RVV)) {
+> -        uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
+> -        bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl);
+> -        flags = FIELD_DP32(flags, TB_FLAGS, VILL,
+> -                    FIELD_EX64(env->vtype, VTYPE, VILL));
+> -        flags = FIELD_DP32(flags, TB_FLAGS, SEW,
+> -                    FIELD_EX64(env->vtype, VTYPE, VSEW));
+> -        flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
+> -                    FIELD_EX64(env->vtype, VTYPE, VLMUL));
+> -        flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
+> -    } else {
+> -        flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
+> -    }
+> -
+> -#ifdef CONFIG_USER_ONLY
+> -    flags |= TB_FLAGS_MSTATUS_FS;
+> -#else
+> -    flags |= cpu_mmu_index(env, 0);
+> -    if (riscv_cpu_fp_enabled(env)) {
+> -        flags |= env->mstatus & MSTATUS_FS;
+> -    }
+> -
+> -    if (riscv_has_ext(env, RVH)) {
+> -        if (env->priv == PRV_M ||
+> -            (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
+> -            (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
+> -                get_field(env->hstatus, HSTATUS_HU))) {
+> -            flags = FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
+> -        }
+> -
+> -        flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
+> -                           get_field(env->mstatus_hs, MSTATUS_FS));
+> -    }
+> -#endif
+> -
+> -    *pflags = flags;
+> -}
+> +void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+> +                          target_ulong *cs_base, uint32_t *pflags);
 >   
-> @@ -81,3 +82,20 @@ def run_linter(
+>   RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+>                              target_ulong *ret_value,
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index d41d5cd27c..14d1d3cb72 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -35,6 +35,52 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+>   #endif
+>   }
 >   
->       return p.returncode
->   
+> +void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+> +                          target_ulong *cs_base, uint32_t *pflags)
+> +{
+> +    uint32_t flags = 0;
 > +
-> +def main() -> int:
-> +    """
-> +    Used by the Python CI system as an entry point to run these linters.
-> +    """
-> +    files = get_test_files()
+> +    *pc = env->pc;
+> +    *cs_base = 0;
 > +
-> +    if sys.argv[1] == '--pylint':
-> +        return run_linter('pylint', files)
-> +    elif sys.argv[1] == '--mypy':
-> +        return run_linter('mypy', files)
-
-So I can run it as `python linters.py --pylint foo bar` and it won’t 
-complain? :)
-
-I don’t feel like it’s important, but, well, it isn’t right either.
-
-Hanna
-
+> +    if (riscv_has_ext(env, RVV)) {
+> +        uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
+> +        bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl);
+> +        flags = FIELD_DP32(flags, TB_FLAGS, VILL,
+> +                    FIELD_EX64(env->vtype, VTYPE, VILL));
+> +        flags = FIELD_DP32(flags, TB_FLAGS, SEW,
+> +                    FIELD_EX64(env->vtype, VTYPE, VSEW));
+> +        flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
+> +                    FIELD_EX64(env->vtype, VTYPE, VLMUL));
+> +        flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
+> +    } else {
+> +        flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
+> +    }
 > +
-> +    raise ValueError(f"Unrecognized argument(s): '{sys.argv[1:]}'")
+> +#ifdef CONFIG_USER_ONLY
+> +    flags |= TB_FLAGS_MSTATUS_FS;
+> +#else
+> +    flags |= cpu_mmu_index(env, 0);
+> +    if (riscv_cpu_fp_enabled(env)) {
+> +        flags |= env->mstatus & MSTATUS_FS;
+> +    }
 > +
+> +    if (riscv_has_ext(env, RVH)) {
+> +        if (env->priv == PRV_M ||
+> +            (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
+> +            (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
+> +                get_field(env->hstatus, HSTATUS_HU))) {
+> +            flags = FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
+> +        }
 > +
-> +if __name__ == '__main__':
-> +    sys.exit(main())
-
+> +        flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
+> +                           get_field(env->mstatus_hs, MSTATUS_FS));
+> +    }
+> +#endif
+> +
+> +    *pflags = flags;
+> +}
+> +
+>   #ifndef CONFIG_USER_ONLY
+>   static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+>   {
 
