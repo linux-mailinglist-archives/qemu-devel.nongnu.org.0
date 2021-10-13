@@ -2,52 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932E342BF9F
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 14:14:59 +0200 (CEST)
-Received: from localhost ([::1]:44952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1488342BFCE
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 14:22:11 +0200 (CEST)
+Received: from localhost ([::1]:54014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mad9u-0004xw-No
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 08:14:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40654)
+	id 1madGs-0003cw-7Z
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 08:22:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mad8G-00035P-3t; Wed, 13 Oct 2021 08:13:16 -0400
-Received: from out28-195.mail.aliyun.com ([115.124.28.195]:60033)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1madER-0001zZ-Bo
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 08:19:39 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:43751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mad8D-0007KU-5J; Wed, 13 Oct 2021 08:13:15 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436283|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.148267-0.000326356-0.851407;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047213; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.LYVMRPv_1634127185; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.LYVMRPv_1634127185)
- by smtp.aliyun-inc.com(10.147.41.178);
- Wed, 13 Oct 2021 20:13:06 +0800
-Subject: Re: [PATCH 01/13] target/riscv: Move cpu_get_tb_cpu_state out of line
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211007174722.929993-1-richard.henderson@linaro.org>
- <20211007174722.929993-2-richard.henderson@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <1b2d4e4e-62f8-1f4c-495e-f6f6ea216099@c-sky.com>
-Date: Wed, 13 Oct 2021 20:13:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1madEO-0003Va-6L
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 08:19:38 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C62D1748F56;
+ Wed, 13 Oct 2021 14:19:29 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 9E835746333; Wed, 13 Oct 2021 14:19:29 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v3] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI interrupts
+Date: Wed, 13 Oct 2021 14:13:09 +0200
 MIME-Version: 1.0
-In-Reply-To: <20211007174722.929993-2-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.195; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-195.mail.aliyun.com
+To: qemu-devel@nongnu.org
+Message-Id: <20211013121929.9E835746333@zero.eik.bme.hu>
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,137 +52,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, frederic.petrot@univ-grenoble-alpes.fr,
- alistair.francis@wdc.com, fabien.portas@grenoble-inp.org
+Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Philippe M-D <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This device is part of a superio/ISA bridge chip and IRQs from it are
+routed to an ISA interrupt set by the Interrupt Line PCI config
+register. Change uhci_update_irq() to allow this and implement it in
+vt82c686-uhci-pci.
 
-On 2021/10/8 上午1:47, Richard Henderson wrote:
-> Move the function to cpu_helper.c, as it is large and growing.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+v3: Do it more differently using qemu_irq instead as suggested by Gerd
+v2: Do it differently to confine isa reference to vt82c686-uhci-pci as
+hcd-uhci is also used on machines that don't have isa. Left Jiaxun's
+R-b there as he checked it's the same for VT82C686B and gave R-b for
+the 82c686b case which still holds but speak up if you tink otherwise.
 
-Zhiwei
-> ---
->   target/riscv/cpu.h        | 47 ++-------------------------------------
->   target/riscv/cpu_helper.c | 46 ++++++++++++++++++++++++++++++++++++++
->   2 files changed, 48 insertions(+), 45 deletions(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 9e55b2f5b1..7084efc452 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -413,51 +413,8 @@ static inline uint32_t vext_get_vlmax(RISCVCPU *cpu, target_ulong vtype)
->       return cpu->cfg.vlen >> (sew + 3 - lmul);
->   }
->   
-> -static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-> -                                        target_ulong *cs_base, uint32_t *pflags)
-> -{
-> -    uint32_t flags = 0;
-> -
-> -    *pc = env->pc;
-> -    *cs_base = 0;
-> -
-> -    if (riscv_has_ext(env, RVV)) {
-> -        uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
-> -        bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl);
-> -        flags = FIELD_DP32(flags, TB_FLAGS, VILL,
-> -                    FIELD_EX64(env->vtype, VTYPE, VILL));
-> -        flags = FIELD_DP32(flags, TB_FLAGS, SEW,
-> -                    FIELD_EX64(env->vtype, VTYPE, VSEW));
-> -        flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
-> -                    FIELD_EX64(env->vtype, VTYPE, VLMUL));
-> -        flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
-> -    } else {
-> -        flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
-> -    }
-> -
-> -#ifdef CONFIG_USER_ONLY
-> -    flags |= TB_FLAGS_MSTATUS_FS;
-> -#else
-> -    flags |= cpu_mmu_index(env, 0);
-> -    if (riscv_cpu_fp_enabled(env)) {
-> -        flags |= env->mstatus & MSTATUS_FS;
-> -    }
-> -
-> -    if (riscv_has_ext(env, RVH)) {
-> -        if (env->priv == PRV_M ||
-> -            (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
-> -            (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
-> -                get_field(env->hstatus, HSTATUS_HU))) {
-> -            flags = FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
-> -        }
-> -
-> -        flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
-> -                           get_field(env->mstatus_hs, MSTATUS_FS));
-> -    }
-> -#endif
-> -
-> -    *pflags = flags;
-> -}
-> +void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-> +                          target_ulong *cs_base, uint32_t *pflags);
->   
->   RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
->                              target_ulong *ret_value,
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index d41d5cd27c..14d1d3cb72 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -35,6 +35,52 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
->   #endif
->   }
->   
-> +void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-> +                          target_ulong *cs_base, uint32_t *pflags)
-> +{
-> +    uint32_t flags = 0;
-> +
-> +    *pc = env->pc;
-> +    *cs_base = 0;
-> +
-> +    if (riscv_has_ext(env, RVV)) {
-> +        uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
-> +        bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl);
-> +        flags = FIELD_DP32(flags, TB_FLAGS, VILL,
-> +                    FIELD_EX64(env->vtype, VTYPE, VILL));
-> +        flags = FIELD_DP32(flags, TB_FLAGS, SEW,
-> +                    FIELD_EX64(env->vtype, VTYPE, VSEW));
-> +        flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
-> +                    FIELD_EX64(env->vtype, VTYPE, VLMUL));
-> +        flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
-> +    } else {
-> +        flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
-> +    }
-> +
-> +#ifdef CONFIG_USER_ONLY
-> +    flags |= TB_FLAGS_MSTATUS_FS;
-> +#else
-> +    flags |= cpu_mmu_index(env, 0);
-> +    if (riscv_cpu_fp_enabled(env)) {
-> +        flags |= env->mstatus & MSTATUS_FS;
-> +    }
-> +
-> +    if (riscv_has_ext(env, RVH)) {
-> +        if (env->priv == PRV_M ||
-> +            (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
-> +            (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
-> +                get_field(env->hstatus, HSTATUS_HU))) {
-> +            flags = FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
-> +        }
-> +
-> +        flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
-> +                           get_field(env->mstatus_hs, MSTATUS_FS));
-> +    }
-> +#endif
-> +
-> +    *pflags = flags;
-> +}
-> +
->   #ifndef CONFIG_USER_ONLY
->   static int riscv_cpu_local_irq_pending(CPURISCVState *env)
->   {
+ hw/usb/hcd-uhci.c          | 11 +++++------
+ hw/usb/hcd-uhci.h          |  2 +-
+ hw/usb/vt82c686-uhci-pci.c | 12 ++++++++++++
+ 3 files changed, 18 insertions(+), 7 deletions(-)
+
+diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
+index 0cb02a6432..7201cd0ae7 100644
+--- a/hw/usb/hcd-uhci.c
++++ b/hw/usb/hcd-uhci.c
+@@ -31,6 +31,7 @@
+ #include "hw/usb/uhci-regs.h"
+ #include "migration/vmstate.h"
+ #include "hw/pci/pci.h"
++#include "hw/irq.h"
+ #include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+ #include "qemu/timer.h"
+@@ -290,7 +291,7 @@ static UHCIAsync *uhci_async_find_td(UHCIState *s, uint32_t td_addr)
+ 
+ static void uhci_update_irq(UHCIState *s)
+ {
+-    int level;
++    int level = 0;
+     if (((s->status2 & 1) && (s->intr & (1 << 2))) ||
+         ((s->status2 & 2) && (s->intr & (1 << 3))) ||
+         ((s->status & UHCI_STS_USBERR) && (s->intr & (1 << 0))) ||
+@@ -298,10 +299,8 @@ static void uhci_update_irq(UHCIState *s)
+         (s->status & UHCI_STS_HSERR) ||
+         (s->status & UHCI_STS_HCPERR)) {
+         level = 1;
+-    } else {
+-        level = 0;
+     }
+-    pci_set_irq(&s->dev, level);
++    qemu_set_irq(s->irq, level);
+ }
+ 
+ static void uhci_reset(DeviceState *dev)
+@@ -1170,9 +1169,9 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
+ 
+     pci_conf[PCI_CLASS_PROG] = 0x00;
+     /* TODO: reset value should be 0. */
+-    pci_conf[USB_SBRN] = USB_RELEASE_1; // release number
+-
++    pci_conf[USB_SBRN] = USB_RELEASE_1; /* release number */
+     pci_config_set_interrupt_pin(pci_conf, u->info.irq_pin + 1);
++    s->irq = pci_allocate_irq(dev);
+ 
+     if (s->masterbus) {
+         USBPort *ports[NB_PORTS];
+diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
+index e61d8fcb19..1f8ee04186 100644
+--- a/hw/usb/hcd-uhci.h
++++ b/hw/usb/hcd-uhci.h
+@@ -60,7 +60,7 @@ typedef struct UHCIState {
+     uint32_t frame_bandwidth;
+     bool completions_only;
+     UHCIPort ports[NB_PORTS];
+-
++    qemu_irq irq;
+     /* Interrupts that should be raised at the end of the current frame.  */
+     uint32_t pending_int_mask;
+ 
+diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
+index b109c21603..e70e739409 100644
+--- a/hw/usb/vt82c686-uhci-pci.c
++++ b/hw/usb/vt82c686-uhci-pci.c
+@@ -1,6 +1,16 @@
+ #include "qemu/osdep.h"
++#include "hw/irq.h"
+ #include "hcd-uhci.h"
+ 
++static void uhci_isa_set_irq(void *opaque, int irq_num, int level)
++{
++    UHCIState *s = opaque;
++    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
++    if (irq > 0 && irq < 15) {
++        qemu_set_irq(isa_get_irq(NULL, irq), level);
++    }
++}
++
+ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+ {
+     UHCIState *s = UHCI(dev);
+@@ -14,6 +24,8 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+     pci_set_long(pci_conf + 0xc0, 0x00002000);
+ 
+     usb_uhci_common_realize(dev, errp);
++    object_unref(s->irq);
++    s->irq = qemu_allocate_irq(uhci_isa_set_irq, s, 0);
+ }
+ 
+ static UHCIInfo uhci_info[] = {
+-- 
+2.21.4
+
 
