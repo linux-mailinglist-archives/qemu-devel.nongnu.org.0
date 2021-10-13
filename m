@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8BF842B899
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 09:10:57 +0200 (CEST)
-Received: from localhost ([::1]:48990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCE842B8A0
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 09:12:36 +0200 (CEST)
+Received: from localhost ([::1]:51352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maYPg-0004BI-Pg
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 03:10:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44616)
+	id 1maYRH-0005rk-6y
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 03:12:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1maYNY-0002TV-61
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 03:08:44 -0400
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:42923)
+ id 1maYPp-0004pv-Bo; Wed, 13 Oct 2021 03:11:05 -0400
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:33669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1maYNW-00035c-JV
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 03:08:43 -0400
-Received: by mail-io1-xd2d.google.com with SMTP id 5so1657322iov.9
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 00:08:42 -0700 (PDT)
+ id 1maYPm-0004e0-Va; Wed, 13 Oct 2021 03:11:04 -0400
+Received: by mail-io1-xd2c.google.com with SMTP id n7so1752383iod.0;
+ Wed, 13 Oct 2021 00:11:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=650eW90FfktmXQhA+QgzUhyjgXJ5WzrouIb/sIyotrQ=;
- b=mYRj69hDrz/9seJLvNVjaelMllpQHTehmaoXFOaDzjfMRK/yZyCwXzojELjGr3D7S2
- +xX/zW3RgtU8xNWn9EYxPOd0wOSfyZTHcogPV34oedt/NWFKpcQFxN3iPUe4veD5X4c2
- MfvdsvFucTeLIACxRsuzTlU0MTWQgJf3hGy3Nsh6zJqBdOj7JbMTZn6qN8CF0DohiUxT
- 1HALyXtHoBxp+B7Q1xvd/ASxlbS9DVgXSf/GgJ0av9yBe6URVvqVLwfRgcC8j3qij3UL
- XBR4SHchnDztALcoqc5jBVqFCb7CXyNdZIErpfIk+Je16wozrlCCMano8SWKZjx3qXbz
- Q1pQ==
+ :cc; bh=PuD4x/quwdKwmCZMAPno27Mt5WkSyZcD2cupRATIQmA=;
+ b=hUpeBm07ZhmU+R92qTIFSrBL14OeFHZ6uD4IZbV6GtgXTzhgOqStOEWSiPJEWuGj4t
+ 4zuWiSkqFTm3AGGU2NR38KTYSKWPxOtEcdS4Ai/3r1akHkT61Jp+XPc9Zl1qrzwNyPwA
+ TnX/xusNsfu2j+x4p6dymMk+gwlKDmH0z9qb8RZ1yOpGX8JaH+u2u3i10cFfQzzpQZKA
+ gzhXJSBzjJDyKX/O/RiXSwFRjlfOrTHayIFv4RaRpmQwTkqpQYJmnggmAwOE8fiqTWjc
+ lItwI007UCAJqN+GP5GKmGAqMrKlXFHSwRjzOn5t6E5+kri8uC+0X+pm6KhlPDRrs3ON
+ wktA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=650eW90FfktmXQhA+QgzUhyjgXJ5WzrouIb/sIyotrQ=;
- b=1quCqCohQ6TBzRRxQUI0fpJYQoy2uo9It5Z/t2tyRrMx5MBxOjRF0HLizEnrEMycvf
- BLaPnSJIUX1J5hRHJSboXG+tvt1WecFabMvD0FJndh/3pJA7RXjql+NXL4rsAAGaotvN
- kJ+OGQH/yBM220Z70aOQUYF1jg3bmuLIzikOvpNTCjEjohBIj36HVpI8Oo1y0+Def6uE
- Rk/V9jas6rlDmjuq0Gf7Iu2q7p+MTOoLt7CKkSE8HnbiAPV+C8TF3CSGfhylbRLZXXCT
- hxjVJgPs4hpQpcmhpac/7LbNDiW6bYrizhk16unKDzfYzrYArpfh4gTlQvShudFJQ1u7
- TE7w==
-X-Gm-Message-State: AOAM5303yBLDlvPbMCzK7v3kWBbBGs+WYwVYKMOWVPYK2vIyDggL7UTJ
- vrnZCrMcSaOhn++TqA73JPiKyDFd+mhemXAqXEE=
-X-Google-Smtp-Source: ABdhPJz+557ZhryjIVX666LAnMla5/QITQXqPZYcR9TValD4b7EVsPUvht1EFajSUFDL2YJAdrYj3hhGghhdZgOdjBs=
-X-Received: by 2002:a05:6602:2e8c:: with SMTP id
- m12mr8974306iow.91.1634108921551; 
- Wed, 13 Oct 2021 00:08:41 -0700 (PDT)
+ bh=PuD4x/quwdKwmCZMAPno27Mt5WkSyZcD2cupRATIQmA=;
+ b=upF2L0ojohxLrIj6Q/6kz8pOFOxt1Tebkvl25cSG8+nnaVzu5e8aPSRORhDLJe+1cV
+ Mgk6sg+sGjoe+hg2bzDeWmrylYMQOakKowOgwsq0QmqKfLWcGNopGixDJBJxrUkd4hP8
+ xbgzN6nPGja6xhMpuvbQovw5cH529DU7Mmvf5aqMDhmYF4KfB26DH/8WXieJ3N5hzIfZ
+ 34mzQI9gS6/y5wGwtSBrS89A0QukXPpwxHHC+4WWZxZabnW7lSxYm/f7isi7HdY5FCFj
+ j3LXNBlJAjWyFIZNHhY7IGWsaDWrGgRJpQecIrAvyPLWopX5hmXp2JNt4bjzDX95ho+X
+ iJMQ==
+X-Gm-Message-State: AOAM532lK/8/fRKx48u92ISj6j3NmqvkSnXTj4nXdpKY/gxtSFlALX0j
+ /8pzhju5f2DrmRZUBBIVrIi1uFsNFV6a4D6A9WE=
+X-Google-Smtp-Source: ABdhPJzyNaV6p60H1ka7FNoMSrAfpLbPjQqSVej3WyYM+u5LpMnq8d8d2K/hoKgv951cKI2obB3JFtyY4qhuLjUoOBw=
+X-Received: by 2002:a05:6638:9a:: with SMTP id
+ v26mr11895732jao.18.1634109061530; 
+ Wed, 13 Oct 2021 00:11:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211010174401.141339-1-richard.henderson@linaro.org>
- <20211010174401.141339-9-richard.henderson@linaro.org>
-In-Reply-To: <20211010174401.141339-9-richard.henderson@linaro.org>
+References: <20210922161405.140018-1-damien.hedde@greensocs.com>
+ <20210922161405.140018-5-damien.hedde@greensocs.com>
+In-Reply-To: <20210922161405.140018-5-damien.hedde@greensocs.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 13 Oct 2021 17:08:14 +1000
-Message-ID: <CAKmqyKM8pcgQUV-d2VMkCh0mSo8K9foUtVbN+t1LF7DpFUgiHw@mail.gmail.com>
-Subject: Re: [PATCH 8/8] target/riscv: Support TCG_TARGET_SIGNED_ADDR32
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Wed, 13 Oct 2021 17:10:35 +1000
+Message-ID: <CAKmqyKNWBYpq8CbhtGyw9=1Gt_LujZZrtD7J_Ye2FyyVA6eqcw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 04/16] softmmu/qdev-monitor: add error handling in
+ qdev_set_id
+To: Damien Hedde <damien.hedde@greensocs.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2c.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -79,75 +78,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: git@xen0n.name, Alistair Francis <Alistair.Francis@wdc.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+ Peter Xu <peterx@redhat.com>, mirela.grujic@greensocs.com,
+ Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Eric Blake <eblake@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
+ Eric Auger <eric.auger@redhat.com>,
+ "open list:X86" <xen-devel@lists.xenproject.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Mark Burton <mark.burton@greensocs.com>, Edgar Iglesias <edgari@xilinx.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 11, 2021 at 3:50 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, Sep 23, 2021 at 2:29 AM Damien Hedde <damien.hedde@greensocs.com> wrote:
 >
-> All RV64 32-bit operations sign-extend the output, so we are easily
-> able to keep TCG_TYPE_I32 values sign-extended in host registers.
+> qdev_set_id() is mostly used when the user adds a device (using
+> -device cli option or device_add qmp command). This commit adds
+> an error parameter to handle the case where the given id is
+> already taken.
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Also document the function and add a return value in order to
+> be able to capture success/failure: the function now returns the
+> id in case of success, or NULL in case of failure.
+>
+> The commit modifies the 2 calling places (qdev-monitor and
+> xen-legacy-backend) to add the error object parameter.
+>
+> Note that the id is, right now, guaranteed to be unique because
+> all ids came from the "device" QemuOptsList where the id is used
+> as key. This addition is a preparation for a future commit which
+> will relax the uniqueness.
+>
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  tcg/riscv/tcg-target-sa32.h | 6 +++++-
->  tcg/riscv/tcg-target.c.inc  | 8 ++------
->  2 files changed, 7 insertions(+), 7 deletions(-)
+>  include/monitor/qdev.h      | 25 +++++++++++++++++++++++-
+>  hw/xen/xen-legacy-backend.c |  3 ++-
+>  softmmu/qdev-monitor.c      | 38 +++++++++++++++++++++++++++----------
+>  3 files changed, 54 insertions(+), 12 deletions(-)
 >
-> diff --git a/tcg/riscv/tcg-target-sa32.h b/tcg/riscv/tcg-target-sa32.h
-> index cb185b1526..703467b37a 100644
-> --- a/tcg/riscv/tcg-target-sa32.h
-> +++ b/tcg/riscv/tcg-target-sa32.h
-> @@ -1 +1,5 @@
-> -#define TCG_TARGET_SIGNED_ADDR32 0
-> +/*
-> + * Do not set TCG_TARGET_SIGNED_ADDR32 for RV32;
-> + * TCG expects this to only be set for 64-bit hosts.
+> diff --git a/include/monitor/qdev.h b/include/monitor/qdev.h
+> index eaa947d73a..23c31f5296 100644
+> --- a/include/monitor/qdev.h
+> +++ b/include/monitor/qdev.h
+> @@ -9,6 +9,29 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp);
+>
+>  int qdev_device_help(QemuOpts *opts);
+>  DeviceState *qdev_device_add(QemuOpts *opts, Error **errp);
+> -void qdev_set_id(DeviceState *dev, const char *id);
+> +
+> +/**
+> + * qdev_set_id: parent the device and set its id if provided.
+> + * @dev: device to handle
+> + * @id: id to be given to the device, or NULL.
+> + *
+> + * Returns: the id of the device in case of success; otherwise NULL.
+> + *
+> + * @dev must be unrealized, unparented and must not have an id.
+> + *
+> + * If @id is non-NULL, this function tries to setup @dev qom path as
+> + * "/peripheral/id". If @id is already taken, it fails. If it succeeds,
+> + * the id field of @dev is set to @id (@dev now owns the given @id
+> + * parameter).
+> + *
+> + * If @id is NULL, this function generates a unique name and setups @dev
+> + * qom path as "/peripheral-anon/name". This name is not set as the id
+> + * of @dev.
+> + *
+> + * Upon success, it returns the id/name (generated or provided). The
+> + * returned string is owned by the corresponding child property and must
+> + * not be freed by the caller.
 > + */
-> +#define TCG_TARGET_SIGNED_ADDR32  (__riscv_xlen == 64)
-> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-> index 9b13a46fb4..9426ef8926 100644
-> --- a/tcg/riscv/tcg-target.c.inc
-> +++ b/tcg/riscv/tcg-target.c.inc
-> @@ -952,10 +952,6 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
->      tcg_out_opc_branch(s, OPC_BNE, TCG_REG_TMP0, TCG_REG_TMP1, 0);
+> +const char *qdev_set_id(DeviceState *dev, const char *id, Error **errp);
 >
->      /* TLB Hit - translate address using addend.  */
-> -    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
-> -        tcg_out_ext32u(s, TCG_REG_TMP0, addrl);
-> -        addrl = TCG_REG_TMP0;
-> -    }
->      tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_REG_TMP2, addrl);
+>  #endif
+> diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
+> index dd8ae1452d..f541cfa0e9 100644
+> --- a/hw/xen/xen-legacy-backend.c
+> +++ b/hw/xen/xen-legacy-backend.c
+> @@ -276,7 +276,8 @@ static struct XenLegacyDevice *xen_be_get_xendev(const char *type, int dom,
+>      xendev = g_malloc0(ops->size);
+>      object_initialize(&xendev->qdev, ops->size, TYPE_XENBACKEND);
+>      OBJECT(xendev)->free = g_free;
+> -    qdev_set_id(DEVICE(xendev), g_strdup_printf("xen-%s-%d", type, dev));
+> +    qdev_set_id(DEVICE(xendev), g_strdup_printf("xen-%s-%d", type, dev),
+> +                &error_fatal);
+>      qdev_realize(DEVICE(xendev), xen_sysbus, &error_fatal);
+>      object_unref(OBJECT(xendev));
+>
+> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+> index 25275984bd..0007698ff3 100644
+> --- a/softmmu/qdev-monitor.c
+> +++ b/softmmu/qdev-monitor.c
+> @@ -578,22 +578,34 @@ static BusState *qbus_find(const char *path, Error **errp)
+>      return bus;
 >  }
 >
-> @@ -1126,7 +1122,7 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, bool is_64)
->                          data_regl, data_regh, addr_regl, addr_regh,
->                          s->code_ptr, label_ptr);
->  #else
-> -    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
-> +    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS && !guest_base_signed_addr32) {
->          tcg_out_ext32u(s, base, addr_regl);
->          addr_regl = base;
+> -void qdev_set_id(DeviceState *dev, const char *id)
+> +const char *qdev_set_id(DeviceState *dev, const char *id, Error **errp)
+>  {
+> +    ObjectProperty *prop;
+> +
+> +    assert(!dev->id && !dev->realized);
+> +
+> +    /*
+> +     * object_property_[try_]add_child() below will assert the device
+> +     * has no parent
+> +     */
+>      if (id) {
+> -        dev->id = id;
+> -    }
+> -
+> -    if (dev->id) {
+> -        object_property_add_child(qdev_get_peripheral(), dev->id,
+> -                                  OBJECT(dev));
+> +        prop = object_property_try_add_child(qdev_get_peripheral(), id,
+> +                                             OBJECT(dev), NULL);
+> +        if (prop) {
+> +            dev->id = id;
+> +        } else {
+> +            error_setg(errp, "Duplicate device ID '%s'", id);
+> +            return NULL;
+> +        }
+>      } else {
+>          static int anon_count;
+>          gchar *name = g_strdup_printf("device[%d]", anon_count++);
+> -        object_property_add_child(qdev_get_peripheral_anon(), name,
+> -                                  OBJECT(dev));
+> +        prop = object_property_add_child(qdev_get_peripheral_anon(), name,
+> +                                         OBJECT(dev));
+>          g_free(name);
 >      }
-> @@ -1192,7 +1188,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
->                          data_regl, data_regh, addr_regl, addr_regh,
->                          s->code_ptr, label_ptr);
->  #else
-> -    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
-> +    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS && !guest_base_signed_addr32) {
->          tcg_out_ext32u(s, base, addr_regl);
->          addr_regl = base;
+> +
+> +    return prop->name;
+>  }
+>
+>  DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+> @@ -677,7 +689,13 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+>          }
 >      }
+>
+> -    qdev_set_id(dev, qemu_opts_id(opts));
+> +    /*
+> +     * set dev's parent and register its id.
+> +     * If it fails it means the id is already taken.
+> +     */
+> +    if (!qdev_set_id(dev, qemu_opts_id(opts), errp)) {
+> +        goto err_del_dev;
+> +    }
+>
+>      /* set properties */
+>      if (qemu_opt_foreach(opts, set_property, dev, errp)) {
 > --
-> 2.25.1
+> 2.33.0
 >
 >
 
