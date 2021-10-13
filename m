@@ -2,62 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B7B42BCDC
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 12:32:29 +0200 (CEST)
-Received: from localhost ([::1]:40828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E647742BCE9
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 12:36:20 +0200 (CEST)
+Received: from localhost ([::1]:44152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mabYi-00048B-4t
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 06:32:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44648)
+	id 1mabcR-0006di-PQ
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 06:36:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mabVk-0002xj-Am
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 06:29:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29989)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1maba9-0005CM-86
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 06:33:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mabVg-0005bC-1x
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 06:29:22 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1maba7-0000L1-5Y
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 06:33:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634120954;
+ s=mimecast20190719; t=1634121234;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Cc9Yr6Ivo5YgbZym8EPisfM2zuvkGCC6lw8x1GY5CmU=;
- b=drSNS9NZMcqa3+xUmmq9pQGK6sPzwnhBWv8cVQ2tMfwhBQuzSCWzWw9PKh1y5oW0K9Zx+U
- qcDicBuZfZL59Rr+evQwAbOsxac5HPc90FO1yi1ssFtrwRxPqGaIPQw2KlcGhwHQ/i8fqT
- Au1isI+oIn/K1TZGUa3tmg6q45Py8HQ=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pzLsV5yTu/utMelbzLwI9yEtwyuVG0oIoHRj6CowHME=;
+ b=cXLrIWvFp1Lrt8w1l4hrkBi19wXfK3KvshDfW9nLBemQvO+T+qJ6XwilDAMZVrlimUzCCS
+ I16m1/3PTYMIcnhYDIIIKb3c4ROaFFaZV0D5Q1EByEwCMIInF1scFCVPffvWxWLQPPwx5q
+ ANsBqKplFz4wq/VyDvsSQn8f3/tjFsE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-m55McQ8DMBmbn9WmtuTzlQ-1; Wed, 13 Oct 2021 06:29:14 -0400
-X-MC-Unique: m55McQ8DMBmbn9WmtuTzlQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-484-RHOIo6ZIOHyoQCpu12yIkQ-1; Wed, 13 Oct 2021 06:33:51 -0400
+X-MC-Unique: RHOIo6ZIOHyoQCpu12yIkQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1599100CCC0;
- Wed, 13 Oct 2021 10:29:12 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 09BB362A41;
- Wed, 13 Oct 2021 10:28:46 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- eric.auger@redhat.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- mst@redhat.com, peter.maydell@linaro.org
-Subject: Re: [PATCH] virtio-iommu: Remove non transitional name
-In-Reply-To: <20211013095554.758806-1-eric.auger@redhat.com>
-Organization: Red Hat GmbH
-References: <20211013095554.758806-1-eric.auger@redhat.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Wed, 13 Oct 2021 12:28:44 +0200
-Message-ID: <875yu1w74z.fsf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C8AE801AA7;
+ Wed, 13 Oct 2021 10:33:50 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.194.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F4FC5D9D5;
+ Wed, 13 Oct 2021 10:33:30 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RFC 00/15] virtio-mem: Expose device memory via separate
+ memslots
+Date: Wed, 13 Oct 2021 12:33:15 +0200
+Message-Id: <20211013103330.26869-1-david@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -78,39 +70,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, abologna@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 13 2021, Eric Auger <eric.auger@redhat.com> wrote:
+Based-on: 20211011175346.15499-1-david@redhat.com
 
-> Remove non transitional name for virtio iommu. Like other
-> devices introduced after 1.0 spec, the virtio-iommu does
-> not need it.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Reported-by: Andrea Bolognani <abologna@redhat.com>
-> ---
->  hw/virtio/virtio-iommu-pci.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-> index 770c286be7..86fa4e6c28 100644
-> --- a/hw/virtio/virtio-iommu-pci.c
-> +++ b/hw/virtio/virtio-iommu-pci.c
-> @@ -100,7 +100,6 @@ static void virtio_iommu_pci_instance_init(Object *obj)
->  static const VirtioPCIDeviceTypeInfo virtio_iommu_pci_info = {
->      .base_name             = TYPE_VIRTIO_IOMMU_PCI,
->      .generic_name          = "virtio-iommu-pci",
-> -    .non_transitional_name = "virtio-iommu-pci-non-transitional",
->      .instance_size = sizeof(VirtIOIOMMUPCI),
->      .instance_init = virtio_iommu_pci_instance_init,
->      .class_init    = virtio_iommu_pci_class_init,
+A virtio-mem device is represented by a single large RAM memory region
+backed by a single large mmap.
 
-No objections, but I'm a bit confused regarding base_name and
-generic_name here. Can you drop base_name, re-define
-TYPE_VIRTIO_IOMMU_PCI to "virtio-iommu-pci", and switch generic_name
-over to it? I think that would be more in line with other modern-only
-devices. AFAICS, the places using the #define should continue to work.
+Right now, we map that complete memory region into guest physical addres
+space, resulting in a very large memory mapping, KVM memory slot, ...
+although only a small amount of memory might actually be exposed to the VM.
+
+For example, when starting a VM with a 1 TiB virtio-mem device that only
+exposes little device memory (e.g., 1 GiB) towards the VM initialliy,
+in order to hotplug more memory later, we waste a lot of memory on metadata
+for KVM memory slots (> 2 GiB!) and accompanied bitmaps. Although some
+optimizations in KVM are being worked on to reduce this metadata overhead
+on x86-64 in some cases, it remains a problem with nested VMs and there are
+other reasons why we would want to reduce the total memory slot to a
+reasonable minimum.
+
+We want to:
+a) Reduce the metadata overhead, including bitmap sizes inside KVM but also
+   inside QEMU KVM code where possible.
+b) Not always expose all device-memory to the VM, to reduce the attack
+   surface of malicious VMs without using userfaultfd.
+
+So instead, expose the RAM memory region not by a single large mapping
+(consuming one memslot) but instead by multiple mappings, each consuming
+one memslot. To do that, we divide the RAM memory region via aliases into
+separate parts and only map the aliases into a device container we actually
+need. We have to make sure that QEMU won't silently merge the memory
+sections corresponding to the aliases (and thereby also memslots),
+otherwise we lose atomic updates with KVM and vhost-user, which we deeply
+care about when adding/removing memory. Further, to get memslot accounting
+right, such merging is better avoided.
+
+Within the memslots, virtio-mem can (un)plug memory in smaller granularity
+dynamically. So memslots are a pure optimization to tackle a) and b) above.
+
+Memslots are right now mapped once they fall into the usable device region
+(which grows/shrinks on demand right now either when requesting to
+ hotplug more memory or during/after reboots). In the future, with
+VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE, we'll be able to (un)map aliases even
+more dynamically when (un)plugging device blocks.
+
+
+Adding a 500GiB virtio-mem device and not hotplugging any memory results in:
+    0000000140000000-000001047fffffff (prio 0, i/o): device-memory
+      0000000140000000-0000007e3fffffff (prio 0, i/o): virtio-mem-memslots
+
+Requesting the VM to consume 2 GiB results in (note: the usable region size
+is bigger than 2 GiB, so 3 * 1 GiB memslots are required):
+    0000000140000000-000001047fffffff (prio 0, i/o): device-memory
+      0000000140000000-0000007e3fffffff (prio 0, i/o): virtio-mem-memslots
+        0000000140000000-000000017fffffff (prio 0, ram): alias virtio-mem-memslot-0 @mem0 0000000000000000-000000003fffffff
+        0000000180000000-00000001bfffffff (prio 0, ram): alias virtio-mem-memslot-1 @mem0 0000000040000000-000000007fffffff
+        00000001c0000000-00000001ffffffff (prio 0, ram): alias virtio-mem-memslot-2 @mem0 0000000080000000-00000000bfffffff
+
+Requesting the VM to consume 20 GiB results in:
+    0000000140000000-000001047fffffff (prio 0, i/o): device-memory
+      0000000140000000-0000007e3fffffff (prio 0, i/o): virtio-mem-memslots
+        0000000140000000-000000017fffffff (prio 0, ram): alias virtio-mem-memslot-0 @mem0 0000000000000000-000000003fffffff
+        0000000180000000-00000001bfffffff (prio 0, ram): alias virtio-mem-memslot-1 @mem0 0000000040000000-000000007fffffff
+        00000001c0000000-00000001ffffffff (prio 0, ram): alias virtio-mem-memslot-2 @mem0 0000000080000000-00000000bfffffff
+        0000000200000000-000000023fffffff (prio 0, ram): alias virtio-mem-memslot-3 @mem0 00000000c0000000-00000000ffffffff
+        0000000240000000-000000027fffffff (prio 0, ram): alias virtio-mem-memslot-4 @mem0 0000000100000000-000000013fffffff
+        0000000280000000-00000002bfffffff (prio 0, ram): alias virtio-mem-memslot-5 @mem0 0000000140000000-000000017fffffff
+        00000002c0000000-00000002ffffffff (prio 0, ram): alias virtio-mem-memslot-6 @mem0 0000000180000000-00000001bfffffff
+        0000000300000000-000000033fffffff (prio 0, ram): alias virtio-mem-memslot-7 @mem0 00000001c0000000-00000001ffffffff
+        0000000340000000-000000037fffffff (prio 0, ram): alias virtio-mem-memslot-8 @mem0 0000000200000000-000000023fffffff
+        0000000380000000-00000003bfffffff (prio 0, ram): alias virtio-mem-memslot-9 @mem0 0000000240000000-000000027fffffff
+        00000003c0000000-00000003ffffffff (prio 0, ram): alias virtio-mem-memslot-10 @mem0 0000000280000000-00000002bfffffff
+        0000000400000000-000000043fffffff (prio 0, ram): alias virtio-mem-memslot-11 @mem0 00000002c0000000-00000002ffffffff
+        0000000440000000-000000047fffffff (prio 0, ram): alias virtio-mem-memslot-12 @mem0 0000000300000000-000000033fffffff
+        0000000480000000-00000004bfffffff (prio 0, ram): alias virtio-mem-memslot-13 @mem0 0000000340000000-000000037fffffff
+        00000004c0000000-00000004ffffffff (prio 0, ram): alias virtio-mem-memslot-14 @mem0 0000000380000000-00000003bfffffff
+        0000000500000000-000000053fffffff (prio 0, ram): alias virtio-mem-memslot-15 @mem0 00000003c0000000-00000003ffffffff
+        0000000540000000-000000057fffffff (prio 0, ram): alias virtio-mem-memslot-16 @mem0 0000000400000000-000000043fffffff
+        0000000580000000-00000005bfffffff (prio 0, ram): alias virtio-mem-memslot-17 @mem0 0000000440000000-000000047fffffff
+        00000005c0000000-00000005ffffffff (prio 0, ram): alias virtio-mem-memslot-18 @mem0 0000000480000000-00000004bfffffff
+        0000000600000000-000000063fffffff (prio 0, ram): alias virtio-mem-memslot-19 @mem0 00000004c0000000-00000004ffffffff
+        0000000640000000-000000067fffffff (prio 0, ram): alias virtio-mem-memslot-20 @mem0 0000000500000000-000000053fffffff
+
+Requesting the VM to consume 5 GiB and rebooting (note: usable region size
+will change during reboots) results in:
+    0000000140000000-000001047fffffff (prio 0, i/o): device-memory
+      0000000140000000-0000007e3fffffff (prio 0, i/o): virtio-mem-memslots
+        0000000140000000-000000017fffffff (prio 0, ram): alias virtio-mem-memslot-0 @mem0 0000000000000000-000000003fffffff
+        0000000180000000-00000001bfffffff (prio 0, ram): alias virtio-mem-memslot-1 @mem0 0000000040000000-000000007fffffff
+        00000001c0000000-00000001ffffffff (prio 0, ram): alias virtio-mem-memslot-2 @mem0 0000000080000000-00000000bfffffff
+        0000000200000000-000000023fffffff (prio 0, ram): alias virtio-mem-memslot-3 @mem0 00000000c0000000-00000000ffffffff
+        0000000240000000-000000027fffffff (prio 0, ram): alias virtio-mem-memslot-4 @mem0 0000000100000000-000000013fffffff
+        0000000280000000-00000002bfffffff (prio 0, ram): alias virtio-mem-memslot-5 @mem0 0000000140000000-000000017fffffff
+
+
+In addition to other factors, we limit the number of memslots to 1024 per
+devices and the size of one memslot to at least 1 GiB. So only a 1 TiB
+virtio-mem device could consume 1024 memslots in the "worst" case. To
+calculate a memslot limit for a device, we use a heuristic based on all
+available memslots for memory devices and the percentage of
+"device size":"total memory device area size". Users can further limit
+the maximum number of memslots that will be used by a device by setting
+the "max-memslots" property. It's expected to be set to "0" (auto) in most
+setups.
+
+In recent setups (e.g., KVM with ~32k memslots, vhost-user with ~4k
+memslots after this series), we'll get the biggest benefit. In special
+setups (e.g., older KVM, vhost kernel with 64 memslots), we'll get some
+benefit -- the individual memslots will be bigger.
+
+Future work:
+- vhost-user and libvhost-user optimizations for handling more memslots
+  more efficiently.
+
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: kvm@vger.kernel.org
+
+David Hildenbrand (15):
+  memory: Drop mapping check from
+    memory_region_get_ram_discard_manager()
+  kvm: Return number of free memslots
+  vhost: Return number of free memslots
+  memory: Allow for marking memory region aliases unmergeable
+  vhost: Don't merge unmergeable memory sections
+  memory-device: Move memory_device_check_addable() directly into
+    memory_device_pre_plug()
+  memory-device: Generalize memory_device_used_region_size()
+  memory-device: Support memory devices that consume a variable number
+    of memslots
+  vhost: Respect reserved memslots for memory devices when realizing a
+    vhost device
+  virtio-mem: Set the RamDiscardManager for the RAM memory region
+    earlier
+  virtio-mem: Fix typo in virito_mem_intersect_memory_section() function
+    name
+  virtio-mem: Expose device memory via separate memslots
+  vhost-user: Increase VHOST_USER_MAX_RAM_SLOTS to 496 with
+    CONFIG_VIRTIO_MEM
+  libvhost-user: Increase VHOST_USER_MAX_RAM_SLOTS to 4096
+  virtio-mem: Set "max-memslots" to 0 (auto) for the 6.2 machine
+
+ accel/kvm/kvm-all.c                       |  24 ++-
+ accel/stubs/kvm-stub.c                    |   4 +-
+ hw/core/machine.c                         |   1 +
+ hw/mem/memory-device.c                    | 167 +++++++++++++++---
+ hw/virtio/vhost-stub.c                    |   2 +-
+ hw/virtio/vhost-user.c                    |   7 +-
+ hw/virtio/vhost.c                         |  17 +-
+ hw/virtio/virtio-mem-pci.c                |  22 +++
+ hw/virtio/virtio-mem.c                    | 202 ++++++++++++++++++++--
+ include/exec/memory.h                     |  23 +++
+ include/hw/mem/memory-device.h            |  32 ++++
+ include/hw/virtio/vhost.h                 |   2 +-
+ include/hw/virtio/virtio-mem.h            |  29 +++-
+ include/sysemu/kvm.h                      |   2 +-
+ softmmu/memory.c                          |  35 +++-
+ stubs/qmp_memory_device.c                 |   5 +
+ subprojects/libvhost-user/libvhost-user.h |   7 +-
+ 17 files changed, 499 insertions(+), 82 deletions(-)
+
+-- 
+2.31.1
 
 
