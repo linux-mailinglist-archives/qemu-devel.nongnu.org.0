@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9334342CD30
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 00:00:20 +0200 (CEST)
-Received: from localhost ([::1]:37928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2062242CD2C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 00:00:00 +0200 (CEST)
+Received: from localhost ([::1]:37182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mamIN-0000iZ-LN
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 18:00:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48774)
+	id 1mamI2-0000D8-PU
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 17:59:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mamGA-00066W-1W
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:58:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36730)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mamG8-00066O-Rp
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:58:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mamG6-0003mF-Ho
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mamG6-0003na-Hs
  for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:58:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634162276;
+ s=mimecast20190719; t=1634162277;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UAVrEwDzEg01rdEaU0TH40MGZEH0sGEHGDA8ZQp1bM8=;
- b=XDSHyAR6v7KEQwSqtX5VZo+J2fkDB0b0eT3gRMC68kKraypp0CIVsUEpwNeii5XgKXorKk
- +20ady4+qjo6gxfkHioQUb81iYD/QzMjh9TsEHCpshFLG0b1fB4x1oJRM/TASks0dxHWMt
- A8odrmWkbV6beWB5J72/xNRYKOmvC7s=
+ bh=aNr6SNMc0oBTtifDVANAHZqAY+Pl5cwKRo2yK0XeY90=;
+ b=L/j6xoKDvLRikeSP9bGhjG/etRrnk5XPfOxR9fhE1eRrr8HEkBGtnITmqVp+1hWT60krnY
+ 0RArWRjAaBm4Cy9JHc3mgtBgBZb+a6S7rUnWdNyc23PBsz353l8eeq6Z+KaM9OzN0i9zdV
+ ZzEsv8x6gJFaNvXKpPrCAFEUTND/0HI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-539-rxBdm0GYOxOx3OjUEjbB2Q-1; Wed, 13 Oct 2021 17:57:55 -0400
-X-MC-Unique: rxBdm0GYOxOx3OjUEjbB2Q-1
+ us-mta-344-uo9YtREPPOSuuzbhpOqVIQ-1; Wed, 13 Oct 2021 17:57:56 -0400
+X-MC-Unique: uo9YtREPPOSuuzbhpOqVIQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37F0310A8E02;
- Wed, 13 Oct 2021 21:57:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C22919067E0;
+ Wed, 13 Oct 2021 21:57:55 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B45E1002D6A;
- Wed, 13 Oct 2021 21:57:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 617D2100E123;
+ Wed, 13 Oct 2021 21:57:54 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/8] python/machine: remove has_quit argument
-Date: Wed, 13 Oct 2021 17:57:41 -0400
-Message-Id: <20211013215748.2154908-2-jsnow@redhat.com>
+Subject: [PATCH v4 2/8] python/machine: Handle QMP errors on close more
+ meticulously
+Date: Wed, 13 Oct 2021 17:57:42 -0400
+Message-Id: <20211013215748.2154908-3-jsnow@redhat.com>
 In-Reply-To: <20211013215748.2154908-1-jsnow@redhat.com>
 References: <20211013215748.2154908-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,211 +85,100 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we spy on the QMP commands instead, we don't need callers to remember
-to pass it. Seems like a fair trade-off.
+To use the AQMP backend, Machine just needs to be a little more diligent
+about what happens when closing a QMP connection. The operation is no
+longer a freebie in the async world; it may return errors encountered in
+the async bottom half on incoming message receipt, etc.
 
-The one slightly weird bit is overloading this instance variable for
-wait(), where we use it to mean "don't issue the qmp 'quit'
-command". This means that wait() will "fail" if the QEMU process does
-not terminate of its own accord.
+(AQMP's disconnect, ultimately, serves as the quiescence point where all
+async contexts are gathered together, and any final errors reported at
+that point.)
 
-In most cases, we probably did already actually issue quit -- some
-iotests do this -- but in some others, we may be waiting for QEMU to
-terminate for some other reason, such as a test wherein we tell the
-guest (directly) to shut down.
+Because async QMP continues to check for messages asynchronously, it's
+almost certainly likely that the loop will have exited due to EOF after
+issuing the last 'quit' command. That error will ultimately be bubbled
+up when attempting to close the QMP connection. The manager class here
+then is free to discard it -- if it was expected.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- python/qemu/machine/machine.py | 34 +++++++++++++++++++---------------
- tests/qemu-iotests/040         |  7 +------
- tests/qemu-iotests/218         |  2 +-
- tests/qemu-iotests/255         |  2 +-
- 4 files changed, 22 insertions(+), 23 deletions(-)
+ python/qemu/machine/machine.py | 48 +++++++++++++++++++++++++++++-----
+ 1 file changed, 42 insertions(+), 6 deletions(-)
 
 diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index 056d340e355..0bd40bc2f76 100644
+index 0bd40bc2f76..a0cf69786b4 100644
 --- a/python/qemu/machine/machine.py
 +++ b/python/qemu/machine/machine.py
-@@ -170,6 +170,7 @@ def __init__(self,
-         self._console_socket: Optional[socket.socket] = None
-         self._remove_files: List[str] = []
-         self._user_killed = False
-+        self._quit_issued = False
+@@ -342,9 +342,15 @@ def _post_shutdown(self) -> None:
+         # Comprehensive reset for the failed launch case:
+         self._early_cleanup()
  
-     def __enter__(self: _T) -> _T:
-         return self
-@@ -368,6 +369,7 @@ def _post_shutdown(self) -> None:
-                 command = ''
-             LOG.warning(msg, -int(exitcode), command)
+-        if self._qmp_connection:
+-            self._qmp.close()
+-            self._qmp_connection = None
++        try:
++            self._close_qmp_connection()
++        except Exception as err:  # pylint: disable=broad-except
++            LOG.warning(
++                "Exception closing QMP connection: %s",
++                str(err) if str(err) else type(err).__name__
++            )
++        finally:
++            assert self._qmp_connection is None
  
-+        self._quit_issued = False
-         self._user_killed = False
-         self._launched = False
+         self._close_qemu_log_file()
  
-@@ -443,15 +445,13 @@ def _hard_shutdown(self) -> None:
-         self._subp.kill()
-         self._subp.wait(timeout=60)
+@@ -420,6 +426,31 @@ def _launch(self) -> None:
+                                        close_fds=False)
+         self._post_launch()
  
--    def _soft_shutdown(self, timeout: Optional[int],
--                       has_quit: bool = False) -> None:
-+    def _soft_shutdown(self, timeout: Optional[int]) -> None:
++    def _close_qmp_connection(self) -> None:
++        """
++        Close the underlying QMP connection, if any.
++
++        Dutifully report errors that occurred while closing, but assume
++        that any error encountered indicates an abnormal termination
++        process and not a failure to close.
++        """
++        if self._qmp_connection is None:
++            return
++
++        try:
++            self._qmp.close()
++        except EOFError:
++            # EOF can occur as an Exception here when using the Async
++            # QMP backend. It indicates that the server closed the
++            # stream. If we successfully issued 'quit' at any point,
++            # then this was expected. If the remote went away without
++            # our permission, it's worth reporting that as an abnormal
++            # shutdown case.
++            if not (self._user_killed or self._quit_issued):
++                raise
++        finally:
++            self._qmp_connection = None
++
+     def _early_cleanup(self) -> None:
          """
-         Perform early cleanup, attempt to gracefully shut down the VM, and wait
-         for it to terminate.
- 
-         :param timeout: Timeout in seconds for graceful shutdown.
-                         A value of None is an infinite wait.
--        :param has_quit: When True, don't attempt to issue 'quit' QMP command
- 
-         :raise ConnectionReset: On QMP communication errors
-         :raise subprocess.TimeoutExpired: When timeout is exceeded waiting for
-@@ -460,21 +460,19 @@ def _soft_shutdown(self, timeout: Optional[int],
+         Perform any cleanup that needs to happen before the VM exits.
+@@ -460,9 +491,14 @@ def _soft_shutdown(self, timeout: Optional[int]) -> None:
          self._early_cleanup()
  
          if self._qmp_connection:
--            if not has_quit:
-+            if not self._quit_issued:
-                 # Might raise ConnectionReset
--                self._qmp.cmd('quit')
-+                self.qmp('quit')
+-            if not self._quit_issued:
+-                # Might raise ConnectionReset
+-                self.qmp('quit')
++            try:
++                if not self._quit_issued:
++                    # May raise ExecInterruptedError or StateError if the
++                    # connection dies or has *already* died.
++                    self.qmp('quit')
++            finally:
++                # Regardless, we want to quiesce the connection.
++                self._close_qmp_connection()
  
          # May raise subprocess.TimeoutExpired
          self._subp.wait(timeout=timeout)
- 
--    def _do_shutdown(self, timeout: Optional[int],
--                     has_quit: bool = False) -> None:
-+    def _do_shutdown(self, timeout: Optional[int]) -> None:
-         """
-         Attempt to shutdown the VM gracefully; fallback to a hard shutdown.
- 
-         :param timeout: Timeout in seconds for graceful shutdown.
-                         A value of None is an infinite wait.
--        :param has_quit: When True, don't attempt to issue 'quit' QMP command
- 
-         :raise AbnormalShutdown: When the VM could not be shut down gracefully.
-             The inner exception will likely be ConnectionReset or
-@@ -482,13 +480,13 @@ def _do_shutdown(self, timeout: Optional[int],
-             may result in its own exceptions, likely subprocess.TimeoutExpired.
-         """
-         try:
--            self._soft_shutdown(timeout, has_quit)
-+            self._soft_shutdown(timeout)
-         except Exception as exc:
-             self._hard_shutdown()
-             raise AbnormalShutdown("Could not perform graceful shutdown") \
-                 from exc
- 
--    def shutdown(self, has_quit: bool = False,
-+    def shutdown(self,
-                  hard: bool = False,
-                  timeout: Optional[int] = 30) -> None:
-         """
-@@ -498,7 +496,6 @@ def shutdown(self, has_quit: bool = False,
-         If the VM has not yet been launched, or shutdown(), wait(), or kill()
-         have already been called, this method does nothing.
- 
--        :param has_quit: When true, do not attempt to issue 'quit' QMP command.
-         :param hard: When true, do not attempt graceful shutdown, and
-                      suppress the SIGKILL warning log message.
-         :param timeout: Optional timeout in seconds for graceful shutdown.
-@@ -512,7 +509,7 @@ def shutdown(self, has_quit: bool = False,
-                 self._user_killed = True
-                 self._hard_shutdown()
-             else:
--                self._do_shutdown(timeout, has_quit)
-+                self._do_shutdown(timeout)
-         finally:
-             self._post_shutdown()
- 
-@@ -529,7 +526,8 @@ def wait(self, timeout: Optional[int] = 30) -> None:
-         :param timeout: Optional timeout in seconds. Default 30 seconds.
-                         A value of `None` is an infinite wait.
-         """
--        self.shutdown(has_quit=True, timeout=timeout)
-+        self._quit_issued = True
-+        self.shutdown(timeout=timeout)
- 
-     def set_qmp_monitor(self, enabled: bool = True) -> None:
-         """
-@@ -574,7 +572,10 @@ def qmp(self, cmd: str,
-             conv_keys = True
- 
-         qmp_args = self._qmp_args(conv_keys, args)
--        return self._qmp.cmd(cmd, args=qmp_args)
-+        ret = self._qmp.cmd(cmd, args=qmp_args)
-+        if cmd == 'quit' and 'error' not in ret and 'return' in ret:
-+            self._quit_issued = True
-+        return ret
- 
-     def command(self, cmd: str,
-                 conv_keys: bool = True,
-@@ -585,7 +586,10 @@ def command(self, cmd: str,
-         On failure raise an exception.
-         """
-         qmp_args = self._qmp_args(conv_keys, args)
--        return self._qmp.command(cmd, **qmp_args)
-+        ret = self._qmp.command(cmd, **qmp_args)
-+        if cmd == 'quit':
-+            self._quit_issued = True
-+        return ret
- 
-     def get_qmp_event(self, wait: bool = False) -> Optional[QMPMessage]:
-         """
-diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
-index f3677de9dfd..6af5ab9e764 100755
---- a/tests/qemu-iotests/040
-+++ b/tests/qemu-iotests/040
-@@ -92,10 +92,9 @@ class TestSingleDrive(ImageCommitTestCase):
-         self.vm.add_device('virtio-scsi')
-         self.vm.add_device("scsi-hd,id=scsi0,drive=drive0")
-         self.vm.launch()
--        self.has_quit = False
- 
-     def tearDown(self):
--        self.vm.shutdown(has_quit=self.has_quit)
-+        self.vm.shutdown()
-         os.remove(test_img)
-         os.remove(mid_img)
-         os.remove(backing_img)
-@@ -127,8 +126,6 @@ class TestSingleDrive(ImageCommitTestCase):
-         result = self.vm.qmp('quit')
-         self.assert_qmp(result, 'return', {})
- 
--        self.has_quit = True
--
-     # Same as above, but this time we add the filter after starting the job
-     @iotests.skip_if_unsupported(['throttle'])
-     def test_commit_plus_filter_and_quit(self):
-@@ -147,8 +144,6 @@ class TestSingleDrive(ImageCommitTestCase):
-         result = self.vm.qmp('quit')
-         self.assert_qmp(result, 'return', {})
- 
--        self.has_quit = True
--
-     def test_device_not_found(self):
-         result = self.vm.qmp('block-commit', device='nonexistent', top='%s' % mid_img)
-         self.assert_qmp(result, 'error/class', 'DeviceNotFound')
-diff --git a/tests/qemu-iotests/218 b/tests/qemu-iotests/218
-index 325d8244fb9..4922b4d3b6f 100755
---- a/tests/qemu-iotests/218
-+++ b/tests/qemu-iotests/218
-@@ -187,4 +187,4 @@ with iotests.VM() as vm, \
-     log(vm.qmp('quit'))
- 
-     with iotests.Timeout(5, 'Timeout waiting for VM to quit'):
--        vm.shutdown(has_quit=True)
-+        vm.shutdown()
-diff --git a/tests/qemu-iotests/255 b/tests/qemu-iotests/255
-index c43aa9c67ac..3d6d0e80cb5 100755
---- a/tests/qemu-iotests/255
-+++ b/tests/qemu-iotests/255
-@@ -123,4 +123,4 @@ with iotests.FilePath('src.qcow2') as src_path, \
-     vm.qmp_log('block-job-cancel', device='job0')
-     vm.qmp_log('quit')
- 
--    vm.shutdown(has_quit=True)
-+    vm.shutdown()
 -- 
 2.31.1
 
