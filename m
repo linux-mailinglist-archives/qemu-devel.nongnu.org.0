@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3182342B2F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 04:56:28 +0200 (CEST)
-Received: from localhost ([::1]:45900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6134D42B300
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 04:58:24 +0200 (CEST)
+Received: from localhost ([::1]:54396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maURP-0001iG-88
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 22:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56856)
+	id 1maUTG-0007Q0-7T
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 22:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maUHm-0004jG-RB
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:30 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:35766)
+ id 1maUHm-0004js-Vk
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:31 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:44652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maUHk-0004wF-3s
+ id 1maUHl-0004xs-A0
  for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:30 -0400
-Received: by mail-pg1-x536.google.com with SMTP id e7so901666pgk.2
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 19:46:27 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id t11so792793plq.11
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 19:46:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GDciQRPakuuX9DSUk6eQQR3ypkG2xXbHMYU5/kDhb4Y=;
- b=TRGieUJXKbCJs/I85N6IfysWm5eqa0mUvOvjIGnuQIQ31/zGMcr9dJ3uwbm9BFf66S
- wGc5LLJkiXH8sTXiAERtTDhIrY0pRJ5Hri+GHzc6C8EipHY6P0KS3AVj9/VGsOrjPQMN
- BqjO6kP4Z/1yZfXQ/7DgpBhFdLK13CzwSKwqFd1U/vHdFAVHW7ean75kDw4xCbB6L8Py
- hnM/l5E0VQihCkJiKGCLDYoZz4zOBUGmlkxSwf4edZlBdfR6Y5QSumCNiUXYCQFHpq1l
- 0lMuVb78rCaA5axiRXT2dXsMZ7nl12vG/7uFHEF+0BiyIBvjLbFcZ5vD54f67MFAPDqv
- 2Ykw==
+ bh=i46GtS4jZvhz3YUTttQkHHMj47qcgxPUFuoIgSOj1ts=;
+ b=GUNFYTYx3wLIBXQBW01WeRgG4vY+HfoQAvfDeRRgcebJD0dJL6kdZGxRZ1T+H1tfft
+ fmhE4zablTTrTg/JacqEYIA7dr7mEXmTGHpfW7Lg2zqJOnZWndW/c+J/XOAlb305tuTY
+ GdkaYf3eCUs1uN0I9T/jGVvza59Dn4jOn7P9rFaDkV6jnbv1OHucHOz+gBtye35G3RtK
+ Aib0W086b1eetQjXDc3+Bz12ws7GzdvBNrOUVQxRoeHb2QkYW/NtBTyWjr9PQ4fkQKZA
+ 5BHnKRCklDNqIeT4DbNdwjxc69RmJJuKrl9f6YnnGpK9jlhrSo83gfD6Y7dNMUDjQHxV
+ ewDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GDciQRPakuuX9DSUk6eQQR3ypkG2xXbHMYU5/kDhb4Y=;
- b=MMWhdxkxM73FXvyEEiM5KgopL/HP7py8DXuv2KKp2Yp+WuccTQpQcYgiHtqRIp7s7m
- CMpveE4fuWQOlPIzyIpwBLeXP22B04eMvluF44B1VpnuvSQ8eu1McDHityMyj2yY4jnp
- jWcNHq6gnJpdH9xDWMzVrN0Jsu6pbQRYgGVV9WXUSvjg10rN9qYr2GACJ0WT2lNTVwCQ
- RbXwDJHOMgV389VG1zo4XO3F6zcFjcXxuEHKtHavtkwvFsEzJXSpFAPeWITn+QxFGehr
- gbH9XseETR1DjrTM1HFcO0TAHG9vq0PvmcbvkDHOWSUeDkAQCwtqI+5PGT/godvCj8eT
- NCug==
-X-Gm-Message-State: AOAM530BM6AGUn8uxmlcXtplNEhNbKkjDOiRup1kUbzcg7qL8cf+0jRK
- ieUVaCKCHotgnB4GD23obrTjWT6CLc+heQ==
-X-Google-Smtp-Source: ABdhPJy3YfvMJ+wV8QM/DTRMkXKI0ynL+oPdmmHy5wvDgn8tJVzwPZmGVsTRua8sjMkg1jrB2zh/TQ==
-X-Received: by 2002:a63:470b:: with SMTP id u11mr25438098pga.441.1634093186769; 
- Tue, 12 Oct 2021 19:46:26 -0700 (PDT)
+ bh=i46GtS4jZvhz3YUTttQkHHMj47qcgxPUFuoIgSOj1ts=;
+ b=R3EQseosIqwV9jhldc1avgrssvk1BQ3vvacu+4zm7BssZ9AHgiUHk6kj7zcDIEYvp/
+ WVucp7+E65TnvMwKOeidS8HirBnmLx3QsI1fzwjyTukvBgy0JQPOvZ+wUAw5b2JBzYJr
+ kz1XvHTo8Fb8lD1wkyOQyk2VdGrlfvxWMtmxOKdlzG7WLEPEy84/eIVrZ/gaHifldGLb
+ KLR7WhmgZBS377vKcI3NcJ/23iZHQQ+2wHDVlhMeCWqJ0SSQ0HS2DxG2q4srcOpZCljC
+ nmZBOlRBYX5Ut18mDTIxqqZpDTW9mUO7dnlyPFhgZmRp6Fp8+bA3PoAx94+VCwS2A2LE
+ 0udQ==
+X-Gm-Message-State: AOAM532T6m7yD90iaqYUBleL3vMio3PtH8FcCeiYE72wrHZh2X/9MtyU
+ hvGFV29sQhK9JcDWRWEolZXFO94z57Sy7A==
+X-Google-Smtp-Source: ABdhPJwsA01duK0BIpcVJV0jGDxccJd02Dr2LCEmPSLdUnRPHrJdaiYJRF/bsEENwvgF+X1t5FU+Lg==
+X-Received: by 2002:a17:90a:eb07:: with SMTP id
+ j7mr10562376pjz.20.1634093187903; 
+ Tue, 12 Oct 2021 19:46:27 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id qe17sm4855014pjb.39.2021.10.12.19.46.25
+ by smtp.gmail.com with ESMTPSA id qe17sm4855014pjb.39.2021.10.12.19.46.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 19:46:26 -0700 (PDT)
+ Tue, 12 Oct 2021 19:46:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 17/48] target/arm: Use MO_128 for 16 byte atomics
-Date: Tue, 12 Oct 2021 19:45:36 -0700
-Message-Id: <20211013024607.731881-18-richard.henderson@linaro.org>
+Subject: [PATCH v4 18/48] target/i386: Use MO_128 for 16 byte atomics
+Date: Tue, 12 Oct 2021 19:45:37 -0700
+Message-Id: <20211013024607.731881-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211013024607.731881-1-richard.henderson@linaro.org>
 References: <20211013024607.731881-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,58 +84,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: qemu-arm@nongnu.org
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-a64.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/i386/tcg/mem_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
-index c5af779006..4cafd3c11a 100644
---- a/target/arm/helper-a64.c
-+++ b/target/arm/helper-a64.c
-@@ -560,7 +560,7 @@ uint64_t HELPER(paired_cmpxchg64_le_parallel)(CPUARMState *env, uint64_t addr,
-     assert(HAVE_CMPXCHG128);
+diff --git a/target/i386/tcg/mem_helper.c b/target/i386/tcg/mem_helper.c
+index 0fd696f9c1..a207e624cb 100644
+--- a/target/i386/tcg/mem_helper.c
++++ b/target/i386/tcg/mem_helper.c
+@@ -136,7 +136,7 @@ void helper_cmpxchg16b(CPUX86State *env, target_ulong a0)
+         Int128 newv = int128_make128(env->regs[R_EBX], env->regs[R_ECX]);
  
-     mem_idx = cpu_mmu_index(env, false);
--    oi = make_memop_idx(MO_LEQ | MO_ALIGN_16, mem_idx);
-+    oi = make_memop_idx(MO_LE | MO_128 | MO_ALIGN, mem_idx);
+         int mem_idx = cpu_mmu_index(env, false);
+-        MemOpIdx oi = make_memop_idx(MO_TEQ | MO_ALIGN_16, mem_idx);
++        MemOpIdx oi = make_memop_idx(MO_TE | MO_128 | MO_ALIGN, mem_idx);
+         Int128 oldv = cpu_atomic_cmpxchgo_le_mmu(env, a0, cmpv, newv, oi, ra);
  
-     cmpv = int128_make128(env->exclusive_val, env->exclusive_high);
-     newv = int128_make128(new_lo, new_hi);
-@@ -630,7 +630,7 @@ uint64_t HELPER(paired_cmpxchg64_be_parallel)(CPUARMState *env, uint64_t addr,
-     assert(HAVE_CMPXCHG128);
- 
-     mem_idx = cpu_mmu_index(env, false);
--    oi = make_memop_idx(MO_BEQ | MO_ALIGN_16, mem_idx);
-+    oi = make_memop_idx(MO_BE | MO_128 | MO_ALIGN, mem_idx);
- 
-     /*
-      * High and low need to be switched here because this is not actually a
-@@ -656,7 +656,7 @@ void HELPER(casp_le_parallel)(CPUARMState *env, uint32_t rs, uint64_t addr,
-     assert(HAVE_CMPXCHG128);
- 
-     mem_idx = cpu_mmu_index(env, false);
--    oi = make_memop_idx(MO_LEQ | MO_ALIGN_16, mem_idx);
-+    oi = make_memop_idx(MO_LE | MO_128 | MO_ALIGN, mem_idx);
- 
-     cmpv = int128_make128(env->xregs[rs], env->xregs[rs + 1]);
-     newv = int128_make128(new_lo, new_hi);
-@@ -677,7 +677,7 @@ void HELPER(casp_be_parallel)(CPUARMState *env, uint32_t rs, uint64_t addr,
-     assert(HAVE_CMPXCHG128);
- 
-     mem_idx = cpu_mmu_index(env, false);
--    oi = make_memop_idx(MO_LEQ | MO_ALIGN_16, mem_idx);
-+    oi = make_memop_idx(MO_LE | MO_128 | MO_ALIGN, mem_idx);
- 
-     cmpv = int128_make128(env->xregs[rs + 1], env->xregs[rs]);
-     newv = int128_make128(new_lo, new_hi);
+         if (int128_eq(oldv, cmpv)) {
 -- 
 2.25.1
 
