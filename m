@@ -2,99 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2005C42BA92
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 10:35:06 +0200 (CEST)
-Received: from localhost ([::1]:45090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F4A042BAB9
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 10:42:48 +0200 (CEST)
+Received: from localhost ([::1]:49916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maZj7-0003WL-6k
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 04:35:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36946)
+	id 1maZqZ-0006z5-2a
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 04:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1maZhv-0002kT-K2
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 04:33:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25921)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1maZoi-0006Bw-4g; Wed, 13 Oct 2021 04:40:52 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1maZhr-0005NP-F7
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 04:33:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634114025;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JrzECZ2QUd9o8PIm4JiHSQW+YVmRTjXugnNZYrzxx5w=;
- b=PQhzyT8i+isV8JAcFrWGwPDjgpq0HVpADFDuZ0T6r9xS6n86BsCHxmo9gCuj7DVc1GDD+f
- MjYWVwhkrk6F3y91bg+gkbrck7nFkwdBig2FbeWp2RLd4VBLob0NZWNho4PPOIujJh1ZRO
- 0Zg7xP5e7BYO8TDrBNsqEJsfYAfLm2Y=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-wzoiE1ysNEqHegeC0EnSUg-1; Wed, 13 Oct 2021 04:33:42 -0400
-X-MC-Unique: wzoiE1ysNEqHegeC0EnSUg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- c4-20020a5d6cc4000000b00160edc8bb28so1365074wrc.9
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 01:33:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=JrzECZ2QUd9o8PIm4JiHSQW+YVmRTjXugnNZYrzxx5w=;
- b=ebRrpVNcuXgDfWm1gKo5cvivf15WgyaohSnldN2qAfVX6ccdru+iWmdII4ZRy9gEiv
- 6nn2pXSUdOKYeGDGqt5LmpJ2J6lvNQgfeI67GmrzdrQZgyVXy2T7bY0vRplDm1QCTwNs
- gn4QYBXHviyT4xjifhnHR5wQdFLRCO+o2J4Fp/pYDM5DTErR0F/6MWWZpy1T7LgY5wCY
- v6LyPmTmxiXzlfIUAn47AA6+ko48w5GBxgaHY/iucftWEYI7Cxvii080SljBsqH+ywoK
- 46eIjzec35mg3cZC8Kbndfn7Jatpm4TdN5qtijg4ySVvy1xM1lAHbh4toltp0tyCiYgF
- jNtA==
-X-Gm-Message-State: AOAM532IF1n8zupz/eO7spkTXaDuqeNX9rtrCwr3rX+IvG4QNU7VIYQe
- Q2HGrZSFPZJLBSMF2TkXu4rkxN/kDChnqJ+zE7yKi3FT8O3Cor6jz4V3p5QrWrRqHpCxDo6jFPQ
- +QOzgLoi/LVFkce4=
-X-Received: by 2002:adf:ab43:: with SMTP id r3mr38891027wrc.225.1634114021273; 
- Wed, 13 Oct 2021 01:33:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyafh0csuT69Yks0mkJXDXdio7cS6zq1peIxLzM3q/8LMM1L3WP9SXq2VUDsCTNnl32RFU6pA==
-X-Received: by 2002:adf:ab43:: with SMTP id r3mr38890984wrc.225.1634114020929; 
- Wed, 13 Oct 2021 01:33:40 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6774.dip0.t-ipconnect.de. [91.12.103.116])
- by smtp.gmail.com with ESMTPSA id a127sm4418089wme.40.2021.10.13.01.33.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Oct 2021 01:33:40 -0700 (PDT)
-To: "david.dai" <david.dai@montage-tech.com>
-References: <20210926021614.76933-1-david.dai@montage-tech.com>
- <YVGAWh7e96f8yed0@stefanha-x1.localdomain>
- <38a0312e-3b00-ac41-3cb0-ab5592b06dc1@redhat.com>
- <20210927122848.GB144947@tianmu-host-sw-01>
- <c87c301e-62af-ab5a-2b9c-fa2ef28898f1@redhat.com>
- <20210930094007.GA239054@tianmu-host-sw-01>
- <5eba1406-4012-481a-b7ed-0090654668d2@redhat.com>
- <20211009094233.GA13867@tianmu-host-sw-01>
- <ea36815e-0b79-b5b2-9735-367404c9b8f6@redhat.com>
- <20211013081337.GA96268@tianmu-host-sw-01>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH] hw/misc: Add a virtual pci device to dynamically attach
- memory to QEMU
-Message-ID: <0c244f16-ca16-9f70-dab8-f543accc063b@redhat.com>
-Date: Wed, 13 Oct 2021 10:33:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1maZof-0003Q1-IL; Wed, 13 Oct 2021 04:40:51 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19D7c5x2021877; 
+ Wed, 13 Oct 2021 04:40:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=vENGsMQ+Qf8093asK7RoKtuhGfZLDOk7N3l4P5RTCro=;
+ b=pQcH1XsREeQq4gFgtPEZPIxXjdQ5SUALppA3uqNBsAs8PAenPLcqVnjISrPPiTIdMyN9
+ M497HJL2PIvwmTm2cBK91VWx/FPBPeP0qOXzqlCXFoMp8PZBceOkFsYIAQhSRaBRNKsq
+ S1ERWOmy0M1S55SEV/5Noggp5eSSgm3HJXhbk/OeaX5DrCKWCQA3wSHJquKUN/eyBt9m
+ YvKEe3R7EH24A+ue9qZG/GBOlRbRDzar3fN+/i52hnAtpe9xHufsf0niaoSWKjbmXWEz
+ ETMzfWgzKoySyWTgZgDlHIqD+pCmhbCOr7weVNpfRdrIopuYZ3RqniMwLdoKoOdrlhd+ 3Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bnr79d020-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Oct 2021 04:40:46 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19D764eC019670;
+ Wed, 13 Oct 2021 04:40:45 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bnr79d00t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Oct 2021 04:40:45 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19D8bQR6014458;
+ Wed, 13 Oct 2021 08:40:41 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3bk2q9rpc2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Oct 2021 08:40:41 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 19D8Yu2G58458582
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 13 Oct 2021 08:34:56 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2A63DA404D;
+ Wed, 13 Oct 2021 08:40:34 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 40A7EA4055;
+ Wed, 13 Oct 2021 08:40:31 +0000 (GMT)
+Received: from [9.171.19.130] (unknown [9.171.19.130])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 13 Oct 2021 08:40:30 +0000 (GMT)
+Message-ID: <d892f64b-2260-808b-2b05-f38839e4b52e@linux.ibm.com>
+Date: Wed, 13 Oct 2021 10:40:30 +0200
 MIME-Version: 1.0
-In-Reply-To: <20211013081337.GA96268@tianmu-host-sw-01>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v3 4/4] s390x: topology: implementating Store Topology
+ System Information
 Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+References: <1631800254-25762-1-git-send-email-pmorel@linux.ibm.com>
+ <1631800254-25762-5-git-send-email-pmorel@linux.ibm.com>
+ <e20bcaec-e76e-d12a-3a94-f4f0170b203a@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <e20bcaec-e76e-d12a-3a94-f4f0170b203a@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: wKqBT_STpzLFAqa0OfayH3pPqYODRxSL
+X-Proofpoint-ORIG-GUID: PF0PLvI4BfARQoOqMCZw8fzpBiSrJ4Fs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-13_02,2021-10-13_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
+ suspectscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxscore=0
+ priorityscore=1501 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2109230001 definitions=main-2110130057
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,205 +114,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, eajames@linux.ibm.com,
- qemu-devel@nongnu.org, changguo.du@montage-tech.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- kuhn.chenqun@huawei.com
+Cc: david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13.10.21 10:13, david.dai wrote:
-> On Mon, Oct 11, 2021 at 09:43:53AM +0200, David Hildenbrand (david@redhat.com) wrote:
+
+
+On 10/13/21 10:20, Thomas Huth wrote:
+> On 16/09/2021 15.50, Pierre Morel wrote:
+>> The handling of STSI is enhanced with the interception of the
+>> function code 15 for storing CPU topology.
 >>
+>> Using the objects built during the pluging of CPU, we build the
+>> SYSIB 15_1_x structures.
 >>
+>> With this patch the maximum MNEST level is 2, this is also
+>> the only level allowed and only SYSIB 15_1_2 will be built.
 >>
->>>> virito-mem currently relies on having a single sparse memory region (anon
->>>> mmap, mmaped file, mmaped huge pages, mmap shmem) per VM. Although we can
->>>> share memory with other processes, sharing with other VMs is not intended.
->>>> Instead of actually mmaping parts dynamically (which can be quite
->>>> expensive), virtio-mem relies on punching holes into the backend and
->>>> dynamically allocating memory/file blocks/... on access.
->>>>
->>>> So the easy way to make it work is:
->>>>
->>>> a) Exposing the CXL memory to the buddy via dax/kmem, esulting in device
->>>> memory getting managed by the buddy on a separate NUMA node.
->>>>
->>>
->>> Linux kernel buddy system? how to guarantee other applications don't apply memory
->>> from it
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   target/s390x/kvm/kvm.c | 101 +++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 101 insertions(+)
 >>
->> Excellent question. Usually, you would online the memory to ZONE_MOVABLE,
->> such that even if some other allocation ended up there, that it could
->> get migrated somewhere else.
->>
->> For example, "daxctl reconfigure-device" tries doing that as default:
->>
->> https://pmem.io/ndctl/daxctl-reconfigure-device.html
->>
->> However, I agree that we might actually want to tell the system to not
->> use this CPU-less node as fallback for other allocations, and that we
->> might not want to swap out such memory etc.
->>
->>
->> But, in the end all that virtio-mem needs to work in the hypervisor is
->>
->> a) A sparse memmap (anonymous RAM, memfd, file)
->> b) A way to populate memory within that sparse memmap (e.g., on fault,
->>     using madvise(MADV_POPULATE_WRITE), fallocate())
->> c) A way to discard memory (madvise(MADV_DONTNEED),
->>     fallocate(FALLOC_FL_PUNCH_HOLE))
->>
->> So instead of using anonymous memory+mbind, you can also mmap a sparse file
->> and rely on populate-on-demand. One alternative for your use case would be
->> to create a DAX  filesystem on that CXL memory (IIRC that should work) and
->> simply providing virtio-mem with a sparse file located on that filesystem.
->>
->> Of course, you can also use some other mechanism as you might have in
->> your approach, as long as it supports a,b,c.
->>
->>>
->>>>
->>>> b) (optional) allocate huge pages on that separate NUMA node.
->>>> c) Use ordinary memory-device-ram or memory-device-memfd (for huge pages),
->>>> *bidning* the memory backend to that special NUMA node.
->>>>
->>> "-object memory-backend/device-ram or memory-device-memfd, id=mem0, size=768G"
->>> How to bind backend memory to NUMA node
->>>
->>
->> I think the syntax is "policy=bind,host-nodes=X"
->>
->> whereby X is a node mask. So for node "0" you'd use "host-nodes=0x1" for "5"
->> "host-nodes=0x20" etc.
->>
->>>>
->>>> This will dynamically allocate memory from that special NUMA node, resulting
->>>> in the virtio-mem device completely being backed by that device memory,
->>>> being able to dynamically resize the memory allocation.
->>>>
->>>>
->>>> Exposing an actual devdax to the virtio-mem device, shared by multiple VMs
->>>> isn't really what we want and won't work without major design changes. Also,
->>>> I'm not so sure it's a very clean design: exposing memory belonging to other
->>>> VMs to unrelated QEMU processes. This sounds like a serious security hole:
->>>> if you managed to escalate to the QEMU process from inside the VM, you can
->>>> access unrelated VM memory quite happily. You want an abstraction
->>>> in-between, that makes sure each VM/QEMU process only sees private memory:
->>>> for example, the buddy via dax/kmem.
->>>>
->>> Hi David
->>> Thanks for your suggestion, also sorry for my delayed reply due to my long vacation.
->>> How does current virtio-mem dynamically attach memory to guest, via page fault?
->>
->> Essentially you have a large sparse mmap. Withing that mmap, memory is
->> populated on demand. Instead if mmap/munmap you perform a single large
->> mmap and then dynamically populate memory/discard memory.
->>
->> Right now, memory is populated via page faults on access. This is
->> sub-optimal when dealing with limited resources (i.e., hugetlbfs,
->> file blocks) and you might run out of backend memory.
->>
->> I'm working on a "prealloc" mode, which will preallocate/populate memory
->> necessary for exposing the next block of memory to the VM, and which
->> fails gracefully if preallocation/population fails in the case of such
->> limited resources.
->>
->> The patch resides on:
->> 	https://github.com/davidhildenbrand/qemu/tree/virtio-mem-next
->>
->> commit ded0e302c14ae1b68bdce9059dcca344e0a5f5f0
->> Author: David Hildenbrand <david@redhat.com>
->> Date:   Mon Aug 2 19:51:36 2021 +0200
->>
->>      virtio-mem: support "prealloc=on" option
->>      Especially for hugetlb, but also for file-based memory backends, we'd
->>      like to be able to prealloc memory, especially to make user errors less
->>      severe: crashing the VM when there are not sufficient huge pages around.
->>      A common option for hugetlb will be using "reserve=off,prealloc=off" for
->>      the memory backend and "prealloc=on" for the virtio-mem device. This
->>      way, no huge pages will be reserved for the process, but we can recover
->>      if there are no actual huge pages when plugging memory.
->>      Signed-off-by: David Hildenbrand <david@redhat.com>
->>
->>
->> -- 
->> Thanks,
->>
->> David / dhildenb
->>
+>> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+>> index dd036961fe..0a5f2aced2 100644
+>> --- a/target/s390x/kvm/kvm.c
+>> +++ b/target/s390x/kvm/kvm.c
+>> @@ -52,6 +52,7 @@
+>>   #include "hw/s390x/s390-virtio-ccw.h"
+>>   #include "hw/s390x/s390-virtio-hcall.h"
+>>   #include "hw/s390x/pv.h"
+>> +#include "hw/s390x/cpu-topology.h"
+>>   #ifndef DEBUG_KVM
+>>   #define DEBUG_KVM  0
+>> @@ -1908,6 +1909,102 @@ static void insert_stsi_3_2_2(S390CPU *cpu, 
+>> __u64 addr, uint8_t ar)
+>>       }
+>>   }
 > 
-> Hi David,
-> 
-> After read virtio-mem code, I understand what you have expressed, please allow me to describe
-> my understanding to virtio-mem, so that we have a aligned view.
-> 
-> Virtio-mem:
->   Virtio-mem device initializes and reserved a memory area(GPA), later memory dynamically
->   growing/shrinking will not exceed this scope, memory-backend-ram has mapped anon. memory
->   to the whole area, but no ram is attached because Linux have a policy to delay allocation.
+> Could you maybe put the new code in a separate file under target/s390x/ 
+> (maybe target/s390x/topology.c ?), in case we ever want to implement 
+> this for TCG, too?
 
-Right, but it can also be any sparse file (memory-backend-memfd, 
-memory-backend-file).
+Yes right, did not thing about TCG as I saw it as pure Z.
+But in fact it may be adapted for TCG too.
 
->   When virtio-mem driver apply to dynamically add memory to guest, it first request a region
->   from the reserved memory area, then notify virtio-mem device to record the information
->   (virtio-mem device doesn't make real memory allocation). After received response from
-
-In the upcoming prealloc=on mode I referenced, the allocation will 
-happen before the guest is notified about success and starts using the 
-memory.
-
-With vfio/mdev support, the allocation will happen nowadays already, 
-when vfio/mdev is notified about the populated memory ranges (see 
-RamDiscardManager). That's essentially what makes virtio-mem device 
-passthrough work.
-
->   virtio-mem deivce, virtio-mem driver will online the requested region and add it to Linux
->   page allocator. Real ram allocation will happen via page fault when guest cpu access it.
->   Memory shrink will be achieved by madvise()
-
-Right, but you could write a custom virtio-mem driver that pools this 
-memory differently.
-
-Memory shrinking in the hypervisor is either done using 
-madvise(DONMTNEED) or fallocate(FALLOC_FL_PUNCH_HOLE)
 
 > 
-> Questions:
-> 1. heterogeneous computing, memory may be accessed by CPUs on host side and device side.
->     Memory delayed allocation is not suitable. Host software(for instance, OpenCL) may
->     allocate a buffer to computing device to place the computing result in.
+>> +static int stsi_15_cpus(void *p, S390TopologyCores *cd)
+>> +{
+>> +    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
+>> +
+>> +    tle->nl = 0;
+>> +    tle->dedicated = cd->dedicated;
+>> +    tle->polarity = cd->polarity;
+>> +    tle->type = cd->cputype;
+>> +    tle->origin = cd->origin;
+> 
+> If we want to use this for TCG, too, one day:
+> 
+>     tle->origin = be16_to_cpu(cd->origin);
 
-That works already with virtio-mem with vfio/mdev via the 
-RamDiscardManager infrastructure introduced recently. With 
-"prealloc=on", the delayed memory allocation can also be avoided without 
-vfio/mdev.
+yes.
 
-> 2. we hope build ourselves page allocator in host kernel, so it can offer customized mmap()
->     method to build va->pa mapping in MMU and IOMMU.
+> 
+>> +    tle->mask = cd->mask;
+>> +
+>> +    return sizeof(*tle);
+>> +}
+>> +
+>> +static int set_socket(const MachineState *ms, void *p,
+>> +                      S390TopologySocket *socket)
+>> +{
+>> +    BusChild *kid;
+>> +    int l, len = 0;
+>> +
+>> +    len += stsi_15_container(p, 1, socket->socket_id);
+>> +    p += len;
+>> +
+>> +    QTAILQ_FOREACH_REVERSE(kid, &socket->bus->children, sibling) {
+>> +        l = stsi_15_cpus(p, S390_TOPOLOGY_CORES(kid->child));
+>> +        p += l;
+>> +        len += l;
+>> +    }
+>> +    return len;
+>> +}
+>> +
+>> +static void insert_stsi_15_1_2(const MachineState *ms, void *p)
+>> +{
+>> +    S390TopologyBook *book;
+>> +    SysIB_151x *sysib;
+>> +    BusChild *kid;
+>> +    int level = 2;
+>> +    int len, l;
+>> +
+>> +    sysib = (SysIB_151x *)p;
+>> +    sysib->mnest = level;
+>> +    sysib->mag[TOPOLOGY_NR_MAG2] = ms->smp.sockets;
+>> +    sysib->mag[TOPOLOGY_NR_MAG1] = ms->smp.cores;
+>> +
+>> +    book = s390_get_topology();
+>> +    len = sizeof(SysIB_151x);
+>> +    p += len;
+>> +
+>> +    QTAILQ_FOREACH_REVERSE(kid, &book->bus->children, sibling) {
+>> +        l = set_socket(ms, p, S390_TOPOLOGY_SOCKET(kid->child));
+>> +        p += l;
+>> +        len += l;
+>> +    }
+>> +
+>> +    sysib->length = len;
+> 
+> For TCG awareness:
+> 
+>      sysib->length = be16_to_cpu(len);
 
-Theoretically, you can wire up pretty much any driver in QEMU like 
-vfio/mdev via the RamDiscardManager. From there, you can issue whatever 
-syscall you need to popualte memory when plugging new memory blocks. All 
-you need to support is a sparse mmap and a way to populate/discard 
-memory. Populate/discard could be wired up in QEMU virtio-mem code as 
-you need it.
+OK
 
-> 3. some potential requirements also require our driver to manage memory, so that page size
->     granularity can be controlled to fit small device iotlb cache.
->     CXL has bias mode for HDM(host managed device memory), it needs physical address to make
->     bias mode switch between host access and device access. These tell us driver manage memory
->     is mandatory.
-
-I think if you write your driver in a certain way and wire it up in QEMU 
-virtio-mem accordingly (e.g., using a new memory-backend-whatever), that 
-shouldn't be an issue.
-
+Yes, thanks I will take care of TCG in the next spin.
+Regards,
+Pierre
 
 -- 
-Thanks,
-
-David / dhildenb
-
+Pierre Morel
+IBM Lab Boeblingen
 
