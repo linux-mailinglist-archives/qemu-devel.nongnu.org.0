@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C6C42BB86
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:28:12 +0200 (CEST)
-Received: from localhost ([::1]:40626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85DEC42BB75
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:25:05 +0200 (CEST)
+Received: from localhost ([::1]:60216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maaYV-0000cE-RJ
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:28:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54712)
+	id 1maaVU-0003F6-H2
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:25:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEr-0002OA-6b
+ id 1maaEr-0002OB-IG
  for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:54 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:33307)
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:44590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEl-0005pV-Ok
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:52 -0400
-Received: by mail-ed1-x530.google.com with SMTP id p13so7490160edw.0
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:07:47 -0700 (PDT)
+ id 1maaEn-0005qU-5q
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:53 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id w14so7163704edv.11
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:07:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KUxbOVVYQMI1tYDBR9aoEQ+5fJqal+gmG6XqDBCXmTg=;
- b=cNLseVSwZUP3NQypSJ0gDDt20RjFW/FO0l5vsaMWQQwXUvag5kuqbKeEjo5cs436DE
- gOpJJ+5vWzt2GUl1E9R6hKPPawKBKCxcwQkeMcGUeOL+7jsacFZFnuHv7UZTMCz139nh
- nDMumZCHkHqrdDduLy5N2tJVHcFSHjXf8tB/JFuRn+cwg3cRFKOImtCZG/Dq//2lzAwE
- l1eDK/UIDxd/92HQyrLP6SmGv0karTrIs1znhY05v0hEfQSEeLnlVzi1TklGLIyeAh37
- 6WlIpgygpuCaNJWSWpqWm6l0QuX3+dIQeLWWc/hfto9/9IQLG2MBb11RnbpDs9oC4hUf
- 9dGw==
+ bh=1UVpIl3wisL15Hw6RRnp1TioghQoJ5kaNvVSiU34d+8=;
+ b=D5/jgpFsGM3FsoMLegbB2ktkTS7CDcEOYaGLJaBdG3DaIHm9QAtRRQoINTE/oNuntu
+ vNzcyEvDgOBWmZQ9ULwoScsBj+acyZwSdD5J9PO5BeTvRhbQcHl+RDgBSMudmlnb553J
+ 3BZH4p492YzFAiGkeBrLAG9avbP107Du+vmcVCtVyLaUaC6dnBcdTHcYRHllQy+fQTNu
+ BCu4hFeSSiQgRVolW0odpPd6n4HlqGN8xI9ehQkCHcu6b7tbcGYhHSHK+xkNkDiifIHK
+ 0jmh+tDKDje49O+5PWm8HgSaLw64jU8QEgpxQNj8LX3rFNSXt4fRvLSwvwNlv4v5vRab
+ obUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KUxbOVVYQMI1tYDBR9aoEQ+5fJqal+gmG6XqDBCXmTg=;
- b=wP+urLw1SuQt+P+cPYaVmYbBYbQ1NEGBko6BhwG4Q7Ug8qq7HR2qYtl5JdS6xUVnvi
- 7XVJet/r0Nw2wQzGFbNfr3YD7831kHicRBf3go/zZRohZ9XJO/eMeGlL8SzzJ4E8iXkn
- M9SzwzOuEeFkox6J6HEUD+BfdYE47ZPSiPtwdn/t36XfwIMMvtY4utLZRVobdhfWJM5+
- 52l+wLZxry8WKUT7fvtauDeHGfCRdHfhfrltkxkiotPdccABnELrs4ebk6XitrNj/b8A
- FjV3/SD/QOhoeiqnwlLPFaDA3sI1E//1fcGPKimNIY2ZTHaYgaTCwbYxIK42mePr5mty
- 7PNg==
-X-Gm-Message-State: AOAM532tAASLg3WnckmM3SnOCTV6F/JgBshRzhDbZIN0fps0ouQ7ZkR6
- uZgYA+IFf6+LKw7u0v+a2muNtNGDID0=
-X-Google-Smtp-Source: ABdhPJyS3k+736woks4OQA0L0+QRwPLXNtKZ6d/NoFt0b8sM1exQV/YIqA97bNeXZOfneN8OBN7HQg==
-X-Received: by 2002:a05:6402:1910:: with SMTP id
- e16mr8032460edz.176.1634116066532; 
- Wed, 13 Oct 2021 02:07:46 -0700 (PDT)
+ bh=1UVpIl3wisL15Hw6RRnp1TioghQoJ5kaNvVSiU34d+8=;
+ b=jlv1AFBZNe+rE1qgc+cIgaJ0eBzTiSsxbCSs0PxlnkeL1ocVIeQndAYP6Rfhg1oZAi
+ aQ51PqeK4OWnGakO2gcAqty3OjQkVrRWz6GR4Fwkxx2uUeR34v7ejiU/wiCBbADuwcsa
+ ZpQTd8IhY9OEix3yRTBBzbiFd6/qdmSnD4ddJZT+9ph2cw8eNkvPGS5rgAXCwamOJhHm
+ XXHstmtrDSU0Y5eu8t086uyF4PyJaael+LOM9EYOhdGozUs1PKQfDRzdjOWDAcYAcsAO
+ ujvNUux88AgjoXN4lv3hq6YWF+n8NoJABpK0Wk2Pslxth6YgP51Qp2/k0hPzKcDqEw89
+ MGVA==
+X-Gm-Message-State: AOAM531M5CmsehzRc+J6LJo17Sgsw/AMvxUmicxtW/E0YxJvpoxRpkWY
+ 2E/g9TZlIXjn0Warw+npAK05oqgG5uc=
+X-Google-Smtp-Source: ABdhPJyLExi+ipzxj2P0wFuSxeFdAd4B1+FWGQ3/Gg6TBVqBJ8SDVZAY6xqQ6aok6ycPuAZLmNtTtg==
+X-Received: by 2002:a17:906:c302:: with SMTP id
+ s2mr37828439ejz.499.1634116067181; 
+ Wed, 13 Oct 2021 02:07:47 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.45
+ by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 13 Oct 2021 02:07:46 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/40] target/i386/sev: Move qmp_query_sev_capabilities() to
+Subject: [PULL 25/40] target/i386/sev: Move qmp_query_sev_launch_measure() to
  sev.c
-Date: Wed, 13 Oct 2021 11:07:12 +0200
-Message-Id: <20211013090728.309365-25-pbonzini@redhat.com>
+Date: Wed, 13 Oct 2021 11:07:13 +0200
+Message-Id: <20211013090728.309365-26-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211013090728.309365-1-pbonzini@redhat.com>
 References: <20211013090728.309365-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,85 +91,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Move qmp_query_sev_capabilities() from monitor.c to sev.c
-and make sev_get_capabilities() static. We don't need the
+Move qmp_query_sev_launch_measure() from monitor.c to sev.c
+and make sev_get_launch_measurement() static. We don't need the
 stub anymore, remove it.
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20211007161716.453984-20-philmd@redhat.com>
+Message-Id: <20211007161716.453984-21-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/monitor.c         | 5 -----
- target/i386/sev-sysemu-stub.c | 2 +-
- target/i386/sev.c             | 8 ++++++--
- target/i386/sev.h             | 1 -
- 4 files changed, 7 insertions(+), 9 deletions(-)
+ target/i386/monitor.c         | 17 -----------------
+ target/i386/sev-sysemu-stub.c |  3 ++-
+ target/i386/sev.c             | 20 ++++++++++++++++++--
+ target/i386/sev.h             |  1 -
+ 4 files changed, 20 insertions(+), 21 deletions(-)
 
 diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index 22883ef2eb..4c017b59b3 100644
+index 4c017b59b3..bd24d0d473 100644
 --- a/target/i386/monitor.c
 +++ b/target/i386/monitor.c
-@@ -727,11 +727,6 @@ SevLaunchMeasureInfo *qmp_query_sev_launch_measure(Error **errp)
-     return info;
+@@ -710,23 +710,6 @@ void hmp_info_sev(Monitor *mon, const QDict *qdict)
+     qapi_free_SevInfo(info);
  }
  
--SevCapability *qmp_query_sev_capabilities(Error **errp)
+-SevLaunchMeasureInfo *qmp_query_sev_launch_measure(Error **errp)
 -{
--    return sev_get_capabilities(errp);
+-    char *data;
+-    SevLaunchMeasureInfo *info;
+-
+-    data = sev_get_launch_measurement();
+-    if (!data) {
+-        error_setg(errp, "SEV launch measurement is not available");
+-        return NULL;
+-    }
+-
+-    info = g_malloc0(sizeof(*info));
+-    info->data = data;
+-
+-    return info;
 -}
 -
  SGXInfo *qmp_query_sgx(Error **errp)
  {
      return sgx_get_info(errp);
 diff --git a/target/i386/sev-sysemu-stub.c b/target/i386/sev-sysemu-stub.c
-index 82c5ebb92f..3e8cab4c14 100644
+index 3e8cab4c14..8d97d7c7e1 100644
 --- a/target/i386/sev-sysemu-stub.c
 +++ b/target/i386/sev-sysemu-stub.c
-@@ -27,7 +27,7 @@ char *sev_get_launch_measurement(void)
+@@ -22,8 +22,9 @@ SevInfo *sev_get_info(void)
      return NULL;
  }
  
--SevCapability *sev_get_capabilities(Error **errp)
-+SevCapability *qmp_query_sev_capabilities(Error **errp)
+-char *sev_get_launch_measurement(void)
++SevLaunchMeasureInfo *qmp_query_sev_launch_measure(Error **errp)
  {
-     error_setg(errp, "SEV is not available in this QEMU");
++    error_setg(errp, "SEV is not available in this QEMU");
      return NULL;
+ }
+ 
 diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 072bb6f0fd..56e9e03acc 100644
+index 56e9e03acc..ec874b3df8 100644
 --- a/target/i386/sev.c
 +++ b/target/i386/sev.c
-@@ -466,8 +466,7 @@ e_free:
-     return 1;
+@@ -742,8 +742,7 @@ sev_launch_get_measure(Notifier *notifier, void *unused)
+     trace_kvm_sev_launch_measurement(sev->measurement);
  }
  
--SevCapability *
--sev_get_capabilities(Error **errp)
-+static SevCapability *sev_get_capabilities(Error **errp)
+-char *
+-sev_get_launch_measurement(void)
++static char *sev_get_launch_measurement(void)
  {
-     SevCapability *cap = NULL;
-     guchar *pdh_data = NULL;
-@@ -517,6 +516,11 @@ out:
-     return cap;
+     if (sev_guest &&
+         sev_guest->state >= SEV_STATE_LAUNCH_SECRET) {
+@@ -753,6 +752,23 @@ sev_get_launch_measurement(void)
+     return NULL;
  }
  
-+SevCapability *qmp_query_sev_capabilities(Error **errp)
++SevLaunchMeasureInfo *qmp_query_sev_launch_measure(Error **errp)
 +{
-+    return sev_get_capabilities(errp);
++    char *data;
++    SevLaunchMeasureInfo *info;
++
++    data = sev_get_launch_measurement();
++    if (!data) {
++        error_setg(errp, "SEV launch measurement is not available");
++        return NULL;
++    }
++
++    info = g_malloc0(sizeof(*info));
++    info->data = data;
++
++    return info;
 +}
 +
- static SevAttestationReport *sev_get_attestation_report(const char *mnonce,
-                                                         Error **errp)
- {
+ static Notifier sev_machine_done_notify = {
+     .notify = sev_launch_get_measure,
+ };
 diff --git a/target/i386/sev.h b/target/i386/sev.h
-index 529a54acb8..35e702e57b 100644
+index 35e702e57b..9ee1429395 100644
 --- a/target/i386/sev.h
 +++ b/target/i386/sev.h
-@@ -51,7 +51,6 @@ extern SevInfo *sev_get_info(void);
+@@ -50,7 +50,6 @@ bool sev_es_enabled(void);
+ extern SevInfo *sev_get_info(void);
  extern uint32_t sev_get_cbit_position(void);
  extern uint32_t sev_get_reduced_phys_bits(void);
- extern char *sev_get_launch_measurement(void);
--extern SevCapability *sev_get_capabilities(Error **errp);
+-extern char *sev_get_launch_measurement(void);
  extern bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp);
  
  int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
