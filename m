@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97C6342C4B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 17:22:41 +0200 (CEST)
-Received: from localhost ([::1]:49436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C2742C4C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 17:27:12 +0200 (CEST)
+Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mag5X-00045l-Ar
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 11:22:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56722)
+	id 1mag9v-00063l-QX
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 11:27:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mag4B-0003JX-9t
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:21:15 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:39195)
+ id 1mag93-0005Of-2i
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:26:17 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:20770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mag47-0003Go-O7
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:21:14 -0400
+ id 1mag8z-0007rq-VH
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:26:16 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 6DA7E748F5B;
- Wed, 13 Oct 2021 17:21:08 +0200 (CEST)
+ by localhost (Postfix) with SMTP id D39EE748F5B;
+ Wed, 13 Oct 2021 17:26:10 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 3AF8B748F58; Wed, 13 Oct 2021 17:21:08 +0200 (CEST)
+ id A68A4748F58; Wed, 13 Oct 2021 17:26:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 38F59748F56;
- Wed, 13 Oct 2021 17:21:08 +0200 (CEST)
-Date: Wed, 13 Oct 2021 17:21:08 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id A4D287475FA;
+ Wed, 13 Oct 2021 17:26:10 +0200 (CEST)
+Date: Wed, 13 Oct 2021 17:26:10 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
 Subject: Re: [PATCH v3] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
  interrupts
 In-Reply-To: <189eeccd-36fd-d033-7900-30e89fc662df@amsat.org>
-Message-ID: <d4416055-4f89-2271-5a91-514216a64f64@eik.bme.hu>
+Message-ID: <4f23dbf5-7240-e4f-def1-7f2887f5d566@eik.bme.hu>
 References: <20211013121929.9E835746333@zero.eik.bme.hu>
  <189eeccd-36fd-d033-7900-30e89fc662df@amsat.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-11228643-1634138468=:22725"
+Content-Type: multipart/mixed;
+ boundary="3866299591-1152967575-1634138770=:22725"
 X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,7 +67,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-11228643-1634138468=:22725
+--3866299591-1152967575-1634138770=:22725
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
@@ -193,23 +194,13 @@ On Wed, 13 Oct 2021, Philippe Mathieu-Daudé wrote:
 >
 > Not sure why UHCI has been implemented that way, we already
 > have USB_OHCI_PCI / USB_EHCI_PCI / USB_XHCI_PCI.
->
-> Maybe look at how TYPE_SYSBUS_OHCI is implemented VS TYPE_PCI_OHCI
-> to be able to implement the similar TYPE_SYSBUS_UHCI?
 
-That doesn't seem to be part of fixing this bug with vt82c686-uhci-pci. Do 
-I really have to do that much refactoring of UHCI model just to make it 
-work with the case I care about? If this was good up to now it should be 
-good enough until somebody can do this refactoring independent of this 
-patch as a follow up. I may not have time for that. I'd like to improve 
-pegasos2 emulation by fixing this bug for 6.2 but there's a limit on how 
-much unrelated stuff I'm willing to do for that. Let's say this bug 
-uncovered a possible improvement in the uhci model so note it somewhere 
-(like bite-sized task on wiki) then let somebody who has time handle it. 
-This should not be reason to block fixing a bug if the fix is otherwise 
-acceptable.
+The reason for that may be that those have sysbus versions and pci 
+versions and maybe there was no need for a sysbus UHCI version as all of 
+those we emulate are PCI? I think those were probably also like UHCI 
+before but when a sysbus version was needed they were split.
 
 Regards,
 BALATON Zoltan
---3866299591-11228643-1634138468=:22725--
+--3866299591-1152967575-1634138770=:22725--
 
