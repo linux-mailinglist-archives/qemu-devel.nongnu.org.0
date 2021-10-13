@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6326C42B332
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 05:13:22 +0200 (CEST)
-Received: from localhost ([::1]:32984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99D6042B30E
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 05:04:09 +0200 (CEST)
+Received: from localhost ([::1]:40420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maUhl-0006nF-95
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 23:13:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57100)
+	id 1maUYq-0000K2-IF
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 23:04:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maUI1-0004zq-94
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:46 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:44990)
+ id 1maUI0-0004yW-Ei
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:44 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:44991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maUHx-000575-UR
+ id 1maUHy-00058j-QS
  for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:44 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id w6so1131719pfd.11
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 19:46:41 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id w6so1131734pfd.11
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 19:46:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=mnqEEgywou2/cA2oB9Is2HfT4xL6ufMEEmIOEI3fkHA=;
- b=QJrQCuSUJls/TFlB6Zzg+hASNJ/cQXtSAUfmUXe0I0YhbSe6RhJ7Wiz9noOFtM2Cs6
- X56GCgKEFtQLoNV1JhGed3/H7ToAvmnmSQNUJlDL+wGRGqzIirmSf9v9lpN34MuqU+3J
- DZk+sz64FI8wK6LbyjZSpqJVSTZK4jV7wl1DKaWli9CSmJ8KkvewH0YHWJayaANtd4Qb
- SoyzDYmVNIDX6DkR08xLuEtqKgOdQ824QX7Z5bC52xssYACK0Kk+Ot4T3oo6cbkBQnzC
- xLbz9GsZviogXMF8VfNyo475jfD0cs1PFll2XphfL+XgVAOD35pkku4DFZVGKf9SZOY+
- v4rw==
+ bh=OxMgM7wzD4BcAcUx2qJmodE4BwJ9QwGNSAt09qoFyFU=;
+ b=Tb6Cp1cgY8OBfvyhPmsjUTlr/Dpqx0iV0P617ZHJTnpJyD2bliSSVuXt5LZxGhiZta
+ uXxZ1krBrUCiwxzFRazOgsdNhMeTp9uZlLd/c4ygbMbxCVaxWMVd0a2CLM2E6toBhn5N
+ TU7AXfIvC6tMUCLtHR6ZGEcCydEQ3s0Jm2+VDz38pt9H13KEA6CMjfxAr7+mPbAdFjDj
+ ELt7iiQaVAhFpQYlbmxAUioAEYyJj/MC5KIvi+iYLG3WWt5V5ehsqRdtN7OnLkEtZPg+
+ F8QNRSkKLZLszVdNLcmRWjb2nsriPjxmHkE4K3eW9FHIZma/v3q6cc8S7zDL2NJDHuCT
+ 5rnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mnqEEgywou2/cA2oB9Is2HfT4xL6ufMEEmIOEI3fkHA=;
- b=Wa/0HpYAvdQSba/00wbI92w+GgQywVUrlYO5jZlSCWoBMyXCO3INgJ9x9aqyb3fLQJ
- TIsRNAU4c6KVGhdF9E7n/rM83bNQ/xRFa+FxzIxnsfTeOAPMUi1kjpfon2CWJlW5m0WQ
- 34CgbIyD8Pmgb1HQi45/kWkfJD64w6z/lGXXLRWYRLU4K1UfQON0hdvN1k20NdztZjQ0
- 9Mm0VhqzYpzATbmmts36RwVIWcOkGHhmiQRyv0PUUBtxQP5/vsn0+jMUtcYblLVb1H8F
- e5NzhgzNP6tzSNPoU+kzU4ZqigUyuRUvuOVbjtxUsOhaC3wiTu5KHEJHVecmqKRK/niJ
- 98AA==
-X-Gm-Message-State: AOAM533NH49K2PEkrKxwdAyQeWX8Ae73p2LsG4jN6S9fYbCqRbIUA4T2
- tqea+9JvWIJCK2SiBpyNEuVpGNutx4E=
-X-Google-Smtp-Source: ABdhPJxaKmlTiO77JZnkegilKaUkVpatnaxvsuixP8bLSimjI4Zb2a5NZD0Em7KDvKu84R3V8Te9UA==
-X-Received: by 2002:a62:2982:0:b0:44c:f2a3:ec62 with SMTP id
- p124-20020a622982000000b0044cf2a3ec62mr22794351pfp.23.1634093200342; 
- Tue, 12 Oct 2021 19:46:40 -0700 (PDT)
+ bh=OxMgM7wzD4BcAcUx2qJmodE4BwJ9QwGNSAt09qoFyFU=;
+ b=vnJUHTbIHVV12lClkJSojDO3xpf8r7bugoO2Cr/+JWnqwnoaVwQMmW1NRvfWiLzQka
+ /Qi4A7FB/+zlzEYOr9Gii/X8L7zFnjHnre9EY7EQa61ayrZh5DKAT05j0qQwy2dKu3tO
+ dewJspfdR+MTwi33h9emlhB7nKbf0vyDyGldIAJkCTkqSUpJNTryNuj97ca5QfYsIzep
+ ldiHbQYFBmVKIijV3bpvHb19W89VDx5qwCGN8mFI6t6g3NnAVbyXI8C0qED92+5Li+uk
+ emPzThQf0o9/KfaQ7l+BgGHYO24qB1d7okI8kQXD8+CpuNeGYr9CK0J+qNldM93S0mvC
+ SUPw==
+X-Gm-Message-State: AOAM530fpU9PWuNK7Tg9k6l0prq8GEeFWI2Q91i9m4wPb52qsvATQorJ
+ Gr7OD0D8icIZGTi7UHxa89Xw4XCWALAvDA==
+X-Google-Smtp-Source: ABdhPJwDFRBpL59+pxRRYKwbEoH62nsNnaQdqnH51WkdIkCfizwcdFodiudPzDMKmzDKGxIeFTRjiQ==
+X-Received: by 2002:a62:1995:0:b0:44c:728e:323b with SMTP id
+ 143-20020a621995000000b0044c728e323bmr35081202pfz.54.1634093201429; 
+ Tue, 12 Oct 2021 19:46:41 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id qe17sm4855014pjb.39.2021.10.12.19.46.39
+ by smtp.gmail.com with ESMTPSA id qe17sm4855014pjb.39.2021.10.12.19.46.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 19:46:39 -0700 (PDT)
+ Tue, 12 Oct 2021 19:46:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 31/48] linux-user: Split out do_prctl and subroutines
-Date: Tue, 12 Oct 2021 19:45:50 -0700
-Message-Id: <20211013024607.731881-32-richard.henderson@linaro.org>
+Subject: [PATCH v4 32/48] linux-user: Disable more prctl subcodes
+Date: Tue, 12 Oct 2021 19:45:51 -0700
+Message-Id: <20211013024607.731881-33-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211013024607.731881-1-richard.henderson@linaro.org>
 References: <20211013024607.731881-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,963 +87,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the prctl constants are supposed to be generic, supply
-any that are not provided by the host.
-
-Split out subroutines for PR_GET_FP_MODE, PR_SET_FP_MODE,
-PR_GET_VL, PR_SET_VL, PR_RESET_KEYS, PR_SET_TAGGED_ADDR_CTRL,
-PR_GET_TAGGED_ADDR_CTRL.  Return EINVAL for guests that do
-not support these options rather than pass them on to the host.
+Create a list of subcodes that we want to pass on, a list of
+subcodes that should not be passed on because they would affect
+the running qemu itself, and a list that probably could be
+implemented but require extra work. Do not pass on unknown subcodes.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/aarch64/target_prctl.h    | 160 ++++++++++
- linux-user/aarch64/target_syscall.h  |  23 --
- linux-user/alpha/target_prctl.h      |   1 +
- linux-user/arm/target_prctl.h        |   1 +
- linux-user/cris/target_prctl.h       |   1 +
- linux-user/hexagon/target_prctl.h    |   1 +
- linux-user/hppa/target_prctl.h       |   1 +
- linux-user/i386/target_prctl.h       |   1 +
- linux-user/m68k/target_prctl.h       |   1 +
- linux-user/microblaze/target_prctl.h |   1 +
- linux-user/mips/target_prctl.h       |  88 ++++++
- linux-user/mips/target_syscall.h     |   6 -
- linux-user/mips64/target_prctl.h     |   1 +
- linux-user/mips64/target_syscall.h   |   6 -
- linux-user/nios2/target_prctl.h      |   1 +
- linux-user/openrisc/target_prctl.h   |   1 +
- linux-user/ppc/target_prctl.h        |   1 +
- linux-user/riscv/target_prctl.h      |   1 +
- linux-user/s390x/target_prctl.h      |   1 +
- linux-user/sh4/target_prctl.h        |   1 +
- linux-user/sparc/target_prctl.h      |   1 +
- linux-user/x86_64/target_prctl.h     |   1 +
- linux-user/xtensa/target_prctl.h     |   1 +
- linux-user/syscall.c                 | 433 +++++++++------------------
- 24 files changed, 414 insertions(+), 320 deletions(-)
- create mode 100644 linux-user/aarch64/target_prctl.h
- create mode 100644 linux-user/alpha/target_prctl.h
- create mode 100644 linux-user/arm/target_prctl.h
- create mode 100644 linux-user/cris/target_prctl.h
- create mode 100644 linux-user/hexagon/target_prctl.h
- create mode 100644 linux-user/hppa/target_prctl.h
- create mode 100644 linux-user/i386/target_prctl.h
- create mode 100644 linux-user/m68k/target_prctl.h
- create mode 100644 linux-user/microblaze/target_prctl.h
- create mode 100644 linux-user/mips/target_prctl.h
- create mode 100644 linux-user/mips64/target_prctl.h
- create mode 100644 linux-user/nios2/target_prctl.h
- create mode 100644 linux-user/openrisc/target_prctl.h
- create mode 100644 linux-user/ppc/target_prctl.h
- create mode 100644 linux-user/riscv/target_prctl.h
- create mode 100644 linux-user/s390x/target_prctl.h
- create mode 100644 linux-user/sh4/target_prctl.h
- create mode 100644 linux-user/sparc/target_prctl.h
- create mode 100644 linux-user/x86_64/target_prctl.h
- create mode 100644 linux-user/xtensa/target_prctl.h
+ linux-user/syscall.c | 56 ++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 52 insertions(+), 4 deletions(-)
 
-diff --git a/linux-user/aarch64/target_prctl.h b/linux-user/aarch64/target_prctl.h
-new file mode 100644
-index 0000000000..3f5a5d3933
---- /dev/null
-+++ b/linux-user/aarch64/target_prctl.h
-@@ -0,0 +1,160 @@
-+/*
-+ * AArch64 specific prctl functions for linux-user
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#ifndef AARCH64_TARGET_PRCTL_H
-+#define AARCH64_TARGET_PRCTL_H
-+
-+static abi_long do_prctl_get_vl(CPUArchState *env)
-+{
-+    ARMCPU *cpu = env_archcpu(env);
-+    if (cpu_isar_feature(aa64_sve, cpu)) {
-+        return ((cpu->env.vfp.zcr_el[1] & 0xf) + 1) * 16;
-+    }
-+    return -TARGET_EINVAL;
-+}
-+#define do_prctl_get_vl do_prctl_get_vl
-+
-+static abi_long do_prctl_set_vl(CPUArchState *env, abi_long arg2)
-+{
-+    /*
-+     * We cannot support either PR_SVE_SET_VL_ONEXEC or PR_SVE_VL_INHERIT.
-+     * Note the kernel definition of sve_vl_valid allows for VQ=512,
-+     * i.e. VL=8192, even though the current architectural maximum is VQ=16.
-+     */
-+    if (cpu_isar_feature(aa64_sve, env_archcpu(env))
-+        && arg2 >= 0 && arg2 <= 512 * 16 && !(arg2 & 15)) {
-+        ARMCPU *cpu = env_archcpu(env);
-+        uint32_t vq, old_vq;
-+
-+        old_vq = (env->vfp.zcr_el[1] & 0xf) + 1;
-+        vq = MAX(arg2 / 16, 1);
-+        vq = MIN(vq, cpu->sve_max_vq);
-+
-+        if (vq < old_vq) {
-+            aarch64_sve_narrow_vq(env, vq);
-+        }
-+        env->vfp.zcr_el[1] = vq - 1;
-+        arm_rebuild_hflags(env);
-+        return vq * 16;
-+    }
-+    return -TARGET_EINVAL;
-+}
-+#define do_prctl_set_vl do_prctl_set_vl
-+
-+static abi_long do_prctl_reset_keys(CPUArchState *env, abi_long arg2)
-+{
-+    ARMCPU *cpu = env_archcpu(env);
-+
-+    if (cpu_isar_feature(aa64_pauth, cpu)) {
-+        int all = (PR_PAC_APIAKEY | PR_PAC_APIBKEY |
-+                   PR_PAC_APDAKEY | PR_PAC_APDBKEY | PR_PAC_APGAKEY);
-+        int ret = 0;
-+        Error *err = NULL;
-+
-+        if (arg2 == 0) {
-+            arg2 = all;
-+        } else if (arg2 & ~all) {
-+            return -TARGET_EINVAL;
-+        }
-+        if (arg2 & PR_PAC_APIAKEY) {
-+            ret |= qemu_guest_getrandom(&env->keys.apia,
-+                                        sizeof(ARMPACKey), &err);
-+        }
-+        if (arg2 & PR_PAC_APIBKEY) {
-+            ret |= qemu_guest_getrandom(&env->keys.apib,
-+                                        sizeof(ARMPACKey), &err);
-+        }
-+        if (arg2 & PR_PAC_APDAKEY) {
-+            ret |= qemu_guest_getrandom(&env->keys.apda,
-+                                        sizeof(ARMPACKey), &err);
-+        }
-+        if (arg2 & PR_PAC_APDBKEY) {
-+            ret |= qemu_guest_getrandom(&env->keys.apdb,
-+                                        sizeof(ARMPACKey), &err);
-+        }
-+        if (arg2 & PR_PAC_APGAKEY) {
-+            ret |= qemu_guest_getrandom(&env->keys.apga,
-+                                        sizeof(ARMPACKey), &err);
-+        }
-+        if (ret != 0) {
-+            /*
-+             * Some unknown failure in the crypto.  The best
-+             * we can do is log it and fail the syscall.
-+             * The real syscall cannot fail this way.
-+             */
-+            qemu_log_mask(LOG_UNIMP, "PR_PAC_RESET_KEYS: Crypto failure: %s",
-+                          error_get_pretty(err));
-+            error_free(err);
-+            return -TARGET_EIO;
-+        }
-+        return 0;
-+    }
-+    return -TARGET_EINVAL;
-+}
-+#define do_prctl_reset_keys do_prctl_reset_keys
-+
-+static abi_long do_prctl_set_tagged_addr_ctrl(CPUArchState *env, abi_long arg2)
-+{
-+    abi_ulong valid_mask = PR_TAGGED_ADDR_ENABLE;
-+    ARMCPU *cpu = env_archcpu(env);
-+
-+    if (cpu_isar_feature(aa64_mte, cpu)) {
-+        valid_mask |= PR_MTE_TCF_MASK;
-+        valid_mask |= PR_MTE_TAG_MASK;
-+    }
-+
-+    if (arg2 & ~valid_mask) {
-+        return -TARGET_EINVAL;
-+    }
-+    env->tagged_addr_enable = arg2 & PR_TAGGED_ADDR_ENABLE;
-+
-+    if (cpu_isar_feature(aa64_mte, cpu)) {
-+        switch (arg2 & PR_MTE_TCF_MASK) {
-+        case PR_MTE_TCF_NONE:
-+        case PR_MTE_TCF_SYNC:
-+        case PR_MTE_TCF_ASYNC:
-+            break;
-+        default:
-+            return -EINVAL;
-+        }
-+
-+        /*
-+         * Write PR_MTE_TCF to SCTLR_EL1[TCF0].
-+         * Note that the syscall values are consistent with hw.
-+         */
-+        env->cp15.sctlr_el[1] =
-+            deposit64(env->cp15.sctlr_el[1], 38, 2, arg2 >> PR_MTE_TCF_SHIFT);
-+
-+        /*
-+         * Write PR_MTE_TAG to GCR_EL1[Exclude].
-+         * Note that the syscall uses an include mask,
-+         * and hardware uses an exclude mask -- invert.
-+         */
-+        env->cp15.gcr_el1 =
-+            deposit64(env->cp15.gcr_el1, 0, 16, ~arg2 >> PR_MTE_TAG_SHIFT);
-+        arm_rebuild_hflags(env);
-+    }
-+    return 0;
-+}
-+#define do_prctl_set_tagged_addr_ctrl do_prctl_set_tagged_addr_ctrl
-+
-+static abi_long do_prctl_get_tagged_addr_ctrl(CPUArchState *env)
-+{
-+    ARMCPU *cpu = env_archcpu(env);
-+    abi_long ret = 0;
-+
-+    if (env->tagged_addr_enable) {
-+        ret |= PR_TAGGED_ADDR_ENABLE;
-+    }
-+    if (cpu_isar_feature(aa64_mte, cpu)) {
-+        /* See do_prctl_set_tagged_addr_ctrl. */
-+        ret |= extract64(env->cp15.sctlr_el[1], 38, 2) << PR_MTE_TCF_SHIFT;
-+        ret = deposit64(ret, PR_MTE_TAG_SHIFT, 16, ~env->cp15.gcr_el1);
-+    }
-+    return ret;
-+}
-+#define do_prctl_get_tagged_addr_ctrl do_prctl_get_tagged_addr_ctrl
-+
-+#endif /* AARCH64_TARGET_PRCTL_H */
-diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
-index 76f6c3391d..819f112ab0 100644
---- a/linux-user/aarch64/target_syscall.h
-+++ b/linux-user/aarch64/target_syscall.h
-@@ -20,27 +20,4 @@ struct target_pt_regs {
- #define TARGET_MCL_FUTURE  2
- #define TARGET_MCL_ONFAULT 4
- 
--#define TARGET_PR_SVE_SET_VL  50
--#define TARGET_PR_SVE_GET_VL  51
--
--#define TARGET_PR_PAC_RESET_KEYS 54
--# define TARGET_PR_PAC_APIAKEY   (1 << 0)
--# define TARGET_PR_PAC_APIBKEY   (1 << 1)
--# define TARGET_PR_PAC_APDAKEY   (1 << 2)
--# define TARGET_PR_PAC_APDBKEY   (1 << 3)
--# define TARGET_PR_PAC_APGAKEY   (1 << 4)
--
--#define TARGET_PR_SET_TAGGED_ADDR_CTRL 55
--#define TARGET_PR_GET_TAGGED_ADDR_CTRL 56
--# define TARGET_PR_TAGGED_ADDR_ENABLE  (1UL << 0)
--/* MTE tag check fault modes */
--# define TARGET_PR_MTE_TCF_SHIFT       1
--# define TARGET_PR_MTE_TCF_NONE        (0UL << TARGET_PR_MTE_TCF_SHIFT)
--# define TARGET_PR_MTE_TCF_SYNC        (1UL << TARGET_PR_MTE_TCF_SHIFT)
--# define TARGET_PR_MTE_TCF_ASYNC       (2UL << TARGET_PR_MTE_TCF_SHIFT)
--# define TARGET_PR_MTE_TCF_MASK        (3UL << TARGET_PR_MTE_TCF_SHIFT)
--/* MTE tag inclusion mask */
--# define TARGET_PR_MTE_TAG_SHIFT       3
--# define TARGET_PR_MTE_TAG_MASK        (0xffffUL << TARGET_PR_MTE_TAG_SHIFT)
--
- #endif /* AARCH64_TARGET_SYSCALL_H */
-diff --git a/linux-user/alpha/target_prctl.h b/linux-user/alpha/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/alpha/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/arm/target_prctl.h b/linux-user/arm/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/arm/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/cris/target_prctl.h b/linux-user/cris/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/cris/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/hexagon/target_prctl.h b/linux-user/hexagon/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/hexagon/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/hppa/target_prctl.h b/linux-user/hppa/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/hppa/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/i386/target_prctl.h b/linux-user/i386/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/i386/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/m68k/target_prctl.h b/linux-user/m68k/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/m68k/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/microblaze/target_prctl.h b/linux-user/microblaze/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/microblaze/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/mips/target_prctl.h b/linux-user/mips/target_prctl.h
-new file mode 100644
-index 0000000000..e028333db9
---- /dev/null
-+++ b/linux-user/mips/target_prctl.h
-@@ -0,0 +1,88 @@
-+/*
-+ * MIPS specific prctl functions for linux-user
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#ifndef MIPS_TARGET_PRCTL_H
-+#define MIPS_TARGET_PRCTL_H
-+
-+static abi_long do_prctl_get_fp_mode(CPUArchState *env)
-+{
-+    abi_long ret = 0;
-+
-+    if (env->CP0_Status & (1 << CP0St_FR)) {
-+        ret |= PR_FP_MODE_FR;
-+    }
-+    if (env->CP0_Config5 & (1 << CP0C5_FRE)) {
-+        ret |= PR_FP_MODE_FRE;
-+    }
-+    return ret;
-+}
-+#define do_prctl_get_fp_mode do_prctl_get_fp_mode
-+
-+static abi_long do_prctl_set_fp_mode(CPUArchState *env, abi_long arg2)
-+{
-+    bool old_fr = env->CP0_Status & (1 << CP0St_FR);
-+    bool old_fre = env->CP0_Config5 & (1 << CP0C5_FRE);
-+    bool new_fr = arg2 & PR_FP_MODE_FR;
-+    bool new_fre = arg2 & PR_FP_MODE_FRE;
-+    const unsigned int known_bits = PR_FP_MODE_FR | PR_FP_MODE_FRE;
-+
-+    /* If nothing to change, return right away, successfully.  */
-+    if (old_fr == new_fr && old_fre == new_fre) {
-+        return 0;
-+    }
-+    /* Check the value is valid */
-+    if (arg2 & ~known_bits) {
-+        return -TARGET_EOPNOTSUPP;
-+    }
-+    /* Setting FRE without FR is not supported.  */
-+    if (new_fre && !new_fr) {
-+        return -TARGET_EOPNOTSUPP;
-+    }
-+    if (new_fr && !(env->active_fpu.fcr0 & (1 << FCR0_F64))) {
-+        /* FR1 is not supported */
-+        return -TARGET_EOPNOTSUPP;
-+    }
-+    if (!new_fr && (env->active_fpu.fcr0 & (1 << FCR0_F64))
-+        && !(env->CP0_Status_rw_bitmask & (1 << CP0St_FR))) {
-+        /* cannot set FR=0 */
-+        return -TARGET_EOPNOTSUPP;
-+    }
-+    if (new_fre && !(env->active_fpu.fcr0 & (1 << FCR0_FREP))) {
-+        /* Cannot set FRE=1 */
-+        return -TARGET_EOPNOTSUPP;
-+    }
-+
-+    int i;
-+    fpr_t *fpr = env->active_fpu.fpr;
-+    for (i = 0; i < 32 ; i += 2) {
-+        if (!old_fr && new_fr) {
-+            fpr[i].w[!FP_ENDIAN_IDX] = fpr[i + 1].w[FP_ENDIAN_IDX];
-+        } else if (old_fr && !new_fr) {
-+            fpr[i + 1].w[FP_ENDIAN_IDX] = fpr[i].w[!FP_ENDIAN_IDX];
-+        }
-+    }
-+
-+    if (new_fr) {
-+        env->CP0_Status |= (1 << CP0St_FR);
-+        env->hflags |= MIPS_HFLAG_F64;
-+    } else {
-+        env->CP0_Status &= ~(1 << CP0St_FR);
-+        env->hflags &= ~MIPS_HFLAG_F64;
-+    }
-+    if (new_fre) {
-+        env->CP0_Config5 |= (1 << CP0C5_FRE);
-+        if (env->active_fpu.fcr0 & (1 << FCR0_FREP)) {
-+            env->hflags |= MIPS_HFLAG_FRE;
-+        }
-+    } else {
-+        env->CP0_Config5 &= ~(1 << CP0C5_FRE);
-+        env->hflags &= ~MIPS_HFLAG_FRE;
-+    }
-+
-+    return 0;
-+}
-+#define do_prctl_set_fp_mode do_prctl_set_fp_mode
-+
-+#endif /* MIPS_TARGET_PRCTL_H */
-diff --git a/linux-user/mips/target_syscall.h b/linux-user/mips/target_syscall.h
-index f59057493a..1ce0a5bbf4 100644
---- a/linux-user/mips/target_syscall.h
-+++ b/linux-user/mips/target_syscall.h
-@@ -36,10 +36,4 @@ static inline abi_ulong target_shmlba(CPUMIPSState *env)
-     return 0x40000;
- }
- 
--/* MIPS-specific prctl() options */
--#define TARGET_PR_SET_FP_MODE  45
--#define TARGET_PR_GET_FP_MODE  46
--#define TARGET_PR_FP_MODE_FR   (1 << 0)
--#define TARGET_PR_FP_MODE_FRE  (1 << 1)
--
- #endif /* MIPS_TARGET_SYSCALL_H */
-diff --git a/linux-user/mips64/target_prctl.h b/linux-user/mips64/target_prctl.h
-new file mode 100644
-index 0000000000..18da9ae619
---- /dev/null
-+++ b/linux-user/mips64/target_prctl.h
-@@ -0,0 +1 @@
-+#include "../mips/target_prctl.h"
-diff --git a/linux-user/mips64/target_syscall.h b/linux-user/mips64/target_syscall.h
-index cd1e1b4969..74f12365bc 100644
---- a/linux-user/mips64/target_syscall.h
-+++ b/linux-user/mips64/target_syscall.h
-@@ -33,10 +33,4 @@ static inline abi_ulong target_shmlba(CPUMIPSState *env)
-     return 0x40000;
- }
- 
--/* MIPS-specific prctl() options */
--#define TARGET_PR_SET_FP_MODE  45
--#define TARGET_PR_GET_FP_MODE  46
--#define TARGET_PR_FP_MODE_FR   (1 << 0)
--#define TARGET_PR_FP_MODE_FRE  (1 << 1)
--
- #endif /* MIPS64_TARGET_SYSCALL_H */
-diff --git a/linux-user/nios2/target_prctl.h b/linux-user/nios2/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/nios2/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/openrisc/target_prctl.h b/linux-user/openrisc/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/openrisc/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/ppc/target_prctl.h b/linux-user/ppc/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/ppc/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/riscv/target_prctl.h b/linux-user/riscv/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/riscv/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/s390x/target_prctl.h b/linux-user/s390x/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/s390x/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/sh4/target_prctl.h b/linux-user/sh4/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/sh4/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/sparc/target_prctl.h b/linux-user/sparc/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/sparc/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/x86_64/target_prctl.h b/linux-user/x86_64/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/x86_64/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
-diff --git a/linux-user/xtensa/target_prctl.h b/linux-user/xtensa/target_prctl.h
-new file mode 100644
-index 0000000000..eb53b31ad5
---- /dev/null
-+++ b/linux-user/xtensa/target_prctl.h
-@@ -0,0 +1 @@
-+/* No special prctl support required. */
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 544f5b662f..a417396981 100644
+index a417396981..7635c2397a 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -6291,9 +6291,155 @@ abi_long do_arch_prctl(CPUX86State *env, int code, abi_ulong addr)
-     return ret;
- }
- #endif /* defined(TARGET_ABI32 */
--
- #endif /* defined(TARGET_I386) */
- 
-+/*
-+ * These constants are generic.  Supply any that are missing from the host.
-+ */
-+#ifndef PR_SET_NAME
-+# define PR_SET_NAME    15
-+# define PR_GET_NAME    16
-+#endif
-+#ifndef PR_SET_FP_MODE
-+# define PR_SET_FP_MODE 45
-+# define PR_GET_FP_MODE 46
-+# define PR_FP_MODE_FR   (1 << 0)
-+# define PR_FP_MODE_FRE  (1 << 1)
-+#endif
-+#ifndef PR_SVE_SET_VL
-+# define PR_SVE_SET_VL  50
-+# define PR_SVE_GET_VL  51
-+# define PR_SVE_VL_LEN_MASK  0xffff
-+# define PR_SVE_VL_INHERIT   (1 << 17)
-+#endif
-+#ifndef PR_PAC_RESET_KEYS
-+# define PR_PAC_RESET_KEYS  54
-+# define PR_PAC_APIAKEY   (1 << 0)
-+# define PR_PAC_APIBKEY   (1 << 1)
-+# define PR_PAC_APDAKEY   (1 << 2)
-+# define PR_PAC_APDBKEY   (1 << 3)
-+# define PR_PAC_APGAKEY   (1 << 4)
-+#endif
-+#ifndef PR_SET_TAGGED_ADDR_CTRL
-+# define PR_SET_TAGGED_ADDR_CTRL 55
-+# define PR_GET_TAGGED_ADDR_CTRL 56
-+# define PR_TAGGED_ADDR_ENABLE  (1UL << 0)
-+#endif
-+#ifndef PR_MTE_TCF_SHIFT
-+# define PR_MTE_TCF_SHIFT       1
-+# define PR_MTE_TCF_NONE        (0UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TCF_SYNC        (1UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TCF_ASYNC       (2UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TCF_MASK        (3UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TAG_SHIFT       3
-+# define PR_MTE_TAG_MASK        (0xffffUL << PR_MTE_TAG_SHIFT)
-+#endif
-+
-+#include "target_prctl.h"
-+
-+static abi_long do_prctl_inval0(CPUArchState *env)
-+{
-+    return -TARGET_EINVAL;
-+}
-+
-+static abi_long do_prctl_inval1(CPUArchState *env, abi_long arg2)
-+{
-+    return -TARGET_EINVAL;
-+}
-+
-+#ifndef do_prctl_get_fp_mode
-+#define do_prctl_get_fp_mode do_prctl_inval0
-+#endif
-+#ifndef do_prctl_set_fp_mode
-+#define do_prctl_set_fp_mode do_prctl_inval1
-+#endif
-+#ifndef do_prctl_get_vl
-+#define do_prctl_get_vl do_prctl_inval0
-+#endif
-+#ifndef do_prctl_set_vl
-+#define do_prctl_set_vl do_prctl_inval1
-+#endif
-+#ifndef do_prctl_reset_keys
-+#define do_prctl_reset_keys do_prctl_inval1
-+#endif
-+#ifndef do_prctl_set_tagged_addr_ctrl
-+#define do_prctl_set_tagged_addr_ctrl do_prctl_inval1
-+#endif
-+#ifndef do_prctl_get_tagged_addr_ctrl
-+#define do_prctl_get_tagged_addr_ctrl do_prctl_inval0
-+#endif
-+
-+static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
-+                         abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    abi_long ret;
-+
-+    switch (option) {
-+    case PR_GET_PDEATHSIG:
-+        {
-+            int deathsig;
-+            ret = get_errno(prctl(PR_GET_PDEATHSIG, &deathsig,
-+                                  arg3, arg4, arg5));
-+            if (!is_error(ret) && arg2 && put_user_s32(deathsig, arg2)) {
-+                return -TARGET_EFAULT;
-+            }
-+            return ret;
-+        }
-+    case PR_GET_NAME:
-+        {
-+            void *name = lock_user(VERIFY_WRITE, arg2, 16, 1);
-+            if (!name) {
-+                return -TARGET_EFAULT;
-+            }
-+            ret = get_errno(prctl(PR_GET_NAME, (uintptr_t)name,
-+                                  arg3, arg4, arg5));
-+            unlock_user(name, arg2, 16);
-+            return ret;
-+        }
-+    case PR_SET_NAME:
-+        {
-+            void *name = lock_user(VERIFY_READ, arg2, 16, 1);
-+            if (!name) {
-+                return -TARGET_EFAULT;
-+            }
-+            ret = get_errno(prctl(PR_SET_NAME, (uintptr_t)name,
-+                                  arg3, arg4, arg5));
-+            unlock_user(name, arg2, 0);
-+            return ret;
-+        }
-+    case PR_GET_FP_MODE:
-+        return do_prctl_get_fp_mode(env);
-+    case PR_SET_FP_MODE:
-+        return do_prctl_set_fp_mode(env, arg2);
-+    case PR_SVE_GET_VL:
-+        return do_prctl_get_vl(env);
-+    case PR_SVE_SET_VL:
-+        return do_prctl_set_vl(env, arg2);
-+    case PR_PAC_RESET_KEYS:
-+        if (arg3 || arg4 || arg5) {
-+            return -TARGET_EINVAL;
-+        }
-+        return do_prctl_reset_keys(env, arg2);
-+    case PR_SET_TAGGED_ADDR_CTRL:
-+        if (arg3 || arg4 || arg5) {
-+            return -TARGET_EINVAL;
-+        }
-+        return do_prctl_set_tagged_addr_ctrl(env, arg2);
-+    case PR_GET_TAGGED_ADDR_CTRL:
-+        if (arg2 || arg3 || arg4 || arg5) {
-+            return -TARGET_EINVAL;
-+        }
-+        return do_prctl_get_tagged_addr_ctrl(env);
-+    case PR_GET_SECCOMP:
-+    case PR_SET_SECCOMP:
-+        /* Disable seccomp to prevent the target disabling syscalls we need. */
-+        return -TARGET_EINVAL;
-+    default:
-+        /* Most prctl options have no pointer arguments */
-+        return get_errno(prctl(option, arg2, arg3, arg4, arg5));
-+    }
-+}
-+
- #define NEW_STACK_SIZE 0x40000
- 
- 
-@@ -10630,290 +10776,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return ret;
+@@ -6334,6 +6334,13 @@ abi_long do_arch_prctl(CPUX86State *env, int code, abi_ulong addr)
+ # define PR_MTE_TAG_SHIFT       3
+ # define PR_MTE_TAG_MASK        (0xffffUL << PR_MTE_TAG_SHIFT)
  #endif
-     case TARGET_NR_prctl:
--        switch (arg1) {
--        case PR_GET_PDEATHSIG:
--        {
--            int deathsig;
--            ret = get_errno(prctl(arg1, &deathsig, arg3, arg4, arg5));
--            if (!is_error(ret) && arg2
--                && put_user_s32(deathsig, arg2)) {
--                return -TARGET_EFAULT;
--            }
--            return ret;
--        }
--#ifdef PR_GET_NAME
--        case PR_GET_NAME:
--        {
--            void *name = lock_user(VERIFY_WRITE, arg2, 16, 1);
--            if (!name) {
--                return -TARGET_EFAULT;
--            }
--            ret = get_errno(prctl(arg1, (unsigned long)name,
--                                  arg3, arg4, arg5));
--            unlock_user(name, arg2, 16);
--            return ret;
--        }
--        case PR_SET_NAME:
--        {
--            void *name = lock_user(VERIFY_READ, arg2, 16, 1);
--            if (!name) {
--                return -TARGET_EFAULT;
--            }
--            ret = get_errno(prctl(arg1, (unsigned long)name,
--                                  arg3, arg4, arg5));
--            unlock_user(name, arg2, 0);
--            return ret;
--        }
--#endif
--#ifdef TARGET_MIPS
--        case TARGET_PR_GET_FP_MODE:
--        {
--            CPUMIPSState *env = ((CPUMIPSState *)cpu_env);
--            ret = 0;
--            if (env->CP0_Status & (1 << CP0St_FR)) {
--                ret |= TARGET_PR_FP_MODE_FR;
--            }
--            if (env->CP0_Config5 & (1 << CP0C5_FRE)) {
--                ret |= TARGET_PR_FP_MODE_FRE;
--            }
--            return ret;
--        }
--        case TARGET_PR_SET_FP_MODE:
--        {
--            CPUMIPSState *env = ((CPUMIPSState *)cpu_env);
--            bool old_fr = env->CP0_Status & (1 << CP0St_FR);
--            bool old_fre = env->CP0_Config5 & (1 << CP0C5_FRE);
--            bool new_fr = arg2 & TARGET_PR_FP_MODE_FR;
--            bool new_fre = arg2 & TARGET_PR_FP_MODE_FRE;
--
--            const unsigned int known_bits = TARGET_PR_FP_MODE_FR |
--                                            TARGET_PR_FP_MODE_FRE;
--
--            /* If nothing to change, return right away, successfully.  */
--            if (old_fr == new_fr && old_fre == new_fre) {
--                return 0;
--            }
--            /* Check the value is valid */
--            if (arg2 & ~known_bits) {
--                return -TARGET_EOPNOTSUPP;
--            }
--            /* Setting FRE without FR is not supported.  */
--            if (new_fre && !new_fr) {
--                return -TARGET_EOPNOTSUPP;
--            }
--            if (new_fr && !(env->active_fpu.fcr0 & (1 << FCR0_F64))) {
--                /* FR1 is not supported */
--                return -TARGET_EOPNOTSUPP;
--            }
--            if (!new_fr && (env->active_fpu.fcr0 & (1 << FCR0_F64))
--                && !(env->CP0_Status_rw_bitmask & (1 << CP0St_FR))) {
--                /* cannot set FR=0 */
--                return -TARGET_EOPNOTSUPP;
--            }
--            if (new_fre && !(env->active_fpu.fcr0 & (1 << FCR0_FREP))) {
--                /* Cannot set FRE=1 */
--                return -TARGET_EOPNOTSUPP;
--            }
--
--            int i;
--            fpr_t *fpr = env->active_fpu.fpr;
--            for (i = 0; i < 32 ; i += 2) {
--                if (!old_fr && new_fr) {
--                    fpr[i].w[!FP_ENDIAN_IDX] = fpr[i + 1].w[FP_ENDIAN_IDX];
--                } else if (old_fr && !new_fr) {
--                    fpr[i + 1].w[FP_ENDIAN_IDX] = fpr[i].w[!FP_ENDIAN_IDX];
--                }
--            }
--
--            if (new_fr) {
--                env->CP0_Status |= (1 << CP0St_FR);
--                env->hflags |= MIPS_HFLAG_F64;
--            } else {
--                env->CP0_Status &= ~(1 << CP0St_FR);
--                env->hflags &= ~MIPS_HFLAG_F64;
--            }
--            if (new_fre) {
--                env->CP0_Config5 |= (1 << CP0C5_FRE);
--                if (env->active_fpu.fcr0 & (1 << FCR0_FREP)) {
--                    env->hflags |= MIPS_HFLAG_FRE;
--                }
--            } else {
--                env->CP0_Config5 &= ~(1 << CP0C5_FRE);
--                env->hflags &= ~MIPS_HFLAG_FRE;
--            }
--
--            return 0;
--        }
--#endif /* MIPS */
--#ifdef TARGET_AARCH64
--        case TARGET_PR_SVE_SET_VL:
--            /*
--             * We cannot support either PR_SVE_SET_VL_ONEXEC or
--             * PR_SVE_VL_INHERIT.  Note the kernel definition
--             * of sve_vl_valid allows for VQ=512, i.e. VL=8192,
--             * even though the current architectural maximum is VQ=16.
--             */
--            ret = -TARGET_EINVAL;
--            if (cpu_isar_feature(aa64_sve, env_archcpu(cpu_env))
--                && arg2 >= 0 && arg2 <= 512 * 16 && !(arg2 & 15)) {
--                CPUARMState *env = cpu_env;
--                ARMCPU *cpu = env_archcpu(env);
--                uint32_t vq, old_vq;
--
--                old_vq = (env->vfp.zcr_el[1] & 0xf) + 1;
--                vq = MAX(arg2 / 16, 1);
--                vq = MIN(vq, cpu->sve_max_vq);
--
--                if (vq < old_vq) {
--                    aarch64_sve_narrow_vq(env, vq);
--                }
--                env->vfp.zcr_el[1] = vq - 1;
--                arm_rebuild_hflags(env);
--                ret = vq * 16;
--            }
--            return ret;
--        case TARGET_PR_SVE_GET_VL:
--            ret = -TARGET_EINVAL;
--            {
--                ARMCPU *cpu = env_archcpu(cpu_env);
--                if (cpu_isar_feature(aa64_sve, cpu)) {
--                    ret = ((cpu->env.vfp.zcr_el[1] & 0xf) + 1) * 16;
--                }
--            }
--            return ret;
--        case TARGET_PR_PAC_RESET_KEYS:
--            {
--                CPUARMState *env = cpu_env;
--                ARMCPU *cpu = env_archcpu(env);
--
--                if (arg3 || arg4 || arg5) {
--                    return -TARGET_EINVAL;
--                }
--                if (cpu_isar_feature(aa64_pauth, cpu)) {
--                    int all = (TARGET_PR_PAC_APIAKEY | TARGET_PR_PAC_APIBKEY |
--                               TARGET_PR_PAC_APDAKEY | TARGET_PR_PAC_APDBKEY |
--                               TARGET_PR_PAC_APGAKEY);
--                    int ret = 0;
--                    Error *err = NULL;
--
--                    if (arg2 == 0) {
--                        arg2 = all;
--                    } else if (arg2 & ~all) {
--                        return -TARGET_EINVAL;
--                    }
--                    if (arg2 & TARGET_PR_PAC_APIAKEY) {
--                        ret |= qemu_guest_getrandom(&env->keys.apia,
--                                                    sizeof(ARMPACKey), &err);
--                    }
--                    if (arg2 & TARGET_PR_PAC_APIBKEY) {
--                        ret |= qemu_guest_getrandom(&env->keys.apib,
--                                                    sizeof(ARMPACKey), &err);
--                    }
--                    if (arg2 & TARGET_PR_PAC_APDAKEY) {
--                        ret |= qemu_guest_getrandom(&env->keys.apda,
--                                                    sizeof(ARMPACKey), &err);
--                    }
--                    if (arg2 & TARGET_PR_PAC_APDBKEY) {
--                        ret |= qemu_guest_getrandom(&env->keys.apdb,
--                                                    sizeof(ARMPACKey), &err);
--                    }
--                    if (arg2 & TARGET_PR_PAC_APGAKEY) {
--                        ret |= qemu_guest_getrandom(&env->keys.apga,
--                                                    sizeof(ARMPACKey), &err);
--                    }
--                    if (ret != 0) {
--                        /*
--                         * Some unknown failure in the crypto.  The best
--                         * we can do is log it and fail the syscall.
--                         * The real syscall cannot fail this way.
--                         */
--                        qemu_log_mask(LOG_UNIMP,
--                                      "PR_PAC_RESET_KEYS: Crypto failure: %s",
--                                      error_get_pretty(err));
--                        error_free(err);
--                        return -TARGET_EIO;
--                    }
--                    return 0;
--                }
--            }
--            return -TARGET_EINVAL;
--        case TARGET_PR_SET_TAGGED_ADDR_CTRL:
--            {
--                abi_ulong valid_mask = TARGET_PR_TAGGED_ADDR_ENABLE;
--                CPUARMState *env = cpu_env;
--                ARMCPU *cpu = env_archcpu(env);
--
--                if (cpu_isar_feature(aa64_mte, cpu)) {
--                    valid_mask |= TARGET_PR_MTE_TCF_MASK;
--                    valid_mask |= TARGET_PR_MTE_TAG_MASK;
--                }
--
--                if ((arg2 & ~valid_mask) || arg3 || arg4 || arg5) {
--                    return -TARGET_EINVAL;
--                }
--                env->tagged_addr_enable = arg2 & TARGET_PR_TAGGED_ADDR_ENABLE;
--
--                if (cpu_isar_feature(aa64_mte, cpu)) {
--                    switch (arg2 & TARGET_PR_MTE_TCF_MASK) {
--                    case TARGET_PR_MTE_TCF_NONE:
--                    case TARGET_PR_MTE_TCF_SYNC:
--                    case TARGET_PR_MTE_TCF_ASYNC:
--                        break;
--                    default:
--                        return -EINVAL;
--                    }
--
--                    /*
--                     * Write PR_MTE_TCF to SCTLR_EL1[TCF0].
--                     * Note that the syscall values are consistent with hw.
--                     */
--                    env->cp15.sctlr_el[1] =
--                        deposit64(env->cp15.sctlr_el[1], 38, 2,
--                                  arg2 >> TARGET_PR_MTE_TCF_SHIFT);
--
--                    /*
--                     * Write PR_MTE_TAG to GCR_EL1[Exclude].
--                     * Note that the syscall uses an include mask,
--                     * and hardware uses an exclude mask -- invert.
--                     */
--                    env->cp15.gcr_el1 =
--                        deposit64(env->cp15.gcr_el1, 0, 16,
--                                  ~arg2 >> TARGET_PR_MTE_TAG_SHIFT);
--                    arm_rebuild_hflags(env);
--                }
--                return 0;
--            }
--        case TARGET_PR_GET_TAGGED_ADDR_CTRL:
--            {
--                abi_long ret = 0;
--                CPUARMState *env = cpu_env;
--                ARMCPU *cpu = env_archcpu(env);
--
--                if (arg2 || arg3 || arg4 || arg5) {
--                    return -TARGET_EINVAL;
--                }
--                if (env->tagged_addr_enable) {
--                    ret |= TARGET_PR_TAGGED_ADDR_ENABLE;
--                }
--                if (cpu_isar_feature(aa64_mte, cpu)) {
--                    /* See above. */
--                    ret |= (extract64(env->cp15.sctlr_el[1], 38, 2)
--                            << TARGET_PR_MTE_TCF_SHIFT);
--                    ret = deposit64(ret, TARGET_PR_MTE_TAG_SHIFT, 16,
--                                    ~env->cp15.gcr_el1);
--                }
--                return ret;
--            }
--#endif /* AARCH64 */
--        case PR_GET_SECCOMP:
--        case PR_SET_SECCOMP:
--            /* Disable seccomp to prevent the target disabling syscalls we
--             * need. */
--            return -TARGET_EINVAL;
--        default:
--            /* Most prctl options have no pointer arguments */
--            return get_errno(prctl(arg1, arg2, arg3, arg4, arg5));
--        }
-+        return do_prctl(cpu_env, arg1, arg2, arg3, arg4, arg5);
-         break;
- #ifdef TARGET_NR_arch_prctl
-     case TARGET_NR_arch_prctl:
++#ifndef PR_SET_IO_FLUSHER
++# define PR_SET_IO_FLUSHER 57
++# define PR_GET_IO_FLUSHER 58
++#endif
++#ifndef PR_SET_SYSCALL_USER_DISPATCH
++# define PR_SET_SYSCALL_USER_DISPATCH 59
++#endif
+ 
+ #include "target_prctl.h"
+ 
+@@ -6430,13 +6437,54 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
+             return -TARGET_EINVAL;
+         }
+         return do_prctl_get_tagged_addr_ctrl(env);
++
++    case PR_GET_DUMPABLE:
++    case PR_SET_DUMPABLE:
++    case PR_GET_KEEPCAPS:
++    case PR_SET_KEEPCAPS:
++    case PR_GET_TIMING:
++    case PR_SET_TIMING:
++    case PR_GET_TIMERSLACK:
++    case PR_SET_TIMERSLACK:
++    case PR_MCE_KILL:
++    case PR_MCE_KILL_GET:
++    case PR_GET_NO_NEW_PRIVS:
++    case PR_SET_NO_NEW_PRIVS:
++    case PR_GET_IO_FLUSHER:
++    case PR_SET_IO_FLUSHER:
++        /* Some prctl options have no pointer arguments and we can pass on. */
++        return get_errno(prctl(option, arg2, arg3, arg4, arg5));
++
++    case PR_GET_CHILD_SUBREAPER:
++    case PR_SET_CHILD_SUBREAPER:
++    case PR_GET_SPECULATION_CTRL:
++    case PR_SET_SPECULATION_CTRL:
++    case PR_GET_TID_ADDRESS:
++        /* TODO */
++        return -TARGET_EINVAL;
++
++    case PR_GET_FPEXC:
++    case PR_SET_FPEXC:
++        /* Was used for SPE on PowerPC. */
++        return -TARGET_EINVAL;
++
++    case PR_GET_ENDIAN:
++    case PR_SET_ENDIAN:
++    case PR_GET_FPEMU:
++    case PR_SET_FPEMU:
++    case PR_SET_MM:
+     case PR_GET_SECCOMP:
+     case PR_SET_SECCOMP:
+-        /* Disable seccomp to prevent the target disabling syscalls we need. */
+-        return -TARGET_EINVAL;
++    case PR_SET_SYSCALL_USER_DISPATCH:
++    case PR_GET_THP_DISABLE:
++    case PR_SET_THP_DISABLE:
++    case PR_GET_TSC:
++    case PR_SET_TSC:
++    case PR_GET_UNALIGN:
++    case PR_SET_UNALIGN:
+     default:
+-        /* Most prctl options have no pointer arguments */
+-        return get_errno(prctl(option, arg2, arg3, arg4, arg5));
++        /* Disable to prevent the target disabling stuff we need. */
++        return -TARGET_EINVAL;
+     }
+ }
+ 
 -- 
 2.25.1
 
