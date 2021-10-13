@@ -2,80 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA09642C48E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 17:12:19 +0200 (CEST)
-Received: from localhost ([::1]:42424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C6342C4B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 17:22:41 +0200 (CEST)
+Received: from localhost ([::1]:49436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mafvX-0007CY-2N
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 11:12:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54724)
+	id 1mag5X-00045l-Ar
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 11:22:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mafua-0006Pm-6t
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:11:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36058)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mag4B-0003JX-9t
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:21:15 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:39195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mafuY-0003Mn-7W
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:11:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634137877;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DDS/cm/BoEygq7CeXUer+T0mPmrtKrLVpnBIVE/wx0U=;
- b=cFyI/FBX4wQC1l6PEQkFnM+cYNqLaems4y04t/lLg7wLVuohaC28TpRB4KuI0W9VMjTtKw
- ehFtya3lum0zUt0cnUresPRxtp1c/2/mxM2dMwVvxj7h98zL8t3MoXN90F2miyeMqrwunu
- DRNqwu40PhuL9oCRpQsT07Gn/skautM=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-XvMNB9fSMi6zFhWXR0Wt4A-1; Wed, 13 Oct 2021 11:11:16 -0400
-X-MC-Unique: XvMNB9fSMi6zFhWXR0Wt4A-1
-Received: by mail-vk1-f200.google.com with SMTP id
- h3-20020a0561220b6300b00293bbf7804bso1202668vkf.1
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 08:11:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DDS/cm/BoEygq7CeXUer+T0mPmrtKrLVpnBIVE/wx0U=;
- b=7XyfVHq+1NORxdL5S61Fk4oVFSo6QLaNXy1OoIA50NFl2YiPNILHDoId361wu2Y2j+
- 1CKeu5yzgWmZpoKLbt5QXSioE1Gn8fQtFWZAxTazhAwyNv2xI7lIZ0bZSlJD5LF3MJKl
- J2P6zdcBdrAafWlrax8vlZlf/T8ibftyW7/Z4TOHEw3inLfbWE4KaeI+9ZLhUdQVMBhP
- kgwq+/k9R4BqIuThFC3dp6jDkTSeggqXBe0bIHBgcchrK1FTkIGxTpqZ5Jd8XtFQ+ypD
- LnC7w+9Z3roxF75q826yAk6YMU6a7LfD0J9UdvREvnMVcvx9W+lPfsDiN7p4djy55rM3
- Lmjg==
-X-Gm-Message-State: AOAM530GBbgeJmR+Xrp+rmpkmsxL+NGXxjD67r2InQI2fzi/uCNnJoyD
- 4a7Syp0DcnITw7+l1gD7Vkls/d6FndKyK0i3IiK1jh40rXmR/ICHPtRGgi5l8gUjWIx7YA7mgid
- WzCtbCCpsspXb93SdjRL9Hri9HGA61hU=
-X-Received: by 2002:a67:ec94:: with SMTP id h20mr38495901vsp.59.1634137875616; 
- Wed, 13 Oct 2021 08:11:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6gGtENblbwJuYrYX52T0navDxtutRPqZI5vFuHyEU95NB9Ncrvs3RPHvX/lKs0ykG/2558CBndwjI4g4/y6c=
-X-Received: by 2002:a67:ec94:: with SMTP id h20mr38495875vsp.59.1634137875384; 
- Wed, 13 Oct 2021 08:11:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mag47-0003Go-O7
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:21:14 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 6DA7E748F5B;
+ Wed, 13 Oct 2021 17:21:08 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 3AF8B748F58; Wed, 13 Oct 2021 17:21:08 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 38F59748F56;
+ Wed, 13 Oct 2021 17:21:08 +0200 (CEST)
+Date: Wed, 13 Oct 2021 17:21:08 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
+ interrupts
+In-Reply-To: <189eeccd-36fd-d033-7900-30e89fc662df@amsat.org>
+Message-ID: <d4416055-4f89-2271-5a91-514216a64f64@eik.bme.hu>
+References: <20211013121929.9E835746333@zero.eik.bme.hu>
+ <189eeccd-36fd-d033-7900-30e89fc662df@amsat.org>
 MIME-Version: 1.0
-References: <20211004210503.1455391-1-jsnow@redhat.com>
- <20211004210503.1455391-11-jsnow@redhat.com>
- <19f3d6b1-f3bc-55e8-0fe0-79daf081a778@redhat.com>
-In-Reply-To: <19f3d6b1-f3bc-55e8-0fe0-79daf081a778@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 13 Oct 2021 11:11:04 -0400
-Message-ID: <CAFn=p-Z25JLuC9cpf2OPgEmgPwk2g0GAcBRm-ZHFL2-ZuC0O=g@mail.gmail.com>
-Subject: Re: [PATCH 10/13] iotests/linters: Add entry point for linting via
- Python CI
-To: Hanna Reitz <hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000093a01f05ce3d5f1b"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Type: multipart/mixed; boundary="3866299591-11228643-1634138468=:22725"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,258 +58,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000093a01f05ce3d5f1b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Wed, Oct 13, 2021 at 8:11 AM Hanna Reitz <hreitz@redhat.com> wrote:
+--3866299591-11228643-1634138468=:22725
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-> On 04.10.21 23:05, John Snow wrote:
-> > We need at least a tiny little shim here to join test file discovery
-> > with test invocation. This logic could conceivably be hosted somewhere
-> > in python/, but I felt it was strictly the least-rude thing to keep the
-> > test logic here in iotests/, even if this small function isn't itself a=
-n
-> > iotest.
-> >
-> > Note that we don't actually even need the executable bit here, we'll be
-> > relying on the ability to run this module as a script using Python CLI
-> > arguments. No chance it gets misunderstood as an actual iotest that way=
-.
-> >
-> > (It's named, not in tests/, doesn't have the execute bit, and doesn't
-> > have an execution shebang.)
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> >
-> > ---
-> >
-> > (1) I think that the test file discovery logic and skip list belong
-> together,
-> >      and that those items belong in iotests/. I think they also belong =
-in
-> >      whichever directory pylintrc and mypy.ini are in, also in iotests/=
-.
+On Wed, 13 Oct 2021, Philippe Mathieu-Daudé wrote:
+> On 10/13/21 14:13, BALATON Zoltan wrote:
+>> This device is part of a superio/ISA bridge chip and IRQs from it are
+>> routed to an ISA interrupt set by the Interrupt Line PCI config
+>> register. Change uhci_update_irq() to allow this and implement it in
+>> vt82c686-uhci-pci.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>> ---
+>> v3: Do it more differently using qemu_irq instead as suggested by Gerd
+>> v2: Do it differently to confine isa reference to vt82c686-uhci-pci as
+>> hcd-uhci is also used on machines that don't have isa. Left Jiaxun's
+>> R-b there as he checked it's the same for VT82C686B and gave R-b for
+>> the 82c686b case which still holds but speak up if you tink otherwise.
+>>
+>>  hw/usb/hcd-uhci.c          | 11 +++++------
+>>  hw/usb/hcd-uhci.h          |  2 +-
+>>  hw/usb/vt82c686-uhci-pci.c | 12 ++++++++++++
+>>  3 files changed, 18 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
+>> index 0cb02a6432..7201cd0ae7 100644
+>> --- a/hw/usb/hcd-uhci.c
+>> +++ b/hw/usb/hcd-uhci.c
+>> @@ -31,6 +31,7 @@
+>>  #include "hw/usb/uhci-regs.h"
+>>  #include "migration/vmstate.h"
+>>  #include "hw/pci/pci.h"
+>> +#include "hw/irq.h"
+>>  #include "hw/qdev-properties.h"
+>>  #include "qapi/error.h"
+>>  #include "qemu/timer.h"
+>> @@ -290,7 +291,7 @@ static UHCIAsync *uhci_async_find_td(UHCIState *s, uint32_t td_addr)
+>>
+>>  static void uhci_update_irq(UHCIState *s)
+>>  {
+>> -    int level;
+>> +    int level = 0;
+>>      if (((s->status2 & 1) && (s->intr & (1 << 2))) ||
+>>          ((s->status2 & 2) && (s->intr & (1 << 3))) ||
+>>          ((s->status & UHCI_STS_USBERR) && (s->intr & (1 << 0))) ||
+>> @@ -298,10 +299,8 @@ static void uhci_update_irq(UHCIState *s)
+>>          (s->status & UHCI_STS_HSERR) ||
+>>          (s->status & UHCI_STS_HCPERR)) {
+>>          level = 1;
+>> -    } else {
+>> -        level = 0;
+>>      }
+>> -    pci_set_irq(&s->dev, level);
+>> +    qemu_set_irq(s->irq, level);
+>>  }
 >
-> Agreed.
+> ^ OK.
 >
-> > (2) Moving this logic into python/tests/ is challenging because I'd hav=
-e
-> >      to import iotests code from elsewhere in the source tree, which ju=
-st
-> >      inverts an existing problem I have been trying to rid us of --
-> >      needing to muck around with PYTHONPATH or sys.path hacking in pyth=
-on
-> >      scripts. I'm keen to avoid this.
+>>  static void uhci_reset(DeviceState *dev)
+>> @@ -1170,9 +1169,9 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
+>>
+>>      pci_conf[PCI_CLASS_PROG] = 0x00;
+>>      /* TODO: reset value should be 0. */
+>> -    pci_conf[USB_SBRN] = USB_RELEASE_1; // release number
+>> -
+>> +    pci_conf[USB_SBRN] = USB_RELEASE_1; /* release number */
+>>      pci_config_set_interrupt_pin(pci_conf, u->info.irq_pin + 1);
+>> +    s->irq = pci_allocate_irq(dev);
+>>
+>>      if (s->masterbus) {
+>>          USBPort *ports[NB_PORTS];
+>
+> usb_uhci_common_realize() should be refactored making it PCI-agnostic.
+>
+>> diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
+>> index e61d8fcb19..1f8ee04186 100644
+>> --- a/hw/usb/hcd-uhci.h
+>> +++ b/hw/usb/hcd-uhci.h
+>> @@ -60,7 +60,7 @@ typedef struct UHCIState {
+>>      uint32_t frame_bandwidth;
+>>      bool completions_only;
+>>      UHCIPort ports[NB_PORTS];
+>> -
+>> +    qemu_irq irq;
+>>      /* Interrupts that should be raised at the end of the current frame.  */
+>>      uint32_t pending_int_mask;
 >
 > OK.
 >
-> > (3) If we moved all python tests into tests/ and gave them *.py
-> >      extensions, we wouldn't even need the test discovery functions
-> >      anymore, and all of linters.py could be removed entirely, includin=
-g
-> >      this execution shim. We could rely on mypy/pylint's own file
-> >      discovery mechanisms at that point. More work than I'm up for with
-> >      just this series, but I could be coaxed into doing it if there was
-> >      some promise of not rejecting all that busywork ;)
+>> diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
+>> index b109c21603..e70e739409 100644
+>> --- a/hw/usb/vt82c686-uhci-pci.c
+>> +++ b/hw/usb/vt82c686-uhci-pci.c
+>> @@ -1,6 +1,16 @@
+>>  #include "qemu/osdep.h"
+>> +#include "hw/irq.h"
+>>  #include "hcd-uhci.h"
+>>
+>> +static void uhci_isa_set_irq(void *opaque, int irq_num, int level)
+>> +{
+>> +    UHCIState *s = opaque;
+>> +    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
+>> +    if (irq > 0 && irq < 15) {
+>> +        qemu_set_irq(isa_get_irq(NULL, irq), level);
+>> +    }
+>> +}
 >
-> I believe the only real value this would gain is that the tests would
-> have nicer names and we would have to delint them.  If we find those
-> goals to justify the effort, then we can put in the effort; and we can
-> do that slowly, test by test.  I don=E2=80=99t think we must do it now in=
- one
-> big lump just to get rid of the file discovery functions.
+> OK.
 >
+>>  static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+>>  {
+>>      UHCIState *s = UHCI(dev);
+>> @@ -14,6 +24,8 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+>>      pci_set_long(pci_conf + 0xc0, 0x00002000);
+>>
+>>      usb_uhci_common_realize(dev, errp);
+>> +    object_unref(s->irq);
+>> +    s->irq = qemu_allocate_irq(uhci_isa_set_irq, s, 0);
 >
-Yeah, I agree -- just do it over time and as-needed. I'm sure I will be
-bothered by something-or-other sooner-or-later and I'll wind up doing it
-anyway. Just maybe not this week!
+> This can be avoided by refactoring usb_uhci_common_realize(),
+> uhci_pci_type_info and uhci_data_class_init().
+>
+> Current TYPE_UHCI becomes TYPE_PCI_UHCI.
+>
+> Not sure why UHCI has been implemented that way, we already
+> have USB_OHCI_PCI / USB_EHCI_PCI / USB_XHCI_PCI.
+>
+> Maybe look at how TYPE_SYSBUS_OHCI is implemented VS TYPE_PCI_OHCI
+> to be able to implement the similar TYPE_SYSBUS_UHCI?
 
+That doesn't seem to be part of fixing this bug with vt82c686-uhci-pci. Do 
+I really have to do that much refactoring of UHCI model just to make it 
+work with the case I care about? If this was good up to now it should be 
+good enough until somebody can do this refactoring independent of this 
+patch as a follow up. I may not have time for that. I'd like to improve 
+pegasos2 emulation by fixing this bug for 6.2 but there's a limit on how 
+much unrelated stuff I'm willing to do for that. Let's say this bug 
+uncovered a possible improvement in the uhci model so note it somewhere 
+(like bite-sized task on wiki) then let somebody who has time handle it. 
+This should not be reason to block fixing a bug if the fix is otherwise 
+acceptable.
 
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >   tests/qemu-iotests/linters.py | 18 ++++++++++++++++++
-> >   1 file changed, 18 insertions(+)
-> >
-> > diff --git a/tests/qemu-iotests/linters.py
-> b/tests/qemu-iotests/linters.py
-> > index f6a2dc139fd..191df173064 100644
-> > --- a/tests/qemu-iotests/linters.py
-> > +++ b/tests/qemu-iotests/linters.py
-> > @@ -16,6 +16,7 @@
-> >   import os
-> >   import re
-> >   import subprocess
-> > +import sys
-> >   from typing import List, Mapping, Optional
-> >
-> >
-> > @@ -81,3 +82,20 @@ def run_linter(
-> >
-> >       return p.returncode
-> >
-> > +
-> > +def main() -> int:
-> > +    """
-> > +    Used by the Python CI system as an entry point to run these linter=
-s.
-> > +    """
-> > +    files =3D get_test_files()
-> > +
-> > +    if sys.argv[1] =3D=3D '--pylint':
-> > +        return run_linter('pylint', files)
-> > +    elif sys.argv[1] =3D=3D '--mypy':
-> > +        return run_linter('mypy', files)
->
-> So I can run it as `python linters.py --pylint foo bar` and it won=E2=80=
-=99t
-> complain? :)
->
-> I don=E2=80=99t feel like it=E2=80=99s important, but, well, it isn=E2=80=
-=99t right either.
->
->
-Alright. I hacked it together to be "minimal" in terms of SLOC, but I can
-make it ... less minimal.
-
---00000000000093a01f05ce3d5f1b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 13, 2021 at 8:11 AM Hanna=
- Reitz &lt;<a href=3D"mailto:hreitz@redhat.com">hreitz@redhat.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 04.10.2=
-1 23:05, John Snow wrote:<br>
-&gt; We need at least a tiny little shim here to join test file discovery<b=
-r>
-&gt; with test invocation. This logic could conceivably be hosted somewhere=
-<br>
-&gt; in python/, but I felt it was strictly the least-rude thing to keep th=
-e<br>
-&gt; test logic here in iotests/, even if this small function isn&#39;t its=
-elf an<br>
-&gt; iotest.<br>
-&gt;<br>
-&gt; Note that we don&#39;t actually even need the executable bit here, we&=
-#39;ll be<br>
-&gt; relying on the ability to run this module as a script using Python CLI=
-<br>
-&gt; arguments. No chance it gets misunderstood as an actual iotest that wa=
-y.<br>
-&gt;<br>
-&gt; (It&#39;s named, not in tests/, doesn&#39;t have the execute bit, and =
-doesn&#39;t<br>
-&gt; have an execution shebang.)<br>
-&gt;<br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt;<br>
-&gt; ---<br>
-&gt;<br>
-&gt; (1) I think that the test file discovery logic and skip list belong to=
-gether,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 and that those items belong in iotests/. I think t=
-hey also belong in<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 whichever directory pylintrc and mypy.ini are in, =
-also in iotests/.<br>
-<br>
-Agreed.<br>
-<br>
-&gt; (2) Moving this logic into python/tests/ is challenging because I&#39;=
-d have<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 to import iotests code from elsewhere in the sourc=
-e tree, which just<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 inverts an existing problem I have been trying to =
-rid us of --<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 needing to muck around with PYTHONPATH or sys.path=
- hacking in python<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 scripts. I&#39;m keen to avoid this.<br>
-<br>
-OK.<br>
-<br>
-&gt; (3) If we moved all python tests into tests/ and gave them *.py<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 extensions, we wouldn&#39;t even need the test dis=
-covery functions<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 anymore, and all of linters.py could be removed en=
-tirely, including<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 this execution shim. We could rely on mypy/pylint&=
-#39;s own file<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 discovery mechanisms at that point. More work than=
- I&#39;m up for with<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 just this series, but I could be coaxed into doing=
- it if there was<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 some promise of not rejecting all that busywork ;)=
-<br>
-<br>
-I believe the only real value this would gain is that the tests would <br>
-have nicer names and we would have to delint them.=C2=A0 If we find those <=
-br>
-goals to justify the effort, then we can put in the effort; and we can <br>
-do that slowly, test by test.=C2=A0 I don=E2=80=99t think we must do it now=
- in one <br>
-big lump just to get rid of the file discovery functions.<br>
-<br></blockquote><div><br></div><div>Yeah, I agree -- just do it over time =
-and as-needed. I&#39;m sure I will be bothered by something-or-other sooner=
--or-later and I&#39;ll wind up doing it anyway. Just maybe not this week! <=
-br></div></div><div class=3D"gmail_quote"><div>=C2=A0</div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0tests/qemu-iotests/linters.py | 18 ++++++++++++++++++<br>
-&gt;=C2=A0 =C2=A01 file changed, 18 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/tests/qemu-iotests/linters.py b/tests/qemu-iotests/linter=
-s.py<br>
-&gt; index f6a2dc139fd..191df173064 100644<br>
-&gt; --- a/tests/qemu-iotests/linters.py<br>
-&gt; +++ b/tests/qemu-iotests/linters.py<br>
-&gt; @@ -16,6 +16,7 @@<br>
-&gt;=C2=A0 =C2=A0import os<br>
-&gt;=C2=A0 =C2=A0import re<br>
-&gt;=C2=A0 =C2=A0import subprocess<br>
-&gt; +import sys<br>
-&gt;=C2=A0 =C2=A0from typing import List, Mapping, Optional<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; @@ -81,3 +82,20 @@ def run_linter(<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return p.returncode<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +<br>
-&gt; +def main() -&gt; int:<br>
-&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt; +=C2=A0 =C2=A0 Used by the Python CI system as an entry point to run t=
-hese linters.<br>
-&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt; +=C2=A0 =C2=A0 files =3D get_test_files()<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if sys.argv[1] =3D=3D &#39;--pylint&#39;:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return run_linter(&#39;pylint&#39;, files=
-)<br>
-&gt; +=C2=A0 =C2=A0 elif sys.argv[1] =3D=3D &#39;--mypy&#39;:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return run_linter(&#39;mypy&#39;, files)<=
-br>
-<br>
-So I can run it as `python linters.py --pylint foo bar` and it won=E2=80=99=
-t <br>
-complain? :)<br>
-<br>
-I don=E2=80=99t feel like it=E2=80=99s important, but, well, it isn=E2=80=
-=99t right either.<br>
-<br></blockquote><div><br></div><div>Alright. I hacked it together to be &q=
-uot;minimal&quot; in terms of SLOC, but I can make it ... less minimal.</di=
-v><div> <br></div></div></div>
-
---00000000000093a01f05ce3d5f1b--
-
+Regards,
+BALATON Zoltan
+--3866299591-11228643-1634138468=:22725--
 
