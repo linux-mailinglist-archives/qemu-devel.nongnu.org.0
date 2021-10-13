@@ -2,106 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4A042BAB9
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 10:42:48 +0200 (CEST)
-Received: from localhost ([::1]:49916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CAA042BACD
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 10:47:29 +0200 (CEST)
+Received: from localhost ([::1]:53398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maZqZ-0006z5-2a
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 04:42:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39180)
+	id 1maZv6-00014Z-18
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 04:47:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1maZoi-0006Bw-4g; Wed, 13 Oct 2021 04:40:52 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33270)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1maZtK-0008Mt-EK
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 04:45:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1maZof-0003Q1-IL; Wed, 13 Oct 2021 04:40:51 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19D7c5x2021877; 
- Wed, 13 Oct 2021 04:40:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=vENGsMQ+Qf8093asK7RoKtuhGfZLDOk7N3l4P5RTCro=;
- b=pQcH1XsREeQq4gFgtPEZPIxXjdQ5SUALppA3uqNBsAs8PAenPLcqVnjISrPPiTIdMyN9
- M497HJL2PIvwmTm2cBK91VWx/FPBPeP0qOXzqlCXFoMp8PZBceOkFsYIAQhSRaBRNKsq
- S1ERWOmy0M1S55SEV/5Noggp5eSSgm3HJXhbk/OeaX5DrCKWCQA3wSHJquKUN/eyBt9m
- YvKEe3R7EH24A+ue9qZG/GBOlRbRDzar3fN+/i52hnAtpe9xHufsf0niaoSWKjbmXWEz
- ETMzfWgzKoySyWTgZgDlHIqD+pCmhbCOr7weVNpfRdrIopuYZ3RqniMwLdoKoOdrlhd+ 3Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bnr79d020-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Oct 2021 04:40:46 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19D764eC019670;
- Wed, 13 Oct 2021 04:40:45 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bnr79d00t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Oct 2021 04:40:45 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19D8bQR6014458;
- Wed, 13 Oct 2021 08:40:41 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3bk2q9rpc2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Oct 2021 08:40:41 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 19D8Yu2G58458582
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Oct 2021 08:34:56 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2A63DA404D;
- Wed, 13 Oct 2021 08:40:34 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 40A7EA4055;
- Wed, 13 Oct 2021 08:40:31 +0000 (GMT)
-Received: from [9.171.19.130] (unknown [9.171.19.130])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 13 Oct 2021 08:40:30 +0000 (GMT)
-Message-ID: <d892f64b-2260-808b-2b05-f38839e4b52e@linux.ibm.com>
-Date: Wed, 13 Oct 2021 10:40:30 +0200
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1maZtF-0007bk-IO
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 04:45:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634114732;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=isGBXbHJDVm2nC4G+CAjiwyRNMzo82kSwEutpZujJE4=;
+ b=eaugRVtREutTH6ZIbtjgr0UcVnjc0PT+SF//KVNOvixt0wucLOFNuNmwILsVAgf9ZRa6U6
+ j0RPwbgJWAaLgfwv+CWsFcv2tI5d91kUv8VK0LEV4fam3L85bjOA1BiTOGPMojLraqG0cR
+ c2bdF2sEoa6pRmSFADBfCX25R81UfFc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-Hy9deU0NOIWxyNRaNvjV_Q-1; Wed, 13 Oct 2021 04:45:30 -0400
+X-MC-Unique: Hy9deU0NOIWxyNRaNvjV_Q-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ 41-20020adf812c000000b00160dfbfe1a2so1412511wrm.3
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 01:45:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=isGBXbHJDVm2nC4G+CAjiwyRNMzo82kSwEutpZujJE4=;
+ b=V7XN24AESdP+LCHW6aw0DY06TRfsk/LMWMmOUpieST/2G8NCOsUKCGWqK9X9+WC1Zx
+ Y0aWVp00W36VKp+eJ16GK8F9j8DYthks/Jz6402FDEJhUMYsa5rJt73t6PyhGNcETIH2
+ TJRSMeby0a7LNQxLNXdh9J3xcSB2rlLsY/XGZbkxFBm2bTkZh0FDoiMOeZhfP+uICQ++
+ BQdQxAw8k2n8i2CwRJepVqtdqZsWthSUQZSnQUkLV73Qejxf7if2UdJFZZ1l2sjMr/s5
+ obFZh6hxj7TD9NZZT8VF8m2XLeicMl7Hm0NlPaw4wEvwfrDRY1HqrY63SihuNXoDhF9D
+ 5u+g==
+X-Gm-Message-State: AOAM533HvQmY2r+QCDmEpxUspWpwMGYOaib/POd9yTP5xfaN604oV5ul
+ 2/9MRX2W4QyHsqRlsNIvwG0U5e3pWQnahiLaQZNGBq7S5LO51z0VD5uvX4ZQViQDMevvHB/E2td
+ mjV63fAVBj2OH2qA=
+X-Received: by 2002:adf:e9c8:: with SMTP id l8mr37635004wrn.188.1634114729288; 
+ Wed, 13 Oct 2021 01:45:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwmdJ84gll5WKGbfxJc4VbYI40fFT5sW0RLfwMXZ0Q8FXk+qx5bCZPhnMzyJXEk8h5FvRR8JQ==
+X-Received: by 2002:adf:e9c8:: with SMTP id l8mr37634980wrn.188.1634114729052; 
+ Wed, 13 Oct 2021 01:45:29 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1e48:3780:4451:9a65:d4e9:9bb6?
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id t3sm4542662wmj.33.2021.10.13.01.45.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Oct 2021 01:45:28 -0700 (PDT)
+Message-ID: <5041f802-0b42-f130-ee68-56cd7464b75d@redhat.com>
+Date: Wed, 13 Oct 2021 10:45:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v3 4/4] s390x: topology: implementating Store Topology
- System Information
+Subject: Re: [PATCH v3 0/7] Switch iotests to using Async QMP
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20211012223445.1051101-1-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211012223445.1051101-1-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-References: <1631800254-25762-1-git-send-email-pmorel@linux.ibm.com>
- <1631800254-25762-5-git-send-email-pmorel@linux.ibm.com>
- <e20bcaec-e76e-d12a-3a94-f4f0170b203a@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <e20bcaec-e76e-d12a-3a94-f4f0170b203a@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: wKqBT_STpzLFAqa0OfayH3pPqYODRxSL
-X-Proofpoint-ORIG-GUID: PF0PLvI4BfARQoOqMCZw8fzpBiSrJ4Fs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-10-13_02,2021-10-13_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- suspectscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxscore=0
- priorityscore=1501 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2109230001 definitions=main-2110130057
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.452,
+ DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,129 +98,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 13.10.21 00:34, John Snow wrote:
+> Based-on: <20211012214152.802483-1-jsnow@redhat.com>
+>            [PULL 00/10] Python patches
+> GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-aqmp-iotest-wrapper
+> CI: https://gitlab.com/jsnow/qemu/-/pipelines/387210591
+>
+> Hiya,
+>
+> This series continues where the last two AQMP series left off and adds a
+> synchronous 'legacy' wrapper around the new AQMP interface, then drops
+> it straight into iotests to prove that AQMP is functional and totally
+> cool and fine. The disruption and churn to iotests is pretty minimal.
+>
+> In the event that a regression happens and I am not physically proximate
+> to inflict damage upon, one may set the QEMU_PYTHON_LEGACY_QMP variable
+> to any non-empty string as it pleases you to engage the QMP machinery
+> you are used to.
+>
+> I'd like to try and get this committed early in the 6.2 development
+> cycle to give ample time to smooth over any possible regressions. I've
+> tested it locally and via gitlab CI, across Python versions 3.6 through
+> 3.10, and "worksforme". If something bad happens, we can revert the
+> actual switch-flip very trivially.
+
+So running iotests locally, I got one failure:
+
+$ TEST_DIR=/tmp/vdi-tests ./check -c writethrough -vdi 300
+[...]
+300                             fail       [10:28:06] [10:28:11] 
+5.1s                 output mismatch (see 300.out.bad)
+--- /home/maxx/projects/qemu/tests/qemu-iotests/300.out
++++ 300.out.bad
+@@ -1,4 +1,5 @@
+-.......................................
++..............ERROR:qemu.aqmp.qmp_client.qemu-b-222963:Task.Reader: 
+ConnectionResetError: [Errno 104] Connection reset by peer
++.........................
+  ----------------------------------------------------------------------
+  Ran 39 tests
+[...]
 
 
-On 10/13/21 10:20, Thomas Huth wrote:
-> On 16/09/2021 15.50, Pierre Morel wrote:
->> The handling of STSI is enhanced with the interception of the
->> function code 15 for storing CPU topology.
->>
->> Using the objects built during the pluging of CPU, we build the
->> SYSIB 15_1_x structures.
->>
->> With this patch the maximum MNEST level is 2, this is also
->> the only level allowed and only SYSIB 15_1_2 will be built.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   target/s390x/kvm/kvm.c | 101 +++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 101 insertions(+)
->>
->> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
->> index dd036961fe..0a5f2aced2 100644
->> --- a/target/s390x/kvm/kvm.c
->> +++ b/target/s390x/kvm/kvm.c
->> @@ -52,6 +52,7 @@
->>   #include "hw/s390x/s390-virtio-ccw.h"
->>   #include "hw/s390x/s390-virtio-hcall.h"
->>   #include "hw/s390x/pv.h"
->> +#include "hw/s390x/cpu-topology.h"
->>   #ifndef DEBUG_KVM
->>   #define DEBUG_KVM  0
->> @@ -1908,6 +1909,102 @@ static void insert_stsi_3_2_2(S390CPU *cpu, 
->> __u64 addr, uint8_t ar)
->>       }
->>   }
-> 
-> Could you maybe put the new code in a separate file under target/s390x/ 
-> (maybe target/s390x/topology.c ?), in case we ever want to implement 
-> this for TCG, too?
+I’m afraid I can’t really give a reproducer or anything.  It feels like 
+just some random spurious timing-related error.  Although then again, 
+300 does have an `except machine.AbnormalShutdown` clause at one 
+point...  So perhaps that’s the culprit, and we need to disable logging 
+there.
 
-Yes right, did not thing about TCG as I saw it as pure Z.
-But in fact it may be adapted for TCG too.
+Hanna
 
-
-> 
->> +static int stsi_15_cpus(void *p, S390TopologyCores *cd)
->> +{
->> +    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
->> +
->> +    tle->nl = 0;
->> +    tle->dedicated = cd->dedicated;
->> +    tle->polarity = cd->polarity;
->> +    tle->type = cd->cputype;
->> +    tle->origin = cd->origin;
-> 
-> If we want to use this for TCG, too, one day:
-> 
->     tle->origin = be16_to_cpu(cd->origin);
-
-yes.
-
-> 
->> +    tle->mask = cd->mask;
->> +
->> +    return sizeof(*tle);
->> +}
->> +
->> +static int set_socket(const MachineState *ms, void *p,
->> +                      S390TopologySocket *socket)
->> +{
->> +    BusChild *kid;
->> +    int l, len = 0;
->> +
->> +    len += stsi_15_container(p, 1, socket->socket_id);
->> +    p += len;
->> +
->> +    QTAILQ_FOREACH_REVERSE(kid, &socket->bus->children, sibling) {
->> +        l = stsi_15_cpus(p, S390_TOPOLOGY_CORES(kid->child));
->> +        p += l;
->> +        len += l;
->> +    }
->> +    return len;
->> +}
->> +
->> +static void insert_stsi_15_1_2(const MachineState *ms, void *p)
->> +{
->> +    S390TopologyBook *book;
->> +    SysIB_151x *sysib;
->> +    BusChild *kid;
->> +    int level = 2;
->> +    int len, l;
->> +
->> +    sysib = (SysIB_151x *)p;
->> +    sysib->mnest = level;
->> +    sysib->mag[TOPOLOGY_NR_MAG2] = ms->smp.sockets;
->> +    sysib->mag[TOPOLOGY_NR_MAG1] = ms->smp.cores;
->> +
->> +    book = s390_get_topology();
->> +    len = sizeof(SysIB_151x);
->> +    p += len;
->> +
->> +    QTAILQ_FOREACH_REVERSE(kid, &book->bus->children, sibling) {
->> +        l = set_socket(ms, p, S390_TOPOLOGY_SOCKET(kid->child));
->> +        p += l;
->> +        len += l;
->> +    }
->> +
->> +    sysib->length = len;
-> 
-> For TCG awareness:
-> 
->      sysib->length = be16_to_cpu(len);
-
-OK
-
-Yes, thanks I will take care of TCG in the next spin.
-Regards,
-Pierre
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
