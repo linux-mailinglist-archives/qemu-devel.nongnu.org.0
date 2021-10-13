@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EDD542B87B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 09:09:15 +0200 (CEST)
-Received: from localhost ([::1]:46784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BF842B899
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 09:10:57 +0200 (CEST)
+Received: from localhost ([::1]:48990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maYO2-0002hk-5h
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 03:09:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44490)
+	id 1maYPg-0004BI-Pg
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 03:10:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1maYN6-00020p-7z
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 03:08:16 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:39904)
+ id 1maYNY-0002TV-61
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 03:08:44 -0400
+Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:42923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1maYN4-0002g8-NQ
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 03:08:15 -0400
-Received: by mail-io1-xd33.google.com with SMTP id p68so1674362iof.6
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 00:08:13 -0700 (PDT)
+ id 1maYNW-00035c-JV
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 03:08:43 -0400
+Received: by mail-io1-xd2d.google.com with SMTP id 5so1657322iov.9
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 00:08:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=i8qOUvBmdb1hFG55wRskSWtFVxOmKZrLwsl/7SaYtlI=;
- b=QrfKvnIszAvQ5eQ/OkmojDyd6DLtMYvj9pToMQnUq8A7aRDiR7aZGEtxzzKLPP1dbC
- h338dJVnil9sRANp7BOEZ7QeP3bwru6zhI2HhWpINFubTy6XXIKXBJeepu167rdMWIgj
- P/2ZoPKpGx9Pl+tKUUShfFbNZCOdOe4n7PpDpjS6J1YFfrWzDAMnhSY6hAH2EqnbfP6E
- 90YjRJNcEMn9zGhFyswQsTF2t2/TTffijzcQroGJ3638wKfz00AbkDAP/OwHZ0wUplI6
- 8KYTWBaQplvnd94laOJz6MNjNk+gb2yH05hz6w8J+S9L6Uf+mJyknymD5awRBH+gkNKk
- Zd4A==
+ :cc; bh=650eW90FfktmXQhA+QgzUhyjgXJ5WzrouIb/sIyotrQ=;
+ b=mYRj69hDrz/9seJLvNVjaelMllpQHTehmaoXFOaDzjfMRK/yZyCwXzojELjGr3D7S2
+ +xX/zW3RgtU8xNWn9EYxPOd0wOSfyZTHcogPV34oedt/NWFKpcQFxN3iPUe4veD5X4c2
+ MfvdsvFucTeLIACxRsuzTlU0MTWQgJf3hGy3Nsh6zJqBdOj7JbMTZn6qN8CF0DohiUxT
+ 1HALyXtHoBxp+B7Q1xvd/ASxlbS9DVgXSf/GgJ0av9yBe6URVvqVLwfRgcC8j3qij3UL
+ XBR4SHchnDztALcoqc5jBVqFCb7CXyNdZIErpfIk+Je16wozrlCCMano8SWKZjx3qXbz
+ Q1pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=i8qOUvBmdb1hFG55wRskSWtFVxOmKZrLwsl/7SaYtlI=;
- b=lwOQeyjjzXufpplXcnHJR4b2bbBGr9T5qjK3oyeYPbAHLvq5fpzflVaRhVpd0POXVV
- JJQY0dY/AmwD4fqoQkJYkaePrj+ld0ILuWnHhMxp6YRHIUKhEnsNTCPYAT0A6r2hBFbw
- N9dRhcNIBF0E69YRACEkGXuNIdrJMS9Jbv8QossBIOQxjqdNHTvt6zQSt9fpFVcCfK2D
- W/etUJBTSYptXzpky65td9EgmzvAJNYlnc9kZcPG6qTo+/GnTFn4W3ws54fBjJwwS1Rh
- 2DB4YbSfFttw181TJFRfWw+cxTn1DIKlrkl0li9hkHo4mLirhXdr50DQmsuwIufcmGyu
- ookw==
-X-Gm-Message-State: AOAM530qWKFSLggJr9f4PC6FFLZdC2gAOHkzvo25h4MSHhkHEK++VfPA
- 1TlqP4AC2pyWKzn+U4+vvB2XNYx+q29Pkpq1krc=
-X-Google-Smtp-Source: ABdhPJybQXoArtAC02cxtjTHpq+cgkRCAgeN4ZAnXcbDoHIBxNoVCXg6A0TRVmSdoN3ZBfkpNAnO2YJaTEG8xetTqsw=
-X-Received: by 2002:a5e:9612:: with SMTP id a18mr26814534ioq.57.1634108892876; 
- Wed, 13 Oct 2021 00:08:12 -0700 (PDT)
+ bh=650eW90FfktmXQhA+QgzUhyjgXJ5WzrouIb/sIyotrQ=;
+ b=1quCqCohQ6TBzRRxQUI0fpJYQoy2uo9It5Z/t2tyRrMx5MBxOjRF0HLizEnrEMycvf
+ BLaPnSJIUX1J5hRHJSboXG+tvt1WecFabMvD0FJndh/3pJA7RXjql+NXL4rsAAGaotvN
+ kJ+OGQH/yBM220Z70aOQUYF1jg3bmuLIzikOvpNTCjEjohBIj36HVpI8Oo1y0+Def6uE
+ Rk/V9jas6rlDmjuq0Gf7Iu2q7p+MTOoLt7CKkSE8HnbiAPV+C8TF3CSGfhylbRLZXXCT
+ hxjVJgPs4hpQpcmhpac/7LbNDiW6bYrizhk16unKDzfYzrYArpfh4gTlQvShudFJQ1u7
+ TE7w==
+X-Gm-Message-State: AOAM5303yBLDlvPbMCzK7v3kWBbBGs+WYwVYKMOWVPYK2vIyDggL7UTJ
+ vrnZCrMcSaOhn++TqA73JPiKyDFd+mhemXAqXEE=
+X-Google-Smtp-Source: ABdhPJz+557ZhryjIVX666LAnMla5/QITQXqPZYcR9TValD4b7EVsPUvht1EFajSUFDL2YJAdrYj3hhGghhdZgOdjBs=
+X-Received: by 2002:a05:6602:2e8c:: with SMTP id
+ m12mr8974306iow.91.1634108921551; 
+ Wed, 13 Oct 2021 00:08:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211010174401.141339-1-richard.henderson@linaro.org>
- <20211010174401.141339-5-richard.henderson@linaro.org>
-In-Reply-To: <20211010174401.141339-5-richard.henderson@linaro.org>
+ <20211010174401.141339-9-richard.henderson@linaro.org>
+In-Reply-To: <20211010174401.141339-9-richard.henderson@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 13 Oct 2021 17:07:46 +1000
-Message-ID: <CAKmqyKMZtgnMsO0cJua4PF7cXtC=HaO69odvmMrH1ruD=Qi9LQ@mail.gmail.com>
-Subject: Re: [PATCH 4/8] accel/tcg: Add guest_base_signed_addr32 for user-only
+Date: Wed, 13 Oct 2021 17:08:14 +1000
+Message-ID: <CAKmqyKM8pcgQUV-d2VMkCh0mSo8K9foUtVbN+t1LF7DpFUgiHw@mail.gmail.com>
+Subject: Re: [PATCH 8/8] target/riscv: Support TCG_TARGET_SIGNED_ADDR32
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2d.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -84,21 +85,69 @@ Cc: git@xen0n.name, Alistair Francis <Alistair.Francis@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 11, 2021 at 3:52 AM Richard Henderson
+On Mon, Oct 11, 2021 at 3:50 AM Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> While the host may prefer to treat 32-bit addresses as signed,
-> there are edge cases of guests that cannot be implemented with
-> addresses 0x7fff_ffff and 0x8000_0000 being non-consecutive.
->
-> Therefore, default to guest_base_signed_addr32 false, and allow
-> probe_guest_base to determine whether it is possible to set it
-> to true.  A tcg backend which sets TCG_TARGET_SIGNED_ADDR32 will
-> have to cope with either setting for user-only.
+> All RV64 32-bit operations sign-extend the output, so we are easily
+> able to keep TCG_TYPE_I32 values sign-extended in host registers.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
+
+> ---
+>  tcg/riscv/tcg-target-sa32.h | 6 +++++-
+>  tcg/riscv/tcg-target.c.inc  | 8 ++------
+>  2 files changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/tcg/riscv/tcg-target-sa32.h b/tcg/riscv/tcg-target-sa32.h
+> index cb185b1526..703467b37a 100644
+> --- a/tcg/riscv/tcg-target-sa32.h
+> +++ b/tcg/riscv/tcg-target-sa32.h
+> @@ -1 +1,5 @@
+> -#define TCG_TARGET_SIGNED_ADDR32 0
+> +/*
+> + * Do not set TCG_TARGET_SIGNED_ADDR32 for RV32;
+> + * TCG expects this to only be set for 64-bit hosts.
+> + */
+> +#define TCG_TARGET_SIGNED_ADDR32  (__riscv_xlen == 64)
+> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+> index 9b13a46fb4..9426ef8926 100644
+> --- a/tcg/riscv/tcg-target.c.inc
+> +++ b/tcg/riscv/tcg-target.c.inc
+> @@ -952,10 +952,6 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
+>      tcg_out_opc_branch(s, OPC_BNE, TCG_REG_TMP0, TCG_REG_TMP1, 0);
+>
+>      /* TLB Hit - translate address using addend.  */
+> -    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
+> -        tcg_out_ext32u(s, TCG_REG_TMP0, addrl);
+> -        addrl = TCG_REG_TMP0;
+> -    }
+>      tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_REG_TMP2, addrl);
+>  }
+>
+> @@ -1126,7 +1122,7 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, bool is_64)
+>                          data_regl, data_regh, addr_regl, addr_regh,
+>                          s->code_ptr, label_ptr);
+>  #else
+> -    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
+> +    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS && !guest_base_signed_addr32) {
+>          tcg_out_ext32u(s, base, addr_regl);
+>          addr_regl = base;
+>      }
+> @@ -1192,7 +1188,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
+>                          data_regl, data_regh, addr_regl, addr_regh,
+>                          s->code_ptr, label_ptr);
+>  #else
+> -    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
+> +    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS && !guest_base_signed_addr32) {
+>          tcg_out_ext32u(s, base, addr_regl);
+>          addr_regl = base;
+>      }
+> --
+> 2.25.1
+>
+>
 
