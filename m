@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B555542CDE7
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 00:25:52 +0200 (CEST)
-Received: from localhost ([::1]:41428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E89142CE4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 00:34:27 +0200 (CEST)
+Received: from localhost ([::1]:50938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mamh5-0006Ab-Al
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 18:25:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53462)
+	id 1mampO-0004YU-AS
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 18:34:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mamfU-0005Tw-R5
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 18:24:12 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:44015)
+ id 1mamnT-00039i-Pg
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 18:32:27 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:52184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mamfT-0007dU-94
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 18:24:12 -0400
-Received: by mail-pf1-x436.google.com with SMTP id 187so3712414pfc.10
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 15:24:10 -0700 (PDT)
+ id 1mamnS-0000xU-41
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 18:32:27 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id kk10so3360207pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 15:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=h0FlhQIUK5xbyjogmhc/WXAxrSFDFaI5TPSWmOwHblQ=;
- b=riov2IcAhKucQyl6ydojsq5kEpA0bsv7CY0kLIkT26t0TT5WV7lUREVqRz7S2K6cOj
- CJ25XVr6vRN3N4d4jSczNarRn7bO0AQ6ptic42Wyexr6vtpCw2gXjfV+fnQGFcGD9J2l
- WYV8lk1Ed8wLTT04PhV3KUwr7fCvmM3jmYWhBzlcd7OWRfOkXEVHIakW5NqICKIcgGWD
- 7HXu2XKW0ZnTMMn4IOopDQz7jEuYxdh2fOw8V3eJ9iOhsKGMrjPWZwSyHh53rLMwNS3K
- 1j86LleaHzAIQ5FyJKIJ3uB5v0bhzZOWXqkOj3Ta6xibPfon638uSCcL7zsu3Pfuivbd
- jHzQ==
+ bh=552Hf7L9o2Y8cHcQZpKeiRqBO0zhIx9uYw3umQfq/dU=;
+ b=V2csutUEVbNGynsOj+tgn1XeJIG6d+mFir/ZZ0H3CHMhI01Gg7J+az285thlMdDfb2
+ ED85Pp4AgkLkVc1DBCAk29G+Jd4cDUc36XB5FdhmHNXb6VKquYpS62q5eJazIrWSsd+7
+ L50rhao/c0TPp/gUOeC50lMarGDF/GPmedbr+xIemc5coGy1487jq8LGtn1wwRr465uD
+ UfB5VKzRxYIIZKyi+OPTQWIL/HzL12CAAEFAJKe4ihWGpv1OFauTBykUAWlwNWdkmMLF
+ p1zXcfg7MlCVnZ9Z4DkveeKwUWNrRqZ3W6ewesFD4PbT35hdCxAbqra33ZxaT6UsOAgJ
+ vAcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=h0FlhQIUK5xbyjogmhc/WXAxrSFDFaI5TPSWmOwHblQ=;
- b=FNxVcFo5AHDPunZwNk4CuZpgebR4EV3XtaN0TlcXa7u72Rliv0f6z4zO7SjS59KbQa
- 4AVj+TDjrBtFsT6uTTwZhFj6f4E9SHomM9vOh9HusSGb7rQK2ClBuJ16Ijy2bK+BURvB
- 7gbVxaCZeqI86qi2LHkL6HblqLr0oXr0ys5MH3UwclbElxsu20dgLwLaGjQvCvlG3Z+E
- T8j60BNY7U++0rCv/8IO6PzQl6anjLIeBF5bVAy80izXc8aOAjNHnjTY2Kg/uIdPJC3Y
- piWbd+K+Fr7jdu1uvUj53u3dM8mys7GQDbJhpGWdMlMcZq/nxAoJZ/d8Iq/y7DMQWTZo
- I2rQ==
-X-Gm-Message-State: AOAM533aE61yQg6mFVKNYGzRAxej6LZucF2bxrba2hcTDGCDU8XwQd34
- Lp7YCm0NUecU28rJbvLmFR+4mA==
-X-Google-Smtp-Source: ABdhPJw/hz5r9xDHta0ViDBDwjLJtSujkCEJ2DChnJeBhDaVPDeGudf7MvbKLJHAyB+w3j4JBv2yTg==
-X-Received: by 2002:a63:8a43:: with SMTP id y64mr1465685pgd.390.1634163849019; 
- Wed, 13 Oct 2021 15:24:09 -0700 (PDT)
+ bh=552Hf7L9o2Y8cHcQZpKeiRqBO0zhIx9uYw3umQfq/dU=;
+ b=TrahvlLBN3m7nulwDxYsYc0XNgNEWtdJoK2zQUGQLCVR+J87LBM0gfo8Qxzh4Tibvz
+ BZANncCds0m0YZKE2n731AMrqPiNCa0PFkDMgKt/L64+fRIt5Ca7W5Ta0Ysdw+/VOlMi
+ qKKXTrQZU7IAlEaew7+Rw3/Qje9Ci3EcBNZlQkezHVoFCWyGCI0AKG9OQvCjPuxJhVfF
+ emzt2EmwVTvDWLX9bSYwGsjSBJvfIQkCkecIOg9QBJY0O3ahxcTM5VM6WxsMT6anOkCx
+ mhu7+kSRVAqnTU/O7G3NuwlolpfG4nfj2l58/ScCTgod4jMwxOEV6x90FqskZkUWT/8H
+ U9Dg==
+X-Gm-Message-State: AOAM530SeNXkipbPi4pHCRLK+JIS0Y75JrOfnwwiey3bcGszijLbBo07
+ NcxmoYS/nQtjUCz55LgcHB7kzQ==
+X-Google-Smtp-Source: ABdhPJyodH51ncsgVEDoMlGbAa/GkKIXCRIjHimGqwix/cRZEUtMPMMfmGQlbzRGfw3kMNJNN7f4bQ==
+X-Received: by 2002:a17:90b:4b03:: with SMTP id
+ lx3mr2197543pjb.162.1634164343803; 
+ Wed, 13 Oct 2021 15:32:23 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id m22sm448833pfo.71.2021.10.13.15.24.08
+ by smtp.gmail.com with ESMTPSA id m12sm465211pjv.29.2021.10.13.15.32.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Oct 2021 15:24:08 -0700 (PDT)
-Subject: Re: [PATCH 7/8] target/mips: Support TCG_TARGET_SIGNED_ADDR32
-To: WANG Xuerui <i.qemu@xen0n.name>, qemu-devel@nongnu.org
-References: <20211010174401.141339-1-richard.henderson@linaro.org>
- <20211010174401.141339-8-richard.henderson@linaro.org>
- <768cf292-1393-2076-e10f-d0147ad325a6@xen0n.name>
+ Wed, 13 Oct 2021 15:32:23 -0700 (PDT)
+Subject: Re: [RFC PATCH] target/mips: Fix DEXTRV_S.H DSP opcode
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20211013215652.1764551-1-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b35c12cc-3c11-d34e-52ae-13b9fe18ae53@linaro.org>
-Date: Wed, 13 Oct 2021 15:24:06 -0700
+Message-ID: <bc55308c-2408-d23d-c682-bc611475941f@linaro.org>
+Date: Wed, 13 Oct 2021 15:32:21 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <768cf292-1393-2076-e10f-d0147ad325a6@xen0n.name>
+In-Reply-To: <20211013215652.1764551-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,41 +88,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair.Francis@wdc.com, f4bug@amsat.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Jia Liu <proljc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/10/21 9:20 PM, WANG Xuerui wrote:
->> +++ b/tcg/mips/tcg-target-sa32.h
->> @@ -1 +1,9 @@
->> +/*
->> + * Do not set TCG_TARGET_SIGNED_ADDR32 for mips32;
->> + * TCG expects this to only be set for 64-bit hosts.
->> + */
->> +#ifdef __mips64
->> +#define TCG_TARGET_SIGNED_ADDR32 1
->> +#else
->>   #define TCG_TARGET_SIGNED_ADDR32 0
->> +#endif
-> It looks like we never want to set TCG_TARGET_SIGNED_ADDR32 on 32-bit
-> hosts; maybe a compile-time assert could be added somewhere for
-> statically guaranteeing this?
+On 10/13/21 2:56 PM, Philippe Mathieu-Daudé wrote:
+> While for the DEXTR_S.H opcode:
+> 
+>    "The shift argument is provided in the instruction."
+> 
+> For the DEXTRV_S.H opcode we have:
+> 
+>    "The five least-significant bits of register rs provide the
+>     shift argument, interpreted as a five-bit unsigned integer;
+>     the remaining bits in rs are ignored."
+> 
+> While 't1' contains the 'rs' register content (the shift value
+> for DEXTR_S.H), we need to load the value of 'rs' for DEXTRV_S.H.
+> We can directly use the v1_t TCG register which already contains
+> this shift value.
+> 
+> Fixes: b53371ed5d4 ("target-mips: Add ASE DSP accumulator instructions")
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   target/mips/tcg/translate.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 
-I've placed a build-time assert in tcg/tcg.c.
-
->> -    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
->> +    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS && !guest_base_signed_addr32) {
-> Is there precedent of extracting predicates like this into some header
-> for reuse? However I agree that the current expression conveys enough
-> meaning without being overly complicated.
-
-Depends on the expected scope of the predicate, I guess.
-
-If it's private to tcg-target.c.inc, I'd put it in tcg.c.
-If it's private to tcg in general, I'd put it in tcg-internal.h.
-Beyond that, I guess it depends.
-
-For this, I don't know what I'd call it that isn't more verbose than the expression itself.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
