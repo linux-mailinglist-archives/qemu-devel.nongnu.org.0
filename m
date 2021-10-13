@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF1842C8AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 20:28:55 +0200 (CEST)
-Received: from localhost ([::1]:56192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3396842C8B6
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 20:32:32 +0200 (CEST)
+Received: from localhost ([::1]:36490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maizm-0003re-4q
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 14:28:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36724)
+	id 1maj3H-0001Dx-74
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 14:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maits-0003em-EL
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 14:22:48 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:39649)
+ id 1maitz-0003pG-I2
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 14:22:55 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:41700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maitq-00030I-GQ
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 14:22:48 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- ls18-20020a17090b351200b001a00250584aso5062007pjb.4
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 11:22:46 -0700 (PDT)
+ id 1maitr-00030x-Vh
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 14:22:51 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id x8so2402972plv.8
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 11:22:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=i46GtS4jZvhz3YUTttQkHHMj47qcgxPUFuoIgSOj1ts=;
- b=iYmr+oX/654rXqGm3ky/GK/ZO56e9EP+R3c4eHdt5iXvc0kIpMMVCzkQYlYOFk8dLm
- 8piiHXE/hTOjpBcmW17TEzQ3UoGAqPa94Q5s3hDLfozf8uOFN5hoyudKoXtTXFqve4wk
- 3xCe3qsiJSzMFpWcHKjbZS0y+i+K+QDQmnYej5d4BdgImWF8O7PkIksAiKiJY1E4Hfxv
- wyy01zPv06yunF0MugpnEP/29PFkXB23SHGSPXC4tn87gdPvb9kk/q/sZm6416ogLPar
- t0Un4dsSE6hpoWeuZp2/Zv5vmmritczrfDfofRbTd+W23klODbWx+9pf9kXko2WbRidX
- Af4Q==
+ bh=m31KIJw/lcLJxFk5HRMhG0LaXmCEuUD4FjCNknqYFfc=;
+ b=oeJQwUSO9UdADn0cpOrNekaNIRjl0tTpSnYpmj6ZLGnaSR7lw8Hme1QX0yzcIJq+tG
+ yrN34k55VlnL3vR+mM+CVUiLJ0ViqSUlg3aZcIaqSnXRNyE3eMCwLQcovSz7ETTIv9a5
+ Lsh323IPIQTjPHhtB7TSzsb1sj+qoCC5BJ/fa/7FXPD369PRJWTPF7P5GrgVHwrBGNfM
+ 276/ZjKpq+DaoM96dfqKQyME2ggml35k7k1u9uozW1ASFFqBD271V4dYJYToyBcvCb2D
+ NxrLo04WEBw8q2q5V7DRHe6qkjYwJ9wYgihdZnm7nIMnPDJ85r1EfuPXUrNRbzt3sHwu
+ /e3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=i46GtS4jZvhz3YUTttQkHHMj47qcgxPUFuoIgSOj1ts=;
- b=044UY1tpaiiwDfP/Nt5TgHEFVrj/9IZjUl39y8K20z5CHAGg8fIjXT0XobMpqLTinv
- 6U10tsCfwbWlgv2xEWX3DR7zIn6Nz8+xzi2G1T3aRFrTdzZIXiXs0RvzS2mFgkHAE64g
- aKsWus4Df/gc5B1p14vi//l3dSBA/PxuzaGHul/BtsqD9VF6kRRS62CD47orxfkaP5Zp
- qm2YM6+eiNVsRRp/ZVNUsc7ON43iw8kd71xqesmN6JRh+7kHF96psexkOqYuK9R6FYp0
- QQGy6dzESArT6FgCpda9zE/Fy7rDtZ8ZN3azGCoRHfACxZTSjCQc91n5sW3l1d8s7kaL
- YvQA==
-X-Gm-Message-State: AOAM533+/YQvr56T2MgB6OBetgUfmoNgZ8IXy1XsdM1er4c3QRzUwb4Q
- NRewtgB4223cBCScdnUCPHu5VZe+Uul6+w==
-X-Google-Smtp-Source: ABdhPJymOtgvsJJaB7HZrTrIAaDv9sAFQQQV0wQZjAhOIVfFBNew/y4IS0Ttb2BP1BGRxAujUrUqNA==
-X-Received: by 2002:a17:90b:1a91:: with SMTP id
- ng17mr925433pjb.61.1634149365181; 
- Wed, 13 Oct 2021 11:22:45 -0700 (PDT)
+ bh=m31KIJw/lcLJxFk5HRMhG0LaXmCEuUD4FjCNknqYFfc=;
+ b=68HbBkPMQZNTl5fvQPa6WTEi7eaklt+EnGc4R2nzc974lfNhIUaQqfkNzKo0cSAY+J
+ qyBFh/2saveOaxnc3B0+arGlNC6TRJ1Jwh7IOki46vGp2z+DDYWFVdpOWe+gUQLBS1ci
+ jexeoyqutY0tko3YLgfVU0cfJ6wDscup0IYldoPf1vPoO4iU2BMrT6M6GFFKZxXM85Bw
+ KGtNPUgVsxjp2XV/2tQRK5ZViG91N57u6UrGJaNKbkf+E3Lvj1M7Oqjrf66bdxSquZaT
+ +2cjdjhXpX54nxAIELcLWt7uPy5HH8+vY8NJbyNFAl2ADxY5ubuI12O0oBtbTFwCeKMR
+ jHuA==
+X-Gm-Message-State: AOAM532kGKH6LqdKWR4S+LBExo/rI1JvSiKkXVFT7D+86v3JnJHNcr3d
+ e4b+rR8/ZfMv2LlnOYTGj+YfyoOyy42MpA==
+X-Google-Smtp-Source: ABdhPJyeaNj4FHhT6y1Lh2C+VppFMJy1ZXJ/GrFtvvl/NCw3DrS0GnEHDA2hBDnXkbvpCS1EshYzMg==
+X-Received: by 2002:a17:90a:a41:: with SMTP id
+ o59mr15362292pjo.243.1634149366647; 
+ Wed, 13 Oct 2021 11:22:46 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id z2sm177140pfe.210.2021.10.13.11.22.44
+ by smtp.gmail.com with ESMTPSA id z2sm177140pfe.210.2021.10.13.11.22.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 11:22:44 -0700 (PDT)
+ Wed, 13 Oct 2021 11:22:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/15] target/i386: Use MO_128 for 16 byte atomics
-Date: Wed, 13 Oct 2021 11:22:27 -0700
-Message-Id: <20211013182239.991127-4-richard.henderson@linaro.org>
+Subject: [PULL 04/15] target/ppc: Use MO_128 for 16 byte atomics
+Date: Wed, 13 Oct 2021 11:22:28 -0700
+Message-Id: <20211013182239.991127-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211013182239.991127-1-richard.henderson@linaro.org>
 References: <20211013182239.991127-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,29 +84,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-ppc@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Cc: qemu-ppc@nongnu.org
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/mem_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/ppc/translate.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/target/i386/tcg/mem_helper.c b/target/i386/tcg/mem_helper.c
-index 0fd696f9c1..a207e624cb 100644
---- a/target/i386/tcg/mem_helper.c
-+++ b/target/i386/tcg/mem_helper.c
-@@ -136,7 +136,7 @@ void helper_cmpxchg16b(CPUX86State *env, target_ulong a0)
-         Int128 newv = int128_make128(env->regs[R_EBX], env->regs[R_ECX]);
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index b985e9e55b..9ca78ee156 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -3462,10 +3462,12 @@ static void gen_std(DisasContext *ctx)
+             if (HAVE_ATOMIC128) {
+                 TCGv_i32 oi = tcg_temp_new_i32();
+                 if (ctx->le_mode) {
+-                    tcg_gen_movi_i32(oi, make_memop_idx(MO_LEQ, ctx->mem_idx));
++                    tcg_gen_movi_i32(oi, make_memop_idx(MO_LE | MO_128,
++                                                        ctx->mem_idx));
+                     gen_helper_stq_le_parallel(cpu_env, EA, lo, hi, oi);
+                 } else {
+-                    tcg_gen_movi_i32(oi, make_memop_idx(MO_BEQ, ctx->mem_idx));
++                    tcg_gen_movi_i32(oi, make_memop_idx(MO_BE | MO_128,
++                                                        ctx->mem_idx));
+                     gen_helper_stq_be_parallel(cpu_env, EA, lo, hi, oi);
+                 }
+                 tcg_temp_free_i32(oi);
+@@ -4067,11 +4069,11 @@ static void gen_lqarx(DisasContext *ctx)
+         if (HAVE_ATOMIC128) {
+             TCGv_i32 oi = tcg_temp_new_i32();
+             if (ctx->le_mode) {
+-                tcg_gen_movi_i32(oi, make_memop_idx(MO_LEQ | MO_ALIGN_16,
++                tcg_gen_movi_i32(oi, make_memop_idx(MO_LE | MO_128 | MO_ALIGN,
+                                                     ctx->mem_idx));
+                 gen_helper_lq_le_parallel(lo, cpu_env, EA, oi);
+             } else {
+-                tcg_gen_movi_i32(oi, make_memop_idx(MO_BEQ | MO_ALIGN_16,
++                tcg_gen_movi_i32(oi, make_memop_idx(MO_BE | MO_128 | MO_ALIGN,
+                                                     ctx->mem_idx));
+                 gen_helper_lq_be_parallel(lo, cpu_env, EA, oi);
+             }
+@@ -4122,7 +4124,7 @@ static void gen_stqcx_(DisasContext *ctx)
  
-         int mem_idx = cpu_mmu_index(env, false);
--        MemOpIdx oi = make_memop_idx(MO_TEQ | MO_ALIGN_16, mem_idx);
-+        MemOpIdx oi = make_memop_idx(MO_TE | MO_128 | MO_ALIGN, mem_idx);
-         Int128 oldv = cpu_atomic_cmpxchgo_le_mmu(env, a0, cmpv, newv, oi, ra);
- 
-         if (int128_eq(oldv, cmpv)) {
+     if (tb_cflags(ctx->base.tb) & CF_PARALLEL) {
+         if (HAVE_CMPXCHG128) {
+-            TCGv_i32 oi = tcg_const_i32(DEF_MEMOP(MO_Q) | MO_ALIGN_16);
++            TCGv_i32 oi = tcg_const_i32(DEF_MEMOP(MO_128) | MO_ALIGN);
+             if (ctx->le_mode) {
+                 gen_helper_stqcx_le_parallel(cpu_crf[0], cpu_env,
+                                              EA, lo, hi, oi);
 -- 
 2.25.1
 
