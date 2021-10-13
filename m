@@ -2,55 +2,144 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC4342B645
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 08:02:24 +0200 (CEST)
-Received: from localhost ([::1]:54884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68FC842B659
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 08:07:10 +0200 (CEST)
+Received: from localhost ([::1]:58108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maXLL-0006Ca-3Z
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 02:02:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58322)
+	id 1maXPx-0001Kk-6t
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 02:07:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
- id 1maXGB-0005QM-6E; Wed, 13 Oct 2021 01:57:03 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:55386)
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1maXOd-0000Lv-Lv; Wed, 13 Oct 2021 02:05:47 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:20008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
- id 1maXG8-0002uK-4u; Wed, 13 Oct 2021 01:57:02 -0400
-Received: from smtpclient.apple (unknown [54.37.16.242])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 0BDBE21A8F;
- Wed, 13 Oct 2021 05:56:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1634104613;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NmENBHpmx11BFYuaIRMqtVJxSEZwgv5Rg+5FKo1F1EU=;
- b=n8qFCNPvW+tem6mfNDqDAmYlqDScNkjpLwuFa5/eMVeB897n3G/Iy6YDCjRDfpwRN+d8+N
- geHeGCltVaRzoIWe7y4h9fUXaxq7y7ZABps9lIectcz9ioLN7YvuhvnRpypSJHcMSU0Ycr
- c/GRrbwgYzaWkXZ+CyTPcRX2Q2M1tDI=
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [RFC PATCH v2 00/16] Initial support for machine creation via QMP
-From: Mark Burton <mark.burton@greensocs.com>
-In-Reply-To: <CAKmqyKMUvtRPCp=FJMHcMdsECfJ_fRHBi4dA2N3gtqmPHspNJA@mail.gmail.com>
-Date: Wed, 13 Oct 2021 07:56:46 +0200
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1maXOb-0000j6-62; Wed, 13 Oct 2021 02:05:47 -0400
+Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19CMes6n009140; 
+ Tue, 12 Oct 2021 23:05:40 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=7MKDfIUkFOrBQFG73pWjejh1dOeJrWhe9ml9G4b9lKQ=;
+ b=ySWJqircQEZS8oVHoATcY9zyYC5C7tm/IUDdTrpyrBClqXJXCHB8qYO4k15ntTmz0sLi
+ MP1yyC8obsO6yUFdrFXQ7/FYjqsfCMRSUJC/rIrWB+i+36oTML6aFAU6Gu8M8OxZ3yJk
+ 3C4E5yMTIJ4HdAyouoouZ5io5V1DkHoYnL390XnDtE2tI3FXQa/c2UPThoVLZJ2AKhL0
+ p0mGibohKSkmBD+Wc4oHSq4bsQbVxqAOYoRbBGygvZKh+svgmpPLPr+DinrTTIUQEelS
+ su8Zh55CM7mbrBLFIaz0hvq2tJMuVXdo7UpgfnN921pnLdF0EJK5eVUF/F8XUvlTYQFh Fg== 
+Received: from nam04-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08lp2176.outbound.protection.outlook.com [104.47.73.176])
+ by mx0b-002c1b01.pphosted.com with ESMTP id 3bnkc50ka1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Oct 2021 23:05:40 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WHAHq000rPMgkkP/wPzR7vJCSL0kL2YgXp/Z5/WLjYQ+FIPXoFp4z3cn5gZYMHttxbP6M1ZjrwMsHATo/gMvRmPFJSD1yjLL44hXXdn81aqoybQcs59IrrBXTISOfHKhBRbAcBQa/t0qZpa6WHbnM48nTlKrnP7Yjdr+WGEeranyGOhDTr9EC9QMf301KnL7Lcni1IX7VYG7WMHCFGqGNbWBkGWDx1rsQAyA6ooXTY2G1YHyJG8HE7ntZep0DxILxOaMAUy8KFMYVlpBeQU88B0eI9tqW8BNAlDl0AqxSHqC/JuVil1YUsS68zRlb1GyaA20YyhHrV3AGLly0E+UZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7MKDfIUkFOrBQFG73pWjejh1dOeJrWhe9ml9G4b9lKQ=;
+ b=AzMChNqyvl6L/iwf/VwV4D7Owg5yvnnaoen/6LZXC3x3NFhjHdI1kvi08xgkWNwJnPjhOhSnpWMu4ufI6FJ5/xWGmQi8cGwE2pdQDpl1z7jULr0XYSPGsiRPmga9iGSwtQ/i8OUH8kgKTwmVW63Rcd9Td+UELeVbDo/8I6ypu9pVW5WyLB1kYWqzEq/9x3ZaWzKq8JhthCgA9RrDGYyhI9Ay/G200z8fQRASyrJyMeyWC0goL1BUPzYExXk9DPve9i7gyU1BAgBMjmA5L48W2Fwp8liW13bxzmpsLT0TyXGVdTJTs193vMFQInNYYkBKY7X1H/XO10VYlXQ4TU5K9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from CH0PR02MB7947.namprd02.prod.outlook.com (2603:10b6:610:104::22)
+ by CH2PR02MB6055.namprd02.prod.outlook.com (2603:10b6:610:3::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.22; Wed, 13 Oct
+ 2021 06:05:38 +0000
+Received: from CH0PR02MB7947.namprd02.prod.outlook.com
+ ([fe80::95a5:72e6:5a62:470c]) by CH0PR02MB7947.namprd02.prod.outlook.com
+ ([fe80::95a5:72e6:5a62:470c%6]) with mapi id 15.20.4587.026; Wed, 13 Oct 2021
+ 06:05:38 +0000
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1] libvhost-user: fix VHOST_USER_REM_MEM_REG skipping
+ mmap_addr
+Thread-Topic: [PATCH v1] libvhost-user: fix VHOST_USER_REM_MEM_REG skipping
+ mmap_addr
+Thread-Index: AQHXvtwaeFZLuGJV1Eq0Q9rMxfifyavQcu4A
+Date: Wed, 13 Oct 2021 06:05:37 +0000
+Message-ID: <20211013060530.GA8032@raphael-debian-dev>
+References: <20211011201047.62587-1-david@redhat.com>
+In-Reply-To: <20211011201047.62587-1-david@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mutt/1.10.1 (2018-07-13)
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6db11dc9-cb3b-4909-6173-08d98e0f7a7b
+x-ms-traffictypediagnostic: CH2PR02MB6055:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CH2PR02MB605589A0399B77FDBE66C84AEAB79@CH2PR02MB6055.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:5236;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DLnsJcqs+UYi8eDZkq7VHdEciKdKD7OdchMqf9TND+oZv3UiJq1US79ForsnT+to4CdUSCGxgayhm55417tga3kLfeJhl5M+TLxg2lZeEHDSqwW3IuuDaWP/KADtmTMvUftrKWYBZa49JY4zOjbZDSvQFENx9jRIWNuIDcxppzPkNSlTbJ6/IuwS2p3k0094zOwuHNrCUVDdMvbeVjjrFrpJPD+3hdwanje6LAkRh0kvZ85PHgOMxL1SZithrEs29CbTAkhlgf5KH1LWjqEostEN8kT2R+CBtNs2MTiyNZXWqItz3aDUG7AStcYQKS9+UhrcnZynsIFx2wnGb2VD6sORp3ZM49JsSt+tXwBHgibK+altXkHVMCrT1qXzectYj+YeZ7dx+2e6lS4i9pyTAQ9QcFyCN7wCQtpqV+aejrOnpT2jXKTRYRjJcnofh1DXSrUyVfE1Yne1VLqwIflXqcD5jDIwaTPtKKvM8RmmNFmu9o2N0vAOPtjY2o0D5himcIOJKzgXKxaCooj47xuCZ5l8iRQZhyjsg8giP8iQG+0SPasCPyuVlMHPXcG95VfHV/Ezoh7lQxxe5B7UsW5XLX9HqUEwNLCa/v/1kmoy/xjVBtpK8OO/nNygPwBa42Lcrh9QaNkeqNlYc8v36HrinQAPZpnDqCH44j3NJcEHZ6IFVrpnSzSRWoeB0dpyO/ps1uTwujx5LjKwZBJ6LGNUQA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR02MB7947.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(7916004)(366004)(44832011)(33716001)(6486002)(1076003)(6916009)(4326008)(6512007)(9686003)(5660300002)(508600001)(8676002)(6506007)(71200400001)(54906003)(316002)(8936002)(26005)(186003)(2906002)(83380400001)(38100700002)(122000001)(91956017)(38070700005)(64756008)(66556008)(66476007)(86362001)(66946007)(66446008)(76116006)(33656002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?Cxe3XqQH22cgCVixwHTLGRHYmM4G9BScgF4ifqmpNl72s8XGm9pSjKEqTn?=
+ =?iso-8859-1?Q?JQJONTdb4Ur4Yu+M7RSzEXb7muGFQw2PZ+kQn2D9Ayox+JKdzOyHcB19WY?=
+ =?iso-8859-1?Q?tx9eWAEVJCEO9KU3c+IYZzv78nZN2Egjr2SMzMIdqFFGoaTtvm6hb0bboK?=
+ =?iso-8859-1?Q?pIn9cwrwU/bgx9+4HKv2oJvx0LICiHkeXYQwp9rbqe9FCPVwGoJhUUpoet?=
+ =?iso-8859-1?Q?rg7PLI2wxnxyM/zGEo4RgbegBIfll3Wx/IHS7yIq0W9vutvVTgi4OSOyuC?=
+ =?iso-8859-1?Q?GaZrfc2dfZMuFIJ41LCKsUQUEDfvi9uiDT7/YdDLZHDfxXcsPwJo+OiYbT?=
+ =?iso-8859-1?Q?eFS3kbtRRF0w28LLc114IZ9A/MdFAwrkuMNIpbpglfcANjgui2REB5JcAn?=
+ =?iso-8859-1?Q?RKSGNfvfpTfzaI10BGYQa6Unx7FqR8eGocxlnYPLWhWsJxlUhfNEGi2ZTf?=
+ =?iso-8859-1?Q?DR6UDv4DbQJEs8Xi1YE/o2fJl6HLvvmNoxojPkFa4GajtqaoDIi+eBf1wz?=
+ =?iso-8859-1?Q?u/edFN+8LGSF6Si/rUAx0JtvnThnECCjIXKlWHIMqxmo0v6wSSWEpAyNRb?=
+ =?iso-8859-1?Q?o9sJGvs6K/gZsZDoDD5Wt6q2VEoNr4JmeTsm5i/dwpnkKj1s9VC9dlBSlf?=
+ =?iso-8859-1?Q?LKRaWZLx1mFueIUqcRMzO4vACoLrhfE6RcLAr+oHLDEwA53GR9r3l61pVd?=
+ =?iso-8859-1?Q?0Sgz/QthPl8r4un7269jnAToOZPCl85jytS9IhgA+bHHIjLWC2Dbn3YQN3?=
+ =?iso-8859-1?Q?P1fz2t2UX2Yn2gYlGv3Hpb2L8s+Gh15J5dobFb8TQbnKKljrjZrFpsQqJ8?=
+ =?iso-8859-1?Q?ZNYgKPvWiAAy5kI5dw6m74uhkajGOxuGKnwWZsTgsNveuuQVRrZG3aRaAB?=
+ =?iso-8859-1?Q?Bd+b8AhSygaxhYhiL/KMo72VzFtbCwCrE/ne4wRktBrygJLL3B7SGAu26q?=
+ =?iso-8859-1?Q?HyCDuegotLnIxUveijc/9RM2E3ymvauyDGAhkN7rrLL5zA4gmJ58XCUbWC?=
+ =?iso-8859-1?Q?AY7y+Otpg0hQaNTRssq4Vb96GKpyP5uvJYfcbhH0DYDVrpuFivx91F3aq9?=
+ =?iso-8859-1?Q?VQcyuE+s2wUU5ODmV3mfUKK4eNZTt0qQU2lZVVZ3B8C6yOZfOaPJZVRrI3?=
+ =?iso-8859-1?Q?lmP+03E9m6llFW3vj4JFdLhRVmW0LMHlvbLz5UdC6cPrMU8KmtFn0V5T4/?=
+ =?iso-8859-1?Q?YC/URKg6HNvWl8hABqlzXzVAVCdKA4EloP1pDxxK5kHyruUeVfh3boyr95?=
+ =?iso-8859-1?Q?iuy5bjUJQhO2HrqjLxP6sE2d0b3vOpGn5sWJsltpjgPaMwuiHyFKbc0A6o?=
+ =?iso-8859-1?Q?KFa9aVCd0c0RTlIl7AodXqbymx+Eg0WNOW2eci9ZDuRJzM305jouyLSFO8?=
+ =?iso-8859-1?Q?btHQo3sITt?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <47810037474AA6419A9C7F798EE263F5@namprd02.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <D12EA69C-A1CC-4132-89F8-499D7F99F34C@greensocs.com>
-References: <20210922161405.140018-1-damien.hedde@greensocs.com>
- <CAKmqyKMUvtRPCp=FJMHcMdsECfJ_fRHBi4dA2N3gtqmPHspNJA@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=mark.burton@greensocs.com; helo=beetle.greensocs.com
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR02MB7947.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6db11dc9-cb3b-4909-6173-08d98e0f7a7b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2021 06:05:37.9000 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tAkod/YwKr3dHlhXCpiPSM7gyzJCtFnUoKpCN7wcZBsDzlVbyl53ubXw8pFsmQQPiMV13YswDqw3AdwtVK3d7Z2fhoeb+gTv2P4C73kJB+8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6055
+X-Proofpoint-ORIG-GUID: leMEvWjjjUy9n6rtJEIbpYFLHpT5VzTS
+X-Proofpoint-GUID: leMEvWjjjUy9n6rtJEIbpYFLHpT5VzTS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-13_01,2021-10-13_01,2020-04-07_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=raphael.norwitz@nutanix.com; helo=mx0b-002c1b01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,199 +152,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, mirela.grujic@greensocs.com,
- Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Eric Blake <eblake@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
- Eric Auger <eric.auger@redhat.com>,
- "open list:X86" <xen-devel@lists.xenproject.org>,
- =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
- Damien Hedde <damien.hedde@greensocs.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Edgar Iglesias <edgari@xilinx.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Coiby Xu <coiby.xu@gmail.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed
-Cheers
-Mark.
-
-
-> On 13 Oct 2021, at 00:16, Alistair Francis <alistair23@gmail.com> =
-wrote:
+On Mon, Oct 11, 2021 at 10:10:47PM +0200, David Hildenbrand wrote:
+> We end up not copying the mmap_addr of all existing regions, resulting
+> in a SEGFAULT once we actually try to map/access anything within our
+> memory regions.
 >=20
-> On Thu, Sep 23, 2021 at 2:22 AM Damien Hedde =
-<damien.hedde@greensocs.com> wrote:
->>=20
->> Hi,
->>=20
->> The goal of this work is to bring dynamic machine creation to QEMU:
->> we want to setup a machine without compiling a specific machine C
->> code. It would ease supporting highly configurable platforms (for
->> example resulting from an automated design flow). The requirements
->> for such configuration include begin able to specify the number of
->> cores, available peripherals, emmory mapping, IRQ mapping, etc.
->>=20
->> This series focuses on the first step: populating a machine with
->> devices during its creation. We propose patches to support this
->> using QMP commands. This is a working set of patches and improves
->> over the earlier rfc (posted in May):
->> https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg03706.html
->>=20
->> Although it is working and could be merged, it is tag as an RFC:
->> we probably need to discuss the conditions for allowing a device to
->> be created at an early stage. Patches 6, 10 and 13, 15 and 16 depend
->> on such conditions and are subject to change. Other patches are
->> unrelated to this point.
->>=20
->> We address several issues in this series. They are detailed below.
->>=20
->> ## 1. Stoping QEMU to populate the machine with devices
->>=20
->> QEMU goes through several steps (called _machine phases_) when
->> creating the machine: 'no-machine', 'machine-created',
->> 'accel-created', 'initialized', and finally 'ready'. At 'ready'
->> phase, QEMU is ready to start (see Paolo's page
->> https://wiki.qemu.org/User:Paolo_Bonzini/Machine_init_sequence for
->> more details).
->>=20
->> Using the -preconfig CLI option, QEMU can be stopped today during
->> the 'accel-created' phase. Then the 'x-exit-preconfig' QMP command
->> triggers QEMU moving forwards to the completion of the machine
->> creation ('ready' phase).
->>=20
->> The devices are created during the 'initialized' phase.
->> In this phase the machine init() method has been executed and thus
->> machine properties have been handled. Although the sysbus exists and
->> the machine may have been populated by the init(),
->> _machine_init_done_ notifiers have not been called yet. At this point
->> we can add more devices to a machine.
->>=20
->> We propose to add 2 QMP commands:
->> + The 'query-machine-phase' command would return the current machine
->>  phase.
->> + The 'x-machine-init' command would advance the machine phase to
->>  'initialized'. 'x-exit-preconfig' could then still be used to
->>  advance to the last phase.
->>=20
->> ## 2. Adding devices
->>=20
->> Right now, the user can create devices in 2 ways: using '-device' CLI
->> option or 'device_add' QMP command. Both are executed after the
->> machine is ready: such devices are hot-plugged. We propose to allow
->> 'device_add' QMP command to be used during the 'initialized' phase.
->>=20
->> In this series, we keep the constraint that the device must be
->> 'user-creatable' (this is a device class flag). We do not see any
->> reason why a device the user can hot-plug could not be created at an
->> earlier stage.
->>=20
->> This part is still RFC because, as Peter mentioned it (in this thread
->> https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg01933.html),
->> we may want additional or distinct conditions for:
->> + device we can hot-plug
->> + device we can add in '-preconfig' (cold-plug)
->> We are open to suggestions. We could for example add a
->> 'preconfig-creatable' or 'init-creatable' flag to device class, which
->> can identify a set of devices we can create this way.
->>=20
->> The main addition is how we handle the case of sysbus devices. Sysbus
->> devices are particular because unlike, for example, pci devices, you
->> have to manually handle the memory mapping and interrupts wiring. So
->> right now, a sysbus device is dynamically creatable (using -device
->> CLI option or device_add QMP command) only if:
->> + it is 'user_creatable' (like any other device),
->> + and it is in the current machine sysbus device allow list.
->>=20
->> In this series, we propose to relax the second constraint during the
->> earlier phases of machine creation so that when using -preconfig we
->> can create any 'user-creatable' sysbus device. When the machine
->> progresses to the 'ready' phase, sysbus devices creation will come
->> back to the legacy behavior: it will be possible only based on the
->> per-machine authorization basis.
->>=20
->> For sysbus devices, wiring interrupts is not a problem as we can use
->> the 'qom-set' QMP command, but memory mapping is.
->>=20
->> ## 3. Memory mapping
->>=20
->> There is no point allowing the creation sysbus devices if we cannot
->> map them onto the memory bus (the 'sysbus').
->>=20
->> As far as we know, right now, there is no way to add memory mapping
->> for sysbus device using QMP commands. We propose a =
-'x-sysbus-mmio-map'
->> command to do this. This command would only be allowed during the
->> 'initialized' phase when using -preconfig.
->>=20
->> ## 4. Working example
->>=20
->> The last patches of the series add and modify devices in order to
->> build a working machine starting from the 'none' machine.
->>=20
->> We add a new sysbus device modeling a simple memory (ram or rom). We
->> also set 'user-creatable' flag of some sysbus devices. These are
->> trivial patches, but they depends on the conditions we choose to =
-allow
->> creating devices with -preconfig. Therefore, there is really no need
->> to review them until we settled on the device conditions first.
->>=20
->> With these devices (memory, ibex_uart, ibex_plic) we can dynamically
->> configure a part (we did not add the timer, but we could) the
->> opentitan machine very easily and run firmwares which demonstrates
->> interrupts and memory-mapping are working.
->>=20
->> We use the existing qmp-shell script to issue machine devices
->> from a qmp commands script file which contains qmp commands listed in
->> a file.
->>=20
->> The following qmp commands add some memories, an interrupt controller
->> and an uart with an interrupt.
->>=20
->> cat > opentitan.qmp <<EOF
->> x-machine-init
->>=20
->> # ROM 0x00008000
->> device_add        driver=3Dsysbus-memory id=3Drom size=3D0x4000 =
-readonly=3Dtrue
->> x-sysbus-mmio-map device=3Drom addr=3D32768
->>=20
->> # FLASH 0x20000000
->> device_add        driver=3Dsysbus-memory id=3Dflash size=3D0x80000 =
-readonly=3Dtrue
->> x-sysbus-mmio-map device=3Dflash addr=3D536870912
->>=20
->> # RAM 0x10000000
->> device_add        driver=3Dsysbus-memory id=3Dram size=3D0x10000
->> x-sysbus-mmio-map device=3Dram addr=3D268435456
->>=20
->> # PLIC 0x41010000
->> device_add        driver=3Dibex-plic id=3Dplic
->> x-sysbus-mmio-map device=3Dplic addr=3D1090584576
->>=20
->> # UART 0x40000000
->> device_add        driver=3Dibex-uart id=3Duart chardev=3Dserial0
->> x-sysbus-mmio-map device=3Duart addr=3D1073741824
->> qom-set path=3Duart property=3Dsysbus-irq[1] =
-value=3Dplic/unnamed-gpio-in[2]
->>=20
->> x-exit-preconfig
->> EOF
->>=20
->> We've put the opentitan.qmp and a firmware opentitan-echo.elf here
->> (among some other qmp machine files we are working on):
->> https://github.com/GreenSocs/qemu-qmp-machines
->=20
-> I am unable to access this repo, maybe it's not public?
->=20
-> Alistair
+> Fixes: 875b9fd97b34 ("Support individual region unmap in libvhost-user")
+> Cc: qemu-stable@nongnu.org
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> Cc: "Marc-Andr=E9 Lureau" <marcandre.lureau@redhat.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Coiby Xu <coiby.xu@gmail.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
+Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+
+> ---
+>  subprojects/libvhost-user/libvhost-user.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libv=
+host-user/libvhost-user.c
+> index bf09693255..787f4d2d4f 100644
+> --- a/subprojects/libvhost-user/libvhost-user.c
+> +++ b/subprojects/libvhost-user/libvhost-user.c
+> @@ -816,6 +816,7 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+>              shadow_regions[j].gpa =3D dev->regions[i].gpa;
+>              shadow_regions[j].size =3D dev->regions[i].size;
+>              shadow_regions[j].qva =3D dev->regions[i].qva;
+> +            shadow_regions[j].mmap_addr =3D dev->regions[i].mmap_addr;
+>              shadow_regions[j].mmap_offset =3D dev->regions[i].mmap_offse=
+t;
+>              j++;
+>          } else {
+> --=20
+> 2.31.1
+> =
 
