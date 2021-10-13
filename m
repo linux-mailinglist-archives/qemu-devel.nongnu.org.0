@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5935A42B460
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 07:00:11 +0200 (CEST)
-Received: from localhost ([::1]:35488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D2F42B463
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 07:03:42 +0200 (CEST)
+Received: from localhost ([::1]:40200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maWN8-0005Il-7L
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 01:00:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47080)
+	id 1maWQX-0000V5-6p
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 01:03:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1maWLZ-0002TI-5F
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 00:58:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48739)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1maWPc-00088s-EJ
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 01:02:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1maWLX-0004mN-LR
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 00:58:32 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1maWPa-0004Ia-Vr
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 01:02:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634101110;
+ s=mimecast20190719; t=1634101362;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aD8nzljPsEKJ570RR+jldn/7/HXpuLhVnorn+6ome1Q=;
- b=RUhimNnHRRGx27IravF/QFtdVAtulGM7lxub1+6lKt35IzJQFoO4PwXTwNT+5h0uI/J7Xe
- rGuvdkgwAfBNPXCfFAebS0fRGhwvksZpbohJasOr57nK0K5VIYKF1or5ctkxNLViZ3AMwq
- 8TvCdr4k3MqmYSIFncILV5Hj+BIauA4=
+ bh=23i8iqgfqDBNPI/E9imNdoob4vYdO9Cma0SAfCOn1E4=;
+ b=R0KNtusItparEsmEWRGxkXyekAPO6E6Cf/Fng1/YfPH4fGMzQDE2zkhYrEG8OZiM7ziqcp
+ I3yU+VBEnUamjIQiTWXMHruCvgDDcf2tjVxiYB2g+gTOLEid7SCSkOz8jJMZA13uDBkIW0
+ fEdAxee77ffSp8gwe62Tv67SsblQZdY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-EBzFnG8fOomtjiAmD_6dKg-1; Wed, 13 Oct 2021 00:58:27 -0400
-X-MC-Unique: EBzFnG8fOomtjiAmD_6dKg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-546-Ow9JDnCeP2-tqlF-mo1CtA-1; Wed, 13 Oct 2021 01:02:38 -0400
+X-MC-Unique: Ow9JDnCeP2-tqlF-mo1CtA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6058680363B;
- Wed, 13 Oct 2021 04:58:26 +0000 (UTC)
-Received: from gshan.redhat.com (vpn2-54-56.bne.redhat.com [10.64.54.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B132E5D9C6;
- Wed, 13 Oct 2021 04:58:23 +0000 (UTC)
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Subject: [PATCH v3 2/2] hw/arm/virt: Don't create device-tree node for empty
- NUMA node
-Date: Wed, 13 Oct 2021 12:58:05 +0800
-Message-Id: <20211013045805.192165-3-gshan@redhat.com>
-In-Reply-To: <20211013045805.192165-1-gshan@redhat.com>
-References: <20211013045805.192165-1-gshan@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CAF580158D;
+ Wed, 13 Oct 2021 05:02:37 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F35CD60CC6;
+ Wed, 13 Oct 2021 05:02:36 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id A29C41800997; Wed, 13 Oct 2021 07:02:32 +0200 (CEST)
+Date: Wed, 13 Oct 2021 07:02:32 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH v2] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
+ interrupts
+Message-ID: <20211013050232.glqkx25hhn4lbfbd@sirius.home.kraxel.org>
+References: <20211005132041.B884E745953@zero.eik.bme.hu>
+ <20211011093758.kpjpw2htfvcra5mb@sirius.home.kraxel.org>
+ <1afcbf3-37cf-b7fa-b6cd-e37592956bac@eik.bme.hu>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <1afcbf3-37cf-b7fa-b6cd-e37592956bac@eik.bme.hu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,59 +80,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robh@kernel.org, drjones@redhat.com, ehabkost@redhat.com,
- peter.maydell@linaro.org, qemu-devel@nongnu.org, shan.gavin@gmail.com,
- imammedo@redhat.com
+Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
+ Philippe M-D <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The empty NUMA node, where no memory resides, are allowed. For
-example, the following command line specifies two empty NUMA nodes.
-With this, QEMU fails to boot because of the conflicting device-tree
-node names, as the following error message indicates.
+On Mon, Oct 11, 2021 at 12:31:17PM +0200, BALATON Zoltan wrote:
+> On Mon, 11 Oct 2021, Gerd Hoffmann wrote:
+> > On Tue, Oct 05, 2021 at 03:12:05PM +0200, BALATON Zoltan wrote:
+> > > This device is part of a superio/ISA bridge chip and IRQs from it are
+> > > routed to an ISA interrupt set by the Interrupt Line PCI config
+> > > register. Change uhci_update_irq() to allow this and use it from
+> > > vt82c686-uhci-pci.
+> > 
+> > Hmm, shouldn't this logic be part of the superio bridge emulation?
+> 
+> But how? The ISA bridge does not know about PCI and PCI does not know about
+> ISA. UHCI is a PCIDevice and would raise PCI interrupts. Where and how could
+> I convert that to ISA interrupts? (Oh and ISA in QEMU is not Qdev'ified and
+> I don't want to do that as it's too much work and too much to break that I
+> can't even test so if an alternative solution involves that then get
+> somebody do that first.) This patch puts the irq mapping in the vt82xx
+> specific vt82c686-uhci-pci.c which in the real chip also contains the ISA
+> bridge so in a way it's part of the superio bridge emulation in that this
+> uhci variant is part of that chip model.
 
-  /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
-  -accel kvm -machine virt,gic-version=host               \
-  -cpu host -smp 4,sockets=2,cores=2,threads=1            \
-  -m 1024M,slots=16,maxmem=64G                            \
-  -object memory-backend-ram,id=mem0,size=512M            \
-  -object memory-backend-ram,id=mem1,size=512M            \
-  -numa node,nodeid=0,cpus=0-1,memdev=mem0                \
-  -numa node,nodeid=1,cpus=2-3,memdev=mem1                \
-  -numa node,nodeid=2                                     \
-  -numa node,nodeid=3
-    :
-  qemu-system-aarch64: FDT: Failed to create subnode /memory@80000000: FDT_ERR_EXISTS
+I'd suggest to first switch over uhci to use pci_allocate_irq() +
+qemu_set_irq() (see ehci for example).
 
-As specified by linux device-tree binding document, the device-tree
-nodes for these empty NUMA nodes shouldn't be generated. However,
-the corresponding NUMA node IDs should be included in the distance
-map device-tree node. This skips populating the device-tree nodes
-for these empty NUMA nodes to avoid the error, so that QEMU can be
-started successfully.
+With that in place it should be possible to have vt82c686-uhci-pci.c
+create a different IRQ setup without changes elsewhere in uhci and
+without adding extra callbacks.
 
-Signed-off-by: Gavin Shan <gshan@redhat.com>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
----
- hw/arm/boot.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 57efb61ee4..4e5898fcdc 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -603,6 +603,10 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-         mem_base = binfo->loader_start;
-         for (i = 0; i < ms->numa_state->num_nodes; i++) {
-             mem_len = ms->numa_state->nodes[i].node_mem;
-+            if (!mem_len) {
-+                continue;
-+            }
-+
-             rc = fdt_add_memory_node(fdt, acells, mem_base,
-                                      scells, mem_len, i);
-             if (rc < 0) {
--- 
-2.23.0
+HTH,
+  Gerd
 
 
