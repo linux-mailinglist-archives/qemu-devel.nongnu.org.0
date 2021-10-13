@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4760342BBCF
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:39:59 +0200 (CEST)
-Received: from localhost ([::1]:48542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D7142BBD8
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:43:26 +0200 (CEST)
+Received: from localhost ([::1]:57106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maaju-00083K-9D
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:39:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54810)
+	id 1maanF-0005V4-L6
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:43:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEu-0002Wr-OW
+ id 1maaEu-0002Wo-O7
  for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:57 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:44603)
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:45835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEp-0005tN-EX
+ id 1maaEp-0005tb-MQ
  for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:56 -0400
-Received: by mail-ed1-x536.google.com with SMTP id w14so7164137edv.11
+Received: by mail-ed1-x52f.google.com with SMTP id r18so7151514edv.12
  for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:07:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gCPOO8vd2h8GUe9dv0h6T1ONRg1lbq1vkzQBXhJZDy8=;
- b=kFMAINvAPKh5ykTLYXB1OvDaCRFr3e4AqZS7qbCL5W8B0uATfC1/KqDfTDHhdQBCxl
- b1QxAlHdHAaOZCktlx7dsYQ+C9nZxxP76ByICwaNdp2gY4vrdjp/U+zeVPGuoC1VsAsc
- W3b8HS1bwkorPJGZKil76mS8Fz2RVj5nAMUdFSq46iyNqWPUmwQck8IC1pk9p8V3o28m
- 5DLvhG9LsOlWJ+SyOgBtRCnzt604cw7Q6SMa+X7N4gAg/eSBcKTjMWk4E10S10FCYkZG
- KT19AIBsNl6GvOtt/I4SMdMYUYFjcAkudlvNtZfUzSFfCUTk3mParCFW8ZrOz6R1O1XR
- VMEA==
+ bh=jnuICvUChwckoi0bOEdRybFsN3xmu9Vkq/jJXFkB2Uk=;
+ b=JmIk7WFdtZ6d8HqJxpXJwoBWXExoFes2w8Fqz6/qkC9StS+CZwjEHnauVl24ozn7MC
+ mUGqrbr7ghpvix0zR4sRAN41ZsqSVwAb5Y/yan71t52oEkI9YhT9BoI/EtdLuYumueKQ
+ +X4oXda4477FmtcQvAMADpL2bQl8nd1pg4piPUPAM61bk3Ofjr+aFMIbKEj5nx6GujKF
+ FEiHvRp4T/RjmhkBojGREQl+pSGmid/sYc2hrWaC5n5WOyEuZpJEoXJJg9Ip19dvhYG7
+ kA8m/wlcYWk5uZU2XW17CMxw1DE0AT6f/jZEZNLAg/G+wdBKNd8UEeAtpL0QGrly8L2+
+ Vzaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gCPOO8vd2h8GUe9dv0h6T1ONRg1lbq1vkzQBXhJZDy8=;
- b=Du9inYEUDIU3Qr1Dhc7rNb9Ua8kiVx4KmIW33oBMpMrjgZxNkvL1313MNGwAQgFYu8
- W3IQ2lOoonZ5HXBq3Ml4OT6RLfrUxSR3r0lfjK+caFV7cfeJopde+eAZNbyPbqftR249
- +2s1c66Oq2c9eSzkSJr0zg+x7NMNJlPBc4bheCSZ2UAozTaTd7MDFMFkoaOwXalILPZH
- fY+qmlIyhWbOe7Col6BPsF2LiGqpBl/Bt6/s12XPu0g/mtYAmFGogbDysgimoJYRTfIn
- zYxn/U6iGFv7i7w6qq2K5hyNnSVLurIdQQPGbayPWw9LEpE3k91Xw/50axl2t4F/mtZU
- Az8Q==
-X-Gm-Message-State: AOAM532q9EY5dwiTE8bomsR3p0+IQ6H9DJT35BstRnaH6XPKPiO9kOEl
- fszabRauubG6qJB7sSD+aXiBsAFUsXA=
-X-Google-Smtp-Source: ABdhPJxHZVJALtqZndRXcxHEEOMRBgD2de2bfMRTyD9Vx8S5OhxJ82+xuy9alTRWzilnK/JsYGeFBA==
-X-Received: by 2002:a17:906:5590:: with SMTP id
- y16mr38999070ejp.286.1634116069805; 
- Wed, 13 Oct 2021 02:07:49 -0700 (PDT)
+ bh=jnuICvUChwckoi0bOEdRybFsN3xmu9Vkq/jJXFkB2Uk=;
+ b=x5CJT+ifUl+PCk1vIKgs4PJL2m4CjfV8i9HXwb+jXhvRqSWDw8zT9Toe7UFBTTdcDG
+ V+NUENBQzSswyF8plojjMxzrBcojI6mtFiPuW7X/ebvuEtJy0XFNIJX9JfR1yN1zJReH
+ W7M7td6YZ2Mgj+y+TK+t0WRLIQLkHDi+hARClmf9MfKoARcD/PA4A8vmBSyXkICi254w
+ q1fquBbXUAuSUpkIf3cPbYnsqKKu1IXKgQWWH28hlalff/c6txl+2YcJId+0nkKqCZz8
+ LrUlcDxFnBAZiTaTxgK+S7nOWOkP8OQMu8V/QGAHDZNLehdap+9j5SEQE9kQJdvmSoyq
+ rl9g==
+X-Gm-Message-State: AOAM5330s136QX+ls+Yrg7rYhJ0wnI5sbcXO/yNNn9lo3PZcRw365/tG
+ X0xqy6dN7ATcQa2Wb8OdeulOMG2Cuko=
+X-Google-Smtp-Source: ABdhPJxtLW0eh9e0IhcbF48eAvKUx3eS4KHrAGPnx8LFSKQzniUlj/6VQyP3gM/h7snRFHJKUcq+wQ==
+X-Received: by 2002:a17:907:7790:: with SMTP id
+ ky16mr40592988ejc.490.1634116070421; 
+ Wed, 13 Oct 2021 02:07:50 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 02:07:49 -0700 (PDT)
+ Wed, 13 Oct 2021 02:07:50 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/40] qapi: Make some ObjectTypes depend on the build settings
-Date: Wed, 13 Oct 2021 11:07:17 +0200
-Message-Id: <20211013090728.309365-30-pbonzini@redhat.com>
+Subject: [PULL 30/40] tests: tcg: Fix PVH test with binutils 2.36+
+Date: Wed, 13 Oct 2021 11:07:18 +0200
+Message-Id: <20211013090728.309365-31-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211013090728.309365-1-pbonzini@redhat.com>
 References: <20211013090728.309365-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,115 +84,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Cole Robinson <crobinso@redhat.com>
 
-Some of the ObjectType entries already depend on CONFIG_* switches.
-Some others also only make sense with certain configurations, but
-are currently always listed in the ObjectType enum. Let's make them
-depend on the correpsonding CONFIG_* switches, too, so that upper
-layers (like libvirt) have a better way to determine which features
-are available in QEMU.
+binutils started adding a .note.gnu.property ELF section which
+makes the PVH test fail:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20210928160232.432980-1-thuth@redhat.com>
-[Do the same for MemoryBackendEpcProperties. - Paolo]
+  TEST    hello on x86_64
+qemu-system-x86_64: Error loading uncompressed kernel without PVH ELF Note
+
+Discard .note.gnu* while keeping the PVH .note bits intact.
+
+This also strips the build-id note, so drop the related comment.
+
+Signed-off-by: Cole Robinson <crobinso@redhat.com>
+Message-Id: <5ab2a54c262c61f64c22dbb49ade3e2db8a740bb.1633708346.git.crobinso@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qapi/qom.json | 36 ++++++++++++++++++++++++------------
- 1 file changed, 24 insertions(+), 12 deletions(-)
+ tests/tcg/x86_64/system/kernel.ld | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/qom.json b/qapi/qom.json
-index 0222bb4506..7231ac3f34 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -794,7 +794,8 @@
-     'authz-pam',
-     'authz-simple',
-     'can-bus',
--    'can-host-socketcan',
-+    { 'name': 'can-host-socketcan',
-+      'if': 'CONFIG_LINUX' },
-     'colo-compare',
-     'cryptodev-backend',
-     'cryptodev-backend-builtin',
-@@ -808,21 +809,26 @@
-     'filter-replay',
-     'filter-rewriter',
-     'input-barrier',
--    'input-linux',
-+    { 'name': 'input-linux',
-+      'if': 'CONFIG_LINUX' },
-     'iothread',
-+    { 'name': 'memory-backend-epc',
-+      'if': 'CONFIG_LINUX' },
-     'memory-backend-file',
-     { 'name': 'memory-backend-memfd',
-       'if': 'CONFIG_LINUX' },
-     'memory-backend-ram',
--    'memory-backend-epc',
-     'pef-guest',
--    'pr-manager-helper',
-+    { 'name': 'pr-manager-helper',
-+      'if': 'CONFIG_LINUX' },
-     'qtest',
-     'rng-builtin',
-     'rng-egd',
--    'rng-random',
-+    { 'name': 'rng-random',
-+      'if': 'CONFIG_POSIX' },
-     'secret',
--    'secret_keyring',
-+    { 'name': 'secret_keyring',
-+      'if': 'CONFIG_SECRET_KEYRING' },
-     'sev-guest',
-     's390-pv-guest',
-     'throttle-group',
-@@ -853,7 +859,8 @@
-       'authz-listfile':             'AuthZListFileProperties',
-       'authz-pam':                  'AuthZPAMProperties',
-       'authz-simple':               'AuthZSimpleProperties',
--      'can-host-socketcan':         'CanHostSocketcanProperties',
-+      'can-host-socketcan':         { 'type': 'CanHostSocketcanProperties',
-+                                      'if': 'CONFIG_LINUX' },
-       'colo-compare':               'ColoCompareProperties',
-       'cryptodev-backend':          'CryptodevBackendProperties',
-       'cryptodev-backend-builtin':  'CryptodevBackendProperties',
-@@ -867,20 +874,25 @@
-       'filter-replay':              'NetfilterProperties',
-       'filter-rewriter':            'FilterRewriterProperties',
-       'input-barrier':              'InputBarrierProperties',
--      'input-linux':                'InputLinuxProperties',
-+      'input-linux':                { 'type': 'InputLinuxProperties',
-+                                      'if': 'CONFIG_LINUX' },
-       'iothread':                   'IothreadProperties',
-+      'memory-backend-epc':         { 'type': 'MemoryBackendEpcProperties',
-+                                      'if': 'CONFIG_LINUX' },
-       'memory-backend-file':        'MemoryBackendFileProperties',
-       'memory-backend-memfd':       { 'type': 'MemoryBackendMemfdProperties',
-                                       'if': 'CONFIG_LINUX' },
-       'memory-backend-ram':         'MemoryBackendProperties',
--      'memory-backend-epc':         'MemoryBackendEpcProperties',
--      'pr-manager-helper':          'PrManagerHelperProperties',
-+      'pr-manager-helper':          { 'type': 'PrManagerHelperProperties',
-+                                      'if': 'CONFIG_LINUX' },
-       'qtest':                      'QtestProperties',
-       'rng-builtin':                'RngProperties',
-       'rng-egd':                    'RngEgdProperties',
--      'rng-random':                 'RngRandomProperties',
-+      'rng-random':                 { 'type': 'RngRandomProperties',
-+                                      'if': 'CONFIG_POSIX' },
-       'secret':                     'SecretProperties',
--      'secret_keyring':             'SecretKeyringProperties',
-+      'secret_keyring':             { 'type': 'SecretKeyringProperties',
-+                                      'if': 'CONFIG_SECRET_KEYRING' },
-       'sev-guest':                  'SevGuestProperties',
-       'throttle-group':             'ThrottleGroupProperties',
-       'tls-creds-anon':             'TlsCredsAnonProperties',
+diff --git a/tests/tcg/x86_64/system/kernel.ld b/tests/tcg/x86_64/system/kernel.ld
+index 49c12b04ae..ca5d6bd850 100644
+--- a/tests/tcg/x86_64/system/kernel.ld
++++ b/tests/tcg/x86_64/system/kernel.ld
+@@ -16,7 +16,10 @@ SECTIONS {
+ 		*(.rodata)
+ 	} :text
+ 
+-        /* Keep build ID and PVH notes in same section */
++        /DISCARD/ : {
++                *(.note.gnu*)
++        }
++
+         .notes :  {
+                *(.note.*)
+         } :note
 -- 
 2.31.1
 
