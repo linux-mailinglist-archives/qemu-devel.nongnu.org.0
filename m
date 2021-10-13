@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0F042C94F
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 21:05:25 +0200 (CEST)
-Received: from localhost ([::1]:49082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B57242C98C
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 21:07:23 +0200 (CEST)
+Received: from localhost ([::1]:51842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1majZ5-0004SB-S5
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 15:05:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43778)
+	id 1majb0-0006Vq-47
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 15:07:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1majXX-0003cb-DS
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 15:03:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57012)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1majXS-0003tV-P8
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 15:03:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634151821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X2IinELNhBfhTTxLwKLfzZ5P952ASKCzgYoLYGuoDCg=;
- b=Fxqqh49xXLI2K9V+b5JYAToDZuDZniD6IbRrJUZDDkO+B1Y7EX6+ZQpfbKOSF3ufEO1w3K
- PhFNq5/hihR8B5YtE4fWWfyloq+FLQ48kous0TlJgpSF//ZSN5A1HJx5oBrVdCarBhdien
- 7ZyMGOux1+HjB6wHDzyH3gfuteFAQzU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-tYLPrMuPMni_waDI9cG9vA-1; Wed, 13 Oct 2021 15:03:39 -0400
-X-MC-Unique: tYLPrMuPMni_waDI9cG9vA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- c2-20020adfa302000000b0015e4260febdso2688808wrb.20
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 12:03:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1majZQ-0005Dm-U1
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 15:05:45 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:33411)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1majZO-0005Zr-3W
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 15:05:43 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id v195so9020066ybb.0
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 12:05:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HDIkIibDYk/yjxGy+Wc7Ry5uVW+d6xBP6ijrhdTGEOs=;
+ b=qug2K6OJOyigQgoJnXC2590+AhkObwjAKW5vzL3170tEbbDnpBGwMmzRglp1wQMv2s
+ AOePD89sdZF67dCTJ2BPz7XtgmE087VnCVj7IMDD7Lwi6JvMMP5j3x3qO9u3HqALmfwk
+ kfNO/KdzprHqJ/BHgIJkiPI38A11SUZ5Wm/4etBB4EDl9PI/Wn1kbJu/x1jhLSYg3a30
+ VHmH2Go3uJPrQfvrO0YAURorNWnDwUNhTv3Fy10lI2+jMJ8Fl2OzWnpjZOt5Pzypmk0b
+ wVFgfD2m8hN1hkmcrGDiQhxTTakcdH5a3vpPlfELgD4xtPU8IH6f0rMdDvx0021H0Xrt
+ pKsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=X2IinELNhBfhTTxLwKLfzZ5P952ASKCzgYoLYGuoDCg=;
- b=P5jIVn7aotfLYfQNyP9Gif0NH4NZwUCKNcuFEVF8y0KyHylL9XxgX0856YrD4cXVHx
- DdpVj+76WHzeJE74uf23z2OE0Ykbr35YTjkSn8f/wcpHU+K9A48YruNsXdfy2abCDdkG
- 4bj6ou+YobGusoZyZAHNhoDTajlw8lPRUTmZ0frmu4e2+4AAX1lx2vSLMBRtjyCYk5Jh
- J2Wf2xWcgsaExFsQNBjyVcyIhotUnCO8U/fNfvOzr8LXQtsJE9j6Kr4z6w+NVxd7iy/n
- bgekXY82Usr2GUtFdXeoLaRDOSTlK2tdAFmlOo49ohy8fBOIMiIfhMDUAcTpUUCjWzpA
- knKA==
-X-Gm-Message-State: AOAM533uGbxf7IMT7uuif6RuFltP9P8adXExpg2Rw4g2tn+DPu1RqxLn
- nDIdY7SL/48sOTfQWmOYTr0P8RZu/tUBA9jRZ2If2sis2lmelXh9xvDubr3ynOmnz8XwaX5E5Wc
- EUc0DBetbSQvl69E=
-X-Received: by 2002:a7b:c841:: with SMTP id c1mr14861497wml.40.1634151818592; 
- Wed, 13 Oct 2021 12:03:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwIlDtE7cauA91BvZ5GKKOAdDynUC27VP2obs1JBjAkbeu7jFyvaeVnM8VSNpm2Ay2i2Si1Kg==
-X-Received: by 2002:a7b:c841:: with SMTP id c1mr14861463wml.40.1634151818309; 
- Wed, 13 Oct 2021 12:03:38 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id t4sm218333wro.1.2021.10.13.12.03.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 12:03:37 -0700 (PDT)
-Date: Wed, 13 Oct 2021 20:03:35 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH RFC 00/15] virtio-mem: Expose device memory via separate
- memslots
-Message-ID: <YWcthytjDJUXdN0w@work-vm>
-References: <20211013103330.26869-1-david@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HDIkIibDYk/yjxGy+Wc7Ry5uVW+d6xBP6ijrhdTGEOs=;
+ b=KXp2KRRR87Um/qqP0DzQ1tp/p/AdDzTET+z9BTvSNUFIjxe8p51mR18E7oeofG1VuP
+ f+hOSWRBgp8BvTu4rB4VGVFfvOZw7l4I2AHpTEmQIpjgg44xUy94y+SQeFGBetgoqSDh
+ GNF0c0NP2Ti4QjeKkMtUWP9jrSNC9G8J+vY1VPjzcWzUSaKCmSn/Y3ztuHv0vEGrLEf+
+ rPbYe1MDegOV3ABLpz/WDMln4CosA4lwdRx9o2BXaMiOM1+XPH2yP1UO+aAFiwlyRRs3
+ 6qDXIofofeSEQ0m2SOqRrNYpKiSNvg0/fe7FzOv7vnv5JqlMgMGR0rKaOTQE9GgXZlwb
+ IeBg==
+X-Gm-Message-State: AOAM5322McF7ErbFM3rbrRnCJ+AWC0QaZ7wY2DuYhSFBnCUVpIuC4J3o
+ V47GZJeVoCZ2vRoOhrnICs0dbgAnzEetfABcv3t+Yxp4bGR1C+290ww=
+X-Google-Smtp-Source: ABdhPJx7s4k4RB66+5ZybcKLQjNLtN3je+eBLIebmIAL/WAN2jSviu71QcwMRJ8qvuHJ0hmTZNvkqkxoKsGTLInFJ1U=
+X-Received: by 2002:a25:b7d3:: with SMTP id u19mr1252327ybj.158.1634151940661; 
+ Wed, 13 Oct 2021 12:05:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211013103330.26869-1-david@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210914121420.183499-1-konstantin@daynix.com>
+ <CAJ28CFR8z5u2Uzq9bKroLU7c=cRgCZe1cwcF_Ka6fK+Wr8UfDg@mail.gmail.com>
+In-Reply-To: <CAJ28CFR8z5u2Uzq9bKroLU7c=cRgCZe1cwcF_Ka6fK+Wr8UfDg@mail.gmail.com>
+From: Konstantin Kostiuk <konstantin@daynix.com>
+Date: Wed, 13 Oct 2021 22:05:29 +0300
+Message-ID: <CAJ28CFTu5kjefHFUhfP07G7N5hqUjCYj3cd6a=vS-RdkAbtsrg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] qga-win: Detect OS based on Windows 10 by first build
+ number
+To: Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000eebcc705ce40a5dd"
+Received-SPF: none client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=konstantin@daynix.com; helo=mail-yb1-xb34.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,196 +78,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Yan Vugenfirer <yan@daynix.com>, Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* David Hildenbrand (david@redhat.com) wrote:
-> Based-on: 20211011175346.15499-1-david@redhat.com
-> 
-> A virtio-mem device is represented by a single large RAM memory region
-> backed by a single large mmap.
-> 
-> Right now, we map that complete memory region into guest physical addres
-> space, resulting in a very large memory mapping, KVM memory slot, ...
-> although only a small amount of memory might actually be exposed to the VM.
-> 
-> For example, when starting a VM with a 1 TiB virtio-mem device that only
-> exposes little device memory (e.g., 1 GiB) towards the VM initialliy,
-> in order to hotplug more memory later, we waste a lot of memory on metadata
-> for KVM memory slots (> 2 GiB!) and accompanied bitmaps. Although some
-> optimizations in KVM are being worked on to reduce this metadata overhead
-> on x86-64 in some cases, it remains a problem with nested VMs and there are
-> other reasons why we would want to reduce the total memory slot to a
-> reasonable minimum.
-> 
-> We want to:
-> a) Reduce the metadata overhead, including bitmap sizes inside KVM but also
->    inside QEMU KVM code where possible.
-> b) Not always expose all device-memory to the VM, to reduce the attack
->    surface of malicious VMs without using userfaultfd.
-> 
-> So instead, expose the RAM memory region not by a single large mapping
-> (consuming one memslot) but instead by multiple mappings, each consuming
-> one memslot. To do that, we divide the RAM memory region via aliases into
-> separate parts and only map the aliases into a device container we actually
-> need. We have to make sure that QEMU won't silently merge the memory
-> sections corresponding to the aliases (and thereby also memslots),
-> otherwise we lose atomic updates with KVM and vhost-user, which we deeply
-> care about when adding/removing memory. Further, to get memslot accounting
-> right, such merging is better avoided.
-> 
-> Within the memslots, virtio-mem can (un)plug memory in smaller granularity
-> dynamically. So memslots are a pure optimization to tackle a) and b) above.
-> 
-> Memslots are right now mapped once they fall into the usable device region
-> (which grows/shrinks on demand right now either when requesting to
->  hotplug more memory or during/after reboots). In the future, with
-> VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE, we'll be able to (un)map aliases even
-> more dynamically when (un)plugging device blocks.
-> 
-> 
-> Adding a 500GiB virtio-mem device and not hotplugging any memory results in:
->     0000000140000000-000001047fffffff (prio 0, i/o): device-memory
->       0000000140000000-0000007e3fffffff (prio 0, i/o): virtio-mem-memslots
-> 
-> Requesting the VM to consume 2 GiB results in (note: the usable region size
-> is bigger than 2 GiB, so 3 * 1 GiB memslots are required):
->     0000000140000000-000001047fffffff (prio 0, i/o): device-memory
->       0000000140000000-0000007e3fffffff (prio 0, i/o): virtio-mem-memslots
->         0000000140000000-000000017fffffff (prio 0, ram): alias virtio-mem-memslot-0 @mem0 0000000000000000-000000003fffffff
->         0000000180000000-00000001bfffffff (prio 0, ram): alias virtio-mem-memslot-1 @mem0 0000000040000000-000000007fffffff
->         00000001c0000000-00000001ffffffff (prio 0, ram): alias virtio-mem-memslot-2 @mem0 0000000080000000-00000000bfffffff
+--000000000000eebcc705ce40a5dd
+Content-Type: text/plain; charset="UTF-8"
 
-I've got a vague memory that there were some devices that didn't like
-doing split IO across a memory region (or something) - some virtio
-devices?  Do you know if that's still true and if that causes a problem?
+ping
 
-Dave
+On Wed, Sep 29, 2021 at 2:40 PM Konstantin Kostiuk <konstantin@daynix.com>
+wrote:
 
-> Requesting the VM to consume 20 GiB results in:
->     0000000140000000-000001047fffffff (prio 0, i/o): device-memory
->       0000000140000000-0000007e3fffffff (prio 0, i/o): virtio-mem-memslots
->         0000000140000000-000000017fffffff (prio 0, ram): alias virtio-mem-memslot-0 @mem0 0000000000000000-000000003fffffff
->         0000000180000000-00000001bfffffff (prio 0, ram): alias virtio-mem-memslot-1 @mem0 0000000040000000-000000007fffffff
->         00000001c0000000-00000001ffffffff (prio 0, ram): alias virtio-mem-memslot-2 @mem0 0000000080000000-00000000bfffffff
->         0000000200000000-000000023fffffff (prio 0, ram): alias virtio-mem-memslot-3 @mem0 00000000c0000000-00000000ffffffff
->         0000000240000000-000000027fffffff (prio 0, ram): alias virtio-mem-memslot-4 @mem0 0000000100000000-000000013fffffff
->         0000000280000000-00000002bfffffff (prio 0, ram): alias virtio-mem-memslot-5 @mem0 0000000140000000-000000017fffffff
->         00000002c0000000-00000002ffffffff (prio 0, ram): alias virtio-mem-memslot-6 @mem0 0000000180000000-00000001bfffffff
->         0000000300000000-000000033fffffff (prio 0, ram): alias virtio-mem-memslot-7 @mem0 00000001c0000000-00000001ffffffff
->         0000000340000000-000000037fffffff (prio 0, ram): alias virtio-mem-memslot-8 @mem0 0000000200000000-000000023fffffff
->         0000000380000000-00000003bfffffff (prio 0, ram): alias virtio-mem-memslot-9 @mem0 0000000240000000-000000027fffffff
->         00000003c0000000-00000003ffffffff (prio 0, ram): alias virtio-mem-memslot-10 @mem0 0000000280000000-00000002bfffffff
->         0000000400000000-000000043fffffff (prio 0, ram): alias virtio-mem-memslot-11 @mem0 00000002c0000000-00000002ffffffff
->         0000000440000000-000000047fffffff (prio 0, ram): alias virtio-mem-memslot-12 @mem0 0000000300000000-000000033fffffff
->         0000000480000000-00000004bfffffff (prio 0, ram): alias virtio-mem-memslot-13 @mem0 0000000340000000-000000037fffffff
->         00000004c0000000-00000004ffffffff (prio 0, ram): alias virtio-mem-memslot-14 @mem0 0000000380000000-00000003bfffffff
->         0000000500000000-000000053fffffff (prio 0, ram): alias virtio-mem-memslot-15 @mem0 00000003c0000000-00000003ffffffff
->         0000000540000000-000000057fffffff (prio 0, ram): alias virtio-mem-memslot-16 @mem0 0000000400000000-000000043fffffff
->         0000000580000000-00000005bfffffff (prio 0, ram): alias virtio-mem-memslot-17 @mem0 0000000440000000-000000047fffffff
->         00000005c0000000-00000005ffffffff (prio 0, ram): alias virtio-mem-memslot-18 @mem0 0000000480000000-00000004bfffffff
->         0000000600000000-000000063fffffff (prio 0, ram): alias virtio-mem-memslot-19 @mem0 00000004c0000000-00000004ffffffff
->         0000000640000000-000000067fffffff (prio 0, ram): alias virtio-mem-memslot-20 @mem0 0000000500000000-000000053fffffff
-> 
-> Requesting the VM to consume 5 GiB and rebooting (note: usable region size
-> will change during reboots) results in:
->     0000000140000000-000001047fffffff (prio 0, i/o): device-memory
->       0000000140000000-0000007e3fffffff (prio 0, i/o): virtio-mem-memslots
->         0000000140000000-000000017fffffff (prio 0, ram): alias virtio-mem-memslot-0 @mem0 0000000000000000-000000003fffffff
->         0000000180000000-00000001bfffffff (prio 0, ram): alias virtio-mem-memslot-1 @mem0 0000000040000000-000000007fffffff
->         00000001c0000000-00000001ffffffff (prio 0, ram): alias virtio-mem-memslot-2 @mem0 0000000080000000-00000000bfffffff
->         0000000200000000-000000023fffffff (prio 0, ram): alias virtio-mem-memslot-3 @mem0 00000000c0000000-00000000ffffffff
->         0000000240000000-000000027fffffff (prio 0, ram): alias virtio-mem-memslot-4 @mem0 0000000100000000-000000013fffffff
->         0000000280000000-00000002bfffffff (prio 0, ram): alias virtio-mem-memslot-5 @mem0 0000000140000000-000000017fffffff
-> 
-> 
-> In addition to other factors, we limit the number of memslots to 1024 per
-> devices and the size of one memslot to at least 1 GiB. So only a 1 TiB
-> virtio-mem device could consume 1024 memslots in the "worst" case. To
-> calculate a memslot limit for a device, we use a heuristic based on all
-> available memslots for memory devices and the percentage of
-> "device size":"total memory device area size". Users can further limit
-> the maximum number of memslots that will be used by a device by setting
-> the "max-memslots" property. It's expected to be set to "0" (auto) in most
-> setups.
-> 
-> In recent setups (e.g., KVM with ~32k memslots, vhost-user with ~4k
-> memslots after this series), we'll get the biggest benefit. In special
-> setups (e.g., older KVM, vhost kernel with 64 memslots), we'll get some
-> benefit -- the individual memslots will be bigger.
-> 
-> Future work:
-> - vhost-user and libvhost-user optimizations for handling more memslots
->   more efficiently.
-> 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Ani Sinha <ani@anisinha.ca>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Cc: kvm@vger.kernel.org
-> 
-> David Hildenbrand (15):
->   memory: Drop mapping check from
->     memory_region_get_ram_discard_manager()
->   kvm: Return number of free memslots
->   vhost: Return number of free memslots
->   memory: Allow for marking memory region aliases unmergeable
->   vhost: Don't merge unmergeable memory sections
->   memory-device: Move memory_device_check_addable() directly into
->     memory_device_pre_plug()
->   memory-device: Generalize memory_device_used_region_size()
->   memory-device: Support memory devices that consume a variable number
->     of memslots
->   vhost: Respect reserved memslots for memory devices when realizing a
->     vhost device
->   virtio-mem: Set the RamDiscardManager for the RAM memory region
->     earlier
->   virtio-mem: Fix typo in virito_mem_intersect_memory_section() function
->     name
->   virtio-mem: Expose device memory via separate memslots
->   vhost-user: Increase VHOST_USER_MAX_RAM_SLOTS to 496 with
->     CONFIG_VIRTIO_MEM
->   libvhost-user: Increase VHOST_USER_MAX_RAM_SLOTS to 4096
->   virtio-mem: Set "max-memslots" to 0 (auto) for the 6.2 machine
-> 
->  accel/kvm/kvm-all.c                       |  24 ++-
->  accel/stubs/kvm-stub.c                    |   4 +-
->  hw/core/machine.c                         |   1 +
->  hw/mem/memory-device.c                    | 167 +++++++++++++++---
->  hw/virtio/vhost-stub.c                    |   2 +-
->  hw/virtio/vhost-user.c                    |   7 +-
->  hw/virtio/vhost.c                         |  17 +-
->  hw/virtio/virtio-mem-pci.c                |  22 +++
->  hw/virtio/virtio-mem.c                    | 202 ++++++++++++++++++++--
->  include/exec/memory.h                     |  23 +++
->  include/hw/mem/memory-device.h            |  32 ++++
->  include/hw/virtio/vhost.h                 |   2 +-
->  include/hw/virtio/virtio-mem.h            |  29 +++-
->  include/sysemu/kvm.h                      |   2 +-
->  softmmu/memory.c                          |  35 +++-
->  stubs/qmp_memory_device.c                 |   5 +
->  subprojects/libvhost-user/libvhost-user.h |   7 +-
->  17 files changed, 499 insertions(+), 82 deletions(-)
-> 
-> -- 
-> 2.31.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> ping
+>
+> On Tue, Sep 14, 2021 at 3:14 PM Kostiantyn Kostiuk <konstantin@daynix.com>
+> wrote:
+>
+>> Windows Server 2016, 2019, 2022 are based on Windows 10 and
+>> have the same major and minor versions. So, the only way to
+>> detect the proper version is to use the build number.
+>>
+>> Before this commit, the guest agent use the last build number
+>> for each OS, but it causes problems when new OS releases.
+>> There are few preview versions before release, and we
+>> can't update this list.
+>>
+>> After this commit, the guest agent will use the first build
+>> number. For each new preview version or release version,
+>> Microsoft increases the build number, so we can add the number
+>> of the first preview build and this will work until the new
+>> OS release.
+>>
+>> Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
+>> ---
+>>  qga/commands-win32.c | 18 +++++++++++-------
+>>  1 file changed, 11 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+>> index 4e84afd83b..a8e9d40b31 100644
+>> --- a/qga/commands-win32.c
+>> +++ b/qga/commands-win32.c
+>> @@ -2162,7 +2162,7 @@ static ga_matrix_lookup_t const
+>> WIN_VERSION_MATRIX[2][8] = {
+>>  };
+>>
+>>  typedef struct _ga_win_10_0_server_t {
+>> -    int final_build;
+>> +    int first_build;
+>>      char const *version;
+>>      char const *version_id;
+>>  } ga_win_10_0_server_t;
+>> @@ -2202,18 +2202,22 @@ static char *ga_get_win_name(OSVERSIONINFOEXW
+>> const *os_version, bool id)
+>>      int tbl_idx = (os_version->wProductType != VER_NT_WORKSTATION);
+>>      ga_matrix_lookup_t const *table = WIN_VERSION_MATRIX[tbl_idx];
+>>      ga_win_10_0_server_t const *win_10_0_table =
+>> WIN_10_0_SERVER_VERSION_MATRIX;
+>> +    ga_win_10_0_server_t const *win_10_0_version = NULL;
+>>      while (table->version != NULL) {
+>>          if (major == 10 && minor == 0 && tbl_idx) {
+>>              while (win_10_0_table->version != NULL) {
+>> -                if (build <= win_10_0_table->final_build) {
+>> -                    if (id) {
+>> -                        return g_strdup(win_10_0_table->version_id);
+>> -                    } else {
+>> -                        return g_strdup(win_10_0_table->version);
+>> -                    }
+>> +                if (build >= win_10_0_table->first_build) {
+>> +                    win_10_0_version = win_10_0_table;
+>>                  }
+>>                  win_10_0_table++;
+>>              }
+>> +            if (win_10_0_table) {
+>> +                if (id) {
+>> +                    return g_strdup(win_10_0_version->version_id);
+>> +                } else {
+>> +                    return g_strdup(win_10_0_version->version);
+>> +                }
+>> +            }
+>>          } else if (major == table->major && minor == table->minor) {
+>>              if (id) {
+>>                  return g_strdup(table->version_id);
+>> --
+>> 2.33.0
+>>
+>>
 
+--000000000000eebcc705ce40a5dd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">ping<br></div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr" class=3D"gmail_attr">On Wed, Sep 29, 2021 at 2:40 PM Konstantin Kostiuk=
+ &lt;<a href=3D"mailto:konstantin@daynix.com">konstantin@daynix.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr">ping<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">On Tue, Sep 14, 2021 at 3:14 PM Kostiantyn Kostiuk &lt;<a =
+href=3D"mailto:konstantin@daynix.com" target=3D"_blank">konstantin@daynix.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">Windows Server 2016, 2019, 2022 are based on Windows 10 and<br>
+have the same major and minor versions. So, the only way to<br>
+detect the proper version is to use the build number.<br>
+<br>
+Before this commit, the guest agent use the last build number<br>
+for each OS, but it causes problems when new OS releases.<br>
+There are few preview versions before release, and we<br>
+can&#39;t update this list.<br>
+<br>
+After this commit, the guest agent will use the first build<br>
+number. For each new preview version or release version,<br>
+Microsoft increases the build number, so we can add the number<br>
+of the first preview build and this will work until the new<br>
+OS release.<br>
+<br>
+Signed-off-by: Kostiantyn Kostiuk &lt;<a href=3D"mailto:konstantin@daynix.c=
+om" target=3D"_blank">konstantin@daynix.com</a>&gt;<br>
+---<br>
+=C2=A0qga/commands-win32.c | 18 +++++++++++-------<br>
+=C2=A01 file changed, 11 insertions(+), 7 deletions(-)<br>
+<br>
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
+index 4e84afd83b..a8e9d40b31 100644<br>
+--- a/qga/commands-win32.c<br>
++++ b/qga/commands-win32.c<br>
+@@ -2162,7 +2162,7 @@ static ga_matrix_lookup_t const WIN_VERSION_MATRIX[2]=
+[8] =3D {<br>
+=C2=A0};<br>
+<br>
+=C2=A0typedef struct _ga_win_10_0_server_t {<br>
+-=C2=A0 =C2=A0 int final_build;<br>
++=C2=A0 =C2=A0 int first_build;<br>
+=C2=A0 =C2=A0 =C2=A0char const *version;<br>
+=C2=A0 =C2=A0 =C2=A0char const *version_id;<br>
+=C2=A0} ga_win_10_0_server_t;<br>
+@@ -2202,18 +2202,22 @@ static char *ga_get_win_name(OSVERSIONINFOEXW const=
+ *os_version, bool id)<br>
+=C2=A0 =C2=A0 =C2=A0int tbl_idx =3D (os_version-&gt;wProductType !=3D VER_N=
+T_WORKSTATION);<br>
+=C2=A0 =C2=A0 =C2=A0ga_matrix_lookup_t const *table =3D WIN_VERSION_MATRIX[=
+tbl_idx];<br>
+=C2=A0 =C2=A0 =C2=A0ga_win_10_0_server_t const *win_10_0_table =3D WIN_10_0=
+_SERVER_VERSION_MATRIX;<br>
++=C2=A0 =C2=A0 ga_win_10_0_server_t const *win_10_0_version =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0while (table-&gt;version !=3D NULL) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (major =3D=3D 10 &amp;&amp; minor =3D=
+=3D 0 &amp;&amp; tbl_idx) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0while (win_10_0_table-&gt;v=
+ersion !=3D NULL) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (build &lt;=3D =
+win_10_0_table-&gt;final_build) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (=
+id) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 return g_strdup(win_10_0_table-&gt;version_id);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } el=
+se {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 return g_strdup(win_10_0_table-&gt;version);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (build &gt;=3D =
+win_10_0_table-&gt;first_build) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 win_=
+10_0_version =3D win_10_0_table;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0win_10_0_tabl=
+e++;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (win_10_0_table) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (id) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retu=
+rn g_strdup(win_10_0_version-&gt;version_id);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retu=
+rn g_strdup(win_10_0_version-&gt;version);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (major =3D=3D table-&gt;major &=
+amp;&amp; minor =3D=3D table-&gt;minor) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (id) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return g_strd=
+up(table-&gt;version_id);<br>
+-- <br>
+2.33.0<br>
+<br>
+</blockquote></div>
+</blockquote></div>
+
+--000000000000eebcc705ce40a5dd--
 
