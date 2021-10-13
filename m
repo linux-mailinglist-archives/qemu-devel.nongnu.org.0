@@ -2,68 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87C442C3E9
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 16:49:46 +0200 (CEST)
-Received: from localhost ([::1]:46818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8324042C401
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 16:51:42 +0200 (CEST)
+Received: from localhost ([::1]:50050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mafZh-00077U-Jo
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 10:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
+	id 1mafbZ-0000yi-M2
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 10:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mafYC-0005mA-KX
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 10:48:12 -0400
-Received: from mail-ua1-x932.google.com ([2607:f8b0:4864:20::932]:36496)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mafYA-0005Mx-IX
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 10:48:12 -0400
-Received: by mail-ua1-x932.google.com with SMTP id e10so376050uab.3
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 07:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=WZYnln/g/FnQTVzsv5G7fGSQuda6a1W/SKVtJhhPgN8=;
- b=SyntvUMSJRdlhlAQItd7HxcNh5koQDL1NwIOO+oyGZ5W1fK3W3HQCPlMdwgezV3ASh
- 5w0T3QJYuZx3PlNIsKne1A12EHkLS2oc3o8zs1fFFDDxuoRg3ULofKopQ5l6KKgWFzNn
- KPEWkeU0eFfAm2S0PlYrP56XpqRxBadbs3Q5I=
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mafZa-0007ui-Ut
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 10:49:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54184)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mafZY-0000kB-GL
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 10:49:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634136575;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ugW/q/vX2UUYFmpHaMMNiwj+HEdbaT2wE2n6q900eec=;
+ b=B5BMBcIa5JbYfsLjLCFUv+JQJ30J2Ve36nMqd8xnOlJD5y4V38KV3WQRKpwZDMb8+Ppw+m
+ UiUni8Se13G039J3WuTLNVGmYV/IysG6v5PY1bYT9KMzzIvBnO6LiQlDgJ+o/tqABcdLkp
+ 6sy2RF0eh42C7+VYuHDjA6FN/E8dS48=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-522-4Sum-BVCNVS3tNj_zhMMpQ-1; Wed, 13 Oct 2021 10:49:32 -0400
+X-MC-Unique: 4Sum-BVCNVS3tNj_zhMMpQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ r16-20020adfb1d0000000b00160bf8972ceso2170960wra.13
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 07:49:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=WZYnln/g/FnQTVzsv5G7fGSQuda6a1W/SKVtJhhPgN8=;
- b=x2C5ds56siJiqJ3DqW1Vv8126dRKT+dOsHekv7WDKlbY08XIoTZj1RDYa+vsRvwj7n
- C8wOOTCLCsUjltwOQGDNKqphYt2ES6p/89hB4s8u7pRx6C0KMSLGZYYiZKQ/mX9soHfR
- gtatA8BV1KBJWNk6bY2YJbOKxQJxL54CAJMDw/1CLOSYjXqpM7pl273piN8EF3le4crR
- NJuKCGfMQIWfnxIPOE/ySan3ADoxQxIZnbd6cD4GIFJsI8pzyp7H/RHugItzyFyO2DA4
- SRunHA5zCSKLf0saG0gDtCK7jTxKdOCl+XefQ80A9j8Al7g4Yn2GsgAJuITLeov6P2W4
- LaZQ==
-X-Gm-Message-State: AOAM530HP7u4q+qTs8ao/C2RdPyTIsqVeFzVwAoSGROJwe+0Bn7oOGQl
- XjwzuQ48XqbBr8uAHoWGdKmb/HBA39slw1pV/F8t7A==
-X-Google-Smtp-Source: ABdhPJydhHxWWK+nZaNw3Oks6wxSBOKGzWC4daPXyyELkUh9hBEj7/+kyY02T6ZcwfpU2dPHjID7U8dNAne7bJlgUl4=
-X-Received: by 2002:ab0:4a19:: with SMTP id q25mr29373015uae.143.1634136488416; 
- Wed, 13 Oct 2021 07:48:08 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ugW/q/vX2UUYFmpHaMMNiwj+HEdbaT2wE2n6q900eec=;
+ b=QOXgOwJiCioatQWd46EmBP8Fu8M27pq3Run6fAX3dmMcuh4Bo6Nc6/m4smGOEatA+W
+ yE3XXQBAxkg5Y1/qD1Ue8jP8RD+V1hkITL023VpqzN1PnN2CafAUK0GrP5S+g86vHR13
+ kMB7494gSv8F7loMyLWy4kq0AaOF3EhFuB+ibxeEyPOGxJZwZLTATglpx8qePwtc1Xfn
+ 1kpjBwlmGLa7bpL1PL6EvH2k1CC4VL/5L9ZoZ1V9SbsN9Q2y31XzrUGQFPWQoIAaB2uQ
+ dVV/Y2HhljvGfDOPI+WyZVq//fX/yz75qkkQwsInXhSVRYz0GYPCRoApNVAhnZxXo8uU
+ aCuw==
+X-Gm-Message-State: AOAM532tfk4dtE3+eG2aCcKmCrHnVemVhkUYUpoy8x/Ln+/BVbz6I6gC
+ z5H3/NxTq3p6a57iHfu1j1XJ+DrMLKrHrqrEGy/0ZAWFmZ7Wl6Psr4McPyFaYKvyTQIxNydKSwx
+ LQVsbD+tbwaeinIo=
+X-Received: by 2002:a5d:508a:: with SMTP id a10mr22209813wrt.126.1634136571307; 
+ Wed, 13 Oct 2021 07:49:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw8Ov6MPjbF3QW9VVQOehwxWtkaootySTZF1uEGD6RA8SmbLItVLkWmt2K9JKW+ZJANQumTYg==
+X-Received: by 2002:a5d:508a:: with SMTP id a10mr22209784wrt.126.1634136571033; 
+ Wed, 13 Oct 2021 07:49:31 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1e48:3780:4451:9a65:d4e9:9bb6?
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id g70sm5708168wme.29.2021.10.13.07.49.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Oct 2021 07:49:30 -0700 (PDT)
+Message-ID: <3d23738f-6b9f-2b90-c005-827708d5dae4@redhat.com>
+Date: Wed, 13 Oct 2021 16:49:29 +0200
 MIME-Version: 1.0
-References: <20211013010120.96851-1-sjg@chromium.org>
- <CAEUhbmWY5gKmqbipurcDQ0DuNJyv8cLWsnyqx5h+tFqeVng8Ag@mail.gmail.com>
- <20211013013450.GJ7964@bill-the-cat>
-In-Reply-To: <20211013013450.GJ7964@bill-the-cat>
-From: Simon Glass <sjg@chromium.org>
-Date: Wed, 13 Oct 2021 08:47:56 -0600
-Message-ID: <CAPnjgZ3D+h1ov2yL73iz_3zmPkJrM4mGrQLhsKL9qu9Ez0-j2A@mail.gmail.com>
-Subject: Re: [PATCH 00/16] fdt: Make OF_BOARD a boolean option
-To: Tom Rini <trini@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::932;
- envelope-from=sjg@google.com; helo=mail-ua1-x932.google.com
-X-Spam_score_int: -92
-X-Spam_score: -9.3
-X-Spam_bar: ---------
-X-Spam_report: (-9.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v3 0/7] Switch iotests to using Async QMP
+To: John Snow <jsnow@redhat.com>
+References: <20211012223445.1051101-1-jsnow@redhat.com>
+ <5041f802-0b42-f130-ee68-56cd7464b75d@redhat.com>
+ <CAFn=p-aJdGpCzkMHmMO9WO+rYn55OznyZ7K5BJz+Rv0GkRDhOA@mail.gmail.com>
+ <CAFn=p-bdg3T0kt_QHDeeJCKbpugmSbzfjO+ZVDMk3TLP4fBoHg@mail.gmail.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <CAFn=p-bdg3T0kt_QHDeeJCKbpugmSbzfjO+ZVDMk3TLP4fBoHg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,186 +100,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liviu Dudau <liviu.dudau@foss.arm.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Linus Walleij <linus.walleij@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- Kever Yang <kever.yang@rock-chips.com>, Sean Anderson <seanga2@gmail.com>,
- Atish Patra <atish.patra@wdc.com>, Zong Li <zong.li@sifive.com>,
- Stefan Roese <sr@denx.de>, Fabio Estevam <festevam@gmail.com>,
- Rainer Boschung <rainer.boschung@hitachi-powergrids.com>,
- Stephen Warren <swarren@nvidia.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>, Niel Fourie <lusus@denx.de>,
- Michal Simek <michal.simek@xilinx.com>,
- =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>,
- Jerry Van Baren <vanbaren@cideas.com>, Ramon Fried <rfried.dev@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Longchamp <valentin.longchamp@hitachi-powergrids.com>,
- Heiko Schocher <hs@denx.de>, Peter Robinson <pbrobinson@gmail.com>,
- Sinan Akman <sinan@writeme.com>, Thomas Fitzsimmons <fitzsim@fitzsim.org>,
- Wolfgang Denk <wd@denx.de>, Stephen Warren <swarren@wwwdotorg.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Andre Przywara <andre.przywara@arm.com>, Tim Harvey <tharvey@gateworks.com>,
- Ashok Reddy Soma <ashok.reddy.soma@xilinx.com>, Rick Chen <rick@andestech.com>,
- Alexander Graf <agraf@csgraf.de>, Green Wan <green.wan@sifive.com>,
- T Karthik Reddy <t.karthik.reddy@xilinx.com>,
- Anastasiia Lukianenko <anastasiia_lukianenko@epam.com>,
- Albert Aribaud <albert.u.boot@aribaud.net>, Michal Simek <monstr@monstr.eu>,
- Matthias Brugger <mbrugger@suse.com>, Leo <ycliang@andestech.com>,
- Tero Kristo <kristo@kernel.org>, U-Boot Mailing List <u-boot@lists.denx.de>,
- David Abdurachmanov <david.abdurachmanov@sifive.com>,
- Priyanka Jain <priyanka.jain@nxp.com>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Christian Hewitt <christianshewitt@gmail.com>,
- Aaron Williams <awilliams@marvell.com>,
- Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
- Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
- Tianrui Wei <tianrui-wei@outlook.com>, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
- Dimitri John Ledkov <dimitri.ledkov@canonical.com>,
- Padmarao Begari <padmarao.begari@microchip.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Tom, Bin,Fran=C3=A7ois,
-
-On Tue, 12 Oct 2021 at 19:34, Tom Rini <trini@konsulko.com> wrote:
+On 13.10.21 16:00, John Snow wrote:
 >
-> On Wed, Oct 13, 2021 at 09:29:14AM +0800, Bin Meng wrote:
-> > Hi Simon,
-> >
-> > On Wed, Oct 13, 2021 at 9:01 AM Simon Glass <sjg@chromium.org> wrote:
-> > >
-> > > With Ilias' efforts we have dropped OF_PRIOR_STAGE and OF_HOSTFILE so
-> > > there are only three ways to obtain a devicetree:
-> > >
-> > >    - OF_SEPARATE - the normal way, where the devicetree is built and
-> > >       appended to U-Boot
-> > >    - OF_EMBED - for development purposes, the devicetree is embedded =
-in
-> > >       the ELF file (also used for EFI)
-> > >    - OF_BOARD - the board figures it out on its own
-> > >
-> > > The last one is currently set up so that no devicetree is needed at a=
-ll
-> > > in the U-Boot tree. Most boards do provide one, but some don't. Some
-> > > don't even provide instructions on how to boot on the board.
-> > >
-> > > The problems with this approach are documented at [1].
-> > >
-> > > In practice, OF_BOARD is not really distinct from OF_SEPARATE. Any bo=
-ard
-> > > can obtain its devicetree at runtime, even it is has a devicetree bui=
-lt
-> > > in U-Boot. This is because U-Boot may be a second-stage bootloader an=
-d its
-> > > caller may have a better idea about the hardware available in the mac=
-hine.
-> > > This is the case with a few QEMU boards, for example.
-> > >
-> > > So it makes no sense to have OF_BOARD as a 'choice'. It should be an
-> > > option, available with either OF_SEPARATE or OF_EMBED.
-> > >
-> > > This series makes this change, adding various missing devicetree file=
-s
-> > > (and placeholders) to make the build work.
-> >
-> > Adding device trees that are never used sounds like a hack to me.
-> >
-> > For QEMU, device tree is dynamically generated on the fly based on
-> > command line parameters, and the device tree you put in this series
-> > has various hardcoded <phandle> values which normally do not show up
-> > in hand-written dts files.
-> >
-> > I am not sure I understand the whole point of this.
 >
-> I am also confused and do not like the idea of adding device trees for
-> platforms that are capable of and can / do have a device tree to give us
-> at run time.
+> On Wed, Oct 13, 2021 at 8:51 AM John Snow <jsnow@redhat.com> wrote:
+>
+>
+>
+>     On Wed, Oct 13, 2021 at 4:45 AM Hanna Reitz <hreitz@redhat.com> wrote:
+>
+>         On 13.10.21 00:34, John Snow wrote:
+>         > Based-on: <20211012214152.802483-1-jsnow@redhat.com>
+>         >            [PULL 00/10] Python patches
+>         > GitLab:
+>         https://gitlab.com/jsnow/qemu/-/commits/python-aqmp-iotest-wrapper
+>         > CI: https://gitlab.com/jsnow/qemu/-/pipelines/387210591
+>         >
+>         > Hiya,
+>         >
+>         > This series continues where the last two AQMP series left
+>         off and adds a
+>         > synchronous 'legacy' wrapper around the new AQMP interface,
+>         then drops
+>         > it straight into iotests to prove that AQMP is functional
+>         and totally
+>         > cool and fine. The disruption and churn to iotests is pretty
+>         minimal.
+>         >
+>         > In the event that a regression happens and I am not
+>         physically proximate
+>         > to inflict damage upon, one may set the
+>         QEMU_PYTHON_LEGACY_QMP variable
+>         > to any non-empty string as it pleases you to engage the QMP
+>         machinery
+>         > you are used to.
+>         >
+>         > I'd like to try and get this committed early in the 6.2
+>         development
+>         > cycle to give ample time to smooth over any possible
+>         regressions. I've
+>         > tested it locally and via gitlab CI, across Python versions
+>         3.6 through
+>         > 3.10, and "worksforme". If something bad happens, we can
+>         revert the
+>         > actual switch-flip very trivially.
+>
+>         So running iotests locally, I got one failure:
+>
+>         $ TEST_DIR=/tmp/vdi-tests ./check -c writethrough -vdi 300
+>         [...]
+>         300                             fail       [10:28:06] [10:28:11]
+>         5.1s                 output mismatch (see 300.out.bad)
+>         --- /home/maxx/projects/qemu/tests/qemu-iotests/300.out
+>         +++ 300.out.bad
+>         @@ -1,4 +1,5 @@
+>         -.......................................
+>         +..............ERROR:qemu.aqmp.qmp_client.qemu-b-222963:Task.Reader:
+>
+>         ConnectionResetError: [Errno 104] Connection reset by peer
+>         +.........................
+>           ----------------------------------------------------------------------
+>           Ran 39 tests
+>         [...]
+>
+>
+>     Oh, unfortunate.
+>
+>
+>         I’m afraid I can’t really give a reproducer or anything.  It
+>         feels like
+>
+>
+>     Thank you for the report!
+>
+>         just some random spurious timing-related error. Although then
+>         again,
+>         300 does have an `except machine.AbnormalShutdown` clause at one
+>         point...  So perhaps that’s the culprit, and we need to
+>         disable logging
+>         there.
+>
+>
+>     I'll investigate!
+>
+>
+> Unfortunately, even in a loop some 150 times I couldn't reproduce this 
+> one. As you point out, it appears to be just a failure caused by 
+> logging. The test logic itself completes as expected.
+>
+> Still, I would expect, on a "clean" shutdown of the destination host 
+> (where the destination process fails to load the migration stream and 
+> voluntarily exits with an error code) to end with a FIN/ACK for TCP or 
+> ... uh, whatever happens for a UNIX socket. Where's the Connection 
+> Reset coming from? Did the destination VM process *crash*?
+>
+> I'm not so sure that I *should* silence this error, but I also can't 
+> reproduce it at all to answer these questions, so uh. uhhh. I guess I 
+> will just hammer it on a loop a few hundred times more and see if I 
+> get lucky.
 
-(I'll just reply to this one email, since the same points applies to
-all replies I think)
+I could reproduce it, by running 20 instances concurrently.  (Needs a 
+change to testrunner.py, so that the reference outputs don’t collide:
 
-I have been thinking about this and discussing it with people for a
-few months now. I've been signalling a change like this for over a
-month now, on U-Boot contributor calls and in discussions with Linaro
-people. I sent a patch (below) to try to explain things. I hope it is
-not a surprise!
+diff --git a/tests/qemu-iotests/testrunner.py 
+b/tests/qemu-iotests/testrunner.py
+index a56b6da396..fd0a3a1eeb 100644
+--- a/tests/qemu-iotests/testrunner.py
++++ b/tests/qemu-iotests/testrunner.py
+@@ -221,7 +221,7 @@ def find_reference(self, test: str) -> str:
 
-The issue here is that we need a devicetree in-tree in U-Boot, to
-avoid the mess that has been created by OF_PRIOR_STAGE, OF_BOARD,
-BINMAN_STANDALONE_FDT and to a lesser extent, OF_HOSTFILE. Between
-Ilias' series and this one we can get ourselves on a stronger footing.
-There is just OF_SEPARATE, with OF_EMBED for debugging/ELF use.
-For more context:
+      def do_run_test(self, test: str) -> TestResult:
+          f_test = Path(test)
+-        f_bad = Path(f_test.name + '.out.bad')
++        f_bad = Path(f'{os.getpid()}-{f_test.name}.out.bad')
+          f_notrun = Path(f_test.name + '.notrun')
+          f_casenotrun = Path(f_test.name + '.casenotrun')
+          f_reference = Path(self.find_reference(test))
 
-http://patchwork.ozlabs.org/project/uboot/patch/20210919215111.3830278-3-sj=
-g@chromium.org/
+)
 
-BTW I did suggest to QEMU ARM that they support a way of adding the
-u-boot.dtsi but there was not much interest there (in fact the
-maintainer would prefer there was no special support even for booting
-Linux directly!) But in any case it doesn't really help U-Boot. I
-think the path forward might be to run QEMU twice, once to get its
-generated tree and once to give the 'merged' tree with the U-Boot
-properties in it, if people want to use U-Boot features.
+And then:
 
-I do strongly believe that OF_BOARD must be a run-time option, not a
-build-time one. It creates all sorts of problems and obscurity which
-have taken months to unpick. See the above patch for the rationale.
+$ while TEST_DIR=/tmp/vdi-$$ ./check -vdi 300; do; done
 
-To add to that rationale, OF_BOARD needs to be an option available to
-any board. At some point in the future it may become a common way
-things are done, e.g. TF-A calling U-Boot and providing a devicetree
-to it. It doesn't make any sense to have people decide whether or not
-to set OF_BOARD at build time, thus affecting how the image is put
-together. We'll end up with different U-Boot build targets like
-capricorn, capricorn_of_board and the like. It should be obvious where
-that will lead. Instead, OF_BOARD needs to become a commonly used
-option, perhaps enabled by most/all boards, so that this sort of build
-explosion is not needed. U-Boot needs to be flexible enough to
-function correctly in whatever runtime environment in which it finds
-itself.
+Which pretty quickly shows the error in at least one of those loops 
+(under a minute).
 
-Also as binman is pressed into service more and more to build the
-complex firmware images that are becoming fashionable, it needs a
-definition (in the devicetree) that describes how to create the image.
-We can't support that unless we are building a devicetree, nor can the
-running program access the image layout without that information.
+As far as I can tell, changing the log level in 300 does indeed fix it:
 
-Fran=C3=A7ois's point about 'don't use this with any kernel' is
-germane...but of course I am not suggesting doing that, since OF_BOARD
-is, still, enabled. We already use OF_BOARD for various boards that
-include an in-tree devicetree - Raspberry Pi 1, 2 and 3, for example
-(as I said in the cover letter "Most boards do provide one, but some
-don't."). So this series is just completing the picture by enforcing
-that *some sort* of devicetree is always present.
+diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
+index 10f9f2a8da..096f5dabf0 100755
+--- a/tests/qemu-iotests/300
++++ b/tests/qemu-iotests/300
+@@ -27,6 +27,7 @@ from typing import Dict, List, Optional
+  from qemu.machine import machine
 
-I can't quite pinpoint the patch where U-Boot started allowing the
-devicetree to be omitted, but if people are interested I could try a
-little harder. It was certainly not my intention (putting on my
-device-tree-maintainer hat) to go down that path and it slipped in
-somehow in all the confusion. I'm not sure anyone could tell you that
-rpi_3 has an in-tree devicetree but rpi_4 does not...
+  import iotests
++from iotests import change_log_level
 
-Anyway this series is very modest. It just adds the requirement that
-all in-tree boards have some sort of sample devicetree and preferably
-some documentation as to where it might come from at runtime. That
-should not be a tough call IMO. Assuming we can get the validation in
-place (mentioned by Rob Herring recently) it will be quite natural to
-sync them between (presumably) Linux and U-Boot.
 
-I am also quite happy to discuss what should actually be in these
-devicetree files and whether some of them should be essentially empty.
-As you probably noticed, some of them are empty since I literally
-could not figure out where they come from! But there needs to be at
-least some skeleton for U-Boot to progress, since devicetree is
-critical to its feature set.
+  BlockBitmapMapping = List[Dict[str, object]]
+@@ -464,7 +465,8 @@ class 
+TestBlockBitmapMappingErrors(TestDirtyBitmapMigration):
+          # Expect abnormal shutdown of the destination VM because of
+          # the failed migration
+          try:
+-            self.vm_b.shutdown()
++            with change_log_level('qemu.aqmp'):
++                self.vm_b.shutdown()
+          except machine.AbnormalShutdown:
+              pass
 
-It is high time we tidied all this up. I predict it will be much
-harder, and much more confusing, in 6 months.
-
-Regards,
-Simon
 
