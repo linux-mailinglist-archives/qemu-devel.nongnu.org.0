@@ -2,68 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C0E42B8D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 09:17:50 +0200 (CEST)
-Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A4B42B904
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 09:27:51 +0200 (CEST)
+Received: from localhost ([::1]:35006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maYWL-0001tp-EI
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 03:17:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45904)
+	id 1maYg1-00062i-T0
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 03:27:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1maYV7-0000W9-Pa; Wed, 13 Oct 2021 03:16:34 -0400
-Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:44938)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1maYV4-0003Mn-O8; Wed, 13 Oct 2021 03:16:33 -0400
-Received: by mail-il1-x12d.google.com with SMTP id j8so1580018ila.11;
- Wed, 13 Oct 2021 00:16:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=i3FI/4yg1UnUkR3eFfub07xRQFw994Re88ZbTuriDcs=;
- b=fnt6SAzQGyiPybQHEXVCM0uU97YZxcWzVopCBhCvr6XBbj2XR1Oi+WhDZSG1se8yr+
- 04SpaO2W584eqSOk/6gpNgP0V+QKjmK7x0xh/jHlpvCJxi3QtM+CxH+eHM9+roXm6Yrf
- aR5fwEtuzHgwqaaywBAOafqgEg1HJbx316sbDaYt/cjwl4rqOzmZbJgkZ6eY8dFExCBt
- aCsEBowYbx5bbrtC4d1WmWmvmG9RJM/LY1F4xEUoWNsW0cWVxxpzB/7ki93VpFn8c1Qa
- j4Erspl8b7ZCU4qnGaoQvUqL9RecGA7d9SPvnJc4iEqUmqscFGsuk8CStKc5M6pxxHKa
- TRIg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maYe7-0005C4-RI
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 03:25:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53952)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maYe4-0002hV-JC
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 03:25:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634109947;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V6H5bv9/hUeMy1fBxMfT9KmiSdFgS3IlZsEuimDNw5k=;
+ b=SOoIpBC6AhXG7ywwkUMlVsixyEmGl0f8SQV4vkax1a8X78NbmRjhEJpw8dooC8WcOI/AZn
+ VjlpH/43gKf5UpjhFnEnXfHhFqdSZUSqPEOz5HHHaKAOGigzt58NE5R6fzxkItkNf+HQdP
+ S1qKrnOKn7L2h3Z8VG3J6z0WVsNbFrw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-446-r4k4SydEN4SSDjNTyuEIWA-1; Wed, 13 Oct 2021 03:25:46 -0400
+X-MC-Unique: r4k4SydEN4SSDjNTyuEIWA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ f11-20020adfc98b000000b0015fedc2a8d4so1264623wrh.0
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 00:25:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=i3FI/4yg1UnUkR3eFfub07xRQFw994Re88ZbTuriDcs=;
- b=NQEn8a6lTdRbEXQQSMrHdNLruo/5s+cyfhzDzb/6OWPp0ubEXQuXwlFtk8Wt1tg4dE
- WHxLLRkR+RU3aSAR6w63vPHbu3ewZWEHkgc3INoYNw6H3ngICGQeSuspdKiO//r8mihU
- qNNp0B1i9TULqSfN4qDXjRFe/Y//MEUibswbtd806N2lL0cqB6I9/XOc+Y+iUHhWD/NO
- xg3x6N7onlqXWpQUub47tikrjmLCVbAnKzx/N+FMkhkira3K9BJe8R7aVkO5Cl5vF2zC
- zjnlgrr6//yH9zV2ExYlEvlOI7IhMkGkyk2miYGrat8bEhR/tIodoq+ZGssEexUMgR9S
- DY5w==
-X-Gm-Message-State: AOAM5302KDI8WdvPR9pNdSd9izVq/JfMLYvZMTN8V9gpkc65Z2Iv7dek
- eFmcAOypvcO/7Y5xnzJgldekTkBg92oKtdIpCR0=
-X-Google-Smtp-Source: ABdhPJyzWNsJ7ScpHzJDMDmxpcmfJLbKNdWIIAodbqImc6KC0VK+oNgkRydrV8wTWOXm1+nOaURd7afR1ivOvcLqGT8=
-X-Received: by 2002:a92:1a43:: with SMTP id z3mr27913757ill.46.1634109389213; 
- Wed, 13 Oct 2021 00:16:29 -0700 (PDT)
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=V6H5bv9/hUeMy1fBxMfT9KmiSdFgS3IlZsEuimDNw5k=;
+ b=Hhq5SjfreXwtxoB4kjSow3BRMIorU2PmD8cvha7wH4iF/eAQuiuDpI9Ke6zmFQ7XjY
+ RTyHN7D9YuMH3LMcGWF/zshAfJURg1bAfQsm/W7FeH+1QGIkXzOijetJtURuIyAvMXnu
+ edTOeDYwP71X6ACHpDHq2JJUp/kYruEDBbCGPPt0gXO1l26NJSurrmqR+0lutaQusR1K
+ Z5qSA77SkAqJHernRfCwonH1yeleg7HT0a3ArgVwIHNJsSlad0/FdBr5cXkiK0/+UofF
+ xTZm3axlHAbDldpWCHe1zpE3MlZtmKktlj0pRKCj/z+JPMXjPdmoGjZOgWwg4hnfNVCd
+ MF/w==
+X-Gm-Message-State: AOAM5338w/S4UQfUJgrAGETVnu96ObVq7m9Esjlms6pYoftnM537lJA0
+ pP0VDTKdaQs0ToyG0fHFtSvW6qFWWilunGkx7EmFf0aLM2PfUC5Zuau7QDSw7/vA5Ti60YtZ9b0
+ GDBYbQF7gljQW9vw=
+X-Received: by 2002:adf:bb0a:: with SMTP id r10mr36749821wrg.23.1634109944958; 
+ Wed, 13 Oct 2021 00:25:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwesxB+LGNaXBenu2xjY07CCxNFZecx/0QVFpTv3Bl01uYGt/S/Nc9UI4StcVAJNHVaXvRbNg==
+X-Received: by 2002:adf:bb0a:: with SMTP id r10mr36749794wrg.23.1634109944661; 
+ Wed, 13 Oct 2021 00:25:44 -0700 (PDT)
+Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id z6sm8527037wro.25.2021.10.13.00.25.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Oct 2021 00:25:44 -0700 (PDT)
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+References: <1631800254-25762-1-git-send-email-pmorel@linux.ibm.com>
+ <1631800254-25762-3-git-send-email-pmorel@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v3 2/4] s390x: kvm: topology: interception of PTF
+ instruction
+Message-ID: <ae0cf5c1-b0b8-0758-7c38-35c1845201ba@redhat.com>
+Date: Wed, 13 Oct 2021 09:25:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20210922161405.140018-1-damien.hedde@greensocs.com>
- <20210922161405.140018-13-damien.hedde@greensocs.com>
-In-Reply-To: <20210922161405.140018-13-damien.hedde@greensocs.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 13 Oct 2021 17:16:03 +1000
-Message-ID: <CAKmqyKPWDL52kC23TgtpdEST_kvVjNWn3-j2YFORN457_cEwnw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 12/16] add x-sysbus-mmio-map qmp command
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1631800254-25762-3-git-send-email-pmorel@linux.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,162 +98,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, mirela.grujic@greensocs.com,
- Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Eric Blake <eblake@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
- Eric Auger <eric.auger@redhat.com>,
- "open list:X86" <xen-devel@lists.xenproject.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Mark Burton <mark.burton@greensocs.com>, Edgar Iglesias <edgari@xilinx.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 23, 2021 at 2:26 AM Damien Hedde <damien.hedde@greensocs.com> wrote:
->
-> This command allows to map an mmio region of sysbus device onto
-> the system memory. Its behavior mimics the sysbus_mmio_map()
-> function apart from the automatic unmap (the C function unmaps
-> the region if it is already mapped).
-> For the qmp function we consider it is an error to try to map
-> an already mapped function. If unmapping is required, it is
-> probably better to add a sysbus-mmip-unmap function.
->
-> This command is still experimental (hence the x prefix), as it
-> is related to the sysbus device creation through qmp commands.
->
-> In future, we expect to have to handle the overlap/priority
-> parameter but also multiple mapping of one mmio. For some
-> devices, one mmio is mapped several times at different addresses on
-> the bus (which is not supported by sysbus_mmio_map() function and
-> requires the use of memory region aliases).
-
-I think as is this is a good start. This is a useful feature!
-
->
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-
+On 16/09/2021 15.50, Pierre Morel wrote:
+> When the host supports the CPU topology facility, the PTF
+> instruction with function code 2 is interpreted by the SIE,
+> provided that the userland hypervizor activates the interpretation
+> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
+> 
+> The PTF instructions with function code 0 and 1 are intercepted
+> and must be emulated by the userland hypervizor.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 > ---
->
-> Note: this qmp command is required to be able to build a machine from
-> scratch as there is no qmp-way of doing a memory mapping today.
->
-> We've added the command into qapi/qdev.json section. It does not seem to
-> have any really adequate section yet. Any idea ? should we create for
-> example a new one: qapi/sysbus.json or qapi/memory.json ?
+>   hw/s390x/s390-virtio-ccw.c         | 36 ++++++++++++++++++++++++++++++
+>   include/hw/s390x/s390-virtio-ccw.h |  6 +++++
+>   target/s390x/kvm/kvm.c             | 15 +++++++++++++
+>   3 files changed, 57 insertions(+)
+> 
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 61aeccb163..894f013139 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -404,6 +404,42 @@ static void s390_pv_prepare_reset(S390CcwMachineState *ms)
+>       s390_pv_prep_reset();
+>   }
+>   
 
-I would say leave it in qdev. We don't really want many more sysbus
-commands, so qapi/sysbus.json doesn't need it's own file.
+Could you please add a comment in front of this function, with some 
+explanations? If I've got that right, it's currently rather only a "dummy" 
+function, rejecting FC 0 and 1, and FC 2 is always handled by the SIE, right?
 
-Alistair
-
-> ---
->  qapi/qdev.json   | 21 +++++++++++++++++++++
->  hw/core/sysbus.c | 41 +++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 62 insertions(+)
->
-> diff --git a/qapi/qdev.json b/qapi/qdev.json
-> index ad669ae175..dfc1104197 100644
-> --- a/qapi/qdev.json
-> +++ b/qapi/qdev.json
-> @@ -125,3 +125,24 @@
->  ##
->  { 'event': 'DEVICE_DELETED',
->    'data': { '*device': 'str', 'path': 'str' } }
-> +
-> +##
-> +# @x-sysbus-mmio-map:
-> +#
-> +# Map a sysbus device mmio onto the main system bus.
-> +#
-> +# @device: the device's QOM path
-> +#
-> +# @mmio: The mmio number to be mapped (defaults to 0).
-> +#
-> +# @addr: The base address for the mapping.
-> +#
-> +# Since: 6.2
-> +#
-> +# Returns: Nothing on success
-> +#
-> +##
-> +
-> +{ 'command': 'x-sysbus-mmio-map',
-> +  'data': {'device': 'str', '*mmio': 'uint8', 'addr': 'uint64'},
-> +  'allow-preconfig' : true }
-> diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-> index aaae8e23cc..b0891f37b6 100644
-> --- a/hw/core/sysbus.c
-> +++ b/hw/core/sysbus.c
-> @@ -23,6 +23,7 @@
->  #include "hw/sysbus.h"
->  #include "monitor/monitor.h"
->  #include "exec/address-spaces.h"
-> +#include "qapi/qapi-commands-qdev.h"
->
->  static void sysbus_dev_print(Monitor *mon, DeviceState *dev, int indent);
->  static char *sysbus_get_fw_dev_path(DeviceState *dev);
-> @@ -154,6 +155,46 @@ static void sysbus_mmio_map_common(SysBusDevice *dev, int n, hwaddr addr,
->      }
->  }
->
-> +void qmp_x_sysbus_mmio_map(const char *device, bool has_mmio, uint8_t mmio,
-> +                           uint64_t addr, Error **errp)
+> +int s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
 > +{
-> +    Object *obj = object_resolve_path_type(device, TYPE_SYS_BUS_DEVICE, NULL);
-> +    SysBusDevice *dev;
+> +    CPUS390XState *env = &cpu->env;
+> +    uint64_t reg = env->regs[r1];
+> +    uint8_t fc = reg & S390_TOPO_FC_MASK;
 > +
-> +    if (phase_get() != MACHINE_INIT_PHASE_INITIALIZED) {
-> +        error_setg(errp, "The command is permitted only when "
-> +                         "the machine is in initialized phase");
-> +        return;
+> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
+> +        s390_program_interrupt(env, PGM_OPERATION, ra);
+> +        return 0;
 > +    }
 > +
-> +    if (obj == NULL) {
-> +        error_setg(errp, "Device '%s' not found", device);
-> +        return;
+> +    if (env->psw.mask & PSW_MASK_PSTATE) {
+> +        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
+> +        return 0;
 > +    }
 > +
-> +    dev = SYS_BUS_DEVICE(obj);
-> +    if (!has_mmio) {
-> +        mmio = 0;
-> +    }
-> +    if (mmio >= dev->num_mmio) {
-> +        error_setg(errp, "MMIO index '%u' is out of range", mmio);
-> +        return;
+> +    if (reg & ~S390_TOPO_FC_MASK) {
+> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+> +        return 0;
 > +    }
 > +
-> +    if (dev->mmio[mmio].addr != (hwaddr)-1) {
-> +        error_setg(errp, "MMIO index '%u' is already mapped", mmio);
-> +        return;
+> +    switch (fc) {
+> +    case 0:    /* Horizontal polarization is already set */
+> +        env->regs[r1] |= S390_PTF_REASON_DONE;
+> +        return 2;
+> +    case 1:    /* Vertical polarization is not supported */
+> +        env->regs[r1] |= S390_PTF_REASON_NONE;
+> +        return 2;
+> +    default:
+> +        /* Note that fc == 2 is interpreted by the SIE */
+> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
 > +    }
 > +
-> +    if (!memory_region_try_add_subregion(get_system_memory(), addr,
-> +                                         dev->mmio[mmio].memory, 0,
-> +                                         errp)) {
-> +        return;
-> +    }
-> +
-> +    dev->mmio[mmio].addr = addr;
+> +    return 0;
 > +}
 > +
->  void sysbus_mmio_unmap(SysBusDevice *dev, int n)
->  {
->      assert(n >= 0 && n < dev->num_mmio);
-> --
-> 2.33.0
->
->
+>   static void s390_machine_reset(MachineState *machine)
+>   {
+>       S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
+> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+> index 3331990e02..ac4b4a92e7 100644
+> --- a/include/hw/s390x/s390-virtio-ccw.h
+> +++ b/include/hw/s390x/s390-virtio-ccw.h
+> @@ -30,6 +30,12 @@ struct S390CcwMachineState {
+>       uint8_t loadparm[8];
+>   };
+>   
+> +#define S390_PTF_REASON_NONE (0x00 << 8)
+> +#define S390_PTF_REASON_DONE (0x01 << 8)
+> +#define S390_PTF_REASON_BUSY (0x02 << 8)
+> +#define S390_TOPO_FC_MASK 0xffUL
+> +int s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra);
+> +
+>   struct S390CcwMachineClass {
+>       /*< private >*/
+>       MachineClass parent_class;
+> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+> index 5b1fdb55c4..dd036961fe 100644
+> --- a/target/s390x/kvm/kvm.c
+> +++ b/target/s390x/kvm/kvm.c
+> @@ -97,6 +97,7 @@
+>   
+>   #define PRIV_B9_EQBS                    0x9c
+>   #define PRIV_B9_CLP                     0xa0
+> +#define PRIV_B9_PTF                     0xa2
+>   #define PRIV_B9_PCISTG                  0xd0
+>   #define PRIV_B9_PCILG                   0xd2
+>   #define PRIV_B9_RPCIT                   0xd3
+> @@ -362,6 +363,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>       kvm_vm_enable_cap(s, KVM_CAP_S390_USER_SIGP, 0);
+>       kvm_vm_enable_cap(s, KVM_CAP_S390_VECTOR_REGISTERS, 0);
+>       kvm_vm_enable_cap(s, KVM_CAP_S390_USER_STSI, 0);
+> +    kvm_vm_enable_cap(s, KVM_CAP_S390_CPU_TOPOLOGY, 0);
+
+Should this maybe rather be done in the last patch, to avoid a state where 
+PTF is available, but STSI 15 is not implemented yet (when bisecting through 
+these commits later)?
+
+  Thomas
+
 
