@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D7142BBD8
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:43:26 +0200 (CEST)
-Received: from localhost ([::1]:57106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BABAF42BBB0
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:33:57 +0200 (CEST)
+Received: from localhost ([::1]:57166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maanF-0005V4-L6
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:43:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54808)
+	id 1maae4-0003LC-OK
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:33:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEu-0002Wo-O7
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:57 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:45835)
+ id 1maaEy-0002c1-JI
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:08:05 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:39565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEp-0005tb-MQ
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:56 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id r18so7151514edv.12
+ id 1maaEq-0005uY-Bm
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:59 -0400
+Received: by mail-ed1-x534.google.com with SMTP id ec8so7259778edb.6
  for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:07:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jnuICvUChwckoi0bOEdRybFsN3xmu9Vkq/jJXFkB2Uk=;
- b=JmIk7WFdtZ6d8HqJxpXJwoBWXExoFes2w8Fqz6/qkC9StS+CZwjEHnauVl24ozn7MC
- mUGqrbr7ghpvix0zR4sRAN41ZsqSVwAb5Y/yan71t52oEkI9YhT9BoI/EtdLuYumueKQ
- +X4oXda4477FmtcQvAMADpL2bQl8nd1pg4piPUPAM61bk3Ofjr+aFMIbKEj5nx6GujKF
- FEiHvRp4T/RjmhkBojGREQl+pSGmid/sYc2hrWaC5n5WOyEuZpJEoXJJg9Ip19dvhYG7
- kA8m/wlcYWk5uZU2XW17CMxw1DE0AT6f/jZEZNLAg/G+wdBKNd8UEeAtpL0QGrly8L2+
- Vzaw==
+ bh=tDROQXrBHjp89GUquZYhrHR11bo1zH9TlZJcG4AO4d8=;
+ b=ef0wDXiuFMlJwMMXOPqFXHL4IMIeUm3k1bmqOjG2aNTLJuDCtmut85VTNelthW5EqJ
+ unRwIvC01gnD1ZU+k+kAtlJ2vJZibKcX+sv2V+DUGjEmFIyHnBS+uEKbVYztGqJqtt1x
+ IpAqFCD9R38NlRj8K752wDGzTsnyJEmlwlcf2DSHabMlWaiQfSa9jWSCDZi8eY22pe7f
+ i0YtDOxNRJfqnlUF397QgzkfZS+YL4A5Fp59XziF6aX1wwx4OGoZmq6irE77KcVZcu9C
+ 1+UsgBmBw451o7ZSyN9wugLCLFZRRqITGFoVEvuZl/K44no1UvgQcQZfJN4/TxrLEOfN
+ 48AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jnuICvUChwckoi0bOEdRybFsN3xmu9Vkq/jJXFkB2Uk=;
- b=x5CJT+ifUl+PCk1vIKgs4PJL2m4CjfV8i9HXwb+jXhvRqSWDw8zT9Toe7UFBTTdcDG
- V+NUENBQzSswyF8plojjMxzrBcojI6mtFiPuW7X/ebvuEtJy0XFNIJX9JfR1yN1zJReH
- W7M7td6YZ2Mgj+y+TK+t0WRLIQLkHDi+hARClmf9MfKoARcD/PA4A8vmBSyXkICi254w
- q1fquBbXUAuSUpkIf3cPbYnsqKKu1IXKgQWWH28hlalff/c6txl+2YcJId+0nkKqCZz8
- LrUlcDxFnBAZiTaTxgK+S7nOWOkP8OQMu8V/QGAHDZNLehdap+9j5SEQE9kQJdvmSoyq
- rl9g==
-X-Gm-Message-State: AOAM5330s136QX+ls+Yrg7rYhJ0wnI5sbcXO/yNNn9lo3PZcRw365/tG
- X0xqy6dN7ATcQa2Wb8OdeulOMG2Cuko=
-X-Google-Smtp-Source: ABdhPJxtLW0eh9e0IhcbF48eAvKUx3eS4KHrAGPnx8LFSKQzniUlj/6VQyP3gM/h7snRFHJKUcq+wQ==
-X-Received: by 2002:a17:907:7790:: with SMTP id
- ky16mr40592988ejc.490.1634116070421; 
- Wed, 13 Oct 2021 02:07:50 -0700 (PDT)
+ bh=tDROQXrBHjp89GUquZYhrHR11bo1zH9TlZJcG4AO4d8=;
+ b=nlgknnbDJaeofcc4/K2wR3CB337yM4EKQ8D36KAFG6oG7vVecH6xEb9+Lq4ya9KmAW
+ lfpHlPMPIfy7WbmGgkEr17mgz9iow3ks3O4oTkQnyqwG5KDwErn5bHkOhjhqwRKIB+9V
+ xG1Q+kgodOf5DC2E8U0Xi+JmucfNepRo670ZccCzTzh8OPSDXPbHelO9XcZAyYPL+13D
+ N6yU1VSyV78nKaFckf27+4dAFEblpK+dbz94n+vVad14E1uFhYHfEWvsQ2PwGKlqNlxE
+ RNULzjtX4wKqxTF1CzlWKML+R/Q0qOT+MBNERcEIQY+M/OAdytxyg0REF7ZsfsLUv/l/
+ uy8A==
+X-Gm-Message-State: AOAM532m5yFFrr1s6RIT53KcGGuCqD/Jq8Y2ueo0gEmSLoPBICo4Qvx2
+ TN8oU3UMZvw4gU7MjIF4r/hbNXURoxU=
+X-Google-Smtp-Source: ABdhPJxZnZUDBYyc4h5cHS5hxj6hYFxo3AFg5WRgull/5qMNFp0cVbst8BvoqGQ0WLnuQNr/fNdTrA==
+X-Received: by 2002:a50:e043:: with SMTP id g3mr8015354edl.196.1634116071084; 
+ Wed, 13 Oct 2021 02:07:51 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.49
+ by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 13 Oct 2021 02:07:50 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/40] tests: tcg: Fix PVH test with binutils 2.36+
-Date: Wed, 13 Oct 2021 11:07:18 +0200
-Message-Id: <20211013090728.309365-31-pbonzini@redhat.com>
+Subject: [PULL 31/40] hvf: Determine slot count from struct layout
+Date: Wed, 13 Oct 2021 11:07:19 +0200
+Message-Id: <20211013090728.309365-32-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211013090728.309365-1-pbonzini@redhat.com>
 References: <20211013090728.309365-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,45 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cole Robinson <crobinso@redhat.com>
+Cc: Alexander Graf <agraf@csgraf.de>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cole Robinson <crobinso@redhat.com>
+From: Alexander Graf <agraf@csgraf.de>
 
-binutils started adding a .note.gnu.property ELF section which
-makes the PVH test fail:
+We can handle up to a static amount of memory slots, capped by the size of
+an internal array.
 
-  TEST    hello on x86_64
-qemu-system-x86_64: Error loading uncompressed kernel without PVH ELF Note
+Let's make sure that array size is the only source of truth for the number
+of elements in that array.
 
-Discard .note.gnu* while keeping the PVH .note bits intact.
-
-This also strips the build-id note, so drop the related comment.
-
-Signed-off-by: Cole Robinson <crobinso@redhat.com>
-Message-Id: <5ab2a54c262c61f64c22dbb49ade3e2db8a740bb.1633708346.git.crobinso@redhat.com>
+Signed-off-by: Alexander Graf <agraf@csgraf.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20211008054616.43828-1-agraf@csgraf.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/tcg/x86_64/system/kernel.ld | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ accel/hvf/hvf-accel-ops.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/tcg/x86_64/system/kernel.ld b/tests/tcg/x86_64/system/kernel.ld
-index 49c12b04ae..ca5d6bd850 100644
---- a/tests/tcg/x86_64/system/kernel.ld
-+++ b/tests/tcg/x86_64/system/kernel.ld
-@@ -16,7 +16,10 @@ SECTIONS {
- 		*(.rodata)
- 	} :text
+diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
+index 6cbd2c3f97..2b2c411076 100644
+--- a/accel/hvf/hvf-accel-ops.c
++++ b/accel/hvf/hvf-accel-ops.c
+@@ -321,7 +321,7 @@ static int hvf_accel_init(MachineState *ms)
  
--        /* Keep build ID and PVH notes in same section */
-+        /DISCARD/ : {
-+                *(.note.gnu*)
-+        }
-+
-         .notes :  {
-                *(.note.*)
-         } :note
+     s = g_new0(HVFState, 1);
+ 
+-    s->num_slots = 32;
++    s->num_slots = ARRAY_SIZE(s->slots);
+     for (x = 0; x < s->num_slots; ++x) {
+         s->slots[x].size = 0;
+         s->slots[x].slot_id = x;
 -- 
 2.31.1
 
