@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D27442CC1F
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 22:53:25 +0200 (CEST)
-Received: from localhost ([::1]:55664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D5342CC32
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 22:56:10 +0200 (CEST)
+Received: from localhost ([::1]:33856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1malFb-0001gn-GW
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 16:53:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35466)
+	id 1malIH-0005yd-Py
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 16:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1malDT-0007Mb-E2
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 16:51:11 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:39763)
+ id 1malDT-0007Mt-WB
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 16:51:12 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:45594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1malDQ-00081P-Lp
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 16:51:10 -0400
+ id 1malDR-000824-OE
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 16:51:11 -0400
 Received: by mail-pj1-x1036.google.com with SMTP id
- ls18-20020a17090b351200b001a00250584aso5340184pjb.4
+ ls14-20020a17090b350e00b001a00e2251c8so3197106pjb.4
  for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 13:51:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FODvjefSNBFscPUyN2SwQ93usEbfFVf6iJsmSDn2qww=;
- b=qYMEp7glPHMcbH+cO5RN4Y0F1ubmh1CpUZsHgTzt4pqYL/zstydUi7T/baT3cpEszt
- 1jrC0kj6sfxWh/4A/KG7220TkamrqVzLiO9RHg+B6yW8Rn/DxBBjgCNfqqVsn0ghegG4
- RDGntfPootgDydYmTRZdjJC3nG2Ov/vpyInBZBD1C3vjVgCxFFR9a5dw4bmpgfx8UZG1
- 686AWnzQIGkM8IdeoJ3shjl+9vZH8ChCT7ez3darOx2fnJjLVliLgC2Dop7iH3YNGoIE
- Vgi4hP7QeciirZPHWnJLv7wr+VZvgBpaWvXcNBoL66dSbYrTF+/8aazaEneyrZM0gZZ9
- 6iFA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Ur4NYkKvb4IwfCVRQ66xGSUcq2q0ktl5nOkYZP/fju8=;
+ b=EKlg/FVFPlK1GTIJsbaQ9VQ4PjSq1na328JumULUD5CQvUDWkO6lS/pKUcycf+/DkV
+ LHKQCng2TE6jDOSclKGcDjCJEf/tsJtZK39yk1SHv/nKXrigIaPnW+8SyINxtuj4s9ky
+ +DWpnyAX41YHap/IvrLLGO16lJ52NVJUs4o+WtVnikKAhHHZqAhC+Xes/22ZxczMn35A
+ cxrZpUoAqGF0hmXySTQoJYNrgdmYHPZ6vCl55E4m6yWACh4Ec5UnaRSpsjrMUBvsUqlc
+ Vv5uriO3XS/w2Vt7oZn4iBgsmZFeZJ0K9v0c0Q7d+mK0Hf3Y3vQeqyM3AF/cyEMf4/61
+ /Gag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FODvjefSNBFscPUyN2SwQ93usEbfFVf6iJsmSDn2qww=;
- b=OI8c5O7lyXeA40GI3tDEX4k4+mljxGmdzG1IX8k/vNyGnvNmGZTr8IhYLIuK0+r+wN
- oKrtJ91pCQSwxW/RC9SoaB6p8Or4jHMyxZHgGzEDPE7s5ulxqSXKCLTjE2kpeuapTw1F
- vDw3+C3PClDa43IvjPm0CbiZDHHBp+H76NstP95y2YZ318RLjBcniVlFga/LUfQGSTUo
- OrWHnac/iSUdfu6CDgNeGBAowunPWYag9+JEawcCutSaRjjHO9xe8VfpkY+Ue+O7OWOk
- jJSmHmTtQKwVQu89czESG08WMve9QTwfmWT0fIX+xWtrOr2/c0W8p4FUsPEIykyMbZwo
- WVVg==
-X-Gm-Message-State: AOAM532qvZPLjqrc2jyJM//qKOKIdlYQY3xdG7JXPvdbQi7wgdzQ8ZbK
- 7HevK0kM2bDZjMmpFEASklh/ikiFwOVcRg==
-X-Google-Smtp-Source: ABdhPJwxivyNXff+mz/LqQTmDWekLIx44bHzD9/xljVXfbY3hyx8lx7k5guXNDenBwxXgOrk7K8o4A==
-X-Received: by 2002:a17:90b:33c7:: with SMTP id
- lk7mr1718022pjb.172.1634158266397; 
- Wed, 13 Oct 2021 13:51:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Ur4NYkKvb4IwfCVRQ66xGSUcq2q0ktl5nOkYZP/fju8=;
+ b=GB3N69nHzaRtVbl7GWc6ES94cnNpx+v5GRj4HsyCiifCYE9t7JR4Wiv1ctpr+4kOXt
+ 09wywG+AIX0U8oSOAHnJUgey6BJdC/FFxFvivnLHcT4cwWt0Za2CFXAo8imH3WZJ/kTi
+ h5wFnlxCfM80mEBnoVAEuzJ4XGpMGMPzSWb99aj6vUfJeA5aUhoej+9XNYJ0Ia7D6D7o
+ HNEL9wvGs8nEVz5urLpCZP5FCWHvURoKPnZ2GRGoSxjKQIAkvZs1/vzV1CHuGAb5O3TA
+ EvH8L27q83Gt+8PPodhIoh5QS2Ir9s5DCaFh8KLxCZg1MnU6CS8IMXJXIs3mFM+xb3su
+ LZcA==
+X-Gm-Message-State: AOAM530Z1I8PuzofYASvmWXUApSCFSf9Xpeo//UuYknSfcCVICb7Kkv1
+ q/GhgLFjJZa9xV1vCX/R6U+gFNZ6nPOPTQ==
+X-Google-Smtp-Source: ABdhPJyW2KgSayuZmm7yZy6oDSMPdIIbDLXGyjzoC53ygz9mVem7Zk/etyl/r6RCx1MwbuTKnUfAUA==
+X-Received: by 2002:a17:90a:384a:: with SMTP id
+ l10mr1678055pjf.168.1634158267047; 
+ Wed, 13 Oct 2021 13:51:07 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id t71sm383043pgc.29.2021.10.13.13.51.05
+ by smtp.gmail.com with ESMTPSA id t71sm383043pgc.29.2021.10.13.13.51.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 13:51:05 -0700 (PDT)
+ Wed, 13 Oct 2021 13:51:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/13] target/riscv: Rationalize XLEN and operand length
-Date: Wed, 13 Oct 2021 13:50:51 -0700
-Message-Id: <20211013205104.1031679-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 01/13] target/riscv: Move cpu_get_tb_cpu_state out of line
+Date: Wed, 13 Oct 2021 13:50:52 -0700
+Message-Id: <20211013205104.1031679-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211013205104.1031679-1-richard.henderson@linaro.org>
+References: <20211013205104.1031679-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
@@ -87,51 +89,131 @@ Cc: alistair.francis@wdc.com, frederic.petrot@univ-grenoble-alpes.fr,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a partial patch set attempting to set things in the
-right direction for both the UXL and RV128 patch sets.
+Move the function to cpu_helper.c, as it is large and growing.
 
-Changes for v2:
-  * Set mxl/sxl/uxl at reset.
-  * Set sxl/uxl in write_mstatus.
+Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/riscv/cpu.h        | 47 ++-------------------------------------
+ target/riscv/cpu_helper.c | 46 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+), 45 deletions(-)
 
-
-r~
-
-
-Richard Henderson (13):
-  target/riscv: Move cpu_get_tb_cpu_state out of line
-  target/riscv: Create RISCVMXL enumeration
-  target/riscv: Split misa.mxl and misa.ext
-  target/riscv: Replace riscv_cpu_is_32bit with riscv_cpu_mxl
-  target/riscv: Add MXL/SXL/UXL to TB_FLAGS
-  target/riscv: Use REQUIRE_64BIT in amo_check64
-  target/riscv: Properly check SEW in amo_op
-  target/riscv: Replace is_32bit with get_xl/get_xlen
-  target/riscv: Replace DisasContext.w with DisasContext.ol
-  target/riscv: Use gen_arith_per_ol for RVM
-  target/riscv: Adjust trans_rev8_32 for riscv64
-  target/riscv: Use gen_unary_per_ol for RVB
-  target/riscv: Use gen_shift*_per_ol for RVB, RVI
-
- target/riscv/cpu.h                      |  73 +++-------
- target/riscv/cpu_bits.h                 |   8 +-
- hw/riscv/boot.c                         |   2 +-
- linux-user/elfload.c                    |   2 +-
- linux-user/riscv/cpu_loop.c             |   2 +-
- semihosting/arm-compat-semi.c           |   2 +-
- target/riscv/cpu.c                      | 108 +++++++++------
- target/riscv/cpu_helper.c               |  91 ++++++++++++-
- target/riscv/csr.c                      |  71 ++++++----
- target/riscv/gdbstub.c                  |  10 +-
- target/riscv/machine.c                  |  10 +-
- target/riscv/monitor.c                  |   4 +-
- target/riscv/translate.c                | 170 ++++++++++++++++++------
- target/riscv/insn_trans/trans_rvb.c.inc | 140 ++++++++++---------
- target/riscv/insn_trans/trans_rvi.c.inc |  44 +++---
- target/riscv/insn_trans/trans_rvm.c.inc |  36 +++--
- target/riscv/insn_trans/trans_rvv.c.inc |  29 ++--
- 17 files changed, 510 insertions(+), 292 deletions(-)
-
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 9e55b2f5b1..7084efc452 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -413,51 +413,8 @@ static inline uint32_t vext_get_vlmax(RISCVCPU *cpu, target_ulong vtype)
+     return cpu->cfg.vlen >> (sew + 3 - lmul);
+ }
+ 
+-static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+-                                        target_ulong *cs_base, uint32_t *pflags)
+-{
+-    uint32_t flags = 0;
+-
+-    *pc = env->pc;
+-    *cs_base = 0;
+-
+-    if (riscv_has_ext(env, RVV)) {
+-        uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
+-        bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl);
+-        flags = FIELD_DP32(flags, TB_FLAGS, VILL,
+-                    FIELD_EX64(env->vtype, VTYPE, VILL));
+-        flags = FIELD_DP32(flags, TB_FLAGS, SEW,
+-                    FIELD_EX64(env->vtype, VTYPE, VSEW));
+-        flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
+-                    FIELD_EX64(env->vtype, VTYPE, VLMUL));
+-        flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
+-    } else {
+-        flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
+-    }
+-
+-#ifdef CONFIG_USER_ONLY
+-    flags |= TB_FLAGS_MSTATUS_FS;
+-#else
+-    flags |= cpu_mmu_index(env, 0);
+-    if (riscv_cpu_fp_enabled(env)) {
+-        flags |= env->mstatus & MSTATUS_FS;
+-    }
+-
+-    if (riscv_has_ext(env, RVH)) {
+-        if (env->priv == PRV_M ||
+-            (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
+-            (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
+-                get_field(env->hstatus, HSTATUS_HU))) {
+-            flags = FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
+-        }
+-
+-        flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
+-                           get_field(env->mstatus_hs, MSTATUS_FS));
+-    }
+-#endif
+-
+-    *pflags = flags;
+-}
++void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
++                          target_ulong *cs_base, uint32_t *pflags);
+ 
+ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+                            target_ulong *ret_value,
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index d41d5cd27c..14d1d3cb72 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -35,6 +35,52 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+ #endif
+ }
+ 
++void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
++                          target_ulong *cs_base, uint32_t *pflags)
++{
++    uint32_t flags = 0;
++
++    *pc = env->pc;
++    *cs_base = 0;
++
++    if (riscv_has_ext(env, RVV)) {
++        uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
++        bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl);
++        flags = FIELD_DP32(flags, TB_FLAGS, VILL,
++                    FIELD_EX64(env->vtype, VTYPE, VILL));
++        flags = FIELD_DP32(flags, TB_FLAGS, SEW,
++                    FIELD_EX64(env->vtype, VTYPE, VSEW));
++        flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
++                    FIELD_EX64(env->vtype, VTYPE, VLMUL));
++        flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
++    } else {
++        flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
++    }
++
++#ifdef CONFIG_USER_ONLY
++    flags |= TB_FLAGS_MSTATUS_FS;
++#else
++    flags |= cpu_mmu_index(env, 0);
++    if (riscv_cpu_fp_enabled(env)) {
++        flags |= env->mstatus & MSTATUS_FS;
++    }
++
++    if (riscv_has_ext(env, RVH)) {
++        if (env->priv == PRV_M ||
++            (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
++            (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
++                get_field(env->hstatus, HSTATUS_HU))) {
++            flags = FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
++        }
++
++        flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
++                           get_field(env->mstatus_hs, MSTATUS_FS));
++    }
++#endif
++
++    *pflags = flags;
++}
++
+ #ifndef CONFIG_USER_ONLY
+ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+ {
 -- 
 2.25.1
 
