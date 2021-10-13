@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9AE42B81F
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 08:58:50 +0200 (CEST)
-Received: from localhost ([::1]:43756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDD542B87B
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 09:09:15 +0200 (CEST)
+Received: from localhost ([::1]:46784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maYDw-0007Nh-Nw
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 02:58:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41604)
+	id 1maYO2-0002hk-5h
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 03:09:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1maYCV-0006eZ-LX
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 02:57:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46270)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1maYCS-0003oK-5T
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 02:57:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634108234;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7qe0Ht9zqMHq61f9S1P1Enfrhk7Ro4iAq8TTv1pIOZs=;
- b=GkKOQ5W/7ddgE/TbIRztPNC+ZuigXeEXFApSPj4vcT/5vEaSCgA1qtYjlnagF4mczO795M
- I6q5DWYgvwgrWF2tkXHlZPGklwp09I8NJZ3pV6hqgM8oMjx3yUI9eHpTy7TilpMFLQiRRe
- +a/Z/6dWSl4KAM1Y5tiP47ytDivRSZU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-sGMg0evWP1isTTFH8nhX9Q-1; Wed, 13 Oct 2021 02:57:11 -0400
-X-MC-Unique: sGMg0evWP1isTTFH8nhX9Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E29501006AA2;
- Wed, 13 Oct 2021 06:57:09 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F36E19729;
- Wed, 13 Oct 2021 06:57:04 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-Subject: Re: [PATCH 0/3] s390x: reduce my maintainership duties
-In-Reply-To: <d9549b5a-3129-cb44-8bdf-578da39297c3@redhat.com>
-Organization: Red Hat GmbH
-References: <20211012144040.360887-1-cohuck@redhat.com>
- <d9549b5a-3129-cb44-8bdf-578da39297c3@redhat.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Wed, 13 Oct 2021 08:57:02 +0200
-Message-ID: <87k0ihwgxt.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1maYN6-00020p-7z
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 03:08:16 -0400
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:39904)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1maYN4-0002g8-NQ
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 03:08:15 -0400
+Received: by mail-io1-xd33.google.com with SMTP id p68so1674362iof.6
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 00:08:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=i8qOUvBmdb1hFG55wRskSWtFVxOmKZrLwsl/7SaYtlI=;
+ b=QrfKvnIszAvQ5eQ/OkmojDyd6DLtMYvj9pToMQnUq8A7aRDiR7aZGEtxzzKLPP1dbC
+ h338dJVnil9sRANp7BOEZ7QeP3bwru6zhI2HhWpINFubTy6XXIKXBJeepu167rdMWIgj
+ P/2ZoPKpGx9Pl+tKUUShfFbNZCOdOe4n7PpDpjS6J1YFfrWzDAMnhSY6hAH2EqnbfP6E
+ 90YjRJNcEMn9zGhFyswQsTF2t2/TTffijzcQroGJ3638wKfz00AbkDAP/OwHZ0wUplI6
+ 8KYTWBaQplvnd94laOJz6MNjNk+gb2yH05hz6w8J+S9L6Uf+mJyknymD5awRBH+gkNKk
+ Zd4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=i8qOUvBmdb1hFG55wRskSWtFVxOmKZrLwsl/7SaYtlI=;
+ b=lwOQeyjjzXufpplXcnHJR4b2bbBGr9T5qjK3oyeYPbAHLvq5fpzflVaRhVpd0POXVV
+ JJQY0dY/AmwD4fqoQkJYkaePrj+ld0ILuWnHhMxp6YRHIUKhEnsNTCPYAT0A6r2hBFbw
+ N9dRhcNIBF0E69YRACEkGXuNIdrJMS9Jbv8QossBIOQxjqdNHTvt6zQSt9fpFVcCfK2D
+ W/etUJBTSYptXzpky65td9EgmzvAJNYlnc9kZcPG6qTo+/GnTFn4W3ws54fBjJwwS1Rh
+ 2DB4YbSfFttw181TJFRfWw+cxTn1DIKlrkl0li9hkHo4mLirhXdr50DQmsuwIufcmGyu
+ ookw==
+X-Gm-Message-State: AOAM530qWKFSLggJr9f4PC6FFLZdC2gAOHkzvo25h4MSHhkHEK++VfPA
+ 1TlqP4AC2pyWKzn+U4+vvB2XNYx+q29Pkpq1krc=
+X-Google-Smtp-Source: ABdhPJybQXoArtAC02cxtjTHpq+cgkRCAgeN4ZAnXcbDoHIBxNoVCXg6A0TRVmSdoN3ZBfkpNAnO2YJaTEG8xetTqsw=
+X-Received: by 2002:a5e:9612:: with SMTP id a18mr26814534ioq.57.1634108892876; 
+ Wed, 13 Oct 2021 00:08:12 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20211010174401.141339-1-richard.henderson@linaro.org>
+ <20211010174401.141339-5-richard.henderson@linaro.org>
+In-Reply-To: <20211010174401.141339-5-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 13 Oct 2021 17:07:46 +1000
+Message-ID: <CAKmqyKMZtgnMsO0cJua4PF7cXtC=HaO69odvmMrH1ruD=Qi9LQ@mail.gmail.com>
+Subject: Re: [PATCH 4/8] accel/tcg: Add guest_base_signed_addr32 for user-only
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,34 +78,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>
+Cc: git@xen0n.name, Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 13 2021, Thomas Huth <thuth@redhat.com> wrote:
-
-> On 12/10/2021 16.40, Cornelia Huck wrote:
->> I currently don't have enough resources to work on s390x as
->> much anymore, so I need to reduce my workload. For many topics,
-
-[As a note, because some people seemed to have been confused by this,
-the "resources" I'm referring to here are my personal resources (i.e. my
-health), not resources given to me by my employer...]
-
->> we should be well-covered already, so I'll drop out from those.
->> 
->> Don't worry (or rejoice?), though; I don't plan to disappear.
->> 
->> Cornelia Huck (3):
->>    vfio-ccw: step down as maintainer
->>    s390x/kvm: step down as maintainer
->>    s390x virtio-ccw machine: step down as maintainer
+On Mon, Oct 11, 2021 at 3:52 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Queued to my s390x-next branch now, even if it's hard ... thank you for all 
-> your great work, Cornelia!
+> While the host may prefer to treat 32-bit addresses as signed,
+> there are edge cases of guests that cannot be implemented with
+> addresses 0x7fff_ffff and 0x8000_0000 being non-consecutive.
+>
+> Therefore, default to guest_base_signed_addr32 false, and allow
+> probe_guest_base to determine whether it is possible to set it
+> to true.  A tcg backend which sets TCG_TARGET_SIGNED_ADDR32 will
+> have to cope with either setting for user-only.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Thank you for picking this up (and thank you everyone else).
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Alistair
 
