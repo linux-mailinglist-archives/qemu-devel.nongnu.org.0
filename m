@@ -2,104 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E87E42BEE1
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 13:26:32 +0200 (CEST)
-Received: from localhost ([::1]:50274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC59142BEE5
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 13:28:49 +0200 (CEST)
+Received: from localhost ([::1]:54674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1macP1-0001AS-5K
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 07:26:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54160)
+	id 1macRE-00045V-5h
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 07:28:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1macMp-0007eF-17
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 07:24:16 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45510)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1macMw-0007kp-Qd; Wed, 13 Oct 2021 07:24:25 -0400
+Received: from out28-148.mail.aliyun.com ([115.124.28.148]:55320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1macMm-000799-Nd
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 07:24:14 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19D9ihA8024150; 
- Wed, 13 Oct 2021 07:24:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=E/CRiS9YKBGOipiZLMur3q/Gu9YWSpriqGljYzhvoLk=;
- b=qUb4A8LUqXMxe9NOmZwgO/NhGO3cIsui3mJTnSXJfm2o6DAUmSJ2ILHdp7mlgpJDgZmN
- 3E6ePsp+O7Aa8goCMqqmsIO2XPaZK9xaxiyiOJXDxHO7KEoEKGTcBerBSJUDHDHHRoL6
- 0wjcCQRXKnu9UKbtdnlMVTZoDty0cqTmd9mDLh9S9LtHM1kYCXkUUkbU1c5Gw3zTMmnp
- cJb3+ftDtTDYbT4GlymSZkzZJHHad6kMQyxWgonJUM/NI6T5XdJiqc5JdfqkT5wXNaLv
- /jEvOl3JlacJULN2obiBBSI7NX3HVZZNWnlqxi58cP1BOoFWkY3OCOWtkzFvr6fDwiLZ Gw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bnqmp8tj6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Oct 2021 07:24:05 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19DAq2ds026142;
- Wed, 13 Oct 2021 07:24:05 -0400
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bnqmp8thd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Oct 2021 07:24:04 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19DBFcNt013781;
- Wed, 13 Oct 2021 11:24:02 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04fra.de.ibm.com with ESMTP id 3bk2qafun1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Oct 2021 11:24:01 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 19DBIKJG46137814
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Oct 2021 11:18:21 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 08D7E52075;
- Wed, 13 Oct 2021 11:23:56 +0000 (GMT)
-Received: from li-43c5434c-23b8-11b2-a85c-c4958fb47a68.ibm.com (unknown
- [9.171.3.131])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id C5C0C5205A;
- Wed, 13 Oct 2021 11:23:51 +0000 (GMT)
-Subject: Re: [PATCH v3 1/1] virtio: write back F_VERSION_1 before validate
-To: "Michael S. Tsirkin" <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>
-References: <20211011053921.1198936-1-pasic@linux.ibm.com>
- <20211013060923-mutt-send-email-mst@kernel.org>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <96561e29-e0d6-9a4d-3657-999bad59914e@de.ibm.com>
-Date: Wed, 13 Oct 2021 13:23:50 +0200
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1macMt-0007SV-KW; Wed, 13 Oct 2021 07:24:22 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436287|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0884415-0.00012895-0.91143;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047203; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.LYTk4VV_1634124251; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.LYTk4VV_1634124251)
+ by smtp.aliyun-inc.com(10.147.40.26); Wed, 13 Oct 2021 19:24:11 +0800
+Subject: Re: [PATCH 13/13] target/riscv: Use gen_shift*_per_ol for RVB, RVI
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211007174722.929993-1-richard.henderson@linaro.org>
+ <20211007174722.929993-14-richard.henderson@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <e06390ea-2a97-fee9-6b08-a84c28d8b691@c-sky.com>
+Date: Wed, 13 Oct 2021 19:24:11 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211013060923-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211007174722.929993-14-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: HT3wu4tdw-asF-6Di5ricBV3R2j4XXRu
-X-Proofpoint-ORIG-GUID: gXUvvXMpnSzkMBewd-1wAXM9mg8j7MD9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-10-13_03,2021-10-13_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- priorityscore=1501 bulkscore=0 impostorscore=0 lowpriorityscore=0
- phishscore=0 clxscore=1011 mlxscore=0 adultscore=0 spamscore=0
- suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2109230001 definitions=main-2110130071
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=115.124.28.148; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-148.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,106 +60,261 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, markver@us.ibm.com, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- virtualization@lists.linux-foundation.org,
- Xie Yongji <xieyongji@bytedance.com>, stefanha@redhat.com,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: qemu-riscv@nongnu.org, frederic.petrot@univ-grenoble-alpes.fr,
+ alistair.francis@wdc.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2021/10/8 上午1:47, Richard Henderson wrote:
+> Most shift instructions require a separate implementation
+> for RV32 when TARGET_LONG_BITS == 64.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
 
-Am 13.10.21 um 12:10 schrieb Michael S. Tsirkin:
-> On Mon, Oct 11, 2021 at 07:39:21AM +0200, Halil Pasic wrote:
->> The virtio specification virtio-v1.1-cs01 states: "Transitional devices
->> MUST detect Legacy drivers by detecting that VIRTIO_F_VERSION_1 has not
->> been acknowledged by the driver."  This is exactly what QEMU as of 6.1
->> has done relying solely on VIRTIO_F_VERSION_1 for detecting that.
->>
->> However, the specification also says: "... the driver MAY read (but MUST
->> NOT write) the device-specific configuration fields to check that it can
->> support the device ..." before setting FEATURES_OK.
->>
->> In that case, any transitional device relying solely on
->> VIRTIO_F_VERSION_1 for detecting legacy drivers will return data in
->> legacy format.  In particular, this implies that it is in big endian
->> format for big endian guests. This naturally confuses the driver which
->> expects little endian in the modern mode.
->>
->> It is probably a good idea to amend the spec to clarify that
->> VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
->> is complete. Before validate callback existed, config space was only
->> read after FEATURES_OK. However, we already have two regressions, so
->> let's address this here as well.
->>
->> The regressions affect the VIRTIO_NET_F_MTU feature of virtio-net and
->> the VIRTIO_BLK_F_BLK_SIZE feature of virtio-blk for BE guests when
->> virtio 1.0 is used on both sides. The latter renders virtio-blk unusable
->> with DASD backing, because things simply don't work with the default.
->> See Fixes tags for relevant commits.
->>
->> For QEMU, we can work around the issue by writing out the feature bits
->> with VIRTIO_F_VERSION_1 bit set.  We (ab)use the finalize_features
->> config op for this. This isn't enough to address all vhost devices since
->> these do not get the features until FEATURES_OK, however it looks like
->> the affected devices actually never handled the endianness for legacy
->> mode correctly, so at least that's not a regression.
->>
->> No devices except virtio net and virtio blk seem to be affected.
->>
->> Long term the right thing to do is to fix the hypervisors.
->>
->> Cc: <stable@vger.kernel.org> #v4.11
->> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
->> Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in config space")
->> Fixes: fe36cbe0671e ("virtio_net: clear MTU when out of range")
->> Reported-by: markver@us.ibm.com
->> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> 
-> OK this looks good! How about a QEMU patch to make it spec compliant on
-> BE?
+Zhiwei
 
-Who is going to do that? Halil? you? Conny?
-
-Can we get this kernel patch queued for 5.15 and stable without waiting for the QEMU patch
-as we have a regression with 4.14?
-> 
->> ---
->>
->> @Connie: I made some more commit message changes to accommodate Michael's
->> requests. I just assumed these will work or you as well and kept your
->> r-b. Please shout at me if it needs to be dropped :)
->> ---
->>   drivers/virtio/virtio.c | 11 +++++++++++
->>   1 file changed, 11 insertions(+)
->>
->> diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
->> index 0a5b54034d4b..236081afe9a2 100644
->> --- a/drivers/virtio/virtio.c
->> +++ b/drivers/virtio/virtio.c
->> @@ -239,6 +239,17 @@ static int virtio_dev_probe(struct device *_d)
->>   		driver_features_legacy = driver_features;
->>   	}
->>   
->> +	/*
->> +	 * Some devices detect legacy solely via F_VERSION_1. Write
->> +	 * F_VERSION_1 to force LE config space accesses before FEATURES_OK for
->> +	 * these when needed.
->> +	 */
->> +	if (drv->validate && !virtio_legacy_is_little_endian()
->> +			  && device_features & BIT_ULL(VIRTIO_F_VERSION_1)) {
->> +		dev->features = BIT_ULL(VIRTIO_F_VERSION_1);
->> +		dev->config->finalize_features(dev);
->> +	}
->> +
->>   	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
->>   		dev->features = driver_features & device_features;
->>   	else
->>
->> base-commit: 60a9483534ed0d99090a2ee1d4bb0b8179195f51
->> -- 
->> 2.25.1
-> 
+> ---
+>   target/riscv/translate.c                | 31 +++++++++
+>   target/riscv/insn_trans/trans_rvb.c.inc | 92 ++++++++++++++-----------
+>   target/riscv/insn_trans/trans_rvi.c.inc | 26 +++----
+>   3 files changed, 97 insertions(+), 52 deletions(-)
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index be458ae0c2..dbe3670ff3 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -462,6 +462,22 @@ static bool gen_shift_imm_fn(DisasContext *ctx, arg_shift *a, DisasExtend ext,
+>       return true;
+>   }
+>   
+> +static bool gen_shift_imm_fn_per_ol(DisasContext *ctx, arg_shift *a,
+> +                                    DisasExtend ext,
+> +                                    void (*f_tl)(TCGv, TCGv, target_long),
+> +                                    void (*f_32)(TCGv, TCGv, target_long))
+> +{
+> +    int olen = get_olen(ctx);
+> +    if (olen != TARGET_LONG_BITS) {
+> +        if (olen == 32) {
+> +            f_tl = f_32;
+> +        } else {
+> +            g_assert_not_reached();
+> +        }
+> +    }
+> +    return gen_shift_imm_fn(ctx, a, ext, f_tl);
+> +}
+> +
+>   static bool gen_shift_imm_tl(DisasContext *ctx, arg_shift *a, DisasExtend ext,
+>                                void (*func)(TCGv, TCGv, TCGv))
+>   {
+> @@ -498,6 +514,21 @@ static bool gen_shift(DisasContext *ctx, arg_r *a, DisasExtend ext,
+>       return true;
+>   }
+>   
+> +static bool gen_shift_per_ol(DisasContext *ctx, arg_r *a, DisasExtend ext,
+> +                             void (*f_tl)(TCGv, TCGv, TCGv),
+> +                             void (*f_32)(TCGv, TCGv, TCGv))
+> +{
+> +    int olen = get_olen(ctx);
+> +    if (olen != TARGET_LONG_BITS) {
+> +        if (olen == 32) {
+> +            f_tl = f_32;
+> +        } else {
+> +            g_assert_not_reached();
+> +        }
+> +    }
+> +    return gen_shift(ctx, a, ext, f_tl);
+> +}
+> +
+>   static bool gen_unary(DisasContext *ctx, arg_r2 *a, DisasExtend ext,
+>                         void (*func)(TCGv, TCGv))
+>   {
+> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+> index adc35b6491..9b9c9c8bc4 100644
+> --- a/target/riscv/insn_trans/trans_rvb.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
+> @@ -227,22 +227,70 @@ static bool trans_bexti(DisasContext *ctx, arg_bexti *a)
+>       return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_bext);
+>   }
+>   
+> +static void gen_rorw(TCGv ret, TCGv arg1, TCGv arg2)
+> +{
+> +    TCGv_i32 t1 = tcg_temp_new_i32();
+> +    TCGv_i32 t2 = tcg_temp_new_i32();
+> +
+> +    /* truncate to 32-bits */
+> +    tcg_gen_trunc_tl_i32(t1, arg1);
+> +    tcg_gen_trunc_tl_i32(t2, arg2);
+> +
+> +    tcg_gen_rotr_i32(t1, t1, t2);
+> +
+> +    /* sign-extend 64-bits */
+> +    tcg_gen_ext_i32_tl(ret, t1);
+> +
+> +    tcg_temp_free_i32(t1);
+> +    tcg_temp_free_i32(t2);
+> +}
+> +
+>   static bool trans_ror(DisasContext *ctx, arg_ror *a)
+>   {
+>       REQUIRE_ZBB(ctx);
+> -    return gen_shift(ctx, a, EXT_NONE, tcg_gen_rotr_tl);
+> +    return gen_shift_per_ol(ctx, a, EXT_NONE, tcg_gen_rotr_tl, gen_rorw);
+> +}
+> +
+> +static void gen_roriw(TCGv ret, TCGv arg1, target_long shamt)
+> +{
+> +    TCGv_i32 t1 = tcg_temp_new_i32();
+> +
+> +    tcg_gen_trunc_tl_i32(t1, arg1);
+> +    tcg_gen_rotri_i32(t1, t1, shamt);
+> +    tcg_gen_ext_i32_tl(ret, t1);
+> +
+> +    tcg_temp_free_i32(t1);
+>   }
+>   
+>   static bool trans_rori(DisasContext *ctx, arg_rori *a)
+>   {
+>       REQUIRE_ZBB(ctx);
+> -    return gen_shift_imm_fn(ctx, a, EXT_NONE, tcg_gen_rotri_tl);
+> +    return gen_shift_imm_fn_per_ol(ctx, a, EXT_NONE,
+> +                                   tcg_gen_rotri_tl, gen_roriw);
+> +}
+> +
+> +static void gen_rolw(TCGv ret, TCGv arg1, TCGv arg2)
+> +{
+> +    TCGv_i32 t1 = tcg_temp_new_i32();
+> +    TCGv_i32 t2 = tcg_temp_new_i32();
+> +
+> +    /* truncate to 32-bits */
+> +    tcg_gen_trunc_tl_i32(t1, arg1);
+> +    tcg_gen_trunc_tl_i32(t2, arg2);
+> +
+> +    tcg_gen_rotl_i32(t1, t1, t2);
+> +
+> +    /* sign-extend 64-bits */
+> +    tcg_gen_ext_i32_tl(ret, t1);
+> +
+> +    tcg_temp_free_i32(t1);
+> +    tcg_temp_free_i32(t2);
+>   }
+>   
+>   static bool trans_rol(DisasContext *ctx, arg_rol *a)
+>   {
+>       REQUIRE_ZBB(ctx);
+> -    return gen_shift(ctx, a, EXT_NONE, tcg_gen_rotl_tl);
+> +    return gen_shift_per_ol(ctx, a, EXT_NONE, tcg_gen_rotl_tl, gen_rolw);
+>   }
+>   
+>   static void gen_rev8_32(TCGv ret, TCGv src1)
+> @@ -349,24 +397,6 @@ static bool trans_cpopw(DisasContext *ctx, arg_cpopw *a)
+>       return gen_unary(ctx, a, EXT_ZERO, tcg_gen_ctpop_tl);
+>   }
+>   
+> -static void gen_rorw(TCGv ret, TCGv arg1, TCGv arg2)
+> -{
+> -    TCGv_i32 t1 = tcg_temp_new_i32();
+> -    TCGv_i32 t2 = tcg_temp_new_i32();
+> -
+> -    /* truncate to 32-bits */
+> -    tcg_gen_trunc_tl_i32(t1, arg1);
+> -    tcg_gen_trunc_tl_i32(t2, arg2);
+> -
+> -    tcg_gen_rotr_i32(t1, t1, t2);
+> -
+> -    /* sign-extend 64-bits */
+> -    tcg_gen_ext_i32_tl(ret, t1);
+> -
+> -    tcg_temp_free_i32(t1);
+> -    tcg_temp_free_i32(t2);
+> -}
+> -
+>   static bool trans_rorw(DisasContext *ctx, arg_rorw *a)
+>   {
+>       REQUIRE_64BIT(ctx);
+> @@ -380,25 +410,7 @@ static bool trans_roriw(DisasContext *ctx, arg_roriw *a)
+>       REQUIRE_64BIT(ctx);
+>       REQUIRE_ZBB(ctx);
+>       ctx->ol = MXL_RV32;
+> -    return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_rorw);
+> -}
+> -
+> -static void gen_rolw(TCGv ret, TCGv arg1, TCGv arg2)
+> -{
+> -    TCGv_i32 t1 = tcg_temp_new_i32();
+> -    TCGv_i32 t2 = tcg_temp_new_i32();
+> -
+> -    /* truncate to 32-bits */
+> -    tcg_gen_trunc_tl_i32(t1, arg1);
+> -    tcg_gen_trunc_tl_i32(t2, arg2);
+> -
+> -    tcg_gen_rotl_i32(t1, t1, t2);
+> -
+> -    /* sign-extend 64-bits */
+> -    tcg_gen_ext_i32_tl(ret, t1);
+> -
+> -    tcg_temp_free_i32(t1);
+> -    tcg_temp_free_i32(t2);
+> +    return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_roriw);
+>   }
+>   
+>   static bool trans_rolw(DisasContext *ctx, arg_rolw *a)
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> index c0a46d823f..b0fdec97de 100644
+> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> @@ -270,14 +270,26 @@ static bool trans_slli(DisasContext *ctx, arg_slli *a)
+>       return gen_shift_imm_fn(ctx, a, EXT_NONE, tcg_gen_shli_tl);
+>   }
+>   
+> +static void gen_srliw(TCGv dst, TCGv src, target_long shamt)
+> +{
+> +    tcg_gen_extract_tl(dst, src, shamt, 32 - shamt);
+> +}
+> +
+>   static bool trans_srli(DisasContext *ctx, arg_srli *a)
+>   {
+> -    return gen_shift_imm_fn(ctx, a, EXT_ZERO, tcg_gen_shri_tl);
+> +    return gen_shift_imm_fn_per_ol(ctx, a, EXT_NONE,
+> +                                   tcg_gen_shri_tl, gen_srliw);
+> +}
+> +
+> +static void gen_sraiw(TCGv dst, TCGv src, target_long shamt)
+> +{
+> +    tcg_gen_sextract_tl(dst, src, shamt, 32 - shamt);
+>   }
+>   
+>   static bool trans_srai(DisasContext *ctx, arg_srai *a)
+>   {
+> -    return gen_shift_imm_fn(ctx, a, EXT_SIGN, tcg_gen_sari_tl);
+> +    return gen_shift_imm_fn_per_ol(ctx, a, EXT_NONE,
+> +                                   tcg_gen_sari_tl, gen_sraiw);
+>   }
+>   
+>   static bool trans_add(DisasContext *ctx, arg_add *a)
+> @@ -344,11 +356,6 @@ static bool trans_slliw(DisasContext *ctx, arg_slliw *a)
+>       return gen_shift_imm_fn(ctx, a, EXT_NONE, tcg_gen_shli_tl);
+>   }
+>   
+> -static void gen_srliw(TCGv dst, TCGv src, target_long shamt)
+> -{
+> -    tcg_gen_extract_tl(dst, src, shamt, 32 - shamt);
+> -}
+> -
+>   static bool trans_srliw(DisasContext *ctx, arg_srliw *a)
+>   {
+>       REQUIRE_64BIT(ctx);
+> @@ -356,11 +363,6 @@ static bool trans_srliw(DisasContext *ctx, arg_srliw *a)
+>       return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_srliw);
+>   }
+>   
+> -static void gen_sraiw(TCGv dst, TCGv src, target_long shamt)
+> -{
+> -    tcg_gen_sextract_tl(dst, src, shamt, 32 - shamt);
+> -}
+> -
+>   static bool trans_sraiw(DisasContext *ctx, arg_sraiw *a)
+>   {
+>       REQUIRE_64BIT(ctx);
 
