@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42DAC42BB38
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:11:56 +0200 (CEST)
-Received: from localhost ([::1]:53852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C9A42BB47
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:16:05 +0200 (CEST)
+Received: from localhost ([::1]:34276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maaIj-00057f-TB
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:11:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54304)
+	id 1maaMl-0002fn-6U
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:16:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEZ-0002AY-Kr
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:35 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:37547)
+ id 1maaEc-0002C0-3h
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:38 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:44586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEX-0005ay-Sz
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:35 -0400
-Received: by mail-ed1-x532.google.com with SMTP id y12so7306793eda.4
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:07:32 -0700 (PDT)
+ id 1maaEX-0005bx-Tv
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:36 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id w14so7161038edv.11
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:07:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0FDTyDLOhG/Kr2K+3Sxwib8ho+Rf1TxbO6LGzgBxoOk=;
- b=CYCvhGEUaIIkbmUb06/EAVprKUvlCqmbEe3nZmTugdKyOwU8TybX6irP/YW1lceQD9
- GSUofK9i1aRv/mrqkjdmK6in5P4dFneLWnsH2Izx+Wg6iAHiiAnKj9xkLDud35wvp5yg
- vafqoCmEjzIvgbJJ1X2UPJFbNh7w0XGsCEXifYok30AtWoOIS5lm/DfHJzYud3OCTZzi
- B9Asf75IBuHlZpfURqWCgtOhKcR8H5DWqbLYCNV6ZGrY/BnEp9OLVLW5A0HYTo6hYj9c
- ae2Ugw8HMHl71AUfL/8JNqNFFtgatI5pRkiM8rEwjeCIHBNkx9Pc+i/r+uOVLPiw59fa
- 5D2g==
+ bh=H0+ITqm7hx9kuwpqKK0wFnUKiCP3pA/P6YqdcV8LmWc=;
+ b=BuVPJ/zKtYPlfT4eqJinhPbuHGAXgCuUtbyRPAHj73XuXM83Yq0917/AS0EPPGG7og
+ wFlrnnQ4B0alstv7KnWemouQwc5WxvDi1Oa2mGGsRMdrljB1WU77DVvRmj+GxgvsTG1c
+ aXPiVHvRCAsNT48q8sGbgLlBiCr/04hdxemZja8zJxam4mrPr+tgwLuATW4yqtxjBGiA
+ eGDPXpZ7Xa8ztmI3MzoSOZghHNGSXgUrR8yeiQpRHQKKiBk5dE4HiTgn6rwNwTCOmfLB
+ 5U4lNOIWUrLmZRl/oAI7XOv1JF9H22ljeCKAAK+wrr3pceCPcev0X8+QsYW+kj8VvKVN
+ vNwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0FDTyDLOhG/Kr2K+3Sxwib8ho+Rf1TxbO6LGzgBxoOk=;
- b=PixFG909X6mJq+034g7CmWgd32VuzjeXFOEK04VuheyM5fBSo14+ocRbEWp2Ec0NBv
- IWM68QWh0kqQb9EDdCtmFR/ZMp1eeQpw9iyQhq8HUlQqKvVm4t1/rNDxfBfuPt/Lhmx0
- Pd/XXX8dfxNMEBalHR18cQhBBqPiuMI17buEp6C7U1cRfutaLWiKwL3q3ce4KSB1M/lf
- LPbYHfc/aH5Emf2skEFmys1KiuIZXMxdxCgl8PnWJF2jTqdS26QtzForPLZR1UmeF+1N
- JT5jhx7d3bpjVkd5Wz/WntjWFeS4si8tho6OuD8wmvDwvlZ+PDp6dFFhMl4pJO6z1Aot
- Cb8A==
-X-Gm-Message-State: AOAM530P0ix1nXEal/UybrmMzpaRCmlXUrU4wWu1svOglpAf4OVVD2BI
- TDmQL5kA/9XWSBG66QqzxpIyT6Ai88I=
-X-Google-Smtp-Source: ABdhPJybFz06W4WATp6R3z0fJJ/9jqFtV+V43M7wQFxXSZ52Dr/gCXGW/jNzaEwdqKogSC+4JJsWhA==
-X-Received: by 2002:a05:6402:14cc:: with SMTP id
- f12mr7953012edx.242.1634116051537; 
- Wed, 13 Oct 2021 02:07:31 -0700 (PDT)
+ bh=H0+ITqm7hx9kuwpqKK0wFnUKiCP3pA/P6YqdcV8LmWc=;
+ b=b+4BqwpFkjVP+Bkk3faKA2vKjECHFL1EyBqq5PHGtAL6r693xkbXNPWabcEySpRrS8
+ Fq52KCCwktjiPnO25q327L2sZwG0+yYo3Obf7NvW81t52PS04ETqQhAUbw0OD3FzUqBs
+ fp5CQ5uSUBdldonbI7eLcu2Ux6moDBxwcpBp0tpBtpxvmq51++KpAMv7tpRfpzOx/a+U
+ nPvxxK6CHy9DxXXNNT0kNuLRyjadTj/sHXTIjjDAkKRL2AKRIpYA1T5NlM9KMFYfQJ8y
+ DtBgMcrQ6gwwqXGQLM5VKFFoFy3mYZqynEJKmBdI2vF6PdW+mm9YnKPk9hXwaTe6eRfJ
+ 54CA==
+X-Gm-Message-State: AOAM533WBarlWAkOZAicntpqdOf1Mr3qZf0pqJHBt+e7DntCIMLGyeTH
+ WqGoJ+SWi1KFfCmahEbA5uPIWqpBhz8=
+X-Google-Smtp-Source: ABdhPJwktlg48fyu0xZERwvBquOwL4er0a5/oZN2LRqQ76sOyVxn1aUSOLRs+s24PxCCtWHC5H2ZRg==
+X-Received: by 2002:a50:fc8e:: with SMTP id f14mr7819248edq.87.1634116052158; 
+ Wed, 13 Oct 2021 02:07:32 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.30
+ by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 13 Oct 2021 02:07:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/40] tests: add missing dependency for check-block
-Date: Wed, 13 Oct 2021 11:06:50 +0200
-Message-Id: <20211013090728.309365-3-pbonzini@redhat.com>
+Subject: [PULL 03/40] build: fix "make check" without earlier "make"
+Date: Wed, 13 Oct 2021 11:06:51 +0200
+Message-Id: <20211013090728.309365-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211013090728.309365-1-pbonzini@redhat.com>
 References: <20211013090728.309365-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,25 +87,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu-iotests run qemu-storage-daemon, make sure it is up to date.
+"make check", if not preceded by "make", will not build the tools
+needed by qemu-iotests.  This happens because qemu-iotests, aka
+"make check-block", is not yet part of meson.build.
+
+While at it, remove the reference to the now-dead QEMU_IOTESTS_HELPERS-y
+variable.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/Makefile.include | 1 +
- 1 file changed, 1 insertion(+)
+ tests/Makefile.include | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 7bb8961515..cc1e4f2c07 100644
+index cc1e4f2c07..8434a33fe6 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -151,6 +151,7 @@ ifeq ($(CONFIG_TOOLS)$(CONFIG_POSIX),yy)
+@@ -150,14 +150,21 @@ check:
+ ifeq ($(CONFIG_TOOLS)$(CONFIG_POSIX),yy)
  check: check-block
  export PYTHON
- check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
-+		storage-daemon/qemu-storage-daemon$(EXESUF) \
- 		qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y) \
- 		$(filter qemu-system-%, $(ninja-targets))
+-check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
+-		storage-daemon/qemu-storage-daemon$(EXESUF) \
+-		qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y) \
+-		$(filter qemu-system-%, $(ninja-targets))
++
++ifneq ($(filter check check-block check-build, $(MAKECMDGOALS)),)
++ninja-cmd-goals += \
++	qemu-img$(EXESUF) \
++	qemu-io$(EXESUF) \
++	qemu-nbd$(EXESUF) \
++	storage-daemon/qemu-storage-daemon$(EXESUF) \
++	$(filter qemu-system-%, $(ninja-targets))
++endif
++
++check-block: $(SRC_PATH)/tests/check-block.sh run-ninja
  	@$<
+ endif
+ 
+-check-build: $(QEMU_IOTESTS_HELPERS-y)
++check-build: run-ninja
+ 
+ check-clean:
+ 	rm -rf $(TESTS_VENV_DIR) $(TESTS_RESULTS_DIR)
 -- 
 2.31.1
 
