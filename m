@@ -2,80 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D6A542B780
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 08:38:00 +0200 (CEST)
-Received: from localhost ([::1]:32838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9AE42B81F
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 08:58:50 +0200 (CEST)
+Received: from localhost ([::1]:43756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maXtn-0007MH-C5
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 02:37:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37598)
+	id 1maYDw-0007Nh-Nw
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 02:58:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1maXrd-0005xr-Om
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 02:35:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49742)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1maYCV-0006eZ-LX
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 02:57:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1maXrb-0003bv-GU
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 02:35:45 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1maYCS-0003oK-5T
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 02:57:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634106942;
+ s=mimecast20190719; t=1634108234;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UgMauiCWc93gKkc/yTaU1cN+rGYZ7DSvz8XKNFum4Ls=;
- b=GoLGi7MVypau6nhCvQE76RJr0lBwBkqMXBR94YU5HZt/imMiiXACGFhKM7AAB7ZSZAaGlF
- MmN8af7AcluhTp3rFgal0mv6Kf7cGJePTzfXQK1RHU2p1Po9riXjGC7Jh9rlXLCPlpvE/I
- I4J4QvUvbXZD0eCRnh7u8fcs55Znt9A=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-mZoRGcVGPRa1CxNJwo_gkQ-1; Wed, 13 Oct 2021 02:35:41 -0400
-X-MC-Unique: mZoRGcVGPRa1CxNJwo_gkQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- u23-20020a50a417000000b003db23c7e5e2so1322383edb.8
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 23:35:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=UgMauiCWc93gKkc/yTaU1cN+rGYZ7DSvz8XKNFum4Ls=;
- b=DD493YmU18Er5I/NI0elU7V8ayqVw1n40C18UVzdrzZYNokW3ItMbUg4k5XuyfvwfI
- ekfX+WLQ8+vkx+KqC5KDXlpjz76+JpVjZLkLpFrUUk9lZALRki0End0jIsLWXQaOo7/q
- ojYS+Y2safYfT+IEvvS1raF+DUA47RN3sWNw+98Zwxt7wa+cJzYQWmkPabYj9fUd8vD4
- EMwmxBT54ymR7JBTFHsol2gmsmyeRJa/eCb7OAyRY8uSZoNA6TJe3mnoxnU7xKYCVeJa
- ywXUOAdcyttxdleh//DBYMzb+4kD9D90Xln/2Rugtyr32zCccdX9aDs1qW87PPBTcudP
- 5Ahw==
-X-Gm-Message-State: AOAM532Ugm1TdAF8keAOWtDEhdAc1mCs4d52/nJndCWx1mF3JStFU7le
- B1tIrSOVyDf4+mKZ7yDRCFz6wbKetT+dJ4B4l0mMeEpzd5M6F0DDowCLUyya1pgoyY0loWJhsS1
- UbLngKeN7EvkZhWk=
-X-Received: by 2002:a17:906:5282:: with SMTP id
- c2mr38835390ejm.162.1634106940432; 
- Tue, 12 Oct 2021 23:35:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw+6+GB3GLC26kaHoDA+wMYcHPmooqWpgCkLYY1kjYf204++4Ey0CSNAXFI5JmtxfWf3PWIqA==
-X-Received: by 2002:a17:906:5282:: with SMTP id
- c2mr38835362ejm.162.1634106940130; 
- Tue, 12 Oct 2021 23:35:40 -0700 (PDT)
-Received: from gator.home (cst2-174-28.cust.vodafone.cz. [31.30.174.28])
- by smtp.gmail.com with ESMTPSA id d14sm6057733ejd.92.2021.10.12.23.35.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 23:35:39 -0700 (PDT)
-Date: Wed, 13 Oct 2021 08:35:38 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH v3 1/2] numa: Require distance map when empty node exists
-Message-ID: <20211013063538.rhshuqb7vhurs2k6@gator.home>
-References: <20211013045805.192165-1-gshan@redhat.com>
- <20211013045805.192165-2-gshan@redhat.com>
+ bh=7qe0Ht9zqMHq61f9S1P1Enfrhk7Ro4iAq8TTv1pIOZs=;
+ b=GkKOQ5W/7ddgE/TbIRztPNC+ZuigXeEXFApSPj4vcT/5vEaSCgA1qtYjlnagF4mczO795M
+ I6q5DWYgvwgrWF2tkXHlZPGklwp09I8NJZ3pV6hqgM8oMjx3yUI9eHpTy7TilpMFLQiRRe
+ +a/Z/6dWSl4KAM1Y5tiP47ytDivRSZU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-sGMg0evWP1isTTFH8nhX9Q-1; Wed, 13 Oct 2021 02:57:11 -0400
+X-MC-Unique: sGMg0evWP1isTTFH8nhX9Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E29501006AA2;
+ Wed, 13 Oct 2021 06:57:09 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F36E19729;
+ Wed, 13 Oct 2021 06:57:04 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+Subject: Re: [PATCH 0/3] s390x: reduce my maintainership duties
+In-Reply-To: <d9549b5a-3129-cb44-8bdf-578da39297c3@redhat.com>
+Organization: Red Hat GmbH
+References: <20211012144040.360887-1-cohuck@redhat.com>
+ <d9549b5a-3129-cb44-8bdf-578da39297c3@redhat.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Wed, 13 Oct 2021 08:57:02 +0200
+Message-ID: <87k0ihwgxt.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211013045805.192165-2-gshan@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -96,37 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robh@kernel.org, ehabkost@redhat.com, peter.maydell@linaro.org,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, shan.gavin@gmail.com,
- imammedo@redhat.com
+Cc: Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 13, 2021 at 12:58:04PM +0800, Gavin Shan wrote:
-> The following option is used to specify the distance map. It's
-> possible the option isn't provided by user. In this case, the
-> distance map isn't populated and exposed to platform. On the
-> other hand, the empty NUMA node, where no memory resides, is
-> allowed on platforms like ARM64 virt. For these empty NUMA
-> nodes, their corresponding device-tree nodes aren't populated,
-> but their NUMA IDs should be included in the "/distance-map"
-> device-tree node, so that kernel can probe them properly if
-> device-tree is used.
-> 
->   -numa,dist,src=<numa_id>,dst=<numa_id>,val=<distance>
-> 
-> This adds extra check after the machine is initialized, to
-> ask for the distance map from user when empty nodes exist in
-> device-tree.
-> 
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> ---
->  hw/core/machine.c     |  4 ++++
->  hw/core/numa.c        | 24 ++++++++++++++++++++++++
->  include/sysemu/numa.h |  1 +
->  3 files changed, 29 insertions(+)
->
+On Wed, Oct 13 2021, Thomas Huth <thuth@redhat.com> wrote:
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+> On 12/10/2021 16.40, Cornelia Huck wrote:
+>> I currently don't have enough resources to work on s390x as
+>> much anymore, so I need to reduce my workload. For many topics,
+
+[As a note, because some people seemed to have been confused by this,
+the "resources" I'm referring to here are my personal resources (i.e. my
+health), not resources given to me by my employer...]
+
+>> we should be well-covered already, so I'll drop out from those.
+>> 
+>> Don't worry (or rejoice?), though; I don't plan to disappear.
+>> 
+>> Cornelia Huck (3):
+>>    vfio-ccw: step down as maintainer
+>>    s390x/kvm: step down as maintainer
+>>    s390x virtio-ccw machine: step down as maintainer
+>
+> Queued to my s390x-next branch now, even if it's hard ... thank you for all 
+> your great work, Cornelia!
+
+Thank you for picking this up (and thank you everyone else).
 
 
