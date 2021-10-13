@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F3142BB6D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:22:32 +0200 (CEST)
-Received: from localhost ([::1]:53442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F01542BB4D
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:16:23 +0200 (CEST)
+Received: from localhost ([::1]:34718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maaT1-0007B7-C8
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:22:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54492)
+	id 1maaN4-0002xr-1e
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:16:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEk-0002ET-F5
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:46 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:38730)
+ id 1maaEl-0002Fa-E8
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:48 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:35653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEd-0005g3-FV
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:45 -0400
-Received: by mail-ed1-x533.google.com with SMTP id d9so7272168edh.5
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:07:37 -0700 (PDT)
+ id 1maaEh-0005hm-9Z
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:47 -0400
+Received: by mail-ed1-x531.google.com with SMTP id w19so7362093edd.2
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:07:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5YvbBsVLcxi9ut0yB4oLJ5mEfeOCgloSDAO20Piz2Bo=;
- b=feTcIDOI+cxoafy3hfR6ic8i1IVLM/BW0c5XbAB1CbZgZHA4RBEbdRYqK3gpx3AWgn
- jIWv0ZLnoT4gxglD0AZ5SHnsDcCzn6BOA0l4TYtDcv4fZihN6v0Js9Kww/SnOLlI+6tv
- 4/BgTQNtupV8X3YIH5+rgtXiB9Dv8NtoEnx6998CELyQjsza44vyXgJRAvY/+uuubRwk
- ZdWCzWusYi1Se6tFtsS8I00j0MB2gSRF5uTab2RlKKILN6Yvtr175cjHK4UEdbPXlIJJ
- mQe/79WCOgLOfpO+BuPOcvb/xx8XYyrttnLmKiFAh/7TubfPYEpnCeqFaQvNIjJIW97r
- 9zdw==
+ bh=vu1dBQYjlPMeD+bu2re3t6lrd4Enxp4xeWWzptccB38=;
+ b=p01dKUSbEV49MZMNsEcKPIzfqdfmtkwBQu4b9cIhX7TOS7DBY/77eH9x/gJh8XX55n
+ nXEWDo2Xqe1QwEVyLJmtRIOOI8ujn0OEfJzMKWn6k2BrX0MnoRzgMQ2aBNdpTTGOtETd
+ kN4ZJbRpD4kgH8zkrat7wPpgaGSmejG3PH7QaVKikRpIUviO/GLcvWY/x37s13VHxlWF
+ JMdBPB9sQ9FSDgYN/jEA+WEL1U/YWqgQx134KmS1J/wTNXc1pD5XAo6mBb58JFgU1IgI
+ JYChvqHHXQfPJ62aKkEXlluZYv5Bh10rSDk0lwG7lBRcm7+lhwy0poSTKTq2AUmT8+rD
+ ad0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5YvbBsVLcxi9ut0yB4oLJ5mEfeOCgloSDAO20Piz2Bo=;
- b=wR5EBPXv2UH8UjZvR9pS6beR897vOv7dgRK7cTq0dmqyEGFvtjwLlNCvXl0Wtp2psn
- Ek28jTS+Q9/5/VaF8uxjQesLb9LOFd3EB0T/Vxtk5JrI8yRh1qyuYGeHxzF4ED6W6Ibc
- PAWhh8eJ3CcaHN1MLhhfSSeWPvzLblPBx5rtXOqjHk/XH/78s1WAgQ+GypyTRx6GstHk
- 7DpuS85AtG6hlI66TPtUAw4PGBmLBsUjs2RXCInszjibN5iYUuCZX4TAa5W8JkzJz4fs
- Kbi2Vvln4mq+k4tXpAKvx6+U23FQdpqDBXZBpVno4/Ui4Dl0dGVQhlfcktdLtw+aOKQn
- xR2Q==
-X-Gm-Message-State: AOAM532aOcLKsn2KNxy0JFOhrXaCeE+cP6Rd9bUuF0LFiMkMecNI56jU
- n7iZdxu7FW1OxEX3NhCWQng7kr5uaWw=
-X-Google-Smtp-Source: ABdhPJxKUduj+tTRbUC6CL+s9cJWQO4eCwbyXSA/8Wq+eNPzTQlFqETRQzXazcsC3e+vyAYU9lHGCQ==
-X-Received: by 2002:a17:906:ce2c:: with SMTP id
- sd12mr39683803ejb.488.1634116056910; 
- Wed, 13 Oct 2021 02:07:36 -0700 (PDT)
+ bh=vu1dBQYjlPMeD+bu2re3t6lrd4Enxp4xeWWzptccB38=;
+ b=22RWF5fHf0eQpIz+wYVH3Z7POUXp9e5t8Ep44BXFaeAiAbfA46rwFTh+HrLJS/gLsE
+ OIfxA4VZmzRavPldAvyBoFOrZREyPyA/5nnVFGmRlsNPVBEWb6pfKg1vk7f6mnAdXqdT
+ c/VZCmShYl/lyPtWEq35BlIx+e0jj8nideox1NW7T0iljyPwOr5RP68xO+Lr1qXBzcaH
+ bBczwC4PhHrxZuPHRSd8LAgjI4Fcna6YbU4WzXA0VmHjNa8KRESPVVvicx9yXobFxoWK
+ BNx/IuKMt2VPpWRpRmDGHdfT2Ct0+ejxo6oQJg+A0BhMK/t4l1M4qNpx/OqdxZF2R2Qk
+ 4aPQ==
+X-Gm-Message-State: AOAM530bUgQX7O9qoUlwnN9v1UcAWZahinTZ7dq53/n1gv1SnZ4Oa3am
+ 8EUAhNyHBOEF3psCmKpsSykMpyPBG4U=
+X-Google-Smtp-Source: ABdhPJw9+8z42YwwztR8UCTDcYE97tDFmDTiB/bwO+5zo5V+j5y8/lHbeIKPjsOAx5iCIoZjKnuDBQ==
+X-Received: by 2002:a17:906:ccde:: with SMTP id
+ ot30mr17457924ejb.121.1634116057603; 
+ Wed, 13 Oct 2021 02:07:37 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 02:07:36 -0700 (PDT)
+ Wed, 13 Oct 2021 02:07:37 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/40] target/i386/sev: Prefix QMP errors with 'SEV'
-Date: Wed, 13 Oct 2021 11:06:58 +0200
-Message-Id: <20211013090728.309365-11-pbonzini@redhat.com>
+Subject: [PULL 11/40] target/i386/monitor: Return QMP error when SEV is not
+ enabled for guest
+Date: Wed, 13 Oct 2021 11:06:59 +0200
+Message-Id: <20211013090728.309365-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211013090728.309365-1-pbonzini@redhat.com>
 References: <20211013090728.309365-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,118 +86,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Connor Kuehl <ckuehl@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Multiple errors might be reported to the monitor,
-better to prefix the SEV ones so we can distinct them.
+If the management layer tries to inject a secret, it gets an empty
+response in case the guest doesn't have SEV enabled, or the binary
+is built without SEV:
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+  { "execute": "sev-inject-launch-secret",
+    "arguments": { "packet-header": "mypkt", "secret": "mypass", "gpa": 4294959104 }
+  }
+  {
+      "return": {
+      }
+  }
+
+Make it clearer by returning an error:
+
+  { "execute": "sev-inject-launch-secret",
+    "arguments": { "packet-header": "mypkt", "secret": "mypass", "gpa": 4294959104 }
+  }
+  {
+      "error": {
+          "class": "GenericError",
+          "desc": "SEV not enabled for guest"
+      }
+  }
+
+Note: we will remove the sev_inject_launch_secret() stub in few commits,
+      so we don't bother to add error_setg() there.
+
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20211007161716.453984-6-philmd@redhat.com>
+Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20211007161716.453984-7-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/monitor.c |  2 +-
- target/i386/sev.c     | 20 +++++++++++---------
- 2 files changed, 12 insertions(+), 10 deletions(-)
+ target/i386/monitor.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index 196c1c9e77..eabbeb9be9 100644
+index eabbeb9be9..ea836678f5 100644
 --- a/target/i386/monitor.c
 +++ b/target/i386/monitor.c
-@@ -717,7 +717,7 @@ SevLaunchMeasureInfo *qmp_query_sev_launch_measure(Error **errp)
- 
-     data = sev_get_launch_measurement();
-     if (!data) {
--        error_setg(errp, "Measurement is not available");
-+        error_setg(errp, "SEV launch measurement is not available");
-         return NULL;
-     }
- 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index bcd9260fa4..4f1952cd32 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -440,7 +440,8 @@ sev_get_pdh_info(int fd, guchar **pdh, size_t *pdh_len, guchar **cert_chain,
-     r = sev_platform_ioctl(fd, SEV_PDH_CERT_EXPORT, &export, &err);
-     if (r < 0) {
-         if (err != SEV_RET_INVALID_LEN) {
--            error_setg(errp, "failed to export PDH cert ret=%d fw_err=%d (%s)",
-+            error_setg(errp, "SEV: Failed to export PDH cert"
-+                             " ret=%d fw_err=%d (%s)",
-                        r, err, fw_error_to_str(err));
-             return 1;
-         }
-@@ -453,7 +454,7 @@ sev_get_pdh_info(int fd, guchar **pdh, size_t *pdh_len, guchar **cert_chain,
- 
-     r = sev_platform_ioctl(fd, SEV_PDH_CERT_EXPORT, &export, &err);
-     if (r < 0) {
--        error_setg(errp, "failed to export PDH cert ret=%d fw_err=%d (%s)",
-+        error_setg(errp, "SEV: Failed to export PDH cert ret=%d fw_err=%d (%s)",
-                    r, err, fw_error_to_str(err));
-         goto e_free;
-     }
-@@ -491,7 +492,7 @@ sev_get_capabilities(Error **errp)
- 
-     fd = open(DEFAULT_SEV_DEVICE, O_RDWR);
-     if (fd < 0) {
--        error_setg_errno(errp, errno, "Failed to open %s",
-+        error_setg_errno(errp, errno, "SEV: Failed to open %s",
-                          DEFAULT_SEV_DEVICE);
-         return NULL;
-     }
-@@ -557,8 +558,9 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
-             &input, &err);
-     if (ret < 0) {
-         if (err != SEV_RET_INVALID_LEN) {
--            error_setg(errp, "failed to query the attestation report length "
--                    "ret=%d fw_err=%d (%s)", ret, err, fw_error_to_str(err));
-+            error_setg(errp, "SEV: Failed to query the attestation report"
-+                             " length ret=%d fw_err=%d (%s)",
-+                       ret, err, fw_error_to_str(err));
-             g_free(buf);
-             return NULL;
-         }
-@@ -572,7 +574,7 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
-     ret = sev_ioctl(sev->sev_fd, KVM_SEV_GET_ATTESTATION_REPORT,
-             &input, &err);
-     if (ret) {
--        error_setg_errno(errp, errno, "Failed to get attestation report"
-+        error_setg_errno(errp, errno, "SEV: Failed to get attestation report"
-                 " ret=%d fw_err=%d (%s)", ret, err, fw_error_to_str(err));
-         goto e_free_data;
-     }
-@@ -596,7 +598,7 @@ sev_read_file_base64(const char *filename, guchar **data, gsize *len)
-     GError *error = NULL;
- 
-     if (!g_file_get_contents(filename, &base64, &sz, &error)) {
--        error_report("failed to read '%s' (%s)", filename, error->message);
-+        error_report("SEV: Failed to read '%s' (%s)", filename, error->message);
-         g_error_free(error);
-         return -1;
-     }
-@@ -911,7 +913,7 @@ sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp)
-     if (sev_check_state(sev_guest, SEV_STATE_LAUNCH_UPDATE)) {
-         int ret = sev_launch_update_data(sev_guest, ptr, len);
-         if (ret < 0) {
--            error_setg(errp, "failed to encrypt pflash rom");
-+            error_setg(errp, "SEV: Failed to encrypt pflash rom");
-             return ret;
-         }
-     }
-@@ -930,7 +932,7 @@ int sev_inject_launch_secret(const char *packet_hdr, const char *secret,
-     MemoryRegion *mr = NULL;
- 
-     if (!sev_guest) {
--        error_setg(errp, "SEV: SEV not enabled.");
+@@ -28,6 +28,7 @@
+ #include "monitor/hmp-target.h"
+ #include "monitor/hmp.h"
+ #include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qerror.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/sev.h"
+ #include "qapi/error.h"
+@@ -743,6 +744,10 @@ void qmp_sev_inject_launch_secret(const char *packet_hdr,
+                                   bool has_gpa, uint64_t gpa,
+                                   Error **errp)
+ {
++    if (!sev_enabled()) {
 +        error_setg(errp, "SEV not enabled for guest");
-         return 1;
-     }
- 
++        return;
++    }
+     if (!has_gpa) {
+         uint8_t *data;
+         struct sev_secret_area *area;
 -- 
 2.31.1
 
