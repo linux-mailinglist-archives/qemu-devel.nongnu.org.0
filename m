@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D9E042BB88
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:28:33 +0200 (CEST)
-Received: from localhost ([::1]:42354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F405342BB87
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:28:14 +0200 (CEST)
+Received: from localhost ([::1]:40826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maaYq-0001o6-9i
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54564)
+	id 1maaYX-0000mI-Vn
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:28:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEm-0002Fz-My
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:48 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:37552)
+ id 1maaEo-0002Kc-6S
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:50 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:34746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEj-0005ji-4J
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:48 -0400
-Received: by mail-ed1-x533.google.com with SMTP id y12so7308498eda.4
+ id 1maaEj-0005kk-CZ
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:49 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id g10so7369350edj.1
  for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:07:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vGjhPX2QnJ6WPnhDf7oXeCULa6fTXtYSaHXPX/SXJjk=;
- b=HxEtpM2mZ/d7QtAw8FOlKlaHmfc7cEHCV33QJR2xGEuyQaOhQ0Ahb/YWnm/VjI/EuP
- 8X00oy5CvNu5HvYH57A11aLceNdHImcEchVJXeTKwlkJw8c8WNGYPudZ9/2clsQ56jgC
- LiSudyDz/q+xh+VDIWtRm0dNz/LwH53nDG0hU5YPlaliZ9fritpq5RBCi1jxc2ZjdYAF
- WbK4pQKSJIjaQPpcUvPk36IfO/2ujSdlrGGfpBnjTymJCexewjKQJUDrbZresYZAj8fk
- 8ZSXNNw9lOM9tg44m2aZZkfHYVxRIXPcFFE6pV8e6cj/i+ZUM6imsu6TKFTcEdCrqmIg
- 9BPQ==
+ bh=vFqI0VCEVAZ6JnDvTYNxAsSrQc6wGMnCMT9x3PtInzA=;
+ b=HdAMERaY77XXAFoTrMooVARy5nHo346wAxnEx4DhzfFBRUdwU5RA+uD7mekMqpRA9T
+ 7I6OKQ/oZLHCankcP96GezC9n+dv0OVTW7KBXrll7tgqajtkBQCukJb4BrZKsAEcbktF
+ WvreGQNWlY/DuTHK0eEN71FFGO1cOJEve0X9Hi5g8ryBz4g+20s1PL8618QyV5mqaipf
+ pW793xrzAogUf8dHi4p8AXZuKbpF8UBpNmdaW/AVm0Rlo6fMdklyPrd7oqjWa5QelBks
+ 8mn8hX+gvWfwM1e27djm2Gk6Xwfc622Ct5zOoEkrrctQLFenHcnSAsYkvttmahRLSyEZ
+ f9ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=vGjhPX2QnJ6WPnhDf7oXeCULa6fTXtYSaHXPX/SXJjk=;
- b=sAst0QqdkjMHeIV1opZruNbwCi+d3yS6EzAUfoih/FgsYy47khaeU3YhsZgP7F8Xs4
- Du5XPxIjKUo+FUT6kD5g4gSBroO2F3v73ZFKkA+mk8zujXwhkb+X6wpU4X2e8TsMOn72
- B55CBdA6n3ayTaZKwe6mLhK/cbfkN6HOJ6qdzJOos8D30mMJEqilik0b0x2/C3Y4YVuD
- h1svaf2BrrQQHHvVH1yYGHJrEaO71WRXFt2J2dX/Rd7CD85K7mejrF+OS/68EjLpzEPl
- 8ytQrX/28P6oqcZU7KiCbk2/XrJPOuRz4qOsxAbcgSAgxiNTZd8hch7DCff0Bjg1Mtij
- tWzw==
-X-Gm-Message-State: AOAM533EqnM0X/6Wl4bx33CzBldUeznW2xBBMyiqqeCWz3jTvsyvy405
- SCYqH11M5btfduOvd5Dv+RjMOHozMfI=
-X-Google-Smtp-Source: ABdhPJwZgfuIFXvGcD8ZS4n8D6IsNK3DvYOEoBi+Sqd0aqEgfdVJvD7oPbTIzyeNWIo4zMdfxoreNQ==
-X-Received: by 2002:aa7:c38b:: with SMTP id k11mr7864575edq.79.1634116060400; 
- Wed, 13 Oct 2021 02:07:40 -0700 (PDT)
+ bh=vFqI0VCEVAZ6JnDvTYNxAsSrQc6wGMnCMT9x3PtInzA=;
+ b=lVxiSgnhFbIhGSj2ei6Z17Bi8Xzc6r9D5Wqq93rRvU+Ly2V6GcyW42pq7SexkegUVp
+ o+5gzWrx5CNgX58cj2Dw76A8lXvIHez9ttRGLYA//vhqNty31CDkPTOi+tawBM3NkeK+
+ Q4lOmePCwMj90JGO3wVs/mIET76GaLePg0siUGTX+4rTJJMVBhEydh65c1Be8Lp5rrMZ
+ dDynq7I070UdNls7TR7nsAicger7hSom6k47BUt9tcxNGMfm2xfSia+F9+EtNMKfb1fk
+ e+fTZLFKYRTHvEdTndzXkMhexejA81KMOrOGJ6NCtlXvJMCGud/ou4Jbpv1HvU4e6ekd
+ 86qA==
+X-Gm-Message-State: AOAM531S1YMp0bUDVRzANSpxoaRzn9LCvqVruc8Pt8RWWUo14ZZuI56X
+ j2T0vn9fvwJG8XuZ6igwY+GGdOhWdZg=
+X-Google-Smtp-Source: ABdhPJw3B/Ca0mzMAa0oNuz75ShOd9teUF4VWy+BK2vtw9PF5QGwQqZg61t2eMJXzbivEgiuqS9QdQ==
+X-Received: by 2002:a05:6402:3186:: with SMTP id
+ di6mr7728194edb.225.1634116061093; 
+ Wed, 13 Oct 2021 02:07:41 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.39
+ by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 13 Oct 2021 02:07:40 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/40] target/i386/sev: Mark unreachable code with
- g_assert_not_reached()
-Date: Wed, 13 Oct 2021 11:07:03 +0200
-Message-Id: <20211013090728.309365-16-pbonzini@redhat.com>
+Subject: [PULL 16/40] target/i386/sev: sev_get_attestation_report use
+ g_autofree
+Date: Wed, 13 Oct 2021 11:07:04 +0200
+Message-Id: <20211013090728.309365-17-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211013090728.309365-1-pbonzini@redhat.com>
 References: <20211013090728.309365-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,49 +87,78 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Connor Kuehl <ckuehl@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-The unique sev_encrypt_flash() invocation (in pc_system_flash_map)
-is protected by the "if (sev_enabled())" check, so is not
-reacheable.
-Replace the abort() call in sev_es_save_reset_vector() by
-g_assert_not_reached() which meaning is clearer.
+Removes a whole bunch of g_free's and a goto.
 
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+Reviewed-by: Brijesh Singh <brijesh.singh@amd.com>
+Message-Id: <20210603113017.34922-1-dgilbert@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20211007161716.453984-11-philmd@redhat.com>
+Message-Id: <20211007161716.453984-12-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/sev-stub.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/i386/sev.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
-index 20b1e18ec1..55f1ec7419 100644
---- a/target/i386/sev-stub.c
-+++ b/target/i386/sev-stub.c
-@@ -54,7 +54,7 @@ int sev_inject_launch_secret(const char *hdr, const char *secret,
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 9e3f2ec8dd..3a30ba6d94 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -521,8 +521,8 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
+     struct kvm_sev_attestation_report input = {};
+     SevAttestationReport *report = NULL;
+     SevGuestState *sev = sev_guest;
+-    guchar *data;
+-    guchar *buf;
++    g_autofree guchar *data = NULL;
++    g_autofree guchar *buf = NULL;
+     gsize len;
+     int err = 0, ret;
  
- int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp)
- {
--    return 0;
-+    g_assert_not_reached();
+@@ -542,7 +542,6 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
+     if (len != sizeof(input.mnonce)) {
+         error_setg(errp, "SEV: mnonce must be %zu bytes (got %" G_GSIZE_FORMAT ")",
+                 sizeof(input.mnonce), len);
+-        g_free(buf);
+         return NULL;
+     }
+ 
+@@ -554,7 +553,6 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
+             error_setg(errp, "SEV: Failed to query the attestation report"
+                              " length ret=%d fw_err=%d (%s)",
+                        ret, err, fw_error_to_str(err));
+-            g_free(buf);
+             return NULL;
+         }
+     }
+@@ -569,7 +567,7 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
+     if (ret) {
+         error_setg_errno(errp, errno, "SEV: Failed to get attestation report"
+                 " ret=%d fw_err=%d (%s)", ret, err, fw_error_to_str(err));
+-        goto e_free_data;
++        return NULL;
+     }
+ 
+     report = g_new0(SevAttestationReport, 1);
+@@ -577,9 +575,6 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
+ 
+     trace_kvm_sev_attestation_report(mnonce, report->data);
+ 
+-e_free_data:
+-    g_free(data);
+-    g_free(buf);
+     return report;
  }
  
- bool sev_es_enabled(void)
-@@ -68,7 +68,7 @@ void sev_es_set_reset_vector(CPUState *cpu)
- 
- int sev_es_save_reset_vector(void *flash_ptr, uint64_t flash_size)
- {
--    abort();
-+    g_assert_not_reached();
- }
- 
- SevAttestationReport *
 -- 
 2.31.1
 
