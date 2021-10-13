@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA0142CFBF
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 02:58:38 +0200 (CEST)
-Received: from localhost ([::1]:38026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B5342CFC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 03:00:28 +0200 (CEST)
+Received: from localhost ([::1]:44958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1map4v-0003Gw-CP
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 20:58:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43792)
+	id 1map6f-0007t5-5p
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 21:00:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1maloY-0000w5-Sm
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:29:30 -0400
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:33704)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1malqt-0003Sj-PW
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:31:56 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:37874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1maloX-00074s-9V
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:29:30 -0400
-Received: by mail-qt1-x834.google.com with SMTP id w2so4051032qtn.0
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 14:29:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1malqr-00029A-Ur
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:31:55 -0400
+Received: by mail-qk1-x731.google.com with SMTP id bl14so3648274qkb.4
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 14:31:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=8EVNQMNzwxLHYQpPmLnvNYYKGvgSqgWQ7JXCmQkgB/w=;
- b=kjkd488QthV9CbQZ/U9RGlqNTi1T0+Qerzq/8WHtiVDJLSELINw0vnn0UH0H4rN8+X
- 9lbcz0K+CsiG0D3krhxGACRHvgFfSM8M5mlFFZnpwBs5m1pBJiRN4oZXs31HvyKmOaXe
- XXVCEsczYcOEDmK3wGVxUsb/TWl93ghiigVCVVWCGdpDcStCVE/G1RO/zZNeKEDs15/r
- KuGFDsTzhUmam4j50ZKy2OShCJ+MSeqKpf64k/uO3yjeQCPMNl0Ee2J9Qan8jfKufUKL
- 4nL4aSt9eEiUVTJv+ACXNa8bvT1115GbCfJqXB0M+axf5a8WomKbTMVmfnWN7NjnSYni
- 5YFQ==
+ b=EwgnWpG5DcjTNOBZIrARRkYzV2y6B0nSlyCecAV8zE/8aw2X9hLrM9IZFuMuRBWy8f
+ tgUuScVHs42IaBXfdU3ZEk9OCDpJehedkA/g7uJZrWVPWfea8XFChZzemQUhNgACW/H9
+ AC0dCKKm9D8ffwqUCrlHPu0cR8f7wQBIx6aKXPTugXM6FK37s0Ksu/GOMozlgzXR8nMA
+ ln1K2iAhffVXJx9U9F67P1bPkPNoTY1VI/mPF+IYU5UXnYZTW0q/nj4g+3mjKqmymIfy
+ scpusEEuRsiigoh/z3IFnD2cea8eXC7I/jmgiN+cVic9K7WeXpUdhvDpZ5BQCVnLmzfm
+ 6KNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=8EVNQMNzwxLHYQpPmLnvNYYKGvgSqgWQ7JXCmQkgB/w=;
- b=2jgQtY/HD98428JUsxqBTdsrQclPGy54tOgZ20dNMzELjnh7K21VH2I7DQSQM5/2VT
- Y6Lv7+4/nh9L3plCdfwbGbLdWaQxPas01v0w/JsMeigJ8lw3l/oom4/ufTI2I+TpblnD
- +H+0X3nGzadGU18zlnhjDUYldAIBOuubZ2O9BWpSoAbqkfLLRS34HecyH229hw2DlMsF
- OmyTd92kklvRx3fqYrkuA7+1dE/iVPbbByt4IE10agZUdqinKj7BpF0nsWWJhwDxDIfi
- 8tMXxDyRMPNgAHAjSCOEuL9MhEfiBWHlFd7Rjq8whixcXWnf2wdcRIgji9gOV04XgcaW
- CbZw==
-X-Gm-Message-State: AOAM532nBYsqXqYu5C2gFZdGu/WsGc2gKMHTmHBPxLuGNW1i7tCOW56b
- ZjYH4HRqsCeOWBJreWi9dp2++30ajcXZ6g==
-X-Google-Smtp-Source: ABdhPJxZP49tEAx7bCn16Jpip4aPZXY6gL4We+LkBL1WlanQV+mgG0OqSdLSDZA6wgCYCCKhLnUy8w==
-X-Received: by 2002:aed:3022:: with SMTP id 31mr2124674qte.322.1634160567509; 
- Wed, 13 Oct 2021 14:29:27 -0700 (PDT)
+ b=zBUuMhFbkS+uaHYSOXJAHTwvDQeN1ZrYKjsuJP+f1EkCwNoWH1WfV7xyOVHYobI66f
+ nw6NhS/PE5xCU3hk+DMnSvdSQm3bd3fXyAzGEhORO1z6+KIIraYjGeMr+GQMElr31iP/
+ KG1TvRNohogCoCK2j8pWdYsMfGgFkQiVIyJXq3iJr2yVJsXKCNtlWY0MzUCJjyAuuuyq
+ qmt1kaPMyh/L19sf3oRdHF1UDyU/xo30kh8dzivHA6XlsBH0IEnLSZxaKONi3t/rwWA7
+ Bno+/LdJ82L3F9W2nhzJ0JmndnanBf5HkgmKYEQJQzYpr+acnUAx5LV4wV7yOlNd+rQU
+ wGyQ==
+X-Gm-Message-State: AOAM533kW2xjGKb/EozYaUqqNfUM3n0qbhtkVRTLYn7VGLGRP3moqtBY
+ oj2RSuqGcCQenTFV7ozQs21tTdA1pzt6lw==
+X-Google-Smtp-Source: ABdhPJxgYzpNF4juIwk8jYbwCFpA/x8u34Ge4En6znUhR/VV40HJyCZJ4vjURgFDLpxZf8rZmA9/sA==
+X-Received: by 2002:a37:a050:: with SMTP id j77mr1506699qke.337.1634160712673; 
+ Wed, 13 Oct 2021 14:31:52 -0700 (PDT)
 Received: from localhost.localdomain
  (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
  [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id m195sm414697qke.73.2021.10.13.14.29.26
+ by smtp.gmail.com with ESMTPSA id n123sm406752qke.36.2021.10.13.14.31.52
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 13 Oct 2021 14:29:27 -0700 (PDT)
+ Wed, 13 Oct 2021 14:31:52 -0700 (PDT)
 From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
 Subject: [PATCH 00/11] 9p: Add support for Darwin 
-Date: Wed, 13 Oct 2021 17:27:13 -0400
-Message-Id: <20211013212724.24790-1-wwcohen@gmail.com>
+Date: Wed, 13 Oct 2021 17:31:37 -0400
+Message-Id: <20211013213148.26134-1-wwcohen@gmail.com>
 X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=wwcohen@gmail.com; helo=mail-qt1-x834.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=wwcohen@gmail.com; helo=mail-qk1-x731.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -70,7 +70,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 13 Oct 2021 20:55:11 -0400
+X-Mailman-Approved-At: Wed, 13 Oct 2021 20:55:22 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
