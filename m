@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE14242C8A5
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 20:25:47 +0200 (CEST)
-Received: from localhost ([::1]:47796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13DBF42C8AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 20:28:53 +0200 (CEST)
+Received: from localhost ([::1]:55988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maiwl-0006cZ-0s
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 14:25:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36768)
+	id 1maizk-0003jN-6B
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 14:28:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maitu-0003lb-Md
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 14:22:50 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:34469)
+ id 1maitz-0003pT-Jc
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 14:22:55 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:54239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maitt-00032S-3N
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 14:22:50 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- ns7-20020a17090b250700b001a0937b87b7so4106701pjb.1
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 11:22:48 -0700 (PDT)
+ id 1maitu-00033J-4Q
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 14:22:55 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id ls18so2884503pjb.3
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 11:22:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kx8WnWbWmDtIbVxb9P1LlAYMJpSU3FiG1MWRd7HKShU=;
- b=k3FjYno33bj5m4fvyxRXtoJVUYkZlNfGJ8fBEMjdWf1uFf1O9OiVb73oNIocT7m8pK
- OdxpbJUSOyiKs3jRtEJe3pasWYFeo06MoVotM7j8DXNWSKCyTdTPOcjBi0VAdXNFFfa0
- TeVTkkBidDWtEA8/kvorjnTIZML7sicwhh4urk5LLUdxO0D2mcEsxEM4VQaom30WyIri
- kRdhzkDY4oeJtI8pPTV0Gz5abtPJ/mjclSsw7izkMY3hBBRML5o0Kvxjh1VqqGLQJ5h2
- W4GAMnbuwkGOTi4MXQrrxk3fwDh9KnSSwSRRRh7s3w1bDn29XZaotY4QFVQb+thgwNB9
- 8sYw==
+ bh=g7vb1DiY7NwJL2MkD8o8UL44MwU+VnbJvJpghPXqqyM=;
+ b=PgY0dfqyKpxPmEjLOlz2Uc8zpSUmLXqkpxnppMOIn067Hc4OWaeB8/vibJyYt9VXwb
+ d/4fQfHJwrq2Pvf+ZJX6kDII8yMVsvrwXxQ3NOBd3O49jZiuPsYTJrO1guQrvPVH4P7X
+ 4aMtO19N+aWEAzlY+QukLmb9WnyTrB2sqwIVbLuPr1lK/nTypvu2id+isOkdVyag/SzE
+ IvCRI5u+k3lkYmdHWkrGomgsIVSta16XO42i7i9VtTApMx3p7cVnKe+SG/3yjXlXdeH5
+ d6Dgdj0JzsYBeBJ1nqwNh1pFsOpFmanLnUrkthG46QAXbzoqDjLPvVqOIfO8sD5AxTYl
+ QyRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kx8WnWbWmDtIbVxb9P1LlAYMJpSU3FiG1MWRd7HKShU=;
- b=WWIHKXrVmSkMv76u1CEr7z0MOJbvwPBbxSLlumMFmM6QgnctNzV+YIZ5428kHK9ekv
- M8Kt08o+6D97/FvA5K3dxO9GFJEKUdveQnbxpq3nHtTkBWDEFQ2ZrZhsdXw7NcAWHTez
- LvcvhIh5P4VaWfJve6MMjXmZpfi3S+YRMjaSfLaleSMCVzjlxxGbQ32BJDYnxuF/IgSM
- SEYUh6DHxVsWvhK5Eikl7NfSFssZdFvZOSmZ/PB9wGuZEv8sLuz0t2BjN964nE4JuLY5
- CpZ6YKJ43Gak+ZVgjkuRMaYMoITcUufG3vVkOKWvrKJyHlNFSwH8mb4QAPzWI4dOqtsO
- 58PQ==
-X-Gm-Message-State: AOAM532fmQWDkGQ3FnKLIlmt/rOWoTz293jnGUt9sgFWcmWrPLDkVydV
- l0HpkFqFjK0FwGDBQjxyp3uJVVF/SkaaBA==
-X-Google-Smtp-Source: ABdhPJxvgwfpRtsJV9z5LLjIaMPnF0YPEFQgN94+L2D1vP/vclLR46/YfnSLtTUAvzKUj7bClLIF7A==
-X-Received: by 2002:a17:90a:353:: with SMTP id 19mr914914pjf.83.1634149367759; 
- Wed, 13 Oct 2021 11:22:47 -0700 (PDT)
+ bh=g7vb1DiY7NwJL2MkD8o8UL44MwU+VnbJvJpghPXqqyM=;
+ b=HpE4kDSqkwKmarlFhBux/bCusd0iH/3I5YWnmGVRGOJgnu8o+/W5XDUPMcpRFz7D0t
+ uaxN3LQXUdK+wHC9+vHPJu6tcROfDksisodfqWap17IwPtjibU6yGt3325BEjr9Rf6hU
+ T9YG2PwoZtXUIZRmFdMPYjJtnIMwzF7BzmCGctJ78Z1jvfSyY4e0EimTZlGUkWsXSTTR
+ S6d0AgQv0jVxjyVVB81fnQx26rRAxk29ErhqIhFBr1qauflx4AWh5h7bjcKkINd79BP6
+ vmEWQiEoLia+deUr3I+tR/9H7jz7zEmKIvVDYpM4LQ8FMVRx6PitxQfaxtfqpOZjby84
+ 383Q==
+X-Gm-Message-State: AOAM531J9pYMpDAiG0JMHXl8EOuDAqqc+N/0DD7Tl0qF99U/uDI93oQa
+ 2dhYOU1z4l9PPCs0uaCXvkSdGcKUz2q0Gw==
+X-Google-Smtp-Source: ABdhPJxte1QrSHDIjCM+67KUszg4N//6dudVu/jU7uxDVFm63/fPUBD4xX2/qQ5eU5saPXiRko7SNQ==
+X-Received: by 2002:a17:90b:4a47:: with SMTP id lb7mr939129pjb.1.1634149368775; 
+ Wed, 13 Oct 2021 11:22:48 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id z2sm177140pfe.210.2021.10.13.11.22.47
+ by smtp.gmail.com with ESMTPSA id z2sm177140pfe.210.2021.10.13.11.22.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 11:22:47 -0700 (PDT)
+ Wed, 13 Oct 2021 11:22:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/15] target/s390x: Use MO_128 for 16 byte atomics
-Date: Wed, 13 Oct 2021 11:22:29 -0700
-Message-Id: <20211013182239.991127-6-richard.henderson@linaro.org>
+Subject: [PULL 06/15] target/hexagon: Implement cpu_mmu_index
+Date: Wed, 13 Oct 2021 11:22:30 -0700
+Message-Id: <20211013182239.991127-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211013182239.991127-1-richard.henderson@linaro.org>
 References: <20211013182239.991127-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,40 +83,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- David Hildenbrand <david@redhat.com>
+Cc: Taylor Simpson <tsimpson@quicinc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+The function is trivial for user-only, but still must be present.
+
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/tcg/mem_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/hexagon/cpu.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
-index 75f6735545..e64d1bc725 100644
---- a/target/s390x/tcg/mem_helper.c
-+++ b/target/s390x/tcg/mem_helper.c
-@@ -1811,7 +1811,7 @@ void HELPER(cdsg_parallel)(CPUS390XState *env, uint64_t addr,
-     assert(HAVE_CMPXCHG128);
+diff --git a/target/hexagon/cpu.h b/target/hexagon/cpu.h
+index f7d043865b..f90c187888 100644
+--- a/target/hexagon/cpu.h
++++ b/target/hexagon/cpu.h
+@@ -141,6 +141,15 @@ static inline void cpu_get_tb_cpu_state(CPUHexagonState *env, target_ulong *pc,
+ #endif
+ }
  
-     mem_idx = cpu_mmu_index(env, false);
--    oi = make_memop_idx(MO_TEQ | MO_ALIGN_16, mem_idx);
-+    oi = make_memop_idx(MO_TE | MO_128 | MO_ALIGN, mem_idx);
-     oldv = cpu_atomic_cmpxchgo_be_mmu(env, addr, cmpv, newv, oi, ra);
-     fail = !int128_eq(oldv, cmpv);
++static inline int cpu_mmu_index(CPUHexagonState *env, bool ifetch)
++{
++#ifdef CONFIG_USER_ONLY
++    return MMU_USER_IDX;
++#else
++#error System mode not supported on Hexagon yet
++#endif
++}
++
+ typedef struct CPUHexagonState CPUArchState;
+ typedef HexagonCPU ArchCPU;
  
-@@ -1940,7 +1940,7 @@ static uint32_t do_csst(CPUS390XState *env, uint32_t r3, uint64_t a1,
-                 cpu_stq_data_ra(env, a1 + 0, int128_gethi(nv), ra);
-                 cpu_stq_data_ra(env, a1 + 8, int128_getlo(nv), ra);
-             } else if (HAVE_CMPXCHG128) {
--                MemOpIdx oi = make_memop_idx(MO_TEQ | MO_ALIGN_16, mem_idx);
-+                MemOpIdx oi = make_memop_idx(MO_TE | MO_128 | MO_ALIGN, mem_idx);
-                 ov = cpu_atomic_cmpxchgo_be_mmu(env, a1, cv, nv, oi, ra);
-                 cc = !int128_eq(ov, cv);
-             } else {
 -- 
 2.25.1
 
