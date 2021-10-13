@@ -2,44 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1488342BFCE
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 14:22:11 +0200 (CEST)
-Received: from localhost ([::1]:54014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6AA42BFA2
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 14:17:55 +0200 (CEST)
+Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1madGs-0003cw-7Z
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 08:22:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42832)
+	id 1madCk-0007Jv-5s
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 08:17:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1madER-0001zZ-Bo
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 08:19:39 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:43751)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1madB2-0006N2-Q8
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 08:16:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1madEO-0003Va-6L
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 08:19:38 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C62D1748F56;
- Wed, 13 Oct 2021 14:19:29 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9E835746333; Wed, 13 Oct 2021 14:19:29 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v3] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI interrupts
-Date: Wed, 13 Oct 2021 14:13:09 +0200
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1madAy-00012c-ML
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 08:16:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634127363;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m00wcAHICVyWdkQvrQZd1+uvZFbtjJx9ZiEi0F4BNWM=;
+ b=iAT1pFTZMCefbF1ke+AoI8Rzvqgon1i1wuHfhH2AYvuhQqA+ZT6ILJoM/R9JRLdRH4sTPf
+ H6ZSjvFQMsJAZeIvRZi3ZqVtom4vhyppwYry1fFMuvLxVM0GpY9qS8vPLYC9vZKe+NmHtn
+ 6Ta6I9x9R8bXFF7D/S/blHhNkCXOYp0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-173-G1T7YSSTMJuoaXt6MXMz4g-1; Wed, 13 Oct 2021 08:16:00 -0400
+X-MC-Unique: G1T7YSSTMJuoaXt6MXMz4g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h11-20020adfa4cb000000b00160c791a550so1831271wrb.6
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 05:16:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=m00wcAHICVyWdkQvrQZd1+uvZFbtjJx9ZiEi0F4BNWM=;
+ b=sV9Bn5F5ChcMeh+BDoUq3R4f0J9KM6tFWh+VWr77zj2oOqBOARUVYrM3XqY7yR8kpw
+ ol+TYBGZh75SOltVg3wjEVxrLEoXDRBRREZGfD3kjBYZ4dMN69UFydLbDpODWCItK1D6
+ y5Cp0LNmjcIGm68JJIaxuC1fxMTvJOOaAkGwMYQxTOSfnyOWjz+cc6LjTkEIGZRasg5M
+ DWlAyKKVvvokYQStqO8VzL6f2BMLNSIRUSgiC/SCl2T/n8fkiWfdZmpNb4ex//84XkVv
+ 61nl36elg7Tk6MTOk2shXJOWG2FwpGKrm8v6tpp6/l1BUeDAOswNs4hWRYUI8F1r3OSN
+ O1dg==
+X-Gm-Message-State: AOAM53288Sg0pmBvDw46SqhAPADDKzXb6aFCDClMpZCdyzU7h0IpSvlz
+ ZgP/b9vktljyZEW0qe5gURe97bze+fsZqvY2K59psPZhcm4kZvcFswbyC4J7xBt1FR9sYjGJXC/
+ /IMttUL/hpo1jdKQ=
+X-Received: by 2002:a5d:4481:: with SMTP id j1mr40745907wrq.6.1634127359154;
+ Wed, 13 Oct 2021 05:15:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxLBeU+47WEBh8F6RgcDaNvgtHB0qe1hhLLluzW55Hsan5D/pk/sPGHCIITzvCemvbNSsJKEA==
+X-Received: by 2002:a5d:4481:: with SMTP id j1mr40745881wrq.6.1634127358981;
+ Wed, 13 Oct 2021 05:15:58 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1e48:3780:4451:9a65:d4e9:9bb6?
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id a2sm13212603wrq.9.2021.10.13.05.15.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Oct 2021 05:15:58 -0700 (PDT)
+Message-ID: <1b5e36c5-4d47-c4e4-9d39-6adb43a82537@redhat.com>
+Date: Wed, 13 Oct 2021 14:15:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org
-Message-Id: <20211013121929.9E835746333@zero.eik.bme.hu>
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 11/13] iotests/linters: Add workaround for mypy bug #9852
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20211004210503.1455391-1-jsnow@redhat.com>
+ <20211004210503.1455391-12-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211004210503.1455391-12-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,119 +98,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Philippe M-D <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This device is part of a superio/ISA bridge chip and IRQs from it are
-routed to an ISA interrupt set by the Interrupt Line PCI config
-register. Change uhci_update_irq() to allow this and implement it in
-vt82c686-uhci-pci.
+On 04.10.21 23:05, John Snow wrote:
+> This one is insidious: if you write an import as "from {namespace}
+> import {subpackage}" as mirror-top-perms (now) does, mypy will fail on
+> every-other invocation *if* the package being imported is a typed,
+> installed, namespace-scoped package.
+>
+> Upsettingly, that's exactly what 'qemu.[aqmp|qmp|machine]' et al are in
+> the context of Python CI tests.
+>
+> Now, I could just edit mirror-top-perms to avoid this invocation, but
+> since I tripped on a landmine, I might as well head it off at the pass
+> and make sure nobody else trips on that same landmine.
+>
+> It seems to have something to do with the order in which files are
+> checked as well, meaning the random order in which set(os.listdir())
+> produces the list of files to test will cause problems intermittently
+> and not just strictly "every other run".
+>
+> This will be fixed in mypy >= 0.920, which is not released yet. The
+> workaround for now is to disable incremental checking, which avoids the
+> issue.
+>
+> Note: This workaround is not applied when running iotest 297 directly,
+> because the bug does not surface there! Given the nature of CI jobs not
+> starting with any stale cache to begin with, this really only has a
+> half-second impact on manual runs of the Python test suite when executed
+> directly by a developer on their local machine. The workaround may be
+> removed when the Python package requirements can stipulate mypy 0.920 or
+> higher, which can happen as soon as it is released. (Barring any
+> unforseen compatibility issues that 0.920 may bring with it.)
+>
+>
+> See also:
+>   https://github.com/python/mypy/issues/11010
+>   https://github.com/python/mypy/issues/9852
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   tests/qemu-iotests/linters.py | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
----
-v3: Do it more differently using qemu_irq instead as suggested by Gerd
-v2: Do it differently to confine isa reference to vt82c686-uhci-pci as
-hcd-uhci is also used on machines that don't have isa. Left Jiaxun's
-R-b there as he checked it's the same for VT82C686B and gave R-b for
-the 82c686b case which still holds but speak up if you tink otherwise.
-
- hw/usb/hcd-uhci.c          | 11 +++++------
- hw/usb/hcd-uhci.h          |  2 +-
- hw/usb/vt82c686-uhci-pci.c | 12 ++++++++++++
- 3 files changed, 18 insertions(+), 7 deletions(-)
-
-diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
-index 0cb02a6432..7201cd0ae7 100644
---- a/hw/usb/hcd-uhci.c
-+++ b/hw/usb/hcd-uhci.c
-@@ -31,6 +31,7 @@
- #include "hw/usb/uhci-regs.h"
- #include "migration/vmstate.h"
- #include "hw/pci/pci.h"
-+#include "hw/irq.h"
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
- #include "qemu/timer.h"
-@@ -290,7 +291,7 @@ static UHCIAsync *uhci_async_find_td(UHCIState *s, uint32_t td_addr)
- 
- static void uhci_update_irq(UHCIState *s)
- {
--    int level;
-+    int level = 0;
-     if (((s->status2 & 1) && (s->intr & (1 << 2))) ||
-         ((s->status2 & 2) && (s->intr & (1 << 3))) ||
-         ((s->status & UHCI_STS_USBERR) && (s->intr & (1 << 0))) ||
-@@ -298,10 +299,8 @@ static void uhci_update_irq(UHCIState *s)
-         (s->status & UHCI_STS_HSERR) ||
-         (s->status & UHCI_STS_HCPERR)) {
-         level = 1;
--    } else {
--        level = 0;
-     }
--    pci_set_irq(&s->dev, level);
-+    qemu_set_irq(s->irq, level);
- }
- 
- static void uhci_reset(DeviceState *dev)
-@@ -1170,9 +1169,9 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
- 
-     pci_conf[PCI_CLASS_PROG] = 0x00;
-     /* TODO: reset value should be 0. */
--    pci_conf[USB_SBRN] = USB_RELEASE_1; // release number
--
-+    pci_conf[USB_SBRN] = USB_RELEASE_1; /* release number */
-     pci_config_set_interrupt_pin(pci_conf, u->info.irq_pin + 1);
-+    s->irq = pci_allocate_irq(dev);
- 
-     if (s->masterbus) {
-         USBPort *ports[NB_PORTS];
-diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
-index e61d8fcb19..1f8ee04186 100644
---- a/hw/usb/hcd-uhci.h
-+++ b/hw/usb/hcd-uhci.h
-@@ -60,7 +60,7 @@ typedef struct UHCIState {
-     uint32_t frame_bandwidth;
-     bool completions_only;
-     UHCIPort ports[NB_PORTS];
--
-+    qemu_irq irq;
-     /* Interrupts that should be raised at the end of the current frame.  */
-     uint32_t pending_int_mask;
- 
-diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
-index b109c21603..e70e739409 100644
---- a/hw/usb/vt82c686-uhci-pci.c
-+++ b/hw/usb/vt82c686-uhci-pci.c
-@@ -1,6 +1,16 @@
- #include "qemu/osdep.h"
-+#include "hw/irq.h"
- #include "hcd-uhci.h"
- 
-+static void uhci_isa_set_irq(void *opaque, int irq_num, int level)
-+{
-+    UHCIState *s = opaque;
-+    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
-+    if (irq > 0 && irq < 15) {
-+        qemu_set_irq(isa_get_irq(NULL, irq), level);
-+    }
-+}
-+
- static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
- {
-     UHCIState *s = UHCI(dev);
-@@ -14,6 +24,8 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
-     pci_set_long(pci_conf + 0xc0, 0x00002000);
- 
-     usb_uhci_common_realize(dev, errp);
-+    object_unref(s->irq);
-+    s->irq = qemu_allocate_irq(uhci_isa_set_irq, s, 0);
- }
- 
- static UHCIInfo uhci_info[] = {
--- 
-2.21.4
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
