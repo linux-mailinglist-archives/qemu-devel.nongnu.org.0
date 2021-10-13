@@ -2,75 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E2342BC65
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 12:03:11 +0200 (CEST)
-Received: from localhost ([::1]:47032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 471FC42BC6E
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 12:05:47 +0200 (CEST)
+Received: from localhost ([::1]:52226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mab6M-0003hV-IY
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 06:03:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32992)
+	id 1mab8s-0007TP-D4
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 06:05:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maal6-00035D-FW
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:41:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46752)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1maanq-0001Az-Jm
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:44:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maal3-00040F-R9
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:41:12 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1maanc-00066j-Ov
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:44:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634118068;
+ s=mimecast20190719; t=1634118228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j27u9HdCHO6b9zAVWj+NIYKF2uVrn2mubp+kqSFf+/E=;
- b=JNdppOjUbTQShVPQkvmib5WMrcqK1xuP9FzEqa8T+/dabvL6W3V7nEBiOnkFLC7cvs+jlK
- Qr38ZzZF7K1kJqmAUUTeDDRqEuPDsORxUtE7zXqTzTWjA8XdQfyGzmhKCMmuQ0hfJXKrn1
- z1efwrzicdmAmVmJ2bZ7yXvSCbvFH4Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-XsdQ6f97NKiXaooPp9r_Sg-1; Wed, 13 Oct 2021 05:41:05 -0400
-X-MC-Unique: XsdQ6f97NKiXaooPp9r_Sg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5687D10B3941
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 09:41:04 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D492460C5F;
- Wed, 13 Oct 2021 09:41:03 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6E3C8113865F; Wed, 13 Oct 2021 11:41:02 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v3 6/6] tests/qapi-schema: Test cases for aliases
-References: <YTt0G1cs+BweXOMD@redhat.com> <87bl4vedma.fsf@dusky.pond.sub.org>
- <YUB0BcZUwwwecrFl@redhat.com> <87k0jj8evk.fsf@dusky.pond.sub.org>
- <YUG71uATYCwpRyQH@redhat.com> <8735q3y5db.fsf@dusky.pond.sub.org>
- <YUSuThJtW9ar2wCY@redhat.com> <87a6jrimaf.fsf@dusky.pond.sub.org>
- <YVsKpClmGgq5ki7r@redhat.com> <87y270uhsl.fsf@dusky.pond.sub.org>
- <YWWda+hjUlDkT1tb@redhat.com>
-Date: Wed, 13 Oct 2021 11:41:02 +0200
-In-Reply-To: <YWWda+hjUlDkT1tb@redhat.com> (Kevin Wolf's message of "Tue, 12
- Oct 2021 16:36:27 +0200")
-Message-ID: <877dehuus1.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=gVKeMCzKTVLPYKcFBzM15Jh1PEN7WWvVdsY0GHYudcQ=;
+ b=gmux/v2h7tlD+w3UrL1xYmB5rAfcD0Jm2Mud4O2vvSEAhlbJOI/rIHOP+a7WpjRRcYbAmS
+ 0Oy9GEvKK3uszs6jLKLOLOs1zA2fTt7Tzp9Po8WPuC/VZNb8JUXEIUGnqQipxuDlfgKAH9
+ /xZKwlYRsu/kUrZlxdZ1ZdydKRlnneQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-493-tJnCunY5OyCBZaG0b1DBTw-1; Wed, 13 Oct 2021 05:43:44 -0400
+X-MC-Unique: tJnCunY5OyCBZaG0b1DBTw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ x5-20020a50f185000000b003db0f796903so1699143edl.18
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:43:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=gVKeMCzKTVLPYKcFBzM15Jh1PEN7WWvVdsY0GHYudcQ=;
+ b=xWkWpOQTovl0O+tzye4R8noR4LAMtNNuBv1Ny2Any8z2fkTW3mmPMXQzhZ34PXVQF2
+ FLH4yQq84LU7tXrftxRrqNAGrKNbdGnlKk3TxLw2RTE3pCGX652qAeDJ2TJvcRp+9YyJ
+ ViWNB43vs5qq0QrPRoRvaRTR0gwhvX9FY5CauU9T+231HL7wj1kxrLyE/q0IRPpskQIl
+ 6avdySWejcpvER0gS+6eD4MViV6IsUmNpOGO+hYUjMrFTH+UiVMm95iQLdgGKVrlbJHv
+ sIOUIPA/k34h/X3ipMEH+5WOCKHUI3sGPAkWrryA1MU9Uor7gKx2vhrTI5lZ91AOnuBc
+ BGWA==
+X-Gm-Message-State: AOAM531OuAfW/fYffsvV+4Et6lfFafcOMyDsuJmDGcTjzTXmdUWFsllC
+ 8usTTtVt/aT8gDfkx6YUIAdB7BUUFkzQZyDaouv9ttfQ5TWgSqIPfqIe+m4EVNtyrFQGEk7g2hw
+ a3R7III4uNpEtVsc=
+X-Received: by 2002:a05:6402:2748:: with SMTP id
+ z8mr8151611edd.25.1634118223683; 
+ Wed, 13 Oct 2021 02:43:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxdg9i1VuCFbtLDlbvdRlkRp8IujkGBLpHa+t+1itrF0KcZLcX9oiNx18GGScFx2M0pPkSZKA==
+X-Received: by 2002:a05:6402:2748:: with SMTP id
+ z8mr8151592edd.25.1634118223530; 
+ Wed, 13 Oct 2021 02:43:43 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id kd8sm6369571ejc.69.2021.10.13.02.43.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Oct 2021 02:43:43 -0700 (PDT)
+Date: Wed, 13 Oct 2021 11:43:42 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1 2/2] memory: Update description of
+ memory_region_is_mapped()
+Message-ID: <20211013114342.43e99dac@redhat.com>
+In-Reply-To: <067a10ee-0897-df8d-2eff-b347c5958b03@redhat.com>
+References: <20211011174522.14351-1-david@redhat.com>
+ <20211011174522.14351-3-david@redhat.com>
+ <93dead18-5ea5-0afe-18c1-de9a06773687@linaro.org>
+ <8108c69d-a596-d6c9-a116-783f47904deb@amsat.org>
+ <845d3d5f-f9e9-d59d-c868-5a9825eb7fba@redhat.com>
+ <20211012105300.1ef25440@redhat.com>
+ <a2078241-1dc9-782e-38a3-eab06c1b162c@redhat.com>
+ <20211012120059.14e19dc1@redhat.com>
+ <84adb9d1-6e30-7d5e-a362-0a81ea4b8b01@redhat.com>
+ <067a10ee-0897-df8d-2eff-b347c5958b03@redhat.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,311 +107,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+On Wed, 13 Oct 2021 09:14:35 +0200
+David Hildenbrand <david@redhat.com> wrote:
 
-> Am 11.10.2021 um 09:44 hat Markus Armbruster geschrieben:
->> Kevin Wolf <kwolf@redhat.com> writes:
->> 
->> [...]
->> 
->> > What I had in mind was using the schema to generate the necessary code,
->> > using the generic keyval parser everywhere, and just providing a hook
->> > where the QDict could be modified after the keyval parser and before the
->> > visitor. Most command line options would not have any explicit code for
->> > parsing input, only the declarative schema and the final option handler
->> > getting a QAPI type (which could actually be the corresponding QMP
->> > command handler in the common case).
->> 
->> A walk to the bakery made me see a problem with transforming the qdict
->> between keyval parsing and the visitor: error reporting.  On closer
->> investigation, the problem exists even with just aliases.
->
-> I already commented on part of this on IRC, but let me reply here as
-> well.
->
-> On general remark is that I would make the same distinction between
-> aliases for compatibility and usability that I mentioned elsewhere in
-> this thread.
->
-> In the case of compatibility, it's already a concession that we still
-> accept the option - suboptimal error messages for incorrect command
-> lines aren't a major concern for me there. Users are supposed to move to
-> the new syntax anyway.
-
-Well, these aren't "incorrect", merely deprecated.  Bad UX is still bad
-there, but at least it'll "fix" itself when the deprecated part goes
-away.
-
-> On the other hand, aliases we employ for usability are cases where we
-> don't expect humans to move to something else. I think this is mostly
-> for flattening structures. Here error messages should be good.
->
->> All experiments performed with your complete QAPIfication at
->> https://repo.or.cz/qemu/kevin.git qapi-alias-chardev-v4.
->> 
->> 
->> Example: flattening leads to suboptimal error
->> 
->>     $ qemu-system-x86_64 -chardev udp,id=chr0,port=12345,ipv4=om
->>     qemu-system-x86_64: -chardev udp,id=chr0,port=12345,ipv4=om: Parameter 'backend.data.remote.data.ipv4' expects 'on' or 'off'
->> 
->> We're using "alternate" notation, but the error message barks back in
->> "standard" notation.  It comes from the visitor.  While less than
->> pleasant, it's still understandable, because the "standard" key ends
->> with the "alternate" key.
->
-> This is not a fundamental problem with aliases. The right name for the
-> option is unambiguous and known to the visitor: It's the name that the
-> user specified.
-
-This is "1. The visitor reports errors as if aliases didn't exist"
-below.
-
-> With manual QDict modification it becomes a more fundamental problem
-> because the visitor can't know the original name any more.
-
-This is "2. The visitor reports errors as if manual transformation
-didn't exist" below.
-
-I agree 1 is easier to fix than 2.
-
->> Example: renaming leads to confusing error
->> 
->> So far, we rename only members of type 'str', where the visitor can't
->> fail.  Just for illustrating the problem, I'm adding one where it can:
->> 
->>     diff --git a/qapi/char.json b/qapi/char.json
->>     index 0e39840d4f..b436d83cbe 100644
->>     --- a/qapi/char.json
->>     +++ b/qapi/char.json
->>     @@ -398,7 +398,8 @@
->>      ##
->>      { 'struct': 'ChardevRingbuf',
->>        'data': { '*size': 'int' },
->>     -  'base': 'ChardevCommon' }
->>     +  'base': 'ChardevCommon',
->>     +  'aliases': [ { 'name': 'capacity', 'source': [ 'size' ] } ] }
->> 
->>      ##
->>      # @ChardevQemuVDAgent:
->> 
->> With this patch:
->> 
->>     $ qemu-system-x86_64 -chardev ringbuf,id=chr0,capacity=lots
->>     qemu-system-x86_64: -chardev ringbuf,id=chr0,capacity=lots: Parameter 'backend.data.size' expects integer
->> 
->> The error message fails to connect to the offending key=value.
->
-> Same problem as above. The error message should use the key that the
-> user actually specified.
-
-Yes.
-
->> Example: manual transformation leads to confusion #1
->> 
->> Starting point:
->> 
->>     $ qemu-system-x86_64 -chardev udp,id=chr0,port=12345,localaddr=localhost
->> 
->> Works.  host defaults to localhost, localport defaults to 0, same as in
->> git master.
->> 
->> Now "forget" to specify @port:
->> 
->>     $ qemu-system-x86_64 -chardev udp,id=chr0,localaddr=localhost
->>     qemu-system-x86_64: -chardev udp,id=chr0,localaddr=localhost: Parameter 'backend.data.remote.data.port' is missing
->> 
->> Again, the visitor's error message uses "standard" notation.
->
-> The output isn't wrong, it's just more verbose than necessary.
->
-> Getting this one shortened is a bit harder because the right name is
-> ambiguous, the user didn't specify anything we can just print back.
->
-> Possibly in CLI context, making use of any wildcard aliases would be a
-> reasonable strategy. This would reduce this one to just 'port'.
-
-Which of the possible keys we use in the error message boils down to
-picking a preferred key.
-
->> We obediently do what the error message tells us to do:
->> 
->>     $ qemu-system-x86_64 -chardev udp,id=chr0,localaddr=localhost,backend.data.remote.data.port=12345
->>     qemu-system-x86_64: -chardev udp,id=chr0,localaddr=localhost,backend.data.remote.data.port=12345: Parameters 'backend.*' used inconsistently
->> 
->> Mission accomplished: confusion :)
->
-> This one already fails before aliases do their work. The reason is that
-> the default key for -chardev is 'backend', and QMP and CLI use the same
-> name 'backend' for two completely different things.
-
-Right.  I was confused (and the mission was truly accomplished).
-
-> We could rename the default key into 'x-backend' and make it behave the
-> same as 'backend', then the keyval parser would only fail when you
-> explicitly wrote '-chardev backend=udp,...' and the problem is more
-> obvious.
-
-Technically a compatibility break, but we can hope that the longhand
-form we change isn't used.
-
-> By the way, we have a very similar issue with '-drive file=...', if we
-> ever want to parse that one with the keyval parser. It can be both a
-> string for the filename or an object for the configuration of the 'file'
-> child that many block drivers have.
-
-Should I be running for the hills?
-
->> Example: manual transformation leads to confusion #2
->> 
->> Confusion is possible even without tricking the user into mixing
->> "standard" and "alternate" explicitly:
->> 
->>     $ qemu-system-x86_64 -chardev udp,id=chr0,backend.data.remote.type=udp
->>     qemu-system-x86_64: -chardev udp,id=chr0,backend.data.remote.type=udp: Parameters 'backend.*' used inconsistently
->> 
->> Here, the user tried to stick to "standard", but forgot to specify a
->> required member.  The transformation machinery then "helpfully"
->> transformed nothing into something, which made the visitor throw up.
->
-> Not the visitor, but the keyval parser. Same problem as above.
->
->> Clear error reporting is a critical part of a human-friendly interface.
->> We have two separate problems with it:
->> 
->> 1. The visitor reports errors as if aliases didn't exist
->> 
->>    Fixing this is "merely" a matter of tracing back alias applications.
->>    More complexity...
->> 
->> 2. The visitor reports errors as if manual transformation didn't exist
->> 
->>    Manual transformation can distort the users input beyond recognition.
->>    The visitor reports errors for the transformed input.
->> 
->>    To fix this one, we'd have to augment the parse tree so it points
->>    back at the actual user input, and then make the manual
->>    transformations preserve that.  Uff!
->
-> Manual transformations are hard to write in a way that they give perfect
-> results. As long as they are only used for legacy syntax and we expect
-> users to move to a new way to spell things, this might be acceptable for
-> a transition period until we remove the old syntax.
-
-Valid point.
-
-> In other cases, the easiest way is probably to duplicate even more of
-> the schema and manually make sure that the visitor will accept the input
-> before we transform it.
->
-> The best way to avoid this is providing tools in QAPI that make manual
-> transformations unnecessary.
-
-Reducing the amount of handwritten code is good, as long as the price is
-reasonable.  Complex code fetches a higher price.
-
-I think there are a couple of ways to skin this cat.
-
-0. Common to all ways: specify "standard" in the QAPI schema.  This
-   specifies both the "standard" wire format, its parse tree
-   (represented as QObject), and the "standard" C interface (C types,
-   basically).
-
-   Generic parsers parse into the parse tree.  The appropriate input
-   visitor validates and converts to C types.
-
-1. Parse "alternate" by any means (QemuOpts, keyval, ad hoc), validate,
-   then transform for the "standard" C interface.  Parsing and
-   validating can fail, the transformation can't.
-
-   Drawbacks:
-
-   * We duplicate validation, which is a standing invitation for bugs.
-
-   * Longwinded, handwritten transformation code.  Less vulnerable to
-     bugs than validation code, I believe.
-
-2. Parse "alternate" by any means (QemuOpts, keyval, ad hoc), transform
-   to "standard" parse tree.
-
-   Drawbacks:
-
-   * Bad error messages from input visitor.
-
-   * The handwritten transformation code is more longwinded than with 1.
-
-3. Specify "alternate" in the QAPI schema.  Map "alternate" C interface
-   to the "standard" one.
-
-   Drawbacks:
-
-   * QAPI schema code duplication
-
-   * Longwinded, handwritten mapping code.
-
-   This is what we did with SocketAddressLegacy.
-
-4. Extend the QAPI schema language to let us specify non-standard wire
-   format(s).  Use that to get the "alternate" wire format we need.
-
-   Drawbacks:
-
-   * QAPI schema language and generator become more complex.
-
-   * Input visitor(s) become more complex.
-
-   * Unless we accept "alternate" everywhere, we need a way to limit it
-     to where it's actually needed.  More complexity.
-
-   The concrete proposal on the table is aliases.  They are not a
-   complete solution.  To solve the whole problem, we combine them with
-   2.  We accept 4's drawbacks for a (sizable) reduction of 2's.
-   Additionally, we accept "ghost" aliases.
-
-5. Extend the QAPI schema language to let us specify "alternate" wire
-   formats for "standard" types
-
-   This is like 3, except the schema code is mostly referenced instead
-   duplicated, and the mapping code is generated.  Something like
-   "derive type T' from T with these members moved / renamed".
-
-   Drawbacks
-
-   * QAPI schema language and generator become more complex.
-
-   * Unlike 4, we don't have working code.
-
-   Like 4, this will likely solve only part of the problem.
-
-Which one is the least bad?
-
-If this was just about dragging deprecated interfaces to the end of
-their grace period, I'd say "whatever is the least work", and that's
-almost certainly whatever we have now, possibly hacked up to use the
-appropriate internal interface.
-
-Unfortunately, it is also about providing a friendlier interface to
-humans "forever".
-
-With 4 or 5, we invest into infrastructure once, then maintain it
-forever, to make solving the problem easier and the result easier to
-maintain.
-
-Whether the investment will pay off depends on how big and bad the
-problem is.  Hard to say.  One of the reasons we're looking at -chardev
-now is that we believe it's the worst of the bunch.  But how big is the
-bunch, and how bad are the others in there?
-
->> I'm afraid I need another round of thinking on how to best drag legacy
->> syntax along when we QAPIfy.
->
-> Let me know when you've come to any conclusions (or more things to
-> discuss).
-
-Is 3 too awful to contemplate?
+> On 12.10.21 12:09, David Hildenbrand wrote:
+> >>
+> >> The less confusing would be one where check works for any memory region
+> >> involved.  
+> > 
+> > Exactly, so for any alias, even in-between another alias and the target.
+> >   
+> >>      
+> >>>>
+> >>>>       
+> >>>>>         I am not aware of actual issues, this is rather a cleanup.
+> >>>>>         
+> >>>>>         Signed-off-by: David Hildenbrand <david@redhat.com>
+> >>>>>
+> >>>>> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> >>>>> index 75b4f600e3..93d0190202 100644
+> >>>>> --- a/include/exec/memory.h
+> >>>>> +++ b/include/exec/memory.h
+> >>>>> @@ -728,6 +728,7 @@ struct MemoryRegion {
+> >>>>>          const MemoryRegionOps *ops;
+> >>>>>          void *opaque;
+> >>>>>          MemoryRegion *container;
+> >>>>> +    int mapped_via_alias; /* Mapped via an alias, container might be NULL */
+> >>>>>          Int128 size;
+> >>>>>          hwaddr addr;
+> >>>>>          void (*destructor)(MemoryRegion *mr);
+> >>>>> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> >>>>> index 3bcfc3899b..1168a00819 100644
+> >>>>> --- a/softmmu/memory.c
+> >>>>> +++ b/softmmu/memory.c
+> >>>>> @@ -2535,8 +2535,13 @@ static void memory_region_add_subregion_common(MemoryRegion *mr,
+> >>>>>                                                     hwaddr offset,
+> >>>>>                                                     MemoryRegion *subregion)
+> >>>>>      {
+> >>>>> +    MemoryRegion *alias;
+> >>>>> +
+> >>>>>          assert(!subregion->container);
+> >>>>>          subregion->container = mr;
+> >>>>> +    for (alias = subregion->alias; alias; alias = alias->alias) {
+> >>>>> +       alias->mapped_via_alias++;  
+> >>>>
+> >>>> it it necessary to update mapped_via_alias for intermediate aliases?
+> >>>> Why not just update on counter only on leaf (aliased region)?  
+> >>>
+> >>> Assume we have alias0 -> alias1 -> region and map alias0.
+> >>>
+> >>> Once alias0 is mapped it will have ->container set and
+> >>> memory_region_is_mapped(alias0) will return "true".
+> >>>
+> >>> With my patch, both, "alias1" and the region will be marked
+> >>> "mapped_via_alias" and memory_region_is_mapped() will succeed on both of
+> >>> them. With what you propose, memory_region_is_mapped() would only
+> >>> succeed on the region (well, and on alias 0) but not on alias1.  
+> >>
+> >> as long as add_subregion increments counter on leaf it doesn't matter
+> >> how many intermediate aliases are there. Check on every one of them
+> >> should end up at the leaf counter (at expense of traversing
+> >> chain on every check but less state to track/think about).
+> >>  
+> > 
+> > Sure, we could also let memory_region_is_mapped() walk all aliases to
+> > the leaf. Not sure though, if it really simplifies things. It merely
+> > adds another loop and doesn't get rid of the others :) But I don't
+> > particularly care.
+> >   
+> 
+> I just realized that this might not be what we want: we could get false 
+> positives when a memory region is referenced via multiple alias and only 
+> one of them is mapped. memory_region_is_mapped() could return "true" for 
+> an alias that isn't actually mapped.
+Agreed, that would be inconsistent.
 
 
