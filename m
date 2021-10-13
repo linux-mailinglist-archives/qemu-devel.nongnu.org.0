@@ -2,48 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D170642C5EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 18:11:11 +0200 (CEST)
-Received: from localhost ([::1]:49316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D73E42C63B
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 18:23:36 +0200 (CEST)
+Received: from localhost ([::1]:34456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1magqU-0001d4-DW
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 12:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41414)
+	id 1mah2U-0002Y3-O3
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 12:23:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1magos-0000Gc-Os
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 12:09:30 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:2304)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1magop-0001l7-RY
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 12:09:30 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 371FC45DAE;
- Wed, 13 Oct 2021 18:09:23 +0200 (CEST)
-Subject: Re: [PATCH v4 2/2] monitor: refactor set/expire_password and allow
- VNC display id
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210928090326.1056010-1-s.reiter@proxmox.com>
- <20210928090326.1056010-3-s.reiter@proxmox.com>
- <87zgrebnod.fsf@dusky.pond.sub.org>
-From: Stefan Reiter <s.reiter@proxmox.com>
-Message-ID: <69473cd0-b01b-a189-e4e8-fcb02738b7b1@proxmox.com>
-Date: Wed, 13 Oct 2021 18:09:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <vineetg@rivosinc.com>)
+ id 1mah00-0001r5-98
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 12:21:00 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:39596)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <vineetg@rivosinc.com>)
+ id 1magzw-0003AC-9E
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 12:20:59 -0400
+Received: by mail-pl1-x634.google.com with SMTP id c4so2184525pls.6
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 09:20:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=srBduUPJJy0/xgorY/SqGLcr6llYw3t2x8HaOwBvHM0=;
+ b=5s8PinZtK4C0vy/NOSvWjsqk2wc2QXEUagDj92vtSovHwFcYkfKl5T9BhjsHQDOEnN
+ UGURjycwLKjuE+3gjJqzRtrICPvqn+lcBklQpORp+1tAd9cVZdrSr98JXjcFpAJBwgXI
+ ocgP6d/uj0PLNMg530H+NqCAGnqpQV+jG1JHievPgZJ3PNJwABdfxQ/6cNecRaQFmH0q
+ JNhf/rnrqkRbUEkYTxbvMA33yjxgChg8mncHEkQS2YXGf+XdwWp5R3EDp04IhxwJ+g7V
+ 6DkTlKt8OS+ETcqbqxt7Rzbq4CQJLbOyyPaxq3eEoxZYc5fyrr6eeqPQjJEEAV263bY1
+ GrnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=srBduUPJJy0/xgorY/SqGLcr6llYw3t2x8HaOwBvHM0=;
+ b=Jfh9sEDRkDM1oUdra9dnXrlpIfMj4hx7GdR50q9oD0zBI+33CAPYswKaxVEk1LRtzQ
+ MABMHGUdQIq94q53xl3FK4MN/RKObqvw4pihmd/axdjTzU8//gLP7U3+Lv8V98uryOhu
+ cApMRKQ9Cj7mT4oWv8TQajByd4DPI2CyHDGvYzpti5YUsI08m7V6gTsHfcM7leoClXlQ
+ mrJlK3bhGL6/FLSgsOFTC9bzapr1mdgnPu8VtS406d4Qo5W1kep8QbEnxyyfcGzVgyil
+ Tt3IFQiq/O8BmH1tgkZCWgqCYfKqPVqckMUxDaCPpl+CrEo8eayCtcCiH2FGHT7I+Gy8
+ zS1A==
+X-Gm-Message-State: AOAM533EuXgO9vIZSk0BOyibcAqYs/WWt8/q/jzqrXTPeyFMwwE+bYIO
+ Kx8o0kEi72d1dFyuw20CHByQ8g==
+X-Google-Smtp-Source: ABdhPJySOMd441LUor7mk6uQL2DJxnbbHJQji1Bf4XPGigJ5MeymhLL0AJNSNM2mhAuFfML8lwOIuQ==
+X-Received: by 2002:a17:903:22c9:b0:13e:ed56:70e2 with SMTP id
+ y9-20020a17090322c900b0013eed5670e2mr66035plg.19.1634142053418; 
+ Wed, 13 Oct 2021 09:20:53 -0700 (PDT)
+Received: from [192.168.50.50] (c-24-4-73-83.hsd1.ca.comcast.net. [24.4.73.83])
+ by smtp.gmail.com with ESMTPSA id s2sm6840686pjs.56.2021.10.13.09.20.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Oct 2021 09:20:53 -0700 (PDT)
+Subject: Re: [PULL 11/26] target/riscv: Add orc.b instruction for Zbb,
+ removing gorc/gorci
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ Vincent Palatin <vpalatin@rivosinc.com>
+References: <20211007064751.608580-1-alistair.francis@opensource.wdc.com>
+ <20211007064751.608580-12-alistair.francis@opensource.wdc.com>
+ <CANVmJF=2awVA+6CZ1D1BrdZQG=OyXdYZk63ZnDOVEBooEGzE8g@mail.gmail.com>
+ <CAAeLtUBSZ-=+06SowthZds0r19w66S-ibn18st4=DU81SeJk6Q@mail.gmail.com>
+ <CAOojN2Ub=ig3akjXRdtq0WkwTn+wqy_q85UzTgV=UD5Y6y+9iA@mail.gmail.com>
+ <CAAeLtUDSss2dco5QsT1wXQJ=bBS5ZAwjmXrH5dceZwxmqKKbSg@mail.gmail.com>
+From: Vineet Gupta <vineetg@rivosinc.com>
+Message-ID: <fe85a41a-af02-2c1e-cec6-af4668f7519c@rivosinc.com>
+Date: Wed, 13 Oct 2021 09:20:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <87zgrebnod.fsf@dusky.pond.sub.org>
+In-Reply-To: <CAAeLtUDSss2dco5QsT1wXQJ=bBS5ZAwjmXrH5dceZwxmqKKbSg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
- helo=proxmox-new.maurer-it.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=vineetg@rivosinc.com; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,316 +94,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Anup Patel <anup@brainfault.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@opensource.wdc.com>,
+ Alistair Francis <alistair23@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Jim Wilson <jimw@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/21 11:24 AM, Markus Armbruster wrote:
-> Stefan Reiter <s.reiter@proxmox.com> writes:
-> 
->> It is possible to specify more than one VNC server on the command line,
->> either with an explicit ID or the auto-generated ones à la "default",
->> "vnc2", "vnc3", ...
+On 10/13/21 6:49 AM, Philipp Tomsich wrote:
+> On Wed, 13 Oct 2021 at 15:44, Vincent Palatin <vpalatin@rivosinc.com> wrote:
 >>
->> It is not possible to change the password on one of these extra VNC
->> displays though. Fix this by adding a "display" parameter to the
->> "set_password" and "expire_password" QMP and HMP commands.
+>> On Wed, Oct 13, 2021 at 3:13 PM Philipp Tomsich
+>> <philipp.tomsich@vrull.eu> wrote:
+>>>
+>>> I had a much simpler version initially (using 3 x mask/shift/or, for
+>>> 12 instructions after setup of constants), but took up the suggestion
+>>> to optimize based on haszero(v)...
+>>> Indeed this appears to not do what we expect, when there's only 0x01
+>>> set in a byte.
+>>>
+>>> The less optimized form, with a single constant, that would still do
+>>> what we want is:
+>>>     /* set high-bit for non-zero bytes */
+>>>     constant = dup_const_tl(MO_8, 0x7f);
+>>>     tmp = v & constant;   // AND
+>>>     tmp += constant;       // ADD
+>>>     tmp |= v;                    // OR
+>>>     /* extract high-bit to low-bit, for each word */
+>>>     tmp &= ~constant;     // ANDC
+>>>     tmp >>= 7;                 // SHR
+>>>     /* multiply with 0xff to populate entire byte where the low-bit is set */
+>>>     tmp *= 0xff;                // MUL
+>>>
+>>> I'll submit a patch with this one later today, once I had a chance to
+>>> pass this through a full test.
 >>
->> For HMP, the display is specified using the "-d" value flag.
 >>
->> For QMP, the schema is updated to explicitly express the supported
->> variants of the commands with protocol-discriminated unions.
+>> Thanks for the insight.
 >>
->> Suggested-by: Eric Blake <eblake@redhat.com>
->> Suggested-by: Markus Armbruster <armbru@redhat.com>
->> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+>> I have tried it, implemented as:
+>> ```
+>> static void gen_orc_b(TCGv ret, TCGv source1)
+>> {
+>>      TCGv  tmp = tcg_temp_new();
+>>      TCGv  constant = tcg_constant_tl(dup_const_tl(MO_8, 0x7f));
+>>
+>>      /* set high-bit for non-zero bytes */
+>>      tcg_gen_and_tl(tmp, source1, constant);
+>>      tcg_gen_add_tl(tmp, tmp, constant);
+>>      tcg_gen_or_tl(tmp, tmp, source1);
+>>      /* extract high-bit to low-bit, for each word */
+>>      tcg_gen_andc_tl(tmp, tmp, constant);
+>>      tcg_gen_shri_tl(tmp, tmp, 7);
+>>
+>>      /* Replicate the lsb of each byte across the byte. */
+>>      tcg_gen_muli_tl(ret, tmp, 0xff);
+>>
+>>      tcg_temp_free(tmp);
+>> }
+>> ```
+>>
+>> It does pass my own test sequences.
 > 
-> [...]
-> 
->> diff --git a/qapi/ui.json b/qapi/ui.json
->> index d7567ac866..4244c62c30 100644
->> --- a/qapi/ui.json
->> +++ b/qapi/ui.json
->> @@ -9,22 +9,23 @@
->>   { 'include': 'common.json' }
->>   { 'include': 'sockets.json' }
->>   
->> +##
->> +# @DisplayProtocol:
->> +#
->> +# Display protocols which support changing password options.
->> +#
->> +# Since: 6.2
->> +#
->> +##
->> +{ 'enum': 'DisplayProtocol',
->> +  'data': [ { 'name': 'vnc', 'if': 'CONFIG_VNC' },
->> +            { 'name': 'spice', 'if': 'CONFIG_SPICE' } ] }
->> +
-> 
-> 
-> 
->>   ##
->>   # @set_password:
->>   #
->>   # Sets the password of a remote display session.
->>   #
->> -# @protocol: - 'vnc' to modify the VNC server password
->> -#            - 'spice' to modify the Spice server password
->> -#
->> -# @password: the new password
->> -#
->> -# @connected: how to handle existing clients when changing the
->> -#             password.  If nothing is specified, defaults to 'keep'
->> -#             'fail' to fail the command if clients are connected
->> -#             'disconnect' to disconnect existing clients
->> -#             'keep' to maintain existing clients
->> -#
->>   # Returns: - Nothing on success
->>   #          - If Spice is not enabled, DeviceNotFound
->>   #
->> @@ -37,33 +38,106 @@
->>   # <- { "return": {} }
->>   #
->>   ##
->> -{ 'command': 'set_password',
->> -  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str'} }
->> +{ 'command': 'set_password', 'boxed': true, 'data': 'SetPasswordOptions' }
->> +
->> +##
->> +# @SetPasswordOptions:
->> +#
->> +# Data required to set a new password on a display server protocol.
->> +#
->> +# @protocol: - 'vnc' to modify the VNC server password
->> +#            - 'spice' to modify the Spice server password
->> +#
->> +# @password: the new password
->> +#
->> +# Since: 6.2
->> +#
->> +##
->> +{ 'union': 'SetPasswordOptions',
->> +  'base': { 'protocol': 'DisplayProtocol',
->> +            'password': 'str' },
->> +  'discriminator': 'protocol',
->> +  'data': { 'vnc': 'SetPasswordOptionsVnc',
->> +            'spice': 'SetPasswordOptionsSpice' } }
->> +
->> +##
->> +# @SetPasswordAction:
->> +#
->> +# An action to take on changing a password on a connection with active clients.
->> +#
->> +# @fail: fail the command if clients are connected
->> +#
->> +# @disconnect: disconnect existing clients
->> +#
->> +# @keep: maintain existing clients
->> +#
->> +# Since: 6.2
->> +#
->> +##
->> +{ 'enum': 'SetPasswordAction',
->> +  'data': [ 'fail', 'disconnect', 'keep' ] }
->> +
->> +##
->> +# @SetPasswordActionVnc:
->> +#
->> +# See @SetPasswordAction. VNC only supports the keep action. 'connection'
->> +# should just be omitted for VNC, this is kept for backwards compatibility.
->> +#
->> +# @keep: maintain existing clients
->> +#
->> +# Since: 6.2
->> +#
->> +##
->> +{ 'enum': 'SetPasswordActionVnc',
->> +  'data': [ 'keep' ] }
->> +
->> +##
->> +# @SetPasswordOptionsSpice:
->> +#
->> +# Options for set_password specific to the VNC procotol.
->> +#
->> +# @connected: How to handle existing clients when changing the
->> +#             password. If nothing is specified, defaults to 'keep'.
->> +#
->> +# Since: 6.2
->> +#
->> +##
->> +{ 'struct': 'SetPasswordOptionsSpice',
->> +  'data': { '*connected': 'SetPasswordAction' } }
->> +
->> +##
->> +# @SetPasswordOptionsVnc:
->> +#
->> +# Options for set_password specific to the VNC procotol.
->> +#
->> +# @display: The id of the display where the password should be changed.
->> +#           Defaults to the first.
->> +#
->> +# @connected: How to handle existing clients when changing the
->> +#             password.
->> +#
->> +# Features:
->> +# @deprecated: For VNC, @connected will always be 'keep', parameter should be
->> +#              omitted.
->> +#
->> +# Since: 6.2
->> +#
->> +##
->> +{ 'struct': 'SetPasswordOptionsVnc',
->> +  'data': { '*display': 'str',
->> +            '*connected': { 'type': 'SetPasswordActionVnc',
->> +                            'features': ['deprecated'] } } }
-> 
-> Let me describe what you're doing in my own words, to make sure I got
-> both the what and the why:
-> 
-> 1. Change @protocol and @connected from str to enum.
-> 
-> 2. Turn the argument struct into a union tagged by @protocol, to enable
->     3. and 4.
-> 
-> 3. Add argument @display in branch 'vnc'.
-> 
-> 4. Use a separate enum for @connected in each union branch, to enable 4.
-> 
-> 5. Trim this enum in branch 'vnc' to the values that are actually
->     supported.  Note that just one value remains, i.e. @connected is now
->     an optional argument that can take only the default value.
-> 
-> 6. Since such an argument is pointless, deprecate @connected in branch
->     'vnc'.
-> 
-> Correct?
+> I am running it against SPEC at the moment, using optimized
+> strlen/strcpy/strcmp functions using orc.b.
+> The verdict on that should be available later today...
 
-Yes.
+off topic but relates, for Zb (and similar things in the future) whats 
+the strategy for change management/discovery. I understand you can 
+hardcode things for quick test, but for a proper glibc implementation 
+this would be an IFUNC but there seems to be no architectural way per 
+spec (for software/kernel) to discover this.
 
-> 
-> Ignorant question: is it possible to have more than one 'spice' display?
+Same issue is with building linux kernel with Zb - how do we make sure 
+that hardware/sim supports Zb when running corresponding software.
 
-Not in terms of passwords anyway. So only one SPICE password can be set at
-any time, i.e. the 'display' parameter in this function does not apply.
+It seems some generic discovery/enumeration scheme is in works but what 
+to do in the interim.
 
-> 
-> Item 5. is not a compatibility break: before your patch,
-> qmp_set_password() rejects the values you drop.
-
-Yes.
-
-> 
-> Item 5. adds another enum to the schema in return for more accurate
-> introspection and slightly simpler qmp_set_password().  I'm not sure
-> that's worthwhile.  I think we could use the same enum for both union
-> branches.
-
-I tried to avoid mixing manual parsing and declarative QAPI stuff as much
-as I could, so I moved as much as possible to QAPI. I personally like the
-extra documentation of having the separate enum.
-
-> 
-> I'd split this patch into three parts: item 1., 2.+3., 4.-6., because
-> each part can stand on its own.
-
-The reason why I didn't do that initially is more to do with the C side.
-I think splitting it up as you describe would make for some awkward diffs
-on the qmp_set_password/hmp_set_password side.
-
-I can try of course. Though I also want to have it said that I'm not a fan
-of how the HMP functions have to expand so much to accommodate the QAPI
-structure in general.
-
-> 
->>   
->>   ##
->>   # @expire_password:
->>   #
->>   # Expire the password of a remote display server.
->>   #
->> -# @protocol: the name of the remote display protocol 'vnc' or 'spice'
->> -#
->> -# @time: when to expire the password.
->> -#
->> -#        - 'now' to expire the password immediately
->> -#        - 'never' to cancel password expiration
->> -#        - '+INT' where INT is the number of seconds from now (integer)
->> -#        - 'INT' where INT is the absolute time in seconds
->> -#
->>   # Returns: - Nothing on success
->>   #          - If @protocol is 'spice' and Spice is not active, DeviceNotFound
->>   #
->>   # Since: 0.14
->>   #
->> -# Notes: Time is relative to the server and currently there is no way to
->> -#        coordinate server time with client time.  It is not recommended to
->> -#        use the absolute time version of the @time parameter unless you're
->> -#        sure you are on the same machine as the QEMU instance.
->> -#
->>   # Example:
->>   #
->>   # -> { "execute": "expire_password", "arguments": { "protocol": "vnc",
->> @@ -71,7 +145,50 @@
->>   # <- { "return": {} }
->>   #
->>   ##
->> -{ 'command': 'expire_password', 'data': {'protocol': 'str', 'time': 'str'} }
->> +{ 'command': 'expire_password', 'boxed': true, 'data': 'ExpirePasswordOptions' }
->> +
->> +##
->> +# @ExpirePasswordOptions:
->> +#
->> +# Data required to set password expiration on a display server protocol.
->> +#
->> +# @protocol: - 'vnc' to modify the VNC server expiration
->> +#            - 'spice' to modify the Spice server expiration
->> +
->> +# @time: when to expire the password.
->> +#
->> +#        - 'now' to expire the password immediately
->> +#        - 'never' to cancel password expiration
->> +#        - '+INT' where INT is the number of seconds from now (integer)
->> +#        - 'INT' where INT is the absolute time in seconds
->> +#
->> +# Notes: Time is relative to the server and currently there is no way to
->> +#        coordinate server time with client time.  It is not recommended to
->> +#        use the absolute time version of the @time parameter unless you're
->> +#        sure you are on the same machine as the QEMU instance.
->> +#
->> +# Since: 6.2
->> +#
->> +##
->> +{ 'union': 'ExpirePasswordOptions',
->> +  'base': { 'protocol': 'DisplayProtocol',
->> +            'time': 'str' },
->> +  'discriminator': 'protocol',
->> +  'data': { 'vnc': 'ExpirePasswordOptionsVnc' } }
->> +
->> +##
->> +# @ExpirePasswordOptionsVnc:
->> +#
->> +# Options for expire_password specific to the VNC procotol.
->> +#
->> +# @display: The id of the display where the expiration should be changed.
->> +#           Defaults to the first.
->> +#
->> +# Since: 6.2
->> +#
->> +##
->> +{ 'struct': 'ExpirePasswordOptionsVnc',
->> +  'data': { '*display': 'str' } }
->>   
->>   ##
->>   # @screendump:
-> 
-> Same as above, less item 4.-6.
-> 
-> 
-
+Thx,
+-Vineet
 
