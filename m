@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB8F42BB85
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:28:08 +0200 (CEST)
-Received: from localhost ([::1]:40246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883B442BB76
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:25:46 +0200 (CEST)
+Received: from localhost ([::1]:33852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maaYR-0000IX-Py
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:28:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54666)
+	id 1maaW9-0004VI-Kq
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:25:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEp-0002Mp-P0
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:54 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:36397)
+ id 1maaEm-0002G0-T4
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:48 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:46991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maaEj-0005ne-Ca
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:51 -0400
-Received: by mail-ed1-x534.google.com with SMTP id d3so7318990edp.3
+ id 1maaEj-0005nb-3v
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:07:48 -0400
+Received: by mail-ed1-x533.google.com with SMTP id z20so7131176edc.13
  for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:07:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0POeyvCNhHyE/TogB33YpCfoQlQfvkymaIGlO6Vha5A=;
- b=PvcVK9zgGtIyQCUoQMKWEDDmA4CjdY2B5or9/DV2QcmR58xAZ7egACXXKT9ye5uSg4
- coXt0LEmx47lRfkrD4oBwtrpHfKxe+cHttR+FmukbS5IfDFQhCatyGWPw8wUUGnuZSz2
- WcZ9Xn7P/NhC72Rz72JVUyiTzohoyc3Mr11Ix3Tip5WEpqEotiv+h9m0kbWqBmlwpZL1
- 3Bns6L4PUpM07HLSYkSHRXL95GUcxI6yBnOcc0orB85H2MS4f6igeEBJB5vLi//RaoQ2
- fpLUelvT/bajHBcb82dDSiB2LMKQDc9HevFpdsKuLMC5T0AGhNeRpkLlsB4ySgQnXyda
- ZdzA==
+ bh=rZnb1x20O2Ui1ngIl9Od4LRZGQWROtAMwvlAfS3bJqM=;
+ b=M34FVbeDm7n7U2svl3ZNJ15jLBYDPOLPvvDB9qB1jvfEK146gnY6F3IGN4qgt7Pty7
+ t34eXl8sVGOIGsdIIp6QhABtr39fyBFukt3YkBnrFHCyDXqKUR4DRRcDzAvJJB+QSi1w
+ fYr6gh9rPnDWF/DCgpHIpHGHxMURO30HGkQwcYowIoAWp1TTbJj012/o7tGR/3WAzi7j
+ rdM7seRU/dgCDyUv+/5JXuDlLA68GMkXWNVxA6+bmiuuj2pDnX3ao8opBjwm7DVIfIkN
+ 6DBHgitFdc1kKeXtMyJyygk4ZkWHyDnkUH9bLHC41Q0HnaIA3twUIQ8dbbHpMVPGodL6
+ JcuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0POeyvCNhHyE/TogB33YpCfoQlQfvkymaIGlO6Vha5A=;
- b=zwCQMcbSIsNPmzQQb3dVSTPsiRYU8x/mGyEQQQxqqyxMPnfhwwCS74gTEd5pSVgdg0
- iL0+p7V0q5qLRTeB9Qv3MRGrOnpnLgWjnSm/jdC+T394yHfergxftOXwbS5YS6acQdGx
- wo8Eqfi1BJ4W3igZPlHlx71+Gq6nS9B7kSF79Y9YeWxjYifpo3RSlQKpU7p5XNM17ukM
- +HfFubOi9H5T7b7EKZUMYUYlIsl8Lop8u/yIbR4c2nXOrZbLz391WAZVVWD0CfNhmLRH
- gqcdz96iPFoRr6FqOHHdStgsw8ocYAioaLRmDv+ESO6UAlSbesDr/xfnthizcGD7jlc9
- xdLg==
-X-Gm-Message-State: AOAM532XZ/ajTXqCUmBS18Gg9pcItS8fcr1nlWi1Ii4tC1RVWYitG1Em
- lTM8O8kqgHV/uRokEJwpWLWMEykcZl4=
-X-Google-Smtp-Source: ABdhPJxF0/7DJyP3O9Uy3oSqM4fS5uWcxXOkPR40BSwCrFp3DvZ7Tn2jF+AEyxY3R/abKb7upFOLog==
-X-Received: by 2002:a05:6402:5252:: with SMTP id
- t18mr7629475edd.129.1634116063145; 
+ bh=rZnb1x20O2Ui1ngIl9Od4LRZGQWROtAMwvlAfS3bJqM=;
+ b=SVM9GJllwV++xUr0aXWmnBWcT6YSzdJsFIU5tKIdIrXhyfh3iSVM9MOhFbKzdKMHvc
+ JrNx9pCWPM4+Esfv61EfKaFeUkTwn7lsqvUSQPEmIr+50TXqK5TOZ+Y+PFANRgqqWDAO
+ 9Gf0AjyW0kyZwqPHoVParZUTfbttmjokgHhDEKICjAjP7GuWSWU4IqR6YorePvkFkKj3
+ vF87aAtxaju7fXKHX2I3k1IUwKpa2te5bGpr42d1lYHOlTK7g3mjoDOFhx+IX56uCnQ0
+ A9kTdTgXNXvrvASdWAcxbd9cVrRoLNBMSJhOMkft4thYRyngsRu1Nqj9deWY3krTWb1l
+ TNuw==
+X-Gm-Message-State: AOAM533ZP5IrRP/U2UEVXJGtlAkw804IUMZgmjFFpOzvMmnS1r9CTkgO
+ r1hPRpndpQj5t97M6eyFECrNicXV5So=
+X-Google-Smtp-Source: ABdhPJxYXHhWqmlsTkX5Aiu4gHup4vkSni4kh3QCLZMGQQUdKh6U9BGXgmq3vvKKPI5PpHRFEFos5w==
+X-Received: by 2002:a17:906:4f96:: with SMTP id
+ o22mr39323428eju.169.1634116063831; 
  Wed, 13 Oct 2021 02:07:43 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.42
+ by smtp.gmail.com with ESMTPSA id c6sm6177849ejb.41.2021.10.13.02.07.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 02:07:42 -0700 (PDT)
+ Wed, 13 Oct 2021 02:07:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/40] target/i386/sev: Rename sev_i386.h -> sev.h
-Date: Wed, 13 Oct 2021 11:07:07 +0200
-Message-Id: <20211013090728.309365-20-pbonzini@redhat.com>
+Subject: [PULL 20/40] target/i386/sev: Declare system-specific functions in
+ 'sev.h'
+Date: Wed, 13 Oct 2021 11:07:08 +0200
+Message-Id: <20211013090728.309365-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211013090728.309365-1-pbonzini@redhat.com>
 References: <20211013090728.309365-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,132 +86,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-SEV is a x86 specific feature, and the "sev_i386.h" header
-is already in target/i386/. Rename it as "sev.h" to simplify.
+"sysemu/sev.h" is only used from x86-specific files. Let's move it
+to include/hw/i386, and merge it with target/i386/sev.h.
 
-Patch created mechanically using:
-
-  $ git mv target/i386/sev_i386.h target/i386/sev.h
-  $ sed -i s/sev_i386.h/sev.h/ $(git grep -l sev_i386.h)
-
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20211007161716.453984-15-philmd@redhat.com>
+Message-Id: <20211007161716.453984-16-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/x86.c                     | 2 +-
- target/i386/cpu.c                 | 2 +-
- target/i386/kvm/kvm.c             | 2 +-
- target/i386/monitor.c             | 2 +-
- target/i386/sev-stub.c            | 2 +-
- target/i386/sev-sysemu-stub.c     | 2 +-
- target/i386/sev.c                 | 2 +-
- target/i386/{sev_i386.h => sev.h} | 0
- 8 files changed, 7 insertions(+), 7 deletions(-)
- rename target/i386/{sev_i386.h => sev.h} (100%)
+ hw/i386/pc_sysfw.c         |  2 +-
+ include/sysemu/sev.h       | 28 ----------------------------
+ target/i386/kvm/kvm.c      |  1 -
+ target/i386/kvm/sev-stub.c |  2 +-
+ target/i386/monitor.c      |  1 -
+ target/i386/sev.h          | 12 +++++++++++-
+ 6 files changed, 13 insertions(+), 33 deletions(-)
+ delete mode 100644 include/sysemu/sev.h
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 0c7c054e3a..76de7e2265 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -47,7 +47,7 @@
- #include "hw/i386/fw_cfg.h"
- #include "hw/intc/i8259.h"
- #include "hw/rtc/mc146818rtc.h"
--#include "target/i386/sev_i386.h"
-+#include "target/i386/sev.h"
- 
- #include "hw/acpi/cpu_hotplug.h"
- #include "hw/irq.h"
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index b54b98551e..8289dc87bd 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -26,7 +26,7 @@
- #include "sysemu/reset.h"
- #include "sysemu/hvf.h"
- #include "kvm/kvm_i386.h"
--#include "sev_i386.h"
+diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+index 68d6b1f783..c8b17af953 100644
+--- a/hw/i386/pc_sysfw.c
++++ b/hw/i386/pc_sysfw.c
+@@ -37,7 +37,7 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/block/flash.h"
+ #include "sysemu/kvm.h"
+-#include "sysemu/sev.h"
 +#include "sev.h"
- #include "qapi/error.h"
- #include "qapi/qapi-visit-machine.h"
- #include "qapi/qmp/qerror.h"
+ 
+ #define FLASH_SECTOR_SIZE 4096
+ 
+diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
+deleted file mode 100644
+index 94d821d737..0000000000
+--- a/include/sysemu/sev.h
++++ /dev/null
+@@ -1,28 +0,0 @@
+-/*
+- * QEMU Secure Encrypted Virutualization (SEV) support
+- *
+- * Copyright: Advanced Micro Devices, 2016-2018
+- *
+- * Authors:
+- *  Brijesh Singh <brijesh.singh@amd.com>
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- *
+- */
+-
+-#ifndef QEMU_SEV_H
+-#define QEMU_SEV_H
+-
+-#include "sysemu/kvm.h"
+-
+-bool sev_enabled(void);
+-int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
+-int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
+-int sev_inject_launch_secret(const char *hdr, const char *secret,
+-                             uint64_t gpa, Error **errp);
+-
+-int sev_es_save_reset_vector(void *flash_ptr, uint64_t flash_size);
+-void sev_es_set_reset_vector(CPUState *cpu);
+-
+-#endif
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index f25837f63f..a5f6ff63c8 100644
+index a5f6ff63c8..0eb7a0340c 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -28,7 +28,7 @@
- #include "sysemu/kvm_int.h"
- #include "sysemu/runstate.h"
- #include "kvm_i386.h"
--#include "sev_i386.h"
-+#include "sev.h"
- #include "hyperv.h"
- #include "hyperv-proto.h"
+@@ -44,7 +44,6 @@
+ #include "hw/i386/intel_iommu.h"
+ #include "hw/i386/x86-iommu.h"
+ #include "hw/i386/e820_memory_layout.h"
+-#include "sysemu/sev.h"
  
-diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index ea836678f5..109e4e61c0 100644
---- a/target/i386/monitor.c
-+++ b/target/i386/monitor.c
-@@ -32,7 +32,7 @@
- #include "sysemu/kvm.h"
- #include "sysemu/sev.h"
- #include "qapi/error.h"
--#include "sev_i386.h"
-+#include "sev.h"
- #include "qapi/qapi-commands-misc-target.h"
- #include "qapi/qapi-commands-misc.h"
- #include "hw/i386/pc.h"
-diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
-index 170e9f50fe..7e8b6f9a25 100644
---- a/target/i386/sev-stub.c
-+++ b/target/i386/sev-stub.c
+ #include "hw/pci/pci.h"
+ #include "hw/pci/msi.h"
+diff --git a/target/i386/kvm/sev-stub.c b/target/i386/kvm/sev-stub.c
+index 9587d1b2a3..6080c007a2 100644
+--- a/target/i386/kvm/sev-stub.c
++++ b/target/i386/kvm/sev-stub.c
 @@ -13,7 +13,7 @@
  
  #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "sev_i386.h"
+ #include "qemu-common.h"
+-#include "sysemu/sev.h"
 +#include "sev.h"
  
- bool sev_enabled(void)
+ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
  {
-diff --git a/target/i386/sev-sysemu-stub.c b/target/i386/sev-sysemu-stub.c
-index d556b4f091..8082781feb 100644
---- a/target/i386/sev-sysemu-stub.c
-+++ b/target/i386/sev-sysemu-stub.c
-@@ -14,7 +14,7 @@
- #include "qemu/osdep.h"
- #include "qapi/qapi-commands-misc-target.h"
- #include "qapi/error.h"
--#include "sev_i386.h"
-+#include "sev.h"
- 
- SevInfo *sev_get_info(void)
- {
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 5cbbcf0bb9..e43bbf3a17 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -25,7 +25,7 @@
- #include "qemu/uuid.h"
- #include "crypto/hash.h"
+diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+index 109e4e61c0..935a8ee8ca 100644
+--- a/target/i386/monitor.c
++++ b/target/i386/monitor.c
+@@ -30,7 +30,6 @@
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qerror.h"
  #include "sysemu/kvm.h"
--#include "sev_i386.h"
-+#include "sev.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/runstate.h"
- #include "trace.h"
-diff --git a/target/i386/sev_i386.h b/target/i386/sev.h
-similarity index 100%
-rename from target/i386/sev_i386.h
-rename to target/i386/sev.h
+-#include "sysemu/sev.h"
+ #include "qapi/error.h"
+ #include "sev.h"
+ #include "qapi/qapi-commands-misc-target.h"
+diff --git a/target/i386/sev.h b/target/i386/sev.h
+index d83428fa26..c96072bf78 100644
+--- a/target/i386/sev.h
++++ b/target/i386/sev.h
+@@ -14,7 +14,7 @@
+ #ifndef QEMU_SEV_I386_H
+ #define QEMU_SEV_I386_H
+ 
+-#include "sysemu/sev.h"
++#include "exec/confidential-guest-support.h"
+ #include "qapi/qapi-types-misc-target.h"
+ 
+ #define SEV_POLICY_NODBG        0x1
+@@ -35,6 +35,7 @@ typedef struct SevKernelLoaderContext {
+     size_t cmdline_size;
+ } SevKernelLoaderContext;
+ 
++bool sev_enabled(void);
+ extern bool sev_es_enabled(void);
+ extern SevInfo *sev_get_info(void);
+ extern uint32_t sev_get_cbit_position(void);
+@@ -45,4 +46,13 @@ extern SevAttestationReport *
+ sev_get_attestation_report(const char *mnonce, Error **errp);
+ extern bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp);
+ 
++int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
++int sev_inject_launch_secret(const char *hdr, const char *secret,
++                             uint64_t gpa, Error **errp);
++
++int sev_es_save_reset_vector(void *flash_ptr, uint64_t flash_size);
++void sev_es_set_reset_vector(CPUState *cpu);
++
++int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
++
+ #endif
 -- 
 2.31.1
 
