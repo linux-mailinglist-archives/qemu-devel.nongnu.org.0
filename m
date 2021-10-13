@@ -2,96 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F6D42B676
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 08:09:56 +0200 (CEST)
-Received: from localhost ([::1]:36098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC4342B645
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 08:02:24 +0200 (CEST)
+Received: from localhost ([::1]:54884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maXSc-0005UJ-Qe
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 02:09:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42808)
+	id 1maXLL-0006Ca-3Z
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 02:02:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <heinrich.schuchardt@canonical.com>)
- id 1maVqs-0006tr-I1
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 00:26:50 -0400
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:47080)
+ (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
+ id 1maXGB-0005QM-6E; Wed, 13 Oct 2021 01:57:03 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:55386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <heinrich.schuchardt@canonical.com>)
- id 1maVqq-0000uh-8N
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 00:26:50 -0400
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 229DC3FFF9
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 04:26:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1634099204;
- bh=75g4J4cm/l1lNVFxM29/e9WtrjMhICVtXiQp2LuhFvo=;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
- In-Reply-To:Content-Type;
- b=FgqxqTm9tiFQ7pYwYPN3DbhMLAD9wINtGEf3L9WYrRVYM9uICBO+lOfkKQxhIiNfJ
- Jyn/DSmZdgbqbMQJb/BetuKtFzadoVGlxWr1tfLnIEHNVoSA1ORibIIEQDyEsfQXmN
- wVCv6rhf9rWh4kSZ9qrFO4SVzmPo9qfb8CMrRyeqdsbgiORl7lcbvhvmXvI2ebCQIs
- BF0bwWuM/8u3t+xcJOadGRkFfyRbzbfV6L1dVNxypJ3L6YhOdwFlZD/mrxQmKgaVMp
- +wPOfwMQLPeB8gkmhHPOnNw2b2a/uMmEk7igF6rjcIQC0CBPNd8CmNB6Ju8BaJouLH
- UH2/LdTB0v90Q==
-Received: by mail-lf1-f69.google.com with SMTP id
- br42-20020a056512402a00b003fd94a74905so1033377lfb.7
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 21:26:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=75g4J4cm/l1lNVFxM29/e9WtrjMhICVtXiQp2LuhFvo=;
- b=zLe6lo2pumMfAvhjrqjT8Xkqzxh/F370cYoMhU0+2E61xqxBwEEVBP4vG8o0bRKu5G
- fn1LduzD1bJhO3JeRWjmSAnlTVFpWMFnAUlAaOi8/TJNa1LV9XhPMV/niZ4nGq/b1QVt
- GinI9m7qkA63HK0Qw+Sw6S3VomacQ6kX6p6MzmrG06VSuYPrZnEhVOoKmR1624hjpwd/
- o9Vq4vVrAVXVKjvNdbmTmUH4hKNwPfTgzx3i6TugvtMOQgIzeVYzH6QnFodo8m5hLZ8A
- ssCkiUiV385ZW3zhWEFj5PA/sea3Oqp5bQPf7iVtQRTwjo97W7DFcLqzKcjfKFJHHod5
- c36Q==
-X-Gm-Message-State: AOAM532Tq15XJKfgiy7u2vf0LIT4M6e/h6Pqy0gf8fcGbSQcvkvZRizX
- QzDJ8CJ7KuxzBaBdYwiiH1Jp1WVDuvCACGAPMb8RQmbYvbzvSSnt3y+1J0oz5tocHiJbtQ7dGOc
- 8d3LhIIW3+3Djd6iej023eMqxuKL393YL
-X-Received: by 2002:a05:6000:18a1:: with SMTP id
- b1mr38292547wri.338.1634099192719; 
- Tue, 12 Oct 2021 21:26:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxh/Uew5FeFBD0cxyneJ+cU+ACC/pAb6f61wP8RkRGGQF13fC4mLG4pRPFQMH0Qt5Pluo9F8g==
-X-Received: by 2002:a05:6000:18a1:: with SMTP id
- b1mr38292469wri.338.1634099192431; 
- Tue, 12 Oct 2021 21:26:32 -0700 (PDT)
-Received: from [192.168.123.35] (ip-88-152-144-157.hsi03.unitymediagroup.de.
- [88.152.144.157])
- by smtp.gmail.com with ESMTPSA id y5sm7145878wrq.85.2021.10.12.21.26.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 21:26:32 -0700 (PDT)
-Message-ID: <f1500552-5c27-d338-6e4c-6460c0ef13af@canonical.com>
-Date: Wed, 13 Oct 2021 06:26:30 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: [PATCH 00/16] fdt: Make OF_BOARD a boolean option
-Content-Language: en-US
-To: Simon Glass <sjg@chromium.org>, U-Boot Mailing List <u-boot@lists.denx.de>
-References: <20211013010120.96851-1-sjg@chromium.org>
-From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
-In-Reply-To: <20211013010120.96851-1-sjg@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=185.125.188.123;
- envelope-from=heinrich.schuchardt@canonical.com;
- helo=smtp-relay-internal-1.canonical.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
+ id 1maXG8-0002uK-4u; Wed, 13 Oct 2021 01:57:02 -0400
+Received: from smtpclient.apple (unknown [54.37.16.242])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 0BDBE21A8F;
+ Wed, 13 Oct 2021 05:56:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1634104613;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NmENBHpmx11BFYuaIRMqtVJxSEZwgv5Rg+5FKo1F1EU=;
+ b=n8qFCNPvW+tem6mfNDqDAmYlqDScNkjpLwuFa5/eMVeB897n3G/Iy6YDCjRDfpwRN+d8+N
+ geHeGCltVaRzoIWe7y4h9fUXaxq7y7ZABps9lIectcz9ioLN7YvuhvnRpypSJHcMSU0Ycr
+ c/GRrbwgYzaWkXZ+CyTPcRX2Q2M1tDI=
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [RFC PATCH v2 00/16] Initial support for machine creation via QMP
+From: Mark Burton <mark.burton@greensocs.com>
+In-Reply-To: <CAKmqyKMUvtRPCp=FJMHcMdsECfJ_fRHBi4dA2N3gtqmPHspNJA@mail.gmail.com>
+Date: Wed, 13 Oct 2021 07:56:46 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <D12EA69C-A1CC-4132-89F8-499D7F99F34C@greensocs.com>
+References: <20210922161405.140018-1-damien.hedde@greensocs.com>
+ <CAKmqyKMUvtRPCp=FJMHcMdsECfJ_fRHBi4dA2N3gtqmPHspNJA@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=mark.burton@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 13 Oct 2021 02:07:35 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,169 +63,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liviu Dudau <liviu.dudau@foss.arm.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Linus Walleij <linus.walleij@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- Kever Yang <kever.yang@rock-chips.com>, Sean Anderson <seanga2@gmail.com>,
- Atish Patra <atish.patra@wdc.com>, Zong Li <zong.li@sifive.com>,
- Stefan Roese <sr@denx.de>, Fabio Estevam <festevam@gmail.com>,
- Rainer Boschung <rainer.boschung@hitachi-powergrids.com>,
- Tom Rini <trini@konsulko.com>, Stephen Warren <swarren@nvidia.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>, Niel Fourie <lusus@denx.de>,
- Michal Simek <michal.simek@xilinx.com>,
- =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
- Jerry Van Baren <vanbaren@cideas.com>, Ramon Fried <rfried.dev@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Longchamp <valentin.longchamp@hitachi-powergrids.com>,
- Heiko Schocher <hs@denx.de>, Peter Robinson <pbrobinson@gmail.com>,
- Sinan Akman <sinan@writeme.com>, Thomas Fitzsimmons <fitzsim@fitzsim.org>,
- Wolfgang Denk <wd@denx.de>, Stephen Warren <swarren@wwwdotorg.org>,
- qemu-devel@nongnu.org, Andre Przywara <andre.przywara@arm.com>,
- Tim Harvey <tharvey@gateworks.com>,
- Ashok Reddy Soma <ashok.reddy.soma@xilinx.com>, Rick Chen <rick@andestech.com>,
- Alexander Graf <agraf@csgraf.de>, Green Wan <green.wan@sifive.com>,
- T Karthik Reddy <t.karthik.reddy@xilinx.com>,
- Anastasiia Lukianenko <anastasiia_lukianenko@epam.com>,
- Albert Aribaud <albert.u.boot@aribaud.net>, Michal Simek <monstr@monstr.eu>,
- Matthias Brugger <mbrugger@suse.com>, Leo <ycliang@andestech.com>,
- Tero Kristo <kristo@kernel.org>,
- David Abdurachmanov <david.abdurachmanov@sifive.com>,
- Priyanka Jain <priyanka.jain@nxp.com>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Christian Hewitt <christianshewitt@gmail.com>,
- Aaron Williams <awilliams@marvell.com>,
- Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
- Tianrui Wei <tianrui-wei@outlook.com>, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
- Dimitri John Ledkov <dimitri.ledkov@canonical.com>,
- Padmarao Begari <padmarao.begari@microchip.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, mirela.grujic@greensocs.com,
+ Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Eric Blake <eblake@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
+ Eric Auger <eric.auger@redhat.com>,
+ "open list:X86" <xen-devel@lists.xenproject.org>,
+ =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
+ Damien Hedde <damien.hedde@greensocs.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Edgar Iglesias <edgari@xilinx.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Fixed
+Cheers
+Mark.
 
 
-On 10/13/21 03:01, Simon Glass wrote:
-> With Ilias' efforts we have dropped OF_PRIOR_STAGE and OF_HOSTFILE so
-> there are only three ways to obtain a devicetree:
-> 
->     - OF_SEPARATE - the normal way, where the devicetree is built and
->        appended to U-Boot
->     - OF_EMBED - for development purposes, the devicetree is embedded in
->        the ELF file (also used for EFI)
->     - OF_BOARD - the board figures it out on its own
-> 
-> The last one is currently set up so that no devicetree is needed at all
-> in the U-Boot tree. Most boards do provide one, but some don't. Some
-> don't even provide instructions on how to boot on the board.
-> 
-> The problems with this approach are documented at [1].
-> 
-> In practice, OF_BOARD is not really distinct from OF_SEPARATE. Any board
-> can obtain its devicetree at runtime, even it is has a devicetree built
-> in U-Boot. This is because U-Boot may be a second-stage bootloader and its
-> caller may have a better idea about the hardware available in the machine.
-> This is the case with a few QEMU boards, for example.
-> 
-> So it makes no sense to have OF_BOARD as a 'choice'. It should be an
-> option, available with either OF_SEPARATE or OF_EMBED.
-> 
-> This series makes this change, adding various missing devicetree files
-> (and placeholders) to make the build work.
+> On 13 Oct 2021, at 00:16, Alistair Francis <alistair23@gmail.com> =
+wrote:
+>=20
+> On Thu, Sep 23, 2021 at 2:22 AM Damien Hedde =
+<damien.hedde@greensocs.com> wrote:
+>>=20
+>> Hi,
+>>=20
+>> The goal of this work is to bring dynamic machine creation to QEMU:
+>> we want to setup a machine without compiling a specific machine C
+>> code. It would ease supporting highly configurable platforms (for
+>> example resulting from an automated design flow). The requirements
+>> for such configuration include begin able to specify the number of
+>> cores, available peripherals, emmory mapping, IRQ mapping, etc.
+>>=20
+>> This series focuses on the first step: populating a machine with
+>> devices during its creation. We propose patches to support this
+>> using QMP commands. This is a working set of patches and improves
+>> over the earlier rfc (posted in May):
+>> https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg03706.html
+>>=20
+>> Although it is working and could be merged, it is tag as an RFC:
+>> we probably need to discuss the conditions for allowing a device to
+>> be created at an early stage. Patches 6, 10 and 13, 15 and 16 depend
+>> on such conditions and are subject to change. Other patches are
+>> unrelated to this point.
+>>=20
+>> We address several issues in this series. They are detailed below.
+>>=20
+>> ## 1. Stoping QEMU to populate the machine with devices
+>>=20
+>> QEMU goes through several steps (called _machine phases_) when
+>> creating the machine: 'no-machine', 'machine-created',
+>> 'accel-created', 'initialized', and finally 'ready'. At 'ready'
+>> phase, QEMU is ready to start (see Paolo's page
+>> https://wiki.qemu.org/User:Paolo_Bonzini/Machine_init_sequence for
+>> more details).
+>>=20
+>> Using the -preconfig CLI option, QEMU can be stopped today during
+>> the 'accel-created' phase. Then the 'x-exit-preconfig' QMP command
+>> triggers QEMU moving forwards to the completion of the machine
+>> creation ('ready' phase).
+>>=20
+>> The devices are created during the 'initialized' phase.
+>> In this phase the machine init() method has been executed and thus
+>> machine properties have been handled. Although the sysbus exists and
+>> the machine may have been populated by the init(),
+>> _machine_init_done_ notifiers have not been called yet. At this point
+>> we can add more devices to a machine.
+>>=20
+>> We propose to add 2 QMP commands:
+>> + The 'query-machine-phase' command would return the current machine
+>>  phase.
+>> + The 'x-machine-init' command would advance the machine phase to
+>>  'initialized'. 'x-exit-preconfig' could then still be used to
+>>  advance to the last phase.
+>>=20
+>> ## 2. Adding devices
+>>=20
+>> Right now, the user can create devices in 2 ways: using '-device' CLI
+>> option or 'device_add' QMP command. Both are executed after the
+>> machine is ready: such devices are hot-plugged. We propose to allow
+>> 'device_add' QMP command to be used during the 'initialized' phase.
+>>=20
+>> In this series, we keep the constraint that the device must be
+>> 'user-creatable' (this is a device class flag). We do not see any
+>> reason why a device the user can hot-plug could not be created at an
+>> earlier stage.
+>>=20
+>> This part is still RFC because, as Peter mentioned it (in this thread
+>> https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg01933.html),
+>> we may want additional or distinct conditions for:
+>> + device we can hot-plug
+>> + device we can add in '-preconfig' (cold-plug)
+>> We are open to suggestions. We could for example add a
+>> 'preconfig-creatable' or 'init-creatable' flag to device class, which
+>> can identify a set of devices we can create this way.
+>>=20
+>> The main addition is how we handle the case of sysbus devices. Sysbus
+>> devices are particular because unlike, for example, pci devices, you
+>> have to manually handle the memory mapping and interrupts wiring. So
+>> right now, a sysbus device is dynamically creatable (using -device
+>> CLI option or device_add QMP command) only if:
+>> + it is 'user_creatable' (like any other device),
+>> + and it is in the current machine sysbus device allow list.
+>>=20
+>> In this series, we propose to relax the second constraint during the
+>> earlier phases of machine creation so that when using -preconfig we
+>> can create any 'user-creatable' sysbus device. When the machine
+>> progresses to the 'ready' phase, sysbus devices creation will come
+>> back to the legacy behavior: it will be possible only based on the
+>> per-machine authorization basis.
+>>=20
+>> For sysbus devices, wiring interrupts is not a problem as we can use
+>> the 'qom-set' QMP command, but memory mapping is.
+>>=20
+>> ## 3. Memory mapping
+>>=20
+>> There is no point allowing the creation sysbus devices if we cannot
+>> map them onto the memory bus (the 'sysbus').
+>>=20
+>> As far as we know, right now, there is no way to add memory mapping
+>> for sysbus device using QMP commands. We propose a =
+'x-sysbus-mmio-map'
+>> command to do this. This command would only be allowed during the
+>> 'initialized' phase when using -preconfig.
+>>=20
+>> ## 4. Working example
+>>=20
+>> The last patches of the series add and modify devices in order to
+>> build a working machine starting from the 'none' machine.
+>>=20
+>> We add a new sysbus device modeling a simple memory (ram or rom). We
+>> also set 'user-creatable' flag of some sysbus devices. These are
+>> trivial patches, but they depends on the conditions we choose to =
+allow
+>> creating devices with -preconfig. Therefore, there is really no need
+>> to review them until we settled on the device conditions first.
+>>=20
+>> With these devices (memory, ibex_uart, ibex_plic) we can dynamically
+>> configure a part (we did not add the timer, but we could) the
+>> opentitan machine very easily and run firmwares which demonstrates
+>> interrupts and memory-mapping are working.
+>>=20
+>> We use the existing qmp-shell script to issue machine devices
+>> from a qmp commands script file which contains qmp commands listed in
+>> a file.
+>>=20
+>> The following qmp commands add some memories, an interrupt controller
+>> and an uart with an interrupt.
+>>=20
+>> cat > opentitan.qmp <<EOF
+>> x-machine-init
+>>=20
+>> # ROM 0x00008000
+>> device_add        driver=3Dsysbus-memory id=3Drom size=3D0x4000 =
+readonly=3Dtrue
+>> x-sysbus-mmio-map device=3Drom addr=3D32768
+>>=20
+>> # FLASH 0x20000000
+>> device_add        driver=3Dsysbus-memory id=3Dflash size=3D0x80000 =
+readonly=3Dtrue
+>> x-sysbus-mmio-map device=3Dflash addr=3D536870912
+>>=20
+>> # RAM 0x10000000
+>> device_add        driver=3Dsysbus-memory id=3Dram size=3D0x10000
+>> x-sysbus-mmio-map device=3Dram addr=3D268435456
+>>=20
+>> # PLIC 0x41010000
+>> device_add        driver=3Dibex-plic id=3Dplic
+>> x-sysbus-mmio-map device=3Dplic addr=3D1090584576
+>>=20
+>> # UART 0x40000000
+>> device_add        driver=3Dibex-uart id=3Duart chardev=3Dserial0
+>> x-sysbus-mmio-map device=3Duart addr=3D1073741824
+>> qom-set path=3Duart property=3Dsysbus-irq[1] =
+value=3Dplic/unnamed-gpio-in[2]
+>>=20
+>> x-exit-preconfig
+>> EOF
+>>=20
+>> We've put the opentitan.qmp and a firmware opentitan-echo.elf here
+>> (among some other qmp machine files we are working on):
+>> https://github.com/GreenSocs/qemu-qmp-machines
+>=20
+> I am unable to access this repo, maybe it's not public?
+>=20
+> Alistair
 
-Why should we add dummy files with irrelevant content (see patch 06/16) 
-to make the build work? Why don't you fix the Makefile instead?
-
-Best regards
-
-Heinrich
-
-> 
-> It also provides a few qemu clean-ups discovered along the way.
-> 
-> This series is based on Ilias' two series for OF_HOSTFILE and
-> OF_PRIOR_STAGE removal.
-> 
-> It is available at u-boot-dm/ofb-working
-> 
-> [1] https://patchwork.ozlabs.org/project/uboot/patch/20210919215111.3830278-3-sjg@chromium.org/
-> 
-> 
-> Simon Glass (16):
->    arm: qemu: Mention -nographic in the docs
->    arm: qemu: Explain how to extract the generate devicetree
->    riscv: qemu: Explain how to extract the generate devicetree
->    arm: qemu: Add a devicetree file for qemu_arm
->    arm: qemu: Add a devicetree file for qemu_arm64
->    riscv: qemu: Add devicetree files for qemu_riscv32/64
->    arm: rpi: Add a devicetree file for rpi_4
->    arm: vexpress: Add a devicetree file for juno
->    arm: xenguest_arm64: Add a fake devicetree file
->    arm: octeontx: Add a fake devicetree file
->    arm: xilinx_versal_virt: Add a devicetree file
->    arm: bcm7xxx: Add a devicetree file
->    arm: qemu-ppce500: Add a devicetree file
->    arm: highbank: Add a fake devicetree file
->    fdt: Make OF_BOARD a bool option
->    Drop CONFIG_BINMAN_STANDALONE_FDT
-> 
->   Makefile                               |    3 +-
->   arch/arm/dts/Makefile                  |   20 +-
->   arch/arm/dts/bcm2711-rpi-4-b.dts       | 1958 ++++++++++++++++++++++++
->   arch/arm/dts/bcm7xxx.dts               |   15 +
->   arch/arm/dts/highbank.dts              |   14 +
->   arch/arm/dts/juno-r2.dts               | 1038 +++++++++++++
->   arch/arm/dts/octeontx.dts              |   14 +
->   arch/arm/dts/qemu-arm.dts              |  402 +++++
->   arch/arm/dts/qemu-arm64.dts            |  381 +++++
->   arch/arm/dts/xenguest-arm64.dts        |   15 +
->   arch/arm/dts/xilinx-versal-virt.dts    |  307 ++++
->   arch/powerpc/dts/Makefile              |    1 +
->   arch/powerpc/dts/qemu-ppce500.dts      |  264 ++++
->   arch/riscv/dts/Makefile                |    2 +-
->   arch/riscv/dts/qemu-virt.dts           |    8 -
->   arch/riscv/dts/qemu-virt32.dts         |  217 +++
->   arch/riscv/dts/qemu-virt64.dts         |  217 +++
->   configs/bcm7260_defconfig              |    1 +
->   configs/bcm7445_defconfig              |    1 +
->   configs/highbank_defconfig             |    2 +-
->   configs/octeontx2_95xx_defconfig       |    1 +
->   configs/octeontx2_96xx_defconfig       |    1 +
->   configs/octeontx_81xx_defconfig        |    1 +
->   configs/octeontx_83xx_defconfig        |    1 +
->   configs/qemu-ppce500_defconfig         |    2 +
->   configs/qemu-riscv32_defconfig         |    1 +
->   configs/qemu-riscv32_smode_defconfig   |    1 +
->   configs/qemu-riscv32_spl_defconfig     |    4 +-
->   configs/qemu-riscv64_defconfig         |    1 +
->   configs/qemu-riscv64_smode_defconfig   |    1 +
->   configs/qemu-riscv64_spl_defconfig     |    3 +-
->   configs/qemu_arm64_defconfig           |    1 +
->   configs/qemu_arm_defconfig             |    1 +
->   configs/rpi_4_32b_defconfig            |    1 +
->   configs/rpi_4_defconfig                |    1 +
->   configs/rpi_arm64_defconfig            |    1 +
->   configs/vexpress_aemv8a_juno_defconfig |    1 +
->   configs/xenguest_arm64_defconfig       |    1 +
->   configs/xilinx_versal_virt_defconfig   |    1 +
->   doc/board/emulation/qemu-arm.rst       |   19 +-
->   doc/board/emulation/qemu-riscv.rst     |   12 +
->   dts/Kconfig                            |   27 +-
->   tools/binman/binman.rst                |   20 -
->   43 files changed, 4922 insertions(+), 61 deletions(-)
->   create mode 100644 arch/arm/dts/bcm2711-rpi-4-b.dts
->   create mode 100644 arch/arm/dts/bcm7xxx.dts
->   create mode 100644 arch/arm/dts/highbank.dts
->   create mode 100644 arch/arm/dts/juno-r2.dts
->   create mode 100644 arch/arm/dts/octeontx.dts
->   create mode 100644 arch/arm/dts/qemu-arm.dts
->   create mode 100644 arch/arm/dts/qemu-arm64.dts
->   create mode 100644 arch/arm/dts/xenguest-arm64.dts
->   create mode 100644 arch/arm/dts/xilinx-versal-virt.dts
->   create mode 100644 arch/powerpc/dts/qemu-ppce500.dts
->   delete mode 100644 arch/riscv/dts/qemu-virt.dts
->   create mode 100644 arch/riscv/dts/qemu-virt32.dts
->   create mode 100644 arch/riscv/dts/qemu-virt64.dts
-> 
 
