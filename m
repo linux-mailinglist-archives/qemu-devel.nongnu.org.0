@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE41242CD06
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 23:44:52 +0200 (CEST)
-Received: from localhost ([::1]:52030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D60142CCFE
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 23:42:48 +0200 (CEST)
+Received: from localhost ([::1]:45236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mam3Q-0007L1-0x
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 17:44:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46002)
+	id 1mam1P-0002nq-L1
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 17:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1malzX-0008Ts-Uy
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:40:51 -0400
-Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201]:54453)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1malzY-0008W9-Ld
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:40:52 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:42353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1malzT-0004pp-I1
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:40:51 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.102])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id ED53122172;
- Wed, 13 Oct 2021 21:40:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1malzU-0004ql-8A
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:40:52 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.25])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 97967C48051B;
+ Wed, 13 Oct 2021 23:40:45 +0200 (CEST)
 Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Wed, 13 Oct
  2021 23:40:44 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005fdd12635-370a-4817-bffa-2b5df1e1d27a,
+ (GARM-103G0056b96a2a2-7312-4745-9c13-921adb59834f,
  ADB6EDD73587FDF9B2583A0B30D51DAD1F8B0393) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-Subject: [PATCH 1/3] ppc: Add QOM interface for machine check injection
-Date: Wed, 13 Oct 2021 23:40:40 +0200
-Message-ID: <20211013214042.618918-2-clg@kaod.org>
+Subject: [PATCH 2/3] ppc/spapr: Implement mce injection
+Date: Wed, 13 Oct 2021 23:40:41 +0200
+Message-ID: <20211013214042.618918-3-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211013214042.618918-1-clg@kaod.org>
 References: <20211013214042.618918-1-clg@kaod.org>
@@ -42,19 +42,19 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.103]
 X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 6eef0b98-776f-4ead-9041-d344b07f4012
-X-Ovh-Tracer-Id: 5934618413139069734
+X-Ovh-Tracer-GUID: 436201db-4069-4e1a-aa7a-1f9adedace79
+X-Ovh-Tracer-Id: 5934899884115790630
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudeivdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
- helo=4.mo552.mail-out.ovh.net
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,214 +75,137 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nicholas Piggin <npiggin@gmail.com>
 
-This implements a machine check injection framework and defines a
-'mce' monitor command for ppc.
+This implements mce injection for spapr.
+
+  (qemu) mce 0 0x200000 0x80 0xdeadbeef 1
+
+    Disabling lock debugging due to kernel taint
+    MCE: CPU0: machine check (Severe) Host SLB Multihit DAR: 00000000deadbeef [Recovered]
+    MCE: CPU0: machine check (Severe) Host SLB Multihit [Recovered]
+    MCE: CPU0: PID: 495 Comm: a NIP: [0000000130ee07c8]
+    MCE: CPU0: Initiator CPU
+    MCE: CPU0: Unknown
+[   71.567193] MCE: CPU0: NIP: [c0000000000d7f6c] plpar_hcall_norets+0x1c/0x28
+[   71.567249] MCE: CPU0: Initiator CPU
+[   71.567308] MCE: CPU0: Unknown
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-[ clg: - moved definition under "hw/ppc/mce.h"
-       - renamed to PPCMceInjection
-       - simplified injection call in hmp_mce
-       - QMP support ]
-Message-Id: <20200325144147.221875-4-npiggin@gmail.com>
+[ clg: - simplified injection and moved code under spapr_cpu_core.c ]
+Message-Id: <20200325144147.221875-5-npiggin@gmail.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- qapi/misc-target.json | 26 ++++++++++++++++++++
- include/hw/ppc/mce.h  | 31 ++++++++++++++++++++++++
- target/ppc/monitor.c  | 56 +++++++++++++++++++++++++++++++++++++++++++
- hmp-commands.hx       | 20 +++++++++++++++-
- 4 files changed, 132 insertions(+), 1 deletion(-)
- create mode 100644 include/hw/ppc/mce.h
+ include/hw/ppc/spapr_cpu_core.h |  2 ++
+ hw/ppc/spapr.c                  |  4 ++++
+ hw/ppc/spapr_cpu_core.c         | 27 +++++++++++++++++++++++++++
+ 3 files changed, 33 insertions(+)
 
-diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index 594fbd1577fa..b1456901893c 100644
---- a/qapi/misc-target.json
-+++ b/qapi/misc-target.json
-@@ -394,3 +394,29 @@
- #
- ##
- { 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
-+
-+##
-+# @mce:
-+#
-+# This command injects a machine check exception
-+#
-+# @cpu-index: CPU number on which to inject the machine check exception
-+#
-+# @srr1-mask : possible reasons for the exception
-+#
-+# @dsisr : more reasons
-+#
-+# @dar : effective address of next instruction
-+#
-+# @recovered : recoverable exception. Set MSR[RI]
-+#
-+# Since: 6.2
-+#
-+##
-+{ 'command': 'mce',
-+  'data': { 'cpu-index': 'uint32',
-+            'srr1-mask': 'uint64',
-+            'dsisr': 'uint32',
-+            'dar': 'uint64',
-+            'recovered': 'bool' },
-+  'if': 'TARGET_PPC' }
-diff --git a/include/hw/ppc/mce.h b/include/hw/ppc/mce.h
-new file mode 100644
-index 000000000000..b2b7dfa3342c
---- /dev/null
-+++ b/include/hw/ppc/mce.h
-@@ -0,0 +1,31 @@
-+/*
-+ * Copyright (c) 2021, IBM Corporation.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef HW_PPC_MCE_H
-+#define HW_PPC_MCE_H
-+
-+typedef struct PPCMceInjectionParams {
-+    uint64_t srr1_mask;
-+    uint32_t dsisr;
-+    uint64_t dar;
-+    bool recovered;
-+} PPCMceInjectionParams;
-+
-+typedef struct PPCMceInjection PPCMceInjection;
-+
-+#define TYPE_PPC_MCE_INJECTION "ppc-mce-injection"
-+#define PPC_MCE_INJECTION(obj) \
-+    INTERFACE_CHECK(PPCMceInjection, (obj), TYPE_PPC_MCE_INJECTION)
-+typedef struct PPCMceInjectionClass PPCMceInjectionClass;
-+DECLARE_CLASS_CHECKERS(PPCMceInjectionClass, PPC_MCE_INJECTION,
-+                       TYPE_PPC_MCE_INJECTION)
-+
-+struct PPCMceInjectionClass {
-+    InterfaceClass parent_class;
-+    void (*inject_mce)(CPUState *cs, PPCMceInjectionParams *p);
-+};
-+
-+#endif
-diff --git a/target/ppc/monitor.c b/target/ppc/monitor.c
-index a475108b2dbc..ae1a047e86de 100644
---- a/target/ppc/monitor.c
-+++ b/target/ppc/monitor.c
-@@ -23,11 +23,15 @@
-  */
+diff --git a/include/hw/ppc/spapr_cpu_core.h b/include/hw/ppc/spapr_cpu_core.h
+index dab3dfc76c0a..6734c7a89640 100644
+--- a/include/hw/ppc/spapr_cpu_core.h
++++ b/include/hw/ppc/spapr_cpu_core.h
+@@ -9,6 +9,7 @@
+ #ifndef HW_SPAPR_CPU_CORE_H
+ #define HW_SPAPR_CPU_CORE_H
+ 
++#include "hw/ppc/mce.h"
+ #include "hw/cpu/core.h"
+ #include "hw/qdev-core.h"
+ #include "target/ppc/cpu-qom.h"
+@@ -40,6 +41,7 @@ const char *spapr_get_cpu_core_type(const char *cpu_type);
+ void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip,
+                                target_ulong r1, target_ulong r3,
+                                target_ulong r4);
++void spapr_cpu_inject_mce(CPUState *cs, PPCMceInjectionParams *p);
+ 
+ typedef struct SpaprCpuState {
+     uint64_t vpa_addr;
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 087449f93871..c4ff63a79313 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -56,6 +56,7 @@
+ #include "hw/core/cpu.h"
+ 
+ #include "hw/ppc/ppc.h"
++#include "hw/ppc/mce.h"
+ #include "hw/loader.h"
+ 
+ #include "hw/ppc/fdt.h"
+@@ -4522,6 +4523,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+     InterruptStatsProviderClass *ispc = INTERRUPT_STATS_PROVIDER_CLASS(oc);
+     XiveFabricClass *xfc = XIVE_FABRIC_CLASS(oc);
+     VofMachineIfClass *vmc = VOF_MACHINE_CLASS(oc);
++    PPCMceInjectionClass *mcec = PPC_MCE_INJECTION_CLASS(oc);
+ 
+     mc->desc = "pSeries Logical Partition (PAPR compliant)";
+     mc->ignore_boot_device_suffixes = true;
+@@ -4615,6 +4617,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+     vmc->client_architecture_support = spapr_vof_client_architecture_support;
+     vmc->quiesce = spapr_vof_quiesce;
+     vmc->setprop = spapr_vof_setprop;
++    mcec->inject_mce = spapr_cpu_inject_mce;
+ }
+ 
+ static const TypeInfo spapr_machine_info = {
+@@ -4635,6 +4638,7 @@ static const TypeInfo spapr_machine_info = {
+         { TYPE_INTERRUPT_STATS_PROVIDER },
+         { TYPE_XIVE_FABRIC },
+         { TYPE_VOF_MACHINE_IF },
++        { TYPE_PPC_MCE_INJECTION },
+         { }
+     },
+ };
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 58e7341cb784..360efc16b1d6 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -9,6 +9,7 @@
  
  #include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-misc-target.h"
- #include "cpu.h"
- #include "monitor/monitor.h"
- #include "qemu/ctype.h"
- #include "monitor/hmp-target.h"
- #include "monitor/hmp.h"
-+#include "qapi/qmp/qdict.h"
+ #include "hw/cpu/core.h"
++#include "hw/core/cpu.h"
+ #include "hw/ppc/spapr_cpu_core.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+@@ -19,12 +20,38 @@
+ #include "sysemu/kvm.h"
+ #include "target/ppc/kvm_ppc.h"
+ #include "hw/ppc/ppc.h"
 +#include "hw/ppc/mce.h"
+ #include "target/ppc/mmu-hash64.h"
+ #include "sysemu/numa.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/hw_accel.h"
+ #include "qemu/error-report.h"
  
- static target_long monitor_get_ccr(Monitor *mon, const struct MonitorDef *md,
-                                    int val)
-@@ -76,6 +80,48 @@ void hmp_info_tlb(Monitor *mon, const QDict *qdict)
-     dump_mmu(env1);
- }
- 
-+void qmp_mce(uint32_t cpu_index, uint64_t srr1_mask, uint32_t dsisr,
-+             uint64_t dar, bool recovered, Error **errp)
++static void spapr_cpu_inject_mce_on_cpu(CPUState *cs, run_on_cpu_data data)
 +{
-+    PPCMceInjection *mce = (PPCMceInjection *)
-+        object_dynamic_cast(qdev_get_machine(), TYPE_PPC_MCE_INJECTION);
-+    CPUState *cs;
++    PPCMceInjectionParams *params = (PPCMceInjectionParams *) data.host_ptr;
++    PowerPCCPU *cpu = POWERPC_CPU(cs);
++    CPUPPCState *env = &cpu->env;
++    uint64_t srr1_mce_bits = PPC_BITMASK(42, 45) | PPC_BIT(36);
 +
-+    if (!mce) {
-+        error_setg(errp, "MCE injection not supported on this machine");
-+        return;
++    cpu_synchronize_state(cs);
++
++    env->spr[SPR_SRR0] = env->nip;
++    env->spr[SPR_SRR1] = (env->msr & ~srr1_mce_bits) |
++                         (params->srr1_mask & srr1_mce_bits);
++    if (params->dsisr) {
++        env->spr[SPR_DSISR] = params->dsisr;
++        env->spr[SPR_DAR] = params->dar;
 +    }
 +
-+    cs = qemu_get_cpu(cpu_index);
-+
-+    if (cs != NULL) {
-+        PPCMceInjectionClass *mcec = PPC_MCE_INJECTION_GET_CLASS(mce);
-+        PPCMceInjectionParams p = {
-+            .srr1_mask = srr1_mask,
-+            .dsisr = dsisr,
-+            .dar = dar,
-+            .recovered = recovered,
-+        };
-+        mcec->inject_mce(cs, &p);
-+    }
++    spapr_mce_req_event(cpu, params->recovered);
 +}
 +
-+void hmp_mce(Monitor *mon, const QDict *qdict)
++void spapr_cpu_inject_mce(CPUState *cs, PPCMceInjectionParams *p)
 +{
-+    uint32_t cpu_index = qdict_get_int(qdict, "cpu_index");
-+    uint64_t srr1_mask = qdict_get_int(qdict, "srr1_mask");
-+    uint32_t dsisr = qdict_get_int(qdict, "dsisr");
-+    uint64_t dar = qdict_get_int(qdict, "dar");
-+    bool recovered = qdict_get_int(qdict, "recovered");
-+    Error *err = NULL;
-+
-+    qmp_mce(cpu_index, srr1_mask, dsisr, dar, recovered, &err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
++    run_on_cpu(cs, spapr_cpu_inject_mce_on_cpu, RUN_ON_CPU_HOST_PTR(p));
 +}
 +
- const MonitorDef monitor_defs[] = {
-     { "fpscr", offsetof(CPUPPCState, fpscr) },
-     /* Next instruction pointer */
-@@ -156,3 +202,13 @@ int target_get_monitor_def(CPUState *cs, const char *name, uint64_t *pval)
- 
-     return -EINVAL;
- }
-+
-+static const TypeInfo type_infos[] = {
-+    {
-+        .name = TYPE_PPC_MCE_INJECTION,
-+        .parent = TYPE_INTERFACE,
-+        .class_size = sizeof(PPCMceInjectionClass),
-+    },
-+};
-+
-+DEFINE_TYPES(type_infos);
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index cf723c69acb7..15d939ae096e 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1461,12 +1461,30 @@ ERST
-         .cmd        = hmp_mce,
-     },
- 
--#endif
- SRST
- ``mce`` *cpu* *bank* *status* *mcgstatus* *addr* *misc*
-   Inject an MCE on the given CPU (x86 only).
- ERST
- 
-+#endif
-+
-+#if defined(TARGET_PPC)
-+
-+    {
-+        .name       = "mce",
-+        .args_type  = "cpu_index:i,srr1_mask:l,dsisr:i,dar:l,recovered:i",
-+        .params     = "cpu srr1_mask dsisr dar recovered",
-+        .help       = "inject a MCE on the given CPU",
-+        .cmd        = hmp_mce,
-+    },
-+
-+SRST
-+``mce`` *cpu* *srr1_mask* *dsisr* *dar* *recovered*
-+  Inject an MCE on the given CPU (PPC only).
-+ERST
-+
-+#endif
-+
-     {
-         .name       = "getfd",
-         .args_type  = "fdname:s",
+ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+ {
+     CPUState *cs = CPU(cpu);
 -- 
 2.31.1
 
