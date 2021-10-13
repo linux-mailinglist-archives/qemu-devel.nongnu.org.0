@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6452D42C911
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 20:50:03 +0200 (CEST)
-Received: from localhost ([::1]:37828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B83A42C8F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 20:44:21 +0200 (CEST)
+Received: from localhost ([::1]:55244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1majKE-0004lF-Hs
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 14:50:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37564)
+	id 1majEi-0005ok-Cn
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 14:44:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1maiyk-0004XT-FH
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 14:27:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1maiyZ-0006rO-AP
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 14:27:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634149658;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gY9Awd9YT7S8jY/EksDuIvrRzLXCwfr6jy62mTr8JGg=;
- b=bU7trSxFLiywMtskOuA1mZFDZ/36siTAgAk2kmg8beZSn+aWIZdmjayt1vlBSR06B8QYSK
- oBnb/PgtOYFoQm8hU7E5isBDuWJaQifjhTIhsFOLTGp0elEsX9B6dx8Dy60ExgsavTIjoz
- aJPp8JkORb5MSn2lDyGKEN0zpajnEYw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-schWPuU6Pyyuw3b6TUSS0A-1; Wed, 13 Oct 2021 14:27:35 -0400
-X-MC-Unique: schWPuU6Pyyuw3b6TUSS0A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBCB61808310;
- Wed, 13 Oct 2021 18:27:33 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.195.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D58395D6BA;
- Wed, 13 Oct 2021 18:27:31 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1majCQ-000474-FE
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 14:41:58 -0400
+Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:45043)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1majCO-0000xE-6E
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 14:41:58 -0400
+Received: by mail-lf1-x12c.google.com with SMTP id y26so15936644lfa.11
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 11:41:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vrull-eu.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jVEww1lzp0MjFUAYOIjx49odZWcfEctNMccayO6Ru3s=;
+ b=DXZeAE/Jum7NFs11Eiqke40nX0dVUBNRm1Xr4o9xMzyVgYZGyOlzsoEpFWcZMYY4G1
+ QcrHL2vpCrqzmuRl74ZMqGMjtQgCfZHrqAb8c+KOFp9QNaOlca55QtHbmcBRdvDi3wsn
+ bNdEb5zbSCJeWJrwAYM38pJNaenJw9VpGyhWiVkZqVniAUr1npGgFQZs/v/JWCDJuB6G
+ QEIBLEliZHVR2gbr5v9fs7ts5zIJ2By9S1tz2g2Kl1isE9QeFAxSETZdXemJEjKyCCMC
+ CP28MXvcKwEXXEsVu8hNbV88hLblbKsl6AcHAOfPjQzmhOzd+dN9+Ixt9PKjpKznt4sh
+ 0sUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jVEww1lzp0MjFUAYOIjx49odZWcfEctNMccayO6Ru3s=;
+ b=13qm+73w5QloEsokvi45O+nPytT3ae1pBQYCo88yCeAjpztS+OU8CsvyVynx9Go7H/
+ fL4BtUgrRolfIz9gyEwXcw5s7N9NoAwSdkvrgmtu2pzowZz522rr20WjwEhbHNUnEBWU
+ zjVKbN+4BZoVMD1YiQk2aZ+UWYtL1/QwAAYqWOJi3vysdkXzEVNf/+hPYHPstdVH6YYP
+ LrETfTzLciJR7Oj4wRsCHUbu+e2/giN43T5kv0lnOQ1h3sKUWEUFF7Y6Or+oU1GbKLgE
+ Yx5VewNmLprNcs58aeI84b0H5ERIsWj0OaygFCfGGhbUmali73PUkdTtCOtKw7PZYkHh
+ ATOg==
+X-Gm-Message-State: AOAM5317WKj46wcHK+ajy/3wtMuGwRazkYrTiJKZ3Y8M1CWFsBeIfQv2
+ tqfz+tc3oCz7ZaiSYXjW2ZAYAm4Zyj/7PQ==
+X-Google-Smtp-Source: ABdhPJwcBYn/BHNNics1n0i0zTrvjgj2yzn+U5LUskZvHasQemaiRw8EnCPbxvlhIhvISqQEirH9JA==
+X-Received: by 2002:a05:651c:617:: with SMTP id
+ k23mr1114672lje.402.1634150511104; 
+ Wed, 13 Oct 2021 11:41:51 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
+ by smtp.gmail.com with ESMTPSA id j18sm22095lfg.255.2021.10.13.11.41.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Oct 2021 11:41:50 -0700 (PDT)
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/1] util: Make some iova_tree parameters const
-Date: Wed, 13 Oct 2021 20:27:13 +0200
-Message-Id: <20211013182713.888753-2-eperezma@redhat.com>
-In-Reply-To: <20211013182713.888753-1-eperezma@redhat.com>
-References: <20211013182713.888753-1-eperezma@redhat.com>
+Subject: [PATCH] target/riscv: Fix orc.b implementation
+Date: Wed, 13 Oct 2021 20:41:25 +0200
+Message-Id: <20211013184125.2010897-1-philipp.tomsich@vrull.eu>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,128 +81,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ Vincent Palatin <vpalatin@rivosinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As qemu guidelines:
-Unless a pointer is used to modify the pointed-to storage, give it the
-"const" attribute.
+The earlier implementation fell into a corner case for bytes that were
+0x01, giving a wrong result (but not affecting our application test
+cases for strings, as an ASCII value 0x01 is rare in those...).
 
-In the particular case of iova_tree_find it allows to enforce what is
-requested by its comment, since the compiler would shout in case of
-modifying or freeing the const-qualified returned pointer.
+This changes the algorithm to:
+ 1. Mask out the high-bit of each bytes (so that each byte is <= 127).
+ 2. Add 127 to each byte (i.e. if the low 7 bits are not 0, this will overflow
+    into the highest bit of each byte).
+ 3. Bitwise-or the original value back in (to cover those cases where the
+    source byte was exactly 128) to saturate the high-bit.
+ 4. Shift-and-mask (implemented as a mask-and-shift) to extract the MSB of
+    each byte into its LSB.
+ 5. Multiply with 0xff to fan out the LSB to all bits of each byte.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Acked-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Fixes: d7a4fcb034 ("target/riscv: Add orc.b instruction for Zbb, removing gorc/gorci")
+
+Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Reported-by: Vincent Palatin <vpalatin@rivosinc.com>
+
 ---
- include/qemu/iova-tree.h |  8 ++++----
- hw/i386/intel_iommu.c    |  2 +-
- util/iova-tree.c         | 12 ++++++------
- 3 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/include/qemu/iova-tree.h b/include/qemu/iova-tree.h
-index b66cf93c4b..8249edd764 100644
---- a/include/qemu/iova-tree.h
-+++ b/include/qemu/iova-tree.h
-@@ -59,7 +59,7 @@ IOVATree *iova_tree_new(void);
-  *
-  * Return: 0 if succeeded, or <0 if error.
-  */
--int iova_tree_insert(IOVATree *tree, DMAMap *map);
-+int iova_tree_insert(IOVATree *tree, const DMAMap *map);
- 
- /**
-  * iova_tree_remove:
-@@ -74,7 +74,7 @@ int iova_tree_insert(IOVATree *tree, DMAMap *map);
-  *
-  * Return: 0 if succeeded, or <0 if error.
-  */
--int iova_tree_remove(IOVATree *tree, DMAMap *map);
-+int iova_tree_remove(IOVATree *tree, const DMAMap *map);
- 
- /**
-  * iova_tree_find:
-@@ -92,7 +92,7 @@ int iova_tree_remove(IOVATree *tree, DMAMap *map);
-  * user is responsible to make sure the pointer is valid (say, no
-  * concurrent deletion in progress).
-  */
--DMAMap *iova_tree_find(IOVATree *tree, DMAMap *map);
-+const DMAMap *iova_tree_find(const IOVATree *tree, const DMAMap *map);
- 
- /**
-  * iova_tree_find_address:
-@@ -105,7 +105,7 @@ DMAMap *iova_tree_find(IOVATree *tree, DMAMap *map);
-  *
-  * Return: same as iova_tree_find().
-  */
--DMAMap *iova_tree_find_address(IOVATree *tree, hwaddr iova);
-+const DMAMap *iova_tree_find_address(const IOVATree *tree, hwaddr iova);
- 
- /**
-  * iova_tree_foreach:
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 75f075547f..33a8af9191 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -1105,7 +1105,7 @@ static int vtd_page_walk_one(IOMMUTLBEvent *event, vtd_page_walk_info *info)
-         .translated_addr = entry->translated_addr,
-         .perm = entry->perm,
-     };
--    DMAMap *mapped = iova_tree_find(as->iova_tree, &target);
-+    const DMAMap *mapped = iova_tree_find(as->iova_tree, &target);
- 
-     if (event->type == IOMMU_NOTIFIER_UNMAP && !info->notify_unmap) {
-         trace_vtd_page_walk_one_skip_unmap(entry->iova, entry->addr_mask);
-diff --git a/util/iova-tree.c b/util/iova-tree.c
-index 7990692cbd..23ea35b7a4 100644
---- a/util/iova-tree.c
-+++ b/util/iova-tree.c
-@@ -42,14 +42,14 @@ IOVATree *iova_tree_new(void)
-     return iova_tree;
- }
- 
--DMAMap *iova_tree_find(IOVATree *tree, DMAMap *map)
-+const DMAMap *iova_tree_find(const IOVATree *tree, const DMAMap *map)
+ target/riscv/insn_trans/trans_rvb.c.inc | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+index 185c3e9a60..3095624f32 100644
+--- a/target/riscv/insn_trans/trans_rvb.c.inc
++++ b/target/riscv/insn_trans/trans_rvb.c.inc
+@@ -249,13 +249,16 @@ static bool trans_rev8_64(DisasContext *ctx, arg_rev8_64 *a)
+ static void gen_orc_b(TCGv ret, TCGv source1)
  {
-     return g_tree_lookup(tree->tree, map);
- }
+     TCGv  tmp = tcg_temp_new();
+-    TCGv  ones = tcg_constant_tl(dup_const_tl(MO_8, 0x01));
++    TCGv  low7 = tcg_constant_tl(dup_const_tl(MO_8, 0x7f));
  
--DMAMap *iova_tree_find_address(IOVATree *tree, hwaddr iova)
-+const DMAMap *iova_tree_find_address(const IOVATree *tree, hwaddr iova)
- {
--    DMAMap map = { .iova = iova, .size = 0 };
-+    const DMAMap map = { .iova = iova, .size = 0 };
+-    /* Set lsb in each byte if the byte was zero. */
+-    tcg_gen_sub_tl(tmp, source1, ones);
+-    tcg_gen_andc_tl(tmp, tmp, source1);
++    /* Set msb in each byte if the byte was non-zero. */
++    tcg_gen_and_tl(tmp, source1, low7);
++    tcg_gen_add_tl(tmp, tmp, low7);
++    tcg_gen_or_tl(tmp, tmp, source1);
++
++    /* Extract the msb to the lsb in each byte */
++    tcg_gen_andc_tl(tmp, tmp, low7);
+     tcg_gen_shri_tl(tmp, tmp, 7);
+-    tcg_gen_andc_tl(tmp, ones, tmp);
  
-     return iova_tree_find(tree, &map);
- }
-@@ -60,7 +60,7 @@ static inline void iova_tree_insert_internal(GTree *gtree, DMAMap *range)
-     g_tree_insert(gtree, range, range);
- }
- 
--int iova_tree_insert(IOVATree *tree, DMAMap *map)
-+int iova_tree_insert(IOVATree *tree, const DMAMap *map)
- {
-     DMAMap *new;
- 
-@@ -96,9 +96,9 @@ void iova_tree_foreach(IOVATree *tree, iova_tree_iterator iterator)
-     g_tree_foreach(tree->tree, iova_tree_traverse, iterator);
- }
- 
--int iova_tree_remove(IOVATree *tree, DMAMap *map)
-+int iova_tree_remove(IOVATree *tree, const DMAMap *map)
- {
--    DMAMap *overlap;
-+    const DMAMap *overlap;
- 
-     while ((overlap = iova_tree_find(tree, map))) {
-         g_tree_remove(tree->tree, overlap);
+     /* Replicate the lsb of each byte across the byte. */
+     tcg_gen_muli_tl(ret, tmp, 0xff);
 -- 
-2.27.0
+2.25.1
 
 
