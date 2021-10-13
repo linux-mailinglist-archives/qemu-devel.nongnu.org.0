@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E2B42CFCC
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 03:03:57 +0200 (CEST)
-Received: from localhost ([::1]:54898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D281842CFD2
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 03:09:58 +0200 (CEST)
+Received: from localhost ([::1]:41036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mapA4-0006Fx-6i
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 21:03:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34430)
+	id 1mapFt-0007dN-Vn
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 21:09:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1manIk-00048l-IC
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1manIk-00048k-Hc
  for qemu-devel@nongnu.org; Wed, 13 Oct 2021 19:04:47 -0400
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:38731)
+Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:41509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1manIc-0004U3-SW
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 19:04:44 -0400
-Received: by mail-qt1-x829.google.com with SMTP id t16so4190636qto.5
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 16:04:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1manIe-0004aj-6Z
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 19:04:46 -0400
+Received: by mail-qv1-xf2a.google.com with SMTP id d20so2704696qvm.8
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 16:04:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hLvo/Ohp80+sBHkJWP+s69vvT0EaEBpeY5AiAd1sZVw=;
- b=QcM75KtIPIN875cB7KJcYVOVuHyp/VzKq/eUbwx9jTuKSWfoWt5i66+QP7ZWvuTUZo
- d+RdX71WEdKIL5RyMXvS3vT55Ln7OWKy2NYTIAXbUEpbzrHYSLylmz7GXef4mK1uMtuD
- zfP3BCiobhvFnhdn29w2JdpX8ge8bQhxzVoFS2eZWOvczQ21G/6bGgLu3dl3ba+ubz8E
- Ai4vTSiufrRMLeB6FSuvfdpOEBCW/6adwsaRGxUmZEnO0zfLsXdLM8B8TcubbKXPz78o
- /8N3EDaT3f0UdpYJB2fUDmin1GU96+qM91mWk+PtO65YcyRlKYgKT4XRu6rrr0LwI4v5
- RCgA==
+ bh=ceqwCnBnXXlDmYrHzyn9u+EXyIv3S+MBYR3tJiDIsLk=;
+ b=oFARN8k2Y9yHO3d2UhBydvf6/0tsqJ8ozWg5ulFc11rSatrF4cmY6QyPk+0iNAtQyD
+ 7SwXJ30mPkLhFU4zAgZLJVUtMvCtUy52KbVeE6NUj/82fyJwCCNKWalok8k/zpCSj9bV
+ Paj7kFBehutJV+k4orodoEOLUDbN4EJT5ltn5BMkuVo5Tp2M9UJt1tbXFeJldFiqDUHc
+ OJAYu+fIRx/TLwePjXXCpRYx6VQNZznWU0P9EQtMNwgiYbVApQAqCPUJMVEYgWe95+44
+ e1RL1emPHLSEWHA6n9F8QO7XQpP/1mLiAtsg9895snbsLKwv6hJ1sgHt2nI7NKmGem0O
+ 9fLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hLvo/Ohp80+sBHkJWP+s69vvT0EaEBpeY5AiAd1sZVw=;
- b=5tF5QmqibCvhifH1rMk/ooKLTohn4Oug+vwMnKjkBM1XNpp5luKaI/M5nw7VV0wIXc
- qplIRB4EpJPF03UtNFZ+o4NzZezAPzuv7E47ht28MPXfVDR3jYmJAhARZqAhXn/7YE2O
- icha26I5QZNr7t+3ITDspwVPvzdqQbMrJ5UPvTn4teSvYnFQalDYhO0td0ziyzYwO4ym
- tkTRNMai6UPkYiAZ6OFxiDXXgF6CdIBIoKxAcJZVKubx31X/MTLfjC7vZRYEIp5dKNm2
- gTwNeDjY89n/wZ1BLfRkCN5XySNZPs7JDX2pxrULht76A09TzJslhIf8LjJ305FcN5eV
- o/Uw==
-X-Gm-Message-State: AOAM530bdw4YJG3tgEaWYA8rVx35cQVcCOS430qf+ON3QE+ssBmvcGZY
- P8aU3V8Ds2/l5ZZypDETVsTGpQQXfjH5fQ==
-X-Google-Smtp-Source: ABdhPJwo5mJBLAehqaAfknsbz0eZJfKwUpmP+J1vOfn7Kr0yiHD6MfYUEWxIBAd+ClX1gECt80JS6g==
-X-Received: by 2002:a05:622a:290:: with SMTP id
- z16mr2525330qtw.358.1634166276535; 
- Wed, 13 Oct 2021 16:04:36 -0700 (PDT)
+ bh=ceqwCnBnXXlDmYrHzyn9u+EXyIv3S+MBYR3tJiDIsLk=;
+ b=QrWq91kN4JlIhczlwrB4jQVYnFOE1Fjr7hSVRGQzOh9x6yknDkF5uDIJMLfsRzXchP
+ GdzUx7KaNX2wLst83nNLgHxgkARxNmPRlKEnLuJLorCZ5rMO4+472lpMZQt5M8/wtKEg
+ /FRKR7S94pzKiNMWUshF4MOf41dIOMx8y+ELZsnQqkTaJ8N864MPul/eJ59sIkn1caot
+ 4AotqwTohlu5bZmd0Z8VwvlHU+D/MtPgRcLyHXeE2vcdZZMFbou9ybmS/ePjV9jYSDey
+ +ThyXnPMwQ7kxK8P41i/NwWx6hlAU5m6aYGTseeMIdj10Wh8b6G8thnlLbQus1NMMOcw
+ IgiQ==
+X-Gm-Message-State: AOAM531m9KSAvpmxfDwWo7Ou4+5zO2yguO9vqpJaDdDv7vbI0PBmOZOV
+ KfTnJg0vB8atskQq+21e9MG4GdqBYuybOQ==
+X-Google-Smtp-Source: ABdhPJw9bJrXC/1m8k8EzZHKYUOdtVv+BAsEi9fyrM6i/+gUfSULu5UgBV7I6QnOswzJmWhfv9chzg==
+X-Received: by 2002:a05:6214:2aac:: with SMTP id
+ js12mr2057069qvb.56.1634166278118; 
+ Wed, 13 Oct 2021 16:04:38 -0700 (PDT)
 Received: from localhost.localdomain
  (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
  [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id w11sm778680qta.50.2021.10.13.16.04.35
+ by smtp.gmail.com with ESMTPSA id w11sm778680qta.50.2021.10.13.16.04.37
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 13 Oct 2021 16:04:36 -0700 (PDT)
+ Wed, 13 Oct 2021 16:04:37 -0700 (PDT)
 From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/11] 9p: darwin: Ignore O_{NOATIME, DIRECT}
-Date: Wed, 13 Oct 2021 19:03:59 -0400
-Message-Id: <20211013230405.32170-6-wwcohen@gmail.com>
+Subject: [PATCH 06/11] 9p: darwin: Compatibility defn for XATTR_SIZE_MAX
+Date: Wed, 13 Oct 2021 19:04:00 -0400
+Message-Id: <20211013230405.32170-7-wwcohen@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211013230405.32170-1-wwcohen@gmail.com>
 References: <20211013230405.32170-1-wwcohen@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=wwcohen@gmail.com; helo=mail-qt1-x829.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
+ envelope-from=wwcohen@gmail.com; helo=mail-qv1-xf2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,88 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
- Greg Kurz <groug@kaod.org>
+Cc: Keno Fischer <keno@juliacomputing.com>, Will Cohen <wwcohen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
-Darwin doesn't have either of these flags. Darwin does have
-F_NOCACHE, which is similar to O_DIRECT, but has different
-enough semantics that other projects don't generally map
-them automatically. In any case, we don't support O_DIRECT
-on Linux at the moment either.
-
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
 ---
- hw/9pfs/9p-util.h |  2 ++
- hw/9pfs/9p.c      | 13 ++++++++++++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ hw/9pfs/9p.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 546f46dc7d..627baebaba 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -41,6 +41,7 @@ again:
-     fd = openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
-                 mode);
-     if (fd == -1) {
-+#ifndef CONFIG_DARWIN
-         if (errno == EPERM && (flags & O_NOATIME)) {
-             /*
-              * The client passed O_NOATIME but we lack permissions to honor it.
-@@ -53,6 +54,7 @@ again:
-             flags &= ~O_NOATIME;
-             goto again;
-         }
-+#endif
-         return -1;
-     }
- 
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 2464ffeb94..97dc8b246f 100644
+index 97dc8b246f..3fc43cb482 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -131,11 +131,20 @@ static int dotl_to_open_flags(int flags)
-         { P9_DOTL_NONBLOCK, O_NONBLOCK } ,
-         { P9_DOTL_DSYNC, O_DSYNC },
-         { P9_DOTL_FASYNC, FASYNC },
-+#ifndef CONFIG_DARWIN
-+        { P9_DOTL_NOATIME, O_NOATIME },
-+        /*
-+         *  On Darwin, we could map to F_NOCACHE, which is
-+         *  similar, but doesn't quite have the same
-+         *  semantics. However, we don't support O_DIRECT
-+         *  even on linux at the moment, so we just ignore
-+         *  it here.
-+         */
-         { P9_DOTL_DIRECT, O_DIRECT },
-+#endif
-         { P9_DOTL_LARGEFILE, O_LARGEFILE },
-         { P9_DOTL_DIRECTORY, O_DIRECTORY },
-         { P9_DOTL_NOFOLLOW, O_NOFOLLOW },
--        { P9_DOTL_NOATIME, O_NOATIME },
-         { P9_DOTL_SYNC, O_SYNC },
-     };
- 
-@@ -164,10 +173,12 @@ static int get_dotl_openflags(V9fsState *s, int oflags)
-      */
-     flags = dotl_to_open_flags(oflags);
-     flags &= ~(O_NOCTTY | O_ASYNC | O_CREAT);
-+#ifndef CONFIG_DARWIN
-     /*
-      * Ignore direct disk access hint until the server supports it.
-      */
-     flags &= ~O_DIRECT;
-+#endif
-     return flags;
+@@ -3927,6 +3927,14 @@ out_nofid:
+     v9fs_string_free(&name);
  }
  
++#if defined(CONFIG_DARWIN) && !defined(XATTR_SIZE_MAX)
++/*
++ * Darwin doesn't seem to define a maximum xattr size in its user
++ * space header, but looking at the kernel source, HFS supports
++ *  up to INT32_MAX, so use that as the maximum.
++ */
++#define XATTR_SIZE_MAX INT32_MAX
++#endif
+ static void coroutine_fn v9fs_xattrcreate(void *opaque)
+ {
+     int flags, rflags = 0;
 -- 
 2.33.0
 
