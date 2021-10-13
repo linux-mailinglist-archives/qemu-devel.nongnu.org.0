@@ -2,86 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3858942BBD9
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:43:43 +0200 (CEST)
-Received: from localhost ([::1]:58526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AFC642BC1F
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:50:55 +0200 (CEST)
+Received: from localhost ([::1]:48800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maanW-0006Sk-4N
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:43:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55420)
+	id 1maauU-00024f-In
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:50:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1maaHg-0005Ln-Rb
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:10:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52215)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maaIU-0006gC-JS
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:11:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1maaHd-0000tf-Kb
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:10:47 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maaIS-0003TK-Az
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:11:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634116242;
+ s=mimecast20190719; t=1634116293;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XvmvqjcV9LrJsqvHCw4u6C9Ubu7xj3jx/N5iS8KKnkE=;
- b=HQnORj075VIj3mExQrUUyteZlHSEuUbh1+OjZur5BLmTteKWCZEgHbg4QXYStgJD82PI1J
- O3walpogO6M8o6ezfwZci+uq0XqnSQq5VuwWtyGoQJZdCu9KpFSu/69c4NsrHlDs5UPKpo
- QxFoNMhWvGp8lt2i7OIOshttW9rzhBA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-NWHYjRk2O0uzCZilGUABJw-1; Wed, 13 Oct 2021 05:10:41 -0400
-X-MC-Unique: NWHYjRk2O0uzCZilGUABJw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h11-20020adfa4cb000000b00160c791a550so1459227wrb.6
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:10:41 -0700 (PDT)
+ bh=W2/9cha2ul3GdQhQe1yCuqgoW6zCRPyi7fWzxsV221c=;
+ b=BPc0yZJMdtmDTNX3VcMwUYC5+fzx72iO+bSEd4Ii7WZh97dMQ35XFE3+B0HT+oyf8rRRiK
+ Uqd2zpUqt5NZzpVA2hq7sg0NlB8J4y2duw3VT0nWf1/pVXzU4sXQDrU96dJ56w3mAvgjGP
+ A6u15kvAgaZsLo5FDXOstxEiPAHgqVo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-ZxH9GD2CNaOWcTuYTUuT9Q-1; Wed, 13 Oct 2021 05:11:32 -0400
+X-MC-Unique: ZxH9GD2CNaOWcTuYTUuT9Q-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ k2-20020adfc702000000b0016006b2da9bso1471504wrg.1
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 02:11:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=XvmvqjcV9LrJsqvHCw4u6C9Ubu7xj3jx/N5iS8KKnkE=;
- b=fIy05NbcQYS87tB+MG7FZ4FFnCfs3GwLJiw136CQiVDNegZl5a6uZG/T1oizRYTWeD
- MSQPNGSBD2f7kCr0XjgOyZzFbn4LctiIhqV283Vk5etb/N4kphXUwVyHXp3JUC4qaxAR
- IvTYaB8LpbzSKKFlqhgw/cTgEfyDz/FSm0oR6ayDg39HjsG2qAhs4C81VF4lgI/Mxro6
- GW99dEvr4ySoOoIDOaIKj1slaOVmg9j25bHi3Fw4aEn1Cn1v9ttkCjH7sPRyxx606aSQ
- vzjx1SKZkcOFyYJ/e/69NLkO+iMBoSyV2fGej0XuonMeKfLnK4f+2sY8JiH3uMT9MHAf
- 97Bw==
-X-Gm-Message-State: AOAM532FrWvK8b9jOF6Ab6msVfeIZ0TjbBqMVPU3pe/FEyLPjfuqNY9o
- lLN9nr80p5ue6z6R6VituXUd3funWGe8Aa/tioVxmWuLGH1jj0QOO9sCbkUfJx21JeEHWUJgxKO
- ySCvnxpAuBp8teEw=
-X-Received: by 2002:a5d:4dd1:: with SMTP id f17mr14666132wru.226.1634116239607; 
- Wed, 13 Oct 2021 02:10:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz8cgjQURDHbD0jLKH6TgctJUk4wFR48cbAgpA4nSGAc1URbYGVvlk3q1ZjHiGcMcSbdKxRQg==
-X-Received: by 2002:a5d:4dd1:: with SMTP id f17mr14666107wru.226.1634116239374; 
- Wed, 13 Oct 2021 02:10:39 -0700 (PDT)
-Received: from redhat.com ([2.55.30.112])
- by smtp.gmail.com with ESMTPSA id s1sm4521532wmc.47.2021.10.13.02.10.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 02:10:38 -0700 (PDT)
-Date: Wed, 13 Oct 2021 05:10:35 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-Subject: Re: [PATCH 04/15] pcie: Add callback preceding SR-IOV VFs update
-Message-ID: <20211013050638-mutt-send-email-mst@kernel.org>
-References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
- <20211007162406.1920374-5-lukasz.maniak@linux.intel.com>
- <20211012032026-mutt-send-email-mst@kernel.org>
- <20211012160646.GA2286339@lmaniak-dev.igk.intel.com>
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=W2/9cha2ul3GdQhQe1yCuqgoW6zCRPyi7fWzxsV221c=;
+ b=RC2yt+N/Q97/y6QICdXTrd0H9hosAWDwlkYWXQVpH4wbpwUYKxikMwCdp2K8i1x4vz
+ NmXtDNpYsSylI8BB36S87J/JnF17nD2PCUP0jZ6pD1dh4PtNeuyTQf3YV9++6cvoKBZ3
+ 1ZrVnm06Bzf/irAmDRk0AgJ+1S9npKRDm+AxBCTddBAVcvT+Q4gQKMQXapCBAnIDFpmf
+ 2ZjTEsMQezb1fUHXErwZzpdfNWmbQ0gsUyOEIXB1hZPE1DyOVTvpOKAQ++rq6eezR1fi
+ N7NML6UYtZDPJiFh7q89T+2hDacmO0Ztj+LS1GXohv4FF3hvrzVbqKrvCmCL7SJZSy7k
+ fl9A==
+X-Gm-Message-State: AOAM530fh3uBkEWF538MkgBn36OB2ZB1gVP4WqdoWseiWe1BNLyHrdbS
+ J/TiwKkrBD0RdomiVv3JvFFwpdgCot8+4PsfBgwBrtrV+JTTXb9+GPBHyn8Cvp9TteRQJayD1+M
+ 4a0t+p/3Ek0J5HLk=
+X-Received: by 2002:a05:6000:18a1:: with SMTP id
+ b1mr39671571wri.338.1634116291728; 
+ Wed, 13 Oct 2021 02:11:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwI95we8ABgMmJK26mJ0Q0fvVCu0e2x2Wm7N4znkgGB3A/FuivcWKL65nx5Pmp66MMKy6K06Q==
+X-Received: by 2002:a05:6000:18a1:: with SMTP id
+ b1mr39671536wri.338.1634116291526; 
+ Wed, 13 Oct 2021 02:11:31 -0700 (PDT)
+Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id x21sm4723681wmc.14.2021.10.13.02.11.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Oct 2021 02:11:31 -0700 (PDT)
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+References: <1631800254-25762-1-git-send-email-pmorel@linux.ibm.com>
+ <1631800254-25762-3-git-send-email-pmorel@linux.ibm.com>
+ <ae0cf5c1-b0b8-0758-7c38-35c1845201ba@redhat.com>
+ <80eeffd4-25cf-c2ac-e74b-c8d5301fa98a@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v3 2/4] s390x: kvm: topology: interception of PTF
+ instruction
+Message-ID: <803cd1be-0b06-694c-82ae-d5015a34879f@redhat.com>
+Date: Wed, 13 Oct 2021 11:11:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211012160646.GA2286339@lmaniak-dev.igk.intel.com>
+In-Reply-To: <80eeffd4-25cf-c2ac-e74b-c8d5301fa98a@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,238 +102,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
- Knut Omang <knuto@ifi.uio.no>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 12, 2021 at 06:06:46PM +0200, Lukasz Maniak wrote:
-> On Tue, Oct 12, 2021 at 03:25:12AM -0400, Michael S. Tsirkin wrote:
-> > On Thu, Oct 07, 2021 at 06:23:55PM +0200, Lukasz Maniak wrote:
-> > > PCIe devices implementing SR-IOV may need to perform certain actions
-> > > before the VFs are unrealized or vice versa.
-> > > 
-> > > Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-> > 
-> > Callbacks are annoying and easy to misuse though.
-> > VFs are enabled through a config cycle, we generally just
-> > have devices invoke the capability handler.
-> > E.g.
-> > 
-> > static void pci_bridge_dev_write_config(PCIDevice *d,
-> >                                         uint32_t address, uint32_t val, int len)
-> > {
-> >     pci_bridge_write_config(d, address, val, len);
-> >     if (msi_present(d)) {
-> >         msi_write_config(d, address, val, len);
-> >     }
-> > }
-> > 
-> > this makes it easy to do whatever you want before/after
-> > the write. You can also add a helper to check
-> > that SRIOV is being enabled/disabled if necessary.
-> > 
-> > > ---
-> > >  docs/pcie_sriov.txt         |  2 +-
-> > >  hw/pci/pcie_sriov.c         | 14 +++++++++++++-
-> > >  include/hw/pci/pcie_sriov.h |  8 +++++++-
-> > >  3 files changed, 21 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/docs/pcie_sriov.txt b/docs/pcie_sriov.txt
-> > > index f5e891e1d4..63ca1a7b8e 100644
-> > > --- a/docs/pcie_sriov.txt
-> > > +++ b/docs/pcie_sriov.txt
-> > > @@ -57,7 +57,7 @@ setting up a BAR for a VF.
-> > >        /* Add and initialize the SR/IOV capability */
-> > >        pcie_sriov_pf_init(d, 0x200, "your_virtual_dev",
-> > >                         vf_devid, initial_vfs, total_vfs,
-> > > -                       fun_offset, stride);
-> > > +                       fun_offset, stride, pre_vfs_update_cb);
-> > >  
-> > >        /* Set up individual VF BARs (parameters as for normal BARs) */
-> > >        pcie_sriov_pf_init_vf_bar( ... )
-> > > diff --git a/hw/pci/pcie_sriov.c b/hw/pci/pcie_sriov.c
-> > > index 501a1ff433..cac2aee061 100644
-> > > --- a/hw/pci/pcie_sriov.c
-> > > +++ b/hw/pci/pcie_sriov.c
-> > > @@ -30,7 +30,8 @@ static void unregister_vfs(PCIDevice *dev);
-> > >  void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
-> > >                          const char *vfname, uint16_t vf_dev_id,
-> > >                          uint16_t init_vfs, uint16_t total_vfs,
-> > > -                        uint16_t vf_offset, uint16_t vf_stride)
-> > > +                        uint16_t vf_offset, uint16_t vf_stride,
-> > > +                        SriovVfsUpdate pre_vfs_update)
-> > >  {
-> > >      uint8_t *cfg = dev->config + offset;
-> > >      uint8_t *wmask;
-> > > @@ -41,6 +42,7 @@ void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
-> > >      dev->exp.sriov_pf.num_vfs = 0;
-> > >      dev->exp.sriov_pf.vfname = g_strdup(vfname);
-> > >      dev->exp.sriov_pf.vf = NULL;
-> > > +    dev->exp.sriov_pf.pre_vfs_update = pre_vfs_update;
-> > >  
-> > >      pci_set_word(cfg + PCI_SRIOV_VF_OFFSET, vf_offset);
-> > >      pci_set_word(cfg + PCI_SRIOV_VF_STRIDE, vf_stride);
-> > > @@ -180,6 +182,11 @@ static void register_vfs(PCIDevice *dev)
-> > >      assert(dev->exp.sriov_pf.vf);
-> > >  
-> > >      trace_sriov_register_vfs(SRIOV_ID(dev), num_vfs);
-> > > +
-> > > +    if (dev->exp.sriov_pf.pre_vfs_update) {
-> > > +        dev->exp.sriov_pf.pre_vfs_update(dev, dev->exp.sriov_pf.num_vfs, num_vfs);
-> > > +    }
-> > > +
-> > >      for (i = 0; i < num_vfs; i++) {
-> > >          dev->exp.sriov_pf.vf[i] = register_vf(dev, devfn, dev->exp.sriov_pf.vfname, i);
-> > >          if (!dev->exp.sriov_pf.vf[i]) {
-> > > @@ -198,6 +205,11 @@ static void unregister_vfs(PCIDevice *dev)
-> > >      uint16_t i;
-> > >  
-> > >      trace_sriov_unregister_vfs(SRIOV_ID(dev), num_vfs);
-> > > +
-> > > +    if (dev->exp.sriov_pf.pre_vfs_update) {
-> > > +        dev->exp.sriov_pf.pre_vfs_update(dev, dev->exp.sriov_pf.num_vfs, 0);
-> > > +    }
-> > > +
-> > >      for (i = 0; i < num_vfs; i++) {
-> > >          PCIDevice *vf = dev->exp.sriov_pf.vf[i];
-> > >          object_property_set_bool(OBJECT(vf), "realized", false, &local_err);
-> > > diff --git a/include/hw/pci/pcie_sriov.h b/include/hw/pci/pcie_sriov.h
-> > > index 0974f00054..9ab48b79c0 100644
-> > > --- a/include/hw/pci/pcie_sriov.h
-> > > +++ b/include/hw/pci/pcie_sriov.h
-> > > @@ -13,11 +13,16 @@
-> > >  #ifndef QEMU_PCIE_SRIOV_H
-> > >  #define QEMU_PCIE_SRIOV_H
-> > >  
-> > > +typedef void (*SriovVfsUpdate)(PCIDevice *dev, uint16_t prev_num_vfs,
-> > > +                               uint16_t num_vfs);
-> > > +
-> > >  struct PCIESriovPF {
-> > >      uint16_t num_vfs;           /* Number of virtual functions created */
-> > >      uint8_t vf_bar_type[PCI_NUM_REGIONS];  /* Store type for each VF bar */
-> > >      const char *vfname;         /* Reference to the device type used for the VFs */
-> > >      PCIDevice **vf;             /* Pointer to an array of num_vfs VF devices */
-> > > +
-> > > +    SriovVfsUpdate pre_vfs_update;  /* Callback preceding VFs count change */
-> > >  };
-> > >  
-> > >  struct PCIESriovVF {
-> > > @@ -28,7 +33,8 @@ struct PCIESriovVF {
-> > >  void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
-> > >                          const char *vfname, uint16_t vf_dev_id,
-> > >                          uint16_t init_vfs, uint16_t total_vfs,
-> > > -                        uint16_t vf_offset, uint16_t vf_stride);
-> > > +                        uint16_t vf_offset, uint16_t vf_stride,
-> > > +                        SriovVfsUpdate pre_vfs_update);
-> > >  void pcie_sriov_pf_exit(PCIDevice *dev);
-> > >  
-> > >  /* Set up a VF bar in the SR/IOV bar area */
-> > > -- 
-> > > 2.25.1
-> >
+On 13/10/2021 09.55, Pierre Morel wrote:
 > 
-> Hi Michael,
 > 
-> A custom config_write callback was the first approach we used.
-> However, once implemented, we realized it looks the same as the
-> pcie_sriov_config_write function. To avoid code duplication and
-> interfering with the internal SR-IOV structures for purposes of NVMe,
-> we opted for this callback prior to the VFs update.
-> After all, we have callbacks in both approaches, config_write and the
-> added pre_vfs_update, so both are prone to misuse.
+> On 10/13/21 09:25, Thomas Huth wrote:
+>> On 16/09/2021 15.50, Pierre Morel wrote:
+>>> When the host supports the CPU topology facility, the PTF
+>>> instruction with function code 2 is interpreted by the SIE,
+>>> provided that the userland hypervizor activates the interpretation
+>>> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
+>>>
+>>> The PTF instructions with function code 0 and 1 are intercepted
+>>> and must be emulated by the userland hypervizor.
+>>>
+>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>> ---
+...
+>>> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+>>> index 5b1fdb55c4..dd036961fe 100644
+>>> --- a/target/s390x/kvm/kvm.c
+>>> +++ b/target/s390x/kvm/kvm.c
+>>> @@ -97,6 +97,7 @@
+>>>   #define PRIV_B9_EQBS                    0x9c
+>>>   #define PRIV_B9_CLP                     0xa0
+>>> +#define PRIV_B9_PTF                     0xa2
+>>>   #define PRIV_B9_PCISTG                  0xd0
+>>>   #define PRIV_B9_PCILG                   0xd2
+>>>   #define PRIV_B9_RPCIT                   0xd3
+>>> @@ -362,6 +363,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>>>       kvm_vm_enable_cap(s, KVM_CAP_S390_USER_SIGP, 0);
+>>>       kvm_vm_enable_cap(s, KVM_CAP_S390_VECTOR_REGISTERS, 0);
+>>>       kvm_vm_enable_cap(s, KVM_CAP_S390_USER_STSI, 0);
+>>> +    kvm_vm_enable_cap(s, KVM_CAP_S390_CPU_TOPOLOGY, 0);
+>>
+>> Should this maybe rather be done in the last patch, to avoid a state where 
+>> PTF is available, but STSI 15 is not implemented yet (when bisecting 
+>> through these commits later)?
+>>
+>>   Thomas
+>>
 > 
-> But I agree it may not be a good moment yet to add a new API
-> specifically for SR-IOV functionality, as NVMe will be the first device
-> to use it.
-> 
-> CCing Knut, perhaps as the author of SR-IOV you have some thoughts on
-> how the device notification of an upcoming VFs update would be handled.
-> 
-> Thanks,
-> Lukasz
+> Yes you are right, thanks.
 
-So just split it up?
+I'm also still a little bit surprised that there is really no migration code 
+involved here yet. What if a guest gets started on a system with 
+KVM_CAP_S390_CPU_TOPOLOGY support and later migrated to a system without 
+KVM_CAP_S390_CPU_TOPOLOGY support? Is there already some magic in place that 
+rejects such a migration? If not, the guest might first learn that it could 
+use the PTF instruction, but suddenly it is then not available anymore? Does 
+Linux cope right with PTF becoming unavailable during runtime? But even if 
+it does, I think it's likely not in the sense of the architecture if certain 
+instructions might disappear during runtime? Or do I miss something?
 
-void pcie_sriov_config_write(PCIDevice *dev, uint32_t address, uint32_t val, int len)
-{
-    uint32_t off;
-    uint16_t sriov_cap = dev->exp.sriov_cap;
-
-    if (!sriov_cap || address < sriov_cap) {
-        return;
-    }
-    off = address - sriov_cap;
-    if (off >= PCI_EXT_CAP_SRIOV_SIZEOF) {
-        return;
-    }
-    
-    trace_sriov_config_write(SRIOV_ID(dev), off, val, len);
-        
-    if (range_covers_byte(off, len, PCI_SRIOV_CTRL)) {
-        if (dev->exp.sriov_pf.num_vfs) {
-            if (!(val & PCI_SRIOV_CTRL_VFE)) {
-                unregister_vfs(dev);
-            }
-        } else {
-            if (val & PCI_SRIOV_CTRL_VFE) {
-                register_vfs(dev);
-            }
-        }
-    }
-}
-
-
-Would become:
-
-bool
- pcie_sriov_is_config_write(PCIDevice *dev, uint32_t address, uint32_t val, int len)
-{
-    uint32_t off;
-    uint16_t sriov_cap = dev->exp.sriov_cap;
-
-    if (!sriov_cap || address < sriov_cap) {
-        return false;
-    }
-    off = address - sriov_cap;
-    if (off >= PCI_EXT_CAP_SRIOV_SIZEOF) {
-        return false;
-    }
-}
-
-bool
- pcie_sriov_do_config_write(PCIDevice *dev, uint32_t address, uint32_t val, int len)
-{
-    trace_sriov_config_write(SRIOV_ID(dev), off, val, len);
-        
-    if (range_covers_byte(off, len, PCI_SRIOV_CTRL)) {
-        if (dev->exp.sriov_pf.num_vfs) {
-            if (!(val & PCI_SRIOV_CTRL_VFE)) {
-                unregister_vfs(dev);
-            }
-        } else {
-            if (val & PCI_SRIOV_CTRL_VFE) {
-                register_vfs(dev);
-            }
-        }
-    }
-}
-
-
-
-void pcie_sriov_config_write(PCIDevice *dev, uint32_t address, uint32_t val, int len)
-{
-	if (pcie_sriov_is_config_write(dev, address, val, len)) {
-		pcie_sriov_do_config_write(dev, address, val, len);
-	}
-    
-}
-
-
-Now  pcie_sriov_is_config_write and pcie_sriov_do_config_write
-can be reused by NVME.
-
--- 
-MST
+  Thomas
 
 
