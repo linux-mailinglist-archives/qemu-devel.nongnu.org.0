@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D3742BBE8
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:47:32 +0200 (CEST)
-Received: from localhost ([::1]:38762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 075A442BC32
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 11:54:03 +0200 (CEST)
+Received: from localhost ([::1]:56494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maarC-0003ei-4f
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:47:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60278)
+	id 1maaxW-0007T8-1R
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 05:54:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maafw-00007v-PK
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:35:53 -0400
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:36695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maafp-0007r9-9A
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 05:35:50 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.52])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id BE633C457193;
- Wed, 13 Oct 2021 11:35:34 +0200 (CEST)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Wed, 13 Oct
- 2021 11:35:34 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003c081c3bf-6597-4555-9545-84d1a8bb13ae,
- ADB6EDD73587FDF9B2583A0B30D51DAD1F8B0393) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <e2619d10-1001-8cbc-b34f-996e8fa19168@kaod.org>
-Date: Wed, 13 Oct 2021 11:35:33 +0200
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1maaga-00011t-7a; Wed, 13 Oct 2021 05:36:32 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:34510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1maagL-0008R1-4Y; Wed, 13 Oct 2021 05:36:31 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id q189so4961970ybq.1;
+ Wed, 13 Oct 2021 02:36:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=99/hi7eAm+LRSl1naEGvTfK/cyxITkeXyE2jChzZPzs=;
+ b=FFgg+nm85oy07wjt3P6vVQBJWkeEf0BDcXzkGYT2i3+9Tr/uYtkCWBC911/BZ127UG
+ QypWY0LkKgmrxCtuBsbcC9UeShoX4ZF/PIYwjGJSzZezllO0t3KRg2Th/7wAGKzjxQCl
+ E0jfmcILNkceMumcTUn6/7gW6lFL/90297CmsF1KAwFgPOkm5AH/++F0kr+ihdIGwclH
+ ohBSGyqGC5x6h5qXrr2QxufiOgZ0SDQG+UUwFXrfd3NafQ0c+T7z9hCSxa86dac3QoQI
+ Uzp0ulTDgiqwhoS+jJAXlLHzXEObbgiVJI/ArcUTLysTuGYMKat/T74WVGSKoDEt7w0b
+ Owvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=99/hi7eAm+LRSl1naEGvTfK/cyxITkeXyE2jChzZPzs=;
+ b=Dec7kiEM0jst0PyfgZFuseEg7Ix98Yer+ztSXRJd5kCzxpH6bqTcrAQeJ6Zbk0fh61
+ iYY8gTS0FSZnfw9v0LtyLVYKLL5nmWyH6nf4pPAcVUnv0Y8HaRqK2zJjPHrt7Yf+YXgL
+ 6LLweUra29vyGA4Ev8aemurrddJ0VVPIv/BNcLq7E3Op6AexhUTKN7/RX0tYAHMkFtvP
+ VvBY8GNczBRuA7SKVPAwsRW5Gkw6OTjBC5e/snDZjcLSF0ruRiURjbshvGTi0wdrdySd
+ wYjNvpOf3dGg+G+p7t4CBOitivBn5hAsTojYYjRKRFvxaQjunoBcNmysE7+OG8dcsDTY
+ sGvQ==
+X-Gm-Message-State: AOAM530DST9llMm12AzGCY6AgfRMYZ5SEbNrAyZPk8eD52DpKP5ksR8X
+ T+uEKKexyl2gi9O9bSDQg9o3O8N68yAqCD+4ais=
+X-Google-Smtp-Source: ABdhPJxs8qeW6Ae93IFAzAb4k9Ytgn1mWRL0kRB0L0Gl68v7nZOxnylRrcdDU08N1fT/wHT5KFbTd7cwq0RXwZWLy4c=
+X-Received: by 2002:a25:346:: with SMTP id 67mr31505656ybd.345.1634117775361; 
+ Wed, 13 Oct 2021 02:36:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] aspeed: Add support for the fp5280g2-bmc board
-Content-Language: en-US
-To: John Wang <wangzq.jn@gmail.com>, <lintao.lc@inspur.com>,
- <liuxiwei@inspur.com>, <duanzhijia01@inspur.com>
-References: <20211013072607.783612-1-wangzhiqiang02@inspur.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211013072607.783612-1-wangzhiqiang02@inspur.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 55c68b74-c6de-4bea-a91a-0840fb0b9ccd
-X-Ovh-Tracer-Id: 12134386250183183151
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeefiedukefhueejteffvedthffhkeehhefhtdejkeefheeifeejvdfgfffgieefnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20211003112855.960081-1-rpathak@ventanamicro.com>
+ <CAEUhbmUsMrSvQHWWoFRzdUuOyxcaaw=L7h7tk0f5_wsd692=ow@mail.gmail.com>
+ <CA+Oz1=YrvVA2q=Pg6_vwRmQgLgMEwxirTM-pgAkNcCk+Lj2TVw@mail.gmail.com>
+In-Reply-To: <CA+Oz1=YrvVA2q=Pg6_vwRmQgLgMEwxirTM-pgAkNcCk+Lj2TVw@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 13 Oct 2021 17:36:03 +0800
+Message-ID: <CAEUhbmUzuMXPs+vFRkKeQwsyQR+S3HqubmHbdztTPjEgE31nnQ@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: csr: Implement mconfigptr CSR
+To: Rahul Pathak <rpathak@ventanamicro.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,120 +76,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, pathakraul@gmail.com,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello John,
+HI Rahul,
 
-On 10/13/21 09:26, John Wang wrote:
-> The fp5280g2-bmc is supported by OpenBMC, It's
-> based on the following device tree
-> 
-> https://github.com/openbmc/linux/blob/dev-5.10/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
-> 
-> Signed-off-by: John Wang <wangzhiqiang02@inspur.com>
-> ---
->   hw/arm/aspeed.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 48 insertions(+)
-> 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 01c1747972..3587788f63 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -141,6 +141,21 @@ struct AspeedMachineState {
->           SCU_AST2500_HW_STRAP_ACPI_ENABLE |                              \
->           SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER))
->   
-> +/* FP5280G2 hardware value: 0XF100D286 */
-> +#define FP5280G2_BMC_HW_STRAP1 (                                      \
-> +        SCU_AST2500_HW_STRAP_SPI_AUTOFETCH_ENABLE |                     \
-> +        SCU_AST2500_HW_STRAP_GPIO_STRAP_ENABLE |                        \
-> +        SCU_AST2500_HW_STRAP_UART_DEBUG |                               \
-> +        SCU_AST2500_HW_STRAP_RESERVED28 |                               \
-> +        SCU_AST2500_HW_STRAP_DDR4_ENABLE |                              \
-> +        SCU_HW_STRAP_VGA_CLASS_CODE |                                   \
-> +        SCU_HW_STRAP_LPC_RESET_PIN |                                    \
-> +        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER) |                \
-> +        SCU_AST2500_HW_STRAP_SET_AXI_AHB_RATIO(AXI_AHB_RATIO_2_1) |     \
-> +        SCU_HW_STRAP_MAC1_RGMII |                                       \
-> +        SCU_HW_STRAP_VGA_SIZE_SET(VGA_16M_DRAM) |                       \
-> +        SCU_AST2500_HW_STRAP_RESERVED1)
-> +
->   /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition) */
->   #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
->   
-> @@ -717,6 +732,17 @@ static void g220a_bmc_i2c_init(AspeedMachineState *bmc)
->                             eeprom_buf);
->   }
->   
-> +static void fp5280g2_bmc_i2c_init(AspeedMachineState *bmc)
-> +{
-> +    AspeedSoCState *soc = &bmc->soc;
-> +
-> +    /* The fp5280g2 expects a TMP112 but a TMP105 is compatible */
-> +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 2), TYPE_TMP105,
-> +                     0x48);
-> +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 2), TYPE_TMP105,
-> +                     0x49);
-> +}
+On Fri, Oct 8, 2021 at 5:47 PM Rahul Pathak <rpathak@ventanamicro.com> wrote:
+>
+> Hi Bin
+>
+>
+> On Thu, Oct 7, 2021 at 11:07 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > On Sun, Oct 3, 2021 at 7:29 PM Rahul Pathak <rpathak@ventanamicro.com> wrote:
+> > >
+> > > mconfigptr is an mandatory CSR as per the priv spec.
+> >
+> > %s/an/a
+> >
+>
+> Done
+>
+> >
+> > as per the priv spec v1.12
+> >
+> > > This csr holds the physical address of the configuration
+> > > data structure if this data structure is implemented
+> > > Its an readonly csr set to zero making configuration
+> > > data structure not supported.
+> > >
+> > > Signed-off-by: Rahul Pathak <rpathak@ventanamicro.com>
+> > > ---
+> > >  target/riscv/cpu_bits.h | 1 +
+> > >  target/riscv/csr.c      | 1 +
+> > >  2 files changed, 2 insertions(+)
+> > >
+> > > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> > > index 999187a9ee..5dc4729ed5 100644
+> > > --- a/target/riscv/cpu_bits.h
+> > > +++ b/target/riscv/cpu_bits.h
+> > > @@ -140,6 +140,7 @@
+> > >  #define CSR_MARCHID         0xf12
+> > >  #define CSR_MIMPID          0xf13
+> > >  #define CSR_MHARTID         0xf14
+> > > +#define CSR_MCONFIGPTR      0xf15
+> > >
+> > >  /* Machine Trap Setup */
+> > >  #define CSR_MSTATUS         0x300
+> > > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > > index 23fbbd3216..2182943f54 100644
+> > > --- a/target/riscv/csr.c
+> > > +++ b/target/riscv/csr.c
+> > > @@ -1549,6 +1549,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+> > >      [CSR_MARCHID]   = { "marchid",   any,   read_zero    },
+> > >      [CSR_MIMPID]    = { "mimpid",    any,   read_zero    },
+> > >      [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid },
+> > > +    [CSR_MCONFIGPTR] = {"mconfigptr", any,  read_zero    },
+> >
+> > Not any, as we need to check the priv version >= 1.12
+>
+>
+> To check the priv version, I am thinking of creating a generic
+> predicate function
+> which checks the env->priv_ver.?
+> Generic predicate function for the priv version can be reused in other such
+> scenarios also.
 
-I see in the DTS a few more devices for which QEMU has models :
-atmel,24c256, nxp,pca9555 and nxp,pca9546.
+Sounds good to me. Thanks!
 
-ti,tmp112 might be compatible with the TMP105 and the RTC clock
-with the ds1338 model.
-
-Could you please check if they can be added ? and send v2.
-
-The rest looks good to me.
-
-Thanks,
-
-C.
-
-> +
->   static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
->   {
->       AspeedSoCState *soc = &bmc->soc;
-> @@ -1082,6 +1108,24 @@ static void aspeed_machine_g220a_class_init(ObjectClass *oc, void *data)
->           aspeed_soc_num_cpus(amc->soc_name);
->   };
->   
-> +static void aspeed_machine_fp5280g2_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
-> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-> +
-> +    mc->desc       = "Inspur FP5280G2 BMC (ARM1176)";
-> +    amc->soc_name  = "ast2500-a1";
-> +    amc->hw_strap1 = FP5280G2_BMC_HW_STRAP1;
-> +    amc->fmc_model = "n25q512a";
-> +    amc->spi_model = "mx25l25635e";
-> +    amc->num_cs    = 2;
-> +    amc->macs_mask  = ASPEED_MAC0_ON | ASPEED_MAC1_ON;
-> +    amc->i2c_init  = fp5280g2_bmc_i2c_init;
-> +    mc->default_ram_size = 512 * MiB;
-> +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
-> +        aspeed_soc_num_cpus(amc->soc_name);
-> +};
-> +
->   static void aspeed_machine_rainier_class_init(ObjectClass *oc, void *data)
->   {
->       MachineClass *mc = MACHINE_CLASS(oc);
-> @@ -1146,6 +1190,10 @@ static const TypeInfo aspeed_machine_types[] = {
->           .name          = MACHINE_TYPE_NAME("g220a-bmc"),
->           .parent        = TYPE_ASPEED_MACHINE,
->           .class_init    = aspeed_machine_g220a_class_init,
-> +    }, {
-> +        .name          = MACHINE_TYPE_NAME("fp5280g2-bmc"),
-> +        .parent        = TYPE_ASPEED_MACHINE,
-> +        .class_init    = aspeed_machine_fp5280g2_class_init,
->       }, {
->           .name          = MACHINE_TYPE_NAME("quanta-q71l-bmc"),
->           .parent        = TYPE_ASPEED_MACHINE,
-> 
-
+Regards,
+Bin
 
