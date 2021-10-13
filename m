@@ -2,86 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D73E42C63B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 18:23:36 +0200 (CEST)
-Received: from localhost ([::1]:34456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6429A42C668
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 18:29:57 +0200 (CEST)
+Received: from localhost ([::1]:38968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mah2U-0002Y3-O3
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 12:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43672)
+	id 1mah8e-0005oW-7A
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 12:29:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vineetg@rivosinc.com>)
- id 1mah00-0001r5-98
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 12:21:00 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:39596)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vineetg@rivosinc.com>)
- id 1magzw-0003AC-9E
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 12:20:59 -0400
-Received: by mail-pl1-x634.google.com with SMTP id c4so2184525pls.6
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 09:20:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=srBduUPJJy0/xgorY/SqGLcr6llYw3t2x8HaOwBvHM0=;
- b=5s8PinZtK4C0vy/NOSvWjsqk2wc2QXEUagDj92vtSovHwFcYkfKl5T9BhjsHQDOEnN
- UGURjycwLKjuE+3gjJqzRtrICPvqn+lcBklQpORp+1tAd9cVZdrSr98JXjcFpAJBwgXI
- ocgP6d/uj0PLNMg530H+NqCAGnqpQV+jG1JHievPgZJ3PNJwABdfxQ/6cNecRaQFmH0q
- JNhf/rnrqkRbUEkYTxbvMA33yjxgChg8mncHEkQS2YXGf+XdwWp5R3EDp04IhxwJ+g7V
- 6DkTlKt8OS+ETcqbqxt7Rzbq4CQJLbOyyPaxq3eEoxZYc5fyrr6eeqPQjJEEAV263bY1
- GrnA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mah7I-0004gc-I0
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 12:28:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29266)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mah7E-0001Il-5D
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 12:28:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634142504;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dM4QTHuO5KJQ+cQx5ahZdmU0wRDfkNrcfVN43cZW8Ic=;
+ b=ReSn+JoGYnuuUhhWp+vTRwVL3CW84rQfKsSgs52TeeGjmGD5dpGIWAPLo0WK5Ot5yyU6pI
+ xoRnhcaLUul0eNjgOgxrXBGsXKT+Er2/GzV/myx57UGaLXCjOvpWin+tMxXESmY+gzU/0f
+ 5JMVNsEQVpi0Rk8tJAWOPzhOVD7kyQs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-VVcjdfWPNsC8k5nsidUYxA-1; Wed, 13 Oct 2021 12:28:22 -0400
+X-MC-Unique: VVcjdfWPNsC8k5nsidUYxA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ d13-20020adf9b8d000000b00160a94c235aso2447345wrc.2
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 09:28:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=srBduUPJJy0/xgorY/SqGLcr6llYw3t2x8HaOwBvHM0=;
- b=Jfh9sEDRkDM1oUdra9dnXrlpIfMj4hx7GdR50q9oD0zBI+33CAPYswKaxVEk1LRtzQ
- MABMHGUdQIq94q53xl3FK4MN/RKObqvw4pihmd/axdjTzU8//gLP7U3+Lv8V98uryOhu
- cApMRKQ9Cj7mT4oWv8TQajByd4DPI2CyHDGvYzpti5YUsI08m7V6gTsHfcM7leoClXlQ
- mrJlK3bhGL6/FLSgsOFTC9bzapr1mdgnPu8VtS406d4Qo5W1kep8QbEnxyyfcGzVgyil
- Tt3IFQiq/O8BmH1tgkZCWgqCYfKqPVqckMUxDaCPpl+CrEo8eayCtcCiH2FGHT7I+Gy8
- zS1A==
-X-Gm-Message-State: AOAM533EuXgO9vIZSk0BOyibcAqYs/WWt8/q/jzqrXTPeyFMwwE+bYIO
- Kx8o0kEi72d1dFyuw20CHByQ8g==
-X-Google-Smtp-Source: ABdhPJySOMd441LUor7mk6uQL2DJxnbbHJQji1Bf4XPGigJ5MeymhLL0AJNSNM2mhAuFfML8lwOIuQ==
-X-Received: by 2002:a17:903:22c9:b0:13e:ed56:70e2 with SMTP id
- y9-20020a17090322c900b0013eed5670e2mr66035plg.19.1634142053418; 
- Wed, 13 Oct 2021 09:20:53 -0700 (PDT)
-Received: from [192.168.50.50] (c-24-4-73-83.hsd1.ca.comcast.net. [24.4.73.83])
- by smtp.gmail.com with ESMTPSA id s2sm6840686pjs.56.2021.10.13.09.20.52
+ bh=dM4QTHuO5KJQ+cQx5ahZdmU0wRDfkNrcfVN43cZW8Ic=;
+ b=vNeAFiph/nv3bnkqMC5vz5kW8MKiuwdQ8YJW1YlrE30Wq+g9qBA7AGoUgzhmFsWd/E
+ MpMom82xiKv8eNNWAffSjxBv8wL3ZZUQmjxdnsikPp9A9ugpK7/0Zo3YUzQLSF+Mge/0
+ Q/ZE+1ol0y0IS+Gu+sCDijOQfQyAYu5xjRsqP8ygE5emqCTv8gSP1EGzdSxILb96UND8
+ C/ogjGw/XqcZ3k6pIljr5Q6LOUmwQatWTOPIsxr2HHHfHlY2+7/SnCqyZE2ZJD2/R8zs
+ jmcrts7LC4IdIOyJDVgTh/NaAmkec043z0kqcOjkXjba3cFe+hbeKrCyCftsym5euqAW
+ 8WJA==
+X-Gm-Message-State: AOAM532p3+gST9Lu/p/daXpfvEzr6ZoiJRHHjVPGfzcrnPHWJV1RNxLe
+ wGMWVJSSSKvHEp00IKBhKVcd4iszDDpw4X20fK2vjGpMZXXqnyrQ8+p2veGTjCdhklDFnZRRzTh
+ Xc8sORaOPYXlz9FQ=
+X-Received: by 2002:a1c:ac03:: with SMTP id v3mr225846wme.127.1634142500856;
+ Wed, 13 Oct 2021 09:28:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwgW7k8ktDPySbTM/nn+TUKW45iQ0H63b/mzTCSQBbTEoiMcM59IiEwMHt0yeZ1dqiAbng8tQ==
+X-Received: by 2002:a1c:ac03:: with SMTP id v3mr225790wme.127.1634142500251;
+ Wed, 13 Oct 2021 09:28:20 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1e48:3780:4451:9a65:d4e9:9bb6?
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id j206sm3093520wmj.23.2021.10.13.09.28.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Oct 2021 09:20:53 -0700 (PDT)
-Subject: Re: [PULL 11/26] target/riscv: Add orc.b instruction for Zbb,
- removing gorc/gorci
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>,
- Vincent Palatin <vpalatin@rivosinc.com>
-References: <20211007064751.608580-1-alistair.francis@opensource.wdc.com>
- <20211007064751.608580-12-alistair.francis@opensource.wdc.com>
- <CANVmJF=2awVA+6CZ1D1BrdZQG=OyXdYZk63ZnDOVEBooEGzE8g@mail.gmail.com>
- <CAAeLtUBSZ-=+06SowthZds0r19w66S-ibn18st4=DU81SeJk6Q@mail.gmail.com>
- <CAOojN2Ub=ig3akjXRdtq0WkwTn+wqy_q85UzTgV=UD5Y6y+9iA@mail.gmail.com>
- <CAAeLtUDSss2dco5QsT1wXQJ=bBS5ZAwjmXrH5dceZwxmqKKbSg@mail.gmail.com>
-From: Vineet Gupta <vineetg@rivosinc.com>
-Message-ID: <fe85a41a-af02-2c1e-cec6-af4668f7519c@rivosinc.com>
-Date: Wed, 13 Oct 2021 09:20:51 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Wed, 13 Oct 2021 09:28:19 -0700 (PDT)
+Message-ID: <933a0101-d214-384e-6a4f-f8da9e0de815@redhat.com>
+Date: Wed, 13 Oct 2021 18:28:18 +0200
 MIME-Version: 1.0
-In-Reply-To: <CAAeLtUDSss2dco5QsT1wXQJ=bBS5ZAwjmXrH5dceZwxmqKKbSg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 09/13] iotests: split linters.py out from 297
+To: John Snow <jsnow@redhat.com>
+References: <20211004210503.1455391-1-jsnow@redhat.com>
+ <20211004210503.1455391-10-jsnow@redhat.com>
+ <bbaa0613-3b95-84d8-52ae-c53b1175d096@redhat.com>
+ <CAFn=p-YkCYr=jmBcSSpPBhDskPgWa5ATFUd-X-thCbK3Z=DJmQ@mail.gmail.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <CAFn=p-YkCYr=jmBcSSpPBhDskPgWa5ATFUd-X-thCbK3Z=DJmQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=vineetg@rivosinc.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,87 +101,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Anup Patel <anup@brainfault.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@opensource.wdc.com>,
- Alistair Francis <alistair23@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Jim Wilson <jimw@sifive.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/13/21 6:49 AM, Philipp Tomsich wrote:
-> On Wed, 13 Oct 2021 at 15:44, Vincent Palatin <vpalatin@rivosinc.com> wrote:
->>
->> On Wed, Oct 13, 2021 at 3:13 PM Philipp Tomsich
->> <philipp.tomsich@vrull.eu> wrote:
->>>
->>> I had a much simpler version initially (using 3 x mask/shift/or, for
->>> 12 instructions after setup of constants), but took up the suggestion
->>> to optimize based on haszero(v)...
->>> Indeed this appears to not do what we expect, when there's only 0x01
->>> set in a byte.
->>>
->>> The less optimized form, with a single constant, that would still do
->>> what we want is:
->>>     /* set high-bit for non-zero bytes */
->>>     constant = dup_const_tl(MO_8, 0x7f);
->>>     tmp = v & constant;   // AND
->>>     tmp += constant;       // ADD
->>>     tmp |= v;                    // OR
->>>     /* extract high-bit to low-bit, for each word */
->>>     tmp &= ~constant;     // ANDC
->>>     tmp >>= 7;                 // SHR
->>>     /* multiply with 0xff to populate entire byte where the low-bit is set */
->>>     tmp *= 0xff;                // MUL
->>>
->>> I'll submit a patch with this one later today, once I had a chance to
->>> pass this through a full test.
->>
->>
->> Thanks for the insight.
->>
->> I have tried it, implemented as:
->> ```
->> static void gen_orc_b(TCGv ret, TCGv source1)
->> {
->>      TCGv  tmp = tcg_temp_new();
->>      TCGv  constant = tcg_constant_tl(dup_const_tl(MO_8, 0x7f));
->>
->>      /* set high-bit for non-zero bytes */
->>      tcg_gen_and_tl(tmp, source1, constant);
->>      tcg_gen_add_tl(tmp, tmp, constant);
->>      tcg_gen_or_tl(tmp, tmp, source1);
->>      /* extract high-bit to low-bit, for each word */
->>      tcg_gen_andc_tl(tmp, tmp, constant);
->>      tcg_gen_shri_tl(tmp, tmp, 7);
->>
->>      /* Replicate the lsb of each byte across the byte. */
->>      tcg_gen_muli_tl(ret, tmp, 0xff);
->>
->>      tcg_temp_free(tmp);
->> }
->> ```
->>
->> It does pass my own test sequences.
-> 
-> I am running it against SPEC at the moment, using optimized
-> strlen/strcpy/strcmp functions using orc.b.
-> The verdict on that should be available later today...
+On 13.10.21 17:07, John Snow wrote:
+>
+>
+> On Wed, Oct 13, 2021 at 7:50 AM Hanna Reitz <hreitz@redhat.com> wrote:
+>
+>     On 04.10.21 23:04, John Snow wrote:
+>     > Now, 297 is just the iotests-specific incantations and
+>     linters.py is as
+>     > minimal as I can think to make it. The only remaining element in
+>     here
+>     > that ought to be configuration and not code is the list of skip
+>     files,
+>
+>     Yeah...
+>
+>     > but they're still numerous enough that repeating them for mypy and
+>     > pylint configurations both would be ... a hassle.
+>
+>     I agree.
+>
+>     > Signed-off-by: John Snow <jsnow@redhat.com>
+>     > ---
+>     >   tests/qemu-iotests/297        | 72 +++---------------------------
+>     >   tests/qemu-iotests/linters.py | 83
+>     +++++++++++++++++++++++++++++++++++
+>     >   2 files changed, 88 insertions(+), 67 deletions(-)
+>     >   create mode 100644 tests/qemu-iotests/linters.py
+>
+>     I’d like to give an A-b because now the statuscode-returning
+>     function is
+>     in a library.  But I already gave an A-b on the last patch precisely
+>     because of the interface, and I shouldn’t be so grumpy.
+>
+>     Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+>
+>
+> I'm not entirely sure I understand your dislike(?) of status codes. 
+> I'm not trying to ignore the feedback, but I don't think I understand 
+> it fully.
 
-off topic but relates, for Zb (and similar things in the future) whats 
-the strategy for change management/discovery. I understand you can 
-hardcode things for quick test, but for a proper glibc implementation 
-this would be an IFUNC but there seems to be no architectural way per 
-spec (for software/kernel) to discover this.
+It’s the fact that we only use status codes because they are part of the 
+interface of shell commands.  A python function isn’t a shell command, 
+so I find it weird to use that interface there.  Returning True/False 
+would make more sense, for example.
 
-Same issue is with building linux kernel with Zb - how do we make sure 
-that hardware/sim supports Zb when running corresponding software.
+I understand we have the same thing with qemu* commands in iotests.py, 
+so I shouldn’t be so stuck on it...
 
-It seems some generic discovery/enumeration scheme is in works but what 
-to do in the interim.
+> Would it be better if I removed check=False and allowed the functions 
+> to raise an Exception on non-zero subprocess return? (Possibly having 
+> the function itself print the stdout on the error case before re-raising.)
 
-Thx,
--Vineet
+Yes, I would like that better! :)
+
+Hanna
+
 
