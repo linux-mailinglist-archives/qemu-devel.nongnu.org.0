@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6107242C47E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 17:08:36 +0200 (CEST)
-Received: from localhost ([::1]:39570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA09642C48E
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 17:12:19 +0200 (CEST)
+Received: from localhost ([::1]:42424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mafrv-00059l-0y
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 11:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54068)
+	id 1mafvX-0007CY-2N
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 11:12:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mafql-0004Rv-0V
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:07:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53530)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mafua-0006Pm-6t
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:11:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mafqi-00005I-75
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:07:22 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mafuY-0003Mn-7W
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:11:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634137639;
+ s=mimecast20190719; t=1634137877;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RyoZvs7+QsZGyoLDTy8ISIbCJjqH25SYWECNliZq90s=;
- b=N5HIu08TPimOp/mKdlBPQOs7rEIKOde1FxDlQrYkx5JAUNTEKrmEqyEEvlpNk7JQQyTfeu
- r4gS5jo05jIhLdlGxzE9Z1O3FTPPYb/uDk/zL0KMFSrkeNxmRsoRTgJK5zl/2D4yCkCLSM
- nq8gX2jy40KDgb3kBy07HHmlLLxnOYc=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-WXWevlR7Pn-YTLbu_0L1JQ-1; Wed, 13 Oct 2021 11:07:12 -0400
-X-MC-Unique: WXWevlR7Pn-YTLbu_0L1JQ-1
-Received: by mail-vk1-f197.google.com with SMTP id
- u207-20020a1fabd8000000b002a468395665so421732vke.11
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 08:07:12 -0700 (PDT)
+ bh=DDS/cm/BoEygq7CeXUer+T0mPmrtKrLVpnBIVE/wx0U=;
+ b=cFyI/FBX4wQC1l6PEQkFnM+cYNqLaems4y04t/lLg7wLVuohaC28TpRB4KuI0W9VMjTtKw
+ ehFtya3lum0zUt0cnUresPRxtp1c/2/mxM2dMwVvxj7h98zL8t3MoXN90F2miyeMqrwunu
+ DRNqwu40PhuL9oCRpQsT07Gn/skautM=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-128-XvMNB9fSMi6zFhWXR0Wt4A-1; Wed, 13 Oct 2021 11:11:16 -0400
+X-MC-Unique: XvMNB9fSMi6zFhWXR0Wt4A-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ h3-20020a0561220b6300b00293bbf7804bso1202668vkf.1
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 08:11:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=RyoZvs7+QsZGyoLDTy8ISIbCJjqH25SYWECNliZq90s=;
- b=Lbu8qcwHE2hnKzFaIcUQplo82S5Q/ALGaHpZAodcyWVZ8aJ6QcJhh4IGE8XhtV0S+8
- zwLLC+mpEw9WeAdjUO8YeKOk3r1s/dkrgDX5IuaRpDDMxwXneHKjWd22a6UhTdFDZwSk
- mUzD9TX2UOokDqOJCdjYbxSQf34cqvfo5Rk0yIPfWtWvCU1T7608YYCUerReELUmIiFJ
- gxlZbR52BB9Y2JcfVV+oDUyjuR677Qxdwacb4p9HIdNXuqfd1g83oh0xc1AjYjqOqdHF
- uty5Udx7RW9isLwboVzeQucsR9JCTbRfExSOrFLBqsIobl0Pn2GpKB5WHmO2lPtXi4tb
- 2ijA==
-X-Gm-Message-State: AOAM533Fj6yeepTcvUezHlTngfxz+9FtUOBtBuCMrgvd29IWPIEfAVUk
- XCCrCMM/JF0ebcNZTuHs4q2lL2KAFQ5KlM06Os4BPk7i93e/JYTueVtgUw2vbSd+xNeajoeTNGF
- MYRDovoWSw0qpWy7a68tE0wrsyPfSvwg=
-X-Received: by 2002:a67:f685:: with SMTP id n5mr39718343vso.31.1634137632094; 
- Wed, 13 Oct 2021 08:07:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyjONqtbupl8IRwGlL3lLQA67ozLYTuWH4MVJbgC1nkqkdWhw6qI0EVKOvPm2CFEiCQ/UhB6zOnSiev2BdR8Js=
-X-Received: by 2002:a67:f685:: with SMTP id n5mr39718306vso.31.1634137631853; 
- Wed, 13 Oct 2021 08:07:11 -0700 (PDT)
+ bh=DDS/cm/BoEygq7CeXUer+T0mPmrtKrLVpnBIVE/wx0U=;
+ b=7XyfVHq+1NORxdL5S61Fk4oVFSo6QLaNXy1OoIA50NFl2YiPNILHDoId361wu2Y2j+
+ 1CKeu5yzgWmZpoKLbt5QXSioE1Gn8fQtFWZAxTazhAwyNv2xI7lIZ0bZSlJD5LF3MJKl
+ J2P6zdcBdrAafWlrax8vlZlf/T8ibftyW7/Z4TOHEw3inLfbWE4KaeI+9ZLhUdQVMBhP
+ kgwq+/k9R4BqIuThFC3dp6jDkTSeggqXBe0bIHBgcchrK1FTkIGxTpqZ5Jd8XtFQ+ypD
+ LnC7w+9Z3roxF75q826yAk6YMU6a7LfD0J9UdvREvnMVcvx9W+lPfsDiN7p4djy55rM3
+ Lmjg==
+X-Gm-Message-State: AOAM530GBbgeJmR+Xrp+rmpkmsxL+NGXxjD67r2InQI2fzi/uCNnJoyD
+ 4a7Syp0DcnITw7+l1gD7Vkls/d6FndKyK0i3IiK1jh40rXmR/ICHPtRGgi5l8gUjWIx7YA7mgid
+ WzCtbCCpsspXb93SdjRL9Hri9HGA61hU=
+X-Received: by 2002:a67:ec94:: with SMTP id h20mr38495901vsp.59.1634137875616; 
+ Wed, 13 Oct 2021 08:11:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx6gGtENblbwJuYrYX52T0navDxtutRPqZI5vFuHyEU95NB9Ncrvs3RPHvX/lKs0ykG/2558CBndwjI4g4/y6c=
+X-Received: by 2002:a67:ec94:: with SMTP id h20mr38495875vsp.59.1634137875384; 
+ Wed, 13 Oct 2021 08:11:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211004210503.1455391-1-jsnow@redhat.com>
- <20211004210503.1455391-10-jsnow@redhat.com>
- <bbaa0613-3b95-84d8-52ae-c53b1175d096@redhat.com>
-In-Reply-To: <bbaa0613-3b95-84d8-52ae-c53b1175d096@redhat.com>
+ <20211004210503.1455391-11-jsnow@redhat.com>
+ <19f3d6b1-f3bc-55e8-0fe0-79daf081a778@redhat.com>
+In-Reply-To: <19f3d6b1-f3bc-55e8-0fe0-79daf081a778@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Wed, 13 Oct 2021 11:07:01 -0400
-Message-ID: <CAFn=p-YkCYr=jmBcSSpPBhDskPgWa5ATFUd-X-thCbK3Z=DJmQ@mail.gmail.com>
-Subject: Re: [PATCH 09/13] iotests: split linters.py out from 297
+Date: Wed, 13 Oct 2021 11:11:04 -0400
+Message-ID: <CAFn=p-Z25JLuC9cpf2OPgEmgPwk2g0GAcBRm-ZHFL2-ZuC0O=g@mail.gmail.com>
+Subject: Re: [PATCH 10/13] iotests/linters: Add entry point for linting via
+ Python CI
 To: Hanna Reitz <hreitz@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000000fa3ab05ce3d5114"
+Content-Type: multipart/alternative; boundary="00000000000093a01f05ce3d5f1b"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -94,100 +95,252 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000fa3ab05ce3d5114
+--00000000000093a01f05ce3d5f1b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 13, 2021 at 7:50 AM Hanna Reitz <hreitz@redhat.com> wrote:
+On Wed, Oct 13, 2021 at 8:11 AM Hanna Reitz <hreitz@redhat.com> wrote:
 
-> On 04.10.21 23:04, John Snow wrote:
-> > Now, 297 is just the iotests-specific incantations and linters.py is as
-> > minimal as I can think to make it. The only remaining element in here
-> > that ought to be configuration and not code is the list of skip files,
+> On 04.10.21 23:05, John Snow wrote:
+> > We need at least a tiny little shim here to join test file discovery
+> > with test invocation. This logic could conceivably be hosted somewhere
+> > in python/, but I felt it was strictly the least-rude thing to keep the
+> > test logic here in iotests/, even if this small function isn't itself a=
+n
+> > iotest.
+> >
+> > Note that we don't actually even need the executable bit here, we'll be
+> > relying on the ability to run this module as a script using Python CLI
+> > arguments. No chance it gets misunderstood as an actual iotest that way=
+.
+> >
+> > (It's named, not in tests/, doesn't have the execute bit, and doesn't
+> > have an execution shebang.)
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> >
+> > ---
+> >
+> > (1) I think that the test file discovery logic and skip list belong
+> together,
+> >      and that those items belong in iotests/. I think they also belong =
+in
+> >      whichever directory pylintrc and mypy.ini are in, also in iotests/=
+.
 >
-> Yeah...
+> Agreed.
 >
-> > but they're still numerous enough that repeating them for mypy and
-> > pylint configurations both would be ... a hassle.
+> > (2) Moving this logic into python/tests/ is challenging because I'd hav=
+e
+> >      to import iotests code from elsewhere in the source tree, which ju=
+st
+> >      inverts an existing problem I have been trying to rid us of --
+> >      needing to muck around with PYTHONPATH or sys.path hacking in pyth=
+on
+> >      scripts. I'm keen to avoid this.
 >
-> I agree.
+> OK.
 >
+> > (3) If we moved all python tests into tests/ and gave them *.py
+> >      extensions, we wouldn't even need the test discovery functions
+> >      anymore, and all of linters.py could be removed entirely, includin=
+g
+> >      this execution shim. We could rely on mypy/pylint's own file
+> >      discovery mechanisms at that point. More work than I'm up for with
+> >      just this series, but I could be coaxed into doing it if there was
+> >      some promise of not rejecting all that busywork ;)
+>
+> I believe the only real value this would gain is that the tests would
+> have nicer names and we would have to delint them.  If we find those
+> goals to justify the effort, then we can put in the effort; and we can
+> do that slowly, test by test.  I don=E2=80=99t think we must do it now in=
+ one
+> big lump just to get rid of the file discovery functions.
+>
+>
+Yeah, I agree -- just do it over time and as-needed. I'm sure I will be
+bothered by something-or-other sooner-or-later and I'll wind up doing it
+anyway. Just maybe not this week!
+
+
 > > Signed-off-by: John Snow <jsnow@redhat.com>
 > > ---
-> >   tests/qemu-iotests/297        | 72 +++---------------------------
-> >   tests/qemu-iotests/linters.py | 83 ++++++++++++++++++++++++++++++++++=
-+
-> >   2 files changed, 88 insertions(+), 67 deletions(-)
-> >   create mode 100644 tests/qemu-iotests/linters.py
+> >   tests/qemu-iotests/linters.py | 18 ++++++++++++++++++
+> >   1 file changed, 18 insertions(+)
+> >
+> > diff --git a/tests/qemu-iotests/linters.py
+> b/tests/qemu-iotests/linters.py
+> > index f6a2dc139fd..191df173064 100644
+> > --- a/tests/qemu-iotests/linters.py
+> > +++ b/tests/qemu-iotests/linters.py
+> > @@ -16,6 +16,7 @@
+> >   import os
+> >   import re
+> >   import subprocess
+> > +import sys
+> >   from typing import List, Mapping, Optional
+> >
+> >
+> > @@ -81,3 +82,20 @@ def run_linter(
+> >
+> >       return p.returncode
+> >
+> > +
+> > +def main() -> int:
+> > +    """
+> > +    Used by the Python CI system as an entry point to run these linter=
+s.
+> > +    """
+> > +    files =3D get_test_files()
+> > +
+> > +    if sys.argv[1] =3D=3D '--pylint':
+> > +        return run_linter('pylint', files)
+> > +    elif sys.argv[1] =3D=3D '--mypy':
+> > +        return run_linter('mypy', files)
 >
-> I=E2=80=99d like to give an A-b because now the statuscode-returning func=
-tion is
-> in a library.  But I already gave an A-b on the last patch precisely
-> because of the interface, and I shouldn=E2=80=99t be so grumpy.
+> So I can run it as `python linters.py --pylint foo bar` and it won=E2=80=
+=99t
+> complain? :)
 >
-> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+> I don=E2=80=99t feel like it=E2=80=99s important, but, well, it isn=E2=80=
+=99t right either.
 >
 >
-I'm not entirely sure I understand your dislike(?) of status codes. I'm not
-trying to ignore the feedback, but I don't think I understand it fully.
+Alright. I hacked it together to be "minimal" in terms of SLOC, but I can
+make it ... less minimal.
 
-Would it be better if I removed check=3DFalse and allowed the functions to
-raise an Exception on non-zero subprocess return? (Possibly having the
-function itself print the stdout on the error case before re-raising.)
-
---js
-
---0000000000000fa3ab05ce3d5114
+--00000000000093a01f05ce3d5f1b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 13, 2021 at 7:50 AM Hanna=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 13, 2021 at 8:11 AM Hanna=
  Reitz &lt;<a href=3D"mailto:hreitz@redhat.com">hreitz@redhat.com</a>&gt; w=
 rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
 x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 04.10.2=
-1 23:04, John Snow wrote:<br>
-&gt; Now, 297 is just the iotests-specific incantations and linters.py is a=
-s<br>
-&gt; minimal as I can think to make it. The only remaining element in here<=
+1 23:05, John Snow wrote:<br>
+&gt; We need at least a tiny little shim here to join test file discovery<b=
+r>
+&gt; with test invocation. This logic could conceivably be hosted somewhere=
+<br>
+&gt; in python/, but I felt it was strictly the least-rude thing to keep th=
+e<br>
+&gt; test logic here in iotests/, even if this small function isn&#39;t its=
+elf an<br>
+&gt; iotest.<br>
+&gt;<br>
+&gt; Note that we don&#39;t actually even need the executable bit here, we&=
+#39;ll be<br>
+&gt; relying on the ability to run this module as a script using Python CLI=
+<br>
+&gt; arguments. No chance it gets misunderstood as an actual iotest that wa=
+y.<br>
+&gt;<br>
+&gt; (It&#39;s named, not in tests/, doesn&#39;t have the execute bit, and =
+doesn&#39;t<br>
+&gt; have an execution shebang.)<br>
+&gt;<br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; ---<br>
+&gt;<br>
+&gt; (1) I think that the test file discovery logic and skip list belong to=
+gether,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 and that those items belong in iotests/. I think t=
+hey also belong in<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 whichever directory pylintrc and mypy.ini are in, =
+also in iotests/.<br>
+<br>
+Agreed.<br>
+<br>
+&gt; (2) Moving this logic into python/tests/ is challenging because I&#39;=
+d have<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 to import iotests code from elsewhere in the sourc=
+e tree, which just<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 inverts an existing problem I have been trying to =
+rid us of --<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 needing to muck around with PYTHONPATH or sys.path=
+ hacking in python<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 scripts. I&#39;m keen to avoid this.<br>
+<br>
+OK.<br>
+<br>
+&gt; (3) If we moved all python tests into tests/ and gave them *.py<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 extensions, we wouldn&#39;t even need the test dis=
+covery functions<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 anymore, and all of linters.py could be removed en=
+tirely, including<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 this execution shim. We could rely on mypy/pylint&=
+#39;s own file<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 discovery mechanisms at that point. More work than=
+ I&#39;m up for with<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 just this series, but I could be coaxed into doing=
+ it if there was<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 some promise of not rejecting all that busywork ;)=
+<br>
+<br>
+I believe the only real value this would gain is that the tests would <br>
+have nicer names and we would have to delint them.=C2=A0 If we find those <=
 br>
-&gt; that ought to be configuration and not code is the list of skip files,=
-<br>
-<br>
-Yeah...<br>
-<br>
-&gt; but they&#39;re still numerous enough that repeating them for mypy and=
-<br>
-&gt; pylint configurations both would be ... a hassle.<br>
-<br>
-I agree.<br>
-<br>
+goals to justify the effort, then we can put in the effort; and we can <br>
+do that slowly, test by test.=C2=A0 I don=E2=80=99t think we must do it now=
+ in one <br>
+big lump just to get rid of the file discovery functions.<br>
+<br></blockquote><div><br></div><div>Yeah, I agree -- just do it over time =
+and as-needed. I&#39;m sure I will be bothered by something-or-other sooner=
+-or-later and I&#39;ll wind up doing it anyway. Just maybe not this week! <=
+br></div></div><div class=3D"gmail_quote"><div>=C2=A0</div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
 &gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
 t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
 &gt; ---<br>
-&gt;=C2=A0 =C2=A0tests/qemu-iotests/297=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 72 +++=
----------------------------<br>
-&gt;=C2=A0 =C2=A0tests/qemu-iotests/linters.py | 83 +++++++++++++++++++++++=
-++++++++++++<br>
-&gt;=C2=A0 =C2=A02 files changed, 88 insertions(+), 67 deletions(-)<br>
-&gt;=C2=A0 =C2=A0create mode 100644 tests/qemu-iotests/linters.py<br>
-<br>
-I=E2=80=99d like to give an A-b because now the statuscode-returning functi=
-on is <br>
-in a library.=C2=A0 But I already gave an A-b on the last patch precisely <=
+&gt;=C2=A0 =C2=A0tests/qemu-iotests/linters.py | 18 ++++++++++++++++++<br>
+&gt;=C2=A0 =C2=A01 file changed, 18 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/tests/qemu-iotests/linters.py b/tests/qemu-iotests/linter=
+s.py<br>
+&gt; index f6a2dc139fd..191df173064 100644<br>
+&gt; --- a/tests/qemu-iotests/linters.py<br>
+&gt; +++ b/tests/qemu-iotests/linters.py<br>
+&gt; @@ -16,6 +16,7 @@<br>
+&gt;=C2=A0 =C2=A0import os<br>
+&gt;=C2=A0 =C2=A0import re<br>
+&gt;=C2=A0 =C2=A0import subprocess<br>
+&gt; +import sys<br>
+&gt;=C2=A0 =C2=A0from typing import List, Mapping, Optional<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; @@ -81,3 +82,20 @@ def run_linter(<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return p.returncode<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +<br>
+&gt; +def main() -&gt; int:<br>
+&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; +=C2=A0 =C2=A0 Used by the Python CI system as an entry point to run t=
+hese linters.<br>
+&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; +=C2=A0 =C2=A0 files =3D get_test_files()<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if sys.argv[1] =3D=3D &#39;--pylint&#39;:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return run_linter(&#39;pylint&#39;, files=
+)<br>
+&gt; +=C2=A0 =C2=A0 elif sys.argv[1] =3D=3D &#39;--mypy&#39;:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return run_linter(&#39;mypy&#39;, files)<=
 br>
-because of the interface, and I shouldn=E2=80=99t be so grumpy.<br>
 <br>
-Reviewed-by: Hanna Reitz &lt;<a href=3D"mailto:hreitz@redhat.com" target=3D=
-"_blank">hreitz@redhat.com</a>&gt;<br>
-<br></blockquote><div><br></div><div>I&#39;m not entirely sure I understand=
- your dislike(?) of status codes. I&#39;m not trying to ignore the feedback=
-, but I don&#39;t think I understand it fully.</div><div><br></div><div>Wou=
-ld it be better if I removed check=3DFalse and allowed the functions to rai=
-se an Exception on non-zero subprocess return? (Possibly having the functio=
-n itself print the stdout on the error case before re-raising.)<br></div><d=
-iv><br></div><div>--js<br></div></div></div>
+So I can run it as `python linters.py --pylint foo bar` and it won=E2=80=99=
+t <br>
+complain? :)<br>
+<br>
+I don=E2=80=99t feel like it=E2=80=99s important, but, well, it isn=E2=80=
+=99t right either.<br>
+<br></blockquote><div><br></div><div>Alright. I hacked it together to be &q=
+uot;minimal&quot; in terms of SLOC, but I can make it ... less minimal.</di=
+v><div> <br></div></div></div>
 
---0000000000000fa3ab05ce3d5114--
+--00000000000093a01f05ce3d5f1b--
 
 
