@@ -2,50 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C2742C4C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 17:27:12 +0200 (CEST)
-Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBFD42C4CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 17:28:56 +0200 (CEST)
+Received: from localhost ([::1]:55094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mag9v-00063l-QX
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 11:27:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58208)
+	id 1magBb-00086R-D8
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 11:28:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mag93-0005Of-2i
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:26:17 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:20770)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mag8z-0007rq-VH
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:26:16 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D39EE748F5B;
- Wed, 13 Oct 2021 17:26:10 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A68A4748F58; Wed, 13 Oct 2021 17:26:10 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A4D287475FA;
- Wed, 13 Oct 2021 17:26:10 +0200 (CEST)
-Date: Wed, 13 Oct 2021 17:26:10 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
- interrupts
-In-Reply-To: <189eeccd-36fd-d033-7900-30e89fc662df@amsat.org>
-Message-ID: <4f23dbf5-7240-e4f-def1-7f2887f5d566@eik.bme.hu>
-References: <20211013121929.9E835746333@zero.eik.bme.hu>
- <189eeccd-36fd-d033-7900-30e89fc662df@amsat.org>
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1magA3-0006pO-U2
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:27:21 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1magA1-0000Ol-Ml
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:27:19 -0400
+Received: by mail-wr1-x432.google.com with SMTP id o20so9729785wro.3
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 08:27:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=bfgnOdbwJRp0NIxxPBNQWrnxn9WFX0mV0Q4/AkhcGgY=;
+ b=dEkFHyEMLElRG4rt4Swk8+P/WDxvIHKoZ17p7wf756XDPR30Fhyplz4ng3WxzSEQN8
+ 7aNoE6MadVLjGvqjMOtInyMKguwaQXyH2CwPCragnLn1Jx+24fAm794lzxWMG8vduEUt
+ xNWfwVbUY/xxi/j0IcIq7I1938jhL2rrmKzz/qeaIav8MpIs5WsKhqhEBoMIWWY30jkH
+ iZss1qy08PImYdN4qGL8tyi8XKHiK9lFa0DiggY9uUwjEVQ7FtI11giLlHpaitZoopgB
+ EtLvSCL5cJfZEnmdrWGQCoOX/hhc13MhMHx/uEGDsU5VeNKAIkAvl0Z36qhDuqRTyhat
+ qDjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=bfgnOdbwJRp0NIxxPBNQWrnxn9WFX0mV0Q4/AkhcGgY=;
+ b=tlWTc9H1vl+4md36xDxUtjxsHE4lFNtUnTT0tq8/YTH8AmwspQ38KuWh1C1lyhAiRJ
+ 1m2TX/6vFfBQiA+eiOdxZk9PlbzNMnBY6kPpQxkP48ClJ6L2Bi1FBe0P9DfmoVbtoL3f
+ 8mdgEq0/2WP64t2dxGp7NINUzU5A6acZy4RKqfgd1KrQVEanvGvJo4B52RkFFQZQPav+
+ vy/1g/X04ekuMOAMkjxj+alp4sW/PwH9mCxhskWFOt/Y4LUXsBH+ANcrUHyHKQl3uQf6
+ nCwtiC8wkjIFjzcOVj+ib4+kqHKQ9TTT2WlNbuwPyhzyjLoID6YYIsIDd24yYNVEG9GQ
+ yMmQ==
+X-Gm-Message-State: AOAM5304Ge13YYtew/+bADLhZBV+Rjo4+v7XEoKzOLLHgSJDkb6nloI9
+ 6wv4+oiKcpcyZb3t2WschDdpCQ==
+X-Google-Smtp-Source: ABdhPJwwy1LHCglFvmWHlUBxZfTFmUjz4faX722CwbokswAEqXUn3M/ibtdeHR3WhuSLU8yCoi23rg==
+X-Received: by 2002:a5d:4310:: with SMTP id h16mr41506973wrq.424.1634138834229; 
+ Wed, 13 Oct 2021 08:27:14 -0700 (PDT)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id d3sm14051328wrb.36.2021.10.13.08.27.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Oct 2021 08:27:13 -0700 (PDT)
+Date: Wed, 13 Oct 2021 16:26:51 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v2 2/3] hw/arm/virt-acpi-build: IORT upgrade up to
+ revision E.b
+Message-ID: <YWb6uz/tGABul80g@myrica>
+References: <20211005083805.493456-1-eric.auger@redhat.com>
+ <20211005083805.493456-3-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1152967575-1634138770=:22725"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211005083805.493456-3-eric.auger@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,148 +85,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, gshan@redhat.com,
+ qemu-devel@nongnu.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
+ imammedo@redhat.com, philmd@redhat.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Tue, Oct 05, 2021 at 10:38:04AM +0200, Eric Auger wrote:
+> Upgrade the IORT table from B to E.b specification
+> revision (ARM DEN 0049E.b).
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
---3866299591-1152967575-1634138770=:22725
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-On Wed, 13 Oct 2021, Philippe Mathieu-Daudé wrote:
-> On 10/13/21 14:13, BALATON Zoltan wrote:
->> This device is part of a superio/ISA bridge chip and IRQs from it are
->> routed to an ISA interrupt set by the Interrupt Line PCI config
->> register. Change uhci_update_irq() to allow this and implement it in
->> vt82c686-uhci-pci.
->>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> ---
->> v3: Do it more differently using qemu_irq instead as suggested by Gerd
->> v2: Do it differently to confine isa reference to vt82c686-uhci-pci as
->> hcd-uhci is also used on machines that don't have isa. Left Jiaxun's
->> R-b there as he checked it's the same for VT82C686B and gave R-b for
->> the 82c686b case which still holds but speak up if you tink otherwise.
->>
->>  hw/usb/hcd-uhci.c          | 11 +++++------
->>  hw/usb/hcd-uhci.h          |  2 +-
->>  hw/usb/vt82c686-uhci-pci.c | 12 ++++++++++++
->>  3 files changed, 18 insertions(+), 7 deletions(-)
->>
->> diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
->> index 0cb02a6432..7201cd0ae7 100644
->> --- a/hw/usb/hcd-uhci.c
->> +++ b/hw/usb/hcd-uhci.c
->> @@ -31,6 +31,7 @@
->>  #include "hw/usb/uhci-regs.h"
->>  #include "migration/vmstate.h"
->>  #include "hw/pci/pci.h"
->> +#include "hw/irq.h"
->>  #include "hw/qdev-properties.h"
->>  #include "qapi/error.h"
->>  #include "qemu/timer.h"
->> @@ -290,7 +291,7 @@ static UHCIAsync *uhci_async_find_td(UHCIState *s, uint32_t td_addr)
->>
->>  static void uhci_update_irq(UHCIState *s)
->>  {
->> -    int level;
->> +    int level = 0;
->>      if (((s->status2 & 1) && (s->intr & (1 << 2))) ||
->>          ((s->status2 & 2) && (s->intr & (1 << 3))) ||
->>          ((s->status & UHCI_STS_USBERR) && (s->intr & (1 << 0))) ||
->> @@ -298,10 +299,8 @@ static void uhci_update_irq(UHCIState *s)
->>          (s->status & UHCI_STS_HSERR) ||
->>          (s->status & UHCI_STS_HCPERR)) {
->>          level = 1;
->> -    } else {
->> -        level = 0;
->>      }
->> -    pci_set_irq(&s->dev, level);
->> +    qemu_set_irq(s->irq, level);
->>  }
->
-> ^ OK.
->
->>  static void uhci_reset(DeviceState *dev)
->> @@ -1170,9 +1169,9 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
->>
->>      pci_conf[PCI_CLASS_PROG] = 0x00;
->>      /* TODO: reset value should be 0. */
->> -    pci_conf[USB_SBRN] = USB_RELEASE_1; // release number
->> -
->> +    pci_conf[USB_SBRN] = USB_RELEASE_1; /* release number */
->>      pci_config_set_interrupt_pin(pci_conf, u->info.irq_pin + 1);
->> +    s->irq = pci_allocate_irq(dev);
->>
->>      if (s->masterbus) {
->>          USBPort *ports[NB_PORTS];
->
-> usb_uhci_common_realize() should be refactored making it PCI-agnostic.
->
->> diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
->> index e61d8fcb19..1f8ee04186 100644
->> --- a/hw/usb/hcd-uhci.h
->> +++ b/hw/usb/hcd-uhci.h
->> @@ -60,7 +60,7 @@ typedef struct UHCIState {
->>      uint32_t frame_bandwidth;
->>      bool completions_only;
->>      UHCIPort ports[NB_PORTS];
->> -
->> +    qemu_irq irq;
->>      /* Interrupts that should be raised at the end of the current frame.  */
->>      uint32_t pending_int_mask;
->
-> OK.
->
->> diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
->> index b109c21603..e70e739409 100644
->> --- a/hw/usb/vt82c686-uhci-pci.c
->> +++ b/hw/usb/vt82c686-uhci-pci.c
->> @@ -1,6 +1,16 @@
->>  #include "qemu/osdep.h"
->> +#include "hw/irq.h"
->>  #include "hcd-uhci.h"
->>
->> +static void uhci_isa_set_irq(void *opaque, int irq_num, int level)
->> +{
->> +    UHCIState *s = opaque;
->> +    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
->> +    if (irq > 0 && irq < 15) {
->> +        qemu_set_irq(isa_get_irq(NULL, irq), level);
->> +    }
->> +}
->
-> OK.
->
->>  static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
->>  {
->>      UHCIState *s = UHCI(dev);
->> @@ -14,6 +24,8 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
->>      pci_set_long(pci_conf + 0xc0, 0x00002000);
->>
->>      usb_uhci_common_realize(dev, errp);
->> +    object_unref(s->irq);
->> +    s->irq = qemu_allocate_irq(uhci_isa_set_irq, s, 0);
->
-> This can be avoided by refactoring usb_uhci_common_realize(),
-> uhci_pci_type_info and uhci_data_class_init().
->
-> Current TYPE_UHCI becomes TYPE_PCI_UHCI.
->
-> Not sure why UHCI has been implemented that way, we already
-> have USB_OHCI_PCI / USB_EHCI_PCI / USB_XHCI_PCI.
+Two nits below
 
-The reason for that may be that those have sysbus versions and pci 
-versions and maybe there was no need for a sysbus UHCI version as all of 
-those we emulate are PCI? I think those were probably also like UHCI 
-before but when a sysbus version was needed they were split.
+> 
+> ---
+> 
+> v1 -> v2:
+> - Fix Revision value for ITS node and SMMUv3 node
+> - increment an identifier
+> ---
+>  hw/arm/virt-acpi-build.c | 48 ++++++++++++++++++++++++----------------
+>  1 file changed, 29 insertions(+), 19 deletions(-)
+> 
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 257d0fee17..789bac3134 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -241,19 +241,20 @@ static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
+>  #endif
+>  
+>  #define ID_MAPPING_ENTRY_SIZE 20
+> -#define SMMU_V3_ENTRY_SIZE 60
+> -#define ROOT_COMPLEX_ENTRY_SIZE 32
+> +#define SMMU_V3_ENTRY_SIZE 68
+> +#define ROOT_COMPLEX_ENTRY_SIZE 36
+>  #define IORT_NODE_OFFSET 48
+>  
+>  static void build_iort_id_mapping(GArray *table_data, uint32_t input_base,
+>                                    uint32_t id_count, uint32_t out_ref)
+>  {
+> -    /* Identity RID mapping covering the whole input RID range */
+> +    /* Table 4 ID mapping format */
+>      build_append_int_noprefix(table_data, input_base, 4); /* Input base */
+>      build_append_int_noprefix(table_data, id_count, 4); /* Number of IDs */
+>      build_append_int_noprefix(table_data, input_base, 4); /* Output base */
+>      build_append_int_noprefix(table_data, out_ref, 4); /* Output Reference */
+> -    build_append_int_noprefix(table_data, 0, 4); /* Flags */
+> +    /* Flags */
+> +    build_append_int_noprefix(table_data, 0 /* Single mapping */, 4);
 
-Regards,
-BALATON Zoltan
---3866299591-1152967575-1634138770=:22725--
+The comment is a bit confusing, seems to indicate that "Single mapping" is
+enabled by value 0
+
+>  }
+>  
+>  struct AcpiIortIdMapping {
+> @@ -298,7 +299,7 @@ static int iort_idmap_compare(gconstpointer a, gconstpointer b)
+>  /*
+>   * Input Output Remapping Table (IORT)
+>   * Conforms to "IO Remapping Table System Software on ARM Platforms",
+> - * Document number: ARM DEN 0049B, October 2015
+> + * Document number: ARM DEN 0049E, Feb 2021
+
+0049E.b?
+
+>   */
+>  static void
+>  build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
 
