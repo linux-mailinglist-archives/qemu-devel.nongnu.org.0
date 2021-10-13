@@ -2,58 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F95D42CCFF
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 23:43:01 +0200 (CEST)
-Received: from localhost ([::1]:46444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB8D42CD32
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 00:00:57 +0200 (CEST)
+Received: from localhost ([::1]:39668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mam1c-0003dR-Gq
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 17:43:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46034)
+	id 1mamIy-0001r3-H3
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 18:00:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1malzb-0000Dr-6x
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:40:55 -0400
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:34659)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1malzU-0004qm-IA
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:40:54 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.25])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id DB0B4C48051D;
- Wed, 13 Oct 2021 23:40:45 +0200 (CEST)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Wed, 13 Oct
- 2021 23:40:45 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005dec8fab3-1005-49e0-9718-e20915549239,
- ADB6EDD73587FDF9B2583A0B30D51DAD1F8B0393) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-Subject: [PATCH 3/3] ppc/pnv: Implement mce injection
-Date: Wed, 13 Oct 2021 23:40:42 +0200
-Message-ID: <20211013214042.618918-4-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mamF9-0005sp-CD
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:56:59 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:34805)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mamF7-0002ws-KW
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 17:56:58 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id y3so13077970wrl.1
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 14:56:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XvQIBSYHx12a/BVOjXjE2X8s1e9rx86Vec8AEgTlEes=;
+ b=a34XM48qIBbQsneFlW369sCz1Th+UmJUYyrFopilwD4QbNwuVBYT8bX71uURjAspyu
+ zW/nEz9EC5OEhvkfYvsDgDrVOMZKP967F4A2xe+rDZFu20IPiFnfdyKvPcuSVYyX9Ydv
+ 7LWi6kwbv8iOKWsur8fyHOhf/J7vHFU3Tgug6TYwnnPh1qMeZUvwvxbROqqj8Ydt7AFi
+ 2Tpv5sIOcj5Di4+LcIxKjW4kngBeQwKmjV9v+qFVo2wH8D0A0RoWNzsPbq2tpNNZiOH7
+ lmqALp0QnNuF7GM3iNIp33TQZ5fJsBn/KcoVBet/6IT5/mlXgGFcBNZX054sf2+JDKjb
+ gP+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=XvQIBSYHx12a/BVOjXjE2X8s1e9rx86Vec8AEgTlEes=;
+ b=w+nDBdGmW5nchSbBSg6gzbCYtcgA2ByhmKP8rHVsAw9lSXuq+Vy7ngScWZQbj+XhMU
+ RBa9909qEtA+Sxnb95Pv/xfKxHgFHzd1u4WlkMZpMWdUnctGhBf4yHunRcA2nESwS7lv
+ 6Ari4+/CigZCSfbIJrYhWZpYwH5CBXZTkupV75PGOfsaLf6yO5DWZ67dcrdIMoULbVIi
+ XEqizZ0dgvJHFjZn39TlVEtHSDXXGfF6gPT79IiLrKU4UPJYUv7PPXVnL1p6aaYnCt2B
+ PbYQTTQQOTSHVKoajZFv48ycnf5y4WJ/O0gqZfg2xUA+VVMHPQvea9xKbLcgdGfabw6T
+ 8UMw==
+X-Gm-Message-State: AOAM530I20eb43JjItLCEGh/IF7a+jB/UbgzsFb/SUwtNNO8AxEci5yB
+ RrXCuUV2Lc56Dh92qjgJpj1kGDWq7sU=
+X-Google-Smtp-Source: ABdhPJweOEDSFq1SfQUGBUCUlkrNl8Bx4+EXGt2LDQ96RFdxD6LrLxL3BiYwsYCxin3mL9ymhjeosQ==
+X-Received: by 2002:a05:600c:4f81:: with SMTP id
+ n1mr15340878wmq.63.1634162214713; 
+ Wed, 13 Oct 2021 14:56:54 -0700 (PDT)
+Received: from x1w.redhat.com (213.red-81-36-146.dynamicip.rima-tde.net.
+ [81.36.146.213])
+ by smtp.gmail.com with ESMTPSA id g25sm648150wrc.88.2021.10.13.14.56.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Oct 2021 14:56:54 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] target/mips: Fix DEXTRV_S.H DSP opcode
+Date: Wed, 13 Oct 2021 23:56:52 +0200
+Message-Id: <20211013215652.1764551-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211013214042.618918-1-clg@kaod.org>
-References: <20211013214042.618918-1-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: f81329d9-1043-4d3b-b79c-2e31025cd780
-X-Ovh-Tracer-Id: 5934899884953864998
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudeivdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,164 +84,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Jia Liu <proljc@gmail.com>, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nicholas Piggin <npiggin@gmail.com>
+While for the DEXTR_S.H opcode:
 
-This implements mce injection for pnv.
+  "The shift argument is provided in the instruction."
 
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-[ clg: - simplified injection and moved code under pnv_core.c
-       - removed superfluous cpu_synchronize_state()
-       - clear previous setting in SPR_SRR1 ]
-Message-Id: <20200325144147.221875-6-npiggin@gmail.com>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
+For the DEXTRV_S.H opcode we have:
+
+  "The five least-significant bits of register rs provide the
+   shift argument, interpreted as a five-bit unsigned integer;
+   the remaining bits in rs are ignored."
+
+While 't1' contains the 'rs' register content (the shift value
+for DEXTR_S.H), we need to load the value of 'rs' for DEXTRV_S.H.
+We can directly use the v1_t TCG register which already contains
+this shift value.
+
+Fixes: b53371ed5d4 ("target-mips: Add ASE DSP accumulator instructions")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/ppc/pnv_core.h |  4 ++++
- target/ppc/cpu.h          |  1 +
- hw/ppc/pnv.c              |  3 +++
- hw/ppc/pnv_core.c         | 27 +++++++++++++++++++++++++++
- target/ppc/excp_helper.c  | 12 ++++++++++++
- 5 files changed, 47 insertions(+)
+ target/mips/tcg/translate.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
-index c22eab2e1f69..7ed7a52077ea 100644
---- a/include/hw/ppc/pnv_core.h
-+++ b/include/hw/ppc/pnv_core.h
-@@ -23,6 +23,7 @@
- #include "hw/cpu/core.h"
- #include "target/ppc/cpu.h"
- #include "qom/object.h"
-+#include "hw/ppc/mce.h"
- 
- #define TYPE_PNV_CORE "powernv-cpu-core"
- OBJECT_DECLARE_TYPE(PnvCore, PnvCoreClass,
-@@ -70,4 +71,7 @@ struct PnvQuad {
-     uint32_t quad_id;
-     MemoryRegion xscom_regs;
- };
-+
-+void pnv_cpu_inject_mce(CPUState *cs, PPCMceInjectionParams *p);
-+
- #endif /* PPC_PNV_CORE_H */
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index baa4e7c34d30..e0757e287718 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1273,6 +1273,7 @@ int ppc32_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
- void ppc_cpu_do_interrupt(CPUState *cpu);
- bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
- void ppc_cpu_do_system_reset(CPUState *cs);
-+void ppc_cpu_do_machine_check(CPUState *cs);
- void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector);
- extern const VMStateDescription vmstate_ppc_cpu;
- #endif
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 71e45515f136..374f48ea7f1b 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -2001,6 +2001,7 @@ static void pnv_machine_class_init(ObjectClass *oc, void *data)
-     MachineClass *mc = MACHINE_CLASS(oc);
-     InterruptStatsProviderClass *ispc = INTERRUPT_STATS_PROVIDER_CLASS(oc);
-     NMIClass *nc = NMI_CLASS(oc);
-+    PPCMceInjectionClass *mcec = PPC_MCE_INJECTION_CLASS(oc);
- 
-     mc->desc = "IBM PowerNV (Non-Virtualized)";
-     mc->init = pnv_init;
-@@ -2018,6 +2019,7 @@ static void pnv_machine_class_init(ObjectClass *oc, void *data)
-     mc->default_ram_id = "pnv.ram";
-     ispc->print_info = pnv_pic_print_info;
-     nc->nmi_monitor_handler = pnv_nmi;
-+    mcec->inject_mce = pnv_cpu_inject_mce;
- 
-     object_class_property_add_bool(oc, "hb-mode",
-                                    pnv_machine_get_hb, pnv_machine_set_hb);
-@@ -2080,6 +2082,7 @@ static const TypeInfo types[] = {
-         .interfaces = (InterfaceInfo[]) {
-             { TYPE_INTERRUPT_STATS_PROVIDER },
-             { TYPE_NMI },
-+            { TYPE_PPC_MCE_INJECTION },
-             { },
-         },
-     },
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index 19e8eb885f71..868b361f99e5 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
-@@ -25,12 +25,39 @@
- #include "target/ppc/cpu.h"
- #include "hw/ppc/ppc.h"
- #include "hw/ppc/pnv.h"
-+#include "hw/ppc/mce.h"
- #include "hw/ppc/pnv_core.h"
- #include "hw/ppc/pnv_xscom.h"
- #include "hw/ppc/xics.h"
- #include "hw/qdev-properties.h"
- #include "helper_regs.h"
- 
-+static void pnv_cpu_inject_mce_on_cpu(CPUState *cs, run_on_cpu_data data)
-+{
-+    PPCMceInjectionParams *params = (PPCMceInjectionParams *) data.host_ptr;
-+    PowerPCCPU *cpu = POWERPC_CPU(cs);
-+    CPUPPCState *env = &cpu->env;
-+    uint64_t srr1_mce_bits = PPC_BITMASK(42, 45) | PPC_BIT(36);
-+
-+    ppc_cpu_do_machine_check(cs);
-+
-+    env->spr[SPR_SRR1] = (env->msr & ~srr1_mce_bits) |
-+                         (params->srr1_mask & srr1_mce_bits);
-+    if (params->dsisr) {
-+        env->spr[SPR_DSISR] = params->dsisr;
-+        env->spr[SPR_DAR] = params->dar;
-+    }
-+
-+    if (!params->recovered) {
-+        env->msr &= ~MSR_RI;
-+    }
-+}
-+
-+void pnv_cpu_inject_mce(CPUState *cs, PPCMceInjectionParams *p)
-+{
-+    run_on_cpu(cs, pnv_cpu_inject_mce_on_cpu, RUN_ON_CPU_HOST_PTR(p));
-+}
-+
- static const char *pnv_core_cpu_typename(PnvCore *pc)
- {
-     const char *core_type = object_class_get_name(object_get_class(OBJECT(pc)));
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index b7d176792098..f383f1646cc3 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -379,6 +379,10 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-             cs->halted = 1;
-             cpu_interrupt_exittb(cs);
-         }
-+        if (msr_pow) {
-+            /* indicate that we resumed from power save mode */
-+            msr |= 0x10000;
-+        }
-         if (env->msr_mask & MSR_HVB) {
-             /*
-              * ISA specifies HV, but can be delivered to guest with HV
-@@ -1071,6 +1075,14 @@ void ppc_cpu_do_system_reset(CPUState *cs)
-     powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_RESET);
- }
- 
-+void ppc_cpu_do_machine_check(CPUState *cs)
-+{
-+    PowerPCCPU *cpu = POWERPC_CPU(cs);
-+    CPUPPCState *env = &cpu->env;
-+
-+    powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_MCHECK);
-+}
-+
- void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
- {
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index 148afec9dc0..794676d42ff 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -13807,8 +13807,7 @@ static void gen_mipsdsp_accinsn(DisasContext *ctx, uint32_t op1, uint32_t op2,
+             break;
+         case OPC_DEXTRV_S_H:
+             tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_dextr_s_h(cpu_gpr[ret], t0, t1, cpu_env);
++            gen_helper_dextr_s_h(cpu_gpr[ret], t0, v1_t, cpu_env);
+             break;
+         case OPC_DEXTRV_L:
+             tcg_gen_movi_tl(t0, v2);
 -- 
 2.31.1
 
