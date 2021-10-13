@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF0842C724
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 19:01:05 +0200 (CEST)
-Received: from localhost ([::1]:39844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3598442C726
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 19:04:13 +0200 (CEST)
+Received: from localhost ([::1]:43816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mahcm-0001RS-6E
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 13:01:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50632)
+	id 1mahfo-0004II-AB
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 13:04:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mahad-0000Qk-41
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 12:58:52 -0400
-Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e]:34642)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1mahc5-0001tg-Af
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 13:00:21 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mahaX-0006md-5I
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 12:58:50 -0400
-Received: by mail-ua1-x92e.google.com with SMTP id h4so5918397uaw.1
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 09:58:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1mahc1-0002Xz-Tp
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 13:00:20 -0400
+Received: by mail-wr1-x433.google.com with SMTP id u18so10650515wrg.5
+ for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 10:00:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vrull-eu.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=orshusUWkG9djDVlR5S/7u3/FDeXmyB9rT2NHTk3YRM=;
- b=RNY/aJMrAyu67yryTY9BJFkmP5P1ecebO4nkrpiORWcq6xRq8UFlzD8ap7usXV+7n2
- n8EYiESV96pD4pdMUMCNgwv1lcivhDQT+EK/1BZJ7w6XMQactsAUxMG5hHwijZGtBhib
- yEdDw4DY3S3+GaK9VEHOJbCsX3/LhPYIHlvSY=
+ :cc; bh=9ThTCOOGqXs6fzHon0AGWQBLn/+vLJ6wh2dWsZtUb10=;
+ b=Owd5sj/LOz02IKpWgIuEZQL6WdFh3RyNxVZutpLbF+3jPKKkYwYU/5Nd4frOD/Hslv
+ tUnvLNaNcHk3ux/nA0HxASHtRNAzofSAg9D+zaPNfajDhgUv/G4bx0Fm4mfoglGsMWYC
+ m8YDv9D0yYH6oE7HlxaY1tXBUImFD56Ur9971IMDAHs6KSchU08cyfMvhQAApljkj2Ia
+ x9fIVz4A8mCn19y1FX+JJr68Chfg+9LP4ZDen7wRJBj3IxgKPAqxkccxmPchYSuyEN9l
+ Jc9VeCrFRAWxO5spGvIdsfC3jYhDEoPqqQ9kTU2TJRVc781CEwUVqVqtoMj4HN6dIc/5
+ UnlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=orshusUWkG9djDVlR5S/7u3/FDeXmyB9rT2NHTk3YRM=;
- b=YsWRCu9kC2NLn0cvAHuCwYPKPrfuvMOz5cxsfqn5bQei6um+oIp+78uC+fauk9QRUq
- yTFO9apvWA8JQrofZgkVYbFVuu+gt96h4UwYbWj1W9PgGcXPJ+Vz/4GlH/7b6ah9NdBB
- eQOewF3GWtRKGdctBDF9wMTK2m3EmrBEaK4cDEEQ+baIXC4BO/1OXurD9Zj4oueYNwv7
- eBEoOLuZL58bq2FIWpMtYA+zbdX+l2sVLrxJNbI0ReStXg3W2SVMg26MFAOyP5goTlcg
- b4Vmtkj6I0Kavmi3XJnii9ZABcqJXLGTf6EfY2+4XEJ8ZaKubRGwMTx4KK4ekTHAT6N2
- 8SKA==
-X-Gm-Message-State: AOAM530ywLA9KWmgWjgXNycU+EmofEGLpealqWXyxR+4P+7NxEbcRIeZ
- lsd5j0QqWy8JnhQSnpsu0yfh+I+A+eywlaWe414hFA==
-X-Google-Smtp-Source: ABdhPJylJjFq0kx7UIOc9JnQTH3HurLQWJA+gF2wgflOJsip7Ov4xnx6bPFZuvjL1ZkIFURgY1irtK0Prl/wbVRzf4E=
-X-Received: by 2002:ab0:14a7:: with SMTP id d36mr332709uae.96.1634144322112;
- Wed, 13 Oct 2021 09:58:42 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=9ThTCOOGqXs6fzHon0AGWQBLn/+vLJ6wh2dWsZtUb10=;
+ b=DJHBD9eLJO8ESIUXLjw/Q0bYK79/2sV+WAGta0zIAKRcaFLwaxFOOz92yZQk2kG2ln
+ 7lTYRqW76FVYIsA5/UukPRsLJ51JOwWtzXh9UNM6ZJgNDqqMmiX+EdK7YueEuARwLpcd
+ WiE3Qi+8vBgYX0noXM6ACE4PO2Etw9OGPbVCpx1uq5yvkk0nLyTCZ6NLfGuOXIslnWsL
+ 37zVbVUeY0I4kboHL38/BJ0iP8zoW57Pp9apgZlWRjYGzlIHljq4rOr4zU8WY9Yr8ieA
+ LsweLlo/FkB+xQoxx/pQ3qYhobpkPgVK2OCNiI7oKH9h74zSEVMBshFv0JFTwqXkBVEe
+ TW5g==
+X-Gm-Message-State: AOAM5324gw7DE596SxuGg47gy1pokILKG+GnL6akhCqn8ADn2Y6W7iGw
+ K8+xF30el09cGGnzNvp0+0cTxAly/fhxegzpIJfkYQ==
+X-Google-Smtp-Source: ABdhPJwzWo4KsEdlL9wG4Bo68sDbtIuj7qC3Ce++Wig5HLgaII9tj1R5yVwEGMr2B5OsJpp61RrbSbG4Drr6NIf5sYw=
+X-Received: by 2002:a1c:9ad4:: with SMTP id c203mr409256wme.41.1634144415352; 
+ Wed, 13 Oct 2021 10:00:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211013010120.96851-1-sjg@chromium.org>
- <20211013010120.96851-3-sjg@chromium.org>
- <CAHFG_=Wj9w0w8C88O4BNN4pO-C+wMqFuqmVh4F1avcwsqE_csQ@mail.gmail.com>
-In-Reply-To: <CAHFG_=Wj9w0w8C88O4BNN4pO-C+wMqFuqmVh4F1avcwsqE_csQ@mail.gmail.com>
-From: Simon Glass <sjg@chromium.org>
-Date: Wed, 13 Oct 2021 10:58:31 -0600
-Message-ID: <CAPnjgZ1g4j4YdcgWKfJU81xC8NViA2Wew62Ygp0VO2QbrT6zhQ@mail.gmail.com>
-Subject: Re: [PATCH 02/16] arm: qemu: Explain how to extract the generate
- devicetree
-To: =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92e;
- envelope-from=sjg@google.com; helo=mail-ua1-x92e.google.com
-X-Spam_score_int: -92
-X-Spam_score: -9.3
-X-Spam_bar: ---------
-X-Spam_report: (-9.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+References: <20211007064751.608580-1-alistair.francis@opensource.wdc.com>
+ <20211007064751.608580-12-alistair.francis@opensource.wdc.com>
+ <CANVmJF=2awVA+6CZ1D1BrdZQG=OyXdYZk63ZnDOVEBooEGzE8g@mail.gmail.com>
+ <CAAeLtUBSZ-=+06SowthZds0r19w66S-ibn18st4=DU81SeJk6Q@mail.gmail.com>
+ <CAOojN2Ub=ig3akjXRdtq0WkwTn+wqy_q85UzTgV=UD5Y6y+9iA@mail.gmail.com>
+ <CAAeLtUDSss2dco5QsT1wXQJ=bBS5ZAwjmXrH5dceZwxmqKKbSg@mail.gmail.com>
+ <fe85a41a-af02-2c1e-cec6-af4668f7519c@rivosinc.com>
+ <9c5d9243-7801-408d-1faa-46657a3541ff@linaro.org>
+In-Reply-To: <9c5d9243-7801-408d-1faa-46657a3541ff@linaro.org>
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Date: Wed, 13 Oct 2021 19:00:04 +0200
+Message-ID: <CAAeLtUCG5V0bOkZjdz5cKxYa-r=V=Pt40tvyhBuQA3pRCcH_ow@mail.gmail.com>
+Subject: Re: [PULL 11/26] target/riscv: Add orc.b instruction for Zbb,
+ removing gorc/gorci
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000063a22705ce3ee528"
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,72 +84,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
- Albert Aribaud <albert.u.boot@aribaud.net>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Tom Rini <trini@konsulko.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Anup Patel <anup@brainfault.org>,
+ Vineet Gupta <vineetg@rivosinc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@opensource.wdc.com>,
+ Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Vincent Palatin <vpalatin@rivosinc.com>, Jim Wilson <jimw@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Fran=C3=A7ois,
+--00000000000063a22705ce3ee528
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 12 Oct 2021 at 19:20, Fran=C3=A7ois Ozog <francois.ozog@linaro.org>=
- wrote:
+On Wed, 13 Oct 2021 at 18:51, Richard Henderson <
+richard.henderson@linaro.org> wrote:
+
+> On 10/13/21 9:20 AM, Vineet Gupta wrote:
+> > off topic but relates, for Zb (and similar things in the future) whats
+> the strategy for
+> > change management/discovery. I understand you can hardcode things for
+> quick test, but for
+> > a proper glibc implementation this would be an IFUNC but there seems to
+> be no
+> > architectural way per spec (for software/kernel) to discover this.
+>
+> Since the architecture restricted access to these CSRs, you do have to
+> coordinate with the
+> kernel.
+>
+
+Zb[abcs] will not be discoverable via MISA bits.
+A unified low-level discovery mechanisms (and a way to inject this
+information to userspace via the auxiliary vector) are being developed at
+the moment.
+
+There is an AT_HWCAP value that is given to userland, but it is currently
+> masked to only
+> provide a few of the MISA bits.  This will need to be extended for both V
+> and Zb.  It
+> doesn't help that Zb has been split into lots of smaller extensions, whic=
+h
+> (if done
+> simplistically) will quickly consume all of the bits within AT_HWCAP.
+>
+
+It looks like HWCAP, HWCAP2 and AT_PLATFORM and AT_BASE_PLATFORM will be
+used.
+Kito presented the (then current) state of thinking at the Linux Plumbers
+Conference=E2=80=A6
+
+
+> So: I strongly suggest that RISC-V spend a few moments considering a way
+> to represent this
+> that will easily support the myriad extensions.  One possibility is to ad=
+d
+> more AT_*
+> entries straight away -- AT_HWCAP_ZB, which contains one bit for all of
+> the Zb[abcs]
+> extensions.  Possibly set the "main" AT_HWCAP "b" bit if Zb is present at
+> some minimal level.
+>
+> > Same issue is with building linux kernel with Zb - how do we make sure
+> that hardware/sim
+> > supports Zb when running corresponding software.
+>
+> On the kernel side this is easier -- read the CSRs then patch the kernel.
+> There are existing ways to manage this sort of thing.
 >
 >
+> r~
 >
-> Le mer. 13 oct. 2021 =C3=A0 03:02, Simon Glass <sjg@chromium.org> a =C3=
-=A9crit :
->>
->> QEMU currently generates a devicetree for use with U-Boot. Explain how t=
-o
->> obtain it.
->>
->> Signed-off-by: Simon Glass <sjg@chromium.org>
->> ---
->>
->>  doc/board/emulation/qemu-arm.rst | 12 ++++++++++++
->>  1 file changed, 12 insertions(+)
->>
->> diff --git a/doc/board/emulation/qemu-arm.rst b/doc/board/emulation/qemu=
--arm.rst
->> index 97b6ec64905..b458a398c69 100644
->> --- a/doc/board/emulation/qemu-arm.rst
->> +++ b/doc/board/emulation/qemu-arm.rst
->> @@ -91,3 +91,15 @@ The debug UART on the ARM virt board uses these setti=
-ngs::
->>      CONFIG_DEBUG_UART_PL010=3Dy
->>      CONFIG_DEBUG_UART_BASE=3D0x9000000
->>      CONFIG_DEBUG_UART_CLOCK=3D0
->> +
->> +Obtaining the QEMU devicetree
->> +-----------------------------
->> +
->> +QEMU generates its own devicetree to pass to U-Boot and does this by de=
-fault.
->> +You can use `-dtb u-boot.dtb` to force QEMU to use U-Boot's in-tree ver=
-sion.
->
-> this is for either Qemu experts or u-boot for Qemu maintainers. Not for t=
-he kernel d=C3=A9velopper as it is recipe for problems: could you add this =
-warning ?
 
-Yes I can do that...or would it be better to hide this in doc/develop
-somewhere with a link here?
+--00000000000063a22705ce3ee528
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->>
->>
->> +
->> +To obtain the devicetree that qemu generates, add `-machine dumpdtb=3Dd=
-tb.dtb`,
->> +e.g.::
->> +
->> +    qemu-system-aarch64 -machine virt -nographic -cpu cortex-a57 \
->> +           -bios u-boot.bin -machine dumpdtb=3Ddtb.dtb
->> --
->> 2.33.0.882.g93a45727a2-goog
->>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 13 Oct 2021 at 18:51, Richard=
+ Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hend=
+erson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">On 10/13/21 9:20 AM, Vineet Gupta wrote:<br>
+&gt; off topic but relates, for Zb (and similar things in the future) whats=
+ the strategy for <br>
+&gt; change management/discovery. I understand you can hardcode things for =
+quick test, but for <br>
+&gt; a proper glibc implementation this would be an IFUNC but there seems t=
+o be no <br>
+&gt; architectural way per spec (for software/kernel) to discover this.<br>
+<br>
+Since the architecture restricted access to these CSRs, you do have to coor=
+dinate with the <br>
+kernel.<br></blockquote><div><br></div><div>Zb[abcs] will not be discoverab=
+le via MISA bits.</div><div>A unified low-level discovery mechanisms (and a=
+ way to inject this information to userspace via the auxiliary vector) are =
+being developed at the moment.</div><div><br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">There is an AT_HWCAP value that is given to userl=
+and, but it is currently masked to only <br>
+provide a few of the MISA bits.=C2=A0 This will need to be extended for bot=
+h V and Zb.=C2=A0 It <br>
+doesn&#39;t help that Zb has been split into lots of smaller extensions, wh=
+ich (if done <br>
+simplistically) will quickly consume all of the bits within AT_HWCAP.<br></=
+blockquote><div><br></div><div>It looks like HWCAP, HWCAP2 and AT_PLATFORM =
+and AT_BASE_PLATFORM will be used.</div><div>Kito presented the (then curre=
+nt) state of thinking at the Linux Plumbers Conference=E2=80=A6</div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+So: I strongly suggest that RISC-V spend a few moments considering a way to=
+ represent this <br>
+that will easily support the myriad extensions.=C2=A0 One possibility is to=
+ add more AT_* <br>
+entries straight away -- AT_HWCAP_ZB, which contains one bit for all of the=
+ Zb[abcs] <br>
+extensions.=C2=A0 Possibly set the &quot;main&quot; AT_HWCAP &quot;b&quot; =
+bit if Zb is present at some minimal level.<br>
+<br>
+&gt; Same issue is with building linux kernel with Zb - how do we make sure=
+ that hardware/sim <br>
+&gt; supports Zb when running corresponding software.<br>
+<br>
+On the kernel side this is easier -- read the CSRs then patch the kernel.<b=
+r>
+There are existing ways to manage this sort of thing.<br>
+<br>
+<br>
+r~<br>
+</blockquote></div></div>
 
-Regards,
-Simon
+--00000000000063a22705ce3ee528--
 
