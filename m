@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB21242B3D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 05:48:57 +0200 (CEST)
-Received: from localhost ([::1]:33086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E0A42B3D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 05:50:26 +0200 (CEST)
+Received: from localhost ([::1]:35320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maVGC-0004qu-Py
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 23:48:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38116)
+	id 1maVHd-0006PA-Ch
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 23:50:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1maVFF-00048w-WB
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 23:47:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21999)
+ id 1maVGe-0005hi-Sw
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 23:49:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1maVFD-0002cG-5Y
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 23:47:57 -0400
+ id 1maVGd-0005ST-E2
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 23:49:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634096873;
+ s=mimecast20190719; t=1634096962;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=403XhRrbqTgS5pX0yoPoYsUNHnuGOWora6p1EcA/70I=;
- b=L/aay63X3YmN77TJp/V1SgkFBtoVxOqJukv1Yqt9abVpNB5FJO40YX4Q28/zE/a79zAPvV
- dlALOcMfnPQ11Qfc5K9TdIfJ64tx0Jn0BAvThh/s3f7QSo8S0rgbnsbT7saS3sNyLetBC5
- +FpP14OINfPubZowFht8ZSUVD/3MsIQ=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-_pCopnf-NTmQhHu28cne9w-1; Tue, 12 Oct 2021 23:47:52 -0400
-X-MC-Unique: _pCopnf-NTmQhHu28cne9w-1
-Received: by mail-pg1-f197.google.com with SMTP id
- b5-20020a6541c5000000b002661347cfbcso734670pgq.1
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 20:47:52 -0700 (PDT)
+ bh=Nc561+saWJMTudX0gcwoL+PiV5ic65YeUcHohjLIlJ0=;
+ b=EdZc9yzjwZV36jyG4l4c3d+weQEkxjnxKZbf3pCQxjMyXhWEU+4PNu54Eopy/4AIKlri+i
+ lr0OVh1xOEL04Db+zeAY2T5k8cQlSSwAT49yZv7Mq5oIYyByKmE/hRusvGWPigHi6N6vsZ
+ RG7V6FjYgql7MpNKtybLxJOj94VM3Rw=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-81-JC1J9B1xP7Gk_FXFeq3Lhw-1; Tue, 12 Oct 2021 23:49:19 -0400
+X-MC-Unique: JC1J9B1xP7Gk_FXFeq3Lhw-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ q3-20020aa79823000000b0044d24283b63so802813pfl.5
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 20:49:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=403XhRrbqTgS5pX0yoPoYsUNHnuGOWora6p1EcA/70I=;
- b=QAVCgW5H/x3oXephQaPFbKHtD+eQcMc/R+vliFSk36/iRHZeAccZ1kCpeL9A6z1F8O
- RoujgYij+ANwcSXx0eIQLdz/kdHy/474IqgPCyb1XaZOUvo+rhYtWGQgJvI42ppH5OKj
- 0jAx075AllcUYJBehSv1tqUi15k8UE2zmq0YJmEI4m5sSfnzy4MPeFshDui2KHJ1tYdd
- FOr5ahEU+bZGd30TzxoHEC47+2WGheAvo3T5cFXxvux5vAcQ/twhPRLhMsVeCQGI7Bst
- NGWYxQ7cSdqUPjpcdwdTaE+1DbRgwIj4Dd3YmcdiNZXOcKU3znsgUeuXgOlkOjQAqsaT
- dhVA==
-X-Gm-Message-State: AOAM533xnMUO1TJ4NULdfalJ5HugnYJ/+ymoFg8bc++/aDUYFDOKsHti
- NBXalfuqtZKPBkkXNhtJtOHf2EmtAHweWoaKtBnozb4FiLg8aWw3EoeC9U45rarZEJYAdBj+cin
- S+nSDI0SU/RHoSaA=
-X-Received: by 2002:a17:90b:a18:: with SMTP id
- gg24mr10420363pjb.18.1634096871607; 
- Tue, 12 Oct 2021 20:47:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/+1+2C2IU4yGR3B86dlFI0i3hEhvgGvmJJ+q7sq9lbN9kb1e4O2OhWWgfxjAjGlOdXukgoQ==
-X-Received: by 2002:a17:90b:a18:: with SMTP id
- gg24mr10420323pjb.18.1634096871235; 
- Tue, 12 Oct 2021 20:47:51 -0700 (PDT)
+ bh=Nc561+saWJMTudX0gcwoL+PiV5ic65YeUcHohjLIlJ0=;
+ b=ne2zFbk36Ys4Mhrwg0bW6mr7XFSnLGBj88zo/fZ/f3iT5uj95RptXsYMoxbfeIiti4
+ jZlyfbLERvnbu7xURHJgJv81Bn3pRfcQQSKpRM7EDVVh56Eb6msvbOxjk2a2Iwta80b8
+ iB3zhjPFbbFRKRa0EE8mTBQJ6S6WHNxupPe77vPUGpVoIVYCum7YcelhAlqexlPFZyB8
+ zPfcKPSl2T35AJTevs2b0DoVv1JixiI3YwGIrCsg+lV9A5Y+TEeWDhjTpUQq9CDmx1cR
+ vkZzMgUymdUdnxzJsAZNOpzrEa/NezR5b5pqpSbi1U80TOK5ixtUvOschcPu14ZeXaVQ
+ 4yTA==
+X-Gm-Message-State: AOAM530FoHE/fTd47VuhhmPt2EROBmbELqNVxgmvuRaiCVp3gpMu7mdj
+ Phu2eaUItjVg0bjICSOLhTS7ebXrR+DFnGWfsxu5g/QPDY6q7Mt565psGqdWy/h8XtXWOwK/PLS
+ pA5Ze1K3HMJKZGcI=
+X-Received: by 2002:a17:902:8b83:b029:12c:cbce:a52f with SMTP id
+ ay3-20020a1709028b83b029012ccbcea52fmr33479384plb.9.1634096958393; 
+ Tue, 12 Oct 2021 20:49:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzp/w9WOLm+s/zGkpqTH9LhI2NC+37oxCG/DQLSpvGBV5AYay992DvMB4K3Df/+MFIoVxELeA==
+X-Received: by 2002:a17:902:8b83:b029:12c:cbce:a52f with SMTP id
+ ay3-20020a1709028b83b029012ccbcea52fmr33479356plb.9.1634096958112; 
+ Tue, 12 Oct 2021 20:49:18 -0700 (PDT)
 Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id rm6sm4437692pjb.18.2021.10.12.20.47.46
+ by smtp.gmail.com with ESMTPSA id x10sm12657741pfn.172.2021.10.12.20.49.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 20:47:50 -0700 (PDT)
+ Tue, 12 Oct 2021 20:49:17 -0700 (PDT)
 Subject: Re: [RFC PATCH v4 11/20] vhost: Route host->guest notification
  through shadow virtqueue
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 References: <20211001070603.307037-1-eperezma@redhat.com>
  <20211001070603.307037-12-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <ab9a7771-5f9b-6413-3e38-bd3dc7373256@redhat.com>
-Date: Wed, 13 Oct 2021 11:47:44 +0800
+Message-ID: <69c4056c-4a9b-8480-80a0-2b78c9b90ffb@redhat.com>
+Date: Wed, 13 Oct 2021 11:49:08 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
@@ -81,15 +81,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -126,144 +127,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > * Actually store and check if the guest notifier is masked, and do it
 >    conditionally.
 > * Left as it is, and duplicate all the logic in vhost-vdpa.
->
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
->   hw/virtio/vhost-shadow-virtqueue.c | 19 +++++++++++++++
->   hw/virtio/vhost-vdpa.c             | 38 +++++++++++++++++++++++++++++-
->   2 files changed, 56 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-> index 21dc99ab5d..3fe129cf63 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> @@ -53,6 +53,22 @@ static void vhost_handle_guest_kick(EventNotifier *n)
->       event_notifier_set(&svq->kick_notifier);
->   }
->   
-> +/* Forward vhost notifications */
-> +static void vhost_svq_handle_call_no_test(EventNotifier *n)
-> +{
-> +    VhostShadowVirtqueue *svq = container_of(n, VhostShadowVirtqueue,
-> +                                             call_notifier);
-> +
-> +    event_notifier_set(&svq->guest_call_notifier);
-> +}
-> +
-> +static void vhost_svq_handle_call(EventNotifier *n)
-> +{
-> +    if (likely(event_notifier_test_and_clear(n))) {
-> +        vhost_svq_handle_call_no_test(n);
-> +    }
-> +}
-> +
->   /*
->    * Obtain the SVQ call notifier, where vhost device notifies SVQ that there
->    * exists pending used buffers.
-> @@ -180,6 +196,8 @@ VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev, int idx)
->       }
->   
->       svq->vq = virtio_get_queue(dev->vdev, vq_idx);
-> +    event_notifier_set_handler(&svq->call_notifier,
-> +                               vhost_svq_handle_call);
->       return g_steal_pointer(&svq);
->   
->   err_init_call_notifier:
-> @@ -195,6 +213,7 @@ err_init_kick_notifier:
->   void vhost_svq_free(VhostShadowVirtqueue *vq)
->   {
->       event_notifier_cleanup(&vq->kick_notifier);
-> +    event_notifier_set_handler(&vq->call_notifier, NULL);
->       event_notifier_cleanup(&vq->call_notifier);
->       g_free(vq);
->   }
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index bc34de2439..6c5f4c98b8 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -712,13 +712,40 @@ static bool vhost_vdpa_svq_start_vq(struct vhost_dev *dev, unsigned idx)
->   {
->       struct vhost_vdpa *v = dev->opaque;
->       VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, idx);
-> -    return vhost_svq_start(dev, idx, svq);
-> +    EventNotifier *vhost_call_notifier = vhost_svq_get_svq_call_notifier(svq);
-> +    struct vhost_vring_file vhost_call_file = {
-> +        .index = idx + dev->vq_index,
-> +        .fd = event_notifier_get_fd(vhost_call_notifier),
-> +    };
-> +    int r;
-> +    bool b;
-> +
-> +    /* Set shadow vq -> guest notifier */
-> +    assert(v->call_fd[idx]);
 
 
-We need aovid the asser() here. On which case we can hit this?
-
-
-> +    vhost_svq_set_guest_call_notifier(svq, v->call_fd[idx]);
-> +
-> +    b = vhost_svq_start(dev, idx, svq);
-> +    if (unlikely(!b)) {
-> +        return false;
-> +    }
-> +
-> +    /* Set device -> SVQ notifier */
-> +    r = vhost_vdpa_set_vring_dev_call(dev, &vhost_call_file);
-> +    if (unlikely(r)) {
-> +        error_report("vhost_vdpa_set_vring_call for shadow vq failed");
-> +        return false;
-> +    }
-
-
-Similar to kick, do we need to set_vring_call() before vhost_svq_start()?
-
-
-> +
-> +    /* Check for pending calls */
-> +    event_notifier_set(vhost_call_notifier);
-
-
-Interesting, can this result spurious interrupt?
-
-
-> +    return true;
->   }
->   
->   static unsigned vhost_vdpa_enable_svq(struct vhost_vdpa *v, bool enable)
->   {
->       struct vhost_dev *hdev = v->dev;
->       unsigned n;
-> +    int r;
->   
->       if (enable == v->shadow_vqs_enabled) {
->           return hdev->nvqs;
-> @@ -752,9 +779,18 @@ static unsigned vhost_vdpa_enable_svq(struct vhost_vdpa *v, bool enable)
->       if (!enable) {
->           /* Disable all queues or clean up failed start */
->           for (n = 0; n < v->shadow_vqs->len; ++n) {
-> +            struct vhost_vring_file file = {
-> +                .index = vhost_vdpa_get_vq_index(hdev, n),
-> +                .fd = v->call_fd[n],
-> +            };
-> +
-> +            r = vhost_vdpa_set_vring_call(hdev, &file);
-> +            assert(r == 0);
-> +
->               unsigned vq_idx = vhost_vdpa_get_vq_index(hdev, n);
->               VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, n);
->               vhost_svq_stop(hdev, n, svq);
-> +            /* TODO: This can unmask or override call fd! */
-
-
-I don't get this comment. Does this mean the current code can't work 
-with mask_notifiers? If yes, this is something we need to fix.
+Btw, the log looks not clear. I guess this patch goes for method 3. If 
+yes, we need explain it and why.
 
 Thanks
 
 
->               vhost_virtqueue_start(hdev, hdev->vdev, &hdev->vqs[n], vq_idx);
->           }
->   
+>
+> Signed-off-by: Eugenio Pérez<eperezma@redhat.com>
 
 
