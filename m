@@ -2,83 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203CD42C4DC
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 17:34:25 +0200 (CEST)
-Received: from localhost ([::1]:34292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20DD842C4FA
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 17:41:18 +0200 (CEST)
+Received: from localhost ([::1]:45074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1magGu-0004pb-6F
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 11:34:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59796)
+	id 1magNY-0003yl-O0
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 11:41:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1magDC-0002aB-E3
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:30:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21675)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1magLs-0003AW-6E
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:39:32 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:64908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1magD5-0006fH-On
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:30:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634139027;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tWetLlFvuNkZbSyOzjg0wBfAFNwBmAfyusA9DLi69YQ=;
- b=SnBZPNeD+N5xB8V+55dVeXDYaUebB++CXImebeUiWo3LkleOfhSN30yoWDfB2/kMrM1NRh
- OjdiIuDLdBeT8O7hlAHs16r0C7H0ouYAraH2WWMfVja4wK/bDin1Kwady6r8akuhyx8fi6
- MEjyIIUEztzUJgYma8C0QSGheIkQXIs=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-qC4x2qvlPoaaBiT3fjvRiA-1; Wed, 13 Oct 2021 11:30:24 -0400
-X-MC-Unique: qC4x2qvlPoaaBiT3fjvRiA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- 10-20020a5d47aa000000b001610cbda93dso2247775wrb.23
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 08:30:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=tWetLlFvuNkZbSyOzjg0wBfAFNwBmAfyusA9DLi69YQ=;
- b=A5hMON0tN/lBggnSRcd7lR5YDAuubj6y8gzhBQqad0SzNH41cI+FfkQvyToLkftJE7
- +NsRnwzQXoVlyyh1qL2YM703zTSkcVsGnaRx3Ue/VbW82gXn2Gwt8bkOHluk7mBxsgeB
- JksZbD4ToHpm2VvJDMgzArYu72v0uz+ojDA4I2V5UeDq2XWAjtecTfnpst9phyHMDwt2
- xM+k/nGeyeGSw13a59e4FwdHTbFaJGW6BOUxz/x/PH7b7l8sytpv2OXEDaunsBejq/FH
- 9ert/vF5YS676X9apStxJ4is+NmvThrGSYxpchVh2Gwwq28Czb5pmtyVGZOKMMQGdzm3
- izVA==
-X-Gm-Message-State: AOAM530vhZeoCrz+nSmb05ezPZ1BzLAZ0Do9wchOo0UVML8wmw3KZLmg
- vY3DxbmKHF0HPwGSADMQrenPUg3P17t0O65cDWkSBS6CJH5HaSV+9BjM0H0oQsBdLTJDQJmSjGW
- LbJDWbalZ+h5Mids=
-X-Received: by 2002:a1c:9dd1:: with SMTP id g200mr13464359wme.42.1634139023787; 
- Wed, 13 Oct 2021 08:30:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzfVr3VaBpVm6vkdGd/yKQ9Gq3G+O8KmgeK3UfKl9EzoQft8keJaP9EZwfmPkDdSqdJzI81+A==
-X-Received: by 2002:a1c:9dd1:: with SMTP id g200mr13464330wme.42.1634139023569; 
- Wed, 13 Oct 2021 08:30:23 -0700 (PDT)
-Received: from redhat.com ([2.55.30.112])
- by smtp.gmail.com with ESMTPSA id g1sm6467694wmk.2.2021.10.13.08.30.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 08:30:23 -0700 (PDT)
-Date: Wed, 13 Oct 2021 11:30:18 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2 00/15] qdev: Add JSON -device
-Message-ID: <20211013112957-mutt-send-email-mst@kernel.org>
-References: <20211008133442.141332-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1magLp-0007kL-As
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:39:31 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 8F55F756057;
+ Wed, 13 Oct 2021 17:39:25 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 58582748F56; Wed, 13 Oct 2021 17:39:25 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 566A9748F5B;
+ Wed, 13 Oct 2021 17:39:25 +0200 (CEST)
+Date: Wed, 13 Oct 2021 17:39:25 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
+ interrupts
+In-Reply-To: <d4416055-4f89-2271-5a91-514216a64f64@eik.bme.hu>
+Message-ID: <b36d947-9e23-99d-96c7-8e905b9426ec@eik.bme.hu>
+References: <20211013121929.9E835746333@zero.eik.bme.hu>
+ <189eeccd-36fd-d033-7900-30e89fc662df@amsat.org>
+ <d4416055-4f89-2271-5a91-514216a64f64@eik.bme.hu>
 MIME-Version: 1.0
-In-Reply-To: <20211008133442.141332-1-kwolf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-277475286-1634139565=:33720"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,104 +60,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, lvivier@redhat.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- quintela@redhat.com, libvir-list@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, vsementsov@virtuozzo.com,
- its@irrelevant.dk, pbonzini@redhat.com, eblake@redhat.com
+Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 08, 2021 at 03:34:27PM +0200, Kevin Wolf wrote:
-> It's still a long way until we'll have QAPIfied devices, but there are
-> some improvements that we can already make now to make the future switch
-> easier.
-> 
-> One important part of this is having code paths without QemuOpts, which
-> we want to get rid of and replace with the keyval parser in the long
-> run. This series adds support for JSON syntax to -device, which bypasses
-> QemuOpts.
-> 
-> While we're not using QAPI yet, devices are based on QOM, so we already
-> do have type checks and an implied schema. JSON syntax supported now can
-> be supported by QAPI later and regarding command line compatibility,
-> actually switching to it becomes an implementation detail this way (of
-> course, it will still add valuable user-visible features like
-> introspection and documentation).
-> 
-> Apart from making things more future proof, this also immediately adds
-> a way to do non-scalar properties on the command line. nvme could have
-> used list support recently, and the lack of it in -device led to some
-> rather unnatural solution in the first version (doing the relationship
-> between a device and objects backwards) and loss of features in the
-> following. With this series, using a list as a device property should be
-> possible without any weird tricks.
-> 
-> Unfortunately, even QMP device_add goes through QemuOpts before this
-> series, which destroys any type safety QOM provides and also can't
-> support non-scalar properties. This is a bug, but it turns out that
-> libvirt actually relies on it and passes only strings for everything.
-> So this series still leaves device_add alone until libvirt is fixed.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
+--3866299591-277475286-1634139565=:33720
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+On Wed, 13 Oct 2021, BALATON Zoltan wrote:
+> On Wed, 13 Oct 2021, Philippe Mathieu-Daudé wrote:
+>> On 10/13/21 14:13, BALATON Zoltan wrote:
+>>> This device is part of a superio/ISA bridge chip and IRQs from it are
+>>> routed to an ISA interrupt set by the Interrupt Line PCI config
+>>> register. Change uhci_update_irq() to allow this and implement it in
+>>> vt82c686-uhci-pci.
+>>> 
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>>> ---
+>>> v3: Do it more differently using qemu_irq instead as suggested by Gerd
+>>> v2: Do it differently to confine isa reference to vt82c686-uhci-pci as
+>>> hcd-uhci is also used on machines that don't have isa. Left Jiaxun's
+>>> R-b there as he checked it's the same for VT82C686B and gave R-b for
+>>> the 82c686b case which still holds but speak up if you tink otherwise.
+>>>
+>>>  hw/usb/hcd-uhci.c          | 11 +++++------
+>>>  hw/usb/hcd-uhci.h          |  2 +-
+>>>  hw/usb/vt82c686-uhci-pci.c | 12 ++++++++++++
+>>>  3 files changed, 18 insertions(+), 7 deletions(-)
+>>> 
+>>> diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
+>>> index 0cb02a6432..7201cd0ae7 100644
+>>> --- a/hw/usb/hcd-uhci.c
+>>> +++ b/hw/usb/hcd-uhci.c
+>>> @@ -31,6 +31,7 @@
+>>>  #include "hw/usb/uhci-regs.h"
+>>>  #include "migration/vmstate.h"
+>>>  #include "hw/pci/pci.h"
+>>> +#include "hw/irq.h"
+>>>  #include "hw/qdev-properties.h"
+>>>  #include "qapi/error.h"
+>>>  #include "qemu/timer.h"
+>>> @@ -290,7 +291,7 @@ static UHCIAsync *uhci_async_find_td(UHCIState *s, 
+>>> uint32_t td_addr)
+>>>
+>>>  static void uhci_update_irq(UHCIState *s)
+>>>  {
+>>> -    int level;
+>>> +    int level = 0;
+>>>      if (((s->status2 & 1) && (s->intr & (1 << 2))) ||
+>>>          ((s->status2 & 2) && (s->intr & (1 << 3))) ||
+>>>          ((s->status & UHCI_STS_USBERR) && (s->intr & (1 << 0))) ||
+>>> @@ -298,10 +299,8 @@ static void uhci_update_irq(UHCIState *s)
+>>>          (s->status & UHCI_STS_HSERR) ||
+>>>          (s->status & UHCI_STS_HCPERR)) {
+>>>          level = 1;
+>>> -    } else {
+>>> -        level = 0;
+>>>      }
+>>> -    pci_set_irq(&s->dev, level);
+>>> +    qemu_set_irq(s->irq, level);
+>>>  }
+>> 
+>> ^ OK.
+>>
+>>>  static void uhci_reset(DeviceState *dev)
+>>> @@ -1170,9 +1169,9 @@ void usb_uhci_common_realize(PCIDevice *dev, Error 
+>>> **errp)
+>>>
+>>>      pci_conf[PCI_CLASS_PROG] = 0x00;
+>>>      /* TODO: reset value should be 0. */
+>>> -    pci_conf[USB_SBRN] = USB_RELEASE_1; // release number
+>>> -
+>>> +    pci_conf[USB_SBRN] = USB_RELEASE_1; /* release number */
+>>>      pci_config_set_interrupt_pin(pci_conf, u->info.irq_pin + 1);
+>>> +    s->irq = pci_allocate_irq(dev);
+>>>
+>>>      if (s->masterbus) {
+>>>          USBPort *ports[NB_PORTS];
+>> 
+>> usb_uhci_common_realize() should be refactored making it PCI-agnostic.
+>> 
+>>> diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
+>>> index e61d8fcb19..1f8ee04186 100644
+>>> --- a/hw/usb/hcd-uhci.h
+>>> +++ b/hw/usb/hcd-uhci.h
+>>> @@ -60,7 +60,7 @@ typedef struct UHCIState {
+>>>      uint32_t frame_bandwidth;
+>>>      bool completions_only;
+>>>      UHCIPort ports[NB_PORTS];
+>>> -
+>>> +    qemu_irq irq;
+>>>      /* Interrupts that should be raised at the end of the current frame. 
+>>> */
+>>>      uint32_t pending_int_mask;
+>> 
+>> OK.
+>> 
+>>> diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
+>>> index b109c21603..e70e739409 100644
+>>> --- a/hw/usb/vt82c686-uhci-pci.c
+>>> +++ b/hw/usb/vt82c686-uhci-pci.c
+>>> @@ -1,6 +1,16 @@
+>>>  #include "qemu/osdep.h"
+>>> +#include "hw/irq.h"
+>>>  #include "hcd-uhci.h"
+>>> 
+>>> +static void uhci_isa_set_irq(void *opaque, int irq_num, int level)
+>>> +{
+>>> +    UHCIState *s = opaque;
+>>> +    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
+>>> +    if (irq > 0 && irq < 15) {
+>>> +        qemu_set_irq(isa_get_irq(NULL, irq), level);
+>>> +    }
+>>> +}
+>> 
+>> OK.
+>>
+>>>  static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+>>>  {
+>>>      UHCIState *s = UHCI(dev);
+>>> @@ -14,6 +24,8 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, 
+>>> Error **errp)
+>>>      pci_set_long(pci_conf + 0xc0, 0x00002000);
+>>>
+>>>      usb_uhci_common_realize(dev, errp);
+>>> +    object_unref(s->irq);
+>>> +    s->irq = qemu_allocate_irq(uhci_isa_set_irq, s, 0);
+>> 
+>> This can be avoided by refactoring usb_uhci_common_realize(),
+>> uhci_pci_type_info and uhci_data_class_init().
+>> 
+>> Current TYPE_UHCI becomes TYPE_PCI_UHCI.
+>> 
+>> Not sure why UHCI has been implemented that way, we already
+>> have USB_OHCI_PCI / USB_EHCI_PCI / USB_XHCI_PCI.
+>> 
+>> Maybe look at how TYPE_SYSBUS_OHCI is implemented VS TYPE_PCI_OHCI
+>> to be able to implement the similar TYPE_SYSBUS_UHCI?
+>
+> That doesn't seem to be part of fixing this bug with vt82c686-uhci-pci. Do I 
+> really have to do that much refactoring of UHCI model just to make it work 
+> with the case I care about? If this was good up to now it should be good 
+> enough until somebody can do this refactoring independent of this patch as a 
+> follow up. I may not have time for that. I'd like to improve pegasos2 
+> emulation by fixing this bug for 6.2 but there's a limit on how much 
+> unrelated stuff I'm willing to do for that. Let's say this bug uncovered a 
+> possible improvement in the uhci model so note it somewhere (like bite-sized 
+> task on wiki) then let somebody who has time handle it. This should not be 
+> reason to block fixing a bug if the fix is otherwise acceptable.
 
-I assume you are merging this?
+If you don't like replacing irq with object_unref another possible way is 
+adding it to UHCIInfo simlar to how realize is set, I can do that if you 
+think that would be better but changing qdev stuff is not something I want 
+to do as that tends to get complex and takes hours.
 
-> v2:
-> - Drop type safe QMP device_add because libvirt gets it wrong, too
-> - More network patches to eliminate dependencies on the legacy QemuOpts
->   data structures which would not contain all devices any more after
->   this series. Fix some bugs there as a side effect.
-> - Remove an unnecessary use of ERRP_GUARD()
-> - Replaced error handling patch for qdev_set_id() with Damien's
-> - Drop the deprecation patch until libvirt uses the new JSON syntax
-> 
-> Damien Hedde (1):
->   softmmu/qdev-monitor: add error handling in qdev_set_id
-> 
-> Kevin Wolf (14):
->   net: Introduce NetClientInfo.check_peer_type()
->   net/vhost-user: Fix device compatibility check
->   net/vhost-vdpa: Fix device compatibility check
->   qom: Reduce use of error_propagate()
->   iotests/245: Fix type for iothread property
->   iotests/051: Fix typo
->   qdev: Avoid using string visitor for properties
->   qdev: Make DeviceState.id independent of QemuOpts
->   qemu-option: Allow deleting opts during qemu_opts_foreach()
->   qdev: Add Error parameter to hide_device() callbacks
->   virtio-net: Store failover primary opts pointer locally
->   virtio-net: Avoid QemuOpts in failover_find_primary_device()
->   qdev: Base object creation on QDict rather than QemuOpts
->   vl: Enable JSON syntax for -device
-> 
->  qapi/qdev.json                      | 15 +++--
->  include/hw/qdev-core.h              | 15 +++--
->  include/hw/virtio/virtio-net.h      |  2 +
->  include/monitor/qdev.h              | 27 +++++++-
->  include/net/net.h                   |  2 +
->  hw/arm/virt.c                       |  2 +-
->  hw/core/qdev-properties-system.c    |  6 ++
->  hw/core/qdev.c                      | 11 +++-
->  hw/net/virtio-net.c                 | 85 ++++++++++++-------------
->  hw/pci-bridge/pci_expander_bridge.c |  2 +-
->  hw/ppc/e500.c                       |  2 +-
->  hw/vfio/pci.c                       |  4 +-
->  hw/xen/xen-legacy-backend.c         |  3 +-
->  net/vhost-user.c                    | 41 ++++--------
->  net/vhost-vdpa.c                    | 37 ++++-------
->  qom/object.c                        |  7 +-
->  qom/object_interfaces.c             | 19 ++----
->  softmmu/qdev-monitor.c              | 99 +++++++++++++++++++----------
->  softmmu/vl.c                        | 63 ++++++++++++++++--
->  util/qemu-option.c                  |  4 +-
->  tests/qemu-iotests/051              |  2 +-
->  tests/qemu-iotests/051.pc.out       |  4 +-
->  tests/qemu-iotests/245              |  4 +-
->  23 files changed, 278 insertions(+), 178 deletions(-)
-> 
-> -- 
-> 2.31.1
-
+Regards,
+BALATON Zoltan
+--3866299591-277475286-1634139565=:33720--
 
