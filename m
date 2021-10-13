@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3EE142B9D7
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 10:03:43 +0200 (CEST)
-Received: from localhost ([::1]:43016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E9F42BA06
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 10:16:22 +0200 (CEST)
+Received: from localhost ([::1]:49698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maZEk-0007cG-3z
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 04:03:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57262)
+	id 1maZQz-00043S-73
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 04:16:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
- id 1maZDj-0006oP-Un
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 04:02:41 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:45677)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
- id 1maZDf-0005Qq-VU
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 04:02:39 -0400
-Received: by mail-ed1-x534.google.com with SMTP id r18so6441633edv.12
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 01:02:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=T2CqjcKKqkvO7gvJhwvjFkgmOBjBqGf6KQiNi55mdKk=;
- b=RgSDauyqCl68rh56rjfDfXA1zhAwerYOpoDdKwpJnFzhiAxmy00lBN5dHI/xQfEF5k
- 7Pk5NLCkE8dT5+wxGInN4NH5JXxQxBjr/LXM9bS8mox3X+YPqate/hsoGhKPQrER52Bu
- c+TBQmqIMgk/8Ccv/AiGfM2Waf/RatMpNR3fYOWoAM1el1cROgJe155ctG1HprOwBZz+
- zkzh7eKptqkwawAhp2Zwr4FplNdtdGCJkx1KD5EnOIZl3xsFsAt6rxc6MN1urjOXOXh5
- 8ikJQVPTQwubP1jMTh0x6fAcw3ExoHMn2bxUqcMLZoXndx88Na+gKBakJ+LvsA40PwLh
- fd1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=T2CqjcKKqkvO7gvJhwvjFkgmOBjBqGf6KQiNi55mdKk=;
- b=TwKaVie3da4Tf0XeEUYjVGnSjAhnyga6zWbgHED7n8IyVDpe6AmHbJLqhn1GLoji7I
- EWXY48ts9fDcBcaArHPbjWPrVr05Xhc6wPrjcU3h67d0+e0qLA75uCiXhJDUZ++z6O1g
- hstY0cRj9295pEbf9WwSa+U29dfeXwb4SM3f5Nr3Pfw6D2aDCQ+0jg4C8apO4YCF4H8h
- hV0cbP0a38/GHmFmvBMDMFRQTHlQt/kccFuNvowEkZwb1yQ2xmaSgujJDyFtLFEqc1Fd
- YMNdBnYKbiw0DkYtbM+/YeNHOQZ/VgfIna341Mu4AxBRvDZDXonE7GrsUILyMBsiHnIo
- SAUg==
-X-Gm-Message-State: AOAM531TIVO9v8LmpF9Z2plvvlSFsM1mD1x77K0tbGbHXjqa3ejfPFKa
- +7xtEzMxV7PT0QEvHMKs054Jr/iW+4mVBpBRFiV5EQ==
-X-Google-Smtp-Source: ABdhPJy6auTJojXGIJ4QIm1rIgGpLsCd2/QGsz6f7cztQDPPAu/UoX8+MCBv5WmFXgXGLJYIipEusLr8J8ugt15pM0o=
-X-Received: by 2002:a17:906:94da:: with SMTP id
- d26mr10277577ejy.213.1634112153053; 
- Wed, 13 Oct 2021 01:02:33 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=1920604e14=david.dai@montage-tech.com>)
+ id 1maZOq-0002gG-TF
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 04:14:08 -0400
+Received: from usmail.montage-tech.com ([12.176.92.53]:51512)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <prvs=1920604e14=david.dai@montage-tech.com>)
+ id 1maZOn-0006XO-KP
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 04:14:08 -0400
+X-MDAV-Result: clean
+X-MDAV-Processed: usmail.montage-tech.com, Wed, 13 Oct 2021 01:14:01 -0700
+Received: from shmail.montage-tech.com by usmail.montage-tech.com with ESMTP
+ id md5001005837356.msg; Wed, 13 Oct 2021 01:14:00 -0700
+X-Spam-Processed: usmail.montage-tech.com, Wed, 13 Oct 2021 01:14:00 -0700
+ (not processed: message from trusted or authenticated source)
+X-MDArrival-Date: Wed, 13 Oct 2021 01:14:00 -0700
+X-Return-Path: prvs=1920604e14=david.dai@montage-tech.com
+X-Envelope-From: david.dai@montage-tech.com
+X-MDaemon-Deliver-To: qemu-devel@nongnu.org
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=montage-tech.com;
+ s=MDaemon; t=1634112803; x=1634717603;
+ i=david.dai@montage-tech.com; q=dns/txt; h=Date:From:To:Cc:
+ Subject:Message-ID:References:MIME-Version:Content-Type:
+ Content-Disposition:In-Reply-To; bh=7t1UpbW+3NO3yWqvIV66sxIAfwa/
+ mrISVFjiAOsZzwU=; b=jUVA/XUQeQdhBYIVHh/Tfuvv+EJLkcQHTmTIdMweU4nW
+ rbOZWXDKM9a/hM/bBzMzVXQTlZldjAp9QIkcjRb6yZShlPFkIc778ganE2fma8O1
+ blsiJTl+qH7OeuzTT4JvG4g+czXmBdSOn5oUWCCPCsGLC2xS8WKymojcd75tEm4=
+X-MDAV-Result: clean
+X-MDAV-Processed: shmail.montage-tech.com, Wed, 13 Oct 2021 16:13:23 +0800
+Received: from tianmu-host-sw-01 by shmail.montage-tech.com with ESMTPA id
+ pp5001017635844.msg; Wed, 13 Oct 2021 16:13:21 +0800
+X-Spam-Processed: shmail.montage-tech.com, Wed, 13 Oct 2021 16:13:21 +0800
+ (not processed: message from trusted or authenticated source)
+Date: Wed, 13 Oct 2021 16:13:37 +0800
+From: "david.dai" <david.dai@montage-tech.com>
+To: "David Hildenbrand (david@redhat.com)" <david@redhat.com>
+Subject: Re: [PATCH] hw/misc: Add a virtual pci device to dynamically attach
+ memory to QEMU
+Message-ID: <20211013081337.GA96268@tianmu-host-sw-01>
+References: <20210926021614.76933-1-david.dai@montage-tech.com>
+ <YVGAWh7e96f8yed0@stefanha-x1.localdomain>
+ <38a0312e-3b00-ac41-3cb0-ab5592b06dc1@redhat.com>
+ <20210927122848.GB144947@tianmu-host-sw-01>
+ <c87c301e-62af-ab5a-2b9c-fa2ef28898f1@redhat.com>
+ <20210930094007.GA239054@tianmu-host-sw-01>
+ <5eba1406-4012-481a-b7ed-0090654668d2@redhat.com>
+ <20211009094233.GA13867@tianmu-host-sw-01>
+ <ea36815e-0b79-b5b2-9735-367404c9b8f6@redhat.com>
 MIME-Version: 1.0
-References: <20211013010120.96851-1-sjg@chromium.org>
- <CAEUhbmWY5gKmqbipurcDQ0DuNJyv8cLWsnyqx5h+tFqeVng8Ag@mail.gmail.com>
- <20211013013450.GJ7964@bill-the-cat>
-In-Reply-To: <20211013013450.GJ7964@bill-the-cat>
-From: =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>
-Date: Wed, 13 Oct 2021 10:02:22 +0200
-Message-ID: <CAHFG_=Vf9_BFGBXvz+tHnP-g65fM-bUHa9a2AEf3KbzRwnhR=w@mail.gmail.com>
-Subject: Re: [PATCH 00/16] fdt: Make OF_BOARD a boolean option
-To: Tom Rini <trini@konsulko.com>
-Content-Type: multipart/alternative; boundary="0000000000006808c305ce376273"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=francois.ozog@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ea36815e-0b79-b5b2-9735-367404c9b8f6@redhat.com>
+X-MDCFSigsAdded: montage-tech.com
+Received-SPF: pass client-ip=12.176.92.53;
+ envelope-from=prvs=1920604e14=david.dai@montage-tech.com;
+ helo=usmail.montage-tech.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,248 +85,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liviu Dudau <liviu.dudau@foss.arm.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Linus Walleij <linus.walleij@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- Kever Yang <kever.yang@rock-chips.com>, Sean Anderson <seanga2@gmail.com>,
- Atish Patra <atish.patra@wdc.com>, Zong Li <zong.li@sifive.com>,
- Stefan Roese <sr@denx.de>, Fabio Estevam <festevam@gmail.com>,
- Rainer Boschung <rainer.boschung@hitachi-powergrids.com>,
- Stephen Warren <swarren@nvidia.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>, Niel Fourie <lusus@denx.de>,
- Michal Simek <michal.simek@xilinx.com>,
- =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>,
- Jerry Van Baren <vanbaren@cideas.com>, Ramon Fried <rfried.dev@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Longchamp <valentin.longchamp@hitachi-powergrids.com>,
- Heiko Schocher <hs@denx.de>, Peter Robinson <pbrobinson@gmail.com>,
- Sinan Akman <sinan@writeme.com>, Thomas Fitzsimmons <fitzsim@fitzsim.org>,
- Wolfgang Denk <wd@denx.de>, Stephen Warren <swarren@wwwdotorg.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Andre Przywara <andre.przywara@arm.com>, Tim Harvey <tharvey@gateworks.com>,
- Ashok Reddy Soma <ashok.reddy.soma@xilinx.com>, Rick Chen <rick@andestech.com>,
- Alexander Graf <agraf@csgraf.de>, Green Wan <green.wan@sifive.com>,
- T Karthik Reddy <t.karthik.reddy@xilinx.com>,
- Anastasiia Lukianenko <anastasiia_lukianenko@epam.com>,
- Albert Aribaud <albert.u.boot@aribaud.net>, Michal Simek <monstr@monstr.eu>,
- Matthias Brugger <mbrugger@suse.com>, Leo <ycliang@andestech.com>,
- Tero Kristo <kristo@kernel.org>, U-Boot Mailing List <u-boot@lists.denx.de>,
- David Abdurachmanov <david.abdurachmanov@sifive.com>,
- Priyanka Jain <priyanka.jain@nxp.com>, Simon Glass <sjg@chromium.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Christian Hewitt <christianshewitt@gmail.com>,
- Aaron Williams <awilliams@marvell.com>,
- Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
- Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
- Tianrui Wei <tianrui-wei@outlook.com>, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
- Dimitri John Ledkov <dimitri.ledkov@canonical.com>,
- Padmarao Begari <padmarao.begari@microchip.com>
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, eajames@linux.ibm.com,
+ qemu-devel@nongnu.org, changguo.du@montage-tech.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006808c305ce376273
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, Oct 11, 2021 at 09:43:53AM +0200, David Hildenbrand (david@redhat.com) wrote:
+> 
+> 
+> 
+> > > virito-mem currently relies on having a single sparse memory region (anon
+> > > mmap, mmaped file, mmaped huge pages, mmap shmem) per VM. Although we can
+> > > share memory with other processes, sharing with other VMs is not intended.
+> > > Instead of actually mmaping parts dynamically (which can be quite
+> > > expensive), virtio-mem relies on punching holes into the backend and
+> > > dynamically allocating memory/file blocks/... on access.
+> > > 
+> > > So the easy way to make it work is:
+> > > 
+> > > a) Exposing the CXL memory to the buddy via dax/kmem, esulting in device
+> > > memory getting managed by the buddy on a separate NUMA node.
+> > > 
+> > 
+> > Linux kernel buddy system? how to guarantee other applications don't apply memory
+> > from it
+> 
+> Excellent question. Usually, you would online the memory to ZONE_MOVABLE,
+> such that even if some other allocation ended up there, that it could
+> get migrated somewhere else.
+> 
+> For example, "daxctl reconfigure-device" tries doing that as default:
+> 
+> https://pmem.io/ndctl/daxctl-reconfigure-device.html
+> 
+> However, I agree that we might actually want to tell the system to not
+> use this CPU-less node as fallback for other allocations, and that we
+> might not want to swap out such memory etc.
+> 
+> 
+> But, in the end all that virtio-mem needs to work in the hypervisor is
+> 
+> a) A sparse memmap (anonymous RAM, memfd, file)
+> b) A way to populate memory within that sparse memmap (e.g., on fault,
+>    using madvise(MADV_POPULATE_WRITE), fallocate())
+> c) A way to discard memory (madvise(MADV_DONTNEED),
+>    fallocate(FALLOC_FL_PUNCH_HOLE))
+> 
+> So instead of using anonymous memory+mbind, you can also mmap a sparse file
+> and rely on populate-on-demand. One alternative for your use case would be
+> to create a DAX  filesystem on that CXL memory (IIRC that should work) and
+> simply providing virtio-mem with a sparse file located on that filesystem.
+> 
+> Of course, you can also use some other mechanism as you might have in
+> your approach, as long as it supports a,b,c.
+> 
+> > 
+> > > 
+> > > b) (optional) allocate huge pages on that separate NUMA node.
+> > > c) Use ordinary memory-device-ram or memory-device-memfd (for huge pages),
+> > > *bidning* the memory backend to that special NUMA node.
+> > > 
+> > "-object memory-backend/device-ram or memory-device-memfd, id=mem0, size=768G"
+> > How to bind backend memory to NUMA node
+> > 
+> 
+> I think the syntax is "policy=bind,host-nodes=X"
+> 
+> whereby X is a node mask. So for node "0" you'd use "host-nodes=0x1" for "5"
+> "host-nodes=0x20" etc.
+> 
+> > > 
+> > > This will dynamically allocate memory from that special NUMA node, resulting
+> > > in the virtio-mem device completely being backed by that device memory,
+> > > being able to dynamically resize the memory allocation.
+> > > 
+> > > 
+> > > Exposing an actual devdax to the virtio-mem device, shared by multiple VMs
+> > > isn't really what we want and won't work without major design changes. Also,
+> > > I'm not so sure it's a very clean design: exposing memory belonging to other
+> > > VMs to unrelated QEMU processes. This sounds like a serious security hole:
+> > > if you managed to escalate to the QEMU process from inside the VM, you can
+> > > access unrelated VM memory quite happily. You want an abstraction
+> > > in-between, that makes sure each VM/QEMU process only sees private memory:
+> > > for example, the buddy via dax/kmem.
+> > > 
+> > Hi David
+> > Thanks for your suggestion, also sorry for my delayed reply due to my long vacation.
+> > How does current virtio-mem dynamically attach memory to guest, via page fault?
+> 
+> Essentially you have a large sparse mmap. Withing that mmap, memory is
+> populated on demand. Instead if mmap/munmap you perform a single large
+> mmap and then dynamically populate memory/discard memory.
+> 
+> Right now, memory is populated via page faults on access. This is
+> sub-optimal when dealing with limited resources (i.e., hugetlbfs,
+> file blocks) and you might run out of backend memory.
+> 
+> I'm working on a "prealloc" mode, which will preallocate/populate memory
+> necessary for exposing the next block of memory to the VM, and which
+> fails gracefully if preallocation/population fails in the case of such
+> limited resources.
+> 
+> The patch resides on:
+> 	https://github.com/davidhildenbrand/qemu/tree/virtio-mem-next
+> 
+> commit ded0e302c14ae1b68bdce9059dcca344e0a5f5f0
+> Author: David Hildenbrand <david@redhat.com>
+> Date:   Mon Aug 2 19:51:36 2021 +0200
+> 
+>     virtio-mem: support "prealloc=on" option
+>     Especially for hugetlb, but also for file-based memory backends, we'd
+>     like to be able to prealloc memory, especially to make user errors less
+>     severe: crashing the VM when there are not sufficient huge pages around.
+>     A common option for hugetlb will be using "reserve=off,prealloc=off" for
+>     the memory backend and "prealloc=on" for the virtio-mem device. This
+>     way, no huge pages will be reserved for the process, but we can recover
+>     if there are no actual huge pages when plugging memory.
+>     Signed-off-by: David Hildenbrand <david@redhat.com>
+> 
+> 
+> -- 
+> Thanks,
+> 
+> David / dhildenb
+> 
 
-Hi Simon
+Hi David,
+
+After read virtio-mem code, I understand what you have expressed, please allow me to describe
+my understanding to virtio-mem, so that we have a aligned view.
+
+Virtio-mem:
+ Virtio-mem device initializes and reserved a memory area(GPA), later memory dynamically
+ growing/shrinking will not exceed this scope, memory-backend-ram has mapped anon. memory
+ to the whole area, but no ram is attached because Linux have a policy to delay allocation.
+ When virtio-mem driver apply to dynamically add memory to guest, it first request a region
+ from the reserved memory area, then notify virtio-mem device to record the information
+ (virtio-mem device doesn't make real memory allocation). After received response from
+ virtio-mem deivce, virtio-mem driver will online the requested region and add it to Linux
+ page allocator. Real ram allocation will happen via page fault when guest cpu access it.
+ Memory shrink will be achieved by madvise()
+
+Questions:
+1. heterogeneous computing, memory may be accessed by CPUs on host side and device side.
+   Memory delayed allocation is not suitable. Host software(for instance, OpenCL) may
+   allocate a buffer to computing device to place the computing result in.
+2. we hope build ourselves page allocator in host kernel, so it can offer customized mmap()
+   method to build va->pa mapping in MMU and IOMMU.
+3. some potential requirements also require our driver to manage memory, so that page size
+   granularity can be controlled to fit small device iotlb cache.
+   CXL has bias mode for HDM(host managed device memory), it needs physical address to make
+   bias mode switch between host access and device access. These tell us driver manage memory
+   is mandatory.
+
+My opinion:
+ I hope this patch can enter QEMU main tree, it is a self-contain virtual device which doesn't impact QEMU stability.
+ It is a mechanism to dynamically attach memory to guest, virtio-mem via pagefault, this patch create new memory region.
+ In addition, user has big room to customize frontend and backend implement.
+ It can be regarded as a sample code and give other people more idea and help.
+
+Thanks,
+David
 
 
-Le mer. 13 oct. 2021 =C3=A0 03:35, Tom Rini <trini@konsulko.com> a =C3=A9cr=
-it :
-
-> On Wed, Oct 13, 2021 at 09:29:14AM +0800, Bin Meng wrote:
-> > Hi Simon,
-> >
-> > On Wed, Oct 13, 2021 at 9:01 AM Simon Glass <sjg@chromium.org> wrote:
-> > >
-> > > With Ilias' efforts we have dropped OF_PRIOR_STAGE and OF_HOSTFILE so
-> > > there are only three ways to obtain a devicetree:
-> > >
-> > >    - OF_SEPARATE - the normal way, where the devicetree is built and
-> > >       appended to U-Boot
-> > >    - OF_EMBED - for development purposes, the devicetree is embedded =
-in
-> > >       the ELF file (also used for EFI)
-> > >    - OF_BOARD - the board figures it out on its own
-> > >
-> > > The last one is currently set up so that no devicetree is needed at a=
-ll
-> > > in the U-Boot tree. Most boards do provide one, but some don't. Some
-> > > don't even provide instructions on how to boot on the board.
-> > >
-> > > The problems with this approach are documented at [1].
-> > >
-> > > In practice, OF_BOARD is not really distinct from OF_SEPARATE. Any
-> board
-> > > can obtain its devicetree at runtime, even it is has a devicetree bui=
-lt
-> > > in U-Boot. This is because U-Boot may be a second-stage bootloader an=
-d
-> its
-> > > caller may have a better idea about the hardware available in the
-> machine.
-> > > This is the case with a few QEMU boards, for example.
-> > >
-> > > So it makes no sense to have OF_BOARD as a 'choice'. It should be an
-> > > option, available with either OF_SEPARATE or OF_EMBED.
-> > >
-> > > This series makes this change, adding various missing devicetree file=
-s
-> > > (and placeholders) to make the build work.
-> >
-> > Adding device trees that are never used sounds like a hack to me.
-> >
-> > For QEMU, device tree is dynamically generated on the fly based on
-> > command line parameters, and the device tree you put in this series
-> > has various hardcoded <phandle> values which normally do not show up
-> > in hand-written dts files.
-> >
-> > I am not sure I understand the whole point of this.
->
-> I am also confused and do not like the idea of adding device trees for
-> platforms that are capable of and can / do have a device tree to give us
-> at run time.
->
-> --
-> Tom
-
-
-+1
-
-While the cleanup go get three options, including OF_BOARD is nice, the
-build solution you propose does not sound the right approach: U-Boot should
-be buildable without any DT.
-
-Getting the DT you produced as sample information can be useful and kept
-out of build path in documentation with ad-hoc warnings though as I
-explained in other mails of the series.
-
-OF_BOARD is a choice to say =E2=80=9CI don=E2=80=99t override the legitimat=
-e DT with either
-OF_SEPARATE or OF_EMBED=E2=80=9D (which I see in this case as debug facilit=
-y for
-U-Boot maintainer of the platform).
-
->
-> --
-Fran=C3=A7ois-Fr=C3=A9d=C3=A9ric Ozog | *Director Business Development*
-T: +33.67221.6485
-francois.ozog@linaro.org | Skype: ffozog
-
---0000000000006808c305ce376273
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Hi Simon</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o"><br></div><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
-l_attr">Le=C2=A0mer. 13 oct. 2021 =C3=A0 03:35, Tom Rini &lt;<a href=3D"mai=
-lto:trini@konsulko.com">trini@konsulko.com</a>&gt; a =C3=A9crit=C2=A0:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-co=
-lor:rgb(204,204,204)">On Wed, Oct 13, 2021 at 09:29:14AM +0800, Bin Meng wr=
-ote:<br>
-&gt; Hi Simon,<br>
-&gt; <br>
-&gt; On Wed, Oct 13, 2021 at 9:01 AM Simon Glass &lt;<a href=3D"mailto:sjg@=
-chromium.org" target=3D"_blank">sjg@chromium.org</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; With Ilias&#39; efforts we have dropped OF_PRIOR_STAGE and OF_HOS=
-TFILE so<br>
-&gt; &gt; there are only three ways to obtain a devicetree:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 - OF_SEPARATE - the normal way, where the devicetree=
- is built and<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0appended to U-Boot<br>
-&gt; &gt;=C2=A0 =C2=A0 - OF_EMBED - for development purposes, the devicetre=
-e is embedded in<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0the ELF file (also used for EFI)<br>
-&gt; &gt;=C2=A0 =C2=A0 - OF_BOARD - the board figures it out on its own<br>
-&gt; &gt;<br>
-&gt; &gt; The last one is currently set up so that no devicetree is needed =
-at all<br>
-&gt; &gt; in the U-Boot tree. Most boards do provide one, but some don&#39;=
-t. Some<br>
-&gt; &gt; don&#39;t even provide instructions on how to boot on the board.<=
-br>
-&gt; &gt;<br>
-&gt; &gt; The problems with this approach are documented at [1].<br>
-&gt; &gt;<br>
-&gt; &gt; In practice, OF_BOARD is not really distinct from OF_SEPARATE. An=
-y board<br>
-&gt; &gt; can obtain its devicetree at runtime, even it is has a devicetree=
- built<br>
-&gt; &gt; in U-Boot. This is because U-Boot may be a second-stage bootloade=
-r and its<br>
-&gt; &gt; caller may have a better idea about the hardware available in the=
- machine.<br>
-&gt; &gt; This is the case with a few QEMU boards, for example.<br>
-&gt; &gt;<br>
-&gt; &gt; So it makes no sense to have OF_BOARD as a &#39;choice&#39;. It s=
-hould be an<br>
-&gt; &gt; option, available with either OF_SEPARATE or OF_EMBED.<br>
-&gt; &gt;<br>
-&gt; &gt; This series makes this change, adding various missing devicetree =
-files<br>
-&gt; &gt; (and placeholders) to make the build work.<br>
-&gt; <br>
-&gt; Adding device trees that are never used sounds like a hack to me.<br>
-&gt; <br>
-&gt; For QEMU, device tree is dynamically generated on the fly based on<br>
-&gt; command line parameters, and the device tree you put in this series<br=
->
-&gt; has various hardcoded &lt;phandle&gt; values which normally do not sho=
-w up<br>
-&gt; in hand-written dts files.<br>
-&gt; <br>
-&gt; I am not sure I understand the whole point of this.<br>
-<br>
-I am also confused and do not like the idea of adding device trees for<br>
-platforms that are capable of and can / do have a device tree to give us<br=
->
-at run time.<br>
-<br>
--- <br>
-Tom</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">+1</div><div =
-dir=3D"auto"><br></div><div dir=3D"auto"><div dir=3D"auto" style=3D"border-=
-color:rgb(0,0,0)">While the cleanup go get three options, including OF_BOAR=
-D is nice, the build solution you propose does not sound the right approach=
-: U-Boot should be buildable without any DT.</div><div dir=3D"auto" style=
-=3D"border-color:rgb(0,0,0)"><br></div><div dir=3D"auto" style=3D"border-co=
-lor:rgb(0,0,0)">Getting the DT you produced as sample information can be us=
-eful and kept out of build path in documentation with ad-hoc warnings thoug=
-h as I explained in other mails of the series.</div><div dir=3D"auto" style=
-=3D"border-color:rgb(0,0,0)"><br></div><div dir=3D"auto" style=3D"border-co=
-lor:rgb(0,0,0)">OF_BOARD is a choice to say =E2=80=9CI don=E2=80=99t overri=
-de the legitimate DT with either OF_SEPARATE or OF_EMBED=E2=80=9D (which I =
-see in this case as debug facility for U-Boot maintainer of the platform).<=
-/div></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-l=
-eft-color:rgb(204,204,204)" dir=3D"auto"><br>
-</blockquote></div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" =
-data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><=
-div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div =
-dir=3D"ltr"><div><div dir=3D"ltr"><div><div><div><div dir=3D"ltr"><div dir=
-=3D"ltr"><div dir=3D"ltr"><table style=3D"font-size:small" border=3D"0" cel=
-lpadding=3D"0" cellspacing=3D"0"><tbody><tr><td style=3D"padding-right:10px=
-" valign=3D"top"><img src=3D"https://static.linaro.org/common/images/linaro=
--logo-web.png"></td><td valign=3D"top"><table border=3D"0" cellpadding=3D"0=
-" cellspacing=3D"0"><tbody><tr><td style=3D"font-family:Arial,Helvetica,&qu=
-ot;Sans Serif&quot;;white-space:nowrap;font-size:9pt;padding-top:0px;color:=
-rgb(87,87,87)" valign=3D"top"><span style=3D"font-weight:bold">Fran=C3=A7oi=
-s-Fr=C3=A9d=C3=A9ric Ozog</span>=C2=A0<span style=3D"color:rgb(161,161,161)=
-">|</span>=C2=A0<i>Director Business Development</i></td></tr><tr><td style=
-=3D"font-family:Arial,Helvetica,&quot;Sans Serif&quot;;white-space:nowrap;f=
-ont-size:9pt;padding-top:2px;color:rgb(87,87,87)" valign=3D"top">T:=C2=A0<a=
- value=3D"+393384075993" style=3D"color:rgb(17,85,204)">+33.67221.6485</a><=
-br><a href=3D"mailto:francois.ozog@linaro.org" style=3D"color:rgb(87,87,87)=
-;text-decoration:none" target=3D"_blank">francois.ozog@linaro.org</a>=C2=A0=
-<span style=3D"color:rgb(161,161,161)">|</span>=C2=A0Skype:=C2=A0ffozog</td=
-></tr></tbody></table></td></tr></tbody></table></div></div></div></div></d=
-iv><div><div><br style=3D"font-size:small"></div></div></div></div></div></=
-div></div></div></div></div></div></div></div></div></div></div></div>
-
---0000000000006808c305ce376273--
 
