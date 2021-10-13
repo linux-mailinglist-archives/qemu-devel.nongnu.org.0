@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20DD842C4FA
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 17:41:18 +0200 (CEST)
-Received: from localhost ([::1]:45074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84A6042C52C
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 17:47:41 +0200 (CEST)
+Received: from localhost ([::1]:49290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1magNY-0003yl-O0
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 11:41:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34852)
+	id 1magTk-00077o-Cf
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 11:47:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1magLs-0003AW-6E
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:39:32 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:64908)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1magQx-0006Ax-RC
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:44:47 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:43030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1magLp-0007kL-As
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:39:31 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8F55F756057;
- Wed, 13 Oct 2021 17:39:25 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 58582748F56; Wed, 13 Oct 2021 17:39:25 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 566A9748F5B;
- Wed, 13 Oct 2021 17:39:25 +0200 (CEST)
-Date: Wed, 13 Oct 2021 17:39:25 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
- interrupts
-In-Reply-To: <d4416055-4f89-2271-5a91-514216a64f64@eik.bme.hu>
-Message-ID: <b36d947-9e23-99d-96c7-8e905b9426ec@eik.bme.hu>
-References: <20211013121929.9E835746333@zero.eik.bme.hu>
- <189eeccd-36fd-d033-7900-30e89fc662df@amsat.org>
- <d4416055-4f89-2271-5a91-514216a64f64@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1magQv-0004aB-Kc
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 11:44:47 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id A589945DB9;
+ Wed, 13 Oct 2021 17:44:32 +0200 (CEST)
+Subject: Re: [PATCH] monitor/qmp: fix race with clients disconnecting early
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210823101115.2015354-1-s.reiter@proxmox.com>
+ <87r1eh4j0f.fsf@dusky.pond.sub.org> <87r1eguxgi.fsf@dusky.pond.sub.org>
+ <91f2fb28-fd4d-f7ad-13d1-61c7ba16ae3c@proxmox.com>
+ <87eea9wrcf.fsf@dusky.pond.sub.org> <871r67b0yr.fsf@dusky.pond.sub.org>
+ <87v922bnk1.fsf@dusky.pond.sub.org>
+From: Stefan Reiter <s.reiter@proxmox.com>
+Message-ID: <bc5f180d-3161-59c0-2ded-0808a150dec7@proxmox.com>
+Date: Wed, 13 Oct 2021 17:44:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-277475286-1634139565=:33720"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+In-Reply-To: <87v922bnk1.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,167 +58,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ Michael Roth <michael.roth@amd.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 10/12/21 11:27 AM, Markus Armbruster wrote:
+> Stefan, any thoughts on this?
+> 
 
---3866299591-277475286-1634139565=:33720
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Sorry, I didn't get to work on implementing this. Idea 3 does seem very
+reasonable, though I suppose the question is what all should go into the
+per-session state, and also how it is passed down.
 
-On Wed, 13 Oct 2021, BALATON Zoltan wrote:
-> On Wed, 13 Oct 2021, Philippe Mathieu-Daudé wrote:
->> On 10/13/21 14:13, BALATON Zoltan wrote:
->>> This device is part of a superio/ISA bridge chip and IRQs from it are
->>> routed to an ISA interrupt set by the Interrupt Line PCI config
->>> register. Change uhci_update_irq() to allow this and implement it in
->>> vt82c686-uhci-pci.
->>> 
->>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->>> ---
->>> v3: Do it more differently using qemu_irq instead as suggested by Gerd
->>> v2: Do it differently to confine isa reference to vt82c686-uhci-pci as
->>> hcd-uhci is also used on machines that don't have isa. Left Jiaxun's
->>> R-b there as he checked it's the same for VT82C686B and gave R-b for
->>> the 82c686b case which still holds but speak up if you tink otherwise.
->>>
->>>  hw/usb/hcd-uhci.c          | 11 +++++------
->>>  hw/usb/hcd-uhci.h          |  2 +-
->>>  hw/usb/vt82c686-uhci-pci.c | 12 ++++++++++++
->>>  3 files changed, 18 insertions(+), 7 deletions(-)
->>> 
->>> diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
->>> index 0cb02a6432..7201cd0ae7 100644
->>> --- a/hw/usb/hcd-uhci.c
->>> +++ b/hw/usb/hcd-uhci.c
->>> @@ -31,6 +31,7 @@
->>>  #include "hw/usb/uhci-regs.h"
->>>  #include "migration/vmstate.h"
->>>  #include "hw/pci/pci.h"
->>> +#include "hw/irq.h"
->>>  #include "hw/qdev-properties.h"
->>>  #include "qapi/error.h"
->>>  #include "qemu/timer.h"
->>> @@ -290,7 +291,7 @@ static UHCIAsync *uhci_async_find_td(UHCIState *s, 
->>> uint32_t td_addr)
->>>
->>>  static void uhci_update_irq(UHCIState *s)
->>>  {
->>> -    int level;
->>> +    int level = 0;
->>>      if (((s->status2 & 1) && (s->intr & (1 << 2))) ||
->>>          ((s->status2 & 2) && (s->intr & (1 << 3))) ||
->>>          ((s->status & UHCI_STS_USBERR) && (s->intr & (1 << 0))) ||
->>> @@ -298,10 +299,8 @@ static void uhci_update_irq(UHCIState *s)
->>>          (s->status & UHCI_STS_HSERR) ||
->>>          (s->status & UHCI_STS_HCPERR)) {
->>>          level = 1;
->>> -    } else {
->>> -        level = 0;
->>>      }
->>> -    pci_set_irq(&s->dev, level);
->>> +    qemu_set_irq(s->irq, level);
->>>  }
->> 
->> ^ OK.
+We did roll out my initial patch to our users in the meantime and got
+some positive feedback (that specific error disappeared), however another
+one (reported at the same time) still exists, so I was trying to diagnose
+- it might also turn out to be monitor related and resolved by the more
+thorough fix proposed here, but unsure.
+
+> Markus Armbruster <armbru@redhat.com> writes:
+> 
+>> I've thought a bit more.
 >>
->>>  static void uhci_reset(DeviceState *dev)
->>> @@ -1170,9 +1169,9 @@ void usb_uhci_common_realize(PCIDevice *dev, Error 
->>> **errp)
->>>
->>>      pci_conf[PCI_CLASS_PROG] = 0x00;
->>>      /* TODO: reset value should be 0. */
->>> -    pci_conf[USB_SBRN] = USB_RELEASE_1; // release number
->>> -
->>> +    pci_conf[USB_SBRN] = USB_RELEASE_1; /* release number */
->>>      pci_config_set_interrupt_pin(pci_conf, u->info.irq_pin + 1);
->>> +    s->irq = pci_allocate_irq(dev);
->>>
->>>      if (s->masterbus) {
->>>          USBPort *ports[NB_PORTS];
->> 
->> usb_uhci_common_realize() should be refactored making it PCI-agnostic.
->> 
->>> diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
->>> index e61d8fcb19..1f8ee04186 100644
->>> --- a/hw/usb/hcd-uhci.h
->>> +++ b/hw/usb/hcd-uhci.h
->>> @@ -60,7 +60,7 @@ typedef struct UHCIState {
->>>      uint32_t frame_bandwidth;
->>>      bool completions_only;
->>>      UHCIPort ports[NB_PORTS];
->>> -
->>> +    qemu_irq irq;
->>>      /* Interrupts that should be raised at the end of the current frame. 
->>> */
->>>      uint32_t pending_int_mask;
->> 
->> OK.
->> 
->>> diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
->>> index b109c21603..e70e739409 100644
->>> --- a/hw/usb/vt82c686-uhci-pci.c
->>> +++ b/hw/usb/vt82c686-uhci-pci.c
->>> @@ -1,6 +1,16 @@
->>>  #include "qemu/osdep.h"
->>> +#include "hw/irq.h"
->>>  #include "hcd-uhci.h"
->>> 
->>> +static void uhci_isa_set_irq(void *opaque, int irq_num, int level)
->>> +{
->>> +    UHCIState *s = opaque;
->>> +    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
->>> +    if (irq > 0 && irq < 15) {
->>> +        qemu_set_irq(isa_get_irq(NULL, irq), level);
->>> +    }
->>> +}
->> 
->> OK.
+>> A monitor can serve a series of clients.
 >>
->>>  static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
->>>  {
->>>      UHCIState *s = UHCI(dev);
->>> @@ -14,6 +24,8 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, 
->>> Error **errp)
->>>      pci_set_long(pci_conf + 0xc0, 0x00002000);
->>>
->>>      usb_uhci_common_realize(dev, errp);
->>> +    object_unref(s->irq);
->>> +    s->irq = qemu_allocate_irq(uhci_isa_set_irq, s, 0);
->> 
->> This can be avoided by refactoring usb_uhci_common_realize(),
->> uhci_pci_type_info and uhci_data_class_init().
->> 
->> Current TYPE_UHCI becomes TYPE_PCI_UHCI.
->> 
->> Not sure why UHCI has been implemented that way, we already
->> have USB_OHCI_PCI / USB_EHCI_PCI / USB_XHCI_PCI.
->> 
->> Maybe look at how TYPE_SYSBUS_OHCI is implemented VS TYPE_PCI_OHCI
->> to be able to implement the similar TYPE_SYSBUS_UHCI?
->
-> That doesn't seem to be part of fixing this bug with vt82c686-uhci-pci. Do I 
-> really have to do that much refactoring of UHCI model just to make it work 
-> with the case I care about? If this was good up to now it should be good 
-> enough until somebody can do this refactoring independent of this patch as a 
-> follow up. I may not have time for that. I'd like to improve pegasos2 
-> emulation by fixing this bug for 6.2 but there's a limit on how much 
-> unrelated stuff I'm willing to do for that. Let's say this bug uncovered a 
-> possible improvement in the uhci model so note it somewhere (like bite-sized 
-> task on wiki) then let somebody who has time handle it. This should not be 
-> reason to block fixing a bug if the fix is otherwise acceptable.
+>> Back when all of the monitor ran in the main thread, we completely
+>> finished serving the current client before we started serving the next
+>> one (I think).  In other words, sessions did not overlap.
+>>
+>> Since we moved parts of the monitor to the monitor I/O thread (merge
+>> commit 4bdc24fa018), sessions can overlap, and this causes issues, as
+>> you demonstrated.
+>>
+>> Possible fixes:
+>>
+>> 1. Go back to "don't overlap" with suitable synchronization.
+>>
+>>     I'm afraid this won't cut it, because exec-oob would have wait in
+>>     line behind reconnect.
+>>
+>>     It currently waits for other reasons, but that feels fixable.  Going
+>>     back to "don't overlap" would make it unfixable.
+>>
+>> 2. Make the lingering session not affect / be affected by the new
+>>     session's state
+>>
+>>     This is what your patch tries.  Every access of session state needs
+>>     to be guarded like
+>>
+>>          if (conn_nr_before == qatomic_read(&mon->connection_nr)) {
+>>              access session state
+>>          } else {
+>>              ???
+>>          }
+>>
+>>     Issues:
+>>
+>>     * We have to find and guard all existing accesses.  That's work.
+>>
+>>     * We have to guard all future accesses.  More work, and easy to
+>>       forget, which makes this fix rather brittle.
+>>
+>>     * The fix is spread over many places.
+>>
+>>     * We may run into cases where the ??? part gets complicated.
+>>       Consider file descriptors.  The command in flight will have its
+>>       monitor_get_fd() fail after disconnect.  Probably okay, because it
+>>       can also fail for other reasons.  But we might run into cases where
+>>       the ??? part creates new failure modes for us to handle.
+>>
+>> 3. Per-session state
+>>
+>>     Move per-session state from monitor state into a separate object.
+>>
+>>     Use reference counts to keep this object alive until both threads are
+>>     done with the session.
+>>
+>>     Monitor I/O thread executes monitor core and the out-of-band
+>>     commands; its stops using the old session on disconnect, and starts
+>>     using the new session on connect.
+>>
+>>     Main thread executes in-band commands, and these use the session that
+>>     submitted them.
+>>
+>>     Do I make sense, or should I explain my idea in more detail?
+> 
+> 
 
-If you don't like replacing irq with object_unref another possible way is 
-adding it to UHCIInfo simlar to how realize is set, I can do that if you 
-think that would be better but changing qdev stuff is not something I want 
-to do as that tends to get complex and takes hours.
-
-Regards,
-BALATON Zoltan
---3866299591-277475286-1634139565=:33720--
 
