@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0927842B45F
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 07:00:06 +0200 (CEST)
-Received: from localhost ([::1]:34980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B2CA42B461
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 07:01:13 +0200 (CEST)
+Received: from localhost ([::1]:36326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maWN2-0004yE-Fv
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 01:00:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47046)
+	id 1maWO8-0005qx-62
+	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 01:01:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1maWLU-0002Mo-Be
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 00:58:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52338)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1maWLa-0002XX-Vx
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 00:58:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32087)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1maWLQ-0004gl-Sf
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 00:58:27 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1maWLY-0004mV-Mu
+ for qemu-devel@nongnu.org; Wed, 13 Oct 2021 00:58:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634101103;
+ s=mimecast20190719; t=1634101111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qnSLuY2lflgjwZuZwik2uOYIB3j3gAfJ/I+UIsnpFww=;
- b=iP0dp97fyljq2r65ZOIMS4YT4dlCW/JWW4jOdZCdtNj5D0skCH0jetq71F0yRDjk2QoJdT
- ZtHcYmM6ZMHgc7aaepIISC6rh0mwWaNHoAE22vKeYbjqRcR8EpPp1xOSbaXeA4RFA6esi+
- FtKLrb1Q3Qpja3/y8qrSI2KX7GBm8bE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=L4YegJM/qszkErTdodpTlQGO+o8Lz2xnY4Y8/EmBw8M=;
+ b=Xts+WsmUNFVpNT/+NMn6QTlzKyIy4sZLxWSsCUwsjPtucM0ZKSIecH8aHmLOfSGF2mVxBQ
+ j9o25wwcnvO86qzc4oa1BQJIrbH1Iz4SP7I38OgV+FAMbkKubHbw1QLPvCRM1P2EkYLsOE
+ xQuOvKucB+Rc9DA8neOr+0UugDO0MSM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-ZQ3WVVLYPkWNla4e8VxHBQ-1; Wed, 13 Oct 2021 00:58:21 -0400
-X-MC-Unique: ZQ3WVVLYPkWNla4e8VxHBQ-1
+ us-mta-595-m_q7Y-WXPeCfTTxqRjPNgQ-1; Wed, 13 Oct 2021 00:58:24 -0400
+X-MC-Unique: m_q7Y-WXPeCfTTxqRjPNgQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D24B01006AA3;
- Wed, 13 Oct 2021 04:58:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2750C10A8E01;
+ Wed, 13 Oct 2021 04:58:23 +0000 (UTC)
 Received: from gshan.redhat.com (vpn2-54-56.bne.redhat.com [10.64.54.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 104985D9C6;
- Wed, 13 Oct 2021 04:58:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E04F5D9C6;
+ Wed, 13 Oct 2021 04:58:20 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
 To: qemu-arm@nongnu.org
-Subject: [PATCH v3 0/2] hw/arm/virt: Fix qemu booting failure on device-tree
-Date: Wed, 13 Oct 2021 12:58:03 +0800
-Message-Id: <20211013045805.192165-1-gshan@redhat.com>
+Subject: [PATCH v3 1/2] numa: Require distance map when empty node exists
+Date: Wed, 13 Oct 2021 12:58:04 +0800
+Message-Id: <20211013045805.192165-2-gshan@redhat.com>
+In-Reply-To: <20211013045805.192165-1-gshan@redhat.com>
+References: <20211013045805.192165-1-gshan@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -52,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -8
 X-Spam_score: -0.9
@@ -60,7 +63,7 @@ X-Spam_bar: /
 X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,58 +82,91 @@ Cc: robh@kernel.org, drjones@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The empty NUMA nodes, where no memory resides, are allowed on ARM64 virt
-platform. However, QEMU fails to boot because the device-tree can't be
-populated due to the conflicting device-tree node names of these empty
-NUMA nodes. For example, QEMU fails to boot and the following error
-message reported when below command line is used.
+The following option is used to specify the distance map. It's
+possible the option isn't provided by user. In this case, the
+distance map isn't populated and exposed to platform. On the
+other hand, the empty NUMA node, where no memory resides, is
+allowed on platforms like ARM64 virt. For these empty NUMA
+nodes, their corresponding device-tree nodes aren't populated,
+but their NUMA IDs should be included in the "/distance-map"
+device-tree node, so that kernel can probe them properly if
+device-tree is used.
 
-  /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
-  -accel kvm -machine virt,gic-version=host               \
-  -cpu host -smp 4,sockets=2,cores=2,threads=1            \
-  -m 1024M,slots=16,maxmem=64G                            \
-  -object memory-backend-ram,id=mem0,size=512M            \
-  -object memory-backend-ram,id=mem1,size=512M            \
-  -numa node,nodeid=0,cpus=0-1,memdev=mem0                \
-  -numa node,nodeid=1,cpus=2-3,memdev=mem1                \
-  -numa node,nodeid=2                                     \
-  -numa node,nodeid=3                                     \
-    :
-  qemu-system-aarch64: FDT: Failed to create subnode /memory@80000000: FDT_ERR_EXISTS
+  -numa,dist,src=<numa_id>,dst=<numa_id>,val=<distance>
 
-The lastest device-tree specification doesn't indicate how the device-tree
-nodes should be populated for these empty NUMA nodes. The proposed way
-to handle this is documented in linux kernel. The linux kernel patches
-have been acknoledged and merged to upstream pretty soon.
+This adds extra check after the machine is initialized, to
+ask for the distance map from user when empty nodes exist in
+device-tree.
 
-  https://lkml.org/lkml/2021/9/27/31
-
-This series follows the suggestion, which is included in linux kernel
-patches, to resolve the QEMU boot failure issue: The corresponding
-device-tree nodes aren't created for the empty NUMA nodes, but their
-distance map matrix should be provided by users so that the empty
-NUMA node IDs can be parsed properly.
-
-Changelog
-=========
-v3:
-   * Require users to provide distance map matrix when empty
-     NUMA node is included. The default distance map won't
-     be generated any more                                        (Igor/Drew)
-v2:
-   * Amend PATCH[01/02]'s changelog to explain why we needn't
-     switch to disable generating the default distance map        (Drew)
-
-Gavin Shan (2):
-  numa: Require distance map when empty node exists
-  hw/arm/virt: Don't create device-tree node for empty NUMA node
-
- hw/arm/boot.c         |  4 ++++
+Signed-off-by: Gavin Shan <gshan@redhat.com>
+---
  hw/core/machine.c     |  4 ++++
  hw/core/numa.c        | 24 ++++++++++++++++++++++++
  include/sysemu/numa.h |  1 +
- 4 files changed, 33 insertions(+)
+ 3 files changed, 29 insertions(+)
 
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index b8d95eec32..c0765ad973 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -1355,6 +1355,10 @@ void machine_run_board_init(MachineState *machine)
+     accel_init_interfaces(ACCEL_GET_CLASS(machine->accelerator));
+     machine_class->init(machine);
+     phase_advance(PHASE_MACHINE_INITIALIZED);
++
++    if (machine->numa_state) {
++        numa_complete_validation(machine);
++    }
+ }
+ 
+ static NotifierList machine_init_done_notifiers =
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index 510d096a88..7404b7dd38 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -727,6 +727,30 @@ void numa_complete_configuration(MachineState *ms)
+     }
+ }
+ 
++/*
++ * When device-tree is used by the machine, the empty node IDs should
++ * be included in the distance map. So we need provide pairs of distances
++ * in this case.
++ */
++void numa_complete_validation(MachineState *ms)
++{
++    NodeInfo *numa_info = ms->numa_state->nodes;
++    int nb_numa_nodes = ms->numa_state->num_nodes;
++    int i;
++
++    if (!ms->fdt || ms->numa_state->have_numa_distance) {
++        return;
++    }
++
++    for (i = 0; i < nb_numa_nodes; i++) {
++        if (numa_info[i].present && !numa_info[i].node_mem) {
++            error_report("Empty node %d found, please provide "
++                         "distance map.", i);
++            exit(EXIT_FAILURE);
++        }
++    }
++}
++
+ void parse_numa_opts(MachineState *ms)
+ {
+     qemu_opts_foreach(qemu_find_opts("numa"), parse_numa, ms, &error_fatal);
+diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
+index 4173ef2afa..80f25ab830 100644
+--- a/include/sysemu/numa.h
++++ b/include/sysemu/numa.h
+@@ -104,6 +104,7 @@ void parse_numa_hmat_lb(NumaState *numa_state, NumaHmatLBOptions *node,
+ void parse_numa_hmat_cache(MachineState *ms, NumaHmatCacheOptions *node,
+                            Error **errp);
+ void numa_complete_configuration(MachineState *ms);
++void numa_complete_validation(MachineState *ms);
+ void query_numa_node_mem(NumaNodeMem node_mem[], MachineState *ms);
+ extern QemuOptsList qemu_numa_opts;
+ void numa_cpu_pre_plug(const struct CPUArchId *slot, DeviceState *dev,
 -- 
 2.23.0
 
