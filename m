@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA7542B311
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 05:04:41 +0200 (CEST)
-Received: from localhost ([::1]:40796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6FCD42B32E
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 05:11:40 +0200 (CEST)
+Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maUZM-0000bM-59
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 23:04:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57022)
+	id 1maUg7-0003he-Sy
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 23:11:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maUHw-0004vK-1O
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:40 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:52123)
+ id 1maUHy-0004ws-TC
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:42 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:33678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maUHu-00055N-Cf
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:39 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id kk10so1083212pjb.1
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 19:46:37 -0700 (PDT)
+ id 1maUHv-00055r-B5
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 22:46:42 -0400
+Received: by mail-pf1-x429.google.com with SMTP id t184so298294pfd.0
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 19:46:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=56pglvy67AYwWdSDilcVWIN0xfuG/5o2eEFwbxuVXXQ=;
- b=Tzg7l2V0zOMh0VFRZG6JHz4lFFxNmlRCDhtau/5pGV7HJJ40gkKczSxqB/KeUyRFXR
- 9Ac9TiOGKkv5tCYLYgO0MgDaaM9C0z7i49/mzNAwHQCug5UaRpDuIglh8IatIqHiZiYO
- +ZwSw/LQhD6GYOLuUsNhhsxCGheg4DFhuwVMcy6U3E1NzgYJc2gmKBQg2P7K3Xr2r7yT
- BmNehhJhdo3QYpysVr13wH21IrlS/ZFrLwOiWK0FJHovzCec2h49G9GyAtCMbVdnpe+6
- 45ZkWq9X4ZtxR7Gp1JPJws5FNPUTNLpiT7kMfQb3wLTwyk6z2jqdI9Q83DAg2oNVR03V
- 66Vw==
+ bh=INby5Ty0QNa/n9lUmBDAx1irZEcQEUrI7v6tJBuf6ho=;
+ b=MCEQNpepnUJ6ilxJqSZXf20sfFbwSrdUcdlcmivGdgNo3O2FaI40/yPNkUoVe5bCH8
+ 9YwudL3pZ0flVL6I0BiPn55W/5h5IMZsIgxCMtVPgnCz9kTdNZwDPbB/Odzeei+h9l7b
+ 91KOlJ5xb5M7a/YdkGIEzTsdNBeOEZcLhQ94CQMUDhoVcGovBepLwZ8NHtREERwduUrn
+ sKpExLV/3Q6DpE2mDZH/ZGTgLEkWcdFyXJTThoEw8ugLcGRdmu4m18NQHpUOIVApxXcS
+ 4j5b2D8ZcqtSUZB49OBK+HZyY/EpUIJlUU1z29xiVdTc0QHVIu9cv90eXQge0jMKn+p1
+ 3o/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=56pglvy67AYwWdSDilcVWIN0xfuG/5o2eEFwbxuVXXQ=;
- b=pd08Qr88kIwpkJuf/RsutQrfGXzPdj2aRoGS8+Vy1lECQeiTclGtHQvJq3PPkluWzU
- ICSkOeBHrL4/JrH2pJYwut9Q+lUQOWJZf5Glsx/GZmY9KmiBZ8xfPEZDEL9qE+JYlV3y
- fceeWZQUP2AcPzNk0zQWcTbCaHzKXE20srk6hfmgrLMX27whv6cj7iMfxvNeipfFfcXi
- igLZ5Teyh81FjoW7ipGwFLZpQzzQ86BrWYm8bycj1ZWWaw4w/UIhaGivckmwyly1iB2s
- aqSPsNevZkgmpLmHvjSjeMK9hp592rxeKDp6g4yHrZjaBtiRDr0IFLtYQENBjvtNqDwY
- YK+w==
-X-Gm-Message-State: AOAM533Nhs6otzbzSF98uAGq6elPk9FF/JOOvMwXC8mcYDQPRRjPnQUy
- RxQ7eUWVa1Ng8IBdWqykNN2YqDSQtKA+uA==
-X-Google-Smtp-Source: ABdhPJzqLSE8uYpLhN4/87xmUauvcWRzgmWg99mGKX2rQuQPklpi0o/pfKbfIqyRjlQuperC975o0g==
-X-Received: by 2002:a17:90b:350c:: with SMTP id
- ls12mr10459675pjb.36.1634093197096; 
+ bh=INby5Ty0QNa/n9lUmBDAx1irZEcQEUrI7v6tJBuf6ho=;
+ b=FZiCO80jDjsAhwsbJX7QKwIJ090iEOZKGq5gZcj8nFImNCEuFa+8RzpQRdmGjgMWwg
+ 43QUCK1I/AElUkAkI6oAJSYsO6F6gzGZM5yUK+UV4ayugMNA1D5lbph+8Grbnb2Kipam
+ Zt2It+GzaL/r78BI3RiHunH3T/uv4Vmpos4byfwqEY1UZ1l7tEnp/3qBvjg8Dau3NYxg
+ qCza4Arn1Bicj69YT3gn9j1rVuGVVGTms+qLclnp34QghK3rugUGGI5ADbBWAkngTjU5
+ 7/2v3RwCYdLDZK9ep/zf0A4Zhb40RqIxWGOS/hS17oLveno7SsH11UBMEuhvpd2B8L3S
+ orGg==
+X-Gm-Message-State: AOAM530aciNhpvJ4m06KQkMVxf1/97D3ZVoz7KZGeP9yaIt4qsuMN27D
+ DNejc32ADLmGlc0yLAzGXOYRk/lBjUE2FQ==
+X-Google-Smtp-Source: ABdhPJz0qaiIj3QZKlODDQTz3GymM0U6PY4boVlwMQ58deyacrTLEa/JqUlP9awZHQ5OOb9ENbUOPQ==
+X-Received: by 2002:a63:4b63:: with SMTP id k35mr25662044pgl.206.1634093197977; 
  Tue, 12 Oct 2021 19:46:37 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id qe17sm4855014pjb.39.2021.10.12.19.46.36
+ by smtp.gmail.com with ESMTPSA id qe17sm4855014pjb.39.2021.10.12.19.46.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 19:46:36 -0700 (PDT)
+ Tue, 12 Oct 2021 19:46:37 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 28/48] target/arm: Use cpu_*_mmu instead of helper_*_mmu
-Date: Tue, 12 Oct 2021 19:45:47 -0700
-Message-Id: <20211013024607.731881-29-richard.henderson@linaro.org>
+Subject: [PATCH v4 29/48] tcg: Move helper_*_mmu decls to tcg/tcg-ldst.h
+Date: Tue, 12 Oct 2021 19:45:48 -0700
+Message-Id: <20211013024607.731881-30-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211013024607.731881-1-richard.henderson@linaro.org>
 References: <20211013024607.731881-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,129 +83,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The helper_*_mmu functions were the only thing available
-when this code was written.  This could have been adjusted
-when we added cpu_*_mmuidx_ra, but now we can most easily
-use the newest set of interfaces.
+These functions have been replaced by cpu_*_mmu as the
+most proper interface to use from target code.
 
-Cc: qemu-arm@nongnu.org
+Hide these declarations from code that should not use them.
+
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-a64.c | 52 +++++++----------------------------------
- target/arm/m_helper.c   |  6 ++---
- 2 files changed, 11 insertions(+), 47 deletions(-)
+ include/tcg/tcg-ldst.h | 74 ++++++++++++++++++++++++++++++++++++++++++
+ include/tcg/tcg.h      | 71 ----------------------------------------
+ accel/tcg/cputlb.c     |  1 +
+ tcg/tcg.c              |  1 +
+ tcg/tci.c              |  1 +
+ 5 files changed, 77 insertions(+), 71 deletions(-)
+ create mode 100644 include/tcg/tcg-ldst.h
 
-diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
-index b110c57956..5ae2ecb0f3 100644
---- a/target/arm/helper-a64.c
-+++ b/target/arm/helper-a64.c
-@@ -512,37 +512,19 @@ uint64_t HELPER(paired_cmpxchg64_le)(CPUARMState *env, uint64_t addr,
-     uintptr_t ra = GETPC();
-     uint64_t o0, o1;
-     bool success;
+diff --git a/include/tcg/tcg-ldst.h b/include/tcg/tcg-ldst.h
+new file mode 100644
+index 0000000000..8c86365611
+--- /dev/null
++++ b/include/tcg/tcg-ldst.h
+@@ -0,0 +1,74 @@
++/*
++ * Memory helpers that will be used by TCG generated code.
++ *
++ * Copyright (c) 2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#ifndef TCG_LDST_H
++#define TCG_LDST_H 1
++
++#ifdef CONFIG_SOFTMMU
++
++/* Value zero-extended to tcg register size.  */
++tcg_target_ulong helper_ret_ldub_mmu(CPUArchState *env, target_ulong addr,
++                                     MemOpIdx oi, uintptr_t retaddr);
++tcg_target_ulong helper_le_lduw_mmu(CPUArchState *env, target_ulong addr,
++                                    MemOpIdx oi, uintptr_t retaddr);
++tcg_target_ulong helper_le_ldul_mmu(CPUArchState *env, target_ulong addr,
++                                    MemOpIdx oi, uintptr_t retaddr);
++uint64_t helper_le_ldq_mmu(CPUArchState *env, target_ulong addr,
++                           MemOpIdx oi, uintptr_t retaddr);
++tcg_target_ulong helper_be_lduw_mmu(CPUArchState *env, target_ulong addr,
++                                    MemOpIdx oi, uintptr_t retaddr);
++tcg_target_ulong helper_be_ldul_mmu(CPUArchState *env, target_ulong addr,
++                                    MemOpIdx oi, uintptr_t retaddr);
++uint64_t helper_be_ldq_mmu(CPUArchState *env, target_ulong addr,
++                           MemOpIdx oi, uintptr_t retaddr);
++
++/* Value sign-extended to tcg register size.  */
++tcg_target_ulong helper_ret_ldsb_mmu(CPUArchState *env, target_ulong addr,
++                                     MemOpIdx oi, uintptr_t retaddr);
++tcg_target_ulong helper_le_ldsw_mmu(CPUArchState *env, target_ulong addr,
++                                    MemOpIdx oi, uintptr_t retaddr);
++tcg_target_ulong helper_le_ldsl_mmu(CPUArchState *env, target_ulong addr,
++                                    MemOpIdx oi, uintptr_t retaddr);
++tcg_target_ulong helper_be_ldsw_mmu(CPUArchState *env, target_ulong addr,
++                                    MemOpIdx oi, uintptr_t retaddr);
++tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr,
++                                    MemOpIdx oi, uintptr_t retaddr);
++
++void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t val,
++                        MemOpIdx oi, uintptr_t retaddr);
++void helper_le_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t val,
++                       MemOpIdx oi, uintptr_t retaddr);
++void helper_le_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
++                       MemOpIdx oi, uintptr_t retaddr);
++void helper_le_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
++                       MemOpIdx oi, uintptr_t retaddr);
++void helper_be_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t val,
++                       MemOpIdx oi, uintptr_t retaddr);
++void helper_be_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
++                       MemOpIdx oi, uintptr_t retaddr);
++void helper_be_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
++                       MemOpIdx oi, uintptr_t retaddr);
++
++#endif /* CONFIG_SOFTMMU */
++#endif /* TCG_LDST_H */
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 83e38487cf..7069a401f1 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -1240,77 +1240,6 @@ uint64_t dup_const(unsigned vece, uint64_t c);
+      :  (target_long)dup_const(VECE, C))
+ #endif
+ 
+-/*
+- * Memory helpers that will be used by TCG generated code.
+- */
+-#ifdef CONFIG_SOFTMMU
+-/* Value zero-extended to tcg register size.  */
+-tcg_target_ulong helper_ret_ldub_mmu(CPUArchState *env, target_ulong addr,
+-                                     MemOpIdx oi, uintptr_t retaddr);
+-tcg_target_ulong helper_le_lduw_mmu(CPUArchState *env, target_ulong addr,
+-                                    MemOpIdx oi, uintptr_t retaddr);
+-tcg_target_ulong helper_le_ldul_mmu(CPUArchState *env, target_ulong addr,
+-                                    MemOpIdx oi, uintptr_t retaddr);
+-uint64_t helper_le_ldq_mmu(CPUArchState *env, target_ulong addr,
+-                           MemOpIdx oi, uintptr_t retaddr);
+-tcg_target_ulong helper_be_lduw_mmu(CPUArchState *env, target_ulong addr,
+-                                    MemOpIdx oi, uintptr_t retaddr);
+-tcg_target_ulong helper_be_ldul_mmu(CPUArchState *env, target_ulong addr,
+-                                    MemOpIdx oi, uintptr_t retaddr);
+-uint64_t helper_be_ldq_mmu(CPUArchState *env, target_ulong addr,
+-                           MemOpIdx oi, uintptr_t retaddr);
 -
--#ifdef CONFIG_USER_ONLY
--    /* ??? Enforce alignment.  */
--    uint64_t *haddr = g2h(env_cpu(env), addr);
+-/* Value sign-extended to tcg register size.  */
+-tcg_target_ulong helper_ret_ldsb_mmu(CPUArchState *env, target_ulong addr,
+-                                     MemOpIdx oi, uintptr_t retaddr);
+-tcg_target_ulong helper_le_ldsw_mmu(CPUArchState *env, target_ulong addr,
+-                                    MemOpIdx oi, uintptr_t retaddr);
+-tcg_target_ulong helper_le_ldsl_mmu(CPUArchState *env, target_ulong addr,
+-                                    MemOpIdx oi, uintptr_t retaddr);
+-tcg_target_ulong helper_be_ldsw_mmu(CPUArchState *env, target_ulong addr,
+-                                    MemOpIdx oi, uintptr_t retaddr);
+-tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr,
+-                                    MemOpIdx oi, uintptr_t retaddr);
 -
--    set_helper_retaddr(ra);
--    o0 = ldq_le_p(haddr + 0);
--    o1 = ldq_le_p(haddr + 1);
--    oldv = int128_make128(o0, o1);
+-void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t val,
+-                        MemOpIdx oi, uintptr_t retaddr);
+-void helper_le_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t val,
+-                       MemOpIdx oi, uintptr_t retaddr);
+-void helper_le_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+-                       MemOpIdx oi, uintptr_t retaddr);
+-void helper_le_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+-                       MemOpIdx oi, uintptr_t retaddr);
+-void helper_be_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t val,
+-                       MemOpIdx oi, uintptr_t retaddr);
+-void helper_be_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+-                       MemOpIdx oi, uintptr_t retaddr);
+-void helper_be_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+-                       MemOpIdx oi, uintptr_t retaddr);
 -
--    success = int128_eq(oldv, cmpv);
--    if (success) {
--        stq_le_p(haddr + 0, int128_getlo(newv));
--        stq_le_p(haddr + 1, int128_gethi(newv));
--    }
--    clear_helper_retaddr();
+-/* Temporary aliases until backends are converted.  */
+-#ifdef TARGET_WORDS_BIGENDIAN
+-# define helper_ret_ldsw_mmu  helper_be_ldsw_mmu
+-# define helper_ret_lduw_mmu  helper_be_lduw_mmu
+-# define helper_ret_ldsl_mmu  helper_be_ldsl_mmu
+-# define helper_ret_ldul_mmu  helper_be_ldul_mmu
+-# define helper_ret_ldl_mmu   helper_be_ldul_mmu
+-# define helper_ret_ldq_mmu   helper_be_ldq_mmu
+-# define helper_ret_stw_mmu   helper_be_stw_mmu
+-# define helper_ret_stl_mmu   helper_be_stl_mmu
+-# define helper_ret_stq_mmu   helper_be_stq_mmu
 -#else
-     int mem_idx = cpu_mmu_index(env, false);
-     MemOpIdx oi0 = make_memop_idx(MO_LEQ | MO_ALIGN_16, mem_idx);
-     MemOpIdx oi1 = make_memop_idx(MO_LEQ, mem_idx);
- 
--    o0 = helper_le_ldq_mmu(env, addr + 0, oi0, ra);
--    o1 = helper_le_ldq_mmu(env, addr + 8, oi1, ra);
-+    o0 = cpu_ldq_le_mmu(env, addr + 0, oi0, ra);
-+    o1 = cpu_ldq_le_mmu(env, addr + 8, oi1, ra);
-     oldv = int128_make128(o0, o1);
- 
-     success = int128_eq(oldv, cmpv);
-     if (success) {
--        helper_le_stq_mmu(env, addr + 0, int128_getlo(newv), oi1, ra);
--        helper_le_stq_mmu(env, addr + 8, int128_gethi(newv), oi1, ra);
-+        cpu_stq_le_mmu(env, addr + 0, int128_getlo(newv), oi1, ra);
-+        cpu_stq_le_mmu(env, addr + 8, int128_gethi(newv), oi1, ra);
-     }
+-# define helper_ret_ldsw_mmu  helper_le_ldsw_mmu
+-# define helper_ret_lduw_mmu  helper_le_lduw_mmu
+-# define helper_ret_ldsl_mmu  helper_le_ldsl_mmu
+-# define helper_ret_ldul_mmu  helper_le_ldul_mmu
+-# define helper_ret_ldl_mmu   helper_le_ldul_mmu
+-# define helper_ret_ldq_mmu   helper_le_ldq_mmu
+-# define helper_ret_stw_mmu   helper_le_stw_mmu
+-# define helper_ret_stl_mmu   helper_le_stl_mmu
+-# define helper_ret_stq_mmu   helper_le_stq_mmu
 -#endif
- 
-     return !success;
- }
-@@ -582,37 +564,19 @@ uint64_t HELPER(paired_cmpxchg64_be)(CPUARMState *env, uint64_t addr,
-     uintptr_t ra = GETPC();
-     uint64_t o0, o1;
-     bool success;
+-#endif /* CONFIG_SOFTMMU */
 -
--#ifdef CONFIG_USER_ONLY
--    /* ??? Enforce alignment.  */
--    uint64_t *haddr = g2h(env_cpu(env), addr);
--
--    set_helper_retaddr(ra);
--    o1 = ldq_be_p(haddr + 0);
--    o0 = ldq_be_p(haddr + 1);
--    oldv = int128_make128(o0, o1);
--
--    success = int128_eq(oldv, cmpv);
--    if (success) {
--        stq_be_p(haddr + 0, int128_gethi(newv));
--        stq_be_p(haddr + 1, int128_getlo(newv));
--    }
--    clear_helper_retaddr();
--#else
-     int mem_idx = cpu_mmu_index(env, false);
-     MemOpIdx oi0 = make_memop_idx(MO_BEQ | MO_ALIGN_16, mem_idx);
-     MemOpIdx oi1 = make_memop_idx(MO_BEQ, mem_idx);
+ #ifdef CONFIG_DEBUG_TCG
+ void tcg_assert_listed_vecop(TCGOpcode);
+ #else
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index b350cafa3d..b69a953447 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -39,6 +39,7 @@
+ #ifdef CONFIG_PLUGIN
+ #include "qemu/plugin-memory.h"
+ #endif
++#include "tcg/tcg-ldst.h"
  
--    o1 = helper_be_ldq_mmu(env, addr + 0, oi0, ra);
--    o0 = helper_be_ldq_mmu(env, addr + 8, oi1, ra);
-+    o1 = cpu_ldq_be_mmu(env, addr + 0, oi0, ra);
-+    o0 = cpu_ldq_be_mmu(env, addr + 8, oi1, ra);
-     oldv = int128_make128(o0, o1);
+ /* DEBUG defines, enable DEBUG_TLB_LOG to log to the CPU_LOG_MMU target */
+ /* #define DEBUG_TLB */
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 658be0c6b6..024a22cf39 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -58,6 +58,7 @@
  
-     success = int128_eq(oldv, cmpv);
-     if (success) {
--        helper_be_stq_mmu(env, addr + 0, int128_gethi(newv), oi1, ra);
--        helper_be_stq_mmu(env, addr + 8, int128_getlo(newv), oi1, ra);
-+        cpu_stq_be_mmu(env, addr + 0, int128_gethi(newv), oi1, ra);
-+        cpu_stq_be_mmu(env, addr + 8, int128_getlo(newv), oi1, ra);
-     }
--#endif
+ #include "elf.h"
+ #include "exec/log.h"
++#include "tcg/tcg-ldst.h"
+ #include "tcg-internal.h"
  
-     return !success;
- }
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 62aa12c9d8..2c9922dc29 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -1947,9 +1947,9 @@ static bool do_v7m_function_return(ARMCPU *cpu)
-          * do them as secure, so work out what MMU index that is.
-          */
-         mmu_idx = arm_v7m_mmu_idx_for_secstate(env, true);
--        oi = make_memop_idx(MO_LE, arm_to_core_mmu_idx(mmu_idx));
--        newpc = helper_le_ldul_mmu(env, frameptr, oi, 0);
--        newpsr = helper_le_ldul_mmu(env, frameptr + 4, oi, 0);
-+        oi = make_memop_idx(MO_LEUL, arm_to_core_mmu_idx(mmu_idx));
-+        newpc = cpu_ldl_le_mmu(env, frameptr, oi, 0);
-+        newpsr = cpu_ldl_le_mmu(env, frameptr + 4, oi, 0);
+ #ifdef CONFIG_TCG_INTERPRETER
+diff --git a/tcg/tci.c b/tcg/tci.c
+index 5c08dc0a9a..e76087ccac 100644
+--- a/tcg/tci.c
++++ b/tcg/tci.c
+@@ -22,6 +22,7 @@
+ #include "tcg/tcg.h"           /* MAX_OPC_PARAM_IARGS */
+ #include "exec/cpu_ldst.h"
+ #include "tcg/tcg-op.h"
++#include "tcg/tcg-ldst.h"
+ #include "qemu/compiler.h"
+ #include <ffi.h>
  
-         /* Consistency checks on new IPSR */
-         newpsr_exc = newpsr & XPSR_EXCP;
 -- 
 2.25.1
 
