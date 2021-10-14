@@ -2,29 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FF242E281
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 22:14:50 +0200 (CEST)
-Received: from localhost ([::1]:41980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3352842E2A5
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 22:19:06 +0200 (CEST)
+Received: from localhost ([::1]:52254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb77p-0000tL-DD
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 16:14:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56294)
+	id 1mb7Bx-0007zV-8C
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 16:19:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mb75U-0006VG-KQ; Thu, 14 Oct 2021 16:12:24 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:12169)
+ id 1mb75X-0006YN-1j; Thu, 14 Oct 2021 16:12:27 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:12178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mb75R-0002Qd-Rt; Thu, 14 Oct 2021 16:12:23 -0400
+ id 1mb75V-0002VQ-H8; Thu, 14 Oct 2021 16:12:26 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 51A54756062;
+ by localhost (Postfix) with SMTP id C734775604D;
  Thu, 14 Oct 2021 22:12:18 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 35F06746333; Thu, 14 Oct 2021 22:12:18 +0200 (CEST)
-Message-Id: <cover.1634241019.git.balaton@eik.bme.hu>
+ id 5708A75605F; Thu, 14 Oct 2021 22:12:18 +0200 (CEST)
+Message-Id: <1c1e030f2bbc86e950b3310fb5922facdc21ef86.1634241019.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1634241019.git.balaton@eik.bme.hu>
+References: <cover.1634241019.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 0/6] Misc pegasos2 patches
+Subject: [PATCH 6/6] ppc/pegasos2: Implement power-off RTAS function with VOF
 Date: Thu, 14 Oct 2021 21:50:19 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -55,20 +57,42 @@ Cc: David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some small clean ups and improvements for the pegasos2 machine.
+This only helps Linux guests as only that seems to use it.
 
-BALATON Zoltan (6):
-  ppc/pegasos2: Restrict memory to 2 gigabytes
-  ppc/pegasos2: Warn when using VOF but no kernel is specified
-  ppc/pegasos2: Implement get-time-of-day RTAS function with VOF
-  ppc/pegasos2: Access MV64361 registers via their memory region
-  ppc/pegasos2: Add constants for PCI config addresses
-  ppc/pegasos2: Implement power-off RTAS function with VOF
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/ppc/pegasos2.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
- hw/pci-host/mv64361.c |   1 +
- hw/ppc/pegasos2.c     | 162 ++++++++++++++++++++++++++----------------
- 2 files changed, 101 insertions(+), 62 deletions(-)
-
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index 39e96d323f..e427ac2fe0 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -22,6 +22,7 @@
+ #include "hw/i2c/smbus_eeprom.h"
+ #include "hw/qdev-properties.h"
+ #include "sysemu/reset.h"
++#include "sysemu/runstate.h"
+ #include "hw/boards.h"
+ #include "hw/loader.h"
+ #include "hw/fw-path-provider.h"
+@@ -429,6 +430,16 @@ static target_ulong pegasos2_rtas(PowerPCCPU *cpu, Pegasos2MachineState *pm,
+         qemu_log_mask(LOG_UNIMP, "%c", ldl_be_phys(as, args));
+         stl_be_phys(as, rets, 0);
+         return H_SUCCESS;
++    case RTAS_POWER_OFF:
++    {
++        if (nargs != 2 || nrets != 1) {
++            stl_be_phys(as, rets, -1);
++            return H_PARAMETER;
++        }
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++        stl_be_phys(as, rets, 0);
++        return H_SUCCESS;
++    }
+     default:
+         qemu_log_mask(LOG_UNIMP, "Unknown RTAS token %u (args=%u, rets=%u)\n",
+                       token, nargs, nrets);
 -- 
 2.21.4
 
