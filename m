@@ -2,49 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D64642D6E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 12:24:28 +0200 (CEST)
-Received: from localhost ([::1]:33730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6191842D72C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 12:35:06 +0200 (CEST)
+Received: from localhost ([::1]:44068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maxuV-0002HZ-74
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 06:24:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42970)
+	id 1may4m-0001Ie-Uy
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 06:35:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1maxtA-0001c0-T2
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 06:23:04 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:21577)
+ (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
+ id 1may3v-0000Sj-U3; Thu, 14 Oct 2021 06:34:11 -0400
+Received: from pegase2.c-s.fr ([93.17.235.10]:48581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1maxt8-0002f7-BR
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 06:23:04 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D762B7463B7;
- Thu, 14 Oct 2021 12:22:58 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B85C7746333; Thu, 14 Oct 2021 12:22:58 +0200 (CEST)
+ (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
+ id 1may3s-0005yf-Vz; Thu, 14 Oct 2021 06:34:11 -0400
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+ by localhost (Postfix) with ESMTP id 4HVQk4245Wz9sSK;
+ Thu, 14 Oct 2021 12:34:04 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+ by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 7AefLWSOxmRf; Thu, 14 Oct 2021 12:34:04 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4HVQk40zBgz9sSJ;
+ Thu, 14 Oct 2021 12:34:04 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id B66F17462D3;
- Thu, 14 Oct 2021 12:22:58 +0200 (CEST)
-Date: Thu, 14 Oct 2021 12:22:58 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
- interrupts
-In-Reply-To: <20211014091035.xlhh74aioxhkxelf@sirius.home.kraxel.org>
-Message-ID: <1e91fd14-f112-b5b7-abfb-117cbb109c39@eik.bme.hu>
-References: <20211013121929.9E835746333@zero.eik.bme.hu>
- <20211014091035.xlhh74aioxhkxelf@sirius.home.kraxel.org>
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 052758B788;
+ Thu, 14 Oct 2021 12:34:04 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id kaLeTf5K8rWL; Thu, 14 Oct 2021 12:34:03 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.202.231])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 285C08B763;
+ Thu, 14 Oct 2021 12:34:03 +0200 (CEST)
+Subject: Re: Is the ppc440 "bamboo" board in QEMU still of any use?
+To: Thomas Huth <thuth@redhat.com>, David Gibson
+ <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>
+References: <fc2e00d1-2373-3223-03c8-195585face66@redhat.com>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <80f727b8-9eb0-6a49-e4a7-b2616583c43f@csgroup.eu>
+Date: Thu, 14 Oct 2021 12:34:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+In-Reply-To: <fc2e00d1-2373-3223-03c8-195585face66@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr-FR
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=93.17.235.10;
+ envelope-from=christophe.leroy@csgroup.eu; helo=pegase2.c-s.fr
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,25 +71,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- Philippe M-D <f4bug@amsat.org>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alexander Graf <agraf@csgraf.de>, hpoussin@reactos.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Oct 2021, Gerd Hoffmann wrote:
-> On Wed, Oct 13, 2021 at 02:13:09PM +0200, BALATON Zoltan wrote:
->> This device is part of a superio/ISA bridge chip and IRQs from it are
->> routed to an ISA interrupt set by the Interrupt Line PCI config
->> register. Change uhci_update_irq() to allow this and implement it in
->> vt82c686-uhci-pci.
->
-> Looks good.  There are some unrelated changes in though (whitespace,
-> comments, ...), and the vt82c686-uhci-pci.c changes should be a
-> separate patch.
 
-So you mean split it into a series of three small patches? Should I do a 
-w4 with that?
 
-Regards,
-BALATON Zoltan
+Le 14/10/2021 à 11:31, Thomas Huth a écrit :
+> 
+>   Hi,
+> 
+> I tried to build a current Linux kernel for the "bamboo" board and use 
+> it in QEMU, but QEMU then quickly aborts with:
+> 
+>   pci.c:262: pci_bus_change_irq_level: Assertion `irq_num >= 0' failed.
+> 
+> (or with a "DCR write error" if I try to use the cuImage instead).
+> 
+> I googled a little bit and found this discussion:
+> 
+> https://qemu-devel.nongnu.narkive.com/vYHona3u/emulating-powerpc-440ep-with-qemu-system-ppcemb#post2 
+> 
+> 
+> Seems like this board was used for KVM on the PPC440 only, and has never 
+> been enabled with the TCG emulation?
+> 
+> Well, KVM support on the 440 has been removed years ago already:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b2677b8dd8de0dc1496ede4da09b9dfd59f15cea 
+> 
+> 
+> So is this "bamboo" board dead code in QEMU now? Or does anybody still 
+> have a kernel binary which could be used for testing it? Note: This 
+> board does not support "-bios", so u-boot or other firmwares are 
+> certainly also not an option here...
+> Should we mark "bamboo" as deprecated nowadays?
+> 
+
+I have the following change in QEMU to be able to run the bamboo, found 
+it some time ago via google (can't remember where):
+
+diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
+index 8147ba6f94..600e89e791 100644
+--- a/hw/ppc/ppc4xx_pci.c
++++ b/hw/ppc/ppc4xx_pci.c
+@@ -246,7 +246,7 @@ static int ppc4xx_pci_map_irq(PCIDevice *pci_dev, 
+int irq_num)
+
+      trace_ppc4xx_pci_map_irq(pci_dev->devfn, irq_num, slot);
+
+-    return slot - 1;
++    return slot ? slot - 1 : slot;
+  }
+
+  static void ppc4xx_pci_set_irq(void *opaque, int irq_num, int level)
+---
+
+It's probably no the final change, but at least it allows booting bamboo 
+on qemu again.
+
+Christophe
 
