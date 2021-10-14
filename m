@@ -2,86 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE2542E09E
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 19:58:07 +0200 (CEST)
-Received: from localhost ([::1]:48836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8579D42E0AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 20:00:42 +0200 (CEST)
+Received: from localhost ([::1]:50988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb4zW-0007cH-53
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 13:58:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54074)
+	id 1mb521-0000ep-JY
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 14:00:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mb4yF-0006tZ-Ho
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 13:56:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46007)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mb4yA-0001WZ-C9
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 13:56:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634234200;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=obpgQcwOZGMElPb1j/f9grIyGz4w549qKaP/wJ3FoWs=;
- b=GJ8GnR6FrW/hesh5DfK5sdqFMIJrH9SZguEvKBKjcZS4MnF10lP6Tc4BAVXBfWN2PC2eC6
- Yw0DL6a2PaTCca9F+ObFPlIOhuQ66mAm8RRN5nC5+6VkAkdIu0LsWFJ8aY4nYiLNwY/X3F
- 5NI517r4fY//g/LUd9Mdj7MWLjmjUGk=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-1pSliNx6O_KKZhHBZ0viHA-1; Thu, 14 Oct 2021 13:56:39 -0400
-X-MC-Unique: 1pSliNx6O_KKZhHBZ0viHA-1
-Received: by mail-qk1-f200.google.com with SMTP id
- az37-20020a05620a172500b0045e43348ee8so4989411qkb.19
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 10:56:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
+ id 1mb50T-0008QA-Tf
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 13:59:05 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:46828)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
+ id 1mb50Q-0004Dx-BT
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 13:59:05 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id z20so27714648edc.13
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 10:59:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=95/a0RC7F1bdsZXF2H4mPA51a9DbYtwD6fXCeCgva04=;
+ b=x1tXa7Nb3erdErrNirIJhY1ZEvcrPa2MRZbrGg2YvOd/1obJ9BLiGbIB5BEYFq9cZW
+ 1M9HVn0IqSEHt1JXdZJ91vbAxZQ2XYUtTYcOQ4lzU6VdaLzorQzK4aozPbIz3CEC0X/U
+ HmnCX0QaDQsNMhDBu4QSZdinZfaXEWufNeKMUkyDpocbjvEy6DVvR4IZIIDpwxjMpbl3
+ zXgGA3LGcRVPzlwY4MJsFlT17F4t+qmWeSph3KIF4ZM15rBvCbq2e57cGfOIbLmhH9G/
+ tRP0U+FProR7XSRy7g2Pcvr7pJDDLjri4Pk4PkRfFXHmCl5/7UKMkeiac4gR2APK1cFA
+ kw3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=obpgQcwOZGMElPb1j/f9grIyGz4w549qKaP/wJ3FoWs=;
- b=FJQYnjdDBC3XpwMkqTxj5iO1tWXtoIR/UUVkR1YV2re1Af9FstDNzlah3ZZQSv8Wyt
- yW3GoQXj3mR4xNfYAFVWylc0UioElYQeGN5dmW7GUZW8Q4wu7UIItapZHiQ1XwX+tvJT
- sHI5DY53X9i2j2gLPJ84wdlpNQq5qTL8wNwv810NZ5/fM6HEPNsYnOz521tHTfvae7AU
- dinrCq3x3dAgE7skrJSAREHlPssrVgJ6HR/J90p3Ahlzu82rn99Tn/MZl634OyItG7f9
- D+B8eoux4dL1HDeWYmGJSKHOBhm52VkXyg10r0RH6JqXC+lPd+arI/b6NYB0kADj04qy
- B2ug==
-X-Gm-Message-State: AOAM532qfOyHmgvwam47ihZt464eXbP0be5HzIXgLjs8y21IqVjH3nG1
- TWM2+Z86Zu5Z/HlpVBnwQ47q/JN/+PISNlxRh+qBg7HQs+3usEhAdNXBEkgixYveAYC4LR+k80n
- huGhZSm7pOzpJ58odVJDWtFJ5PKV7wF4=
-X-Received: by 2002:a05:620a:4154:: with SMTP id
- k20mr6172606qko.316.1634234198281; 
- Thu, 14 Oct 2021 10:56:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzHHTnwOeIxXWwFYUtnPeQRrPJkKAevq1Mnm4hJCqwf9dkQ9EusvZiXWe2v4FgvI2G6Hh1W6rhVcvqMXjZhuSw=
-X-Received: by 2002:a05:620a:4154:: with SMTP id
- k20mr6172557qko.316.1634234197784; 
- Thu, 14 Oct 2021 10:56:37 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=95/a0RC7F1bdsZXF2H4mPA51a9DbYtwD6fXCeCgva04=;
+ b=e/1MF02RjRKUoHtibi8j5napHf57o47yTO0Q/+ruIHpTNgwqXe61kH4netpLXoU2Lb
+ SeiQ51/18fn3yX3F/FLMTL/icDnZPg6FZBZ6r49jS24epr4KbFyTyp8+rKL67bXSxWVR
+ SeRt0U8jNCGJf+tnVLc/tTGDIw2nnYtPc61UFqveBes+nnkfQv85COPgIbdO6HsSYD9i
+ D9jYUIyXgM0Wcb5O7uQbdyyMFkV/EBpni+/izsLr9OyFjTWbT7fO8U8OtucuWrO7CH4/
+ eTuoCMh/879Gib5jGj702Gpyr7YkTeGJHwzFsPabE+PX9/UXh+yZt8X224b5ETvutmLl
+ X1nw==
+X-Gm-Message-State: AOAM533ucu9xFz8FdfiIcWSIzC3Y1F58PdAVM1SR0A1ERmVXijBlXCq6
+ /caWFLfcK7xMDUvSEgxG+aDQhSzCSkfYjwDl/k4EYQ==
+X-Google-Smtp-Source: ABdhPJyU2ptchJ95Y+axeSQdXlBWYB/yUwX7Eqryd3GPzuaB+soixikTn1uYK6e9HAwVVThReas9uobQfXe0kTin5Ic=
+X-Received: by 2002:a17:906:94da:: with SMTP id
+ d26mr493743ejy.213.1634234340073; 
+ Thu, 14 Oct 2021 10:59:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211001070603.307037-1-eperezma@redhat.com>
- <20211001070603.307037-16-eperezma@redhat.com>
- <a55ad3f5-09ef-b361-e690-1f8c9423fde3@redhat.com>
-In-Reply-To: <a55ad3f5-09ef-b361-e690-1f8c9423fde3@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 14 Oct 2021 19:56:01 +0200
-Message-ID: <CAJaqyWeaJyxh-tt45wxONzuOLhVt6wO48e2ufZZ3uECHTDofFw@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 15/20] vhost: Shadow virtqueue buffers forwarding
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20211013010120.96851-1-sjg@chromium.org>
+ <CAEUhbmWY5gKmqbipurcDQ0DuNJyv8cLWsnyqx5h+tFqeVng8Ag@mail.gmail.com>
+ <20211013013450.GJ7964@bill-the-cat>
+ <CAPnjgZ3D+h1ov2yL73iz_3zmPkJrM4mGrQLhsKL9qu9Ez0-j2A@mail.gmail.com>
+ <CAHFG_=ULjFFcF_BWzknPPw23CeMX=d-Cprhad085nX_r1NhE1g@mail.gmail.com>
+ <CAPnjgZ3+QP3ogPA=zKWHoctkr4C2rSos_yVmJjp_MYZ-O0sKeQ@mail.gmail.com>
+ <20211014145626.GC7964@bill-the-cat>
+ <CAPnjgZ3=evGbgSg-aen6pkOXZ4DCxX8vcX9cn4qswJQRNNSzLQ@mail.gmail.com>
+ <20211014152801.GF7964@bill-the-cat>
+In-Reply-To: <20211014152801.GF7964@bill-the-cat>
+From: =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>
+Date: Thu, 14 Oct 2021 19:58:49 +0200
+Message-ID: <CAHFG_=XDCXhtgsQuaz4F_sngUuAeVMaJ=v0dpZvz4kkCbHe=Ng@mail.gmail.com>
+Subject: Re: [PATCH 00/16] fdt: Make OF_BOARD a boolean option
+To: Tom Rini <trini@konsulko.com>
+Content-Type: multipart/alternative; boundary="00000000000051fd6e05ce53d57a"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=francois.ozog@linaro.org; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_KAM_HTML_FONT_INVALID=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,778 +85,718 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Eric Blake <eblake@redhat.com>, Michael Lilja <ml@napatech.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Liviu Dudau <liviu.dudau@foss.arm.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Sean Anderson <seanga2@gmail.com>,
+ Atish Patra <atish.patra@wdc.com>, Zong Li <zong.li@sifive.com>,
+ Stefan Roese <sr@denx.de>, Fabio Estevam <festevam@gmail.com>,
+ Rainer Boschung <rainer.boschung@hitachi-powergrids.com>,
+ Stephen Warren <swarren@nvidia.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>, Niel Fourie <lusus@denx.de>,
+ Michal Simek <michal.simek@xilinx.com>,
+ =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>,
+ Jerry Van Baren <vanbaren@cideas.com>, Ramon Fried <rfried.dev@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Valentin Longchamp <valentin.longchamp@hitachi-powergrids.com>,
+ Heiko Schocher <hs@denx.de>, Peter Robinson <pbrobinson@gmail.com>,
+ Sinan Akman <sinan@writeme.com>, Thomas Fitzsimmons <fitzsim@fitzsim.org>,
+ Wolfgang Denk <wd@denx.de>, Stephen Warren <swarren@wwwdotorg.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Andre Przywara <andre.przywara@arm.com>, Tim Harvey <tharvey@gateworks.com>,
+ Ashok Reddy Soma <ashok.reddy.soma@xilinx.com>, Rick Chen <rick@andestech.com>,
+ Alexander Graf <agraf@csgraf.de>, Green Wan <green.wan@sifive.com>,
+ T Karthik Reddy <t.karthik.reddy@xilinx.com>,
+ Anastasiia Lukianenko <anastasiia_lukianenko@epam.com>,
+ Albert Aribaud <albert.u.boot@aribaud.net>, Michal Simek <monstr@monstr.eu>,
+ Matthias Brugger <mbrugger@suse.com>, Leo <ycliang@andestech.com>,
+ Tero Kristo <kristo@kernel.org>, U-Boot Mailing List <u-boot@lists.denx.de>,
+ David Abdurachmanov <david.abdurachmanov@sifive.com>,
+ Priyanka Jain <priyanka.jain@nxp.com>, Simon Glass <sjg@chromium.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Christian Hewitt <christianshewitt@gmail.com>,
+ Aaron Williams <awilliams@marvell.com>,
+ Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
+ Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+ Tianrui Wei <tianrui-wei@outlook.com>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+ Dimitri John Ledkov <dimitri.ledkov@canonical.com>,
+ Padmarao Begari <padmarao.begari@microchip.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 13, 2021 at 6:31 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:05, Eugenio P=C3=A9rez =E5=86=99=
-=E9=81=93:
-> > Initial version of shadow virtqueue that actually forward buffers. Ther=
+--00000000000051fd6e05ce53d57a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Le jeu. 14 oct. 2021 =C3=A0 17:28, Tom Rini <trini@konsulko.com> a =C3=A9cr=
+it :
+
+> On Thu, Oct 14, 2021 at 09:17:52AM -0600, Simon Glass wrote:
+> > Hi Tom,
+> >
+> > On Thu, 14 Oct 2021 at 08:56, Tom Rini <trini@konsulko.com> wrote:
+> > >
+> > > On Wed, Oct 13, 2021 at 12:06:02PM -0600, Simon Glass wrote:
+> > > > Hi Fran=C3=A7ois,
+> > > >
+> > > > On Wed, 13 Oct 2021 at 11:35, Fran=C3=A7ois Ozog <
+> francois.ozog@linaro.org> wrote:
+> > > > >
+> > > > > Hi Simon
+> > > > >
+> > > > > Le mer. 13 oct. 2021 =C3=A0 16:49, Simon Glass <sjg@chromium.org>=
+ a
+> =C3=A9crit :
+> > > > >>
+> > > > >> Hi Tom, Bin,Fran=C3=A7ois,
+> > > > >>
+> > > > >> On Tue, 12 Oct 2021 at 19:34, Tom Rini <trini@konsulko.com>
+> wrote:
+> > > > >> >
+> > > > >> > On Wed, Oct 13, 2021 at 09:29:14AM +0800, Bin Meng wrote:
+> > > > >> > > Hi Simon,
+> > > > >> > >
+> > > > >> > > On Wed, Oct 13, 2021 at 9:01 AM Simon Glass <sjg@chromium.or=
+g>
+> wrote:
+> > > > >> > > >
+> > > > >> > > > With Ilias' efforts we have dropped OF_PRIOR_STAGE and
+> OF_HOSTFILE so
+> > > > >> > > > there are only three ways to obtain a devicetree:
+> > > > >> > > >
+> > > > >> > > >    - OF_SEPARATE - the normal way, where the devicetree is
+> built and
+> > > > >> > > >       appended to U-Boot
+> > > > >> > > >    - OF_EMBED - for development purposes, the devicetree i=
+s
+> embedded in
+> > > > >> > > >       the ELF file (also used for EFI)
+> > > > >> > > >    - OF_BOARD - the board figures it out on its own
+> > > > >> > > >
+> > > > >> > > > The last one is currently set up so that no devicetree is
+> needed at all
+> > > > >> > > > in the U-Boot tree. Most boards do provide one, but some
+> don't. Some
+> > > > >> > > > don't even provide instructions on how to boot on the boar=
+d.
+> > > > >> > > >
+> > > > >> > > > The problems with this approach are documented at [1].
+> > > > >> > > >
+> > > > >> > > > In practice, OF_BOARD is not really distinct from
+> OF_SEPARATE. Any board
+> > > > >> > > > can obtain its devicetree at runtime, even it is has a
+> devicetree built
+> > > > >> > > > in U-Boot. This is because U-Boot may be a second-stage
+> bootloader and its
+> > > > >> > > > caller may have a better idea about the hardware available
+> in the machine.
+> > > > >> > > > This is the case with a few QEMU boards, for example.
+> > > > >> > > >
+> > > > >> > > > So it makes no sense to have OF_BOARD as a 'choice'. It
+> should be an
+> > > > >> > > > option, available with either OF_SEPARATE or OF_EMBED.
+> > > > >> > > >
+> > > > >> > > > This series makes this change, adding various missing
+> devicetree files
+> > > > >> > > > (and placeholders) to make the build work.
+> > > > >> > >
+> > > > >> > > Adding device trees that are never used sounds like a hack t=
+o
+> me.
+> > > > >> > >
+> > > > >> > > For QEMU, device tree is dynamically generated on the fly
+> based on
+> > > > >> > > command line parameters, and the device tree you put in this
+> series
+> > > > >> > > has various hardcoded <phandle> values which normally do not
+> show up
+> > > > >> > > in hand-written dts files.
+> > > > >> > >
+> > > > >> > > I am not sure I understand the whole point of this.
+> > > > >> >
+> > > > >> > I am also confused and do not like the idea of adding device
+> trees for
+> > > > >> > platforms that are capable of and can / do have a device tree
+> to give us
+> > > > >> > at run time.
+> > > > >>
+> > > > >> (I'll just reply to this one email, since the same points applie=
+s
+> to
+> > > > >> all replies I think)
+> > > > >>
+> > > > >> I have been thinking about this and discussing it with people fo=
+r
+> a
+> > > > >> few months now. I've been signalling a change like this for over=
+ a
+> > > > >> month now, on U-Boot contributor calls and in discussions with
+> Linaro
+> > > > >> people. I sent a patch (below) to try to explain things. I hope
+> it is
+> > > > >> not a surprise!
+> > > > >>
+> > > > >> The issue here is that we need a devicetree in-tree in U-Boot, t=
+o
+> > > > >> avoid the mess that has been created by OF_PRIOR_STAGE, OF_BOARD=
+,
+> > > > >> BINMAN_STANDALONE_FDT and to a lesser extent, OF_HOSTFILE. Betwe=
+en
+> > > > >> Ilias' series and this one we can get ourselves on a stronger
+> footing.
+> > > > >> There is just OF_SEPARATE, with OF_EMBED for debugging/ELF use.
+> > > > >> For more context:
+> > > > >>
+> > > > >>
+> http://patchwork.ozlabs.org/project/uboot/patch/20210919215111.3830278-3-=
+sjg@chromium.org/
+> > > > >>
+> > > > >> BTW I did suggest to QEMU ARM that they support a way of adding
+> the
+> > > > >> u-boot.dtsi but there was not much interest there (in fact the
+> > > > >> maintainer would prefer there was no special support even for
+> booting
+> > > > >> Linux directly!)
+> > > > >
+> > > > > i understand their point of view and agree with it.
+> > > > >>
+> > > > >> But in any case it doesn't really help U-Boot. I
+> > > > >> think the path forward might be to run QEMU twice, once to get i=
+ts
+> > > > >> generated tree and once to give the 'merged' tree with the U-Boo=
+t
+> > > > >> properties in it, if people want to use U-Boot features.
+> > > > >>
+> > > > >> I do strongly believe that OF_BOARD must be a run-time option,
+> not a
+> > > > >> build-time one. It creates all sorts of problems and obscurity
+> which
+> > > > >> have taken months to unpick. See the above patch for the
+> rationale.
+> > > > >>
+> > > > >> To add to that rationale, OF_BOARD needs to be an option
+> available to
+> > > > >> any board. At some point in the future it may become a common wa=
+y
+> > > > >> things are done, e.g. TF-A calling U-Boot and providing a
+> devicetree
+> > > > >> to it. It doesn't make any sense to have people decide whether o=
+r
+> not
+> > > > >> to set OF_BOARD at build time, thus affecting how the image is p=
+ut
+> > > > >> together. We'll end up with different U-Boot build targets like
+> > > > >> capricorn, capricorn_of_board and the like. It should be obvious
+> where
+> > > > >> that will lead. Instead, OF_BOARD needs to become a commonly use=
+d
+> > > > >> option, perhaps enabled by most/all boards, so that this sort of
+> build
+> > > > >> explosion is not needed.
+> > > > >
+> > > > > If you mean that when boards are by construction providing a DTB
+> to U-Boot then I agree very much. But I don=E2=80=99t understand how the =
+patch set
+> supports it as it puts dts files for those boards to be built.
+> > > > >>
+> > > > >> U-Boot needs to be flexible enough to
+> > > > >> function correctly in whatever runtime environment in which it
+> finds
+> > > > >> itself.
+> > > > >>
+> > > > >> Also as binman is pressed into service more and more to build th=
 e
-> > are no iommu support at the moment, and that will be addressed in futur=
-e
-> > patches of this series. Since all vhost-vdpa devices uses forced IOMMU,
-> > this means that SVQ is not usable at this point of the series on any
-> > device.
+> > > > >> complex firmware images that are becoming fashionable, it needs =
+a
+> > > > >> definition (in the devicetree) that describes how to create the
+> image.
+> > > > >> We can't support that unless we are building a devicetree, nor
+> can the
+> > > > >> running program access the image layout without that information=
+.
+> > > > >>
+> > > > >> Fran=C3=A7ois's point about 'don't use this with any kernel' is
+> > > > >> germane...but of course I am not suggesting doing that, since
+> OF_BOARD
+> > > > >> is, still, enabled. We already use OF_BOARD for various boards
+> that
+> > > > >> include an in-tree devicetree - Raspberry Pi 1, 2 and 3, for
+> example
+> > > > >> (as I said in the cover letter "Most boards do provide one, but
+> some
+> > > > >> don't."). So this series is just completing the picture by
+> enforcing
+> > > > >> that *some sort* of devicetree is always present.
+> > > > >
+> > > > > That seems inconsistent with the OF_BOARD becomes the default.
+> > > >
+> > > > I think the key point that will get you closer to where I am on thi=
+s
+> > > > issue, is that OF_BOARD needs to be a run-time option. At present i=
+t
+> > > > has build-time effects and this is quite wrong. If you go through a=
+ll
+> > > > the material I have written on this I think I have motivated that
+> very
+> > > > clearly.
+> > > >
+> > > > Another big issue is that I believe we need ONE devicetree for
+> U-Boot,
+> > > > not two that get merged by U-Boot. Again I have gone through that i=
+n
+> a
+> > > > lot of detail.
+> > >
+> > > I have a long long reply to your first reply here saved, but, maybe
+> > > here's the biggest sticking point.  To be clear, you agree that U-Boo=
+t
+> > > needs to support being passed a device tree to use, at run time, yes?
 > >
-> > For simplicity it only supports modern devices, that expects vring
-> > in little endian, with split ring and no event idx or indirect
-> > descriptors. Support for them will not be added in this series.
+> > Yes. The OF_BOARD feature provides this.
 > >
-> > It reuses the VirtQueue code for the device part. The driver part is
-> > based on Linux's virtio_ring driver, but with stripped functionality
-> > and optimizations so it's easier to review. Later commits add simpler
-> > ones.
+> > >
+> > > And in that case, would not be using the "fake" tree we built in?
 > >
-> > SVQ uses VIRTIO_CONFIG_S_DEVICE_STOPPED to pause the device and
-> > retrieve its status (next available idx the device was going to
-> > consume) race-free. It can later reset the device to replace vring
-> > addresses etc. When SVQ starts qemu can resume consuming the guest's
-> > driver ring from that state, without notice from the latter.
+> > Not at runtime.
+>
+> OK.
+>
+> > > So is the sticking point here that we really have two classes of
+> > > devices, one class where we will never ever be given the device tree =
+at
+> > > run time (think BeagleBone Black) and one where we will always be giv=
+en
+> > > one at run time (think Raspberry Pi) ?
 > >
-> > This status bit VIRTIO_CONFIG_S_DEVICE_STOPPED is currently discussed
-> > in VirtIO, and is implemented in qemu VirtIO-net devices in previous
-> > commits.
-> >
-> > Removal of _S_DEVICE_STOPPED bit (in other words, resuming the device)
-> > can be done in the future if an use case arises. At this moment we can
-> > just rely on reseting the full device.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   qapi/net.json                      |   2 +-
-> >   hw/virtio/vhost-shadow-virtqueue.c | 237 ++++++++++++++++++++++++++++=
--
-> >   hw/virtio/vhost-vdpa.c             | 109 ++++++++++++-
-> >   3 files changed, 337 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/qapi/net.json b/qapi/net.json
-> > index fe546b0e7c..1f4a55f2c5 100644
-> > --- a/qapi/net.json
-> > +++ b/qapi/net.json
-> > @@ -86,7 +86,7 @@
-> >   #
-> >   # @name: the device name of the VirtIO device
-> >   #
-> > -# @enable: true to use the alternate shadow VQ notifications
-> > +# @enable: true to use the alternate shadow VQ buffers fowarding path
-> >   #
-> >   # Returns: Error if failure, or 'no error' for success.
-> >   #
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
-w-virtqueue.c
-> > index 34e159d4fd..df7e6fa3ec 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > @@ -10,6 +10,7 @@
-> >   #include "qemu/osdep.h"
-> >   #include "hw/virtio/vhost-shadow-virtqueue.h"
-> >   #include "hw/virtio/vhost.h"
-> > +#include "hw/virtio/virtio-access.h"
-> >
-> >   #include "standard-headers/linux/vhost_types.h"
-> >
-> > @@ -44,15 +45,135 @@ typedef struct VhostShadowVirtqueue {
-> >
-> >       /* Virtio device */
-> >       VirtIODevice *vdev;
-> > +
-> > +    /* Map for returning guest's descriptors */
-> > +    VirtQueueElement **ring_id_maps;
-> > +
-> > +    /* Next head to expose to device */
-> > +    uint16_t avail_idx_shadow;
-> > +
-> > +    /* Next free descriptor */
-> > +    uint16_t free_head;
-> > +
-> > +    /* Last seen used idx */
-> > +    uint16_t shadow_used_idx;
-> > +
-> > +    /* Next head to consume from device */
-> > +    uint16_t used_idx;
+> > I'm not sure it will be that black and white. I suspect there will be
+> > (many) boards which can boot happily with the U-Boot devicetree but
+> > can also accept one at runtime, if provided. For example, you may want
+> > to boot with or without TF-A or some other, earlier stage.
 >
+> I'm not sure I see the value in making this a gray area.  There's very
+> much a class of "never" boards.  There's also the class of "can" today.
+> Maybe as part of a developer iterative flow it would be nice to not have
+> to re-flash the prior stage to change a DT, and just do it in U-Boot
+> until things are happy, but I'm not sure what the use case is for
+> overriding the previous stage.
 >
-> Let's use "last_used_idx" as kernel driver did.
+> Especially since the pushback on this series I think has all been "why
+> are we copying in a tree to build with?  We don't want to use it at run
+> time!".  And then softer push back like "Well, U-Boot says we have to
+> include the device tree file here, but we won't use it...".
 >
+> > I believe we have got unstuck because OF_BOARD (perhaps inadvertently)
+> > provided a way to entirely omit a devicetree from U-Boot, thus making
+> > things like binman and U-Boot /config impossible, for example. So I
+> > want to claw that back, so there is always some sort of devicetree in
+> > U-Boot, as we have for rpi_3, etc.
+>
+> I really want to see what the binary case looks like since we could then
+> kill off rpi_{3,3_b,4}_defconfig and I would need to see if we could
+> then also do a rpi_arm32_defconfig too.
+>
+> I want to see less device trees in U-Boot sources, if they can come
+> functionally correct from the hardware/our caller.
+>
+> And I'm not seeing how we make use of "U-Boot /config" if we also don't
+> use the device tree from build time at run time, ignoring the device
+> tree provided to us at run time by the caller.
 
-Ok I will change it.
++1
+if there is a complex build problem to solve when no DT is needed when
+OF_BOARD is needed i could agree to temporarily have a void.dts like
+
+/dts-v1/;
+/ {
+/* required to pass build until proper makefike for OF_BOARD */
+};
+
+But not pseudo dts for boards that provide a DT to U-Boot. The pseudo dts
+are good for reference in the documentation part of the tree.
+
 
 >
-> >   } VhostShadowVirtqueue;
-> >
-> >   /* If the device is using some of these, SVQ cannot communicate */
-> >   bool vhost_svq_valid_device_features(uint64_t *dev_features)
-> >   {
-> > -    return true;
-> > +    uint64_t b;
-> > +    bool r =3D true;
-> > +
-> > +    for (b =3D VIRTIO_TRANSPORT_F_START; b <=3D VIRTIO_TRANSPORT_F_END=
-; ++b) {
-> > +        switch (b) {
-> > +        case VIRTIO_F_NOTIFY_ON_EMPTY:
-> > +        case VIRTIO_F_ANY_LAYOUT:
-> > +            /* SVQ is fine with this feature */
-> > +            continue;
-> > +
-> > +        case VIRTIO_F_ACCESS_PLATFORM:
-> > +            /* SVQ needs this feature disabled. Can't continue */
+> --
+> Tom
 >
->
-> So code can explain itself, need a comment to explain why.
->
+--=20
+Fran=C3=A7ois-Fr=C3=A9d=C3=A9ric Ozog | *Director Business Development*
+T: +33.67221.6485
+francois.ozog@linaro.org | Skype: ffozog
 
-Do you mean that it *doesn't* need a comment to explain why? In that
-case I will delete them.
+--00000000000051fd6e05ce53d57a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">Le=C2=A0jeu. 14 oct. 2021 =C3=A0 17:28, Tom Rini &lt;<a hre=
+f=3D"mailto:trini@konsulko.com">trini@konsulko.com</a>&gt; a =C3=A9crit=C2=
+=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;borde=
+r-left-color:rgb(204,204,204)">On Thu, Oct 14, 2021 at 09:17:52AM -0600, Si=
+mon Glass wrote:<br>
+&gt; Hi Tom,<br>
+&gt; <br>
+&gt; On Thu, 14 Oct 2021 at 08:56, Tom Rini &lt;<a href=3D"mailto:trini@kon=
+sulko.com" target=3D"_blank">trini@konsulko.com</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; On Wed, Oct 13, 2021 at 12:06:02PM -0600, Simon Glass wrote:<br>
+&gt; &gt; &gt; Hi Fran=C3=A7ois,<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; On Wed, 13 Oct 2021 at 11:35, Fran=C3=A7ois Ozog &lt;<a href=
+=3D"mailto:francois.ozog@linaro.org" target=3D"_blank">francois.ozog@linaro=
+.org</a>&gt; wrote:<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Hi Simon<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Le mer. 13 oct. 2021 =C3=A0 16:49, Simon Glass &lt;<a h=
+ref=3D"mailto:sjg@chromium.org" target=3D"_blank">sjg@chromium.org</a>&gt; =
+a =C3=A9crit :<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; Hi Tom, Bin,Fran=C3=A7ois,<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; On Tue, 12 Oct 2021 at 19:34, Tom Rini &lt;<a href=
+=3D"mailto:trini@konsulko.com" target=3D"_blank">trini@konsulko.com</a>&gt;=
+ wrote:<br>
+&gt; &gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; On Wed, Oct 13, 2021 at 09:29:14AM +0800, Bin =
+Meng wrote:<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; Hi Simon,<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; On Wed, Oct 13, 2021 at 9:01 AM Simon Gla=
+ss &lt;<a href=3D"mailto:sjg@chromium.org" target=3D"_blank">sjg@chromium.o=
+rg</a>&gt; wrote:<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; With Ilias&#39; efforts we have drop=
+ped OF_PRIOR_STAGE and OF_HOSTFILE so<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; there are only three ways to obtain =
+a devicetree:<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 - OF_SEPARATE - the nor=
+mal way, where the devicetree is built and<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0appended t=
+o U-Boot<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 - OF_EMBED - for develo=
+pment purposes, the devicetree is embedded in<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0the ELF fi=
+le (also used for EFI)<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 - OF_BOARD - the board =
+figures it out on its own<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; The last one is currently set up so =
+that no devicetree is needed at all<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; in the U-Boot tree. Most boards do p=
+rovide one, but some don&#39;t. Some<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; don&#39;t even provide instructions =
+on how to boot on the board.<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; The problems with this approach are =
+documented at [1].<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; In practice, OF_BOARD is not really =
+distinct from OF_SEPARATE. Any board<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; can obtain its devicetree at runtime=
+, even it is has a devicetree built<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; in U-Boot. This is because U-Boot ma=
+y be a second-stage bootloader and its<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; caller may have a better idea about =
+the hardware available in the machine.<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; This is the case with a few QEMU boa=
+rds, for example.<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; So it makes no sense to have OF_BOAR=
+D as a &#39;choice&#39;. It should be an<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; option, available with either OF_SEP=
+ARATE or OF_EMBED.<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; This series makes this change, addin=
+g various missing devicetree files<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; &gt; (and placeholders) to make the build=
+ work.<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; Adding device trees that are never used s=
+ounds like a hack to me.<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; For QEMU, device tree is dynamically gene=
+rated on the fly based on<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; command line parameters, and the device t=
+ree you put in this series<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; has various hardcoded &lt;phandle&gt; val=
+ues which normally do not show up<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; in hand-written dts files.<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; &gt; I am not sure I understand the whole poin=
+t of this.<br>
+&gt; &gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; I am also confused and do not like the idea of=
+ adding device trees for<br>
+&gt; &gt; &gt; &gt;&gt; &gt; platforms that are capable of and can / do hav=
+e a device tree to give us<br>
+&gt; &gt; &gt; &gt;&gt; &gt; at run time.<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; (I&#39;ll just reply to this one email, since the s=
+ame points applies to<br>
+&gt; &gt; &gt; &gt;&gt; all replies I think)<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; I have been thinking about this and discussing it w=
+ith people for a<br>
+&gt; &gt; &gt; &gt;&gt; few months now. I&#39;ve been signalling a change l=
+ike this for over a<br>
+&gt; &gt; &gt; &gt;&gt; month now, on U-Boot contributor calls and in discu=
+ssions with Linaro<br>
+&gt; &gt; &gt; &gt;&gt; people. I sent a patch (below) to try to explain th=
+ings. I hope it is<br>
+&gt; &gt; &gt; &gt;&gt; not a surprise!<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; The issue here is that we need a devicetree in-tree=
+ in U-Boot, to<br>
+&gt; &gt; &gt; &gt;&gt; avoid the mess that has been created by OF_PRIOR_ST=
+AGE, OF_BOARD,<br>
+&gt; &gt; &gt; &gt;&gt; BINMAN_STANDALONE_FDT and to a lesser extent, OF_HO=
+STFILE. Between<br>
+&gt; &gt; &gt; &gt;&gt; Ilias&#39; series and this one we can get ourselves=
+ on a stronger footing.<br>
+&gt; &gt; &gt; &gt;&gt; There is just OF_SEPARATE, with OF_EMBED for debugg=
+ing/ELF use.<br>
+&gt; &gt; &gt; &gt;&gt; For more context:<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; <a href=3D"http://patchwork.ozlabs.org/project/uboo=
+t/patch/20210919215111.3830278-3-sjg@chromium.org/" rel=3D"noreferrer" targ=
+et=3D"_blank">http://patchwork.ozlabs.org/project/uboot/patch/2021091921511=
+1.3830278-3-sjg@chromium.org/</a><br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; BTW I did suggest to QEMU ARM that they support a w=
+ay of adding the<br>
+&gt; &gt; &gt; &gt;&gt; u-boot.dtsi but there was not much interest there (=
+in fact the<br>
+&gt; &gt; &gt; &gt;&gt; maintainer would prefer there was no special suppor=
+t even for booting<br>
+&gt; &gt; &gt; &gt;&gt; Linux directly!)<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; i understand their point of view and agree with it.<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; But in any case it doesn&#39;t really help U-Boot. =
+I<br>
+&gt; &gt; &gt; &gt;&gt; think the path forward might be to run QEMU twice, =
+once to get its<br>
+&gt; &gt; &gt; &gt;&gt; generated tree and once to give the &#39;merged&#39=
+; tree with the U-Boot<br>
+&gt; &gt; &gt; &gt;&gt; properties in it, if people want to use U-Boot feat=
+ures.<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; I do strongly believe that OF_BOARD must be a run-t=
+ime option, not a<br>
+&gt; &gt; &gt; &gt;&gt; build-time one. It creates all sorts of problems an=
+d obscurity which<br>
+&gt; &gt; &gt; &gt;&gt; have taken months to unpick. See the above patch fo=
+r the rationale.<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; To add to that rationale, OF_BOARD needs to be an o=
+ption available to<br>
+&gt; &gt; &gt; &gt;&gt; any board. At some point in the future it may becom=
+e a common way<br>
+&gt; &gt; &gt; &gt;&gt; things are done, e.g. TF-A calling U-Boot and provi=
+ding a devicetree<br>
+&gt; &gt; &gt; &gt;&gt; to it. It doesn&#39;t make any sense to have people=
+ decide whether or not<br>
+&gt; &gt; &gt; &gt;&gt; to set OF_BOARD at build time, thus affecting how t=
+he image is put<br>
+&gt; &gt; &gt; &gt;&gt; together. We&#39;ll end up with different U-Boot bu=
+ild targets like<br>
+&gt; &gt; &gt; &gt;&gt; capricorn, capricorn_of_board and the like. It shou=
+ld be obvious where<br>
+&gt; &gt; &gt; &gt;&gt; that will lead. Instead, OF_BOARD needs to become a=
+ commonly used<br>
+&gt; &gt; &gt; &gt;&gt; option, perhaps enabled by most/all boards, so that=
+ this sort of build<br>
+&gt; &gt; &gt; &gt;&gt; explosion is not needed.<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; If you mean that when boards are by construction provid=
+ing a DTB to U-Boot then I agree very much. But I don=E2=80=99t understand =
+how the patch set=C2=A0 supports it as it puts dts files for those boards t=
+o be built.<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; U-Boot needs to be flexible enough to<br>
+&gt; &gt; &gt; &gt;&gt; function correctly in whatever runtime environment =
+in which it finds<br>
+&gt; &gt; &gt; &gt;&gt; itself.<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; Also as binman is pressed into service more and mor=
+e to build the<br>
+&gt; &gt; &gt; &gt;&gt; complex firmware images that are becoming fashionab=
+le, it needs a<br>
+&gt; &gt; &gt; &gt;&gt; definition (in the devicetree) that describes how t=
+o create the image.<br>
+&gt; &gt; &gt; &gt;&gt; We can&#39;t support that unless we are building a =
+devicetree, nor can the<br>
+&gt; &gt; &gt; &gt;&gt; running program access the image layout without tha=
+t information.<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; Fran=C3=A7ois&#39;s point about &#39;don&#39;t use =
+this with any kernel&#39; is<br>
+&gt; &gt; &gt; &gt;&gt; germane...but of course I am not suggesting doing t=
+hat, since OF_BOARD<br>
+&gt; &gt; &gt; &gt;&gt; is, still, enabled. We already use OF_BOARD for var=
+ious boards that<br>
+&gt; &gt; &gt; &gt;&gt; include an in-tree devicetree - Raspberry Pi 1, 2 a=
+nd 3, for example<br>
+&gt; &gt; &gt; &gt;&gt; (as I said in the cover letter &quot;Most boards do=
+ provide one, but some<br>
+&gt; &gt; &gt; &gt;&gt; don&#39;t.&quot;). So this series is just completin=
+g the picture by enforcing<br>
+&gt; &gt; &gt; &gt;&gt; that *some sort* of devicetree is always present.<b=
+r>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; That seems inconsistent with the OF_BOARD becomes the d=
+efault.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; I think the key point that will get you closer to where I am=
+ on this<br>
+&gt; &gt; &gt; issue, is that OF_BOARD needs to be a run-time option. At pr=
+esent it<br>
+&gt; &gt; &gt; has build-time effects and this is quite wrong. If you go th=
+rough all<br>
+&gt; &gt; &gt; the material I have written on this I think I have motivated=
+ that very<br>
+&gt; &gt; &gt; clearly.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Another big issue is that I believe we need ONE devicetree f=
+or U-Boot,<br>
+&gt; &gt; &gt; not two that get merged by U-Boot. Again I have gone through=
+ that in a<br>
+&gt; &gt; &gt; lot of detail.<br>
+&gt; &gt;<br>
+&gt; &gt; I have a long long reply to your first reply here saved, but, may=
+be<br>
+&gt; &gt; here&#39;s the biggest sticking point.=C2=A0 To be clear, you agr=
+ee that U-Boot<br>
+&gt; &gt; needs to support being passed a device tree to use, at run time, =
+yes?<br>
+&gt; <br>
+&gt; Yes. The OF_BOARD feature provides this.<br>
+&gt; <br>
+&gt; &gt;<br>
+&gt; &gt; And in that case, would not be using the &quot;fake&quot; tree we=
+ built in?<br>
+&gt; <br>
+&gt; Not at runtime.<br>
+<br>
+OK.<br>
+<br>
+&gt; &gt; So is the sticking point here that we really have two classes of<=
+br>
+&gt; &gt; devices, one class where we will never ever be given the device t=
+ree at<br>
+&gt; &gt; run time (think BeagleBone Black) and one where we will always be=
+ given<br>
+&gt; &gt; one at run time (think Raspberry Pi) ?<br>
+&gt; <br>
+&gt; I&#39;m not sure it will be that black and white. I suspect there will=
+ be<br>
+&gt; (many) boards which can boot happily with the U-Boot devicetree but<br=
 >
-> > +            if (*dev_features & BIT_ULL(b)) {
-> > +                clear_bit(b, dev_features);
-> > +                r =3D false;
-> > +            }
-> > +            break;
-> > +
-> > +        case VIRTIO_F_VERSION_1:
-> > +            /* SVQ needs this feature, so can't continue */
+&gt; can also accept one at runtime, if provided. For example, you may want=
+<br>
+&gt; to boot with or without TF-A or some other, earlier stage.<br>
+<br>
+I&#39;m not sure I see the value in making this a gray area.=C2=A0 There&#3=
+9;s very<br>
+much a class of &quot;never&quot; boards.=C2=A0 There&#39;s also the class =
+of &quot;can&quot; today.<br>
+Maybe as part of a developer iterative flow it would be nice to not have<br=
 >
+to re-flash the prior stage to change a DT, and just do it in U-Boot<br>
+until things are happy, but I&#39;m not sure what the use case is for<br>
+overriding the previous stage.<br>
+<br>
+Especially since the pushback on this series I think has all been &quot;why=
+<br>
+are we copying in a tree to build with?=C2=A0 We don&#39;t want to use it a=
+t run<br>
+time!&quot;.=C2=A0 And then softer push back like &quot;Well, U-Boot says w=
+e have to<br>
+include the device tree file here, but we won&#39;t use it...&quot;.<br>
+<br>
+&gt; I believe we have got unstuck because OF_BOARD (perhaps inadvertently)=
+<br>
+&gt; provided a way to entirely omit a devicetree from U-Boot, thus making<=
+br>
+&gt; things like binman and U-Boot /config impossible, for example. So I<br=
 >
-> A comment to explain why SVQ needs this feature.
+&gt; want to claw that back, so there is always some sort of devicetree in<=
+br>
+&gt; U-Boot, as we have for rpi_3, etc.<br>
+<br>
+I really want to see what the binary case looks like since we could then<br=
 >
+kill off rpi_{3,3_b,4}_defconfig and I would need to see if we could<br>
+then also do a rpi_arm32_defconfig too.<br>
+<br>
+I want to see less device trees in U-Boot sources, if they can come<br>
+functionally correct from the hardware/our caller.<br>
+<br>
+And I&#39;m not seeing how we make use of &quot;U-Boot /config&quot; if we =
+also don&#39;t<br>
+use the device tree from build time at run time, ignoring the device<br>
+tree provided to us at run time by the caller.</blockquote><div dir=3D"auto=
+">+1</div><div dir=3D"auto">if there is a complex build problem to solve wh=
+en no DT is needed when OF_BOARD is needed i could agree to temporarily hav=
+e a void.dts like</div><div dir=3D"auto"><br></div><div dir=3D"auto"><span =
+class=3D"cp" style=3D"font-size:14px;box-sizing:border-box;font-family:SFMo=
+no-Regular,Menlo,Monaco,Consolas,&quot;Liberation Mono&quot;,&quot;Courier =
+New&quot;,Courier,monospace;color:var(--highlight-keyword2-color)">/dts-v1/=
+</span><span class=3D"p" style=3D"font-size:14px;box-sizing:border-box;font=
+-family:SFMono-Regular,Menlo,Monaco,Consolas,&quot;Liberation Mono&quot;,&q=
+uot;Courier New&quot;,Courier,monospace">;</span></div><div dir=3D"auto"><s=
+pan class=3D"nf" style=3D"font-size:14px;box-sizing:border-box;font-family:=
+SFMono-Regular,Menlo,Monaco,Consolas,&quot;Liberation Mono&quot;,&quot;Cour=
+ier New&quot;,Courier,monospace;color:var(--highlight-function-color)">/</s=
+pan><span class=3D"cm" style=3D"font-size:14px;box-sizing:border-box;font-s=
+tyle:italic;font-family:SFMono-Regular,Menlo,Monaco,Consolas,&quot;Liberati=
+on Mono&quot;,&quot;Courier New&quot;,Courier,monospace;color:var(--highlig=
+ht-comment-color)"> </span><span class=3D"p" style=3D"font-size:14px;box-si=
+zing:border-box;font-family:SFMono-Regular,Menlo,Monaco,Consolas,&quot;Libe=
+ration Mono&quot;,&quot;Courier New&quot;,Courier,monospace">{</span></div>=
+<div dir=3D"auto"><span class=3D"p" style=3D"font-size:14px;box-sizing:bord=
+er-box;font-family:SFMono-Regular,Menlo,Monaco,Consolas,&quot;Liberation Mo=
+no&quot;,&quot;Courier New&quot;,Courier,monospace">/* required to pass bui=
+ld until proper makefike for OF_BOARD */</span></div><div dir=3D"auto"><spa=
+n style=3D"font-family:SFMono-Regular,Menlo,Monaco,Consolas,&quot;Liberatio=
+n Mono&quot;,&quot;Courier New&quot;,Courier,monospace;font-size:14px">};</=
+span></div><div dir=3D"auto"><br></div><div dir=3D"auto">But not pseudo dts=
+ for boards that provide a DT to U-Boot. The pseudo dts are good for refere=
+nce in the documentation part of the tree.</div><div dir=3D"auto"><br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:=
+rgb(204,204,204)" dir=3D"auto"><br>
+<br>
+-- <br>
+Tom<br>
+</blockquote></div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" =
+data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><=
+div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div =
+dir=3D"ltr"><div><div dir=3D"ltr"><div><div><div><div dir=3D"ltr"><div dir=
+=3D"ltr"><div dir=3D"ltr"><table style=3D"font-size:small" border=3D"0" cel=
+lpadding=3D"0" cellspacing=3D"0"><tbody><tr><td style=3D"padding-right:10px=
+" valign=3D"top"><img src=3D"https://static.linaro.org/common/images/linaro=
+-logo-web.png"></td><td valign=3D"top"><table border=3D"0" cellpadding=3D"0=
+" cellspacing=3D"0"><tbody><tr><td style=3D"font-family:Arial,Helvetica,&qu=
+ot;Sans Serif&quot;;white-space:nowrap;font-size:9pt;padding-top:0px;color:=
+rgb(87,87,87)" valign=3D"top"><span style=3D"font-weight:bold">Fran=C3=A7oi=
+s-Fr=C3=A9d=C3=A9ric Ozog</span>=C2=A0<span style=3D"color:rgb(161,161,161)=
+">|</span>=C2=A0<i>Director Business Development</i></td></tr><tr><td style=
+=3D"font-family:Arial,Helvetica,&quot;Sans Serif&quot;;white-space:nowrap;f=
+ont-size:9pt;padding-top:2px;color:rgb(87,87,87)" valign=3D"top">T:=C2=A0<a=
+ value=3D"+393384075993" style=3D"color:rgb(17,85,204)">+33.67221.6485</a><=
+br><a href=3D"mailto:francois.ozog@linaro.org" style=3D"color:rgb(87,87,87)=
+;text-decoration:none" target=3D"_blank">francois.ozog@linaro.org</a>=C2=A0=
+<span style=3D"color:rgb(161,161,161)">|</span>=C2=A0Skype:=C2=A0ffozog</td=
+></tr></tbody></table></td></tr></tbody></table></div></div></div></div></d=
+iv><div><div><br style=3D"font-size:small"></div></div></div></div></div></=
+div></div></div></div></div></div></div></div></div></div></div></div>
 
-Sure I will add it.
-
->
-> > +            if (!(*dev_features & BIT_ULL(b))) {
-> > +                set_bit(b, dev_features);
-> > +                r =3D false;
-> > +            }
-> > +            continue;
-> > +
-> > +        default:
-> > +            /*
-> > +             * SVQ must disable this feature, let's hope the device is=
- fine
-> > +             * without it.
-> > +             */
-> > +            if (*dev_features & BIT_ULL(b)) {
-> > +                clear_bit(b, dev_features);
-> > +            }
-> > +        }
-> > +    }
-> > +
-> > +    return r;
-> > +}
->
->
-> Let's move this to patch 14.
->
-
-I can move it down to 14/20, but then it is not really accurate, since
-notifications forwarding can work with all feature sets. Not like we
-are introducing a regression, but still.
-
-I can always explain that in the patch message though, would that be ok?
-
->
-> > +
-> > +static void vhost_vring_write_descs(VhostShadowVirtqueue *svq,
-> > +                                    const struct iovec *iovec,
-> > +                                    size_t num, bool more_descs, bool =
-write)
-> > +{
-> > +    uint16_t i =3D svq->free_head, last =3D svq->free_head;
-> > +    unsigned n;
-> > +    uint16_t flags =3D write ? cpu_to_le16(VRING_DESC_F_WRITE) : 0;
-> > +    vring_desc_t *descs =3D svq->vring.desc;
-> > +
-> > +    if (num =3D=3D 0) {
-> > +        return;
-> > +    }
-> > +
-> > +    for (n =3D 0; n < num; n++) {
-> > +        if (more_descs || (n + 1 < num)) {
-> > +            descs[i].flags =3D flags | cpu_to_le16(VRING_DESC_F_NEXT);
-> > +        } else {
-> > +            descs[i].flags =3D flags;
-> > +        }
-> > +        descs[i].addr =3D cpu_to_le64((hwaddr)iovec[n].iov_base);
-> > +        descs[i].len =3D cpu_to_le32(iovec[n].iov_len);
-> > +
-> > +        last =3D i;
-> > +        i =3D cpu_to_le16(descs[i].next);
-> > +    }
-> > +
-> > +    svq->free_head =3D le16_to_cpu(descs[last].next);
-> > +}
-> > +
-> > +static unsigned vhost_svq_add_split(VhostShadowVirtqueue *svq,
-> > +                                    VirtQueueElement *elem)
-> > +{
-> > +    int head;
-> > +    unsigned avail_idx;
-> > +    vring_avail_t *avail =3D svq->vring.avail;
-> > +
-> > +    head =3D svq->free_head;
-> > +
-> > +    /* We need some descriptors here */
-> > +    assert(elem->out_num || elem->in_num);
-> > +
-> > +    vhost_vring_write_descs(svq, elem->out_sg, elem->out_num,
-> > +                            elem->in_num > 0, false);
-> > +    vhost_vring_write_descs(svq, elem->in_sg, elem->in_num, false, tru=
-e);
-> > +
-> > +    /*
-> > +     * Put entry in available array (but don't update avail->idx until=
- they
-> > +     * do sync).
-> > +     */
-> > +    avail_idx =3D svq->avail_idx_shadow & (svq->vring.num - 1);
-> > +    avail->ring[avail_idx] =3D cpu_to_le16(head);
-> > +    svq->avail_idx_shadow++;
-> > +
-> > +    /* Update avail index after the descriptor is wrote */
-> > +    smp_wmb();
-> > +    avail->idx =3D cpu_to_le16(svq->avail_idx_shadow);
-> > +
-> > +    return head;
-> > +
-> >   }
-> >
-> > -/* Forward guest notifications */
-> > +static void vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement =
-*elem)
-> > +{
-> > +    unsigned qemu_head =3D vhost_svq_add_split(svq, elem);
-> > +
-> > +    svq->ring_id_maps[qemu_head] =3D elem;
-> > +}
-> > +
-> > +/* Handle guest->device notifications */
-> >   static void vhost_handle_guest_kick(EventNotifier *n)
-> >   {
-> >       VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtqueu=
-e,
-> > @@ -62,7 +183,74 @@ static void vhost_handle_guest_kick(EventNotifier *=
-n)
-> >           return;
-> >       }
-> >
-> > -    event_notifier_set(&svq->kick_notifier);
-> > +    /* Make available as many buffers as possible */
-> > +    do {
-> > +        if (virtio_queue_get_notification(svq->vq)) {
-> > +            /* No more notifications until process all available */
-> > +            virtio_queue_set_notification(svq->vq, false);
-> > +        }
->
->
-> This can be done outside the loop.
->
-
-I think it cannot. The intention of doing this way is that we check
-for new available buffers *also after* enabling notifications, so we
-don't miss any of them. It is more or less copied from
-virtio_blk_handle_vq, which also needs to run to completion.
-
-If we need to loop again because there are more available buffers, we
-want to disable notifications again. Or am I missing something?
-
->
-> > +
-> > +        while (true) {
-> > +            VirtQueueElement *elem =3D virtqueue_pop(svq->vq, sizeof(*=
-elem));
-> > +            if (!elem) {
-> > +                break;
-> > +            }
-> > +
-> > +            vhost_svq_add(svq, elem);
-> > +            event_notifier_set(&svq->kick_notifier);
-> > +        }
-> > +
-> > +        virtio_queue_set_notification(svq->vq, true);
->
->
-> I think this can be moved to the end of this function.
->
-
-(Same as previous answer)
-
-> Btw, we probably need a quota to make sure the svq is not hogging the
-> main event loop.
->
-> Similar issue could be found in both virtio-net TX (using timer or bh)
-> and TAP (a quota).
->
-
-I think that virtqueue size is the natural limit to that: since we are
-not making any buffers used in the loop, there is no way that it runs
-more than virtqueue size times. If it does because of an evil/bogus
-guest, virtqueue_pop raises the message "Virtqueue size exceeded" and
-returns NULL, effectively breaking the loop.
-
-Virtio-net tx functions mark each buffer right after making them
-available and use it, so they can hog BQL. But my understanding is
-that is not possible in the SVQ case.
-
-I can add a comment in the code to make it clearer though.
-
->
-> > +    } while (!virtio_queue_empty(svq->vq));
-> > +}
-> > +
-> > +static bool vhost_svq_more_used(VhostShadowVirtqueue *svq)
-> > +{
-> > +    if (svq->used_idx !=3D svq->shadow_used_idx) {
-> > +        return true;
-> > +    }
-> > +
-> > +    /* Get used idx must not be reordered */
-> > +    smp_rmb();
->
->
-> Interesting, we don't do this for kernel drivers. It would be helpful to
-> explain it more clear by "X must be done before Y".
->
-
-I think this got reordered, it's supposed to be *after* get the used
-idx, so it matches the one in the kernel with the comment "Only get
-used array entries after they have been exposed by host.".
-
-I will change it for the next series.
-
->
-> > +    svq->shadow_used_idx =3D cpu_to_le16(svq->vring.used->idx);
-> > +
-> > +    return svq->used_idx !=3D svq->shadow_used_idx;
-> > +}
-> > +
-> > +static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq)
-> > +{
-> > +    vring_desc_t *descs =3D svq->vring.desc;
-> > +    const vring_used_t *used =3D svq->vring.used;
-> > +    vring_used_elem_t used_elem;
-> > +    uint16_t last_used;
-> > +
-> > +    if (!vhost_svq_more_used(svq)) {
-> > +        return NULL;
-> > +    }
-> > +
-> > +    last_used =3D svq->used_idx & (svq->vring.num - 1);
-> > +    used_elem.id =3D le32_to_cpu(used->ring[last_used].id);
-> > +    used_elem.len =3D le32_to_cpu(used->ring[last_used].len);
-> > +
-> > +    svq->used_idx++;
-> > +    if (unlikely(used_elem.id >=3D svq->vring.num)) {
-> > +        error_report("Device %s says index %u is used", svq->vdev->nam=
-e,
-> > +                     used_elem.id);
-> > +        return NULL;
-> > +    }
-> > +
-> > +    if (unlikely(!svq->ring_id_maps[used_elem.id])) {
-> > +        error_report(
-> > +            "Device %s says index %u is used, but it was not available=
-",
-> > +            svq->vdev->name, used_elem.id);
-> > +        return NULL;
-> > +    }
-> > +
-> > +    descs[used_elem.id].next =3D svq->free_head;
-> > +    svq->free_head =3D used_elem.id;
-> > +
-> > +    svq->ring_id_maps[used_elem.id]->len =3D used_elem.len;
-> > +    return g_steal_pointer(&svq->ring_id_maps[used_elem.id]);
-> >   }
-> >
-> >   /* Forward vhost notifications */
-> > @@ -70,8 +258,26 @@ static void vhost_svq_handle_call_no_test(EventNoti=
-fier *n)
-> >   {
-> >       VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtqueu=
-e,
-> >                                                call_notifier);
-> > -
-> > -    event_notifier_set(&svq->guest_call_notifier);
-> > +    VirtQueue *vq =3D svq->vq;
-> > +
-> > +    /* Make as many buffers as possible used. */
-> > +    do {
-> > +        unsigned i =3D 0;
-> > +
-> > +        /* TODO: Use VRING_AVAIL_F_NO_INTERRUPT */
-> > +        while (true) {
-> > +            g_autofree VirtQueueElement *elem =3D vhost_svq_get_buf(sv=
-q);
-> > +            if (!elem) {
-> > +                break;
-> > +            }
-> > +
-> > +            assert(i < svq->vring.num);
->
->
-> Let's return error instead of using the assert.
->
-
-Actually this is a condition that we should never meet: In the case of
-ring overrun, device would try to set used a descriptor that is either
-> vring size *or* should try to overrun some of the already used ones.
-In both cases, elem should be NULL and the loop should break.
-
-So this is a safety net protecting from both, if we have an i >
-svq->vring.num means we are not processing used buffers well anymore,
-and (moreover) this is happening after making used all descriptors.
-
-Taking that into account, should we delete it?
-
->
-> > +            virtqueue_fill(vq, elem, elem->len, i++);
-> > +        }
-> > +
-> > +        virtqueue_flush(vq, i);
-> > +        event_notifier_set(&svq->guest_call_notifier);
-> > +    } while (vhost_svq_more_used(svq));
-> >   }
-> >
-> >   static void vhost_svq_handle_call(EventNotifier *n)
-> > @@ -204,12 +410,25 @@ err_set_vring_kick:
-> >   void vhost_svq_stop(struct vhost_dev *dev, unsigned idx,
-> >                       VhostShadowVirtqueue *svq)
-> >   {
-> > +    int i;
-> >       int r =3D vhost_svq_restore_vdev_host_notifier(dev, idx, svq);
-> > +
-> >       if (unlikely(r < 0)) {
-> >           error_report("Couldn't restore vq kick fd: %s", strerror(-r))=
-;
-> >       }
-> >
-> >       event_notifier_set_handler(&svq->host_notifier, NULL);
-> > +
-> > +    for (i =3D 0; i < svq->vring.num; ++i) {
-> > +        g_autofree VirtQueueElement *elem =3D svq->ring_id_maps[i];
-> > +        /*
-> > +         * Although the doc says we must unpop in order, it's ok to un=
-pop
-> > +         * everything.
-> > +         */
-> > +        if (elem) {
-> > +            virtqueue_unpop(svq->vq, elem, elem->len);
-> > +        }
->
->
-> Will this result some of the "pending" buffers to be submitted multiple
-> times? If yes, should we wait for all the buffers used instead of doing
-> the unpop here?
->
-
-Do you mean to call virtqueue_unpop with the same elem (or elem.id)
-multiple times? That should never happen, because elem.id should be
-the position in the ring_id_maps. Also, unpop() should just unmap the
-element and never sync again.
-
-Maybe it is way clearer to call virtqueue_detach_element here directly.
-
->
-> > +    }
-> >   }
-> >
-> >   /*
-> > @@ -224,7 +443,7 @@ VhostShadowVirtqueue *vhost_svq_new(struct vhost_de=
-v *dev, int idx)
-> >       size_t driver_size;
-> >       size_t device_size;
-> >       g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostShadowVirtqu=
-eue, 1);
-> > -    int r;
-> > +    int r, i;
-> >
-> >       r =3D event_notifier_init(&svq->kick_notifier, 0);
-> >       if (r !=3D 0) {
-> > @@ -250,6 +469,11 @@ VhostShadowVirtqueue *vhost_svq_new(struct vhost_d=
-ev *dev, int idx)
-> >       memset(svq->vring.desc, 0, driver_size);
-> >       svq->vring.used =3D qemu_memalign(qemu_real_host_page_size, devic=
-e_size);
-> >       memset(svq->vring.used, 0, device_size);
-> > +    for (i =3D 0; i < num - 1; i++) {
-> > +        svq->vring.desc[i].next =3D cpu_to_le16(i + 1);
-> > +    }
-> > +
-> > +    svq->ring_id_maps =3D g_new0(VirtQueueElement *, num);
-> >       event_notifier_set_handler(&svq->call_notifier,
-> >                                  vhost_svq_handle_call);
-> >       return g_steal_pointer(&svq);
-> > @@ -269,6 +493,7 @@ void vhost_svq_free(VhostShadowVirtqueue *vq)
-> >       event_notifier_cleanup(&vq->kick_notifier);
-> >       event_notifier_set_handler(&vq->call_notifier, NULL);
-> >       event_notifier_cleanup(&vq->call_notifier);
-> > +    g_free(vq->ring_id_maps);
-> >       qemu_vfree(vq->vring.desc);
-> >       qemu_vfree(vq->vring.used);
-> >       g_free(vq);
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index a057e8277d..bb7010ddb5 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -19,6 +19,7 @@
-> >   #include "hw/virtio/virtio-net.h"
-> >   #include "hw/virtio/vhost-shadow-virtqueue.h"
-> >   #include "hw/virtio/vhost-vdpa.h"
-> > +#include "hw/virtio/vhost-shadow-virtqueue.h"
-> >   #include "exec/address-spaces.h"
-> >   #include "qemu/main-loop.h"
-> >   #include "cpu.h"
-> > @@ -475,6 +476,28 @@ static int vhost_vdpa_set_features(struct vhost_de=
-v *dev,
-> >       return vhost_vdpa_backend_set_features(dev, features);
-> >   }
-> >
-> > +/**
-> > + * Restore guest features to vdpa device
-> > + */
-> > +static int vhost_vdpa_set_guest_features(struct vhost_dev *dev)
-> > +{
-> > +    struct vhost_vdpa *v =3D dev->opaque;
-> > +    return vhost_vdpa_backend_set_features(dev, v->guest_features);
-> > +}
-> > +
-> > +/**
-> > + * Set shadow virtqueue supported features
-> > + */
-> > +static int vhost_vdpa_set_svq_features(struct vhost_dev *dev)
-> > +{
-> > +    struct vhost_vdpa *v =3D dev->opaque;
-> > +    uint64_t features =3D v->host_features;
-> > +    bool b =3D vhost_svq_valid_device_features(&features);
-> > +    assert(b);
-> > +
-> > +    return vhost_vdpa_backend_set_features(dev, features);
-> > +}
-> > +
-> >   static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
-> >   {
-> >       uint64_t features;
-> > @@ -730,6 +753,19 @@ static bool  vhost_vdpa_force_iommu(struct vhost_d=
-ev *dev)
-> >       return true;
-> >   }
-> >
-> > +static int vhost_vdpa_vring_pause(struct vhost_dev *dev)
-> > +{
-> > +    int r;
-> > +    uint8_t status;
-> > +
-> > +    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DEVICE_STOPPED);
-> > +    do {
-> > +        r =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
->
->
-> I guess we'd better add some sleep here.
->
-
-If the final version still contains the call, I will add the sleep. At
-the moment I think it's better if we stop the device by a vdpa ioctl.
-
->
-> > +    } while (r =3D=3D 0 && !(status & VIRTIO_CONFIG_S_DEVICE_STOPPED))=
-;
-> > +
-> > +    return 0;
-> > +}
-> > +
-> >   /*
-> >    * Start shadow virtqueue.
-> >    */
-> > @@ -742,9 +778,29 @@ static bool vhost_vdpa_svq_start_vq(struct vhost_d=
-ev *dev, unsigned idx)
-> >           .index =3D idx + dev->vq_index,
-> >           .fd =3D event_notifier_get_fd(vhost_call_notifier),
-> >       };
-> > +    struct vhost_vring_addr addr =3D {
-> > +        .index =3D idx + dev->vq_index,
-> > +    };
-> > +    struct vhost_vring_state num =3D {
-> > +        .index =3D idx + dev->vq_index,
-> > +        .num =3D virtio_queue_get_num(dev->vdev, idx),
-> > +    };
-> >       int r;
-> >       bool b;
-> >
-> > +    vhost_svq_get_vring_addr(svq, &addr);
-> > +    r =3D vhost_vdpa_set_vring_addr(dev, &addr);
-> > +    if (unlikely(r)) {
-> > +        error_report("vhost_set_vring_addr for shadow vq failed");
-> > +        return false;
-> > +    }
-> > +
-> > +    r =3D vhost_vdpa_set_vring_num(dev, &num);
-> > +    if (unlikely(r)) {
-> > +        error_report("vhost_vdpa_set_vring_num for shadow vq failed");
-> > +        return false;
-> > +    }
-> > +
-> >       /* Set shadow vq -> guest notifier */
-> >       assert(v->call_fd[idx]);
-> >       vhost_svq_set_guest_call_notifier(svq, v->call_fd[idx]);
-> > @@ -781,15 +837,32 @@ static unsigned vhost_vdpa_enable_svq(struct vhos=
-t_vdpa *v, bool enable)
-> >           assert(v->shadow_vqs->len =3D=3D 0);
-> >           for (n =3D 0; n < hdev->nvqs; ++n) {
-> >               VhostShadowVirtqueue *svq =3D vhost_svq_new(hdev, n);
-> > -            bool ok;
-> > -
-> >               if (unlikely(!svq)) {
-> >                   g_ptr_array_set_size(v->shadow_vqs, 0);
-> >                   return 0;
-> >               }
-> >               g_ptr_array_add(v->shadow_vqs, svq);
-> > +        }
-> > +    }
-> >
-> > -            ok =3D vhost_vdpa_svq_start_vq(hdev, n);
-> > +    r =3D vhost_vdpa_vring_pause(hdev);
-> > +    assert(r =3D=3D 0);
-> > +
-> > +    if (enable) {
-> > +        for (n =3D 0; n < v->shadow_vqs->len; ++n) {
-> > +            /* Obtain Virtqueue state */
-> > +            vhost_virtqueue_stop(hdev, hdev->vdev, &hdev->vqs[n], n);
-> > +        }
-> > +    }
-> > +
-> > +    /* Reset device so it can be configured */
-> > +    r =3D vhost_vdpa_dev_start(hdev, false);
-> > +    assert(r =3D=3D 0);
-> > +
-> > +    if (enable) {
-> > +        int r;
-> > +        for (n =3D 0; n < v->shadow_vqs->len; ++n) {
-> > +            bool ok =3D vhost_vdpa_svq_start_vq(hdev, n);
-> >               if (unlikely(!ok)) {
-> >                   /* Free still not started svqs */
-> >                   g_ptr_array_set_size(v->shadow_vqs, n);
-> > @@ -797,11 +870,19 @@ static unsigned vhost_vdpa_enable_svq(struct vhos=
-t_vdpa *v, bool enable)
-> >                   break;
-> >               }
-> >           }
-> > +
-> > +        /* Need to ack features to set state in vp_vdpa devices */
->
->
-> vhost_vdpa actually?
->
-
-Yes, what a mistake!
-
->
-> > +        r =3D vhost_vdpa_set_svq_features(hdev);
-> > +        if (unlikely(r)) {
-> > +            enable =3D false;
-> > +        }
-> >       }
-> >
-> >       v->shadow_vqs_enabled =3D enable;
-> >
-> >       if (!enable) {
-> > +        vhost_vdpa_set_guest_features(hdev);
-> > +
-> >           /* Disable all queues or clean up failed start */
-> >           for (n =3D 0; n < v->shadow_vqs->len; ++n) {
-> >               struct vhost_vring_file file =3D {
-> > @@ -818,7 +899,12 @@ static unsigned vhost_vdpa_enable_svq(struct vhost=
-_vdpa *v, bool enable)
-> >               /* TODO: This can unmask or override call fd! */
-> >               vhost_virtqueue_start(hdev, hdev->vdev, &hdev->vqs[n], vq=
-_idx);
-> >           }
-> > +    }
-> >
-> > +    r =3D vhost_vdpa_dev_start(hdev, true);
-> > +    assert(r =3D=3D 0);
-> > +
-> > +    if (!enable) {
-> >           /* Resources cleanup */
-> >           g_ptr_array_set_size(v->shadow_vqs, 0);
-> >       }
-> > @@ -831,6 +917,7 @@ void qmp_x_vhost_enable_shadow_vq(const char *name,=
- bool enable, Error **errp)
-> >       struct vhost_vdpa *v;
-> >       const char *err_cause =3D NULL;
-> >       bool r;
-> > +    uint64_t svq_features;
-> >
-> >       QLIST_FOREACH(v, &vhost_vdpa_devices, entry) {
-> >           if (v->dev->vdev && 0 =3D=3D strcmp(v->dev->vdev->name, name)=
-) {
-> > @@ -846,6 +933,20 @@ void qmp_x_vhost_enable_shadow_vq(const char *name=
-, bool enable, Error **errp)
-> >           goto err;
-> >       }
-> >
-> > +    svq_features =3D v->host_features;
-> > +    if (!vhost_svq_valid_device_features(&svq_features)) {
-> > +        error_setg(errp,
-> > +            "Can't enable shadow vq on %s: Unexpected feature flags (%=
-lx-%lx)",
-> > +            name, v->host_features, svq_features);
-> > +        return;
-> > +    } else {
-> > +        /* TODO: Check for virtio_vdpa + IOMMU & modern device */
->
->
-> I guess you mean "vhost_vdpa" here.
-
-Yes, a similar mistake in less than 50 lines :).
-
-> For IOMMU, I guess you mean "vIOMMU"
-> actually?
->
-
-This comment is out of date and inherited from the vhost version,
-where only the IOMMU version was developed, so it will be deleted in
-the next series. I think it makes little sense to check vIOMMU if we
-stick with vDPA since it still does not support it, but we could make
-the check here for sure.
-
-Thanks!
-
-> Thanks
->
->
-> > +    }
-> > +
-> > +    if (err_cause) {
-> > +        goto err;
-> > +    }
-> > +
-> >       r =3D vhost_vdpa_enable_svq(v, enable);
-> >       if (unlikely(!r)) {
-> >           err_cause =3D "Error enabling (see monitor)";
-> > @@ -853,7 +954,7 @@ void qmp_x_vhost_enable_shadow_vq(const char *name,=
- bool enable, Error **errp)
-> >       }
-> >
-> >   err:
-> > -    if (err_cause) {
-> > +    if (errp =3D=3D NULL && err_cause) {
-> >           error_setg(errp, "Can't enable shadow vq on %s: %s", name, er=
-r_cause);
-> >       }
-> >   }
->
-
+--00000000000051fd6e05ce53d57a--
 
