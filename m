@@ -2,51 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E265642D42B
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 09:54:14 +0200 (CEST)
-Received: from localhost ([::1]:33600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF9142D491
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 10:11:54 +0200 (CEST)
+Received: from localhost ([::1]:38156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mavZ7-0004K8-QK
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 03:54:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37128)
+	id 1mavqB-0008C9-5s
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 04:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mavXu-0003VM-Gg; Thu, 14 Oct 2021 03:52:58 -0400
-Received: from out28-194.mail.aliyun.com ([115.124.28.194]:36040)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mavnD-0006pr-R3
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 04:08:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26300)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mavXp-0006TK-My; Thu, 14 Oct 2021 03:52:57 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436282|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.0721368-0.000224971-0.927638;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047211; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.LZIJfyE_1634197965; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.LZIJfyE_1634197965)
- by smtp.aliyun-inc.com(10.147.42.22); Thu, 14 Oct 2021 15:52:45 +0800
-Subject: Re: [PATCH v2 03/13] target/riscv: Split misa.mxl and misa.ext
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211013205104.1031679-1-richard.henderson@linaro.org>
- <20211013205104.1031679-4-richard.henderson@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <e3151002-6664-930a-bea2-c2d692338a86@c-sky.com>
-Date: Thu, 14 Oct 2021 15:52:45 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mavn6-0005Cb-VL
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 04:08:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634198919;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/ORA295WyReid2O6RmW5hy4elM1ARVmV2IOmlXL2Kfw=;
+ b=TAyI1n2p7bhjWyGo8U9phbiv09QtUzK0Q85sLWI9Tc8uugvUH6STk69LRpr32YUABxJfaA
+ ZKvb5qL/MxQPuwQItZHC1zRdciVeQ34Kj7oENPMs/YkUx8sNGlPMX/v999MPEunrCku+Y/
+ zqYJNSUK0k943rdAkQgha1UDx67hbfk=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-4qCAi_vvNZSzpKET6frUEQ-1; Thu, 14 Oct 2021 04:08:38 -0400
+X-MC-Unique: 4qCAi_vvNZSzpKET6frUEQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ p9-20020a05621421e900b003830bb235fbso4981790qvj.14
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 01:08:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/ORA295WyReid2O6RmW5hy4elM1ARVmV2IOmlXL2Kfw=;
+ b=rS66fUhiuaVRK10rlcCDU4OL0z1snBQ5v/nPR/Mno/frLFIz0nqhEQCJqtY7+hQORf
+ x6+BM3vN4kFV12V4symFnKarHVZt5tPhgl0RBoyeMx51frEtUKeSjUMxUjKBKfYDkvBt
+ dnq7BCdTDa9gk/3ytO29d+DM7z/jJlbxc6q4xSY9qrGnt49ZPo2HM4rzycioFzAUtLpU
+ DKIfhDTtD723bxcNIzOuOAEG9nQVSw59cWVqcoiHjz1S65RFF9MdIPmEuEBV1PuPSsnd
+ zawwPWROiLAcEavmeLgTgjgkrp0PhXiqAozc7DctBMyb6CHkYS6D43K3m0TVPcsQnoH+
+ e7fw==
+X-Gm-Message-State: AOAM531JuPnQy3pMirr2qxj+LYfEzraxKHZQvncwaXiiBpDLoN9ow8z2
+ AuvZI9LWBlDDhlaIpVI7VoaEa71OgwzGeaZjXuUciYE4yJaYWvFf+4239OchlDlVq0d57Rmw9hC
+ 2UdSD11g7nMD/nnUenR3QGdB8Npfk3NA=
+X-Received: by 2002:ac8:6112:: with SMTP id a18mr4678563qtm.401.1634198917912; 
+ Thu, 14 Oct 2021 01:08:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzItR68O/Upg7a415XPAOE8jKXoIbEZHNLRc+q+Yg7xLq7/VptP8XZCjnzP1vJUDM6Xb8mjvha3+nFOE7FKzpc=
+X-Received: by 2002:ac8:6112:: with SMTP id a18mr4678535qtm.401.1634198917629; 
+ Thu, 14 Oct 2021 01:08:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211013205104.1031679-4-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.194; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-194.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+References: <20211012140710.804529-1-eperezma@redhat.com>
+ <20211012140710.804529-4-eperezma@redhat.com>
+ <CACGkMEsGDoWuE0WEq7P-S5V5XiLPCZcVAszQFHDLsLDZEAAh5A@mail.gmail.com>
+ <CAJaqyWdW+JarVW6tOfM6rYHh2fb=whGHFdwmFy0AMcLqukOrpg@mail.gmail.com>
+ <CACGkMEv1P3MiRYENsDfx-iarEiv7Bik-qTaYUEAAmAUV1nEfWg@mail.gmail.com>
+In-Reply-To: <CACGkMEv1P3MiRYENsDfx-iarEiv7Bik-qTaYUEAAmAUV1nEfWg@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 14 Oct 2021 10:08:01 +0200
+Message-ID: <CAJaqyWfU2KAULXkNPNPOo+824Kx2z5ibo-Gr6q2FNoOCpThQ8Q@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] vdpa: Check for iova range at mappings changes
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,514 +94,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, frederic.petrot@univ-grenoble-alpes.fr,
- qemu-riscv@nongnu.org, fabien.portas@grenoble-inp.org
+Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2021/10/14 上午4:50, Richard Henderson wrote:
-> The hw representation of misa.mxl is at the high bits of the
-> misa csr.  Representing this in the same way inside QEMU
-> results in overly complex code trying to check that field.
+On Thu, Oct 14, 2021 at 9:02 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> v2: Reset misa.mxl.
-> ---
->   target/riscv/cpu.h          | 15 +++----
->   linux-user/elfload.c        |  2 +-
->   linux-user/riscv/cpu_loop.c |  2 +-
->   target/riscv/cpu.c          | 78 +++++++++++++++++++++----------------
->   target/riscv/csr.c          | 44 ++++++++++++++-------
->   target/riscv/gdbstub.c      |  8 ++--
->   target/riscv/machine.c      | 10 +++--
->   target/riscv/translate.c    | 10 +++--
->   8 files changed, 100 insertions(+), 69 deletions(-)
+> On Thu, Oct 14, 2021 at 1:57 PM Eugenio Perez Martin
+> <eperezma@redhat.com> wrote:
+> >
+> > On Thu, Oct 14, 2021 at 5:30 AM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > > On Tue, Oct 12, 2021 at 10:07 PM Eugenio P=C3=A9rez <eperezma@redhat.=
+com> wrote:
+> > > >
+> > > > Check vdpa device range before updating memory regions so we don't =
+add
+> > > > any outside of it, and report the invalid change if any.
+> > > >
+> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > ---
+> > > >  include/hw/virtio/vhost-vdpa.h |  2 ++
+> > > >  hw/virtio/vhost-vdpa.c         | 62 +++++++++++++++++++++++++-----=
+----
+> > > >  hw/virtio/trace-events         |  1 +
+> > > >  3 files changed, 49 insertions(+), 16 deletions(-)
+> > > >
+> > > > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vho=
+st-vdpa.h
+> > > > index a8963da2d9..c288cf7ecb 100644
+> > > > --- a/include/hw/virtio/vhost-vdpa.h
+> > > > +++ b/include/hw/virtio/vhost-vdpa.h
+> > > > @@ -13,6 +13,7 @@
+> > > >  #define HW_VIRTIO_VHOST_VDPA_H
+> > > >
+> > > >  #include "hw/virtio/virtio.h"
+> > > > +#include "standard-headers/linux/vhost_types.h"
+> > > >
+> > > >  typedef struct VhostVDPAHostNotifier {
+> > > >      MemoryRegion mr;
+> > > > @@ -24,6 +25,7 @@ typedef struct vhost_vdpa {
+> > > >      uint32_t msg_type;
+> > > >      bool iotlb_batch_begin_sent;
+> > > >      MemoryListener listener;
+> > > > +    struct vhost_vdpa_iova_range iova_range;
+> > > >      struct vhost_dev *dev;
+> > > >      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> > > >  } VhostVDPA;
+> > > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > > > index be7c63b4ba..dbf773d032 100644
+> > > > --- a/hw/virtio/vhost-vdpa.c
+> > > > +++ b/hw/virtio/vhost-vdpa.c
+> > > > @@ -37,20 +37,34 @@ static Int128 vhost_vdpa_section_end(const Memo=
+ryRegionSection *section)
+> > > >      return llend;
+> > > >  }
+> > > >
+> > > > -static bool vhost_vdpa_listener_skipped_section(MemoryRegionSectio=
+n *section)
+> > > > -{
+> > > > -    return (!memory_region_is_ram(section->mr) &&
+> > > > -            !memory_region_is_iommu(section->mr)) ||
+> > > > -            memory_region_is_protected(section->mr) ||
+> > > > -           /* vhost-vDPA doesn't allow MMIO to be mapped  */
+> > > > -            memory_region_is_ram_device(section->mr) ||
+> > > > -           /*
+> > > > -            * Sizing an enabled 64-bit BAR can cause spurious mapp=
+ings to
+> > > > -            * addresses in the upper part of the 64-bit address sp=
+ace.  These
+> > > > -            * are never accessed by the CPU and beyond the address=
+ width of
+> > > > -            * some IOMMU hardware.  TODO: VDPA should tell us the =
+IOMMU width.
+> > > > -            */
+> > > > -           section->offset_within_address_space & (1ULL << 63);
+> >
+> > [1]
+> >
+> > > > +static bool vhost_vdpa_listener_skipped_section(MemoryRegionSectio=
+n *section,
+> > > > +                                                uint64_t iova_min,
+> > > > +                                                uint64_t iova_max)
+> > > > +{
+> > > > +    Int128 llend;
+> > > > +
+> > > > +    if ((!memory_region_is_ram(section->mr) &&
+> > > > +         !memory_region_is_iommu(section->mr)) ||
+> > > > +        memory_region_is_protected(section->mr) ||
+> > > > +        /* vhost-vDPA doesn't allow MMIO to be mapped  */
+> > > > +        memory_region_is_ram_device(section->mr)) {
+> > > > +        return true;
+> > > > +    }
+> > > > +
+> > > > +    if (section->offset_within_address_space < iova_min) {
+> > > > +        error_report("RAM section out of device range (min=3D%lu, =
+addr=3D%lu)",
+> > > > +                     iova_min, section->offset_within_address_spac=
+e);
+> > > > +        return true;
+> > > > +    }
+> > > > +
+> > > > +    llend =3D vhost_vdpa_section_end(section);
+> > > > +    if (int128_gt(llend, int128_make64(iova_max))) {
+> > > > +        error_report("RAM section out of device range (max=3D%lu, =
+end addr=3D%lu)",
+> > > > +                     iova_max, int128_get64(llend));
+> > > > +        return true;
+> > > > +    }
+> > > > +
+> > > > +    return false;
+> > > >  }
+> > > >
+> > > >  static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, h=
+waddr size,
+> > > > @@ -162,7 +176,8 @@ static void vhost_vdpa_listener_region_add(Memo=
+ryListener *listener,
+> > > >      void *vaddr;
+> > > >      int ret;
+> > > >
+> > > > -    if (vhost_vdpa_listener_skipped_section(section)) {
+> > > > +    if (vhost_vdpa_listener_skipped_section(section, v->iova_range=
+.first,
+> > > > +                                            v->iova_range.last)) {
+> > > >          return;
+> > > >      }
+> > > >
+> > > > @@ -220,7 +235,8 @@ static void vhost_vdpa_listener_region_del(Memo=
+ryListener *listener,
+> > > >      Int128 llend, llsize;
+> > > >      int ret;
+> > > >
+> > > > -    if (vhost_vdpa_listener_skipped_section(section)) {
+> > > > +    if (vhost_vdpa_listener_skipped_section(section, v->iova_range=
+.first,
+> > > > +                                            v->iova_range.last)) {
+> > > >          return;
+> > > >      }
+> > > >
+> > > > @@ -288,6 +304,19 @@ static void vhost_vdpa_add_status(struct vhost=
+_dev *dev, uint8_t status)
+> > > >      vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
+> > > >  }
+> > > >
+> > > > +static void vhost_vdpa_get_iova_range(struct vhost_vdpa *v)
+> > > > +{
+> > > > +    int ret =3D vhost_vdpa_call(v->dev, VHOST_VDPA_GET_IOVA_RANGE,
+> > > > +                              &v->iova_range);
+> > > > +    if (ret !=3D 0) {
+> > > > +        v->iova_range.first =3D 0;
+> > > > +        v->iova_range.last =3D MAKE_64BIT_MASK(0, 63);
+> > >
+> > > Nit:
+> > >
+> > > ULLONG_MAX?
+> > >
+> >
+> > It should be ULLONG_MAX >> 1 to match the previous limit [1],
 >
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 7084efc452..e708fcc168 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -25,6 +25,7 @@
->   #include "exec/cpu-defs.h"
->   #include "fpu/softfloat-types.h"
->   #include "qom/object.h"
-> +#include "cpu_bits.h"
->   
->   #define TCG_GUEST_DEFAULT_MO 0
->   
-> @@ -51,9 +52,6 @@
->   # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE64
->   #endif
->   
-> -#define RV32 ((target_ulong)1 << (TARGET_LONG_BITS - 2))
-> -#define RV64 ((target_ulong)2 << (TARGET_LONG_BITS - 2))
-> -
->   #define RV(x) ((target_ulong)1 << (x - 'A'))
->   
->   #define RVI RV('I')
-> @@ -133,8 +131,12 @@ struct CPURISCVState {
->       target_ulong priv_ver;
->       target_ulong bext_ver;
->       target_ulong vext_ver;
-> -    target_ulong misa;
-> -    target_ulong misa_mask;
-> +
-> +    /* RISCVMXL, but uint32_t for vmstate migration */
-> +    uint32_t misa_mxl;      /* current mxl */
-> +    uint32_t misa_mxl_max;  /* max mxl for this cpu */
-> +    uint32_t misa_ext;      /* current extensions */
-> +    uint32_t misa_ext_mask; /* max ext for this cpu */
->   
->       uint32_t features;
->   
-> @@ -313,7 +315,7 @@ struct RISCVCPU {
->   
->   static inline int riscv_has_ext(CPURISCVState *env, target_ulong ext)
->   {
-> -    return (env->misa & ext) != 0;
-> +    return (env->misa_ext & ext) != 0;
->   }
->   
->   static inline bool riscv_feature(CPURISCVState *env, int feature)
-> @@ -322,7 +324,6 @@ static inline bool riscv_feature(CPURISCVState *env, int feature)
->   }
->   
->   #include "cpu_user.h"
-> -#include "cpu_bits.h"
->   
->   extern const char * const riscv_int_regnames[];
->   extern const char * const riscv_fpr_regnames[];
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 2404d482ba..214c1aa40d 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -1448,7 +1448,7 @@ static uint32_t get_elf_hwcap(void)
->       uint32_t mask = MISA_BIT('I') | MISA_BIT('M') | MISA_BIT('A')
->                       | MISA_BIT('F') | MISA_BIT('D') | MISA_BIT('C');
->   
-> -    return cpu->env.misa & mask;
-> +    return cpu->env.misa_ext & mask;
->   #undef MISA_BIT
->   }
->   
-> diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-> index 9859a366e4..e5bb6d908a 100644
-> --- a/linux-user/riscv/cpu_loop.c
-> +++ b/linux-user/riscv/cpu_loop.c
-> @@ -133,7 +133,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
->       env->gpr[xSP] = regs->sp;
->       env->elf_flags = info->elf_flags;
->   
-> -    if ((env->misa & RVE) && !(env->elf_flags & EF_RISCV_RVE)) {
-> +    if ((env->misa_ext & RVE) && !(env->elf_flags & EF_RISCV_RVE)) {
->           error_report("Incompatible ELF: RVE cpu requires RVE ABI binary");
->           exit(EXIT_FAILURE);
->       }
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 1d69d1887e..fdf031a394 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -110,16 +110,13 @@ const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
->   
->   bool riscv_cpu_is_32bit(CPURISCVState *env)
->   {
-> -    if (env->misa & RV64) {
-> -        return false;
-> -    }
-> -
-> -    return true;
-> +    return env->misa_mxl == MXL_RV32;
->   }
->   
-> -static void set_misa(CPURISCVState *env, target_ulong misa)
-> +static void set_misa(CPURISCVState *env, RISCVMXL mxl, uint32_t ext)
->   {
-> -    env->misa_mask = env->misa = misa;
-> +    env->misa_mxl_max = env->misa_mxl = mxl;
-> +    env->misa_ext_mask = env->misa_ext = ext;
->   }
->   
->   static void set_priv_version(CPURISCVState *env, int priv_ver)
-> @@ -148,9 +145,9 @@ static void riscv_any_cpu_init(Object *obj)
->   {
->       CPURISCVState *env = &RISCV_CPU(obj)->env;
->   #if defined(TARGET_RISCV32)
-> -    set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
-> +    set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
->   #elif defined(TARGET_RISCV64)
-> -    set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
-> +    set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
->   #endif
->       set_priv_version(env, PRIV_VERSION_1_11_0);
->   }
-> @@ -160,20 +157,20 @@ static void rv64_base_cpu_init(Object *obj)
->   {
->       CPURISCVState *env = &RISCV_CPU(obj)->env;
->       /* We set this in the realise function */
-> -    set_misa(env, RV64);
-> +    set_misa(env, MXL_RV64, 0);
->   }
->   
->   static void rv64_sifive_u_cpu_init(Object *obj)
->   {
->       CPURISCVState *env = &RISCV_CPU(obj)->env;
-> -    set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
-> +    set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
->       set_priv_version(env, PRIV_VERSION_1_10_0);
->   }
->   
->   static void rv64_sifive_e_cpu_init(Object *obj)
->   {
->       CPURISCVState *env = &RISCV_CPU(obj)->env;
-> -    set_misa(env, RV64 | RVI | RVM | RVA | RVC | RVU);
-> +    set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);
->       set_priv_version(env, PRIV_VERSION_1_10_0);
->       qdev_prop_set_bit(DEVICE(obj), "mmu", false);
->   }
-> @@ -182,20 +179,20 @@ static void rv32_base_cpu_init(Object *obj)
->   {
->       CPURISCVState *env = &RISCV_CPU(obj)->env;
->       /* We set this in the realise function */
-> -    set_misa(env, RV32);
-> +    set_misa(env, MXL_RV32, 0);
->   }
->   
->   static void rv32_sifive_u_cpu_init(Object *obj)
->   {
->       CPURISCVState *env = &RISCV_CPU(obj)->env;
-> -    set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
-> +    set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
->       set_priv_version(env, PRIV_VERSION_1_10_0);
->   }
->   
->   static void rv32_sifive_e_cpu_init(Object *obj)
->   {
->       CPURISCVState *env = &RISCV_CPU(obj)->env;
-> -    set_misa(env, RV32 | RVI | RVM | RVA | RVC | RVU);
-> +    set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);
->       set_priv_version(env, PRIV_VERSION_1_10_0);
->       qdev_prop_set_bit(DEVICE(obj), "mmu", false);
->   }
-> @@ -203,7 +200,7 @@ static void rv32_sifive_e_cpu_init(Object *obj)
->   static void rv32_ibex_cpu_init(Object *obj)
->   {
->       CPURISCVState *env = &RISCV_CPU(obj)->env;
-> -    set_misa(env, RV32 | RVI | RVM | RVC | RVU);
-> +    set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);
->       set_priv_version(env, PRIV_VERSION_1_10_0);
->       qdev_prop_set_bit(DEVICE(obj), "mmu", false);
->       qdev_prop_set_bit(DEVICE(obj), "x-epmp", true);
-> @@ -212,7 +209,7 @@ static void rv32_ibex_cpu_init(Object *obj)
->   static void rv32_imafcu_nommu_cpu_init(Object *obj)
->   {
->       CPURISCVState *env = &RISCV_CPU(obj)->env;
-> -    set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVC | RVU);
-> +    set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
->       set_priv_version(env, PRIV_VERSION_1_10_0);
->       set_resetvec(env, DEFAULT_RSTVEC);
->       qdev_prop_set_bit(DEVICE(obj), "mmu", false);
-> @@ -360,6 +357,7 @@ static void riscv_cpu_reset(DeviceState *dev)
->   
->       mcc->parent_reset(dev);
->   #ifndef CONFIG_USER_ONLY
-> +    env->misa_mxl = env->misa_mxl_max;
+> I think they don't conflict. We just want to preserve the default iova
+> range as what the kernel did. Kernel will give ULLONG_MAX if
+> get_iova_range() is not implemented by the device?
+>
 
-As we have set misa_mxl in cpu_init_fn, why set it again here?
+Right, so each one understood a different "previous limit" then :). I
+will replace it with UINT64_MAX if you are ok with that.
 
-Thanks,Zhiwei
+Thanks!
 
->       env->priv = PRV_M;
->       env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
->       env->mcause = 0;
-> @@ -388,7 +386,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->       CPURISCVState *env = &cpu->env;
->       RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
->       int priv_version = 0;
-> -    target_ulong target_misa = env->misa;
->       Error *local_err = NULL;
->   
->       cpu_exec_realizefn(cs, &local_err);
-> @@ -434,8 +431,23 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->   
->       set_resetvec(env, cpu->cfg.resetvec);
->   
-> -    /* If only XLEN is set for misa, then set misa from properties */
-> -    if (env->misa == RV32 || env->misa == RV64) {
-> +    /* Validate that MISA_MXL is set properly. */
-> +    switch (env->misa_mxl_max) {
-> +#ifdef TARGET_RISCV64
-> +    case MXL_RV64:
-> +        break;
-> +#endif
-> +    case MXL_RV32:
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +    assert(env->misa_mxl_max == env->misa_mxl);
-> +
-> +    /* If only MISA_EXT is unset for misa, then set it from properties */
-> +    if (env->misa_ext == 0) {
-> +        uint32_t ext = 0;
-> +
->           /* Do some ISA extension error checking */
->           if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
->               error_setg(errp,
-> @@ -462,38 +474,38 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->   
->           /* Set the ISA extensions, checks should have happened above */
->           if (cpu->cfg.ext_i) {
-> -            target_misa |= RVI;
-> +            ext |= RVI;
->           }
->           if (cpu->cfg.ext_e) {
-> -            target_misa |= RVE;
-> +            ext |= RVE;
->           }
->           if (cpu->cfg.ext_m) {
-> -            target_misa |= RVM;
-> +            ext |= RVM;
->           }
->           if (cpu->cfg.ext_a) {
-> -            target_misa |= RVA;
-> +            ext |= RVA;
->           }
->           if (cpu->cfg.ext_f) {
-> -            target_misa |= RVF;
-> +            ext |= RVF;
->           }
->           if (cpu->cfg.ext_d) {
-> -            target_misa |= RVD;
-> +            ext |= RVD;
->           }
->           if (cpu->cfg.ext_c) {
-> -            target_misa |= RVC;
-> +            ext |= RVC;
->           }
->           if (cpu->cfg.ext_s) {
-> -            target_misa |= RVS;
-> +            ext |= RVS;
->           }
->           if (cpu->cfg.ext_u) {
-> -            target_misa |= RVU;
-> +            ext |= RVU;
->           }
->           if (cpu->cfg.ext_h) {
-> -            target_misa |= RVH;
-> +            ext |= RVH;
->           }
->           if (cpu->cfg.ext_v) {
->               int vext_version = VEXT_VERSION_0_07_1;
-> -            target_misa |= RVV;
-> +            ext |= RVV;
->               if (!is_power_of_2(cpu->cfg.vlen)) {
->                   error_setg(errp,
->                           "Vector extension VLEN must be power of 2");
-> @@ -532,7 +544,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->               set_vext_version(env, vext_version);
->           }
->   
-> -        set_misa(env, target_misa);
-> +        set_misa(env, env->misa_mxl, ext);
->       }
->   
->       riscv_cpu_register_gdb_regs_for_features(cs);
-> @@ -705,7 +717,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
->       char *isa_str = g_new(char, maxlen);
->       char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
->       for (i = 0; i < sizeof(riscv_exts); i++) {
-> -        if (cpu->env.misa & RV(riscv_exts[i])) {
-> +        if (cpu->env.misa_ext & RV(riscv_exts[i])) {
->               *p++ = qemu_tolower(riscv_exts[i]);
->           }
->       }
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 23fbbd3216..d0c86a300d 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -39,7 +39,7 @@ static RISCVException fs(CPURISCVState *env, int csrno)
->   {
->   #if !defined(CONFIG_USER_ONLY)
->       /* loose check condition for fcsr in vector extension */
-> -    if ((csrno == CSR_FCSR) && (env->misa & RVV)) {
-> +    if ((csrno == CSR_FCSR) && (env->misa_ext & RVV)) {
->           return RISCV_EXCP_NONE;
->       }
->       if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> @@ -51,7 +51,7 @@ static RISCVException fs(CPURISCVState *env, int csrno)
->   
->   static RISCVException vs(CPURISCVState *env, int csrno)
->   {
-> -    if (env->misa & RVV) {
-> +    if (env->misa_ext & RVV) {
->           return RISCV_EXCP_NONE;
->       }
->       return RISCV_EXCP_ILLEGAL_INST;
-> @@ -557,7 +557,22 @@ static RISCVException write_mstatush(CPURISCVState *env, int csrno,
->   static RISCVException read_misa(CPURISCVState *env, int csrno,
->                                   target_ulong *val)
->   {
-> -    *val = env->misa;
-> +    target_ulong misa;
-> +
-> +    switch (env->misa_mxl) {
-> +    case MXL_RV32:
-> +        misa = (target_ulong)MXL_RV32 << 30;
-> +        break;
-> +#ifdef TARGET_RISCV64
-> +    case MXL_RV64:
-> +        misa = (target_ulong)MXL_RV64 << 62;
-> +        break;
-> +#endif
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +
-> +    *val = misa | env->misa_ext;
->       return RISCV_EXCP_NONE;
->   }
->   
-> @@ -583,8 +598,13 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
->           return RISCV_EXCP_NONE;
->       }
->   
-> +    /*
-> +     * misa.MXL writes are not supported by QEMU.
-> +     * Drop writes to those bits.
-> +     */
-> +
->       /* Mask extensions that are not supported by this hart */
-> -    val &= env->misa_mask;
-> +    val &= env->misa_ext_mask;
->   
->       /* Mask extensions that are not supported by QEMU */
->       val &= (RVI | RVE | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
-> @@ -601,20 +621,14 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
->           val &= ~RVC;
->       }
->   
-> -    /* misa.MXL writes are not supported by QEMU */
-> -    if (riscv_cpu_is_32bit(env)) {
-> -        val = (env->misa & MISA32_MXL) | (val & ~MISA32_MXL);
-> -    } else {
-> -        val = (env->misa & MISA64_MXL) | (val & ~MISA64_MXL);
-> +    /* If nothing changed, do nothing. */
-> +    if (val == env->misa_ext) {
-> +        return RISCV_EXCP_NONE;
->       }
->   
->       /* flush translation cache */
-> -    if (val != env->misa) {
-> -        tb_flush(env_cpu(env));
-> -    }
-> -
-> -    env->misa = val;
-> -
-> +    tb_flush(env_cpu(env));
-> +    env->misa_ext = val;
->       return RISCV_EXCP_NONE;
->   }
->   
-> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-> index a7a9c0b1fe..5257df0217 100644
-> --- a/target/riscv/gdbstub.c
-> +++ b/target/riscv/gdbstub.c
-> @@ -54,10 +54,10 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
->   static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
->   {
->       if (n < 32) {
-> -        if (env->misa & RVD) {
-> +        if (env->misa_ext & RVD) {
->               return gdb_get_reg64(buf, env->fpr[n]);
->           }
-> -        if (env->misa & RVF) {
-> +        if (env->misa_ext & RVF) {
->               return gdb_get_reg32(buf, env->fpr[n]);
->           }
->       /* there is hole between ft11 and fflags in fpu.xml */
-> @@ -191,10 +191,10 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
->   {
->       RISCVCPU *cpu = RISCV_CPU(cs);
->       CPURISCVState *env = &cpu->env;
-> -    if (env->misa & RVD) {
-> +    if (env->misa_ext & RVD) {
->           gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
->                                    36, "riscv-64bit-fpu.xml", 0);
-> -    } else if (env->misa & RVF) {
-> +    } else if (env->misa_ext & RVF) {
->           gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
->                                    36, "riscv-32bit-fpu.xml", 0);
->       }
-> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> index 16a08302da..f64b2a96c1 100644
-> --- a/target/riscv/machine.c
-> +++ b/target/riscv/machine.c
-> @@ -140,8 +140,8 @@ static const VMStateDescription vmstate_hyper = {
->   
->   const VMStateDescription vmstate_riscv_cpu = {
->       .name = "cpu",
-> -    .version_id = 2,
-> -    .minimum_version_id = 2,
-> +    .version_id = 3,
-> +    .minimum_version_id = 3,
->       .fields = (VMStateField[]) {
->           VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
->           VMSTATE_UINT64_ARRAY(env.fpr, RISCVCPU, 32),
-> @@ -153,8 +153,10 @@ const VMStateDescription vmstate_riscv_cpu = {
->           VMSTATE_UINTTL(env.guest_phys_fault_addr, RISCVCPU),
->           VMSTATE_UINTTL(env.priv_ver, RISCVCPU),
->           VMSTATE_UINTTL(env.vext_ver, RISCVCPU),
-> -        VMSTATE_UINTTL(env.misa, RISCVCPU),
-> -        VMSTATE_UINTTL(env.misa_mask, RISCVCPU),
-> +        VMSTATE_UINT32(env.misa_mxl, RISCVCPU),
-> +        VMSTATE_UINT32(env.misa_ext, RISCVCPU),
-> +        VMSTATE_UINT32(env.misa_mxl_max, RISCVCPU),
-> +        VMSTATE_UINT32(env.misa_ext_mask, RISCVCPU),
->           VMSTATE_UINT32(env.features, RISCVCPU),
->           VMSTATE_UINTTL(env.priv, RISCVCPU),
->           VMSTATE_UINTTL(env.virt, RISCVCPU),
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index d2442f0cf5..422f8ab8d0 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -55,7 +55,8 @@ typedef struct DisasContext {
->       /* pc_succ_insn points to the instruction following base.pc_next */
->       target_ulong pc_succ_insn;
->       target_ulong priv_ver;
-> -    target_ulong misa;
-> +    RISCVMXL xl;
-> +    uint32_t misa_ext;
->       uint32_t opcode;
->       uint32_t mstatus_fs;
->       uint32_t mstatus_hs_fs;
-> @@ -86,7 +87,7 @@ typedef struct DisasContext {
->   
->   static inline bool has_ext(DisasContext *ctx, uint32_t ext)
->   {
-> -    return ctx->misa & ext;
-> +    return ctx->misa_ext & ext;
->   }
->   
->   #ifdef TARGET_RISCV32
-> @@ -96,7 +97,7 @@ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
->   #else
->   static inline bool is_32bit(DisasContext *ctx)
->   {
-> -    return (ctx->misa & RV32) == RV32;
-> +    return ctx->xl == MXL_RV32;
->   }
->   #endif
->   
-> @@ -538,7 +539,8 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->   #else
->       ctx->virt_enabled = false;
->   #endif
-> -    ctx->misa = env->misa;
-> +    ctx->xl = env->misa_mxl;
-> +    ctx->misa_ext = env->misa_ext;
->       ctx->frm = -1;  /* unknown rounding mode */
->       ctx->ext_ifencei = cpu->cfg.ext_ifencei;
->       ctx->vlen = cpu->cfg.vlen;
+>
+> > and
+> > trusting that uint64_t is effectively unsigned long long. I see a 63
+> > bits mask immediately with MAKE_64BIT_MASK (once I remember the
+> > parameter order), but I find it harder to see it with (ULLONG_MAX >>
+> > 1).
+> >
+> > If you prefer the _MAX options, I would say it is better to stick with
+> > (UINT64_MAX >> 1) or (HWADDR_MAX >> 1), because of this in
+> > CODING_STYLE.rst:
+> >
+> > "If you're using "int" or "long", odds are good that there's a better
+> > type. ...", "In the event that you require a specific width, use a
+> > standard type like int32_t, uint32_t, uint64_t, etc", "Use hwaddr for
+> > guest physical addresses".
+> >
+> > Does it make sense to you?
+>
+> If I was not wrong, we can use UINT64_MAX.
+>
+> Thanks
+>
+> >
+> > Thanks!
+> >
+> > > Others look good.
+> > >
+> > > Thanks
+> > >
+> > > > +    }
+> > > > +
+> > > > +    trace_vhost_vdpa_get_iova_range(v->dev, v->iova_range.first,
+> > > > +                                    v->iova_range.last);
+> > > > +}
+> > > > +
+> > > >  static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Er=
+ror **errp)
+> > > >  {
+> > > >      struct vhost_vdpa *v;
+> > > > @@ -300,6 +329,7 @@ static int vhost_vdpa_init(struct vhost_dev *de=
+v, void *opaque, Error **errp)
+> > > >      v->listener =3D vhost_vdpa_memory_listener;
+> > > >      v->msg_type =3D VHOST_IOTLB_MSG_V2;
+> > > >
+> > > > +    vhost_vdpa_get_iova_range(v);
+> > > >      vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> > > >                                 VIRTIO_CONFIG_S_DRIVER);
+> > > >
+> > > > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> > > > index 8ed19e9d0c..650e521e35 100644
+> > > > --- a/hw/virtio/trace-events
+> > > > +++ b/hw/virtio/trace-events
+> > > > @@ -52,6 +52,7 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int=
+ index, int fd) "dev: %p index:
+> > > >  vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p fea=
+tures: 0x%"PRIx64
+> > > >  vhost_vdpa_set_owner(void *dev) "dev: %p"
+> > > >  vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_add=
+r, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_=
+user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRI=
+x64
+> > > > +vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint64_t last=
+) "dev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
+> > > >
+> > > >  # virtio.c
+> > > >  virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, un=
+signed out_num) "elem %p size %zd in_num %u out_num %u"
+> > > > --
+> > > > 2.27.0
+> > > >
+> > >
+> >
+>
+
 
