@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5E842E44C
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 00:38:46 +0200 (CEST)
-Received: from localhost ([::1]:36748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC1842E449
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 00:38:31 +0200 (CEST)
+Received: from localhost ([::1]:36174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb9N8-0005iu-0S
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 18:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54028)
+	id 1mb9Ms-0005Kz-4P
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 18:38:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mb9JM-00029T-HD; Thu, 14 Oct 2021 18:34:52 -0400
+ id 1mb9JP-0002HR-7l; Thu, 14 Oct 2021 18:34:55 -0400
 Received: from [201.28.113.2] (port=23608 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mb9JL-0005Cp-2s; Thu, 14 Oct 2021 18:34:52 -0400
+ id 1mb9JN-0005Cp-Ni; Thu, 14 Oct 2021 18:34:54 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 14 Oct 2021 19:34:37 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 14 Oct 2021 19:34:38 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 68CEA8014D6;
+ by power9a (Postfix) with ESMTP id C4004800BB0;
  Thu, 14 Oct 2021 19:34:37 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH 3/4] linux-user: Fix XER access in ppc version of
- elf_core_copy_regs
-Date: Thu, 14 Oct 2021 19:32:33 -0300
-Message-Id: <20211014223234.127012-4-matheus.ferst@eldorado.org.br>
+Subject: [PATCH 4/4] target/ppc: Fix XER access in monitor
+Date: Thu, 14 Oct 2021 19:32:34 -0300
+Message-Id: <20211014223234.127012-5-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211014223234.127012-1-matheus.ferst@eldorado.org.br>
 References: <20211014223234.127012-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 14 Oct 2021 22:34:37.0907 (UTC)
- FILETIME=[ABC26230:01D7C14B]
+X-OriginalArrivalTime: 14 Oct 2021 22:34:38.0220 (UTC)
+ FILETIME=[ABF224C0:01D7C14B]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -57,66 +56,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, laurent@vivier.eu, groug@kaod.org,
- Lucas Mateus Castro <lucas.araujo@eldorado.org.br>,
- Matheus Ferst <matheus.ferst@eldorado.org.br>, david@gibson.dropbear.id.au
+Cc: laurent@vivier.eu, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ richard.henderson@linaro.org, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-env->xer doesn't hold some bits of XER, like OV and CA. To write the
-complete register in the core dump we should read XER value with
-cpu_read_xer.
+We can't read env->xer directly, as it does not contain some bits of
+XER. Instead, we should have a callback that uses cpu_read_xer to read
+the complete register.
 
-Reported-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Fixes: da91a00f191f ("target-ppc: Split out SO, OV, CA fields from XER")
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- linux-user/elfload.c | 2 +-
- target/ppc/cpu.c     | 2 +-
- target/ppc/cpu.h     | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ target/ppc/monitor.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 01e9a833fb..e760786a98 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -896,7 +896,7 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUPPCState *en
-     (*regs)[33] = tswapreg(env->msr);
-     (*regs)[35] = tswapreg(env->ctr);
-     (*regs)[36] = tswapreg(env->lr);
--    (*regs)[37] = tswapreg(env->xer);
-+    (*regs)[37] = tswapreg(cpu_read_xer(env));
+diff --git a/target/ppc/monitor.c b/target/ppc/monitor.c
+index a475108b2d..0b805ef6e9 100644
+--- a/target/ppc/monitor.c
++++ b/target/ppc/monitor.c
+@@ -44,6 +44,13 @@ static target_long monitor_get_ccr(Monitor *mon, const struct MonitorDef *md,
+     return u;
+ }
  
-     for (i = 0; i < ARRAY_SIZE(env->crf); i++) {
-         ccr |= env->crf[i] << (32 - ((i + 1) * 4));
-diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-index 7ad9bd6044..f933d9f2bd 100644
---- a/target/ppc/cpu.c
-+++ b/target/ppc/cpu.c
-@@ -27,7 +27,7 @@
- #include "helper_regs.h"
- #include "sysemu/tcg.h"
- 
--target_ulong cpu_read_xer(CPUPPCState *env)
-+target_ulong cpu_read_xer(const CPUPPCState *env)
++static target_long monitor_get_xer(Monitor *mon, const struct MonitorDef *md,
++                                   int val)
++{
++    CPUArchState *env = mon_get_cpu_env(mon);
++    return cpu_read_xer(env);
++}
++
+ static target_long monitor_get_decr(Monitor *mon, const struct MonitorDef *md,
+                                     int val)
  {
-     if (is_isa300(env)) {
-         return env->xer | (env->so << XER_SO) |
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 500205229c..67a143941f 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2418,7 +2418,7 @@ enum {
- /*****************************************************************************/
- 
- #define is_isa300(ctx) (!!(ctx->insns_flags2 & PPC2_ISA300))
--target_ulong cpu_read_xer(CPUPPCState *env);
-+target_ulong cpu_read_xer(const CPUPPCState *env);
- void cpu_write_xer(CPUPPCState *env, target_ulong xer);
- 
- /*
+@@ -85,7 +92,7 @@ const MonitorDef monitor_defs[] = {
+     { "decr", 0, &monitor_get_decr, },
+     { "ccr|cr", 0, &monitor_get_ccr, },
+     /* Machine state register */
+-    { "xer", offsetof(CPUPPCState, xer) },
++    { "xer", 0, &monitor_get_xer },
+     { "msr", offsetof(CPUPPCState, msr) },
+     { "tbu", 0, &monitor_get_tbu, },
+     { "tbl", 0, &monitor_get_tbl, },
 -- 
 2.25.1
 
