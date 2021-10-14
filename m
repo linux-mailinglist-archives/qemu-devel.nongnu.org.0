@@ -2,46 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23EBE42E035
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 19:43:22 +0200 (CEST)
-Received: from localhost ([::1]:60964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31D242E045
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 19:45:29 +0200 (CEST)
+Received: from localhost ([::1]:35982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb4lF-0004Xb-8i
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 13:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49788)
+	id 1mb4nI-0006i4-RZ
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 13:45:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mb4hB-0000Mr-C3
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 13:39:09 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:53037)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mb4h9-00006N-S4
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 13:39:09 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 5CCC6756062;
- Thu, 14 Oct 2021 19:39:06 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 14AD975604D; Thu, 14 Oct 2021 19:38:59 +0200 (CEST)
-Message-Id: <f4d295e1d0b6aee749f4b59ed566c65b72ce9ff5.1634232746.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1634232746.git.balaton@eik.bme.hu>
-References: <cover.1634232746.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 2/3] usb/uhci: Replace pci_set_irq with qemu_set_irq
-Date: Thu, 14 Oct 2021 19:32:26 +0200
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mb4l2-0004sC-Cu
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 13:43:08 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40959)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mb4l0-0003uH-M4
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 13:43:08 -0400
+Received: by mail-wr1-x431.google.com with SMTP id i12so21726262wrb.7
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 10:43:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=thHjVE9B7Md1Fyn/Iohmsj18oZyXzhEBBFDrZYOqpc0=;
+ b=WZmdKgR2g/wKmO+lVW602sF1xnyJx8+n2WtU57yKx9BQuk1p/UKfExHRvldq6WQEtX
+ diWqKdaCEO46lMAjTe5NDeis6/ROITxgWhq/M6g7b1WH2YzN2QMBvbI4S/Bz5NAqap5V
+ P5+A+Bl7AVgxdctLYWsI7SfB4pl/pGMOkAmKv0jbZlkqq+c2zHD2OwiNkLGpW902EMZu
+ JPqZskRNK3T+Ox+Ma8nTzIYzSo/ugJ6XvnQnXZj6I28x1Gi1tjMg/pxyK4eyieHXhLYI
+ lvwyXlBbif3Oyt8KaFkxNH/Cw1uoHk6UoFawA/kY8g2M+F6045LXhGPPAZr/8MX2kCnb
+ B0YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=thHjVE9B7Md1Fyn/Iohmsj18oZyXzhEBBFDrZYOqpc0=;
+ b=tV0CmHnTeEWh25nvZJ7E4iXWQp39CGicnxXmwK4GoXp4q3ThVkYgMI8aQ5W1NLaqaI
+ yKQuwiDjodacC1o4AZXspH273ThmKZ+nQv6qZ5cZFLBIsGhHO5P41s3doPvsV1dKJsYZ
+ 6wMaXS50rrsFviulxuY3TvFqtVaGlKbu1DBxKT0U6vfCRHEfQYoN90qeQq9u+/nCfqAH
+ I7PY5l/1PqWlLisWSlsYarZXLbK26+ds5dIk+QNCiIixMnKnkIGGKQ84o9WZmouWHjVI
+ f3ceNECcR+9rMWtLT9Ttza0J4oTonYT6GPldzqhrIMw6GIHM1qU6U9yxA5ZheusVGTO6
+ VoWw==
+X-Gm-Message-State: AOAM531pfHVPFu7eG3yV95I6yUsvVV+ryMPiH+fi5rfgxmeHbGPUyHl9
+ D7ZchypEeyCfDQ83YxvQJaY=
+X-Google-Smtp-Source: ABdhPJzS58BIhfdcA6F86RUCcGQa2gt4UGbrXEIAzWnHLlDveZ4HhAq9mhvLUMSE5vYb61Rd75oPXQ==
+X-Received: by 2002:a05:6000:162f:: with SMTP id
+ v15mr8580428wrb.118.1634233384828; 
+ Thu, 14 Oct 2021 10:43:04 -0700 (PDT)
+Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
+ [81.36.146.213])
+ by smtp.gmail.com with ESMTPSA id c204sm8598143wme.11.2021.10.14.10.43.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Oct 2021 10:43:04 -0700 (PDT)
+Message-ID: <537adf28-351b-c975-9fae-49057db21893@amsat.org>
+Date: Thu, 14 Oct 2021 19:43:03 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v4 1/3] usb/uhci: Misc clean up
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <cover.1634232746.git.balaton@eik.bme.hu>
+ <2a28285f638bd1fd015e906c840f2e71b9d4b6b9.1634232746.git.balaton@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <2a28285f638bd1fd015e906c840f2e71b9d4b6b9.1634232746.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,64 +91,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Philippe M-D <f4bug@amsat.org>
+Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of using pci_set_irq, store the irq in the device state and
-use it explicitly so variants having different interrupt handling can
-use their own.
+On 10/14/21 19:32, BALATON Zoltan wrote:
+> Fix a comment for coding style so subsequent patch will not get
+> checkpatch error and simplify and shorten uhci_update_irq().
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>  hw/usb/hcd-uhci.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/usb/hcd-uhci.c | 4 +++-
- hw/usb/hcd-uhci.h | 2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
-index c557566ec2..7201cd0ae7 100644
---- a/hw/usb/hcd-uhci.c
-+++ b/hw/usb/hcd-uhci.c
-@@ -31,6 +31,7 @@
- #include "hw/usb/uhci-regs.h"
- #include "migration/vmstate.h"
- #include "hw/pci/pci.h"
-+#include "hw/irq.h"
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
- #include "qemu/timer.h"
-@@ -299,7 +300,7 @@ static void uhci_update_irq(UHCIState *s)
-         (s->status & UHCI_STS_HCPERR)) {
-         level = 1;
-     }
--    pci_set_irq(&s->dev, level);
-+    qemu_set_irq(s->irq, level);
- }
- 
- static void uhci_reset(DeviceState *dev)
-@@ -1170,6 +1171,7 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
-     /* TODO: reset value should be 0. */
-     pci_conf[USB_SBRN] = USB_RELEASE_1; /* release number */
-     pci_config_set_interrupt_pin(pci_conf, u->info.irq_pin + 1);
-+    s->irq = pci_allocate_irq(dev);
- 
-     if (s->masterbus) {
-         USBPort *ports[NB_PORTS];
-diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
-index e61d8fcb19..1f8ee04186 100644
---- a/hw/usb/hcd-uhci.h
-+++ b/hw/usb/hcd-uhci.h
-@@ -60,7 +60,7 @@ typedef struct UHCIState {
-     uint32_t frame_bandwidth;
-     bool completions_only;
-     UHCIPort ports[NB_PORTS];
--
-+    qemu_irq irq;
-     /* Interrupts that should be raised at the end of the current frame.  */
-     uint32_t pending_int_mask;
- 
--- 
-2.21.4
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
