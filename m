@@ -2,98 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A50F42DEBA
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 17:54:58 +0200 (CEST)
-Received: from localhost ([::1]:43770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A35542DEC6
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 17:58:51 +0200 (CEST)
+Received: from localhost ([::1]:49174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb34L-00038n-Dp
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 11:54:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49718)
+	id 1mb385-0006uy-69
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 11:58:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mb2nX-00011t-Vv
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:37:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34062)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mb2nU-0008LM-MD
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:37:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634225851;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jjPgnkeVpFhq2itu2s9ZDFo6omIhq8jgGqSXCf6CRes=;
- b=JssDsWMegRrMcyeHdVeRqFI8Pc0oj/edLeFaMsU2cb5ABv4jlU8hxrtrRd6vYxxYOZJ+sz
- 0I7oZLQexo8iQJ1bNviw9g3TBdcatmGLzQ6mK5t1nJdvtBqd9Mb16mZe42w2vh4fHJfsu3
- tw9FkXFdnUbFIKEnhA9nofTHKz7e3Io=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-rMgOUmACOOysHzcDdTMR7A-1; Thu, 14 Oct 2021 11:37:24 -0400
-X-MC-Unique: rMgOUmACOOysHzcDdTMR7A-1
-Received: by mail-ed1-f72.google.com with SMTP id
- d3-20020a056402516300b003db863a248eso5495786ede.16
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 08:37:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mb2pW-00033d-Fj
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:39:38 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:34407)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mb2pU-0001Yo-Rn
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:39:38 -0400
+Received: by mail-pl1-x635.google.com with SMTP id g5so4456315plg.1
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 08:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=SgitbXgzY9ah7iLRULN8e9Eu0gKVxrlOCmd1cV+HGKI=;
+ b=Z+pgTwboLcKN736RGQkOGkd6rVamT8K1fP+/4RtHWW8v+P3kvZ8z48mnnOPjyj4Yw2
+ oJjtKVfyxm3cNMgELFxDWflPBXIloqMagQcytjqQjuDmstjYyLxXzVphQGh7P6BK/TKN
+ CLe/uenZWGxkTZFpHUJE63W80P4BlPB8Q5/SJ0NG70ZIVmK+1ujYPVIIuxF7ktSxlO7b
+ jnituNWKj7/Q07tLrkbE8P0xv9xAzxpbXbHGef8TJMy9B2xbLeoDbDYJsOnEUN2opc96
+ dqRfgjXF/YlPoNB1vI0hjFRe30CTR04sL3upTwFqxq/AucUwbUUrzg5traJqzDTTLO/H
+ ZbCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=jjPgnkeVpFhq2itu2s9ZDFo6omIhq8jgGqSXCf6CRes=;
- b=LXy96GOZXu6BaUFEb9/aD16uvsm978O/xrjfJi0HQEyIC1H/wQAXRjVo30YDkvbxUc
- Vv9s//e24cpJi4bPivhlycoxQd3+OrgZMCPDD9lk7UThkfY0sYcPnmGCuJBflrhjvnwy
- zgFdthFZPPiGajdWYwgHaVUr85MJPFYhGQQMSACO5wdWVPs3bDNmcu0G6dGLkhv05xpf
- zjIWUAOCjD98rB5mz5rkcuqIR3HCJetEx3Usg+NGBTn1TZZ/w0XDf9kQgWHjAAojxdmq
- Nz1z7fxCreeq3iU3A7KPK/bJJQsaAOoony4DKTgeXe6IJVVZmAH8b5bXv4CaZOIh776G
- Xv8w==
-X-Gm-Message-State: AOAM533NxsmdYuVcA3Ywv61nglaHGEYgWXqfF8FpobVW1xsywWA9sWUq
- VLhoOTYqmLU3/3sv5N07FkK+aG/yVujlAqmh1b9Wy4+w6c2EIIzPg7B/b5AW/JVe2YVKjvFkHoS
- L6D4Ni53L22OqqCQ=
-X-Received: by 2002:a17:907:a061:: with SMTP id
- ia1mr4490071ejc.372.1634225843537; 
- Thu, 14 Oct 2021 08:37:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztEpfXccupj5tLYp61K/yeNQj8jlWajzg2ty5WVqyR54Jc84kEPZ6GcOjITdCuDrQwllFG5A==
-X-Received: by 2002:a17:907:a061:: with SMTP id
- ia1mr4490040ejc.372.1634225843322; 
- Thu, 14 Oct 2021 08:37:23 -0700 (PDT)
-Received: from thuth.remote.csb (p549d10d7.dip0.t-ipconnect.de.
- [84.157.16.215])
- by smtp.gmail.com with ESMTPSA id n22sm2112842eja.120.2021.10.14.08.37.22
+ bh=SgitbXgzY9ah7iLRULN8e9Eu0gKVxrlOCmd1cV+HGKI=;
+ b=8ONE0yI39frH5J3+kc3VnC09Cm8ZMA6v03qO3Cn17zHJuFbT+RstN+UlIEJnUO6PnG
+ lZLGiEeaxe33TU/UUmakD+MVrgubpsHUFdHNje63sLgaoCs4vcJQ3xAQDOkOj8hIww5N
+ cHTRf2sUv4i3TZ8OCeUMoUdc0J7IXpFdPUxmt3A+P3o/UISWMFHj6L7ttcVNZ0zPtMZC
+ N5rngXhrwGQFXGm2D7DcxjkCS+JjDNhwO3yeikLhd0A95PVONVRm0P9kHqBwyL5YOARH
+ 0or/0ty83DjYPiU8nwege+2M6wxFGejUHXABhlzagtsDCUlQWw7ujH5gemLZ8+znVIU8
+ 1IKg==
+X-Gm-Message-State: AOAM53107IkTVAu/L1NdLVtIAV2O83Vdw2ovRRs7/9Yfc4m83TQ01LYY
+ kyXy1A6TQrukEjQu2MbdHojxwA==
+X-Google-Smtp-Source: ABdhPJwL9MYtBqV/1Ks+kFra0VprgifRMV4Km3ab/gKAbpNaV9Dkk5O1h5+QQAUN95ERg/7BrhCp+A==
+X-Received: by 2002:a17:902:8f90:b0:13e:a44e:2d3c with SMTP id
+ z16-20020a1709028f9000b0013ea44e2d3cmr5694542plo.85.1634225975207; 
+ Thu, 14 Oct 2021 08:39:35 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id a20sm2726621pfn.136.2021.10.14.08.39.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 08:37:22 -0700 (PDT)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>
-References: <fc2e00d1-2373-3223-03c8-195585face66@redhat.com>
- <80f727b8-9eb0-6a49-e4a7-b2616583c43f@csgroup.eu>
- <2c5ec93d-d1d1-5f08-cbf0-513e101114df@kaod.org>
- <836a36f7-936b-ec36-f8e8-472bcec3970f@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: Is the ppc440 "bamboo" board in QEMU still of any use?
-Message-ID: <25d90a22-63d9-6c15-5ee2-eadda449bcaf@redhat.com>
-Date: Thu, 14 Oct 2021 17:37:21 +0200
+ Thu, 14 Oct 2021 08:39:34 -0700 (PDT)
+Subject: Re: [PATCH v2 09/13] target/riscv: Replace DisasContext.w with
+ DisasContext.ol
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, LIU Zhiwei <zhiwei_liu@c-sky.com>,
+ qemu-devel@nongnu.org
+References: <20211013205104.1031679-1-richard.henderson@linaro.org>
+ <20211013205104.1031679-10-richard.henderson@linaro.org>
+ <bb08b1eb-ab48-165a-ed49-72a9bf22fd75@c-sky.com>
+ <420e773b-ca49-9130-8497-971269f6929c@univ-grenoble-alpes.fr>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4386f5cf-71f8-f90c-3cd7-14c8e12c62b2@linaro.org>
+Date: Thu, 14 Oct 2021 08:39:32 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <836a36f7-936b-ec36-f8e8-472bcec3970f@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <420e773b-ca49-9130-8497-971269f6929c@univ-grenoble-alpes.fr>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,60 +93,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alexander Graf <agraf@csgraf.de>, hpoussin@reactos.org
+Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org,
+ fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/10/2021 17.26, Philippe Mathieu-Daudé wrote:
-> On 10/14/21 13:29, Cédric Le Goater wrote:
->> On 10/14/21 12:34, Christophe Leroy wrote:
-> 
->>> I have the following change in QEMU to be able to run the bamboo,
->>> found it some time ago via google (can't remember where):
->>>
->>> diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
->>> index 8147ba6f94..600e89e791 100644
->>> --- a/hw/ppc/ppc4xx_pci.c
->>> +++ b/hw/ppc/ppc4xx_pci.c
->>> @@ -246,7 +246,7 @@ static int ppc4xx_pci_map_irq(PCIDevice *pci_dev,
->>> int irq_num)
->>>
->>>        trace_ppc4xx_pci_map_irq(pci_dev->devfn, irq_num, slot);
->>>
->>> -    return slot - 1;
->>> +    return slot ? slot - 1 : slot;
->>>    }
->>>
->>>    static void ppc4xx_pci_set_irq(void *opaque, int irq_num, int level)
+On 10/14/21 1:57 AM, Frédéric Pétrot wrote:
+>>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+>>> index 5724a62bb0..6ab5c6aa58 100644
+>>> --- a/target/riscv/translate.c
+>>> +++ b/target/riscv/translate.c
+>>> @@ -67,7 +67,7 @@ typedef struct DisasContext {
+>>>           to any system register, which includes CSR_FRM, so we do not have
+>>>           to reset this known value.  */
+>>>        int frm;
+>>> -    bool w;
+>>> +    RISCVMXL ol;
 >>
->> could you try to use :
->>
->> static inline int ppce500_pci_map_irq_slot(int devno, int irq_num)
->> {
->>      return (devno + irq_num) % 4;
->> }
+>> Why not directly use the xl?
 > 
-> Is this pci_swizzle()?
+>    Hi Zhiwei,
+> 
+>    I am not speaking for Richard, but my understanding is that 'ol' is linked to
+>    the instruction being translated, suffixed by 'w' in rv64 and 'w' and 'd' in
+>    rv128, while 'xl' is the value in mstatus (or misa) depending on the register
+>    size of the current execution (mxl, sxl, uxl).
 
-It's pci_swizzle, but I don't think that we should take irq_num into account 
-here. The comment right in front of the function says:
-
-  On Bamboo, all pins from each slot are tied to a single board IRQ
-
-Similar comment in pc-bios/bamboo.dts:
-
-  Bamboo has all 4 IRQ pins tied together per slot
-
-So the return value should only depend on the slot number.
-
-Not sure how to properly fix this yet, though.
-
-  Thomas
+Correct.
 
 
-PS: Found a working pre-compiled kernel for bamboo:
-http://landley.net/aboriginal/downloads/binaries/system-image-powerpc-440fp.tar.gz
-
+r~
 
