@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B3D42D634
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 11:37:15 +0200 (CEST)
-Received: from localhost ([::1]:53286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B22642D639
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 11:37:50 +0200 (CEST)
+Received: from localhost ([::1]:54944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maxAj-0000o3-VA
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 05:37:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32836)
+	id 1maxBN-0001tx-HD
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 05:37:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1max7n-0006cu-9v
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 05:34:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42445)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1max7k-0006I6-5n
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 05:34:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634204042;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3dQloR2WT9SJw/FJS/sFYYP5BQQOwwWA6gECcS+bM8Y=;
- b=SX2992rPv3c02KX7c7EHI40Ghc+pJd7swfnsQpFUyGGARGxrTjeMsZyhIRGwSEZSY+NFm8
- IX8ubGDScMXw10o3zSpUCmgxVLCIwujCD0weXTHKYrb87rzBH+i3WExaKSs8BO/AAHKkfV
- Be8vpJZpbuELpx58LVx36Gfikv1eA4Q=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-wAn6HQ36Pm6OAbasw8UFHw-1; Thu, 14 Oct 2021 05:34:01 -0400
-X-MC-Unique: wAn6HQ36Pm6OAbasw8UFHw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- y12-20020a056000168c00b00160da4de2c7so4101264wrd.5
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 02:34:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1max8Y-0007SU-PO
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 05:34:54 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39764)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1max8X-0001ri-0U
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 05:34:54 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id r18so17446534wrg.6
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 02:34:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=XmJbL13aKgi3ytB6f5nSpf14vPSDQfz2/Qlsn7P9JSc=;
+ b=we8bT6vFniQdcQ31F3BrKHWmg1QkYSM7Wv2jA1hLlKFI6xB45n3MOpxtbb9PAZ2mjp
+ n+Hl69jxcKrUyT3xvpQBovfKmNHZM+4fxGvex3UaQaSZIlxWhn8cpNHA8WM1Z2vREbN7
+ uso7bry5oC8Eeq4hZappoZ9Mdjbs0nMfLKRz5/GQcCSxFT2hD90nQMVY9oiTNuIYvM5d
+ JPxmmos3TllRTlLWaOK90i3Zo+QCYp4o/fhFcXQXPsWdeEzFs+i+/GLKskV3o2vmp4CS
+ tZ1dIjFY/+QojjuWg6+XSA64FqisoUTyaLL3ld8Jm9nhqc4fZUDkgUW1nlObr4c0wlub
+ DGeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3dQloR2WT9SJw/FJS/sFYYP5BQQOwwWA6gECcS+bM8Y=;
- b=gYJuSJL6+cniiit4PMCl9Zs2umnX6suVL/MGVznbBAQztTsqNgWC8hJajAmdPDNI8d
- R+W5q9M8sr6YgPZziCPrpMdOxB3CFBjU6XFdI5/VaXgWDwF43Vg0vqUvaFHh/6jSIM4u
- uh1R6WbHkvaFmz+un5IgkN2bq66ayVnUD6jFDe7/EGPKW7Gn6obGbTjO25ViWnbjm84V
- DRtbf5QOaP9e76mpWk28Uz8lKizYxUfT/w6gI8rl8EvAH9Z9DTM64GZeUu253OLWc5N0
- hcegJYBK93w9jB5XuipMqCRqh4KewtiYjsHiCBAeHjhqdgIBlP4IT31bgdS4Ra7ar/N1
- 3bQA==
-X-Gm-Message-State: AOAM530+c8GX14xhJKtySdfJ/vih3a3znLo4IZSQLYBlDXSUYbWoB5gD
- SGV9/QWzHLormgrZjvfw0K1INxOKscIKzcs2w1iGKy3cMyef2qDYkt4/6C1Wxh3Tvv7+OOVWSGD
- Dj9huyJfObhHCMcE=
-X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr5193710wrz.389.1634204040539; 
- Thu, 14 Oct 2021 02:34:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzfnoxzhalPmCkcRxXXyxZZLYpqW/GJQE71O8pSB7X7CKGH8I6TWceO3ly2p+UkSko9MKmlmg==
-X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr5193689wrz.389.1634204040366; 
- Thu, 14 Oct 2021 02:34:00 -0700 (PDT)
-Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id 196sm1671367wme.20.2021.10.14.02.33.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 02:33:59 -0700 (PDT)
-Message-ID: <b2f42f5a-7691-39e4-d4bd-9c60a225a31a@redhat.com>
-Date: Thu, 14 Oct 2021 11:33:58 +0200
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=XmJbL13aKgi3ytB6f5nSpf14vPSDQfz2/Qlsn7P9JSc=;
+ b=ma5H6nppNDSZhUgDwEOlJEN5c7a5/AwBG4U30qLvm29KocPGHK9wCh5XX7Iao1npJN
+ vSjK7rHU+1kYViUeOtjRZoTzM7JgOg55ScFUugjoHLmBouc/Vi7q+cKf3S/TRErnwcOf
+ eCWcJExtVqtKXr3Nhf8BE83V8jL7jvJgtCeF38a9QqRnkcING3O8GIt18j/opidLgLsu
+ 2I8leBuaMACM0bf6HtVgUNy+WhjnrClNFGutNLXMwOsJo4MrmkXe/ufpivsYxW/sWvXv
+ I4vNgtrJLqmwpaV7UmPBDrmYU5fIwx9i1J/n3p6LXcPHCl0sbZsDPRc5ilZhSD9DY6Wj
+ l5nw==
+X-Gm-Message-State: AOAM532KuRW8Pq4wJahYSNSBdBown9gVCzxu4o9DZ9bN07tZG6lo31pE
+ DoGXABkcQEpzZaht9IdthbVkVg==
+X-Google-Smtp-Source: ABdhPJzLPluva6le57EpVAfk45zt1d7Jjs7R4YGlvbRKP6E7IlPpYVhfskAqkbiOuaY8hTWxq3XC0g==
+X-Received: by 2002:a5d:6d51:: with SMTP id k17mr5333160wri.233.1634204090571; 
+ Thu, 14 Oct 2021 02:34:50 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g70sm1623059wme.29.2021.10.14.02.34.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Oct 2021 02:34:49 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AD1861FF96;
+ Thu, 14 Oct 2021 10:34:48 +0100 (BST)
+References: <20211001153347.1736014-1-richard.henderson@linaro.org>
+ <20211001153347.1736014-2-richard.henderson@linaro.org>
+ <87h7dmw4kn.fsf@linaro.org>
+ <38b675d8-e885-27ef-0feb-8955be0e750f@linaro.org>
+User-agent: mu4e 1.7.0; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/9] tests/docker: Add debian-nios2-cross image
+Date: Thu, 14 Oct 2021 10:34:34 +0100
+In-reply-to: <38b675d8-e885-27ef-0feb-8955be0e750f@linaro.org>
+Message-ID: <87r1coueyv.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v1 7/9] migration: Simplify alignment and alignment checks
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20211011175346.15499-1-david@redhat.com>
- <20211011175346.15499-8-david@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211011175346.15499-8-david@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,32 +89,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: marex@denx.de, crwulff@gmail.com, qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/21 19:53, David Hildenbrand wrote:
-> Let's use QEMU_ALIGN_DOWN() and friends to make the code a bit easier to
-> read.
-> 
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  migration/migration.c    | 6 +++---
->  migration/postcopy-ram.c | 9 ++++-----
->  migration/ram.c          | 2 +-
->  3 files changed, 8 insertions(+), 9 deletions(-)
 
-Nice :)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> On 10/12/21 10:03 AM, Alex Benn=C3=A9e wrote:
+>> We need to split this like in hexagon and have a second stage which does
+>> a:
+>>    COPY --from=3D0 /usr/local /usr/local
+>> This will limit the size of the final image (and also avoid
+>> duplicting
+>> the UID in the hexagon build).
+>
+> Yeah, well, I had to take that out because it errors out.
+> I have no idea what that does or means.
 
+Having this worked for me:
+
+modified   tests/docker/dockerfiles/debian-nios2-cross.docker
+@@ -31,4 +31,14 @@ ADD build-toolchain.sh /root/build-toolchain.sh
+=20
+ RUN cd /root && ./build-toolchain.sh
+=20
++FROM debian:buster-slim
++# Duplicate deb line as deb-src
++RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sourc=
+es.list
++# Install QEMU build deps for use in CI
++RUN apt update && \
++    DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
++    DEBIAN_FRONTEND=3Dnoninteractive eatmydata apt install -yy git ninja-b=
+uild && \
++    DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
++    apt build-dep -yy --arch-only qemu
++COPY --from=3D0 /usr/local /usr/local
+ ENV PATH $PATH:/usr/local/bin/
+
+--=20
+Alex Benn=C3=A9e
 
