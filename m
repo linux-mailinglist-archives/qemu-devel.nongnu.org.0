@@ -2,83 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31D242E045
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 19:45:29 +0200 (CEST)
-Received: from localhost ([::1]:35982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC82442E081
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 19:50:03 +0200 (CEST)
+Received: from localhost ([::1]:41908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb4nI-0006i4-RZ
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 13:45:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50598)
+	id 1mb4rj-0002TW-2P
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 13:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mb4l2-0004sC-Cu
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 13:43:08 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40959)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mb4l0-0003uH-M4
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 13:43:08 -0400
-Received: by mail-wr1-x431.google.com with SMTP id i12so21726262wrb.7
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 10:43:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=thHjVE9B7Md1Fyn/Iohmsj18oZyXzhEBBFDrZYOqpc0=;
- b=WZmdKgR2g/wKmO+lVW602sF1xnyJx8+n2WtU57yKx9BQuk1p/UKfExHRvldq6WQEtX
- diWqKdaCEO46lMAjTe5NDeis6/ROITxgWhq/M6g7b1WH2YzN2QMBvbI4S/Bz5NAqap5V
- P5+A+Bl7AVgxdctLYWsI7SfB4pl/pGMOkAmKv0jbZlkqq+c2zHD2OwiNkLGpW902EMZu
- JPqZskRNK3T+Ox+Ma8nTzIYzSo/ugJ6XvnQnXZj6I28x1Gi1tjMg/pxyK4eyieHXhLYI
- lvwyXlBbif3Oyt8KaFkxNH/Cw1uoHk6UoFawA/kY8g2M+F6045LXhGPPAZr/8MX2kCnb
- B0YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=thHjVE9B7Md1Fyn/Iohmsj18oZyXzhEBBFDrZYOqpc0=;
- b=tV0CmHnTeEWh25nvZJ7E4iXWQp39CGicnxXmwK4GoXp4q3ThVkYgMI8aQ5W1NLaqaI
- yKQuwiDjodacC1o4AZXspH273ThmKZ+nQv6qZ5cZFLBIsGhHO5P41s3doPvsV1dKJsYZ
- 6wMaXS50rrsFviulxuY3TvFqtVaGlKbu1DBxKT0U6vfCRHEfQYoN90qeQq9u+/nCfqAH
- I7PY5l/1PqWlLisWSlsYarZXLbK26+ds5dIk+QNCiIixMnKnkIGGKQ84o9WZmouWHjVI
- f3ceNECcR+9rMWtLT9Ttza0J4oTonYT6GPldzqhrIMw6GIHM1qU6U9yxA5ZheusVGTO6
- VoWw==
-X-Gm-Message-State: AOAM531pfHVPFu7eG3yV95I6yUsvVV+ryMPiH+fi5rfgxmeHbGPUyHl9
- D7ZchypEeyCfDQ83YxvQJaY=
-X-Google-Smtp-Source: ABdhPJzS58BIhfdcA6F86RUCcGQa2gt4UGbrXEIAzWnHLlDveZ4HhAq9mhvLUMSE5vYb61Rd75oPXQ==
-X-Received: by 2002:a05:6000:162f:: with SMTP id
- v15mr8580428wrb.118.1634233384828; 
- Thu, 14 Oct 2021 10:43:04 -0700 (PDT)
-Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id c204sm8598143wme.11.2021.10.14.10.43.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 10:43:04 -0700 (PDT)
-Message-ID: <537adf28-351b-c975-9fae-49057db21893@amsat.org>
-Date: Thu, 14 Oct 2021 19:43:03 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mb4pw-0000qp-1M
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 13:48:12 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:47179)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mb4ps-0008SI-1E
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 13:48:11 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 004F8748F56;
+ Thu, 14 Oct 2021 19:48:04 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id CE759746333; Thu, 14 Oct 2021 19:48:03 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id CC7FD7462D3;
+ Thu, 14 Oct 2021 19:48:03 +0200 (CEST)
+Date: Thu, 14 Oct 2021 19:48:03 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
+ interrupts
+In-Reply-To: <338972bc-7256-e648-83d6-b31de2aaf34c@eik.bme.hu>
+Message-ID: <d53117db-137c-a81a-d2d7-78142fccca4e@eik.bme.hu>
+References: <20211013121929.9E835746333@zero.eik.bme.hu>
+ <20211014091035.xlhh74aioxhkxelf@sirius.home.kraxel.org>
+ <1e91fd14-f112-b5b7-abfb-117cbb109c39@eik.bme.hu>
+ <20211014130159.cwkub7g7akco76ls@sirius.home.kraxel.org>
+ <338972bc-7256-e648-83d6-b31de2aaf34c@eik.bme.hu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v4 1/3] usb/uhci: Misc clean up
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1634232746.git.balaton@eik.bme.hu>
- <2a28285f638bd1fd015e906c840f2e71b9d4b6b9.1634232746.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <2a28285f638bd1fd015e906c840f2e71b9d4b6b9.1634232746.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,19 +61,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
+ Philippe M-D <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/21 19:32, BALATON Zoltan wrote:
-> Fix a comment for coding style so subsequent patch will not get
-> checkpatch error and simplify and shorten uhci_update_irq().
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->  hw/usb/hcd-uhci.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
+On Thu, 14 Oct 2021, BALATON Zoltan wrote:
+> On Thu, 14 Oct 2021, Gerd Hoffmann wrote:
+>> On Thu, Oct 14, 2021 at 12:22:58PM +0200, BALATON Zoltan wrote:
+>>> On Thu, 14 Oct 2021, Gerd Hoffmann wrote:
+>>>> On Wed, Oct 13, 2021 at 02:13:09PM +0200, BALATON Zoltan wrote:
+>>>>> This device is part of a superio/ISA bridge chip and IRQs from it are
+>>>>> routed to an ISA interrupt set by the Interrupt Line PCI config
+>>>>> register. Change uhci_update_irq() to allow this and implement it in
+>>>>> vt82c686-uhci-pci.
+>>>> 
+>>>> Looks good.  There are some unrelated changes in though (whitespace,
+>>>> comments, ...), and the vt82c686-uhci-pci.c changes should be a
+>>>> separate patch.
+>>> 
+>>> So you mean split it into a series of three small patches? Should I do a 
+>>> w4
+>>> with that?
+>> 
+>> I was thinking about two patches: drop the unrelated stuff, one patch
+>> for the irq signaling change, and one for the vt82c686 changes.
+>> 
+>> But of course you can add more patches for the other changes, i.e.
+>> dropping the else branch for level = 0 and other small tweaks.
+>
+> The tewak for the comment is needed for checkpach, dropping the else is just 
+> to make the function shorter and IMO more readable. I can do this in a 
+> previous patch so checkpatch won't complain on the pci irq change or need at 
+> least the comment change in that patch. I'm thinking about an alternative way 
+> for the vt82c686 part to avoid using isa_get_irq which has a comment saying 
+> it should be dropped but not sure about that yet, I'll try it and submit a v4 
+> with at least breaking it up to smaller patches.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+I've tried it and it's just not worth it. By moving isa reference to 
+vt82c686.c we end up doing the same, just with a lot more code changes 
+(which is harder to understand) and less efficiently (at every interrupt 
+need to jump through hoops and do some QOM casts and additional calls to 
+reach the same effect). These are basically modelling functions of the 
+same device just split up in parts to categorise and reuse parts of 
+similar models so accesing isa parts of the chip from usb part does not 
+seem to be that bad and it's simple this way. So I ended up just splitting 
+the patch for v4.
 
+Thanks,
+BALATON Zoltan
 
