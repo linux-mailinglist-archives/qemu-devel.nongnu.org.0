@@ -2,82 +2,144 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EAAE42D0F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 05:32:46 +0200 (CEST)
-Received: from localhost ([::1]:51790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D64C42D1AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 06:34:15 +0200 (CEST)
+Received: from localhost ([::1]:37134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1marU5-0000uR-NT
-	for lists+qemu-devel@lfdr.de; Wed, 13 Oct 2021 23:32:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48328)
+	id 1masRZ-00056Y-Us
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 00:34:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1marRi-0007uX-4K
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 23:30:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42820)
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1masPx-0004QO-1z
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 00:32:33 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:7528)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1marRg-00046N-Ao
- for qemu-devel@nongnu.org; Wed, 13 Oct 2021 23:30:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634182214;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bG0SVIux0s/g7ZeBe2DCekA66rrHyA4AmTh0wIt6pek=;
- b=Q19G7s4CYgid5g2dta5bsr0lj6DE2eHTfV5e/AQ9efcdiqOZNb6kh+wFzbDJeP9PokSVmo
- 37t0WZ9FckvVIamhJuMnDXuciEeIHFeQiIVvl8Z8359FJ5kVCWGQVZjNwdMKEG4PhE96ae
- vH+rcHPcYeqQ36lwGXPbsrADT2hRPxo=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-yWlgbyJYPlGCQFei-23eFQ-1; Wed, 13 Oct 2021 23:30:13 -0400
-X-MC-Unique: yWlgbyJYPlGCQFei-23eFQ-1
-Received: by mail-lf1-f69.google.com with SMTP id
- c41-20020a05651223a900b003fdb648a156so1200481lfv.15
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 20:30:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bG0SVIux0s/g7ZeBe2DCekA66rrHyA4AmTh0wIt6pek=;
- b=WzKQu5AwkvUEY47jI5tHB15fojh9WswS0oesaUlYDRHtQu5DP1ZtZUVMy2EshpY2IC
- cQToCxZ54yOE0sFCwIzlP7v6k8N8zkUeZ9eZOQ0tSM6puP9mv9cYPelOCkkec7udpIQG
- lCvROhcUbBUgVyejg4v6YsPW16F0ilUmOCosdFTWoeBDqu9C9VIIcN7hDRbLPgwHSpa4
- 7mryzlbn2h2q0v/yE5QpnhoUJvtJIceX82Gie9g24nnPESKRlAoZC/potzOT0stpRxXd
- ODCvUlEw/nsEcYkIiR4+Pm37t3wEctSbS5+3z+4N1407VnjMXLd93VsDdOC2Cmg+PR9g
- kQzA==
-X-Gm-Message-State: AOAM532T4L7qOAX18gbzzFca+WFO/rd4wFiv34GgpPKJvVubbklXPIbX
- 3UK2zldwFLpKlMSvP7AAcSJRNVOlnjQ8FjuaUGMdaMrljBcwKWqVIi+ddYANu0mBqp1bq0mRdvD
- 2Vrxd8vkrj2GPkazovBQBiVOZSIoDTgk=
-X-Received: by 2002:a2e:8099:: with SMTP id i25mr3434320ljg.277.1634182212127; 
- Wed, 13 Oct 2021 20:30:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxRhJRM9Zk2Nt3JVQQkFK+aaj2JG866bcIAt0E7pn4iFil6wIP7mmKG/ECedAIRWfinjVJMV8unKdbhcwka9Lc=
-X-Received: by 2002:a2e:8099:: with SMTP id i25mr3434296ljg.277.1634182211789; 
- Wed, 13 Oct 2021 20:30:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211012140710.804529-1-eperezma@redhat.com>
- <20211012140710.804529-4-eperezma@redhat.com>
-In-Reply-To: <20211012140710.804529-4-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 14 Oct 2021 11:29:56 +0800
-Message-ID: <CACGkMEsGDoWuE0WEq7P-S5V5XiLPCZcVAszQFHDLsLDZEAAh5A@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] vdpa: Check for iova range at mappings changes
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1masPu-0002YT-3R
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 00:32:32 -0400
+Received: from pps.filterd (m0127838.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19DNxTQl022544; 
+ Wed, 13 Oct 2021 21:32:25 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=proofpoint20171006;
+ bh=nKG6bwIsfWMJ6+OwCGnkiIbMtAki0NBJCDNXWyRJ//E=;
+ b=KLutvwFAfZ6nH8bZtaIHaXwNupa0mnR/qJSGwyC/GUz/CdW1Do5KBRxnHuatUwUO3Ggs
+ rpgPVvc/GUSrXSr6qG9qvwcX0BTMjYEZQmBG/am9bih7whc3nXzh10YMYbFnbCFrnJiI
+ vn6bTzYnM64Olnn2lbUufD/j/zlXiRzWFj92Hxht3oRe/mOxaCus5KoOWBar+Kbxp3ou
+ jfrbHImqqTLBP8SPOggb8qGr7Ju1sW6CHkFteCylFLnKB+TC/zDUeVHF8Ei+9RHfp0Ll
+ BFCdzaM67BfdHBsJ3sVBXGHgQ76NfPLBxgV96JOoQwJIrtAaVfktSAC7gSAWpYTv6J+v fw== 
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2176.outbound.protection.outlook.com [104.47.58.176])
+ by mx0a-002c1b01.pphosted.com with ESMTP id 3bp6yx8kp0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Oct 2021 21:32:25 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=giz/ZV1sFaKAnYq2g0XVD+INt3X+qyNZptGOZ/DoHyNFdQjQONbcqYbBULqXjfxk7x6QJ53gPxljPneVF8KixlKHW2CcY33UL0vRG01tpvy8xDifgOOx7o+iAtpaH31/7Oe35n6zjCBGUzkMfedjUGFSvejDwPaAEZu4tTSomdCPEZE1oSPMYOISaAJnRzYkF7W2yvvg5FlLJL0m5WJLHkR2cjD3MfYscrxyqlpyBWkh02SOMTCUqM6rY4XMzqrK/zX9zpv/thF7Cn1iAApONhfjLyxdB26KuKjGw997zfm53vasQnGlvkIaS+HQS/n0CujJvdAhI6a+Q/d0k+05Ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nKG6bwIsfWMJ6+OwCGnkiIbMtAki0NBJCDNXWyRJ//E=;
+ b=YgpI0/msoFGMlaWX4ZgpVqIgqYs2kS0f78Jr3P1E+nWcLUF50m9u63rhuhFAuDSCp/dTULOEEN2RK15JKuwF6/lnXlgMLS21HOGp63s3C3/29zUAyxv5FPy0kSOsJUVl7eWlI1DG2Kaeoir3qcaGvHuGn9sTHCY1ywjzpfuXr3O+t0S3pIkA4hjMt+bkIBklJflEEA2eGPtXBVyfWVrK6ouDkqPm2VGDM7qr+WnM8Qs4aBWgco2uCmrPiZQ/dIphbD6saPiFy4jZ3wCTUK0X6AXJpubOhihcxycDsLkhLCeKy3pqmJHDUmckC0MdJm+tTZsgHXS0Oj2edM/f55NQvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
+ by MN2PR02MB6893.namprd02.prod.outlook.com (2603:10b6:208:200::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.22; Thu, 14 Oct
+ 2021 04:32:23 +0000
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::804:50eb:bd2:eb3c]) by BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::804:50eb:bd2:eb3c%7]) with mapi id 15.20.4608.016; Thu, 14 Oct 2021
+ 04:32:23 +0000
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: "eblake@redhat.com" <eblake@redhat.com>, "stefanha@redhat.com"
+ <stefanha@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "mst@redhat.com" <mst@redhat.com>, "peter.maydell@linaro.org"
+ <peter.maydell@linaro.org>, "sgarzare@redhat.com" <sgarzare@redhat.com>
+Subject: [PATCH v6] Work around vhost-user-blk-test hang
+Thread-Topic: [PATCH v6] Work around vhost-user-blk-test hang
+Thread-Index: AQHXwLR7owf86s2m50iPvIronnTPVQ==
+Date: Thu, 14 Oct 2021 04:32:23 +0000
+Message-ID: <20211014043216.10325-1-raphael.norwitz@nutanix.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: git-send-email 2.20.1
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 371afb92-1be7-4bb4-f3a5-08d98ecb9e4a
+x-ms-traffictypediagnostic: MN2PR02MB6893:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR02MB68935B644971BC18445E4242EAB89@MN2PR02MB6893.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:1850;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: zjEY77V7jwXA4KoMRMdDvLFai55nUTKmC3CcNjhzB316OphaI+ZCxXhBpWo3Y3KnRvjNUwsvHcUu0hq/SB/XkS5d082Lqdh7WZvUuvuJCul+MfcDRotJ6/OzX+QILn0Lfw/bsgNC6lWE2QuuEXFzmePtJGzjDBaOHSP4Mqu+YVfF1VFItMeCl7qnqHabBUTj7BFNV6DKHXgwmVma19bMjGImqNpDBGdDxNbCfUpkiATIyckmLl3DMhpQMDUHPWwsqRwsjvwOgighv4CvmUOiT7LUZhIH4MzXnWoH8K2Oh27PkLKuB8JIUEbEeSwGkFd/TytLphMyNVzALaVGVhlNvTx8dfq9NTX9sufa31UxkCZedtd0lIg89vrl2u0P3KNOny0HXyEFA7qyd327L0o6j61KZ/IPVsDsvq0f/e0X5wReegbKuH5QmL7e8B1is0RAUlnYt83ooK7clR4YVJjL70KJq1z0sqSu5annG058iz11Frn9cOcg+WvNhreLJs9yw16htpZEbXkCD0eX561GvzITkSR8BEX5hSzBVILQt9ZsnOpuD0XCBqA7Mkoy8vwqrUcHP+iDkLEeBAHCNm1UTkHsZB8B0mhKqoCw3yPvF0vwY0yzvZhG56FS7064CcX5CbEiTtj8itIhwjF79GeqJKH5Nc7QLE9CgvaiAcwzJ2XEC4qUYB0/ymdJHOvAi7HWGm7s0QLTE4RO01y8d9LNT1nGdvdSO2zJwkYso6AuTtNVzHUaa8RBkVwfoZB8Um9tQvfAnoDthuI9jz5G0yO45AcuT4sFal/kW8mHlgNuBa7dPXrIetHOm4QpoE95PIBak8mVVlpDFbEVAWlwr7uzVw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(26005)(966005)(1076003)(91956017)(71200400001)(36756003)(83380400001)(2616005)(6512007)(64756008)(66476007)(38100700002)(107886003)(66946007)(76116006)(122000001)(6506007)(186003)(66556008)(8676002)(66446008)(86362001)(508600001)(6486002)(8936002)(44832011)(4326008)(54906003)(110136005)(5660300002)(2906002)(316002)(38070700005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?xcYIIzLwAnikbeHORQmCgEo+FRxiVp4DzZtoK0PGIM0fY3g/+cWfRFsH/R?=
+ =?iso-8859-1?Q?MFFiUznpCGw28TM/Jq9pni8UX3Dltn+yk2d+kgutLW2sQgdqG0NeVrqIzt?=
+ =?iso-8859-1?Q?jPX8nmQxg4+cjlvzVa48Bp4TE3TNP+ZS9w43poZOKPCtqoMbWMH1+VscS6?=
+ =?iso-8859-1?Q?1uwMSMq+/lk5MXHcdgMqnarQB7pKIkK6s8ulxB/i2U9nxduzJPZJjAAjEF?=
+ =?iso-8859-1?Q?S4rqnUUowAbDm4RgCC7y9g8ic5CoG3s8H3Dqm8/8I5wWIfKALV5XUDy6TG?=
+ =?iso-8859-1?Q?Xn556oKfbpFig1GimEtI3jUrz0JsBS4QWwVvEPeThge3orQjh/zwdK0S3U?=
+ =?iso-8859-1?Q?GRxRtyE7KEY61d9cFlW2DnSix0r0I2dkwKFGYNAhnsrduQgVzLBppmHVtr?=
+ =?iso-8859-1?Q?k9FOPIPcewQnQyBuRwhh8h6pU3JozBmhZXlRVSDB79/kaM/Fq279Y/6S84?=
+ =?iso-8859-1?Q?COK2HGMG59X319n4tw+BhOJJ10DPUy5kTl3sVCuDos21u8mFFIGUHStVzV?=
+ =?iso-8859-1?Q?GGPugNTmUsmUPnVyaOUpczCKoH7gIBA5Jf+1gAuf8zRIwow2of8h9kmLhD?=
+ =?iso-8859-1?Q?6grReKz99Oma/GYmeiO/+1xnWFPr/E55cLbFu5xpS1dDqAlMzwewft2GwQ?=
+ =?iso-8859-1?Q?ojn+NzuVq2pnSyEZXGzuzaGekixAVc6Xo4jjvAbDeKAZD30NpRaOW17/fh?=
+ =?iso-8859-1?Q?cU2+KYSbbwRDlWYvwYwTHc8PAwodpJFDE02bXKH2t9cCoNfrSdjNiIm3RJ?=
+ =?iso-8859-1?Q?UKbiciBkLSb5mY4fBzN5TRgYdldKd5u1XhbFOJGK3pfvRqnbsvGAbLn1EW?=
+ =?iso-8859-1?Q?+ItjSUlcQAHDnKKiubB7B2nr0N/TI4GBD8SIeEeb7tvV95DDa5DHGcDJTk?=
+ =?iso-8859-1?Q?IEANUKisFtyiW43csYZ5arFdPeab42PhVec8QhKj6OuXTAsuJz4H/UF9SQ?=
+ =?iso-8859-1?Q?MA/RwcjJgkhOtgTFFZI6dH1LYbT1fvD7s6jiZmR5UKMQg51yBpC+GxRHuh?=
+ =?iso-8859-1?Q?RqHh+C6fU6JIxuIPU4fKszECiOLXU7rZb9oq1iy9wmar7hnfSAXG05Cfx2?=
+ =?iso-8859-1?Q?Gp6Zvrihd2HdrQpV3pslCfyrq93gJu0EwHGio/kusQPjQrLwhnzH2Ng/6V?=
+ =?iso-8859-1?Q?eS9vAc5I7twMniZ2kXq0bP+JToW+yoZVAHGC1SDtLW1YnITwgmHxLkDrqi?=
+ =?iso-8859-1?Q?mPWS9he6ZrvKMU4zKkV9vX53PoMGC3leQhHL59ExtNuzi0c3akoeYGGI98?=
+ =?iso-8859-1?Q?PjBLVd3Jha0SVhVGVpLundHGTHIIZe4Sw+ifXhf1UqWvt/WKBRnm6wzrix?=
+ =?iso-8859-1?Q?s/aZ6YKEChLlu9aqd72dOcll9/DbvpwrALWEHo4aXG5BvEOjkIv/GpmCSX?=
+ =?iso-8859-1?Q?vUneH8SxqV?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 371afb92-1be7-4bb4-f3a5-08d98ecb9e4a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2021 04:32:23.4166 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fdarnnFOcpfjmZ3wlw5RQykOlbQPl80+NQNG3i3+iLap+eGhiBJV2+bpTld/SdSmEiORKWDl6DtRacISjnQckeMFe1KSVGpN/tVSNoOJgQQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6893
+X-Proofpoint-ORIG-GUID: vymkWLf4cTz6TQpIoa7eLszrNNAyff3q
+X-Proofpoint-GUID: vymkWLf4cTz6TQpIoa7eLszrNNAyff3q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-14_01,2021-10-13_02,2020-04-07_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=raphael.norwitz@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,195 +153,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 12, 2021 at 10:07 PM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
-rote:
->
-> Check vdpa device range before updating memory regions so we don't add
-> any outside of it, and report the invalid change if any.
->
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> ---
->  include/hw/virtio/vhost-vdpa.h |  2 ++
->  hw/virtio/vhost-vdpa.c         | 62 +++++++++++++++++++++++++---------
->  hw/virtio/trace-events         |  1 +
->  3 files changed, 49 insertions(+), 16 deletions(-)
->
-> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdp=
-a.h
-> index a8963da2d9..c288cf7ecb 100644
-> --- a/include/hw/virtio/vhost-vdpa.h
-> +++ b/include/hw/virtio/vhost-vdpa.h
-> @@ -13,6 +13,7 @@
->  #define HW_VIRTIO_VHOST_VDPA_H
->
->  #include "hw/virtio/virtio.h"
-> +#include "standard-headers/linux/vhost_types.h"
->
->  typedef struct VhostVDPAHostNotifier {
->      MemoryRegion mr;
-> @@ -24,6 +25,7 @@ typedef struct vhost_vdpa {
->      uint32_t msg_type;
->      bool iotlb_batch_begin_sent;
->      MemoryListener listener;
-> +    struct vhost_vdpa_iova_range iova_range;
->      struct vhost_dev *dev;
->      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
->  } VhostVDPA;
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index be7c63b4ba..dbf773d032 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -37,20 +37,34 @@ static Int128 vhost_vdpa_section_end(const MemoryRegi=
-onSection *section)
->      return llend;
->  }
->
-> -static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *sec=
-tion)
-> -{
-> -    return (!memory_region_is_ram(section->mr) &&
-> -            !memory_region_is_iommu(section->mr)) ||
-> -            memory_region_is_protected(section->mr) ||
-> -           /* vhost-vDPA doesn't allow MMIO to be mapped  */
-> -            memory_region_is_ram_device(section->mr) ||
-> -           /*
-> -            * Sizing an enabled 64-bit BAR can cause spurious mappings t=
-o
-> -            * addresses in the upper part of the 64-bit address space.  =
-These
-> -            * are never accessed by the CPU and beyond the address width=
- of
-> -            * some IOMMU hardware.  TODO: VDPA should tell us the IOMMU =
-width.
-> -            */
-> -           section->offset_within_address_space & (1ULL << 63);
-> +static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *sec=
-tion,
-> +                                                uint64_t iova_min,
-> +                                                uint64_t iova_max)
-> +{
-> +    Int128 llend;
-> +
-> +    if ((!memory_region_is_ram(section->mr) &&
-> +         !memory_region_is_iommu(section->mr)) ||
-> +        memory_region_is_protected(section->mr) ||
-> +        /* vhost-vDPA doesn't allow MMIO to be mapped  */
-> +        memory_region_is_ram_device(section->mr)) {
-> +        return true;
-> +    }
-> +
-> +    if (section->offset_within_address_space < iova_min) {
-> +        error_report("RAM section out of device range (min=3D%lu, addr=
-=3D%lu)",
-> +                     iova_min, section->offset_within_address_space);
-> +        return true;
-> +    }
-> +
-> +    llend =3D vhost_vdpa_section_end(section);
-> +    if (int128_gt(llend, int128_make64(iova_max))) {
-> +        error_report("RAM section out of device range (max=3D%lu, end ad=
-dr=3D%lu)",
-> +                     iova_max, int128_get64(llend));
-> +        return true;
-> +    }
-> +
-> +    return false;
->  }
->
->  static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr =
-size,
-> @@ -162,7 +176,8 @@ static void vhost_vdpa_listener_region_add(MemoryList=
-ener *listener,
->      void *vaddr;
->      int ret;
->
-> -    if (vhost_vdpa_listener_skipped_section(section)) {
-> +    if (vhost_vdpa_listener_skipped_section(section, v->iova_range.first=
-,
-> +                                            v->iova_range.last)) {
->          return;
->      }
->
-> @@ -220,7 +235,8 @@ static void vhost_vdpa_listener_region_del(MemoryList=
-ener *listener,
->      Int128 llend, llsize;
->      int ret;
->
-> -    if (vhost_vdpa_listener_skipped_section(section)) {
-> +    if (vhost_vdpa_listener_skipped_section(section, v->iova_range.first=
-,
-> +                                            v->iova_range.last)) {
->          return;
->      }
->
-> @@ -288,6 +304,19 @@ static void vhost_vdpa_add_status(struct vhost_dev *=
-dev, uint8_t status)
->      vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
->  }
->
-> +static void vhost_vdpa_get_iova_range(struct vhost_vdpa *v)
-> +{
-> +    int ret =3D vhost_vdpa_call(v->dev, VHOST_VDPA_GET_IOVA_RANGE,
-> +                              &v->iova_range);
-> +    if (ret !=3D 0) {
-> +        v->iova_range.first =3D 0;
-> +        v->iova_range.last =3D MAKE_64BIT_MASK(0, 63);
+The vhost-user-blk-test qtest has been hanging intermittently for a
+while. The root cause is not yet fully understood, but the hang is
+impacting enough users that it is important to merge a workaround for
+it.
 
-Nit:
+The race which causes the hang occurs early on in vhost-user setup,
+where a vhost-user message is never received by the backend. Forcing
+QEMU to wait until the storage-daemon has had some time to initialize
+prevents the hang. Thus the existing storage-daemon pidfile option can
+be used to implement a workaround cleanly and effectively, since it
+creates a file only once the storage-daemon initialization is complete.
 
-ULLONG_MAX?
+This change implements a workaround for the vhost-user-blk-test hang by
+making QEMU wait until the storage-daemon has written out a pidfile
+before attempting to connect and send messages over the vhost-user
+socket.
 
-Others look good.
+Some relevent mailing list discussions:
 
-Thanks
+[1] https://lore.kernel.org/qemu-devel/CAFEAcA8kYpz9LiPNxnWJAPSjc=3Dnv532bE=
+dyfynaBeMeohqBp3A@mail.gmail.com/
+[2] https://lore.kernel.org/qemu-devel/YWaky%2FKVbS%2FKZjlV@stefanha-x1.loc=
+aldomain/
 
-> +    }
-> +
-> +    trace_vhost_vdpa_get_iova_range(v->dev, v->iova_range.first,
-> +                                    v->iova_range.last);
-> +}
-> +
->  static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **=
-errp)
->  {
->      struct vhost_vdpa *v;
-> @@ -300,6 +329,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, voi=
-d *opaque, Error **errp)
->      v->listener =3D vhost_vdpa_memory_listener;
->      v->msg_type =3D VHOST_IOTLB_MSG_V2;
->
-> +    vhost_vdpa_get_iova_range(v);
->      vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->                                 VIRTIO_CONFIG_S_DRIVER);
->
-> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> index 8ed19e9d0c..650e521e35 100644
-> --- a/hw/virtio/trace-events
-> +++ b/hw/virtio/trace-events
-> @@ -52,6 +52,7 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int index=
-, int fd) "dev: %p index:
->  vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features:=
- 0x%"PRIx64
->  vhost_vdpa_set_owner(void *dev) "dev: %p"
->  vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uin=
-t64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_a=
-ddr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
-> +vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint64_t last) "dev=
-: %p first: 0x%"PRIx64" last: 0x%"PRIx64
->
->  # virtio.c
->  virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned=
- out_num) "elem %p size %zd in_num %u out_num %u"
-> --
-> 2.27.0
->
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+---
+ tests/qtest/vhost-user-blk-test.c | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
+diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk=
+-test.c
+index 6f108a1b62..c6626a286b 100644
+--- a/tests/qtest/vhost-user-blk-test.c
++++ b/tests/qtest/vhost-user-blk-test.c
+@@ -24,6 +24,7 @@
+ #define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
+ #define QVIRTIO_BLK_TIMEOUT_US  (30 * 1000 * 1000)
+ #define PCI_SLOT_HP             0x06
++#define PIDFILE_RETRIES         5
+=20
+ typedef struct {
+     pid_t pid;
+@@ -885,7 +886,8 @@ static void start_vhost_user_blk(GString *cmd_line, int=
+ vus_instances,
+                                  int num_queues)
+ {
+     const char *vhost_user_blk_bin =3D qtest_qemu_storage_daemon_binary();
+-    int i;
++    int i, retries;
++    char *daemon_pidfile_path;
+     gchar *img_path;
+     GString *storage_daemon_command =3D g_string_new(NULL);
+     QemuStorageDaemonState *qsd;
+@@ -898,6 +900,8 @@ static void start_vhost_user_blk(GString *cmd_line, int=
+ vus_instances,
+             " -object memory-backend-memfd,id=3Dmem,size=3D256M,share=3Don=
+ "
+             " -M memory-backend=3Dmem -m 256M ");
+=20
++    daemon_pidfile_path =3D g_strdup_printf("/tmp/daemon-%d", getpid());
++
+     for (i =3D 0; i < vus_instances; i++) {
+         int fd;
+         char *sock_path =3D create_listen_socket(&fd);
+@@ -914,6 +918,9 @@ static void start_vhost_user_blk(GString *cmd_line, int=
+ vus_instances,
+                                i + 1, sock_path);
+     }
+=20
++    g_string_append_printf(storage_daemon_command, "--pidfile %s ",
++                           daemon_pidfile_path);
++
+     g_test_message("starting vhost-user backend: %s",
+                    storage_daemon_command->str);
+     pid_t pid =3D fork();
+@@ -930,7 +937,27 @@ static void start_vhost_user_blk(GString *cmd_line, in=
+t vus_instances,
+         execlp("/bin/sh", "sh", "-c", storage_daemon_command->str, NULL);
+         exit(1);
+     }
++
++    /*
++     * FIXME: The loop here ensures the storage-daemon has come up properl=
+y
++     *        before allowing the test to proceed. This is a workaround fo=
+r
++     *        a race which used to cause the vhost-user-blk-test to hang. =
+It
++     *        should be deleted once the root cause is fully understood an=
+d
++     *        fixed.
++     */
++    retries =3D 0;
++    while (access(daemon_pidfile_path, F_OK) !=3D 0) {
++        g_assert_cmpint(retries, <, PIDFILE_RETRIES);
++
++        retries++;
++        g_usleep(1000);
++    }
++
+     g_string_free(storage_daemon_command, true);
++    if (access(daemon_pidfile_path, F_OK) =3D=3D 0) {
++        unlink(daemon_pidfile_path);
++    }
++    g_free(daemon_pidfile_path);
+=20
+     qsd =3D g_new(QemuStorageDaemonState, 1);
+     qsd->pid =3D pid;
+--=20
+2.20.1
 
