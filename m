@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18FC542DF35
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 18:33:21 +0200 (CEST)
-Received: from localhost ([::1]:52688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBEC42DF33
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 18:33:20 +0200 (CEST)
+Received: from localhost ([::1]:52930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb3fU-0006K2-4d
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 12:33:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34634)
+	id 1mb3fT-0006Tr-6C
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 12:33:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mb3c2-0003Kn-P7
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 12:29:46 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:38784)
+ id 1mb3c3-0003Kl-JA
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 12:29:47 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:44610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mb3c0-0000VU-Ji
+ id 1mb3c0-0000VV-Kb
  for qemu-devel@nongnu.org; Thu, 14 Oct 2021 12:29:46 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id d9so26303834edh.5
+Received: by mail-ed1-x532.google.com with SMTP id w14so26389836edv.11
  for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 09:29:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gtvvUw0iTZvQxrMv58zhybFDWX/0bNu+wDsCoErtwpU=;
- b=K+ZQUlPjMFcD2zholM00bPPP5l5JuqDK3klfDyIIDD7e6HZFYhYyTAV+X9g18iSNUX
- GBp6YKt95vEFU4/6SYPVINlB88eJzqw+DjZNAdP21cZGMPgXZjwPm6sGpa5KKI4xjbCT
- mwlbUAn4Grkv4gRByfcvj81o8yd60hYdgvOZUYNg+0ivAnW7B9pIL2iMIamntYCFIEry
- DKIHUbv25BYXFHRxeDYx9NKCRY2hN0TeX08tC7Kv3h3PKdQIULGXvo+MNFKo5z9zHnd/
- nUSr9PDX2mOGHZIuuK6dfzwsEl1nr+3Tz7Y9WzK06A1BB7bPSTRS3M7ln31iplrf443x
- E2Uw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=dgfNB2Fsj8uFWhaG5Y5cwfJz/jOZOBmzfZCOPa/OCdA=;
+ b=A5g4kO4dBv5ip0CV/Gw4hneogSPbZmSyfuDWBai2SS4hzWYtqu5oTW9lIb1fRFI1Cz
+ k3J9ky1KKahrra+IiCyDRD1ZMjzmTh3EWG/u1Dwl8xI1GzGTtzeqe8y4tZzEPxXust6B
+ Y3aKzGZQUySnWl4fNTB04ehTgXgPIlMZFKLqrT/YltiiHejpnNHVZ3pfWAJkAIIdj3Qr
+ JlNyXNNYx6pJuH+thaITuy02xnLT/MUvk+Jtotu2SzvdJ1HD/v025PUd8C7HCKEJDLca
+ jG/xvIJ3XuuiED8/RmKzic8cygg7JNpPf8stkRR/xpkfbPC2D5LJMPr1Zm2GjjlVODq3
+ 8Hrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=gtvvUw0iTZvQxrMv58zhybFDWX/0bNu+wDsCoErtwpU=;
- b=j2Q0m3X0PVOlbl4vvhxi6p1D8HaL4JNuMYIQeYn5vz5heq2L6nIAZqnKr14GBu0N7J
- 3Smhha7/UwaIh7EMRFbj+tlylsHCjsWeKvpGMYnf3B2gVyIRrHzPAlLCXcl66kAwUi73
- pAC2iB5YSy+y5PIs2sJiyohhsGaEBgjXWVCAvaO2LL8B5ppIgI1nxa5G9lKCcIG0j/rh
- 2YAjNs2clo/Y9bjq6T+f9ii8i4yMBt1pWjHI6dNU//CJEhiUU+FizHHmcvWR/D5+7ebj
- Nlmim1hxceOKgdSk7fWVGWKvrA2f5AipOhN3heA1TYVLfqS+ruA4ithADLfilWrRjRSI
- N7jQ==
-X-Gm-Message-State: AOAM530cURXN5wmpoOXKBHIp4c3lJkIFiZIwztB5xrdAi/EftorMVAa0
- xDpKiZpAIqB5Tl9+4vO4StTUudBmCtU=
-X-Google-Smtp-Source: ABdhPJwEt7MKU+R3bVFSH4FiBYkTnaxAflD0zniZl8L+9G0O7ZppOeIeFT2J5LxLPcHbZbNw/124aw==
-X-Received: by 2002:a17:906:b254:: with SMTP id
- ce20mr5172053ejb.306.1634228980423; 
- Thu, 14 Oct 2021 09:29:40 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=dgfNB2Fsj8uFWhaG5Y5cwfJz/jOZOBmzfZCOPa/OCdA=;
+ b=ciYeTP7jTLpOd1/yj/1a0sldtuEL0kOW1kkFdW1mAWGepoU3zmAbYzO0PCf2Ml73EI
+ Zst4wKhewUoMbqVjPBjL3eUbxyrOu9eQLjLuDW6g5GAFFM772+eAaL+UoBd32jocfXV1
+ c9V5L9+QftUsQwgD+iVKjZCnLNnFSbzxCyw7/uGN8aAuPK1C2nmSte0P1Sr08dACEUDI
+ ElIGp/sePuNYGxmihXFwv5ZtcZsZtlInlhGARuuF0f2tBU24lwkOHHL0/9eMDAS+UsKu
+ +a0RXm4LKbAXbTQaP2rPuPGLmOzoenWrG+x8LUNiKIRiUQbFNtsh77S3mytY/AoAovTC
+ YuGA==
+X-Gm-Message-State: AOAM530AtNotb8mEnUN7WRlQRkbvNdwtqdEjJg6wJE9dIcQWzUgi0Ftc
+ Y7cfZZceUBNyxdRIVXcch2Dmhwh5FWU=
+X-Google-Smtp-Source: ABdhPJwAC7xKpjW9uXMYw78sR+1f5aMuwGLlTacYdXsjKhUDeXeKq9iJRmKSfbYXAw2k6ACUh4EG0A==
+X-Received: by 2002:a17:906:a1da:: with SMTP id
+ bx26mr4918085ejb.558.1634228981693; 
+ Thu, 14 Oct 2021 09:29:41 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id x22sm2658404edv.14.2021.10.14.09.29.39
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id x22sm2658404edv.14.2021.10.14.09.29.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 09:29:40 -0700 (PDT)
+ Thu, 14 Oct 2021 09:29:41 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/26] Meson changes for 2021-10-14
-Date: Thu, 14 Oct 2021 18:29:12 +0200
-Message-Id: <20211014162938.430211-1-pbonzini@redhat.com>
+Subject: [PULL 01/26] configure: remove --oss-lib
+Date: Thu, 14 Oct 2021 18:29:13 +0200
+Message-Id: <20211014162938.430211-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211014162938.430211-1-pbonzini@redhat.com>
+References: <20211014162938.430211-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,82 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffman <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e5b2333f24ff207f08cf96e73d2e11438c985801:
+OSS is a kernel API, so the option should not be needed.  The library
+is used on NetBSD, where OSS is emulated, so keep the variable.
 
-  Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20211013' into staging (2021-10-13 11:43:29 -0700)
+Cc: Gerd Hoffman <kraxel@redhat.com>
+Cc: Volker Rümelin <vr_qemu@t-online.de>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20211007130630.632028-2-pbonzini@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure | 3 ---
+ 1 file changed, 3 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 3b4da13293482134b81d71be656ec76beff73a76:
-
-  configure: automatically parse command line for meson -D options (2021-10-14 09:51:06 +0200)
-
-----------------------------------------------------------------
-* Meson conversions + introspection-based command line parser
-
-----------------------------------------------------------------
-Marc-André Lureau (1):
-      configure, meson: move Spice configure handling to meson
-
-Paolo Bonzini (25):
-      configure: remove --oss-lib
-      audio: remove CONFIG_AUDIO_WIN_INT
-      configure, meson: move audio driver detection to Meson
-      meson: define symbols for all available audio drivers
-      configure: add command line options for audio drivers
-      kconfig: split CONFIG_SPARSE_MEM from fuzzing
-      configure, meson: move fuzzing configuration to Meson
-      trace: simple: pass trace_file unmodified to config-host.h
-      trace: move configuration from configure to Meson
-      configure, meson: move CONFIG_HOST_DSOSUF to Meson
-      configure, meson: get HOST_WORDS_BIGENDIAN via the machine object
-      configure, meson: remove CONFIG_GCOV from config-host.mak
-      meson: HAVE_GDB_BIN is not used by C code
-      configure, meson: move remaining HAVE_* compiler tests to Meson
-      configure, meson: move pthread_setname_np checks to Meson
-      configure, meson: move libaio check to meson.build
-      configure, meson: move vde detection to meson
-      configure, meson: move netmap detection to meson
-      configure: remove obsolete Solaris ar check
-      configure, meson: move more compiler checks to Meson
-      configure: remove deprecated --{enable, disable}-git-update
-      configure: accept "internal" for --enable-capstone/slirp/fdt
-      configure: prepare for auto-generated option parsing
-      meson-buildoptions: include list of tracing backends
-      configure: automatically parse command line for meson -D options
-
- Kconfig.host                  |    4 +
- Makefile                      |    8 +-
- audio/meson.build             |   23 +-
- block/meson.build             |    2 +-
- chardev/meson.build           |    2 +-
- configure                     | 1271 ++---------------------------------------
- docs/devel/build-system.rst   |  132 ++---
- docs/meson.build              |    2 +-
- hw/mem/Kconfig                |    3 +
- hw/mem/meson.build            |    2 +-
- meson.build                   |  421 ++++++++++++--
- meson_options.txt             |   46 +-
- net/meson.build               |    6 +-
- scripts/meson-buildoptions.py |  172 ++++++
- scripts/meson-buildoptions.sh |  270 +++++++++
- scripts/meson.build           |    2 +-
- stubs/meson.build             |    4 +-
- tests/qtest/fuzz/meson.build  |    6 +-
- trace/meson.build             |   15 +-
- trace/simple.c                |    2 +-
- ui/meson.build                |    4 +-
- util/meson.build              |    4 +-
- util/qemu-thread-posix.c      |    5 +-
- 23 files changed, 1041 insertions(+), 1365 deletions(-)
- create mode 100755 scripts/meson-buildoptions.py
- create mode 100644 scripts/meson-buildoptions.sh
+diff --git a/configure b/configure
+index e2750810e2..c280c0e4b5 100755
+--- a/configure
++++ b/configure
+@@ -1007,8 +1007,6 @@ for opt do
+   ;;
+   --enable-gettext) gettext="enabled"
+   ;;
+-  --oss-lib=*) oss_lib="$optarg"
+-  ;;
+   --audio-drv-list=*) audio_drv_list="$optarg"
+   ;;
+   --block-drv-rw-whitelist=*|--block-drv-whitelist=*) block_drv_rw_whitelist=$(echo "$optarg" | sed -e 's/,/ /g')
+@@ -1817,7 +1815,6 @@ Advanced options (experts only):
+   --disable-slirp          disable SLIRP userspace network connectivity
+   --enable-tcg-interpreter enable TCI (TCG with bytecode interpreter, experimental and slow)
+   --enable-malloc-trim     enable libc malloc_trim() for memory optimization
+-  --oss-lib                path to OSS library
+   --cpu=CPU                Build for host CPU [$cpu]
+   --with-coroutine=BACKEND coroutine backend. Supported options:
+                            ucontext, sigaltstack, windows
 -- 
 2.31.1
+
 
 
