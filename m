@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ABD542DEE6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 18:08:32 +0200 (CEST)
-Received: from localhost ([::1]:37324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A45F42DEF1
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 18:11:13 +0200 (CEST)
+Received: from localhost ([::1]:44646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb3HT-0001Kf-Gg
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 12:08:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48036)
+	id 1mb3K4-00068T-36
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 12:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mb2dX-0002st-8Z
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:27:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37015)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mb2hx-0005Qg-Rk
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:31:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mb2dP-00088v-CU
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:27:14 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mb2ht-0003UG-GX
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:31:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634225225;
+ s=mimecast20190719; t=1634225504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IpPDDhNpQ0RArEoWJd5NKR3WWxbDAGX5nu4Bsew2nJc=;
- b=d0T0HHlCZ4z52I5ZdUQyKfZ5SMyITh1wap+sTw4MsWfg8FH9BsNYCAjSRRpiSq0lPlKhUk
- 2iKHzDPi1ubLymJYWlUC0Vy7OZZ9r5m7zmreEdVJOQc8fesmAF4p3869SFcrYwRzFyzJH9
- HLd7NFHHqH3vWl0b2LVFPeajHgYc6r4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-MyjN8du3OaOeCtAe1Oy2Cw-1; Thu, 14 Oct 2021 11:27:04 -0400
-X-MC-Unique: MyjN8du3OaOeCtAe1Oy2Cw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- h11-20020adfa4cb000000b00160c791a550so4854173wrb.6
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 08:27:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IpPDDhNpQ0RArEoWJd5NKR3WWxbDAGX5nu4Bsew2nJc=;
- b=DURdImzMqyNb6QgK9ER9DVFlrUZSRv2mezO39qdgMsmtQvVnd1zeVY3HvdGBm0h6Sy
- uEaDsuON5OM6i+u2EO7Nh/616DNQPKnEStOTBqK3a8mxgB/nscPTA9f8DONb+qS2PR/C
- FMHuu1D+M+ADy6Dba40JCKoFHbwnST9X0+wyibymRGgeCxl5FuSJG5QimpT+AMUghK0M
- PsDmCDZAGoWvIRksgGpxGR1AbJyJxyyAeNnmDXpJaH+ARjk6oW7rosyUCrnOapfE7Yh0
- wrbhcOgnvuSp7pSoeo5eYJcu/qjj1BjrhNpYP+L0Mh64RAZpgiZ8wTC6F4bYRakYK5jh
- lXiQ==
-X-Gm-Message-State: AOAM530X6fQlCiG/AexCIpV4i8NX++PVZt9XHnsZXWptiwaUkHyJ+K1a
- hHgWrvksfdtfHU5K7/FTH4NXAuRdCBclh2OGC5YJloNcsrMxKwx6khN79bYvDuhsU9PxKSfcSGp
- 6ukOidFpiTKikcvk=
-X-Received: by 2002:a1c:4487:: with SMTP id
- r129mr19747308wma.127.1634225223305; 
- Thu, 14 Oct 2021 08:27:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxaRT3D6zYs5Rh37JnMQkGlDHswuO5+tinWymGdVWUT7FB7kvCvYqfCHl+sHxdgN603EYH+Vw==
-X-Received: by 2002:a1c:4487:: with SMTP id
- r129mr19747288wma.127.1634225223123; 
- Thu, 14 Oct 2021 08:27:03 -0700 (PDT)
-Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id z6sm2790399wro.25.2021.10.14.08.26.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 08:26:58 -0700 (PDT)
-Message-ID: <836a36f7-936b-ec36-f8e8-472bcec3970f@redhat.com>
-Date: Thu, 14 Oct 2021 17:26:53 +0200
+ bh=uW5lxn1bHHfc/OHP6BJKdh+0nYCDz46voC85rbxp/us=;
+ b=AsLG8QBOBLJYoCedLwbh1ukd9XNv+lmOfU7RGfgCxDxmq7uaVdPUzm2h6+v05fSVmD1HaX
+ VlmS3UwgzMrB1YaGiglcEK8TA5qQiKDXcWkDyouSx3KLW8gCd4ByaHhKzuAVOkHt68xhXX
+ PW+HOXJM2fxIQ6NDO1od1JAkt+tvQI4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-383-I1hqp1VSOUyfI9kFHxPiEQ-1; Thu, 14 Oct 2021 11:31:40 -0400
+X-MC-Unique: I1hqp1VSOUyfI9kFHxPiEQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38E0F8042F4;
+ Thu, 14 Oct 2021 15:31:39 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.16.190])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ED8E119D9D;
+ Thu, 14 Oct 2021 15:31:38 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 5CEF9223EA1; Thu, 14 Oct 2021 11:31:37 -0400 (EDT)
+From: Vivek Goyal <vgoyal@redhat.com>
+To: qemu-devel@nongnu.org,
+	virtio-fs@redhat.com
+Subject: [PATCH v2 6/6] virtiofsd: Add an option to enable/disable security
+ label
+Date: Thu, 14 Oct 2021 11:31:26 -0400
+Message-Id: <20211014153126.575173-7-vgoyal@redhat.com>
+In-Reply-To: <20211014153126.575173-1-vgoyal@redhat.com>
+References: <20211014153126.575173-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: Is the ppc440 "bamboo" board in QEMU still of any use?
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Thomas Huth <thuth@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>
-References: <fc2e00d1-2373-3223-03c8-195585face66@redhat.com>
- <80f727b8-9eb0-6a49-e4a7-b2616583c43f@csgroup.eu>
- <2c5ec93d-d1d1-5f08-cbf0-513e101114df@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <2c5ec93d-d1d1-5f08-cbf0-513e101114df@kaod.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,40 +80,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alexander Graf <agraf@csgraf.de>, hpoussin@reactos.org
+Cc: miklos@szeredi.hu, chirantan@chromium.org, stephen.smalley.work@gmail.com,
+ dwalsh@redhat.com, dgilbert@redhat.com, omosnace@redhat.com,
+ casey@schaufler-ca.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/21 13:29, Cédric Le Goater wrote:
-> On 10/14/21 12:34, Christophe Leroy wrote:
+Provide an option "-o security_label/no_security_label" to enable/disable
+security label functionality. By default these are turned off.
 
->> I have the following change in QEMU to be able to run the bamboo,
->> found it some time ago via google (can't remember where):
->>
->> diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
->> index 8147ba6f94..600e89e791 100644
->> --- a/hw/ppc/ppc4xx_pci.c
->> +++ b/hw/ppc/ppc4xx_pci.c
->> @@ -246,7 +246,7 @@ static int ppc4xx_pci_map_irq(PCIDevice *pci_dev,
->> int irq_num)
->>
->>       trace_ppc4xx_pci_map_irq(pci_dev->devfn, irq_num, slot);
->>
->> -    return slot - 1;
->> +    return slot ? slot - 1 : slot;
->>   }
->>
->>   static void ppc4xx_pci_set_irq(void *opaque, int irq_num, int level)
-> 
-> could you try to use :
-> 
-> static inline int ppce500_pci_map_irq_slot(int devno, int irq_num)
-> {
->     return (devno + irq_num) % 4;
-> }
+If enabled, server will indicate to client that it is capable of handling
+one security label during file creation. Typically this is expected to
+be a SELinux label. File server will set this label on the file. It will
+try to set it atomically wherever possible. But its not possible in
+all the cases.
 
-Is this pci_swizzle()?
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+---
+ docs/tools/virtiofsd.rst         |  7 +++++++
+ tools/virtiofsd/helper.c         |  1 +
+ tools/virtiofsd/passthrough_ll.c | 15 +++++++++++++++
+ 3 files changed, 23 insertions(+)
+
+diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+index cc31402830..54699b2013 100644
+--- a/docs/tools/virtiofsd.rst
++++ b/docs/tools/virtiofsd.rst
+@@ -104,6 +104,13 @@ Options
+   * posix_acl|no_posix_acl -
+     Enable/disable posix acl support.  Posix ACLs are disabled by default.
+ 
++  * security_label|no_security_label -
++    Enable/disable security label support. Security labels are disabled by
++    default. This will allow client to send a MAC label of file during
++    file creation. Typically this is expected to be SELinux security
++    label. Server will try to set that label on newly created file
++    atomically wherever possible.
++
+ .. option:: --socket-path=PATH
+ 
+   Listen on vhost-user UNIX domain socket at PATH.
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index a8295d975a..e226fc590f 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -187,6 +187,7 @@ void fuse_cmdline_help(void)
+            "                               default: no_allow_direct_io\n"
+            "    -o announce_submounts      Announce sub-mount points to the guest\n"
+            "    -o posix_acl/no_posix_acl  Enable/Disable posix_acl. (default: disabled)\n"
++           "    -o security_label/no_security_label  Enable/Disable security label. (default: disabled)\n"
+            );
+ }
+ 
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 4505c0c363..4334885619 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -180,6 +180,7 @@ struct lo_data {
+     int user_posix_acl, posix_acl;
+     /* Keeps track if /proc/<pid>/attr/fscreate should be used or not */
+     bool use_fscreate;
++    int user_security_label;
+ };
+ 
+ static const struct fuse_opt lo_opts[] = {
+@@ -214,6 +215,8 @@ static const struct fuse_opt lo_opts[] = {
+     { "no_killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 0 },
+     { "posix_acl", offsetof(struct lo_data, user_posix_acl), 1 },
+     { "no_posix_acl", offsetof(struct lo_data, user_posix_acl), 0 },
++    { "security_label", offsetof(struct lo_data, user_security_label), 1 },
++    { "no_security_label", offsetof(struct lo_data, user_security_label), 0 },
+     FUSE_OPT_END
+ };
+ static bool use_syslog = false;
+@@ -770,6 +773,17 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
+         fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
+         conn->want &= ~FUSE_CAP_POSIX_ACL;
+     }
++
++    if (lo->user_security_label == 1) {
++        if (!(conn->capable & FUSE_CAP_SECURITY_CTX)) {
++            fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable security label."
++                     " kernel does not support FUSE_SECURITY_CTX capability.\n");
++        }
++        conn->want |= FUSE_CAP_SECURITY_CTX;
++    } else {
++        fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling security label\n");
++        conn->want &= ~FUSE_CAP_SECURITY_CTX;
++    }
+ }
+ 
+ static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
+@@ -4254,6 +4268,7 @@ int main(int argc, char *argv[])
+         .proc_self_task = -1,
+         .user_killpriv_v2 = -1,
+         .user_posix_acl = -1,
++        .user_security_label = -1,
+     };
+     struct lo_map_elem *root_elem;
+     struct lo_map_elem *reserve_elem;
+-- 
+2.31.1
 
 
