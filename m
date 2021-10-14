@@ -2,113 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22C342E4C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 01:34:01 +0200 (CEST)
-Received: from localhost ([::1]:33782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A96A42E4D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 01:44:59 +0200 (CEST)
+Received: from localhost ([::1]:39974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbAEb-0003Kv-4n
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 19:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60968)
+	id 1mbAPB-0008Ld-Tn
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 19:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mbACM-0000vs-NX; Thu, 14 Oct 2021 19:31:42 -0400
-Received: from mail-dm6nam10on2072.outbound.protection.outlook.com
- ([40.107.93.72]:60072 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mbACJ-0006Os-Fm; Thu, 14 Oct 2021 19:31:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R8GDipIlXsnfrkvBHTr63vFHV/vDKKilvK3OZUFDCb4XQi07CAhnZTjwOheO+JbB3/I2M0XWgfIHG79+NgjJ/3gD4NpHZS+CQRrD1fk179yBMDMKy0C4Q4D0LhTmw/RZvCRLKFJf5b/g2HsUaP9UmzlE3HdBTy4OxRIIqvszIWzSWITaZruxfQ5TZn/NmNcD4+22amG+ATqzxcQvdDQ/zaG//DULpL+Jf/9/xePvyT2K1xvM+9hoUOLWCQ49zDXhc3se8k2fDr7RHiL/mjOTdtBQBNy9nFVNh0wkrjX6v1CuDmYXTha8cQjOWQKYETr0bkfc/mBlFxevfB/eox5Ppw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uyZkJAPepqJiG5qitlGM/okWd+JZ8sL67v0Lmav47PU=;
- b=QC+sGLc5D+QimzNRLWezdZKov5iTTSO9jCJ3eegJMF3LgAE4/N0ZgYkV94iAVWUKHIFa9bz7a7JXtt9nI04NaxvwXuB2heaPB59Aua1DvkYGacv3MZEjQcYLDalweD08SNfzPwKTcy6CfcUJJT222QRFne7PrRGJXjDZZzNrTD6mWTlyE60lCDxNxIEhOOe5btOqgBaa5aoKt4OJFllgCXXRHERu/mazxEku0tJJXMpeevKyuAYvvAQ8Ljp8AVjZV0CSwW14AmZLoTRJShxb3PHggHqDTrW0PpKWIJm1LtVOcfI1DHCwz5SG2tAZaIIlj1s5o1mq0keXLw66RZIxqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uyZkJAPepqJiG5qitlGM/okWd+JZ8sL67v0Lmav47PU=;
- b=Qmlp5QK5XeF47O4zHQqaJ2nwcRjhWO1wG0nStz8fVFVvkw2IMPZ8JGJzI2DGUBTOMPOTxhqYwDaPGO21bWbKo5IaI0oBOlfaMaSrcCWLX5Qh5HpRggKVF63E/vCOmYGMBp/3H+dI3eeWfoCQK390kAgZ7pGnsk59uk4Pz+/avnM=
-Received: from MW4PR03CA0175.namprd03.prod.outlook.com (2603:10b6:303:8d::30)
- by DM6PR12MB2748.namprd12.prod.outlook.com (2603:10b6:5:43::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.19; Thu, 14 Oct
- 2021 23:31:35 +0000
-Received: from CO1NAM11FT057.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8d:cafe::7d) by MW4PR03CA0175.outlook.office365.com
- (2603:10b6:303:8d::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend
- Transport; Thu, 14 Oct 2021 23:31:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT057.mail.protection.outlook.com (10.13.174.205) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4608.15 via Frontend Transport; Thu, 14 Oct 2021 23:31:34 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Thu, 14 Oct
- 2021 18:31:33 -0500
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mbANh-0006l1-24
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 19:43:25 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:55116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mbANf-0004tk-13
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 19:43:24 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id np13so5924220pjb.4
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 16:43:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=W1VZ/HOupylVXXCvFvA/K0fVPPXsX+kwngx8kLlpsqc=;
+ b=RYqLlHgih9ag8Gl7nvUH7A9PJK7RZz6mwcagIIKjWAaExEjsOfBsGeWXYDoosShVrD
+ g42TsV2/Hkatf8fhggRE+bNAktLmy+fDCFgv7HsHS4iTyIEDL9QqDMGTr79RmUhrkK/y
+ 88zKSRP0U0FmVGCQLu0Dt82/apfEUr32kY1kljaG4fKLLaGcHP1R3c+8tPWgGIb6AHRi
+ vwqHk3aGH79ldhhwEQ3wL7+7EtmcOAxZ1S3ztwPiOGmlNUjxmAdHd9Fjc15gOm8qmFTY
+ UsWpHamFq6tljBGi6tXxvz44EGGKZqOfekL8uTQN+jR729EQJ6EasnEGMpj5cQY2mgYA
+ 20rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=W1VZ/HOupylVXXCvFvA/K0fVPPXsX+kwngx8kLlpsqc=;
+ b=T9vF9e8c9y+bvC5T9D9W/zqQL7m1j9hi4902S5BBEYqbb6rkJjzgciV5djQQQdms6I
+ pJgPD5RpTGV4jRbrp61u4pFs1lpnTG6RgHPefJDJfagnPL56nkEiy7kU3GfcXrRFJA30
+ CvpOdVM47lQLoCDZaGOosBDKm5rlC5XvMAZdG2Hw5v+1eEZuRXz4SP4GeDpPUbqIca4t
+ CfpUPWxDeqWgYkkyyfoY/aJ/erHBcw61uwX1gfy2zVG02XCjW51zr5PV1Kg9l9sQtAZ9
+ d49EFhzyB1UZE/xRhqakZmnf9AIcNuZOYwu3LBIa3cid9LcFa7OxFnhOwWXJNUFoTJdV
+ ckuA==
+X-Gm-Message-State: AOAM5322r19olGzaRKOlPlcHdArceawRLzm/1KiO57KtzBOAH6rsz9gM
+ 7SsyZnHOdJ9fFHnR7OsU9Dh9qw==
+X-Google-Smtp-Source: ABdhPJzhH84/ykgDLLGioO3sOsuJOkgMbny/0DLYgdw5kw7S8YRtF9lazsNi07YqfzADCFATDPs45A==
+X-Received: by 2002:a17:90a:4207:: with SMTP id
+ o7mr23550307pjg.61.1634255001420; 
+ Thu, 14 Oct 2021 16:43:21 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id v12sm3394831pjd.9.2021.10.14.16.43.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Oct 2021 16:43:20 -0700 (PDT)
+Subject: Re: [PATCH 1/4] linux-user/ppc: Fix XER access in
+ save/restore_user_regs
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20211014223234.127012-1-matheus.ferst@eldorado.org.br>
+ <20211014223234.127012-2-matheus.ferst@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <08fb20b9-4784-4dfe-2bdd-7abeae8d6a4c@linaro.org>
+Date: Thu, 14 Oct 2021 16:43:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210805192545.38279-1-jrtc27@jrtc27.com>
-References: <20210805191430.37409-1-jrtc27@jrtc27.com>
- <20210805192545.38279-1-jrtc27@jrtc27.com>
-Subject: Re: [PATCH v2] Partially revert "build: -no-pie is no functional
- linker flag"
-From: Michael Roth <michael.roth@amd.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>, Jessica Clarke <jrtc27@jrtc27.com>,
- <qemu-stable@nongnu.org>, Christian Ehrhardt
- <christian.ehrhardt@canonical.com>
-To: Jessica Clarke <jrtc27@jrtc27.com>, <qemu-devel@nongnu.org>
-Date: Thu, 14 Oct 2021 18:30:43 -0500
-Message-ID: <163425424356.2158.16851994446465453609@amd.com>
-User-Agent: alot/0.9
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: da639280-c297-489c-0873-08d98f6ac2ff
-X-MS-TrafficTypeDiagnostic: DM6PR12MB2748:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB27483105B3AEEA1BB6D5CE2895B89@DM6PR12MB2748.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ujb1RbUHtWrbRjF41HMwWD2Lkojwmv7As1Uwk4s1RNocQoDwImwBwX5JWwL50SAMp7GkDykCaAo3L0Grl5d9BSRvU55hmerVdrwKxaIdkMm9VPZ1YngyDEMHfaLiGeVox+5qJ467Ps96yRaZWkTDYmZSDhda88+YtV4nQ2TOPxZc6/WEZBpwfMQn7I8wlKwwELYO/9mBwJpjJ8CL/CAnJBM5ytADBuYCkA3aDbZUazTUps62vXXyLbDo263Ug3GOpl7/8fsK59WDk2A92Ct5tKDsnx8JpceNlicTKVRvYa85//pdaKxuQkhn49NQrq7tCy1TbPIjDwWMdUqMp6wRELWJ5Fow8E0Wg7dSNJpR73P6UImEdpKZROmdJegxetoayiUwbqDDKrZsMmCMTGDe7zXwCDiPSQH1qlBlzwIdQxnnQjl80mcZBsdKDpNTS3uLjXDwpe0Lj+4eTFjhckuGj9JCncpvbB6GHXFy921MnihsmKFWxTwOS5/r4zc4WjlgFWxyop7BauDActkoxOcsdN5ZPjr8HQ8IebkE2Wo7CGp4EZy/RtXpRQNPM3CfJeLaG5IREv+Evnn5Qxq0ebzMI80nInqJWyJmOqn1Nuq4k43suCiks3qYowOnGAaCEB8p40JFlqrKw+PmhFoo7qSlaI6v5yHV0z2sCkCs0FIZ45NMWrcQYPHcaea2YZmwAQN4xR01+8OV74URBWZn4X3pJFRDU3HsJ+Anm1VU3D9gF2M=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(316002)(2906002)(186003)(5660300002)(508600001)(82310400003)(81166007)(336012)(26005)(356005)(6666004)(36756003)(54906003)(36860700001)(86362001)(16526019)(4326008)(110136005)(8936002)(8676002)(83380400001)(2616005)(47076005)(44832011)(426003)(70586007)(70206006)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2021 23:31:34.8905 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: da639280-c297-489c-0873-08d98f6ac2ff
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT057.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2748
-Received-SPF: softfail client-ip=40.107.93.72;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
+In-Reply-To: <20211014223234.127012-2-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,73 +89,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: laurent@vivier.eu, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting Jessica Clarke (2021-08-05 14:25:45)
-> This partially reverts commit bbd2d5a8120771ec59b86a80a1f51884e0a26e53.
->=20
-> This commit was misguided and broke using --disable-pie on any distro
-> that enables PIE by default in their compiler driver, including Debian
-> and its derivatives. Whilst -no-pie is not a linker flag, it is a
-> compiler driver flag that ensures -pie is not automatically passed by it
-> to the linker. Without it, all compile_prog checks will fail as any code
-> built with the explicit -fno-pie will fail to link with the implicit
-> default -pie due to trying to use position-dependent relocations. The
-> only bug that needed fixing was LDFLAGS_NOPIE being used as a flag for
-> the linker itself in pc-bios/optionrom/Makefile.
->=20
-> Note this does not reinstate exporting LDFLAGS_NOPIE, as it is unused,
-> since the only previous use was the one that should not have existed. I
-> have also updated the comment for the -fno-pie and -no-pie checks to
-> reflect what they're actually needed for.
->=20
-> Fixes: bbd2d5a8120771ec59b86a80a1f51884e0a26e53
-> Cc: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
-
-Ping. --disable-pie builds are broken on Ubuntu 20.04 without this regressi=
-on
-fix. Looking to include it for v6.0.1/v6.1.1.
-
+On 10/14/21 3:32 PM, matheus.ferst@eldorado.org.br wrote:
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> 
+> We should use cpu_read_xer/cpu_write_xer to save/restore the complete
+> register since some of its bits are in other fields of CPUPPCState. A
+> test is added to prevent future regressions.
+> 
+> Fixes: da91a00f191f ("target-ppc: Split out SO, OV, CA fields from XER")
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 > ---
-> Changes in v2:
->   * Actually include the comment change; didn't add the hunk when
->     amending...
->=20
->  configure | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/configure b/configure
-> index 9a79a004d7..8aecd277ed 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2246,9 +2246,11 @@ static THREAD int tls_var;
->  int main(void) { return tls_var; }
->  EOF
-> =20
-> -# Check we support --no-pie first; we will need this for building ROMs.
-> +# Check we support -fno-pie and -no-pie first; we will need the former f=
-or
-> +# building ROMs, and both for everything if --disable-pie is passed.
->  if compile_prog "-Werror -fno-pie" "-no-pie"; then
->    CFLAGS_NOPIE=3D"-fno-pie"
-> +  LDFLAGS_NOPIE=3D"-no-pie"
->  fi
-> =20
->  if test "$static" =3D "yes"; then
-> @@ -2264,6 +2266,7 @@ if test "$static" =3D "yes"; then
->    fi
->  elif test "$pie" =3D "no"; then
->    CONFIGURE_CFLAGS=3D"$CFLAGS_NOPIE $CONFIGURE_CFLAGS"
-> +  CONFIGURE_LDFLAGS=3D"$LDFLAGS_NOPIE $CONFIGURE_LDFLAGS"
->  elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
->    CONFIGURE_CFLAGS=3D"-fPIE -DPIE $CONFIGURE_CFLAGS"
->    CONFIGURE_LDFLAGS=3D"-pie $CONFIGURE_LDFLAGS"
-> --=20
-> 2.17.1
->=20
->
+>   linux-user/ppc/signal.c                     |  9 +++--
+>   tests/tcg/ppc64/Makefile.target             |  2 +
+>   tests/tcg/ppc64le/Makefile.target           |  2 +
+>   tests/tcg/ppc64le/signal_save_restore_xer.c | 42 +++++++++++++++++++++
+>   4 files changed, 52 insertions(+), 3 deletions(-)
+>   create mode 100644 tests/tcg/ppc64le/signal_save_restore_xer.c
+
+The code is good so,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+> +    sigaction(SIGILL, &sa, NULL);
+> +
+> +    asm("mtspr 1, %1\n\t"
+> +        ".long 0x0\n\t"
+
+While Appendix B does guarantee that "0" is and always will be an invalid instruction, I 
+wonder if the test itself would be clearer (i.e. self-documenting the intent) using 
+SIGTRAP and "trap".
+
+
+r~
 
