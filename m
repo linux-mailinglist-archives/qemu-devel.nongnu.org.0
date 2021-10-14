@@ -2,64 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A45F42DEF1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 18:11:13 +0200 (CEST)
-Received: from localhost ([::1]:44646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7460F42DEF6
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 18:13:46 +0200 (CEST)
+Received: from localhost ([::1]:51094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb3K4-00068T-36
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 12:11:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48688)
+	id 1mb3MX-00025P-A4
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 12:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mb2hx-0005Qg-Rk
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:31:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38132)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mb2mU-0008Qk-3h
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:36:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28339)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mb2ht-0003UG-GX
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:31:49 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mb2mL-0007Jm-Tf
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:36:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634225504;
+ s=mimecast20190719; t=1634225779;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uW5lxn1bHHfc/OHP6BJKdh+0nYCDz46voC85rbxp/us=;
- b=AsLG8QBOBLJYoCedLwbh1ukd9XNv+lmOfU7RGfgCxDxmq7uaVdPUzm2h6+v05fSVmD1HaX
- VlmS3UwgzMrB1YaGiglcEK8TA5qQiKDXcWkDyouSx3KLW8gCd4ByaHhKzuAVOkHt68xhXX
- PW+HOXJM2fxIQ6NDO1od1JAkt+tvQI4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-I1hqp1VSOUyfI9kFHxPiEQ-1; Thu, 14 Oct 2021 11:31:40 -0400
-X-MC-Unique: I1hqp1VSOUyfI9kFHxPiEQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38E0F8042F4;
- Thu, 14 Oct 2021 15:31:39 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.16.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED8E119D9D;
- Thu, 14 Oct 2021 15:31:38 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 5CEF9223EA1; Thu, 14 Oct 2021 11:31:37 -0400 (EDT)
-From: Vivek Goyal <vgoyal@redhat.com>
-To: qemu-devel@nongnu.org,
-	virtio-fs@redhat.com
-Subject: [PATCH v2 6/6] virtiofsd: Add an option to enable/disable security
- label
-Date: Thu, 14 Oct 2021 11:31:26 -0400
-Message-Id: <20211014153126.575173-7-vgoyal@redhat.com>
-In-Reply-To: <20211014153126.575173-1-vgoyal@redhat.com>
-References: <20211014153126.575173-1-vgoyal@redhat.com>
+ bh=1adBIZGKXSU5y4M0TDRr3IIogDLxARLXmixeprWkpps=;
+ b=OunTeFy8BtfNsZmAMXTdBPxmYr6jQ74dFz9+aNA/KqjMsnmt/XpQkWC40jLPm3vBwzmBSz
+ A0qjnVKzefZqdNX1Bu29r9j4Z5RuTtePwRsSd6ulZUYv09m9LPCnHqwcQYshKo4zZOY3dk
+ dVsKW44ApphwPuFxeE97TyOwKbgMeRA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-JEqhxZMeMGuOwFUZP0rAnA-1; Thu, 14 Oct 2021 11:36:18 -0400
+X-MC-Unique: JEqhxZMeMGuOwFUZP0rAnA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d13-20020adf9b8d000000b00160a94c235aso4889213wrc.2
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 08:36:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1adBIZGKXSU5y4M0TDRr3IIogDLxARLXmixeprWkpps=;
+ b=uc15byI+11WaBbGl96fQ+abaBSjQDzKDznRRKxXIgUgG/im02NKtyL6uuiXOWNQ2hm
+ IJOEIcGbrN9V/4lYsvR38P1M3Mohf9dw/gNORFZediJn6IwMpOwpUiJcqnAMAWyKulM7
+ Ew2RkzEwof9/KrUFmDxKs7uVnBI2gfxc4pGq4mFKi35Xv3DEfWPaTsNKPe3DoeR3ud2M
+ ew4HCE/wl0gahJvJZ+IHKrJDaUiONlVmc3nnMxq9/x9ZKLgxwSTY9YjUoqLPfj8m2/0t
+ tg0+I7OF96QlQUQQ2KdOETzsEJHgLIauXXdpaE94T1Qeg8fR0Y7XWqDS6kZMLfse2s5h
+ 8wvw==
+X-Gm-Message-State: AOAM530Mc1++h8RqQyXNdrzBrYB59Sz/IDYHResf9fplR3MjSrqnudgP
+ YSlTWF3ppHjqB1Hy82IIiAcRUY9ZCYgw045bc0l4l1yHeAeW6XgDl8R44xGDCipsBDnszbNP6pK
+ xnkT9waA+huPkP7w=
+X-Received: by 2002:a1c:7ed7:: with SMTP id z206mr19973153wmc.69.1634225776872; 
+ Thu, 14 Oct 2021 08:36:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzKUP0PGy0DaQKlto0DL+/2Jx2SX95M3cisgkjjCWjbbdvQE+XJU5IdJDtZeV167uCzkbrjsQ==
+X-Received: by 2002:a1c:7ed7:: with SMTP id z206mr19973122wmc.69.1634225776578; 
+ Thu, 14 Oct 2021 08:36:16 -0700 (PDT)
+Received: from gator (nat-pool-brq-u.redhat.com. [213.175.37.12])
+ by smtp.gmail.com with ESMTPSA id k17sm2573270wrc.93.2021.10.14.08.36.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Oct 2021 08:36:16 -0700 (PDT)
+Date: Thu, 14 Oct 2021 17:36:09 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v3 1/2] numa: Require distance map when empty node exists
+Message-ID: <20211014153609.pzndx7um3dfdgelo@gator>
+References: <20211013045805.192165-1-gshan@redhat.com>
+ <20211013045805.192165-2-gshan@redhat.com>
+ <20211013133011.62b8812d@redhat.com>
+ <20211013113544.4xrfagduw4nlbvou@gator.home>
+ <20211013135346.3a8f6c9a@redhat.com>
+ <20211013121125.sdewyrxcipsi3o22@gator.home>
+ <20211013122840.fi4ufle4czyzegtb@gator.home>
+ <20211014171417.541c9bee@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20211014171417.541c9bee@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,106 +100,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: miklos@szeredi.hu, chirantan@chromium.org, stephen.smalley.work@gmail.com,
- dwalsh@redhat.com, dgilbert@redhat.com, omosnace@redhat.com,
- casey@schaufler-ca.com, vgoyal@redhat.com
+Cc: peter.maydell@linaro.org, Gavin Shan <gshan@redhat.com>,
+ ehabkost@redhat.com, robh@kernel.org, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, shan.gavin@gmail.com, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide an option "-o security_label/no_security_label" to enable/disable
-security label functionality. By default these are turned off.
+On Thu, Oct 14, 2021 at 05:14:17PM +0200, Igor Mammedov wrote:
+> On Wed, 13 Oct 2021 14:28:40 +0200
+> Andrew Jones <drjones@redhat.com> wrote:
+> 
+> > On Wed, Oct 13, 2021 at 02:11:25PM +0200, Andrew Jones wrote:
+> > > On Wed, Oct 13, 2021 at 01:53:46PM +0200, Igor Mammedov wrote:  
+> > > > On Wed, 13 Oct 2021 13:35:44 +0200
+> > > > Andrew Jones <drjones@redhat.com> wrote:
+> > > >   
+> > > > > On Wed, Oct 13, 2021 at 01:30:11PM +0200, Igor Mammedov wrote:  
+> > > > > > On Wed, 13 Oct 2021 12:58:04 +0800
+> > > > > > Gavin Shan <gshan@redhat.com> wrote:
+> > > > > >     
+> > > > > > > The following option is used to specify the distance map. It's
+> > > > > > > possible the option isn't provided by user. In this case, the
+> > > > > > > distance map isn't populated and exposed to platform. On the
+> > > > > > > other hand, the empty NUMA node, where no memory resides, is
+> > > > > > > allowed on platforms like ARM64 virt. For these empty NUMA
+> > > > > > > nodes, their corresponding device-tree nodes aren't populated,
+> > > > > > > but their NUMA IDs should be included in the "/distance-map"
+> > > > > > > device-tree node, so that kernel can probe them properly if
+> > > > > > > device-tree is used.
+> > > > > > > 
+> > > > > > >   -numa,dist,src=<numa_id>,dst=<numa_id>,val=<distance>
+> > > > > > > 
+> > > > > > > This adds extra check after the machine is initialized, to
+> > > > > > > ask for the distance map from user when empty nodes exist in
+> > > > > > > device-tree.
+> > > > > > > 
+> > > > > > > Signed-off-by: Gavin Shan <gshan@redhat.com>
+> > > > > > > ---
+> > > > > > >  hw/core/machine.c     |  4 ++++
+> > > > > > >  hw/core/numa.c        | 24 ++++++++++++++++++++++++
+> > > > > > >  include/sysemu/numa.h |  1 +
+> > > > > > >  3 files changed, 29 insertions(+)
+> > > > > > > 
+> > > > > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > > > > > index b8d95eec32..c0765ad973 100644
+> > > > > > > --- a/hw/core/machine.c
+> > > > > > > +++ b/hw/core/machine.c
+> > > > > > > @@ -1355,6 +1355,10 @@ void machine_run_board_init(MachineState *machine)
+> > > > > > >      accel_init_interfaces(ACCEL_GET_CLASS(machine->accelerator));
+> > > > > > >      machine_class->init(machine);
+> > > > > > >      phase_advance(PHASE_MACHINE_INITIALIZED);
+> > > > > > > +
+> > > > > > > +    if (machine->numa_state) {
+> > > > > > > +        numa_complete_validation(machine);
+> > > > > > > +    }
+> > > > > > >  }
+> > > > > > >  
+> > > > > > >  static NotifierList machine_init_done_notifiers =
+> > > > > > > diff --git a/hw/core/numa.c b/hw/core/numa.c
+> > > > > > > index 510d096a88..7404b7dd38 100644
+> > > > > > > --- a/hw/core/numa.c
+> > > > > > > +++ b/hw/core/numa.c
+> > > > > > > @@ -727,6 +727,30 @@ void numa_complete_configuration(MachineState *ms)
+> > > > > > >      }
+> > > > > > >  }
+> > > > > > >  
+> > > > > > > +/*
+> > > > > > > + * When device-tree is used by the machine, the empty node IDs should
+> > > > > > > + * be included in the distance map. So we need provide pairs of distances
+> > > > > > > + * in this case.
+> > > > > > > + */
+> > > > > > > +void numa_complete_validation(MachineState *ms)
+> > > > > > > +{
+> > > > > > > +    NodeInfo *numa_info = ms->numa_state->nodes;
+> > > > > > > +    int nb_numa_nodes = ms->numa_state->num_nodes;
+> > > > > > > +    int i;
+> > > > > > > +
+> > > > > > > +    if (!ms->fdt || ms->numa_state->have_numa_distance) {    
+> > > > > > 
+> > > > > > also skip check/limitation when VM is launched with ACPI enabled?    
+> > 
+> > On second thought, I guess it's a good idea to not error out when ACPI is
+> > enabled. There's no point in burdening the ACPI user.
+> > 
+> > > > > 
+> > > > > Even with ACPI enabled we generate a DT and would like that DT to be as
+> > > > > complete as possible. Of course we should generate a SLIT table with  
+> > > > 
+> > > > Guest will work just fine without distance map as SRAT describes
+> > > > all numa nodes.
+> > > > You are forcing VM to have SLIT just for the sake of 'completeness'
+> > > > that's practically unused.
+> > > > 
+> > > > I'm still unsure about pushing all of this in generic numa code,
+> > > > as this will be used only by ARM for now. It's better to keep it
+> > > > ARM specific, and when RISCV machine will start using this, it
+> > > > could be moved to generic code.  
+> > 
+> > I think RISCV could start using it now. Linux shares the mem/numa DT
+> > parsing code between Arm and RISCV. If RISCV QEMU wanted to start
+> > exposing NUMA nodes, then they might as well support empty ones from
+> > the start.
+> 
+> When RISCV will start using memory-less nodes, we can move this check to
+> generic code.
+> So far 2/2 takes care of ARM only, as result I don't see
+> a good reason to generalize it now. (CCing RISCV folks to see if
+> there is any plans to impl. that)
+>  
+> 
+> > > I don't see a problem in providing this DT node / ACPI table to guests
+> > > with empty NUMA nodes. I don't even see a problem with providing the
+> > > distance information unconditionally. Can you explain why we should
+> > > prefer not to provide optional HW descriptions?  
+> > 
+> > I'm still curious why we should be so reluctant to add HW descriptions.
+> > I agree we should be reluctant to error out, though.
+> 
+> If distance map were the only way to figure out present node-ids,
+> I wouldn't mind making it non-optional.
+> 
+> However guest can already get node-ids from mem/cpu/pci nodes
+> with current device-tree that QEMU generates and
+> forcing optional distance-map (with duplicate info) on user
+> creates non must-have CLI requirements/inconvenience that
+> will eventually propagate to higher layers, I'd rather avoid
+> that if possible.
+> 
+> So question is if an idea of fetching numa-ids from cpu nodes
+> in addition to memory nodes (which should cover QEMU needs)
+> have been considered and why it didn't work out?
 
-If enabled, server will indicate to client that it is capable of handling
-one security label during file creation. Typically this is expected to
-be a SELinux label. File server will set this label on the file. It will
-try to set it atomically wherever possible. But its not possible in
-all the cases.
+Thinking about it some more. I think we only need patch 2/2 of this
+series. We should double check, but if when Linux generates its
+default distance-map it already generates a map using the numa-ids
+in the cpu nodes of the DT, then I guess the resulting Linux generated
+distance-map will be sufficient to represent the empty NUMA nodes and
+could be used for DT memory hotplug if Linux ever tried to implement
+that.
 
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
----
- docs/tools/virtiofsd.rst         |  7 +++++++
- tools/virtiofsd/helper.c         |  1 +
- tools/virtiofsd/passthrough_ll.c | 15 +++++++++++++++
- 3 files changed, 23 insertions(+)
+Gavin, can you check if we can just drop patch 1/2 and then when
+booting a DT guest with empty numa nodes we get the distance
+map we wanted to enforce anyway?
 
-diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index cc31402830..54699b2013 100644
---- a/docs/tools/virtiofsd.rst
-+++ b/docs/tools/virtiofsd.rst
-@@ -104,6 +104,13 @@ Options
-   * posix_acl|no_posix_acl -
-     Enable/disable posix acl support.  Posix ACLs are disabled by default.
- 
-+  * security_label|no_security_label -
-+    Enable/disable security label support. Security labels are disabled by
-+    default. This will allow client to send a MAC label of file during
-+    file creation. Typically this is expected to be SELinux security
-+    label. Server will try to set that label on newly created file
-+    atomically wherever possible.
-+
- .. option:: --socket-path=PATH
- 
-   Listen on vhost-user UNIX domain socket at PATH.
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index a8295d975a..e226fc590f 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -187,6 +187,7 @@ void fuse_cmdline_help(void)
-            "                               default: no_allow_direct_io\n"
-            "    -o announce_submounts      Announce sub-mount points to the guest\n"
-            "    -o posix_acl/no_posix_acl  Enable/Disable posix_acl. (default: disabled)\n"
-+           "    -o security_label/no_security_label  Enable/Disable security label. (default: disabled)\n"
-            );
- }
- 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 4505c0c363..4334885619 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -180,6 +180,7 @@ struct lo_data {
-     int user_posix_acl, posix_acl;
-     /* Keeps track if /proc/<pid>/attr/fscreate should be used or not */
-     bool use_fscreate;
-+    int user_security_label;
- };
- 
- static const struct fuse_opt lo_opts[] = {
-@@ -214,6 +215,8 @@ static const struct fuse_opt lo_opts[] = {
-     { "no_killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 0 },
-     { "posix_acl", offsetof(struct lo_data, user_posix_acl), 1 },
-     { "no_posix_acl", offsetof(struct lo_data, user_posix_acl), 0 },
-+    { "security_label", offsetof(struct lo_data, user_security_label), 1 },
-+    { "no_security_label", offsetof(struct lo_data, user_security_label), 0 },
-     FUSE_OPT_END
- };
- static bool use_syslog = false;
-@@ -770,6 +773,17 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
-         fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
-         conn->want &= ~FUSE_CAP_POSIX_ACL;
-     }
-+
-+    if (lo->user_security_label == 1) {
-+        if (!(conn->capable & FUSE_CAP_SECURITY_CTX)) {
-+            fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable security label."
-+                     " kernel does not support FUSE_SECURITY_CTX capability.\n");
-+        }
-+        conn->want |= FUSE_CAP_SECURITY_CTX;
-+    } else {
-+        fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling security label\n");
-+        conn->want &= ~FUSE_CAP_SECURITY_CTX;
-+    }
- }
- 
- static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
-@@ -4254,6 +4268,7 @@ int main(int argc, char *argv[])
-         .proc_self_task = -1,
-         .user_killpriv_v2 = -1,
-         .user_posix_acl = -1,
-+        .user_security_label = -1,
-     };
-     struct lo_map_elem *root_elem;
-     struct lo_map_elem *reserve_elem;
--- 
-2.31.1
+Thanks,
+drew
+
+> 
+> > So, when ACPI is
+> > enabled, let's skip the enforcement of the SLIT table generation, even
+> > if there are empty nodes, as you suggest.
+> > 
+> > Thanks,
+> > drew
+> > 
+> > > 
+> > > Thanks,
+> > > drew 
+> > >   
+> > > >   
+> > > > > the distance information the user provides on the command line in order
+> > > > > to satisfy the check, and we will, since we already have that code in
+> > > > > place.  
+> > > > 
+> > > >   
+> > > > > 
+> > > > > Thanks,
+> > > > > drew
+> > > > >   
+> > > > > >     
+> > > > > > > +        return;
+> > > > > > > +    }
+> > > > > > > +
+> > > > > > > +    for (i = 0; i < nb_numa_nodes; i++) {
+> > > > > > > +        if (numa_info[i].present && !numa_info[i].node_mem) {
+> > > > > > > +            error_report("Empty node %d found, please provide "
+> > > > > > > +                         "distance map.", i);
+> > > > > > > +            exit(EXIT_FAILURE);
+> > > > > > > +        }
+> > > > > > > +    }
+> > > > > > > +}
+> > > > > > > +
+> > > > > > >  void parse_numa_opts(MachineState *ms)
+> > > > > > >  {
+> > > > > > >      qemu_opts_foreach(qemu_find_opts("numa"), parse_numa, ms, &error_fatal);
+> > > > > > > diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
+> > > > > > > index 4173ef2afa..80f25ab830 100644
+> > > > > > > --- a/include/sysemu/numa.h
+> > > > > > > +++ b/include/sysemu/numa.h
+> > > > > > > @@ -104,6 +104,7 @@ void parse_numa_hmat_lb(NumaState *numa_state, NumaHmatLBOptions *node,
+> > > > > > >  void parse_numa_hmat_cache(MachineState *ms, NumaHmatCacheOptions *node,
+> > > > > > >                             Error **errp);
+> > > > > > >  void numa_complete_configuration(MachineState *ms);
+> > > > > > > +void numa_complete_validation(MachineState *ms);
+> > > > > > >  void query_numa_node_mem(NumaNodeMem node_mem[], MachineState *ms);
+> > > > > > >  extern QemuOptsList qemu_numa_opts;
+> > > > > > >  void numa_cpu_pre_plug(const struct CPUArchId *slot, DeviceState *dev,    
+> > > > > >     
+> > > > >   
+> > > >   
+> > 
+> > 
+> 
 
 
