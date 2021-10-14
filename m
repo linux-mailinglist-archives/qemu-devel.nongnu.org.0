@@ -2,84 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB6C42D915
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 14:12:41 +0200 (CEST)
-Received: from localhost ([::1]:54370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1195442D916
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 14:13:18 +0200 (CEST)
+Received: from localhost ([::1]:55120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mazbE-0004Lv-AB
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 08:12:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42316)
+	id 1mazbp-0004ri-5W
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 08:13:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mazU6-0002a3-9p
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:05:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41181)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mazVt-0005Bq-2l
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:07:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mazU4-00088m-HL
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:05:17 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mazVp-0002hb-F2
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:07:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634213115;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1634213224;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7adHu5mU1iejOdd1KrGL6D8FPc23pVKqWaVqqoNsVa0=;
- b=YOdxyOribX60nSVmpaygD0e5pCgwpxGj45P5etMMjd5qE3E9hOvX63s4583VSV5p/qni9D
- cdxrUiUtpJ9q1yxvCv1h8ECArR5wWH7w4LSmSGeCYhkKWAedZqBci0AsGIocyn+KrDmVLD
- KBK/TA5ZlWkO5DarIsD0enzz/Uvps4Q=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-I31aN2GcO-S_jnBsMUyeWg-1; Thu, 14 Oct 2021 08:05:14 -0400
-X-MC-Unique: I31aN2GcO-S_jnBsMUyeWg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v15-20020adfa1cf000000b00160940b17a2so4356778wrv.19
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 05:05:14 -0700 (PDT)
+ bh=lwW6grCDLqkcnD5nmFsNz1BTPRT85AQGIbFaUZd3cJ0=;
+ b=BK/oWYwG8AMEpVZWwR/guG388xBlVgM8ANnhoZ1vKU+2iaerN0RMtPEv3279hqb8gERvKK
+ lYP/l+hRk3GfgWMNlq1mBZpyxrj+shUV/i0KrC0ikGZzJQWKmtbpq7tmEgJxoAVSMIsliK
+ 2awHE4/7+XL7vgQv8kZnmzsGSVRPv44=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-68-nCMtFbh2P5O3Ssfy0XZpfw-1; Thu, 14 Oct 2021 08:07:03 -0400
+X-MC-Unique: nCMtFbh2P5O3Ssfy0XZpfw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ v15-20020adfa1cf000000b00160940b17a2so4361076wrv.19
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 05:07:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7adHu5mU1iejOdd1KrGL6D8FPc23pVKqWaVqqoNsVa0=;
- b=GwWgUiHX7tsYuZnn9QTg2o22K2pHLHvvdr/Wo3YiX0Tb1TvGMxhhbiGPgPi7y9i5nk
- WtpCHQyb5y2WODaAZHq5IvCuOhl9moL5jIWqVMVpYCSlnY1FaQqiV0iBR3UmFu5ZsYl4
- XJA4Z0oO6cSYnLVtaWn3yd1Mfw7/SBBvJfJ5ZJDtRbc5QICxUAI9jD+b0091EYYRTriO
- 1tXucXmXez08MOinhXg1AuS0Cdi9FhZUjKJV13HIYWf0JZPio35Rj/ZBGaQ2rXGC6vQR
- xqROKFetpSaDVdjQ3ChfLdMIxg1U78bKyLRN+KHOPr/uey4zPBA5r5jhQnbaPylQVCDx
- JcEA==
-X-Gm-Message-State: AOAM533gCVJMF3jRQ4yH/q/MrkFZQ98lNjEuvYD4mX+KPyh040OprvHz
- wMkx41vL6ICCDflgbMBqgvqMfcKhycw/A7aCYCThoL6La3yV1Odq+DDMImCBCsbY0nWPfhnH3Nb
- Pm5tPNWi3BW+QVhg=
-X-Received: by 2002:a5d:6d8c:: with SMTP id l12mr6185424wrs.80.1634213113309; 
- Thu, 14 Oct 2021 05:05:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyRsR6gvYDofPeqWed1RQT6ekA7iIARUUiS7erRzyJ+jY023RB1XCMhvy5BJNzsPmZ6a6pPJQ==
-X-Received: by 2002:a5d:6d8c:: with SMTP id l12mr6185365wrs.80.1634213112973; 
- Thu, 14 Oct 2021 05:05:12 -0700 (PDT)
-Received: from redhat.com ([2.55.16.227])
- by smtp.gmail.com with ESMTPSA id y5sm2134733wrq.85.2021.10.14.05.05.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 05:05:12 -0700 (PDT)
-Date: Thu, 14 Oct 2021 08:05:07 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=lwW6grCDLqkcnD5nmFsNz1BTPRT85AQGIbFaUZd3cJ0=;
+ b=FjEgYBBxbxvil6J6fXTkA4o5bpDI+5uiLPC7GpNNKO8a8vMfuk/vS5GLtjXdnDnDnc
+ k2NDiJAxWl+wbqSxXLI+HOdJgWwbjrfO++VSOuM2pGIxuPUccArsl8O7vESFinRK7kjd
+ HA7YZlfiUc/y1jY5V4cwcheXjfdnRhpuWc4jdKAQFfQ/wh8shxajqzRKnR7pF41wdJBd
+ HE7YR2AfvRCNC9cNL7szRWyi26CnNLZpXUNRgB9YETQdvi71fF1NfA+IKBWchxEc5IRf
+ uhJdcxGIa9gt1z/EkwMYrap0qBxxBVUWNtXGAC0RfdYCRJOVoAQd88yhXdqUn8cAgKiF
+ 0cdw==
+X-Gm-Message-State: AOAM531w2uJkkuFK3a+InnNltV4DsY37DoP9oGMiCRy+S65IqzJ5q8iA
+ UvneEDj8VtD9ohNP4XZoDzi/n7ytFlxeQX4bnzA30PLlk4xgwW4Fd4lShWdl8ExnaeQayRVukwY
+ Or9yB7WfD3AzG5Zg=
+X-Received: by 2002:a05:600c:3b11:: with SMTP id
+ m17mr19546432wms.157.1634213221570; 
+ Thu, 14 Oct 2021 05:07:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwUqfy1Nu6qG7DL9ZIwuzDuwIUTZw6xsVu2ucB8BbSWEHJXt619yI/l2xDRFcfEYfEyc92zfg==
+X-Received: by 2002:a05:600c:3b11:: with SMTP id
+ m17mr19546402wms.157.1634213221331; 
+ Thu, 14 Oct 2021 05:07:01 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id q204sm8100587wme.10.2021.10.14.05.07.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Oct 2021 05:07:00 -0700 (PDT)
 Subject: Re: [PATCH v3 0/3] hw/arm/virt_acpi_build: Upgrate the IORT table up
  to revision E.b
-Message-ID: <20211014080436-mutt-send-email-mst@kernel.org>
+To: eric.auger.pro@gmail.com, imammedo@redhat.com, mst@redhat.com,
+ philmd@redhat.com, peter.maydell@linaro.org, shannon.zhaosl@gmail.com,
+ shameerali.kolothum.thodi@huawei.com, ardb@kernel.org,
+ jean-philippe@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ drjones@redhat.com
 References: <20211014115643.756977-1-eric.auger@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <bd50e8e9-e1ed-cd28-5259-1369a3d21399@redhat.com>
+Date: Thu, 14 Oct 2021 14:06:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
 In-Reply-To: <20211014115643.756977-1-eric.auger@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,57 +107,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, gshan@redhat.com,
- jean-philippe@linaro.org, qemu-devel@nongnu.org,
- shameerali.kolothum.thodi@huawei.com, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, imammedo@redhat.com, philmd@redhat.com, ardb@kernel.org,
- eric.auger.pro@gmail.com
+Reply-To: eric.auger@redhat.com
+Cc: gshan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 14, 2021 at 01:56:40PM +0200, Eric Auger wrote:
+Hi,
+
+On 10/14/21 1:56 PM, Eric Auger wrote:
 > This series upgrades the ACPI IORT table up to the E.b
 > specification revision. One of the goal of this upgrade
 > is to allow the addition of RMR nodes along with the SMMUv3.
-> 
+
+while I have sent a separate RFC to expose RMR nodes along with SMMUv3 I
+must aknowledge this will take time to be upstreamed (SMMUv3 nested
+stage thingy), if ever, and this anyway requires additional time to mature:
+- there is one problem with the IORT spec which mandates 1 RMR node per
+BDF and also
+- there is the issue of the boot preserve_config which was known to
+introduce some regressions and which is also mandated by the IORT spec.
+
+So I wanted to emphasize that this IORT upgrade does not come at the
+moment with any new feature. My understanding is old guests should work
+fine with this new revision but if you feel that's a bad thing, please
+raise your voice.
+
+Thanks
+
+Eric
+>
 > The latest IORT specification (ARM DEN 0049E.b) can be found at
 > IO Remapping Table - Platform Design Document
 > https://developer.arm.com/documentation/den0049/latest/
-> 
+>
 > This series can be found at
 > https://github.com/eauger/qemu.git
 > branch: iort_Eb_v3
-
-ACPI things look good
-
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
-ARM only so ARM tree?
-
+>
 > History:
 > v2 -> v3:
 > - comment on IORT node ID (Igor)
 > - single mapping disabled comment
 > - Added Jean and Igor's R-b
 > - added diff to patvch 3/3
-> 
+>
 > v1 -> v2:
 > - fix Revision value in ITS and SMMUv3 nodes (Phil)
 > - Increment an identifier (Phil)
-> 
+>
 > Eric Auger (3):
 >   tests/acpi: Get prepared for IORT E.b revision upgrade
 >   hw/arm/virt-acpi-build: IORT upgrade up to revision E.b
 >   tests/acpi: Generate reference blob for IORT rev E.b
-> 
+>
 >  hw/arm/virt-acpi-build.c          |  48 ++++++++++++++++++------------
 >  tests/data/acpi/virt/IORT         | Bin 124 -> 128 bytes
 >  tests/data/acpi/virt/IORT.memhp   | Bin 124 -> 128 bytes
 >  tests/data/acpi/virt/IORT.numamem | Bin 124 -> 128 bytes
 >  tests/data/acpi/virt/IORT.pxb     | Bin 124 -> 128 bytes
 >  5 files changed, 29 insertions(+), 19 deletions(-)
-> 
-> -- 
-> 2.26.3
+>
 
 
