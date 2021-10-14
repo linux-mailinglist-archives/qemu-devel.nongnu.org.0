@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3CCD42D215
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 08:00:09 +0200 (CEST)
-Received: from localhost ([::1]:58436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD5842D3D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 09:37:46 +0200 (CEST)
+Received: from localhost ([::1]:47228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1matmj-0007Mi-3g
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 02:00:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41302)
+	id 1mavJB-00027X-EU
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 03:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1matkw-0005lA-5f
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 01:58:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38624)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mavHq-0001Qf-PL
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 03:36:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1matks-0002ej-S7
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 01:58:17 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mavHm-0002AE-Nl
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 03:36:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634191094;
+ s=mimecast20190719; t=1634196974;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=HzkIiR5FQ/aqJ3LyIalinX4bRK8N14Qb6Ny1bn45zCQ=;
- b=NpecggQjohLNIV9WZ4Kf4xRUR7rEIpNo4jBThZy2LlsP8dxH8tl9HE0CRziO/D0p7ffQxi
- wPcEiX6tclAEHTa/PusHOp1x2DBV5L4qO6tUUorcBYFywraG+RFeJ7oPKSGOyHW+GSq+Ns
- wDqY2Z8bNcP1M3otcwivVizsWeIrI5o=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-SYcLjzPFPRqfhTu2LjqTrw-1; Thu, 14 Oct 2021 01:58:12 -0400
-X-MC-Unique: SYcLjzPFPRqfhTu2LjqTrw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- h99-20020adf906c000000b001644add8925so515494wrh.0
- for <qemu-devel@nongnu.org>; Wed, 13 Oct 2021 22:58:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HzkIiR5FQ/aqJ3LyIalinX4bRK8N14Qb6Ny1bn45zCQ=;
- b=fXC6XHeLToZ8WspU42/DegRp4iIZdYzle5EXgdqV3yo7I8ydqeCOAjhsqczIbaQ3Nj
- Km4EMVqRXJ2jQR43z0TTDCPA2kltFnbbpJgtevBMHLWzx2iiD1GQjdbfYfbigmjksQHT
- RrADR+pnb0TK6vRj79JWHSTVFhkIv7nHhsUWRdg9cSGyCYwKW3atXl+sLL+FxsS/S5Sd
- H8OkmHJRPf6nT5r4HDP96hwM2/0QxHiIUoVb+QopQ8g5wFAFBb3ymeFJcYIcwpjiz/iQ
- bCIBf6o7HkAbA8LInTRzkWQYrWnQTRDONwAZeC+CARs00UCP9dQs/FzAjgkiLRISvgIl
- IgnQ==
-X-Gm-Message-State: AOAM531P8lSwzBbhHMxDfp9WFzJRGGLtmjX6L7JhL+WDAHS/O5QvgV+v
- +xsWtiFXX+XIYvDhLrkmpH0VU3OCGc0YC1UhHbAAFlfLkpkddBQsFT+ZRSvyOqskJMqQIa5dcFN
- Lng3Bf0as+s3KeCQ=
-X-Received: by 2002:adf:979a:: with SMTP id s26mr4366426wrb.2.1634191091437;
- Wed, 13 Oct 2021 22:58:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdIlGyjmNa2slZdxWRVhX98ZEA+FrYMwDrvLrCUu2AYRzXjReIBkW84GRcY4qVNxZ4rR1KzQ==
-X-Received: by 2002:adf:979a:: with SMTP id s26mr4366396wrb.2.1634191091172;
- Wed, 13 Oct 2021 22:58:11 -0700 (PDT)
-Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id h22sm1344062wmq.42.2021.10.13.22.58.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Oct 2021 22:58:10 -0700 (PDT)
-Subject: Re: [PATCH v2] tests: qtest: Add virtio-iommu test
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- pbonzini@redhat.com, lvivier@redhat.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, jean-philippe@linaro.org
-References: <20211013195010.737789-1-eric.auger@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <07db071b-acd6-67e9-efc1-fdb215fcc2e6@redhat.com>
-Date: Thu, 14 Oct 2021 07:58:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ bh=Piype2GMG0Nsk8rkuDe45/JVYJPnxI0kyONR50MXd8U=;
+ b=INvU4eWBLbmm7snRmQqDVPtjkcnsDYFypwSFxyNNwbveCJJWy0zovStEdUXirdeK6foDcr
+ WMFLenIg3c6mW6SXrf4Xtvj7grZGhDpl8MLA+vKSzkdzCwDsRJeUqibnJ0WHRVqF1O4Ydo
+ lXjUSYRb3PHWkd5htqgEJO7SEIXq5Tg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-VoPsrABSPW-OQOeUjFhGMw-1; Thu, 14 Oct 2021 03:36:11 -0400
+X-MC-Unique: VoPsrABSPW-OQOeUjFhGMw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22CFA19057A0;
+ Thu, 14 Oct 2021 07:36:10 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E89D1002D74;
+ Thu, 14 Oct 2021 07:36:09 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A772511380A2; Thu, 14 Oct 2021 07:40:26 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Reiter <s.reiter@proxmox.com>
+Subject: Re: [PATCH] monitor/qmp: fix race with clients disconnecting early
+References: <20210823101115.2015354-1-s.reiter@proxmox.com>
+ <87r1eh4j0f.fsf@dusky.pond.sub.org>
+ <87r1eguxgi.fsf@dusky.pond.sub.org>
+ <91f2fb28-fd4d-f7ad-13d1-61c7ba16ae3c@proxmox.com>
+ <87eea9wrcf.fsf@dusky.pond.sub.org>
+ <871r67b0yr.fsf@dusky.pond.sub.org>
+ <87v922bnk1.fsf@dusky.pond.sub.org>
+ <bc5f180d-3161-59c0-2ded-0808a150dec7@proxmox.com>
+Date: Thu, 14 Oct 2021 07:40:26 +0200
+In-Reply-To: <bc5f180d-3161-59c0-2ded-0808a150dec7@proxmox.com> (Stefan
+ Reiter's message of "Wed, 13 Oct 2021 17:44:31 +0200")
+Message-ID: <87k0igkvud.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20211013195010.737789-1-eric.auger@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,110 +85,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ Michael Roth <michael.roth@amd.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/10/2021 21.50, Eric Auger wrote:
-> Add the framework to test the virtio-iommu-pci device
-> and tests exercising the attach/detach, map/unmap API.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> 
-> ---
-...
-> +/**
-> + * send_map - Send a map command to the device
-> + * @domain: domain the new binding is attached to
-> + * @virt_start: iova start
-> + * @virt_end: iova end
-> + * @phys_start: base physical address
-> + * @flags: mapping flags
-> + */
-> +static int send_map(QTestState *qts, QVirtioIOMMU *v_iommu,
-> +                    uint32_t domain, uint64_t virt_start, uint64_t virt_end,
-> +                    uint64_t phys_start, uint32_t flags)
-> +{
-> +    QVirtioDevice *dev = v_iommu->vdev;
-> +    QVirtQueue *vq = v_iommu->vq;
-> +    uint64_t ro_addr, wr_addr;
-> +    uint32_t free_head;
-> +    struct virtio_iommu_req_map req;
-> +    size_t ro_size = sizeof(req) - sizeof(struct virtio_iommu_req_tail);
-> +    size_t wr_size = sizeof(struct virtio_iommu_req_tail);
-> +    char buffer[64];
-> +    int ret;
-> +
-> +    req.head.type = VIRTIO_IOMMU_T_MAP;
-> +    req.domain = domain;
-> +    req.virt_start = virt_start;
-> +    req.virt_end = virt_end;
-> +    req.phys_start = phys_start;
-> +    req.flags = flags;
-> +
-> +    ro_addr = guest_alloc(alloc, ro_size);
-> +    wr_addr = guest_alloc(alloc, wr_size);
-> +
-> +    qtest_memwrite(qts, ro_addr, &req, ro_size);
-> +    free_head = qvirtqueue_add(qts, vq, ro_addr, ro_size, false, true);
-> +    qvirtqueue_add(qts, vq, wr_addr, wr_size, true, false);
-> +    qvirtqueue_kick(qts, dev, vq, free_head);
-> +    qvirtio_wait_used_elem(qts, dev, vq, free_head, NULL,
-> +                           QVIRTIO_IOMMU_TIMEOUT_US);
-> +    memread(wr_addr, buffer, wr_size);
+Stefan Reiter <s.reiter@proxmox.com> writes:
 
-qtest_memread() please.
+> On 10/12/21 11:27 AM, Markus Armbruster wrote:
+>> Stefan, any thoughts on this?
+>> 
+>
+> Sorry, I didn't get to work on implementing this. Idea 3 does seem very
+> reasonable, though I suppose the question is what all should go into the
+> per-session state, and also how it is passed down.
 
-> +    ret = ((struct virtio_iommu_req_tail *)buffer)->status;
-> +    guest_free(alloc, ro_addr);
-> +    guest_free(alloc, wr_addr);
-> +    return ret;
-> +}
-> +
-> +/**
-> + * send_unmap - Send an unmap command to the device
-> + * @domain: domain the new binding is attached to
-> + * @virt_start: iova start
-> + * @virt_end: iova end
-> + */
-> +static int send_unmap(QTestState *qts, QVirtioIOMMU *v_iommu,
-> +                      uint32_t domain, uint64_t virt_start, uint64_t virt_end)
-> +{
-> +    QVirtioDevice *dev = v_iommu->vdev;
-> +    QVirtQueue *vq = v_iommu->vq;
-> +    uint64_t ro_addr, wr_addr;
-> +    uint32_t free_head;
-> +    struct virtio_iommu_req_unmap req;
-> +    size_t ro_size = sizeof(req) - sizeof(struct virtio_iommu_req_tail);
-> +    size_t wr_size = sizeof(struct virtio_iommu_req_tail);
-> +    char buffer[64];
-> +    int ret;
-> +
-> +    req.head.type = VIRTIO_IOMMU_T_UNMAP;
-> +    req.domain = domain;
-> +    req.virt_start = virt_start;
-> +    req.virt_end = virt_end;
-> +
-> +    ro_addr = guest_alloc(alloc, ro_size);
-> +    wr_addr = guest_alloc(alloc, wr_size);
-> +
-> +    qtest_memwrite(qts, ro_addr, &req, ro_size);
-> +    free_head = qvirtqueue_add(qts, vq, ro_addr, ro_size, false, true);
-> +    qvirtqueue_add(qts, vq, wr_addr, wr_size, true, false);
-> +    qvirtqueue_kick(qts, dev, vq, free_head);
-> +    qvirtio_wait_used_elem(qts, dev, vq, free_head, NULL,
-> +                           QVIRTIO_IOMMU_TIMEOUT_US);
-> +    memread(wr_addr, buffer, wr_size);
+Let's start with the state you have shown to be problematic.  To decide
+what else to move from monitor state to session state, we'll want to
+review monitor state one by one.  Can be done in review of patches
+creating the session state.
 
-qtest_memread() please.
+Most users need the current session state.  So have struct MonitorQMP
+hold a pointer to it.
 
-> +    ret = ((struct virtio_iommu_req_tail *)buffer)->status;
-> +    guest_free(alloc, ro_addr);
-> +    guest_free(alloc, wr_addr);
-> +    return ret;
-> +}
+To execute an in-band command in the main thread, we need the command's
+session state.  I'd try adding a pointer to QMPRequest.
 
-With the two memread()s changed into qtest_memread()s:
+Then use reference counting to keep the session alive until all its
+commands are processed.
 
-Acked-by: Thomas Huth <thuth@redhat.com>
+Makes sense?
+
+> We did roll out my initial patch to our users in the meantime and got
+> some positive feedback (that specific error disappeared), however another
+> one (reported at the same time) still exists, so I was trying to diagnose
+> - it might also turn out to be monitor related and resolved by the more
+> thorough fix proposed here, but unsure.
+
+That would be lovely.
+
+Thanks!
 
 
