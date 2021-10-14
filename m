@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ED0842E1B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 20:54:44 +0200 (CEST)
-Received: from localhost ([::1]:45638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B1942E1F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 21:17:22 +0200 (CEST)
+Received: from localhost ([::1]:60858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb5sI-0002hK-TS
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 14:54:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39208)
+	id 1mb6ED-0005vn-G7
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 15:17:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mb5qj-0001dr-5u
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 14:53:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60772)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mb5qf-0007hL-4a
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 14:53:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634237578;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1C20tJ0MbN+fAcF4BydAUBRGas28OxC6MKlxWIkn3EU=;
- b=WNfdrz8L79SUsQ2S3djEjA059Bg0FurmckCmi8Hr+Y/35tHskx87h18zPQWc75oKgSYCAW
- 7zFmngRUT3hkl3j7jym85unSKkNuHqwYyLzlD8sntoWMxfTQBu+foOeq/h4LRAY0gVzYBw
- LHb+x1yXnijQcVX1Bp2ZbgrfNO2QP9g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-gz-apRbEOKeyCbOIbImepg-1; Thu, 14 Oct 2021 14:52:54 -0400
-X-MC-Unique: gz-apRbEOKeyCbOIbImepg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEE36107B0EF;
- Thu, 14 Oct 2021 18:52:52 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.39.192.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0BBAB60CC4;
- Thu, 14 Oct 2021 18:52:50 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	eblake@redhat.com,
-	peter.maydell@linaro.org
-Subject: [PATCH] Fix %#08 misuses
-Date: Thu, 14 Oct 2021 19:52:45 +0100
-Message-Id: <20211014185245.69803-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mb6Cn-0004zX-NV
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 15:15:53 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:55103)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mb6Cl-0000yQ-Nv
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 15:15:53 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id np13so5465663pjb.4
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 12:15:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=H4wUpgiveg78s47pPwU++oe8xyqx0YxvkDthzTT9fJI=;
+ b=BjCEfwKejruSJ2H4LWunpG+d+LALxO81C5E5fswCpFT7aM6Pqz2gHhuS6jQt/dBdBG
+ q4yLJVcUv3q/z64MeVj5k1fGhlhqL4n7hQT7O+6/o4KCUirCjfcD3R5NLpzrUaWl7FAK
+ DpgK/xTRHNzmx3LjZXmBHiXrH5/YoHTka+ExoLt3pYF1SXydYppHSpyEmh0C5eKzxn97
+ Zyb5b/Etcgyr/7haE1WZX841f6n6SICx6NzThxmZy6GIur2mbGEn6aUbjp4v6zL9LhAQ
+ 73O4f3ynzoZLoWKxydnRJj39oCK7OC61KTm78My4OSFaxRqNQdUPKemiQAzms0AoTZgK
+ awBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=H4wUpgiveg78s47pPwU++oe8xyqx0YxvkDthzTT9fJI=;
+ b=MaWweaWBKODFiELHw8kSFv1hKe7f694o5OY+KedOxTdWgCl0IneN3BDiJbLY4JflD0
+ 0Fe39BvYe4/S9Hj4u4SxEHzyX02WPxUBr1oasCEkzHdl08Z7bYSXnZb7hVB6G6oD8HqA
+ w7WNelxsudHXq78GKUYnzL8iGq+KCnCHOiVo4Lch7eNUTQJLXsNNPOdbkx8cRt/SA6Bm
+ nanqVXlukQlB3eJu5om8RQQHsIRWlc9rmr7OBBf8npvEMvB0BOuAF/aiv19pwJ4+5Ofk
+ 08mUnNLCnndto0ePdp9uTmg13qU56SCz7HdG3hQq4mYZA5SSzcww9Sv2geUju7oVVtDx
+ +OlQ==
+X-Gm-Message-State: AOAM531oh73zHqhQk1um5EyCMQLAWSxxA24svvRT6c6kBMuXBcjjRNoM
+ sTD4ehByZ6wHpt7R2+HT530ekklqqgQ=
+X-Google-Smtp-Source: ABdhPJzRC4fdQk/Fetzxevx1Nyd9/ndt6G7u96Prm3SSXr6ZJdWOSv8Hi0LURFML6ZujspKaClMVYA==
+X-Received: by 2002:a17:902:b193:b029:11a:a179:453a with SMTP id
+ s19-20020a170902b193b029011aa179453amr6590337plr.69.1634238949469; 
+ Thu, 14 Oct 2021 12:15:49 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id 11sm3055701pfl.41.2021.10.14.12.15.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Oct 2021 12:15:49 -0700 (PDT)
+Subject: Re: [PULL 00/26] Meson changes for 2021-10-14
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20211014162938.430211-1-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b58388e8-bd97-8fb1-be83-11447c05a43f@linaro.org>
+Date: Thu, 14 Oct 2021 12:15:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211014162938.430211-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,154 +87,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, alistair.francis@wdc.com,
- richard.henderson@linaro.org, shorne@gmail.com, atar4qemu@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On 10/14/21 9:29 AM, Paolo Bonzini wrote:
+> The following changes since commit e5b2333f24ff207f08cf96e73d2e11438c985801:
+> 
+>    Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20211013' into staging (2021-10-13 11:43:29 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/bonzini/qemu.git tags/for-upstream
+> 
+> for you to fetch changes up to 3b4da13293482134b81d71be656ec76beff73a76:
+> 
+>    configure: automatically parse command line for meson -D options (2021-10-14 09:51:06 +0200)
+> 
+> ----------------------------------------------------------------
+> * Meson conversions + introspection-based command line parser
+> 
+> ----------------------------------------------------------------
+> Marc-André Lureau (1):
+>        configure, meson: move Spice configure handling to meson
+> 
+> Paolo Bonzini (25):
+>        configure: remove --oss-lib
+>        audio: remove CONFIG_AUDIO_WIN_INT
+>        configure, meson: move audio driver detection to Meson
+>        meson: define symbols for all available audio drivers
+>        configure: add command line options for audio drivers
+>        kconfig: split CONFIG_SPARSE_MEM from fuzzing
+>        configure, meson: move fuzzing configuration to Meson
+>        trace: simple: pass trace_file unmodified to config-host.h
+>        trace: move configuration from configure to Meson
+>        configure, meson: move CONFIG_HOST_DSOSUF to Meson
+>        configure, meson: get HOST_WORDS_BIGENDIAN via the machine object
+>        configure, meson: remove CONFIG_GCOV from config-host.mak
+>        meson: HAVE_GDB_BIN is not used by C code
+>        configure, meson: move remaining HAVE_* compiler tests to Meson
+>        configure, meson: move pthread_setname_np checks to Meson
+>        configure, meson: move libaio check to meson.build
+>        configure, meson: move vde detection to meson
+>        configure, meson: move netmap detection to meson
+>        configure: remove obsolete Solaris ar check
+>        configure, meson: move more compiler checks to Meson
+>        configure: remove deprecated --{enable, disable}-git-update
+>        configure: accept "internal" for --enable-capstone/slirp/fdt
+>        configure: prepare for auto-generated option parsing
+>        meson-buildoptions: include list of tracing backends
+>        configure: automatically parse command line for meson -D options
+> 
+>   Kconfig.host                  |    4 +
+>   Makefile                      |    8 +-
+>   audio/meson.build             |   23 +-
+>   block/meson.build             |    2 +-
+>   chardev/meson.build           |    2 +-
+>   configure                     | 1271 ++---------------------------------------
+>   docs/devel/build-system.rst   |  132 ++---
+>   docs/meson.build              |    2 +-
+>   hw/mem/Kconfig                |    3 +
+>   hw/mem/meson.build            |    2 +-
+>   meson.build                   |  421 ++++++++++++--
+>   meson_options.txt             |   46 +-
+>   net/meson.build               |    6 +-
+>   scripts/meson-buildoptions.py |  172 ++++++
+>   scripts/meson-buildoptions.sh |  270 +++++++++
+>   scripts/meson.build           |    2 +-
+>   stubs/meson.build             |    4 +-
+>   tests/qtest/fuzz/meson.build  |    6 +-
+>   trace/meson.build             |   15 +-
+>   trace/simple.c                |    2 +-
+>   ui/meson.build                |    4 +-
+>   util/meson.build              |    4 +-
+>   util/qemu-thread-posix.c      |    5 +-
+>   23 files changed, 1041 insertions(+), 1365 deletions(-)
+>   create mode 100755 scripts/meson-buildoptions.py
+>   create mode 100644 scripts/meson-buildoptions.sh
 
-Joe Perches pointed out on lkml [1] that the format special %# (which
-adds 0x) is included in the character count, i.e.:
+Applied, thanks.
 
-  printf("0: %#08x\n0: %#08x\n", 0xabcdef01,1);
-gives:
-0: 0xabcdef01
-0: 0x000001
-
-rather than padding to the expected 8 data characters.
-It looks like we use '%#.8x' in some places and that
-seems like it works:
-
-  printf(".: %#.8x\n.: %#.8x\n", 0xabcdef01,1);
-.: 0xabcdef01
-.: 0x00000001
-
-Replace all the '%#08' cases by '%#.8' ; I've not
-attacked the other lengths yet.
-
-Although I'm tempted to think that perhaps we should just
-prefer '0x%08' which seems clearer.
-
-(Note I've not managed to test most of these)
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-[1] https://lore.kernel.org/lkml/9499203f1e993872b384aabdec59ac223a8ab931.camel@perches.com/
----
- disas/alpha.c           | 2 +-
- disas/sparc.c           | 2 +-
- hw/arm/omap1.c          | 2 +-
- hw/timer/a9gtimer.c     | 4 ++--
- include/hw/arm/omap.h   | 4 ++--
- softmmu/device_tree.c   | 2 +-
- target/openrisc/disas.c | 2 +-
- 7 files changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/disas/alpha.c b/disas/alpha.c
-index 3db90fa665..6da5c473d8 100644
---- a/disas/alpha.c
-+++ b/disas/alpha.c
-@@ -1851,7 +1851,7 @@ print_insn_alpha (bfd_vma memaddr, struct disassemble_info *info)
-     }
- 
-   /* No instruction found */
--  (*info->fprintf_func) (info->stream, ".long %#08x", insn);
-+  (*info->fprintf_func) (info->stream, ".long %#.8x", insn);
- 
-   return 4;
- 
-diff --git a/disas/sparc.c b/disas/sparc.c
-index 5689533ce1..9f1160ab1c 100644
---- a/disas/sparc.c
-+++ b/disas/sparc.c
-@@ -3231,6 +3231,6 @@ print_insn_sparc (bfd_vma memaddr, disassemble_info *info)
-     }
- 
-   info->insn_type = dis_noninsn;        /* Mark as non-valid instruction.  */
--  (*info->fprintf_func) (stream, ".long %#08lx", insn);
-+  (*info->fprintf_func) (stream, ".long %#.8lx", insn);
-   return sizeof (buffer);
- }
-diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
-index 180d3788f8..cff8ecb7d6 100644
---- a/hw/arm/omap1.c
-+++ b/hw/arm/omap1.c
-@@ -42,7 +42,7 @@
- 
- static inline void omap_log_badwidth(const char *funcname, hwaddr addr, int sz)
- {
--    qemu_log_mask(LOG_GUEST_ERROR, "%s: %d-bit register %#08" HWADDR_PRIx "\n",
-+    qemu_log_mask(LOG_GUEST_ERROR, "%s: %d-bit register %#.8" HWADDR_PRIx "\n",
-                   funcname, 8 * sz, addr);
- }
- 
-diff --git a/hw/timer/a9gtimer.c b/hw/timer/a9gtimer.c
-index 7233068a37..c53edd8b44 100644
---- a/hw/timer/a9gtimer.c
-+++ b/hw/timer/a9gtimer.c
-@@ -169,7 +169,7 @@ static uint64_t a9_gtimer_read(void *opaque, hwaddr addr, unsigned size)
-         return 0;
-     }
- 
--    DB_PRINT("addr:%#x data:%#08" PRIx64 "\n", (unsigned)addr, ret);
-+    DB_PRINT("addr:%#x data:%#.8" PRIx64 "\n", (unsigned)addr, ret);
-     return ret;
- }
- 
-@@ -180,7 +180,7 @@ static void a9_gtimer_write(void *opaque, hwaddr addr, uint64_t value,
-     A9GTimerState *s = gtb->parent;
-     int shift = 0;
- 
--    DB_PRINT("addr:%#x data:%#08" PRIx64 "\n", (unsigned)addr, value);
-+    DB_PRINT("addr:%#x data:%#.8" PRIx64 "\n", (unsigned)addr, value);
- 
-     switch (addr) {
-     case R_COUNTER_HI:
-diff --git a/include/hw/arm/omap.h b/include/hw/arm/omap.h
-index ff6a173f8a..47616bbba3 100644
---- a/include/hw/arm/omap.h
-+++ b/include/hw/arm/omap.h
-@@ -1003,10 +1003,10 @@ void omap_badwidth_write32(void *opaque, hwaddr addr,
- void omap_mpu_wakeup(void *opaque, int irq, int req);
- 
- # define OMAP_BAD_REG(paddr)		\
--        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad register %#08"HWADDR_PRIx"\n", \
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad register %#.8"HWADDR_PRIx"\n", \
-                       __func__, paddr)
- # define OMAP_RO_REG(paddr)		\
--        qemu_log_mask(LOG_GUEST_ERROR, "%s: Read-only register %#08" \
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Read-only register %#.8" \
-                                        HWADDR_PRIx "\n", \
-                       __func__, paddr)
- 
-diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-index b621f63fba..bd271ab66e 100644
---- a/softmmu/device_tree.c
-+++ b/softmmu/device_tree.c
-@@ -367,7 +367,7 @@ int qemu_fdt_setprop_cell(void *fdt, const char *node_path,
- 
-     r = fdt_setprop_cell(fdt, findnode_nofail(fdt, node_path), property, val);
-     if (r < 0) {
--        error_report("%s: Couldn't set %s/%s = %#08x: %s", __func__,
-+        error_report("%s: Couldn't set %s/%s = %#.8x: %s", __func__,
-                      node_path, property, val, fdt_strerror(r));
-         exit(1);
-     }
-diff --git a/target/openrisc/disas.c b/target/openrisc/disas.c
-index dc025bd64d..024f243a45 100644
---- a/target/openrisc/disas.c
-+++ b/target/openrisc/disas.c
-@@ -45,7 +45,7 @@ int print_insn_or1k(bfd_vma addr, disassemble_info *info)
-     insn = bfd_getb32(buffer);
- 
-     if (!decode(info, insn)) {
--        output(".long", "%#08x", insn);
-+        output(".long", "%#.8x", insn);
-     }
-     return 4;
- }
--- 
-2.31.1
+r~
 
 
