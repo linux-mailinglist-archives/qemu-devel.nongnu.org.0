@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE5542DA8A
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 15:35:01 +0200 (CEST)
-Received: from localhost ([::1]:53904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0D442DB1F
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 16:07:19 +0200 (CEST)
+Received: from localhost ([::1]:60412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb0su-0000oS-TV
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 09:35:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36356)
+	id 1mb1OA-0000rA-IO
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 10:07:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mb0md-0001AO-HN
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 09:28:31 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33662)
+ (Exim 4.90_1) (envelope-from <assad.hashmi@linaro.org>)
+ id 1mb0NN-000824-13
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 09:02:28 -0400
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:44606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mb0mc-0005SW-2O
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 09:28:31 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id m22so19685006wrb.0
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 06:28:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=kpZuBQNnmgWAvq84AMzVmQjgnlIq0f2M3fd+P2yo4hI=;
- b=U2zDgv8aFM5IDpYmxMbShP3GXuiDZeqOjQDVePKrW2O+pTLx0Ho+cOTR5efjiXitx5
- 3TMBahUuoe9Ej9hCc3WiwtsnSFMV96trgfmqnFl3GJ9Q7hbqeSkW4ohx3cJjBdqurzfa
- acR3w0A5sztENFbnBqyIpDklByOHAvenIDXM1Yf/2wuz63uBJKTocQuBBsQasAP44Plg
- e/wT33M5bdRIYhnoW7CQ7Vc4MHZhhdkZUhktLoVihk8zTMWkxK4L6pNzRR3YtvUgFTZj
- Hknyvb9GME6nDqA+7beFLbWZN1yrnmvoRxzzcjANpbs+T5J1Q7lQlMSh9d1Sm5mm/XSD
- 9ZEQ==
+ (Exim 4.90_1) (envelope-from <assad.hashmi@linaro.org>)
+ id 1mb0NG-00011E-8f
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 09:02:24 -0400
+Received: by mail-lf1-x130.google.com with SMTP id y26so26656153lfa.11
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 06:02:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=DVv/5E+aGIy7AtFpmIH2uJcBNUgX7AvHJrI1vISAJQ4=;
+ b=AawzyBoXwnxZRATY4FZrrBaoUqGl1qAMVsssxpTfh8HJ1JGaN+jbkw7NDhj86xtMfV
+ 8hOGjP0xdxMV72EYRxibmhGZCNFInNzBBCrovzmlViXlHPygHHvpI3pccHxmPmW0JSi9
+ q1p9M67aUZ8SxMJLa5h0aHYP4c7fnPOMCnSXhp3Bd1URiByQAkjihA3TGcJdMb6k6Oex
+ 0yDfAXHxdh0EHfxQQjRehM9jngy8LT30URRQ/h/GDRxXIMa+Pd3r83GqvdrbByaie1bJ
+ Fhd+02AQD6iEw3tMPskaJ9Ryytnpl42bo7rE65yp7jpXbNWvRxaRBfgz2k+rjFQ3DYvl
+ KiaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=kpZuBQNnmgWAvq84AMzVmQjgnlIq0f2M3fd+P2yo4hI=;
- b=N/aW8KijePWNXH05l9RjldydJr0gGuAbKU/mHWFUuY30csLt/1tNdoLdG40X4yO8wa
- 6FbQ/i0RSwFKbKbGwmcGAh8hj+BSwNdvDEdyjPym2Wj69yauDWLNnfiUHJ9Nvz9t/51x
- sh7gr2HxMK6bUhP1A2UAs87bcME2kNIe+3vPq4Cvb+96qS45+merPRVOl0RdmE9YICcL
- +0Bxt+jU2/ZMsdZfZ5Y5bhPsd92SpaOk7jR+ktsBE5LSKVTvg+ZcDqmMrAHFRDc1l7Xr
- 846o2LbFst8ccraFdWZiOznBLX40k15Qg9DIsFqcZ24DzQ2F3xRkmvjwC43yj428sK6a
- uWUw==
-X-Gm-Message-State: AOAM532nh/njlAWqVep5zL/dCc73dmMZ2H/vn4o3o19OoC/by59U1flE
- GQNAoSHyriDd35mrIG4r3ZM=
-X-Google-Smtp-Source: ABdhPJzPxuBGceEhpP9FAVCrrMICq5L4eqhQtdbFqtOlNe5hv7ElqCQEpKmZLBNHx/mfhekRRkexCA==
-X-Received: by 2002:adf:8b06:: with SMTP id n6mr6700380wra.5.1634218108133;
- Thu, 14 Oct 2021 06:28:28 -0700 (PDT)
-Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id z6sm2989194wmp.1.2021.10.14.06.28.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 06:28:27 -0700 (PDT)
-Message-ID: <52cc5278-5ad0-5cbd-ca2d-5fbf383c3a99@amsat.org>
-Date: Thu, 14 Oct 2021 15:28:26 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DVv/5E+aGIy7AtFpmIH2uJcBNUgX7AvHJrI1vISAJQ4=;
+ b=GQ6eVQAxeduBy5giGRu7FiH6RZhcA4zwMgKxfvERLwDcXE7RqNwd+74DJdNy2M3JYI
+ B97iNBBzDtfrIJt8H9yy5/n1inI1cn8txrxRI4SXVL6U2UTL1yBBk0YYNFPirergFNqC
+ cR2eKqGH947idS1S89sA1M20pNbOQd0yNs8D9hcGY0HMC5XkHUOC1vZGZTTvAU+FlDoV
+ Hn1XcYcdQtmx/ah+rpEaxY1WHjVmFch9Va546FseG2oS/aI7kmtJ+3xzEjJ7k63/eHMG
+ mI1/8TKUC1w3Sb5BZStTcf/HuBEeIZio3esq5NvKte7jT45AxpWr0Fqpqn5dyx3P7bVa
+ 7K9Q==
+X-Gm-Message-State: AOAM5307tOGyyQpcTj20tQrj8NoIvoDXcDDB42wfw3JPZu12W1Uv7lnc
+ Z/8E0yMDYPQ45R7WaHZ+6A+phtcNKXzJJBNTFK3w+Q==
+X-Google-Smtp-Source: ABdhPJy8mwveF/2DHNm6VyEjPrUPiH4yoO614RysIeySIGgaNYGVLHoaBKxpiQSHkKjmjfLNF5rExS3OY9D5ENJYp5M=
+X-Received: by 2002:ac2:41c8:: with SMTP id d8mr4879121lfi.616.1634216527104; 
+ Thu, 14 Oct 2021 06:02:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
- interrupts
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20211013121929.9E835746333@zero.eik.bme.hu>
- <189eeccd-36fd-d033-7900-30e89fc662df@amsat.org>
- <20211014091240.vif3nqeveddc6ru2@sirius.home.kraxel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211014091240.vif3nqeveddc6ru2@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+References: <877deoevj8.fsf@linaro.org>
+ <CAK8P3a3rKZLq3UuE=w9W5A9G9tfmPvc-ObnWVX=PJKQKrTX5dA@mail.gmail.com>
+ <87lf33dc58.fsf@linaro.org>
+In-Reply-To: <87lf33dc58.fsf@linaro.org>
+From: Assad Hashmi <assad.hashmi@linaro.org>
+Date: Thu, 14 Oct 2021 14:01:56 +0100
+Message-ID: <CAEVS6HrENq-J4q5H20VMK02zNNsSkQ4M5o2ntv4OHNG83wgAOA@mail.gmail.com>
+Subject: Re: Approaches for same-on-same linux-user execve?
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::130;
+ envelope-from=assad.hashmi@linaro.org; helo=mail-lf1-x130.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 14 Oct 2021 10:05:01 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,20 +81,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ qemu-arm <qemu-arm@nongnu.org>, "Eric W. Biederman" <ebiederm@xmission.com>,
+ Arnd Bergmann <arnd.bergmann@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/21 11:12, Gerd Hoffmann wrote:
->   Hi,
-> 
->>>      if (s->masterbus) {
->>>          USBPort *ports[NB_PORTS];
->>
->> usb_uhci_common_realize() should be refactored making it PCI-agnostic.
-> 
-> Not sure this is needed here.  This seems to be more a platform-specific
-> oddity in IRQ routing than a non-pci UHCI device.
+> ARM's armie takes a different approach with the trap and emulate of
+> SIGILL instructions. This works well for the occasional "new"
+> instruction but will be less efficient overall if your instruction
+> stream is entirely novel.
 
-OK, fine then.
+To clarify: earlier versions of armie did use the SIGILL trap-and-emulate
+method, which was limited. Recent versions, including the latest release ar=
+e
+based on the DynamoRIO platform which enables full emulation and
+instrumentation (https://dynamorio.org). By default, DynamoRIO and by exten=
+sion
+armie, follow all child processes, see
+https://dynamorio.org/page_deploy.html#op_children.
+
+As new Arm architecture features are added to QEMU, e.g. SVE, SVE2, SME etc=
+.
+there is an expectation in the Arm community that QEMU can run large Arm
+user-space applications on Arm hardware, making lack of same-on-same execve=
+ a
+not insignificant blocker.
+
+AIUI, given the open-source licensing of QEMU and DynamoRIO, there would be=
+ no
+legal reason for QEMU not to borrow from DynamoRIO.
+
+
+On Fri, 8 Oct 2021 at 11:49, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+>
+> Arnd Bergmann <arnd@arndb.de> writes:
+>
+> > On Thu, Oct 7, 2021 at 4:32 PM Alex Benn=C3=A9e <alex.bennee@linaro.org=
+> wrote:
+> >>
+> >> I came across a use-case this week for ARM although this may be also
+> >> applicable to architectures where QEMU's emulation is ahead of the
+> >> hardware currently widely available - for example if you want to
+> >> exercise SVE code on AArch64. When the linux-user architecture is not
+> >> the same as the host architecture then binfmt_misc works perfectly fin=
+e.
+> >>
+> >> However in the case you are running same-on-same you can't use
+> >> binfmt_misc to redirect execution to using QEMU because any attempt to
+> >> trap native binaries will cause your userspace to hang as binfmt_misc
+> >> will be invoked to run the QEMU binary needed to run your application
+> >> and a deadlock ensues.
+> >
+> > Can you clarify how the code would run in this case? Does qemu-user
+> > still emulate every single instruction, both the compatible and the inc=
+ompatible
+> > ones, or is the idea here to run as much as possible natively and only
+> > emulate the instructions that are not available natively, using either
+> > SIGILL or searching through the object code for those instructions?
+>
+> qemu-user only every does a complete translation. The hope is of course
+> our translator is "fairly efficient" so for example integer SVE
+> operations should get unrolled into a series of AdvSIMD instructions on
+> the backend.
+>
+> ARM's armie takes a different approach with the trap and emulate of
+> SIGILL instructions. This works well for the occasional "new"
+> instruction but will be less efficient overall if your instruction
+> stream is entirely novel.
+>
+> >> Trap execve in QEMU linux-user
+> >> ------------------------------
+> >>
+> >> We could add a flag to QEMU so at the point of execve it manually
+> >> invokes the new process with QEMU, passing on the flag to persist this
+> >> behaviour.
+> >
+> > This sounds like the obvious approach if you already do a full
+> > instruction emulation. You'd still need to run the parent process
+> > by calling qemu-user manually, but I suppose you need to do
+> > something like this in any case.
+> >
+> >> Add path mask to binfmt_misc
+> >> ----------------------------
+> >>
+> >> The other option would be to extend binfmt_misc to have a path mask so
+> >> it only applies it's alternative execution scheme to binaries in a
+> >> particular section of the file-system (or maybe some sort of pattern?)=
+.
+> >
+> > The main downside I see here is that it requires kernel modification, s=
+o
+> > it would not work for old kernels.
+> >
+> >> Are there any other approaches you could take? Which do you think has
+> >> the most merit?
+> >
+> > If we modify binfmt_misc in the kernel, it might be helpful to do it
+> > by extending it with namespace support, so it could be constrained
+> > to a single container without having to do the emulation outside.
+> > Unfortunately that does not solve the problem of preventing the
+> > qemu-user binary from triggering the binfmt_misc lookup.
+>
+> I wonder how that would interact with the persistent ("P") mode of
+> binfmt_misc. The backend is identified at the start and gets re-used
+> rather than looked up each time.
+>
+> >
+> >        Arnd
+>
+>
+> --
+> Alex Benn=C3=A9e
 
