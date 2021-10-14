@@ -2,105 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE5242D8E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 14:10:35 +0200 (CEST)
-Received: from localhost ([::1]:48578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB6C42D915
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 14:12:41 +0200 (CEST)
+Received: from localhost ([::1]:54370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mazZC-0000OH-AF
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 08:10:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41898)
+	id 1mazbE-0004Lv-AB
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 08:12:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mazTI-0001g3-Tj; Thu, 14 Oct 2021 08:04:29 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24630)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mazU6-0002a3-9p
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:05:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mazTF-0007QI-H0; Thu, 14 Oct 2021 08:04:28 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19EC2uL9032995; 
- Thu, 14 Oct 2021 08:04:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=lILWTGFBE4UsOGX2TXesX5ETDNsw8VpzJntxiavanlQ=;
- b=Sw14BN3GVU8GC2l5n6gIyXy8B7sHmyxnFGcqam1iMqJ2enAJgnMywGzoSQ1lhlR6fdAe
- 8Dq/Dbrj6VCWTlODCoqJBcBamePBcUt2Hd7wLsNTI7TMfdBONEut/1YlYFv+yTE3QDLB
- IgGx3IsvXYtcmDyznxxFcCaGKdpcetw6t/uMjShf+UGnwLFGhFjlZZMPMSq6mTDOJGXm
- 0wT0rAbNqg10xlmU2sPg6yPzj72Tep2tCk+3lQDqa+GBV6AWc/4t9mInZf27iGm9kQcK
- 9vFShMZv+qkR5Z7wJK+O+Oi8T96twkrvZK5wrmkROIW6d2Tbb8qHAs8Dcz8eOQYelgSB yQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bpm7b81ks-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Oct 2021 08:04:20 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19EC41Yb036964;
- Thu, 14 Oct 2021 08:04:20 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bpm7b81jr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Oct 2021 08:04:20 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19EC1YUa025025;
- Thu, 14 Oct 2021 12:04:17 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03ams.nl.ibm.com with ESMTP id 3bk2qa4rqe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Oct 2021 12:04:17 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 19EC4Cgw40370686
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Oct 2021 12:04:12 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5016111C0BC;
- Thu, 14 Oct 2021 12:04:12 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DB1D011C071;
- Thu, 14 Oct 2021 12:04:11 +0000 (GMT)
-Received: from [9.171.15.64] (unknown [9.171.15.64])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 14 Oct 2021 12:04:11 +0000 (GMT)
-Message-ID: <ac8bf10f-0af9-5116-68ab-492f9d1397a3@linux.ibm.com>
-Date: Thu, 14 Oct 2021 14:04:12 +0200
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mazU4-00088m-HL
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:05:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634213115;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7adHu5mU1iejOdd1KrGL6D8FPc23pVKqWaVqqoNsVa0=;
+ b=YOdxyOribX60nSVmpaygD0e5pCgwpxGj45P5etMMjd5qE3E9hOvX63s4583VSV5p/qni9D
+ cdxrUiUtpJ9q1yxvCv1h8ECArR5wWH7w4LSmSGeCYhkKWAedZqBci0AsGIocyn+KrDmVLD
+ KBK/TA5ZlWkO5DarIsD0enzz/Uvps4Q=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-I31aN2GcO-S_jnBsMUyeWg-1; Thu, 14 Oct 2021 08:05:14 -0400
+X-MC-Unique: I31aN2GcO-S_jnBsMUyeWg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ v15-20020adfa1cf000000b00160940b17a2so4356778wrv.19
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 05:05:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7adHu5mU1iejOdd1KrGL6D8FPc23pVKqWaVqqoNsVa0=;
+ b=GwWgUiHX7tsYuZnn9QTg2o22K2pHLHvvdr/Wo3YiX0Tb1TvGMxhhbiGPgPi7y9i5nk
+ WtpCHQyb5y2WODaAZHq5IvCuOhl9moL5jIWqVMVpYCSlnY1FaQqiV0iBR3UmFu5ZsYl4
+ XJA4Z0oO6cSYnLVtaWn3yd1Mfw7/SBBvJfJ5ZJDtRbc5QICxUAI9jD+b0091EYYRTriO
+ 1tXucXmXez08MOinhXg1AuS0Cdi9FhZUjKJV13HIYWf0JZPio35Rj/ZBGaQ2rXGC6vQR
+ xqROKFetpSaDVdjQ3ChfLdMIxg1U78bKyLRN+KHOPr/uey4zPBA5r5jhQnbaPylQVCDx
+ JcEA==
+X-Gm-Message-State: AOAM533gCVJMF3jRQ4yH/q/MrkFZQ98lNjEuvYD4mX+KPyh040OprvHz
+ wMkx41vL6ICCDflgbMBqgvqMfcKhycw/A7aCYCThoL6La3yV1Odq+DDMImCBCsbY0nWPfhnH3Nb
+ Pm5tPNWi3BW+QVhg=
+X-Received: by 2002:a5d:6d8c:: with SMTP id l12mr6185424wrs.80.1634213113309; 
+ Thu, 14 Oct 2021 05:05:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyRsR6gvYDofPeqWed1RQT6ekA7iIARUUiS7erRzyJ+jY023RB1XCMhvy5BJNzsPmZ6a6pPJQ==
+X-Received: by 2002:a5d:6d8c:: with SMTP id l12mr6185365wrs.80.1634213112973; 
+ Thu, 14 Oct 2021 05:05:12 -0700 (PDT)
+Received: from redhat.com ([2.55.16.227])
+ by smtp.gmail.com with ESMTPSA id y5sm2134733wrq.85.2021.10.14.05.05.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Oct 2021 05:05:12 -0700 (PDT)
+Date: Thu, 14 Oct 2021 08:05:07 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v3 0/3] hw/arm/virt_acpi_build: Upgrate the IORT table up
+ to revision E.b
+Message-ID: <20211014080436-mutt-send-email-mst@kernel.org>
+References: <20211014115643.756977-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3 3/4] s390x: topology: CPU topology objects and
- structures
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-References: <1631800254-25762-1-git-send-email-pmorel@linux.ibm.com>
- <1631800254-25762-4-git-send-email-pmorel@linux.ibm.com>
- <184be580-113d-6661-f88e-84846615b2a1@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <184be580-113d-6661-f88e-84846615b2a1@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: dBPinBJvXvR0_DoaC9mBqHXHfJ7zzpV3
-X-Proofpoint-ORIG-GUID: a6sWtvxEUefmeNcdVWgv0z3Teb59h7Ym
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-10-14_03,2021-10-14_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- suspectscore=0 adultscore=0 clxscore=1015 mlxscore=0 mlxlogscore=999
- malwarescore=0 spamscore=0 phishscore=0 impostorscore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2110140073
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211014115643.756977-1-eric.auger@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,225 +92,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com, gshan@redhat.com,
+ jean-philippe@linaro.org, qemu-devel@nongnu.org,
+ shameerali.kolothum.thodi@huawei.com, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, imammedo@redhat.com, philmd@redhat.com, ardb@kernel.org,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 10/14/21 09:16, Thomas Huth wrote:
-> On 16/09/2021 15.50, Pierre Morel wrote:
->> We use new objects to have a dynamic administration of the CPU topology.
->> The highest level object in this implementation is the s390 book and
->> in this first implementation of CPU topology for S390 we have a single
->> book.
->> The book is built as a SYSBUS bridge during the CPU initialization.
->>
->> Every object under this single book will be build dynamically
->> immediately after a CPU has be realized if it is needed.
->> The CPU will fill the sockets once after the other, according to the
->> number of core per socket defined during the smp parsing.
->>
->> Each CPU inside a socket will be represented by a bit in a 64bit
->> unsigned long. Set on plug and clear on unplug of a CPU.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   hw/s390x/cpu-topology.c         | 353 ++++++++++++++++++++++++++++++++
->>   hw/s390x/meson.build            |   1 +
->>   hw/s390x/s390-virtio-ccw.c      |   4 +
->>   include/hw/s390x/cpu-topology.h |  67 ++++++
->>   target/s390x/cpu.h              |  47 +++++
->>   5 files changed, 472 insertions(+)
->>   create mode 100644 hw/s390x/cpu-topology.c
->>   create mode 100644 include/hw/s390x/cpu-topology.h
->>
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> new file mode 100644
->> index 0000000000..f0ffd86a4f
->> --- /dev/null
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -0,0 +1,353 @@
->> +/*
->> + * CPU Topology
->> + *
->> + * Copyright 2021 IBM Corp.
->> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
->> +
->> + * This work is licensed under the terms of the GNU GPL, version 2 or 
->> (at
->> + * your option) any later version. See the COPYING file in the top-level
->> + * directory.
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "qapi/error.h"
->> +#include "qemu/error-report.h"
->> +#include "hw/sysbus.h"
->> +#include "hw/s390x/cpu-topology.h"
->> +#include "hw/qdev-properties.h"
->> +#include "hw/boards.h"
->> +#include "qemu/typedefs.h"
->> +#include "target/s390x/cpu.h"
->> +#include "hw/s390x/s390-virtio-ccw.h"
->> +
->> +static S390TopologyCores *s390_create_cores(S390TopologySocket *socket,
->> +                                            int origin)
->> +{
->> +    DeviceState *dev;
->> +    S390TopologyCores *cores;
->> +    const MachineState *ms = MACHINE(qdev_get_machine());
->> +
->> +    if (socket->bus->num_children >= ms->smp.cores) {
->> +        return NULL;
->> +    }
->> +
->> +    dev = qdev_new(TYPE_S390_TOPOLOGY_CORES);
->> +    qdev_realize_and_unref(dev, socket->bus, &error_fatal);
->> +
->> +    cores = S390_TOPOLOGY_CORES(dev);
->> +    cores->origin = origin;
->> +    socket->cnt += 1;
->> +
->> +    return cores;
->> +}
->> +
->> +static S390TopologySocket *s390_create_socket(S390TopologyBook *book, 
->> int id)
->> +{
->> +    DeviceState *dev;
->> +    S390TopologySocket *socket;
->> +    const MachineState *ms = MACHINE(qdev_get_machine());
->> +
->> +    if (book->bus->num_children >= ms->smp.sockets) {
->> +        return NULL;
->> +    }
->> +
->> +    dev = qdev_new(TYPE_S390_TOPOLOGY_SOCKET);
->> +    qdev_realize_and_unref(dev, book->bus, &error_fatal);
->> +
->> +    socket = S390_TOPOLOGY_SOCKET(dev);
->> +    socket->socket_id = id;
->> +    book->cnt++;
->> +
->> +    return socket;
->> +}
->> +
->> +/*
->> + * s390_get_cores:
->> + * @socket: the socket to search into
->> + * @origin: the origin specified for the S390TopologyCores
->> + *
->> + * returns a pointer to a S390TopologyCores structure within a socket 
->> having
->> + * the specified origin.
->> + * First search if the socket is already containing the 
->> S390TopologyCores
->> + * structure and if not create one with this origin.
->> + */
->> +static S390TopologyCores *s390_get_cores(S390TopologySocket *socket, 
->> int origin)
->> +{
->> +    S390TopologyCores *cores;
->> +    BusChild *kid;
->> +
->> +    QTAILQ_FOREACH(kid, &socket->bus->children, sibling) {
->> +        cores = S390_TOPOLOGY_CORES(kid->child);
->> +        if (cores->origin == origin) {
->> +            return cores;
->> +        }
->> +    }
->> +    return s390_create_cores(socket, origin);
->> +}
->> +
->> +/*
->> + * s390_get_socket:
->> + * @book: The book to search into
->> + * @socket_id: the identifier of the socket to search for
->> + *
->> + * returns a pointer to a S390TopologySocket structure within a book 
->> having
->> + * the specified socket_id.
->> + * First search if the book is already containing the S390TopologySocket
->> + * structure and if not create one with this socket_id.
->> + */
->> +static S390TopologySocket *s390_get_socket(S390TopologyBook *book,
->> +                                           int socket_id)
->> +{
->> +    S390TopologySocket *socket;
->> +    BusChild *kid;
->> +
->> +    QTAILQ_FOREACH(kid, &book->bus->children, sibling) {
->> +        socket = S390_TOPOLOGY_SOCKET(kid->child);
->> +        if (socket->socket_id == socket_id) {
->> +            return socket;
->> +        }
->> +    }
->> +    return s390_create_socket(book, socket_id);
->> +}
->> +
->> +/*
->> + * s390_topology_new_cpu:
->> + * @core_id: the core ID is machine wide
->> + *
->> + * We have a single book returned by s390_get_topology(),
->> + * then we build the hierarchy on demand.
->> + * Note that we do not destroy the hierarchy on error creating
->> + * an entry in the topology, we just keep it empty.
->> + * We do not need to worry about not finding a topology level
->> + * entry this would have been caught during smp parsing.
->> + */
->> +void s390_topology_new_cpu(int core_id)
->> +{
->> +    const MachineState *ms = MACHINE(qdev_get_machine());
->> +    S390TopologyBook *book;
->> +    S390TopologySocket *socket;
->> +    S390TopologyCores *cores;
->> +    int cores_per_socket, sock_idx;
->> +    int origin, bit;
->> +
->> +    book = s390_get_topology();
->> +
->> +    cores_per_socket = ms->smp.max_cpus / ms->smp.sockets;
->> +
->> +    sock_idx = (core_id / cores_per_socket);
->> +    socket = s390_get_socket(book, sock_idx);
->> +
->> +    /*
->> +     * We assume that all CPU are identical IFL, shared and
->> +     * horizontal topology, the only reason to have several
->> +     * S390TopologyCores is to have more than 64 CPUs.
->> +     */
->> +    origin = 64 * (core_id / 64);
->> +
->> +    cores = s390_get_cores(socket, origin);
->> +
->> +    bit = 63 - (core_id - origin);
->> +    set_bit(bit, &cores->mask);
->> +    cores->origin = origin;
->> +}
+On Thu, Oct 14, 2021 at 01:56:40PM +0200, Eric Auger wrote:
+> This series upgrades the ACPI IORT table up to the E.b
+> specification revision. One of the goal of this upgrade
+> is to allow the addition of RMR nodes along with the SMMUv3.
 > 
-> Are these "64" an artificial limit by the hardware? Or is it just an 
-> implementation detail in your code since you chose to use a uint64_t 
-> variable for the mask? In the latter case, why not use a bitfield? ... 
-> anyway, could you please add some more comments to the code why you are 
-> using "64" here? (e.g. the sentences "Each CPU inside a socket will be 
-> represented by a bit in a 64bit
->   unsigned long. Set on plug and clear on unplug of a CPU." should  go 
-> into the cpu-topology.c file, too).
+> The latest IORT specification (ARM DEN 0049E.b) can be found at
+> IO Remapping Table - Platform Design Document
+> https://developer.arm.com/documentation/den0049/latest/
 > 
->   Thomas
+> This series can be found at
+> https://github.com/eauger/qemu.git
+> branch: iort_Eb_v3
+
+ACPI things look good
+
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+ARM only so ARM tree?
+
+> History:
+> v2 -> v3:
+> - comment on IORT node ID (Igor)
+> - single mapping disabled comment
+> - Added Jean and Igor's R-b
+> - added diff to patvch 3/3
 > 
+> v1 -> v2:
+> - fix Revision value in ITS and SMMUv3 nodes (Phil)
+> - Increment an identifier (Phil)
+> 
+> Eric Auger (3):
+>   tests/acpi: Get prepared for IORT E.b revision upgrade
+>   hw/arm/virt-acpi-build: IORT upgrade up to revision E.b
+>   tests/acpi: Generate reference blob for IORT rev E.b
+> 
+>  hw/arm/virt-acpi-build.c          |  48 ++++++++++++++++++------------
+>  tests/data/acpi/virt/IORT         | Bin 124 -> 128 bytes
+>  tests/data/acpi/virt/IORT.memhp   | Bin 124 -> 128 bytes
+>  tests/data/acpi/virt/IORT.numamem | Bin 124 -> 128 bytes
+>  tests/data/acpi/virt/IORT.pxb     | Bin 124 -> 128 bytes
+>  5 files changed, 29 insertions(+), 19 deletions(-)
+> 
+> -- 
+> 2.26.3
 
-The 64 bit is designed by hardware.
-I will had more comments describing how the core topology entry is 
-designed and used by hardware.
-
-Thanks for your comments
-Pierre
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
