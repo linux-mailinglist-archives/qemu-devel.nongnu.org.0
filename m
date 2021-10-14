@@ -2,76 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1B042D3E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 09:39:18 +0200 (CEST)
-Received: from localhost ([::1]:52274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B811A42D360
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 09:17:51 +0200 (CEST)
+Received: from localhost ([::1]:56584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mavKf-0005SE-FT
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 03:39:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59220)
+	id 1mauzu-0005dM-Sg
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 03:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mavI2-0001aB-83
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 03:36:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43162)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mauyx-0004vO-Tg
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 03:16:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mavHw-0002KY-OO
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 03:36:34 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mauyv-00080g-VQ
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 03:16:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634196986;
+ s=mimecast20190719; t=1634195809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N68fdT2VO5sflWRko4AgvnsdfULFyokgbeTdKHPATss=;
- b=JexAd8Cg31ANKnWnb4lr6JobZSX5Bd+wjPCghvcodlBMu3fATLJICCJokIh9Vp3XDJS/Tp
- 8XEF7JDwBhy2GD7DHyuBD79Xgz6HsPTVqIm4NbtW2ggzt061gudd8ioSSG4G335+AKdudI
- 8c1VIWlVFBE7nhm1hIZ4kK2JUtxewAQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461-R0lVrnqUNfW7ONz2E-Tdqw-1; Thu, 14 Oct 2021 03:36:23 -0400
-X-MC-Unique: R0lVrnqUNfW7ONz2E-Tdqw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CC7210144F5;
- Thu, 14 Oct 2021 07:36:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1EEA0694B4;
- Thu, 14 Oct 2021 07:36:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 093BD11380A7; Thu, 14 Oct 2021 09:14:04 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Reiter <s.reiter@proxmox.com>
-Subject: Re: [PATCH v4 2/2] monitor: refactor set/expire_password and allow
- VNC display id
-References: <20210928090326.1056010-1-s.reiter@proxmox.com>
- <20210928090326.1056010-3-s.reiter@proxmox.com>
- <87zgrebnod.fsf@dusky.pond.sub.org>
- <69473cd0-b01b-a189-e4e8-fcb02738b7b1@proxmox.com>
-Date: Thu, 14 Oct 2021 09:14:04 +0200
-In-Reply-To: <69473cd0-b01b-a189-e4e8-fcb02738b7b1@proxmox.com> (Stefan
- Reiter's message of "Wed, 13 Oct 2021 18:09:21 +0200")
-Message-ID: <87bl3skrib.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=NabZi1KVvh/NRuRZ7uTVim1K8MxHRdpJjTfzykbrkpU=;
+ b=SVb4SBEV3jh+VxyblWW6RnpSunmNdAvkdlzKxrLtBfJsOdXe5qIcP/wcwofzOQ1C0/U6Xi
+ f4e5mEF+drsOKSff3NDdkONisMRXK0+58fP7TvN7TO+V3LMFNLc0mgmM6svtKhuo+wQ6WB
+ 3UKkuNmw3XURMQD641mFxnwRq4Jnh5w=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-448-7yErjdzvOmSOOlzvPKjfrg-1; Thu, 14 Oct 2021 03:16:46 -0400
+X-MC-Unique: 7yErjdzvOmSOOlzvPKjfrg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ p12-20020adfc38c000000b00160d6a7e293so3793054wrf.18
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 00:16:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NabZi1KVvh/NRuRZ7uTVim1K8MxHRdpJjTfzykbrkpU=;
+ b=2k1hJUCP3meMhQG5dWBWNOn57LBrotI6yz1kdgkfDEntykLkK4GVaxpyyiWPfk3tqb
+ PhlvSP5iRCL0Pj91SqC3g4Pt99idKKu3rfZ6ZlU3zc3vNmjaHhS/mDM7gqY9hTXBOW9B
+ OBC69WXK3t8dHIdOJr8XzKl/U6oRNeCi5KwzkzYjv4Lwja4bGX8qB1ujAQfS0YpOz560
+ BsvlZbjV78kEmk+0TueO7kQxnOe1Fs7ndmEoy8tuoTEKqZR5dA3uHxe9n0VrEOnuBo/W
+ uophlbmU8k7WY2HIoMf6PJrUSXy31QQrpaU421W+zuMExFVRyp9Dsx8GKrL4LzDC2FDG
+ YSJQ==
+X-Gm-Message-State: AOAM531r49idYyZlCQGXNTypyE138VFilQHgDoFxARKSid8AlLXoJ63P
+ vZbs1c+gYluS+33CtcJH0/622sJGKzWT+38FGh66r5I6x12ZofGhqiHa219+rZGVApy5B+ItH/k
+ 134LK/jd1toCC2sA=
+X-Received: by 2002:adf:b1c4:: with SMTP id r4mr4679328wra.428.1634195804954; 
+ Thu, 14 Oct 2021 00:16:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwKhra56vRRHtET6559UVQPHC2BF8rOHppk07IQmBWhor2NXOFI41wUHO2Ji6jj6Ph3apOjzA==
+X-Received: by 2002:adf:b1c4:: with SMTP id r4mr4679294wra.428.1634195804653; 
+ Thu, 14 Oct 2021 00:16:44 -0700 (PDT)
+Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id o6sm2117554wri.49.2021.10.14.00.16.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Oct 2021 00:16:44 -0700 (PDT)
+Subject: Re: [PATCH v3 3/4] s390x: topology: CPU topology objects and
+ structures
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+References: <1631800254-25762-1-git-send-email-pmorel@linux.ibm.com>
+ <1631800254-25762-4-git-send-email-pmorel@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <184be580-113d-6661-f88e-84846615b2a1@redhat.com>
+Date: Thu, 14 Oct 2021 09:16:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <1631800254-25762-4-git-send-email-pmorel@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,253 +98,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Reiter <s.reiter@proxmox.com> writes:
+On 16/09/2021 15.50, Pierre Morel wrote:
+> We use new objects to have a dynamic administration of the CPU topology.
+> The highest level object in this implementation is the s390 book and
+> in this first implementation of CPU topology for S390 we have a single
+> book.
+> The book is built as a SYSBUS bridge during the CPU initialization.
+> 
+> Every object under this single book will be build dynamically
+> immediately after a CPU has be realized if it is needed.
+> The CPU will fill the sockets once after the other, according to the
+> number of core per socket defined during the smp parsing.
+> 
+> Each CPU inside a socket will be represented by a bit in a 64bit
+> unsigned long. Set on plug and clear on unplug of a CPU.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>   hw/s390x/cpu-topology.c         | 353 ++++++++++++++++++++++++++++++++
+>   hw/s390x/meson.build            |   1 +
+>   hw/s390x/s390-virtio-ccw.c      |   4 +
+>   include/hw/s390x/cpu-topology.h |  67 ++++++
+>   target/s390x/cpu.h              |  47 +++++
+>   5 files changed, 472 insertions(+)
+>   create mode 100644 hw/s390x/cpu-topology.c
+>   create mode 100644 include/hw/s390x/cpu-topology.h
+> 
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> new file mode 100644
+> index 0000000000..f0ffd86a4f
+> --- /dev/null
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -0,0 +1,353 @@
+> +/*
+> + * CPU Topology
+> + *
+> + * Copyright 2021 IBM Corp.
+> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+> +
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu/error-report.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/s390x/cpu-topology.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/boards.h"
+> +#include "qemu/typedefs.h"
+> +#include "target/s390x/cpu.h"
+> +#include "hw/s390x/s390-virtio-ccw.h"
+> +
+> +static S390TopologyCores *s390_create_cores(S390TopologySocket *socket,
+> +                                            int origin)
+> +{
+> +    DeviceState *dev;
+> +    S390TopologyCores *cores;
+> +    const MachineState *ms = MACHINE(qdev_get_machine());
+> +
+> +    if (socket->bus->num_children >= ms->smp.cores) {
+> +        return NULL;
+> +    }
+> +
+> +    dev = qdev_new(TYPE_S390_TOPOLOGY_CORES);
+> +    qdev_realize_and_unref(dev, socket->bus, &error_fatal);
+> +
+> +    cores = S390_TOPOLOGY_CORES(dev);
+> +    cores->origin = origin;
+> +    socket->cnt += 1;
+> +
+> +    return cores;
+> +}
+> +
+> +static S390TopologySocket *s390_create_socket(S390TopologyBook *book, int id)
+> +{
+> +    DeviceState *dev;
+> +    S390TopologySocket *socket;
+> +    const MachineState *ms = MACHINE(qdev_get_machine());
+> +
+> +    if (book->bus->num_children >= ms->smp.sockets) {
+> +        return NULL;
+> +    }
+> +
+> +    dev = qdev_new(TYPE_S390_TOPOLOGY_SOCKET);
+> +    qdev_realize_and_unref(dev, book->bus, &error_fatal);
+> +
+> +    socket = S390_TOPOLOGY_SOCKET(dev);
+> +    socket->socket_id = id;
+> +    book->cnt++;
+> +
+> +    return socket;
+> +}
+> +
+> +/*
+> + * s390_get_cores:
+> + * @socket: the socket to search into
+> + * @origin: the origin specified for the S390TopologyCores
+> + *
+> + * returns a pointer to a S390TopologyCores structure within a socket having
+> + * the specified origin.
+> + * First search if the socket is already containing the S390TopologyCores
+> + * structure and if not create one with this origin.
+> + */
+> +static S390TopologyCores *s390_get_cores(S390TopologySocket *socket, int origin)
+> +{
+> +    S390TopologyCores *cores;
+> +    BusChild *kid;
+> +
+> +    QTAILQ_FOREACH(kid, &socket->bus->children, sibling) {
+> +        cores = S390_TOPOLOGY_CORES(kid->child);
+> +        if (cores->origin == origin) {
+> +            return cores;
+> +        }
+> +    }
+> +    return s390_create_cores(socket, origin);
+> +}
+> +
+> +/*
+> + * s390_get_socket:
+> + * @book: The book to search into
+> + * @socket_id: the identifier of the socket to search for
+> + *
+> + * returns a pointer to a S390TopologySocket structure within a book having
+> + * the specified socket_id.
+> + * First search if the book is already containing the S390TopologySocket
+> + * structure and if not create one with this socket_id.
+> + */
+> +static S390TopologySocket *s390_get_socket(S390TopologyBook *book,
+> +                                           int socket_id)
+> +{
+> +    S390TopologySocket *socket;
+> +    BusChild *kid;
+> +
+> +    QTAILQ_FOREACH(kid, &book->bus->children, sibling) {
+> +        socket = S390_TOPOLOGY_SOCKET(kid->child);
+> +        if (socket->socket_id == socket_id) {
+> +            return socket;
+> +        }
+> +    }
+> +    return s390_create_socket(book, socket_id);
+> +}
+> +
+> +/*
+> + * s390_topology_new_cpu:
+> + * @core_id: the core ID is machine wide
+> + *
+> + * We have a single book returned by s390_get_topology(),
+> + * then we build the hierarchy on demand.
+> + * Note that we do not destroy the hierarchy on error creating
+> + * an entry in the topology, we just keep it empty.
+> + * We do not need to worry about not finding a topology level
+> + * entry this would have been caught during smp parsing.
+> + */
+> +void s390_topology_new_cpu(int core_id)
+> +{
+> +    const MachineState *ms = MACHINE(qdev_get_machine());
+> +    S390TopologyBook *book;
+> +    S390TopologySocket *socket;
+> +    S390TopologyCores *cores;
+> +    int cores_per_socket, sock_idx;
+> +    int origin, bit;
+> +
+> +    book = s390_get_topology();
+> +
+> +    cores_per_socket = ms->smp.max_cpus / ms->smp.sockets;
+> +
+> +    sock_idx = (core_id / cores_per_socket);
+> +    socket = s390_get_socket(book, sock_idx);
+> +
+> +    /*
+> +     * We assume that all CPU are identical IFL, shared and
+> +     * horizontal topology, the only reason to have several
+> +     * S390TopologyCores is to have more than 64 CPUs.
+> +     */
+> +    origin = 64 * (core_id / 64);
+> +
+> +    cores = s390_get_cores(socket, origin);
+> +
+> +    bit = 63 - (core_id - origin);
+> +    set_bit(bit, &cores->mask);
+> +    cores->origin = origin;
+> +}
 
-> On 10/12/21 11:24 AM, Markus Armbruster wrote:
->> Stefan Reiter <s.reiter@proxmox.com> writes:
->>=20
->>> It is possible to specify more than one VNC server on the command line,
->>> either with an explicit ID or the auto-generated ones =C3=A0 "default",
->>> "vnc2", "vnc3", ...
->>>
->>> It is not possible to change the password on one of these extra VNC
->>> displays though. Fix this by adding a "display" parameter to the
->>> "set_password" and "expire_password" QMP and HMP commands.
->>>
->>> For HMP, the display is specified using the "-d" value flag.
->>>
->>> For QMP, the schema is updated to explicitly express the supported
->>> variants of the commands with protocol-discriminated unions.
->>>
->>> Suggested-by: Eric Blake <eblake@redhat.com>
->>> Suggested-by: Markus Armbruster <armbru@redhat.com>
->>> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
->>=20
->> [...]
->>=20
->>> diff --git a/qapi/ui.json b/qapi/ui.json
->>> index d7567ac866..4244c62c30 100644
->>> --- a/qapi/ui.json
->>> +++ b/qapi/ui.json
->>> @@ -9,22 +9,23 @@
->>>   { 'include': 'common.json' }
->>>   { 'include': 'sockets.json' }
->>>  =20
->>> +##
->>> +# @DisplayProtocol:
->>> +#
->>> +# Display protocols which support changing password options.
->>> +#
->>> +# Since: 6.2
->>> +#
->>> +##
->>> +{ 'enum': 'DisplayProtocol',
->>> +  'data': [ { 'name': 'vnc', 'if': 'CONFIG_VNC' },
->>> +            { 'name': 'spice', 'if': 'CONFIG_SPICE' } ] }
->>> +
->>=20
->>=20
->>=20
->>>   ##
->>>   # @set_password:
->>>   #
->>>   # Sets the password of a remote display session.
->>>   #
->>> -# @protocol: - 'vnc' to modify the VNC server password
->>> -#            - 'spice' to modify the Spice server password
->>> -#
->>> -# @password: the new password
->>> -#
->>> -# @connected: how to handle existing clients when changing the
->>> -#             password.  If nothing is specified, defaults to 'keep'
->>> -#             'fail' to fail the command if clients are connected
->>> -#             'disconnect' to disconnect existing clients
->>> -#             'keep' to maintain existing clients
->>> -#
->>>   # Returns: - Nothing on success
->>>   #          - If Spice is not enabled, DeviceNotFound
->>>   #
->>> @@ -37,33 +38,106 @@
->>>   # <- { "return": {} }
->>>   #
->>>   ##
->>> -{ 'command': 'set_password',
->>> -  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str'} =
-}
->>> +{ 'command': 'set_password', 'boxed': true, 'data': 'SetPasswordOption=
-s' }
->>> +
->>> +##
->>> +# @SetPasswordOptions:
->>> +#
->>> +# Data required to set a new password on a display server protocol.
->>> +#
->>> +# @protocol: - 'vnc' to modify the VNC server password
->>> +#            - 'spice' to modify the Spice server password
->>> +#
->>> +# @password: the new password
->>> +#
->>> +# Since: 6.2
->>> +#
->>> +##
->>> +{ 'union': 'SetPasswordOptions',
->>> +  'base': { 'protocol': 'DisplayProtocol',
->>> +            'password': 'str' },
->>> +  'discriminator': 'protocol',
->>> +  'data': { 'vnc': 'SetPasswordOptionsVnc',
->>> +            'spice': 'SetPasswordOptionsSpice' } }
->>> +
->>> +##
->>> +# @SetPasswordAction:
->>> +#
->>> +# An action to take on changing a password on a connection with active=
- clients.
->>> +#
->>> +# @fail: fail the command if clients are connected
->>> +#
->>> +# @disconnect: disconnect existing clients
->>> +#
->>> +# @keep: maintain existing clients
->>> +#
->>> +# Since: 6.2
->>> +#
->>> +##
->>> +{ 'enum': 'SetPasswordAction',
->>> +  'data': [ 'fail', 'disconnect', 'keep' ] }
->>> +
->>> +##
->>> +# @SetPasswordActionVnc:
->>> +#
->>> +# See @SetPasswordAction. VNC only supports the keep action. 'connecti=
-on'
->>> +# should just be omitted for VNC, this is kept for backwards compatibi=
-lity.
->>> +#
->>> +# @keep: maintain existing clients
->>> +#
->>> +# Since: 6.2
->>> +#
->>> +##
->>> +{ 'enum': 'SetPasswordActionVnc',
->>> +  'data': [ 'keep' ] }
->>> +
->>> +##
->>> +# @SetPasswordOptionsSpice:
->>> +#
->>> +# Options for set_password specific to the VNC procotol.
->>> +#
->>> +# @connected: How to handle existing clients when changing the
->>> +#             password. If nothing is specified, defaults to 'keep'.
->>> +#
->>> +# Since: 6.2
->>> +#
->>> +##
->>> +{ 'struct': 'SetPasswordOptionsSpice',
->>> +  'data': { '*connected': 'SetPasswordAction' } }
->>> +
->>> +##
->>> +# @SetPasswordOptionsVnc:
->>> +#
->>> +# Options for set_password specific to the VNC procotol.
->>> +#
->>> +# @display: The id of the display where the password should be changed=
-.
->>> +#           Defaults to the first.
->>> +#
->>> +# @connected: How to handle existing clients when changing the
->>> +#             password.
->>> +#
->>> +# Features:
->>> +# @deprecated: For VNC, @connected will always be 'keep', parameter sh=
-ould be
->>> +#              omitted.
->>> +#
->>> +# Since: 6.2
->>> +#
->>> +##
->>> +{ 'struct': 'SetPasswordOptionsVnc',
->>> +  'data': { '*display': 'str',
->>> +            '*connected': { 'type': 'SetPasswordActionVnc',
->>> +                            'features': ['deprecated'] } } }
->>=20
->> Let me describe what you're doing in my own words, to make sure I got
->> both the what and the why:
->>=20
->> 1. Change @protocol and @connected from str to enum.
->>=20
->> 2. Turn the argument struct into a union tagged by @protocol, to enable
->>     3. and 4.
->>=20
->> 3. Add argument @display in branch 'vnc'.
->>=20
->> 4. Use a separate enum for @connected in each union branch, to enable 4.
->>=20
->> 5. Trim this enum in branch 'vnc' to the values that are actually
->>     supported.  Note that just one value remains, i.e. @connected is now
->>     an optional argument that can take only the default value.
->>=20
->> 6. Since such an argument is pointless, deprecate @connected in branch
->>     'vnc'.
->>=20
->> Correct?
->
-> Yes.
+Are these "64" an artificial limit by the hardware? Or is it just an 
+implementation detail in your code since you chose to use a uint64_t 
+variable for the mask? In the latter case, why not use a bitfield? ... 
+anyway, could you please add some more comments to the code why you are 
+using "64" here? (e.g. the sentences "Each CPU inside a socket will be 
+represented by a bit in a 64bit
+  unsigned long. Set on plug and clear on unplug of a CPU." should  go into 
+the cpu-topology.c file, too).
 
-Thanks!
-
->> Ignorant question: is it possible to have more than one 'spice' display?
->
-> Not in terms of passwords anyway. So only one SPICE password can be set a=
-t
-> any time, i.e. the 'display' parameter in this function does not apply.
->
->>=20
->> Item 5. is not a compatibility break: before your patch,
->> qmp_set_password() rejects the values you drop.
->
-> Yes.
->
->>=20
->> Item 5. adds another enum to the schema in return for more accurate
->> introspection and slightly simpler qmp_set_password().  I'm not sure
->> that's worthwhile.  I think we could use the same enum for both union
->> branches.
->
-> I tried to avoid mixing manual parsing and declarative QAPI stuff as much
-> as I could, so I moved as much as possible to QAPI. I personally like the
-> extra documentation of having the separate enum.
-
-It's a valid choice.  I'm just pointing out another valid choice.  The
-difference between them will go away when we remove deprecated
-@connected.  You choose :)
-
->> I'd split this patch into three parts: item 1., 2.+3., 4.-6., because
->> each part can stand on its own.
->
-> The reason why I didn't do that initially is more to do with the C side.
-> I think splitting it up as you describe would make for some awkward diffs
-> on the qmp_set_password/hmp_set_password side.
->
-> I can try of course.
-
-It's a suggestion, not a demand.  I'm a compulsory patch splitter.
-
->                      Though I also want to have it said that I'm not a fa=
-n
-> of how the HMP functions have to expand so much to accommodate the QAPI
-> structure in general.
-
-Care to elaborate?
-
-[...]
+  Thomas
 
 
