@@ -2,86 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AF9142D491
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 10:11:54 +0200 (CEST)
-Received: from localhost ([::1]:38156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D0042D492
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 10:12:35 +0200 (CEST)
+Received: from localhost ([::1]:39548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mavqB-0008C9-5s
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 04:11:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43446)
+	id 1mavqs-0000pq-81
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 04:12:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mavnD-0006pr-R3
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 04:08:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26300)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mavnq-0007Wy-C5; Thu, 14 Oct 2021 04:09:26 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mavn6-0005Cb-VL
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 04:08:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634198919;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/ORA295WyReid2O6RmW5hy4elM1ARVmV2IOmlXL2Kfw=;
- b=TAyI1n2p7bhjWyGo8U9phbiv09QtUzK0Q85sLWI9Tc8uugvUH6STk69LRpr32YUABxJfaA
- ZKvb5qL/MxQPuwQItZHC1zRdciVeQ34Kj7oENPMs/YkUx8sNGlPMX/v999MPEunrCku+Y/
- zqYJNSUK0k943rdAkQgha1UDx67hbfk=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-4qCAi_vvNZSzpKET6frUEQ-1; Thu, 14 Oct 2021 04:08:38 -0400
-X-MC-Unique: 4qCAi_vvNZSzpKET6frUEQ-1
-Received: by mail-qv1-f72.google.com with SMTP id
- p9-20020a05621421e900b003830bb235fbso4981790qvj.14
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 01:08:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/ORA295WyReid2O6RmW5hy4elM1ARVmV2IOmlXL2Kfw=;
- b=rS66fUhiuaVRK10rlcCDU4OL0z1snBQ5v/nPR/Mno/frLFIz0nqhEQCJqtY7+hQORf
- x6+BM3vN4kFV12V4symFnKarHVZt5tPhgl0RBoyeMx51frEtUKeSjUMxUjKBKfYDkvBt
- dnq7BCdTDa9gk/3ytO29d+DM7z/jJlbxc6q4xSY9qrGnt49ZPo2HM4rzycioFzAUtLpU
- DKIfhDTtD723bxcNIzOuOAEG9nQVSw59cWVqcoiHjz1S65RFF9MdIPmEuEBV1PuPSsnd
- zawwPWROiLAcEavmeLgTgjgkrp0PhXiqAozc7DctBMyb6CHkYS6D43K3m0TVPcsQnoH+
- e7fw==
-X-Gm-Message-State: AOAM531JuPnQy3pMirr2qxj+LYfEzraxKHZQvncwaXiiBpDLoN9ow8z2
- AuvZI9LWBlDDhlaIpVI7VoaEa71OgwzGeaZjXuUciYE4yJaYWvFf+4239OchlDlVq0d57Rmw9hC
- 2UdSD11g7nMD/nnUenR3QGdB8Npfk3NA=
-X-Received: by 2002:ac8:6112:: with SMTP id a18mr4678563qtm.401.1634198917912; 
- Thu, 14 Oct 2021 01:08:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzItR68O/Upg7a415XPAOE8jKXoIbEZHNLRc+q+Yg7xLq7/VptP8XZCjnzP1vJUDM6Xb8mjvha3+nFOE7FKzpc=
-X-Received: by 2002:ac8:6112:: with SMTP id a18mr4678535qtm.401.1634198917629; 
- Thu, 14 Oct 2021 01:08:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mavnk-0005j8-P1; Thu, 14 Oct 2021 04:09:26 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19E7iRRF001625; 
+ Thu, 14 Oct 2021 04:09:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=4wnlImhpVDuaUnkbf6FYBF5mi6rcKohbof/TlelHQvE=;
+ b=rJbK5kxjILu4BOiM1/B2hAI+CpF00NBuvczPUZLhcFEU26VibCFoeQzNGmw6iCdrdPuB
+ A0GJBgyebONtUjq2e/wnvCgHX5s6UAsW4SXZv1zzCaLa3WRe5wS9REa7gPZOvjTSH/tu
+ /ffye3ZeL1Pl9Pqeg3JDC9tN461h4r+ppOTaiyI8e+fVmo0AxEaS8eG/Ni16CcPhHjSo
+ A4MWTDugikf9AKMGgzYuUMpN4tSvjGQH/gwhM8Qw02kZUseP94UZUP1gV3EsKEt/VU33
+ VEIMNh+MtEk/DxPu0VSAELLUZ3HQKTkD+j+AlYSiHdDuviyGBH0vxrIHUWufM0fVYEpl jQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bnr7a8axb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Oct 2021 04:09:16 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19E7vRJJ018042;
+ Thu, 14 Oct 2021 04:09:15 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bnr7a8awp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Oct 2021 04:09:15 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19E81nI6004798;
+ Thu, 14 Oct 2021 08:09:12 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma05fra.de.ibm.com with ESMTP id 3bk2qa7vj7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Oct 2021 08:09:12 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 19E8985D65012090
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 14 Oct 2021 08:09:08 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CE4F3A4064;
+ Thu, 14 Oct 2021 08:09:08 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5EB6FA405C;
+ Thu, 14 Oct 2021 08:09:08 +0000 (GMT)
+Received: from [9.171.15.64] (unknown [9.171.15.64])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 14 Oct 2021 08:09:08 +0000 (GMT)
+Message-ID: <a5d5fbdb-fe81-d8f0-a510-3f94e63fbf98@linux.ibm.com>
+Date: Thu, 14 Oct 2021 10:09:09 +0200
 MIME-Version: 1.0
-References: <20211012140710.804529-1-eperezma@redhat.com>
- <20211012140710.804529-4-eperezma@redhat.com>
- <CACGkMEsGDoWuE0WEq7P-S5V5XiLPCZcVAszQFHDLsLDZEAAh5A@mail.gmail.com>
- <CAJaqyWdW+JarVW6tOfM6rYHh2fb=whGHFdwmFy0AMcLqukOrpg@mail.gmail.com>
- <CACGkMEv1P3MiRYENsDfx-iarEiv7Bik-qTaYUEAAmAUV1nEfWg@mail.gmail.com>
-In-Reply-To: <CACGkMEv1P3MiRYENsDfx-iarEiv7Bik-qTaYUEAAmAUV1nEfWg@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 14 Oct 2021 10:08:01 +0200
-Message-ID: <CAJaqyWfU2KAULXkNPNPOo+824Kx2z5ibo-Gr6q2FNoOCpThQ8Q@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] vdpa: Check for iova range at mappings changes
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v3 2/4] s390x: kvm: topology: interception of PTF
+ instruction
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+References: <1631800254-25762-1-git-send-email-pmorel@linux.ibm.com>
+ <1631800254-25762-3-git-send-email-pmorel@linux.ibm.com>
+ <ae0cf5c1-b0b8-0758-7c38-35c1845201ba@redhat.com>
+ <80eeffd4-25cf-c2ac-e74b-c8d5301fa98a@linux.ibm.com>
+ <803cd1be-0b06-694c-82ae-d5015a34879f@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <803cd1be-0b06-694c-82ae-d5015a34879f@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: o8uLkL2AxchP-TY5dJbp80kpZMDDn8uL
+X-Proofpoint-ORIG-GUID: 8VXDj61AxOqWd1HqbHNY0YjKq5QwM2Gt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-14_02,2021-10-14_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
+ suspectscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxscore=0
+ priorityscore=1501 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2109230001 definitions=main-2110140049
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,250 +116,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 14, 2021 at 9:02 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Thu, Oct 14, 2021 at 1:57 PM Eugenio Perez Martin
-> <eperezma@redhat.com> wrote:
-> >
-> > On Thu, Oct 14, 2021 at 5:30 AM Jason Wang <jasowang@redhat.com> wrote:
-> > >
-> > > On Tue, Oct 12, 2021 at 10:07 PM Eugenio P=C3=A9rez <eperezma@redhat.=
-com> wrote:
-> > > >
-> > > > Check vdpa device range before updating memory regions so we don't =
-add
-> > > > any outside of it, and report the invalid change if any.
-> > > >
-> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > ---
-> > > >  include/hw/virtio/vhost-vdpa.h |  2 ++
-> > > >  hw/virtio/vhost-vdpa.c         | 62 +++++++++++++++++++++++++-----=
-----
-> > > >  hw/virtio/trace-events         |  1 +
-> > > >  3 files changed, 49 insertions(+), 16 deletions(-)
-> > > >
-> > > > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vho=
-st-vdpa.h
-> > > > index a8963da2d9..c288cf7ecb 100644
-> > > > --- a/include/hw/virtio/vhost-vdpa.h
-> > > > +++ b/include/hw/virtio/vhost-vdpa.h
-> > > > @@ -13,6 +13,7 @@
-> > > >  #define HW_VIRTIO_VHOST_VDPA_H
-> > > >
-> > > >  #include "hw/virtio/virtio.h"
-> > > > +#include "standard-headers/linux/vhost_types.h"
-> > > >
-> > > >  typedef struct VhostVDPAHostNotifier {
-> > > >      MemoryRegion mr;
-> > > > @@ -24,6 +25,7 @@ typedef struct vhost_vdpa {
-> > > >      uint32_t msg_type;
-> > > >      bool iotlb_batch_begin_sent;
-> > > >      MemoryListener listener;
-> > > > +    struct vhost_vdpa_iova_range iova_range;
-> > > >      struct vhost_dev *dev;
-> > > >      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> > > >  } VhostVDPA;
-> > > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > > > index be7c63b4ba..dbf773d032 100644
-> > > > --- a/hw/virtio/vhost-vdpa.c
-> > > > +++ b/hw/virtio/vhost-vdpa.c
-> > > > @@ -37,20 +37,34 @@ static Int128 vhost_vdpa_section_end(const Memo=
-ryRegionSection *section)
-> > > >      return llend;
-> > > >  }
-> > > >
-> > > > -static bool vhost_vdpa_listener_skipped_section(MemoryRegionSectio=
-n *section)
-> > > > -{
-> > > > -    return (!memory_region_is_ram(section->mr) &&
-> > > > -            !memory_region_is_iommu(section->mr)) ||
-> > > > -            memory_region_is_protected(section->mr) ||
-> > > > -           /* vhost-vDPA doesn't allow MMIO to be mapped  */
-> > > > -            memory_region_is_ram_device(section->mr) ||
-> > > > -           /*
-> > > > -            * Sizing an enabled 64-bit BAR can cause spurious mapp=
-ings to
-> > > > -            * addresses in the upper part of the 64-bit address sp=
-ace.  These
-> > > > -            * are never accessed by the CPU and beyond the address=
- width of
-> > > > -            * some IOMMU hardware.  TODO: VDPA should tell us the =
-IOMMU width.
-> > > > -            */
-> > > > -           section->offset_within_address_space & (1ULL << 63);
-> >
-> > [1]
-> >
-> > > > +static bool vhost_vdpa_listener_skipped_section(MemoryRegionSectio=
-n *section,
-> > > > +                                                uint64_t iova_min,
-> > > > +                                                uint64_t iova_max)
-> > > > +{
-> > > > +    Int128 llend;
-> > > > +
-> > > > +    if ((!memory_region_is_ram(section->mr) &&
-> > > > +         !memory_region_is_iommu(section->mr)) ||
-> > > > +        memory_region_is_protected(section->mr) ||
-> > > > +        /* vhost-vDPA doesn't allow MMIO to be mapped  */
-> > > > +        memory_region_is_ram_device(section->mr)) {
-> > > > +        return true;
-> > > > +    }
-> > > > +
-> > > > +    if (section->offset_within_address_space < iova_min) {
-> > > > +        error_report("RAM section out of device range (min=3D%lu, =
-addr=3D%lu)",
-> > > > +                     iova_min, section->offset_within_address_spac=
-e);
-> > > > +        return true;
-> > > > +    }
-> > > > +
-> > > > +    llend =3D vhost_vdpa_section_end(section);
-> > > > +    if (int128_gt(llend, int128_make64(iova_max))) {
-> > > > +        error_report("RAM section out of device range (max=3D%lu, =
-end addr=3D%lu)",
-> > > > +                     iova_max, int128_get64(llend));
-> > > > +        return true;
-> > > > +    }
-> > > > +
-> > > > +    return false;
-> > > >  }
-> > > >
-> > > >  static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, h=
-waddr size,
-> > > > @@ -162,7 +176,8 @@ static void vhost_vdpa_listener_region_add(Memo=
-ryListener *listener,
-> > > >      void *vaddr;
-> > > >      int ret;
-> > > >
-> > > > -    if (vhost_vdpa_listener_skipped_section(section)) {
-> > > > +    if (vhost_vdpa_listener_skipped_section(section, v->iova_range=
-.first,
-> > > > +                                            v->iova_range.last)) {
-> > > >          return;
-> > > >      }
-> > > >
-> > > > @@ -220,7 +235,8 @@ static void vhost_vdpa_listener_region_del(Memo=
-ryListener *listener,
-> > > >      Int128 llend, llsize;
-> > > >      int ret;
-> > > >
-> > > > -    if (vhost_vdpa_listener_skipped_section(section)) {
-> > > > +    if (vhost_vdpa_listener_skipped_section(section, v->iova_range=
-.first,
-> > > > +                                            v->iova_range.last)) {
-> > > >          return;
-> > > >      }
-> > > >
-> > > > @@ -288,6 +304,19 @@ static void vhost_vdpa_add_status(struct vhost=
-_dev *dev, uint8_t status)
-> > > >      vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
-> > > >  }
-> > > >
-> > > > +static void vhost_vdpa_get_iova_range(struct vhost_vdpa *v)
-> > > > +{
-> > > > +    int ret =3D vhost_vdpa_call(v->dev, VHOST_VDPA_GET_IOVA_RANGE,
-> > > > +                              &v->iova_range);
-> > > > +    if (ret !=3D 0) {
-> > > > +        v->iova_range.first =3D 0;
-> > > > +        v->iova_range.last =3D MAKE_64BIT_MASK(0, 63);
-> > >
-> > > Nit:
-> > >
-> > > ULLONG_MAX?
-> > >
-> >
-> > It should be ULLONG_MAX >> 1 to match the previous limit [1],
->
-> I think they don't conflict. We just want to preserve the default iova
-> range as what the kernel did. Kernel will give ULLONG_MAX if
-> get_iova_range() is not implemented by the device?
->
 
-Right, so each one understood a different "previous limit" then :). I
-will replace it with UINT64_MAX if you are ok with that.
 
-Thanks!
+On 10/13/21 11:11, Thomas Huth wrote:
+> On 13/10/2021 09.55, Pierre Morel wrote:
+>>
+>>
+>> On 10/13/21 09:25, Thomas Huth wrote:
+>>> On 16/09/2021 15.50, Pierre Morel wrote:
+>>>> When the host supports the CPU topology facility, the PTF
+>>>> instruction with function code 2 is interpreted by the SIE,
+>>>> provided that the userland hypervizor activates the interpretation
+>>>> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
+>>>>
+>>>> The PTF instructions with function code 0 and 1 are intercepted
+>>>> and must be emulated by the userland hypervizor.
+>>>>
+>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>>> ---
+> ...
+>>>> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+>>>> index 5b1fdb55c4..dd036961fe 100644
+>>>> --- a/target/s390x/kvm/kvm.c
+>>>> +++ b/target/s390x/kvm/kvm.c
+>>>> @@ -97,6 +97,7 @@
+>>>>   #define PRIV_B9_EQBS                    0x9c
+>>>>   #define PRIV_B9_CLP                     0xa0
+>>>> +#define PRIV_B9_PTF                     0xa2
+>>>>   #define PRIV_B9_PCISTG                  0xd0
+>>>>   #define PRIV_B9_PCILG                   0xd2
+>>>>   #define PRIV_B9_RPCIT                   0xd3
+>>>> @@ -362,6 +363,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>>>>       kvm_vm_enable_cap(s, KVM_CAP_S390_USER_SIGP, 0);
+>>>>       kvm_vm_enable_cap(s, KVM_CAP_S390_VECTOR_REGISTERS, 0);
+>>>>       kvm_vm_enable_cap(s, KVM_CAP_S390_USER_STSI, 0);
+>>>> +    kvm_vm_enable_cap(s, KVM_CAP_S390_CPU_TOPOLOGY, 0);
+>>>
+>>> Should this maybe rather be done in the last patch, to avoid a state 
+>>> where PTF is available, but STSI 15 is not implemented yet (when 
+>>> bisecting through these commits later)?
+>>>
+>>>   Thomas
+>>>
+>>
+>> Yes you are right, thanks.
+> 
+> I'm also still a little bit surprised that there is really no migration 
+> code involved here yet. What if a guest gets started on a system with 
+> KVM_CAP_S390_CPU_TOPOLOGY support and later migrated to a system without 
+> KVM_CAP_S390_CPU_TOPOLOGY support? Is there already some magic in place 
+> that rejects such a migration? If not, the guest might first learn that 
+> it could use the PTF instruction, but suddenly it is then not available 
+> anymore? Does Linux cope right with PTF becoming unavailable during 
+> runtime? But even if it does, I think it's likely not in the sense of 
+> the architecture if certain instructions might disappear during runtime? 
+> Or do I miss something?
+> 
+>   Thomas
+> 
 
->
-> > and
-> > trusting that uint64_t is effectively unsigned long long. I see a 63
-> > bits mask immediately with MAKE_64BIT_MASK (once I remember the
-> > parameter order), but I find it harder to see it with (ULLONG_MAX >>
-> > 1).
-> >
-> > If you prefer the _MAX options, I would say it is better to stick with
-> > (UINT64_MAX >> 1) or (HWADDR_MAX >> 1), because of this in
-> > CODING_STYLE.rst:
-> >
-> > "If you're using "int" or "long", odds are good that there's a better
-> > type. ...", "In the event that you require a specific width, use a
-> > standard type like int32_t, uint32_t, uint64_t, etc", "Use hwaddr for
-> > guest physical addresses".
-> >
-> > Does it make sense to you?
->
-> If I was not wrong, we can use UINT64_MAX.
->
-> Thanks
->
-> >
-> > Thanks!
-> >
-> > > Others look good.
-> > >
-> > > Thanks
-> > >
-> > > > +    }
-> > > > +
-> > > > +    trace_vhost_vdpa_get_iova_range(v->dev, v->iova_range.first,
-> > > > +                                    v->iova_range.last);
-> > > > +}
-> > > > +
-> > > >  static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Er=
-ror **errp)
-> > > >  {
-> > > >      struct vhost_vdpa *v;
-> > > > @@ -300,6 +329,7 @@ static int vhost_vdpa_init(struct vhost_dev *de=
-v, void *opaque, Error **errp)
-> > > >      v->listener =3D vhost_vdpa_memory_listener;
-> > > >      v->msg_type =3D VHOST_IOTLB_MSG_V2;
-> > > >
-> > > > +    vhost_vdpa_get_iova_range(v);
-> > > >      vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-> > > >                                 VIRTIO_CONFIG_S_DRIVER);
-> > > >
-> > > > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> > > > index 8ed19e9d0c..650e521e35 100644
-> > > > --- a/hw/virtio/trace-events
-> > > > +++ b/hw/virtio/trace-events
-> > > > @@ -52,6 +52,7 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int=
- index, int fd) "dev: %p index:
-> > > >  vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p fea=
-tures: 0x%"PRIx64
-> > > >  vhost_vdpa_set_owner(void *dev) "dev: %p"
-> > > >  vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_add=
-r, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_=
-user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRI=
-x64
-> > > > +vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint64_t last=
-) "dev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
-> > > >
-> > > >  # virtio.c
-> > > >  virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, un=
-signed out_num) "elem %p size %zd in_num %u out_num %u"
-> > > > --
-> > > > 2.27.0
-> > > >
-> > >
-> >
->
 
+I check on this and take the consequences.
+
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
