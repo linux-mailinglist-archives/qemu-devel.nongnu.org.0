@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7ED42D942
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 14:26:28 +0200 (CEST)
-Received: from localhost ([::1]:44314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D95542D955
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 14:33:35 +0200 (CEST)
+Received: from localhost ([::1]:58836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mazoZ-0000uj-Bw
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 08:26:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47770)
+	id 1mazvS-0003FR-7x
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 08:33:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1mazkp-0007Nb-Tz
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:22:38 -0400
-Received: from mail-ua1-x92c.google.com ([2607:f8b0:4864:20::92c]:36833)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1mazko-0002cF-BU
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:22:35 -0400
-Received: by mail-ua1-x92c.google.com with SMTP id e10so6213248uab.3
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 05:22:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4iM3alJOOVUJNl00AwwlaDqZ9P6Nojd00QLsVWB4UKY=;
- b=kpbylDY/Kw4bw+/eP9UazW1+IOjdcN2rrN8OjvnqxYfoYVSfLf21ywdeeE9QIWvRrm
- T+F7w/b5eDYOS1UQgLx2RQ+D5yluiXhvqLgtDk2zkLwDSgFxVk4yLBvKB09OUEeyAyKv
- djImY1KK/bX8eUUambQ6kA3kjWdoms7y+AM4YDir9/Z+8/TNhw6DL/eksDkQ4o9D2fRc
- TbkX68mEAkq9rXZuIj8Bi0YwFteDzZA8wSP8uKijHtqWBfKpnWOUS4ecws2nuBKv8g6Q
- Mn51cokGyHZEAqsFzDCy8ga1Zj3vl7M3yTcu5RfN8rYC/UYV2y8zwXY7dAGuRF4EzNOw
- yBFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4iM3alJOOVUJNl00AwwlaDqZ9P6Nojd00QLsVWB4UKY=;
- b=Vy/lUlX8aP8e//pRN66UxRTtr+8bCx7q2B2PCEcgFAZgVvOBxbZOnyPWUoeumJg1qz
- Cq7719ugpfq9L27JtbV9YHmGyaIWSKBGsrXQ4fEdtunXQPPB8lQ0t4bJxQ+wXAnkrpNH
- I25CfV8WlwZ8QcjW5h7KQknfxAPhXxkYLlOnC/+wY3GnCUSNRiU0cPOeALdKncFSsSZz
- pU9LQkHn3hD4Ube5eyHPOQIcELIIVipV1pc9h6EpOGgTo/wNMhui0kI3qNutXhIJoPJN
- QhH2RxewaP3r6HGgNRJn4VLiBLYXcGqVEEir+iHpmHv8Iq+zjPXWisBejIytkEXUEVoj
- eS2A==
-X-Gm-Message-State: AOAM533ccx6FwXhRzWJXHVlT7ng3NU4QanWSaRJWaeSfnCb9nGtOm+E2
- HISMsG33CUzCXH2VUhjhpkk0Z94XZCVh3HXx6VLHb9R6y9SzoQ==
-X-Google-Smtp-Source: ABdhPJzhFFrgZ+hw8Kc4v5LKCpu0kKkArC3i0GiHGP27jjI2gF76LEOeJu1PIsihJm/LsAltTrp+YwqyfSuPlOSk0XA=
-X-Received: by 2002:a67:ed87:: with SMTP id d7mr6471025vsp.30.1634214152261;
- Thu, 14 Oct 2021 05:22:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mazoR-0002eB-PI
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:26:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45007)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mazoP-0005qa-4D
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:26:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634214376;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=A36PDf1cOLGw5pexrSQUsw40QoWe3Skt/wEZ0j/KAFE=;
+ b=QT/hjQqKuxDkTbtE0Qo/5rvzSBcFeO9SuETppASS1yzGPaJPYN92lOPmrDmyFPe5wDtqFL
+ AAyHWRlmQ/96hJGjCcPcfh+VcPd7srSkvzj/ElyUIh7fnwuvMQZDqCyIzeykFWKxjUOuBH
+ 8viY5knaolpIJlbjHdQzYihN6yuDiEw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-ohbH62fhPp-jrRBfMT0fzA-1; Thu, 14 Oct 2021 08:26:15 -0400
+X-MC-Unique: ohbH62fhPp-jrRBfMT0fzA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 365978015C7
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 12:26:14 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.39.192.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 07CFF57CD0;
+ Thu, 14 Oct 2021 12:25:59 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org,
+	virtio-fs@redhat.com
+Subject: [PATCH] virtiofsd: Error on bad socket group name
+Date: Thu, 14 Oct 2021 13:25:54 +0100
+Message-Id: <20211014122554.34599-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20211013230405.32170-1-wwcohen@gmail.com>
- <20211014090359.0c0f7b4f@bahia.huguette>
- <CAB26zV1pHqEChqUd6UXMhGyhZbtHOo3DM=v_S0Vc3496xF4byg@mail.gmail.com>
- <7858538.Xg4lN0sot7@silver>
-In-Reply-To: <7858538.Xg4lN0sot7@silver>
-From: Will Cohen <wwcohen@gmail.com>
-Date: Thu, 14 Oct 2021 08:22:19 -0400
-Message-ID: <CAB26zV17E_b_-nnLBTeH2QxT=c7vy9zvPak+Tp4TkyECNGUS-Q@mail.gmail.com>
-Subject: Re: [PATCH 00/11] 9p: Add support for Darwin
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: multipart/alternative; boundary="0000000000000852e305ce4f2284"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92c;
- envelope-from=wwcohen@gmail.com; helo=mail-ua1-x92c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,73 +76,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: xiagao@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000852e305ce4f2284
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Correct. It's been tested and functions when applied to QEMU master, with
-host running macOS Big Sur 11.6 (personal machine) using client 9p2000.L
-(taking a cue from the guest mounting instructions on
-https://wiki.qemu.org/Documentation/9psetup).
+Make the '--socket-group=' option fail if the group name is unknown:
 
-On Thu, Oct 14, 2021 at 7:57 AM Christian Schoenebeck <
-qemu_oss@crudebyte.com> wrote:
+./tools/virtiofsd/virtiofsd .... --socket-group=zaphod
+vhost socket: unable to find group 'zaphod'
 
-> On Donnerstag, 14. Oktober 2021 12:48:55 CEST Will Cohen wrote:
-> > Many thanks for all the clarifications =E2=80=94 it=E2=80=99s my first =
-time using
-> > git-send-email and first time with mailing-list-based devel workflows.
-> Will
-> > adjust accordingly, work through gitlab, and eventually resend via
-> > git-publish as v2.
->
-> So the intended use case is macOS being host.
->
-> Has this been tested, and if yes, using which 9p client and which macOS
-> version?
->
-> Best regards,
-> Christian Schoenebeck
->
->
->
+Reported-by: Xiaoling Gao <xiagao@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ tools/virtiofsd/fuse_virtio.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
---0000000000000852e305ce4f2284
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 8f4fd165b9..39eebffb62 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -999,6 +999,13 @@ static int fv_create_listen_socket(struct fuse_session *se)
+                          "vhost socket failed to set group to %s (%d): %m\n",
+                          se->vu_socket_group, g->gr_gid);
+             }
++        } else {
++            fuse_log(FUSE_LOG_ERR,
++                     "vhost socket: unable to find group '%s'\n",
++                     se->vu_socket_group);
++            close(listen_sock);
++            umask(old_umask);
++            return -1;
+         }
+     }
+     umask(old_umask);
+-- 
+2.31.1
 
-<div dir=3D"ltr">Correct. It&#39;s been tested and functions when applied t=
-o QEMU master, with host running macOS Big Sur 11.6 (personal machine) usin=
-g client 9p2000.L (taking a cue from the guest mounting instructions on <a =
-href=3D"https://wiki.qemu.org/Documentation/9psetup">https://wiki.qemu.org/=
-Documentation/9psetup</a>). <br></div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 14, 2021 at 7:57 AM Christian S=
-choenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@crudebyte=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">On Donnerstag, 14. Oktober 2021 12:48:55 CEST Will Cohen wrote:<br>
-&gt; Many thanks for all the clarifications =E2=80=94 it=E2=80=99s my first=
- time using<br>
-&gt; git-send-email and first time with mailing-list-based devel workflows.=
- Will<br>
-&gt; adjust accordingly, work through gitlab, and eventually resend via<br>
-&gt; git-publish as v2.<br>
-<br>
-So the intended use case is macOS being host.<br>
-<br>
-Has this been tested, and if yes, using which 9p client and which macOS <br=
->
-version?<br>
-<br>
-Best regards,<br>
-Christian Schoenebeck<br>
-<br>
-<br>
-</blockquote></div>
-
---0000000000000852e305ce4f2284--
 
