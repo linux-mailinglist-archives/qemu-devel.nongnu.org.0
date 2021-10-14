@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98AA042DD98
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 17:08:36 +0200 (CEST)
-Received: from localhost ([::1]:51022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBA042DDEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 17:17:18 +0200 (CEST)
+Received: from localhost ([::1]:55502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb2LS-0001vJ-IE
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 11:08:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40216)
+	id 1mb2Ts-0005A2-JB
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 11:17:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mb2Ho-0008DI-U5
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:04:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60988)
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1mb2Ic-0000LJ-4H
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:05:39 -0400
+Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:63242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mb2Hj-0008Bh-6Z
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:04:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634223882;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fiaTZGyh8Y8PoVD5FwOqkosYD7LUYaFf78rkttcxqpQ=;
- b=EZh1jRxwJAvvF/milRSVLsHRVRqqGFGR7ivPX95B6LYlyURmGvfUe1WXyrs4neUm9L3SkH
- 3V4XUzsIOLdouvlEN9uVZBzqS9rs+ZO4fRAOE6TsYps1DAkgTWGik4v37v5bu4oQbtyr2k
- FZjrVX5AeIBM2vjEcHUHDqmJtlYgHV0=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-K2EicquONQumglCZusiGoQ-1; Thu, 14 Oct 2021 11:04:40 -0400
-X-MC-Unique: K2EicquONQumglCZusiGoQ-1
-Received: by mail-qk1-f197.google.com with SMTP id
- z29-20020a05620a08dd00b0045fa369b83dso4655806qkz.9
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 08:04:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fiaTZGyh8Y8PoVD5FwOqkosYD7LUYaFf78rkttcxqpQ=;
- b=DvYdVmthiNFA6wcF0Bvx7UXphe+aHcXUetE4euOfSSCy1Eg9cw45On/D3c3wZEX7D6
- y35KeariD2MyRVjOJWZ/LrsbMzzf8KE0FjCE7WCsM2dXexcz3WWPaC9hSOkfo9uIH6D3
- w1eKvzoL3+LQda+iboKQhoNZvsHTKGo7jlBcUrDmdmMRWISZ0aSLeWF2OWkNhO0+8nEm
- g4SeM3J9GVmc30g5rydIlUkPh6BU4qdhpmGC43GQxS1Et7gNuOvM+z8ByMGKjZOOc+Oe
- aV6R7GFFg3HnC3ye8uFA4+VYwXPPobFLFf3ijW7YZ/fkI3K9ub6nybS71fwGBwlSOJqb
- Awdw==
-X-Gm-Message-State: AOAM5335h5SuCbQZEBDqTFTf7zbbjtKl0y+cvCZvWoIvpj6AKjtGx45k
- yupIVEcn9KWG4MQz9Ox+e8Bi8ERFlmHO2DZyIyvvKxpCc64eVkffFh+NUEzNGm4dsb2+kuQeRDa
- XooYOihAZsWoChYYDRpNy5kclI1UJHSk=
-X-Received: by 2002:a37:5446:: with SMTP id i67mr5214454qkb.502.1634223880085; 
- Thu, 14 Oct 2021 08:04:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/JqMZHkmDofskwCeBPxmayMBUVavKj4EOOJ6Mbnpp61SQxPZrlB4HYDBekrShjuF3oEirhfPfVbeC3QS3Qmw=
-X-Received: by 2002:a37:5446:: with SMTP id i67mr5214428qkb.502.1634223879886; 
- Thu, 14 Oct 2021 08:04:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1mb2IZ-0000Or-BN
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:05:37 -0400
+Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits)
+ client-signature RSA-PSS (4096 bits))
+ (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
+ by mx2.freebsd.org (Postfix) with ESMTPS id 91F0FABC23
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 15:05:25 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: from smtp.freebsd.org (smtp.freebsd.org [96.47.72.83])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4HVXl93Jg3z4dQH
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 15:05:25 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client CN "smtp.gmail.com", Issuer "GTS CA 1O1" (verified OK))
+ (Authenticated sender: kevans)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id 46C982C53
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 15:05:25 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: by mail-qv1-f48.google.com with SMTP id cv2so3904854qvb.5
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 08:05:25 -0700 (PDT)
+X-Gm-Message-State: AOAM531k1MWtj+Pq7BqFz/2pc6JyH/c/ID62bHPtjRghq7aeYv0zdzMp
+ V5LvqehatfoQ1QdL/IsDbxSwFxbNC3d1odPNfF8=
+X-Google-Smtp-Source: ABdhPJwpYMOK3lraSM5x0LvQaf1yM74hFErWg7I8X+LotzaM/FSMX523sHvvCcWlUiK5sHf54fO44+5zm1QdXxzhP/I=
+X-Received: by 2002:a0c:b2c2:: with SMTP id d2mr5839342qvf.64.1634223924583;
+ Thu, 14 Oct 2021 08:05:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211001070603.307037-1-eperezma@redhat.com>
- <20211001070603.307037-16-eperezma@redhat.com>
- <87y26yg6nt.fsf@dusky.pond.sub.org>
- <CAJaqyWcqLWAUEOyaenYYzXDhU=rh1+inr_o3C-3th8Pz0BjOpg@mail.gmail.com>
- <87lf2y5p7i.fsf@dusky.pond.sub.org>
-In-Reply-To: <87lf2y5p7i.fsf@dusky.pond.sub.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 14 Oct 2021 17:04:03 +0200
-Message-ID: <CAJaqyWdNBYLLMznGa1NJN3XEcoc77iie1ad=2=1uxA548BQwAQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 15/20] vhost: Shadow virtqueue buffers forwarding
-To: Markus Armbruster <armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20211008212344.95537-1-imp@bsdimp.com>
+ <20211008212344.95537-2-imp@bsdimp.com>
+In-Reply-To: <20211008212344.95537-2-imp@bsdimp.com>
+From: Kyle Evans <kevans@freebsd.org>
+Date: Thu, 14 Oct 2021 10:05:13 -0500
+X-Gmail-Original-Message-ID: <CACNAnaHBZczhNtHh28qMSm15X1Ra0fpLtWqZLSLafUSEi+=D9g@mail.gmail.com>
+Message-ID: <CACNAnaHBZczhNtHh28qMSm15X1Ra0fpLtWqZLSLafUSEi+=D9g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/9] bsd-user/mmap.c: Always zero MAP_ANONYMOUS memory
+ in mmap_frag()
+To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2610:1c1:1:606c::19:2;
+ envelope-from=kevans@freebsd.org; helo=mx2.freebsd.org
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,111 +82,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Eric Blake <eblake@redhat.com>, Michael Lilja <ml@napatech.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Mika=C3=ABl_Urankar?= <mikael.urankar@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 12, 2021 at 3:48 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
+On Fri, Oct 8, 2021 at 4:24 PM Warner Losh <imp@bsdimp.com> wrote:
 >
-> Eugenio Perez Martin <eperezma@redhat.com> writes:
+> From: Mika=C3=ABl Urankar <mikael.urankar@gmail.com>
 >
-> > On Tue, Oct 12, 2021 at 7:21 AM Markus Armbruster <armbru@redhat.com> w=
-rote:
-> >>
-> >> Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
-> >>
-> >> > Initial version of shadow virtqueue that actually forward buffers. T=
-here
-> >> > are no iommu support at the moment, and that will be addressed in fu=
-ture
-> >> > patches of this series. Since all vhost-vdpa devices uses forced IOM=
-MU,
-> >> > this means that SVQ is not usable at this point of the series on any
-> >> > device.
-> >> >
-> >> > For simplicity it only supports modern devices, that expects vring
-> >> > in little endian, with split ring and no event idx or indirect
-> >> > descriptors. Support for them will not be added in this series.
-> >> >
-> >> > It reuses the VirtQueue code for the device part. The driver part is
-> >> > based on Linux's virtio_ring driver, but with stripped functionality
-> >> > and optimizations so it's easier to review. Later commits add simple=
-r
-> >> > ones.
-> >> >
-> >> > SVQ uses VIRTIO_CONFIG_S_DEVICE_STOPPED to pause the device and
-> >> > retrieve its status (next available idx the device was going to
-> >> > consume) race-free. It can later reset the device to replace vring
-> >> > addresses etc. When SVQ starts qemu can resume consuming the guest's
-> >> > driver ring from that state, without notice from the latter.
-> >> >
-> >> > This status bit VIRTIO_CONFIG_S_DEVICE_STOPPED is currently discusse=
-d
-> >> > in VirtIO, and is implemented in qemu VirtIO-net devices in previous
-> >> > commits.
-> >> >
-> >> > Removal of _S_DEVICE_STOPPED bit (in other words, resuming the devic=
-e)
-> >> > can be done in the future if an use case arises. At this moment we c=
-an
-> >> > just rely on reseting the full device.
-> >> >
-> >> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >> > ---
-> >> >  qapi/net.json                      |   2 +-
-> >> >  hw/virtio/vhost-shadow-virtqueue.c | 237 ++++++++++++++++++++++++++=
-++-
-> >> >  hw/virtio/vhost-vdpa.c             | 109 ++++++++++++-
-> >> >  3 files changed, 337 insertions(+), 11 deletions(-)
-> >> >
-> >> > diff --git a/qapi/net.json b/qapi/net.json
-> >> > index fe546b0e7c..1f4a55f2c5 100644
-> >> > --- a/qapi/net.json
-> >> > +++ b/qapi/net.json
-> >> > @@ -86,7 +86,7 @@
-> >> >  #
-> >> >  # @name: the device name of the VirtIO device
-> >> >  #
-> >> > -# @enable: true to use the alternate shadow VQ notifications
-> >> > +# @enable: true to use the alternate shadow VQ buffers fowarding pa=
-th
-> >>
-> >> Uh, why does the flag change meaning half-way through this series?
-> >>
-> >
-> > Before this patch, the SVQ mode just makes an extra hop for
-> > notifications. Guest ones are now received by qemu via ioeventfd, and
-> > qemu forwards them to the device using a different eventfd. The
-> > reverse is also true: the device ones will be received by qemu by
-> > device call fd, and then qemu will forward them to the guest using a
-> > different irqfd.
-> >
-> > This intermediate step is not very useful by itself, but helps for
-> > checking that that part of the communication works fine, with no need
-> > for shadow virtqueue to understand vring format. Doing that way also
-> > produces smaller patches.
-> >
-> > So it makes sense to me to tell what QMP command does exactly at every
-> > point of the series. However I can directly document it as "use the
-> > alternate shadow VQ buffers forwarding path" from the beginning.
-> >
-> > Does this make sense, or will it be better to write the final
-> > intention of the command?
-> >
-> > Thanks!
+> Similar to the equivalent linux-user commit e6deac9cf99
 >
-> Working your explanation into commit messages and possibly comments
-> should do.
+> When mapping MAP_ANONYMOUS memory fragments, still need notice about to
+> set it zero, or it will cause issues.
+>
+> Signed-off-by: Mika=C3=ABl Urankar <mikael.urankar@gmail.com>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  bsd-user/mmap.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
+> index b40ab9045f..fc3c1480f5 100644
+> --- a/bsd-user/mmap.c
+> +++ b/bsd-user/mmap.c
+> @@ -180,10 +180,12 @@ static int mmap_frag(abi_ulong real_start,
+>          if (prot_new !=3D (prot1 | PROT_WRITE))
+>              mprotect(host_start, qemu_host_page_size, prot_new);
+>      } else {
+> -        /* just update the protection */
+>          if (prot_new !=3D prot1) {
+>              mprotect(host_start, qemu_host_page_size, prot_new);
+>          }
+> +        if (prot_new & PROT_WRITE) {
+> +            memset(g2h_untagged(start), 0, end - start);
+> +        }
+>      }
+>      return 0;
+>  }
+> --
+> 2.32.0
 >
 
-Got it, I will include them in both. Thanks!
-
+Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 
