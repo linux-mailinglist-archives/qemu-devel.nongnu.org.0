@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A1C42D950
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 14:30:09 +0200 (CEST)
-Received: from localhost ([::1]:53088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7ED42D942
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 14:26:28 +0200 (CEST)
+Received: from localhost ([::1]:44314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mazs8-000767-SA
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 08:30:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46978)
+	id 1mazoZ-0000uj-Bw
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 08:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mazi2-0005sF-OH
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:19:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30911)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mazhz-00081f-R9
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:19:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634213973;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=55SPomddJ+eQrMEPgEkT9GlIoarfKKDf4qDOAhTk+q0=;
- b=QY1yBeI18xAetcz92/vHbSAZLITrc74YEiWPcawZkXh4sNUSMdU2ugAjU56pzC7XynvGiV
- gmA3mpsCINkfnm4xJRJGYiwMpH91NgvVFLQ5dPT9gWXcCBp6Novcmuf7KfH5dttZ4Qvi7C
- tkvVcAOd5CHZ0D/xRWEb0PfMF1Sf3J8=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-EZB6XhLoOJSgQFjTXiMnaA-1; Thu, 14 Oct 2021 08:19:26 -0400
-X-MC-Unique: EZB6XhLoOJSgQFjTXiMnaA-1
-Received: by mail-qv1-f71.google.com with SMTP id
- t3-20020a056214154300b00383496932feso5434169qvw.6
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 05:19:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1mazkp-0007Nb-Tz
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:22:38 -0400
+Received: from mail-ua1-x92c.google.com ([2607:f8b0:4864:20::92c]:36833)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1mazko-0002cF-BU
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 08:22:35 -0400
+Received: by mail-ua1-x92c.google.com with SMTP id e10so6213248uab.3
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 05:22:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4iM3alJOOVUJNl00AwwlaDqZ9P6Nojd00QLsVWB4UKY=;
+ b=kpbylDY/Kw4bw+/eP9UazW1+IOjdcN2rrN8OjvnqxYfoYVSfLf21ywdeeE9QIWvRrm
+ T+F7w/b5eDYOS1UQgLx2RQ+D5yluiXhvqLgtDk2zkLwDSgFxVk4yLBvKB09OUEeyAyKv
+ djImY1KK/bX8eUUambQ6kA3kjWdoms7y+AM4YDir9/Z+8/TNhw6DL/eksDkQ4o9D2fRc
+ TbkX68mEAkq9rXZuIj8Bi0YwFteDzZA8wSP8uKijHtqWBfKpnWOUS4ecws2nuBKv8g6Q
+ Mn51cokGyHZEAqsFzDCy8ga1Zj3vl7M3yTcu5RfN8rYC/UYV2y8zwXY7dAGuRF4EzNOw
+ yBFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=55SPomddJ+eQrMEPgEkT9GlIoarfKKDf4qDOAhTk+q0=;
- b=VwQh8vzZ1DeP8gQVc9WqKbroP5vjsyw1ICqPEZDbqmnximxm5PkauwHYrbni11r4sN
- fOa5enuf0wEDI4WSxBnBY9v+a9LtXCBrvdt6fPCn6vh9m7A+M7x7UL9Ic1lyGCp/dqNy
- XJ7sNjRcUOyWmaKkWSVf1N6Rnj51r3dRiqhApsPKKLyuo31iwW8V5m7zbsj8m0s7v1w2
- vXgQ3BEK3S9mZIwEweIYPWdbEY31h5Orsh53yGJaMh9e/ecm2u5N662uMCYWkhvcZUUD
- QtAuxOhuqjwpxI93nDtXGuhQFfIfy62303OmuaeEfkK7jzCuxclRSiTKD9qfQrSMu1m8
- 8OKQ==
-X-Gm-Message-State: AOAM532fvNFHY3ypCUYJ1dIrSsDU8cT2BN8VMWhnNAylso+yHk57Yqf+
- Fx/lw4jByjabBZXRXqqlcFgN2Xiyc38B8DYDb1F6ar7uu6CcGShkTntrUFpStHU+ZbPOKWiQTK5
- 6S6b1ppPVIUDXr9kTdOhCDHMeo0CpmwA=
-X-Received: by 2002:ac8:5f90:: with SMTP id j16mr6111291qta.175.1634213966310; 
- Thu, 14 Oct 2021 05:19:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw7eLGt4LmFG1g+pL3w0UnkmbXTvKg1lCiz085bTOP2m1CZjZjzv2O2NYsHUNn9xXvSkfwPEauoCKf8/EzLU68=
-X-Received: by 2002:ac8:5f90:: with SMTP id j16mr6111272qta.175.1634213966134; 
- Thu, 14 Oct 2021 05:19:26 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=4iM3alJOOVUJNl00AwwlaDqZ9P6Nojd00QLsVWB4UKY=;
+ b=Vy/lUlX8aP8e//pRN66UxRTtr+8bCx7q2B2PCEcgFAZgVvOBxbZOnyPWUoeumJg1qz
+ Cq7719ugpfq9L27JtbV9YHmGyaIWSKBGsrXQ4fEdtunXQPPB8lQ0t4bJxQ+wXAnkrpNH
+ I25CfV8WlwZ8QcjW5h7KQknfxAPhXxkYLlOnC/+wY3GnCUSNRiU0cPOeALdKncFSsSZz
+ pU9LQkHn3hD4Ube5eyHPOQIcELIIVipV1pc9h6EpOGgTo/wNMhui0kI3qNutXhIJoPJN
+ QhH2RxewaP3r6HGgNRJn4VLiBLYXcGqVEEir+iHpmHv8Iq+zjPXWisBejIytkEXUEVoj
+ eS2A==
+X-Gm-Message-State: AOAM533ccx6FwXhRzWJXHVlT7ng3NU4QanWSaRJWaeSfnCb9nGtOm+E2
+ HISMsG33CUzCXH2VUhjhpkk0Z94XZCVh3HXx6VLHb9R6y9SzoQ==
+X-Google-Smtp-Source: ABdhPJzhFFrgZ+hw8Kc4v5LKCpu0kKkArC3i0GiHGP27jjI2gF76LEOeJu1PIsihJm/LsAltTrp+YwqyfSuPlOSk0XA=
+X-Received: by 2002:a67:ed87:: with SMTP id d7mr6471025vsp.30.1634214152261;
+ Thu, 14 Oct 2021 05:22:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211001070603.307037-1-eperezma@redhat.com>
- <20211001070603.307037-11-eperezma@redhat.com>
- <6f10e27f-b40b-8c79-f829-3073f226eb6c@redhat.com>
-In-Reply-To: <6f10e27f-b40b-8c79-f829-3073f226eb6c@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 14 Oct 2021 14:18:50 +0200
-Message-ID: <CAJaqyWc-S0pSWWF-WG3ZyxMJeRSF01BuZMEXBbt-ULBk5+BgSg@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 10/20] vhost-vdpa: Take into account SVQ in
- vhost_vdpa_set_vring_call
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20211013230405.32170-1-wwcohen@gmail.com>
+ <20211014090359.0c0f7b4f@bahia.huguette>
+ <CAB26zV1pHqEChqUd6UXMhGyhZbtHOo3DM=v_S0Vc3496xF4byg@mail.gmail.com>
+ <7858538.Xg4lN0sot7@silver>
+In-Reply-To: <7858538.Xg4lN0sot7@silver>
+From: Will Cohen <wwcohen@gmail.com>
+Date: Thu, 14 Oct 2021 08:22:19 -0400
+Message-ID: <CAB26zV17E_b_-nnLBTeH2QxT=c7vy9zvPak+Tp4TkyECNGUS-Q@mail.gmail.com>
+Subject: Re: [PATCH 00/11] 9p: Add support for Darwin
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: multipart/alternative; boundary="0000000000000852e305ce4f2284"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92c;
+ envelope-from=wwcohen@gmail.com; helo=mail-ua1-x92c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,78 +77,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Eric Blake <eblake@redhat.com>, Michael Lilja <ml@napatech.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 13, 2021 at 5:43 AM Jason Wang <jasowang@redhat.com> wrote:
+--0000000000000852e305ce4f2284
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Correct. It's been tested and functions when applied to QEMU master, with
+host running macOS Big Sur 11.6 (personal machine) using client 9p2000.L
+(taking a cue from the guest mounting instructions on
+https://wiki.qemu.org/Documentation/9psetup).
+
+On Thu, Oct 14, 2021 at 7:57 AM Christian Schoenebeck <
+qemu_oss@crudebyte.com> wrote:
+
+> On Donnerstag, 14. Oktober 2021 12:48:55 CEST Will Cohen wrote:
+> > Many thanks for all the clarifications =E2=80=94 it=E2=80=99s my first =
+time using
+> > git-send-email and first time with mailing-list-based devel workflows.
+> Will
+> > adjust accordingly, work through gitlab, and eventually resend via
+> > git-publish as v2.
+>
+> So the intended use case is macOS being host.
+>
+> Has this been tested, and if yes, using which 9p client and which macOS
+> version?
+>
+> Best regards,
+> Christian Schoenebeck
 >
 >
-> =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:05, Eugenio P=C3=A9rez =E5=86=99=
-=E9=81=93:
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   hw/virtio/vhost-vdpa.c | 17 ++++++++++++++---
-> >   1 file changed, 14 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 57a857444a..bc34de2439 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -649,16 +649,27 @@ static int vhost_vdpa_set_vring_kick(struct vhost=
-_dev *dev,
-> >       return vhost_vdpa_call(dev, VHOST_SET_VRING_KICK, file);
-> >   }
-> >
-> > +static int vhost_vdpa_set_vring_dev_call(struct vhost_dev *dev,
-> > +                                         struct vhost_vring_file *file=
-)
-> > +{
-> > +    trace_vhost_vdpa_set_vring_call(dev, file->index, file->fd);
-> > +    return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
-> > +}
-> > +
-> >   static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
-> >                                          struct vhost_vring_file *file)
-> >   {
-> >       struct vhost_vdpa *v =3D dev->opaque;
-> >       int vdpa_idx =3D vhost_vdpa_get_vq_index(dev, file->index);
-> >
-> > -    trace_vhost_vdpa_set_vring_call(dev, file->index, file->fd);
-> > -
-> >       v->call_fd[vdpa_idx] =3D file->fd;
-> > -    return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
-> > +    if (v->shadow_vqs_enabled) {
-> > +        VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs,=
- vdpa_idx);
-> > +        vhost_svq_set_guest_call_notifier(svq, file->fd);
-> > +        return 0;
-> > +    } else {
-> > +        return vhost_vdpa_set_vring_dev_call(dev, file);
-> > +    }
->
->
-> I feel like we should do the same for kick fd.
->
-> Thanks
 >
 
-I think this also has been answered on 08/20, but feel free to tell me
-otherwise if I missed something.
+--0000000000000852e305ce4f2284
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
-
+<div dir=3D"ltr">Correct. It&#39;s been tested and functions when applied t=
+o QEMU master, with host running macOS Big Sur 11.6 (personal machine) usin=
+g client 9p2000.L (taking a cue from the guest mounting instructions on <a =
+href=3D"https://wiki.qemu.org/Documentation/9psetup">https://wiki.qemu.org/=
+Documentation/9psetup</a>). <br></div><br><div class=3D"gmail_quote"><div d=
+ir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 14, 2021 at 7:57 AM Christian S=
+choenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@crudebyte=
+.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">On Donnerstag, 14. Oktober 2021 12:48:55 CEST Will Cohen wrote:<br>
+&gt; Many thanks for all the clarifications =E2=80=94 it=E2=80=99s my first=
+ time using<br>
+&gt; git-send-email and first time with mailing-list-based devel workflows.=
+ Will<br>
+&gt; adjust accordingly, work through gitlab, and eventually resend via<br>
+&gt; git-publish as v2.<br>
+<br>
+So the intended use case is macOS being host.<br>
+<br>
+Has this been tested, and if yes, using which 9p client and which macOS <br=
 >
-> >   }
-> >
-> >   static int vhost_vdpa_get_features(struct vhost_dev *dev,
->
+version?<br>
+<br>
+Best regards,<br>
+Christian Schoenebeck<br>
+<br>
+<br>
+</blockquote></div>
 
+--0000000000000852e305ce4f2284--
 
