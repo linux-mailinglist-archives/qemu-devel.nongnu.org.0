@@ -2,94 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F48042D33F
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 09:08:22 +0200 (CEST)
-Received: from localhost ([::1]:51198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4603C42D345
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 09:10:02 +0200 (CEST)
+Received: from localhost ([::1]:53564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mauqj-0001bl-Cy
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 03:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55192)
+	id 1mausL-0003IH-Bs
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 03:10:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1maupQ-0000nX-SQ
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 03:07:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20349)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1maur0-0002PI-Ft; Thu, 14 Oct 2021 03:08:38 -0400
+Received: from out28-99.mail.aliyun.com ([115.124.28.99]:53540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1maupN-0003yv-LS
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 03:06:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634195216;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zJANSlQNYSr42a0JYwrW20MXhNDMQ/ZUQC39lRQONjA=;
- b=FKvnw7chcVvnjd3W32rd6IfT81lnr5iH8MStgSgUJq05y4gog+D0tyHvF80Yw455Lmd+eM
- Q0lWAZgJHdGpKhhcym2w85oAYwJ2ufrbNnaK5KU08g59q1lkAKS0FY2d2iVubycFl6+5aO
- 5yMAahdPewdT/X3mS4nyA6z6B4gQ50Q=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-92-K1gJWvvtP8m6XGGyy1Ft6w-1; Thu, 14 Oct 2021 03:06:53 -0400
-X-MC-Unique: K1gJWvvtP8m6XGGyy1Ft6w-1
-Received: by mail-wr1-f72.google.com with SMTP id
- c4-20020a5d6cc4000000b00160edc8bb28so3809206wrc.9
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 00:06:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=zJANSlQNYSr42a0JYwrW20MXhNDMQ/ZUQC39lRQONjA=;
- b=vkUxLvUlNjKHb4YgCXFyow5p2aysemoi7E3BsuMUoXyXc34q7tVzomkIKkzTQmCVUB
- Gkh4Uz0Vdk2i+8AWC2qjMwAF6MQ5/yVuUxC1pSFXlYr1gk8FJwm7uSjYWeiyl00msNGW
- Gqu4lAXsSH3fQ3vNKihlGmZjJTSJm+GQVT7dv18+da+9eWMMNPwZqxBkxDX35TR2GzGK
- dVhdKFXJW6C+8r6RCrksHcix447/xM3Jj5khVqEQ/sedZkl5Zu8R9YZVpTbeUPWDW2pA
- i1quCq8v/njwETgxXQYWsiyppvKZFA7ulQQWVz+K74k3W0VhoDkisk2vYN+uTbCodu2q
- HBIg==
-X-Gm-Message-State: AOAM533N9p5P9zaOCDop0F0nV8N7thyPT8EBN3dL9Ly9ch2QZQNUelEF
- CoTmXvaVuVDVrKVL4yjpcN8xyW0TrYkyPfS0yJUxKurcct4eOfqLhsct24loxOB34uOGzlOf3x3
- bBz2M7ZANwOfIY20=
-X-Received: by 2002:adf:b604:: with SMTP id f4mr4656381wre.111.1634195212425; 
- Thu, 14 Oct 2021 00:06:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxiBFgZmwxUET+qDoM9KVQszJG7a880TGIkOFMx7lCYOwuT555NFkoPs2QpE4FTGT1UbIDo8Q==
-X-Received: by 2002:adf:b604:: with SMTP id f4mr4656361wre.111.1634195212217; 
- Thu, 14 Oct 2021 00:06:52 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c694e.dip0.t-ipconnect.de. [91.12.105.78])
- by smtp.gmail.com with ESMTPSA id
- o12sm1578725wrv.78.2021.10.14.00.06.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 00:06:51 -0700 (PDT)
-Message-ID: <9391f500-70be-26cf-bcfc-591d3ee84d4e@redhat.com>
-Date: Thu, 14 Oct 2021 09:06:51 +0200
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mauqw-0005jN-PA; Thu, 14 Oct 2021 03:08:38 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436282|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.0877332-0.00486696-0.9074;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047188; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.LZGUpGE_1634195307; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.LZGUpGE_1634195307)
+ by smtp.aliyun-inc.com(10.147.41.178);
+ Thu, 14 Oct 2021 15:08:27 +0800
+Subject: Re: [PATCH v2 04/13] target/riscv: Replace riscv_cpu_is_32bit with
+ riscv_cpu_mxl
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211013205104.1031679-1-richard.henderson@linaro.org>
+ <20211013205104.1031679-5-richard.henderson@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <fe624f35-b12a-ad57-fabd-9eb47a0e3c6f@c-sky.com>
+Date: Thu, 14 Oct 2021 15:08:27 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v1] libvhost-user: fix VHOST_USER_REM_MEM_REG not closing
- the fd
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-References: <20211012183832.62603-1-david@redhat.com>
- <YWaraVenjaIZXHCc@stefanha-x1.localdomain>
- <76ec743d-afb5-dea5-6c54-2180d176ca1a@redhat.com>
- <20211014052918.GB21284@raphael-debian-dev>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20211014052918.GB21284@raphael-debian-dev>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20211013205104.1031679-5-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.99; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-99.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,156 +61,359 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Coiby Xu <coiby.xu@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: alistair.francis@wdc.com, frederic.petrot@univ-grenoble-alpes.fr,
+ qemu-riscv@nongnu.org, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.10.21 07:29, Raphael Norwitz wrote:
-> On Wed, Oct 13, 2021 at 11:51:24AM +0200, David Hildenbrand wrote:
->> On 13.10.21 11:48, Stefan Hajnoczi wrote:
->>> On Tue, Oct 12, 2021 at 08:38:32PM +0200, David Hildenbrand wrote:
->>>> We end up not closing the file descriptor, resulting in leaking one
->>>> file descriptor for each VHOST_USER_REM_MEM_REG message.
->>>>
->>>> Fixes: 875b9fd97b34 ("Support individual region unmap in libvhost-user")
->>>> Cc: Michael S. Tsirkin <mst@redhat.com>
->>>> Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
->>>> Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
->>>> Cc: Stefan Hajnoczi <stefanha@redhat.com>
->>>> Cc: Paolo Bonzini <pbonzini@redhat.com>
->>>> Cc: Coiby Xu <coiby.xu@gmail.com>
->>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>> ---
->>>>   subprojects/libvhost-user/libvhost-user.c | 2 ++
->>>>   1 file changed, 2 insertions(+)
->>>>
->>>> diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
->>>> index bf09693255..bb5c3b3280 100644
->>>> --- a/subprojects/libvhost-user/libvhost-user.c
->>>> +++ b/subprojects/libvhost-user/libvhost-user.c
->>>> @@ -839,6 +839,8 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
->>>>           vu_panic(dev, "Specified region not found\n");
->>>>       }
->>>> +    close(vmsg->fds[0]);
->>>
->>> Does anything check that exactly 1 fd was received? For example,
->>> vu_set_log_fd_exec() does:
->>>
->>>    if (vmsg->fd_num != 1) {
->>>        vu_panic(dev, "Invalid log_fd message");
->>>        return false;
->>>    }
->>>
->>> I think that's necessary both to make vhost-user master development
->>> easier and because fds[] is not initialized to -1.
-> 
-> Ack - will add that.
-> 
->>
->> Similarly, vu_add_mem_reg() assumes exactly one was sent AFAIKS.
-> 
-> Ack
-> 
->>
->> If we panic, do we still have to call vmsg_close_fds() ?
->>
-> 
-> I think so. What else will close the FDs?
-> 
-> AFAICT a vu_panic does not imply that the overall process has to die if that's
-> what you mean. What if one process is exposing multiple devices and only one of
-> them panics?
 
-So IIUC, you'll send some patches to tackle the fd checks?
+On 2021/10/14 上午4:50, Richard Henderson wrote:
+> Shortly, the set of supported XL will not be just 32 and 64,
+> and representing that properly using the enumeration will be
+> imperative.
+>
+> Two places, booting and gdb, intentionally use misa_mxl_max
+> to emphasize the use of the reset value of misa.mxl, and not
+> the current cpu state.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/riscv/cpu.h            |  9 ++++++++-
+>   hw/riscv/boot.c               |  2 +-
+>   semihosting/arm-compat-semi.c |  2 +-
+>   target/riscv/cpu.c            | 24 ++++++++++++++----------
+>   target/riscv/cpu_helper.c     | 12 ++++++------
+>   target/riscv/csr.c            | 24 ++++++++++++------------
+>   target/riscv/gdbstub.c        |  2 +-
+>   target/riscv/monitor.c        |  4 ++--
+>   8 files changed, 45 insertions(+), 34 deletions(-)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index e708fcc168..87248b562a 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -396,7 +396,14 @@ FIELD(TB_FLAGS, VILL, 8, 1)
+>   FIELD(TB_FLAGS, HLSX, 9, 1)
+>   FIELD(TB_FLAGS, MSTATUS_HS_FS, 10, 2)
+>   
+> -bool riscv_cpu_is_32bit(CPURISCVState *env);
+> +#ifdef CONFIG_RISCV32
+> +#define riscv_cpu_mxl(env)      MXL_RV32
+> +#else
+> +static inline RISCVMXL riscv_cpu_mxl(CPURISCVState *env)
+> +{
+> +    return env->misa_mxl;
+> +}
+> +#endif
+>   
 
-While at it, we might want to simplify VHOST_USER_REM_MEM_REG. 
-I have a patch there that needs tweaking to cover the point Stefan raised
-regarding duplicate ranges. We might want to do the memmove within the loop
-instead and drop the "break" to process all elements.
+Hi Richard,
 
+I don't know why we use CONFIG_RISCV32 here. I looked through the target 
+source code. It doesn't use this macro before.
 
-commit 34d71b6531c74a61442432b37e5829a76a7017c5
-Author: David Hildenbrand <david@redhat.com>
-Date:   Tue Oct 12 13:25:43 2021 +0200
+And why we need special process of CONFIG_RISCV32.
 
-    libvhost-user: Simplify VHOST_USER_REM_MEM_REG
-    
-    Let's avoid having to manually copy all elements. Copy only the ones
-    necessary to close the hole and perform the operation in-place without
-    a second array.
-    
-    Signed-off-by: David Hildenbrand <david@redhat.com>
+>   /*
+>    * A simplification for VLMAX
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 993bf89064..d1ffc7b56c 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -35,7 +35,7 @@
+>   
+>   bool riscv_is_32bit(RISCVHartArrayState *harts)
+>   {
+> -    return riscv_cpu_is_32bit(&harts->harts[0].env);
+> +    return harts->harts[0].env.misa_mxl_max == MXL_RV32;
 
-diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-index 7b0e40256e..499c31dc68 100644
---- a/subprojects/libvhost-user/libvhost-user.c
-+++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -796,10 +796,8 @@ static inline bool reg_equal(VuDevRegion *vudev_reg,
- 
- static bool
- vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
--    int i, j;
--    bool found = false;
--    VuDevRegion shadow_regions[VHOST_USER_MAX_RAM_SLOTS] = {};
-     VhostUserMemoryRegion m = vmsg->payload.memreg.region, *msg_region = &m;
-+    int i;
- 
-     DPRINT("Removing region:\n");
-     DPRINT("    guest_phys_addr: 0x%016"PRIx64"\n",
-@@ -811,28 +809,27 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-     DPRINT("    mmap_offset      0x%016"PRIx64"\n",
-            msg_region->mmap_offset);
- 
--    for (i = 0, j = 0; i < dev->nregions; i++) {
--        if (!reg_equal(&dev->regions[i], msg_region)) {
--            shadow_regions[j].gpa = dev->regions[i].gpa;
--            shadow_regions[j].size = dev->regions[i].size;
--            shadow_regions[j].qva = dev->regions[i].qva;
--            shadow_regions[j].mmap_addr = dev->regions[i].mmap_addr;
--            shadow_regions[j].mmap_offset = dev->regions[i].mmap_offset;
--            j++;
--        } else {
--            found = true;
-+    for (i = 0; i < dev->nregions; i++) {
-+        if (reg_equal(&dev->regions[i], msg_region)) {
-             VuDevRegion *r = &dev->regions[i];
-             void *m = (void *) (uintptr_t) r->mmap_addr;
- 
-             if (m) {
-                 munmap(m, r->size + r->mmap_offset);
-             }
-+            break;
-         }
-     }
- 
--    if (found) {
--        memcpy(dev->regions, shadow_regions,
--               sizeof(VuDevRegion) * VHOST_USER_MAX_RAM_SLOTS);
-+    if (i < dev->nregions) {
-+        /*
-+         * Shift all affected entries by 1 to close the hole at index i and
-+         * zero out the last entry.
-+         */
-+        memmove(dev->regions + i, dev->regions + i + 1,
-+               sizeof(VuDevRegion) * (dev->nregions - i - 1));
-+        memset(dev->regions + dev->nregions - 1, 0,
-+               sizeof(VuDevRegion));
-         DPRINT("Successfully removed a region\n");
-         dev->nregions--;
-         vmsg_set_reply_u64(vmsg, 0);
+Why not use  misa_mxl  here?  As this is just a replacement of 
+riscv_cpu_is_32bit like many other places.
 
+I think it should give more explicitly explanation when we use misa_mxl_max.
 
-
-On a related note, I proposed in a RFC series to increase the memslot count:
-
-https://lkml.kernel.org/r/20211013103330.26869-1-david@redhat.com
-
--- 
 Thanks,
+Zhiwei
 
-David / dhildenb
-
+>   }
+>   
+>   target_ulong riscv_calc_kernel_start_addr(RISCVHartArrayState *harts,
+> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+> index 01badea99c..37963becae 100644
+> --- a/semihosting/arm-compat-semi.c
+> +++ b/semihosting/arm-compat-semi.c
+> @@ -775,7 +775,7 @@ static inline bool is_64bit_semihosting(CPUArchState *env)
+>   #if defined(TARGET_ARM)
+>       return is_a64(env);
+>   #elif defined(TARGET_RISCV)
+> -    return !riscv_cpu_is_32bit(env);
+> +    return riscv_cpu_mxl(env) != MXL_RV32;
+>   #else
+>   #error un-handled architecture
+>   #endif
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index fdf031a394..1857670a69 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -108,11 +108,6 @@ const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
+>       }
+>   }
+>   
+> -bool riscv_cpu_is_32bit(CPURISCVState *env)
+> -{
+> -    return env->misa_mxl == MXL_RV32;
+> -}
+> -
+>   static void set_misa(CPURISCVState *env, RISCVMXL mxl, uint32_t ext)
+>   {
+>       env->misa_mxl_max = env->misa_mxl = mxl;
+> @@ -249,7 +244,7 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+>   #ifndef CONFIG_USER_ONLY
+>       qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mhartid ", env->mhartid);
+>       qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mstatus ", (target_ulong)env->mstatus);
+> -    if (riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
+>           qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mstatush ",
+>                        (target_ulong)(env->mstatus >> 32));
+>       }
+> @@ -372,10 +367,16 @@ static void riscv_cpu_reset(DeviceState *dev)
+>   static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+>   {
+>       RISCVCPU *cpu = RISCV_CPU(s);
+> -    if (riscv_cpu_is_32bit(&cpu->env)) {
+> +
+> +    switch (riscv_cpu_mxl(&cpu->env)) {
+> +    case MXL_RV32:
+>           info->print_insn = print_insn_riscv32;
+> -    } else {
+> +        break;
+> +    case MXL_RV64:
+>           info->print_insn = print_insn_riscv64;
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+>       }
+>   }
+>   
+> @@ -631,10 +632,13 @@ static gchar *riscv_gdb_arch_name(CPUState *cs)
+>       RISCVCPU *cpu = RISCV_CPU(cs);
+>       CPURISCVState *env = &cpu->env;
+>   
+> -    if (riscv_cpu_is_32bit(env)) {
+> +    switch (riscv_cpu_mxl(env)) {
+> +    case MXL_RV32:
+>           return g_strdup("riscv:rv32");
+> -    } else {
+> +    case MXL_RV64:
+>           return g_strdup("riscv:rv64");
+> +    default:
+> +        g_assert_not_reached();
+>       }
+>   }
+>   
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 14d1d3cb72..403f54171d 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -152,7 +152,7 @@ bool riscv_cpu_fp_enabled(CPURISCVState *env)
+>   
+>   void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env)
+>   {
+> -    uint64_t sd = riscv_cpu_is_32bit(env) ? MSTATUS32_SD : MSTATUS64_SD;
+> +    uint64_t sd = riscv_cpu_mxl(env) == MXL_RV32 ? MSTATUS32_SD : MSTATUS64_SD;
+>       uint64_t mstatus_mask = MSTATUS_MXR | MSTATUS_SUM | MSTATUS_FS |
+>                               MSTATUS_SPP | MSTATUS_SPIE | MSTATUS_SIE |
+>                               MSTATUS64_UXL | sd;
+> @@ -447,7 +447,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+>   
+>       if (first_stage == true) {
+>           if (use_background) {
+> -            if (riscv_cpu_is_32bit(env)) {
+> +            if (riscv_cpu_mxl(env) == MXL_RV32) {
+>                   base = (hwaddr)get_field(env->vsatp, SATP32_PPN) << PGSHIFT;
+>                   vm = get_field(env->vsatp, SATP32_MODE);
+>               } else {
+> @@ -455,7 +455,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+>                   vm = get_field(env->vsatp, SATP64_MODE);
+>               }
+>           } else {
+> -            if (riscv_cpu_is_32bit(env)) {
+> +            if (riscv_cpu_mxl(env) == MXL_RV32) {
+>                   base = (hwaddr)get_field(env->satp, SATP32_PPN) << PGSHIFT;
+>                   vm = get_field(env->satp, SATP32_MODE);
+>               } else {
+> @@ -465,7 +465,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+>           }
+>           widened = 0;
+>       } else {
+> -        if (riscv_cpu_is_32bit(env)) {
+> +        if (riscv_cpu_mxl(env) == MXL_RV32) {
+>               base = (hwaddr)get_field(env->hgatp, SATP32_PPN) << PGSHIFT;
+>               vm = get_field(env->hgatp, SATP32_MODE);
+>           } else {
+> @@ -558,7 +558,7 @@ restart:
+>           }
+>   
+>           target_ulong pte;
+> -        if (riscv_cpu_is_32bit(env)) {
+> +        if (riscv_cpu_mxl(env) == MXL_RV32) {
+>               pte = address_space_ldl(cs->as, pte_addr, attrs, &res);
+>           } else {
+>               pte = address_space_ldq(cs->as, pte_addr, attrs, &res);
+> @@ -678,7 +678,7 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
+>       int page_fault_exceptions, vm;
+>       uint64_t stap_mode;
+>   
+> -    if (riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
+>           stap_mode = SATP32_MODE;
+>       } else {
+>           stap_mode = SATP64_MODE;
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index d0c86a300d..9c0753bc8b 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -95,7 +95,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>               }
+>               break;
+>           }
+> -        if (riscv_cpu_is_32bit(env)) {
+> +        if (riscv_cpu_mxl(env) == MXL_RV32) {
+>               switch (csrno) {
+>               case CSR_CYCLEH:
+>                   if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+> @@ -130,7 +130,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>   
+>   static RISCVException ctr32(CPURISCVState *env, int csrno)
+>   {
+> -    if (!riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) != MXL_RV32) {
+>           return RISCV_EXCP_ILLEGAL_INST;
+>       }
+>   
+> @@ -145,7 +145,7 @@ static RISCVException any(CPURISCVState *env, int csrno)
+>   
+>   static RISCVException any32(CPURISCVState *env, int csrno)
+>   {
+> -    if (!riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) != MXL_RV32) {
+>           return RISCV_EXCP_ILLEGAL_INST;
+>       }
+>   
+> @@ -180,7 +180,7 @@ static RISCVException hmode(CPURISCVState *env, int csrno)
+>   
+>   static RISCVException hmode32(CPURISCVState *env, int csrno)
+>   {
+> -    if (!riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) != MXL_RV32) {
+>           if (riscv_cpu_virt_enabled(env)) {
+>               return RISCV_EXCP_ILLEGAL_INST;
+>           } else {
+> @@ -486,7 +486,7 @@ static RISCVException read_mstatus(CPURISCVState *env, int csrno,
+>   
+>   static int validate_vm(CPURISCVState *env, target_ulong vm)
+>   {
+> -    if (riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
+>           return valid_vm_1_10_32[vm & 0xf];
+>       } else {
+>           return valid_vm_1_10_64[vm & 0xf];
+> @@ -510,7 +510,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+>           MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
+>           MSTATUS_TW;
+>   
+> -    if (!riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) != MXL_RV32) {
+>           /*
+>            * RV32: MPV and GVA are not in mstatus. The current plan is to
+>            * add them to mstatush. For now, we just don't support it.
+> @@ -522,7 +522,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+>   
+>       dirty = ((mstatus & MSTATUS_FS) == MSTATUS_FS) |
+>               ((mstatus & MSTATUS_XS) == MSTATUS_XS);
+> -    if (riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
+>           mstatus = set_field(mstatus, MSTATUS32_SD, dirty);
+>       } else {
+>           mstatus = set_field(mstatus, MSTATUS64_SD, dirty);
+> @@ -795,7 +795,7 @@ static RISCVException read_sstatus(CPURISCVState *env, int csrno,
+>   {
+>       target_ulong mask = (sstatus_v1_10_mask);
+>   
+> -    if (riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
+>           mask |= SSTATUS32_SD;
+>       } else {
+>           mask |= SSTATUS64_SD;
+> @@ -1006,7 +1006,7 @@ static RISCVException write_satp(CPURISCVState *env, int csrno,
+>           return RISCV_EXCP_NONE;
+>       }
+>   
+> -    if (riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
+>           vm = validate_vm(env, get_field(val, SATP32_MODE));
+>           mask = (val ^ env->satp) & (SATP32_MODE | SATP32_ASID | SATP32_PPN);
+>           asid = (val ^ env->satp) & SATP32_ASID;
+> @@ -1034,7 +1034,7 @@ static RISCVException read_hstatus(CPURISCVState *env, int csrno,
+>                                      target_ulong *val)
+>   {
+>       *val = env->hstatus;
+> -    if (!riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) != MXL_RV32) {
+>           /* We only support 64-bit VSXL */
+>           *val = set_field(*val, HSTATUS_VSXL, 2);
+>       }
+> @@ -1047,7 +1047,7 @@ static RISCVException write_hstatus(CPURISCVState *env, int csrno,
+>                                       target_ulong val)
+>   {
+>       env->hstatus = val;
+> -    if (!riscv_cpu_is_32bit(env) && get_field(val, HSTATUS_VSXL) != 2) {
+> +    if (riscv_cpu_mxl(env) != MXL_RV32 && get_field(val, HSTATUS_VSXL) != 2) {
+>           qemu_log_mask(LOG_UNIMP, "QEMU does not support mixed HSXLEN options.");
+>       }
+>       if (get_field(val, HSTATUS_VSBE) != 0) {
+> @@ -1215,7 +1215,7 @@ static RISCVException write_htimedelta(CPURISCVState *env, int csrno,
+>           return RISCV_EXCP_ILLEGAL_INST;
+>       }
+>   
+> -    if (riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
+>           env->htimedelta = deposit64(env->htimedelta, 0, 32, (uint64_t)val);
+>       } else {
+>           env->htimedelta = val;
+> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> index 5257df0217..23429179e2 100644
+> --- a/target/riscv/gdbstub.c
+> +++ b/target/riscv/gdbstub.c
+> @@ -161,7 +161,7 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
+>       CPURISCVState *env = &cpu->env;
+>       GString *s = g_string_new(NULL);
+>       riscv_csr_predicate_fn predicate;
+> -    int bitsize = riscv_cpu_is_32bit(env) ? 32 : 64;
+> +    int bitsize = 16 << env->misa_mxl_max;
+>       int i;
+>   
+>       g_string_printf(s, "<?xml version=\"1.0\"?>");
+> diff --git a/target/riscv/monitor.c b/target/riscv/monitor.c
+> index f7e6ea72b3..7efb4b62c1 100644
+> --- a/target/riscv/monitor.c
+> +++ b/target/riscv/monitor.c
+> @@ -150,7 +150,7 @@ static void mem_info_svxx(Monitor *mon, CPUArchState *env)
+>       target_ulong last_size;
+>       int last_attr;
+>   
+> -    if (riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
+>           base = (hwaddr)get_field(env->satp, SATP32_PPN) << PGSHIFT;
+>           vm = get_field(env->satp, SATP32_MODE);
+>       } else {
+> @@ -220,7 +220,7 @@ void hmp_info_mem(Monitor *mon, const QDict *qdict)
+>           return;
+>       }
+>   
+> -    if (riscv_cpu_is_32bit(env)) {
+> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
+>           if (!(env->satp & SATP32_MODE)) {
+>               monitor_printf(mon, "No translation or protection\n");
+>               return;
 
