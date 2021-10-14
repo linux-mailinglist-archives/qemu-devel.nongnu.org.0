@@ -2,171 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF8642E21C
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 21:41:13 +0200 (CEST)
-Received: from localhost ([::1]:49832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F7C42E21A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 21:40:25 +0200 (CEST)
+Received: from localhost ([::1]:47846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb6bI-00025B-MK
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 15:41:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48538)
+	id 1mb6aW-0000jI-G1
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 15:40:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1mb6V1-0003Ra-FQ
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 15:34:46 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:39582)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mb6Y8-00079f-EP
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 15:37:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1mb6Uz-0005gG-Ex
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 15:34:43 -0400
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19EIlXnf017170; 
- Thu, 14 Oct 2021 19:34:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=EmJGI6u0x7C5LYf/m3GnSgAZqNae9jEa6SIh8LZd9MM=;
- b=PvoBSY1YCXTBFreQngWMF3BpTfIN+BJcTQxArt2FXICrTzPF1vzry1pRg+ssY41WJPG+
- LLjUPOPzGt/o+rBfqSjqeFvmG4I/HAB0C/GZL0/2km5vfYCxoeas9v51OPnPjdPTBAmZ
- fXJ5jC4E4Bm8bj9dyytrZtwsK5z6wdxk4EDC3P7rAP1ezgOqpRKfbdMZsRBHWrv2vy0T
- Bws9KF8Jv1Gwgp7LEgL9vkuIO6E5I2ADW/VmabxkcVtt3ijcjWo/TlUsnJEFPSm+HjDK
- 7BV7FB5H2guvkPCnt6qBvddHHV7lDJGR1DGtcvAZkRfZmkASqr3UNa8WKzp6ShnOrh6J Fg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3bph1bv00v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Oct 2021 19:34:35 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19EJFFI9039482;
- Thu, 14 Oct 2021 19:34:34 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
- by userp3030.oracle.com with ESMTP id 3bkyvd9g9v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Oct 2021 19:34:34 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lkzNbfE488StjV/B2pDPOBPdswncEwKolqiliPODU4TZSAqrB9Q8D20TsNvGCG9AUmuMPvlILdxwasGjquAShFaSHO/Q24PuuEa43nwGJXzcFCazP5zHyPqZR+zcIwk/GJK0JNEH8SIQplmHamDLmIsP4rexKeVFNqhe9io8IzCo1m4ICXPW0q8VttbPKcimrDLQtP7kM3dod+54Gkn4dDygFu5aKucgKOLmgch3cC0zZOZceK/HL67UJmXPkh+cijTs4rGQAhaIY8TCx2B1n1G2sJoSOzkn2jxGj2+9reGOKrjJXjxDoKOiZqYLmA2HP0jXL8nuzY1UnfyFRsXX/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EmJGI6u0x7C5LYf/m3GnSgAZqNae9jEa6SIh8LZd9MM=;
- b=j7LsFMIWHtfmRXFYZ/HEqVhp8BlpThaBxVVECyocfjAxCFzZrRiD+Yvl1NZlxc49f6+FPDk1Q/1FGed/gC5gAwNRMnDwobE0w7nujBJ88gWqV9+PCXwR4dZk9iRRAILkyMo2365mAu1goBB+XrEZKI8plFIPuHeIZ4J42FhhHo3W4qRv/Q9LGvtPpmcdXDFt5CLTbF1L8lBbke4hK6gbdp4teYho8BxC+XRxSMxKL2Ze3AeCn0GgYLAiR4oTavZ8cO1KcBhPP/mQOIFvKsHhMiXUqm5BrbA23IBPIOmjxLUPS1HLr/15mdtIHwk6zAytYHP/fMLIjw299eQdN5L8mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EmJGI6u0x7C5LYf/m3GnSgAZqNae9jEa6SIh8LZd9MM=;
- b=faMf9Fg81q0CgNt8GtvDVgfRNP0bnpxKTuIF605wZc6p3aOcD1Jf+aI/unLYvejsNctSuDNIZWM3aYkQGkZY5naMuBj/uwDDCMukemPIj/HiQ7Vk4YGJWIsE1LEr62KCN3Jaf73NvcV5p8wdBe1PXfy3zgL7pyUKaAo/ZZZj6OM=
-Authentication-Results: anisinha.ca; dkim=none (message not signed)
- header.d=none;anisinha.ca; dmarc=none action=none header.from=oracle.com;
-Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
- by MWHPR10MB1632.namprd10.prod.outlook.com (2603:10b6:301:8::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.25; Thu, 14 Oct
- 2021 19:34:32 +0000
-Received: from CO1PR10MB4531.namprd10.prod.outlook.com
- ([fe80::90ef:e061:a4c2:acd6]) by CO1PR10MB4531.namprd10.prod.outlook.com
- ([fe80::90ef:e061:a4c2:acd6%9]) with mapi id 15.20.4608.017; Thu, 14 Oct 2021
- 19:34:32 +0000
-Message-ID: <03b1372e-1751-831a-d998-c2c23cb4d388@oracle.com>
-Date: Thu, 14 Oct 2021 14:34:28 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v7 09/10] ACPI ERST: bios-tables-test.c steps 1 and 2
-Content-Language: en-US
-To: Ani Sinha <ani@anisinha.ca>
-References: <1633626876-12115-1-git-send-email-eric.devolder@oracle.com>
- <1633626876-12115-10-git-send-email-eric.devolder@oracle.com>
- <alpine.DEB.2.22.394.2110080643140.820442@anisinha-lenovo>
-From: Eric DeVolder <eric.devolder@oracle.com>
-In-Reply-To: <alpine.DEB.2.22.394.2110080643140.820442@anisinha-lenovo>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN4PR0201CA0066.namprd02.prod.outlook.com
- (2603:10b6:803:20::28) To CO1PR10MB4531.namprd10.prod.outlook.com
- (2603:10b6:303:6c::22)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mb6Y4-0001ok-7i
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 15:37:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634240269;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4IIn5FfRmsTRZ9AeKZq11V56b+P1lmh1IkI9t8odD7c=;
+ b=YZcvNcbB2AydCmg3L6cHxthZSW8luSEmAJ9crcUCbyPLAblyB7UaO2qZZTLUhFv1mvkiEv
+ CMTB6eGWy3klJaahjdjYPFArgirFRRgixqUvooB5DZBmN4QdXQngKeK5Krp7nCIYye9CpD
+ XRvrSo/70LfE+DrOBicx5JikCsimQyA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-UoD60wjXPnOfWO1W8yHOFg-1; Thu, 14 Oct 2021 15:37:46 -0400
+X-MC-Unique: UoD60wjXPnOfWO1W8yHOFg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64C1D18125C0;
+ Thu, 14 Oct 2021 19:37:45 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BECE6060F;
+ Thu, 14 Oct 2021 19:36:41 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id CB28418007AC; Thu, 14 Oct 2021 21:36:17 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] microvm: add device tree support.
+Date: Thu, 14 Oct 2021 21:36:17 +0200
+Message-Id: <20211014193617.2475578-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Received: from [IPV6:2606:b400:414:8061:221:28ff:fea5:27c8]
- (2606:b400:8024:1010::112a) by SN4PR0201CA0066.namprd02.prod.outlook.com
- (2603:10b6:803:20::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16 via Frontend
- Transport; Thu, 14 Oct 2021 19:34:30 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e1728610-871d-4d8f-1b0a-08d98f49a56b
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1632:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR10MB16323192CE9D510DE5F2DA0197B89@MWHPR10MB1632.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: r6cEdvRNp9/arWsGXxr0qlE4ItJHAv4lg0BnR6Rn7Z6gzT+oIBic1mQMRnPvlcagcbPhVWOpMROfM4bPwJjP5XfK0BHYFbVwdsO635B6niXlymwHOc4GZdWM/BzULmXaFeGb9hmC8CwaBla9ofLBruxC1YCi9MCPFltk46b4WqEoItCLwYj+av9mFjB8KVnHWfTZkLjEGR6Ji/mvldRA/1ITdt2k5CUZJXZ4pgW3O+oPfFJOsi5Y6wGRxe/p26CfNBFsDKP62JWwHryFewyMxdvAeqf7psATJbbls16pPxBmyHHMYt49QD6m375DKYLUNb+LF3xi8DIFBHdmKeyTQfvlGtLlwhFydP8I1rPeewHgX57ieQskXLZk/fzSdV93tfHxbH4VBFKIMHrWTBz7gAaru08PiW3sAsP0hFRA/t9u7IB4WmHs0kfV6Niri6B0r7iCO0ajGnX0nazAEOHCuG+VGWfUPUkPTq8CoK09ZFm25qnlBnKUwHEbxtcxz8Qsho6kYUug0fhwA0kuhDiqkdGb8TW6dtc53PXWCvlAb3aIQ5exRUr0s5sXrkM/2ZZs6PG0RO+oomVSKm9KJeM/mtxgJ5gCEv1TQzNYKCN0WN5KhtfcDCLwQZ6FZR4wNf4o9IZtk1P+uTlzDDTQ4jf3YgEt1BKgwsl6F4tNnUBh/SpLce0rv2zOK16jqpuPuOWvdR6eqo+mqzpfEZtHU9zT6NQCcpZdRhlYJA8WjSJFzoI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(186003)(66946007)(107886003)(31696002)(53546011)(4326008)(316002)(66556008)(8676002)(83380400001)(66476007)(31686004)(36756003)(6486002)(508600001)(6916009)(8936002)(2616005)(5660300002)(2906002)(38100700002)(86362001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZWhIVDNHaW92MUFkZ0pzY0doWUtiQkhKQ0JQazFRL2l0RGFmV1kxbXBjVVps?=
- =?utf-8?B?OVJUbk4zanEydnlpL2NEQ1AwMGljVFVWcytFWGxVeWhmSUdPYk1hbk1hUk5a?=
- =?utf-8?B?dDh0azNoc2JackJXdHNlZEcrbkxseHQwdmI4Rjh4KzU1SWtiQ0ZTazZzSnBa?=
- =?utf-8?B?T0JVbnFGRGU2T2hDUGVHMWNTdGZhZDhubTlZeFVuakZZNUhBRkMvdXdPK1BY?=
- =?utf-8?B?MkJVOWZLM09DTUlmTjhGTFVVLzVrd01aZHF2eTZkdEg4Q1d4K0RyekQ3RE5T?=
- =?utf-8?B?aXJqdWJtV3QvdkNYYXJNNW0vb2xobXZUZGM0YVVWa2dnWm40eGNKenViU1Bs?=
- =?utf-8?B?MVBnL0c1SmdxVnFWRjVRUTRXOFJSdHQyNHg5OFpxVjkzVlF3bWd6aHRyTmd2?=
- =?utf-8?B?RHBqc2FjeDF5N1FVWTBMZmxSTmlmVUxIZFZIMG9CWlM4SkY0UWlLak4yL09P?=
- =?utf-8?B?Tzk1cmV5UndIVDFucllKcG9hVDlSaFpSYXQ1OFM3cUFEZ2NUSlNnUm81cVJv?=
- =?utf-8?B?a1V6d09ZQlUzT2R5SWlGNzBkQ0xoN25BeGlPQzF3d1ZQdUpsd2QvNVJSbkI2?=
- =?utf-8?B?VCtHY3NzNS9CV2VneVdJdUNiNDJFMHlOSDRXRkM2MHZ5MGx4d2hSeC92YWhO?=
- =?utf-8?B?OExacHhKUWVMdVl2Z01iRENYYk0vSFBxeVFmbm9iY2FlQmVDc3JQT09Hem9o?=
- =?utf-8?B?TU1UQ3R0SlJEK1ZVSVgzN2srUXR1ZGNtdDF6S0lHSUJ2OGt1TVJtb3o5NDE3?=
- =?utf-8?B?VGhDZUkrbXI1VTM5dVdjZ2hvQkVQZjZQQ1dTL0kwMXhqbHVzUHd3clJTRGVX?=
- =?utf-8?B?Vmx5WEovS0FIZFBNN1gwbkV2aHY0VGtmRTgrbUM0aU8wV0ZqamhSSVRoR3Jw?=
- =?utf-8?B?enZwNnh0WWVoYm0vVXJ4bkVRSkNwbERQV05vNGsrRU1FdHZqMTBIWDRZbldS?=
- =?utf-8?B?eGlmYlMvVjh1cWxNeXhKSjFiNmM4Z0E3VjlPNUtNc3VzUUVXZjdhVXgwdUY4?=
- =?utf-8?B?cXFUc2hlMnNJNXZKZzlvR3NOUS9qUjJMM1lKRDJ0a3duWmhMTUJGVlMvRlhX?=
- =?utf-8?B?R3ZaZHFlSTlMTVJ0Q25RWVZadExmWGxIZ3h3aHdHZ2lqNCtDOWZkVTNKNzBx?=
- =?utf-8?B?dmZmcndYck9aakt4ODVQN0xTR09rQy9NNlNBY0FNV0hHYmxuNmtnUVlBWTQ4?=
- =?utf-8?B?ZEhZdXRxS0JUTnBwcEdJdFlNMG1aSmRTbFJtZ0h1SUxOVzVzM3AxWjV6SG84?=
- =?utf-8?B?bURSdG1HWXR2a1dTaXYxZWJGUGxtZE5Ob0JXZnNLSThHY2VLZUlFK0JBbm91?=
- =?utf-8?B?VGZ4Nlh2b2hWeUNIQUI5MGswcUt1dG1BRjh4WHJtS1VOYzdWMUhpcEdjZStF?=
- =?utf-8?B?cEQ4ZjBGdHU0YjRwdVdZTFVwMEdRNWpHUUVhd0dXR0NIY2tUZGZmZ0NhWXNQ?=
- =?utf-8?B?a0xDM3cvdk1DZXJjb1pDNFcxTExYMVJ4eHR6aTNubERDalk4MHFWNXFmYjFT?=
- =?utf-8?B?b0VPMTlERTRIbEliMXVJT3B1RzNiNmViTXdSZ2Vob3IvOUg3RlpicnVpSlJ6?=
- =?utf-8?B?N294d2Z2dGM5ak16VzdFRHl2Rlp4K0o4MnNPbE43d1BiU1pXdzhYSlF3Z1dq?=
- =?utf-8?B?RGVGcFpmOXc4a1Q4YmhqdWcxeEoxSGhRODN2RE01eVMraFRaRHhKaktORW9M?=
- =?utf-8?B?eTlISHpvREoyVUZUNTFHRWFlcEluWS8ra2VXN2NFTXF2cWRwRHhXUm5ZVjJy?=
- =?utf-8?B?akxrbG40aFRTZjBSZTg2bUI1TjVRb1prWFJCc09HMDU1NklGMXNHdjI1NXdJ?=
- =?utf-8?B?dmlPUTlLMmpJcTVITnV2Zz09?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1728610-871d-4d8f-1b0a-08d98f49a56b
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2021 19:34:32.2281 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AWa/kDKkpy18XfCS+soqcnnwIRFKv6lSN7Hi5PwQNTSBo6rzFGQbvwo7aqhDD83Eb8yZe7Fcn3nGRCNDiUU9P7KQl8lnLhCeRgzs2rx7UiE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1632
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10137
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- phishscore=0 bulkscore=0
- malwarescore=0 adultscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110140109
-X-Proofpoint-ORIG-GUID: 3sgwYVNZAVq2akVaWPd82p8ZKXGfze5K
-X-Proofpoint-GUID: 3sgwYVNZAVq2akVaWPd82p8ZKXGfze5K
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=eric.devolder@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -180,95 +75,475 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
- imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Allows edk2 detect virtio-mmio devices and pcie ecam.
+See comment in hw/i386/microvm-dt.c for more details.
 
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/i386/microvm-dt.h               |   8 +
+ include/hw/i386/microvm.h          |   4 +
+ hw/i386/microvm-dt.c               | 341 +++++++++++++++++++++++++++++
+ hw/i386/microvm.c                  |   2 +
+ .gitlab-ci.d/buildtest.yml         |   1 -
+ configs/targets/i386-softmmu.mak   |   1 +
+ configs/targets/x86_64-softmmu.mak |   1 +
+ hw/i386/meson.build                |   2 +-
+ 8 files changed, 358 insertions(+), 2 deletions(-)
+ create mode 100644 hw/i386/microvm-dt.h
+ create mode 100644 hw/i386/microvm-dt.c
 
-On 10/7/21 20:17, Ani Sinha wrote:
-> The ordering of the patches is wrong!
-> 
-> (a) First, you need this patch so that the test framework will ignore
-> changes
-> to the table blobs that you specify here to explicitly ignore.
-> 
-> (b) Then you need the patch that actually contains the test you wrote
-> (patch
-> 8). Now because you have previously ignored the changes to ACPI tables
-> that the test would modify, the tests would continue to ignore them and
-> hence it would not fail "make check".
-> 
-> (c) Lastly, you need patch 10 where you empty out the list of table blobs
-> to
-> ignore and update the blobs.
+diff --git a/hw/i386/microvm-dt.h b/hw/i386/microvm-dt.h
+new file mode 100644
+index 000000000000..77c79cbdd9fb
+--- /dev/null
++++ b/hw/i386/microvm-dt.h
+@@ -0,0 +1,8 @@
++#ifndef HW_I386_MICROVM_DT_H
++#define HW_I386_MICROVM_DT_H
++
++#include "hw/i386/microvm.h"
++
++void dt_setup_microvm(MicrovmMachineState *mms);
++
++#endif
+diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
+index f25f8374413f..4d9c732d4b2b 100644
+--- a/include/hw/i386/microvm.h
++++ b/include/hw/i386/microvm.h
+@@ -104,6 +104,10 @@ struct MicrovmMachineState {
+     Notifier machine_done;
+     Notifier powerdown_req;
+     struct GPEXConfig gpex;
++
++    /* device tree */
++    void *fdt;
++    uint32_t ioapic_phandle[2];
+ };
+ 
+ #define TYPE_MICROVM_MACHINE   MACHINE_TYPE_NAME("microvm")
+diff --git a/hw/i386/microvm-dt.c b/hw/i386/microvm-dt.c
+new file mode 100644
+index 000000000000..875ba9196394
+--- /dev/null
++++ b/hw/i386/microvm-dt.c
+@@ -0,0 +1,341 @@
++/*
++ * microvm device tree support
++ *
++ * This generates an device tree for microvm and exports it via fw_cfg
++ * as "etc/fdt" to the firmware (edk2 specifically).
++ *
++ * The use case is to allow edk2 find the pcie ecam and the virtio
++ * devices, without adding an ACPI parser, reusing the fdt parser
++ * which is needed anyway for the arm platform.
++ *
++ * Note 1: The device tree is incomplete. CPUs and memory is missing
++ *         for example, those can be detected using other fw_cfg files.
++ *         Also pci ecam irq routing is not there, edk2 doesn't use
++ *         interrupts.
++ *
++ * Note 2: This is for firmware only. OSes should use the more
++ *         complete ACPI tables for hardware discovery.
++ *
++ * ----------------------------------------------------------------------
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++#include "qemu/osdep.h"
++#include "qemu/cutils.h"
++#include "sysemu/device_tree.h"
++#include "hw/char/serial.h"
++#include "hw/i386/fw_cfg.h"
++#include "hw/rtc/mc146818rtc.h"
++#include "hw/sysbus.h"
++#include "hw/virtio/virtio-mmio.h"
++#include "hw/usb/xhci.h"
++
++#include "microvm-dt.h"
++
++static bool debug;
++
++static void dt_add_microvm_irq(MicrovmMachineState *mms,
++                               const char *nodename, uint32_t irq)
++{
++    int index = 0;
++
++    if (irq >= IO_APIC_SECONDARY_IRQBASE) {
++        irq -= IO_APIC_SECONDARY_IRQBASE;
++        index++;
++    }
++
++    qemu_fdt_setprop_cell(mms->fdt, nodename, "interrupt-parent",
++                          mms->ioapic_phandle[index]);
++    qemu_fdt_setprop_cells(mms->fdt, nodename, "interrupts", irq, 0);
++}
++
++static void dt_add_virtio(MicrovmMachineState *mms, VirtIOMMIOProxy *mmio)
++{
++    SysBusDevice *dev = SYS_BUS_DEVICE(mmio);
++    VirtioBusState *mmio_virtio_bus = &mmio->bus;
++    BusState *mmio_bus = &mmio_virtio_bus->parent_obj;
++    char *nodename;
++
++    if (QTAILQ_EMPTY(&mmio_bus->children)) {
++        return;
++    }
++
++    hwaddr base = dev->mmio[0].addr;
++    hwaddr size = 512;
++    unsigned index = (base - VIRTIO_MMIO_BASE) / size;
++    uint32_t irq = mms->virtio_irq_base + index;
++
++    nodename = g_strdup_printf("/virtio_mmio@%" PRIx64, base);
++    qemu_fdt_add_subnode(mms->fdt, nodename);
++    qemu_fdt_setprop_string(mms->fdt, nodename, "compatible", "virtio,mmio");
++    qemu_fdt_setprop_sized_cells(mms->fdt, nodename, "reg", 2, base, 2, size);
++    qemu_fdt_setprop(mms->fdt, nodename, "dma-coherent", NULL, 0);
++    dt_add_microvm_irq(mms, nodename, irq);
++    g_free(nodename);
++}
++
++static void dt_add_xhci(MicrovmMachineState *mms)
++{
++    const char compat[] = "generic-xhci";
++    uint32_t irq = MICROVM_XHCI_IRQ;
++    hwaddr base = MICROVM_XHCI_BASE;
++    hwaddr size = XHCI_LEN_REGS;
++    char *nodename;
++
++    nodename = g_strdup_printf("/usb@%" PRIx64, base);
++    qemu_fdt_add_subnode(mms->fdt, nodename);
++    qemu_fdt_setprop(mms->fdt, nodename, "compatible", compat, sizeof(compat));
++    qemu_fdt_setprop_sized_cells(mms->fdt, nodename, "reg", 2, base, 2, size);
++    qemu_fdt_setprop(mms->fdt, nodename, "dma-coherent", NULL, 0);
++    dt_add_microvm_irq(mms, nodename, irq);
++    g_free(nodename);
++}
++
++static void dt_add_pcie(MicrovmMachineState *mms)
++{
++    hwaddr base = PCIE_MMIO_BASE;
++    int nr_pcie_buses;
++    char *nodename;
++
++    nodename = g_strdup_printf("/pcie@%" PRIx64, base);
++    qemu_fdt_add_subnode(mms->fdt, nodename);
++    qemu_fdt_setprop_string(mms->fdt, nodename,
++                            "compatible", "pci-host-ecam-generic");
++    qemu_fdt_setprop_string(mms->fdt, nodename, "device_type", "pci");
++    qemu_fdt_setprop_cell(mms->fdt, nodename, "#address-cells", 3);
++    qemu_fdt_setprop_cell(mms->fdt, nodename, "#size-cells", 2);
++    qemu_fdt_setprop_cell(mms->fdt, nodename, "linux,pci-domain", 0);
++    qemu_fdt_setprop(mms->fdt, nodename, "dma-coherent", NULL, 0);
++
++    qemu_fdt_setprop_sized_cells(mms->fdt, nodename, "reg",
++                                 2, PCIE_ECAM_BASE, 2, PCIE_ECAM_SIZE);
++    if (mms->gpex.mmio64.size) {
++        qemu_fdt_setprop_sized_cells(mms->fdt, nodename, "ranges",
++
++                                     1, FDT_PCI_RANGE_MMIO,
++                                     2, mms->gpex.mmio32.base,
++                                     2, mms->gpex.mmio32.base,
++                                     2, mms->gpex.mmio32.size,
++
++                                     1, FDT_PCI_RANGE_MMIO_64BIT,
++                                     2, mms->gpex.mmio64.base,
++                                     2, mms->gpex.mmio64.base,
++                                     2, mms->gpex.mmio64.size);
++    } else {
++        qemu_fdt_setprop_sized_cells(mms->fdt, nodename, "ranges",
++
++                                     1, FDT_PCI_RANGE_MMIO,
++                                     2, mms->gpex.mmio32.base,
++                                     2, mms->gpex.mmio32.base,
++                                     2, mms->gpex.mmio32.size);
++    }
++
++    nr_pcie_buses = PCIE_ECAM_SIZE / PCIE_MMCFG_SIZE_MIN;
++    qemu_fdt_setprop_cells(mms->fdt, nodename, "bus-range", 0,
++                           nr_pcie_buses - 1);
++}
++
++static void dt_add_ioapic(MicrovmMachineState *mms, SysBusDevice *dev)
++{
++    hwaddr base = dev->mmio[0].addr;
++    char *nodename;
++    uint32_t ph;
++    int index;
++
++    switch (base) {
++    case IO_APIC_DEFAULT_ADDRESS:
++        index = 0;
++        break;
++    case IO_APIC_SECONDARY_ADDRESS:
++        index = 1;
++        break;
++    default:
++        fprintf(stderr, "unknown ioapic @ %" PRIx64 "\n", base);
++        return;
++    }
++
++    nodename = g_strdup_printf("/ioapic%d@%" PRIx64, index + 1, base);
++    qemu_fdt_add_subnode(mms->fdt, nodename);
++    qemu_fdt_setprop_string(mms->fdt, nodename,
++                            "compatible", "intel,ce4100-ioapic");
++    qemu_fdt_setprop(mms->fdt, nodename, "interrupt-controller", NULL, 0);
++    qemu_fdt_setprop_cell(mms->fdt, nodename, "#interrupt-cells", 0x2);
++    qemu_fdt_setprop_cell(mms->fdt, nodename, "#address-cells", 0x2);
++    qemu_fdt_setprop_sized_cells(mms->fdt, nodename, "reg",
++                                 2, base, 2, 0x1000);
++
++    ph = qemu_fdt_alloc_phandle(mms->fdt);
++    qemu_fdt_setprop_cell(mms->fdt, nodename, "phandle", ph);
++    qemu_fdt_setprop_cell(mms->fdt, nodename, "linux,phandle", ph);
++    mms->ioapic_phandle[index] = ph;
++
++    g_free(nodename);
++}
++
++static void dt_add_isa_serial(MicrovmMachineState *mms, ISADevice *dev)
++{
++    const char compat[] = "ns16550";
++    uint32_t irq = object_property_get_int(OBJECT(dev), "irq", NULL);
++    hwaddr base = object_property_get_int(OBJECT(dev), "iobase", NULL);
++    hwaddr size = 8;
++    char *nodename;
++
++    nodename = g_strdup_printf("/serial@%" PRIx64, base);
++    qemu_fdt_add_subnode(mms->fdt, nodename);
++    qemu_fdt_setprop(mms->fdt, nodename, "compatible", compat, sizeof(compat));
++    qemu_fdt_setprop_sized_cells(mms->fdt, nodename, "reg", 2, base, 2, size);
++    dt_add_microvm_irq(mms, nodename, irq);
++
++    if (base == 0x3f8 /* com1 */) {
++        qemu_fdt_setprop_string(mms->fdt, "/chosen", "stdout-path", nodename);
++    }
++
++    g_free(nodename);
++}
++
++static void dt_add_isa_rtc(MicrovmMachineState *mms, ISADevice *dev)
++{
++    const char compat[] = "motorola,mc146818";
++    uint32_t irq = RTC_ISA_IRQ;
++    hwaddr base = RTC_ISA_BASE;
++    hwaddr size = 8;
++    char *nodename;
++
++    nodename = g_strdup_printf("/rtc@%" PRIx64, base);
++    qemu_fdt_add_subnode(mms->fdt, nodename);
++    qemu_fdt_setprop(mms->fdt, nodename, "compatible", compat, sizeof(compat));
++    qemu_fdt_setprop_sized_cells(mms->fdt, nodename, "reg", 2, base, 2, size);
++    dt_add_microvm_irq(mms, nodename, irq);
++    g_free(nodename);
++}
++
++static void dt_setup_isa_bus(MicrovmMachineState *mms, DeviceState *bridge)
++{
++    BusState *bus = qdev_get_child_bus(bridge, "isa.0");
++    BusChild *kid;
++    Object *obj;
++
++    QTAILQ_FOREACH(kid, &bus->children, sibling) {
++        DeviceState *dev = kid->child;
++
++        /* serial */
++        obj = object_dynamic_cast(OBJECT(dev), TYPE_ISA_SERIAL);
++        if (obj) {
++            dt_add_isa_serial(mms, ISA_DEVICE(obj));
++            continue;
++        }
++
++        /* rtc */
++        obj = object_dynamic_cast(OBJECT(dev), TYPE_MC146818_RTC);
++        if (obj) {
++            dt_add_isa_rtc(mms, ISA_DEVICE(obj));
++            continue;
++        }
++
++        if (debug) {
++            fprintf(stderr, "%s: unhandled: %s\n", __func__,
++                    object_get_typename(OBJECT(dev)));
++        }
++    }
++}
++
++static void dt_setup_sys_bus(MicrovmMachineState *mms)
++{
++    BusState *bus;
++    BusChild *kid;
++    Object *obj;
++
++    /* sysbus devices */
++    bus = sysbus_get_default();
++    QTAILQ_FOREACH(kid, &bus->children, sibling) {
++        DeviceState *dev = kid->child;
++
++        /* ioapic */
++        obj = object_dynamic_cast(OBJECT(dev), TYPE_IOAPIC);
++        if (obj) {
++            dt_add_ioapic(mms, SYS_BUS_DEVICE(obj));
++            continue;
++        }
++    }
++
++    QTAILQ_FOREACH(kid, &bus->children, sibling) {
++        DeviceState *dev = kid->child;
++
++        /* virtio */
++        obj = object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MMIO);
++        if (obj) {
++            dt_add_virtio(mms, VIRTIO_MMIO(obj));
++            continue;
++        }
++
++        /* xhci */
++        obj = object_dynamic_cast(OBJECT(dev), TYPE_XHCI_SYSBUS);
++        if (obj) {
++            dt_add_xhci(mms);
++            continue;
++        }
++
++        /* pcie */
++        obj = object_dynamic_cast(OBJECT(dev), TYPE_GPEX_HOST);
++        if (obj) {
++            dt_add_pcie(mms);
++            continue;
++        }
++
++        /* isa */
++        obj = object_dynamic_cast(OBJECT(dev), "isabus-bridge");
++        if (obj) {
++            dt_setup_isa_bus(mms, DEVICE(obj));
++            continue;
++        }
++
++        if (debug) {
++            obj = object_dynamic_cast(OBJECT(dev), TYPE_IOAPIC);
++            if (obj) {
++                /* ioapic already added in first pass */
++                continue;
++            }
++            fprintf(stderr, "%s: unhandled: %s\n", __func__,
++                    object_get_typename(OBJECT(dev)));
++        }
++    }
++}
++
++void dt_setup_microvm(MicrovmMachineState *mms)
++{
++    X86MachineState *x86ms = X86_MACHINE(mms);
++    int size = 0;
++
++    mms->fdt = create_device_tree(&size);
++
++    /* root node */
++    qemu_fdt_setprop_string(mms->fdt, "/", "compatible", "linux,microvm");
++    qemu_fdt_setprop_cell(mms->fdt, "/", "#address-cells", 0x2);
++    qemu_fdt_setprop_cell(mms->fdt, "/", "#size-cells", 0x2);
++
++    qemu_fdt_add_subnode(mms->fdt, "/chosen");
++    dt_setup_sys_bus(mms);
++
++    /* add to fw_cfg */
++    fprintf(stderr, "%s: add etc/fdt to fw_cfg\n", __func__);
++    fw_cfg_add_file(x86ms->fw_cfg, "etc/fdt", mms->fdt, size);
++
++    if (debug) {
++        fprintf(stderr, "%s: writing microvm.fdt\n", __func__);
++        g_file_set_contents("microvm.fdt", mms->fdt, size, NULL);
++        int ret = system("dtc -I dtb -O dts microvm.fdt");
++        if (ret != 0) {
++            fprintf(stderr, "%s: oops, dtc not installed?\n", __func__);
++        }
++    }
++}
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index f257ec5a0bc1..8d6ebea3414d 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -28,6 +28,7 @@
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "acpi-microvm.h"
++#include "microvm-dt.h"
+ 
+ #include "hw/loader.h"
+ #include "hw/irq.h"
+@@ -626,6 +627,7 @@ static void microvm_machine_done(Notifier *notifier, void *data)
+                                             machine_done);
+ 
+     acpi_setup_microvm(mms);
++    dt_setup_microvm(mms);
+ }
+ 
+ static void microvm_powerdown_req(Notifier *notifier, void *data)
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 5c378e35f91f..6c1301e91287 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -575,7 +575,6 @@ build-without-default-features:
+     CONFIGURE_ARGS:
+       --without-default-features
+       --disable-capstone
+-      --disable-fdt
+       --disable-pie
+       --disable-qom-cast-debug
+       --disable-slirp
+diff --git a/configs/targets/i386-softmmu.mak b/configs/targets/i386-softmmu.mak
+index 5babf71895db..6b3c99fc86c5 100644
+--- a/configs/targets/i386-softmmu.mak
++++ b/configs/targets/i386-softmmu.mak
+@@ -1,3 +1,4 @@
+ TARGET_ARCH=i386
+ TARGET_SUPPORTS_MTTCG=y
++TARGET_NEED_FDT=y
+ TARGET_XML_FILES= gdb-xml/i386-32bit.xml
+diff --git a/configs/targets/x86_64-softmmu.mak b/configs/targets/x86_64-softmmu.mak
+index 75e42bc84047..197817c94346 100644
+--- a/configs/targets/x86_64-softmmu.mak
++++ b/configs/targets/x86_64-softmmu.mak
+@@ -1,4 +1,5 @@
+ TARGET_ARCH=x86_64
+ TARGET_BASE_ARCH=i386
+ TARGET_SUPPORTS_MTTCG=y
++TARGET_NEED_FDT=y
+ TARGET_XML_FILES= gdb-xml/i386-64bit.xml
+diff --git a/hw/i386/meson.build b/hw/i386/meson.build
+index c502965219d6..213e2e82b3d7 100644
+--- a/hw/i386/meson.build
++++ b/hw/i386/meson.build
+@@ -11,7 +11,7 @@ i386_ss.add(when: 'CONFIG_X86_IOMMU', if_true: files('x86-iommu.c'),
+                                       if_false: files('x86-iommu-stub.c'))
+ i386_ss.add(when: 'CONFIG_AMD_IOMMU', if_true: files('amd_iommu.c'))
+ i386_ss.add(when: 'CONFIG_I440FX', if_true: files('pc_piix.c'))
+-i386_ss.add(when: 'CONFIG_MICROVM', if_true: files('microvm.c', 'acpi-microvm.c'))
++i386_ss.add(when: 'CONFIG_MICROVM', if_true: files('microvm.c', 'acpi-microvm.c', 'microvm-dt.c'))
+ i386_ss.add(when: 'CONFIG_Q35', if_true: files('pc_q35.c'))
+ i386_ss.add(when: 'CONFIG_VMMOUSE', if_true: files('vmmouse.c'))
+ i386_ss.add(when: 'CONFIG_VMPORT', if_true: files('vmport.c'))
+-- 
+2.31.1
 
-Thanks for explaining; it sounds like the steps outlined in bios-tables-test.c.
-I moved this patch based on previous review, perhaps I misunderstand what was being requested.
-At any rate, I've moved this to be the first patch, per bios-tables-test.c
-
-> 
-> Please also make sure you only update those table blobs that you
-> explicitly ignored in step (a).
-
-Done!
-
-
-> 
-> 
-> On Thu, 7 Oct 2021, Eric DeVolder wrote:
-> 
->> Following the guidelines in tests/qtest/bios-tables-test.c, this
->> change adds empty placeholder files per step 1 for the new ERST
->> table, and excludes resulting changed files in bios-tables-test-allowed-diff.h
->> per step 2.
->>
->> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
->> Acked-by: Igor Mammedov <imammedo@redhat.com>
->> ---
->>   tests/data/acpi/microvm/ERST.pcie           | 0
->>   tests/data/acpi/pc/DSDT.acpierst            | 0
->>   tests/data/acpi/pc/ERST                     | 0
->>   tests/data/acpi/q35/DSDT.acpierst           | 0
->>   tests/data/acpi/q35/ERST                    | 0
->>   tests/qtest/bios-tables-test-allowed-diff.h | 5 +++++
->>   6 files changed, 5 insertions(+)
->>   create mode 100644 tests/data/acpi/microvm/ERST.pcie
->>   create mode 100644 tests/data/acpi/pc/DSDT.acpierst
->>   create mode 100644 tests/data/acpi/pc/ERST
->>   create mode 100644 tests/data/acpi/q35/DSDT.acpierst
->>   create mode 100644 tests/data/acpi/q35/ERST
->>
->> diff --git a/tests/data/acpi/microvm/ERST.pcie b/tests/data/acpi/microvm/ERST.pcie
->> new file mode 100644
->> index 0000000..e69de29
->> diff --git a/tests/data/acpi/pc/DSDT.acpierst b/tests/data/acpi/pc/DSDT.acpierst
->> new file mode 100644
->> index 0000000..e69de29
->> diff --git a/tests/data/acpi/pc/ERST b/tests/data/acpi/pc/ERST
->> new file mode 100644
->> index 0000000..e69de29
->> diff --git a/tests/data/acpi/q35/DSDT.acpierst b/tests/data/acpi/q35/DSDT.acpierst
->> new file mode 100644
->> index 0000000..e69de29
->> diff --git a/tests/data/acpi/q35/ERST b/tests/data/acpi/q35/ERST
->> new file mode 100644
->> index 0000000..e69de29
->> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
->> index dfb8523..c06241a 100644
->> --- a/tests/qtest/bios-tables-test-allowed-diff.h
->> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
->> @@ -1 +1,6 @@
->>   /* List of comma-separated changed AML files to ignore */
->> +"tests/data/acpi/pc/DSDT.acpierst",
->> +"tests/data/acpi/pc/ERST",
->> +"tests/data/acpi/q35/DSDT.acpierst",
->> +"tests/data/acpi/q35/ERST",
->> +"tests/data/acpi/microvm/ERST.pcie",
->> --
->> 1.8.3.1
->>
->>
 
