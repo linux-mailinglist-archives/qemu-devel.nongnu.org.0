@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E8C42DF24
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 18:27:20 +0200 (CEST)
-Received: from localhost ([::1]:44824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164AB42DEF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 18:14:16 +0200 (CEST)
+Received: from localhost ([::1]:53166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb3Zf-0000Ln-DZ
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 12:27:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57550)
+	id 1mb3N1-0003Rq-6V
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 12:14:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1mb3Jo-0006cx-1s
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 12:10:56 -0400
-Received: from relay.yourmailgateway.de ([46.38.247.118]:35983)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1mb3Jk-0000Ll-H6
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 12:10:55 -0400
-Received: from mors-relay-8404.netcup.net (localhost [127.0.0.1])
- by mors-relay-8404.netcup.net (Postfix) with ESMTPS id 4HVZBV4xyWz7vMr;
- Thu, 14 Oct 2021 18:10:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zapateado.de; s=key2;
- t=1634227842; bh=wg3xXY2ajFyQVlpBXmyPWPz8huf4gW6mh3HZRFRHvHQ=;
- h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
- b=K5NNId6SdxEf/TDzV4AzmbEspFk6GwuPt5+X44vwA0u4mkfJ+4u4jcCP0vz/fZZFN
- kCu5LOKEKCmXA4bCGITRqfvG/y2e3avohxmzkMFK4Qz3wZxEu7OFwT0m9WLiltbjrj
- q7/jkewx5RhWlxjsGVRtNR5BZEeLS3Xuv5wy5HX2HrY9nWrXzM3om/mm003locLjjC
- GDf/C6rcS9Hw8eGLPFYZvnPOSXT9vFNTV2/gUISomybhVGpcmWzVWWLjDLclMiX7Ff
- twtJeK/oSFaGJuZQ9mV2vvGPN0HO6CxX6eNFx+ip7Jzpc05/5/1stvUdgejzChEYRh
- kAbdkNE2hCsxw==
-Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
- by mors-relay-8404.netcup.net (Postfix) with ESMTPS id 4HVZBV4Wk2z4xQh;
- Thu, 14 Oct 2021 18:10:42 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
-X-Spam-Score: -2.9
-Received: from mx2f6e.netcup.net (unknown [10.243.12.53])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by policy01-mors.netcup.net (Postfix) with ESMTPS id 4HVZBT0844z8tGR;
- Thu, 14 Oct 2021 18:10:41 +0200 (CEST)
-Received: from [192.168.54.9] (ip-95-223-69-21.hsi16.unitymediagroup.de
- [95.223.69.21])
- by mx2f6e.netcup.net (Postfix) with ESMTPSA id ECDEF6A8BA;
- Thu, 14 Oct 2021 18:10:38 +0200 (CEST)
-Authentication-Results: mx2f6e;
- spf=pass (sender IP is 95.223.69.21) smtp.mailfrom=hk@zapateado.de
- smtp.helo=[192.168.54.9]
-Received-SPF: pass (mx2f6e: connection is authenticated)
-Subject: Re: ping [PATCH] configure/optionrom: Fix MSYS2 multiboot.bin issue
-From: Helge Konetzka <hk@zapateado.de>
-To: qemu-devel@nongnu.org
-References: <2b5ab039-8495-b55f-03f1-ecfd996907a9@zapateado.de>
-Message-ID: <9429226d-031d-bd01-c98d-0a7aa033bc5d@zapateado.de>
-Date: Thu, 14 Oct 2021 18:10:37 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mb3La-0001RG-7s
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 12:12:46 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:40681)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mb3LX-00026d-Jv
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 12:12:45 -0400
+Received: by mail-pl1-x630.google.com with SMTP id v20so4496121plo.7
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 09:12:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=p3Dj4DjSOZU1SnjcfNpMQSf0C1HjyE25l+QOHio3gdA=;
+ b=Dq639fgR82rp7lN1Eq0d/GghXOf5s6zmDiSBCemQi5L5zmsgPlmTTco0HD5PSREjPx
+ mNQdVtDb8h9EfNaAhImYarzeq1BLVu7hE3uLhA+e7Q+32sb3mBlQaTuhQLqOPIqGstr5
+ w/rKaKalwb24I4DYxyVy3KUBZNexmVrmeWks/zkc2WveVHar6ulM9N2p4k9av+uINdn8
+ 8chSGTSTsyr+28yXjJ6jE3UtnjoxnRlsw2RQ/4985D3PjUznt6x3VVwpEEe9TUrJrhqH
+ KPI5tWYNKZSTLXWGDoGcKlH0SspHLJaKhAEwRt+h7ByM+CN1hntB5fGfi+tDsORQHLxC
+ jYkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=p3Dj4DjSOZU1SnjcfNpMQSf0C1HjyE25l+QOHio3gdA=;
+ b=bx1Yu7hpYEOrWA4nGoQR5FhjfONw6kzC4QbjniKww286HOK13wWOhzVDIgBW+Gq3QH
+ IeK0VOp1F/1LQJdtAB+hPaWvfyhPxX5CNPVnLUl6j2If61sp2yyts9YB6yOSqYiCqBFo
+ q4zvb4tE289GbytmgmNpfMfIst6c4p5jU26LB642zyiIUkEnD0477/O/FB0fDYHWU1N4
+ 9IoU52cs1tY0WXCpTHox0VFQUDa+JIJ8uV77yfEUDPFtz1HogG9G+aYzOiPl3Fa+JlnJ
+ /y+OY2phiDizlzabQSxQ0aWUE1hEv23n8xPhsg+mJykEQZDtiKyqe3pivVdfJ229B58c
+ fj2w==
+X-Gm-Message-State: AOAM530t4alhRL1PS86jzOffA7seTAzllREereGqlpxsmaCPdToGFimO
+ dtWCtjmYqCe7b2/FH07fxsiinA==
+X-Google-Smtp-Source: ABdhPJxb9y+q4ZbzkxF0IsaKaP9nG/T7S3pwlbntMDIdg7BeVmRgRigV+eMIdOeVlsJ/esSLf4qU7g==
+X-Received: by 2002:a17:902:9887:b0:13f:7704:425f with SMTP id
+ s7-20020a170902988700b0013f7704425fmr5895466plp.20.1634227961925; 
+ Thu, 14 Oct 2021 09:12:41 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id u66sm3080474pfc.114.2021.10.14.09.12.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Oct 2021 09:12:41 -0700 (PDT)
+Subject: Re: [PATCH v2 05/13] target/riscv: Add MXL/SXL/UXL to TB_FLAGS
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org
+References: <20211013205104.1031679-1-richard.henderson@linaro.org>
+ <20211013205104.1031679-6-richard.henderson@linaro.org>
+ <33bfbaa0-45d4-2f58-36dc-9ff7a117489b@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b21879ab-8541-a703-e6f5-b5550adb2e4a@linaro.org>
+Date: Thu, 14 Oct 2021 09:12:39 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <2b5ab039-8495-b55f-03f1-ecfd996907a9@zapateado.de>
+In-Reply-To: <33bfbaa0-45d4-2f58-36dc-9ff7a117489b@c-sky.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <163422783984.18348.16432625860545914255@mx2f6e.netcup.net>
-X-PPP-Vhost: konetzka.de
-X-NC-CID: zINU+DpAjqX56CPvZdLFde8Wm19bUeGFFBO9o3mMz7NC
-Received-SPF: pass client-ip=46.38.247.118; envelope-from=hk@zapateado.de;
- helo=relay.yourmailgateway.de
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,74 +89,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: alistair.francis@wdc.com, frederic.petrot@univ-grenoble-alpes.fr,
+ qemu-riscv@nongnu.org, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping
+On 10/14/21 1:20 AM, LIU Zhiwei wrote:
+> 
+> On 2021/10/14 上午4:50, Richard Henderson wrote:
+>> Begin adding support for switching XLEN at runtime.  Extract the
+>> effective XLEN from MISA and MSTATUS and store for use during translation.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>> v2: Force SXL and UXL to valid values.
+>> ---
+>>   target/riscv/cpu.h        |  2 ++
+>>   target/riscv/cpu.c        |  8 ++++++++
+>>   target/riscv/cpu_helper.c | 33 +++++++++++++++++++++++++++++++++
+>>   target/riscv/csr.c        |  3 +++
+>>   target/riscv/translate.c  |  2 +-
+>>   5 files changed, 47 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index 87248b562a..445ba5b395 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -395,6 +395,8 @@ FIELD(TB_FLAGS, VILL, 8, 1)
+>>   /* Is a Hypervisor instruction load/store allowed? */
+>>   FIELD(TB_FLAGS, HLSX, 9, 1)
+>>   FIELD(TB_FLAGS, MSTATUS_HS_FS, 10, 2)
+>> +/* The combination of MXL/SXL/UXL that applies to the current cpu mode. */
+>> +FIELD(TB_FLAGS, XL, 12, 2)
+>>   #ifdef CONFIG_RISCV32
+>>   #define riscv_cpu_mxl(env)      MXL_RV32
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 1857670a69..840edd66f8 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -355,6 +355,14 @@ static void riscv_cpu_reset(DeviceState *dev)
+>>       env->misa_mxl = env->misa_mxl_max;
+>>       env->priv = PRV_M;
+>>       env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
+>> +    if (env->misa_mxl > MXL_RV32) {
+>> +        /*
+>> +         * The reset status of SXL/UXL is officially undefined,
+>> +         * but invalid settings would result in a tcg assert.
+>> +         */
+>> +        env->mstatus = set_field(env->mstatus, MSTATUS64_SXL, env->misa_mxl);
+>> +        env->mstatus = set_field(env->mstatus, MSTATUS64_UXL, env->misa_mxl);
+>> +    }
+> 
+> Can you give more explanation about the assert? As the cpu will always reset to M mode, I 
+> think we can omit the the setting of UXL or SXL.
 
-https://lore.kernel.org/qemu-devel/2b5ab039-8495-b55f-03f1-ecfd996907a9@zapateado.de/T/#u
+The mstatus csr is WARL, which means that we should always be able to read a valid value. 
+  On init, these fields will still be 0, which isn't right.
 
-https://patchew.org/QEMU/2b5ab039-8495-b55f-03f1-ecfd996907a9@zapateado.de/
+I guess the assert that I was considering can't really happen, because we'd need to write 
+to mstatus to exit M-mode, and write_mstatus will force these fields to the correct value 
+(as found by Frederic).
 
-Am 15.09.21 um 12:56 schrieb Helge Konetzka:
-> This patch enables native builds on MSYS2 with symlinks disabled.
-> 
-> 
-> Signed-off-by: Helge Konetzka <hk@zapateado.de>
-> ---
-> 
-> Without this patch these builds fail with:
-> 
-> make[1]: *** No rule to make target 'multiboot.bin', needed by 'all'. Stop.
-> make: *** [Makefile:189: pc-bios/optionrom/all] Error 2
-> make: *** Waiting for unfinished jobs....
-> ...
-> ==> ERROR: A failure occurred in build().
->       Aborting...
-> 
-> Builds fail because make cannot determine correct TOPSRC_DIR/SRC_DIR 
-> based on copied instead of linked Makefile
-> 
-> After applying this patch to current master I succeeded in building 
-> natively on Linux and Windows/MSYS2 with symlinks disabled and enabled 
-> (winsymlinks:nativestrict, bash executed as Administrator).
-> 
->   configure                  | 4 ++++
->   pc-bios/optionrom/Makefile | 5 ++---
->   2 files changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index da2501489f..a12bc8edbf 100755
-> --- a/configure
-> +++ b/configure
-> @@ -5090,6 +5090,10 @@ for rom in seabios; do
->       echo "RANLIB=$ranlib" >> $config_mak
->   done
-> 
-> +config_mak=pc-bios/optionrom/config.mak
-> +echo "# Automatically generated by configure - do not modify" > 
-> $config_mak
-> +echo "TOPSRC_DIR=$source_path" >> $config_mak
-> +
->   if test "$skip_meson" = no; then
->     cross="config-meson.cross.new"
->     meson_quote() {
-> diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
-> index 30771f8d17..3482508a86 100644
-> --- a/pc-bios/optionrom/Makefile
-> +++ b/pc-bios/optionrom/Makefile
-> @@ -1,6 +1,5 @@
-> -CURRENT_MAKEFILE := $(realpath $(word $(words 
-> $(MAKEFILE_LIST)),$(MAKEFILE_LIST)))
-> -SRC_DIR := $(dir $(CURRENT_MAKEFILE))
-> -TOPSRC_DIR := $(SRC_DIR)/../..
-> +include config.mak
-> +SRC_DIR := $(TOPSRC_DIR)/pc-bios/optionrom
->   VPATH = $(SRC_DIR)
-> 
->   all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
+r~
 
