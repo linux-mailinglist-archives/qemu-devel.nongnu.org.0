@@ -2,145 +2,145 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D64C42D1AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 06:34:15 +0200 (CEST)
-Received: from localhost ([::1]:37134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD94E42D1BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 06:54:09 +0200 (CEST)
+Received: from localhost ([::1]:40646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1masRZ-00056Y-Us
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 00:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56842)
+	id 1maskq-000090-87
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 00:54:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1masPx-0004QO-1z
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 00:32:33 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:7528)
+ id 1masjg-0007iQ-TL; Thu, 14 Oct 2021 00:52:56 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:53030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1masPu-0002YT-3R
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 00:32:32 -0400
-Received: from pps.filterd (m0127838.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19DNxTQl022544; 
- Wed, 13 Oct 2021 21:32:25 -0700
+ id 1masje-0007hV-H5; Thu, 14 Oct 2021 00:52:56 -0400
+Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19DNxP81026527; 
+ Wed, 13 Oct 2021 21:52:51 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  h=from : to : cc :
- subject : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=proofpoint20171006;
- bh=nKG6bwIsfWMJ6+OwCGnkiIbMtAki0NBJCDNXWyRJ//E=;
- b=KLutvwFAfZ6nH8bZtaIHaXwNupa0mnR/qJSGwyC/GUz/CdW1Do5KBRxnHuatUwUO3Ggs
- rpgPVvc/GUSrXSr6qG9qvwcX0BTMjYEZQmBG/am9bih7whc3nXzh10YMYbFnbCFrnJiI
- vn6bTzYnM64Olnn2lbUufD/j/zlXiRzWFj92Hxht3oRe/mOxaCus5KoOWBar+Kbxp3ou
- jfrbHImqqTLBP8SPOggb8qGr7Ju1sW6CHkFteCylFLnKB+TC/zDUeVHF8Ei+9RHfp0Ll
- BFCdzaM67BfdHBsJ3sVBXGHgQ76NfPLBxgV96JOoQwJIrtAaVfktSAC7gSAWpYTv6J+v fw== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2176.outbound.protection.outlook.com [104.47.58.176])
- by mx0a-002c1b01.pphosted.com with ESMTP id 3bp6yx8kp0-1
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=rswSYre679I2nOWdXWcHI/TFHVd2bJmCUnz4B84rriM=;
+ b=K54gE+yIY4JIyaNvv62VJdHilhowouAoViQxmCRD0aoBn5/CCAbK6nXgdQs1bD5rg/Ep
+ nkj8XHUHTPhLQRo8fLFQUhX514ppq77d5NygmOEYhFJchINVSMMfHmMctrBrCEFpDhRg
+ 2xGmCMVtf+nkVUQNk86aKr+hI/qWNRGl4yXdxNmC2Yam6k+vEEwjvmCK/7a1/ceEzOwx
+ iqysRkeCNze5HC0jnxXqt4HMIAJBBxj1CCfigMQxLgJX3DVCtbo7r6NPycPEp7EbN6NH
+ Rf2EKs0AdHQ9z4adJNKQaKEcPvS3okBDL3XJo/KijNfDMxlRPeXahS+9jqJzfOaLlkGA Pw== 
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
+ by mx0b-002c1b01.pphosted.com with ESMTP id 3bp6cyrqbt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Oct 2021 21:32:25 -0700
+ Wed, 13 Oct 2021 21:52:51 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=giz/ZV1sFaKAnYq2g0XVD+INt3X+qyNZptGOZ/DoHyNFdQjQONbcqYbBULqXjfxk7x6QJ53gPxljPneVF8KixlKHW2CcY33UL0vRG01tpvy8xDifgOOx7o+iAtpaH31/7Oe35n6zjCBGUzkMfedjUGFSvejDwPaAEZu4tTSomdCPEZE1oSPMYOISaAJnRzYkF7W2yvvg5FlLJL0m5WJLHkR2cjD3MfYscrxyqlpyBWkh02SOMTCUqM6rY4XMzqrK/zX9zpv/thF7Cn1iAApONhfjLyxdB26KuKjGw997zfm53vasQnGlvkIaS+HQS/n0CujJvdAhI6a+Q/d0k+05Ag==
+ b=VncUGAiL85/oAy+CaVf0wJilLgPLD2FDi6dPb4ktP80gqRUtOd7qw3lRQ8sWveuamy3iR8irOCArt7YNRYF/5aTKVp6aiRH2epQEFQl8edWWgizxo1QzB6jTfnfKXdFWszzibCdUGytu9ebm7clpRwPzDx8BalDgvlEOV3WcGLY9zBLkKjU4lX6eowKY3dHhdXIvgsD9uqHWLMxuv7af7FuACPpWtPwUmgVRfmNpI6ICtbE7KTDUMYBeQkWK2cbwdOJ1zXSvHpG/6FsoRhWqS4XZ36dkwaL/f1H9h9O6UP4gbGrOGVXeZgCkv667t2Jw8r1uXVnrZckYGpzO//DaHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nKG6bwIsfWMJ6+OwCGnkiIbMtAki0NBJCDNXWyRJ//E=;
- b=YgpI0/msoFGMlaWX4ZgpVqIgqYs2kS0f78Jr3P1E+nWcLUF50m9u63rhuhFAuDSCp/dTULOEEN2RK15JKuwF6/lnXlgMLS21HOGp63s3C3/29zUAyxv5FPy0kSOsJUVl7eWlI1DG2Kaeoir3qcaGvHuGn9sTHCY1ywjzpfuXr3O+t0S3pIkA4hjMt+bkIBklJflEEA2eGPtXBVyfWVrK6ouDkqPm2VGDM7qr+WnM8Qs4aBWgco2uCmrPiZQ/dIphbD6saPiFy4jZ3wCTUK0X6AXJpubOhihcxycDsLkhLCeKy3pqmJHDUmckC0MdJm+tTZsgHXS0Oj2edM/f55NQvQ==
+ bh=rswSYre679I2nOWdXWcHI/TFHVd2bJmCUnz4B84rriM=;
+ b=ZdgdIV66I2Sh37s5OdNDRshY3iY72071zYk3ZpcS1nnTNn1CX4maK69WOqTM43Qii9o+6q53NGyKvwNEkD71k2hrbaTt7e70HC3gtCynKLFeN2GreDYQvXm5y80uFTARmnPnbKZi8k6PzvTmR467fU0Y5v9tWav8AOUF87aF5qIWLwIQ75/juHes2A8tt4m8iE1L1wTE2YtQt7auDaJAahK3n3kbDsRPVA/P8hQ/5Xy9IzXHXj+fED8BAQnzEoh3O2KG9g8VhSuF/i5h5MQ8wU+1d1jzECR9KfYwaQP+YJKOcy8ke8uCJCEWjXxBCg4gMb1aTLvJduRKEEppW2tiBg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
  dkim=pass header.d=nutanix.com; arc=none
 Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
- by MN2PR02MB6893.namprd02.prod.outlook.com (2603:10b6:208:200::12)
+ by BL0PR02MB4305.namprd02.prod.outlook.com (2603:10b6:208:4e::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.22; Thu, 14 Oct
- 2021 04:32:23 +0000
+ 2021 04:52:49 +0000
 Received: from BL3PR02MB7938.namprd02.prod.outlook.com
  ([fe80::804:50eb:bd2:eb3c]) by BL3PR02MB7938.namprd02.prod.outlook.com
  ([fe80::804:50eb:bd2:eb3c%7]) with mapi id 15.20.4608.016; Thu, 14 Oct 2021
- 04:32:23 +0000
+ 04:52:49 +0000
 From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: "eblake@redhat.com" <eblake@redhat.com>, "stefanha@redhat.com"
- <stefanha@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "mst@redhat.com" <mst@redhat.com>, "peter.maydell@linaro.org"
- <peter.maydell@linaro.org>, "sgarzare@redhat.com" <sgarzare@redhat.com>
-Subject: [PATCH v6] Work around vhost-user-blk-test hang
-Thread-Topic: [PATCH v6] Work around vhost-user-blk-test hang
-Thread-Index: AQHXwLR7owf86s2m50iPvIronnTPVQ==
-Date: Thu, 14 Oct 2021 04:32:23 +0000
-Message-ID: <20211014043216.10325-1-raphael.norwitz@nutanix.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v1] libvhost-user: fix VHOST_USER_REM_MEM_REG skipping
+ mmap_addr
+Thread-Topic: [PATCH v1] libvhost-user: fix VHOST_USER_REM_MEM_REG skipping
+ mmap_addr
+Thread-Index: AQHXvtwaeFZLuGJV1Eq0Q9rMxfifyavQrxMAgAFB1YA=
+Date: Thu, 14 Oct 2021 04:52:48 +0000
+Message-ID: <20211014045239.GA21284@raphael-debian-dev>
+References: <20211011201047.62587-1-david@redhat.com>
+ <YWapnsmfDMPj80Sd@stefanha-x1.localdomain>
+In-Reply-To: <YWapnsmfDMPj80Sd@stefanha-x1.localdomain>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-mailer: git-send-email 2.20.1
+user-agent: Mutt/1.10.1 (2018-07-13)
 authentication-results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 371afb92-1be7-4bb4-f3a5-08d98ecb9e4a
-x-ms-traffictypediagnostic: MN2PR02MB6893:
+x-ms-office365-filtering-correlation-id: 18a3545d-d988-4f7a-a262-08d98ece78e1
+x-ms-traffictypediagnostic: BL0PR02MB4305:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR02MB68935B644971BC18445E4242EAB89@MN2PR02MB6893.namprd02.prod.outlook.com>
+x-microsoft-antispam-prvs: <BL0PR02MB430528C7E24C19096C17592AEAB89@BL0PR02MB4305.namprd02.prod.outlook.com>
 x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:1850;
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zjEY77V7jwXA4KoMRMdDvLFai55nUTKmC3CcNjhzB316OphaI+ZCxXhBpWo3Y3KnRvjNUwsvHcUu0hq/SB/XkS5d082Lqdh7WZvUuvuJCul+MfcDRotJ6/OzX+QILn0Lfw/bsgNC6lWE2QuuEXFzmePtJGzjDBaOHSP4Mqu+YVfF1VFItMeCl7qnqHabBUTj7BFNV6DKHXgwmVma19bMjGImqNpDBGdDxNbCfUpkiATIyckmLl3DMhpQMDUHPWwsqRwsjvwOgighv4CvmUOiT7LUZhIH4MzXnWoH8K2Oh27PkLKuB8JIUEbEeSwGkFd/TytLphMyNVzALaVGVhlNvTx8dfq9NTX9sufa31UxkCZedtd0lIg89vrl2u0P3KNOny0HXyEFA7qyd327L0o6j61KZ/IPVsDsvq0f/e0X5wReegbKuH5QmL7e8B1is0RAUlnYt83ooK7clR4YVJjL70KJq1z0sqSu5annG058iz11Frn9cOcg+WvNhreLJs9yw16htpZEbXkCD0eX561GvzITkSR8BEX5hSzBVILQt9ZsnOpuD0XCBqA7Mkoy8vwqrUcHP+iDkLEeBAHCNm1UTkHsZB8B0mhKqoCw3yPvF0vwY0yzvZhG56FS7064CcX5CbEiTtj8itIhwjF79GeqJKH5Nc7QLE9CgvaiAcwzJ2XEC4qUYB0/ymdJHOvAi7HWGm7s0QLTE4RO01y8d9LNT1nGdvdSO2zJwkYso6AuTtNVzHUaa8RBkVwfoZB8Um9tQvfAnoDthuI9jz5G0yO45AcuT4sFal/kW8mHlgNuBa7dPXrIetHOm4QpoE95PIBak8mVVlpDFbEVAWlwr7uzVw==
+x-microsoft-antispam-message-info: IWyktYcnJU8LA/4JfcJrMCvjsAy45EH1blCKgbt0CrJlRUpQBlmCkS0H+TUxm/L0OOgstUbUkybbIjWNNeruRwNrCB80UST6ZMiiJif3Jcg0oJoflKeOn3BA4kIwJXK72y2x5HNXCEgTfP11kozYytaqvNxpaY0DxDnzn1gGx8yRoIY+bAdu7BEjWyAhM9Y5VzWubk9yVIK4lxd1bJdoRfZ4OjsD2VFKqp/QxP+DWS/y2mT0TpbV5+hZtiY2Ose2Uvz/QDmh93xleVF3DmifgO+mpjAIjUrhqZg18wkZp+eRLMDQnbYgraBZb/Tgs0zsQJJ5VJh3pObMDes0j2ev3DFYWdAhXlaImfwy+ylSZaVdHLfqIKLfGexBvzzqAedsekHVtDS8mzOhaPco2rC8XwWEOb9G6/GMWQ4qwyVj9yl5myrFwEGNG9RDt3vjTTek3WV1f0SoFWKlK/Z9+QrfpLqCToJWh1ZJtyzeZOVZYOqDGFJDirRrFYncrdUABXXXxIMeN6W4v4xJecxVR9zre1YW1sQI1vJfMITXRundQwHbugVWOYckdUj3fxGutIaZAQUQX+60BGZC6FZjPGuxOYJLfOHYh650SxPZVDwY1VV4FVUhgeN/QYkFJMcxYM1iAQ2OiDNOy1ReT9rr63d0Yigxrz0qASEX13wSzblOoTRr1QkDaxc/UBlblO1FRTeqPuGn1DGBxDxhIL1PSKoESA==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(26005)(966005)(1076003)(91956017)(71200400001)(36756003)(83380400001)(2616005)(6512007)(64756008)(66476007)(38100700002)(107886003)(66946007)(76116006)(122000001)(6506007)(186003)(66556008)(8676002)(66446008)(86362001)(508600001)(6486002)(8936002)(44832011)(4326008)(54906003)(110136005)(5660300002)(2906002)(316002)(38070700005);
+ SFS:(7916004)(366004)(8676002)(186003)(54906003)(66476007)(76116006)(26005)(6512007)(316002)(66946007)(5660300002)(9686003)(91956017)(38070700005)(6506007)(44832011)(33716001)(6486002)(38100700002)(66446008)(122000001)(33656002)(8936002)(64756008)(66556008)(86362001)(1076003)(83380400001)(6916009)(508600001)(71200400001)(4326008)(2906002);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?xcYIIzLwAnikbeHORQmCgEo+FRxiVp4DzZtoK0PGIM0fY3g/+cWfRFsH/R?=
- =?iso-8859-1?Q?MFFiUznpCGw28TM/Jq9pni8UX3Dltn+yk2d+kgutLW2sQgdqG0NeVrqIzt?=
- =?iso-8859-1?Q?jPX8nmQxg4+cjlvzVa48Bp4TE3TNP+ZS9w43poZOKPCtqoMbWMH1+VscS6?=
- =?iso-8859-1?Q?1uwMSMq+/lk5MXHcdgMqnarQB7pKIkK6s8ulxB/i2U9nxduzJPZJjAAjEF?=
- =?iso-8859-1?Q?S4rqnUUowAbDm4RgCC7y9g8ic5CoG3s8H3Dqm8/8I5wWIfKALV5XUDy6TG?=
- =?iso-8859-1?Q?Xn556oKfbpFig1GimEtI3jUrz0JsBS4QWwVvEPeThge3orQjh/zwdK0S3U?=
- =?iso-8859-1?Q?GRxRtyE7KEY61d9cFlW2DnSix0r0I2dkwKFGYNAhnsrduQgVzLBppmHVtr?=
- =?iso-8859-1?Q?k9FOPIPcewQnQyBuRwhh8h6pU3JozBmhZXlRVSDB79/kaM/Fq279Y/6S84?=
- =?iso-8859-1?Q?COK2HGMG59X319n4tw+BhOJJ10DPUy5kTl3sVCuDos21u8mFFIGUHStVzV?=
- =?iso-8859-1?Q?GGPugNTmUsmUPnVyaOUpczCKoH7gIBA5Jf+1gAuf8zRIwow2of8h9kmLhD?=
- =?iso-8859-1?Q?6grReKz99Oma/GYmeiO/+1xnWFPr/E55cLbFu5xpS1dDqAlMzwewft2GwQ?=
- =?iso-8859-1?Q?ojn+NzuVq2pnSyEZXGzuzaGekixAVc6Xo4jjvAbDeKAZD30NpRaOW17/fh?=
- =?iso-8859-1?Q?cU2+KYSbbwRDlWYvwYwTHc8PAwodpJFDE02bXKH2t9cCoNfrSdjNiIm3RJ?=
- =?iso-8859-1?Q?UKbiciBkLSb5mY4fBzN5TRgYdldKd5u1XhbFOJGK3pfvRqnbsvGAbLn1EW?=
- =?iso-8859-1?Q?+ItjSUlcQAHDnKKiubB7B2nr0N/TI4GBD8SIeEeb7tvV95DDa5DHGcDJTk?=
- =?iso-8859-1?Q?IEANUKisFtyiW43csYZ5arFdPeab42PhVec8QhKj6OuXTAsuJz4H/UF9SQ?=
- =?iso-8859-1?Q?MA/RwcjJgkhOtgTFFZI6dH1LYbT1fvD7s6jiZmR5UKMQg51yBpC+GxRHuh?=
- =?iso-8859-1?Q?RqHh+C6fU6JIxuIPU4fKszECiOLXU7rZb9oq1iy9wmar7hnfSAXG05Cfx2?=
- =?iso-8859-1?Q?Gp6Zvrihd2HdrQpV3pslCfyrq93gJu0EwHGio/kusQPjQrLwhnzH2Ng/6V?=
- =?iso-8859-1?Q?eS9vAc5I7twMniZ2kXq0bP+JToW+yoZVAHGC1SDtLW1YnITwgmHxLkDrqi?=
- =?iso-8859-1?Q?mPWS9he6ZrvKMU4zKkV9vX53PoMGC3leQhHL59ExtNuzi0c3akoeYGGI98?=
- =?iso-8859-1?Q?PjBLVd3Jha0SVhVGVpLundHGTHIIZe4Sw+ifXhf1UqWvt/WKBRnm6wzrix?=
- =?iso-8859-1?Q?s/aZ6YKEChLlu9aqd72dOcll9/DbvpwrALWEHo4aXG5BvEOjkIv/GpmCSX?=
- =?iso-8859-1?Q?vUneH8SxqV?=
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?SLSaQpN6alHij0Hm+eTSZrAIROJhNMldS+DPXQjmS9dVG2jV5Tf8aNFwi7?=
+ =?iso-8859-1?Q?R43rgDTLUp+tZRHH1C01kLagFNiWuAyTzrrw7gcNkos2jo+kMBUpOdtwyy?=
+ =?iso-8859-1?Q?ES7kkHdhdyHX264wpn6jlnLvy61+bTxy2zmi9G9e85VLoCOhUs1oAXZL8j?=
+ =?iso-8859-1?Q?ix3IYtg8NllWZs8YGxUqLNlj+q9IUb4ETN0UjYgu9Z64A0wVoV0/7zweFD?=
+ =?iso-8859-1?Q?Gxy59wKLJG79J7bDg6/m0ORvAOItdTaHNoTpWmAYogKTYqXlr6WFbjERfU?=
+ =?iso-8859-1?Q?R46MDK7mDsBdogxbytftdS21pWvyMeFKWC7jgQM/MUzSoUh99ap7u3SyzV?=
+ =?iso-8859-1?Q?Pv+94Vg/B5Lk0zH1hXzER4VhFETK3nr4k43dYYFMmpywBOEZe1jloZCYwF?=
+ =?iso-8859-1?Q?JTlJe1faKKcE+farOr2Oxf8HB/hcB81T4dYkILKE6xe50PjjGcmRsNuJA5?=
+ =?iso-8859-1?Q?KZZOsyqyM06rIcAt0K3hIs0YC8I2AaHyC7w2MQPyKvTX2lU/fJdjWJrKDB?=
+ =?iso-8859-1?Q?vY983MoJDVapFKRpK4XogRubiAsC+bN96scQz16X2f19MWXEkHvhKfhywf?=
+ =?iso-8859-1?Q?JQWGnvDBvfwab+VkZFYDhYEIwBwFSpEcsGkpWhRJUj8oQ1I3qqs5eFuoGV?=
+ =?iso-8859-1?Q?kWHSgXr3E2CtsF6pikjpNDGaaOmOPug9vt7VrkOx1D0xipygjSuhMYg9AA?=
+ =?iso-8859-1?Q?vk/QJdambV3FGno/1HYn4yDJU8OFJi7nwqJ+YrqJwvxZbAL6XtD4heSY7I?=
+ =?iso-8859-1?Q?WHKhWlW2H4Vqg7/FLyDOtNx/rHD6nyaZtEMvHncR57Vl2VMSHo6V4YU/jh?=
+ =?iso-8859-1?Q?7n05ZMEhAoh0yNWWy6cEBWlpOqqMWNi5+y/FBnobuCkwkxbwegkgVOBvV8?=
+ =?iso-8859-1?Q?ZlcNhXm9L7SqFKl3GS2mGdMhLwzzWFjEt7i4d5YTLPJRAWigvI2VV700Dn?=
+ =?iso-8859-1?Q?2C1ZefT8LydgS4IExbrF8eq0+KXzg/LpQyKB+YkeA2yjUGEAf8InncTmbU?=
+ =?iso-8859-1?Q?T6QqckODjhO5F+BKn7K7zSEAWjqnL5Gn3gafdZM8leAN3osKyEJWK4SCQE?=
+ =?iso-8859-1?Q?fw1l5v/dsIaL0SbppV+KwNHq68lmcMXE7ntabdTZwfK7qb18Anv26gYCdQ?=
+ =?iso-8859-1?Q?mLP0lUTeFuQHpPRvbFI0Td7UgNaU90sohIEdDNW1PS7JT74a/PzfUrnUe6?=
+ =?iso-8859-1?Q?VUrGQ9XjGcGBnowxQY/MI173S8lfdzNhxFoninGEYWblTODiKOQ5q7dvcE?=
+ =?iso-8859-1?Q?bupEaKvkFmwTedvJxzmt25dLJMScKhqgfb99mfZsCgRqqOjDQ2UYfFCsk4?=
+ =?iso-8859-1?Q?ZAP26EzSyQRqSk7MnvOkXGJ5Vm38bf0XKJzTEmEanMmRu8G9ZjzpafTLO2?=
+ =?iso-8859-1?Q?TACkZufqxO?=
 Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <63EB23A9F737F34EA6B508410128592C@namprd02.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: nutanix.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 371afb92-1be7-4bb4-f3a5-08d98ecb9e4a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2021 04:32:23.4166 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18a3545d-d988-4f7a-a262-08d98ece78e1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2021 04:52:49.0941 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fdarnnFOcpfjmZ3wlw5RQykOlbQPl80+NQNG3i3+iLap+eGhiBJV2+bpTld/SdSmEiORKWDl6DtRacISjnQckeMFe1KSVGpN/tVSNoOJgQQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6893
-X-Proofpoint-ORIG-GUID: vymkWLf4cTz6TQpIoa7eLszrNNAyff3q
-X-Proofpoint-GUID: vymkWLf4cTz6TQpIoa7eLszrNNAyff3q
+X-MS-Exchange-CrossTenant-userprincipalname: 1lCk3o4fRUTgjEskas1YzG7S5Xib8eZZcrOPrbBqXw63mojsnI4l8X/fLJ3T5PoZcsLDoZYuTVbokJuxyqsyv9qlgmHirTI3UC8PsT+jLbc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB4305
+X-Proofpoint-ORIG-GUID: dc8uVPdHpm0QXhJ1zL9AVUybFfXMMp8F
+X-Proofpoint-GUID: dc8uVPdHpm0QXhJ1zL9AVUybFfXMMp8F
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
  definitions=2021-10-14_01,2021-10-13_02,2020-04-07_01
 X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68;
- envelope-from=raphael.norwitz@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=raphael.norwitz@nutanix.com; helo=mx0b-002c1b01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -153,120 +153,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
+ Coiby Xu <coiby.xu@gmail.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
  Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The vhost-user-blk-test qtest has been hanging intermittently for a
-while. The root cause is not yet fully understood, but the hang is
-impacting enough users that it is important to merge a workaround for
-it.
+On Wed, Oct 13, 2021 at 10:40:46AM +0100, Stefan Hajnoczi wrote:
+> On Mon, Oct 11, 2021 at 10:10:47PM +0200, David Hildenbrand wrote:
+> > We end up not copying the mmap_addr of all existing regions, resulting
+> > in a SEGFAULT once we actually try to map/access anything within our
+> > memory regions.
+> >=20
+> > Fixes: 875b9fd97b34 ("Support individual region unmap in libvhost-user"=
+)
+> > Cc: qemu-stable@nongnu.org
+> > Cc: Michael S. Tsirkin <mst@redhat.com>
+> > Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> > Cc: "Marc-Andr=E9 Lureau" <marcandre.lureau@redhat.com>
+> > Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Coiby Xu <coiby.xu@gmail.com>
+> > Signed-off-by: David Hildenbrand <david@redhat.com>
+> > ---
+> >  subprojects/libvhost-user/libvhost-user.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/li=
+bvhost-user/libvhost-user.c
+> > index bf09693255..787f4d2d4f 100644
+> > --- a/subprojects/libvhost-user/libvhost-user.c
+> > +++ b/subprojects/libvhost-user/libvhost-user.c
+> > @@ -816,6 +816,7 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+> >              shadow_regions[j].gpa =3D dev->regions[i].gpa;
+> >              shadow_regions[j].size =3D dev->regions[i].size;
+> >              shadow_regions[j].qva =3D dev->regions[i].qva;
+> > +            shadow_regions[j].mmap_addr =3D dev->regions[i].mmap_addr;
+> >              shadow_regions[j].mmap_offset =3D dev->regions[i].mmap_off=
+set;
+> >              j++;
+> >          } else {
+>=20
+> Raphael: Some questions about vu_rem_mem_reg():
+>=20
+> - What ensures that shadow_regions[VHOST_USER_MAX_RAM_SLOTS] is large
+>   enough? The add_mem_reg/set_mem_table code doesn't seem to check
+>   whether there is enough space in dev->regions[] before adding regions.
+>
 
-The race which causes the hang occurs early on in vhost-user setup,
-where a vhost-user message is never received by the backend. Forcing
-QEMU to wait until the storage-daemon has had some time to initialize
-prevents the hang. Thus the existing storage-daemon pidfile option can
-be used to implement a workaround cleanly and effectively, since it
-creates a file only once the storage-daemon initialization is complete.
+Correct - it does not check if there is enough space as is. I can add that.
 
-This change implements a workaround for the vhost-user-blk-test hang by
-making QEMU wait until the storage-daemon has written out a pidfile
-before attempting to connect and send messages over the vhost-user
-socket.
+> - What happens when the master populated dev->regions[] with multiple
+>   copies of the same region? dev->nregions is only decremented once and
+>   no longer accurately reflects the number of elements in
+>   dev->regions[].
 
-Some relevent mailing list discussions:
+That case is also not accounted for. I will add it.
 
-[1] https://lore.kernel.org/qemu-devel/CAFEAcA8kYpz9LiPNxnWJAPSjc=3Dnv532bE=
-dyfynaBeMeohqBp3A@mail.gmail.com/
-[2] https://lore.kernel.org/qemu-devel/YWaky%2FKVbS%2FKZjlV@stefanha-x1.loc=
-aldomain/
+>=20
+> libvhost-user must not trust the vhost-user master since vhost-user
+> needs to provide process isolation. Please add input validation.
+>=20
 
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- tests/qtest/vhost-user-blk-test.c | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+Got it - let me start working on a series.
 
-diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk=
--test.c
-index 6f108a1b62..c6626a286b 100644
---- a/tests/qtest/vhost-user-blk-test.c
-+++ b/tests/qtest/vhost-user-blk-test.c
-@@ -24,6 +24,7 @@
- #define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
- #define QVIRTIO_BLK_TIMEOUT_US  (30 * 1000 * 1000)
- #define PCI_SLOT_HP             0x06
-+#define PIDFILE_RETRIES         5
-=20
- typedef struct {
-     pid_t pid;
-@@ -885,7 +886,8 @@ static void start_vhost_user_blk(GString *cmd_line, int=
- vus_instances,
-                                  int num_queues)
- {
-     const char *vhost_user_blk_bin =3D qtest_qemu_storage_daemon_binary();
--    int i;
-+    int i, retries;
-+    char *daemon_pidfile_path;
-     gchar *img_path;
-     GString *storage_daemon_command =3D g_string_new(NULL);
-     QemuStorageDaemonState *qsd;
-@@ -898,6 +900,8 @@ static void start_vhost_user_blk(GString *cmd_line, int=
- vus_instances,
-             " -object memory-backend-memfd,id=3Dmem,size=3D256M,share=3Don=
- "
-             " -M memory-backend=3Dmem -m 256M ");
-=20
-+    daemon_pidfile_path =3D g_strdup_printf("/tmp/daemon-%d", getpid());
-+
-     for (i =3D 0; i < vus_instances; i++) {
-         int fd;
-         char *sock_path =3D create_listen_socket(&fd);
-@@ -914,6 +918,9 @@ static void start_vhost_user_blk(GString *cmd_line, int=
- vus_instances,
-                                i + 1, sock_path);
-     }
-=20
-+    g_string_append_printf(storage_daemon_command, "--pidfile %s ",
-+                           daemon_pidfile_path);
-+
-     g_test_message("starting vhost-user backend: %s",
-                    storage_daemon_command->str);
-     pid_t pid =3D fork();
-@@ -930,7 +937,27 @@ static void start_vhost_user_blk(GString *cmd_line, in=
-t vus_instances,
-         execlp("/bin/sh", "sh", "-c", storage_daemon_command->str, NULL);
-         exit(1);
-     }
-+
-+    /*
-+     * FIXME: The loop here ensures the storage-daemon has come up properl=
-y
-+     *        before allowing the test to proceed. This is a workaround fo=
-r
-+     *        a race which used to cause the vhost-user-blk-test to hang. =
-It
-+     *        should be deleted once the root cause is fully understood an=
-d
-+     *        fixed.
-+     */
-+    retries =3D 0;
-+    while (access(daemon_pidfile_path, F_OK) !=3D 0) {
-+        g_assert_cmpint(retries, <, PIDFILE_RETRIES);
-+
-+        retries++;
-+        g_usleep(1000);
-+    }
-+
-     g_string_free(storage_daemon_command, true);
-+    if (access(daemon_pidfile_path, F_OK) =3D=3D 0) {
-+        unlink(daemon_pidfile_path);
-+    }
-+    g_free(daemon_pidfile_path);
-=20
-     qsd =3D g_new(QemuStorageDaemonState, 1);
-     qsd->pid =3D pid;
---=20
-2.20.1
+> Stefan
+
 
