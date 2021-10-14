@@ -2,138 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D723742D5E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 11:22:07 +0200 (CEST)
-Received: from localhost ([::1]:43066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 149BA42D62E
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 11:35:53 +0200 (CEST)
+Received: from localhost ([::1]:49722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mawwA-0001gy-MZ
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 05:22:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57780)
+	id 1max9S-0006jr-8q
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 05:35:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lma@suse.com>) id 1mawqe-0004lc-Va
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 05:16:25 -0400
-Received: from de-smtp-delivery-102.mimecast.com ([194.104.111.102]:38341)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1max5t-000504-Gv
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 05:32:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lma@suse.com>) id 1mawqd-00051f-86
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 05:16:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
- s=mimecast20200619; t=1634202981;
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1max5p-0001Ek-5U
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 05:32:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634203923;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=h4C7b7jtf2NXK+xt0rNa6NStSs5CJW3Ym1UIwDaHS8o=;
- b=C34Z2+V8zx08D/Igyl/pMO8dOKdQxoWp/y4TwvLXNM8pFjUH+XH3ecO3LA7zkLUUWutMjZ
- vJgchGTNCDbkEG8BLcPnAo4qrsVvOXUDvQpftnwdaAoJ8Deznml8yI8shEoM3S6ouQ3T+P
- b7GFh0SIuJLb3hZe2Yaiv2nuP+8L87c=
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com
- (mail-am5eur03lp2052.outbound.protection.outlook.com [104.47.8.52]) (Using
- TLS) by relay.mimecast.com with ESMTP id de-mta-4-NNpIlvL1OaassmGogEZ1Sg-1;
- Thu, 14 Oct 2021 11:16:20 +0200
-X-MC-Unique: NNpIlvL1OaassmGogEZ1Sg-1
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Sc64UADqdeZ0uPqErpXDAqehyGmtJNFBhAaV3IGq1r5zW3dRGDKEFmk9ah+dQiSRzMHdO+Fo+GrC1hjDFFX87P8Fn6tu13LPTxP1Y5SPe4cDcv8CBYx9ZC1ER4kSkpZOYr+0e5hQjcpiyekNlkeGZMsT7PjlBcRH1N8RaHZS/BPMfL9R7FT+oRDrgYTyiYk2L2xveUutMza6t4Sc4yqDzGHJ2a8iKy9e77YWC3sLYjwbbzEk4yvztTBojwb00ZznCI5wa5Uv1OJMle0FO/LcLHieg51HywiaLOzxqYnBHh6W+nM6dEMhl9rI1tywXC2XnLBVS36hSmiyKVWDYPhYcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2fuGTTIAZYKp4k9JyA/zCdCJp0OJW1Np2q1gighPCpw=;
- b=CD9ZD4IV+pK61UfQSOeyxUiTfGAzwE8kcLUMO8TuROu5AxEHcpyhUueOIPkM3dUCAWPRJjFLlbTgUJI/p/T4SteGopVPLa46Ye/k19fyA6nlXUvNxCzg1Yq3BIPQV2SpdGljpFzkTubPExf1t0sm4I2yU9LrYTN2NkuNsTH9/N8SsWK+zkVhC4B0C/6tUkugHU16SWLVtCkSCjFioT1Xr36144b17NEHvohvs7IZ19/C18cLgye6hiztAZQoVREd6SubpNCTjNm4sS52ubl7qBukUzv1eq/EB4gnP7vp5/Lp0TLypZsnSVcj72qq7nt/RXpjVpdIwzKOFsU6dAFHUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=suse.com;
-Received: from AM9PR04MB8602.eurprd04.prod.outlook.com (2603:10a6:20b:439::12)
- by AM9PR04MB8826.eurprd04.prod.outlook.com (2603:10a6:20b:409::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15; Thu, 14 Oct
- 2021 09:16:20 +0000
-Received: from AM9PR04MB8602.eurprd04.prod.outlook.com
- ([fe80::5499:6698:e99f:cf7f]) by AM9PR04MB8602.eurprd04.prod.outlook.com
- ([fe80::5499:6698:e99f:cf7f%8]) with mapi id 15.20.4608.016; Thu, 14 Oct 2021
- 09:16:20 +0000
-From: Lin Ma <lma@suse.com>
-To: qemu-devel@nongnu.org
-CC: quintela@redhat.com,
-	dgilbert@redhat.com,
-	Lin Ma <lma@suse.com>
-Subject: [PATCH 3/3] tests: add postcopy-uffd-usermode-only capability into
- migration-test
-Date: Thu, 14 Oct 2021 17:15:51 +0800
-Message-ID: <20211014091551.15201-4-lma@suse.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20211014091551.15201-1-lma@suse.com>
-References: <20211014091551.15201-1-lma@suse.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: HK0PR01CA0071.apcprd01.prod.exchangelabs.com
- (2603:1096:203:a6::35) To AM9PR04MB8602.eurprd04.prod.outlook.com
- (2603:10a6:20b:439::12)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=duyHV1xi5eRMt47ZZ+HzkLe7tx9s0UCgP2nTKBwykzM=;
+ b=jAIndYTDEXKXFAvT0ZUS3DKfWUSxb8crRxHqh1Vvj9IGbwazbNxUFxuEtMHJ9uTHzQunyQ
+ ELtdoJLwJds8cheV0yO4If0grxweAeY/LmeRbi6yiLMohvxhpLuuyh+RxloO7lq0tOMwFr
+ 0ZH5GU8+ImNMJXu7h95Ls65sIjzlTk4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-xalUrr6pOam1aYxZHPnJLg-1; Thu, 14 Oct 2021 05:32:00 -0400
+X-MC-Unique: xalUrr6pOam1aYxZHPnJLg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ r16-20020adfb1d0000000b00160bf8972ceso4076114wra.13
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 02:32:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=duyHV1xi5eRMt47ZZ+HzkLe7tx9s0UCgP2nTKBwykzM=;
+ b=atY6UA7/tvp3cMuy+f6gaEXNJacf/TqPOhraCbKDgAULuH+7Cpzx2vtoJ+5rFJaeLo
+ p3Zh08ox/moufSo/PP2xvkPwR07x4jOIFB+D0+bA2Z6RvqgmK6qXRTvsei6nX8ae5aXx
+ wZbvr2MFY816U9BREc3MPGywww0D8DIgPEnvtcfAql0pIe/BZvcmhpEB/0tmyEbWCdCL
+ VbNLOwykHziA+c/8DeGfyxjZyJWACTbGViEg0Rg3p+exC2HTApBv+/TbQV6DtwXvkk0E
+ GkRWz8FBQcvL1JLSCX7F1vMWz6LM3pgZVybEVB5HX+Hi2/m1UVA8vVOMJP3BcUy2POEZ
+ mibQ==
+X-Gm-Message-State: AOAM532Mwpl9vA0A0z1IGUpXAr9J2pPITGAVW3qB4zRcX53HBfhEqqCT
+ t8kJIxk7FMdCrb+AuHl7ravzEnz/9AE775Gy7ytDJyVJToBSPXwa89F+dXuHhtapTD83PYYcnoy
+ 2vm1paT8gLZlA9G0=
+X-Received: by 2002:a1c:1f06:: with SMTP id f6mr4668674wmf.8.1634203919442;
+ Thu, 14 Oct 2021 02:31:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwWrB0QKHuiegP1MEBJCHmshSQnz5qJ6z/xvsDx+LT8XVwVYJ4XCYfTJDbFGP9bPNllkDTKLQ==
+X-Received: by 2002:a1c:1f06:: with SMTP id f6mr4668642wmf.8.1634203919121;
+ Thu, 14 Oct 2021 02:31:59 -0700 (PDT)
+Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id p18sm722684wmq.4.2021.10.14.02.31.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Oct 2021 02:31:58 -0700 (PDT)
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Is the ppc440 "bamboo" board in QEMU still of any use?
+Message-ID: <fc2e00d1-2373-3223-03c8-195585face66@redhat.com>
+Date: Thu, 14 Oct 2021 11:31:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Received: from localhost (60.251.47.115) by
- HK0PR01CA0071.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::35) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.25 via Frontend
- Transport; Thu, 14 Oct 2021 09:16:19 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 95bf8360-eeda-4822-0ff3-08d98ef348ea
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8826:
-X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM9PR04MB8826A8E21B4E3061C0E65375C5B89@AM9PR04MB8826.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aRFmlh6KyvQ6Y7DZmz9+wYCQrtbhZWuiPD7VRNJNYcduvJEqOaWmcP80vtMVGoXLjr3tDcQdk4bukH5/yjPt9MuM7g55whTW+CAgb/XUx8mna6V/n+5kOOiuf4RNUTZQpKgTQSCySr+aepI5nXFjS8NbuEqWarQRAZJOast6T4ugCyn9yyij5H8J//LsAconyEblUGWovAR2YlqG6SlbfTCXvdfOpjJW5oGkyT6xUC1jexvNXucGCgamg/LTgBaMZi8C63sJObnGwag9rvUw7B9ZxVe/jwwDZ4Mt/AasV9+hZ8IlidiW3e4ebq0QoT2yWQoNpDobCydmwqf0/no4TGdnI4cdOhk4Uc8yGGEwST/qJB9D1pz2QN9t7PumFFVJ6p2/A/NwNUfz7Lep4GYWLNi6mw3d0p6c3eQTzNkh2BagTZGA1GhQztjLdltmzeW9RI5E/rcSDz3Uaq3dusHpn085WGO3Ock6ufXbbcllWG+Fev39yK7FW5HYY1GwZMwK4ehGCgUNPGQ/2D0b70qW6KSv32SE5c+qNf304JCmOW7DjhpcAAY3sVw1e9uSrO84bHCMXB/7rBIRdSD74uH9g26AgHvkFPqmlKZ2hkI2KOfMTzaBSn4IVkK5zcBpBjTYQHkyzfE9HdT62H9ci2STIQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR04MB8602.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(6666004)(66946007)(6916009)(66556008)(66476007)(508600001)(8676002)(107886003)(1076003)(86362001)(8936002)(5660300002)(38100700002)(83380400001)(55236004)(6496006)(186003)(2906002)(4326008)(2616005)(956004)(26005)(6486002)(316002)(36756003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vqrA3/Fc6r5Q7KhDbelUJbURo9CfqokH0IsNuqsV+9Sp9kplqn9XCyAd4bgJ?=
- =?us-ascii?Q?JaL2VdutkSd/nxZdkMMulfjDrF9NDDKeM+Oq5tQU6YBC1m45XvM3+eR+rK9A?=
- =?us-ascii?Q?xBosj1CCSkxfLSJ2CL1HO180CvJ7NlSQo/BjhIhq5Cwn4ra+0vGNSmipW3x/?=
- =?us-ascii?Q?+x9eZHK7+4fFGDJCZ8WazOkghq39+iJ5c5uejyVsqY5vGRJwEOPwH3vzutMC?=
- =?us-ascii?Q?IOnhOQ0BZH1ijPJQHIH3DjfkjB3VhTTziVHBSFNG0dYDuDsqUXWBaO9dfV0g?=
- =?us-ascii?Q?9g7KHM7XiC8gALBiXKZ3F+u6QamBKZMIbH+duHQ2LGsbTmPvw+F+FpeIWTF5?=
- =?us-ascii?Q?Rt/ABoWdOF741rN60WCrQjDbjZCy+j6MtHWbvY1ANXEtJTlI6D8+2W8YCBO9?=
- =?us-ascii?Q?4opnZOFgRmKo5doPXyaCnixf+BYC5lXx+xI4z7Y0a3YlsaV/o5KemmGmtknr?=
- =?us-ascii?Q?Qwhiu1YqCOlOEdICP/iqVKLKXBGDdJ4mzv83W3chOzAxyz7q27dDLTbYeZOV?=
- =?us-ascii?Q?xOfNLCsTOoJGPELDr6ppqcpBB2VWFtAU9CaaBU1c7v3A8PM3BQttgnzgumyn?=
- =?us-ascii?Q?Uex4taix/yfFR2ix1VX5U4EFlBlbpw1KcdjxO4819BF2rQXs3uvCGZ/KakvE?=
- =?us-ascii?Q?DN2X31YbCP/cDuRDQSYu6i9Z89Dsa45/pQ7D9j035oZvauGBpnqL9WKr1R0W?=
- =?us-ascii?Q?0cYavpDsIRy3VxNfPHJYpeI/vHCjrXYIa6IrXOuQMyUhNk98eABBVb7ivrM9?=
- =?us-ascii?Q?xaJwWlO0ToYaa22oGHt6squJROHEz2FEyp7xhB7+lGUZthl22tqy6AuufhjW?=
- =?us-ascii?Q?pc85Pumcx1q7ygkoZD6htooZeb448rVTAIkVQCsKLyDodAqSe4K6D5kP9OiU?=
- =?us-ascii?Q?C+ISk0NN69nSbfsmsAcJsVdBT/enrdWYHMeRBhZNuEhhUO59GIRsYi2XBquZ?=
- =?us-ascii?Q?W64l3DraMhOYjiM2javz2pDK3CeV/O8QFrzniryqspY7CWJCIKXKYkxBVh2P?=
- =?us-ascii?Q?ZQ+0TYrAYU42lsQ3v3KNRcEmbzH/RSth6XVUKBpwtoLurTLolRCY45XfMdhr?=
- =?us-ascii?Q?rrP3u/mZzA/qzgnkZIB3UG4hCu/H6Pt95s/yA//8oQss76hzJedJ7ELrpN+6?=
- =?us-ascii?Q?lRPXKcGMbdPN5mp/bEOxit3QZavZgbbfr1c6ZSdfotmYmq+zE/26CXqk/ppP?=
- =?us-ascii?Q?aN8F/+yHIARZiyDTZ4/lYkiXxF3JRNMxqNt6Xbkn0spdrlBzObAeqTBPssrL?=
- =?us-ascii?Q?2cclCZRPPBWs3tMxJtBg5i87zcYipM9+YiJ7VwClpZsc0iyz0suECpmWiDvO?=
- =?us-ascii?Q?NLnr9Jjb0JaXpmEVXEUQOG1W?=
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95bf8360-eeda-4822-0ff3-08d98ef348ea
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8602.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2021 09:16:20.2057 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OZRA1d/Hg27ZZSM76J6sRE/5WkBJWJhp1eGzaHB4aH8qw/6cMs8WkyvQm79EOhtx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8826
-Received-SPF: pass client-ip=194.104.111.102; envelope-from=lma@suse.com;
- helo=de-smtp-delivery-102.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -146,53 +93,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alexander Graf <agraf@csgraf.de>, hpoussin@reactos.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Lin Ma <lma@suse.com>
----
- tests/qtest/migration-test.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index cc5e83d98a..0cd4f49bed 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -38,6 +38,7 @@
- unsigned start_address;
- unsigned end_address;
- static bool uffd_feature_thread_id;
-+static bool uffd_usermode_only;
-=20
- /* A downtime where the test really should converge */
- #define CONVERGE_DOWNTIME 1000
-@@ -60,8 +61,12 @@ static bool ufd_version_check(void)
-     int ufd =3D syscall(__NR_userfaultfd, O_CLOEXEC);
-=20
-     if (ufd =3D=3D -1) {
--        g_test_message("Skipping test: userfaultfd not available");
--        return false;
-+        ufd =3D syscall(__NR_userfaultfd, O_CLOEXEC | UFFD_USER_MODE_ONLY)=
-;
-+        if (ufd =3D=3D -1) {
-+	    g_test_message("Skipping test: userfaultfd not available");
-+            return false;
-+	} else
-+            uffd_usermode_only =3D true;
-     }
-=20
-     api_struct.api =3D UFFD_API;
-@@ -670,6 +675,8 @@ static int migrate_postcopy_prepare(QTestState **from_p=
-tr,
-     }
-=20
-     migrate_set_capability(from, "postcopy-ram", true);
-+    if (uffd_usermode_only)
-+        migrate_set_capability(to, "postcopy-uffd-usermode-only", true);
-     migrate_set_capability(to, "postcopy-ram", true);
-     migrate_set_capability(to, "postcopy-blocktime", true);
-=20
---=20
-2.26.2
+  Hi,
+
+I tried to build a current Linux kernel for the "bamboo" board and use it in 
+QEMU, but QEMU then quickly aborts with:
+
+  pci.c:262: pci_bus_change_irq_level: Assertion `irq_num >= 0' failed.
+
+(or with a "DCR write error" if I try to use the cuImage instead).
+
+I googled a little bit and found this discussion:
+
+https://qemu-devel.nongnu.narkive.com/vYHona3u/emulating-powerpc-440ep-with-qemu-system-ppcemb#post2
+
+Seems like this board was used for KVM on the PPC440 only, and has never 
+been enabled with the TCG emulation?
+
+Well, KVM support on the 440 has been removed years ago already:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b2677b8dd8de0dc1496ede4da09b9dfd59f15cea
+
+So is this "bamboo" board dead code in QEMU now? Or does anybody still have 
+a kernel binary which could be used for testing it? Note: This board does 
+not support "-bios", so u-boot or other firmwares are certainly also not an 
+option here...
+Should we mark "bamboo" as deprecated nowadays?
+
+  Thomas
 
 
