@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C3C42E467
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 00:48:27 +0200 (CEST)
-Received: from localhost ([::1]:52846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A0642E46D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 00:51:19 +0200 (CEST)
+Received: from localhost ([::1]:59182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb9WU-0000E6-4m
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 18:48:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55848)
+	id 1mb9ZG-0004Yu-Gy
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 18:51:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mb9Ss-0002lY-Ca
+ id 1mb9Ss-0002mj-UQ
  for qemu-devel@nongnu.org; Thu, 14 Oct 2021 18:44:42 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:42531)
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:44717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mb9Sq-0004Jc-S5
+ id 1mb9Sr-0004Jw-Eb
  for qemu-devel@nongnu.org; Thu, 14 Oct 2021 18:44:42 -0400
-Received: by mail-pf1-x429.google.com with SMTP id m14so6711939pfc.9
+Received: by mail-pg1-x536.google.com with SMTP id q12so3924604pgq.11
  for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 15:44:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TLXzZWfNaYKwqtM1Kn97ZLYqBJk/lPUwe18as3UZkwQ=;
- b=qPE7KVm6luMvi8IJZf0Jl4+4lWrUf4WFHJWDZE74b4ckq5bYsPgQ5Qk8EKRdJlXskx
- RSpkBJba/hR6RRUI8gfkpmhvhYopsbRmaZqUow9RKT9YrysddssYaNyrJu1eB4sw31Ij
- NR3Ds1P94F2I3LCE7oaNkDm+MEhG0qv4z2F19t/LJK0I665e1Ga04ruHND/C4BXF34ty
- FtT5fuIs3sEOVziP7zzSnDksslJGEUYljQki7luKromWzql8q1ql+KGP6NrontFDp95Q
- h2rTZ3GXEYUbKSRng7U73K5pEaNf/i7JiJSM8FzRq6L7VRPqWO65HkB9z4/d/jAaFwNN
- 0NaA==
+ bh=g8hjqcy59VN6P/kOU18jEGQwnkWxMefSfkUBnHfe+Gc=;
+ b=xEPxzELZhnQpKsuXFaNqj+1l4OyRCwqRbmhKYbB667CbKQoQ01w9oHbGC14qmVrJIs
+ 5FTfnKtXVMyOvN+S/DrwW1/elPJHmJjn9owRqVrZlOOuC6/8Ad9j9AKy81HmjGU+E95K
+ q/VMA3HivaaROmiAr2/e+Z6JEOjWA+gTC9rN2QiIFRz6pl7xBMA3vn9sl5QAHQQuw5cp
+ a/U8+XcRCkDfl++cV1DA78pqV6n7hxm57LCsEcsJEyPE0tHtMkaj4xHll86aBtLZgZV8
+ imDkHuqkyoDzMEg8lHqbPYfVnRUrpHo9Ew1YxfWRHWF/2y31IuAvagcGQtVvRJnCPMsF
+ aY9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TLXzZWfNaYKwqtM1Kn97ZLYqBJk/lPUwe18as3UZkwQ=;
- b=MRkNCdtSIlJgKrnQKhbR6H3u6GKlZTs1vyqzts4VoM59djFZcVEC0GWL5Bl0PZ8QsG
- gc20tRr5Fpt9Ez9Go5y+uOLDRv53RPuxlRY3PHPe/HHRa6hdEEzBDTWRwzjsZjiRaWQk
- zpSWDaJ9vAsVAyrFE4dlpNd/4k7bys1ldleLw1F+9N6Mn3l7Ey++sVxYyGp+hzNX4Kyp
- i5J5VmOsbsniqIIzBmXcRHP3TX68nj3rIArhJisxU1nUURxuJsay4IuyWohYAq4MRGG7
- AW4JKSe1VbwSyyW+XoFvcaPFOm7LpzoCABiRFyhMBxS6IDPOn+YQaxi1LiLe5T4oWWD6
- LQaA==
-X-Gm-Message-State: AOAM532N9YTkN3fnWYcGzVhym8/Ou+zQzJH7LldxCcZVHe5tGHt0dBNY
- CmCEqx6lw+KD1SNh5oGvKJOR20fyrH0yJA==
-X-Google-Smtp-Source: ABdhPJwJ1gM2iaqAtdUEkg5ujnq83tFPcH+39VnkENqB4CKR002h5OSVL80rjNw0J0084RrWgU33FQ==
-X-Received: by 2002:a62:8284:0:b0:44c:6490:4a2d with SMTP id
- w126-20020a628284000000b0044c64904a2dmr7836194pfd.38.1634251479269; 
+ bh=g8hjqcy59VN6P/kOU18jEGQwnkWxMefSfkUBnHfe+Gc=;
+ b=sjR+ApDzc52+N5zUUVLJnw1N10XfbDv14Tutqz1rN8iUmr1YJW+7Bl0Bx+HA9kdqxj
+ N6mXKUxmHoXmBgVs26oyxPLNvJY33DiHCu2todM8JTz51QfLc5UuvtvMzHpl7jZTM7t1
+ BhLFRrwIBbwPNOQWODAkgXJsLF5NcpNDZnAohO/7449GJfikG1fTqh5G8y0eKWKwdOqn
+ MQmEQ+gpqIxXXxe5jNYDjK6NCRW1GsE+p2KfnSj02HpTyJhJ/odJMuYfVXvycsyUBPcL
+ fxNQyPeuAaHo8FC5ndIwls4rVYlR6SJFzw7U8zt+qTrol1/ces6SzY6q8WtqUeuo2q+e
+ O0NQ==
+X-Gm-Message-State: AOAM532Wy55HG0i5ka7FPra2Fh8vb3bJAfN8OyUvkYYNIAu8kysS3iZ+
+ n+w9tYw6w/MmLA2lBS8hc28XigJZVgFgRw==
+X-Google-Smtp-Source: ABdhPJz4Ulav8pRwItSK6JR3QR6HLRvsIfdP3DPnaG88XnkTHIoPAxXJtquM+Usq3ekCARl0ebNymw==
+X-Received: by 2002:a63:db41:: with SMTP id x1mr6365840pgi.474.1634251479887; 
  Thu, 14 Oct 2021 15:44:39 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id m10sm9506208pjs.21.2021.10.14.15.44.38
+ by smtp.gmail.com with ESMTPSA id m10sm9506208pjs.21.2021.10.14.15.44.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 15:44:38 -0700 (PDT)
+ Thu, 14 Oct 2021 15:44:39 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] tests/docker: Use apt build-dep in debian10
-Date: Thu, 14 Oct 2021 15:44:29 -0700
-Message-Id: <20211014224435.2539547-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/7] tests/docker: Simplify debian-all-test-cross
+Date: Thu, 14 Oct 2021 15:44:30 -0700
+Message-Id: <20211014224435.2539547-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211014224435.2539547-1-richard.henderson@linaro.org>
 References: <20211014224435.2539547-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,37 +86,30 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace the complex apt-get subshell with apt build-dep.
+The base debian10 image contains enough to build qemu;
+we do not need to repeat that within the new image.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/docker/dockerfiles/debian10.docker | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ tests/docker/dockerfiles/debian-all-test-cross.docker | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index b414af1b9f..d3bbb90c64 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -14,7 +14,8 @@ RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.lis
+diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
+index dedcea58b4..b185b7c15a 100644
+--- a/tests/docker/dockerfiles/debian-all-test-cross.docker
++++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
+@@ -8,11 +8,6 @@
+ #
+ FROM qemu/debian10
  
- # Install common build utilities
- RUN apt update && \
--    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
-+    DEBIAN_FRONTEND=noninteractive \
-+    apt install -yy eatmydata && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt install -y --no-install-recommends \
-         bc \
-@@ -33,5 +34,7 @@ RUN apt update && \
-         psmisc \
-         python3 \
-         python3-sphinx \
--        python3-sphinx-rtd-theme \
--        $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
-+        python3-sphinx-rtd-theme
-+
-+RUN DEBIAN_FRONTEND=noninteractive eatmydata \
-+    apt build-dep -yy qemu
+-# What we need to build QEMU itself
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt build-dep -yy qemu
+-
+ # Add the foreign architecture we want and install dependencies
+ RUN DEBIAN_FRONTEND=noninteractive eatmydata \
+         apt install -y --no-install-recommends \
 -- 
 2.25.1
 
