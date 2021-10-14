@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586A742DF4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 18:40:18 +0200 (CEST)
-Received: from localhost ([::1]:41388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B16D42DF71
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 18:45:54 +0200 (CEST)
+Received: from localhost ([::1]:58288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb3mD-0001FW-C9
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 12:40:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34790)
+	id 1mb3rd-0004VY-Kb
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 12:45:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mb3cB-0003kF-V5
+ id 1mb3cB-0003jP-Nj
  for qemu-devel@nongnu.org; Thu, 14 Oct 2021 12:29:55 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:45857)
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:43770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mb3cA-0000fl-DL
+ id 1mb3c9-0000f6-V0
  for qemu-devel@nongnu.org; Thu, 14 Oct 2021 12:29:55 -0400
-Received: by mail-ed1-x530.google.com with SMTP id r18so26590680edv.12
+Received: by mail-ed1-x52b.google.com with SMTP id i20so25746014edj.10
  for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 09:29:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yKX+0RY9dKnvtMGdHrAusBKgI+02YSB+9Ufsypua5fU=;
- b=PLGJCZj01V5XxuTzz/WCKchSWQtp05HBQxxKP1eh603LDnLLAUjH7kTpLlBkkR5Pag
- uth0e0+oDzhrF4MV5xLAFub25BC5pnitIaa3I7v4Nead2F7LhwoqaGtZTGXkfLTAV4wm
- Bqx2cmsH4+5NwNt1lBdFm6K97P3+RImBgkpkdKRKZkHcwYsmZ79ceQmPQbUqM3esj2yu
- G52nFbM0a1Zt+uB8CIF+EuxHdursA9Q0ORucW97uHLmIiB74ilUO0WbV6wcJUyDlA84o
- 7acv6v7EgZcmV/zRWd0euGAD8+RnRPBEE9tkcCp783FPq1/2ICnc5vv6o0l31LS5/5XI
- HRaQ==
+ bh=ncrd4Iry7De5PP7WGyTpKaYN3ujrNzg5cS7gtoDsikk=;
+ b=WaJlV4lVfgUHg4dhOVsvFGvUwM+7mkaPdCRWD/RddwgeJtNJXido/iYO3nl0InF0k0
+ E1aumPlMUlpnU2qxCQdcCaOBngyhwyA8x6P7eSHU8gNHycjIgfgGWvGS2TrtaeN85yXC
+ gVQ1ZHiyFJXaTdfGr0OjX6Rh/4SOFuNOMipe5EDWKPEfNmO95D6CxqQRrh4saB8YdUq8
+ DkeUN+qekyVfLKlOYfyg7A1LuYc7EZmQ4Yh2noMr3kdRWEAbtPre4rd1Oc+IPiK5ZAU2
+ 4oCFvT/vrn28WqmmnigTa3dTMUkYD4I8C/SW33KZdkmUMEuyjC2xUx2m161d5zar5ag7
+ H8AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yKX+0RY9dKnvtMGdHrAusBKgI+02YSB+9Ufsypua5fU=;
- b=D6gWROmioeFw5VHfoYYWkFjyk2hRW5Rrmg2fetos0rZcIWEuO8yxXuLwgUYpSYSOc+
- EWDdfpuWizr9xw8cFh/tutOlci/u9P/UxO3Qn8M3njg/IJEiQwlf57y+ZC3v+evM43D4
- XYMRqmVMpF9z7VqMCkmK8t5JL4TszzmsZoHR6gWH/JyMGBewkG0qKrXI7Q/T7QwyHgpZ
- 6bfSsnstxNPyLrf6e9iV2AYBA3ezCbBAuXZ7Jekokjz0YjNlLVsi5eZsvXh6bc5Dpi25
- QgXRkvLu+0nYfDs7YuuJHPz2e+JdCmR/1GyG55GuVWoANW49RRYsh8JV3xHSFYCLAihX
- zE6g==
-X-Gm-Message-State: AOAM531iDF//rYddK1vsRsYuZlse3/cAWLP1L3ZhH1qFQAWQ7tNcgz/w
- +ddaVDRucROjeuutba6zUI92UsszMI4=
-X-Google-Smtp-Source: ABdhPJwi4e/GLgvWPgdawypdUTWkDpiE2yRlmGVfjLOD2XDIetcrPaqxUOa2QzElBnMMSfCXyO/kGw==
-X-Received: by 2002:a05:6402:3488:: with SMTP id
- v8mr9676697edc.106.1634228991994; 
- Thu, 14 Oct 2021 09:29:51 -0700 (PDT)
+ bh=ncrd4Iry7De5PP7WGyTpKaYN3ujrNzg5cS7gtoDsikk=;
+ b=bs2LvET+bvzX0ZOZGx3gwKZSUnCpqsBpZy8xHCnxTLYji64qQt8mSSqIPnQwL8mzKo
+ uY+MFrrV81Jbpu80TGj2e/pifXunTdA6nD239+VajJ8EUkRJS9z5TC5oRR2Gg3nPj72A
+ +VI+dvBvhxZcpwsjaljZebEwtJV0u07U8gcLjmb6kTIi6u+/2HaxHjaASpNU8QO0b5xC
+ 6xhH2bCQCyWSy+ZSpwvT19/7v2+dwTazstjPUHupbSZLAU5SGupkqxnGqKnqoSQJh/cw
+ ZlgMVgkhdJ/4cxyNWZT9IARQXXkHVVf8/FBrBkBKUqwnWTMeFVyeQORILLATg0q+Xdyt
+ k7ew==
+X-Gm-Message-State: AOAM5315le8b9BM2q7u85UXfLErDOkiGE8ovOFsopXQ1RWVANs3kShjX
+ JMe0gdNPWS6ctKYLRO+qPDYT+e+15Kk=
+X-Google-Smtp-Source: ABdhPJxUeGauGg5dkTCWktpaKOJWpUVlRL9c5Vvs2vpE1ESKyJO371vMHOUs04l8/O3ZEALasnLJkA==
+X-Received: by 2002:a50:e183:: with SMTP id k3mr10223223edl.22.1634228992672; 
+ Thu, 14 Oct 2021 09:29:52 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id x22sm2658404edv.14.2021.10.14.09.29.51
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id x22sm2658404edv.14.2021.10.14.09.29.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 09:29:51 -0700 (PDT)
+ Thu, 14 Oct 2021 09:29:52 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/26] meson: HAVE_GDB_BIN is not used by C code
-Date: Thu, 14 Oct 2021 18:29:25 +0200
-Message-Id: <20211014162938.430211-14-pbonzini@redhat.com>
+Subject: [PULL 14/26] configure,
+ meson: move remaining HAVE_* compiler tests to Meson
+Date: Thu, 14 Oct 2021 18:29:26 +0200
+Message-Id: <20211014162938.430211-15-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211014162938.430211-1-pbonzini@redhat.com>
 References: <20211014162938.430211-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,30 +85,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is only used by the TCG tests, remove it from config-host.h.
+Remove some special cases by moving them to Meson.
 
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20211007130829.632254-8-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ configure   | 37 -------------------------------------
+ meson.build | 19 ++++++++++++++++++-
+ 2 files changed, 18 insertions(+), 38 deletions(-)
 
+diff --git a/configure b/configure
+index 6efea3cfc6..e78f58978f 100755
+--- a/configure
++++ b/configure
+@@ -2403,18 +2403,6 @@ else
+   l2tpv3=no
+ fi
+ 
+-cat > $TMPC <<EOF
+-#include <sys/mman.h>
+-int main(int argc, char *argv[]) {
+-    return mlockall(MCL_FUTURE);
+-}
+-EOF
+-if compile_prog "" "" ; then
+-  have_mlockall=yes
+-else
+-  have_mlockall=no
+-fi
+-
+ #########################################
+ # vhost interdependencies and host support
+ 
+@@ -3842,21 +3830,6 @@ if test "$fortify_source" != "no"; then
+   fi
+ fi
+ 
+-##########################################
+-# check if struct fsxattr is available via linux/fs.h
+-
+-have_fsxattr=no
+-cat > $TMPC << EOF
+-#include <linux/fs.h>
+-struct fsxattr foo;
+-int main(void) {
+-  return 0;
+-}
+-EOF
+-if compile_prog "" "" ; then
+-    have_fsxattr=yes
+-fi
+-
+ ##########################################
+ # check for usable membarrier system call
+ if test "$membarrier" = "yes"; then
+@@ -4358,13 +4331,6 @@ if test "$gdbus_codegen" != "" ; then
+ fi
+ echo "CONFIG_TLS_PRIORITY=\"$tls_priority\"" >> $config_host_mak
+ 
+-# Work around a system header bug with some kernel/XFS header
+-# versions where they both try to define 'struct fsxattr':
+-# xfs headers will not try to redefine structs from linux headers
+-# if this macro is set.
+-if test "$have_fsxattr" = "yes" ; then
+-    echo "HAVE_FSXATTR=y" >> $config_host_mak
+-fi
+ if test "$xen" = "enabled" ; then
+   echo "CONFIG_XEN_BACKEND=y" >> $config_host_mak
+   echo "CONFIG_XEN_CTRL_INTERFACE_VERSION=$xen_ctrl_version" >> $config_host_mak
+@@ -4569,9 +4535,6 @@ fi
+ if test "$parallels" = "yes" ; then
+   echo "CONFIG_PARALLELS=y" >> $config_host_mak
+ fi
+-if test "$have_mlockall" = "yes" ; then
+-  echo "HAVE_MLOCKALL=y" >> $config_host_mak
+-fi
+ 
+ if test "$plugins" = "yes" ; then
+     echo "CONFIG_PLUGIN=y" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index ff19d54fc6..bdcedf2eef 100644
+index bdcedf2eef..e8e728bf72 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1609,7 +1609,8 @@ config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
-         return printf("%zu", SIZE_MAX);
-     }''', args: ['-Werror']))
+@@ -1601,6 +1601,23 @@ config_host_data.set('CONFIG_SPLICE', cc.links(gnu_source_prefix + '''
+     return 0;
+   }'''))
  
--ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
-+ignored = ['CONFIG_QEMU_INTERP_PREFIX', # actually per-target
-+    'HAVE_GDB_BIN']
- arrays = ['CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
- strings = ['CONFIG_IASL']
- foreach k, v: config_host
++config_host_data.set('HAVE_MLOCKALL', cc.links(gnu_source_prefix + '''
++  #include <sys/mman.h>
++  int main(int argc, char *argv[]) {
++    return mlockall(MCL_FUTURE);
++  }'''))
++
++# Work around a system header bug with some kernel/XFS header
++# versions where they both try to define 'struct fsxattr':
++# xfs headers will not try to redefine structs from linux headers
++# if this macro is set.
++config_host_data.set('HAVE_FSXATTR', cc.links('''
++  #include <linux/fs.h>'
++  struct fsxattr foo;
++  int main(void) {
++    return 0;
++  }'''))
++
+ # Some versions of Mac OS X incorrectly define SIZE_MAX
+ config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
+     #include <stdint.h>
+@@ -1625,7 +1642,7 @@ foreach k, v: config_host
+     config_host_data.set('HOST_' + v.to_upper(), 1)
+   elif strings.contains(k)
+     config_host_data.set_quoted(k, v)
+-  elif k.startswith('CONFIG_') or k.startswith('HAVE_')
++  elif k.startswith('CONFIG_')
+     config_host_data.set(k, v == 'y' ? 1 : v)
+   endif
+ endforeach
 -- 
 2.31.1
 
