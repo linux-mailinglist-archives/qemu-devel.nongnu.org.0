@@ -2,91 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7460F42DEF6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 18:13:46 +0200 (CEST)
-Received: from localhost ([::1]:51094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD4942DED9
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Oct 2021 18:05:01 +0200 (CEST)
+Received: from localhost ([::1]:57864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mb3MX-00025P-A4
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 12:13:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49510)
+	id 1mb3E4-0004Zf-B9
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 12:05:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mb2mU-0008Qk-3h
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:36:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28339)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mb2mL-0007Jm-Tf
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:36:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634225779;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1adBIZGKXSU5y4M0TDRr3IIogDLxARLXmixeprWkpps=;
- b=OunTeFy8BtfNsZmAMXTdBPxmYr6jQ74dFz9+aNA/KqjMsnmt/XpQkWC40jLPm3vBwzmBSz
- A0qjnVKzefZqdNX1Bu29r9j4Z5RuTtePwRsSd6ulZUYv09m9LPCnHqwcQYshKo4zZOY3dk
- dVsKW44ApphwPuFxeE97TyOwKbgMeRA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-JEqhxZMeMGuOwFUZP0rAnA-1; Thu, 14 Oct 2021 11:36:18 -0400
-X-MC-Unique: JEqhxZMeMGuOwFUZP0rAnA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d13-20020adf9b8d000000b00160a94c235aso4889213wrc.2
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 08:36:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mb328-0000qf-KJ
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:52:40 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:39924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mb326-0000DA-ON
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 11:52:40 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ ls18-20020a17090b351200b001a00250584aso7254822pjb.4
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 08:52:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ChxS2VNPaGoo9fvFLqmIiW0ukyQ6pBHf6405rReavZU=;
+ b=kb1rCUiwl2d++3LjhoBJwrQ3CRqqlf7zncwqYDEnrrI7qTULO76FoqmqkP1jJZQCoi
+ L7VpDVK1J781ahI0rL8HzfWHE1C3RQXCCo5QM6BZHwbaNzlgkoTYBK2ew3yfM1s/WaML
+ fGD26KZ+J+4g/U/V2HKYqJevvPAPR3vJxCJjqA1hDNePDOiR8Cc1fPyzrZphmBUTWcLl
+ Knp6zH735QGduq/+0uSmAKTuYeVEb+duEwY+pz6yPk/WwdkN73t5cCZnKILpEys24etO
+ c2WijphOZSaSJcLJl5uPsXtQN6uR5aRBZSDDkJdpXet5cbw5Lk9nCxq614WpikYS63lQ
+ u0Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1adBIZGKXSU5y4M0TDRr3IIogDLxARLXmixeprWkpps=;
- b=uc15byI+11WaBbGl96fQ+abaBSjQDzKDznRRKxXIgUgG/im02NKtyL6uuiXOWNQ2hm
- IJOEIcGbrN9V/4lYsvR38P1M3Mohf9dw/gNORFZediJn6IwMpOwpUiJcqnAMAWyKulM7
- Ew2RkzEwof9/KrUFmDxKs7uVnBI2gfxc4pGq4mFKi35Xv3DEfWPaTsNKPe3DoeR3ud2M
- ew4HCE/wl0gahJvJZ+IHKrJDaUiONlVmc3nnMxq9/x9ZKLgxwSTY9YjUoqLPfj8m2/0t
- tg0+I7OF96QlQUQQ2KdOETzsEJHgLIauXXdpaE94T1Qeg8fR0Y7XWqDS6kZMLfse2s5h
- 8wvw==
-X-Gm-Message-State: AOAM530Mc1++h8RqQyXNdrzBrYB59Sz/IDYHResf9fplR3MjSrqnudgP
- YSlTWF3ppHjqB1Hy82IIiAcRUY9ZCYgw045bc0l4l1yHeAeW6XgDl8R44xGDCipsBDnszbNP6pK
- xnkT9waA+huPkP7w=
-X-Received: by 2002:a1c:7ed7:: with SMTP id z206mr19973153wmc.69.1634225776872; 
- Thu, 14 Oct 2021 08:36:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzKUP0PGy0DaQKlto0DL+/2Jx2SX95M3cisgkjjCWjbbdvQE+XJU5IdJDtZeV167uCzkbrjsQ==
-X-Received: by 2002:a1c:7ed7:: with SMTP id z206mr19973122wmc.69.1634225776578; 
- Thu, 14 Oct 2021 08:36:16 -0700 (PDT)
-Received: from gator (nat-pool-brq-u.redhat.com. [213.175.37.12])
- by smtp.gmail.com with ESMTPSA id k17sm2573270wrc.93.2021.10.14.08.36.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 08:36:16 -0700 (PDT)
-Date: Thu, 14 Oct 2021 17:36:09 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v3 1/2] numa: Require distance map when empty node exists
-Message-ID: <20211014153609.pzndx7um3dfdgelo@gator>
-References: <20211013045805.192165-1-gshan@redhat.com>
- <20211013045805.192165-2-gshan@redhat.com>
- <20211013133011.62b8812d@redhat.com>
- <20211013113544.4xrfagduw4nlbvou@gator.home>
- <20211013135346.3a8f6c9a@redhat.com>
- <20211013121125.sdewyrxcipsi3o22@gator.home>
- <20211013122840.fi4ufle4czyzegtb@gator.home>
- <20211014171417.541c9bee@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ChxS2VNPaGoo9fvFLqmIiW0ukyQ6pBHf6405rReavZU=;
+ b=M5KnCg+ED8ECaK4QpAJWWgcfvv63XnAmj603TYOqRKWr3vpjvWfG3BrTmk4q60Ihao
+ Xxw2Kf9t8tP/mPn3jI8Id4+sSiOPqSMtZb2ZyZPQ+xZeoDB5KRWmKHA8daBruu16WVjx
+ b3DDy8nuWNuAQQk48d82qheMWX4F4MXQp5E5YnMhfCAIZ+pmjz71oql1y8UDZrqez+M0
+ Z6R4RxPkvePCnSry65cUsxaYGqwmd/j8QrLIL8xEN12u04LxoiNab2lhMByOySBpz0pv
+ n6hivjAuK6Fd0d+iDHXNgXbBVzIFs4oKwcPjCQIszQ8QRzlEFS6TgLlQYbwUHWFsB7N6
+ 2gaQ==
+X-Gm-Message-State: AOAM530CPatEjf+/dv0rOksDDXUZcrOMeAzWmuJ7f6Ld2NF7dvs4hZnd
+ ZnhxOhNWRJpg2E0c+pDNmbcn9A==
+X-Google-Smtp-Source: ABdhPJx8P8cW/5EpgvH9DMFbQNSd0ct0rfg1oIXmnNsEgMuQFeGrvyr7yzCo6zU9s+4NdgzwC48r0g==
+X-Received: by 2002:a17:90a:f415:: with SMTP id
+ ch21mr20889106pjb.235.1634226756978; 
+ Thu, 14 Oct 2021 08:52:36 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id b10sm2831589pfi.122.2021.10.14.08.52.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Oct 2021 08:52:36 -0700 (PDT)
+Subject: Re: [PATCH v2 03/13] target/riscv: Split misa.mxl and misa.ext
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org
+References: <20211013205104.1031679-1-richard.henderson@linaro.org>
+ <20211013205104.1031679-4-richard.henderson@linaro.org>
+ <e3151002-6664-930a-bea2-c2d692338a86@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3a123d4d-fee5-9d94-424f-b120d202e649@linaro.org>
+Date: Thu, 14 Oct 2021 08:52:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211014171417.541c9bee@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+In-Reply-To: <e3151002-6664-930a-bea2-c2d692338a86@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,207 +90,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Gavin Shan <gshan@redhat.com>,
- ehabkost@redhat.com, robh@kernel.org, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, shan.gavin@gmail.com, qemu-riscv@nongnu.org
+Cc: alistair.francis@wdc.com, frederic.petrot@univ-grenoble-alpes.fr,
+ qemu-riscv@nongnu.org, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 14, 2021 at 05:14:17PM +0200, Igor Mammedov wrote:
-> On Wed, 13 Oct 2021 14:28:40 +0200
-> Andrew Jones <drjones@redhat.com> wrote:
+On 10/14/21 12:52 AM, LIU Zhiwei wrote:
+>> @@ -360,6 +357,7 @@ static void riscv_cpu_reset(DeviceState *dev)
+>>       mcc->parent_reset(dev);
+>>   #ifndef CONFIG_USER_ONLY
+>> +    env->misa_mxl = env->misa_mxl_max;
 > 
-> > On Wed, Oct 13, 2021 at 02:11:25PM +0200, Andrew Jones wrote:
-> > > On Wed, Oct 13, 2021 at 01:53:46PM +0200, Igor Mammedov wrote:  
-> > > > On Wed, 13 Oct 2021 13:35:44 +0200
-> > > > Andrew Jones <drjones@redhat.com> wrote:
-> > > >   
-> > > > > On Wed, Oct 13, 2021 at 01:30:11PM +0200, Igor Mammedov wrote:  
-> > > > > > On Wed, 13 Oct 2021 12:58:04 +0800
-> > > > > > Gavin Shan <gshan@redhat.com> wrote:
-> > > > > >     
-> > > > > > > The following option is used to specify the distance map. It's
-> > > > > > > possible the option isn't provided by user. In this case, the
-> > > > > > > distance map isn't populated and exposed to platform. On the
-> > > > > > > other hand, the empty NUMA node, where no memory resides, is
-> > > > > > > allowed on platforms like ARM64 virt. For these empty NUMA
-> > > > > > > nodes, their corresponding device-tree nodes aren't populated,
-> > > > > > > but their NUMA IDs should be included in the "/distance-map"
-> > > > > > > device-tree node, so that kernel can probe them properly if
-> > > > > > > device-tree is used.
-> > > > > > > 
-> > > > > > >   -numa,dist,src=<numa_id>,dst=<numa_id>,val=<distance>
-> > > > > > > 
-> > > > > > > This adds extra check after the machine is initialized, to
-> > > > > > > ask for the distance map from user when empty nodes exist in
-> > > > > > > device-tree.
-> > > > > > > 
-> > > > > > > Signed-off-by: Gavin Shan <gshan@redhat.com>
-> > > > > > > ---
-> > > > > > >  hw/core/machine.c     |  4 ++++
-> > > > > > >  hw/core/numa.c        | 24 ++++++++++++++++++++++++
-> > > > > > >  include/sysemu/numa.h |  1 +
-> > > > > > >  3 files changed, 29 insertions(+)
-> > > > > > > 
-> > > > > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > > > > > > index b8d95eec32..c0765ad973 100644
-> > > > > > > --- a/hw/core/machine.c
-> > > > > > > +++ b/hw/core/machine.c
-> > > > > > > @@ -1355,6 +1355,10 @@ void machine_run_board_init(MachineState *machine)
-> > > > > > >      accel_init_interfaces(ACCEL_GET_CLASS(machine->accelerator));
-> > > > > > >      machine_class->init(machine);
-> > > > > > >      phase_advance(PHASE_MACHINE_INITIALIZED);
-> > > > > > > +
-> > > > > > > +    if (machine->numa_state) {
-> > > > > > > +        numa_complete_validation(machine);
-> > > > > > > +    }
-> > > > > > >  }
-> > > > > > >  
-> > > > > > >  static NotifierList machine_init_done_notifiers =
-> > > > > > > diff --git a/hw/core/numa.c b/hw/core/numa.c
-> > > > > > > index 510d096a88..7404b7dd38 100644
-> > > > > > > --- a/hw/core/numa.c
-> > > > > > > +++ b/hw/core/numa.c
-> > > > > > > @@ -727,6 +727,30 @@ void numa_complete_configuration(MachineState *ms)
-> > > > > > >      }
-> > > > > > >  }
-> > > > > > >  
-> > > > > > > +/*
-> > > > > > > + * When device-tree is used by the machine, the empty node IDs should
-> > > > > > > + * be included in the distance map. So we need provide pairs of distances
-> > > > > > > + * in this case.
-> > > > > > > + */
-> > > > > > > +void numa_complete_validation(MachineState *ms)
-> > > > > > > +{
-> > > > > > > +    NodeInfo *numa_info = ms->numa_state->nodes;
-> > > > > > > +    int nb_numa_nodes = ms->numa_state->num_nodes;
-> > > > > > > +    int i;
-> > > > > > > +
-> > > > > > > +    if (!ms->fdt || ms->numa_state->have_numa_distance) {    
-> > > > > > 
-> > > > > > also skip check/limitation when VM is launched with ACPI enabled?    
-> > 
-> > On second thought, I guess it's a good idea to not error out when ACPI is
-> > enabled. There's no point in burdening the ACPI user.
-> > 
-> > > > > 
-> > > > > Even with ACPI enabled we generate a DT and would like that DT to be as
-> > > > > complete as possible. Of course we should generate a SLIT table with  
-> > > > 
-> > > > Guest will work just fine without distance map as SRAT describes
-> > > > all numa nodes.
-> > > > You are forcing VM to have SLIT just for the sake of 'completeness'
-> > > > that's practically unused.
-> > > > 
-> > > > I'm still unsure about pushing all of this in generic numa code,
-> > > > as this will be used only by ARM for now. It's better to keep it
-> > > > ARM specific, and when RISCV machine will start using this, it
-> > > > could be moved to generic code.  
-> > 
-> > I think RISCV could start using it now. Linux shares the mem/numa DT
-> > parsing code between Arm and RISCV. If RISCV QEMU wanted to start
-> > exposing NUMA nodes, then they might as well support empty ones from
-> > the start.
-> 
-> When RISCV will start using memory-less nodes, we can move this check to
-> generic code.
-> So far 2/2 takes care of ARM only, as result I don't see
-> a good reason to generalize it now. (CCing RISCV folks to see if
-> there is any plans to impl. that)
->  
-> 
-> > > I don't see a problem in providing this DT node / ACPI table to guests
-> > > with empty NUMA nodes. I don't even see a problem with providing the
-> > > distance information unconditionally. Can you explain why we should
-> > > prefer not to provide optional HW descriptions?  
-> > 
-> > I'm still curious why we should be so reluctant to add HW descriptions.
-> > I agree we should be reluctant to error out, though.
-> 
-> If distance map were the only way to figure out present node-ids,
-> I wouldn't mind making it non-optional.
-> 
-> However guest can already get node-ids from mem/cpu/pci nodes
-> with current device-tree that QEMU generates and
-> forcing optional distance-map (with duplicate info) on user
-> creates non must-have CLI requirements/inconvenience that
-> will eventually propagate to higher layers, I'd rather avoid
-> that if possible.
-> 
-> So question is if an idea of fetching numa-ids from cpu nodes
-> in addition to memory nodes (which should cover QEMU needs)
-> have been considered and why it didn't work out?
+> As we have set misa_mxl in cpu_init_fn, why set it again here?
 
-Thinking about it some more. I think we only need patch 2/2 of this
-series. We should double check, but if when Linux generates its
-default distance-map it already generates a map using the numa-ids
-in the cpu nodes of the DT, then I guess the resulting Linux generated
-distance-map will be sufficient to represent the empty NUMA nodes and
-could be used for DT memory hotplug if Linux ever tried to implement
-that.
+I guess we could drop this for now, but we'd need to add it back as soon as we can modify 
+MXL in write_misa, as this is part of the reset spec.
 
-Gavin, can you check if we can just drop patch 1/2 and then when
-booting a DT guest with empty numa nodes we get the distance
-map we wanted to enforce anyway?
 
-Thanks,
-drew
-
-> 
-> > So, when ACPI is
-> > enabled, let's skip the enforcement of the SLIT table generation, even
-> > if there are empty nodes, as you suggest.
-> > 
-> > Thanks,
-> > drew
-> > 
-> > > 
-> > > Thanks,
-> > > drew 
-> > >   
-> > > >   
-> > > > > the distance information the user provides on the command line in order
-> > > > > to satisfy the check, and we will, since we already have that code in
-> > > > > place.  
-> > > > 
-> > > >   
-> > > > > 
-> > > > > Thanks,
-> > > > > drew
-> > > > >   
-> > > > > >     
-> > > > > > > +        return;
-> > > > > > > +    }
-> > > > > > > +
-> > > > > > > +    for (i = 0; i < nb_numa_nodes; i++) {
-> > > > > > > +        if (numa_info[i].present && !numa_info[i].node_mem) {
-> > > > > > > +            error_report("Empty node %d found, please provide "
-> > > > > > > +                         "distance map.", i);
-> > > > > > > +            exit(EXIT_FAILURE);
-> > > > > > > +        }
-> > > > > > > +    }
-> > > > > > > +}
-> > > > > > > +
-> > > > > > >  void parse_numa_opts(MachineState *ms)
-> > > > > > >  {
-> > > > > > >      qemu_opts_foreach(qemu_find_opts("numa"), parse_numa, ms, &error_fatal);
-> > > > > > > diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
-> > > > > > > index 4173ef2afa..80f25ab830 100644
-> > > > > > > --- a/include/sysemu/numa.h
-> > > > > > > +++ b/include/sysemu/numa.h
-> > > > > > > @@ -104,6 +104,7 @@ void parse_numa_hmat_lb(NumaState *numa_state, NumaHmatLBOptions *node,
-> > > > > > >  void parse_numa_hmat_cache(MachineState *ms, NumaHmatCacheOptions *node,
-> > > > > > >                             Error **errp);
-> > > > > > >  void numa_complete_configuration(MachineState *ms);
-> > > > > > > +void numa_complete_validation(MachineState *ms);
-> > > > > > >  void query_numa_node_mem(NumaNodeMem node_mem[], MachineState *ms);
-> > > > > > >  extern QemuOptsList qemu_numa_opts;
-> > > > > > >  void numa_cpu_pre_plug(const struct CPUArchId *slot, DeviceState *dev,    
-> > > > > >     
-> > > > >   
-> > > >   
-> > 
-> > 
-> 
-
+r~
 
