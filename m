@@ -2,94 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452C242EF00
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 12:43:36 +0200 (CEST)
-Received: from localhost ([::1]:42242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8BA842EF21
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 12:51:14 +0200 (CEST)
+Received: from localhost ([::1]:50318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbKgZ-00030R-CP
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 06:43:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58356)
+	id 1mbKnx-0000H0-7j
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 06:51:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mbKeq-00014D-RU
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:41:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54109)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mbKmH-0007eK-Ct
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:49:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mbKeo-0002pF-Rf
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:41:48 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mbKmE-0000ih-8e
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:49:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634294506;
+ s=mimecast20190719; t=1634294961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b3lPCuvU4pcaAo4O2/BpqZT2ZDw5Uh62bK5g8CAqQdI=;
- b=HqM9WNhXY19Tt1cr4kUnO0hBnhhAi40kOtjd313t78Btu6+FhbsgPUEck3ZKuVUzhFlgyr
- nV4f0dtRIU3rDpoLSW45h98Kq3Rtz+3D4g9EWJTaGeA25VSutqGk6lcnl/DzkstRQgp8rl
- 6BVMK1dQIaaR6ArcIkebHL9Vv6ahy5A=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-X8dYz57mM_CjUKDE43Fi9A-1; Fri, 15 Oct 2021 06:41:39 -0400
-X-MC-Unique: X8dYz57mM_CjUKDE43Fi9A-1
-Received: by mail-ed1-f69.google.com with SMTP id
- r11-20020aa7cfcb000000b003d4fbd652b9so7835206edy.14
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 03:41:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=b3lPCuvU4pcaAo4O2/BpqZT2ZDw5Uh62bK5g8CAqQdI=;
- b=dHSbk8EEo+ti5qak55daVyrqn8npU2HAZ2EgI12itplNuyeO2A/ebVWJxCBjhw3LFd
- f7F1NQIxpGgg3lpjglhOiF95x/waTVJVaBedJGNs0h1cfFPGvLutAsEey0GTc1ns01jT
- CLm7J36EWZeVpa1f7JuKLbbZlOavJTsek8k6wStQcX34ns7q+z15qchd4my8U2B2M5Oe
- k96mrx2URf8hrHwrtyeF9iY45grTRQLw6IEe8HgdWMAMzzNu4wQcaO5RNQj82PvkC7PL
- J14iwqDYl/84ivHNVPtvDCC5cLqd6gkG38W+7PcIPk1OQd3pVBoRkvr2hdlUyEUI8ohj
- 4R/Q==
-X-Gm-Message-State: AOAM530BN1D5YK03nucrtw5GqrHURLY8apchFap3ynCh83DFEObPsWxq
- LV3dkIa79Ga2iZLuBWU2i62/m131N9sf8/piqMkBDQHJd/sUvPLHnsTE+ZFtomxAJTGUUBBkQ8T
- av31QOUVSxot9F9c=
-X-Received: by 2002:a17:907:d8c:: with SMTP id
- go12mr6088884ejc.472.1634294498438; 
- Fri, 15 Oct 2021 03:41:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwiuJiHGstG5gT7/Ein8nb/tWqtdC/iiPe7JUR5/cC0DFLn4Zfu7+rv0ZgNv9SGrlHsoCLcAA==
-X-Received: by 2002:a17:907:d8c:: with SMTP id
- go12mr6088868ejc.472.1634294498273; 
- Fri, 15 Oct 2021 03:41:38 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id z8sm3860626ejd.94.2021.10.15.03.41.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Oct 2021 03:41:37 -0700 (PDT)
-Message-ID: <c1f1a655-5cb4-9df5-0f60-e0e8848c31dd@redhat.com>
-Date: Fri, 15 Oct 2021 12:41:36 +0200
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=maTTtXdlSTQj8q1wAof5H5YOOBc3riqhlbyW4EBa6xM=;
+ b=LG0BKFiItT58GUuZyv/K+BEnmpDclCT19QDU8JhJFBGCL9mcVPb6fqqvLit/CVoiMYIJF5
+ CIOzvgyL216gOVVALNGUo3yNgWcH7KXMjGFBV9aSsTnPNPWXXR+0oMNmCqVJ/y/TQhGmR+
+ PTllILHam7qETD5sVjIqbrITnZD5KwQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-352-aTJgCOKfPe6_JFON83Nllg-1; Fri, 15 Oct 2021 06:49:18 -0400
+X-MC-Unique: aTJgCOKfPe6_JFON83Nllg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4547218D6A32;
+ Fri, 15 Oct 2021 10:49:17 +0000 (UTC)
+Received: from gshan.redhat.com (vpn2-54-38.bne.redhat.com [10.64.54.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD00410013D7;
+ Fri, 15 Oct 2021 10:49:13 +0000 (UTC)
+From: Gavin Shan <gshan@redhat.com>
+To: qemu-arm@nongnu.org
+Subject: [PATCH v4] hw/arm/virt: Don't create device-tree node for empty NUMA
+ node
+Date: Fri, 15 Oct 2021 18:49:09 +0800
+Message-Id: <20211015104909.16722-1-gshan@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] MAINTAINERS: update location of microvm docs
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20211012151447.4147923-1-alex.bennee@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211012151447.4147923-1-alex.bennee@linaro.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,34 +74,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: robh@kernel.org, drjones@redhat.com, qemu-riscv@nongnu.org,
+ ehabkost@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ shan.gavin@gmail.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/21 17:14, Alex Bennée wrote:
-> Fixes: e8eee8d3d9 ("docs: Move microvm.rst into the system manual")
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   MAINTAINERS | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 50435b8d2f..aa8188f87a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1609,7 +1609,7 @@ microvm
->   M: Sergio Lopez <slp@redhat.com>
->   M: Paolo Bonzini <pbonzini@redhat.com>
->   S: Maintained
-> -F: docs/microvm.rst
-> +F: docs/system/i386/microvm.rst
->   F: hw/i386/microvm.c
->   F: include/hw/i386/microvm.h
->   F: pc-bios/bios-microvm.bin
-> 
+The empty NUMA node, where no memory resides, are allowed. For
+example, the following command line specifies two empty NUMA nodes.
+With this, QEMU fails to boot because of the conflicting device-tree
+node names, as the following error message indicates.
 
-Queued, thanks.
+  /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
+  -accel kvm -machine virt,gic-version=host               \
+  -cpu host -smp 4,sockets=2,cores=2,threads=1            \
+  -m 1024M,slots=16,maxmem=64G                            \
+  -object memory-backend-ram,id=mem0,size=512M            \
+  -object memory-backend-ram,id=mem1,size=512M            \
+  -numa node,nodeid=0,cpus=0-1,memdev=mem0                \
+  -numa node,nodeid=1,cpus=2-3,memdev=mem1                \
+  -numa node,nodeid=2                                     \
+  -numa node,nodeid=3
+    :
+  qemu-system-aarch64: FDT: Failed to create subnode /memory@80000000: FDT_ERR_EXISTS
 
-Paolo
+As specified by linux device-tree binding document, the device-tree
+nodes for these empty NUMA nodes shouldn't be generated. However,
+the corresponding NUMA node IDs should be included in the distance
+map. As the memory hotplug through device-tree on ARM64 isn't existing
+so far, it's pointless to expose the empty NUMA nodes through device-tree.
+So this simply skips populating the device-tree nodes for these empty
+NUMA nodes to avoid the error, so that QEMU can be started successfully.
+
+Signed-off-by: Gavin Shan <gshan@redhat.com>
+---
+v4: Drop patch to enforce distance-map as memory hotplug through
+    device-tree is never supported on ARM64. It's pointless to
+    expose these empty NUMA nodes. Besides, comments added to
+    explain the code changes included in this patch as Drew
+    suggested.
+---
+ hw/arm/boot.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index 57efb61ee4..e05c1c149c 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -599,10 +599,24 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+     }
+     g_strfreev(node_path);
+ 
++    /*
++     * According to Linux NUMA binding document, the device tree nodes
++     * for the empty NUMA nodes shouldn't be generated, but their NUMA
++     * node IDs should be included in the distance map instead. However,
++     * it's pointless to expose the empty NUMA nodes as memory hotplug
++     * through device tree is never supported. We simply skip generating
++     * their device tree nodes to avoid the unexpected device tree
++     * generating failure due to the duplicated names of these empty
++     * NUMA nodes.
++     */
+     if (ms->numa_state != NULL && ms->numa_state->num_nodes > 0) {
+         mem_base = binfo->loader_start;
+         for (i = 0; i < ms->numa_state->num_nodes; i++) {
+             mem_len = ms->numa_state->nodes[i].node_mem;
++            if (!mem_len) {
++                continue;
++            }
++
+             rc = fdt_add_memory_node(fdt, acells, mem_base,
+                                      scells, mem_len, i);
+             if (rc < 0) {
+-- 
+2.23.0
 
 
