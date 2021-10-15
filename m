@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44EC42EF32
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 12:57:09 +0200 (CEST)
-Received: from localhost ([::1]:59698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0072942EF33
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 12:57:11 +0200 (CEST)
+Received: from localhost ([::1]:59782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbKtg-0006no-WF
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 06:57:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60398)
+	id 1mbKti-0006qk-2R
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 06:57:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mbKqe-0003xe-Kb
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:54:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47551)
+ id 1mbKqk-000446-1n
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:54:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mbKqd-0004QN-3U
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:54:00 -0400
+ id 1mbKqi-0004VU-JA
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:54:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634295238;
+ s=mimecast20190719; t=1634295244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=r0NPkhtNNRHdSF05xmMmpdfcF/d09cYaL4oAW9YFn9Y=;
- b=cLf/xAp1o3/4r8ElzufanWEw0XkN4g8ZpluSDJDzsEZnMYFCjptcjTOTOv0IrEC9PzKfw9
- AFppfOS5FnZvivfGVva9nJMub3nkYrvLewZKuwW9XDs1zhqFk9YrKPaXPxMc7EBY91eOVa
- Y6fX111+wLZWxfkrPfPhgGOtqTQ+kGQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f4cQeWqFSgHFkj9/8L5zhItGfYD45EJxwCyD65wSiGs=;
+ b=TxtUmVr0r06MqTwXjXWLGRJcpB05usrCVxmWXtqWZlvdEQlk9bVyagqkx8g6H/QJBbVVT0
+ 8QhemI3Sd5J6IP34jIXA+izjtow+RBsj5cDp+RiayEAQIwvmcHSSOiAtMcgWFUbltlEXmo
+ Vn2ucbD3UNvQ6y6lkZPiVUPX9J1BW3A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-ujxtQ5stO8Gehw3Y5_LDsA-1; Fri, 15 Oct 2021 06:53:52 -0400
-X-MC-Unique: ujxtQ5stO8Gehw3Y5_LDsA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-37-aDp5kJMSNASa4h5Svij-5A-1; Fri, 15 Oct 2021 06:54:00 -0400
+X-MC-Unique: aDp5kJMSNASa4h5Svij-5A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C38D41006AA2;
- Fri, 15 Oct 2021 10:53:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B49B1006AA2;
+ Fri, 15 Oct 2021 10:53:59 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C06A5C1A3;
- Fri, 15 Oct 2021 10:53:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 358232B060;
+ Fri, 15 Oct 2021 10:53:55 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/8] Some Sphinx improvements
-Date: Fri, 15 Oct 2021 14:53:36 +0400
-Message-Id: <20211015105344.152591-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 1/8] docs/sphinx: add loaded modules to generated depfile
+Date: Fri, 15 Oct 2021 14:53:37 +0400
+Message-Id: <20211015105344.152591-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20211015105344.152591-1-marcandre.lureau@redhat.com>
+References: <20211015105344.152591-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,40 +86,54 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,=0D
-=0D
-I have collected a few Sphinx-related improvements to improve depfile gener=
-ation=0D
-and add some keyboard navigation. Hope you'll like it.=0D
-=0D
-v2:=0D
- - fix test 'output:' regression=0D
- - fix javascript indentation (Paolo)=0D
- - split "meson: remove explicit extensions dependency file list" (Paolo)=
-=0D
-=0D
-Marc-Andr=C3=A9 Lureau (8):=0D
-  docs/sphinx: add loaded modules to generated depfile=0D
-  docs/sphinx: add static files to generated depfile=0D
-  docs/sphinx: add templates files to generated depfile=0D
-  tests/qapi-schema/meson: add depfile to sphinx doc=0D
-  meson: drop sphinx_extn_depends=0D
-  meson: drop sphinx_template_files=0D
-  docs/sphinx: set navigation_with_keys=3DTrue=0D
-  docs/sphinx: add 's' keyboard binding to focus search=0D
-=0D
- docs/conf.py                  |  7 ++++++-=0D
- docs/meson.build              | 10 ----------=0D
- docs/sphinx-static/custom.js  |  9 +++++++++=0D
- docs/sphinx/depfile.py        | 19 +++++++++++++++++--=0D
- tests/qapi-schema/meson.build |  6 ++++--=0D
- 5 files changed, 36 insertions(+), 15 deletions(-)=0D
- create mode 100644 docs/sphinx-static/custom.js=0D
-=0D
---=20=0D
-2.33.0.721.g106298f7f9=0D
-=0D
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ docs/sphinx/depfile.py | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/docs/sphinx/depfile.py b/docs/sphinx/depfile.py
+index 277fdf0f56..b6fb926df1 100644
+--- a/docs/sphinx/depfile.py
++++ b/docs/sphinx/depfile.py
+@@ -12,6 +12,7 @@
+ 
+ import os
+ import sphinx
++import sys
+ 
+ __version__ = '1.0'
+ 
+@@ -20,8 +21,17 @@ def get_infiles(env):
+         yield env.doc2path(x)
+         yield from ((os.path.join(env.srcdir, dep)
+                     for dep in env.dependencies[x]))
++    for mod in sys.modules.values():
++        if hasattr(mod, '__file__'):
++            if mod.__file__:
++                yield mod.__file__
+ 
+-def write_depfile(app, env):
++
++def write_depfile(app, exception):
++    if exception:
++        return
++
++    env = app.env
+     if not env.config.depfile:
+         return
+ 
+@@ -42,7 +52,7 @@ def write_depfile(app, env):
+ def setup(app):
+     app.add_config_value('depfile', None, 'env')
+     app.add_config_value('depfile_stamp', None, 'env')
+-    app.connect('env-updated', write_depfile)
++    app.connect('build-finished', write_depfile)
+ 
+     return dict(
+         version = __version__,
+-- 
+2.33.0.721.g106298f7f9
 
 
