@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04CD42E7A4
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F7742E7A3
 	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 06:21:21 +0200 (CEST)
-Received: from localhost ([::1]:52256 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:52402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbEie-0001St-Kr
+	id 1mbEie-0001Z0-BI
 	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 00:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38876)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbEYt-0007ES-58
+ id 1mbEYt-0007EW-6m
  for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:15 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:47100)
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:35718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbEYq-0000Hy-3V
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:13 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id i76so5149790pfe.13
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 21:11:11 -0700 (PDT)
+ id 1mbEYq-0000Im-VW
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:14 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id e7so7463745pgk.2
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 21:11:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BEoOYfyvrRlliP3CVpcV5+AEGq6qhapGY3bb4mVGTHg=;
- b=nguHstMxODNDspQVrHP+s1x9jH1NX2XHVabg7k2QUt0njxyAWzrQPWjdYm+tPslwmn
- 7KoZk0+8/2p7B1H7N8IfQ8afgpRILEN/jCcSyvda55430+XPuyrsHKvtWTR2RTBSfm9p
- AYTRT5NCVO9lWrFSijPcdRcfHXVdTkAtZGBWvqLJdXbcuUIox3O1oCSoIv7Wg3BBVh0B
- qLlg/pUKj1BfEc5dDI7UT6pwIhQHjPFmhIx50Q2MyzxwPeUEfxvSgvwUAS340MpWsWcy
- 0deCcMZoMDTiQ+SRR785uobCe5s3eEOlVdFBMVJl4unO+1QSJk/zEsE2P1roBVtAMQHE
- jiwg==
+ bh=p8GaNWW3vnRejpH0QBiQY2hh87QfB4bhIFphc+bCE2U=;
+ b=dejJWWV6X/iZBhyVdKrm+gz+tC6AeGz+0aY28bMFsYencTyEotWAo553EGcPwSELU3
+ zwIsefSOFzV5g1WsO+kfnYdqZ0olHhZnrcvDOHeskI4p9pFGhxGOfA4q9Ir0G31yJ8nd
+ c4IW/9Al4nb8XRt9daLBNElDkY0/A66q2kTXTIojYUnpt1Z5afWDW95WgDYbqykQtmkZ
+ Xy1NW3CWN/jA0Wu+yd4t+NRzvlkf5HX38wyVsZ/kTyTmKL1nc/ySQi6LaneH2PMSgVdg
+ mmRmOMzPd5o1o/grnD1xa29f4RPLd3yra86ZYkj4nywKtsmMjro+PspkUBMRK6Y3dJyt
+ Q0rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BEoOYfyvrRlliP3CVpcV5+AEGq6qhapGY3bb4mVGTHg=;
- b=7ly2PC9H2LSCEmEVzRgomMhsHi7htAMZJrxORqiHaLM/EtbJJPYcbAjl7Fsu3j0Uen
- MpCt9lWoyuCec55sk6Hu/ZzUSmaQR7F+9nNL1oEkvS6qqyyhI3nDKimyWxpNdR8hsVfh
- TADXFdlk3ngrdRNEtODDiiNMarz/+vL5f4uCXg4q/VgJNLipcVrYTfsaR7zFXBGm6dW5
- zOUr8Ik2EDe2JIe7R156ve/5bqxZYTGPt3TT765hWUrQiZlC81yB2v2c2Wxa+z0s+Q1k
- 24WeYd3dhsxGfGsOtte4yjsktoVusG2WHzrGHI6Xj2bAtLR3CbMwZkJXccJyYa92tawj
- nh7A==
-X-Gm-Message-State: AOAM532z6RiTPjWG4JFi9jNtEQZ8AtrjqBaH5p9FQnwu4uj9LLNWEZCA
- oLhqOH7KxM+e9B4i9URdm+rCIT9uHa076g==
-X-Google-Smtp-Source: ABdhPJweQZ5lNt7leRr9QTmH5N3qPkmOwwtyybkbO/qLb6VdapRDKAVutkmLAF6peGTpeMNLHExcDA==
-X-Received: by 2002:a65:538e:: with SMTP id x14mr7352445pgq.364.1634271070690; 
- Thu, 14 Oct 2021 21:11:10 -0700 (PDT)
+ bh=p8GaNWW3vnRejpH0QBiQY2hh87QfB4bhIFphc+bCE2U=;
+ b=OWAFRpANthmuTazM/95vo+0LAdQIzKukoedwJkNVJFafrDllfhzjWR7bnFuNm9MRyh
+ W4rwsZaQAqVsNxHI8zd9qgR+h/Q7Z5J48s6u9XRcm8BUoi9DKshXOoJmIgKa7i168hwl
+ 6qtIS1ZfODFOdMQPKX3nRNlq3rvitesxCOaGLlScafioIIY1fw07Pd+ez/06MV/DWpzc
+ w9FvQH7H5GFOo1nydpXSOSFoQlsmd5pZ7ecW1FMy9jFZXSJQXGpOOjusLnXPGNOEXlPr
+ huH3rLoKgtRZ/oNlEmHoIn/5XLMlf/Vuqk6EuVVWENkZO06bvX4JbKQZCkPJUZodv7Vd
+ ZalA==
+X-Gm-Message-State: AOAM5338Lu9UyCIfaX3MWQ2cBpkqhuK0VyYR3IaevJuQdiL6eiadAuZF
+ xLM+5rxEwR5aPtQaPEYEfUMGnWgqHgvcaA==
+X-Google-Smtp-Source: ABdhPJxAhfTFzVFzBChvDlzfe1+u8+Gg1oBPTGLfq1S/q0eOrOzeOPMVDndW2D3FgeW5qtl2lqmKfA==
+X-Received: by 2002:a63:6943:: with SMTP id e64mr7281160pgc.480.1634271071338; 
+ Thu, 14 Oct 2021 21:11:11 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
  by smtp.gmail.com with ESMTPSA id me12sm5718006pjb.27.2021.10.14.21.11.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 21:11:10 -0700 (PDT)
+ Thu, 14 Oct 2021 21:11:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 18/67] linux-user/signal: Drop HOST_SIGNAL_PLACEHOLDER
-Date: Thu, 14 Oct 2021 21:10:04 -0700
-Message-Id: <20211015041053.2769193-19-richard.henderson@linaro.org>
+Subject: [PATCH v5 19/67] hw/core: Add TCGCPUOps.record_sigsegv
+Date: Thu, 14 Oct 2021 21:10:05 -0700
+Message-Id: <20211015041053.2769193-20-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211015041053.2769193-1-richard.henderson@linaro.org>
 References: <20211015041053.2769193-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,85 +88,52 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that all of the linux-user hosts have been converted
-to host-signal.h, drop the compatibility code.
+Add a new user-only interface for updating cpu state before
+raising a signal.  This will replace tlb_fill for user-only
+and should result in less boilerplate for each guest.
 
-Reviewed by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/exec-all.h | 12 ------------
- linux-user/signal.c     | 14 --------------
- 2 files changed, 26 deletions(-)
+ include/hw/core/tcg-cpu-ops.h | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 5f94d799aa..5dd663c153 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -685,18 +685,6 @@ MMUAccessType adjust_signal_pc(uintptr_t *pc, bool is_write);
- bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
-                                  uintptr_t host_pc, abi_ptr guest_addr);
- 
--/**
-- * cpu_signal_handler
-- * @signum: host signal number
-- * @pinfo: host siginfo_t
-- * @puc: host ucontext_t
-- *
-- * To be called from the SIGBUS and SIGSEGV signal handler to inform the
-- * virtual cpu of exceptions.  Returns true if the signal was handled by
-- * the virtual CPU.
-- */
--int cpu_signal_handler(int signum, void *pinfo, void *puc);
--
- #else
- static inline void mmap_lock(void) {}
- static inline void mmap_unlock(void) {}
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 6900acb122..b816678ba5 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -780,17 +780,6 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
-     ucontext_t *uc = puc;
-     struct emulated_sigtable *k;
-     int guest_sig;
--
--#ifdef HOST_SIGNAL_PLACEHOLDER
--    /* the CPU emulator uses some host signals to detect exceptions,
--       we forward to it some signals */
--    if ((host_sig == SIGSEGV || host_sig == SIGBUS)
--        && info->si_code > 0) {
--        if (cpu_signal_handler(host_sig, info, puc)) {
--            return;
--        }
--    }
--#else
-     uintptr_t pc = 0;
-     bool sync_sig = false;
- 
-@@ -850,7 +839,6 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
- 
-         sync_sig = true;
-     }
--#endif
- 
-     /* get target signal number */
-     guest_sig = host_to_target_signal(host_sig);
-@@ -865,7 +853,6 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
-     k->pending = guest_sig;
-     ts->signal_pending = 1;
- 
--#ifndef HOST_SIGNAL_PLACEHOLDER
-     /*
-      * For synchronous signals, unwind the cpu state to the faulting
-      * insn and then exit back to the main loop so that the signal
-@@ -875,7 +862,6 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
-         cpu->exception_index = EXCP_INTERRUPT;
-         cpu_loop_exit_restore(cpu, pc);
-     }
--#endif
- 
-     rewind_if_in_safe_syscall(puc);
+diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+index 6cbe17f2e6..41718b695b 100644
+--- a/include/hw/core/tcg-cpu-ops.h
++++ b/include/hw/core/tcg-cpu-ops.h
+@@ -111,6 +111,32 @@ struct TCGCPUOps {
+      */
+     bool (*io_recompile_replay_branch)(CPUState *cpu,
+                                        const TranslationBlock *tb);
++#else
++    /**
++     * record_sigsegv:
++     * @cpu: cpu context
++     * @addr: faulting guest address
++     * @access_type: access was read/write/execute
++     * @maperr: true for invalid page, false for permission fault
++     * @ra: host pc for unwinding
++     *
++     * We are about to raise SIGSEGV with si_code set for @maperr,
++     * and si_addr set for @addr.  Record anything further needed
++     * for the signal ucontext_t.
++     *
++     * If the emulated kernel does not provide anything to the signal
++     * handler with anything besides the user context registers, and
++     * the siginfo_t, then this hook need do nothing and may be omitted.
++     * Otherwise, record the data and return; the caller will raise
++     * the signal, unwind the cpu state, and return to the main loop.
++     *
++     * If it is simpler to re-use the sysemu tlb_fill code, @ra is provided
++     * so that a "normal" cpu exception can be raised.  In this case,
++     * the signal must be raised by the architecture cpu_loop.
++     */
++    void (*record_sigsegv)(CPUState *cpu, vaddr addr,
++                           MMUAccessType access_type,
++                           bool maperr, uintptr_t ra);
+ #endif /* CONFIG_SOFTMMU */
+ #endif /* NEED_CPU_H */
  
 -- 
 2.25.1
