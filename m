@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E73842E7F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 06:38:36 +0200 (CEST)
-Received: from localhost ([::1]:52620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4E842E80E
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 06:48:21 +0200 (CEST)
+Received: from localhost ([::1]:54862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbEzL-00063B-9w
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 00:38:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39426)
+	id 1mbF8m-00022n-5Y
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 00:48:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbEc4-0006U8-Ce
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:14:32 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39604)
+ id 1mbEc5-0006YW-Iv
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:14:33 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:54254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbEc2-0002lr-MW
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:14:32 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- ls18-20020a17090b351200b001a00250584aso8447411pjb.4
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 21:14:30 -0700 (PDT)
+ id 1mbEc3-0002me-Oe
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:14:33 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id ls18so6335456pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 21:14:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9lqN/uiH3UUIeVg5yhYMxWg7ld7QYTaBAGHdI8OeAIs=;
- b=P5B71VSi1+VMlTDxlHkiYLGQsICQM6ftakBQ+W5AWd7paiMDzsaXXwtuMMt75eOFro
- SVl2Id2rdy+lQfOiAbK4okwACo7ulJaDwy5CwbzTbkwWqWzMSc4iFrSIXENbenU/xf/F
- H/rNSprsA+KSmeR3BDfazcX1soyZVQ/v6hn0MEZ2QFM7MftW18Caf9BHHkhd9GVa+lql
- V4U7j8tZsaSuyFKSNPtmQngNquNZJPwIdoIh8WbBFG0V+Zx9FP1KrYI6Awx0a0ErvkcZ
- cdDO4VruWnI/BzA/+scwuXQZCc4dmfMnDgMbAL216hDGm+VGTqLhc3k+iZfOYwTEfRgz
- KNFQ==
+ bh=wpoZicnTiBlydK+sFdKdK9FSFNaqNFWg+Zx3DgtSaaA=;
+ b=X5WBD+7bcnTQNUibf/XWQDujaRiE8XXZglpfDAgA/kP2gXTnWVRfywtW6143hmEk8d
+ Zld794Ip4VggTwMRRDnXmgzJA2l7Oy4R3qmhNIrN4Lc0Y9/X9sR5srDHuMSZKMO7GP9q
+ YY0MOK4xt4q4TaZ1s379aeHzYDk6Z9R5XnECzyknD/r15KSctF2wvREpWFpZLGiam7Uc
+ MP2BCWbpGPLgWNrKbQ/IMv9XtMU62er3ockLXT7xIHS0HywDxQ15NMJ751MQMNhR9dsR
+ 9ZUp5EyNiczLVKBfcipn0yq3pfa/djHvdebJnvAQnAdd4GYDV6sdzhDZzTwBrmz6LgJw
+ 551A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9lqN/uiH3UUIeVg5yhYMxWg7ld7QYTaBAGHdI8OeAIs=;
- b=NPcxTi5nCDaSFxT1HYSHMZ77TMWX/FACNKY5L/nYIdR1TX6U7S/yREhNoTIws5xnKt
- epuRFqX6OXRgw7+Gksb5wFBMxLkIH6uGK2UXfC4lZwY/FAxgVRr1QOLkmbo0X3WnmuCF
- 9yl9tAdJuzMKnbcu2kpOGUQBXPiCbKjAulLClzNVQb6jynEcLE0H3Wvoo1U/eLffHkqE
- rOLHTLGus2JnoFv0E2aTU6KoYgAFQ5Sfj8K/EMF52fW+0K8nKGrcSf+V9ocDZgCgXqcm
- BAsXGXTJLgHfMndKjeKZRecBi+Vx7wND34EDtZBaUVq9G375AVWrEl5SzSJgZxBvVy8I
- XlrA==
-X-Gm-Message-State: AOAM530M95F07GJuoykNE43wei6qDU4YZt5F8fDxZXGxyos/Q5AUnWGf
- wTdflZbw9mvPlY6QsJienPNfQaQGsNI=
-X-Google-Smtp-Source: ABdhPJymYvhWniIWzjO+QJSnE1JfZ0eQutcTKxS2xTahydRJZdmWC9HAXMSRH48i6XaJQY1AEDVXPQ==
-X-Received: by 2002:a17:90a:1507:: with SMTP id
- l7mr10749099pja.141.1634271269353; 
- Thu, 14 Oct 2021 21:14:29 -0700 (PDT)
+ bh=wpoZicnTiBlydK+sFdKdK9FSFNaqNFWg+Zx3DgtSaaA=;
+ b=hBeqLpII2pcioL+RCB0LZPK6ec+SgUU4tFCyIgelOA9LSNz2R1xc0t3MFssaBIbXVF
+ SptIk2xkek6I/RwFhgqX+Os7NadWSwJE4PIXEcstZ4gq7t/8s8ouexVvCvxbT9CcNcOT
+ Wxm8yDyIW5gqOiYJX9Bk11UuMbKg2JwssEjW+3M3EMB7ODNBcwxJpePY/yvxO+MXXcxi
+ Ox02t8sUN++a7iFMygDOevnm88BhMGFNxE5AG54rEcgFbovhZlJZ6juY4I837j2XkiOA
+ VsxtGUmeHhD4+oQcDyr2Qi9olelaYPd66DB0cqGnX8Iu3weRDum1AiZUMa31imeHw26r
+ Hi0w==
+X-Gm-Message-State: AOAM531H9F76pszPBipeHd/svRdrm/ojk0N9FutNy9nqCBd6r7yFhDgq
+ n2bpqnQ+u8UxkBC6QnEu+OBLWF5w5JbkVg==
+X-Google-Smtp-Source: ABdhPJwIcZN2Dzt846KqpzYg1mu+XXRMZV38reNMWJMLam1ZUFU6Ck8/Av29r1xauTlWYvvyzz7+aA==
+X-Received: by 2002:a17:90b:4011:: with SMTP id
+ ie17mr25111929pjb.41.1634271270276; 
+ Thu, 14 Oct 2021 21:14:30 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id q8sm10236885pja.52.2021.10.14.21.14.28
+ by smtp.gmail.com with ESMTPSA id q8sm10236885pja.52.2021.10.14.21.14.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 14 Oct 2021 21:14:29 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 42/67] Revert "cpu: Move cpu_common_props to hw/core/cpu.c"
-Date: Thu, 14 Oct 2021 21:10:28 -0700
-Message-Id: <20211015041053.2769193-43-richard.henderson@linaro.org>
+Subject: [PATCH v5 43/67] hw/core: Add TCGCPUOps.record_sigbus
+Date: Thu, 14 Oct 2021 21:10:29 -0700
+Message-Id: <20211015041053.2769193-44-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211015041053.2769193-1-richard.henderson@linaro.org>
 References: <20211015041053.2769193-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,108 +83,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, alex.bennee@linaro.org,
- laurent@vivier.eu, imp@bsdimp.com, Eduardo Habkost <ehabkost@redhat.com>
+Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 1b36e4f5a5de585210ea95f2257839c2312be28f.
+Add a new user-only interface for updating cpu state before
+raising a signal.  This will take the place of do_unaligned_access
+for user-only and should result in less boilerplate for each guest.
 
-Despite a comment saying why cpu_common_props cannot be placed in
-a file that is compiled once, it was moved anyway.  Revert that.
-
-Since then, Property is not defined in hw/core/cpu.h, so it is now
-easier to declare a function to install the properties rather than
-the Property array itself.
-
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h |  1 +
- cpu.c                 | 21 +++++++++++++++++++++
- hw/core/cpu-common.c  | 17 +----------------
- 3 files changed, 23 insertions(+), 16 deletions(-)
+ include/hw/core/tcg-cpu-ops.h | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index b7d5bc1200..1a10497af3 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -1008,6 +1008,7 @@ void QEMU_NORETURN cpu_abort(CPUState *cpu, const char *fmt, ...)
-     GCC_FMT_ATTR(2, 3);
- 
- /* $(top_srcdir)/cpu.c */
-+void cpu_class_init_props(DeviceClass *dc);
- void cpu_exec_initfn(CPUState *cpu);
- void cpu_exec_realizefn(CPUState *cpu, Error **errp);
- void cpu_exec_unrealizefn(CPUState *cpu);
-diff --git a/cpu.c b/cpu.c
-index e1799a15bc..9bce67ef55 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -179,6 +179,27 @@ void cpu_exec_unrealizefn(CPUState *cpu)
-     cpu_list_remove(cpu);
- }
- 
-+static Property cpu_common_props[] = {
-+#ifndef CONFIG_USER_ONLY
-+    /*
-+     * Create a memory property for softmmu CPU object,
-+     * so users can wire up its memory. (This can't go in hw/core/cpu.c
-+     * because that file is compiled only once for both user-mode
-+     * and system builds.) The default if no link is set up is to use
-+     * the system address space.
+diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+index 8eadd404c8..e13898553a 100644
+--- a/include/hw/core/tcg-cpu-ops.h
++++ b/include/hw/core/tcg-cpu-ops.h
+@@ -135,6 +135,29 @@ struct TCGCPUOps {
+     void (*record_sigsegv)(CPUState *cpu, vaddr addr,
+                            MMUAccessType access_type,
+                            bool maperr, uintptr_t ra);
++    /**
++     * record_sigbus:
++     * @cpu: cpu context
++     * @addr: misaligned guest address
++     * @access_type: access was read/write/execute
++     * @ra: host pc for unwinding
++     *
++     * We are about to raise SIGBUS with si_code BUS_ADRALN,
++     * and si_addr set for @addr.  Record anything further needed
++     * for the signal ucontext_t.
++     *
++     * If the emulated kernel does not provide the signal handler with
++     * anything besides the user context registers, and the siginfo_t,
++     * then this hook need do nothing and may be omitted.
++     * Otherwise, record the data and return; the caller will raise
++     * the signal, unwind the cpu state, and return to the main loop.
++     *
++     * If it is simpler to re-use the sysemu do_unaligned_access code,
++     * @ra is provided so that a "normal" cpu exception can be raised.
++     * In this case, the signal must be raised by the architecture cpu_loop.
 +     */
-+    DEFINE_PROP_LINK("memory", CPUState, memory, TYPE_MEMORY_REGION,
-+                     MemoryRegion *),
-+#endif
-+    DEFINE_PROP_BOOL("start-powered-off", CPUState, start_powered_off, false),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+void cpu_class_init_props(DeviceClass *dc)
-+{
-+    device_class_set_props(dc, cpu_common_props);
-+}
-+
- void cpu_exec_initfn(CPUState *cpu)
- {
-     cpu->as = NULL;
-diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
-index e2f5a64604..9e3241b430 100644
---- a/hw/core/cpu-common.c
-+++ b/hw/core/cpu-common.c
-@@ -257,21 +257,6 @@ static int64_t cpu_common_get_arch_id(CPUState *cpu)
-     return cpu->cpu_index;
- }
++    void (*record_sigbus)(CPUState *cpu, vaddr addr,
++                          MMUAccessType access_type, uintptr_t ra);
+ #endif /* CONFIG_SOFTMMU */
+ #endif /* NEED_CPU_H */
  
--static Property cpu_common_props[] = {
--#ifndef CONFIG_USER_ONLY
--    /* Create a memory property for softmmu CPU object,
--     * so users can wire up its memory. (This can't go in hw/core/cpu.c
--     * because that file is compiled only once for both user-mode
--     * and system builds.) The default if no link is set up is to use
--     * the system address space.
--     */
--    DEFINE_PROP_LINK("memory", CPUState, memory, TYPE_MEMORY_REGION,
--                     MemoryRegion *),
--#endif
--    DEFINE_PROP_BOOL("start-powered-off", CPUState, start_powered_off, false),
--    DEFINE_PROP_END_OF_LIST(),
--};
--
- static void cpu_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -286,7 +271,7 @@ static void cpu_class_init(ObjectClass *klass, void *data)
-     dc->realize = cpu_common_realizefn;
-     dc->unrealize = cpu_common_unrealizefn;
-     dc->reset = cpu_common_reset;
--    device_class_set_props(dc, cpu_common_props);
-+    cpu_class_init_props(dc);
-     /*
-      * Reason: CPUs still need special care by board code: wiring up
-      * IRQs, adding reset handlers, halting non-first CPUs, ...
 -- 
 2.25.1
 
