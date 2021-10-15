@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255EB42F664
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 16:56:38 +0200 (CEST)
-Received: from localhost ([::1]:34204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFD1442F63E
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 16:51:32 +0200 (CEST)
+Received: from localhost ([::1]:47138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbOdR-0004ez-7l
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 10:56:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59274)
+	id 1mbOYW-0002uN-2s
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 10:51:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVg-0008K2-9d
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27481)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVl-000089-ST
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVd-0001b4-Kq
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:35 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVj-0001fY-QI
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634309313;
+ s=mimecast20190719; t=1634309318;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jETLExX/KlwbGKb0oiq5Jhb3MYL7dfs4+1KQZ2CDtT8=;
- b=STo5CZU4GqgURZ5Kg7bgsFHTiJNpQ2teZDuJDbQ/KwpGHg4VGLKe+/NSNl92hc+Lbu5Fxs
- ZNkWi2P5rCgt+OoqjIcauKQjKsWN2sIILVSn+3SRprHoxN5RiKW6b3KT537gIzl2ZfTVk7
- 7NdMg1OoEOW2w12dL762X/DHov7lHH4=
+ bh=M9UVYRm/fWRuO++utWGBFv6ng2qhu32WZTEQhSEgTKc=;
+ b=e5w7YgsAg/fKeCz78PXT7jLH7lqi9n5PJxSdmhGSpCN0ICHOMkSfI1TtbcmBVbPtJpDD3w
+ 8ZgN6uy4l3mQyZDpQ8LpqObw8kQublc0GaqGUzE7pmP5a0+wsyWszhl+B8jc6gHN9BivSP
+ NU5nX8wfRG9LUHT5BkfRtQHeZaEEsDI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-NcPOHR8aPYaLSMGrbfKm7g-1; Fri, 15 Oct 2021 10:48:31 -0400
-X-MC-Unique: NcPOHR8aPYaLSMGrbfKm7g-1
+ us-mta-350-ld5sGamJNbWfRLnh5Hp6oA-1; Fri, 15 Oct 2021 10:48:37 -0400
+X-MC-Unique: ld5sGamJNbWfRLnh5Hp6oA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E132A802C94
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 14:48:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62C3910A8E0D
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 14:48:36 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 692D219736;
- Fri, 15 Oct 2021 14:48:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32CD519736;
+ Fri, 15 Oct 2021 14:48:31 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/15] qom: Reduce use of error_propagate()
-Date: Fri, 15 Oct 2021 16:46:29 +0200
-Message-Id: <20211015144640.198044-5-kwolf@redhat.com>
+Subject: [PULL 05/15] iotests/245: Fix type for iothread property
+Date: Fri, 15 Oct 2021 16:46:30 +0200
+Message-Id: <20211015144640.198044-6-kwolf@redhat.com>
 In-Reply-To: <20211015144640.198044-1-kwolf@redhat.com>
 References: <20211015144640.198044-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -80,82 +80,36 @@ Cc: kwolf@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ERRP_GUARD() makes debugging easier by making sure that &error_abort
-still fails at the real origin of the error instead of
-error_propagate().
+iothread is a string property, so None (= JSON null) is not a valid
+value for it. Pass the empty string instead to get the default iothread.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20211008133442.141332-5-kwolf@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20211008133442.141332-6-kwolf@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Tested-by: Peter Krempa <pkrempa@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qom/object.c            |  7 +++----
- qom/object_interfaces.c | 19 ++++++-------------
- 2 files changed, 9 insertions(+), 17 deletions(-)
+ tests/qemu-iotests/245 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qom/object.c b/qom/object.c
-index e86cb05b84..6be710bc40 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1389,7 +1389,7 @@ bool object_property_get(Object *obj, const char *name, Visitor *v,
- bool object_property_set(Object *obj, const char *name, Visitor *v,
-                          Error **errp)
- {
--    Error *err = NULL;
-+    ERRP_GUARD();
-     ObjectProperty *prop = object_property_find_err(obj, name, errp);
+diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+index bf8261eec0..9b12b42eed 100755
+--- a/tests/qemu-iotests/245
++++ b/tests/qemu-iotests/245
+@@ -1189,10 +1189,10 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+         self.run_test_iothreads('iothread0', 'iothread0')
  
-     if (prop == NULL) {
-@@ -1400,9 +1400,8 @@ bool object_property_set(Object *obj, const char *name, Visitor *v,
-         error_setg(errp, QERR_PERMISSION_DENIED);
-         return false;
-     }
--    prop->set(obj, v, name, prop->opaque, &err);
--    error_propagate(errp, err);
--    return !err;
-+    prop->set(obj, v, name, prop->opaque, errp);
-+    return !*errp;
- }
+     def test_iothreads_switch_backing(self):
+-        self.run_test_iothreads('iothread0', None)
++        self.run_test_iothreads('iothread0', '')
  
- bool object_property_set_str(Object *obj, const char *name,
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index ad9b56b59a..3b61c195c5 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -46,25 +46,18 @@ static void object_set_properties_from_qdict(Object *obj, const QDict *qdict,
-                                              Visitor *v, Error **errp)
- {
-     const QDictEntry *e;
--    Error *local_err = NULL;
+     def test_iothreads_switch_overlay(self):
+-        self.run_test_iothreads(None, 'iothread0')
++        self.run_test_iothreads('', 'iothread0')
  
--    if (!visit_start_struct(v, NULL, NULL, 0, &local_err)) {
--        goto out;
-+    if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
-+        return;
-     }
-     for (e = qdict_first(qdict); e; e = qdict_next(qdict, e)) {
--        if (!object_property_set(obj, e->key, v, &local_err)) {
--            break;
-+        if (!object_property_set(obj, e->key, v, errp)) {
-+            goto out;
-         }
-     }
--    if (!local_err) {
--        visit_check_struct(v, &local_err);
--    }
--    visit_end_struct(v, NULL);
--
-+    visit_check_struct(v, errp);
- out:
--    if (local_err) {
--        error_propagate(errp, local_err);
--    }
-+    visit_end_struct(v, NULL);
- }
- 
- void object_set_properties_from_keyval(Object *obj, const QDict *qdict,
+ if __name__ == '__main__':
+     iotests.activate_logging()
 -- 
 2.31.1
 
