@@ -2,90 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4A242FDA7
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 23:52:06 +0200 (CEST)
-Received: from localhost ([::1]:50228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1258C42FDAA
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 23:52:32 +0200 (CEST)
+Received: from localhost ([::1]:52378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbV7V-0003WB-4U
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 17:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45926)
+	id 1mbV7v-0004vK-5i
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 17:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mbV5s-00026b-1k
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 17:50:24 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:51557)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mbV72-0003Tu-1E; Fri, 15 Oct 2021 17:51:36 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:40072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mbV5n-00048k-RG
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 17:50:23 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.west.internal (Postfix) with ESMTP id 21D1C32019DA;
- Fri, 15 Oct 2021 17:50:15 -0400 (EDT)
-Received: from imap44 ([10.202.2.94])
- by compute2.internal (MEProxy); Fri, 15 Oct 2021 17:50:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type:content-transfer-encoding; s=fm3; bh=qSThY
- dqz59eOyMMVIXKeOROOGHDXUF4LU3CmJjsQl3o=; b=sCKHzcx82Wxv0j4JVNJ0x
- P6UZRwU5DPfkNXt98FN1pFFbcAdCpNMt6tKDUCY5i09SyAsqXcny3p4gcjVZHUWM
- DyAeePNgXSUSQd1v5Q0d/lm6bS3hTv9zGXZvDvMK8pqtHZhKhuqUUKn8IITG/FpE
- MW5LhDV/shDbkLfVkma11QiP8J/+0qGWCxR+W/LEI2WHpkoGtCN9fhCLJFZE6sZI
- 67dPYOzOLrauQXqyQO0KOT+8K78jVtAvKbPkFvF+DC7qKCufef3hVTfhuXNRY/LA
- Opm18W18/zCSC/GNVWqfyebwAeT+fN9NCcPkQg7eA7ZIbVGWZ9hB2TEzBeERj4xU
- A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=qSThYdqz59eOyMMVIXKeOROOGHDXUF4LU3CmJjsQl
- 3o=; b=KE8gvZ+IFdi1DAZtz0zbdD8rBqe46sHqNiPEbmDyWPO2WaXtZ5EkWn3w2
- MS6ICtd9LXIEiNgILol3jT8p+IKkHvGl+EdCuR4xf/s8jno9tdQJo2pVdhyo4lFZ
- fRqEjLR7UMQOZz5jMQ/1YraVBBpf4k6z9rWDuKslvB3x0X2ldqhOQnnbo5qB7A0D
- 6n8Uo3V2c292JShCY/in28SOETMcf7AbHNd3o83gXLvr3YMTUQ9vfzf4xuHn9/AH
- 6ra1d6fu/Q9+0MsDSr6ubWPhh4SIQQjbXLyyou7jOszreDCTCSuTpuvYEVFoG1+K
- r3T6eT7dgYRQw2eLpmDkktzayb8Eg==
-X-ME-Sender: <xms:lvdpYYdvNYqSejXC2P0L2raFdBotEOI0rNt2Hhmmur3KcCgfQkJYWw>
- <xme:lvdpYaPiXQVwhRK7uNyEZuJ7otQ1lrnUBe9R-b42KUp--vQt_vJAVT7in4ZNZJnfw
- SY_A3a8M8M_OvVyzok>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdduhedgtddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
- rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
- eqnecuggftrfgrthhtvghrnhepfeetgeekveeftefhgfduheegvdeuuddvieefvddvlefh
- feehkeetfeeukedtfeejnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrg
- hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:lvdpYZhJPOKIXa-kXIjKD6tdx6E3djMzjarhjK3ziUWoczpJhbM8zw>
- <xmx:lvdpYd9RzWoGOVgcpgZ7Bh0cm2xo7tUZB6hGi90Es8iLGYRjNT0P6g>
- <xmx:lvdpYUv60QjZgJBhStOTN6uZCsxo7ncsdDtTQjOmJbRKv5qtwbXk8w>
- <xmx:lvdpYd7lJwyYhoCGsu53OaIPTMDbNWcUSDSuzX-1WDDN1LGsvKbpCA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 97360FA0AA5; Fri, 15 Oct 2021 17:50:14 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-1345-g8441cd7852-fm-20211006.001-g8441cd78
-Mime-Version: 1.0
-Message-Id: <adf8c5ed-bcbb-4f22-838e-65d1988fd24f@www.fastmail.com>
-In-Reply-To: <778c04dc2c8affac060b8edf9e8d7dab3c3e04eb.1634259980.git.balaton@eik.bme.hu>
-References: <cover.1634259980.git.balaton@eik.bme.hu>
- <778c04dc2c8affac060b8edf9e8d7dab3c3e04eb.1634259980.git.balaton@eik.bme.hu>
-Date: Fri, 15 Oct 2021 22:49:53 +0100
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "BALATON Zoltan" <balaton@eik.bme.hu>,
- "BALATON Zoltan via" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 2/4] vt82c686: Add a method to VIA_ISA to raise ISA
- interrupts
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=64.147.123.25;
- envelope-from=jiaxun.yang@flygoat.com; helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mbV6x-00053P-DH; Fri, 15 Oct 2021 17:51:35 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id E69E47463B7;
+ Fri, 15 Oct 2021 23:51:26 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id BB1DF746333; Fri, 15 Oct 2021 23:51:26 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id B9A3A7462D3;
+ Fri, 15 Oct 2021 23:51:26 +0200 (CEST)
+Date: Fri, 15 Oct 2021 23:51:26 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 3/6] ppc/pegasos2: Implement get-time-of-day RTAS function
+ with VOF
+In-Reply-To: <dfe0a1bf-a4c7-935a-f9e8-d6692d5c1c9@eik.bme.hu>
+Message-ID: <35f4706b-7d53-3c8e-392d-2d7ea85683c@eik.bme.hu>
+References: <cover.1634241019.git.balaton@eik.bme.hu>
+ <6233eb07c680d6c74427e11b9641958f98d53378.1634241019.git.balaton@eik.bme.hu>
+ <YWjyxvGlkzgi2nl6@yekko> <dfe0a1bf-a4c7-935a-f9e8-d6692d5c1c9@eik.bme.hu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,25 +57,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-=E5=9C=A82021=E5=B9=B410=E6=9C=8815=E6=97=A5=E5=8D=81=E6=9C=88 =E4=B8=8A=
-=E5=8D=882:06=EF=BC=8CBALATON Zoltan=E5=86=99=E9=81=93=EF=BC=9A
-> Other functions in the VT82xx chips need to raise ISA interrupts. Keep
-> a reference to them in the device state and add via_isa_set_irq() to
-> allow setting their state.
+On Fri, 15 Oct 2021, BALATON Zoltan wrote:
+> On Fri, 15 Oct 2021, David Gibson wrote:
+>> On Thu, Oct 14, 2021 at 09:50:19PM +0200, BALATON Zoltan wrote:
+>>> This is needed for Linux to access RTC time.
+>>> 
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> ---
+>>>  hw/ppc/pegasos2.c | 25 +++++++++++++++++++++++++
+>>>  1 file changed, 25 insertions(+)
+>>> 
+>>> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+>>> index a1dd1f6752..a9e3625f56 100644
+>>> --- a/hw/ppc/pegasos2.c
+>>> +++ b/hw/ppc/pegasos2.c
+>>> @@ -31,6 +31,8 @@
+>>>  #include "sysemu/kvm.h"
+>>>  #include "kvm_ppc.h"
+>>>  #include "exec/address-spaces.h"
+>>> +#include "qom/qom-qobject.h"
+>>> +#include "qapi/qmp/qdict.h"
+>>>  #include "trace.h"
+>>>  #include "qemu/datadir.h"
+>>>  #include "sysemu/device_tree.h"
+>>> @@ -369,6 +371,29 @@ static target_ulong pegasos2_rtas(PowerPCCPU *cpu, 
+>>> Pegasos2MachineState *pm,
+>>>          return H_PARAMETER;
+>>>      }
+>>>      switch (token) {
+>>> +    case RTAS_GET_TIME_OF_DAY:
+>>> +    {
+>>> +        QObject *qo = object_property_get_qobject(qdev_get_machine(),
+>>> +                                                  "rtc-time", 
+>>> &error_fatal);
+>>> +        QDict *qd = qobject_to(QDict, qo);
+>>> +
+>>> +        if (nargs != 0 || nrets != 8 || !qd) {
+>>> +            stl_be_phys(as, rets, -1);
+>>> +            qobject_unref(qo);
+>>> +            return H_PARAMETER;
+>>> +        }
+>>> +
+>>> +        stl_be_phys(as, rets, 0);
+>>> +        stl_be_phys(as, rets + 4, qdict_get_int(qd, "tm_year") + 1900);
+>>> +        stl_be_phys(as, rets + 8, qdict_get_int(qd, "tm_mon") + 1);
+>>> +        stl_be_phys(as, rets + 12, qdict_get_int(qd, "tm_mday"));
+>>> +        stl_be_phys(as, rets + 16, qdict_get_int(qd, "tm_hour"));
+>>> +        stl_be_phys(as, rets + 20, qdict_get_int(qd, "tm_min"));
+>>> +        stl_be_phys(as, rets + 24, qdict_get_int(qd, "tm_sec"));
+>> 
+>> Doing a separate dictionary lookup for every component seems like it
+>> might be pretty expensive.  You might want to look at how spapr does
+>> this.
 >
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> This is the only short way I could find to read the RTC the same way as the 
+> guest or firmware would. I wasn't sure because the rtc model has an update 
+> rtc function that it calls before reads to set the values but that looks like 
+> doing the same as spapr does so I'll send another patch replacing this with 
+> that then.
 
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Forget it. I've looked at it and to get the time that way fitst we'd need 
+the RTCState struct which we don't readily have as it's part of the vt8231 
+device which creates it internally so the pegasos2 code does not see it 
+directly but would need some qdev magic to find it. Then we would need to 
+either export or duplicate the get_guest_rtc_ns() function from 
+hw/rtc/mc146818rtc.c to get the guest clock. Since reading the rtc via 
+RTAS is not a frequent operation and probably also slow on real hardware I 
+can live with the above QObject solution so just keep this patch for now. 
+It's only used by Linux to access hardware clock anyway.
 
-> ---
+Regards,
+BALATON Zoltan
 
---=20
-- Jiaxun
+>> However, you're maintainer for pegasos, so really it's your call -
+>> applied, thanks.
+>> 
+>>> +        stl_be_phys(as, rets + 28, 0);
+>>> +        qobject_unref(qo);
+>>> +        return H_SUCCESS;
+>>> +    }
+>>>      case RTAS_READ_PCI_CONFIG:
+>>>      {
+>>>          uint32_t addr, len, val;
+>> 
+>> 
+>
 
