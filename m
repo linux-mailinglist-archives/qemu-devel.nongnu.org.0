@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B175642FC15
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 21:26:30 +0200 (CEST)
-Received: from localhost ([::1]:55426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F7F42FBF3
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 21:24:06 +0200 (CEST)
+Received: from localhost ([::1]:52944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbSqb-0006n5-SP
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 15:26:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49530)
+	id 1mbSoH-00058O-Qr
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 15:24:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mbSYy-0001u3-3P
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 15:08:16 -0400
-Received: from mail-vk1-xa35.google.com ([2607:f8b0:4864:20::a35]:39746)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mbSYv-0002Mz-RO
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mbSYx-0001sg-N4
  for qemu-devel@nongnu.org; Fri, 15 Oct 2021 15:08:15 -0400
-Received: by mail-vk1-xa35.google.com with SMTP id m199so5658796vka.6
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 12:08:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w9rTHeMQ2l15ob5QQU3pKBu13BzsgU1zQDV1GyFG7Vk=;
- b=C3G+NEeY468meswZIryk0vWWnMRZDiQioWsKLON+fLWTYwm7R1wWeKetPyqiyILDFz
- YFmRIHYIv+BRbbO1M5Eq0eU3xa4Y04Jr5bS7qgpVxVdlM2cVFzKw26IXVvWQ7z1Is4+Z
- 5v716E9dvatSPxzIhrYddi5uzVkm/v8QJIHsDHCwwleCbu+IwUZcVQlQBicXr3HhF5jH
- ySTvT0XukwtnjRdJWg5eJIh6PG65AWLooJ2/SVlrbNWYoMZPfTafQJtPExANesFYpXx2
- OK7E51qe3xRtB4sLL4QYPn/0hYYBTkpZ8s/7CJt8XCF0bFOU60GqzotFdeWZHJDb0VbJ
- Sqgg==
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:44890)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mbSYu-0002M0-SI
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 15:08:14 -0400
+Received: by mail-pg1-x530.google.com with SMTP id c4so2363425pgv.11
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 12:08:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jF6zukw5JXL+Hu0pmNDKaDkjlDE8cJ4VyAbu6INmlS8=;
+ b=UaphomJHUuHh93fJwtp1vnf3VpVvoDOmiTEcjL+fEDyxP+FXeQ37ih1zWBWk/6PADP
+ TVNXGtsToSyIpBtrAZgAxXBk/Y7ZfrJRtdTTdvGJOAnrMqwTiBOw8vjwRkllavw/vad0
+ LRT4k6Ux42QLA/lZ1l+rXSiltzaA31sRirh/RrPUywO2UrF5haZCUkeFifbYFIQdHDp9
+ LI6STGE349abm0yJLsg2ucxYW01LMl44ngjrmTBvMNB8mnhxPkxqoaVZI8FUrxPXgzt/
+ sUBRmiZBSku4l145TzQsvNSNVNDzD4wv5n/IiiDnsCdzXpScrwDXdRjxjHHyyt680JGL
+ ZG1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w9rTHeMQ2l15ob5QQU3pKBu13BzsgU1zQDV1GyFG7Vk=;
- b=2jt4emWZ5PoP24jyTZnrx7cWOk829pXs8mGLK3lxJXn56mR58K0Dfss9zmcw41AlJc
- emwIOfKrA189sdKpwgdT1JQfYX17FDUlaiYUzdFlLr95yLXsPcPFMmul+FMWgVTh5391
- 5sUm5sG5Ovdz/spUVx1FLvpt8pHLdzNBKHbHdjXMSrbSnRAVdtbUmmAcS3GuVyWcOLbz
- PLJ+9Zswt0bGTNsSIeFRVWkaQ7Jufinlx9yVKBQgxdxM7Gn5tw/QQX37nWBRvl/oxY/9
- vaeg9LfiOhm7kTG2oUWmhgLvqMXPIzgNMH3u08sW7ppG3KdEH9deGrLHBCpUQCMgrStL
- Zrfg==
-X-Gm-Message-State: AOAM533M/YKRFaMQA5hftPe7T0G+PfErp1YdlunjMewFbcM9HPnhcwld
- ZoV9zamFh2ctJygX/t7XJ05LZVEFdB9zZ6/dU/DPMg==
-X-Google-Smtp-Source: ABdhPJyAwvCXsrLy87TILUEhy6vGcebPvud2JTeqNwvsvaVdQBGQEjeswjdsYWF7MkrVIxq5CIbOZiHp1eEZhgGZooM=
-X-Received: by 2002:a05:6122:180d:: with SMTP id
- ay13mr4001939vkb.21.1634324892836; 
- Fri, 15 Oct 2021 12:08:12 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jF6zukw5JXL+Hu0pmNDKaDkjlDE8cJ4VyAbu6INmlS8=;
+ b=IY2hMmiHiU5FSfH91Xhjs//PPxInXFEQ3mNdr3KLrS1PKirc3eGHxfefFJeLhxYYiR
+ GAYf7eBNyEa2PRBI1URcC6ZDFKmv3AM2bmBNAFSadRafb/u7r2htfj2lOp69lGTitCS/
+ E0+B8EPUJhVAChmmTIXLS3lA9QJmSGyZz/JXsG/Y46LYVp+/NJ6z2PMKdRHVscjNcBaZ
+ NFZCjdoB7zWCAvX3KTJsgkJpPYTdMzh/pgsxAXJUuQ+2j9TXtmYaipQseoU5iujqT0wE
+ /rYMDCURheblA+uHhHepqClorpklPvnu5RAjR/sRyyRIUH0Kj7kz02mLobJ3AwuMQI0G
+ 0lVw==
+X-Gm-Message-State: AOAM531gMOtNueN7zvUSgLLnVzeZl3XsIOJo8L9FLBbGJ2EOnuWEXznX
+ K2lOYxdqz3B+P73edDbB2t27Ig==
+X-Google-Smtp-Source: ABdhPJzVRA+xPNIiYz2+stycKyJevAO+tfXln+XM5B99Z4kJnZWrHr3+g+F4tcneIMih75iEwo2cxQ==
+X-Received: by 2002:a05:6a00:1707:b0:44d:47e1:9ffe with SMTP id
+ h7-20020a056a00170700b0044d47e19ffemr13464238pfc.53.1634324890910; 
+ Fri, 15 Oct 2021 12:08:10 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id y22sm11885957pjj.33.2021.10.15.12.08.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Oct 2021 12:08:10 -0700 (PDT)
+Subject: Re: [PULL 0/6] s390x patches and dtc update
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20211015091622.1302433-1-thuth@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <6a7ba8ed-d9ed-0115-7a60-10b90d392f1f@linaro.org>
+Date: Fri, 15 Oct 2021 12:08:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211015041053.2769193-1-richard.henderson@linaro.org>
- <20211015041053.2769193-59-richard.henderson@linaro.org>
-In-Reply-To: <20211015041053.2769193-59-richard.henderson@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Fri, 15 Oct 2021 13:08:02 -0600
-Message-ID: <CANCZdfpwgk+P0s-TMpP9AF__nyUHcf6VCdswXW3X=xLsD1Dimw@mail.gmail.com>
-Subject: Re: [PATCH v5 58/67] accel/tcg: Report unaligned atomics for user-only
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000af82df05ce68eaa5"
-Received-SPF: none client-ip=2607:f8b0:4864:20::a35;
- envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa35.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211015091622.1302433-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,129 +87,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000af82df05ce68eaa5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 10/15/21 2:16 AM, Thomas Huth wrote:
+>   Hi!
+> 
+> The following changes since commit bfd9a76f9c143d450ab5545dedfa74364b39fc56:
+> 
+>    Merge remote-tracking branch 'remotes/stsquad/tags/pull-for-6.2-121021-2' into staging (2021-10-12 06:16:25 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/thuth/qemu.git tags/pull-request-2021-10-15
+> 
+> for you to fetch changes up to 962fde57b7d573281619cb2b7068d570470ef833:
+> 
+>    dtc: Update to version 1.6.1 (2021-10-14 08:08:11 +0200)
+> 
+> ----------------------------------------------------------------
+> * Check kernel command line size on s390x
+> * Simplification of one of the SIGP instructions on s390x
+> * Cornelia stepping down as maintainer in some subsystems
+> * Update the dtc submodule to a proper release version
+> 
+> ----------------------------------------------------------------
+> Cornelia Huck (3):
+>        vfio-ccw: step down as maintainer
+>        s390x/kvm: step down as maintainer
+>        s390x virtio-ccw machine: step down as maintainer
+> 
+> Eric Farman (1):
+>        s390x: sigp: Force Set Architecture to return Invalid Parameter
+> 
+> Marc Hartmayer (1):
+>        s390x/ipl: check kernel command line size
+> 
+> Thomas Huth (1):
+>        dtc: Update to version 1.6.1
+> 
+>   MAINTAINERS         |  6 ------
+>   dtc                 |  2 +-
+>   hw/s390x/ipl.c      | 12 +++++++++++-
+>   target/s390x/sigp.c | 18 +-----------------
+>   4 files changed, 13 insertions(+), 25 deletions(-)
 
-On Thu, Oct 14, 2021 at 10:14 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+Applied, thanks.
 
-> Use the new cpu_loop_exit_sigbus for atomic_mmu_lookup, which
-> has access to complete alignment info from the TCGMemOpIdx arg.
->
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  accel/tcg/user-exec.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
->
+r~
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
-
-
-
-> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-> index 5646f8e527..92cbffd7c6 100644
-> --- a/accel/tcg/user-exec.c
-> +++ b/accel/tcg/user-exec.c
-> @@ -476,11 +476,22 @@ static void *atomic_mmu_lookup(CPUArchState *env,
-> target_ulong addr,
->                                 MemOpIdx oi, int size, int prot,
->                                 uintptr_t retaddr)
->  {
-> +    MemOp mop =3D get_memop(oi);
-> +    int a_bits =3D get_alignment_bits(mop);
-> +    void *ret;
-> +
-> +    /* Enforce guest required alignment.  */
-> +    if (unlikely(addr & ((1 << a_bits) - 1))) {
-> +        MMUAccessType t =3D prot =3D=3D PAGE_READ ? MMU_DATA_LOAD :
-> MMU_DATA_STORE;
-> +        cpu_loop_exit_sigbus(env_cpu(env), addr, t, retaddr);
-> +    }
-> +
->      /* Enforce qemu required alignment.  */
->      if (unlikely(addr & (size - 1))) {
->          cpu_loop_exit_atomic(env_cpu(env), retaddr);
->      }
-> -    void *ret =3D g2h(env_cpu(env), addr);
-> +
-> +    ret =3D g2h(env_cpu(env), addr);
->      set_helper_retaddr(retaddr);
->      return ret;
->  }
-> --
-> 2.25.1
->
->
-
---000000000000af82df05ce68eaa5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 14, 2021 at 10:14 PM Rich=
-ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
-enderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">Use the new cpu_loop_exit_sigbus for atomic_mmu_lookup, =
-which<br>
-has access to complete alignment info from the TCGMemOpIdx arg.<br>
-<br>
-Reviewed-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org"=
- target=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
-Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
-naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
----<br>
-=C2=A0accel/tcg/user-exec.c | 13 ++++++++++++-<br>
-=C2=A01 file changed, 12 insertions(+), 1 deletion(-)<br></blockquote><div>=
-<br></div><div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdi=
-mp.com">imp@bsdimp.com</a>&gt;</div><div><br></div></div><div>=C2=A0</div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c<br>
-index 5646f8e527..92cbffd7c6 100644<br>
---- a/accel/tcg/user-exec.c<br>
-+++ b/accel/tcg/user-exec.c<br>
-@@ -476,11 +476,22 @@ static void *atomic_mmu_lookup(CPUArchState *env, tar=
-get_ulong addr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MemOpIdx oi, int size, int prot,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uintptr_t retaddr)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 MemOp mop =3D get_memop(oi);<br>
-+=C2=A0 =C2=A0 int a_bits =3D get_alignment_bits(mop);<br>
-+=C2=A0 =C2=A0 void *ret;<br>
-+<br>
-+=C2=A0 =C2=A0 /* Enforce guest required alignment.=C2=A0 */<br>
-+=C2=A0 =C2=A0 if (unlikely(addr &amp; ((1 &lt;&lt; a_bits) - 1))) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 MMUAccessType t =3D prot =3D=3D PAGE_READ ? MM=
-U_DATA_LOAD : MMU_DATA_STORE;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_loop_exit_sigbus(env_cpu(env), addr, t, re=
-taddr);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0/* Enforce qemu required alignment.=C2=A0 */<br>
-=C2=A0 =C2=A0 =C2=A0if (unlikely(addr &amp; (size - 1))) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu_loop_exit_atomic(env_cpu(env), retadd=
-r);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 void *ret =3D g2h(env_cpu(env), addr);<br>
-+<br>
-+=C2=A0 =C2=A0 ret =3D g2h(env_cpu(env), addr);<br>
-=C2=A0 =C2=A0 =C2=A0set_helper_retaddr(retaddr);<br>
-=C2=A0 =C2=A0 =C2=A0return ret;<br>
-=C2=A0}<br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div></div>
-
---000000000000af82df05ce68eaa5--
 
