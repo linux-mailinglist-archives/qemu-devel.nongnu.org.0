@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 824E742E991
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 08:59:57 +0200 (CEST)
-Received: from localhost ([::1]:37362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C5642E9A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 09:02:54 +0200 (CEST)
+Received: from localhost ([::1]:40758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbHC8-00055s-Gt
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 02:59:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35152)
+	id 1mbHEz-0007WQ-7D
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 03:02:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbHB0-0003nQ-Be
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 02:58:46 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:38785)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbHDN-0006QF-Jc
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:01:13 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:38769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbHAy-0000rs-Eo
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 02:58:46 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbHDL-00067O-Vc
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:01:13 -0400
 Received: from [192.168.100.1] ([82.142.24.54]) by mrelayeu.kundenserver.de
  (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MJWgK-1mHYT41vh2-00JpS3; Fri, 15 Oct 2021 08:58:42 +0200
+ 1Mr7iw-1n7q401Hte-00oHwf; Fri, 15 Oct 2021 09:01:10 +0200
+Subject: Re: [PATCH 5/8] q800: wire up auxmode GPIO to GLUE
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 References: <20211013212132.31519-1-mark.cave-ayland@ilande.co.uk>
- <20211013212132.31519-5-mark.cave-ayland@ilande.co.uk>
+ <20211013212132.31519-6-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH 4/8] mac_via: add GPIO for A/UX mode
-Message-ID: <0f7cc593-a9ca-d549-b317-25e1432408ae@vivier.eu>
-Date: Fri, 15 Oct 2021 08:58:41 +0200
+Message-ID: <6f58a188-2e19-cef5-53cd-7e993717500b@vivier.eu>
+Date: Fri, 15 Oct 2021 09:01:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20211013212132.31519-5-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20211013212132.31519-6-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:wg3OUlM4yCKvUFggPjsAA1MYNiIZE6IdcjCcOMsLVp+uFmbCewG
- 3GwpTLsQroHkMDY2r91Bw9A8cPWVQzv9oToYvHq0+AdKc5blSko6c0dIDMzgVy1w0V5Mcyy
- UzjYyXpH4RfkSXT2EtWa125/mTjs0XHJaLMF1oey/2nlD8JcDIZCK90fGRMeHrElLOIgsN6
- 9WoMDsW8Az/2Z7YqJruvQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:P6ULO0Nv5n0=:6RyFn0rG05Fm921Ab5Bsx1
- uConBmK8cBYMzvYoQXxY/lFm2D83T5Mgd9hmHsp9JZQwq5njyJIuYzToZvaReC5Hva+kmkpG+
- 97SflRrtiZVd1JOQSm32roquypd77MLCfT2whVfNaBpqPl6e27jcrZru1qlBWupVhLwKSCziM
- r42OUNtrnTvRxlEc7e922H+Pa0SMcay/sShrQS7KaW8qAwT13A3JSLxI3jpg5y0HI2KlPAG8j
- AoBZTHUxnMUWtaNbzhPDTvD/5j30eRGYwdB4x1iKaYyvGt3ZPavTBMxfKmj1iuDzEx25+j9zw
- dr+QWzzF4CP3RP3zftw5BFKV68XS2FUXnxdwF2kl2RuO8aGgaofHzDK94Wvp7haoehhLWlhyl
- UCoVKypYr03IM37824WQFf37q9KU+QmWqPK9ec26pJwk9ygWAGAXe/zhOqRF63yPgq0GVf7e/
- DUVuC2fz4HKPrikkrdVl7jgk80BtUpmKapGFsaBvoT2y6sy+3YG0iyzNK0LTZyRGXcBxvG6fO
- O2y3jQR8IeS2afmPeBdgf6MO/PCsZOXKmqnV7BxgZN8prnC0OUD9ydRBfg72Vh3E51PJrVXia
- j7+blLys82PSfiLvR0+gZktiT4Srrffv+yebajuvqOrxHOSwMaj+Eq/UvbTwnS9ZDJ7o1iekz
- LI601hyzHIUe22FtkV7B4RB5qIfRHFD2TYc+CinAz1bzbWLASejB9e4+pbFThgv4GlI6nc+te
- UlC+OOxmEEkhELWV7mTdpVCfv0/SoCrifohzeQ==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:EAmwcr/B/AyHb18WhclCLmqcGWT2vT0GWkJ+CPuFs5sPUmFsTeS
+ UQA0olWV1Q6dbUxSxp39HQRT3DGmLERh9PXj5l2CKK4lvs6ACxS6fvlZj3uBY9hKlnoJ4h5
+ berNlAjDJuPFPK9mQhfI9vO2Fzv/RE4DUf61+g1/xiTpe0EQi7IqRQSxiQVMWfY6G7o8IZ5
+ MtdCaa/DEdUzEBcI/K3AQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/1ao4vUkqMM=:u3MFpgd2UjX1dWgxWEp4Q2
+ Y1vCixaXEiGneOr8kG8rs8KkKdWWDNWRbYPmUUN0hjBOabdCKk4kHp1Fnh3WT6mARllfXPbUP
+ PYtgjH1pvjGvMhdpVvfvsSIGc1fk1KK6T9xVT09HJ82UUJYc87jRbMTZwrE0wxmyILv0TMyuJ
+ ItvbvBUBhBDuk2wlcEVHh0Gsb++evMDOPz8JDYiLCcl2A1aVbZkVeLENRfNVQqyR1Tgx2JKnV
+ tr1sF/AWjzFTpEuppQLtfOYL3oIDdalEGU6fL+YNw2vJHCFNDVB4yuz+kajOv/yeoJh8jwVYk
+ Ya3/H4grzG/hR8tiCzz8aKlVvyj+UokXk4qcgZB8SBBe5QOrOn41Dn5C2/j589XCw8i+97z5T
+ XEQ9sEJuHt0aqNe8St7L/s1wpx6VPE00zr8B3H1rPGpi4eBqWUjDLjo7LlfNCEqEa/O7W2Z25
+ mGqM3HUY8RNfU2tbfbQGL/MZqyD6HRAzQZykbEoAk9yTodY5DF1CqhpL2OB39R6J+2YNn4avQ
+ a43GjgGFs7xId+jiyvJe2np7UiB7zsrSF0zIkkphgDMOMlDlnX9K0MxnrBejzaAnUjS9hCalR
+ 9RbywIyzLTF6ao+dxx/ToFv6OMCT+6USkFiKuRkePmEksYkPLvNxIklMkAOUWgcpcdcx/nCM1
+ L0+RPS07AWWQCPaCrUAE31QRlGP2nyiq2FMjcNzdCKQjdwrffaWX4O4VBwboAqklGBRGs9C/8
+ ssf/z8lhgE2Rx3vDILoAXDSYi+qz6tsAZ89toA==
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,95 +74,72 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 13/10/2021 à 23:21, Mark Cave-Ayland a écrit :
-> Add a new auxmode GPIO that is updated when port B bit 6 is changed indicating
-> whether the hardware is configured for A/UX mode.
+> This enables the GLUE logic to change its CPU level IRQ routing depending upon
+> whether the hardware has been configured for A/UX mode.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/misc/mac_via.c         | 18 ++++++++++++++++++
->  hw/misc/trace-events      |  1 +
->  include/hw/misc/mac_via.h |  1 +
->  3 files changed, 20 insertions(+)
+>  hw/m68k/q800.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
-> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-> index 7a53a8b4c0..a08ffbcd88 100644
-> --- a/hw/misc/mac_via.c
-> +++ b/hw/misc/mac_via.c
-> @@ -880,6 +880,20 @@ static void via1_adb_update(MOS6522Q800VIA1State *v1s)
->      }
+> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+> index 81c335bf16..0093872d89 100644
+> --- a/hw/m68k/q800.c
+> +++ b/hw/m68k/q800.c
+> @@ -100,6 +100,7 @@ struct GLUEState {
+>      SysBusDevice parent_obj;
+>      M68kCPU *cpu;
+>      uint8_t ipr;
+> +    uint8_t auxmode;
+>  };
+>  
+>  #define GLUE_IRQ_IN_VIA1       0
+> @@ -145,11 +146,19 @@ static void GLUE_set_irq(void *opaque, int irq, int level)
+>      m68k_set_irq_level(s->cpu, 0, 0);
 >  }
 >  
-> +static void via1_auxmode_update(MOS6522Q800VIA1State *v1s)
+> +static void glue_auxmode_set_irq(void *opaque, int irq, int level)
 > +{
-> +    MOS6522State *s = MOS6522(v1s);
-> +    int oldirq, irq;
+> +    GLUEState *s = GLUE(opaque);
 > +
-
-Please, add a comment to explain what happens here as "vMystery" is not self-explicit.
-
-> +    oldirq = (v1s->last_b & VIA1B_vMystery) ? 1 : 0;
-> +    irq = (s->b & VIA1B_vMystery) ? 1 : 0;
-
-For me, it would be clearer with:
-
-    oldirq = !!(v1s->last_b & VIA1B_vMystery);
-    irq = !!(s->b & VIA1B_vMystery);
-
-but it's a matter of taste.
-
-
-> +
-> +    if (irq != oldirq) {
-> +        trace_via1_auxmode(irq);
-> +        qemu_set_irq(v1s->auxmode_irq, irq);
-> +    }
+> +    s->auxmode = level;
 > +}
 > +
->  static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
+>  static void glue_reset(DeviceState *dev)
 >  {
->      MOS6522Q800VIA1State *s = MOS6522_Q800_VIA1(opaque);
-> @@ -902,6 +916,7 @@ static void mos6522_q800_via1_write(void *opaque, hwaddr addr, uint64_t val,
->      case VIA_REG_B:
->          via1_rtc_update(v1s);
->          via1_adb_update(v1s);
-> +        via1_auxmode_update(v1s);
+>      GLUEState *s = GLUE(dev);
 >  
->          v1s->last_b = ms->b;
->          break;
-> @@ -1046,6 +1061,9 @@ static void mos6522_q800_via1_init(Object *obj)
->                TYPE_ADB_BUS, DEVICE(v1s), "adb.0");
->  
->      qdev_init_gpio_in(DEVICE(obj), via1_irq_request, VIA1_IRQ_NB);
-> +
-> +    /* A/UX mode */
-> +    qdev_init_gpio_out(DEVICE(obj), &v1s->auxmode_irq, 1);
+>      s->ipr = 0;
+> +    s->auxmode = 0;
 >  }
 >  
->  static const VMStateDescription vmstate_q800_via1 = {
-> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-> index ede413965b..2da96d167a 100644
-> --- a/hw/misc/trace-events
-> +++ b/hw/misc/trace-events
-> @@ -228,6 +228,7 @@ via1_rtc_cmd_pram_sect_write(int sector, int offset, int addr, int value) "secto
->  via1_adb_send(const char *state, uint8_t data, const char *vadbint) "state %s data=0x%02x vADBInt=%s"
->  via1_adb_receive(const char *state, uint8_t data, const char *vadbint, int status, int index, int size) "state %s data=0x%02x vADBInt=%s status=0x%x index=%d size=%d"
->  via1_adb_poll(uint8_t data, const char *vadbint, int status, int index, int size) "data=0x%02x vADBInt=%s status=0x%x index=%d size=%d"
-> +via1_auxmode(int mode) "setting auxmode to %d"
+>  static const VMStateDescription vmstate_glue = {
+> @@ -158,6 +167,7 @@ static const VMStateDescription vmstate_glue = {
+>      .minimum_version_id = 0,
+>      .fields = (VMStateField[]) {
+>          VMSTATE_UINT8(ipr, GLUEState),
+> +        VMSTATE_UINT8(auxmode, GLUEState),
+>          VMSTATE_END_OF_LIST(),
+>      },
+>  };
+> @@ -178,6 +188,7 @@ static void glue_init(Object *obj)
+>      DeviceState *dev = DEVICE(obj);
 >  
->  # grlib_ahb_apb_pnp.c
->  grlib_ahb_pnp_read(uint64_t addr, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" data:0x%08x"
-> diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
-> index 4506abe5d0..b445565866 100644
-> --- a/include/hw/misc/mac_via.h
-> +++ b/include/hw/misc/mac_via.h
-> @@ -43,6 +43,7 @@ struct MOS6522Q800VIA1State {
->      MemoryRegion via_mem;
+>      qdev_init_gpio_in(dev, GLUE_set_irq, 8);
+> +    qdev_init_gpio_in_named(dev, glue_auxmode_set_irq, "auxmode", 1);
+>  }
 >  
->      qemu_irq irqs[VIA1_IRQ_NB];
-> +    qemu_irq auxmode_irq;
->      uint8_t last_b;
+>  static void glue_class_init(ObjectClass *klass, void *data)
+> @@ -308,6 +319,9 @@ static void q800_init(MachineState *machine)
+>      sysbus_realize_and_unref(sysbus, &error_fatal);
+>      sysbus_mmio_map(sysbus, 1, VIA_BASE);
+>      sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, GLUE_IRQ_IN_VIA1));
+> +    /* A/UX mode */
+> +    qdev_connect_gpio_out(via1_dev, 0,
+> +                          qdev_get_gpio_in_named(glue, "auxmode", 0));
 >  
->      /* RTC */
+>      adb_bus = qdev_get_child_bus(via1_dev, "adb.0");
+>      dev = qdev_new(TYPE_ADB_KEYBOARD);
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
