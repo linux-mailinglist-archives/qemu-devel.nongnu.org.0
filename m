@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0603742FD5D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 23:22:21 +0200 (CEST)
-Received: from localhost ([::1]:54004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 741C242FD43
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 23:13:00 +0200 (CEST)
+Received: from localhost ([::1]:56764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbUei-0002hm-3D
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 17:22:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40590)
+	id 1mbUVf-00028f-G9
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 17:12:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mbUTJ-0007VW-1S
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 17:10:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23709)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mbUTC-0007Sw-2u
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 17:10:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mbUTA-0000c9-Nu
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 17:10:32 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mbUT6-0000al-9n
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 17:10:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634332219;
+ s=mimecast20190719; t=1634332218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rSZK1KkmIpw4/8UmyKjTqfzt0KxZMc5maGw55PT49HE=;
- b=C5nw72JQHV3+1huM6H+i6mUD97f2CYCE+XEGByMH+lnHnC7nP12H9jWn6Slk5r/XHtzMA1
- 3cYt0HwpoACxdxmzexGSxdkScVeU/tpoP0g++saV46irmFUV8oGK6wrB3g7TMGZZ6LhIX4
- ZMS7eUwyAuF2DxDtAYH2Ji0WbBurL0c=
+ bh=6ZRle+JZn4ejZdQH4RYOeKHUzM/Dg2KEG8y7izHl4Do=;
+ b=d0AdCzflC4yv7WdUr74sxiM3SybEwMbTaqShSO4U6y+DZPHviDceOSr/PdPU91OUTtItdj
+ HQdJZkW6BqAxBJZP1ltk6J5iyz6WhAQO15IDw/gdbGxOg9NVQZ/+9cjJ6X2pIFgkmQzbOT
+ ydWEg1At/sAjjs4VpuaO3ADCVdRFUfw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-W6LMli8qMieyTfyxi9L2_A-1; Fri, 15 Oct 2021 17:10:16 -0400
-X-MC-Unique: W6LMli8qMieyTfyxi9L2_A-1
+ us-mta-562-AwapESOwNfuFAIEpNc8Dcg-1; Fri, 15 Oct 2021 17:10:16 -0400
+X-MC-Unique: AwapESOwNfuFAIEpNc8Dcg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F03F802C9B;
- Fri, 15 Oct 2021 21:10:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 022F0802575;
+ Fri, 15 Oct 2021 21:10:16 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-114-130.phx2.redhat.com [10.3.114.130])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C5D8E19739;
- Fri, 15 Oct 2021 21:10:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5CD7E19739;
+ Fri, 15 Oct 2021 21:10:15 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/15] qcow2: Silence clang -m32 compiler warning
-Date: Fri, 15 Oct 2021 16:09:56 -0500
-Message-Id: <20211015211011.1272011-2-eblake@redhat.com>
+Subject: [PULL 02/15] block-backend: blk_check_byte_request(): int64_t bytes
+Date: Fri, 15 Oct 2021 16:09:57 -0500
+Message-Id: <20211015211011.1272011-3-eblake@redhat.com>
 In-Reply-To: <20211015211011.1272011-1-eblake@redhat.com>
 References: <20211015211011.1272011-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,47 +77,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "open list:qcow2" <qemu-block@nongnu.org>
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hanna Reitz <hreitz@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-With -m32, size_t is generally only a uint32_t.  That makes clang
-complain that in the assertion
+Rename size and make it int64_t to correspond to modern block layer,
+which always uses int64_t for offset and bytes (not in blk layer yet,
+which is a task for following commits).
 
-  assert(qiov->size <= INT64_MAX);
+All callers pass int or unsigned int.
 
-the range of the type of qiov->size (size_t) is too small for any of its
-values to ever exceed INT64_MAX.
+So, for bytes in [0, INT_MAX] nothing is changed, for negative bytes we
+now fail on "bytes < 0" check instead of "bytes > INT_MAX" check.
 
-Cast qiov->size to uint64_t to silence clang.
+Note, that blk_check_byte_request() still doesn't allow requests
+exceeding INT_MAX.
 
-Fixes: f7ef38dd1310d7d9db76d0aa16899cbc5744f36d
-       ("block: use int64_t instead of uint64_t in driver read
-       handlers")
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20211011155031.149158-1-hreitz@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20211006131718.214235-2-vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/qcow2-cluster.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ block/block-backend.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 5727f92dcb39..21884a1ab9ab 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -513,7 +513,8 @@ static int coroutine_fn do_perform_cow_read(BlockDriverState *bs,
-      */
-     assert(src_cluster_offset <= INT64_MAX);
-     assert(src_cluster_offset + offset_in_cluster <= INT64_MAX);
--    assert(qiov->size <= INT64_MAX);
-+    /* Cast qiov->size to uint64_t to silence a compiler warning on -m32 */
-+    assert((uint64_t)qiov->size <= INT64_MAX);
-     bdrv_check_qiov_request(src_cluster_offset + offset_in_cluster, qiov->size,
-                             qiov, 0, &error_abort);
-     /*
+diff --git a/block/block-backend.c b/block/block-backend.c
+index ba2b5ebb1008..2c62210687e7 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1161,11 +1161,11 @@ void blk_set_disable_request_queuing(BlockBackend *blk, bool disable)
+ }
+
+ static int blk_check_byte_request(BlockBackend *blk, int64_t offset,
+-                                  size_t size)
++                                  int64_t bytes)
+ {
+     int64_t len;
+
+-    if (size > INT_MAX) {
++    if (bytes < 0 || bytes > INT_MAX) {
+         return -EIO;
+     }
+
+@@ -1183,7 +1183,7 @@ static int blk_check_byte_request(BlockBackend *blk, int64_t offset,
+             return len;
+         }
+
+-        if (offset > len || len - offset < size) {
++        if (offset > len || len - offset < bytes) {
+             return -EIO;
+         }
+     }
 -- 
 2.31.1
 
