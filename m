@@ -2,66 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED3B42F121
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 14:40:08 +0200 (CEST)
-Received: from localhost ([::1]:41764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6E142F127
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 14:41:14 +0200 (CEST)
+Received: from localhost ([::1]:42510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbMVK-0000YW-Q6
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 08:40:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54972)
+	id 1mbMWP-00016T-Nc
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 08:41:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mbMTF-0007gt-90; Fri, 15 Oct 2021 08:37:57 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:35461)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mbMT2-00061A-Ee; Fri, 15 Oct 2021 08:37:57 -0400
-Received: by mail-pg1-x532.google.com with SMTP id e7so8500927pgk.2;
- Fri, 15 Oct 2021 05:37:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=227zV1gxtkNhPbXEYIP8/xADQqjWERCvoSTBxHpIQqA=;
- b=VzmJRgDskQdz6OaiURf3wyCgUcoQt5q9JQ1Z+c5E29hby3P9cdANzjDZS5VajzlajX
- lJil2J2OZbnX6YI9dGM/Couz6dBcfAQsrdwc5HuQEUzkRZ482aOYwyxNQuOmWXURnn42
- TcpwtnuJRwiKI3HtYRuCA8YTDgNk25go5fuqiaKTatIj10XLjl0U4srCHgSBrVxSipgG
- ug7HU3YgVfOGcQkddybz0BaOEQkht5CJ2S7NVVx01ByBfdQv+SUsL369clLCt2gMdVix
- QVeIHmH/JbVZQ3FVSpDH+PlZjicHQDe5QLGbyfpI2W/y3A67SMQxNNNiWZlH5OxtdTCa
- JKCg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mbMTu-00085I-7D
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:38:38 -0400
+Received: from usb-smtp-delivery-124.mimecast.com ([170.10.151.124]:22007
+ helo=us-smtp-delivery-124.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mbMTq-0006OS-HZ
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:38:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634301512;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bnE9GS5JhLq1cAS2EbGm058tDL8mVeYPhb0W6R5kDj8=;
+ b=YxgKSLGh6WLl/6+7JUUG+S4GM7lWGsBnJlMlr+aUWkc32x9C73pvWCs/Ax/ESOAGn6jnao
+ TVSIDd+szQ4eiKGkLrxhMOBTyyQIDcBH3p1DANrmyKhTTnOMLPIjSbqYc9XRrypNWs8Er5
+ TMx5g55Fi6XjK8fSmm2q3nWaPMU+xo8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-2-N9EgJ5j5OIqs52ZHlRLjqg-1; Fri, 15 Oct 2021 08:38:31 -0400
+X-MC-Unique: N9EgJ5j5OIqs52ZHlRLjqg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s18-20020adfbc12000000b00160b2d4d5ebso5925661wrg.7
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 05:38:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=227zV1gxtkNhPbXEYIP8/xADQqjWERCvoSTBxHpIQqA=;
- b=b+Iy+NtggiFZZBvdFbbCBTDacUJ06zIzeyUvP+TzULQt32PgRlHo4g5vrsp8w95BoR
- mgqFso8uUwn/ezmypo7X0VjB3/d8apr8uSoNnyLKOwNd2iMF+G9IzsCdXg7ZyeXCvWyo
- K0yObWmk9p/ss8MNLf6plxnRIHAS+V9mw0/oE7td85pkTIukgQ2BEJRAH72936VWoiG2
- t8yTFL8YW9FhR+A46/RsNQlYFGoaaDFxBr0c4nLx0xQ5kfHs2EvrNdypgjEEwXgMMaU6
- 2wL7JnS46lUO4RYMWPOx4ER9ipHtdKgmsfKrRHPefpUiGrdbcSLTgw9bPZrSL3dlouuI
- arNg==
-X-Gm-Message-State: AOAM5333NvZtnyfkLxLSxaLhXrOIsZTsjg/JaIbPGQT5Clnfd1SBWx+3
- tcMiD7196iy2KVyqwgDrzwSCVB+seunOnWHv+WU=
-X-Google-Smtp-Source: ABdhPJzI4SE7cbNxPBhql4/1/1PNGxRtwf6WZA1fipdj4aplcjhrRDSk1muPPKiuPdu28DonucFMH3GZglSkXCvqq9g=
-X-Received: by 2002:a63:6b42:: with SMTP id g63mr1467169pgc.461.1634301462623; 
- Fri, 15 Oct 2021 05:37:42 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=bnE9GS5JhLq1cAS2EbGm058tDL8mVeYPhb0W6R5kDj8=;
+ b=VkQzvwcCac0Dc34e1MZk6VQoIcfG4hfyBlTaLg4GYhQJpSvdhPVJr41JgMBLGa6i/S
+ t2Bxg/sBBz8TlwRzbHezJ0CXTiNh6/SfyHsXGnylbD4jtO4wACHZREtk7u+yOSB0sbfV
+ jE4h52qktLvZvwbqxYmTgWz64mDAOHuCNHeKzVfmHCvLT+48u4LHLwO2/gcU0dOwA3bf
+ ff8DCcPacKvihg57pkm6hDi5NVFkm04jiTQ1alYIl/C1GBYeF7BctaVALtulr9KskJw7
+ JKOc4ChDJ6ry30pCQLIS2frkHVCKSQaxyfIZtDtrkoRnuCN6rFPC46g9F6deSxQFKBmj
+ cPTw==
+X-Gm-Message-State: AOAM530Ov1/I1T/qy+IiHr4qrC9DpI6I/v9GXAg2ZTEjLMmd64IwO7WW
+ PFOrcvrtgZ56DoHKu3Xf3D70cnrPM8YKQSHxzJk66m1lNDtr9I2+8Txk/6v7MGAAeWNl1VQgYL7
+ JuF+e9DbEeEsvues=
+X-Received: by 2002:a1c:7c0e:: with SMTP id x14mr12262173wmc.128.1634301510294; 
+ Fri, 15 Oct 2021 05:38:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxNbLBG2LObJta+hAwf+TypeFRxC58ty5LkO1Jv1fOgvifwyNwSa2qgc5tAEF+jEgEwG7ukJg==
+X-Received: by 2002:a1c:7c0e:: with SMTP id x14mr12262147wmc.128.1634301510065; 
+ Fri, 15 Oct 2021 05:38:30 -0700 (PDT)
+Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
+ [81.36.146.213])
+ by smtp.gmail.com with ESMTPSA id f3sm4402812wml.11.2021.10.15.05.38.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Oct 2021 05:38:29 -0700 (PDT)
+Message-ID: <c352ccff-68aa-51c7-9261-de2e024dd16a@redhat.com>
+Date: Fri, 15 Oct 2021 14:38:28 +0200
 MIME-Version: 1.0
-References: <20211013205104.1031679-1-richard.henderson@linaro.org>
- <20211013205104.1031679-6-richard.henderson@linaro.org>
-In-Reply-To: <20211013205104.1031679-6-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 15 Oct 2021 22:37:16 +1000
-Message-ID: <CAKmqyKOiAppxPij-Ts=m6y3t2moUguFrtATNgHJSn-QCrGdwkw@mail.gmail.com>
-Subject: Re: [PATCH v2 05/13] target/riscv: Add MXL/SXL/UXL to TB_FLAGS
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 4/4] configure: remove dead EXESUF variable
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20211015100718.17828-1-pbonzini@redhat.com>
+ <20211015100718.17828-5-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211015100718.17828-5-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.151.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,156 +99,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Fabien Portas <fabien.portas@grenoble-inp.org>,
- =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?= <frederic.petrot@univ-grenoble-alpes.fr>,
- liuzhiwei <zhiwei_liu@c-sky.com>
+Cc: kwolf@redhat.com, thuth@redhat.com, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, hreitz@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 14, 2021 at 6:56 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Begin adding support for switching XLEN at runtime.  Extract the
-> effective XLEN from MISA and MSTATUS and store for use during translation.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 10/15/21 12:07, Paolo Bonzini wrote:
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
-> v2: Force SXL and UXL to valid values.
-> ---
->  target/riscv/cpu.h        |  2 ++
->  target/riscv/cpu.c        |  8 ++++++++
->  target/riscv/cpu_helper.c | 33 +++++++++++++++++++++++++++++++++
->  target/riscv/csr.c        |  3 +++
->  target/riscv/translate.c  |  2 +-
->  5 files changed, 47 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 87248b562a..445ba5b395 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -395,6 +395,8 @@ FIELD(TB_FLAGS, VILL, 8, 1)
->  /* Is a Hypervisor instruction load/store allowed? */
->  FIELD(TB_FLAGS, HLSX, 9, 1)
->  FIELD(TB_FLAGS, MSTATUS_HS_FS, 10, 2)
-> +/* The combination of MXL/SXL/UXL that applies to the current cpu mode. */
-> +FIELD(TB_FLAGS, XL, 12, 2)
->
->  #ifdef CONFIG_RISCV32
->  #define riscv_cpu_mxl(env)      MXL_RV32
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 1857670a69..840edd66f8 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -355,6 +355,14 @@ static void riscv_cpu_reset(DeviceState *dev)
->      env->misa_mxl = env->misa_mxl_max;
->      env->priv = PRV_M;
->      env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
-> +    if (env->misa_mxl > MXL_RV32) {
-> +        /*
-> +         * The reset status of SXL/UXL is officially undefined,
-> +         * but invalid settings would result in a tcg assert.
-> +         */
-> +        env->mstatus = set_field(env->mstatus, MSTATUS64_SXL, env->misa_mxl);
-> +        env->mstatus = set_field(env->mstatus, MSTATUS64_UXL, env->misa_mxl);
-> +    }
->      env->mcause = 0;
->      env->pc = env->resetvec;
->      env->two_stage_lookup = false;
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 403f54171d..429afd1f48 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -35,6 +35,37 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
->  #endif
->  }
->
-> +static RISCVMXL cpu_get_xl(CPURISCVState *env)
-> +{
-> +#if defined(TARGET_RISCV32)
-> +    return MXL_RV32;
-> +#elif defined(CONFIG_USER_ONLY)
-> +    return MXL_RV64;
-> +#else
-> +    RISCVMXL xl = riscv_cpu_mxl(env);
-> +
-> +    /*
-> +     * When emulating a 32-bit-only cpu, use RV32.
-> +     * When emulating a 64-bit cpu, and MXL has been reduced to RV32,
-> +     * MSTATUSH doesn't have UXL/SXL, therefore XLEN cannot be widened
-> +     * back to RV64 for lower privs.
-> +     */
-> +    if (xl != MXL_RV32) {
-> +        switch (env->priv) {
-> +        case PRV_M:
-> +            break;
-> +        case PRV_U:
-> +            xl = get_field(env->mstatus, MSTATUS64_UXL);
-> +            break;
-> +        default: /* PRV_S | PRV_H */
-> +            xl = get_field(env->mstatus, MSTATUS64_SXL);
-> +            break;
-> +        }
-> +    }
-> +    return xl;
-> +#endif
-> +}
-> +
->  void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->                            target_ulong *cs_base, uint32_t *pflags)
->  {
-> @@ -78,6 +109,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->      }
->  #endif
->
-> +    flags = FIELD_DP32(flags, TB_FLAGS, XL, cpu_get_xl(env));
-> +
->      *pflags = flags;
->  }
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 9c0753bc8b..c4a479ddd2 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -526,6 +526,9 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
->          mstatus = set_field(mstatus, MSTATUS32_SD, dirty);
->      } else {
->          mstatus = set_field(mstatus, MSTATUS64_SD, dirty);
-> +        /* SXL and UXL fields are for now read only */
-> +        mstatus = set_field(mstatus, MSTATUS64_SXL, MXL_RV64);
-> +        mstatus = set_field(mstatus, MSTATUS64_UXL, MXL_RV64);
->      }
->      env->mstatus = mstatus;
->
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 422f8ab8d0..7e7bb67d15 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -539,7 +539,6 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->  #else
->      ctx->virt_enabled = false;
->  #endif
-> -    ctx->xl = env->misa_mxl;
->      ctx->misa_ext = env->misa_ext;
->      ctx->frm = -1;  /* unknown rounding mode */
->      ctx->ext_ifencei = cpu->cfg.ext_ifencei;
-> @@ -551,6 +550,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->      ctx->lmul = FIELD_EX32(tb_flags, TB_FLAGS, LMUL);
->      ctx->mlen = 1 << (ctx->sew  + 3 - ctx->lmul);
->      ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
-> +    ctx->xl = FIELD_EX32(tb_flags, TB_FLAGS, XL);
->      ctx->cs = cs;
->      ctx->w = false;
->      ctx->ntemp = 0;
-> --
-> 2.25.1
->
->
+>  .gitlab-ci.d/crossbuild-template.yml | 2 +-
+>  configure                            | 3 ---
+>  2 files changed, 1 insertion(+), 4 deletions(-)
+
+Maybe squash in patch #2 or place as #3 mentioning
+"the previous commit"?
+
 
