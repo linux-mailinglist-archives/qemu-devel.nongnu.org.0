@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA3942ED71
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 11:19:46 +0200 (CEST)
-Received: from localhost ([::1]:44334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C421842EDAA
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 11:29:38 +0200 (CEST)
+Received: from localhost ([::1]:43890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbJNS-0006hl-1f
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 05:19:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34302)
+	id 1mbJWz-0000Dg-Pw
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 05:29:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mbJDP-0008Ru-9a
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 05:09:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52354)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mbJDM-00047F-0Z
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 05:09:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634288959;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LTWtEdVjFoNhp8ZRxvnD1sQobBikkQzpF7loUz0N79s=;
- b=aE/lPWDIhjvMIEos99UDnE30uF+zSICCBOaeBpW9pqLJOKupr1E1F6dFOm3etq3xJOKZMD
- Y1cTQqtjaIT2uQQ0BLnzS3cDKF4Goys715TmQu9qVB7JPVsQjLDO72F/PCFCVegHYDSEs2
- XhroXsUwbrYpSVPS/VCFaP/cu4SyLoA=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-efypTMOYOeewvWiFET9osw-1; Fri, 15 Oct 2021 05:09:15 -0400
-X-MC-Unique: efypTMOYOeewvWiFET9osw-1
-Received: by mail-qt1-f200.google.com with SMTP id
- k1-20020ac80c01000000b002a79e319399so5044134qti.8
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 02:09:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LTWtEdVjFoNhp8ZRxvnD1sQobBikkQzpF7loUz0N79s=;
- b=POsxfKcVVjuOTvuhIkP6/+4Z0K8AREbRc3qdjw5Eda/FmWYBbO7NdTaOa+jsKmvlxq
- nag9kvGmlHJNLZvnvfJtqGhHU5tDjY8RNup/VdBr8avkZd8cY0215gw++jHlNQHh90lB
- pEQYELWxbghZq4gEeJFNlNYsGgNC5nj/BfQtYHw/rrRzNsseH/na0ey6BD3f246JE6bK
- 71hfnpb3hVDlI1PZAVUL3hsKVpCojsvyjJcQWBq7wVYNZqz7fVO3ivYTeSMk9F1Th1sK
- tH9s6ZEvj5IgMnQ17K93jbh8upwc+5ZY4ZMQHfnKc2mr9zjLJbmCiIsQb4xiWYjnzd30
- xzag==
-X-Gm-Message-State: AOAM532vGfBl3+eim5xQGi55QcCi+FQ9HpPcjnGoAKekdao+pON/xGSO
- sd2en23kOuium5iuYRinMSzYXShq3+6LfsHZ4GCudRY9RJF4UmfQDWj60/ot7j5d9jJTXH0vl7q
- pLGN0ylcOHdlWJIT/Zb10ic18pPqTMDw=
-X-Received: by 2002:ac8:6112:: with SMTP id a18mr11895759qtm.401.1634288954357; 
- Fri, 15 Oct 2021 02:09:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxaBopQGPwfmZF799DfH+mK7P3dTkCG3PkdQVLUAtOtvKWh9oF1UPnMGjW+KYYxAtHODaJQjUwnVEDeLkRZfo0=
-X-Received: by 2002:ac8:6112:: with SMTP id a18mr11895725qtm.401.1634288953899; 
- Fri, 15 Oct 2021 02:09:13 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=1922771660=david.dai@montage-tech.com>)
+ id 1mbJDx-00011i-M8
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 05:09:57 -0400
+Received: from usmail.montage-tech.com ([12.176.92.53]:53319)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <prvs=1922771660=david.dai@montage-tech.com>)
+ id 1mbJDs-0004Us-9q
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 05:09:57 -0400
+X-MDAV-Result: clean
+X-MDAV-Processed: usmail.montage-tech.com, Fri, 15 Oct 2021 02:09:49 -0700
+Received: from shmail.montage-tech.com by usmail.montage-tech.com with ESMTP
+ id md5001005841449.msg; Fri, 15 Oct 2021 02:09:49 -0700
+X-Spam-Processed: usmail.montage-tech.com, Fri, 15 Oct 2021 02:09:49 -0700
+ (not processed: message from trusted or authenticated source)
+X-MDArrival-Date: Fri, 15 Oct 2021 02:09:49 -0700
+X-Return-Path: prvs=1922771660=david.dai@montage-tech.com
+X-Envelope-From: david.dai@montage-tech.com
+X-MDaemon-Deliver-To: qemu-devel@nongnu.org
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=montage-tech.com;
+ s=MDaemon; t=1634288960; x=1634893760;
+ i=david.dai@montage-tech.com; q=dns/txt; h=Date:From:To:Cc:
+ Subject:Message-ID:References:MIME-Version:Content-Type:
+ Content-Disposition:In-Reply-To; bh=oq1YNEwuzKYN/ky6hl8psLNKLpE+
+ zz3XJn7e5I/+o8o=; b=Kt3Vch2jDsWOTn+vMShKYqlgHJitycBL6+ppS5W/DHQo
+ Je4r7lJpPdJC5utOz9KnJ3rTMCI6Lybhj7SaszZqqxFA/3LiLuLQ0gMbS13BvEP8
+ A2mErWFQzh9XF6SWwu/2yVmCs7joFqMimwqUcubVq0B9WzlI3881Kpkp1ZGHpL0=
+X-MDAV-Result: clean
+X-MDAV-Processed: shmail.montage-tech.com, Fri, 15 Oct 2021 17:09:20 +0800
+Received: from tianmu-host-sw-01 by shmail.montage-tech.com with ESMTPA id
+ pp5001017649596.msg; Fri, 15 Oct 2021 17:09:18 +0800
+X-Spam-Processed: shmail.montage-tech.com, Fri, 15 Oct 2021 17:09:18 +0800
+ (not processed: message from trusted or authenticated source)
+Date: Fri, 15 Oct 2021 17:10:07 +0800
+From: "david.dai" <david.dai@montage-tech.com>
+To: "David Hildenbrand (david@redhat.com)" <david@redhat.com>
+Subject: Re: [PATCH] hw/misc: Add a virtual pci device to dynamically attach
+ memory to QEMU
+Message-ID: <20211015091007.GA155094@tianmu-host-sw-01>
+References: <YVGAWh7e96f8yed0@stefanha-x1.localdomain>
+ <38a0312e-3b00-ac41-3cb0-ab5592b06dc1@redhat.com>
+ <20210927122848.GB144947@tianmu-host-sw-01>
+ <c87c301e-62af-ab5a-2b9c-fa2ef28898f1@redhat.com>
+ <20210930094007.GA239054@tianmu-host-sw-01>
+ <5eba1406-4012-481a-b7ed-0090654668d2@redhat.com>
+ <20211009094233.GA13867@tianmu-host-sw-01>
+ <ea36815e-0b79-b5b2-9735-367404c9b8f6@redhat.com>
+ <20211013081337.GA96268@tianmu-host-sw-01>
+ <0c244f16-ca16-9f70-dab8-f543accc063b@redhat.com>
 MIME-Version: 1.0
-References: <20211001070603.307037-1-eperezma@redhat.com>
- <20211001070603.307037-9-eperezma@redhat.com>
- <23e17562-719e-44da-3362-97e0ca5ae1ff@redhat.com>
- <CAJaqyWd2joWx3kKz=cJBs4UxZofP7ETkbpg9+cSQSE2MSyBtUg@mail.gmail.com>
- <71de4fae-50b2-1c98-5f47-7c48f0ff4e21@redhat.com>
-In-Reply-To: <71de4fae-50b2-1c98-5f47-7c48f0ff4e21@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 15 Oct 2021 11:08:37 +0200
-Message-ID: <CAJaqyWeUeGVnpqjgsMzTDxsOvn3u=MDGSQV0a6G8eoLm=d4q1Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 08/20] vhost: Route guest->host notification
- through shadow virtqueue
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0c244f16-ca16-9f70-dab8-f543accc063b@redhat.com>
+X-MDCFSigsAdded: montage-tech.com
+Received-SPF: pass client-ip=12.176.92.53;
+ envelope-from=prvs=1922771660=david.dai@montage-tech.com;
+ helo=usmail.montage-tech.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,822 +86,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, eajames@linux.ibm.com,
+ qemu-devel@nongnu.org, changguo.du@montage-tech.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 15, 2021 at 5:46 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/10/14 =E4=B8=8B=E5=8D=888:00, Eugenio Perez Martin =E5=86=
-=99=E9=81=93:
-> > On Wed, Oct 13, 2021 at 5:27 AM Jason Wang <jasowang@redhat.com> wrote:
-> >>
-> >> =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:05, Eugenio P=C3=A9rez =E5=86=
-=99=E9=81=93:
-> >>> Shadow virtqueue notifications forwarding is disabled when vhost_dev
-> >>> stops, so code flow follows usual cleanup.
-> >>>
-> >>> Also, host notifiers must be disabled at SVQ start,
-> >>
-> >> Any reason for this?
-> >>
-> > It will be addressed in a later series, sorry.
-> >
-> >>> and they will not
-> >>> start if SVQ has been enabled when device is stopped. This is trivial
-> >>> to address, but it is left out for simplicity at this moment.
-> >>
-> >> It looks to me this patch also contains the following logics
-> >>
-> >> 1) codes to enable svq
-> >>
-> >> 2) codes to let svq to be enabled from QMP.
-> >>
-> >> I think they need to be split out,
-> > I agree that we can split this more, with the code that belongs to SVQ
-> > and the code that belongs to vhost-vdpa. it will be addressed in
-> > future series.
-> >
-> >> we may endup with the following
-> >> series of patches
-> >>
-> > With "series of patches" do you mean to send every step in a separated
-> > series? There are odds of having the need of modifying code already
-> > sent & merged with later ones. If you confirm to me that it is fine, I
-> > can do it that way for sure.
->
->
-> Sorry for being unclear. I meant it's a sub-series actually of the series=
-.
->
->
-> >
-> >> 1) svq skeleton with enable/disable
-> >> 2) route host notifier to svq
-> >> 3) route guest notifier to svq
-> >> 4) codes to enable svq
-> >> 5) enable svq via QMP
-> >>
-> > I'm totally fine with that, but there is code that is never called if
-> > the qmp command is not added. The compiler complains about static
-> > functions that are not called, making impossible things like bisecting
-> > through these commits, unless I use attribute((unused)) or similar. Or
-> > have I missed something?
->
->
-> You're right, then I think we can then:
->
-> 1) svq skeleton with enable/disable via QMP
-> 2) route host notifier to svq
-> 3) route guest notifier to svq
->
-
-Got it, I will try to adapt the series.
-
->
-> >
-> > We could do that way with the code that belongs to SVQ though, since
-> > all of it is declared in headers. But to delay the "enable svq via
-> > qmp" to the last one makes debugging harder, as we cannot just enable
-> > notifications forwarding with no buffers forwarding.
->
->
-> Yes.
->
->
-> >
-> > If I introduce a change in the notifications code, I can simply go to
-> > these commits and enable SVQ for notifications. This way I can have an
-> > idea of what part is failing. A similar logic can be applied to other
-> > devices than vp_vdpa.
->
->
-> vhost-vdpa actually?
->
-
-Not this time :).
-
-I was actually talking about other devices with other features or even
-subtle differences because they being hardware instead of software.
-
-For example, vp_vdpa does not use host notifiers at the moment. If I
-enable SVQ with only notifications forwarding and not buffer ones, I
-can bisect pretty fast that there is a problem in the notifications
-forwarding mechanism. This saved me a few times while writing the
-series.
-
-There are other ways of reaching the same conclusion of course, and
-future developments or fixes to this serie will deprecate this method,
-but I think it is a good idea to let the SVQ enabling early in the
-serie as a way to test what part of the series is failing.
-
-This is just my opinion of course, and I'm biased by the fact that I'm
-the one proposing the series. If it makes the reviewing so hard, I'm
-totally in to delay QMP command to the end of the series.
-
->
-> > We would lose it if we
-
-Sorry, I think I sent it without a proper review.
-
-> >
-> >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >>> ---
-> >>>    qapi/net.json                      |   2 +-
-> >>>    hw/virtio/vhost-shadow-virtqueue.h |   8 ++
-> >>>    include/hw/virtio/vhost-vdpa.h     |   4 +
-> >>>    hw/virtio/vhost-shadow-virtqueue.c | 138 +++++++++++++++++++++++++=
-+++-
-> >>>    hw/virtio/vhost-vdpa.c             | 116 +++++++++++++++++++++++-
-> >>>    5 files changed, 264 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/qapi/net.json b/qapi/net.json
-> >>> index a2c30fd455..fe546b0e7c 100644
-> >>> --- a/qapi/net.json
-> >>> +++ b/qapi/net.json
-> >>> @@ -88,7 +88,7 @@
-> >>>    #
-> >>>    # @enable: true to use the alternate shadow VQ notifications
-> >>>    #
-> >>> -# Returns: Always error, since SVQ is not implemented at the moment.
-> >>> +# Returns: Error if failure, or 'no error' for success.
-> >>>    #
-> >>>    # Since: 6.2
-> >>>    #
-> >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-sha=
-dow-virtqueue.h
-> >>> index 27ac6388fa..237cfceb9c 100644
-> >>> --- a/hw/virtio/vhost-shadow-virtqueue.h
-> >>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> >>> @@ -14,6 +14,14 @@
-> >>>
-> >>>    typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
-> >>>
-> >>> +EventNotifier *vhost_svq_get_svq_call_notifier(VhostShadowVirtqueue =
-*svq);
-> >>
-> >> Let's move this function to another patch since it's unrelated to the
-> >> guest->host routing.
-> >>
-> > Right, I missed it while squashing commits and at later reviews.
-> >
-> >>> +void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, in=
-t call_fd);
-> >>> +
-> >>> +bool vhost_svq_start(struct vhost_dev *dev, unsigned idx,
-> >>> +                     VhostShadowVirtqueue *svq);
-> >>> +void vhost_svq_stop(struct vhost_dev *dev, unsigned idx,
-> >>> +                    VhostShadowVirtqueue *svq);
-> >>> +
-> >>>    VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev, int idx=
-);
-> >>>
-> >>>    void vhost_svq_free(VhostShadowVirtqueue *vq);
-> >>> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost=
--vdpa.h
-> >>> index 0d565bb5bd..48aae59d8e 100644
-> >>> --- a/include/hw/virtio/vhost-vdpa.h
-> >>> +++ b/include/hw/virtio/vhost-vdpa.h
-> >>> @@ -12,6 +12,8 @@
-> >>>    #ifndef HW_VIRTIO_VHOST_VDPA_H
-> >>>    #define HW_VIRTIO_VHOST_VDPA_H
-> >>>
-> >>> +#include <gmodule.h>
-> >>> +
-> >>>    #include "qemu/queue.h"
-> >>>    #include "hw/virtio/virtio.h"
-> >>>
-> >>> @@ -24,6 +26,8 @@ typedef struct vhost_vdpa {
-> >>>        int device_fd;
-> >>>        uint32_t msg_type;
-> >>>        MemoryListener listener;
-> >>> +    bool shadow_vqs_enabled;
-> >>> +    GPtrArray *shadow_vqs;
-> >>>        struct vhost_dev *dev;
-> >>>        QLIST_ENTRY(vhost_vdpa) entry;
-> >>>        VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-sha=
-dow-virtqueue.c
-> >>> index c4826a1b56..21dc99ab5d 100644
-> >>> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> >>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> >>> @@ -9,9 +9,12 @@
-> >>>
-> >>>    #include "qemu/osdep.h"
-> >>>    #include "hw/virtio/vhost-shadow-virtqueue.h"
-> >>> +#include "hw/virtio/vhost.h"
-> >>> +
-> >>> +#include "standard-headers/linux/vhost_types.h"
-> >>>
-> >>>    #include "qemu/error-report.h"
-> >>> -#include "qemu/event_notifier.h"
-> >>> +#include "qemu/main-loop.h"
-> >>>
-> >>>    /* Shadow virtqueue to relay notifications */
-> >>>    typedef struct VhostShadowVirtqueue {
-> >>> @@ -19,14 +22,146 @@ typedef struct VhostShadowVirtqueue {
-> >>>        EventNotifier kick_notifier;
-> >>>        /* Shadow call notifier, sent to vhost */
-> >>>        EventNotifier call_notifier;
-> >>> +
-> >>> +    /*
-> >>> +     * Borrowed virtqueue's guest to host notifier.
-> >>> +     * To borrow it in this event notifier allows to register on the=
- event
-> >>> +     * loop and access the associated shadow virtqueue easily. If we=
- use the
-> >>> +     * VirtQueue, we don't have an easy way to retrieve it.
-> >>> +     *
-> >>> +     * So shadow virtqueue must not clean it, or we would lose VirtQ=
-ueue one.
-> >>> +     */
-> >>> +    EventNotifier host_notifier;
-> >>> +
-> >>> +    /* Guest's call notifier, where SVQ calls guest. */
-> >>> +    EventNotifier guest_call_notifier;
-> >>
-> >> To be consistent, let's simply use "guest_notifier" here.
-> >>
-> > It could be confused when the series adds a guest -> qemu kick
-> > notifier then. Actually, I think it would be better to rename
-> > host_notifier to something like host_svq_notifier. Or host_call and
-> > guest_call, since "notifier" is already in the type, making the name
-> > to be a little bit "Hungarian notation".
->
->
-> I think that's fine, just need to make sure we have a consistent name
-> for SVQ notifier.
+On Wed, Oct 13, 2021 at 10:33:39AM +0200, David Hildenbrand (david@redhat.com) wrote:
+> 
+> CAUTION: This email originated from outside of the organization. Do not
+> click links or open attachments unless you recognize the sender and know the
+> content is safe.
+> 
+> 
+> On 13.10.21 10:13, david.dai wrote:
+> > On Mon, Oct 11, 2021 at 09:43:53AM +0200, David Hildenbrand (david@redhat.com) wrote:
+> > > 
+> > > 
+> > > 
+> > > > > virito-mem currently relies on having a single sparse memory region (anon
+> > > > > mmap, mmaped file, mmaped huge pages, mmap shmem) per VM. Although we can
+> > > > > share memory with other processes, sharing with other VMs is not intended.
+> > > > > Instead of actually mmaping parts dynamically (which can be quite
+> > > > > expensive), virtio-mem relies on punching holes into the backend and
+> > > > > dynamically allocating memory/file blocks/... on access.
+> > > > > 
+> > > > > So the easy way to make it work is:
+> > > > > 
+> > > > > a) Exposing the CXL memory to the buddy via dax/kmem, esulting in device
+> > > > > memory getting managed by the buddy on a separate NUMA node.
+> > > > > 
+> > > > 
+> > > > Linux kernel buddy system? how to guarantee other applications don't apply memory
+> > > > from it
+> > > 
+> > > Excellent question. Usually, you would online the memory to ZONE_MOVABLE,
+> > > such that even if some other allocation ended up there, that it could
+> > > get migrated somewhere else.
+> > > 
+> > > For example, "daxctl reconfigure-device" tries doing that as default:
+> > > 
+> > > https://pmem.io/ndctl/daxctl-reconfigure-device.html
+> > > 
+> > > However, I agree that we might actually want to tell the system to not
+> > > use this CPU-less node as fallback for other allocations, and that we
+> > > might not want to swap out such memory etc.
+> > > 
+> > > 
+> > > But, in the end all that virtio-mem needs to work in the hypervisor is
+> > > 
+> > > a) A sparse memmap (anonymous RAM, memfd, file)
+> > > b) A way to populate memory within that sparse memmap (e.g., on fault,
+> > >     using madvise(MADV_POPULATE_WRITE), fallocate())
+> > > c) A way to discard memory (madvise(MADV_DONTNEED),
+> > >     fallocate(FALLOC_FL_PUNCH_HOLE))
+> > > 
+> > > So instead of using anonymous memory+mbind, you can also mmap a sparse file
+> > > and rely on populate-on-demand. One alternative for your use case would be
+> > > to create a DAX  filesystem on that CXL memory (IIRC that should work) and
+> > > simply providing virtio-mem with a sparse file located on that filesystem.
+> > > 
+> > > Of course, you can also use some other mechanism as you might have in
+> > > your approach, as long as it supports a,b,c.
+> > > 
+> > > > 
+> > > > > 
+> > > > > b) (optional) allocate huge pages on that separate NUMA node.
+> > > > > c) Use ordinary memory-device-ram or memory-device-memfd (for huge pages),
+> > > > > *bidning* the memory backend to that special NUMA node.
+> > > > > 
+> > > > "-object memory-backend/device-ram or memory-device-memfd, id=mem0, size=768G"
+> > > > How to bind backend memory to NUMA node
+> > > > 
+> > > 
+> > > I think the syntax is "policy=bind,host-nodes=X"
+> > > 
+> > > whereby X is a node mask. So for node "0" you'd use "host-nodes=0x1" for "5"
+> > > "host-nodes=0x20" etc.
+> > > 
+> > > > > 
+> > > > > This will dynamically allocate memory from that special NUMA node, resulting
+> > > > > in the virtio-mem device completely being backed by that device memory,
+> > > > > being able to dynamically resize the memory allocation.
+> > > > > 
+> > > > > 
+> > > > > Exposing an actual devdax to the virtio-mem device, shared by multiple VMs
+> > > > > isn't really what we want and won't work without major design changes. Also,
+> > > > > I'm not so sure it's a very clean design: exposing memory belonging to other
+> > > > > VMs to unrelated QEMU processes. This sounds like a serious security hole:
+> > > > > if you managed to escalate to the QEMU process from inside the VM, you can
+> > > > > access unrelated VM memory quite happily. You want an abstraction
+> > > > > in-between, that makes sure each VM/QEMU process only sees private memory:
+> > > > > for example, the buddy via dax/kmem.
+> > > > > 
+> > > > Hi David
+> > > > Thanks for your suggestion, also sorry for my delayed reply due to my long vacation.
+> > > > How does current virtio-mem dynamically attach memory to guest, via page fault?
+> > > 
+> > > Essentially you have a large sparse mmap. Withing that mmap, memory is
+> > > populated on demand. Instead if mmap/munmap you perform a single large
+> > > mmap and then dynamically populate memory/discard memory.
+> > > 
+> > > Right now, memory is populated via page faults on access. This is
+> > > sub-optimal when dealing with limited resources (i.e., hugetlbfs,
+> > > file blocks) and you might run out of backend memory.
+> > > 
+> > > I'm working on a "prealloc" mode, which will preallocate/populate memory
+> > > necessary for exposing the next block of memory to the VM, and which
+> > > fails gracefully if preallocation/population fails in the case of such
+> > > limited resources.
+> > > 
+> > > The patch resides on:
+> > > 	https://github.com/davidhildenbrand/qemu/tree/virtio-mem-next
+> > > 
+> > > commit ded0e302c14ae1b68bdce9059dcca344e0a5f5f0
+> > > Author: David Hildenbrand <david@redhat.com>
+> > > Date:   Mon Aug 2 19:51:36 2021 +0200
+> > > 
+> > >      virtio-mem: support "prealloc=on" option
+> > >      Especially for hugetlb, but also for file-based memory backends, we'd
+> > >      like to be able to prealloc memory, especially to make user errors less
+> > >      severe: crashing the VM when there are not sufficient huge pages around.
+> > >      A common option for hugetlb will be using "reserve=off,prealloc=off" for
+> > >      the memory backend and "prealloc=on" for the virtio-mem device. This
+> > >      way, no huge pages will be reserved for the process, but we can recover
+> > >      if there are no actual huge pages when plugging memory.
+> > >      Signed-off-by: David Hildenbrand <david@redhat.com>
+> > > 
+> > > 
+> > > -- 
+> > > Thanks,
+> > > 
+> > > David / dhildenb
+> > > 
+> > 
+> > Hi David,
+> > 
+> > After read virtio-mem code, I understand what you have expressed, please allow me to describe
+> > my understanding to virtio-mem, so that we have a aligned view.
+> > 
+> > Virtio-mem:
+> >   Virtio-mem device initializes and reserved a memory area(GPA), later memory dynamically
+> >   growing/shrinking will not exceed this scope, memory-backend-ram has mapped anon. memory
+> >   to the whole area, but no ram is attached because Linux have a policy to delay allocation.
+> 
+> Right, but it can also be any sparse file (memory-backend-memfd,
+> memory-backend-file).
+> 
+> >   When virtio-mem driver apply to dynamically add memory to guest, it first request a region
+> >   from the reserved memory area, then notify virtio-mem device to record the information
+> >   (virtio-mem device doesn't make real memory allocation). After received response from
+> 
+> In the upcoming prealloc=on mode I referenced, the allocation will happen
+> before the guest is notified about success and starts using the memory.
+> 
+> With vfio/mdev support, the allocation will happen nowadays already, when
+> vfio/mdev is notified about the populated memory ranges (see
+> RamDiscardManager). That's essentially what makes virtio-mem device
+> passthrough work.
+> 
+> >   virtio-mem deivce, virtio-mem driver will online the requested region and add it to Linux
+> >   page allocator. Real ram allocation will happen via page fault when guest cpu access it.
+> >   Memory shrink will be achieved by madvise()
+> 
+> Right, but you could write a custom virtio-mem driver that pools this memory
+> differently.
+> 
+> Memory shrinking in the hypervisor is either done using madvise(DONMTNEED)
+> or fallocate(FALLOC_FL_PUNCH_HOLE)
+> 
+> > 
+> > Questions:
+> > 1. heterogeneous computing, memory may be accessed by CPUs on host side and device side.
+> >     Memory delayed allocation is not suitable. Host software(for instance, OpenCL) may
+> >     allocate a buffer to computing device to place the computing result in.
+> 
+> That works already with virtio-mem with vfio/mdev via the RamDiscardManager
+> infrastructure introduced recently. With "prealloc=on", the delayed memory
+> allocation can also be avoided without vfio/mdev.
+> 
+> > 2. we hope build ourselves page allocator in host kernel, so it can offer customized mmap()
+> >     method to build va->pa mapping in MMU and IOMMU.
+> 
+> Theoretically, you can wire up pretty much any driver in QEMU like vfio/mdev
+> via the RamDiscardManager. From there, you can issue whatever syscall you
+> need to popualte memory when plugging new memory blocks. All you need to
+> support is a sparse mmap and a way to populate/discard memory.
+> Populate/discard could be wired up in QEMU virtio-mem code as you need it.
+> 
+> > 3. some potential requirements also require our driver to manage memory, so that page size
+> >     granularity can be controlled to fit small device iotlb cache.
+> >     CXL has bias mode for HDM(host managed device memory), it needs physical address to make
+> >     bias mode switch between host access and device access. These tell us driver manage memory
+> >     is mandatory.
+> 
+> I think if you write your driver in a certain way and wire it up in QEMU
+> virtio-mem accordingly (e.g., using a new memory-backend-whatever), that
+> shouldn't be an issue.
 >
 
-Got it.
+Thanks a lot, so let me have a try.
+ 
+> 
+> -- 
+> Thanks,
+> 
+> David / dhildenb
+> 
+> 
 
->
-> >
-> >>> +
-> >>> +    /* Virtio queue shadowing */
-> >>> +    VirtQueue *vq;
-> >>>    } VhostShadowVirtqueue;
-> >>>
-> >>> +/* Forward guest notifications */
-> >>> +static void vhost_handle_guest_kick(EventNotifier *n)
-> >>> +{
-> >>> +    VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtque=
-ue,
-> >>> +                                             host_notifier);
-> >>> +
-> >>> +    if (unlikely(!event_notifier_test_and_clear(n))) {
-> >>> +        return;
-> >>> +    }
-> >>
-> >> Is there a chance that we may stop the processing of available buffers
-> >> during the svq enabling? There could be no kick from the guest in this=
- case.
-> >>
-> > Actually, yes, I think you are right. The guest kick eventfd could
-> > have been consumed by vhost but there may be still pending buffers.
-> >
-> > I think it would be better to check for available buffers first, then
-> > clear the notifier unconditionally, and then re-check and process them
-> > if any [1].
->
->
-> Looks like I can't find "[1]" anywhere.
->
-
-Sorry, it's at the comment about vhost_svq_start function. It's not
-isolated, but in the middle of a paragraph, because both comments are
-related: The solution to one of them affects the other.
-
-
->
-> >
-> > However, this problem arises later in the series: At this moment the
-> > device is not reset and guest's host notifier is not replaced, so
-> > either vhost/device receives the kick, or SVQ does and forwards it.
-> >
-> > Does it make sense to you?
->
->
-> Kind of, so I think we can:
->
-> 1) As you said, always check available buffers when switching to SVQ
-> 2) alwasy kick the vhost when switching back to vhost
->
-
-Right. I think I prefer solution 1, but let me delay the choice to
-compare them properly.
-
->
-> >
-> >>> +
-> >>> +    event_notifier_set(&svq->kick_notifier);
-> >>> +}
-> >>> +
-> >>> +/*
-> >>> + * Obtain the SVQ call notifier, where vhost device notifies SVQ tha=
-t there
-> >>> + * exists pending used buffers.
-> >>> + *
-> >>> + * @svq Shadow Virtqueue
-> >>> + */
-> >>> +EventNotifier *vhost_svq_get_svq_call_notifier(VhostShadowVirtqueue =
-*svq)
-> >>> +{
-> >>> +    return &svq->call_notifier;
-> >>> +}
-> >>> +
-> >>> +/*
-> >>> + * Set the call notifier for the SVQ to call the guest
-> >>> + *
-> >>> + * @svq Shadow virtqueue
-> >>> + * @call_fd call notifier
-> >>> + *
-> >>> + * Called on BQL context.
-> >>> + */
-> >>> +void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, in=
-t call_fd)
-> >>> +{
-> >>> +    event_notifier_init_fd(&svq->guest_call_notifier, call_fd);
-> >>> +}
-> >>> +
-> >>> +/*
-> >>> + * Restore the vhost guest to host notifier, i.e., disables svq effe=
-ct.
-> >>> + */
-> >>> +static int vhost_svq_restore_vdev_host_notifier(struct vhost_dev *de=
-v,
-> >>> +                                                unsigned vhost_index=
-,
-> >>> +                                                VhostShadowVirtqueue=
- *svq)
-> >>> +{
-> >>> +    EventNotifier *vq_host_notifier =3D virtio_queue_get_host_notifi=
-er(svq->vq);
-> >>> +    struct vhost_vring_file file =3D {
-> >>> +        .index =3D vhost_index,
-> >>> +        .fd =3D event_notifier_get_fd(vq_host_notifier),
-> >>> +    };
-> >>> +    int r;
-> >>> +
-> >>> +    /* Restore vhost kick */
-> >>> +    r =3D dev->vhost_ops->vhost_set_vring_kick(dev, &file);
-> >>
-> >> And remap the notification area if necessary.
-> > Totally right, that step is missed in this series.
-> >
-> > However, remapping guest host notifier memory region has no advantages
-> > over using ioeventfd to perform guest -> SVQ notifications, doesn't
-> > it? By both methods flow needs to go through the hypervisor kernel.
->
->
-> To be clear, I meant restore the notification area mapping from guest to
-> device directly. For SVQ, you are right, there's no much value for
-> bothering notification area map. (Or we can do it in the future).
->
-
-Ok, I think I confused the location of your comment so I misunderstood
-it. You are right, the notification area must be restored here.
-
->
-> >
-> >>
-> >>> +    return r ? -errno : 0;
-> >>> +}
-> >>> +
-> >>> +/*
-> >>> + * Start shadow virtqueue operation.
-> >>> + * @dev vhost device
-> >>> + * @hidx vhost virtqueue index
-> >>> + * @svq Shadow Virtqueue
-> >>> + */
-> >>> +bool vhost_svq_start(struct vhost_dev *dev, unsigned idx,
-> >>> +                     VhostShadowVirtqueue *svq)
-> >>> +{
-> >>> +    EventNotifier *vq_host_notifier =3D virtio_queue_get_host_notifi=
-er(svq->vq);
-> >>> +    struct vhost_vring_file file =3D {
-> >>> +        .index =3D dev->vhost_ops->vhost_get_vq_index(dev, dev->vq_i=
-ndex + idx),
-> >>> +        .fd =3D event_notifier_get_fd(&svq->kick_notifier),
-> >>> +    };
-> >>> +    int r;
-> >>> +
-> >>> +    /* Check that notifications are still going directly to vhost de=
-v */
-> >>> +    assert(virtio_queue_is_host_notifier_enabled(svq->vq));
-> >>> +
-> >>> +    /*
-> >>> +     * event_notifier_set_handler already checks for guest's notific=
-ations if
-> >>> +     * they arrive in the switch, so there is no need to explicitely=
- check for
-> >>> +     * them.
-> >>> +     */
-> >>
-> >> If this is true, shouldn't we call vhost_set_vring_kick() before the
-> >> event_notifier_set_handler()?
-> >>
-> > Not at this point of the series, but it could be another solution when
-> > we need to reset the device and we are unsure if all buffers have been
-> > read. But I think I prefer the solution exposed in [1] and to
-> > explicitly call vhost_handle_guest_kick here. Do you think
-> > differently?
->
->
-> I actually mean if we can end up with this situation since SVQ take over
-> the host notifier before set_vring_kick().
->
-> 1) guest kick vq, vhost is running
-> 2) qemu take over the host notifier
-> 3) guest kick vq
-> 4) qemu route host notifier to SVQ
->
-> Then the vq will be handled by both SVQ and vhost?
->
-
-It shouldn't because the vhost device must be paused at this moment.
-What can happen is that vhost swallows that notification but the
-device does not answer to the kick.
-
->
-> >
-> >> Btw, I think we should update the fd if set_vring_kick() was called
-> >> after this function?
-> >>
-> > Kind of. This is currently bad in the code, but...
-> >
-> > Backend callbacks vhost_ops->vhost_set_vring_kick and
-> > vhost_ops->vhost_set_vring_addr are only called at
-> > vhost_virtqueue_start. And they are always called with known data
-> > already stored in VirtQueue.
->
->
-> This is true for now, but I'd suggest to not depend on this since it:
->
-> 1) it might be changed in the future
-> 2) we're working at vhost layer and expose API to virtio device, the
-> code should be robust to handle set_vring_kick() at any time
-> 3) I think we've already handled similar situation of set_vring_call, so
-> let's be consistent
->
-
-Ok. Do you think the same for addr? Or can we stick to that justification t=
-here?
-
->
-> >
-> > To avoid storing more state in vhost_vdpa, I think that we should
-> > avoid duplicating them, but ignore new kick_fd or address in SVQ mode,
-> > and retrieve them again at the moment the device is (re)started in SVQ
-> > mode. Qemu already avoids things like allowing the guest to set
-> > addresses at random time, using the VirtIOPCIProxy to store them.
-> >
-> > I also see how duplicating that status could protect vdpa SVQ code
-> > against future changes to vhost code, but that would make this series
-> > bigger and more complex with no need at this moment in my opinion.
-> >
-> > Do you agree?
->
->
-> Somehow, but consider we can handle set_vring_call(), let's at last make
-> set_vring_kick() more robust.
->
->
-> >
-> >>> +    event_notifier_init_fd(&svq->host_notifier,
-> >>> +                           event_notifier_get_fd(vq_host_notifier));
-> >>> +    event_notifier_set_handler(&svq->host_notifier, vhost_handle_gue=
-st_kick);
-> >>> +
-> >>> +    r =3D dev->vhost_ops->vhost_set_vring_kick(dev, &file);
-> >>
-> >> And we need to stop the notification area mmap.
-> >>
-> > Right.
-> >
-> >>> +    if (unlikely(r !=3D 0)) {
-> >>> +        error_report("Couldn't set kick fd: %s", strerror(errno));
-> >>> +        goto err_set_vring_kick;
-> >>> +    }
-> >>> +
-> >>> +    return true;
-> >>> +
-> >>> +err_set_vring_kick:
-> >>> +    event_notifier_set_handler(&svq->host_notifier, NULL);
-> >>> +
-> >>> +    return false;
-> >>> +}
-> >>> +
-> >>> +/*
-> >>> + * Stop shadow virtqueue operation.
-> >>> + * @dev vhost device
-> >>> + * @idx vhost queue index
-> >>> + * @svq Shadow Virtqueue
-> >>> + */
-> >>> +void vhost_svq_stop(struct vhost_dev *dev, unsigned idx,
-> >>> +                    VhostShadowVirtqueue *svq)
-> >>> +{
-> >>> +    int r =3D vhost_svq_restore_vdev_host_notifier(dev, idx, svq);
-> >>> +    if (unlikely(r < 0)) {
-> >>> +        error_report("Couldn't restore vq kick fd: %s", strerror(-r)=
-);
-> >>> +    }
-> >>> +
-> >>> +    event_notifier_set_handler(&svq->host_notifier, NULL);
-> >>> +}
-> >>> +
-> >>>    /*
-> >>>     * Creates vhost shadow virtqueue, and instruct vhost device to us=
-e the shadow
-> >>>     * methods and file descriptors.
-> >>>     */
-> >>>    VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev, int idx=
-)
-> >>>    {
-> >>> +    int vq_idx =3D dev->vq_index + idx;
-> >>>        g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostShadowVir=
-tqueue, 1);
-> >>>        int r;
-> >>>
-> >>> @@ -44,6 +179,7 @@ VhostShadowVirtqueue *vhost_svq_new(struct vhost_d=
-ev *dev, int idx)
-> >>>            goto err_init_call_notifier;
-> >>>        }
-> >>>
-> >>> +    svq->vq =3D virtio_get_queue(dev->vdev, vq_idx);
-> >>>        return g_steal_pointer(&svq);
-> >>>
-> >>>    err_init_call_notifier:
-> >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> >>> index e0dc7508c3..36c954a779 100644
-> >>> --- a/hw/virtio/vhost-vdpa.c
-> >>> +++ b/hw/virtio/vhost-vdpa.c
-> >>> @@ -17,6 +17,7 @@
-> >>>    #include "hw/virtio/vhost.h"
-> >>>    #include "hw/virtio/vhost-backend.h"
-> >>>    #include "hw/virtio/virtio-net.h"
-> >>> +#include "hw/virtio/vhost-shadow-virtqueue.h"
-> >>>    #include "hw/virtio/vhost-vdpa.h"
-> >>>    #include "exec/address-spaces.h"
-> >>>    #include "qemu/main-loop.h"
-> >>> @@ -272,6 +273,16 @@ static void vhost_vdpa_add_status(struct vhost_d=
-ev *dev, uint8_t status)
-> >>>        vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
-> >>>    }
-> >>>
-> >>> +/**
-> >>> + * Adaptor function to free shadow virtqueue through gpointer
-> >>> + *
-> >>> + * @svq   The Shadow Virtqueue
-> >>> + */
-> >>> +static void vhost_psvq_free(gpointer svq)
-> >>> +{
-> >>> +    vhost_svq_free(svq);
-> >>> +}
-> >>> +
-> >>>    static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Er=
-ror **errp)
-> >>>    {
-> >>>        struct vhost_vdpa *v;
-> >>> @@ -283,6 +294,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev,=
- void *opaque, Error **errp)
-> >>>        dev->opaque =3D  opaque ;
-> >>>        v->listener =3D vhost_vdpa_memory_listener;
-> >>>        v->msg_type =3D VHOST_IOTLB_MSG_V2;
-> >>> +    v->shadow_vqs =3D g_ptr_array_new_full(dev->nvqs, vhost_psvq_fre=
-e);
-> >>>        QLIST_INSERT_HEAD(&vhost_vdpa_devices, v, entry);
-> >>>
-> >>>        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-> >>> @@ -373,6 +385,17 @@ err:
-> >>>        return;
-> >>>    }
-> >>>
-> >>> +static void vhost_vdpa_svq_cleanup(struct vhost_dev *dev)
-> >>> +{
-> >>> +    struct vhost_vdpa *v =3D dev->opaque;
-> >>> +    size_t idx;
-> >>> +
-> >>> +    for (idx =3D 0; idx < v->shadow_vqs->len; ++idx) {
-> >>> +        vhost_svq_stop(dev, idx, g_ptr_array_index(v->shadow_vqs, id=
-x));
-> >>> +    }
-> >>> +    g_ptr_array_free(v->shadow_vqs, true);
-> >>> +}
-> >>> +
-> >>>    static int vhost_vdpa_cleanup(struct vhost_dev *dev)
-> >>>    {
-> >>>        struct vhost_vdpa *v;
-> >>> @@ -381,6 +404,7 @@ static int vhost_vdpa_cleanup(struct vhost_dev *d=
-ev)
-> >>>        trace_vhost_vdpa_cleanup(dev, v);
-> >>>        vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
-> >>>        memory_listener_unregister(&v->listener);
-> >>> +    vhost_vdpa_svq_cleanup(dev);
-> >>>        QLIST_REMOVE(v, entry);
-> >>>
-> >>>        dev->opaque =3D NULL;
-> >>> @@ -557,7 +581,9 @@ static int vhost_vdpa_dev_start(struct vhost_dev =
-*dev, bool started)
-> >>>        if (started) {
-> >>>            uint8_t status =3D 0;
-> >>>            memory_listener_register(&v->listener, &address_space_memo=
-ry);
-> >>> -        vhost_vdpa_host_notifiers_init(dev);
-> >>> +        if (!v->shadow_vqs_enabled) {
-> >>> +            vhost_vdpa_host_notifiers_init(dev);
-> >>> +        }
-> >>
-> >> This looks like a trick, why not check and setup shadow_vqs inside:
-> >>
-> >> 1) vhost_vdpa_host_notifiers_init()
-> >>
-> >> and
-> >>
-> >> 2) vhost_vdpa_set_vring_kick()
-> >>
-> > Ok I will move the checks there.
-> >
-> >>>            vhost_vdpa_set_vring_ready(dev);
-> >>>            vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-> >>>            vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
-> >>> @@ -663,10 +689,96 @@ static bool  vhost_vdpa_force_iommu(struct vhos=
-t_dev *dev)
-> >>>        return true;
-> >>>    }
-> >>>
-> >>> +/*
-> >>> + * Start shadow virtqueue.
-> >>> + */
-> >>> +static bool vhost_vdpa_svq_start_vq(struct vhost_dev *dev, unsigned =
-idx)
-> >>> +{
-> >>> +    struct vhost_vdpa *v =3D dev->opaque;
-> >>> +    VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs, i=
-dx);
-> >>> +    return vhost_svq_start(dev, idx, svq);
-> >>> +}
-> >>> +
-> >>> +static unsigned vhost_vdpa_enable_svq(struct vhost_vdpa *v, bool ena=
-ble)
-> >>> +{
-> >>> +    struct vhost_dev *hdev =3D v->dev;
-> >>> +    unsigned n;
-> >>> +
-> >>> +    if (enable =3D=3D v->shadow_vqs_enabled) {
-> >>> +        return hdev->nvqs;
-> >>> +    }
-> >>> +
-> >>> +    if (enable) {
-> >>> +        /* Allocate resources */
-> >>> +        assert(v->shadow_vqs->len =3D=3D 0);
-> >>> +        for (n =3D 0; n < hdev->nvqs; ++n) {
-> >>> +            VhostShadowVirtqueue *svq =3D vhost_svq_new(hdev, n);
-> >>> +            bool ok;
-> >>> +
-> >>> +            if (unlikely(!svq)) {
-> >>> +                g_ptr_array_set_size(v->shadow_vqs, 0);
-> >>> +                return 0;
-> >>> +            }
-> >>> +            g_ptr_array_add(v->shadow_vqs, svq);
-> >>> +
-> >>> +            ok =3D vhost_vdpa_svq_start_vq(hdev, n);
-> >>> +            if (unlikely(!ok)) {
-> >>> +                /* Free still not started svqs */
-> >>> +                g_ptr_array_set_size(v->shadow_vqs, n);
-> >>> +                enable =3D false;
-> > [2]
-> >
-> >>> +                break;
-> >>> +            }
-> >>> +        }
-> >>
-> >> Since there's almost no logic could be shared between enable and
-> >> disable. Let's split those logic out into dedicated functions where th=
-e
-> >> codes looks more easy to be reviewed (e.g have a better error handling=
- etc).
-> >>
-> > Maybe it could be more clear in the code, but the reused logic is the
-> > disabling of SVQ and the fallback in case it cannot be enabled with
-> > [2]. But I'm not against splitting in two different functions if it
-> > makes review easier.
->
->
-> Ok.
->
->
-> >
-> >>> +    }
-> >>> +
-> >>> +    v->shadow_vqs_enabled =3D enable;
-> >>> +
-> >>> +    if (!enable) {
-> >>> +        /* Disable all queues or clean up failed start */
-> >>> +        for (n =3D 0; n < v->shadow_vqs->len; ++n) {
-> >>> +            unsigned vq_idx =3D vhost_vdpa_get_vq_index(hdev, n);
-> >>> +            VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shado=
-w_vqs, n);
-> >>> +            vhost_svq_stop(hdev, n, svq);
-> >>> +            vhost_virtqueue_start(hdev, hdev->vdev, &hdev->vqs[n], v=
-q_idx);
-> >>> +        }
-> >>> +
-> >>> +        /* Resources cleanup */
-> >>> +        g_ptr_array_set_size(v->shadow_vqs, 0);
-> >>> +    }
-> >>> +
-> >>> +    return n;
-> >>> +}
-> >>>
-> >>>    void qmp_x_vhost_enable_shadow_vq(const char *name, bool enable, E=
-rror **errp)
-> >>>    {
-> >>> -    error_setg(errp, "Shadow virtqueue still not implemented");
-> >>> +    struct vhost_vdpa *v;
-> >>> +    const char *err_cause =3D NULL;
-> >>> +    bool r;
-> >>> +
-> >>> +    QLIST_FOREACH(v, &vhost_vdpa_devices, entry) {
-> >>> +        if (v->dev->vdev && 0 =3D=3D strcmp(v->dev->vdev->name, name=
-)) {
-> >>> +            break;
-> >>> +        }
-> >>> +    }
-> >>
-> >> I think you can iterate the NetClientStates to ge tthe vhost-vdpa back=
-ends.
-> >>
-> > Right, I missed it.
-> >
-> >>> +
-> >>> +    if (!v) {
-> >>> +        err_cause =3D "Device not found";
-> >>> +        goto err;
-> >>> +    } else if (v->notifier[0].addr) {
-> >>> +        err_cause =3D "Device has host notifiers enabled";
-> >>
-> >> I don't get this.
-> >>
-> > At this moment of the series you can enable guest -> SVQ -> 'vdpa
-> > device' if the device is not using the host notifiers memory region.
-> > The right solution is to disable it for the guest, and to handle it in
-> > SVQ. Otherwise, guest kick will bypass SVQ and
-> >
-> > It can be done in the same patch, or at least to disable (as unmap)
-> > them at this moment and handle them in a posterior patch. but for
-> > prototyping the solution I just ignored it in this series. It will be
-> > handled some way or another in the next one. I prefer the last one, to
-> > handle in a different patch, but let me know if you think it is better
-> > otherwise.
->
->
-> Aha, I see. But I think we need to that in this patch otherwise the we
-> can route host notifier to SVQ.
->
-> Thanks
->
-
-Ok, I will check it.
-
-Thanks!
-
->
-> >
-> >> Btw this function should be implemented in an independent patch after
-> >> svq is fully functional.
-> >>
-> > (Reasons for that are already commented at the top of this mail :) ).
-> >
-> > Thanks!
-> >
-> >> Thanks
-> >>
-> >>
-> >>> +        goto err;
-> >>> +    }
-> >>> +
-> >>> +    r =3D vhost_vdpa_enable_svq(v, enable);
-> >>> +    if (unlikely(!r)) {
-> >>> +        err_cause =3D "Error enabling (see monitor)";
-> >>> +        goto err;
-> >>> +    }
-> >>> +
-> >>> +err:
-> >>> +    if (err_cause) {
-> >>> +        error_setg(errp, "Can't enable shadow vq on %s: %s", name, e=
-rr_cause);
-> >>> +    }
-> >>>    }
-> >>>
-> >>>    const VhostOps vdpa_ops =3D {
->
 
 
