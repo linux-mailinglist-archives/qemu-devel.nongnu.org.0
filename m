@@ -2,95 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF7842E766
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 05:47:58 +0200 (CEST)
-Received: from localhost ([::1]:48264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7341F42E78D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 06:13:16 +0200 (CEST)
+Received: from localhost ([::1]:54932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbECL-0003SN-Eq
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 23:47:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35864)
+	id 1mbEap-0001Br-Gh
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 00:13:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mbEAg-0002kz-0O
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 23:46:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32665)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mbEAW-000674-Sm
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 23:46:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634269563;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K2ZFNIZKdA7SsztU/FbmRLCp7kKkWWUSP2cieX+JSsQ=;
- b=EnnpS1JbgPWGWziaILs9Xof4a7daZq9lkgEEr9tRcLGT+r6OoOfYO+eQwVNX4JnXZM85Y0
- A0nJ43kt27n3gYduFUZUlnCfHRm6Xk0HhgqkiDJO7qJWVPlKlZNstAt3uPikebROAbH5JV
- kFpvGKgbmPLvLacCif8Xnl6sbJC2RO4=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-xOCShJk0OU-P-lTlxDhDAg-1; Thu, 14 Oct 2021 23:46:01 -0400
-X-MC-Unique: xOCShJk0OU-P-lTlxDhDAg-1
-Received: by mail-pj1-f69.google.com with SMTP id
- c10-20020a17090ab28a00b0019ce70ee349so4282119pjr.7
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 20:46:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mbEYe-0006fQ-U4
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:00 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:44575)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mbEYb-0008Vu-7i
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:00 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ oa12-20020a17090b1bcc00b0019f715462a8so6357076pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 21:10:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MV5vL8f3dXPFordtmYqIb3aFIfOVP5uqypHbvBeX4Fc=;
+ b=wck/uhu6GHSQO1alyA3Nwm2LyKccLrEOEcCyz6v12FUcPNzf1PTa07NqlHNSxwsJW5
+ l1IvNWSLHv8/PPWWLNPFVFfu9CPLMuALL3g+H+rncyil46V1L0/am6kkvxVt0eCvyXHA
+ 6ArvF3khMV/RxvYe2KhKpHJBG0j7fOLZOn7HKPCZfYxGgQX2VKhjxJFSxIDssOHtTdCh
+ ZGGp1oJ4iiEzM8EB5nqA/jJpAZWKFMG7i7WRq7lRut+HxfPpWoHOYfWQOwHLCleVLUpW
+ JJNFq4aHCL8f1erZyidFl8KmuQvPinEPmJ/QivtTA1V/iThQcDtCEj1xTPjTzRm9l5dp
+ 0nxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=K2ZFNIZKdA7SsztU/FbmRLCp7kKkWWUSP2cieX+JSsQ=;
- b=ZZCtwJSCjVQ48Vs8YgAQ+ScZmhno8QU010cEp4G52g17llXVpgyalrttdzJJY9nilH
- emM+uLBYlNuat/O25gpUodBMpelbqph4XVifaXlhHzPFRvzHH6ojO46//qQe1Fr0hH9a
- Lne0hbhaHlKOjVHIkg5WwmH4F/ohacmFnXacHwgW3GjVqDrAjMBBOhATUvnXTxhYrVPf
- UAE4J3IWbhu6v0s3yqd/UEPm0DZwUl53ETZsQgfnM7TJQ0aUSkb3x76dhXhefid3HSpD
- LzB32qIoQRWxl4dYbrlgtsaJHQKoo6QcgXni7HC1a2nPin2K4pGlvl1ZQuW3KRHOwl6V
- U48w==
-X-Gm-Message-State: AOAM531vbuHIgb0WfUzMx+OJH3cyBmizt5ZvnwYdIizgUv7ISdLCwVK7
- Oyco6qzo93IFV1gCv7MX8uEqa6w/2hyOTPxo+IYwy0gJgz/pepGzqnaoHrTMDY2FA0QKHxSf05i
- EY8c5n20IF8P7Fwg=
-X-Received: by 2002:a17:902:ed8c:b0:13f:136f:efb1 with SMTP id
- e12-20020a170902ed8c00b0013f136fefb1mr8805966plj.56.1634269560218; 
- Thu, 14 Oct 2021 20:46:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw0p77Oqkh8zwLmgs49qxTRpluopZjeOXbn/00cNvXahYQtI9/L/w+hzsswUqznX3O6GUkGZA==
-X-Received: by 2002:a17:902:ed8c:b0:13f:136f:efb1 with SMTP id
- e12-20020a170902ed8c00b0013f136fefb1mr8805920plj.56.1634269559573; 
- Thu, 14 Oct 2021 20:45:59 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id k22sm3651503pfi.149.2021.10.14.20.45.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 20:45:59 -0700 (PDT)
-Subject: Re: [RFC PATCH v4 08/20] vhost: Route guest->host notification
- through shadow virtqueue
-To: Eugenio Perez Martin <eperezma@redhat.com>
-References: <20211001070603.307037-1-eperezma@redhat.com>
- <20211001070603.307037-9-eperezma@redhat.com>
- <23e17562-719e-44da-3362-97e0ca5ae1ff@redhat.com>
- <CAJaqyWd2joWx3kKz=cJBs4UxZofP7ETkbpg9+cSQSE2MSyBtUg@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <71de4fae-50b2-1c98-5f47-7c48f0ff4e21@redhat.com>
-Date: Fri, 15 Oct 2021 11:45:52 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MV5vL8f3dXPFordtmYqIb3aFIfOVP5uqypHbvBeX4Fc=;
+ b=Khi7X5B/0aDj0Q5WX4COCMiF7VTqK+QVUHD46eDx4rNnIECmpibPkWEgiBzNt+Bx55
+ C63Uhbmeu+S4jSYkbUa9XKu+2ORXcFkyTO7GOJtZtLynpT9xR0eB7U5RWqqOz1cYsCsw
+ hWizwDdvd7rOSNB8gElu6n0ncMl40FNnQog766TNu+YUDadsGHm/a/l5lnkD0c/zRaEF
+ 8jaj2QgBABQhJtZ+0V8Z3S0TA7+3WCTc7OpvO7/Qc4ey1pa9HQT3V9oSR8NO3dKqCrs2
+ YGjIN9sQMgmf3J1F4a3Pqq4WoKzOMco+pv24PzPWh2TXapgKFjlwiBkRFMG/7MzQSx/C
+ lcKA==
+X-Gm-Message-State: AOAM5318DVuQ/4qD7wlMSHFJxR3+irg5XidbzH43UnO5c+SFnQfpNDoo
+ 8zvXpsD+NmR564YPhfAdfLJpYDSOjwgQEQ==
+X-Google-Smtp-Source: ABdhPJzXn5+t4IoCkgeUDUEqvqsAjMx98MU0T2EXWY86ebk2lp+RoS2TCxIYO+ZIjmcOUW7CZTP61A==
+X-Received: by 2002:a17:90a:1fcf:: with SMTP id
+ z15mr25147299pjz.31.1634271055040; 
+ Thu, 14 Oct 2021 21:10:55 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id me12sm5718006pjb.27.2021.10.14.21.10.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Oct 2021 21:10:54 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/67] user-only: Cleanup SIGSEGV and SIGBUS handling
+Date: Thu, 14 Oct 2021 21:09:46 -0700
+Message-Id: <20211015041053.2769193-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWd2joWx3kKz=cJBs4UxZofP7ETkbpg9+cSQSE2MSyBtUg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,708 +82,307 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Eric Blake <eblake@redhat.com>, Michael Lilja <ml@napatech.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+For v5, I've combined the sigsegv and sigbus patch sets, because
+they're so very closely modelled.  We've got user-only hooks named
 
-在 2021/10/14 下午8:00, Eugenio Perez Martin 写道:
-> On Wed, Oct 13, 2021 at 5:27 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> 在 2021/10/1 下午3:05, Eugenio Pérez 写道:
->>> Shadow virtqueue notifications forwarding is disabled when vhost_dev
->>> stops, so code flow follows usual cleanup.
->>>
->>> Also, host notifiers must be disabled at SVQ start,
->>
->> Any reason for this?
->>
-> It will be addressed in a later series, sorry.
->
->>> and they will not
->>> start if SVQ has been enabled when device is stopped. This is trivial
->>> to address, but it is left out for simplicity at this moment.
->>
->> It looks to me this patch also contains the following logics
->>
->> 1) codes to enable svq
->>
->> 2) codes to let svq to be enabled from QMP.
->>
->> I think they need to be split out,
-> I agree that we can split this more, with the code that belongs to SVQ
-> and the code that belongs to vhost-vdpa. it will be addressed in
-> future series.
->
->> we may endup with the following
->> series of patches
->>
-> With "series of patches" do you mean to send every step in a separated
-> series? There are odds of having the need of modifying code already
-> sent & merged with later ones. If you confirm to me that it is fine, I
-> can do it that way for sure.
+  record_sigsegv
+  record_sigbus
 
+While the tlb_fill hook becomes sysemu only, the corresponding
+do_unaligned_access hook was always sysemu only and stays that way.
 
-Sorry for being unclear. I meant it's a sub-series actually of the series.
+The actual tcg backend patches to enable proper delivery of the
+unaligned accesses have been delayed until another patch set, as
+this is quite large enough -- I'm mostly restricting this to the
+user-only interface (though there are some extra patches that are
+included to make sure things build properly).
 
+It has been a bit of a mess revising this, in that v4 of the
+unaligned access patch set went out with an empty subject line.
 
->
->> 1) svq skeleton with enable/disable
->> 2) route host notifier to svq
->> 3) route guest notifier to svq
->> 4) codes to enable svq
->> 5) enable svq via QMP
->>
-> I'm totally fine with that, but there is code that is never called if
-> the qmp command is not added. The compiler complains about static
-> functions that are not called, making impossible things like bisecting
-> through these commits, unless I use attribute((unused)) or similar. Or
-> have I missed something?
+Patches lacking review, some of which are new:
+   04-accel-tcg-Fold-cpu_exit_tb_from_sighandler-into-c.patch
+   07-linux-user-host-x86-Populate-host_signal.h.patch
+   10-linux-user-host-sparc-Populate-host_signal.h.patch
+   12-linux-user-host-aarch64-Populate-host_signal.h.patch
+   16-target-arm-Fixup-comment-re-handle_cpu_signal.patch
+   21-target-alpha-Implement-alpha_cpu_record_sigsegv.patch
+   23-target-arm-Implement-arm_cpu_record_sigsegv.patch
+   26-target-hppa-Make-hppa_cpu_tlb_fill-sysemu-only.patch
+   29-target-microblaze-Make-mb_cpu_tlb_fill-sysemu-onl.patch
+   36-target-s390x-Use-probe_access_flags-in-s390_probe.patch
+   38-target-sh4-Make-sh4_cpu_tlb_fill-sysemu-only.patch
+   42-Revert-cpu-Move-cpu_common_props-to-hw-core-cpu.c.patch
+   43-hw-core-Add-TCGCPUOps.record_sigbus.patch
+   44-linux-user-Add-cpu_loop_exit_sigbus.patch
+   45-target-alpha-Implement-alpha_cpu_record_sigbus.patch
+   46-target-arm-Implement-arm_cpu_record_sigbus.patch
+   47-linux-user-hppa-Remove-EXCP_UNALIGN-handling.patch
+   51-target-ppc-Restrict-ppc_cpu_do_unaligned_access-t.patch
+   52-target-s390x-Implement-s390x_cpu_record_sigbus.patch
+   53-linux-user-hppa-Remove-POWERPC_EXCP_ALIGN-handlin.patch
+   61-linux-user-Handle-BUS_ADRALN-in-host_signal_handl.patch
+   62-linux-user-Split-out-do_prctl-and-subroutines.patch
+   63-linux-user-Disable-more-prctl-subcodes.patch
+   64-linux-user-Add-code-for-PR_GET-SET_UNALIGN.patch
+   65-target-alpha-Implement-prctl_unalign_sigbus.patch
+   66-target-hppa-Implement-prctl_unalign_sigbus.patch
+   67-target-sh4-Implement-prctl_unalign_sigbus.patch
 
 
-You're right, then I think we can then:
-
-1) svq skeleton with enable/disable via QMP
-2) route host notifier to svq
-3) route guest notifier to svq
+r~
 
 
->
-> We could do that way with the code that belongs to SVQ though, since
-> all of it is declared in headers. But to delay the "enable svq via
-> qmp" to the last one makes debugging harder, as we cannot just enable
-> notifications forwarding with no buffers forwarding.
+Richard Henderson (67):
+  accel/tcg: Split out adjust_signal_pc
+  accel/tcg: Move clear_helper_retaddr to cpu loop
+  accel/tcg: Split out handle_sigsegv_accerr_write
+  accel/tcg: Fold cpu_exit_tb_from_sighandler into caller
+  configure: Merge riscv32 and riscv64 host architectures
+  linux-user: Reorg handling for SIGSEGV
+  linux-user/host/x86: Populate host_signal.h
+  linux-user/host/ppc: Populate host_signal.h
+  linux-user/host/alpha: Populate host_signal.h
+  linux-user/host/sparc: Populate host_signal.h
+  linux-user/host/arm: Populate host_signal.h
+  linux-user/host/aarch64: Populate host_signal.h
+  linux-user/host/s390: Populate host_signal.h
+  linux-user/host/mips: Populate host_signal.h
+  linux-user/host/riscv: Populate host_signal.h
+  target/arm: Fixup comment re handle_cpu_signal
+  linux-user/host/riscv: Improve host_signal_write
+  linux-user/signal: Drop HOST_SIGNAL_PLACEHOLDER
+  hw/core: Add TCGCPUOps.record_sigsegv
+  linux-user: Add cpu_loop_exit_sigsegv
+  target/alpha: Implement alpha_cpu_record_sigsegv
+  target/arm: Use cpu_loop_exit_sigsegv for mte tag lookup
+  target/arm: Implement arm_cpu_record_sigsegv
+  target/cris: Make cris_cpu_tlb_fill sysemu only
+  target/hexagon: Remove hexagon_cpu_tlb_fill
+  target/hppa: Make hppa_cpu_tlb_fill sysemu only
+  target/i386: Implement x86_cpu_record_sigsegv
+  target/m68k: Make m68k_cpu_tlb_fill sysemu only
+  target/microblaze: Make mb_cpu_tlb_fill sysemu only
+  target/mips: Make mips_cpu_tlb_fill sysemu only
+  target/nios2: Implement nios2_cpu_record_sigsegv
+  linux-user/openrisc: Adjust signal for EXCP_RANGE, EXCP_FPE
+  target/openrisc: Make openrisc_cpu_tlb_fill sysemu only
+  target/ppc: Implement ppc_cpu_record_sigsegv
+  target/riscv: Make riscv_cpu_tlb_fill sysemu only
+  target/s390x: Use probe_access_flags in s390_probe_access
+  target/s390x: Implement s390_cpu_record_sigsegv
+  target/sh4: Make sh4_cpu_tlb_fill sysemu only
+  target/sparc: Make sparc_cpu_tlb_fill sysemu only
+  target/xtensa: Make xtensa_cpu_tlb_fill sysemu only
+  accel/tcg: Restrict TCGCPUOps::tlb_fill() to sysemu
+  Revert "cpu: Move cpu_common_props to hw/core/cpu.c"
+  hw/core: Add TCGCPUOps.record_sigbus
+  linux-user: Add cpu_loop_exit_sigbus
+  target/alpha: Implement alpha_cpu_record_sigbus
+  target/arm: Implement arm_cpu_record_sigbus
+  linux-user/hppa: Remove EXCP_UNALIGN handling
+  target/microblaze: Do not set MO_ALIGN for user-only
+  target/ppc: Move SPR_DSISR setting to powerpc_excp
+  target/ppc: Set fault address in ppc_cpu_do_unaligned_access
+  target/ppc: Restrict ppc_cpu_do_unaligned_access to sysemu
+  target/s390x: Implement s390x_cpu_record_sigbus
+  linux-user/hppa: Remove POWERPC_EXCP_ALIGN handling
+  target/sh4: Set fault address in superh_cpu_do_unaligned_access
+  target/sparc: Remove DEBUG_UNALIGNED
+  target/sparc: Split out build_sfsr
+  target/sparc: Set fault address in sparc_cpu_do_unaligned_access
+  accel/tcg: Report unaligned atomics for user-only
+  accel/tcg: Report unaligned load/store for user-only
+  tcg: Add helper_unaligned_{ld,st} for user-only sigbus
+  linux-user: Handle BUS_ADRALN in host_signal_handler
+  linux-user: Split out do_prctl and subroutines
+  linux-user: Disable more prctl subcodes
+  linux-user: Add code for PR_GET/SET_UNALIGN
+  target/alpha: Implement prctl_unalign_sigbus
+  target/hppa: Implement prctl_unalign_sigbus
+  target/sh4: Implement prctl_unalign_sigbus
 
+ configure                                     |   8 +-
+ meson.build                                   |   4 +-
+ include/exec/exec-all.h                       |  55 +-
+ include/hw/core/cpu.h                         |   4 +
+ include/hw/core/tcg-cpu-ops.h                 |  71 +-
+ include/tcg/tcg-ldst.h                        |   5 +
+ linux-user/aarch64/target_prctl.h             | 160 ++++
+ linux-user/aarch64/target_syscall.h           |  23 -
+ linux-user/alpha/target_prctl.h               |   1 +
+ linux-user/arm/target_prctl.h                 |   1 +
+ linux-user/cris/target_prctl.h                |   1 +
+ linux-user/generic/target_prctl_unalign.h     |  27 +
+ linux-user/hexagon/target_prctl.h             |   1 +
+ linux-user/host/aarch64/host-signal.h         |  73 ++
+ linux-user/host/alpha/host-signal.h           |  41 +
+ linux-user/host/arm/host-signal.h             |  29 +
+ linux-user/host/i386/host-signal.h            |  24 +
+ linux-user/host/mips/host-signal.h            |  61 ++
+ linux-user/host/ppc/host-signal.h             |  24 +
+ linux-user/host/ppc64/host-signal.h           |   1 +
+ linux-user/host/riscv/host-signal.h           |  57 ++
+ linux-user/host/{riscv64 => riscv}/hostdep.h  |   4 +-
+ linux-user/host/riscv32/hostdep.h             |  11 -
+ linux-user/host/s390/host-signal.h            |  92 ++
+ linux-user/host/s390x/host-signal.h           |   1 +
+ linux-user/host/sparc/host-signal.h           |  53 ++
+ linux-user/host/sparc64/host-signal.h         |   1 +
+ linux-user/host/x32/host-signal.h             |   1 +
+ linux-user/host/x86_64/host-signal.h          |  24 +
+ linux-user/hppa/target_prctl.h                |   1 +
+ linux-user/i386/target_prctl.h                |   1 +
+ linux-user/m68k/target_prctl.h                |   1 +
+ linux-user/microblaze/target_prctl.h          |   1 +
+ linux-user/mips/target_prctl.h                |  88 ++
+ linux-user/mips/target_syscall.h              |   6 -
+ linux-user/mips64/target_prctl.h              |   1 +
+ linux-user/mips64/target_syscall.h            |   6 -
+ linux-user/nios2/target_prctl.h               |   1 +
+ linux-user/openrisc/target_prctl.h            |   1 +
+ linux-user/ppc/target_prctl.h                 |   1 +
+ linux-user/riscv/target_prctl.h               |   1 +
+ linux-user/s390x/target_prctl.h               |   1 +
+ linux-user/sh4/target_prctl.h                 |   1 +
+ linux-user/sparc/target_prctl.h               |   1 +
+ linux-user/x86_64/target_prctl.h              |   1 +
+ linux-user/xtensa/target_prctl.h              |   1 +
+ target/alpha/cpu.h                            |  26 +-
+ target/arm/internals.h                        |   8 +
+ target/cris/cpu.h                             |   8 +-
+ target/hppa/cpu.h                             |   7 +-
+ target/i386/tcg/helper-tcg.h                  |   6 +
+ target/microblaze/cpu.h                       |   8 +-
+ target/mips/tcg/tcg-internal.h                |   7 +-
+ target/nios2/cpu.h                            |   6 +
+ target/openrisc/cpu.h                         |   7 +-
+ target/ppc/cpu.h                              |   3 -
+ target/ppc/internal.h                         |  17 +-
+ target/s390x/s390x-internal.h                 |   9 +
+ target/sh4/cpu.h                              |  10 +-
+ target/xtensa/cpu.h                           |   2 +-
+ accel/tcg/cpu-exec.c                          |   3 +-
+ accel/tcg/user-exec.c                         | 863 +++---------------
+ cpu.c                                         |  31 +
+ hw/core/cpu-common.c                          |  17 +-
+ linux-user/aarch64/cpu_loop.c                 |  12 +-
+ linux-user/alpha/cpu_loop.c                   |  15 -
+ linux-user/arm/cpu_loop.c                     |  30 +-
+ linux-user/cris/cpu_loop.c                    |  10 -
+ linux-user/hexagon/cpu_loop.c                 |  24 +-
+ linux-user/hppa/cpu_loop.c                    |  23 -
+ linux-user/m68k/cpu_loop.c                    |  10 -
+ linux-user/microblaze/cpu_loop.c              |  10 -
+ linux-user/mips/cpu_loop.c                    |  11 -
+ linux-user/openrisc/cpu_loop.c                |  17 +-
+ linux-user/ppc/cpu_loop.c                     |   8 -
+ linux-user/riscv/cpu_loop.c                   |   7 -
+ linux-user/s390x/cpu_loop.c                   |  13 +-
+ linux-user/sh4/cpu_loop.c                     |   8 -
+ linux-user/signal.c                           | 133 ++-
+ linux-user/sparc/cpu_loop.c                   |  25 -
+ linux-user/syscall.c                          | 490 +++++-----
+ linux-user/xtensa/cpu_loop.c                  |   9 -
+ target/alpha/cpu.c                            |   7 +-
+ target/alpha/helper.c                         |  39 +-
+ target/alpha/mem_helper.c                     |  30 +-
+ target/alpha/translate.c                      |  31 +-
+ target/arm/cpu.c                              |   7 +-
+ target/arm/cpu_tcg.c                          |   7 +-
+ target/arm/mte_helper.c                       |   6 +-
+ target/arm/sve_helper.c                       |   2 +-
+ target/arm/tlb_helper.c                       |  42 +-
+ target/cris/cpu.c                             |   4 +-
+ target/cris/helper.c                          |  18 -
+ target/hexagon/cpu.c                          |  23 -
+ target/hppa/cpu.c                             |   2 +-
+ target/hppa/mem_helper.c                      |  15 -
+ target/hppa/translate.c                       |  19 +-
+ target/i386/tcg/tcg-cpu.c                     |   3 +-
+ target/i386/tcg/user/excp_helper.c            |  23 +-
+ target/m68k/cpu.c                             |   2 +-
+ target/m68k/helper.c                          |   6 +-
+ target/microblaze/cpu.c                       |   2 +-
+ target/microblaze/helper.c                    |  13 +-
+ target/microblaze/translate.c                 |  16 +
+ target/mips/cpu.c                             |   2 +-
+ target/mips/tcg/user/tlb_helper.c             |  59 --
+ target/nios2/cpu.c                            |   6 +-
+ target/nios2/helper.c                         |   7 +-
+ target/openrisc/cpu.c                         |   2 +-
+ target/openrisc/mmu.c                         |   9 -
+ target/ppc/cpu_init.c                         |   6 +-
+ target/ppc/excp_helper.c                      |  41 +-
+ target/ppc/user_only_helper.c                 |  15 +-
+ target/riscv/cpu.c                            |   2 +-
+ target/riscv/cpu_helper.c                     |  21 +-
+ target/s390x/cpu.c                            |   7 +-
+ target/s390x/tcg/excp_helper.c                |  45 +-
+ target/s390x/tcg/mem_helper.c                 |  18 +-
+ target/sh4/cpu.c                              |   2 +-
+ target/sh4/helper.c                           |   9 +-
+ target/sh4/op_helper.c                        |   5 +
+ target/sh4/translate.c                        |  50 +-
+ target/sparc/cpu.c                            |   2 +-
+ target/sparc/ldst_helper.c                    |  22 -
+ target/sparc/mmu_helper.c                     | 115 ++-
+ target/xtensa/cpu.c                           |   2 +-
+ target/xtensa/helper.c                        |  22 +-
+ .../{riscv64 => riscv}/safe-syscall.inc.S     |   0
+ target/cris/meson.build                       |   7 +-
+ target/hppa/meson.build                       |   6 +-
+ target/mips/tcg/meson.build                   |   3 -
+ target/mips/tcg/user/meson.build              |   3 -
+ target/openrisc/meson.build                   |   2 +-
+ target/sparc/meson.build                      |   2 +-
+ 134 files changed, 1874 insertions(+), 1800 deletions(-)
+ create mode 100644 linux-user/aarch64/target_prctl.h
+ create mode 100644 linux-user/alpha/target_prctl.h
+ create mode 100644 linux-user/arm/target_prctl.h
+ create mode 100644 linux-user/cris/target_prctl.h
+ create mode 100644 linux-user/generic/target_prctl_unalign.h
+ create mode 100644 linux-user/hexagon/target_prctl.h
+ create mode 100644 linux-user/host/aarch64/host-signal.h
+ create mode 100644 linux-user/host/alpha/host-signal.h
+ create mode 100644 linux-user/host/arm/host-signal.h
+ create mode 100644 linux-user/host/i386/host-signal.h
+ create mode 100644 linux-user/host/mips/host-signal.h
+ create mode 100644 linux-user/host/ppc/host-signal.h
+ create mode 100644 linux-user/host/ppc64/host-signal.h
+ create mode 100644 linux-user/host/riscv/host-signal.h
+ rename linux-user/host/{riscv64 => riscv}/hostdep.h (94%)
+ delete mode 100644 linux-user/host/riscv32/hostdep.h
+ create mode 100644 linux-user/host/s390/host-signal.h
+ create mode 100644 linux-user/host/s390x/host-signal.h
+ create mode 100644 linux-user/host/sparc/host-signal.h
+ create mode 100644 linux-user/host/sparc64/host-signal.h
+ create mode 100644 linux-user/host/x32/host-signal.h
+ create mode 100644 linux-user/host/x86_64/host-signal.h
+ create mode 100644 linux-user/hppa/target_prctl.h
+ create mode 100644 linux-user/i386/target_prctl.h
+ create mode 100644 linux-user/m68k/target_prctl.h
+ create mode 100644 linux-user/microblaze/target_prctl.h
+ create mode 100644 linux-user/mips/target_prctl.h
+ create mode 100644 linux-user/mips64/target_prctl.h
+ create mode 100644 linux-user/nios2/target_prctl.h
+ create mode 100644 linux-user/openrisc/target_prctl.h
+ create mode 100644 linux-user/ppc/target_prctl.h
+ create mode 100644 linux-user/riscv/target_prctl.h
+ create mode 100644 linux-user/s390x/target_prctl.h
+ create mode 100644 linux-user/sh4/target_prctl.h
+ create mode 100644 linux-user/sparc/target_prctl.h
+ create mode 100644 linux-user/x86_64/target_prctl.h
+ create mode 100644 linux-user/xtensa/target_prctl.h
+ delete mode 100644 target/mips/tcg/user/tlb_helper.c
+ rename linux-user/host/{riscv64 => riscv}/safe-syscall.inc.S (100%)
+ delete mode 100644 target/mips/tcg/user/meson.build
 
-Yes.
-
-
->
-> If I introduce a change in the notifications code, I can simply go to
-> these commits and enable SVQ for notifications. This way I can have an
-> idea of what part is failing. A similar logic can be applied to other
-> devices than vp_vdpa.
-
-
-vhost-vdpa actually?
-
-
-> We would lose it if we
->
->>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>> ---
->>>    qapi/net.json                      |   2 +-
->>>    hw/virtio/vhost-shadow-virtqueue.h |   8 ++
->>>    include/hw/virtio/vhost-vdpa.h     |   4 +
->>>    hw/virtio/vhost-shadow-virtqueue.c | 138 ++++++++++++++++++++++++++++-
->>>    hw/virtio/vhost-vdpa.c             | 116 +++++++++++++++++++++++-
->>>    5 files changed, 264 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/qapi/net.json b/qapi/net.json
->>> index a2c30fd455..fe546b0e7c 100644
->>> --- a/qapi/net.json
->>> +++ b/qapi/net.json
->>> @@ -88,7 +88,7 @@
->>>    #
->>>    # @enable: true to use the alternate shadow VQ notifications
->>>    #
->>> -# Returns: Always error, since SVQ is not implemented at the moment.
->>> +# Returns: Error if failure, or 'no error' for success.
->>>    #
->>>    # Since: 6.2
->>>    #
->>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
->>> index 27ac6388fa..237cfceb9c 100644
->>> --- a/hw/virtio/vhost-shadow-virtqueue.h
->>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
->>> @@ -14,6 +14,14 @@
->>>
->>>    typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
->>>
->>> +EventNotifier *vhost_svq_get_svq_call_notifier(VhostShadowVirtqueue *svq);
->>
->> Let's move this function to another patch since it's unrelated to the
->> guest->host routing.
->>
-> Right, I missed it while squashing commits and at later reviews.
->
->>> +void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, int call_fd);
->>> +
->>> +bool vhost_svq_start(struct vhost_dev *dev, unsigned idx,
->>> +                     VhostShadowVirtqueue *svq);
->>> +void vhost_svq_stop(struct vhost_dev *dev, unsigned idx,
->>> +                    VhostShadowVirtqueue *svq);
->>> +
->>>    VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev, int idx);
->>>
->>>    void vhost_svq_free(VhostShadowVirtqueue *vq);
->>> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
->>> index 0d565bb5bd..48aae59d8e 100644
->>> --- a/include/hw/virtio/vhost-vdpa.h
->>> +++ b/include/hw/virtio/vhost-vdpa.h
->>> @@ -12,6 +12,8 @@
->>>    #ifndef HW_VIRTIO_VHOST_VDPA_H
->>>    #define HW_VIRTIO_VHOST_VDPA_H
->>>
->>> +#include <gmodule.h>
->>> +
->>>    #include "qemu/queue.h"
->>>    #include "hw/virtio/virtio.h"
->>>
->>> @@ -24,6 +26,8 @@ typedef struct vhost_vdpa {
->>>        int device_fd;
->>>        uint32_t msg_type;
->>>        MemoryListener listener;
->>> +    bool shadow_vqs_enabled;
->>> +    GPtrArray *shadow_vqs;
->>>        struct vhost_dev *dev;
->>>        QLIST_ENTRY(vhost_vdpa) entry;
->>>        VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
->>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
->>> index c4826a1b56..21dc99ab5d 100644
->>> --- a/hw/virtio/vhost-shadow-virtqueue.c
->>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
->>> @@ -9,9 +9,12 @@
->>>
->>>    #include "qemu/osdep.h"
->>>    #include "hw/virtio/vhost-shadow-virtqueue.h"
->>> +#include "hw/virtio/vhost.h"
->>> +
->>> +#include "standard-headers/linux/vhost_types.h"
->>>
->>>    #include "qemu/error-report.h"
->>> -#include "qemu/event_notifier.h"
->>> +#include "qemu/main-loop.h"
->>>
->>>    /* Shadow virtqueue to relay notifications */
->>>    typedef struct VhostShadowVirtqueue {
->>> @@ -19,14 +22,146 @@ typedef struct VhostShadowVirtqueue {
->>>        EventNotifier kick_notifier;
->>>        /* Shadow call notifier, sent to vhost */
->>>        EventNotifier call_notifier;
->>> +
->>> +    /*
->>> +     * Borrowed virtqueue's guest to host notifier.
->>> +     * To borrow it in this event notifier allows to register on the event
->>> +     * loop and access the associated shadow virtqueue easily. If we use the
->>> +     * VirtQueue, we don't have an easy way to retrieve it.
->>> +     *
->>> +     * So shadow virtqueue must not clean it, or we would lose VirtQueue one.
->>> +     */
->>> +    EventNotifier host_notifier;
->>> +
->>> +    /* Guest's call notifier, where SVQ calls guest. */
->>> +    EventNotifier guest_call_notifier;
->>
->> To be consistent, let's simply use "guest_notifier" here.
->>
-> It could be confused when the series adds a guest -> qemu kick
-> notifier then. Actually, I think it would be better to rename
-> host_notifier to something like host_svq_notifier. Or host_call and
-> guest_call, since "notifier" is already in the type, making the name
-> to be a little bit "Hungarian notation".
-
-
-I think that's fine, just need to make sure we have a consistent name 
-for SVQ notifier.
-
-
->
->>> +
->>> +    /* Virtio queue shadowing */
->>> +    VirtQueue *vq;
->>>    } VhostShadowVirtqueue;
->>>
->>> +/* Forward guest notifications */
->>> +static void vhost_handle_guest_kick(EventNotifier *n)
->>> +{
->>> +    VhostShadowVirtqueue *svq = container_of(n, VhostShadowVirtqueue,
->>> +                                             host_notifier);
->>> +
->>> +    if (unlikely(!event_notifier_test_and_clear(n))) {
->>> +        return;
->>> +    }
->>
->> Is there a chance that we may stop the processing of available buffers
->> during the svq enabling? There could be no kick from the guest in this case.
->>
-> Actually, yes, I think you are right. The guest kick eventfd could
-> have been consumed by vhost but there may be still pending buffers.
->
-> I think it would be better to check for available buffers first, then
-> clear the notifier unconditionally, and then re-check and process them
-> if any [1].
-
-
-Looks like I can't find "[1]" anywhere.
-
-
->
-> However, this problem arises later in the series: At this moment the
-> device is not reset and guest's host notifier is not replaced, so
-> either vhost/device receives the kick, or SVQ does and forwards it.
->
-> Does it make sense to you?
-
-
-Kind of, so I think we can:
-
-1) As you said, always check available buffers when switching to SVQ
-2) alwasy kick the vhost when switching back to vhost
-
-
->
->>> +
->>> +    event_notifier_set(&svq->kick_notifier);
->>> +}
->>> +
->>> +/*
->>> + * Obtain the SVQ call notifier, where vhost device notifies SVQ that there
->>> + * exists pending used buffers.
->>> + *
->>> + * @svq Shadow Virtqueue
->>> + */
->>> +EventNotifier *vhost_svq_get_svq_call_notifier(VhostShadowVirtqueue *svq)
->>> +{
->>> +    return &svq->call_notifier;
->>> +}
->>> +
->>> +/*
->>> + * Set the call notifier for the SVQ to call the guest
->>> + *
->>> + * @svq Shadow virtqueue
->>> + * @call_fd call notifier
->>> + *
->>> + * Called on BQL context.
->>> + */
->>> +void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, int call_fd)
->>> +{
->>> +    event_notifier_init_fd(&svq->guest_call_notifier, call_fd);
->>> +}
->>> +
->>> +/*
->>> + * Restore the vhost guest to host notifier, i.e., disables svq effect.
->>> + */
->>> +static int vhost_svq_restore_vdev_host_notifier(struct vhost_dev *dev,
->>> +                                                unsigned vhost_index,
->>> +                                                VhostShadowVirtqueue *svq)
->>> +{
->>> +    EventNotifier *vq_host_notifier = virtio_queue_get_host_notifier(svq->vq);
->>> +    struct vhost_vring_file file = {
->>> +        .index = vhost_index,
->>> +        .fd = event_notifier_get_fd(vq_host_notifier),
->>> +    };
->>> +    int r;
->>> +
->>> +    /* Restore vhost kick */
->>> +    r = dev->vhost_ops->vhost_set_vring_kick(dev, &file);
->>
->> And remap the notification area if necessary.
-> Totally right, that step is missed in this series.
->
-> However, remapping guest host notifier memory region has no advantages
-> over using ioeventfd to perform guest -> SVQ notifications, doesn't
-> it? By both methods flow needs to go through the hypervisor kernel.
-
-
-To be clear, I meant restore the notification area mapping from guest to 
-device directly. For SVQ, you are right, there's no much value for 
-bothering notification area map. (Or we can do it in the future).
-
-
->
->>
->>> +    return r ? -errno : 0;
->>> +}
->>> +
->>> +/*
->>> + * Start shadow virtqueue operation.
->>> + * @dev vhost device
->>> + * @hidx vhost virtqueue index
->>> + * @svq Shadow Virtqueue
->>> + */
->>> +bool vhost_svq_start(struct vhost_dev *dev, unsigned idx,
->>> +                     VhostShadowVirtqueue *svq)
->>> +{
->>> +    EventNotifier *vq_host_notifier = virtio_queue_get_host_notifier(svq->vq);
->>> +    struct vhost_vring_file file = {
->>> +        .index = dev->vhost_ops->vhost_get_vq_index(dev, dev->vq_index + idx),
->>> +        .fd = event_notifier_get_fd(&svq->kick_notifier),
->>> +    };
->>> +    int r;
->>> +
->>> +    /* Check that notifications are still going directly to vhost dev */
->>> +    assert(virtio_queue_is_host_notifier_enabled(svq->vq));
->>> +
->>> +    /*
->>> +     * event_notifier_set_handler already checks for guest's notifications if
->>> +     * they arrive in the switch, so there is no need to explicitely check for
->>> +     * them.
->>> +     */
->>
->> If this is true, shouldn't we call vhost_set_vring_kick() before the
->> event_notifier_set_handler()?
->>
-> Not at this point of the series, but it could be another solution when
-> we need to reset the device and we are unsure if all buffers have been
-> read. But I think I prefer the solution exposed in [1] and to
-> explicitly call vhost_handle_guest_kick here. Do you think
-> differently?
-
-
-I actually mean if we can end up with this situation since SVQ take over 
-the host notifier before set_vring_kick().
-
-1) guest kick vq, vhost is running
-2) qemu take over the host notifier
-3) guest kick vq
-4) qemu route host notifier to SVQ
-
-Then the vq will be handled by both SVQ and vhost?
-
-
->
->> Btw, I think we should update the fd if set_vring_kick() was called
->> after this function?
->>
-> Kind of. This is currently bad in the code, but...
->
-> Backend callbacks vhost_ops->vhost_set_vring_kick and
-> vhost_ops->vhost_set_vring_addr are only called at
-> vhost_virtqueue_start. And they are always called with known data
-> already stored in VirtQueue.
-
-
-This is true for now, but I'd suggest to not depend on this since it:
-
-1) it might be changed in the future
-2) we're working at vhost layer and expose API to virtio device, the 
-code should be robust to handle set_vring_kick() at any time
-3) I think we've already handled similar situation of set_vring_call, so 
-let's be consistent
-
-
->
-> To avoid storing more state in vhost_vdpa, I think that we should
-> avoid duplicating them, but ignore new kick_fd or address in SVQ mode,
-> and retrieve them again at the moment the device is (re)started in SVQ
-> mode. Qemu already avoids things like allowing the guest to set
-> addresses at random time, using the VirtIOPCIProxy to store them.
->
-> I also see how duplicating that status could protect vdpa SVQ code
-> against future changes to vhost code, but that would make this series
-> bigger and more complex with no need at this moment in my opinion.
->
-> Do you agree?
-
-
-Somehow, but consider we can handle set_vring_call(), let's at last make 
-set_vring_kick() more robust.
-
-
->
->>> +    event_notifier_init_fd(&svq->host_notifier,
->>> +                           event_notifier_get_fd(vq_host_notifier));
->>> +    event_notifier_set_handler(&svq->host_notifier, vhost_handle_guest_kick);
->>> +
->>> +    r = dev->vhost_ops->vhost_set_vring_kick(dev, &file);
->>
->> And we need to stop the notification area mmap.
->>
-> Right.
->
->>> +    if (unlikely(r != 0)) {
->>> +        error_report("Couldn't set kick fd: %s", strerror(errno));
->>> +        goto err_set_vring_kick;
->>> +    }
->>> +
->>> +    return true;
->>> +
->>> +err_set_vring_kick:
->>> +    event_notifier_set_handler(&svq->host_notifier, NULL);
->>> +
->>> +    return false;
->>> +}
->>> +
->>> +/*
->>> + * Stop shadow virtqueue operation.
->>> + * @dev vhost device
->>> + * @idx vhost queue index
->>> + * @svq Shadow Virtqueue
->>> + */
->>> +void vhost_svq_stop(struct vhost_dev *dev, unsigned idx,
->>> +                    VhostShadowVirtqueue *svq)
->>> +{
->>> +    int r = vhost_svq_restore_vdev_host_notifier(dev, idx, svq);
->>> +    if (unlikely(r < 0)) {
->>> +        error_report("Couldn't restore vq kick fd: %s", strerror(-r));
->>> +    }
->>> +
->>> +    event_notifier_set_handler(&svq->host_notifier, NULL);
->>> +}
->>> +
->>>    /*
->>>     * Creates vhost shadow virtqueue, and instruct vhost device to use the shadow
->>>     * methods and file descriptors.
->>>     */
->>>    VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev, int idx)
->>>    {
->>> +    int vq_idx = dev->vq_index + idx;
->>>        g_autofree VhostShadowVirtqueue *svq = g_new0(VhostShadowVirtqueue, 1);
->>>        int r;
->>>
->>> @@ -44,6 +179,7 @@ VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev, int idx)
->>>            goto err_init_call_notifier;
->>>        }
->>>
->>> +    svq->vq = virtio_get_queue(dev->vdev, vq_idx);
->>>        return g_steal_pointer(&svq);
->>>
->>>    err_init_call_notifier:
->>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->>> index e0dc7508c3..36c954a779 100644
->>> --- a/hw/virtio/vhost-vdpa.c
->>> +++ b/hw/virtio/vhost-vdpa.c
->>> @@ -17,6 +17,7 @@
->>>    #include "hw/virtio/vhost.h"
->>>    #include "hw/virtio/vhost-backend.h"
->>>    #include "hw/virtio/virtio-net.h"
->>> +#include "hw/virtio/vhost-shadow-virtqueue.h"
->>>    #include "hw/virtio/vhost-vdpa.h"
->>>    #include "exec/address-spaces.h"
->>>    #include "qemu/main-loop.h"
->>> @@ -272,6 +273,16 @@ static void vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
->>>        vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
->>>    }
->>>
->>> +/**
->>> + * Adaptor function to free shadow virtqueue through gpointer
->>> + *
->>> + * @svq   The Shadow Virtqueue
->>> + */
->>> +static void vhost_psvq_free(gpointer svq)
->>> +{
->>> +    vhost_svq_free(svq);
->>> +}
->>> +
->>>    static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
->>>    {
->>>        struct vhost_vdpa *v;
->>> @@ -283,6 +294,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
->>>        dev->opaque =  opaque ;
->>>        v->listener = vhost_vdpa_memory_listener;
->>>        v->msg_type = VHOST_IOTLB_MSG_V2;
->>> +    v->shadow_vqs = g_ptr_array_new_full(dev->nvqs, vhost_psvq_free);
->>>        QLIST_INSERT_HEAD(&vhost_vdpa_devices, v, entry);
->>>
->>>        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->>> @@ -373,6 +385,17 @@ err:
->>>        return;
->>>    }
->>>
->>> +static void vhost_vdpa_svq_cleanup(struct vhost_dev *dev)
->>> +{
->>> +    struct vhost_vdpa *v = dev->opaque;
->>> +    size_t idx;
->>> +
->>> +    for (idx = 0; idx < v->shadow_vqs->len; ++idx) {
->>> +        vhost_svq_stop(dev, idx, g_ptr_array_index(v->shadow_vqs, idx));
->>> +    }
->>> +    g_ptr_array_free(v->shadow_vqs, true);
->>> +}
->>> +
->>>    static int vhost_vdpa_cleanup(struct vhost_dev *dev)
->>>    {
->>>        struct vhost_vdpa *v;
->>> @@ -381,6 +404,7 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
->>>        trace_vhost_vdpa_cleanup(dev, v);
->>>        vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
->>>        memory_listener_unregister(&v->listener);
->>> +    vhost_vdpa_svq_cleanup(dev);
->>>        QLIST_REMOVE(v, entry);
->>>
->>>        dev->opaque = NULL;
->>> @@ -557,7 +581,9 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->>>        if (started) {
->>>            uint8_t status = 0;
->>>            memory_listener_register(&v->listener, &address_space_memory);
->>> -        vhost_vdpa_host_notifiers_init(dev);
->>> +        if (!v->shadow_vqs_enabled) {
->>> +            vhost_vdpa_host_notifiers_init(dev);
->>> +        }
->>
->> This looks like a trick, why not check and setup shadow_vqs inside:
->>
->> 1) vhost_vdpa_host_notifiers_init()
->>
->> and
->>
->> 2) vhost_vdpa_set_vring_kick()
->>
-> Ok I will move the checks there.
->
->>>            vhost_vdpa_set_vring_ready(dev);
->>>            vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
->>>            vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
->>> @@ -663,10 +689,96 @@ static bool  vhost_vdpa_force_iommu(struct vhost_dev *dev)
->>>        return true;
->>>    }
->>>
->>> +/*
->>> + * Start shadow virtqueue.
->>> + */
->>> +static bool vhost_vdpa_svq_start_vq(struct vhost_dev *dev, unsigned idx)
->>> +{
->>> +    struct vhost_vdpa *v = dev->opaque;
->>> +    VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, idx);
->>> +    return vhost_svq_start(dev, idx, svq);
->>> +}
->>> +
->>> +static unsigned vhost_vdpa_enable_svq(struct vhost_vdpa *v, bool enable)
->>> +{
->>> +    struct vhost_dev *hdev = v->dev;
->>> +    unsigned n;
->>> +
->>> +    if (enable == v->shadow_vqs_enabled) {
->>> +        return hdev->nvqs;
->>> +    }
->>> +
->>> +    if (enable) {
->>> +        /* Allocate resources */
->>> +        assert(v->shadow_vqs->len == 0);
->>> +        for (n = 0; n < hdev->nvqs; ++n) {
->>> +            VhostShadowVirtqueue *svq = vhost_svq_new(hdev, n);
->>> +            bool ok;
->>> +
->>> +            if (unlikely(!svq)) {
->>> +                g_ptr_array_set_size(v->shadow_vqs, 0);
->>> +                return 0;
->>> +            }
->>> +            g_ptr_array_add(v->shadow_vqs, svq);
->>> +
->>> +            ok = vhost_vdpa_svq_start_vq(hdev, n);
->>> +            if (unlikely(!ok)) {
->>> +                /* Free still not started svqs */
->>> +                g_ptr_array_set_size(v->shadow_vqs, n);
->>> +                enable = false;
-> [2]
->
->>> +                break;
->>> +            }
->>> +        }
->>
->> Since there's almost no logic could be shared between enable and
->> disable. Let's split those logic out into dedicated functions where the
->> codes looks more easy to be reviewed (e.g have a better error handling etc).
->>
-> Maybe it could be more clear in the code, but the reused logic is the
-> disabling of SVQ and the fallback in case it cannot be enabled with
-> [2]. But I'm not against splitting in two different functions if it
-> makes review easier.
-
-
-Ok.
-
-
->
->>> +    }
->>> +
->>> +    v->shadow_vqs_enabled = enable;
->>> +
->>> +    if (!enable) {
->>> +        /* Disable all queues or clean up failed start */
->>> +        for (n = 0; n < v->shadow_vqs->len; ++n) {
->>> +            unsigned vq_idx = vhost_vdpa_get_vq_index(hdev, n);
->>> +            VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, n);
->>> +            vhost_svq_stop(hdev, n, svq);
->>> +            vhost_virtqueue_start(hdev, hdev->vdev, &hdev->vqs[n], vq_idx);
->>> +        }
->>> +
->>> +        /* Resources cleanup */
->>> +        g_ptr_array_set_size(v->shadow_vqs, 0);
->>> +    }
->>> +
->>> +    return n;
->>> +}
->>>
->>>    void qmp_x_vhost_enable_shadow_vq(const char *name, bool enable, Error **errp)
->>>    {
->>> -    error_setg(errp, "Shadow virtqueue still not implemented");
->>> +    struct vhost_vdpa *v;
->>> +    const char *err_cause = NULL;
->>> +    bool r;
->>> +
->>> +    QLIST_FOREACH(v, &vhost_vdpa_devices, entry) {
->>> +        if (v->dev->vdev && 0 == strcmp(v->dev->vdev->name, name)) {
->>> +            break;
->>> +        }
->>> +    }
->>
->> I think you can iterate the NetClientStates to ge tthe vhost-vdpa backends.
->>
-> Right, I missed it.
->
->>> +
->>> +    if (!v) {
->>> +        err_cause = "Device not found";
->>> +        goto err;
->>> +    } else if (v->notifier[0].addr) {
->>> +        err_cause = "Device has host notifiers enabled";
->>
->> I don't get this.
->>
-> At this moment of the series you can enable guest -> SVQ -> 'vdpa
-> device' if the device is not using the host notifiers memory region.
-> The right solution is to disable it for the guest, and to handle it in
-> SVQ. Otherwise, guest kick will bypass SVQ and
->
-> It can be done in the same patch, or at least to disable (as unmap)
-> them at this moment and handle them in a posterior patch. but for
-> prototyping the solution I just ignored it in this series. It will be
-> handled some way or another in the next one. I prefer the last one, to
-> handle in a different patch, but let me know if you think it is better
-> otherwise.
-
-
-Aha, I see. But I think we need to that in this patch otherwise the we 
-can route host notifier to SVQ.
-
-Thanks
-
-
->
->> Btw this function should be implemented in an independent patch after
->> svq is fully functional.
->>
-> (Reasons for that are already commented at the top of this mail :) ).
->
-> Thanks!
->
->> Thanks
->>
->>
->>> +        goto err;
->>> +    }
->>> +
->>> +    r = vhost_vdpa_enable_svq(v, enable);
->>> +    if (unlikely(!r)) {
->>> +        err_cause = "Error enabling (see monitor)";
->>> +        goto err;
->>> +    }
->>> +
->>> +err:
->>> +    if (err_cause) {
->>> +        error_setg(errp, "Can't enable shadow vq on %s: %s", name, err_cause);
->>> +    }
->>>    }
->>>
->>>    const VhostOps vdpa_ops = {
+-- 
+2.25.1
 
 
