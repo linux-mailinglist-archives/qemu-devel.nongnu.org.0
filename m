@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5FAC42F1A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 15:03:45 +0200 (CEST)
-Received: from localhost ([::1]:35910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF0442F1F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 15:13:25 +0200 (CEST)
+Received: from localhost ([::1]:45326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbMsC-0008Kx-Pv
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 09:03:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59338)
+	id 1mbN1X-0006uQ-Ug
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 09:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mbMo6-0006Hv-PP
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:59:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23681)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mbN0G-0005jZ-Ex
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 09:12:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41163)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mbMo4-0007ow-Ia
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:59:30 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mbN0D-0006jv-5K
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 09:12:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634302767;
+ s=mimecast20190719; t=1634303519;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mWKUxNUGl2oeLuBY/ljbYe4O8kdZCwjFjo4MJYYDqZQ=;
- b=d8blL0i5V3MTQDGnzcqbtiNlNgYfnC5yPbxumWGlwdbw5mfrjpjAX2ZNBTye5/6Qi6wsta
- ov1tpanYTMqph39RsOgbancATfJnAjQ++kHvQAj8b/vVvnIMsPhstp/mUeLfOyxSFxkOc9
- wgencGJ1q/lUbRudDKgQEm6+TD2mgQg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-IZ30gyy8NL6c7zSLm6r10Q-1; Fri, 15 Oct 2021 08:59:26 -0400
-X-MC-Unique: IZ30gyy8NL6c7zSLm6r10Q-1
-Received: by mail-ed1-f70.google.com with SMTP id
- u23-20020a50a417000000b003db23c7e5e2so8169361edb.8
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 05:59:25 -0700 (PDT)
+ bh=W0vF/9MOHDdbNvj86iC32K81uqQYwjSBac8qQjNB6CA=;
+ b=Ut5yHHFvW0U/vkQtuLfL7Lnzp+c/xq/CwyTBSQwuhpS+KQyuYIvjFYfgWEzSx1CafEmxl3
+ HM/Odf9XoaYpzbMOf87h7FoOmR4bopL9mpuFtcgf81IZC5TsJsDn7bftzmByXjjZNdrxaG
+ B7Eo7A8Js8ZHHisxvlb86cT3MhmOzqM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-_GMwpvjxPVu2Ziv5KzEwiQ-1; Fri, 15 Oct 2021 09:11:58 -0400
+X-MC-Unique: _GMwpvjxPVu2Ziv5KzEwiQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p12-20020adfc38c000000b00160d6a7e293so5876752wrf.18
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 06:11:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mWKUxNUGl2oeLuBY/ljbYe4O8kdZCwjFjo4MJYYDqZQ=;
- b=vr/Tp38X+pWDwQiTg8BRGBWgZH3kZDklCeOhMPh85AHyaUQodzDgb+QvydlQejhCml
- AiEMGJXoOJwWFpsgQwKSJylPw8Vc6ND2Pt3TaKOHstNHMGRnaYn1emPt+AHeT+fyYcmj
- THt37bMVqf7iXllxNxeXTrVseiknRpP+GZXvQ4Z1bBG9TgCApC/M7rWUlRSgLCITMkkj
- +MUCIfm7GyuDF8B2BhdKWVyyy4kqWxckORJyHbGtm/3poocbPz+Dgkhr6xlw2neVLwwl
- H0L1vriljvs2Yt9ONw963YQf5EbuPOhzsJxhUislV2oZJre8mqWWqPJH6Yc2GNyxWYW+
- WgUA==
-X-Gm-Message-State: AOAM532XhDGFlmjJU4nAag+QiI/OnqptuZgwyKB8Cg4qLJyLGQ4mhOCQ
- oMy5cD3LAGBN9yYSlAxAKY29YSa8gDoQ1SYRIuGjuDrUamzXTid9uCs4iKgZT38FJdZdNie2eXW
- EYUA3lq4lm1+sjEw=
-X-Received: by 2002:a17:906:2346:: with SMTP id
- m6mr6668307eja.512.1634302764722; 
- Fri, 15 Oct 2021 05:59:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy75CcpOd/V/8F/KFhRAFFlXIZY0vHMRLUXTr3qovj3jx0FQND+UZbK+Sgxj5/F4/Ybja9Z9Q==
-X-Received: by 2002:a17:906:2346:: with SMTP id
- m6mr6668280eja.512.1634302764480; 
- Fri, 15 Oct 2021 05:59:24 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id p8sm4090658ejo.2.2021.10.15.05.59.23
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=W0vF/9MOHDdbNvj86iC32K81uqQYwjSBac8qQjNB6CA=;
+ b=EmBo+36SJccq+3+Wo4as7ZDr3W/oAISeZmeDkT9OZX4k+iX79Yk2aThoIFrS4mm6cj
+ fRLsb6YYIIv6BTZTS9Odn3xMsMsUcPYvQS9EYL9iYIlvioaB+x+HvmC0nN8YSc81yP2U
+ psa4NV7dgyCN3kn93drNW/wsU+7G4jt8LJAQw6agoa3cDuHKakQGA6X4pcnWkVvOmVB9
+ ZfZWK9rPKwkmux1cJm2W4UNkCoioDLpiuqWhp0SRLFRUuoLyU4SVgUCC0X0ket5rh2lD
+ UR38SWaH525iKSTed0RHzxdXNDthBH4PLcZiU5cKQimlS3KKDMGndawqb3tmgYbbMTsv
+ Nzpw==
+X-Gm-Message-State: AOAM5327+Y00sdUi+t1WD2zRrvQNlqaTTvCqwVmyIhVSyYe9qEDh4fWU
+ 8mVd3cw+Hy2nRFdBPMdXT+nfZLh1XplZDiLfQlrkTHOLNP2yQczP8aHOPD4WIgvhFK3eIfQVVHw
+ DF9/vchNKzXdSByc=
+X-Received: by 2002:a05:600c:17ca:: with SMTP id
+ y10mr26520953wmo.62.1634303517618; 
+ Fri, 15 Oct 2021 06:11:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxH/RPkL0k/On5M8a5PrYVwxDtVsHMvBBQwj8qKqU+ySK9grorAZioCN5F694iVRK8Txf7rNg==
+X-Received: by 2002:a05:600c:17ca:: with SMTP id
+ y10mr26520899wmo.62.1634303517258; 
+ Fri, 15 Oct 2021 06:11:57 -0700 (PDT)
+Received: from gator (nat-pool-brq-u.redhat.com. [213.175.37.12])
+ by smtp.gmail.com with ESMTPSA id j16sm4955421wms.16.2021.10.15.06.11.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Oct 2021 05:59:23 -0700 (PDT)
-Date: Fri, 15 Oct 2021 14:59:22 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v2] hw/riscv: virt: bugfix the memory-backend-file
- command is invalid
-Message-ID: <20211015145922.5a82e31a@redhat.com>
-In-Reply-To: <CAEUhbmVD1jyvGJrQLSZLJYfaz6E-m0b9SZA+DQA2YYK70oL7Lg@mail.gmail.com>
-References: <20211012014501.24996-1-limingwang@huawei.com>
- <CAEUhbmX=A4LPgzNgNPcxzzg=veU0=3vXyZQrwikxMFvb_Rcxzw@mail.gmail.com>
- <c4c6cc03d1c6459ea036c08ae30806a5@huawei.com>
- <CAEUhbmVD1jyvGJrQLSZLJYfaz6E-m0b9SZA+DQA2YYK70oL7Lg@mail.gmail.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ Fri, 15 Oct 2021 06:11:56 -0700 (PDT)
+Date: Fri, 15 Oct 2021 15:11:55 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH v5] hw/arm/virt: Don't create device-tree node for empty
+ NUMA node
+Message-ID: <20211015131155.jkxapvfvrlteo4k7@gator>
+References: <20211015124246.23073-1-gshan@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20211015124246.23073-1-gshan@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -88,7 +83,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,138 +96,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "limingwang \(A\)" <limingwang@huawei.com>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jiangyifei <jiangyifei@huawei.com>,
- "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "Fanliang \(EulerOS\)" <fanliang@huawei.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, "Wubin \(H\)" <wu.wubin@huawei.com>
+Cc: robh@kernel.org, qemu-riscv@nongnu.org, ehabkost@redhat.com,
+ peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ shan.gavin@gmail.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Oct 2021 17:25:01 +0800
-Bin Meng <bmeng.cn@gmail.com> wrote:
-
-> On Fri, Oct 15, 2021 at 4:52 PM limingwang (A) <limingwang@huawei.com> wrote:
-> >
-> >
-> > On Wed, Oct 13, 2021 at 22:41 PM Bin Meng <bin.meng@windriver.com> wrote:  
-> > >
-> > > On Tue, Oct 12, 2021 at 9:46 AM MingWang Li <limingwang@huawei.com> wrote:  
-> > > >
-> > > > From: Mingwang Li <limingwang@huawei.com>
-> > > >
-> > > > When I start the VM with the following command:
-> > > > $ ./qemu-system-riscv64 -M virt,accel=kvm -m 4096M -cpu host -nographic \
-> > > >     -name guest=riscv-guset \
-> > > >     -smp 2 \
-> > > >     -bios none \
-> > > >     -kernel ./Image \
-> > > >     -drive file=./guest.img,format=raw,id=hd0 \
-> > > >     -device virtio-blk-device,drive=hd0 \
-> > > >     -append "root=/dev/vda rw console=ttyS0 earlycon=sbi" \
-> > > >     -object  
-> > > memory-backend-file,id=mem,size=4096M,mem-path=/dev/hugepages,share=on \  
-> > > >     -numa node,memdev=mem -mem-prealloc \
-> > > >     -chardev socket,id=char0,path=/mnt/vhost-net0 \
-> > > >     -netdev type=vhost-user,id=mynet1,chardev=char0,vhostforce \
-> > > >     -device
-> > > > virtio-net-pci,mac=52:54:00:00:00:01,netdev=mynet1,mrg_rxbuf=on,csum=o
-> > > > n,guest_csum=on,guest_ecn=on \
-> > > >
-> > > > Then, QEMU displays the following error information:
-> > > > qemu-system-riscv64: Failed initializing vhost-user memory map,
-> > > > consider using -object memory-backend-file share=on  
-> > >
-> > > I see your command line parameters already contain "-object memory-backend-file
-> > > share=on", so this error message is not accurate.  
-> >
-> > QEMU uses this command to alloc fd in the "memory_region_init_ram_from_file" function
-> > and assigns the value of fd to mr->ram_block-fd. If the QEMU uses the default memory to
-> > initialize the system, the QEMU cannot obtain the fd in the "vhost_user_mem_section_filter"
-> > function when initializing the vhost-user. As a result, an error is reported in the "vhost_user_fill_set_mem_table_msg"
-> > function.
-> >
-> > Because of the above bug, even if "-object memory-backend-file share=on" is added to the command line,
-> > the QEMU still reports an error.  
+On Fri, Oct 15, 2021 at 08:42:46PM +0800, Gavin Shan wrote:
+> The empty NUMA node, where no memory resides, are allowed. For
+> example, the following command line specifies two empty NUMA nodes.
+> With this, QEMU fails to boot because of the conflicting device-tree
+> node names, as the following error message indicates.
 > 
-> Yes, what I meant is that QEMU should not report such inaccurate
-> messages because of some random codes elsewhere.
+>   /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
+>   -accel kvm -machine virt,gic-version=host               \
+>   -cpu host -smp 4,sockets=2,cores=2,threads=1            \
+>   -m 1024M,slots=16,maxmem=64G                            \
+>   -object memory-backend-ram,id=mem0,size=512M            \
+>   -object memory-backend-ram,id=mem1,size=512M            \
+>   -numa node,nodeid=0,cpus=0-1,memdev=mem0                \
+>   -numa node,nodeid=1,cpus=2-3,memdev=mem1                \
+>   -numa node,nodeid=2                                     \
+>   -numa node,nodeid=3
+>     :
+>   qemu-system-aarch64: FDT: Failed to create subnode /memory@80000000: FDT_ERR_EXISTS
 > 
-> With current message, it suggested user use "-object
-> memory-backend-file share=on" in the command line, but it is already
-> used. So this is a false alarm. The "bug" is somewhere else.
-
-bug is in using memory_region_init_ram(),
-which can't possibly handle vhost-user, and can't work as expected with
-'-numa node,memdev' options.
-Before main ram infrastructure was converted to memdev,
-one should have used memory_region_allocate_system_memory() for
-allocating main RAM, so numa usecase was broken from the start.
-Later it old API was dropped in favor of more flexible/generic
-MachineState::ram approach (see commits 68a86dc15ccd..f0530f14c7c35d).
-
-
-Modulo commit message, patch looks good to me and does what
-every machine should do. (I though that I've converted every
-existing to generalized MachineState::ram but it looks like
-riscv was missed).
-
-So we can model commit message after bd457782b3b0a,
-and also add that the patch fixes broken -numa node,memdev case,
-which never properly worked. It also opens possibility to
-use vhost-user/virtiosf with main RAM if main RAM is
-provided explicitly via machine.memory-backend option
-with shared memory backend.
-
-Btw: is there other riscv machines that allocate RAM directly?
-(if yes, those should be fixed as well, a patch per machine)
-
-
-> > This patch can solve this bug.
-> >  
-> > > Should this message be altered to mention things like what this patch does?  
-> >
-> > Thanks, I will rewrite the message in next version.  
-> > >  
-> > > > qemu-system-riscv64: vhost_set_mem_table failed: Interrupted system
-> > > > call (4)
-> > > > qemu-system-riscv64: unable to start vhost net: 4: falling back on
-> > > > userspace virtio
-> > > >
-> > > > Note that, before starting the kvm-acceled QEMU VM, following
-> > > > temporarily unaccepted QEMU patches should be used:
-> > > > https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg02516.html
-> > > >
-> > > > This error was made bacause default main_mem is used to be registered  
-> > >
-> > > typo: because
-> > >  
-> > Thanks.
-> >  
-> > > > as the system memory, other memory cannot be initialized. Therefore,
-> > > > the system memory should be initialized to the machine->ram, which
-> > > > consists of the default main_mem and other possible memory required by
-> > > > applications, such as shared hugepage memory in DPDK.
-> > > > Also, the mc->defaul_ram_id should be set to the default main_mem,
-> > > > such as "riscv_virt_board.ram" for the virt machine.
-> > > >  
-> > >
-> > > How about changing the commit title to: "Use machine->ram as the system
-> > > memory" ??
-> > >  
-> >
-> > I think it is just a bugfix.
-> >  
+> As specified by linux device-tree binding document, the device-tree
+> nodes for these empty NUMA nodes shouldn't be generated. However,
+> the corresponding NUMA node IDs should be included in the distance
+> map. The memory hotplug through device-tree on ARM64 isn't existing
+> so far and it's not necessary to require the user to provide a distance
+> map. Furthermore, the default distance map Linux generates may even be
+> sufficient. So this simply skips populating the device-tree nodes for
+> these empty NUMA nodes to avoid the error, so that QEMU can be started
+> successfully.
 > 
-> But the current codes run perfectly okay so far. This patch adds an
-> additional use case for the KVM scenario where current codes cannot
-> handle.
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+> v5: Improved commit log and comments as Drew suggested.
+> ---
+>  hw/arm/boot.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> Regards,
-> Bin
-> 
+> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> index 57efb61ee4..74ad397b1f 100644
+> --- a/hw/arm/boot.c
+> +++ b/hw/arm/boot.c
+> @@ -599,10 +599,23 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+>      }
+>      g_strfreev(node_path);
+>  
+> +    /*
+> +     * We drop all the memory nodes which correspond to empty NUMA nodes
+> +     * from the device tree, because the Linux NUMA binding document
+> +     * states they should not be generated. Linux will get the NUMA node
+> +     * IDs of the empty NUMA nodes from the distance map if they are needed.
+> +     * This means QEMU users may be obliged to provide command lines which
+> +     * configure distance maps when the empty NUMA node IDs are needed and
+> +     * Linux's default distance map isn't sufficient.
+> +     */
+>      if (ms->numa_state != NULL && ms->numa_state->num_nodes > 0) {
+>          mem_base = binfo->loader_start;
+>          for (i = 0; i < ms->numa_state->num_nodes; i++) {
+>              mem_len = ms->numa_state->nodes[i].node_mem;
+> +            if (!mem_len) {
+> +                continue;
+> +            }
+> +
+>              rc = fdt_add_memory_node(fdt, acells, mem_base,
+>                                       scells, mem_len, i);
+>              if (rc < 0) {
+> -- 
+> 2.23.0
+>
+
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
