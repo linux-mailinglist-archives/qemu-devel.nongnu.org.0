@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142A242F661
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 16:54:03 +0200 (CEST)
-Received: from localhost ([::1]:56200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E85142F64F
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 16:53:52 +0200 (CEST)
+Received: from localhost ([::1]:55144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbOaw-0000Z2-4C
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 10:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59364)
+	id 1mbOal-0008H2-Cy
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 10:53:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVt-0000HL-Ne
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35253)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVu-0000Ia-Tl
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVs-0001mM-0F
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:49 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVt-0001nP-82
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634309327;
+ s=mimecast20190719; t=1634309328;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Lw9goYY+B7hBpAhduEmeVExfJqxW90te1SfQKwU69mk=;
- b=Pwceuzc0dfHroJFhDbmlxGB/UYfiVI9ECH/Ivz1CZTBggyqgY4HtNK+Zi34VNng8LloSq4
- rI3TPtWmYtQVnMlOHiEv6M+qtEP1tA7e4AVHj1lt2Y1qNGurxPAitedNuAvLIrXkkHLOkk
- xjqLdaLPz5kbX2gSQ8SKy6xB21uJ/YI=
+ bh=cRCZlNtkutYPPN8MGG4zTDGFwViY+cRpkYXx35fSry0=;
+ b=hFRnfhNOd6pIb3Nlud8LQ7BAr9141//2cFjTIdSlX/uy/URJI2Xtln/gwhytG8FSUWBaeU
+ Z/+TPLnVgkDTm+02zw0tijb0j2kKIIxIGBbdH0hs4gaolZjBl1RwEb17S1bQNk1mhT0zuh
+ hYzrndBL+X5K3Uz7WF1WEKZPeUxe8l0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-I-MpFwQhM3Kh6Bs3N6gIWw-1; Fri, 15 Oct 2021 10:48:46 -0400
-X-MC-Unique: I-MpFwQhM3Kh6Bs3N6gIWw-1
+ us-mta-209-Jbro4qwbM_SyTeWbs58_jw-1; Fri, 15 Oct 2021 10:48:47 -0400
+X-MC-Unique: Jbro4qwbM_SyTeWbs58_jw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 504D7802575
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 14:48:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23CAD801ADA
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 14:48:46 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A9B0619736;
- Fri, 15 Oct 2021 14:48:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7DB2F19739;
+ Fri, 15 Oct 2021 14:48:45 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/15] iotests/051: Fix typo
-Date: Fri, 15 Oct 2021 16:46:31 +0200
-Message-Id: <20211015144640.198044-7-kwolf@redhat.com>
+Subject: [PULL 07/15] qdev: Avoid using string visitor for properties
+Date: Fri, 15 Oct 2021 16:46:32 +0200
+Message-Id: <20211015144640.198044-8-kwolf@redhat.com>
 In-Reply-To: <20211015144640.198044-1-kwolf@redhat.com>
 References: <20211015144640.198044-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,50 +80,71 @@ Cc: kwolf@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The iothread isn't called 'iothread0', but 'thread0'. Depending on the
-order that properties are parsed, the error message may change from the
-expected one to another one saying that the iothread doesn't exist.
+The only thing the string visitor adds compared to a keyval visitor is
+list support. git grep for 'visit_start_list' and 'visit.*List' shows
+that devices don't make use of this.
+
+In a world with a QAPIfied command line interface, the keyval visitor is
+used to parse the command line. In order to make sure that no devices
+start using this feature that would make backwards compatibility harder,
+just switch away from object_property_parse(), which internally uses the
+string visitor, to a keyval visitor and object_property_set().
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20211008133442.141332-7-kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20211008133442.141332-8-kwolf@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Tested-by: Peter Krempa <pkrempa@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/051        | 2 +-
- tests/qemu-iotests/051.pc.out | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ softmmu/qdev-monitor.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/051 b/tests/qemu-iotests/051
-index 7bf29343d7..1d2fa93a11 100755
---- a/tests/qemu-iotests/051
-+++ b/tests/qemu-iotests/051
-@@ -199,7 +199,7 @@ case "$QEMU_DEFAULT_MACHINE" in
-         # virtio-blk enables the iothread only when the driver initialises the
-         # device, so a second virtio-blk device can't be added even with the
-         # same iothread. virtio-scsi allows this.
--        run_qemu $iothread -device virtio-blk-pci,drive=disk,iothread=iothread0,share-rw=on
-+        run_qemu $iothread -device virtio-blk-pci,drive=disk,iothread=thread0,share-rw=on
-         run_qemu $iothread -device virtio-scsi,id=virtio-scsi1,iothread=thread0 -device scsi-hd,bus=virtio-scsi1.0,drive=disk,share-rw=on
-         ;;
-      *)
-diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.out
-index afe7632964..063e4fc584 100644
---- a/tests/qemu-iotests/051.pc.out
-+++ b/tests/qemu-iotests/051.pc.out
-@@ -183,9 +183,9 @@ Testing: -drive file=TEST_DIR/t.qcow2,if=none,node-name=disk -object iothread,id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) QEMU_PROG: -device scsi-hd,bus=virtio-scsi1.0,drive=disk,share-rw=on: Cannot change iothread of active block backend
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index 3df99ce9fc..672f87ed4f 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -28,6 +28,8 @@
+ #include "qapi/qmp/dispatch.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qerror.h"
++#include "qapi/qmp/qstring.h"
++#include "qapi/qobject-input-visitor.h"
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
+ #include "qemu/help_option.h"
+@@ -198,16 +200,28 @@ static int set_property(void *opaque, const char *name, const char *value,
+                         Error **errp)
+ {
+     Object *obj = opaque;
++    QString *val;
++    Visitor *v;
++    int ret;
  
--Testing: -drive file=TEST_DIR/t.qcow2,if=none,node-name=disk -object iothread,id=thread0 -device virtio-scsi,iothread=thread0,id=virtio-scsi0 -device scsi-hd,bus=virtio-scsi0.0,drive=disk,share-rw=on -device virtio-blk-pci,drive=disk,iothread=iothread0,share-rw=on
-+Testing: -drive file=TEST_DIR/t.qcow2,if=none,node-name=disk -object iothread,id=thread0 -device virtio-scsi,iothread=thread0,id=virtio-scsi0 -device scsi-hd,bus=virtio-scsi0.0,drive=disk,share-rw=on -device virtio-blk-pci,drive=disk,iothread=thread0,share-rw=on
- QEMU X.Y.Z monitor - type 'help' for more information
--(qemu) QEMU_PROG: -device virtio-blk-pci,drive=disk,iothread=iothread0,share-rw=on: Cannot change iothread of active block backend
-+(qemu) QEMU_PROG: -device virtio-blk-pci,drive=disk,iothread=thread0,share-rw=on: Cannot change iothread of active block backend
+     if (strcmp(name, "driver") == 0)
+         return 0;
+     if (strcmp(name, "bus") == 0)
+         return 0;
  
- Testing: -drive file=TEST_DIR/t.qcow2,if=none,node-name=disk -object iothread,id=thread0 -device virtio-scsi,iothread=thread0,id=virtio-scsi0 -device scsi-hd,bus=virtio-scsi0.0,drive=disk,share-rw=on -device virtio-scsi,id=virtio-scsi1,iothread=thread0 -device scsi-hd,bus=virtio-scsi1.0,drive=disk,share-rw=on
- QEMU X.Y.Z monitor - type 'help' for more information
+-    if (!object_property_parse(obj, name, value, errp)) {
+-        return -1;
++    val = qstring_from_str(value);
++    v = qobject_input_visitor_new_keyval(QOBJECT(val));
++
++    if (!object_property_set(obj, name, v, errp)) {
++        ret = -1;
++        goto out;
+     }
+-    return 0;
++
++    ret = 0;
++out:
++    visit_free(v);
++    qobject_unref(val);
++    return ret;
+ }
+ 
+ static const char *find_typename_by_alias(const char *alias)
 -- 
 2.31.1
 
