@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6750D42FDA4
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 23:51:09 +0200 (CEST)
-Received: from localhost ([::1]:48018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4A242FDA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 23:52:06 +0200 (CEST)
+Received: from localhost ([::1]:50228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbV6a-0001wt-G2
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 17:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45534)
+	id 1mbV7V-0003WB-4U
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 17:52:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mbV4n-0001Dy-Nc
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 17:49:17 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:57049)
+ id 1mbV5s-00026b-1k
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 17:50:24 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:51557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mbV4l-0003H2-Gz
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 17:49:17 -0400
+ id 1mbV5n-00048k-RG
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 17:50:23 -0400
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.west.internal (Postfix) with ESMTP id 1F9F03201B5C;
- Fri, 15 Oct 2021 17:49:14 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id 21D1C32019DA;
+ Fri, 15 Oct 2021 17:50:15 -0400 (EDT)
 Received: from imap44 ([10.202.2.94])
- by compute2.internal (MEProxy); Fri, 15 Oct 2021 17:49:14 -0400
+ by compute2.internal (MEProxy); Fri, 15 Oct 2021 17:50:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type:content-transfer-encoding; s=fm3; bh=baus0
- dIpK6etpVEtAYhCbmL7YwI1BbvOcpYIkMnnhZc=; b=RY4w6qxiRXEmOaePVcOGW
- QZOA7uYgMBKqJRkfRYM3FU9xePOCjPUEwHYpqP5n0ZkERvXXq1LqiFEDe+/uhM6s
- dBVO8NZNLpvdZpxikSjjFrKzu+KywsxoliNC6rcyoTkym2kQXO3e8sDEAe492Nn8
- oLwcoZzc33GFqkyGrEwZ84QmEv1JByoo6rV2wub0y1QvJaoFzFEaub9RCy4CTHD/
- sJCeisTH+rXiF8JqbtAssseLEuWWZaD/unvgmvxMyFzk4aTd2oafypCU61w5fKBz
- wC5v1Xoa+ioq+aTTCgd1I14xcJdOT5+bXVYJwPWRwpjcK6+42H3E6EzFoONrrsp/
- w==
+ :subject:content-type:content-transfer-encoding; s=fm3; bh=qSThY
+ dqz59eOyMMVIXKeOROOGHDXUF4LU3CmJjsQl3o=; b=sCKHzcx82Wxv0j4JVNJ0x
+ P6UZRwU5DPfkNXt98FN1pFFbcAdCpNMt6tKDUCY5i09SyAsqXcny3p4gcjVZHUWM
+ DyAeePNgXSUSQd1v5Q0d/lm6bS3hTv9zGXZvDvMK8pqtHZhKhuqUUKn8IITG/FpE
+ MW5LhDV/shDbkLfVkma11QiP8J/+0qGWCxR+W/LEI2WHpkoGtCN9fhCLJFZE6sZI
+ 67dPYOzOLrauQXqyQO0KOT+8K78jVtAvKbPkFvF+DC7qKCufef3hVTfhuXNRY/LA
+ Opm18W18/zCSC/GNVWqfyebwAeT+fN9NCcPkQg7eA7ZIbVGWZ9hB2TEzBeERj4xU
+ A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=baus0dIpK6etpVEtAYhCbmL7YwI1BbvOcpYIkMnnh
- Zc=; b=PF3fRHFt9U2nJhEc+5R128LbX3ShDRIhheCK0iB9YiWnp/ONTO0RGfncj
- 2+sO+pIHj6P3kDV3PjXiIh9gEDXmznbw2zlnFI1YJ+yY7adwLTAF/4S4A5M7Pxl9
- qnVFeDplzAjzwHOKb3yRhnjwTx3Ju7nOeTojqyCGc5EKMiRFNWWvMB+BXa67sdeO
- VwfpYFLVoFq7lIAPb/ns17QGhyZOo6KgDFzGJxu/nbmbqtDBsvjlU7QT0Tms3Tqz
- JmzTuvRxnDSweDUeqbl/v4TIt39Jh2DVbHc+J02Rdh5SYJqycUwxCmjv5T+UUe/C
- aSCLWkpvPU/n9r68j8BZSBa++sKQQ==
-X-ME-Sender: <xms:WfdpYWaSjQ-qaygldYAnrdJPsjBcBhy-prpiyUcI3q8xr0c86UuIpA>
- <xme:WfdpYZYVzYL9FaXdDinyfUIMzsMJGb4ptnS4FqP7iDT2nvjIRI3MPMpR4ebbaouR1
- V5GawzRGY5r9bWEIOM>
+ :x-sasl-enc; s=fm1; bh=qSThYdqz59eOyMMVIXKeOROOGHDXUF4LU3CmJjsQl
+ 3o=; b=KE8gvZ+IFdi1DAZtz0zbdD8rBqe46sHqNiPEbmDyWPO2WaXtZ5EkWn3w2
+ MS6ICtd9LXIEiNgILol3jT8p+IKkHvGl+EdCuR4xf/s8jno9tdQJo2pVdhyo4lFZ
+ fRqEjLR7UMQOZz5jMQ/1YraVBBpf4k6z9rWDuKslvB3x0X2ldqhOQnnbo5qB7A0D
+ 6n8Uo3V2c292JShCY/in28SOETMcf7AbHNd3o83gXLvr3YMTUQ9vfzf4xuHn9/AH
+ 6ra1d6fu/Q9+0MsDSr6ubWPhh4SIQQjbXLyyou7jOszreDCTCSuTpuvYEVFoG1+K
+ r3T6eT7dgYRQw2eLpmDkktzayb8Eg==
+X-ME-Sender: <xms:lvdpYYdvNYqSejXC2P0L2raFdBotEOI0rNt2Hhmmur3KcCgfQkJYWw>
+ <xme:lvdpYaPiXQVwhRK7uNyEZuJ7otQ1lrnUBe9R-b42KUp--vQt_vJAVT7in4ZNZJnfw
+ SY_A3a8M8M_OvVyzok>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdduhedgtddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
  rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
  eqnecuggftrfgrthhtvghrnhepfeetgeekveeftefhgfduheegvdeuuddvieefvddvlefh
- feehkeetfeeukedtfeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+ feehkeetfeeukedtfeejnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrg
  hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:WfdpYQ9NX-TZBsgkCpeVSTp_4lIzc2b5vvn0qlZ2Kdg_wpEHJN1Nsw>
- <xmx:WfdpYYq1hiw6cAELKEkvxDIp-B_Ee6dP5932D3VbUg-g-fjeYAATAw>
- <xmx:WfdpYRoM8T_YgGK1RjVFH7K5vS_X2rCGI1Z6I7Yk6qqtG_8MmPqdHg>
- <xmx:WfdpYY3CI5dYNRzZMgTn9YE5ij_GIoOMniGvJ0RsbDYG4zQtFI5RCg>
+X-ME-Proxy: <xmx:lvdpYZhJPOKIXa-kXIjKD6tdx6E3djMzjarhjK3ziUWoczpJhbM8zw>
+ <xmx:lvdpYd9RzWoGOVgcpgZ7Bh0cm2xo7tUZB6hGi90Es8iLGYRjNT0P6g>
+ <xmx:lvdpYUv60QjZgJBhStOTN6uZCsxo7ncsdDtTQjOmJbRKv5qtwbXk8w>
+ <xmx:lvdpYd7lJwyYhoCGsu53OaIPTMDbNWcUSDSuzX-1WDDN1LGsvKbpCA>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 4F941FA0AA5; Fri, 15 Oct 2021 17:49:13 -0400 (EDT)
+ id 97360FA0AA5; Fri, 15 Oct 2021 17:50:14 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.5.0-alpha0-1345-g8441cd7852-fm-20211006.001-g8441cd78
 Mime-Version: 1.0
-Message-Id: <02f91e54-5b38-48ad-9bfd-b94e130258ea@www.fastmail.com>
-In-Reply-To: <7cb7a16ff4daf8f48d576246255bea1fd355207c.1634259980.git.balaton@eik.bme.hu>
+Message-Id: <adf8c5ed-bcbb-4f22-838e-65d1988fd24f@www.fastmail.com>
+In-Reply-To: <778c04dc2c8affac060b8edf9e8d7dab3c3e04eb.1634259980.git.balaton@eik.bme.hu>
 References: <cover.1634259980.git.balaton@eik.bme.hu>
- <7cb7a16ff4daf8f48d576246255bea1fd355207c.1634259980.git.balaton@eik.bme.hu>
-Date: Fri, 15 Oct 2021 22:48:52 +0100
+ <778c04dc2c8affac060b8edf9e8d7dab3c3e04eb.1634259980.git.balaton@eik.bme.hu>
+Date: Fri, 15 Oct 2021 22:49:53 +0100
 From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
 To: "BALATON Zoltan" <balaton@eik.bme.hu>,
  "BALATON Zoltan via" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 1/4] vt82c686: Move common code to via_isa_realize
+Subject: Re: [PATCH 2/4] vt82c686: Add a method to VIA_ISA to raise ISA
+ interrupts
 Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=64.147.123.25;
@@ -106,128 +107,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 =E5=9C=A82021=E5=B9=B410=E6=9C=8815=E6=97=A5=E5=8D=81=E6=9C=88 =E4=B8=8A=
 =E5=8D=882:06=EF=BC=8CBALATON Zoltan=E5=86=99=E9=81=93=EF=BC=9A
-> The vt82c686b_realize and vt8231_realize methods are almost identical,
-> factor out the common parts to a via_isa_realize function to avoid
-> code duplication.
+> Other functions in the VT82xx chips need to raise ISA interrupts. Keep
+> a reference to them in the device state and add via_isa_set_irq() to
+> allow setting their state.
 >
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 
 Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
 > ---
->  hw/isa/vt82c686.c | 67 ++++++++++++++++++++---------------------------
->  1 file changed, 29 insertions(+), 38 deletions(-)
->
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index f57f3e7067..5b41539f2c 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -542,6 +542,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(ViaISAState, VIA_ISA)
->  struct ViaISAState {
->      PCIDevice dev;
->      qemu_irq cpu_intr;
-> +    ISABus *isa_bus;
->      ViaSuperIOState *via_sio;
->  };
->=20
-> @@ -572,6 +573,29 @@ static void via_isa_request_i8259_irq(void=20
-> *opaque, int irq, int level)
->      qemu_set_irq(s->cpu_intr, level);
->  }
->=20
-> +static void via_isa_realize(PCIDevice *d, Error **errp)
-> +{
-> +    ViaISAState *s =3D VIA_ISA(d);
-> +    DeviceState *dev =3D DEVICE(d);
-> +    qemu_irq *isa_irq;
-> +    int i;
-> +
-> +    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-> +    isa_irq =3D qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
-> +    s->isa_bus =3D isa_bus_new(dev, get_system_memory(), pci_address_=
-space_io(d),
-> +                          &error_fatal);
-> +    isa_bus_irqs(s->isa_bus, i8259_init(s->isa_bus, *isa_irq));
-> +    i8254_pit_init(s->isa_bus, 0x40, 0, NULL);
-> +    i8257_dma_init(s->isa_bus, 0);
-> +    mc146818_rtc_init(s->isa_bus, 2000, NULL);
-> +
-> +    for (i =3D 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-> +        if (i < PCI_COMMAND || i >=3D PCI_REVISION_ID) {
-> +            d->wmask[i] =3D 0;
-> +        }
-> +    }
-> +}
-> +
->  /* TYPE_VT82C686B_ISA */
->=20
->  static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
-> @@ -610,27 +634,10 @@ static void vt82c686b_isa_reset(DeviceState *dev)
->  static void vt82c686b_realize(PCIDevice *d, Error **errp)
->  {
->      ViaISAState *s =3D VIA_ISA(d);
-> -    DeviceState *dev =3D DEVICE(d);
-> -    ISABus *isa_bus;
-> -    qemu_irq *isa_irq;
-> -    int i;
->=20
-> -    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-> -    isa_irq =3D qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
-> -    isa_bus =3D isa_bus_new(dev, get_system_memory(), pci_address_spa=
-ce_io(d),
-> -                          &error_fatal);
-> -    isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
-> -    i8254_pit_init(isa_bus, 0x40, 0, NULL);
-> -    i8257_dma_init(isa_bus, 0);
-> -    s->via_sio =3D VIA_SUPERIO(isa_create_simple(isa_bus,
-> +    via_isa_realize(d, errp);
-> +    s->via_sio =3D VIA_SUPERIO(isa_create_simple(s->isa_bus,
->                                                 TYPE_VT82C686B_SUPERIO=
-));
-> -    mc146818_rtc_init(isa_bus, 2000, NULL);
-> -
-> -    for (i =3D 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-> -        if (i < PCI_COMMAND || i >=3D PCI_REVISION_ID) {
-> -            d->wmask[i] =3D 0;
-> -        }
-> -    }
->  }
->=20
->  static void vt82c686b_class_init(ObjectClass *klass, void *data)
-> @@ -691,26 +698,10 @@ static void vt8231_isa_reset(DeviceState *dev)
->  static void vt8231_realize(PCIDevice *d, Error **errp)
->  {
->      ViaISAState *s =3D VIA_ISA(d);
-> -    DeviceState *dev =3D DEVICE(d);
-> -    ISABus *isa_bus;
-> -    qemu_irq *isa_irq;
-> -    int i;
-> -
-> -    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-> -    isa_irq =3D qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
-> -    isa_bus =3D isa_bus_new(dev, get_system_memory(), pci_address_spa=
-ce_io(d),
-> -                          &error_fatal);
-> -    isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
-> -    i8254_pit_init(isa_bus, 0x40, 0, NULL);
-> -    i8257_dma_init(isa_bus, 0);
-> -    s->via_sio =3D VIA_SUPERIO(isa_create_simple(isa_bus, TYPE_VT8231=
-_SUPERIO));
-> -    mc146818_rtc_init(isa_bus, 2000, NULL);
->=20
-> -    for (i =3D 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-> -        if (i < PCI_COMMAND || i >=3D PCI_REVISION_ID) {
-> -            d->wmask[i] =3D 0;
-> -        }
-> -    }
-> +    via_isa_realize(d, errp);
-> +    s->via_sio =3D VIA_SUPERIO(isa_create_simple(s->isa_bus,
-> +                                               TYPE_VT8231_SUPERIO));
->  }
->=20
->  static void vt8231_class_init(ObjectClass *klass, void *data)
-> --=20
-> 2.21.4
 
 --=20
 - Jiaxun
