@@ -2,73 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F9C42FC3D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 21:36:52 +0200 (CEST)
-Received: from localhost ([::1]:45416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8255742FC42
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 21:38:46 +0200 (CEST)
+Received: from localhost ([::1]:50074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbT0d-0002fZ-ET
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 15:36:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53194)
+	id 1mbT2T-0005lW-KH
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 15:38:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1mbStp-0008NO-6H; Fri, 15 Oct 2021 15:29:49 -0400
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:42566)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1mbStn-0008Sd-LF; Fri, 15 Oct 2021 15:29:48 -0400
-Received: by mail-lf1-x134.google.com with SMTP id x27so45565166lfa.9;
- Fri, 15 Oct 2021 12:29:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DjznzoCbvQUGcmziNtfKcywsooW2JglJCdT49kGN5+E=;
- b=b+t8tFBI1D4HnagiubACS3Ail9ahxnBEgqWsvoCrQHzVpPuR32TV1ctfvD+VtLK53O
- 92Vhce6axj2ywuZBInod/4ES7UeyNezAoQ/P9mH+aiCwDMOgpJ+0863eRVmyFmM4SGVU
- DQXLC8JX54ZiQ35xnbBi+qETLB06HSh3ePow+lhZU8r95600wYk5qxjDet2oJMR5w77M
- uSyHFWpHI267qr+RmPTmIVhLSR14KtlDAIhzut1fctOkyzXjTWcHXlixa1atDnST9Nr3
- tg9b2UqVueQbeT+t7GQyUvp1bZMGvBFYV4ymtILD/Vt3pEyDDBQCIHJaiCBUQp2lOzfT
- jnVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DjznzoCbvQUGcmziNtfKcywsooW2JglJCdT49kGN5+E=;
- b=5ujU982sScjoKdzZjOhZ+DoUPunH4OjNQ6AKCvnFu/4KHqm7UngdnrI7FTaZrxRwFk
- RpmWRK92Mv+wcfWsRbt3Y6hnBH7BHSFwj04cL7XdDzkw6MBRbs6eSznEqT506XLY3Gmy
- Ags7Iw8dEhPQQeqz80GT3SPvT6djKcovHk7noQSASg+TLPOAZPcFcLHnaeM8jvimIF0f
- XaL+66+1fmdK7+/CvKFu9ItGnY/dNSkKtUt5hVtSNCDwPY/6wF6w+/EODEq6aFLigkcP
- spu5DhsjsVSgBqJka1ZgdOWNLYQZSNGO29WLjAgqnls2OpIQRTgpunw5uUx7eqkD/r9q
- vSSw==
-X-Gm-Message-State: AOAM533B/y6uq8pOidLfjAc7kncJT9X0oMhsuplJAUErC0pO+BPDhqDk
- 7cg60XwWInH3+0bVrymFkrU=
-X-Google-Smtp-Source: ABdhPJxJNAjhqYjgzaH3x/ubwAhlCofFcgO5XvSe7gam4eY1xUWsEo3BRiCtgBuJxAGksrymrOJrQg==
-X-Received: by 2002:a2e:155a:: with SMTP id 26mr15255657ljv.156.1634326184814; 
- Fri, 15 Oct 2021 12:29:44 -0700 (PDT)
-Received: from neptune.lab ([46.39.228.224])
- by smtp.googlemail.com with ESMTPSA id n19sm527261lfu.207.2021.10.15.12.29.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Oct 2021 12:29:44 -0700 (PDT)
-From: Alexey Baturo <baturo.alexey@gmail.com>
-X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
-To: 
-Subject: [PATCH v13 7/7] [RISCV_PM] Allow experimental J-ext to be turned on
-Date: Fri, 15 Oct 2021 22:29:31 +0300
-Message-Id: <20211015192931.227387-8-space.monkey.delivers@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211015192931.227387-1-space.monkey.delivers@gmail.com>
-References: <20211015192931.227387-1-space.monkey.delivers@gmail.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mbSui-0000J2-UJ
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 15:30:53 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51456
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mbSud-0000ny-Gf
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 15:30:41 -0400
+Received: from [2a00:23c4:8b9d:f500:9396:df17:737c:b32c]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mbSuI-000BN4-0x; Fri, 15 Oct 2021 20:30:22 +0100
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20211013212132.31519-1-mark.cave-ayland@ilande.co.uk>
+ <20211013212132.31519-2-mark.cave-ayland@ilande.co.uk>
+ <ffd52b20-c812-b58f-370b-ca3a81bb4eb2@vivier.eu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <8f99f470-bdde-97e5-32bf-a8e519f607ad@ilande.co.uk>
+Date: Fri, 15 Oct 2021 20:30:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <ffd52b20-c812-b58f-370b-ca3a81bb4eb2@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=baturo.alexey@gmail.com; helo=mail-lf1-x134.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:f500:9396:df17:737c:b32c
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 1/8] mac_via: update comment for VIA1B_vMystery bit
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,42 +64,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, Bin Meng <bin.meng@windriver.com>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org,
- space.monkey.delivers@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- kupokupokupopo@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
----
- target/riscv/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On 15/10/2021 07:14, Laurent Vivier wrote:
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 7f9dde70b7..fb08c0ffb8 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -558,6 +558,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-             }
-             set_vext_version(env, vext_version);
-         }
-+        if (cpu->cfg.ext_j) {
-+            target_misa |= RVJ;
-+        }
- 
-         set_misa(env, target_misa);
-     }
-@@ -624,6 +627,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
-     DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-+    DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
--- 
-2.30.2
+> Le 13/10/2021 à 23:21, Mark Cave-Ayland a écrit :
+>> According to both Linux and NetBSD, port B bit 6 is used on the Quadra 800 to
+>> configure the GLUE logic in A/UX mode. Whilst the name VIA1B_vMystery isn't
+>> particularly descriptive, the patch leaves this to ensure that the constants
+>> in mac_via.c remain in sync with Linux's mac_via.h.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>>   hw/misc/mac_via.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+>> index 993bac017d..7a53a8b4c0 100644
+>> --- a/hw/misc/mac_via.c
+>> +++ b/hw/misc/mac_via.c
+>> @@ -130,6 +130,10 @@
+>>                                   * On SE/30, vertical sync interrupt enable.
+>>                                   * 0=enabled. This vSync interrupt shows up
+>>                                   * as a slot $E interrupt.
+>> +                                * On Quadra 800 this bit toggles A/UX mode which
+>> +                                * configures the glue logic to deliver some IRQs
+>> +                                * at different levels compared to a classic
+>> +                                * Mac.
+>>                                   */
+>>   #define VIA1B_vADBS2   0x20    /* ADB state input bit 1 (unused on IIfx) */
+>>   #define VIA1B_vADBS1   0x10    /* ADB state input bit 0 (unused on IIfx) */
+>>
+> 
+> I'm not sure we need to keep in sync a word that neither used by linux or qemu (for now).
+> 
+> Perhaps you can put a word from where it is (NetBSD)?
+> 
+> It seems it's supported by all Quadra, not only Quadra 800 (see NetBSD comment in mac68k/machdep.c
+> 
+> Anyway:
+> 
+> Reviewed-by: Laurent Vivier <laurent@vivier.Eu>
 
+Yeah, it's a hard one: you can see the bit referenced in the via_alt_mapping logic in 
+Linux but mac_via.h still shows it as VIA1B_vMystery (and indeed, it seems to have 
+different uses on different machines). The thought behind adding the comment was to 
+better explain the purpose of VIA1B_vMystery within the series.
+
+
+ATB,
+
+Mark.
 
