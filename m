@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265C542E864
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 07:23:26 +0200 (CEST)
-Received: from localhost ([::1]:54836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A17942E865
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 07:27:46 +0200 (CEST)
+Received: from localhost ([::1]:58246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbFgj-00075O-8m
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 01:23:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47420)
+	id 1mbFkv-00013I-Mt
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 01:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mbFfV-0005eI-1Y; Fri, 15 Oct 2021 01:22:09 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:34443)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mbFfJ-00044U-FR; Fri, 15 Oct 2021 01:22:08 -0400
-Received: by mail-io1-xd31.google.com with SMTP id i189so6465463ioa.1;
- Thu, 14 Oct 2021 22:21:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ie3IhZXo4z/psLfvHFcCyfum7v5EtDUFMAlXTVQJ1pU=;
- b=jnNuHSebadgLAuEE2Dz9cdrei+zMsGgY3cg/5b7/r1H3tEDElPcuMSzJ9QyiPgf+dd
- VTanX/8Bk1R0xMjMxvJIheWA1S/1avNXGzOZwfMBf1VXJEo4EtCpwF4JiNdITUYzMbG3
- VPhWq08uvmDZIdNjyLiUdZfZy3FtBIntCOj4oUNVqmT4zZiNe++v3v0HJbcNWWs5PeRh
- mw31uRanEH3Q/RWJmlxLLaQYohqhcPzbCYlp31yW8MGZvtgPkyY2+NPTzPMHpHLb1ek+
- 2PxJVtAIwClzqiidKe3DSsQrZEpXa9dOOKRZTa6EPhPSxG4vDGp1RkOfefed/0OhAC16
- AA2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ie3IhZXo4z/psLfvHFcCyfum7v5EtDUFMAlXTVQJ1pU=;
- b=4IuJZWh+QSHG2+z5/vkqCbAiabD4fiAMhX5CRLmKdExbYZv9GRUfNL/S/D6XVFX1cM
- Qhhz9jeUymhcKSNmPblG4ygjDbn+sjv72dUImTONWgGS+zZoOvGp4AUjI7yzV06N5e7b
- mzkmnNjmZoIrqq2KVpFHSKvgQWSc0DrpFDWLYWZn2mbu6mAFo18K4nofuChmDvBpHoTn
- gRLIABgCJqnaK027CLnfJbsRuKk4AIxDZH0ofPiYF2ZriwKpQZR8jjHMMFIIOUaR57PX
- bDCYfPcVUUbEyLOK5rU7AbWeIgI5kuJEjngt/yIR/RkLp3//SEtIVjggWv42b21Heo84
- jq8A==
-X-Gm-Message-State: AOAM5311zLq6Wt2pQiGW0PXdYW5sjo3xwoQE2crXpRjbwc0F87DoFw2Z
- co61gB0R+QdFl4rKxRLEkhXSeqmjvi16i2hpBjY=
-X-Google-Smtp-Source: ABdhPJyo+0ckTtzldKOGTmq4rHwm/TJgE/+xOFmFjPFBxRr/0gDEBaJ5d5MvLp/i4OUSBz06P77wtL7/jWEUPggFMr4=
-X-Received: by 2002:a05:6602:2599:: with SMTP id
- p25mr2385979ioo.90.1634275315598; 
- Thu, 14 Oct 2021 22:21:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1mbFjy-00005D-Ft
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 01:26:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1mbFjs-00081g-06
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 01:26:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634275597;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aIp0Uo2BmO9o8V+9Mcqn8F7zXMGsbiJvb0UMGcZt3kg=;
+ b=ihoaw9fvSztIoeLKwDpRZj9XAMxsDtex00mmuPBv1do/zZJzyI9Ae/gkc+A8O7AzuaKTAl
+ i6jfbGTUm81KP15gihYu2GiEMlQiWQUG7wxUYg+fzgTlcfd3MU9++yJt+iPie++CkXcV8e
+ 3Z8AsyuVp0d8A+CZHHMorhg74AGUlc8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-oUOvSEXPN6KJNwM0AmHRyQ-1; Fri, 15 Oct 2021 01:26:33 -0400
+X-MC-Unique: oUOvSEXPN6KJNwM0AmHRyQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 404151005315;
+ Fri, 15 Oct 2021 05:26:32 +0000 (UTC)
+Received: from localhost (unknown [10.33.36.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 183715F4E3;
+ Fri, 15 Oct 2021 05:26:17 +0000 (UTC)
+Date: Fri, 15 Oct 2021 07:26:16 +0200
+From: Sergio Lopez <slp@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] microvm: add device tree support.
+Message-ID: <20211015052546.vrjcldk743pyr7je@mhamilton>
+References: <20211014193617.2475578-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20211013205104.1031679-1-richard.henderson@linaro.org>
- <20211013205104.1031679-12-richard.henderson@linaro.org>
-In-Reply-To: <20211013205104.1031679-12-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 15 Oct 2021 15:21:29 +1000
-Message-ID: <CAKmqyKOPcqMb00pxUCSfPY9vyfACcGg43tdtwOnaT5kHVZZ9iA@mail.gmail.com>
-Subject: Re: [PATCH v2 11/13] target/riscv: Adjust trans_rev8_32 for riscv64
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211014193617.2475578-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3442fsofrpzrlv3n"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=slp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,56 +76,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Fabien Portas <fabien.portas@grenoble-inp.org>,
- =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?= <frederic.petrot@univ-grenoble-alpes.fr>,
- liuzhiwei <zhiwei_liu@c-sky.com>
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 14, 2021 at 7:08 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> When target_long is 64-bit, we still want a 32-bit bswap for rev8.
-> Since this opcode is specific to RV32, we need not conditionalize.
->
-> Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+--3442fsofrpzrlv3n
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On Thu, Oct 14, 2021 at 09:36:17PM +0200, Gerd Hoffmann wrote:
+> Allows edk2 detect virtio-mmio devices and pcie ecam.
+> See comment in hw/i386/microvm-dt.c for more details.
+>=20
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  target/riscv/insn_trans/trans_rvb.c.inc | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-> index 66dd51de49..c62eea433a 100644
-> --- a/target/riscv/insn_trans/trans_rvb.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-> @@ -232,11 +232,16 @@ static bool trans_rol(DisasContext *ctx, arg_rol *a)
->      return gen_shift(ctx, a, EXT_NONE, tcg_gen_rotl_tl);
->  }
->
-> +static void gen_rev8_32(TCGv ret, TCGv src1)
-> +{
-> +    tcg_gen_bswap32_tl(ret, src1, TCG_BSWAP_OS);
-> +}
-> +
->  static bool trans_rev8_32(DisasContext *ctx, arg_rev8_32 *a)
->  {
->      REQUIRE_32BIT(ctx);
->      REQUIRE_ZBB(ctx);
-> -    return gen_unary(ctx, a, EXT_NONE, tcg_gen_bswap_tl);
-> +    return gen_unary(ctx, a, EXT_NONE, gen_rev8_32);
->  }
->
->  static bool trans_rev8_64(DisasContext *ctx, arg_rev8_64 *a)
-> --
-> 2.25.1
->
->
+>  hw/i386/microvm-dt.h               |   8 +
+>  include/hw/i386/microvm.h          |   4 +
+>  hw/i386/microvm-dt.c               | 341 +++++++++++++++++++++++++++++
+>  hw/i386/microvm.c                  |   2 +
+>  .gitlab-ci.d/buildtest.yml         |   1 -
+>  configs/targets/i386-softmmu.mak   |   1 +
+>  configs/targets/x86_64-softmmu.mak |   1 +
+>  hw/i386/meson.build                |   2 +-
+>  8 files changed, 358 insertions(+), 2 deletions(-)
+>  create mode 100644 hw/i386/microvm-dt.h
+>  create mode 100644 hw/i386/microvm-dt.c
+
+Reviewed-by: Sergio Lopez <slp@redhat.com>
+
+--3442fsofrpzrlv3n
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmFpEPgACgkQ9GknjS8M
+AjW2YA//arsiUfnJiNJ4TFbZHzxFxFaLKj8Io53bDp/3dQW6z2sjc6pxqxsa2CTm
+EcYK8q3WzYHLDPzE1yCKfoVs3MLAYnUNl4Kp5lE0QuALMY9Y1JdOJto/3rLLkN5W
+aGZd3b80UuBFJueAg8zoPTfQJMqRZb/Nz/drRWJ4jr6lby+cdfxPJKO0agyQE1fp
+jMpiXK1QevYmPf+lQVgh7ioOErxXDFjvvSRaog8UE5HetopljkitJO083eHa6d7X
+afNmBHgT7jka3Z4hx6NN9O/v2g+Tv0BUAoSmK288gzn/cAzC0Ttfh1pzR2MjtdsF
+JJGyPqPxNArqPPfaWi+/s4k9kC8SQdD8WymzQpRmblhNhqP/t6cpWP2HTLBTFk65
+wabetFNflu5vFGIDYlie5MtmsQ6hEc2TqY2BYeTiDZssiLWFNQqgtVaZeXD4n4Wt
+VIGZy4GU+LjApCgWD3q1sWdyK7bZahXaak7GqknWGHdbXNDOZqT2tePn+3Qkh3zT
+2n40Ct8gB8nWhrg5Ze89OcArgKCcIqUNzQO0hpq5R345yT57jSBlig1TnOvUi8Kf
+y2Pl2/4a1d9BpL3Gq68szje2jCyIkdjDV00AOqi+Q9IY0ZDr/cvFX2U2HZtIGP2u
+X6l8ZYZEuElH4JE0lF8kfu0HBuGxP5qEjlV3TQXSqFqKj87+L5s=
+=kDkY
+-----END PGP SIGNATURE-----
+
+--3442fsofrpzrlv3n--
+
 
