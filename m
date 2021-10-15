@@ -2,46 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB85442EEF5
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 12:38:33 +0200 (CEST)
-Received: from localhost ([::1]:35634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4FE42EEFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 12:42:19 +0200 (CEST)
+Received: from localhost ([::1]:38696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbKbg-0006m0-JZ
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 06:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57264)
+	id 1mbKfK-0000Xy-Jc
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 06:42:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arkadiy.ivanov@ispras.ru>)
- id 1mbKaD-0005Zm-Un
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:37:01 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:51158)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arkadiy.ivanov@ispras.ru>)
- id 1mbKaA-00047b-RE
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:37:01 -0400
-Received: from mail.ispras.ru (unknown [83.149.199.84])
- by mail.ispras.ru (Postfix) with ESMTPSA id AC1F340A2BC5;
- Fri, 15 Oct 2021 10:36:50 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mbKdK-0007fw-UP
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:40:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52793)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mbKdH-0001Oi-44
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:40:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634294409;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iR1LydX5gSs5rG9I5kyHaPAacSqdkmuZ3XUDFY6PqW8=;
+ b=GnVmNlTI0DEZxNfb394uXckS778v72kC58lJk8lLHwqJIblMFX0bUiln3ofCT/+s+1x23C
+ vIGd60Y9O4PORWdr91LVPwO5+w/9io+GgERvSRgKWSTU1nfusiZOW7ZLDOyEsSG/hQB97W
+ 70fcMEXoJZtJohIGlHQ7rSE/F3qiFPs=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-MS3rPJnKNjGmKnCqXDnZog-1; Fri, 15 Oct 2021 06:40:04 -0400
+X-MC-Unique: MS3rPJnKNjGmKnCqXDnZog-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ r11-20020aa7cfcb000000b003d4fbd652b9so7832484edy.14
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 03:40:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iR1LydX5gSs5rG9I5kyHaPAacSqdkmuZ3XUDFY6PqW8=;
+ b=mfz4sASp7e9C1yfZVtSlqlhxt1kfmT06IVW0J8SAJsz2RbGBY2vNJAGMNu+K1xnBC+
+ zZ8Vtugtp3yrsjjHTA5okv03ODoy3067XmD42YOP0Hs+So2rlxzenN1gOg7lgiHtxl+E
+ 4TxZ9YusfzMWG067haH7MIaweeox3G97Fqe7oUv2lGdS42Z+ID/Rbar0KBteIxNV6+uw
+ FYm8BTXOMlnLtIQ8q/tHY5kesiS/wYfFBqTk5bM0s+8vGGy2+WAnR2gifJdgNU+u4UHp
+ hOvD61n0xFfnkA3uvslpFOsrHD1s8GihHYWmBvZhpeOZdR/vKKUo7YZj4dXrk87VrMpz
+ yncA==
+X-Gm-Message-State: AOAM530Z1xFQabcnMczsmLba0fEOLGuIOTBug1Nx6OFsBx6WQMAOkNTg
+ QVy2UDaI3Xlm4EVtS1s757PxpNohTp6LBR8z9PcQGciknTnh4lZyvGx0u3YJOsTzEzzyE7VZ60E
+ 0v2wf4EyEWaigH1M=
+X-Received: by 2002:a05:6402:51c9:: with SMTP id
+ r9mr16454543edd.48.1634294403697; 
+ Fri, 15 Oct 2021 03:40:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyh8kTMPjljyAlXL1Pv87UuQBLifCLvhsyJDrlokXGISzw4E/P/mXceIYKEkReGDh9jq1YM9w==
+X-Received: by 2002:a05:6402:51c9:: with SMTP id
+ r9mr16454520edd.48.1634294403500; 
+ Fri, 15 Oct 2021 03:40:03 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id b2sm3919379ejj.124.2021.10.15.03.40.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Oct 2021 03:40:02 -0700 (PDT)
+Message-ID: <48f3ac74-8157-7e8b-f3b5-da6c28318f7b@redhat.com>
+Date: Fri, 15 Oct 2021 12:39:58 +0200
 MIME-Version: 1.0
-Date: Fri, 15 Oct 2021 13:36:50 +0300
-From: arkadiy.ivanov@ispras.ru
-To: =?UTF-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] contrib/plugins: add a drcov plugin
-In-Reply-To: <87pmsawlph.fsf@linaro.org>
-References: <20211011111130.170178-1-arkaisp2021@gmail.com>
- <87pmsawlph.fsf@linaro.org>
-User-Agent: Roundcube Webmail/1.4.4
-Message-ID: <a25c7f50daccd761189de8dfe08a641d@ispras.ru>
-X-Sender: arkadiy.ivanov@ispras.ru
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] configure/optionrom: Fix MSYS2 multiboot.bin issue
+To: Helge Konetzka <hk@zapateado.de>, qemu-devel@nongnu.org
+References: <2b5ab039-8495-b55f-03f1-ecfd996907a9@zapateado.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <2b5ab039-8495-b55f-03f1-ecfd996907a9@zapateado.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=arkadiy.ivanov@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DOS_RCVD_IP_TWICE_B=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,216 +101,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Arkadiy <arkaisp2021@gmail.com>, qemu-devel@nongnu.org,
- pavel.dovgaluk@ispras.ru
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alex Bennée писал 2021-10-12 13:36:
-> Arkadiy <arkaisp2021@gmail.com> writes:
+On 15/09/21 12:56, Helge Konetzka wrote:
+> This patch enables native builds on MSYS2 with symlinks disabled.
 > 
->> From: NDNF <arkaisp2021@gmail.com>
->> 
->> This patch adds the ability to generate files in drcov format.
->> Primary goal this script is to have coverage
->> logfiles thatwork in Lighthouse.
->> Problems:
->>     - The path to the executable file is not specified.
 > 
-> I don't see a problem in introducing a plugin helper function to expose
-> the path to the binary/kernel to the plugin.
+> Signed-off-by: Helge Konetzka <hk@zapateado.de>
+> ---
 > 
->>     - base, end, entry take incorrect values.
->>       (Lighthouse + IDA Pro anyway work).
+> Without this patch these builds fail with:
 > 
-> What are they meant to be? Again we could add a helper.
+> make[1]: *** No rule to make target 'multiboot.bin', needed by 'all'. Stop.
+> make: *** [Makefile:189: pc-bios/optionrom/all] Error 2
+> make: *** Waiting for unfinished jobs....
+> ...
+> ==> ERROR: A failure occurred in build().
+>       Aborting...
 > 
->> 
->> Signed-off-by: Ivanov Arkady <arkadiy.ivanov@ispras.ru>
->> ---
->>  contrib/plugins/Makefile |   1 +
->>  contrib/plugins/drcov.c  | 112 
->> +++++++++++++++++++++++++++++++++++++++
->>  2 files changed, 113 insertions(+)
->>  create mode 100644 contrib/plugins/drcov.c
->> 
->> diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
->> index 7801b08b0d..0a681efeec 100644
->> --- a/contrib/plugins/Makefile
->> +++ b/contrib/plugins/Makefile
->> @@ -17,6 +17,7 @@ NAMES += hotblocks
->>  NAMES += hotpages
->>  NAMES += howvec
->>  NAMES += lockstep
->> +NAMES += drcov
->> 
->>  SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
->> 
->> diff --git a/contrib/plugins/drcov.c b/contrib/plugins/drcov.c
->> new file mode 100644
->> index 0000000000..d6a7d131c0
->> --- /dev/null
->> +++ b/contrib/plugins/drcov.c
->> @@ -0,0 +1,112 @@
->> +/*
->> + * Copyright (C) 2021, Ivanov Arkady <arkadiy.ivanov@ispras.ru>
->> + *
->> + * Drcov - a DynamoRIO-based tool that collects coverage information
->> + * from a binary. Primary goal this script is to have coverage log
->> + * files that work in Lighthouse.
->> + *
->> + * License: GNU GPL, version 2 or later.
->> + *   See the COPYING file in the top-level directory.
->> + */
->> +
->> +#include <inttypes.h>
->> +#include <assert.h>
->> +#include <stdlib.h>
->> +#include <inttypes.h>
->> +#include <string.h>
->> +#include <unistd.h>
->> +#include <stdio.h>
->> +#include <glib.h>
->> +
->> +#include <qemu-plugin.h>
->> +
->> +QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
->> +
->> +static char header[] = "DRCOV VERSION: 2\n"
->> +                "DRCOV FLAVOR: drcov-64\n"
->> +                "Module Table: version 2, count 1\n"
->> +                "Columns: id, base, end, entry, path\n";
->> +
->> +static FILE *fp;
->> +
->> +typedef struct {
->> +    uint32_t start;
->> +    uint16_t size;
->> +    uint16_t mod_id;
->> +} bb_entry_t;
->> +
->> +static GSList *bbs;
->> +
->> +static void printfHeader()
+> Builds fail because make cannot determine correct TOPSRC_DIR/SRC_DIR 
+> based on copied instead of linked Makefile
 > 
-> missing void in args.
+> After applying this patch to current master I succeeded in building 
+> natively on Linux and Windows/MSYS2 with symlinks disabled and enabled 
+> (winsymlinks:nativestrict, bash executed as Administrator).
 > 
->> +{
->> +    g_autoptr(GString) head = g_string_new("");
->> +    g_string_append(head, header);
+>   configure                  | 4 ++++
+>   pc-bios/optionrom/Makefile | 5 ++---
+>   2 files changed, 6 insertions(+), 3 deletions(-)
 > 
-> You could just initialise with your header:
+> diff --git a/configure b/configure
+> index da2501489f..a12bc8edbf 100755
+> --- a/configure
+> +++ b/configure
+> @@ -5090,6 +5090,10 @@ for rom in seabios; do
+>       echo "RANLIB=$ranlib" >> $config_mak
+>   done
 > 
->   g_autoptr(GString) head = g_string_new(header);
+> +config_mak=pc-bios/optionrom/config.mak
+> +echo "# Automatically generated by configure - do not modify" > 
+> $config_mak
+> +echo "TOPSRC_DIR=$source_path" >> $config_mak
+> +
+>   if test "$skip_meson" = no; then
+>     cross="config-meson.cross.new"
+>     meson_quote() {
+> diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
+> index 30771f8d17..3482508a86 100644
+> --- a/pc-bios/optionrom/Makefile
+> +++ b/pc-bios/optionrom/Makefile
+> @@ -1,6 +1,5 @@
+> -CURRENT_MAKEFILE := $(realpath $(word $(words 
+> $(MAKEFILE_LIST)),$(MAKEFILE_LIST)))
+> -SRC_DIR := $(dir $(CURRENT_MAKEFILE))
+> -TOPSRC_DIR := $(SRC_DIR)/../..
+> +include config.mak
+> +SRC_DIR := $(TOPSRC_DIR)/pc-bios/optionrom
+>   VPATH = $(SRC_DIR)
 > 
->> +    g_string_append_printf(head, "0, 0x%x, 0x%x, 0x%x, %s\n",
->> +                           0, 0xffffffff, 0, "path");
-> 
-> Why pass consts intro the printf instead of just appending the data as 
-> a string?
-> 
->> +    g_string_append_printf(head, "BB Table: %d bbs\n", 
->> g_slist_length(bbs));
->> +    fwrite(head->str, sizeof(char), head->len, fp);
->> +}
->> +
->> +static void printfCharArray32(uint32_t data)
->> +{
->> +    const uint8_t *bytes = (const uint8_t *)(&data);
->> +    fwrite(bytes, sizeof(char), sizeof(data), fp);
->> +}
->> +
->> +static void printfCharArray16(uint16_t data)
->> +{
->> +    const uint8_t *bytes = (const uint8_t *)(&data);
->> +    fwrite(bytes, sizeof(char), sizeof(data), fp);
->> +}
-> 
-> Can the above function names follow the QEMU house style please?
-> 
->> +
->> +
->> +static void printf_el(gpointer data, gpointer user_data)
->> +{
->> +    bb_entry_t *bb = (bb_entry_t *)data;
->> +    printfCharArray32(bb->start);
->> +    printfCharArray16(bb->size);
->> +    printfCharArray16(bb->mod_id);
->> +}
->> +
->> +static void plugin_exit(qemu_plugin_id_t id, void *p)
->> +{
->> +    /* Print function */
->> +    printfHeader();
->> +    g_slist_foreach(bbs, printf_el, NULL);
->> +
->> +    /* Clear */
->> +    g_slist_free_full(bbs, &g_free);
->> +    fclose(fp);
->> +}
->> +
->> +static void plugin_init(void)
->> +{
->> +    fp = fopen("file.drcov.trace", "wb");
-> 
-> Could we make this configurable and just have "file.drcov.trace" as the
-> default if not set?
-> 
->> +}
->> +
->> +static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb 
->> *tb)
->> +{
->> +    bb_entry_t *bb = g_new0(bb_entry_t, 1);
->> +    uint64_t pc = qemu_plugin_tb_vaddr(tb);
->> +
->> +    size_t n = qemu_plugin_tb_n_insns(tb);
->> +    for (int i = 0; i < n; i++) {
->> +        bb->size += qemu_plugin_insn_size(qemu_plugin_tb_get_insn(tb, 
->> i));
->> +    }
->> +
->> +    bb->start = pc;
->> +    bb->mod_id = 0;
->> +    bbs = g_slist_append(bbs, bb);
->> +
->> +}
-> 
-> I'm guessing this works in the simple case but beware that not all
-> translations get executed. It might be better to as a install an actual
-> tracer when the TB gets executed.
-> 
-> Although most TBs run to completion there are cases where execution
-> stops in them middle of TB. Generally this will be when a synchronous
-> fault has occurred and we exit the block early, potentially 
-> regenerating
-> a block at the PC the fault was at.
-> 
-> The g_list_append should be protected by a mutex as translation can be
-> multi-threaded (at least for system emulation).
-> 
->> +
->> +QEMU_PLUGIN_EXPORT
->> +int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
->> +                        int argc, char **argv)
->> +{
->> +    plugin_init();
->> +
->> +    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
->> +    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
->> +    return 0;
->> +}
-> 
-> I'll happily take a v2 of this patch with the fixes outlined above.
-> 
-> However I note the dynamorio pages talk about drcov2lcov which can
-> convert to lcov data. Given the basics of code coverage will be the 
-> same
-> it would be nice to see a re-factoring that would allow for multiple
-> output formats so the user could select their preferred output as an
-> option.
+>   all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
 
-I couldn't find a detailed description of the lcov format. Also, my 
-tests with drcov2lcov were unsuccessful. At the moment, I don't think 
-this is a priority.
+Queued, thanks.  Sorry for the delay!
+
+Paolo
+
 
