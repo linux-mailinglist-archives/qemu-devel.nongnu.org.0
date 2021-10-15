@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C8642EA17
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 09:27:42 +0200 (CEST)
-Received: from localhost ([::1]:56812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5110542EA2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 09:30:03 +0200 (CEST)
+Received: from localhost ([::1]:60864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbHcz-0004Sq-RJ
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 03:27:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40962)
+	id 1mbHfG-0007Cs-E5
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 03:30:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbHbX-0002tt-9f
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:26:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49182)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mbHdw-0006GO-Uf
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:28:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbHbV-0002ao-Cz
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:26:11 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mbHdu-0004dy-UF
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:28:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634282768;
+ s=mimecast20190719; t=1634282918;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S4XxTpVEWUGaarhqoembW9qf+Gi5ZWDvl3SDXOLpMhU=;
- b=FjyO5t2MswXDU0zVz/+w+yFLwEnib3H297xd7NljRpldUBLjdTybXAvWY4ARnFqu0P3mKZ
- btCkO2mCxTk7prkHXns93UCmwYDD3LnRAgxuxJS9YzIZlmvdM1u98v2eQPvaEvXCHg9SvV
- Qnhh3hdliNKJ13OXkHbJmdILoPb961c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-eeXWU9AKNry2VUWWVdBN2g-1; Fri, 15 Oct 2021 03:26:05 -0400
-X-MC-Unique: eeXWU9AKNry2VUWWVdBN2g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B734E1018F60;
- Fri, 15 Oct 2021 07:26:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C69F4B857C;
- Fri, 15 Oct 2021 07:24:47 +0000 (UTC)
-Date: Fri, 15 Oct 2021 09:24:46 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 09/15] softmmu/qdev-monitor: add error handling in
- qdev_set_id
-Message-ID: <YWksvmjdcLY25bzX@redhat.com>
-References: <20211008133442.141332-1-kwolf@redhat.com>
- <20211008133442.141332-10-kwolf@redhat.com>
- <20211011210025.kq4qjwn7kzfcwwl5@redhat.com>
- <5a732276-a974-1a8c-7f45-921713454bfa@greensocs.com>
- <20211013213744.dv46wd7qc3zv2li2@redhat.com>
+ bh=0eP+/+B/gknKVwlIaS7Hsu3GzpgbK5CPHUzSvfjaG+A=;
+ b=IEjFsTi5or9SmTkB2wUB4OrA37J4H+J3ksXDgQmZ1ErjgAH2lDQju0PNIv4mCHGuKi/RNR
+ xlxI5xI1RIVOvJnChh7j0I/lQDBNbLQYFJyU/PjCikRJxS/pxWhllGXx0SW0rXJJGl5MVn
+ mpB46bzOkyDyAoWjrL6xHWEl0ZfEOWE=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-41-52lSrYmYMdGsCd66G4f5rA-1; Fri, 15 Oct 2021 03:28:34 -0400
+X-MC-Unique: 52lSrYmYMdGsCd66G4f5rA-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ d19-20020ac85ad3000000b002a74d0626bcso6164279qtd.5
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 00:28:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0eP+/+B/gknKVwlIaS7Hsu3GzpgbK5CPHUzSvfjaG+A=;
+ b=yCig8/h+PWQzSIw+kta0uOItw2uqiI5kl81xgVkw2SoC3okuZBl3WfXyUPMfyKPhjP
+ qQtfjKJiMLhJk4loBgoumoFIG8gS+mkQGNbb4lnnYNZ5t38oVhIBdDSTkN8XtwTpffYw
+ LbDU9aALBOjPUaiHmzG5hdcvryMOTXq5i2/UDQ/EIaGu3XZSeqnBHfLN10vP1PKlxQK7
+ ubvrwNZL0jKO0khBqm4u54Gj6ZY4S6zIKVp8R52TPwRj/e/oyDUmNFLXRMjpfCuWxgQK
+ an+tGjrHqmpPXwL3rMwYvh4e8i5SgSVFp3Xb2JCYx2RFciJQbAxfqWxOgVyv0zfu3/9o
+ Gp4g==
+X-Gm-Message-State: AOAM530m0ne0n09y0Bqei39FGGLRm68+2tc+O801OAR5L26KNwUR+An5
+ 89fijN7LlYFAjqGnTM266eSM1LsweOMrW5kMSmr7kuYMiFJPQ985qQez4+QFs5DU+vYzRYN3Zgn
+ ptw8wS3xHK32d0c4vCY3C2ZDGXeh8vbQ=
+X-Received: by 2002:a37:a082:: with SMTP id j124mr8703688qke.495.1634282913872; 
+ Fri, 15 Oct 2021 00:28:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxcUs7noWWXqIjvtCVjjRQyow8J1NTphVWbwM9YTAn5kDVh9bBQoqAAhEuidLizXVjLeu2OwZBEg/jl+kw6/OU=
+X-Received: by 2002:a37:a082:: with SMTP id j124mr8703676qke.495.1634282913617; 
+ Fri, 15 Oct 2021 00:28:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211013213744.dv46wd7qc3zv2li2@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20211001070603.307037-1-eperezma@redhat.com>
+ <20211001070603.307037-21-eperezma@redhat.com>
+ <d5f837ec-7b89-2e47-fcfb-680ee808f6ad@redhat.com>
+In-Reply-To: <d5f837ec-7b89-2e47-fcfb-680ee808f6ad@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 15 Oct 2021 09:27:57 +0200
+Message-ID: <CAJaqyWdEGWFNrxqKxRya=ybRiP0wTZ0aPksBBeOe9KOjOmUnqA@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 20/20] vdpa: Add custom IOTLB translations to SVQ
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,46 +92,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, lvivier@redhat.com,
- pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, mst@redhat.com, libvir-list@redhat.com,
- jasowang@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, vsementsov@virtuozzo.com, its@irrelevant.dk,
- pbonzini@redhat.com
+Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 13.10.2021 um 23:37 hat Eric Blake geschrieben:
-> On Wed, Oct 13, 2021 at 03:10:38PM +0200, Damien Hedde wrote:
-> > > > @@ -691,7 +703,13 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
-> > > >           }
-> > > >       }
-> > > > -    qdev_set_id(dev, g_strdup(qemu_opts_id(opts)));
-> > > > +    /*
-> > > > +     * set dev's parent and register its id.
-> > > > +     * If it fails it means the id is already taken.
-> > > > +     */
-> > > > +    if (!qdev_set_id(dev, g_strdup(qemu_opts_id(opts)), errp)) {
-> > > > +        goto err_del_dev;
-> > > 
-> > > ...nor on this, which means the g_strdup() leaks on failure.
-> > > 
-> > 
-> > Since we strdup the id just before calling qdev_set_id.
-> > Maybe we should do the the strdup in qdev_set_id (and free things on error
-> > there too). It seems simplier than freeing things on the callee side just in
-> > case of an error.
-> 
-> Indeed.  If we expected qdev_set_id() to be passed something that it
-> can later free, we would have used 'char *'; but because we used
-> 'const char *' for that parameter, it really does make more sense for
-> the callers to pass in any string and for qdev_set_id() to do the
-> necessary strdup()ing, as well as clean up on error.
+On Wed, Oct 13, 2021 at 7:34 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:06, Eugenio P=C3=A9rez =E5=86=99=
+=E9=81=93:
+> > Use translations added in VhostIOVATree in SVQ.
+> >
+> > Now every element needs to store the previous address also, so VirtQueu=
+e
+> > can consume the elements properly. This adds a little overhead per VQ
+> > element, having to allocate more memory to stash them. As a possible
+> > optimization, this allocation could be avoided if the descriptor is not
+> > a chain but a single one, but this is left undone.
+> >
+> > TODO: iova range should be queried before, and add logic to fail when
+> > GPA is outside of its range and memory listener or svq add it.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez<eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-shadow-virtqueue.h |   4 +-
+> >   hw/virtio/vhost-shadow-virtqueue.c | 130 ++++++++++++++++++++++++----=
+-
+> >   hw/virtio/vhost-vdpa.c             |  40 ++++++++-
+> >   hw/virtio/trace-events             |   1 +
+> >   4 files changed, 152 insertions(+), 23 deletions(-)
+>
+>
+> Think hard about the whole logic. This is safe since qemu memory map
+> will fail if guest submits a invalidate IOVA.
+>
 
-Since this seems to be the only thing in the series that needs to be
-addressed, I'll do the minimal fix while applying (adding g_free() to
-the error path in qemu_opts_id()) and then we can clean up on top.
+Can you expand on this? What you mean is that VirtQueue already
+protects SVQ code if the guest sets an invalid buffer address (GPA),
+isn't it?
 
-Kevin
+> Then I wonder if we do something much more simpler:
+>
+> 1) Using qemu VA as IOVA but only maps the VA that belongs to guest
+> 2) Then we don't need any IOVA tree here, what we need is to just map
+> vring and use qemu VA without any translation
+>
+
+That would be great, but either qemu's SVQ vring or guest translated
+buffers address (in qemu VA form) were already in high addresses,
+outside of the device's iova range (in my test).
+
+I didn't try remapping tricks to make them fit in the range, but I
+think it does complicate the solution relatively fast if there was
+already memory in that range owned by qemu before enabling SVQ:
+
+* Guest memory must be contiguous in VA address space, but it "must"
+support hotplug/unplug (although vDPA currently pins it). Hotplug
+memory could always overlap with SVQ vring, so we would need to move
+it.
+* Duplicating mapped memory for writing? (Not sure if guest memory is
+actually movable in qemu).
+* Indirect descriptors will need to allocate and free memory more or
+less frequently, increasing the possibility of overlapping.
+
+If we can move guest memory, however, I can see how we can track it in
+a tree *but* mark when the tree is 1:1 with qemu's VA, so buffers
+forwarding does not take the translation penalty. When guest memory
+cannot be map 1:1, we can resort to tree, and come back to 1:1
+translation if the offending tree node(s) get deleted.
+
+However I think this puts the solution a little bit farther than
+"starting simple" :).
+
+Does it make sense?
+
+Thanks!
+
+> Thanks
+>
 
 
