@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0072942EF33
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 12:57:11 +0200 (CEST)
-Received: from localhost ([::1]:59782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CF942EF37
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 13:00:05 +0200 (CEST)
+Received: from localhost ([::1]:39930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbKti-0006qk-2R
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 06:57:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60444)
+	id 1mbKwW-00041p-Vx
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 07:00:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mbKqk-000446-1n
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:54:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58633)
+ id 1mbKqu-00045X-Kb
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:54:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mbKqi-0004VU-JA
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:54:05 -0400
+ id 1mbKqt-0004eh-76
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:54:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634295244;
+ s=mimecast20190719; t=1634295254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f4cQeWqFSgHFkj9/8L5zhItGfYD45EJxwCyD65wSiGs=;
- b=TxtUmVr0r06MqTwXjXWLGRJcpB05usrCVxmWXtqWZlvdEQlk9bVyagqkx8g6H/QJBbVVT0
- 8QhemI3Sd5J6IP34jIXA+izjtow+RBsj5cDp+RiayEAQIwvmcHSSOiAtMcgWFUbltlEXmo
- Vn2ucbD3UNvQ6y6lkZPiVUPX9J1BW3A=
+ bh=ypJfYuY21Vh2aPFoBDILN2UvMZykehiwMhY7Rt/uxFo=;
+ b=VByoDtFENtE3s8b3dt38aSmv6NCq9sxjhGeljfQ+etR4IafJLKL74mZ5WEKINwqlmY3xQp
+ YyhE0ymyuYvPa1bl04DXtPuaylALtl811663PfXqxYbXrWQ11xHoRE9STc+dl70g16/cdw
+ VDzLcgYZPvOx2lSOPHQt+H4WJ7q+L+Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-37-aDp5kJMSNASa4h5Svij-5A-1; Fri, 15 Oct 2021 06:54:00 -0400
-X-MC-Unique: aDp5kJMSNASa4h5Svij-5A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-431-avNam1OpMcaYjnyFV9Bq6A-1; Fri, 15 Oct 2021 06:54:11 -0400
+X-MC-Unique: avNam1OpMcaYjnyFV9Bq6A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B49B1006AA2;
- Fri, 15 Oct 2021 10:53:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E4DA10A8E00;
+ Fri, 15 Oct 2021 10:54:10 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 358232B060;
- Fri, 15 Oct 2021 10:53:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C6125DA61;
+ Fri, 15 Oct 2021 10:54:03 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/8] docs/sphinx: add loaded modules to generated depfile
-Date: Fri, 15 Oct 2021 14:53:37 +0400
-Message-Id: <20211015105344.152591-2-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 2/8] docs/sphinx: add static files to generated depfile
+Date: Fri, 15 Oct 2021 14:53:38 +0400
+Message-Id: <20211015105344.152591-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20211015105344.152591-1-marcandre.lureau@redhat.com>
 References: <20211015105344.152591-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,49 +90,32 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- docs/sphinx/depfile.py | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ docs/sphinx/depfile.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/docs/sphinx/depfile.py b/docs/sphinx/depfile.py
-index 277fdf0f56..b6fb926df1 100644
+index b6fb926df1..99539adb48 100644
 --- a/docs/sphinx/depfile.py
 +++ b/docs/sphinx/depfile.py
-@@ -12,6 +12,7 @@
- 
+@@ -13,6 +13,7 @@
  import os
  import sphinx
-+import sys
+ import sys
++from pathlib import Path
  
  __version__ = '1.0'
  
-@@ -20,8 +21,17 @@ def get_infiles(env):
-         yield env.doc2path(x)
-         yield from ((os.path.join(env.srcdir, dep)
-                     for dep in env.dependencies[x]))
-+    for mod in sys.modules.values():
-+        if hasattr(mod, '__file__'):
-+            if mod.__file__:
-+                yield mod.__file__
+@@ -25,6 +26,10 @@ def get_infiles(env):
+         if hasattr(mod, '__file__'):
+             if mod.__file__:
+                 yield mod.__file__
++    # this is perhaps going to include unused files:
++    for static_path in env.config.html_static_path:
++        for path in Path(static_path).rglob('*'):
++            yield str(path)
  
--def write_depfile(app, env):
-+
-+def write_depfile(app, exception):
-+    if exception:
-+        return
-+
-+    env = app.env
-     if not env.config.depfile:
-         return
  
-@@ -42,7 +52,7 @@ def write_depfile(app, env):
- def setup(app):
-     app.add_config_value('depfile', None, 'env')
-     app.add_config_value('depfile_stamp', None, 'env')
--    app.connect('env-updated', write_depfile)
-+    app.connect('build-finished', write_depfile)
- 
-     return dict(
-         version = __version__,
+ def write_depfile(app, exception):
 -- 
 2.33.0.721.g106298f7f9
 
