@@ -2,98 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 179A642E8B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 08:11:53 +0200 (CEST)
-Received: from localhost ([::1]:44054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AE1342E8B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 08:12:56 +0200 (CEST)
+Received: from localhost ([::1]:46682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbGRZ-0003nS-UK
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 02:11:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55832)
+	id 1mbGSd-0005du-IW
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 02:12:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mbGPf-0002on-E7
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 02:09:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49178)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mbGPb-0008UC-Ly
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 02:09:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634278186;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FIxMGdfZIqe3h1udxbn3elKhhSGAI9jneq9LOLSak4g=;
- b=Kmlc4dIT3Rwn4SJ+rYqX4AtRdKpIE25sFf3gKX4W77V04wqjkZgqTC0oBp05OgVXiChcF6
- zQz8ZBdRRhUWUXKM+/4L/D2lMOTOayVCIyp9fdev290+TOQYrieNUQozw1e/7tFohLKhEA
- O6worOBa7E4Ng/Am7DigsEEuiWc+0F8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-UwBEQdRTO_i2mixUguDSkg-1; Fri, 15 Oct 2021 02:09:38 -0400
-X-MC-Unique: UwBEQdRTO_i2mixUguDSkg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- r21-20020adfa155000000b001608162e16dso5491956wrr.15
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 23:09:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mbGRc-0004WO-0n
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 02:11:53 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:35587)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mbGRY-0001qO-5X
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 02:11:51 -0400
+Received: by mail-pl1-x636.google.com with SMTP id w14so5758379pll.2
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 23:11:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=v1dzdQt6RGRlpojPozE1ubvGZgEhFPMxtksE+j35cvI=;
+ b=OuDcZtRytp0F3fl19Z87Ui09GFam6tc7K6L3YryZNOrASbwtxEtVWaULokiIiUVhJA
+ xEOxFw1ABOvWYk+vVS+BT/mPPKGFVCG0e2PP2daghWsyNnx7VvLTL/KHU3GcCos/bmx8
+ GIxMMR3g7dqZ9nmzfDG/fW5eK980Lybhoc8v/MexDHskOof292Py+XTxyz+Idq41+GXJ
+ vvI80LrTNJbLm3wduq83sN99/wcHN/6XfYT3r0+oyPL6niSku0JYSq3OGg3GCkhDOE7X
+ 2FuM7Hf9gCFz46erWZhUJMlTZVDE66FGTm76kxuZrpKkunUz+CEmhwiS37mG32HBwTnw
+ GA1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=FIxMGdfZIqe3h1udxbn3elKhhSGAI9jneq9LOLSak4g=;
- b=Nzc0CfZDAY1ONy1Aw5i27CSQkfH108aZE5dojwq6goqzqSv/Nhrh4a1SrVQPU6FCy/
- hQwsAaH+5lzOGUcicaIUiLK17SlrXMUOs3cpKNih8GJxkImx4Fw+f0dtlJg0WM7oI3sz
- MH2u29mZQE8ptDXMl489E28PfFnzWof9EMG+PCzwBg0EOuObFyNfLCizm5nsyQ60dRwP
- o2SbZIUJ5JKvxrxDHOs/f71z+zCt3K0ysx++KCeLp9ZZjVNLUO0XEWGbshLWIFosU39S
- BOxVvEt3Xcgf74rHJeQwQYAz6XpEVJeZrwhA2p/5OWouq2VyTtyOTm1gDfRrQ7b1TKEk
- sE9w==
-X-Gm-Message-State: AOAM531Xz2wgbSCsinLdY3I48lYrqPfIw4alIHWoxD+k4c7SxDSWBRaa
- gFGPNkfYdoTEccthdMy8zNw0JwJt7RbYZP0t3csv7U9SU71wL+uKakP81rdy0OK5V/qcx9qcOBI
- DY21nhFGpT++OTZs=
-X-Received: by 2002:a1c:540e:: with SMTP id i14mr23777825wmb.100.1634278176936; 
- Thu, 14 Oct 2021 23:09:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyW3JymMNcPtE0oMILv6zt+MngbMNgWlAJvC3fyLy+NVGV5HOObR9Zj019FDx7unE4y0ZF4Eg==
-X-Received: by 2002:a1c:540e:: with SMTP id i14mr23777791wmb.100.1634278176643; 
- Thu, 14 Oct 2021 23:09:36 -0700 (PDT)
-Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id n66sm3944815wmn.2.2021.10.14.23.09.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 23:09:36 -0700 (PDT)
-Subject: Re: Is the ppc440 "bamboo" board in QEMU still of any use?
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>
-References: <fc2e00d1-2373-3223-03c8-195585face66@redhat.com>
- <80f727b8-9eb0-6a49-e4a7-b2616583c43f@csgroup.eu>
- <2c5ec93d-d1d1-5f08-cbf0-513e101114df@kaod.org>
- <836a36f7-936b-ec36-f8e8-472bcec3970f@redhat.com>
- <25d90a22-63d9-6c15-5ee2-eadda449bcaf@redhat.com>
- <2b2e2d8e-caa5-8ea1-f7da-4b1bb20bd7bd@ilande.co.uk>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <38178271-70a4-7ddc-ab59-b777a49c8947@redhat.com>
-Date: Fri, 15 Oct 2021 08:09:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ bh=v1dzdQt6RGRlpojPozE1ubvGZgEhFPMxtksE+j35cvI=;
+ b=3FUSw42CNGfBnMu6I4iDXoy20wMJAGYgmB13DuXLM2txrkj32gS5jmPPDEp+xDIQ1t
+ g0ERUEb+o3ALPm3HWE0V64Y9yOEglDX+4E8KCEGWGnYZVniG/va+8f8nibp6CyVMNRKj
+ pYy57BOjIMAMmaHvyU+irRm+3aNi7eT5QhYXYpNtN5cofv5aUHsDV77tpvkjHY6VkFP+
+ 7E3HwmlRmoqbo23dQDJP2aJKp8cLt0g2AD5kBR0rTFeVqTRED4GG8QL2R1Ijs3vbaNT3
+ Ex0VT67NdZ8+ub9EC71nOknJ8qu7hoAYs0ZXk5b1qUkjnXLmxIzeh5xHPkCCE8AW1L3q
+ vbrA==
+X-Gm-Message-State: AOAM531qIqvSq55E34KwWSsXCBevEJyx1N/9NDO1hkODOdO6kenGjodJ
+ c4/6n1UkGUvL5TtgOIVLnUXtIkqPnsBCpw==
+X-Google-Smtp-Source: ABdhPJxJ+4f8dJ9h0ZSmiYIfw+JzABRGIT5QUGciEu1wqURVFHa00X9hkrwDa/Tovidq9CTwZ14LKA==
+X-Received: by 2002:a17:902:968a:b0:133:e2c5:4908 with SMTP id
+ n10-20020a170902968a00b00133e2c54908mr9437826plp.2.1634278305880; 
+ Thu, 14 Oct 2021 23:11:45 -0700 (PDT)
+Received: from localhost.localdomain (123-193-74-252.dynamic.kbronet.com.tw.
+ [123.193.74.252])
+ by smtp.gmail.com with ESMTPSA id k14sm4211373pji.45.2021.10.14.23.11.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Oct 2021 23:11:45 -0700 (PDT)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v3 1/2] softfloat: add APIs to handle alternative sNaN
+ propagation for fmax/fmin
+Date: Fri, 15 Oct 2021 14:11:32 +0800
+Message-Id: <20211015061138.3766862-1-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <2b2e2d8e-caa5-8ea1-f7da-4b1bb20bd7bd@ilande.co.uk>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,77 +84,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alexander Graf <agraf@csgraf.de>, hpoussin@reactos.org
+Cc: Frank Chang <frank.chang@sifive.com>,
+ Chih-Min Chao <chihmin.chao@sifive.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/10/2021 17.58, Mark Cave-Ayland wrote:
-> On 14/10/2021 16:37, Thomas Huth wrote:
-> 
->> On 14/10/2021 17.26, Philippe Mathieu-Daudé wrote:
->>> On 10/14/21 13:29, Cédric Le Goater wrote:
->>>> On 10/14/21 12:34, Christophe Leroy wrote:
->>>
->>>>> I have the following change in QEMU to be able to run the bamboo,
->>>>> found it some time ago via google (can't remember where):
->>>>>
->>>>> diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
->>>>> index 8147ba6f94..600e89e791 100644
->>>>> --- a/hw/ppc/ppc4xx_pci.c
->>>>> +++ b/hw/ppc/ppc4xx_pci.c
->>>>> @@ -246,7 +246,7 @@ static int ppc4xx_pci_map_irq(PCIDevice *pci_dev,
->>>>> int irq_num)
->>>>>
->>>>>        trace_ppc4xx_pci_map_irq(pci_dev->devfn, irq_num, slot);
->>>>>
->>>>> -    return slot - 1;
->>>>> +    return slot ? slot - 1 : slot;
->>>>>    }
->>>>>
->>>>>    static void ppc4xx_pci_set_irq(void *opaque, int irq_num, int level)
->>>>
->>>> could you try to use :
->>>>
->>>> static inline int ppce500_pci_map_irq_slot(int devno, int irq_num)
->>>> {
->>>>      return (devno + irq_num) % 4;
->>>> }
->>>
->>> Is this pci_swizzle()?
->>
->> It's pci_swizzle, but I don't think that we should take irq_num into 
->> account here. The comment right in front of the function says:
->>
->>   On Bamboo, all pins from each slot are tied to a single board IRQ
->>
->> Similar comment in pc-bios/bamboo.dts:
->>
->>   Bamboo has all 4 IRQ pins tied together per slot
->>
->> So the return value should only depend on the slot number.
->>
->> Not sure how to properly fix this yet, though.
->>
->>   Thomas
->>
->>
->> PS: Found a working pre-compiled kernel for bamboo:
->> http://landley.net/aboriginal/downloads/binaries/system-image-powerpc-440fp.tar.gz 
->>
-> 
-> Hi Thomas,
-> 
-> Did you see my reply from earlier today? Last time I checked the backtrace 
-> from the assert() it was coming via pci_update_irq_disabled() although 
-> that's not to say that something else could have changed since the original 
-> thread.
+From: Chih-Min Chao <chihmin.chao@sifive.com>
 
-Yes, I saw it ... it's just that I'm still in process of digesting the 
-problem here .... I'll reply to that mail later, when I feel more confident 
-with the topic...
+For "fmax/fmin ft0, ft1, ft2" and if one of the inputs is sNaN,
 
-  Thomas
+  The original logic:
+    Return NaN and set invalid flag if ft1 == sNaN || ft2 == sNan.
+
+  The alternative path:
+    Set invalid flag if ft1 == sNaN || ft2 == sNaN.
+    Return NaN only if ft1 == NaN && ft2 == NaN.
+
+The IEEE 754 spec allows both implementation and some architecture such
+as riscv choose different defintions in two spec versions.
+(riscv-spec-v2.2 use original version, riscv-spec-20191213 changes to
+ alternative)
+
+Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+---
+ fpu/softfloat-parts.c.inc | 19 +++++++++++++++++++
+ fpu/softfloat.c           | 18 +++++++++++++-----
+ include/fpu/softfloat.h   | 10 ++++++++++
+ 3 files changed, 42 insertions(+), 5 deletions(-)
+
+diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
+index dddee92d6ee..a8d74624f5a 100644
+--- a/fpu/softfloat-parts.c.inc
++++ b/fpu/softfloat-parts.c.inc
+@@ -1227,6 +1227,25 @@ static FloatPartsN *partsN(minmax)(FloatPartsN *a, FloatPartsN *b,
+             && (ab_mask & ~float_cmask_qnan)) {
+             return is_nan(a->cls) ? b : a;
+         }
++
++        /*
++         * In IEEE 754-2019, minNum, maxNum, minNumMag and maxNumMag
++         * are removed and replaced with minimum, minimumNumber, maximum
++         * and maximumNumber.
++         * minimumNumber/maximumNumber behavior for SNaN is changed to:
++         *   If both operands are NaNs, a QNaN is returned.
++         *   If either operand is a SNaN,
++         *   an invalid operation exception is signaled,
++         *   but unless both operands are NaNs,
++         *   the SNaN is otherwise ignored and not converted to a QNaN.
++         */
++        if (!(~flags & (minmax_isnum | minmax_snan_noprop))
++            && (ab_mask & float_cmask_snan)
++            && (ab_mask & ~float_cmask_anynan)) {
++            float_raise(float_flag_invalid, s);
++            return is_nan(a->cls) ? b : a;
++        }
++
+         return parts_pick_nan(a, b, s);
+     }
+ 
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 6e769f990c2..eee65e9934c 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -436,6 +436,11 @@ enum {
+     minmax_isnum = 2,
+     /* Set for the IEEE 754-2008 minNumMag() and minNumMag() operations. */
+     minmax_ismag = 4,
++    /*
++     * Set for the IEEE 754-2019 minimumNumber() maximumNumber() operations,
++     * without sNaN propagation.
++     */
++    minmax_snan_noprop = 8,
+ };
+ 
+ /* Simple helpers for checking if, or what kind of, NaN we have */
+@@ -3927,11 +3932,14 @@ static float128 float128_minmax(float128 a, float128 b,
+     { return type##_minmax(a, b, s, flags); }
+ 
+ #define MINMAX_2(type) \
+-    MINMAX_1(type, max, 0)                                      \
+-    MINMAX_1(type, maxnum, minmax_isnum)                        \
+-    MINMAX_1(type, maxnummag, minmax_isnum | minmax_ismag)      \
+-    MINMAX_1(type, min, minmax_ismin)                           \
+-    MINMAX_1(type, minnum, minmax_ismin | minmax_isnum)         \
++    MINMAX_1(type, max, 0)                                           \
++    MINMAX_1(type, maxnum, minmax_isnum)                             \
++    MINMAX_1(type, maxnum_noprop, minmax_isnum | minmax_snan_noprop) \
++    MINMAX_1(type, maxnummag, minmax_isnum | minmax_ismag)           \
++    MINMAX_1(type, min, minmax_ismin)                                \
++    MINMAX_1(type, minnum, minmax_ismin | minmax_isnum)              \
++    MINMAX_1(type, minnum_noprop, minmax_ismin | minmax_isnum |      \
++                                  minmax_snan_noprop)                \
+     MINMAX_1(type, minnummag, minmax_ismin | minmax_isnum | minmax_ismag)
+ 
+ MINMAX_2(float16)
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index ec7dca09606..b77917ea661 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -241,6 +241,8 @@ float16 float16_min(float16, float16, float_status *status);
+ float16 float16_max(float16, float16, float_status *status);
+ float16 float16_minnum(float16, float16, float_status *status);
+ float16 float16_maxnum(float16, float16, float_status *status);
++float16 float16_minnum_noprop(float16, float16, float_status *status);
++float16 float16_maxnum_noprop(float16, float16, float_status *status);
+ float16 float16_minnummag(float16, float16, float_status *status);
+ float16 float16_maxnummag(float16, float16, float_status *status);
+ float16 float16_sqrt(float16, float_status *status);
+@@ -420,6 +422,8 @@ bfloat16 bfloat16_min(bfloat16, bfloat16, float_status *status);
+ bfloat16 bfloat16_max(bfloat16, bfloat16, float_status *status);
+ bfloat16 bfloat16_minnum(bfloat16, bfloat16, float_status *status);
+ bfloat16 bfloat16_maxnum(bfloat16, bfloat16, float_status *status);
++bfloat16 bfloat16_minnum_noprop(bfloat16, bfloat16, float_status *status);
++bfloat16 bfloat16_maxnum_noprop(bfloat16, bfloat16, float_status *status);
+ bfloat16 bfloat16_minnummag(bfloat16, bfloat16, float_status *status);
+ bfloat16 bfloat16_maxnummag(bfloat16, bfloat16, float_status *status);
+ bfloat16 bfloat16_sqrt(bfloat16, float_status *status);
+@@ -587,6 +591,8 @@ float32 float32_min(float32, float32, float_status *status);
+ float32 float32_max(float32, float32, float_status *status);
+ float32 float32_minnum(float32, float32, float_status *status);
+ float32 float32_maxnum(float32, float32, float_status *status);
++float32 float32_minnum_noprop(float32, float32, float_status *status);
++float32 float32_maxnum_noprop(float32, float32, float_status *status);
+ float32 float32_minnummag(float32, float32, float_status *status);
+ float32 float32_maxnummag(float32, float32, float_status *status);
+ bool float32_is_quiet_nan(float32, float_status *status);
+@@ -776,6 +782,8 @@ float64 float64_min(float64, float64, float_status *status);
+ float64 float64_max(float64, float64, float_status *status);
+ float64 float64_minnum(float64, float64, float_status *status);
+ float64 float64_maxnum(float64, float64, float_status *status);
++float64 float64_minnum_noprop(float64, float64, float_status *status);
++float64 float64_maxnum_noprop(float64, float64, float_status *status);
+ float64 float64_minnummag(float64, float64, float_status *status);
+ float64 float64_maxnummag(float64, float64, float_status *status);
+ bool float64_is_quiet_nan(float64 a, float_status *status);
+@@ -1208,6 +1216,8 @@ float128 float128_min(float128, float128, float_status *status);
+ float128 float128_max(float128, float128, float_status *status);
+ float128 float128_minnum(float128, float128, float_status *status);
+ float128 float128_maxnum(float128, float128, float_status *status);
++float128 float128_minnum_noprop(float128, float128, float_status *status);
++float128 float128_maxnum_noprop(float128, float128, float_status *status);
+ float128 float128_minnummag(float128, float128, float_status *status);
+ float128 float128_maxnummag(float128, float128, float_status *status);
+ bool float128_is_quiet_nan(float128, float_status *status);
+-- 
+2.25.1
 
 
