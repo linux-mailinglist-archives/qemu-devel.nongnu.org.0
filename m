@@ -2,57 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F36042FC63
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 21:44:22 +0200 (CEST)
-Received: from localhost ([::1]:58752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048F442FC8D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 21:51:57 +0200 (CEST)
+Received: from localhost ([::1]:36408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbT7t-0003LM-5y
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 15:44:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55072)
+	id 1mbTFD-0007jf-M7
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 15:51:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mbT66-00023r-Tg
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 15:42:31 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51494
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mbT65-0003FV-8m
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 15:42:30 -0400
-Received: from [2a00:23c4:8b9d:f500:9396:df17:737c:b32c]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mbT5m-000BSz-8d; Fri, 15 Oct 2021 20:42:14 +0100
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20211013212132.31519-1-mark.cave-ayland@ilande.co.uk>
- <20211013212132.31519-4-mark.cave-ayland@ilande.co.uk>
- <76216e92-8a9b-4275-b009-00997f86fba2@vivier.eu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <2afe9e58-fb91-805b-61fa-4f240e3d8ee4@ilande.co.uk>
-Date: Fri, 15 Oct 2021 20:42:20 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mbTDH-0006ka-Jd
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 15:49:55 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:33582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mbTDF-0002PC-Uc
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 15:49:55 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id j190so2770822pgd.0
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 12:49:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VTcr0OytDbwKhfDjIWuhgDe3vPYNlNyT/YzyEWkShR0=;
+ b=v4WqM9R8nc7slcorDJsmnlIzCw7aPEAxW78wjMYNlyx2ddZpi2jG8MOUoQr7+iPrYU
+ 1tDuJdapChbuP0DTYznHFd2193AC1EmK11HiW+oY4vfoPF+Xn6flPn+U8/nuOcrm9QRA
+ EhcAjMj5bs5cRNa0iMSnmDaMalELi3pCU+rGunmdIjd52nEfW4wKbfjSWqLIF1plrTF3
+ jbI03SX6aKxdsE4YN6AhDgc4+z+4Y7+M/kSKItz8afuyo+CGEbJMiIQpc8hKraRcmP2V
+ HAdVh0ynkcWPyZ9RkhfqE6FDVImOu1OEO0wJ3p/0NZeqPyV+YP1fBhfxFxvFQdnw1x+g
+ 7Ylg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VTcr0OytDbwKhfDjIWuhgDe3vPYNlNyT/YzyEWkShR0=;
+ b=beqdkVNrMLdpv6ZH5kGhaevrAQ34dWHyO3zBG6pGzTESv5+zZjnkW7kFIXeIusqMys
+ Ak4qw42+mhaIh4PXj2L4VsZbEE6pWxPmZ7jDdEkaTx5eugGLY2bmjYkUjIejLIHaeWcv
+ sMmQ4+vIJxkahFhR3Vimi7AV+xuN9lNmcCPySw4xPupRNcRLdFl7x+PKXIEjUwNmtMNj
+ gCxWzvFYp6YPZKRn+buhASA+IfMuNyJc/GedghCeETFFyBsf6EKYKEnUHJFEwS4cKqu/
+ KjHBTX7ds1DfomHOe8c0blaJQXG+cVbL8IgCTRergKr/xzdStrKc6PlSHEoXzH7qTU9S
+ XENg==
+X-Gm-Message-State: AOAM532IiBu0lQLIsSYhrMlwQe+ok4bwiTcNhzXvY+RYEdwpdFBL48dg
+ xhDDYwNOCyyoFEd2rx+OlDtF2g==
+X-Google-Smtp-Source: ABdhPJxb5S7oebXa6UmEmUMo0QlfIyP2+eymJA5Bf7d/4aBcY87YfBfT0LwLJP2OcC/DmYo6u2ko0g==
+X-Received: by 2002:a63:6f0e:: with SMTP id k14mr1657361pgc.351.1634327391646; 
+ Fri, 15 Oct 2021 12:49:51 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id w15sm5643568pfc.220.2021.10.15.12.49.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Oct 2021 12:49:51 -0700 (PDT)
+Subject: Re: [PATCH v5 12/67] linux-user/host/aarch64: Populate host_signal.h
+To: Warner Losh <imp@bsdimp.com>
+References: <20211015041053.2769193-1-richard.henderson@linaro.org>
+ <20211015041053.2769193-13-richard.henderson@linaro.org>
+ <CANCZdfroR3PQUxDZ9wC5VgdYD9D1ay-cZ7ke3Ts2f2Xg803LSQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9974cb1f-ce49-b858-fbc8-6d4928a4e7d1@linaro.org>
+Date: Fri, 15 Oct 2021 12:49:49 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <76216e92-8a9b-4275-b009-00997f86fba2@vivier.eu>
+In-Reply-To: <CANCZdfroR3PQUxDZ9wC5VgdYD9D1ay-cZ7ke3Ts2f2Xg803LSQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:f500:9396:df17:737c:b32c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 3/8] q800: use GLUE IRQ numbers instead of IRQ level for
- GLUE IRQs
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,76 +88,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/10/2021 07:31, Laurent Vivier wrote:
+On 10/15/21 11:30 AM, Warner Losh wrote:
+>     +    /*
+>     +     * Fall back to parsing instructions; will only be needed
+>     +     * for really ancient (pre-3.16) kernels.
+>     +     */
+>     +    insn = *(uint32_t *)host_signal_pc(uc);
+>     +
+>     +    return (insn & 0xbfff0000) == 0x0c000000   /* C3.3.1 */
+>     +        || (insn & 0xbfe00000) == 0x0c800000   /* C3.3.2 */
+>     +        || (insn & 0xbfdf0000) == 0x0d000000   /* C3.3.3 */
+>     +        || (insn & 0xbfc00000) == 0x0d800000   /* C3.3.4 */
+>     +        || (insn & 0x3f400000) == 0x08000000   /* C3.3.6 */
+>     +        || (insn & 0x3bc00000) == 0x39000000   /* C3.3.13 */
+>     +        || (insn & 0x3fc00000) == 0x3d800000   /* ... 128bit */
+>     +        /* Ignore bits 10, 11 & 21, controlling indexing.  */
+>     +        || (insn & 0x3bc00000) == 0x38000000   /* C3.3.8-12 */
+>     +        || (insn & 0x3fe00000) == 0x3c800000   /* ... 128bit */
+>     +        /* Ignore bits 23 & 24, controlling indexing.  */
+>     +        || (insn & 0x3a400000) == 0x28000000; /* C3.3.7,14-16 */
+>     +}
 
-> Le 13/10/2021 à 23:21, Mark Cave-Ayland a écrit :
->> In order to allow dynamic routing of IRQs to different IRQ levels on the CPU
->> depending upon port B bit 6, use GLUE IRQ numbers and map them to the the
->> corresponding CPU IRQ level accordingly.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   hw/m68k/q800.c | 32 ++++++++++++++++++++++++++++----
->>   1 file changed, 28 insertions(+), 4 deletions(-)
->>
->> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
->> index 15f3067811..81c335bf16 100644
->> --- a/hw/m68k/q800.c
->> +++ b/hw/m68k/q800.c
->> @@ -102,11 +102,34 @@ struct GLUEState {
->>       uint8_t ipr;
->>   };
->>   
->> +#define GLUE_IRQ_IN_VIA1       0
->> +#define GLUE_IRQ_IN_VIA2       1
->> +#define GLUE_IRQ_IN_SONIC      2
->> +#define GLUE_IRQ_IN_ESCC       3
->> +
->>   static void GLUE_set_irq(void *opaque, int irq, int level)
->>   {
->>       GLUEState *s = opaque;
->>       int i;
->>   
->> +    switch (irq) {
->> +    case GLUE_IRQ_IN_VIA1:
->> +        irq = 5;
->> +        break;
-> 
-> Perhaps you can move this patch before patch 2 to help to understand why GLUE_IRQ_IN_VIA1 (0) is
-> mapped to irq 5 (before patch 2 it would be to 0).
+Oh, Warner, I was thinking about your query about sharing the instruction parsing code 
+between *-user.
 
-I think it should stay in the existing order because patch 2 is really a bug fix: all 
-of the other IRQs are statically wired in A/UX mode except for VIA1. Once this is 
-fixed, this patch then abstracts the *input* IRQs away from the CPU level so they can 
-be swizzled independently depending upon whether A/UX mode is selected.
+I was thinking that we should have, under e.g. user-only/, a library of stuff that could 
+be referenced by *-user.  One of these would be a simpler interface like
 
->> +
->> +    case GLUE_IRQ_IN_VIA2:
->> +        irq = 1;
->> +        break;
->> +
->> +    case GLUE_IRQ_IN_SONIC:
->> +        irq = 2;
->> +        break;
->> +
->> +    case GLUE_IRQ_IN_ESCC:
->> +        irq = 3;
->> +        break;
->> +    }
->> +
->>       if (level) {
->>           s->ipr |= 1 << irq;
-> 
-> perhaps you can rename here "irq" to "shift"?
+bool host_is_write_insn_at(void *pc);
 
-At this point it is the CPU level IRQ so "irq" seems correct here. Are you thinking 
-that using a different intermediate variable from the function parameter would help?
+We can hammer out details on that as you discover what you need in bsd-user.
 
 
-ATB,
-
-Mark.
+r~
 
