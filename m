@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5565B42F0E5
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 14:27:27 +0200 (CEST)
-Received: from localhost ([::1]:34712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED3B42F121
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 14:40:08 +0200 (CEST)
+Received: from localhost ([::1]:41764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbMJ4-0002xA-DH
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 08:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52186)
+	id 1mbMVK-0000YW-Q6
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 08:40:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1mbMFh-0000p4-IW
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:23:57 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:56225)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mbMTF-0007gt-90; Fri, 15 Oct 2021 08:37:57 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:35461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1mbMFf-0005vm-Ml
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:23:57 -0400
-Received: by mail-wm1-x333.google.com with SMTP id v127so2391408wme.5
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 05:23:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ErrKU1nNjLlW3Bw3X1PGFEvVO/njZ3tUD7zOxBLP/dY=;
- b=emh6nYy/cqhG1ZuPAA3P2wHP1ThWhJtTjdmm1CI6sl11Z52zJVmNIYwoRsAm5b673w
- 7StOOxetfON4NUwJ94DfNpBAgtXclG07wLMsxY0hygMqm2rWUe7kMqeUNgGAHsv4uBXu
- 6kBzUd6QKpMRZapXkhohFCOKi+raMRyghD8yM2wn/BJ4c07i63J4+1m1loYg/FlD1GcZ
- Vgb2qzDaR4RK2aVM7JWztIojqV/jsvBEtLW+6SS2hE0e/q0GTvO39XK5qju84oeK5iYo
- Vy8CNNiHr+FX3tMYxouU9+wNaCzqtjUnEroN8O6485EiImMd8OvsXw9fydBYOBak3ffb
- 8Mqg==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mbMT2-00061A-Ee; Fri, 15 Oct 2021 08:37:57 -0400
+Received: by mail-pg1-x532.google.com with SMTP id e7so8500927pgk.2;
+ Fri, 15 Oct 2021 05:37:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=227zV1gxtkNhPbXEYIP8/xADQqjWERCvoSTBxHpIQqA=;
+ b=VzmJRgDskQdz6OaiURf3wyCgUcoQt5q9JQ1Z+c5E29hby3P9cdANzjDZS5VajzlajX
+ lJil2J2OZbnX6YI9dGM/Couz6dBcfAQsrdwc5HuQEUzkRZ482aOYwyxNQuOmWXURnn42
+ TcpwtnuJRwiKI3HtYRuCA8YTDgNk25go5fuqiaKTatIj10XLjl0U4srCHgSBrVxSipgG
+ ug7HU3YgVfOGcQkddybz0BaOEQkht5CJ2S7NVVx01ByBfdQv+SUsL369clLCt2gMdVix
+ QVeIHmH/JbVZQ3FVSpDH+PlZjicHQDe5QLGbyfpI2W/y3A67SMQxNNNiWZlH5OxtdTCa
+ JKCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ErrKU1nNjLlW3Bw3X1PGFEvVO/njZ3tUD7zOxBLP/dY=;
- b=5FM4GBaqVXip19fbhLRwVqCvLG7vDI4oGAcvx1NbCyffpk6XwqF5uYt7hjVstlQ7O6
- OP/kPC4mljcfHtFmvWwvg41Ku8Ivru2pEsRRNOLB3bop5TKM4ICH2kNu0rvE8OI/dsSl
- K1JS8jxlVDxyXIAEp30YqChYs9bKH0yFu+ODnSFhtbSN+HfOpkZcHkNRErKOR3MnNuws
- MM366yia9U8bLqmvqnb9U5dKw6/3Lk+RMNDJtXN2SxWkibUJnKNK5P96G7p8JXDEQD1n
- z4Vg6lnenikyFm0NMJ7FleWdeK9r7l8EC+PzGdGTunQpDlB+PGivQA5trqAq66ogtqWG
- 9Gcg==
-X-Gm-Message-State: AOAM531qKbqM2QMmFZ52IqqhoLa6ChnWdchR51CTZUJnINkW9djDOMee
- CpaJ8f/BgaebNY73K5c2IFocAw==
-X-Google-Smtp-Source: ABdhPJwWucQ4THkJrISLOmArhpaOeDK1bu/+mRW69P89MkE0FMr/KhSjGUaA/fJz4i+ARouQ4b90UA==
-X-Received: by 2002:a05:600c:414c:: with SMTP id
- h12mr12059894wmm.66.1634300633518; 
- Fri, 15 Oct 2021 05:23:53 -0700 (PDT)
-Received: from leviathan (cpc92314-cmbg19-2-0-cust559.5-4.cable.virginm.net.
- [82.11.186.48])
- by smtp.gmail.com with ESMTPSA id n1sm10386990wmi.30.2021.10.15.05.23.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Oct 2021 05:23:53 -0700 (PDT)
-Date: Fri, 15 Oct 2021 13:23:51 +0100
-From: Leif Lindholm <leif@nuviainc.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v8 07/10] hw/arm/sbsa-ref: add ITS support in SBSA GIC
-Message-ID: <20211015122351.vc55mwzjbevl6wjy@leviathan>
-References: <20210812165341.40784-1-shashi.mallela@linaro.org>
- <20210812165341.40784-8-shashi.mallela@linaro.org>
- <CAFEAcA9WVu+kjfCWwfGQV00yKgmdFDCSUpxNOu1BEBM3AZCWXg@mail.gmail.com>
- <20210902124258.mqjhx7lqqvkczf6a@leviathan>
- <CAFEAcA-KeBzOCP1CHVWPHbHzG=KbS_HJmXoYo7B2VBz=oGSd3w@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=227zV1gxtkNhPbXEYIP8/xADQqjWERCvoSTBxHpIQqA=;
+ b=b+Iy+NtggiFZZBvdFbbCBTDacUJ06zIzeyUvP+TzULQt32PgRlHo4g5vrsp8w95BoR
+ mgqFso8uUwn/ezmypo7X0VjB3/d8apr8uSoNnyLKOwNd2iMF+G9IzsCdXg7ZyeXCvWyo
+ K0yObWmk9p/ss8MNLf6plxnRIHAS+V9mw0/oE7td85pkTIukgQ2BEJRAH72936VWoiG2
+ t8yTFL8YW9FhR+A46/RsNQlYFGoaaDFxBr0c4nLx0xQ5kfHs2EvrNdypgjEEwXgMMaU6
+ 2wL7JnS46lUO4RYMWPOx4ER9ipHtdKgmsfKrRHPefpUiGrdbcSLTgw9bPZrSL3dlouuI
+ arNg==
+X-Gm-Message-State: AOAM5333NvZtnyfkLxLSxaLhXrOIsZTsjg/JaIbPGQT5Clnfd1SBWx+3
+ tcMiD7196iy2KVyqwgDrzwSCVB+seunOnWHv+WU=
+X-Google-Smtp-Source: ABdhPJzI4SE7cbNxPBhql4/1/1PNGxRtwf6WZA1fipdj4aplcjhrRDSk1muPPKiuPdu28DonucFMH3GZglSkXCvqq9g=
+X-Received: by 2002:a63:6b42:: with SMTP id g63mr1467169pgc.461.1634301462623; 
+ Fri, 15 Oct 2021 05:37:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-KeBzOCP1CHVWPHbHzG=KbS_HJmXoYo7B2VBz=oGSd3w@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=leif@nuviainc.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20211013205104.1031679-1-richard.henderson@linaro.org>
+ <20211013205104.1031679-6-richard.henderson@linaro.org>
+In-Reply-To: <20211013205104.1031679-6-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 15 Oct 2021 22:37:16 +1000
+Message-ID: <CAKmqyKOiAppxPij-Ts=m6y3t2moUguFrtATNgHJSn-QCrGdwkw@mail.gmail.com>
+Subject: Re: [PATCH v2 05/13] target/riscv: Add MXL/SXL/UXL to TB_FLAGS
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,87 +75,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Shashi Mallela <shashi.mallela@linaro.org>,
- Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
- narmstrong@baylibre.com, Eric Auger <eric.auger@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Fabien Portas <fabien.portas@grenoble-inp.org>,
+ =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?= <frederic.petrot@univ-grenoble-alpes.fr>,
+ liuzhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+On Thu, Oct 14, 2021 at 6:56 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Begin adding support for switching XLEN at runtime.  Extract the
+> effective XLEN from MISA and MSTATUS and store for use during translation.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-(Apologies for delay. Alex also tells me you are currently away, but
-there is no strong urgency here.)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On Thu, Sep 23, 2021 at 17:00:35 +0100, Peter Maydell wrote:
-> > If we assume that we don't want to further complicate this set by
-> > adding the additional logic *now*, I see three options:
-> > - Implement memory map versioning for sbsa-ref for this set, placing
-> >   the ITS (if enabled) directly after the DIST for sbsa-ref-6.2.
-> > - In this set, place the ITS frames in a different location relative
-> >   to the REDIST frames than it will end up once the further logic is
-> >   implemented.
-> > - Drop the sbsa-ref ITS support from this set, and bring it in with
-> >   the set implementing the additional logic.
-> >
-> > Typing that, I'm getting the feeling that if I was the maintainer,
-> > the third option would be my preference...
-> 
-> So, we took that third option just to get the initial ITS support
-> into QEMU, and it has now landed. Where do we want to go with
-> the sbsa-ref support ?
-> 
-> There doesn't seem like there's much coding required on the QEMU
-> side, it's probably about an afternoon at most to update this patch
-> to match whatever we decide we need to do. But it's very unclear
-> to me what it is we should be doing.
-> 
-> Leif, what's your plan/preferences here ?
+Alistair
 
-I discussed this with Alex/Shashi.
-
-One further complicating aspect is that the EDK2 GIC driver currently
-relies on GIC addresses being known at compile-time.
-
-> Presumably somebody also needs to do the system-software side
-> of things to handle the ITS being present and the redistributor
-> frames moving...
-
-Since it *would* be useful to get this support in, I think the most
-pragmatic plan would be:
-- Add ITS in the location originally proposed by Shashi.
-- Add information to DT:
-  - Platform version (1).
-  - GICD, GICR, and ITS base addresses.
-- edk2: Convert GIC driver to support dynamic block addresses.
-- TF-A: Parse the DT and add SIP SVC calls:
-  - to retrieve it (or return not supported if not found).
-  - to retrieve base addresses for GICD, GICR, and ITS.
-- edk2-platforms: Query TF-A for platform version.
-  If platform version >= 1, request base addresses for GICD, GICR, and
-  ITS.
-  - Generate IORT if ITS present.
-- Update GIC frame layout to match an ARM GIC-?00. (Platform version 2)
-
-Unrelated to the ITS question, and not requiring any intervention on
-the QEMU side, we can then also transition the CPU and DRAM discovery
-to SIP SVC calls, and stop sharing the DT with edk2 completely.
-
-And some way further down the line we could do the SCP thing, which
-would let us support different GIC-layouts/configurations based on
-platform command line options. (Platform version 3.)
-(TF-A makes SCP calls if version >= 3)
-This would then require no changes to edk2-platforms.
-
-(Numeric values described as incrementing integer rather than trying
-to guess at specific qemu release numbers.)
-
-This minimises any compatibility breakages, and I think remaining ones
-are acceptable for this type of platform.
-
-/
-    Leif
+> ---
+> v2: Force SXL and UXL to valid values.
+> ---
+>  target/riscv/cpu.h        |  2 ++
+>  target/riscv/cpu.c        |  8 ++++++++
+>  target/riscv/cpu_helper.c | 33 +++++++++++++++++++++++++++++++++
+>  target/riscv/csr.c        |  3 +++
+>  target/riscv/translate.c  |  2 +-
+>  5 files changed, 47 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 87248b562a..445ba5b395 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -395,6 +395,8 @@ FIELD(TB_FLAGS, VILL, 8, 1)
+>  /* Is a Hypervisor instruction load/store allowed? */
+>  FIELD(TB_FLAGS, HLSX, 9, 1)
+>  FIELD(TB_FLAGS, MSTATUS_HS_FS, 10, 2)
+> +/* The combination of MXL/SXL/UXL that applies to the current cpu mode. */
+> +FIELD(TB_FLAGS, XL, 12, 2)
+>
+>  #ifdef CONFIG_RISCV32
+>  #define riscv_cpu_mxl(env)      MXL_RV32
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 1857670a69..840edd66f8 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -355,6 +355,14 @@ static void riscv_cpu_reset(DeviceState *dev)
+>      env->misa_mxl = env->misa_mxl_max;
+>      env->priv = PRV_M;
+>      env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
+> +    if (env->misa_mxl > MXL_RV32) {
+> +        /*
+> +         * The reset status of SXL/UXL is officially undefined,
+> +         * but invalid settings would result in a tcg assert.
+> +         */
+> +        env->mstatus = set_field(env->mstatus, MSTATUS64_SXL, env->misa_mxl);
+> +        env->mstatus = set_field(env->mstatus, MSTATUS64_UXL, env->misa_mxl);
+> +    }
+>      env->mcause = 0;
+>      env->pc = env->resetvec;
+>      env->two_stage_lookup = false;
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 403f54171d..429afd1f48 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -35,6 +35,37 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+>  #endif
+>  }
+>
+> +static RISCVMXL cpu_get_xl(CPURISCVState *env)
+> +{
+> +#if defined(TARGET_RISCV32)
+> +    return MXL_RV32;
+> +#elif defined(CONFIG_USER_ONLY)
+> +    return MXL_RV64;
+> +#else
+> +    RISCVMXL xl = riscv_cpu_mxl(env);
+> +
+> +    /*
+> +     * When emulating a 32-bit-only cpu, use RV32.
+> +     * When emulating a 64-bit cpu, and MXL has been reduced to RV32,
+> +     * MSTATUSH doesn't have UXL/SXL, therefore XLEN cannot be widened
+> +     * back to RV64 for lower privs.
+> +     */
+> +    if (xl != MXL_RV32) {
+> +        switch (env->priv) {
+> +        case PRV_M:
+> +            break;
+> +        case PRV_U:
+> +            xl = get_field(env->mstatus, MSTATUS64_UXL);
+> +            break;
+> +        default: /* PRV_S | PRV_H */
+> +            xl = get_field(env->mstatus, MSTATUS64_SXL);
+> +            break;
+> +        }
+> +    }
+> +    return xl;
+> +#endif
+> +}
+> +
+>  void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+>                            target_ulong *cs_base, uint32_t *pflags)
+>  {
+> @@ -78,6 +109,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+>      }
+>  #endif
+>
+> +    flags = FIELD_DP32(flags, TB_FLAGS, XL, cpu_get_xl(env));
+> +
+>      *pflags = flags;
+>  }
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 9c0753bc8b..c4a479ddd2 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -526,6 +526,9 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+>          mstatus = set_field(mstatus, MSTATUS32_SD, dirty);
+>      } else {
+>          mstatus = set_field(mstatus, MSTATUS64_SD, dirty);
+> +        /* SXL and UXL fields are for now read only */
+> +        mstatus = set_field(mstatus, MSTATUS64_SXL, MXL_RV64);
+> +        mstatus = set_field(mstatus, MSTATUS64_UXL, MXL_RV64);
+>      }
+>      env->mstatus = mstatus;
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 422f8ab8d0..7e7bb67d15 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -539,7 +539,6 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>  #else
+>      ctx->virt_enabled = false;
+>  #endif
+> -    ctx->xl = env->misa_mxl;
+>      ctx->misa_ext = env->misa_ext;
+>      ctx->frm = -1;  /* unknown rounding mode */
+>      ctx->ext_ifencei = cpu->cfg.ext_ifencei;
+> @@ -551,6 +550,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>      ctx->lmul = FIELD_EX32(tb_flags, TB_FLAGS, LMUL);
+>      ctx->mlen = 1 << (ctx->sew  + 3 - ctx->lmul);
+>      ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+> +    ctx->xl = FIELD_EX32(tb_flags, TB_FLAGS, XL);
+>      ctx->cs = cs;
+>      ctx->w = false;
+>      ctx->ntemp = 0;
+> --
+> 2.25.1
+>
+>
 
