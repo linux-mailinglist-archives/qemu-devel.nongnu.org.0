@@ -2,50 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9924742E724
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 05:14:47 +0200 (CEST)
-Received: from localhost ([::1]:39620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E5842E65E
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 04:07:21 +0200 (CEST)
+Received: from localhost ([::1]:48978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbDgE-0003cG-K1
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 23:14:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60340)
+	id 1mbCcx-000321-KL
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 22:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mbDck-0001pR-Kv; Thu, 14 Oct 2021 23:11:11 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:47241)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mbDch-0005Wk-Qy; Thu, 14 Oct 2021 23:11:10 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HVrrG3dPSz4xbQ; Fri, 15 Oct 2021 14:10:54 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1634267454;
- bh=ASLcjvYpw9HSJ6ITyl3RxW4G+1gXmWdFfp4TxijfFaE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V4NHlHNBD8cpN0+00fmH8eQ2Nrk9lac1b24uAASaVlup19am9GS+4jDvIg1wWDKI3
- MXtkNkUXKbTJeEcRsCou/K5xBWI4VhY76c9GjmF4I+Csm3m9n50jMdlwZU6+gtjv70
- K2hl+xtOjv1Dp2AsOtjrz7AimytCcOcumBrruhig=
-Date: Fri, 15 Oct 2021 11:31:25 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: matheus.ferst@eldorado.org.br
-Subject: Re: [PATCH 2/4] target/ppc: Fix XER access in gdbstub
-Message-ID: <YWjL3ac3SvxAPYgl@yekko>
-References: <20211014223234.127012-1-matheus.ferst@eldorado.org.br>
- <20211014223234.127012-3-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1mbCbX-0001n3-Mq; Thu, 14 Oct 2021 22:05:51 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:37743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1mbCbV-0004bm-1G; Thu, 14 Oct 2021 22:05:51 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ lk8-20020a17090b33c800b001a0a284fcc2so8285278pjb.2; 
+ Thu, 14 Oct 2021 19:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:subject:to:cc:references:in-reply-to:mime-version
+ :message-id:content-transfer-encoding;
+ bh=v5Vd1SEi2bLA3WaedN7AwffIaiijRwB0Q+TY4ajXFi8=;
+ b=dbTLCf1Be7211eAitOKJ/Le6AJruhvdbpA8BEQtjqg6YKLSZ2I9NLjQQ2klxnSC+tH
+ u1sD7i8r8M10NEGksWs6gNe9NcoiUv0+14ikcDdyZrmjyb6G0KbfGovgaP3+JSEoRrSm
+ 8RSCYXVnL8bimgDcHbx/HfqHfhjYH7WkeCx2Or5jTtoN+wa0vUGuAv9AmTqiu/VKb554
+ 5lvVJZhYZekVcIO/u03lrnOuxP9l5cPgcwsgK644USgBAkGHS5KE1lCfr/sDf/DISOsw
+ hqZpcxxEE1MNRa7X4ea+Kci09A8WifM9POoKfff+Yp4zDZ1tyuN1kS97Oysa2XqBcbt2
+ BnwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+ :mime-version:message-id:content-transfer-encoding;
+ bh=v5Vd1SEi2bLA3WaedN7AwffIaiijRwB0Q+TY4ajXFi8=;
+ b=RfjpgwmCaY8PG/dG3IBz4KqMsOhDHxVxiiC97ppY9nLPKbCw+mGvpv2BD6tMvi7DH3
+ 4Yvwz6HcMSauazHKtFpSgslYR35KvxLPMv+jUxV4rzHeHKr/BEdUfZC2qSIt33GHrBb1
+ RWTE4p9ziwf10OsjVX1zL0TTMvxOEY5KWvqtGMr1RSzMMdvYHo604Xujw6QItCnUAkGf
+ fnlPZEmZhqH8KSFhEGyik2FPjK2xhUxn134AOtnIIExu0meTah0AjPcctysbzJE3gMSx
+ 19SyWrlh3JFXckjHIPURWT9cVky16fKsjyL+WnR38yxtrI1aKtHMpJroNKXH8AdTC6Fn
+ g8qw==
+X-Gm-Message-State: AOAM533AudaDizVADU5rWVxno7nOA95o6QqQEyeIheVfaC01ahvcJuci
+ tK1/fD51GG4qgyQfH0ugc6+2T/BZ8tQ=
+X-Google-Smtp-Source: ABdhPJzzVKZki+4ZjzRYeiDwogKZJyMgXWnvjROA/zwTjn1CFHSCwi6rvMDTfGRArJaCGWKqSizdcQ==
+X-Received: by 2002:a17:90b:4ac1:: with SMTP id
+ mh1mr10102490pjb.144.1634263546432; 
+ Thu, 14 Oct 2021 19:05:46 -0700 (PDT)
+Received: from localhost (14-203-144-177.static.tpgi.com.au. [14.203.144.177])
+ by smtp.gmail.com with ESMTPSA id
+ n21sm3535137pfv.115.2021.10.14.19.05.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Oct 2021 19:05:46 -0700 (PDT)
+Date: Fri, 15 Oct 2021 12:05:41 +1000
+From: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH 1/3] ppc: Add QOM interface for machine check injection
+To: =?iso-8859-1?q?C=E9dric?= Le Goater <clg@kaod.org>, David Gibson
+ <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+References: <20211013214042.618918-1-clg@kaod.org>
+ <20211013214042.618918-2-clg@kaod.org>
+In-Reply-To: <20211013214042.618918-2-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BY3929yT1+nlHQlE"
-Content-Disposition: inline
-In-Reply-To: <20211014223234.127012-3-matheus.ferst@eldorado.org.br>
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Message-Id: <1634261821.ztn2f48uj7.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=npiggin@gmail.com; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,104 +85,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, richard.henderson@linaro.org, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, groug@kaod.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---BY3929yT1+nlHQlE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Oct 14, 2021 at 07:32:32PM -0300, matheus.ferst@eldorado.org.br wro=
-te:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Excerpts from C=C3=A9dric Le Goater's message of October 14, 2021 7:40 am:
+> From: Nicholas Piggin <npiggin@gmail.com>
 >=20
-> The value of XER is split in multiple fields of CPUPPCState, like
-> env->xer and env->so. To get/set the whole register from gdb, we should
-> use cpu_read_xer/cpu_write_xer.
+> This implements a machine check injection framework and defines a
+> 'mce' monitor command for ppc.
 >=20
-> Fixes: da91a00f191f ("target-ppc: Split out SO, OV, CA fields from XER")
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> [ clg: - moved definition under "hw/ppc/mce.h"
+>        - renamed to PPCMceInjection
+>        - simplified injection call in hmp_mce
+>        - QMP support ]
 
-Applied to ppc-for-6.2.
+Nice, thanks for doing this.
 
+> Message-Id: <20200325144147.221875-4-npiggin@gmail.com>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 > ---
->  target/ppc/gdbstub.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  qapi/misc-target.json | 26 ++++++++++++++++++++
+>  include/hw/ppc/mce.h  | 31 ++++++++++++++++++++++++
+>  target/ppc/monitor.c  | 56 +++++++++++++++++++++++++++++++++++++++++++
+>  hmp-commands.hx       | 20 +++++++++++++++-
+>  4 files changed, 132 insertions(+), 1 deletion(-)
+>  create mode 100644 include/hw/ppc/mce.h
 >=20
-> diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
-> index 1808a150e4..105c2f7dd1 100644
-> --- a/target/ppc/gdbstub.c
-> +++ b/target/ppc/gdbstub.c
-> @@ -159,7 +159,7 @@ int ppc_cpu_gdb_read_register(CPUState *cs, GByteArra=
-y *buf, int n)
->              gdb_get_regl(buf, env->ctr);
->              break;
->          case 69:
-> -            gdb_get_reg32(buf, env->xer);
-> +            gdb_get_reg32(buf, cpu_read_xer(env));
->              break;
->          case 70:
->              gdb_get_reg32(buf, env->fpscr);
-> @@ -217,7 +217,7 @@ int ppc_cpu_gdb_read_register_apple(CPUState *cs, GBy=
-teArray *buf, int n)
->              gdb_get_reg64(buf, env->ctr);
->              break;
->          case 69 + 32:
-> -            gdb_get_reg32(buf, env->xer);
-> +            gdb_get_reg32(buf, cpu_read_xer(env));
->              break;
->          case 70 + 32:
->              gdb_get_reg64(buf, env->fpscr);
-> @@ -269,7 +269,7 @@ int ppc_cpu_gdb_write_register(CPUState *cs, uint8_t =
-*mem_buf, int n)
->              env->ctr =3D ldtul_p(mem_buf);
->              break;
->          case 69:
-> -            env->xer =3D ldl_p(mem_buf);
-> +            cpu_write_xer(env, ldl_p(mem_buf));
->              break;
->          case 70:
->              /* fpscr */
-> @@ -319,7 +319,7 @@ int ppc_cpu_gdb_write_register_apple(CPUState *cs, ui=
-nt8_t *mem_buf, int n)
->              env->ctr =3D ldq_p(mem_buf);
->              break;
->          case 69 + 32:
-> -            env->xer =3D ldl_p(mem_buf);
-> +            cpu_write_xer(env, ldl_p(mem_buf));
->              break;
->          case 70 + 32:
->              /* fpscr */
+> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> index 594fbd1577fa..b1456901893c 100644
+> --- a/qapi/misc-target.json
+> +++ b/qapi/misc-target.json
+> @@ -394,3 +394,29 @@
+>  #
+>  ##
+>  { 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo', 'if': 'TARG=
+ET_I386' }
+> +
+> +##
+> +# @mce:
+> +#
+> +# This command injects a machine check exception
+> +#
+> +# @cpu-index: CPU number on which to inject the machine check exception
+> +#
+> +# @srr1-mask : possible reasons for the exception
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+I would say this is implementation specific mask of bits that are=20
+inserted in the SRR1 register at interrupt-time (except RI - see=20
+@recovered) which indicate the cause of the exception.
 
---BY3929yT1+nlHQlE
-Content-Type: application/pgp-signature; name="signature.asc"
+These are not architected and may change from CPU to CPU. I.e., the
+mask itself may change, not just the reasons.
 
------BEGIN PGP SIGNATURE-----
+> +#
+> +# @dsisr : more reasons
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFoy90ACgkQbDjKyiDZ
-s5IG9Q/9Exxx6M1R4G+AmIM9JDA4OlFa2FhboMon2gJplQxDXHn5bIzXWAVin7+5
-uRW60ibJc5H8gg4cE1U7E0sw1eq+aOan2tq5pF98VdcG0z00Yy1W36NEp+7BZRN9
-iJEaU6WeybveXVPHa1z+nuPRKYiH5Zvj+q/qrIv2tQnpaQuFmQxMDI8tPSSGp2px
-5RSj0Q9EkSYiABFjv+copizwZiFHe0i6eFNklFxPVTiiDhr9XVx1EoMtapEd9FSe
-bUMz8k/ZN0QEPWXWPldnv6tACvY0dEvEOVFhPakLmbr2wXH1e4DPJmJKLOu+Ehx6
-VQah+GMEgevcKsXItE8u+y3vmFSgXHiM64Mm0eMLn9wQ8GGoe3AMmTqPFfsTJA5W
-VqS6fn0h5g0XBeGzu0gogpiGTPv90wKDGE1x3IAcKGwoOcG6OjuLyVa4DYo5gX87
-ukNcmMJtDxpUWLgw82taAIipYnu5tOmyMk1OMAcWmRjhXaKN4r9bWbLQrh5khTbw
-j1agJ/y3QqCDUDhKdNn+DtFDmWksMCpoUXpYMAz1ZObeyBUVpXFd31fEMFaZz68q
-g+me8SYyK0i9IHlrlsgoKKnNGpuEBfj7XJryfFoGKnuvbizo1SpP2Jn333sdR/zi
-G338H4hhVpesN/DY+SlCLeh4spqVqP3eKBgYsoaSaLd76Ccz8L0=
-=4Gt7
------END PGP SIGNATURE-----
+This is value inserted into DSISR register, and is typically used
+to indicate the cause of a "d-side" MCE. If this is 0 then both
+DSISR and DAR registers are left unchanged.
 
---BY3929yT1+nlHQlE--
+> +#
+> +# @dar : effective address of next instruction
+
+This is the value inserted into the DAR register (if @dsisr was=20
+non-zero). It is implementation specific but is typically used
+to indicate the effective address of the target address involved
+in the mce for d-side exceptions.
+
+I wonder if we should put an @asdr parameter there too -- I'm not
+acutally sure if P10 implements that (getting clarification) but
+the architecture at least allows it.
+
+What's the go for updating this API? Can we just break it, or do
+we need to version it or call a different name like mce2 etc if
+we want to change it?
+
+Thanks,
+Nick
+
 
