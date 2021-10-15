@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C1A42E8F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 08:26:31 +0200 (CEST)
-Received: from localhost ([::1]:36688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4D542E90E
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 08:32:23 +0200 (CEST)
+Received: from localhost ([::1]:41728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbGfm-0001K0-G6
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 02:26:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58608)
+	id 1mbGlS-0004vn-Hr
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 02:32:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbGdz-0008ED-H4
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 02:24:39 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:39211)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbGkJ-0004F7-Rb
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 02:31:11 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:60897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbGdx-000492-TX
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 02:24:39 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbGkI-0001gJ-5E
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 02:31:11 -0400
 Received: from [192.168.100.1] ([82.142.24.54]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mnq0I-1n4YiU06NG-00pOn7; Fri, 15 Oct 2021 08:24:36 +0200
-Subject: Re: [PATCH 2/8] q800: move VIA1 IRQ from level 1 to level 6
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N32y5-1miscr0V1p-013QqE; Fri, 15 Oct 2021 08:31:08 +0200
+Subject: Re: [PATCH 3/8] q800: use GLUE IRQ numbers instead of IRQ level for
+ GLUE IRQs
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 References: <20211013212132.31519-1-mark.cave-ayland@ilande.co.uk>
- <20211013212132.31519-3-mark.cave-ayland@ilande.co.uk>
+ <20211013212132.31519-4-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <6a293640-8bda-beb0-3e4c-35e50d5c5974@vivier.eu>
-Date: Fri, 15 Oct 2021 08:24:34 +0200
+Message-ID: <76216e92-8a9b-4275-b009-00997f86fba2@vivier.eu>
+Date: Fri, 15 Oct 2021 08:31:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20211013212132.31519-3-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20211013212132.31519-4-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YDDjfI+OUwMyo/jIMabqsdPJclOwsPBR9gFGvaLDtTakRSIfgnJ
- NKYbmCkMay/ZF9+Xa/xw27hFkr0kwLJCywAdZhdAHP0xRnOTrVoQRivRXASVsSNTOWPFJhu
- CgfAmXCEHDhvop4yEtueUYRJvjtDOUW1LmRRNMp3P9AMaM6hDUZvI9cY++bLRhyS13qZjXl
- vvzCNZHoSdKEuh+iL+Thg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6bME1swvYUU=:QpGUx2d23WzGf2Fnsokflt
- P/uOZx1mGnnSyrpwW+NNY+ET3ua7BzjZa0Vq+pAJCkU678LoXhHLR3mHnLbp7eVEjzu5Q0RoH
- zWcH3IxBgozNfLmeOUK89/C4EtoyWk9XB4GNzoe1ejNypvzfiE83sxQo9072g4q1L9JiZ51/F
- RspNIwkvZimzprwkyCft1+JTqXoqjZAHxcVSBSCtJbTpN+HhZs/khVPEugo8OAIyXBmieP6/G
- TzJu30HwxdJr7rqny4EfSBrXRYR9FYODcqbdpDBotjpV8W6ux9x+t8OOqqoBqaVa7hEE7zepi
- 4CPejLNCgOoxY/uQw7e7u0yIZabNVnB64ozyrlsxUqpfwkdSKhKytw4+q1ROK2m1setKKjpt7
- 3h8LAtevuWPRIQMPlgk9Ic3kIuK3wh6qeFC1wEp4zrkzvMn7DlOF3gWCChv0ADzHiamdsWHPn
- vKO5V3Mi2R0tW1SLNDDtj0vlh8iY3YMiHGpBXwzCGueCCDeQz08lHk1Usygn9MsTghOx0qkiJ
- FYeHzPz25aeHBaQX+67n8lUBwiF7JXnddi4WXdq8Xuqo4SNT+ioYM5APPi68l2sZ/HdQxdHnx
- AG/g5IO3+hluoMJDNjRGP3V08TGcqF6dbgeXtIDQ0Yb+TsqoIPBYKRG/f9lrNSqewH5QmBXoR
- GXLwdxdrvK+rUnbkDbNvCDItZlX/u3vGTjHszcYee7Rm6099IBjqsoBu5Pw12h/2CfYOd/PJV
- TDRJrdxXOZKUI4Gs8qcz6xyuAECdND+xC3p7dA==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:2az0VmSuVmv/QkhjvKANWuC4f7Yd8Di9zO7GLPeX51xqlQcellt
+ lkT4heTRwJM5baa3XxwI/rCJczyvB4oQ4XIuQqIUmB78H3OQfkGzWBGCPbBqPKFT4i/rkJG
+ uYbHghO9/Ry1Fg/u75JcWgH6l5GA9tBzei2a3a91M3lyRkFfEdw9JWNUhjQHszTnsfWDbXA
+ 14xjSDMrRwZPWrvaa84Mg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IPM8GDYtBLc=:xs5VuJWuXyjgy5bCDEM17n
+ vAwa1hwVe2ZdJi/Mnw4fnqIaEmf1fHs3EWR7T5EC0s9jnA03prgsUZ5Zhpq/Vuk/EUEyzbHHX
+ 4sA/wYPProqxKuTGVRNrzIdAGjb9nqLRZaLwJ7DBzU07k/DtWXzmpe+bxYr7JjfIyWnoYp687
+ Sc8nxarWpr/GKis23i9ZxEzG9asEuId0aW7J2+fPwzWqr0ELEPnu+Ov86yW86CheJ60NHKn4z
+ A/9K4iMPkUvly840UR9usQ/yAEUTwHYkc1w6cp1lvfM/DbuD9ou/5xGXqf4yD34CLAAnImmih
+ 0T9Yy2L4gqZNiKQqvB8taYluHCWIFb0eB0Mg7PNLf1Sh+s0Qgk96sTSlgHbKUKGkA/EKUtGp3
+ HfE1N7jvCUfvYZWkYqtMWp5axgn+2CwskLMM9cx4ORmtFmEDervAGeCZ7hPHupioHSrnTXE+v
+ I2eJgwFwT247x2RDT7vHwZDww0Fim/QcIOgiRvhR5yEMA3pbXXbB2rtuu/per4Qcasvx2fsaD
+ ElYTuj0xLxfZDD6pr5fplH02o04O0AD1kCy4DwyHwuX6VXgkO8+WvVeo9thi3qM9h5tguwM6o
+ XN95XBDYGbRngQqiwbWy/Lp8XRNyHVpOkcbS0zAXnNDYET6j6qMSq4U41qQzHlpwllg9HTmKU
+ Az26aGSsFlVFL2jxxuyVChn+yCLJHKO804JAePUjuv4SrZ1wQVf2J//8Dte9YRL81YNiIiJ6a
+ zscMpiQQ21pr/M8qHiQ9A6Xsy20wUexOmrnSuQ==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,31 +75,60 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 13/10/2021 à 23:21, Mark Cave-Ayland a écrit :
-> On a Quadra 800 machine Linux sets via_alt_mapping to 1 and clears port B bit 6 to
-> ensure that the VIA1 IRQ is delivered at level 6 rather than level 1. Even though
-> QEMU doesn't yet emulate this behaviour, Linux still installs the VIA1 level 1 IRQ
-> handler regardless of the value of via_alt_mapping which is why the kernel has been
-> able to boot until now.
+> In order to allow dynamic routing of IRQs to different IRQ levels on the CPU
+> depending upon port B bit 6, use GLUE IRQ numbers and map them to the the
+> corresponding CPU IRQ level accordingly.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/m68k/q800.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/m68k/q800.c | 32 ++++++++++++++++++++++++++++----
+>  1 file changed, 28 insertions(+), 4 deletions(-)
 > 
 > diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-> index fd4855047e..15f3067811 100644
+> index 15f3067811..81c335bf16 100644
 > --- a/hw/m68k/q800.c
 > +++ b/hw/m68k/q800.c
-> @@ -284,7 +284,7 @@ static void q800_init(MachineState *machine)
->      sysbus = SYS_BUS_DEVICE(via1_dev);
->      sysbus_realize_and_unref(sysbus, &error_fatal);
->      sysbus_mmio_map(sysbus, 1, VIA_BASE);
-> -    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, 0));
-> +    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, 5));
+> @@ -102,11 +102,34 @@ struct GLUEState {
+>      uint8_t ipr;
+>  };
 >  
->      adb_bus = qdev_get_child_bus(via1_dev, "adb.0");
->      dev = qdev_new(TYPE_ADB_KEYBOARD);
-> 
+> +#define GLUE_IRQ_IN_VIA1       0
+> +#define GLUE_IRQ_IN_VIA2       1
+> +#define GLUE_IRQ_IN_SONIC      2
+> +#define GLUE_IRQ_IN_ESCC       3
+> +
+>  static void GLUE_set_irq(void *opaque, int irq, int level)
+>  {
+>      GLUEState *s = opaque;
+>      int i;
+>  
+> +    switch (irq) {
+> +    case GLUE_IRQ_IN_VIA1:
+> +        irq = 5;
+> +        break;
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Perhaps you can move this patch before patch 2 to help to understand why GLUE_IRQ_IN_VIA1 (0) is
+mapped to irq 5 (before patch 2 it would be to 0).
+
+> +
+> +    case GLUE_IRQ_IN_VIA2:
+> +        irq = 1;
+> +        break;
+> +
+> +    case GLUE_IRQ_IN_SONIC:
+> +        irq = 2;
+> +        break;
+> +
+> +    case GLUE_IRQ_IN_ESCC:
+> +        irq = 3;
+> +        break;
+> +    }
+> +
+>      if (level) {
+>          s->ipr |= 1 << irq;
+
+perhaps you can rename here "irq" to "shift"?
+
+Thanks,
+Laurent
 
