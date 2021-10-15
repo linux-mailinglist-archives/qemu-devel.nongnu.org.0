@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C4242EA68
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 09:39:15 +0200 (CEST)
-Received: from localhost ([::1]:42870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4338E42E9BE
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 09:12:06 +0200 (CEST)
+Received: from localhost ([::1]:59320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbHoA-00065P-Ra
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 03:39:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36824)
+	id 1mbHNt-0003JN-8c
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 03:12:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mbHHX-0004ko-DF; Fri, 15 Oct 2021 03:05:31 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:33625)
+ id 1mbHHU-0004cR-Uw; Fri, 15 Oct 2021 03:05:28 -0400
+Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:60965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mbHHR-0000GO-PU; Fri, 15 Oct 2021 03:05:31 -0400
+ id 1mbHHR-0000GJ-S4; Fri, 15 Oct 2021 03:05:28 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HVy2N3W8Yz4xqQ; Fri, 15 Oct 2021 18:05:00 +1100 (AEDT)
+ id 4HVy2N3bQXz4xqR; Fri, 15 Oct 2021 18:05:00 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1634281500;
- bh=KfaltYztkT9xzumHdXHfhRGkelnt+p7txTuUe3HEHpI=;
+ bh=Za66A/46aqacvU3o6qCO5SOHUUJGu2FaOvncfQARm/Y=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EzaAAHu8Y97S8KBc9ojGN9RpC4IHlHqWwphRvp5CSTzwNPohQPXRIXXhsqDHEieMO
- ubT2BPDUyZQ7UrzK4BBYGW03ZLiTR11pqFmGU/Z+uJYK4EjkTfKlYuL0f9JWP/DAu5
- GvZE/1I2MUhnhCRK+hayWZxtd9i8amsO2hn21lHo=
-Date: Fri, 15 Oct 2021 14:19:11 +1100
+ b=IjYxjZchoYXo08o/SNBEqwF7KUPAG6jYRXklAm5Dp6QRhE6sv77/K3hzB+wzrxR69
+ y783mFGWtdKZCc822Gho/R+zanLHU10q4d4JkEHoS0mZf5rUd5XRcapxiNm0ypr2dJ
+ SiBGDUSRXyM1fDvzQY41s+NohkvNLuaWY04iPBec=
+Date: Fri, 15 Oct 2021 14:19:46 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH 5/6] ppc/pegasos2: Add constants for PCI config addresses
-Message-ID: <YWjzL1bM23tNnP9y@yekko>
+Subject: Re: [PATCH 6/6] ppc/pegasos2: Implement power-off RTAS function with
+ VOF
+Message-ID: <YWjzUu2L5eQVLfVa@yekko>
 References: <cover.1634241019.git.balaton@eik.bme.hu>
- <9bd8e84d02d91693b71082a1fadeb86e6bce3025.1634241019.git.balaton@eik.bme.hu>
+ <1c1e030f2bbc86e950b3310fb5922facdc21ef86.1634241019.git.balaton@eik.bme.hu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yGV+vfK7VBhkrNC9"
+ protocol="application/pgp-signature"; boundary="k/bPwJeu0ExD8ktt"
 Content-Disposition: inline
-In-Reply-To: <9bd8e84d02d91693b71082a1fadeb86e6bce3025.1634241019.git.balaton@eik.bme.hu>
-Received-SPF: pass client-ip=150.107.74.76;
+In-Reply-To: <1c1e030f2bbc86e950b3310fb5922facdc21ef86.1634241019.git.balaton@eik.bme.hu>
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: 17
+X-Spam_score: 1.7
+X-Spam_bar: +
+X-Spam_report: (1.7 / 5.0 requ) DATE_IN_PAST_03_06=1.592, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,63 +64,53 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---yGV+vfK7VBhkrNC9
+--k/bPwJeu0ExD8ktt
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, Oct 14, 2021 at 09:50:19PM +0200, BALATON Zoltan wrote:
-> Define a constant for PCI config addresses to make it clearer what
-> these numbers are.
+> This only helps Linux guests as only that seems to use it.
 >=20
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 
 Applied, thanks.
 
 > ---
->  hw/ppc/pegasos2.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  hw/ppc/pegasos2.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 >=20
 > diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-> index a861bf16b8..39e96d323f 100644
+> index 39e96d323f..e427ac2fe0 100644
 > --- a/hw/ppc/pegasos2.c
 > +++ b/hw/ppc/pegasos2.c
-> @@ -54,11 +54,13 @@
-> =20
->  #define BUS_FREQ_HZ 133333333
-> =20
-> +#define PCI0_CFG_ADDR 0xcf8
->  #define PCI0_MEM_BASE 0xc0000000
->  #define PCI0_MEM_SIZE 0x20000000
->  #define PCI0_IO_BASE  0xf8000000
->  #define PCI0_IO_SIZE  0x10000
-> =20
-> +#define PCI1_CFG_ADDR 0xc78
->  #define PCI1_MEM_BASE 0x80000000
->  #define PCI1_MEM_SIZE 0x40000000
->  #define PCI1_IO_BASE  0xfe000000
-> @@ -226,7 +228,7 @@ static void pegasos2_mv_reg_write(Pegasos2MachineStat=
-e *pm, uint32_t addr,
->  static uint32_t pegasos2_pci_config_read(Pegasos2MachineState *pm, int b=
-us,
->                                           uint32_t addr, uint32_t len)
->  {
-> -    hwaddr pcicfg =3D bus ? 0xc78 : 0xcf8;
-> +    hwaddr pcicfg =3D bus ? PCI1_CFG_ADDR : PCI0_CFG_ADDR;
->      uint64_t val =3D 0xffffffffULL;
-> =20
->      if (len <=3D 4) {
-> @@ -239,7 +241,7 @@ static uint32_t pegasos2_pci_config_read(Pegasos2Mach=
-ineState *pm, int bus,
->  static void pegasos2_pci_config_write(Pegasos2MachineState *pm, int bus,
->                                        uint32_t addr, uint32_t len, uint3=
-2_t val)
->  {
-> -    hwaddr pcicfg =3D bus ? 0xc78 : 0xcf8;
-> +    hwaddr pcicfg =3D bus ? PCI1_CFG_ADDR : PCI0_CFG_ADDR;
-> =20
->      pegasos2_mv_reg_write(pm, pcicfg, 4, addr | BIT(31));
->      pegasos2_mv_reg_write(pm, pcicfg + 4, len, val);
+> @@ -22,6 +22,7 @@
+>  #include "hw/i2c/smbus_eeprom.h"
+>  #include "hw/qdev-properties.h"
+>  #include "sysemu/reset.h"
+> +#include "sysemu/runstate.h"
+>  #include "hw/boards.h"
+>  #include "hw/loader.h"
+>  #include "hw/fw-path-provider.h"
+> @@ -429,6 +430,16 @@ static target_ulong pegasos2_rtas(PowerPCCPU *cpu, P=
+egasos2MachineState *pm,
+>          qemu_log_mask(LOG_UNIMP, "%c", ldl_be_phys(as, args));
+>          stl_be_phys(as, rets, 0);
+>          return H_SUCCESS;
+> +    case RTAS_POWER_OFF:
+> +    {
+> +        if (nargs !=3D 2 || nrets !=3D 1) {
+> +            stl_be_phys(as, rets, -1);
+> +            return H_PARAMETER;
+> +        }
+> +        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+> +        stl_be_phys(as, rets, 0);
+> +        return H_SUCCESS;
+> +    }
+>      default:
+>          qemu_log_mask(LOG_UNIMP, "Unknown RTAS token %u (args=3D%u, rets=
+=3D%u)\n",
+>                        token, nargs, nrets);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -128,25 +118,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---yGV+vfK7VBhkrNC9
+--k/bPwJeu0ExD8ktt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFo8y8ACgkQbDjKyiDZ
-s5L/4A/8Cedmzxeiyzj3IwzE3/a5KB3pFdelguipQsgM/YqRAbfeHrdpb6CqX8bm
-Ix1a+whJEzq97RLbixdV1I0TZoA9CFu3/sgfOJhYdQhFGwImqZ9tC7JcIBgKnMH4
-QFQvP8DaAbS35WT7kUJPdv+Ou+EDv9HW225J1/ync8aF28oEXu9UDbPuww2quzRz
-gSAyH6lumUos/0nOTerJwp1lbKEiFZw/kFOr0P0ZlQDbfoSSZtmJblIpaxwgDZ0o
-v3FcnVrxCT1ZhuLPepUL3InJXS4djbWue6Giah09ts5arSnHk+3+xV+IzaI83Jh6
-Js+heLJEtwTeReafrqkQLlLyoP+DYvOXv7WzRU2wJ/M9kZFrihttBDqAuFYA9NLs
-dAl9B1pDyBdtvWoxUb74BhxiusR4InnVtdyi8xjwDXW/pF7Baq1qNcSazLvcNVNZ
-43vHhA2vrykzcg8Fr3pLA6nCFitJbX+RMxBudbS/kAiyhNvXIKSSZo+nvqVAIy8z
-kNoQ+EwRKhmFaINs5lhTOtAz+PQVj9te+ts/nNXjfLkpzVKLcPQBnq0ZVQdH4Kkz
-ZbatUe5W3nmNAofotC4Bt9uMoOKMfIVX18SRet3JX3DGwClH41ulyzs6/6OE0dqp
-E4GdmWgJpuZp/Eer8hp122idM6LJfIukYpLNxjhgskvPtMcVNH8=
-=yEzo
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFo81IACgkQbDjKyiDZ
+s5JAtQ//aTxkH5/lufti2P0UrcyIsohCl5q61nXml8toH7h146CWDte9ZjePxiOc
+lvCzbkj+m2YB7/TbrREkGxNOTttgrOuJcfGWVFzY43nDba3eVO5ddKAYkY6ueaQs
+8RL+Dmj7JC7JcLkAULyaTWREFeRxXuGtM0LaP76n/s994TOyVh05sL52ETS6WwG3
+NX1DccqFoXZFMEiaui2plSjoMJh3EQjEuShKFNl2tjoS/AP5jaHDRQH1+fO0DM7i
+Hqx+vwDpMISjIBM/e/zayAoLkJVjBIaNR9TLzyrntb4HMxs1p9dgY9dlLvS/0W2Z
+gWz0I6H0UBQtBqzZWrS+H9H0ts51t5iQnu4Lbp8L0YSMkFNV0BPetfxfu4ZPtkPm
+AlLG34JHpcNj9+eHXifF9fLVful/JB5yRmas8Q3M3Isyi4jx8hbM2bSr+maWycmf
+rnFyvz8Y0zs2HYybFs6dM85dthHu4EbiwKOkoJIOnoK+W9rldDHj9WZTGzPJ661k
+xFmXd10Musen2/dnlJ7YKtsOdRabwfiZSKMvTRh9cFyXhfxfpnRfhzv10YGw7E9i
+7whyCOruPQLehneQgLMwA6N7hWHCtlbqcInFd1T0nLaTKxj4x/S5PbaKw5KpR7qt
+zMfjglXlB1YO6Ia5Q6x4fNtASXO5rW6ZTKlr2P58Bya9DrHK7Ic=
+=5Sq4
 -----END PGP SIGNATURE-----
 
---yGV+vfK7VBhkrNC9--
+--k/bPwJeu0ExD8ktt--
 
