@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059C942E9FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 09:25:09 +0200 (CEST)
-Received: from localhost ([::1]:50930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5304B42E9EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 09:19:36 +0200 (CEST)
+Received: from localhost ([::1]:45550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbHaV-0000PP-W3
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 03:25:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36742)
+	id 1mbHV9-0004nI-2L
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 03:19:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mbHHR-0004Si-KX; Fri, 15 Oct 2021 03:05:25 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:40297)
+ id 1mbHHM-0004Pl-SU; Fri, 15 Oct 2021 03:05:22 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:41673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mbHHA-0006MU-GU; Fri, 15 Oct 2021 03:05:22 -0400
+ id 1mbHH8-0006MV-6z; Fri, 15 Oct 2021 03:05:20 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HVy2N3CBNz4xbc; Fri, 15 Oct 2021 18:05:00 +1100 (AEDT)
+ id 4HVy2N3JXZz4xqM; Fri, 15 Oct 2021 18:05:00 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1634281500;
- bh=q4arufVCcXYsgNdposnGz3DNan6h0r3csuaQYBLgKao=;
+ bh=kxfdjx/aOM9NU/k4iLfhiDRSI2eL/A0/M8eQqOFPbJE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=B1wQIB9xEnx3h3AShNB5YjDJJkPvxMXBaT6EYorolLJnf6HEHe904iaf/sCF3Ifi1
- XartNVCfNtiOIRxD+EcjMs+XN/Q+chXnLR7fR3vbhv4aLFdyX2O3daLsCDYPDVMG9/
- U0rUXA5KRcrloi7R90qypLtvBSvyzA1BqpW+VGt4=
-Date: Fri, 15 Oct 2021 14:15:59 +1100
+ b=N73xW3gQAipPlUqZmiQmQhkzeC7EH+Nbguoew/C2F2OjF49zYy1ge5P9pLBA/Gdxn
+ HIFyybrmG3kHPjSnaxz3TSomPD3XnBhAW5Iy+Ouoizxa9+rtKzANhD/JRRlIz+xaUr
+ GjUWMNG7gQflaEdP+OBY1gB8qNZ3M8p2vRhxG1i4=
+Date: Fri, 15 Oct 2021 14:17:26 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH 2/6] ppc/pegasos2: Warn when using VOF but no kernel is
- specified
-Message-ID: <YWjyb4bOur3I0Lz1@yekko>
+Subject: Re: [PATCH 3/6] ppc/pegasos2: Implement get-time-of-day RTAS
+ function with VOF
+Message-ID: <YWjyxvGlkzgi2nl6@yekko>
 References: <cover.1634241019.git.balaton@eik.bme.hu>
- <a4ec9a900df772b91e9f69ca7a0799d8ae293e5a.1634241019.git.balaton@eik.bme.hu>
+ <6233eb07c680d6c74427e11b9641958f98d53378.1634241019.git.balaton@eik.bme.hu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="acRG66+0G6j6ecDt"
+ protocol="application/pgp-signature"; boundary="fLGQ6Rf7lIvGJR2s"
 Content-Disposition: inline
-In-Reply-To: <a4ec9a900df772b91e9f69ca7a0799d8ae293e5a.1634241019.git.balaton@eik.bme.hu>
+In-Reply-To: <6233eb07c680d6c74427e11b9641958f98d53378.1634241019.git.balaton@eik.bme.hu>
 Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: 17
-X-Spam_score: 1.7
-X-Spam_bar: +
-X-Spam_report: (1.7 / 5.0 requ) DATE_IN_PAST_03_06=1.592, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,42 +65,72 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---acRG66+0G6j6ecDt
+--fLGQ6Rf7lIvGJR2s
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, Oct 14, 2021 at 09:50:19PM +0200, BALATON Zoltan wrote:
-> Issue a warning when using VOF (which is the default) but no -kernel
-> option given to let users know that it will likely fail as the guest
-> has nothing to run. It is not a hard error because it may still be
-> useful to start the machine without further options for testing or
-> inspecting it from monitor without actually booting it.
+> This is needed for Linux to access RTC time.
 >=20
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-
-Applied, thanks.
-
 > ---
->  hw/ppc/pegasos2.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  hw/ppc/pegasos2.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
 >=20
 > diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-> index 474cfdeabf..a1dd1f6752 100644
+> index a1dd1f6752..a9e3625f56 100644
 > --- a/hw/ppc/pegasos2.c
 > +++ b/hw/ppc/pegasos2.c
-> @@ -194,7 +194,10 @@ static void pegasos2_init(MachineState *machine)
->          if (!pm->vof) {
->              warn_report("Option -kernel may be ineffective with -bios.");
->          }
-> +    } else if (pm->vof) {
-> +        warn_report("Using Virtual OpenFirmware but no -kernel option.");
+> @@ -31,6 +31,8 @@
+>  #include "sysemu/kvm.h"
+>  #include "kvm_ppc.h"
+>  #include "exec/address-spaces.h"
+> +#include "qom/qom-qobject.h"
+> +#include "qapi/qmp/qdict.h"
+>  #include "trace.h"
+>  #include "qemu/datadir.h"
+>  #include "sysemu/device_tree.h"
+> @@ -369,6 +371,29 @@ static target_ulong pegasos2_rtas(PowerPCCPU *cpu, P=
+egasos2MachineState *pm,
+>          return H_PARAMETER;
 >      }
+>      switch (token) {
+> +    case RTAS_GET_TIME_OF_DAY:
+> +    {
+> +        QObject *qo =3D object_property_get_qobject(qdev_get_machine(),
+> +                                                  "rtc-time", &error_fat=
+al);
+> +        QDict *qd =3D qobject_to(QDict, qo);
 > +
->      if (!pm->vof && machine->kernel_cmdline && machine->kernel_cmdline[0=
-]) {
->          warn_report("Option -append may be ineffective with -bios.");
->      }
+> +        if (nargs !=3D 0 || nrets !=3D 8 || !qd) {
+> +            stl_be_phys(as, rets, -1);
+> +            qobject_unref(qo);
+> +            return H_PARAMETER;
+> +        }
+> +
+> +        stl_be_phys(as, rets, 0);
+> +        stl_be_phys(as, rets + 4, qdict_get_int(qd, "tm_year") + 1900);
+> +        stl_be_phys(as, rets + 8, qdict_get_int(qd, "tm_mon") + 1);
+> +        stl_be_phys(as, rets + 12, qdict_get_int(qd, "tm_mday"));
+> +        stl_be_phys(as, rets + 16, qdict_get_int(qd, "tm_hour"));
+> +        stl_be_phys(as, rets + 20, qdict_get_int(qd, "tm_min"));
+> +        stl_be_phys(as, rets + 24, qdict_get_int(qd, "tm_sec"));
+
+Doing a separate dictionary lookup for every component seems like it
+might be pretty expensive.  You might want to look at how spapr does
+this.
+
+However, you're maintainer for pegasos, so really it's your call -
+applied, thanks.
+
+> +        stl_be_phys(as, rets + 28, 0);
+> +        qobject_unref(qo);
+> +        return H_SUCCESS;
+> +    }
+>      case RTAS_READ_PCI_CONFIG:
+>      {
+>          uint32_t addr, len, val;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -107,25 +138,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---acRG66+0G6j6ecDt
+--fLGQ6Rf7lIvGJR2s
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFo8m8ACgkQbDjKyiDZ
-s5I00BAA1Zv8iPbSGLX9cjKdh4BU6z35t4wW70X3qugatO0bwTUVwla6Tq65hFka
-5oD+tLhyU1zRHC9LaTlQdAHB3/pBhvfUYLrRgv7T89XHS7UTnjOz0jtXFeRdmqVN
-BP/JK/Lx49MBmMM6uyWD94/3Fa03u3pkb6LFtSvB7DvWC9DMiY9qF7Nu3vpYwNo+
-yXs31OyWwvzhtALLqcT1udJsbhf9jHKpyuPmy07/xTQHTsnMrkKXetpFBg6lB6Z3
-5n3C84MqbDELJN6sYIQ3F1BjOABMvEkdraZ9BaCtNBaOY02wO/oA9qgDz9Jlj3Lv
-CH7oOrsKQS6NA648LA5cf1ObD2Wxjo9xll0IsX07pc54DpW7O7LBEOD+i7ba5vV4
-1GlhFxQiu5J100tfZ/hCF4fxzbUzgnhGLeFF9nPu4e9YpAUERBaCQb5kfjvQxjW9
-f5tAaI2LqwnM2NOvjz32xnCMgArSY9LS3YkYvCfRVwW14pNDX7J05ZSol3BQPC1f
-VOP+0zTDZxwSapZ/rMXFlFXangPM47EMcrGgxFQphpzS1HEjMXM0XNpQwJCgnZX/
-gOOZlMFZgmDrtxf1Cp8MwmxJ4dGLJcCAjYxvP6MPK4bZ3He7aLczlqHTqjHCprcb
-dT626mO2bBvvXfWYd2qZhaWe05umtw0doSvZ85YTK4W7aCtP85s=
-=tQju
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFo8sYACgkQbDjKyiDZ
+s5K8QhAAgM7Wpo3qyGM6E2cmplGHi3wvFcPrst33vlrtk64itDEjT/eVu86kRqpC
+viICYkEtmnjUsHSYisv/fFjnGsIOgoD1G1dtKQ0FvsnsZ3k0YzW06o8hjTvrRLXj
+Yp4/C0Yc0PvsnfmRpEDwrr89JWRubAeY/aEhOgG6eQWlha0anEBeLgOdhSa6iLcS
+xhb+/Mn/94KxOn74DaczM02AO8RmHXXq0H8K+q33jUewcy5AvN7cQPXrfKJ5NhsS
+Qxk37HeghjSymm7EKHY5ggT2omksHJz3dPdtwNnFljm+cTT8j/Bq150heV4M/g+o
+zU+zSN7n2NTY4dNq/Qzmf7bZCChnyaMLdCFaEsulARPDoyGgxFKJ3TS8eqzCWLWO
+aLXy7tH1fLV81RqLA+Ot+GX5QowpjCovIng0F82y3NVwUKbqrr4azOFB8yV2EPLm
+Yp91MT0Jv1qwcxrJbW9BFe2WXYNAIX23SnMOvSlxx79n3mJeTwybGWpOohEZr3P2
+/JcWsh4g0BLvaWRfIm9tdLxpHOXGSByaNfUgrPB2ObtLCV1/9zm14odwTBnEs5qA
+okWY2kmLTHpM4Ie0SPdhCCDLdOstzFJ12Ayo2gzigdJkZLfIWR4ZWUnqIeQnIHia
+L7Vl0zF6ysWpTcRUJaFqOjXodn8VQnJ2K8Dp/onv2aq/C8mHrE4=
+=KRSC
 -----END PGP SIGNATURE-----
 
---acRG66+0G6j6ecDt--
+--fLGQ6Rf7lIvGJR2s--
 
