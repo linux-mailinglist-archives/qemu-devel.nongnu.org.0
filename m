@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B20542EA3F
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 09:35:02 +0200 (CEST)
-Received: from localhost ([::1]:35622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61DDB42EA2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 09:29:26 +0200 (CEST)
+Received: from localhost ([::1]:58666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbHk5-00010b-5T
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 03:35:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36738)
+	id 1mbHef-0005jz-EC
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 03:29:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mbHHR-0004Sc-Jm; Fri, 15 Oct 2021 03:05:25 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:37831)
+ id 1mbHHR-0004So-Ky; Fri, 15 Oct 2021 03:05:25 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:41463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mbHH8-0006MS-6K; Fri, 15 Oct 2021 03:05:21 -0400
+ id 1mbHH8-0006MT-7G; Fri, 15 Oct 2021 03:05:21 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HVy2N30v0z4xbY; Fri, 15 Oct 2021 18:05:00 +1100 (AEDT)
+ id 4HVy2N36djz4xbZ; Fri, 15 Oct 2021 18:05:00 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1634281500;
- bh=k4pfv7DWVyPpVoLnu9MAEXQP5sa0tPOQi7ThBW1g/I8=;
+ bh=OS4W6FOmaAhQgzAZlgkqj2NYnTOoXVKtK42mt5ZGtig=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fOd/9YxoNUk0Y465nVJ/aPt8CuevlaRmaFNO6VRL4VbZs2eEVOCmKcs4CybTv+Qux
- KXtF5odG7If5gPkjjTdWc958yKXC+g9hN6uJtnAbAo6S6AuvqqAXX+nXDhszQFNoT2
- soFjIFbfA93oGaAHReZ5aVMS+cM1LGr6sPeITCt4=
-Date: Fri, 15 Oct 2021 14:15:14 +1100
-From: "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
-To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
-Subject: Re: [PATCH v3 00/22] target/ppc: DFP instructions using decodetree
-Message-ID: <YWjyQlmz6yarA7s4@yekko>
-References: <20210910112624.72748-1-luis.pires@eldorado.org.br>
- <CP2PR80MB36685955837B010A35386926DAA09@CP2PR80MB3668.lamprd80.prod.outlook.com>
- <CPXPR80MB52243FC0D088E4ED5037CA7CDAB89@CPXPR80MB5224.lamprd80.prod.outlook.com>
+ b=W+GK3zIAVtMa4+fMi6drqEsdtd57GLACv8JCQBUwvjdI+VAU/A895OxSYxX3rdgDR
+ 4+MA/hy7cjxGvVvxisvYvxf2uj9ATG/uNFsE/m79ZB8k95jaHaPY7Xg0DTeRmYk32n
+ eEv9O46csWwRkx6aZ8rPQe9ipkR/ey38ibhxOxoQ=
+Date: Fri, 15 Oct 2021 14:15:36 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH 1/6] ppc/pegasos2: Restrict memory to 2 gigabytes
+Message-ID: <YWjyWH1Fj9o31heX@yekko>
+References: <cover.1634241019.git.balaton@eik.bme.hu>
+ <54f58229a69c9c1cca21bcecad700b3d7052edd5.1634241019.git.balaton@eik.bme.hu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Wnw3d14Dh+UvtIOe"
+ protocol="application/pgp-signature"; boundary="jrANfFXfRCoH8OYC"
 Content-Disposition: inline
-In-Reply-To: <CPXPR80MB52243FC0D088E4ED5037CA7CDAB89@CPXPR80MB5224.lamprd80.prod.outlook.com>
+In-Reply-To: <54f58229a69c9c1cca21bcecad700b3d7052edd5.1634241019.git.balaton@eik.bme.hu>
 Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -1
@@ -60,45 +59,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "groug@kaod.org" <groug@kaod.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Wnw3d14Dh+UvtIOe
+--jrANfFXfRCoH8OYC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 14, 2021 at 05:02:59PM +0000, Luis Fernando Fujita Pires wrote:
-> Ping?
-
-I'm not sure who you're asking for what.  From my PoV, I'm waiting for revi=
-ews.
-
+On Thu, Oct 14, 2021 at 09:50:19PM +0200, BALATON Zoltan wrote:
+> The CHRP spec this board confirms to only allows 2 GiB of system
+> memory below 4 GiB as the high 2 GiB is allocated to IO and system
+> resources. To avoid problems with memory overlapping these areas
+> restrict RAM to 2 GiB similar to mac_newworld.
 >=20
-> > -----Original Message-----
-> > From: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
-> > Sent: segunda-feira, 20 de setembro de 2021 15:51
-> > To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>; qemu-
-> > devel@nongnu.org; qemu-ppc@nongnu.org
-> > Cc: david@gibson.dropbear.id.au; groug@kaod.org;
-> > richard.henderson@linaro.org
-> > Subject: RE: [PATCH v3 00/22] target/ppc: DFP instructions using decode=
-tree
-> >=20
-> > Ping.
-> >=20
-> > Patches 1-4 were already applied, and patches 5-8, 12, 15, 18 are missi=
-ng
-> > reviews.
-> >=20
-> > Thanks,
-> >=20
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+Applied, thanks.
+
+> ---
+>  hw/ppc/pegasos2.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 >=20
+> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+> index b8ce859f1a..474cfdeabf 100644
+> --- a/hw/ppc/pegasos2.c
+> +++ b/hw/ppc/pegasos2.c
+> @@ -117,6 +117,10 @@ static void pegasos2_init(MachineState *machine)
+>      qemu_register_reset(pegasos2_cpu_reset, pm->cpu);
+> =20
+>      /* RAM */
+> +    if (machine->ram_size > 2 * GiB) {
+> +        error_report("RAM size more than 2 GiB is not supported");
+> +        exit(1);
+> +    }
+>      memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+> =20
+>      /* allocate and load firmware */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -106,25 +105,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Wnw3d14Dh+UvtIOe
+--jrANfFXfRCoH8OYC
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFo8kAACgkQbDjKyiDZ
-s5Lv0RAAv2CIp82DIW4BpcIqGJXEO4nvBEXIR+eI8ETOUAzfFRFa/StOoVJi1hfO
-GOnFbxH21SlzpHRRKSErl7Uq7tbYzFmRs+ql8JCW0c5ovCOJl1bqNWQg/P81BcYg
-Bvi0No8fDHeKJzzqNumRaBpsog6CvUKH0RPAXzNvuHGXb3eMnjSZm+5jnRZo5eAD
-0iKBKoqwVFMZZHA6KqnOK+rqhkWBeXZ2GY7+uHpoX9NTWof5kK0W+s+NAtVVK1/m
-YqRBx1M1uLTR49Aftx0C+G+r0rxnv9zbw849p77P/HAV1V0wgF4sH9/DHv9pJzFS
-zv0JIa9sidxYErw8hiRIpMlG+fZj5QQgZGKsRGrnv8UBhM4JXnF+sZ2KS7P8FZeT
-qJrkHBScMKoPmL3hvtX7bWHDFBcF2ucfW3FWK2khhU1T81mavRQhik92L3Ld9Cli
-N6Pj5t1x+EMIxkcH8TUusaPL8iK4q5yIkgcjxA+3Bhsi/n6aACkNGeziCln4F90v
-TPTYRMyss0UE5gXZlY84gQOZ6hqfMRTXRjXLIiBrNnVDaCziyGjF7GCOibCEzqPL
-bmIr2LzwG2tXhR3WY4IBBBUs7LtR5xhjhxy9TCr9sse+1/cHLOYLNrzEoh3420AU
-UxsY8V60zND8G4kwZnW/O+y4mFD90DdoBdDUzs/rMuRE6DRTlb0=
-=I/A6
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFo8lcACgkQbDjKyiDZ
+s5J0cxAAmTh2LjXHnGIFxvJDSgpGQxlMcGBdClDwB+YGx9PykVor4CQT4jNvSpjL
+GDnzXA+k+m9FdFl4xBn/PCLcLqsBLTfXSqCXvT5E+ddsryxQxvHHeHpuVzLyJy8A
+ejp102hVIQetcKUffgkmbxnbV4e9UQEvLGTABXLsi0MQ4VZYibV/2ciRqMkLHJqw
+Z/9y4pr4gi/8MI5VwXQ5awgvbf+emypC3tzR98FainsF/EpePaROs8S1R7im+qxN
+v1XSg3Ldpo3c8q314Al6AX++VJXbh0dj2G0wB3ODtqZhPVZVjU5W6MhSl+pnclB3
+kMOGWOOM9i9coqB1IaWEacTIvoER0NTPBQ/xuaMrG4Bk5XGmIg2FHMdIqplGGoyF
+zbyJjkPnisow6pi2dIOb9tIyIt80JsIGwHnzKhNrONtpUmTQDO/zyO7rSwH5czqV
+WCZSFHSYjSEofICJVVBkpTpGcdz/g6RIZbK67hUx28pypDM0x9iNTpcQ+ifmmRbO
+sH2KDttiXJFtW6amED482qtvAorUe+cRL8lGeuFJx+TuEAH8nI3cMG4riXZr9t3R
+5QlBd/Gc3Fkn8NMJ4UZ3LhZ77W698n86KIQrHePinaB3vSddRIICd/IOXmMUY2FE
+uMDPrFFmSEnwB2XFhls4M9d9IkF5Y0OtjGurLDisevsN6ZXx+78=
+=tTOy
 -----END PGP SIGNATURE-----
 
---Wnw3d14Dh+UvtIOe--
+--jrANfFXfRCoH8OYC--
 
