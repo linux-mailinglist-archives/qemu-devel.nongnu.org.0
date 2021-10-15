@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F7742E7A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 06:21:21 +0200 (CEST)
-Received: from localhost ([::1]:52402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6CD42E7A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 06:23:14 +0200 (CEST)
+Received: from localhost ([::1]:60734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbEie-0001Z0-BI
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 00:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38878)
+	id 1mbEkT-0007AB-Pa
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 00:23:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbEYt-0007EW-6m
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:15 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:35718)
+ id 1mbEYw-0007HN-SN
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:19 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:34599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbEYq-0000Im-VW
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:14 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id e7so7463745pgk.2
+ id 1mbEYs-0000Iw-DW
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:17 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id 133so7465608pgb.1
  for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 21:11:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p8GaNWW3vnRejpH0QBiQY2hh87QfB4bhIFphc+bCE2U=;
- b=dejJWWV6X/iZBhyVdKrm+gz+tC6AeGz+0aY28bMFsYencTyEotWAo553EGcPwSELU3
- zwIsefSOFzV5g1WsO+kfnYdqZ0olHhZnrcvDOHeskI4p9pFGhxGOfA4q9Ir0G31yJ8nd
- c4IW/9Al4nb8XRt9daLBNElDkY0/A66q2kTXTIojYUnpt1Z5afWDW95WgDYbqykQtmkZ
- Xy1NW3CWN/jA0Wu+yd4t+NRzvlkf5HX38wyVsZ/kTyTmKL1nc/ySQi6LaneH2PMSgVdg
- mmRmOMzPd5o1o/grnD1xa29f4RPLd3yra86ZYkj4nywKtsmMjro+PspkUBMRK6Y3dJyt
- Q0rw==
+ bh=3zF39zy0stf9vN9RkqNLbl56ZD/55nxRqij6sSa5b3g=;
+ b=vlSwlBzpTSzCOo6uDy228i1fRtfDFH0D9XV9HPegBJ5Z9jsFc81UGpszuHaWihay7w
+ nFU1R5qcTFHR4B01h6nj17EmnZbRFnJpGofbURv7rSq0D0lKtsJisvjuzqLNSCb3bpUa
+ i4zxIHIgHhMtBOGHH6jLDBGI8UVWlYRYeDDaEjumBIa1NdBItYueJ+2kV45ZXaOFBW3e
+ C3akOdbiNt3DsIOT6sbxsdUhh9xLA0IRGN5TkpBWDYpWKo2mohoL6Xq92fp5Zo6BGJd/
+ aNYnsk7FRvA66/s3iYqtC8cQHDoEG0M0QRipRqHKtuCPFjdf9GbYdt3xS3aruYWw3mHr
+ sPiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p8GaNWW3vnRejpH0QBiQY2hh87QfB4bhIFphc+bCE2U=;
- b=OWAFRpANthmuTazM/95vo+0LAdQIzKukoedwJkNVJFafrDllfhzjWR7bnFuNm9MRyh
- W4rwsZaQAqVsNxHI8zd9qgR+h/Q7Z5J48s6u9XRcm8BUoi9DKshXOoJmIgKa7i168hwl
- 6qtIS1ZfODFOdMQPKX3nRNlq3rvitesxCOaGLlScafioIIY1fw07Pd+ez/06MV/DWpzc
- w9FvQH7H5GFOo1nydpXSOSFoQlsmd5pZ7ecW1FMy9jFZXSJQXGpOOjusLnXPGNOEXlPr
- huH3rLoKgtRZ/oNlEmHoIn/5XLMlf/Vuqk6EuVVWENkZO06bvX4JbKQZCkPJUZodv7Vd
- ZalA==
-X-Gm-Message-State: AOAM5338Lu9UyCIfaX3MWQ2cBpkqhuK0VyYR3IaevJuQdiL6eiadAuZF
- xLM+5rxEwR5aPtQaPEYEfUMGnWgqHgvcaA==
-X-Google-Smtp-Source: ABdhPJxAhfTFzVFzBChvDlzfe1+u8+Gg1oBPTGLfq1S/q0eOrOzeOPMVDndW2D3FgeW5qtl2lqmKfA==
-X-Received: by 2002:a63:6943:: with SMTP id e64mr7281160pgc.480.1634271071338; 
- Thu, 14 Oct 2021 21:11:11 -0700 (PDT)
+ bh=3zF39zy0stf9vN9RkqNLbl56ZD/55nxRqij6sSa5b3g=;
+ b=AW7CNARYitMpbTwF+OWzmOeuvLwPDhPOzam4NPfOv9KyzvdgwFjTBmQRSqXkUvJK2Y
+ V6BR6HITBX9ZREX04w3UhCB9nV7Yx1xHbFbvhCmyENyaywfe1u70ES/snXDPv3TRrcjf
+ eepqUuJBaUIG/y0WeJP9w7VQ1JO73UoUbNDcygUUxRLDYnQWZ42pFXDnkokclAF4geF9
+ ZxSLKUOjql+rcP9ijyTG7mvCrH/rUGilKwcN9chSB/b/hMrsu2s7P+nZIJ5QUoExbwa9
+ KetbEAFawjqTFzXcdFPmH72gGkpaJYUPQY0sWTPAV+4Azc0NhzDZFCfD2UyINV8lwe6T
+ GjwA==
+X-Gm-Message-State: AOAM532dOLlt6Q3vt72FswFmzUH/O++1GV0Zp+CZYTZ6NQgRXnMVu0wK
+ 2FMArvbZpYl7C86aCYPg5Uz8p00mDLDCTw==
+X-Google-Smtp-Source: ABdhPJwlc2AmtxuN3GHe6HBly4AydikBczGDG2FGvygNi9krTpsDe9pnEbjGAi5hOVKYIAnwdTkTvw==
+X-Received: by 2002:a63:7450:: with SMTP id e16mr3552724pgn.482.1634271072146; 
+ Thu, 14 Oct 2021 21:11:12 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id me12sm5718006pjb.27.2021.10.14.21.11.10
+ by smtp.gmail.com with ESMTPSA id me12sm5718006pjb.27.2021.10.14.21.11.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 14 Oct 2021 21:11:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 19/67] hw/core: Add TCGCPUOps.record_sigsegv
-Date: Thu, 14 Oct 2021 21:10:05 -0700
-Message-Id: <20211015041053.2769193-20-richard.henderson@linaro.org>
+Subject: [PATCH v5 20/67] linux-user: Add cpu_loop_exit_sigsegv
+Date: Thu, 14 Oct 2021 21:10:06 -0700
+Message-Id: <20211015041053.2769193-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211015041053.2769193-1-richard.henderson@linaro.org>
 References: <20211015041053.2769193-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,53 +88,165 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new user-only interface for updating cpu state before
-raising a signal.  This will replace tlb_fill for user-only
-and should result in less boilerplate for each guest.
+This is a new interface to be provided by the os emulator for
+raising SIGSEGV on fault.  Use the new record_sigsegv target hook.
 
+Reviewed by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/tcg-cpu-ops.h | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ include/exec/exec-all.h | 15 +++++++++++++++
+ accel/tcg/user-exec.c   | 33 ++++++++++++++++++---------------
+ linux-user/signal.c     | 30 ++++++++++++++++++++++--------
+ 3 files changed, 55 insertions(+), 23 deletions(-)
 
-diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-index 6cbe17f2e6..41718b695b 100644
---- a/include/hw/core/tcg-cpu-ops.h
-+++ b/include/hw/core/tcg-cpu-ops.h
-@@ -111,6 +111,32 @@ struct TCGCPUOps {
-      */
-     bool (*io_recompile_replay_branch)(CPUState *cpu,
-                                        const TranslationBlock *tb);
-+#else
-+    /**
-+     * record_sigsegv:
-+     * @cpu: cpu context
-+     * @addr: faulting guest address
-+     * @access_type: access was read/write/execute
-+     * @maperr: true for invalid page, false for permission fault
-+     * @ra: host pc for unwinding
-+     *
-+     * We are about to raise SIGSEGV with si_code set for @maperr,
-+     * and si_addr set for @addr.  Record anything further needed
-+     * for the signal ucontext_t.
-+     *
-+     * If the emulated kernel does not provide anything to the signal
-+     * handler with anything besides the user context registers, and
-+     * the siginfo_t, then this hook need do nothing and may be omitted.
-+     * Otherwise, record the data and return; the caller will raise
-+     * the signal, unwind the cpu state, and return to the main loop.
-+     *
-+     * If it is simpler to re-use the sysemu tlb_fill code, @ra is provided
-+     * so that a "normal" cpu exception can be raised.  In this case,
-+     * the signal must be raised by the architecture cpu_loop.
-+     */
-+    void (*record_sigsegv)(CPUState *cpu, vaddr addr,
-+                           MMUAccessType access_type,
-+                           bool maperr, uintptr_t ra);
- #endif /* CONFIG_SOFTMMU */
- #endif /* NEED_CPU_H */
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 5dd663c153..f74578500c 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -685,6 +685,21 @@ MMUAccessType adjust_signal_pc(uintptr_t *pc, bool is_write);
+ bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
+                                  uintptr_t host_pc, abi_ptr guest_addr);
  
++/**
++ * cpu_loop_exit_sigsegv:
++ * @cpu: the cpu context
++ * @addr: the guest address of the fault
++ * @access_type: access was read/write/execute
++ * @maperr: true for invalid page, false for permission fault
++ * @ra: host pc for unwinding
++ *
++ * Use the TCGCPUOps hook to record cpu state, do guest operating system
++ * specific things to raise SIGSEGV, and jump to the main cpu loop.
++ */
++void QEMU_NORETURN cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
++                                         MMUAccessType access_type,
++                                         bool maperr, uintptr_t ra);
++
+ #else
+ static inline void mmap_lock(void) {}
+ static inline void mmap_unlock(void) {}
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 2d9ab0a8b8..5646f8e527 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -143,35 +143,38 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+                                  int fault_size, MMUAccessType access_type,
+                                  bool nonfault, uintptr_t ra)
+ {
+-    int flags;
++    int acc_flag;
++    bool maperr;
+ 
+     switch (access_type) {
+     case MMU_DATA_STORE:
+-        flags = PAGE_WRITE;
++        acc_flag = PAGE_WRITE_ORG;
+         break;
+     case MMU_DATA_LOAD:
+-        flags = PAGE_READ;
++        acc_flag = PAGE_READ;
+         break;
+     case MMU_INST_FETCH:
+-        flags = PAGE_EXEC;
++        acc_flag = PAGE_EXEC;
+         break;
+     default:
+         g_assert_not_reached();
+     }
+ 
+-    if (!guest_addr_valid_untagged(addr) ||
+-        page_check_range(addr, 1, flags) < 0) {
+-        if (nonfault) {
+-            return TLB_INVALID_MASK;
+-        } else {
+-            CPUState *cpu = env_cpu(env);
+-            CPUClass *cc = CPU_GET_CLASS(cpu);
+-            cc->tcg_ops->tlb_fill(cpu, addr, fault_size, access_type,
+-                                  MMU_USER_IDX, false, ra);
+-            g_assert_not_reached();
++    if (guest_addr_valid_untagged(addr)) {
++        int page_flags = page_get_flags(addr);
++        if (page_flags & acc_flag) {
++            return 0; /* success */
+         }
++        maperr = !(page_flags & PAGE_VALID);
++    } else {
++        maperr = true;
+     }
+-    return 0;
++
++    if (nonfault) {
++        return TLB_INVALID_MASK;
++    }
++
++    cpu_loop_exit_sigsegv(env_cpu(env), addr, access_type, maperr, ra);
+ }
+ 
+ int probe_access_flags(CPUArchState *env, target_ulong addr,
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index b816678ba5..135983747d 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -688,9 +688,27 @@ void force_sigsegv(int oldsig)
+     }
+     force_sig(TARGET_SIGSEGV);
+ }
+-
+ #endif
+ 
++void cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
++                           MMUAccessType access_type, bool maperr, uintptr_t ra)
++{
++    const struct TCGCPUOps *tcg_ops = CPU_GET_CLASS(cpu)->tcg_ops;
++
++    if (tcg_ops->record_sigsegv) {
++        tcg_ops->record_sigsegv(cpu, addr, access_type, maperr, ra);
++    } else if (tcg_ops->tlb_fill) {
++        tcg_ops->tlb_fill(cpu, addr, 0, access_type, MMU_USER_IDX, false, ra);
++        g_assert_not_reached();
++    }
++
++    force_sig_fault(TARGET_SIGSEGV,
++                    maperr ? TARGET_SEGV_MAPERR : TARGET_SEGV_ACCERR,
++                    addr);
++    cpu->exception_index = EXCP_INTERRUPT;
++    cpu_loop_exit_restore(cpu, ra);
++}
++
+ /* abort execution with signal */
+ static void QEMU_NORETURN dump_core_and_abort(int target_sig)
+ {
+@@ -806,7 +824,7 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+         access_type = adjust_signal_pc(&pc, is_write);
+ 
+         if (host_sig == SIGSEGV) {
+-            const struct TCGCPUOps *tcg_ops;
++            bool maperr = true;
+ 
+             if (info->si_code == SEGV_ACCERR && h2g_valid(host_addr)) {
+                 /* If this was a write to a TB protected page, restart. */
+@@ -821,18 +839,14 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+                  * which means that we may get ACCERR when we want MAPERR.
+                  */
+                 if (page_get_flags(guest_addr) & PAGE_VALID) {
+-                    /* maperr = false; */
++                    maperr = false;
+                 } else {
+                     info->si_code = SEGV_MAPERR;
+                 }
+             }
+ 
+             sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
+-
+-            tcg_ops = CPU_GET_CLASS(cpu)->tcg_ops;
+-            tcg_ops->tlb_fill(cpu, guest_addr, 0, access_type,
+-                              MMU_USER_IDX, false, pc);
+-            g_assert_not_reached();
++            cpu_loop_exit_sigsegv(cpu, guest_addr, access_type, maperr, pc);
+         } else {
+             sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
+         }
 -- 
 2.25.1
 
