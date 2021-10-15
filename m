@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CDA42F658
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 16:53:57 +0200 (CEST)
-Received: from localhost ([::1]:55722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97EB542F667
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 16:57:20 +0200 (CEST)
+Received: from localhost ([::1]:35594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbOaq-0000Do-TD
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 10:53:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59434)
+	id 1mbOe7-0005d1-Jl
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 10:57:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVz-0000NA-SH
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49642)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOW3-0000Ps-Qy
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:49:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVx-0001rY-F6
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:55 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOW0-0001uO-Uk
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634309332;
+ s=mimecast20190719; t=1634309336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xwGQef5e1NQup5es8DHyn+wEZgjhbGBJXGZDI5UXFuk=;
- b=Gh/LIJn4JvMh+8N9NlYqsPBLlaIMCYZrRlK7wp/3+UEUJF0rD8GoPbhiwv+f9CdWHjlnrS
- JfJM71cI4GsmwkoFc5SIOfO4mLxb/satCQOCe5st5HHX4/XzQZ99UYe4TlmwfDTDioNVSk
- 4z2lh95yjdf/HgzOo50M2hh2/HPgc7Q=
+ bh=Cf3g4DavlMCv8IuMpwdtON8zkZEilGWM8yTJqPKhOTU=;
+ b=OCuGt3Wn5cdwxLELxa2zDFqODyOEmR0q04kgZdoX0VJkpz7bZvZgRqxGDlT1+xk//X8IFR
+ 4ihUMTGwVCxEoxNMMcpcA5S81l7sr+sh9PbtfGFcVwCC0BM2/YuJ9lSZcmBe552PtgWIQQ
+ IisnOZuV86EPBOC5bJdwTPpVTsiTEhU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-hh21bXGbMZ61BGcPBY-PVg-1; Fri, 15 Oct 2021 10:48:50 -0400
-X-MC-Unique: hh21bXGbMZ61BGcPBY-PVg-1
+ us-mta-142-MF19g5KKPZqhbtgJtrk9Dg-1; Fri, 15 Oct 2021 10:48:54 -0400
+X-MC-Unique: MF19g5KKPZqhbtgJtrk9Dg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E208B802921
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 14:48:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E9DBDF8A0
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 14:48:54 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 466E819736;
- Fri, 15 Oct 2021 14:48:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3590F1973B;
+ Fri, 15 Oct 2021 14:48:50 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/15] qdev: Add Error parameter to hide_device() callbacks
-Date: Fri, 15 Oct 2021 16:46:36 +0200
-Message-Id: <20211015144640.198044-12-kwolf@redhat.com>
+Subject: [PULL 12/15] virtio-net: Store failover primary opts pointer locally
+Date: Fri, 15 Oct 2021 16:46:37 +0200
+Message-Id: <20211015144640.198044-13-kwolf@redhat.com>
 In-Reply-To: <20211015144640.198044-1-kwolf@redhat.com>
 References: <20211015144640.198044-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -80,118 +80,97 @@ Cc: kwolf@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hide_device() is used for virtio-net failover, where the standby virtio
-device delays creation of the primary device. It only makes sense to
-have a single primary device for each standby device. Adding a second
-one should result in an error instead of hiding it and never using it
-afterwards.
+Instead of accessing the global QemuOptsList, which really belong to the
+command line parser and shouldn't be accessed from devices, store a
+pointer to the QemuOpts in a new VirtIONet field.
 
-Prepare for this by adding an Error parameter to the hide_device()
-callback where virtio-net is informed about adding a primary device.
+This is not the final state, but just an intermediate step to get rid of
+QemuOpts in devices. It will later be replaced with an options QDict.
+
+Before this patch, two "primary" devices could be hidden for the same
+standby device, but only one of them would actually be enabled and the
+other one would be kept hidden forever, so this doesn't make sense.
+After this patch, configuring a second primary device is an error.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20211008133442.141332-12-kwolf@redhat.com>
+Message-Id: <20211008133442.141332-13-kwolf@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Tested-by: Peter Krempa <pkrempa@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/hw/qdev-core.h | 8 ++++++--
- hw/core/qdev.c         | 7 +++++--
- hw/net/virtio-net.c    | 2 +-
- softmmu/qdev-monitor.c | 5 ++++-
- 4 files changed, 16 insertions(+), 6 deletions(-)
+ include/hw/virtio/virtio-net.h |  1 +
+ hw/net/virtio-net.c            | 26 ++++++++++++++++++--------
+ 2 files changed, 19 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 5a073fc368..74d8b614a7 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -201,8 +201,12 @@ struct DeviceListener {
-      * informs qdev if a device should be visible or hidden.  We can
-      * hide a failover device depending for example on the device
-      * opts.
-+     *
-+     * On errors, it returns false and errp is set. Device creation
-+     * should fail in this case.
-      */
--    bool (*hide_device)(DeviceListener *listener, QemuOpts *device_opts);
-+    bool (*hide_device)(DeviceListener *listener, QemuOpts *device_opts,
-+                        Error **errp);
-     QTAILQ_ENTRY(DeviceListener) link;
- };
- 
-@@ -837,7 +841,7 @@ void device_listener_unregister(DeviceListener *listener);
-  * When a device is added via qdev_device_add() this will be called,
-  * and return if the device should be added now or not.
-  */
--bool qdev_should_hide_device(QemuOpts *opts);
-+bool qdev_should_hide_device(QemuOpts *opts, Error **errp);
- 
- typedef enum MachineInitPhase {
-     /* current_machine is NULL.  */
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index d918b50a1d..c3a021c444 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -211,14 +211,17 @@ void device_listener_unregister(DeviceListener *listener)
-     QTAILQ_REMOVE(&device_listeners, listener, link);
- }
- 
--bool qdev_should_hide_device(QemuOpts *opts)
-+bool qdev_should_hide_device(QemuOpts *opts, Error **errp)
- {
-+    ERRP_GUARD();
-     DeviceListener *listener;
- 
-     QTAILQ_FOREACH(listener, &device_listeners, link) {
-         if (listener->hide_device) {
--            if (listener->hide_device(listener, opts)) {
-+            if (listener->hide_device(listener, opts, errp)) {
-                 return true;
-+            } else if (*errp) {
-+                return false;
-             }
-         }
-     }
+diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
+index 824a69c23f..d118c95f69 100644
+--- a/include/hw/virtio/virtio-net.h
++++ b/include/hw/virtio/virtio-net.h
+@@ -209,6 +209,7 @@ struct VirtIONet {
+     bool failover_primary_hidden;
+     bool failover;
+     DeviceListener primary_listener;
++    QemuOpts *primary_opts;
+     Notifier migration_state;
+     VirtioNetRssData rss_data;
+     struct NetRxPkt *rx_pkt;
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index f205331dcf..a17d5739fc 100644
+index a17d5739fc..ed9a9012e9 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -3304,7 +3304,7 @@ static void virtio_net_migration_state_notifier(Notifier *notifier, void *data)
- }
- 
- static bool failover_hide_primary_device(DeviceListener *listener,
--                                         QemuOpts *device_opts)
-+                                         QemuOpts *device_opts, Error **errp)
+@@ -858,27 +858,24 @@ static DeviceState *failover_find_primary_device(VirtIONet *n)
+ static void failover_add_primary(VirtIONet *n, Error **errp)
  {
-     VirtIONet *n = container_of(listener, VirtIONet, primary_listener);
-     const char *standby_id;
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 0b6833cc57..ea737db028 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -626,6 +626,7 @@ const char *qdev_set_id(DeviceState *dev, char *id, Error **errp)
+     Error *err = NULL;
+-    QemuOpts *opts;
+-    char *id;
+     DeviceState *dev = failover_find_primary_device(n);
  
- DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
- {
-+    ERRP_GUARD();
-     DeviceClass *dc;
-     const char *driver, *path;
-     DeviceState *dev = NULL;
-@@ -669,11 +670,13 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
-             error_setg(errp, "Device with failover_pair_id don't have id");
-             return NULL;
-         }
--        if (qdev_should_hide_device(opts)) {
-+        if (qdev_should_hide_device(opts, errp)) {
-             if (bus && !qbus_is_hotpluggable(bus)) {
-                 error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
-             }
-             return NULL;
-+        } else if (*errp) {
-+            return NULL;
-         }
+     if (dev) {
+         return;
      }
  
+-    id = failover_find_primary_device_id(n);
+-    if (!id) {
++    if (!n->primary_opts) {
+         error_setg(errp, "Primary device not found");
+         error_append_hint(errp, "Virtio-net failover will not work. Make "
+                           "sure primary device has parameter"
+                           " failover_pair_id=%s\n", n->netclient_name);
+         return;
+     }
+-    opts = qemu_opts_find(qemu_find_opts("device"), id);
+-    g_assert(opts); /* cannot be NULL because id was found using opts list */
+-    dev = qdev_device_add(opts, &err);
++
++    dev = qdev_device_add(n->primary_opts, &err);
+     if (err) {
+-        qemu_opts_del(opts);
++        qemu_opts_del(n->primary_opts);
++        n->primary_opts = NULL;
+     } else {
+         object_unref(OBJECT(dev));
+     }
+@@ -3317,6 +3314,19 @@ static bool failover_hide_primary_device(DeviceListener *listener,
+         return false;
+     }
+ 
++    if (n->primary_opts) {
++        error_setg(errp, "Cannot attach more than one primary device to '%s'",
++                   n->netclient_name);
++        return false;
++    }
++
++    /*
++     * Having a weak reference here should be okay because a device can't be
++     * deleted while it's hidden. This will be replaced soon with a QDict that
++     * has a clearer ownership model.
++     */
++    n->primary_opts = device_opts;
++
+     /* failover_primary_hidden is set during feature negotiation */
+     return qatomic_read(&n->failover_primary_hidden);
+ }
 -- 
 2.31.1
 
