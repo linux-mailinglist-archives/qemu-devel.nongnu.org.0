@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D0E42FBB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 21:09:55 +0200 (CEST)
-Received: from localhost ([::1]:41794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFCF42FBB2
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 21:07:28 +0200 (CEST)
+Received: from localhost ([::1]:33410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbSaY-0003nJ-2X
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 15:09:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48658)
+	id 1mbSYA-0006eC-Ub
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 15:07:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1mbSUW-0003uh-1V
+ id 1mbSUV-0003uO-DD
  for qemu-devel@nongnu.org; Fri, 15 Oct 2021 15:03:40 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:40060)
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:37714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1mbSUS-0007iH-W1
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 15:03:39 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19FIeUA1024918; 
- Fri, 15 Oct 2021 19:03:33 GMT
+ id 1mbSUS-0007hD-KH
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 15:03:38 -0400
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19FIG5O7006620; 
+ Fri, 15 Oct 2021 19:03:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=Svbr/JUHR+V6nUWPsWs23gY2WC2ULNMpPwKBALdQLwI=;
- b=dC681MLFBirDfMmJE2l7FpL058tXQk8lhHMW0vSUFBBrtIxn55ahos1t53CsaD5qrWww
- e5GFaXJTrXRvpwZ7iUSI03cyfAzr647h9zuaT3bAV6NwLxwHaV2ODH1yQQgNEO1URLjK
- c0tbtXSWKxqcpm14m/NpzCaZJsvuJLanR4BdxY2fMFY5AH18q1eNbtg4blYVnZ2jKrBS
- 9GaE10mgpaDJ17PkXW9LWoYsQ61r7wMrvRxBMns604FgOmC55jG7xtXhlo32OloLSsE9
- xK1XRZLQjI3wZnw05V8o/gU4SgLkms8kmravAf+oMwyNhqFc0GuozeFQf8d0wMfSvpU+ Ag== 
+ bh=0O8gFPL/awPaEk5pYdmF6P3YvaM2/9VEaKtCj7J0dmQ=;
+ b=s7X+YK1xAVHW5jIUf1JWtue4gO1lSoskrNU20Gq60Tfsh4wMyqPXxEXQatJvqMQk12+h
+ 7IohKKRWv105YgKjjuvVHuSH9iE2vgnOmbSJzm/xKE0+7NjcejOz5bV6ylLrvckWAeKZ
+ 7X6/ssgUusM8seKeWheIoyNU3Jz9Ek6jTnjYp2uby5BlWxPNkOlbgAXcx4YqIBA5QTa/
+ Kl0iMPvLGjqjk1EFXsiYoLlhsZMzy8hR/0kJANeZYju1A5ZbHegdUFRMSbNZkTz+qvzs
+ ZtzOKm4KjN8tZqAgsIUypYZieVhO+5AJXhMM5r1wAxl1QyZ52BYQIwPXAsp0jihYO0Da Mg== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3bqbgfseqp-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3bqes2g7aq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 15 Oct 2021 19:03:32 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19FJ0aMn082428;
- Fri, 15 Oct 2021 19:03:30 GMT
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19FJ0aMo082428;
+ Fri, 15 Oct 2021 19:03:31 GMT
 Received: from nam04-bn8-obe.outbound.protection.outlook.com
  (mail-bn8nam08lp2049.outbound.protection.outlook.com [104.47.74.49])
- by aserp3030.oracle.com with ESMTP id 3bkyxxapvk-1
+ by aserp3030.oracle.com with ESMTP id 3bkyxxapvk-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Oct 2021 19:03:30 +0000
+ Fri, 15 Oct 2021 19:03:31 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OTl3GEqMY/iEfxrwneu5zS+rBTfbli162o/PjtlW3Z3kpyk2H+abRLFJSUbrGDniaBA0WmbbiNCZzx/zg+w5gOlkYjxDhEsQDZaM88MMKEuk1GTmWsCBjIvwtIkstIt5AghnNXGeQrSB+wopSijvCSNJUmaYtuLc/5rfbm/idSOdqGy4JmVwFoozaIBYy9ShrDTtC/qZ5CvsRULx8IVmygza9EbIVFOBQVi5bucFYIe5GIOI+EzW1C5v9XZjrKP1Y+0h3VVEBhzKjC7hKyp3WiHI5aRrPQRbYzpnd2HiZQ3g4la1pkFFpF497fYlEXkReFZWLujx2D+yM6+S2ZcViw==
+ b=nAKC6MqbWnljaVXc1bCqxEaarnUOIuRiU9bCw2lTdHnX1R95kLUEmne6S+XZ+SEM7r9cRs5t9SxDISsC/cvhH1VmQyvWsjSjI9fVre7WP4mrlKN/J7n/e2VTpUZ8ZWTXgGzqJ/2YKmCrzbnN/R4NBTQvUposywbwOTkyO5XDL80ong6AUezopuomFDjG9MXHf+/RWTb9uxreo0qboG/WxhYz7HfSSq0PJCIto587C7cDt3bxbuCku9QIto/iu/HFnrprPTybTBCe8PhOfWis5pMFvdw7LsnqnkYBYhZhAGimh6Zk0//43XiJ8LnDNIrHqAhIEKgO5mGxhlY+hhwtgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Svbr/JUHR+V6nUWPsWs23gY2WC2ULNMpPwKBALdQLwI=;
- b=Oh/49gYoUw5uajIq6PAH6DD90mYoHamPMoqRgRZ/9tAZ84sJB9MKRwHjI1MWOgFZobSEf9U4x6Wzdm39nBMN37GxM8UlKlzwSjVdTUSrtRka5eupOlHRv12HO2nXi4js1/wppUZZFJ5P4gPAmb5JXhhLsmpKwSBbltvn9bbAqv24G/egwIkIPFi1+7donNpZd3h8kALxjvXDzdVD2DF+i53Boi2glN+Ht7Pz7GXhryKTUTgTrJrmkngxbYCfYsnCSJ97+W4aCJ2XoroDl7uBkklJQjLvBR+oAuEo6GM6ni/1ftF8upkX5USc0FbizWtbSF0WuiZ7dej7IaLJHGbJqA==
+ bh=0O8gFPL/awPaEk5pYdmF6P3YvaM2/9VEaKtCj7J0dmQ=;
+ b=gyWw4NRe50akGG73Mz1o8UNs4TvRucwXyugogT4iqaF3UTEH94x0yxHrFEY5MSPBFn9l3ktyq6LAuVkyr+mr3bdTZkcuot1WTUuyoscVkfKGWTGy6l2QhHHGWBj+4U5OPNC2gdVCo6v/i4C0NzHf0OT4kYdOFKLty6jUgMUQwQI+QLnX3BZCMrT41tu9nD6M59zorqWih+MPqEHqzB8BrC6Yr3pjxx1G1K6HZkW8RoYWL2ii4czij4qcpFYD0l7hn4z+Q0bJ+8nv+/00VAUQRJQPypAzkafwmvR6ZOtkk1xkWyKlVtqCKKZ4mx1KqEhydurxah0RkIfPS9vB+4k6kA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Svbr/JUHR+V6nUWPsWs23gY2WC2ULNMpPwKBALdQLwI=;
- b=ELmNm/AWpQklFyQD2LAYDxmMeBrAkg8MdJtGWYgdkBw1mHKw7CRvzTXM9B+1P1YO3uFgXLD+KjtcxNtmT2p8Nj6WZMNh9Ju4cDOytamxrDwtAY1CnnshbT51fDO0VPkpEKPiFpa9rLnQmASAE4Frkwl9KAP8NBJikQmIU2MTmUU=
+ bh=0O8gFPL/awPaEk5pYdmF6P3YvaM2/9VEaKtCj7J0dmQ=;
+ b=zatkxHyxd0nfi1sIH7UsFLqo7Q5/PBdPDHlxZc5fkcaeAELBUS7Xl2F/FMTW5naSu5Gtte5ULaQjXXl2ZYICdow6wtIfJxdAR8ayAPQsAbUGdXrRNaEt+0yq+8nG0KBqsiL9o+bc/EUsYDQlrikwcXth948Ing3JQHSqm2v2lRA=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
  by CO6PR10MB5441.namprd10.prod.outlook.com (2603:10b6:5:35a::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Fri, 15 Oct
- 2021 19:03:28 +0000
+ 2021 19:03:30 +0000
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::90ef:e061:a4c2:acd6]) by CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::90ef:e061:a4c2:acd6%9]) with mapi id 15.20.4608.017; Fri, 15 Oct 2021
- 19:03:28 +0000
+ 19:03:30 +0000
 From: Eric DeVolder <eric.devolder@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 02/10] ACPI ERST: specification for ERST support
-Date: Fri, 15 Oct 2021 15:02:52 -0400
-Message-Id: <1634324580-27120-3-git-send-email-eric.devolder@oracle.com>
+Subject: [PATCH v8 03/10] ACPI ERST: PCI device_id for ERST
+Date: Fri, 15 Oct 2021 15:02:53 -0400
+Message-Id: <1634324580-27120-4-git-send-email-eric.devolder@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1634324580-27120-1-git-send-email-eric.devolder@oracle.com>
 References: <1634324580-27120-1-git-send-email-eric.devolder@oracle.com>
@@ -86,64 +86,64 @@ MIME-Version: 1.0
 Received: from ban25x6uut23.us.oracle.com (138.3.201.23) by
  SA9PR13CA0129.namprd13.prod.outlook.com (2603:10b6:806:27::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4628.9 via Frontend Transport; Fri, 15 Oct 2021 19:03:26 +0000
+ 15.20.4628.9 via Frontend Transport; Fri, 15 Oct 2021 19:03:28 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 11fec5ac-0759-4fab-0e10-08d9900e78f1
+X-MS-Office365-Filtering-Correlation-Id: c0fde777-5015-462c-8314-08d9900e7a02
 X-MS-TrafficTypeDiagnostic: CO6PR10MB5441:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO6PR10MB54417E12BC69E488164084E197B99@CO6PR10MB5441.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <CO6PR10MB54418202EBAEB89F35CC55BE97B99@CO6PR10MB5441.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uVy3eVMDkDcyNR0YD+MjUMn1DlzMy5Du/xwicW82cV8jJl7mPI28NzrjqakI5DEAbWLnJ1LWQEhH1KyFlKuXwwsn8ZqqUEdplhOvkq95zm38h19Dofz0xQNP0t3tdp8vw03jGbZxed1M8Sf+mUBT4lO/qnVYLok9/1a71O5oa7JlAGSmNnkKpQY3CASahLjLVVD1Lu5lrHc2UP4URbhF7ur5UDHmfNSyYWEa3cbDK5u9ycU7bwL+2QJmPGABQzIN9ExdufCRAv3/IGSLjsPVc5VIUbA2X5vGjzTDgoGq9VaepW4WNszXAcRbH1kNGBiSsrT3/QD2+IkkG8ZI2BrmQZEJPLcmhrLIjLQf0UeAwtkDbmsZGOuCNMruyI6bAhvlC97BysLp+ZcL03wI0o7iN1SdQwqetr38dmzYSigut1HCiK3OXqYbp5H5iDm8UCSja2Dq71di8hlgrEtOJ2vYul077XH9djsvNMCPym5COmLJ4JUvG6h09pLAI1CmlCMNubvoGz2nDOFWRSx6PaAKvk0IaptrR4PKBXN2ue9EbmEbmi43xjt9fqWN/ilpmPtl4uQfFGRUawV9KNjzumCLHibJjh5xhHOg0symjr8wRP8bJS5CAZmWME7uUHt3uV8sHoV9X4ecBWi8XGwXAp4UyB3PYwERjZBbI81wpydQi5jI093rZwCI/MDCmOBrnDsntwg8hQvLpZb96T9paw7dNw==
+X-Microsoft-Antispam-Message-Info: q4mF1Zln66q7vjSqEFb/RZUFYG6dfdeX3PRqa+Inw8dDQml5DDheBYN7juOp6BKaDOQgEjtx1MmZiLBRbiTgt+pWUq4Z37uspT3oaBWqLmZhplfml5f1INY62nJztpQxMqOT+uCV4SFXbI4vCt2ChkriXHSC5qT2f5hDbIt4eoEWgsvjzqwQMtlkv7kfy5RAdvwToyN+NAoEZVZU5IbCOnOnJPkrLySDsbJ/5q5tt9GZ9q6wR3RnW7zvcxAdsgpAUD3xImUYg6lMqrZU4KJUyROUP6va0AyBYulwnluR6WbMyouJo+OGiyxTXx+7wdi2lkCB9Nx5KuIBqWQZmRbtz/qDeS7gLCNs7+O1t96yNSo8STsZpuW/eVh6x6bgTlBcfXIDotD0kNvK5HX80BaZmeBQyIRCx7+9zFeOpMrW6cTmnZxC/jt9XRRtZEL36ZerHslgFOVrdjKr7bvCLIFoOvvQXST8/EfKdbOXGSw09Cj8KoGuaT784JFnmTBgwfcD3sUCkp6oQZVMMpCLh3qgYN4kbdrjUXh1IM3wzDmbXiJAotEhfqLKzmInOLrJrbhF9Rzg4RFl9zfB2X0eMq5glNUcaJqjOD3oN6u+PkozETH4/UeFq2+vBfCWJ21Nz622+7Ho6MmqZHBqpXADVsaMpLNP8tOXCefAQIFY9pWfMdeVeYv7u+nXCCoHR4N51RKPqaQD/jNdi3Lcab0I2TsvDQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(36756003)(186003)(66476007)(66556008)(66946007)(8936002)(83380400001)(2616005)(86362001)(6666004)(2906002)(956004)(508600001)(5660300002)(7696005)(6916009)(4326008)(52116002)(8676002)(45080400002)(38100700002)(316002)(6486002)(107886003)(38350700002)(26005);
+ SFS:(366004)(36756003)(186003)(66476007)(66556008)(66946007)(8936002)(4744005)(2616005)(86362001)(6666004)(2906002)(956004)(508600001)(5660300002)(7696005)(6916009)(4326008)(52116002)(8676002)(38100700002)(316002)(6486002)(107886003)(38350700002)(26005);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6oZSkSPqYHl1MIJKlasjokzeYtaiCuLM4iyvY3hMFKJ2dj4Hj4+1bqHh147L?=
- =?us-ascii?Q?ul3KY2szhz2A4L+1CY9IhnWvl0EsE54iSwVultCWd3vujOSMXn2aEUPmX0sn?=
- =?us-ascii?Q?hYyBOcaXWMc+MYSnJDbnuZulcr0lKRtMT84I3CcioWj6GyRe80Oy3s9So1yT?=
- =?us-ascii?Q?znYckAo7tSGPvtPm4Xv4m2rovpdgR3A1KyCy5QyIEUfgaUrXjAfnsmw3aF9V?=
- =?us-ascii?Q?w7JYPj0pvjdvHZ9DeaS7yKdo/K6Ewz2h/7OWeGdOzURbkklapYj90n/QJ0w7?=
- =?us-ascii?Q?f3V0C8odaYzySOYNhJZ2tKxu9HE4xe3qqUgOtqrZakDd/dgDjPuE9WXeHJPL?=
- =?us-ascii?Q?wdWa+ox8mmSZphQl0QV/fHRMMCWLpPBYkQEV2MapbOSHAzgintEsrvnzGpBT?=
- =?us-ascii?Q?dez91PsJszQNtEC2Ji8qRggp+ePJDy+GXnVm+hx183J78sfBU41k3OgIzmQz?=
- =?us-ascii?Q?cgQfRAyGjCjhY+GFI0IX9NnvAtk17I4IsjBPNQX95Koyl91iPnd8dIi8+Qji?=
- =?us-ascii?Q?Fyk+L4OtbRt4fAQcaGKB+B9djVuBxGsBLIZfoY9kysDTSJ69zMa80x59bWcd?=
- =?us-ascii?Q?olMkGTtdL7ZvhFr6lL1NGSM0QDreR0AHGgqananiWso8/aujwTNOcr6BSEE1?=
- =?us-ascii?Q?luxLsXDZ7MSmDtrqx5CS40I+troRIIhy3czg+uGZYM+cVus2YKdoCmPTaxWr?=
- =?us-ascii?Q?gBNBFaxHCJfVJDDH3Wi7eYojVXO/L18yQGUBr3Wl4hInWBwAbom4yrpggpcx?=
- =?us-ascii?Q?2A2Gyz3rV/UliWale1Zv0mInzAyh7rpv7y8MI70Yd0pebcCfam9atw1pclFi?=
- =?us-ascii?Q?qTnG+QrjVa90/9jjPgPnkRi5n+ijB98dc9RAFQxmbbuICcdb8gDkSmmXXZ3V?=
- =?us-ascii?Q?5QI6MuPKGGSpnuCKZKZto83XTTo/EIfty57FYnSMDMhTLn3WYjqreHvdy6iZ?=
- =?us-ascii?Q?zhqAUU9LVCEP2C1h9JSjJaTxM0AT8lTAT3lokfvfPgkrkkL/73Cm3+RnOupM?=
- =?us-ascii?Q?hLGtnYfVncu/MpD9otvh6T99DkuaBhFKQSCjFrLq8EN3SERjIQik9C5SIz//?=
- =?us-ascii?Q?45LzP2+cjR1FXclX4CoSl1yVe0SRM4w1Lw142725B0JWChYzMiC7FFrJP+n3?=
- =?us-ascii?Q?egeYY/k7vBqHJmLHsa+VnhkEmz0ZbduEvNF9/BbQFzH/xZIs1diHrujEHAYQ?=
- =?us-ascii?Q?H8MsViV5Wv+keeIoe1xNCPHVsKe0Sup6Y3fxBpsh0wwEd++241MjUzUE7yns?=
- =?us-ascii?Q?ADYfBkYp1A6c7rQ8cwGdT1IyUYdzq/+3HYbU8Ns8AenmiPoSP6kyejDGaFfA?=
- =?us-ascii?Q?8t0h/StR6AV71Ule6Qg9RWyf?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GJ6ZdW+Cw7LOt1QjzlltYC0BRTrlknVHq7wOo3PF0792gz5j3eOnhEND0FWk?=
+ =?us-ascii?Q?bn0KY/gcwaCHBcwNUmMVRmiCRbmGJa4Le5brYrBuEbmMMYkA4OL4hLPfzyhD?=
+ =?us-ascii?Q?omzGhmU0Lp4Ds64tBUG2SB8dOp6zHBnVU8dN5A69fr8Km3nAShzIPzSx9v3V?=
+ =?us-ascii?Q?gGW2Ag7kHthp6mpZklOuSbB0ACa6IgLY8tayBB+kfmtpzN3/GzQs3d98Zpmx?=
+ =?us-ascii?Q?LouuHv4ZMGemLcJ8NX/5huvmZyyLQ3HfOEuwSKyoL+R1nfSjQilTCPv2C6D4?=
+ =?us-ascii?Q?3D6Btyo2SRK4Tt/b9zLJ+GVJ9wojt3FIzyKbRLHTsvSzNG/gW3FLeZTeGDIf?=
+ =?us-ascii?Q?HdwPEbsTh+w1ioTO1Tb1r2C6xKwsnLBDo3JnXWt+IcpKpSY2dV0ytZSqQ1+F?=
+ =?us-ascii?Q?2RGCv1NsgukJ/Ev2Abt7fARQnjWVw303SEGleRHF4w37YpHj0oXbcNZRIC7a?=
+ =?us-ascii?Q?flQTvGaRFa1sTdZOcb4qAWD8Bhr59vCMABJPQZ1nr0h0rx2icZAnlUjf6lsv?=
+ =?us-ascii?Q?Lo49Rnlq8cp+tcldklJwMh/LTDbhQqbZhIQHNoq+p+rJ7ZMa/wAkSK2Xx3z9?=
+ =?us-ascii?Q?2GLPAWDSqkGZaJdXqu3Q6rW8QsksrrZRCaeNofwZ7f+NahThGl/c8KckPrSh?=
+ =?us-ascii?Q?BmBCGRgWaq3UVpFmykUmBpZpBnR/zgug+VC9n4gvbI9h0luKQTwMHmz+jED7?=
+ =?us-ascii?Q?nO1ERVv7HQsYfKGHAzI2oGdd6PwAvLQNcwffybQle5RWeQxiLi7xixH43bt6?=
+ =?us-ascii?Q?4D8nfiyHNRt343htdi4BbVXljmuo7G5vMDwu7MKFVHsQE03ZAGgYGsmxEq0C?=
+ =?us-ascii?Q?Z0qpj7F0vDxepds2PnGsMn/a7Q23ut2kBwQ5j6wmjM7r7eJZ2Oevv4XtgLw6?=
+ =?us-ascii?Q?k/Mem1dCcKGKhm5XCcCldV9WafFhCoR4l9+ZlLPHEY2W6TiOZ5z+sUdQZhxV?=
+ =?us-ascii?Q?BBhSQnndDISUX/VNPJIbgqdVx5YoNsewKK/LqKeMKxKWRGERDAO+7Gq6dRB5?=
+ =?us-ascii?Q?ZsEK6jdXGP1ZWgDUM/BnIplCyUPX2rUml0z0R1UQXwz0Arh4myZmB7+t7ex+?=
+ =?us-ascii?Q?5negeFvomSjbZnR5woYTkrGkY0H3uCT/CnkJmtsZgGo+YnhdXwbND8vmLpiU?=
+ =?us-ascii?Q?CB06hSBfI7tKA/RMTil7AdzxyNhY5XTTPrfE0tZUkMCkUR1L5thz/QCsV+ZT?=
+ =?us-ascii?Q?0L7PHkOG4aaR8jCykbGvGZe/0Ak11eGvDfjJPAE53he+vaQBY0CU5qAqzk2E?=
+ =?us-ascii?Q?mYOuRj8bHRLLZ+U4OmYV+ukjQDFELTs75zu4P5KoZiYobvW0Qd1JMTN8fSjh?=
+ =?us-ascii?Q?d3DrY7sKNK0iLrTnWePXnexO?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11fec5ac-0759-4fab-0e10-08d9900e78f1
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0fde777-5015-462c-8314-08d9900e7a02
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2021 19:03:28.4622 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2021 19:03:30.2195 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BQoOLPQWDWy6+WWKX9wplcAFI9PPAEwzVwBBj8gIjHO2Y5Yq3PLV2rOk0pYR3017Q+5HKH14feVUwZlGQ80mXPvY1QxXPN+2+ItScNKPaVk=
+X-MS-Exchange-CrossTenant-UserPrincipalName: /t5lIX4P19a4NuRUgDCHSCE3FptzVRlwEtVvHS/wYb7fx8i7VV2RjDtAE8tzIN4vhs9R+HigEhYliomlRDUa1eX+APdIO5nF1h8AQRTCd/A=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5441
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10138
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
  phishscore=0 suspectscore=0
- mlxlogscore=394 mlxscore=0 bulkscore=0 adultscore=0 malwarescore=0
+ mlxlogscore=951 mlxscore=0 bulkscore=0 adultscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
  definitions=main-2110150116
-X-Proofpoint-ORIG-GUID: iXnPYNKfZ1CZslGbaxIxjdVw1K5ltdxi
-X-Proofpoint-GUID: iXnPYNKfZ1CZslGbaxIxjdVw1K5ltdxi
+X-Proofpoint-GUID: -81xXppT46ZrrS-UPLe9f8oJs-y0UleC
+X-Proofpoint-ORIG-GUID: -81xXppT46ZrrS-UPLe9f8oJs-y0UleC
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=eric.devolder@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -172,221 +172,28 @@ Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Information on the implementation of the ACPI ERST support.
+This change reserves the PCI device_id for the new ACPI ERST
+device.
 
 Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: Ani Sinha <ani@anisinha.ca>
 ---
- docs/specs/acpi_erst.rst | 200 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 200 insertions(+)
- create mode 100644 docs/specs/acpi_erst.rst
+ include/hw/pci/pci.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/docs/specs/acpi_erst.rst b/docs/specs/acpi_erst.rst
-new file mode 100644
-index 0000000..a8a9d22
---- /dev/null
-+++ b/docs/specs/acpi_erst.rst
-@@ -0,0 +1,200 @@
-+ACPI ERST DEVICE
-+================
-+
-+The ACPI ERST device is utilized to support the ACPI Error Record
-+Serialization Table, ERST, functionality. This feature is designed for
-+storing error records in persistent storage for future reference
-+and/or debugging.
-+
-+The ACPI specification[1], in Chapter "ACPI Platform Error Interfaces
-+(APEI)", and specifically subsection "Error Serialization", outlines a
-+method for storing error records into persistent storage.
-+
-+The format of error records is described in the UEFI specification[2],
-+in Appendix N "Common Platform Error Record".
-+
-+While the ACPI specification allows for an NVRAM "mode" (see
-+GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES) where non-volatile RAM is
-+directly exposed for direct access by the OS/guest, this device
-+implements the non-NVRAM "mode". This non-NVRAM "mode" is what is
-+implemented by most BIOS (since flash memory requires programming
-+operations in order to update its contents). Furthermore, as of the
-+time of this writing, Linux only supports the non-NVRAM "mode".
-+
-+
-+Background/Motivation
-+---------------------
-+
-+Linux uses the persistent storage filesystem, pstore, to record
-+information (eg. dmesg tail) upon panics and shutdowns.  Pstore is
-+independent of, and runs before, kdump.  In certain scenarios (ie.
-+hosts/guests with root filesystems on NFS/iSCSI where networking
-+software and/or hardware fails, and thus kdump fails), pstore may
-+contain information available for post-mortem debugging.
-+
-+Two common storage backends for the pstore filesystem are ACPI ERST
-+and UEFI. Most BIOS implement ACPI ERST. UEFI is not utilized in all
-+guests. With QEMU supporting ACPI ERST, it becomes a viable pstore
-+storage backend for virtual machines (as it is now for bare metal
-+machines).
-+
-+Enabling support for ACPI ERST facilitates a consistent method to
-+capture kernel panic information in a wide range of guests: from
-+resource-constrained microvms to very large guests, and in particular,
-+in direct-boot environments (which would lack UEFI run-time services).
-+
-+Note that Microsoft Windows also utilizes the ACPI ERST for certain
-+crash information, if available[3].
-+
-+
-+Configuration|Usage
-+-------------------
-+
-+To use ACPI ERST, a memory-backend-file object and acpi-erst device
-+can be created, for example:
-+
-+ qemu ...
-+ -object memory-backend-file,id=erstnvram,mem-path=acpi-erst.backing,size=0x10000,share=on \
-+ -device acpi-erst,memdev=erstnvram
-+
-+For proper operation, the ACPI ERST device needs a memory-backend-file
-+object with the following parameters:
-+
-+ - id: The id of the memory-backend-file object is used to associate
-+   this memory with the acpi-erst device.
-+ - size: The size of the ACPI ERST backing storage. This parameter is
-+   required.
-+ - mem-path: The location of the ACPI ERST backing storage file. This
-+   parameter is also required.
-+ - share: The share=on parameter is required so that updates to the
-+   ERST backing store are written to the file.
-+
-+and ERST device:
-+
-+ - memdev: Is the object id of the memory-backend-file.
-+ - record_size: Specifies the size of the records (or slots) in the
-+   backend storage. Must be a power of two value greater than or
-+   equal to 4096 (PAGE_SIZE).
-+
-+
-+PCI Interface
-+-------------
-+
-+The ERST device is a PCI device with two BARs, one for accessing the
-+programming registers, and the other for accessing the record exchange
-+buffer.
-+
-+BAR0 contains the programming interface consisting of ACTION and VALUE
-+64-bit registers.  All ERST actions/operations/side effects happen on
-+the write to the ACTION, by design. Any data needed by the action must
-+be placed into VALUE prior to writing ACTION.  Reading the VALUE
-+simply returns the register contents, which can be updated by a
-+previous ACTION.
-+
-+BAR1 contains the 8KiB record exchange buffer, which is the
-+implemented maximum record size.
-+
-+
-+Backend Storage Format
-+----------------------
-+
-+The backend storage is divided into fixed size "slots", 8KiB in
-+length, with each slot storing a single record.  Not all slots need to
-+be occupied, and they need not be occupied in a contiguous fashion.
-+The ability to clear/erase specific records allows for the formation
-+of unoccupied slots.
-+
-+Slot 0 contains a backend storage header that identifies the contents
-+as ERST and also facilitates efficient access to the records.
-+Depending upon the size of the backend storage, additional slots will
-+be designated to be a part of the slot 0 header. For example, at 8KiB,
-+the slot 0 header can accomodate 1021 records. Thus a storage size
-+of 8MiB (8KiB * 1024) requires an additional slot for use by the
-+header. In this scenario, slot 0 and slot 1 form the backend storage
-+header, and records can be stored starting at slot 2.
-+
-+Below is an example layout of the backend storage format (for storage
-+size less than 8MiB). The size of the storage is a multiple of 8KiB,
-+and contains N number of slots to store records. The example below
-+shows two records (in CPER format) in the backend storage, while the
-+remaining slots are empty/available.
-+
-+::
-+
-+ Slot   Record
-+        <------------------ 8KiB -------------------->
-+        +--------------------------------------------+
-+    0   | storage header                             |
-+        +--------------------------------------------+
-+    1   | empty/available                            |
-+        +--------------------------------------------+
-+    2   | CPER                                       |
-+        +--------------------------------------------+
-+    3   | CPER                                       |
-+        +--------------------------------------------+
-+  ...   |                                            |
-+        +--------------------------------------------+
-+    N   | empty/available                            |
-+        +--------------------------------------------+
-+
-+The storage header consists of some basic information and an array
-+of CPER record_id's to efficiently access records in the backend
-+storage.
-+
-+All fields in the header are stored in little endian format.
-+
-+::
-+
-+  +--------------------------------------------+
-+  | magic                                      | 0x0000
-+  +--------------------------------------------+
-+  | record_offset        | record_size         | 0x0008
-+  +--------------------------------------------+
-+  | record_count         | reserved | version  | 0x0010
-+  +--------------------------------------------+
-+  | record_id[0]                               | 0x0018
-+  +--------------------------------------------+
-+  | record_id[1]                               | 0x0020
-+  +--------------------------------------------+
-+  | record_id[...]                             |
-+  +--------------------------------------------+
-+  | record_id[N]                               | 0x1FF8
-+  +--------------------------------------------+
-+
-+The 'magic' field contains the value 0x524F545354535245.
-+
-+The 'record_size' field contains the value 0x2000, 8KiB.
-+
-+The 'record_offset' field points to the first record_id in the array,
-+0x0018.
-+
-+The 'version' field contains 0x0100, the first version.
-+
-+The 'record_count' field contains the number of valid records in the
-+backend storage.
-+
-+The 'record_id' array fields are the 64-bit record identifiers of the
-+CPER record in the corresponding slot. Stated differently, the
-+location of a CPER record_id in the record_id[] array provides the
-+slot index for the corresponding record in the backend storage.
-+
-+Note that, for example, with a backend storage less than 8MiB, slot 0
-+contains the header, so the record_id[0] will never contain a valid
-+CPER record_id. Instead slot 1 is the first available slot and thus
-+record_id_[1] may contain a CPER.
-+
-+A 'record_id' of all 0s or all 1s indicates an invalid record (ie. the
-+slot is available).
-+
-+
-+References
-+----------
-+
-+[1] "Advanced Configuration and Power Interface Specification",
-+    version 4.0, June 2009.
-+
-+[2] "Unified Extensible Firmware Interface Specification",
-+    version 2.1, October 2008.
-+
-+[3] "Windows Hardware Error Architecture", specfically
-+    "Error Record Persistence Mechanism".
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 7fc9013..45b79b1 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -108,6 +108,7 @@ extern bool pci_available;
+ #define PCI_DEVICE_ID_REDHAT_MDPY        0x000f
+ #define PCI_DEVICE_ID_REDHAT_NVME        0x0010
+ #define PCI_DEVICE_ID_REDHAT_PVPANIC     0x0011
++#define PCI_DEVICE_ID_REDHAT_ACPI_ERST   0x0012
+ #define PCI_DEVICE_ID_REDHAT_QXL         0x0100
+ 
+ #define FMT_PCIBUS                      PRIx64
 -- 
 1.8.3.1
 
