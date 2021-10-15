@@ -2,33 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7B742E60A
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 03:18:43 +0200 (CEST)
-Received: from localhost ([::1]:56600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40E442E608
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 03:18:38 +0200 (CEST)
+Received: from localhost ([::1]:56268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbBru-0002vA-Nx
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 21:18:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46782)
+	id 1mbBrp-0002hy-Fn
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 21:18:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mbBqP-0000n1-5k
+ id 1mbBqO-0000my-GQ
  for qemu-devel@nongnu.org; Thu, 14 Oct 2021 21:17:13 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:50156)
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:15076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mbBqH-0006a7-FG
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 21:17:08 -0400
+ id 1mbBqH-0006a8-Co
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 21:17:07 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4A10B75606C;
+ by localhost (Postfix) with SMTP id 21ACA756062;
  Fri, 15 Oct 2021 03:16:58 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id CFC3A756060; Fri, 15 Oct 2021 03:16:57 +0200 (CEST)
-Message-Id: <26cb1848c9fc0360df7a57c2c9ba5e03c4a692b5.1634259980.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1634259980.git.balaton@eik.bme.hu>
-References: <cover.1634259980.git.balaton@eik.bme.hu>
+ id B67A2746333; Fri, 15 Oct 2021 03:16:57 +0200 (CEST)
+Message-Id: <cover.1634259980.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 4/4] via-ide: Avoid using isa_get_irq()
+Subject: [PATCH 0/4] Avoid using isa_get_irq in vt82c686 model
 Date: Fri, 15 Oct 2021 03:06:20 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -59,37 +57,28 @@ Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use via_isa_set_irq() which better encapsulates irq handling in the
-vt82xx model and avoids using isa_get_irq() that has a comment saying
-it should not be used.
+Based-on: <cover.1634232746.git.balaton@eik.bme.hu>
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ide/via.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This is on top of (v4-hw/usb/vt82c686-uhci-pci: Use ISA instead of
+PCI) series and removes usage of isa_get_irq() from the usb and ide
+functions. I managed to simplify it so it's not so bad but not sure if
+it's much better either but maybe groups things a bit better this way.
 
-diff --git a/hw/ide/via.c b/hw/ide/via.c
-index 94cc2142c7..252d18f4ac 100644
---- a/hw/ide/via.c
-+++ b/hw/ide/via.c
-@@ -29,7 +29,7 @@
- #include "migration/vmstate.h"
- #include "qemu/module.h"
- #include "sysemu/dma.h"
--
-+#include "hw/isa/vt82c686.h"
- #include "hw/ide/pci.h"
- #include "trace.h"
- 
-@@ -112,7 +112,7 @@ static void via_ide_set_irq(void *opaque, int n, int level)
-         d->config[0x70 + n * 8] &= ~0x80;
-     }
- 
--    qemu_set_irq(isa_get_irq(NULL, 14 + n), level);
-+    via_isa_set_irq(pci_get_function_0(d), 14 + n, level);
- }
- 
- static void via_ide_reset(DeviceState *dev)
+Regards,
+BALATON Zoltan
+
+BALATON Zoltan (4):
+  vt82c686: Move common code to via_isa_realize
+  vt82c686: Add a method to VIA_ISA to raise ISA interrupts
+  hw/usb/vt82c686-uhci-pci: Avoid using isa_get_irq()
+  via-ide: Avoid using isa_get_irq()
+
+ hw/ide/via.c               |  4 +-
+ hw/isa/vt82c686.c          | 75 +++++++++++++++++++-------------------
+ hw/usb/vt82c686-uhci-pci.c |  3 +-
+ include/hw/isa/vt82c686.h  |  4 ++
+ 4 files changed, 45 insertions(+), 41 deletions(-)
+
 -- 
 2.21.4
 
