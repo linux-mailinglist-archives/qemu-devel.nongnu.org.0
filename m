@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E38D42FD16
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 22:42:50 +0200 (CEST)
-Received: from localhost ([::1]:38690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BDE42FD18
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 22:43:28 +0200 (CEST)
+Received: from localhost ([::1]:40884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbU2T-0005IV-HW
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 16:42:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35186)
+	id 1mbU35-0006l8-R4
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 16:43:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbTxq-0001VF-PY
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 16:38:03 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:42852)
+ id 1mbU1q-0005Og-77
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 16:42:10 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:36530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbTxp-0005Gd-8P
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 16:38:02 -0400
-Received: by mail-pl1-x632.google.com with SMTP id l6so7090772plh.9
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 13:37:59 -0700 (PDT)
+ id 1mbU1o-0000kS-Il
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 16:42:09 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ qe4-20020a17090b4f8400b0019f663cfcd1so10173030pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 13:42:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zWbKDnG3OuWdfxg14jGVAaQZVHbQJ65XkHq+72/38X4=;
- b=yZkQYHaD638JrYk9XKMqAe+cwwK00Venlm22KMa9ZMPOY2EMInwSyv9nTo7gBLTKNQ
- P0a7jKKdAa0gMh7QK3Cume6AzDUB5YWMG6uevr9Qvnscq7lM+YKtr2OXSKG9dsHM9Dh1
- dkNyAXzQbBottMC9H+xvTsPxdlnheQVQTXEeGkyHOW2ij3VCulUIeHALS/WoRDltEFp4
- JnVYKZtWtCNpMpYoTykhbeHkBXfPXaS1YuUFH1pFg3jbYsc+Z+IN9svQ1yhxNJ4VVAAI
- e8O0eq9OKchyBlNX9lG4laskT+he0huOogepepIxNZJ7+aW0qs/uKtw+0dRsm5u1Fx8i
- rZlg==
+ bh=r18EO4fPyyz0pUIc5NBJ/o1T00Oaz14Tl981lU+wcbk=;
+ b=vRwo2SiDZf6abCrWLkuNag7/5VATqoZEx3xns+FpSWrTaF4Y22Jt2fK3U/i91jd/bB
+ Bx88733cbfouJNjcshncfhLjubUD8BPr1h3QkcfOBiTNgxYcVfY4kLV1XEZyNhIpXM5u
+ jVdICSGFR+2GdBCmS4dLEpb0Kc48xCN+VdJ9mnBQ4t8XrJWEG9JJ52h2T3YI5Imnm52Y
+ /uiBW+s38CYbkk2Z49lBw1D/bePA4bk/kzAP/BBQtxESRTI7HK6lhZu8OmbyxqIF7xNt
+ e70UNiS/UebApNSOBSFWsz1O/oCC38I1BdvYRJpemsPB3t9XCTwFXilYXi1CycAVXsUm
+ Q6Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zWbKDnG3OuWdfxg14jGVAaQZVHbQJ65XkHq+72/38X4=;
- b=ejOpD7PWxaCWi3EwiTOFoARBphGdBIRp3OgFMJDoCif7PYB61tpv6ApE1cCBN6n5mK
- LKvAWDloC/+fdM/zg8g+8aa3ybXp6IZWSSUMKsK7xFfDawa9mMUCh55Rt57jFC4DhAll
- D16FARxz6pDk3FxFCMiiuu9+y/IfjsrMbWuhj03LtMFoGhTVKsB4rVe35KMQpWu5ifRK
- NHAYWOppy7BpbanbZ7T0YviIHta8ysGHu0WaqXFQz40SmJYRTFqXuzvdCasrWTRyJiWR
- u/FrdIiGjR4crw+to1BES84ZCiDni7lvaCmlqOUP5yjNn0SJ+dc+ClLuyTDciWCv63fa
- XQOg==
-X-Gm-Message-State: AOAM532zdaHNKAabnFoaAXNMphDMjH1i0PHIz1UDmWkNiD4vqy4jEIIK
- BW9Iq2JQPyS5mNgNGRVGccem+A==
-X-Google-Smtp-Source: ABdhPJxG+6nN24ODFJC1x4fsmrShgEg0uDIn6JZGN+TNjXb9jeEzAVCg6dE0hMi2aUWMHBtMtOH4eQ==
-X-Received: by 2002:a17:902:7e4b:b0:13d:c03f:5946 with SMTP id
- a11-20020a1709027e4b00b0013dc03f5946mr12804501pln.4.1634330277926; 
- Fri, 15 Oct 2021 13:37:57 -0700 (PDT)
+ bh=r18EO4fPyyz0pUIc5NBJ/o1T00Oaz14Tl981lU+wcbk=;
+ b=wD6/aot4tx9rgzJo+r6R9oNTQEAlBmnIcOLSJsQAXR0dx5ZLhpL2QQEkDEySfZmldM
+ YBZqciAhC+hlfNRg7Mh7gyNGefBi+GMsjT5AYEZ100/C8988cFzUNyHmz3eaivRbdkcC
+ e515tfAI5SmQzCGNXnVwLx4+/0kmDpfvt6zDJ3Itet6Fbfm9wNjBiXTOn+hMciJhhTEk
+ nOmUUyUUAc3PVSr6tueyqY49fM/zasFHo3PLceeeGRt1+vTxYKogNXhSmKDP0M/3KInW
+ GBOuWuVn1grmZzmgI3alYDIlMqxWxta1Q0eOHuL4CxEW46XkN6mt3zv9TfmVWlxZz0YC
+ tDrA==
+X-Gm-Message-State: AOAM533VvoDvRxTxHe59nkCtwBgIOmckwaXQpGESGsr/UITdxY6DSyqm
+ 8Iiz5xZENXyXQR0Wq0SWFjw9dYwoi7thUQ==
+X-Google-Smtp-Source: ABdhPJyOBB3x8wSo71poIXdRpN3PAjK3Zw9G5DRDHp8j/T71GhwxgTgslk6WKZYtcl2h7rTRFREbGQ==
+X-Received: by 2002:a17:902:e80c:b0:13f:1140:8ab2 with SMTP id
+ u12-20020a170902e80c00b0013f11408ab2mr13023717plg.27.1634330527083; 
+ Fri, 15 Oct 2021 13:42:07 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id a20sm5446886pfn.136.2021.10.15.13.37.57
+ by smtp.gmail.com with ESMTPSA id k22sm5510344pfi.149.2021.10.15.13.42.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Oct 2021 13:37:57 -0700 (PDT)
-Subject: Re: [PATCH v2 1/6] target/riscv: zfh: half-precision load and store
+ Fri, 15 Oct 2021 13:42:06 -0700 (PDT)
+Subject: Re: [PATCH v2 2/6] target/riscv: zfh: half-precision computational
 To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 References: <20211015070307.3860984-1-frank.chang@sifive.com>
- <20211015070307.3860984-2-frank.chang@sifive.com>
+ <20211015070307.3860984-3-frank.chang@sifive.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1afd1b54-6580-19b0-96c5-2179b793993c@linaro.org>
-Date: Fri, 15 Oct 2021 13:37:56 -0700
+Message-ID: <6cd34eee-5bbf-5487-ce70-ae07b9b6d368@linaro.org>
+Date: Fri, 15 Oct 2021 13:42:05 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211015070307.3860984-2-frank.chang@sifive.com>
+In-Reply-To: <20211015070307.3860984-3-frank.chang@sifive.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,14 +96,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/15/21 12:03 AM, frank.chang@sifive.com wrote:
-> +#define REQUIRE_ZFH(ctx) do { \
-> +    if (!ctx->ext_zfh)        \
-> +        return false;         \
-> +} while (0)
+> From: Kito Cheng<kito.cheng@sifive.com>
+> 
+> Signed-off-by: Kito Cheng<kito.cheng@sifive.com>
+> Signed-off-by: Chih-Min Chao<chihmin.chao@sifive.com>
+> Signed-off-by: Frank Chang<frank.chang@sifive.com>
+> ---
+>   target/riscv/fpu_helper.c                 |  82 ++++++++++++++
+>   target/riscv/helper.h                     |  13 +++
+>   target/riscv/insn32.decode                |  11 ++
+>   target/riscv/insn_trans/trans_rvzfh.c.inc | 129 ++++++++++++++++++++++
+>   target/riscv/internals.h                  |  16 +++
+>   5 files changed, 251 insertions(+)
 
-Missing braces for if.
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
