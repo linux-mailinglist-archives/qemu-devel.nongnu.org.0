@@ -2,68 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D16D42EDDB
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 11:38:16 +0200 (CEST)
-Received: from localhost ([::1]:34656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC3342EDE0
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 11:41:00 +0200 (CEST)
+Received: from localhost ([::1]:42660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbJfL-0004pD-A9
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 05:38:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38716)
+	id 1mbJhz-0001jz-Jb
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 05:40:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mbJSs-0003rY-0n; Fri, 15 Oct 2021 05:25:23 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:37831)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mbJSq-0000R3-6o; Fri, 15 Oct 2021 05:25:21 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id w10so21248498ybt.4;
- Fri, 15 Oct 2021 02:25:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BWGAy2dDj+uU5+IFToudNOqgeNMMtr0zeovYO9dWX/I=;
- b=X2ZiChrjvVbeiZ8FvMB8/dEs2T9hWHi8on6OvO+KSBTKP5+sL0DaJu5t9pEhinUfTr
- pOPXkk3IDAmn6hgHkSUJ41gmh1hgtjgaqykG21PxYp+Nz2FNd7sSiWwhgEYdfD0oT+ZD
- CkS1ggSio/luCmMQa6Wg3jCd7rfo+7Etulv7KymcKIZ6gUO6+w6IPB2R0FJgzpXXQLQN
- +arJNqXkNMCSpUqDJ8Ji3v9mnBVif1vCR1BITA2kWhAKkjLuS2vNdOLIzv+KVzKse6D2
- u8YHCMGsD4AcIV3yXTKHekKSSBNRPl/fXFKeYA3Haw2ky4soUK1vGoWJWM6jGQnBA2yR
- BoUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BWGAy2dDj+uU5+IFToudNOqgeNMMtr0zeovYO9dWX/I=;
- b=02gcH82SsTSN9SRmWA8K8QCmVxbmm+X3CUs7XGpDt2euRFd3qCaY8wqHsAFHGlDKeN
- Cs2aTxJW+oS0RGh5WREsD6DEBWiStw/q0LUM9ixbkfSEWvqoMy4UJ/iD1gWUt7cdPaSS
- h1E5CtfdmbSVC4J0K0JvJaq/gELG/RzRXfveGZ33Ow8kKhWvfMe9r6B2R1nfCaKiRXdD
- JFutuPZ84IvnrumFgCxp0P1Z0+zyad4gR+ykcyP3TIF2I+gzKmMP7/BM3KQPecQS37T9
- uckGklXNmnv+zGGocIoJATd4pSWU2eFarXJTm4llMGbeGDWfeFifPxDCcMxSR/+i5rHM
- lxtw==
-X-Gm-Message-State: AOAM531heB3cxWEv6KWnlxA+1PnvnjJ2ob5HP7qeG1IlgEy9ZM8o2t1e
- MxFqXAhawGl43+EkPUkSmUU1Vz6lFaPrqsKpIBc=
-X-Google-Smtp-Source: ABdhPJy2OhAIlQdlqb8RUd8ywbiDBtil93NGCrJ789MbUm3QsCmHBt0V3pWNkldmQA1oteOLZVraIZllLQX+8Q5peN4=
-X-Received: by 2002:a25:e048:: with SMTP id x69mr12562188ybg.293.1634289916946; 
- Fri, 15 Oct 2021 02:25:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mbJTn-0005WG-Nm; Fri, 15 Oct 2021 05:26:21 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:24543)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mbJTi-0001F9-18; Fri, 15 Oct 2021 05:26:17 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 795B1748F58;
+ Fri, 15 Oct 2021 11:26:11 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 574B3748F57; Fri, 15 Oct 2021 11:26:11 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 55810748F56;
+ Fri, 15 Oct 2021 11:26:11 +0200 (CEST)
+Date: Fri, 15 Oct 2021 11:26:11 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 3/6] ppc/pegasos2: Implement get-time-of-day RTAS function
+ with VOF
+In-Reply-To: <YWjyxvGlkzgi2nl6@yekko>
+Message-ID: <dfe0a1bf-a4c7-935a-f9e8-d6692d5c1c9@eik.bme.hu>
+References: <cover.1634241019.git.balaton@eik.bme.hu>
+ <6233eb07c680d6c74427e11b9641958f98d53378.1634241019.git.balaton@eik.bme.hu>
+ <YWjyxvGlkzgi2nl6@yekko>
 MIME-Version: 1.0
-References: <20211012014501.24996-1-limingwang@huawei.com>
- <CAEUhbmX=A4LPgzNgNPcxzzg=veU0=3vXyZQrwikxMFvb_Rcxzw@mail.gmail.com>
- <c4c6cc03d1c6459ea036c08ae30806a5@huawei.com>
-In-Reply-To: <c4c6cc03d1c6459ea036c08ae30806a5@huawei.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 15 Oct 2021 17:25:01 +0800
-Message-ID: <CAEUhbmVD1jyvGJrQLSZLJYfaz6E-m0b9SZA+DQA2YYK70oL7Lg@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/riscv: virt: bugfix the memory-backend-file command
- is invalid
-To: "limingwang (A)" <limingwang@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,107 +57,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jiangyifei <jiangyifei@huawei.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
- "Fanliang \(EulerOS\)" <fanliang@huawei.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, "Wubin \(H\)" <wu.wubin@huawei.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 15, 2021 at 4:52 PM limingwang (A) <limingwang@huawei.com> wrote:
+On Fri, 15 Oct 2021, David Gibson wrote:
+> On Thu, Oct 14, 2021 at 09:50:19PM +0200, BALATON Zoltan wrote:
+>> This is needed for Linux to access RTC time.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>  hw/ppc/pegasos2.c | 25 +++++++++++++++++++++++++
+>>  1 file changed, 25 insertions(+)
+>>
+>> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+>> index a1dd1f6752..a9e3625f56 100644
+>> --- a/hw/ppc/pegasos2.c
+>> +++ b/hw/ppc/pegasos2.c
+>> @@ -31,6 +31,8 @@
+>>  #include "sysemu/kvm.h"
+>>  #include "kvm_ppc.h"
+>>  #include "exec/address-spaces.h"
+>> +#include "qom/qom-qobject.h"
+>> +#include "qapi/qmp/qdict.h"
+>>  #include "trace.h"
+>>  #include "qemu/datadir.h"
+>>  #include "sysemu/device_tree.h"
+>> @@ -369,6 +371,29 @@ static target_ulong pegasos2_rtas(PowerPCCPU *cpu, Pegasos2MachineState *pm,
+>>          return H_PARAMETER;
+>>      }
+>>      switch (token) {
+>> +    case RTAS_GET_TIME_OF_DAY:
+>> +    {
+>> +        QObject *qo = object_property_get_qobject(qdev_get_machine(),
+>> +                                                  "rtc-time", &error_fatal);
+>> +        QDict *qd = qobject_to(QDict, qo);
+>> +
+>> +        if (nargs != 0 || nrets != 8 || !qd) {
+>> +            stl_be_phys(as, rets, -1);
+>> +            qobject_unref(qo);
+>> +            return H_PARAMETER;
+>> +        }
+>> +
+>> +        stl_be_phys(as, rets, 0);
+>> +        stl_be_phys(as, rets + 4, qdict_get_int(qd, "tm_year") + 1900);
+>> +        stl_be_phys(as, rets + 8, qdict_get_int(qd, "tm_mon") + 1);
+>> +        stl_be_phys(as, rets + 12, qdict_get_int(qd, "tm_mday"));
+>> +        stl_be_phys(as, rets + 16, qdict_get_int(qd, "tm_hour"));
+>> +        stl_be_phys(as, rets + 20, qdict_get_int(qd, "tm_min"));
+>> +        stl_be_phys(as, rets + 24, qdict_get_int(qd, "tm_sec"));
 >
->
-> On Wed, Oct 13, 2021 at 22:41 PM Bin Meng <bin.meng@windriver.com> wrote:
-> >
-> > On Tue, Oct 12, 2021 at 9:46 AM MingWang Li <limingwang@huawei.com> wrote:
-> > >
-> > > From: Mingwang Li <limingwang@huawei.com>
-> > >
-> > > When I start the VM with the following command:
-> > > $ ./qemu-system-riscv64 -M virt,accel=kvm -m 4096M -cpu host -nographic \
-> > >     -name guest=riscv-guset \
-> > >     -smp 2 \
-> > >     -bios none \
-> > >     -kernel ./Image \
-> > >     -drive file=./guest.img,format=raw,id=hd0 \
-> > >     -device virtio-blk-device,drive=hd0 \
-> > >     -append "root=/dev/vda rw console=ttyS0 earlycon=sbi" \
-> > >     -object
-> > memory-backend-file,id=mem,size=4096M,mem-path=/dev/hugepages,share=on \
-> > >     -numa node,memdev=mem -mem-prealloc \
-> > >     -chardev socket,id=char0,path=/mnt/vhost-net0 \
-> > >     -netdev type=vhost-user,id=mynet1,chardev=char0,vhostforce \
-> > >     -device
-> > > virtio-net-pci,mac=52:54:00:00:00:01,netdev=mynet1,mrg_rxbuf=on,csum=o
-> > > n,guest_csum=on,guest_ecn=on \
-> > >
-> > > Then, QEMU displays the following error information:
-> > > qemu-system-riscv64: Failed initializing vhost-user memory map,
-> > > consider using -object memory-backend-file share=on
-> >
-> > I see your command line parameters already contain "-object memory-backend-file
-> > share=on", so this error message is not accurate.
->
-> QEMU uses this command to alloc fd in the "memory_region_init_ram_from_file" function
-> and assigns the value of fd to mr->ram_block-fd. If the QEMU uses the default memory to
-> initialize the system, the QEMU cannot obtain the fd in the "vhost_user_mem_section_filter"
-> function when initializing the vhost-user. As a result, an error is reported in the "vhost_user_fill_set_mem_table_msg"
-> function.
->
-> Because of the above bug, even if "-object memory-backend-file share=on" is added to the command line,
-> the QEMU still reports an error.
+> Doing a separate dictionary lookup for every component seems like it
+> might be pretty expensive.  You might want to look at how spapr does
+> this.
 
-Yes, what I meant is that QEMU should not report such inaccurate
-messages because of some random codes elsewhere.
+This is the only short way I could find to read the RTC the same way as 
+the guest or firmware would. I wasn't sure because the rtc model has an 
+update rtc function that it calls before reads to set the values but that 
+looks like doing the same as spapr does so I'll send another patch 
+replacing this with that then.
 
-With current message, it suggested user use "-object
-memory-backend-file share=on" in the command line, but it is already
-used. So this is a false alarm. The "bug" is somewhere else.
+Thanks,
+BALATON Zoltan
 
-> This patch can solve this bug.
+> However, you're maintainer for pegasos, so really it's your call -
+> applied, thanks.
 >
-> > Should this message be altered to mention things like what this patch does?
+>> +        stl_be_phys(as, rets + 28, 0);
+>> +        qobject_unref(qo);
+>> +        return H_SUCCESS;
+>> +    }
+>>      case RTAS_READ_PCI_CONFIG:
+>>      {
+>>          uint32_t addr, len, val;
 >
-> Thanks, I will rewrite the message in next version.
-> >
-> > > qemu-system-riscv64: vhost_set_mem_table failed: Interrupted system
-> > > call (4)
-> > > qemu-system-riscv64: unable to start vhost net: 4: falling back on
-> > > userspace virtio
-> > >
-> > > Note that, before starting the kvm-acceled QEMU VM, following
-> > > temporarily unaccepted QEMU patches should be used:
-> > > https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg02516.html
-> > >
-> > > This error was made bacause default main_mem is used to be registered
-> >
-> > typo: because
-> >
-> Thanks.
 >
-> > > as the system memory, other memory cannot be initialized. Therefore,
-> > > the system memory should be initialized to the machine->ram, which
-> > > consists of the default main_mem and other possible memory required by
-> > > applications, such as shared hugepage memory in DPDK.
-> > > Also, the mc->defaul_ram_id should be set to the default main_mem,
-> > > such as "riscv_virt_board.ram" for the virt machine.
-> > >
-> >
-> > How about changing the commit title to: "Use machine->ram as the system
-> > memory" ??
-> >
->
-> I think it is just a bugfix.
->
-
-But the current codes run perfectly okay so far. This patch adds an
-additional use case for the KVM scenario where current codes cannot
-handle.
-
-Regards,
-Bin
 
