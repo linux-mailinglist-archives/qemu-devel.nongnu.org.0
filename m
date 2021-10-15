@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F1D42E79F
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 06:18:46 +0200 (CEST)
-Received: from localhost ([::1]:43864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E55942E7DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 06:25:55 +0200 (CEST)
+Received: from localhost ([::1]:41172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbEg9-0004KQ-I7
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 00:18:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38820)
+	id 1mbEn4-0004Sx-By
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 00:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbEYp-00074t-2x
+ id 1mbEYp-00078M-Us
  for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:11 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:43613)
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:46882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbEYm-0000Er-Sr
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:10 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- e5-20020a17090a804500b001a116ad95caso816314pjw.2
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 21:11:08 -0700 (PDT)
+ id 1mbEYn-0000Fv-Oh
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:11 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id m21so7413728pgu.13
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 21:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SO98PYe76zHX1Te4ncmpUAjeZt6T0p/6OYCNnl9Too8=;
- b=YCqH71h74W+K/9on5xmPVBhVU6m+9TcSOsE+rSQptbYv2HYlOpa2Q2lAhiduBnr0BW
- x3+tV6bs5ZDm1R7SlVb2uirg7Qd1RmYVnmMCwYAmjJvwN+qeiE3Ap6ymx73f44yPWs8P
- LuZkmisP/TMWCU/yDSfM+hzMFm81dXTpwGtkQcdWfjPn44sImVTkvm/4Q6j01naZaGkt
- mkddgPZWRu6IVdDynYLUQsFiXleF4ys1v6y3LVq9sbUCT+YhB6fKzxKABnhymN7wfT3j
- BKhQCjmpRT1ESA3Eqmnbb8JJl8AmfwtESSnUpqHvOpNAI8AbMu0nD83TLhUU+2F0C7ES
- 4uKQ==
+ bh=yx+lHUm4xHRTq+oGBCcGRXU4RqMZyaNJqFFfjCahKRo=;
+ b=Lgc2zpGZqXm7CyOJfiC9Skl5ehvkC+tlzr3c3BDJJBx14Vdipx2NMaMzzquR8Yg6Bs
+ WSVw6VoTUrjMx72Va8fmipgjdatNapd0C+kS6eNwweeWP7nhYJ51EpaHN9jdQizEBQc1
+ Y8eAJve82wqreyBURLSV6xmD8kSaIAQzJhWFmF7gTDfEZzzAKLw3A9lfNVhQuAu2QOUE
+ cd3OS3DtUZUzCKB3n5iHar3ucGa6mP6QKHcDB0td5n0KuGN0Q42ImzsFFKbWNnvKlq+0
+ FCwnCsdLQgSa8Bqrt5eeT+8xyJk0+b7HUBgtu5NSYsj7BX0YcVc5DgCQd/I8ganhzH78
+ tbsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SO98PYe76zHX1Te4ncmpUAjeZt6T0p/6OYCNnl9Too8=;
- b=JkT6TeoVBfWU5BetVSOmrVRxW+RXHDj0RXwnvBRopWzfKewKduXK3Ot+Yl25RLZLGE
- 4ZEe6hx6KCgV4RrfnhweVq6kzyAmT1GR+BRZw60E6Zo7LBS8D0mn4AvkWFBlsadaBLl+
- zwwdYtFjxmDI0hKORPAKLZ6xWN7k4EfSZiwd/KTuSrcQBWzzXxpeuNcIVSZesW4q4OVJ
- 2gAw0AVxtgKISdD7GK3L1+6GfeAE8VsVHwH9wHaWc3QKNnXWVG0zx0hJ8cIAC4Q6qvax
- /AsILYJ7p3yL8g3a+w9nqC+9KbNHGGXaJu5tSzDbTRuvShzNPJz2Gqc/4zOKX+XiHSBl
- Tssg==
-X-Gm-Message-State: AOAM532B1jJr1PD0rNmenR0eqhTD9tafggeqv7ha3+2gpvwRPIuQ197p
- XnzjmRG5PrIDSPek71Q+bUCpbpuyYo77Tg==
-X-Google-Smtp-Source: ABdhPJxj2fP7/RlGTM8ddTWcPeUeV12K94juUIk9I9n0DC4K4AMGCJUeD00piqKqLO8NYZgpksTUOw==
-X-Received: by 2002:a17:902:ed0b:b0:13f:4318:491a with SMTP id
- b11-20020a170902ed0b00b0013f4318491amr8984469pld.4.1634271067411; 
- Thu, 14 Oct 2021 21:11:07 -0700 (PDT)
+ bh=yx+lHUm4xHRTq+oGBCcGRXU4RqMZyaNJqFFfjCahKRo=;
+ b=4dFNarg4t6m0ZTan44rOMQyMe4qKntKGcS1G9Z0sDdVTkDHXp4ilriKoudopRDRWZ5
+ keT5CTPaihNOS29P+7hRAIxLrabLsV3NheuhYFN5rND6BKGRC4SUojrZsByKPLTHAzPI
+ Z7uVNNOcE/CwFFlqSUSh+NhFFuxHU3FZ23AiQ5HTFBFqRccrIIXonw6PFOm4euzF7aIk
+ TH4f6Vh/R9rfUyOXA5bQEChgj39z8L6OZrPYgsf6z6CH8QpYmQw5RCxxYxvYDOkcv7q9
+ lrTVaMGLsiO12BXwelzZVpdJ8LCaM8k2rhDA4pEfJapvmJW6hMnzo6DrBbbxTnz8af7p
+ fPmw==
+X-Gm-Message-State: AOAM530nvtAuKbvlYO5x9M6lpr2e0P3UWtTQUyE1iiNVm5UHjHBjRkhI
+ wqOBCbDkQN91iqnfFnJIrJYwX5FG1Hh5nw==
+X-Google-Smtp-Source: ABdhPJwiFEpvLe1Jn6rSE7enwqwhOXWUy9KW/riTNzr2QIL+7Fdflugi8W4KjySZw14eUbXKO03mGw==
+X-Received: by 2002:a65:64d7:: with SMTP id t23mr7219602pgv.237.1634271068252; 
+ Thu, 14 Oct 2021 21:11:08 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id me12sm5718006pjb.27.2021.10.14.21.11.06
+ by smtp.gmail.com with ESMTPSA id me12sm5718006pjb.27.2021.10.14.21.11.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 14 Oct 2021 21:11:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 14/67] linux-user/host/mips: Populate host_signal.h
-Date: Thu, 14 Oct 2021 21:10:00 -0700
-Message-Id: <20211015041053.2769193-15-richard.henderson@linaro.org>
+Subject: [PATCH v5 15/67] linux-user/host/riscv: Populate host_signal.h
+Date: Thu, 14 Oct 2021 21:10:01 -0700
+Message-Id: <20211015041053.2769193-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211015041053.2769193-1-richard.henderson@linaro.org>
 References: <20211015041053.2769193-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,25 +82,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Alistair Francis <alistair.francis@wdc.com>, alex.bennee@linaro.org,
+ laurent@vivier.eu, imp@bsdimp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Split host_signal_pc and host_signal_write out of user-exec.c.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/host/mips/host-signal.h | 62 +++++++++++++++++++++++++++++-
- accel/tcg/user-exec.c              | 52 +------------------------
- 2 files changed, 62 insertions(+), 52 deletions(-)
+ linux-user/host/riscv/host-signal.h |  85 +++++++++++++++++-
+ accel/tcg/user-exec.c               | 134 ----------------------------
+ 2 files changed, 84 insertions(+), 135 deletions(-)
 
-diff --git a/linux-user/host/mips/host-signal.h b/linux-user/host/mips/host-signal.h
-index f4b4d65031..9c83e51130 100644
---- a/linux-user/host/mips/host-signal.h
-+++ b/linux-user/host/mips/host-signal.h
-@@ -1 +1,61 @@
+diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/host/riscv/host-signal.h
+index f4b4d65031..5860dce7d7 100644
+--- a/linux-user/host/riscv/host-signal.h
++++ b/linux-user/host/riscv/host-signal.h
+@@ -1 +1,84 @@
 -#define HOST_SIGNAL_PLACEHOLDER
 +/*
 + * host-signal.h: signal info dependent on the host architecture
@@ -114,121 +111,233 @@ index f4b4d65031..9c83e51130 100644
 + * See the COPYING file in the top-level directory.
 + */
 +
-+#ifndef MIPS_HOST_SIGNAL_H
-+#define MIPS_HOST_SIGNAL_H
++#ifndef RISCV_HOST_SIGNAL_H
++#define RISCV_HOST_SIGNAL_H
 +
 +static inline uintptr_t host_signal_pc(ucontext_t *uc)
 +{
-+    return uc->uc_mcontext.pc;
++    return uc->uc_mcontext.__gregs[REG_PC];
 +}
-+
-+#if defined(__misp16) || defined(__mips_micromips)
-+#error "Unsupported encoding"
-+#endif
 +
 +static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
 +{
 +    uint32_t insn = *(uint32_t *)host_signal_pc(uc);
 +
-+    /* Detect all store instructions at program counter. */
-+    switch ((insn >> 26) & 077) {
-+    case 050: /* SB */
-+    case 051: /* SH */
-+    case 052: /* SWL */
-+    case 053: /* SW */
-+    case 054: /* SDL */
-+    case 055: /* SDR */
-+    case 056: /* SWR */
-+    case 070: /* SC */
-+    case 071: /* SWC1 */
-+    case 074: /* SCD */
-+    case 075: /* SDC1 */
-+    case 077: /* SD */
-+#if !defined(__mips_isa_rev) || __mips_isa_rev < 6
-+    case 072: /* SWC2 */
-+    case 076: /* SDC2 */
-+#endif
-+        return true;
-+    case 023: /* COP1X */
-+        /*
-+         * Required in all versions of MIPS64 since
-+         * MIPS64r1 and subsequent versions of MIPS32r2.
-+         */
-+        switch (insn & 077) {
-+        case 010: /* SWXC1 */
-+        case 011: /* SDXC1 */
-+        case 015: /* SUXC1 */
++    /*
++     * Detect store by reading the instruction at the program
++     * counter. Note: we currently only generate 32-bit
++     * instructions so we thus only detect 32-bit stores
++     */
++    switch (((insn >> 0) & 0b11)) {
++    case 3:
++        switch (((insn >> 2) & 0b11111)) {
++        case 8:
++            switch (((insn >> 12) & 0b111)) {
++            case 0: /* sb */
++            case 1: /* sh */
++            case 2: /* sw */
++            case 3: /* sd */
++            case 4: /* sq */
++                return true;
++            default:
++                break;
++            }
++            break;
++        case 9:
++            switch (((insn >> 12) & 0b111)) {
++            case 2: /* fsw */
++            case 3: /* fsd */
++            case 4: /* fsq */
++                return true;
++            default:
++                break;
++            }
++            break;
++        default:
++            break;
++        }
++    }
++
++    /* Check for compressed instructions */
++    switch (((insn >> 13) & 0b111)) {
++    case 7:
++        switch (insn & 0b11) {
++        case 0: /*c.sd */
++        case 2: /* c.sdsp */
 +            return true;
++        default:
++            break;
 +        }
 +        break;
++    case 6:
++        switch (insn & 0b11) {
++        case 0: /* c.sw */
++        case 3: /* c.swsp */
++            return true;
++        default:
++            break;
++        }
++        break;
++    default:
++        break;
 +    }
++
 +    return false;
 +}
 +
 +#endif
 diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index bfd964b578..287f03dac5 100644
+index 287f03dac5..2d9ab0a8b8 100644
 --- a/accel/tcg/user-exec.c
 +++ b/accel/tcg/user-exec.c
-@@ -255,57 +255,7 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+@@ -139,64 +139,6 @@ bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
+     }
+ }
+ 
+-/*
+- * 'pc' is the host PC at which the exception was raised.
+- * 'address' is the effective address of the memory exception.
+- * 'is_write' is 1 if a write caused the exception and otherwise 0.
+- * 'old_set' is the signal set which should be restored.
+- */
+-static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+-                                    int is_write, sigset_t *old_set)
+-{
+-    CPUState *cpu = current_cpu;
+-    CPUClass *cc;
+-    unsigned long host_addr = (unsigned long)info->si_addr;
+-    MMUAccessType access_type = adjust_signal_pc(&pc, is_write);
+-    abi_ptr guest_addr;
+-
+-    /* For synchronous signals we expect to be coming from the vCPU
+-     * thread (so current_cpu should be valid) and either from running
+-     * code or during translation which can fault as we cross pages.
+-     *
+-     * If neither is true then something has gone wrong and we should
+-     * abort rather than try and restart the vCPU execution.
+-     */
+-    if (!cpu || !cpu->running) {
+-        printf("qemu:%s received signal outside vCPU context @ pc=0x%"
+-               PRIxPTR "\n",  __func__, pc);
+-        abort();
+-    }
+-
+-#if defined(DEBUG_SIGNAL)
+-    printf("qemu: SIGSEGV pc=0x%08lx address=%08lx w=%d oldset=0x%08lx\n",
+-           pc, host_addr, is_write, *(unsigned long *)old_set);
+-#endif
+-
+-    /* Convert forcefully to guest address space, invalid addresses
+-       are still valid segv ones */
+-    guest_addr = h2g_nocheck(host_addr);
+-
+-    /* XXX: locking issue */
+-    if (is_write &&
+-        info->si_signo == SIGSEGV &&
+-        info->si_code == SEGV_ACCERR &&
+-        h2g_valid(host_addr) &&
+-        handle_sigsegv_accerr_write(cpu, old_set, pc, guest_addr)) {
+-        return 1;
+-    }
+-
+-    /*
+-     * There is no way the target can handle this other than raising
+-     * an exception.  Undo signal and retaddr state prior to longjmp.
+-     */
+-    sigprocmask(SIG_SETMASK, old_set, NULL);
+-
+-    cc = CPU_GET_CLASS(cpu);
+-    cc->tcg_ops->tlb_fill(cpu, guest_addr, 0, access_type,
+-                          MMU_USER_IDX, false, pc);
+-    g_assert_not_reached();
+-}
+-
+ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+                                  int fault_size, MMUAccessType access_type,
+                                  bool nonfault, uintptr_t ra)
+@@ -255,82 +197,6 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
      return size ? g2h(env_cpu(env), addr) : NULL;
  }
  
--#if defined(__mips__)
--
--#if defined(__misp16) || defined(__mips_micromips)
--#error "Unsupported encoding"
--#endif
+-#if defined(__riscv)
 -
 -int cpu_signal_handler(int host_signum, void *pinfo,
 -                       void *puc)
 -{
 -    siginfo_t *info = pinfo;
 -    ucontext_t *uc = puc;
--    uintptr_t pc = uc->uc_mcontext.pc;
+-    greg_t pc = uc->uc_mcontext.__gregs[REG_PC];
 -    uint32_t insn = *(uint32_t *)pc;
 -    int is_write = 0;
 -
--    /* Detect all store instructions at program counter. */
--    switch((insn >> 26) & 077) {
--    case 050: /* SB */
--    case 051: /* SH */
--    case 052: /* SWL */
--    case 053: /* SW */
--    case 054: /* SDL */
--    case 055: /* SDR */
--    case 056: /* SWR */
--    case 070: /* SC */
--    case 071: /* SWC1 */
--    case 074: /* SCD */
--    case 075: /* SDC1 */
--    case 077: /* SD */
--#if !defined(__mips_isa_rev) || __mips_isa_rev < 6
--    case 072: /* SWC2 */
--    case 076: /* SDC2 */
--#endif
--        is_write = 1;
--        break;
--    case 023: /* COP1X */
--        /* Required in all versions of MIPS64 since
--           MIPS64r1 and subsequent versions of MIPS32r2. */
--        switch (insn & 077) {
--        case 010: /* SWXC1 */
--        case 011: /* SDXC1 */
--        case 015: /* SUXC1 */
--            is_write = 1;
+-    /* Detect store by reading the instruction at the program
+-       counter. Note: we currently only generate 32-bit
+-       instructions so we thus only detect 32-bit stores */
+-    switch (((insn >> 0) & 0b11)) {
+-    case 3:
+-        switch (((insn >> 2) & 0b11111)) {
+-        case 8:
+-            switch (((insn >> 12) & 0b111)) {
+-            case 0: /* sb */
+-            case 1: /* sh */
+-            case 2: /* sw */
+-            case 3: /* sd */
+-            case 4: /* sq */
+-                is_write = 1;
+-                break;
+-            default:
+-                break;
+-            }
+-            break;
+-        case 9:
+-            switch (((insn >> 12) & 0b111)) {
+-            case 2: /* fsw */
+-            case 3: /* fsd */
+-            case 4: /* fsq */
+-                is_write = 1;
+-                break;
+-            default:
+-                break;
+-            }
+-            break;
+-        default:
+-            break;
 -        }
+-    }
+-
+-    /* Check for compressed instructions */
+-    switch (((insn >> 13) & 0b111)) {
+-    case 7:
+-        switch (insn & 0b11) {
+-        case 0: /*c.sd */
+-        case 2: /* c.sdsp */
+-            is_write = 1;
+-            break;
+-        default:
+-            break;
+-        }
+-        break;
+-    case 6:
+-        switch (insn & 0b11) {
+-        case 0: /* c.sw */
+-        case 3: /* c.swsp */
+-            is_write = 1;
+-            break;
+-        default:
+-            break;
+-        }
+-        break;
+-    default:
 -        break;
 -    }
 -
 -    return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
 -}
+-#endif
 -
--#elif defined(__riscv)
-+#if defined(__riscv)
+ /* The softmmu versions of these helpers are in cputlb.c.  */
  
- int cpu_signal_handler(int host_signum, void *pinfo,
-                        void *puc)
+ /*
 -- 
 2.25.1
 
