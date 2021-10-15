@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910B142F0B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 14:24:51 +0200 (CEST)
-Received: from localhost ([::1]:60644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5565B42F0E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 14:27:27 +0200 (CEST)
+Received: from localhost ([::1]:34712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbMGY-0001Da-6y
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 08:24:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52032)
+	id 1mbMJ4-0002xA-DH
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 08:27:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mbMEe-0008Nv-2H
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:22:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27646)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mbMEU-0005Am-Rn
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:22:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634300551;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=X+x9BScqdGty8iclCmqSRltRG2OtvTpe4Lmba3DYdls=;
- b=LZTbraSsDBwN9E6Ue/8xoZp9Y/mtqBnuj3ZxEZu5URUGKoq8Yvv+Yc6eyraLn6BewUAmgr
- I6wVOjSAFtphckR+woIjjO4RRiYwfkOS7B3Aa03YTrBiCxFiiAQ16paoD2C18c50kXiNQx
- F4bP91hS7Vwt2Fgc2gZrQ+uL6XY/J58=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-lHoYillsNt6RW__LL2ZDCA-1; Fri, 15 Oct 2021 08:22:29 -0400
-X-MC-Unique: lHoYillsNt6RW__LL2ZDCA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- l8-20020a5d6d88000000b001611b5de796so5872482wrs.10
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 05:22:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1mbMFh-0000p4-IW
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:23:57 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:56225)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1mbMFf-0005vm-Ml
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:23:57 -0400
+Received: by mail-wm1-x333.google.com with SMTP id v127so2391408wme.5
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 05:23:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ErrKU1nNjLlW3Bw3X1PGFEvVO/njZ3tUD7zOxBLP/dY=;
+ b=emh6nYy/cqhG1ZuPAA3P2wHP1ThWhJtTjdmm1CI6sl11Z52zJVmNIYwoRsAm5b673w
+ 7StOOxetfON4NUwJ94DfNpBAgtXclG07wLMsxY0hygMqm2rWUe7kMqeUNgGAHsv4uBXu
+ 6kBzUd6QKpMRZapXkhohFCOKi+raMRyghD8yM2wn/BJ4c07i63J4+1m1loYg/FlD1GcZ
+ Vgb2qzDaR4RK2aVM7JWztIojqV/jsvBEtLW+6SS2hE0e/q0GTvO39XK5qju84oeK5iYo
+ Vy8CNNiHr+FX3tMYxouU9+wNaCzqtjUnEroN8O6485EiImMd8OvsXw9fydBYOBak3ffb
+ 8Mqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=X+x9BScqdGty8iclCmqSRltRG2OtvTpe4Lmba3DYdls=;
- b=ppC/ecXoCnm02f+w+SIgzBshJbWMi9H5DGsO1m6TKSdTTDzcuAldqtyCmhtMoRCWUG
- 4AcY/Lm2E03GcZWylCkzgrXuyGMEArpxuFnWo78zFfg6YBIvuh3fiTqsukgOWu3Uaxm0
- nVpxTnStTROF78fd0nRp3HhpxkeQp1x4UNvNRTWHNzRcSSigQKiZNry3LLP3TXSUjUHT
- D3O8KnTwH2ZUHfRdf4ynRQMIwaTCWzcixWWOv4WFJpzMebE95UsI6njp1hWcxvBToCpH
- Cc5QbJSGXxRnBcKc6x2R4sZT7wWrmBkxgKqMD26mJ9U2xM331pgr6VG9JBZu1GUDfvx7
- ypdA==
-X-Gm-Message-State: AOAM533VZfHd67/b1HIeb1HZVkEMZ1hPDF/uPfaRzB3IqyvQi7nBi8X3
- kNZ9fV8oBBikmcl5aeIVaIGtkdz+k+pztitxjrL0MV5DnQat/RDUa3MIPAi6UnIDul8n8joOTg2
- 3plBSbn2p2dKHwTY=
-X-Received: by 2002:a7b:c856:: with SMTP id c22mr25723731wml.116.1634300548706; 
- Fri, 15 Oct 2021 05:22:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx64OJFXv9IchRxtt9mt+lpQey81+rRAmgdKqoiPQdaz3onxDB2glHbQ42QCtsfEx2Zja8Ukg==
-X-Received: by 2002:a7b:c856:: with SMTP id c22mr25723696wml.116.1634300548422; 
- Fri, 15 Oct 2021 05:22:28 -0700 (PDT)
-Received: from gator (nat-pool-brq-u.redhat.com. [213.175.37.12])
- by smtp.gmail.com with ESMTPSA id d24sm4496850wmb.35.2021.10.15.05.22.27
+ bh=ErrKU1nNjLlW3Bw3X1PGFEvVO/njZ3tUD7zOxBLP/dY=;
+ b=5FM4GBaqVXip19fbhLRwVqCvLG7vDI4oGAcvx1NbCyffpk6XwqF5uYt7hjVstlQ7O6
+ OP/kPC4mljcfHtFmvWwvg41Ku8Ivru2pEsRRNOLB3bop5TKM4ICH2kNu0rvE8OI/dsSl
+ K1JS8jxlVDxyXIAEp30YqChYs9bKH0yFu+ODnSFhtbSN+HfOpkZcHkNRErKOR3MnNuws
+ MM366yia9U8bLqmvqnb9U5dKw6/3Lk+RMNDJtXN2SxWkibUJnKNK5P96G7p8JXDEQD1n
+ z4Vg6lnenikyFm0NMJ7FleWdeK9r7l8EC+PzGdGTunQpDlB+PGivQA5trqAq66ogtqWG
+ 9Gcg==
+X-Gm-Message-State: AOAM531qKbqM2QMmFZ52IqqhoLa6ChnWdchR51CTZUJnINkW9djDOMee
+ CpaJ8f/BgaebNY73K5c2IFocAw==
+X-Google-Smtp-Source: ABdhPJwWucQ4THkJrISLOmArhpaOeDK1bu/+mRW69P89MkE0FMr/KhSjGUaA/fJz4i+ARouQ4b90UA==
+X-Received: by 2002:a05:600c:414c:: with SMTP id
+ h12mr12059894wmm.66.1634300633518; 
+ Fri, 15 Oct 2021 05:23:53 -0700 (PDT)
+Received: from leviathan (cpc92314-cmbg19-2-0-cust559.5-4.cable.virginm.net.
+ [82.11.186.48])
+ by smtp.gmail.com with ESMTPSA id n1sm10386990wmi.30.2021.10.15.05.23.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Oct 2021 05:22:28 -0700 (PDT)
-Date: Fri, 15 Oct 2021 14:22:26 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH v4] hw/arm/virt: Don't create device-tree node for empty
- NUMA node
-Message-ID: <20211015122226.g42zu7hsbc2fey27@gator>
-References: <20211015104909.16722-1-gshan@redhat.com>
+ Fri, 15 Oct 2021 05:23:53 -0700 (PDT)
+Date: Fri, 15 Oct 2021 13:23:51 +0100
+From: Leif Lindholm <leif@nuviainc.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v8 07/10] hw/arm/sbsa-ref: add ITS support in SBSA GIC
+Message-ID: <20211015122351.vc55mwzjbevl6wjy@leviathan>
+References: <20210812165341.40784-1-shashi.mallela@linaro.org>
+ <20210812165341.40784-8-shashi.mallela@linaro.org>
+ <CAFEAcA9WVu+kjfCWwfGQV00yKgmdFDCSUpxNOu1BEBM3AZCWXg@mail.gmail.com>
+ <20210902124258.mqjhx7lqqvkczf6a@leviathan>
+ <CAFEAcA-KeBzOCP1CHVWPHbHzG=KbS_HJmXoYo7B2VBz=oGSd3w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20211015104909.16722-1-gshan@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CAFEAcA-KeBzOCP1CHVWPHbHzG=KbS_HJmXoYo7B2VBz=oGSd3w@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=leif@nuviainc.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,105 +86,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robh@kernel.org, qemu-riscv@nongnu.org, ehabkost@redhat.com,
- peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- shan.gavin@gmail.com, imammedo@redhat.com
+Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Shashi Mallela <shashi.mallela@linaro.org>,
+ Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ narmstrong@baylibre.com, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 15, 2021 at 06:49:09PM +0800, Gavin Shan wrote:
-> The empty NUMA node, where no memory resides, are allowed. For
-> example, the following command line specifies two empty NUMA nodes.
-> With this, QEMU fails to boot because of the conflicting device-tree
-> node names, as the following error message indicates.
+Hi Peter,
+
+(Apologies for delay. Alex also tells me you are currently away, but
+there is no strong urgency here.)
+
+On Thu, Sep 23, 2021 at 17:00:35 +0100, Peter Maydell wrote:
+> > If we assume that we don't want to further complicate this set by
+> > adding the additional logic *now*, I see three options:
+> > - Implement memory map versioning for sbsa-ref for this set, placing
+> >   the ITS (if enabled) directly after the DIST for sbsa-ref-6.2.
+> > - In this set, place the ITS frames in a different location relative
+> >   to the REDIST frames than it will end up once the further logic is
+> >   implemented.
+> > - Drop the sbsa-ref ITS support from this set, and bring it in with
+> >   the set implementing the additional logic.
+> >
+> > Typing that, I'm getting the feeling that if I was the maintainer,
+> > the third option would be my preference...
 > 
->   /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
->   -accel kvm -machine virt,gic-version=host               \
->   -cpu host -smp 4,sockets=2,cores=2,threads=1            \
->   -m 1024M,slots=16,maxmem=64G                            \
->   -object memory-backend-ram,id=mem0,size=512M            \
->   -object memory-backend-ram,id=mem1,size=512M            \
->   -numa node,nodeid=0,cpus=0-1,memdev=mem0                \
->   -numa node,nodeid=1,cpus=2-3,memdev=mem1                \
->   -numa node,nodeid=2                                     \
->   -numa node,nodeid=3
->     :
->   qemu-system-aarch64: FDT: Failed to create subnode /memory@80000000: FDT_ERR_EXISTS
+> So, we took that third option just to get the initial ITS support
+> into QEMU, and it has now landed. Where do we want to go with
+> the sbsa-ref support ?
 > 
-> As specified by linux device-tree binding document, the device-tree
-> nodes for these empty NUMA nodes shouldn't be generated. However,
-> the corresponding NUMA node IDs should be included in the distance
-> map. As the memory hotplug through device-tree on ARM64 isn't existing
-> so far, it's pointless to expose the empty NUMA nodes through device-tree.
-
-Instead of "it's pointless to expose the empty NUMA nodes through
-device-tree", how about
-
- it's not necessary to require the user to provide a distance map.
- Furthermore, the default distance map Linux generates may even be
- sufficient.
-
-> So this simply skips populating the device-tree nodes for these empty
-> NUMA nodes to avoid the error, so that QEMU can be started successfully.
+> There doesn't seem like there's much coding required on the QEMU
+> side, it's probably about an afternoon at most to update this patch
+> to match whatever we decide we need to do. But it's very unclear
+> to me what it is we should be doing.
 > 
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> ---
-> v4: Drop patch to enforce distance-map as memory hotplug through
->     device-tree is never supported on ARM64. It's pointless to
->     expose these empty NUMA nodes. Besides, comments added to
->     explain the code changes included in this patch as Drew
->     suggested.
-> ---
->  hw/arm/boot.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-> index 57efb61ee4..e05c1c149c 100644
-> --- a/hw/arm/boot.c
-> +++ b/hw/arm/boot.c
-> @@ -599,10 +599,24 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
->      }
->      g_strfreev(node_path);
->  
-> +    /*
-> +     * According to Linux NUMA binding document, the device tree nodes
-> +     * for the empty NUMA nodes shouldn't be generated, but their NUMA
-> +     * node IDs should be included in the distance map instead. However,
-> +     * it's pointless to expose the empty NUMA nodes as memory hotplug
-> +     * through device tree is never supported. We simply skip generating
-> +     * their device tree nodes to avoid the unexpected device tree
-> +     * generating failure due to the duplicated names of these empty
-> +     * NUMA nodes.
-> +     */
+> Leif, what's your plan/preferences here ?
 
-    /*
-     * We drop all the memory nodes which correspond to empty NUMA nodes from
-     * the device tree, because the Linux NUMA binding document states they
-     * should not be generated.  Linux will get the NUMA node IDs of the empty
-     * NUMA nodes from the distance map if they are needed.  This means QEMU
-     * users may be obliged to provide command lines which configure distance
-     * maps when the empty NUMA node IDs are needed and Linux's default
-     * distance map isn't sufficient.
-     */
+I discussed this with Alex/Shashi.
 
+One further complicating aspect is that the EDK2 GIC driver currently
+relies on GIC addresses being known at compile-time.
 
+> Presumably somebody also needs to do the system-software side
+> of things to handle the ITS being present and the redistributor
+> frames moving...
 
->      if (ms->numa_state != NULL && ms->numa_state->num_nodes > 0) {
->          mem_base = binfo->loader_start;
->          for (i = 0; i < ms->numa_state->num_nodes; i++) {
->              mem_len = ms->numa_state->nodes[i].node_mem;
-> +            if (!mem_len) {
-> +                continue;
-> +            }
-> +
->              rc = fdt_add_memory_node(fdt, acells, mem_base,
->                                       scells, mem_len, i);
->              if (rc < 0) {
-> -- 
-> 2.23.0
->
+Since it *would* be useful to get this support in, I think the most
+pragmatic plan would be:
+- Add ITS in the location originally proposed by Shashi.
+- Add information to DT:
+  - Platform version (1).
+  - GICD, GICR, and ITS base addresses.
+- edk2: Convert GIC driver to support dynamic block addresses.
+- TF-A: Parse the DT and add SIP SVC calls:
+  - to retrieve it (or return not supported if not found).
+  - to retrieve base addresses for GICD, GICR, and ITS.
+- edk2-platforms: Query TF-A for platform version.
+  If platform version >= 1, request base addresses for GICD, GICR, and
+  ITS.
+  - Generate IORT if ITS present.
+- Update GIC frame layout to match an ARM GIC-?00. (Platform version 2)
 
-Thanks,
-drew 
+Unrelated to the ITS question, and not requiring any intervention on
+the QEMU side, we can then also transition the CPU and DRAM discovery
+to SIP SVC calls, and stop sharing the DT with edk2 completely.
 
+And some way further down the line we could do the SCP thing, which
+would let us support different GIC-layouts/configurations based on
+platform command line options. (Platform version 3.)
+(TF-A makes SCP calls if version >= 3)
+This would then require no changes to edk2-platforms.
+
+(Numeric values described as incrementing integer rather than trying
+to guess at specific qemu release numbers.)
+
+This minimises any compatibility breakages, and I think remaining ones
+are acceptable for this type of platform.
+
+/
+    Leif
 
