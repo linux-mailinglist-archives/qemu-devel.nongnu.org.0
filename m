@@ -2,70 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E837242F82E
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 18:31:55 +0200 (CEST)
-Received: from localhost ([::1]:54534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C30B542F7C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 18:14:16 +0200 (CEST)
+Received: from localhost ([::1]:40420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbQ7d-0001op-Oy
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 12:31:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45516)
+	id 1mbPqZ-00085B-Db
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 12:14:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajaygargnsit@gmail.com>)
- id 1mbPjL-0007RT-CZ
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 12:06:48 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:41930)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajaygargnsit@gmail.com>)
- id 1mbPjJ-0002am-O1
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 12:06:46 -0400
-Received: by mail-ot1-x332.google.com with SMTP id
- v2-20020a05683018c200b0054e3acddd91so13461968ote.8
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 09:06:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=I1hD65KZvsTUM11Z3+OFqcCldJ1PmlO0xyX0FqNo4g8=;
- b=l7XGJBtJWwSkDWFWzBueb4AOSdvZPd4CkJ2gDdb73FyZEMtgbjYfBINLTJu83ai4hT
- tajsKA8RLPGARMVv0m/Q1I3VOGvUPGjRJNixb/okrR20oTnyWPoGjITcAkKW4pG6s0q/
- zPtHNRSkFDmgBhGlFxfmcOb90crdFxjQ4/xmXZZFiZ2uu9VqpLYi7IXAl8BMc3OPwLHG
- TuwbXZENdhyAH6g2S2+XB9LvSLEkU/wWI02BHGXAzGL7/f9JJlnbl3EryOw1tMojjc2n
- G4LTqIpMCJ4CkTmBgcEMz16PS0TqEPdW5Z/2HDJTb1fdjgWQh1++6o2ABzCWEfNVmmqV
- YcCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=I1hD65KZvsTUM11Z3+OFqcCldJ1PmlO0xyX0FqNo4g8=;
- b=0ZTGGM6VTV4FByUr6tAW1PZpS4ewTVpMKIJ6+uUunPvz3B6xetpu6EELKm2ttO/XWR
- W3QX73zpuKhgFx1c3BFP1pKePjjEsHSokJ86skOGNcKxcwnro9ircKbU3o9IJpu5n4yV
- 5Nw2Zl5qnpUyFGTNNsNOBggKF+5V6fEdCvaoEJMUshXeWRuIfwkQLKkXKOw+N9URVfpl
- Itgx253UgONFOfISIESKR9b9BH4nrBXSsb4nAhzcjIXlYaF0O2NkXlmRObRrzms/2Wo7
- yvv+hzgP7m3yDnt1WmUf+62G4sDzBZ6SSeBPJESPBZNiefKF/9oKKNQ3n/FJO+IghyZ3
- 4Dxg==
-X-Gm-Message-State: AOAM532ybQzJeV23u/PqSe5zKXBZftK0kN07m/XlUpCJcXFT9K5afBdB
- /0bkuEK3jy1xJpbZIcRhFSjU0o0MGwM0ZwFbheqMdAPmYB4DJQ==
-X-Google-Smtp-Source: ABdhPJw6yX5L5dezK5z0mmUW9dbMl86S6pg5jOzb/va4JUt41Rwc0U5zQOe0QKe2HobyCq8dSYvnArBjCiA5B7smi5w=
-X-Received: by 2002:a05:6830:3148:: with SMTP id
- c8mr5714344ots.351.1634314003564; 
- Fri, 15 Oct 2021 09:06:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mbPor-0006Zo-Gq
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 12:12:29 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:49936)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mbPop-000828-Kp
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 12:12:29 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-478-9D-Uf0B4PNSmKY3FHmXtSA-1; Fri, 15 Oct 2021 12:12:22 -0400
+X-MC-Unique: 9D-Uf0B4PNSmKY3FHmXtSA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AA1A362F9;
+ Fri, 15 Oct 2021 16:12:21 +0000 (UTC)
+Received: from bahia.redhat.com (unknown [10.39.195.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9522D5F4E2;
+ Fri, 15 Oct 2021 16:12:19 +0000 (UTC)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] accel/tcg: Fix monitor deadlock
+Date: Fri, 15 Oct 2021 18:12:16 +0200
+Message-Id: <20211015161218.1231920-1-groug@kaod.org>
 MIME-Version: 1.0
-From: Ajay Garg <ajaygargnsit@gmail.com>
-Date: Fri, 15 Oct 2021 21:36:31 +0530
-Message-ID: <CAHP4M8URVjPEGFLHFXk4iS-7FYpg_=ZCVr2f6ufcFkNnZqAUug@mail.gmail.com>
-Subject: Host-PCI-Device mapping
-To: QEMU Developers <qemu-devel@nongnu.org>, iommu@lists.linux-foundation.org, 
- linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=ajaygargnsit@gmail.com; helo=mail-ot1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 15 Oct 2021 12:29:23 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,58 +62,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-stable@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello everyone.
+Commit 7bed89958bfb ("device_core: use drain_call_rcu in in qmp_device_add"=
+)=0D
+introduced a regression in QEMU 6.0 : passing device_add without argument=
+=0D
+hangs the monitor. This was reported against qemu-system-mips64 with TGC,=
+=0D
+but I could consistently reproduce it with other targets (x86 and ppc64).=
+=0D
+=0D
+See https://gitlab.com/qemu-project/qemu/-/issues/650 for details.=0D
+=0D
+The problem is that an emulated busy-looping vCPU can stay forever in=0D
+its RCU read-side critical section and prevent drain_call_rcu() to return.=
+=0D
+This series fixes the issue by letting RCU kick vCPUs out of the read-side=
+=0D
+critical section when drain_call_rcu() is in progress. This is achieved=0D
+through notifiers, as suggested by Paolo Bonzini.=0D
+=0D
+Greg Kurz (2):=0D
+  rcu: Introduce force_rcu notifier=0D
+  accel/tcg: Register a force_rcu notifier=0D
+=0D
+ accel/tcg/tcg-accel-ops-mttcg.c |  3 ++-=0D
+ accel/tcg/tcg-accel-ops-rr.c    |  3 ++-=0D
+ accel/tcg/tcg-accel-ops.c       | 11 +++++++++++=0D
+ accel/tcg/tcg-accel-ops.h       |  2 ++=0D
+ include/hw/core/cpu.h           |  2 ++=0D
+ include/qemu/rcu.h              | 21 ++++++++++++++++++++-=0D
+ util/rcu.c                      | 23 +++++++++++++++++++++--=0D
+ 7 files changed, 60 insertions(+), 5 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-I have a x86_64 L1 guest, running on a x86_64 host, with a
-host-pci-device attached to the guest.
-The host runs with IOMMU enabled, and passthrough enabled.
-
-Following are the addresses of the bar0-region of the pci-device, as
-per the output of lspci -v :
-
-* On host (hpa) => e2c20000
-* On guest (gpa) => fc078000
-
-
-Now, if /proc/<qemu-pid>/maps is dumped on the host, following line of
-interest is seen :
-
-#############################################################################
-7f0b5c5f4000-7f0b5c5f5000 rw-s e2c20000 00:0e 13653
-  anon_inode:[vfio-device]
-#############################################################################
-
-Above indicates that the hva for the pci-device starts from 0x7f0b5c5f4000.
-
-
-Also, upon attaching gdb to the qemu process, and using a slightly
-modified qemugdb/mtree.py (that prints only the information for
-0000:0a:00.0 name) to dump the memory-regions, following is obtained :
-
-#############################################################################
-(gdb) source qemu-gdb.py
-(gdb) qemu mtree
-    00000000fc078000-00000000fc07c095 0000:0a:00.0 base BAR 0 (I/O) (@
-0x56540d8c8da0)
-      00000000fc078000-00000000fc07c095 0000:0a:00.0 BAR 0 (I/O) (@
-0x56540d8c76b0)
-        00000000fc078000-00000000fc07c095 0000:0a:00.0 BAR 0 mmaps[0]
-(I/O) (@ 0x56540d8c7c30)
-(gdb)
-#############################################################################
-
-Above indicates that the hva for the pci-device starts from 0x56540d8c7c30.
-
-As seen, there is a discrepancy in the two results.
-
-
-What am I missing?
-Looking for pointers, will be grateful.
-
-
-Thanks and Regards,
-Ajay
 
