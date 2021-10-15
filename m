@@ -2,96 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9EC42E82B
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 06:58:15 +0200 (CEST)
-Received: from localhost ([::1]:52816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8B442E83B
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 07:03:56 +0200 (CEST)
+Received: from localhost ([::1]:36292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbFIM-0002zN-Am
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 00:58:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42900)
+	id 1mbFNr-0002UN-56
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 01:03:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mbF3K-0001Qz-P5
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:42:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52660)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mbF3H-0001DQ-Kq
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:42:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634272958;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ev6Z0qzvimi353HfswrUXLN6SxjrSKewjNzr2xVV6DA=;
- b=LnkVOHpfo3HkAfZXEFohAA0YpzOSyyfFJ4gghEomWFUagEpQzn7VrXJKhILx2jZk0NJW7V
- qkqNrm23AScSl4xusqTa0WeusFXLpPDOXYgD7ZuyMY06yOVsgIBNPsa7RUK6eKqdq4lzn0
- vYqJI/x1wJleQmX8hqJ7LZ2pfAnuGyo=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-Q3jcp8hmNb2nsCytj-L79Q-1; Fri, 15 Oct 2021 00:42:34 -0400
-X-MC-Unique: Q3jcp8hmNb2nsCytj-L79Q-1
-Received: by mail-pl1-f197.google.com with SMTP id
- p2-20020a170902bd0200b0013da15f4ab0so2782648pls.7
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 21:42:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mbFMF-00010Z-Ey; Fri, 15 Oct 2021 01:02:15 -0400
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:35671)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mbFMC-00069T-NV; Fri, 15 Oct 2021 01:02:15 -0400
+Received: by mail-io1-xd33.google.com with SMTP id h196so6426713iof.2;
+ Thu, 14 Oct 2021 22:02:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wkcLJG8a9iMKCIRG+4D/Vk8VTUw4nt/BkifDk80VwTQ=;
+ b=NlpJ+ahXvYtSl4IQngjkcSgtEYqviMwkmwBywxhucTIOMldNk2A6c9KmmMID91wL5c
+ Pjwvf1ZsIlbVt1JAu0QmPmrdkVRz3eWjbIvCb4ulQ1AytsXSEiUUF43Id8xJtixlBDX7
+ /9QOuTZbNrOGRop5BAbFflslzdwbdKabDDImaJvDAzEWOBREvH7Lhvg4D6Mdh2PsY9i2
+ 4a47ES/TpHSA907o6DiiFAzpnv/Zxaza5p4eMJibaZFopc+AecJL9vDgaSzwqN5cOxAh
+ JwY8fGHk89J5Zaeaq+S7+eaF/+NBlwSZsRnezKDkm/qAvQL1UxuIA5bLgjMyeYpZKYq/
+ 7w8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=ev6Z0qzvimi353HfswrUXLN6SxjrSKewjNzr2xVV6DA=;
- b=GFr/s7pxubKK2ZEd+SkVlt+Odw+eIAO3eNxX41b0HJsbRmVRcEopcTh+i+7vbEwieU
- ISbuhAUzFE1aRNC2p1iaAO62/HG8bQQgQlGEavLzvZv3w73gUqYcmD1mSTYJS2RxHJ8f
- 64OESM65O0/2AmeyuYCPcSBYsrA7e1uPZyBMOyF4KfE9rgITfHvLjL9sla7Esnr2Aij4
- HrSfbNWgzVmHuAwOiGBquq0js9qyUX4ViP9aUxeYPZdjNdYBsZSBlW44kme5Z+pjCWPD
- 8jOmVub32i/EBghm57c1mnKwiR1H4ozmWAriLMs5FlesQKaBhuxjgZSZyJkEkjKrpW5K
- IArA==
-X-Gm-Message-State: AOAM532kPD/KODb3wn/RI/pz4+/d80fTehQHgH1IPQ0/ZNff2iZ4xMFX
- oEIwocRSH4dAfLe/KmNGXIHsaoLgrR7eT9X1mZierNOa/4yjrdE2JaG8EXikDbU3J1zLEdOwobx
- 5F+44xWytFQBFi/E=
-X-Received: by 2002:a05:6a00:1906:b0:44c:b35d:71a8 with SMTP id
- y6-20020a056a00190600b0044cb35d71a8mr9198183pfi.51.1634272953577; 
- Thu, 14 Oct 2021 21:42:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwRWx7Ag3grRRVbolD2IXIQe3qcDijMltS+Q82Xf3UA9zjb+piV5VfjvVtOGrX3EeO3Gorjbg==
-X-Received: by 2002:a05:6a00:1906:b0:44c:b35d:71a8 with SMTP id
- y6-20020a056a00190600b0044cb35d71a8mr9198140pfi.51.1634272953172; 
- Thu, 14 Oct 2021 21:42:33 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id s52sm3762347pfw.4.2021.10.14.21.42.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 21:42:32 -0700 (PDT)
-Subject: Re: [RFC PATCH v4 11/20] vhost: Route host->guest notification
- through shadow virtqueue
-To: Eugenio Perez Martin <eperezma@redhat.com>
-References: <20211001070603.307037-1-eperezma@redhat.com>
- <20211001070603.307037-12-eperezma@redhat.com>
- <ab9a7771-5f9b-6413-3e38-bd3dc7373256@redhat.com>
- <CAJaqyWfm734HrwTJK71hUQNYVkyDaR8OiqtGro_AX9i_pXfmBQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <78843cbf-0096-816b-da74-5406fdcc3783@redhat.com>
-Date: Fri, 15 Oct 2021 12:42:23 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wkcLJG8a9iMKCIRG+4D/Vk8VTUw4nt/BkifDk80VwTQ=;
+ b=GuloaySTwUsjEm+f+Q1VREm/9kyeg0+MFKD7chcrXn/4UOkBKqjSfLck3vjqhjd3Os
+ 6oTWJXpExzr8Zs2gLOY2mb/vbMTkC0jrE3zssTdx3hPTr/gSAfNHtQn0AdGPYS+C2GLA
+ d6aMSvPQkahsY9701N7TimJ3wFAYLmeXnIvtblsAJvq8O/7kQbT2BFQDc02UicQ6L8lt
+ L152TRa/3IwevEJJrOMfC1PoT623YauWrvyKDf4n6k5O5PFTx/zRznUvLI7SXrtuXOJr
+ eCFyFKt87ekEiZhoylLIFOCQbc7THcGf29KwAZ5t3SbLl5uQBVb+diNksFKqY0SeBMjQ
+ I27Q==
+X-Gm-Message-State: AOAM533WxIfk3nnFXbjC13qdIoTQ6kfiYB5ZPvleaJFVSUVIZfiYLXH1
+ Zwma8R9lqnaCkXW1jcOsICA2+9d4iSDpA6XeR64=
+X-Google-Smtp-Source: ABdhPJzu9DAfe7XMLGC3wZUa2+d2VfgmeBLILWTjzonvcSJzVbXLVdf7kLIzL8topD16esimXwZ5xCJnl3fDn8Ba0w4=
+X-Received: by 2002:a05:6602:2bf7:: with SMTP id
+ d23mr367168ioy.187.1634274129948; 
+ Thu, 14 Oct 2021 22:02:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWfm734HrwTJK71hUQNYVkyDaR8OiqtGro_AX9i_pXfmBQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211013205104.1031679-1-richard.henderson@linaro.org>
+ <20211013205104.1031679-4-richard.henderson@linaro.org>
+In-Reply-To: <20211013205104.1031679-4-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 15 Oct 2021 15:01:43 +1000
+Message-ID: <CAKmqyKM4j8LD4Oh-HPdPQNAxxGeaooKDffY5MLY8MYLrK4GVeg@mail.gmail.com>
+Subject: Re: [PATCH v2 03/13] target/riscv: Split misa.mxl and misa.ext
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,203 +77,523 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Eric Blake <eblake@redhat.com>, Michael Lilja <ml@napatech.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Fabien Portas <fabien.portas@grenoble-inp.org>,
+ =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?= <frederic.petrot@univ-grenoble-alpes.fr>,
+ liuzhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2021/10/15 上午12:39, Eugenio Perez Martin 写道:
-> On Wed, Oct 13, 2021 at 5:47 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> 在 2021/10/1 下午3:05, Eugenio Pérez 写道:
->>> This will make qemu aware of the device used buffers, allowing it to
->>> write the guest memory with its contents if needed.
->>>
->>> Since the use of vhost_virtqueue_start can unmasks and discard call
->>> events, vhost_virtqueue_start should be modified in one of these ways:
->>> * Split in two: One of them uses all logic to start a queue with no
->>>     side effects for the guest, and another one tha actually assumes that
->>>     the guest has just started the device. Vdpa should use just the
->>>     former.
->>> * Actually store and check if the guest notifier is masked, and do it
->>>     conditionally.
->>> * Left as it is, and duplicate all the logic in vhost-vdpa.
->>>
->>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>> ---
->>>    hw/virtio/vhost-shadow-virtqueue.c | 19 +++++++++++++++
->>>    hw/virtio/vhost-vdpa.c             | 38 +++++++++++++++++++++++++++++-
->>>    2 files changed, 56 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
->>> index 21dc99ab5d..3fe129cf63 100644
->>> --- a/hw/virtio/vhost-shadow-virtqueue.c
->>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
->>> @@ -53,6 +53,22 @@ static void vhost_handle_guest_kick(EventNotifier *n)
->>>        event_notifier_set(&svq->kick_notifier);
->>>    }
->>>
->>> +/* Forward vhost notifications */
->>> +static void vhost_svq_handle_call_no_test(EventNotifier *n)
->>> +{
->>> +    VhostShadowVirtqueue *svq = container_of(n, VhostShadowVirtqueue,
->>> +                                             call_notifier);
->>> +
->>> +    event_notifier_set(&svq->guest_call_notifier);
->>> +}
->>> +
->>> +static void vhost_svq_handle_call(EventNotifier *n)
->>> +{
->>> +    if (likely(event_notifier_test_and_clear(n))) {
->>> +        vhost_svq_handle_call_no_test(n);
->>> +    }
->>> +}
->>> +
->>>    /*
->>>     * Obtain the SVQ call notifier, where vhost device notifies SVQ that there
->>>     * exists pending used buffers.
->>> @@ -180,6 +196,8 @@ VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev, int idx)
->>>        }
->>>
->>>        svq->vq = virtio_get_queue(dev->vdev, vq_idx);
->>> +    event_notifier_set_handler(&svq->call_notifier,
->>> +                               vhost_svq_handle_call);
->>>        return g_steal_pointer(&svq);
->>>
->>>    err_init_call_notifier:
->>> @@ -195,6 +213,7 @@ err_init_kick_notifier:
->>>    void vhost_svq_free(VhostShadowVirtqueue *vq)
->>>    {
->>>        event_notifier_cleanup(&vq->kick_notifier);
->>> +    event_notifier_set_handler(&vq->call_notifier, NULL);
->>>        event_notifier_cleanup(&vq->call_notifier);
->>>        g_free(vq);
->>>    }
->>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->>> index bc34de2439..6c5f4c98b8 100644
->>> --- a/hw/virtio/vhost-vdpa.c
->>> +++ b/hw/virtio/vhost-vdpa.c
->>> @@ -712,13 +712,40 @@ static bool vhost_vdpa_svq_start_vq(struct vhost_dev *dev, unsigned idx)
->>>    {
->>>        struct vhost_vdpa *v = dev->opaque;
->>>        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, idx);
->>> -    return vhost_svq_start(dev, idx, svq);
->>> +    EventNotifier *vhost_call_notifier = vhost_svq_get_svq_call_notifier(svq);
->>> +    struct vhost_vring_file vhost_call_file = {
->>> +        .index = idx + dev->vq_index,
->>> +        .fd = event_notifier_get_fd(vhost_call_notifier),
->>> +    };
->>> +    int r;
->>> +    bool b;
->>> +
->>> +    /* Set shadow vq -> guest notifier */
->>> +    assert(v->call_fd[idx]);
->>
->> We need aovid the asser() here. On which case we can hit this?
->>
-> I would say that there is no way we can actually hit it, so let's remove it.
+On Thu, Oct 14, 2021 at 6:51 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
->>> +    vhost_svq_set_guest_call_notifier(svq, v->call_fd[idx]);
->>> +
->>> +    b = vhost_svq_start(dev, idx, svq);
->>> +    if (unlikely(!b)) {
->>> +        return false;
->>> +    }
->>> +
->>> +    /* Set device -> SVQ notifier */
->>> +    r = vhost_vdpa_set_vring_dev_call(dev, &vhost_call_file);
->>> +    if (unlikely(r)) {
->>> +        error_report("vhost_vdpa_set_vring_call for shadow vq failed");
->>> +        return false;
->>> +    }
->>
->> Similar to kick, do we need to set_vring_call() before vhost_svq_start()?
->>
-> It should not matter at this moment because the device should not be
-> started at this point and device calls should not run
-> vhost_svq_handle_call until BQL is released.
-
-
-Yes, we stop virtqueue before.
-
-
+> The hw representation of misa.mxl is at the high bits of the
+> misa csr.  Representing this in the same way inside QEMU
+> results in overly complex code trying to check that field.
 >
-> The "logic" of doing it after is to make clear that svq must be fully
-> initialized before processing device calls, even in the case that we
-> extract SVQ in its own iothread or similar. But this could be done
-> before vhost_svq_start for sure.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+> v2: Reset misa.mxl.
+> ---
+>  target/riscv/cpu.h          | 15 +++----
+>  linux-user/elfload.c        |  2 +-
+>  linux-user/riscv/cpu_loop.c |  2 +-
+>  target/riscv/cpu.c          | 78 +++++++++++++++++++++----------------
+>  target/riscv/csr.c          | 44 ++++++++++++++-------
+>  target/riscv/gdbstub.c      |  8 ++--
+>  target/riscv/machine.c      | 10 +++--
+>  target/riscv/translate.c    | 10 +++--
+>  8 files changed, 100 insertions(+), 69 deletions(-)
 >
->>> +
->>> +    /* Check for pending calls */
->>> +    event_notifier_set(vhost_call_notifier);
->>
->> Interesting, can this result spurious interrupt?
->>
-> This actually "queues" a vhost_svq_handle_call after the BQL release,
-> where the device should be fully reset. In that regard, if there are
-> no used descriptors there will not be an irq raised to the guest. Does
-> that answer the question? Or have I missed something?
-
-
-Yes, please explain this in the comment.
-
-
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 7084efc452..e708fcc168 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -25,6 +25,7 @@
+>  #include "exec/cpu-defs.h"
+>  #include "fpu/softfloat-types.h"
+>  #include "qom/object.h"
+> +#include "cpu_bits.h"
 >
->>> +    return true;
->>>    }
->>>
->>>    static unsigned vhost_vdpa_enable_svq(struct vhost_vdpa *v, bool enable)
->>>    {
->>>        struct vhost_dev *hdev = v->dev;
->>>        unsigned n;
->>> +    int r;
->>>
->>>        if (enable == v->shadow_vqs_enabled) {
->>>            return hdev->nvqs;
->>> @@ -752,9 +779,18 @@ static unsigned vhost_vdpa_enable_svq(struct vhost_vdpa *v, bool enable)
->>>        if (!enable) {
->>>            /* Disable all queues or clean up failed start */
->>>            for (n = 0; n < v->shadow_vqs->len; ++n) {
->>> +            struct vhost_vring_file file = {
->>> +                .index = vhost_vdpa_get_vq_index(hdev, n),
->>> +                .fd = v->call_fd[n],
->>> +            };
->>> +
->>> +            r = vhost_vdpa_set_vring_call(hdev, &file);
->>> +            assert(r == 0);
->>> +
->>>                unsigned vq_idx = vhost_vdpa_get_vq_index(hdev, n);
->>>                VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, n);
->>>                vhost_svq_stop(hdev, n, svq);
->>> +            /* TODO: This can unmask or override call fd! */
->>
->> I don't get this comment. Does this mean the current code can't work
->> with mask_notifiers? If yes, this is something we need to fix.
->>
-> Yes, but it will be addressed in the next series. I should have
-> explained it bette here, sorry :).
-
-
-Ok.
-
-Thanks
-
-
+>  #define TCG_GUEST_DEFAULT_MO 0
 >
-> Thanks!
+> @@ -51,9 +52,6 @@
+>  # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE64
+>  #endif
 >
->> Thanks
->>
->>
->>>                vhost_virtqueue_start(hdev, hdev->vdev, &hdev->vqs[n], vq_idx);
->>>            }
->>>
-
+> -#define RV32 ((target_ulong)1 << (TARGET_LONG_BITS - 2))
+> -#define RV64 ((target_ulong)2 << (TARGET_LONG_BITS - 2))
+> -
+>  #define RV(x) ((target_ulong)1 << (x - 'A'))
+>
+>  #define RVI RV('I')
+> @@ -133,8 +131,12 @@ struct CPURISCVState {
+>      target_ulong priv_ver;
+>      target_ulong bext_ver;
+>      target_ulong vext_ver;
+> -    target_ulong misa;
+> -    target_ulong misa_mask;
+> +
+> +    /* RISCVMXL, but uint32_t for vmstate migration */
+> +    uint32_t misa_mxl;      /* current mxl */
+> +    uint32_t misa_mxl_max;  /* max mxl for this cpu */
+> +    uint32_t misa_ext;      /* current extensions */
+> +    uint32_t misa_ext_mask; /* max ext for this cpu */
+>
+>      uint32_t features;
+>
+> @@ -313,7 +315,7 @@ struct RISCVCPU {
+>
+>  static inline int riscv_has_ext(CPURISCVState *env, target_ulong ext)
+>  {
+> -    return (env->misa & ext) != 0;
+> +    return (env->misa_ext & ext) != 0;
+>  }
+>
+>  static inline bool riscv_feature(CPURISCVState *env, int feature)
+> @@ -322,7 +324,6 @@ static inline bool riscv_feature(CPURISCVState *env, int feature)
+>  }
+>
+>  #include "cpu_user.h"
+> -#include "cpu_bits.h"
+>
+>  extern const char * const riscv_int_regnames[];
+>  extern const char * const riscv_fpr_regnames[];
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index 2404d482ba..214c1aa40d 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -1448,7 +1448,7 @@ static uint32_t get_elf_hwcap(void)
+>      uint32_t mask = MISA_BIT('I') | MISA_BIT('M') | MISA_BIT('A')
+>                      | MISA_BIT('F') | MISA_BIT('D') | MISA_BIT('C');
+>
+> -    return cpu->env.misa & mask;
+> +    return cpu->env.misa_ext & mask;
+>  #undef MISA_BIT
+>  }
+>
+> diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
+> index 9859a366e4..e5bb6d908a 100644
+> --- a/linux-user/riscv/cpu_loop.c
+> +++ b/linux-user/riscv/cpu_loop.c
+> @@ -133,7 +133,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+>      env->gpr[xSP] = regs->sp;
+>      env->elf_flags = info->elf_flags;
+>
+> -    if ((env->misa & RVE) && !(env->elf_flags & EF_RISCV_RVE)) {
+> +    if ((env->misa_ext & RVE) && !(env->elf_flags & EF_RISCV_RVE)) {
+>          error_report("Incompatible ELF: RVE cpu requires RVE ABI binary");
+>          exit(EXIT_FAILURE);
+>      }
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 1d69d1887e..fdf031a394 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -110,16 +110,13 @@ const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
+>
+>  bool riscv_cpu_is_32bit(CPURISCVState *env)
+>  {
+> -    if (env->misa & RV64) {
+> -        return false;
+> -    }
+> -
+> -    return true;
+> +    return env->misa_mxl == MXL_RV32;
+>  }
+>
+> -static void set_misa(CPURISCVState *env, target_ulong misa)
+> +static void set_misa(CPURISCVState *env, RISCVMXL mxl, uint32_t ext)
+>  {
+> -    env->misa_mask = env->misa = misa;
+> +    env->misa_mxl_max = env->misa_mxl = mxl;
+> +    env->misa_ext_mask = env->misa_ext = ext;
+>  }
+>
+>  static void set_priv_version(CPURISCVState *env, int priv_ver)
+> @@ -148,9 +145,9 @@ static void riscv_any_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+>  #if defined(TARGET_RISCV32)
+> -    set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+> +    set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+>  #elif defined(TARGET_RISCV64)
+> -    set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+> +    set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+>  #endif
+>      set_priv_version(env, PRIV_VERSION_1_11_0);
+>  }
+> @@ -160,20 +157,20 @@ static void rv64_base_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+>      /* We set this in the realise function */
+> -    set_misa(env, RV64);
+> +    set_misa(env, MXL_RV64, 0);
+>  }
+>
+>  static void rv64_sifive_u_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> -    set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+> +    set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>  }
+>
+>  static void rv64_sifive_e_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> -    set_misa(env, RV64 | RVI | RVM | RVA | RVC | RVU);
+> +    set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>      qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+>  }
+> @@ -182,20 +179,20 @@ static void rv32_base_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+>      /* We set this in the realise function */
+> -    set_misa(env, RV32);
+> +    set_misa(env, MXL_RV32, 0);
+>  }
+>
+>  static void rv32_sifive_u_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> -    set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+> +    set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>  }
+>
+>  static void rv32_sifive_e_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> -    set_misa(env, RV32 | RVI | RVM | RVA | RVC | RVU);
+> +    set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>      qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+>  }
+> @@ -203,7 +200,7 @@ static void rv32_sifive_e_cpu_init(Object *obj)
+>  static void rv32_ibex_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> -    set_misa(env, RV32 | RVI | RVM | RVC | RVU);
+> +    set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>      qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+>      qdev_prop_set_bit(DEVICE(obj), "x-epmp", true);
+> @@ -212,7 +209,7 @@ static void rv32_ibex_cpu_init(Object *obj)
+>  static void rv32_imafcu_nommu_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> -    set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVC | RVU);
+> +    set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>      set_resetvec(env, DEFAULT_RSTVEC);
+>      qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+> @@ -360,6 +357,7 @@ static void riscv_cpu_reset(DeviceState *dev)
+>
+>      mcc->parent_reset(dev);
+>  #ifndef CONFIG_USER_ONLY
+> +    env->misa_mxl = env->misa_mxl_max;
+>      env->priv = PRV_M;
+>      env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
+>      env->mcause = 0;
+> @@ -388,7 +386,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>      CPURISCVState *env = &cpu->env;
+>      RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
+>      int priv_version = 0;
+> -    target_ulong target_misa = env->misa;
+>      Error *local_err = NULL;
+>
+>      cpu_exec_realizefn(cs, &local_err);
+> @@ -434,8 +431,23 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>
+>      set_resetvec(env, cpu->cfg.resetvec);
+>
+> -    /* If only XLEN is set for misa, then set misa from properties */
+> -    if (env->misa == RV32 || env->misa == RV64) {
+> +    /* Validate that MISA_MXL is set properly. */
+> +    switch (env->misa_mxl_max) {
+> +#ifdef TARGET_RISCV64
+> +    case MXL_RV64:
+> +        break;
+> +#endif
+> +    case MXL_RV32:
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +    assert(env->misa_mxl_max == env->misa_mxl);
+> +
+> +    /* If only MISA_EXT is unset for misa, then set it from properties */
+> +    if (env->misa_ext == 0) {
+> +        uint32_t ext = 0;
+> +
+>          /* Do some ISA extension error checking */
+>          if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
+>              error_setg(errp,
+> @@ -462,38 +474,38 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>
+>          /* Set the ISA extensions, checks should have happened above */
+>          if (cpu->cfg.ext_i) {
+> -            target_misa |= RVI;
+> +            ext |= RVI;
+>          }
+>          if (cpu->cfg.ext_e) {
+> -            target_misa |= RVE;
+> +            ext |= RVE;
+>          }
+>          if (cpu->cfg.ext_m) {
+> -            target_misa |= RVM;
+> +            ext |= RVM;
+>          }
+>          if (cpu->cfg.ext_a) {
+> -            target_misa |= RVA;
+> +            ext |= RVA;
+>          }
+>          if (cpu->cfg.ext_f) {
+> -            target_misa |= RVF;
+> +            ext |= RVF;
+>          }
+>          if (cpu->cfg.ext_d) {
+> -            target_misa |= RVD;
+> +            ext |= RVD;
+>          }
+>          if (cpu->cfg.ext_c) {
+> -            target_misa |= RVC;
+> +            ext |= RVC;
+>          }
+>          if (cpu->cfg.ext_s) {
+> -            target_misa |= RVS;
+> +            ext |= RVS;
+>          }
+>          if (cpu->cfg.ext_u) {
+> -            target_misa |= RVU;
+> +            ext |= RVU;
+>          }
+>          if (cpu->cfg.ext_h) {
+> -            target_misa |= RVH;
+> +            ext |= RVH;
+>          }
+>          if (cpu->cfg.ext_v) {
+>              int vext_version = VEXT_VERSION_0_07_1;
+> -            target_misa |= RVV;
+> +            ext |= RVV;
+>              if (!is_power_of_2(cpu->cfg.vlen)) {
+>                  error_setg(errp,
+>                          "Vector extension VLEN must be power of 2");
+> @@ -532,7 +544,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>              set_vext_version(env, vext_version);
+>          }
+>
+> -        set_misa(env, target_misa);
+> +        set_misa(env, env->misa_mxl, ext);
+>      }
+>
+>      riscv_cpu_register_gdb_regs_for_features(cs);
+> @@ -705,7 +717,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
+>      char *isa_str = g_new(char, maxlen);
+>      char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
+>      for (i = 0; i < sizeof(riscv_exts); i++) {
+> -        if (cpu->env.misa & RV(riscv_exts[i])) {
+> +        if (cpu->env.misa_ext & RV(riscv_exts[i])) {
+>              *p++ = qemu_tolower(riscv_exts[i]);
+>          }
+>      }
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 23fbbd3216..d0c86a300d 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -39,7 +39,7 @@ static RISCVException fs(CPURISCVState *env, int csrno)
+>  {
+>  #if !defined(CONFIG_USER_ONLY)
+>      /* loose check condition for fcsr in vector extension */
+> -    if ((csrno == CSR_FCSR) && (env->misa & RVV)) {
+> +    if ((csrno == CSR_FCSR) && (env->misa_ext & RVV)) {
+>          return RISCV_EXCP_NONE;
+>      }
+>      if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+> @@ -51,7 +51,7 @@ static RISCVException fs(CPURISCVState *env, int csrno)
+>
+>  static RISCVException vs(CPURISCVState *env, int csrno)
+>  {
+> -    if (env->misa & RVV) {
+> +    if (env->misa_ext & RVV) {
+>          return RISCV_EXCP_NONE;
+>      }
+>      return RISCV_EXCP_ILLEGAL_INST;
+> @@ -557,7 +557,22 @@ static RISCVException write_mstatush(CPURISCVState *env, int csrno,
+>  static RISCVException read_misa(CPURISCVState *env, int csrno,
+>                                  target_ulong *val)
+>  {
+> -    *val = env->misa;
+> +    target_ulong misa;
+> +
+> +    switch (env->misa_mxl) {
+> +    case MXL_RV32:
+> +        misa = (target_ulong)MXL_RV32 << 30;
+> +        break;
+> +#ifdef TARGET_RISCV64
+> +    case MXL_RV64:
+> +        misa = (target_ulong)MXL_RV64 << 62;
+> +        break;
+> +#endif
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +
+> +    *val = misa | env->misa_ext;
+>      return RISCV_EXCP_NONE;
+>  }
+>
+> @@ -583,8 +598,13 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
+>          return RISCV_EXCP_NONE;
+>      }
+>
+> +    /*
+> +     * misa.MXL writes are not supported by QEMU.
+> +     * Drop writes to those bits.
+> +     */
+> +
+>      /* Mask extensions that are not supported by this hart */
+> -    val &= env->misa_mask;
+> +    val &= env->misa_ext_mask;
+>
+>      /* Mask extensions that are not supported by QEMU */
+>      val &= (RVI | RVE | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+> @@ -601,20 +621,14 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
+>          val &= ~RVC;
+>      }
+>
+> -    /* misa.MXL writes are not supported by QEMU */
+> -    if (riscv_cpu_is_32bit(env)) {
+> -        val = (env->misa & MISA32_MXL) | (val & ~MISA32_MXL);
+> -    } else {
+> -        val = (env->misa & MISA64_MXL) | (val & ~MISA64_MXL);
+> +    /* If nothing changed, do nothing. */
+> +    if (val == env->misa_ext) {
+> +        return RISCV_EXCP_NONE;
+>      }
+>
+>      /* flush translation cache */
+> -    if (val != env->misa) {
+> -        tb_flush(env_cpu(env));
+> -    }
+> -
+> -    env->misa = val;
+> -
+> +    tb_flush(env_cpu(env));
+> +    env->misa_ext = val;
+>      return RISCV_EXCP_NONE;
+>  }
+>
+> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> index a7a9c0b1fe..5257df0217 100644
+> --- a/target/riscv/gdbstub.c
+> +++ b/target/riscv/gdbstub.c
+> @@ -54,10 +54,10 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+>  static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
+>  {
+>      if (n < 32) {
+> -        if (env->misa & RVD) {
+> +        if (env->misa_ext & RVD) {
+>              return gdb_get_reg64(buf, env->fpr[n]);
+>          }
+> -        if (env->misa & RVF) {
+> +        if (env->misa_ext & RVF) {
+>              return gdb_get_reg32(buf, env->fpr[n]);
+>          }
+>      /* there is hole between ft11 and fflags in fpu.xml */
+> @@ -191,10 +191,10 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+>  {
+>      RISCVCPU *cpu = RISCV_CPU(cs);
+>      CPURISCVState *env = &cpu->env;
+> -    if (env->misa & RVD) {
+> +    if (env->misa_ext & RVD) {
+>          gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
+>                                   36, "riscv-64bit-fpu.xml", 0);
+> -    } else if (env->misa & RVF) {
+> +    } else if (env->misa_ext & RVF) {
+>          gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
+>                                   36, "riscv-32bit-fpu.xml", 0);
+>      }
+> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> index 16a08302da..f64b2a96c1 100644
+> --- a/target/riscv/machine.c
+> +++ b/target/riscv/machine.c
+> @@ -140,8 +140,8 @@ static const VMStateDescription vmstate_hyper = {
+>
+>  const VMStateDescription vmstate_riscv_cpu = {
+>      .name = "cpu",
+> -    .version_id = 2,
+> -    .minimum_version_id = 2,
+> +    .version_id = 3,
+> +    .minimum_version_id = 3,
+>      .fields = (VMStateField[]) {
+>          VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
+>          VMSTATE_UINT64_ARRAY(env.fpr, RISCVCPU, 32),
+> @@ -153,8 +153,10 @@ const VMStateDescription vmstate_riscv_cpu = {
+>          VMSTATE_UINTTL(env.guest_phys_fault_addr, RISCVCPU),
+>          VMSTATE_UINTTL(env.priv_ver, RISCVCPU),
+>          VMSTATE_UINTTL(env.vext_ver, RISCVCPU),
+> -        VMSTATE_UINTTL(env.misa, RISCVCPU),
+> -        VMSTATE_UINTTL(env.misa_mask, RISCVCPU),
+> +        VMSTATE_UINT32(env.misa_mxl, RISCVCPU),
+> +        VMSTATE_UINT32(env.misa_ext, RISCVCPU),
+> +        VMSTATE_UINT32(env.misa_mxl_max, RISCVCPU),
+> +        VMSTATE_UINT32(env.misa_ext_mask, RISCVCPU),
+>          VMSTATE_UINT32(env.features, RISCVCPU),
+>          VMSTATE_UINTTL(env.priv, RISCVCPU),
+>          VMSTATE_UINTTL(env.virt, RISCVCPU),
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index d2442f0cf5..422f8ab8d0 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -55,7 +55,8 @@ typedef struct DisasContext {
+>      /* pc_succ_insn points to the instruction following base.pc_next */
+>      target_ulong pc_succ_insn;
+>      target_ulong priv_ver;
+> -    target_ulong misa;
+> +    RISCVMXL xl;
+> +    uint32_t misa_ext;
+>      uint32_t opcode;
+>      uint32_t mstatus_fs;
+>      uint32_t mstatus_hs_fs;
+> @@ -86,7 +87,7 @@ typedef struct DisasContext {
+>
+>  static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+>  {
+> -    return ctx->misa & ext;
+> +    return ctx->misa_ext & ext;
+>  }
+>
+>  #ifdef TARGET_RISCV32
+> @@ -96,7 +97,7 @@ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+>  #else
+>  static inline bool is_32bit(DisasContext *ctx)
+>  {
+> -    return (ctx->misa & RV32) == RV32;
+> +    return ctx->xl == MXL_RV32;
+>  }
+>  #endif
+>
+> @@ -538,7 +539,8 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>  #else
+>      ctx->virt_enabled = false;
+>  #endif
+> -    ctx->misa = env->misa;
+> +    ctx->xl = env->misa_mxl;
+> +    ctx->misa_ext = env->misa_ext;
+>      ctx->frm = -1;  /* unknown rounding mode */
+>      ctx->ext_ifencei = cpu->cfg.ext_ifencei;
+>      ctx->vlen = cpu->cfg.vlen;
+> --
+> 2.25.1
+>
+>
 
