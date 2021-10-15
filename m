@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B79F42F66F
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 16:59:47 +0200 (CEST)
-Received: from localhost ([::1]:41892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A47142F670
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 16:59:48 +0200 (CEST)
+Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbOgU-0001cN-7o
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 10:59:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59390)
+	id 1mbOgV-0001rR-K2
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 10:59:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVv-0000Ic-R8
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44622)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVx-0000Kw-7d
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36092)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVt-0001oN-W3
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:51 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOVv-0001pS-3n
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:48:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634309329;
+ s=mimecast20190719; t=1634309330;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K/vhooS4pg80LutnLO5jZKprSU7/0Su6ADv0Suc89js=;
- b=g6FPL2ERS4Pg0xG44mdVHjeXEsuOBHHmKW9BnpaDXT0Yhy/d1RWcHFy40n0vIEp4W8iMF/
- S5jgQjt5VzMaPfgtquaIu0zA85OJyglODSa88NJUOnUals5h0IkHMqo2HcF2QvK6cNoDeL
- R8kg2A2QagWd886C6HAbTq42K41j+4M=
+ bh=zpcDkGpelHPhPtAmmfMJshtqGbRaO7ivoG5oedmlFus=;
+ b=hocAAYkveJ1ErTiJhJI+nZZ7gMbdGTxYm3BoxNrf0xwOt6yVwEaBZAH6vJx6xgXo9BZ6gh
+ ndOBZJRiK7qurNtkq1hny0i0Hwf92DxiLXdO/V5m+eHUHkopW7MqqPzT32wvDrX1XmNKry
+ i6N4lpP5nWKH7I6QNmwmXr7mugQynOo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-WsdPPRKPPCWEuONZyqSWOQ-1; Fri, 15 Oct 2021 10:48:47 -0400
-X-MC-Unique: WsdPPRKPPCWEuONZyqSWOQ-1
+ us-mta-504-RDaxigVGM3qpmq6nlqQHVg-1; Fri, 15 Oct 2021 10:48:48 -0400
+X-MC-Unique: RDaxigVGM3qpmq6nlqQHVg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2628B1927800
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 14:48:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13D28DF8A3
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 14:48:48 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69D9619736;
- Fri, 15 Oct 2021 14:48:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D23219739;
+ Fri, 15 Oct 2021 14:48:47 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/15] qdev: Make DeviceState.id independent of QemuOpts
-Date: Fri, 15 Oct 2021 16:46:33 +0200
-Message-Id: <20211015144640.198044-9-kwolf@redhat.com>
+Subject: [PULL 09/15] softmmu/qdev-monitor: add error handling in qdev_set_id
+Date: Fri, 15 Oct 2021 16:46:34 +0200
+Message-Id: <20211015144640.198044-10-kwolf@redhat.com>
 In-Reply-To: <20211015144640.198044-1-kwolf@redhat.com>
 References: <20211015144640.198044-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -80,124 +80,147 @@ Cc: kwolf@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DeviceState.id is a pointer to a string that is stored in the QemuOpts
-object DeviceState.opts and freed together with it. We want to create
-devices without going through QemuOpts in the future, so make this a
-separately allocated string.
+From: Damien Hedde <damien.hedde@greensocs.com>
 
+qdev_set_id() is mostly used when the user adds a device (using
+-device cli option or device_add qmp command). This commit adds
+an error parameter to handle the case where the given id is
+already taken.
+
+Also document the function and add a return value in order to
+be able to capture success/failure: the function now returns the
+id in case of success, or NULL in case of failure.
+
+The commit modifies the 2 calling places (qdev-monitor and
+xen-legacy-backend) to add the error object parameter.
+
+Note that the id is, right now, guaranteed to be unique because
+all ids came from the "device" QemuOptsList where the id is used
+as key. This addition is a preparation for a future commit which
+will relax the uniqueness.
+
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20211008133442.141332-9-kwolf@redhat.com>
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+Message-Id: <20211008133442.141332-10-kwolf@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Tested-by: Peter Krempa <pkrempa@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/hw/qdev-core.h              | 2 +-
- include/monitor/qdev.h              | 2 +-
- hw/arm/virt.c                       | 2 +-
- hw/core/qdev.c                      | 1 +
- hw/pci-bridge/pci_expander_bridge.c | 2 +-
- hw/ppc/e500.c                       | 2 +-
- softmmu/qdev-monitor.c              | 5 +++--
- 7 files changed, 9 insertions(+), 7 deletions(-)
+ include/monitor/qdev.h      | 25 +++++++++++++++++++++++-
+ hw/xen/xen-legacy-backend.c |  3 ++-
+ softmmu/qdev-monitor.c      | 39 +++++++++++++++++++++++++++----------
+ 3 files changed, 55 insertions(+), 12 deletions(-)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 4ff19c714b..5a073fc368 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -176,7 +176,7 @@ struct DeviceState {
-     Object parent_obj;
-     /*< public >*/
- 
--    const char *id;
-+    char *id;
-     char *canonical_path;
-     bool realized;
-     bool pending_deleted_event;
 diff --git a/include/monitor/qdev.h b/include/monitor/qdev.h
-index eaa947d73a..389287eb44 100644
+index 389287eb44..74e6c55a2b 100644
 --- a/include/monitor/qdev.h
 +++ b/include/monitor/qdev.h
-@@ -9,6 +9,6 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp);
+@@ -9,6 +9,29 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp);
  
  int qdev_device_help(QemuOpts *opts);
  DeviceState *qdev_device_add(QemuOpts *opts, Error **errp);
--void qdev_set_id(DeviceState *dev, const char *id);
-+void qdev_set_id(DeviceState *dev, char *id);
+-void qdev_set_id(DeviceState *dev, char *id);
++
++/**
++ * qdev_set_id: parent the device and set its id if provided.
++ * @dev: device to handle
++ * @id: id to be given to the device, or NULL.
++ *
++ * Returns: the id of the device in case of success; otherwise NULL.
++ *
++ * @dev must be unrealized, unparented and must not have an id.
++ *
++ * If @id is non-NULL, this function tries to setup @dev qom path as
++ * "/peripheral/id". If @id is already taken, it fails. If it succeeds,
++ * the id field of @dev is set to @id (@dev now owns the given @id
++ * parameter).
++ *
++ * If @id is NULL, this function generates a unique name and setups @dev
++ * qom path as "/peripheral-anon/name". This name is not set as the id
++ * of @dev.
++ *
++ * Upon success, it returns the id/name (generated or provided). The
++ * returned string is owned by the corresponding child property and must
++ * not be freed by the caller.
++ */
++const char *qdev_set_id(DeviceState *dev, char *id, Error **errp);
  
  #endif
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 7170aaacd5..4160d49688 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1459,7 +1459,7 @@ static void create_platform_bus(VirtMachineState *vms)
-     MemoryRegion *sysmem = get_system_memory();
+diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
+index be3cf4a195..085fd31ef7 100644
+--- a/hw/xen/xen-legacy-backend.c
++++ b/hw/xen/xen-legacy-backend.c
+@@ -276,7 +276,8 @@ static struct XenLegacyDevice *xen_be_get_xendev(const char *type, int dom,
+     xendev = g_malloc0(ops->size);
+     object_initialize(&xendev->qdev, ops->size, TYPE_XENBACKEND);
+     OBJECT(xendev)->free = g_free;
+-    qdev_set_id(DEVICE(xendev), g_strdup_printf("xen-%s-%d", type, dev));
++    qdev_set_id(DEVICE(xendev), g_strdup_printf("xen-%s-%d", type, dev),
++                &error_fatal);
+     qdev_realize(DEVICE(xendev), xen_sysbus, &error_fatal);
+     object_unref(OBJECT(xendev));
  
-     dev = qdev_new(TYPE_PLATFORM_BUS_DEVICE);
--    dev->id = TYPE_PLATFORM_BUS_DEVICE;
-+    dev->id = g_strdup(TYPE_PLATFORM_BUS_DEVICE);
-     qdev_prop_set_uint32(dev, "num_irqs", PLATFORM_BUS_NUM_IRQS);
-     qdev_prop_set_uint32(dev, "mmio_size", vms->memmap[VIRT_PLATFORM_BUS].size);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index cefc5eaa0a..d918b50a1d 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -956,6 +956,7 @@ static void device_finalize(Object *obj)
-     }
- 
-     qemu_opts_del(dev->opts);
-+    g_free(dev->id);
- }
- 
- static void device_class_base_init(ObjectClass *class, void *data)
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index 7112dc3062..10e6e7c2ab 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -245,7 +245,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
-     } else {
-         bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
-         bds = qdev_new("pci-bridge");
--        bds->id = dev_name;
-+        bds->id = g_strdup(dev_name);
-         qdev_prop_set_uint8(bds, PCI_BRIDGE_DEV_PROP_CHASSIS_NR, pxb->bus_nr);
-         qdev_prop_set_bit(bds, PCI_BRIDGE_DEV_PROP_SHPC, false);
-     }
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index 95451414dd..960e7efcd3 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -1006,7 +1006,7 @@ void ppce500_init(MachineState *machine)
-     /* Platform Bus Device */
-     if (pmc->has_platform_bus) {
-         dev = qdev_new(TYPE_PLATFORM_BUS_DEVICE);
--        dev->id = TYPE_PLATFORM_BUS_DEVICE;
-+        dev->id = g_strdup(TYPE_PLATFORM_BUS_DEVICE);
-         qdev_prop_set_uint32(dev, "num_irqs", pmc->platform_bus_num_irqs);
-         qdev_prop_set_uint32(dev, "mmio_size", pmc->platform_bus_size);
-         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
 diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 672f87ed4f..b7c2d69207 100644
+index b7c2d69207..0b6833cc57 100644
 --- a/softmmu/qdev-monitor.c
 +++ b/softmmu/qdev-monitor.c
-@@ -592,7 +592,8 @@ static BusState *qbus_find(const char *path, Error **errp)
-     return bus;
+@@ -593,22 +593,35 @@ static BusState *qbus_find(const char *path, Error **errp)
  }
  
--void qdev_set_id(DeviceState *dev, const char *id)
-+/* Takes ownership of @id, will be freed when deleting the device */
-+void qdev_set_id(DeviceState *dev, char *id)
+ /* Takes ownership of @id, will be freed when deleting the device */
+-void qdev_set_id(DeviceState *dev, char *id)
++const char *qdev_set_id(DeviceState *dev, char *id, Error **errp)
  {
-     if (id) {
-         dev->id = id;
-@@ -690,7 +691,7 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+-    if (id) {
+-        dev->id = id;
+-    }
++    ObjectProperty *prop;
+ 
+-    if (dev->id) {
+-        object_property_add_child(qdev_get_peripheral(), dev->id,
+-                                  OBJECT(dev));
++    assert(!dev->id && !dev->realized);
++
++    /*
++     * object_property_[try_]add_child() below will assert the device
++     * has no parent
++     */
++    if (id) {
++        prop = object_property_try_add_child(qdev_get_peripheral(), id,
++                                             OBJECT(dev), NULL);
++        if (prop) {
++            dev->id = id;
++        } else {
++            g_free(id);
++            error_setg(errp, "Duplicate device ID '%s'", id);
++            return NULL;
++        }
+     } else {
+         static int anon_count;
+         gchar *name = g_strdup_printf("device[%d]", anon_count++);
+-        object_property_add_child(qdev_get_peripheral_anon(), name,
+-                                  OBJECT(dev));
++        prop = object_property_add_child(qdev_get_peripheral_anon(), name,
++                                         OBJECT(dev));
+         g_free(name);
+     }
++
++    return prop->name;
+ }
+ 
+ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+@@ -691,7 +704,13 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
          }
      }
  
--    qdev_set_id(dev, qemu_opts_id(opts));
-+    qdev_set_id(dev, g_strdup(qemu_opts_id(opts)));
+-    qdev_set_id(dev, g_strdup(qemu_opts_id(opts)));
++    /*
++     * set dev's parent and register its id.
++     * If it fails it means the id is already taken.
++     */
++    if (!qdev_set_id(dev, g_strdup(qemu_opts_id(opts)), errp)) {
++        goto err_del_dev;
++    }
  
      /* set properties */
      if (qemu_opt_foreach(opts, set_property, dev, errp)) {
