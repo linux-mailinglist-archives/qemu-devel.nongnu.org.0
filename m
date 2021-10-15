@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E34642FB1B
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 20:37:14 +0200 (CEST)
-Received: from localhost ([::1]:52150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE93C42FB3C
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 20:43:44 +0200 (CEST)
+Received: from localhost ([::1]:37238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbS4v-0005RK-DZ
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 14:37:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42826)
+	id 1mbSBE-00068M-1U
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 14:43:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mbS0z-00027i-3W
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 14:33:10 -0400
-Received: from mail-ua1-x92d.google.com ([2607:f8b0:4864:20::92d]:42760)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mbS2I-0003Q9-9E
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 14:34:31 -0400
+Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e]:35589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mbS0s-0000JS-5o
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 14:33:08 -0400
-Received: by mail-ua1-x92d.google.com with SMTP id j8so19792173uak.9
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 11:33:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mbS2G-0001Ts-Oi
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 14:34:30 -0400
+Received: by mail-ua1-x92e.google.com with SMTP id q13so19878295uaq.2
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 11:34:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zD7xvEHQzA5g0sfaPuGnNDx2bFfI7KLINKAzV4fLDbg=;
- b=TgwMWXvjNPxSEnYrBCYJGHEU2jhU/yOFPGhdXRHzzbiY4femxbFGNCMWlJoklRL9bY
- QcVcJj0WDPXc20REliAtHEF7jxGljsUdDdiyJ8q6UzEvTvco8i5VxiyjEf41scNhsaMB
- O04z9z2Udmz0AHMj9zmuT+0NE3qUJ7MaCB9NDdSw5Kwq5IJOorCp/C93gNXkc+WpIdDX
- RqzASuWxZXuF9Z7PxRdaNSPo9AnpOlPgtEC7Uaj2QvT2HZ1K/EKe2HL515L/ZGD4dLhM
- 1WbsgoRn1G74Ro8sgSgDCa0rHmpIMKDQtVnfkTS2z1F7lHL0Z5U/LMeMKI3MtDNAHTEI
- zTMA==
+ :cc; bh=DBsUjE5AMaaQppByc5rAnQOne/ZU1d2Jk2PzOjVrI4M=;
+ b=qVb8p/1wHAfkeuYqVK5zHWcM1nHjMpMpkEw6UkpQLr0ayMmtH5SfksH37dvOKp4/jX
+ emIMU/vRERGi9GtVFgYdp67FIQi/1dN+aHxRg3blE1tZk5CNpA/o8EagPpAaGlKYIzZe
+ URfpXA2Rg+K5apHdUV5DyBqw7W5ewrhjbLUJCSMIS5cK0VlYI4rEJyCcgx+tIudzhwNL
+ yjgj9L7THlsIooSHloHEFLR0J9ch9nLPG8AEhXR4GRJKG8+CfVZzolrcC1lF0u54lmk2
+ vchvRiNJfv3E1dEIaC7S2q+QpASxKzxVAAdMzLz2Lpe2pzsYA8Ezliojj8TvR4d4sBn1
+ Ytqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zD7xvEHQzA5g0sfaPuGnNDx2bFfI7KLINKAzV4fLDbg=;
- b=D/hT1rOF/D0i9q+F674R0G3GeDTy5AaeBbK2omIloJIbFByP8WTcoVHQGSQQAmkQox
- EHjNj5lbH8XY5ln3F6TieW7ZtW4FI3CbMSznQQ1kJDj73fqpW5hl7m3MZmYZf446dxmh
- rbEJYYuKbw9mLPJ2bVZmgf32MfVxHwboD2OtcVc0lfj1Kq/vWNfl7+Syjl3pP70mPDTi
- fIEiCUp/sqm1rk0gpST90vBnz4c79bcneMICQT6iGh0opg9yiW1ES6cXpSrgHJSXK6k6
- SiLWUViP1TZ+IalkR0oMGJcpq9NbS2fK0Nlza1lTL7Xvtkc+9VhB4fRokEk7aKm0UMq+
- LItQ==
-X-Gm-Message-State: AOAM532Wz0qWChI/2Qv1osHxmk86cLzChH8KsVFsSGKu4PXMYT6gnGF+
- 6BSkoYRUbxsuSsOji38lndw1PqFB38VFlBg1uyB4Ng==
-X-Google-Smtp-Source: ABdhPJwvHy4/Yzid+sa4/hhtf1e+0W/oZjsPNP7FtoKtkBgAdkTT1Bl165dR6WPeektkAqTJqk/hQaSDzZ48J+6obMw=
-X-Received: by 2002:a67:d28f:: with SMTP id z15mr15382259vsi.44.1634322779550; 
- Fri, 15 Oct 2021 11:32:59 -0700 (PDT)
+ bh=DBsUjE5AMaaQppByc5rAnQOne/ZU1d2Jk2PzOjVrI4M=;
+ b=GtHRWgZK92s8yXXqmUhvxGPpBqakha0zaxlvNCb6v6se4Z9dx6rbBmBRpVq9yePZ08
+ ncOhwJkQ0YyV0xWcRhD5xU+9gSfj4vaKXf+DoH69WxlFZdhM4j1ak5bV7NygbM3xReHN
+ U+4aWjSiyxlc/eaMWptJGSX84QL7hyvhGBBfMmnc8IywoBHDzkIg3RkZ1Bp6zdq3m0tl
+ 1e0RjwCnqAHaUDjW856KxwSc13g1jzYSgFKSw0O9nh+yVZFeCZ8BbLskQYkzS1g7CHKm
+ tb1My4lQvEVJOJE2DsDbB4Pplp/kFmNpD5M1AVF41ndWkepokprkVal3BlKq4zPRRUkE
+ ao5g==
+X-Gm-Message-State: AOAM531/bOKm7PO8rw1pWCJPTr3h1XsP4GMtJIwQieQqzSKtNli4Cxvf
+ vzERyzQ6ehlznLTGby3guCQRPem+ICW9bcJSap4v2A==
+X-Google-Smtp-Source: ABdhPJzI610wbGghZktI9ydalEIaN8ARGx+xfg+vsqpxvn9yZb3XrZJaku6d92auH7u/FwwsMLFvO2wRN/6Hpox4XsI=
+X-Received: by 2002:a67:fc8b:: with SMTP id x11mr15794175vsp.12.1634322867917; 
+ Fri, 15 Oct 2021 11:34:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211015041053.2769193-1-richard.henderson@linaro.org>
- <20211015041053.2769193-17-richard.henderson@linaro.org>
-In-Reply-To: <20211015041053.2769193-17-richard.henderson@linaro.org>
+ <20211015041053.2769193-23-richard.henderson@linaro.org>
+In-Reply-To: <20211015041053.2769193-23-richard.henderson@linaro.org>
 From: Warner Losh <imp@bsdimp.com>
-Date: Fri, 15 Oct 2021 12:32:48 -0600
-Message-ID: <CANCZdfrnen=ppeRdJO7xMr18ZWHpaoD1aZp9T46SXdNBU+1Lkw@mail.gmail.com>
-Subject: Re: [PATCH v5 16/67] target/arm: Fixup comment re handle_cpu_signal
+Date: Fri, 15 Oct 2021 12:34:17 -0600
+Message-ID: <CANCZdfpyiJnSZZQ=7ukvHZ5qc5jo4ujT_JbOsxWrE7xvWNsC8g@mail.gmail.com>
+Subject: Re: [PATCH v5 22/67] target/arm: Use cpu_loop_exit_sigsegv for mte
+ tag lookup
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000b94d8705ce686cff"
-Received-SPF: none client-ip=2607:f8b0:4864:20::92d;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92d.google.com
+Content-Type: multipart/alternative; boundary="000000000000fda8f305ce68716b"
+Received-SPF: none client-ip=2607:f8b0:4864:20::92e;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -75,50 +76,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
  QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b94d8705ce686cff
+--000000000000fda8f305ce68716b
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 On Thu, Oct 14, 2021 at 10:11 PM Richard Henderson <
 richard.henderson@linaro.org> wrote:
 
-> The named function no longer exists.
-> Refer to host_signal_handler instead.
+> Use the new os interface for raising the exception,
+> rather than calling arm_cpu_tlb_fill directly.
 >
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/sve_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  target/arm/mte_helper.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 >
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
 
 
-> diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-> index dab5f1d1cd..07be55b7e1 100644
-> --- a/target/arm/sve_helper.c
-> +++ b/target/arm/sve_helper.c
-> @@ -6118,7 +6118,7 @@ DO_LDN_2(4, dd, MO_64)
->   * linux-user/ in its get_user/put_user macros.
->   *
->   * TODO: Construct some helpers, written in assembly, that interact with
-> - * handle_cpu_signal to produce memory ops which can properly report
-> errors
-> + * host_signal_handler to produce memory ops which can properly report
-> errors
->   * without racing.
->   */
+> diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+> index 724175210b..e09b7e46a2 100644
+> --- a/target/arm/mte_helper.c
+> +++ b/target/arm/mte_helper.c
+> @@ -84,10 +84,8 @@ static uint8_t *allocation_tag_mem(CPUARMState *env,
+> int ptr_mmu_idx,
+>      uintptr_t index;
 >
+>      if (!(flags & (ptr_access =3D=3D MMU_DATA_STORE ? PAGE_WRITE_ORG :
+> PAGE_READ))) {
+> -        /* SIGSEGV */
+> -        arm_cpu_tlb_fill(env_cpu(env), ptr, ptr_size, ptr_access,
+> -                         ptr_mmu_idx, false, ra);
+> -        g_assert_not_reached();
+> +        cpu_loop_exit_sigsegv(env_cpu(env), ptr, ptr_access,
+> +                              !(flags & PAGE_VALID), ra);
+>      }
+>
+>      /* Require both MAP_ANON and PROT_MTE for the page. */
 > --
 > 2.25.1
 >
 >
 
---000000000000b94d8705ce686cff
+--000000000000fda8f305ce68716b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -127,38 +135,48 @@ Content-Transfer-Encoding: quoted-printable
 ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
 enderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
 e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">The named function no longer exists.<br>
-Refer to host_signal_handler instead.<br>
+;padding-left:1ex">Use the new os interface for raising the exception,<br>
+rather than calling arm_cpu_tlb_fill directly.<br>
 <br>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
+org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
 Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
 naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
 ---<br>
-=C2=A0target/arm/sve_helper.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br></blockquote><div><b=
-r></div><div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp=
-.com">imp@bsdimp.com</a>&gt;</div></div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c<br>
-index dab5f1d1cd..07be55b7e1 100644<br>
---- a/target/arm/sve_helper.c<br>
-+++ b/target/arm/sve_helper.c<br>
-@@ -6118,7 +6118,7 @@ DO_LDN_2(4, dd, MO_64)<br>
-=C2=A0 * linux-user/ in its get_user/put_user macros.<br>
-=C2=A0 *<br>
-=C2=A0 * TODO: Construct some helpers, written in assembly, that interact w=
-ith<br>
-- * handle_cpu_signal to produce memory ops which can properly report error=
-s<br>
-+ * host_signal_handler to produce memory ops which can properly report err=
-ors<br>
-=C2=A0 * without racing.<br>
-=C2=A0 */<br>
+=C2=A0target/arm/mte_helper.c | 6 ++----<br>
+=C2=A01 file changed, 2 insertions(+), 4 deletions(-)<br></blockquote><div>=
+<br></div><div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdi=
+mp.com">imp@bsdimp.com</a>&gt;</div></div><div>=C2=A0</div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c<br>
+index 724175210b..e09b7e46a2 100644<br>
+--- a/target/arm/mte_helper.c<br>
++++ b/target/arm/mte_helper.c<br>
+@@ -84,10 +84,8 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int=
+ ptr_mmu_idx,<br>
+=C2=A0 =C2=A0 =C2=A0uintptr_t index;<br>
 <br>
+=C2=A0 =C2=A0 =C2=A0if (!(flags &amp; (ptr_access =3D=3D MMU_DATA_STORE ? P=
+AGE_WRITE_ORG : PAGE_READ))) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* SIGSEGV */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 arm_cpu_tlb_fill(env_cpu(env), ptr, ptr_size, =
+ptr_access,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0ptr_mmu_idx, false, ra);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_not_reached();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_loop_exit_sigsegv(env_cpu(env), ptr, ptr_a=
+ccess,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 !(flags &amp; PAGE_VALID), ra);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* Require both MAP_ANON and PROT_MTE for the page. */<=
+br>
 -- <br>
 2.25.1<br>
 <br>
 </blockquote></div></div>
 
---000000000000b94d8705ce686cff--
+--000000000000fda8f305ce68716b--
 
