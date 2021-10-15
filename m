@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC6242F672
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 17:00:15 +0200 (CEST)
-Received: from localhost ([::1]:43300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05ABD42F686
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 17:05:21 +0200 (CEST)
+Received: from localhost ([::1]:53632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbOgw-0002XS-4V
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 11:00:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59494)
+	id 1mbOls-00014t-3w
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 11:05:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOW5-0000Qj-PY
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:49:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31701)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOW7-0000Sw-KV
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:49:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOW3-0001wR-Ik
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:49:01 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mbOW5-0001y9-LN
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 10:49:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634309338;
+ s=mimecast20190719; t=1634309341;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=edBfWdyDromHzHVMncu7BiR9pwpdRgezp9s2N5pLffk=;
- b=c0lC9NO2b5b6xa00yoQhp1F8AWVI2psAyuxQBLDkA78XJwzNqOULnyhBIwCwg/8Kxr1j6w
- DqvxVLXHLEnQakln+eoCjdTz1oLF+f7SIGMzCn3Ue7tz0cU0HARGhXQbsOPwbMxhqL5Gf6
- obYAGrPkeBfRnU4wn/9SOCBFH+pclpc=
+ bh=jLgBBcLOt4BbJW9HYExTdytFEvZHOjSIYsQ/j1JXrU4=;
+ b=MaTygSTWfdcKXVP/uepTBuOjDrAgKLZvxFEkJGxofSmRT1TEk8Ba0SY9DQZXTrctQCWEZz
+ G+AsfoFycUpz0Cb28shZnansmmv4NVoEg5k14Djphr8SPypMYOwbTL1PWF/8mkC+SwDVxQ
+ Nb3yXxum4k19w7VsKKNd0Z9Yz9Gj2Dc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-Oijf6Vl5MQCvcGlUio_K8w-1; Fri, 15 Oct 2021 10:48:56 -0400
-X-MC-Unique: Oijf6Vl5MQCvcGlUio_K8w-1
+ us-mta-436-Dh_qRR_AMeOMvn4bTysYlw-1; Fri, 15 Oct 2021 10:48:57 -0400
+X-MC-Unique: Dh_qRR_AMeOMvn4bTysYlw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09DA88042D4
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB5461006AA2
  for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 14:48:56 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63DE31973B;
- Fri, 15 Oct 2021 14:48:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52351196E5;
+ Fri, 15 Oct 2021 14:48:56 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/15] qdev: Base object creation on QDict rather than QemuOpts
-Date: Fri, 15 Oct 2021 16:46:39 +0200
-Message-Id: <20211015144640.198044-15-kwolf@redhat.com>
+Subject: [PULL 15/15] vl: Enable JSON syntax for -device
+Date: Fri, 15 Oct 2021 16:46:40 +0200
+Message-Id: <20211015144640.198044-16-kwolf@redhat.com>
 In-Reply-To: <20211015144640.198044-1-kwolf@redhat.com>
 References: <20211015144640.198044-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,15 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,360 +80,197 @@ Cc: kwolf@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QDicts are both what QMP natively uses and what the keyval parser
-produces. Going through QemuOpts isn't useful for either one, so switch
-the main device creation function to QDicts. By sharing more code with
-the -object/object-add code path, we can even reduce the code size a
-bit.
+Like we already do for -object, introduce support for JSON syntax in
+-device, which can be kept stable in the long term and guarantees that a
+single code path with identical behaviour is used for both QMP and the
+command line. Compared to the QemuOpts based code, the parser contains
+less surprises and has support for non-scalar options (lists and
+structs). Switching management tools to JSON means that we can more
+easily change the "human" CLI syntax from QemuOpts to the keyval parser
+later.
 
-This commit doesn't remove the detour through QemuOpts from any code
-path yet, but it allows the following commits to do so.
+In the QAPI schema, a feature flag is added to the device-add command to
+allow management tools to detect support for this.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20211008133442.141332-15-kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20211008133442.141332-16-kwolf@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Tested-by: Peter Krempa <pkrempa@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/hw/qdev-core.h         | 12 +++---
- include/hw/virtio/virtio-net.h |  3 +-
- include/monitor/qdev.h         |  2 +
- hw/core/qdev.c                 |  7 ++--
- hw/net/virtio-net.c            | 23 +++++++-----
- hw/vfio/pci.c                  |  4 +-
- softmmu/qdev-monitor.c         | 69 +++++++++++++++-------------------
- 7 files changed, 61 insertions(+), 59 deletions(-)
+ qapi/qdev.json | 15 ++++++++----
+ softmmu/vl.c   | 63 ++++++++++++++++++++++++++++++++++++++++++++------
+ 2 files changed, 67 insertions(+), 11 deletions(-)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 74d8b614a7..1bad07002d 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -180,7 +180,7 @@ struct DeviceState {
-     char *canonical_path;
-     bool realized;
-     bool pending_deleted_event;
--    QemuOpts *opts;
+diff --git a/qapi/qdev.json b/qapi/qdev.json
+index d75e68908b..69656b14df 100644
+--- a/qapi/qdev.json
++++ b/qapi/qdev.json
+@@ -32,17 +32,23 @@
+ ##
+ # @device_add:
+ #
++# Add a device.
++#
+ # @driver: the name of the new device's driver
+ #
+ # @bus: the device's parent bus (device tree path)
+ #
+ # @id: the device's ID, must be unique
+ #
+-# Additional arguments depend on the type.
+-#
+-# Add a device.
++# Features:
++# @json-cli: If present, the "-device" command line option supports JSON
++#            syntax with a structure identical to the arguments of this
++#            command.
+ #
+ # Notes:
++#
++# Additional arguments depend on the type.
++#
+ # 1. For detailed information about this command, please refer to the
+ #    'docs/qdev-device-use.txt' file.
+ #
+@@ -67,7 +73,8 @@
+ ##
+ { 'command': 'device_add',
+   'data': {'driver': 'str', '*bus': 'str', '*id': 'str'},
+-  'gen': false } # so we can get the additional arguments
++  'gen': false, # so we can get the additional arguments
++  'features': ['json-cli'] }
+ 
+ ##
+ # @device_del:
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 55ab70eb97..af0c4cbd99 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -144,6 +144,12 @@ typedef struct ObjectOption {
+     QTAILQ_ENTRY(ObjectOption) next;
+ } ObjectOption;
+ 
++typedef struct DeviceOption {
 +    QDict *opts;
-     int hotplugged;
-     bool allow_unplug_during_migration;
-     BusState *parent_bus;
-@@ -205,8 +205,8 @@ struct DeviceListener {
-      * On errors, it returns false and errp is set. Device creation
-      * should fail in this case.
-      */
--    bool (*hide_device)(DeviceListener *listener, QemuOpts *device_opts,
--                        Error **errp);
-+    bool (*hide_device)(DeviceListener *listener, const QDict *device_opts,
-+                        bool from_json, Error **errp);
-     QTAILQ_ENTRY(DeviceListener) link;
- };
- 
-@@ -835,13 +835,15 @@ void device_listener_unregister(DeviceListener *listener);
- 
- /**
-  * @qdev_should_hide_device:
-- * @opts: QemuOpts as passed on cmdline.
-+ * @opts: options QDict
-+ * @from_json: true if @opts entries are typed, false for all strings
-+ * @errp: pointer to error object
-  *
-  * Check if a device should be added.
-  * When a device is added via qdev_device_add() this will be called,
-  * and return if the device should be added now or not.
-  */
--bool qdev_should_hide_device(QemuOpts *opts, Error **errp);
-+bool qdev_should_hide_device(const QDict *opts, bool from_json, Error **errp);
- 
- typedef enum MachineInitPhase {
-     /* current_machine is NULL.  */
-diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-index d118c95f69..74a10ebe85 100644
---- a/include/hw/virtio/virtio-net.h
-+++ b/include/hw/virtio/virtio-net.h
-@@ -209,7 +209,8 @@ struct VirtIONet {
-     bool failover_primary_hidden;
-     bool failover;
-     DeviceListener primary_listener;
--    QemuOpts *primary_opts;
-+    QDict *primary_opts;
-+    bool primary_opts_from_json;
-     Notifier migration_state;
-     VirtioNetRssData rss_data;
-     struct NetRxPkt *rx_pkt;
-diff --git a/include/monitor/qdev.h b/include/monitor/qdev.h
-index 74e6c55a2b..1d57bf6577 100644
---- a/include/monitor/qdev.h
-+++ b/include/monitor/qdev.h
-@@ -9,6 +9,8 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp);
- 
- int qdev_device_help(QemuOpts *opts);
- DeviceState *qdev_device_add(QemuOpts *opts, Error **errp);
-+DeviceState *qdev_device_add_from_qdict(const QDict *opts,
-+                                        bool from_json, Error **errp);
- 
- /**
-  * qdev_set_id: parent the device and set its id if provided.
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index c3a021c444..7f06403752 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -28,6 +28,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qapi/qapi-events-qdev.h"
-+#include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
- #include "qapi/visitor.h"
- #include "qemu/error-report.h"
-@@ -211,14 +212,14 @@ void device_listener_unregister(DeviceListener *listener)
-     QTAILQ_REMOVE(&device_listeners, listener, link);
++    Location loc;
++    QTAILQ_ENTRY(DeviceOption) next;
++} DeviceOption;
++
+ static const char *cpu_option;
+ static const char *mem_path;
+ static const char *incoming;
+@@ -151,6 +157,7 @@ static const char *loadvm;
+ static const char *accelerators;
+ static QDict *machine_opts_dict;
+ static QTAILQ_HEAD(, ObjectOption) object_opts = QTAILQ_HEAD_INITIALIZER(object_opts);
++static QTAILQ_HEAD(, DeviceOption) device_opts = QTAILQ_HEAD_INITIALIZER(device_opts);
+ static ram_addr_t maxram_size;
+ static uint64_t ram_slots;
+ static int display_remote;
+@@ -494,21 +501,39 @@ const char *qemu_get_vm_name(void)
+     return qemu_name;
  }
  
--bool qdev_should_hide_device(QemuOpts *opts, Error **errp)
-+bool qdev_should_hide_device(const QDict *opts, bool from_json, Error **errp)
+-static int default_driver_check(void *opaque, QemuOpts *opts, Error **errp)
++static void default_driver_disable(const char *driver)
  {
-     ERRP_GUARD();
-     DeviceListener *listener;
- 
-     QTAILQ_FOREACH(listener, &device_listeners, link) {
-         if (listener->hide_device) {
--            if (listener->hide_device(listener, opts, errp)) {
-+            if (listener->hide_device(listener, opts, from_json, errp)) {
-                 return true;
-             } else if (*errp) {
-                 return false;
-@@ -958,7 +959,7 @@ static void device_finalize(Object *obj)
-         dev->canonical_path = NULL;
-     }
- 
--    qemu_opts_del(dev->opts);
-+    qobject_unref(dev->opts);
-     g_free(dev->id);
- }
- 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index f503f28c00..09e173a558 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -858,9 +858,11 @@ static void failover_add_primary(VirtIONet *n, Error **errp)
-         return;
-     }
- 
--    dev = qdev_device_add(n->primary_opts, &err);
-+    dev = qdev_device_add_from_qdict(n->primary_opts,
-+                                     n->primary_opts_from_json,
-+                                     &err);
-     if (err) {
--        qemu_opts_del(n->primary_opts);
-+        qobject_unref(n->primary_opts);
-         n->primary_opts = NULL;
-     } else {
-         object_unref(OBJECT(dev));
-@@ -3287,7 +3289,9 @@ static void virtio_net_migration_state_notifier(Notifier *notifier, void *data)
- }
- 
- static bool failover_hide_primary_device(DeviceListener *listener,
--                                         QemuOpts *device_opts, Error **errp)
-+                                         const QDict *device_opts,
-+                                         bool from_json,
-+                                         Error **errp)
- {
-     VirtIONet *n = container_of(listener, VirtIONet, primary_listener);
-     const char *standby_id;
-@@ -3295,7 +3299,7 @@ static bool failover_hide_primary_device(DeviceListener *listener,
-     if (!device_opts) {
-         return false;
-     }
--    standby_id = qemu_opt_get(device_opts, "failover_pair_id");
-+    standby_id = qdict_get_try_str(device_opts, "failover_pair_id");
-     if (g_strcmp0(standby_id, n->netclient_name) != 0) {
-         return false;
-     }
-@@ -3306,12 +3310,8 @@ static bool failover_hide_primary_device(DeviceListener *listener,
-         return false;
-     }
- 
--    /*
--     * Having a weak reference here should be okay because a device can't be
--     * deleted while it's hidden. This will be replaced soon with a QDict that
--     * has a clearer ownership model.
--     */
--    n->primary_opts = device_opts;
-+    n->primary_opts = qdict_clone_shallow(device_opts);
-+    n->primary_opts_from_json = from_json;
- 
-     /* failover_primary_hidden is set during feature negotiation */
-     return qatomic_read(&n->failover_primary_hidden);
-@@ -3502,8 +3502,11 @@ static void virtio_net_device_unrealize(DeviceState *dev)
-     g_free(n->vlans);
- 
-     if (n->failover) {
-+        qobject_unref(n->primary_opts);
-         device_listener_unregister(&n->primary_listener);
-         remove_migration_state_change_notifier(&n->migration_state);
-+    } else {
-+        assert(n->primary_opts == NULL);
-     }
- 
-     max_queues = n->multiqueue ? n->max_queues : 1;
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 4feaa1cb68..5cdf1d4298 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -29,10 +29,10 @@
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
- #include "migration/vmstate.h"
-+#include "qapi/qmp/qdict.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
--#include "qemu/option.h"
- #include "qemu/range.h"
- #include "qemu/units.h"
- #include "sysemu/kvm.h"
-@@ -941,7 +941,7 @@ static void vfio_pci_size_rom(VFIOPCIDevice *vdev)
-     }
- 
-     if (vfio_opt_rom_in_denylist(vdev)) {
--        if (dev->opts && qemu_opt_get(dev->opts, "rombar")) {
-+        if (dev->opts && qdict_haskey(dev->opts, "rombar")) {
-             warn_report("Device at %s is known to cause system instability"
-                         " issues during option rom execution",
-                         vdev->vbasedev.name);
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index ea737db028..89c473cb22 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -196,34 +196,6 @@ static void qdev_print_devinfos(bool show_no_user)
-     g_slist_free(list);
- }
- 
--static int set_property(void *opaque, const char *name, const char *value,
--                        Error **errp)
--{
--    Object *obj = opaque;
--    QString *val;
--    Visitor *v;
--    int ret;
--
--    if (strcmp(name, "driver") == 0)
--        return 0;
--    if (strcmp(name, "bus") == 0)
--        return 0;
--
--    val = qstring_from_str(value);
--    v = qobject_input_visitor_new_keyval(QOBJECT(val));
--
--    if (!object_property_set(obj, name, v, errp)) {
--        ret = -1;
--        goto out;
--    }
--
--    ret = 0;
--out:
--    visit_free(v);
--    qobject_unref(val);
--    return ret;
--}
--
- static const char *find_typename_by_alias(const char *alias)
- {
+-    const char *driver = qemu_opt_get(opts, "driver");
      int i;
-@@ -624,15 +596,17 @@ const char *qdev_set_id(DeviceState *dev, char *id, Error **errp)
-     return prop->name;
- }
  
--DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
-+DeviceState *qdev_device_add_from_qdict(const QDict *opts,
-+                                        bool from_json, Error **errp)
- {
-     ERRP_GUARD();
-     DeviceClass *dc;
-     const char *driver, *path;
-+    char *id;
-     DeviceState *dev = NULL;
-     BusState *bus = NULL;
- 
--    driver = qemu_opt_get(opts, "driver");
-+    driver = qdict_get_try_str(opts, "driver");
-     if (!driver) {
-         error_setg(errp, QERR_MISSING_PARAMETER, "driver");
-         return NULL;
-@@ -645,7 +619,7 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
-     }
- 
-     /* find bus */
--    path = qemu_opt_get(opts, "bus");
-+    path = qdict_get_try_str(opts, "bus");
-     if (path != NULL) {
-         bus = qbus_find(path, errp);
-         if (!bus) {
-@@ -665,12 +639,12 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
-         }
-     }
- 
--    if (qemu_opt_get(opts, "failover_pair_id")) {
--        if (!opts->id) {
-+    if (qdict_haskey(opts, "failover_pair_id")) {
-+        if (!qdict_haskey(opts, "id")) {
-             error_setg(errp, "Device with failover_pair_id don't have id");
-             return NULL;
-         }
--        if (qdev_should_hide_device(opts, errp)) {
-+        if (qdev_should_hide_device(opts, from_json, errp)) {
-             if (bus && !qbus_is_hotpluggable(bus)) {
-                 error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
-             }
-@@ -711,18 +685,24 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
-      * set dev's parent and register its id.
-      * If it fails it means the id is already taken.
-      */
--    if (!qdev_set_id(dev, g_strdup(qemu_opts_id(opts)), errp)) {
-+    id = g_strdup(qdict_get_try_str(opts, "id"));
-+    if (!qdev_set_id(dev, id, errp)) {
-         goto err_del_dev;
-     }
- 
-     /* set properties */
--    if (qemu_opt_foreach(opts, set_property, dev, errp)) {
-+    dev->opts = qdict_clone_shallow(opts);
-+    qdict_del(dev->opts, "driver");
-+    qdict_del(dev->opts, "bus");
-+    qdict_del(dev->opts, "id");
-+
-+    object_set_properties_from_keyval(&dev->parent_obj, dev->opts, from_json,
-+                                      errp);
-+    if (*errp) {
-         goto err_del_dev;
-     }
- 
--    dev->opts = opts;
-     if (!qdev_realize(DEVICE(dev), bus, errp)) {
--        dev->opts = NULL;
-         goto err_del_dev;
-     }
-     return dev;
-@@ -735,6 +715,19 @@ err_del_dev:
-     return NULL;
- }
- 
-+/* Takes ownership of @opts on success */
-+DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
-+{
-+    QDict *qdict = qemu_opts_to_qdict(opts, NULL);
-+    DeviceState *ret;
-+
-+    ret = qdev_device_add_from_qdict(qdict, false, errp);
-+    if (ret) {
-+        qemu_opts_del(opts);
+-    if (!driver)
+-        return 0;
++    if (!driver) {
++        return;
 +    }
-+    qobject_unref(qdict);
-+    return ret;
++
+     for (i = 0; i < ARRAY_SIZE(default_list); i++) {
+         if (strcmp(default_list[i].driver, driver) != 0)
+             continue;
+         *(default_list[i].flag) = 0;
+     }
 +}
++
++static int default_driver_check(void *opaque, QemuOpts *opts, Error **errp)
++{
++    const char *driver = qemu_opt_get(opts, "driver");
++
++    default_driver_disable(driver);
+     return 0;
+ }
  
- #define qdev_printf(fmt, ...) monitor_printf(mon, "%*s" fmt, indent, "", ## __VA_ARGS__)
- static void qbus_print(Monitor *mon, BusState *bus, int indent);
++static void default_driver_check_json(void)
++{
++    DeviceOption *opt;
++
++    QTAILQ_FOREACH(opt, &device_opts, next) {
++        const char *driver = qdict_get_try_str(opt->opts, "driver");
++        default_driver_disable(driver);
++    }
++}
++
+ static int parse_name(void *opaque, QemuOpts *opts, Error **errp)
+ {
+     const char *proc_name;
+@@ -1311,6 +1336,7 @@ static void qemu_disable_default_devices(void)
+ {
+     MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
+ 
++    default_driver_check_json();
+     qemu_opts_foreach(qemu_find_opts("device"),
+                       default_driver_check, NULL, NULL);
+     qemu_opts_foreach(qemu_find_opts("global"),
+@@ -2637,6 +2663,8 @@ static void qemu_init_board(void)
+ 
+ static void qemu_create_cli_devices(void)
+ {
++    DeviceOption *opt;
++
+     soundhw_init();
+ 
+     qemu_opts_foreach(qemu_find_opts("fw_cfg"),
+@@ -2652,6 +2680,18 @@ static void qemu_create_cli_devices(void)
+     rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
+     qemu_opts_foreach(qemu_find_opts("device"),
+                       device_init_func, NULL, &error_fatal);
++    QTAILQ_FOREACH(opt, &device_opts, next) {
++        loc_push_restore(&opt->loc);
++        /*
++         * TODO Eventually we should call qmp_device_add() here to make sure it
++         * behaves the same, but QMP still has to accept incorrectly typed
++         * options until libvirt is fixed and we want to be strict on the CLI
++         * from the start, so call qdev_device_add_from_qdict() directly for
++         * now.
++         */
++        qdev_device_add_from_qdict(opt->opts, true, &error_fatal);
++        loc_pop(&opt->loc);
++    }
+     rom_reset_order_override();
+ }
+ 
+@@ -3352,9 +3392,18 @@ void qemu_init(int argc, char **argv, char **envp)
+                 add_device_config(DEV_USB, optarg);
+                 break;
+             case QEMU_OPTION_device:
+-                if (!qemu_opts_parse_noisily(qemu_find_opts("device"),
+-                                             optarg, true)) {
+-                    exit(1);
++                if (optarg[0] == '{') {
++                    QObject *obj = qobject_from_json(optarg, &error_fatal);
++                    DeviceOption *opt = g_new0(DeviceOption, 1);
++                    opt->opts = qobject_to(QDict, obj);
++                    loc_save(&opt->loc);
++                    assert(opt->opts != NULL);
++                    QTAILQ_INSERT_TAIL(&device_opts, opt, next);
++                } else {
++                    if (!qemu_opts_parse_noisily(qemu_find_opts("device"),
++                                                 optarg, true)) {
++                        exit(1);
++                    }
+                 }
+                 break;
+             case QEMU_OPTION_smp:
 -- 
 2.31.1
 
