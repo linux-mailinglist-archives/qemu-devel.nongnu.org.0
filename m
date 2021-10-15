@@ -2,91 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6E142F127
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 14:41:14 +0200 (CEST)
-Received: from localhost ([::1]:42510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C779142F144
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 14:46:22 +0200 (CEST)
+Received: from localhost ([::1]:48370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbMWP-00016T-Nc
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 08:41:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55082)
+	id 1mbMbN-0005PN-Jv
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 08:46:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mbMTu-00085I-7D
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:38:38 -0400
-Received: from usb-smtp-delivery-124.mimecast.com ([170.10.151.124]:22007
- helo=us-smtp-delivery-124.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mbMXx-0003My-SD
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:42:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mbMTq-0006OS-HZ
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:38:36 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mbMXv-00070g-Gg
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:42:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634301512;
+ s=mimecast20190719; t=1634301765;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bnE9GS5JhLq1cAS2EbGm058tDL8mVeYPhb0W6R5kDj8=;
- b=YxgKSLGh6WLl/6+7JUUG+S4GM7lWGsBnJlMlr+aUWkc32x9C73pvWCs/Ax/ESOAGn6jnao
- TVSIDd+szQ4eiKGkLrxhMOBTyyQIDcBH3p1DANrmyKhTTnOMLPIjSbqYc9XRrypNWs8Er5
- TMx5g55Fi6XjK8fSmm2q3nWaPMU+xo8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-N9EgJ5j5OIqs52ZHlRLjqg-1; Fri, 15 Oct 2021 08:38:31 -0400
-X-MC-Unique: N9EgJ5j5OIqs52ZHlRLjqg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- s18-20020adfbc12000000b00160b2d4d5ebso5925661wrg.7
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 05:38:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=bnE9GS5JhLq1cAS2EbGm058tDL8mVeYPhb0W6R5kDj8=;
- b=VkQzvwcCac0Dc34e1MZk6VQoIcfG4hfyBlTaLg4GYhQJpSvdhPVJr41JgMBLGa6i/S
- t2Bxg/sBBz8TlwRzbHezJ0CXTiNh6/SfyHsXGnylbD4jtO4wACHZREtk7u+yOSB0sbfV
- jE4h52qktLvZvwbqxYmTgWz64mDAOHuCNHeKzVfmHCvLT+48u4LHLwO2/gcU0dOwA3bf
- ff8DCcPacKvihg57pkm6hDi5NVFkm04jiTQ1alYIl/C1GBYeF7BctaVALtulr9KskJw7
- JKOc4ChDJ6ry30pCQLIS2frkHVCKSQaxyfIZtDtrkoRnuCN6rFPC46g9F6deSxQFKBmj
- cPTw==
-X-Gm-Message-State: AOAM530Ov1/I1T/qy+IiHr4qrC9DpI6I/v9GXAg2ZTEjLMmd64IwO7WW
- PFOrcvrtgZ56DoHKu3Xf3D70cnrPM8YKQSHxzJk66m1lNDtr9I2+8Txk/6v7MGAAeWNl1VQgYL7
- JuF+e9DbEeEsvues=
-X-Received: by 2002:a1c:7c0e:: with SMTP id x14mr12262173wmc.128.1634301510294; 
- Fri, 15 Oct 2021 05:38:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxNbLBG2LObJta+hAwf+TypeFRxC58ty5LkO1Jv1fOgvifwyNwSa2qgc5tAEF+jEgEwG7ukJg==
-X-Received: by 2002:a1c:7c0e:: with SMTP id x14mr12262147wmc.128.1634301510065; 
- Fri, 15 Oct 2021 05:38:30 -0700 (PDT)
-Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id f3sm4402812wml.11.2021.10.15.05.38.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Oct 2021 05:38:29 -0700 (PDT)
-Message-ID: <c352ccff-68aa-51c7-9261-de2e024dd16a@redhat.com>
-Date: Fri, 15 Oct 2021 14:38:28 +0200
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iYwoLI8tZShqcFoR9LC2/X9fbFaIJaOUmyRtbd1R+xU=;
+ b=GjFlu+1p3WbbwPGJdq4puMTJXYzKZMnG3gkjR0xox0UzLD/Zq6WIaMQ6J5yB19Uj92QnNy
+ xz6glN5HM5YmOuR4dMVyxO/rVvG2Z4wO7ongiVb+iUQkTE/R0WzTywKv9gjpr9Sbn3Zg7q
+ oc2DEK6sKkRjOCV74geP5gsvM3HMIoM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-qKpxOJV-MNaeGq-eHUsiEw-1; Fri, 15 Oct 2021 08:42:41 -0400
+X-MC-Unique: qKpxOJV-MNaeGq-eHUsiEw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 360FE1006AAE;
+ Fri, 15 Oct 2021 12:42:40 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.194.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 18B3B60BD8;
+ Fri, 15 Oct 2021 12:42:24 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-s390x@nongnu.org,
+	David Hildenbrand <david@redhat.com>
+Subject: [PATCH] target/s390x/cpu.h: Remove unused SIGP_MODE defines
+Date: Fri, 15 Oct 2021 14:42:19 +0200
+Message-Id: <20211015124219.1330830-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 4/4] configure: remove dead EXESUF variable
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211015100718.17828-1-pbonzini@redhat.com>
- <20211015100718.17828-5-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211015100718.17828-5-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.151.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,19 +74,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, thuth@redhat.com, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, hreitz@redhat.com, marcandre.lureau@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/15/21 12:07, Paolo Bonzini wrote:
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  .gitlab-ci.d/crossbuild-template.yml | 2 +-
->  configure                            | 3 ---
->  2 files changed, 1 insertion(+), 4 deletions(-)
+These are unused since commit 075e52b816648f21 ("s390x/cpumodel:
+we are always in zarchitecture mode") and it's unlikely that we
+will ever need them again. So let's simply remove them now.
 
-Maybe squash in patch #2 or place as #3 mentioning
-"the previous commit"?
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ target/s390x/cpu.h | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 3153d053e9..ca3845d023 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -674,11 +674,6 @@ QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
+ #define SIGP_STAT_INVALID_ORDER     0x00000002UL
+ #define SIGP_STAT_RECEIVER_CHECK    0x00000001UL
+ 
+-/* SIGP SET ARCHITECTURE modes */
+-#define SIGP_MODE_ESA_S390 0
+-#define SIGP_MODE_Z_ARCH_TRANS_ALL_PSW 1
+-#define SIGP_MODE_Z_ARCH_TRANS_CUR_PSW 2
+-
+ /* SIGP order code mask corresponding to bit positions 56-63 */
+ #define SIGP_ORDER_MASK 0x000000ff
+ 
+-- 
+2.27.0
 
 
