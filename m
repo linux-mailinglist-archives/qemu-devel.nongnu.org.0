@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22DCE42E630
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 03:36:20 +0200 (CEST)
-Received: from localhost ([::1]:41850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C62042E635
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 03:38:59 +0200 (CEST)
+Received: from localhost ([::1]:44188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbC8x-0004Qs-9C
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 21:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48458)
+	id 1mbCBW-0006Fg-Cz
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 21:38:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mbC7K-0003Df-MC
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 21:34:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52921)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mbCA9-0005YA-Em
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 21:37:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mbC7J-0004SQ-48
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 21:34:38 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mbCA7-0006OX-Ns
+ for qemu-devel@nongnu.org; Thu, 14 Oct 2021 21:37:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634261675;
+ s=mimecast20190719; t=1634261850;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vbNXYOe/rje81bUvziOjI0qi/M9552rqUEflfHBT7iw=;
- b=CYzVARUY6ViQLL7yB7SJZ4GZRT83CCY1VRwoviDlWZDBEOBsxno37G5bEf/JYtJIBIdgjr
- lhPcMJ76yT8J0iZQZei8U6xM/FYvNKxDTZ1NYVFKyc790hTWFRjM7Ov1FEr7W3Y0heHHkj
- hv/fOBu1YUYaHFXidZ2r3jpqVxuKlZI=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-bnh8wrLLMcygR_UV72AcDA-1; Thu, 14 Oct 2021 21:34:34 -0400
-X-MC-Unique: bnh8wrLLMcygR_UV72AcDA-1
-Received: by mail-pl1-f200.google.com with SMTP id
- e6-20020a170902ed8600b0013f165d1b51so1810243plj.15
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 18:34:34 -0700 (PDT)
+ bh=/uss8EGvkXr7tK7KFeqMaNmdCs3SKS0RFD4Hh+RVy5g=;
+ b=FxoGMRDiIaq7kQaz7fnXVti1dkj7be5WuPJwn+LUbO5a0kaBeNYQGt6qNqqLHghQ2pO3BY
+ DMwSPEZWkG16+nYLvTR3ynhJzXnPgX9Hvuer8qGDSCBkG+dfmqwzO7sxlR4ho6n/4UEWAl
+ VymQVH8YDs6/g/xWRSRYVrwmY5mfK5Y=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-BNM20uB9OBehgUvJEShZpw-1; Thu, 14 Oct 2021 21:37:30 -0400
+X-MC-Unique: BNM20uB9OBehgUvJEShZpw-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ 2-20020aa79102000000b0044c216dd8ecso4413116pfh.18
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 18:37:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=vbNXYOe/rje81bUvziOjI0qi/M9552rqUEflfHBT7iw=;
- b=T43oaPfZvAF1WRMGsxrAXPIDMtC5OJ16Pr5X+AI0/1KpgLE24kjzb6A3dslzeFRGox
- BgzDitFTGbeiYPapYUUrPTFQF1zpUCbOmE/pnPLmvypCDFjbfak4t27y4XyR5XDOUtvz
- 5AkH3Z27cjtdY28TXD4wH6wccySTTHm0mz8B/CgB3BbOJi0zg78dZTWe8QIZfeETH/dx
- M+MoPmGF1XnJXNF7KLe1hEdld0qe/XgkLGsrNSU37woU3pZTe6Nhm0fMMeFR28clJ0kB
- koNyVALS4gAZHWXEStp/7UI9Oazjmf2vi2B6IbHESZEtepkPv0622I4nN7m+JqbrZY5t
- 5EHg==
-X-Gm-Message-State: AOAM532FgP9idt6zhlmv4b32VMWs4054yBIxvEttQpY6vBLGKcQ9vpbI
- lvfjblq1zAq9lgRGIsMiDwstSkG742inUA7mvhP2Mrbt/CJDkHHFDmVHtaZtq1LKcsgVDe99QJT
- whpDYVTcuxYSmhIbcV4hioBlZ//QWIo/mDdmXK25Sf2drU4sXTxFSbxcc4DddzAVJ
-X-Received: by 2002:a63:2a92:: with SMTP id q140mr6950423pgq.412.1634261673234; 
- Thu, 14 Oct 2021 18:34:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzpeYqFqpWejQMpO667+WoQgqkLcYv9TxebfPDydjSuX/nv17gr5poksvq5Z9Pbkw89HRqvGA==
-X-Received: by 2002:a63:2a92:: with SMTP id q140mr6950396pgq.412.1634261672853; 
- Thu, 14 Oct 2021 18:34:32 -0700 (PDT)
+ bh=/uss8EGvkXr7tK7KFeqMaNmdCs3SKS0RFD4Hh+RVy5g=;
+ b=lYwwOv+l4xxdfrVCVW8ZpLR7455Qy/VHC+7rMh+sIouMUCMl3X4Nj/FqXKxa5yVJZS
+ e7DuQTGvtvr1CeBXFKHjQCH/dPU4y3ep0u6WMpEKEq5o+fdku5JkW+ystRHb95ifp36q
+ Dzj8ytfxEbvS7asKLEwtfIgFKnlbgnHRzo2oXnMVjOcfEZ1vVe52ZrY7MvEGjr/OPrPT
+ MotEN/ubHE34YszbmiMQWwRscwezYFuGHMxzpUQitnvtEJjfwwxUotgTi6EmY17A7kWO
+ vPAW8hctEzP9iPLGzcvLYvfpvJIjq27+l+asVBo881lbtH4lMuRzFspUwRfdclYXkQQN
+ r4hA==
+X-Gm-Message-State: AOAM5331NZgGNTST1sz+NLB1cC3XwWQnjHShF4RM0vV0RmO1PGRGLk2K
+ kN5HG2nDeWfXzxdtEaHf56ay/oqooaVdDzd3asn7RLg4gN4dBREEDI5/c1LNFpbXq+8NtWlNbGz
+ bJ5/VO2Uu6UqSDdcI3Zuiy85Yn4dw3mikhWjTCxJ7H2PIKQHAbHzGJcBAwrxIZMmj
+X-Received: by 2002:aa7:814f:0:b0:44d:626:8b96 with SMTP id
+ d15-20020aa7814f000000b0044d06268b96mr8944608pfn.65.1634261848371; 
+ Thu, 14 Oct 2021 18:37:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzHyN+Y8g+EC0195HwcsHzdK5dvaqtQtI+dJiuUX3t5dNxRyun24n3lvmpIrz0alw2j44OOzw==
+X-Received: by 2002:aa7:814f:0:b0:44d:626:8b96 with SMTP id
+ d15-20020aa7814f000000b0044d06268b96mr8944579pfn.65.1634261847949; 
+ Thu, 14 Oct 2021 18:37:27 -0700 (PDT)
 Received: from t490s ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id f33sm9836723pjk.42.2021.10.14.18.34.28
+ by smtp.gmail.com with ESMTPSA id v20sm3776302pff.171.2021.10.14.18.37.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 18:34:32 -0700 (PDT)
-Date: Fri, 15 Oct 2021 09:34:26 +0800
+ Thu, 14 Oct 2021 18:37:27 -0700 (PDT)
+Date: Fri, 15 Oct 2021 09:37:22 +0800
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 0/3] dump-guest-memory: Add blocker for migration
-Message-ID: <YWjaotHIJNEp92rp@t490s>
-References: <20210922162009.125622-1-peterx@redhat.com>
+Subject: Re: [PATCH v2 0/2] Makefile: A few fixes to tag generation
+Message-ID: <YWjbUjmTg20xNGb4@t490s>
+References: <20210804132328.41353-1-peterx@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210922162009.125622-1-peterx@redhat.com>
+In-Reply-To: <20210804132328.41353-1-peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -91,27 +93,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 22, 2021 at 12:20:06PM -0400, Peter Xu wrote:
-> v3:
-> - Patch 3: in qmp_dump_guest_memory(), keeps the RUN_STATE_INMIGRATE check
->   [Marc-Andre]
+On Wed, Aug 04, 2021 at 09:23:26AM -0400, Peter Xu wrote:
+> I didn't squash patch 1 because they fix different things at different places
+> (patch 1 removes the "meson" dir warning on master branch already for gtags).
+> Patch 2 is the same as posted previous on the list.
+> 
+> Please have a look, thanks.
 
-Ping - More comments?
-
-If to go, should this go via dump or migration?  I think it belongs more to
-migration more (and I got Marc-Andre's ack on all patches).. but leaving that
-to maintainers.
-
-Thanks,
+Ping again..  comments welcomed..
 
 -- 
 Peter Xu
