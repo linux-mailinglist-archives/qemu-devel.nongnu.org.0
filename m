@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A969842E866
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 07:31:45 +0200 (CEST)
-Received: from localhost ([::1]:33874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4AE342E872
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 07:40:20 +0200 (CEST)
+Received: from localhost ([::1]:36520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbFom-0003jx-Lw
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 01:31:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48546)
+	id 1mbFx5-0005jx-Vx
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 01:40:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mbFlz-0002NN-Mt
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 01:28:51 -0400
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:45877)
+ (Exim 4.90_1) (envelope-from <lma@suse.de>) id 1mbFv2-00051b-LG
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 01:38:12 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:53776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mbFlx-0001Ly-Ui
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 01:28:51 -0400
-Received: by mail-io1-xd36.google.com with SMTP id 188so6410877iou.12
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 22:28:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=S+xlcjGQRmLTldmDeOPK3H8CQ61uXeLl51seCRqw900=;
- b=GvTxEY3FShm50QTEmts/wafN0muMQfQpoU0l+eBGkcKP0SweyrmkQcPQBUUOb5jO5C
- 6HdM1wpqZBeOS7jz86+yf+72lICIrvn5Bpx0lm/+TmX+BHd7NhH38OzGIA/jZX+Lj2Jl
- PQy0J7wQMix18St6xYi0RDIyfFetr4puIIhyJGzSbFNXWROd4CFgfJLJ5oisIFFlUnGW
- fTpV2dgGGjnVr7Xau86LJwqVq93NQ0PMa4klpNRtaawLj1vEzwh5nz2X0SCI9q/Xx7KE
- 4tJUFdH4hHTqdcvXLivg0mqCRDUWlVYEsSV2hPepRqLhGgHhPsLLaI/cKTPx0FZnJcuP
- vNhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=S+xlcjGQRmLTldmDeOPK3H8CQ61uXeLl51seCRqw900=;
- b=MaaGWg/FRI+vQ8uA3xRobUpcnOVDvIUIJeFc1RV7ZdRuakKP7DB4q74GLikrLDukyA
- DgfC0TROxs9FaCrxh4BnG32+6OqEujgkCztTmq3RbxWShALz35QQDpDzpaLkoIOn8a1+
- uMi49cPB9dLymxF7ipLIJayDBzsuUevCgGtdus9i8ru8ao9BvwCwOJfLHCWgcgsbSGep
- cB3fAZ08cans2suRDqoZF7swWtWpSYo0BZE90m3QDAGw1d/RrWfeS4XUcAvRIADCB1/v
- u60TUrCVF+bLOZkuwDNwsPfuIWOGo1HjC7XxRKGtpcfM1qNUqDzaoudLh5JQNaPvgrlt
- zG5g==
-X-Gm-Message-State: AOAM531WgxMJv93AzLJKzXnmZaCrXLtkfGxWTmkqtEWqnTixOYj5i0uA
- mfrbr7lkSAFCeU33u90G5rxgXsty8zhauo9uSlg=
-X-Google-Smtp-Source: ABdhPJzoS6laqokdH4h7gjcWBUCszVRwTxCjPgW3ReTLH5hQT3+EQbU2ELBVnHAWocRIe2ubibYr1ZUxMGqSomSB8Lg=
-X-Received: by 2002:a5e:9612:: with SMTP id a18mr2328695ioq.57.1634275728739; 
- Thu, 14 Oct 2021 22:28:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lma@suse.de>) id 1mbFv0-0007gb-3P
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 01:38:12 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D2D9721969;
+ Fri, 15 Oct 2021 05:38:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1634276286; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=On2XPk4f/qSBpclEHuEOCSgzh1aS796y+eR37yE5W08=;
+ b=xXjWz2xoCNC0nJl8h13sKE0iwgjxtoqDZ5/nTnvnGqcf97+Xs6s6qG94+RdDcJMD86vAtw
+ Cue4IusdC2FAV977jTKehDnQERrZVOqmMeR0BFpcS1615Jgpo95nrv3IInfp323jEkN4BT
+ DZCp2aHdPa1+1KxreuNXFnxGCe2azng=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1634276286;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=On2XPk4f/qSBpclEHuEOCSgzh1aS796y+eR37yE5W08=;
+ b=bYPMRT6HoOZEk8LG0PtnoVwyJmBP76p2N8aru05zVpkwvq50hPhFGe+p+k0zqutKbFd6WP
+ 5ER1fM7oJEmqvFDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C895413481;
+ Fri, 15 Oct 2021 05:38:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 5X63ML4TaWHIQAAAMHmgww
+ (envelope-from <lma@suse.de>); Fri, 15 Oct 2021 05:38:06 +0000
 MIME-Version: 1.0
-References: <20211013184125.2010897-1-philipp.tomsich@vrull.eu>
-In-Reply-To: <20211013184125.2010897-1-philipp.tomsich@vrull.eu>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 15 Oct 2021 15:28:22 +1000
-Message-ID: <CAKmqyKPgxAY25sHDH6+JDVbmOTNJv=bYe5bpkPqr6TAYwaBFHg@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Fix orc.b implementation
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Date: Fri, 15 Oct 2021 13:38:06 +0800
+From: lma <lma@suse.de>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 0/3] Postcopy migration: Add userfaultfd- user-mode-only
+ capability
+In-Reply-To: <YWjAqX13PYhBgbVh@t490s>
+References: <20211014091551.15201-1-lma@suse.com> <YWjAqX13PYhBgbVh@t490s>
+User-Agent: Roundcube Webmail
+Message-ID: <7c0161fab24b06fa249061780a7f30d4@suse.de>
+X-Sender: lma@suse.de
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=lma@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,75 +85,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Vincent Palatin <vpalatin@rivosinc.com>
+Cc: quintela@redhat.com, qemu-devel@nongnu.org, lma@suse.de,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 14, 2021 at 4:43 AM Philipp Tomsich
-<philipp.tomsich@vrull.eu> wrote:
->
-> The earlier implementation fell into a corner case for bytes that were
-> 0x01, giving a wrong result (but not affecting our application test
-> cases for strings, as an ASCII value 0x01 is rare in those...).
->
-> This changes the algorithm to:
->  1. Mask out the high-bit of each bytes (so that each byte is <= 127).
->  2. Add 127 to each byte (i.e. if the low 7 bits are not 0, this will overflow
->     into the highest bit of each byte).
->  3. Bitwise-or the original value back in (to cover those cases where the
->     source byte was exactly 128) to saturate the high-bit.
->  4. Shift-and-mask (implemented as a mask-and-shift) to extract the MSB of
->     each byte into its LSB.
->  5. Multiply with 0xff to fan out the LSB to all bits of each byte.
->
-> Fixes: d7a4fcb034 ("target/riscv: Add orc.b instruction for Zbb, removing gorc/gorci")
->
-> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> Reported-by: Vincent Palatin <vpalatin@rivosinc.com>
+在 2021-10-15 07:43，Peter Xu 写道：
+> On Thu, Oct 14, 2021 at 05:15:48PM +0800, Lin Ma wrote:
+>> Since kernel v5.11, Unprivileged user (without SYS_CAP_PTRACE 
+>> capability)
+>> must pass UFFD_USER_MODE_ONLY to userfaultd in case 
+>> unprivileged_userfaultfd
+>> sysctl knob is 0.
+>> Please refer to https://lwn.net/Articles/819834/ and the kernel 
+>> commits:
+>> 37cd0575 userfaultfd: add UFFD_USER_MODE_ONLY
+>> d0d4730a userfaultfd: add user-mode only option to 
+>> unprivileged_userfaultfd sysctl knob
+>> 
+>> This patch set adds a migration capability to pass UFFD_USER_MODE_ONLY
+>> for postcopy migration.
+> 
+> Then it's at least no KVM, no vhost, am I right?  Could I ask is there 
+> a real
+> user behind this?  Thanks,
 
-Thanks!
+Well, The "user-mode-only" has nothing to do with qemu's user-mode 
+emulation.
 
-Applied to riscv-to-apply.next
+The unprivileged_userfaultfd sysctl knob controls whether unprivileged 
+users can use the userfaultfd system calls.
+  set it to 1 to allow unprivileged users to use the userfaultfd system 
+calls.
+  set it to 0 to restrict userfaultfd to only privileged users (with 
+SYS_CAP_PTRACE capability).
 
-Alistair
+If host's unprivileged_userfaultfd sysctl knob is 0(The default value of 
+this knob is changed to 0 since host kernel v5.11):
+Qemu must pass the UFFD_USER_MODE_ONLY flag when creating userfaultfd 
+object for postcopy migration in case qemu runs as unprivileged user.
 
->
-> ---
->
->  target/riscv/insn_trans/trans_rvb.c.inc | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-> index 185c3e9a60..3095624f32 100644
-> --- a/target/riscv/insn_trans/trans_rvb.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-> @@ -249,13 +249,16 @@ static bool trans_rev8_64(DisasContext *ctx, arg_rev8_64 *a)
->  static void gen_orc_b(TCGv ret, TCGv source1)
->  {
->      TCGv  tmp = tcg_temp_new();
-> -    TCGv  ones = tcg_constant_tl(dup_const_tl(MO_8, 0x01));
-> +    TCGv  low7 = tcg_constant_tl(dup_const_tl(MO_8, 0x7f));
->
-> -    /* Set lsb in each byte if the byte was zero. */
-> -    tcg_gen_sub_tl(tmp, source1, ones);
-> -    tcg_gen_andc_tl(tmp, tmp, source1);
-> +    /* Set msb in each byte if the byte was non-zero. */
-> +    tcg_gen_and_tl(tmp, source1, low7);
-> +    tcg_gen_add_tl(tmp, tmp, low7);
-> +    tcg_gen_or_tl(tmp, tmp, source1);
-> +
-> +    /* Extract the msb to the lsb in each byte */
-> +    tcg_gen_andc_tl(tmp, tmp, low7);
->      tcg_gen_shri_tl(tmp, tmp, 7);
-> -    tcg_gen_andc_tl(tmp, ones, tmp);
->
->      /* Replicate the lsb of each byte across the byte. */
->      tcg_gen_muli_tl(ret, tmp, 0xff);
-> --
-> 2.25.1
->
->
+Before host kernel v5.11, If host's unprivileged_userfaultfd sysctl knob 
+is 0, Then postcopy migration is not allowed in case qemu runs as 
+unprivileged user.
+
+Thanks,
+Lin
 
