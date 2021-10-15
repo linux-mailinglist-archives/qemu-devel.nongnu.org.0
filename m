@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA2642E7E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 06:32:16 +0200 (CEST)
-Received: from localhost ([::1]:33030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F16C142E7E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 06:31:22 +0200 (CEST)
+Received: from localhost ([::1]:58096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbEtD-00012T-CN
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 00:32:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39020)
+	id 1mbEsL-0007K7-Vi
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 00:31:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbEZ2-0007Nm-LJ
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:24 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:44931)
+ id 1mbEZ0-0007LQ-K0
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:22 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:40931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbEYu-0000Li-Op
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:23 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id v8so3157975pfu.11
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 21:11:16 -0700 (PDT)
+ id 1mbEYv-0000MR-MK
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 00:11:22 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id o133so7289603pfg.7
+ for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 21:11:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LvK67GkX13tDj2L9Y8ql/Gd7bbn2JZgBQ3dF7lXKOxQ=;
- b=OInV1vFi/5JfHTupLob/xkMvp2vXB14v82QmIc1vo9SGBFpSFkgfOald66VQVhZTgO
- F+4AKVuA6CbjhvvNYPnvz/n95Hs+YqqhNX7Y75z7YR1ZcXTfyvQ/ETVf1YuqrqP8BcbC
- MXZr0FkkzTUwdfUt5TIys9pWtvFw27hKT3QEMDAX2Kjf1jYH5Uq1dvF10HKsBg5yB73x
- wm6qpqx3hfpPdi5FigzxtHoN6ReCaF1/LEbdnDP0fzyDHuQ4msKgYMY+Gv+tAHlnVDtV
- EQg8XbAc/V/lV64fDh/IKxG8h73D4r0fs0Mn7WVCO78OwG8auvXBhXdVebcso3FXifGb
- f39A==
+ bh=z8ecs4LTwGjkTaIMjFwaDU18rjRNxTTeFlYdhpfOXR8=;
+ b=Y5qiD56RsJ8Nq4PW05mNcjMMjwYz2jfPvkW213stwBafxD4PnzgoAYsX1S6nD2Yff5
+ de+rItUoevaMOdp9l6RQsoWkmi2bTp04yWCaqGqdijdPL17LA3YrNMdKVD3gocNVwcyD
+ kjrpR9U/ZB4FX3dxKpM2yzJA5da660XKvyph7gxMPQNT3RSJ6z/QoQr/F4DeP70SeP5D
+ uc1gu+m2vvDyGsLofkx0IwnME4q0QyYpt27YpksB0IwLjEuPrG8Pc0Ah9bNJ10Zxo+8P
+ 9nKp/gFFNURkgBvFH+y4ksW33d7QdVxSGLR5JG57+51T9Fxxp8jOQjIM3zLd0wUBAZSD
+ Y+RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LvK67GkX13tDj2L9Y8ql/Gd7bbn2JZgBQ3dF7lXKOxQ=;
- b=GuGQ/szDAba612Jx0uHYiAdtlhaFdydrEZKVxBZqfw8K60j9DJZaU2JlU1xJFwtscR
- IgIg37xXIaZHEGr+KmtT3MaGX2Q0n5WlJn7wL9K5C3nOYl/0xFB7zErAdUm6E2GlvG/h
- f4aomritytf8SdzpeLslFul7coFUAiJLr1vmSqf1f9lw7mQk5et8AUq9ncNpclDNCFua
- 7X7tfqKqzb+BRY6GBq4YIpr4TeNGnbrEpgA1CY6EuNAbYHdQuDXxbp2UWdxoaWxDpamh
- cXNyss9f1OMLambqIsXyXdmUZJNqv+NBocGhyHULqyDKr26wLiBbhZODVVKE0JSiLOkM
- 0zHA==
-X-Gm-Message-State: AOAM530kQEa9yrf5WqlXcFlxNl7+Cptl/U9XuiJ7iGDeOZRjPJPrX4R8
- QcO4biNGWAGa6joJFmu+S0BDrnV7wf9pMA==
-X-Google-Smtp-Source: ABdhPJzjcC/GeGPHyEqZa+81JGmEVHO/SebwMRqz2izTfw5Gq/CW11NbwAScDrlKXUnBfzMs4mz7qQ==
-X-Received: by 2002:a63:e741:: with SMTP id j1mr7429435pgk.86.1634271075199;
- Thu, 14 Oct 2021 21:11:15 -0700 (PDT)
+ bh=z8ecs4LTwGjkTaIMjFwaDU18rjRNxTTeFlYdhpfOXR8=;
+ b=lPD086icM7Ut+6n/ZgF6gWCpa1hd8xPwN2HVCWJCmbRSw4Tza+ZyqY9u2DrscZCCMg
+ B+A/yFU5iQ0JYlSDk+53UNMsQA2kyMWXrK6SndvYV4cw9qQGrVNix/LSHouyqROJtr2t
+ 3knzvfrr23fBOqRVIRT97NStcjYLMdkcM/b84LHFrOt4m6LLbgLx85tFKOtb+AcN2/Fv
+ Z1j2H+s8yKBFUHRjP0lkDLj4b7icp6/Jnq8W1YE/ppL+xP5BTVYNeUGFWHDbiv0icQtd
+ lpWIzxlGu5agtoZCXXut1XGogv+O+IZVgeSW7IPVZ6FQZ+X/1sdz68hAAw7Xc+6WzFZ+
+ y/rQ==
+X-Gm-Message-State: AOAM530/xjU5q6CxDrZsx2EKCMbFtCERAHtk6NnI9QD9hqmW/X0RMTwN
+ rlyru+XxYVszQHQoboMbF63XOa0nPth92Q==
+X-Google-Smtp-Source: ABdhPJyUfAOWeBarOFNzrTPDPvUEbiowt6bfPgHUa0EN7Bqnll40toZDAkWNpyfmi16VtIlPO8XXOw==
+X-Received: by 2002:a65:62d1:: with SMTP id m17mr7324322pgv.370.1634271076273; 
+ Thu, 14 Oct 2021 21:11:16 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id me12sm5718006pjb.27.2021.10.14.21.11.14
+ by smtp.gmail.com with ESMTPSA id me12sm5718006pjb.27.2021.10.14.21.11.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 21:11:14 -0700 (PDT)
+ Thu, 14 Oct 2021 21:11:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 24/67] target/cris: Make cris_cpu_tlb_fill sysemu only
-Date: Thu, 14 Oct 2021 21:10:10 -0700
-Message-Id: <20211015041053.2769193-25-richard.henderson@linaro.org>
+Subject: [PATCH v5 25/67] target/hexagon: Remove hexagon_cpu_tlb_fill
+Date: Thu, 14 Oct 2021 21:10:11 -0700
+Message-Id: <20211015041053.2769193-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211015041053.2769193-1-richard.henderson@linaro.org>
 References: <20211015041053.2769193-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
  envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
@@ -83,157 +82,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Taylor Simpson <tsimpson@quicinc.com>, alex.bennee@linaro.org,
+ laurent@vivier.eu, imp@bsdimp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The fallback code in cpu_loop_exit_sigsegv is sufficient
-for cris linux-user.
+for hexagon linux-user.
 
-Remove the code from cpu_loop that handled the unnamed 0xaa exception.
-This makes all of the code in helper.c sysemu only, so remove the
-ifdefs and move the file to cris_softmmu_ss.
+Remove the code from cpu_loop that raises SIGSEGV.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/cpu.h          |  8 ++++----
- linux-user/cris/cpu_loop.c | 10 ----------
- target/cris/cpu.c          |  4 ++--
- target/cris/helper.c       | 18 ------------------
- target/cris/meson.build    |  7 +++++--
- 5 files changed, 11 insertions(+), 36 deletions(-)
+ linux-user/hexagon/cpu_loop.c | 24 +-----------------------
+ target/hexagon/cpu.c          | 23 -----------------------
+ 2 files changed, 1 insertion(+), 46 deletions(-)
 
-diff --git a/target/cris/cpu.h b/target/cris/cpu.h
-index 6603565f83..b445b194ea 100644
---- a/target/cris/cpu.h
-+++ b/target/cris/cpu.h
-@@ -189,6 +189,10 @@ extern const VMStateDescription vmstate_cris_cpu;
- void cris_cpu_do_interrupt(CPUState *cpu);
- void crisv10_cpu_do_interrupt(CPUState *cpu);
- bool cris_cpu_exec_interrupt(CPUState *cpu, int int_req);
-+
-+bool cris_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                       MMUAccessType access_type, int mmu_idx,
-+                       bool probe, uintptr_t retaddr);
- #endif
+diff --git a/linux-user/hexagon/cpu_loop.c b/linux-user/hexagon/cpu_loop.c
+index bee2a9e4ea..6b24cbaba9 100644
+--- a/linux-user/hexagon/cpu_loop.c
++++ b/linux-user/hexagon/cpu_loop.c
+@@ -28,8 +28,7 @@
+ void cpu_loop(CPUHexagonState *env)
+ {
+     CPUState *cs = env_cpu(env);
+-    int trapnr, signum, sigcode;
+-    target_ulong sigaddr;
++    int trapnr;
+     target_ulong syscallnum;
+     target_ulong ret;
  
- void cris_cpu_dump_state(CPUState *cs, FILE *f, int flags);
-@@ -251,10 +255,6 @@ static inline int cpu_mmu_index (CPUCRISState *env, bool ifetch)
- 	return !!(env->pregs[PR_CCS] & U_FLAG);
- }
- 
--bool cris_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                       MMUAccessType access_type, int mmu_idx,
--                       bool probe, uintptr_t retaddr);
--
- /* Support function regs.  */
- #define SFR_RW_GC_CFG      0][0
- #define SFR_RW_MM_CFG      env->pregs[PR_SRS]][0
-diff --git a/linux-user/cris/cpu_loop.c b/linux-user/cris/cpu_loop.c
-index b9085619c4..0d5d268609 100644
---- a/linux-user/cris/cpu_loop.c
-+++ b/linux-user/cris/cpu_loop.c
-@@ -37,16 +37,6 @@ void cpu_loop(CPUCRISState *env)
+@@ -39,10 +38,6 @@ void cpu_loop(CPUHexagonState *env)
+         cpu_exec_end(cs);
          process_queued_cpu_work(cs);
  
+-        signum = 0;
+-        sigcode = 0;
+-        sigaddr = 0;
+-
          switch (trapnr) {
--        case 0xaa:
--            {
--                info.si_signo = TARGET_SIGSEGV;
--                info.si_errno = 0;
--                /* XXX: check env->error_code */
--                info.si_code = TARGET_SEGV_MAPERR;
--                info._sifields._sigfault._addr = env->pregs[PR_EDA];
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            }
--            break;
          case EXCP_INTERRUPT:
-           /* just indicate that signals should be handled asap */
-           break;
-diff --git a/target/cris/cpu.c b/target/cris/cpu.c
-index c2e7483f5b..ed6c781342 100644
---- a/target/cris/cpu.c
-+++ b/target/cris/cpu.c
-@@ -205,9 +205,9 @@ static const struct SysemuCPUOps cris_sysemu_ops = {
- 
- static const struct TCGCPUOps crisv10_tcg_ops = {
-     .initialize = cris_initialize_crisv10_tcg,
--    .tlb_fill = cris_cpu_tlb_fill,
- 
- #ifndef CONFIG_USER_ONLY
-+    .tlb_fill = cris_cpu_tlb_fill,
-     .cpu_exec_interrupt = cris_cpu_exec_interrupt,
-     .do_interrupt = crisv10_cpu_do_interrupt,
- #endif /* !CONFIG_USER_ONLY */
-@@ -215,9 +215,9 @@ static const struct TCGCPUOps crisv10_tcg_ops = {
- 
- static const struct TCGCPUOps crisv32_tcg_ops = {
-     .initialize = cris_initialize_tcg,
--    .tlb_fill = cris_cpu_tlb_fill,
- 
- #ifndef CONFIG_USER_ONLY
-+    .tlb_fill = cris_cpu_tlb_fill,
-     .cpu_exec_interrupt = cris_cpu_exec_interrupt,
-     .do_interrupt = cris_cpu_do_interrupt,
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/target/cris/helper.c b/target/cris/helper.c
-index 36926faf32..a0d6ecdcd3 100644
---- a/target/cris/helper.c
-+++ b/target/cris/helper.c
-@@ -39,22 +39,6 @@
- #define D_LOG(...) do { } while (0)
- #endif
- 
--#if defined(CONFIG_USER_ONLY)
+             /* just indicate that signals should be handled asap */
+@@ -65,12 +60,6 @@ void cpu_loop(CPUHexagonState *env)
+                 env->gpr[0] = ret;
+             }
+             break;
+-        case HEX_EXCP_FETCH_NO_UPAGE:
+-        case HEX_EXCP_PRIV_NO_UREAD:
+-        case HEX_EXCP_PRIV_NO_UWRITE:
+-            signum = TARGET_SIGSEGV;
+-            sigcode = TARGET_SEGV_MAPERR;
+-            break;
+         case EXCP_ATOMIC:
+             cpu_exec_step_atomic(cs);
+             break;
+@@ -79,17 +68,6 @@ void cpu_loop(CPUHexagonState *env)
+                      trapnr);
+             exit(EXIT_FAILURE);
+         }
 -
--bool cris_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                       MMUAccessType access_type, int mmu_idx,
--                       bool probe, uintptr_t retaddr)
+-        if (signum) {
+-            target_siginfo_t info = {
+-                .si_signo = signum,
+-                .si_errno = 0,
+-                .si_code = sigcode,
+-                ._sifields._sigfault._addr = sigaddr
+-            };
+-            queue_signal(env, info.si_signo, QEMU_SI_KILL, &info);
+-        }
+-
+         process_pending_signals(env);
+     }
+ }
+diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
+index 3338365c16..160a46a3d5 100644
+--- a/target/hexagon/cpu.c
++++ b/target/hexagon/cpu.c
+@@ -245,34 +245,11 @@ static void hexagon_cpu_init(Object *obj)
+     qdev_property_add_static(DEVICE(obj), &hexagon_lldb_stack_adjust_property);
+ }
+ 
+-static bool hexagon_tlb_fill(CPUState *cs, vaddr address, int size,
+-                             MMUAccessType access_type, int mmu_idx,
+-                             bool probe, uintptr_t retaddr)
 -{
--    CRISCPU *cpu = CRIS_CPU(cs);
--
--    cs->exception_index = 0xaa;
--    cpu->env.pregs[PR_EDA] = address;
+-#ifdef CONFIG_USER_ONLY
+-    switch (access_type) {
+-    case MMU_INST_FETCH:
+-        cs->exception_index = HEX_EXCP_FETCH_NO_UPAGE;
+-        break;
+-    case MMU_DATA_LOAD:
+-        cs->exception_index = HEX_EXCP_PRIV_NO_UREAD;
+-        break;
+-    case MMU_DATA_STORE:
+-        cs->exception_index = HEX_EXCP_PRIV_NO_UWRITE;
+-        break;
+-    }
 -    cpu_loop_exit_restore(cs, retaddr);
+-#else
+-#error System mode not implemented for Hexagon
+-#endif
 -}
 -
--#else /* !CONFIG_USER_ONLY */
--
--
- static void cris_shift_ccs(CPUCRISState *env)
- {
-     uint32_t ccs;
-@@ -304,5 +288,3 @@ bool cris_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ #include "hw/core/tcg-cpu-ops.h"
  
-     return ret;
- }
--
--#endif /* !CONFIG_USER_ONLY */
-diff --git a/target/cris/meson.build b/target/cris/meson.build
-index 67c3793c85..c1e326d950 100644
---- a/target/cris/meson.build
-+++ b/target/cris/meson.build
-@@ -2,13 +2,16 @@ cris_ss = ss.source_set()
- cris_ss.add(files(
-   'cpu.c',
-   'gdbstub.c',
--  'helper.c',
-   'op_helper.c',
-   'translate.c',
- ))
+ static const struct TCGCPUOps hexagon_tcg_ops = {
+     .initialize = hexagon_translate_init,
+     .synchronize_from_tb = hexagon_cpu_synchronize_from_tb,
+-    .tlb_fill = hexagon_tlb_fill,
+ };
  
- cris_softmmu_ss = ss.source_set()
--cris_softmmu_ss.add(files('mmu.c', 'machine.c'))
-+cris_softmmu_ss.add(files(
-+  'helper.c',
-+  'machine.c',
-+  'mmu.c',
-+))
- 
- target_arch += {'cris': cris_ss}
- target_softmmu_arch += {'cris': cris_softmmu_ss}
+ static void hexagon_cpu_class_init(ObjectClass *c, void *data)
 -- 
 2.25.1
 
