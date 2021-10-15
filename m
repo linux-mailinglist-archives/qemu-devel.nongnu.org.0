@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5110542EA2D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 09:30:03 +0200 (CEST)
-Received: from localhost ([::1]:60864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647F442EA66
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 09:38:26 +0200 (CEST)
+Received: from localhost ([::1]:42318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbHfG-0007Cs-E5
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 03:30:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41254)
+	id 1mbHnN-0005ig-I9
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 03:38:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mbHdw-0006GO-Uf
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:28:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56384)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mbHmI-0004Nv-M9
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:37:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mbHdu-0004dy-UF
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:28:40 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mbHmG-0005zy-5R
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:37:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634282918;
+ s=mimecast20190719; t=1634283434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0eP+/+B/gknKVwlIaS7Hsu3GzpgbK5CPHUzSvfjaG+A=;
- b=IEjFsTi5or9SmTkB2wUB4OrA37J4H+J3ksXDgQmZ1ErjgAH2lDQju0PNIv4mCHGuKi/RNR
- xlxI5xI1RIVOvJnChh7j0I/lQDBNbLQYFJyU/PjCikRJxS/pxWhllGXx0SW0rXJJGl5MVn
- mpB46bzOkyDyAoWjrL6xHWEl0ZfEOWE=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-52lSrYmYMdGsCd66G4f5rA-1; Fri, 15 Oct 2021 03:28:34 -0400
-X-MC-Unique: 52lSrYmYMdGsCd66G4f5rA-1
-Received: by mail-qt1-f198.google.com with SMTP id
- d19-20020ac85ad3000000b002a74d0626bcso6164279qtd.5
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 00:28:34 -0700 (PDT)
+ bh=aKVYcpWNLfYlE4N/wYkX2U6vSmT4ml200IvOC1ImgZo=;
+ b=LnaLBJE9aA6PT+JCjW9ZW2BsUXRXItBP+edE1WA1zCkB3NimTqCcopYkBRaHmzAnLmmK6I
+ JO12obDL4O9/6FmnSEp37B6VBt9458JypZSqkEpDusvZVMsvjPeggyWToKPYWPJd6tBYL1
+ BTLRKJvDo0LPudije+F02NvSPD2izYg=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-201-RdK7DW_SMlSzKf2iiubv4Q-1; Fri, 15 Oct 2021 03:37:13 -0400
+X-MC-Unique: RdK7DW_SMlSzKf2iiubv4Q-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ g10-20020a05651222ca00b003fda3f05c17so6060961lfu.11
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 00:37:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=0eP+/+B/gknKVwlIaS7Hsu3GzpgbK5CPHUzSvfjaG+A=;
- b=yCig8/h+PWQzSIw+kta0uOItw2uqiI5kl81xgVkw2SoC3okuZBl3WfXyUPMfyKPhjP
- qQtfjKJiMLhJk4loBgoumoFIG8gS+mkQGNbb4lnnYNZ5t38oVhIBdDSTkN8XtwTpffYw
- LbDU9aALBOjPUaiHmzG5hdcvryMOTXq5i2/UDQ/EIaGu3XZSeqnBHfLN10vP1PKlxQK7
- ubvrwNZL0jKO0khBqm4u54Gj6ZY4S6zIKVp8R52TPwRj/e/oyDUmNFLXRMjpfCuWxgQK
- an+tGjrHqmpPXwL3rMwYvh4e8i5SgSVFp3Xb2JCYx2RFciJQbAxfqWxOgVyv0zfu3/9o
- Gp4g==
-X-Gm-Message-State: AOAM530m0ne0n09y0Bqei39FGGLRm68+2tc+O801OAR5L26KNwUR+An5
- 89fijN7LlYFAjqGnTM266eSM1LsweOMrW5kMSmr7kuYMiFJPQ985qQez4+QFs5DU+vYzRYN3Zgn
- ptw8wS3xHK32d0c4vCY3C2ZDGXeh8vbQ=
-X-Received: by 2002:a37:a082:: with SMTP id j124mr8703688qke.495.1634282913872; 
- Fri, 15 Oct 2021 00:28:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxcUs7noWWXqIjvtCVjjRQyow8J1NTphVWbwM9YTAn5kDVh9bBQoqAAhEuidLizXVjLeu2OwZBEg/jl+kw6/OU=
-X-Received: by 2002:a37:a082:: with SMTP id j124mr8703676qke.495.1634282913617; 
- Fri, 15 Oct 2021 00:28:33 -0700 (PDT)
+ bh=aKVYcpWNLfYlE4N/wYkX2U6vSmT4ml200IvOC1ImgZo=;
+ b=K/No80w7rxv/1uzOF9XvcWAd28VXousaqoegAu4KIAK3xcVlyr8aGN3koq6aZ0W0mI
+ bmqa+hn2m8E+IREnMtOChnyHgOOpaoHG60fXFoXnQ5UrCR6j91Uds64xPK5sJZC0VhX8
+ /V3jOnzO9pCg3CFcCp9myEK3tsBtfinp+25eLxG4PZzIJaL0tdrWHNCiM6TNlBfauGJt
+ Qm2wTwCWtPAv7MVdmtLM6xocbCcZpbjfTYJEiQhlZxrUV+4FPgcV8mYN1uKU7vbPlme1
+ crI9n99qjNF0BmONCUfYBF73QNhY0bHfPLPOwTE+pfb+1K7oYtLhEKh4EnYgJ1D+3DKr
+ E67Q==
+X-Gm-Message-State: AOAM531CGwydTiuO1nQWFm3jOjo43rofMtFcfxeeuELu47mvCQ9RPMWh
+ 9gCrxyXLRgsdbla6zdZc0wbE+zr+7Fi0VPBtUdCNstLp6Q5Z3F+AqseNtT2Pu+KLfSlSS7wLr0b
+ 84YoVmlpWpZvLHDPDOyYgrNMk39oqicI=
+X-Received: by 2002:a2e:5c8:: with SMTP id 191mr11304311ljf.107.1634283431504; 
+ Fri, 15 Oct 2021 00:37:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxRr5OnjJzlB+o8annLgLZ1C5FahrRgyhxwHfEY8N/1HIClVxzwP6BAKZlwJmOWAWko0nqNLDz20imepHwXb6k=
+X-Received: by 2002:a2e:5c8:: with SMTP id 191mr11304268ljf.107.1634283431195; 
+ Fri, 15 Oct 2021 00:37:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211001070603.307037-1-eperezma@redhat.com>
  <20211001070603.307037-21-eperezma@redhat.com>
  <d5f837ec-7b89-2e47-fcfb-680ee808f6ad@redhat.com>
-In-Reply-To: <d5f837ec-7b89-2e47-fcfb-680ee808f6ad@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 15 Oct 2021 09:27:57 +0200
-Message-ID: <CAJaqyWdEGWFNrxqKxRya=ybRiP0wTZ0aPksBBeOe9KOjOmUnqA@mail.gmail.com>
+ <CAJaqyWdEGWFNrxqKxRya=ybRiP0wTZ0aPksBBeOe9KOjOmUnqA@mail.gmail.com>
+In-Reply-To: <CAJaqyWdEGWFNrxqKxRya=ybRiP0wTZ0aPksBBeOe9KOjOmUnqA@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 15 Oct 2021 15:37:00 +0800
+Message-ID: <CACGkMEuhseBMckdzeGf-bCtyXKEKNNyCaR0LEeELTXhKWxxmwQ@mail.gmail.com>
 Subject: Re: [RFC PATCH v4 20/20] vdpa: Add custom IOTLB translations to SVQ
-To: Jason Wang <jasowang@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,79 +103,108 @@ Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 13, 2021 at 7:34 AM Jason Wang <jasowang@redhat.com> wrote:
+On Fri, Oct 15, 2021 at 3:28 PM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
 >
->
-> =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:06, Eugenio P=C3=A9rez =E5=86=99=
-=E9=81=93:
-> > Use translations added in VhostIOVATree in SVQ.
+> On Wed, Oct 13, 2021 at 7:34 AM Jason Wang <jasowang@redhat.com> wrote:
 > >
-> > Now every element needs to store the previous address also, so VirtQueu=
-e
-> > can consume the elements properly. This adds a little overhead per VQ
-> > element, having to allocate more memory to stash them. As a possible
-> > optimization, this allocation could be avoided if the descriptor is not
-> > a chain but a single one, but this is left undone.
 > >
-> > TODO: iova range should be queried before, and add logic to fail when
-> > GPA is outside of its range and memory listener or svq add it.
+> > =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:06, Eugenio P=C3=A9rez =E5=86=
+=99=E9=81=93:
+> > > Use translations added in VhostIOVATree in SVQ.
+> > >
+> > > Now every element needs to store the previous address also, so VirtQu=
+eue
+> > > can consume the elements properly. This adds a little overhead per VQ
+> > > element, having to allocate more memory to stash them. As a possible
+> > > optimization, this allocation could be avoided if the descriptor is n=
+ot
+> > > a chain but a single one, but this is left undone.
+> > >
+> > > TODO: iova range should be queried before, and add logic to fail when
+> > > GPA is outside of its range and memory listener or svq add it.
+> > >
+> > > Signed-off-by: Eugenio P=C3=A9rez<eperezma@redhat.com>
+> > > ---
+> > >   hw/virtio/vhost-shadow-virtqueue.h |   4 +-
+> > >   hw/virtio/vhost-shadow-virtqueue.c | 130 ++++++++++++++++++++++++--=
+---
+> > >   hw/virtio/vhost-vdpa.c             |  40 ++++++++-
+> > >   hw/virtio/trace-events             |   1 +
+> > >   4 files changed, 152 insertions(+), 23 deletions(-)
 > >
-> > Signed-off-by: Eugenio P=C3=A9rez<eperezma@redhat.com>
-> > ---
-> >   hw/virtio/vhost-shadow-virtqueue.h |   4 +-
-> >   hw/virtio/vhost-shadow-virtqueue.c | 130 ++++++++++++++++++++++++----=
--
-> >   hw/virtio/vhost-vdpa.c             |  40 ++++++++-
-> >   hw/virtio/trace-events             |   1 +
-> >   4 files changed, 152 insertions(+), 23 deletions(-)
+> >
+> > Think hard about the whole logic. This is safe since qemu memory map
+> > will fail if guest submits a invalidate IOVA.
+> >
 >
+> Can you expand on this? What you mean is that VirtQueue already
+> protects SVQ code if the guest sets an invalid buffer address (GPA),
+> isn't it?
+
+Yes.
+
 >
-> Think hard about the whole logic. This is safe since qemu memory map
-> will fail if guest submits a invalidate IOVA.
+> > Then I wonder if we do something much more simpler:
+> >
+> > 1) Using qemu VA as IOVA but only maps the VA that belongs to guest
+> > 2) Then we don't need any IOVA tree here, what we need is to just map
+> > vring and use qemu VA without any translation
+> >
 >
+> That would be great, but either qemu's SVQ vring or guest translated
+> buffers address (in qemu VA form) were already in high addresses,
+> outside of the device's iova range (in my test).
 
-Can you expand on this? What you mean is that VirtQueue already
-protects SVQ code if the guest sets an invalid buffer address (GPA),
-isn't it?
+You're right. I miss that and that's why we need e.g iova tree and allocato=
+r.
 
-> Then I wonder if we do something much more simpler:
+What I proposed only makes sense when shared virtual memory (SVA) is
+implemented. In the case of SVA, the valid iova range should be the
+full VA range.
+
 >
-> 1) Using qemu VA as IOVA but only maps the VA that belongs to guest
-> 2) Then we don't need any IOVA tree here, what we need is to just map
-> vring and use qemu VA without any translation
+> I didn't try remapping tricks to make them fit in the range, but I
+> think it does complicate the solution relatively fast if there was
+> already memory in that range owned by qemu before enabling SVQ:
 >
+> * Guest memory must be contiguous in VA address space, but it "must"
+> support hotplug/unplug (although vDPA currently pins it). Hotplug
+> memory could always overlap with SVQ vring, so we would need to move
+> it.
+> * Duplicating mapped memory for writing? (Not sure if guest memory is
+> actually movable in qemu).
+> * Indirect descriptors will need to allocate and free memory more or
+> less frequently, increasing the possibility of overlapping.
 
-That would be great, but either qemu's SVQ vring or guest translated
-buffers address (in qemu VA form) were already in high addresses,
-outside of the device's iova range (in my test).
+I'm not sure I get the problem, but overlapping is not an issue since
+we're using VA.
 
-I didn't try remapping tricks to make them fit in the range, but I
-think it does complicate the solution relatively fast if there was
-already memory in that range owned by qemu before enabling SVQ:
+>
+> If we can move guest memory,
 
-* Guest memory must be contiguous in VA address space, but it "must"
-support hotplug/unplug (although vDPA currently pins it). Hotplug
-memory could always overlap with SVQ vring, so we would need to move
-it.
-* Duplicating mapped memory for writing? (Not sure if guest memory is
-actually movable in qemu).
-* Indirect descriptors will need to allocate and free memory more or
-less frequently, increasing the possibility of overlapping.
+I'm not sure we can do this or it looks very tricky.
 
-If we can move guest memory, however, I can see how we can track it in
-a tree *but* mark when the tree is 1:1 with qemu's VA, so buffers
-forwarding does not take the translation penalty. When guest memory
-cannot be map 1:1, we can resort to tree, and come back to 1:1
-translation if the offending tree node(s) get deleted.
+> however, I can see how we can track it in
+> a tree *but* mark when the tree is 1:1 with qemu's VA, so buffers
+> forwarding does not take the translation penalty. When guest memory
+> cannot be map 1:1, we can resort to tree, and come back to 1:1
+> translation if the offending tree node(s) get deleted.
+>
+> However I think this puts the solution a little bit farther than
+> "starting simple" :).
+>
+> Does it make sense?
 
-However I think this puts the solution a little bit farther than
-"starting simple" :).
+Yes. So I think I will review the IOVA tree codes and get back to you.
 
-Does it make sense?
+THanks
 
-Thanks!
-
-> Thanks
+>
+> Thanks!
+>
+> > Thanks
+> >
 >
 
 
