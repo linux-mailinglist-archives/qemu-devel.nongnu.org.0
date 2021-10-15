@@ -2,85 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C62042E635
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 03:38:59 +0200 (CEST)
-Received: from localhost ([::1]:44188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D105442E723
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 05:14:43 +0200 (CEST)
+Received: from localhost ([::1]:39532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbCBW-0006Fg-Cz
-	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 21:38:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48734)
+	id 1mbDgA-0003XH-BC
+	for lists+qemu-devel@lfdr.de; Thu, 14 Oct 2021 23:14:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mbCA9-0005YA-Em
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 21:37:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53422)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mbDcl-0001pV-SH; Thu, 14 Oct 2021 23:11:11 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:36499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mbCA7-0006OX-Ns
- for qemu-devel@nongnu.org; Thu, 14 Oct 2021 21:37:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634261850;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/uss8EGvkXr7tK7KFeqMaNmdCs3SKS0RFD4Hh+RVy5g=;
- b=FxoGMRDiIaq7kQaz7fnXVti1dkj7be5WuPJwn+LUbO5a0kaBeNYQGt6qNqqLHghQ2pO3BY
- DMwSPEZWkG16+nYLvTR3ynhJzXnPgX9Hvuer8qGDSCBkG+dfmqwzO7sxlR4ho6n/4UEWAl
- VymQVH8YDs6/g/xWRSRYVrwmY5mfK5Y=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-BNM20uB9OBehgUvJEShZpw-1; Thu, 14 Oct 2021 21:37:30 -0400
-X-MC-Unique: BNM20uB9OBehgUvJEShZpw-1
-Received: by mail-pf1-f197.google.com with SMTP id
- 2-20020aa79102000000b0044c216dd8ecso4413116pfh.18
- for <qemu-devel@nongnu.org>; Thu, 14 Oct 2021 18:37:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/uss8EGvkXr7tK7KFeqMaNmdCs3SKS0RFD4Hh+RVy5g=;
- b=lYwwOv+l4xxdfrVCVW8ZpLR7455Qy/VHC+7rMh+sIouMUCMl3X4Nj/FqXKxa5yVJZS
- e7DuQTGvtvr1CeBXFKHjQCH/dPU4y3ep0u6WMpEKEq5o+fdku5JkW+ystRHb95ifp36q
- Dzj8ytfxEbvS7asKLEwtfIgFKnlbgnHRzo2oXnMVjOcfEZ1vVe52ZrY7MvEGjr/OPrPT
- MotEN/ubHE34YszbmiMQWwRscwezYFuGHMxzpUQitnvtEJjfwwxUotgTi6EmY17A7kWO
- vPAW8hctEzP9iPLGzcvLYvfpvJIjq27+l+asVBo881lbtH4lMuRzFspUwRfdclYXkQQN
- r4hA==
-X-Gm-Message-State: AOAM5331NZgGNTST1sz+NLB1cC3XwWQnjHShF4RM0vV0RmO1PGRGLk2K
- kN5HG2nDeWfXzxdtEaHf56ay/oqooaVdDzd3asn7RLg4gN4dBREEDI5/c1LNFpbXq+8NtWlNbGz
- bJ5/VO2Uu6UqSDdcI3Zuiy85Yn4dw3mikhWjTCxJ7H2PIKQHAbHzGJcBAwrxIZMmj
-X-Received: by 2002:aa7:814f:0:b0:44d:626:8b96 with SMTP id
- d15-20020aa7814f000000b0044d06268b96mr8944608pfn.65.1634261848371; 
- Thu, 14 Oct 2021 18:37:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzHyN+Y8g+EC0195HwcsHzdK5dvaqtQtI+dJiuUX3t5dNxRyun24n3lvmpIrz0alw2j44OOzw==
-X-Received: by 2002:aa7:814f:0:b0:44d:626:8b96 with SMTP id
- d15-20020aa7814f000000b0044d06268b96mr8944579pfn.65.1634261847949; 
- Thu, 14 Oct 2021 18:37:27 -0700 (PDT)
-Received: from t490s ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id v20sm3776302pff.171.2021.10.14.18.37.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 18:37:27 -0700 (PDT)
-Date: Fri, 15 Oct 2021 09:37:22 +0800
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 0/2] Makefile: A few fixes to tag generation
-Message-ID: <YWjbUjmTg20xNGb4@t490s>
-References: <20210804132328.41353-1-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mbDch-0005Wi-Fz; Thu, 14 Oct 2021 23:11:11 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4HVrrG3PrZz4xbP; Fri, 15 Oct 2021 14:10:54 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1634267454;
+ bh=NvbWod8VhIpnMmM3hnnFM/7XaARJlfRR7O4JKDa3RCs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MnD3/e2qteUiu6N8A9iab4qm7aKxpd/oHpi3jK5xWRRE1lJA41PSBr2ReAGrJUBmv
+ 9y471/UaVYD8iJU45XiwPcpIZidwOaBPb4AffhNxmphiTk2Cz6XR4lgNuROiLWTBiW
+ bNBthoZPL/bM/dhSkvfvvBMV6ItmSMMwZFS7w4y0=
+Date: Fri, 15 Oct 2021 11:30:29 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: matheus.ferst@eldorado.org.br
+Subject: Re: [PATCH 1/4] linux-user/ppc: Fix XER access in
+ save/restore_user_regs
+Message-ID: <YWjLpVEBp6Sktlw6@yekko>
+References: <20211014223234.127012-1-matheus.ferst@eldorado.org.br>
+ <20211014223234.127012-2-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
-In-Reply-To: <20210804132328.41353-1-peterx@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="RDLtMGi4T2+OrB11"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211014223234.127012-2-matheus.ferst@eldorado.org.br>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,23 +59,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: laurent@vivier.eu, richard.henderson@linaro.org, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 04, 2021 at 09:23:26AM -0400, Peter Xu wrote:
-> I didn't squash patch 1 because they fix different things at different places
-> (patch 1 removes the "meson" dir warning on master branch already for gtags).
-> Patch 2 is the same as posted previous on the list.
-> 
-> Please have a look, thanks.
 
-Ping again..  comments welcomed..
+--RDLtMGi4T2+OrB11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Peter Xu
+On Thu, Oct 14, 2021 at 07:32:31PM -0300, matheus.ferst@eldorado.org.br wro=
+te:
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>=20
+> We should use cpu_read_xer/cpu_write_xer to save/restore the complete
+> register since some of its bits are in other fields of CPUPPCState. A
+> test is added to prevent future regressions.
+>=20
+> Fixes: da91a00f191f ("target-ppc: Split out SO, OV, CA fields from XER")
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
+Applied to ppc-for-6.2, thanks.
+
+> ---
+>  linux-user/ppc/signal.c                     |  9 +++--
+>  tests/tcg/ppc64/Makefile.target             |  2 +
+>  tests/tcg/ppc64le/Makefile.target           |  2 +
+>  tests/tcg/ppc64le/signal_save_restore_xer.c | 42 +++++++++++++++++++++
+>  4 files changed, 52 insertions(+), 3 deletions(-)
+>  create mode 100644 tests/tcg/ppc64le/signal_save_restore_xer.c
+>=20
+> diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
+> index edfad28a37..4413a4a28f 100644
+> --- a/linux-user/ppc/signal.c
+> +++ b/linux-user/ppc/signal.c
+> @@ -244,7 +244,7 @@ static void save_user_regs(CPUPPCState *env, struct t=
+arget_mcontext *frame)
+>      __put_user(env->nip, &frame->mc_gregs[TARGET_PT_NIP]);
+>      __put_user(env->ctr, &frame->mc_gregs[TARGET_PT_CTR]);
+>      __put_user(env->lr, &frame->mc_gregs[TARGET_PT_LNK]);
+> -    __put_user(env->xer, &frame->mc_gregs[TARGET_PT_XER]);
+> +    __put_user(cpu_read_xer(env), &frame->mc_gregs[TARGET_PT_XER]);
+> =20
+>      for (i =3D 0; i < ARRAY_SIZE(env->crf); i++) {
+>          ccr |=3D env->crf[i] << (32 - ((i + 1) * 4));
+> @@ -319,6 +319,7 @@ static void restore_user_regs(CPUPPCState *env,
+>  {
+>      target_ulong save_r2 =3D 0;
+>      target_ulong msr;
+> +    target_ulong xer;
+>      target_ulong ccr;
+> =20
+>      int i;
+> @@ -334,9 +335,11 @@ static void restore_user_regs(CPUPPCState *env,
+>      __get_user(env->nip, &frame->mc_gregs[TARGET_PT_NIP]);
+>      __get_user(env->ctr, &frame->mc_gregs[TARGET_PT_CTR]);
+>      __get_user(env->lr, &frame->mc_gregs[TARGET_PT_LNK]);
+> -    __get_user(env->xer, &frame->mc_gregs[TARGET_PT_XER]);
+> +
+> +    __get_user(xer, &frame->mc_gregs[TARGET_PT_XER]);
+> +    cpu_write_xer(env, xer);
+> +
+>      __get_user(ccr, &frame->mc_gregs[TARGET_PT_CCR]);
+> -
+>      for (i =3D 0; i < ARRAY_SIZE(env->crf); i++) {
+>          env->crf[i] =3D (ccr >> (32 - ((i + 1) * 4))) & 0xf;
+>      }
+> diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.t=
+arget
+> index a6a4ddaeca..6ab7934fdf 100644
+> --- a/tests/tcg/ppc64/Makefile.target
+> +++ b/tests/tcg/ppc64/Makefile.target
+> @@ -23,4 +23,6 @@ run-plugin-byte_reverse-with-%:
+>  	$(call skip-test, "RUN of byte_reverse ($*)", "not built")
+>  endif
+> =20
+> +PPC64_TESTS +=3D signal_save_restore_xer
+> +
+>  TESTS +=3D $(PPC64_TESTS)
+> diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefi=
+le.target
+> index c0c14ffbad..5e65b1590d 100644
+> --- a/tests/tcg/ppc64le/Makefile.target
+> +++ b/tests/tcg/ppc64le/Makefile.target
+> @@ -22,4 +22,6 @@ run-plugin-byte_reverse-with-%:
+>  	$(call skip-test, "RUN of byte_reverse ($*)", "not built")
+>  endif
+> =20
+> +PPC64LE_TESTS +=3D signal_save_restore_xer
+> +
+>  TESTS +=3D $(PPC64LE_TESTS)
+> diff --git a/tests/tcg/ppc64le/signal_save_restore_xer.c b/tests/tcg/ppc6=
+4le/signal_save_restore_xer.c
+> new file mode 100644
+> index 0000000000..e4f8a07dd7
+> --- /dev/null
+> +++ b/tests/tcg/ppc64le/signal_save_restore_xer.c
+> @@ -0,0 +1,42 @@
+> +#include <assert.h>
+> +#include <stdint.h>
+> +#include <signal.h>
+> +#include <sys/user.h>
+> +
+> +#define XER_SO   (1 << 31)
+> +#define XER_OV   (1 << 30)
+> +#define XER_CA   (1 << 29)
+> +#define XER_OV32 (1 << 19)
+> +#define XER_CA32 (1 << 18)
+> +
+> +uint64_t saved;
+> +
+> +void sigill_handler(int sig, siginfo_t *si, void *ucontext)
+> +{
+> +    ucontext_t *uc =3D ucontext;
+> +    uc->uc_mcontext.regs->nip +=3D 4;
+> +    saved =3D uc->uc_mcontext.regs->xer;
+> +    uc->uc_mcontext.regs->xer |=3D XER_OV | XER_OV32;
+> +}
+> +
+> +int main(void)
+> +{
+> +    uint64_t initial =3D XER_CA | XER_CA32, restored;
+> +    struct sigaction sa =3D {
+> +        .sa_sigaction =3D sigill_handler,
+> +        .sa_flags =3D SA_SIGINFO
+> +    };
+> +
+> +    sigaction(SIGILL, &sa, NULL);
+> +
+> +    asm("mtspr 1, %1\n\t"
+> +        ".long 0x0\n\t"
+> +        "mfspr %0, 1\n\t"
+> +        : "=3Dr" (restored)
+> +        : "r" (initial));
+> +
+> +    assert(saved =3D=3D initial);
+> +    assert(restored =3D=3D (XER_OV | XER_OV32 | XER_CA | XER_CA32));
+> +
+> +    return 0;
+> +}
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--RDLtMGi4T2+OrB11
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFoy6MACgkQbDjKyiDZ
+s5K+ehAAhphF4d+OI4Bw/gESiTykxnm7Ni8m2Ab7J0nItrLnTOzTmH+8+G0v4gP8
+ENNKVy4HNld+EHfOTZ9nDhLT+dW2UFnx/PPPUfcqhfRDG5y6FzmsL9MMTH5/E24N
+3xj7ISCH8DOJOIv1uthXhVDz2B4aHKRaL+/mGpI7a4tq7BA0n9bI2TpZ+ScHhbFR
+mhbNYMYAUDuWQMzkXq3RMg/a+q58sGzQ8E/VxMxrdqeu0YSPSfu47JxX18ZXF2HB
+4mTECQyM4oBF1uDRYzriXlTiyUPGkSHtg3bKFG0nSpxpEitpxwpcmIuNUbIEPM9Q
+ar24j+s0H5L9iuTCIyC50GCPm5qBk9ncHeu1GORH3nJlMAZF2ejXY4iXgfvqoZL9
+k6ppnbAYsZTK4/QnNqu2Kxfk3C0lCzsOir4t158kLNtLT84/7dLyUurS97p1OiBH
+EFIrl+YOC2SZzHIx6k4L7IC74HuBbelFNFq9Y4gIQ2MEeuYSLN7eq9a5w9jxpTJs
+oKP6hJxrid9SCjWOUkXUjS5vcRz5os3MyR5GddYl0ngB9QeQrCa9JyIAdrHWeGft
+a/FZF4+MFNdE7rx1vJwFG0+wWvTs3f0JUgH0kPDuZSQZvYA1kLPyxRyaInP+zNF3
+JxGVfZ1qiNx4aUXB9XG6B9UwJ9o21tglMSi7mQSdcTBwk5cD5nA=
+=RJxJ
+-----END PGP SIGNATURE-----
+
+--RDLtMGi4T2+OrB11--
 
