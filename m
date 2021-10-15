@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A5442ECB3
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 10:44:07 +0200 (CEST)
-Received: from localhost ([::1]:43940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45FA242ECBA
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 10:47:23 +0200 (CEST)
+Received: from localhost ([::1]:52686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbIow-00086O-G9
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 04:44:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47154)
+	id 1mbIs6-0005cJ-BU
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 04:47:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mbHya-0002Y2-3c
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:50:00 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:34353)
+ id 1mbHye-0002nm-9t
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:50:04 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:38766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mbHyY-0004Y6-4w
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:49:59 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id 133so7885667pgb.1
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 00:49:57 -0700 (PDT)
+ id 1mbHyb-0004al-Ec
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:50:03 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ g13-20020a17090a3c8d00b00196286963b9so8768521pjc.3
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 00:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jvsZWohB/LeN1dLiOym4ViM92jBuETF+LBnq1QhVs6Y=;
- b=d6rwy+k0I8eOnw4fyQ3lLWAgrHKwdmuk6IXkC40mHst9qjMuRqtuTmI4F45cm2XlA5
- uLGXqpBRZdfPs0ZNiX4U/BgCujHNJOwex1Mv3Qi0aePlgvjPIvViK7LzJQpMjCcfsYvG
- 7oBqTMFpXyCmjXQbiezdD6gWiHes4dzED02mDzwFrzqZBHuhlSGOgbXffu/Qfg+12B3J
- E2CCZPtMo8f51iSBVfH9HE03YrpfgWZVTGfIJawscnXK343dq1G6BdEWe9KUS4nWULfh
- awfy5WJCwm+eGsY/2JVoYnoKEz9kjZsNIRxry8ykSgYggQDlJnjpNy/hcvE8AORzwcVu
- z3SA==
+ bh=p5/5s6FKa6MzrMjEpRi/bH2ffo4p/FZohyK66WL6fZM=;
+ b=nR/YKCQmlcrpmD8Y7l/iOy6V9n/ah7bVivYChurzT8k+3f/+3QWSgWEauUGRth7vZO
+ iPhVJGNf8yLUsIErSscogv0I1CSK4yPcQH8BpZzEV/O5L5KcXrqXyqRWcgpCJoiSkPAp
+ 9sJm0dy7s9MfSzyelQdeWulUtO1/qq5PvFPS9ecEt+nCsnQhqUCNDaMPc5Jln9XnOuzB
+ O91SFQq2sG125/qhdFBQM+oPcQLyKL5HWVjysrQWtZXphRe5r5bffY9FaQ6m1pOA2TOF
+ 7aFzT3+/y8u74YMiiAdnMesL4eYiXf37fKlYaadQcRsVIooIb3OLlk+yNkvWAN+DJfaY
+ bn7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jvsZWohB/LeN1dLiOym4ViM92jBuETF+LBnq1QhVs6Y=;
- b=FljIAWkSdtpHmJuoNIJ4CSrzSN3Jc/f/SsngVm5UqMArW1/i9M9QyN5dSu8QghjEXs
- 2Dw9IyXu9mo/dNg/PsA3AJdCVgWGyKmgY7s/2JmQ20pevopZBT6wJQsqBXpZTw0wpRzj
- yO2xhb0tGsjzsgBtBFQptOcjMfJKccZ2k5QH9LINDyzHA1o7Frl6+IvjJ48MfEIw9eTq
- 3q0uKJlCDkrZ0Gzy12e/1hhws6qaQxQXF12f+4vhOgZHcejiywxqORMRgVB43L96nZTz
- s+YJih1K6BRQvfKhGO5ox4ccm0CXoYDNElvw0NirMUxLLQXqYN+QGGlM39X2fQE0S0oe
- E/GA==
-X-Gm-Message-State: AOAM5310YiGfpqS6A6AFsTjFizbBQSncfrf9ElItJSgnzKxv+yS8gqma
- 2YO9eOEcXS+hcorohHpLdSYbrHrD9pbqjA/R
-X-Google-Smtp-Source: ABdhPJzCoX3rgGv/2gQHj8Dcad6s5xcmQEv+chyFkhlJxspGb4KCvJbm4GFYTjNO2B+AG4aJ0sch1A==
-X-Received: by 2002:a05:6a00:2410:b0:409:5fbd:cb40 with SMTP id
- z16-20020a056a00241000b004095fbdcb40mr10382986pfh.8.1634284196679; 
- Fri, 15 Oct 2021 00:49:56 -0700 (PDT)
+ bh=p5/5s6FKa6MzrMjEpRi/bH2ffo4p/FZohyK66WL6fZM=;
+ b=yfXVGZl101uxEup8YFlYFzb3F4d97TvZIOMy+msfsls85yfN3ZHQQ5hkNkhSrDFcPL
+ 1RQxXVuQZdn913Avu+EELMmrvXzbj0FfAQz/fElES3XZrOb6PI8AX0CQ2aQPFwjEVWnT
+ DrHSHTNRvYo08gzWczcywgDKXIXdVAhDdYdYlBNmC07jvH95Zjhi2J2Z+2/39kp8VcXp
+ 0fqjH3389uMvW+8fAU96yJpnWrBbGCG/SfEwtgsV/V+JNCYIu4FobzhkD9jiXHnyVySU
+ O73fe0PDp/kF9jv+vK2XOQgk/rRRasw19OOuLdS3g0UI2h8oHruMbxc0GzUMfTbCJgwj
+ IzdA==
+X-Gm-Message-State: AOAM5324cIuHjji0o57zelWNcIx1B4iPIUbWEETb+V6mVBL5UTiuTO/B
+ BJcROMRzv9lkO550leomULV5vzAJAJBjqPXA
+X-Google-Smtp-Source: ABdhPJxIBFh3XmssFTBTjxVVlqMXf5g9/9+t+R9W8MUjvoznDQBdsNLWKMGvshcAGBDaIQW6KlPObw==
+X-Received: by 2002:a17:90a:f0c9:: with SMTP id
+ fa9mr26245270pjb.107.1634284200023; 
+ Fri, 15 Oct 2021 00:50:00 -0700 (PDT)
 Received: from localhost.localdomain (123-193-74-252.dynamic.kbronet.com.tw.
  [123.193.74.252])
- by smtp.gmail.com with ESMTPSA id z13sm4271680pfq.130.2021.10.15.00.49.54
+ by smtp.gmail.com with ESMTPSA id z13sm4271680pfq.130.2021.10.15.00.49.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Oct 2021 00:49:56 -0700 (PDT)
+ Fri, 15 Oct 2021 00:49:59 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v8 52/78] target/riscv: rvv-1.0: narrowing fixed-point clip
- instructions
-Date: Fri, 15 Oct 2021 15:46:00 +0800
-Message-Id: <20211015074627.3957162-60-frank.chang@sifive.com>
+Subject: [PATCH v8 53/78] target/riscv: rvv-1.0: single-width floating-point
+ reduction
+Date: Fri, 15 Oct 2021 15:46:01 +0800
+Message-Id: <20211015074627.3957162-61-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211015074627.3957162-1-frank.chang@sifive.com>
 References: <20211015074627.3957162-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,171 +98,58 @@ From: Frank Chang <frank.chang@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/helper.h                   | 24 ++++++------
- target/riscv/insn32.decode              | 12 +++---
- target/riscv/insn_trans/trans_rvv.c.inc | 12 +++---
- target/riscv/vector_helper.c            | 52 ++++++++++++-------------
- 4 files changed, 50 insertions(+), 50 deletions(-)
+ target/riscv/insn_trans/trans_rvv.c.inc | 12 +++++++++---
+ target/riscv/vector_helper.c            | 12 ++++++------
+ 2 files changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 012d0343771..3ea21b4a578 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -725,18 +725,18 @@ DEF_HELPER_6(vssra_vx_h, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vssra_vx_w, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vssra_vx_d, void, ptr, ptr, tl, ptr, env, i32)
- 
--DEF_HELPER_6(vnclip_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnclip_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnclip_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnclipu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnclipu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnclipu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnclipu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnclipu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnclipu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnclip_vx_b, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnclip_vx_h, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnclip_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclip_wv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclip_wv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclip_wv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_wv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_wv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_wv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_wx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_wx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_wx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclip_wx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclip_wx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclip_wx_w, void, ptr, ptr, tl, ptr, env, i32)
- 
- DEF_HELPER_6(vfadd_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfadd_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index c5cc14c45c4..eeab6b00a1b 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -516,12 +516,12 @@ vssrl_vi        101010 . ..... ..... 011 ..... 1010111 @r_vm
- vssra_vv        101011 . ..... ..... 000 ..... 1010111 @r_vm
- vssra_vx        101011 . ..... ..... 100 ..... 1010111 @r_vm
- vssra_vi        101011 . ..... ..... 011 ..... 1010111 @r_vm
--vnclipu_vv      101110 . ..... ..... 000 ..... 1010111 @r_vm
--vnclipu_vx      101110 . ..... ..... 100 ..... 1010111 @r_vm
--vnclipu_vi      101110 . ..... ..... 011 ..... 1010111 @r_vm
--vnclip_vv       101111 . ..... ..... 000 ..... 1010111 @r_vm
--vnclip_vx       101111 . ..... ..... 100 ..... 1010111 @r_vm
--vnclip_vi       101111 . ..... ..... 011 ..... 1010111 @r_vm
-+vnclipu_wv      101110 . ..... ..... 000 ..... 1010111 @r_vm
-+vnclipu_wx      101110 . ..... ..... 100 ..... 1010111 @r_vm
-+vnclipu_wi      101110 . ..... ..... 011 ..... 1010111 @r_vm
-+vnclip_wv       101111 . ..... ..... 000 ..... 1010111 @r_vm
-+vnclip_wx       101111 . ..... ..... 100 ..... 1010111 @r_vm
-+vnclip_wi       101111 . ..... ..... 011 ..... 1010111 @r_vm
- vfadd_vv        000000 . ..... ..... 001 ..... 1010111 @r_vm
- vfadd_vf        000000 . ..... ..... 101 ..... 1010111 @r_vm
- vfsub_vv        000010 . ..... ..... 001 ..... 1010111 @r_vm
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 7ee1e122e8e..ef54f8e04fa 100644
+index ef54f8e04fa..0c171a25930 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2033,12 +2033,12 @@ GEN_OPIVI_TRANS(vssrl_vi, IMM_ZX, vssrl_vx, opivx_check)
- GEN_OPIVI_TRANS(vssra_vi, IMM_SX, vssra_vx, opivx_check)
+@@ -2636,9 +2636,15 @@ GEN_OPIVV_WIDEN_TRANS(vwredsum_vs, reduction_widen_check)
+ GEN_OPIVV_WIDEN_TRANS(vwredsumu_vs, reduction_widen_check)
  
- /* Vector Narrowing Fixed-Point Clip Instructions */
--GEN_OPIWV_NARROW_TRANS(vnclipu_vv)
--GEN_OPIWV_NARROW_TRANS(vnclip_vv)
--GEN_OPIWX_NARROW_TRANS(vnclipu_vx)
--GEN_OPIWX_NARROW_TRANS(vnclip_vx)
--GEN_OPIWI_NARROW_TRANS(vnclipu_vi, IMM_ZX, vnclipu_vx)
--GEN_OPIWI_NARROW_TRANS(vnclip_vi, IMM_ZX, vnclip_vx)
-+GEN_OPIWV_NARROW_TRANS(vnclipu_wv)
-+GEN_OPIWV_NARROW_TRANS(vnclip_wv)
-+GEN_OPIWX_NARROW_TRANS(vnclipu_wx)
-+GEN_OPIWX_NARROW_TRANS(vnclip_wx)
-+GEN_OPIWI_NARROW_TRANS(vnclipu_wi, IMM_ZX, vnclipu_wx)
-+GEN_OPIWI_NARROW_TRANS(vnclip_wi, IMM_ZX, vnclip_wx)
+ /* Vector Single-Width Floating-Point Reduction Instructions */
+-GEN_OPFVV_TRANS(vfredsum_vs, reduction_check)
+-GEN_OPFVV_TRANS(vfredmax_vs, reduction_check)
+-GEN_OPFVV_TRANS(vfredmin_vs, reduction_check)
++static bool freduction_check(DisasContext *s, arg_rmrr *a)
++{
++    return reduction_check(s, a) &&
++           require_rvf(s);
++}
++
++GEN_OPFVV_TRANS(vfredsum_vs, freduction_check)
++GEN_OPFVV_TRANS(vfredmax_vs, freduction_check)
++GEN_OPFVV_TRANS(vfredmin_vs, freduction_check)
  
- /*
-  *** Vector Float Point Arithmetic Instructions
+ /* Vector Widening Floating-Point Reduction Instructions */
+ GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, reduction_check)
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 7fa5189af4e..c95c8bd9db3 100644
+index c95c8bd9db3..17633ac2792 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -2875,19 +2875,19 @@ vnclip32(CPURISCVState *env, int vxrm, int64_t a, int32_t b)
-     }
- }
+@@ -4173,14 +4173,14 @@ GEN_VEXT_FRED(vfredsum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
+ GEN_VEXT_FRED(vfredsum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
  
--RVVCALL(OPIVV2_RM, vnclip_vv_b, NOP_SSS_B, H1, H2, H1, vnclip8)
--RVVCALL(OPIVV2_RM, vnclip_vv_h, NOP_SSS_H, H2, H4, H2, vnclip16)
--RVVCALL(OPIVV2_RM, vnclip_vv_w, NOP_SSS_W, H4, H8, H4, vnclip32)
--GEN_VEXT_VV_RM(vnclip_vv_b, 1, 1)
--GEN_VEXT_VV_RM(vnclip_vv_h, 2, 2)
--GEN_VEXT_VV_RM(vnclip_vv_w, 4, 4)
--
--RVVCALL(OPIVX2_RM, vnclip_vx_b, NOP_SSS_B, H1, H2, vnclip8)
--RVVCALL(OPIVX2_RM, vnclip_vx_h, NOP_SSS_H, H2, H4, vnclip16)
--RVVCALL(OPIVX2_RM, vnclip_vx_w, NOP_SSS_W, H4, H8, vnclip32)
--GEN_VEXT_VX_RM(vnclip_vx_b, 1, 1)
--GEN_VEXT_VX_RM(vnclip_vx_h, 2, 2)
--GEN_VEXT_VX_RM(vnclip_vx_w, 4, 4)
-+RVVCALL(OPIVV2_RM, vnclip_wv_b, NOP_SSS_B, H1, H2, H1, vnclip8)
-+RVVCALL(OPIVV2_RM, vnclip_wv_h, NOP_SSS_H, H2, H4, H2, vnclip16)
-+RVVCALL(OPIVV2_RM, vnclip_wv_w, NOP_SSS_W, H4, H8, H4, vnclip32)
-+GEN_VEXT_VV_RM(vnclip_wv_b, 1, 1)
-+GEN_VEXT_VV_RM(vnclip_wv_h, 2, 2)
-+GEN_VEXT_VV_RM(vnclip_wv_w, 4, 4)
-+
-+RVVCALL(OPIVX2_RM, vnclip_wx_b, NOP_SSS_B, H1, H2, vnclip8)
-+RVVCALL(OPIVX2_RM, vnclip_wx_h, NOP_SSS_H, H2, H4, vnclip16)
-+RVVCALL(OPIVX2_RM, vnclip_wx_w, NOP_SSS_W, H4, H8, vnclip32)
-+GEN_VEXT_VX_RM(vnclip_wx_b, 1, 1)
-+GEN_VEXT_VX_RM(vnclip_wx_h, 2, 2)
-+GEN_VEXT_VX_RM(vnclip_wx_w, 4, 4)
+ /* Maximum value */
+-GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2, float16_maxnum)
+-GEN_VEXT_FRED(vfredmax_vs_w, uint32_t, uint32_t, H4, H4, float32_maxnum)
+-GEN_VEXT_FRED(vfredmax_vs_d, uint64_t, uint64_t, H8, H8, float64_maxnum)
++GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2, float16_maxnum_noprop)
++GEN_VEXT_FRED(vfredmax_vs_w, uint32_t, uint32_t, H4, H4, float32_maxnum_noprop)
++GEN_VEXT_FRED(vfredmax_vs_d, uint64_t, uint64_t, H8, H8, float64_maxnum_noprop)
  
- static inline uint8_t
- vnclipu8(CPURISCVState *env, int vxrm, uint16_t a, uint8_t b)
-@@ -2925,7 +2925,7 @@ static inline uint32_t
- vnclipu32(CPURISCVState *env, int vxrm, uint64_t a, uint32_t b)
- {
-     uint8_t round, shift = b & 0x3f;
--    int64_t res;
-+    uint64_t res;
+ /* Minimum value */
+-GEN_VEXT_FRED(vfredmin_vs_h, uint16_t, uint16_t, H2, H2, float16_minnum)
+-GEN_VEXT_FRED(vfredmin_vs_w, uint32_t, uint32_t, H4, H4, float32_minnum)
+-GEN_VEXT_FRED(vfredmin_vs_d, uint64_t, uint64_t, H8, H8, float64_minnum)
++GEN_VEXT_FRED(vfredmin_vs_h, uint16_t, uint16_t, H2, H2, float16_minnum_noprop)
++GEN_VEXT_FRED(vfredmin_vs_w, uint32_t, uint32_t, H4, H4, float32_minnum_noprop)
++GEN_VEXT_FRED(vfredmin_vs_d, uint64_t, uint64_t, H8, H8, float64_minnum_noprop)
  
-     round = get_round(vxrm, a, shift);
-     res   = (a >> shift)  + round;
-@@ -2937,19 +2937,19 @@ vnclipu32(CPURISCVState *env, int vxrm, uint64_t a, uint32_t b)
-     }
- }
- 
--RVVCALL(OPIVV2_RM, vnclipu_vv_b, NOP_UUU_B, H1, H2, H1, vnclipu8)
--RVVCALL(OPIVV2_RM, vnclipu_vv_h, NOP_UUU_H, H2, H4, H2, vnclipu16)
--RVVCALL(OPIVV2_RM, vnclipu_vv_w, NOP_UUU_W, H4, H8, H4, vnclipu32)
--GEN_VEXT_VV_RM(vnclipu_vv_b, 1, 1)
--GEN_VEXT_VV_RM(vnclipu_vv_h, 2, 2)
--GEN_VEXT_VV_RM(vnclipu_vv_w, 4, 4)
-+RVVCALL(OPIVV2_RM, vnclipu_wv_b, NOP_UUU_B, H1, H2, H1, vnclipu8)
-+RVVCALL(OPIVV2_RM, vnclipu_wv_h, NOP_UUU_H, H2, H4, H2, vnclipu16)
-+RVVCALL(OPIVV2_RM, vnclipu_wv_w, NOP_UUU_W, H4, H8, H4, vnclipu32)
-+GEN_VEXT_VV_RM(vnclipu_wv_b, 1, 1)
-+GEN_VEXT_VV_RM(vnclipu_wv_h, 2, 2)
-+GEN_VEXT_VV_RM(vnclipu_wv_w, 4, 4)
- 
--RVVCALL(OPIVX2_RM, vnclipu_vx_b, NOP_UUU_B, H1, H2, vnclipu8)
--RVVCALL(OPIVX2_RM, vnclipu_vx_h, NOP_UUU_H, H2, H4, vnclipu16)
--RVVCALL(OPIVX2_RM, vnclipu_vx_w, NOP_UUU_W, H4, H8, vnclipu32)
--GEN_VEXT_VX_RM(vnclipu_vx_b, 1, 1)
--GEN_VEXT_VX_RM(vnclipu_vx_h, 2, 2)
--GEN_VEXT_VX_RM(vnclipu_vx_w, 4, 4)
-+RVVCALL(OPIVX2_RM, vnclipu_wx_b, NOP_UUU_B, H1, H2, vnclipu8)
-+RVVCALL(OPIVX2_RM, vnclipu_wx_h, NOP_UUU_H, H2, H4, vnclipu16)
-+RVVCALL(OPIVX2_RM, vnclipu_wx_w, NOP_UUU_W, H4, H8, vnclipu32)
-+GEN_VEXT_VX_RM(vnclipu_wx_b, 1, 1)
-+GEN_VEXT_VX_RM(vnclipu_wx_h, 2, 2)
-+GEN_VEXT_VX_RM(vnclipu_wx_w, 4, 4)
- 
- /*
-  *** Vector Float Point Arithmetic Instructions
+ /* Vector Widening Floating-Point Reduction Instructions */
+ /* Unordered reduce 2*SEW = 2*SEW + sum(promote(SEW)) */
 -- 
 2.25.1
 
