@@ -2,57 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA26042F14E
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 14:49:10 +0200 (CEST)
-Received: from localhost ([::1]:51164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D61042F189
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 14:53:22 +0200 (CEST)
+Received: from localhost ([::1]:59426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbMe5-0007Rw-RL
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 08:49:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56146)
+	id 1mbMi9-0004j1-AQ
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 08:53:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mbMYl-0004K0-9B
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:43:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59002)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mbMZ5-0004mi-K2
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:44:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mbMYe-0007NN-38
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:43:35 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mbMZ3-0007bx-Rz
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 08:43:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634301810;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Y3CQLFRSmnzmNpDgdTSL8MqMr3tL+HLcQJ58HgW7YXA=;
- b=Oo96yPICKI5kqH/tNds20VfAreJ6ZfIMjkpgkDuPUHmXtD9QNM9gpIGqrA+jYDZfqfsOfn
- H2b44R21zETfKU+UiaEjhzZlybSNrQI44sVBXay6XNnlJN1+EQc1VCYd/ImaGoM4gzqDyt
- bQeR7cgdUwTac9s8zQA0If2n/AhLHso=
+ s=mimecast20190719; t=1634301837;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0JJHpMoZ4+R/6vb2n7LPOIpvKupQDTcDUzlAXHSBF9w=;
+ b=filsfUsdGtoufXpyCfvnja5pC6DdLar+gT5+Nf08zKCQCFyMhJ5b1tMWOq13x3N3fHbHOB
+ 9izuL1z+M5/DZawSWFGrDC/1qOg3ihqkYFHKYYNGD5vfSICnpZ1iiUczxDJHDxSHugNGqB
+ AEHBOCYLj5wfw/JxUELJuf8ET3lq8wk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-PKjm2rPxOsWDrCTjFhyR-A-1; Fri, 15 Oct 2021 08:43:27 -0400
-X-MC-Unique: PKjm2rPxOsWDrCTjFhyR-A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-307-RWqnnLnjMVeXRF1r0CGw5A-1; Fri, 15 Oct 2021 08:43:54 -0400
+X-MC-Unique: RWqnnLnjMVeXRF1r0CGw5A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59FEC10A8E00;
- Fri, 15 Oct 2021 12:43:26 +0000 (UTC)
-Received: from gshan.redhat.com (vpn2-54-38.bne.redhat.com [10.64.54.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D297A196E5;
- Fri, 15 Oct 2021 12:42:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1D22CC621;
+ Fri, 15 Oct 2021 12:43:52 +0000 (UTC)
+Received: from [10.64.54.38] (vpn2-54-38.bne.redhat.com [10.64.54.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 797D260C05;
+ Fri, 15 Oct 2021 12:43:49 +0000 (UTC)
+Subject: Re: [PATCH v4] hw/arm/virt: Don't create device-tree node for empty
+ NUMA node
+To: Andrew Jones <drjones@redhat.com>
+References: <20211015104909.16722-1-gshan@redhat.com>
+ <20211015122226.g42zu7hsbc2fey27@gator>
 From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Subject: [PATCH v5] hw/arm/virt: Don't create device-tree node for empty NUMA
- node
-Date: Fri, 15 Oct 2021 20:42:46 +0800
-Message-Id: <20211015124246.23073-1-gshan@redhat.com>
+Message-ID: <246933b4-86d7-c7d5-54f5-a65b8002f273@redhat.com>
+Date: Fri, 15 Oct 2021 23:43:46 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20211015122226.g42zu7hsbc2fey27@gator>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -60,8 +68,8 @@ X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,76 +82,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robh@kernel.org, drjones@redhat.com, qemu-riscv@nongnu.org,
- ehabkost@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: robh@kernel.org, qemu-riscv@nongnu.org, ehabkost@redhat.com,
+ peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
  shan.gavin@gmail.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The empty NUMA node, where no memory resides, are allowed. For
-example, the following command line specifies two empty NUMA nodes.
-With this, QEMU fails to boot because of the conflicting device-tree
-node names, as the following error message indicates.
+On 10/15/21 11:22 PM, Andrew Jones wrote:
+> On Fri, Oct 15, 2021 at 06:49:09PM +0800, Gavin Shan wrote:
+>> The empty NUMA node, where no memory resides, are allowed. For
+>> example, the following command line specifies two empty NUMA nodes.
+>> With this, QEMU fails to boot because of the conflicting device-tree
+>> node names, as the following error message indicates.
+>>
+>>    /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
+>>    -accel kvm -machine virt,gic-version=host               \
+>>    -cpu host -smp 4,sockets=2,cores=2,threads=1            \
+>>    -m 1024M,slots=16,maxmem=64G                            \
+>>    -object memory-backend-ram,id=mem0,size=512M            \
+>>    -object memory-backend-ram,id=mem1,size=512M            \
+>>    -numa node,nodeid=0,cpus=0-1,memdev=mem0                \
+>>    -numa node,nodeid=1,cpus=2-3,memdev=mem1                \
+>>    -numa node,nodeid=2                                     \
+>>    -numa node,nodeid=3
+>>      :
+>>    qemu-system-aarch64: FDT: Failed to create subnode /memory@80000000: FDT_ERR_EXISTS
+>>
+>> As specified by linux device-tree binding document, the device-tree
+>> nodes for these empty NUMA nodes shouldn't be generated. However,
+>> the corresponding NUMA node IDs should be included in the distance
+>> map. As the memory hotplug through device-tree on ARM64 isn't existing
+>> so far, it's pointless to expose the empty NUMA nodes through device-tree.
+> 
+> Instead of "it's pointless to expose the empty NUMA nodes through
+> device-tree", how about
+> 
+>   it's not necessary to require the user to provide a distance map.
+>   Furthermore, the default distance map Linux generates may even be
+>   sufficient.
+> 
 
-  /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
-  -accel kvm -machine virt,gic-version=host               \
-  -cpu host -smp 4,sockets=2,cores=2,threads=1            \
-  -m 1024M,slots=16,maxmem=64G                            \
-  -object memory-backend-ram,id=mem0,size=512M            \
-  -object memory-backend-ram,id=mem1,size=512M            \
-  -numa node,nodeid=0,cpus=0-1,memdev=mem0                \
-  -numa node,nodeid=1,cpus=2-3,memdev=mem1                \
-  -numa node,nodeid=2                                     \
-  -numa node,nodeid=3
-    :
-  qemu-system-aarch64: FDT: Failed to create subnode /memory@80000000: FDT_ERR_EXISTS
+Yes, much better.
 
-As specified by linux device-tree binding document, the device-tree
-nodes for these empty NUMA nodes shouldn't be generated. However,
-the corresponding NUMA node IDs should be included in the distance
-map. The memory hotplug through device-tree on ARM64 isn't existing
-so far and it's not necessary to require the user to provide a distance
-map. Furthermore, the default distance map Linux generates may even be
-sufficient. So this simply skips populating the device-tree nodes for
-these empty NUMA nodes to avoid the error, so that QEMU can be started
-successfully.
+>> So this simply skips populating the device-tree nodes for these empty
+>> NUMA nodes to avoid the error, so that QEMU can be started successfully.
+>>
+>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>> ---
+>> v4: Drop patch to enforce distance-map as memory hotplug through
+>>      device-tree is never supported on ARM64. It's pointless to
+>>      expose these empty NUMA nodes. Besides, comments added to
+>>      explain the code changes included in this patch as Drew
+>>      suggested.
+>> ---
+>>   hw/arm/boot.c | 14 ++++++++++++++
+>>   1 file changed, 14 insertions(+)
+>>
+>> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+>> index 57efb61ee4..e05c1c149c 100644
+>> --- a/hw/arm/boot.c
+>> +++ b/hw/arm/boot.c
+>> @@ -599,10 +599,24 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+>>       }
+>>       g_strfreev(node_path);
+>>   
+>> +    /*
+>> +     * According to Linux NUMA binding document, the device tree nodes
+>> +     * for the empty NUMA nodes shouldn't be generated, but their NUMA
+>> +     * node IDs should be included in the distance map instead. However,
+>> +     * it's pointless to expose the empty NUMA nodes as memory hotplug
+>> +     * through device tree is never supported. We simply skip generating
+>> +     * their device tree nodes to avoid the unexpected device tree
+>> +     * generating failure due to the duplicated names of these empty
+>> +     * NUMA nodes.
+>> +     */
+> 
+>      /*
+>       * We drop all the memory nodes which correspond to empty NUMA nodes from
+>       * the device tree, because the Linux NUMA binding document states they
+>       * should not be generated.  Linux will get the NUMA node IDs of the empty
+>       * NUMA nodes from the distance map if they are needed.  This means QEMU
+>       * users may be obliged to provide command lines which configure distance
+>       * maps when the empty NUMA node IDs are needed and Linux's default
+>       * distance map isn't sufficient.
+>       */
+> 
 
-Signed-off-by: Gavin Shan <gshan@redhat.com>
----
-v5: Improved commit log and comments as Drew suggested.
----
- hw/arm/boot.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Thanks, Drew. Copy-and-posted to v5 :)
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 57efb61ee4..74ad397b1f 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -599,10 +599,23 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-     }
-     g_strfreev(node_path);
- 
-+    /*
-+     * We drop all the memory nodes which correspond to empty NUMA nodes
-+     * from the device tree, because the Linux NUMA binding document
-+     * states they should not be generated. Linux will get the NUMA node
-+     * IDs of the empty NUMA nodes from the distance map if they are needed.
-+     * This means QEMU users may be obliged to provide command lines which
-+     * configure distance maps when the empty NUMA node IDs are needed and
-+     * Linux's default distance map isn't sufficient.
-+     */
-     if (ms->numa_state != NULL && ms->numa_state->num_nodes > 0) {
-         mem_base = binfo->loader_start;
-         for (i = 0; i < ms->numa_state->num_nodes; i++) {
-             mem_len = ms->numa_state->nodes[i].node_mem;
-+            if (!mem_len) {
-+                continue;
-+            }
-+
-             rc = fdt_add_memory_node(fdt, acells, mem_base,
-                                      scells, mem_len, i);
-             if (rc < 0) {
--- 
-2.23.0
+> 
+> 
+>>       if (ms->numa_state != NULL && ms->numa_state->num_nodes > 0) {
+>>           mem_base = binfo->loader_start;
+>>           for (i = 0; i < ms->numa_state->num_nodes; i++) {
+>>               mem_len = ms->numa_state->nodes[i].node_mem;
+>> +            if (!mem_len) {
+>> +                continue;
+>> +            }
+>> +
+>>               rc = fdt_add_memory_node(fdt, acells, mem_base,
+>>                                        scells, mem_len, i);
+>>               if (rc < 0) {
+
+Thanks,
+Gavin
 
 
