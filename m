@@ -2,46 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C859442EDCC
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 11:36:50 +0200 (CEST)
-Received: from localhost ([::1]:58810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481CC42EE1F
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 11:48:13 +0200 (CEST)
+Received: from localhost ([::1]:53870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbJdx-00020u-St
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 05:36:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39678)
+	id 1mbJoy-0001G3-DZ
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 05:48:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mbJVo-00088U-V7; Fri, 15 Oct 2021 05:28:24 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:43391)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mbJXf-0003PW-PS
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 05:30:20 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:41548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mbJVl-00032l-9V; Fri, 15 Oct 2021 05:28:24 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 80E47748F58;
- Fri, 15 Oct 2021 11:28:16 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 67142748F57; Fri, 15 Oct 2021 11:28:16 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 65FB1748F56;
- Fri, 15 Oct 2021 11:28:16 +0200 (CEST)
-Date: Fri, 15 Oct 2021 11:28:16 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 0/6] Misc pegasos2 patches
-In-Reply-To: <YWjzgU8pGtqykYji@yekko>
-Message-ID: <24aebbeb-ff35-7658-4eee-382e8ff7d257@eik.bme.hu>
-References: <cover.1634241019.git.balaton@eik.bme.hu> <YWjzgU8pGtqykYji@yekko>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mbJXa-0004nP-Dh
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 05:30:16 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-319-FUM94JT3PJ-SbnupE7ElXg-1; Fri, 15 Oct 2021 05:30:03 -0400
+X-MC-Unique: FUM94JT3PJ-SbnupE7ElXg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 182D110A8E01;
+ Fri, 15 Oct 2021 09:30:02 +0000 (UTC)
+Received: from bahia.huguette (unknown [10.39.195.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C79B10016F4;
+ Fri, 15 Oct 2021 09:29:45 +0000 (UTC)
+Subject: [PATCH] softmmu/physmem.c: Fix typo in comment
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Date: Fri, 15 Oct 2021 11:29:44 +0200
+Message-ID: <163429018454.1146856.3429437540871060739.stgit@bahia.huguette>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, HEXHASH_WORD=1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,28 +64,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Oct 2021, David Gibson wrote:
-> On Thu, Oct 14, 2021 at 09:50:19PM +0200, BALATON Zoltan wrote:
->> Some small clean ups and improvements for the pegasos2 machine.
->>
->> BALATON Zoltan (6):
->>   ppc/pegasos2: Restrict memory to 2 gigabytes
->>   ppc/pegasos2: Warn when using VOF but no kernel is specified
->>   ppc/pegasos2: Implement get-time-of-day RTAS function with VOF
->>   ppc/pegasos2: Access MV64361 registers via their memory region
->>   ppc/pegasos2: Add constants for PCI config addresses
->>   ppc/pegasos2: Implement power-off RTAS function with VOF
->
-> Do you use git send-email to send out your patches, or something else?
->
-> For some reason your patchsets, unlike most people's end up with the
-> order completely jumbled in my inbox, which makes applying them a bit
-> annoying.
+Fix the comment to match what the code is doing, as explained in
+the changelog of commit 86cf9e154632cb28d749db0ea47946fba8cf3f09
+that introduced the change:
 
-I'm sending mails with something else but may try to add a delay between 
-mails to try to force them to be ordered.
+    Commit 9458a9a1df1a4c719e24512394d548c1fc7abd22 added synchronization
+    of vCPU and migration operations through calling run_on_cpu operation.
+    However, in replay mode this synchronization is unneeded, because
+    I/O and vCPU threads are already synchronized.
+    This patch disables such synchronization for record/replay mode.
+
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ softmmu/physmem.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index f67ad2998121..555c907f6743 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -2633,7 +2633,7 @@ static void tcg_log_global_after_sync(MemoryListener =
+*listener)
+          * In record/replay mode this causes a deadlock, because
+          * run_on_cpu waits for rr mutex. Therefore no races are possible
+          * in this case and no need for making run_on_cpu when
+-         * record/replay is not enabled.
++         * record/replay is enabled.
+          */
+         cpuas =3D container_of(listener, CPUAddressSpace, tcg_as_listener)=
+;
+         run_on_cpu(cpuas->cpu, do_nothing, RUN_ON_CPU_NULL);
+
+
 
