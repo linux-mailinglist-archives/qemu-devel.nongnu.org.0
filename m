@@ -2,83 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2052742ED58
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 11:14:45 +0200 (CEST)
-Received: from localhost ([::1]:60964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6BF642ED7D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 11:21:54 +0200 (CEST)
+Received: from localhost ([::1]:50976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbJIa-00078K-5w
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 05:14:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57864)
+	id 1mbJPV-0002gd-UN
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 05:21:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mbIui-0003k6-4j
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 04:50:07 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46009)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mbIub-0006tS-CD
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 04:50:03 -0400
-Received: by mail-wr1-x433.google.com with SMTP id r10so25091721wra.12
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 01:49:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=nMP6/CHo9TbZQ33flnK2L7QTAk7kl0SCozeB5KvbGw8=;
- b=oMdd/uRQZIsYkOuD/MR1uMJ2eNjDEwYXY1NExtpG5XwIDucriBsEvJW587VIk8YzAM
- erKwBGp3B9lfNaH/QdFkO9bzt+5MBpymolCAKx+IU4aoKaDVT0i5cfb6tLG1Jx+LUcK0
- YTTMhKwEAPzQ/87IDt9ZFKuiOZBk5nQLNm+2EhbR14Guu+OY9b1rKtjNy4a6dIsnY9KO
- xJtXuTwxYLJ5bhdoz8ScPhVyGWd0JoStxZZCtjesrXX4+UWWJRwbmiTdqemj8bDxE6n8
- sxLwh7znCHhkl43lPkODoW9VDx6ARV9rFlZHwsc6tOPh1ykcIMs3hk0UP9srNP4wlpqz
- SEUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=nMP6/CHo9TbZQ33flnK2L7QTAk7kl0SCozeB5KvbGw8=;
- b=GmyEdveJFyEztFTSiGjai4snIG4d2lWvAeMZGYqME6/OLaRTWzfEleMez2mqyW8GsV
- PG6rf+ef45cDjqHsz+QOkEMXlCXTK65GFuzZC8GoWG6ecm1nWjRb+BIBMNAkaq22Y6id
- FHFfsJtsqK21lyjJVtVA/+wB8dfm7PKWov43IYMqHclkTlJv/UaOQKbH80wZoNUcWxPS
- C8QGIlP/OzLwG64Dhi/08g6kBKfv9/KCyakr6ZLPPiHqBrKsVpyUP9LfR2V95nKo8sST
- r3eqRlWfc2oxGnG9SkKcTefmb+BXT01ocXSa82XjiydUtutH/OuJqUGK0MsC67ly5Ns5
- W7DQ==
-X-Gm-Message-State: AOAM532hHHTwr6Ly5sCQnXZ5jeQBo2i/J/awBp7pQQ2WVnnxy2VqOUk/
- ZpQGoN7hZ2uGAFOBo3PQThc=
-X-Google-Smtp-Source: ABdhPJyr0LZLAoDtSBIalca45GAx6VZkSP89MrjOVs21YyAXIJmBMc9RWmyT1ixd6FVeoR2Ka0n02A==
-X-Received: by 2002:a05:6000:1884:: with SMTP id
- a4mr12902304wri.356.1634287794775; 
- Fri, 15 Oct 2021 01:49:54 -0700 (PDT)
-Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id d8sm4535034wrv.80.2021.10.15.01.49.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Oct 2021 01:49:54 -0700 (PDT)
-Message-ID: <f840d219-5562-f4af-8eeb-7c7df87f4741@amsat.org>
-Date: Fri, 15 Oct 2021 10:49:51 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mbIwT-0004wa-4a
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 04:51:53 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:10579)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mbIwQ-0008QX-25
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 04:51:52 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 0EBC8748F56;
+ Fri, 15 Oct 2021 10:51:46 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id E010F746333; Fri, 15 Oct 2021 10:51:45 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id DE9FB7462D3;
+ Fri, 15 Oct 2021 10:51:45 +0200 (CEST)
+Date: Fri, 15 Oct 2021 10:51:45 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH 3/8] q800: use GLUE IRQ numbers instead of IRQ level for
+ GLUE IRQs
+In-Reply-To: <76216e92-8a9b-4275-b009-00997f86fba2@vivier.eu>
+Message-ID: <aafe19d4-9f47-ecb6-d164-f09ee6ab29dd@eik.bme.hu>
+References: <20211013212132.31519-1-mark.cave-ayland@ilande.co.uk>
+ <20211013212132.31519-4-mark.cave-ayland@ilande.co.uk>
+ <76216e92-8a9b-4275-b009-00997f86fba2@vivier.eu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3 0/3] hw/mips/boston: ELF kernel support
-Content-Language: en-US
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20211002184539.169-1-jiaxun.yang@flygoat.com>
- <b039e68a-e591-a5d3-9e95-cde45c7d0bd8@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <b039e68a-e591-a5d3-9e95-cde45c7d0bd8@flygoat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: multipart/mixed;
+ boundary="3866299591-1388598343-1634287905=:20227"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,122 +60,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@syrmia.com, paulburton@kernel.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/21 15:58, Jiaxun Yang wrote:
-> ping?
-> 
-> 在 2021/10/2 19:45, Jiaxun Yang 写道:
->> Jiaxun Yang (3):
->>    hw/mips/boston: Massage memory map information
->>    hw/mips/boston: Allow loading elf kernel and dtb
->>    hw/mips/boston: Add FDT generator
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Next time please run checkpatch.pl before submitting,
-see
-https://blog.vmsplice.net/2011/03/how-to-automatically-run-checkpatchpl.html
+--3866299591-1388598343-1634287905=:20227
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-2/4 Checking commit 5c65dfb784f3 (hw/mips/boston: Massage memory map
-information)
-WARNING: line over 80 characters
-#108: FILE: hw/mips/boston.c:372:
-+                                 1, boston_memmap[BOSTON_LOWDDR].base,
-1, ram_low_sz,
+On Fri, 15 Oct 2021, Laurent Vivier wrote:
+> Le 13/10/2021 à 23:21, Mark Cave-Ayland a écrit :
+>> In order to allow dynamic routing of IRQs to different IRQ levels on the CPU
+>> depending upon port B bit 6, use GLUE IRQ numbers and map them to the the
+>> corresponding CPU IRQ level accordingly.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>>  hw/m68k/q800.c | 32 ++++++++++++++++++++++++++++----
+>>  1 file changed, 28 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+>> index 15f3067811..81c335bf16 100644
+>> --- a/hw/m68k/q800.c
+>> +++ b/hw/m68k/q800.c
+>> @@ -102,11 +102,34 @@ struct GLUEState {
+>>      uint8_t ipr;
+>>  };
+>>
+>> +#define GLUE_IRQ_IN_VIA1       0
+>> +#define GLUE_IRQ_IN_VIA2       1
+>> +#define GLUE_IRQ_IN_SONIC      2
+>> +#define GLUE_IRQ_IN_ESCC       3
+>> +
+>>  static void GLUE_set_irq(void *opaque, int irq, int level)
+>>  {
+>>      GLUEState *s = opaque;
+>>      int i;
+>>
+>> +    switch (irq) {
+>> +    case GLUE_IRQ_IN_VIA1:
+>> +        irq = 5;
+>> +        break;
+>
+> Perhaps you can move this patch before patch 2 to help to understand why GLUE_IRQ_IN_VIA1 (0) is
+> mapped to irq 5 (before patch 2 it would be to 0).
+>
+>> +
+>> +    case GLUE_IRQ_IN_VIA2:
+>> +        irq = 1;
+>> +        break;
+>> +
+>> +    case GLUE_IRQ_IN_SONIC:
+>> +        irq = 2;
+>> +        break;
+>> +
+>> +    case GLUE_IRQ_IN_ESCC:
+>> +        irq = 3;
+>> +        break;
+>> +    }
+>> +
+>>      if (level) {
+>>          s->ipr |= 1 << irq;
+>
+> perhaps you can rename here "irq" to "shift"?
 
-WARNING: line over 80 characters
-#109: FILE: hw/mips/boston.c:373:
-+                                 1, boston_memmap[BOSTON_HIGHDDR].base
-+ ram_low_sz,
+I think if it's the irq number calling it irq is clearer than shift. Maybe 
+use BIT(irq) instead?
 
-WARNING: line over 80 characters
-#119: FILE: hw/mips/boston.c:478:
-+    memory_region_init_rom(flash, NULL, "boston.flash",
-boston_memmap[BOSTON_FLASH].size,
-
-WARNING: line over 80 characters
-#122: FILE: hw/mips/boston.c:480:
-+    memory_region_add_subregion_overlap(sys_mem,
-boston_memmap[BOSTON_FLASH].base,
-
-WARNING: line over 80 characters
-#126: FILE: hw/mips/boston.c:483:
-+    memory_region_add_subregion_overlap(sys_mem,
-boston_memmap[BOSTON_HIGHDDR].base,
-
-WARNING: line over 80 characters
-#178: FILE: hw/mips/boston.c:526:
-+    memory_region_add_subregion_overlap(sys_mem,
-boston_memmap[BOSTON_LCD].base, lcd, 0);
-
-3/4 Checking commit 5bb14fa00b48 (hw/mips/boston: Allow loading elf
-kernel and dtb)
-WARNING: line over 80 characters
-#58: FILE: hw/mips/boston.c:567:
-+                dtb_load_data = boston_fdt_filter(s, dtb_file_data,
-NULL, &dtb_vaddr);
-
-4/4 Checking commit 04f5b1319a3d (hw/mips/boston: Add FDT generator)
-WARNING: line over 80 characters
-#56: FILE: hw/mips/boston.c:459:
-+    qemu_fdt_setprop_string(fdt, name, "compatible",
-"xlnx,axi-pcie-host-1.00.a");
-
-WARNING: line over 80 characters
-#92: FILE: hw/mips/boston.c:495:
-+    qemu_fdt_setprop(fdt, name, "interrupt-map", &interrupt_map,
-sizeof(interrupt_map));
-
-WARNING: line over 80 characters
-#98: FILE: hw/mips/boston.c:501:
-+static const void *create_fdt(BostonState *s, const MemMapEntry
-*memmap, int *dt_size)
-
-WARNING: line over 80 characters
-#105: FILE: hw/mips/boston.c:508:
-+    static const char * const syscon_compat[2] =
-{"img,boston-platform-regs", "syscon"};
-
-WARNING: line over 80 characters
-#144: FILE: hw/mips/boston.c:547:
-+    fdt_create_pcie(fdt, gic_ph, 2, memmap[BOSTON_PCIE0].base,
-memmap[BOSTON_PCIE0].size,
-
-WARNING: line over 80 characters
-#145: FILE: hw/mips/boston.c:548:
-+                    memmap[BOSTON_PCIE0_MMIO].base,
-memmap[BOSTON_PCIE0_MMIO].size);
-
-WARNING: line over 80 characters
-#147: FILE: hw/mips/boston.c:550:
-+    fdt_create_pcie(fdt, gic_ph, 1, memmap[BOSTON_PCIE1].base,
-memmap[BOSTON_PCIE1].size,
-
-WARNING: line over 80 characters
-#148: FILE: hw/mips/boston.c:551:
-+                    memmap[BOSTON_PCIE1_MMIO].base,
-memmap[BOSTON_PCIE1_MMIO].size);
-
-WARNING: line over 80 characters
-#150: FILE: hw/mips/boston.c:553:
-+    fdt_create_pcie(fdt, gic_ph, 0, memmap[BOSTON_PCIE2].base,
-memmap[BOSTON_PCIE2].size,
-
-WARNING: line over 80 characters
-#151: FILE: hw/mips/boston.c:554:
-+                    memmap[BOSTON_PCIE2_MMIO].base,
-memmap[BOSTON_PCIE2_MMIO].size);
-
-WARNING: line over 80 characters
-#196: FILE: hw/mips/boston.c:599:
-+    qemu_fdt_setprop_cells(fdt, platreg_name, "reg",
-memmap[BOSTON_PLATREG].base,
-
-WARNING: line over 80 characters
-#278: FILE: hw/mips/boston.c:786:
-+            dtb_load_data = boston_fdt_filter(s, dtb_file_data, NULL,
-&dtb_vaddr);
-
-For now I'll fix that locally.
+Regards,
+BALATON Zoltan
+--3866299591-1388598343-1634287905=:20227--
 
