@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293CF42F6FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 17:25:02 +0200 (CEST)
-Received: from localhost ([::1]:38656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20EDC42F784
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 17:59:17 +0200 (CEST)
+Received: from localhost ([::1]:46076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbP4u-0002Qf-Qy
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 11:25:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37894)
+	id 1mbPc3-0000rT-Pe
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 11:59:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mbP3D-0001jv-Nv
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 11:23:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43698)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mbP39-0003PG-JO
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 11:23:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634311387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SnyB9aj0O7KYq6vlGrBAUfoZ9uXNbBspGWjLlCfVzqc=;
- b=bJ0IZfp3zQUKmMbaKe1JBs1SQVSGCwgQXWv3nr7DRv5K17zMkUE7ox109jEDcI2wQCeSiV
- JiM3GWwoBo5+ARDME/YvcO8Wpu7efbhWHw13HPIOkb5vrAvilBqaJ/f9D8CX7/B3TDJ9xG
- N39DTwy7EKVZN1PDoNlxrojRxUGDFAE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-KXbRDmYePA2ufajB4iFTtQ-1; Fri, 15 Oct 2021 11:23:03 -0400
-X-MC-Unique: KXbRDmYePA2ufajB4iFTtQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DBDC80365C;
- Fri, 15 Oct 2021 15:23:02 +0000 (UTC)
-Received: from paraplu.home (unknown [10.39.192.125])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E432370951;
- Fri, 15 Oct 2021 15:23:00 +0000 (UTC)
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] cpu-models-x86.rst: Tidy up a couple of things
-Date: Fri, 15 Oct 2021 17:22:59 +0200
-Message-Id: <20211015152259.2948176-1-kchamart@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mbPaz-00005r-Ow
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 11:58:09 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33511)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mbPax-0005eE-QZ
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 11:58:09 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id m22so27487848wrb.0
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 08:58:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=VpEaUF96fLQZHt8DFk804RVbsV8880l4+MgV3rQlzO4=;
+ b=QgEU39XpY7K3620qEXU9Kq3DXiCwTUpeoPLCZeX9pP7q3kvygBWx6Rmhzh+i64TZ+D
+ H9NSC+4PW09KsmUnvbwCttb2ZmD0kVtHP72sjvkSUsStGs1jWivkrEt/o0/4qoI+YgVw
+ v8oONpJN+ngKGhQyZDznsjqapkpWWiNUkxWQTbl4Rb4wwlAcmdwT4rTxLSUYwpNLO+wJ
+ n7ImMp1PC6w01EWBODrpVkH3a0z7SYJ/9dG/kbPk8srsvjhRF0SimfWX8uK3weUDon/2
+ gmlGrFx6VTy2KRuggfATI9/RkvuHDhykDKG1BYrw0IqVp5XDmlXyu+qLbCCLOA30lOQZ
+ BZfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=VpEaUF96fLQZHt8DFk804RVbsV8880l4+MgV3rQlzO4=;
+ b=u0VFE2RpMarHQXETd2PjGsxAQxocsn4iaDbnvCHi8nzUdFOBp92DPS2suU8RAYsVti
+ UaZsY0ACYuU8LeJTeoYaJCJcPt0j7x2rNgE+xtFOknPzNb/EBYFaq296mO7jZkqTjWHh
+ bfql2cjU4vZUrFwfwoAnjFbOyz3kW4tw8Ce0ogmlbJstg+JjzNe6oFkQ+Eh9DXe90u1A
+ /dDrA/gUQ8zQznq9EO4bnZ8jxN6XzOTHHgmMQ53M6zOLgQWUVaX4AaxvwpnQP14YwUAg
+ 3ej/Z/vhLlD7RUxz+J30fBcyHkXv3epd1EDZfKyUaKQimSfIaC0ZwQ6D3PI3uUFCWrqj
+ +x4Q==
+X-Gm-Message-State: AOAM5334ahqtV27Y48fibAUVLbPeUMw11pCE+zcbjVN+BK2j/VuCQxEz
+ nhvYNyuzgGP98wqix8vPLbjChs8qSA0=
+X-Google-Smtp-Source: ABdhPJzuP4g47LPH9cKz3nuEbcU3aKxvQFyEtLO8hfzFCGJR4Y2aDlRts0RS0dIRzmFbxz365DM0lg==
+X-Received: by 2002:adf:b353:: with SMTP id k19mr15488911wrd.325.1634313485750; 
+ Fri, 15 Oct 2021 08:58:05 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i17sm5842992wru.18.2021.10.15.08.58.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Oct 2021 08:58:04 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id EC0101FF96;
+ Fri, 15 Oct 2021 16:58:03 +0100 (BST)
+References: <20211012162252.263933-1-pbonzini@redhat.com>
+User-agent: mu4e 1.7.0; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] ebpf: really include it only in system emulators
+Date: Fri, 15 Oct 2021 16:57:54 +0100
+In-reply-to: <20211012162252.263933-1-pbonzini@redhat.com>
+Message-ID: <87h7dith4k.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kchamart@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,81 +86,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>
+Cc: jasowang@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Remove stray texinfo syntax (remnants of texinfo to rST conversion)
-- Clarify the bit about long-term stable CPU models
 
-TODO: In a future patch, include potential examples as discussed
-      here[1].
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-[1] https://lists.nongnu.org/archive/html/qemu-devel/2021-10/msg03411.html
-    -- On versioned CPU models, aliases, and machine types
+> eBPF libraries are being included in user emulators, which is useless and
+> also breaks --static compilation if a shared library for libbpf is
+> present in the system.
+>
+> Reported-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
----
-Eduardo/DanPB: I'm not 100% sure if my wording got it right; please give
-it a close reading to make sure I'm not making things worse.
----
- docs/system/cpu-models-x86.rst.inc | 25 +++++++++++++++++--------
- 1 file changed, 17 insertions(+), 8 deletions(-)
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-diff --git a/docs/system/cpu-models-x86.rst.inc b/docs/system/cpu-models-x86.rst.inc
-index 6e8be7d79b..e133753920 100644
---- a/docs/system/cpu-models-x86.rst.inc
-+++ b/docs/system/cpu-models-x86.rst.inc
-@@ -25,7 +25,7 @@ Two ways to configure CPU models with QEMU / KVM
-     typically refer to specific generations of hardware released by
-     Intel and AMD.  These allow the guest VMs to have a degree of
-     isolation from the host CPU, allowing greater flexibility in live
--    migrating between hosts with differing hardware.  @end table
-+    migrating between hosts with differing hardware.
- 
- In both cases, it is possible to optionally add or remove individual CPU
- features, to alter what is presented to the guest by default.
-@@ -47,11 +47,20 @@ defined. Traditionally most operating systems and toolchains would
- only target the original baseline ABI. It is expected that in
- future OS and toolchains are likely to target newer ABIs. The
- table that follows illustrates which ABI compatibility levels
--can be satisfied by the QEMU CPU models. Note that the table only
--lists the long term stable CPU model versions (eg Haswell-v4).
--In addition to whats listed, there are also many CPU model
--aliases which resolve to a different CPU model version,
--depending on the machine type is in use.
-+can be satisfied by the QEMU CPU models. Note that the table only lists
-+the long term stable CPU model versions (e.g. Haswell-v4, Haswell-v3).
-+CPU models without a version tag will alias to a CPU model with a
-+version tag, and the alias varies depending on the machine type.  In
-+addition to what is listed, there are also many CPU model aliases which
-+resolve to a different CPU model version, depending on the machine type
-+in use.
-+
-+The versioned CPU models (e.g. ``Cascadelake-Server-v4``,
-+``Broadwell-v4``) are long-term stable.  Further, when using a versioned
-+machine type (e.g. ``pc-q35-6.0``), instead of its generic alias
-+(``q35``), the CPU models that are associated with it are also long-term
-+stable.  This is because the CPUID features in the CPU models that are
-+part of a versioned machine type do not change.
- 
- .. _ABI compatibility levels: https://gitlab.com/x86-psABIs/x86-64-ABI/
- 
-@@ -185,8 +194,8 @@ features are included if using "Host passthrough" or "Host model".
-   guest.  Instead, the host kernel uses it to populate the MDS
-   vulnerability file in ``sysfs``.
- 
--  So it should only be enabled for VMs if the host reports @code{Not
--  affected} in the ``/sys/devices/system/cpu/vulnerabilities/mds`` file.
-+  So it should only be enabled for VMs if the host reports ``Not
-+  affected`` in the ``/sys/devices/system/cpu/vulnerabilities/mds`` file.
- 
- ``taa-no``
-   Recommended to inform that the guest that the host is ``not``
--- 
-2.31.1
+> ---
+>  meson.build | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/meson.build b/meson.build
+> index ca7b9d60af..6b7487b725 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2595,8 +2595,6 @@ subdir('bsd-user')
+>  subdir('linux-user')
+>  subdir('ebpf')
+>=20=20
+> -common_ss.add(libbpf)
+> -
+>  bsd_user_ss.add(files('gdbstub.c'))
+>  specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
 
+
+--=20
+Alex Benn=C3=A9e
 
