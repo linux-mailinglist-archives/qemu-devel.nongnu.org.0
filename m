@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7FA442EB3A
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 10:13:50 +0200 (CEST)
-Received: from localhost ([::1]:41558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E8F42EBE7
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 10:20:33 +0200 (CEST)
+Received: from localhost ([::1]:58748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbILe-0006Zf-01
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 04:13:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46248)
+	id 1mbIS4-0005fe-Us
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 04:20:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mbHxD-00085n-5C
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:48:35 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:45866)
+ id 1mbHxT-0000T2-A0
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:48:51 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:35751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mbHxB-0003Jt-Mm
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:48:34 -0400
-Received: by mail-pl1-x629.google.com with SMTP id s1so4061961plg.12
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 00:48:32 -0700 (PDT)
+ id 1mbHxD-0003Mq-R0
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 03:48:50 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ d13-20020a17090ad3cd00b0019e746f7bd4so8799415pjw.0
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 00:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RkcJRBFfgWRMLE0q4h8ibzmlGf09nN5PtQGtP90osKY=;
- b=nq9NK5F4Z6u6F5pKTCAC6Xb8J2A3O8Us2ZzRXrJTVgUgPMMnFYsiMS4clQeYu0G3h6
- zVgw8JalBsFzTIqniw3FtbbrnFadq00fhvGmsLpa+yIjM8NbxytYl1o33IYGMTcw22Xz
- ePrvLMG/yWLoX9yE/XQicGc85aQiLSL8MDo8+O3g9bXcTYuJqzgDUA+/d3Z9jqsK1TLq
- rQ/D3anQh+JzY6ZXo1WgAEk1NHJtcpMopqpufQEQFWTOy9TeCY73ltw4FYtG6YHQ6uXz
- oRff4dPIDm2TPpmzE7PAbW7E/zizwQIJ+wPQ3vaaOtCVvxs1lm7BZoyEdnt+Kil3iLRZ
- ylXQ==
+ bh=HdGLIrBmcpm5HZc7pPQz97TjtpgKuH73SRJUsnw3v6I=;
+ b=WpSzo4szljjrUcPqjdd/Kb5OmErKTt2VvA4YXZAl30uCa7oPQg5n2qnjDN0NZsyk1Q
+ k3LzHZuQbv2e7wk47QniGHDDNcaG/r+gVPEbmYdlZ8ui0ccLAX8KyMW3tQRrtqR+f9Ui
+ b3YUOHz2JfhASIATBf2PHIhn4wLhp6vFBf5VUUXrFXu5eQ3pgAk1Hoc/VJZiNzZftHON
+ NYuzFm8Nwsf7Zs/7QCsZgNJGu6Wbp8BCJ+z1goLvlVI2LNSYHKLFwqZHEM4S9/hnzOmB
+ pwz34FqBKekaTDb2dioBU7uNK/2hpONPAChJyeCOK9P9OJfMev2oFcFAdwWoWcOj+R7Y
+ gbVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RkcJRBFfgWRMLE0q4h8ibzmlGf09nN5PtQGtP90osKY=;
- b=D1hWwD0jHWEJ/2QJt7YmwPSaFWdlllId7R2BpP+IVnP+i8R61BBuWxIouqmzzx35KQ
- bm6RTAc9GYe66qBNd2GvUu6erNLQeV+Tz4CX/xgJSYJmkCX/PQ1+4wZ7W40N0fD/AG7v
- Jbxtfg6dZ1QYF/arjyN3KNeh976UBMzkd078vOzCLbnEs5Hi2Dx7/p94grodUK4ivUoP
- mr1+dLdzyc5sL2rto8VfLzJGguoseZ5ul6MGmzj+7sihORfvok44tpaLLZ881pMUe8BK
- gxid3tjj+2PRVo6m1D8ovF9D2mCnBlMV6Nkejeiv0bhjd+0XZYoNDhavjm9r7gZDWVfq
- nTkQ==
-X-Gm-Message-State: AOAM531xuMK22sFubt0tVEIW2rTaCaGgx2dY7J565qQWCXBN/oIMsraF
- XqEa9UYdLsicwNgRvCixYQWaDwP8h8cO4NFG
-X-Google-Smtp-Source: ABdhPJyw++OghG5Qk7QlgmHG6x00YuEXcWeuCdO5u0Mja5PslUymrKmF0dDGJRVFpbOGWF8JpI5+4g==
-X-Received: by 2002:a17:90a:5515:: with SMTP id
- b21mr11782010pji.239.1634284111400; 
- Fri, 15 Oct 2021 00:48:31 -0700 (PDT)
+ bh=HdGLIrBmcpm5HZc7pPQz97TjtpgKuH73SRJUsnw3v6I=;
+ b=gCiTgDUMF52nIN76U/0LVGpCbUopuTdZiODxK+cilDrBZQve8GgKKhyYe8nM0LKkpo
+ KUFV4mEdVxsRo7QGLYzSUF3ggzNPCRTIIUdxVPotcbyPvKe0x/Gcot8r5CGnicSQQI6n
+ wtvq1EXJi3UyS1jISKiFyX83Ch2XsQEClsb+ZN1RFei9qyuJCW2OKNxC1nIYbOnBCpwY
+ BD90MuAy7VCybZoSAcZOJrW6ZAOR5QK9Eh567lmX/NOEt6QuJKmHNFOtdWC4Sl1dBJbW
+ k72aggf2RiVvTwPFaqKlWfrFRjFxMZi/L1tdq9reqC5a7UfTFolKOSTw2BR/gSB9XlbK
+ htzQ==
+X-Gm-Message-State: AOAM530dBpiGs09LcHRBosx2kN/21JsOGRL806yWjfnnIG0hrwk0NHh+
+ ekjH+3qc2JYOUrxR8+tdU5NHZN3/AJR8aeYO
+X-Google-Smtp-Source: ABdhPJxQDtHaayknVSAz4rWQyb3g8+DMz2mqEgebOeMnkxetZBBRHVsOcNapzaO6BlakbI8u4YhaPg==
+X-Received: by 2002:a17:90a:ad98:: with SMTP id
+ s24mr26207705pjq.122.1634284114420; 
+ Fri, 15 Oct 2021 00:48:34 -0700 (PDT)
 Received: from localhost.localdomain (123-193-74-252.dynamic.kbronet.com.tw.
  [123.193.74.252])
- by smtp.gmail.com with ESMTPSA id z13sm4271680pfq.130.2021.10.15.00.48.29
+ by smtp.gmail.com with ESMTPSA id z13sm4271680pfq.130.2021.10.15.00.48.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Oct 2021 00:48:31 -0700 (PDT)
+ Fri, 15 Oct 2021 00:48:34 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v8 27/78] target/riscv: rvv-1.0: floating-point square-root
- instruction
-Date: Fri, 15 Oct 2021 15:45:34 +0800
-Message-Id: <20211015074627.3957162-34-frank.chang@sifive.com>
+Subject: [PATCH v8 28/78] target/riscv: rvv-1.0: floating-point classify
+ instructions
+Date: Fri, 15 Oct 2021 15:45:35 +0800
+Message-Id: <20211015074627.3957162-35-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211015074627.3957162-1-frank.chang@sifive.com>
 References: <20211015074627.3957162-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,18 +103,18 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 7d8441d1f21..92a0e6fe51e 100644
+index 92a0e6fe51e..f61eaf7c6ba 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -563,7 +563,7 @@ vfwmsac_vv      111110 . ..... ..... 001 ..... 1010111 @r_vm
- vfwmsac_vf      111110 . ..... ..... 101 ..... 1010111 @r_vm
- vfwnmsac_vv     111111 . ..... ..... 001 ..... 1010111 @r_vm
- vfwnmsac_vf     111111 . ..... ..... 101 ..... 1010111 @r_vm
--vfsqrt_v        100011 . ..... 00000 001 ..... 1010111 @r2_vm
-+vfsqrt_v        010011 . ..... 00000 001 ..... 1010111 @r2_vm
- vfmin_vv        000100 . ..... ..... 001 ..... 1010111 @r_vm
- vfmin_vf        000100 . ..... ..... 101 ..... 1010111 @r_vm
- vfmax_vv        000110 . ..... ..... 001 ..... 1010111 @r_vm
+@@ -586,7 +586,7 @@ vmfgt_vf        011101 . ..... ..... 101 ..... 1010111 @r_vm
+ vmfge_vf        011111 . ..... ..... 101 ..... 1010111 @r_vm
+ vmford_vv       011010 . ..... ..... 001 ..... 1010111 @r_vm
+ vmford_vf       011010 . ..... ..... 101 ..... 1010111 @r_vm
+-vfclass_v       100011 . ..... 10000 001 ..... 1010111 @r2_vm
++vfclass_v       010011 . ..... 10000 001 ..... 1010111 @r2_vm
+ vfmerge_vfm     010111 0 ..... ..... 101 ..... 1010111 @r_vm_0
+ vfmv_v_f        010111 1 00000 ..... 101 ..... 1010111 @r2
+ vfcvt_xu_f_v    100010 . ..... 00000 001 ..... 1010111 @r2_vm
 -- 
 2.25.1
 
