@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EC342EF29
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 12:54:24 +0200 (CEST)
-Received: from localhost ([::1]:55010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44EC42EF32
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Oct 2021 12:57:09 +0200 (CEST)
+Received: from localhost ([::1]:59698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbKr2-0003Wm-07
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 06:54:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60352)
+	id 1mbKtg-0006no-WF
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 06:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mbKpg-0002qx-9Z
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:53:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60502)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1mbKqe-0003xe-Kb
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:54:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mbKpe-0003gm-Ny
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:52:59 -0400
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1mbKqd-0004QN-3U
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 06:54:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634295177;
+ s=mimecast20190719; t=1634295238;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=/Ofifev486097JSZ6YO2tEnUKPRS1O5CkTiLJVD+R6U=;
- b=Vd1UTT7KkCW5jr/GF9s9wvTrtV8ufMbJggUN9LyY9h/q6dyFrwO6pWCl5zoCK3Jou08iVh
- mWTRHAzaZs7rO44fvoJJ4o0I/ZhRA0VdORSStpTzQ8RqtTY2bTt47Tb6U/EudZrbxAEZPC
- RdCEJGA1xrxKbUzvVAEku2DniUdRC4s=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=r0NPkhtNNRHdSF05xmMmpdfcF/d09cYaL4oAW9YFn9Y=;
+ b=cLf/xAp1o3/4r8ElzufanWEw0XkN4g8ZpluSDJDzsEZnMYFCjptcjTOTOv0IrEC9PzKfw9
+ AFppfOS5FnZvivfGVva9nJMub3nkYrvLewZKuwW9XDs1zhqFk9YrKPaXPxMc7EBY91eOVa
+ Y6fX111+wLZWxfkrPfPhgGOtqTQ+kGQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-gKz5RLK-PS6XK0NTrgdjVg-1; Fri, 15 Oct 2021 06:52:56 -0400
-X-MC-Unique: gKz5RLK-PS6XK0NTrgdjVg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-24-ujxtQ5stO8Gehw3Y5_LDsA-1; Fri, 15 Oct 2021 06:53:52 -0400
+X-MC-Unique: ujxtQ5stO8Gehw3Y5_LDsA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EDC318D6A25
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 10:52:55 +0000 (UTC)
-Received: from paraplu (unknown [10.39.194.218])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 08CEF60583;
- Fri, 15 Oct 2021 10:52:53 +0000 (UTC)
-Date: Fri, 15 Oct 2021 12:52:50 +0200
-From: Kashyap Chamarthy <kchamart@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C38D41006AA2;
+ Fri, 15 Oct 2021 10:53:51 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C06A5C1A3;
+ Fri, 15 Oct 2021 10:53:47 +0000 (UTC)
+From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: On versioned CPU models, aliases, and machine types
-Message-ID: <YWldgo3j6KEFpVvL@paraplu>
+Subject: [PATCH v2 0/8] Some Sphinx improvements
+Date: Fri, 15 Oct 2021 14:53:36 +0400
+Message-Id: <20211015105344.152591-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -74,45 +76,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
 
-With the versioned CPU models, I see that the plain, non-versioned named
-model now says: "alias configured by machine type".  For example:
-
-    $> qemu-system-x86_64 -cpu help | grep Broadwell
-    x86 Broadwell             (alias configured by machine type)                        
-    x86 Broadwell-IBRS        (alias of Broadwell-v3)                                   
-    x86 Broadwell-noTSX       (alias of Broadwell-v2)                                   
-    x86 Broadwell-noTSX-IBRS  (alias of Broadwell-v4)                                   
-    x86 Broadwell-v1          Intel Core Processor (Broadwell)                          
-    x86 Broadwell-v2          Intel Core Processor (Broadwell, no TSX)                  
-    x86 Broadwell-v3          Intel Core Processor (Broadwell, IBRS)                    
-    x86 Broadwell-v4          Intel Core Processor (Broadwell, no TSX, IBRS)     
-
-Now, any QEMU binary (qemu-system-x86-6.0.0-1 in my case) supports a ton
-of versioned machine types.  So when the plain "Broadwell" model says
-"alias configured by machine type", I have two questions:
-
-(1) Is there a way to figure out _which_ exact versioned CPU model will
-    plain "Broadwell" alias to in the above case?  
-
-    My guess: Assuming I'm using the plain 'q35' machine type (which
-    aliases to the latest versioned machine type), "Broadwell" will
-    alias to "Broadwell-v4".
-
-(2) Also, it sounds like depending on the versioned machine type I
-    configure, the CPU model alias of plain "Broadwell" might change --
-    is this correct?
-
-
-(Ideally, I'd like to document an example of each of the above in the
-in-tree doc, cpu-models-x86.rst.inc.  It's not really obvious.)
-
--- 
-/kashyap
+Hi,=0D
+=0D
+I have collected a few Sphinx-related improvements to improve depfile gener=
+ation=0D
+and add some keyboard navigation. Hope you'll like it.=0D
+=0D
+v2:=0D
+ - fix test 'output:' regression=0D
+ - fix javascript indentation (Paolo)=0D
+ - split "meson: remove explicit extensions dependency file list" (Paolo)=
+=0D
+=0D
+Marc-Andr=C3=A9 Lureau (8):=0D
+  docs/sphinx: add loaded modules to generated depfile=0D
+  docs/sphinx: add static files to generated depfile=0D
+  docs/sphinx: add templates files to generated depfile=0D
+  tests/qapi-schema/meson: add depfile to sphinx doc=0D
+  meson: drop sphinx_extn_depends=0D
+  meson: drop sphinx_template_files=0D
+  docs/sphinx: set navigation_with_keys=3DTrue=0D
+  docs/sphinx: add 's' keyboard binding to focus search=0D
+=0D
+ docs/conf.py                  |  7 ++++++-=0D
+ docs/meson.build              | 10 ----------=0D
+ docs/sphinx-static/custom.js  |  9 +++++++++=0D
+ docs/sphinx/depfile.py        | 19 +++++++++++++++++--=0D
+ tests/qapi-schema/meson.build |  6 ++++--=0D
+ 5 files changed, 36 insertions(+), 15 deletions(-)=0D
+ create mode 100644 docs/sphinx-static/custom.js=0D
+=0D
+--=20=0D
+2.33.0.721.g106298f7f9=0D
+=0D
 
 
