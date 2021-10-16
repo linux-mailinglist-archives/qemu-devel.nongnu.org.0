@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D008643042D
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 20:26:31 +0200 (CEST)
-Received: from localhost ([::1]:45886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77FEE43042A
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 20:24:43 +0200 (CEST)
+Received: from localhost ([::1]:43180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mboO6-0007YR-Rg
-	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 14:26:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40974)
+	id 1mboMM-0005kp-Gj
+	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 14:24:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mboDW-0008LY-4e
- for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:15:35 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:53842)
+ id 1mboDY-0008MN-0O
+ for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:15:36 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:40839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mboDQ-0001xh-W3
- for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:15:31 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id ls18so9474442pjb.3
- for <qemu-devel@nongnu.org>; Sat, 16 Oct 2021 11:15:25 -0700 (PDT)
+ id 1mboDR-0001xl-2Q
+ for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:15:35 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ pf6-20020a17090b1d8600b0019fa884ab85so11646367pjb.5
+ for <qemu-devel@nongnu.org>; Sat, 16 Oct 2021 11:15:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Quiv5vbH7lzjgQxwPWoCohOnwSfDfP+7M3aharRivYE=;
- b=mmegxJlWCTJ7CDrKT3RrkkLStiUacxvMwslT2RHp6XkkJsWAqNoFo7TY5LQUlaOWHi
- tvW9sOrHH9oiscDHz1qMBwaHa5S02wMWNqx97PVC0rfQXHt3qnd4WO6M7tUWp1SzLgOj
- 6U87WM4Xs21INNRcb0nZH4ZXaM0aH/VAsItBQzfICbfGlkqytwU9/E2HLKf19jz9C0g0
- dSlsbHEVuUyqd3HXp0UdttgBlumi0U4Rzzs2JZ1pxxfeHbDA89BOzaFuxjLtVmz7g6cz
- Rp22TQEdSF/zoQA+wd7Fr1vcv7kcCWSEX+6ilbeKd/GxW5AzcTyedHYAqsPc4Z9Ailc8
- LnVQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5vzsS779Ji0aZH1T0g3pZgPZBGZ0QiFgHfm7fgPItP0=;
+ b=HSE2KK68BwycnfejuVVg7v1VC74eSRR4ebYB2Psrl4pW/bvwCDa2jaCUTGSmCEX8Do
+ SMp5vb/EvKPvjzGoXgGSoc4WBVyQHR/ZvS02LK/FXpoBUZrhI5SporeHcLNC9VClN0A1
+ N42lYaDxabgOdPbQwM9nwFWgF9lGSPnfzBmYGtoAHuk7U3H9wL6pOody808XFeAFG2UT
+ vDSIa+0G+AXbiD5cdQJhIIFk7PDe/u5J+BjnYiK1XNanwZ1Pf2XApl42ApOPrV/9gtXQ
+ RgGEA9awuOUSCjv+vo5nbXuuY0vGzMVIIt55frMGpbNKibCAoDYqZ0Ro+RfTCzpvA30B
+ DUSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Quiv5vbH7lzjgQxwPWoCohOnwSfDfP+7M3aharRivYE=;
- b=S5JJpWbLcnTpOH4x+xWk9MdOahM/cWeRqjZ4j+CmSHD+xn6+YQ9W1RfdzCwpmh3k/6
- uAEVSTc+uKQlRTMBoEzKSmUY005iOl1gUwHRC+h00o/bezS7IqagA5/0yIssKTlLwsXS
- 6XJ7Xz/ShjWyyd3qsG1SOHgnicOo+ragCmMVwkfEhTs9LsN0f9FA9zCFiM0QnohX+OUd
- +JvDtv+yVc/Mi3221Al9zaKpDzPkpsenO8DgXevGxzuE/0+BfeDkba/ga64n+dDlJ9Wg
- dM3qw3mxLmBDeJW8RGscrKjXYehP2UYD+9qMXVgJST3200U96UsSgK6AveCRBQ587mBI
- MkHg==
-X-Gm-Message-State: AOAM530h9r/5QitWBuTE9wzwqkCZdmaKR0AcgEaZdkWZfybUXHh0Oy0k
- MXLGKymkbJ6jk3BlgXVZQr719VPI4kXINA==
-X-Google-Smtp-Source: ABdhPJwHgbbwWXdZx9NL28bzyOpxZfqop06WABOp+vq+r7uioQ+p5UFIX8b1q7rZz5SCMaBQVIa/wg==
-X-Received: by 2002:a17:902:64d6:b0:13e:a5a9:c6d6 with SMTP id
- y22-20020a17090264d600b0013ea5a9c6d6mr17980241pli.52.1634408124865; 
- Sat, 16 Oct 2021 11:15:24 -0700 (PDT)
+ bh=5vzsS779Ji0aZH1T0g3pZgPZBGZ0QiFgHfm7fgPItP0=;
+ b=PKaW5/dGmZteDkD7ya+2dqQo8llm+vxlNRcHELFQhoJm7+Ybmr/RrLBLlxCa1k6Ujf
+ MD9pRUlc7ZHHNvoTaeDyuTnAarixO1Fh6Ssjk97yZnKK/H7MOz8UGxv+VgyZKKmBRU9Z
+ MkXmeH6Elj8U0eA6zoNDOkyNe9+4U8H0W2blsAi7HOfuwBIk/BzxaWHOZ+EyTmqKuWOL
+ lCekh6xXcGGI3QxQ/U4FiAaT9Tkz9VTr6tDLcuV2pRF7JASBA+LwZ1IhOMOSCAjSpEH0
+ 5BWNxqbGdaKyOUYcrOGAXD9rGO8rUVm7diiL53H7wWSFDZEsrxbOfwljJ8H6HCbfS0qo
+ yl6w==
+X-Gm-Message-State: AOAM530JgCtPk33mLTkbYHqcprWD4IYWHBuEDl5kfPMCF329DolW019U
+ s5znFhXvUIDMdyRv5Qs0qr+GOVAMpXA6QQ==
+X-Google-Smtp-Source: ABdhPJxVSAQdthF/KDOWX00Xtual7L+myD59jn0gJaLVX25VOqPkq4zq5MEBDt1Ct4ReguebhYFuaQ==
+X-Received: by 2002:a17:90b:1e4b:: with SMTP id
+ pi11mr22267667pjb.179.1634408125724; 
+ Sat, 16 Oct 2021 11:15:25 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id ob5sm5075097pjb.2.2021.10.16.11.15.24
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id ob5sm5075097pjb.2.2021.10.16.11.15.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Oct 2021 11:15:24 -0700 (PDT)
+ Sat, 16 Oct 2021 11:15:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/24] target/i386: Drop check for singlestep_enabled
-Date: Sat, 16 Oct 2021 11:14:59 -0700
-Message-Id: <20211016181514.3165661-10-richard.henderson@linaro.org>
+Subject: [PULL 10/24] target/m68k: Drop checks for singlestep_enabled
+Date: Sat, 16 Oct 2021 11:15:00 -0700
+Message-Id: <20211016181514.3165661-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211016181514.3165661-1-richard.henderson@linaro.org>
 References: <20211016181514.3165661-1-richard.henderson@linaro.org>
@@ -84,64 +84,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 GDB single-stepping is now handled generically.
 
+Acked-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/helper.h          | 1 -
- target/i386/tcg/misc_helper.c | 8 --------
- target/i386/tcg/translate.c   | 4 +---
- 3 files changed, 1 insertion(+), 12 deletions(-)
+ target/m68k/translate.c | 44 +++++++++--------------------------------
+ 1 file changed, 9 insertions(+), 35 deletions(-)
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index 574ff75615..ac3b4d1ee3 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -56,7 +56,6 @@ DEF_HELPER_2(syscall, void, env, int)
- DEF_HELPER_2(sysret, void, env, int)
- #endif
- DEF_HELPER_FLAGS_2(pause, TCG_CALL_NO_WG, noreturn, env, int)
--DEF_HELPER_FLAGS_1(debug, TCG_CALL_NO_WG, noreturn, env)
- DEF_HELPER_1(reset_rf, void, env)
- DEF_HELPER_FLAGS_3(raise_interrupt, TCG_CALL_NO_WG, noreturn, env, int, int)
- DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, int)
-diff --git a/target/i386/tcg/misc_helper.c b/target/i386/tcg/misc_helper.c
-index baffa5d7ba..5769db5ace 100644
---- a/target/i386/tcg/misc_helper.c
-+++ b/target/i386/tcg/misc_helper.c
-@@ -110,14 +110,6 @@ void QEMU_NORETURN helper_pause(CPUX86State *env, int next_eip_addend)
-     do_pause(env);
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index 50a55f949c..af43c8eab8 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -194,18 +194,6 @@ static void do_writebacks(DisasContext *s)
+     }
  }
  
--void QEMU_NORETURN helper_debug(CPUX86State *env)
+-static bool is_singlestepping(DisasContext *s)
 -{
--    CPUState *cs = env_cpu(env);
--
--    cs->exception_index = EXCP_DEBUG;
--    cpu_loop_exit(cs);
+-    /*
+-     * Return true if we are singlestepping either because of
+-     * architectural singlestep or QEMU gdbstub singlestep. This does
+-     * not include the command line '-singlestep' mode which is rather
+-     * misnamed as it only means "one instruction per TB" and doesn't
+-     * affect the code we generate.
+-     */
+-    return s->base.singlestep_enabled || s->ss_active;
 -}
 -
- uint64_t helper_rdpkru(CPUX86State *env, uint32_t ecx)
+ /* is_jmp field values */
+ #define DISAS_JUMP      DISAS_TARGET_0 /* only pc was modified dynamically */
+ #define DISAS_EXIT      DISAS_TARGET_1 /* cpu state was modified dynamically */
+@@ -320,20 +308,6 @@ static void gen_exception(DisasContext *s, uint32_t dest, int nr)
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+-static void gen_singlestep_exception(DisasContext *s)
+-{
+-    /*
+-     * Generate the right kind of exception for singlestep, which is
+-     * either the architectural singlestep or EXCP_DEBUG for QEMU's
+-     * gdb singlestepping.
+-     */
+-    if (s->ss_active) {
+-        gen_raise_exception(EXCP_TRACE);
+-    } else {
+-        gen_raise_exception(EXCP_DEBUG);
+-    }
+-}
+-
+ static inline void gen_addr_fault(DisasContext *s)
  {
-     if ((env->cr[4] & CR4_PKE_MASK) == 0) {
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index c8d919bc3f..e9e1451540 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -2660,9 +2660,7 @@ do_gen_eob_worker(DisasContext *s, bool inhibit, bool recheck_tf, bool jr)
-     if (s->base.tb->flags & HF_RF_MASK) {
-         gen_helper_reset_rf(cpu_env);
+     gen_exception(s, s->base.pc_next, EXCP_ADDRESS);
+@@ -1522,10 +1496,10 @@ static void gen_exit_tb(DisasContext *s)
+ /* Generate a jump to an immediate address.  */
+ static void gen_jmp_tb(DisasContext *s, int n, uint32_t dest)
+ {
+-    if (unlikely(is_singlestepping(s))) {
++    if (unlikely(s->ss_active)) {
+         update_cc_op(s);
+         tcg_gen_movi_i32(QREG_PC, dest);
+-        gen_singlestep_exception(s);
++        gen_raise_exception(EXCP_TRACE);
+     } else if (translator_use_goto_tb(&s->base, dest)) {
+         tcg_gen_goto_tb(n);
+         tcg_gen_movi_i32(QREG_PC, dest);
+@@ -6193,7 +6167,7 @@ static void m68k_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
+ 
+     dc->ss_active = (M68K_SR_TRACE(env->sr) == M68K_SR_TRACE_ANY_INS);
+     /* If architectural single step active, limit to 1 */
+-    if (is_singlestepping(dc)) {
++    if (dc->ss_active) {
+         dc->base.max_insns = 1;
      }
--    if (s->base.singlestep_enabled) {
--        gen_helper_debug(cpu_env);
--    } else if (recheck_tf) {
-+    if (recheck_tf) {
-         gen_helper_rechecking_single_step(cpu_env);
-         tcg_gen_exit_tb(NULL, 0);
-     } else if (s->flags & HF_TF_MASK) {
+ }
+@@ -6252,17 +6226,17 @@ static void m68k_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+         break;
+     case DISAS_TOO_MANY:
+         update_cc_op(dc);
+-        if (is_singlestepping(dc)) {
++        if (dc->ss_active) {
+             tcg_gen_movi_i32(QREG_PC, dc->pc);
+-            gen_singlestep_exception(dc);
++            gen_raise_exception(EXCP_TRACE);
+         } else {
+             gen_jmp_tb(dc, 0, dc->pc);
+         }
+         break;
+     case DISAS_JUMP:
+         /* We updated CC_OP and PC in gen_jmp/gen_jmp_im.  */
+-        if (is_singlestepping(dc)) {
+-            gen_singlestep_exception(dc);
++        if (dc->ss_active) {
++            gen_raise_exception(EXCP_TRACE);
+         } else {
+             tcg_gen_lookup_and_goto_ptr();
+         }
+@@ -6272,8 +6246,8 @@ static void m68k_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+          * We updated CC_OP and PC in gen_exit_tb, but also modified
+          * other state that may require returning to the main loop.
+          */
+-        if (is_singlestepping(dc)) {
+-            gen_singlestep_exception(dc);
++        if (dc->ss_active) {
++            gen_raise_exception(EXCP_TRACE);
+         } else {
+             tcg_gen_exit_tb(NULL, 0);
+         }
 -- 
 2.25.1
 
