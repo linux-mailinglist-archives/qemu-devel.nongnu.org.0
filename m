@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F584303EC
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 19:26:02 +0200 (CEST)
-Received: from localhost ([::1]:56002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27CC4303E6
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 19:22:46 +0200 (CEST)
+Received: from localhost ([::1]:49684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbnRa-0005zn-1M
-	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 13:26:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60574)
+	id 1mbnOP-0001mn-MP
+	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 13:22:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbnGM-00012W-RQ
+ id 1mbnGL-00012S-TJ
  for qemu-devel@nongnu.org; Sat, 16 Oct 2021 13:14:27 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:40606)
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:33751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbnGJ-0006CD-A9
- for qemu-devel@nongnu.org; Sat, 16 Oct 2021 13:14:26 -0400
-Received: by mail-pl1-x632.google.com with SMTP id v20so8422871plo.7
- for <qemu-devel@nongnu.org>; Sat, 16 Oct 2021 10:14:21 -0700 (PDT)
+ id 1mbnGJ-0006Cg-AO
+ for qemu-devel@nongnu.org; Sat, 16 Oct 2021 13:14:25 -0400
+Received: by mail-pg1-x532.google.com with SMTP id j190so4947443pgd.0
+ for <qemu-devel@nongnu.org>; Sat, 16 Oct 2021 10:14:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PWp+DyK/MXQrYSGCBqie9Ey1GjpSYq8FmATujtXXGIU=;
- b=tI/HZQOM/f7v85O4Y420RHliIEJFRgOK86vAn9cQ8UzDdhd7FPsgLYlQDS1yQ4ogGl
- yNfojEyUZ1GQObmY2diwNuMzsnNhi6kjPP/3JM+m8Q6bJSsES+MihTrAtI+PW4woNrCX
- 16/oPLDy2s0v+vgb4cmVZ0Kvxur31Yc3U/MYKzh1TVPl0DznMfQdQ+FrALgIFObcssed
- 1NuShc1btS3lgEu/HLAcEUgy3sEVJwVGMhJb+rMzGXZiLIq5MIM4TbYLDJFVyNOqEeL9
- sOe+SnA0t0cEduIePx1pk3aNbpLMYCKpBwB1tpenpI89tkMazr0ybEJbPLD5jHNwUsPi
- rL1A==
+ bh=sefFRWXuAIwA9Hn9aMW9zKhBMiydf7kE/zMEjZquoTs=;
+ b=FinqihW5F838ZFLUFQXSASvcn4kgsAE233XQSszP7T8g07v7J2OuLhq70Wn+G3rr0G
+ FZerP1aDK4OYppbSaX4mp3Rgc3IWJ0fz+XwcKC6a07PMqc0D3mKUIYhMudGKma0BHIIw
+ e3poNEMilyJxRwYxgtvV9DZnUvgMENiJA3A8IygfcIVPrbdueRWxn5u5DHAqs2OnD/j/
+ sVv1SFWoZm+EEpYnsPCW+ia2z/BL3cekWXXW0EJG8w4mAfv93vdVvjCLoVFceyjbX8xw
+ bJnpPcJqxD+sb9TpH4ktYl/RZVHwzVpv+BWXdMAuPtvCjDuwepvbZa9ybHK7vN9WI5s6
+ f8BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PWp+DyK/MXQrYSGCBqie9Ey1GjpSYq8FmATujtXXGIU=;
- b=QAOp1G6+Ii4hUpWmeK2DsgTFeKfZAGzKsOzEXwoCRQzqMWK/1HdGuvDa5+LcN8B30E
- RmyeSpf/6EF51jANnmHOPb2Kle5QMUM22I7E9VlOmQN6seZTRc/GJsYgEWTkzPdeVax0
- evEsDJkKTnJKFQhc8ZDs8KV/8JpgoB1BA9ulJ2VzVDW34MSeD681B96uxod4YJ4Z/5li
- JloRvUQWp5GdfQiHGE+GZCAHC+XqJA4TCTLCaL43rDyWJJh5DL158NN2rIBqeR0P5fQC
- 8pvJvWvU1YFMkVE0Le2Ai8bsEfaLPh7sdAHzyZ9FPszYhDIp4YD4VFM5Qe46G5fdNgjV
- lVlQ==
-X-Gm-Message-State: AOAM533Zp1OrNRJ3XseDTaFAxN1U61aNseWIFDd3LxsNrB9klxcVHRK7
- gEI7FwLfpksFcF5BULgt0wn6/YzejXSyeA==
-X-Google-Smtp-Source: ABdhPJyshR25TWEskYEY9XvRsM5CBsDaCqjh58315XIyybjVXbF64peTz85dUKheoS8YAoBGCCjMXw==
-X-Received: by 2002:a17:90a:1a42:: with SMTP id
- 2mr22170039pjl.202.1634404460321; 
- Sat, 16 Oct 2021 10:14:20 -0700 (PDT)
+ bh=sefFRWXuAIwA9Hn9aMW9zKhBMiydf7kE/zMEjZquoTs=;
+ b=zB+3xzIaGN9+Bi7liQysYTDR/XrbxoT8aZM6buJlFhfiMrZSS0TYjKL1wkDx+lcPdf
+ 2t0XTH7ZQIqfZD8RvR7zHdjjJsbTNy+ZvQ0CcpzVotu0C5eMyebLaM0BF67qyMOCkvmf
+ l3ZfUSvIZIMkSh1OZQUcD7zx7Sat7JAOKuej0JEZl8+8q8JDHs4uVcIOV3DpLJ0GzvtP
+ mHYq8F3wC1xUgIxLDJeCI0PCDGtFXsboZCMKJratHh4e2vbxzDQqtq+INHzQr242/AxO
+ Si0IwIijB824000I+4bMOqclv9JD/Kgqnt2x4IDSG+D40AgMsvXPr+knvkKKo5Wf19vJ
+ z9iw==
+X-Gm-Message-State: AOAM531ItrNGV+6g0q8MLQ2WKyVjHrE0OWONHN7nb01z0kIbVTIdSd5C
+ UNSyFAgtmBBaIVrCLweSvZEfhPuemJi1IQ==
+X-Google-Smtp-Source: ABdhPJytipreVyb9xVymZdp06ulsQoSugUFsDDvJIR5XEIPoKDkdyqq45v+aLQtYD2PutXL9kphxbg==
+X-Received: by 2002:a63:b006:: with SMTP id h6mr6913792pgf.366.1634404461409; 
+ Sat, 16 Oct 2021 10:14:21 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id l4sm2330281pfc.121.2021.10.16.10.14.19
+ by smtp.gmail.com with ESMTPSA id l4sm2330281pfc.121.2021.10.16.10.14.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Oct 2021 10:14:19 -0700 (PDT)
+ Sat, 16 Oct 2021 10:14:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/14] target/riscv: Use REQUIRE_64BIT in amo_check64
-Date: Sat, 16 Oct 2021 10:14:04 -0700
-Message-Id: <20211016171412.3163784-7-richard.henderson@linaro.org>
+Subject: [PATCH v3 07/14] target/riscv: Properly check SEW in amo_op
+Date: Sat, 16 Oct 2021 10:14:05 -0700
+Message-Id: <20211016171412.3163784-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211016171412.3163784-1-richard.henderson@linaro.org>
 References: <20211016171412.3163784-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,30 +88,54 @@ Cc: qemu-riscv@nongnu.org, frank.chang@sifive.com, alistair.francis@wdc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the same REQUIRE_64BIT check that we use elsewhere,
-rather than open-coding the use of is_32bit.
+We're currently assuming SEW <= 3, and the "else" from
+the SEW == 3 must be less.  Use a switch and explicitly
+bound both SEW and SEQ for all cases.
 
 Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/riscv/insn_trans/trans_rvv.c.inc | 26 +++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index fa451938f1..bbc5c93ef1 100644
+index bbc5c93ef1..91fca4a2d1 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -743,7 +743,8 @@ static bool amo_check(DisasContext *s, arg_rwdvm* a)
+@@ -704,18 +704,20 @@ static bool amo_op(DisasContext *s, arg_rwdvm *a, uint8_t seq)
+         gen_helper_exit_atomic(cpu_env);
+         s->base.is_jmp = DISAS_NORETURN;
+         return true;
+-    } else {
+-        if (s->sew == 3) {
+-            if (!is_32bit(s)) {
+-                fn = fnsd[seq];
+-            } else {
+-                /* Check done in amo_check(). */
+-                g_assert_not_reached();
+-            }
+-        } else {
+-            assert(seq < ARRAY_SIZE(fnsw));
+-            fn = fnsw[seq];
+-        }
++    }
++
++    switch (s->sew) {
++    case 0 ... 2:
++        assert(seq < ARRAY_SIZE(fnsw));
++        fn = fnsw[seq];
++        break;
++    case 3:
++        /* XLEN check done in amo_check(). */
++        assert(seq < ARRAY_SIZE(fnsd));
++        fn = fnsd[seq];
++        break;
++    default:
++        g_assert_not_reached();
+     }
  
- static bool amo_check64(DisasContext *s, arg_rwdvm* a)
- {
--    return !is_32bit(s) && amo_check(s, a);
-+    REQUIRE_64BIT(s);
-+    return amo_check(s, a);
- }
- 
- GEN_VEXT_TRANS(vamoswapw_v, 0, rwdvm, amo_op, amo_check)
+     data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
 -- 
 2.25.1
 
