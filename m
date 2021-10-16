@@ -2,76 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 470F0430171
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 11:14:33 +0200 (CEST)
-Received: from localhost ([::1]:50582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D564303DB
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 19:06:54 +0200 (CEST)
+Received: from localhost ([::1]:55616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbflw-0004pd-D8
-	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 05:14:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48662)
+	id 1mbn93-0003J0-6T
+	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 13:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mbffo-00032f-0N
- for qemu-devel@nongnu.org; Sat, 16 Oct 2021 05:08:12 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:44757)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mbffm-00038Q-7F
- for qemu-devel@nongnu.org; Sat, 16 Oct 2021 05:08:11 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id c4so3801506pgv.11
- for <qemu-devel@nongnu.org>; Sat, 16 Oct 2021 02:08:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=76Ee21ltw6zA4Bl5mlK8ASTEom2K2w/9WO04d59/T/4=;
- b=B8v0ZbV4YhUmbBoLAm7A5qygzFZgROfRN77dL4wb9mzpah9yIT2+QQVmNNtN5BTmx/
- c9fBZIIF4wJ683QKNz27rh+48ZjbC5K/YYGb1Crc/k6Tl+qK3TDhNKgigjm9mAU+1SE9
- NoNHbyBz3Jeu1AYxuItaFUZXR7UiJBixtPK9RyXY0S933O4VUYYxFeWaU5S13HBePjxP
- 4ncX7ESrLDspnBIfodWoJrGER46GC6bY3pM7F1ZDgWTNr6ja7Di74gZGqLLxNuEmRM78
- VFzyIndb9ipeJHmFMgCR6CxEYSydaiYNRzZmef/ty+EwGeHoNJANORwAr+PQOyrjDdOi
- 4iWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=76Ee21ltw6zA4Bl5mlK8ASTEom2K2w/9WO04d59/T/4=;
- b=J5QvxJdhwUMQjPhdLKaz2GkRmlMJQXpHLfCYVd/54aOS/5nvbXNE1t2uT8bY9u6cpo
- vRfx7c2nw+u1V3qqRPg6PO4ECirZU/ruPHnc+CYl51pU0fudXrhcuiOWAUVqyKYu5Suk
- upbjwD5blUVEL5ocOJiOkHuzvhK/h389xvZG0OCy8Uj3FgUqG+h5ifqeZvTKcJsfcY0x
- Ce8UksxatJEeLxRdktaT28bqSgnuchK+qHXcg3Z8fkfr610FYuwBxH0pj4WW4CAy0xBB
- XT9dBsTxqq+4eJLbxcZzyujOWtCWedPHGpTS5eW73BhB9MsxSeRwtsFdVzj+exAL+Lma
- x/Xg==
-X-Gm-Message-State: AOAM531A+fMC+WLSCqkJXh6Ln3NqQ34sjgDknnTaJJgFuR8zpm/6Nj9F
- /2FX3V6/81+L8NGxB6E69kaxWI6pTyiduQ==
-X-Google-Smtp-Source: ABdhPJxvCsyHW3QH+1b/KWILMdxjB0vg3+y0CxxZMGxGVJbo2S0njfyo9LYfo7b/efk3IFwv9LLQCA==
-X-Received: by 2002:a63:8bca:: with SMTP id
- j193mr10321044pge.213.1634375288780; 
- Sat, 16 Oct 2021 02:08:08 -0700 (PDT)
-Received: from localhost.localdomain ([2402:7500:487:fa85:301f:cc98:b428:6b86])
- by smtp.gmail.com with ESMTPSA id d138sm7208936pfd.74.2021.10.16.02.08.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Oct 2021 02:08:08 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v3 6/6] target/riscv: zfh: implement zfhmin extension
-Date: Sat, 16 Oct 2021 17:07:41 +0800
-Message-Id: <20211016090742.3034669-7-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211016090742.3034669-1-frank.chang@sifive.com>
-References: <20211016090742.3034669-1-frank.chang@sifive.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbn71-0002Gf-Vg
+ for qemu-devel@nongnu.org; Sat, 16 Oct 2021 13:04:47 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:54601)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbn70-0001E6-3J
+ for qemu-devel@nongnu.org; Sat, 16 Oct 2021 13:04:47 -0400
+Received: from [192.168.100.1] ([82.142.24.54]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1McpW6-1nAZhL3N58-00Zy41; Sat, 16 Oct 2021 19:04:41 +0200
+Subject: Re: [PATCH 4/8] mac_via: add GPIO for A/UX mode
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20211013212132.31519-1-mark.cave-ayland@ilande.co.uk>
+ <20211013212132.31519-5-mark.cave-ayland@ilande.co.uk>
+ <0f7cc593-a9ca-d549-b317-25e1432408ae@vivier.eu>
+ <b4a9202b-c6a4-8063-554b-111ff5f3ddd5@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <dc308850-ffaf-1195-0024-65639b5e8902@vivier.eu>
+Date: Sat, 16 Oct 2021 19:04:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <b4a9202b-c6a4-8063-554b-111ff5f3ddd5@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:TsLXgz+qEhezpJMbSCR5fmAjVgAjuHPtIPc6ytUx2f8nF+LVp+J
+ atVLc9GZkTKM0064fGUiwr6bxLt5q3zf4SU9DrkyNLgT3xognaRyJR1TKX4au6nEmypIf72
+ QcmZbsJhkH4p8guqfcU1wQdcazpp1DwTXH6PCYZot0jMHWpS7Tp3QhU4a/BXZSofXgQVqm+
+ QbK7EjHj280R27Pq2UQvg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:j/E79c8YkOg=:o8OG1smL6GVkxy7hKC2KBt
+ E4EH6c4ZA63A7IPdH2w9qluiRxvoLkvDZlREmvJA2YRqu8lckm28xw5Q6itJW1I/kzEcgNkRF
+ BFnq54FK7OlDqK5+xDbEE+GhsrsBXWKegAQM/XR322vP7V5kcETafmRixery9JMdim1mbLQPO
+ lXvQykgwIDlGjwAkUg6eCrqLYVoSw4brPdOB6g005X28CSiJprewh6hMI0WM25U63664SuP/P
+ 4H2m43/r6OgYUohsQ3TsM2jNa3DtrB6ZmDiNXgV90pZj4yKdHylRsN2G7BbRYJvqoXtjCE+qf
+ O072w2hPcPrEUIlM6Sw2b9S0IgtzxTLI2NTXD0ibo19WntfB8wfXRTCmvWxOcq6kF3+quN291
+ atfzS6lmA2tMApkJM8q3Lv1SxO/7FXdip9RbKCqRcxBLxAZ4LFxqrURGRAQH5R0JfFw/jQNZU
+ b50SLcMijQYO/7Z0tg4cDbqCppYEyU0AE7AchU7hD3jRaPku+rFfjW2TgxiDQiu21wUINcO2K
+ fW+Lk6wyTaSv5xXbPCajGspA3JlOrmblVjucBJFtPNf+Sw7g5IKlZ0XOI7L7Wa6PgpHE9p7dA
+ ddvPJDw3jQSjHVedKPhpxqMvDHWJsN2tJ6M0uq3GyV7F6y4BAZ6eHUPIDNz5FZkxjmvsR/0KV
+ jFe6/3wqgItsO4tkE1y0GnhnJbftrXYPvyK5/UY8+0j0cMh06P+i3rHO6YrZYNp5H8ITpdDyl
+ n6RgS5bpIXp1a620VjxbwKHeT3rLU74KMgpY8g==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,166 +72,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Chih-Min Chao <chihmin.chao@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Kito Cheng <kito.cheng@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+Le 15/10/2021 à 21:50, Mark Cave-Ayland a écrit :
+> On 15/10/2021 07:58, Laurent Vivier wrote:
+> 
+>> Le 13/10/2021 à 23:21, Mark Cave-Ayland a écrit :
+>>> Add a new auxmode GPIO that is updated when port B bit 6 is changed indicating
+>>> whether the hardware is configured for A/UX mode.
+>>>
+>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>> ---
+>>>   hw/misc/mac_via.c         | 18 ++++++++++++++++++
+>>>   hw/misc/trace-events      |  1 +
+>>>   include/hw/misc/mac_via.h |  1 +
+>>>   3 files changed, 20 insertions(+)
+>>>
+>>> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+>>> index 7a53a8b4c0..a08ffbcd88 100644
+>>> --- a/hw/misc/mac_via.c
+>>> +++ b/hw/misc/mac_via.c
+>>> @@ -880,6 +880,20 @@ static void via1_adb_update(MOS6522Q800VIA1State *v1s)
+>>>       }
+>>>   }
+>>>   +static void via1_auxmode_update(MOS6522Q800VIA1State *v1s)
+>>> +{
+>>> +    MOS6522State *s = MOS6522(v1s);
+>>> +    int oldirq, irq;
+>>> +
+>>
+>> Please, add a comment to explain what happens here as "vMystery" is not self-explicit.
+> 
+> Would something simple like:
+> 
+> /* Check to see if the A/UX mode bit has changed */
+> 
+> suffice here?
 
-Zfhmin extension is a subset of Zfh extension, consisting only of data
-transfer and conversion instructions.
+Yes
 
-If enabled, only the following instructions from Zfh extension are
-included:
-  * flh, fsh, fmv.x.h, fmv.h.x, fcvt.s.h, fcvt.h.s
-  * If D extension is present: fcvt.d.h, fcvt.h.d
+> 
+>>> +    oldirq = (v1s->last_b & VIA1B_vMystery) ? 1 : 0;
+>>> +    irq = (s->b & VIA1B_vMystery) ? 1 : 0;
+>>
+>> For me, it would be clearer with:
+>>
+>>      oldirq = !!(v1s->last_b & VIA1B_vMystery);
+>>      irq = !!(s->b & VIA1B_vMystery);
+>>
+>> but it's a matter of taste.
+> 
+> I had to think carefully about that one :)  If you're fine with the existing version I'd prefer to
+> keep it as I find it easier to read.
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/cpu.c                        |  1 +
- target/riscv/cpu.h                        |  1 +
- target/riscv/insn_trans/trans_rvzfh.c.inc | 22 ++++++++++++++--------
- target/riscv/translate.c                  |  2 ++
- 4 files changed, 18 insertions(+), 8 deletions(-)
+Up to you, as I said, a matter of taste.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 8c579dc297b..4c0e6532164 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -602,6 +602,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
-+    DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 88684e72be1..d70f63ddfe6 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -298,6 +298,7 @@ struct RISCVCPU {
-         bool ext_ifencei;
-         bool ext_icsr;
-         bool ext_zfh;
-+        bool ext_zfhmin;
- 
-         char *priv_spec;
-         char *user_spec;
-diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
-index 0549e25fb45..5a7cac89585 100644
---- a/target/riscv/insn_trans/trans_rvzfh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-@@ -22,13 +22,19 @@
-     }                         \
- } while (0)
- 
-+#define REQUIRE_ZFH_OR_ZFHMIN(ctx) do {       \
-+    if (!(ctx->ext_zfh || ctx->ext_zfhmin)) { \
-+        return false;                         \
-+    }                                         \
-+} while (0)
-+
- static bool trans_flh(DisasContext *ctx, arg_flh *a)
- {
-     TCGv_i64 dest;
-     TCGv t0;
- 
-     REQUIRE_FPU;
--    REQUIRE_ZFH(ctx);
-+    REQUIRE_ZFH_OR_ZFHMIN(ctx);
- 
-     t0 = get_gpr(ctx, a->rs1, EXT_NONE);
-     if (a->imm) {
-@@ -50,7 +56,7 @@ static bool trans_fsh(DisasContext *ctx, arg_fsh *a)
-     TCGv t0;
- 
-     REQUIRE_FPU;
--    REQUIRE_ZFH(ctx);
-+    REQUIRE_ZFH_OR_ZFHMIN(ctx);
- 
-     t0 = get_gpr(ctx, a->rs1, EXT_NONE);
-     if (a->imm) {
-@@ -283,7 +289,7 @@ static bool trans_fmax_h(DisasContext *ctx, arg_fmax_h *a)
- static bool trans_fcvt_s_h(DisasContext *ctx, arg_fcvt_s_h *a)
- {
-     REQUIRE_FPU;
--    REQUIRE_ZFH(ctx);
-+    REQUIRE_ZFH_OR_ZFHMIN(ctx);
- 
-     gen_set_rm(ctx, a->rm);
-     gen_helper_fcvt_s_h(cpu_fpr[a->rd], cpu_env, cpu_fpr[a->rs1]);
-@@ -296,7 +302,7 @@ static bool trans_fcvt_s_h(DisasContext *ctx, arg_fcvt_s_h *a)
- static bool trans_fcvt_d_h(DisasContext *ctx, arg_fcvt_d_h *a)
- {
-     REQUIRE_FPU;
--    REQUIRE_ZFH(ctx);
-+    REQUIRE_ZFH_OR_ZFHMIN(ctx);
-     REQUIRE_EXT(ctx, RVD);
- 
-     gen_set_rm(ctx, a->rm);
-@@ -311,7 +317,7 @@ static bool trans_fcvt_d_h(DisasContext *ctx, arg_fcvt_d_h *a)
- static bool trans_fcvt_h_s(DisasContext *ctx, arg_fcvt_h_s *a)
- {
-     REQUIRE_FPU;
--    REQUIRE_ZFH(ctx);
-+    REQUIRE_ZFH_OR_ZFHMIN(ctx);
- 
-     gen_set_rm(ctx, a->rm);
-     gen_helper_fcvt_h_s(cpu_fpr[a->rd], cpu_env, cpu_fpr[a->rs1]);
-@@ -324,7 +330,7 @@ static bool trans_fcvt_h_s(DisasContext *ctx, arg_fcvt_h_s *a)
- static bool trans_fcvt_h_d(DisasContext *ctx, arg_fcvt_h_d *a)
- {
-     REQUIRE_FPU;
--    REQUIRE_ZFH(ctx);
-+    REQUIRE_ZFH_OR_ZFHMIN(ctx);
-     REQUIRE_EXT(ctx, RVD);
- 
-     gen_set_rm(ctx, a->rm);
-@@ -441,7 +447,7 @@ static bool trans_fcvt_h_wu(DisasContext *ctx, arg_fcvt_h_wu *a)
- static bool trans_fmv_x_h(DisasContext *ctx, arg_fmv_x_h *a)
- {
-     REQUIRE_FPU;
--    REQUIRE_ZFH(ctx);
-+    REQUIRE_ZFH_OR_ZFHMIN(ctx);
- 
-     TCGv dest = dest_gpr(ctx, a->rd);
- 
-@@ -461,7 +467,7 @@ static bool trans_fmv_x_h(DisasContext *ctx, arg_fmv_x_h *a)
- static bool trans_fmv_h_x(DisasContext *ctx, arg_fmv_h_x *a)
- {
-     REQUIRE_FPU;
--    REQUIRE_ZFH(ctx);
-+    REQUIRE_ZFH_OR_ZFHMIN(ctx);
- 
-     TCGv t0 = get_gpr(ctx, a->rs1, EXT_ZERO);
- 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 442ef42f441..f23bc919c08 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -70,6 +70,7 @@ typedef struct DisasContext {
-     bool virt_enabled;
-     bool ext_ifencei;
-     bool ext_zfh;
-+    bool ext_zfhmin;
-     bool hlsx;
-     /* vector extension */
-     bool vill;
-@@ -559,6 +560,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->frm = -1;  /* unknown rounding mode */
-     ctx->ext_ifencei = cpu->cfg.ext_ifencei;
-     ctx->ext_zfh = cpu->cfg.ext_zfh;
-+    ctx->ext_zfhmin = cpu->cfg.ext_zfhmin;
-     ctx->vlen = cpu->cfg.vlen;
-     ctx->mstatus_hs_fs = FIELD_EX32(tb_flags, TB_FLAGS, MSTATUS_HS_FS);
-     ctx->hlsx = FIELD_EX32(tb_flags, TB_FLAGS, HLSX);
--- 
-2.25.1
+> 
+>>> +
+>>> +    if (irq != oldirq) {
+>>> +        trace_via1_auxmode(irq);
+>>> +        qemu_set_irq(v1s->auxmode_irq, irq);
+>>> +    }
+>>> +}
+>>> +
+>>>   static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
+>>>   {
+>>>       MOS6522Q800VIA1State *s = MOS6522_Q800_VIA1(opaque);
+>>> @@ -902,6 +916,7 @@ static void mos6522_q800_via1_write(void *opaque, hwaddr addr, uint64_t val,
+>>>       case VIA_REG_B:
+>>>           via1_rtc_update(v1s);
+>>>           via1_adb_update(v1s);
+>>> +        via1_auxmode_update(v1s);
+>>>             v1s->last_b = ms->b;
+>>>           break;
+>>> @@ -1046,6 +1061,9 @@ static void mos6522_q800_via1_init(Object *obj)
+>>>                 TYPE_ADB_BUS, DEVICE(v1s), "adb.0");
+>>>         qdev_init_gpio_in(DEVICE(obj), via1_irq_request, VIA1_IRQ_NB);
+>>> +
+>>> +    /* A/UX mode */
+>>> +    qdev_init_gpio_out(DEVICE(obj), &v1s->auxmode_irq, 1);
+>>>   }
+>>>     static const VMStateDescription vmstate_q800_via1 = {
+>>> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+>>> index ede413965b..2da96d167a 100644
+>>> --- a/hw/misc/trace-events
+>>> +++ b/hw/misc/trace-events
+>>> @@ -228,6 +228,7 @@ via1_rtc_cmd_pram_sect_write(int sector, int offset, int addr, int value) "secto
+>>>   via1_adb_send(const char *state, uint8_t data, const char *vadbint) "state %s data=0x%02x
+>>> vADBInt=%s"
+>>>   via1_adb_receive(const char *state, uint8_t data, const char *vadbint, int status, int index,
+>>> int size) "state %s data=0x%02x vADBInt=%s status=0x%x index=%d size=%d"
+>>>   via1_adb_poll(uint8_t data, const char *vadbint, int status, int index, int size) "data=0x%02x
+>>> vADBInt=%s status=0x%x index=%d size=%d"
+>>> +via1_auxmode(int mode) "setting auxmode to %d"
+>>>     # grlib_ahb_apb_pnp.c
+>>>   grlib_ahb_pnp_read(uint64_t addr, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" data:0x%08x"
+>>> diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
+>>> index 4506abe5d0..b445565866 100644
+>>> --- a/include/hw/misc/mac_via.h
+>>> +++ b/include/hw/misc/mac_via.h
+>>> @@ -43,6 +43,7 @@ struct MOS6522Q800VIA1State {
+>>>       MemoryRegion via_mem;
+>>>         qemu_irq irqs[VIA1_IRQ_NB];
+>>> +    qemu_irq auxmode_irq;
+>>>       uint8_t last_b;
+>>>         /* RTC */
+>>>
+>>
+>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> 
+> 
+> ATB,
+> 
+> Mark.
 
 
