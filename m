@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357B942FF5B
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 02:07:05 +0200 (CEST)
-Received: from localhost ([::1]:45042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6F542FF5D
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 02:08:15 +0200 (CEST)
+Received: from localhost ([::1]:46476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbXE8-0002aU-At
-	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 20:07:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35620)
+	id 1mbXFG-0003f6-C0
+	for lists+qemu-devel@lfdr.de; Fri, 15 Oct 2021 20:08:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbXAg-0001Sr-OE
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 20:03:30 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:51149)
+ id 1mbXBb-0001y6-Kl
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 20:04:29 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:39812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbXAf-0000Mk-3o
- for qemu-devel@nongnu.org; Fri, 15 Oct 2021 20:03:30 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id gn3so2749537pjb.0
- for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 17:03:28 -0700 (PDT)
+ id 1mbXBZ-00017U-Cd
+ for qemu-devel@nongnu.org; Fri, 15 Oct 2021 20:04:27 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ ls18-20020a17090b351200b001a00250584aso10424225pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 15 Oct 2021 17:04:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TywXgvkhx8QJZQ3wufUTkXNeX0b/R1SGSwCT8WI6MGo=;
- b=gE1dg1RksifSNpg/z++rCOc+P6ul82gaMuUKzWMRWanMri0ntpd/TDI0eSFiUYiW15
- ohgzsTaKovqrt1DVXeyWDwkwDC9Bnr3IY6Ex6eZ0HSf6aBostaFlflaIAsLa5sfZJMSN
- Tec0ix+UKqShb4eEPBSfv2Edol75rFDdCZaCcvoEwBWetjwuYzuXQl4umbHvtH1KKjl6
- 7Qg12DSOL4TFIhjbMJGmyblfmbhaIoS2ySb8p8gw3UZHxYuEbuKMxBH0JiT9cQqPnoSj
- DVrMvqVLe9tevzq2orVapRLEJlUK6SNgcp7nGNxiQeTWCDhh3UAFnYwx1ZOJS1M2eXt7
- LqUg==
+ bh=HJPryxf77fdt2XjNeWBCSXh/cg9tY7XwSX028/sqp9s=;
+ b=ckaI/cy1ar88YYhInOtrXpa0mu8sthA49WY/+dYpQ4rm/H8HYWBT4EfxWtoIGO+R5+
+ aB1hAGfO+HlfmfXWvza/GmdGDEsoM55fryn97xp8Oe1XZr3EUR+BEk5MapHQXGcH4efR
+ U3zBNJkrLI5Lz6cKQMJvSiw1MhG2amz8v5ILceT6vsczcLhxih99PWc1zlvBFazrB2N5
+ NEQBekKbEPjsLlD6RbvpkyIUBakhUOY3q2svtvGm4HBrNaT0jUSzePTv9uPo5mNGoQA5
+ C3I3zy+4dA8rOPc8YEG+bytVPeeMKTrtBzkgTNMwS4a4C4mNgsH/nyFlUlprA+DGsQfH
+ OWJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=TywXgvkhx8QJZQ3wufUTkXNeX0b/R1SGSwCT8WI6MGo=;
- b=PUNOxFRgZCU9EHMrIGiwnz4NsFzE0icwN0qFC3eTc+OT2PzLJx/+ESwktj2KC5jLex
- 0zYw4sFP5yEyO/uA1Jl4cLC1+xzvtbA2oI98npYMQUvRoth4biGEE3JW3k1S8Aa4m5jA
- 9ZCdiAvK5/WlJjx4rE61wPos9sxWLXv+QAyCBSgMdXkG0rwYGlMWnYkwzItPMQbGrocE
- N2dUc1eaFTtn7jVqVgr8wC0ShPGdF1w1m22pZ+q/IOgHS6xq3ygC0g2dDBzuUBtXisbk
- nSi4Z2vRBc2v+HTlbygSLLKndiCxvHRiUNAUFL0pm9GJ0u5GeO/LHS0iWDulXdTOXm1w
- a/Jw==
-X-Gm-Message-State: AOAM531JJSEPg28ES1lfyRas3fWNiHPQv/hyqfBwn/OYYmhwAc0UvaE9
- RCIKjm9qOhME0szf/tQAbrjdRPUNEqtvLQ==
-X-Google-Smtp-Source: ABdhPJwJ3WsgkscEo9IQHj60Oz5Y68lUIow4nmHP05xxI05YTMPxtihbQ099Jt+vqLZzXG7hwpr6QQ==
-X-Received: by 2002:a17:90b:20d2:: with SMTP id
- ju18mr29915104pjb.66.1634342607913; 
- Fri, 15 Oct 2021 17:03:27 -0700 (PDT)
+ bh=HJPryxf77fdt2XjNeWBCSXh/cg9tY7XwSX028/sqp9s=;
+ b=VUqtXGeMtDuJRuzRlRXKYjMlCmfrOMFYBybl4UXMDV2SBhY7clyGT1daUl+hu6NAgj
+ 9kxwnY6ZlcaJ1Ppujsx/uVJsxVrExJB/AzfmwNzNbyIWeB1abxU7GLfn6gfLfm/9RBtb
+ dwSylW1SIO+y0na1Fnn8zalE+GNVZ6sthPnYSCXotou31mPIvWwtSJqZeVL4XZmbhHTJ
+ 02tSKkuI2m8XUjgOL+3zApSLT/o84Gfins9KFGs7h3ZPsmNxAUvP8Sc0apkK94i+h+BT
+ wiGtj4B+9PDy/WiNedxROkQW4FptA51mLd7lM5RwgauB+AIZ98p6yqHovZhuLB3Cn8f6
+ soqA==
+X-Gm-Message-State: AOAM531JFTNqneRRtVXC1NZhFOiE/rF3ELc1cXDXNxp6THnJWwlhljBa
+ eKaeNFLbGD42/ooG5flhLhOoRg==
+X-Google-Smtp-Source: ABdhPJwpzU/emzxsBpr32jNTxD23J9KVTw7b7v9N6tjWTlwd8AzqPoeSuSYNjMgRfCLIHC8jTmjXmg==
+X-Received: by 2002:a17:902:9a04:b0:13a:1ae3:add2 with SMTP id
+ v4-20020a1709029a0400b0013a1ae3add2mr13477870plp.28.1634342664231; 
+ Fri, 15 Oct 2021 17:04:24 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id k13sm6061168pfc.197.2021.10.15.17.03.27
+ by smtp.gmail.com with ESMTPSA id kk18sm6146282pjb.8.2021.10.15.17.04.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Oct 2021 17:03:27 -0700 (PDT)
-Subject: Re: [PATCH v13 3/7] [RISCV_PM] Support CSRs required for RISC-V PM
- extension except for the h-mode
+ Fri, 15 Oct 2021 17:04:23 -0700 (PDT)
+Subject: Re: [PATCH v13 7/7] [RISCV_PM] Allow experimental J-ext to be turned
+ on
 To: Alexey Baturo <baturo.alexey@gmail.com>
 References: <20211015192931.227387-1-space.monkey.delivers@gmail.com>
- <20211015192931.227387-4-space.monkey.delivers@gmail.com>
+ <20211015192931.227387-8-space.monkey.delivers@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <839af1bf-b7e0-e9a3-19eb-fbc3aaa380b4@linaro.org>
-Date: Fri, 15 Oct 2021 17:03:25 -0700
+Message-ID: <58571939-2bb5-40c7-548a-22ba6222b5db@linaro.org>
+Date: Fri, 15 Oct 2021 17:04:22 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211015192931.227387-4-space.monkey.delivers@gmail.com>
+In-Reply-To: <20211015192931.227387-8-space.monkey.delivers@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,21 +98,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/15/21 12:29 PM, Alexey Baturo wrote:
-> +
-> +    /*
-> +     * CSRs for PointerMasking extension
-> +     */
-> +    target_ulong mmte;
-> +    target_ulong mpmmask;
-> +    target_ulong mpmbase;
-> +    target_ulong spmmask;
-> +    target_ulong spmbase;
-> +    target_ulong upmmask;
-> +    target_ulong upmbase;
+> Signed-off-by: Alexey Baturo<space.monkey.delivers@gmail.com>
+> ---
+>   target/riscv/cpu.c | 4 ++++
+>   1 file changed, 4 insertions(+)
 
-You need to update machine.c to migrate these.
-C.f. vmstate_pmp.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
