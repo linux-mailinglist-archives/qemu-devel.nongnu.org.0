@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D6D430417
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 20:11:53 +0200 (CEST)
-Received: from localhost ([::1]:46406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724DC430421
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 20:19:01 +0200 (CEST)
+Received: from localhost ([::1]:56936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbo9w-0005MR-Rc
-	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 14:11:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40044)
+	id 1mboGq-0004La-Ho
+	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 14:19:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbo7q-0003bx-9J
- for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:09:42 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:41581)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbo7o-0005XZ-It
- for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:09:42 -0400
-Received: from [192.168.100.1] ([82.142.24.54]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mj8eD-1nGLTi0Bcr-00fChk; Sat, 16 Oct 2021 20:09:39 +0200
-Subject: Re: [PATCH 7/8] q800: wire up remaining IRQs in classic mode
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20211013212132.31519-1-mark.cave-ayland@ilande.co.uk>
- <20211013212132.31519-8-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <258c843f-2af4-8c48-0992-fa0dc69b86a3@vivier.eu>
-Date: Sat, 16 Oct 2021 20:09:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mboDJ-0008IV-Bo
+ for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:15:22 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:51799)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mboDG-0001nM-9Y
+ for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:15:20 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id kk10so9497855pjb.1
+ for <qemu-devel@nongnu.org>; Sat, 16 Oct 2021 11:15:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZXgErN7FWEdb2nVD2KaoD0MRMD5i9n59j0b7dHEuajY=;
+ b=kZTeTJuAx+lQZqE+V4RWO7crthH6xZbFf/d4P71lJaToBPuH/V/XofqOHOGWmwo5/i
+ F48VVQYU76OW6My9YbmEDhAt4t/6br/x7TG2/kAz2bprknOFiieI+p9+39XDUL41ZT2H
+ 19gPGBGZ7MFb9RsEzlhVH5gC2jnD2JkpunOpWGCjfa2ypWeouZf/Oi0tH15/R/b+kHNU
+ faYCJZLuW3gFax3U8Q4sZFrWPLC1Fu4dsSkIEOiN1jJ3ijBgUVkgFxatTQnEeGddHQqE
+ DVxLyLBVyN+1fh165pzcFG7/1gZPAiTFgg2xvh2v/cBUZZS+jv+AaI88RqfTssAyp/fA
+ If5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZXgErN7FWEdb2nVD2KaoD0MRMD5i9n59j0b7dHEuajY=;
+ b=WiBKfnMKNB+tjSC9iqDQADyCjYeq5OJaq5vHV10mzMrXK9mf0/q/B10Yx0pNSm6BQD
+ U5ajqwEHxBBgDr4HemwqjezD/m6B48ab7EhttFia+rrUxPP0R05r2UmTSRWCRguRT8hK
+ 1ldnsGAfIR4EROxUhX09551eLprja4bcUF5tbqCkgwH9NJFEUqdfuLjwv4kCyPWog5El
+ MEVCTe7Kk2TqXJkSBFh/DhQdlgtHWbOx4FY2UbICRfNHGTl/OvNJMABAIC8LZuGkdBXG
+ nobGt2vToC9Q4qiuQHvedhuX+gGpprAVsVo9RO1mp/+QnCdnByYQT0Cbm9bqcGoNrnCx
+ 1JMA==
+X-Gm-Message-State: AOAM531WUs67XrD0B2AdE0Aa4V0ZfWH3///qO/vQf6Nytf9QO2ZEGl4m
+ 6M1SrXYHZp5yhuX/nttip1/VbNc+r3FXPw==
+X-Google-Smtp-Source: ABdhPJyxV4GJlmbIOz/F2vLeWT3XhV2HmeW/Lbxz2Zsp3NbfJEmQVyYuekzKORRFymeokbJpFRxEkQ==
+X-Received: by 2002:a17:902:654b:b0:13d:c967:9cbd with SMTP id
+ d11-20020a170902654b00b0013dc9679cbdmr17652908pln.88.1634408115956; 
+ Sat, 16 Oct 2021 11:15:15 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id ob5sm5075097pjb.2.2021.10.16.11.15.15
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 16 Oct 2021 11:15:15 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/24] tcg patch queue
+Date: Sat, 16 Oct 2021 11:14:50 -0700
+Message-Id: <20211016181514.3165661-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211013212132.31519-8-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3PhatnSlZftN1RT21Yvr60TcvC7gf9KogxEX6nl4Sp31E93uI7F
- YYVIexwi5Xm/wtcag97xL1aQ5oFMcXJrm2WTwDYWARisE+SS0057zwqjA63IJ/oQqx0eDvh
- ur2Mfn0xGOVOCsKw8i4k+EUVweVLYvSXbe3TxODtHZeqsDMMLV7rlQMxQGtqODUyx2nu+nZ
- WrpsYSj5Fy8byCboMBusw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QyAUxtiLUrU=:JiDs4FDOO02LTm2pfsK5x3
- /k28HP25vCFM4KIlQWpQqOhbttRiFV6jbhBi+hZHMCaannh1Cy+IRDuI11cxM1u/M74njsVDv
- GiJzV39HsmCJPlnmTFt5gZio0OkPaGvBLSW7vWk97mwNPyrC1JderZwJwKlBt4jDm3/So2W2X
- PJfqrAX/E7Tvbfg610+E1ugPsEw6HArt7UWtKBXNxytvoISc3ecYjkPG+rDs8VyRJCuwuBxor
- ngcXY4jn1YXfZTYWOziOE5fL9OIT8Et1lcNlKE5yDh3LJQbeidxas6O4iHov0E5AKPfo9+UfY
- U17qhIQaf4os9qhiDIKLJAvN6Vm5Rjoj7mlks/EyLdOrd9eLPrr/irRzPAjTkDTW7VP5gmH4p
- sqWBFiGoCZdintNP28xd3U/0aF4QCa9lyQOrcpAd6uGhBjeJjoqiQ7NIaLLPoyJMtgTSOmRHq
- W5nTKlcQVC7jyr+/mKAUFj9V6jHeaFZYaRFLIv6VXHTwkAotH4KlLAVwD+TQagZgd1io3WCMJ
- EPlEqE2VcgKuAvRCtWbLl893j7nhzNNlPtKVOEb4ZKZzklSj0Kvum3gOxJyCnDVD1XChXDROK
- nYZ0+V0eE8gEResyJq3+88PsKK4C+sstEX4coopLSGQxlAghSyh9lXQfh5zFzBPO2455kgu6T
- jbGlST/vcpT2CmC9bs+qpsB2ADh8kdk0LcuKgmxC0thgXCiRcgG+/PUC4APBwhbUs9/fNdeQs
- vwxveChtZsLfug+37qorz9Hxou42wEVTR8XHWQ==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,88 +86,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 13/10/2021 à 23:21, Mark Cave-Ayland a écrit :
-> Explicitly wire up the remaining IRQs in classic mode to enable the use of
-> g_assert_not_reached() in the default case to detect any unexpected IRQs.
-> 
-> Add a comment explaining the IRQ routing differences in A/UX mode based
-> upon the comments in NetBSD (also noting that at least A/UX 3.0.1 still
-> uses classic mode).
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/m68k/q800.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 46 insertions(+)
-> 
-> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-> index d55e6a7541..fa851e2ec9 100644
-> --- a/hw/m68k/q800.c
-> +++ b/hw/m68k/q800.c
-> @@ -111,6 +111,37 @@ struct GLUEState {
->  
->  #define GLUE_IRQ_NUBUS_9       0
->  
-> +/*
-> + * The GLUE logic on the Quadra 800 supports 2 different IRQ routing modes
-> + * controlled from the VIA1 auxmode GPIO (port B bit 6) which are documented
-> + * in NetBSD as follows:
-> + *
-> + * A/UX mode (Linux, NetBSD, auxmode GPIO low)
-> + *
-> + *   Level 0:        Spurious: ignored
-> + *   Level 1:        Software
-> + *   Level 2:        VIA2 (except ethernet, sound)
-> + *   Level 3:        Ethernet
-> + *   Level 4:        Serial (SCC)
-> + *   Level 5:        Sound
-> + *   Level 6:        VIA1
-> + *   Level 7:        NMIs: parity errors, RESET button, YANCC error
-> + *
-> + * Classic mode (default: used by MacOS, A/UX 3.0.1, auxmode GPIO high)
-> + *
-> + *   Level 0:        Spurious: ignored
-> + *   Level 1:        VIA1 (clock, ADB)
-> + *   Level 2:        VIA2 (NuBus, SCSI)
-> + *   Level 3:
-> + *   Level 4:        Serial (SCC)
-> + *   Level 5:
-> + *   Level 6:
-> + *   Level 7:        Non-maskable: parity errors, RESET button
-> + *
-> + * Note that despite references to A/UX mode in Linux and NetBSD, at least
-> + * A/UX 3.0.1 still uses Classic mode.
-> + */
-> +
->  static void GLUE_set_irq(void *opaque, int irq, int level)
->  {
->      GLUEState *s = opaque;
-> @@ -144,10 +175,25 @@ static void GLUE_set_irq(void *opaque, int irq, int level)
->      case 1:
->          /* Classic mode */
->          switch (irq) {
-> +        case GLUE_IRQ_IN_VIA1:
-> +            irq = 0;
-> +            break;
-> +
-> +        case GLUE_IRQ_IN_VIA2:
-> +            irq = 1;
-> +            break;
-> +
->          case GLUE_IRQ_IN_SONIC:
->              /* Route to VIA2 instead */
->              qemu_set_irq(s->irqs[GLUE_IRQ_NUBUS_9], level);
->              return;
-> +
-> +        case GLUE_IRQ_IN_ESCC:
-> +            irq = 3;
-> +            break;
-> +
-> +        default:
-> +            g_assert_not_reached();
->          }
->          break;
->  
-> 
+The following changes since commit 6587b0c1331d427b0939c37e763842550ed581db:
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-10-15' into staging (2021-10-15 14:16:28 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20211016
+
+for you to fetch changes up to 995b87dedc78b0467f5f18bbc3546072ba97516a:
+
+  Revert "cpu: Move cpu_common_props to hw/core/cpu.c" (2021-10-15 16:39:15 -0700)
+
+----------------------------------------------------------------
+Move gdb singlestep to generic code
+Fix cpu_common_props
+
+----------------------------------------------------------------
+Richard Henderson (24):
+      accel/tcg: Handle gdb singlestep in cpu_tb_exec
+      target/alpha: Drop checks for singlestep_enabled
+      target/avr: Drop checks for singlestep_enabled
+      target/cris: Drop checks for singlestep_enabled
+      target/hexagon: Drop checks for singlestep_enabled
+      target/arm: Drop checks for singlestep_enabled
+      target/hppa: Drop checks for singlestep_enabled
+      target/i386: Check CF_NO_GOTO_TB for dc->jmp_opt
+      target/i386: Drop check for singlestep_enabled
+      target/m68k: Drop checks for singlestep_enabled
+      target/microblaze: Check CF_NO_GOTO_TB for DISAS_JUMP
+      target/microblaze: Drop checks for singlestep_enabled
+      target/mips: Fix single stepping
+      target/mips: Drop exit checks for singlestep_enabled
+      target/openrisc: Drop checks for singlestep_enabled
+      target/ppc: Drop exit checks for singlestep_enabled
+      target/riscv: Remove dead code after exception
+      target/riscv: Remove exit_tb and lookup_and_goto_ptr
+      target/rx: Drop checks for singlestep_enabled
+      target/s390x: Drop check for singlestep_enabled
+      target/sh4: Drop check for singlestep_enabled
+      target/tricore: Drop check for singlestep_enabled
+      target/xtensa: Drop check for singlestep_enabled
+      Revert "cpu: Move cpu_common_props to hw/core/cpu.c"
+
+ include/hw/core/cpu.h                          |  1 +
+ target/i386/helper.h                           |  1 -
+ target/rx/helper.h                             |  1 -
+ target/sh4/helper.h                            |  1 -
+ target/tricore/helper.h                        |  1 -
+ accel/tcg/cpu-exec.c                           | 11 ++++
+ cpu.c                                          | 21 ++++++++
+ hw/core/cpu-common.c                           | 17 +-----
+ target/alpha/translate.c                       | 13 ++---
+ target/arm/translate-a64.c                     | 10 +---
+ target/arm/translate.c                         | 36 +++----------
+ target/avr/translate.c                         | 19 ++-----
+ target/cris/translate.c                        | 16 ------
+ target/hexagon/translate.c                     | 12 +----
+ target/hppa/translate.c                        | 17 ++----
+ target/i386/tcg/misc_helper.c                  |  8 ---
+ target/i386/tcg/translate.c                    |  9 ++--
+ target/m68k/translate.c                        | 44 ++++-----------
+ target/microblaze/translate.c                  | 18 ++-----
+ target/mips/tcg/translate.c                    | 75 ++++++++++++--------------
+ target/openrisc/translate.c                    | 18 ++-----
+ target/ppc/translate.c                         | 38 +++----------
+ target/riscv/translate.c                       | 27 +---------
+ target/rx/op_helper.c                          |  8 ---
+ target/rx/translate.c                          | 12 +----
+ target/s390x/tcg/translate.c                   |  8 +--
+ target/sh4/op_helper.c                         |  5 --
+ target/sh4/translate.c                         | 14 ++---
+ target/tricore/op_helper.c                     |  7 ---
+ target/tricore/translate.c                     | 14 +----
+ target/xtensa/translate.c                      | 25 +++------
+ target/riscv/insn_trans/trans_privileged.c.inc | 10 ++--
+ target/riscv/insn_trans/trans_rvi.c.inc        |  8 ++-
+ target/riscv/insn_trans/trans_rvv.c.inc        |  2 +-
+ 34 files changed, 141 insertions(+), 386 deletions(-)
 
