@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2374B430436
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 20:33:18 +0200 (CEST)
-Received: from localhost ([::1]:33026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FFCC430439
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 20:36:51 +0200 (CEST)
+Received: from localhost ([::1]:41682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mboUf-00015w-7f
-	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 14:33:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41094)
+	id 1mboY6-0006sk-As
+	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 14:36:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mboDa-0008Ni-Kg
- for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:15:40 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:52775)
+ id 1mboDc-0008OF-A8
+ for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:15:41 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:39716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mboDV-000244-Rt
- for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:15:38 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id oa4so9488210pjb.2
- for <qemu-devel@nongnu.org>; Sat, 16 Oct 2021 11:15:31 -0700 (PDT)
+ id 1mboDX-00025D-00
+ for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:15:40 -0400
+Received: by mail-pg1-x536.google.com with SMTP id g184so11779992pgc.6
+ for <qemu-devel@nongnu.org>; Sat, 16 Oct 2021 11:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=NHkVXGk0j5znwFvR9UOGNMQ7aEfwMBh0zYc+I8bw0PM=;
- b=BXNBzxm4QV+69mPa4dOHiN6kufwdMMhuTfj8KleWCXQoIpc01HUpkKMZAKQ+VZSeac
- /Q87eMAlb9bm/a28vbSXTDGzZrubAB5mDPaMZHPflpeh9UoU6fAf6oA7IHaDwh5vRVlj
- v5Uw/gmOQW1tC6VdqrnHxRGmwEpHvTk8Mi87IA3JIzj7bOPuWyYQPHm22Kztwb4vN/yE
- GvrwvlJfKJOJUZCyBluTawuszG1ul55fE8fwrfolQOakllFQoEVIfVlf951PQRAvBs3v
- A+ekI2hIU20UYcRmRUcOOscEWe0j2Ni+s1lzO5scXlPIiRVaK3kFw3oLXGsdbjaZBTPE
- yCFQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=KY0rIMTsgGM7jXkVqVg+Ek/vwWO39kztj/ovOnDV29c=;
+ b=xGgfLehbgA3QyljRRgsEFJC0b+/lY4eqMCh0nrIogj0j26DxcDficZswbP6OEMnblN
+ O33h4kftHAQy0vG6lADTbdkdKPUz3oVW10RqVT3nP1xy5hNMYW9rjMt2v8sc6z+SJXjr
+ WbCYiOzyVsdHLjm77jqbifpbjlwcNemYffJwbOwSQFdf/wB8sQjKBSoC7Bdy5Ef+wANu
+ rfSxXcc4c1mwABqrZ7QpZLaYSdaaHn2nbyPatakjceTD9KXPklMziOsgMQSk30ChBri+
+ +ju3QUhcmPnsUUeAGwo10QBOYBR8OyCc4MNuaH9ul8c5Alt2pzQ7qrb4hrq0aAayDobq
+ r9zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NHkVXGk0j5znwFvR9UOGNMQ7aEfwMBh0zYc+I8bw0PM=;
- b=wyJY/83Ew0Fc9/FT+1wsz17fASzfb9Y5A4QVwMcVWPTPGyCCAvXJTVTikp7nfgZBZQ
- uIk9aBWaCw77hlfFdt+lNRCjQkS2eTMjWQrsaLCkeQ8nWU6BEwPaFfueZ+/lmB21HAJs
- YlNfyA6R2jxNhqFjqQ4kcHYIyU+khQzYifKFWGMj56+nb6N4FsDOuywBA7Fh4q/esyNW
- bn1rBcJQZ9rWozFvbXqd7LEeqhPb3fIlEt3hE2IcoGlXNIwymjIc5YJ2AZgVudIgJuzx
- JF9H4ULF5awebvVLcGfqOmfsMGd7tTSKmBbMF5D+xnzmtVvnsdHzR2KTZNA5PCuljCPE
- aAKA==
-X-Gm-Message-State: AOAM530GDV4czmmDpL61QWM6/gqDtwKBGpbAm7eXHvqNaT/ghJsNBASw
- jSyfAOXT1SUje7feNFDnStRvnfEYq/Gz2Q==
-X-Google-Smtp-Source: ABdhPJzrBgFr7UXFfXd4re9U/VWphRAkUbmggVT0YtYeuRXnKm9F1NlIbwvyv+Wx/vPX1y0tyIhg3Q==
-X-Received: by 2002:a17:90a:5d89:: with SMTP id
- t9mr13329615pji.21.1634408130624; 
- Sat, 16 Oct 2021 11:15:30 -0700 (PDT)
+ bh=KY0rIMTsgGM7jXkVqVg+Ek/vwWO39kztj/ovOnDV29c=;
+ b=xiayje2p6n0gZeWdYu31PuAD6Zz9d2CApnHCakWju4xrLG8H7X3JxhW7ppdPrgtQMO
+ cDpigc4YTlifFlq8fl5d9o9ttjhkEKphPL5V842dgHSU5MEuIvPRdC0b49AeEao41VV0
+ o5i+a7eVO1En8xGgpc2JaypB/RlQ3uycU6nSDepu8D81p054KQoxcqVfNPbKn6iYP4lU
+ QNgZtAgMetYJKzvSuxyNGh6yOt4CftzLFmM/pahZGYaN9W7GpqpZUYB62xilARO98Pqu
+ ooz+Lk1KGzfjCrUlcRgRcTvd4HgM6vbN7z6x3JDy/07btIAMnk22fdVf5Z+tPIKKgIps
+ 7QdQ==
+X-Gm-Message-State: AOAM531b51q8LhCYAfUGJhDmehwmHCJIVmTzKQNczmO6oYBtVkbQ4/Vp
+ S0y3S3PF+Di9e1/tcj7NqSaF797kQu3IcA==
+X-Google-Smtp-Source: ABdhPJzzrkh6gQgqiKedXWcG8vwB8rm9H1M16ugKS/WmIF1120iGgKjHP7QYAKD5t0MTj5O4ZLzI0w==
+X-Received: by 2002:a63:7d0f:: with SMTP id y15mr14963752pgc.446.1634408131486; 
+ Sat, 16 Oct 2021 11:15:31 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
  by smtp.gmail.com with ESMTPSA id ob5sm5075097pjb.2.2021.10.16.11.15.30
- for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Oct 2021 11:15:30 -0700 (PDT)
+ Sat, 16 Oct 2021 11:15:31 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/24] target/ppc: Drop exit checks for singlestep_enabled
-Date: Sat, 16 Oct 2021 11:15:06 -0700
-Message-Id: <20211016181514.3165661-17-richard.henderson@linaro.org>
+Subject: [PULL 17/24] target/riscv: Remove dead code after exception
+Date: Sat, 16 Oct 2021 11:15:07 -0700
+Message-Id: <20211016181514.3165661-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211016181514.3165661-1-richard.henderson@linaro.org>
 References: <20211016181514.3165661-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,112 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GDB single-stepping is now handled generically.
-Reuse gen_debug_exception to handle architectural debug exceptions.
+We have already set DISAS_NORETURN in generate_exception,
+which makes the exit_tb unreachable.
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/translate.c | 38 ++++++++------------------------------
- 1 file changed, 8 insertions(+), 30 deletions(-)
+ target/riscv/insn_trans/trans_privileged.c.inc | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 9ca78ee156..c3c6cb9589 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -42,7 +42,6 @@
- 
- #define CPU_SINGLE_STEP 0x1
- #define CPU_BRANCH_STEP 0x2
--#define GDBSTUB_SINGLE_STEP 0x4
- 
- /* Include definitions for instructions classes and implementations flags */
- /* #define PPC_DEBUG_DISAS */
-@@ -333,7 +332,7 @@ static uint32_t gen_prep_dbgex(DisasContext *ctx)
- 
- static void gen_debug_exception(DisasContext *ctx)
+diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
+index 32312be202..a7afcb15ce 100644
+--- a/target/riscv/insn_trans/trans_privileged.c.inc
++++ b/target/riscv/insn_trans/trans_privileged.c.inc
+@@ -22,8 +22,6 @@ static bool trans_ecall(DisasContext *ctx, arg_ecall *a)
  {
--    gen_helper_raise_exception(cpu_env, tcg_constant_i32(EXCP_DEBUG));
-+    gen_helper_raise_exception(cpu_env, tcg_constant_i32(gen_prep_dbgex(ctx)));
-     ctx->base.is_jmp = DISAS_NORETURN;
+     /* always generates U-level ECALL, fixed in do_interrupt handler */
+     generate_exception(ctx, RISCV_EXCP_U_ECALL);
+-    exit_tb(ctx); /* no chaining */
+-    ctx->base.is_jmp = DISAS_NORETURN;
+     return true;
  }
  
-@@ -4309,15 +4308,8 @@ static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
+@@ -60,13 +58,11 @@ static bool trans_ebreak(DisasContext *ctx, arg_ebreak *a)
+         post   = opcode_at(&ctx->base, post_addr);
+     }
  
- static void gen_lookup_and_goto_ptr(DisasContext *ctx)
- {
--    int sse = ctx->singlestep_enabled;
--    if (unlikely(sse)) {
--        if (sse & GDBSTUB_SINGLE_STEP) {
--            gen_debug_exception(ctx);
--        } else if (sse & (CPU_SINGLE_STEP | CPU_BRANCH_STEP)) {
--            gen_helper_raise_exception(cpu_env, tcg_constant_i32(gen_prep_dbgex(ctx)));
--        } else {
--            tcg_gen_exit_tb(NULL, 0);
--        }
-+    if (unlikely(ctx->singlestep_enabled)) {
-+        gen_debug_exception(ctx);
+-    if  (pre == 0x01f01013 && ebreak == 0x00100073 && post == 0x40705013) {
++    if (pre == 0x01f01013 && ebreak == 0x00100073 && post == 0x40705013) {
+         generate_exception(ctx, RISCV_EXCP_SEMIHOST);
      } else {
-         tcg_gen_lookup_and_goto_ptr();
+         generate_exception(ctx, RISCV_EXCP_BREAKPOINT);
      }
-@@ -8563,17 +8555,11 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->singlestep_enabled = 0;
-     if ((hflags >> HFLAGS_SE) & 1) {
-         ctx->singlestep_enabled |= CPU_SINGLE_STEP;
-+        ctx->base.max_insns = 1;
-     }
-     if ((hflags >> HFLAGS_BE) & 1) {
-         ctx->singlestep_enabled |= CPU_BRANCH_STEP;
-     }
--    if (unlikely(ctx->base.singlestep_enabled)) {
--        ctx->singlestep_enabled |= GDBSTUB_SINGLE_STEP;
--    }
--
--    if (ctx->singlestep_enabled & (CPU_SINGLE_STEP | GDBSTUB_SINGLE_STEP)) {
--        ctx->base.max_insns = 1;
--    }
+-    exit_tb(ctx); /* no chaining */
+-    ctx->base.is_jmp = DISAS_NORETURN;
+     return true;
  }
  
- static void ppc_tr_tb_start(DisasContextBase *db, CPUState *cs)
-@@ -8642,7 +8628,6 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     DisasJumpType is_jmp = ctx->base.is_jmp;
-     target_ulong nip = ctx->base.pc_next;
--    int sse;
- 
-     if (is_jmp == DISAS_NORETURN) {
-         /* We have already exited the TB. */
-@@ -8650,8 +8635,8 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     }
- 
-     /* Honor single stepping. */
--    sse = ctx->singlestep_enabled & (CPU_SINGLE_STEP | GDBSTUB_SINGLE_STEP);
--    if (unlikely(sse)) {
-+    if (unlikely(ctx->singlestep_enabled & CPU_SINGLE_STEP)
-+        && (nip <= 0x100 || nip > 0xf00)) {
-         switch (is_jmp) {
-         case DISAS_TOO_MANY:
-         case DISAS_EXIT_UPDATE:
-@@ -8665,15 +8650,8 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-             g_assert_not_reached();
-         }
- 
--        if (sse & GDBSTUB_SINGLE_STEP) {
--            gen_debug_exception(ctx);
--            return;
--        }
--        /* else CPU_SINGLE_STEP... */
--        if (nip <= 0x100 || nip > 0xf00) {
--            gen_helper_raise_exception(cpu_env, tcg_constant_i32(gen_prep_dbgex(ctx)));
--            return;
--        }
-+        gen_debug_exception(ctx);
-+        return;
-     }
- 
-     switch (is_jmp) {
 -- 
 2.25.1
 
