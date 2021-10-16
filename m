@@ -2,80 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FDB8430408
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 20:00:43 +0200 (CEST)
-Received: from localhost ([::1]:35370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD2443040B
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Oct 2021 20:03:08 +0200 (CEST)
+Received: from localhost ([::1]:38934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbnz9-0005ww-0N
-	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 14:00:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38838)
+	id 1mbo1T-0008QV-CJ
+	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 14:03:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbnxc-0004SY-Ux
- for qemu-devel@nongnu.org; Sat, 16 Oct 2021 13:59:08 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:35459)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbnxa-0007rl-BN
- for qemu-devel@nongnu.org; Sat, 16 Oct 2021 13:59:08 -0400
-Received: by mail-pf1-x429.google.com with SMTP id c29so11269598pfp.2
- for <qemu-devel@nongnu.org>; Sat, 16 Oct 2021 10:59:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=l7qs+A1Pq4TD8K3u+O3HYRW1+gL4xGrgU6xC091a6Ok=;
- b=RAl9bPR/bpTz6lBcJv+9InLkLMrjYGDSqkYcinMPg9ohiGb8GJybbrhnaf7yZU19nj
- EnaxJBOOfqDyzLPkjH824bMcRI1jqlIFAHIk1ab6Xp2AlNoKYtN0neBw3KyJjOZrDcSh
- q32EYDTDK8kREWcjCdbZakVxdU7PMDC5BFI3Z3RLybchBr5ZQgVI3rXHSU0G57Uclt/r
- 6cPWkHzThi1yoaFl6KqR89X25uOgx4KuaY2J6UoScwwJR7zw0rk9li/dPRAj5hI1c9jK
- cHuv+N82YjiGzbO0V8IBDs7GBn61v20wZXZPV+H8n3AhDnhrtfUYLJHTMsOPY0s4k7bk
- dmlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=l7qs+A1Pq4TD8K3u+O3HYRW1+gL4xGrgU6xC091a6Ok=;
- b=JkgfWoXoyiBsX7WssLvNPG69l19WW4Kts3GAGcV+YEOehllgJw9PSIOiAvUHsEwL3L
- PU+1TxqHFjxJARbtOVmSTGRgfz3gcNzS4wK13kUOdchTxenbKe8i2SbWl66FfMClGQAl
- nuYmoKz0TEl8LqN7FdyeqB/VqpNXilgyCdS/aP5KLYU89mCByy/Q15+o+l9hID4q78cP
- ygCcsisDB3lDXnisZp8HRTDqoyq+jh0t0DG51kYMH56nJ5FzTreTRYM+KMmm35sRNHjq
- tzjYi8s0V5UkmcoF259YGyEOQ3XaYU7yMT4qktKCkpATE+VIwhb6rWgyhkdMKzUEWAYZ
- fb7g==
-X-Gm-Message-State: AOAM532kiIqm+seXZA7MvqhJYbAiLzdmQHdUFWufu1vcF6n5QxNCzkrI
- roV9iJShJIwEYhjZIK7wLxwDiw==
-X-Google-Smtp-Source: ABdhPJwcN2fqbhXxPN1hgvkgzX8a0M27jjnKysAbuJC5jTfo/ID7xAvQg9yNBibo3reRVBnD/VNXQA==
-X-Received: by 2002:a63:dc03:: with SMTP id s3mr14771852pgg.88.1634407144824; 
- Sat, 16 Oct 2021 10:59:04 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id a30sm8433146pfr.64.2021.10.16.10.59.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 16 Oct 2021 10:59:04 -0700 (PDT)
-Subject: Re: [PATCH v4 1/2] softfloat: add APIs to handle alternative sNaN
- propagation for fmax/fmin
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20211016085428.3001501-1-frank.chang@sifive.com>
- <20211016085428.3001501-2-frank.chang@sifive.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9dd37c01-835b-536a-c0ba-3ef23bbbfa42@linaro.org>
-Date: Sat, 16 Oct 2021 10:59:02 -0700
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbnzE-00075o-9G
+ for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:00:49 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:44751)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mbnz6-00055d-WC
+ for qemu-devel@nongnu.org; Sat, 16 Oct 2021 14:00:47 -0400
+Received: from [192.168.100.1] ([82.142.24.54]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1Mati7-1n87bB3FUZ-00cNu0; Sat, 16 Oct 2021 20:00:38 +0200
+Subject: Re: [PATCH 5/8] q800: wire up auxmode GPIO to GLUE
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20211013212132.31519-1-mark.cave-ayland@ilande.co.uk>
+ <20211013212132.31519-6-mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <982340c3-7fa6-2a07-6f8b-4a97ab81a294@vivier.eu>
+Date: Sat, 16 Oct 2021 20:00:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20211016085428.3001501-2-frank.chang@sifive.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211013212132.31519-6-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:p14Ro+jcRKBkKUQlE2jzM0cJVt7KXJAP8wCBiQeZKy86UH3nKJm
+ t5Th4r+t0hn8ciO8Ma6cptd7FpjuLcYTONnhyw/Aj6b76fv5obasMnQJcW06jf+FPeYB4En
+ khlUxZPcwfCt9uwwJzOtR7lv0GyD8TeT4LzhKMalj8tg6PkDFR3DaHVgP+xl1uwXKsiKlGH
+ +IjYor/jNv/CQo2WXrn/A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:17kG+LqaweA=:fw6Eug2Gb6Bz0okG4RFPil
+ oUrkKIE8/1TODwhQmJjdhk5Z+uAWJdLeadeNtfIHr/DZXECCsJru+T37Ju13MOSnooUjSH/q7
+ k9GtJIUlr1dJL0cfPo6DyeUVvphLapu461Of02ISIaME5WQiXStCar5shsWa3UtVFlO2HvaHc
+ vQgoXxDryNbFNE880tZMhmtYetbRb63tdEBh+9pzReVph7T8RRvmpPpSCM8sLyyM21dWi/qiT
+ J1zJq+MOHS6mh3zaUPDRHu/tL3sthZwFjg272D7N3W/6Xf3CBJNtB09Tn1SPSwKl7CZfrpvkO
+ FkCIH8dyjYbZVTBctID4N3nm1OdjoiLp674cQaWKDdOV8uriSyZ/zUHsMcUdza2HfGnAeZEBl
+ EOrMatS18Z/IdZmfwrZKohGxeGbG0Dv6qv56eh583JBR9K/xS57AhQsOoIIDPdvelniQzigjM
+ ALdEcZsKwitSheX/4NRNzbtqedHQzgNCEPsNSeQ+MizW7iBGhOZgyhDykYmVYY1ZkJvH++N1I
+ hVMwIfXoNJJBaSpGgBS6O0yjIVQCrg1MkZz8QZ8mBsyzOIDY9wPi2Y/pIrh1oQTPB1nMOp6hu
+ vjlSJ9j2m+XZ7QTPgMMT5wZgVQEPdGyzvV2UjIqwcIx0gWYVrsI662uTmZikLP5pk/+l0Im2t
+ m0Hm8C5Bmcfym5LNCfPZEbxaogagLECIjwrySG5vQhDKsxPLKVFqHGut+bNxgKtNjnZDXRFCH
+ SHu5k6Qls8GvL7bkAqRBe4OX9rGe5I+75GWbeQ==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,39 +70,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chih-Min Chao <chihmin.chao@sifive.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/16/21 1:54 AM, frank.chang@sifive.com wrote:
-> From: Chih-Min Chao<chihmin.chao@sifive.com>
+Le 13/10/2021 à 23:21, Mark Cave-Ayland a écrit :
+> This enables the GLUE logic to change its CPU level IRQ routing depending upon
+> whether the hardware has been configured for A/UX mode.
 > 
-> For "fmax/fmin ft0, ft1, ft2" and if one of the inputs is sNaN,
-> 
->    The original logic:
->      Return NaN and set invalid flag if ft1 == sNaN || ft2 == sNan.
-> 
->    The alternative path:
->      Set invalid flag if ft1 == sNaN || ft2 == sNaN.
->      Return NaN only if ft1 == NaN && ft2 == NaN.
-> 
-> The IEEE 754 spec allows both implementation and some architecture such
-> as riscv choose different defintions in two spec versions.
-> (riscv-spec-v2.2 use original version, riscv-spec-20191213 changes to
->   alternative)
-> 
-> Signed-off-by: Chih-Min Chao<chihmin.chao@sifive.com>
-> Signed-off-by: Frank Chang<frank.chang@sifive.com>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->   fpu/softfloat-parts.c.inc | 25 +++++++++++++++++++++++--
->   fpu/softfloat.c           | 19 +++++++++++++------
->   include/fpu/softfloat.h   | 10 ++++++++++
->   3 files changed, 46 insertions(+), 8 deletions(-)
+>  hw/m68k/q800.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+> index 81c335bf16..0093872d89 100644
+> --- a/hw/m68k/q800.c
+> +++ b/hw/m68k/q800.c
+> @@ -100,6 +100,7 @@ struct GLUEState {
+>      SysBusDevice parent_obj;
+>      M68kCPU *cpu;
+>      uint8_t ipr;
+> +    uint8_t auxmode;
+>  };
+>  
+>  #define GLUE_IRQ_IN_VIA1       0
+> @@ -145,11 +146,19 @@ static void GLUE_set_irq(void *opaque, int irq, int level)
+>      m68k_set_irq_level(s->cpu, 0, 0);
+>  }
+>  
+> +static void glue_auxmode_set_irq(void *opaque, int irq, int level)
+> +{
+> +    GLUEState *s = GLUE(opaque);
+> +
+> +    s->auxmode = level;
+> +}
+> +
+>  static void glue_reset(DeviceState *dev)
+>  {
+>      GLUEState *s = GLUE(dev);
+>  
+>      s->ipr = 0;
+> +    s->auxmode = 0;
+>  }
+>  
+>  static const VMStateDescription vmstate_glue = {
+> @@ -158,6 +167,7 @@ static const VMStateDescription vmstate_glue = {
+>      .minimum_version_id = 0,
+>      .fields = (VMStateField[]) {
+>          VMSTATE_UINT8(ipr, GLUEState),
+> +        VMSTATE_UINT8(auxmode, GLUEState),
+>          VMSTATE_END_OF_LIST(),
+>      },
+>  };
+> @@ -178,6 +188,7 @@ static void glue_init(Object *obj)
+>      DeviceState *dev = DEVICE(obj);
+>  
+>      qdev_init_gpio_in(dev, GLUE_set_irq, 8);
+> +    qdev_init_gpio_in_named(dev, glue_auxmode_set_irq, "auxmode", 1);
+>  }
+>  
+>  static void glue_class_init(ObjectClass *klass, void *data)
+> @@ -308,6 +319,9 @@ static void q800_init(MachineState *machine)
+>      sysbus_realize_and_unref(sysbus, &error_fatal);
+>      sysbus_mmio_map(sysbus, 1, VIA_BASE);
+>      sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, GLUE_IRQ_IN_VIA1));
+> +    /* A/UX mode */
+> +    qdev_connect_gpio_out(via1_dev, 0,
+> +                          qdev_get_gpio_in_named(glue, "auxmode", 0));
+>  
+>      adb_bus = qdev_get_child_bus(via1_dev, "adb.0");
+>      dev = qdev_new(TYPE_ADB_KEYBOARD);
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
