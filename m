@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A037430CCF
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 01:02:21 +0200 (CEST)
-Received: from localhost ([::1]:45166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC87B430CCE
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 00:58:49 +0200 (CEST)
+Received: from localhost ([::1]:38346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcFAa-0008Nn-Gj
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 19:02:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58094)
+	id 1mcF7A-0003lF-Up
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 18:58:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcF2C-0004aQ-BP
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:53:40 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36354)
+ id 1mcF2H-0004fI-7i
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:53:45 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcF2A-0000RH-Sh
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:53:40 -0400
-Received: by mail-wr1-x430.google.com with SMTP id o20so37912288wro.3
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 15:53:38 -0700 (PDT)
+ id 1mcF2F-0000V4-Ob
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:53:44 -0400
+Received: by mail-wr1-x433.google.com with SMTP id v17so37762179wrv.9
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 15:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=E7ZOWz1dqlyuDuaBH4MOae8nY6kvv2jHAcqCGnp8bCU=;
- b=GLkhx14j8yQC1rw4qmvomPHcyZ9v8dJ9LdsoupN8IXdIuxDPwF4l4CX/Nx1Mk2zmsH
- 150ygLCC/4be7CplfAyf+JbQ7IdYI4p44AEo8c7whH8onwvQjWSzkXh+E3vhigAhSqdO
- 2HrMEQ51UD3SE4F6vzyHFybtSemuYF8wjb9wh9vkvbtMsi/3bWCPOp0K5tV/HhEUZgbD
- nM/MSHPJFhq+4JYd2BNdDZ89CN78zA4PmZ22VdSOdKTVjii96Fv23Tcck3a5lH1Ecyx6
- ht0grXQRf0LOXkMhUk5ErMuIkcAp4xh22ZdBrZgTYq8Asi/waqt7Q+sdgxd6lNRKr2jY
- xQTQ==
+ bh=VkAqLI31u+CpladBFCKFa8JbOaSADiFIq/q3d5+qh7s=;
+ b=hve08zlhs31YAjBCzR3Cvsleh7PeaGkfVzYLFAtZfQSZDd/v57xpxFCP1j6sROamUU
+ e5RBkAFCrFR9CfBSYiRrgvv9QU2W+DTlEHWEHKtTcAY++cEhaz8/SDi4pjOAPOaWVkXK
+ vzk1c5zVwuq1vlELiEo3GBGHTNUi4hWKs6jpV2jeq4WGZTtPs4GYELt/iK/biXVqSz/4
+ uUPVQolhmf3gdYTiRPS5y6gW1/wXhVGfllP78ai1e+eynVvm/CzM8Z/SbCoauy+zex+p
+ zmC36QDsJg27ygX+cHIjroLPZytR/PeVvfHtxAT47pZCAHvdoBy8IDxW73dbKqTqSrMw
+ db1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=E7ZOWz1dqlyuDuaBH4MOae8nY6kvv2jHAcqCGnp8bCU=;
- b=wbBynUOFDQ1ZWA2yeVQAPNHmvmRW/VkVoqBEa5nYa399hVLmRZwnphm3VccLjMxYiw
- g+QCwBhUQhKA7hhnBuUnQJCOGHfv/sNmT6X/XIEyXHdSBu/mRWENk232+CKLUtzqTc/Z
- mDvQRPQ2Dk8zvAXI2pzACmLB/mdxpReMoW2+X7jFM5jCzny4qs0QzazCU65bKmLJIp9G
- Y/eHcIM0IaH7qilSqybF4rTItL6SPxlEYdEPBrxzfFjOl4PJw3tnFNsGIi3KEwsZnCgl
- 9LZUiioZlzZIk9w5HRSWwmRIQJIxDl3slmT99xVBUCnoXXKPMYLGSoeZItQUGylSvj51
- xLeQ==
-X-Gm-Message-State: AOAM533YQGrVy4UF8gcQOVXh8XWYFWeVO3PAIB8Fb3qtXHYNeX4bakb5
- GRpW2cihJ4pqj0g1uy/aYlmCBJf0DrE=
-X-Google-Smtp-Source: ABdhPJzx9hldujAUa8dVJlq5IHwVOvAonR5lXX6CYHOs+rvgwYiYvuOrJTYHvyEYi9/X5c24WF36jg==
-X-Received: by 2002:adf:a455:: with SMTP id e21mr30657937wra.232.1634511217399; 
- Sun, 17 Oct 2021 15:53:37 -0700 (PDT)
+ bh=VkAqLI31u+CpladBFCKFa8JbOaSADiFIq/q3d5+qh7s=;
+ b=EDjZGqbAy7qcz+CZMN+vYmbdqLloCzrNcz1ZtZW/X7RZr418lkz8uEwKFnG+TgAIxw
+ VIWccSzKVcSSUGJi3Pw+ifYN6VbkIFifcc54QZ8vkOmXCJpkMKizaxYm3t1PeDMyn2dK
+ 8PAi3fI9Fpwv7mV3gtiJWxrXNdl7ad6dDwwnFXxzcLcOVW0Ctsi6FcIEflzJ3DQuVaTX
+ UnvDWyQbzu9BUF+PvWS4aBWhSx4i0CmPnlJJTGMfsEG65rZtLbJSpgBBrXEJGTNDQxaE
+ rFbZtTRewHglfiHi80Sz0UwS2q10krXxelZ+atRRmVXvZPNtNA9m8Wd68ol1hr3S+5YV
+ kH9w==
+X-Gm-Message-State: AOAM5314PVuXRJOg/gaXkmlZkDAzFUGqWUNGu1htKoFIMwaCXPMhq8/J
+ Q4qdTgLhh8ipHeagnvNh3ty7iivuhgs=
+X-Google-Smtp-Source: ABdhPJxniw/9/5vLHSrcTDXfkzuB/lQvEtS7tdMeRhbKlhONEj/MA58JMEW9J32/z5hj6wyRLMi8kQ==
+X-Received: by 2002:a05:6000:188e:: with SMTP id
+ a14mr30174981wri.223.1634511222277; 
+ Sun, 17 Oct 2021 15:53:42 -0700 (PDT)
 Received: from x1w.. (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id v3sm11035849wrg.23.2021.10.17.15.53.36
+ by smtp.gmail.com with ESMTPSA id u2sm10576007wrr.35.2021.10.17.15.53.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Oct 2021 15:53:36 -0700 (PDT)
+ Sun, 17 Oct 2021 15:53:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/17] target/mips: Use explicit extract32() calls in
- gen_msa_i5()
-Date: Mon, 18 Oct 2021 00:52:38 +0200
-Message-Id: <20211017225245.2618892-11-f4bug@amsat.org>
+Subject: [PULL 11/17] target/mips: Use tcg_constant_tl() in
+ gen_compute_compact_branch()
+Date: Mon, 18 Oct 2021 00:52:39 +0200
+Message-Id: <20211017225245.2618892-12-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211017225245.2618892-1-f4bug@amsat.org>
 References: <20211017225245.2618892-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,40 +94,34 @@ Cc: Huacai Chen <chenhuacai@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already use sextract32(), use extract32() for completeness
-instead of open-coding it.
+The offset is constant and read-only: move it to the constant pool.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211003175743.3738710-7-f4bug@amsat.org>
+Message-Id: <20211003175743.3738710-9-f4bug@amsat.org>
 ---
- target/mips/tcg/msa_translate.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ target/mips/tcg/translate.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
-index e107cad57ee..3ef912da6b8 100644
---- a/target/mips/tcg/msa_translate.c
-+++ b/target/mips/tcg/msa_translate.c
-@@ -473,15 +473,12 @@ static void gen_msa_i8(DisasContext *ctx)
- static void gen_msa_i5(DisasContext *ctx)
- {
- #define MASK_MSA_I5(op)    (MASK_MSA_MINOR(op) | (op & (0x7 << 23)))
--    uint8_t df = (ctx->opcode >> 21) & 0x3;
-     int8_t s5 = (int8_t) sextract32(ctx->opcode, 16, 5);
--    uint8_t u5 = (ctx->opcode >> 16) & 0x1f;
--    uint8_t ws = (ctx->opcode >> 11) & 0x1f;
--    uint8_t wd = (ctx->opcode >> 6) & 0x1f;
-+    uint8_t u5 = extract32(ctx->opcode, 16, 5);
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index 0e59b97190f..5fdeb67e82b 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -11857,13 +11857,11 @@ static void gen_compute_compact_branch(DisasContext *ctx, uint32_t opc,
+         } else {
+             /* OPC_JIC, OPC_JIALC */
+             TCGv tbase = tcg_temp_new();
+-            TCGv toffset = tcg_temp_new();
++            TCGv toffset = tcg_constant_tl(offset);
  
--    TCGv_i32 tdf = tcg_const_i32(df);
--    TCGv_i32 twd = tcg_const_i32(wd);
--    TCGv_i32 tws = tcg_const_i32(ws);
-+    TCGv_i32 tdf = tcg_const_i32(extract32(ctx->opcode, 21, 2));
-+    TCGv_i32 twd = tcg_const_i32(extract32(ctx->opcode, 11, 5));
-+    TCGv_i32 tws = tcg_const_i32(extract32(ctx->opcode, 6, 5));
-     TCGv_i32 timm = tcg_temp_new_i32();
-     tcg_gen_movi_i32(timm, u5);
- 
+             gen_load_gpr(tbase, rt);
+-            tcg_gen_movi_tl(toffset, offset);
+             gen_op_addr_add(ctx, btarget, tbase, toffset);
+             tcg_temp_free(tbase);
+-            tcg_temp_free(toffset);
+         }
+         break;
+     default:
 -- 
 2.31.1
 
