@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251F6430AB5
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 18:26:14 +0200 (CEST)
-Received: from localhost ([::1]:37462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 468C5430AB9
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 18:26:48 +0200 (CEST)
+Received: from localhost ([::1]:40020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mc8zE-0000GD-Ve
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 12:26:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60322)
+	id 1mc8zn-00021P-DD
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 12:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mc8wy-0007Ct-JG
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:23:54 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33741)
+ id 1mc8xz-0008F3-3l
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:24:55 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mc8wx-0007ml-71
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:23:52 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id m22so36776242wrb.0
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 09:23:50 -0700 (PDT)
+ id 1mc8xx-00009x-5l
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:24:54 -0400
+Received: by mail-wr1-x431.google.com with SMTP id u18so36723993wrg.5
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 09:24:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=fsucXqs6CLImagUaMLqrKH5/2E3Ejo6Xa5YgqTTmKvM=;
- b=H5oR9N6E7L/c3uvb4mxfVZCT1oILbFRBOTJV5LvCdMte07EOfp0IRE+cby21ufNEWQ
- qdEnYNEiByo5AQ7V2JI5I9laBHHgJo2LT0RnpAuVkXkVoUal98QIgFYXkh0+KRtsV+TA
- Vhh0d8of/7eCRs3KgvaLLH11fohI0rsMAI3T2TXBZfGTDPwF742lrUrcV3LaOVGkIb2r
- +aKpF/dyBiBASAR69+T0N09qDdAR/GqgqqQiFVJ16nhlKo3xAJUDQEhibM0vHqQu8Ode
- NxsMOaRxVrWhiTsZ170VDZH2Gxp0SYB/5ygL7ym7J3dCx5UAbXOiDMzcVibjazymXkrd
- xH8Q==
+ bh=/EwZAUknc46JOANRHdohAicnTn3LgxAiln3z0TsSxTU=;
+ b=dWmNhrMhtuLI/LPdM7Ou+JETkPmrguYeiPeu6uJYOB3DJAajjZo7B/z+/cMTNWKgMu
+ QEd5ANrY4p/LDsTK17c3d1+eZ/wXr31ejUqdF3Y0EsRMWCF8YbcSwS+DOGkMosp20JnW
+ vY9VBFQwQlKkMEZV139g3UjE9I9fQ0k9OpV5SbKipjtZXv7o80bzXcrBk6uw/st7fXDI
+ iX4xpTPFyBmV3mJQ1nj/43ILcDhRp2osP5xTJZOZX464J5A7em5b/TRsC0RGkcZmDIni
+ +Gyb5fDPpfBSHNDEjtXUpWzq6OQZXOZQ0BfpuMcwAYMj2dE/wrUsUDtDB1yID9zjfB3M
+ 1eOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=fsucXqs6CLImagUaMLqrKH5/2E3Ejo6Xa5YgqTTmKvM=;
- b=vLK5snhZxU+KoIVvN5hL8B4x+Ylt2d1eErYJGuqvdyeU7jbLUrRdtnS2aUyyCX2cX7
- 1TRtL+m+tBCK6c9Y/FUckteTYYI0Rg5i8pOsE4N/kzSDbiMr3jUV2B57Xma1USqSK1UY
- wc3oWYfup3HQTAlHJJZLNKW/SixDkM9s4XoBLrPzhnhto+utW4gFAnsSltub4h/s+2Ot
- /rhqniOj0VKpvFsyLxVsA5fp6Ov34eOcXLJwkA1NglvgR7RTychhNQtTHPn8PofYqqFk
- ibl3E12x+SpGIwEgDdTBr9abYxEKpkLLIkU5s82u/XIJdoC7HtWUAPu+Pyh797P2swHD
- 5fiQ==
-X-Gm-Message-State: AOAM531DKBDeHNnmi4dWQq3+VDFRyuULcgaY/IQYpUDth4uiZ3Q9XSxH
- jTIdq3cED2SNCR1ejaDRAEU=
-X-Google-Smtp-Source: ABdhPJzINvBywL/vZq92aMLuJXg3meHPSIoSvn7MY0dA3CY90W4MdtGCnSiDIsGpyAeMnHAq7dZjOQ==
-X-Received: by 2002:adf:bd8a:: with SMTP id l10mr29482362wrh.159.1634487829813; 
- Sun, 17 Oct 2021 09:23:49 -0700 (PDT)
+ bh=/EwZAUknc46JOANRHdohAicnTn3LgxAiln3z0TsSxTU=;
+ b=5ukqFO9ODUk9DrSzzoU18WUxL5dfkJ4Id5QsTXyo75Vc7wOxOCXofhJUd7ownhVKOq
+ A1ZsYEqVy9JFIbHlBE8CeV4S+Fk1ZAs0oYfhobo6YN814Ycs87e8i2NTDB0DmXjzZy4h
+ YnlvzrvXLfUg3eW8wlh6FfSjYDI+F456u1RmwlGtS+k+OOjIO1zitaiUZo+M5GyYg8lN
+ tdX7n+fYcFqgs2hTGrmz9ZuGo7OsWoXNbIHaNvK0CHAxl5bqDjEFBYeh8MmcUy13CwS2
+ VVc/0zEY+LBNgQq4kXM6owRkQO6HvCtQFDo1IIMCd0o2vqD+yeFIDgyr3Sjqq6gRnJkt
+ mCaQ==
+X-Gm-Message-State: AOAM533qGOje4B189PmHy5GKEHBI39B955zHr+B0n7xkRjkKvajaOp6K
+ zPQZ7naoUcIi3Cac6yKFJ711gUJ4vIw=
+X-Google-Smtp-Source: ABdhPJx2NWpd7KH5TFXkRKxlDxm8hZNDEktuVa3GNjEWWKsz3AyuE1rAuYgstl8AO0jxaFDamsLyWA==
+X-Received: by 2002:adf:8bd2:: with SMTP id w18mr29184273wra.432.1634487891738; 
+ Sun, 17 Oct 2021 09:24:51 -0700 (PDT)
 Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id l13sm10209272wrn.79.2021.10.17.09.23.47
+ by smtp.gmail.com with ESMTPSA id 196sm10266837wme.20.2021.10.17.09.24.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 17 Oct 2021 09:23:49 -0700 (PDT)
-Message-ID: <59b984ce-2e03-210c-4c43-e8a841e54c15@amsat.org>
-Date: Sun, 17 Oct 2021 18:23:47 +0200
+ Sun, 17 Oct 2021 09:24:51 -0700 (PDT)
+Message-ID: <de64ff78-3fdc-b81a-23f0-7ed39849fa7b@amsat.org>
+Date: Sun, 17 Oct 2021 18:24:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 2/4] vt82c686: Add a method to VIA_ISA to raise ISA
- interrupts
+Subject: Re: [PATCH 3/4] hw/usb/vt82c686-uhci-pci: Avoid using isa_get_irq()
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1634259980.git.balaton@eik.bme.hu>
- <778c04dc2c8affac060b8edf9e8d7dab3c3e04eb.1634259980.git.balaton@eik.bme.hu>
+ <228ffba872d7870392270b36910ac8250cd7ff96.1634259980.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <778c04dc2c8affac060b8edf9e8d7dab3c3e04eb.1634259980.git.balaton@eik.bme.hu>
+In-Reply-To: <228ffba872d7870392270b36910ac8250cd7ff96.1634259980.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,15 +95,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/15/21 03:06, BALATON Zoltan wrote:
-> Other functions in the VT82xx chips need to raise ISA interrupts. Keep
-> a reference to them in the device state and add via_isa_set_irq() to
-> allow setting their state.
+> Use via_isa_set_irq() which better encapsulates irq handling in the
+> vt82xx model and avoids using isa_get_irq() that has a comment saying
+> it should not be used.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->  hw/isa/vt82c686.c         | 10 +++++++++-
->  include/hw/isa/vt82c686.h |  4 ++++
->  2 files changed, 13 insertions(+), 1 deletion(-)
+>  hw/usb/vt82c686-uhci-pci.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
