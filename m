@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC87B430CCE
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 00:58:49 +0200 (CEST)
-Received: from localhost ([::1]:38346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB66430CD7
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 01:09:15 +0200 (CEST)
+Received: from localhost ([::1]:56408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcF7A-0003lF-Up
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 18:58:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58110)
+	id 1mcFHG-0007ga-Ck
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 19:09:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcF2H-0004fI-7i
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:53:45 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42531)
+ id 1mcF2N-0004o6-IJ
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:53:51 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:55268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcF2F-0000V4-Ob
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:53:44 -0400
-Received: by mail-wr1-x433.google.com with SMTP id v17so37762179wrv.9
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 15:53:43 -0700 (PDT)
+ id 1mcF2K-0000ZN-Q2
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:53:51 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id g2so7159455wme.4
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 15:53:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VkAqLI31u+CpladBFCKFa8JbOaSADiFIq/q3d5+qh7s=;
- b=hve08zlhs31YAjBCzR3Cvsleh7PeaGkfVzYLFAtZfQSZDd/v57xpxFCP1j6sROamUU
- e5RBkAFCrFR9CfBSYiRrgvv9QU2W+DTlEHWEHKtTcAY++cEhaz8/SDi4pjOAPOaWVkXK
- vzk1c5zVwuq1vlELiEo3GBGHTNUi4hWKs6jpV2jeq4WGZTtPs4GYELt/iK/biXVqSz/4
- uUPVQolhmf3gdYTiRPS5y6gW1/wXhVGfllP78ai1e+eynVvm/CzM8Z/SbCoauy+zex+p
- zmC36QDsJg27ygX+cHIjroLPZytR/PeVvfHtxAT47pZCAHvdoBy8IDxW73dbKqTqSrMw
- db1A==
+ bh=1Ipg4rEL1PD1s9Pg/ZyG3hwX3rS3qq/i9aj3O/bGivs=;
+ b=eYN/K4JpcuYYkOIJQId9wHXAcgg0kdev+hCPY/k2ITLRGsSIAEl7MFsbswb/QOLtu0
+ 42EdAjzLqYNODGb0S+xT/ZmUrdywU1Ze3sx3gC/DbXqd7Bx4jypqe4OdTOccyEoGaTBN
+ +zSggBWU8ALrfdc9Ri3lwlMgGQmhaumFJ0q7C8IOHlT+bWnLmHmw9qO9bXwVrNtf9jh7
+ PEqwx6ldAK1EXaQq5Nrm6eYfjDlh1rXfxkTeed7u6jeHCegL1VxMvlUzq5QOw/V+/VNa
+ DtuYHKwam2Q6bTWozmYOA1bw93d8xfhUNmieHcLgA3cHDh8LGcnDXQLS9ccZqRwH8CxQ
+ lHdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=VkAqLI31u+CpladBFCKFa8JbOaSADiFIq/q3d5+qh7s=;
- b=EDjZGqbAy7qcz+CZMN+vYmbdqLloCzrNcz1ZtZW/X7RZr418lkz8uEwKFnG+TgAIxw
- VIWccSzKVcSSUGJi3Pw+ifYN6VbkIFifcc54QZ8vkOmXCJpkMKizaxYm3t1PeDMyn2dK
- 8PAi3fI9Fpwv7mV3gtiJWxrXNdl7ad6dDwwnFXxzcLcOVW0Ctsi6FcIEflzJ3DQuVaTX
- UnvDWyQbzu9BUF+PvWS4aBWhSx4i0CmPnlJJTGMfsEG65rZtLbJSpgBBrXEJGTNDQxaE
- rFbZtTRewHglfiHi80Sz0UwS2q10krXxelZ+atRRmVXvZPNtNA9m8Wd68ol1hr3S+5YV
- kH9w==
-X-Gm-Message-State: AOAM5314PVuXRJOg/gaXkmlZkDAzFUGqWUNGu1htKoFIMwaCXPMhq8/J
- Q4qdTgLhh8ipHeagnvNh3ty7iivuhgs=
-X-Google-Smtp-Source: ABdhPJxniw/9/5vLHSrcTDXfkzuB/lQvEtS7tdMeRhbKlhONEj/MA58JMEW9J32/z5hj6wyRLMi8kQ==
-X-Received: by 2002:a05:6000:188e:: with SMTP id
- a14mr30174981wri.223.1634511222277; 
- Sun, 17 Oct 2021 15:53:42 -0700 (PDT)
+ bh=1Ipg4rEL1PD1s9Pg/ZyG3hwX3rS3qq/i9aj3O/bGivs=;
+ b=FXZOEhZV9DS5/psUD5VCMjpIkrvw7cnEWDdHRbPq+bwsIScsTRBFFhbAfd0ZGb2mu5
+ 0Lt4waXc/I8Qd00jS4Tq9f4F8MyEGUZW5Or3w7rQzx07Ei4tfP9+SYP0X9GkTLqRBsxQ
+ Q0Z+y+W7Y540Y6xrI2E+rzRiOcHQmOLlwtP0wPagiCDBa8v3nt3PORv4r5q6HWXojxrj
+ 5uzMfKc2ZUP+7q2d76u/dIN/PJ7/3ggjDUU9xNyRwibpYGb1YBAj8L5kkEGaI+q5qsld
+ qozORKz9fBAMbUspR4+x2+46WqyKeSWyZKtBmVNeanMG3znsSgGnL8B0LJ9axd9XE0pm
+ 0HiA==
+X-Gm-Message-State: AOAM5319b1+GfxES6PVDsnJRgPyjFXZ/4VSfqeqLWnIlYjEUel7dhx+3
+ VrDtx36+AZ2R7p5h+Bh0WsJQUmmn+Fc=
+X-Google-Smtp-Source: ABdhPJxiFwBkoj2/Gl4WPOlNP1fv0JbciIWgHQJ1JkD7uq7yvMDDZVF56o/sZyeZBl1aCsvMcLG3+g==
+X-Received: by 2002:a05:600c:a45:: with SMTP id
+ c5mr26644248wmq.79.1634511227238; 
+ Sun, 17 Oct 2021 15:53:47 -0700 (PDT)
 Received: from x1w.. (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id u2sm10576007wrr.35.2021.10.17.15.53.41
+ by smtp.gmail.com with ESMTPSA id n66sm10900177wmn.2.2021.10.17.15.53.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Oct 2021 15:53:41 -0700 (PDT)
+ Sun, 17 Oct 2021 15:53:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/17] target/mips: Use tcg_constant_tl() in
- gen_compute_compact_branch()
-Date: Mon, 18 Oct 2021 00:52:39 +0200
-Message-Id: <20211017225245.2618892-12-f4bug@amsat.org>
+Subject: [PULL 12/17] target/mips: Fix DEXTRV_S.H DSP opcode
+Date: Mon, 18 Oct 2021 00:52:40 +0200
+Message-Id: <20211017225245.2618892-13-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211017225245.2618892-1-f4bug@amsat.org>
 References: <20211017225245.2618892-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,34 +93,43 @@ Cc: Huacai Chen <chenhuacai@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The offset is constant and read-only: move it to the constant pool.
+While for the DEXTR_S.H opcode:
 
+  "The shift argument is provided in the instruction."
+
+For the DEXTRV_S.H opcode we have:
+
+  "The five least-significant bits of register rs provide the
+   shift argument, interpreted as a five-bit unsigned integer;
+   the remaining bits in rs are ignored."
+
+While 't1' contains the 'rs' register content (the shift value
+for DEXTR_S.H), we need to load the value of 'rs' for DEXTRV_S.H.
+We can directly use the v1_t TCG register which already contains
+this shift value.
+
+Fixes: b53371ed5d4 ("target-mips: Add ASE DSP accumulator instructions")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211003175743.3738710-9-f4bug@amsat.org>
+Message-Id: <20211013215652.1764551-1-f4bug@amsat.org>
 ---
- target/mips/tcg/translate.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ target/mips/tcg/translate.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 0e59b97190f..5fdeb67e82b 100644
+index 5fdeb67e82b..519b00121f6 100644
 --- a/target/mips/tcg/translate.c
 +++ b/target/mips/tcg/translate.c
-@@ -11857,13 +11857,11 @@ static void gen_compute_compact_branch(DisasContext *ctx, uint32_t opc,
-         } else {
-             /* OPC_JIC, OPC_JIALC */
-             TCGv tbase = tcg_temp_new();
--            TCGv toffset = tcg_temp_new();
-+            TCGv toffset = tcg_constant_tl(offset);
- 
-             gen_load_gpr(tbase, rt);
--            tcg_gen_movi_tl(toffset, offset);
-             gen_op_addr_add(ctx, btarget, tbase, toffset);
-             tcg_temp_free(tbase);
--            tcg_temp_free(toffset);
-         }
-         break;
-     default:
+@@ -13796,8 +13796,7 @@ static void gen_mipsdsp_accinsn(DisasContext *ctx, uint32_t op1, uint32_t op2,
+             break;
+         case OPC_DEXTRV_S_H:
+             tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_dextr_s_h(cpu_gpr[ret], t0, t1, cpu_env);
++            gen_helper_dextr_s_h(cpu_gpr[ret], t0, v1_t, cpu_env);
+             break;
+         case OPC_DEXTRV_L:
+             tcg_gen_movi_tl(t0, v2);
 -- 
 2.31.1
 
