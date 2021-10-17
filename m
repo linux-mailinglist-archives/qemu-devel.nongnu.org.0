@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8668430A96
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 18:21:43 +0200 (CEST)
-Received: from localhost ([::1]:60432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A92430AB7
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 18:26:21 +0200 (CEST)
+Received: from localhost ([::1]:38044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mc8ur-000519-DS
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 12:21:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59802)
+	id 1mc8zM-0000gy-Ne
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 12:26:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mc8tF-0004En-US
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:20:01 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36464)
+ id 1mc8ve-0006BU-0G
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:22:30 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mc8tE-0004Yj-BY
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:20:01 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- z77-20020a1c7e50000000b0030db7b70b6bso7971683wmc.1
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 09:19:59 -0700 (PDT)
+ id 1mc8vb-0006fe-L4
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:22:29 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id o20so36659338wro.3
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 09:22:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=iI5imLQZmdrZlXgYd1RRVSMeEVLBAVTMSPAB/XpC99I=;
- b=VuIxlxc5v981TyxXz5/Yz+v0kN3RVLBXq1NKSlRI8s/vwOwrIdQ6jI5RAHJtTBFKqK
- 5zD4uJwD9SzB9nX8vAgl3yJTrCwiEJvujfR6JJJBIZQXDw/JNeqVP56x1I3TFcFkfZiQ
- qrpzd18kr5ilxUhIlbk4mVDm/FGMDRqbKu/ouySgIgm4WsR70Y76BukRoUVwNb3L2E5w
- jZI1Xpi58YiKlNkt0iCo9gp5fK2WhDO380ZyEWYxIIbsAJ1Ice+TQDR6l0ro2+VOhjuO
- cEhHasoztnrdmUzYQPWg+UjxroYEnWH4mSWsnHfYqdCMmORQ7aXA2rhM+LGcwOGN0Me/
- ERXg==
+ bh=s9NtwtayWLEpVUGYuUtLCFdMB0zfBP3KY87YX7Cf+BU=;
+ b=ZmCLz7TRWV10fEfmJpgWbpDzQKSZiNGl6g+2E4ZpvvvMfS6sDQ/R/p46B2x74m/2jq
+ aq/EOySHh3eInn1ySJILLzkK2wAxaASxFOzZKlrbpl6nDewO7yauJdDOd+Hb5fqZrV9Q
+ diZm4YWUPGv23F1KViBnOIa4SXQBfLXG1nubAnfHtoWpVPnS2FwP/JrC0BVXq0HFHpm7
+ sh/SsruY5O3a2DdAAMi510DHJMikRyZ7xdHOJlN7mNbG64s31UlqgKoU2mmY37dFvLEV
+ 5hTsxk44swkXmD7wJQR0MVpSpXm80qA+LgHFaeXU37/ix6j+bhs06XDOHJCdpnXRcwXQ
+ BLPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=iI5imLQZmdrZlXgYd1RRVSMeEVLBAVTMSPAB/XpC99I=;
- b=CvsBK3frwR1sITC82oEOO+Dhju9UaXq2Dj+GsBzt9YhQukmIka92t+VbkYMI9UhXGK
- VE4AkrJbK2wcLmWrGsSP23aEUEdqfUG0F1IAGlgJnY0V2LnrAxG7zRWW43eOStfWj39w
- r/V+n0jL2HaRKwerB6MJMgMCNOI3p+QhHpOh2AlMhxzYx+8iOJNTWXiUcv8JotSh5hA5
- dybfzKtIDZl9hr8bobOm4Z8pQmW/PPsduS2yA+sDk0SteTK/BJ/STI78xsvLE2sBsVP0
- qyNdWyHd2AKJrnBhzmw2dn6iPhSBgTS7TgNWAup/+hHklLMxm11y7ZYnfTfcLzdhyfq6
- 4eqQ==
-X-Gm-Message-State: AOAM531+5AFK1W+YZiqqY/b8JjR3RAE5g8ROtFqs8rISu84ZVrfC+ndW
- XGkKvl7JeEEq/urMnqZhjrU=
-X-Google-Smtp-Source: ABdhPJy5wtYWdjjqDx41fv1UtUNWdB88KhLP6QF2rkiDGNCMK//VMXZEJWxUyDqu3qtWIhWsuWZwwg==
-X-Received: by 2002:a05:600c:350f:: with SMTP id
- h15mr25551455wmq.62.1634487598344; 
- Sun, 17 Oct 2021 09:19:58 -0700 (PDT)
+ bh=s9NtwtayWLEpVUGYuUtLCFdMB0zfBP3KY87YX7Cf+BU=;
+ b=OZif4OKGc30U3az6sk3ivkvektKNSlJo18W6xq8UDZeWP85AIgKCrM5pjwBHd7ykLd
+ CKDSJ0+TFddq0pxOXUOV2uMvzLqZ8ANaoxvATqEL6tscI74oDsKgi9Xczsv3U6o1OO+M
+ vk5NjvELfiluIgkBocMy/dpONJuqBRCzFqn3IAlMmLRn4AJ2Ym0FfpADXLBxfZzmRAeh
+ 8OFffweTGUF4EgWLlXEchtgW0NeiMnxsxlkwAi+vT71Bgz0C9U/hXcaHh8IRpi9NCSPZ
+ x1u5ETjN6O4KdSmeWDAoM8hxDyGfuIBD7lN48INz6HR7eEoLX4rQ/+4+1EyBA7j5/PSC
+ HZzA==
+X-Gm-Message-State: AOAM530IrFXst2EmySfRq5XEVIlaMJl9b81my//9yP9qUlv+6u2Rznqh
+ hRjLD9xhKa/LX7AwuC4suxo=
+X-Google-Smtp-Source: ABdhPJzooeS8vRnvZJgS11LSPJJMq2qqI9+Xi4XD2sea0RaYbDLngc0VSjuEvr+oJzjPpkhLSDy3cA==
+X-Received: by 2002:adf:a2d4:: with SMTP id t20mr28888181wra.229.1634487746280; 
+ Sun, 17 Oct 2021 09:22:26 -0700 (PDT)
 Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id u14sm5630270wrw.91.2021.10.17.09.19.56
+ by smtp.gmail.com with ESMTPSA id z135sm5109554wmc.45.2021.10.17.09.22.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 17 Oct 2021 09:19:57 -0700 (PDT)
-Message-ID: <fa5e999d-bb0a-5a59-dbb7-f43d17dd42cf@amsat.org>
-Date: Sun, 17 Oct 2021 18:19:56 +0200
+ Sun, 17 Oct 2021 09:22:25 -0700 (PDT)
+Message-ID: <d17fcc21-dca8-4f69-800f-6fccb213d81e@amsat.org>
+Date: Sun, 17 Oct 2021 18:22:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH] via-ide: Set user_creatable to false
+Subject: Re: [PATCH 1/4] vt82c686: Move common code to via_isa_realize
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1634259980.git.balaton@eik.bme.hu>
- <20211015092159.3E863748F57@zero.eik.bme.hu>
+ <7cb7a16ff4daf8f48d576246255bea1fd355207c.1634259980.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211015092159.3E863748F57@zero.eik.bme.hu>
+In-Reply-To: <7cb7a16ff4daf8f48d576246255bea1fd355207c.1634259980.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,19 +94,15 @@ Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/15/21 11:16, BALATON Zoltan wrote:
-> This model only works as a function of the via superio chip not as a
-> standalone PCI device.
+On 10/15/21 03:06, BALATON Zoltan wrote:
+> The vt82c686b_realize and vt8231_realize methods are almost identical,
+> factor out the common parts to a via_isa_realize function to avoid
+> code duplication.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
-> This should be before the last patch changing via-ide or squshed into
-> it. And similar to usb part but there I need to add it to the info
-> struct. I can resend with these if you think this series worth the
-> hassle. The previous one fixing the usb irq works without this clean up.
-> 
->  hw/ide/via.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  hw/isa/vt82c686.c | 67 ++++++++++++++++++++---------------------------
+>  1 file changed, 29 insertions(+), 38 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
