@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 468C5430AB9
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 18:26:48 +0200 (CEST)
-Received: from localhost ([::1]:40020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DCE430AC6
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 18:32:32 +0200 (CEST)
+Received: from localhost ([::1]:43558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mc8zn-00021P-DD
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 12:26:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60442)
+	id 1mc95M-0004iY-0q
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 12:32:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mc8xz-0008F3-3l
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:24:55 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38464)
+ id 1mc94S-00042C-6t
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:31:36 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mc8xx-00009x-5l
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:24:54 -0400
-Received: by mail-wr1-x431.google.com with SMTP id u18so36723993wrg.5
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 09:24:52 -0700 (PDT)
+ id 1mc94Q-0003mq-II
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:31:35 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id u18so36745838wrg.5
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 09:31:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/EwZAUknc46JOANRHdohAicnTn3LgxAiln3z0TsSxTU=;
- b=dWmNhrMhtuLI/LPdM7Ou+JETkPmrguYeiPeu6uJYOB3DJAajjZo7B/z+/cMTNWKgMu
- QEd5ANrY4p/LDsTK17c3d1+eZ/wXr31ejUqdF3Y0EsRMWCF8YbcSwS+DOGkMosp20JnW
- vY9VBFQwQlKkMEZV139g3UjE9I9fQ0k9OpV5SbKipjtZXv7o80bzXcrBk6uw/st7fXDI
- iX4xpTPFyBmV3mJQ1nj/43ILcDhRp2osP5xTJZOZX464J5A7em5b/TRsC0RGkcZmDIni
- +Gyb5fDPpfBSHNDEjtXUpWzq6OQZXOZQ0BfpuMcwAYMj2dE/wrUsUDtDB1yID9zjfB3M
- 1eOQ==
+ bh=HjQgGPNQld7jnZiS4mptMeYEbSGvHSbiAe+B2TUTzBc=;
+ b=lJV+yPJ0l6rq51f2pmIk6PVxPPFZI/YJGe+Rz3QITKJRmmwwZS3i71OnwkwdtSWliN
+ QjiQyIXvTvs1wqOBDD37rIJZX1E2tCSo+yaF3L9ANRLikbHTP4X1pKMuKPRK7bS4hnkl
+ UBbw7m+UV+e2EY6V4lmZwcFfepSGNZ8RYEsjMPzZp5GOYw8BCp6enxrXt9XeAlUI4l/H
+ SEKxwTakdeb8sHfgIaYvqlt6CpwIas8GYKhGqfnpubhcQZkqhu4jJ6W/VYot6O48izOA
+ 9x0jmvhxbZNvjVfnkGpVPUIIyHEpluvoL9pf1AMaGKr27pQQzSLpaSqxZxSa1adpNOTj
+ C7cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/EwZAUknc46JOANRHdohAicnTn3LgxAiln3z0TsSxTU=;
- b=5ukqFO9ODUk9DrSzzoU18WUxL5dfkJ4Id5QsTXyo75Vc7wOxOCXofhJUd7ownhVKOq
- A1ZsYEqVy9JFIbHlBE8CeV4S+Fk1ZAs0oYfhobo6YN814Ycs87e8i2NTDB0DmXjzZy4h
- YnlvzrvXLfUg3eW8wlh6FfSjYDI+F456u1RmwlGtS+k+OOjIO1zitaiUZo+M5GyYg8lN
- tdX7n+fYcFqgs2hTGrmz9ZuGo7OsWoXNbIHaNvK0CHAxl5bqDjEFBYeh8MmcUy13CwS2
- VVc/0zEY+LBNgQq4kXM6owRkQO6HvCtQFDo1IIMCd0o2vqD+yeFIDgyr3Sjqq6gRnJkt
- mCaQ==
-X-Gm-Message-State: AOAM533qGOje4B189PmHy5GKEHBI39B955zHr+B0n7xkRjkKvajaOp6K
- zPQZ7naoUcIi3Cac6yKFJ711gUJ4vIw=
-X-Google-Smtp-Source: ABdhPJx2NWpd7KH5TFXkRKxlDxm8hZNDEktuVa3GNjEWWKsz3AyuE1rAuYgstl8AO0jxaFDamsLyWA==
-X-Received: by 2002:adf:8bd2:: with SMTP id w18mr29184273wra.432.1634487891738; 
- Sun, 17 Oct 2021 09:24:51 -0700 (PDT)
+ bh=HjQgGPNQld7jnZiS4mptMeYEbSGvHSbiAe+B2TUTzBc=;
+ b=KgMkJ4lIXlNHxrHmDRcC3H3R4v6WFQbK75pt/0svm7Seu3cl9O0zWfGiFSoe4DIB1d
+ OpBwetURKHl1e1wdl089B1IGqAA6euGgmw6TImhYWgVbkCUFBTx56onhCi/avnwlyzRy
+ ZZr/ylJ52AZCsVaLJVwcKKO5dwssPAjTpPUwb1YtZ+QNi3Wq0Z00s9XJr94abGAY4Alm
+ 7l416gBIaVxwFs+sK7gtsXQzcVYEyrXrg19vR3j9t/y/jZkHmpKNtYSFB7yNRme1yUGv
+ YHXUSmEL8eqZeJJ1U9qqdxrMh+5X/K9Qc2cxCGUMmmN3E+F5Sxy4tzEarcxI5oaYiieh
+ eU7w==
+X-Gm-Message-State: AOAM533+MGp2saFKUmxsXe6CgA0YAPx6hdiWpeTyNbs5Vy1gM0+OAwyz
+ RMF/VXH5CwqroDe0JBuElKc=
+X-Google-Smtp-Source: ABdhPJyJ98S2fa+QZCAnbeAeVWQt+f1wzrtkmk0eYP+jBz4p/bJgoTNtoh5hpB8DbHWsJFr8tMcU4A==
+X-Received: by 2002:a5d:47c3:: with SMTP id o3mr30375459wrc.25.1634488292470; 
+ Sun, 17 Oct 2021 09:31:32 -0700 (PDT)
 Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id 196sm10266837wme.20.2021.10.17.09.24.50
+ by smtp.gmail.com with ESMTPSA id k10sm10157060wrh.64.2021.10.17.09.31.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 17 Oct 2021 09:24:51 -0700 (PDT)
-Message-ID: <de64ff78-3fdc-b81a-23f0-7ed39849fa7b@amsat.org>
-Date: Sun, 17 Oct 2021 18:24:50 +0200
+ Sun, 17 Oct 2021 09:31:32 -0700 (PDT)
+Message-ID: <84ff4daf-e04c-9238-ae31-9ddaed9a37dc@amsat.org>
+Date: Sun, 17 Oct 2021 18:31:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 3/4] hw/usb/vt82c686-uhci-pci: Avoid using isa_get_irq()
+Subject: Re: [PATCH 4/4] via-ide: Avoid using isa_get_irq()
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>
 References: <cover.1634259980.git.balaton@eik.bme.hu>
- <228ffba872d7870392270b36910ac8250cd7ff96.1634259980.git.balaton@eik.bme.hu>
+ <26cb1848c9fc0360df7a57c2c9ba5e03c4a692b5.1634259980.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <228ffba872d7870392270b36910ac8250cd7ff96.1634259980.git.balaton@eik.bme.hu>
+In-Reply-To: <26cb1848c9fc0360df7a57c2c9ba5e03c4a692b5.1634259980.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.452,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -101,8 +103,35 @@ On 10/15/21 03:06, BALATON Zoltan wrote:
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->  hw/usb/vt82c686-uhci-pci.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  hw/ide/via.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/ide/via.c b/hw/ide/via.c
+> index 94cc2142c7..252d18f4ac 100644
+> --- a/hw/ide/via.c
+> +++ b/hw/ide/via.c
+> @@ -29,7 +29,7 @@
+>  #include "migration/vmstate.h"
+>  #include "qemu/module.h"
+>  #include "sysemu/dma.h"
+> -
+> +#include "hw/isa/vt82c686.h"
+>  #include "hw/ide/pci.h"
+>  #include "trace.h"
+>  
+> @@ -112,7 +112,7 @@ static void via_ide_set_irq(void *opaque, int n, int level)
+>          d->config[0x70 + n * 8] &= ~0x80;
+>      }
+>  
+> -    qemu_set_irq(isa_get_irq(NULL, 14 + n), level);
+> +    via_isa_set_irq(pci_get_function_0(d), 14 + n, level);
+
+Since pci_get_function_0() is expensive, we should cache
+'PCIDevice *func0' in PCIIDEState, setting the pointer in
+via_ide_realize(). Do you mind sending a follow-up patch?
+
+>  }
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 
