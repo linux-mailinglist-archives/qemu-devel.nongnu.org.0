@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFD0430CD5
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 01:08:19 +0200 (CEST)
-Received: from localhost ([::1]:54434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D57A2430CDA
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 01:11:28 +0200 (CEST)
+Received: from localhost ([::1]:33678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcFGM-0006La-Jg
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 19:08:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58254)
+	id 1mcFJP-0002v6-Ve
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 19:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcF2k-0005sW-O0
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:54:14 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:51849)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mcF4x-0000cx-5V; Sun, 17 Oct 2021 18:56:31 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:44688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcF2j-0000sk-75
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:54:14 -0400
-Received: by mail-wm1-x334.google.com with SMTP id p21so7143141wmq.1
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 15:54:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mcF4u-0002fK-2g; Sun, 17 Oct 2021 18:56:30 -0400
+Received: by mail-pf1-x436.google.com with SMTP id v8so9126851pfu.11;
+ Sun, 17 Oct 2021 15:56:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cAlFbLE9wEpuh6Lb0mTS+p4wTMdHmTaWF5EoIoUfJp4=;
- b=LcMHtS2NLYBgKbbJDnucsTIEwbiSYGW6a1OgF/VztCro4kj1MwU7CcVajezRk4R0yV
- RnvcrwLaNC6gugouQf7JBWWciBbcB1ifV43vXwO+HI+LD+OuNH99SN9Qb3b7znh+OatS
- /ZuMqsFD5GCoYAUaQVrGhhIWz9OQorf3/OCQCKlDMcOfZiFbqhsv2KCf5AjrBSJadYNF
- QoWOCrAt5Slm6cDD0k528Q//WIT+ic9PMR+gwoZwiDc/knnGr2j7LGDgK0oDFXduJDj+
- HPA26aCzUjbnXmXzKXCuwZ4lWpefHTj81Gd7kZkp8xOacQm1MbC6rYHQ9B52BjdAhvLj
- 3fiw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=u5ge0/URul25AsObX6IEQcD8kVdVvwDcv7rdRNaDAI0=;
+ b=is0fFJMKF4Z3Ybs5NbZD8Yt20v+2P2a+gjZQ4AQjyzPfj7JKzWlrsrhhkvuRbw6NGX
+ M+AqObPgF8KybA8i1fI/IkPCfLlkjsZd+Ua88buWzf1m0IdYqiplUTKbJPO686N4SRCM
+ 6ucY+F83IjVYProE3rEql2jgZjBFpkl6xb0/x2eYa/Tk1BTBmdGVw2wbEe1KKxrMpwnz
+ W+tyTyykhWecRdn/xowINDIAXddNUJOrvNdLYDRyIzfYfoXO5hbkP9bckFy6vX40NeSR
+ OuWNiD2XjzZpcXbyiGdxnp/Bd+P9HKSx4PND6enDHtv3l4p/e2VYRd4znM9PJhn6JhDe
+ AvWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cAlFbLE9wEpuh6Lb0mTS+p4wTMdHmTaWF5EoIoUfJp4=;
- b=Ac4WHNzyaSn5HCHHdUBTvol+vhAg7GrD0K+d+6J+e75SBkOBPQOUlCgFK4BGae8GyQ
- XTLXQMORPaQU6a9ajtyNqyIwHvRbajZvwOdH+FGJDnDW1q5AbSKrBRbhq1M/byIK6F09
- 5gE29sf+u+HzQcDRhFdRCkCv50AFC/fb2icl4Anpn0C5xTzsvUymjAVKAVL4si+hB6jF
- EwarBFxkwDJSYkAk+wgVEywekNJjWL60ZHGl+gDs4QDxHtx1hLgFqzrCAehogZlHQ0yO
- vEV0QKLMsuzvn2jIQ0fSEjL3Pk/5RtHyY19YkU8690W8NHas4PO3qDHvQPWT61HPshB1
- PX+Q==
-X-Gm-Message-State: AOAM532Zk8c0sAD3xTIF5h+c5TXrWa6wYLv76vX4h31I8kgIBAEXYG7x
- LpangPNUEWZVmy4/BUufaNvj81O393o=
-X-Google-Smtp-Source: ABdhPJyj6inFirO95zb/Hm0mYjH7e4EQubGQ75m7F35xXVQ7UsbfYvabVtp3w26Y8vNADgQgh6XGOA==
-X-Received: by 2002:a7b:c386:: with SMTP id s6mr41152667wmj.183.1634511251578; 
- Sun, 17 Oct 2021 15:54:11 -0700 (PDT)
-Received: from x1w.. (213.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id c15sm10875404wrs.19.2021.10.17.15.54.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Oct 2021 15:54:10 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 17/17] via-ide: Avoid using isa_get_irq()
-Date: Mon, 18 Oct 2021 00:52:45 +0200
-Message-Id: <20211017225245.2618892-18-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211017225245.2618892-1-f4bug@amsat.org>
-References: <20211017225245.2618892-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=u5ge0/URul25AsObX6IEQcD8kVdVvwDcv7rdRNaDAI0=;
+ b=MO2xMrgRsejT5GOvfdEcBiPrNYYKRjxi3qrZF0b20OUvLW4Po0VuYqzacSbvOzJhkn
+ xyVllNR0SfufPRSfIlPC+piyl9RhtVkalH2H/T1SW73SHHSYO/VNtrBdlZgF89GUgIb3
+ 9ywMDJxsheDJM08cj9vhjcobLd1myLpG1pDMVU4jZAWii3od6Dt3XfPoq0o36oTDaE9q
+ equfSWFRSmKZ+pSmirTuEJyqiLYDjndni43Ak5lkqN+mWSMgBA1h9lLIHH4t/Qy0as1P
+ XVxZmvpPt/B7pH9qukuUJAI9jps7B401F0wRJl7CeDQirvNtHOtnt9EYzdmFHezpgebi
+ D3nw==
+X-Gm-Message-State: AOAM5335OuaK2zG1D1sWorHSXRZIthtiwLepJ9BDlTpGcM3eKUUxyxGf
+ yLwoBXUteqTQveKaFh+Lpf339CBxsiBhgfz+zwQ=
+X-Google-Smtp-Source: ABdhPJw5if+SwKseup52l6alaF+NFZaxcOqLWGgzwtA4hhwUJDKDXhN8tVSGXoUvc4qDgLo5+cYo5bC79uNWjhq4vjc=
+X-Received: by 2002:aa7:8bd4:0:b0:44c:f89d:7e72 with SMTP id
+ s20-20020aa78bd4000000b0044cf89d7e72mr25160157pfd.71.1634511384350; Sun, 17
+ Oct 2021 15:56:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+References: <20211015074627.3957162-1-frank.chang@sifive.com>
+ <20211015074627.3957162-2-frank.chang@sifive.com>
+In-Reply-To: <20211015074627.3957162-2-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 18 Oct 2021 08:55:58 +1000
+Message-ID: <CAKmqyKP8rx_vmO2MpVzxacUhx-H6W0+zDEfd0r5qrFtg+kiTEA@mail.gmail.com>
+Subject: Re: [PATCH v8 01/78] target/riscv: fix TB_FLAGS bits overlapping bug
+ for rvv/rvh
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,49 +78,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paul Burton <paulburton@kernel.org>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+On Fri, Oct 15, 2021 at 5:50 PM <frank.chang@sifive.com> wrote:
+>
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> TB_FLAGS mem_idx bits was extended from 2 bits to 3 bits in
+> commit: c445593, but other TB_FLAGS bits for rvv and rvh were
+> not shift as well so these bits may overlap with each other when
+> rvv is enabled.
+>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
 
-Use via_isa_set_irq() which better encapsulates irq handling in the
-vt82xx model and avoids using isa_get_irq() that has a comment saying
-it should not be used.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <26cb1848c9fc0360df7a57c2c9ba5e03c4a692b5.1634259980.git.balaton@eik.bme.hu>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/ide/via.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Alistair
 
-diff --git a/hw/ide/via.c b/hw/ide/via.c
-index e91dad632a9..82def819c41 100644
---- a/hw/ide/via.c
-+++ b/hw/ide/via.c
-@@ -29,7 +29,7 @@
- #include "migration/vmstate.h"
- #include "qemu/module.h"
- #include "sysemu/dma.h"
--
-+#include "hw/isa/vt82c686.h"
- #include "hw/ide/pci.h"
- #include "trace.h"
- 
-@@ -112,7 +112,7 @@ static void via_ide_set_irq(void *opaque, int n, int level)
-         d->config[0x70 + n * 8] &= ~0x80;
-     }
- 
--    qemu_set_irq(isa_get_irq(NULL, 14 + n), level);
-+    via_isa_set_irq(pci_get_function_0(d), 14 + n, level);
- }
- 
- static void via_ide_reset(DeviceState *dev)
--- 
-2.31.1
-
+> ---
+>  target/riscv/cpu.h       | 14 +++++++-------
+>  target/riscv/translate.c |  2 +-
+>  2 files changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index d70f63ddfe6..d63a08b6e4c 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -380,7 +380,6 @@ void QEMU_NORETURN riscv_raise_exception(CPURISCVState *env,
+>  target_ulong riscv_cpu_get_fflags(CPURISCVState *env);
+>  void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
+>
+> -#define TB_FLAGS_MMU_MASK   7
+>  #define TB_FLAGS_PRIV_MMU_MASK                3
+>  #define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
+>  #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
+> @@ -389,13 +388,14 @@ typedef CPURISCVState CPUArchState;
+>  typedef RISCVCPU ArchCPU;
+>  #include "exec/cpu-all.h"
+>
+> -FIELD(TB_FLAGS, VL_EQ_VLMAX, 2, 1)
+> -FIELD(TB_FLAGS, LMUL, 3, 2)
+> -FIELD(TB_FLAGS, SEW, 5, 3)
+> -FIELD(TB_FLAGS, VILL, 8, 1)
+> +FIELD(TB_FLAGS, MEM_IDX, 0, 3)
+> +FIELD(TB_FLAGS, VL_EQ_VLMAX, 3, 1)
+> +FIELD(TB_FLAGS, LMUL, 4, 2)
+> +FIELD(TB_FLAGS, SEW, 6, 3)
+> +FIELD(TB_FLAGS, VILL, 9, 1)
+>  /* Is a Hypervisor instruction load/store allowed? */
+> -FIELD(TB_FLAGS, HLSX, 9, 1)
+> -FIELD(TB_FLAGS, MSTATUS_HS_FS, 10, 2)
+> +FIELD(TB_FLAGS, HLSX, 10, 1)
+> +FIELD(TB_FLAGS, MSTATUS_HS_FS, 11, 2)
+>
+>  bool riscv_cpu_is_32bit(CPURISCVState *env);
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index f23bc919c08..a7a66cf9db1 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -544,7 +544,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>      uint32_t tb_flags = ctx->base.tb->flags;
+>
+>      ctx->pc_succ_insn = ctx->base.pc_first;
+> -    ctx->mem_idx = tb_flags & TB_FLAGS_MMU_MASK;
+> +    ctx->mem_idx = FIELD_EX32(tb_flags, TB_FLAGS, MEM_IDX);
+>      ctx->mstatus_fs = tb_flags & TB_FLAGS_MSTATUS_FS;
+>      ctx->priv_ver = env->priv_ver;
+>  #if !defined(CONFIG_USER_ONLY)
+> --
+> 2.25.1
+>
+>
 
