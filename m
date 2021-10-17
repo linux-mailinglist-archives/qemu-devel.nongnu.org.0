@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75589430BFD
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 22:27:29 +0200 (CEST)
-Received: from localhost ([::1]:51394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8158F430BFE
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 22:29:56 +0200 (CEST)
+Received: from localhost ([::1]:53654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcCki-0001Cq-2S
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 16:27:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39234)
+	id 1mcCn5-0002l3-Hc
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 16:29:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcCir-0000P1-83
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 16:25:33 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35519)
+ id 1mcCle-00024r-0m
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 16:28:26 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:38829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcCip-0005hy-EJ
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 16:25:32 -0400
-Received: by mail-wr1-x434.google.com with SMTP id g25so37261237wrb.2
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 13:25:29 -0700 (PDT)
+ id 1mcClc-000850-Jj
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 16:28:25 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ y74-20020a1c7d4d000000b00322f53b9bbfso2872164wmc.3
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 13:28:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=e1AiA1GK9wqUihybV6rRI0X3GQHKq4lEbp6qKzyjjYk=;
- b=jearCTQn12FCYke25+hOro2618TZKCjun42AqrEibDqnYonwGK+05foJwCuU2noNIj
- gDzKviaGb5ZLawxBWcacHyny3bszRANRijBW39h7rMpgbCmGQA2QrYpPnmASsyy6vjzA
- b3vmh4s0wvGHQMMXRifTZ5Tsrb7BBpEunfAiyAKLV85bNGYHxYGm7hrUVFhF7EBfLoLy
- PmEz2MGBtZhSObtH8Kn8XxBNRxiwf4JXJY508u4+w9xvOqvi6TaD8KC64vwiJRTfbVuL
- xXe41K4P6OIVEjffH0hohGRggJBBDKwEDdh6sW02mXv/59RfrWG7MeRmIMisVN8bWezk
- ICsA==
+ bh=mheq+dAgZn+vhZSMCBHBrpgebSVzB02AS9tmDLnJQ5g=;
+ b=PNSbarkdr2q0bsaM0fykJaIw4Q4+OUoAPEteuW1YcTMa2fC+goIv064Q+Wg9EHepR5
+ 0evOFZmdAE01q56LSpuSEUjJTZmI2PkS3AexWiXCd+9A/ZzuXPMTXMPCH8VaN0RZzYRx
+ NWIxN0SARscmlvg5VHA6FiiLTqDKSyWftz6jhVp2g/Ma8DgqmSY4nOW69zov8YlWa5gz
+ JpIVHx5A3eBAIJeZwBNj8OjSgD2NRDeCo8HBNUuB+nK4uGoaDganwnX72lEBUeRdWCNX
+ l3i51iXNHq4GtrrOrqlWMkjPFVNjsrn0+S9bgfoRZutiL5zCDio6lV47BKXXUptfOc57
+ Go4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=e1AiA1GK9wqUihybV6rRI0X3GQHKq4lEbp6qKzyjjYk=;
- b=dXZEaHBM9GVq9IfuUpTyJZSp5M5o5JyZFXtExE2L130K6nE7iFMj/5AAQURp1b2xXl
- P0FhIgR4EGPBitF4p9VtdwaSeH7hvD06ZwEWYmTK5VNzDUcTZZfvmTr5sSyDSwXhR/EM
- +AyPxcABLzNj+c4VIHVvNO6XfHdCCjenTqycYlZe6T5ocg53/ddHHGWaRXbXGDyxikpg
- zISzKtr1BInLFrjs5q9sSUtMJH60sW5OvLpG+GIZ5fkGgYot8uMrJAuI1X1sxOrCrxLz
- NSLMfbsOFzw8q6IjuMpJ66AjKq6l4KMrOtoGIF+QBb9amsg9l4NpkN+WHpHQ8UBxUPEH
- twIg==
-X-Gm-Message-State: AOAM532F3ewDnGaQQdeMh0/Fzpf+EKjArb/gVb03h2aK3UCxepAlOquU
- n+s6GJGNY/nKT1abM/jNLOc=
-X-Google-Smtp-Source: ABdhPJxjFXC80R/aBUYKqf9+vOVGzS6xoKEr0uFIKb+7JA+btOreMBm1tSPnqbftVQ4fl0dX0woopw==
-X-Received: by 2002:a05:6000:18a4:: with SMTP id
- b4mr31142107wri.394.1634502328246; 
- Sun, 17 Oct 2021 13:25:28 -0700 (PDT)
+ bh=mheq+dAgZn+vhZSMCBHBrpgebSVzB02AS9tmDLnJQ5g=;
+ b=w5EbofIP9vVv3zEPhNPqN2vAy2/UKGPOeVCNBikN7BYR05rpfYE1/6DgJOnnIUz4Hx
+ zZbOYQKn2mCPXuRT39md7aKYBUrXiwzBemVSidBaxEjk+dVNSw/7uS1h6pVHhc7B7ayv
+ 7KUx6Tpz9cbXJD8yP1iTOWtX43znyIrg5VyA3jpiL3f+YkQU9qLQrQOnAZS8qhK0MqYC
+ UEhDgwQAqGU3nKn5Wer5025mqqzrD+4SGEIeuumG3QTG25MMPZHjSgoKSY8oQ+feCWAj
+ MKlG+libOEjurB/Ze3QiI/q/Pm/6bJZPDswiIzxQGBR0gHhwM2oAa77I7vrORXHTUQF2
+ /Y/w==
+X-Gm-Message-State: AOAM5302F3/lbj7lWY5Z+/DYxs8O4jw06BVt5UdZUoUokoZWVNjhI9p2
+ zpx0/hyovTHetQv8BMWar5s=
+X-Google-Smtp-Source: ABdhPJyI3Vhp23XqL8FAkCwpUiamUrqGnyb3XZyZ/D0sRbvdfrOdzY4vLpsRJcZ+yuUPAYGUjmmJ3g==
+X-Received: by 2002:a1c:27c3:: with SMTP id
+ n186mr26524230wmn.192.1634502502857; 
+ Sun, 17 Oct 2021 13:28:22 -0700 (PDT)
 Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id 196sm10694674wme.20.2021.10.17.13.25.27
+ by smtp.gmail.com with ESMTPSA id d9sm10670664wrm.96.2021.10.17.13.28.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 17 Oct 2021 13:25:27 -0700 (PDT)
-Message-ID: <f11bd4dc-1881-bd9f-1b81-26ee1dc9dcf3@amsat.org>
-Date: Sun, 17 Oct 2021 22:25:26 +0200
+ Sun, 17 Oct 2021 13:28:22 -0700 (PDT)
+Message-ID: <b15cb6c9-7166-02c4-29f4-d1bbd3976f69@amsat.org>
+Date: Sun, 17 Oct 2021 22:28:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
@@ -66,13 +67,13 @@ To: BALATON Zoltan <balaton@eik.bme.hu>
 References: <cover.1634259980.git.balaton@eik.bme.hu>
  <26cb1848c9fc0360df7a57c2c9ba5e03c4a692b5.1634259980.git.balaton@eik.bme.hu>
  <84ff4daf-e04c-9238-ae31-9ddaed9a37dc@amsat.org>
- <643d88e9-30aa-7fb-8f5b-de25473ed6b1@eik.bme.hu>
+ <2f3756a-a968-2d16-f238-1dd16647cc9@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <643d88e9-30aa-7fb-8f5b-de25473ed6b1@eik.bme.hu>
+In-Reply-To: <2f3756a-a968-2d16-f238-1dd16647cc9@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,7 +99,7 @@ Cc: Huacai Chen <chenhuacai@kernel.org>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/21 21:39, BALATON Zoltan wrote:
+On 10/17/21 20:44, BALATON Zoltan wrote:
 > On Sun, 17 Oct 2021, Philippe Mathieu-Daudé wrote:
 >> On 10/15/21 03:06, BALATON Zoltan wrote:
 >>> Use via_isa_set_irq() which better encapsulates irq handling in the
@@ -135,30 +136,14 @@ On 10/17/21 21:39, BALATON Zoltan wrote:
 >> 'PCIDevice *func0' in PCIIDEState, setting the pointer in
 >> via_ide_realize(). Do you mind sending a follow-up patch?
 > 
-> On the other hand, IMO PCIIDEState should be about PCI IDE stuff so to
-> keep this clean this would need subclassing it to VIAIDEState and put
-> the func0 pointer there.
+> I can do that but waiting for a decision on how to proceed. Will Gerd
+> take my first series this is based on as is then this should be a
+> separate series doing the clean up using pci_get_function_0 or should
+> these two series be merged? I'd also squash setting user_creatable =
+> false into this patch (and do similar for the usb one) unless you guys
+> think it should be a separate patch?
 
-I expect any multi-function PCI embedding an IDE controller to route
-its IRQs via Func#0, but I'm not a PCI expert.
-
-> But then we probably need to cast between
-> VIAIDE and PCIIDE and likely we're back to the same level of
-> expensiveness.
-
-realize() is called once, get_irq() multiple times.
-
-> The main source why of pci_get_function_0 is expensive is
-> probably the QOM cast to PCI_BUS in pci_get_bus() the rest is just
-> pointer and array index dereferences which should not be too bad. And
-> the reason why QOM casts are expensive is because we have
-> --enable-qom-debug enabled by default. I've tried to send a patch before
-> to disable this on release builds and only enable it with --enable-debug
-> or when explicitly asked but it was rejected saying that these asserts
-> are useful. Maybe we can just live with qemu_set_irq and not bother and
-> drop this series. (You can cherry pick the first patch removing code
-> duplication from via isa if you want.)
-> 
-> Regards,
-> BALATON Zoltan
+I don't know what Gerd will do with the USB patches.
+Your VIA patches are orthogonal, so I'm queuing them (1, 2, 4
+and extra user_creatable) via mips-next.
 
