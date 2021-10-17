@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DCE430AC6
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 18:32:32 +0200 (CEST)
-Received: from localhost ([::1]:43558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8128C430AE1
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 18:48:43 +0200 (CEST)
+Received: from localhost ([::1]:51958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mc95M-0004iY-0q
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 12:32:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60926)
+	id 1mc9L0-0002mn-7o
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 12:48:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mc94S-00042C-6t
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:31:36 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38502)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1mc9J5-0001fV-NQ; Sun, 17 Oct 2021 12:46:43 -0400
+Received: from mail-ua1-x931.google.com ([2607:f8b0:4864:20::931]:43908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mc94Q-0003mq-II
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:31:35 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id u18so36745838wrg.5
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 09:31:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1mc9J3-0006PZ-Ss; Sun, 17 Oct 2021 12:46:43 -0400
+Received: by mail-ua1-x931.google.com with SMTP id i22so1205031ual.10;
+ Sun, 17 Oct 2021 09:46:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HjQgGPNQld7jnZiS4mptMeYEbSGvHSbiAe+B2TUTzBc=;
- b=lJV+yPJ0l6rq51f2pmIk6PVxPPFZI/YJGe+Rz3QITKJRmmwwZS3i71OnwkwdtSWliN
- QjiQyIXvTvs1wqOBDD37rIJZX1E2tCSo+yaF3L9ANRLikbHTP4X1pKMuKPRK7bS4hnkl
- UBbw7m+UV+e2EY6V4lmZwcFfepSGNZ8RYEsjMPzZp5GOYw8BCp6enxrXt9XeAlUI4l/H
- SEKxwTakdeb8sHfgIaYvqlt6CpwIas8GYKhGqfnpubhcQZkqhu4jJ6W/VYot6O48izOA
- 9x0jmvhxbZNvjVfnkGpVPUIIyHEpluvoL9pf1AMaGKr27pQQzSLpaSqxZxSa1adpNOTj
- C7cQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=X6pMSigd7rq+NLLShJYPsGddklESxe1mm2vIaB9I2J8=;
+ b=cEpFpdHh2MSwKLGSlxt/JUK/SakMCU3ng98m8wUM+XlCCQLjo/W3+yPrpUTEgSKE5N
+ Qy7RQzxhlRil+U6gdu4B6axJIksnQCGiEpn+k9XyIfDQixkho8AKB/iIxtJhdd1hCM5W
+ UqHXn1xHzoYEsgEZy7oZ7gNIugRKQRHWKg2UNXq7qNpMMG2FQjn4p6bWUY9aXADzRmLf
+ 8bwPvpKHS0re4WTRXsLUDiCD+XJS3yMzp1A/eSZZ2ITKBVgemLDWK+XU1AP7Yt6VgNT5
+ HPROo8HnbUURax55Zn6eMDSL2B/ad9CLxBPA3lbpuGvJwgmKTBjWvWlzlhoVHENBsupQ
+ t52Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HjQgGPNQld7jnZiS4mptMeYEbSGvHSbiAe+B2TUTzBc=;
- b=KgMkJ4lIXlNHxrHmDRcC3H3R4v6WFQbK75pt/0svm7Seu3cl9O0zWfGiFSoe4DIB1d
- OpBwetURKHl1e1wdl089B1IGqAA6euGgmw6TImhYWgVbkCUFBTx56onhCi/avnwlyzRy
- ZZr/ylJ52AZCsVaLJVwcKKO5dwssPAjTpPUwb1YtZ+QNi3Wq0Z00s9XJr94abGAY4Alm
- 7l416gBIaVxwFs+sK7gtsXQzcVYEyrXrg19vR3j9t/y/jZkHmpKNtYSFB7yNRme1yUGv
- YHXUSmEL8eqZeJJ1U9qqdxrMh+5X/K9Qc2cxCGUMmmN3E+F5Sxy4tzEarcxI5oaYiieh
- eU7w==
-X-Gm-Message-State: AOAM533+MGp2saFKUmxsXe6CgA0YAPx6hdiWpeTyNbs5Vy1gM0+OAwyz
- RMF/VXH5CwqroDe0JBuElKc=
-X-Google-Smtp-Source: ABdhPJyJ98S2fa+QZCAnbeAeVWQt+f1wzrtkmk0eYP+jBz4p/bJgoTNtoh5hpB8DbHWsJFr8tMcU4A==
-X-Received: by 2002:a5d:47c3:: with SMTP id o3mr30375459wrc.25.1634488292470; 
- Sun, 17 Oct 2021 09:31:32 -0700 (PDT)
-Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id k10sm10157060wrh.64.2021.10.17.09.31.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 17 Oct 2021 09:31:32 -0700 (PDT)
-Message-ID: <84ff4daf-e04c-9238-ae31-9ddaed9a37dc@amsat.org>
-Date: Sun, 17 Oct 2021 18:31:29 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=X6pMSigd7rq+NLLShJYPsGddklESxe1mm2vIaB9I2J8=;
+ b=s0qpq1IjEekUta8zX1WFgVXYTnMY83K3mQOKnkGBDc+lYYdCEMrXBWBW+ndgV5/jGl
+ TtJ9y++hrSo9t7hlY03EeWwZKUF8S91vqJELhe63+hQ9VzYMA4Ivu7m2bVvjVSGPBWqG
+ JoMtUyzwIeEBT/wzbeIIhXaC/stlGX5lv4ozPss/JBt0DzjM1M/GpbszHpJA/+iY73UL
+ Qmylokniqnop8FtsmWpgFqvvbOJIlNNoMAgy37JM5U6zzaRBPDYWSUixkP8Tdm92W+/K
+ GatzrQZO2WQrp9oGQoAriICqOOeixBQ+3xjve3FPlIXMDbwmXsBk2yg7EISKZdznjrGR
+ XUGA==
+X-Gm-Message-State: AOAM532y5ZjCq9Vi+sIB2eTaLPhJyWN5R28ISfRIXVfPWz/3BodygEgs
+ TGhgGYjeuJrqx2DkrJW8+iaQ9mv06W+4eoSgaQhGPMaD4hh2aw==
+X-Google-Smtp-Source: ABdhPJw823xBeii05kHDR3CQya+72Qv4uiLbKmw9a1ShihL1O356OiVsUNF9YNOw03WHuu5aEgJq951vlZdnNhqb1As=
+X-Received: by 2002:a67:c29d:: with SMTP id k29mr24288888vsj.51.1634489199841; 
+ Sun, 17 Oct 2021 09:46:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 4/4] via-ide: Avoid using isa_get_irq()
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>
-References: <cover.1634259980.git.balaton@eik.bme.hu>
- <26cb1848c9fc0360df7a57c2c9ba5e03c4a692b5.1634259980.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <26cb1848c9fc0360df7a57c2c9ba5e03c4a692b5.1634259980.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.452,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+References: <20211012152231.24868-1-pl@kamp.de>
+In-Reply-To: <20211012152231.24868-1-pl@kamp.de>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Sun, 17 Oct 2021 18:46:07 +0200
+Message-ID: <CAOi1vP8f+s=E06paWdU3yfvQUO5p4GPUYdNw2PLGRQwHjWNngw@mail.gmail.com>
+Subject: Re: [PATCH V5] block/rbd: implement bdrv_co_block_status
+To: Peter Lieven <pl@kamp.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::931;
+ envelope-from=idryomov@gmail.com; helo=mail-ua1-x931.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,46 +74,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/15/21 03:06, BALATON Zoltan wrote:
-> Use via_isa_set_irq() which better encapsulates irq handling in the
-> vt82xx model and avoids using isa_get_irq() that has a comment saying
-> it should not be used.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+On Tue, Oct 12, 2021 at 5:22 PM Peter Lieven <pl@kamp.de> wrote:
+>
+> the qemu rbd driver currently lacks support for bdrv_co_block_status.
+> This results mainly in incorrect progress during block operations (e.g.
+> qemu-img convert with an rbd image as source).
+>
+> This patch utilizes the rbd_diff_iterate2 call from librbd to detect
+> allocated and unallocated (all zero areas).
+>
+> To avoid querying the ceph OSDs for the answer this is only done if
+> the image has the fast-diff feature which depends on the object-map and
+> exclusive-lock features. In this case it is guaranteed that the information
+> is present in memory in the librbd client and thus very fast.
+>
+> If fast-diff is not available all areas are reported to be allocated
+> which is the current behaviour if bdrv_co_block_status is not implemented.
+>
+> Signed-off-by: Peter Lieven <pl@kamp.de>
 > ---
->  hw/ide/via.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/ide/via.c b/hw/ide/via.c
-> index 94cc2142c7..252d18f4ac 100644
-> --- a/hw/ide/via.c
-> +++ b/hw/ide/via.c
-> @@ -29,7 +29,7 @@
->  #include "migration/vmstate.h"
->  #include "qemu/module.h"
->  #include "sysemu/dma.h"
-> -
-> +#include "hw/isa/vt82c686.h"
->  #include "hw/ide/pci.h"
->  #include "trace.h"
->  
-> @@ -112,7 +112,7 @@ static void via_ide_set_irq(void *opaque, int n, int level)
->          d->config[0x70 + n * 8] &= ~0x80;
->      }
->  
-> -    qemu_set_irq(isa_get_irq(NULL, 14 + n), level);
-> +    via_isa_set_irq(pci_get_function_0(d), 14 + n, level);
-
-Since pci_get_function_0() is expensive, we should cache
-'PCIDevice *func0' in PCIIDEState, setting the pointer in
-via_ide_realize(). Do you mind sending a follow-up patch?
-
+>  block/rbd.c | 112 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 112 insertions(+)
+>
+> V4->V5:
+>  - rename rbd_diff_req to RBDDiffIterateReq, use typedef and move
+>    defintion to top [Ilya]
+>  - rename callback to qemu_rbd_diff_iterate_cb [Ilya]
+>  - assert that req.bytes == 0 if !req.exists and r == 0 [Ilya]
+>
+> V3->V4:
+>  - make req.exists a bool [Ilya]
+>  - simplify callback under the assuption that we never receive a cb
+>    for a hole since we do not diff against a snapshot [Ilya]
+>  - remove out label [Ilya]
+>  - rename ret to status [Ilya]
+>
+> V2->V3:
+> - check rbd_flags every time (they can change during runtime) [Ilya]
+> - also check for fast-diff invalid flag [Ilya]
+> - *map and *file cant be NULL [Ilya]
+> - set ret = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID in case of an
+>   unallocated area [Ilya]
+> - typo: catched -> caught [Ilya]
+> - changed wording about fast-diff, object-map and exclusive lock in
+>   commit msg [Ilya]
+>
+> V1->V2:
+> - add commit comment [Stefano]
+> - use failed_post_open [Stefano]
+> - remove redundant assert [Stefano]
+> - add macro+comment for the magic -9000 value [Stefano]
+> - always set *file if its non NULL [Stefano]
+>
+>
+> diff --git a/block/rbd.c b/block/rbd.c
+> index 701fbf2b0c..def96292e0 100644
+> --- a/block/rbd.c
+> +++ b/block/rbd.c
+> @@ -97,6 +97,12 @@ typedef struct RBDTask {
+>      int64_t ret;
+>  } RBDTask;
+>
+> +typedef struct RBDDiffIterateReq {
+> +    uint64_t offs;
+> +    uint64_t bytes;
+> +    bool exists;
+> +} RBDDiffIterateReq;
+> +
+>  static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+>                              BlockdevOptionsRbd *opts, bool cache,
+>                              const char *keypairs, const char *secretid,
+> @@ -1259,6 +1265,111 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
+>      return spec_info;
 >  }
+>
+> +/*
+> + * rbd_diff_iterate2 allows to interrupt the exection by returning a negative
+> + * value in the callback routine. Choose a value that does not conflict with
+> + * an existing exitcode and return it if we want to prematurely stop the
+> + * execution because we detected a change in the allocation status.
+> + */
+> +#define QEMU_RBD_EXIT_DIFF_ITERATE2 -9000
+> +
+> +static int qemu_rbd_diff_iterate_cb(uint64_t offs, size_t len,
+> +                                    int exists, void *opaque)
+> +{
+> +    RBDDiffIterateReq *req = opaque;
+> +
+> +    assert(req->offs + req->bytes <= offs);
+> +    /*
+> +     * we do not diff against a snapshot so we should never receive a callback
+> +     * for a hole.
+> +     */
+> +    assert(exists);
+> +
+> +    if (!req->exists && offs > req->offs) {
+> +        /*
+> +         * we started in an unallocated area and hit the first allocated
+> +         * block. req->bytes must be set to the length of the unallocated area
+> +         * before the allocated area. stop further processing.
+> +         */
+> +        req->bytes = offs - req->offs;
+> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
+> +    }
+> +
+> +    if (req->exists && offs > req->offs + req->bytes) {
+> +        /*
+> +         * we started in an allocated area and jumped over an unallocated area,
+> +         * req->bytes contains the length of the allocated area before the
+> +         * unallocated area. stop further processing.
+> +         */
+> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
+> +    }
+> +
+> +    req->bytes += len;
+> +    req->exists = true;
+> +
+> +    return 0;
+> +}
+> +
+> +static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
+> +                                                 bool want_zero, int64_t offset,
+> +                                                 int64_t bytes, int64_t *pnum,
+> +                                                 int64_t *map,
+> +                                                 BlockDriverState **file)
+> +{
+> +    BDRVRBDState *s = bs->opaque;
+> +    int status, r;
+> +    RBDDiffIterateReq req = { .offs = offset };
+> +    uint64_t features, flags;
+> +
+> +    assert(offset + bytes <= s->image_size);
+> +
+> +    /* default to all sectors allocated */
+> +    status = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
+> +    *map = offset;
+> +    *file = bs;
+> +    *pnum = bytes;
+> +
+> +    /* check if RBD image supports fast-diff */
+> +    r = rbd_get_features(s->image, &features);
+> +    if (r < 0) {
+> +        return status;
+> +    }
+> +    if (!(features & RBD_FEATURE_FAST_DIFF)) {
+> +        return status;
+> +    }
+> +
+> +    /* check if RBD fast-diff result is valid */
+> +    r = rbd_get_flags(s->image, &flags);
+> +    if (r < 0) {
+> +        return status;
+> +    }
+> +    if (flags & RBD_FLAG_FAST_DIFF_INVALID) {
+> +        return status;
+> +    }
+> +
+> +    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
+> +                          qemu_rbd_diff_iterate_cb, &req);
+> +    if (r < 0 && r != QEMU_RBD_EXIT_DIFF_ITERATE2) {
+> +        return status;
+> +    }
+> +    assert(req.bytes <= bytes);
+> +    if (!req.exists) {
+> +        if (r == 0) {
+> +            /*
+> +             * rbd_diff_iterate2 does not invoke callbacks for unallocated
+> +             * areas. This here catches the case where no callback was
+> +             * invoked at all (req.bytes == 0).
+> +             */
+> +            assert(req.bytes == 0);
+> +            req.bytes = bytes;
+> +        }
+> +        status = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID;
+> +    }
+> +
+> +    *pnum = req.bytes;
+> +    return status;
+> +}
+> +
+>  static int64_t qemu_rbd_getlength(BlockDriverState *bs)
+>  {
+>      BDRVRBDState *s = bs->opaque;
+> @@ -1494,6 +1605,7 @@ static BlockDriver bdrv_rbd = {
+>  #ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
+>      .bdrv_co_pwrite_zeroes  = qemu_rbd_co_pwrite_zeroes,
+>  #endif
+> +    .bdrv_co_block_status   = qemu_rbd_co_block_status,
+>
+>      .bdrv_snapshot_create   = qemu_rbd_snap_create,
+>      .bdrv_snapshot_delete   = qemu_rbd_snap_remove,
+> --
+> 2.17.1
+>
+>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
 
+Thanks,
+
+                Ilya
 
