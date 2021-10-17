@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D337430CCB
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 00:58:04 +0200 (CEST)
-Received: from localhost ([::1]:36788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C38B7430CC6
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 00:55:57 +0200 (CEST)
+Received: from localhost ([::1]:56464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcF6R-0002kH-Lr
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 18:58:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57882)
+	id 1mcF4N-0005LJ-DE
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 18:55:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcF1d-00034p-Rs
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:53:05 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40809)
+ id 1mcF1U-00032F-51
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:52:56 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcF1P-0008Dd-1W
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:53:05 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- a140-20020a1c7f92000000b0030d8315b593so8600508wmd.5
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 15:52:50 -0700 (PDT)
+ id 1mcF1S-0008HI-N4
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 18:52:55 -0400
+Received: by mail-wr1-x431.google.com with SMTP id r10so37764529wra.12
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 15:52:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EubozS6eorePaHNWwSNiJgdqz/TZNbw8GbHpGk8Sesg=;
- b=EFgXvloVkA5Ef0wLekX4j+skYSRy4iK4+lF8Wycng58WXX3BDeBHI1MgcooK6V1i3l
- z/JfDznKcC0XAwRde7F09q+Qbw6QbSa/ZlU82wstb7hXvUw9iNGo/nx3b8oeuVLLvx9w
- LjuRo6T2aj870g2wMGamGArvxEHJWYViggMCaoLUq0gQcavUw1CqB2hH6Y2Pl42kAILg
- WtfvirFHaIfW7xeu4u4d0G5L7rreT5bABUjhdRio2xOHnl8/4Du/ZQ/IPAwaKlzkAarh
- yDSXs+uqn0xfvPCZcZmpIo9VC+Iz/jGSC9hku74G3AblTchcliXUev3kxedNX7XR/ggl
- c/pQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=XBnfgWtJMOT8mPH1nfALqedm/L7Aa2ZlVIQfLmCDLhk=;
+ b=IHWqW9qcdAF+qdq1BDK1lv8mXVsoZu69zPkgiaKdD9Xo1w0aqoqn3xMomEMjkEtiPM
+ GUrjtENWTm7xveNQgOqGLXL8++r32u7KwVSGYdS+QZ/i99Od/0gm4g6KAtBXhn0SBUAz
+ ba3eQPzDhiTDM73+xFbEr9Xy6bCZEUpEC0LtAVsXBlh1B5wnaOSbl23k3F69flB3bqjo
+ 8OZnZ34M+VMg8JyIZHjnrQCaYhs270ulUWyUquxAna/cNSEBQ6mi5ekFhHqmrsXWx89g
+ BPu0CpBJTv2EJDSBFejX4FqtxJrZ2NzfXJ8bliQqD8APBJrIUKnkLp6OYaZ1g+4B97IN
+ CNzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=EubozS6eorePaHNWwSNiJgdqz/TZNbw8GbHpGk8Sesg=;
- b=09EUusbt8+dxbmAGOWF9NcsR8y+ZIlReZvAIbl7v09Y3+uuEcWV43zBpmoKjoxm1Tc
- cZiq/Fl3ZqHKG0Oq1W9RmH7mNXcG2cgXojr+iCzhb8EWEglD8m3ldbWSkooKKTRLmS71
- HDg6B/URPigo4EJSkqCJ3kAqA3hlPBwTD+ee0ff1xI3prNfFYXd8prp+jhETPiHlpY5q
- foppVH4D9Oput8cNzhgPHDoT1s82EgEUg1k9eCnbm+X2VxsWoxRgDOJr+D7MyGu21dDN
- 6y0ylmMOSQ+H23ciGp6ZQEAxBHoetpN9iKk5QLCh2wPOdN/yQoGYMMebHEKelH3p0VwP
- m8KQ==
-X-Gm-Message-State: AOAM531muyYXamp2nUSuD7suYQ48dj8xAq/gqm4xUar3/rOL/KquW51p
- vRtf2eyzmmjWrzesZsdvL3178krw8zY=
-X-Google-Smtp-Source: ABdhPJxnfw7pYvAzdBtdLgsKzQG7ecldoo94ra5eK+AVfVGfVHQZlcYBto5S4iErUHfJHlOSdHNSNA==
-X-Received: by 2002:a1c:6a11:: with SMTP id f17mr27346391wmc.132.1634511168216; 
- Sun, 17 Oct 2021 15:52:48 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=XBnfgWtJMOT8mPH1nfALqedm/L7Aa2ZlVIQfLmCDLhk=;
+ b=aeWsidSQrO91faN+cAPB/+6d2OE8/8LwfLl1oLUBv4cz61zuR8qv42TSCJMexJsyGT
+ Enkh+TNMx3AwglNKQYRqP4W2iocXrevOcuqAc7CY3tu31DvlUeYn6hLvbjIr5z+JkRdV
+ r2ZQ6kbYoTQ5kmwnHqcIDKmzzUKM1mITOexUEoRbcy3etHlT8nkREJLkO+/FTYrvcdG1
+ /La9MsaxQ0hegnqSU70lzS7GflE3qxRuka4XHrt78+RTAMy1Kq2SRBO163bAEvJxPmLn
+ raDhqTXDnmf6LkErpFK9mtagrnTSihPJok5Lc5MxGNLJ6B20jE8ERoeTMgMJBNgWOLb4
+ 4mEw==
+X-Gm-Message-State: AOAM532iIUKcoWzdQBnhMmRgcaic5UMhkcoPgdTCicJjNpsmfkOxwnS0
+ rbVjOL6CjVs9apJRXDYcDSEo/HMA+4k=
+X-Google-Smtp-Source: ABdhPJwCxufwQs6gG61U+MsD5esm5pR2qMqMvXQFMHneqHI8qNDbQ/QisJP8RSnkSQh3npppcDC7XA==
+X-Received: by 2002:a05:6000:18a3:: with SMTP id
+ b3mr31492511wri.178.1634511172958; 
+ Sun, 17 Oct 2021 15:52:52 -0700 (PDT)
 Received: from x1w.. (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id k22sm10947852wrd.59.2021.10.17.15.52.46
+ by smtp.gmail.com with ESMTPSA id o23sm10946237wms.18.2021.10.17.15.52.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Oct 2021 15:52:47 -0700 (PDT)
+ Sun, 17 Oct 2021 15:52:52 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/17] MIPS patches for 2021-10-18
-Date: Mon, 18 Oct 2021 00:52:28 +0200
-Message-Id: <20211017225245.2618892-1-f4bug@amsat.org>
+Subject: [PULL 01/17] target/mips: Check nanoMIPS DSP MULT[U] accumulator with
+ Release 6
+Date: Mon, 18 Oct 2021 00:52:29 +0200
+Message-Id: <20211017225245.2618892-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211017225245.2618892-1-f4bug@amsat.org>
+References: <20211017225245.2618892-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,73 +88,56 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Huacai Chen <chenhuacai@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Paul Burton <paulburton@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit c148a0572130ff485cd2249fbdd1a3260d5e10a4=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20211016' into st=
-aging (2021-10-16 11:16:28 -0700)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://github.com/philmd/qemu.git tags/mips-20211018=0D
-=0D
-for you to fetch changes up to 2792cf20ca7eed0e354a0ed731422411faca4908:=0D
-=0D
-  via-ide: Avoid using isa_get_irq() (2021-10-18 00:41:36 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-MIPS patches queue=0D
-=0D
-Hardware emulation:=0D
-- Generate FDT blob for Boston machine (Jiaxun)=0D
-- VIA chipset cleanups (Zoltan)=0D
-=0D
-TCG:=0D
-- Use tcg_constant() in Compact branch and MSA opcodes=0D
-- Restrict nanoMIPS DSP MULT[U] opcode accumulator to Rel6=0D
-- Fix DEXTRV_S.H DSP opcode=0D
-- Remove unused TCG temporary for some DSP opcodes=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-BALATON Zoltan (4):=0D
-  via-ide: Set user_creatable to false=0D
-  vt82c686: Move common code to via_isa_realize=0D
-  vt82c686: Add a method to VIA_ISA to raise ISA interrupts=0D
-  via-ide: Avoid using isa_get_irq()=0D
-=0D
-Jiaxun Yang (3):=0D
-  hw/mips/boston: Massage memory map information=0D
-  hw/mips/boston: Allow loading elf kernel and dtb=0D
-  hw/mips/boston: Add FDT generator=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (10):=0D
-  target/mips: Check nanoMIPS DSP MULT[U] accumulator with Release 6=0D
-  target/mips: Remove unused register from MSA 2R/2RF instruction format=0D
-  target/mips: Use tcg_constant_i32() in gen_msa_elm_df()=0D
-  target/mips: Use tcg_constant_i32() in gen_msa_2rf()=0D
-  target/mips: Use tcg_constant_i32() in gen_msa_2r()=0D
-  target/mips: Use tcg_constant_i32() in gen_msa_3rf()=0D
-  target/mips: Use explicit extract32() calls in gen_msa_i5()=0D
-  target/mips: Use tcg_constant_tl() in gen_compute_compact_branch()=0D
-  target/mips: Fix DEXTRV_S.H DSP opcode=0D
-  target/mips: Remove unused TCG temporary in gen_mipsdsp_accinsn()=0D
-=0D
- include/hw/isa/vt82c686.h                |   4 +=0D
- hw/ide/via.c                             |   7 +-=0D
- hw/isa/vt82c686.c                        |  75 +++--=0D
- hw/mips/boston.c                         | 371 +++++++++++++++++++++--=0D
- target/mips/tcg/msa_translate.c          |  51 ++--=0D
- target/mips/tcg/translate.c              |  11 +-=0D
- target/mips/tcg/nanomips_translate.c.inc |   6 +=0D
- 7 files changed, 415 insertions(+), 110 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+Per the "MIPS Architecture Extension: nanoMIPS32 DSP TRM" rev 0.04,
+MULT and MULTU opcodes:
+
+  The value of ac selects an accumulator numbered from 0 to 3.
+  When ac=0, this refers to the original HI/LO register pair of the
+  MIPS32 architecture.
+
+  In Release 6 of the MIPS Architecture, accumulators are eliminated
+  from MIPS32.
+
+Ensure pre-Release 6 is restricted to HI/LO registers pair.
+
+Fixes: 8b3698b2947 ("target/mips: Add emulation of DSP ASE for nanoMIPS - part 4")
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/tcg/nanomips_translate.c.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
+index ccbcecad093..2c022a49f24 100644
+--- a/target/mips/tcg/nanomips_translate.c.inc
++++ b/target/mips/tcg/nanomips_translate.c.inc
+@@ -1868,6 +1868,9 @@ static void gen_pool32axf_2_nanomips_insn(DisasContext *ctx, uint32_t opc,
+                 TCGv_i32 t2 = tcg_temp_new_i32();
+                 TCGv_i32 t3 = tcg_temp_new_i32();
+ 
++                if (acc || ctx->insn_flags & ISA_MIPS_R6) {
++                    check_dsp_r2(ctx);
++                }
+                 gen_load_gpr(t0, rs);
+                 gen_load_gpr(t1, rt);
+                 tcg_gen_trunc_tl_i32(t2, t0);
+@@ -1925,6 +1928,9 @@ static void gen_pool32axf_2_nanomips_insn(DisasContext *ctx, uint32_t opc,
+                 TCGv_i32 t2 = tcg_temp_new_i32();
+                 TCGv_i32 t3 = tcg_temp_new_i32();
+ 
++                if (acc || ctx->insn_flags & ISA_MIPS_R6) {
++                    check_dsp_r2(ctx);
++                }
+                 gen_load_gpr(t0, rs);
+                 gen_load_gpr(t1, rt);
+                 tcg_gen_trunc_tl_i32(t2, t0);
+-- 
+2.31.1
+
 
