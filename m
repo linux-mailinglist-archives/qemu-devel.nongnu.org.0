@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A92430AB7
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 18:26:21 +0200 (CEST)
-Received: from localhost ([::1]:38044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251F6430AB5
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 18:26:14 +0200 (CEST)
+Received: from localhost ([::1]:37462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mc8zM-0000gy-Ne
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 12:26:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60068)
+	id 1mc8zE-0000GD-Ve
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 12:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mc8ve-0006BU-0G
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:22:30 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36657)
+ id 1mc8wy-0007Ct-JG
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:23:54 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mc8vb-0006fe-L4
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:22:29 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id o20so36659338wro.3
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 09:22:27 -0700 (PDT)
+ id 1mc8wx-0007ml-71
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 12:23:52 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id m22so36776242wrb.0
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 09:23:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=s9NtwtayWLEpVUGYuUtLCFdMB0zfBP3KY87YX7Cf+BU=;
- b=ZmCLz7TRWV10fEfmJpgWbpDzQKSZiNGl6g+2E4ZpvvvMfS6sDQ/R/p46B2x74m/2jq
- aq/EOySHh3eInn1ySJILLzkK2wAxaASxFOzZKlrbpl6nDewO7yauJdDOd+Hb5fqZrV9Q
- diZm4YWUPGv23F1KViBnOIa4SXQBfLXG1nubAnfHtoWpVPnS2FwP/JrC0BVXq0HFHpm7
- sh/SsruY5O3a2DdAAMi510DHJMikRyZ7xdHOJlN7mNbG64s31UlqgKoU2mmY37dFvLEV
- 5hTsxk44swkXmD7wJQR0MVpSpXm80qA+LgHFaeXU37/ix6j+bhs06XDOHJCdpnXRcwXQ
- BLPw==
+ bh=fsucXqs6CLImagUaMLqrKH5/2E3Ejo6Xa5YgqTTmKvM=;
+ b=H5oR9N6E7L/c3uvb4mxfVZCT1oILbFRBOTJV5LvCdMte07EOfp0IRE+cby21ufNEWQ
+ qdEnYNEiByo5AQ7V2JI5I9laBHHgJo2LT0RnpAuVkXkVoUal98QIgFYXkh0+KRtsV+TA
+ Vhh0d8of/7eCRs3KgvaLLH11fohI0rsMAI3T2TXBZfGTDPwF742lrUrcV3LaOVGkIb2r
+ +aKpF/dyBiBASAR69+T0N09qDdAR/GqgqqQiFVJ16nhlKo3xAJUDQEhibM0vHqQu8Ode
+ NxsMOaRxVrWhiTsZ170VDZH2Gxp0SYB/5ygL7ym7J3dCx5UAbXOiDMzcVibjazymXkrd
+ xH8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=s9NtwtayWLEpVUGYuUtLCFdMB0zfBP3KY87YX7Cf+BU=;
- b=OZif4OKGc30U3az6sk3ivkvektKNSlJo18W6xq8UDZeWP85AIgKCrM5pjwBHd7ykLd
- CKDSJ0+TFddq0pxOXUOV2uMvzLqZ8ANaoxvATqEL6tscI74oDsKgi9Xczsv3U6o1OO+M
- vk5NjvELfiluIgkBocMy/dpONJuqBRCzFqn3IAlMmLRn4AJ2Ym0FfpADXLBxfZzmRAeh
- 8OFffweTGUF4EgWLlXEchtgW0NeiMnxsxlkwAi+vT71Bgz0C9U/hXcaHh8IRpi9NCSPZ
- x1u5ETjN6O4KdSmeWDAoM8hxDyGfuIBD7lN48INz6HR7eEoLX4rQ/+4+1EyBA7j5/PSC
- HZzA==
-X-Gm-Message-State: AOAM530IrFXst2EmySfRq5XEVIlaMJl9b81my//9yP9qUlv+6u2Rznqh
- hRjLD9xhKa/LX7AwuC4suxo=
-X-Google-Smtp-Source: ABdhPJzooeS8vRnvZJgS11LSPJJMq2qqI9+Xi4XD2sea0RaYbDLngc0VSjuEvr+oJzjPpkhLSDy3cA==
-X-Received: by 2002:adf:a2d4:: with SMTP id t20mr28888181wra.229.1634487746280; 
- Sun, 17 Oct 2021 09:22:26 -0700 (PDT)
+ bh=fsucXqs6CLImagUaMLqrKH5/2E3Ejo6Xa5YgqTTmKvM=;
+ b=vLK5snhZxU+KoIVvN5hL8B4x+Ylt2d1eErYJGuqvdyeU7jbLUrRdtnS2aUyyCX2cX7
+ 1TRtL+m+tBCK6c9Y/FUckteTYYI0Rg5i8pOsE4N/kzSDbiMr3jUV2B57Xma1USqSK1UY
+ wc3oWYfup3HQTAlHJJZLNKW/SixDkM9s4XoBLrPzhnhto+utW4gFAnsSltub4h/s+2Ot
+ /rhqniOj0VKpvFsyLxVsA5fp6Ov34eOcXLJwkA1NglvgR7RTychhNQtTHPn8PofYqqFk
+ ibl3E12x+SpGIwEgDdTBr9abYxEKpkLLIkU5s82u/XIJdoC7HtWUAPu+Pyh797P2swHD
+ 5fiQ==
+X-Gm-Message-State: AOAM531DKBDeHNnmi4dWQq3+VDFRyuULcgaY/IQYpUDth4uiZ3Q9XSxH
+ jTIdq3cED2SNCR1ejaDRAEU=
+X-Google-Smtp-Source: ABdhPJzINvBywL/vZq92aMLuJXg3meHPSIoSvn7MY0dA3CY90W4MdtGCnSiDIsGpyAeMnHAq7dZjOQ==
+X-Received: by 2002:adf:bd8a:: with SMTP id l10mr29482362wrh.159.1634487829813; 
+ Sun, 17 Oct 2021 09:23:49 -0700 (PDT)
 Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id z135sm5109554wmc.45.2021.10.17.09.22.25
+ by smtp.gmail.com with ESMTPSA id l13sm10209272wrn.79.2021.10.17.09.23.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 17 Oct 2021 09:22:25 -0700 (PDT)
-Message-ID: <d17fcc21-dca8-4f69-800f-6fccb213d81e@amsat.org>
-Date: Sun, 17 Oct 2021 18:22:23 +0200
+ Sun, 17 Oct 2021 09:23:49 -0700 (PDT)
+Message-ID: <59b984ce-2e03-210c-4c43-e8a841e54c15@amsat.org>
+Date: Sun, 17 Oct 2021 18:23:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 1/4] vt82c686: Move common code to via_isa_realize
+Subject: Re: [PATCH 2/4] vt82c686: Add a method to VIA_ISA to raise ISA
+ interrupts
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1634259980.git.balaton@eik.bme.hu>
- <7cb7a16ff4daf8f48d576246255bea1fd355207c.1634259980.git.balaton@eik.bme.hu>
+ <778c04dc2c8affac060b8edf9e8d7dab3c3e04eb.1634259980.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <7cb7a16ff4daf8f48d576246255bea1fd355207c.1634259980.git.balaton@eik.bme.hu>
+In-Reply-To: <778c04dc2c8affac060b8edf9e8d7dab3c3e04eb.1634259980.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
@@ -95,14 +96,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/15/21 03:06, BALATON Zoltan wrote:
-> The vt82c686b_realize and vt8231_realize methods are almost identical,
-> factor out the common parts to a via_isa_realize function to avoid
-> code duplication.
+> Other functions in the VT82xx chips need to raise ISA interrupts. Keep
+> a reference to them in the device state and add via_isa_set_irq() to
+> allow setting their state.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->  hw/isa/vt82c686.c | 67 ++++++++++++++++++++---------------------------
->  1 file changed, 29 insertions(+), 38 deletions(-)
+>  hw/isa/vt82c686.c         | 10 +++++++++-
+>  include/hw/isa/vt82c686.h |  4 ++++
+>  2 files changed, 13 insertions(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
