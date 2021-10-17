@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 216804305A8
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 01:51:57 +0200 (CEST)
-Received: from localhost ([::1]:37358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 851794305B6
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 02:25:01 +0200 (CEST)
+Received: from localhost ([::1]:39926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mbtT0-0001Wy-Lg
-	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 19:51:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55172)
+	id 1mbtz2-00054v-3J
+	for lists+qemu-devel@lfdr.de; Sat, 16 Oct 2021 20:25:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbtQW-0000rB-9k
- for qemu-devel@nongnu.org; Sat, 16 Oct 2021 19:49:20 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:36374)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mbtxm-0004Ib-LU
+ for qemu-devel@nongnu.org; Sat, 16 Oct 2021 20:23:43 -0400
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:44987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mbtQT-0000RR-RD
- for qemu-devel@nongnu.org; Sat, 16 Oct 2021 19:49:19 -0400
-Received: by mail-pl1-x629.google.com with SMTP id f21so8776917plb.3
- for <qemu-devel@nongnu.org>; Sat, 16 Oct 2021 16:49:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=3Uuv156Ah8r45cUDZSDAu4R69O1wnb1ifz5JN+/Areo=;
- b=IgQUXNLYcdICAnvFU9tRLV6txSE/eNIXRbhKekHfMzs2K2/UfLRfCTnED+MHnX2eel
- /PlKWTZGH8V4qnLbBnyS9mYkbZ+D6GVNjwzmfIpD5Zrs8+BBgou1uCSiOjX4es9jyvjU
- shZFgT0PWlzUTMGdcVwLLv7jpC2vmE1wqmsiYi7vwBxOopLYtK+b0FF7ktAMUVYc5IY+
- bs6aKUiFosSFTb0Zgm7pq5AJW2HPYybWa1e1QvP7hfsTTOQ/Q9c3IhexUTUHteT7awWk
- LIas848litk5DmqdIOdbc5kzbD/G4ZW27NhP4bCF4OvT1yXLRsAKxQNTb+cpyG93DLvc
- xFdQ==
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mbtxk-0000nh-KJ
+ for qemu-devel@nongnu.org; Sat, 16 Oct 2021 20:23:41 -0400
+Received: by mail-il1-x12c.google.com with SMTP id j8so11113850ila.11
+ for <qemu-devel@nongnu.org>; Sat, 16 Oct 2021 17:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Y7fQ/fjm1fP3lo1s39k3qR7q4hjzXTxkw+M3G7OV1eU=;
+ b=HeeUskgMbRo6woquRw8//8S59k4hEBHT8IO9D9WsIWd19sJIultvp+Mw1w5ZNPD4On
+ lH5UPzlOFrRgBd6y1xrwPwFtRxfwKjjGWh+ba5+RpXcQRlAVQz3fJI7vlVaNF/4OQWVG
+ ikHIxE+c3u2I0WKBzrPLZRyAqjA6Ny3fRfO4WslxlKNUQP0NWLPN4+mf6TWD4/2T1jmX
+ ccc72FOTjgSI4dTO36RQwCLGAWpXj9/UNZnMQoS/ejDMXZ4jUSjqqInwgOfNht0bp75i
+ uULHT3s0C7hicogmMA5xJl+7PffHqbCcDJlstoqFZULI4vA2/XsEjX/wmABQxQC42ura
+ MVjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3Uuv156Ah8r45cUDZSDAu4R69O1wnb1ifz5JN+/Areo=;
- b=VSoPgp+fb66rVjLNM0bms+5Cv7fOadn3Oh9VW6nbH3ZtIuvEF3WaSyz7jyCe9r192O
- IIFH7z5GcPmlNtuLgzcJXBpd/qqLfLj62XUyCTh5KxJlaSgEs1yVjLuq7YmGE21lr77m
- 3ypii7BooFB8a6Ed8J2C+rjNCKprbjxw9t4LzA9hwDGvp4syj/mPOL7YJNWP9uAVvcSc
- AWcIGEGsX4M8Wqmi5m5GvBhp2UOan/mcH4wFqURTA7ayGK+sOjL1EWN8jo++F4T/vTKv
- 5YVLmFOaH4mqpINkP096+57oBQWelLqbrK9T/zszDpazA/5DqE8JuBsxJ/5qnde1SHmR
- b/Rw==
-X-Gm-Message-State: AOAM532eExZB3Nq69bVRNlyuAIF/TamEtvW3T3z/He688JOca5R93Qdm
- uFMXEh+HJ5x284eVLrqBfJkTuu+0JAUGIw==
-X-Google-Smtp-Source: ABdhPJxnbwYnFwaVRUBZeSbmn4Y5tTQy1gyjNu5falaDKH113syaL23HoJ2gtHdvUs+Hp4sBvWeu9A==
-X-Received: by 2002:a17:90b:398:: with SMTP id
- ga24mr23773027pjb.87.1634428155321; 
- Sat, 16 Oct 2021 16:49:15 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id c24sm8849670pgj.63.2021.10.16.16.49.14
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 16 Oct 2021 16:49:14 -0700 (PDT)
-Subject: Re: [PULL 00/24] tcg patch queue
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20211016181514.3165661-1-richard.henderson@linaro.org>
-Message-ID: <bec46fd4-8785-888a-aa99-299e0812b47c@linaro.org>
-Date: Sat, 16 Oct 2021 16:49:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Y7fQ/fjm1fP3lo1s39k3qR7q4hjzXTxkw+M3G7OV1eU=;
+ b=4afa+3SyjhC63/qQnIe+GezdX3ReU64WZ6+2EmnEk4HSd1gdSC/uXcC0104OLgXdH6
+ QNN+1R+JGZOUJ65wIDjhaMLNcKuv8WSVw8SpzBK/O1XVbHOJxqHnwLia8BduXgaT3mSH
+ LvRtMSpINaQ+82rnJNSJX/J/+TKgjKmX1a+TzqDbIDcGx6ecZqyXLV99v1uA+vDuXo1a
+ 2yzCgKXG9R7291A0rBZS8esTi5a7BLi7oti45o0/BRyd+kleKpEELG+pBKZQI6EwX5ki
+ TPbvRkReoPgtguBAJegR5l9zQ2QZTB6kS36xYJbqnXpC12YJ0IdeyfRGSd8vbJYv81Zc
+ a88A==
+X-Gm-Message-State: AOAM5329uYt8Km1eD1TLbCi60aFX2UN3GxbtT+GnLWhNDv++4BK0uQlk
+ i/ekCTeFL38nFlbHix/Lu49wemXXmkQO2OGxcTKBSQ==
+X-Google-Smtp-Source: ABdhPJxQrGA1qLItmgva/vCT2ieK66jVHFw/FLG9yETCHlI6C443ZLrEYkCQAgjhzhqIrXEiXUNIW8GyESjHBBI3i5Y=
+X-Received: by 2002:a05:6e02:1b88:: with SMTP id
+ h8mr9091301ili.200.1634430218731; 
+ Sat, 16 Oct 2021 17:23:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211016181514.3165661-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+References: <20211016090742.3034669-1-frank.chang@sifive.com>
+ <e05ac0c9-3be7-7270-e46b-4da82466ad0e@linaro.org>
+In-Reply-To: <e05ac0c9-3be7-7270-e46b-4da82466ad0e@linaro.org>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Sun, 17 Oct 2021 08:23:27 +0800
+Message-ID: <CAE_xrPj3DG3aQ_E0pnrUxW6znWJAbq5D=sxxhcPnbXtBH012ow@mail.gmail.com>
+Subject: Re: [PATCH v3 0/6] target/riscv: support Zfh, Zfhmin extension v0.1
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000009918b305ce8170ef"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=frank.chang@sifive.com; helo=mail-il1-x12c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,91 +78,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/16/21 11:14 AM, Richard Henderson wrote:
-> The following changes since commit 6587b0c1331d427b0939c37e763842550ed581db:
-> 
->    Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-10-15' into staging (2021-10-15 14:16:28 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20211016
-> 
-> for you to fetch changes up to 995b87dedc78b0467f5f18bbc3546072ba97516a:
-> 
->    Revert "cpu: Move cpu_common_props to hw/core/cpu.c" (2021-10-15 16:39:15 -0700)
-> 
-> ----------------------------------------------------------------
-> Move gdb singlestep to generic code
-> Fix cpu_common_props
-> 
-> ----------------------------------------------------------------
-> Richard Henderson (24):
->        accel/tcg: Handle gdb singlestep in cpu_tb_exec
->        target/alpha: Drop checks for singlestep_enabled
->        target/avr: Drop checks for singlestep_enabled
->        target/cris: Drop checks for singlestep_enabled
->        target/hexagon: Drop checks for singlestep_enabled
->        target/arm: Drop checks for singlestep_enabled
->        target/hppa: Drop checks for singlestep_enabled
->        target/i386: Check CF_NO_GOTO_TB for dc->jmp_opt
->        target/i386: Drop check for singlestep_enabled
->        target/m68k: Drop checks for singlestep_enabled
->        target/microblaze: Check CF_NO_GOTO_TB for DISAS_JUMP
->        target/microblaze: Drop checks for singlestep_enabled
->        target/mips: Fix single stepping
->        target/mips: Drop exit checks for singlestep_enabled
->        target/openrisc: Drop checks for singlestep_enabled
->        target/ppc: Drop exit checks for singlestep_enabled
->        target/riscv: Remove dead code after exception
->        target/riscv: Remove exit_tb and lookup_and_goto_ptr
->        target/rx: Drop checks for singlestep_enabled
->        target/s390x: Drop check for singlestep_enabled
->        target/sh4: Drop check for singlestep_enabled
->        target/tricore: Drop check for singlestep_enabled
->        target/xtensa: Drop check for singlestep_enabled
->        Revert "cpu: Move cpu_common_props to hw/core/cpu.c"
-> 
->   include/hw/core/cpu.h                          |  1 +
->   target/i386/helper.h                           |  1 -
->   target/rx/helper.h                             |  1 -
->   target/sh4/helper.h                            |  1 -
->   target/tricore/helper.h                        |  1 -
->   accel/tcg/cpu-exec.c                           | 11 ++++
->   cpu.c                                          | 21 ++++++++
->   hw/core/cpu-common.c                           | 17 +-----
->   target/alpha/translate.c                       | 13 ++---
->   target/arm/translate-a64.c                     | 10 +---
->   target/arm/translate.c                         | 36 +++----------
->   target/avr/translate.c                         | 19 ++-----
->   target/cris/translate.c                        | 16 ------
->   target/hexagon/translate.c                     | 12 +----
->   target/hppa/translate.c                        | 17 ++----
->   target/i386/tcg/misc_helper.c                  |  8 ---
->   target/i386/tcg/translate.c                    |  9 ++--
->   target/m68k/translate.c                        | 44 ++++-----------
->   target/microblaze/translate.c                  | 18 ++-----
->   target/mips/tcg/translate.c                    | 75 ++++++++++++--------------
->   target/openrisc/translate.c                    | 18 ++-----
->   target/ppc/translate.c                         | 38 +++----------
->   target/riscv/translate.c                       | 27 +---------
->   target/rx/op_helper.c                          |  8 ---
->   target/rx/translate.c                          | 12 +----
->   target/s390x/tcg/translate.c                   |  8 +--
->   target/sh4/op_helper.c                         |  5 --
->   target/sh4/translate.c                         | 14 ++---
->   target/tricore/op_helper.c                     |  7 ---
->   target/tricore/translate.c                     | 14 +----
->   target/xtensa/translate.c                      | 25 +++------
->   target/riscv/insn_trans/trans_privileged.c.inc | 10 ++--
->   target/riscv/insn_trans/trans_rvi.c.inc        |  8 ++-
->   target/riscv/insn_trans/trans_rvv.c.inc        |  2 +-
->   34 files changed, 141 insertions(+), 386 deletions(-)
+--0000000000009918b305ce8170ef
+Content-Type: text/plain; charset="UTF-8"
 
-Applied, thanks.
+On Sun, Oct 17, 2021 at 2:03 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-r~
+> On 10/16/21 2:07 AM, frank.chang@sifive.com wrote:
+> > Changelog:
+> >
+> > v3:
+> >    * Use the renamed softfloat min/max APIs: *_minimum_number()
+> >      and *_maximum_number().
+> >    * Pick softfloat min/max APIs based on CPU privilege spec version.
+>
+> So... Given that Zfh 0.1 post-dates F 2.2, does that mean that Zfh should
+> always use the
+> 2019 functions?
+>
 
+Hi Richard,
+
+That's what I thought, but Zfh spec says:
+
+"This chapter describes the Zfh standard extension for 16-bit
+half-precision binary floating-point
+instructions compliant with the IEEE 754-2008 arithmetic standard. The Zfh
+extension depends on
+the single-precision floating-point extension, F."
+
+The spec doesn't illustrate too much about how fmin.h/fmax.h should behave,
+so that's why I took the same approach just like fmin and fmax for RVF in
+my other patchset.
+
+If that's not acceptable, I can change back to use IEEE 754-2019 for Zfh
+extension.
+
+Thanks,
+Frank Chang
+
+
+>
+> r~
+>
+
+--0000000000009918b305ce8170ef
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Sun, Oct 17, 2021 at 2:03 AM Richard H=
+enderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hender=
+son@linaro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">On 10/16/21 2:07 AM, <a href=3D"ma=
+ilto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com</a> w=
+rote:<br>
+&gt; Changelog:<br>
+&gt; <br>
+&gt; v3:<br>
+&gt;=C2=A0 =C2=A0 * Use the renamed softfloat min/max APIs: *_minimum_numbe=
+r()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 and *_maximum_number().<br>
+&gt;=C2=A0 =C2=A0 * Pick softfloat min/max APIs based on CPU privilege spec=
+ version.<br>
+<br>
+So... Given that Zfh 0.1 post-dates F 2.2, does that mean that Zfh should a=
+lways use the <br>
+2019 functions?<br></blockquote><div><br></div><div>Hi Richard,</div><div><=
+br></div><div>That&#39;s what I thought, but Zfh spec says:</div><div><br><=
+/div><div>&quot;This chapter describes the Zfh standard extension for 16-bi=
+t half-precision binary floating-point</div>instructions compliant with the=
+ IEEE 754-2008 arithmetic standard. The Zfh extension depends on<br>the sin=
+gle-precision floating-point extension, F.&quot;</div><div class=3D"gmail_q=
+uote"><br></div><div class=3D"gmail_quote">The spec doesn&#39;t illustrate =
+too much about how fmin.h/fmax.h should behave,</div><div class=3D"gmail_qu=
+ote">so=C2=A0that&#39;s why I took the same approach just like fmin and fma=
+x for RVF in my other patchset.<br><div>=C2=A0<br></div><div>If that&#39;s =
+not acceptable, I can change back to use IEEE 754-2019 for Zfh extension.</=
+div><div><br></div><div>Thanks,</div><div>Frank Chang</div><div><br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+<br>
+r~<br>
+</blockquote></div></div>
+
+--0000000000009918b305ce8170ef--
 
