@@ -2,73 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A064430B44
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 19:39:18 +0200 (CEST)
-Received: from localhost ([::1]:36470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23547430B94
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Oct 2021 20:47:08 +0200 (CEST)
+Received: from localhost ([::1]:37580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcA7x-0007jH-Gs
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 13:39:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38914)
+	id 1mcBBa-0005cP-Md
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 14:47:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1mc9wo-0001nm-Uf; Sun, 17 Oct 2021 13:27:47 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:46018)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1mc9wn-0003Ht-EG; Sun, 17 Oct 2021 13:27:46 -0400
-Received: by mail-ed1-x535.google.com with SMTP id r18so61200775edv.12;
- Sun, 17 Oct 2021 10:27:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=WX5XX48DMBcs3sY/O4MWnvihk8w9+6+uzGwdj8DEbnQ=;
- b=ogAntw5mD4rgmA5hsWn9INRaSM1bxJOtQspAWAcitYNwI+fDaHvPdG1sd8EKjo7uhk
- JRY6RFAmRFcI5S7Q++eqIAtNdWVyznNtjj65A/igSpcY/LvDQguTwT4CcvhVv5auLF1E
- bnm3vDUWoFGYg33iTd05ADme616Uu5siPjd8piwc46DXjqLkUQk7TUUggd2PIf+2rU1R
- K2200Q/q8jBnbxL83QL9Eu2NCLT5VGdADz+cXq813WrLWtnuquckK7+iLgMvE6GTLPpo
- QXjPNmU1KiSR+mTAURxFY8rl7MT2m/zEbUmw8+O3GkZqbvxLY4EUjwVwnnJQJCfsgSAT
- +xBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=WX5XX48DMBcs3sY/O4MWnvihk8w9+6+uzGwdj8DEbnQ=;
- b=bMP65Uf/9SUigpKrZvpcRjwDgh2FrvfL1rG+o1GvEOwE6+ah8N0CkAx7U2xoU5PfHK
- xHpqTNWcOMGNx2gBjnCSc++Cej8A53Jvsd8jOAv+dQMAB9/U7IU9QgL6FZumri/CgTHz
- PH8EHe3DKJ/p2GCEOFc3oyN8xypMRkiC1GTJT31c6AXtnHHhQv/+czD/RTzi9D6McnKW
- 95KduUQ6AGrI13VgUBljM5jxPaiPOS7V++uyNnyqrGyTjVuf3E1NRBvDL03Ki+P+V3Ip
- swTlvfPs/j1Rv/Kx8rTWrP/W7Iy8g/zlShQsOygUeannWbSKqf3gk1eBwTfV++Iv2tQG
- jzpQ==
-X-Gm-Message-State: AOAM532mGBbI89Igl+ZQHS14l1Z5/vSChULwnKzgQzNa5KSBLVKPmNUX
- 9dPe8LK8aKSSdh09IYU1ADM=
-X-Google-Smtp-Source: ABdhPJx3yzWHr/xQyIrUFpKb0hxCW1dxXSjZuOSLEEltAJ8VyRT20YH9cnf+ccd+uX4Zf6ZjWcqrhQ==
-X-Received: by 2002:a17:907:3e87:: with SMTP id
- hs7mr23886026ejc.403.1634491663665; 
- Sun, 17 Oct 2021 10:27:43 -0700 (PDT)
-Received: from neptune.lab ([46.39.228.224])
- by smtp.googlemail.com with ESMTPSA id v19sm7989814ejx.26.2021.10.17.10.27.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Oct 2021 10:27:43 -0700 (PDT)
-From: Alexey Baturo <baturo.alexey@gmail.com>
-X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
-To: 
-Subject: [PATCH v14 8/8] [RISCV_PM] Allow experimental J-ext to be turned on
-Date: Sun, 17 Oct 2021 20:27:28 +0300
-Message-Id: <20211017172728.759687-9-space.monkey.delivers@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211017172728.759687-1-space.monkey.delivers@gmail.com>
-References: <20211017172728.759687-1-space.monkey.delivers@gmail.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mcB9G-0004hw-PT
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 14:44:42 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:23225)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mcB9D-0006Df-Uf
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 14:44:41 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 1AC54746353;
+ Sun, 17 Oct 2021 20:44:33 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id E81FD746333; Sun, 17 Oct 2021 20:44:32 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id E64AD7462D3;
+ Sun, 17 Oct 2021 20:44:32 +0200 (CEST)
+Date: Sun, 17 Oct 2021 20:44:32 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 4/4] via-ide: Avoid using isa_get_irq()
+In-Reply-To: <84ff4daf-e04c-9238-ae31-9ddaed9a37dc@amsat.org>
+Message-ID: <2f3756a-a968-2d16-f238-1dd16647cc9@eik.bme.hu>
+References: <cover.1634259980.git.balaton@eik.bme.hu>
+ <26cb1848c9fc0360df7a57c2c9ba5e03c4a692b5.1634259980.git.balaton@eik.bme.hu>
+ <84ff4daf-e04c-9238-ae31-9ddaed9a37dc@amsat.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=baturo.alexey@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1434617930-1634496272=:34016"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,45 +59,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
- Alistair Francis <alistair.francis@wdc.com>, kupokupokupopo@gmail.com,
- palmer@dabbelt.com, Bin Meng <bmeng.cn@gmail.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 7f9dde70b7..fb08c0ffb8 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -558,6 +558,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-             }
-             set_vext_version(env, vext_version);
-         }
-+        if (cpu->cfg.ext_j) {
-+            target_misa |= RVJ;
-+        }
- 
-         set_misa(env, target_misa);
-     }
-@@ -624,6 +627,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
-     DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-+    DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
--- 
-2.30.2
+--3866299591-1434617930-1634496272=:34016
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
+On Sun, 17 Oct 2021, Philippe Mathieu-Daudé wrote:
+> On 10/15/21 03:06, BALATON Zoltan wrote:
+>> Use via_isa_set_irq() which better encapsulates irq handling in the
+>> vt82xx model and avoids using isa_get_irq() that has a comment saying
+>> it should not be used.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>  hw/ide/via.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/ide/via.c b/hw/ide/via.c
+>> index 94cc2142c7..252d18f4ac 100644
+>> --- a/hw/ide/via.c
+>> +++ b/hw/ide/via.c
+>> @@ -29,7 +29,7 @@
+>>  #include "migration/vmstate.h"
+>>  #include "qemu/module.h"
+>>  #include "sysemu/dma.h"
+>> -
+>> +#include "hw/isa/vt82c686.h"
+>>  #include "hw/ide/pci.h"
+>>  #include "trace.h"
+>>
+>> @@ -112,7 +112,7 @@ static void via_ide_set_irq(void *opaque, int n, int level)
+>>          d->config[0x70 + n * 8] &= ~0x80;
+>>      }
+>>
+>> -    qemu_set_irq(isa_get_irq(NULL, 14 + n), level);
+>> +    via_isa_set_irq(pci_get_function_0(d), 14 + n, level);
+>
+> Since pci_get_function_0() is expensive, we should cache
+> 'PCIDevice *func0' in PCIIDEState, setting the pointer in
+> via_ide_realize(). Do you mind sending a follow-up patch?
+
+I can do that but waiting for a decision on how to proceed. Will Gerd take 
+my first series this is based on as is then this should be a separate 
+series doing the clean up using pci_get_function_0 or should these two 
+series be merged? I'd also squash setting user_creatable = false into this 
+patch (and do similar for the usb one) unless you guys think it should be 
+a separate patch?
+
+Regards,
+BALATON Zoltan
+--3866299591-1434617930-1634496272=:34016--
 
