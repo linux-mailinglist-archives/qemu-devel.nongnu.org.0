@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8234313CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:49:18 +0200 (CEST)
-Received: from localhost ([::1]:54912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A617D4313DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:54:58 +0200 (CEST)
+Received: from localhost ([::1]:36128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcPGf-0006mT-IR
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:49:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51222)
+	id 1mcPM9-0004tj-Pv
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:54:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mcPEv-0004ak-UM
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:47:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52155)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mcPIg-0000Xx-1N
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:51:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mcPEu-0005hH-Bj
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:47:29 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mcPIc-0001gF-0v
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:51:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634550446;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1634550677;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZDvaCaN6r9hF4Vd9gKXbaXI6zfg4GPj410BKpoF3mX4=;
- b=iGoBwJWpa05b6/mkS2aEIuGpSxXVFPkGSpswaxU3swhl194KMXq3kMbP0MF7sA+F8SqGAd
- T9beY5YvP0ScfOJkPjmPe4JSYPDwJ6l0+MEZOCgC4RydJntGEW+j4HG14fJxc+N87NkpnY
- MX3FxAXkKID3K0axkHpWCVY0v1IcNWU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-UeKfiBoaPI-MXDmfYDW8mw-1; Mon, 18 Oct 2021 05:47:25 -0400
-X-MC-Unique: UeKfiBoaPI-MXDmfYDW8mw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- a15-20020a056000188f00b00161068d8461so8669070wri.11
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 02:47:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ZDvaCaN6r9hF4Vd9gKXbaXI6zfg4GPj410BKpoF3mX4=;
- b=cm5uQJBsN8umdh7as2sTs1JhbzAodhMX4DQH85g9s1QVFamu5EwdSLV6+PrwqJLg8o
- KPUuMFaiHAIe2J50HYg5pn26IEcOY5CPTwZmTNBV1PVQUo1MUb85foLyh3LNOJh25INX
- QhGol3qS8tzOtyRwtJgrGlOCTJwBhiHPsLuCEyE7IvmuTERZzQ110qgJdl6/Tq4tJU+i
- gT2Jzg3i3ywKgxBxwi9Uh9ABxQF6pT9YcBsObSCSzfNrfu17zQ09gsustVw+LvkmSd1M
- nrEkGzjmZqGwYtW6ckWM7DnOrcxtWk+36bZzAy7gzfkAmfMowjnM2np4hfh65Kv2Ep68
- rlgw==
-X-Gm-Message-State: AOAM533zB+FQCMPfUnrm73whM6g/g6IG/4ZrIRYQE8SFLOiyUlkpYH3q
- 7AjAiRXWCMI349WFw6dQq2+2EYtZWf7HZeY5PMXD9JjzW8D7DBMWHfsFh3eZ4XgpNskgSL39zO1
- NUJ065UeRWZGeE8c=
-X-Received: by 2002:a5d:59aa:: with SMTP id p10mr33609231wrr.45.1634550444284; 
- Mon, 18 Oct 2021 02:47:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxN/9poy+cTJ5+XtF0Z72mAhcRaJaz9C/BxI9uXYuq0kxXoVHNVEhh06aIO3EKxTf/SOAIizg==
-X-Received: by 2002:a5d:59aa:: with SMTP id p10mr33609218wrr.45.1634550444155; 
- Mon, 18 Oct 2021 02:47:24 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id v191sm12087130wme.36.2021.10.18.02.47.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 02:47:18 -0700 (PDT)
-Date: Mon, 18 Oct 2021 10:47:16 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stafford Horne <shorne@gmail.com>
-Subject: Re: [PATCH] Fix %#08 misuses
-Message-ID: <YW1CpMzy/LBGHt3Q@work-vm>
-References: <20211014185245.69803-1-dgilbert@redhat.com>
- <db332dc2-0e17-5b16-dbbf-377b9d03cffc@linaro.org>
- <YWinkMLdThNN81Uo@antec>
+ bh=8g6bJg9dj5ESpYcN6Nq2QJohi/IHfb86A5jjBAb/Jp4=;
+ b=itQcvk+dHTVDDHEfHkU2vuuQbXEABwHFM09q++tNad652m8dMRBQy/yS96us7EhLWdnrid
+ yLuWCbeCPMWHv1qunT9aaF+kqNXwvuOgz+gH+R3FH0vqjEZ9UfqdGAkXTrHuT+BG06pRni
+ p3u0SbcSb7STUwjVtvd+v0w3Qw0Ei1w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-GcciU_xXMzup_R0BdrqCHQ-1; Mon, 18 Oct 2021 05:51:02 -0400
+X-MC-Unique: GcciU_xXMzup_R0BdrqCHQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F12C879500;
+ Mon, 18 Oct 2021 09:51:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A6C360C4A;
+ Mon, 18 Oct 2021 09:50:14 +0000 (UTC)
+Date: Mon, 18 Oct 2021 10:50:11 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v3 13/19] qapi: introduce x-query-skeys QMP command
+Message-ID: <YW1DU3ME7f6gq4OU@redhat.com>
+References: <20210930132349.3601823-1-berrange@redhat.com>
+ <20210930132349.3601823-14-berrange@redhat.com>
+ <e09570bc-cbf6-2f60-481a-94c1ca71c2eb@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YWinkMLdThNN81Uo@antec>
+In-Reply-To: <e09570bc-cbf6-2f60-481a-94c1ca71c2eb@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,29 +83,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
- mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, alistair.francis@wdc.com,
- eblake@redhat.com, atar4qemu@gmail.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Cornelia Huck <cohuck@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stafford Horne (shorne@gmail.com) wrote:
-> On Thu, Oct 14, 2021 at 12:33:06PM -0700, Richard Henderson wrote:
-> > On 10/14/21 11:52 AM, Dr. David Alan Gilbert (git) wrote:
-> > > Although I'm tempted to think that perhaps we should just
-> > > prefer '0x%08' which seems clearer.
+On Tue, Oct 12, 2021 at 09:12:23AM +0200, Thomas Huth wrote:
+> On 30/09/2021 15.23, Daniel P. Berrangé wrote:
+> > This is a counterpart to the HMP "info skeys" command. It is being
+> > added with an "x-" prefix because this QMP command is intended as an
+> > adhoc debugging tool and will thus not be modelled in QAPI as fully
+> > structured data, nor will it have long term guaranteed stability.
+> > The existing HMP command is rewritten to call the QMP command.
 > > 
-> > That's what I think we should prefer.
+> > Including 'common.json' into 'machine-target.json' created a little
+> > problem because the static marshalling method for HumanReadableText
+> > is generated unconditionally. It is only used, however, conditionally
+> > on certain target architectures.
+> > 
+> > To deal with this we change the QAPI code generator to simply mark
+> > all static marshalling functions with G_GNUC_UNSED to hide the
+> > compiler warning.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> ...
+> > +void hmp_info_skeys(Monitor *mon, const QDict *qdict)
+> > +{
+> > +    Error *err = NULL;
+> > +    g_autoptr(HumanReadableText) info = NULL;
+> > +    uint64_t addr = qdict_get_int(qdict, "addr");
+> > +
+> > +    info = qmp_x_query_skeys(addr, &err);
+> > +    if (err) {
+> > +        error_report_err(err);
 > 
-> I agree, it's always more clear to me too.
-
-OK, I'll rework it.
-
-Dave
-
-> -Stafford
+> Shouldn't that rather be:
 > 
+>            monitor_printf(mon, "%s\n", error_get_pretty(err));
+> 
+> or something similar?
+
+error_report_err gets (eventually) hooked into monitor_printf() if
+current monitor in the thread is non-NULL
+
+> 
+> >           return;
+> >       }
+> > -    monitor_printf(mon, "  key: 0x%X\n", key);
+> > +    monitor_printf(mon, "%s", info->human_readable_text);
+> >   }
+> 
+> Apart the question above, patch looks fine to me.
+> 
+>  Thomas
+> 
+
+Regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
