@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03563431343
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:23:17 +0200 (CEST)
-Received: from localhost ([::1]:48712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF06431371
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:26:22 +0200 (CEST)
+Received: from localhost ([::1]:51830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcOrU-0007wo-4K
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:23:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46508)
+	id 1mcOuT-0001iF-U7
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mcOqf-0007Hg-In
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:22:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54977)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcOsF-0000ME-AN
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:24:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mcOqe-0000lV-7O
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:22:25 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcOsD-00025H-M5
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:24:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634548943;
+ s=mimecast20190719; t=1634549040;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NCgIcEli4Hy6fZUSUfvUzm3uph2JXpVHIhNHgqUR3PM=;
- b=h70QfCl1h0f3zRKzEoRATCUcjMtswtUylxCWFGfxBzPnHEGQ+7hxFoZExziLwscglCwT0B
- VBVr/YkHB9Zm2v9aEXmoe5dbPXB6seSVcf6AiT0+DXRKaD2rWMy4Jzbj/Xgis3JjkekR0L
- pvM4ZEyZYrliqge4n5bI6psMfPdzysE=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-BELvnE8lPOKnZZvVpLs0yA-1; Mon, 18 Oct 2021 05:22:22 -0400
-X-MC-Unique: BELvnE8lPOKnZZvVpLs0yA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- d11-20020a50cd4b000000b003da63711a8aso13709560edj.20
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 02:22:21 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZXgLbEPAyCknNYdOeoBxYPe181WzNKWWUGAjKVI8hYQ=;
+ b=MuwfTo/g3gandre9Y2N3meut3ger4mMDz6rAZ4KRfkS3nbP+2RSPBXzD87R+qFUC2Lnyud
+ dXFlNEn4t1w3TdsgKP0vfVh+n8xwRC8Yi6wumAkw2DrO7r97mTS/mAhCM3CfuXvnJhx/jR
+ EbM4NE82P56MDVT4JfAsNd4jyqWxq/o=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-175-rcv8wtbcPDaqZ6oS6YTEaQ-1; Mon, 18 Oct 2021 05:23:58 -0400
+X-MC-Unique: rcv8wtbcPDaqZ6oS6YTEaQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ s18-20020adfbc12000000b00160b2d4d5ebso8660604wrg.7
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 02:23:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=NCgIcEli4Hy6fZUSUfvUzm3uph2JXpVHIhNHgqUR3PM=;
- b=OiRkhDCjKS376fC63qbcCzDHSAISVu5Oecf6d6kzwUx6RmR7jH75Zen0agqtQChZ0D
- yWlTMqZLK2HNap0pgEghfxKpiNWlnW4rtCkJBF7t5ed8SUIjqoT4mXCcioeuIfODqZwU
- KdATbp8DMV2esbFse4lDZ+qg0ME5b63apE2pejahqYNS4eITCOe2ocRt8yphAJ7B0xov
- 6jbyfUD+RI/gzeNtYkipg7OXiD1XXfsvuIxVNd4GvkRJsNvBxoOJJYY8TqVFNhVEl8CC
- 3gRalz/C8ep+hRJSiNjgc7IMbSuJsAU6vfQai6re2SgAOhjbBiom42ALUWGCSmyLJp+J
- NFZw==
-X-Gm-Message-State: AOAM533TAk78lFgo2ErM14ELSLn1oFSPeI9Tacb204GaDnur0BmRntFx
- X3ulrks+XTYibaIPup3BC/FjQj6cT3Yoxndd85HuYVRdDoLbPjY8QWH/t8CDgrnI6A7hHClExWL
- bUPveu7FpFrbdM98=
-X-Received: by 2002:a05:6402:50d0:: with SMTP id
- h16mr42591342edb.303.1634548941071; 
- Mon, 18 Oct 2021 02:22:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLLdY/SVE2A5EbgQs4aDLHqEJGy6ba3tgCEPVcVoMb9SEfTRVa7uSMHp1edmAC0OuA6o84Ow==
-X-Received: by 2002:a05:6402:50d0:: with SMTP id
- h16mr42591306edb.303.1634548940833; 
- Mon, 18 Oct 2021 02:22:20 -0700 (PDT)
-Received: from steredhat (host-79-34-250-211.business.telecomitalia.it.
- [79.34.250.211])
- by smtp.gmail.com with ESMTPSA id z19sm8608806ejw.44.2021.10.18.02.22.20
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=59GNaC9TGWbOSjjJFvuSc+QLQ3aUh9g6SagW2//H3fU=;
+ b=YsUSLoEi8sIf/k9t9kXGv68zaAA89GFUOzFQnWj7dggHdpMbP5Fq+FKbgxaqrYM+hN
+ no4b/sHrRy0diA+1v2I2kGmmKqm6YWrCRnoeGZetzy1r3vaaAKors/oM39a9X473sJpa
+ vRrzeIbLt0ghzSjOK1zuFcO30sBGMHnx+9n1m966p9uYCG/ObJPnn9Sbd1s/Mxd/I9PN
+ 8/TdTQGr43y0b1G1r6r+BnwsQH0dLYO0G77lD3KTqdP29DFOaaZ1J3Qi6e3SZjCf9Jh0
+ wuMmaVHdBRwvzFHpd3yUntbByn+vGeuN1rQYQT2WupsFqU43qnRQG4N0yYxQQUEnQMS3
+ ATbQ==
+X-Gm-Message-State: AOAM5321/uG346MwpFxMWnH+9XGIzPG8gMqKZah2kLPbFLUmHmUjjSXV
+ kWOL6B2wtPYqzJ969zrNYQ2a/pP83eO0YFpQwngoE67zQS48W2ToXIKI4OcjTfKCdUIddn3mVbw
+ 5Izr5BhOgj4jQjriYKn7JX9c8Zwu4anUmGwb9derGH44lxj17HP1LgHxmU+wriSPe
+X-Received: by 2002:adf:e382:: with SMTP id e2mr23996328wrm.90.1634549035874; 
+ Mon, 18 Oct 2021 02:23:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzKQPeiQh1hxT8fJTxy9vJU0dFZcLwX6BS5w2+v/pxWv9otpoKUIm9sEVy3mekRSRvO78SxAA==
+X-Received: by 2002:adf:e382:: with SMTP id e2mr23996294wrm.90.1634549035583; 
+ Mon, 18 Oct 2021 02:23:55 -0700 (PDT)
+Received: from x1w.. (213.red-81-36-146.dynamicip.rima-tde.net.
+ [81.36.146.213])
+ by smtp.gmail.com with ESMTPSA id c132sm18150903wma.22.2021.10.18.02.23.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 02:22:20 -0700 (PDT)
-Date: Mon, 18 Oct 2021 11:22:18 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
-Subject: Re: [PATCH v4 3/3] vdpa: Check for iova range at mappings changes
-Message-ID: <20211018092218.i6wwq4burrjhbzyw@steredhat>
-References: <20211014141236.923287-1-eperezma@redhat.com>
- <20211014141236.923287-4-eperezma@redhat.com>
+ Mon, 18 Oct 2021 02:23:55 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] roms/edk2: Avoid cloning unused cmocka submodule
+Date: Mon, 18 Oct 2021 11:23:52 +0200
+Message-Id: <20211018092354.2637731-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20211014141236.923287-4-eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -100,24 +91,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 14, 2021 at 04:12:36PM +0200, Eugenio Pérez wrote:
->Check vdpa device range before updating memory regions so we don't add
->any outside of it, and report the invalid change if any.
->
->Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->---
-> include/hw/virtio/vhost-vdpa.h |  2 ++
-> hw/virtio/vhost-vdpa.c         | 62 +++++++++++++++++++++++++---------
-> hw/virtio/trace-events         |  1 +
-> 3 files changed, 49 insertions(+), 16 deletions(-)
-
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+cmocka website SSL certificate expired, making CI pipelines=0D
+fail [*]. However EDK2 images built to test QEMU don't need=0D
+cmocka. Avoid cloning it.=0D
+=0D
+[*] https://gitlab.com/rth7680/qemu/-/jobs/1685387520=0D
+fatal: unable to access 'https://git.cryptomilk.org/projects/cmocka.git/': =
+server certificate verification failed. CAfile: /etc/ssl/certs/ca-certifica=
+tes.crt CRLfile: none=0D
+fatal: clone of 'https://git.cryptomilk.org/projects/cmocka.git' into submo=
+dule path 'UnitTestFrameworkPkg/Library/CmockaLib/cmocka' failed=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  roms/edk2: Only init brotli submodule to build BaseTools=0D
+  roms/edk2: Only initialize required submodules=0D
+=0D
+ .gitlab-ci.d/edk2.yml | 4 ++++=0D
+ roms/Makefile         | 3 ++-=0D
+ roms/Makefile.edk2    | 7 ++++++-=0D
+ scripts/make-release  | 7 ++++++-=0D
+ 4 files changed, 18 insertions(+), 3 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
