@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A56432746
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 21:11:32 +0200 (CEST)
-Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C37432757
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 21:12:52 +0200 (CEST)
+Received: from localhost ([::1]:45638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcY2l-0005Xd-Rt
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 15:11:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43392)
+	id 1mcY43-0000JI-A1
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 15:12:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtN-0007zX-Mh
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:01:50 -0400
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:38712)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtP-00080I-5H
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:01:52 -0400
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:39444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtM-0001eF-46
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:01:49 -0400
-Received: by mail-il1-x134.google.com with SMTP id h27so10217715ila.5
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 12:01:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtN-0001fZ-5F
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:01:50 -0400
+Received: by mail-il1-x12c.google.com with SMTP id w11so15963307ilv.6
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 12:01:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9sPvBFZ/l7G/BxNY+/vUQPWPx/ls2ZmbDpMNIy8JAO0=;
- b=MgE3d1m5NNxniAj+ir5O6wR6FmlBWE980ILqOh1c1HNf956SoupLs2GuACYRVsT4VE
- xm2HJVFGTAShXX8Pc9dOnYTY4EvxZhPvhCvgzC2HMto/p3qYeo2f5eeABtVGnROYnPu8
- dk5MxTDOWWvsxADxpLUb1P7/Vz5vRQvWMrcapxsdG9ylzL67zXJOC0xhmnVRiBF+HXTA
- YGpQKCW1229MQKQHfudn0apYtpo5msUowQi+qu+HqSmqjdhHsDgp3ogfGIsGzwrM2jYC
- 24iWWhI96br10KU2tTZzpf2QcyOgl/qpLtFdwNOQFpytv1GfJDT+jJqMQ9ASwoaFm7/s
- +pFw==
+ bh=g/r2gH9ObhuBG8UYqMNl21ZIK0oU8t5H0kqWj19D/1o=;
+ b=o2zOtUviB1fCfdTmco3fi+/U+2wEh8r4c4vPhMn7GAqK/vxpbtHtrnL+Tb47eTLabS
+ EK+dUIVSq7eyk0eZxRpM56tUSycQUnkqAeF2RqR4RnnEvDSrrsLSegXLi8luzMLfrdDU
+ n8kdx/lZlOCU8KkuWrrZ8Ayg/ZRkaHnaKjoV+6tN/IaqPmHHRj1Db3zQUitROteu306i
+ vOfv1KCln5EyELrYtEv+9BWBqIEtBAOU9cvzpeGfXL+GCOaBSTA475KMkPnJh6j14GdP
+ pl6OXF+LCdY2dWF3VydAdLe2LTxV1dWwPoxdaW/AxDFDPp9IggK2ja6b8Dkpuab9sxnG
+ e9Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9sPvBFZ/l7G/BxNY+/vUQPWPx/ls2ZmbDpMNIy8JAO0=;
- b=XzJm8/NsvSKmxzdd/ErwgOBPRuEiJm0S3wPr8RNl27vEChFUz/4vxgX/S59fZ7uaxL
- 3YeYeRn00xX8wSXWOyl8MdEVwNiGaw3JA77HOsMwLn83RGo4WC6iv+rSJPRUHuDhiInu
- plHN6estaDbEdS6bvwfnlp5rVRoE6KX1VTQ5qnRnEU81T+1TBb6liSvzgp6bP+PVLUeh
- IdiG/dJ7VnPXapNbOGrKUJjFWTuREoMnhUjWg6HfDK3VAAqytiQx66m30ZPM8OEqdPls
- L8HR4YV5Jr+2hBr2V/CYp+5HqgHo4K2t4RKV4MHp9UXiRtxD8+MYxTmNb7/sjcEaYMOg
- 1zjQ==
-X-Gm-Message-State: AOAM532ogtLJOO1RHP/YeuJmU8ZEKYzP1suFf2D6R7IYyc9N1AB6cLEt
- yfPt+ybIALjYKTOhgj1QWERTDDsnTXvA4Q==
-X-Google-Smtp-Source: ABdhPJxx9BYXhGUbv+AeE/5J6rSySwFbLsfZaMp+scEb26XNBm1Wrn02DUHpwptPM4ueswO/yLTWlg==
-X-Received: by 2002:a05:6e02:144a:: with SMTP id
- p10mr15568130ilo.313.1634583705979; 
- Mon, 18 Oct 2021 12:01:45 -0700 (PDT)
+ bh=g/r2gH9ObhuBG8UYqMNl21ZIK0oU8t5H0kqWj19D/1o=;
+ b=g9j7X/lrrFQ4vwdtPdpMWCNvpibIR5RpHBczNslhKpGzQkwSheiEpQkVz4zgdhJ4QI
+ AxPS8DYiVlRkf9zJ3THA8SdIcpGQB/pVFH2Y6uqIwhyMpys/ijiRl08PO1CKTjWzMbeW
+ ZSMAjZczgh5O4SdSRYrhL7rpjv2TLNgYT0psTz8cCp9/h9DzNPb/ri7i7KREwvAEt9xi
+ 3ljAYQ2gkZkdGIuxqjEJzbCglBp4EFq8QGSe0KH9BcivS8icHxZhOAyhQl+42l/jISjn
+ lm2synF/EsOFm4tfSns81zXspNmkFvK0BRLHuQNSPG9Bt86oZqigCPYkWvIJv3fVorZz
+ 7D1w==
+X-Gm-Message-State: AOAM532LQ25lf5CQE7nsK6lSXoYJfkg0MWA6obN5oixDzuElbanxXeC8
+ wMTq1kLTnFunceQQcDVOpgcAjNkWq0hGXw==
+X-Google-Smtp-Source: ABdhPJy2Z82SZgu/kmN563QSmST3riglhw+v3AKCe6H9EtDPsfSfxlY7IVg8GV3ZroxGo9iPLpmncA==
+X-Received: by 2002:a05:6e02:1ba8:: with SMTP id
+ n8mr14671133ili.74.1634583707854; 
+ Mon, 18 Oct 2021 12:01:47 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a8sm6945151ilh.5.2021.10.18.12.01.43
+ by smtp.gmail.com with ESMTPSA id a8sm6945151ilh.5.2021.10.18.12.01.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 12:01:44 -0700 (PDT)
+ Mon, 18 Oct 2021 12:01:47 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 09/23] bsd-user/mmap.c: assert that target_mprotect cannot
- fail
-Date: Mon, 18 Oct 2021 13:01:01 -0600
-Message-Id: <20211018190115.5365-10-imp@bsdimp.com>
+Subject: [PULL v2 10/23] meson: *-user: only descend into *-user when
+ configured
+Date: Mon, 18 Oct 2021 13:01:02 -0600
+Message-Id: <20211018190115.5365-11-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211018190115.5365-1-imp@bsdimp.com>
 References: <20211018190115.5365-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::134;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x134.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -84,49 +84,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@FreeBSD.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
+Cc: Kyle Evans <kevans@FreeBSD.org>, Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Warner Losh <imp@bsdimp.com>,
- =?UTF-8?q?Mika=C3=ABl=20Urankar?= <mikael.urankar@gmail.com>
+ Paolo Bonzini <pbonzinni@redhat.com>, Warner Losh <wlosh@bsdimp.com>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to the equivalent linux-user change 86abac06c14. All error
-conditions that target_mprotect checks are also checked by target_mmap.
-EACCESS cannot happen because we are just removing PROT_WRITE.  ENOMEM
-should not happen because we are modifying a whole VMA (and we have
-bigger problems anyway if it happens).
+To increase flexibility, only descend into *-user when that is
+configured. This allows *-user to selectively include directories based
+on the host OS which may not exist on all hosts. Adopt Paolo's
+suggestion of checking the configuration in the directories that know
+about the configuration.
 
-Fixes a Coverity false positive, where Coverity complains about
-target_mprotect's return value being passed to tb_invalidate_phys_range.
-
-Signed-off-by: Mikaël Urankar <mikael.urankar@gmail.com>
-Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210926220103.1721355-2-f4bug@amsat.org>
+Message-Id: <20210926220103.1721355-3-f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Warner Losh <wlosh@bsdimp.com>
+Acked-by: Paolo Bonzini <pbonzinni@redhat.com>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 ---
- bsd-user/mmap.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ bsd-user/meson.build   |  4 ++++
+ linux-user/meson.build |  4 ++++
+ meson.build            | 12 ++++++++----
+ 3 files changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
-index 5b6ed5eed1..13cb32dba1 100644
---- a/bsd-user/mmap.c
-+++ b/bsd-user/mmap.c
-@@ -604,10 +604,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-             }
-             if (!(prot & PROT_WRITE)) {
-                 ret = target_mprotect(start, len, prot);
--                if (ret != 0) {
--                    start = ret;
--                    goto the_end;
--                }
-+                assert(ret == 0);
-             }
-             goto the_end;
-         }
+diff --git a/bsd-user/meson.build b/bsd-user/meson.build
+index 0369549340..5378f56f71 100644
+--- a/bsd-user/meson.build
++++ b/bsd-user/meson.build
+@@ -1,3 +1,7 @@
++if not have_bsd_user
++   subdir_done()
++endif
++
+ bsd_user_ss.add(files(
+   'bsdload.c',
+   'elfload.c',
+diff --git a/linux-user/meson.build b/linux-user/meson.build
+index 9549f81682..bf62c13e37 100644
+--- a/linux-user/meson.build
++++ b/linux-user/meson.build
+@@ -1,3 +1,7 @@
++if not have_linux_user
++   subdir_done()
++endif
++
+ linux_user_ss.add(files(
+   'elfload.c',
+   'exit.c',
+diff --git a/meson.build b/meson.build
+index 6b7487b725..5e7946776d 100644
+--- a/meson.build
++++ b/meson.build
+@@ -40,12 +40,15 @@ config_host_data = configuration_data()
+ genh = []
+ 
+ target_dirs = config_host['TARGET_DIRS'].split()
+-have_user = false
++have_linux_user = false
++have_bsd_user = false
+ have_system = false
+ foreach target : target_dirs
+-  have_user = have_user or target.endswith('-user')
++  have_linux_user = have_linux_user or target.endswith('linux-user')
++  have_bsd_user = have_bsd_user or target.endswith('bsd-user')
+   have_system = have_system or target.endswith('-softmmu')
+ endforeach
++have_user = have_linux_user or have_bsd_user
+ have_tools = 'CONFIG_TOOLS' in config_host
+ have_block = have_system or have_tools
+ 
+@@ -2595,10 +2598,11 @@ subdir('bsd-user')
+ subdir('linux-user')
+ subdir('ebpf')
+ 
+-bsd_user_ss.add(files('gdbstub.c'))
++common_ss.add(libbpf)
++
+ specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
+ 
+-linux_user_ss.add(files('gdbstub.c', 'thunk.c'))
++linux_user_ss.add(files('thunk.c'))
+ specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
+ 
+ # needed for fuzzing binaries
 -- 
 2.32.0
 
