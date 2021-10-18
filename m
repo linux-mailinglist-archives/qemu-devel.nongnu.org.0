@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7F8430E6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 05:47:58 +0200 (CEST)
-Received: from localhost ([::1]:55714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B07C430E79
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 06:01:16 +0200 (CEST)
+Received: from localhost ([::1]:34638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcJcz-0001IP-49
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 23:47:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40568)
+	id 1mcJpq-0006jv-U3
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 00:01:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mcJQv-0006Yp-U4
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 23:35:31 -0400
-Received: from mx2.freebsd.org ([96.47.72.81]:25829)
+ id 1mcJRq-00076I-JL
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 23:36:26 -0400
+Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:34436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mcJQq-0001V7-9P
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 23:35:28 -0400
-Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
+ id 1mcJRo-0003lD-Rt
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 23:36:26 -0400
+Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits)
  client-signature RSA-PSS (4096 bits))
  (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id B77429D34B
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:35:23 +0000 (UTC)
+ by mx2.freebsd.org (Postfix) with ESMTPS id 10D789DEF5
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:36:24 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
 Received: from smtp.freebsd.org (smtp.freebsd.org
  [IPv6:2610:1c1:1:606c::24b:4])
@@ -33,39 +33,39 @@ Received: from smtp.freebsd.org (smtp.freebsd.org
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
  client-signature RSA-PSS (4096 bits) client-digest SHA256)
  (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4HXjF74Wxjz3GN0
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:35:23 +0000 (UTC)
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4HXjGH6dnxz3Gqc
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:36:23 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
- [209.85.160.178])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (Client CN "smtp.gmail.com", Issuer "GTS CA 1O1" (verified OK))
  (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id 501A9D68D
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:35:23 +0000 (UTC)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id AD35DD323
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:36:23 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: by mail-qt1-f178.google.com with SMTP id g17so5950294qtk.8
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 20:35:23 -0700 (PDT)
-X-Gm-Message-State: AOAM530OlVfp5J9j6NgASLj3pSHwzjrWQaOvHWtNLHY6aeMaYjT1iR96
- 9flW90O5I64R+qb8H99tL/GRjGXrq8BM/k7gLB0=
-X-Google-Smtp-Source: ABdhPJzYqDzinUs0DMFqdHGkGZDwnVrV5a+jXPQdD9LD49d4/sc9s8bKZ0QzdElGIPccT6KeqP9jiOPQwWMi+JN5uHM=
-X-Received: by 2002:ac8:57c3:: with SMTP id w3mr27118657qta.132.1634528122910; 
- Sun, 17 Oct 2021 20:35:22 -0700 (PDT)
+Received: by mail-qt1-f175.google.com with SMTP id w2so14255218qtn.0
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 20:36:23 -0700 (PDT)
+X-Gm-Message-State: AOAM533rC46tNiSsU/PLoNgs46kgJ4/qH89IYrbikK37eftOjtgL36uE
+ aPDbJd+yvOLuqJ1dPX9WmRWYEntYXnN66pu3qaA=
+X-Google-Smtp-Source: ABdhPJxj7X5hAeseuEwHt1RP4hlaiyedAPbtTJWVGGOapK/aKmfd3InCN4raJDSMKeUc93+aH/c8fhl9yCuxqLwejHA=
+X-Received: by 2002:a05:622a:13:: with SMTP id
+ x19mr27623951qtw.83.1634528183334; 
+ Sun, 17 Oct 2021 20:36:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211008231506.17471-1-imp@bsdimp.com>
- <20211008231506.17471-9-imp@bsdimp.com>
-In-Reply-To: <20211008231506.17471-9-imp@bsdimp.com>
+ <20211008231506.17471-13-imp@bsdimp.com>
+In-Reply-To: <20211008231506.17471-13-imp@bsdimp.com>
 From: Kyle Evans <kevans@freebsd.org>
-Date: Sun, 17 Oct 2021 22:35:12 -0500
-X-Gmail-Original-Message-ID: <CACNAnaHh0cf2VSjXOjZ6s9B+bFiGK5e1eymNeTRgX_TWEbcDOg@mail.gmail.com>
-Message-ID: <CACNAnaHh0cf2VSjXOjZ6s9B+bFiGK5e1eymNeTRgX_TWEbcDOg@mail.gmail.com>
-Subject: Re: [PATCH v2 08/15] bsd-user/target_os_elf.h: Remove fallback
- ELF_HWCAP and reorder
+Date: Sun, 17 Oct 2021 22:36:12 -0500
+X-Gmail-Original-Message-ID: <CACNAnaE7=VLGKkTg5PaP0xU78Zc4ApTL4LSh6CHk14wcKEdD=w@mail.gmail.com>
+Message-ID: <CACNAnaE7=VLGKkTg5PaP0xU78Zc4ApTL4LSh6CHk14wcKEdD=w@mail.gmail.com>
+Subject: Re: [PATCH v2 12/15] bsd-user/sysarch: Move to using
+ do_freebsd_arch_sysarch interface
 To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=96.47.72.81; envelope-from=kevans@freebsd.org;
- helo=mx2.freebsd.org
+Received-SPF: pass client-ip=2610:1c1:1:606c::19:2;
+ envelope-from=kevans@freebsd.org; helo=mx2.freebsd.org
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -92,49 +92,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, Oct 8, 2021 at 6:15 PM Warner Losh <imp@bsdimp.com> wrote:
 >
-> All architectures have a ELF_HWCAP, so remove the fallback ifdef.
-> Place ELF_HWCAP in the same order as on native FreeBSD.
+> do_freebsd_arch_sysarch() exists in $ARCH/target_arch_sysarch.h for x86.
+> Call it from do_freebsd_sysarch() and remove the mostly duplicate
+> version in syscall.c. Future changes will move it to os-sys.c and
+> support other architectures.
 >
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  bsd-user/freebsd/target_os_elf.h | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+>  bsd-user/syscall.c | 45 +--------------------------------------------
+>  1 file changed, 1 insertion(+), 44 deletions(-)
 >
-> diff --git a/bsd-user/freebsd/target_os_elf.h b/bsd-user/freebsd/target_o=
-s_elf.h
-> index 2d03a883aa..adcffd1ddb 100644
-> --- a/bsd-user/freebsd/target_os_elf.h
-> +++ b/bsd-user/freebsd/target_os_elf.h
-> @@ -38,10 +38,6 @@
->  #define ELF_PLATFORM (NULL)
+> diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
+> index 2fd2ba8330..d3b9f431e2 100644
+> --- a/bsd-user/syscall.c
+> +++ b/bsd-user/syscall.c
+> @@ -91,50 +91,7 @@ static abi_long do_obreak(abi_ulong new_brk)
+>  #if defined(TARGET_I386)
+>  static abi_long do_freebsd_sysarch(CPUX86State *env, int op, abi_ulong parms)
+>  {
+> -    abi_long ret = 0;
+> -    abi_ulong val;
+> -    int idx;
+> -
+> -    switch (op) {
+> -#ifdef TARGET_ABI32
+> -    case TARGET_FREEBSD_I386_SET_GSBASE:
+> -    case TARGET_FREEBSD_I386_SET_FSBASE:
+> -        if (op == TARGET_FREEBSD_I386_SET_GSBASE)
+> -#else
+> -    case TARGET_FREEBSD_AMD64_SET_GSBASE:
+> -    case TARGET_FREEBSD_AMD64_SET_FSBASE:
+> -        if (op == TARGET_FREEBSD_AMD64_SET_GSBASE)
+> -#endif
+> -            idx = R_GS;
+> -        else
+> -            idx = R_FS;
+> -        if (get_user(val, parms, abi_ulong))
+> -            return -TARGET_EFAULT;
+> -        cpu_x86_load_seg(env, idx, 0);
+> -        env->segs[idx].base = val;
+> -        break;
+> -#ifdef TARGET_ABI32
+> -    case TARGET_FREEBSD_I386_GET_GSBASE:
+> -    case TARGET_FREEBSD_I386_GET_FSBASE:
+> -        if (op == TARGET_FREEBSD_I386_GET_GSBASE)
+> -#else
+> -    case TARGET_FREEBSD_AMD64_GET_GSBASE:
+> -    case TARGET_FREEBSD_AMD64_GET_FSBASE:
+> -        if (op == TARGET_FREEBSD_AMD64_GET_GSBASE)
+> -#endif
+> -            idx = R_GS;
+> -        else
+> -            idx = R_FS;
+> -        val = env->segs[idx].base;
+> -        if (put_user(val, parms, abi_ulong))
+> -            return -TARGET_EFAULT;
+> -        break;
+> -    /* XXX handle the others... */
+> -    default:
+> -        ret = -TARGET_EINVAL;
+> -        break;
+> -    }
+> -    return ret;
+> +    do_freebsd_arch_sysarch(env, op, parms);
+>  }
 >  #endif
 >
-> -#ifndef ELF_HWCAP
-> -#define ELF_HWCAP 0
-> -#endif
-> -
->  /* XXX Look at the other conflicting AT_* values. */
->  #define FREEBSD_AT_NCPUS     19
->  #define FREEBSD_AT_HWCAP     25
-> @@ -114,12 +110,12 @@ static abi_ulong target_create_elf_tables(abi_ulong=
- p, int argc, int envc,
->          NEW_AUX_ENT(AT_FLAGS, (abi_ulong)0);
->          NEW_AUX_ENT(FREEBSD_AT_NCPUS, (abi_ulong)bsd_get_ncpu());
->          NEW_AUX_ENT(AT_ENTRY, load_bias + exec->e_entry);
-> +        features =3D ELF_HWCAP;
-> +        NEW_AUX_ENT(FREEBSD_AT_HWCAP, features);
->          NEW_AUX_ENT(AT_UID, (abi_ulong)getuid());
->          NEW_AUX_ENT(AT_EUID, (abi_ulong)geteuid());
->          NEW_AUX_ENT(AT_GID, (abi_ulong)getgid());
->          NEW_AUX_ENT(AT_EGID, (abi_ulong)getegid());
-> -        features =3D ELF_HWCAP;
-> -        NEW_AUX_ENT(FREEBSD_AT_HWCAP, features);
->          target_auxents =3D sp; /* Note where the aux entries are in the =
-target */
->  #ifdef ARCH_DLINFO
->          /*
 > --
 > 2.32.0
 >
