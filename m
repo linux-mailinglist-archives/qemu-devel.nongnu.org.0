@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F92432783
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 21:23:07 +0200 (CEST)
-Received: from localhost ([::1]:37788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F15443278B
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 21:26:33 +0200 (CEST)
+Received: from localhost ([::1]:44156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcYDy-0005s1-Fh
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 15:23:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43516)
+	id 1mcYHI-0001oj-Nc
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 15:26:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtb-0008Ot-Ml
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtd-0008Ox-14
  for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:02:05 -0400
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136]:46078)
+Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:40931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtZ-0001vN-FP
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:02:03 -0400
-Received: by mail-il1-x136.google.com with SMTP id i11so15937636ila.12
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 12:02:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXta-0001wV-5w
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:02:04 -0400
+Received: by mail-il1-x131.google.com with SMTP id k3so5597931ilo.7
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 12:02:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=laLU0XX8CdBP2//L0jChpwkHQR7NdHyxMB0d78r5Vqk=;
- b=t6SXIc/Km8JHggmPMcVrtyKEnpRjgrU9dZpvjuZrcq854mVo7qY5djsGa7ZmQiIWas
- 1k/1fxNLXS9Ajfmfk2L3PAVcoCWUtA+OX1NqUMEWORMuIMMtK+zRIAjbg9EwQ5hHR6ZM
- zU8BkWa98A+A4UyfxfOnrJQLK+FxkqrhFo3LCaxnO/CNaKfAX4ak6I9TKLM4XozaaboR
- rgaVNCBQSIdOfvoIWGoBk06FfdvFmPWDQZ4pasf3phShpoU6vwYkL8tThZOxHfv5NQQO
- ouF0joN/DiC30wDXfEhSlhcTYdywQf1+giV546YzH8INNMQxMAm0o4ZhgMkZMITHO9ZD
- kqJw==
+ bh=HPM2AzR8oxs4nLDPoDsk3u1X7tCQIZsDcwBBkLry0yo=;
+ b=GJwBQFgmf4MAUHfvDecqbOVCBJdLu21CUaELdwmil5hl8DU9JkaJWngSXS2WnbpSS0
+ j6w5hg/I3/hN2zHs1ypqg7i9x+CJqRQyS3HpN6nDbGHPYH7xfuV8rCLTa9OATiDV/+LJ
+ 9ZuVuXLFVjju7hNjREqt/Y2XP8yVg+xiiXpmcyCA7hC88fAb1UDHFHT+Q1pymjX3NsEo
+ 4t3GrZFF61Jy1dMgjvOSC4IIbxpGuJNP0FzkQJ6pqNDMUq1S59bMwXLQ1wrmjS3uRY/j
+ JiEq5eNo6eYd5jMzRF/5OV8qSPyft91wBLKKZ0DtnauAMtSLhtPgVDoSotm5rRcOffmT
+ L0EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=laLU0XX8CdBP2//L0jChpwkHQR7NdHyxMB0d78r5Vqk=;
- b=DHcQkv2OnrWHzOXbLuDMfmGCM/XvZmMGlPAaBAiernacEmjaD3fDsCNRQmZ1ZUd/m7
- 3veO8Pyti0ubdnvja9i+CLv+yxCGz/pxLPep/EiIkatgeJaZSJPeQTkaaAvu8UHCy4Fq
- PDyqAcSLI+2YP8hcmgVSbRq3BoydHr4d2uWx+Pmh9RYWMVWwHjzxGeP6eeju5g6Dg48A
- lL/6BG4tU4+GZ/sqNvzdLLX/34OoWCsRsMytUzxkI2pA+7oruA2CfkvRKH+/mDuWLbpL
- Mw2Gms/0+hHTLBejASHF8ij0HuBjEDnawGnush7iSA8GZrS5UDS1yuBXG8y7kwocceFG
- jx8Q==
-X-Gm-Message-State: AOAM531T34Eo/VEAMaIxYOy3WAMY/ZCQPZkzoWt4QiQy8CPftAxNYMG+
- dM/9TipkHGRw9xeFPhxFl1KpXpG4FSFPpA==
-X-Google-Smtp-Source: ABdhPJxq66kAh4NsMlA/K+9VdJloEkKGA67LniFINeUk3ke+RCzZHIxCW1Lp3Aj6n6qpDPt0DDz5rg==
-X-Received: by 2002:a05:6e02:8a3:: with SMTP id
- a3mr14874311ilt.88.1634583719652; 
- Mon, 18 Oct 2021 12:01:59 -0700 (PDT)
+ bh=HPM2AzR8oxs4nLDPoDsk3u1X7tCQIZsDcwBBkLry0yo=;
+ b=pQA6tx58/LA9EDVjlRCzjVN6lFoQt5K//q9z7v0Yv63gpjgcZfP+hMSnSN06vwSU5B
+ Zq29OvW05zCXqEfjtrP+dRUyll07Rn5WYlSLdbFmbYa5OdZUMuQl6ckapiCD2gPg+9um
+ 8b6Z8zDql1w7gtBWgy+Cle6aC+3MduvxeS2CYxdZYjHBH4kMIwank7HzPdRzqW87qY0u
+ Y6Nv+Z3Bhgm8vFOKITx8CN08Qq0B8QgFpNASZ0HhY+ViAOH0k3S57ANBDy3nmZKfavFf
+ 23ymKXZY81hpNkm0rlWmM1QrnSRKG+rBp9b5rtBmvbuGu6WBQbczeTExlpoKrdknir3E
+ Omwg==
+X-Gm-Message-State: AOAM532CKAhYZKNhol6VWsYv8esr8opo+l3kILeVU6WjbR60dGmi1Iw+
+ A86w7X/ksrLRCMMRoh2jpEhEyqW/oAvDbQ==
+X-Google-Smtp-Source: ABdhPJxWjR9xh4SZK1zNuilupLDY3GkDrhTXK/3vNDouMqzHMs3JnyVb+y7UAOyrkuK3hqlT9WEVYw==
+X-Received: by 2002:a05:6e02:20ca:: with SMTP id
+ 10mr15971021ilq.118.1634583720772; 
+ Mon, 18 Oct 2021 12:02:00 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a8sm6945151ilh.5.2021.10.18.12.01.58
+ by smtp.gmail.com with ESMTPSA id a8sm6945151ilh.5.2021.10.18.12.01.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 12:01:58 -0700 (PDT)
+ Mon, 18 Oct 2021 12:02:00 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 17/23] bsd-user/target_os_elf.h: Remove fallback ELF_HWCAP
- and reorder
-Date: Mon, 18 Oct 2021 13:01:09 -0600
-Message-Id: <20211018190115.5365-18-imp@bsdimp.com>
+Subject: [PULL v2 18/23] bsd-user/target_os_elf: If ELF_HWCAP2 is defined,
+ publish it
+Date: Mon, 18 Oct 2021 13:01:10 -0600
+Message-Id: <20211018190115.5365-19-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211018190115.5365-1-imp@bsdimp.com>
 References: <20211018190115.5365-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::136;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x136.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::131;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x131.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,47 +91,33 @@ Cc: Kyle Evans <kevans@FreeBSD.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All architectures have a ELF_HWCAP, so remove the fallback ifdef.
-Place ELF_HWCAP in the same order as on native FreeBSD.
+Some architectures publish AT_HWCAP2 as well as AT_HWCAP. Those
+architectures will define ELF_HWCAP2 in their target_arch_elf.h files
+for the value for this process. If it is defined, then publish it.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 ---
- bsd-user/freebsd/target_os_elf.h | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ bsd-user/freebsd/target_os_elf.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/bsd-user/freebsd/target_os_elf.h b/bsd-user/freebsd/target_os_elf.h
-index 2d03a883aa..adcffd1ddb 100644
+index adcffd1ddb..e5ac8e8e50 100644
 --- a/bsd-user/freebsd/target_os_elf.h
 +++ b/bsd-user/freebsd/target_os_elf.h
-@@ -38,10 +38,6 @@
- #define ELF_PLATFORM (NULL)
- #endif
- 
--#ifndef ELF_HWCAP
--#define ELF_HWCAP 0
--#endif
--
- /* XXX Look at the other conflicting AT_* values. */
- #define FREEBSD_AT_NCPUS     19
- #define FREEBSD_AT_HWCAP     25
-@@ -114,12 +110,12 @@ static abi_ulong target_create_elf_tables(abi_ulong p, int argc, int envc,
-         NEW_AUX_ENT(AT_FLAGS, (abi_ulong)0);
-         NEW_AUX_ENT(FREEBSD_AT_NCPUS, (abi_ulong)bsd_get_ncpu());
+@@ -112,6 +112,10 @@ static abi_ulong target_create_elf_tables(abi_ulong p, int argc, int envc,
          NEW_AUX_ENT(AT_ENTRY, load_bias + exec->e_entry);
-+        features = ELF_HWCAP;
-+        NEW_AUX_ENT(FREEBSD_AT_HWCAP, features);
+         features = ELF_HWCAP;
+         NEW_AUX_ENT(FREEBSD_AT_HWCAP, features);
++#ifdef ELF_HWCAP2
++        features = ELF_HWCAP2;
++        NEW_AUX_ENT(FREEBSD_AT_HWCAP2, features);
++#endif
          NEW_AUX_ENT(AT_UID, (abi_ulong)getuid());
          NEW_AUX_ENT(AT_EUID, (abi_ulong)geteuid());
          NEW_AUX_ENT(AT_GID, (abi_ulong)getgid());
-         NEW_AUX_ENT(AT_EGID, (abi_ulong)getegid());
--        features = ELF_HWCAP;
--        NEW_AUX_ENT(FREEBSD_AT_HWCAP, features);
-         target_auxents = sp; /* Note where the aux entries are in the target */
- #ifdef ARCH_DLINFO
-         /*
 -- 
 2.32.0
 
