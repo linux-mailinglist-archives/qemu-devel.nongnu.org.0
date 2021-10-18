@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 892C8430F70
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 07:04:54 +0200 (CEST)
-Received: from localhost ([::1]:51820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10832430FBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 07:25:57 +0200 (CEST)
+Received: from localhost ([::1]:43580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcKpR-0006jj-CK
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 01:04:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52832)
+	id 1mcL9n-0004GV-MU
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 01:25:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mcKnA-0005qe-0C
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 01:02:32 -0400
-Received: from mail-vk1-xa36.google.com ([2607:f8b0:4864:20::a36]:46827)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mcKn7-0005g9-26
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 01:02:31 -0400
-Received: by mail-vk1-xa36.google.com with SMTP id 34so7962017vkl.13
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 22:02:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TxpwAwgDrVDtMgiaLX+X/goW0mqm9KUIJkWEYsRGIeg=;
- b=1ckYjIUbzqvTW5AW4eNkaskgwnIrJ82oOz1MaQvPgt1HqViZk3fxIMuPQbMb8ltpSv
- NWvmuzFzKBzFQdO7LqMreT6yfUN/MQ3H+VQpToDtAvwhqujPKLTFtBK5GxqOniSNRRm4
- cCItQpkPuAfKlI5KtWeFQ/2P8m2tiXybyR6VFIXbNuPXlnToYYHRiPMxwWSIlA0owfIX
- eggdc9c5YIVKq3YP6+hyk7YvvA11rygrFDtPBlnZZNoaSq0dG0SJt5+AN04ss3c0E7sS
- 8eMVQkJH1EdIeTsauKzj7BU1CnwFcNPr2ENUsc6kgLwNw5ofEK6pv7oS4m/nm0bWg22O
- 2qwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TxpwAwgDrVDtMgiaLX+X/goW0mqm9KUIJkWEYsRGIeg=;
- b=yDpE6j4IWUmpKCJk8uw3EdOedVDtiaHH7K3eR45beUImV7N+eiuPVm1TfU16mywMD4
- OOa6i+ZLV8a1kTobr7GbWlnjuQMErclBbatQPEljl2tS61TssEcrvsZJWQ+FjJ2IewYP
- mJf2j1pUVIvtf2KIGxBm7uXmZ/zXENSh9LYUAINn3RUX0oFxWB21kOZhsaNNUe1pKco5
- 3ub+svljXF1OfPZsif3NLhLVLHKDs0Bod34rUZM2cJOsQcfpqEd47f6CpY7Gpcjp7imD
- GaBWGsvU0qog2zAgN2auAXwZbOPsY1o9xZ4xf7klV7vd1XzDJy+ZJByeJ98/fxsy0p0M
- PF+g==
-X-Gm-Message-State: AOAM530ccgUTEFI5Uzu1235AhvngSHODhqq0AxP1NYpKD7I/kRkNM4Py
- 78l00rQSrbIlDtmrxgT9CGKVPgCV/I2ftcdFvpmpeQ==
-X-Google-Smtp-Source: ABdhPJzSr3L2Byi3wLZu3l0gdvayF6YIRH/DV96GFke9c2R3p77KLjPy1OoVb5pZhR2CUjX75//sefejdTHbCRyTHr4=
-X-Received: by 2002:a05:6122:180d:: with SMTP id
- ay13mr12220908vkb.21.1634533347295; 
- Sun, 17 Oct 2021 22:02:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mcL83-0003LR-Vn
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 01:24:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53212)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mcL7z-0001rd-OC
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 01:24:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634534640;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=79XYcC3csEyinc7rrtxTd3CjBoSkpbS1oraIttYD01o=;
+ b=Kgfm7kuvs8E7ofKgYjdrylk+59yTVBazqDTLMOC+XEQbfAu/Dtce1ZmDSM40mwi1l2aYRV
+ YjWXjYjpFahqOOU6hh7eI1j1k8yIjrRzsUI2jVAivqCK2vsOH4dPhwg73JbJyiVkh5Ygu7
+ yIP7FHiW5SZgokwsoaT8zoxdrJiMeyg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-456-IEX3fhyoMJSP9KpiDxVbXg-1; Mon, 18 Oct 2021 01:23:57 -0400
+X-MC-Unique: IEX3fhyoMJSP9KpiDxVbXg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD0058066F2;
+ Mon, 18 Oct 2021 05:23:56 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F73810016F4;
+ Mon, 18 Oct 2021 05:23:56 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id BB625180063D; Mon, 18 Oct 2021 07:23:54 +0200 (CEST)
+Date: Mon, 18 Oct 2021 07:23:54 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: gitlab build-edk2 failures
+Message-ID: <20211018052354.fixjt642v62vnlna@sirius.home.kraxel.org>
+References: <95c44864-c316-4396-5863-09e46dfa4671@linaro.org>
+ <16cc6428-9a4c-87d0-f092-b7a21f64b0b8@redhat.com>
+ <d06193c1-eb84-f27d-cebf-7cde80b3d5ec@redhat.com>
 MIME-Version: 1.0
-References: <20211008231506.17471-1-imp@bsdimp.com>
- <20211008231506.17471-2-imp@bsdimp.com>
- <CACNAnaFu1uX=pcsjwmYxKAPLX=JdsPHTnrJmjRD2U+aX79KhZQ@mail.gmail.com>
- <CANCZdfqPp4aZzx_kzTW87mu9Q2iQWo=kD5FeJaBmFQuM5Sqbww@mail.gmail.com>
-In-Reply-To: <CANCZdfqPp4aZzx_kzTW87mu9Q2iQWo=kD5FeJaBmFQuM5Sqbww@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Sun, 17 Oct 2021 23:02:16 -0600
-Message-ID: <CANCZdfqBk0DBhujcMmM-rup90jeF3iM5Nu69SZq5wbKGjzK0+g@mail.gmail.com>
-Subject: Re: [PATCH v2 01/15] meson: *-user: only descend into *-user when
- configured
-To: Kyle Evans <kevans@freebsd.org>
-Content-Type: multipart/alternative; boundary="0000000000008a16ea05ce9973c3"
-Received-SPF: none client-ip=2607:f8b0:4864:20::a36;
- envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa36.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d06193c1-eb84-f27d-cebf-7cde80b3d5ec@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,217 +82,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+ qemu-devel <qemu-devel@nongnu.org>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008a16ea05ce9973c3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Sun, Oct 17, 2021 at 04:58:37PM +0200, Philippe Mathieu-Daudé wrote:
+> On 10/16/21 09:27, Paolo Bonzini wrote:
+> > On 16/10/21 04:04, Richard Henderson wrote:
+> >> I've seen a lot of failures on this job recently, and they're all
+> >> timeouts cloning the git submodules.  Would it be better to mirror
+> >> these to gitlab?
+> >>
+> > 
+> > They're not timeouts, they're issues with edk2's _own_ submodules.
+> > 
+> > fatal: unable to access
+> > 'https://git.cryptomilk.org/projects/cmocka.git/': server certificate
+> > verification failed. CAfile: /etc/ssl/certs/ca-certificates.crt CRLfile:
+> > none
+> > fatal: clone of 'https://git.cryptomilk.org/projects/cmocka.git' into
+> > submodule path 'UnitTestFrameworkPkg/Library/CmockaLib/cmocka' failed
+> > 
+> > roms/edk2 is already mirrored to gitlab, so we'd have to add mirrors for
+> > all of these and make edk2.yml configure the mirrors in .git/config.  I
+> > think the edk2 project should do the mirroring instead...
+> 
+> IIUC QEMU EDK2 scripts don't require cmocka... IMHO (short term) we
+> should update the 'git submodule update' line in roms/Makefile.edk2
+> to only update the submodules we require.
 
-On Sun, Oct 17, 2021 at 10:29 PM Warner Losh <imp@bsdimp.com> wrote:
+Yes, cmocka is not needed.  For ovmf/armvirt we need these:
 
->
->
-> On Sun, Oct 17, 2021 at 9:43 PM Kyle Evans <kevans@freebsd.org> wrote:
->
->> On Fri, Oct 8, 2021 at 6:15 PM Warner Losh <imp@bsdimp.com> wrote:
->> >
->> > To increase flexibility, only descend into *-user when that is
->> > configured. This allows *-user to selectively include directories base=
-d
->> > on the host OS which may not exist on all hosts. Adopt Paolo's
->> > suggestion of checking the configuration in the directories that know
->> > about the configuration.
->> >
->> > Message-Id: <20210926220103.1721355-2-f4bug@amsat.org>
->> > Message-Id: <20210926220103.1721355-3-f4bug@amsat.org>
->> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> > Signed-off-by: Warner Losh <wlosh@bsdimp.com>
->> > Acked-by: Paolo Bonzini <pbonzinni@redhat.com>
->> >
->> > Sponsored by:           Netflix
->> > ---
->> >  bsd-user/meson.build   | 4 ++++
->> >  linux-user/meson.build | 4 ++++
->> >  meson.build            | 3 +--
->> >  3 files changed, 9 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/bsd-user/meson.build b/bsd-user/meson.build
->> > index 0369549340..243fb78930 100644
->> > --- a/bsd-user/meson.build
->> > +++ b/bsd-user/meson.build
->> > @@ -1,3 +1,7 @@
->> > +if not config_target.has_key('CONFIG_BSD_USER')
->> > +   subdir_done()
->> > +endif
->> > +
->> >  bsd_user_ss.add(files(
->> >    'bsdload.c',
->> >    'elfload.c',
->> > diff --git a/linux-user/meson.build b/linux-user/meson.build
->> > index 9549f81682..602255a3d6 100644
->> > --- a/linux-user/meson.build
->> > +++ b/linux-user/meson.build
->> > @@ -1,3 +1,7 @@
->> > +if not config_target.has_key('CONFIG_LINUX_USER')
->> > +   subdir_done()
->> > +endif
->> > +
->> >  linux_user_ss.add(files(
->> >    'elfload.c',
->> >    'exit.c',
->> > diff --git a/meson.build b/meson.build
->> > index 99a0a3e689..1f2da5f7d9 100644
->> > --- a/meson.build
->> > +++ b/meson.build
->> > @@ -2303,10 +2303,9 @@ subdir('ebpf')
->> >
->> >  common_ss.add(libbpf)
->> >
->> > -bsd_user_ss.add(files('gdbstub.c'))
->> >  specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
->> >
->> > -linux_user_ss.add(files('gdbstub.c', 'thunk.c'))
->> > +linux_user_ss.add(files('thunk.c'))
->> >  specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss=
-)
->> >
->> >  # needed for fuzzing binaries
->> > --
->> > 2.32.0
->> >
->>
->> I don't understand the gdbstub.c removal  here; don't we still want to
->> be compiling it in, just only if the appropriate
->> CONFIG_{BSD,LINUX}_USER knob is set? I note that it doesn't appear to
->> be added in individual *-user/meson.build, I assume it's uncommon to
->> add in ../foo.c in meson-land...
->>
->
-> It's added to specific_ss at line 2536
-> specific_ss.add(files('cpu.c', 'disas.c', 'gdbstub.c'), capstone)
->
-> so we don't need to add it again here.
->
+	BaseTools/Source/C/BrotliCompress/brotli
+	MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
+	CryptoPkg/Library/OpensslLib/openssl
+	ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3
 
-I've also confirmed that it's built as both
-libqemu-i386-bsd-user.fa.p/gdbstub.c.o
-and libqemu-x86_64-bsd-user.fa.p/gdbstub.c.o, which is what I'd expect give=
-n
-the current upstream supported architectures are only i386 and x86_64.
+take care,
+  Gerd
 
-Warner
-
---0000000000008a16ea05ce9973c3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Oct 17, 2021 at 10:29 PM Warn=
-er Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr=
-"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
-" class=3D"gmail_attr">On Sun, Oct 17, 2021 at 9:43 PM Kyle Evans &lt;<a hr=
-ef=3D"mailto:kevans@freebsd.org" target=3D"_blank">kevans@freebsd.org</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri=
-, Oct 8, 2021 at 6:15 PM Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" =
-target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; To increase flexibility, only descend into *-user when that is<br>
-&gt; configured. This allows *-user to selectively include directories base=
-d<br>
-&gt; on the host OS which may not exist on all hosts. Adopt Paolo&#39;s<br>
-&gt; suggestion of checking the configuration in the directories that know<=
-br>
-&gt; about the configuration.<br>
-&gt;<br>
-&gt; Message-Id: &lt;<a href=3D"mailto:20210926220103.1721355-2-f4bug@amsat=
-.org" target=3D"_blank">20210926220103.1721355-2-f4bug@amsat.org</a>&gt;<br=
->
-&gt; Message-Id: &lt;<a href=3D"mailto:20210926220103.1721355-3-f4bug@amsat=
-.org" target=3D"_blank">20210926220103.1721355-3-f4bug@amsat.org</a>&gt;<br=
->
-&gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug=
-@amsat.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:wlosh@bsdimp.com" tar=
-get=3D"_blank">wlosh@bsdimp.com</a>&gt;<br>
-&gt; Acked-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzinni@redhat.com" ta=
-rget=3D"_blank">pbonzinni@redhat.com</a>&gt;<br>
-&gt;<br>
-&gt; Sponsored by:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Netflix<br>
-&gt; ---<br>
-&gt;=C2=A0 bsd-user/meson.build=C2=A0 =C2=A0| 4 ++++<br>
-&gt;=C2=A0 linux-user/meson.build | 4 ++++<br>
-&gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3 +--<br>
-&gt;=C2=A0 3 files changed, 9 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/bsd-user/meson.build b/bsd-user/meson.build<br>
-&gt; index 0369549340..243fb78930 100644<br>
-&gt; --- a/bsd-user/meson.build<br>
-&gt; +++ b/bsd-user/meson.build<br>
-&gt; @@ -1,3 +1,7 @@<br>
-&gt; +if not config_target.has_key(&#39;CONFIG_BSD_USER&#39;)<br>
-&gt; +=C2=A0 =C2=A0subdir_done()<br>
-&gt; +endif<br>
-&gt; +<br>
-&gt;=C2=A0 bsd_user_ss.add(files(<br>
-&gt;=C2=A0 =C2=A0 &#39;bsdload.c&#39;,<br>
-&gt;=C2=A0 =C2=A0 &#39;elfload.c&#39;,<br>
-&gt; diff --git a/linux-user/meson.build b/linux-user/meson.build<br>
-&gt; index 9549f81682..602255a3d6 100644<br>
-&gt; --- a/linux-user/meson.build<br>
-&gt; +++ b/linux-user/meson.build<br>
-&gt; @@ -1,3 +1,7 @@<br>
-&gt; +if not config_target.has_key(&#39;CONFIG_LINUX_USER&#39;)<br>
-&gt; +=C2=A0 =C2=A0subdir_done()<br>
-&gt; +endif<br>
-&gt; +<br>
-&gt;=C2=A0 linux_user_ss.add(files(<br>
-&gt;=C2=A0 =C2=A0 &#39;elfload.c&#39;,<br>
-&gt;=C2=A0 =C2=A0 &#39;exit.c&#39;,<br>
-&gt; diff --git a/meson.build b/meson.build<br>
-&gt; index 99a0a3e689..1f2da5f7d9 100644<br>
-&gt; --- a/meson.build<br>
-&gt; +++ b/meson.build<br>
-&gt; @@ -2303,10 +2303,9 @@ subdir(&#39;ebpf&#39;)<br>
-&gt;<br>
-&gt;=C2=A0 common_ss.add(libbpf)<br>
-&gt;<br>
-&gt; -bsd_user_ss.add(files(&#39;gdbstub.c&#39;))<br>
-&gt;=C2=A0 specific_ss.add_all(when: &#39;CONFIG_BSD_USER&#39;, if_true: bs=
-d_user_ss)<br>
-&gt;<br>
-&gt; -linux_user_ss.add(files(&#39;gdbstub.c&#39;, &#39;thunk.c&#39;))<br>
-&gt; +linux_user_ss.add(files(&#39;thunk.c&#39;))<br>
-&gt;=C2=A0 specific_ss.add_all(when: &#39;CONFIG_LINUX_USER&#39;, if_true: =
-linux_user_ss)<br>
-&gt;<br>
-&gt;=C2=A0 # needed for fuzzing binaries<br>
-&gt; --<br>
-&gt; 2.32.0<br>
-&gt;<br>
-<br>
-I don&#39;t understand the gdbstub.c removal=C2=A0 here; don&#39;t we still=
- want to<br>
-be compiling it in, just only if the appropriate<br>
-CONFIG_{BSD,LINUX}_USER knob is set? I note that it doesn&#39;t appear to<b=
-r>
-be added in individual *-user/meson.build, I assume it&#39;s uncommon to<br=
->
-add in ../foo.c in meson-land...<br></blockquote><div><br></div><div>It&#39=
-;s added to specific_ss at line 2536<br></div><div>specific_ss.add(files(&#=
-39;cpu.c&#39;, &#39;disas.c&#39;, &#39;gdbstub.c&#39;), capstone)</div><div=
-><br></div><div>so we don&#39;t need to add it again here.</div></div></div=
-></blockquote><div><br></div><div>I&#39;ve also confirmed that it&#39;s bui=
-lt as both libqemu-i386-bsd-user.fa.p/gdbstub.c.o</div><div>and libqemu-x86=
-_64-bsd-user.fa.p/gdbstub.c.o, which is what I&#39;d expect given</div><div=
->the current upstream supported architectures are only i386 and x86_64.</di=
-v><div><br></div><div>Warner</div></div></div>
-
---0000000000008a16ea05ce9973c3--
 
