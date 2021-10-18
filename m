@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3607243173E
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 13:27:07 +0200 (CEST)
-Received: from localhost ([::1]:47618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B29C431729
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 13:24:06 +0200 (CEST)
+Received: from localhost ([::1]:41940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcQnK-0006Ww-AV
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 07:27:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45632)
+	id 1mcQkP-0002ZQ-13
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 07:24:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mcQkx-0004Fp-3f
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 07:24:39 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41972)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1mcQi7-0000H5-Kc; Mon, 18 Oct 2021 07:21:43 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:39872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mcQku-0001QT-HG
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 07:24:38 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id t2so40771213wrb.8
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 04:24:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=7s4kowO60/pDu/2UrpnKiMiz11sy7qpAN5Ws0Xp5kek=;
- b=M4ct4S1JWnndU6RhWU56jnJ+ooJEw+FD5ho8H77dsb/4TfC8/9JZA4AAtZAg4ix9UH
- z91GcPT3W5j+3CX/1JNuACujaPIN1WJJW7gcy4kIrDrsmKighpScefo22MwryI9cbMX/
- 6C6ewtNVIL4fLj00gmhLUIvy/ZTVQFcAX9wEmpHyK2l0SNwQM8OxRX3WczB0TjWU+m10
- DAXHs33bIUbE7K01BsrEcIJmEeQn46fykcRF0qb/Ch4Yo68jE1yn2vlrTRs/CKeoanWi
- hRpA2SQEYxKWw0FTllkSdqFOvWIWg6Tykxk+nNY+eleC49G6BX9WV706DDX140T4lZbi
- a8Sw==
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1mcQi2-0007uI-0Z; Mon, 18 Oct 2021 07:21:41 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id n8so66624976lfk.6;
+ Mon, 18 Oct 2021 04:21:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=HjjkNgUBPAvebyXMymkU/YoB8MOUmEtSjfbAC+nnLnM=;
+ b=R3Bwd3evjuLrG5Wk4UyngBnYWn5FQuOiH5/GR3rTd+gTD8nBHXL1g/CU/97o7hhH82
+ nhMB2F3NHBmQCs9qfp/ymoDGYxu9Df7pfOrRZQy5NmUP9zxEULm/MgoC8ZsWM01sovru
+ 7O+oexFz/cHWYtl/4GGiW1VV1slNUy6CC/7Qc49DZ0/Y7ZmPmQe83EzI56tDkrSLFx1B
+ EWW7OVUsjWyvXN33EFFoynieYXJmvNhfOMMIfPZNm6M5l3FpOJpPaJel/1PTmfx2kd8+
+ 9ES01xG6xK0fAsLjzixFCbZhvTI6IVz56T8XIKSAR/kXfWoEuWdUO3g0baoV7aqBqh29
+ sDuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=7s4kowO60/pDu/2UrpnKiMiz11sy7qpAN5Ws0Xp5kek=;
- b=ERtZWiuGoC8CIdZd1tcGHXI61Llrh2QPMyoSINDLExAz4FvKSXL7uH5CIW6F+BfAxd
- Vp+nLF1nV7k3c2khzHxLH8vaVF6Gi9ZJZZgKv8Q6pbAqxQ60oWGzYoA5DQYjGqX/BAV8
- LSOvHlQWB0nx/BIXS4frkKoze0TzMdGanMRQ9vyl3cKAwSAHx3QNV2vNQPs1az5NJGex
- zncFv82hZ94FXFr9jFXNeRTm+VmFfgDdybsyb3D5w0Ze9wecNQ94FuKAWl04pgCoBQ4E
- JlHEEUWnGMuCXGHAbn7WSF94ZVh6w1A/Y2W/SthlvMYp8RjLG0zOXinj68lpH1K30XfO
- LhJA==
-X-Gm-Message-State: AOAM531o6AEtsHsjcYom+On0qbvvNQo+IkAJ8l7PJcJ3v/IpStlLT8JV
- S7mHRjFliBcOqbhHLmV9ueg68Q==
-X-Google-Smtp-Source: ABdhPJwErTzVaNGYRoroDXhjK/w14TOLM4oeoQv8d+bIt9ELKcEM9YDkvUUjYJHOSGzb9yhvDZYMBg==
-X-Received: by 2002:a5d:4481:: with SMTP id j1mr36635739wrq.6.1634556273941;
- Mon, 18 Oct 2021 04:24:33 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m14sm1633133wms.25.2021.10.18.04.24.32
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=HjjkNgUBPAvebyXMymkU/YoB8MOUmEtSjfbAC+nnLnM=;
+ b=HzRLnOYmaXUxWsyPloWWHDelBlgk9BsOBc72E2nFfhvbWOpxioBMV2K47aze26y2hq
+ Y6N9VXCunxVVobuttUoUFJA0ISEGXrJ8+VzBKfl3FrukPk3Fd59lyKaiJeJt76JGccMU
+ CIua4oyf6bmll4MYyNW4wTpGKMlEjQjZgcTTgNW6KYHbD+LJ6yAD8Nuyd5NhdJhUUWaf
+ w1/KycmHc5Kx+WnnxamF+/O74JXz8dzIlA5WjjGSOGjN6TZufGN/1UZYwXGbIqBFgmkH
+ RU3IPZVjGQl58d4VwgTEIxQatlXhOZmdc+6JaFjVUzWQ3dr1ANUNeSbZ8hjOp3FUfTrr
+ gQQw==
+X-Gm-Message-State: AOAM530Wy6D5+le4U6nq2Y4E3hUstStGOpaG4Q+JE80dJbKfFx5pRv2k
+ bp39ipgC4ixwF31jvOOZk78=
+X-Google-Smtp-Source: ABdhPJzTx5DWLl8/azr+ZIktsZuVEpt7+wdY4YYDu1sZv7E6Gev9kDm8SDDt+HM4ibLGgW+D0xFmEA==
+X-Received: by 2002:a05:6512:3191:: with SMTP id
+ i17mr28074113lfe.485.1634556093446; 
+ Mon, 18 Oct 2021 04:21:33 -0700 (PDT)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ bq8sm384428lfb.32.2021.10.18.04.21.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 04:24:32 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CD91F1FF96;
- Mon, 18 Oct 2021 12:24:31 +0100 (BST)
-References: <20210905140939.638928-1-lukas.junger@greensocs.com>
- <87ilzcy593.fsf@linaro.org>
- <2cf6222a-7c66-cbbc-a9a2-66c037c62918@greensocs.com>
-User-agent: mu4e 1.7.0; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Lukas =?utf-8?Q?J=C3=BCnger?= <lukas.junger@greensocs.com>
-Subject: Re: [PATCH 0/1] Add missing function names to symbol list
-Date: Mon, 18 Oct 2021 12:18:11 +0100
-In-reply-to: <2cf6222a-7c66-cbbc-a9a2-66c037c62918@greensocs.com>
-Message-ID: <875ytu1spc.fsf@linaro.org>
+ Mon, 18 Oct 2021 04:21:33 -0700 (PDT)
+Date: Mon, 18 Oct 2021 13:21:31 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: Tong Ho <tong.ho@xilinx.com>
+Subject: Re: [PATCH 1/3] hw/nvram: Fix Memory Leak in Xilinx eFuse QOM
+Message-ID: <20211018112130.GC23846@fralle-msi>
+References: <20211015203532.2463705-1-tong.ho@xilinx.com>
+ <20211015203532.2463705-2-tong.ho@xilinx.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211015203532.2463705-2-tong.ho@xilinx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,59 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: erdnaxe@crans.org, ma.mandourr@gmail.com, qemu-devel@nongnu.org
+Cc: edgar.iglesias@gmail.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ alistair@alistair23.me, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On [2021 Oct 15] Fri 13:35:30, Tong Ho wrote:
+> Signed-off-by: Tong Ho <tong.ho@xilinx.com>
 
-Lukas J=C3=BCnger <lukas.junger@greensocs.com> writes:
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 
-> On 9/7/21 13:43, Alex Benn=C3=A9e wrote:
->> Lukas J=C3=BCnger <lukas.junger@greensocs.com> writes:
->>
->>> Hi all,
->>>
->>> I have been trying to use the hwprofile and cache plugin on
->>> qemu-system-riscv64. They failed to load with an undefined
->>> symbol error. It looks like some of the plugin API functions
->>> are missing from the symbol list, so I added them.
->> Heh I had a similar patch in plugins/next but yours includes more
->> symbols so queued to plugins/next, thanks. Not sure how I missed it
->> before - I think we might not have been honouring the symbol list
->> before.
->>
->>> Afterwards
->>> the plugins worked (eventhough the cache plugin is segfaulting
->>> on shutdown, but that is a separate, unrelated issue).
->> Has this been tracked down yet? There is a fix f7e68c9c99 (tcg/plugins:
->> implement a qemu_plugin_user_exit helper) which was for user mode. At
->> the time I didn't think system mode would be affected due to the atexit
->> callback only being called once vCPUs had shutdown.
->
-> It seems like there is a race condition with the tcg threads.
-> The plugin exit handler is run with atexit(). While the exit callback
-> is freeing memory, tcg is still running and memory callbacks write
-> to the already freed data structures in the plugin causing the segfault.
-> I tested this with the current master branch and this cmdline:
-
-We fixed a bug in linux-user that was leading to the exit callbacks
-being called (see qemu_plugin_user_exit).
-
-> bin/qemu-system-riscv64 -machine virt -nographic -bios fw_jump.elf
-> =C2=A0=C2=A0=C2=A0 -kernel Image -plugin path/to/libcache.so -d plugin -D=
- log.txt
->
-> I wonder if we could somehow wait for the tcg to exit before executing
-> plugin exit cb. Do you have an idea?
-
-It should be because I don't see how TCG would still be running when we
-run the atexit handler. It literally shouldn't be called until QEMU
-itself calls exit which should be well after the TCG has stopped running
-(see pause_all_vcpus).
-
-Any chance you could replicate and generate a backtrace that shows this
-happening?
-
---=20
-Alex Benn=C3=A9e
+> ---
+>  hw/nvram/xlnx-efuse.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/nvram/xlnx-efuse.c b/hw/nvram/xlnx-efuse.c
+> index ee1caab54c..a0fd77b586 100644
+> --- a/hw/nvram/xlnx-efuse.c
+> +++ b/hw/nvram/xlnx-efuse.c
+> @@ -144,10 +144,11 @@ static bool efuse_ro_bits_find(XlnxEFuse *s, uint32_t k)
+>  bool xlnx_efuse_set_bit(XlnxEFuse *s, unsigned int bit)
+>  {
+>      if (efuse_ro_bits_find(s, bit)) {
+> +        g_autofree char *path = object_get_canonical_path(OBJECT(s));
+> +
+>          qemu_log_mask(LOG_GUEST_ERROR, "%s: WARN: "
+>                        "Ignored setting of readonly efuse bit<%u,%u>!\n",
+> -                      object_get_canonical_path(OBJECT(s)),
+> -                      (bit / 32), (bit % 32));
+> +                      path, (bit / 32), (bit % 32));
+>          return false;
+>      }
+>  
+> @@ -202,9 +203,11 @@ static void efuse_realize(DeviceState *dev, Error **errp)
+>      efuse_ro_bits_sort(s);
+>  
+>      if ((s->efuse_size % 32) != 0) {
+> +        g_autofree char *path = object_get_canonical_path(OBJECT(s));
+> +
+>          error_setg(errp,
+>                     "%s.efuse-size: %u: property value not multiple of 32.",
+> -                   object_get_canonical_path(OBJECT(dev)), s->efuse_size);
+> +                   path, s->efuse_size);
+>          return;
+>      }
+>  
+> -- 
+> 2.25.1
+> 
+> 
 
