@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA7B4323A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 18:17:41 +0200 (CEST)
-Received: from localhost ([::1]:35644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA764323A2
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 18:17:46 +0200 (CEST)
+Received: from localhost ([::1]:36048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcVKW-0004Ws-VX
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 12:17:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58120)
+	id 1mcVKb-0004n0-GZ
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 12:17:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV91-0007jS-7e
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:48 -0400
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:43670)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV97-0007l8-2W
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:55 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:40594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8r-00083R-BF
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:46 -0400
-Received: by mail-io1-xd2d.google.com with SMTP id y67so16840917iof.10
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 09:05:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8w-00084q-8V
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:52 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id x1so16870517iof.7
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 09:05:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HPM2AzR8oxs4nLDPoDsk3u1X7tCQIZsDcwBBkLry0yo=;
- b=m2KfaWDiti4qVZd4bdat+efvu9hCsLSXRkXu5+ItglaQP6cp64jnfmTje5NS/zA3vJ
- jmlvFqWt7LLoG3NMHp/InHqHEwheQaimeyz2ewZ2uzvZckLsVe2fsYL+18NRa/FOigu2
- rkhNB/px9r/mb8hHJzo2Xk5vOjlkQd147fjl3LO82+XkVwbQlFKS5pizQOhzkBK1Lm6p
- h2cyte5ZU4cagZ38le19b+ELCVwZy5ZRfeIfRFqlD+9Iz+MD79pElaemDr8aU4QHZtf4
- xUuFl4zcN4CiO6Yfb5VbObDn5GezkY4wRqsuJNK1kFrKvDhlJt8IWfWnHLqp/R6IJiAL
- tNZw==
+ bh=9dKXTIcJctOXE/jsCcOkT7BJa9rm6vlffSX8NI3ogMM=;
+ b=TXTxRLKNqyLBRUAUKk6/CPiBnScfy4Ss1Vb+l8vDqUDaWf/x5H0rTLdS4QTzvwbe5g
+ Iowkl/+38OOsMy2yBtzXoBCpyL/VkxUdm35KQ9QQBkWpvMcLhfK25cxEg8BNXcVBVxRW
+ qrQdlRlQXmrEh0ZHAJWj9CtwWEWgnpd8WBOtWOawbrHdhpVab9TU3DMWACbguqywRiVO
+ 43e1iXImAo6+2ZRicvBQS8k4lHYObmK5rTjCXa7OuTcOahL0iQ7zFjTD790NooN+uHgO
+ uAjDGSIDH851rXbquaNrFve9qix9Vdpjb2YNm0+txEW231/tXjCUw+tcePe2nuIEa17w
+ DNdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HPM2AzR8oxs4nLDPoDsk3u1X7tCQIZsDcwBBkLry0yo=;
- b=E+6G0JqjhBNFW46G/on8gqqloShm5nOHbAYWQqxMqxnc8M1HAKceQTKUiqIVB/7Sla
- osiR08Yznuu66Q7J2xcJMgYiyXfLB0zYh/gsVKG7ymmrTuHkJOwoeFm+SucsAApLkFMl
- MVz8jp2nHsub20hd/Q+l43WZwHihQWQ+QFIY7R6+VVMAKz194sg+PHV0EXzPEZh+yLGr
- xPso2DjnaWz+fS0kavTewDfyqX9yJi0oZ6fihjsjD+vxr7CIDi+Ysif7B+K9y+K6E/e/
- DzKS+5VVjq+GVF3dU9pXyRYt/H/dhHWYzMwUMrkA1OfplVIvorGa57j9JkG0tgUZ/tc5
- fUng==
-X-Gm-Message-State: AOAM531TOAGc8Sn8Bs+ndHhBuzEhkE7NoDqWJl9TH7tUNPkgn5RpyTdk
- GME24Ba7Sa2Y5D+sy0L6rgqKhROVaMVg+A==
-X-Google-Smtp-Source: ABdhPJxlbZybojS6WdItxOLrHJX3xXP7wpx4s0JojAd9XxXGJn7Blhh/3qGZnBv1xWP1/3Sur1teEQ==
-X-Received: by 2002:a05:6602:1591:: with SMTP id
- e17mr14616870iow.146.1634573132620; 
- Mon, 18 Oct 2021 09:05:32 -0700 (PDT)
+ bh=9dKXTIcJctOXE/jsCcOkT7BJa9rm6vlffSX8NI3ogMM=;
+ b=eNp4E0mNhT/PySseMvpr5ZcMA/ukCwMSJI/2fJ+VFVPUdQ3Aj8wKCPTDO2ROHFG0KY
+ vsuKaLIybX4m7Y0NB9rwBayVgPrZwJFgRQgIroTs74C+ycZtmjvu3lhWRA2vhI/VMm/l
+ hBuLffLHgwjEX6pc8H+fVf4N+1WgS0ubI974BRrSRtDA3TKeLkrqoLUU99xDlbje3jkZ
+ Hdiuh5Met11g0C7oDzxmhv5I70LX0avbgsEqzP9Urfw7n+MZ2lqBY8Ks0TPSqccd4wKk
+ i1MccrITvGQbHEYFtFV0x6xQtI3EhGEhHjs6jFFhh0UDlsgzsMj/7MlmxFi5dPISCU6j
+ MPIw==
+X-Gm-Message-State: AOAM532nHdGW2fZfY38wx+wibBcRYc7+MwMWuW8Wr9vnJMqksr6T/QLD
+ fxCMMJ0AvhzM6u8OJTveUwjC5IK3gEdVgQ==
+X-Google-Smtp-Source: ABdhPJyc8jICMGvYRj2aYyS487+LpOqznX6oof8Se1cnGZnIhESY33Fgg564o71VSNsqHxyuPiHvzA==
+X-Received: by 2002:a05:6602:2e08:: with SMTP id
+ o8mr15291207iow.10.1634573133390; 
+ Mon, 18 Oct 2021 09:05:33 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a4sm7240936ild.52.2021.10.18.09.05.31
+ by smtp.gmail.com with ESMTPSA id a4sm7240936ild.52.2021.10.18.09.05.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 18 Oct 2021 09:05:32 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/23] bsd-user/target_os_elf: If ELF_HWCAP2 is defined,
- publish it
-Date: Mon, 18 Oct 2021 10:04:53 -0600
-Message-Id: <20211018160458.1976-19-imp@bsdimp.com>
+Subject: [PULL 19/23] bsd-user: Remove used from TaskState
+Date: Mon, 18 Oct 2021 10:04:54 -0600
+Message-Id: <20211018160458.1976-20-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211018160458.1976-1-imp@bsdimp.com>
 References: <20211018160458.1976-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2d.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,33 +90,41 @@ Cc: Kyle Evans <kevans@FreeBSD.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some architectures publish AT_HWCAP2 as well as AT_HWCAP. Those
-architectures will define ELF_HWCAP2 in their target_arch_elf.h files
-for the value for this process. If it is defined, then publish it.
+The 'used' field in TaskState is write only. Remove it from TaskState.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 ---
- bsd-user/freebsd/target_os_elf.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ bsd-user/main.c | 1 -
+ bsd-user/qemu.h | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/bsd-user/freebsd/target_os_elf.h b/bsd-user/freebsd/target_os_elf.h
-index adcffd1ddb..e5ac8e8e50 100644
---- a/bsd-user/freebsd/target_os_elf.h
-+++ b/bsd-user/freebsd/target_os_elf.h
-@@ -112,6 +112,10 @@ static abi_ulong target_create_elf_tables(abi_ulong p, int argc, int envc,
-         NEW_AUX_ENT(AT_ENTRY, load_bias + exec->e_entry);
-         features = ELF_HWCAP;
-         NEW_AUX_ENT(FREEBSD_AT_HWCAP, features);
-+#ifdef ELF_HWCAP2
-+        features = ELF_HWCAP2;
-+        NEW_AUX_ENT(FREEBSD_AT_HWCAP2, features);
-+#endif
-         NEW_AUX_ENT(AT_UID, (abi_ulong)getuid());
-         NEW_AUX_ENT(AT_EUID, (abi_ulong)geteuid());
-         NEW_AUX_ENT(AT_GID, (abi_ulong)getgid());
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index 48643eeabc..ee84554854 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -210,7 +210,6 @@ void init_task_state(TaskState *ts)
+ {
+     int i;
+ 
+-    ts->used = 1;
+     ts->first_free = ts->sigqueue_table;
+     for (i = 0; i < MAX_SIGQUEUE_SIZE - 1; i++) {
+         ts->sigqueue_table[i].next = &ts->sigqueue_table[i + 1];
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index 3b8475394c..c1170f14d9 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -92,7 +92,6 @@ typedef struct TaskState {
+ 
+     struct TaskState *next;
+     struct bsd_binprm *bprm;
+-    int used; /* non zero if used */
+     struct image_info *info;
+ 
+     struct emulated_sigtable sigtab[TARGET_NSIG];
 -- 
 2.32.0
 
