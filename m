@@ -2,88 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE6604316D5
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 13:06:46 +0200 (CEST)
-Received: from localhost ([::1]:33280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871C543170C
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 13:18:06 +0200 (CEST)
+Received: from localhost ([::1]:37074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcQTe-00038V-1L
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 07:06:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39896)
+	id 1mcQeb-0007Dn-DD
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 07:18:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcQLg-00057e-4P
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 06:58:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35837)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcQLe-0002SZ-Bs
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 06:58:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634554709;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Xx3f/mYVwEOTtmXB5LHuSDZ24Zf6Va4xyRPf3h7Vlpw=;
- b=gEui8H2V2AnIS7xfsCldct51OPw2nlfT4JonhMEDhwedbQhzehR5Nyex3ZHNCTRQqQDO0H
- Gcvl4bDpotWiUtK8hI8NiAXaHcIpYJXnSWDgqix3Jowd7f7YQU7vGDSxLWTC9ba/lpg0uR
- xDhSoo/7E7nzgtbz4Ki6FbTtnoHg4nk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-603-8BllQrv9MCWJBXhsxsXbIw-1; Mon, 18 Oct 2021 06:58:28 -0400
-X-MC-Unique: 8BllQrv9MCWJBXhsxsXbIw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- o22-20020a1c7516000000b0030d6f9c7f5fso1982138wmc.1
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:58:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mcQbc-00060r-Hj
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 07:15:00 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42627)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mcQba-0003ZV-TM
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 07:15:00 -0400
+Received: by mail-wr1-x430.google.com with SMTP id v17so40590764wrv.9
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 04:14:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9qBVCEaNHVJgkM01xLy8+Mb1Rsl0s0YtNlWwvEU8a6w=;
+ b=FBat1PiAb+LCwhAXfWEpPbb6xLzNEz39kaRWdTSkNWgzAtUTLQ1wMBSHhowW68nGA5
+ BztQlo1bLiKyLNiPx2NCGvDWRXKY8xPhSQNhKgS1X+5tpC/Dvvx2DTwkNXaxbjRjZ28k
+ y587CcZLwfu2ak2GB8Mo/EYY6yeBIZGppnxGDbMu1/aSaLHuYqyDAXZ21Nf1mNJh6S9a
+ k3eFzN2wRMTbyUOW1o8dlNkXN/xazMjcKq48lUW2y/pkuLfTgy7HowM1pa7kxwD7m+xi
+ YEI22myEP8ZnDBXXknolQkEApZRxRakM3oKLbThYkOI596NFhLJF29sdbhvX8qjni0Uk
+ 1tWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Xx3f/mYVwEOTtmXB5LHuSDZ24Zf6Va4xyRPf3h7Vlpw=;
- b=bA7d19XCy7g5AA8yrDUaeBWkMRck2rs5ZiSBWMOoA3TcQganAkDt9abRgcruZD9jA9
- JP7sIbZbRYMezqDD/kIQB5umBfvWhpiIkMUc/CWxwX2fXyi2cidoC8foZZpa+9ynSSN0
- /FXkMEtXMY+SylsQ4Qb3+Ky369BR/G4KLhYQCKw73ia/hbKvNSIxZgexfNEUiAns/GbH
- wqCkgb8PLEmng8TpPyi9byCCub6Q0+jNq0hCptO+6NTraXYe1+Qok+mftI28XJZjtRNY
- AyIR6UfCEOG3rxAskF81m3ZGjdBlXxgzAXdzX5geVm27SHjcYPlwhPbBoFH63DhGM5gs
- 5pPg==
-X-Gm-Message-State: AOAM532bc9r61g31tCBcTrKknAKMIGPnjPGgYl3e1AFEui2lLXwnYYYO
- bUJsYJB2MMhT9itEQJlxFgfuRhhvwXuFQQt5sNQBls3Rshi1IOCxt2Eks+LKZi5aiKhoQmkqFDJ
- gq9AvBGJ/jjx/NtHnZcA9qcuO9o2JFlTKqgZvUnmIhsQX4Jd4MON3wnxQaP3EvbMF
-X-Received: by 2002:a05:6000:1885:: with SMTP id
- a5mr33606994wri.64.1634554707202; 
- Mon, 18 Oct 2021 03:58:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwWNIIbvRjf/CKzuMzzl/lRwTXkfxm/CKlR8Ix6FzqDmuCS2R+bKw75xxqH9ZzaJnWnY03xAQ==
-X-Received: by 2002:a05:6000:1885:: with SMTP id
- a5mr33606956wri.64.1634554706954; 
- Mon, 18 Oct 2021 03:58:26 -0700 (PDT)
-Received: from x1w.redhat.com (213.red-81-36-146.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9qBVCEaNHVJgkM01xLy8+Mb1Rsl0s0YtNlWwvEU8a6w=;
+ b=QPFdN+BbBlCMr5N+s6EUTOEIEcwiCaYzVtTJI7LqSY8zxInu5UbbtlrlqVY4URybrr
+ HPZYjO3zleP3dCaYWaz/eqW79CvoSEYHF0bPT2yvcp+1NyJ7vS4yt8Y0NVCFahLVLJD8
+ UL4U24RLg//Bd0T9qDXYVSAEgqIBet7ncNKFKbggeDbQWooXzsf7KsNrj1Kze+CRkAgj
+ OEyXfVXUCZtV2/nXeOuiMMRu6sQlQEhP4YdCU/wRh2GO2KVDwGUypc1vwWr3r+nci/ht
+ FBI6M3kvQBlO/sj8DOqsPU468dToYUhTAaI6/MRwWJJV3xIjsGJO+cTeHD1bcD7GD8eO
+ VKhw==
+X-Gm-Message-State: AOAM531QY0ZXboH5uUQSZUfxeBwj1DKxISpihSpzfCVYrUCIGnVFHwVO
+ TU3SRxIEy0xS2D09Y2sBi7w=
+X-Google-Smtp-Source: ABdhPJz/oxNb+oXgQczl3MkmAKolmMIk6ykxZo5GfTWK7/sPWVndAYXKj07gCM1jQGhiWriGHwQUAw==
+X-Received: by 2002:adf:8b4d:: with SMTP id v13mr2935538wra.438.1634555697216; 
+ Mon, 18 Oct 2021 04:14:57 -0700 (PDT)
+Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id k6sm12597727wri.83.2021.10.18.03.58.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 03:58:26 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] roms/edk2: Only initialize required submodules
-Date: Mon, 18 Oct 2021 12:58:16 +0200
-Message-Id: <20211018105816.2663195-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211018105816.2663195-1-philmd@redhat.com>
-References: <20211018105816.2663195-1-philmd@redhat.com>
+ by smtp.gmail.com with ESMTPSA id e15sm12171819wrv.74.2021.10.18.04.14.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Oct 2021 04:14:56 -0700 (PDT)
+Message-ID: <1b40cad7-e2f7-c461-6cf5-b1a77b76eae8@amsat.org>
+Date: Mon, 18 Oct 2021 13:14:55 +0200
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 2/7] tests/docker: Simplify debian-all-test-cross
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20211014224435.2539547-1-richard.henderson@linaro.org>
+ <20211014224435.2539547-3-richard.henderson@linaro.org>
+ <87ee8i1u2x.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <87ee8i1u2x.fsf@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,93 +92,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The EDK2 firmware images built to test QEMU do not require
-the following submodules:
+On 10/18/21 12:54, Alex Bennée wrote:
+> 
+> Richard Henderson <richard.henderson@linaro.org> writes:
+> 
+>> The base debian10 image contains enough to build qemu;
+>> we do not need to repeat that within the new image.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>  tests/docker/dockerfiles/debian-all-test-cross.docker | 5 -----
+>>  1 file changed, 5 deletions(-)
+>>
+>> diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
+>> index dedcea58b4..b185b7c15a 100644
+>> --- a/tests/docker/dockerfiles/debian-all-test-cross.docker
+>> +++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
+>> @@ -8,11 +8,6 @@
+>>  #
+>>  FROM qemu/debian10
+>>  
+>> -# What we need to build QEMU itself
+>> -RUN apt update && \
+>> -    DEBIAN_FRONTEND=noninteractive eatmydata \
+>> -    apt build-dep -yy qemu
+>> -
+>>  # Add the foreign architecture we want and install dependencies
+>>  RUN DEBIAN_FRONTEND=noninteractive eatmydata \
+>>          apt install -y --no-install-recommends \
+> 
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 
- - MdeModulePkg/Universal/RegularExpressionDxe/oniguruma
- - UnitTestFrameworkPkg/Library/CmockaLib/cmocka
-
-The only submodules required are:
-
- - ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3
- - BaseTools/Source/C/BrotliCompress/brotli
- - CryptoPkg/Library/OpensslLib/openssl
- - MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
-
-Adapt the buildsys machinery to only initialize the required
-submodules.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-Cc: Michael Roth <michael.roth@amd.com>
----
- .gitlab-ci.d/edk2.yml | 6 +++++-
- roms/Makefile.edk2    | 7 ++++++-
- scripts/make-release  | 7 ++++++-
- 3 files changed, 17 insertions(+), 3 deletions(-)
-
-diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
-index 62497ba47fb..13d0f8b019f 100644
---- a/.gitlab-ci.d/edk2.yml
-+++ b/.gitlab-ci.d/edk2.yml
-@@ -50,7 +50,11 @@ build-edk2:
-    GIT_DEPTH: 3
-  script: # Clone the required submodules and build EDK2
-  - git submodule update --init roms/edk2
-- - git -C roms/edk2 submodule update --init
-+ - git -C roms/edk2 submodule update --init --
-+     ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3
-+     BaseTools/Source/C/BrotliCompress/brotli
-+     CryptoPkg/Library/OpensslLib/openssl
-+     MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
-  - export JOBS=$(($(getconf _NPROCESSORS_ONLN) + 1))
-  - echo "=== Using ${JOBS} simultaneous jobs ==="
-  - make -j${JOBS} -C roms efi 2>&1 1>edk2-stdout.log | tee -a edk2-stderr.log >&2
-diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
-index a8ed3255757..fdae0b511f5 100644
---- a/roms/Makefile.edk2
-+++ b/roms/Makefile.edk2
-@@ -51,7 +51,12 @@ all: $(foreach flashdev,$(flashdevs),../pc-bios/edk2-$(flashdev).fd.bz2) \
- # make-release/tarball scripts.
- submodules:
- 	if test -d edk2/.git; then \
--		cd edk2 && git submodule update --init --force; \
-+		cd edk2 && git submodule update --init --force -- \
-+			ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3 \
-+			BaseTools/Source/C/BrotliCompress/brotli \
-+			CryptoPkg/Library/OpensslLib/openssl \
-+			MdeModulePkg/Library/BrotliCustomDecompressLib/brotli \
-+		; \
- 	fi
- 
- # See notes on the ".NOTPARALLEL" target and the "+" indicator in
-diff --git a/scripts/make-release b/scripts/make-release
-index a2a8cda33c0..05b14ecc95e 100755
---- a/scripts/make-release
-+++ b/scripts/make-release
-@@ -27,7 +27,12 @@ git submodule update --init
- # don't necessarily have much control over how a submodule handles its
- # submodule dependencies, so we continue to handle these on a case-by-case
- # basis for now.
--(cd roms/edk2 && git submodule update --init)
-+(cd roms/edk2 && \
-+    git submodule update --init -- \
-+        ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3 \
-+        BaseTools/Source/C/BrotliCompress/brotli \
-+        CryptoPkg/Library/OpensslLib/openssl \
-+        MdeModulePkg/Library/BrotliCustomDecompressLib/brotli)
- popd
- tar --exclude=.git -cjf ${destination}.tar.bz2 ${destination}
- rm -rf ${destination}
--- 
-2.31.1
-
+IIUC if we keep --arch-only in the previous step (previous patch),
+this step is required here.
 
