@@ -2,91 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DEA431389
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:31:40 +0200 (CEST)
-Received: from localhost ([::1]:35140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249A143138F
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:34:09 +0200 (CEST)
+Received: from localhost ([::1]:40336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcOzb-0001Dg-LP
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:31:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47724)
+	id 1mcP20-0004gy-9b
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:34:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mcOx9-00079o-2V
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:29:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23268)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mcOx6-0006DZ-Ba
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:29:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634549343;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eD28jSy/dQYwLuK2ztCsnsataxmEbOlav14J26akKRY=;
- b=Fr6T679Y0qZcIN/+t2mQEqO9ua4ABAz7QKZUy95CW0XWzMWhWGcEYOl8DjmT98XcRdDVpU
- 8M5TAVc2ONZ59TRg+Mo1Xw/QaDkPM+B4KqVEhnVUdTJnDXR8sLoSkG+JIAY5KRFo5ZHxrr
- HUXOjBQ4YW5mfbrrxxtLrzEiOx8sGHA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-544-5GQsDAXYNByzztMTln5pig-1; Mon, 18 Oct 2021 05:29:01 -0400
-X-MC-Unique: 5GQsDAXYNByzztMTln5pig-1
-Received: by mail-wr1-f70.google.com with SMTP id
- r16-20020adfb1d0000000b00160bf8972ceso8605792wra.13
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 02:29:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mcOyK-0000V0-DR; Mon, 18 Oct 2021 05:30:23 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40655)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mcOyH-0000xn-JX; Mon, 18 Oct 2021 05:30:20 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id i12so40010850wrb.7;
+ Mon, 18 Oct 2021 02:30:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=D7BVU4GhXL8n5L6edJ68HHv8FXWmZwwAdo3YO2vTNqg=;
+ b=jG6itYlGXAG4BQSBgC02sYxn3NZkND8rEZCka+vIlFZ5gGPQVkHH3/nn1q7sUPi2BI
+ SvLnybbRTWnPxcfH5SqCq9iPXArQ/dHva3apZTXpDmbxoSMIuI02IDpyUQPueqFRcOxB
+ sA9URgktJCqxFiUiD7ohX9uCwmA5OlcxSVE7DHQ32fdSvRTGAbpuRpL3n+r3SfEdaEA7
+ /JtWKLhCSPbVtGBzdw0ndTyuxclQTycrZ9Y2wXJ346jWP52rY0UmKWq2ba93lewHT2o9
+ 3ppfIZzuuut7XvJ2vqZwjW+7ePrGR+dkPbbFkqRDy67n70yLuo0TxBJWqWyhOYqfoTTN
+ fvnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=eD28jSy/dQYwLuK2ztCsnsataxmEbOlav14J26akKRY=;
- b=Xw1xJ7X+A05S28iLuOt3LmBtCFSlnTHxqIl7iw1rXLWL0FYtucUbC35Q8UCt+QqWjh
- C9iN6JDTOpfeGScieYqxbIGHjAJoRsXU8PVTvsDebXkGL/SSXRbEeebbgY2zqm94JDLu
- zWtvan5VMgcM1FYl5nTNOKUYcV8jv4VWYatT/couY1gZZ8gBrLGAEjaRAUDgBDZeY4Sa
- E6NGFOfDjSqaDIDN0awWL1zAYbfHfK23ruMRpN8jlCXsAVE8A0zvn4gVf+cvR9hpRpoe
- eWclrST4dFQhPv+VypeLIE1JBGDHcmAeGf2ePT+g23blOqcFmScfdUFsFIWhYg/Ds69N
- IRHg==
-X-Gm-Message-State: AOAM531Zw8KFChwMeZFpwZDB3EpoGJe0J5yEEc8W6RLsM1BM3Ppk+BFX
- x3ZO+cliSG15rroOMXzabJ7UPzTyea2GF2tVb1IpO6pqHTLQ4s+Kwh4FecQZSN1kmm8EXb/SuJj
- O5UGe85Z8eR3laDs=
-X-Received: by 2002:adf:de0e:: with SMTP id b14mr34024135wrm.271.1634549340749; 
- Mon, 18 Oct 2021 02:29:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwUoOmpKAwG+taExNYIjkFvg31O70VGqOLStMS6lZy4B2IwuRulDX6doRT4SpFydGKmxb/dbw==
-X-Received: by 2002:adf:de0e:: with SMTP id b14mr34024111wrm.271.1634549340539; 
- Mon, 18 Oct 2021 02:29:00 -0700 (PDT)
-Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id n12sm12500305wms.27.2021.10.18.02.28.59
+ bh=D7BVU4GhXL8n5L6edJ68HHv8FXWmZwwAdo3YO2vTNqg=;
+ b=I94uZIB1SNPvXhRvueOmx+p2DDf/17mGnXkM0F4M3ZAAQMdiO/AzHyfdNKRY07BAGq
+ LDZOlQnq1fCuySVJHvfWMPwnM6oxWJ2tzPk8y8+axq+RF5XutjoAehLRdCl0l0Wv1ebT
+ nHSaGYfR9HLErjijC9CSgl+9rJFefCVv+C50UzucA2TU8OMo8FLBqJ/VC2af5p+njeuj
+ 09TvyUlaHxh8t1W4oH25lPRShDeBweMCbc6l2VjsRJhS7EhAcUu75gzhe3ne/hjWS9FZ
+ WDsTOnXUrewKiDK8UdINuEo72rN0fngnq41Lp/4md0IS6UrpcaR8myp2hwso+ObTJ+zG
+ E5Hw==
+X-Gm-Message-State: AOAM53313NFFO3wGKgdwK+4aTB40M3JbgDt5l1thr6Erk0M47u6gL6Iw
+ 7VuJQavomUfaD1GRoKlHeDOsTGGLNoU=
+X-Google-Smtp-Source: ABdhPJzsPn+Nc3lQ33b4rfhCxFsLwAwh3oW9Tjln3eWDor2tIRvHTdUvCSI1x2pP0qZO3hpewyVVOg==
+X-Received: by 2002:adf:9791:: with SMTP id s17mr33436556wrb.122.1634549415371; 
+ Mon, 18 Oct 2021 02:30:15 -0700 (PDT)
+Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
+ [81.36.146.213])
+ by smtp.gmail.com with ESMTPSA id a127sm16894044wme.40.2021.10.18.02.30.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Oct 2021 02:29:00 -0700 (PDT)
-Subject: Re: [PATCH 1/2] roms/edk2: Only init brotli submodule to build
- BaseTools
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211018092354.2637731-1-philmd@redhat.com>
- <20211018092354.2637731-2-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <b7d6a559-39c0-0511-e9a4-4d061bb04646@redhat.com>
-Date: Mon, 18 Oct 2021 11:28:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Mon, 18 Oct 2021 02:30:14 -0700 (PDT)
+Message-ID: <f6ab317d-86f4-9ad0-c108-0705593be3d9@amsat.org>
+Date: Mon, 18 Oct 2021 11:30:13 +0200
 MIME-Version: 1.0
-In-Reply-To: <20211018092354.2637731-2-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v1 1/2] target/riscv: Remove some unused macros
 Content-Language: en-US
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <f4d8a7a035f39c0a35d44c1e371c5c99cc2fa15a.1634531504.git.alistair.francis@wdc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <f4d8a7a035f39c0a35d44c1e371c5c99cc2fa15a.1634531504.git.alistair.francis@wdc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,38 +88,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/10/2021 11.23, Philippe Mathieu-Daudé wrote:
-> Since EDK2 BaseTools only require the brotli submodule,
-> we don't need to initialize other submodules at to build it.
+On 10/18/21 06:32, Alistair Francis wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
 
-s/at to/to/
+Possible commit description:
 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+ Since commit 1a9540d1f1a ("target/riscv: Drop support for ISA
+ spec version 1.09.1") these definitions are unused, remove them.
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->   roms/Makefile | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/roms/Makefile b/roms/Makefile
-> index eeb5970348c..b967b53bb76 100644
-> --- a/roms/Makefile
-> +++ b/roms/Makefile
-> @@ -143,7 +143,8 @@ build-efi-roms: build-pxe-roms
->   #    efirom
->   #
->   edk2-basetools:
-> -	cd edk2/BaseTools && git submodule update --init --force
-> +	cd edk2/BaseTools && git submodule update --init --force \
-> +		Source/C/BrotliCompress/brotli
->   	$(MAKE) -C edk2/BaseTools \
->   		PYTHON_COMMAND=$${EDK2_PYTHON_COMMAND:-python3} \
->   		EXTRA_OPTFLAGS='$(EDK2_BASETOOLS_OPTFLAGS)' \
+>  target/riscv/cpu_bits.h | 8 --------
+>  1 file changed, 8 deletions(-)
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+BTW I strongly suggest you to use git-publish for your
+series / pull requests:
 
+  https://github.com/stefanha/git-publish
+
+Regards,
+
+Phil.
 
