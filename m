@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08A6432689
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 20:36:49 +0200 (CEST)
-Received: from localhost ([::1]:55616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB804326C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 20:43:23 +0200 (CEST)
+Received: from localhost ([::1]:58246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcXVA-0000yT-Pf
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 14:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37336)
+	id 1mcXbX-000321-06
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 14:43:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcXSX-00008r-5x
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 14:34:05 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:39567)
+ id 1mcXaG-0002IE-If
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 14:42:04 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:44734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcXSU-0003OO-HW
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 14:34:04 -0400
-Received: by mail-pg1-x533.google.com with SMTP id g184so17050189pgc.6
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 11:34:01 -0700 (PDT)
+ id 1mcXaE-0002qd-LP
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 14:42:04 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ oa12-20020a17090b1bcc00b0019f715462a8so675242pjb.3
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 11:42:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6PxlhRf5Tt3Yu6cBKS7YZtGi+8+PQxu4mFEmDP7zyYk=;
- b=fb8z+qgPzo0PjCCcmTV58MJLUPLO/0fUX8Rkb+SPNiURAS3ypuZZZFiDn+/pHVzAnI
- cOWpoBB5lXnYIttN+fCL5b9URsqs8A8XPwOAXX45ty70k3exiFVqNSJyg+LGN9GYfUxD
- tgL4dN/yw9dyWnkK967B9cGIqLT7xjvEFXVAW3NMAbeVCuFhvUfE94IxQ2ZYvEvLo5sM
- xskzhWPsOvtEFFC9t/ljAs6TO/tRS4CX1oUAyKHmBx2EgAh39MTwMb8aUisRuoBlJhmG
- d/3cISAcFoM8JT5PkcAtsQeBainb2W+p/Zu0gHncz9/IDd7cZosvoR9/HfAxrv+lqPBy
- L/mw==
+ bh=FJDJkq1rCs6nJCzll3Y+MHqQ+IhvShvsW4v2kkvaYD8=;
+ b=NLx/hZp3ehf+R8ChuTvXjG+faE+y+y9rERtmgnZvxetcxeoDvprs6RObT0JTCnnw68
+ ubiOd4DRMvvFCBi6SZ98m7Y4axtV+/KQjhtdDRU2/CDerOtmhRnTN6aAMGHrMMkxFKjf
+ AlAUnTBGR27IqUpDC8u/wxJkDdOkiE5flo/MHdx9XAEjvUfRMMd8sTsFKnq7Qk0uMWYs
+ znZKCZzo8Yocc6b9tmoZPQNK16cjAuytQ3IKKjbHPdokbwxxgjxI4/TY87xI4lvLoHJA
+ 9qXU2is852bIF6hsk0u0Z2v0RN1RDrne0peOR7qw3X2W459OkoFeRmnLNk8ry0HhmmTC
+ G4zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6PxlhRf5Tt3Yu6cBKS7YZtGi+8+PQxu4mFEmDP7zyYk=;
- b=ToFET+qHlUpjwfhqMSOrs20ZUvVy1ccuPhtgmZ3Xb970PFq9IT5WEDB/rRIdT4xAr4
- 35kY3f0N9dgF99lUpU3+cmnxT8zFh8Vc10UnK+4MXhjgxmj5lfpvduzT6km8HwFtPVAY
- OxgKuSAoaKyLqlkDQysD6tYVF4DMSPZimNNzN14eZRLmVAakec0vzaRyG7vU9e6b8fas
- lNevEcBjXOhfUYimp5cOBb6MhERrcK12TiW+fAJc4+Pwr5is9fqMPd3WaeqQ7a9r083/
- IA4oKPbnfg+CNs5ZrnuQPZzme9Rg1+xNWP9KfDjN+uCCyuWPYqEHOtrk7NyOD3svBc81
- jlug==
-X-Gm-Message-State: AOAM533lllALYeIK2Mf2W4dARZlYG92QXe96HPqqL6PQBLQ2z6rNZdQw
- U2+oAqobM82BU7I2D2mAKX6XUQ==
-X-Google-Smtp-Source: ABdhPJwWfhnF4AU2pQ2EgFXYJoF2+Znk1JHlIxlsz7qheauK7k0focXX32UAf3In0V6cDdajkywkeA==
-X-Received: by 2002:a05:6a00:1142:b0:44d:d43a:ac5d with SMTP id
- b2-20020a056a00114200b0044dd43aac5dmr7542031pfm.30.1634582040085; 
- Mon, 18 Oct 2021 11:34:00 -0700 (PDT)
+ bh=FJDJkq1rCs6nJCzll3Y+MHqQ+IhvShvsW4v2kkvaYD8=;
+ b=037aIbWbUORJIe1KdzySIzk/LwLYM9Zf4eEzJDutE7vFPh1q5rVouniD9VfsDHvIg8
+ oGzbc6YSOsy8XcwngUs2LLMDjPjSTZPFk4Su2AQ1CJcL4GKXugM/c7TvN/x7NEKRZe9H
+ nzGLRSUkiBLPIleWto9SyAuOwnANI4Or6h6bDDxv87j5Flz224DKkV2hwT4QngtxIoI+
+ ZfAmEIKG9DWDvoJfDxtR7BA5UWcSAlQ3S2EvUmEFTF2rH3yLzk4nm4R6ZYVYUvp4GK13
+ D9WQD296VU47szFATzWs/N70VZBEDd9C4oYKggvL5NQILvaVk2IUH5kAWtTpy9AqEylQ
+ E2oQ==
+X-Gm-Message-State: AOAM5327GSl7gTTFCuq+wt8IfN4zMibDWHhzJYYxb6/xJ3jWK5SB6gUM
+ CHx11FrRN9ZL8/GhAxdNJ3IqJA==
+X-Google-Smtp-Source: ABdhPJzN5e9ctKK6lYdRWO9T8y5TYsqcBrVYSxOyy23d2sd+QMhCK3qGC6jKjI3U1tXXYOyQ5sEOsQ==
+X-Received: by 2002:a17:90a:930d:: with SMTP id
+ p13mr651806pjo.171.1634582520929; 
+ Mon, 18 Oct 2021 11:42:00 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id u24sm13536034pfm.85.2021.10.18.11.33.59
+ by smtp.gmail.com with ESMTPSA id c24sm14815170pgj.63.2021.10.18.11.42.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Oct 2021 11:33:59 -0700 (PDT)
-Subject: Re: [PATCH v7 16/21] target/loongarch: Add disassembler
-To: WANG Xuerui <i.qemu@xen0n.name>, Song Gao <gaosong@loongson.cn>,
+ Mon, 18 Oct 2021 11:42:00 -0700 (PDT)
+Subject: Re: [PULL 00/17] MIPS patches for 2021-10-18
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <1634561247-25499-1-git-send-email-gaosong@loongson.cn>
- <1634561247-25499-17-git-send-email-gaosong@loongson.cn>
- <f55bffde-64ec-d390-2942-4ec4b2bbedbc@xen0n.name>
- <9ba04d0a-44bb-1ebd-31f4-35c282842b4a@linaro.org>
- <75f4be9c-47b7-415f-4468-093b74130481@xen0n.name>
+References: <20211017225245.2618892-1-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8e1da0c0-5f24-abca-78de-2304c1453904@linaro.org>
-Date: Mon, 18 Oct 2021 11:33:57 -0700
+Message-ID: <23ffd3b9-4210-33f5-cada-b1dafe4c838e@linaro.org>
+Date: Mon, 18 Oct 2021 11:41:59 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <75f4be9c-47b7-415f-4468-093b74130481@xen0n.name>
+In-Reply-To: <20211017225245.2618892-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,36 +89,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
- philmd@redhat.com, yangxiaojuan@loongson.cn, peterx@redhat.com,
- laurent@vivier.eu, alistair.francis@wdc.com, maobibo@loongson.cn,
- pbonzini@redhat.com, bmeng.cn@gmail.com, alex.bennee@linaro.org,
- f4bug@amsat.org
+Cc: Huacai Chen <chenhuacai@kernel.org>, Paul Burton <paulburton@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/18/21 11:18 AM, WANG Xuerui wrote:
+On 10/17/21 3:52 PM, Philippe Mathieu-Daudé wrote:
+> The following changes since commit c148a0572130ff485cd2249fbdd1a3260d5e10a4:
 > 
-> On 10/19/21 01:29, Richard Henderson wrote:
->> On 10/18/21 8:38 AM, WANG Xuerui wrote:
->>>
->>> For now any implementation would suffice, and I already saw one or two bugs in the 
->>> output during my TCG host work, but it surely would be nice to switch to generated 
->>> decoder in the future. The loongarch-opcodes tables could be extended to support 
->>> peculiarities as exhibited in the v1.00 ISA manual and binutils implementation, via 
->>> additional attributes, and I'm open to such contributions.
->>
->> Perhaps it would be easiest to re-use the decodetree description?
->> See e.g. target/openrisc/disas.c.
->>
-> Indeed; I didn't thought of disassemblers in target/ instead of disas/. That would be the 
-> most elegant way forward!
+>    Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20211016' into staging (2021-10-16 11:16:28 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/philmd/qemu.git tags/mips-20211018
+> 
+> for you to fetch changes up to 2792cf20ca7eed0e354a0ed731422411faca4908:
+> 
+>    via-ide: Avoid using isa_get_irq() (2021-10-18 00:41:36 +0200)
+> 
+> ----------------------------------------------------------------
+> MIPS patches queue
+> 
+> Hardware emulation:
+> - Generate FDT blob for Boston machine (Jiaxun)
+> - VIA chipset cleanups (Zoltan)
+> 
+> TCG:
+> - Use tcg_constant() in Compact branch and MSA opcodes
+> - Restrict nanoMIPS DSP MULT[U] opcode accumulator to Rel6
+> - Fix DEXTRV_S.H DSP opcode
+> - Remove unused TCG temporary for some DSP opcodes
+> 
+> ----------------------------------------------------------------
+> 
+> BALATON Zoltan (4):
+>    via-ide: Set user_creatable to false
+>    vt82c686: Move common code to via_isa_realize
+>    vt82c686: Add a method to VIA_ISA to raise ISA interrupts
+>    via-ide: Avoid using isa_get_irq()
+> 
+> Jiaxun Yang (3):
+>    hw/mips/boston: Massage memory map information
+>    hw/mips/boston: Allow loading elf kernel and dtb
+>    hw/mips/boston: Add FDT generator
+> 
+> Philippe Mathieu-Daudé (10):
+>    target/mips: Check nanoMIPS DSP MULT[U] accumulator with Release 6
+>    target/mips: Remove unused register from MSA 2R/2RF instruction format
+>    target/mips: Use tcg_constant_i32() in gen_msa_elm_df()
+>    target/mips: Use tcg_constant_i32() in gen_msa_2rf()
+>    target/mips: Use tcg_constant_i32() in gen_msa_2r()
+>    target/mips: Use tcg_constant_i32() in gen_msa_3rf()
+>    target/mips: Use explicit extract32() calls in gen_msa_i5()
+>    target/mips: Use tcg_constant_tl() in gen_compute_compact_branch()
+>    target/mips: Fix DEXTRV_S.H DSP opcode
+>    target/mips: Remove unused TCG temporary in gen_mipsdsp_accinsn()
+> 
+>   include/hw/isa/vt82c686.h                |   4 +
+>   hw/ide/via.c                             |   7 +-
+>   hw/isa/vt82c686.c                        |  75 +++--
+>   hw/mips/boston.c                         | 371 +++++++++++++++++++++--
+>   target/mips/tcg/msa_translate.c          |  51 ++--
+>   target/mips/tcg/translate.c              |  11 +-
+>   target/mips/tcg/nanomips_translate.c.inc |   6 +
+>   7 files changed, 415 insertions(+), 110 deletions(-)
 
-
-The one quirk will be that so far using decodetree for disas is limited to the target, 
-whereas you'll want this for host as well.  It shouldn't be a big deal, just a small 
-matter of the correct build rules.
-
+Applied, thanks.
 
 r~
 
