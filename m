@@ -2,44 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD4A430DA9
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 03:42:35 +0200 (CEST)
-Received: from localhost ([::1]:55488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4CA430E10
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 05:07:44 +0200 (CEST)
+Received: from localhost ([::1]:38764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcHfe-0006gU-Kj
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 21:42:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51590)
+	id 1mcJ02-00044j-L4
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 23:07:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mcHeH-0005LS-Aq
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 21:41:09 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57871)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mcIw7-00033j-2S; Sun, 17 Oct 2021 23:03:40 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:44291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mcHeC-0001rs-8T
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 21:41:08 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3796C746399;
- Mon, 18 Oct 2021 03:40:59 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 13E65746353; Mon, 18 Oct 2021 03:40:59 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH] via-ide: Avoid expensive operations in irq handler
-Date: Mon, 18 Oct 2021 03:36:46 +0200
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mcIw2-0005EE-1h; Sun, 17 Oct 2021 23:03:38 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4HXhXB2bydz4xd9; Mon, 18 Oct 2021 14:03:22 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1634526202;
+ bh=zyWxJMD0aEmNUAC8e9860gXYU8pj4p6jP0BOT4QPGUw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=K5eXems6dPYK66TpuLVkp2gHoYdTpFAuHLcZsBj+6noLrI+sMFLJCRUyywUklX78f
+ SxtciPpOKu4CuQ9Fs2VdlvfJ9HnLC1o8FCDMEWbsCIob00eTm+Fc/hfddFFq2iEzaS
+ yuq7FmuYW4Fo54Sr3N+pgUp3+/PVnXC/5qZXZ/kw=
+Date: Mon, 18 Oct 2021 12:23:47 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: matheus.ferst@eldorado.org.br
+Subject: Re: [PATCH] target/ppc: Filter mtmsr[d] input before setting MSR
+Message-ID: <YWzMo6Eh9quYhCj3@yekko>
+References: <20211015181940.197982-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org
-Message-Id: <20211018014059.13E65746353@zero.eik.bme.hu>
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/ahMj7qrwrhhESpq"
+Content-Disposition: inline
+In-Reply-To: <20211015181940.197982-1-matheus.ferst@eldorado.org.br>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,72 +57,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, John Snow <jsnow@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Philippe M-D <f4bug@amsat.org>
+Cc: alfredo.junior@eldorado.org.br, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cache the pointer to PCI function 0 (ISA bridge, that this IDE device
-has to use for IRQs) in the PCIIDEState and pass that as the opaque
-data for the interrupt handler to eliminate both the need to look up
-function 0 at every interrupt and also a QOM type cast of the opaque
-pointer as that's also expensive (mainly due to qom-debug being
-enabled by default).
 
-Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ide/via.c         | 11 ++++++-----
- include/hw/ide/pci.h |  1 +
- 2 files changed, 7 insertions(+), 5 deletions(-)
+--/ahMj7qrwrhhESpq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/ide/via.c b/hw/ide/via.c
-index 82def819c4..30566bc409 100644
---- a/hw/ide/via.c
-+++ b/hw/ide/via.c
-@@ -104,15 +104,15 @@ static void bmdma_setup_bar(PCIIDEState *d)
- 
- static void via_ide_set_irq(void *opaque, int n, int level)
- {
--    PCIDevice *d = PCI_DEVICE(opaque);
-+    PCIIDEState *d = opaque;
- 
-     if (level) {
--        d->config[0x70 + n * 8] |= 0x80;
-+        d->parent_obj.config[0x70 + n * 8] |= 0x80;
-     } else {
--        d->config[0x70 + n * 8] &= ~0x80;
-+        d->parent_obj.config[0x70 + n * 8] &= ~0x80;
-     }
- 
--    via_isa_set_irq(pci_get_function_0(d), 14 + n, level);
-+    via_isa_set_irq(d->func0, 14 + n, level);
- }
- 
- static void via_ide_reset(DeviceState *dev)
-@@ -188,7 +188,8 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
-     bmdma_setup_bar(d);
-     pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
- 
--    qdev_init_gpio_in(ds, via_ide_set_irq, 2);
-+    d->func0 = pci_get_function_0(dev);
-+    qdev_init_gpio_in_named_with_opaque(ds, via_ide_set_irq, d, NULL, 2);
-     for (i = 0; i < 2; i++) {
-         ide_bus_init(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
-         ide_init2(&d->bus[i], qdev_get_gpio_in(ds, i));
-diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-index d8384e1c42..89d14abf95 100644
---- a/include/hw/ide/pci.h
-+++ b/include/hw/ide/pci.h
-@@ -50,6 +50,7 @@ struct PCIIDEState {
-     IDEBus bus[2];
-     BMDMAState bmdma[2];
-     uint32_t secondary; /* used only for cmd646 */
-+    PCIDevice *func0; /* used only by IDE functions of superio chips */
-     MemoryRegion bmdma_bar;
-     MemoryRegion cmd_bar[2];
-     MemoryRegion data_bar[2];
--- 
-2.21.4
+On Fri, Oct 15, 2021 at 03:19:40PM -0300, matheus.ferst@eldorado.org.br wro=
+te:
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>=20
+> PowerISA says that mtmsr[d] "does not alter MSR[HV], MSR[S], MSR[ME], or
+> MSR[LE]", but the current code only filters the GPR-provided value if
+> L=3D1. This behavior caused some problems in FreeBSD, and a build option
+> was added to work around the issue [1], but it seems that the bug was
+> not reported in launchpad/gitlab. This patch address the issue in qemu,
+> so the option on FreeBSD should no longer be required.
+>=20
+> [1] https://cgit.freebsd.org/src/commit/?id=3D4efb1ca7d2a44cfb33d7f9e18bd=
+92f8d68dcfee0
+>=20
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
+Applied to ppc-for-6.2, thanks.
+
+> ---
+>  target/ppc/cpu.h       |  1 +
+>  target/ppc/translate.c | 73 +++++++++++++++++++++++-------------------
+>  2 files changed, 41 insertions(+), 33 deletions(-)
+>=20
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index baa4e7c34d..e94e82297b 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -314,6 +314,7 @@ typedef struct ppc_v3_pate_t {
+>  #define MSR_AP   23 /* Access privilege state on 602                  hf=
+lags */
+>  #define MSR_VSX  23 /* Vector Scalar Extension (ISA 2.06 and later) x hf=
+lags */
+>  #define MSR_SA   22 /* Supervisor access mode on 602                  hf=
+lags */
+> +#define MSR_S    22 /* Secure state                                     =
+     */
+>  #define MSR_KEY  19 /* key bit on 603e                                  =
+     */
+>  #define MSR_POW  18 /* Power management                                 =
+     */
+>  #define MSR_TGPR 17 /* TGPR usage on 602/603                        x   =
+     */
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index b985e9e55b..a5ebe03e2a 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -4940,32 +4940,40 @@ static void gen_mtmsrd(DisasContext *ctx)
+>      CHK_SV;
+> =20
+>  #if !defined(CONFIG_USER_ONLY)
+> +    TCGv t0, t1;
+> +    target_ulong mask;
+> +
+> +    t0 =3D tcg_temp_new();
+> +    t1 =3D tcg_temp_new();
+> +
+>      gen_icount_io_start(ctx);
+> +
+>      if (ctx->opcode & 0x00010000) {
+>          /* L=3D1 form only updates EE and RI */
+> -        TCGv t0 =3D tcg_temp_new();
+> -        TCGv t1 =3D tcg_temp_new();
+> -        tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
+> -                        (1 << MSR_RI) | (1 << MSR_EE));
+> -        tcg_gen_andi_tl(t1, cpu_msr,
+> -                        ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
+> -        tcg_gen_or_tl(t1, t1, t0);
+> -
+> -        gen_helper_store_msr(cpu_env, t1);
+> -        tcg_temp_free(t0);
+> -        tcg_temp_free(t1);
+> -
+> +        mask =3D (1ULL << MSR_RI) | (1ULL << MSR_EE);
+>      } else {
+> +        /* mtmsrd does not alter HV, S, ME, or LE */
+> +        mask =3D ~((1ULL << MSR_LE) | (1ULL << MSR_ME) | (1ULL << MSR_S)=
+ |
+> +                 (1ULL << MSR_HV));
+>          /*
+>           * XXX: we need to update nip before the store if we enter
+>           *      power saving mode, we will exit the loop directly from
+>           *      ppc_store_msr
+>           */
+>          gen_update_nip(ctx, ctx->base.pc_next);
+> -        gen_helper_store_msr(cpu_env, cpu_gpr[rS(ctx->opcode)]);
+>      }
+> +
+> +    tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)], mask);
+> +    tcg_gen_andi_tl(t1, cpu_msr, ~mask);
+> +    tcg_gen_or_tl(t0, t0, t1);
+> +
+> +    gen_helper_store_msr(cpu_env, t0);
+> +
+>      /* Must stop the translation as machine state (may have) changed */
+>      ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
+> +
+> +    tcg_temp_free(t0);
+> +    tcg_temp_free(t1);
+>  #endif /* !defined(CONFIG_USER_ONLY) */
+>  }
+>  #endif /* defined(TARGET_PPC64) */
+> @@ -4975,23 +4983,19 @@ static void gen_mtmsr(DisasContext *ctx)
+>      CHK_SV;
+> =20
+>  #if !defined(CONFIG_USER_ONLY)
+> +    TCGv t0, t1;
+> +    target_ulong mask =3D 0xFFFFFFFF;
+> +
+> +    t0 =3D tcg_temp_new();
+> +    t1 =3D tcg_temp_new();
+> +
+>      gen_icount_io_start(ctx);
+>      if (ctx->opcode & 0x00010000) {
+>          /* L=3D1 form only updates EE and RI */
+> -        TCGv t0 =3D tcg_temp_new();
+> -        TCGv t1 =3D tcg_temp_new();
+> -        tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
+> -                        (1 << MSR_RI) | (1 << MSR_EE));
+> -        tcg_gen_andi_tl(t1, cpu_msr,
+> -                        ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
+> -        tcg_gen_or_tl(t1, t1, t0);
+> -
+> -        gen_helper_store_msr(cpu_env, t1);
+> -        tcg_temp_free(t0);
+> -        tcg_temp_free(t1);
+> -
+> +        mask &=3D (1ULL << MSR_RI) | (1ULL << MSR_EE);
+>      } else {
+> -        TCGv msr =3D tcg_temp_new();
+> +        /* mtmsr does not alter S, ME, or LE */
+> +        mask &=3D ~((1ULL << MSR_LE) | (1ULL << MSR_ME) | (1ULL << MSR_S=
+));
+> =20
+>          /*
+>           * XXX: we need to update nip before the store if we enter
+> @@ -4999,16 +5003,19 @@ static void gen_mtmsr(DisasContext *ctx)
+>           *      ppc_store_msr
+>           */
+>          gen_update_nip(ctx, ctx->base.pc_next);
+> -#if defined(TARGET_PPC64)
+> -        tcg_gen_deposit_tl(msr, cpu_msr, cpu_gpr[rS(ctx->opcode)], 0, 32=
+);
+> -#else
+> -        tcg_gen_mov_tl(msr, cpu_gpr[rS(ctx->opcode)]);
+> -#endif
+> -        gen_helper_store_msr(cpu_env, msr);
+> -        tcg_temp_free(msr);
+>      }
+> +
+> +    tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)], mask);
+> +    tcg_gen_andi_tl(t1, cpu_msr, ~mask);
+> +    tcg_gen_or_tl(t0, t0, t1);
+> +
+> +    gen_helper_store_msr(cpu_env, t0);
+> +
+>      /* Must stop the translation as machine state (may have) changed */
+>      ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
+> +
+> +    tcg_temp_free(t0);
+> +    tcg_temp_free(t1);
+>  #endif
+>  }
+> =20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--/ahMj7qrwrhhESpq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFszKEACgkQbDjKyiDZ
+s5KaFQ//XsBXO7YZUhoL4sQlfHC1LYuKoYUjAMneytihgVglwP2oA9VtvEm4dbvt
+scjJdC4DZG/4cKXS8vdqclLprGphBX/ay9RdJY9XvO3rrzeUxOT+ZJmqEAWQUuqh
+1zD+pDTH0VDnovmxA2hw1fE7QTpev5PAX2/3B5tJXEX6KD9QMzpJ1DEf5wsq6ZZA
+z6m/f2NPea2snwJ5/IenGmU4bu7vz+DKG57smr5aKIanJYWP7dkJW+g0b4z4JqEF
+c78Tc/yn3wOAU9UzBxUhkzJP9Zr4WQaM/5jLfxgPxgHKgI15PyA3uSKcaTgkaW44
+XSrMiIQmnqbRmJH845r9AskLxzq2ey6bvq/kP1KLmmokIssvyQS4N9Zt+t7MaCsd
+XLQGgJSKmrw92sPOn+J5UPI9HK0bUT9yKVnA4k8SmG/yEtaOL2je8bnX/ZToPShT
+Hjp0LGQshrV43PT4SBSmz7Rsa7IaWScwKuVrQHECgfwBLuZEjPH8yv4CwxHnNzyL
++XqXQsqwH5Ef/5/UPabsbk4GPihngYYdictyr7x9+/7/ae9usyVUQJiNnBruG8Zx
+abO0pBlhTRfjtQpNax2625PZ+71xrgIUduty9+g6C+mPgRvb91gQlU8ZsArxYwhe
+6sHpDwXqFAVSMDXgChNv3khJSuMupiU3z9fsl8ALzcgkyTPK7a8=
+=Kz0m
+-----END PGP SIGNATURE-----
+
+--/ahMj7qrwrhhESpq--
 
