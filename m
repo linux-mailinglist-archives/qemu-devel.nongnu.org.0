@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7221432381
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 18:08:38 +0200 (CEST)
-Received: from localhost ([::1]:38594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D0743239F
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 18:17:07 +0200 (CEST)
+Received: from localhost ([::1]:33114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcVBl-0004P3-Pa
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 12:08:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57954)
+	id 1mcVJy-0002k3-G6
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 12:17:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8i-0007fA-5N
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:31 -0400
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:42964)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8r-0007h2-JA
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:40 -0400
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:38893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8c-0007ts-GU
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:26 -0400
-Received: by mail-io1-xd2d.google.com with SMTP id z69so13762434iof.9
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8d-0007v4-9b
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:34 -0400
+Received: by mail-io1-xd2f.google.com with SMTP id d125so16902570iof.5
  for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 09:05:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3+hkcIrPIEq/hVOR/fQcllD286AqVcvMxGgF/eXAbnk=;
- b=fUxFfMdU4oNYq4DuNlcflQhIK3nKkbCfxA2kG2Sm3K76DIkyJLi63QIbgp/6lVWWWt
- HDWrq5qlKOgtY8Xa3gz7Bm+smvGIyqKxE+FNeAvqhf9C8ggIyzkRNLcPBaos7O5i2huL
- 916Oo2Age9vhhj0u4f/eqDqBltS4JXxjZPb2lN3UibyqM87UcZilsONeJVVPmUtvDibU
- DFH3jCDiVq9YlEsh49kG/Zl+JSDwd8ZM2/XOSppfCXOUWxPTmuKtN+dctjJupudHKqp0
- upHNXQyxv+JBXBR3RQuXRFSi4wR3mxAHxV9WLdHD70JAKGIxxa3u1SUvKq5myXu107l6
- rpcQ==
+ bh=HtwVDX1R8x/iIkXmhDg1eKqW+vr6lINlT34yLQI9FPs=;
+ b=dXaOrdvzjnUwMtC3iP30dzPASMqwZC7jXA71r83ajvmtAu6NlAnVI3idmbCqbRTouT
+ HTRlp5dQnS8N0CVIImTSIewwA4uE4Yji1yleA7ozXqlc9m+nEFaN8ql0K0dIdQ9M9f7Z
+ vUhaE7vcNAN/fBY66CWle3GOjWwLxs7v/ae8MnwFiNLqQvy4kKAGYP4Xbq98qbLKN1SQ
+ K3bVqwIweggo9lAjD+9Ae5061O7yjPKLJSsX6A+b0d0jYwAeKXpXQ4FYT8WmoFa+aAT6
+ BHQQK5DatalsImm6dlfXUFolnK0bn/x4vOuW4mG1AuHjiW+gYOxfXdGD+LmwpwyPUm0e
+ IDYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3+hkcIrPIEq/hVOR/fQcllD286AqVcvMxGgF/eXAbnk=;
- b=TZp4CYT1wlno++oFQonwX5xEJOVX2nxrvgzsJopEnze66ZJtYy+m4hhAdPAT3gVg7X
- cYpobF8AeB+bTP9aoblfDojBW0B27426LId4IJsgjx2Z9Jlf+RVaOOq4Yrl416JXvpqx
- Bstm7dpYifgRzgc/GusSAWbaUM02G41ikUkP4GZVHbnT5roVMwADGyRBq10SuKA0TeoR
- Dm2c2Z3ITEHmtOudxNwH7odeuQUuH7zTYSaAH1a44JQssnMUCFuiEJh2GGLyKtCA8giD
- blrEq+yCVBDsJmBc3LKVwp7RDCU6aOHKcMtkK/IXRSACJtRKw502QH2o4ejIDeL4xahY
- pX1A==
-X-Gm-Message-State: AOAM532wGhLsn1kt+moQTZXh/JoybuMEMb27T/3D/xTj1yYZouyUeWI5
- 0CYknCaov3m5QDO78wy4sXBknzqxcAzFYg==
-X-Google-Smtp-Source: ABdhPJySrXtxrdF2ntBmouaHUbpvqOlASqaFBCCJ5qG6YoRhcxIPLuwnCmFSq8MINtTmYOe+lzHK6w==
-X-Received: by 2002:a05:6602:27ce:: with SMTP id
- l14mr14601168ios.193.1634573121102; 
+ bh=HtwVDX1R8x/iIkXmhDg1eKqW+vr6lINlT34yLQI9FPs=;
+ b=TXkE/W3hCPUsEQWNt1qi7TBG0ZNeQ+SvZaq8iYB3ENuEWbNgBosirRb665sYw3q+uM
+ 8j5SLfmmN50JUJIaIa0icr+1p1vZ1+8bQ/bAUmR1KbqfQZTokUlUAR+nTDl19gu4Lurb
+ PsSPRJ7KlB25pOHuTHsfOkXFqghgJ2kEf8kcoSBh57qsxCaEMnQObSOGZncy0UTQD+kQ
+ gOexOLArvlTTPkbqWtcAPEx155tXZm8K+ucwWN77lw2+52bU9dKh0oYrEw0EDY2cT2ai
+ rs/Hg0F7RlgTuVWlk2xBc8X+U+uu5rzpzdNPUvgGDFRUlItF0d7lzJneKJx8o4heou/F
+ UKeQ==
+X-Gm-Message-State: AOAM533DkoX/n50uw349A9LEi3JWCQMR02jV4iBxTJ4qkiufAI6Wj8nO
+ fZYnjAYybbEZuvXzt9WSz5NOt44g/FNYvw==
+X-Google-Smtp-Source: ABdhPJx18RoolZCa1rM8qZjbZroq1p6JJoNHpm+CmvJZcZkY9H5+VQOgaZ78v4S6d0e208nhtroqvA==
+X-Received: by 2002:a05:6602:2e95:: with SMTP id
+ m21mr15244226iow.21.1634573121960; 
  Mon, 18 Oct 2021 09:05:21 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a4sm7240936ild.52.2021.10.18.09.05.20
+ by smtp.gmail.com with ESMTPSA id a4sm7240936ild.52.2021.10.18.09.05.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 09:05:20 -0700 (PDT)
+ Mon, 18 Oct 2021 09:05:21 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/23] bsd-user/mmap.c: Convert to qemu_log logging for mmap
- debugging
-Date: Mon, 18 Oct 2021 10:04:41 -0600
-Message-Id: <20211018160458.1976-7-imp@bsdimp.com>
+Subject: [PULL 07/23] bsd-user/mmap.c: Don't mmap fd == -1 independently from
+ MAP_ANON flag
+Date: Mon, 18 Oct 2021 10:04:42 -0600
+Message-Id: <20211018160458.1976-8-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211018160458.1976-1-imp@bsdimp.com>
 References: <20211018160458.1976-1-imp@bsdimp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2d.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -85,119 +84,98 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kyle Evans <kevans@FreeBSD.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Warner Losh <imp@bsdimp.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Richard Henderson <richard.henderson@linaro.org>, Guy Yur <guyyur@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert DEBUG_MMAP to qemu_log CPU_LOG_PAGE.
+From: Guy Yur <guyyur@gmail.com>
 
+Switch checks for !(flags & MAP_ANONYMOUS) with checks for fd != -1.
+MAP_STACK and MAP_GUARD both require fd == -1 and don't require mapping
+the fd either. Add analysis from Guy Yur detailing the different cases
+for MAP_GUARD and MAP_STACK.
+
+Signed-off-by: Guy Yur <guyyur@gmail.com>
+[ partially merged before, finishing the job and documenting origin]
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 ---
- bsd-user/mmap.c | 53 +++++++++++++++++++++----------------------------
- 1 file changed, 23 insertions(+), 30 deletions(-)
+ bsd-user/mmap.c   | 30 +++++++++++++++++++++++++-----
+ roms/seabios-hppa |  2 +-
+ 2 files changed, 26 insertions(+), 6 deletions(-)
 
 diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
-index 301108ed25..face98573f 100644
+index face98573f..4ecd949a10 100644
 --- a/bsd-user/mmap.c
 +++ b/bsd-user/mmap.c
-@@ -21,8 +21,6 @@
- #include "qemu.h"
- #include "qemu-common.h"
+@@ -127,7 +127,27 @@ error:
+     return ret;
+ }
  
--//#define DEBUG_MMAP
--
- static pthread_mutex_t mmap_mutex = PTHREAD_MUTEX_INITIALIZER;
- static __thread int mmap_lock_count;
- 
-@@ -67,14 +65,11 @@ int target_mprotect(abi_ulong start, abi_ulong len, int prot)
-     abi_ulong end, host_start, host_end, addr;
-     int prot1, ret;
- 
--#ifdef DEBUG_MMAP
--    printf("mprotect: start=0x" TARGET_ABI_FMT_lx
--           "len=0x" TARGET_ABI_FMT_lx " prot=%c%c%c\n", start, len,
--           prot & PROT_READ ? 'r' : '-',
--           prot & PROT_WRITE ? 'w' : '-',
--           prot & PROT_EXEC ? 'x' : '-');
--#endif
--
-+    qemu_log_mask(CPU_LOG_PAGE, "mprotect: start=0x" TARGET_ABI_FMT_lx
-+                  " len=0x" TARGET_ABI_FMT_lx " prot=%c%c%c\n", start, len,
-+                  prot & PROT_READ ? 'r' : '-',
-+                  prot & PROT_WRITE ? 'w' : '-',
-+                  prot & PROT_EXEC ? 'x' : '-');
-     if ((start & ~TARGET_PAGE_MASK) != 0)
-         return -EINVAL;
-     len = TARGET_PAGE_ALIGN(len);
-@@ -391,45 +386,43 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-     abi_ulong ret, end, real_start, real_end, retaddr, host_offset, host_len;
- 
-     mmap_lock();
--#ifdef DEBUG_MMAP
--    {
--        printf("mmap: start=0x" TARGET_ABI_FMT_lx
--               " len=0x" TARGET_ABI_FMT_lx " prot=%c%c%c flags=",
--               start, len,
--               prot & PROT_READ ? 'r' : '-',
--               prot & PROT_WRITE ? 'w' : '-',
--               prot & PROT_EXEC ? 'x' : '-');
-+    if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
-+        qemu_log("mmap: start=0x" TARGET_ABI_FMT_lx
-+                 " len=0x" TARGET_ABI_FMT_lx " prot=%c%c%c flags=",
-+                 start, len,
-+                 prot & PROT_READ ? 'r' : '-',
-+                 prot & PROT_WRITE ? 'w' : '-',
-+                 prot & PROT_EXEC ? 'x' : '-');
-         if (flags & MAP_ALIGNMENT_MASK) {
--            printf("MAP_ALIGNED(%u) ", (flags & MAP_ALIGNMENT_MASK)
--                    >> MAP_ALIGNMENT_SHIFT);
-+            qemu_log("MAP_ALIGNED(%u) ",
-+                     (flags & MAP_ALIGNMENT_MASK) >> MAP_ALIGNMENT_SHIFT);
-         }
-         if (flags & MAP_GUARD) {
--            printf("MAP_GUARD ");
-+            qemu_log("MAP_GUARD ");
-         }
-         if (flags & MAP_FIXED) {
--            printf("MAP_FIXED ");
-+            qemu_log("MAP_FIXED ");
-         }
-         if (flags & MAP_ANON) {
--            printf("MAP_ANON ");
-+            qemu_log("MAP_ANON ");
-         }
-         if (flags & MAP_EXCL) {
--            printf("MAP_EXCL ");
-+            qemu_log("MAP_EXCL ");
-         }
-         if (flags & MAP_PRIVATE) {
--            printf("MAP_PRIVATE ");
-+            qemu_log("MAP_PRIVATE ");
-         }
-         if (flags & MAP_SHARED) {
--            printf("MAP_SHARED ");
-+            qemu_log("MAP_SHARED ");
-         }
-         if (flags & MAP_NOCORE) {
--            printf("MAP_NOCORE ");
-+            qemu_log("MAP_NOCORE ");
-         }
-         if (flags & MAP_STACK) {
--            printf("MAP_STACK ");
-+            qemu_log("MAP_STACK ");
-         }
--        printf("fd=%d offset=0x%llx\n", fd, offset);
-+        qemu_log("fd=%d offset=0x%lx\n", fd, offset);
+-/* map an incomplete host page */
++/*
++ * map an incomplete host page
++ *
++ * mmap_frag can be called with a valid fd, if flags doesn't contain one of
++ * MAP_ANON, MAP_STACK, MAP_GUARD. If we need to map a page in those cases, we
++ * pass fd == -1. However, if flags contains MAP_GUARD then MAP_ANON cannot be
++ * added.
++ *
++ * * If fd is valid (not -1) we want to map the pages with MAP_ANON.
++ * * If flags contains MAP_GUARD we don't want to add MAP_ANON because it
++ *   will be rejected.  See kern_mmap's enforcing of constraints for MAP_GUARD
++ *   in sys/vm/vm_mmap.c.
++ * * If flags contains MAP_ANON it doesn't matter if we add it or not.
++ * * If flags contains MAP_STACK, mmap adds MAP_ANON when called so doesn't
++ *   matter if we add it or not either. See enforcing of constraints for
++ *   MAP_STACK in kern_mmap.
++ *
++ * Don't add MAP_ANON for the flags that use fd == -1 without specifying the
++ * flags directly, with the assumption that future flags that require fd == -1
++ * will also not require MAP_ANON.
++ */
+ static int mmap_frag(abi_ulong real_start,
+                      abi_ulong start, abi_ulong end,
+                      int prot, int flags, int fd, abi_ulong offset)
+@@ -147,9 +167,9 @@ static int mmap_frag(abi_ulong real_start,
      }
--#endif
  
-     if ((flags & MAP_ANON) && fd != -1) {
-         errno = EINVAL;
+     if (prot1 == 0) {
+-        /* no page was there, so we allocate one */
++        /* no page was there, so we allocate one. See also above. */
+         void *p = mmap(host_start, qemu_host_page_size, prot,
+-                       flags | MAP_ANON, -1, 0);
++                       flags | ((fd != -1) ? MAP_ANON : 0), -1, 0);
+         if (p == MAP_FAILED)
+             return -1;
+         prot1 = prot;
+@@ -157,7 +177,7 @@ static int mmap_frag(abi_ulong real_start,
+     prot1 &= PAGE_BITS;
+ 
+     prot_new = prot | prot1;
+-    if (!(flags & MAP_ANON)) {
++    if (fd != -1) {
+         /* msync() won't work here, so we return an error if write is
+            possible while it is a shared mapping */
+         if ((flags & TARGET_BSD_MAP_FLAGMASK) == MAP_SHARED &&
+@@ -565,7 +585,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+          * worst case: we cannot map the file because the offset is not
+          * aligned, so we read it
+          */
+-        if (!(flags & MAP_ANON) &&
++        if (fd != -1 &&
+             (offset & ~qemu_host_page_mask) != (start & ~qemu_host_page_mask)) {
+             /*
+              * msync() won't work here, so we return an error if write is
+diff --git a/roms/seabios-hppa b/roms/seabios-hppa
+index b12acac4be..73b740f771 160000
+--- a/roms/seabios-hppa
++++ b/roms/seabios-hppa
+@@ -1 +1 @@
+-Subproject commit b12acac4be27b6d5d9fbe48c4be1286dcc245fbb
++Subproject commit 73b740f77190643b2ada5ee97a9a108c6ef2a37b
 -- 
 2.32.0
 
