@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10832430FBA
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 07:25:57 +0200 (CEST)
-Received: from localhost ([::1]:43580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4EC430FC2
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 07:35:11 +0200 (CEST)
+Received: from localhost ([::1]:46452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcL9n-0004GV-MU
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 01:25:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56336)
+	id 1mcLIi-0006XG-SH
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 01:35:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mcL83-0003LR-Vn
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 01:24:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53212)
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1mcLAi-0005AM-Ip
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 01:26:52 -0400
+Received: from mx2.freebsd.org ([96.47.72.81]:12364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mcL7z-0001rd-OC
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 01:24:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634534640;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=79XYcC3csEyinc7rrtxTd3CjBoSkpbS1oraIttYD01o=;
- b=Kgfm7kuvs8E7ofKgYjdrylk+59yTVBazqDTLMOC+XEQbfAu/Dtce1ZmDSM40mwi1l2aYRV
- YjWXjYjpFahqOOU6hh7eI1j1k8yIjrRzsUI2jVAivqCK2vsOH4dPhwg73JbJyiVkh5Ygu7
- yIP7FHiW5SZgokwsoaT8zoxdrJiMeyg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-IEX3fhyoMJSP9KpiDxVbXg-1; Mon, 18 Oct 2021 01:23:57 -0400
-X-MC-Unique: IEX3fhyoMJSP9KpiDxVbXg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD0058066F2;
- Mon, 18 Oct 2021 05:23:56 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.23])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F73810016F4;
- Mon, 18 Oct 2021 05:23:56 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BB625180063D; Mon, 18 Oct 2021 07:23:54 +0200 (CEST)
-Date: Mon, 18 Oct 2021 07:23:54 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: gitlab build-edk2 failures
-Message-ID: <20211018052354.fixjt642v62vnlna@sirius.home.kraxel.org>
-References: <95c44864-c316-4396-5863-09e46dfa4671@linaro.org>
- <16cc6428-9a4c-87d0-f092-b7a21f64b0b8@redhat.com>
- <d06193c1-eb84-f27d-cebf-7cde80b3d5ec@redhat.com>
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1mcLAg-0004H8-K3
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 01:26:52 -0400
+Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits)
+ client-signature RSA-PSS (4096 bits))
+ (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
+ by mx2.freebsd.org (Postfix) with ESMTPS id 549F6734B8
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 05:26:49 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: from smtp.freebsd.org (smtp.freebsd.org [96.47.72.83])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4HXljj1WrFz4TQ9
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 05:26:49 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
+ [209.85.222.182])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client CN "smtp.gmail.com", Issuer "GTS CA 1O1" (verified OK))
+ (Authenticated sender: kevans)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id 1100AE174
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 05:26:49 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: by mail-qk1-f182.google.com with SMTP id g20so2030651qka.1
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 22:26:49 -0700 (PDT)
+X-Gm-Message-State: AOAM530cpWb1grpcQa8nLxIKDICOm74lz5w6X0SXKfVtyQx/EI8W41kk
+ 033HKiJClhdbbiScAiOWVzxZoAYNhSapBCPxNas=
+X-Google-Smtp-Source: ABdhPJyTl+ZMr0iEftXKl5mFg/qnYi/wPCLDET/1zeu3JXkgF1eW7XYem6GJaRkVCPS0oWMyRbjYJOLD3+zgKDJJbUw=
+X-Received: by 2002:a05:620a:424f:: with SMTP id
+ w15mr21112507qko.258.1634534808717; 
+ Sun, 17 Oct 2021 22:26:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d06193c1-eb84-f27d-cebf-7cde80b3d5ec@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211008231506.17471-1-imp@bsdimp.com>
+ <20211008231506.17471-2-imp@bsdimp.com>
+ <CACNAnaFu1uX=pcsjwmYxKAPLX=JdsPHTnrJmjRD2U+aX79KhZQ@mail.gmail.com>
+ <CANCZdfqPp4aZzx_kzTW87mu9Q2iQWo=kD5FeJaBmFQuM5Sqbww@mail.gmail.com>
+ <CANCZdfqBk0DBhujcMmM-rup90jeF3iM5Nu69SZq5wbKGjzK0+g@mail.gmail.com>
+In-Reply-To: <CANCZdfqBk0DBhujcMmM-rup90jeF3iM5Nu69SZq5wbKGjzK0+g@mail.gmail.com>
+From: Kyle Evans <kevans@freebsd.org>
+Date: Mon, 18 Oct 2021 00:26:37 -0500
+X-Gmail-Original-Message-ID: <CACNAnaES5e8Df32KxGW1Aip2iP8hSWn9DW1U87S3P6EM9VTTdA@mail.gmail.com>
+Message-ID: <CACNAnaES5e8Df32KxGW1Aip2iP8hSWn9DW1U87S3P6EM9VTTdA@mail.gmail.com>
+Subject: Re: [PATCH v2 01/15] meson: *-user: only descend into *-user when
+ configured
+To: Warner Losh <imp@bsdimp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=96.47.72.81; envelope-from=kevans@freebsd.org;
+ helo=mx2.freebsd.org
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,44 +87,112 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Igor Mammedov <imammedo@redhat.com>
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 17, 2021 at 04:58:37PM +0200, Philippe Mathieu-Daudé wrote:
-> On 10/16/21 09:27, Paolo Bonzini wrote:
-> > On 16/10/21 04:04, Richard Henderson wrote:
-> >> I've seen a lot of failures on this job recently, and they're all
-> >> timeouts cloning the git submodules.  Would it be better to mirror
-> >> these to gitlab?
-> >>
-> > 
-> > They're not timeouts, they're issues with edk2's _own_ submodules.
-> > 
-> > fatal: unable to access
-> > 'https://git.cryptomilk.org/projects/cmocka.git/': server certificate
-> > verification failed. CAfile: /etc/ssl/certs/ca-certificates.crt CRLfile:
-> > none
-> > fatal: clone of 'https://git.cryptomilk.org/projects/cmocka.git' into
-> > submodule path 'UnitTestFrameworkPkg/Library/CmockaLib/cmocka' failed
-> > 
-> > roms/edk2 is already mirrored to gitlab, so we'd have to add mirrors for
-> > all of these and make edk2.yml configure the mirrors in .git/config.  I
-> > think the edk2 project should do the mirroring instead...
-> 
-> IIUC QEMU EDK2 scripts don't require cmocka... IMHO (short term) we
-> should update the 'git submodule update' line in roms/Makefile.edk2
-> to only update the submodules we require.
+On Mon, Oct 18, 2021 at 12:02 AM Warner Losh <imp@bsdimp.com> wrote:
+>
+>
+>
+> On Sun, Oct 17, 2021 at 10:29 PM Warner Losh <imp@bsdimp.com> wrote:
+>>
+>>
+>>
+>> On Sun, Oct 17, 2021 at 9:43 PM Kyle Evans <kevans@freebsd.org> wrote:
+>>>
+>>> On Fri, Oct 8, 2021 at 6:15 PM Warner Losh <imp@bsdimp.com> wrote:
+>>> >
+>>> > To increase flexibility, only descend into *-user when that is
+>>> > configured. This allows *-user to selectively include directories bas=
+ed
+>>> > on the host OS which may not exist on all hosts. Adopt Paolo's
+>>> > suggestion of checking the configuration in the directories that know
+>>> > about the configuration.
+>>> >
+>>> > Message-Id: <20210926220103.1721355-2-f4bug@amsat.org>
+>>> > Message-Id: <20210926220103.1721355-3-f4bug@amsat.org>
+>>> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>>> > Signed-off-by: Warner Losh <wlosh@bsdimp.com>
+>>> > Acked-by: Paolo Bonzini <pbonzinni@redhat.com>
+>>> >
+>>> > Sponsored by:           Netflix
+>>> > ---
+>>> >  bsd-user/meson.build   | 4 ++++
+>>> >  linux-user/meson.build | 4 ++++
+>>> >  meson.build            | 3 +--
+>>> >  3 files changed, 9 insertions(+), 2 deletions(-)
+>>> >
+>>> > diff --git a/bsd-user/meson.build b/bsd-user/meson.build
+>>> > index 0369549340..243fb78930 100644
+>>> > --- a/bsd-user/meson.build
+>>> > +++ b/bsd-user/meson.build
+>>> > @@ -1,3 +1,7 @@
+>>> > +if not config_target.has_key('CONFIG_BSD_USER')
+>>> > +   subdir_done()
+>>> > +endif
+>>> > +
+>>> >  bsd_user_ss.add(files(
+>>> >    'bsdload.c',
+>>> >    'elfload.c',
+>>> > diff --git a/linux-user/meson.build b/linux-user/meson.build
+>>> > index 9549f81682..602255a3d6 100644
+>>> > --- a/linux-user/meson.build
+>>> > +++ b/linux-user/meson.build
+>>> > @@ -1,3 +1,7 @@
+>>> > +if not config_target.has_key('CONFIG_LINUX_USER')
+>>> > +   subdir_done()
+>>> > +endif
+>>> > +
+>>> >  linux_user_ss.add(files(
+>>> >    'elfload.c',
+>>> >    'exit.c',
+>>> > diff --git a/meson.build b/meson.build
+>>> > index 99a0a3e689..1f2da5f7d9 100644
+>>> > --- a/meson.build
+>>> > +++ b/meson.build
+>>> > @@ -2303,10 +2303,9 @@ subdir('ebpf')
+>>> >
+>>> >  common_ss.add(libbpf)
+>>> >
+>>> > -bsd_user_ss.add(files('gdbstub.c'))
+>>> >  specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
+>>> >
+>>> > -linux_user_ss.add(files('gdbstub.c', 'thunk.c'))
+>>> > +linux_user_ss.add(files('thunk.c'))
+>>> >  specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_s=
+s)
+>>> >
+>>> >  # needed for fuzzing binaries
+>>> > --
+>>> > 2.32.0
+>>> >
+>>>
+>>> I don't understand the gdbstub.c removal  here; don't we still want to
+>>> be compiling it in, just only if the appropriate
+>>> CONFIG_{BSD,LINUX}_USER knob is set? I note that it doesn't appear to
+>>> be added in individual *-user/meson.build, I assume it's uncommon to
+>>> add in ../foo.c in meson-land...
+>>
+>>
+>> It's added to specific_ss at line 2536
+>> specific_ss.add(files('cpu.c', 'disas.c', 'gdbstub.c'), capstone)
+>>
+>> so we don't need to add it again here.
+>
+>
+> I've also confirmed that it's built as both libqemu-i386-bsd-user.fa.p/gd=
+bstub.c.o
+> and libqemu-x86_64-bsd-user.fa.p/gdbstub.c.o, which is what I'd expect gi=
+ven
+> the current upstream supported architectures are only i386 and x86_64.
+>
+> Warner
 
-Yes, cmocka is not needed.  For ovmf/armvirt we need these:
+Ah, ok, thanks! So that looks like a kind-of tangential cleanup, but
+related enough that it makes sense.
 
-	BaseTools/Source/C/BrotliCompress/brotli
-	MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
-	CryptoPkg/Library/OpensslLib/openssl
-	ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3
-
-take care,
-  Gerd
-
+Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 
