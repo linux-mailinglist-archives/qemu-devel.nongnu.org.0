@@ -2,56 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65CC843235E
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 17:55:09 +0200 (CEST)
-Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24615432364
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 17:56:20 +0200 (CEST)
+Received: from localhost ([::1]:40716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcUyi-00020p-7j
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 11:55:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53902)
+	id 1mcUzq-0003Ih-OT
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 11:56:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mcUtr-0005zn-1v
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 11:50:07 -0400
-Received: from [115.28.160.31] (port=35832 helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcUvO-0007RP-C1
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 11:51:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mcUtn-0003rG-Ee
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 11:50:06 -0400
-Received: from [192.168.9.172] (unknown [101.88.135.223])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id C89AF60AED;
- Mon, 18 Oct 2021 23:49:56 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1634572197; bh=1vcCJ2D801yfuG1+nTuWGFo7DVdToUTP5/rzH15UPsY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=tC1aEkIYHc1lNFs/h7YU7+ePyqw/ei6N6gKUJjVUs2pT/lAP8mXVq07Bj9rxPaMrm
- ODAQ6x+LMjXowtQxjhHbjdhjj4IhwizUPb2yI7hMU5ohTI1M3mko3cnwk6F1ptQOlu
- c97qjSNN+SYpH8jO9CbscVzf4B+wTrlel3qVkARE=
-Message-ID: <c0b25e56-e730-017e-dbd9-3cb2769ba1aa@xen0n.name>
-Date: Mon, 18 Oct 2021 23:49:56 +0800
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcUvH-0005I5-E7
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 11:51:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634572294;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n3lGxh86SIo5Sxoni9msUYyZM2QdjHhWJuKMLXf2ILA=;
+ b=ifvlm39VKsYjM2RQhdmXzbpeQMb9Rb0mdeVMjXvWkNjI0GwYJcU8Hd2Nht9ES1I37QL+6A
+ pDx6rygbtyOgJyKHVqEGWCBRoDEAlt0GNUPW77UZTlQEX36CxWkCuvRc/rmsblRx4zv1xZ
+ 0ZJ4CPAdD2Y5MnypL3raJGwArcWAK+E=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-31-P0BJW7hoPTyYcRf6ojMECA-1; Mon, 18 Oct 2021 11:51:33 -0400
+X-MC-Unique: P0BJW7hoPTyYcRf6ojMECA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k5-20020a7bc3050000b02901e081f69d80so2203404wmj.8
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 08:51:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=n3lGxh86SIo5Sxoni9msUYyZM2QdjHhWJuKMLXf2ILA=;
+ b=CEC05zLTWh1TfYnhvdfLypYqJsZdxGb5jCbVuR4H/hW2ABWW3cyuiUm6cdCAo4NyqU
+ Q5wU85WHwacXN1LsF9DXtKfNPzp1HEZjzA14po9WP+c7PxrUGQ1d23UyCyKBPeSC+tiT
+ I1/GF3jOL8K3p4POs3rJ81Niuy2Mgp2GdcDd1HuAclJMfmuC0LZn+cQ2btK5fhTUCrYB
+ Bp7f5w3AxUKiEjhw5nbTmAL5hfD4JfgAtPKbkT59xmChSKJBLLxl2UcZR7UlYrQw65y3
+ A+hPlL1sU2JrKjwmX/tXkG/KcpqK2YRg5vlIGohIBTm4p0EFXICazYuvypU5H/1CH1HJ
+ FYkA==
+X-Gm-Message-State: AOAM5335SakR+J3tppyhkwM1eyK44xgUEAc+gavsIl9o55EBMhdKJ5kN
+ NebVLJm4lFqL7xf0Kyg+I2CmUw7JiibOgSOB1EGfAutcM0pLYhsVXv6p1+V/4u3E4yyoYQPJfAn
+ lKrK+CFN0Yxo3aQ0=
+X-Received: by 2002:adf:f10c:: with SMTP id r12mr25158352wro.298.1634572292272; 
+ Mon, 18 Oct 2021 08:51:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxCwqdMneGEZvE9BZB8XIQOqua0Zf5TsWN7Z/OgY6ay8qip2wgvL2Wtq7+QlTjqXEqTuBb5eQ==
+X-Received: by 2002:adf:f10c:: with SMTP id r12mr25158335wro.298.1634572292107; 
+ Mon, 18 Oct 2021 08:51:32 -0700 (PDT)
+Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
+ [81.36.146.213])
+ by smtp.gmail.com with ESMTPSA id v18sm14176501wrm.63.2021.10.18.08.51.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Oct 2021 08:51:31 -0700 (PDT)
+Message-ID: <b51c604b-8f5c-c5e3-7deb-6d6830b30299@redhat.com>
+Date: Mon, 18 Oct 2021 17:51:31 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101
- Thunderbird/95.0a1
-Subject: Re: [PATCH v7 21/21] scripts: add loongarch64 binfmt config
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 1/6] hw/riscv: microchip_pfsoc: Use MachineState::ram and
+ MachineClass::default_ram_id
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
+ <alistair.francis@wdc.com>, Igor Mammedov <imammedo@redhat.com>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20211018153829.24382-1-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211018153829.24382-1-bmeng.cn@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1634561247-25499-1-git-send-email-gaosong@loongson.cn>
- <1634561247-25499-22-git-send-email-gaosong@loongson.cn>
-From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <1634561247-25499-22-git-send-email-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,61 +100,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, alex.bennee@linaro.org,
- richard.henderson@linaro.org, laurent@vivier.eu, peterx@redhat.com,
- f4bug@amsat.org, yangxiaojuan@loongson.cn, alistair.francis@wdc.com,
- maobibo@loongson.cn, pbonzini@redhat.com, bmeng.cn@gmail.com,
- philmd@redhat.com, chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Song,
+Hi Bin, is there a cover letter?
 
-On 10/18/21 20:47, Song Gao wrote:
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Series:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+On 10/18/21 17:38, Bin Meng wrote:
+> Using memory_region_init_ram(), which can't possibly handle vhost-user,
+> and can't work as expected with '-numa node,memdev' options.
+> 
+> Use MachineState::ram instead of manually initializing RAM memory
+> region, as well as by providing MachineClass::default_ram_id to
+> opt in to memdev scheme.
+> 
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 > ---
->   scripts/qemu-binfmt-conf.sh | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-> index 7de996d..5575bdd 100755
-> --- a/scripts/qemu-binfmt-conf.sh
-> +++ b/scripts/qemu-binfmt-conf.sh
-> @@ -4,7 +4,7 @@
->   qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
->   ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
->   sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
-> -microblaze microblazeel or1k x86_64 hexagon"
-> +microblaze microblazeel or1k x86_64 hexagon loongarch64"
->   
->   i386_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x03\x00'
->   i386_mask='\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-> @@ -140,6 +140,10 @@ hexagon_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x
->   hexagon_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
->   hexagon_family=hexagon
->   
-> +loongarch64_magic='\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x02\x01'
-> +loongarch64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+> 
+>  hw/riscv/microchip_pfsoc.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 
-Here the EI_OSABI (7th, 0-based offset) byte is ignored which is okay 
-(we want at least ELFOSABI_SYSV=0 and ELFOSABI_GNU=3 but not others, 
-mask of this byte could be "\xfc" to exclude values > 3).
-
-However, the EI_ABIVERSION (8th) byte is fixed to be zero; according to 
-the draft LoongArch ELF psABI spec [1] there might be future revision(s) 
-to necessitate a bump of ABI version, but it's highly unlikely to in 
-turn require modifications to QEMU code, with almost all logic happening 
-in the dynamic loader. I suggest unmasking this whole byte (setting mask 
-for this byte to "\x00").
-
-[1]: 
-https://github.com/loongson/LoongArch-Documentation/blob/50e62f196afd4fae7f25dc98854167f97528046b/docs/LoongArch-ELF-ABI-EN.adoc
-
-> +loongarch64_family=loongarch
-> +
->   qemu_get_family() {
->       cpu=${HOST_ARCH:-$(uname -m)}
->       case "$cpu" in
 
