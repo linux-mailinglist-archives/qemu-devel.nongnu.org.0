@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD6E430D3B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 03:05:26 +0200 (CEST)
-Received: from localhost ([::1]:39398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF6B430D3A
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 03:05:24 +0200 (CEST)
+Received: from localhost ([::1]:39428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcH5h-0000k0-G2
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 21:05:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47920)
+	id 1mcH5d-0000ko-Nv
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 21:05:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mcH2G-0006M3-EV; Sun, 17 Oct 2021 21:01:52 -0400
-Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a]:45907)
+ id 1mcH2G-0006M4-FL; Sun, 17 Oct 2021 21:01:52 -0400
+Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a]:33395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mcH2B-0008QX-18; Sun, 17 Oct 2021 21:01:48 -0400
-Received: by mail-ua1-x92a.google.com with SMTP id a17so3335179uax.12;
- Sun, 17 Oct 2021 18:01:45 -0700 (PDT)
+ id 1mcH2C-00009w-74; Sun, 17 Oct 2021 21:01:52 -0400
+Received: by mail-ua1-x92a.google.com with SMTP id i15so2010244uap.0;
+ Sun, 17 Oct 2021 18:01:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SCAzft8ux1yW2y4jn2Xe1oNts+Q33XP9t4sdV3SBiWA=;
- b=jMBp9ADJnj8ducUGCk2qCB5nCXWoWovBXwJRkMq22zRHWHEC1mWR1luBOU5pR3t58z
- TXJ2fhfHZTLYh93l4Aw7rPDESjnQTA/lJSk5Rd6ifa685ubyrgKE8Zuf34HTJtKv4JuL
- MfB4GiondYBZYuKa1euL9a/rrd8gWRvwcI133nXhfUJ+Dwu0UW0Mwgp0dVVbt9x7t9FF
- N+iunCcPeFcAgUVxXHF9vRdyR0+y9zMXMR0nOd0kiGtMhQ7gTFWvvYUktswHvrfr9B/U
- GknrIpiChlVpD1H9RS8uBW+LUtFjqbpRcExkDtGz/wz8OwfwBEbfMp3u/Xyy5pcIhMlo
- 5E5w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=7hEts6owz/MoxbfBw+3jz6iXo5GERS/EWgUpoLMlsqc=;
+ b=XM+36S1hdZAvjLDiWZnBLNLzdfguszm+/BhCYWjvc0queminjbbirY1YyGg84Ua5Ti
+ LrDmexXC2Lr28hJdiI89bklnSNbgvT7jB2rr7sDl84azpYpLiax/J+y2yg+oXG3ce4jN
+ gmrMBAucpM6z+aMAaEa5AS9h8Q0D6aEsAjHVj+fWh6M8NpMrDXLzItGm6osPrssRrMkF
+ AOlRf8BL4h5TQmCLq9MHhFeKW/lVkGpeufG4je1E6GEJgcU1DVl0KFNJ5mIFTM89KKo6
+ p7z/ByTr2RO88dKaJAR/ljzRWGRXkJ74CSrna1AkU99s4QJFnCtl75Y4nDlwmnyfBpIk
+ NHEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SCAzft8ux1yW2y4jn2Xe1oNts+Q33XP9t4sdV3SBiWA=;
- b=WbTR1BryKO0cOd4tAq4rw5WSDN7SKy/VbckTrPktnmCTHAJQyw1S4PXbJzkGm0kW6n
- 5Cb/LkVXP4eK2N0sMu2uBg6c30p9A8aV+3P8w3n+UxqDgRAds9z9rYJD5CW6qkDfjNfT
- IkAS7yys8GMiX5WIPwgXwY+whVQilpl/IZBckgHstJAxEgcezvfX7dCFCWUtuo4ZWGHH
- 70QDJIfP+HD4xovxV9O+EOaStAEJF531ie7USYbZpe5vi11m8wL6oG0st9/V9pjP3Jtf
- qgHn51ujZqWXjzMtH5BJBOAKn7kP9jef4+7iWswbUcqgp2mjJo8/mmnjDx3AuV2UznQQ
- Dthw==
-X-Gm-Message-State: AOAM533sZD4wzSmRmXyjI9CC4RrErrDXswyJ3Q5gjsL+XC/c/Eb/hfT1
- tbnHCKXe+ybxEkqUat6nnQFNCaD/mcQ=
-X-Google-Smtp-Source: ABdhPJzkX/Ut1XQh6p2J9Gfpmhpt1hY4RPxFkFFArbu9pcn35hJojne09IqOul8JzyC1ARIWHGVsVw==
-X-Received: by 2002:ab0:63d1:: with SMTP id i17mr22915510uap.115.1634518904633; 
- Sun, 17 Oct 2021 18:01:44 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=7hEts6owz/MoxbfBw+3jz6iXo5GERS/EWgUpoLMlsqc=;
+ b=np+3b7OOOlvgFT716SS1euw+nuA2MQHBndigEYaYpqq93MCn3EFmkqkKLpVW/uuPiJ
+ cQ3CPqM+ve+LYgkRpO4Ct0uOXonB2hp8p6Bgy6EVEEeur82HHwmDuBw+f5l48Bm/FYwH
+ XgKEcNqhvbTt6pt/SiULw1wamHCO1pxm36q7Dq2sNfVQgz24Eu4JYxkQ3nWYuhrhxbfl
+ qgOx4aF5V+m5Am74//32b0vRSiVRxD2ybopE3hJ2lRKawdLsFjYDDqUX8nUSp3MNGIBh
+ DANU6yHjwwcCiMVMFDieNDp0ghbxyFfoJkiCoXPWv92CvnBmSaWAYvgAcX0wTa6UWLiT
+ Ihyg==
+X-Gm-Message-State: AOAM531t5xZ42a4f+9FoxBCL7bsoMgBYT/btZSEr7gu1b3nZkE8+1aj8
+ eGDlHJUMIW+IZDZbCVTIaYGDaskWhQ8=
+X-Google-Smtp-Source: ABdhPJzRtW5gnjrbBFclcvdXT/N/6HNaASn0xtqlY9FjLNW0EPqwo0oo9GZx7YG5L/SP/IVGK0Zs8g==
+X-Received: by 2002:ab0:58c1:: with SMTP id r1mr23059498uac.89.1634518906959; 
+ Sun, 17 Oct 2021 18:01:46 -0700 (PDT)
 Received: from rekt.COMFAST ([179.247.137.170])
- by smtp.gmail.com with ESMTPSA id m15sm8271607vsh.31.2021.10.17.18.01.42
+ by smtp.gmail.com with ESMTPSA id m15sm8271607vsh.31.2021.10.17.18.01.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Oct 2021 18:01:44 -0700 (PDT)
+ Sun, 17 Oct 2021 18:01:46 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/15] PPC64/TCG: Implement 'rfebb' instruction
-Date: Sun, 17 Oct 2021 22:01:18 -0300
-Message-Id: <20211018010133.315842-1-danielhb413@gmail.com>
+Subject: [PATCH v4 01/15] target/ppc: add MMCR0 PMCC bits to hflags
+Date: Sun, 17 Oct 2021 22:01:19 -0300
+Message-Id: <20211018010133.315842-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211018010133.315842-1-danielhb413@gmail.com>
+References: <20211018010133.315842-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::92a;
@@ -85,92 +87,86 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This new version presents drastic design changes across all areas, most
-of them based on the feedback received in v3.
+We're going to add PMU support for TCG PPC64 chips, based on IBM POWER8+
+emulation and following PowerISA v3.1. This requires several PMU related
+registers to be exposed to userspace (problem state). PowerISA v3.1
+dictates that the PMCC bits of the MMCR0 register controls the level of
+access of the PMU registers to problem state.
 
-- TCG reviewers: for people looking to review only TCG related changes,
-here's a summmary of where are the TCG code in the series:
+This patch start things off by exposing both PMCC bits to hflags,
+allowing us to access them via DisasContext in the read/write callbacks
+that we're going to add next.
 
-* Patches that have a lot of TCG/translation changes: 1-4, 9, 13
-* Patches that have TCG/translation bits: 6, 7, 10, 11
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ target/ppc/cpu.h         | 6 ++++++
+ target/ppc/helper_regs.c | 6 ++++++
+ target/ppc/translate.c   | 4 ++++
+ 3 files changed, 16 insertions(+)
 
-- changes in v3:
-
-The most drastic change is in the PMU. We're now working with an
-abstraction called PMUEvent that holds all the event information that
-the helper functions need to process it: the PMC, the event type and an
-overflow timer for cycle events. The PMU will always have 6 PMCEvent
-structs, one for each counter. Counters that aren't being used in that
-moment will have event type 'invalid'. These events are populated only
-when MMCR1 is written. Calculating the PMC values does not require
-multiple calls to 'get_PMC_event()', which has been deleted. In fact,
-this design change cut 60 lines of the power8-pmu.c file compared to the
-previous version, resulting in a more concise logic that will allow for
-easier extension of the PMU in the future.
-
-Another change was related to PMCC bits and access control of problem
-state to PMU registers. We're now exposing both PMCC bits and doing a
-proper access control for groupA regs.
-
-A new file was created to host the PMU translation code. The 300+ lines
-of the new power8-pmu-regs.c.inc file would be dumped into translate.c.
-
-I've also changed the patch order. The exclusive EBB patches were pushed to
-the end of the series. I find it easier to add the placeholders for the
-PMC interrupt right at the start but populate them later on, after all
-the PMU logic has already been in place, instead of adding PMU code,
-then EBB, then go back to PMU code again.
-
-All other changes were result of these decisions described above.
-
-- patch 13 (former 08):
-  * renamed arg_RFEBB to arg_XL_s
-  * added Matheus' R-b
-- other patches:
-  * The changes were so substancial that the patch breakdown with the diffs
-turned out cumbersome and contraproductive.
-- v3 link: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg01250.html 
-
-
-Daniel Henrique Barboza (13):
-  target/ppc: add MMCR0 PMCC bits to hflags
-  target/ppc: add user read/write functions for MMCR2
-  target/ppc: adding user read/write functions for PMCs
-  target/ppc: introduce PMU events
-  target/ppc: initialize PMUEvents on MMCR1 write
-  target/ppc: PMU basic cycle count for pseries TCG
-  target/ppc: enable PMU counter overflow with cycle events
-  target/ppc: enable PMU instruction count
-  target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL (0xFA) event
-  target/ppc: PMU: handle setting of PMCs while running
-  target/ppc/power8-pmu.c: handle overflow bits when PMU is running
-  PPC64/TCG: Implement 'rfebb' instruction
-  target/ppc/excp_helper.c: EBB handling adjustments
-
-Gustavo Romero (2):
-  target/ppc: add user read/write functions for MMCR0
-  target/ppc: PMU Event-Based exception support
-
- hw/ppc/spapr_cpu_core.c                |   6 +
- target/ppc/cpu.h                       |  89 +++++-
- target/ppc/cpu_init.c                  |  38 +--
- target/ppc/excp_helper.c               |  92 ++++++
- target/ppc/helper.h                    |   5 +
- target/ppc/helper_regs.c               |  10 +
- target/ppc/insn32.decode               |   5 +
- target/ppc/meson.build                 |   1 +
- target/ppc/power8-pmu-regs.c.inc       | 320 +++++++++++++++++++
- target/ppc/power8-pmu.c                | 410 +++++++++++++++++++++++++
- target/ppc/power8-pmu.h                |  25 ++
- target/ppc/spr_tcg.h                   |  12 +
- target/ppc/translate.c                 |  67 ++++
- target/ppc/translate/branch-impl.c.inc |  33 ++
- 14 files changed, 1093 insertions(+), 20 deletions(-)
- create mode 100644 target/ppc/power8-pmu-regs.c.inc
- create mode 100644 target/ppc/power8-pmu.c
- create mode 100644 target/ppc/power8-pmu.h
- create mode 100644 target/ppc/translate/branch-impl.c.inc
-
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index baa4e7c34d..0df1a5a970 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -342,6 +342,10 @@ typedef struct ppc_v3_pate_t {
+ #define MSR_RI   1  /* Recoverable interrupt                        1        */
+ #define MSR_LE   0  /* Little-endian mode                           1 hflags */
+ 
++/* PMU bits */
++#define MMCR0_PMCC0  PPC_BIT(44)         /* PMC Control bit 0 */
++#define MMCR0_PMCC1  PPC_BIT(45)         /* PMC Control bit 1 */
++
+ /* LPCR bits */
+ #define LPCR_VPM0         PPC_BIT(0)
+ #define LPCR_VPM1         PPC_BIT(1)
+@@ -607,6 +611,8 @@ enum {
+     HFLAGS_SE = 10,  /* MSR_SE -- from elsewhere on embedded ppc */
+     HFLAGS_FP = 13,  /* MSR_FP */
+     HFLAGS_PR = 14,  /* MSR_PR */
++    HFLAGS_PMCC0 = 15,  /* MMCR0 PMCC bit 0 */
++    HFLAGS_PMCC1 = 16,  /* MMCR0 PMCC bit 1 */
+     HFLAGS_VSX = 23, /* MSR_VSX if cpu has VSX */
+     HFLAGS_VR = 25,  /* MSR_VR if cpu has VRE */
+ 
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index 1bfb480ecf..99562edd57 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -109,6 +109,12 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+     if (env->spr[SPR_LPCR] & LPCR_HR) {
+         hflags |= 1 << HFLAGS_HR;
+     }
++    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMCC0) {
++        hflags |= 1 << HFLAGS_PMCC0;
++    }
++    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMCC1) {
++        hflags |= 1 << HFLAGS_PMCC1;
++    }
+ 
+ #ifndef CONFIG_USER_ONLY
+     if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 9ca78ee156..70ae4bda92 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -176,6 +176,8 @@ struct DisasContext {
+     bool tm_enabled;
+     bool gtse;
+     bool hr;
++    bool mmcr0_pmcc0;
++    bool mmcr0_pmcc1;
+     ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
+     int singlestep_enabled;
+     uint32_t flags;
+@@ -8559,6 +8561,8 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->tm_enabled = (hflags >> HFLAGS_TM) & 1;
+     ctx->gtse = (hflags >> HFLAGS_GTSE) & 1;
+     ctx->hr = (hflags >> HFLAGS_HR) & 1;
++    ctx->mmcr0_pmcc0 = (hflags >> HFLAGS_PMCC0) & 1;
++    ctx->mmcr0_pmcc1 = (hflags >> HFLAGS_PMCC1) & 1;
+ 
+     ctx->singlestep_enabled = 0;
+     if ((hflags >> HFLAGS_SE) & 1) {
 -- 
 2.31.1
 
