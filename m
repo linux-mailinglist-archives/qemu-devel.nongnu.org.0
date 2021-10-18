@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2F14328BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 23:03:49 +0200 (CEST)
-Received: from localhost ([::1]:51248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 086664328BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 23:05:42 +0200 (CEST)
+Received: from localhost ([::1]:53528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcZnP-00007P-4z
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 17:03:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41420)
+	id 1mcZpF-0001kv-4c
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 17:05:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcZkA-0007Jl-Ne
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 17:00:27 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:42864)
+ id 1mcZm5-0000Lv-QH
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 17:02:26 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:44915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcZk5-0001gS-5Y
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 17:00:25 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id t7so2930789pgl.9
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 14:00:17 -0700 (PDT)
+ id 1mcZm1-0003ZW-GX
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 17:02:25 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id v8so11585949pfu.11
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 14:02:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/7I7u0W/RkqGPmsRFQtNVJREKm5LSyk29PxQaRC3dGk=;
- b=P1YxUIF0KHY715Ezof5ccIs6AKk8YcX/Khhl6V2/XdjxDh5oxBXYn4ERWSYrHCjvpQ
- U7Lb/3UzgXL3kUlRkwJFnvxPo9BGiS7zDLc30PUJom7NYk+Muo0DB6o70FBcvKAgIZOs
- pZGzGR4gnwgbVs45/uMNJEs6mVEybPsNZrKfKuq7mT9LBhv8qVRFBGzByOmhZ8hwbtoD
- 3oarj/4Orgn38cdJUK3DtkSYnLPVRcbJlk4X1Fb914fSUkW/UfSSZr4MPyGW/Br+wgLU
- k+nM1Ml/7I4b9rYbN/eYB4FMeUnSi12CTzWhRkGsaW0eLqtZS6PaEM9TnG8NAwXa7jQP
- KehA==
+ bh=nepWElV9WX/Tqfi609AqP+9nlIGc7HSZ9neGpbtWYQA=;
+ b=kwu7FbrVHeAchBI8XTpJ1jArt3p99o8rOAgQimn5uVJRFujMp75yZZyOe5t54xpNku
+ hSal4cPAFXKojSB01PvK+CHu0AGym8SgSLyKg8Cs8QEAl8Z7m8YZ3KlEU5IqrnAdJir9
+ oEnVlisFJMTwWjYEqNl05APbktkF66Nx/3rsOLu50dLZzdUxhWlrVvd7HgbQpQVkVSQm
+ 3HO2SzzP++ULKGx2tlfv/jrDQm67vWRMQz+xWo/mnvXmZ087l737AJ8yHeldbrq/chBG
+ Bo5djULIw1f04MT1zk+B+7cG4WFRBBdyEygogNTLBdTcviXDT0bhK3LEEpL5saSvgSkE
+ 7Xpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/7I7u0W/RkqGPmsRFQtNVJREKm5LSyk29PxQaRC3dGk=;
- b=6xNmsntn+UWr++jgS2hJJmuIKk4pr4khIeVPSqtzmWyIjE7jVJm4zqvhIYzPrFiH2f
- IJopE71gCLyqb+YQUFWgKD20KbUNbTnZvvkl4hl5Osp9ygiejdSy/FmbCaE//QNGnndc
- 4hnDRJjMHorw/2ptIplG88PqZUT0rUXaLgiX0FR7oximWZkdRne/A/r3CBz7cpP+VMwH
- XXzVbMwrvsPEGHmO8CWu9ABHqdsLck40/4jr1m8ngkSbE2/JXk5xbC/t7Fr4LIJ5Ga1X
- QNieYLHAmL7rieAVdSTVrLoQnoc5aQGrOW/HefWpZ4Zj/WPCDOwIixNyWitsbHUaj1hO
- Kb/w==
-X-Gm-Message-State: AOAM532CdQ8h0aBV2u6OJWSVR/ZC+XnDx92X1c/sMwHJ5j7f5LJdNBdX
- btsVbQK1d/McOaI16BkZJfLfkA==
-X-Google-Smtp-Source: ABdhPJxoKVlbtRZ3vrNZCPyby/qaudRh9GtLEGAK3oRPYfnDR/V3n5hCpjEaNObWekU+NBU4VmqvBA==
-X-Received: by 2002:a63:4344:: with SMTP id q65mr25954312pga.450.1634590816418; 
- Mon, 18 Oct 2021 14:00:16 -0700 (PDT)
+ bh=nepWElV9WX/Tqfi609AqP+9nlIGc7HSZ9neGpbtWYQA=;
+ b=4Fc9Q2Z+YuYkn+pEjw/Opd85b+U4o2EdkMTve9AAyc0xxwNaf5mKxgm4dQvaGtAnwl
+ BtbiHgaq4q7Bw1OPMz8OGp4qOgsAnLFDSSb6XnJYNnQVcKgrovyZbEnzQ5hDWw92y+iU
+ svTrlaD2dBfuulP75TKIS24VbLeTUuRTgtHsmBeDVTOoszpVpCEcWK1gJ8/oHAK4v3PG
+ jERF4+i3BURKjY1E/ZPIiypQ6WfeEKJCAlxUOcpMBPc3ejDU3t8SaJMNvMn425TpXDQS
+ sJFixHafhNO9e40l0U5cMbW6jLFlVPXGsAXEcI+l3+vlWC65f8xBzGFbFEdUnK4/3BvH
+ IHmA==
+X-Gm-Message-State: AOAM531WX40dr0fFRwhFB5879h7eAr7iOzuIYy3XrXz/d8dyd+6EBQhI
+ cbS6JMA6KsqG5vdW8VhghmyAXA==
+X-Google-Smtp-Source: ABdhPJxcYIgCNFdCKAHTFCI04XSCUjLnXxVqDq78zADj6SYeh7ydpcE4glJdfR94H9RZPOPQrsiGHw==
+X-Received: by 2002:a63:1d58:: with SMTP id d24mr25836775pgm.316.1634590939718; 
+ Mon, 18 Oct 2021 14:02:19 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id z6sm342545pjr.17.2021.10.18.14.00.14
+ by smtp.gmail.com with ESMTPSA id t14sm13756823pga.62.2021.10.18.14.02.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Oct 2021 14:00:15 -0700 (PDT)
-Subject: Re: [PATCH v4 3/3] bios-tables-test: Generate reference table for
- virt/DBG2
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- mst@redhat.com, imammedo@redhat.com, philmd@redhat.com,
- peter.maydell@linaro.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, ardb@kernel.org, drjones@redhat.com
-References: <20211007072922.655330-1-eric.auger@redhat.com>
- <20211007072922.655330-4-eric.auger@redhat.com>
+ Mon, 18 Oct 2021 14:02:19 -0700 (PDT)
+Subject: Re: [PATCH 1/2] Hexagon (target/hexagon) more tcg_constant_*
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1634031081-25450-1-git-send-email-tsimpson@quicinc.com>
+ <1634031081-25450-2-git-send-email-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b7b27eb2-e524-4b10-e5aa-d200f13a2166@linaro.org>
-Date: Mon, 18 Oct 2021 14:00:13 -0700
+Message-ID: <897a7b6d-828a-134f-6b20-b6decbcf0063@linaro.org>
+Date: Mon, 18 Oct 2021 14:02:17 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211007072922.655330-4-eric.auger@redhat.com>
+In-Reply-To: <1634031081-25450-2-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,29 +87,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gshan@redhat.com
+Cc: ale@rev.ng, bcain@quicinc.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/21 12:29 AM, Eric Auger wrote:
-> diff --git a/tests/data/acpi/virt/DBG2 b/tests/data/acpi/virt/DBG2
-> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..86e6314f7b0235ef8ed3e0221e09f996c41f5e98 100644
-> GIT binary patch
-> literal 87
-> zcmZ>9ayJTR0D|*Q{>~o33QiFL&I&-l2owUbL9`AKgJ=eA21Zr}H4uw|p@A7lh%qQJ
-> TFmQk+Il-a=3=Gcxz6J~c3~mVl
+On 10/12/21 2:31 AM, Taylor Simpson wrote:
+> Change additional tcg_const_tl to tcg_constant_tl
 > 
-> literal 0
-> HcmV?d00001
+> Note that gen_pred_cancal had slot_mask initialized with tcg_const_tl.
+> However, it is not constant throughout, so we initialize it with
+> tcg_temp_new and replace the first use with the constant value.
 > 
+> Inspired-by: Richard Henderson<richard.henderson@linaro.org>
+> Inspired-by: Philippe Mathieu-Daud<C3><A9><f4bug@amsat.org>
+> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
+> ---
+>   target/hexagon/gen_tcg.h        |  9 +++------
+>   target/hexagon/macros.h         |  7 +++----
+>   target/hexagon/translate.c      |  3 +--
+>   target/hexagon/gen_tcg_funcs.py | 11 ++---------
+>   4 files changed, 9 insertions(+), 21 deletions(-)
 
-Something went wrong here:
-
-Applying: bios-tables-test: Generate reference table for virt/DBG2
-error: corrupt binary patch at line 75: --
-
-Can you please re-send?
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
