@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21101431AB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 15:23:46 +0200 (CEST)
-Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84ECC431ADF
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 15:27:23 +0200 (CEST)
+Received: from localhost ([::1]:33750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcScD-0004zC-4b
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 09:23:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37346)
+	id 1mcSfi-0002Xk-Jb
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 09:27:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mcS3p-0005b3-8W
+ id 1mcS3q-0005bG-CB
  for qemu-devel@nongnu.org; Mon, 18 Oct 2021 08:48:14 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:50324 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:50332 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mcS3h-0003pj-Us
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 08:48:12 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1mcS3k-0003pv-4p
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 08:48:13 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxT2rfbG1hyhAcAA--.29044S21; 
- Mon, 18 Oct 2021 20:47:52 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxT2rfbG1hyhAcAA--.29044S22; 
+ Mon, 18 Oct 2021 20:47:53 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 19/21] target/loongarch: Add target build suport
-Date: Mon, 18 Oct 2021 20:47:25 +0800
-Message-Id: <1634561247-25499-20-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v7 20/21] target/loongarch: 'make check-tcg' support
+Date: Mon, 18 Oct 2021 20:47:26 +0800
+Message-Id: <1634561247-25499-21-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1634561247-25499-1-git-send-email-gaosong@loongson.cn>
 References: <1634561247-25499-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9DxT2rfbG1hyhAcAA--.29044S21
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4xCw4fGw1fKrWDAFWDJwb_yoW8ZFyDpw
- 47Aw15KFW8ZF93J3s3Ja40qFZ5Jw1DGw47XanxKrWxC39xJay8Xwn5KFZ8GF17X3W0kFyF
- gFn3C34rGF48Ja7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9DxT2rfbG1hyhAcAA--.29044S22
+X-Coremail-Antispam: 1UD129KBjvdXoWrZry3Cw13trWfGFy5Gw43Awb_yoW3uFX_A3
+ WSkr1kCF4YyF1xGr18WFn5Gr1rW3y7Zr1agF1DJ3W3X3y2van8ta1xAFsrWF15Zw15urnI
+ qaykAw4I9w1UAjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -62,67 +62,25 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch add build loongarch-linux-user target support.
-
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- meson.build                  |  2 +-
- target/loongarch/meson.build | 18 ++++++++++++++++++
- target/meson.build           |  1 +
- 3 files changed, 20 insertions(+), 1 deletion(-)
- create mode 100644 target/loongarch/meson.build
+ tests/tcg/configure.sh | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meson.build b/meson.build
-index c272e58..398e981 100644
---- a/meson.build
-+++ b/meson.build
-@@ -53,7 +53,7 @@ python = import('python').find_installation()
- 
- supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
- supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
--  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
-+  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64', 'loongarch64']
- 
- cpu = host_machine.cpu_family()
- targetos = host_machine.system()
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-new file mode 100644
-index 0000000..31f9e9f
---- /dev/null
-+++ b/target/loongarch/meson.build
-@@ -0,0 +1,18 @@
-+gen = decodetree.process('insns.decode')
-+
-+loongarch_ss = ss.source_set()
-+loongarch_ss.add(files(
-+  'cpu.c',
-+))
-+loongarch_tcg_ss = ss.source_set()
-+loongarch_tcg_ss.add(gen)
-+loongarch_tcg_ss.add(files(
-+  'fpu_helper.c',
-+  'op_helper.c',
-+  'translate.c',
-+))
-+loongarch_tcg_ss.add(zlib)
-+
-+loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
-+
-+target_arch += {'loongarch': loongarch_ss}
-diff --git a/target/meson.build b/target/meson.build
-index 2f69402..a53a604 100644
---- a/target/meson.build
-+++ b/target/meson.build
-@@ -5,6 +5,7 @@ subdir('cris')
- subdir('hexagon')
- subdir('hppa')
- subdir('i386')
-+subdir('loongarch')
- subdir('m68k')
- subdir('microblaze')
- subdir('mips')
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 1f985cc..d8f677d 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -51,6 +51,7 @@ fi
+ : ${cross_cc_cflags_armeb="-mbig-endian"}
+ : ${cross_cc_hexagon="hexagon-unknown-linux-musl-clang"}
+ : ${cross_cc_cflags_hexagon="-mv67 -O2 -static"}
++: ${cross_cc_loongarch64="loongarch64-unknown-linux-gnu-gcc"}
+ : ${cross_cc_hppa="hppa-linux-gnu-gcc"}
+ : ${cross_cc_i386="i686-linux-gnu-gcc"}
+ : ${cross_cc_cflags_i386="-m32"}
 -- 
 1.8.3.1
 
