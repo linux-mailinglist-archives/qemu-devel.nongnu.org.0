@@ -2,90 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FFC431326
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:18:39 +0200 (CEST)
-Received: from localhost ([::1]:40680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E529843132A
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:19:24 +0200 (CEST)
+Received: from localhost ([::1]:44278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcOn0-0002Pk-Uz
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:18:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45094)
+	id 1mcOnk-0004oh-1J
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:19:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mcOkO-0000t8-V6
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:15:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26462)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mcOlc-0001xy-5T
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:17:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mcOkN-00030v-K6
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:15:56 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mcOla-0004h0-Ix
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:17:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634548552;
+ s=mimecast20190719; t=1634548629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uTN8zOIfI1WvHf0Oikwm+Yh3KRyiSoNVV6Q4t9QRtZs=;
- b=NwSW3rwQUWsgnM4HrW7zWvoYpNB18gKq+GSsUOvIDPiCponj4fpkun8qH4PN7Rej+K76fp
- jeyO23ZAml4jsussruFNp7vE0f8FrV6VemzKevVJEDPcX2jlnKdMorqqwasTICeoxx79ow
- WtANuYHfZr2YcH/kBoSgVHam46nxH74=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-OzRri7ZGPkuUJjuJoYEtiw-1; Mon, 18 Oct 2021 05:15:51 -0400
-X-MC-Unique: OzRri7ZGPkuUJjuJoYEtiw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- l22-20020aa7c316000000b003dbbced0731so13777226edq.6
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 02:15:51 -0700 (PDT)
+ bh=OhHmILqave/8BQVpxH/OpZL/xbyLRkKESw4dselXY6c=;
+ b=UffZZH8I7ERweemSy7PF0543OkTlkCEw87Bo3RMKjOAazL2EtChQ6tVg4DCDeNDGPbpoVE
+ AFAKen7EUx7WIwloyAMquiTYvat/7GF53lo77RUQKBt6Jday6S6S4ITlL54WwI3HLVEkiQ
+ YZRDVLZrec/BMEwYk+RYXKXaE0yKn0A=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-SSAMQ5DkMCamC1kmvOeVaA-1; Mon, 18 Oct 2021 05:17:06 -0400
+X-MC-Unique: SSAMQ5DkMCamC1kmvOeVaA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ v15-20020adfa1cf000000b00160940b17a2so8573982wrv.19
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 02:17:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=uTN8zOIfI1WvHf0Oikwm+Yh3KRyiSoNVV6Q4t9QRtZs=;
- b=fxI5fKW93phbODUMfiEQ+++0pPnBvt1WI7jkE1E07OO3q/mtwYoxVPqhDonk18q5yg
- knhSNfEN6eEipepwIQL9lZTSmn9Iin4hkEBBIA/CDNxA6iH5Mh3SKfhdQYTDNGMTZ3AS
- Idt0YYf5nb4CS5w53Avmra1t/Mke3kF2/8SbOow7PGs+Wgfof1GJEZDYcgYMJ2rkutAN
- 3Tq51cyf3RhFpdMt2bjV3y8jJlVHmgbu4mfSMzVFf6tmBU44TCGzH7CyUrL+GAsQSVqR
- CRRPZ4Z2Z24t/Zk48+tUAVDiX5V4GLuQAHDZSY5IESlCGwO/x9RPxDyOhRw/W0YQehVc
- biOA==
-X-Gm-Message-State: AOAM530+WiFH91VbsI5KZkCCvbe4Tb9mC8jCm5NcJ6D+ocwgVwApowjJ
- qhZLOePeuq5b957dN1nNyNcriPDCm6ytts6w9yIOjd6Cx2Hyr+nRD8A0kzG/41xUIgtKNunQqjt
- bqgtdIh0RwSQPb1U=
-X-Received: by 2002:aa7:cb41:: with SMTP id w1mr43209722edt.327.1634548549942; 
- Mon, 18 Oct 2021 02:15:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx30oIX/+Ug3FvHspHTtkdF7zPjyCzKUtAKQWRcXsp4Wh/D1lfCsh9jDf0+zgx3GqNnqtcnzw==
-X-Received: by 2002:aa7:cb41:: with SMTP id w1mr43209709edt.327.1634548549772; 
- Mon, 18 Oct 2021 02:15:49 -0700 (PDT)
-Received: from steredhat (host-79-34-250-211.business.telecomitalia.it.
- [79.34.250.211])
- by smtp.gmail.com with ESMTPSA id e13sm8494236eje.95.2021.10.18.02.15.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 02:15:49 -0700 (PDT)
-Date: Mon, 18 Oct 2021 11:15:47 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
-Subject: Re: [PATCH v4 2/3] vdpa: Add vhost_vdpa_section_end
-Message-ID: <20211018091547.4l6mscjuqhyi2rr3@steredhat>
-References: <20211014141236.923287-1-eperezma@redhat.com>
- <20211014141236.923287-3-eperezma@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=OhHmILqave/8BQVpxH/OpZL/xbyLRkKESw4dselXY6c=;
+ b=I3cB/p8mdAuWW3C4iRlC9VFG8JdFP1o3qsjAcce63OW+zCauWfXih3b5neY3vSZpt7
+ sjYekyspo3ng1m8snznyFUJ9JJ3c2j+nk4GxoRO7LUnLdHcJ6BWsYbKuH4uvudaZP/qL
+ x4SYxltnWJQ+iQF5o58Uge1inbxQ5gY3dIUS993mTS6O8LRdtYtM0xwJy/Tw1LY7G12Y
+ JQMOhJF0Hq3QVVSxN1Ago3qng2H/4eiPz+ZZdr0f1aCPUiz88aRScY6ZgYRAjvMwUpFz
+ Tl9ITqQZrKHpdeFXhLfgn0zRZIYOENiNMLlB/6Hp2JrnORtt/dCUKI1kZmfvv/WSKxHx
+ hGjg==
+X-Gm-Message-State: AOAM532r1vinQvNrCdISN2+QmHhFao26Tw2ehNxuUTvT+ALi0B0Q3Dfp
+ mvCfNFx1VZbZBjnM20wgQ6GP6sxheWJfg78YEwdS6d0zht9FtFA20Sle/Lt4SNmAN0uvF4OIEvQ
+ ADGC81dURkzWq85s=
+X-Received: by 2002:a05:600c:1d19:: with SMTP id
+ l25mr44161wms.119.1634548625433; 
+ Mon, 18 Oct 2021 02:17:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw06r8/yFd0onfmqPorAj9rczyf4FwvM84oqwuMrkmEnSFRw/UC/U6ryoai6OxUyr9Vh/qa9Q==
+X-Received: by 2002:a05:600c:1d19:: with SMTP id
+ l25mr44143wms.119.1634548625236; 
+ Mon, 18 Oct 2021 02:17:05 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id v18sm13247908wrm.63.2021.10.18.02.17.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Oct 2021 02:17:04 -0700 (PDT)
+Message-ID: <0bb60a5a-3d13-1c9b-a8ca-76f298c725f0@redhat.com>
+Date: Mon, 18 Oct 2021 11:17:02 +0200
 MIME-Version: 1.0
-In-Reply-To: <20211014141236.923287-3-eperezma@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 1/2] rcu: Introduce force_rcu notifier
+To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+References: <20211015161218.1231920-1-groug@kaod.org>
+ <20211015161218.1231920-2-groug@kaod.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20211015161218.1231920-2-groug@kaod.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,23 +102,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-stable@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 14, 2021 at 04:12:35PM +0200, Eugenio Pérez wrote:
->Abstract this operation, that will be reused when validating the region
->against the iova range that the device supports.
->
->Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->Acked-by: Jason Wang <jasowang@redhat.com>
->---
-> hw/virtio/vhost-vdpa.c | 22 +++++++++++++++-------
-> 1 file changed, 15 insertions(+), 7 deletions(-)
+On 15/10/21 18:12, Greg Kurz wrote:
+> +/*
+> + * NotifierList used to force an RCU grace period.  Accessed under
+> + * rcu_registry_lock.
+> + */
+> +static NotifierList force_rcu_notifiers =
+> +    NOTIFIER_LIST_INITIALIZER(force_rcu_notifiers);
+> +
+>   /*
+>    * Check whether a quiescent state was crossed between the beginning of
+>    * update_counter_and_wait and now.
+> @@ -107,6 +115,8 @@ static void wait_for_readers(void)
+>                    * get some extra futex wakeups.
+>                    */
+>                   qatomic_set(&index->waiting, false);
+> +            } else if (qatomic_read(&in_drain_call_rcu)) {
+> +                notifier_list_notify(&force_rcu_notifiers, NULL);
+>               }
+>           }
+>   
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+You can put the notifier in struct rcu_reader_data---this way it doesn't 
+call all the notifiers but only those that are necessary to make progress.
+
+While at it, I have a slight preference for a separate 
+rcu_add_force_rcu_notifier API, but I can be convinced otherwise. :)
+
+Paolo
 
 
