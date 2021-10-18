@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C27E432782
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 21:22:43 +0200 (CEST)
-Received: from localhost ([::1]:36034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A10432788
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 21:26:00 +0200 (CEST)
+Received: from localhost ([::1]:42754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcYDa-0004dL-EE
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 15:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
+	id 1mcYGl-0000qa-EI
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 15:25:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtf-0008R6-VK
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtf-0008Qk-Cm
  for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:02:08 -0400
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:41600)
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:37743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtb-0001xX-Id
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:02:07 -0400
-Received: by mail-il1-x132.google.com with SMTP id l7so2644031iln.8
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 12:02:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtd-0001yM-32
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:02:06 -0400
+Received: by mail-il1-x12a.google.com with SMTP id x1so15977584ilv.4
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 12:02:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9dKXTIcJctOXE/jsCcOkT7BJa9rm6vlffSX8NI3ogMM=;
- b=Xa/xZRAdxg3Ps4yxMAf9i3Qx+riEAsB7zzJulNrByDaCHQ0xDF2ApWMnAQ0oESMhoI
- HBylhO+tEarMED2YPBSY4/XV5qtvHLbff+Nwz8+62WWu+7c74FjIpw4uhpvH0SGyiK6l
- 340gEImFW87fO1bPfBWWSnrYGUiMhvYTxPgkEb0wsJUhZbOiZM950sSXK5M7P0Sv7U6K
- l3B6CrMxiPhlXTVko5Ap0PXQsyEw9odOTziB7vhjH75ik1S4F831wEeypCp7I+gx879e
- PfiEDd+IVgEvtg67tuJbybfeE4IkR242KVwN+cznjBp0weoib/8jzex/bxgL0HxclJFn
- WWjQ==
+ bh=gOB7gGX/i+XSfRneCtiATYoM7MpsErjYQkyIib0hZP8=;
+ b=663SJcFMTOTKwHKIfFAXsFP0UsQcj5WO4YnnL6vTxkByWulZHLAtBMbMz5K5z4N0+a
+ LhQAIU8TYivoGGJhLAA6YrxvB+FzZrl/iqkXdLwYNGqRfjSQeMcLpOcxF9Kcb/EbTUGh
+ 9Qe+cm1c2fWYmg8TQ1Nvpq1a9rXo3MxBRd7a5URQJ4HRxdPNpYYplFE/Gn1145Qam+Id
+ QL1flDQkkfoWfz0QQBl261kQr92VWOjavWLIYEF0yap4sfoTu1BdtOCdQRTArJ7/2ZIT
+ rQFFIwsMYERNYHn4hdE35Y+wZv+gmEPGhyMUH4uflTP/HNeNUXWAzM+OtLcsOUXXtVGz
+ 6Amw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9dKXTIcJctOXE/jsCcOkT7BJa9rm6vlffSX8NI3ogMM=;
- b=4fKoyy0A/3yvYm6unkw+EFRpSYqU2wLnvEPxrz8TPwIlQptybPwK2YDOBq1FsQDqp+
- KuxPyOsa/bXrUyc/+YDO0IqAtR52yZ5QfXLU9M6ohdR5HKUUqFqhszAYtSUOS7ETdpTD
- H8fcHdW7ihRMXFcUdJ1rTwybTVX0H9hGKcobIinY4EvK54RNR61SRtou4mmGmNUwwmT2
- Q2Je/t63qLl/534KiJsYvnRmKx8x/2I/mZCi3OwPS4Ft9l8j2A2xf7Jv52uY4vB3gdrB
- afPJ+nxMGZt32yE6zuzmr6RJgpm4G4U5/+F33JABkO0E2xjUQSgDtFLOpBCWi4fS64uv
- /AgA==
-X-Gm-Message-State: AOAM533TFw5pPGvunjuj1l7yDQ1l4wRlfa+Jfpe1QYGtUTmkaHk+n78k
- DErsRPx1GMkgPCV6Dc5uVHEbFofW8jUYvw==
-X-Google-Smtp-Source: ABdhPJyn8qGBCUqOtRX+FI3Thwl0y7SMJguI+XAmy9Jyi8ffNC0JAEwE5YNbNX156/EfIIwPNns9RQ==
-X-Received: by 2002:a05:6e02:194d:: with SMTP id
- x13mr15493780ilu.266.1634583721974; 
- Mon, 18 Oct 2021 12:02:01 -0700 (PDT)
+ bh=gOB7gGX/i+XSfRneCtiATYoM7MpsErjYQkyIib0hZP8=;
+ b=B8klNYjBddKWH5y7BvLOEi+FKorkTS5tf2BXN77qtLMWvtJQ5lvSRmL4UPUIYZftC5
+ 6RqE2kaqGSet6kOV1ivJdziGGnxOxZR1mF6cUlWl99JvVz0h+I2clzR0XgAwJdiIohY2
+ /SSccUHaVsXPb46ZMmOYJhdD3pdSov5St1qbuoQCpqQn2azz+hpI4d1KAzfePaYDs/wL
+ gXFEBrR7jCr6rk9TRkg9UB1JXOYLd+rUJaT+tpkpn4FgANQmvlQcjVa05hhgFPniyLMJ
+ mk8OCi1UUQaKD+/8YVb/ifWjuoxqoHi80ksikaJFTGZYa7PPo0sKNo0+atyZFHVUYRZf
+ 1KRw==
+X-Gm-Message-State: AOAM532S4DlE0tlF1iEMU6HMx7VAnYS3Oid/FUEIsEyMnGVV646QgI/+
+ zNY3chI8mbzDpi9eboQ96Q9fUz000j6iqw==
+X-Google-Smtp-Source: ABdhPJyv5FShyUJTBOtYeSIX+d757pUmDm7QHJKwyCI6JU0Lt5749Rl8PAFC4fM4Zxvugg1eiuS7CQ==
+X-Received: by 2002:a05:6e02:1a8e:: with SMTP id
+ k14mr15124708ilv.77.1634583723787; 
+ Mon, 18 Oct 2021 12:02:03 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a8sm6945151ilh.5.2021.10.18.12.02.00
+ by smtp.gmail.com with ESMTPSA id a8sm6945151ilh.5.2021.10.18.12.02.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 12:02:01 -0700 (PDT)
+ Mon, 18 Oct 2021 12:02:02 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 19/23] bsd-user: Remove used from TaskState
-Date: Mon, 18 Oct 2021 13:01:11 -0600
-Message-Id: <20211018190115.5365-20-imp@bsdimp.com>
+Subject: [PULL v2 20/23] bsd-user: Add stop_all_tasks
+Date: Mon, 18 Oct 2021 13:01:12 -0600
+Message-Id: <20211018190115.5365-21-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211018190115.5365-1-imp@bsdimp.com>
 References: <20211018190115.5365-1-imp@bsdimp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::132;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x132.google.com
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: none client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,46 +84,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kyle Evans <kevans@FreeBSD.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Warner Losh <imp@bsdimp.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Stacey Son <sson@FreeBSD.org>, Laurent Vivier <laurent@vivier.eu>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'used' field in TaskState is write only. Remove it from TaskState.
+Similar to the same function in linux-user: this stops all the current tasks.
 
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 ---
- bsd-user/main.c | 1 -
- bsd-user/qemu.h | 1 -
- 2 files changed, 2 deletions(-)
+ bsd-user/main.c | 9 +++++++++
+ bsd-user/qemu.h | 1 +
+ 2 files changed, 10 insertions(+)
 
 diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 48643eeabc..ee84554854 100644
+index ee84554854..cb5ea40236 100644
 --- a/bsd-user/main.c
 +++ b/bsd-user/main.c
-@@ -210,7 +210,6 @@ void init_task_state(TaskState *ts)
- {
-     int i;
+@@ -195,6 +195,15 @@ static void usage(void)
  
--    ts->used = 1;
-     ts->first_free = ts->sigqueue_table;
-     for (i = 0; i < MAX_SIGQUEUE_SIZE - 1; i++) {
-         ts->sigqueue_table[i].next = &ts->sigqueue_table[i + 1];
+ __thread CPUState *thread_cpu;
+ 
++void stop_all_tasks(void)
++{
++    /*
++     * We trust when using NPTL (pthreads) start_exclusive() handles thread
++     * stopping correctly.
++     */
++    start_exclusive();
++}
++
+ bool qemu_cpu_is_self(CPUState *cpu)
+ {
+     return thread_cpu == cpu;
 diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 3b8475394c..c1170f14d9 100644
+index c1170f14d9..cdb85140f4 100644
 --- a/bsd-user/qemu.h
 +++ b/bsd-user/qemu.h
-@@ -92,7 +92,6 @@ typedef struct TaskState {
+@@ -103,6 +103,7 @@ typedef struct TaskState {
+ } __attribute__((aligned(16))) TaskState;
  
-     struct TaskState *next;
-     struct bsd_binprm *bprm;
--    int used; /* non zero if used */
-     struct image_info *info;
+ void init_task_state(TaskState *ts);
++void stop_all_tasks(void);
+ extern const char *qemu_uname_release;
  
-     struct emulated_sigtable sigtab[TARGET_NSIG];
+ /*
 -- 
 2.32.0
 
