@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE45430D3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 03:06:30 +0200 (CEST)
-Received: from localhost ([::1]:42160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8953F430D45
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 03:09:26 +0200 (CEST)
+Received: from localhost ([::1]:49332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcH6j-0002Zr-J5
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 21:06:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47962)
+	id 1mcH9Z-0007R7-KG
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 21:09:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mcH2M-0006Ve-7n; Sun, 17 Oct 2021 21:01:58 -0400
-Received: from mail-vk1-xa2f.google.com ([2607:f8b0:4864:20::a2f]:36650)
+ id 1mcH2N-0006Ye-9P; Sun, 17 Oct 2021 21:01:59 -0400
+Received: from mail-vk1-xa33.google.com ([2607:f8b0:4864:20::a33]:43974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mcH2J-0000Us-1m; Sun, 17 Oct 2021 21:01:57 -0400
-Received: by mail-vk1-xa2f.google.com with SMTP id f126so7815597vke.3;
- Sun, 17 Oct 2021 18:01:54 -0700 (PDT)
+ id 1mcH2L-0000bl-8w; Sun, 17 Oct 2021 21:01:58 -0400
+Received: by mail-vk1-xa33.google.com with SMTP id u206so946687vke.10;
+ Sun, 17 Oct 2021 18:01:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EF+vYu9507vNTQv+mb4YfpI1DTMxFETRqNBOhHFolrI=;
- b=FT3DEoN3Fg6LLF9SpnSmTNNa01upWU2umr2KewvnSa86435rLN4uItg04z/Ge2DFrV
- h8BHBQJHmpLu+pGmSD50cSKEZBQuCOW0wQFGvOO14zdSWHUYUnTtpkKbRmRMa1JUG83Q
- 96fmfSFMET5SxfS/rX6Wb1iVPjqOcVGUZfCBJiO5QplAUHUG7N4VqVqn+9oUTyvYxCBI
- 0kUeoxbSQZt105xubZuOiElMZlNUYnqQL96Dvu+mGjqLTfQr1NucbbFYxzZ4BZHD6jFj
- hj0BvkC/TAL8Yxe8UIT79HHosBRGzVtGeZtHfeqd/4KJuHSJhJ93p9M2gFoZGeg2vfK5
- tnAA==
+ bh=CfzFuoci4sUi/wHAUja0jOT8nYXJtzL6smP+zg6/Z0I=;
+ b=PWiZGERMgzyUGwbL/dbz2a9dOdC8a85y0ysfIkhJhmoKgLS701Didz550opJ8DpElO
+ E8ojPeRyfWAWN2eqjE40UgU+c3pALnNyhUVM/qbBofdkH00+/h9dx4vFrpC+mkm5Md2n
+ foyuOEnZVu0+iVisOA64+PjbJG1oXt2v+3HQY1FUB26v6yZSuZV2F2Suy/7HRcn2Jk+f
+ UE9irV4eMO7kfToGvCj6H953uFjF0qe20FwmWftLy5pOUg/NHFesY0w5UHvkFTBhKaXG
+ elqLA+xMJQVxht+CZwSo0OO1OlVSVk9LSpSc7u9nNxQBrSbY4dlMk+vLpwuMhxke5I5Y
+ L7EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EF+vYu9507vNTQv+mb4YfpI1DTMxFETRqNBOhHFolrI=;
- b=VQitrQXej4bL9Sapuv6MRf9x+jqinjye3noIDJHcNxQV7GZEEuK2+fAathrB68p9Qa
- N2d72Tt9agpY/cSGYe7fgcrIBX74MaQzoQ8S4MYim6v/59gVY5MnMW/zI8PLttoe0tXy
- 4ZI4T5WiK0aCpsCPJRm67qHueOw4jBsfNU/nKy0LauYq3vNIizovRW1Suw/ZRmfVI4xK
- PqJmorOPh9aSR45teVAQToskTmCErtvSWAx/Tj+pmSfxcYUHQhnQvs/kM/rEDb6TOBLf
- QabyIB/OLosJ6dpyMgTrzOhqTbyGmfZPSIPKlCiM6SfrWkUFwj/UoJdumATWW+7vTIJN
- 3S8A==
-X-Gm-Message-State: AOAM532iQo3uDcQQD+SHZsymW4OquCwv1UIBVq0sLbYQTr0W+n1iMWui
- +8pcdeXJObj3J6EI0vDVf7Cur9DsRIM=
-X-Google-Smtp-Source: ABdhPJyZqmfHsYHfDM9Z8zw9xtRjC7XvTDkyRwC+UoBnDxYx3eVRxUzWuxg8tZB3RpZpfl9p+OM6Xg==
-X-Received: by 2002:a05:6122:d06:: with SMTP id
- az6mr2759918vkb.17.1634518913581; 
- Sun, 17 Oct 2021 18:01:53 -0700 (PDT)
+ bh=CfzFuoci4sUi/wHAUja0jOT8nYXJtzL6smP+zg6/Z0I=;
+ b=3kzylNfyV5lA5BFaX3HPHDViQEUHkDNGB1MaSsw5UU27EVlK2fn2Jnp+D3MyO+k8b1
+ MbhXGDZbZy5KrB69fBDXVszVdBFi+8twM3QM3e4BzllHnYrETEUEfrqISRDnjhJBegQ/
+ rvkK0SPrvmq6PkAcT9rz7ujCjAwSQs8qA0BbZ8ylzCVvAuOE1rhCm3J1mVBGHmB6R5MN
+ SXh7hRytsT0mu8TnMcSd30qgl7TeFGDSl46WzdE2Zj/Cp6wICbnVKc+GHOHwnwHI4eGk
+ oPCClxxsHfiWXHS8oFJg3UExUTGplRht/SAUr0fUfGRx/6k/rvfbwImXsp4h9IGD+ACo
+ CeYg==
+X-Gm-Message-State: AOAM532C+H4gBWKbmVl9hGPRDEvZhULPmJYSBo2oFXLx9VuLGC6iK2Qv
+ 0ihtnmFooCLoOpZGE0l641fijRxISWs=
+X-Google-Smtp-Source: ABdhPJwaMlx+nSy38oAuG1luVCXZkEGwlW6AQPTedEtiMP2HSOYb2mdEMptUAejCzf5Tzzc5oYcCqg==
+X-Received: by 2002:a05:6122:d05:: with SMTP id
+ az5mr6033152vkb.19.1634518915830; 
+ Sun, 17 Oct 2021 18:01:55 -0700 (PDT)
 Received: from rekt.COMFAST ([179.247.137.170])
- by smtp.gmail.com with ESMTPSA id m15sm8271607vsh.31.2021.10.17.18.01.51
+ by smtp.gmail.com with ESMTPSA id m15sm8271607vsh.31.2021.10.17.18.01.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Oct 2021 18:01:53 -0700 (PDT)
+ Sun, 17 Oct 2021 18:01:55 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 04/15] target/ppc: adding user read/write functions for PMCs
-Date: Sun, 17 Oct 2021 22:01:22 -0300
-Message-Id: <20211018010133.315842-5-danielhb413@gmail.com>
+Subject: [PATCH v4 05/15] target/ppc: introduce PMU events
+Date: Sun, 17 Oct 2021 22:01:23 -0300
+Message-Id: <20211018010133.315842-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211018010133.315842-1-danielhb413@gmail.com>
 References: <20211018010133.315842-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2f;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a33;
+ envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa33.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -88,168 +88,224 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Problem state needs to be able to read and write the PMU counters,
-otherwise it won't be aware of any sampling result that the PMU produces
-after a Perf run.
+This patch starts an IBM Power8+ compatible PMU implementation by adding
+the representation of PMU events that we are going to sample, PMUEvent.
+This struct represents a Perf event, determined by the PMUEventType
+enum, that is being sampled by a specific counter 'sprn'. PMUEvent also
+contains an overflow timer that will be used to trigger cycle overflows
+when cycle events are being sampled. This timer will call
+cpu_ppc_pmu_timer_cb(), which in turn calls fire_PMC_interrupt(). Both
+functions are stubs that will be implemented later on when EBB support
+is added.
 
-This patch does that in a similar fashion as already done in the
-previous patches. PMCs 5 and 6 have a special condition, aside from the
-constraints that are common with PMCs 1-4, where they are not part of the
-PMU if MMCR0_PMCC is 0b11.
+The PMU has 6 PMUEvents all the time, one for each counter. Events that
+aren't available (i.e. the counter isn't running) will be of type
+'PMU_EVENT_INVALID'. Other types added in this patch are
+PMU_EVENT_CYCLES and PMU_EVENT_INSTRUCTIONS. More types will be added
+later on.
+
+Two new helper files are created to host this new logic.
+cpu_ppc_pmu_init() will init all PMUEvents during CPU init time.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu_init.c            | 12 +++---
- target/ppc/power8-pmu-regs.c.inc | 70 ++++++++++++++++++++++++++++++++
- target/ppc/spr_tcg.h             |  4 ++
- 3 files changed, 80 insertions(+), 6 deletions(-)
+ hw/ppc/spapr_cpu_core.c |  6 ++++
+ target/ppc/cpu.h        | 22 ++++++++++++
+ target/ppc/meson.build  |  1 +
+ target/ppc/power8-pmu.c | 75 +++++++++++++++++++++++++++++++++++++++++
+ target/ppc/power8-pmu.h | 25 ++++++++++++++
+ 5 files changed, 129 insertions(+)
+ create mode 100644 target/ppc/power8-pmu.c
+ create mode 100644 target/ppc/power8-pmu.h
 
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index ad88e54950..65545ba9ca 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -6879,27 +6879,27 @@ static void register_book3s_pmu_user_sprs(CPUPPCState *env)
-                  &spr_read_ureg, &spr_write_ureg,
-                  0x00000000);
-     spr_register(env, SPR_POWER_UPMC1, "UPMC1",
--                 &spr_read_ureg, SPR_NOACCESS,
-+                 &spr_read_PMC14_ureg, &spr_write_PMC14_ureg,
-                  &spr_read_ureg, &spr_write_ureg,
-                  0x00000000);
-     spr_register(env, SPR_POWER_UPMC2, "UPMC2",
--                 &spr_read_ureg, SPR_NOACCESS,
-+                 &spr_read_PMC14_ureg, &spr_write_PMC14_ureg,
-                  &spr_read_ureg, &spr_write_ureg,
-                  0x00000000);
-     spr_register(env, SPR_POWER_UPMC3, "UPMC3",
--                 &spr_read_ureg, SPR_NOACCESS,
-+                 &spr_read_PMC14_ureg, &spr_write_PMC14_ureg,
-                  &spr_read_ureg, &spr_write_ureg,
-                  0x00000000);
-     spr_register(env, SPR_POWER_UPMC4, "UPMC4",
--                 &spr_read_ureg, SPR_NOACCESS,
-+                 &spr_read_PMC14_ureg, &spr_write_PMC14_ureg,
-                  &spr_read_ureg, &spr_write_ureg,
-                  0x00000000);
-     spr_register(env, SPR_POWER_UPMC5, "UPMC5",
--                 &spr_read_ureg, SPR_NOACCESS,
-+                 &spr_read_PMC56_ureg, &spr_write_PMC56_ureg,
-                  &spr_read_ureg, &spr_write_ureg,
-                  0x00000000);
-     spr_register(env, SPR_POWER_UPMC6, "UPMC6",
--                 &spr_read_ureg, SPR_NOACCESS,
-+                 &spr_read_PMC56_ureg, &spr_write_PMC56_ureg,
-                  &spr_read_ureg, &spr_write_ureg,
-                  0x00000000);
-     spr_register(env, SPR_POWER_USIAR, "USIAR",
-diff --git a/target/ppc/power8-pmu-regs.c.inc b/target/ppc/power8-pmu-regs.c.inc
-index fb95175183..7391851238 100644
---- a/target/ppc/power8-pmu-regs.c.inc
-+++ b/target/ppc/power8-pmu-regs.c.inc
-@@ -169,6 +169,56 @@ void spr_write_MMCR2_ureg(DisasContext *ctx, int sprn, int gprn)
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 58e7341cb7..45abffd891 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -20,6 +20,7 @@
+ #include "target/ppc/kvm_ppc.h"
+ #include "hw/ppc/ppc.h"
+ #include "target/ppc/mmu-hash64.h"
++#include "target/ppc/power8-pmu.h"
+ #include "sysemu/numa.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/hw_accel.h"
+@@ -266,6 +267,11 @@ static bool spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+         return false;
+     }
  
-     tcg_temp_free(masked_gprn);
- }
-+
-+void spr_read_PMC14_ureg(DisasContext *ctx, int gprn, int sprn)
-+{
-+    if (!spr_groupA_read_allowed(ctx)) {
-+        return;
++    /* Init PMU interrupt timer (TCG only) */
++    if (!kvm_enabled()) {
++        cpu_ppc_pmu_init(env);
 +    }
 +
-+    spr_read_ureg(ctx, gprn, sprn);
-+}
-+
-+void spr_read_PMC56_ureg(DisasContext *ctx, int gprn, int sprn)
-+{
-+    /*
-+     * If PMCC = 0b11, PMC5 and PMC6 aren't included in the Performance
-+     * Monitor, and a read attempt results in a Facility Unavailable
-+     * Interrupt.
-+     */
-+    if (ctx->mmcr0_pmcc0 && ctx->mmcr0_pmcc1) {
-+        gen_hvpriv_exception(ctx, POWERPC_EXCP_FU);
-+        return;
-+    }
-+
-+    /* The remaining steps are similar to PMCs 1-4 userspace read */
-+    spr_read_PMC14_ureg(ctx, gprn, sprn);
-+}
-+
-+void spr_write_PMC14_ureg(DisasContext *ctx, int sprn, int gprn)
-+{
-+    if (!spr_groupA_write_allowed(ctx)) {
-+        return;
-+    }
-+
-+    spr_write_ureg(ctx, sprn, gprn);
-+}
-+
-+void spr_write_PMC56_ureg(DisasContext *ctx, int sprn, int gprn)
-+{
-+    /*
-+     * If PMCC = 0b11, PMC5 and PMC6 aren't included in the Performance
-+     * Monitor, and a write attempt results in a Facility Unavailable
-+     * Interrupt.
-+     */
-+    if (ctx->mmcr0_pmcc0 && ctx->mmcr0_pmcc1) {
-+        gen_hvpriv_exception(ctx, POWERPC_EXCP_FU);
-+        return;
-+    }
-+
-+    /* The remaining steps are similar to PMCs 1-4 userspace write */
-+    spr_write_PMC14_ureg(ctx, sprn, gprn);
-+}
- #else
- void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn)
- {
-@@ -189,4 +239,24 @@ void spr_write_MMCR2_ureg(DisasContext *ctx, int sprn, int gprn)
- {
-     spr_noaccess(ctx, gprn, sprn);
- }
-+
-+void spr_read_PMC14_ureg(DisasContext *ctx, int gprn, int sprn)
-+{
-+    spr_read_ureg(ctx, gprn, sprn);
-+}
-+
-+void spr_read_PMC56_ureg(DisasContext *ctx, int gprn, int sprn)
-+{
-+    spr_read_ureg(ctx, gprn, sprn);
-+}
-+
-+void spr_write_PMC14_ureg(DisasContext *ctx, int sprn, int gprn)
-+{
-+    spr_noaccess(ctx, gprn, sprn);
-+}
-+
-+void spr_write_PMC56_ureg(DisasContext *ctx, int sprn, int gprn)
-+{
-+    spr_noaccess(ctx, gprn, sprn);
-+}
- #endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
-diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
-index cb7f40eedf..520f1ef233 100644
---- a/target/ppc/spr_tcg.h
-+++ b/target/ppc/spr_tcg.h
-@@ -34,6 +34,8 @@ void spr_write_ctr(DisasContext *ctx, int sprn, int gprn);
- void spr_read_ureg(DisasContext *ctx, int gprn, int sprn);
- void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn);
- void spr_read_MMCR2_ureg(DisasContext *ctx, int gprn, int sprn);
-+void spr_read_PMC14_ureg(DisasContext *ctx, int gprn, int sprn);
-+void spr_read_PMC56_ureg(DisasContext *ctx, int gprn, int sprn);
- void spr_read_tbl(DisasContext *ctx, int gprn, int sprn);
- void spr_read_tbu(DisasContext *ctx, int gprn, int sprn);
- void spr_read_atbl(DisasContext *ctx, int gprn, int sprn);
-@@ -44,6 +46,8 @@ void spr_read_spefscr(DisasContext *ctx, int gprn, int sprn);
- void spr_write_spefscr(DisasContext *ctx, int sprn, int gprn);
- void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn);
- void spr_write_MMCR2_ureg(DisasContext *ctx, int sprn, int gprn);
-+void spr_write_PMC14_ureg(DisasContext *ctx, int sprn, int gprn);
-+void spr_write_PMC56_ureg(DisasContext *ctx, int sprn, int gprn);
+     if (!sc->pre_3_0_migration) {
+         vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
+                          cpu->machine_data);
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 33e3a91f6f..21591ec725 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -296,6 +296,26 @@ typedef struct ppc_v3_pate_t {
+     uint64_t dw1;
+ } ppc_v3_pate_t;
  
- #ifndef CONFIG_USER_ONLY
- void spr_write_generic32(DisasContext *ctx, int sprn, int gprn);
++/* PMU related structs and defines */
++#define PMU_EVENTS_NUM 6
++typedef enum {
++    PMU_EVENT_INVALID = 0,
++    PMU_EVENT_CYCLES,
++    PMU_EVENT_INSTRUCTIONS,
++} PMUEventType;
++
++typedef struct PMUEvent {
++    int sprn;
++    PMUEventType type;
++
++    /*
++     * Timer used to fire performance monitor alerts
++     * when counting cycles.
++     */
++    QEMUTimer *cyc_overflow_timer;
++
++} PMUEvent;
++
+ /*****************************************************************************/
+ /* Machine state register bits definition                                    */
+ #define MSR_SF   63 /* Sixty-four-bit mode                            hflags */
+@@ -1190,6 +1210,8 @@ struct CPUPPCState {
+     uint32_t tm_vscr;
+     uint64_t tm_dscr;
+     uint64_t tm_tar;
++
++    PMUEvent pmu_events[PMU_EVENTS_NUM];
+ };
+ 
+ #define SET_FIT_PERIOD(a_, b_, c_, d_)          \
+diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+index b85f295703..a49a8911e0 100644
+--- a/target/ppc/meson.build
++++ b/target/ppc/meson.build
+@@ -51,6 +51,7 @@ ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
+   'mmu-book3s-v3.c',
+   'mmu-hash64.c',
+   'mmu-radix64.c',
++  'power8-pmu.c',
+ ))
+ 
+ target_arch += {'ppc': ppc_ss}
+diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+new file mode 100644
+index 0000000000..42452b5870
+--- /dev/null
++++ b/target/ppc/power8-pmu.c
+@@ -0,0 +1,75 @@
++/*
++ * PMU emulation helpers for TCG IBM POWER chips
++ *
++ *  Copyright IBM Corp. 2021
++ *
++ * Authors:
++ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++
++#include "power8-pmu.h"
++#include "cpu.h"
++#include "helper_regs.h"
++#include "exec/exec-all.h"
++#include "exec/helper-proto.h"
++#include "qemu/error-report.h"
++#include "qemu/main-loop.h"
++#include "hw/ppc/ppc.h"
++
++#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++
++static void fire_PMC_interrupt(PowerPCCPU *cpu)
++{
++    CPUPPCState *env = &cpu->env;
++
++    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_EBE)) {
++        return;
++    }
++
++    /* PMC interrupt not implemented yet */
++    return;
++}
++
++static void cpu_ppc_pmu_timer_cb(void *opaque)
++{
++    PowerPCCPU *cpu = opaque;
++
++    fire_PMC_interrupt(cpu);
++}
++
++void cpu_ppc_pmu_init(CPUPPCState *env)
++{
++    PowerPCCPU *cpu = env_archcpu(env);
++    int i;
++
++    /*
++     * PMC1 event first, PMC2 second and so on. PMC5 and PMC6
++     * PMUEvent are always the same regardless of MMCR1.
++     */
++    for (i = 0; i < PMU_EVENTS_NUM; i++) {
++        PMUEvent *event = &env->pmu_events[i];
++
++        event->sprn = SPR_POWER_PMC1 + i;
++        event->type = PMU_EVENT_INVALID;
++
++        if (event->sprn == SPR_POWER_PMC5) {
++            event->type = PMU_EVENT_INSTRUCTIONS;
++            continue;
++        }
++
++        if (event->sprn == SPR_POWER_PMC6) {
++            event->type = PMU_EVENT_CYCLES;
++        }
++
++        event->cyc_overflow_timer =  timer_new_ns(QEMU_CLOCK_VIRTUAL,
++                                                  &cpu_ppc_pmu_timer_cb,
++                                                  cpu);
++    }
++}
++
++#endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
+diff --git a/target/ppc/power8-pmu.h b/target/ppc/power8-pmu.h
+new file mode 100644
+index 0000000000..49a813a443
+--- /dev/null
++++ b/target/ppc/power8-pmu.h
+@@ -0,0 +1,25 @@
++/*
++ * PMU emulation helpers for TCG IBM POWER chips
++ *
++ *  Copyright IBM Corp. 2021
++ *
++ * Authors:
++ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef POWER8_PMU
++#define POWER8_PMU
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "exec/exec-all.h"
++#include "exec/helper-proto.h"
++#include "qemu/error-report.h"
++#include "qemu/main-loop.h"
++
++void cpu_ppc_pmu_init(CPUPPCState *env);
++
++#endif
 -- 
 2.31.1
 
