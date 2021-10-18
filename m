@@ -2,49 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4CA430E10
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 05:07:44 +0200 (CEST)
-Received: from localhost ([::1]:38764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA7A430DCF
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 04:17:35 +0200 (CEST)
+Received: from localhost ([::1]:36136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcJ02-00044j-L4
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 23:07:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35002)
+	id 1mcIDV-0006Fz-Mt
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 22:17:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mcIw7-00033j-2S; Sun, 17 Oct 2021 23:03:40 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:44291)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mcIw2-0005EE-1h; Sun, 17 Oct 2021 23:03:38 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HXhXB2bydz4xd9; Mon, 18 Oct 2021 14:03:22 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1634526202;
- bh=zyWxJMD0aEmNUAC8e9860gXYU8pj4p6jP0BOT4QPGUw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=K5eXems6dPYK66TpuLVkp2gHoYdTpFAuHLcZsBj+6noLrI+sMFLJCRUyywUklX78f
- SxtciPpOKu4CuQ9Fs2VdlvfJ9HnLC1o8FCDMEWbsCIob00eTm+Fc/hfddFFq2iEzaS
- yuq7FmuYW4Fo54Sr3N+pgUp3+/PVnXC/5qZXZ/kw=
-Date: Mon, 18 Oct 2021 12:23:47 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: matheus.ferst@eldorado.org.br
-Subject: Re: [PATCH] target/ppc: Filter mtmsr[d] input before setting MSR
-Message-ID: <YWzMo6Eh9quYhCj3@yekko>
-References: <20211015181940.197982-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mcIBn-0005HV-Oj
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 22:15:48 -0400
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:39630)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mcIBi-0006kO-72
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 22:15:46 -0400
+Received: by mail-io1-xd36.google.com with SMTP id o184so2467197iof.6
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 19:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iagfxw+uXtMapGF/L16+awhdqtKbQm3X0oJRPbPiaTY=;
+ b=cvRdyIpSmBZiW1pv/J2vUmKSIVZJAOkbgd6Xb0ElffrThbInfYD3FZrHYi07w5qkNH
+ RVUgt/z54bBwuPuFL8VcbQREl9r8mz1ZW+/yw3k/hGErVoBpeQ6YGUiWDMnS22u2skXD
+ MZPbcEHJCqgMZq0qBFkpyBpCcsfH0kCtx+E0PJFhJYuJaGGFYO5PrhNK86vm+RzmWAiW
+ aqY1uZPVZPC22tPssvw+w5G+U/ctTwYQ6Es9BUpLJFSN8JJ5cBJ03bq/kC+f0jitEHPj
+ jfXlBIq3dJSVudcALfw8n0s+ObWMHJ1Y1SM/+bHiObjy42TrclU0qZbi/du3OPRNOFGf
+ z7tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iagfxw+uXtMapGF/L16+awhdqtKbQm3X0oJRPbPiaTY=;
+ b=M5nULiWR7TFvEwNNkDpGVj3PO+0pzKRPGHuA08GzW6V8creHm38N5OO5ZjsuV/Wk9b
+ 8LlDMmCJSGkwy8RX/DjThZoqpjxOAB3bNCww29GJhS331S9klGFy8iUneYBmLr2jl6wO
+ D+VY5Dg94ZR6O70/NGjDT88Y8IPC3bk63OiI6x4mpJp3lcj1lfrW5eGaiauH4gbAktfo
+ bWyD7yATAmuSDJmxbxVlgRIVR+CE1nffvQ+A3xy0hK1Vb9/m8L5lIOx9qCsgvBDxIS10
+ YROnwfqWQY3RdoU+yQsDPijEZZA7hjGyhi6Hi+kJFpSwASIO2fvXRHWTOs9thGKYeEH0
+ 3u8w==
+X-Gm-Message-State: AOAM530TdOmYqg/yFcVpctqLvj1VAEWQD4wd7htk3kC5NlSCZAgs2S59
+ 3znc9qA/kXIlu68tTAxS4VOSnvSDrlpvAGHMag0yFA==
+X-Google-Smtp-Source: ABdhPJwvmsonnhN8TTgOoNJiZQKYQCMZl8ykXwo7eyeEO2X8zB0phNz8bQMC3Bsu2BTs6IoEZhQXMEqa33ro8gtuomw=
+X-Received: by 2002:a5d:9256:: with SMTP id e22mr12488602iol.152.1634523339758; 
+ Sun, 17 Oct 2021 19:15:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/ahMj7qrwrhhESpq"
-Content-Disposition: inline
-In-Reply-To: <20211015181940.197982-1-matheus.ferst@eldorado.org.br>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20211016090742.3034669-1-frank.chang@sifive.com>
+ <20211016090742.3034669-2-frank.chang@sifive.com>
+ <CAKmqyKNoHJj=W8L-KP+MohddNmzj1qquiEJ6bTQG4GwCSoa1xg@mail.gmail.com>
+In-Reply-To: <CAKmqyKNoHJj=W8L-KP+MohddNmzj1qquiEJ6bTQG4GwCSoa1xg@mail.gmail.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Mon, 18 Oct 2021 10:15:30 +0800
+Message-ID: <CAE_xrPigcg96SvHdnSRSL+EU+USVtkv+pbfOVj1Spg7K2eXFPA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] target/riscv: zfh: half-precision load and store
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000000b384305ce971f87"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=frank.chang@sifive.com; helo=mail-io1-xd36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,206 +78,465 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alfredo.junior@eldorado.org.br, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- groug@kaod.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Chih-Min Chao <chihmin.chao@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Kito Cheng <kito.cheng@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000000b384305ce971f87
+Content-Type: text/plain; charset="UTF-8"
 
---/ahMj7qrwrhhESpq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Mon, Oct 18, 2021 at 8:03 AM Alistair Francis <alistair23@gmail.com>
+wrote:
+
+> On Sat, Oct 16, 2021 at 7:08 PM <frank.chang@sifive.com> wrote:
+> >
+> > From: Kito Cheng <kito.cheng@sifive.com>
+> >
+> > Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
+> > Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
+> > Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > ---
+> >  target/riscv/cpu.c                        |  1 +
+> >  target/riscv/cpu.h                        |  1 +
+> >  target/riscv/insn32.decode                |  4 ++
+> >  target/riscv/insn_trans/trans_rvzfh.c.inc | 65 +++++++++++++++++++++++
+> >  target/riscv/translate.c                  |  8 +++
+> >  5 files changed, 79 insertions(+)
+> >  create mode 100644 target/riscv/insn_trans/trans_rvzfh.c.inc
+> >
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index 1d69d1887e6..8c579dc297b 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -601,6 +601,7 @@ static Property riscv_cpu_properties[] = {
+> >      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+> >      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+> >      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+> > +    DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+>
+> This change should be after patch 5. The idea is that we add the
+> functionality and then allow users to enable it.
+>
+> Otherwise:
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>
+> Alistair
+>
+
+The reason why I put here is because REQUIRE_ZFH() uses ctx->zfh.
+I can separate ext_zfh field in DisasContext into this patch,
+and add cfg.ext_zfh in RISCVCPU after patch 5 in my next patchset.
+
+Thanks,
+Frank Chang
+
+
+>
+> >      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+> >      DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+> >      DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index 9e55b2f5b17..88684e72be1 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -297,6 +297,7 @@ struct RISCVCPU {
+> >          bool ext_counters;
+> >          bool ext_ifencei;
+> >          bool ext_icsr;
+> > +        bool ext_zfh;
+> >
+> >          char *priv_spec;
+> >          char *user_spec;
+> > diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> > index 2f251dac1bb..b36a3d8dbf8 100644
+> > --- a/target/riscv/insn32.decode
+> > +++ b/target/riscv/insn32.decode
+> > @@ -726,3 +726,7 @@ binv       0110100 .......... 001 ..... 0110011 @r
+> >  binvi      01101. ........... 001 ..... 0010011 @sh
+> >  bset       0010100 .......... 001 ..... 0110011 @r
+> >  bseti      00101. ........... 001 ..... 0010011 @sh
+> > +
+> > +# *** RV32 Zfh Extension ***
+> > +flh        ............   ..... 001 ..... 0000111 @i
+> > +fsh        .......  ..... ..... 001 ..... 0100111 @s
+> > diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc
+> b/target/riscv/insn_trans/trans_rvzfh.c.inc
+> > new file mode 100644
+> > index 00000000000..dad1d703d72
+> > --- /dev/null
+> > +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
+> > @@ -0,0 +1,65 @@
+> > +/*
+> > + * RISC-V translation routines for the RV64Zfh Standard Extension.
+> > + *
+> > + * Copyright (c) 2020 Chih-Min Chao, chihmin.chao@sifive.com
+> > + *
+> > + * This program is free software; you can redistribute it and/or modify
+> it
+> > + * under the terms and conditions of the GNU General Public License,
+> > + * version 2 or later, as published by the Free Software Foundation.
+> > + *
+> > + * This program is distributed in the hope it will be useful, but
+> WITHOUT
+> > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
+> License for
+> > + * more details.
+> > + *
+> > + * You should have received a copy of the GNU General Public License
+> along with
+> > + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> > + */
+> > +
+> > +#define REQUIRE_ZFH(ctx) do { \
+> > +    if (!ctx->ext_zfh) {      \
+> > +        return false;         \
+> > +    }                         \
+> > +} while (0)
+> > +
+> > +static bool trans_flh(DisasContext *ctx, arg_flh *a)
+> > +{
+> > +    TCGv_i64 dest;
+> > +    TCGv t0;
+> > +
+> > +    REQUIRE_FPU;
+> > +    REQUIRE_ZFH(ctx);
+> > +
+> > +    t0 = get_gpr(ctx, a->rs1, EXT_NONE);
+> > +    if (a->imm) {
+> > +        TCGv temp = temp_new(ctx);
+> > +        tcg_gen_addi_tl(temp, t0, a->imm);
+> > +        t0 = temp;
+> > +    }
+> > +
+> > +    dest = cpu_fpr[a->rd];
+> > +    tcg_gen_qemu_ld_i64(dest, t0, ctx->mem_idx, MO_TEUW);
+> > +    gen_nanbox_h(dest, dest);
+> > +
+> > +    mark_fs_dirty(ctx);
+> > +    return true;
+> > +}
+> > +
+> > +static bool trans_fsh(DisasContext *ctx, arg_fsh *a)
+> > +{
+> > +    TCGv t0;
+> > +
+> > +    REQUIRE_FPU;
+> > +    REQUIRE_ZFH(ctx);
+> > +
+> > +    t0 = get_gpr(ctx, a->rs1, EXT_NONE);
+> > +    if (a->imm) {
+> > +        TCGv temp = tcg_temp_new();
+> > +        tcg_gen_addi_tl(temp, t0, a->imm);
+> > +        t0 = temp;
+> > +    }
+> > +
+> > +    tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], t0, ctx->mem_idx, MO_TEUW);
+> > +
+> > +    return true;
+> > +}
+> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> > index d2442f0cf5d..75048149f5a 100644
+> > --- a/target/riscv/translate.c
+> > +++ b/target/riscv/translate.c
+> > @@ -69,6 +69,7 @@ typedef struct DisasContext {
+> >      bool w;
+> >      bool virt_enabled;
+> >      bool ext_ifencei;
+> > +    bool ext_zfh;
+> >      bool hlsx;
+> >      /* vector extension */
+> >      bool vill;
+> > @@ -118,6 +119,11 @@ static void gen_nanbox_s(TCGv_i64 out, TCGv_i64 in)
+> >      tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(32, 32));
+> >  }
+> >
+> > +static void gen_nanbox_h(TCGv_i64 out, TCGv_i64 in)
+> > +{
+> > +    tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(16, 48));
+> > +}
+> > +
+> >  /*
+> >   * A narrow n-bit operation, where n < FLEN, checks that input operands
+> >   * are correctly Nan-boxed, i.e., all upper FLEN - n bits are 1.
+> > @@ -489,6 +495,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase,
+> target_ulong pc)
+> >  #include "insn_trans/trans_rvh.c.inc"
+> >  #include "insn_trans/trans_rvv.c.inc"
+> >  #include "insn_trans/trans_rvb.c.inc"
+> > +#include "insn_trans/trans_rvzfh.c.inc"
+> >  #include "insn_trans/trans_privileged.c.inc"
+> >
+> >  /* Include the auto-generated decoder for 16 bit insn */
+> > @@ -541,6 +548,7 @@ static void
+> riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+> >      ctx->misa = env->misa;
+> >      ctx->frm = -1;  /* unknown rounding mode */
+> >      ctx->ext_ifencei = cpu->cfg.ext_ifencei;
+> > +    ctx->ext_zfh = cpu->cfg.ext_zfh;
+> >      ctx->vlen = cpu->cfg.vlen;
+> >      ctx->mstatus_hs_fs = FIELD_EX32(tb_flags, TB_FLAGS, MSTATUS_HS_FS);
+> >      ctx->hlsx = FIELD_EX32(tb_flags, TB_FLAGS, HLSX);
+> > --
+> > 2.25.1
+> >
+> >
+>
+
+--0000000000000b384305ce971f87
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 15, 2021 at 03:19:40PM -0300, matheus.ferst@eldorado.org.br wro=
-te:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
->=20
-> PowerISA says that mtmsr[d] "does not alter MSR[HV], MSR[S], MSR[ME], or
-> MSR[LE]", but the current code only filters the GPR-provided value if
-> L=3D1. This behavior caused some problems in FreeBSD, and a build option
-> was added to work around the issue [1], but it seems that the bug was
-> not reported in launchpad/gitlab. This patch address the issue in qemu,
-> so the option on FreeBSD should no longer be required.
->=20
-> [1] https://cgit.freebsd.org/src/commit/?id=3D4efb1ca7d2a44cfb33d7f9e18bd=
-92f8d68dcfee0
->=20
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Oct 18, 2021 at 8:03 AM Alistair =
+Francis &lt;<a href=3D"mailto:alistair23@gmail.com">alistair23@gmail.com</a=
+>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">On Sat, Oct 16, 2021 at 7:08 PM &lt;<a href=3D"mail=
+to:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com</a>&gt;=
+ wrote:<br>
+&gt;<br>
+&gt; From: Kito Cheng &lt;<a href=3D"mailto:kito.cheng@sifive.com" target=
+=3D"_blank">kito.cheng@sifive.com</a>&gt;<br>
+&gt;<br>
+&gt; Signed-off-by: Kito Cheng &lt;<a href=3D"mailto:kito.cheng@sifive.com"=
+ target=3D"_blank">kito.cheng@sifive.com</a>&gt;<br>
+&gt; Signed-off-by: Chih-Min Chao &lt;<a href=3D"mailto:chihmin.chao@sifive=
+.com" target=3D"_blank">chihmin.chao@sifive.com</a>&gt;<br>
+&gt; Signed-off-by: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.co=
+m" target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
+&gt; Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson=
+@linaro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+&gt;=C2=A0 target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+&gt;=C2=A0 target/riscv/insn32.decode=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 4 ++<br>
+&gt;=C2=A0 target/riscv/insn_trans/trans_rvzfh.c.inc | 65 +++++++++++++++++=
+++++++<br>
+&gt;=C2=A0 target/riscv/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 8 +++<br>
+&gt;=C2=A0 5 files changed, 79 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 target/riscv/insn_trans/trans_rvzfh.c.inc<br>
+&gt;<br>
+&gt; diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
+&gt; index 1d69d1887e6..8c579dc297b 100644<br>
+&gt; --- a/target/riscv/cpu.c<br>
+&gt; +++ b/target/riscv/cpu.c<br>
+&gt; @@ -601,6 +601,7 @@ static Property riscv_cpu_properties[] =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;Counters&quot;, RISCVCPU, c=
+fg.ext_counters, true),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;Zifencei&quot;, RISCVCPU, c=
+fg.ext_ifencei, true),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;Zicsr&quot;, RISCVCPU, cfg.=
+ext_icsr, true),<br>
+&gt; +=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;Zfh&quot;, RISCVCPU, cfg.ext_zfh=
+, false),<br>
+<br>
+This change should be after patch 5. The idea is that we add the<br>
+functionality and then allow users to enable it.<br>
+<br>
+Otherwise:<br>
+<br>
+Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.co=
+m" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+<br>
+Alistair<br></blockquote><div><br></div><div>The reason why I put here is b=
+ecause=C2=A0REQUIRE_ZFH() uses ctx-&gt;zfh.</div><div>I can separate ext_zf=
+h field in DisasContext into this patch,</div><div>and add cfg.ext_zfh in R=
+ISCVCPU after patch 5 in my next patchset.</div><div><br></div><div>Thanks,=
+</div><div>Frank Chang</div><div>=C2=A0</div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_STRING(&quot;priv_spec&quot;, RISCVCPU=
+, cfg.priv_spec),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_STRING(&quot;vext_spec&quot;, RISCVCPU=
+, cfg.vext_spec),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_UINT16(&quot;vlen&quot;, RISCVCPU, cfg=
+.vlen, 128),<br>
+&gt; diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
+&gt; index 9e55b2f5b17..88684e72be1 100644<br>
+&gt; --- a/target/riscv/cpu.h<br>
+&gt; +++ b/target/riscv/cpu.h<br>
+&gt; @@ -297,6 +297,7 @@ struct RISCVCPU {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool ext_counters;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool ext_ifencei;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool ext_icsr;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool ext_zfh;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 char *priv_spec;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 char *user_spec;<br>
+&gt; diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode<b=
+r>
+&gt; index 2f251dac1bb..b36a3d8dbf8 100644<br>
+&gt; --- a/target/riscv/insn32.decode<br>
+&gt; +++ b/target/riscv/insn32.decode<br>
+&gt; @@ -726,3 +726,7 @@ binv=C2=A0 =C2=A0 =C2=A0 =C2=A00110100 .......... =
+001 ..... 0110011 @r<br>
+&gt;=C2=A0 binvi=C2=A0 =C2=A0 =C2=A0 01101. ........... 001 ..... 0010011 @=
+sh<br>
+&gt;=C2=A0 bset=C2=A0 =C2=A0 =C2=A0 =C2=A00010100 .......... 001 ..... 0110=
+011 @r<br>
+&gt;=C2=A0 bseti=C2=A0 =C2=A0 =C2=A0 00101. ........... 001 ..... 0010011 @=
+sh<br>
+&gt; +<br>
+&gt; +# *** RV32 Zfh Extension ***<br>
+&gt; +flh=C2=A0 =C2=A0 =C2=A0 =C2=A0 ............=C2=A0 =C2=A0..... 001 ...=
+.. 0000111 @i<br>
+&gt; +fsh=C2=A0 =C2=A0 =C2=A0 =C2=A0 .......=C2=A0 ..... ..... 001 ..... 01=
+00111 @s<br>
+&gt; diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/=
+insn_trans/trans_rvzfh.c.inc<br>
+&gt; new file mode 100644<br>
+&gt; index 00000000000..dad1d703d72<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc<br>
+&gt; @@ -0,0 +1,65 @@<br>
+&gt; +/*<br>
+&gt; + * RISC-V translation routines for the RV64Zfh Standard Extension.<br=
+>
+&gt; + *<br>
+&gt; + * Copyright (c) 2020 Chih-Min Chao, <a href=3D"mailto:chihmin.chao@s=
+ifive.com" target=3D"_blank">chihmin.chao@sifive.com</a><br>
+&gt; + *<br>
+&gt; + * This program is free software; you can redistribute it and/or modi=
+fy it<br>
+&gt; + * under the terms and conditions of the GNU General Public License,<=
+br>
+&gt; + * version 2 or later, as published by the Free Software Foundation.<=
+br>
+&gt; + *<br>
+&gt; + * This program is distributed in the hope it will be useful, but WIT=
+HOUT<br>
+&gt; + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY=
+ or<br>
+&gt; + * FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU General Public=
+ License for<br>
+&gt; + * more details.<br>
+&gt; + *<br>
+&gt; + * You should have received a copy of the GNU General Public License =
+along with<br>
+&gt; + * this program.=C2=A0 If not, see &lt;<a href=3D"http://www.gnu.org/=
+licenses/" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.org/licenses=
+/</a>&gt;.<br>
+&gt; + */<br>
+&gt; +<br>
+&gt; +#define REQUIRE_ZFH(ctx) do { \<br>
+&gt; +=C2=A0 =C2=A0 if (!ctx-&gt;ext_zfh) {=C2=A0 =C2=A0 =C2=A0 \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0\<br>
+&gt; +=C2=A0 =C2=A0 }=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+&gt; +} while (0)<br>
+&gt; +<br>
+&gt; +static bool trans_flh(DisasContext *ctx, arg_flh *a)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 TCGv_i64 dest;<br>
+&gt; +=C2=A0 =C2=A0 TCGv t0;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 REQUIRE_FPU;<br>
+&gt; +=C2=A0 =C2=A0 REQUIRE_ZFH(ctx);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 t0 =3D get_gpr(ctx, a-&gt;rs1, EXT_NONE);<br>
+&gt; +=C2=A0 =C2=A0 if (a-&gt;imm) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 TCGv temp =3D temp_new(ctx);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_addi_tl(temp, t0, a-&gt;imm);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 t0 =3D temp;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 dest =3D cpu_fpr[a-&gt;rd];<br>
+&gt; +=C2=A0 =C2=A0 tcg_gen_qemu_ld_i64(dest, t0, ctx-&gt;mem_idx, MO_TEUW)=
+;<br>
+&gt; +=C2=A0 =C2=A0 gen_nanbox_h(dest, dest);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 mark_fs_dirty(ctx);<br>
+&gt; +=C2=A0 =C2=A0 return true;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static bool trans_fsh(DisasContext *ctx, arg_fsh *a)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 TCGv t0;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 REQUIRE_FPU;<br>
+&gt; +=C2=A0 =C2=A0 REQUIRE_ZFH(ctx);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 t0 =3D get_gpr(ctx, a-&gt;rs1, EXT_NONE);<br>
+&gt; +=C2=A0 =C2=A0 if (a-&gt;imm) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 TCGv temp =3D tcg_temp_new();<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_addi_tl(temp, t0, a-&gt;imm);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 t0 =3D temp;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 tcg_gen_qemu_st_i64(cpu_fpr[a-&gt;rs2], t0, ctx-&gt;mem=
+_idx, MO_TEUW);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return true;<br>
+&gt; +}<br>
+&gt; diff --git a/target/riscv/translate.c b/target/riscv/translate.c<br>
+&gt; index d2442f0cf5d..75048149f5a 100644<br>
+&gt; --- a/target/riscv/translate.c<br>
+&gt; +++ b/target/riscv/translate.c<br>
+&gt; @@ -69,6 +69,7 @@ typedef struct DisasContext {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool w;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool virt_enabled;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_ifencei;<br>
+&gt; +=C2=A0 =C2=A0 bool ext_zfh;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool hlsx;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 /* vector extension */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool vill;<br>
+&gt; @@ -118,6 +119,11 @@ static void gen_nanbox_s(TCGv_i64 out, TCGv_i64 i=
+n)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(32, 32));=
+<br>
+&gt;=C2=A0 }<br>
+&gt;<br>
+&gt; +static void gen_nanbox_h(TCGv_i64 out, TCGv_i64 in)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(16, 48));<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 /*<br>
+&gt;=C2=A0 =C2=A0* A narrow n-bit operation, where n &lt; FLEN, checks that=
+ input operands<br>
+&gt;=C2=A0 =C2=A0* are correctly Nan-boxed, i.e., all upper FLEN - n bits a=
+re 1.<br>
+&gt; @@ -489,6 +495,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase=
+, target_ulong pc)<br>
+&gt;=C2=A0 #include &quot;insn_trans/trans_rvh.c.inc&quot;<br>
+&gt;=C2=A0 #include &quot;insn_trans/trans_rvv.c.inc&quot;<br>
+&gt;=C2=A0 #include &quot;insn_trans/trans_rvb.c.inc&quot;<br>
+&gt; +#include &quot;insn_trans/trans_rvzfh.c.inc&quot;<br>
+&gt;=C2=A0 #include &quot;insn_trans/trans_privileged.c.inc&quot;<br>
+&gt;<br>
+&gt;=C2=A0 /* Include the auto-generated decoder for 16 bit insn */<br>
+&gt; @@ -541,6 +548,7 @@ static void riscv_tr_init_disas_context(DisasConte=
+xtBase *dcbase, CPUState *cs)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ctx-&gt;misa =3D env-&gt;misa;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ctx-&gt;frm =3D -1;=C2=A0 /* unknown rounding mode=
+ */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ctx-&gt;ext_ifencei =3D cpu-&gt;cfg.ext_ifencei;<b=
+r>
+&gt; +=C2=A0 =C2=A0 ctx-&gt;ext_zfh =3D cpu-&gt;cfg.ext_zfh;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ctx-&gt;vlen =3D cpu-&gt;cfg.vlen;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ctx-&gt;mstatus_hs_fs =3D FIELD_EX32(tb_flags, TB_=
+FLAGS, MSTATUS_HS_FS);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ctx-&gt;hlsx =3D FIELD_EX32(tb_flags, TB_FLAGS, HL=
+SX);<br>
+&gt; --<br>
+&gt; 2.25.1<br>
+&gt;<br>
+&gt;<br>
+</blockquote></div></div>
 
-Applied to ppc-for-6.2, thanks.
-
-> ---
->  target/ppc/cpu.h       |  1 +
->  target/ppc/translate.c | 73 +++++++++++++++++++++++-------------------
->  2 files changed, 41 insertions(+), 33 deletions(-)
->=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index baa4e7c34d..e94e82297b 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -314,6 +314,7 @@ typedef struct ppc_v3_pate_t {
->  #define MSR_AP   23 /* Access privilege state on 602                  hf=
-lags */
->  #define MSR_VSX  23 /* Vector Scalar Extension (ISA 2.06 and later) x hf=
-lags */
->  #define MSR_SA   22 /* Supervisor access mode on 602                  hf=
-lags */
-> +#define MSR_S    22 /* Secure state                                     =
-     */
->  #define MSR_KEY  19 /* key bit on 603e                                  =
-     */
->  #define MSR_POW  18 /* Power management                                 =
-     */
->  #define MSR_TGPR 17 /* TGPR usage on 602/603                        x   =
-     */
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index b985e9e55b..a5ebe03e2a 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -4940,32 +4940,40 @@ static void gen_mtmsrd(DisasContext *ctx)
->      CHK_SV;
-> =20
->  #if !defined(CONFIG_USER_ONLY)
-> +    TCGv t0, t1;
-> +    target_ulong mask;
-> +
-> +    t0 =3D tcg_temp_new();
-> +    t1 =3D tcg_temp_new();
-> +
->      gen_icount_io_start(ctx);
-> +
->      if (ctx->opcode & 0x00010000) {
->          /* L=3D1 form only updates EE and RI */
-> -        TCGv t0 =3D tcg_temp_new();
-> -        TCGv t1 =3D tcg_temp_new();
-> -        tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
-> -                        (1 << MSR_RI) | (1 << MSR_EE));
-> -        tcg_gen_andi_tl(t1, cpu_msr,
-> -                        ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
-> -        tcg_gen_or_tl(t1, t1, t0);
-> -
-> -        gen_helper_store_msr(cpu_env, t1);
-> -        tcg_temp_free(t0);
-> -        tcg_temp_free(t1);
-> -
-> +        mask =3D (1ULL << MSR_RI) | (1ULL << MSR_EE);
->      } else {
-> +        /* mtmsrd does not alter HV, S, ME, or LE */
-> +        mask =3D ~((1ULL << MSR_LE) | (1ULL << MSR_ME) | (1ULL << MSR_S)=
- |
-> +                 (1ULL << MSR_HV));
->          /*
->           * XXX: we need to update nip before the store if we enter
->           *      power saving mode, we will exit the loop directly from
->           *      ppc_store_msr
->           */
->          gen_update_nip(ctx, ctx->base.pc_next);
-> -        gen_helper_store_msr(cpu_env, cpu_gpr[rS(ctx->opcode)]);
->      }
-> +
-> +    tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)], mask);
-> +    tcg_gen_andi_tl(t1, cpu_msr, ~mask);
-> +    tcg_gen_or_tl(t0, t0, t1);
-> +
-> +    gen_helper_store_msr(cpu_env, t0);
-> +
->      /* Must stop the translation as machine state (may have) changed */
->      ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
-> +
-> +    tcg_temp_free(t0);
-> +    tcg_temp_free(t1);
->  #endif /* !defined(CONFIG_USER_ONLY) */
->  }
->  #endif /* defined(TARGET_PPC64) */
-> @@ -4975,23 +4983,19 @@ static void gen_mtmsr(DisasContext *ctx)
->      CHK_SV;
-> =20
->  #if !defined(CONFIG_USER_ONLY)
-> +    TCGv t0, t1;
-> +    target_ulong mask =3D 0xFFFFFFFF;
-> +
-> +    t0 =3D tcg_temp_new();
-> +    t1 =3D tcg_temp_new();
-> +
->      gen_icount_io_start(ctx);
->      if (ctx->opcode & 0x00010000) {
->          /* L=3D1 form only updates EE and RI */
-> -        TCGv t0 =3D tcg_temp_new();
-> -        TCGv t1 =3D tcg_temp_new();
-> -        tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
-> -                        (1 << MSR_RI) | (1 << MSR_EE));
-> -        tcg_gen_andi_tl(t1, cpu_msr,
-> -                        ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
-> -        tcg_gen_or_tl(t1, t1, t0);
-> -
-> -        gen_helper_store_msr(cpu_env, t1);
-> -        tcg_temp_free(t0);
-> -        tcg_temp_free(t1);
-> -
-> +        mask &=3D (1ULL << MSR_RI) | (1ULL << MSR_EE);
->      } else {
-> -        TCGv msr =3D tcg_temp_new();
-> +        /* mtmsr does not alter S, ME, or LE */
-> +        mask &=3D ~((1ULL << MSR_LE) | (1ULL << MSR_ME) | (1ULL << MSR_S=
-));
-> =20
->          /*
->           * XXX: we need to update nip before the store if we enter
-> @@ -4999,16 +5003,19 @@ static void gen_mtmsr(DisasContext *ctx)
->           *      ppc_store_msr
->           */
->          gen_update_nip(ctx, ctx->base.pc_next);
-> -#if defined(TARGET_PPC64)
-> -        tcg_gen_deposit_tl(msr, cpu_msr, cpu_gpr[rS(ctx->opcode)], 0, 32=
-);
-> -#else
-> -        tcg_gen_mov_tl(msr, cpu_gpr[rS(ctx->opcode)]);
-> -#endif
-> -        gen_helper_store_msr(cpu_env, msr);
-> -        tcg_temp_free(msr);
->      }
-> +
-> +    tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)], mask);
-> +    tcg_gen_andi_tl(t1, cpu_msr, ~mask);
-> +    tcg_gen_or_tl(t0, t0, t1);
-> +
-> +    gen_helper_store_msr(cpu_env, t0);
-> +
->      /* Must stop the translation as machine state (may have) changed */
->      ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
-> +
-> +    tcg_temp_free(t0);
-> +    tcg_temp_free(t1);
->  #endif
->  }
-> =20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---/ahMj7qrwrhhESpq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFszKEACgkQbDjKyiDZ
-s5KaFQ//XsBXO7YZUhoL4sQlfHC1LYuKoYUjAMneytihgVglwP2oA9VtvEm4dbvt
-scjJdC4DZG/4cKXS8vdqclLprGphBX/ay9RdJY9XvO3rrzeUxOT+ZJmqEAWQUuqh
-1zD+pDTH0VDnovmxA2hw1fE7QTpev5PAX2/3B5tJXEX6KD9QMzpJ1DEf5wsq6ZZA
-z6m/f2NPea2snwJ5/IenGmU4bu7vz+DKG57smr5aKIanJYWP7dkJW+g0b4z4JqEF
-c78Tc/yn3wOAU9UzBxUhkzJP9Zr4WQaM/5jLfxgPxgHKgI15PyA3uSKcaTgkaW44
-XSrMiIQmnqbRmJH845r9AskLxzq2ey6bvq/kP1KLmmokIssvyQS4N9Zt+t7MaCsd
-XLQGgJSKmrw92sPOn+J5UPI9HK0bUT9yKVnA4k8SmG/yEtaOL2je8bnX/ZToPShT
-Hjp0LGQshrV43PT4SBSmz7Rsa7IaWScwKuVrQHECgfwBLuZEjPH8yv4CwxHnNzyL
-+XqXQsqwH5Ef/5/UPabsbk4GPihngYYdictyr7x9+/7/ae9usyVUQJiNnBruG8Zx
-abO0pBlhTRfjtQpNax2625PZ+71xrgIUduty9+g6C+mPgRvb91gQlU8ZsArxYwhe
-6sHpDwXqFAVSMDXgChNv3khJSuMupiU3z9fsl8ALzcgkyTPK7a8=
-=Kz0m
------END PGP SIGNATURE-----
-
---/ahMj7qrwrhhESpq--
+--0000000000000b384305ce971f87--
 
