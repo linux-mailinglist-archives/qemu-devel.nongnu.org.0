@@ -2,134 +2,147 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E501431F79
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 16:26:21 +0200 (CEST)
-Received: from localhost ([::1]:51424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37163431FD7
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 16:34:43 +0200 (CEST)
+Received: from localhost ([::1]:57414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcTam-00085M-4H
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 10:26:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34594)
+	id 1mcTir-0004Bv-RN
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 10:34:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mcTX3-0002jS-14; Mon, 18 Oct 2021 10:22:29 -0400
-Received: from mail-eopbgr80121.outbound.protection.outlook.com
- ([40.107.8.121]:25986 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1mcThq-0003Fc-J2; Mon, 18 Oct 2021 10:33:38 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:39976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mcTWy-0004BL-FD; Mon, 18 Oct 2021 10:22:27 -0400
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1mcTho-0000gi-A9; Mon, 18 Oct 2021 10:33:38 -0400
+Received: from pps.filterd (m0127838.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19ID4Pu0016136; 
+ Mon, 18 Oct 2021 07:33:26 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=NW7USPzzSKyXV9AmwvStT489aQh/s3Ie5cKIoHn4c20=;
+ b=n2cXtoCkx9IsKzFaXjtgWQJaUibEQzLZldKvE0/3Gt7yPV2SWkFiDAvAaaPe+m93UpOe
+ CQ3xCK8necsuxh06P5NB24dzYSwI4klDSYepFXZAeqiK6UZ59J4oM6wBAIJKfsRSPfU/
+ IHXvU4cejld5NnNeM78pfXyIDJRwfLjmf+orKerJ3v/2LrwZ82tX+IxaqfJG3QZSKalV
+ R6UJyb/cH7Hf1nCJ6WwI3BYWXsS3p9dtmFmsHps/miCeI0Mh0tSyjpTKW6CahcVokMa6
+ lXf33RUqD1kXvMP1uN80fyuTE26Oo4+EUEsfb17YlJIVzQsO2iGxwzAJP1elr7hzPZZa LA== 
+Received: from nam11-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11lp2170.outbound.protection.outlook.com [104.47.57.170])
+ by mx0a-002c1b01.pphosted.com with ESMTP id 3bs9g4g68y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Oct 2021 07:33:25 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mq21WYx4PZBdq+NR/PN8x9zQKt1/2rwdAnNhzCJlqen7no3x91ZwNrFb9EPlvMIL1QzxGXAMS1Keo4cpZmeHPR90Ma2mrKdy7YS9ALd6Nik6PpmZZDPM+KxgrZHMbxbd056rnVBWGj36C9q6Sc4spBUcN9ulyZcaZAiOODJkWwtL1+1SCHFKH1BrH/HhBkks8AkBBhizgkI1Su5F4az/XonWv2f6YI+VyYalHKE1FY627BvMfg21TC01iaa+9EpwevGf68Cbqo6VQXCloCon4Q26IszIZblF65BwRKy82xgQ6yd7oOhzCeFaqGvYpTw0j2pX1TxBgau+oZWu25R3vA==
+ b=XvfEhI8PV/iMsi65xab3vCQJVZHCcExijzpRGF4UDz6gxblbzuOsSSDBfZX0h52TObnosWyNIs0pYp4lRy3ZCNmxJvi15rqaynF8f1fTo2QqMY3rmVqsePUoedZW4cd3aVcFMu5XQ7Nno/FM+2dQuMPnMQ8GZ6pUSRfgtWPbn/TjTVHPhytbqc8fS7QHG2aUnjuc/cFJh5bPVd6SzkmM7uLzwGb4aGXooSTNqVAkURlAV1ctJlyKemkYYpgnVurF/PjeOIZgCqFjhxfO5p/mUgWuZPGUhkHjMhq8TsrbopjCUogpba0eWrOzvO0y9t0vfQafM70zCfWZyOVvJo29uA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UAo5/A8QFH9hCMx6CngTm0QJC3xKvee8ljoV5mEDQ9o=;
- b=PKV+QSp9pOUzP72w3ArXpTY7LVM9EIRN5K2SRzNtXifGbV4pMTMr41D+mGkGncSSarMChTTONDSsLHRdXZePqkGk/f4lRg2eAfiYCCpy1jfYsuuVdDPfi0ZO2OYTD90ZiAoah0O+jIfVnO04eOeZyBZo1WIw4M8Bhn/6DEFg/FEIVWecMAi7UxcxbcVAAI3DQu23o2vEPctyxecaWk2LaH45LOEmxNwKCpD07xTFwYDzKdWqATqoGpYE+MtKVDsUTcb74DQ7B9SPuZEzO6zGcTwSPAQSFcWYLBD0thGnGIFfduqSjn0iOUH8q9mrozkPYOsX1ewSDKGUiBoHwnypmQ==
+ bh=NW7USPzzSKyXV9AmwvStT489aQh/s3Ie5cKIoHn4c20=;
+ b=XNyLpZEtXU1yusgVBHhTz+FIf4hlHgAYuBDBN4uvGsMU+RGWmFLHw6k1UZNkTWjn5yjNjlVHixBUuymtFy+Ct+M4sfjBxQGWh/I69aEx35qRhnXv0N2mhrt3SoAZfo4om4wtUPO+iTleiUxPNtWglI643tr5g9GCuZpf57jVWMC1FugL6G/+kyueu02s6qBJ+35F8QV8yMwN976RUldxoL51VE56xxn9wVZ5xPm3gqbOnVvJ8l7SDjI7i1msNLvabhlEeeyyXM5JRDIv+A5x21gsTDwDa2f5FkgvePSXC3+G1pU6ZCIzpSigoCli6gV/Ti5F9TU4zrt0gYlaGjSWNw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UAo5/A8QFH9hCMx6CngTm0QJC3xKvee8ljoV5mEDQ9o=;
- b=KrYgvypafu+FSRapV/QrlyWRfvlwO9u40fr4EBo/XF6g7MR8wfjSItlb8zfzYI5blkBxTaUO728cVQJCZ5jurQX+8Bk+gWxDeGuuqHqDasuytNOL0/YafzM6EQt0/HvpteTG4sQ7FakmRLk3e6QoT9gfkh/4sNk0V3RvDzyOyK4=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3383.eurprd08.prod.outlook.com (2603:10a6:20b:50::29)
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
+ by BL0PR02MB4417.namprd02.prod.outlook.com (2603:10b6:208:45::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.18; Mon, 18 Oct
- 2021 14:22:17 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a994:9f7c:53a5:84bc%4]) with mapi id 15.20.4608.018; Mon, 18 Oct 2021
- 14:22:17 +0000
-Message-ID: <e4c03aee-fd0f-0b8a-3b86-35776d2d3ad3@virtuozzo.com>
-Date: Mon, 18 Oct 2021 17:22:16 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] block: Fail gracefully when blockdev-snapshot creates
- loops
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.17; Mon, 18 Oct
+ 2021 14:33:23 +0000
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::804:50eb:bd2:eb3c]) by BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::804:50eb:bd2:eb3c%7]) with mapi id 15.20.4608.018; Mon, 18 Oct 2021
+ 14:33:23 +0000
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v1] libvhost-user: fix VHOST_USER_REM_MEM_REG skipping
+ mmap_addr
+Thread-Topic: [PATCH v1] libvhost-user: fix VHOST_USER_REM_MEM_REG skipping
+ mmap_addr
+Thread-Index: AQHXvtwaeFZLuGJV1Eq0Q9rMxfifyavQrxMAgAFB1YCABt9tgIAADCOA
+Date: Mon, 18 Oct 2021 14:33:23 +0000
+Message-ID: <20211018143319.GA11006@raphael-debian-dev>
+References: <20211011201047.62587-1-david@redhat.com>
+ <YWapnsmfDMPj80Sd@stefanha-x1.localdomain>
+ <20211014045239.GA21284@raphael-debian-dev>
+ <20211018094924-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211018094924-mutt-send-email-mst@kernel.org>
+Accept-Language: en-US
 Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: hreitz@redhat.com, qemu-devel@nongnu.org
-References: <20211018134714.48438-1-kwolf@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <20211018134714.48438-1-kwolf@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0024.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1c::15) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-Received: from [192.168.100.10] (185.215.60.43) by
- FR3P281CA0024.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1c::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4628.9 via Frontend Transport; Mon, 18 Oct 2021 14:22:17 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bbca9c0b-f9de-4ec3-5128-08d99242b055
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3383:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB33831817A7E527D55D655FE2C1BC9@AM6PR08MB3383.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:327;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 06XpJd1wXAbJQehy5q45QOn71CKF+Vz8OZU/6m7obTBmDVr7O5I/zdgJMF0rcutm9SzrBjFk26HXVNSX7CPDPibYpn1ow91xBoQHUg2/i/rmRDPyWx98eZmLd6MIk2s7580mosLI/7CPaVULYDyUzODz25UQJJxkLmLtDCp9LIdSgS2YWqxmdHM5BPPxxGh7iKdqYSHSeZWbPvMD1WoLRe1vS3q/HdNEZFUmj30/iEQ3kELTbboVcfsY5WFJYPPJN0w+lQGTHjLdjMjmnZk33USxRiKWazo51/xHKPIOipdaPAsroVvFLb88Izh8jqGIY1PrOS+pXEQu4mtPmIacsMfGQ7bFNxozOGGe94jWgxhbwiaaIab1RdrbxmJryVeRp9wcIz4uK7Pt1QDPCfTjsIRqemo/NURpCANMvJbWUf7HWy+yXdmgwGT8VMnkwIRLGzuARwwt9xP5BAg+bEynWA3GM7My9OqvEsmADPmXE9/gYXGdIgeHloPJdSDAnpUE9G5KQLHEnouskzZIowKCAbbYBNoPhQEoR1Wg6/aJdUSe0+iBUVUlFWDUScTSvRBkqA8J6a3qhJGtQUburZXilLEvcaVOMxe04WwBPZNNfMR+KNA0a8dXLJmfYwrCxDdI7g4cZDvKxI2MZSiC815+CHvP8IRSd/a0p2heFSl6XaQaMekz+AMVLrihzs9ZoroSH51bwbg/dSwN8XH+36bhjccJmgdHVM4t/fw5D0LNs9N+1/epg+ptiQW94J4HoCI3TMCqq7OaJ+vadLxTUy0vEfoi9dO579I3sMlpt422bgHuGUCFixwt8pg7HpDFNfzoLAl6ndileJPlvxEB36patCdTL25l4ZnHly27snzeiYk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(2906002)(316002)(16576012)(8676002)(2616005)(66556008)(66476007)(86362001)(66946007)(36756003)(26005)(186003)(6486002)(956004)(38100700002)(38350700002)(5660300002)(508600001)(83380400001)(19627235002)(31696002)(8936002)(52116002)(966005)(4326008)(31686004)(45980500001)(43740500002);
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mutt/1.10.1 (2018-07-13)
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 98477259-1590-42cd-ef6a-08d992443d7a
+x-ms-traffictypediagnostic: BL0PR02MB4417:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BL0PR02MB441748B26F425BCA3008A8F0EABC9@BL0PR02MB4417.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VNffqyfu41WvTHNHwkcTc6LRQHOsSUHXOOrcZRKAVcPChCjmT4ZgNzEgqe3KmtbnzmFLIGtnEiVLQ9XoyyZG5YSYcENHhH1sDlX/RgeTAqzF6ISut12qEQxx0dgh30Oh2owydutzENj9MdPTaAlfP3RXOcy0IYFmRSCeEnMAmYsI9c4EoAuWkzFsdCTFP6pGXcimD8S9YI1BiWzbX5tPYjsWCt3703P8V1rJ8Gm8zH1gMQC6Alms85zPfWMyu+80tU6G7R33+OOk/c6fQkjLfdJB41gdBVODGpF451ZRqfsDHU9Pb2Uu2pC6OciHQTwHnX4+ugHwPpRM2AHiNH322kk5tdZNcbW9mYRmbmCo2zefaVB4Jb3mTkbkL6/9DneZhhhOQKGqngafjldp3xRCzATlH0pQFGbM9sJXwhZhOlTsmXUrLtV0jtj4FY5thy5JQSFJwEzYCLJjPkT4/MBE8vV0tXfXT0bvU8ETdHzQfaW4nQrf8RByfmBdJXpNDxtr/Gn4RR1g3E61pjrKChAMAOT1gri2XjlJdme+3P5YiZI/tq+SVf5uMfypscQz4E7PccoHAgUJr4kUcmZzCDkvzfa9d+Ln5iqJdtpbbRhc3OdbV9t7rpOtMwThNkMWZbpkF+pBTUQwUKVWFZBPn0tpIBUqBWBApYdg2eYHJtJGAO4+akfB3PS/f7US1Rj8UtoL7W8oZbuUtC9whFX9rLs/Dw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(7916004)(366004)(8676002)(71200400001)(5660300002)(66446008)(33656002)(2906002)(38070700005)(38100700002)(91956017)(186003)(44832011)(6506007)(66946007)(66556008)(66476007)(64756008)(76116006)(9686003)(33716001)(1076003)(6916009)(122000001)(26005)(83380400001)(508600001)(6512007)(86362001)(54906003)(8936002)(6486002)(4326008)(316002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?STY5WkJhc2F3cEZnejgrYk4zckI4dUdleDBRN1NZQm14RUxVanhEbDU5U2N3?=
- =?utf-8?B?TVpwRG9uV1ZwOHJOeFZUSzc5S09vWWNkM1VaTHo0N1pZZE5tQXFVaUNYakJh?=
- =?utf-8?B?VnkzUVcyWE0xRnQra3FvMXRYZUZoci9Dd1lWZEF1dEV4bXYzMS9lb084dDBz?=
- =?utf-8?B?dm52cEJWNmJuRjVsNHNnak1zV2JzenYzOE5lVWhxWW5FYnNydkJhVWtYWmU3?=
- =?utf-8?B?d0t5ZVNRK00rbW9ML1pSYlhxVnA2TWFXSHBNL0k1bmJGQ043U2NucUpCbEdJ?=
- =?utf-8?B?cFZycURURDVmYVl5S3c0REN1UTVZQ2szeGduMVEzSXpvd21uRFNwa1BoRDBJ?=
- =?utf-8?B?d1cyQmRwY3VMeVdYQXZGSnh3c0dRR3NqQ3F5dDh2T1cvVVBtZHA0T2FWSE9m?=
- =?utf-8?B?Ry94eEtJV2tLeXRxVi9pek9MZVJNK0JvWUtDc01ZeUdiQzdGbnNQSkVvQmtK?=
- =?utf-8?B?aGRNYi96b29Hby9jeStNa3J6VVJGU1VIOFhWdmdESGo0TTBNMzRmdUdQRm96?=
- =?utf-8?B?MXgwY1BIcGd4REc1L0pqd0U2TEhEYlhCVjBvQjRCZEJCVlQxcVFDOGdYRHh0?=
- =?utf-8?B?Zm9VcVp2TkJ1WGQvcnBVcDV2a0MzV1BuWjJXSWxtaFVzN045Q1AvVi9CR05m?=
- =?utf-8?B?S3NoNWZJWXlzWVRyQ29hUG5lTE1NaEpxR1RyUmdOWDh2ZzBjRE8yYlg5elBa?=
- =?utf-8?B?M29jTG5CRkNybExXdm41dE9FT003cFVzZnpPZVdEN1lYR3hla055M3dDN3J6?=
- =?utf-8?B?NzEremxKNG1yaGExajE5aXkvNnpweG5RMEl4NEJGOVdoV1cyOEVVRitmMnp6?=
- =?utf-8?B?OGxsTXR0ZVlVQ0s2Ti95dG5TUVpSREJNdkhvWUJyNW9Wa2YxaTVWWnQyV1VD?=
- =?utf-8?B?MVpEY29rU3JQWEZFcUdiOUhqaWFKM29xb2NBVFd0TU9BUW1ucUx4YUVuOHhl?=
- =?utf-8?B?NFh5QnFUOGM3R3dSUS91SUNnSzdGVXpDN24wMjRxTkdsMGJobE10aW4zVmRo?=
- =?utf-8?B?aDF0c0cwbExseWE5SG1mMWg0emh1VUtDYm9QbzlFSTBRV1IvUndyWFRES3lB?=
- =?utf-8?B?TDNDUzZuakpESE9XWExPQWdVa2V0QWtncittOEJrNlFWNzVOSzdld3dzRXlm?=
- =?utf-8?B?TUlYTk8vSEVyMkcxcG9jd0ZEd0xqaWRWSFU5RlBubEFubFlBdFgyNFpOVFN5?=
- =?utf-8?B?aFluRytjSXpZVDlzaDQ5TlY1dDIzeWkwU3hiaHQrUnZCenNFaktOSXhaNi9v?=
- =?utf-8?B?aHJFMkx6Y0NEMUtGdnllZVJtYWRabmh4MGw5bzhLZWZOSXY1V0ppTXJrNHQ4?=
- =?utf-8?B?WmQ4MjN6NGF1UVRtWnNXZndZaGx2Yk9tK0VpbC9pYjdFVFlsc296MWRMRlhQ?=
- =?utf-8?B?MHJvWi9VWHNSbzdOUXpNUXZzL2hnSFhvRXh2TkcyMTRmUHFYLzBiNGxDT2RW?=
- =?utf-8?B?aFBaTlRNdm5NMFpzUHRRek40VnQzQytubjdHb0pMQWFIZzBWckJ3UERZaGdw?=
- =?utf-8?B?L3E1bFVRaEhkQVVBQmdOVlRHa3Jzc0IwWWxwWXIvSEJDUzlUVW5Zb0FXcDUx?=
- =?utf-8?B?ZVdSbnJ2ZkltVmc4WUh1V216aElzQTV6L3dMSmdsOGJ6QUN5aG90WGh3M05r?=
- =?utf-8?B?VWRLb1duYVl4REo4d01TT21HVHNLUWRRcGtkYmU2bUgrOWFIL3oyeU0yZS9z?=
- =?utf-8?B?Y2kwT1Zxa1VBQnJqVTBTOXovM0Ewb0F3c1FlVCtHYlhMQkRKcnB6Q3VhOFVm?=
- =?utf-8?Q?kkrCG6U+pbuhBQWPJKwB5/+sVb3yYRwAjrCUDCI?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bbca9c0b-f9de-4ec3-5128-08d99242b055
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?7XJIE7/T1DEWCd3OJl5sHn2PIIMYTBixSYVhmvLVcpMxkeSG+H9pU8vHfg?=
+ =?iso-8859-1?Q?ZeOiCERAbV/6GyQiCi+9Qi//7MuOQ9A3n+YoIov8grmNrv4IWChPuYkgh4?=
+ =?iso-8859-1?Q?Eu+BmL/25izCWfXkrAMcTjvzq5wbGn5xDIEVCx/iY9zBBo+wzeHljZlqzm?=
+ =?iso-8859-1?Q?djLZu2nUb3PJbXpcW1UnxyrzDms5fZxa/Xbw7M4WYWs9/onChRPjwVjWjN?=
+ =?iso-8859-1?Q?rIIiw70aOQyTqodlViNyHtc+SXoY4tIaVX2G5hkDm0baZ1j4rWOdp6/LhQ?=
+ =?iso-8859-1?Q?OEy23Ui6kTFNRxlDVVFLzVjIc9x6QVXwCob5f9Xb6u5dAzvw1FqMC+dYwl?=
+ =?iso-8859-1?Q?C/faieMK46E02zJAdEZVVfs9QrJz1W16SJ/s6ToSGvdEymrvgPTIZY6xrr?=
+ =?iso-8859-1?Q?fqdGgrTSCMLE8PeWempmKN/YezA8mrFSGKgVDDVX4IyrDbKlsXQ3Qyn7OC?=
+ =?iso-8859-1?Q?4HVcLm8Q1quBkcQJVnwxmqmUVqVSWtH2ubYnDH+FdQNr4B+vV8DUvwcnh6?=
+ =?iso-8859-1?Q?DtAHRXiAIC9bEQ72KRrmg8Dx+kQDWPyLv9pYa6YdR/Ydg6U+fHTaMw3CIP?=
+ =?iso-8859-1?Q?dek7TUu/KBTAAI96sJvOSBlVqfrkNu4+/etWwV8LYQ8Wa1qvoH2XYlkxyc?=
+ =?iso-8859-1?Q?g+2ffchFcHbVeJZ7w63n4LNPR/md+Vu9Aa0SHsdFLu82GjCGO+TyuyoLYC?=
+ =?iso-8859-1?Q?POpbhvgM5d862YXiuzqzb54KeY/P6flNRjiPTDZVfi22/1hthoFg8Unw+B?=
+ =?iso-8859-1?Q?lxzlnlItc/FuOKMSkBAK/F0nEvyT8CW7+fUEhjGiU+YEdbRNHMH4ov3gB1?=
+ =?iso-8859-1?Q?cnAvwk11UrUMTI2PMuP1T6Vv/RVmnd0iUNBgjIGfuGC6uDPE6PRp9EmOHn?=
+ =?iso-8859-1?Q?B1pKJGI0h9fPYHiHTGkYV+mQG3s5mBDrATOEX1FcKFXdyhjtd5IvE6lcFs?=
+ =?iso-8859-1?Q?we4CHlQbQA/Z+4/HFxVFju09Gl6Sr31WjEX9jnVKVWySqm4Y3UhmqHSNpP?=
+ =?iso-8859-1?Q?kHWIek4TN/Bmwy9cbXaaUK2TlQrzdKOY67UW/teBSI13d9Zs+Mexb+Du52?=
+ =?iso-8859-1?Q?TlbX6oGQVW+ZYAbugd78gdFQUt1mu9/idkHAX26Ouo9tqBhlkSXcfFbsOq?=
+ =?iso-8859-1?Q?ceHRD5TI8XmXcHCi8Hjxp3ZJOCnJuTx2Hh+VbqjjI3BVZZcAfiyvl9dPLr?=
+ =?iso-8859-1?Q?qh3c9nTaD9IS5PFmm4tvyqNisucHG56xvVYXnszi9BuME7JwuWy3UrMf0u?=
+ =?iso-8859-1?Q?6iismQexeqi28P4C0V3ESG9/bv6mxs5uY3ga3JBJK1PbP4F/+iYgpw7uTj?=
+ =?iso-8859-1?Q?m97wpM4X+EfS47s1Jfp/Hv8txSVcvbITrQdexdYeiAB+W7E1Z4azQJiQ8m?=
+ =?iso-8859-1?Q?kihMijrmFTJYHx3Vsmv8RYmU472xKL1g=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <4A45E19C54FFBA40901BABC8902DF17B@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2021 14:22:17.4858 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aas/OrtO2tJjjpL1P0d43yqnwsNTQTB/HaEIp34s4p6KAzNajkcQdS8TA1iVcWKd1IspBVZBmLHJ5VCNP+B+Vz4BJd2Xpr32V3Xi3xs6iWk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3383
-Received-SPF: pass client-ip=40.107.8.121;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98477259-1590-42cd-ef6a-08d992443d7a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2021 14:33:23.5229 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mVVZQgx1otpFxN2fQ+2Hhx+8Shj2JG3sM2jVxhvTa95iieGg28nXD/SjHlKcoqKI7My/GK9m9LtPdT2MprLm82sG2dsYeUwn6j/Y1mv8taw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB4417
+X-Proofpoint-GUID: 86o0R5okqSGXwSrL3dj1draayPTJWURc
+X-Proofpoint-ORIG-GUID: 86o0R5okqSGXwSrL3dj1draayPTJWURc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-18_06,2021-10-14_02,2020-04-07_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=raphael.norwitz@nutanix.com; helo=mx0a-002c1b01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -143,171 +156,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: David Hildenbrand <david@redhat.com>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
+ Coiby Xu <coiby.xu@gmail.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-18.10.2021 16:47, Kevin Wolf wrote:
-> Using blockdev-snapshot to append a node as an overlay to itself, or to
-> any of its parents, causes crashes. Catch the condition and return an
-> error for these cases instead.
-> 
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1824363
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   block.c                    | 10 ++++++++++
->   tests/qemu-iotests/085     | 31 ++++++++++++++++++++++++++++++-
->   tests/qemu-iotests/085.out | 33 ++++++++++++++++++++++++++++++---
->   3 files changed, 70 insertions(+), 4 deletions(-)
-> 
-> diff --git a/block.c b/block.c
-> index 45f653a88b..231dddf655 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -84,6 +84,9 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
->                                              BdrvChildRole child_role,
->                                              Error **errp);
->   
-> +static bool bdrv_recurse_has_child(BlockDriverState *bs,
-> +                                   BlockDriverState *child);
-> +
->   static void bdrv_replace_child_noperm(BdrvChild *child,
->                                         BlockDriverState *new_bs);
->   static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
-> @@ -2673,6 +2676,7 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
->       int drain_saldo;
->   
->       assert(!child->frozen);
-> +    assert(old_bs != new_bs);
->   
->       if (old_bs && new_bs) {
->           assert(bdrv_get_aio_context(old_bs) == bdrv_get_aio_context(new_bs));
-> @@ -2892,6 +2896,12 @@ static int bdrv_attach_child_noperm(BlockDriverState *parent_bs,
->   
->       assert(parent_bs->drv);
->   
-> +    if (bdrv_recurse_has_child(child_bs, parent_bs)) {
-> +        error_setg(errp, "Making '%s' a %s child of '%s' would create a cycle",
-> +                   parent_bs->node_name, child_name, child_bs->node_name);
+On Mon, Oct 18, 2021 at 09:49:53AM -0400, Michael S. Tsirkin wrote:
+> On Thu, Oct 14, 2021 at 04:52:48AM +0000, Raphael Norwitz wrote:
+> > On Wed, Oct 13, 2021 at 10:40:46AM +0100, Stefan Hajnoczi wrote:
+> > > On Mon, Oct 11, 2021 at 10:10:47PM +0200, David Hildenbrand wrote:
+> > > > We end up not copying the mmap_addr of all existing regions, result=
+ing
+> > > > in a SEGFAULT once we actually try to map/access anything within ou=
+r
+> > > > memory regions.
+> > > >=20
+> > > > Fixes: 875b9fd97b34 ("Support individual region unmap in libvhost-u=
+ser")
+> > > > Cc: qemu-stable@nongnu.org
+> > > > Cc: Michael S. Tsirkin <mst@redhat.com>
+> > > > Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> > > > Cc: "Marc-Andr=E9 Lureau" <marcandre.lureau@redhat.com>
+> > > > Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > > > Cc: Coiby Xu <coiby.xu@gmail.com>
+> > > > Signed-off-by: David Hildenbrand <david@redhat.com>
+> > > > ---
+> > > >  subprojects/libvhost-user/libvhost-user.c | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > >=20
+> > > > diff --git a/subprojects/libvhost-user/libvhost-user.c b/subproject=
+s/libvhost-user/libvhost-user.c
+> > > > index bf09693255..787f4d2d4f 100644
+> > > > --- a/subprojects/libvhost-user/libvhost-user.c
+> > > > +++ b/subprojects/libvhost-user/libvhost-user.c
+> > > > @@ -816,6 +816,7 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) =
+{
+> > > >              shadow_regions[j].gpa =3D dev->regions[i].gpa;
+> > > >              shadow_regions[j].size =3D dev->regions[i].size;
+> > > >              shadow_regions[j].qva =3D dev->regions[i].qva;
+> > > > +            shadow_regions[j].mmap_addr =3D dev->regions[i].mmap_a=
+ddr;
+> > > >              shadow_regions[j].mmap_offset =3D dev->regions[i].mmap=
+_offset;
+> > > >              j++;
+> > > >          } else {
+> > >=20
+> > > Raphael: Some questions about vu_rem_mem_reg():
+> > >=20
+> > > - What ensures that shadow_regions[VHOST_USER_MAX_RAM_SLOTS] is large
+> > >   enough? The add_mem_reg/set_mem_table code doesn't seem to check
+> > >   whether there is enough space in dev->regions[] before adding regio=
+ns.
+> > >
+> >=20
+> > Correct - it does not check if there is enough space as is. I can add t=
+hat.
+>=20
+>=20
+> Just making sure - you are now working on series supreceding this patch?
+> Is that right?
 
-Seems, child_bs and parent_bs should be swapped.
+I was just going to fix the missing input validation. This looks like a
+standalone issue and in my opinon the fix should go in as is. I will
+base my changes on top of it.=20
 
-with that fixed:
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-
-> +        return -EINVAL;
-> +    }
-> +
->       bdrv_get_cumulative_perm(parent_bs, &perm, &shared_perm);
->       bdrv_child_perm(parent_bs, child_bs, NULL, child_role, NULL,
->                       perm, shared_perm, &perm, &shared_perm);
-> diff --git a/tests/qemu-iotests/085 b/tests/qemu-iotests/085
-> index d557522943..de74262a26 100755
-> --- a/tests/qemu-iotests/085
-> +++ b/tests/qemu-iotests/085
-> @@ -103,11 +103,18 @@ do_blockdev_add()
->   }
->   
->   # ${1}: unique identifier for the snapshot filename
-> -add_snapshot_image()
-> +create_snapshot_image()
->   {
->       base_image="${TEST_DIR}/$((${1}-1))-${snapshot_virt0}"
->       snapshot_file="${TEST_DIR}/${1}-${snapshot_virt0}"
->       TEST_IMG=$snapshot_file _make_test_img -u -b "${base_image}" -F $IMGFMT "$size"
-> +}
-> +
-> +# ${1}: unique identifier for the snapshot filename
-> +add_snapshot_image()
-> +{
-> +    snapshot_file="${TEST_DIR}/${1}-${snapshot_virt0}"
-> +    create_snapshot_image "$1"
->       do_blockdev_add "$1" "'backing': null, " "${snapshot_file}"
->   }
->   
-> @@ -230,6 +237,28 @@ _make_test_img -b "${TEST_IMG}.base" -F $IMGFMT "$size"
->   do_blockdev_add ${SNAPSHOTS} "" "${TEST_IMG}"
->   blockdev_snapshot ${SNAPSHOTS} error
->   
-> +echo
-> +echo === Invalid command - creating loops ===
-> +echo
-> +
-> +SNAPSHOTS=$((${SNAPSHOTS}+1))
-> +add_snapshot_image ${SNAPSHOTS}
-> +
-> +_send_qemu_cmd $h "{ 'execute': 'blockdev-snapshot',
-> +                     'arguments': { 'node':'snap_${SNAPSHOTS}',
-> +                                    'overlay':'snap_${SNAPSHOTS}' }
-> +                   }" "error"
-> +
-> +SNAPSHOTS=$((${SNAPSHOTS}+1))
-> +create_snapshot_image ${SNAPSHOTS}
-> +do_blockdev_add ${SNAPSHOTS} "'backing': 'snap_$((${SNAPSHOTS}-1))', " \
-> +    "${TEST_DIR}/${SNAPSHOTS}-${snapshot_virt0}"
-> +
-> +_send_qemu_cmd $h "{ 'execute': 'blockdev-snapshot',
-> +                     'arguments': { 'node':'snap_${SNAPSHOTS}',
-> +                                    'overlay':'snap_$((${SNAPSHOTS}-1))' }
-> +                   }" "error"
-> +
->   echo
->   echo === Invalid command - The node does not exist ===
->   echo
-> diff --git a/tests/qemu-iotests/085.out b/tests/qemu-iotests/085.out
-> index 1d4c565b6d..7750b3df5f 100644
-> --- a/tests/qemu-iotests/085.out
-> +++ b/tests/qemu-iotests/085.out
-> @@ -217,15 +217,42 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/
->                                        'overlay':'snap_13' } }
->   {"error": {"class": "GenericError", "desc": "The overlay already has a backing image"}}
->   
-> +=== Invalid command - creating loops ===
-> +
-> +Formatting 'TEST_DIR/14-snapshot-v0.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/13-snapshot-v0.IMGFMT backing_fmt=IMGFMT
-> +{ 'execute': 'blockdev-add', 'arguments':
-> +           { 'driver': 'IMGFMT', 'node-name': 'snap_14', 'backing': null,
-> +             'file':
-> +             { 'driver': 'file', 'filename': 'TEST_DIR/14-snapshot-v0.IMGFMT',
-> +               'node-name': 'file_14' } } }
-> +{"return": {}}
-> +{ 'execute': 'blockdev-snapshot',
-> +                     'arguments': { 'node':'snap_14',
-> +                                    'overlay':'snap_14' }
-> +                   }
-> +{"error": {"class": "GenericError", "desc": "Making 'snap_14' a backing child of 'snap_14' would create a cycle"}}
-> +Formatting 'TEST_DIR/15-snapshot-v0.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/14-snapshot-v0.IMGFMT backing_fmt=IMGFMT
-> +{ 'execute': 'blockdev-add', 'arguments':
-> +           { 'driver': 'IMGFMT', 'node-name': 'snap_15', 'backing': 'snap_14',
-> +             'file':
-> +             { 'driver': 'file', 'filename': 'TEST_DIR/15-snapshot-v0.IMGFMT',
-> +               'node-name': 'file_15' } } }
-> +{"return": {}}
-> +{ 'execute': 'blockdev-snapshot',
-> +                     'arguments': { 'node':'snap_15',
-> +                                    'overlay':'snap_14' }
-> +                   }
-> +{"error": {"class": "GenericError", "desc": "Making 'snap_14' a backing child of 'snap_15' would create a cycle"}}
-> +
->   === Invalid command - The node does not exist ===
->   
->   { 'execute': 'blockdev-snapshot',
->                         'arguments': { 'node': 'virtio0',
-> -                                     'overlay':'snap_14' } }
-> -{"error": {"class": "GenericError", "desc": "Cannot find device='snap_14' nor node-name='snap_14'"}}
-> +                                     'overlay':'snap_16' } }
-> +{"error": {"class": "GenericError", "desc": "Cannot find device='snap_16' nor node-name='snap_16'"}}
->   { 'execute': 'blockdev-snapshot',
->                        'arguments': { 'node':'nodevice',
-> -                                    'overlay':'snap_13' }
-> +                                    'overlay':'snap_15' }
->                      }
->   {"error": {"class": "GenericError", "desc": "Cannot find device='nodevice' nor node-name='nodevice'"}}
->   *** done
-> 
-
-
--- 
-Best regards,
-Vladimir
+>=20
+> > > - What happens when the master populated dev->regions[] with multiple
+> > >   copies of the same region? dev->nregions is only decremented once a=
+nd
+> > >   no longer accurately reflects the number of elements in
+> > >   dev->regions[].
+> >=20
+> > That case is also not accounted for. I will add it.
+> >=20
+> > >=20
+> > > libvhost-user must not trust the vhost-user master since vhost-user
+> > > needs to provide process isolation. Please add input validation.
+> > >=20
+> >=20
+> > Got it - let me start working on a series.
+> >=20
+> > > Stefan
+> =
 
