@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0C9A4316C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 13:04:38 +0200 (CEST)
-Received: from localhost ([::1]:59268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D684316AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 12:59:59 +0200 (CEST)
+Received: from localhost ([::1]:55036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcQRa-0001Qm-1J
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 07:04:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39682)
+	id 1mcQN4-0006d5-Fc
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 06:59:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mcQKc-0004OX-4c
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 06:57:26 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:50998)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mcQKa-0001XY-Ja
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 06:57:25 -0400
-Received: by mail-wm1-x330.google.com with SMTP id o24so939512wms.0
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:57:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=Uh8/MyDTxHdzMUpq1MgdtgH3CMesXn5sD0awuczitP2dGe55NI8vJYnd5lmmBNqC3I
- 0q6oQc3X13QHK6Z4qAsMgVDMWVr4B0NpV1c8fP02/UKi3QgDgEHALZlW7mqfzcw99XoT
- nLUrpjl61mVPAf9ySEQ/rdYVEJTWJfsccccf6Dck9dJy/cxTd90htpjzhSO0MTfWwjIM
- uaQJRTxJaiEG5D1MaAnTBOQNQBjmS0GSWXVJGW+B1jwPSO6tVDGoHS4wpnO+qPmWqvGV
- x88SVmaI8/eh9DqnGaneH19t21R8BNmW+rvRdYO4v5HhdE8ciH6TUaTH8Z540LdwIjhy
- DubA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcQLc-00053A-65
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 06:58:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37421)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcQLY-0002Lr-Ag
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 06:58:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634554702;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Yvp0NXiCh8VH373LwuFj8myz7SYa4WOGtYEvQKJ+wYs=;
+ b=ZDLdiEMyg3Nq1qsd/KLxQdvxUqClo1kh9hURpla2r8vpu2exjyr4EfybtwbYPWf5d/OQNf
+ 7jVbtU1aWwrtjxev/hA15yxiAzSzPjdJqQM1qzgKMPA78pT9hxS98Y3K9ujbHIU3NTPEgu
+ Yqb6CiKY13mNVjQ92l5iaSg//7c2X44=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-585-OLR5a6wdPvmpkIew9esm8g-1; Mon, 18 Oct 2021 06:58:20 -0400
+X-MC-Unique: OLR5a6wdPvmpkIew9esm8g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ y12-20020a056000168c00b00160da4de2c7so8707081wrd.5
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:58:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=ME4XV3U8fNL+WYfPzJS/qKgM1DcmZ3VjHuA6442P9XgU3IqLYkv7SObDHk5mPEG2cC
- KlfvGc+QjpMmvnqMtCU0tsW8Mapgi0IauYBWo8g4gFUuJkIO9akMgNNIuLUA7LQck/fj
- XldKRWxP0Th/widvLb1bzx0BPp01ZsNvOqD8pRgo/BRcax+ik/PA0vrrhDTmAE/rF1a9
- YB30btoOLAxhUXwfTsX7y07iC+4Q1KH8oI343Oeu284lYZoGmm/UiU/T9TYoDRIXiorn
- ikp3GPdT5h35TouTcKQjl4rYcFmF19gdilvvXXyNodcLpmmm765URAwq+dkxDY/1kFmh
- PdLQ==
-X-Gm-Message-State: AOAM531/+vqJy93JROLuFWxUz3o0SzWSRHmLf28OyCpTlWGjbPTBAIod
- DYXw1gP44zlYxWhs6Bw8anwb8A==
-X-Google-Smtp-Source: ABdhPJwJRmaG9JD72v2bP9qDLK4F5k2tAe7fmjXQ2Dy/WtT+sBoGf9kku2DoX8XVv4alkqKjUmmRIw==
-X-Received: by 2002:a7b:c05a:: with SMTP id u26mr36254860wmc.37.1634554642446; 
- Mon, 18 Oct 2021 03:57:22 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c3sm10967842wrw.66.2021.10.18.03.57.20
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7E29pV7cBhE+9MnbbC6YsVnxQ5xLXW8wqJtGq41CPt4=;
+ b=p6ZXRIIIicgjX7JNZDe1K6x5nQ6flMzd7xQ++K9sN3IWqYVL5Gmnh3Pr+h5is4n8ZB
+ HQgpC9LszzVybeuyC06Axj8EqVXSEqK5dY728Mzv9tfCP13BfDuK/qM49gMUWuqptQqS
+ 5ywvxH8BY03UOokFflQ8qDzkJdm7tTXca7neeU/jItQIHZZRbaPjFZlaSukG5Xqfq9VA
+ 2fEbhINuhf1TbMGmuOkrCipgk0D45aAEJbR39y9HkyLdMBrjVZkRpJlbqx2Y/BvU4AVE
+ lzaZyYQPZ0LQfwkW94ZHD4oLGRZcimbF8udhZWgBKy5dJ+f2qi7T7VvBwVYr1HLkUbbJ
+ HdZQ==
+X-Gm-Message-State: AOAM531Xo5x4EYOUz5l4gMAJrKR+xBmcDMuFVCjOlvloFVQRzZElM1JW
+ p1LXukhjBDknHs+jKSeIXIbEJiudJQaEsAX0Q30n61hL0PANI40EyRTwJUGV0AQ1bNH0bTQca1T
+ CItLj9dphdqwumrGWqRbMG2+vkzHjpAOmVDIYEo1zUz5tjTTElm6rWGhURFmxo7Yy
+X-Received: by 2002:adf:fd46:: with SMTP id h6mr25144392wrs.251.1634554698235; 
+ Mon, 18 Oct 2021 03:58:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGIgx4MJXBJwtkUA2N8x0Ktbjf0T//O+uniTf3iO4oARlQj8+bbXomUvdCfn6NVkIkQeRziA==
+X-Received: by 2002:adf:fd46:: with SMTP id h6mr25144348wrs.251.1634554697962; 
+ Mon, 18 Oct 2021 03:58:17 -0700 (PDT)
+Received: from x1w.redhat.com (213.red-81-36-146.dynamicip.rima-tde.net.
+ [81.36.146.213])
+ by smtp.gmail.com with ESMTPSA id k17sm12437413wrq.7.2021.10.18.03.58.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 03:57:20 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 26CA91FF96;
- Mon, 18 Oct 2021 11:57:20 +0100 (BST)
-References: <20211014224435.2539547-1-richard.henderson@linaro.org>
- <20211014224435.2539547-8-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.0; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 7/7] tests/tcg: Enable container_cross_cc for microblaze
-Date: Mon, 18 Oct 2021 11:57:15 +0100
-In-reply-to: <20211014224435.2539547-8-richard.henderson@linaro.org>
-Message-ID: <87a6j61tyn.fsf@linaro.org>
+ Mon, 18 Oct 2021 03:58:17 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] roms/edk2: Avoid cloning unused cmocka submodule
+Date: Mon, 18 Oct 2021 12:58:14 +0200
+Message-Id: <20211018105816.2663195-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,17 +91,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+cmocka website SSL certificate expired, making CI pipelines=0D
+fail [*]. However EDK2 images built to test QEMU don't need=0D
+cmocka, nor oniguruma. Avoid cloning them.=0D
+=0D
+Note: scripts/make-release is neither covered in MAINTAINERS=0D
+      nor in our CI.=0D
+=0D
+[*] https://gitlab.com/rth7680/qemu/-/jobs/1685387520=0D
+fatal: unable to access 'https://git.cryptomilk.org/projects/cmocka.git/': =
+server certificate verification failed. CAfile: /etc/ssl/certs/ca-certifica=
+tes.crt CRLfile: none=0D
+fatal: clone of 'https://git.cryptomilk.org/projects/cmocka.git' into submo=
+dule path 'UnitTestFrameworkPkg/Library/CmockaLib/cmocka' failed=0D
+=0D
+Since v1:=0D
+- Fixed typo (thuth)=0D
+- Added missing '--' shell separator=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  roms/edk2: Only init brotli submodule to build BaseTools=0D
+  roms/edk2: Only initialize required submodules=0D
+=0D
+ .gitlab-ci.d/edk2.yml | 6 +++++-=0D
+ roms/Makefile         | 3 ++-=0D
+ roms/Makefile.edk2    | 7 ++++++-=0D
+ scripts/make-release  | 7 ++++++-=0D
+ 4 files changed, 19 insertions(+), 4 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
