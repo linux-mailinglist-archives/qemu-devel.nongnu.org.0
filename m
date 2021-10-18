@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9599B432756
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 21:12:10 +0200 (CEST)
-Received: from localhost ([::1]:42588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31FC543271C
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 21:08:18 +0200 (CEST)
+Received: from localhost ([::1]:60550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcY3N-0006hH-MG
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 15:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43370)
+	id 1mcXzd-0008C9-8Y
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 15:08:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtL-0007z4-1k
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:01:48 -0400
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:34745)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtI-0001Zy-BJ
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtK-0007y5-Cm
  for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:01:46 -0400
-Received: by mail-il1-x132.google.com with SMTP id g2so15997576ild.1
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 12:01:43 -0700 (PDT)
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:37743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtI-0001bm-Uk
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:01:46 -0400
+Received: by mail-il1-x12c.google.com with SMTP id x1so15976791ilv.4
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 12:01:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=64uP86lLO6D5epKoICdnCmOVA/U9XxsL32Tuch8fnPI=;
- b=0YOE2pezWZKQrglheK2JyPphX7Repp2NkjkzkF116maZ6Bwn3v231LVFGRZWK/YNrD
- BwfXKTAS5/nCBCR8anjvS9LE3zIZbIGiCkcLUnQ3WTJTzuUU/4MMM+VtLMEpYP3wC2ot
- 1bk/jtXc4ZCscU8omA9Wp4JO8UxprsvoSTCCqjnpFEDCYc51FRbFDVQ3+ES/g4r5JIHg
- u1lsghkS8xZK5Qelb1BKuQV5Wdfjs2WXxNkspg84PF3TUsiUBYsovLZdNvN98SCKC6GG
- lNb7jRVmKaHi03Z9Zr1Y3w8OIp87sC6PrPno8dU1/3BSia7nn268iAuveeiCjlyjQhkZ
- jrmg==
+ bh=mTIN4b3FESvsd1eFe8zoLs4gxknToUOMeY0gNeMUPFs=;
+ b=rlxpALaJKUyzevqVo2CiRro7kgJg/tl5px7a60DzbgeiCshY//h983INAmq0q+SEJ0
+ b42cAska3N9CRSQhRtdKf2kpD1HlTh5RNce0cvdH40sZnG63xh4o9iEX7Ybu0TCxUAUx
+ yuqt6OAidl/WzHP5olA6jS8MZ4Dn4zMhFXaAmdeT+6aHDyyx8BXjGdK9kAPJFfc5QZh9
+ dnyM3MYF+CmN422Q6PfqT1T/cPiNEH9Jp21OADHVImWakjG9kWEW9gT87HnBsRBYteOH
+ O6BIUavKjttsSdhyGPtkxaYjcitnJUF6VyZafOE3j2yUKpa4rFar4LB8F/LNu1N8kc3K
+ 4k6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=64uP86lLO6D5epKoICdnCmOVA/U9XxsL32Tuch8fnPI=;
- b=bAncqqDjwGe7IhYXyWzs5D8g/YgtFLEf8K08Jli3H/g23Nx/vcrC2T+QGej9hC9A8d
- tMo8zt8buUYVSlMuI46EFIWwDiZglhoLIJ14q/xSBxFDQKrgu0zkLeE8gMKIlic/DOoP
- 4thKx3PYr81ecl1NtJfMWDBLgIxQB4BaC/Q3WDHspOS1F+pT9XVhCYpKgeOKIJUp9zqS
- wBBlV3nEZ3YYmbNUc67dq1+9P53sl7LEyweqmFW2Uzh2A46Mg1QVqZQJid7nODC8AVDH
- WqhYe1zH7s98tz9fr+b8WPP6IGaiVvJ3A4WM/kgbCJ/Cf876xzlPn4tXxENCYqtQuCQn
- cHkA==
-X-Gm-Message-State: AOAM5324Rq+PiFH0gpfzrD+m26wC2JuBTHV3JP8bgG0yDkjIJ7rp7ANr
- e9cGqB7nbfg1hozJz23EUb38BunZEkWnEw==
-X-Google-Smtp-Source: ABdhPJwjKJaplhZBsplQBVnfwaEDJbcgyLCJa7HaGuLCXRIhc8wFlkEzBXwGuyd8htb/6X4+H2yjzw==
-X-Received: by 2002:a05:6e02:120f:: with SMTP id
- a15mr7893991ilq.109.1634583702247; 
- Mon, 18 Oct 2021 12:01:42 -0700 (PDT)
+ bh=mTIN4b3FESvsd1eFe8zoLs4gxknToUOMeY0gNeMUPFs=;
+ b=JL002VT+ls1WmauiMWDMUqM8GFiMdqgP5HnnBURt/jqfOcwa9jbCPmmhV/Be/Qknyp
+ 6jusma0gIBtUQHvhNGcvkRk4huE9RKDt54Y93vT5Fn4Gge40p6IijwPIT7bb6oCATdTl
+ p8e70mhoLJquFQyVyE+InkOOQKnKtNh+cMd0S+yLwusk3m0fswl7pt+UGCCEN4ls7bKM
+ 2jn1n2r5acjEKgt3HRkNEt4Cwei4b8fv3LHwezFFUvtSgpLvQuWQKj7Id3n3wEnUVZ4T
+ EhfkhqX3tTWOFm4FO3leuEznnpk8zoAYAZBIhAVb++B5UCAVwXSoLIbZXdN0EHjUotW8
+ 2x7A==
+X-Gm-Message-State: AOAM5319QED99CAx9ZMLdwQOeXgzoRnNjOPN4hW434qCnlUjKoN0RC3s
+ YcGu0MpekKXGD4yYUotsTK9qdJHvR+mJpw==
+X-Google-Smtp-Source: ABdhPJzq/DprL8sI6kkN8uvKTL64zmkxhnLJF0uFyt8JzsLgqamkMRl31tFGB0gO9Sy3cwaRnYaHqA==
+X-Received: by 2002:a92:c241:: with SMTP id k1mr15714676ilo.258.1634583703672; 
+ Mon, 18 Oct 2021 12:01:43 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a8sm6945151ilh.5.2021.10.18.12.01.41
+ by smtp.gmail.com with ESMTPSA id a8sm6945151ilh.5.2021.10.18.12.01.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 12:01:41 -0700 (PDT)
+ Mon, 18 Oct 2021 12:01:43 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 07/23] bsd-user/mmap.c: Don't mmap fd == -1 independently
- from MAP_ANON flag
-Date: Mon, 18 Oct 2021 13:00:59 -0600
-Message-Id: <20211018190115.5365-8-imp@bsdimp.com>
+Subject: [PULL v2 08/23] bsd-user/mmap.c: Implement MAP_EXCL,
+ required by jemalloc in head
+Date: Mon, 18 Oct 2021 13:01:00 -0600
+Message-Id: <20211018190115.5365-9-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211018190115.5365-1-imp@bsdimp.com>
 References: <20211018190115.5365-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::132;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x132.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -84,88 +83,56 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kyle Evans <kevans@FreeBSD.org>,
- Richard Henderson <richard.henderson@linaro.org>, Guy Yur <guyyur@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch checks for !(flags & MAP_ANONYMOUS) with checks for fd != -1.
-MAP_STACK and MAP_GUARD both require fd == -1 and don't require mapping
-the fd either. Add analysis from Guy Yur detailing the different cases
-for MAP_GUARD and MAP_STACK.
+From: Kyle Evans <kevans@FreeBSD.org>
 
-Signed-off-by: Guy Yur <guyyur@gmail.com>
-[ partially merged before, finishing the job and documenting origin]
+jemalloc requires a working MAP_EXCL. Ensure that no page is double
+mapped when specified. In addition, use guest_range_valid_untagged to
+test for valid ranges of pages rather than an incomplete inlined version
+of the test that might be wrong.
+
+Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 ---
- bsd-user/mmap.c | 30 +++++++++++++++++++++++++-----
- 1 file changed, 25 insertions(+), 5 deletions(-)
+ bsd-user/mmap.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
-index face98573f..4ecd949a10 100644
+index 4ecd949a10..5b6ed5eed1 100644
 --- a/bsd-user/mmap.c
 +++ b/bsd-user/mmap.c
-@@ -127,7 +127,27 @@ error:
-     return ret;
- }
- 
--/* map an incomplete host page */
-+/*
-+ * map an incomplete host page
-+ *
-+ * mmap_frag can be called with a valid fd, if flags doesn't contain one of
-+ * MAP_ANON, MAP_STACK, MAP_GUARD. If we need to map a page in those cases, we
-+ * pass fd == -1. However, if flags contains MAP_GUARD then MAP_ANON cannot be
-+ * added.
-+ *
-+ * * If fd is valid (not -1) we want to map the pages with MAP_ANON.
-+ * * If flags contains MAP_GUARD we don't want to add MAP_ANON because it
-+ *   will be rejected.  See kern_mmap's enforcing of constraints for MAP_GUARD
-+ *   in sys/vm/vm_mmap.c.
-+ * * If flags contains MAP_ANON it doesn't matter if we add it or not.
-+ * * If flags contains MAP_STACK, mmap adds MAP_ANON when called so doesn't
-+ *   matter if we add it or not either. See enforcing of constraints for
-+ *   MAP_STACK in kern_mmap.
-+ *
-+ * Don't add MAP_ANON for the flags that use fd == -1 without specifying the
-+ * flags directly, with the assumption that future flags that require fd == -1
-+ * will also not require MAP_ANON.
-+ */
- static int mmap_frag(abi_ulong real_start,
-                      abi_ulong start, abi_ulong end,
-                      int prot, int flags, int fd, abi_ulong offset)
-@@ -147,9 +167,9 @@ static int mmap_frag(abi_ulong real_start,
-     }
- 
-     if (prot1 == 0) {
--        /* no page was there, so we allocate one */
-+        /* no page was there, so we allocate one. See also above. */
-         void *p = mmap(host_start, qemu_host_page_size, prot,
--                       flags | MAP_ANON, -1, 0);
-+                       flags | ((fd != -1) ? MAP_ANON : 0), -1, 0);
-         if (p == MAP_FAILED)
-             return -1;
-         prot1 = prot;
-@@ -157,7 +177,7 @@ static int mmap_frag(abi_ulong real_start,
-     prot1 &= PAGE_BITS;
- 
-     prot_new = prot | prot1;
--    if (!(flags & MAP_ANON)) {
-+    if (fd != -1) {
-         /* msync() won't work here, so we return an error if write is
-            possible while it is a shared mapping */
-         if ((flags & TARGET_BSD_MAP_FLAGMASK) == MAP_SHARED &&
-@@ -565,7 +585,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-          * worst case: we cannot map the file because the offset is not
-          * aligned, so we read it
+@@ -574,12 +574,10 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+          * It can fail only on 64-bit host with 32-bit target.
+          * On any other target/host host mmap() handles this error correctly.
           */
--        if (!(flags & MAP_ANON) &&
-+        if (fd != -1 &&
-             (offset & ~qemu_host_page_mask) != (start & ~qemu_host_page_mask)) {
-             /*
-              * msync() won't work here, so we return an error if write is
+-#if TARGET_ABI_BITS == 32 && HOST_LONG_BITS == 64
+-        if ((unsigned long)start + len - 1 > (abi_ulong) -1) {
++        if (!guest_range_valid_untagged(start, len)) {
+             errno = EINVAL;
+             goto fail;
+         }
+-#endif
+ 
+         /*
+          * worst case: we cannot map the file because the offset is not
+@@ -614,6 +612,12 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+             goto the_end;
+         }
+ 
++        /* Reject the mapping if any page within the range is mapped */
++        if ((flags & MAP_EXCL) && page_check_range(start, len, 0) < 0) {
++            errno = EINVAL;
++            goto fail;
++        }
++
+         /* handle the start of the mapping */
+         if (start > real_start) {
+             if (real_end == real_start + qemu_host_page_size) {
 -- 
 2.32.0
 
