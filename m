@@ -2,70 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE754310B0
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 08:39:50 +0200 (CEST)
-Received: from localhost ([::1]:47646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C18684310C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 08:43:58 +0200 (CEST)
+Received: from localhost ([::1]:50128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcMJJ-00063s-F8
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 02:39:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36938)
+	id 1mcMNJ-0007zw-Jq
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 02:43:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1mcMHF-0005NK-Cu
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 02:37:41 -0400
-Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:33185
- helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1mcMHD-0003QR-Me
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 02:37:41 -0400
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4HXnHJ1xkkz8PbN;
- Mon, 18 Oct 2021 02:37:32 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
- :date:mime-version:subject:to:cc:references:from:in-reply-to
- :content-type:content-transfer-encoding; s=default; bh=SEliEx9QP
- dG9sQoMD6UbJynMDGk=; b=kEEqEU7vLmsJG6Ff4yWvrqfGnZB3BPZwQB5c18YFC
- 1FunxXRFCrpdL07TXvExFID26FpCRnhtmbGhLZcbHjOeLuF3+wjAJMFSuiHkk4KR
- GxY9Z+ZoPI5+TSjsppLNF8T7NIK/RzNGZxc7Ir7/R8EBCTi5OlBx9I5hztobfNud
- ak=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
- :date:mime-version:subject:to:cc:references:from:in-reply-to
- :content-type:content-transfer-encoding; q=dns; s=default; b=Du7
- 4ifVePvO1gQJwBjlT0eAroVvS7ghPixoqr29/WeFNUxi3RWocnHCejO3aEfVQkMm
- sfri+1Kut6MHV2uoKsfOnJWJBnbuwnMs2CppUMstMwG3AeSnxP/3RksToCAKw0Aw
- P1rQZK0CfRkjhszNjcMXh1cYSNFaCatSMTGbLw4w=
-Received: from [IPV6:2001:470:b050:6:9c06:a4f3:4bee:e7c8] (unknown
- [IPv6:2001:470:b050:6:9c06:a4f3:4bee:e7c8])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4HXnHH5ng0z8PbK;
- Mon, 18 Oct 2021 02:37:31 -0400 (EDT)
-Message-ID: <09375457-8c92-ea07-d987-a493801b9879@comstyle.com>
-Date: Mon, 18 Oct 2021 02:37:31 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mcMLu-0007CE-9i
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 02:42:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51349)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mcMLq-0000jO-UB
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 02:42:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634539345;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/H5SnUwRwJ4dfnkbcKCW+LRynS7b30H02ffi2vo9T2c=;
+ b=CRniB51epdVER4sFLRahCBdpKU21Iq3TF5W4BO+X6JVADH0l+rAgQWKPFIs899ssybHmHb
+ jp0RZjbL5uXQyirasyLVA0IH/14fBlJAHO9rqv/Pq/ZmPE5fpKZmFcZadb+HGWYYOEAtYQ
+ +lN7MZko1Dxy6zHyVu0leCMBAODMlPs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-w6twfCLIOKyf18YsDNUBaw-1; Mon, 18 Oct 2021 02:42:24 -0400
+X-MC-Unique: w6twfCLIOKyf18YsDNUBaw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ r16-20020adfbb10000000b00160958ed8acso8380002wrg.16
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 23:42:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/H5SnUwRwJ4dfnkbcKCW+LRynS7b30H02ffi2vo9T2c=;
+ b=ssa+KVbRyPVxy2guFMdpg+HO7K5O++CN4sba24CQg+rn3BCxWScawm4spu8haKHTgq
+ alttfaYg3WmgJjXslvrV3Xd099YpD9FAk/upTEgcua+cqIvVu6dcXRKCq3ETwFPalWwa
+ G7FNo4nXU25RQHzd7Zz+kBhoIOpZ/krcAZ4aYhLrdOgHQXYQkuT32vY4QyJ0hpS8071K
+ TUMmiaMizLSk5k86d7APNkLew5gkaRVw9E1Mvas2/4B5uhlOlyMakZAxPao1w3+gx5BW
+ MeHG8pWR+GjH1++lbiEhcy40yqjxCWEW7hNGlTwAur/AHKkk6Ag+upKhuOl29KPPHBWa
+ RZRA==
+X-Gm-Message-State: AOAM532b/bsHqVILas5rkljeuv3R7LDuSMLF+NG6lVdYEbIZNZGcGhjk
+ pXRDuNPinY/V5YeGa6YLr6XzVg2MGC9kyhhwK6dIOR21fU5bhl5i49jYGKGBeMLvaOAucoc4IY7
+ tQYSq/40fYrZQc1g=
+X-Received: by 2002:adf:ff86:: with SMTP id j6mr32533358wrr.59.1634539342982; 
+ Sun, 17 Oct 2021 23:42:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwh088wzWtIzQczXwOP4LMDI+oKiquxEvkG1Iq73aFurMcLVyqp6vS7TsQtcsStA4FTJG92uQ==
+X-Received: by 2002:adf:ff86:: with SMTP id j6mr32533324wrr.59.1634539342689; 
+ Sun, 17 Oct 2021 23:42:22 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id v191sm11663829wme.36.2021.10.17.23.42.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 Oct 2021 23:42:22 -0700 (PDT)
+Date: Mon, 18 Oct 2021 08:42:21 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v2] hw/riscv: virt: bugfix the memory-backend-file
+ command is invalid
+Message-ID: <20211018084221.622ae711@redhat.com>
+In-Reply-To: <CAEUhbmVTs109MLog+wjnayJY++SvEPhuCKcG3xXotqySkpGAaA@mail.gmail.com>
+References: <20211012014501.24996-1-limingwang@huawei.com>
+ <CAEUhbmX=A4LPgzNgNPcxzzg=veU0=3vXyZQrwikxMFvb_Rcxzw@mail.gmail.com>
+ <c4c6cc03d1c6459ea036c08ae30806a5@huawei.com>
+ <CAEUhbmVD1jyvGJrQLSZLJYfaz6E-m0b9SZA+DQA2YYK70oL7Lg@mail.gmail.com>
+ <20211015145922.5a82e31a@redhat.com>
+ <CAEUhbmVTs109MLog+wjnayJY++SvEPhuCKcG3xXotqySkpGAaA@mail.gmail.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101
- Thunderbird/94.0
-Subject: Re: [PATCH] tests/vm: update openbsd to release 7.0
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: Alex Benn_e <alex.bennee@linaro.org>,
- Philippe Mathieu-Daud_ <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>
-References: <YWtYi8A2KaJ8PG9K@humpty.home.comstyle.com>
- <b32ccbe3-6db2-fb9b-be9b-6c418868b62f@redhat.com>
-From: Brad Smith <brad@comstyle.com>
-In-Reply-To: <b32ccbe3-6db2-fb9b-be9b-6c418868b62f@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f938:3000:8::2;
- envelope-from=brad@comstyle.com; helo=mail.comstyle.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,102 +101,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "limingwang \(A\)" <limingwang@huawei.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Jiangyifei <jiangyifei@huawei.com>,
+ "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Fanliang \(EulerOS\)" <fanliang@huawei.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, "Wubin \(H\)" <wu.wubin@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/18/2021 2:28 AM, Thomas Huth wrote:
-> On 17/10/2021 00.56, Brad Smith wrote:
->> tests/vm: update openbsd to release 7.0
->>
->> Signed-off-by: Brad Smith <brad@comstyle.com>
->> ---
->> =C2=A0 tests/vm/openbsd | 4 ++--
->> =C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/tests/vm/openbsd b/tests/vm/openbsd
->> index c4c78a80f1..abf510e117 100755
->> --- a/tests/vm/openbsd
->> +++ b/tests/vm/openbsd
->> @@ -22,8 +22,8 @@ class OpenBSDVM(basevm.BaseVM):
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 name =3D "openbsd"
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 arch =3D "x86_64"
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 link =3D=20
->> "https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/install69.iso"
->> -=C2=A0=C2=A0=C2=A0 csum =3D=20
->> "140d26548aec680e34bb5f82295414228e7f61e4f5e7951af066014fda2d6e43"
->> +=C2=A0=C2=A0=C2=A0 link =3D=20
->> "https://cdn.openbsd.org/pub/OpenBSD/7.0/amd64/install70.iso"
->> +=C2=A0=C2=A0=C2=A0 csum =3D=20
->> "1882f9a23c9800e5dba3dbd2cf0126f552605c915433ef4c5bb672610a4ca3a4"
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size =3D "20G"
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pkgs =3D [
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # tools
->
-> That does not work for me. It hangs in the "DNS domain ..." line
-> until it times out. When I disable that line with:
->
-> diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-> index abf510e117..dfefb6bba3 100755
-> --- a/tests/vm/openbsd
-> +++ b/tests/vm/openbsd
-> @@ -98,7 +100,7 @@ class OpenBSDVM(basevm.BaseVM):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.console_wait_send=
-("IPv4 address", "dhcp\n")
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.console_wait_send=
-("IPv6 address", "none\n")
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.console_wait_send=
-("Which network interface", "done\n")
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.console_wait_send("DNS=
- domain name", "localnet\n")
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #self.console_wait_send("DN=
-S domain name", "localnet\n")
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.console_wait("Pas=
-sword for root account")
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.console_send("%s\=
-n" % self._config["root_pass"])
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.console_wait("Pas=
-sword for root account")
->
-> ... then it succeeds the installation... could you please check
-> with a fresh install on your side whether you could reproduce
-> this problem?
+On Mon, 18 Oct 2021 10:17:45 +0800
+Bin Meng <bmeng.cn@gmail.com> wrote:
 
-I was actually looking at that particular line when looking at the other=20
-diff
-Richard sent out.
+> Hi Igor,
+> 
+> On Fri, Oct 15, 2021 at 8:59 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > On Fri, 15 Oct 2021 17:25:01 +0800
+> > Bin Meng <bmeng.cn@gmail.com> wrote:
+> >  
+> > > On Fri, Oct 15, 2021 at 4:52 PM limingwang (A) <limingwang@huawei.com> wrote:  
+> > > >
+> > > >
+> > > > On Wed, Oct 13, 2021 at 22:41 PM Bin Meng <bin.meng@windriver.com> wrote:  
+> > > > >
+> > > > > On Tue, Oct 12, 2021 at 9:46 AM MingWang Li <limingwang@huawei.com> wrote:  
+> > > > > >
+> > > > > > From: Mingwang Li <limingwang@huawei.com>
+> > > > > >
+> > > > > > When I start the VM with the following command:
+> > > > > > $ ./qemu-system-riscv64 -M virt,accel=kvm -m 4096M -cpu host -nographic \
+> > > > > >     -name guest=riscv-guset \
+> > > > > >     -smp 2 \
+> > > > > >     -bios none \
+> > > > > >     -kernel ./Image \
+> > > > > >     -drive file=./guest.img,format=raw,id=hd0 \
+> > > > > >     -device virtio-blk-device,drive=hd0 \
+> > > > > >     -append "root=/dev/vda rw console=ttyS0 earlycon=sbi" \
+> > > > > >     -object  
+> > > > > memory-backend-file,id=mem,size=4096M,mem-path=/dev/hugepages,share=on \  
+> > > > > >     -numa node,memdev=mem -mem-prealloc \
+> > > > > >     -chardev socket,id=char0,path=/mnt/vhost-net0 \
+> > > > > >     -netdev type=vhost-user,id=mynet1,chardev=char0,vhostforce \
+> > > > > >     -device
+> > > > > > virtio-net-pci,mac=52:54:00:00:00:01,netdev=mynet1,mrg_rxbuf=on,csum=o
+> > > > > > n,guest_csum=on,guest_ecn=on \
+> > > > > >
+> > > > > > Then, QEMU displays the following error information:
+> > > > > > qemu-system-riscv64: Failed initializing vhost-user memory map,
+> > > > > > consider using -object memory-backend-file share=on  
+> > > > >
+> > > > > I see your command line parameters already contain "-object memory-backend-file
+> > > > > share=on", so this error message is not accurate.  
+> > > >
+> > > > QEMU uses this command to alloc fd in the "memory_region_init_ram_from_file" function
+> > > > and assigns the value of fd to mr->ram_block-fd. If the QEMU uses the default memory to
+> > > > initialize the system, the QEMU cannot obtain the fd in the "vhost_user_mem_section_filter"
+> > > > function when initializing the vhost-user. As a result, an error is reported in the "vhost_user_fill_set_mem_table_msg"
+> > > > function.
+> > > >
+> > > > Because of the above bug, even if "-object memory-backend-file share=on" is added to the command line,
+> > > > the QEMU still reports an error.  
+> > >
+> > > Yes, what I meant is that QEMU should not report such inaccurate
+> > > messages because of some random codes elsewhere.
+> > >
+> > > With current message, it suggested user use "-object
+> > > memory-backend-file share=on" in the command line, but it is already
+> > > used. So this is a false alarm. The "bug" is somewhere else.  
+> >
+> > bug is in using memory_region_init_ram(),
+> > which can't possibly handle vhost-user, and can't work as expected with
+> > '-numa node,memdev' options.
+> > Before main ram infrastructure was converted to memdev,
+> > one should have used memory_region_allocate_system_memory() for
+> > allocating main RAM, so numa usecase was broken from the start.
+> > Later it old API was dropped in favor of more flexible/generic
+> > MachineState::ram approach (see commits 68a86dc15ccd..f0530f14c7c35d).  
+> 
+> Thanks for the detailed pointers.
+> 
+> I wonder if it is possible to make the error message to be clearer, so
+> instead of having
+> 
+>     "qemu-system-riscv64: Failed initializing vhost-user memory map,
+> consider using -object memory-backend-file share=on"
+> 
+> can we do:
+> 
+>     "qemu-system-riscv64: Failed initializing vhost-user memory map,
+> considering using MachineState::ram instead of manually initializing
+> RAM memory region."
+> 
+> which is more straightforward?
 
-With the installer sub-routine the question is only asked under a set of
-conditions and since there is only one physical interface as far as I kno=
-w
-of and using DHCP then that question is never asked. I don't see it when
-I was verifying the steps.
+It would only make sense in context of this thread and
+give a hint to a developer how to fix bug in machine code
+but won't give a clue to the end user what's wrong with
+configuration.
 
- =C2=A0=C2=A0=C2=A0 # Get & apply fqdn to hostname. Don't ask if there's =
-only one=20
-configured
- =C2=A0=C2=A0 =C2=A0# interface and if it's managed by dhclient and if th=
-e domain name is
- =C2=A0=C2=A0 =C2=A0# configured via dhclient too.
- =C2=A0=C2=A0 =C2=A0resp=3D"${_dn:-$(get_fqdn)}"
- =C2=A0=C2=A0 =C2=A0if ifconfig dhcp >/dev/null 2>&1 && [[ $NIFS =3D=3D 1=
- && -z $_dn ]]; then
- =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 # If we have a 'domain-name' optio=
-n in the lease file use that.
- =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 # It might *NOT* not be the same a=
-s the first domain in any
- =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 # 'domain-search' option.
- =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 set -- $(get_ifs dhcp)
- =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 set -- $(lease_value /var/db/dhcpl=
-eased/$1 domain-name)
- =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 [[ -n $1 ]] && resp=3D$1
- =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 echo "Using DNS domainname $resp"
- =C2=A0=C2=A0 =C2=A0else
- =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 ask "DNS domain name? (e.g. 'examp=
-le.com')" "$resp"
- =C2=A0=C2=A0 =C2=A0fi
- =C2=A0=C2=A0 =C2=A0hostname "$(hostname -s).$resp"
+Maybe following would be better:
+ "Failed initializing vhost-user memory map, vhost requires shared system memory."
+ "See 'System Emulation::Device Emulation::Emulated Devices::vhost-user back ends'
+  chapter in QEMU manual."
 
-> =C2=A0Thanks,
-> =C2=A0 Thomas
->
+the chapter gives an example how to correctly configure vhost-user
+(albeit using old style)
+
+ 
+> >
+> >
+> > Modulo commit message, patch looks good to me and does what
+> > every machine should do. (I though that I've converted every
+> > existing to generalized MachineState::ram but it looks like
+> > riscv was missed).  
+> 
+> Indeed all riscv boards are doing the same thing.
+> 
+> >
+> > So we can model commit message after bd457782b3b0a,
+> > and also add that the patch fixes broken -numa node,memdev case,
+> > which never properly worked. It also opens possibility to
+> > use vhost-user/virtiosf with main RAM if main RAM is
+> > provided explicitly via machine.memory-backend option
+> > with shared memory backend.
+> >
+> > Btw: is there other riscv machines that allocate RAM directly?
+> > (if yes, those should be fixed as well, a patch per machine)
+> >  
+> 
+> I will see if I can get some patches to fix other riscv machines.
+> 
+> Regards,
+> Bin
+> 
+
 
