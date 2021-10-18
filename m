@@ -2,89 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7769843233B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 17:47:42 +0200 (CEST)
-Received: from localhost ([::1]:55958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65CC843235E
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 17:55:09 +0200 (CEST)
+Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcUrV-0002R6-JO
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 11:47:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52310)
+	id 1mcUyi-00020p-7j
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 11:55:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mcUoS-0000uG-Dt
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 11:44:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37426)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mcUtr-0005zn-1v
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 11:50:07 -0400
+Received: from [115.28.160.31] (port=35832 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mcUoP-0007cH-Qd
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 11:44:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634571868;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BBBK8xK/z4JnOYYi1h0nGgyzqXkYYVdmRwRlxGL0y84=;
- b=a2oOaYF6oOlDDNDOTYPgk/tCyR7YMcjiI498sYALYQKTkzZ0IRTRMVCeVUYmA1gQ2vGI8X
- 2nbS5r0NLYkr+GzyHQSVgPeO1hqy5QnJmnVWU/KXBh+w34L2IyvwhkD6b+KjEu7WwG3RT0
- rf1AHCtogbNPIcRt13cQ+s9hIWxAxpo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-aGGyNsytPkKeIs10V4y5mg-1; Mon, 18 Oct 2021 11:44:27 -0400
-X-MC-Unique: aGGyNsytPkKeIs10V4y5mg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- x5-20020a50f185000000b003db0f796903so14751277edl.18
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 08:44:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BBBK8xK/z4JnOYYi1h0nGgyzqXkYYVdmRwRlxGL0y84=;
- b=3y0MHMDwLl09PjQaQPQfrwRNV6aQ3qkWzpZHLMXWfveLNxMg26luiU5j5OQbjdR/AD
- 9dn5pHqW4QDczGGZfRXKJahXurILn9gnx2roy9UkHGBL2/hsgIWyJMdvVgqD2IO7jTtq
- LJQ1byEMDTfavWuoHLNQ8QCnodxwvnDYHkE7d7pgyaVSvG+ROqAr8+7Zm1ZvMAfGFPy8
- 4/P71nGPKRRP9YfNE2T8tkJfFEscc+PKMKmkdfKMGPStlPgjFSn73k+44asUTzd4+awM
- 7IadNXiNEMyHpjIkv/aXowxl9R8zr8O4DVfZpew7mBxqol+1+vva4fce5ZFPw2zdl9di
- pCVQ==
-X-Gm-Message-State: AOAM5338QXIW/r/d9EutY8swSHNjwIge5B5zmm4zz8SUIV9yNm0oYPkj
- SMH914idbdI/tlyE4TUNPP7ThbPhYNWoNtjO2sJTDOvbz6+RPpRwboSCi7hlm8JiylRi5GuehJ5
- GC3E4Q0r1Qr9F9MY=
-X-Received: by 2002:a17:906:22c9:: with SMTP id
- q9mr32410795eja.216.1634571866075; 
- Mon, 18 Oct 2021 08:44:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxEfxy89aI2sao9jvaTbO13osC6IAcp0uWQCoSsDtpzEJG5kvIemBdWZxAaWeXsZQ3UV4x+eA==
-X-Received: by 2002:a17:906:22c9:: with SMTP id
- q9mr32410763eja.216.1634571865876; 
- Mon, 18 Oct 2021 08:44:25 -0700 (PDT)
-Received: from steredhat (host-79-34-250-211.business.telecomitalia.it.
- [79.34.250.211])
- by smtp.gmail.com with ESMTPSA id o25sm9996677edq.40.2021.10.18.08.44.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 08:44:25 -0700 (PDT)
-Date: Mon, 18 Oct 2021 17:44:23 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH V4 03/10] vhost-vdpa: prepare for the multiqueue support
-Message-ID: <20211018154423.uc3ehhrfvmxd3nry@steredhat>
-References: <20211011042829.4159-1-jasowang@redhat.com>
- <20211011042829.4159-4-jasowang@redhat.com>
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mcUtn-0003rG-Ee
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 11:50:06 -0400
+Received: from [192.168.9.172] (unknown [101.88.135.223])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id C89AF60AED;
+ Mon, 18 Oct 2021 23:49:56 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1634572197; bh=1vcCJ2D801yfuG1+nTuWGFo7DVdToUTP5/rzH15UPsY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=tC1aEkIYHc1lNFs/h7YU7+ePyqw/ei6N6gKUJjVUs2pT/lAP8mXVq07Bj9rxPaMrm
+ ODAQ6x+LMjXowtQxjhHbjdhjj4IhwizUPb2yI7hMU5ohTI1M3mko3cnwk6F1ptQOlu
+ c97qjSNN+SYpH8jO9CbscVzf4B+wTrlel3qVkARE=
+Message-ID: <c0b25e56-e730-017e-dbd9-3cb2769ba1aa@xen0n.name>
+Date: Mon, 18 Oct 2021 23:49:56 +0800
 MIME-Version: 1.0
-In-Reply-To: <20211011042829.4159-4-jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101
+ Thunderbird/95.0a1
+Subject: Re: [PATCH v7 21/21] scripts: add loongarch64 binfmt config
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <1634561247-25499-1-git-send-email-gaosong@loongson.cn>
+ <1634561247-25499-22-git-send-email-gaosong@loongson.cn>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <1634561247-25499-22-git-send-email-gaosong@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,48 +64,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lulu@redhat.com, mst@redhat.com, qemu-devel@nongnu.org, gdawar@xilinx.com,
- eperezma@redhat.com, lingshan.zhu@intel.com, elic@nvidia.com
+Cc: peter.maydell@linaro.org, thuth@redhat.com, alex.bennee@linaro.org,
+ richard.henderson@linaro.org, laurent@vivier.eu, peterx@redhat.com,
+ f4bug@amsat.org, yangxiaojuan@loongson.cn, alistair.francis@wdc.com,
+ maobibo@loongson.cn, pbonzini@redhat.com, bmeng.cn@gmail.com,
+ philmd@redhat.com, chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 11, 2021 at 12:28:22PM +0800, Jason Wang wrote:
->Unlike vhost-kernel, vhost-vdpa adapts a single device multiqueue
->model. So we need to simply use virtqueue index as the vhost virtqueue
->index. This is a must for multiqueue to work for vhost-vdpa.
->
->Signed-off-by: Jason Wang <jasowang@redhat.com>
->Message-Id: <20210907090322.1756-4-jasowang@redhat.com>
->Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->---
-> hw/virtio/vhost-vdpa.c | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
->
->diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->index edac4017da..8587d30918 100644
->--- a/hw/virtio/vhost-vdpa.c
->+++ b/hw/virtio/vhost-vdpa.c
->@@ -504,8 +504,8 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
-> {
->     assert(idx >= dev->vq_index && idx < dev->vq_index + dev->nvqs);
+Hi Song,
 
-Should we also change this assert?
+On 10/18/21 20:47, Song Gao wrote:
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   scripts/qemu-binfmt-conf.sh | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+> index 7de996d..5575bdd 100755
+> --- a/scripts/qemu-binfmt-conf.sh
+> +++ b/scripts/qemu-binfmt-conf.sh
+> @@ -4,7 +4,7 @@
+>   qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
+>   ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
+>   sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
+> -microblaze microblazeel or1k x86_64 hexagon"
+> +microblaze microblazeel or1k x86_64 hexagon loongarch64"
+>   
+>   i386_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x03\x00'
+>   i386_mask='\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+> @@ -140,6 +140,10 @@ hexagon_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x
+>   hexagon_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+>   hexagon_family=hexagon
+>   
+> +loongarch64_magic='\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x02\x01'
+> +loongarch64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
 
-Thanks,
-Stefano
+Here the EI_OSABI (7th, 0-based offset) byte is ignored which is okay 
+(we want at least ELFOSABI_SYSV=0 and ELFOSABI_GNU=3 but not others, 
+mask of this byte could be "\xfc" to exclude values > 3).
 
->
->-    trace_vhost_vdpa_get_vq_index(dev, idx, idx - dev->vq_index);
->-    return idx - dev->vq_index;
->+    trace_vhost_vdpa_get_vq_index(dev, idx, idx);
->+    return idx;
-> }
->
-> static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
->-- 
->2.25.1
->
->
+However, the EI_ABIVERSION (8th) byte is fixed to be zero; according to 
+the draft LoongArch ELF psABI spec [1] there might be future revision(s) 
+to necessitate a bump of ABI version, but it's highly unlikely to in 
+turn require modifications to QEMU code, with almost all logic happening 
+in the dynamic loader. I suggest unmasking this whole byte (setting mask 
+for this byte to "\x00").
 
+[1]: 
+https://github.com/loongson/LoongArch-Documentation/blob/50e62f196afd4fae7f25dc98854167f97528046b/docs/LoongArch-ELF-ABI-EN.adoc
+
+> +loongarch64_family=loongarch
+> +
+>   qemu_get_family() {
+>       cpu=${HOST_ARCH:-$(uname -m)}
+>       case "$cpu" in
 
