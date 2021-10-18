@@ -2,61 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224F8431F6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 16:23:29 +0200 (CEST)
-Received: from localhost ([::1]:43092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E1F431EFD
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 16:07:37 +0200 (CEST)
+Received: from localhost ([::1]:54580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcTXz-0002ZN-MI
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 10:23:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50050)
+	id 1mcTId-0006Xl-K0
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 10:07:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1mcPAA-0001ZG-44
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:42:34 -0400
-Received: from rev.ng ([5.9.113.41]:54351)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1mcPA8-0000gy-K3
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:42:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=In-Reply-To:From:Reply-To:References:Cc:To:Subject:MIME-Version:
- Date:Message-ID:Content-Type:Sender:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=PC3mzyL6VdyPsd+JhuG/jtadbxaJYztvff7rdaGmByc=; b=qcMvEzrL5sjUg26JbmC3jopzwH
- mGrYCgxrmb8xEBVgVcRyUcuAjc3dSUOIVxqrSd0Dcx8cl7rgk1aoTguc7SEiH9CffBVhuuI2idqg1
- CA7jkYn4HHvcGc97P77MtCSDc3a1AbUpSj/1tVEjjc+baTPFhr0Bbo0jUK3EY9rDbNtU=;
-Content-Type: multipart/alternative;
- boundary="------------00Lri9xy2wtwov3Liv4wjHT8"
-Message-ID: <1fdd3bba-e143-6d0e-51ce-6bf2914124c7@rev.ng>
-Date: Mon, 18 Oct 2021 11:42:21 +0000
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mcTDy-0003Gp-OO
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 10:02:47 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:36852)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mcTDw-0005hC-Sm
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 10:02:46 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ z77-20020a1c7e50000000b0030db7b70b6bso10487665wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 07:02:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+dr9HiO6Z+6raCU+RfVpg+exNsSiRLldmzl+NY3BKOw=;
+ b=H2HktZmTWi7wEQEvdcjPBiDGlTr8Sw7fYYJP7G9fLVTTsBLID2TFFP7deoZ1Vt/574
+ 9uLIFzvmA9erIdrpyAtaT5bibRDK5Ed7IusJVHiWVX4294Z+ySdWbTyKKH5SSobT++zu
+ F3ugDfbMyUXW3srSgt9OR+uyVqwFHHxMW7PyEk7hoU7SgC1zameWSsKICLbBCViZDfQ8
+ 0mIJkIJLXwn0sJvSq3IrdEtdVEb7KPWpitH0YliuVl79JlCDyYqzv/nddrNl7wTUXLRr
+ DcPCs1X3kJvnAh5B63O8S7omkQynORVktaZJdVVx+VRODaUe+b/6rT1S+2DPuvO4RMTq
+ 3hyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+dr9HiO6Z+6raCU+RfVpg+exNsSiRLldmzl+NY3BKOw=;
+ b=1nmH7iTKWSDE54m3W8N/9ENfKK9yDcQxiSuvzw4LXwKJBuQN6+GpF6Tw+uSbJ9B90r
+ D50DgC9b4qUBXj3DCEAZ/2Xk88knglRd7pX8WlBEX18siAPqQO64BLNvUlz34SEQ/n1u
+ E0asGlrVHRve4E7cD4atWFn074AQaH2i6MzFhMUTQ3DYIuLzcvdqIpBXqEYZbAvBjWPr
+ RXwz1YH9vSQzQ6Rgz/YZRMqvJDkShfNqu5wh/0t3TBPkUbOl19Hj3Ij7fAw9kAnYtreR
+ RmKuAU95I/Any9BiaKxIq1VBUoGEwZrtKw34X5FMCGuYRhID7oVyqmFVSA8u8e9U+sYf
+ hexw==
+X-Gm-Message-State: AOAM5327qM973kCltoEUvvw2bWFhBdPCpJMjKmZmRsAl8Az/7XAX21eU
+ 5VKfLdM0bwTLu0Db4K9f8JWjzA==
+X-Google-Smtp-Source: ABdhPJxT3zHPblIc9S3uPvQH0H5033XJccUxZpDpSHZZBaLLqpM+s6A0RrCjKrxrFYkRZxCwP7iocQ==
+X-Received: by 2002:a1c:cc09:: with SMTP id h9mr31326162wmb.191.1634565762838; 
+ Mon, 18 Oct 2021 07:02:42 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p19sm17991599wmg.29.2021.10.18.07.02.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Oct 2021 07:02:41 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D62A11FF96;
+ Mon, 18 Oct 2021 15:02:40 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] chardev: don't exit() straight away on C-a x
+Date: Mon, 18 Oct 2021 15:02:26 +0100
+Message-Id: <20211018140226.838137-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v6 09/12] target/hexagon: import parser for idef-parser
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>,
- Alessandro Di Federico <ale.qemu@rev.ng>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: Brian Cain <bcain@quicinc.com>, "babush@rev.ng" <babush@rev.ng>,
- "nizzo@rev.ng" <nizzo@rev.ng>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- Alessandro Di Federico <ale@rev.ng>
-References: <20210720123031.1101682-1-ale.qemu@rev.ng>
- <20210720123031.1101682-10-ale.qemu@rev.ng>
- <BYAPR02MB48868558D54556AE4C145626DED39@BYAPR02MB4886.namprd02.prod.outlook.com>
-Organization: rev.ng
-In-Reply-To: <BYAPR02MB48868558D54556AE4C145626DED39@BYAPR02MB4886.namprd02.prod.outlook.com>
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 18 Oct 2021 10:20:51 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,87 +85,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Lukas=20J=C3=BCnger?= <lukas.junger@greensocs.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  anjo@rev.ng
-X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
-From:  Anton Johansson via <qemu-devel@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------00Lri9xy2wtwov3Liv4wjHT8
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+While there are a number of uses in the code-base of the exit(0)
+pattern it gets in the way of clean exit which can do all of it's
+house-keeping. In particular it was reported that you can crash
+plugins this way because TCG can still be running on other threads
+when the atexit callback is called.
 
-On 9/7/21 18:08, Taylor Simpson wrote:
+Use qemu_system_shutdown_request() instead. I did a gentle rename of
+the runstate stub seeing as it now contains two functions.
 
->> +HexValue gen_round(Context *c,
->> +                   YYLTYPE *locp,
->> +                   HexValue *source,
->> +                   HexValue *position) {
->> +    yyassert(c, locp, source->bit_width <= 32,
->> +             "fRNDN not implemented for bit widths > 32!");
->> +
->> +    HexValue src = *source;
->> +    HexValue pos = *position;
->> +
->> +    HexValue src_width = gen_imm_value(c, locp, src.bit_width, 32);
->> +    HexValue dst_width = gen_imm_value(c, locp, 64, 32);
->> +    HexValue a = gen_extend_op(c, locp, &src_width, &dst_width, &src,
->> SIGNED);
-> Are you sure extending is the right thing to do here?
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reported-by: Lukas Jünger <lukas.junger@greensocs.com>
+---
+ chardev/char-mux.c                     | 3 ++-
+ stubs/{runstate-check.c => runstate.c} | 5 +++++
+ stubs/meson.build                      | 2 +-
+ 3 files changed, 8 insertions(+), 2 deletions(-)
+ rename stubs/{runstate-check.c => runstate.c} (64%)
 
-I believe so, the fRNDN definition in macros.h also extends here
-
-   #define fRNDN(A, N) ((((N) == 0) ? (A) : (((fSE32_64(A)) + (1 << ((N) 
-- 1))))))
-
+diff --git a/chardev/char-mux.c b/chardev/char-mux.c
+index ada0c6866f..a46897fcd5 100644
+--- a/chardev/char-mux.c
++++ b/chardev/char-mux.c
+@@ -28,6 +28,7 @@
+ #include "qemu/option.h"
+ #include "chardev/char.h"
+ #include "sysemu/block-backend.h"
++#include "sysemu/runstate.h"
+ #include "chardev-internal.h"
+ 
+ /* MUX driver for serial I/O splitting */
+@@ -157,7 +158,7 @@ static int mux_proc_byte(Chardev *chr, MuxChardev *d, int ch)
+             {
+                  const char *term =  "QEMU: Terminated\n\r";
+                  qemu_chr_write_all(chr, (uint8_t *)term, strlen(term));
+-                 exit(0);
++                 qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+                  break;
+             }
+         case 's':
+diff --git a/stubs/runstate-check.c b/stubs/runstate.c
+similarity index 64%
+rename from stubs/runstate-check.c
+rename to stubs/runstate.c
+index 2ccda2b70f..f47dbcd3e0 100644
+--- a/stubs/runstate-check.c
++++ b/stubs/runstate.c
+@@ -5,3 +5,8 @@ bool runstate_check(RunState state)
+ {
+     return state == RUN_STATE_PRELAUNCH;
+ }
++
++void qemu_system_shutdown_request(ShutdownCause reason)
++{
++    return;
++}
+diff --git a/stubs/meson.build b/stubs/meson.build
+index f6aa3aa94f..8f6a9f17e5 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -35,7 +35,7 @@ stub_ss.add(files('qtest.c'))
+ stub_ss.add(files('ram-block.c'))
+ stub_ss.add(files('ramfb.c'))
+ stub_ss.add(files('replay.c'))
+-stub_ss.add(files('runstate-check.c'))
++stub_ss.add(files('runstate.c'))
+ stub_ss.add(files('sysbus.c'))
+ stub_ss.add(files('target-get-monitor-def.c'))
+ stub_ss.add(files('target-monitor-defs.c'))
 -- 
-Anton Johansson,
-rev.ng Srls.
-
---------------00Lri9xy2wtwov3Liv4wjHT8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>On 9/7/21 18:08, Taylor Simpson wrote:<br>
-    </p>
-    <blockquote type="cite"
-cite="mid:BYAPR02MB48868558D54556AE4C145626DED39@BYAPR02MB4886.namprd02.prod.outlook.com">
-      <blockquote type="cite" style="color: #007cff;">
-        <pre class="moz-quote-pre" wrap="">+HexValue gen_round(Context *c,
-+                   YYLTYPE *locp,
-+                   HexValue *source,
-+                   HexValue *position) {
-+    yyassert(c, locp, source-&gt;bit_width &lt;= 32,
-+             "fRNDN not implemented for bit widths &gt; 32!");
-+
-+    HexValue src = *source;
-+    HexValue pos = *position;
-+
-+    HexValue src_width = gen_imm_value(c, locp, src.bit_width, 32);
-+    HexValue dst_width = gen_imm_value(c, locp, 64, 32);
-+    HexValue a = gen_extend_op(c, locp, &amp;src_width, &amp;dst_width, &amp;src,
-SIGNED);
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">Are you sure extending is the right thing to do here?
-</pre>
-    </blockquote>
-    <p>I believe so, the fRNDN definition in macros.h also extends here<br>
-    </p>
-    <p>  #define fRNDN(A, N) ((((N) == 0) ? (A) : (((fSE32_64(A)) + (1
-      &lt;&lt; ((N) - 1)))))) <br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-Anton Johansson,
-rev.ng Srls.</pre>
-  </body>
-</html>
---------------00Lri9xy2wtwov3Liv4wjHT8--
+2.30.2
 
 
