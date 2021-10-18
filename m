@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CFA84312E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:12:21 +0200 (CEST)
-Received: from localhost ([::1]:60668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC6304312FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:13:53 +0200 (CEST)
+Received: from localhost ([::1]:34944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcOgu-00051A-Dh
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43744)
+	id 1mcOiO-0006j8-VA
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:13:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pjp@fedoraproject.org>)
- id 1mcOeN-00040C-1j
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:09:43 -0400
-Received: from sonic303-20.consmr.mail.sg3.yahoo.com ([106.10.242.37]:40917)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mcOga-0005Uk-Rt
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:12:01 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:33336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pjp@fedoraproject.org>)
- id 1mcOeK-0000my-8N
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:09:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1634548173; bh=TiBXrSCKei4yFqQv3LnLtSu1VTbSN0b75d0Qfuj43/8=;
- h=Date:From:Reply-To:To:Cc:In-Reply-To:References:Subject:From:Subject:Reply-To;
- b=aDcDGoYC/rmQ6ehOYDEgzWiuXzn48sxpSne27IEAY1SQElvvYwNrMOLL/PMqHK45tyk6U6dT0cFiuEhDg1A1LGTYxR++h9AeTmy8BqhEXZ39kx3BOT6ZT34lmMDlSF9BFnl6a5yJi55R41uK3iFMel5HJ6NdHip2V0HSRHoEG/F6hTP33JD1aJgo1TWd3EyqhxBu398fdbKry7EdYNk7JdFPxpmmSvtpZ26UAv3tGgh42OJ50a6/o+9LdxIFlFf5S4D3WDtrerA84gtcrdZeyhmOGFuP/voAYF/srDk7FWFWiE1FfD7cMtNN01MupEpApuzTFnPCrQHFxJJKwFrpjg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1634548173; bh=rcxwP2qJ++Xtrq7owEkNpLQTTSo9jptIwB+A8o3hcLp=;
- h=X-Sonic-MF:Date:From:To:Subject:From:Subject;
- b=oPBdvV2zZKEFcZCa7CMSiaAdzWvD27SaOzpTFPI+auVkSGfSSZ8tF3VWnHsB3VJbBsmAih6sh5h94gQTUDaR3rBjnA4Xg4IgWEGAbsdJHpm6PL5SJu7LJOHXtm6LH9pQxjm1HGrw0HWWISu1c42rIn0MkweCp8E36pwzn/itTR+oIqiuTRSlcVaMhMziC4xztnxQVElVWdtn/0v50AvhgnrL5AaJ+AFdhzY9jONfVe3AM4V+GpuEFJNYHsTXJM0t9T7D6wqO7U3DoPvJZiMVcQbf5vQSM+gitAtcD4J2Kj3YJriW8Q1X02/8l6D8Qw+OFep/XG8eIdDeeoUjdKMaXw==
-X-YMail-OSG: Kx.opOEVM1ls8QvQ.gtbLDTpX.qruQslVjHBV4tTZrfFg9b705cmnWQvRkp7Z0N
- ymm54AM4unrWxrG6NBHLbMAb1UE6g1dZQqqHn5PmWYE2o3s81oJEHp_ZrPTxB3d14g9OxxgCoC.h
- QBqAF3sOYT9YNsGxEWBl9j_6MOHb0Akk4Nfo3UhRkZ3NWt.XfI1pM2RQuhvnqRtfAz3LmqVb8cfO
- PsDQPIvtYRpncpgSoTWCp0__1fjDpQQt2oRO0ik0x5IHKPdNgjuoJXqvkJzkfZFSsmK4MmAI55qe
- 4Ndr6fmN84_ZeDLgu0ClcMCQQuNUpM8_KoqpombGh5MAaro6dRCRoKA_I4of1hQii5Xbl.4uiyy_
- IZ8DZKwW.RvyrJeqa.OrS4Esq6Z_B6n85e.MuxlV6.9RAzSmMb7_4.Qi21QqRpPgNL0Xc9Oi6mlV
- rD.hyEXxFGgcOkoJiqtvxIHyP5mMo3_kjggGIF6KRCtWGisn.uMOPe_XksPN9zfxRwUh7MpWDJdZ
- lw89vclf5YXlzBtWQmH0kcJ.OFc1B7IhsRNpOv5XVGmemyuHPn.x1.Jb_0YQOd_OulhPUqvgwG4n
- BzAjuEo6xk4NvNHzOX1JQkipm.ucPcFZHAUT5vwEVUjGbLrRH6ZHFd9Z2Y271MYBRUskBBYUU6yR
- lHPfEXw53TWdqnDeF4EDseLD7JSEGol0qDVtPzjQuV6P1uphioSzkCkd73x4.LP2KVNU.vQDIFhs
- zIrJmR_6Im08CwTnUliwun1pN3YBfMLqLm9ggcOym9Qzt1s0zKDra_QIFKMLbiRKZXd2Rgd6Ajdo
- 4joweE6LQYJyAgQSD0ZxCVe82IFneWtOmDxECyPTsNORmnWtRYOL58erdEU.IV8nHu9bOg5kS.Bw
- CmETcgwZGLHDwM5RGD3S8Ri1tNmCsyYH7vPiLYBAQs5MibXwdrMgC5fhDsoI19E9sRHxAV.Sl_JN
- YK7M05izoVHmj0W1gUpRUN3mxBxoSQhflAqEdKzKweq7VkoAN67IXJEx6rMnhhtvWRH6HunaYAS.
- W9wFE63f8OTtPHyhmSoGArEt6pUvC_tMGZJXZ9DF2RQ_GYygJx9ppyB3aLHlFMZulknxOeWlRa8N
- NPhFzWBchNM1nYsEfFTuwadwjwlpIf27Pj2MzWLQGUrsBZR6snQGSwYuU9BVVr8Qd0WYMF9Fs5O3
- o6eFYaTiHh9U.dkGtyTtX6xxRiu_ZFr9y0kcv3tbardq59gYSI8Zd8oLm7SNYetGm.onpG.mIZBQ
- krCEFLtf6UPXynOj4ikcQjitQ6oLWfvn5oPoXsvFirc5U3OnuNbwmmT9SAn65PkfuuuN3BxpPGhf
- 6LjWIYddBsPOLTP8l5lB0T7JpS7TyZuvNzpUU9QQen3GJlQ9aSL9YivQcqCZ3z0Mo1HfPiwO3r0y
- ugj8i7P44uoV9eS2_i6hC3CSRIQshEQJJIn4aB1GHSzN9Tbxla2KVoQvZ1nQDf1v1uAkQwju46_g
- EUNnTdUpKLwBi00DtIVMW2haYtUiEQyJ.rksi6gsSho6eru7_0gQZ9df5M1jpsTrmkOaFr3ETWpL
- 05mQKJYz8iwXQq7b4EjUIY1iUXAitzIllrNaN7u1x8freN8xeC0RH42daH5l5p.SbAkmr4NAxffl
- yjbXu0H5jbWY3eux5ricieeVCnFPwfhnHoivwNZvfk0.6zz3uOp4AmOgJemTuK02JTQEU0Wy5jOL
- Z14akAQJjcpt7ghpMmGywUNI.9rL9v6pG0kkxQ7sWew0Ws11DIlED9WcCRDiBWqm6eds0kpJgvNo
- RGZVwzf.wf0jl3oVfmc_Gn6GbAOk5oQ_A2FrG1.WJ6TDKs7XGhcMnEuPLlere9j.bPiQ86rNFlQU
- EK_LmNERrZEJbjOU2NUdVu6i7pfjnHqboBRyOVhAOWtSmj2b0VI47q50Hhc88P2P7T0LdGMRng4R
- yW.eFTOxBnKwXw6VxAMmoyL4Linx16cyg_gXmZAGdN8y2lpUVoIU0KzrXawYT.w4if6KpJJIny63
- y3.0qKqa1bNO7J1wWpelPreYmyqbQUzmU_1zP_vP73UtswI9_FIQEm0NTqzgu1N837Xy2WNw9R95
- rqQ4AW0g9pnfT11bQDqjSM_fiqPDgQvjqhuSOEaHsyOZwDoj.TQWLyul1epMvSK_OYjX1YtScXVp
- x8kHlmDAYiIx9H_vFBlQnWCR6Q5J2.ELQj.aWVVsRVeTvp.m5Lcpsj5eGL5oNF0Ko0ZdU6RrnAs.
- 81b.g9AHC1OgdEG77kX.HhkDPwtRBQ3XFESkrvnU5wkXYgYSis4U7Wg.EjUU7IYhwlnBmEAylfDr
- RR.QjSSOyEEk-
-X-Sonic-MF: <pjp@fedoraproject.org>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic303.consmr.mail.sg3.yahoo.com with HTTP; Mon, 18 Oct 2021 09:09:33 +0000
-Date: Mon, 18 Oct 2021 09:09:32 +0000 (UTC)
-From: P J P <pjp@fedoraproject.org>
-To: Dmitry Fleytman <dmitry.fleytman@gmail.com>, 
- Jason Wang <jasowang@redhat.com>, Thomas Huth <thuth@redhat.com>
-Message-ID: <1881029915.2747345.1634548172221@mail.yahoo.com>
-In-Reply-To: <c15f0f4f-dee0-4414-6496-fe4844d34bdf@redhat.com>
-References: <20210130131652.954143-1-ppandit@redhat.com>
- <c15f0f4f-dee0-4414-6496-fe4844d34bdf@redhat.com>
-Subject: Re: [PATCH] net: vmxnet3: validate configuration values during
- activate (CVE-2021-20203)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mcOgV-0003gF-Hg
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:11:59 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ q10-20020a17090a1b0a00b001a076a59640so10570396pjq.0
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 02:11:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zQfgb0MeOJMzaPUMOhWBB6SfGww5gTMNQt5y2p/cG0Q=;
+ b=FcGAnKSIu2GNL+Kp+I40UPRwt+9kU8MGYkf14ec3GUtfYxwXue6uTat1I/ERyVIZXc
+ cn4dBIcn0R3akVe8l6/yYg5YWLftqMuwCfSIESGjRS1vM/qdSvyXiCtrnKjHUHQLyePO
+ vfGIEXF0aiWWs7vIX4+YuZvqPlPnpxGfANo+aW9y7sAp/TLg7YUumeDYTJsIyUfYsFM5
+ WqLD2cRd1LZQIuVIriTzQYaSM5oOBrn1ragv/IIc9cJPHguhcqOw0Of7CUyrY+Gne948
+ UQi4x8a+bl2JvWk4sbFwf4AGTEF8xhpd7ZLsMN0GvaQF/4Afd2hDFOGvNZAC5auPPfP6
+ tdig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zQfgb0MeOJMzaPUMOhWBB6SfGww5gTMNQt5y2p/cG0Q=;
+ b=75smUN4IJt9laBrz5PbRzqXAxhgkvF2RUu+m+v6UUTjPXn8sLEoF/cs5EzusPBgagY
+ wQfaOmPdA3NosMVUmUsleakmb//uXmeKh0G4WJXgQ/W+2NNlff5t4GHcPKRUD0ptHr6X
+ VtpWRRYNI1gqRGmUw1iAda273eWsu46uOszj7gdjGyt7rRhC9rWLljoz7f57cxKE/wMD
+ s3ajyXfqolDVdvMJrZXMrKqiLoscF0YjWRQrcLUXULI4aa0mxhudR+M7DK+EiuQlHjG4
+ J6rlxbLBE+lZvBHNlZmuIKu0DlRqqw9S5K8yquBSMcrfDzxklEY8cJgi9TRNEaw2i2/W
+ nsKQ==
+X-Gm-Message-State: AOAM530TGiMPaVwJ8n0WxuZZFxH7oq8L4UWWu6HEXUuDbNLd2uGlLx8V
+ PyTtJRqUC/2hwPwER4LJVrBAmLQcH/bgqg==
+X-Google-Smtp-Source: ABdhPJydIs9sJpy3/h9d2KFNSbRCQYOQUp1WNIcFLA5wpqsm7SALpgztGeG8e6zkTf4NvzwkEJfWvw==
+X-Received: by 2002:a17:90b:3a85:: with SMTP id
+ om5mr32842803pjb.115.1634548313850; 
+ Mon, 18 Oct 2021 02:11:53 -0700 (PDT)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com.
+ [209.85.215.172])
+ by smtp.gmail.com with ESMTPSA id x20sm12194431pjp.48.2021.10.18.02.11.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Oct 2021 02:11:53 -0700 (PDT)
+Received: by mail-pg1-f172.google.com with SMTP id e65so13069535pgc.5;
+ Mon, 18 Oct 2021 02:11:53 -0700 (PDT)
+X-Received: by 2002:a05:6a00:1592:b0:44d:db91:ff84 with SMTP id
+ u18-20020a056a00159200b0044ddb91ff84mr2621100pfk.45.1634548313131; Mon, 18
+ Oct 2021 02:11:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: WebService/1.1.19116 YMailNorrin
-Received-SPF: neutral client-ip=106.10.242.37;
- envelope-from=pjp@fedoraproject.org;
- helo=sonic303-20.consmr.mail.sg3.yahoo.com
-X-Spam_score_int: 10
-X-Spam_score: 1.0
-X-Spam_bar: +
-X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FREEMAIL_FORGED_REPLYTO=2.095, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
+References: <f4d8a7a035f39c0a35d44c1e371c5c99cc2fa15a.1634531504.git.alistair.francis@wdc.com>
+In-Reply-To: <f4d8a7a035f39c0a35d44c1e371c5c99cc2fa15a.1634531504.git.alistair.francis@wdc.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Mon, 18 Oct 2021 17:11:41 +0800
+X-Gmail-Original-Message-ID: <CANzO1D3rf3em2RJAb7Q4vO3N5q+eyzxtFM6YmrSo0Pw3w12GBg@mail.gmail.com>
+Message-ID: <CANzO1D3rf3em2RJAb7Q4vO3N5q+eyzxtFM6YmrSo0Pw3w12GBg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] target/riscv: Remove some unused macros
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Content-Type: multipart/alternative; boundary="00000000000092909105ce9ceffb"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,118 +89,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: P J P <pj.pandit@yahoo.co.in>
-Cc: Gaoning Pan <pgn@zju.edu.cn>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis <alistair23@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>, bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Monday, 18 October, 2021, 12:20:55 pm IST, Thomas Huth <thuth@redhat.com=
-> wrote:
-On 30/01/2021 14.16, P J P wrote:
->> diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
->> index eff299f629..4a910ca971 100644
->> --- a/hw/net/vmxnet3.c
->> +++ b/hw/net/vmxnet3.c
->> @@ -1420,6 +1420,7 @@ static void vmxnet3_activate_device(VMXNET3State *=
-s)
->>=C2=A0 =C2=A0 =C2=A0 vmxnet3_setup_rx_filtering(s);
->>=C2=A0 =C2=A0 =C2=A0 /* Cache fields from shared memory */
->>=C2=A0 =C2=A0 =C2=A0 s->mtu =3D VMXNET3_READ_DRV_SHARED32(d, s->drv_shmem=
-, devRead.misc.mtu);
->> +=C2=A0 =C2=A0 assert(VMXNET3_MIN_MTU <=3D s->mtu && s->mtu < VMXNET3_MA=
-X_MTU);
->>=C2=A0 =C2=A0 =C2=A0 VMW_CFPRN("MTU is %u", s->mtu);
->>=C2=A0=20
->>=C2=A0 =C2=A0 =C2=A0 s->max_rx_frags =3D
->> @@ -1473,6 +1474,9 @@ static void vmxnet3_activate_device(VMXNET3State *=
-s)
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Read rings memory locations for TX =
-queues */
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pa =3D VMXNET3_READ_TX_QUEUE_DESCR64(d=
-, qdescr_pa, conf.txRingBasePA);
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size =3D VMXNET3_READ_TX_QUEUE_DESCR32=
-(d, qdescr_pa, conf.txRingSize);
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size > VMXNET3_TX_RING_MAX_SIZE) {
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size =3D VMXNET3_TX_RING_MAX_=
-SIZE;
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
->>=C2=A0=20
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmxnet3_ring_init(d, &s->txq_descr[i].=
-tx_ring, pa, size,
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(struct Vmxnet3_TxDesc), false);
->> @@ -1483,6 +1487,9 @@ static void vmxnet3_activate_device(VMXNET3State *=
-s)
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* TXC ring */
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pa =3D VMXNET3_READ_TX_QUEUE_DESCR64(d=
-, qdescr_pa, conf.compRingBasePA);
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size =3D VMXNET3_READ_TX_QUEUE_DESCR32=
-(d, qdescr_pa, conf.compRingSize);
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size > VMXNET3_TC_RING_MAX_SIZE) {
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size =3D VMXNET3_TC_RING_MAX_=
-SIZE;
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmxnet3_ring_init(d, &s->txq_descr[i].=
-comp_ring, pa, size,
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(struct Vmxnet3_TxCompDesc), true);
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VMXNET3_RING_DUMP(VMW_CFPRN, "TXC", i,=
- &s->txq_descr[i].comp_ring);
->> @@ -1524,6 +1531,9 @@ static void vmxnet3_activate_device(VMXNET3State *=
-s)
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* RX rings */
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pa =3D VMXNET3_READ_RX_Q=
-UEUE_DESCR64(d, qd_pa, conf.rxRingBasePA[j]);
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size =3D VMXNET3_READ_RX=
-_QUEUE_DESCR32(d, qd_pa, conf.rxRingSize[j]);
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size > VMXNET3_RX_RING_MA=
-X_SIZE) {
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size =3D VMXNET=
-3_RX_RING_MAX_SIZE;
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmxnet3_ring_init(d, &s-=
->rxq_descr[i].rx_ring[j], pa, size,
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(struct Vmxnet3_RxDesc), false=
-);
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VMW_CFPRN("RX queue %d:%=
-d: Base: %" PRIx64 ", Size: %d",
->> @@ -1533,6 +1543,9 @@ static void vmxnet3_activate_device(VMXNET3State *=
-s)
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* RXC ring */
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pa =3D VMXNET3_READ_RX_QUEUE_DESCR64(d=
-, qd_pa, conf.compRingBasePA);
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size =3D VMXNET3_READ_RX_QUEUE_DESCR32=
-(d, qd_pa, conf.compRingSize);
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size > VMXNET3_RC_RING_MAX_SIZE) {
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size =3D VMXNET3_RC_RING_MAX_=
-SIZE;
->> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmxnet3_ring_init(d, &s->rxq_descr[i].=
-comp_ring, pa, size,
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(struct Vmxnet3_RxCompDesc), true);
->>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VMW_CFPRN("RXC queue %d: Base: %" PRIx=
-64 ", Size: %d", i, pa, size);
->>=20
->>
->Ping!
+--00000000000092909105ce9ceffb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Alistair Francis <alistair.francis@opensource.wdc.com> =E6=96=BC 2021=E5=B9=
+=B410=E6=9C=8818=E6=97=A5 =E9=80=B1=E4=B8=80
+=E4=B8=8B=E5=8D=8812:38=E5=AF=AB=E9=81=93=EF=BC=9A
+
+> From: Alistair Francis <alistair.francis@wdc.com>
 >
->According to=20
->https://gitlab.com/qemu-project/qemu/-/issues/308#note_705736713 this is=
-=20
->still an issue...
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/cpu_bits.h | 8 --------
+>  1 file changed, 8 deletions(-)
 >
->Patch looks fine to me ... maybe just add some=20
->qemu_log_mask(LOG_GUEST_ERROR, ...) statements before correcting the value=
-s?
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 999187a9ee..3aa2512d13 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -427,14 +427,6 @@
+>  #define SATP64_ASID         0x0FFFF00000000000ULL
+>  #define SATP64_PPN          0x00000FFFFFFFFFFFULL
+>
+> -/* VM modes (mstatus.vm) privileged ISA 1.9.1 */
+> -#define VM_1_09_MBARE       0
+> -#define VM_1_09_MBB         1
+> -#define VM_1_09_MBBID       2
+> -#define VM_1_09_SV32        8
+> -#define VM_1_09_SV39        9
+> -#define VM_1_09_SV48        10
+> -
+>  /* VM modes (satp.mode) privileged ISA 1.10 */
+>  #define VM_1_10_MBARE       0
+>  #define VM_1_10_SV32        1
+> --
+> 2.31.1
+>
+>
+>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
 
+--00000000000092909105ce9ceffb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* Oops! Not sure how I missed it, thought it was pulled upstream.
-=C2=A0 Will send a revised patch.
+<div dir=3D"ltr"><div dir=3D"ltr">Alistair Francis &lt;<a href=3D"mailto:al=
+istair.francis@opensource.wdc.com">alistair.francis@opensource.wdc.com</a>&=
+gt; =E6=96=BC 2021=E5=B9=B410=E6=9C=8818=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=
+=8B=E5=8D=8812:38=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><div class=3D"gmail_q=
+uote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">From: Alistair Fran=
+cis &lt;<a href=3D"mailto:alistair.francis@wdc.com" target=3D"_blank">alist=
+air.francis@wdc.com</a>&gt;<br>
+<br>
+Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.=
+com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+---<br>
+=C2=A0target/riscv/cpu_bits.h | 8 --------<br>
+=C2=A01 file changed, 8 deletions(-)<br>
+<br>
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h<br>
+index 999187a9ee..3aa2512d13 100644<br>
+--- a/target/riscv/cpu_bits.h<br>
++++ b/target/riscv/cpu_bits.h<br>
+@@ -427,14 +427,6 @@<br>
+=C2=A0#define SATP64_ASID=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x0FFFF000000000=
+00ULL<br>
+=C2=A0#define SATP64_PPN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x00000FFFFFFFFF=
+FFULL<br>
+<br>
+-/* VM modes (mstatus.vm) privileged ISA 1.9.1 */<br>
+-#define VM_1_09_MBARE=C2=A0 =C2=A0 =C2=A0 =C2=A00<br>
+-#define VM_1_09_MBB=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A01<br>
+-#define VM_1_09_MBBID=C2=A0 =C2=A0 =C2=A0 =C2=A02<br>
+-#define VM_1_09_SV32=C2=A0 =C2=A0 =C2=A0 =C2=A0 8<br>
+-#define VM_1_09_SV39=C2=A0 =C2=A0 =C2=A0 =C2=A0 9<br>
+-#define VM_1_09_SV48=C2=A0 =C2=A0 =C2=A0 =C2=A0 10<br>
+-<br>
+=C2=A0/* VM modes (satp.mode) privileged ISA 1.10 */<br>
+=C2=A0#define VM_1_10_MBARE=C2=A0 =C2=A0 =C2=A0 =C2=A00<br>
+=C2=A0#define VM_1_10_SV32=C2=A0 =C2=A0 =C2=A0 =C2=A0 1<br>
+-- <br>
+2.31.1<br>
+<br>
+<br></blockquote><div><br></div><div>Reviewed-by: Frank Chang &lt;<a href=
+=3D"mailto:frank.chang@sifive.com">frank.chang@sifive.com</a>&gt;</div></di=
+v></div>
 
-
-Thank you.
----
-=C2=A0 - P J P
+--00000000000092909105ce9ceffb--
 
