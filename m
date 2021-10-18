@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1C2431E15
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 15:55:50 +0200 (CEST)
-Received: from localhost ([::1]:38324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B122431DE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 15:54:17 +0200 (CEST)
+Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcT7D-0003Q6-2E
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 09:55:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55292)
+	id 1mcT5k-0001GH-Ap
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 09:54:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mcT3Y-0004ns-Lu
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 09:52:00 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:40695)
+ id 1mcT3W-0004kO-5e
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 09:51:59 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:40673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mcT3W-000453-Cy
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 09:52:00 -0400
+ id 1mcT3T-00042h-7g
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 09:51:57 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BFC9D755FE6;
- Mon, 18 Oct 2021 15:51:56 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 99E09748F5A;
+ Mon, 18 Oct 2021 15:51:53 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A1B1E748F52; Mon, 18 Oct 2021 15:51:56 +0200 (CEST)
-Message-Id: <520288b09f5e62c0f819d1df78e4b104d8d8fdb8.1634563652.git.balaton@eik.bme.hu>
+ id 7CD56748F52; Mon, 18 Oct 2021 15:51:53 +0200 (CEST)
+Message-Id: <d24a38980492b9a4dc724f260731ff5e3b310f88.1634563652.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1634563652.git.balaton@eik.bme.hu>
 References: <cover.1634563652.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 5/6] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
- interrupts
+Subject: [PATCH 2/6] usb/uhci: Misc clean up
 Date: Mon, 18 Oct 2021 15:27:32 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -60,54 +59,47 @@ Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This device is part of a superio/ISA bridge chip and IRQs from it are
-routed to an ISA interrupt set by the Interrupt Line PCI config
-register. Implement this in a vt82c686-uhci-pci specific irq handler
-Using via_isa_set_irq().
+Fix a comment for coding style so subsequent patch will not get
+checkpatch error and simplify and shorten uhci_update_irq().
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-This is merging adding uhci_isa_set_irq and using via_isa_set_irq in
-it which were separate patches and got R-b that way but hopefully they
-still apply as one patch so I kept the R-b tags. Say so if you don't agree.
+ hw/usb/hcd-uhci.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
- hw/usb/vt82c686-uhci-pci.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
-index ea262e6d70..0bf2b72ff0 100644
---- a/hw/usb/vt82c686-uhci-pci.c
-+++ b/hw/usb/vt82c686-uhci-pci.c
-@@ -1,6 +1,17 @@
- #include "qemu/osdep.h"
-+#include "hw/irq.h"
-+#include "hw/isa/vt82c686.h"
- #include "hcd-uhci.h"
+diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
+index 0cb02a6432..c557566ec2 100644
+--- a/hw/usb/hcd-uhci.c
++++ b/hw/usb/hcd-uhci.c
+@@ -290,7 +290,7 @@ static UHCIAsync *uhci_async_find_td(UHCIState *s, uint32_t td_addr)
  
-+static void uhci_isa_set_irq(void *opaque, int irq_num, int level)
-+{
-+    UHCIState *s = opaque;
-+    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
-+    if (irq > 0 && irq < 15) {
-+        via_isa_set_irq(pci_get_function_0(&s->dev), irq, level);
-+    }
-+}
-+
- static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+ static void uhci_update_irq(UHCIState *s)
  {
-     UHCIState *s = UHCI(dev);
-@@ -14,6 +25,8 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
-     pci_set_long(pci_conf + 0xc0, 0x00002000);
- 
-     usb_uhci_common_realize(dev, errp);
-+    object_unref(s->irq);
-+    s->irq = qemu_allocate_irq(uhci_isa_set_irq, s, 0);
+-    int level;
++    int level = 0;
+     if (((s->status2 & 1) && (s->intr & (1 << 2))) ||
+         ((s->status2 & 2) && (s->intr & (1 << 3))) ||
+         ((s->status & UHCI_STS_USBERR) && (s->intr & (1 << 0))) ||
+@@ -298,8 +298,6 @@ static void uhci_update_irq(UHCIState *s)
+         (s->status & UHCI_STS_HSERR) ||
+         (s->status & UHCI_STS_HCPERR)) {
+         level = 1;
+-    } else {
+-        level = 0;
+     }
+     pci_set_irq(&s->dev, level);
  }
+@@ -1170,8 +1168,7 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
  
- static UHCIInfo uhci_info[] = {
+     pci_conf[PCI_CLASS_PROG] = 0x00;
+     /* TODO: reset value should be 0. */
+-    pci_conf[USB_SBRN] = USB_RELEASE_1; // release number
+-
++    pci_conf[USB_SBRN] = USB_RELEASE_1; /* release number */
+     pci_config_set_interrupt_pin(pci_conf, u->info.irq_pin + 1);
+ 
+     if (s->masterbus) {
 -- 
 2.21.4
 
