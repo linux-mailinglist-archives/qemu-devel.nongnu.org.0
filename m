@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E529843132A
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:19:24 +0200 (CEST)
-Received: from localhost ([::1]:44278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91C5B43132E
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:19:55 +0200 (CEST)
+Received: from localhost ([::1]:46410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcOnk-0004oh-1J
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:19:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45306)
+	id 1mcOoE-0006EU-NW
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:19:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mcOlc-0001xy-5T
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:17:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59701)
+ id 1mcOn3-000445-Di
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:18:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mcOla-0004h0-Ix
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:17:11 -0400
+ id 1mcOn1-00062B-FK
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:18:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634548629;
+ s=mimecast20190719; t=1634548717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OhHmILqave/8BQVpxH/OpZL/xbyLRkKESw4dselXY6c=;
- b=UffZZH8I7ERweemSy7PF0543OkTlkCEw87Bo3RMKjOAazL2EtChQ6tVg4DCDeNDGPbpoVE
- AFAKen7EUx7WIwloyAMquiTYvat/7GF53lo77RUQKBt6Jday6S6S4ITlL54WwI3HLVEkiQ
- YZRDVLZrec/BMEwYk+RYXKXaE0yKn0A=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-SSAMQ5DkMCamC1kmvOeVaA-1; Mon, 18 Oct 2021 05:17:06 -0400
-X-MC-Unique: SSAMQ5DkMCamC1kmvOeVaA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v15-20020adfa1cf000000b00160940b17a2so8573982wrv.19
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 02:17:06 -0700 (PDT)
+ bh=/+/3gXAWvXJ0d+yi3wzD1wIycsi42V5bHclAwurQEoM=;
+ b=PjfDKWkEGtA5+4nBM40ulQRIBA1WPC1+B/2uCDaN5aFaA3VaK4oiCDSHRU4k1nua6wh868
+ sC18WIhfte5R1SlwnPKEtGA3qDgpLDRAcoXP2vJ6PdcWTmAaW+sBBEnejkigljj0PsBDPh
+ /1f9GzL4iVkEW+UkTWPJwPc1oY/cjug=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-533-SQssU1i4M6yqJx_Af8coHw-1; Mon, 18 Oct 2021 05:18:34 -0400
+X-MC-Unique: SQssU1i4M6yqJx_Af8coHw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ a15-20020a056000188f00b00161068d8461so8635501wri.11
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 02:18:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=OhHmILqave/8BQVpxH/OpZL/xbyLRkKESw4dselXY6c=;
- b=I3cB/p8mdAuWW3C4iRlC9VFG8JdFP1o3qsjAcce63OW+zCauWfXih3b5neY3vSZpt7
- sjYekyspo3ng1m8snznyFUJ9JJ3c2j+nk4GxoRO7LUnLdHcJ6BWsYbKuH4uvudaZP/qL
- x4SYxltnWJQ+iQF5o58Uge1inbxQ5gY3dIUS993mTS6O8LRdtYtM0xwJy/Tw1LY7G12Y
- JQMOhJF0Hq3QVVSxN1Ago3qng2H/4eiPz+ZZdr0f1aCPUiz88aRScY6ZgYRAjvMwUpFz
- Tl9ITqQZrKHpdeFXhLfgn0zRZIYOENiNMLlB/6Hp2JrnORtt/dCUKI1kZmfvv/WSKxHx
- hGjg==
-X-Gm-Message-State: AOAM532r1vinQvNrCdISN2+QmHhFao26Tw2ehNxuUTvT+ALi0B0Q3Dfp
- mvCfNFx1VZbZBjnM20wgQ6GP6sxheWJfg78YEwdS6d0zht9FtFA20Sle/Lt4SNmAN0uvF4OIEvQ
- ADGC81dURkzWq85s=
-X-Received: by 2002:a05:600c:1d19:: with SMTP id
- l25mr44161wms.119.1634548625433; 
- Mon, 18 Oct 2021 02:17:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw06r8/yFd0onfmqPorAj9rczyf4FwvM84oqwuMrkmEnSFRw/UC/U6ryoai6OxUyr9Vh/qa9Q==
-X-Received: by 2002:a05:600c:1d19:: with SMTP id
- l25mr44143wms.119.1634548625236; 
- Mon, 18 Oct 2021 02:17:05 -0700 (PDT)
+ bh=/+/3gXAWvXJ0d+yi3wzD1wIycsi42V5bHclAwurQEoM=;
+ b=REKylnQ0jef27Ckz0DYc5h7J97vGQlfmyMlpUYUoFr4kLslXms6i1hn5QTb6KqXqvL
+ KvDWYyHROrV4GFjYSSyCnqJzMLw+vQQ72u/jwOD+k00CALGe+53CBTI3hX6ktwkleIlu
+ I8+XymrEK5g9Ie+6ztUyQ7/uVb4AcnZw8BFc/LZDbyLXsnOJ0OLWq5PhJmKT93/ILsNJ
+ mPT+K8gVGpYiQh5MGFwkhHuzTqbJB7sd/zfMC5YHfUDQOl37HSozHLuGxfBD5CNHccfg
+ UMJgRhwiIRbG+uUNzK38kXAOaCIgnfnYT44DBONt4W6sVhzKUw0BqHxNZl2HBto+mtjP
+ phmA==
+X-Gm-Message-State: AOAM533dZ81fdFf58zds1DJg9Dl5NOsXY20dLTA98Lclx6rOFquRdSF9
+ NLZEuoVgwDroiinZX3Zqxsyei/JzXimtNnNA5JxYTK+lIbTy7kj9Mg4pHw5ixEnMdvgqgzqMboQ
+ 2Dum/POSZMGB7SL4=
+X-Received: by 2002:a5d:58ec:: with SMTP id f12mr33877203wrd.24.1634548713476; 
+ Mon, 18 Oct 2021 02:18:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzuBTYU65is1ebDTuBolUZ00ua5C/ijrxdDw+TQb2xmNzgpfl1fW1YC4iszl/Ksp4VgXdsv9g==
+X-Received: by 2002:a5d:58ec:: with SMTP id f12mr33877185wrd.24.1634548713293; 
+ Mon, 18 Oct 2021 02:18:33 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id v18sm13247908wrm.63.2021.10.18.02.17.04
+ by smtp.gmail.com with ESMTPSA id z135sm7167598wmc.45.2021.10.18.02.18.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Oct 2021 02:17:04 -0700 (PDT)
-Message-ID: <0bb60a5a-3d13-1c9b-a8ca-76f298c725f0@redhat.com>
-Date: Mon, 18 Oct 2021 11:17:02 +0200
+ Mon, 18 Oct 2021 02:18:32 -0700 (PDT)
+Message-ID: <9f8f9578-1d50-e584-b401-fc7773ac1f30@redhat.com>
+Date: Mon, 18 Oct 2021 11:18:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 1/2] rcu: Introduce force_rcu notifier
+Subject: Re: [PATCH 2/2] accel/tcg: Register a force_rcu notifier
 To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 References: <20211015161218.1231920-1-groug@kaod.org>
- <20211015161218.1231920-2-groug@kaod.org>
+ <20211015161218.1231920-3-groug@kaod.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211015161218.1231920-2-groug@kaod.org>
+In-Reply-To: <20211015161218.1231920-3-groug@kaod.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +79,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -89,7 +87,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,32 +106,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 15/10/21 18:12, Greg Kurz wrote:
-> +/*
-> + * NotifierList used to force an RCU grace period.  Accessed under
-> + * rcu_registry_lock.
-> + */
-> +static NotifierList force_rcu_notifiers =
-> +    NOTIFIER_LIST_INITIALIZER(force_rcu_notifiers);
+> +void tcg_cpus_force_rcu(Notifier *notify, void *data)
+> +{
+> +    CPUState *cpu = container_of(notify, CPUState, force_rcu);
 > +
->   /*
->    * Check whether a quiescent state was crossed between the beginning of
->    * update_counter_and_wait and now.
-> @@ -107,6 +115,8 @@ static void wait_for_readers(void)
->                    * get some extra futex wakeups.
->                    */
->                   qatomic_set(&index->waiting, false);
-> +            } else if (qatomic_read(&in_drain_call_rcu)) {
-> +                notifier_list_notify(&force_rcu_notifiers, NULL);
->               }
->           }
->   
 
-You can put the notifier in struct rcu_reader_data---this way it doesn't 
-call all the notifiers but only those that are necessary to make progress.
-
-While at it, I have a slight preference for a separate 
-rcu_add_force_rcu_notifier API, but I can be convinced otherwise. :)
+Perhaps add a comment: /* Called with rcu_registry_lock held, using 
+async_run_on_cpu ensudes that there are no deadlocks.  */
 
 Paolo
+
+> +    async_run_on_cpu(cpu, do_nothing, RUN_ON_CPU_NULL);
+> +}
+> +
 
 
