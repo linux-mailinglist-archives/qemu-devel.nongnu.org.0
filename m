@@ -2,105 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65189430DF4
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 04:45:53 +0200 (CEST)
-Received: from localhost ([::1]:58404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C90430E17
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 05:20:14 +0200 (CEST)
+Received: from localhost ([::1]:49616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcIeu-0005Qu-FI
-	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 22:45:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59518)
+	id 1mcJC9-00046m-JT
+	for lists+qemu-devel@lfdr.de; Sun, 17 Oct 2021 23:20:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=918244500=alistair.francis@opensource.wdc.com>)
- id 1mcIaB-0005zT-Op
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 22:41:00 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:27490)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mcJ5p-0008Fv-FT; Sun, 17 Oct 2021 23:13:48 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:34233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=918244500=alistair.francis@opensource.wdc.com>)
- id 1mcIa9-0007lo-Fg
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 22:40:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1634524856; x=1666060856;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=IF95yCjcmo5ithRIKZNKlYhdANKqLsOj4GLv3lakdIg=;
- b=K4TOFqWmxTXRJEsk/i9sKTJ6d57gVsFDalE7AbRUH/xnlO/q+1uj8Gk5
- avGAzoBO6J12LIgse6yXVuUnMKrbXcuxxVIXmNhrNdHcSfvO8lKXGmvML
- MdQTgXfmF6IJEjQWuU86drnrMbntJ2jyaGvP3OWlT6UvdKwUHdTA0lSq+
- LffI5Snm5Cf+CBA6erpSLeerlkwJCViEHQZz405nbWY4gnbuk0faSyTU6
- tdBiKH2WCaDlrHJDzvF56HF8Cb9ciATj4S5ZQSJ0ZpDA7taFYcMk7+6/U
- qH6UZxekKB/rEksEEEc+3L5ZB58vfK8WbCx+kEzUOxeXc+1V7d9gs89B2 w==;
-X-IronPort-AV: E=Sophos;i="5.85,381,1624291200"; d="scan'208";a="187913866"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 18 Oct 2021 10:40:54 +0800
-IronPort-SDR: XYEmna4BlO0otmboYMYfb2jKbiWuEZmApw75TOavj6BIac90q/iq5w2X94at22NhmxEnXHzQqv
- sHsgWW+snMprn6nwAROcR/5lzgR4/R35zwFqcjbGnzwAbsIfDh5BCuqTJCJO3Qmy4vbhFzSeYI
- SLVJFLdQjwntfOo0Xoz5v9cphwWLXzqYj4BCE7nPyFuEVp3DnQafz1H5+3hcsDUYy0dpyziiKL
- GynFLP4lK0dBGrgvU2LBZUvQ53ClPp21zijXqUmr3alAU4Pu3AIPi2dKUMQOmzvdvH6UaO7OT0
- vdxIoeXD2xJ+CQVFOm/qyKlO
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2021 19:15:03 -0700
-IronPort-SDR: bv9emdAR/3kvTKCdAfScl5b8LlH9bfmVHGWlu4dPPLIOzk54J33inzcFBNZYU0J/rrSVOWij1x
- jgImNSLnxFjLFffU2DvD3FO/AywdMT+FZJL8FGhPW3E2+J4CcGbZtt8qi+Ooob4VNKoGqjo+h5
- Y7Nsno6wCcctgFbZPz1pndkCcykPSb3wnMQOq2pSB+gGpUdJpYr/SCckCvZKJj4bXTDQZv41cd
- P3kEelxaFKhxusApFs6cBVBg9rwn4csMufUo3xhLOA0ruKZIaO1kukzN4FkucDR1u0YLZWdr0V
- fjY=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2021 19:40:56 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HXh2H3KvMz1Rvlw
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 19:40:55 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1634524854; x=1637116855; bh=IF95yCjcmo5ithRIKZ
- NKlYhdANKqLsOj4GLv3lakdIg=; b=Jd/fsWIgIl/b8jmMWJPKed9c7djYfK7xin
- AATg2rIwG/LogByoGgBMaJIpDIKZkpyWN7TlAOxC3MzONfvBHlJaf6PohKYQ+ipg
- 5BoBZnEFlIXMuyCli+neBOX9wEvDGSJG7zYd2m2Vn9I9Ag//fHLeCwmsiSoJqxYT
- wBCKJspWUUefooSn+u9NnlCyYvS+oNuPD3WSQA2C6/glqoMkpkW8RPIVFwh9rAnx
- 9XnrR6xr9IDjxb1kHsS4sGeYaUE1R7M3tgP+VXulkDy0NUCvk1cAWiJtbH1dAzHa
- Ja6wc8XZ8218/OFmfoaD29Gcd+KutqqQ2gNnfoXjklxVgbVTq/Qw==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id KIrelfIkvekT for <qemu-devel@nongnu.org>;
- Sun, 17 Oct 2021 19:40:54 -0700 (PDT)
-Received: from toolbox.wdc.com (unknown [10.225.165.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HXh296gmCz1RvTm;
- Sun, 17 Oct 2021 19:40:49 -0700 (PDT)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: bmeng.cn@gmail.com, palmer@dabbelt.com, alistair.francis@wdc.com,
- alistair23@gmail.com
-Subject: [PATCH v1 9/9] hw/intc: sifive_plic: Cleanup remaining functions
-Date: Mon, 18 Oct 2021 12:40:42 +1000
-Message-Id: <e66367ce1b4ab64aab545916ad6818dac7b1f8ec.1634524691.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <18b1b681b0f8dd2461e819d1217bf0b530812680.1634524691.git.alistair.francis@wdc.com>
-References: <18b1b681b0f8dd2461e819d1217bf0b530812680.1634524691.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mcJ5b-0005Nq-CR; Sun, 17 Oct 2021 23:13:40 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4HXhlg43wpz4xd8; Mon, 18 Oct 2021 14:13:19 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1634526799;
+ bh=EiW1v8EcBZUKcpICVk8rKJ0gDF463OGwucXRCVLwAKE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YTt/j6ymckGXpaENQichz2g7qZafwj4mYJ2Q64Szkn4mVjQdIP+tUZQj80vKpdC2I
+ Xr08/kgyxj8HM744zMD73zGDfTBvZ4iMUwS0OohbirqXcf/mdjHuKoNAughApsTY35
+ 16JZ8VLb1kf9Rmo6Dt2Mn7PgB3uFSTg/h7TmcO1o=
+Date: Mon, 18 Oct 2021 14:13:09 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v4 00/15] PPC64/TCG: Implement 'rfebb' instruction
+Message-ID: <YWzmRSW6O+NsI0Qq@yekko>
+References: <20211018010133.315842-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=918244500=alistair.francis@opensource.wdc.com;
- helo=esa3.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="0KPoD2SjrJSFPuKl"
+Content-Disposition: inline
+In-Reply-To: <20211018010133.315842-1-danielhb413@gmail.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,199 +57,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/intc/sifive_plic.c | 109 +++++++++---------------------------------
- 1 file changed, 22 insertions(+), 87 deletions(-)
+--0KPoD2SjrJSFPuKl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index d73503cea4..3f56223554 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -31,8 +31,6 @@
- #include "migration/vmstate.h"
- #include "hw/irq.h"
-=20
--#define RISCV_DEBUG_PLIC 0
--
- static bool addr_between(uint32_t addr, uint32_t base, uint32_t num)
- {
-     uint32_t end =3D base + num;
-@@ -57,47 +55,6 @@ static PLICMode char_to_mode(char c)
-     }
- }
-=20
--static char mode_to_char(PLICMode m)
--{
--    switch (m) {
--    case PLICMode_U: return 'U';
--    case PLICMode_S: return 'S';
--    case PLICMode_H: return 'H';
--    case PLICMode_M: return 'M';
--    default: return '?';
--    }
--}
--
--static void sifive_plic_print_state(SiFivePLICState *plic)
--{
--    int i;
--    int addrid;
--
--    /* pending */
--    qemu_log("pending       : ");
--    for (i =3D plic->bitfield_words - 1; i >=3D 0; i--) {
--        qemu_log("%08x", plic->pending[i]);
--    }
--    qemu_log("\n");
--
--    /* pending */
--    qemu_log("claimed       : ");
--    for (i =3D plic->bitfield_words - 1; i >=3D 0; i--) {
--        qemu_log("%08x", plic->claimed[i]);
--    }
--    qemu_log("\n");
--
--    for (addrid =3D 0; addrid < plic->num_addrs; addrid++) {
--        qemu_log("hart%d-%c enable: ",
--            plic->addr_config[addrid].hartid,
--            mode_to_char(plic->addr_config[addrid].mode));
--        for (i =3D plic->bitfield_words - 1; i >=3D 0; i--) {
--            qemu_log("%08x", plic->enable[addrid * plic->bitfield_words =
-+ i]);
--        }
--        qemu_log("\n");
--    }
--}
--
- static uint32_t atomic_set_masked(uint32_t *a, uint32_t mask, uint32_t v=
-alue)
- {
-     uint32_t old, new, cmp =3D qatomic_read(a);
-@@ -121,26 +78,34 @@ static void sifive_plic_set_claimed(SiFivePLICState =
-*plic, int irq, bool level)
-     atomic_set_masked(&plic->claimed[irq >> 5], 1 << (irq & 31), -!!leve=
-l);
- }
-=20
--static int sifive_plic_irqs_pending(SiFivePLICState *plic, uint32_t addr=
-id)
-+static uint32_t sifive_plic_claimed(SiFivePLICState *plic, uint32_t addr=
-id)
- {
-+    uint32_t max_irq =3D 0;
-+    uint32_t max_prio =3D plic->target_priority[addrid];
-     int i, j;
-+
-     for (i =3D 0; i < plic->bitfield_words; i++) {
-         uint32_t pending_enabled_not_claimed =3D
--            (plic->pending[i] & ~plic->claimed[i]) &
--            plic->enable[addrid * plic->bitfield_words + i];
-+                        (plic->pending[i] & ~plic->claimed[i]) &
-+                            plic->enable[addrid * plic->bitfield_words +=
- i];
-+
-         if (!pending_enabled_not_claimed) {
-             continue;
-         }
-+
-         for (j =3D 0; j < 32; j++) {
-             int irq =3D (i << 5) + j;
-             uint32_t prio =3D plic->source_priority[irq];
-             int enabled =3D pending_enabled_not_claimed & (1 << j);
--            if (enabled && prio > plic->target_priority[addrid]) {
--                return 1;
-+
-+            if (enabled && prio > max_prio) {
-+                max_irq =3D irq;
-+                max_prio =3D prio;
-             }
-         }
-     }
--    return 0;
-+
-+    return max_irq;
- }
-=20
- static void sifive_plic_update(SiFivePLICState *plic)
-@@ -151,7 +116,7 @@ static void sifive_plic_update(SiFivePLICState *plic)
-     for (addrid =3D 0; addrid < plic->num_addrs; addrid++) {
-         uint32_t hartid =3D plic->addr_config[addrid].hartid;
-         PLICMode mode =3D plic->addr_config[addrid].mode;
--        int level =3D sifive_plic_irqs_pending(plic, addrid);
-+        bool level =3D !!sifive_plic_claimed(plic, addrid);
-=20
-         switch (mode) {
-         case PLICMode_M:
-@@ -164,41 +129,6 @@ static void sifive_plic_update(SiFivePLICState *plic=
-)
-             break;
-         }
-     }
--
--    if (RISCV_DEBUG_PLIC) {
--        sifive_plic_print_state(plic);
--    }
--}
--
--static uint32_t sifive_plic_claim(SiFivePLICState *plic, uint32_t addrid=
-)
--{
--    int i, j;
--    uint32_t max_irq =3D 0;
--    uint32_t max_prio =3D plic->target_priority[addrid];
--
--    for (i =3D 0; i < plic->bitfield_words; i++) {
--        uint32_t pending_enabled_not_claimed =3D
--            (plic->pending[i] & ~plic->claimed[i]) &
--            plic->enable[addrid * plic->bitfield_words + i];
--        if (!pending_enabled_not_claimed) {
--            continue;
--        }
--        for (j =3D 0; j < 32; j++) {
--            int irq =3D (i << 5) + j;
--            uint32_t prio =3D plic->source_priority[irq];
--            int enabled =3D pending_enabled_not_claimed & (1 << j);
--            if (enabled && prio > max_prio) {
--                max_irq =3D irq;
--                max_prio =3D prio;
--            }
--        }
--    }
--
--    if (max_irq) {
--        sifive_plic_set_pending(plic, max_irq, false);
--        sifive_plic_set_claimed(plic, max_irq, true);
--    }
--    return max_irq;
- }
-=20
- static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned siz=
-e)
-@@ -229,10 +159,15 @@ static uint64_t sifive_plic_read(void *opaque, hwad=
-dr addr, unsigned size)
-         if (contextid =3D=3D 0) {
-             return plic->target_priority[addrid];
-         } else if (contextid =3D=3D 4) {
--            uint32_t value =3D sifive_plic_claim(plic, addrid);
-+            uint32_t max_irq =3D sifive_plic_claimed(plic, addrid);
-+
-+            if (max_irq) {
-+                sifive_plic_set_pending(plic, max_irq, false);
-+                sifive_plic_set_claimed(plic, max_irq, true);
-+            }
-=20
-             sifive_plic_update(plic);
--            return value;
-+            return max_irq;
-         }
-     }
-=20
+On Sun, Oct 17, 2021 at 10:01:18PM -0300, Daniel Henrique Barboza wrote:
+> This new version presents drastic design changes across all areas, most
+> of them based on the feedback received in v3.
+>=20
+> - TCG reviewers: for people looking to review only TCG related changes,
+> here's a summmary of where are the TCG code in the series:
+>=20
+> * Patches that have a lot of TCG/translation changes: 1-4, 9, 13
+> * Patches that have TCG/translation bits: 6, 7, 10, 11
+
+Patches 1..4 applied to ppc-for-6.2, still looking at the rest.
+
+> - changes in v3:
+>=20
+> The most drastic change is in the PMU. We're now working with an
+> abstraction called PMUEvent that holds all the event information that
+> the helper functions need to process it: the PMC, the event type and an
+> overflow timer for cycle events. The PMU will always have 6 PMCEvent
+> structs, one for each counter. Counters that aren't being used in that
+> moment will have event type 'invalid'. These events are populated only
+> when MMCR1 is written. Calculating the PMC values does not require
+> multiple calls to 'get_PMC_event()', which has been deleted. In fact,
+> this design change cut 60 lines of the power8-pmu.c file compared to the
+> previous version, resulting in a more concise logic that will allow for
+> easier extension of the PMU in the future.
+>=20
+> Another change was related to PMCC bits and access control of problem
+> state to PMU registers. We're now exposing both PMCC bits and doing a
+> proper access control for groupA regs.
+>=20
+> A new file was created to host the PMU translation code. The 300+ lines
+> of the new power8-pmu-regs.c.inc file would be dumped into translate.c.
+>=20
+> I've also changed the patch order. The exclusive EBB patches were pushed =
+to
+> the end of the series. I find it easier to add the placeholders for the
+> PMC interrupt right at the start but populate them later on, after all
+> the PMU logic has already been in place, instead of adding PMU code,
+> then EBB, then go back to PMU code again.
+>=20
+> All other changes were result of these decisions described above.
+>=20
+> - patch 13 (former 08):
+>   * renamed arg_RFEBB to arg_XL_s
+>   * added Matheus' R-b
+> - other patches:
+>   * The changes were so substancial that the patch breakdown with the dif=
+fs
+> turned out cumbersome and contraproductive.
+> - v3 link: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg01250=
+=2Ehtml=20
+>=20
+>=20
+> Daniel Henrique Barboza (13):
+>   target/ppc: add MMCR0 PMCC bits to hflags
+>   target/ppc: add user read/write functions for MMCR2
+>   target/ppc: adding user read/write functions for PMCs
+>   target/ppc: introduce PMU events
+>   target/ppc: initialize PMUEvents on MMCR1 write
+>   target/ppc: PMU basic cycle count for pseries TCG
+>   target/ppc: enable PMU counter overflow with cycle events
+>   target/ppc: enable PMU instruction count
+>   target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL (0xFA) event
+>   target/ppc: PMU: handle setting of PMCs while running
+>   target/ppc/power8-pmu.c: handle overflow bits when PMU is running
+>   PPC64/TCG: Implement 'rfebb' instruction
+>   target/ppc/excp_helper.c: EBB handling adjustments
+>=20
+> Gustavo Romero (2):
+>   target/ppc: add user read/write functions for MMCR0
+>   target/ppc: PMU Event-Based exception support
+>=20
+>  hw/ppc/spapr_cpu_core.c                |   6 +
+>  target/ppc/cpu.h                       |  89 +++++-
+>  target/ppc/cpu_init.c                  |  38 +--
+>  target/ppc/excp_helper.c               |  92 ++++++
+>  target/ppc/helper.h                    |   5 +
+>  target/ppc/helper_regs.c               |  10 +
+>  target/ppc/insn32.decode               |   5 +
+>  target/ppc/meson.build                 |   1 +
+>  target/ppc/power8-pmu-regs.c.inc       | 320 +++++++++++++++++++
+>  target/ppc/power8-pmu.c                | 410 +++++++++++++++++++++++++
+>  target/ppc/power8-pmu.h                |  25 ++
+>  target/ppc/spr_tcg.h                   |  12 +
+>  target/ppc/translate.c                 |  67 ++++
+>  target/ppc/translate/branch-impl.c.inc |  33 ++
+>  14 files changed, 1093 insertions(+), 20 deletions(-)
+>  create mode 100644 target/ppc/power8-pmu-regs.c.inc
+>  create mode 100644 target/ppc/power8-pmu.c
+>  create mode 100644 target/ppc/power8-pmu.h
+>  create mode 100644 target/ppc/translate/branch-impl.c.inc
+>=20
+
 --=20
-2.31.1
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--0KPoD2SjrJSFPuKl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFs5kUACgkQbDjKyiDZ
+s5J1AxAAn2M+VAJ0DtASPgbSGA8eFwtqs6MdVM+hS5olt4AQMWW3Fr2ihruWYdpZ
+kTtb0EbqRVM/IeCSzTHCmQ5A7xm+wcMDASNUW5srcCtCaljg6O/I1Adk/8hWPei5
+y5+Wk1tcS/VzKqkrPHOUp3/KE42w4l3j5USspaE9XGgZWgw2dtC8NMpyS6dYer5B
+QbSFyR8l6mmOOrcFJ+KkRl9BylX7nPG77V91dTZKP3leMgtGf4lXdhrMeHpCO1D9
+OBC+b0cyMb78wkF1cicGdKo1rUwUTrIqIpkU1IPK3fKE9Qvxgmd+yalX7+jHO6ni
+9/kwVBDROLgq2RlvfbqjJtTLQx1jld/4csWlWNBN0yAWjE545wX+z4FqqTWzsC+t
+kzpiNCqGkNryLdRcAf7jMzKZDK2eRS6h9TpOP0jiWMPaoMBEmEMVilLWArMAd7Gi
+sFOmbdyWSxsyoE0RkmYQAg57QipjkmvcGlqkz09MG4eJdKx7w2aEL3G/PlD/9MS1
+1IY76W4kiNwIBGF1REXofUaMdzBA6C3NP8/P6Iv4qaKoVy1fKLI4Q6yWLybZ2hDE
+EVhiLISv0jykyMFUw67LGEfZsuNNB/NDKvhpHmjsYx12rh6DXZbeNA6ZcEGOcklJ
+PRb6oXnIPkLPBlk+p7fRVeVXF984Sa5kyJQJU/sdiTYpCza8w8g=
+=TRtW
+-----END PGP SIGNATURE-----
+
+--0KPoD2SjrJSFPuKl--
 
