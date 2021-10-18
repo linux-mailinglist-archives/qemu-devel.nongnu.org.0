@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C674324E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 19:22:20 +0200 (CEST)
-Received: from localhost ([::1]:35042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F21A4432512
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 19:31:29 +0200 (CEST)
+Received: from localhost ([::1]:43030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcWL4-0005xp-M0
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 13:22:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48294)
+	id 1mcWTw-0003Fg-R0
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 13:31:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mcWJu-0005Dm-RH
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 13:21:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33556)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mcWJo-0008WR-Pq
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 13:21:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634577658;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pJJOrVsrOdjgsJ/6OdLD3s0k4GVUHI+KIEcjfRPzwjw=;
- b=VXgPNU1BxEbFYXp57IRLDpgTu2tQxRvbMua3pbcMuc0benCbYW8n3EIDZgjQf2H1Zn/g/f
- 7h5ImvNYCemSg6+RFCgyKRejjHX4Co5kHDXyu3fcO1bEi9yuKb8xRQfT9o5koNJ1Re1UIF
- jct6yxGk23Vo/bhJ6J9Us++y7NIZhog=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-vrCEhJRmMfGVmc7di-erCw-1; Mon, 18 Oct 2021 13:20:57 -0400
-X-MC-Unique: vrCEhJRmMfGVmc7di-erCw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25F9C9F92E
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 17:20:56 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.33.34])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EAB6C4180;
- Mon, 18 Oct 2021 17:20:55 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 74F832256F7; Mon, 18 Oct 2021 13:20:55 -0400 (EDT)
-Date: Mon, 18 Oct 2021 13:20:55 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v4 02/12] virtiofsd: Limit setxattr()'s creds-dropped
- region
-Message-ID: <YW2s9+UQa0jozC7z@redhat.com>
-References: <20210916084045.31684-1-hreitz@redhat.com>
- <20210916084045.31684-3-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mcWRk-0002b0-MT
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 13:29:12 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:36416)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mcWRi-0007Ic-Dn
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 13:29:12 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id 75so16927475pga.3
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 10:29:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mV7CwN//PRE/3dzokbqYg9hTfkxjYHysQdOpfFIC9Mk=;
+ b=diX2p9xXTd2wLE06OqWmIIrEJyTgm2bc0Wi4K8bN5KRQ9ZiFbJVAgwqvSa0Ju9zmZx
+ MDiNjl7TL+IIy+P/cmREs28zNvh917FLMprF131KlI1Hc91uXAScjNmGlz7j3r7493aC
+ CY38gwhPhxsNer2jdLaadkAGcpuQ2bjZ5H5HrFhP9YzNnwHOglw3nyhGsxhXW8zWWYDD
+ v04tBVNEeRDC1v7wCc9M3aFAn44zJVlOCrRz+OJ/wB6rqT7gMXO2czgBbz+mqUPTul60
+ 5I12dZ6HW8rDYZHYeRvfA/WUy2sdWfCmFhy2DgHmXBNKccTqv+rIhXdkVCxLHvAzZPYU
+ EsNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mV7CwN//PRE/3dzokbqYg9hTfkxjYHysQdOpfFIC9Mk=;
+ b=tfxOX9hBm/8XrzGD06+HgSkfzpVaW35axJ64nPgUenoEBUZscNYyvmTSNi1JQcvjqx
+ 8DLoaxpsB0JvPrzXL2gUATR66HnVb5+FXXhSzLxfqJ5QSKlGF1fuz5APsoKljRxE/4fm
+ CVoeny5yUD2d5u3nTaKHQREDrrz3XdGNhdQO1xouahDEPDAj0GenA/a94tNJx8fea8Pm
+ hUpG52JfFZzZttkQ4cCj9pyQsvouOH82UipVjq36Ypsr35MSNeeZokgrp0Jg5GTECn/7
+ 5E7bTEtSVNPY6NYLo1HHkUD1iV+4O9dYovrhdDrjbyS/zl/hjRg2sPd5IJJbbMmgC6LP
+ AoLg==
+X-Gm-Message-State: AOAM530rAqftuYF/nJ0oDywU5cO2Qy7nE6pAL7b+RgvWBGq58fe5g/Fz
+ FrA8rrJJwBQ4axhmVPj7hlls1g==
+X-Google-Smtp-Source: ABdhPJz51vcaNzz8xJSJvkk8M1UiWU14vvHd+Qhj5trnYB8DA6SBSh5eC5YlNvl1Cg+oT7dYoWhzXw==
+X-Received: by 2002:a63:7:: with SMTP id 7mr25025629pga.127.1634578148753;
+ Mon, 18 Oct 2021 10:29:08 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id k3sm37949pjg.43.2021.10.18.10.29.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Oct 2021 10:29:08 -0700 (PDT)
+Subject: Re: [PATCH v7 16/21] target/loongarch: Add disassembler
+To: WANG Xuerui <i.qemu@xen0n.name>, Song Gao <gaosong@loongson.cn>,
+ qemu-devel@nongnu.org
+References: <1634561247-25499-1-git-send-email-gaosong@loongson.cn>
+ <1634561247-25499-17-git-send-email-gaosong@loongson.cn>
+ <f55bffde-64ec-d390-2942-4ec4b2bbedbc@xen0n.name>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9ba04d0a-44bb-1ebd-31f4-35c282842b4a@linaro.org>
+Date: Mon, 18 Oct 2021 10:29:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210916084045.31684-3-hreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <f55bffde-64ec-d390-2942-4ec4b2bbedbc@xen0n.name>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,106 +89,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, alex.bennee@linaro.org,
+ yangxiaojuan@loongson.cn, laurent@vivier.eu, peterx@redhat.com,
+ f4bug@amsat.org, alistair.francis@wdc.com, maobibo@loongson.cn,
+ pbonzini@redhat.com, bmeng.cn@gmail.com, philmd@redhat.com,
+ chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 16, 2021 at 10:40:35AM +0200, Hanna Reitz wrote:
-> We only need to drop/switch our credentials for the (f)setxattr() call
-> alone, not for the openat() or fchdir() around it.
+On 10/18/21 8:38 AM, WANG Xuerui wrote:
 > 
-> (Right now, this may not be that big of a problem, but with inodes being
-> identified by file handles instead of an O_PATH fd, we will need
-> open_by_handle_at() calls here, which is really fickle when it comes to
-> credentials being dropped.)
-> 
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
->  tools/virtiofsd/passthrough_ll.c | 34 +++++++++++++++++++++++---------
->  1 file changed, 25 insertions(+), 9 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 6511a6acb4..b43afdfbd3 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -3123,6 +3123,7 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->      bool switched_creds = false;
->      bool cap_fsetid_dropped = false;
->      struct lo_cred old = {};
-> +    bool changed_cwd = false;
->  
->      if (block_xattr(lo, in_name)) {
->          fuse_reply_err(req, EOPNOTSUPP);
-> @@ -3158,6 +3159,24 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->               ", name=%s value=%s size=%zd)\n", ino, name, value, size);
->  
->      sprintf(procname, "%i", inode->fd);
-> +    /*
-> +     * We can only open regular files or directories.  If the inode is
-> +     * something else, we have to enter /proc/self/fd and use
-> +     * setxattr() on the link's filename there.
-> +     */
-> +    if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
-> +        fd = openat(lo->proc_self_fd, procname, O_RDONLY);
-> +        if (fd < 0) {
-> +            saverr = errno;
-> +            goto out;
-> +        }
-> +    } else {
-> +        /* fchdir should not fail here */
-> +        FCHDIR_NOFAIL(lo->proc_self_fd);
-> +        /* Set flag so the clean-up path will chdir back */
-> +        changed_cwd = true;
+> For now any implementation would suffice, and I already saw one or two bugs in the output 
+> during my TCG host work, but it surely would be nice to switch to generated decoder in the 
+> future. The loongarch-opcodes tables could be extended to support peculiarities as 
+> exhibited in the v1.00 ISA manual and binutils implementation, via additional attributes, 
+> and I'm open to such contributions.
 
-Is there a need to move FCHDIR_NOFAIL() call earlier too? I am assuming
-this will not be impacted by file handle stuff. So we probably could
-leave it in place. Easier to read.
+Perhaps it would be easiest to re-use the decodetree description?
+See e.g. target/openrisc/disas.c.
 
-Vivek
 
-> +    }
-> +
->      /*
->       * If we are setting posix access acl and if SGID needs to be
->       * cleared, then switch to caller's gid and drop CAP_FSETID
-> @@ -3178,20 +3197,12 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->          }
->          switched_creds = true;
->      }
-> -    if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
-> -        fd = openat(lo->proc_self_fd, procname, O_RDONLY);
-> -        if (fd < 0) {
-> -            saverr = errno;
-> -            goto out;
-> -        }
-> +    if (fd >= 0) {
->          ret = fsetxattr(fd, name, value, size, flags);
->          saverr = ret == -1 ? errno : 0;
->      } else {
-> -        /* fchdir should not fail here */
-> -        FCHDIR_NOFAIL(lo->proc_self_fd);
->          ret = setxattr(procname, name, value, size, flags);
->          saverr = ret == -1 ? errno : 0;
-> -        FCHDIR_NOFAIL(lo->root.fd);
->      }
->      if (switched_creds) {
->          if (cap_fsetid_dropped)
-> @@ -3201,6 +3212,11 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->      }
->  
->  out:
-> +    if (changed_cwd) {
-> +        /* Change CWD back, fchdir should not fail here */
-> +        FCHDIR_NOFAIL(lo->root.fd);
-> +    }
-> +
->      if (fd >= 0) {
->          close(fd);
->      }
-> -- 
-> 2.31.1
-> 
-
+r~
 
