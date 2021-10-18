@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F64430FAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 07:12:43 +0200 (CEST)
-Received: from localhost ([::1]:33108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A4BB430F58
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 06:50:57 +0200 (CEST)
+Received: from localhost ([::1]:40518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcKx0-00053S-7k
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 01:12:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47352)
+	id 1mcKbu-0006zU-Ao
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 00:50:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mcKHB-00026I-Uz; Mon, 18 Oct 2021 00:29:30 -0400
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:39675)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mcKHi-0002Rc-GJ
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 00:30:03 -0400
+Received: from mail-ua1-x933.google.com ([2607:f8b0:4864:20::933]:34752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mcKH7-0004NS-RS; Mon, 18 Oct 2021 00:29:29 -0400
-Received: by mail-io1-xd35.google.com with SMTP id o184so2710536iof.6;
- Sun, 17 Oct 2021 21:29:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mcKHR-0004iR-L1
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 00:30:02 -0400
+Received: by mail-ua1-x933.google.com with SMTP id h4so1993768uaw.1
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 21:29:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nIA6GDnC6ela4UzwoghPJ57TCbHnZkjqRaWm5ffXHms=;
- b=d3Gtz+IUXQDImfd8KiAA5AHPnMmaknGWdY8SegAphrTR+0Pcyr5clKCTH3r2z4Bbmx
- r5Gf+xQXcXT3Liw55xl+0ssiBYA3XyosE+1MYYP14CfusXVdTa6HvQZSXRYD6jUsk0WB
- benCmArC3e5lYZoAioJsu5ZdLkyZySaJ4Jj85+dYyNZxmfpcSAcTjHC679LhWUbFddb3
- tfGKHY2Cokm3Ye4K/dA91a5e/d/Tj98PFnnjRpvBOSm5jlqGzFl56WCHweK/CoqyAMLq
- mHrIW2W/yiiVSDYlhiKw5AiyGbpKO5O3kkgqKo/NNwIUHqcFPXTchQWGDIxvbZTlP9r9
- N4fw==
+ :cc; bh=8ZXQ/rATjg2oZj1nNEdS9KBq6B+eMe3GFeam4jmfYew=;
+ b=BR8vVOP98PcuL8ml4oe05PBXAwHnPtzI1KW5XaIT/XdsFJnLI8wMYlegDTAwCrwfYY
+ 8c6w1mdHXMqiBy6ICSQB5JLOV49SSfSf9+Zz6HgGX72J7PUArVf0GcEreRrnWJx79Xkb
+ hPvg7Y7nTBE9uk7WL8VV7mad/tN5icphaktI89RKN2XHINNYaPPAKP0IuZuUCodqnA0u
+ JopcGxhY2noqN9i8UqDoDt9MW4ZPH5YXqisXcS2HpZlsXupyo7JcFyPCan40rCxvZ45l
+ Nv/kB+9HFQOTR/p98/w7szsC+m1wDQQTKxE2wc+5yje8DwzX1HhQ3E7FnOf3/KxXRe3U
+ Y+hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nIA6GDnC6ela4UzwoghPJ57TCbHnZkjqRaWm5ffXHms=;
- b=n6dwBLECCRQz0QWNwriklTNykJr0JBGojpwfyKUrs6EIOa6t1zDAooAvVz+xI/0Bri
- 4HsnTHWi36UrKWQF+YN3vV8y6cSnO20mc2abHIdPHZTIwkkwCJAu9afBd2+KeiGeXB5L
- j6ukGEbIyKnw+D7VTRKOLmny+FRRsmkhp6TZnu19PfTJ8g5CpNzYmlVGnT5eagj0vHSC
- DZx23tpoQ8tbiiss+TucamtuybyAxPCmw37rNSKBWlF/ir/Xb/Kt3L/eo19KhBOtvSV+
- 6pHOJETpj0cucGYuaSahyn1QpCfx9ehk5wIq6oMLeigkjG6IfD737ljtaB5QXDuDESfC
- NQCA==
-X-Gm-Message-State: AOAM530ClF5MoS3LD/c8AgHvshhw8Oa/wcVVkjTvW9+A8aAjYzg8ZvLB
- VGUt98kRap60NmLJt2t/OMfag9rD+g9IiXqW+xA=
-X-Google-Smtp-Source: ABdhPJzFEThjCsRNNYFdrjI8QRO0JJuzAhDUPwzQ781bS6OaT/NHIYJUV2uLw4n1NbUAGO+T0tOC4gHmlHa6Gllqhig=
-X-Received: by 2002:a6b:8d4a:: with SMTP id p71mr12785105iod.16.1634531363098; 
- Sun, 17 Oct 2021 21:29:23 -0700 (PDT)
+ bh=8ZXQ/rATjg2oZj1nNEdS9KBq6B+eMe3GFeam4jmfYew=;
+ b=Ypv6s1aDJ6dqb+VlSpXQAY4k83RcRglaDWJdP0jdfJhWwxV/tk381jSXESkdU8T5FR
+ BiKy3XxnXTA78DZGuQAoTsQ2jqwNzGJ6K/PRGYGkroGe9Dwf9Mu1+nBiFuB8iua343fr
+ b5IIychVIvbQmqvSdsZXhUdNd6ECfmaMS8tfcqylm37OTIYRcPCAONDhd719nJ3xQ14/
+ 5vavGImYbc7MvFHxGveURlvdhNkUbxWbU3DWyQnfAmGa7SgHhocawpe0B1dpIfGOnJVG
+ TIIS7xDZVXmPMh9QFMPcNk+/Sd+kxpTumKCoPSNwMz9L5B9zODg59PJvqw7L+JHIJ16A
+ uVWg==
+X-Gm-Message-State: AOAM531yYRfSivvYuQlfHYek+mnhduGhkHp2CUsvt84xM5i2EVs+C3G9
+ 7yrdVCO4JoBKUPf5HWl2c75ISbCpmXbtDtIMpq64Og==
+X-Google-Smtp-Source: ABdhPJzcXZ8RlUttfRBfmSB7g9h2J6jYeSzE/skQn5Y+9dStotIY3dqfW7rhSgI82pn7PaQHmgjlb9jhb2TJHCJKxVc=
+X-Received: by 2002:a67:fbc9:: with SMTP id o9mr12169563vsr.42.1634531383749; 
+ Sun, 17 Oct 2021 21:29:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211016090742.3034669-1-frank.chang@sifive.com>
- <20211016090742.3034669-2-frank.chang@sifive.com>
- <CAKmqyKNoHJj=W8L-KP+MohddNmzj1qquiEJ6bTQG4GwCSoa1xg@mail.gmail.com>
- <CAE_xrPigcg96SvHdnSRSL+EU+USVtkv+pbfOVj1Spg7K2eXFPA@mail.gmail.com>
-In-Reply-To: <CAE_xrPigcg96SvHdnSRSL+EU+USVtkv+pbfOVj1Spg7K2eXFPA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 18 Oct 2021 14:28:55 +1000
-Message-ID: <CAKmqyKM6rNx1XrZuAYXSLur7f+JXrodEdP5uHa_o+F82minpOQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] target/riscv: zfh: half-precision load and store
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+References: <20211008231506.17471-1-imp@bsdimp.com>
+ <20211008231506.17471-2-imp@bsdimp.com>
+ <CACNAnaFu1uX=pcsjwmYxKAPLX=JdsPHTnrJmjRD2U+aX79KhZQ@mail.gmail.com>
+In-Reply-To: <CACNAnaFu1uX=pcsjwmYxKAPLX=JdsPHTnrJmjRD2U+aX79KhZQ@mail.gmail.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Sun, 17 Oct 2021 22:29:32 -0600
+Message-ID: <CANCZdfqPp4aZzx_kzTW87mu9Q2iQWo=kD5FeJaBmFQuM5Sqbww@mail.gmail.com>
+Subject: Re: [PATCH v2 01/15] meson: *-user: only descend into *-user when
+ configured
+To: Kyle Evans <kevans@freebsd.org>
+Content-Type: multipart/alternative; boundary="00000000000080bf1e05ce98fedf"
+Received-SPF: none client-ip=2607:f8b0:4864:20::933;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x933.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,211 +77,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Chih-Min Chao <chihmin.chao@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Kito Cheng <kito.cheng@sifive.com>
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 18, 2021 at 12:15 PM Frank Chang <frank.chang@sifive.com> wrote:
->
-> On Mon, Oct 18, 2021 at 8:03 AM Alistair Francis <alistair23@gmail.com> wrote:
->>
->> On Sat, Oct 16, 2021 at 7:08 PM <frank.chang@sifive.com> wrote:
->> >
->> > From: Kito Cheng <kito.cheng@sifive.com>
->> >
->> > Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
->> > Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
->> > Signed-off-by: Frank Chang <frank.chang@sifive.com>
->> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> > ---
->> >  target/riscv/cpu.c                        |  1 +
->> >  target/riscv/cpu.h                        |  1 +
->> >  target/riscv/insn32.decode                |  4 ++
->> >  target/riscv/insn_trans/trans_rvzfh.c.inc | 65 +++++++++++++++++++++++
->> >  target/riscv/translate.c                  |  8 +++
->> >  5 files changed, 79 insertions(+)
->> >  create mode 100644 target/riscv/insn_trans/trans_rvzfh.c.inc
->> >
->> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> > index 1d69d1887e6..8c579dc297b 100644
->> > --- a/target/riscv/cpu.c
->> > +++ b/target/riscv/cpu.c
->> > @@ -601,6 +601,7 @@ static Property riscv_cpu_properties[] = {
->> >      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
->> >      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->> >      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
->> > +    DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
->>
->> This change should be after patch 5. The idea is that we add the
->> functionality and then allow users to enable it.
->>
->> Otherwise:
->>
->> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->>
->> Alistair
->
->
-> The reason why I put here is because REQUIRE_ZFH() uses ctx->zfh.
-> I can separate ext_zfh field in DisasContext into this patch,
-> and add cfg.ext_zfh in RISCVCPU after patch 5 in my next patchset.
+--00000000000080bf1e05ce98fedf
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-You can still add cfg.ext_zfh, it's just this public PROP that should be last.
+On Sun, Oct 17, 2021 at 9:43 PM Kyle Evans <kevans@freebsd.org> wrote:
 
-Alistair
+> On Fri, Oct 8, 2021 at 6:15 PM Warner Losh <imp@bsdimp.com> wrote:
+> >
+> > To increase flexibility, only descend into *-user when that is
+> > configured. This allows *-user to selectively include directories based
+> > on the host OS which may not exist on all hosts. Adopt Paolo's
+> > suggestion of checking the configuration in the directories that know
+> > about the configuration.
+> >
+> > Message-Id: <20210926220103.1721355-2-f4bug@amsat.org>
+> > Message-Id: <20210926220103.1721355-3-f4bug@amsat.org>
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > Signed-off-by: Warner Losh <wlosh@bsdimp.com>
+> > Acked-by: Paolo Bonzini <pbonzinni@redhat.com>
+> >
+> > Sponsored by:           Netflix
+> > ---
+> >  bsd-user/meson.build   | 4 ++++
+> >  linux-user/meson.build | 4 ++++
+> >  meson.build            | 3 +--
+> >  3 files changed, 9 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/bsd-user/meson.build b/bsd-user/meson.build
+> > index 0369549340..243fb78930 100644
+> > --- a/bsd-user/meson.build
+> > +++ b/bsd-user/meson.build
+> > @@ -1,3 +1,7 @@
+> > +if not config_target.has_key('CONFIG_BSD_USER')
+> > +   subdir_done()
+> > +endif
+> > +
+> >  bsd_user_ss.add(files(
+> >    'bsdload.c',
+> >    'elfload.c',
+> > diff --git a/linux-user/meson.build b/linux-user/meson.build
+> > index 9549f81682..602255a3d6 100644
+> > --- a/linux-user/meson.build
+> > +++ b/linux-user/meson.build
+> > @@ -1,3 +1,7 @@
+> > +if not config_target.has_key('CONFIG_LINUX_USER')
+> > +   subdir_done()
+> > +endif
+> > +
+> >  linux_user_ss.add(files(
+> >    'elfload.c',
+> >    'exit.c',
+> > diff --git a/meson.build b/meson.build
+> > index 99a0a3e689..1f2da5f7d9 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -2303,10 +2303,9 @@ subdir('ebpf')
+> >
+> >  common_ss.add(libbpf)
+> >
+> > -bsd_user_ss.add(files('gdbstub.c'))
+> >  specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
+> >
+> > -linux_user_ss.add(files('gdbstub.c', 'thunk.c'))
+> > +linux_user_ss.add(files('thunk.c'))
+> >  specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
+> >
+> >  # needed for fuzzing binaries
+> > --
+> > 2.32.0
+> >
+>
+> I don't understand the gdbstub.c removal  here; don't we still want to
+> be compiling it in, just only if the appropriate
+> CONFIG_{BSD,LINUX}_USER knob is set? I note that it doesn't appear to
+> be added in individual *-user/meson.build, I assume it's uncommon to
+> add in ../foo.c in meson-land...
+>
 
+It's added to specific_ss at line 2536
+specific_ss.add(files('cpu.c', 'disas.c', 'gdbstub.c'), capstone)
+
+so we don't need to add it again here.
+
+Warner
+
+--00000000000080bf1e05ce98fedf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Oct 17, 2021 at 9:43 PM Kyle =
+Evans &lt;<a href=3D"mailto:kevans@freebsd.org">kevans@freebsd.org</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, O=
+ct 8, 2021 at 6:15 PM Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" tar=
+get=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; To increase flexibility, only descend into *-user when that is<br>
+&gt; configured. This allows *-user to selectively include directories base=
+d<br>
+&gt; on the host OS which may not exist on all hosts. Adopt Paolo&#39;s<br>
+&gt; suggestion of checking the configuration in the directories that know<=
+br>
+&gt; about the configuration.<br>
+&gt;<br>
+&gt; Message-Id: &lt;<a href=3D"mailto:20210926220103.1721355-2-f4bug@amsat=
+.org" target=3D"_blank">20210926220103.1721355-2-f4bug@amsat.org</a>&gt;<br=
 >
-> Thanks,
-> Frank Chang
+&gt; Message-Id: &lt;<a href=3D"mailto:20210926220103.1721355-3-f4bug@amsat=
+.org" target=3D"_blank">20210926220103.1721355-3-f4bug@amsat.org</a>&gt;<br=
 >
->>
->>
->> >      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
->> >      DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
->> >      DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
->> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->> > index 9e55b2f5b17..88684e72be1 100644
->> > --- a/target/riscv/cpu.h
->> > +++ b/target/riscv/cpu.h
->> > @@ -297,6 +297,7 @@ struct RISCVCPU {
->> >          bool ext_counters;
->> >          bool ext_ifencei;
->> >          bool ext_icsr;
->> > +        bool ext_zfh;
->> >
->> >          char *priv_spec;
->> >          char *user_spec;
->> > diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
->> > index 2f251dac1bb..b36a3d8dbf8 100644
->> > --- a/target/riscv/insn32.decode
->> > +++ b/target/riscv/insn32.decode
->> > @@ -726,3 +726,7 @@ binv       0110100 .......... 001 ..... 0110011 @r
->> >  binvi      01101. ........... 001 ..... 0010011 @sh
->> >  bset       0010100 .......... 001 ..... 0110011 @r
->> >  bseti      00101. ........... 001 ..... 0010011 @sh
->> > +
->> > +# *** RV32 Zfh Extension ***
->> > +flh        ............   ..... 001 ..... 0000111 @i
->> > +fsh        .......  ..... ..... 001 ..... 0100111 @s
->> > diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
->> > new file mode 100644
->> > index 00000000000..dad1d703d72
->> > --- /dev/null
->> > +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
->> > @@ -0,0 +1,65 @@
->> > +/*
->> > + * RISC-V translation routines for the RV64Zfh Standard Extension.
->> > + *
->> > + * Copyright (c) 2020 Chih-Min Chao, chihmin.chao@sifive.com
->> > + *
->> > + * This program is free software; you can redistribute it and/or modify it
->> > + * under the terms and conditions of the GNU General Public License,
->> > + * version 2 or later, as published by the Free Software Foundation.
->> > + *
->> > + * This program is distributed in the hope it will be useful, but WITHOUT
->> > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
->> > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
->> > + * more details.
->> > + *
->> > + * You should have received a copy of the GNU General Public License along with
->> > + * this program.  If not, see <http://www.gnu.org/licenses/>.
->> > + */
->> > +
->> > +#define REQUIRE_ZFH(ctx) do { \
->> > +    if (!ctx->ext_zfh) {      \
->> > +        return false;         \
->> > +    }                         \
->> > +} while (0)
->> > +
->> > +static bool trans_flh(DisasContext *ctx, arg_flh *a)
->> > +{
->> > +    TCGv_i64 dest;
->> > +    TCGv t0;
->> > +
->> > +    REQUIRE_FPU;
->> > +    REQUIRE_ZFH(ctx);
->> > +
->> > +    t0 = get_gpr(ctx, a->rs1, EXT_NONE);
->> > +    if (a->imm) {
->> > +        TCGv temp = temp_new(ctx);
->> > +        tcg_gen_addi_tl(temp, t0, a->imm);
->> > +        t0 = temp;
->> > +    }
->> > +
->> > +    dest = cpu_fpr[a->rd];
->> > +    tcg_gen_qemu_ld_i64(dest, t0, ctx->mem_idx, MO_TEUW);
->> > +    gen_nanbox_h(dest, dest);
->> > +
->> > +    mark_fs_dirty(ctx);
->> > +    return true;
->> > +}
->> > +
->> > +static bool trans_fsh(DisasContext *ctx, arg_fsh *a)
->> > +{
->> > +    TCGv t0;
->> > +
->> > +    REQUIRE_FPU;
->> > +    REQUIRE_ZFH(ctx);
->> > +
->> > +    t0 = get_gpr(ctx, a->rs1, EXT_NONE);
->> > +    if (a->imm) {
->> > +        TCGv temp = tcg_temp_new();
->> > +        tcg_gen_addi_tl(temp, t0, a->imm);
->> > +        t0 = temp;
->> > +    }
->> > +
->> > +    tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], t0, ctx->mem_idx, MO_TEUW);
->> > +
->> > +    return true;
->> > +}
->> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
->> > index d2442f0cf5d..75048149f5a 100644
->> > --- a/target/riscv/translate.c
->> > +++ b/target/riscv/translate.c
->> > @@ -69,6 +69,7 @@ typedef struct DisasContext {
->> >      bool w;
->> >      bool virt_enabled;
->> >      bool ext_ifencei;
->> > +    bool ext_zfh;
->> >      bool hlsx;
->> >      /* vector extension */
->> >      bool vill;
->> > @@ -118,6 +119,11 @@ static void gen_nanbox_s(TCGv_i64 out, TCGv_i64 in)
->> >      tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(32, 32));
->> >  }
->> >
->> > +static void gen_nanbox_h(TCGv_i64 out, TCGv_i64 in)
->> > +{
->> > +    tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(16, 48));
->> > +}
->> > +
->> >  /*
->> >   * A narrow n-bit operation, where n < FLEN, checks that input operands
->> >   * are correctly Nan-boxed, i.e., all upper FLEN - n bits are 1.
->> > @@ -489,6 +495,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
->> >  #include "insn_trans/trans_rvh.c.inc"
->> >  #include "insn_trans/trans_rvv.c.inc"
->> >  #include "insn_trans/trans_rvb.c.inc"
->> > +#include "insn_trans/trans_rvzfh.c.inc"
->> >  #include "insn_trans/trans_privileged.c.inc"
->> >
->> >  /* Include the auto-generated decoder for 16 bit insn */
->> > @@ -541,6 +548,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->> >      ctx->misa = env->misa;
->> >      ctx->frm = -1;  /* unknown rounding mode */
->> >      ctx->ext_ifencei = cpu->cfg.ext_ifencei;
->> > +    ctx->ext_zfh = cpu->cfg.ext_zfh;
->> >      ctx->vlen = cpu->cfg.vlen;
->> >      ctx->mstatus_hs_fs = FIELD_EX32(tb_flags, TB_FLAGS, MSTATUS_HS_FS);
->> >      ctx->hlsx = FIELD_EX32(tb_flags, TB_FLAGS, HLSX);
->> > --
->> > 2.25.1
->> >
->> >
+&gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug=
+@amsat.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:wlosh@bsdimp.com" tar=
+get=3D"_blank">wlosh@bsdimp.com</a>&gt;<br>
+&gt; Acked-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzinni@redhat.com" ta=
+rget=3D"_blank">pbonzinni@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; Sponsored by:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Netflix<br>
+&gt; ---<br>
+&gt;=C2=A0 bsd-user/meson.build=C2=A0 =C2=A0| 4 ++++<br>
+&gt;=C2=A0 linux-user/meson.build | 4 ++++<br>
+&gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3 +--<br>
+&gt;=C2=A0 3 files changed, 9 insertions(+), 2 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/bsd-user/meson.build b/bsd-user/meson.build<br>
+&gt; index 0369549340..243fb78930 100644<br>
+&gt; --- a/bsd-user/meson.build<br>
+&gt; +++ b/bsd-user/meson.build<br>
+&gt; @@ -1,3 +1,7 @@<br>
+&gt; +if not config_target.has_key(&#39;CONFIG_BSD_USER&#39;)<br>
+&gt; +=C2=A0 =C2=A0subdir_done()<br>
+&gt; +endif<br>
+&gt; +<br>
+&gt;=C2=A0 bsd_user_ss.add(files(<br>
+&gt;=C2=A0 =C2=A0 &#39;bsdload.c&#39;,<br>
+&gt;=C2=A0 =C2=A0 &#39;elfload.c&#39;,<br>
+&gt; diff --git a/linux-user/meson.build b/linux-user/meson.build<br>
+&gt; index 9549f81682..602255a3d6 100644<br>
+&gt; --- a/linux-user/meson.build<br>
+&gt; +++ b/linux-user/meson.build<br>
+&gt; @@ -1,3 +1,7 @@<br>
+&gt; +if not config_target.has_key(&#39;CONFIG_LINUX_USER&#39;)<br>
+&gt; +=C2=A0 =C2=A0subdir_done()<br>
+&gt; +endif<br>
+&gt; +<br>
+&gt;=C2=A0 linux_user_ss.add(files(<br>
+&gt;=C2=A0 =C2=A0 &#39;elfload.c&#39;,<br>
+&gt;=C2=A0 =C2=A0 &#39;exit.c&#39;,<br>
+&gt; diff --git a/meson.build b/meson.build<br>
+&gt; index 99a0a3e689..1f2da5f7d9 100644<br>
+&gt; --- a/meson.build<br>
+&gt; +++ b/meson.build<br>
+&gt; @@ -2303,10 +2303,9 @@ subdir(&#39;ebpf&#39;)<br>
+&gt;<br>
+&gt;=C2=A0 common_ss.add(libbpf)<br>
+&gt;<br>
+&gt; -bsd_user_ss.add(files(&#39;gdbstub.c&#39;))<br>
+&gt;=C2=A0 specific_ss.add_all(when: &#39;CONFIG_BSD_USER&#39;, if_true: bs=
+d_user_ss)<br>
+&gt;<br>
+&gt; -linux_user_ss.add(files(&#39;gdbstub.c&#39;, &#39;thunk.c&#39;))<br>
+&gt; +linux_user_ss.add(files(&#39;thunk.c&#39;))<br>
+&gt;=C2=A0 specific_ss.add_all(when: &#39;CONFIG_LINUX_USER&#39;, if_true: =
+linux_user_ss)<br>
+&gt;<br>
+&gt;=C2=A0 # needed for fuzzing binaries<br>
+&gt; --<br>
+&gt; 2.32.0<br>
+&gt;<br>
+<br>
+I don&#39;t understand the gdbstub.c removal=C2=A0 here; don&#39;t we still=
+ want to<br>
+be compiling it in, just only if the appropriate<br>
+CONFIG_{BSD,LINUX}_USER knob is set? I note that it doesn&#39;t appear to<b=
+r>
+be added in individual *-user/meson.build, I assume it&#39;s uncommon to<br=
+>
+add in ../foo.c in meson-land...<br></blockquote><div><br></div><div>It&#39=
+;s added to specific_ss at line 2536<br></div><div>specific_ss.add(files(&#=
+39;cpu.c&#39;, &#39;disas.c&#39;, &#39;gdbstub.c&#39;), capstone)</div><div=
+><br></div><div>so we don&#39;t need to add it again here.</div><div><br></=
+div><div>Warner<br></div></div></div>
+
+--00000000000080bf1e05ce98fedf--
 
