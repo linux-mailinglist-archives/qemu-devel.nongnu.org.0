@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54906430EE3
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 06:28:14 +0200 (CEST)
-Received: from localhost ([::1]:48138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8259F430F51
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 06:42:42 +0200 (CEST)
+Received: from localhost ([::1]:56142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcKFx-0000Mc-8Y
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 00:28:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
+	id 1mcKTx-0006N1-F7
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 00:42:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mcJT2-0007bl-RT
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 23:37:42 -0400
-Received: from mx2.freebsd.org ([96.47.72.81]:43114)
+ id 1mcJYU-0001Qq-Su
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 23:43:18 -0400
+Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:57372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mcJSx-00061r-GT
- for qemu-devel@nongnu.org; Sun, 17 Oct 2021 23:37:40 -0400
+ id 1mcJYN-0003xn-05
+ for qemu-devel@nongnu.org; Sun, 17 Oct 2021 23:43:14 -0400
 Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits)
  client-signature RSA-PSS (4096 bits))
  (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id E832F9E9BC
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:37:33 +0000 (UTC)
+ by mx2.freebsd.org (Postfix) with ESMTPS id E933F9F61D
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:43:05 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: from smtp.freebsd.org (smtp.freebsd.org
- [IPv6:2610:1c1:1:606c::24b:4])
+Received: from smtp.freebsd.org (smtp.freebsd.org [96.47.72.83])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
  client-signature RSA-PSS (4096 bits) client-digest SHA256)
  (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4HXjHd5vjXz3HKY
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:37:33 +0000 (UTC)
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4HXjQ15wP5z3JRP
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:43:05 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+ [209.85.160.181])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (Client CN "smtp.gmail.com", Issuer "GTS CA 1O1" (verified OK))
  (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id 7A4ABD713
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:37:33 +0000 (UTC)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id A6767D9C4
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:43:05 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: by mail-qv1-f44.google.com with SMTP id o13so9502026qvm.4
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 20:37:33 -0700 (PDT)
-X-Gm-Message-State: AOAM532LWmIeiQh222zg+ZhxL8207RY/sVA40n4BiCxaY24d2kfknXSe
- NWvMp8th8o48FHsbTj6Y+KaEozfJPNRI5ubDhoU=
-X-Google-Smtp-Source: ABdhPJwBbiQZ8VWGB+sv6qO/UDGCNoHyl4HlmhWOAAUxk67MIyu0m1MSweCEhd+WqEl1oSfTCxl61rQuPaXE3LQysW0=
-X-Received: by 2002:a05:6214:ca9:: with SMTP id
- s9mr23255747qvs.31.1634528253133; 
- Sun, 17 Oct 2021 20:37:33 -0700 (PDT)
+Received: by mail-qt1-f181.google.com with SMTP id n2so850194qta.2
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 20:43:05 -0700 (PDT)
+X-Gm-Message-State: AOAM531rohawGZUQgJPIlllyFbKE69zz+ZwOE8SPdkFmecbpGv2kf7AO
+ HU4YKx7S+L/BP26DGjLYFdJSrFRdBvFhr5M2/n0=
+X-Google-Smtp-Source: ABdhPJz1sLfhw2QTOz4OMAoax2OUIKPr7Kv3US+GZZDjBX+Tx4fBgP0JEMIDNsyezJkVXl4Tt0H9EhFRu9LG1qVJXSU=
+X-Received: by 2002:ac8:514f:: with SMTP id h15mr26901467qtn.340.1634528585317; 
+ Sun, 17 Oct 2021 20:43:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211008231506.17471-1-imp@bsdimp.com>
- <20211008231506.17471-14-imp@bsdimp.com>
-In-Reply-To: <20211008231506.17471-14-imp@bsdimp.com>
+ <20211008231506.17471-2-imp@bsdimp.com>
+In-Reply-To: <20211008231506.17471-2-imp@bsdimp.com>
 From: Kyle Evans <kevans@freebsd.org>
-Date: Sun, 17 Oct 2021 22:37:22 -0500
-X-Gmail-Original-Message-ID: <CACNAnaFgBRpXrb0Xwest9i4Jfx0nAhVrRT7--yfM9o8CGLYxOw@mail.gmail.com>
-Message-ID: <CACNAnaFgBRpXrb0Xwest9i4Jfx0nAhVrRT7--yfM9o8CGLYxOw@mail.gmail.com>
-Subject: Re: [PATCH v2 13/15] bsd-user/sysarch: Provide a per-arch framework
- for sysarch syscall
+Date: Sun, 17 Oct 2021 22:42:54 -0500
+X-Gmail-Original-Message-ID: <CACNAnaFu1uX=pcsjwmYxKAPLX=JdsPHTnrJmjRD2U+aX79KhZQ@mail.gmail.com>
+Message-ID: <CACNAnaFu1uX=pcsjwmYxKAPLX=JdsPHTnrJmjRD2U+aX79KhZQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/15] meson: *-user: only descend into *-user when
+ configured
 To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=96.47.72.81; envelope-from=kevans@freebsd.org;
- helo=mx2.freebsd.org
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2610:1c1:1:606c::19:2;
+ envelope-from=kevans@freebsd.org; helo=mx2.freebsd.org
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -83,120 +82,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@freebsd.org>, Kyle Evans <kevans@freebsd.org>,
+Cc: Kyle Evans <kevans@freebsd.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+ QEMU Developers <qemu-devel@nongnu.org>, Warner Losh <wlosh@bsdimp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, Oct 8, 2021 at 6:15 PM Warner Losh <imp@bsdimp.com> wrote:
 >
-> Add the missing glue to pull in do_freebsd_sysarch to call
-> do_freebsd_arch_sysarch. Put it in os-sys.c, which will be used for
-> sysctl and sysarch system calls because they are mostly arch specific.
+> To increase flexibility, only descend into *-user when that is
+> configured. This allows *-user to selectively include directories based
+> on the host OS which may not exist on all hosts. Adopt Paolo's
+> suggestion of checking the configuration in the directories that know
+> about the configuration.
 >
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20210926220103.1721355-2-f4bug@amsat.org>
+> Message-Id: <20210926220103.1721355-3-f4bug@amsat.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Warner Losh <wlosh@bsdimp.com>
+> Acked-by: Paolo Bonzini <pbonzinni@redhat.com>
+>
+> Sponsored by:           Netflix
 > ---
->  bsd-user/freebsd/meson.build |  3 +++
->  bsd-user/freebsd/os-sys.c    | 27 +++++++++++++++++++++++++++
->  bsd-user/meson.build         |  3 +++
->  bsd-user/qemu.h              |  3 +++
->  bsd-user/syscall.c           |  7 -------
->  5 files changed, 36 insertions(+), 7 deletions(-)
->  create mode 100644 bsd-user/freebsd/meson.build
->  create mode 100644 bsd-user/freebsd/os-sys.c
+>  bsd-user/meson.build   | 4 ++++
+>  linux-user/meson.build | 4 ++++
+>  meson.build            | 3 +--
+>  3 files changed, 9 insertions(+), 2 deletions(-)
 >
-> diff --git a/bsd-user/freebsd/meson.build b/bsd-user/freebsd/meson.build
-> new file mode 100644
-> index 0000000000..4b69cca7b9
-> --- /dev/null
-> +++ b/bsd-user/freebsd/meson.build
-> @@ -0,0 +1,3 @@
-> +bsd_user_ss.add(files(
-> +  'os-sys.c',
-> +))
-> diff --git a/bsd-user/freebsd/os-sys.c b/bsd-user/freebsd/os-sys.c
-> new file mode 100644
-> index 0000000000..309e27b9d6
-> --- /dev/null
-> +++ b/bsd-user/freebsd/os-sys.c
-> @@ -0,0 +1,27 @@
-> +/*
-> + *  FreeBSD sysctl() and sysarch() system call emulation
-> + *
-> + *  Copyright (c) 2013-15 Stacey D. Son
-> + *
-> + *  This program is free software; you can redistribute it and/or modify
-> + *  it under the terms of the GNU General Public License as published by
-> + *  the Free Software Foundation; either version 2 of the License, or
-> + *  (at your option) any later version.
-> + *
-> + *  This program is distributed in the hope that it will be useful,
-> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + *  GNU General Public License for more details.
-> + *
-> + *  You should have received a copy of the GNU General Public License
-> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu.h"
-> +#include "target_arch_sysarch.h"
-> +
-> +/* sysarch() is architecture dependent. */
-> +abi_long do_freebsd_sysarch(void *cpu_env, abi_long arg1, abi_long arg2)
-> +{
-> +    return do_freebsd_arch_sysarch(cpu_env, arg1, arg2);
-> +}
 > diff --git a/bsd-user/meson.build b/bsd-user/meson.build
-> index 243fb78930..a4163c91ff 100644
+> index 0369549340..243fb78930 100644
 > --- a/bsd-user/meson.build
 > +++ b/bsd-user/meson.build
-> @@ -12,3 +12,6 @@ bsd_user_ss.add(files(
->    'syscall.c',
->    'uaccess.c',
->  ))
+> @@ -1,3 +1,7 @@
+> +if not config_target.has_key('CONFIG_BSD_USER')
+> +   subdir_done()
+> +endif
 > +
-> +# Pull in the OS-specific build glue, if any
-> +subdir(targetos)
-> diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-> index cdb85140f4..e65e41d53d 100644
-> --- a/bsd-user/qemu.h
-> +++ b/bsd-user/qemu.h
-> @@ -239,6 +239,9 @@ extern unsigned long target_sgrowsiz;
->  abi_long get_errno(abi_long ret);
->  bool is_error(abi_long ret);
->
-> +/* os-sys.c */
-> +abi_long do_freebsd_sysarch(void *cpu_env, abi_long arg1, abi_long arg2);
+>  bsd_user_ss.add(files(
+>    'bsdload.c',
+>    'elfload.c',
+> diff --git a/linux-user/meson.build b/linux-user/meson.build
+> index 9549f81682..602255a3d6 100644
+> --- a/linux-user/meson.build
+> +++ b/linux-user/meson.build
+> @@ -1,3 +1,7 @@
+> +if not config_target.has_key('CONFIG_LINUX_USER')
+> +   subdir_done()
+> +endif
 > +
->  /* user access */
+>  linux_user_ss.add(files(
+>    'elfload.c',
+>    'exit.c',
+> diff --git a/meson.build b/meson.build
+> index 99a0a3e689..1f2da5f7d9 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2303,10 +2303,9 @@ subdir('ebpf')
 >
->  #define VERIFY_READ  PAGE_READ
-> diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-> index d3b9f431e2..d3322760f4 100644
-> --- a/bsd-user/syscall.c
-> +++ b/bsd-user/syscall.c
-> @@ -88,13 +88,6 @@ static abi_long do_obreak(abi_ulong new_brk)
->      return 0;
->  }
+>  common_ss.add(libbpf)
 >
-> -#if defined(TARGET_I386)
-> -static abi_long do_freebsd_sysarch(CPUX86State *env, int op, abi_ulong parms)
-> -{
-> -    do_freebsd_arch_sysarch(env, op, parms);
-> -}
-> -#endif
-> -
->  #ifdef __FreeBSD__
->  /*
->   * XXX this uses the undocumented oidfmt interface to find the kind of
+> -bsd_user_ss.add(files('gdbstub.c'))
+>  specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
+>
+> -linux_user_ss.add(files('gdbstub.c', 'thunk.c'))
+> +linux_user_ss.add(files('thunk.c'))
+>  specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
+>
+>  # needed for fuzzing binaries
 > --
 > 2.32.0
 >
 
-Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
+I don't understand the gdbstub.c removal  here; don't we still want to
+be compiling it in, just only if the appropriate
+CONFIG_{BSD,LINUX}_USER knob is set? I note that it doesn't appear to
+be added in individual *-user/meson.build, I assume it's uncommon to
+add in ../foo.c in meson-land...
+
+Thanks,
+
+Kyle Evans
 
