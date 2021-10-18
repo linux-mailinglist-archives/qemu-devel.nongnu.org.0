@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F79E431DCF
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 15:53:22 +0200 (CEST)
-Received: from localhost ([::1]:60010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D2E431DCC
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 15:53:20 +0200 (CEST)
+Received: from localhost ([::1]:59848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcT4r-0007QR-Ny
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 09:53:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55226)
+	id 1mcT4p-0007JT-Uf
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 09:53:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mcT3V-0004jA-Jl
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 09:51:57 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:40662)
+ id 1mcT3W-0004kW-L4
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 09:51:59 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:40680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mcT3S-00041F-PW
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 09:51:56 -0400
+ id 1mcT3T-00043R-RH
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 09:51:58 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 7C90A748F54;
- Mon, 18 Oct 2021 15:51:51 +0200 (CEST)
+ by localhost (Postfix) with SMTP id A8DD5755F74;
+ Mon, 18 Oct 2021 15:51:54 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 5BAC0748F52; Mon, 18 Oct 2021 15:51:51 +0200 (CEST)
-Message-Id: <cover.1634563652.git.balaton@eik.bme.hu>
+ id 8AC76748F52; Mon, 18 Oct 2021 15:51:54 +0200 (CEST)
+Message-Id: <e7eb4d2dc28604f7d1e8e5cc60525d6cbdd8bf18.1634563652.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1634563652.git.balaton@eik.bme.hu>
+References: <cover.1634563652.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 0/6] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
- interrupts
+Subject: [PATCH 3/6] usb/uhci: Disallow user creating a vt82c686-uhci-pci
+ device
 Date: Mon, 18 Oct 2021 15:27:32 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,35 +60,57 @@ Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Because this device only works as part of VIA superio chips set user
+creatable to false. Since the class init method is common for UHCI
+variants introduce a flag in UHCIInfo for this.
 
-I'm posting this again as a new series because I'm a bit lost on where
-we are after Philippe sent a pull requst for a series that was
-originally based on this. These are the remaining patches rebased on
-Philippe's pull request that do the same to vt82c686-uhci-pci that was
-done for via-ide to fix USB on pegasos2. First and last patches are
-optional based on the outcome if we can access the parent directly in
-this case or not but I think this should be OK in an internal
-interrupt handler part of one device model and we're not poking around
-in foreign objects.
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/usb/hcd-uhci.c          | 3 +++
+ hw/usb/hcd-uhci.h          | 1 +
+ hw/usb/vt82c686-uhci-pci.c | 2 ++
+ 3 files changed, 6 insertions(+)
 
-Regards,
-
-BALATON Zoltan (6):
-  via-ide: Avoid expensive operations in irq handler
-  usb/uhci: Misc clean up
-  usb/uhci: Disallow user creating a vt82c686-uhci-pci device
-  usb/uhci: Replace pci_set_irq with qemu_set_irq
-  hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI interrupts
-  hw/usb/vt82c686-uhci-pci: Optimise itq handler
-
- hw/ide/via.c               | 11 ++++++-----
- hw/usb/hcd-uhci.c          | 14 ++++++++------
- hw/usb/hcd-uhci.h          |  4 +++-
- hw/usb/vt82c686-uhci-pci.c | 16 ++++++++++++++++
- include/hw/ide/pci.h       |  1 +
- 5 files changed, 34 insertions(+), 12 deletions(-)
-
+diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
+index c557566ec2..7d26e35194 100644
+--- a/hw/usb/hcd-uhci.c
++++ b/hw/usb/hcd-uhci.c
+@@ -1282,6 +1282,9 @@ void uhci_data_class_init(ObjectClass *klass, void *data)
+     } else {
+         device_class_set_props(dc, uhci_properties_standalone);
+     }
++    if (info->notuser) {
++        dc->user_creatable = false;
++    }
+     u->info = *info;
+ }
+ 
+diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
+index e61d8fcb19..316693f80b 100644
+--- a/hw/usb/hcd-uhci.h
++++ b/hw/usb/hcd-uhci.h
+@@ -85,6 +85,7 @@ typedef struct UHCIInfo {
+     uint8_t    irq_pin;
+     void       (*realize)(PCIDevice *dev, Error **errp);
+     bool       unplug;
++    bool       notuser; /* disallow user_creatable */
+ } UHCIInfo;
+ 
+ void uhci_data_class_init(ObjectClass *klass, void *data);
+diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
+index b109c21603..ea262e6d70 100644
+--- a/hw/usb/vt82c686-uhci-pci.c
++++ b/hw/usb/vt82c686-uhci-pci.c
+@@ -25,6 +25,8 @@ static UHCIInfo uhci_info[] = {
+         .irq_pin   = 3,
+         .realize   = usb_uhci_vt82c686b_realize,
+         .unplug    = true,
++        /* Reason: only works as USB function of VT82xx superio chips */
++        .notuser   = true,
+     }
+ };
+ 
 -- 
 2.21.4
 
