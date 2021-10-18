@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20FC443172B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 13:24:21 +0200 (CEST)
-Received: from localhost ([::1]:42726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FD443173C
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 13:27:02 +0200 (CEST)
+Received: from localhost ([::1]:47312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcQke-00035w-5K
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 07:24:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45114)
+	id 1mcQnF-0006Hi-Ea
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 07:27:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1mcQiV-0000KU-IN; Mon, 18 Oct 2021 07:22:07 -0400
-Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:41923)
+ id 1mcQij-0000cX-1U; Mon, 18 Oct 2021 07:22:21 -0400
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:34529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1mcQiT-0008EI-7Y; Mon, 18 Oct 2021 07:22:07 -0400
-Received: by mail-lj1-x231.google.com with SMTP id u5so3049721ljo.8;
- Mon, 18 Oct 2021 04:21:59 -0700 (PDT)
+ id 1mcQif-0008O4-Q1; Mon, 18 Oct 2021 07:22:20 -0400
+Received: by mail-lj1-x22c.google.com with SMTP id 145so8363873ljj.1;
+ Mon, 18 Oct 2021 04:22:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=O37UyOj79sa4YNb4SimS+2nlegN29a4r0sah6fnCBDI=;
- b=bwvwrCkSH92/QxspB2d/VAsmr8Gl08Q7Jn9h3R/Y+adsoHeX8a6E3+gBP1NCLKTTTa
- nASY2MEx1AhpqS8Vgo2C5o3ERYs1AlRL0M/lJpjFtEf6PW4asNQQ+6nBEDq9KgwTDrna
- +p8kasCG8Uc8N6nN7N0vwAbGoA0T2FsOCtixfLV808005i8BEeYk5nMlhKW2Qv3avrJZ
- 9AlQYNU/xeMqR4ZGiCibDkJTcWu3+Z3fEPIXQYeBtB78E1wwFrSfRH7IA8DoFJftctBZ
- 7AGpzR2Vv8FEq9jDUeHOAMBMrv/7zC49IZanONbpwCKO66t4SolOKRxLM4XGkebJnBjZ
- JZ3Q==
+ bh=qUlcCqen1IZe73bGFd/HmIsGdFed/EX5BIwY/7EJN+E=;
+ b=ZVtgM27zAWvmbDvYdZY37xGdyavkq93CvD27KMKzrEXWr0d6xCcBE9uM6rLsNrRJAe
+ TuKNowd4Q8glHnrTAAdU6L0aFDVXiqzDEoz4jnRIGbNSrviojPCfDlT4i8/cD+g/1hLO
+ CL5o2k1vkmztqmkw5gyt8G5O5hpLxUf9ymtNRlzEje7tldrlW4VJz8T5JN45gskV2Jkg
+ kdV9reoPsXHIDLI62C0HRmcgHkreFqWMOhd7N5R+JYDm7Mwi/U/Zwfd9GkXYGiLX1+I6
+ agorhYIg9ZsVOsUmi3iXb19NA9iCiS+6YRIGUwYukL6XN6vaFN0CPHMGtWyWw7POUhhT
+ CJLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=O37UyOj79sa4YNb4SimS+2nlegN29a4r0sah6fnCBDI=;
- b=yyQtMfQ5iQZIysiMjAS/umXptQG/yFg0p9baYrU9MFWoqwIXz+zae6/2Ix4pNbrbAd
- Cx8wKfZPMEmsqJQEx2g5EtpCB0orOYh8oGzSZ5kTEe46wgIYTCc82nRxVncDsNHEY4Sk
- O/aznk8ujXGT5sKXwessUnDWlAcazTeieo4OGyVDb3yVGjrn1O9bY9d2F+wNwHrwH8Bu
- Tm2vEza7ZA5aXnZ09m4zw1PWzOJxeubTKYnU81i623Je9htZzYmIz4Lpldu3HvCZF4Gg
- ORUPjqD/hMv2Qwu0dZOfvXxc7qnMpGWAm4VNQd/wQ8vNku8Bs9+b/m3a/CYGFEDojYJq
- nFxA==
-X-Gm-Message-State: AOAM531f2aiLGKcSRaUPU0dsQmwnnahQGJITu18av24p2ayhhYqG6Nf/
- 8PI6t7YQvrfm7etZE0KY8Sg=
-X-Google-Smtp-Source: ABdhPJw3CkQhIdquXypde79wVfnd53mumTOxjvnHRhQdwoFimzn4mP069eJLQaOB48feLGe6Wsfu0Q==
-X-Received: by 2002:a2e:a303:: with SMTP id l3mr31999887lje.242.1634556118192; 
- Mon, 18 Oct 2021 04:21:58 -0700 (PDT)
+ bh=qUlcCqen1IZe73bGFd/HmIsGdFed/EX5BIwY/7EJN+E=;
+ b=mJxAsQmHtoanFhGpj7S2UcUebSbJQ+6enoInjHTzGkB61LDyCV9hivdmIXv3rOdRLF
+ DS0Jxr63sS/rYjCCOjv99WcdcSilVTQdvjID1AD8czzkOCfIH16vEDq+OnDzzumLWm6L
+ x17nKaPGJ2xj9ISF2k/LD4k/XIonYdcXfhngNQdl3cbwNHFC3dQwDcDffRU2Y0Bln9R1
+ 5WQ76Bx9iaR9dFlfaasnhJL0FB6ekBvzhdkwdYuzfe2EaGBtzQirwn7i5wSiT08zqTDz
+ SRR/RjnzydqcBDOc9z28T0XZfflMJupjBJDt9T/BXnQFIKC13HuH6cXzmKq0PpWtOukQ
+ flAQ==
+X-Gm-Message-State: AOAM533WjIC+gdYOnzbcNIFYGmpA82it2i/hxigOvcz1Rnm/4Kwl8tmk
+ WM3ZLskqIzOsI9eZJxklOvE=
+X-Google-Smtp-Source: ABdhPJyq9CAdUVJRlekj5ZRGah7Adf9SBFddseFVm1xPPjBVfqvprQxCHx4SD+qi/Xrt99xI4efUTw==
+X-Received: by 2002:a2e:b618:: with SMTP id r24mr32408680ljn.414.1634556135790; 
+ Mon, 18 Oct 2021 04:22:15 -0700 (PDT)
 Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
  by smtp.gmail.com with ESMTPSA id
- 79sm422441ljj.124.2021.10.18.04.21.57
+ f4sm1378935lfr.43.2021.10.18.04.22.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 04:21:57 -0700 (PDT)
-Date: Mon, 18 Oct 2021 13:21:56 +0200
+ Mon, 18 Oct 2021 04:22:15 -0700 (PDT)
+Date: Mon, 18 Oct 2021 13:22:13 +0200
 From: Francisco Iglesias <frasse.iglesias@gmail.com>
 To: Tong Ho <tong.ho@xilinx.com>
-Subject: Re: [PATCH 2/3] hw/nvram: Fix Memory Leak in Xilinx Versal eFuse
+Subject: Re: [PATCH 3/3] hw/nvram: Fix Memory Leak in Xilinx ZynqMP eFuse
  device
-Message-ID: <20211018112155.GD23846@fralle-msi>
+Message-ID: <20211018112213.GE23846@fralle-msi>
 References: <20211015203532.2463705-1-tong.ho@xilinx.com>
- <20211015203532.2463705-3-tong.ho@xilinx.com>
+ <20211015203532.2463705-4-tong.ho@xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211015203532.2463705-3-tong.ho@xilinx.com>
+In-Reply-To: <20211015203532.2463705-4-tong.ho@xilinx.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::231;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x231.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x22c.google.com
 X-Spam_score_int: -1020
 X-Spam_score: -102.1
 X-Spam_bar: ---------------------------------------------------
@@ -90,47 +90,57 @@ Cc: edgar.iglesias@gmail.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On [2021 Oct 15] Fri 13:35:31, Tong Ho wrote:
+On [2021 Oct 15] Fri 13:35:32, Tong Ho wrote:
 > Signed-off-by: Tong Ho <tong.ho@xilinx.com>
 
 Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 
 > ---
->  hw/nvram/xlnx-versal-efuse-ctrl.c | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
+>  hw/nvram/xlnx-zynqmp-efuse.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
 > 
-> diff --git a/hw/nvram/xlnx-versal-efuse-ctrl.c b/hw/nvram/xlnx-versal-efuse-ctrl.c
-> index d362376703..b35ba65ab5 100644
-> --- a/hw/nvram/xlnx-versal-efuse-ctrl.c
-> +++ b/hw/nvram/xlnx-versal-efuse-ctrl.c
-> @@ -439,9 +439,11 @@ static void efuse_pgm_addr_postw(RegisterInfo *reg, uint64_t val64)
->       *       up to guest to do so (or by reset).
->       */
->      if (efuse_pgm_locked(s, bit)) {
+> diff --git a/hw/nvram/xlnx-zynqmp-efuse.c b/hw/nvram/xlnx-zynqmp-efuse.c
+> index 1f87dbf988..228ba0bbfa 100644
+> --- a/hw/nvram/xlnx-zynqmp-efuse.c
+> +++ b/hw/nvram/xlnx-zynqmp-efuse.c
+> @@ -434,11 +434,12 @@ static void zynqmp_efuse_pgm_addr_postw(RegisterInfo *reg, uint64_t val64)
+>      if (!errmsg) {
+>          ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, PGM_ERROR, 0);
+>      } else {
 > +        g_autofree char *path = object_get_canonical_path(OBJECT(s));
 > +
+>          ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, PGM_ERROR, 1);
 >          qemu_log_mask(LOG_GUEST_ERROR,
->                        "%s: Denied setting of efuse<%u, %u, %u>\n",
+>                        "%s - eFuse write error: %s; addr=0x%x\n",
 > -                      object_get_canonical_path(OBJECT(s)),
-> +                      path,
->                        FIELD_EX32(bit, EFUSE_PGM_ADDR, PAGE),
->                        FIELD_EX32(bit, EFUSE_PGM_ADDR, ROW),
->                        FIELD_EX32(bit, EFUSE_PGM_ADDR, COLUMN));
-> @@ -478,9 +480,11 @@ static void efuse_rd_addr_postw(RegisterInfo *reg, uint64_t val64)
->      s->regs[R_EFUSE_RD_DATA] = xlnx_versal_efuse_read_row(s->efuse,
->                                                            bit, &denied);
->      if (denied) {
-> +        g_autofree char *path = object_get_canonical_path(OBJECT(s));
-> +
->          qemu_log_mask(LOG_GUEST_ERROR,
->                        "%s: Denied reading of efuse<%u, %u>\n",
-> -                      object_get_canonical_path(OBJECT(s)),
-> +                      path,
->                        FIELD_EX32(bit, EFUSE_RD_ADDR, PAGE),
->                        FIELD_EX32(bit, EFUSE_RD_ADDR, ROW));
+> -                      errmsg, (unsigned)val64);
+> +                      path, errmsg, (unsigned)val64);
+>      }
 >  
-> @@ -625,9 +629,11 @@ static void efuse_ctrl_reg_write(void *opaque, hwaddr addr,
->      s = XLNX_VERSAL_EFUSE_CTRL(dev);
+>      ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, PGM_DONE, 1);
+> @@ -448,6 +449,7 @@ static void zynqmp_efuse_pgm_addr_postw(RegisterInfo *reg, uint64_t val64)
+>  static void zynqmp_efuse_rd_addr_postw(RegisterInfo *reg, uint64_t val64)
+>  {
+>      XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(reg->opaque);
+> +    g_autofree char *path = NULL;
+>  
+>      /*
+>       * Grant reads only to allowed bits; reference sources:
+> @@ -538,10 +540,10 @@ static void zynqmp_efuse_rd_addr_postw(RegisterInfo *reg, uint64_t val64)
+>      return;
+>  
+>   denied:
+> +    path = object_get_canonical_path(OBJECT(s));
+>      qemu_log_mask(LOG_GUEST_ERROR,
+>                    "%s: Denied efuse read from array %u, row %u\n",
+> -                  object_get_canonical_path(OBJECT(s)),
+> -                  efuse_ary, efuse_row);
+> +                  path, efuse_ary, efuse_row);
+>  
+>      s->regs[R_EFUSE_RD_DATA] = 0;
+>  
+> @@ -731,9 +733,11 @@ static void zynqmp_efuse_reg_write(void *opaque, hwaddr addr,
+>      s = XLNX_ZYNQMP_EFUSE(dev);
 >  
 >      if (addr != A_WR_LOCK && s->regs[R_WR_LOCK]) {
 > +        g_autofree char *path = object_get_canonical_path(OBJECT(s));
@@ -142,8 +152,8 @@ Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 >      } else {
 >          register_write_memory(opaque, addr, data, size);
 >      }
-> @@ -681,16 +687,20 @@ static void efuse_ctrl_realize(DeviceState *dev, Error **errp)
->      const uint32_t lks_sz = sizeof(XlnxEFuseLkSpec) / 2;
+> @@ -784,8 +788,10 @@ static void zynqmp_efuse_realize(DeviceState *dev, Error **errp)
+>      XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(dev);
 >  
 >      if (!s->efuse) {
 > +        g_autofree char *path = object_get_canonical_path(OBJECT(s));
@@ -151,17 +161,6 @@ Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 >          error_setg(errp, "%s.efuse: link property not connected to XLNX-EFUSE",
 > -                   object_get_canonical_path(OBJECT(dev)));
 > +                   path);
->          return;
->      }
->  
->      /* Sort property-defined pgm-locks for bsearch lookup */
->      if ((s->extra_pg0_lock_n16 % lks_sz) != 0) {
-> +        g_autofree char *path = object_get_canonical_path(OBJECT(s));
-> +
->          error_setg(errp,
->                     "%s.pg0-lock: array property item-count not multiple of %u",
-> -                   object_get_canonical_path(OBJECT(dev)), lks_sz);
-> +                   path, lks_sz);
 >          return;
 >      }
 >  
