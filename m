@@ -2,84 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459024313CE
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:49:14 +0200 (CEST)
-Received: from localhost ([::1]:54510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8234313CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:49:18 +0200 (CEST)
+Received: from localhost ([::1]:54912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcPGb-0006WJ-DO
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:49:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51074)
+	id 1mcPGf-0006mT-IR
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:49:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcPEe-0004GO-Kk; Mon, 18 Oct 2021 05:47:12 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:51028)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcPEc-0005Rf-GP; Mon, 18 Oct 2021 05:47:11 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id o24so753254wms.0;
- Mon, 18 Oct 2021 02:47:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=TV8AWJAvr4x/pA9yXDfFoHorQ5cDEAuYXqUVmw1SKCA=;
- b=WtcfheA5TNYYjil6DOIluqN/wzbYmr5PjCHUKAAK+xzsIY/0fGUfcLfxcSEqYjSt/Z
- ta2AVOjNZC5g9VHnoC3TU+YSUEr47F4errrzjeFbhjp8RTZTEctRYja0p/LnwV1DUfLm
- tcYcMDQYr9gB+vURnTSl6JR1wXm07VBj/gHWWv7wOtreTrXhzO6AITEX1hdHf0e/UPNr
- J0PG6UGgnrOl776ZaWi7fzOKkU+t+leMDinHE9D9CMbwfhitWSz9t413X9RFxQbKCiad
- qxJIKyobXmm6iz1inR6aRYuRwPdR3HH0DtOzhPqsR/Gy5U/m9xw6JA0cwvOWEXZlNJv+
- T7Fg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mcPEv-0004ak-UM
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:47:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52155)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mcPEu-0005hH-Bj
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 05:47:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634550446;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZDvaCaN6r9hF4Vd9gKXbaXI6zfg4GPj410BKpoF3mX4=;
+ b=iGoBwJWpa05b6/mkS2aEIuGpSxXVFPkGSpswaxU3swhl194KMXq3kMbP0MF7sA+F8SqGAd
+ T9beY5YvP0ScfOJkPjmPe4JSYPDwJ6l0+MEZOCgC4RydJntGEW+j4HG14fJxc+N87NkpnY
+ MX3FxAXkKID3K0axkHpWCVY0v1IcNWU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-284-UeKfiBoaPI-MXDmfYDW8mw-1; Mon, 18 Oct 2021 05:47:25 -0400
+X-MC-Unique: UeKfiBoaPI-MXDmfYDW8mw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ a15-20020a056000188f00b00161068d8461so8669070wri.11
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 02:47:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=TV8AWJAvr4x/pA9yXDfFoHorQ5cDEAuYXqUVmw1SKCA=;
- b=o6rTOp9EkB0CP9y0QNJ8oKtbTOvuMtb7tmoACnRBeB03umLVCc3Hfz8+o3+QabHyvX
- r/dFX2P6LhIUpIj8LhDOPPZBrGP860/w3LALOeWnEPtmBxGrdaezir5FHxKCNz1tpz+y
- 9zzGiXwYhFuI4q9cZxvDlf6qUXL4zY11o/nZlkXhY7821I17Nj6FH/GJXvRrdHZRPKji
- 8YwVN2f+q70YWZHLCrUbjEW0D9CHJza9z67Sja6LRHR2DtsYtIwIISuxdR+QSfMfkUl6
- xetXOBed+Hk7ohO33aBy6rmPpMORCNhYKTBE1GBUUv/bIUor16dH5vL65hSZ/DovBHXJ
- J1tg==
-X-Gm-Message-State: AOAM532fFt3PrtQ0GzSAfGUzupNwzAcFp73hx/whIQDATF2GMWtP6BMN
- 1mSAQaT9tTMU6WeOs9xRqSE=
-X-Google-Smtp-Source: ABdhPJy0JKTfk/EeAprJrzKgurMqpnKmo79c5OpOPIzUnO8tMAgnkNgHrNnwNLdb0zF8ZwBtiid++w==
-X-Received: by 2002:a05:600c:892:: with SMTP id
- l18mr29806135wmp.89.1634550428618; 
- Mon, 18 Oct 2021 02:47:08 -0700 (PDT)
-Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id n12sm12544165wms.27.2021.10.18.02.47.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Oct 2021 02:47:08 -0700 (PDT)
-Message-ID: <353c1b30-7621-54c5-5294-ebf1d8b3f8b8@amsat.org>
-Date: Mon, 18 Oct 2021 11:47:07 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ZDvaCaN6r9hF4Vd9gKXbaXI6zfg4GPj410BKpoF3mX4=;
+ b=cm5uQJBsN8umdh7as2sTs1JhbzAodhMX4DQH85g9s1QVFamu5EwdSLV6+PrwqJLg8o
+ KPUuMFaiHAIe2J50HYg5pn26IEcOY5CPTwZmTNBV1PVQUo1MUb85foLyh3LNOJh25INX
+ QhGol3qS8tzOtyRwtJgrGlOCTJwBhiHPsLuCEyE7IvmuTERZzQ110qgJdl6/Tq4tJU+i
+ gT2Jzg3i3ywKgxBxwi9Uh9ABxQF6pT9YcBsObSCSzfNrfu17zQ09gsustVw+LvkmSd1M
+ nrEkGzjmZqGwYtW6ckWM7DnOrcxtWk+36bZzAy7gzfkAmfMowjnM2np4hfh65Kv2Ep68
+ rlgw==
+X-Gm-Message-State: AOAM533zB+FQCMPfUnrm73whM6g/g6IG/4ZrIRYQE8SFLOiyUlkpYH3q
+ 7AjAiRXWCMI349WFw6dQq2+2EYtZWf7HZeY5PMXD9JjzW8D7DBMWHfsFh3eZ4XgpNskgSL39zO1
+ NUJ065UeRWZGeE8c=
+X-Received: by 2002:a5d:59aa:: with SMTP id p10mr33609231wrr.45.1634550444284; 
+ Mon, 18 Oct 2021 02:47:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxN/9poy+cTJ5+XtF0Z72mAhcRaJaz9C/BxI9uXYuq0kxXoVHNVEhh06aIO3EKxTf/SOAIizg==
+X-Received: by 2002:a5d:59aa:: with SMTP id p10mr33609218wrr.45.1634550444155; 
+ Mon, 18 Oct 2021 02:47:24 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id v191sm12087130wme.36.2021.10.18.02.47.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Oct 2021 02:47:18 -0700 (PDT)
+Date: Mon, 18 Oct 2021 10:47:16 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stafford Horne <shorne@gmail.com>
+Subject: Re: [PATCH] Fix %#08 misuses
+Message-ID: <YW1CpMzy/LBGHt3Q@work-vm>
+References: <20211014185245.69803-1-dgilbert@redhat.com>
+ <db332dc2-0e17-5b16-dbbf-377b9d03cffc@linaro.org>
+ <YWinkMLdThNN81Uo@antec>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 1/2] hw/misc/bcm2835_property: Fix framebuffer with recent
- RPi kernels
-Content-Language: en-US
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>, qemu-devel@nongnu.org, 
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <5283e2811498034cc2de77f10eb16b9cd67a0698.camel@kernel.crashing.org>
- <0615f4a3-fba0-bb59-2405-4e1a080f8166@amsat.org>
- <4bab811367b2c1e813061d6f1048bbf9b4a2a606.camel@kernel.crashing.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <4bab811367b2c1e813061d6f1048bbf9b4a2a606.camel@kernel.crashing.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <YWinkMLdThNN81Uo@antec>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,66 +97,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
+ mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, alistair.francis@wdc.com,
+ eblake@redhat.com, atar4qemu@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/18/21 02:41, Benjamin Herrenschmidt wrote:
-> On Sun, 2021-10-17 at 17:08 +0200, Philippe Mathieu-Daudé wrote:
->> Hi Benjamin,
->>
->> On 10/17/21 09:48, Benjamin Herrenschmidt wrote:
->>> The framebuffer driver fails to initialize with recent Raspberry Pi
->>> kernels, such as the ones shipped in the current RaspiOS images
->>> (with the out of tree bcm2708_fb.c driver)
->>
->> Which particular version?
+* Stafford Horne (shorne@gmail.com) wrote:
+> On Thu, Oct 14, 2021 at 12:33:06PM -0700, Richard Henderson wrote:
+> > On 10/14/21 11:52 AM, Dr. David Alan Gilbert (git) wrote:
+> > > Although I'm tempted to think that perhaps we should just
+> > > prefer '0x%08' which seems clearer.
+> > 
+> > That's what I think we should prefer.
 > 
-> The one I dug out of 2021-05-07-raspios-buster-arm64-lite.img (note
-> that this then fails to boot some time after the fb is setup, even
-> after the fix, in the vchip driver init (before serial is up even).
-> 
-> That said, the same fb problem happens with 5.10.60-v8+ from raspbian.
-> 
-> I'm not sure your fix will work on these, see below:
-> 
->> +        case 0x00040013: /* Get number of displays */
->> +            stl_le_phys(&s->dma_as, value + 12, 0 /* old fw: unique display */);
->> +            resplen = 4;
->> +            break;
->>
-> This should have been equivalen to not having the property. However,
-> the failure path in the driver looks like this (note the mismatch
-> between the comment and the code.. this is rpi 5.10.73 from the rpi
-> repo :
-> 
-> 	ret = rpi_firmware_property(fw,
-> 				    RPI_FIRMWARE_FRAMEBUFFER_GET_NUM_DISPLAYS,
-> 				    &num_displays, sizeof(u32));
-> 
-> 	/* If we fail to get the number of displays, or it returns 0, then
-> 	 * assume old firmware that doesn't have the mailbox call, so just
-> 	 * set one display
-> 	 */
-> 	if (ret || num_displays == 0) {
-> 		dev_err(&dev->dev,
-> 			"Unable to determine number of FBs. Disabling driver.\n");
-> 		return -ENOENT;
-> 	} else {
-> 		fbdev->firmware_supports_multifb = 1;
-> 	}
-> 
-> So it appears that the intention at some stage was to set only one display but
-> the code as written will fail to initialize the drive if the properly is absent
-> *or* if it returns 0.
-> 
-> I've just checked the rpi-5.15.y branch and it's the same.
+> I agree, it's always more clear to me too.
 
-Indeed. I stopped testing recent kernels because they use too many
-features QEMU don't implement.
+OK, I'll rework it.
 
-Our model should generate the DTB blob of devices implemented, instead
-of giving false expectations to the guest by passing an unmodified dtb.
+Dave
 
-This is on my TODO, I might give it a try next WE.
+> -Stafford
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
