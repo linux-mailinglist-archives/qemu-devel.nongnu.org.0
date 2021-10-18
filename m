@@ -2,69 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4BB430F58
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 06:50:57 +0200 (CEST)
-Received: from localhost ([::1]:40518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20BB8430EF2
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 06:37:47 +0200 (CEST)
+Received: from localhost ([::1]:53932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcKbu-0006zU-Ao
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 00:50:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47430)
+	id 1mcKPB-0004kx-2y
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 00:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mcKHi-0002Rc-GJ
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 00:30:03 -0400
-Received: from mail-ua1-x933.google.com ([2607:f8b0:4864:20::933]:34752)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mcKHR-0004iR-L1
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 00:30:02 -0400
-Received: by mail-ua1-x933.google.com with SMTP id h4so1993768uaw.1
- for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 21:29:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8ZXQ/rATjg2oZj1nNEdS9KBq6B+eMe3GFeam4jmfYew=;
- b=BR8vVOP98PcuL8ml4oe05PBXAwHnPtzI1KW5XaIT/XdsFJnLI8wMYlegDTAwCrwfYY
- 8c6w1mdHXMqiBy6ICSQB5JLOV49SSfSf9+Zz6HgGX72J7PUArVf0GcEreRrnWJx79Xkb
- hPvg7Y7nTBE9uk7WL8VV7mad/tN5icphaktI89RKN2XHINNYaPPAKP0IuZuUCodqnA0u
- JopcGxhY2noqN9i8UqDoDt9MW4ZPH5YXqisXcS2HpZlsXupyo7JcFyPCan40rCxvZ45l
- Nv/kB+9HFQOTR/p98/w7szsC+m1wDQQTKxE2wc+5yje8DwzX1HhQ3E7FnOf3/KxXRe3U
- Y+hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8ZXQ/rATjg2oZj1nNEdS9KBq6B+eMe3GFeam4jmfYew=;
- b=Ypv6s1aDJ6dqb+VlSpXQAY4k83RcRglaDWJdP0jdfJhWwxV/tk381jSXESkdU8T5FR
- BiKy3XxnXTA78DZGuQAoTsQ2jqwNzGJ6K/PRGYGkroGe9Dwf9Mu1+nBiFuB8iua343fr
- b5IIychVIvbQmqvSdsZXhUdNd6ECfmaMS8tfcqylm37OTIYRcPCAONDhd719nJ3xQ14/
- 5vavGImYbc7MvFHxGveURlvdhNkUbxWbU3DWyQnfAmGa7SgHhocawpe0B1dpIfGOnJVG
- TIIS7xDZVXmPMh9QFMPcNk+/Sd+kxpTumKCoPSNwMz9L5B9zODg59PJvqw7L+JHIJ16A
- uVWg==
-X-Gm-Message-State: AOAM531yYRfSivvYuQlfHYek+mnhduGhkHp2CUsvt84xM5i2EVs+C3G9
- 7yrdVCO4JoBKUPf5HWl2c75ISbCpmXbtDtIMpq64Og==
-X-Google-Smtp-Source: ABdhPJzcXZ8RlUttfRBfmSB7g9h2J6jYeSzE/skQn5Y+9dStotIY3dqfW7rhSgI82pn7PaQHmgjlb9jhb2TJHCJKxVc=
-X-Received: by 2002:a67:fbc9:: with SMTP id o9mr12169563vsr.42.1634531383749; 
- Sun, 17 Oct 2021 21:29:43 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=918244500=alistair.francis@opensource.wdc.com>)
+ id 1mcKK3-0003Lh-Lw
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 00:32:27 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:53215)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=918244500=alistair.francis@opensource.wdc.com>)
+ id 1mcKJy-0007Jl-Ut
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 00:32:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1634531542; x=1666067542;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=cw3jbC2acfXXTGaYZW5mCXskhVw/6SE8x3quIlsh5K0=;
+ b=Fityij5DFWz8ecYxlQ3NpsaT4pSQf1aOFSZd5nEnNWr5Op6WBzLhpQ1k
+ nkhnXdum9VsmtgbTxI4DM3XBQHwAF5Py3c/KGQsCB+4IcK/NhNdbE6H2K
+ SsMAtjxwRk7R9OuPSmn36zVA8DPJ9UDL8WwPZO2BmP8zK6Tj76VO/nwdy
+ uKIbg1O2P5UKGHz/gmBDDPpnawaRpEAyZ3MLUtrOfS5Mzr1wlDfA/jGTO
+ NLWT9et48jWEi6gfkxKP1l00FL9R+E0QyoBTUB9h7kemu0+SMkrmM9lVb
+ mauRDHXXDRlLJvO3qyOvVTxZKvWo2gaDfB+JKABLLyfxorAN2yOWV9CTl A==;
+X-IronPort-AV: E=Sophos;i="5.85,381,1624291200"; d="scan'208";a="183146763"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 18 Oct 2021 12:32:13 +0800
+IronPort-SDR: TSALEKlzPVezOH6ROqw35qAYdJbmSzF4eePLKub2F5Rb8MAdbBTX3dDz6eVvOex3C63xzciJfH
+ H45uTgi3h4lBEJMx77j+exZNufUQHb1tAWV7zZgOB8e2Pbo/eoGnaNC4xSb+3J/lGrCbWHFfOp
+ /rj+Fi9ZDmTGGTSlb3cxPF09OtRfzXqE2YsxkcoxlGxC3MBB86kEPX8rtdGkbn7EF59QsNZtpf
+ dCrRoXwNE6Mv5qzRyl/7QfZ1SX25M2Z6LcxzYkWLWhkqFIPWHy2pKbRn35oK5WWt2mLPeazMVw
+ a8NQpwrTkdrO8hA4xWybwz/3
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2021 21:07:53 -0700
+IronPort-SDR: cxEm9tenrTStuLCAKjNo/yfi+k9XUVjppOcmRf9/04XyhSsE10oQfWxzOWYNjDS1+RB9nbMJ2i
+ gl4dBt2sPTSWHxVjzyLIBImnVDk8vsvJGOSOr2FGOjjNCU+WgJzpha9R5t7rOLEAR8BPvIvCgB
+ PBooyP2PMTwQlJ7EFhERiXVaVyWqPYUr19PmQFwg6/85yyV/17VVfMLPqVVA81E+3rYRGXn94/
+ 8hW1lnBpzKBg01xcqUj8uWNmITiafsV79pfXDhpyK/kBC5UCAc9wDDtVoQkTY5O5obpdfx0H1q
+ 5JY=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2021 21:32:14 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HXkVj3yg4z1Rvlw
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 21:32:13 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:subject:to:from; s=dkim; t=1634531532;
+ x=1637123533; bh=cw3jbC2acfXXTGaYZW5mCXskhVw/6SE8x3quIlsh5K0=; b=
+ BSIoyScN5QuDNiS7vYTx7t9VaON7JMIVPyEdCfR/+UMsT/iqXSZCsM0mY4IxUx0j
+ D3rv+qnoKUSv6fXJLNqGktOcOSpPanseYndgvidvIodfkbYpywgSGbv4d0zI9xt8
+ VHAmwIMZHwRNRE2K8yx1ddUrWFVqL1fCFG/WyCx0D5r2Tj3mUduvWkRL1MhLn6j2
+ vjjJmTsRl5/Oq/Edfds/DGv1FZ5h7ndA1d6aP8AdTIllYCqVKfpu9HOTdPc5dTya
+ vJ6AWtG7UEz4oHxzDzCRKCWkprw5+wqq6KAsGvF6Fwov2t5oXARvchNmC3hKMgjo
+ Ms9NLawLHDXEle67ZGl8NQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id AsUS8ROYDMLq for <qemu-devel@nongnu.org>;
+ Sun, 17 Oct 2021 21:32:12 -0700 (PDT)
+Received: from toolbox.wdc.com (unknown [10.225.165.38])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HXkVb6Zs1z1RvlJ;
+ Sun, 17 Oct 2021 21:32:07 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: bmeng.cn@gmail.com, palmer@dabbelt.com, alistair.francis@wdc.com,
+ alistair23@gmail.com
+Subject: [PATCH v1 1/2] target/riscv: Remove some unused macros
+Date: Mon, 18 Oct 2021 14:32:00 +1000
+Message-Id: <f4d8a7a035f39c0a35d44c1e371c5c99cc2fa15a.1634531504.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211008231506.17471-1-imp@bsdimp.com>
- <20211008231506.17471-2-imp@bsdimp.com>
- <CACNAnaFu1uX=pcsjwmYxKAPLX=JdsPHTnrJmjRD2U+aX79KhZQ@mail.gmail.com>
-In-Reply-To: <CACNAnaFu1uX=pcsjwmYxKAPLX=JdsPHTnrJmjRD2U+aX79KhZQ@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Sun, 17 Oct 2021 22:29:32 -0600
-Message-ID: <CANCZdfqPp4aZzx_kzTW87mu9Q2iQWo=kD5FeJaBmFQuM5Sqbww@mail.gmail.com>
-Subject: Re: [PATCH v2 01/15] meson: *-user: only descend into *-user when
- configured
-To: Kyle Evans <kevans@freebsd.org>
-Content-Type: multipart/alternative; boundary="00000000000080bf1e05ce98fedf"
-Received-SPF: none client-ip=2607:f8b0:4864:20::933;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x933.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=918244500=alistair.francis@opensource.wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,196 +111,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000080bf1e05ce98fedf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Alistair Francis <alistair.francis@wdc.com>
 
-On Sun, Oct 17, 2021 at 9:43 PM Kyle Evans <kevans@freebsd.org> wrote:
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu_bits.h | 8 --------
+ 1 file changed, 8 deletions(-)
 
-> On Fri, Oct 8, 2021 at 6:15 PM Warner Losh <imp@bsdimp.com> wrote:
-> >
-> > To increase flexibility, only descend into *-user when that is
-> > configured. This allows *-user to selectively include directories based
-> > on the host OS which may not exist on all hosts. Adopt Paolo's
-> > suggestion of checking the configuration in the directories that know
-> > about the configuration.
-> >
-> > Message-Id: <20210926220103.1721355-2-f4bug@amsat.org>
-> > Message-Id: <20210926220103.1721355-3-f4bug@amsat.org>
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > Signed-off-by: Warner Losh <wlosh@bsdimp.com>
-> > Acked-by: Paolo Bonzini <pbonzinni@redhat.com>
-> >
-> > Sponsored by:           Netflix
-> > ---
-> >  bsd-user/meson.build   | 4 ++++
-> >  linux-user/meson.build | 4 ++++
-> >  meson.build            | 3 +--
-> >  3 files changed, 9 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/bsd-user/meson.build b/bsd-user/meson.build
-> > index 0369549340..243fb78930 100644
-> > --- a/bsd-user/meson.build
-> > +++ b/bsd-user/meson.build
-> > @@ -1,3 +1,7 @@
-> > +if not config_target.has_key('CONFIG_BSD_USER')
-> > +   subdir_done()
-> > +endif
-> > +
-> >  bsd_user_ss.add(files(
-> >    'bsdload.c',
-> >    'elfload.c',
-> > diff --git a/linux-user/meson.build b/linux-user/meson.build
-> > index 9549f81682..602255a3d6 100644
-> > --- a/linux-user/meson.build
-> > +++ b/linux-user/meson.build
-> > @@ -1,3 +1,7 @@
-> > +if not config_target.has_key('CONFIG_LINUX_USER')
-> > +   subdir_done()
-> > +endif
-> > +
-> >  linux_user_ss.add(files(
-> >    'elfload.c',
-> >    'exit.c',
-> > diff --git a/meson.build b/meson.build
-> > index 99a0a3e689..1f2da5f7d9 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -2303,10 +2303,9 @@ subdir('ebpf')
-> >
-> >  common_ss.add(libbpf)
-> >
-> > -bsd_user_ss.add(files('gdbstub.c'))
-> >  specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
-> >
-> > -linux_user_ss.add(files('gdbstub.c', 'thunk.c'))
-> > +linux_user_ss.add(files('thunk.c'))
-> >  specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
-> >
-> >  # needed for fuzzing binaries
-> > --
-> > 2.32.0
-> >
->
-> I don't understand the gdbstub.c removal  here; don't we still want to
-> be compiling it in, just only if the appropriate
-> CONFIG_{BSD,LINUX}_USER knob is set? I note that it doesn't appear to
-> be added in individual *-user/meson.build, I assume it's uncommon to
-> add in ../foo.c in meson-land...
->
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 999187a9ee..3aa2512d13 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -427,14 +427,6 @@
+ #define SATP64_ASID         0x0FFFF00000000000ULL
+ #define SATP64_PPN          0x00000FFFFFFFFFFFULL
+=20
+-/* VM modes (mstatus.vm) privileged ISA 1.9.1 */
+-#define VM_1_09_MBARE       0
+-#define VM_1_09_MBB         1
+-#define VM_1_09_MBBID       2
+-#define VM_1_09_SV32        8
+-#define VM_1_09_SV39        9
+-#define VM_1_09_SV48        10
+-
+ /* VM modes (satp.mode) privileged ISA 1.10 */
+ #define VM_1_10_MBARE       0
+ #define VM_1_10_SV32        1
+--=20
+2.31.1
 
-It's added to specific_ss at line 2536
-specific_ss.add(files('cpu.c', 'disas.c', 'gdbstub.c'), capstone)
-
-so we don't need to add it again here.
-
-Warner
-
---00000000000080bf1e05ce98fedf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Oct 17, 2021 at 9:43 PM Kyle =
-Evans &lt;<a href=3D"mailto:kevans@freebsd.org">kevans@freebsd.org</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, O=
-ct 8, 2021 at 6:15 PM Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" tar=
-get=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; To increase flexibility, only descend into *-user when that is<br>
-&gt; configured. This allows *-user to selectively include directories base=
-d<br>
-&gt; on the host OS which may not exist on all hosts. Adopt Paolo&#39;s<br>
-&gt; suggestion of checking the configuration in the directories that know<=
-br>
-&gt; about the configuration.<br>
-&gt;<br>
-&gt; Message-Id: &lt;<a href=3D"mailto:20210926220103.1721355-2-f4bug@amsat=
-.org" target=3D"_blank">20210926220103.1721355-2-f4bug@amsat.org</a>&gt;<br=
->
-&gt; Message-Id: &lt;<a href=3D"mailto:20210926220103.1721355-3-f4bug@amsat=
-.org" target=3D"_blank">20210926220103.1721355-3-f4bug@amsat.org</a>&gt;<br=
->
-&gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug=
-@amsat.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:wlosh@bsdimp.com" tar=
-get=3D"_blank">wlosh@bsdimp.com</a>&gt;<br>
-&gt; Acked-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzinni@redhat.com" ta=
-rget=3D"_blank">pbonzinni@redhat.com</a>&gt;<br>
-&gt;<br>
-&gt; Sponsored by:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Netflix<br>
-&gt; ---<br>
-&gt;=C2=A0 bsd-user/meson.build=C2=A0 =C2=A0| 4 ++++<br>
-&gt;=C2=A0 linux-user/meson.build | 4 ++++<br>
-&gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3 +--<br>
-&gt;=C2=A0 3 files changed, 9 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/bsd-user/meson.build b/bsd-user/meson.build<br>
-&gt; index 0369549340..243fb78930 100644<br>
-&gt; --- a/bsd-user/meson.build<br>
-&gt; +++ b/bsd-user/meson.build<br>
-&gt; @@ -1,3 +1,7 @@<br>
-&gt; +if not config_target.has_key(&#39;CONFIG_BSD_USER&#39;)<br>
-&gt; +=C2=A0 =C2=A0subdir_done()<br>
-&gt; +endif<br>
-&gt; +<br>
-&gt;=C2=A0 bsd_user_ss.add(files(<br>
-&gt;=C2=A0 =C2=A0 &#39;bsdload.c&#39;,<br>
-&gt;=C2=A0 =C2=A0 &#39;elfload.c&#39;,<br>
-&gt; diff --git a/linux-user/meson.build b/linux-user/meson.build<br>
-&gt; index 9549f81682..602255a3d6 100644<br>
-&gt; --- a/linux-user/meson.build<br>
-&gt; +++ b/linux-user/meson.build<br>
-&gt; @@ -1,3 +1,7 @@<br>
-&gt; +if not config_target.has_key(&#39;CONFIG_LINUX_USER&#39;)<br>
-&gt; +=C2=A0 =C2=A0subdir_done()<br>
-&gt; +endif<br>
-&gt; +<br>
-&gt;=C2=A0 linux_user_ss.add(files(<br>
-&gt;=C2=A0 =C2=A0 &#39;elfload.c&#39;,<br>
-&gt;=C2=A0 =C2=A0 &#39;exit.c&#39;,<br>
-&gt; diff --git a/meson.build b/meson.build<br>
-&gt; index 99a0a3e689..1f2da5f7d9 100644<br>
-&gt; --- a/meson.build<br>
-&gt; +++ b/meson.build<br>
-&gt; @@ -2303,10 +2303,9 @@ subdir(&#39;ebpf&#39;)<br>
-&gt;<br>
-&gt;=C2=A0 common_ss.add(libbpf)<br>
-&gt;<br>
-&gt; -bsd_user_ss.add(files(&#39;gdbstub.c&#39;))<br>
-&gt;=C2=A0 specific_ss.add_all(when: &#39;CONFIG_BSD_USER&#39;, if_true: bs=
-d_user_ss)<br>
-&gt;<br>
-&gt; -linux_user_ss.add(files(&#39;gdbstub.c&#39;, &#39;thunk.c&#39;))<br>
-&gt; +linux_user_ss.add(files(&#39;thunk.c&#39;))<br>
-&gt;=C2=A0 specific_ss.add_all(when: &#39;CONFIG_LINUX_USER&#39;, if_true: =
-linux_user_ss)<br>
-&gt;<br>
-&gt;=C2=A0 # needed for fuzzing binaries<br>
-&gt; --<br>
-&gt; 2.32.0<br>
-&gt;<br>
-<br>
-I don&#39;t understand the gdbstub.c removal=C2=A0 here; don&#39;t we still=
- want to<br>
-be compiling it in, just only if the appropriate<br>
-CONFIG_{BSD,LINUX}_USER knob is set? I note that it doesn&#39;t appear to<b=
-r>
-be added in individual *-user/meson.build, I assume it&#39;s uncommon to<br=
->
-add in ../foo.c in meson-land...<br></blockquote><div><br></div><div>It&#39=
-;s added to specific_ss at line 2536<br></div><div>specific_ss.add(files(&#=
-39;cpu.c&#39;, &#39;disas.c&#39;, &#39;gdbstub.c&#39;), capstone)</div><div=
-><br></div><div>so we don&#39;t need to add it again here.</div><div><br></=
-div><div>Warner<br></div></div></div>
-
---00000000000080bf1e05ce98fedf--
 
