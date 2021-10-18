@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D70A24326FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 20:58:59 +0200 (CEST)
-Received: from localhost ([::1]:45278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A19432719
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 21:06:57 +0200 (CEST)
+Received: from localhost ([::1]:56904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcXqd-000608-0e
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 14:58:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42394)
+	id 1mcXyK-0005hv-7r
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 15:06:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcXoq-0004CJ-No
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 14:57:08 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38460)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtE-0007wu-Cf
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:01:40 -0400
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:43583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcXop-00076o-95
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 14:57:08 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id u18so43318226wrg.5
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 11:57:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcXtB-0001U0-65
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 15:01:40 -0400
+Received: by mail-io1-xd33.google.com with SMTP id y67so17466197iof.10
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 12:01:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=oExi1qRuZXZqk97bEMbVf+LQzQ597FmggsShY7s+Rs4=;
- b=E5Unr7litnasHwT4mNXumvRia2ODIao/6eyw0ns2udXZ1WI3Rr+Jp5RCAzUZrDCc1M
- NcE5iRpFFBti6OXHFME1Nt1Fgl2YviXUPAcZHQL79fpmEbTcNZ/x7ENuEzeR/XYIU7sM
- 88AumnP7eUxqlLIkqkf2nrEij1kXdVm6gmYN4RehfQ7i7SK6Emx0DTHHYqLu0DJ9gmGq
- kgF9rEEOK0b+AxTlqCryHg8CbKtCRzfyHxCtjYihBdwAbCWyyhcGjlWBqsrATl5MrQ5X
- ORwdkmVxLu79G6bfenoMC+K4FKrb3kVP5ZIvZwK8L8gcstNvHlqBlpwiER5A35PZdQth
- EIaQ==
+ bh=D8dHJEhs9zDJzedL6+h5kKQSgd5PXWSyQQttsCvUSrI=;
+ b=tVl9QKwScV2BVN6PIbTAVzDco1l2U0z8OXim0MlQzNP3yqfn6E4iwuje5/wjRsj6B+
+ A1w3jS+wvDCqQpj2HD6MOWdYYNZUXcSi+5juNQ5ovUhcXw4avUtAWWsgipPq1pIuXgwj
+ y2+a7TA5bbk2g5EYlmo4uDfAAjMWiItiGni6zjVm1iwJ+ojXT6kPV7ESYtu5+LXvLYkZ
+ 2zM5mkm6QiFdtLni1YKfXfqg5E+iHZ90tpHg9wWinIgIgPntAqkobHrtrZoJZlL3nafN
+ ITW9fP182fZMKoEFpwtqrkP1tDMlxNeokJhS5TyDM0CoHOJTsKlSbaO+GegmrdUUoh7W
+ UTDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=oExi1qRuZXZqk97bEMbVf+LQzQ597FmggsShY7s+Rs4=;
- b=PpsOaMboTkgQ3BsTHiZoxGAoLMFHzsFTPJaNavwRTXbA0VAuV387HmPGyWiWXPh49V
- etRll7HQYB6XHoAOOknbCIPL+eAiNeK341qbR509CfqHT9X7wOKrockYEpHjxXPxLQxA
- VSwevfztveXaEUddy4QR3oV9mptR4ZxebhQ9K3aYPWFZ+RujuZlY9VN+DtKY0WFXnlm/
- 48HDkN03NXIPyrYNtDkr1evV+Yb5C+vdtifB8fXw0+eLh6wcJNXx7Yf7hWRiBRP+ETED
- SDpCOSe9bvXFsiA3uX3fntLdhKsZd0WKMcPDpuc1c+xW+ijQ4vY5gq48qbE+Z2Ses4pR
- 3Wpw==
-X-Gm-Message-State: AOAM533wzwiQTD6yfBx1hSNb7zSiuAW99QizglQNfiU4oryMTeAs2HJl
- 6kN2A8F5B+R/wlcwdSAbMXw=
-X-Google-Smtp-Source: ABdhPJwnRYAktR6MvZAZPMYJBnMvgVtWTMV6kHvcNrTv7zZ5YEg768R4g97MTyTf6vcMAzSGkXJO2w==
-X-Received: by 2002:adf:bb8d:: with SMTP id q13mr38618900wrg.327.1634583425446; 
- Mon, 18 Oct 2021 11:57:05 -0700 (PDT)
-Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id v185sm232031wme.35.2021.10.18.11.57.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Oct 2021 11:57:04 -0700 (PDT)
-Message-ID: <95bb07bb-d1ad-c166-8af4-b2ac9ae7dcdf@amsat.org>
-Date: Mon, 18 Oct 2021 20:57:03 +0200
+ bh=D8dHJEhs9zDJzedL6+h5kKQSgd5PXWSyQQttsCvUSrI=;
+ b=nXP7mD5e4YZ30ySG+6I+AZrfy7KR3IlG81GBLdqGfSuTgtKlUBk6dAWkxIduhWdsqK
+ 5hSCjdsr71rPhCgUdojFqTA7hHxEhRK17P+hgl9j5cAwGYePOFDLa9AwX0dDPlfY7oKH
+ 9YWKpyZeOeuf5EUOZLh5EBoj5mOLYJiBvID6Sauav9xk/7Mxmzp5Npfn9/UVxrvzQtUH
+ Dc1MgJ9HPXD1LNSJIg/TQSJpDHhdBupS5xiI5TOXf+a2PCjb/yKL5Q2YcXCgfz5BOXC0
+ NwQHs8EM+twxp65A+dYtTFakR98227215mg6yHKxlJ4fHnOhOGZr95o/j402jTk6bg8A
+ o1Iw==
+X-Gm-Message-State: AOAM531Sp13oDZamrSxHyv1UnNDShqzn7NJm/eHqjw47S7/8/hc4p32/
+ o+SL82boYG1FCrIOy/JRQOUozDsggUAFEg==
+X-Google-Smtp-Source: ABdhPJzdXxog70EKrPPJI4oWzvEtx66SaQtvLSfFfjBxxKZaP/HkEGxNW1nzQpimDO0XIwfIfrZfdw==
+X-Received: by 2002:a02:b0cc:: with SMTP id w12mr1063500jah.73.1634583693677; 
+ Mon, 18 Oct 2021 12:01:33 -0700 (PDT)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174])
+ by smtp.gmail.com with ESMTPSA id a8sm6945151ilh.5.2021.10.18.12.01.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Oct 2021 12:01:33 -0700 (PDT)
+From: Warner Losh <imp@bsdimp.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/23] Pull bsd user 20211018 patches
+Date: Mon, 18 Oct 2021 13:00:52 -0600
+Message-Id: <20211018190115.5365-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v7 16/21] target/loongarch: Add disassembler
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- WANG Xuerui <i.qemu@xen0n.name>, Song Gao <gaosong@loongson.cn>,
- qemu-devel@nongnu.org
-References: <1634561247-25499-1-git-send-email-gaosong@loongson.cn>
- <1634561247-25499-17-git-send-email-gaosong@loongson.cn>
- <f55bffde-64ec-d390-2942-4ec4b2bbedbc@xen0n.name>
- <9ba04d0a-44bb-1ebd-31f4-35c282842b4a@linaro.org>
- <75f4be9c-47b7-415f-4468-093b74130481@xen0n.name>
- <8e1da0c0-5f24-abca-78de-2304c1453904@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <8e1da0c0-5f24-abca-78de-2304c1453904@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,36 +80,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
- yangxiaojuan@loongson.cn, peterx@redhat.com, laurent@vivier.eu,
- alistair.francis@wdc.com, maobibo@loongson.cn, pbonzini@redhat.com,
- bmeng.cn@gmail.com, alex.bennee@linaro.org, chenhuacai@loongson.cn
+Cc: Kyle Evans <kevans@freebsd.org>, Laurent Vivier <laurent@vivier.eu>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/18/21 20:33, Richard Henderson wrote:
-> On 10/18/21 11:18 AM, WANG Xuerui wrote:
->> On 10/19/21 01:29, Richard Henderson wrote:
->>> On 10/18/21 8:38 AM, WANG Xuerui wrote:
->>>>
->>>> For now any implementation would suffice, and I already saw one or
->>>> two bugs in the output during my TCG host work, but it surely would
->>>> be nice to switch to generated decoder in the future. The
->>>> loongarch-opcodes tables could be extended to support peculiarities
->>>> as exhibited in the v1.00 ISA manual and binutils implementation,
->>>> via additional attributes, and I'm open to such contributions.
->>>
->>> Perhaps it would be easiest to re-use the decodetree description?
->>> See e.g. target/openrisc/disas.c.
->>>
->> Indeed; I didn't thought of disassemblers in target/ instead of
->> disas/. That would be the most elegant way forward!
-> 
-> 
-> The one quirk will be that so far using decodetree for disas is limited
-> to the target, whereas you'll want this for host as well.  It shouldn't
-> be a big deal, just a small matter of the correct build rules.
+The following changes since commit c148a0572130ff485cd2249fbdd1a3260d5e10a4:
 
-Oh, good to know. OTOH I expect very few developers to look at
-host disas.
+  Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20211016' into staging (2021-10-16 11:16:28 -0700)
+
+are available in the Git repository at:
+
+  git@gitlab.com:bsdimp/qemu.git tags/pull-bsd-user-20211018-pull-request
+
+for you to fetch changes up to 5abfac277d25feb5f12332422c03ea1cb21c6aa1:
+
+  bsd-user/signal: Create a dummy signal queueing function (2021-10-18 12:51:39 -0600)
+
+----------------------------------------------------------------
+bsd-user pull request: merge dependencies for next architectures
+
+Merge the dependencies for arm, aarch64, and riscv64 architectures. This joins
+together two patch series:
+
+[PATCH v2 00/15] bsd-user: misc cleanup for aarch64 import
+
+Prepare for aarch64 support (the next architecture to be upstreamed). As the
+aarch64 emulation is more complete, it relies on a number of different items.
+In some cases, I've pulled in the full support from bsd-user fork. In other
+cases I've created a simple stub (as is the case for signals, which have
+independent changes pending, so I wanted to be as minimal as possible.  Since
+all pre-12.2 support was purged from the bsd-user fork, go ahead and remove it
+here. FreeBSD 11.x goes ouft of support at the end of the month. Remove what
+little multi-version support that's in upstream.
+
+and
+
+[PATCH v3 0/9] bsd-user mmap fixes
+This series synchronizes mmap.c with the bsd-user fork. This is a mix of old bug
+fixes pulled in from linux-user, as well as some newer fixes to adress bugs
+found in check-tcg and recent FreeBSD developments. There are also a couple of
+style commits. Updated to migrate debugging to qemu_log.
+
+as well as a couple of minor rebase tweaks. In addition, the next two
+architectures I plan on upstreaming (arm and riscv64) also have their prereqs
+satisfied with this request.
+
+v2: Remove accidental module regression in patch 7 and try again.
+
+----------------------------------------------------------------
+
+Kyle Evans (1):
+  bsd-user/mmap.c: Implement MAP_EXCL, required by jemalloc in head
+
+Mikaël Urankar (2):
+  bsd-user/mmap.c: Always zero MAP_ANONYMOUS memory in mmap_frag()
+  bsd-user/mmap.c: check pread's return value to fix warnings with
+    _FORTIFY_SOURCE
+
+Stacey Son (1):
+  bsd-user/errno_defs.h: Add internal error numbers
+
+Warner Losh (19):
+  bsd-user/mmap.c: MAP_ symbols are defined, so no need for ifdefs
+  bsd-user/mmap.c: mmap return ENOMEM on overflow
+  bsd-user/mmap.c: mmap prefer MAP_ANON for BSD
+  bsd-user/mmap.c: Convert to qemu_log logging for mmap debugging
+  bsd-user/mmap.c: Don't mmap fd == -1 independently from MAP_ANON flag
+  bsd-user/mmap.c: assert that target_mprotect cannot fail
+  meson: *-user: only descend into *-user when configured
+  bsd-user/target_os-user.h: Remove support for FreeBSD older than 12.0
+  bsd-user/strace.list: Remove support for FreeBSD versions older than
+    12.0
+  bsd-user: TARGET_RESET define is unused, remove it
+  bsd-user: export get_errno and is_error from syscall.c
+  bsd-user: move TARGET_MC_GET_CLEAR_RET to target_os_signal.h
+  bsd-user/target_os_elf.h: Remove fallback ELF_HWCAP and reorder
+  bsd-user/target_os_elf: If ELF_HWCAP2 is defined, publish it
+  bsd-user: Remove used from TaskState
+  bsd-user: Add stop_all_tasks
+  bsd-user/sysarch: Move to using do_freebsd_arch_sysarch interface
+  bsd-user: Rename sigqueue to qemu_sigqueue
+  bsd-user/signal: Create a dummy signal queueing function
+
+ bsd-user/errno_defs.h                |  13 ++-
+ bsd-user/freebsd/meson.build         |   3 +
+ bsd-user/freebsd/os-sys.c            |  27 +++++
+ bsd-user/freebsd/strace.list         |  11 --
+ bsd-user/freebsd/target_os_elf.h     |  12 +--
+ bsd-user/freebsd/target_os_signal.h  |   3 +
+ bsd-user/freebsd/target_os_user.h    | 100 +------------------
+ bsd-user/i386/target_arch_cpu.h      |   2 -
+ bsd-user/i386/target_arch_signal.h   |   2 -
+ bsd-user/main.c                      |  10 +-
+ bsd-user/meson.build                 |   7 ++
+ bsd-user/mmap.c                      | 144 +++++++++++++++------------
+ bsd-user/qemu.h                      |  25 +++--
+ bsd-user/signal.c                    |  11 +-
+ bsd-user/syscall.c                   |  60 +----------
+ bsd-user/x86_64/target_arch_cpu.h    |   2 -
+ bsd-user/x86_64/target_arch_signal.h |   2 -
+ linux-user/meson.build               |   4 +
+ meson.build                          |  12 ++-
+ 19 files changed, 187 insertions(+), 263 deletions(-)
+ create mode 100644 bsd-user/freebsd/meson.build
+ create mode 100644 bsd-user/freebsd/os-sys.c
+
+-- 
+2.32.0
+
 
