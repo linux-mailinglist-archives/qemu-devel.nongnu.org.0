@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A3743238F
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 18:14:18 +0200 (CEST)
-Received: from localhost ([::1]:55326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41154323AE
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 18:19:39 +0200 (CEST)
+Received: from localhost ([::1]:45224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcVHF-0007BV-28
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 12:14:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58098)
+	id 1mcVMQ-0002Yb-Qc
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 12:19:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8z-0007iz-1d
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8z-0007ix-0k
  for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:46 -0400
-Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:45678)
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:33737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8o-00080M-Ai
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:40 -0400
-Received: by mail-io1-xd2c.google.com with SMTP id 188so16852127iou.12
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 09:05:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8m-00081l-MR
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:39 -0400
+Received: by mail-io1-xd32.google.com with SMTP id n7so16966236iod.0
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 09:05:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CIQatE8dg36Pa6PMFl/HPTB8wrbRocW2ZkkMxKhIlVw=;
- b=J3Hd0QxPP+BvFU76FcNWnm71H5+zSoT37RNY0qCn5n4q43UVNuACgO4Ef/RiFlNXTK
- Dpoj87wuJAu4b8tO7kl1KPE3AK96GJYRBECydh+MzfVzpQ7F2yqppnp3O8tGvrn+Y6Dg
- 7AW5I4g3SahCHUMq6N1wExivco4TbY7CGuIWP+BMsn6TfVTmMDcAwGHc2VpWW446qa7D
- /pWmAd0YE4F3I15S2096yiHFNziZga7CEA7Rj7VTyrCoqSLIS8ZBb+aMJiYA2kidls++
- W0UW6GJNnnT+VujaMuYWu3YJ3s3gMw/N/2vOAX6tbbCz36xMUwq/yQijYsZNIaCxxal9
- X2Ag==
+ bh=vJYc+d0t5Q+xLUHUW/ZgWS+rpFy2RSrgUaVL6ybl14c=;
+ b=tDfhWSIofsP9YIW4wl78egNO+5a2y0hVHJsfwOqsAeip0oxEsPqmJLJZlV4wZU2qVT
+ 3au2J2KpbxJ7eZu6ZdjalIl9OQG2mlE+bp6XRXet6kFwapIVb+8i7vwnR4educjvDhNB
+ NbfBS0q4MFx0FaFgudW2cgj0cv0hC3prWV0aA1oEK5u6gm/XIgGzoliC/T7m3nJljmo8
+ izCCNkIrV8AXxOXT4jeiZO+rXyIpxxowVKwbv/G5y90nv75LlqLpi2dm1qryqyxzHdk6
+ ceUab4+Ith4eZOuONK91D9lUTmZJMLqBtzHmuACI9N6KI3ydGRQFBt7oJHN/xCs+id+B
+ +Org==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CIQatE8dg36Pa6PMFl/HPTB8wrbRocW2ZkkMxKhIlVw=;
- b=RMtP3+8Of11YY8ABKWD4apBnyy1Ti99uS5N6NrEm1TXvGGGHCYpkltefIcsmobgWWG
- C0PRrHHR6dIuPaLkRQIUmUOf7FP8wQzKF1BdKuihtwBYdVntpw8Ao7f+8x3E4RIoIHpy
- sOcJO4Pgo6X/GgNBhUpjRvZTbPQFsRj1Heapx6qjsjtXJ32/LhJKWrz2ZsDu8ybcqKMj
- 1jwmdU20ybvxB1es1SubuI0QDDzz+cpd4xiXSiXm+aXFqDWOvdIAkZK6FrZx9LeEmh1G
- 5r26BNlXHiIo3O5SvDFLX77eYurBxvKZzm6aXYpUJs6oSNg4fqJUJNaBn9zBl+5jIiTI
- vGhA==
-X-Gm-Message-State: AOAM533lqRY6Zjnu9JUzcCNgoFRVuph5CIX94nyHeLMenISq9s7t3EBe
- aTzbHyko3/kchymKPncq+P705F9HdPtn9g==
-X-Google-Smtp-Source: ABdhPJyleBmCvrQHxN1g7eX5m1nr2H2Pmy0vg1WY8I3LZtNWISxE8R4FODrT505VxkZPBugTqNxLcw==
-X-Received: by 2002:a05:6638:293:: with SMTP id
- c19mr462227jaq.21.1634573127751; 
- Mon, 18 Oct 2021 09:05:27 -0700 (PDT)
+ bh=vJYc+d0t5Q+xLUHUW/ZgWS+rpFy2RSrgUaVL6ybl14c=;
+ b=46hzTA1OdmkVRB0LFCSDRcD4oox+eTbzGoh1g5w/LRLyOKNsR45upQB6fy/2Tuz1OH
+ sX2/SeSOqQphIOmRNPcZuFtvddn6vvTi+NDBKvzjsimeU6wnsCI6PxJkLSmhkef8Rjbl
+ bxywodjLWOat2sSsKjG1ncGoSDSLpge4KsD7ez4BNOYkKeWTnmAz0+t6yeAfA1LIJtQh
+ uGdMXgyPtLj28khTOQ44tgXxoYRziSl1ykvN2b3LQFOqjp1k7vbZRU4VEfZTCdtwl2Jc
+ 7+xTkE83j2G//D4S/6nvuKyG2l898JAto3XTHE1zmY78Wx/ydtilLowFGnX+X9KyipoS
+ FW8g==
+X-Gm-Message-State: AOAM531x6eVeojfKnSOGt28uSV/j1I484udr2fzEuy/iC0njOngC282r
+ GZL5n5Op1BnhMK/ekC4fGUfe2N5xIub1ug==
+X-Google-Smtp-Source: ABdhPJzahoMKS3TEJnLZbRZdQQAhaEFHyLp2pggb8su6VJFGEReeL75k7XraA56XNrC0zXH5BDy2WA==
+X-Received: by 2002:a5e:d80a:: with SMTP id l10mr15311166iok.182.1634573128657; 
+ Mon, 18 Oct 2021 09:05:28 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a4sm7240936ild.52.2021.10.18.09.05.26
+ by smtp.gmail.com with ESMTPSA id a4sm7240936ild.52.2021.10.18.09.05.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 09:05:27 -0700 (PDT)
+ Mon, 18 Oct 2021 09:05:28 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/23] bsd-user: TARGET_RESET define is unused, remove it
-Date: Mon, 18 Oct 2021 10:04:48 -0600
-Message-Id: <20211018160458.1976-14-imp@bsdimp.com>
+Subject: [PULL 14/23] bsd-user: export get_errno and is_error from syscall.c
+Date: Mon, 18 Oct 2021 10:04:49 -0600
+Message-Id: <20211018160458.1976-15-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211018160458.1976-1-imp@bsdimp.com>
 References: <20211018160458.1976-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd32.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,41 +89,61 @@ Cc: Kyle Evans <kevans@FreeBSD.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Make get_errno and is_error global so files other than syscall.c can use
+them.
+
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 ---
- bsd-user/i386/target_arch_cpu.h   | 2 --
- bsd-user/x86_64/target_arch_cpu.h | 2 --
- 2 files changed, 4 deletions(-)
+ bsd-user/qemu.h    |  4 ++++
+ bsd-user/syscall.c | 10 +++++-----
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/bsd-user/i386/target_arch_cpu.h b/bsd-user/i386/target_arch_cpu.h
-index 978e8066af..b28602adbb 100644
---- a/bsd-user/i386/target_arch_cpu.h
-+++ b/bsd-user/i386/target_arch_cpu.h
-@@ -23,8 +23,6 @@
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index 522d6c4031..3b8475394c 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -235,6 +235,10 @@ extern unsigned long target_dflssiz;
+ extern unsigned long target_maxssiz;
+ extern unsigned long target_sgrowsiz;
  
- #define TARGET_DEFAULT_CPU_MODEL "qemu32"
++/* syscall.c */
++abi_long get_errno(abi_long ret);
++bool is_error(abi_long ret);
++
+ /* user access */
  
--#define TARGET_CPU_RESET(cpu)
--
- static inline void target_cpu_init(CPUX86State *env,
-         struct target_pt_regs *regs)
+ #define VERIFY_READ  PAGE_READ
+diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
+index 372836d44d..2fd2ba8330 100644
+--- a/bsd-user/syscall.c
++++ b/bsd-user/syscall.c
+@@ -33,18 +33,18 @@
+ static abi_ulong target_brk;
+ static abi_ulong target_original_brk;
+ 
+-static inline abi_long get_errno(abi_long ret)
++abi_long get_errno(abi_long ret)
  {
-diff --git a/bsd-user/x86_64/target_arch_cpu.h b/bsd-user/x86_64/target_arch_cpu.h
-index 5f5ee602f9..5172b230f0 100644
---- a/bsd-user/x86_64/target_arch_cpu.h
-+++ b/bsd-user/x86_64/target_arch_cpu.h
-@@ -23,8 +23,6 @@
+-    if (ret == -1)
++    if (ret == -1) {
+         /* XXX need to translate host -> target errnos here */
+         return -(errno);
+-    else
+-        return ret;
++    }
++    return ret;
+ }
  
- #define TARGET_DEFAULT_CPU_MODEL "qemu64"
+ #define target_to_host_bitmask(x, tbl) (x)
  
--#define TARGET_CPU_RESET(cpu)
--
- static inline void target_cpu_init(CPUX86State *env,
-         struct target_pt_regs *regs)
+-static inline int is_error(abi_long ret)
++bool is_error(abi_long ret)
  {
+     return (abi_ulong)ret >= (abi_ulong)(-4096);
+ }
 -- 
 2.32.0
 
