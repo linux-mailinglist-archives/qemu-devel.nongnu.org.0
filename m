@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BBF4312A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 10:59:42 +0200 (CEST)
-Received: from localhost ([::1]:45420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B914312A5
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 11:00:06 +0200 (CEST)
+Received: from localhost ([::1]:45794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcOUf-0002ia-7X
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 04:59:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40658)
+	id 1mcOUy-0002xn-Gw
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 05:00:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcOSn-0000Lf-Ey; Mon, 18 Oct 2021 04:57:45 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36856)
+ id 1mcOTL-0001Jt-RG; Mon, 18 Oct 2021 04:58:19 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcOSl-0000kl-Hg; Mon, 18 Oct 2021 04:57:45 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id o20so40030331wro.3;
- Mon, 18 Oct 2021 01:57:42 -0700 (PDT)
+ id 1mcOTK-0001Dc-GM; Mon, 18 Oct 2021 04:58:19 -0400
+Received: by mail-wr1-x435.google.com with SMTP id u18so40090226wrg.5;
+ Mon, 18 Oct 2021 01:58:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=kZsvhk5OmAGcsOZUO6hNEvq1KPk0VFMf7f+fTabcrB8=;
- b=dgaHwthBxIxLs/Qh2bhd0ShQPLgLe+C71nm8td72XgGzvAzfZJS0J4OpQ3oSYd5ldd
- QNWa3Jqk7G3K75HQutKDhav/ZUv0cknPl3I7/xTu0uYM3oqXKL13gd9uzl1uOgS32bRu
- Vh9R4gIFJFXypsKFWKfDQyB+A2OuxR2XVgSIYNV0KubKJIdIxHFSaqCNDUnFD3z+zsXP
- lUJUJ8dFi1+IOJYqJqPh1wYEVr2vIRVEIKEY02BvL4IQpE7OnV75ITFQRxGek5g9nMzw
- MJYxJwnks3TqzUevlVslnW4blsXrhZr6DtHCYnZfDsyw5gs6Wkv+gHCODrudlJei1yc/
- l7WQ==
+ bh=B7PZu9Ahb8gb+bA346ZFbHFjascQVf52lha+yTBf0JQ=;
+ b=PMk9XjBRtl/r8Hl495dKARsTVV/XeBPYHotFOB7uAZi+YomttU08mFWUz41kUAZ1BF
+ meIpuzOeGx6kB/sn2p4aunjUiIYOEkD2Nje4Y/bdGSSSeg0V4GLNU5MsRaGmP+SsCxmL
+ 7pTUMdQy/Tf/RxoEhefBXZpvaFbQQoDNVPlsjS1VALBCm7Uj8QIt9AmQ7eYZaHPSFzZq
+ vUuRHzekeb/tsUiHXbDFLuyv00p1tVUxxU8rGUfNV6gSmgqXmU0b6oLSBxcnaDQFrFPb
+ wTgjZExI7K4uLpTAEUWvsQwNKXq2cpvwlHKfaaD5NiPq7OmzHtM9vKSymDd18vXxi7hH
+ TbJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=kZsvhk5OmAGcsOZUO6hNEvq1KPk0VFMf7f+fTabcrB8=;
- b=EbnUOkoteouN0JC/c/9aarNtl3VT97mWp5abkLULCKiq9GdUlPHE84g5De6yilD5Mt
- jRs9rGdTM5kmYUYsvAjJ/Eum1oUTsAkMkKrqv3ivvG9+7H5Lvsq97XaTyNPZ1n+gcerG
- SJUk4jwdjUzqqlnuYPccTjkLWUhHqRwWdX3Gtcjii5kM1uU2LdIwC2QenAr+cHJp0phK
- q0BZgZsIOtRCNPFXWsQi/VefCnjEPXCUPbKETq4F5bRXjgSOgjsanEwqOORnduaDfpcA
- 2A2baOCfB5uknoN/uohSVOmYPoPma/kGhCnyKL8bp6qYbUAGbHYkz+rXYa687FY056yD
- qtHg==
-X-Gm-Message-State: AOAM533+Bft5dtKf4mYQjZjDI/JgFqmPxU2Vu3rKISazqZTjjc4pkjCI
- skHgmVVlT0sxJPhtXKAJ+pk=
-X-Google-Smtp-Source: ABdhPJwtG4h5vl1flKYBWuiPnfwQv4yKRilK2g62MwxFQG2hNm6JKMdHKvNFU3H8SSBQNVjwJDmecQ==
-X-Received: by 2002:a5d:59ae:: with SMTP id p14mr34211057wrr.76.1634547461614; 
- Mon, 18 Oct 2021 01:57:41 -0700 (PDT)
+ bh=B7PZu9Ahb8gb+bA346ZFbHFjascQVf52lha+yTBf0JQ=;
+ b=RcKMpJS+8xOw3gj3j+n6ACv1D8afZuJCtwVyRkBgA8Oy0qu0Ft8KOdYtYriNmbISou
+ QCySxC2Cvgb1rhmdhLr7p4DGpi4pnz41OWHDDaDecJqrg4Wo607Z9jH0sIHsIAcmHuh6
+ rFBQw7lpFB2kkO8cS9y8UODYOb5mr8HdlD3a/JJr2YmiNj3XT6wAOtChHcj9/kNsRIh0
+ 9HuWmV7h/lnTYbpC3qVwuxes3jUYGzn8fUY1Z4peD9AOTRUM1nFN475hIjBeSbj79PXh
+ zg1GmRdyqG0Qb+mrkD1PqtxTujOk7U7ZcOgQr3mOP7GrV/zyXj+L+SRiYIwzDBC7G0JS
+ XxVA==
+X-Gm-Message-State: AOAM533AVqWLkdShp//IUewE71CfwB5g+t2UXC59Cobx+uGmr1n+ntur
+ U6ZHMbpPjrzzY0WLjHJtsAE=
+X-Google-Smtp-Source: ABdhPJzDSd9DCf9F1JzFfXuC/h/25G6P5MJwjy2LCZLt88NwwkIC53dDbmp9WT+B85pdcJfgoNIA7A==
+X-Received: by 2002:adf:b1c5:: with SMTP id r5mr33843836wra.357.1634547496719; 
+ Mon, 18 Oct 2021 01:58:16 -0700 (PDT)
 Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id j15sm12012769wrr.8.2021.10.18.01.57.40
+ by smtp.gmail.com with ESMTPSA id q204sm17977152wme.10.2021.10.18.01.58.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Oct 2021 01:57:41 -0700 (PDT)
-Message-ID: <5c2c6afc-e854-11ee-f3be-0b5dd222b205@amsat.org>
-Date: Mon, 18 Oct 2021 10:57:39 +0200
+ Mon, 18 Oct 2021 01:58:16 -0700 (PDT)
+Message-ID: <f62220b0-9e00-aafd-c7f1-3c64d9204d2e@amsat.org>
+Date: Mon, 18 Oct 2021 10:58:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 1/4] aspeed/wdt: Add trace events
+Subject: Re: [PATCH 2/4] aspeed/smc: Dump address offset in trace events
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
  Peter Maydell <peter.maydell@linaro.org>
 References: <20211004154635.394258-1-clg@kaod.org>
- <20211004154635.394258-2-clg@kaod.org>
+ <20211004154635.394258-3-clg@kaod.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211004154635.394258-2-clg@kaod.org>
+In-Reply-To: <20211004154635.394258-3-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,17 +95,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/4/21 17:46, Cédric Le Goater wrote:
+> The register index is currently printed and this is confusing.
+> 
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->  hw/watchdog/wdt_aspeed.c | 5 +++++
->  hw/watchdog/trace-events | 4 ++++
->  2 files changed, 9 insertions(+)
-
-> +# wdt-aspeed.c
-> +aspeed_wdt_read(uint64_t addr, uint32_t size) "@0x%" PRIx64 " size=%d"
-> +aspeed_wdt_write(uint64_t addr, uint32_t size, uint64_t data) "@0x%" PRIx64 " size=%d value=0x%"PRIx64
-
-"size=%u", otherwise:
+>  hw/ssi/aspeed_smc.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
