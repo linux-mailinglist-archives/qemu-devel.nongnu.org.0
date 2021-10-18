@@ -2,52 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6F5431847
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 13:57:54 +0200 (CEST)
-Received: from localhost ([::1]:44870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB20431871
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 14:06:15 +0200 (CEST)
+Received: from localhost ([::1]:51940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcRH7-0000C9-5b
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 07:57:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52222)
+	id 1mcRPB-0005J6-Ta
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 08:06:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mcREZ-0006xB-Vl; Mon, 18 Oct 2021 07:55:15 -0400
-Received: from out28-50.mail.aliyun.com ([115.124.28.50]:40115)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mcRMR-0003sF-MF
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 08:03:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mcREW-0001YQ-V2; Mon, 18 Oct 2021 07:55:15 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0743707|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_alarm|0.020335-0.000128348-0.979537; FP=0|0|0|0|0|-1|-1|-1;
- HT=ay29a033018047187; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=7; RT=7; SR=0;
- TI=SMTPD_---.LdQ5Wer_1634558104; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.LdQ5Wer_1634558104)
- by smtp.aliyun-inc.com(10.147.41.138);
- Mon, 18 Oct 2021 19:55:04 +0800
-Subject: Re: [PATCH v3 05/14] target/riscv: Add MXL/SXL/UXL to TB_FLAGS
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211016171412.3163784-1-richard.henderson@linaro.org>
- <20211016171412.3163784-6-richard.henderson@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <e1d9bbca-f3c9-5a8a-7e36-b3d7c4761fe9@c-sky.com>
-Date: Mon, 18 Oct 2021 19:55:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mcRMP-0007vz-AH
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 08:03:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634558599;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ASLb7X8cEkBAHNi4nty76dNipGhw5S6+35W81VNrVjE=;
+ b=RrZ3pWGaLMvs7UxPNg7p/lyKV4UCgT10xiVxVqAM8kj2XMzgXX59iMX4hnSChH8QwkX4PP
+ Z+zBKo8DMabwiOynKe1m6FPWM0zLqUVocEaI3HIJKM+NPBwa6QSMLzON0nV5tcToiHSTka
+ Kt7ehhXsEJIKUSkCEXeh5Y9Gf3iFMEU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-iEEOAqPVP5GSi6PXjnJ66A-1; Mon, 18 Oct 2021 08:03:16 -0400
+X-MC-Unique: iEEOAqPVP5GSi6PXjnJ66A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 889DF42394;
+ Mon, 18 Oct 2021 12:03:14 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB48F60D30;
+ Mon, 18 Oct 2021 12:03:13 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 71C7711380A7; Mon, 18 Oct 2021 14:03:12 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PULL 37/40] monitor: Tidy up find_device_state()
+References: <20211013090728.309365-1-pbonzini@redhat.com>
+ <20211013090728.309365-38-pbonzini@redhat.com>
+ <3d80dc6b-66bd-34f7-8285-48c0647d6238@de.ibm.com>
+Date: Mon, 18 Oct 2021 14:03:12 +0200
+In-Reply-To: <3d80dc6b-66bd-34f7-8285-48c0647d6238@de.ibm.com> (Christian
+ Borntraeger's message of "Fri, 15 Oct 2021 13:08:50 +0200")
+Message-ID: <87tuhe8rr3.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20211016171412.3163784-6-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.50; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-50.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,145 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: frank.chang@sifive.com, alistair.francis@wdc.com,
- frederic.petrot@univ-grenoble-alpes.fr, qemu-riscv@nongnu.org,
- fabien.portas@grenoble-inp.org
+Cc: Damien Hedde <damien.hedde@greensocs.com>, Hanna Reitz <hreitz@redhat.com>,
+ "Daniel P . =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu block <qemu-block@nongnu.org>, qemu-devel@nongnu.org,
+ qemu-s390x <qemu-s390x@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Christian Borntraeger <borntraeger@de.ibm.com> writes:
 
-On 2021/10/17 上午1:14, Richard Henderson wrote:
-> Begin adding support for switching XLEN at runtime.  Extract the
-> effective XLEN from MISA and MSTATUS and store for use during translation.
+> Am 13.10.21 um 11:07 schrieb Paolo Bonzini:
+>> From: Markus Armbruster <armbru@redhat.com>
+>> Commit 6287d827d4 "monitor: allow device_del to accept QOM paths"
+>> extended find_device_state() to accept QOM paths in addition to qdev
+>> IDs.  This added a checked conversion to TYPE_DEVICE at the end, which
+>> duplicates the check done for the qdev ID case earlier, except it sets
+>> a *different* error: GenericError "ID is not a hotpluggable device"
+>> when passed a QOM path, and DeviceNotFound "Device 'ID' not found"
+>> when passed a qdev ID.  Fortunately, the latter won't happen as long
+>> as we add only devices to /machine/peripheral/.
+>> Earlier, commit b6cc36abb2 "qdev: device_del: Search for to be
+>> unplugged device in 'peripheral' container" rewrote the lookup by qdev
+>> ID to use QOM instead of qdev_find_recursive(), so it can handle
+>> buss-less devices.  It does so by constructing an absolute QOM path.
+>> Works, but object_resolve_path_component() is easier.  Switching to it
+>> also gets rid of the unclean duplication described above.
+>> While there, avoid converting to TYPE_DEVICE twice, first to check
+>> whether it's possible, and then for real.
 >
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
+> This one broke qemu iotest 280 on s390:
+>
+>
+> 280   fail       [13:06:19] [13:06:19]   0.3s   (last: 0.3s)  output mismatch (see 280.out.bad)
+> --- /home/cborntra/REPOS/qemu/tests/qemu-iotests/280.out
+> +++ 280.out.bad
+> @@ -37,14 +37,14 @@
+>  === Resume the VM and simulate a write request ===
+>  {"execute": "cont", "arguments": {}}
+>  {"return": {}}
+> -{"return": ""}
+> +{"return": "Error: Device 'vda/virtio-backend' not found\r\n"}
+>
+>  === Commit it to the backing file ===
+>  {"execute": "block-commit", "arguments": {"auto-dismiss": false, "device": "top-fmt", "job-id": "job0", "top-node": "top-fmt"}}
+>  {"return": {}}
+>  {"execute": "job-complete", "arguments": {"id": "job0"}}
+>  {"return": {}}
+> -{"data": {"device": "job0", "len": 65536, "offset": 65536, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+> -{"data": {"device": "job0", "len": 65536, "offset": 65536, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+> +{"data": {"device": "job0", "len": 0, "offset": 0, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+> +{"data": {"device": "job0", "len": 0, "offset": 0, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+>  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+>  {"return": {}}
+> Failures: 280
+> Failed 1 of 1 iotests
 
-Zhiwei
-> ---
->   target/riscv/cpu.h        |  2 ++
->   target/riscv/cpu.c        |  8 ++++++++
->   target/riscv/cpu_helper.c | 33 +++++++++++++++++++++++++++++++++
->   target/riscv/csr.c        |  3 +++
->   target/riscv/translate.c  |  2 +-
->   5 files changed, 47 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index d0e82135a9..c24bc9a039 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -395,6 +395,8 @@ FIELD(TB_FLAGS, VILL, 8, 1)
->   /* Is a Hypervisor instruction load/store allowed? */
->   FIELD(TB_FLAGS, HLSX, 9, 1)
->   FIELD(TB_FLAGS, MSTATUS_HS_FS, 10, 2)
-> +/* The combination of MXL/SXL/UXL that applies to the current cpu mode. */
-> +FIELD(TB_FLAGS, XL, 12, 2)
->   
->   #ifdef TARGET_RISCV32
->   #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 1857670a69..4e1920d5f0 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -355,6 +355,14 @@ static void riscv_cpu_reset(DeviceState *dev)
->       env->misa_mxl = env->misa_mxl_max;
->       env->priv = PRV_M;
->       env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
-> +    if (env->misa_mxl > MXL_RV32) {
-> +        /*
-> +         * The reset status of SXL/UXL is undefined, but mstatus is WARL
-> +         * and we must ensure that the value after init is valid for read.
-> +         */
-> +        env->mstatus = set_field(env->mstatus, MSTATUS64_SXL, env->misa_mxl);
-> +        env->mstatus = set_field(env->mstatus, MSTATUS64_UXL, env->misa_mxl);
-> +    }
->       env->mcause = 0;
->       env->pc = env->resetvec;
->       env->two_stage_lookup = false;
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 403f54171d..429afd1f48 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -35,6 +35,37 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
->   #endif
->   }
->   
-> +static RISCVMXL cpu_get_xl(CPURISCVState *env)
-> +{
-> +#if defined(TARGET_RISCV32)
-> +    return MXL_RV32;
-> +#elif defined(CONFIG_USER_ONLY)
-> +    return MXL_RV64;
-> +#else
-> +    RISCVMXL xl = riscv_cpu_mxl(env);
-> +
-> +    /*
-> +     * When emulating a 32-bit-only cpu, use RV32.
-> +     * When emulating a 64-bit cpu, and MXL has been reduced to RV32,
-> +     * MSTATUSH doesn't have UXL/SXL, therefore XLEN cannot be widened
-> +     * back to RV64 for lower privs.
-> +     */
-> +    if (xl != MXL_RV32) {
-> +        switch (env->priv) {
-> +        case PRV_M:
-> +            break;
-> +        case PRV_U:
-> +            xl = get_field(env->mstatus, MSTATUS64_UXL);
-> +            break;
-> +        default: /* PRV_S | PRV_H */
-> +            xl = get_field(env->mstatus, MSTATUS64_SXL);
-> +            break;
-> +        }
-> +    }
-> +    return xl;
-> +#endif
-> +}
-> +
->   void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->                             target_ulong *cs_base, uint32_t *pflags)
->   {
-> @@ -78,6 +109,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->       }
->   #endif
->   
-> +    flags = FIELD_DP32(flags, TB_FLAGS, XL, cpu_get_xl(env));
-> +
->       *pflags = flags;
->   }
->   
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 9c0753bc8b..c4a479ddd2 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -526,6 +526,9 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
->           mstatus = set_field(mstatus, MSTATUS32_SD, dirty);
->       } else {
->           mstatus = set_field(mstatus, MSTATUS64_SD, dirty);
-> +        /* SXL and UXL fields are for now read only */
-> +        mstatus = set_field(mstatus, MSTATUS64_SXL, MXL_RV64);
-> +        mstatus = set_field(mstatus, MSTATUS64_UXL, MXL_RV64);
->       }
->       env->mstatus = mstatus;
->   
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 422f8ab8d0..7e7bb67d15 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -539,7 +539,6 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->   #else
->       ctx->virt_enabled = false;
->   #endif
-> -    ctx->xl = env->misa_mxl;
->       ctx->misa_ext = env->misa_ext;
->       ctx->frm = -1;  /* unknown rounding mode */
->       ctx->ext_ifencei = cpu->cfg.ext_ifencei;
-> @@ -551,6 +550,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->       ctx->lmul = FIELD_EX32(tb_flags, TB_FLAGS, LMUL);
->       ctx->mlen = 1 << (ctx->sew  + 3 - ctx->lmul);
->       ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
-> +    ctx->xl = FIELD_EX32(tb_flags, TB_FLAGS, XL);
->       ctx->cs = cs;
->       ctx->w = false;
->       ctx->ntemp = 0;
+Reproduced.  I'll dig deeper.  Thanks!
+
 
