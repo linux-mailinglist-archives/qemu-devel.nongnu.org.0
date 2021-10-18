@@ -2,58 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5A9430FC4
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 07:39:27 +0200 (CEST)
-Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6224B430FC7
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 07:41:47 +0200 (CEST)
+Received: from localhost ([::1]:54798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcLMs-0002We-9a
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 01:39:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57580)
+	id 1mcLP8-0003zL-G5
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 01:41:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1mcLKu-0001Pd-FY
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 01:37:24 -0400
-Received: from mga06.intel.com ([134.134.136.31]:49789)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1mcLKq-0008PU-3h
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 01:37:24 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10140"; a="289026657"
-X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="289026657"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2021 22:37:15 -0700
-X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="493441096"
-Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.239.13.123])
- ([10.239.13.123])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2021 22:37:14 -0700
-Message-ID: <373a40f3-2ba4-fecd-f4ce-1a5ebbc3c138@intel.com>
-Date: Mon, 18 Oct 2021 13:37:12 +0800
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mcLLb-0002Bt-0v
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 01:38:09 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:34544)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mcLLZ-0003c2-5c
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 01:38:06 -0400
+Received: by mail-pg1-x529.google.com with SMTP id 133so14933451pgb.1
+ for <qemu-devel@nongnu.org>; Sun, 17 Oct 2021 22:38:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=T7DuePYMagLmWMRCFxTqJu+OfsEy0d7ZebPwQhtJqJQ=;
+ b=qtA2Wwt23acSpA2GAFjHo4BRFm6tu2VN/atwJzZzzXju5SQPzTk6ZKUwSCAf+YkqoT
+ fDm+mkG7G0GxqIl3k6svOsWGIfEOSIk58Uw92RhOaObZvk75k0jVZfKfls+qWKUf4W6L
+ ugMxhwmoa2q/QnLfRQs7MYhMm7RlvYlKobDpUgluX8AvtHoT4zgTvsntCEbJvzL5VkJL
+ GaQ1BvyHcbeJ6NzDhm/n1cE0L6aiwjGBe8PmvP/+3D06GSmdBJTPRor73zRVXfNhdcfF
+ XuKSHezzaFJcKzGXEiSM4/6N4tc5WSZScC2/FpKk6E7SLOFyDHRs6bD6X6+JHrZz4JPT
+ En1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=T7DuePYMagLmWMRCFxTqJu+OfsEy0d7ZebPwQhtJqJQ=;
+ b=wfezBucF2dAMSJ3mdTFUK1hL8q9qOl2fq4sQ99bF2PXnwizTDl1qIlQEWRYjhVNtut
+ 44/8nNz1+l6HMQVehtMoLq0SVkw2xPOv+Kb71280fO3BT/GX6gTMSKInQaUeE8Ilp51+
+ 0Z9J0KmF2O1zBIpCg7S7QZ5hdkTMsT2tHr/k/TFl1ahNaMSLf1aRibRegcX+R+mGOb9v
+ sOwhvTU0gtPCvF5srYkJd2lDl2+S76yuzhrFw93NqPtPHvM1Z/3+/d0gyXmQC+6Ta53X
+ b8UYYYclxhKROiTiJW5dJPlOpuQWu/xLThKCZcVHzpC0DBSHzRTKOwks7sgxurgN+VT3
+ 2AEQ==
+X-Gm-Message-State: AOAM532NpMlLDPFr+u2a4wDu1FgQ7TXD2Tahznb6XyBGxiFt73ZTnR+n
+ C8hex87ablYtd/VjMxYPSLfE8vreHYb90w==
+X-Google-Smtp-Source: ABdhPJxyJCJ1kUWjQp8gkIm17iE5u0pPl9eVtsEMTzo2b7kzbfBwzPf7aQ+1b71a+FriYWlJ3U8IJg==
+X-Received: by 2002:a62:61c3:0:b0:44d:2518:cdf1 with SMTP id
+ v186-20020a6261c3000000b0044d2518cdf1mr26142187pfb.31.1634535483485; 
+ Sun, 17 Oct 2021 22:38:03 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id s62sm11532226pgc.5.2021.10.17.22.38.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 17 Oct 2021 22:38:03 -0700 (PDT)
+Subject: Re: [PATCH v8 01/78] target/riscv: fix TB_FLAGS bits overlapping bug
+ for rvv/rvh
+To: Alistair Francis <alistair23@gmail.com>,
+ Frank Chang <frank.chang@sifive.com>
+References: <20211015074627.3957162-1-frank.chang@sifive.com>
+ <20211015074627.3957162-2-frank.chang@sifive.com>
+ <CAKmqyKP8rx_vmO2MpVzxacUhx-H6W0+zDEfd0r5qrFtg+kiTEA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <59c4f142-9027-307a-5054-6e2b1039bd08@linaro.org>
+Date: Sun, 17 Oct 2021 22:38:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.2.0
-Subject: Re: [RFC PATCH 3/5] target/i386: Enable host pass through of Intel PT
+In-Reply-To: <CAKmqyKP8rx_vmO2MpVzxacUhx-H6W0+zDEfd0r5qrFtg+kiTEA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20210909144150.1728418-1-xiaoyao.li@intel.com>
- <20210909144150.1728418-4-xiaoyao.li@intel.com>
- <20211015202220.ghdn6gsdfuh56xq7@habkost.net>
- <ebd46603-d3dc-c7ba-1ab7-40d7881b83ed@intel.com>
-In-Reply-To: <ebd46603-d3dc-c7ba-1ab7-40d7881b83ed@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=xiaoyao.li@intel.com;
- helo=mga06.intel.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.999,
- HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,129 +91,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/18/2021 11:46 AM, Xiaoyao Li wrote:
-> On 10/16/2021 4:22 AM, Eduardo Habkost wrote:
->> On Thu, Sep 09, 2021 at 10:41:48PM +0800, Xiaoyao Li wrote:
->>> commit e37a5c7fa459 ("i386: Add Intel Processor Trace feature support")
->>> added the support of Intel PT by making CPUID[14] of PT as fixed feature
->>> set (from ICX) for any CPU model on any host.
->>>
->>> This truly breaks the PT exposing on Intel SPR platform because SPR has
->>> less supported bitmap CPUID(0x14,1):EBX[15:0] than ICX.
->>>
->>> This patch enables passing through host's PT capabilities for the case
->>> "-cpu host/max" while ensure named CPU model still has the fixed
->>> PT feature set to not break the live migration.
->>>
->>> It introduces @has_specific_intel_pt_feature_set field for name CPU
->>> model. If a named CPU model has this field as false, it will use fixed
->>> PT feature set of ICX. Besides same to previous behavior, if fixed PT
->>> feature set of ICX cannot be satisfied/supported by host, it disables PT
->>> instead of adjusting the feature set based on host's capabilities.
->>>
->>> In the future, new named CPU model, e.g., Sapphire Rapids, can define
->>> its own PT feature set by setting @has_specific_intel_pt_feature_set to
->>> true and defines it's own FEAT_14_0_EBX, FEAT_14_0_ECX, FEAT_14_1_EAX
->>> and FEAT_14_1_EBX.
->>>
->>> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
->>> ---
->>>   target/i386/cpu.c | 106 ++++++++++++++++++++--------------------------
->>>   target/i386/cpu.h |   1 +
->>>   2 files changed, 47 insertions(+), 60 deletions(-)
->>>
->>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->>> index 58e98210f219..00c4ad23110d 100644
->>> --- a/target/i386/cpu.c
->>> +++ b/target/i386/cpu.c
->>> @@ -543,34 +543,24 @@ static CPUCacheInfo legacy_l3_cache = {
->>>   #define L2_ITLB_4K_ASSOC       4
->>>   #define L2_ITLB_4K_ENTRIES   512
->>> -/* CPUID Leaf 0x14 constants: */
->>> -#define INTEL_PT_MAX_SUBLEAF     0x1
->>> -/*
->>> - * bit[00]: IA32_RTIT_CTL.CR3 filter can be set to 1 and 
->>> IA32_RTIT_CR3_MATCH
->>> - *          MSR can be accessed;
->>> - * bit[01]: Support Configurable PSB and Cycle-Accurate Mode;
->>> - * bit[02]: Support IP Filtering, TraceStop filtering, and preservation
->>> - *          of Intel PT MSRs across warm reset;
->>> - * bit[03]: Support MTC timing packet and suppression of COFI-based 
->>> packets;
->>> - */
->>> -#define INTEL_PT_MINIMAL_EBX     0xf
->>> -/*
->>> - * bit[00]: Tracing can be enabled with IA32_RTIT_CTL.ToPA = 1 and
->>> - *          IA32_RTIT_OUTPUT_BASE and IA32_RTIT_OUTPUT_MASK_PTRS 
->>> MSRs can be
->>> - *          accessed;
->>> - * bit[01]: ToPA tables can hold any number of output entries, up to 
->>> the
->>> - *          maximum allowed by the MaskOrTableOffset field of
->>> - *          IA32_RTIT_OUTPUT_MASK_PTRS;
->>> - * bit[02]: Support Single-Range Output scheme;
->>> - */
->>> -#define INTEL_PT_MINIMAL_ECX     0x7
->>> -/* generated packets which contain IP payloads have LIP values */
->>> -#define INTEL_PT_IP_LIP          (1 << 31)
->>> -#define INTEL_PT_ADDR_RANGES_NUM 0x2 /* Number of configurable 
->>> address ranges */
->>> -#define INTEL_PT_ADDR_RANGES_NUM_MASK 0x7
->>> -#define INTEL_PT_MTC_BITMAP      (0x0249 << 16) /* Support 
->>> ART(0,3,6,9) */
->>> -#define INTEL_PT_CYCLE_BITMAP    0x1fff         /* Support 
->>> 0,2^(0~11) */
->>> -#define INTEL_PT_PSB_BITMAP      (0x003f << 16) /* Support 
->>> 2K,4K,8K,16K,32K,64K */
->>> +#define INTEL_PT_MAX_SUBLEAF                0x1
->>> +#define INTEL_PT_DEFAULT_ADDR_RANGES_NUM    0x2
->>> +#define INTEL_PT_ADDR_RANGES_NUM_MASK       0x7
->>> +/* Support ART(0,3,6,9) */
->>> +#define INTEL_PT_DEFAULT_MTC_BITMAP         0x0249
->>> +/* Support 0,2^(0~11) */
->>> +#define INTEL_PT_DEFAULT_CYCLE_BITMAP       0x1fff
->>> +/* Support 2K,4K,8K,16K,32K,64K */
->>> +#define INTEL_PT_DEFAULT_PSB_BITMAP         0x003f
->>> +
->>> +#define INTEL_PT_DEFAULT_0_EBX  (CPUID_14_0_EBX_CR3_FILTER | \
->>> +            CPUID_14_0_EBX_PSB | CPUID_14_0_EBX_IP_FILTER | 
->>> CPUID_14_0_EBX_MTC)
->>> +#define INTEL_PT_DEFAULT_0_ECX  (CPUID_14_0_ECX_TOPA | \
->>> +            CPUID_14_0_ECX_MULTI_ENTRIES | CPUID_14_0_ECX_SINGLE_RANGE)
->>> +#define INTEL_PT_DEFAULT_1_EAX  (INTEL_PT_DEFAULT_MTC_BITMAP << 16 | \
->>> +                                 INTEL_PT_DEFAULT_ADDR_RANGES_NUM)
->>> +#define INTEL_PT_DEFAULT_1_EBX  (INTEL_PT_DEFAULT_PSB_BITMAP << 16 | \
->>> +                                 INTEL_PT_DEFAULT_CYCLE_BITMAP)
+On 10/17/21 3:55 PM, Alistair Francis wrote:
+> On Fri, Oct 15, 2021 at 5:50 PM <frank.chang@sifive.com> wrote:
 >>
->> I like these new macros because they make the code at
->> x86_cpu_filter_features() clearer.  
-
-I tried it. But I find it doesn't make the code at 
-x86_cpu_filter_features() clearer. It just introduces more code churn.
-
->> Can we do this in a separate
->> patch, to be applied before "Introduce FeatureWordInfo for Intel
->> PT CPUID leaf 0xD"?
+>> From: Frank Chang <frank.chang@sifive.com>
 >>
+>> TB_FLAGS mem_idx bits was extended from 2 bits to 3 bits in
+>> commit: c445593, but other TB_FLAGS bits for rvv and rvh were
+>> not shift as well so these bits may overlap with each other when
+>> rvv is enabled.
+>>
+>> Signed-off-by: Frank Chang <frank.chang@sifive.com>
 > 
-> Before?
-> 
-> These macros needs the individual CPUID_14_0_* definitions defined in 
-> "Introduce FeatureWordInfo for Intel PT CPUID leaf 0xD".
-> 
-> 1) I can split the definitions of the CPUID bit from that patch and 
-> merge with the macros into a new patch.
-> 
-> 2) create a new patch to introduce those macros after "Introduce 
-> FeatureWordInfo for Intel PT CPUID leaf 0xD"
-> 
-> which do you prefer?
-> 
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+BTW, Alistair, I think this bug fix should be cherry-picked out of this patch set right away.
 
 
+r~
 
