@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08439432395
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 18:15:11 +0200 (CEST)
-Received: from localhost ([::1]:58592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E78B43237E
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 18:08:07 +0200 (CEST)
+Received: from localhost ([::1]:35596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcVI6-0000vE-4G
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 12:15:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57918)
+	id 1mcVBG-0002RD-0e
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 12:08:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8e-0007eA-Dg
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:25 -0400
-Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:44723)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8o-0007gM-Kn
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:37 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:33737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8b-0007r0-6t
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:24 -0400
-Received: by mail-il1-x129.google.com with SMTP id j8so15400641ila.11
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 09:05:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcV8b-0007rB-6Q
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 12:05:27 -0400
+Received: by mail-io1-xd34.google.com with SMTP id n7so16965561iod.0
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 09:05:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/esxzvTZAXy1d5qeSy++Yncrcqbi68O1hcQTBHEcYg0=;
- b=topXQk2fuK3yIIdzuuReNfSpJOlV3rEKJu5AdfTfjBwkyO/Cnc2+L0/L5ZZezzw/j2
- iSZFTih/HZXVaY1AvSdHAxHHbKQZp1h7CoF0pJ4ya8YLiYjKynlNWcJtc102jBmnZ3ok
- edbkwA/bDINCSrXP6Od6DxCz0t+JrZPXTrypdZ6HoSyZvOkXnPCCp1PwGfj/hj0+RrK6
- cO+euWwTsFHg5sBtYwcQQVme8cWU3OrddmT+Ol+fFLA4vKUnyYNm7aDRYNshTvlhO3nj
- UbaE4pGx+xQgTbbV1W5NkbxmuOIhX7tn3Pj0RxiVX2aOOEi7Xq91hvZ+Rt4cRAF6P6hk
- Gj5Q==
+ bh=PY6MV6MerQjsFge0//XqvVk7s3rubPiFJX6U1DaTO60=;
+ b=Zyr0eiQ5krDMHRM2AtzGgYtHeaenICKyTifpupdrdnO0tIGtazX2MiLEq8gAMQDEt0
+ hxyMfJSq3DgU/FheP480iV6w2buHUoJcuM3GS9Wr0JaWLy0qvUuIEgCN4Lm4/lh+54rg
+ XnkUmY3LVkT8Maes1BGd6lX8IWu7ngsbRivWh5U1jsCsC6PCZUBjWelDylwe3dxnZUI4
+ xTY7oVdc5gOxAIBF/RU+RD2p95IrxPxzuvyBhWSbI4aDmXzYxnidekfqDzQw2XBxjDRT
+ 4EqcnXuv2HgNNOn0dVCe7XncCauSpIx3y+eOvX6QZcwW0Oat5MtBahwO0PqSaEpLPFbP
+ zPVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/esxzvTZAXy1d5qeSy++Yncrcqbi68O1hcQTBHEcYg0=;
- b=4rCvDApzle1Ii3hKHHbcu5/hTMaYUsst0BHw3NyC8XvRmEoj7pfXyc+t75tQYoc54b
- w/x24ouZLgdIsl7oUrNjnqWPTNAhHZpCvMvYQtE1Wl2mgbsIRziDZpZt+KTktrE2/IlE
- YVM1Op+1tE3gIelTKUaXKSxn4rEWP0wuLqHxkM0rLxJKI2PYWFv4x0O6lQWR3rt/utgq
- lHmehBnDxkMIng3spKNHDN+gxn2k77BmaSQK/CiHTfIWG8/eOU8SY4QHbPn+LP5WOyaN
- Y9gsbmhoskpxbti5XNmIE1v6HuMOebZhR0OLLkz6c40R4VFEf1sjMyiNEF36whrxxLK4
- IQ2Q==
-X-Gm-Message-State: AOAM531Qlu3GsNCNkMkyYTnR97AFl7NNyINWDcH67u85LCjEA5vTdf1Z
- sMRO0/iSXFak5CTsBaa4h5mRlcZY7Pc6UQ==
-X-Google-Smtp-Source: ABdhPJy7uPW9JFP15a9PKfSJLqgh0/N1Q8DzSagVh9hFuPVeYTJXXUgNfJ5+I3oS+x0ocbGKQBfXrg==
-X-Received: by 2002:a05:6e02:1a86:: with SMTP id
- k6mr14874081ilv.192.1634573116963; 
- Mon, 18 Oct 2021 09:05:16 -0700 (PDT)
+ bh=PY6MV6MerQjsFge0//XqvVk7s3rubPiFJX6U1DaTO60=;
+ b=JA6MRfZ5/nV7q2A6TZfars3YxsHnNyLa0jv1Qqd2OYRjHv7Sh2Xw5FVkCFisMw6k7D
+ sU4FsB1TQYbk2ABDVZWh4e3A4dsvOWdXIpXAld5F015PwGlN8CMolJvPJorH3W99XZI7
+ lUHYPNfRgoych9r/Ign89jiFS3O9e92j8WNapqplOhLeVZygNHhjA88nEAkymVNSmLGC
+ 2BbDwSP9R8O1KAup8TpbaFyiXk4WzUkyzQhEqhesHUb+Pq/YBbsAd9pP8GFdEp8PKm1/
+ f+d9vyODIOZdBis5HBNnm5i/i0Yd6KQfLhE1vYw6U6dxgKnWdULxyxXg8doFE+aBmFix
+ xqSg==
+X-Gm-Message-State: AOAM531mVi7/d/s8dl1GWCjqfTwKEh/dona2pjB0GUKrb1C2EBpVycwk
+ NHzUdOKhpc1Dw0Moigj+MKlaaI0VrJKqDQ==
+X-Google-Smtp-Source: ABdhPJz64PJGXAHYOSKJ+TqCnp32TuVl9SAd2cFmQJC74Xi+ZUGE4gJYdKVbQr7SaBWqcACFPLTIAQ==
+X-Received: by 2002:a5d:9d82:: with SMTP id ay2mr14927512iob.128.1634573118064; 
+ Mon, 18 Oct 2021 09:05:18 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a4sm7240936ild.52.2021.10.18.09.05.16
+ by smtp.gmail.com with ESMTPSA id a4sm7240936ild.52.2021.10.18.09.05.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 09:05:16 -0700 (PDT)
+ Mon, 18 Oct 2021 09:05:17 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/23] bsd-user/mmap.c: check pread's return value to fix
- warnings with _FORTIFY_SOURCE
-Date: Mon, 18 Oct 2021 10:04:37 -0600
-Message-Id: <20211018160458.1976-3-imp@bsdimp.com>
+Subject: [PULL 03/23] bsd-user/mmap.c: MAP_ symbols are defined,
+ so no need for ifdefs
+Date: Mon, 18 Oct 2021 10:04:38 -0600
+Message-Id: <20211018160458.1976-4-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211018160458.1976-1-imp@bsdimp.com>
 References: <20211018160458.1976-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::129;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x129.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd34.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -86,54 +85,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kyle Evans <kevans@FreeBSD.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Warner Losh <imp@bsdimp.com>,
- =?UTF-8?q?Mika=C3=ABl=20Urankar?= <mikael.urankar@gmail.com>
+ Laurent Vivier <laurent@vivier.eu>, Warner Losh <imp@bsdimp.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mikaël Urankar <mikael.urankar@gmail.com>
+All these MAP_ symbols are always defined on supported FreeBSD versions
+(12.2 and newer), so remove the #ifdefs since they aren't needed.
 
-Simmilar to the equivalent linux-user: commit fb7e378cf9c, which added
-checking to pread's return value. Update to current qemu standards with
-{} around the if statement.
-
-Signed-off-by: Mikaël Urankar <mikael.urankar@gmail.com>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 ---
- bsd-user/mmap.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ bsd-user/mmap.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
 diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
-index fc3c1480f5..4f4fa3ab46 100644
+index 4f4fa3ab46..6f33aec58b 100644
 --- a/bsd-user/mmap.c
 +++ b/bsd-user/mmap.c
-@@ -174,7 +174,9 @@ static int mmap_frag(abi_ulong real_start,
-             mprotect(host_start, qemu_host_page_size, prot1 | PROT_WRITE);
+@@ -286,13 +286,9 @@ static abi_ulong mmap_find_vma_aligned(abi_ulong start, abi_ulong size,
+     wrapped = repeat = 0;
+     prev = 0;
+     flags = MAP_ANONYMOUS | MAP_PRIVATE;
+-#ifdef MAP_ALIGNED
+     if (alignment != 0) {
+         flags |= MAP_ALIGNED(alignment);
+     }
+-#else
+-    /* XXX TODO */
+-#endif
  
-         /* read the corresponding file data */
--        pread(fd, g2h_untagged(start), end - start, offset);
-+        if (pread(fd, g2h_untagged(start), end - start, offset) == -1) {
-+            return -1;
-+        }
+     for (;; prev = ptr) {
+         /*
+@@ -407,22 +403,18 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+             printf("MAP_ALIGNED(%u) ", (flags & MAP_ALIGNMENT_MASK)
+                     >> MAP_ALIGNMENT_SHIFT);
+         }
+-#if MAP_GUARD
+         if (flags & MAP_GUARD) {
+             printf("MAP_GUARD ");
+         }
+-#endif
+         if (flags & MAP_FIXED) {
+             printf("MAP_FIXED ");
+         }
+         if (flags & MAP_ANONYMOUS) {
+             printf("MAP_ANON ");
+         }
+-#ifdef MAP_EXCL
+         if (flags & MAP_EXCL) {
+             printf("MAP_EXCL ");
+         }
+-#endif
+         if (flags & MAP_PRIVATE) {
+             printf("MAP_PRIVATE ");
+         }
+@@ -432,11 +424,9 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+         if (flags & MAP_NOCORE) {
+             printf("MAP_NOCORE ");
+         }
+-#ifdef MAP_STACK
+         if (flags & MAP_STACK) {
+             printf("MAP_STACK ");
+         }
+-#endif
+         printf("fd=%d offset=0x%llx\n", fd, offset);
+     }
+ #endif
+@@ -445,7 +435,6 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+         errno = EINVAL;
+         goto fail;
+     }
+-#ifdef MAP_STACK
+     if (flags & MAP_STACK) {
+         if ((fd != -1) || ((prot & (PROT_READ | PROT_WRITE)) !=
+                     (PROT_READ | PROT_WRITE))) {
+@@ -453,8 +442,6 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+             goto fail;
+         }
+     }
+-#endif /* MAP_STACK */
+-#ifdef MAP_GUARD
+     if ((flags & MAP_GUARD) && (prot != PROT_NONE || fd != -1 ||
+         offset != 0 || (flags & (MAP_SHARED | MAP_PRIVATE |
+         /* MAP_PREFAULT | */ /* MAP_PREFAULT not in mman.h */
+@@ -462,7 +449,6 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+         errno = EINVAL;
+         goto fail;
+     }
+-#endif
  
-         /* put final protection */
-         if (prot_new != (prot1 | PROT_WRITE))
-@@ -593,7 +595,9 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-                                   -1, 0);
-             if (retaddr == -1)
-                 goto fail;
--            pread(fd, g2h_untagged(start), len, offset);
-+            if (pread(fd, g2h_untagged(start), len, offset) == -1) {
-+                goto fail;
-+            }
-             if (!(prot & PROT_WRITE)) {
-                 ret = target_mprotect(start, len, prot);
-                 if (ret != 0) {
+     if (offset & ~TARGET_PAGE_MASK) {
+         errno = EINVAL;
 -- 
 2.32.0
 
