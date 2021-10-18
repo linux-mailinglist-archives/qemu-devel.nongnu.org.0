@@ -2,93 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC2D43141A
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 12:07:29 +0200 (CEST)
-Received: from localhost ([::1]:45728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79790431437
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Oct 2021 12:11:59 +0200 (CEST)
+Received: from localhost ([::1]:49216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcPYF-0003Yy-VH
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 06:07:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56096)
+	id 1mcPcc-0006Ay-JE
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 06:11:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcPXM-0002kh-50
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 06:06:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21679)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1mcPa1-0004bp-N5; Mon, 18 Oct 2021 06:09:17 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcPXI-0003vy-25
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 06:06:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634551586;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KQBLt9psXnTRczxx3yHhpmFpuACghyAjvX3WKHHNPz4=;
- b=UFBR0US+YIVRZ8mF7FRpnDknZl2XynIRU/Z1nIlRyjATcUVRyEcqsoz6soQRQVLMgHXUYj
- pB4JNfBF8aiO7BcqpmBCdWFJTo4qSDPdqxU2D15cucYlNCeNF1moUWapn40CCnLnYCcRdh
- 6CFUrV30TN7DzEHnHOp6N9FiqlFR110=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-4RN90fsLN621KJDTlxyJHQ-1; Mon, 18 Oct 2021 06:06:25 -0400
-X-MC-Unique: 4RN90fsLN621KJDTlxyJHQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l39-20020a05600c1d2700b0030dba1dc6eeso2706323wms.7
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 03:06:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KQBLt9psXnTRczxx3yHhpmFpuACghyAjvX3WKHHNPz4=;
- b=HSlUIfp5n7OXxYEhW+x11b/tX38szph8u64b4NA3ep6eoDwfV7I0yKyVkBig0zCD/T
- 47/vC0Lw2dZJCJLFiqEitx5SxN9j0kR5jhAt0qqlWEVsDJWF4pMsti+jwd6uZSVhGje4
- BLcgcSAnu0P8o/tYccoHGHPYFq9aYIb83FIsfmIdtdNAPeHR/a+rSyAUKBjCaqFqExuX
- 5ADJ+0UWAG6vGblACwoJz8OsZDlb3J7lpBMAIxJXkF7c6FvtDxTBC0NuGd3rXotsD1Ip
- iC+6Sk44W4Db9lhM/Cov709jkDtPfsbSx425tNX2pgS+xRnaPXY/8yquuCl8cK46/FXc
- HwBw==
-X-Gm-Message-State: AOAM531S8mtB1A2vNYndNmlGxr7b+lUcLDy/fKVu6w/VbtY5PW8ecu1s
- kawTM1pMx3dpSt+qYMKaiXihbh/PhP76bcpKDdh93Y6KA2csGM9fi1z/8aw1liXf4CBBi2Y/27H
- TSmADxTBkWgUsdZU=
-X-Received: by 2002:a05:6000:11:: with SMTP id
- h17mr34434640wrx.278.1634551584275; 
- Mon, 18 Oct 2021 03:06:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx0JK587nc6rxEe2qnwyCX6jw8zu87+0Ds24OQOeGibLxQOA4Oh7DuW/bgE+AlQbl/s3sT89g==
-X-Received: by 2002:a05:6000:11:: with SMTP id
- h17mr34434608wrx.278.1634551583971; 
- Mon, 18 Oct 2021 03:06:23 -0700 (PDT)
-Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id x7sm11867461wrq.69.2021.10.18.03.06.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Oct 2021 03:06:23 -0700 (PDT)
-Message-ID: <c8563f17-b0d8-72f8-f9d8-3029c63e6994@redhat.com>
-Date: Mon, 18 Oct 2021 12:06:22 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 10/15] hw/nvme: Make max_ioqpairs and msix_qsize
- configurable in runtime
-To: Lukasz Maniak <lukasz.maniak@linux.intel.com>, qemu-devel@nongnu.org
-References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
- <20211007162406.1920374-11-lukasz.maniak@linux.intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211007162406.1920374-11-lukasz.maniak@linux.intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1mcPZy-0007Rw-GP; Mon, 18 Oct 2021 06:09:17 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19I7Sdjx020511; 
+ Mon, 18 Oct 2021 06:09:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=CVR8+kQ2F3LYwHXY1A+BqQKE8XkX5yeo6KVKH2B59uU=;
+ b=knykwbUZfNmBTGM6dQrAhJ5EushCRqduzziN8+5ZIrg9fqeR3fFpcNkXsNYSbdU91xI2
+ wDAclq1lff0fGvd0CkmrzFC7BI5SaRC2A4ZSvBWSLGlsMkqjfOob/NbqA63wftnGrtew
+ gfh0m/wGkiKm/qMN8+SqHu03wG167QwaSnHf5bdk9OzeqfOB8gDp4TaSBnWtW4wIKm8n
+ tf7GwXGWwjsxxZ11zXQ3rN0HG4N2nBfnSNoi2fUWxxjr1U4JtoF3VjX3kLW2Qvd3sAXS
+ mN/SoZ2xaph5oziHQ5erhKlZ/x63+/gp6hHQdDQ0vwLS6bcy1Sb/4MJRrdf1GzLnXKZ6 kQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bs1cw6whf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Oct 2021 06:09:03 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19IA06tK006875;
+ Mon, 18 Oct 2021 06:09:02 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bs1cw6wge-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Oct 2021 06:09:02 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19IA7khK031512;
+ Mon, 18 Oct 2021 10:09:00 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3bqpc9ct7n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Oct 2021 10:09:00 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 19IA8vow57934212
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 18 Oct 2021 10:08:57 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7F212AE061;
+ Mon, 18 Oct 2021 10:08:57 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 17669AE056;
+ Mon, 18 Oct 2021 10:08:57 +0000 (GMT)
+Received: from li-43c5434c-23b8-11b2-a85c-c4958fb47a68.ibm.com (unknown
+ [9.171.63.168])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 18 Oct 2021 10:08:57 +0000 (GMT)
+Subject: regression on s390: was Re: [PULL 37/40] monitor: Tidy up
+ find_device_state()
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu block <qemu-block@nongnu.org>
+References: <20211013090728.309365-1-pbonzini@redhat.com>
+ <20211013090728.309365-38-pbonzini@redhat.com>
+ <3d80dc6b-66bd-34f7-8285-48c0647d6238@de.ibm.com>
+ <c01b47a1-43e2-71b7-1cdd-9a1d0f685eb3@linaro.org>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <056a0299-f6f8-9e59-8d2e-db7413210f75@de.ibm.com>
+Date: Mon, 18 Oct 2021 12:08:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <c01b47a1-43e2-71b7-1cdd-9a1d0f685eb3@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: eUNtMkz4vjVR0OL2txwCZ13858YfSvqu
+X-Proofpoint-ORIG-GUID: cs-DrUfQg75qe25B4bXsyx3yrgeaAe8Y
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-18_02,2021-10-14_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0
+ mlxscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0
+ bulkscore=0 spamscore=0 mlxlogscore=999 impostorscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2110180062
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,85 +118,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>,
- =?UTF-8?Q?=c5=81ukasz_Gieryk?= <lukasz.gieryk@linux.intel.com>,
- qemu-block@nongnu.org, Klaus Jensen <its@irrelevant.dk>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/21 18:24, Lukasz Maniak wrote:
-> From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
-> 
-> The Nvme device defines two properties: max_ioqpairs, msix_qsize. Having
-> them as constants is problematic for SR-IOV support.
-> 
-> The SR-IOV feature introduces virtual resources (queues, interrupts)
-> that can be assigned to PF and its dependent VFs. Each device, following
-> a reset, should work with the configured number of queues. A single
-> constant is no longer sufficient to hold the whole state.
-> 
-> This patch tries to solve the problem by introducing additional
-> variables in NvmeCtrl’s state. The variables for, e.g., managing queues
-> are therefore organized as:
-> 
->  - n->params.max_ioqpairs – no changes, constant set by the user.
-> 
->  - n->max_ioqpairs - (new) value derived from n->params.* in realize();
->                      constant through device’s lifetime.
-> 
->  - n->(mutable_state) – (not a part of this patch) user-configurable,
->                         specifies number of queues available _after_
->                         reset.
-> 
->  - n->conf_ioqpairs - (new) used in all the places instead of the ‘old’
->                       n->params.max_ioqpairs; initialized in realize()
->                       and updated during reset() to reflect user’s
->                       changes to the mutable state.
-> 
-> Since the number of available i/o queues and interrupts can change in
-> runtime, buffers for sq/cqs and the MSIX-related structures are
-> allocated big enough to handle the limits, to completely avoid the
-> complicated reallocation. A helper function (nvme_update_msixcap_ts)
-> updates the corresponding capability register, to signal configuration
-> changes.
-> 
-> Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
-> ---
->  hw/nvme/ctrl.c | 62 +++++++++++++++++++++++++++++++++-----------------
->  hw/nvme/nvme.h |  4 ++++
->  2 files changed, 45 insertions(+), 21 deletions(-)
 
-> @@ -6322,11 +6334,17 @@ static void nvme_init_state(NvmeCtrl *n)
->      NvmeSecCtrlEntry *sctrl;
->      int i;
->  
-> +    n->max_ioqpairs = n->params.max_ioqpairs;
-> +    n->conf_ioqpairs = n->max_ioqpairs;
-> +
-> +    n->max_msix_qsize = n->params.msix_qsize;
-> +    n->conf_msix_qsize = n->max_msix_qsize;
 
-From an developer perspective, the API becomes confusing.
-Most fields from NvmeParams are exposed via QMP, such max_ioqpairs.
+Am 15.10.21 um 21:15 schrieb Richard Henderson:
+> On 10/15/21 4:08 AM, Christian Borntraeger wrote:
+>>
+>> Am 13.10.21 um 11:07 schrieb Paolo Bonzini:
+>>> From: Markus Armbruster <armbru@redhat.com>
+>>>
+>>> Commit 6287d827d4 "monitor: allow device_del to accept QOM paths"
+>>> extended find_device_state() to accept QOM paths in addition to qdev
+>>> IDs.  This added a checked conversion to TYPE_DEVICE at the end, which
+>>> duplicates the check done for the qdev ID case earlier, except it sets
+>>> a *different* error: GenericError "ID is not a hotpluggable device"
+>>> when passed a QOM path, and DeviceNotFound "Device 'ID' not found"
+>>> when passed a qdev ID.  Fortunately, the latter won't happen as long
+>>> as we add only devices to /machine/peripheral/.
+>>>
+>>> Earlier, commit b6cc36abb2 "qdev: device_del: Search for to be
+>>> unplugged device in 'peripheral' container" rewrote the lookup by qdev
+>>> ID to use QOM instead of qdev_find_recursive(), so it can handle
+>>> buss-less devices.  It does so by constructing an absolute QOM path.
+>>> Works, but object_resolve_path_component() is easier.  Switching to it
+>>> also gets rid of the unclean duplication described above.
+>>>
+>>> While there, avoid converting to TYPE_DEVICE twice, first to check
+>>> whether it's possible, and then for real.
+>>
+>> This one broke qemu iotest 280 on s390:
+>>
+>>
+>> 280   fail       [13:06:19] [13:06:19]   0.3s   (last: 0.3s)  output mismatch (see 280.out.bad)
+>> --- /home/cborntra/REPOS/qemu/tests/qemu-iotests/280.out
+>> +++ 280.out.bad
+>> @@ -37,14 +37,14 @@
+>>   === Resume the VM and simulate a write request ===
+>>   {"execute": "cont", "arguments": {}}
+>>   {"return": {}}
+>> -{"return": ""}
+>> +{"return": "Error: Device 'vda/virtio-backend' not found\r\n"}
+> 
+> Hmm, this test doesn't seem to have been attempted during staging:
+> 
+>    https://gitlab.com/qemu-project/qemu/-/jobs/1681194907
+> 
+> Is there something extra that needs to be installed on s390x.ci.qemu.org to have this test run?
+> 
 
-I'm not sure we need 2 distinct fields. Maybe simply reorganize
-to not reset these values in the DeviceReset handler?
 
-Also, with this series we should consider implementing the migration
-state (nvme_vmstate).
-
-> diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-> index 9fbb0a70b5..65383e495c 100644
-> --- a/hw/nvme/nvme.h
-> +++ b/hw/nvme/nvme.h
-> @@ -420,6 +420,10 @@ typedef struct NvmeCtrl {
->      uint64_t    starttime_ms;
->      uint16_t    temperature;
->      uint8_t     smart_critical_warning;
-> +    uint32_t    max_msix_qsize;                 /* Derived from params.msix.qsize */
-> +    uint32_t    conf_msix_qsize;                /* Configured limit */
-> +    uint32_t    max_ioqpairs;                   /* Derived from params.max_ioqpairs */
-> +    uint32_t    conf_ioqpairs;                  /* Configured limit */
->  
-
+No idea. Peter owns the machine. This is one thing to do.
+The 2nd thing to do is to fix the regression. Does anyone have an idea what is broken?
 
