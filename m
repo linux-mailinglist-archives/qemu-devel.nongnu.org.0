@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323AC433857
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 16:21:46 +0200 (CEST)
-Received: from localhost ([::1]:35670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F947433842
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 16:19:51 +0200 (CEST)
+Received: from localhost ([::1]:32944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcpzt-0007KV-6C
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 10:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36492)
+	id 1mcpy1-0005SX-UU
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 10:19:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcpu9-0000E5-VZ; Tue, 19 Oct 2021 10:15:50 -0400
-Received: from mail-mw2nam10on2058.outbound.protection.outlook.com
- ([40.107.94.58]:15169 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ id 1mcpuR-0000yx-8r; Tue, 19 Oct 2021 10:16:07 -0400
+Received: from mail-bn8nam11on2057.outbound.protection.outlook.com
+ ([40.107.236.57]:12352 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcpu7-0000ls-8o; Tue, 19 Oct 2021 10:15:49 -0400
+ id 1mcpuN-0001bM-RH; Tue, 19 Oct 2021 10:16:06 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N8iyQBoUhUKZIj0FewDtO7JeSEl4SftHFdOI3HrO37vUQ8PmknGRoxocHKXyQLkymzneeVneUw2Wi8Si5nBPWEaEjrrtqZ5S84KNS8LN4jeuGWlJKO8mRk+WIr6u1R/aAOlRFpw/oTwqxdJUI1tj64RCjx1/I12RK85ONAi8ruv5rRTny0wTME038JTo9sKuv5YVDwgDPUXgPOswJXfbLazYti6hxUSJYT2Rj5CohVeMyeiN/9r3vusSLGbIKw2MkSRtkGZB25FVT+2z7/TwT9K7mPA0I3IilccrgzaCLIb5MxvcutFm+WPmr8zB8fZKtJWsWcI2O+hENE1wdRUTjQ==
+ b=cLbqKhggsLd8CLLeWXdUW/mdUiC2ylExtu0EwBMpiCYl1MMKl5afQ6L8RtxW0fUfpekXchWlhQM9sHftYvsCdbt1K1JAkkxBuS0Q+aTYEkBXCzw2Kclkg4nq3/Vfhcx5giVAIXgjjkCjRjtk8dVjaOT2lPzTjn/ZWTxWNIZ1QxMFCQ3k4QIgnUjH8R0oIpjNCf8sOIZXsUrOt5hft4qnOTgHvQEouYAwG7QSQlBiQ/i2gAPH9DMU+NPdTLwwxWJzUBljvweyOFA4k8O0mrXkhnudZ92HSLHJ5ZRq8bAfeA3AiCqer+HjfhOZRdEnHsUZwCr9gLaZfoQ/zHVecuW1vw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=alyu/i2TwkR8S079eslNyZl6jtkkgtY3RvJk+MKDVP8=;
- b=nkZsW1xNVjpZyEh5TwnrGoFjAcP7rYHnb99lh2FAQDLQIrKeXOTquJofX/FL4AExqinQRV+of5hULBXdKLcSGupZOqy5VlnQCm+w7ZZuAx7r9dpCT31WPCbcovT5w1/9cfabzkDz2yH8iVvJod9Kblxc8IAefijp3jrzWxWnSySy/F5J0T1/y06ZoTswogtvce/35vI1grX1heSIZbCbZxJTSd2PjLKDEP9IBwXQy6QgOaepspqmLeIRdFzR2HnXBz8bkXCt3qcO4VgMxqrI3K9sCUO0pt5ImC/dx12o8ER6beZz/5pVnQ2NfXCuvRJUhnNoIj9duDa3JN5UrrXzSQ==
+ bh=tWb34RM8h/XM2+fsGDw2wKhtloEpJ1gAhAf7pnlN9p8=;
+ b=DoUW6/Va3zsP3GBt3Ha5DMwCgCRVNrUt8SxEtKm3b0Ah5LZj0jy38CjkRv/ieJhJE7SeZDG8A4yCu/dsm6GqAvvLODl/XAFv70eM6G0U29GKSumUGA0axCf1hIqiheemeeQipWvPSELIxqr70nSXPBjAVcI4/s8O1ENEAUx82Ft8kv/f7bWBzvdGrRpUTJUpDSEbHzsmeVGlsVGBo4nw/06AcdK4B3Ascd1eBIaSL6swcdn1SZ8Amhy3TyClwH2exIetkjOUvNuFiSSnSto26FXIEwvmpPQlgdgNa+/auFUJ7CmncR6qMpBeO3IVaacbmpl6udLXT7ZhgAnxCnHALA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=alyu/i2TwkR8S079eslNyZl6jtkkgtY3RvJk+MKDVP8=;
- b=J7xxOxaffGOMPtt+WWNysHzTdv8aYJZqQvSqWEfCNN1mD4/248nTOhKyTgtmAATpR0SfIIKmGSAOSOg8VRehe9KvGis21qBgF3+ZEpoJrsDcUm3iDr7gR7/AY0az2JRZk/pPbbahfn1d2X8uhux+DDcikawQB6gT+y+/mCS0OcY=
-Received: from DM3PR11CA0018.namprd11.prod.outlook.com (2603:10b6:0:54::28) by
- BN8PR12MB3364.namprd12.prod.outlook.com (2603:10b6:408:40::15) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4608.18; Tue, 19 Oct 2021 14:15:42 +0000
-Received: from DM6NAM11FT006.eop-nam11.prod.protection.outlook.com
- (2603:10b6:0:54:cafe::70) by DM3PR11CA0018.outlook.office365.com
- (2603:10b6:0:54::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16 via Frontend
- Transport; Tue, 19 Oct 2021 14:15:41 +0000
+ bh=tWb34RM8h/XM2+fsGDw2wKhtloEpJ1gAhAf7pnlN9p8=;
+ b=Da+BPGoOI3mGqxKvBzOZZ0gj8hHHr5MO4dWtls9C3EYRfNjJfj1oXyvN9noofz9yQJ2MMMyLHl0b7dnv2pJSxUgzY8yJTQa+b6LLfoUfzgdArvoqMVTfPCIU0SBf5qUz8rOEzbNFlI9Uw6T0aZlrkaSo3FjR41N+qHrh6+5ZZTY=
+Received: from BN8PR04CA0056.namprd04.prod.outlook.com (2603:10b6:408:d4::30)
+ by BN9PR12MB5164.namprd12.prod.outlook.com (2603:10b6:408:11d::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Tue, 19 Oct
+ 2021 14:16:00 +0000
+Received: from BN8NAM11FT063.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:d4:cafe::da) by BN8PR04CA0056.outlook.office365.com
+ (2603:10b6:408:d4::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend
+ Transport; Tue, 19 Oct 2021 14:16:00 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=pass action=none header.from=amd.com;
@@ -50,20 +50,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT006.mail.protection.outlook.com (10.13.173.104) with Microsoft SMTP
+ BN8NAM11FT063.mail.protection.outlook.com (10.13.177.110) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:15:41 +0000
+ 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:16:00 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 19 Oct
- 2021 09:15:38 -0500
+ 2021 09:15:59 -0500
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf
- <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 12/64] qemu-config: parse configuration files to a QDict
-Date: Tue, 19 Oct 2021 09:08:52 -0500
-Message-ID: <20211019140944.152419-13-michael.roth@amd.com>
+CC: <qemu-stable@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Subject: [PATCH 13/64] vl: plumb keyval-based options into -readconfig
+Date: Tue, 19 Oct 2021 09:08:53 -0500
+Message-ID: <20211019140944.152419-14-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211019140944.152419-1-michael.roth@amd.com>
 References: <20211019140944.152419-1-michael.roth@amd.com>
@@ -75,31 +75,31 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 69a9f0e5-6bfd-451a-be17-08d9930aeefe
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3364:
-X-Microsoft-Antispam-PRVS: <BN8PR12MB3364A10CE710721E9EE8802295BD9@BN8PR12MB3364.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1468;
+X-MS-Office365-Filtering-Correlation-Id: 1794ede1-7775-43eb-a35d-08d9930afa45
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5164:
+X-Microsoft-Antispam-PRVS: <BN9PR12MB5164DC12FDCB1DEC597D8A7B95BD9@BN9PR12MB5164.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:252;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AjxcvIq3wG8+BZGiXFalxG0/opK9n5U/lZ829ZJK8HHTVfDZsoOXzB7ju1+bc0qsde/63+8rBvml9UEV2OUCtRVO7EtgF1nzOc83vY8mhPKgkKukGygwKgKeZLMdsPnC+wqFuojDZUDD9imnyMShBgNN3bBwyJXOi10Wi4m04ueWq1uhiNSozUdSa/fgAoaloL3hoQtja5vBtQeblQ646Xf1I7o0bOQ3/WsVxQcghUy9U4cZnRwSgGABVl9YRtYZ9Xfxj9UTeXLHEDqxA1kwToNV71qAvDuJzf43nl8548tieImpP9zr+7hFk4wu+cVL6DmtLLbhy47F7VkIeBNnjJ+itboiyosD/tcQzqmMvmZL0tz5D0TAJgxyLEzfZsESmehQLBCbkDQXkTPZ2XYLUns8vtvUTPOoc59vHZcpekXxr/6KYVIoUQAGm2sCcWg+ALJQ7nNPNBnrPqL7S0QjTJZEHbKPuKWNXhRM99ryN1hfMhB9u/UdkpT31PZjpErkgsASeowPXsadEixktgcip+qb6DabXunw6SVcbNSdmAPevUf8kQlWiPdiWPh+I5HkIkC5WFSmYNJNx7uqErCxIg+2rlcswK5ummKWkSlHiztFOBcoZWbLnJtXVOF6J5ZbgPZK8S72pILeo2ASNuIh8ac/diXVkYWLsAXPB2cPML/T3koegWfevOCux1gUTEuDGx4QIgcTnMmV1wpXLAeuOuW4gPHGdPp4qVTsdT6v6RE=
+X-Microsoft-Antispam-Message-Info: TzEtPywLli5WOzCNp+vnR7EyizUtOa/dEnYlOsBB/YZCeMjHNHJPQps9qQug2OPHVSSmlViAaqZyD1gyKAP5VYPgy/Irs9ukmdbw/P/SWgJFKerxtVnghndG7fLmawauI1/sQ2AFbQVJOTMl1eXm4n+JYiFuS5MyQ/06h+26+mcxmjnLBkiSdLsOj/QDDiBqkfy2ypwkm8fvjq/tcab5EsTWxOuCh2tjrJHTF/CmitScj5FKmj6s8lp16mDK3NBoW5i8gfRGPURekWSFIcPWDSGgAis/QThJBNnESAX4f1jV/f8MOZI7YkAMB09IGdcLEP0lM9BWuKdiP75N9rP9qTigLnP0CMHuF85iKMi1/Xrs+OetaqGW6xiiIIkiV7RQVwbA3qc+Cb17+xahiyvXspI0Qwd3I6jUY5fJLsuV+Dyou5s5KzoA0W7Vaqyefd4ZWWVCi19a44YNKMpuPYpUcex6RKFZY2Ie2l/aM8J9Bp2RFNitreRxDF6HCAgbdaNYuIvvCufLmx/pDG2kr0EofRDsNzgoIkH4GFpda/sTnDAP0+1UmDtA4udxkMoGFrF+I4Zzr26+PI2nzjb54MwOKIBbLc0QDyJQIHcuPvXHN8K6mQohJZZ9Pj9xydu38XjaZXwZy8SIL9Qv/WswJSKVRlhmY/kO31f7y1b8MSCQ02vM53rgd0YrJOpjnX714Us9Ue26s+NGbc4o5IqdLTsjfFQ/aBtTE56hPUAX2/h7Vyc=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(70586007)(1076003)(70206006)(26005)(36756003)(81166007)(8676002)(6666004)(54906003)(2906002)(16526019)(2616005)(426003)(316002)(82310400003)(356005)(508600001)(44832011)(8936002)(83380400001)(4326008)(47076005)(36860700001)(6916009)(336012)(86362001)(186003)(5660300002)(36900700001);
+ SFS:(4636009)(36840700001)(46966006)(86362001)(336012)(70586007)(6916009)(426003)(82310400003)(4326008)(36756003)(16526019)(2616005)(83380400001)(44832011)(81166007)(186003)(36860700001)(2906002)(1076003)(8936002)(47076005)(26005)(316002)(70206006)(5660300002)(508600001)(54906003)(8676002)(6666004)(356005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:15:41.7524 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69a9f0e5-6bfd-451a-be17-08d9930aeefe
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:16:00.7030 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1794ede1-7775-43eb-a35d-08d9930afa45
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT006.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT063.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3364
-Received-SPF: softfail client-ip=40.107.94.58;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5164
+Received-SPF: softfail client-ip=40.107.236.57;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -124,238 +124,188 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Change the parser to put the values into a QDict and pass them
-to a callback.  qemu_config_parse's QemuOpts creation is
-itself turned into a callback function.
+Let -readconfig support parsing command line options into QDict or
+QemuOpts.  This will be used to add back support for objects in
+-readconfig.
 
-This is useful for -readconfig to support keyval-based options;
-getting a QDict from the parser removes a roundtrip from
-QDict to QemuOpts and then back to QDict.
-
-Unfortunately there is a disadvantage in that semantic errors will
-point to the last line of the group, because the entries of the QDict
-do not have a location attached.
-
-Cc: Kevin Wolf <kwolf@redhat.com>
 Cc: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-stable@nongnu.org
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210524105752.3318299-2-pbonzini@redhat.com>
+Message-Id: <20210524105752.3318299-3-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit 37701411397c7b7d709ae92abd347cc593940ee5)
+(cherry picked from commit c0d4aa82f895af67cbf7772324e05605e22b4162)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- include/qemu/config-file.h |  7 ++-
- softmmu/vl.c               |  4 +-
- util/qemu-config.c         | 98 ++++++++++++++++++++++++++------------
- 3 files changed, 76 insertions(+), 33 deletions(-)
+ include/block/qdict.h    |  2 -
+ include/qapi/qmp/qdict.h |  3 ++
+ softmmu/vl.c             | 83 ++++++++++++++++++++++++++++------------
+ 3 files changed, 62 insertions(+), 26 deletions(-)
 
-diff --git a/include/qemu/config-file.h b/include/qemu/config-file.h
-index 0500b3668d..f605423321 100644
---- a/include/qemu/config-file.h
-+++ b/include/qemu/config-file.h
-@@ -1,6 +1,8 @@
- #ifndef QEMU_CONFIG_FILE_H
- #define QEMU_CONFIG_FILE_H
+diff --git a/include/block/qdict.h b/include/block/qdict.h
+index d8cb502d7d..ced2acfb92 100644
+--- a/include/block/qdict.h
++++ b/include/block/qdict.h
+@@ -20,8 +20,6 @@ void qdict_join(QDict *dest, QDict *src, bool overwrite);
+ void qdict_extract_subqdict(QDict *src, QDict **dst, const char *start);
+ void qdict_array_split(QDict *src, QList **dst);
+ int qdict_array_entries(QDict *src, const char *subqdict);
+-QObject *qdict_crumple(const QDict *src, Error **errp);
+-void qdict_flatten(QDict *qdict);
  
-+typedef void QEMUConfigCB(const char *group, QDict *qdict, void *opaque, Error **errp);
+ typedef struct QDictRenames {
+     const char *from;
+diff --git a/include/qapi/qmp/qdict.h b/include/qapi/qmp/qdict.h
+index 9934539c1b..d5b5430e21 100644
+--- a/include/qapi/qmp/qdict.h
++++ b/include/qapi/qmp/qdict.h
+@@ -64,4 +64,7 @@ const char *qdict_get_try_str(const QDict *qdict, const char *key);
+ 
+ QDict *qdict_clone_shallow(const QDict *src);
+ 
++QObject *qdict_crumple(const QDict *src, Error **errp);
++void qdict_flatten(QDict *qdict);
 +
- void qemu_load_module_for_opts(const char *group);
- QemuOptsList *qemu_find_opts(const char *group);
- QemuOptsList *qemu_find_opts_err(const char *group, Error **errp);
-@@ -14,7 +16,10 @@ void qemu_config_write(FILE *fp);
- int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname,
-                       Error **errp);
- 
--int qemu_read_config_file(const char *filename, Error **errp);
-+/* A default callback for qemu_read_config_file().  */
-+void qemu_config_do_parse(const char *group, QDict *qdict, void *opaque, Error **errp);
-+
-+int qemu_read_config_file(const char *filename, QEMUConfigCB *f, Error **errp);
- 
- /* Parse QDict options as a replacement for a config file (allowing multiple
-    enumerated (0..(n-1)) configuration "sections") */
+ #endif /* QDICT_H */
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 70b68ec7c4..00fde923bc 100644
+index 00fde923bc..8f18f506d9 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -2119,7 +2119,7 @@ static void qemu_read_default_config_file(Error **errp)
+@@ -122,6 +122,7 @@
+ #include "qapi/qapi-commands-misc.h"
+ #include "qapi/qapi-visit-qom.h"
+ #include "qapi/qapi-commands-ui.h"
++#include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qerror.h"
+ #include "sysemu/iothread.h"
+ #include "qemu/guest-random.h"
+@@ -2113,13 +2114,53 @@ static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
+     return 0;
+ }
+ 
++/*
++ * Return whether configuration group @group is stored in QemuOpts, or
++ * recorded as one or more QDicts by qemu_record_config_group.
++ */
++static bool is_qemuopts_group(const char *group)
++{
++    return true;
++}
++
++static void qemu_record_config_group(const char *group, QDict *dict,
++                                     bool from_json, Error **errp)
++{
++    abort();
++}
++
++/*
++ * Parse non-QemuOpts config file groups, pass the rest to
++ * qemu_config_do_parse.
++ */
++static void qemu_parse_config_group(const char *group, QDict *qdict,
++                                    void *opaque, Error **errp)
++{
++    QObject *crumpled;
++    if (is_qemuopts_group(group)) {
++        qemu_config_do_parse(group, qdict, opaque, errp);
++        return;
++    }
++
++    crumpled = qdict_crumple(qdict, errp);
++    if (!crumpled) {
++        return;
++    }
++    if (qobject_type(crumpled) != QTYPE_QDICT) {
++        assert(qobject_type(crumpled) == QTYPE_QLIST);
++        error_setg(errp, "Lists cannot be at top level of a configuration section");
++        return;
++    }
++    qemu_record_config_group(group, qobject_to(QDict, crumpled), false, errp);
++}
++
+ static void qemu_read_default_config_file(Error **errp)
+ {
+     ERRP_GUARD();
      int ret;
      g_autofree char *file = get_relocated_path(CONFIG_QEMU_CONFDIR "/qemu.conf");
  
--    ret = qemu_read_config_file(file, errp);
-+    ret = qemu_read_config_file(file, qemu_config_do_parse, errp);
+-    ret = qemu_read_config_file(file, qemu_config_do_parse, errp);
++    ret = qemu_read_config_file(file, qemu_parse_config_group, errp);
      if (ret < 0) {
          if (ret == -ENOENT) {
              error_free(*errp);
-@@ -3385,7 +3385,7 @@ void qemu_init(int argc, char **argv, char **envp)
+@@ -2128,9 +2169,8 @@ static void qemu_read_default_config_file(Error **errp)
+     }
+ }
+ 
+-static int qemu_set_option(const char *str)
++static void qemu_set_option(const char *str, Error **errp)
+ {
+-    Error *local_err = NULL;
+     char group[64], id[64], arg[64];
+     QemuOptsList *list;
+     QemuOpts *opts;
+@@ -2138,27 +2178,23 @@ static int qemu_set_option(const char *str)
+ 
+     rc = sscanf(str, "%63[^.].%63[^.].%63[^=]%n", group, id, arg, &offset);
+     if (rc < 3 || str[offset] != '=') {
+-        error_report("can't parse: \"%s\"", str);
+-        return -1;
+-    }
+-
+-    list = qemu_find_opts(group);
+-    if (list == NULL) {
+-        return -1;
+-    }
+-
+-    opts = qemu_opts_find(list, id);
+-    if (!opts) {
+-        error_report("there is no %s \"%s\" defined",
+-                     list->name, id);
+-        return -1;
++        error_setg(errp, "can't parse: \"%s\"", str);
++        return;
+     }
+ 
+-    if (!qemu_opt_set(opts, arg, str + offset + 1, &local_err)) {
+-        error_report_err(local_err);
+-        return -1;
++    if (!is_qemuopts_group(group)) {
++        error_setg(errp, "-set is not supported with %s", group);
++    } else {
++        list = qemu_find_opts_err(group, errp);
++        if (list) {
++            opts = qemu_opts_find(list, id);
++            if (!opts) {
++                error_setg(errp, "there is no %s \"%s\" defined", group, id);
++                return;
++            }
++            qemu_opt_set(opts, arg, str + offset + 1, errp);
++        }
+     }
+-    return 0;
+ }
+ 
+ static void user_register_global_props(void)
+@@ -2752,8 +2788,7 @@ void qemu_init(int argc, char **argv, char **envp)
+                 }
+                 break;
+             case QEMU_OPTION_set:
+-                if (qemu_set_option(optarg) != 0)
+-                    exit(1);
++                qemu_set_option(optarg, &error_fatal);
+                 break;
+             case QEMU_OPTION_global:
+                 if (qemu_global_option(optarg) != 0)
+@@ -3385,7 +3420,7 @@ void qemu_init(int argc, char **argv, char **envp)
                  qemu_plugin_opt_parse(optarg, &plugin_list);
                  break;
              case QEMU_OPTION_readconfig:
--                qemu_read_config_file(optarg, &error_fatal);
-+                qemu_read_config_file(optarg, qemu_config_do_parse, &error_fatal);
+-                qemu_read_config_file(optarg, qemu_config_do_parse, &error_fatal);
++                qemu_read_config_file(optarg, qemu_parse_config_group, &error_fatal);
                  break;
              case QEMU_OPTION_spice:
                  olist = qemu_find_opts_err("spice", NULL);
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index 34974c4b47..374f3bc460 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -2,6 +2,7 @@
- #include "block/qdict.h" /* for qdict_extract_subqdict() */
- #include "qapi/error.h"
- #include "qapi/qapi-commands-misc.h"
-+#include "qapi/qmp/qerror.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qlist.h"
- #include "qemu/error-report.h"
-@@ -351,19 +352,19 @@ void qemu_config_write(FILE *fp)
- }
- 
- /* Returns number of config groups on success, -errno on error */
--int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname, Error **errp)
-+static int qemu_config_foreach(FILE *fp, QEMUConfigCB *cb, void *opaque,
-+                               const char *fname, Error **errp)
- {
--    char line[1024], group[64], id[64], arg[64], value[1024];
-+    char line[1024], prev_group[64], group[64], arg[64], value[1024];
-     Location loc;
--    QemuOptsList *list = NULL;
-     Error *local_err = NULL;
--    QemuOpts *opts = NULL;
-+    QDict *qdict = NULL;
-     int res = -EINVAL, lno = 0;
-     int count = 0;
- 
-     loc_push_none(&loc);
-     while (fgets(line, sizeof(line), fp) != NULL) {
--        loc_set_file(fname, ++lno);
-+        ++lno;
-         if (line[0] == '\n') {
-             /* skip empty lines */
-             continue;
-@@ -372,39 +373,39 @@ int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname, Error *
-             /* comment */
-             continue;
-         }
--        if (sscanf(line, "[%63s \"%63[^\"]\"]", group, id) == 2) {
--            /* group with id */
--            list = find_list(lists, group, &local_err);
--            if (local_err) {
--                error_propagate(errp, local_err);
--                goto out;
-+        if (line[0] == '[') {
-+            QDict *prev = qdict;
-+            if (sscanf(line, "[%63s \"%63[^\"]\"]", group, value) == 2) {
-+                qdict = qdict_new();
-+                qdict_put_str(qdict, "id", value);
-+                count++;
-+            } else if (sscanf(line, "[%63[^]]]", group) == 1) {
-+                qdict = qdict_new();
-+                count++;
-             }
--            opts = qemu_opts_create(list, id, 1, NULL);
--            count++;
--            continue;
--        }
--        if (sscanf(line, "[%63[^]]]", group) == 1) {
--            /* group without id */
--            list = find_list(lists, group, &local_err);
--            if (local_err) {
--                error_propagate(errp, local_err);
--                goto out;
-+            if (qdict != prev) {
-+                if (prev) {
-+                    cb(prev_group, prev, opaque, &local_err);
-+                    qobject_unref(prev);
-+                    if (local_err) {
-+                        error_propagate(errp, local_err);
-+                        goto out;
-+                    }
-+                }
-+                strcpy(prev_group, group);
-+                continue;
-             }
--            opts = qemu_opts_create(list, NULL, 0, &error_abort);
--            count++;
--            continue;
-         }
-+        loc_set_file(fname, lno);
-         value[0] = '\0';
-         if (sscanf(line, " %63s = \"%1023[^\"]\"", arg, value) == 2 ||
-             sscanf(line, " %63s = \"\"", arg) == 1) {
-             /* arg = value */
--            if (opts == NULL) {
-+            if (qdict == NULL) {
-                 error_setg(errp, "no group defined");
-                 goto out;
-             }
--            if (!qemu_opt_set(opts, arg, value, errp)) {
--                goto out;
--            }
-+            qdict_put_str(qdict, arg, value);
-             continue;
-         }
-         error_setg(errp, "parse error");
-@@ -417,11 +418,48 @@ int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname, Error *
-     }
-     res = count;
- out:
-+    if (qdict) {
-+        cb(group, qdict, opaque, errp);
-+        qobject_unref(qdict);
-+    }
-     loc_pop(&loc);
-     return res;
- }
- 
--int qemu_read_config_file(const char *filename, Error **errp)
-+void qemu_config_do_parse(const char *group, QDict *qdict, void *opaque, Error **errp)
-+{
-+    QemuOptsList **lists = opaque;
-+    const char *id = qdict_get_try_str(qdict, "id");
-+    QemuOptsList *list;
-+    QemuOpts *opts;
-+    const QDictEntry *unrecognized;
-+
-+    list = find_list(lists, group, errp);
-+    if (!list) {
-+        return;
-+    }
-+
-+    opts = qemu_opts_create(list, id, 1, errp);
-+    if (!opts) {
-+        return;
-+    }
-+    if (!qemu_opts_absorb_qdict(opts, qdict, errp)) {
-+        qemu_opts_del(opts);
-+        return;
-+    }
-+    unrecognized = qdict_first(qdict);
-+    if (unrecognized) {
-+        error_setg(errp, QERR_INVALID_PARAMETER, unrecognized->key);
-+        qemu_opts_del(opts);
-+    }
-+}
-+
-+int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname, Error **errp)
-+{
-+    return qemu_config_foreach(fp, qemu_config_do_parse, lists, fname, errp);
-+}
-+
-+int qemu_read_config_file(const char *filename, QEMUConfigCB *cb, Error **errp)
- {
-     FILE *f = fopen(filename, "r");
-     int ret;
-@@ -431,7 +469,7 @@ int qemu_read_config_file(const char *filename, Error **errp)
-         return -errno;
-     }
- 
--    ret = qemu_config_parse(f, vm_config_groups, filename, errp);
-+    ret = qemu_config_foreach(f, cb, vm_config_groups, filename, errp);
-     fclose(f);
-     return ret;
- }
 -- 
 2.25.1
 
