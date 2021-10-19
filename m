@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F015B4339E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 17:11:49 +0200 (CEST)
-Received: from localhost ([::1]:40552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD00433955
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 16:55:39 +0200 (CEST)
+Received: from localhost ([::1]:59376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcqmL-0003ML-3F
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 11:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38188)
+	id 1mcqWg-0003KW-BY
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 10:55:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcq0l-00036M-E4; Tue, 19 Oct 2021 10:22:41 -0400
-Received: from mail-bn1nam07on2056.outbound.protection.outlook.com
- ([40.107.212.56]:1422 helo=NAM02-BN1-obe.outbound.protection.outlook.com)
+ id 1mcq1e-0004R2-HP; Tue, 19 Oct 2021 10:23:38 -0400
+Received: from mail-co1nam11on2066.outbound.protection.outlook.com
+ ([40.107.220.66]:27696 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcq0j-00016F-HK; Tue, 19 Oct 2021 10:22:39 -0400
+ id 1mcq1Q-0001YZ-SK; Tue, 19 Oct 2021 10:23:34 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IpF/gKtkU4AccdTyXKFnajpA93iUIc2/RkcPKGQQNP56ys4vY2Yv/f7EFojblul4+gEohXIYzMeJ2em9OuTr7cTbWENF7ZzxP3CldfFNbnzlew8YpSIQ5LESWX63zTxs0Ed+G1i+RDiNCDNnBHWaOEr4m/usoqItylmddvhh3wa0nG6xxGeft9lu8omkrYvWiafA73bDK5gKOP8rEGbIXBJ4hvrM8GfEhkTeTU/uHubCnjMjfbIF3NJ75sEb/5NZQEK+Q9K7+hWCDyu5Xzyve9j7790ifcNpHB6QPfPevOdWiFfWXCIkRgoJ9Fqi27uHJ64yV92g83CUTQzctRPqwg==
+ b=MRYc7WeadYtBw3ysXH9unBlHnlLdYN9bdO0P5N8ipWik76unmH/xIrOZzCfXrIKAVDTEGkLNFc/K3t+1lGNGzNRGJaQrqpZjfU9ORyMZh9HCKvC0gWuYITogSmeYB/xuRCzWchJ28T535pm21d5zMSkcjRHQZS3M2YDxY/L04Ex82m2+GbLP5j1EBLB50dWEFj7E69I/qv3jKI+rAidG/SC8aiJmc3ZOByRDSzPbo/y7eFYRo5RILFEU0i0fRDJbjDJqibUedp1K2hHqL7V6FwhykICJBrbXkm41Dc1ZFzQQ00WkZvIrc7/th7a/Cll0WERm+CzuRYqFjAM6wNPR7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YVsrf+YQi1RxxflvWqI7pgqQyzGLXC6WzdhwC3P64nc=;
- b=LohPkGLRJU2va8PpFADuRxlUFeDQH46Jec6vk+vqfAbPGoG2+41YdNatWWRdcXJg7oGC6TcM9Ic0M4ou52S1hQbo1nyFSI8giogMmZB7pVt0JjmZKj2tnZJtibfBXf2NxMtqI+eRPCdI0u/HuSypH7W0WPorTgj7/avWcSnZod89iLuQ4Mc7ixfvrCvjzPQOhwRGKiRlqTVOyskjBW9V5wcWVi1bK9lzH867D8TXHMZnMBqIjActOv9eSzIgCnryW++MhfGQm/oNlEZCelr0HPDUPa7OHUKXsyxCZh0cxz1H3iK2FNDXCjmaqD1GyBgXOi0zH5XquZY0rtrSuX+g+A==
+ bh=wLUQxpaVSjd5uQPUJktQq9LPZvNg4IN5wr2knhaJ84c=;
+ b=SCR87cQjTsYZIrg6ixCqhcr8UcZ46til6uC2MizvMBac+MSqo+xKY+U/a4Vi4ggPgXPgyigxKH0xx4alYCHnLtePgIDQZtTUfzCEmxab/kH/xUXZhZ0WPLQblDE9nZXxJxMXSg0uB2rzXmQIr7OFh70EnW5yXglpFbe1NGh+x20ar2yqeZ1HjfHpS15EoIb70kzBr743Ia+biM7bl3Ie/yn7GSMTOVP0Ez6hC+5Gu+dZTv4Et07h4VcDUDkOadzxIQnze8ANNLmON+aQAvJwuARWLhGlF3MZAv7+SpAKtZuYb1JqGA5a41p2LYilPvZyJSP5j290bYnlIRvgkDfvrw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YVsrf+YQi1RxxflvWqI7pgqQyzGLXC6WzdhwC3P64nc=;
- b=VNKm/+CnFlD9jrg034HVOeZDpuLprpDGu832UWwScVD8EOVQY5FG5/RQR+5WoXpj3fwvUe2nc2CPim7phkjvu3ZYH2j/taZogZr/0l9mNU5A7TOKuR9ovjNb2UMM5fnfen5NUNrdoBKcIka74sZ15DXy2SEJK+FvvfRIE+5Qy/I=
-Received: from DS7PR05CA0001.namprd05.prod.outlook.com (2603:10b6:5:3b9::6) by
- DM5PR1201MB2553.namprd12.prod.outlook.com (2603:10b6:3:eb::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4608.16; Tue, 19 Oct 2021 14:22:33 +0000
-Received: from DM6NAM11FT059.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3b9:cafe::58) by DS7PR05CA0001.outlook.office365.com
- (2603:10b6:5:3b9::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.11 via Frontend
- Transport; Tue, 19 Oct 2021 14:22:33 +0000
+ bh=wLUQxpaVSjd5uQPUJktQq9LPZvNg4IN5wr2knhaJ84c=;
+ b=pEWY2qe1R8tM3CWGTZ+4dkI9I5wgjVKoOO80Igq4X26uFpb/EC4tPg+/1II8ZnJzzS1sr8hRZHyUno03W8M5VcUS9t5qI/oJeW9IBLdjW/mfCPbJT3aWhATu5D14p+xgchYr87y9Ygh/1HopOtbiviZf66+51vtQG2pHzv3kZio=
+Received: from DM6PR13CA0021.namprd13.prod.outlook.com (2603:10b6:5:bc::34) by
+ BL1PR12MB5287.namprd12.prod.outlook.com (2603:10b6:208:317::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Tue, 19 Oct
+ 2021 14:23:16 +0000
+Received: from DM6NAM11FT012.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:bc:cafe::c0) by DM6PR13CA0021.outlook.office365.com
+ (2603:10b6:5:bc::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.10 via Frontend
+ Transport; Tue, 19 Oct 2021 14:23:16 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=pass action=none header.from=amd.com;
@@ -50,22 +50,21 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT059.mail.protection.outlook.com (10.13.172.92) with Microsoft SMTP
+ DM6NAM11FT012.mail.protection.outlook.com (10.13.173.109) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:22:32 +0000
+ 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:23:15 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 19 Oct
- 2021 09:22:30 -0500
+ 2021 09:23:14 -0500
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
 CC: <qemu-stable@nongnu.org>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philmd@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>, Eric Blake
- <eblake@redhat.com>, =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?=
- <berrange@redhat.com>
-Subject: [PATCH 30/64] qemu-nbd: Use qcrypto_tls_creds_check_endpoint()
-Date: Tue, 19 Oct 2021 09:09:10 -0500
-Message-ID: <20211019140944.152419-31-michael.roth@amd.com>
+ <philmd@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH 31/64] chardev/socket: Use qcrypto_tls_creds_check_endpoint()
+Date: Tue, 19 Oct 2021 09:09:11 -0500
+Message-ID: <20211019140944.152419-32-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211019140944.152419-1-michael.roth@amd.com>
 References: <20211019140944.152419-1-michael.roth@amd.com>
@@ -77,37 +76,36 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9fa36a38-65a5-43db-6753-08d9930be3f6
-X-MS-TrafficTypeDiagnostic: DM5PR1201MB2553:
-X-Microsoft-Antispam-PRVS: <DM5PR1201MB25536D745F1A98C69C1B72AB95BD9@DM5PR1201MB2553.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:132;
+X-MS-Office365-Filtering-Correlation-Id: 290cae30-3f56-4b47-bdfd-08d9930bfd76
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5287:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB52874358B8DE5091FF9F606395BD9@BL1PR12MB5287.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:65;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: r9OSj9Ny2mMx3oScGGqidUvm1j6Tpfa+8UfsRKHywr/Y4Hq5idMIB18wbCSlYX0nvf9NTQjpHcw/KOI+g01g4Z9Xkz+Jc+h/FcJL97Aw2DTP9u7p8EaMHYeCU7ozW/wMnSK/A/aZbnVlExWzJ1xUWwWaOqWpX7EAuPznzl/Iv8jcaCuxjhwVFR+ro0nrpOsCCz1GststI2GM5mMo0RmHpZbAMlJPYgR1mM3l9djqA7JjwkXyAo0nQ6liSp8nrNi81hisSryHUtPGQ0epC8+xbTNWKzmYrbnd/S+ApEEEQK/XAw+E03BeUZ/2BFa+e0B0tXWnzNxroaRpn+a+mYodaPPmLdukG5EmqsqtKyeFxRmIjp1HTwLecfQeQCnPi7bnTjnyCmAIyrER5y+ZcyMbQgt3uHPfaN56MP3EyFaGr2PhaPtEGHkF3qeoedxgQtL1vRSvwnvGoj6ttZlV00FXNb9ALMhube8zkjrahl9Kfic2PBkZTdpxnz8fdUeHnbRKf0a/HpCbOKzVhcEfpi66UxxwnYhAnBLo/9PMMw1PCnLIR5QjCGp/I+Jbj2Fw5p9s2d10ubbLbLEPm6LmHH0zSBFka4UeiZOQK5PYiPgCdjqUejgljGUzcweCg7LYac3jVQgmsUDwyWOR0fdAw5BD3wOYdIc53eAavUsp1VJikA4w6eHJGPLK6KUoKik0ohr6J3LTphBbiVrPfR97BKpfFqNdgC9FKOLVXGfuLYxEqhg=
+X-Microsoft-Antispam-Message-Info: ORmz/sgBUR6F0vcfgzfOHCYfF3dPxQS/NwBv4aY6s655ngL/+PxRXs1tFeEI1yelnGKwoG6TbP5FI05ILYRL4DvNNsyFw1hv7t3D6NvuB8VceWzC/OLwwzS35HNBA0OkX9CF/QcR3JUb4S+wWAS1FyMEdq6CiZEGPJxlSy/HPUFW6XzXQCdQSh+DLNyLtn+B6Ka+Ijat0VBawQbVag7knIFAlgKh8EbrjWa9waFxoeWvIpnampwO+nMgojB3AexH/EmNRK5MgLb+SnpYRJuYebKLXe2kTSwACMaR0o+CFjWuBDO8JuArbQBceDwlckxLG0kmxf59BdqeMDBtGYBMwC1dzH+qwBMFf1M0cO7qOi6QC3RnhVHg0Q39OiPMcEUjaieQzuMkRue5+ep6JjcUJTaB3+EKwxhs8tg4ogYMzWK7RfLk5AMcMlC5qHgek8OS+7jOk7RoPQ7gxpkTG6j6IMteBmeXxL+wh1Tl3iQOcpOLKXfPycCAVhCgdpPvaJbK5u9lq8yOdolWdxXv1+58ORX9Mdfv/Opbv0DBbTow/omLLjzsuN9begDWzRRqjzQCUUBzjQLVKpUiq4zlrKC9xuKzTSL1/ukeRVtXHgk8oHLAduSIar/8+RPFXADqKtRjw8a4GrEaLgWSE7GkXIu3ABOOXuCNHfvbF37SUdN+d7NrfaThjw66gYSY97UZESklyENn5pUVCsnKbaiEnczUIOLpO4zfqUhgHq+sh14uQW8=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(16526019)(186003)(6666004)(356005)(336012)(26005)(2616005)(83380400001)(508600001)(70206006)(70586007)(36756003)(54906003)(6916009)(8676002)(44832011)(36860700001)(2906002)(4326008)(82310400003)(86362001)(5660300002)(1076003)(426003)(316002)(47076005)(8936002)(81166007)(36900700001);
+ SFS:(4636009)(36840700001)(46966006)(336012)(8676002)(36860700001)(316002)(2906002)(81166007)(8936002)(83380400001)(1076003)(6666004)(6916009)(70206006)(86362001)(2616005)(186003)(426003)(508600001)(5660300002)(70586007)(26005)(44832011)(16526019)(82310400003)(47076005)(356005)(36756003)(54906003)(4326008)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:22:32.7385 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fa36a38-65a5-43db-6753-08d9930be3f6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:23:15.5227 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 290cae30-3f56-4b47-bdfd-08d9930bfd76
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT059.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT012.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB2553
-Received-SPF: softfail client-ip=40.107.212.56;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5287
+Received-SPF: softfail client-ip=40.107.220.66;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM02-BN1-obe.outbound.protection.outlook.com
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -129,53 +127,44 @@ From: Philippe Mathieu-Daudé <philmd@redhat.com>
 Avoid accessing QCryptoTLSCreds internals by using
 the qcrypto_tls_creds_check_endpoint() helper.
 
-Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-(cherry picked from commit 0279cd9535283cf5711768ab6401b204e5697a81)
+(cherry picked from commit 8612df2ebef9ff1f880fe76d223a3369b9c98db2)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- qemu-nbd.c | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ chardev/char-socket.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 93ef4e288f..26ffbf15af 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -43,6 +43,7 @@
- #include "io/channel-socket.h"
- #include "io/net-listener.h"
- #include "crypto/init.h"
-+#include "crypto/tlscreds.h"
- #include "trace/control.h"
- #include "qemu-version.h"
- 
-@@ -422,18 +423,12 @@ static QCryptoTLSCreds *nbd_get_tls_creds(const char *id, bool list,
-         return NULL;
-     }
- 
--    if (list) {
--        if (creds->endpoint != QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT) {
--            error_setg(errp,
--                       "Expecting TLS credentials with a client endpoint");
--            return NULL;
--        }
--    } else {
--        if (creds->endpoint != QCRYPTO_TLS_CREDS_ENDPOINT_SERVER) {
--            error_setg(errp,
--                       "Expecting TLS credentials with a server endpoint");
--            return NULL;
--        }
-+    if (!qcrypto_tls_creds_check_endpoint(creds,
-+                                          list
-+                                          ? QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT
-+                                          : QCRYPTO_TLS_CREDS_ENDPOINT_SERVER,
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index daa89fe5d1..d0fb545963 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -1402,18 +1402,12 @@ static void qmp_chardev_open_socket(Chardev *chr,
+             return;
+         }
+         object_ref(OBJECT(s->tls_creds));
+-        if (is_listen) {
+-            if (s->tls_creds->endpoint != QCRYPTO_TLS_CREDS_ENDPOINT_SERVER) {
+-                error_setg(errp, "%s",
+-                           "Expected TLS credentials for server endpoint");
+-                return;
+-            }
+-        } else {
+-            if (s->tls_creds->endpoint != QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT) {
+-                error_setg(errp, "%s",
+-                           "Expected TLS credentials for client endpoint");
+-                return;
+-            }
++        if (!qcrypto_tls_creds_check_endpoint(s->tls_creds,
++                                          is_listen
++                                          ? QCRYPTO_TLS_CREDS_ENDPOINT_SERVER
++                                          : QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT,
 +                                          errp)) {
-+        return NULL;
++            return;
+         }
      }
-     object_ref(obj);
-     return creds;
+     s->tls_authz = g_strdup(sock->tls_authz);
 -- 
 2.25.1
 
