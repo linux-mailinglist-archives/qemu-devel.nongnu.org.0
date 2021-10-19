@@ -2,79 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE0BC433CF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 19:04:59 +0200 (CEST)
-Received: from localhost ([::1]:46568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18D3433BE5
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:18:16 +0200 (CEST)
+Received: from localhost ([::1]:41590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcsXq-0005ss-VD
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 13:04:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58872)
+	id 1mcrod-0001kL-W4
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:18:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mcrIm-0005xN-Kh
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:45:20 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37559)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mcrIk-0002oe-TI
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:45:20 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- n7-20020a05600c4f8700b00323023159e1so3449330wmq.2
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 08:45:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=pxr2c2S/F1T9AJp3ya4a1rH6/ywNF3ZyjV4TUjX9CGQ=;
- b=wJXg6S4GGUdyA2FaG7QEmZ/P4prfRhBXcS7xnnqAKBMMKLw3JY39RPtApSPIVgdvkM
- m55/aR/YXVd2AGmrbRiSiIKeiXrrP2L0fCfxiziYJDcqEjFDIlQCydfCZPEfC2OwNuA0
- biuer+8Ezrq9kj/pvqaRXkO3t8bzLks/0eJxqdpQZ8pFocryWpS2qRAyDkUyPQEtxnvh
- XRZT/b/FyZdfZ+Sr0JUpecXsQPDAUJbxNp5sMqR+FbxwiiuiJNdKB5RJY59OpI3xNWil
- n/M3U4MzqtKJjv39RlVXmMg8PkSBXULMBhYZDR+R+bvDt6gKgC4+hXpKggJ6KvSGpftF
- LqWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=pxr2c2S/F1T9AJp3ya4a1rH6/ywNF3ZyjV4TUjX9CGQ=;
- b=197Ba+q4ZIiw7kIuMpqKCy5C639ce6j2ypQLEup5Gd+cp3KiqXx77wLry+lldxBBCD
- qZATp6LTITTLHQPF7gnd/9/zi62Q15VqGzpaALzK11afYK7TJkVOk3jgp5HJ2vLg0MCT
- JzZd90q8oTG9cvFb6B0N7P/3/LTg4oG0oY8FIwzSBDa0hhWeC6nJiMPBkWMbZyrwOXHB
- xBml7xDnJlUDYbGbgjNeYCpTs+8BJ6SmwYyRDCEgBK88UBezuvtiM+KQj2/BTnG2H4yV
- E4IAAMzpn6dhHzvBNsz/BTUFntLz2gbAQOXsSuUDukrybmokDy+ttsJq+mY3SxIvb4b7
- k8qg==
-X-Gm-Message-State: AOAM5314NAranKE4IQ2blQiAvvhTRxmQS4o1pPxO0Yh/xNN8tPx4DDUL
- MYo298grxQU3tr/L7o9nNSPfFA==
-X-Google-Smtp-Source: ABdhPJxn2svrxE+b+7//Ny4SYd3rMwgmY+bVfAN1zCEDSUTJtKiJFvGLLm6Ne3sWn9TtvQw9Un5JSg==
-X-Received: by 2002:a1c:770b:: with SMTP id t11mr7057285wmi.19.1634658315834; 
- Tue, 19 Oct 2021 08:45:15 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l2sm6803454wrs.90.2021.10.19.08.45.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 08:45:14 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 372431FF96;
- Tue, 19 Oct 2021 16:45:14 +0100 (BST)
-References: <20211007195456.1168070-1-richard.henderson@linaro.org>
- <20211007195456.1168070-6-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.0; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 05/48] tcg/optimize: Move prev_mb into OptContext
-Date: Tue, 19 Oct 2021 16:44:18 +0100
-In-reply-to: <20211007195456.1168070-6-richard.henderson@linaro.org>
-Message-ID: <87a6j5xblh.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1mcrSI-00042n-2t
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:55:10 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:26655)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1mcrSD-0002Ko-Tg
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:55:09 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 9E6F546909;
+ Tue, 19 Oct 2021 17:54:55 +0200 (CEST)
+From: Stefan Reiter <s.reiter@proxmox.com>
+To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
+Subject: [PATCH v5 0/4] VNC-related HMP/QMP fixes
+Date: Tue, 19 Oct 2021 17:54:39 +0200
+Message-Id: <20211019155443.1447372-1-s.reiter@proxmox.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,45 +60,55 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Since the removal of the generic 'qmp_change' command, one can no longer replace
+the 'default' VNC display listen address at runtime (AFAIK). For our users who
+need to set up a secondary VNC access port, this means configuring a second VNC
+display (in addition to our standard one for web-access), but it turns out one
+cannot set a password on this second display at the moment, as the
+'set_password' call only operates on the 'default' display.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Additionally, using secret objects, the password is only read once at startup.
+This could be considered a bug too, but is not touched in this series and left
+for a later date.
 
-> This will expose the variable to subroutines that
-> will be broken out of tcg_optimize.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/optimize.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
->
-> diff --git a/tcg/optimize.c b/tcg/optimize.c
-> index 627a5b39f6..b875d76354 100644
-> --- a/tcg/optimize.c
-> +++ b/tcg/optimize.c
-> @@ -46,6 +46,7 @@ typedef struct TempOptInfo {
->=20=20
->  typedef struct OptContext {
->      TCGContext *tcg;
-> +    TCGOp *prev_mb;
->      TCGTempSet temps_used;
->  } OptContext;
->=20=20
-> @@ -609,7 +610,7 @@ static bool swap_commutative2(TCGArg *p1, TCGArg *p2)
->  void tcg_optimize(TCGContext *s)
->  {
->      int nb_temps, nb_globals, i;
-> -    TCGOp *op, *op_next, *prev_mb =3D NULL;
-> +    TCGOp *op, *op_next;
->      OptContext ctx =3D { .tcg =3D s };
 
-Do we need to add .prev_mb =3D NULL to ensure the ctx doesn't start
-corrupted or does the partial initialisation ensure the rest is zeroed
-out?
+v4 -> v5:
+* add comment to patch 1 in "monitor-internal.h" - I left Eric's R-b since the
+  code is the same, hope that's ok
+* use qapi_free_SetPasswordOptions and friends, don't leak strdups
+* split QAPI change into 3 seperate patches
 
-Otherwise:
+v3 -> v4:
+* drop previously patch 1, this was fixed here instead:
+  https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02529.html
+* patch 1: add Eric's R-b
+* patch 2: remove if-assignment, use 'deprecated' feature in schema
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+v2 -> v3:
+* refactor QMP schema for set/expire_password as suggested by Eric Blake and
+  Markus Armbruster
 
---=20
-Alex Benn=C3=A9e
+v1 -> v2:
+* add Marc-André's R-b on patch 1
+* use '-d' flag as suggested by Eric Blake and Gerd Hoffmann
+  * I didn't see a way to do this yet, so I added a "flags with values" arg type
+
+
+ qemu: Stefan Reiter (4):
+  monitor/hmp: add support for flag argument with value
+  qapi/monitor: refactor set/expire_password with enums
+  qapi/monitor: allow VNC display id in set/expire_password
+  qapi/monitor: only allow 'keep' SetPasswordAction for VNC and deprecate
+
+ hmp-commands.hx            |  24 +++---
+ monitor/hmp-cmds.c         |  56 ++++++++++++-
+ monitor/hmp.c              |  17 +++-
+ monitor/monitor-internal.h |   3 +-
+ monitor/qmp-cmds.c         |  62 ++++++---------
+ qapi/ui.json               | 156 ++++++++++++++++++++++++++++++++-----
+ 6 files changed, 244 insertions(+), 74 deletions(-)
+
+-- 
+2.30.2
+
 
