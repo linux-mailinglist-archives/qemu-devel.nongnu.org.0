@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492B2433C9A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:41:33 +0200 (CEST)
-Received: from localhost ([::1]:45042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5363A433B9D
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:04:48 +0200 (CEST)
+Received: from localhost ([::1]:59208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcsBA-0000Mo-Bv
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:41:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57342)
+	id 1mcrbb-0000sk-D9
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:04:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mcrCn-0001y6-Lk
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:39:09 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:51758)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mcrDO-000399-40
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:39:46 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mcrCm-0002uN-4b
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:39:09 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id p21so12473945wmq.1
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 08:39:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mcrDM-0003VW-Gq
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:39:45 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ z77-20020a1c7e50000000b0030db7b70b6bso3412436wmc.1
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 08:39:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=diWQhBtGVRDypJsSR2DtNUGT51Q/w01bAxdJl4S/REQ=;
- b=qHxJpgBGpQwZEqf7UuEiVBnZTe+Svasi+Xs6xk7HxYvoMUKEDhg5bFuNp6Iw+8gNUn
- rfBZPvVnw7SWhlxPC8XK5vLRjTFxHB8k1EZpreROvRkumyF8AvVQjsg/v8MM9eggKjXM
- lddSGftriHPoj9zMtXEBJ4jNr+imhrmFJ2fdkuRGTFVyeM2/kNN90ixqNaMmffpXmZOb
- TZyglEoG3INjQXlwAO3ZQSJBbof27I+JeVb8cBA0MITP8VzO4fKAnvlQCVy3JB4W+I6R
- Up4+Td2g+Y5J8+1sQJrL8f/Vvbaea0rWLMHuLjPIOI8EUnTuiPCwb8U+GtKgYql92Jzv
- vBMQ==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Bd3mCko/wmehSzzxAHDW8/kvbf1bZQus34gyS3yOJmE=;
+ b=vJtER9Fzc/bODWlf2JRfL+frERF9CTxj2hVN0W6f5Ip+qU88pE62rrh9pMks4qBL8B
+ +JW0BuhiUUZL6J0d9+gT/PP+uZ97MBi8ZUquVonigz/bnJvJkPHw4k3X42/xnHePJsLd
+ 25k5wtZ7J9wYv44dtWWv6I5O684HzoPtx/ODZuRnsL95YmyTR0aCB8iBNqZM+ShEVgYe
+ lJPJAseeCXwml9dTVEfdcSyerwwD7x3dWBGKUjzP2DAlEzRVGuFlOTquLJM3sVU01yma
+ c61YBlJDNOB71lm75Nv099gKp+dCEZuEbXsZd7nmNQIPiCmmORCcqf3zAikWgQsxuVcK
+ F3ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=diWQhBtGVRDypJsSR2DtNUGT51Q/w01bAxdJl4S/REQ=;
- b=fO0an4XDxjRmPvjoZYNhsNZvC6F/WF3+qW11OXjQYmbL+r3vTJcwn/SzG1C6IgwvaR
- BQLimjEM2j8rT+s/gPkPoSrG2dbLtG+IvrU7PJ+b+/BUJ0/QmJ+JbAx5nsXD8wliNHeQ
- 19WCZPlhV9GYU4f9qcn7wW1Nq+iFdGHlhQ0DKnJU+x80/A4If6fWp4lcllz6zmDQt5Qd
- 6ciXaapDF68U83Re84jgAiXSx8/gSu/Q9AwvsUQgCoRlO51WhuIyOBcmhAFFqePd+tpd
- 47ENq0THY8tNnCaQH43QdwFUvGYj6gtqF0vl5feCWGO2Ks+ZBxgojmb/scvRpUfafqol
- B+KA==
-X-Gm-Message-State: AOAM530RaXzW1QDp83zlPhP52QSU0i6elDMiyZjbaZwyDya9XkCqqmDp
- +eJ9jvY59ysN2XpgQ3HCEf/4G/OxvmSR4w==
-X-Google-Smtp-Source: ABdhPJx5SfObCjkjKOiNcT/6EDFMlX8q5YwiiHBCq1HyLF6ndEBZ//uv2Ll40i8uejAMrRaPOxGk6Q==
-X-Received: by 2002:a7b:c4c1:: with SMTP id g1mr4026873wmk.2.1634657946253;
- Tue, 19 Oct 2021 08:39:06 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i17sm17881570wru.18.2021.10.19.08.39.04
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Bd3mCko/wmehSzzxAHDW8/kvbf1bZQus34gyS3yOJmE=;
+ b=tsLueSpzCGa707JaOTgtXCe0SttGz5Fl7EfHo8qog0+4ZnzDmLB3f9WMM6tvciUDHy
+ Km+aOfBvbPaUyYvuAhQ+IqHzYojEU3mIIy8mOajeInZJHe7zeN1VjsRx9M/AMBqMV91P
+ DncwZJsOY7PWkyY9/IxUDgC4NnX0oXBfwsyIPVDb8GkGeU9s435Bq82682urIQu/eGSH
+ WtBTY+4tjgnDgpndsdGRt5dd58O04h/+JwmcS/dZY02fcWOGi2OBr5OH1GCHqhJbveUk
+ 5VmlL6x70qLg1d8fhcLKOnojIQM+WmQOuDYL3pNsGX11MATnbmrsvse1pYePHVvWaJmy
+ +rvg==
+X-Gm-Message-State: AOAM533Scnf6uhQUq0UiLg1tCesH5I3/sFyiotpbHMgzSwVmZpAzES0y
+ NSrDkwpAs64hE2nlImj1thCpuA==
+X-Google-Smtp-Source: ABdhPJz3/20OD9m7g0xraVIe4IRXoNjmQ8LdWHkXY5LCP8G4bRG9WPvgzwctDR7iSPW52A7FhTQV0g==
+X-Received: by 2002:adf:a2d2:: with SMTP id t18mr29071958wra.115.1634657982243; 
+ Tue, 19 Oct 2021 08:39:42 -0700 (PDT)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id x21sm2475986wmc.14.2021.10.19.08.39.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 08:39:05 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 17C671FF96;
- Tue, 19 Oct 2021 16:39:04 +0100 (BST)
-References: <20211007195456.1168070-1-richard.henderson@linaro.org>
- <20211007195456.1168070-5-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.0; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 04/48] tcg/optimize: Change tcg_opt_gen_{mov, movi}
- interface
-Date: Tue, 19 Oct 2021 16:38:59 +0100
-In-reply-to: <20211007195456.1168070-5-richard.henderson@linaro.org>
-Message-ID: <87ee8hxbvr.fsf@linaro.org>
+ Tue, 19 Oct 2021 08:39:41 -0700 (PDT)
+Date: Tue, 19 Oct 2021 16:39:20 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v4 00/11] virtio-iommu: Add ACPI support
+Message-ID: <YW7mqILh/tYNH56L@myrica>
+References: <20211001173358.863017-1-jean-philippe@linaro.org>
+ <20211005113719-mutt-send-email-mst@kernel.org>
+ <YWBhEQxM4wRyZWzs@myrica>
+ <20211018112402-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211018112402-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,20 +87,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ qemu-arm@nongnu.org, imammedo@redhat.com, ani@anisinha.ca, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Oct 18, 2021 at 11:25:05AM -0400, Michael S. Tsirkin wrote:
+> On Fri, Oct 08, 2021 at 04:17:37PM +0100, Jean-Philippe Brucker wrote:
+> > On Tue, Oct 05, 2021 at 11:45:42AM -0400, Michael S. Tsirkin wrote:
+> > > Looks like this can not be applied yet because the bypass bit
+> > > isn't in yet. what's up with that?
+> > 
+> > The boot-bypass bit isn't a hard dependency for this series, but it will
+> > be needed for full support eventually. It will be delayed by spec and
+> > Linux header changes
+> > 
+> > In the meantime we can work around the problem by having the boot disks
+> > bypass the IOMMU (virtio without iommu-platform, or iommu-bypass bus).
+> > 
+> > Thanks,
+> > Jean
+> 
+> OK... how do we want to apply all this?
+> If my tree I either need ack from an ARM maintainers, or
+> post a partial patchset with just x86 bits.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Either works for me, with preference for keeping a single series
+(otherwise I need to split patch 8, or add the tests later). I'll send v5
+whole.
 
-> Adjust the interface to take the OptContext parameter instead
-> of TCGContext or both.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+Thanks,
+Jean
 
