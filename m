@@ -2,62 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7004337ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 15:59:52 +0200 (CEST)
-Received: from localhost ([::1]:54648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5C31433826
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 16:14:21 +0200 (CEST)
+Received: from localhost ([::1]:49676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcpei-0006gD-2x
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 09:59:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59972)
+	id 1mcpsi-0005xW-Gf
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 10:14:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mcpco-0005EA-M9
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 09:57:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45915)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcpmk-0007wi-1U
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:08:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mcpcn-00062m-0B
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 09:57:54 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcpmg-0005ku-Kd
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:08:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634651872;
+ s=mimecast20190719; t=1634652481;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZvxcRAarMoEWjARZgzPxeGayYPGOa76tubm3yO8/WCA=;
- b=R85BxLh/o+yxUSkfnd+3mdcqKhs+naseAxBKrNcT/38knY1BE6iRPA7kmyKcJFOYQ1fuiY
- XC5BSRPyjhawQ8QD8ng0ZiAfua8GIK/l8BoI6VRilg+hbeKjfc3V5dF8LD/+covST7JhNZ
- XXs8w9R1SN7FMQYVEAXQPbeKg8BOLEI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-OFCv1gf9OUmduvtSYvP7LQ-1; Tue, 19 Oct 2021 09:57:48 -0400
-X-MC-Unique: OFCv1gf9OUmduvtSYvP7LQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74704101F7AE;
- Tue, 19 Oct 2021 13:57:47 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CC8A6788C;
- Tue, 19 Oct 2021 13:57:46 +0000 (UTC)
-Date: Tue, 19 Oct 2021 14:57:46 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: Re: [PATCH v6] Work around vhost-user-blk-test hang
-Message-ID: <YW7O2q/UaKl3Ao09@stefanha-x1.localdomain>
-References: <20211014043216.10325-1-raphael.norwitz@nutanix.com>
+ bh=9VJX7fIokdEljL23nbTYAXd/vQu4PnDQ9An5cPWV69I=;
+ b=g51h//QjXPmB9Np8jDbkMUhXlkVGIc36YgfHduYbNZcHPq9MEtxNwVkqqvtSJ6gLq/rle8
+ tih6yvznh0SPEZl+3YktiAojn8zO1pz0DWDFlBg7TmoAwSMUnDYV9xT62UWmQtz+DcoVLA
+ LwnSBn0qyn7WqncRpZtQm7L4TPNs2N0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-229-LwMSuQeXMCOK7VKc833n5g-1; Tue, 19 Oct 2021 10:07:58 -0400
+X-MC-Unique: LwMSuQeXMCOK7VKc833n5g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 75-20020adf82d1000000b00160cbb0f800so10206271wrc.22
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 07:07:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=9VJX7fIokdEljL23nbTYAXd/vQu4PnDQ9An5cPWV69I=;
+ b=NfrAdxmdE0L2HKOQUF+16fIMq0OFv4pFp3wwlQFdVBSp8ukw9rKcRySDlT5b4QxdDv
+ MNXJbHDXK2nXebXWTZUnemGKSnqmHeDtdnAt6g/fRAFA0tYBVmIkui2Oq5Rl04XJbkTB
+ gMln/flDXNztIXgeVlkWNyJN8GngA7w9JLAZRRonmFl07UGXNv774h3KHNPUEaSFdIoh
+ kGaHcAwvgEBXAPmFgrw671BFb+HtRQohaD08qu2LWU6QtrG0PNzKvvzQXaxiJ0xBCYHl
+ Cy1SN0SxrBKrHENXoqeYoh8JSvziUNgFGzAR/ihnNyJRhcpBg8/f5bFYKOeh+dW0gV7d
+ DgmA==
+X-Gm-Message-State: AOAM533wgl7fEgiE6gdEKCXQvW8urlMRoqQHLupmAREWy0uyepoklrDO
+ LvdBIfIDT0q/UvuHMhZD3JdMX//WWu0heZm72pf2ev5V+LLrrNiWaSjR1/5KCWAjWX700K8kTs1
+ ludPNpnj19zLPaWM07gF1ZjTVJ5F3lZYdJlxLabd6xy0KKIIwmjgYNi2ztX1e
+X-Received: by 2002:a7b:ce8d:: with SMTP id q13mr6207779wmj.103.1634652477319; 
+ Tue, 19 Oct 2021 07:07:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyK7Z61682FA7TXyxld18UqitumuiyTzZebvB26MRrJdJUrbXpbxDcZxUzmmFGaOft/u2ApDA==
+X-Received: by 2002:a7b:ce8d:: with SMTP id q13mr6207733wmj.103.1634652476947; 
+ Tue, 19 Oct 2021 07:07:56 -0700 (PDT)
+Received: from redhat.com ([2.55.24.172])
+ by smtp.gmail.com with ESMTPSA id y26sm267766wma.15.2021.10.19.07.07.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Oct 2021 07:07:56 -0700 (PDT)
+Date: Tue, 19 Oct 2021 10:07:53 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PULL 00/29] pc,pci,virtio: features, fixes
+Message-ID: <20211019100724-mutt-send-email-mst@kernel.org>
+References: <20211019111923.679826-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211014043216.10325-1-raphael.norwitz@nutanix.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20211019111923.679826-1-mst@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Ukmv2loU/I3vfDed"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -78,65 +94,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "eblake@redhat.com" <eblake@redhat.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Ukmv2loU/I3vfDed
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Oct 19, 2021 at 07:19:40AM -0400, Michael S. Tsirkin wrote:
+> The following changes since commit 9c050b661d3a43dfe2fd44106e559b39706d1296:
+> 
+>   Merge remote-tracking branch 'remotes/philmd/tags/mips-20211018' into staging (2021-10-18 09:16:51 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> 
+> for you to fetch changes up to bf2dd99b7d536cdba157fd6687810ce7b8340ccc:
+> 
+>   failover: fix a regression introduced by JSON'ification of -device (2021-10-19 07:15:34 -0400)
 
-On Thu, Oct 14, 2021 at 04:32:23AM +0000, Raphael Norwitz wrote:
-> The vhost-user-blk-test qtest has been hanging intermittently for a
-> while. The root cause is not yet fully understood, but the hang is
-> impacting enough users that it is important to merge a workaround for
-> it.
->=20
-> The race which causes the hang occurs early on in vhost-user setup,
-> where a vhost-user message is never received by the backend. Forcing
-> QEMU to wait until the storage-daemon has had some time to initialize
-> prevents the hang. Thus the existing storage-daemon pidfile option can
-> be used to implement a workaround cleanly and effectively, since it
-> creates a file only once the storage-daemon initialization is complete.
->=20
-> This change implements a workaround for the vhost-user-blk-test hang by
-> making QEMU wait until the storage-daemon has written out a pidfile
-> before attempting to connect and send messages over the vhost-user
-> socket.
->=20
-> Some relevent mailing list discussions:
->=20
-> [1] https://lore.kernel.org/qemu-devel/CAFEAcA8kYpz9LiPNxnWJAPSjc=3Dnv532=
-bEdyfynaBeMeohqBp3A@mail.gmail.com/
-> [2] https://lore.kernel.org/qemu-devel/YWaky%2FKVbS%2FKZjlV@stefanha-x1.l=
-ocaldomain/
 
-I sent a fix for the hang so the workaround is no longer needed:
-"[PATCH] vhost-user-blk-test: pass vhost-user socket fds to QSD"
+I tacked on one more patch since it fixes a test hang that has
+annoyed people for a while.
 
-Stefan
-
---Ukmv2loU/I3vfDed
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFuztYACgkQnKSrs4Gr
-c8jTvAf7BqtyQOtnM2o35xhtcBbheWaPUKAJ4w5hqZM6yrKh66x6kDo25fpnutxD
-pMEiVggd+t4FSv6+w9HKoZOPw9SSYvAYtsTPhYz9sgEATcGPrvSJkLb/iCNb+Lw7
-OtiJrCmed4RMKv8+aPF3G9OcFe7bhHDCTF2yo+TTg/FMHr84P/2E03DlRw+Jp2h5
-PAT4+dbje/eNSyehU5wW7UCeWaL3PaJH3VazuXEudnpS+qMuNKO9s8URFtq+JOyv
-Do3wE607smtN7pWFGtb4POFgG99WzlJ3ui8mfaEEB45MQQ9/1y/D8EMpFXpibmFY
-kiDBIgR8X8nsNlvID4osJxV2s121Dw==
-=wc4n
------END PGP SIGNATURE-----
-
---Ukmv2loU/I3vfDed--
+> ----------------------------------------------------------------
+> pc,pci,virtio: features, fixes
+> 
+> vhost user rng
+> Fixes, cleanups all over the place.
+> 
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> 
+> ----------------------------------------------------------------
+> Ani Sinha (3):
+>       tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT table blob
+>       tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges for q35
+>       tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge test
+> 
+> David Hildenbrand (1):
+>       libvhost-user: fix VHOST_USER_REM_MEM_REG skipping mmap_addr
+> 
+> Eric Auger (2):
+>       virtio-iommu: Remove the non transitional name
+>       virtio-iommu: Drop base_name and change generic_name
+> 
+> Eugenio Pérez (3):
+>       vdpa: Skip protected ram IOMMU mappings
+>       vdpa: Add vhost_vdpa_section_end
+>       vdpa: Check for iova range at mappings changes
+> 
+> Igor Mammedov (15):
+>       tests: acpi: dump table with failed checksum
+>       tests: qtest: add qtest_has_accel() to check if tested binary supports accelerator
+>       tests: acpi: whitelist expected tables for acpi/q35/xapic testcase
+>       tests: acpi: q35: test for x2APIC entries in SRAT
+>       tests: acpi: update expected tables blobs
+>       tests: acpi: whitelist new expected table tests/data/acpi/q35/DMAR.dmar
+>       tests: acpi: add testcase for intel_iommu (DMAR table)
+>       tests: acpi: add expected blob for DMAR table
+>       tests: acpi: whitelist expected blobs for new acpi/q35/ivrs testcase
+>       tests: acpi: add testcase for amd-iommu (IVRS table)
+>       tests: acpi: update expected blobs
+>       tests: acpi: arm/virt: drop redundant test_acpi_one() in test_acpi_virt_tcg()
+>       tests: arm-cpu-features: use qtest_has_kvm() API
+>       tests: migration-test: use qtest_has_accel() API
+>       tests: bios-tables-test: use qtest_has_accel() API to register TCG only tests
+> 
+> Laurent Vivier (1):
+>       failover: fix a regression introduced by JSON'ification of -device
+> 
+> Mathieu Poirier (3):
+>       vhost-user-rng: Add vhost-user-rng implementation
+>       vhost-user-rng-pci: Add vhost-user-rng-pci implementation
+>       docs: Add documentation for vhost based RNG implementation
+> 
+> Xueming Li (1):
+>       vhost-user: fix duplicated notifier MR init
+> 
+>  include/hw/virtio/vhost-user-rng.h        |  33 ++++
+>  include/hw/virtio/vhost-vdpa.h            |   2 +
+>  include/hw/virtio/virtio-iommu.h          |   2 +-
+>  tests/qtest/libqos/libqtest.h             |   8 +
+>  hw/net/virtio-net.c                       |  24 ++-
+>  hw/virtio/vhost-user-rng-pci.c            |  79 ++++++++
+>  hw/virtio/vhost-user-rng.c                | 289 ++++++++++++++++++++++++++++++
+>  hw/virtio/vhost-user.c                    |   5 +-
+>  hw/virtio/vhost-vdpa.c                    |  81 ++++++---
+>  hw/virtio/virtio-iommu-pci.c              |   4 +-
+>  subprojects/libvhost-user/libvhost-user.c |   1 +
+>  tests/qtest/acpi-utils.c                  |  14 ++
+>  tests/qtest/arm-cpu-features.c            |  29 +--
+>  tests/qtest/bios-tables-test.c            |  90 ++++++++--
+>  tests/qtest/libqtest.c                    |  27 +++
+>  tests/qtest/migration-test.c              |  15 +-
+>  docs/system/device-emulation.rst          |   1 +
+>  docs/system/devices/vhost-user-rng.rst    |  39 ++++
+>  hw/virtio/Kconfig                         |   5 +
+>  hw/virtio/meson.build                     |   2 +
+>  hw/virtio/trace-events                    |   1 +
+>  meson.build                               |   6 +
+>  tests/data/acpi/q35/APIC.xapic            | Bin 0 -> 2686 bytes
+>  tests/data/acpi/q35/DMAR.dmar             | Bin 0 -> 120 bytes
+>  tests/data/acpi/q35/DSDT.ivrs             | Bin 0 -> 8306 bytes
+>  tests/data/acpi/q35/DSDT.multi-bridge     | Bin 0 -> 8583 bytes
+>  tests/data/acpi/q35/DSDT.xapic            | Bin 0 -> 35652 bytes
+>  tests/data/acpi/q35/FACP.xapic            | Bin 0 -> 244 bytes
+>  tests/data/acpi/q35/IVRS.ivrs             | Bin 0 -> 104 bytes
+>  tests/data/acpi/q35/SRAT.xapic            | Bin 0 -> 5080 bytes
+>  30 files changed, 672 insertions(+), 85 deletions(-)
+>  create mode 100644 include/hw/virtio/vhost-user-rng.h
+>  create mode 100644 hw/virtio/vhost-user-rng-pci.c
+>  create mode 100644 hw/virtio/vhost-user-rng.c
+>  create mode 100644 docs/system/devices/vhost-user-rng.rst
+>  create mode 100644 tests/data/acpi/q35/APIC.xapic
+>  create mode 100644 tests/data/acpi/q35/DMAR.dmar
+>  create mode 100644 tests/data/acpi/q35/DSDT.ivrs
+>  create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
+>  create mode 100644 tests/data/acpi/q35/DSDT.xapic
+>  create mode 100644 tests/data/acpi/q35/FACP.xapic
+>  create mode 100644 tests/data/acpi/q35/IVRS.ivrs
+>  create mode 100644 tests/data/acpi/q35/SRAT.xapic
+> 
 
 
