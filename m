@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA53433561
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 14:05:31 +0200 (CEST)
-Received: from localhost ([::1]:42186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4873E4335A3
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 14:13:53 +0200 (CEST)
+Received: from localhost ([::1]:57062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcns2-00010A-MM
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 08:05:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58236)
+	id 1mco07-0002zr-0F
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 08:13:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mcnn5-0005hW-PB
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 08:00:29 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:44833)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mcnn1-0000Ki-Vw
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 08:00:23 -0400
-Received: by mail-pl1-x630.google.com with SMTP id t11so13493439plq.11
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 05:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=Cv53y8BzSpAH75TPaK4tW6vzfQ+8SXIUH40MSKnzwLs=;
- b=jcSqep5+1o/TBK7q58nTcGu6MF2XNJ9GqA9mcBemZOV9RWOrRbTCUsVKRYHesQ2GWH
- wAMUH8u0uyVWJxRpaLsIbxuDy0+gphOzVWVVd7DYDt2OdMYZ/6UJTQRQUfJC83pwjEKz
- 0zfCFEBLHvF80Ql7WT0ElDiVY+PoL2/hITRidCW5xJUMQvdBE8Ado+/Oa5zEc7aDHUn3
- omv3FphiVMado/AwYQ6Yz9wyOwFiIJ7f7N6o2qN78CsasXV2XzT327ggbmr33W0sJXfm
- I1g1zTNx5CqKkK0uEGsq0l/tOIOW3aAjmIkpJb1hp3gfS65qzR9uwmM3uOe0JxhVSbAX
- 4KvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=Cv53y8BzSpAH75TPaK4tW6vzfQ+8SXIUH40MSKnzwLs=;
- b=hVvD3yIzXB1H5TpvZYQywPRS+pSz67tSZyB0dBHe6OuWRDsLhUrnV5oYpif7fcnoo+
- c3Qt0j4n9dZmuwZrqyyBO437r//cjOu5kMLrsSKkjGxPAnhSUqEDZRVGhWkyCiGQIl06
- SQFUJSCWc+eHe66grzX6XNT3TapQtkwF2EknwvUj4MUsnO/Dmng5LF4bpj8FOwyUbQdz
- f3FnnzcPQWrQJqMQ2MuSRuNcOHOYjwp3NuyMSUDPvmcNc2D7wCtERztF/Zzg+ME2ABfK
- vxU4nMifHJbhhXbpR98Rlqk1/TqeCvFCjnnxn4AtXf+idu9FDXK8O1ij2fD7KnMvinKu
- mE4g==
-X-Gm-Message-State: AOAM533iQqKB+F/ztgQcTzegb2Ul4CCscQlkbH3K2RIrku+QPh3LubKE
- 7aEgEeJ5jGCXI4kS+J7avL0USw==
-X-Google-Smtp-Source: ABdhPJyR3YJo7J1BYKvRKDWjz9sXqdZJt8gRUVw/M2iNI/D+ZHcnFQCFlr46IKxlc7UVexPb/sZHCw==
-X-Received: by 2002:a17:902:8ec5:b0:13a:2789:cbb0 with SMTP id
- x5-20020a1709028ec500b0013a2789cbb0mr33421251plo.60.1634644817729; 
- Tue, 19 Oct 2021 05:00:17 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.197.251])
- by smtp.googlemail.com with ESMTPSA id h4sm324314pjj.5.2021.10.19.05.00.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 05:00:17 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Tue, 19 Oct 2021 17:30:10 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v8 00/10] acpi: Error Record Serialization Table, ERST,
- support for QEMU
-In-Reply-To: <1634324580-27120-1-git-send-email-eric.devolder@oracle.com>
-Message-ID: <alpine.DEB.2.22.394.2110191728580.168116@anisinha-lenovo>
-References: <1634324580-27120-1-git-send-email-eric.devolder@oracle.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mcnpL-00087f-2f
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 08:02:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60418)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mcnpI-0002UZ-UK
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 08:02:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634644960;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3OFODH6XlTHi1OVJQgmLw1XElwBdd26WHtJnfrfhd1E=;
+ b=O+zKFvhkbNI67O9EkPc+vzxWzjw1h5OI8xb7DIEGzp3beGLH63T7cgr5XMGGCllSH1GFV2
+ k2WjiakrzimWvzHUk9IJReHEmTh1UL9UUccWZx6CHAmYoiIApyGceWtdedzaKOijZNbwUK
+ tfDmXevThg615x6r23kZe1laE075ZQY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-EI9nOte-Owi76lQfb2SRxQ-1; Tue, 19 Oct 2021 08:02:37 -0400
+X-MC-Unique: EI9nOte-Owi76lQfb2SRxQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D43588066EF;
+ Tue, 19 Oct 2021 12:02:35 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A16466A248;
+ Tue, 19 Oct 2021 12:02:22 +0000 (UTC)
+Date: Tue, 19 Oct 2021 14:02:21 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Ari Sundholm <ari@tuxera.com>
+Subject: Re: [PATCH v2] block/file-posix: Fix return value translation for
+ AIO discards.
+Message-ID: <YW6zzSKnm26+8ZXS@redhat.com>
+References: <20211018180753.2436008-1-ari@tuxera.com>
+ <20211019110954.4170931-1-ari@tuxera.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::630;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211019110954.4170931-1-ari@tuxera.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,128 +77,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
- ani@anisinha.ca, imammedo@redhat.com, boris.ostrovsky@oracle.com,
- rth@twiddle.net
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Emil Karlson <jkarlson@tuxera.com>, Hanna Reitz <hreitz@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric:
+Am 19.10.2021 um 13:09 hat Ari Sundholm geschrieben:
+> AIO discards regressed as a result of the following commit:
+> 	0dfc7af2 block/file-posix: Optimize for macOS
+> 
+> When trying to run blkdiscard within a Linux guest, the request would
+> fail, with some errors in dmesg:
+> 
+> ---- [ snip ] ----
+> [    4.010070] sd 2:0:0:0: [sda] tag#0 FAILED Result: hostbyte=DID_OK
+> driverbyte=DRIVER_SENSE
+> [    4.011061] sd 2:0:0:0: [sda] tag#0 Sense Key : Aborted Command
+> [current]
+> [    4.011061] sd 2:0:0:0: [sda] tag#0 Add. Sense: I/O process
+> terminated
+> [    4.011061] sd 2:0:0:0: [sda] tag#0 CDB: Unmap/Read sub-channel 42
+> 00 00 00 00 00 00 00 18 00
+> [    4.011061] blk_update_request: I/O error, dev sda, sector 0
+> ---- [ snip ] ----
+> 
+> This turns out to be a result of a flaw in changes to the error value
+> translation logic in handle_aiocb_discard(). The default return value
+> may be left untranslated in some configurations, and the wrong variable
+> is used in one translation.
+> 
+> Fix both issues.
+> 
+> Signed-off-by: Ari Sundholm <ari@tuxera.com>
+> Signed-off-by: Emil Karlson <jkarlson@tuxera.com>
+> Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> 
+> Cc: qemu-stable@nongnu.org
+> Fixes: 0dfc7af2b28 ("block/file-posix: Optimize for macOS")
 
-So I do not see all the patches in the series for v8. Just so you know,
-when you spin out a new version, please do send all the patches in the
-series again, including the ones that might have been already reviewed.
+Thanks, applied to the block branch.
 
-Ani
+Kevin
 
-
-On Fri, 15 Oct 2021, Eric DeVolder wrote:
-
-> This patchset introduces support for the ACPI Error Record
-> Serialization Table, ERST.
->
-> For background and implementation information, please see
-> docs/specs/acpi_erst.rst, which is patch 2/10.
->
-> Suggested-by: Konrad Wilk <konrad.wilk@oracle.com>
-> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
->
-> ---
-> v8: 15oct2021
->  - Added Kconfig option for ERST, per Ani Sinha
->  - Fixed patch ordering, per Ani
->
-> v7: 7oct2021
->  - style improvements, per Igor
->  - use of endian accessors for storage header, per Igor
->  - a number of optimizations and improvements, per Igor
->  - updated spec for header, per Igor
->  - updated spec for rst format, per Michael Tsirkin
->  - updated spec for new record_size parameter
->    Due to changes in the spec, I am not carrying the
->    Acked-by from Ani Sinha.
->  - changes for and testing of migration to systems with
->    differing ERST_RECORD_SIZE
->
-> v6: 5aug2021
->  - Fixed compile warning/error, per Michael Tsirkin
->  - Fixed mingw32 build error, per Michael
->  - Converted exchange buffer to MemoryBackend, per Igor
->  - Migrated test to PCI, per Igor
->  - Significantly reduced amount of copying, per Igor
->  - Corrections/enhancements to acpi_erst.txt, per Igor
->  - Many misc/other small items, per Igor
->
-> v5: 30jun2021
->  - Create docs/specs/acpi_erst.txt, per Igor
->  - Separate PCI BARs for registers and memory, per Igor
->  - Convert debugging to use trace infrastructure, per Igor
->  - Various other fixups, per Igor
->
-> v4: 11jun2021
->  - Converted to a PCI device, per Igor.
->  - Updated qtest.
->  - Rearranged patches, per Igor.
->
-> v3: 28may2021
->  - Converted to using a TYPE_MEMORY_BACKEND_FILE object rather than
->    internal array with explicit file operations, per Igor.
->  - Changed the way the qdev and base address are handled, allowing
->    ERST to be disabled at run-time. Also aligns better with other
->    existing code.
->
-> v2: 8feb2021
->  - Added qtest/smoke test per Paolo Bonzini
->  - Split patch into smaller chunks, per Igor Mammedov
->  - Did away with use of ACPI packed structures, per Igor Mammedov
->
-> v1: 26oct2020
->  - initial post
->
-> ---
-> Eric DeVolder (10):
->   ACPI ERST: bios-tables-test.c steps 1 and 2
->   ACPI ERST: specification for ERST support
->   ACPI ERST: PCI device_id for ERST
->   ACPI ERST: header file for ERST
->   ACPI ERST: support for ACPI ERST feature
->   ACPI ERST: build the ACPI ERST table
->   ACPI ERST: create ACPI ERST table for pc/x86 machines
->   ACPI ERST: qtest for ERST
->   ACPI ERST: bios-tables-test testcase
->   ACPI ERST: step 6 of bios-tables-test.c
->
->  docs/specs/acpi_erst.rst          |  200 +++++++
->  hw/acpi/Kconfig                   |    6 +
->  hw/acpi/erst.c                    | 1077 +++++++++++++++++++++++++++++++++++++
->  hw/acpi/meson.build               |    1 +
->  hw/acpi/trace-events              |   15 +
->  hw/i386/acpi-build.c              |    9 +
->  hw/i386/acpi-microvm.c            |    9 +
->  include/hw/acpi/erst.h            |   24 +
->  include/hw/pci/pci.h              |    1 +
->  tests/data/acpi/microvm/ERST.pcie |  Bin 0 -> 912 bytes
->  tests/data/acpi/pc/DSDT.acpierst  |  Bin 0 -> 5969 bytes
->  tests/data/acpi/pc/ERST           |    0
->  tests/data/acpi/q35/DSDT.acpierst |  Bin 0 -> 8306 bytes
->  tests/data/acpi/q35/ERST          |    0
->  tests/qtest/bios-tables-test.c    |   55 ++
->  tests/qtest/erst-test.c           |  167 ++++++
->  tests/qtest/meson.build           |    2 +
->  17 files changed, 1566 insertions(+)
->  create mode 100644 docs/specs/acpi_erst.rst
->  create mode 100644 hw/acpi/erst.c
->  create mode 100644 include/hw/acpi/erst.h
->  create mode 100644 tests/data/acpi/microvm/ERST.pcie
->  create mode 100644 tests/data/acpi/pc/DSDT.acpierst
->  create mode 100644 tests/data/acpi/pc/ERST
->  create mode 100644 tests/data/acpi/q35/DSDT.acpierst
->  create mode 100644 tests/data/acpi/q35/ERST
->  create mode 100644 tests/qtest/erst-test.c
->
-> --
-> 1.8.3.1
->
->
 
