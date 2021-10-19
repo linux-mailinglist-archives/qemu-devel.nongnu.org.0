@@ -2,136 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19AF432E9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 08:51:04 +0200 (CEST)
-Received: from localhost ([::1]:41466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2755432EB5
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 08:56:53 +0200 (CEST)
+Received: from localhost ([::1]:53554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcixj-0007cQ-TE
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 02:51:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46288)
+	id 1mcj3N-0007km-0g
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 02:56:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuemingl@nvidia.com>)
- id 1mcisJ-0003Rk-9e; Tue, 19 Oct 2021 02:45:27 -0400
-Received: from mail-sn1anam02on2057.outbound.protection.outlook.com
- ([40.107.96.57]:50077 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mciuu-0005m8-Cm
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:48:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuemingl@nvidia.com>)
- id 1mcisG-0004r3-A2; Tue, 19 Oct 2021 02:45:26 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lW4Uw/c2sD3YEL6p+FMiTatTh4xvN1uNizGXx+hTFOOz//NQ8k+dVc9xY08HpaquiYzPR3lZDPoB439vwuHNK4wjU1PpUm5d5MKeMMw+bkzCbCh972YJ0q7E/KBayyB4JN84SP0QQJJRIxJ1NFwPJUFn5Mh/qSRu0F38BAGqXp3D7BDIyNFBjumZZCmARfvL+bbzdXQm5t9y2BfcpMKQypRyCmuUyENZF1wP07PEp9ztNo0N0Wmizb7qcFaXPFi6niCSNZiq6bGMbN6Ie9mbSYOQZWuo0Iuo8GHhC+AkdqEGWPwHGLRlIhVtV9hj10amFbyffFQlTHqSdt4mW4w80w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mVJFvxvbAJgbknspVAY5+XFGUMiFa7sINI3X2zAqkB8=;
- b=kxXNRb1g7LSCqHmn2H00XllZxErXKp1sx2h6OKJfPRKcp+svAUf0Xc5JylPjW3YWBGjK27XLtFpwD9MjOA02Y6Keao54lyjxCmnQW33OlXP3zK49j/4w40Qgo+HhURN9jMbPlHe+y866yjVYm8z6orUOriYcgLQ6lw1Vnwpdqk6V+cSkmEWSIhRvd3vsm7XKLYFtp4xqz1blElN7QQKzJZIGEdvAeLPHPS6j+DMqnWBNrFm6KNvk6k94flTq8hwqE2g4T+/3/fquNZZnQr5UAQMaMVp4D4bB69m6mTuqn4VjdvL0/uGG4VoNWOlTmiuf3hVHf9FjOt8wTmDu+NT7hQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mVJFvxvbAJgbknspVAY5+XFGUMiFa7sINI3X2zAqkB8=;
- b=Eg/LdsETv37wscN4gqTg7Q77iGeie+mhwF/iRJOrUb6Hvd26b0Iw7jFaD5w6KEZuz61FYjIeg3HchbYjnPm1uzF+4s82uzWyYS2cmDlMPVEBjx3/vuvCZnky591li3k/XU8l0yFMWsWITi5630QcptWz3BhIKsEvDY00eGeivHgZNrpcFGWic5AVYdy0/qr+twH9IlsyybX2C2CEhfZy9W8Ry0dLPCqzQGjs3Kf+DC6v0CuUZtjpfKQPSQS9d3NMZyw1OXN2wjywoKKf3odYBHGC2fRsoPDLlyTum1yo0tyG5/mKM9UVdQZKORRAqPpYHwTj20W6NB+nZ0W+fI+oMQ==
-Received: from DM4PR12MB5373.namprd12.prod.outlook.com (2603:10b6:5:39a::17)
- by DM8PR12MB5461.namprd12.prod.outlook.com (2603:10b6:8:3a::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Tue, 19 Oct
- 2021 06:45:19 +0000
-Received: from DM4PR12MB5373.namprd12.prod.outlook.com
- ([fe80::584f:672a:653f:fe25]) by DM4PR12MB5373.namprd12.prod.outlook.com
- ([fe80::584f:672a:653f:fe25%5]) with mapi id 15.20.4608.018; Tue, 19 Oct 2021
- 06:45:19 +0000
-From: "Xueming(Steven) Li" <xuemingl@nvidia.com>
-To: "mst@redhat.com" <mst@redhat.com>
-CC: "zhangyuwei.9149@bytedance.com" <zhangyuwei.9149@bytedance.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-stable@nongnu.org"
- <qemu-stable@nongnu.org>, "tiwei.bie@intel.com" <tiwei.bie@intel.com>
-Subject: Re: [PATCH v3 1/2] vhost-user: fix VirtQ notifier cleanup
-Thread-Topic: [PATCH v3 1/2] vhost-user: fix VirtQ notifier cleanup
-Thread-Index: AQHXvBpTdzh5pAnJe0WXpw7EVJ340avZ6TSAgAAIXgA=
-Date: Tue, 19 Oct 2021 06:45:19 +0000
-Message-ID: <4a1739ac3cdb895e41f7554865d5e1df4d70658c.camel@nvidia.com>
-References: <20211008075805.589644-1-xuemingl@nvidia.com>
- <20211008075805.589644-2-xuemingl@nvidia.com>
- <20211019021457-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20211019021457-mutt-send-email-mst@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.40.4 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2308cd0c-6034-4073-5e0a-08d992cc049e
-x-ms-traffictypediagnostic: DM8PR12MB5461:
-x-microsoft-antispam-prvs: <DM8PR12MB54617804882634C9697CBB1DA1BD9@DM8PR12MB5461.namprd12.prod.outlook.com>
-x-ms-exchange-transport-forked: True
-x-ms-oob-tlc-oobclassifiers: OLM:590;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: W8bWsirS50RX0HMTi4Eu/4HbnTEN3brPx1wOuwAUDSe2oRGm6Cg3cnC5FfqLYhXemBtjW1u1ul7bFcwh3YaPiei94V+GWj2mjTPuf4iImKl65IRNtv/wsnFpX7GhPh+ulqYLy3NeWa9y6GUs2shrzuk4jGl8ygQASM8V+U+tJRkVfelcGBllNNg0m1Q+IHxtNv7TXUHvDAYd06W4PFVu8mtsZyBYn1IM79XQQrGG5/r7E7Yd8YTbY13N+E5oG1LxtgfRfIefzom8H4iaBVBu4X8uM8vxaxOfgqejg1544cKI2u1HBpEXtImYcFLOTORUQr9H6YVPsCpU2q99TFvwaI1MYoy8KTEQweBWHFUtzXbK1HPgCUcNuzsmaKd1EwyFaqpr4VOn+/l/+lX6Zxdirs9wJOsr7R88JInJajgMjZehIEaUwbNvD8maQ4cirTioEUuS8jET47NC2xg9yABVU6GloBmLvP19s4q3JyW56OoQTcgCcbwiYsJdJQCiBwJcfzXBoqEg5R5uR2yYRQL7syf/BHahMKV4V4ItxUgsQS6qNF/SRXiRzq5Wic/qUlw6jFbVIxya3UDJY2/bLPd9zVPnirYgiXyM1geIUsGt6nt571Lw+iLzdkVmPNWonQwNoYl4OU6iz642O2Js5Jp/uNbPHJOigWnxL+tq8R/StYuDU8VR1N+epce7Qn+Cf3qw81fxq6Jhkyggwh2LJyadag==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5373.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(38070700005)(6506007)(6512007)(38100700002)(508600001)(54906003)(4001150100001)(26005)(66446008)(91956017)(76116006)(64756008)(6486002)(71200400001)(8936002)(6916009)(66946007)(66476007)(66556008)(122000001)(2906002)(36756003)(186003)(86362001)(4326008)(83380400001)(5660300002)(2616005)(316002)(8676002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SzlwTjBkRk9MR0szRmF2aU44QVNPN2dRRUtzeWcvdWRPc0s4NEJmQ3hseDRy?=
- =?utf-8?B?WEZWWGN0MHFEY1Y2RUUvV09FS3h6TDI2MzduR0Vnb1M2cFVkZUVEU0g2bUtz?=
- =?utf-8?B?TWZHalR1cUkvd1ZadWMyRS9jSVBjSC9XR3BLclY4VWlFQ0dsRkc1VzRkN29S?=
- =?utf-8?B?ZVJjenhIcmNkUCtoaldTdGxTcUJFd3Y2bjFpMTBob1VrQUpwcmhTY3NHZU43?=
- =?utf-8?B?bjRsdGxqUEJ1OHFpMWtCem9jL2tIWnM0YlZ4VXpqTEl4Wk9uSGNrd215MVI0?=
- =?utf-8?B?eURaUktEcCt2ZmdZK3JUSUl5RUJ4NEpzQ2ozdzYrMm95TU5yd1NXblYvUE5h?=
- =?utf-8?B?SExTNlpINGVkQ0YyY0h5YkJoelczd01IK3RTeXpOY1FUSXFIMTlXbzJacDVH?=
- =?utf-8?B?bmZEVFd5SWVLNUFiR3hTT2Jrb0tMZ0pUVG5ESmNrSkl5OHZUaUV3Tm5WSjM2?=
- =?utf-8?B?QVBhT1RxVEdyRDlKQWJxQ1RROU13RVg3RC9GRm1HdFZydk9nUXlDa25GeWNS?=
- =?utf-8?B?d1pRN2Nra1JQdjBHZWQwb08xbVNxdUNTNkVpc2lSc01iV0d5VS9zbWg2cGc2?=
- =?utf-8?B?VGlMUjFmdW1TVFFhTUZJSlk0czVQNkdDdzFzOWwycnhTS0ppQ2tTcHVSQUlK?=
- =?utf-8?B?ZEFJOFJVM282Uzh6R21CSkVPRkkrUGlTY3hyQ0VzM2RETFBUcFZIWGhFTkZx?=
- =?utf-8?B?KytoYkNGU3loZG15eEJzL3R1MURiUUVVYzljc1dib3lUbjFXWjZmNWdQKzBY?=
- =?utf-8?B?aE9PSGIvMHdJN1FpQ0NXM3hWaTNlSEk5THMrOTU0M1l3blpTOWxsQXdiemJx?=
- =?utf-8?B?aVZVSmc3ZTFsYWNweFJCVEhMRFFia0JHemNQS1FNWXJTa2M0dW5XNExNK1RH?=
- =?utf-8?B?LytCNkc2cGx4SEJhOVBNQ1JYYW43WUhEYTBmTXBLZGl2cUdLRitQRmNJaXNl?=
- =?utf-8?B?dTEzdTdKZU9BRG9EZWVZbkFhMHJDNE1CNlRJMVc3MVhSM24ybVJQVGxqQVY4?=
- =?utf-8?B?T0E1WTNCS3ltMHk2MGpsQ2xzMGY0Y2xTZXVnWDVFZTY5cmFIS01CRTZBTTJN?=
- =?utf-8?B?bGpLQWdMRlc4MEh4bjlrUGFrRnVSY1hMVDNJU1Mwcnh5MW5Oek1OMUJmVUg5?=
- =?utf-8?B?aEI5UjU5UDdjRHNnNnRhU092bEMxTHc3SitrRzBYS2ZzRTVPRUwzclhBLzUz?=
- =?utf-8?B?eE5NdmpCS01vYmxCcTVESW9GY3NvcGcwV0o4UFptMkh1ZDBFb2tEYzh0ZGhM?=
- =?utf-8?B?ZzYyWDJxYWZ2Z3hOSWpDbGFaYlVhYVBSSm9ETUpQcWNQazE4T1hDK2JrRXIw?=
- =?utf-8?B?WlFiV2QzUmxHVXZCMWxsaHZkVmJyN3hzend3SjFSNFRLeXc1dWxXRG1BYmJn?=
- =?utf-8?B?cTFTOTFuMXJ1MDZxbms4eEJIVmpMUFNwOVY4OW9xUXRucVRIVWh1YjZqUDk0?=
- =?utf-8?B?TDhLVGgwWUMzK01ra3E0dXM4ZlhkbVBLNnFVamQzWVJpY0I2a0ZOeXVzUEph?=
- =?utf-8?B?YW5GalozUTRoMStUQnZ6WVFkK0c1OUR3T3pJRS9KMi9tdktyOXVFNHlsVnYv?=
- =?utf-8?B?N3gvQWdzU2s1V0kzTWQ5V0tKcUx5aXczTGZ6S2hNVWZkRFpQUlRLYWtoZ1Rn?=
- =?utf-8?B?dzE2YWNsRE95Y0NRY3BPRi9xQmVmcVNKZHpSZG5TOE5QV1hndXFjVkhDY3pl?=
- =?utf-8?B?RFR3KzZkSis1M01rcmQzOElJYS8xNmZOV1JtbDBrNU1xK0FENnBLaFR3VTli?=
- =?utf-8?B?TUlVRVNEcWx4RVh0QWxacWF2NlVwRE5Kb085dGJXRXAzclRFejNVZ3VDMmpQ?=
- =?utf-8?B?RTZPYnA0WlhMYmpHSGVkQT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8F99BD0B85D2194DA0D383F9156A7095@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mciuq-0007xw-22
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:48:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634626082;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cD7rRqViLcOUeSMoqT2K/dhZOHZk+Q8oV7ZNCsCJrnE=;
+ b=R4uShUDMsD9l2MhTHBIHFS4Uk4BNJqZj/oCCaA3jtXLDvaoPL8FQIMzXE3Ybso5ObOGCie
+ 5ujsQgo9knsB8VXxczIJQVPBh8wIPtOmrUADvBFKYHs1tuIRgLuvYL52wVdNvoRR0eVO1h
+ aDAetha9uGPNFM8pV3kJ3W1c9UL0oX0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428--sfq9fahO9iDNNBRsik9-A-1; Tue, 19 Oct 2021 02:48:00 -0400
+X-MC-Unique: -sfq9fahO9iDNNBRsik9-A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ p12-20020adfc38c000000b00160d6a7e293so9699729wrf.18
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 23:48:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cD7rRqViLcOUeSMoqT2K/dhZOHZk+Q8oV7ZNCsCJrnE=;
+ b=Ajm9buqGf+85KHcEV06NZGkXoAJ85klkLV9vpZrlqoWIptTxtBZsNcvekg/eZ7srSG
+ QAoq/WT75WwP6v+2YZ9b9TbHor4LlR7qhxF8dqSHzQqboiYk7svEGcrvteSmo/SEETHj
+ n7GAom5hQOWWY3BZrh6FKpBIMoKFGGNAq4Wa0ZJmx3P7SVxRXPn27Gu91Mf/Xg3SzE4X
+ +Xxw893xtH7DnXfhX+ZPvSZmNQ3YVX/ZvpcgEHH5BKkYfVtEi6TMty5XIvx8pM2SylI3
+ Kzc3XHVKrIzbLf3Xppv0iGik/3qRCygj2B54whu9zA2Wrz7/cqGkIME9FBaMowh7vOvV
+ HcPQ==
+X-Gm-Message-State: AOAM5324DGNYb+2keH4mJHrVwFyBuOmkX0Oz7UJFX50RD+EWbYh26SLg
+ h5l5r+rvIh9h4gVItDGhQ9uprmLwSqcI6m3fDdXBLgLS25J1DMRMr0AGt/RbCUTkwxQ1KbckPwL
+ rKO89t8nQ+fq8o2c=
+X-Received: by 2002:a05:600c:2111:: with SMTP id
+ u17mr3934105wml.162.1634626078265; 
+ Mon, 18 Oct 2021 23:47:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy2kSqt6F1rdRH/grSVpqJxTrNCAeHnXjRLsg9kMszJdeEjLoenVtQ9y6qyndeICKwP1LlKJw==
+X-Received: by 2002:a05:600c:2111:: with SMTP id
+ u17mr3934080wml.162.1634626077958; 
+ Mon, 18 Oct 2021 23:47:57 -0700 (PDT)
+Received: from redhat.com ([2.55.24.172])
+ by smtp.gmail.com with ESMTPSA id z6sm1706691wmp.1.2021.10.18.23.47.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Oct 2021 23:47:57 -0700 (PDT)
+Date: Tue, 19 Oct 2021 02:47:54 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Cindy Lu <lulu@redhat.com>
+Subject: Re: [PATCH v9 01/10] virtio: introduce macro IRTIO_CONFIG_IRQ_IDX
+Message-ID: <20211019023945-mutt-send-email-mst@kernel.org>
+References: <20210930023348.17770-1-lulu@redhat.com>
+ <20210930023348.17770-2-lulu@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5373.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2308cd0c-6034-4073-5e0a-08d992cc049e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Oct 2021 06:45:19.7061 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: N7j5XOeFMFWVefkN4wk6ALmP0VhQzOMOoYMRDF8JmY+OhawMleYVRzOtBiaAtpIgRskXn+5gUeNuSMe+coLkiQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5461
-Received-SPF: softfail client-ip=40.107.96.57;
- envelope-from=xuemingl@nvidia.com;
- helo=NAM02-SN1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+In-Reply-To: <20210930023348.17770-2-lulu@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -145,72 +94,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: jasowang@redhat.com, dgilbert@redhat.com, qemu-devel@nongnu.org,
+ arei.gonglei@huawei.com, kraxel@redhat.com, stefanha@redhat.com,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gVHVlLCAyMDIxLTEwLTE5IGF0IDAyOjE1IC0wNDAwLCBNaWNoYWVsIFMuIFRzaXJraW4gd3Jv
-dGU6DQo+IE9uIEZyaSwgT2N0IDA4LCAyMDIxIGF0IDAzOjU4OjA0UE0gKzA4MDAsIFh1ZW1pbmcg
-TGkgd3JvdGU6DQo+ID4gV2hlbiB2aG9zdC11c2VyIGRldmljZSBjbGVhbnVwIGFuZCB1bm1tYXAg
-bm90aWZpZXIgYWRkcmVzcywgVk0gY3B1DQo+ID4gdGhyZWFkIHRoYXQgd3JpdGluZyB0aGUgbm90
-aWZpZXIgZmFpbGVkIHdpdGggYWNjZXNzaW5nIGludmFsaWQgYWRkcmVzcy4NCj4gPiANCj4gPiBU
-byBhdm9pZCB0aGlzIGNvbmN1cnJlbnQgaXNzdWUsIHdhaXQgbWVtb3J5IGZsYXR2aWV3IHVwZGF0
-ZSBieSBkcmFpbmluZw0KPiA+IHJjdSBjYWxsYmFja3MsIHRoZW4gdW5tYXAgbm90aWZpZXJzLg0K
-PiA+IA0KPiA+IEZpeGVzOiA0NDg2NjUyMWJkNmUgKCJ2aG9zdC11c2VyOiBzdXBwb3J0IHJlZ2lz
-dGVyaW5nIGV4dGVybmFsIGhvc3Qgbm90aWZpZXJzIikNCj4gPiBDYzogdGl3ZWkuYmllQGludGVs
-LmNvbQ0KPiA+IENjOiBxZW11LXN0YWJsZUBub25nbnUub3JnDQo+ID4gQ2M6IFl1d2VpIFpoYW5n
-IDx6aGFuZ3l1d2VpLjkxNDlAYnl0ZWRhbmNlLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBYdWVt
-aW5nIExpIDx4dWVtaW5nbEBudmlkaWEuY29tPg0KPiA+IC0tLQ0KPiA+ICBody92aXJ0aW8vdmhv
-c3QtdXNlci5jIHwgMjEgKysrKysrKysrKysrKystLS0tLS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2Vk
-LCAxNCBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQ0KPiA+IA0KPiA+IGRpZmYgLS1naXQg
-YS9ody92aXJ0aW8vdmhvc3QtdXNlci5jIGIvaHcvdmlydGlvL3Zob3N0LXVzZXIuYw0KPiA+IGlu
-ZGV4IGJmNmU1MDIyM2MuLmIyZTk0OGJkYzcgMTAwNjQ0DQo+ID4gLS0tIGEvaHcvdmlydGlvL3Zo
-b3N0LXVzZXIuYw0KPiA+ICsrKyBiL2h3L3ZpcnRpby92aG9zdC11c2VyLmMNCj4gPiBAQCAtMTE2
-NSw2ICsxMTY1LDEyIEBAIHN0YXRpYyB2b2lkIHZob3N0X3VzZXJfaG9zdF9ub3RpZmllcl9yZW1v
-dmUoc3RydWN0IHZob3N0X2RldiAqZGV2LA0KPiA+ICANCj4gPiAgICAgIGlmIChuLT5hZGRyICYm
-IG4tPnNldCkgew0KPiA+ICAgICAgICAgIHZpcnRpb19xdWV1ZV9zZXRfaG9zdF9ub3RpZmllcl9t
-cih2ZGV2LCBxdWV1ZV9pZHgsICZuLT5tciwgZmFsc2UpOw0KPiA+ICsgICAgICAgIGlmICghcWVt
-dV9pbl92Y3B1X3RocmVhZCgpKSB7IC8qIEF2b2lkIHZDUFUgZGVhZCBsb2NrLiAqLw0KPiA+ICsg
-ICAgICAgICAgICAvKiBXYWl0IGZvciBWTSB0aHJlYWRzIGFjY2Vzc2luZyBvbGQgZmxhdHZpZXcg
-d2hpY2ggY29udGFpbnMgbm90aWZpZXIuICovDQo+ID4gKyAgICAgICAgICAgIGRyYWluX2NhbGxf
-cmN1KCk7DQo+ID4gKyAgICAgICAgfQ0KPiA+ICsgICAgICAgIG11bm1hcChuLT5hZGRyLCBxZW11
-X3JlYWxfaG9zdF9wYWdlX3NpemUpOw0KPiA+ICsgICAgICAgIG4tPmFkZHIgPSBOVUxMOw0KPiA+
-ICAgICAgICAgIG4tPnNldCA9IGZhbHNlOw0KPiA+ICAgICAgfQ0KPiA+ICB9DQo+IA0KPiANCj4g
-Li4vaHcvdmlydGlvL3Zob3N0LXVzZXIuYzogSW4gZnVuY3Rpb24g4oCYdmhvc3RfdXNlcl9ob3N0
-X25vdGlmaWVyX3JlbW92ZeKAmToNCj4gLi4vaHcvdmlydGlvL3Zob3N0LXVzZXIuYzoxMTY4OjE0
-OiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24g4oCYcWVtdV9pbl92Y3B1
-X3RocmVhZOKAmSBbLVdlcnJvcj1pbXBsaWNpdC1mdW5jdGlvbi1kZWNsYXJhdGlvbl0NCj4gIDEx
-NjggfCAgICAgICAgIGlmICghcWVtdV9pbl92Y3B1X3RocmVhZCgpKSB7IC8qIEF2b2lkIHZDUFUg
-ZGVhZCBsb2NrLiAqLw0KPiAgICAgICB8ICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+
-DQo+IC4uL2h3L3ZpcnRpby92aG9zdC11c2VyLmM6MTE2ODoxNDogZXJyb3I6IG5lc3RlZCBleHRl
-cm4gZGVjbGFyYXRpb24gb2Yg4oCYcWVtdV9pbl92Y3B1X3RocmVhZOKAmSBbLVdlcnJvcj1uZXN0
-ZWQtZXh0ZXJuc10NCj4gY2MxOiBhbGwgd2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMN
-Cj4gbmluamE6IGJ1aWxkIHN0b3BwZWQ6IHN1YmNvbW1hbmQgZmFpbGVkLg0KPiBtYWtlWzFdOiAq
-KiogW01ha2VmaWxlOjE2MjogcnVuLW5pbmphXSBFcnJvciAxDQo+IG1ha2VbMV06IExlYXZpbmcg
-ZGlyZWN0b3J5ICcvc2NtL3FlbXUvYnVpbGQnDQo+IG1ha2U6ICoqKiBbR05VbWFrZWZpbGU6MTE6
-IGFsbF0gRXJyb3IgMg0KPiANCj4gDQo+IEFsdGhvdWdoIHRoZSBmb2xsb3dpbmcgcGF0Y2ggZml4
-ZXMgaXQsIGJpc2VjdCBpcyBicm9rZW4uDQoNClllcywgcmVhbGx5IGFuIGlzc3VlLCB2NCBwb3N0
-ZWQsIHRoYW5rcyENCg0KPiANCj4gDQo+ID4gQEAgLTE1MDIsMTIgKzE1MDgsNyBAQCBzdGF0aWMg
-aW50IHZob3N0X3VzZXJfc2xhdmVfaGFuZGxlX3ZyaW5nX2hvc3Rfbm90aWZpZXIoc3RydWN0IHZo
-b3N0X2RldiAqZGV2LA0KPiA+ICANCj4gPiAgICAgIG4gPSAmdXNlci0+bm90aWZpZXJbcXVldWVf
-aWR4XTsNCj4gPiAgDQo+ID4gLSAgICBpZiAobi0+YWRkcikgew0KPiA+IC0gICAgICAgIHZpcnRp
-b19xdWV1ZV9zZXRfaG9zdF9ub3RpZmllcl9tcih2ZGV2LCBxdWV1ZV9pZHgsICZuLT5tciwgZmFs
-c2UpOw0KPiA+IC0gICAgICAgIG9iamVjdF91bnBhcmVudChPQkpFQ1QoJm4tPm1yKSk7DQo+ID4g
-LSAgICAgICAgbXVubWFwKG4tPmFkZHIsIHBhZ2Vfc2l6ZSk7DQo+ID4gLSAgICAgICAgbi0+YWRk
-ciA9IE5VTEw7DQo+ID4gLSAgICB9DQo+ID4gKyAgICB2aG9zdF91c2VyX2hvc3Rfbm90aWZpZXJf
-cmVtb3ZlKGRldiwgcXVldWVfaWR4KTsNCj4gPiAgDQo+ID4gICAgICBpZiAoYXJlYS0+dTY0ICYg
-VkhPU1RfVVNFUl9WUklOR19OT0ZEX01BU0spIHsNCj4gPiAgICAgICAgICByZXR1cm4gMDsNCj4g
-PiBAQCAtMjQ4NSwxMSArMjQ4NiwxNyBAQCB2b2lkIHZob3N0X3VzZXJfY2xlYW51cChWaG9zdFVz
-ZXJTdGF0ZSAqdXNlcikNCj4gPiAgICAgIGZvciAoaSA9IDA7IGkgPCBWSVJUSU9fUVVFVUVfTUFY
-OyBpKyspIHsNCj4gPiAgICAgICAgICBpZiAodXNlci0+bm90aWZpZXJbaV0uYWRkcikgew0KPiA+
-ICAgICAgICAgICAgICBvYmplY3RfdW5wYXJlbnQoT0JKRUNUKCZ1c2VyLT5ub3RpZmllcltpXS5t
-cikpOw0KPiA+ICsgICAgICAgIH0NCj4gPiArICAgIH0NCj4gPiArICAgIG1lbW9yeV9yZWdpb25f
-dHJhbnNhY3Rpb25fY29tbWl0KCk7DQo+ID4gKyAgICAvKiBXYWl0IGZvciBWTSB0aHJlYWRzIGFj
-Y2Vzc2luZyBvbGQgZmxhdHZpZXcgd2hpY2ggY29udGFpbnMgbm90aWZpZXIuICovDQo+ID4gKyAg
-ICBkcmFpbl9jYWxsX3JjdSgpOw0KPiA+ICsgICAgZm9yIChpID0gMDsgaSA8IFZJUlRJT19RVUVV
-RV9NQVg7IGkrKykgew0KPiA+ICsgICAgICAgIGlmICh1c2VyLT5ub3RpZmllcltpXS5hZGRyKSB7
-DQo+ID4gICAgICAgICAgICAgIG11bm1hcCh1c2VyLT5ub3RpZmllcltpXS5hZGRyLCBxZW11X3Jl
-YWxfaG9zdF9wYWdlX3NpemUpOw0KPiA+ICAgICAgICAgICAgICB1c2VyLT5ub3RpZmllcltpXS5h
-ZGRyID0gTlVMTDsNCj4gPiAgICAgICAgICB9DQo+ID4gICAgICB9DQo+ID4gLSAgICBtZW1vcnlf
-cmVnaW9uX3RyYW5zYWN0aW9uX2NvbW1pdCgpOw0KPiA+ICAgICAgdXNlci0+Y2hyID0gTlVMTDsN
-Cj4gPiAgfQ0KPiA+ICANCj4gPiAtLSANCj4gPiAyLjMzLjANCj4gDQoNCg==
+On Thu, Sep 30, 2021 at 10:33:39AM +0800, Cindy Lu wrote:
+> To support configure interrupt for vhost-vdpa
+> introduce VIRTIO_CONFIG_IRQ_IDX -1 as config queue index, Then we can reuse
+> the function guest_notifier_mask and guest_notifier_pending.
+> Add the check of queue index, if the driver does not support configure
+> interrupt, the function will just return
+> 
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+
+typo in subject
+
+Also the commit log and subject do not seem to match what patch is
+doing. Description makes it look like a refactoring, but
+it isn't. guest_notifier_mask don't exist.
+And I'm not sure why it's safe to do nothing e.g. in
+pending.
+
+
+
+
+> ---
+>  hw/display/vhost-user-gpu.c    |  6 ++++++
+>  hw/net/virtio-net.c            | 10 +++++++---
+>  hw/virtio/vhost-user-fs.c      |  9 +++++++--
+>  hw/virtio/vhost-vsock-common.c |  6 ++++++
+>  hw/virtio/virtio-crypto.c      |  6 ++++++
+>  include/hw/virtio/virtio.h     |  2 ++
+>  6 files changed, 34 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+> index 49df56cd14..73ad3d84c9 100644
+> --- a/hw/display/vhost-user-gpu.c
+> +++ b/hw/display/vhost-user-gpu.c
+> @@ -485,6 +485,9 @@ vhost_user_gpu_guest_notifier_pending(VirtIODevice *vdev, int idx)
+>  {
+>      VhostUserGPU *g = VHOST_USER_GPU(vdev);
+>  
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return false;
+> +    }
+>      return vhost_virtqueue_pending(&g->vhost->dev, idx);
+>  }
+>  
+> @@ -493,6 +496,9 @@ vhost_user_gpu_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
+>  {
+>      VhostUserGPU *g = VHOST_USER_GPU(vdev);
+>  
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return;
+> +    }
+>      vhost_virtqueue_mask(&g->vhost->dev, vdev, idx, mask);
+>  }
+>  
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 16d20cdee5..65b7cabcaf 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -3152,7 +3152,10 @@ static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
+>      VirtIONet *n = VIRTIO_NET(vdev);
+>      NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
+>      assert(n->vhost_started);
+> -    return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
+> +    if (idx != VIRTIO_CONFIG_IRQ_IDX) {
+> +        return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
+> +    }
+> +    return false;
+>  }
+>  
+>  static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+> @@ -3161,8 +3164,9 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+>      VirtIONet *n = VIRTIO_NET(vdev);
+>      NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
+>      assert(n->vhost_started);
+> -    vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
+> -                             vdev, idx, mask);
+> +    if (idx != VIRTIO_CONFIG_IRQ_IDX) {
+> +        vhost_net_virtqueue_mask(get_vhost_net(nc->peer), vdev, idx, mask);
+> +    }
+>  }
+>  
+>  static void virtio_net_set_config_size(VirtIONet *n, uint64_t host_features)
+> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> index c595957983..309c8efabf 100644
+> --- a/hw/virtio/vhost-user-fs.c
+> +++ b/hw/virtio/vhost-user-fs.c
+> @@ -156,11 +156,13 @@ static void vuf_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+>       */
+>  }
+>  
+> -static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx,
+> -                                            bool mask)
+> +static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
+>  {
+>      VHostUserFS *fs = VHOST_USER_FS(vdev);
+>  
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return;
+> +    }
+>      vhost_virtqueue_mask(&fs->vhost_dev, vdev, idx, mask);
+>  }
+>  
+> @@ -168,6 +170,9 @@ static bool vuf_guest_notifier_pending(VirtIODevice *vdev, int idx)
+>  {
+>      VHostUserFS *fs = VHOST_USER_FS(vdev);
+>  
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return false;
+> +    }
+>      return vhost_virtqueue_pending(&fs->vhost_dev, idx);
+>  }
+>  
+> diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+> index 4ad6e234ad..2112b44802 100644
+> --- a/hw/virtio/vhost-vsock-common.c
+> +++ b/hw/virtio/vhost-vsock-common.c
+> @@ -101,6 +101,9 @@ static void vhost_vsock_common_guest_notifier_mask(VirtIODevice *vdev, int idx,
+>  {
+>      VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+>  
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return;
+> +    }
+>      vhost_virtqueue_mask(&vvc->vhost_dev, vdev, idx, mask);
+>  }
+>  
+> @@ -109,6 +112,9 @@ static bool vhost_vsock_common_guest_notifier_pending(VirtIODevice *vdev,
+>  {
+>      VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+>  
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return false;
+> +    }
+>      return vhost_virtqueue_pending(&vvc->vhost_dev, idx);
+>  }
+>  
+> diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+> index 54f9bbb789..1d5192f8b4 100644
+> --- a/hw/virtio/virtio-crypto.c
+> +++ b/hw/virtio/virtio-crypto.c
+> @@ -948,6 +948,9 @@ static void virtio_crypto_guest_notifier_mask(VirtIODevice *vdev, int idx,
+>  
+>      assert(vcrypto->vhost_started);
+>  
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return;
+> +    }
+>      cryptodev_vhost_virtqueue_mask(vdev, queue, idx, mask);
+>  }
+>  
+> @@ -958,6 +961,9 @@ static bool virtio_crypto_guest_notifier_pending(VirtIODevice *vdev, int idx)
+>  
+>      assert(vcrypto->vhost_started);
+>  
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return false;
+> +    }
+>      return cryptodev_vhost_virtqueue_pending(vdev, queue, idx);
+>  }
+>  
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index fa711a8912..2766c293f4 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -67,6 +67,8 @@ typedef struct VirtQueueElement
+>  
+>  #define VIRTIO_NO_VECTOR 0xffff
+>
+
+Add a comment here. E.g. /* special index value used internally for config irqs */
+  
+> +#define VIRTIO_CONFIG_IRQ_IDX -1
+> +
+>  #define TYPE_VIRTIO_DEVICE "virtio-device"
+>  OBJECT_DECLARE_TYPE(VirtIODevice, VirtioDeviceClass, VIRTIO_DEVICE)
+>  
+> -- 
+> 2.21.3
+
 
