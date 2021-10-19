@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F947433842
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 16:19:51 +0200 (CEST)
-Received: from localhost ([::1]:32944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8B243385C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 16:24:46 +0200 (CEST)
+Received: from localhost ([::1]:42748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcpy1-0005SX-UU
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 10:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
+	id 1mcq2n-0003rh-LC
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 10:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcpuR-0000yx-8r; Tue, 19 Oct 2021 10:16:07 -0400
-Received: from mail-bn8nam11on2057.outbound.protection.outlook.com
- ([40.107.236.57]:12352 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ id 1mcpuo-0001YR-DL; Tue, 19 Oct 2021 10:16:32 -0400
+Received: from mail-bn8nam12on2054.outbound.protection.outlook.com
+ ([40.107.237.54]:50166 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcpuN-0001bM-RH; Tue, 19 Oct 2021 10:16:06 -0400
+ id 1mcpul-0002Eb-1X; Tue, 19 Oct 2021 10:16:30 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cLbqKhggsLd8CLLeWXdUW/mdUiC2ylExtu0EwBMpiCYl1MMKl5afQ6L8RtxW0fUfpekXchWlhQM9sHftYvsCdbt1K1JAkkxBuS0Q+aTYEkBXCzw2Kclkg4nq3/Vfhcx5giVAIXgjjkCjRjtk8dVjaOT2lPzTjn/ZWTxWNIZ1QxMFCQ3k4QIgnUjH8R0oIpjNCf8sOIZXsUrOt5hft4qnOTgHvQEouYAwG7QSQlBiQ/i2gAPH9DMU+NPdTLwwxWJzUBljvweyOFA4k8O0mrXkhnudZ92HSLHJ5ZRq8bAfeA3AiCqer+HjfhOZRdEnHsUZwCr9gLaZfoQ/zHVecuW1vw==
+ b=TzFrUTO+YYtIio7m6v7PUhf8N3/8O0lE5WzYJu8wrwM6VLyBNc9a4VDKgOTN7Uf0PPVNTTt0E7yL4rgn9S6IfywbkNgH1YgXlPu4goOpTlC0/KV4ZhdyALuEpor4yGtNOdTM3e98SdCbTphdlskSEnBoDQ1AkxAeTXcanF0sCQpMeugdHHzAYv7nLhIxrzqTVmtp/ZRyWlatP0E6zm3faRr/ddtmfdbHrxAe/xraRdI7XDATOlK0GBI0cIRGtppsFy00/dzScXzvHQ/0+EHQliD/RwxqSlZqmfuGjtnL3KZaD3uKxyDT/x1KDEwgIA4/pBc2OTZQGx7d4iBuks3Y8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tWb34RM8h/XM2+fsGDw2wKhtloEpJ1gAhAf7pnlN9p8=;
- b=DoUW6/Va3zsP3GBt3Ha5DMwCgCRVNrUt8SxEtKm3b0Ah5LZj0jy38CjkRv/ieJhJE7SeZDG8A4yCu/dsm6GqAvvLODl/XAFv70eM6G0U29GKSumUGA0axCf1hIqiheemeeQipWvPSELIxqr70nSXPBjAVcI4/s8O1ENEAUx82Ft8kv/f7bWBzvdGrRpUTJUpDSEbHzsmeVGlsVGBo4nw/06AcdK4B3Ascd1eBIaSL6swcdn1SZ8Amhy3TyClwH2exIetkjOUvNuFiSSnSto26FXIEwvmpPQlgdgNa+/auFUJ7CmncR6qMpBeO3IVaacbmpl6udLXT7ZhgAnxCnHALA==
+ bh=WpH/4Ndqi9AnAoh2mOIgHoQHj6dgTt4PW1etohWQL4Y=;
+ b=n2FcGG8wdxlSp76p6p4PQJDy+aT4J+4an2/u8yNAHgVPOcPOIRhC1ULe7kZpeCZF7ImWHldy9KG3PbbxC4t8Z7oPutJB0NyeSbQZy6STvej8GU27TKEfAYry5drAi/IHRGSH/T22koejUvUy2QkdxPDEttTkQhpkIW6AC796xKxMiSlX9RvEM5OhoIMUJilx3Mk5F1ic00Jx+iPCTmb0VCEB4a66PJRw25h3OGIbmz28ch9/Zs1A0FCUMJsfEJTDTSpyfn1Gge3zf1FgQyyjistM6932Pv4oZbqEqt9yS3Ep4nubB3KxKHlBrZU7/Vl1xAhhQE7EC1cLB27O5pOyQA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tWb34RM8h/XM2+fsGDw2wKhtloEpJ1gAhAf7pnlN9p8=;
- b=Da+BPGoOI3mGqxKvBzOZZ0gj8hHHr5MO4dWtls9C3EYRfNjJfj1oXyvN9noofz9yQJ2MMMyLHl0b7dnv2pJSxUgzY8yJTQa+b6LLfoUfzgdArvoqMVTfPCIU0SBf5qUz8rOEzbNFlI9Uw6T0aZlrkaSo3FjR41N+qHrh6+5ZZTY=
-Received: from BN8PR04CA0056.namprd04.prod.outlook.com (2603:10b6:408:d4::30)
- by BN9PR12MB5164.namprd12.prod.outlook.com (2603:10b6:408:11d::8)
+ bh=WpH/4Ndqi9AnAoh2mOIgHoQHj6dgTt4PW1etohWQL4Y=;
+ b=ETq1vcgXgcrF4LChG1kXGEZnvuR7e4TH6YPZD8qnW+6oL6NdYTrv5tnAf14MWR4ACpUEFG5+h+KSsnbLP26KLrpM5Qpm/WSwPOS8Fpw76yM4F8rQ0uZX/QHJNys3BUN5owOd9aNnKnwhyJglXXd4ZOjzbV/TopVXdBa4SKBe05U=
+Received: from BN8PR03CA0033.namprd03.prod.outlook.com (2603:10b6:408:94::46)
+ by MWHPR1201MB0222.namprd12.prod.outlook.com (2603:10b6:301:54::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Tue, 19 Oct
- 2021 14:16:00 +0000
-Received: from BN8NAM11FT063.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:d4:cafe::da) by BN8PR04CA0056.outlook.office365.com
- (2603:10b6:408:d4::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend
- Transport; Tue, 19 Oct 2021 14:16:00 +0000
+ 2021 14:16:22 +0000
+Received: from BN8NAM11FT067.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:94:cafe::fd) by BN8PR03CA0033.outlook.office365.com
+ (2603:10b6:408:94::46) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16 via Frontend
+ Transport; Tue, 19 Oct 2021 14:16:22 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=pass action=none header.from=amd.com;
@@ -50,20 +50,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT063.mail.protection.outlook.com (10.13.177.110) with Microsoft SMTP
+ BN8NAM11FT067.mail.protection.outlook.com (10.13.177.159) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:16:00 +0000
+ 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:16:21 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 19 Oct
- 2021 09:15:59 -0500
+ 2021 09:16:21 -0500
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
 CC: <qemu-stable@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, Markus
  Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Subject: [PATCH 13/64] vl: plumb keyval-based options into -readconfig
-Date: Tue, 19 Oct 2021 09:08:53 -0500
-Message-ID: <20211019140944.152419-14-michael.roth@amd.com>
+Subject: [PATCH 14/64] vl: plug -object back into -readconfig
+Date: Tue, 19 Oct 2021 09:08:54 -0500
+Message-ID: <20211019140944.152419-15-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211019140944.152419-1-michael.roth@amd.com>
 References: <20211019140944.152419-1-michael.roth@amd.com>
@@ -75,31 +75,31 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1794ede1-7775-43eb-a35d-08d9930afa45
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5164:
-X-Microsoft-Antispam-PRVS: <BN9PR12MB5164DC12FDCB1DEC597D8A7B95BD9@BN9PR12MB5164.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:252;
+X-MS-Office365-Filtering-Correlation-Id: 85531e13-9c3b-4edf-e5a5-08d9930b06e5
+X-MS-TrafficTypeDiagnostic: MWHPR1201MB0222:
+X-Microsoft-Antispam-PRVS: <MWHPR1201MB02228C790F6065CA135BDB8595BD9@MWHPR1201MB0222.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:949;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TzEtPywLli5WOzCNp+vnR7EyizUtOa/dEnYlOsBB/YZCeMjHNHJPQps9qQug2OPHVSSmlViAaqZyD1gyKAP5VYPgy/Irs9ukmdbw/P/SWgJFKerxtVnghndG7fLmawauI1/sQ2AFbQVJOTMl1eXm4n+JYiFuS5MyQ/06h+26+mcxmjnLBkiSdLsOj/QDDiBqkfy2ypwkm8fvjq/tcab5EsTWxOuCh2tjrJHTF/CmitScj5FKmj6s8lp16mDK3NBoW5i8gfRGPURekWSFIcPWDSGgAis/QThJBNnESAX4f1jV/f8MOZI7YkAMB09IGdcLEP0lM9BWuKdiP75N9rP9qTigLnP0CMHuF85iKMi1/Xrs+OetaqGW6xiiIIkiV7RQVwbA3qc+Cb17+xahiyvXspI0Qwd3I6jUY5fJLsuV+Dyou5s5KzoA0W7Vaqyefd4ZWWVCi19a44YNKMpuPYpUcex6RKFZY2Ie2l/aM8J9Bp2RFNitreRxDF6HCAgbdaNYuIvvCufLmx/pDG2kr0EofRDsNzgoIkH4GFpda/sTnDAP0+1UmDtA4udxkMoGFrF+I4Zzr26+PI2nzjb54MwOKIBbLc0QDyJQIHcuPvXHN8K6mQohJZZ9Pj9xydu38XjaZXwZy8SIL9Qv/WswJSKVRlhmY/kO31f7y1b8MSCQ02vM53rgd0YrJOpjnX714Us9Ue26s+NGbc4o5IqdLTsjfFQ/aBtTE56hPUAX2/h7Vyc=
+X-Microsoft-Antispam-Message-Info: Xf0bFFps8S9fUaNK3Pla5pA10CXmT/W0JfPEUWGKwfcmrIpoT/fOu3svjysHm19ATXXWcv5CczwfDLPwhQSpxouna3hPJqiEVEzSJ7vwrS2bdesk3M9VUeqMa9PSWNZxfa499om8hqWe/e3R3yJNTFD9AFuK8MET0JTatQ7/j8NUQBwxHKYAmxjv8zah703ilckOwp1N0euVFqeHo2v4MFir2y3ymIf4rxdVwRj8ehQOGJ/MuhgoT2PzAdKEWn0ECjKS+yGA/Q3kA4Yfo4aYVz2G3Pud4QXkYZ5SovqZ3fZWArKGpCEMQXfLNdzHPies2cBWfDpTXJpgUls6ran+8sNQJOUgV1i7pCTgcPEeGb9Dc0w+5zVBLrZMijiNB8SuuEX/z8ijZ0SM4FTj+kiNQmgIfSKd0lZuo4VIZJzwAewuxWKEbyR5tueVFaEPwe0frziIMncZh7Y5z2s4Cy9hzB61WKjormVLwZn14mULPpTTEshtCRuPO9XzjuXKEqZhSI7/ZofZoCHqzHUFe+w7p9dcJh4lqxo9hd2T7U7+YBmRwN7k7FyoN6Brf4rgS91DeB1hzWd+99i2nf1V3qi8EqLzL8Zr1BAfTJozRvBhmUK2FPnWNJuLmbxovfhPQe96gYufH1m/zj+B9C1WW0ZkLjt5dO9lU4H4KhHLYVsFhEJuoBgcq3fpHEvvFL8kL0p2xYuHrL9rluvzTAL570kSoDHxLjsV6UCcnTM4F6LKECo=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(86362001)(336012)(70586007)(6916009)(426003)(82310400003)(4326008)(36756003)(16526019)(2616005)(83380400001)(44832011)(81166007)(186003)(36860700001)(2906002)(1076003)(8936002)(47076005)(26005)(316002)(70206006)(5660300002)(508600001)(54906003)(8676002)(6666004)(356005)(36900700001);
+ SFS:(4636009)(36840700001)(46966006)(2616005)(8676002)(6666004)(1076003)(36756003)(83380400001)(336012)(70586007)(356005)(81166007)(426003)(36860700001)(54906003)(2906002)(6916009)(508600001)(82310400003)(70206006)(4326008)(26005)(16526019)(44832011)(8936002)(47076005)(5660300002)(186003)(86362001)(316002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:16:00.7030 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1794ede1-7775-43eb-a35d-08d9930afa45
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:16:21.8849 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85531e13-9c3b-4edf-e5a5-08d9930b06e5
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT063.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT067.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5164
-Received-SPF: softfail client-ip=40.107.236.57;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0222
+Received-SPF: softfail client-ip=40.107.237.54;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -124,188 +124,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Let -readconfig support parsing command line options into QDict or
-QemuOpts.  This will be used to add back support for objects in
--readconfig.
+Commit bc2f4fcb1d ("qom: move user_creatable_add_opts logic to vl.c
+and QAPIfy it", 2021-03-19) switched the creation of objects from
+qemu_opts_foreach to a bespoke QTAILQ in preparation for supporting JSON
+syntax in -object.
+
+Unfortunately in doing so it lost support for [object] stanzas in
+configuration files and also for "-set object.ID.KEY=VAL".  The latter
+is hard to re-establish and probably best solved by deprecating -set.
+This patch uses the infrastructure introduced by the previous two
+patches in order to parse QOM objects correctly from configuration
+files.
 
 Cc: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-stable@nongnu.org
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210524105752.3318299-3-pbonzini@redhat.com>
+Message-Id: <20210524105752.3318299-4-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit c0d4aa82f895af67cbf7772324e05605e22b4162)
+(cherry picked from commit 49e987695a1873a769a823604f9065aa88e00c55)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- include/block/qdict.h    |  2 -
- include/qapi/qmp/qdict.h |  3 ++
- softmmu/vl.c             | 83 ++++++++++++++++++++++++++++------------
- 3 files changed, 62 insertions(+), 26 deletions(-)
+ softmmu/vl.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/include/block/qdict.h b/include/block/qdict.h
-index d8cb502d7d..ced2acfb92 100644
---- a/include/block/qdict.h
-+++ b/include/block/qdict.h
-@@ -20,8 +20,6 @@ void qdict_join(QDict *dest, QDict *src, bool overwrite);
- void qdict_extract_subqdict(QDict *src, QDict **dst, const char *start);
- void qdict_array_split(QDict *src, QList **dst);
- int qdict_array_entries(QDict *src, const char *subqdict);
--QObject *qdict_crumple(const QDict *src, Error **errp);
--void qdict_flatten(QDict *qdict);
- 
- typedef struct QDictRenames {
-     const char *from;
-diff --git a/include/qapi/qmp/qdict.h b/include/qapi/qmp/qdict.h
-index 9934539c1b..d5b5430e21 100644
---- a/include/qapi/qmp/qdict.h
-+++ b/include/qapi/qmp/qdict.h
-@@ -64,4 +64,7 @@ const char *qdict_get_try_str(const QDict *qdict, const char *key);
- 
- QDict *qdict_clone_shallow(const QDict *src);
- 
-+QObject *qdict_crumple(const QDict *src, Error **errp);
-+void qdict_flatten(QDict *qdict);
-+
- #endif /* QDICT_H */
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 00fde923bc..8f18f506d9 100644
+index 8f18f506d9..6be510b035 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -122,6 +122,7 @@
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-visit-qom.h"
- #include "qapi/qapi-commands-ui.h"
-+#include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
- #include "sysemu/iothread.h"
- #include "qemu/guest-random.h"
-@@ -2113,13 +2114,53 @@ static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
-     return 0;
- }
- 
-+/*
-+ * Return whether configuration group @group is stored in QemuOpts, or
-+ * recorded as one or more QDicts by qemu_record_config_group.
-+ */
-+static bool is_qemuopts_group(const char *group)
-+{
-+    return true;
-+}
-+
-+static void qemu_record_config_group(const char *group, QDict *dict,
-+                                     bool from_json, Error **errp)
-+{
-+    abort();
-+}
-+
-+/*
-+ * Parse non-QemuOpts config file groups, pass the rest to
-+ * qemu_config_do_parse.
-+ */
-+static void qemu_parse_config_group(const char *group, QDict *qdict,
-+                                    void *opaque, Error **errp)
-+{
-+    QObject *crumpled;
-+    if (is_qemuopts_group(group)) {
-+        qemu_config_do_parse(group, qdict, opaque, errp);
-+        return;
-+    }
-+
-+    crumpled = qdict_crumple(qdict, errp);
-+    if (!crumpled) {
-+        return;
-+    }
-+    if (qobject_type(crumpled) != QTYPE_QDICT) {
-+        assert(qobject_type(crumpled) == QTYPE_QLIST);
-+        error_setg(errp, "Lists cannot be at top level of a configuration section");
-+        return;
-+    }
-+    qemu_record_config_group(group, qobject_to(QDict, crumpled), false, errp);
-+}
-+
- static void qemu_read_default_config_file(Error **errp)
- {
-     ERRP_GUARD();
-     int ret;
-     g_autofree char *file = get_relocated_path(CONFIG_QEMU_CONFDIR "/qemu.conf");
- 
--    ret = qemu_read_config_file(file, qemu_config_do_parse, errp);
-+    ret = qemu_read_config_file(file, qemu_parse_config_group, errp);
-     if (ret < 0) {
-         if (ret == -ENOENT) {
-             error_free(*errp);
-@@ -2128,9 +2169,8 @@ static void qemu_read_default_config_file(Error **errp)
+@@ -1709,9 +1709,15 @@ static void object_option_foreach_add(bool (*type_opt_predicate)(const char *))
      }
  }
  
--static int qemu_set_option(const char *str)
-+static void qemu_set_option(const char *str, Error **errp)
++static void object_option_add_visitor(Visitor *v)
++{
++    ObjectOption *opt = g_new0(ObjectOption, 1);
++    visit_type_ObjectOptions(v, NULL, &opt->opts, &error_fatal);
++    QTAILQ_INSERT_TAIL(&object_opts, opt, next);
++}
++
+ static void object_option_parse(const char *optarg)
  {
--    Error *local_err = NULL;
-     char group[64], id[64], arg[64];
-     QemuOptsList *list;
+-    ObjectOption *opt;
      QemuOpts *opts;
-@@ -2138,27 +2178,23 @@ static int qemu_set_option(const char *str)
- 
-     rc = sscanf(str, "%63[^.].%63[^.].%63[^=]%n", group, id, arg, &offset);
-     if (rc < 3 || str[offset] != '=') {
--        error_report("can't parse: \"%s\"", str);
--        return -1;
--    }
--
--    list = qemu_find_opts(group);
--    if (list == NULL) {
--        return -1;
--    }
--
--    opts = qemu_opts_find(list, id);
--    if (!opts) {
--        error_report("there is no %s \"%s\" defined",
--                     list->name, id);
--        return -1;
-+        error_setg(errp, "can't parse: \"%s\"", str);
-+        return;
+     const char *type;
+     Visitor *v;
+@@ -1739,11 +1745,8 @@ static void object_option_parse(const char *optarg)
+         v = opts_visitor_new(opts);
      }
  
--    if (!qemu_opt_set(opts, arg, str + offset + 1, &local_err)) {
--        error_report_err(local_err);
--        return -1;
-+    if (!is_qemuopts_group(group)) {
-+        error_setg(errp, "-set is not supported with %s", group);
-+    } else {
-+        list = qemu_find_opts_err(group, errp);
-+        if (list) {
-+            opts = qemu_opts_find(list, id);
-+            if (!opts) {
-+                error_setg(errp, "there is no %s \"%s\" defined", group, id);
-+                return;
-+            }
-+            qemu_opt_set(opts, arg, str + offset + 1, errp);
-+        }
-     }
--    return 0;
+-    opt = g_new0(ObjectOption, 1);
+-    visit_type_ObjectOptions(v, NULL, &opt->opts, &error_fatal);
++    object_option_add_visitor(v);
+     visit_free(v);
+-
+-    QTAILQ_INSERT_TAIL(&object_opts, opt, next);
  }
  
- static void user_register_global_props(void)
-@@ -2752,8 +2788,7 @@ void qemu_init(int argc, char **argv, char **envp)
-                 }
-                 break;
-             case QEMU_OPTION_set:
--                if (qemu_set_option(optarg) != 0)
--                    exit(1);
-+                qemu_set_option(optarg, &error_fatal);
-                 break;
-             case QEMU_OPTION_global:
-                 if (qemu_global_option(optarg) != 0)
-@@ -3385,7 +3420,7 @@ void qemu_init(int argc, char **argv, char **envp)
-                 qemu_plugin_opt_parse(optarg, &plugin_list);
-                 break;
-             case QEMU_OPTION_readconfig:
--                qemu_read_config_file(optarg, qemu_config_do_parse, &error_fatal);
-+                qemu_read_config_file(optarg, qemu_parse_config_group, &error_fatal);
-                 break;
-             case QEMU_OPTION_spice:
-                 olist = qemu_find_opts_err("spice", NULL);
+ /*
+@@ -2120,13 +2123,22 @@ static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
+  */
+ static bool is_qemuopts_group(const char *group)
+ {
++    if (g_str_equal(group, "object")) {
++        return false;
++    }
+     return true;
+ }
+ 
+ static void qemu_record_config_group(const char *group, QDict *dict,
+                                      bool from_json, Error **errp)
+ {
+-    abort();
++    if (g_str_equal(group, "object")) {
++        Visitor *v = qobject_input_visitor_new_keyval(QOBJECT(dict));
++        object_option_add_visitor(v);
++        visit_free(v);
++    } else {
++        abort();
++    }
+ }
+ 
+ /*
 -- 
 2.25.1
 
