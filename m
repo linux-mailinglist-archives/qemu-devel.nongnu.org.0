@@ -2,45 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01552433DF2
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 19:59:55 +0200 (CEST)
-Received: from localhost ([::1]:34718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C54F3433DFF
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 20:03:21 +0200 (CEST)
+Received: from localhost ([::1]:42970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mctOz-0000NI-BR
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 13:59:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33676)
+	id 1mctSK-00062R-TT
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 14:03:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel@labath.sk>) id 1mctIo-0003lu-9H
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 13:53:31 -0400
-Received: from holomatrix.labath.sk ([92.48.125.149]:54670)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel@labath.sk>) id 1mctIi-0003yB-Qt
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 13:53:29 -0400
-Received: from [172.29.152.10] (unknown [172.29.152.10])
- by holomatrix.labath.sk (Postfix) with ESMTP id D63367760C5B;
- Tue, 19 Oct 2021 17:53:19 +0000 (GMT)
-Subject: Re: [PATCH] gdbstub: Switch to the thread receiving a signal
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210930095111.23205-1-pavel@labath.sk>
- <87o87lvsy3.fsf@linaro.org>
-From: Pavel Labath <pavel@labath.sk>
-Message-ID: <400b1c4b-42d0-cd28-42cd-668de9439b68@labath.sk>
-Date: Tue, 19 Oct 2021 19:53:19 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mctPf-0003uG-Gj
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 14:00:40 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:40721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mctPa-0005UV-Ra
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 14:00:34 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id q5so20089609pgr.7
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 11:00:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Joj/MMQCJaT/OBBlinwxbo5ywrUF7wxfIn46ek4vt2Q=;
+ b=BKqb5gINffgDiX6Rddo0aNbkZlKRxcf5FK4IOsym7t1BtMHvdeb9jsD2p319FX4hHs
+ 2satEDpOSzQ8CvGBHOMUhiBYExKUL6se6EmDhAmHqO+As689E8dqFNj6gsjDVdrhvoF9
+ fmg4fiPubTivUoN104ohS6MMw+Sn5KJpyWHNe2emF5kLHI7gUxn8GtqqC8C8j45aCFTK
+ D+BJlQtIyOpjY1i+8gvaLUAxfxPPhy8r+++oQ3q8j4YmQBV5Bt9yyf+yS6JQcjGgwp0I
+ pldP6hz75D+7EE/JOYGAEGBbWuGeF4Phe5YPCSEiO8D4dFOEi0iSNSMFpe6fF0PRbn4L
+ CI0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Joj/MMQCJaT/OBBlinwxbo5ywrUF7wxfIn46ek4vt2Q=;
+ b=gYJjnXkVyLI8smK+liqY7BWcaUCghOiorxc153fc3dUT38q8+DbwVJ3k0lztzltBGC
+ n+92Fl3vxDrbOUPKt5TXIccF3Mi/87TplcVUhntZheV/+V3QQrQfOKw4qmcYO71Wvqak
+ EDaS6vgC3w64+hZsRqW+ectb/S8e9LnFceeL3x/0z5Az8c1bZgjCq8vEIN73RohOGsjN
+ BX3eSemGDt4YVW/xqEhwWeZbap0MIXWzqVZ4HSmq2VPhgzvzHp26RnwkyASNzS0Q3U5a
+ CH6AtpJjdh29+juRUR0w1zYCNmfKESTBRA3Pt4wBHxFE23zLEyg41CbjK7yqrEaLL5FG
+ 26tg==
+X-Gm-Message-State: AOAM532K8PLrfqwYRdpu4fXnWPI0OIRfgva0lF2R0/JwjUhtqH2iE6D7
+ 1u+y41R1SpHEN0v1uT8J22ZN1Q==
+X-Google-Smtp-Source: ABdhPJwsp6+fRdmg35p9d4Vz4wff+ldkQwCdxL92j128pk3L2rx5r0EfiUuBn3vM/716Sb5A0gwh5A==
+X-Received: by 2002:a63:7402:: with SMTP id p2mr29860041pgc.472.1634666428389; 
+ Tue, 19 Oct 2021 11:00:28 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id l4sm5749860pfu.101.2021.10.19.11.00.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Oct 2021 11:00:28 -0700 (PDT)
+Subject: Re: [PATCH v3 02/21] memory: add a few defines for octo (128-bit)
+ values
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211019094812.614056-3-frederic.petrot@univ-grenoble-alpes.fr>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4b735c47-c845-d831-12f3-a8a3a17c0eaa@linaro.org>
+Date: Tue, 19 Oct 2021 11:00:26 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <87o87lvsy3.fsf@linaro.org>
+In-Reply-To: <20211019094812.614056-3-frederic.petrot@univ-grenoble-alpes.fr>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=92.48.125.149; envelope-from=pavel@labath.sk;
- helo=holomatrix.labath.sk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) NICE_REPLY_A=-2.074, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.074,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,156 +90,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
+ palmer@dabbelt.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for taking a look. I've sent out a new version of the patch. 
-Besides the Makefile change, I have also replaced the direct 
-gdbserver_state manipulation with a call to gdb_set_stop_cpu.
+On 10/19/21 2:47 AM, Frédéric Pétrot wrote:
+> Introducing unsigned quad, signed quad, and octo accesses types
+> to handle load and store by 128-bit processors.
+> 
+> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+> ---
+>   include/exec/memop.h | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/exec/memop.h b/include/exec/memop.h
+> index c554bb0ee8..476ea6cdae 100644
+> --- a/include/exec/memop.h
+> +++ b/include/exec/memop.h
+> @@ -85,10 +85,13 @@ typedef enum MemOp {
+>       MO_UB    = MO_8,
+>       MO_UW    = MO_16,
+>       MO_UL    = MO_32,
+> +    MO_UQ    = MO_64,
+>       MO_SB    = MO_SIGN | MO_8,
+>       MO_SW    = MO_SIGN | MO_16,
+>       MO_SL    = MO_SIGN | MO_32,
+> -    MO_UQ     = MO_64,
+> +    MO_SQ    = MO_SIGN | MO_64,
+> +    MO_Q     = MO_64,
+> +    MO_O     = MO_128,
 
-Further responses inline.
+There's no point in removing MO_Q in one patch and adding it back in the next.  And I 
+guess we might as well name MO_O to MO_UO now.
 
-On 19/10/2021 19:02, Alex Bennée wrote:
-> 
-> Pavel Labath <pavel@labath.sk> writes:
-> 
->> Respond with Txxthread:yyyy; instead of a plain Sxx to indicate which
->> thread received the signal. Otherwise, the debugger will associate it
->> with the main one. Also automatically select this thread, as that is
->> what gdb expects.
->>
->> Signed-off-by: Pavel Labath <pavel@labath.sk>
->> ---
->>   gdbstub.c                                     |  9 ++-
->>   tests/tcg/multiarch/Makefile.target           |  7 +++
->>   .../gdbstub/test-thread-breakpoint.py         | 60 +++++++++++++++++++
->>   3 files changed, 74 insertions(+), 2 deletions(-)
->>   create mode 100644 tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
->>
->> diff --git a/gdbstub.c b/gdbstub.c
->> index 36b85aa..7bd4479 100644
->> --- a/gdbstub.c
->> +++ b/gdbstub.c
->> @@ -3138,8 +3138,13 @@ gdb_handlesig(CPUState *cpu, int sig)
->>       tb_flush(cpu);
->>   
->>       if (sig != 0) {
->> -        snprintf(buf, sizeof(buf), "S%02x", target_signal_to_gdb(sig));
->> -        put_packet(buf);
->> +        gdbserver_state.c_cpu = cpu;
->> +        gdbserver_state.g_cpu = cpu;
->> +        g_string_printf(gdbserver_state.str_buf,
->> +                        "T%02xthread:", target_signal_to_gdb(sig));
->> +        gdb_append_thread_id(cpu, gdbserver_state.str_buf);
->> +        g_string_append_c(gdbserver_state.str_buf, ';');
->> +        put_strbuf();
->>       }
->>       /* put_packet() might have detected that the peer terminated the
->>          connection.  */
->> diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
->> index 85a6fb7..c7b7e8b 100644
->> --- a/tests/tcg/multiarch/Makefile.target
->> +++ b/tests/tcg/multiarch/Makefile.target
->> @@ -73,6 +73,13 @@ run-gdbstub-qxfer-auxv-read: sha1
->>   		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-qxfer-auxv-read.py, \
->>   	"basic gdbstub qXfer:auxv:read support")
->>   
->> +run-gdbstub-thread-breakpoint: testthread
->> +	$(call run-test, $@, $(GDB_SCRIPT) \
->> +		--gdb $(HAVE_GDB_BIN) \
->> +		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
->> +		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-thread-breakpoint.py, \
->> +	"hitting a breakpoint on non-main thread")
->> +
-> 
-> You also need to add the test to EXTRA_RUNS here (or just bellow in fact).
-Done.
+> @@ -105,9 +108,12 @@ typedef enum MemOp {
+>   #ifdef NEED_CPU_H
+>       MO_TEUW  = MO_TE | MO_UW,
+>       MO_TEUL  = MO_TE | MO_UL,
+> +    MO_TEUQ  = MO_TE | MO_UQ,
+>       MO_TESW  = MO_TE | MO_SW,
+>       MO_TESL  = MO_TE | MO_SL,
+>       MO_TEQ   = MO_TE | MO_UQ,
+> +    MO_TESQ  = MO_TE | MO_SQ,
 
-> 
->>   else
->>   run-gdbstub-%:
->>   	$(call skip-test, "gdbstub test $*", "need working gdb")
->> diff --git a/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py b/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
->> new file mode 100644
->> index 0000000..798d508
->> --- /dev/null
->> +++ b/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
->> @@ -0,0 +1,60 @@
->> +from __future__ import print_function
->> +#
->> +# Test auxiliary vector is loaded via gdbstub
->> +#
->> +# This is launched via tests/guest-debug/run-test.py
->> +#
->> +
->> +import gdb
->> +import sys
->> +
->> +failcount = 0
->> +
->> +def report(cond, msg):
->> +    "Report success/fail of test"
->> +    if cond:
->> +        print ("PASS: %s" % (msg))
->> +    else:
->> +        print ("FAIL: %s" % (msg))
->> +        global failcount
->> +        failcount += 1
->> +
->> +def run_test():
->> +    "Run through the tests one by one"
->> +
->> +    sym, ok = gdb.lookup_symbol("thread1_func")
->> +    gdb.execute("b thread1_func")
->> +    gdb.execute("c")
->> +
->> +    frame = gdb.selected_frame()
->> +    report(str(frame.function()) == "thread1_func", "break @
->>   %s"%frame)
-> 
-> Does this actually check the correct thread is reported?
-It does it indirectly -- there is only one thread which can have 
-thread1_func on the stack. If we do not report the correct thread, 
-selected_frame() will point into the bowels of pthread_join, as that's 
-where the main thread will be stuck at.
-I don't know of a direct way to check for the reported thread. 
-gdb.selected_thread().name would be more direct, but I am not sure we 
-would be able to correctly set the thread name on all supported platforms.
+These should have been renamed at the same time as MO_Q.  Though it seems you are missing 
+a rename of these throughout target/?  Surely this patch does not build as-is.
 
-> 
->> +
->> +#
->> +# This runs as the script it sourced (via -x, via run-test.py)
->> +#
->> +try:
->> +    inferior = gdb.selected_inferior()
->> +    arch = inferior.architecture()
->> +    print("ATTACHED: %s" % arch.name())
->> +except (gdb.error, AttributeError):
->> +    print("SKIPPING (not connected)", file=sys.stderr)
->> +    exit(0)
->> +
->> +if gdb.parse_and_eval('$pc') == 0:
->> +    print("SKIP: PC not set")
->> +    exit(0)
->> +
->> +try:
->> +    # These are not very useful in scripts
->> +    gdb.execute("set pagination off")
->> +    gdb.execute("set confirm off")
->> +
->> +    # Run the actual tests
->> +    run_test()
->> +except (gdb.error):
->> +    print ("GDB Exception: %s" % (sys.exc_info()[0]))
->> +    failcount += 1
->> +    pass
->> +
->> +print("All tests complete: %d failures" % failcount)
->> +exit(failcount)
-> 
-> 
 
+r~
 
