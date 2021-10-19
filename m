@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3AF433C93
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:40:08 +0200 (CEST)
-Received: from localhost ([::1]:42314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD83E433C9E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:43:13 +0200 (CEST)
+Received: from localhost ([::1]:48744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcs9n-0006yk-6y
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:40:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54428)
+	id 1mcsCm-0002vO-SA
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:43:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcqz0-00055V-KX
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:24:54 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:45746)
+ id 1mcqz0-00056W-UE
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:24:55 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:42929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcqyr-0007XG-SL
+ id 1mcqyu-0007ZA-0a
  for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:24:54 -0400
-Received: by mail-pl1-x631.google.com with SMTP id s1so12086210plg.12
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 08:24:45 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id w17so2057727plg.9
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 08:24:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mfu2QZ3gpRQ8C8fsN7554x8wxijvHESDqJdXEHq27p8=;
- b=a1YR+2BJtRX9o6BMOYcBV+wrw+PCXiamdbTRbPfuwMVFaTTxWYGRUp1aYeXqPs2IjY
- 4lKPGb+2/jDEU84sSnPK/a4Dls38eD8gECwRsVKeYMwYD4e686/NUtn4dGVLm1dApfIM
- p4jqWHtXP+kbj43Dwf2xc6aOgi7vAt7h+DJ+Sour9uCsmGJmKH2hyDdwAD699XRFH6XI
- IAMGIAIpDruqbHMVtMNt8zd0624C4FMq5WPnhSc0jDA4sNRNVzfWJDRv8as1S/eA19Ta
- XRlXsFwVyMG0VSxCRgtz8NBwRHJwaycMxjPKetQxZtgDhpAoV1nzMZ4z0FqBWAEg9ek8
- 9Kjg==
+ bh=8Q91x8zMEJ+G0plQF7JCwHlzBwbIDPGXFt0sB6UJCPI=;
+ b=qiwQhWLSvOBOi/WrTa/s7KEx3HVtjYC6/AsiOjMCEQuUaVHJKDYDb9HtHkwPtt1sJY
+ HYngV6+tpCfEpyUtwq2nakYnNSLi5zkNbDzShXFXKpfLsgZbx0el1RhzXmX8VXrxNtS2
+ R2B61xlPXDi/zD2UvgKM0zssu2NhGVlNbeBI+mlQrxg4UbvSa3WB1uKUZXp82iE07muU
+ QISyGbw0+jEoCoiPFeji1NdozQ0r/v3CwHuZsmOS2eWsOcVSAQaqMPZoYu9bpWytBDjb
+ 6ufYxXvdHjyTBvNGIJwAdwlnqe/gF6/LolwyJGdYk7EZNIi+5M7J2ZngoC2T9LjnGXNH
+ s0Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mfu2QZ3gpRQ8C8fsN7554x8wxijvHESDqJdXEHq27p8=;
- b=rSXL2Q4hEL3LH7Mc2X4hohV+tpAkyPstHxheJP88C7UyWqcSqaDgKuIUCTwGvPfBRY
- gBNCDbtolf8a7yXUPdMVtxk5S8ceTmRxFpBvYZ7B00loOMizc3V1i5lyMpdJVsM4OXAD
- eR0PMSQ6EQYn/cuWmzwNT4jSyeQR6wvmMvO2ysVxKTVCg5Pv9hSB92iTB0ZdGTnmdo1o
- kp1ROhqqYORApTzho3Voc7QIhnjVcXsOfaKtzIwBsmZ6cqAxNP38CIfsZtN1kyr4uFCq
- 9C2xIuWdqWho6u8QjzSIglk9W/VqIOa1DmiKM4CwHkY6H6y77KH2iHNH/xT7EtZMIxjP
- jG+g==
-X-Gm-Message-State: AOAM532pdS578aBE4OzqiQMUBf7ysZ1LKtBQK6E5e0gRX8AJw+sFBWi+
- XZRgClKA9IT1ItGZ+zSoNtkjLVG+PL335g==
-X-Google-Smtp-Source: ABdhPJwA8If2BMlgsJBNUtc7xyC28fK74XJFeFCQcGGG7eYwcdOpgBm+BXUJuQhvKBxlDH2tCx38cg==
-X-Received: by 2002:a17:90b:1283:: with SMTP id
- fw3mr589113pjb.99.1634657084471; 
- Tue, 19 Oct 2021 08:24:44 -0700 (PDT)
+ bh=8Q91x8zMEJ+G0plQF7JCwHlzBwbIDPGXFt0sB6UJCPI=;
+ b=gyP1SBG+lGe/RcaZq/mPQLYiE8p3/2AzqpriFE/9XBq3rBVFYqProx0nYQVBjtA9so
+ 2krLgnuKCHjlju0xTKHqp6vGygGrNgP5jeEQghBLms3JLYNZ3MP7+t+WqFw1c0e6nyIz
+ rRQw783alERXHq5HF2Xj1+utbJ1cXWSXMmVzvOApR3yjPt5twh57b8Wf8LCin2iAk/xx
+ +8hBsUoFuUdKhBqxEDTeKw8taxflTcTJK+tXAUI/BUKq6UFDrRepOMpPBgdulMFK51Ib
+ uEOmvaQmHrid8wh98VElQ2UYWGA51REtmhEUeNRmsxI0rLCwohZiNEx74BNKpO0IEpyd
+ Htmg==
+X-Gm-Message-State: AOAM533LP64ftf1+nm+4O0DsDo8jbrUsrD7gM5wItBo2kjvymlIVXrTu
+ zB/5CzRHLguTmqSdr0l5ml/IuUoH7HA=
+X-Google-Smtp-Source: ABdhPJxX+NwULZHdHf2x4f9VIAPyT4J4Cg2NzNDsU+e9ynolLaU6tm1VOhe+X5n8UuLMt1lNaYZdow==
+X-Received: by 2002:a17:90b:4c0f:: with SMTP id
+ na15mr499559pjb.200.1634657086095; 
+ Tue, 19 Oct 2021 08:24:46 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id i2sm3293814pjt.19.2021.10.19.08.24.44
+ by smtp.gmail.com with ESMTPSA id i2sm3293814pjt.19.2021.10.19.08.24.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 08:24:44 -0700 (PDT)
+ Tue, 19 Oct 2021 08:24:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 07/16] target/riscv: Properly check SEW in amo_op
-Date: Tue, 19 Oct 2021 08:24:29 -0700
-Message-Id: <20211019152438.269077-8-richard.henderson@linaro.org>
+Subject: [PATCH v5 09/16] target/riscv: Replace DisasContext.w with
+ DisasContext.ol
+Date: Tue, 19 Oct 2021 08:24:31 -0700
+Message-Id: <20211019152438.269077-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211019152438.269077-1-richard.henderson@linaro.org>
 References: <20211019152438.269077-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,54 +88,337 @@ Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org, zhiwei_liu@c-sky.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're currently assuming SEW <= 3, and the "else" from
-the SEW == 3 must be less.  Use a switch and explicitly
-bound both SEW and SEQ for all cases.
+In preparation for RV128, consider more than just "w" for
+operand size modification.  This will be used for the "d"
+insns from RV128 as well.
+
+Rename oper_len to get_olen to better match get_xlen.
 
 Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 26 +++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+ target/riscv/translate.c                | 71 ++++++++++++++++---------
+ target/riscv/insn_trans/trans_rvb.c.inc |  8 +--
+ target/riscv/insn_trans/trans_rvi.c.inc | 18 +++----
+ target/riscv/insn_trans/trans_rvm.c.inc | 10 ++--
+ 4 files changed, 63 insertions(+), 44 deletions(-)
 
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index d60279b295..d16446d3bb 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -704,18 +704,20 @@ static bool amo_op(DisasContext *s, arg_rwdvm *a, uint8_t seq)
-         gen_helper_exit_atomic(cpu_env);
-         s->base.is_jmp = DISAS_NORETURN;
-         return true;
--    } else {
--        if (s->sew == 3) {
--            if (!is_32bit(s)) {
--                fn = fnsd[seq];
--            } else {
--                /* Check done in amo_check(). */
--                g_assert_not_reached();
--            }
--        } else {
--            assert(seq < ARRAY_SIZE(fnsw));
--            fn = fnsw[seq];
--        }
-+    }
-+
-+    switch (s->sew) {
-+    case 0 ... 2:
-+        assert(seq < ARRAY_SIZE(fnsw));
-+        fn = fnsw[seq];
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 3f1abbac5c..6ed925c003 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -67,7 +67,7 @@ typedef struct DisasContext {
+        to any system register, which includes CSR_FRM, so we do not have
+        to reset this known value.  */
+     int frm;
+-    bool w;
++    RISCVMXL ol;
+     bool virt_enabled;
+     bool ext_ifencei;
+     bool hlsx;
+@@ -104,12 +104,17 @@ static inline int __attribute__((unused)) get_xlen(DisasContext *ctx)
+     return 16 << get_xl(ctx);
+ }
+ 
+-/* The word size for this operation. */
+-static inline int oper_len(DisasContext *ctx)
+-{
+-    return ctx->w ? 32 : TARGET_LONG_BITS;
+-}
++/* The operation length, as opposed to the xlen. */
++#ifdef TARGET_RISCV32
++#define get_ol(ctx)    MXL_RV32
++#else
++#define get_ol(ctx)    ((ctx)->ol)
++#endif
+ 
++static inline int get_olen(DisasContext *ctx)
++{
++    return 16 << get_ol(ctx);
++}
+ 
+ /*
+  * RISC-V requires NaN-boxing of narrower width floating point values.
+@@ -197,24 +202,34 @@ static TCGv get_gpr(DisasContext *ctx, int reg_num, DisasExtend ext)
+         return ctx->zero;
+     }
+ 
+-    switch (ctx->w ? ext : EXT_NONE) {
+-    case EXT_NONE:
+-        return cpu_gpr[reg_num];
+-    case EXT_SIGN:
+-        t = temp_new(ctx);
+-        tcg_gen_ext32s_tl(t, cpu_gpr[reg_num]);
+-        return t;
+-    case EXT_ZERO:
+-        t = temp_new(ctx);
+-        tcg_gen_ext32u_tl(t, cpu_gpr[reg_num]);
+-        return t;
++    switch (get_ol(ctx)) {
++    case MXL_RV32:
++        switch (ext) {
++        case EXT_NONE:
++            break;
++        case EXT_SIGN:
++            t = temp_new(ctx);
++            tcg_gen_ext32s_tl(t, cpu_gpr[reg_num]);
++            return t;
++        case EXT_ZERO:
++            t = temp_new(ctx);
++            tcg_gen_ext32u_tl(t, cpu_gpr[reg_num]);
++            return t;
++        default:
++            g_assert_not_reached();
++        }
 +        break;
-+    case 3:
-+        /* XLEN check done in amo_check(). */
-+        assert(seq < ARRAY_SIZE(fnsd));
-+        fn = fnsd[seq];
++    case MXL_RV64:
 +        break;
 +    default:
 +        g_assert_not_reached();
      }
+-    g_assert_not_reached();
++    return cpu_gpr[reg_num];
+ }
  
-     data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
+ static TCGv dest_gpr(DisasContext *ctx, int reg_num)
+ {
+-    if (reg_num == 0 || ctx->w) {
++    if (reg_num == 0 || get_olen(ctx) < TARGET_LONG_BITS) {
+         return temp_new(ctx);
+     }
+     return cpu_gpr[reg_num];
+@@ -223,10 +238,15 @@ static TCGv dest_gpr(DisasContext *ctx, int reg_num)
+ static void gen_set_gpr(DisasContext *ctx, int reg_num, TCGv t)
+ {
+     if (reg_num != 0) {
+-        if (ctx->w) {
++        switch (get_ol(ctx)) {
++        case MXL_RV32:
+             tcg_gen_ext32s_tl(cpu_gpr[reg_num], t);
+-        } else {
++            break;
++        case MXL_RV64:
+             tcg_gen_mov_tl(cpu_gpr[reg_num], t);
++            break;
++        default:
++            g_assert_not_reached();
+         }
+     }
+ }
+@@ -387,7 +407,7 @@ static bool gen_shift_imm_fn(DisasContext *ctx, arg_shift *a, DisasExtend ext,
+                              void (*func)(TCGv, TCGv, target_long))
+ {
+     TCGv dest, src1;
+-    int max_len = oper_len(ctx);
++    int max_len = get_olen(ctx);
+ 
+     if (a->shamt >= max_len) {
+         return false;
+@@ -406,7 +426,7 @@ static bool gen_shift_imm_tl(DisasContext *ctx, arg_shift *a, DisasExtend ext,
+                              void (*func)(TCGv, TCGv, TCGv))
+ {
+     TCGv dest, src1, src2;
+-    int max_len = oper_len(ctx);
++    int max_len = get_olen(ctx);
+ 
+     if (a->shamt >= max_len) {
+         return false;
+@@ -430,7 +450,7 @@ static bool gen_shift(DisasContext *ctx, arg_r *a, DisasExtend ext,
+     TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
+     TCGv ext2 = tcg_temp_new();
+ 
+-    tcg_gen_andi_tl(ext2, src2, oper_len(ctx) - 1);
++    tcg_gen_andi_tl(ext2, src2, get_olen(ctx) - 1);
+     func(dest, src1, ext2);
+ 
+     gen_set_gpr(ctx, a->rd, dest);
+@@ -530,7 +550,6 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+     ctx->xl = FIELD_EX32(tb_flags, TB_FLAGS, XL);
+     ctx->cs = cs;
+-    ctx->w = false;
+     ctx->ntemp = 0;
+     memset(ctx->temp, 0, sizeof(ctx->temp));
+ 
+@@ -554,9 +573,9 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+     CPURISCVState *env = cpu->env_ptr;
+     uint16_t opcode16 = translator_lduw(env, &ctx->base, ctx->base.pc_next);
+ 
++    ctx->ol = ctx->xl;
+     decode_opc(env, ctx, opcode16);
+     ctx->base.pc_next = ctx->pc_succ_insn;
+-    ctx->w = false;
+ 
+     for (int i = ctx->ntemp - 1; i >= 0; --i) {
+         tcg_temp_free(ctx->temp[i]);
+diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+index 185c3e9a60..66dd51de49 100644
+--- a/target/riscv/insn_trans/trans_rvb.c.inc
++++ b/target/riscv/insn_trans/trans_rvb.c.inc
+@@ -341,7 +341,7 @@ static bool trans_cpopw(DisasContext *ctx, arg_cpopw *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_ZBB(ctx);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_unary(ctx, a, EXT_ZERO, tcg_gen_ctpop_tl);
+ }
+ 
+@@ -367,7 +367,7 @@ static bool trans_rorw(DisasContext *ctx, arg_rorw *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_ZBB(ctx);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_shift(ctx, a, EXT_NONE, gen_rorw);
+ }
+ 
+@@ -375,7 +375,7 @@ static bool trans_roriw(DisasContext *ctx, arg_roriw *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_ZBB(ctx);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_rorw);
+ }
+ 
+@@ -401,7 +401,7 @@ static bool trans_rolw(DisasContext *ctx, arg_rolw *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_ZBB(ctx);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_shift(ctx, a, EXT_NONE, gen_rolw);
+ }
+ 
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index a6a57c94bb..9cf0383cfb 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -331,14 +331,14 @@ static bool trans_and(DisasContext *ctx, arg_and *a)
+ static bool trans_addiw(DisasContext *ctx, arg_addiw *a)
+ {
+     REQUIRE_64BIT(ctx);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_arith_imm_fn(ctx, a, EXT_NONE, tcg_gen_addi_tl);
+ }
+ 
+ static bool trans_slliw(DisasContext *ctx, arg_slliw *a)
+ {
+     REQUIRE_64BIT(ctx);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_shift_imm_fn(ctx, a, EXT_NONE, tcg_gen_shli_tl);
+ }
+ 
+@@ -350,7 +350,7 @@ static void gen_srliw(TCGv dst, TCGv src, target_long shamt)
+ static bool trans_srliw(DisasContext *ctx, arg_srliw *a)
+ {
+     REQUIRE_64BIT(ctx);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_srliw);
+ }
+ 
+@@ -362,42 +362,42 @@ static void gen_sraiw(TCGv dst, TCGv src, target_long shamt)
+ static bool trans_sraiw(DisasContext *ctx, arg_sraiw *a)
+ {
+     REQUIRE_64BIT(ctx);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_sraiw);
+ }
+ 
+ static bool trans_addw(DisasContext *ctx, arg_addw *a)
+ {
+     REQUIRE_64BIT(ctx);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_arith(ctx, a, EXT_NONE, tcg_gen_add_tl);
+ }
+ 
+ static bool trans_subw(DisasContext *ctx, arg_subw *a)
+ {
+     REQUIRE_64BIT(ctx);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_arith(ctx, a, EXT_NONE, tcg_gen_sub_tl);
+ }
+ 
+ static bool trans_sllw(DisasContext *ctx, arg_sllw *a)
+ {
+     REQUIRE_64BIT(ctx);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_shift(ctx, a, EXT_NONE, tcg_gen_shl_tl);
+ }
+ 
+ static bool trans_srlw(DisasContext *ctx, arg_srlw *a)
+ {
+     REQUIRE_64BIT(ctx);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_shift(ctx, a, EXT_ZERO, tcg_gen_shr_tl);
+ }
+ 
+ static bool trans_sraw(DisasContext *ctx, arg_sraw *a)
+ {
+     REQUIRE_64BIT(ctx);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl);
+ }
+ 
+diff --git a/target/riscv/insn_trans/trans_rvm.c.inc b/target/riscv/insn_trans/trans_rvm.c.inc
+index b89a85ad3a..9a1fe3c799 100644
+--- a/target/riscv/insn_trans/trans_rvm.c.inc
++++ b/target/riscv/insn_trans/trans_rvm.c.inc
+@@ -214,7 +214,7 @@ static bool trans_mulw(DisasContext *ctx, arg_mulw *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_EXT(ctx, RVM);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl);
+ }
+ 
+@@ -222,7 +222,7 @@ static bool trans_divw(DisasContext *ctx, arg_divw *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_EXT(ctx, RVM);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_arith(ctx, a, EXT_SIGN, gen_div);
+ }
+ 
+@@ -230,7 +230,7 @@ static bool trans_divuw(DisasContext *ctx, arg_divuw *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_EXT(ctx, RVM);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_arith(ctx, a, EXT_ZERO, gen_divu);
+ }
+ 
+@@ -238,7 +238,7 @@ static bool trans_remw(DisasContext *ctx, arg_remw *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_EXT(ctx, RVM);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_arith(ctx, a, EXT_SIGN, gen_rem);
+ }
+ 
+@@ -246,6 +246,6 @@ static bool trans_remuw(DisasContext *ctx, arg_remuw *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_EXT(ctx, RVM);
+-    ctx->w = true;
++    ctx->ol = MXL_RV32;
+     return gen_arith(ctx, a, EXT_ZERO, gen_remu);
+ }
 -- 
 2.25.1
 
