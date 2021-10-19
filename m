@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76421433B6A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 17:58:51 +0200 (CEST)
-Received: from localhost ([::1]:46982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EEF0433BC9
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:11:33 +0200 (CEST)
+Received: from localhost ([::1]:49054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcrVq-0000gS-6x
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 11:58:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54580)
+	id 1mcri8-0004iW-Gf
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:11:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcqz8-0005V1-5W
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:25:02 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:42500)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcqyv-0007bE-D4
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:25:01 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- nn3-20020a17090b38c300b001a03bb6c4ebso157425pjb.1
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 08:24:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=c7yPgPOtdXc8cLGoEleP9T3gCAQ/J91zHEOZFu0LBcU=;
- b=YQ+rA+5ILyHzsnqwm8uC4tM6FqgsnEWS1+svMUGAPrgsGeJLhx8FPRYrGQrjbKK83H
- mdOZVgzIVOKQo84lYweo+qhCebKtHjkkrnpV9OAG8AhYNHQfBZePGRNvicC3onwJyioK
- nHRmO0VadPp6PxygRjb+FoWc0aqaeV0oE+x22IAudipSG8tWUgf7hqR2+QVFb/+M49pk
- noqExgxgb6UOMxOrv6zadjE3YiMUHzZUkTZ3ZhN4M4tL8i27zfcKvjYnQ5oPflbPCBGG
- 8nAhEQ4WZU4nFNv/4wJNyvbdYPx2WFoi5uBCzqlDtYYaWHcugwo2F/rPIlNM0iRLU6Bq
- cZdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=c7yPgPOtdXc8cLGoEleP9T3gCAQ/J91zHEOZFu0LBcU=;
- b=Qq7H22a9J422tsGnSBi9oPRsZ1XO0ir6G/kbu0zoY9kgTqoNvH9vp4RNXoiGjRWTHM
- LzyfCYsA85Qi6z+CxGZF632+muPYM6P/JblQ0+ySRhtxxT1ZvS84d5DEPv9NWOi40/jB
- aPuGQH77TLzVYe1ZHmbV61Uc1s/PnPSJ9JHRu1r9EJ45XZ/XkQzVMvCiHZTjthFjQESg
- gFasiABpmUHZMs0GXFok/FDbqorcN4F8vHL/SvrILpwnV5KpR51CPWxoQyYpF0gcmcJL
- 685/z4Q6aXbl6tmwl+N3UFzzsWHPBz2NqEcLMFJjDZ5z3q48ET98SV46080OwiiUBeeI
- 7fiQ==
-X-Gm-Message-State: AOAM533okQYDwdJftEeyro/c95EJAl9Av57i4cuikoDSV+Ca0TGli1h9
- 3V2L3i4OTrOM73cVOFX00zCumsMK7tssqg==
-X-Google-Smtp-Source: ABdhPJzKW/HvsRfO26I8Y03QaMMsfSWzdv7Co9jwCBnk8EpYkR6dZ5fedZcKzBPcglGc5K3GfXtPeg==
-X-Received: by 2002:a17:90b:4c0d:: with SMTP id
- na13mr480691pjb.232.1634657088073; 
- Tue, 19 Oct 2021 08:24:48 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id i2sm3293814pjt.19.2021.10.19.08.24.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 08:24:47 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQj-0001Qz-Ad
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42588)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQe-00080d-Ti
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634654964;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ntV7nxemO6jbrlF9Kwwy+ovD9pcR4W4Dbt7SkBNUns0=;
+ b=Gcn4G5yWu7P7eLnnPbk4orXALaVc4TBiIipZDF+r+ehuJW/Jxy1+SYKpQXe0FGNk/Z8cgX
+ +ssLGvk34jVKOsL+zoYabcyDsLvoYxUer9B4bl/ya0GTpyvqBCY31Xj71zdA72kuhvoNw1
+ 2Y9SGxtLACIv+4tBJPsvgJnF17RwQvk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-26-zZe-5RxRMQSj_aDpxGmr7Q-1; Tue, 19 Oct 2021 10:49:23 -0400
+X-MC-Unique: zZe-5RxRMQSj_aDpxGmr7Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B60F101F001;
+ Tue, 19 Oct 2021 14:49:22 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.11.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 50B2A5D6D7;
+ Tue, 19 Oct 2021 14:49:21 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 12/16] target/riscv: Use gen_unary_per_ol for RVB
-Date: Tue, 19 Oct 2021 08:24:34 -0700
-Message-Id: <20211019152438.269077-13-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211019152438.269077-1-richard.henderson@linaro.org>
-References: <20211019152438.269077-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 02/15] iotests/297: Split mypy configuration out into
+ mypy.ini
+Date: Tue, 19 Oct 2021 10:49:05 -0400
+Message-Id: <20211019144918.3159078-3-jsnow@redhat.com>
+In-Reply-To: <20211019144918.3159078-1-jsnow@redhat.com>
+References: <20211019144918.3159078-1-jsnow@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) DKIM_INVALID=0.1, DKIM_SIGNED=0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,124 +77,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org, zhiwei_liu@c-sky.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The count zeros instructions require a separate implementation
-for RV32 when TARGET_LONG_BITS == 64.
+More separation of code and configuration.
 
-Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- target/riscv/translate.c                | 16 ++++++++++++
- target/riscv/insn_trans/trans_rvb.c.inc | 33 ++++++++++++-------------
- 2 files changed, 32 insertions(+), 17 deletions(-)
+ tests/qemu-iotests/297      | 14 +-------------
+ tests/qemu-iotests/mypy.ini | 12 ++++++++++++
+ 2 files changed, 13 insertions(+), 13 deletions(-)
+ create mode 100644 tests/qemu-iotests/mypy.ini
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 5d54570cc9..ebcd1c8431 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -486,6 +486,22 @@ static bool gen_unary(DisasContext *ctx, arg_r2 *a, DisasExtend ext,
-     return true;
- }
+diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
+index bc3a0ceb2aa..b8101e6024a 100755
+--- a/tests/qemu-iotests/297
++++ b/tests/qemu-iotests/297
+@@ -73,19 +73,7 @@ def run_linters():
+     sys.stdout.flush()
  
-+static bool gen_unary_per_ol(DisasContext *ctx, arg_r2 *a, DisasExtend ext,
-+                             void (*f_tl)(TCGv, TCGv),
-+                             void (*f_32)(TCGv, TCGv))
-+{
-+    int olen = get_olen(ctx);
-+
-+    if (olen != TARGET_LONG_BITS) {
-+        if (olen == 32) {
-+            f_tl = f_32;
-+        } else {
-+            g_assert_not_reached();
-+        }
-+    }
-+    return gen_unary(ctx, a, ext, f_tl);
-+}
-+
- static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
- {
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index c62eea433a..0c2120428d 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -47,10 +47,18 @@ static void gen_clz(TCGv ret, TCGv arg1)
-     tcg_gen_clzi_tl(ret, arg1, TARGET_LONG_BITS);
- }
- 
-+static void gen_clzw(TCGv ret, TCGv arg1)
-+{
-+    TCGv t = tcg_temp_new();
-+    tcg_gen_shli_tl(t, arg1, 32);
-+    tcg_gen_clzi_tl(ret, t, 32);
-+    tcg_temp_free(t);
-+}
-+
- static bool trans_clz(DisasContext *ctx, arg_clz *a)
- {
-     REQUIRE_ZBB(ctx);
--    return gen_unary(ctx, a, EXT_ZERO, gen_clz);
-+    return gen_unary_per_ol(ctx, a, EXT_NONE, gen_clz, gen_clzw);
- }
- 
- static void gen_ctz(TCGv ret, TCGv arg1)
-@@ -58,10 +66,15 @@ static void gen_ctz(TCGv ret, TCGv arg1)
-     tcg_gen_ctzi_tl(ret, arg1, TARGET_LONG_BITS);
- }
- 
-+static void gen_ctzw(TCGv ret, TCGv arg1)
-+{
-+    tcg_gen_ctzi_tl(ret, arg1, 32);
-+}
-+
- static bool trans_ctz(DisasContext *ctx, arg_ctz *a)
- {
-     REQUIRE_ZBB(ctx);
--    return gen_unary(ctx, a, EXT_ZERO, gen_ctz);
-+    return gen_unary_per_ol(ctx, a, EXT_ZERO, gen_ctz, gen_ctzw);
- }
- 
- static bool trans_cpop(DisasContext *ctx, arg_cpop *a)
-@@ -314,14 +327,6 @@ static bool trans_zext_h_64(DisasContext *ctx, arg_zext_h_64 *a)
-     return gen_unary(ctx, a, EXT_NONE, tcg_gen_ext16u_tl);
- }
- 
--static void gen_clzw(TCGv ret, TCGv arg1)
--{
--    TCGv t = tcg_temp_new();
--    tcg_gen_shli_tl(t, arg1, 32);
--    tcg_gen_clzi_tl(ret, t, 32);
--    tcg_temp_free(t);
--}
--
- static bool trans_clzw(DisasContext *ctx, arg_clzw *a)
- {
-     REQUIRE_64BIT(ctx);
-@@ -329,17 +334,11 @@ static bool trans_clzw(DisasContext *ctx, arg_clzw *a)
-     return gen_unary(ctx, a, EXT_NONE, gen_clzw);
- }
- 
--static void gen_ctzw(TCGv ret, TCGv arg1)
--{
--    tcg_gen_ori_tl(ret, arg1, (target_ulong)MAKE_64BIT_MASK(32, 32));
--    tcg_gen_ctzi_tl(ret, ret, 64);
--}
--
- static bool trans_ctzw(DisasContext *ctx, arg_ctzw *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_ZBB(ctx);
--    return gen_unary(ctx, a, EXT_NONE, gen_ctzw);
-+    return gen_unary(ctx, a, EXT_ZERO, gen_ctzw);
- }
- 
- static bool trans_cpopw(DisasContext *ctx, arg_cpopw *a)
+     env['MYPYPATH'] = env['PYTHONPATH']
+-    p = subprocess.run(('mypy',
+-                        '--warn-unused-configs',
+-                        '--disallow-subclassing-any',
+-                        '--disallow-any-generics',
+-                        '--disallow-incomplete-defs',
+-                        '--disallow-untyped-decorators',
+-                        '--no-implicit-optional',
+-                        '--warn-redundant-casts',
+-                        '--warn-unused-ignores',
+-                        '--no-implicit-reexport',
+-                        '--namespace-packages',
+-                        '--scripts-are-modules',
+-                        *files),
++    p = subprocess.run(('mypy', *files),
+                        env=env,
+                        check=False,
+                        stdout=subprocess.PIPE,
+diff --git a/tests/qemu-iotests/mypy.ini b/tests/qemu-iotests/mypy.ini
+new file mode 100644
+index 00000000000..4c0339f5589
+--- /dev/null
++++ b/tests/qemu-iotests/mypy.ini
+@@ -0,0 +1,12 @@
++[mypy]
++disallow_any_generics = True
++disallow_incomplete_defs = True
++disallow_subclassing_any = True
++disallow_untyped_decorators = True
++implicit_reexport = False
++namespace_packages = True
++no_implicit_optional = True
++scripts_are_modules = True
++warn_redundant_casts = True
++warn_unused_configs = True
++warn_unused_ignores = True
 -- 
-2.25.1
+2.31.1
 
 
