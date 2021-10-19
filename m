@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B69433245
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:32:11 +0200 (CEST)
-Received: from localhost ([::1]:40712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A1E433291
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:39:09 +0200 (CEST)
+Received: from localhost ([::1]:57408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mclTe-0006sG-TW
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:32:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54818)
+	id 1mclaO-0001Th-Qv
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:39:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mclQy-0003wS-Km
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:29:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59719)
+ (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
+ id 1mclSi-0006nu-Hv; Tue, 19 Oct 2021 05:31:12 -0400
+Received: from pegase2.c-s.fr ([93.17.235.10]:55419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mclQw-0005u4-Rh
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:29:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634635762;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=apcd1sPYUX4KQiw1ezZjVt1xKXzOXDw++gGzZ5Ff3ns=;
- b=YJ0PIJYo8RRbmo3wDBMuLqe3I+jtfsgAeUXwUuJHESn9JAc5qGeXn49495QEFDZYVueB3D
- cd3wqFd68wme/WkUY8GvwVudFNXc+JeQyLcwBtcx3JjE83lkZr7Idcx1J1Fiq/qooTJrJb
- cQC++G1rp5nYoLeUYKYXdtX++r2Z8vo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-b2ViE165N-6uuT-0fqs70g-1; Tue, 19 Oct 2021 05:29:21 -0400
-X-MC-Unique: b2ViE165N-6uuT-0fqs70g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n9-20020a1c7209000000b0030da7d466b8so912559wmc.5
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 02:29:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=apcd1sPYUX4KQiw1ezZjVt1xKXzOXDw++gGzZ5Ff3ns=;
- b=lgv7ZNKDTQMOFVK4wrf66T7DPcMRc3ilmeIKJV5pucY8jiD3iDekrv9jT9b5Hh756q
- rX4M5kbKmkFHkW2HPG70My3QtDzmusLkWCE5gzC9Z6hHpbS6T8becJO8HRZhJ2DUbzjw
- 7Mip2FNBPFDGNryZXJj7IMYE7lis58qdJoOV040NW2nZEscfEDCV8QL+mFvKHtL5jWLb
- rGecFUTbpMz2CxwB1IDE+A+KiPxFsWETQCLqXs0vgz4k2XHHM+n88dNieKS8qc5BqfMg
- 9/6gNynMoWocdiht/nC6e0c6wem3h7t3AJby+8xjDu6nre4S8GRUVYBWbgymgaWUJjss
- 4GWg==
-X-Gm-Message-State: AOAM531buYURqQ55JY7QznveskAtm+bsCM1dukJM87cQMnVgxy30DyKo
- QsB2wJSA1T8lWFVHodeqks9r1wI4fEzIQ3J6NIjl/qFWoSUqrBfggImcowSCuwWHNt7vom7Nppl
- sz/QfOsGABhKWnibe5okcrGrlsDoND6rJPz1pg8HRvBBIGPuqYkU0xHm2T7lHHOSetjg=
-X-Received: by 2002:a05:600c:4108:: with SMTP id
- j8mr4869485wmi.15.1634635759579; 
- Tue, 19 Oct 2021 02:29:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfFAD/8L8nARnSLtvu9bs9wJUj+mgHzjLDeKqNnIpTANK3pwcwiJKwcxIA0E/obBGgsqkxQg==
-X-Received: by 2002:a05:600c:4108:: with SMTP id
- j8mr4869451wmi.15.1634635759249; 
- Tue, 19 Oct 2021 02:29:19 -0700 (PDT)
-Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
- [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id h206sm1748558wmh.33.2021.10.19.02.29.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 02:29:18 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] migration/rdma: advise prefetch write for ODP region
-Date: Tue, 19 Oct 2021 11:29:07 +0200
-Message-Id: <20211019092907.5255-8-quintela@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211019092907.5255-1-quintela@redhat.com>
-References: <20211019092907.5255-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
+ id 1mclSf-0002B9-9u; Tue, 19 Oct 2021 05:31:12 -0400
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+ by localhost (Postfix) with ESMTP id 4HYT5466PCz9sSx;
+ Tue, 19 Oct 2021 11:31:04 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+ by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5D6g_Pfl_QVk; Tue, 19 Oct 2021 11:31:04 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4HYT544bdpz9sSw;
+ Tue, 19 Oct 2021 11:31:04 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 765F58B778;
+ Tue, 19 Oct 2021 11:31:04 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id SUGrZGT9l14n; Tue, 19 Oct 2021 11:31:04 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.203.83])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 2A8A68B763;
+ Tue, 19 Oct 2021 11:31:03 +0200 (CEST)
+Subject: Re: Deprecate the ppc405 boards in QEMU?
+To: Thomas Huth <thuth@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
+ <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
+ <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
+ <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
+ <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
+ <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
+ <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
+ <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
+ <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
+ <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com> <YWQB1FMhQfmqRYxN@yekko>
+ <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
+Date: Tue, 19 Oct 2021 11:31:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr-FR
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=93.17.235.10;
+ envelope-from=christophe.leroy@csgroup.eu; helo=pegase2.c-s.fr
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,129 +79,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, Juan Quintela <quintela@redhat.com>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
+ Peter Maydell <peter.maydell@linaro.org>, dbarboza@redhat.com,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
 
-The responder mr registering with ODP will sent RNR NAK back to
-the requester in the face of the page fault.
----------
-ibv_poll_cq wc.status=13 RNR retry counter exceeded!
-ibv_poll_cq wrid=WRITE RDMA!
----------
-ibv_advise_mr(3) helps to make pages present before the actual IO is
-conducted so that the responder does page fault as little as possible.
 
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
-Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- meson.build            |  6 ++++++
- migration/rdma.c       | 42 ++++++++++++++++++++++++++++++++++++++++++
- migration/trace-events |  1 +
- 3 files changed, 49 insertions(+)
+Le 11/10/2021 à 15:24, Thomas Huth a écrit :
+> On 11/10/2021 11.20, David Gibson wrote:
+>> On Mon, Oct 11, 2021 at 10:10:36AM +0200, Thomas Huth wrote:
+>>> On 06/10/2021 09.25, Thomas Huth wrote:
+>>>> On 05/10/2021 23.53, BALATON Zoltan wrote:
+>>>> [...]
+>>>>> Maybe these 405 boards in QEMU ran with modified firmware where the
+>>>>> memory detection was patched out but it seems to detect the RAM so I
+>>>>> wonder where it gets that from. Maybe by reading the SDRAM
+>>>>> controller DCRs ppc4xx_sdram_init() sets up. Then I'm not sure what
+>>>>> it needs the SPD for, I forgot how this worked on sam460ex. Maybe
+>>>>> for the speed calibration, so could be it detects ram by reading
+>>>>> DCRs then tries to get SPD data and that's where it stops as i2c is
+>>>>> not emulated on taihu. This could be confirmed by checking what it
+>>>>> pokes with -d guest_errors that shows accesses to missing devices
+>>>>> but don't know where 405 has the i2c controller and if it's the same
+>>>>> as newer SoCs. If so that could be reused and an i2c bus could be
+>>>>> added with the SPD data like in sam460ex to make u-boot happy or you
+>>>>> could skip this in u-boot.
+>>>>
+>>>> FWIW, I've just tried the latter (skipping the sdram init in u-boot),
+>>>> and indeed, I can get to the u-boot prompt now.
+>>> [...]> I've also attached the patch with my modifications to u-boot.
+>>>
+>>> FYI, the changes can now be found on this branch here:
+>>>
+>>>   https://gitlab.com/huth/u-boot/-/commits/taihu
+>>>
+>>> I also added a gitlab-CI file, so you can now download the u-boot.bin 
+>>> as an
+>>> artifact from the corresponding pipeline, e.g.:
+>>>
+>>>   https://gitlab.com/huth/u-boot/-/jobs/1667201028
+>>
+>> Thanks.
+>>
+>> Are you going to send a v2 of your proposed deprecation patches?
+> 
+> No, since there was interest in keeping the 405 boards for testing the 
+> 405 code in the Linux kernel, and since there is now a way to do at 
+> least some very basic testing of these boards (with the u-boot 
+> firmware), I don't plan to respin the deprecation patch. I just sent a 
+> patch for adding the boards to our CI instead:
+> 
+>   https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg02072.html
+> 
 
-diff --git a/meson.build b/meson.build
-index 5e7946776d..9ed9a993e2 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1530,6 +1530,12 @@ config_host_data.set('HAVE_COPY_FILE_RANGE', cc.has_function('copy_file_range'))
- config_host_data.set('HAVE_OPENPTY', cc.has_function('openpty', dependencies: util))
- config_host_data.set('HAVE_STRCHRNUL', cc.has_function('strchrnul'))
- config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
-+if rdma.found()
-+  config_host_data.set('HAVE_IBV_ADVISE_MR',
-+                       cc.has_function('ibv_advise_mr',
-+                                       args: config_host['RDMA_LIBS'].split(),
-+                                       prefix: '#include <infiniband/verbs.h>'))
-+endif
- 
- # has_header_symbol
- config_host_data.set('CONFIG_BYTESWAP_H',
-diff --git a/migration/rdma.c b/migration/rdma.c
-index eb80431aae..2a3c7889b9 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -1133,6 +1133,32 @@ static bool rdma_support_odp(struct ibv_context *dev)
-     return false;
- }
- 
-+/*
-+ * ibv_advise_mr to avoid RNR NAK error as far as possible.
-+ * The responder mr registering with ODP will sent RNR NAK back to
-+ * the requester in the face of the page fault.
-+ */
-+static void qemu_rdma_advise_prefetch_mr(struct ibv_pd *pd, uint64_t addr,
-+                                         uint32_t len,  uint32_t lkey,
-+                                         const char *name, bool wr)
-+{
-+#ifdef HAVE_IBV_ADVISE_MR
-+    int ret;
-+    int advice = wr ? IBV_ADVISE_MR_ADVICE_PREFETCH_WRITE :
-+                 IBV_ADVISE_MR_ADVICE_PREFETCH;
-+    struct ibv_sge sg_list = {.lkey = lkey, .addr = addr, .length = len};
-+
-+    ret = ibv_advise_mr(pd, advice,
-+                        IBV_ADVISE_MR_FLAG_FLUSH, &sg_list, 1);
-+    /* ignore the error */
-+    if (ret) {
-+        trace_qemu_rdma_advise_mr(name, len, addr, strerror(errno));
-+    } else {
-+        trace_qemu_rdma_advise_mr(name, len, addr, "successed");
-+    }
-+#endif
-+}
-+
- static int qemu_rdma_reg_whole_ram_blocks(RDMAContext *rdma)
- {
-     int i;
-@@ -1156,6 +1182,15 @@ static int qemu_rdma_reg_whole_ram_blocks(RDMAContext *rdma)
-                                local->block[i].local_host_addr,
-                                local->block[i].length, access);
-                 trace_qemu_rdma_register_odp_mr(local->block[i].block_name);
-+
-+                if (local->block[i].mr) {
-+                    qemu_rdma_advise_prefetch_mr(rdma->pd,
-+                                    (uintptr_t)local->block[i].local_host_addr,
-+                                    local->block[i].length,
-+                                    local->block[i].mr->lkey,
-+                                    local->block[i].block_name,
-+                                    true);
-+                }
-         }
- 
-         if (!local->block[i].mr) {
-@@ -1255,6 +1290,13 @@ static int qemu_rdma_register_and_get_keys(RDMAContext *rdma,
-             /* register ODP mr */
-             block->pmr[chunk] = ibv_reg_mr(rdma->pd, chunk_start, len, access);
-             trace_qemu_rdma_register_odp_mr(block->block_name);
-+
-+            if (block->pmr[chunk]) {
-+                qemu_rdma_advise_prefetch_mr(rdma->pd, (uintptr_t)chunk_start,
-+                                            len, block->pmr[chunk]->lkey,
-+                                            block->block_name, rkey);
-+
-+            }
-         }
-     }
-     if (!block->pmr[chunk]) {
-diff --git a/migration/trace-events b/migration/trace-events
-index 5f6aa580de..a8ae163707 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -213,6 +213,7 @@ qemu_rdma_poll_other(const char *compstr, int64_t comp, int left) "other complet
- qemu_rdma_post_send_control(const char *desc) "CONTROL: sending %s.."
- qemu_rdma_register_and_get_keys(uint64_t len, void *start) "Registering %" PRIu64 " bytes @ %p"
- qemu_rdma_register_odp_mr(const char *name) "Try to register On-Demand Paging memory region: %s"
-+qemu_rdma_advise_mr(const char *name, uint32_t len, uint64_t addr, const char *res) "Try to advise block %s prefetch at %" PRIu32 "@0x%" PRIx64 ": %s"
- qemu_rdma_registration_handle_compress(int64_t length, int index, int64_t offset) "Zapping zero chunk: %" PRId64 " bytes, index %d, offset %" PRId64
- qemu_rdma_registration_handle_finished(void) ""
- qemu_rdma_registration_handle_ram_blocks(void) ""
--- 
-2.31.1
+I have downloaded your u-boot.bin and tried it with both QEMU 5.2.0 and 
+mainline, and I get:
 
+ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: assertion 
+failed: (qemu_mutex_iothread_locked())
+Bail out! ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: 
+assertion failed: (qemu_mutex_iothread_locked())
+Abandon (core dumped)
+
+I see in the mail history that you got that problem as well at some 
+point. How did you fix it ?
+
+Thanks
+Christophe
 
