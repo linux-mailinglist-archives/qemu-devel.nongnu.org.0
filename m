@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3C9433BE3
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:17:50 +0200 (CEST)
-Received: from localhost ([::1]:39154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023D5433BDA
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:16:35 +0200 (CEST)
+Received: from localhost ([::1]:35574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcroD-00007b-3G
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:17:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44760)
+	id 1mcrmz-000647-L9
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:16:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQq-0001j9-Mj
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51279)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQr-0001lw-Ny
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQo-0008AD-Qx
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:36 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQq-0008Af-3s
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634654974;
+ s=mimecast20190719; t=1634654975;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/U3/3OVl7a1y6D0eRK3j95NvD8mHtj55kju4dXIHFb4=;
- b=OWuVY2ZshvmgMbqTF/MRUqjm1ABJjuGs0odwqbEiq8FfXId8iYA8FxihiHLVn1+OtuUrD7
- 11DiQLzChZi0YUjapVS+PK4IfoFFQDBqDfMKVhM4/I8+Hy73vpyfPgHClI1Vkhp+OkUmvj
- CkMLZsL/GGhKCKKhQ1QEhDzqvApgXkk=
+ bh=i4QoQLHos0sHo8mJLAtEuZcoHQUyZPuhbO0V7tN3Iyk=;
+ b=L+U+di9kjNhDtaWWD6Ny0LsJZCWJRy7bf+228OpFoppEBt2ZstxNLw+xsDUsoSGlp/SvoX
+ qB9iurUfiFITO/f8znmHOYp4JMfJYBGHcL4dOuXC4CK8VnuiJzHjbhA1c6ZZMzq5rDEh7l
+ 7RdEqc1+2PYSer2vbasYyEa5mMAuBAw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-wSI72nSJMHarpf2TiJWx-g-1; Tue, 19 Oct 2021 10:49:31 -0400
-X-MC-Unique: wSI72nSJMHarpf2TiJWx-g-1
+ us-mta-564-Qc5XaEPbMJmshIJiJr2h1Q-1; Tue, 19 Oct 2021 10:49:32 -0400
+X-MC-Unique: Qc5XaEPbMJmshIJiJr2h1Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24118343CF;
- Tue, 19 Oct 2021 14:49:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3134881E20C;
+ Tue, 19 Oct 2021 14:49:31 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 35E805D6D7;
- Tue, 19 Oct 2021 14:49:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 50BF25D6D7;
+ Tue, 19 Oct 2021 14:49:30 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/15] iotests/297: Change run_linter() to raise an
- exception on failure
-Date: Tue, 19 Oct 2021 10:49:11 -0400
-Message-Id: <20211019144918.3159078-9-jsnow@redhat.com>
+Subject: [PATCH v2 09/15] iotests/297: update tool availability checks
+Date: Tue, 19 Oct 2021 10:49:12 -0400
+Message-Id: <20211019144918.3159078-10-jsnow@redhat.com>
 In-Reply-To: <20211019144918.3159078-1-jsnow@redhat.com>
 References: <20211019144918.3159078-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,73 +82,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of using a process return code as the python function return
-value (or just not returning anything at all), allow run_linter() to
-raise an exception instead.
-
-The responsibility for printing output on error shifts from the function
-itself to the caller, who will know best how to present/format that
-information. (Also, "suppress_output" is now a lot more accurate of a
-parameter name.)
+As mentioned in 'iotests/297: Don't rely on distro-specific linter
+binaries', these checks are overly strict. Update them to be in-line
+with how we actually invoke the linters themselves.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/297 | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ tests/qemu-iotests/297 | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index d21673a2929..76d6a23f531 100755
+index 76d6a23f531..b2ad8d1cbe0 100755
 --- a/tests/qemu-iotests/297
 +++ b/tests/qemu-iotests/297
-@@ -70,22 +70,18 @@ def run_linter(
-     """
-     Run a python-based linting tool.
+@@ -18,7 +18,6 @@
  
--    If suppress_output is True, capture stdout/stderr of the child
--    process and only print that information back to stdout if the child
--    process's return code was non-zero.
-+    :param suppress_output: If True, suppress all stdout/stderr output.
-+    :raise CalledProcessError: If the linter process exits with failure.
-     """
--    p = subprocess.run(
-+    subprocess.run(
-         ('python3', '-m', tool, *args),
-         env=env,
--        check=False,
-+        check=True,
-         stdout=subprocess.PIPE if suppress_output else None,
-         stderr=subprocess.STDOUT if suppress_output else None,
-         universal_newlines=True,
-     )
+ import os
+ import re
+-import shutil
+ import subprocess
+ import sys
+ from typing import List, Mapping, Optional
+@@ -84,9 +83,11 @@ def run_linter(
  
--    if suppress_output and p.returncode != 0:
--        print(p.stdout)
--
  
  def main() -> None:
-     for linter in ('pylint-3', 'mypy'):
-@@ -102,11 +98,19 @@ def main() -> None:
+-    for linter in ('pylint-3', 'mypy'):
+-        if shutil.which(linter) is None:
+-            iotests.notrun(f'{linter} not found')
++    for linter in ('pylint', 'mypy'):
++        try:
++            run_linter(linter, ['--version'], suppress_output=True)
++        except subprocess.CalledProcessError:
++            iotests.notrun(f"'{linter}' not found")
  
-     print('=== pylint ===')
-     sys.stdout.flush()
--    run_linter('pylint', files, env=env)
-+    try:
-+        run_linter('pylint', files, env=env)
-+    except subprocess.CalledProcessError:
-+        # pylint failure will be caught by diffing the IO.
-+        pass
+     files = get_test_files()
  
-     print('=== mypy ===')
-     sys.stdout.flush()
--    run_linter('mypy', files, env=env, suppress_output=True)
-+    try:
-+        run_linter('mypy', files, env=env, suppress_output=True)
-+    except subprocess.CalledProcessError as exc:
-+        if exc.output:
-+            print(exc.output)
- 
- 
- iotests.script_main(main)
 -- 
 2.31.1
 
