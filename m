@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E804A433066
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 10:04:28 +0200 (CEST)
-Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5625433069
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 10:05:05 +0200 (CEST)
+Received: from localhost ([::1]:45002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mck6m-0005JB-1Y
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 04:04:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58400)
+	id 1mck7M-0006V1-PR
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 04:05:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mcjmu-0000VO-8I; Tue, 19 Oct 2021 03:43:56 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:37893)
+ id 1mcjsH-0001sR-0o; Tue, 19 Oct 2021 03:49:29 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:52165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mcjmr-0006dZ-GG; Tue, 19 Oct 2021 03:43:55 -0400
+ id 1mcjsF-0002sM-5K; Tue, 19 Oct 2021 03:49:28 -0400
 Received: from [192.168.100.1] ([82.142.24.54]) by mrelayeu.kundenserver.de
  (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MWhxY-1mEQZ03kFs-00X31z; Tue, 19 Oct 2021 09:43:39 +0200
-Subject: Re: [PATCH-for-6.2 0/2] disas/nios2: Simplify endianess conversion
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210807110939.95853-1-f4bug@amsat.org>
+ 1M91Tq-1mfThS32D0-0067Yd; Tue, 19 Oct 2021 09:49:24 +0200
+Subject: Re: [PATCH] README: Fix some documentation URLs
+To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+References: <163456470882.196333.17366490695504718038.stgit@bahia.huguette>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <de933f9c-c3df-b5db-1107-15aa3e3c7213@vivier.eu>
-Date: Tue, 19 Oct 2021 09:43:37 +0200
+Message-ID: <2e0305e0-00e9-5f6a-fdfe-4a5b91a9c2bb@vivier.eu>
+Date: Tue, 19 Oct 2021 09:49:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210807110939.95853-1-f4bug@amsat.org>
+In-Reply-To: <163456470882.196333.17366490695504718038.stgit@bahia.huguette>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:abHWmoeFV0Aae/u0KhZN6v9gFhzs+7bc2HEdTYxUmIf4bjqyqtk
- ocIlmJcRtcSe3ML2edi2rf24+1RMMhmvXUNlt9eslNgCA9wb1I3OwFJ3uRzp3RfKbbXlt1b
- XNfFC3lFgrmLHl/QP/3OKphaby3Pbny4uXV/tCJF1fg+aAQ7XoqPJDG0hD2NxbsagyHsyaf
- /P3AWgtP0je3MKalEjWAg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7GTKhKgfD6o=:agtrVfo+ngy6M/MdG1s+zk
- 4fLGwAU9UKBZ0tTcfz3tBz7do98xAxvc+epUvtGPgWe/sXp6KtcqHDY1+kf4i4cKTZ4rf6tNK
- nbBz5QgGRit5GwIOA4UnC2vOpQMwG9KsbKTOAcfusbuOx0eVe44DfzS3RrVJKDF7EUKJrhClE
- Ja6PbUEAuZZOM6xN3l8ELkuezVDQaJPKUER9p2Zz3XZO1yqtBSpFffXd9MBPxekaS8PEECXMV
- tNMkkD6QD5SKvMKrsNs/2s8j1SGSEG4j5x/So0gQhDDHoG3k/k3vCtuy+nsxso257+XSBUQD5
- OuwC5C8X0wkmtZW+fXPozQlXyjI/ryJOUyGtG84pMI8RGBGuDs2SOqbBRYhYtjgUKlkQzXA9o
- MraIR/I9sXHvVkj0LaoD0W78gZlmAp/jvW3N6F0tlixc1wE5F/U+90W9C+QN4itdBNcFX+h4b
- 3z2glSomNxXtKoiDm8rGkZZcHSvM95an5Fo7y0eiKRjHaXK3BToUZzvHV6v6JY/tuw5UjBYTr
- JGY2/r6LnYMVnngchk1G7JiUY5OyhsA5xyo/T+tIEAOfNsX96HWBAgQfnpD++ODN48kFjRaRF
- kbrHqjR7mm3I8FjHWOQf2On3UBiEwO3nJyU90kzYCFolEiPzytlr5nrMkfnscdIPasgVG4wEv
- NUSnHyVCWAO/pLtdc8sqbaL2C9hF+CmdtrJ2Sb5dnWoQEmSTS445DK0jc6EgnE/wfkilq1dEP
- 7p/6TMeegrT5WQl+twcwDSVbB10j2OEiHXXQFg==
+X-Provags-ID: V03:K1:bzqB/0LfG+yhTnuMi2SR0attfBLxRy+76PJ244ZbuDtM1AjXIq9
+ f+kz2McCw0eF3N75wO+Yd7x+79IsYt8wI9LnB3TQSzEJ1dvh3R3eDvMrBwnkqtYVb6Koisd
+ cfDlubJ/K/I/PyXeNA4C75XoUtn677f8iYb2AWPjJsAQxI6Hn5NGNSs437/uB2y8TcwhY0B
+ +2Et3UIVTIZ5OFfrdRFig==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iTPkwN41Oys=:XK8rBGyPG2Lor4AgBVWmYi
+ 2glbxBl4Ss9Dl4/iwmlFMeuAmi7ywKak1JkUXRHrmtzgPyu3Vk6J+CH/sPA+ssqz+RavsdoSC
+ aCsyWoeC5tpb/NxYkGPQb7Bfq23Otm3T0czJhmHOm3r3Nwb7SacfHUzBvLIQKwKCB7R5O3mRr
+ qlSroYqmAfmmOk12hZW44AmJqCwBFzlyRQ3qO/iDCgmWBy7ttzGbYmxr8u0rW1NXLa2Tf/8qu
+ aCZoTHa3IFNVr6uGWXUTsXkVhMY1yOdUoKDYJDxCNWbwQ258iQs4gxIqUs9B62MRa+Hun0swZ
+ w8U7cTvW0a66ciAN4pKDakfsrt+kGPuUWvyNbGSgB+cgpDDVt2jgJjaMSykZhdzrsmJDQL0PX
+ QztJoqGFo0ssm8MTFOhY7plqnGaVMMkSpyuC8VckqKDp//SeJUnf5PqSZ7zfOg/HLCWwYmLmC
+ ucl9bhOVBRJxQeblZC0gyF2diYNfhapCQZU+dHJXsEf0zVJm8qPRfNFNIS6oAPYroaHv+Dpy+
+ WC5IEeMoepIBYBKbMje+Hsh7fOjTW3FreKIm0ExWDtLDI6dzVlNWpJRwb4e9X54YO8SeQixrv
+ IxpemAg5TUwslcoWM2EU7w674lSymrHrmg5iFusIVOu/X7WZY7SakCzRSUnCly732KOaihLRq
+ bP2jB1xSbQCoaICmfie6RxxwUfQPmadxF2bm6FU6YRLfy5LI6/M2EWnaIBfzLZ5zUwwWVjcMu
+ nkw5rH9wwffKHKSY7v4ZFU8uqmtUOCduj6AiTw==
 Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -70,36 +69,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Thomas Huth <thuth@redhat.com>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- Chris Wulff <crwulff@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 07/08/2021 à 13:09, Philippe Mathieu-Daudé a écrit :
-> After chatting with Richard Henderson and Paolo Bonzini, we
-> concluded the load/store API is mature enough to have target
-> code endianess-agnostic.
-> Thus we could remove the TARGET_WORDS_BIGENDIAN definition from
-> target-specific code (restricting it to the binary format loaders).
+Le 18/10/2021 à 15:45, Greg Kurz a écrit :
+> All of these pages live in the wiki, not in the main web site.
 > 
-> While experimenting, I noticed the Nios2 disassembler is an easy
-> win. MIPS will follow shortly.
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>  README.rst |   14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 > 
-> Philippe Mathieu-Daudé (2):
->   disas/nios2: Fix style in print_insn_nios2()
->   disas/nios2: Simplify endianess conversion
+> diff --git a/README.rst b/README.rst
+> index 79b19f1481e1..23795b837740 100644
+> --- a/README.rst
+> +++ b/README.rst
+> @@ -59,9 +59,9 @@ of other UNIX targets. The simple steps to build QEMU are:
+>  
+>  Additional information can also be found online via the QEMU website:
+>  
+> -* `<https://qemu.org/Hosts/Linux>`_
+> -* `<https://qemu.org/Hosts/Mac>`_
+> -* `<https://qemu.org/Hosts/W32>`_
+> +* `<https://wiki.qemu.org/Hosts/Linux>`_
+> +* `<https://wiki.qemu.org/Hosts/Mac>`_
+> +* `<https://wiki.qemu.org/Hosts/W32>`_
+>  
+>  
+>  Submitting patches
+> @@ -84,8 +84,8 @@ the Developers Guide.
+>  Additional information on submitting patches can be found online via
+>  the QEMU website
+>  
+> -* `<https://qemu.org/Contribute/SubmitAPatch>`_
+> -* `<https://qemu.org/Contribute/TrivialPatches>`_
+> +* `<https://wiki.qemu.org/Contribute/SubmitAPatch>`_
+> +* `<https://wiki.qemu.org/Contribute/TrivialPatches>`_
+>  
+>  The QEMU website is also maintained under source control.
+>  
+> @@ -144,7 +144,7 @@ reported via GitLab.
+>  
+>  For additional information on bug reporting consult:
+>  
+> -* `<https://qemu.org/Contribute/ReportABug>`_
+> +* `<https://wiki.qemu.org/Contribute/ReportABug>`_
+>  
+>  
+>  ChangeLog
+> @@ -168,4 +168,4 @@ main methods being email and IRC
+>  Information on additional methods of contacting the community can be
+>  found online via the QEMU website:
+>  
+> -* `<https://qemu.org/Contribute/StartHere>`_
+> +* `<https://wiki.qemu.org/Contribute/StartHere>`_
 > 
->  include/disas/dis-asm.h |  3 +-
->  disas/nios2.c           | 71 ++++++++++++++++-------------------------
->  target/nios2/cpu.c      |  6 +---
->  3 files changed, 29 insertions(+), 51 deletions(-)
+> 
 > 
 
-Applied to my trivial-patches branch.
-
-Thanks,
-Laurent
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Tested-by: Laurent Vivier <laurent@vivier.eu>
 
