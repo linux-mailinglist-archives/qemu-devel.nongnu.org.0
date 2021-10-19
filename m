@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4AB4433CD2
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:54:55 +0200 (CEST)
-Received: from localhost ([::1]:52638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64FD0433C03
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:23:17 +0200 (CEST)
+Received: from localhost ([::1]:53498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcsO6-0007q5-To
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:54:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54566)
+	id 1mcrtU-0001BT-GB
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:23:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcqz7-0005TV-F3
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:25:01 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:33358)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mcr1t-0001cZ-Q0
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:27:53 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:44661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcqyy-0007dN-3h
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:25:01 -0400
-Received: by mail-pl1-x630.google.com with SMTP id y4so13943811plb.0
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 08:24:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mcr1r-0001jd-BR
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 11:27:52 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ b189-20020a1c1bc6000000b0030da052dd4fso3592733wmb.3
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 08:27:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RT2VpKAEfApm7ELgrgjYw2HluCj4mChRvtgjB+9QAL8=;
- b=vpE4vK8nDInCQ0L8wI/0xkgse3rPkmAu0lHL8TcdPqJQG66Y7jAOfx3akoUymzK3y7
- Ew1QtUXp8FaeYmtDED62F4fodajz/p1ZsCHOiH7DovMX0U1qWoIFhWIf2TzSmBj3JanH
- eis0J5MyCi86EFtEFDt2elhgQIz+GZ0PEiy9fYuqAFqeAfXOFTYozoZK0G8mC6Db/1J7
- h6NLV8nMpJtdiB11d/xK0djDdJKQg7EBD3KfbUG0Ar52JvSPe0TbceBYqvuo/Efigxfi
- 2VzuG3/Mue8GDPR0D4Bu/XxCj48GilMu+6CEno6BUhU5QFvn8aySjA9BF9O00oFG7Q6K
- N2/A==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=QU5Pt9yX7GErzaOYMLx6zrnJjJYRCAd22NuMBxYlxkE=;
+ b=maTEdVnpkfjM47KjsnSfMk0sU7Oy1JHivZjjQWhR52uRTniTKuvYIinwCop36NnBqr
+ ACuml4PS7OSd95R0lmKm4xQODkm0FIMg4mJXZZk7AMI4zPRWmAeVtNeLFveRDa2X9Uhq
+ Sy/siGHpwN+Wq+Iaw1XVRlVuuJ72wWnPEdHqvcDz34keFHY8emxTG9M1/bYPgsUMR5yZ
+ 4XKTGLvwIiQc4z6lPW6EvULHxcjv2p28kj9i2caP15c08UR93H/xi4IGnjIRXJUwzuDW
+ saK66UMApsWDAa8jp60r0DRjwYGBDcFlk6JRE0B2Us/QMEwCn9+YGGGI9cuoGtyVPayR
+ pH/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RT2VpKAEfApm7ELgrgjYw2HluCj4mChRvtgjB+9QAL8=;
- b=mHmUWmzZaGW1QwzbgYRWjAJdytYSZjli/BJR8HzlRmxMauRAD74gdSLQj55TYqMmnN
- eBLoNzFh4dkGNFviZbsOSi7znAlqVlQ086BqDKtqVlas/nG8c25l54oNaW0achbJ+Dym
- pgx9OUHMNbPlQWx7w3xu92aAOx/9P3cU2/+ljMLBvQ0EWlOYSdSZ/YLaiuwcnPQMIa3B
- iqn5g6Ger3/bdAVNvox+xtmsa14X5pvgVKN8rCPoNV1K4Hq8ljtlgs1lE8b5tgPwO8O0
- 3cP1Pl3Xl0lcZwS/qe7HGQJpO8wKi9dFuIMfm/3UTuelbNbwBZTOK9aenjEp/CxE7MO7
- 1msA==
-X-Gm-Message-State: AOAM531KqmFhNZ8mSuxSKRekZUWlMS8zeL75+eBEBiHpQAWEavvC5d9t
- zHWm01YYTePVO6tHxgc4L68aMfnMzOI=
-X-Google-Smtp-Source: ABdhPJzTQXK0/ykZ82UDIijrUdEH1UN3s+vqKnxGwdn7cqqbE+T1KpZcuHdRPE4kzGH376tY0g679Q==
-X-Received: by 2002:a17:90a:f2c2:: with SMTP id gt2mr551670pjb.2.1634657090576; 
- Tue, 19 Oct 2021 08:24:50 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id i2sm3293814pjt.19.2021.10.19.08.24.50
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=QU5Pt9yX7GErzaOYMLx6zrnJjJYRCAd22NuMBxYlxkE=;
+ b=nfdi+N8fJ3gvTn196PRR2o+s6Nm6RAEq3KtcZa3EzIoLZ8bbEM9Khl72xltOJeDZ3m
+ Gv7t8I1Of1o+cxjZ/GHk0arE6RlTgLEznQgu2vTWJ+M0ZSAAsgbOX/qvtEcSP+I46s++
+ oSkf4BmDhCCtMXvMBLmrklGF8Gduw2KOwo3mlC4Ezne+t/Nqg4weF6Urc+nC4wFPp3n3
+ st6fG//m+ZGByEufcS+bQitbj7vVefSd6G95Klo9BJ6vN4fBSlHhQyR05c4w9+imTVZ0
+ fM0UTzWXqY6V6aOlxYEfpA7QFnmlDE72UzziRN/b/w9uMmOwswJMahzNYuqJBiG+GESx
+ PTEg==
+X-Gm-Message-State: AOAM533Uu6SRewOk5HEAS3M+g9bord92yCE3TSQNZBe6QHz6983jE2+w
+ 1ugOgCb2gvg6n+WL0NlDyVJ1Aw==
+X-Google-Smtp-Source: ABdhPJwXhmkzcHdrJmgixVDv1DThnMwHyz+LaB/jGsudjIzcB7aa5GDeufUD//x5UH79z40VwqkIfg==
+X-Received: by 2002:a05:6000:188d:: with SMTP id
+ a13mr44705947wri.243.1634657269481; 
+ Tue, 19 Oct 2021 08:27:49 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n68sm2437840wmn.13.2021.10.19.08.27.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 08:24:50 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 16/16] target/riscv: Compute mstatus.sd on demand
-Date: Tue, 19 Oct 2021 08:24:38 -0700
-Message-Id: <20211019152438.269077-17-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211019152438.269077-1-richard.henderson@linaro.org>
-References: <20211019152438.269077-1-richard.henderson@linaro.org>
+ Tue, 19 Oct 2021 08:27:48 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C1EB41FF96;
+ Tue, 19 Oct 2021 16:27:47 +0100 (BST)
+References: <20211007195456.1168070-1-richard.henderson@linaro.org>
+ <20211007195456.1168070-3-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.0; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 02/48] tcg/optimize: Split out OptContext
+Date: Tue, 19 Oct 2021 16:25:18 +0100
+In-reply-to: <20211007195456.1168070-3-richard.henderson@linaro.org>
+Message-ID: <87tuhdxcek.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,140 +89,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org, zhiwei_liu@c-sky.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The position of this read-only field is dependent on the
-current cpu width.  Rather than having to compute that
-difference in many places, compute it only on read.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/cpu_helper.c |  3 +--
- target/riscv/csr.c        | 37 ++++++++++++++++++++++---------------
- target/riscv/translate.c  |  5 ++---
- 3 files changed, 25 insertions(+), 20 deletions(-)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 429afd1f48..0d1132f39d 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -185,10 +185,9 @@ bool riscv_cpu_fp_enabled(CPURISCVState *env)
- 
- void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env)
- {
--    uint64_t sd = riscv_cpu_mxl(env) == MXL_RV32 ? MSTATUS32_SD : MSTATUS64_SD;
-     uint64_t mstatus_mask = MSTATUS_MXR | MSTATUS_SUM | MSTATUS_FS |
-                             MSTATUS_SPP | MSTATUS_SPIE | MSTATUS_SIE |
--                            MSTATUS64_UXL | sd;
-+                            MSTATUS64_UXL;
-     bool current_virt = riscv_cpu_virt_enabled(env);
- 
-     g_assert(riscv_has_ext(env, RVH));
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index c4a479ddd2..69e4d65fcd 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -477,10 +477,28 @@ static RISCVException read_mhartid(CPURISCVState *env, int csrno,
- }
- 
- /* Machine Trap Setup */
-+
-+/* We do not store SD explicitly, only compute it on demand. */
-+static uint64_t add_status_sd(RISCVMXL xl, uint64_t status)
-+{
-+    if ((status & MSTATUS_FS) == MSTATUS_FS ||
-+        (status & MSTATUS_XS) == MSTATUS_XS) {
-+        switch (xl) {
-+        case MXL_RV32:
-+            return status | MSTATUS32_SD;
-+        case MXL_RV64:
-+            return status | MSTATUS64_SD;
-+        default:
-+            g_assert_not_reached();
-+        }
-+    }
-+    return status;
-+}
-+
- static RISCVException read_mstatus(CPURISCVState *env, int csrno,
-                                    target_ulong *val)
- {
--    *val = env->mstatus;
-+    *val = add_status_sd(riscv_cpu_mxl(env), env->mstatus);
-     return RISCV_EXCP_NONE;
- }
- 
-@@ -498,7 +516,6 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
- {
-     uint64_t mstatus = env->mstatus;
-     uint64_t mask = 0;
--    int dirty;
- 
-     /* flush tlb on mstatus fields that affect VM */
-     if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
-@@ -520,12 +537,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
- 
-     mstatus = (mstatus & ~mask) | (val & mask);
- 
--    dirty = ((mstatus & MSTATUS_FS) == MSTATUS_FS) |
--            ((mstatus & MSTATUS_XS) == MSTATUS_XS);
--    if (riscv_cpu_mxl(env) == MXL_RV32) {
--        mstatus = set_field(mstatus, MSTATUS32_SD, dirty);
--    } else {
--        mstatus = set_field(mstatus, MSTATUS64_SD, dirty);
-+    if (riscv_cpu_mxl(env) == MXL_RV64) {
-         /* SXL and UXL fields are for now read only */
-         mstatus = set_field(mstatus, MSTATUS64_SXL, MXL_RV64);
-         mstatus = set_field(mstatus, MSTATUS64_UXL, MXL_RV64);
-@@ -798,13 +810,8 @@ static RISCVException read_sstatus(CPURISCVState *env, int csrno,
- {
-     target_ulong mask = (sstatus_v1_10_mask);
- 
--    if (riscv_cpu_mxl(env) == MXL_RV32) {
--        mask |= SSTATUS32_SD;
--    } else {
--        mask |= SSTATUS64_SD;
--    }
--
--    *val = env->mstatus & mask;
-+    /* TODO: Use SXL not MXL. */
-+    *val = add_status_sd(riscv_cpu_mxl(env), env->mstatus & mask);
-     return RISCV_EXCP_NONE;
- }
- 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index de013fbf9b..35245aafa7 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -280,7 +280,6 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
- static void mark_fs_dirty(DisasContext *ctx)
- {
-     TCGv tmp;
--    target_ulong sd = get_xl(ctx) == MXL_RV32 ? MSTATUS32_SD : MSTATUS64_SD;
- 
-     if (ctx->mstatus_fs != MSTATUS_FS) {
-         /* Remember the state change for the rest of the TB. */
-@@ -288,7 +287,7 @@ static void mark_fs_dirty(DisasContext *ctx)
- 
-         tmp = tcg_temp_new();
-         tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
--        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
-+        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
-         tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-         tcg_temp_free(tmp);
-     }
-@@ -299,7 +298,7 @@ static void mark_fs_dirty(DisasContext *ctx)
- 
-         tmp = tcg_temp_new();
-         tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
--        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
-+        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
-         tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
-         tcg_temp_free(tmp);
-     }
--- 
-2.25.1
+> Provide what will become a larger context for splitting
+> the very large tcg_optimize function.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/optimize.c | 77 ++++++++++++++++++++++++++------------------------
+>  1 file changed, 40 insertions(+), 37 deletions(-)
+>
+> diff --git a/tcg/optimize.c b/tcg/optimize.c
+> index 148e360fc6..b76991215e 100644
+> --- a/tcg/optimize.c
+> +++ b/tcg/optimize.c
+> @@ -44,6 +44,10 @@ typedef struct TempOptInfo {
+>      uint64_t z_mask;  /* mask bit is 0 if and only if value bit is 0 */
+>  } TempOptInfo;
+>=20=20
+> +typedef struct OptContext {
+> +    TCGTempSet temps_used;
+> +} OptContext;
+> +
+>  static inline TempOptInfo *ts_info(TCGTemp *ts)
+>  {
+>      return ts->state_ptr;
+> @@ -90,15 +94,15 @@ static void reset_temp(TCGArg arg)
+>  }
+>=20=20
+<snip>
+> @@ -605,7 +609,7 @@ void tcg_optimize(TCGContext *s)
+>  {
+>      int nb_temps, nb_globals, i;
+>      TCGOp *op, *op_next, *prev_mb =3D NULL;
+> -    TCGTempSet temps_used;
+> +    OptContext ctx =3D {};
+>=20=20
+>      /* Array VALS has an element for each temp.
+>         If this temp holds a constant then its value is kept in VALS' ele=
+ment.
+> @@ -615,7 +619,6 @@ void tcg_optimize(TCGContext *s)
+>      nb_temps =3D s->nb_temps;
+>      nb_globals =3D s->nb_globals;
+>=20=20
+> -    memset(&temps_used, 0, sizeof(temps_used));
 
+Did you mean to drop this memset entirely given I see it being done
+later on?
+
+<snip>
+> @@ -1302,7 +1305,7 @@ void tcg_optimize(TCGContext *s)
+>                                             op->args[1], op->args[2]);
+>              if (tmp !=3D 2) {
+>                  if (tmp) {
+> -                    memset(&temps_used, 0, sizeof(temps_used));
+> +                    memset(&ctx.temps_used, 0, sizeof(ctx.temps_used));
+>                      op->opc =3D INDEX_op_br;
+>                      op->args[0] =3D op->args[3];
+>                  } else {
+
+Otherwise:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
