@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 942CE433F11
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 21:13:21 +0200 (CEST)
-Received: from localhost ([::1]:43490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5FB6433F29
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 21:20:53 +0200 (CEST)
+Received: from localhost ([::1]:51820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcuY4-0005XL-7o
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 15:13:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50612)
+	id 1mcufM-0002wT-Id
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 15:20:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcuVA-0003No-28
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 15:10:20 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:45634)
+ id 1mcudH-00022V-CW
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 15:18:43 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:40818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcuV8-0007JF-Gv
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 15:10:19 -0400
-Received: by mail-pf1-x434.google.com with SMTP id f11so787441pfc.12
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 12:10:17 -0700 (PDT)
+ id 1mcudF-0001rJ-MF
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 15:18:42 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id v20so14385973plo.7
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 12:18:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=keuKbhgIhUNl4ajky70elvabJ7nlgRdaE5IsH3NEjeE=;
- b=utVShZgGZmSwTl6FfdUIupQAeh5CEiL0XZ0AHvI568jaYhrignA/8XWXk9jHtGn9yS
- IO1Yc9U+RNUwmIm6AB/cwjNBuhDq1wqtajWtJasI4yqQaiBsaPVG/8kxKYfeH0Cuaoho
- wXzwbgMpw3g8NBpj+mAa6CEa2Kzx0wuhFj9pm+wMlTxf5am3qz7l3s6aQa4eDxMmKSQH
- yLsdZU19C/JQEiWMaonaGWxvTsJ1qzWwLpQVeXbxp7ngc8NCpSKzacEZs+RxxVwbj0UM
- 3A5CsY3dRNIHpNVm+VknXV2TpWQnCaSj8EW3zfdjilYFa7PkmYGDKir3QRCeUHXu8sdD
- ZU/w==
+ bh=MQGfRT5+DilAHwQD/0J4fBL0FwOG8sPRMQn2yS/n7YA=;
+ b=KsEq/17NiPc1Qbva7Tre4kYYZB/Itg1OV39bPamRuNLzCn+BApugCJ3fSn3LP/xzws
+ syU1pBoJOo6BIuBTidh5GUYCHO950JSvHvlvq7XX5xjLBQ5ecU3prij4NEHoH+BsbUZR
+ liZU6upu9L7WcQIJKwwb9tj1tUbSn2Ki9TiCZSaaRjFE0Rs0vuPZVH+sKu92j2gM8XIM
+ WLyLAJD/+b8vUH+7UOplYDuHMEuzHBx8N+dHE1zQ4ZnkeFJfPaYm2xq9m5l0FS0pNGqE
+ SjIY7A652P3A33tVv7Zzc9upvaeY2+MjhGIbfbce17Xlb2vayKbKveOFSLImUiOf+mor
+ iXIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=keuKbhgIhUNl4ajky70elvabJ7nlgRdaE5IsH3NEjeE=;
- b=di5EMU7st9IouqJwVjq9pllqcAOB4StFdr30wJ/15SuGGGkCdOuE1iPo4TUllHGP3w
- JbqPdTkP/ufunAXbukLQYU1PSGZNyyuNhqlWlXW4/zAIIO9QiWs8LhpGwCGwneZRZ5nN
- XPt9zfmoiUVn09oLK7hQi6WQXqJCleQqPlKfkVzTP3GkaMkquRqD4LfHwQQ7/Q3jmepG
- 0r/MBvRsnt95qwMQl1CsDGs6NuL5sNpWU1Nku8bfdHKuZN4sGopUmBUmeyLUbzUGUNzs
- 9F5ztX/V9j43OsLTt0Rlw9Pdj0Vl6SqIaR16CwHeZjw4H2FcOME4JUk5x+Ig3i39EWto
- Y2Zw==
-X-Gm-Message-State: AOAM5327IsQ0C+kLT7piV7FHA51+ehWsgd2fRbRN/WAEVb8L+zrXCslk
- hfQydK00YJayQ1QFwIrNiuj1NA==
-X-Google-Smtp-Source: ABdhPJwNucwXVlrsnHqvy8vHk/7b1PMhytP1VNoSx5pdWM+v0Zy5AY1qy3VjiorrX1PsqLfeyDK6qA==
-X-Received: by 2002:aa7:94a8:0:b0:44c:f3e0:81fb with SMTP id
- a8-20020aa794a8000000b0044cf3e081fbmr1696093pfl.6.1634670616603; 
- Tue, 19 Oct 2021 12:10:16 -0700 (PDT)
+ bh=MQGfRT5+DilAHwQD/0J4fBL0FwOG8sPRMQn2yS/n7YA=;
+ b=CaYnNowUGSRwyPdbbfSWqzbJELSCKrLRRNbRzIbr/8wUr8Hdt1dGqD9ay9dKocbzRy
+ S5j6STuoxu9y8NNvvpnhrrq2h5XZqLOIq1EBtAARA9cv850LnRsoijDxxjHhFS0pljlz
+ L1eCQ7GFjdhkuT+8L3yXqZQqWZM7crcxzkA5+5rqgbQiiQtDnj5oJHDTwsc03i6cz3QY
+ jDjHumCZMckOjIC4XQAi4ypHLyVcHjlHeWdZC0itzrlrOQxYg+JBNXPF2DrzIhZ9Lqe+
+ DxMo4fIlFRkHE7bRf9faePgZPV+JCXyqmkEPt9YvKHL/cTV7KmUlmGWNbkuofOR5uB3A
+ hsaA==
+X-Gm-Message-State: AOAM5310nplkHYT0bMmrYyASVfmMYgFpNtyNy81EMBYVrDOjo4O7OrsA
+ AfT2UjVRyS7N55nyQ8GHCdqTDQ==
+X-Google-Smtp-Source: ABdhPJwlVwGjLUSZbPJLgeljYy7rL2e3BMUQRHGDmTg+CSZTf5qMF2gGYA7zmXjTbPjlnLKdrNo9Sg==
+X-Received: by 2002:a17:90a:4306:: with SMTP id
+ q6mr2012135pjg.202.1634671119748; 
+ Tue, 19 Oct 2021 12:18:39 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id q10sm16830738pgn.31.2021.10.19.12.10.15
+ by smtp.gmail.com with ESMTPSA id g11sm5330pgn.41.2021.10.19.12.18.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 12:10:16 -0700 (PDT)
-Subject: Re: [PATCH 02/31] target/loongarch: Add CSR registers definition
+ Tue, 19 Oct 2021 12:18:39 -0700 (PDT)
+Subject: Re: [PATCH 03/31] target/loongarch: Set default csr values.
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 References: <1634628917-10031-1-git-send-email-yangxiaojuan@loongson.cn>
- <1634628917-10031-3-git-send-email-yangxiaojuan@loongson.cn>
+ <1634628917-10031-4-git-send-email-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6a5d3208-e9a8-0dd0-f41d-18678ae50b9b@linaro.org>
-Date: Tue, 19 Oct 2021 12:10:14 -0700
+Message-ID: <87c82387-5a73-5cff-b9fc-731303091d72@linaro.org>
+Date: Tue, 19 Oct 2021 12:18:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <1634628917-10031-3-git-send-email-yangxiaojuan@loongson.cn>
+In-Reply-To: <1634628917-10031-4-git-send-email-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -98,30 +98,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/19/21 12:34 AM, Xiaojuan Yang wrote:
-> +/*
-> + * All Possible CSR registers used by tcg
-> + *
-> + * default value  in target/loongarch/cpu.c
-> + *
-> + * This macro will be used only in:
-> + *  > target/loongarch/cpu.h:CPULoongArchState
-> + *
-> + * during translate:
-> + *  > helper_csr_rdq()
-> + *  > helper_csr_wrq()
-> + *  > helper_csr_xchgq()
-> + *  > helper_csr_xchgq_r0()
-> + */
-> +#define CPU_LOONGARCH_CSR    \
-> +    uint64_t CSR_CRMD;       \
-> +    uint64_t CSR_PRMD;       \
+> +#ifndef CONFIG_USER_ONLY
+> +static void set_loongarch_csr(CPULoongArchState *env)
+> +{
+> +    uint64_t t;
+> +
+> +    t = FIELD_DP64(0, CSR_PRCFG1, SAVE_NUM, 8);
+> +    t = FIELD_DP64(t, CSR_PRCFG1, TIMER_BITS, 0x2f);
+> +    t = FIELD_DP64(t, CSR_PRCFG1, VSMAX, 0x7);
+> +    env->CSR_PRCFG1 = t;
+> +
+> +    env->CSR_PRCFG2 = 0x3ffff000;
+> +
+> +    t = FIELD_DP64(0, CSR_PRCFG3, TLB_TYPE, 2);
+> +    t = FIELD_DP64(t, CSR_PRCFG3, MTLB_ENTRY, 0x3f);
+> +    t = FIELD_DP64(t, CSR_PRCFG3, STLB_WAYS, 0x7);
+> +    t = FIELD_DP64(t, CSR_PRCFG3, STLB_SETS, 0x8);
+> +    env->CSR_PRCFG3 = t;
+> +
+> +    t = FIELD_DP64(0, CSR_CRMD, PLV, 0);
+> +    t = FIELD_DP64(t, CSR_CRMD, IE, 0);
+> +    t = FIELD_DP64(t, CSR_CRMD, DA, 1);
+> +    t = FIELD_DP64(t, CSR_CRMD, PG, 0);
+> +    t = FIELD_DP64(t, CSR_CRMD, DATF, 1);
+> +    t = FIELD_DP64(t, CSR_CRMD, DATM, 1);
+> +    env->CSR_CRMD = t;
+> +
+> +    env->CSR_ECFG = FIELD_DP64(0, CSR_ECFG, VS, 7);
+> +    env->CSR_STLBPS  = 0xe;
+> +    env->CSR_RVACFG = 0x0;
+> +    env->CSR_ASID = 0xa0000;
+> +    env->CSR_ERA = env->pc;
+> +}
+> +#endif
+> +
+>   /* LoongArch CPU definitions */
+>   static void loongarch_3a5000_initfn(Object *obj)
+>   {
+> @@ -113,6 +147,9 @@ static void loongarch_3a5000_initfn(Object *obj)
+>       CPULoongArchState *env = &cpu->env;
+>   
+>       set_loongarch_cpucfg(env);
+> +#ifndef CONFIG_USER_ONLY
+> +    set_loongarch_csr(env);
+> +#endif
+>   }
+>   
+>   static void loongarch_cpu_list_entry(gpointer data, gpointer user_data)
+> @@ -140,6 +177,9 @@ static void loongarch_cpu_reset(DeviceState *dev)
+>       lacc->parent_reset(dev);
+>   
+>       set_loongarch_cpucfg(env);
+> +#ifndef CONFIG_USER_ONLY
+> +    set_loongarch_csr(env);
+> +#endif
 
-I don't see the point in this macro.  Just put the structure members directly into 
-CPULoongArchState.
-
-In addition, I think you'll want to include these members unconditionally.  We have found 
-for ARM that it is easiest to minimize the differences between system and user emulation. 
-  Having to ifdef each use of the csrs does not help.
+As I said vs patch 2, I think you'll want to set all of these unconditionally.
 
 
 r~
