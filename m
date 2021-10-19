@@ -2,105 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20757433954
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 16:55:30 +0200 (CEST)
-Received: from localhost ([::1]:58652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1CC433889
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 16:40:27 +0200 (CEST)
+Received: from localhost ([::1]:51802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcqWX-0002pI-5R
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 10:55:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37194)
+	id 1mcqHx-00045T-Au
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 10:40:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcpwr-0005fJ-GE; Tue, 19 Oct 2021 10:18:38 -0400
-Received: from mail-bn8nam12on2052.outbound.protection.outlook.com
- ([40.107.237.52]:16832 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ id 1mcpxb-0006Vl-JC; Tue, 19 Oct 2021 10:19:23 -0400
+Received: from mail-co1nam11on2078.outbound.protection.outlook.com
+ ([40.107.220.78]:31111 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcpwp-0004Kl-Kl; Tue, 19 Oct 2021 10:18:37 -0400
+ id 1mcpxZ-0007Iv-QI; Tue, 19 Oct 2021 10:19:23 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TLXLvt+Qu0WZTHVVyKAVe1GBFzAp9W+6A3XlkK9so8Q8PCRZfWjpeoddMDlvHy1YjV6yPyJuhrG68lcYKtiLo9hNLUv4L2JIkJocl/Nxqv2ewwgYyq8re8RrDbfKKrgV1L/DJFJPSGjKFWaNLSDgQpFh86MekF1aSWjpI6/PJHwDWeqjhaAXtGqZyI931pmSUYIYy9hHB3Heg9UH3SilwRxvkFDLG/fsyg89MkKY0xepJtK/BRdf2auS2fGIZoBRbQ9Zn+uUJKztm8SpLqxYSMsFlsyR+rL1zXBk1HKn+hyOoo1X7oyybwSLJIJ+WoW0I1/JBcTbZNNzPdLYwjpFww==
+ b=Bu0UFXAKeRyu6Fzg1y0YkXbhgYeI7NI+j8Qek+EB6RXfEfcSB2NuhIsvSM+sQK8kkia2nPVFXllFuDn3VO6XO5/E1oSqDXm0SOb8/6Xe9ULS9RpL3JuDUQP+x67WZX7m+Cr1FXeHzrCUax40d1xyzHQS0b4wnukyoMbu0rGNNsksFhX9R7cWKbjbe1cRfp4Upn2+efwhyyzECaxhmOfb5RtuVEGCuJt162mWr/9b6J835e322GIvTT5camsyw3erLgFqollTyF5edhQdsTELUAgt5rPY9aYYf7rB5lU8V/d5zlZp3C/UxtSg0C2Pz74++tepWILqqAtIpUY1JDo8iw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EaQ0/BBSpxduWqYnTZ27k28+dTANkTw5nOEptjxvD+g=;
- b=JQLkWZQUr0rBKTPLPF1Tfw5unqSlh8ibncTzCCKekT53qFeONlqZn5X1JEWtxfMWPEYvmz0eU9yqoGACm91WXBEWDlFx0pQLe1LUqj8roD04AMsfg4oVkE1DWonCzHQnXqPo8P4GzDb3cVjyzV7bStaQ8/3tRDzc6ozj1VyjHcsGcYvPd7W4YBjmeneM+7NybuQ+E8Y8VyaOYVqxt5Qfb2RL4aq5OXoov0NZOW7Tctd1CLEMxIJs2WLV3V8z1MmzS/3OLTejYoHKreIhqDYJDMI3Cp9wiTFRZq4NTiY/oEgrUS84iXGby9vnOfnfvKsdIilq+UfYTWhQHJlW5rNCGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
+ bh=Qvm+WTZxBklVEpa3EcdNOEoK1luKUzTamkmYTZ0bRTI=;
+ b=L8WCzGxQrQs8XAzX04kFx+QixjGsHmdAzmnAC6cGgn8cwjNbUbEbAJT9/UYO+YZW6/wOlRJzJrfBj5uAKhnpbsiFKvGmRcdneWjW/uQaoUdc8R/qFVMO0v1MHhnCF46MV7hOuOsUpQ2g8QltldLSz5sRfMoRGgoPCReWjZOgKx1b4ni69co33vMO3HISQM2+HklqowEiwqO1nZTVfKTdpzkr/Onwp/jak/a7n44G2bcOVW6LsK4YW93PDpkoKL0iGbUOmEGwi8bV91Eq2aFgf2/pM9o2SZA/bxK7hFqVVb4XO7J6X03ACb2XaDy/d0s/sZovKQmbTJ/L6TtEH9TyFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
+ is 165.204.84.17) smtp.rcpttodomain=nongnu.org
+ smtp.mailfrom=amd.com; 
+ dmarc=temperror action=none header.from=amd.com; dkim=none (message not
+ signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EaQ0/BBSpxduWqYnTZ27k28+dTANkTw5nOEptjxvD+g=;
- b=JMeOk6au3yPam0004pG+Z4We9kf1s/a6EHjtcgqQorLE8W2Euaj1t6hGxuEmIFoAyRx6bnZBoicBY2LHuel56WXfDXN7GbrrGvjPvusn2ORuUoSIV+AJvR8lJ+iNjk1/nF65dH7reVo+i8Q+tvULqITdyHBeOE60HLtLlTPl+No=
-Received: from BN1PR12CA0019.namprd12.prod.outlook.com (2603:10b6:408:e1::24)
- by BL0PR12MB2530.namprd12.prod.outlook.com (2603:10b6:207:43::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.15; Tue, 19 Oct
- 2021 14:18:32 +0000
-Received: from BN8NAM11FT046.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e1:cafe::aa) by BN1PR12CA0019.outlook.office365.com
- (2603:10b6:408:e1::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.15 via Frontend
- Transport; Tue, 19 Oct 2021 14:18:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+ bh=Qvm+WTZxBklVEpa3EcdNOEoK1luKUzTamkmYTZ0bRTI=;
+ b=1wFUYjLRs//hdzWj0iIGYlTQJede16dDCHhClJo3el/mQ8grPhtr5u5m+GxTiSR6kQsnnsRpvmFpfaol5+lpJ0+fR3tZT4+Yks39aLyNnv3uKj2Tnu0NLZ8bq0YlpbfLBotXcnT+S/igj04iJWoOG5Ke/CesZQfQr1IFHqHSMhs=
+Received: from BN9PR03CA0185.namprd03.prod.outlook.com (2603:10b6:408:f9::10)
+ by DM6PR12MB3273.namprd12.prod.outlook.com (2603:10b6:5:188::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Tue, 19 Oct
+ 2021 14:19:17 +0000
+Received: from BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:f9:cafe::e9) by BN9PR03CA0185.outlook.office365.com
+ (2603:10b6:408:f9::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.17 via Frontend
+ Transport; Tue, 19 Oct 2021 14:19:17 +0000
+X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
+ 165.204.84.17) smtp.mailfrom=amd.com; nongnu.org; dkim=none (message not
+ signed) header.d=none;nongnu.org; dmarc=temperror action=none
+ header.from=amd.com;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of amd.com: DNS Timeout)
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT046.mail.protection.outlook.com (10.13.177.127) with Microsoft SMTP
+ BN8NAM11FT039.mail.protection.outlook.com (10.13.177.169) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:18:32 +0000
+ 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:19:15 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 19 Oct
- 2021 09:18:31 -0500
+ 2021 09:19:15 -0500
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, Mark Cave-Ayland
- <mark.cave-ayland@ilande.co.uk>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 20/64] esp: only set ESP_RSEQ at the start of the select
- sequence
-Date: Tue, 19 Oct 2021 09:09:00 -0500
-Message-ID: <20211019140944.152419-21-michael.roth@amd.com>
+CC: <qemu-stable@nongnu.org>, Peng Liang <liangpeng10@huawei.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>, Paolo
+ Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 21/64] runstate: Initialize Error * to NULL
+Date: Tue, 19 Oct 2021 09:09:01 -0500
+Message-ID: <20211019140944.152419-22-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211019140944.152419-1-michael.roth@amd.com>
 References: <20211019140944.152419-1-michael.roth@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
 X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dfa417cc-516d-40c7-df0e-08d9930b549c
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2530:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB253007B48BDF0A69D1C1941295BD9@BL0PR12MB2530.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:466;
+X-MS-Office365-Filtering-Correlation-Id: 39654c23-5816-40c8-9c73-08d9930b6e8e
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3273:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB32736E57A2017CC5BAF1657995BD9@DM6PR12MB3273.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:549;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jsM5G7ZYhYuctPr5CEOCziM/iXfR/gW3xwJYNkP/biygrXu854z04C85YkQCfdVV4wLpxUESG/5UYSXv7SgqOE7a3vXjgLGAR7fN/xz16Ou6C6LdL4j/KACFMlpxvP9SCl809Y3oPjWuvaqyMZShL0Z8SBNMHDMYw2r5AKeJWJ14ygYqieqqrkhvQFPhZwKJG/hxqmy0213zHNcOR3nP90j9ZEb76ORaFWzVTtma83zVddnw/VEujoJiyFvZkKBpZ5AnDpLTHvR4CsbDz9cu8hVfVeMyl/BVpauBL+Q+96MEkpt9Rsn9KCRrkfwhFv4GQN2voisbr1MYzfKYyTLBbWaWPiKEfWkwkwGmFFN7KZzYaLYxInK5u82tL94oeXzfzDJxVnpwpIHYrr2H1bnzlcfqKD2jWXberpXmmNdvEphXhKZOlGZZxtjiWrOzfZMayuax3BbZAITet+DfYgB9n0YP8ocoSU/PIJNgw4zVJ0KVxot17xfAT2Dfw2/mA7Zz0BCZGf3KEH48zybdT0xT/3XfviVo+/ynQ+4bskkr/cgQVbRs6i9ihTbaHJPwaKs5SumKBBVN6iFnV4ypOISsq1hTWGWjpjRxP40kFXBfln7td1jkqEORHCzul6ApkL9Mw4aMWz/6ga+CGMi+Td+WAS1VDGyXs+dH4iDYP2p0sd5pwG0TygsYmQWyzFeFWPV03A1plAr2QI5oIoRhey2CLq6qYYNsiwoSwI8/goUFlR8=
+X-Microsoft-Antispam-Message-Info: cecWAaXx1VTO4FGTRzuNidC2bb1gFLI0WwChyuHkniWjmjfhev9A/9m7EbFt6YeamA1SpfpoQHAEBOa8L2mHAKcCkFuH4yBJELPMjRo5+rOhGHej5YTLr/Ox6CaTQiKV1eQwUV/GYvUhtrR66MPN7dUIdOIu1Kkfgw2iuoHefn5sYlaNiv6bWqgWXd9zSWQC74vc3vD+QbDnUBwt1s5QGfzdgm1zpEaCtlsyv6hgI5oCK3o4zC0Qb5/tV317hPOa62mIaP6EPEtcKZuzUPpPGCIJKnaa3a+Crv4ZstElB8U5bQ7gwUsyXIZnnm9qfizHQ/zbW+yXBLj0uvyViCb8SP/vyl7AGIuVn5oEfz59ltWnQngP8eR/CBAiQS9Ncz0vnZiKaZPLITsru8OM5ODrVUDn+jVr2YluSP9IC9ky+4uiwVcUZCtBHBzELRMaqZGxBc47GUQwGPKdAxXYuILvb3EZfkofGwjA+6vuK+EbCGk4xhCiUvq296+zNBLhSda/Xt7OzHDee4tCWnPeW+Grwge7ns7eVt0k6vx3ejyDqXZS9uuUdr5bQGB86uA0yIwP1U7XwT6zhdTQ4UCJC8ElCPqKN2tnNRLpRxoyPpcLg5BOOnZHRlQ+nrKE6a2iFyLuPOVpjMpZHNNT2IuIrPPAG/ACSmOaECuALwZGWSQjZGsud7ELSR21xoFIC2ZqBOnKjEruKYn8qJunHbLnLdngFK+DWfiVCSAgwXPS2HNhL7w=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(36756003)(83380400001)(82310400003)(36860700001)(81166007)(356005)(47076005)(86362001)(1076003)(6666004)(70586007)(2616005)(426003)(44832011)(70206006)(5660300002)(336012)(186003)(8676002)(16526019)(8936002)(4326008)(26005)(54906003)(6916009)(508600001)(316002)(2906002)(36900700001);
+ SFS:(4636009)(36840700001)(46966006)(4326008)(86362001)(4744005)(83380400001)(16526019)(81166007)(82310400003)(186003)(36860700001)(6666004)(508600001)(44832011)(8936002)(70586007)(356005)(8676002)(63370400001)(63350400001)(54906003)(426003)(336012)(5660300002)(6916009)(2906002)(316002)(47076005)(70206006)(1076003)(2616005)(36756003)(26005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:18:32.2706 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dfa417cc-516d-40c7-df0e-08d9930b549c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:19:15.7969 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 39654c23-5816-40c8-9c73-08d9930b6e8e
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT046.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2530
-Received-SPF: softfail client-ip=40.107.237.52;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3273
+Received-SPF: softfail client-ip=40.107.220.78;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -123,70 +124,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+From: Peng Liang <liangpeng10@huawei.com>
 
-When processing a command to select a target and send a CDB, the ESP device
-maintains a sequence step register so that if an error occurs the host can
-determine which part of the selection/CDB submission sequence failed.
+Based on the description of error_setg(), the local variable err in
+qemu_init_subsystems() should be initialized to NULL.
 
-The old Linux 2.6 driver is really pedantic here: it checks the sequence step
-register even if a command succeeds and complains loudly on the console if the
-sequence step register doesn't match the expected bus phase and interrupt flags.
-
-This reason this mismatch occurs is because the ESP emulation currently doesn't
-update the bus phase until the next TI (Transfer Information) command and so the
-cleared sequence step register is considered invalid for the stale bus phase.
-
-Normally this isn't an issue as the host only checks the sequence step register
-if an error occurs but the old Linux 2.6 driver does this in several places
-causing a large stream of "esp0: STEP_ASEL for tgt 0" messages to appear on the
-console during the boot process.
-
-Fix this by not clearing the sequence step register when reading the interrupt
-register and clearing the DMA status, so the guest sees a valid sequence step
-and bus phase combination at the end of the command phase. No other change is
-required since the sequence step register is correctly updated throughout the
-selection/CDB submission sequence once one of the select commands is issued.
-
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Fixes: 1b9e48a5bd ("esp: implement non-DMA transfers in PDMA mode")
-Message-Id: <20210518212511.21688-3-mark.cave-ayland@ilande.co.uk>
+Fixes: efd7ab22fb ("vl: extract qemu_init_subsystems")
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Peng Liang <liangpeng10@huawei.com>
+Message-Id: <20210610131729.3906565-1-liangpeng10@huawei.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit af947a3d853a235943681a00f07f3081f5143cc3)
+(cherry picked from commit 6e1da3d305499d3907f3c7f6638243e2e09b5085)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- hw/scsi/esp.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ softmmu/runstate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 000e45a624..18d4d56392 100644
---- a/hw/scsi/esp.c
-+++ b/hw/scsi/esp.c
-@@ -481,7 +481,6 @@ static void esp_dma_done(ESPState *s)
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+index ce8977c6a2..54713100c2 100644
+--- a/softmmu/runstate.c
++++ b/softmmu/runstate.c
+@@ -746,7 +746,7 @@ static void qemu_run_exit_notifiers(void)
+ 
+ void qemu_init_subsystems(void)
  {
-     s->rregs[ESP_RSTAT] |= STAT_TC;
-     s->rregs[ESP_RINTR] |= INTR_BS;
--    s->rregs[ESP_RSEQ] = 0;
-     s->rregs[ESP_RFLAGS] = 0;
-     esp_set_tc(s, 0);
-     esp_raise_irq(s);
-@@ -917,7 +916,15 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
-         val = s->rregs[ESP_RINTR];
-         s->rregs[ESP_RINTR] = 0;
-         s->rregs[ESP_RSTAT] &= ~STAT_TC;
--        s->rregs[ESP_RSEQ] = SEQ_0;
-+        /*
-+         * According to the datasheet ESP_RSEQ should be cleared, but as the
-+         * emulation currently defers information transfers to the next TI
-+         * command leave it for now so that pedantic guests such as the old
-+         * Linux 2.6 driver see the correct flags before the next SCSI phase
-+         * transition.
-+         *
-+         * s->rregs[ESP_RSEQ] = SEQ_0;
-+         */
-         esp_lower_irq(s);
-         break;
-     case ESP_TCHI:
+-    Error *err;
++    Error *err = NULL;
+ 
+     os_set_line_buffering();
+ 
 -- 
 2.25.1
 
