@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB9E433B02
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 17:46:19 +0200 (CEST)
-Received: from localhost ([::1]:44142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D38BE433A44
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 17:26:06 +0200 (CEST)
+Received: from localhost ([::1]:50534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcrJi-0004aH-9u
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 11:46:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44610)
+	id 1mcr06-0004Cp-MD
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 11:26:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQk-0001R5-KY
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58958)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQp-0001g6-U1
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQf-000816-Tp
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:29 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQn-00088G-S3
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634654965;
+ s=mimecast20190719; t=1634654973;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gFN5HkVnwSJHDwa5VA8vEXZe4FujxOdTMuaJiULY1Ns=;
- b=Et9SFew6/zAZBOxDEAIQI9e2v7+aHevdEnjpywXEJcFZERR7NdZRlCbcaGQuyr+8HneIhQ
- WfefX6pdfq/QrhtFEFDUjXZlWocLNfAMfWjQdPS0QkJZJqkNNwYKGIEZmfbvfGnsA7XRrd
- HlzwicgwACNH/L5twU/IkWyXzfuObcQ=
+ bh=wshAB3qVRvaSBfYxC9gpbHDY1X+CTTPAnvCTF1KcMoo=;
+ b=JcqXnB5iSqoi21wsExf6fh3odpXoINuBQKr0acuTZkP2bxn9nE7MKc1cyRJv+QESq5uxLk
+ /lrNCC1h4/hFMTkVWiHhG4PH9olHrHPpH5oaPEr3DuIXQ4GZ3uZyrrcvXgO1A7Bf13AEA2
+ 3TjbXrPjw3AyhKnWjGGiEPw5DEpWD+0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-a4P1Nm3KOlmlZ-bWGHZ8jA-1; Tue, 19 Oct 2021 10:49:22 -0400
-X-MC-Unique: a4P1Nm3KOlmlZ-bWGHZ8jA-1
+ us-mta-542-Wk6c-0KONfiwvxpW3A7DFg-1; Tue, 19 Oct 2021 10:49:29 -0400
+X-MC-Unique: Wk6c-0KONfiwvxpW3A7DFg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 250F711B4C00;
- Tue, 19 Oct 2021 14:49:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08C5581CBE5;
+ Tue, 19 Oct 2021 14:49:29 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27A005F4E0;
- Tue, 19 Oct 2021 14:49:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 15DEA5D6D7;
+ Tue, 19 Oct 2021 14:49:27 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/15] iotests/297: Move pylint config into pylintrc
-Date: Tue, 19 Oct 2021 10:49:04 -0400
-Message-Id: <20211019144918.3159078-2-jsnow@redhat.com>
+Subject: [PATCH v2 07/15] iotests/297: refactor run_[mypy|pylint] as generic
+ execution shim
+Date: Tue, 19 Oct 2021 10:49:10 -0400
+Message-Id: <20211019144918.3159078-8-jsnow@redhat.com>
 In-Reply-To: <20211019144918.3159078-1-jsnow@redhat.com>
 References: <20211019144918.3159078-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,60 +83,80 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move --score=n and --notes=XXX,FIXME into pylintrc. This pulls
-configuration out of code, which I think is probably a good thing in
-general.
+There's virtually nothing special here anymore; we can combine these
+into a single, rather generic function.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/297      |  4 +---
- tests/qemu-iotests/pylintrc | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/297 | 42 ++++++++++++++++++++++--------------------
+ 1 file changed, 22 insertions(+), 20 deletions(-)
 
 diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index 91ec34d9521..bc3a0ceb2aa 100755
+index 189bcaf5f94..d21673a2929 100755
 --- a/tests/qemu-iotests/297
 +++ b/tests/qemu-iotests/297
-@@ -65,10 +65,8 @@ def run_linters():
+@@ -61,27 +61,29 @@ def get_test_files() -> List[str]:
+     return list(filter(is_python_file, check_tests))
+ 
+ 
+-def run_pylint(
+-    files: List[str],
+-    env: Optional[Mapping[str, str]] = None,
++def run_linter(
++        tool: str,
++        args: List[str],
++        env: Optional[Mapping[str, str]] = None,
++        suppress_output: bool = False,
+ ) -> None:
++    """
++    Run a python-based linting tool.
+ 
+-    subprocess.run(('python3', '-m', 'pylint', *files),
+-                   env=env, check=False)
++    If suppress_output is True, capture stdout/stderr of the child
++    process and only print that information back to stdout if the child
++    process's return code was non-zero.
++    """
++    p = subprocess.run(
++        ('python3', '-m', tool, *args),
++        env=env,
++        check=False,
++        stdout=subprocess.PIPE if suppress_output else None,
++        stderr=subprocess.STDOUT if suppress_output else None,
++        universal_newlines=True,
++    )
+ 
+-
+-def run_mypy(
+-    files: List[str],
+-    env: Optional[Mapping[str, str]] = None,
+-) -> None:
+-    p = subprocess.run(('python3', '-m', 'mypy', *files),
+-                       env=env,
+-                       check=False,
+-                       stdout=subprocess.PIPE,
+-                       stderr=subprocess.STDOUT,
+-                       universal_newlines=True)
+-
+-    if p.returncode != 0:
++    if suppress_output and p.returncode != 0:
+         print(p.stdout)
+ 
+ 
+@@ -100,11 +102,11 @@ def main() -> None:
+ 
      print('=== pylint ===')
      sys.stdout.flush()
- 
--    # Todo notes are fine, but fixme's or xxx's should probably just be
--    # fixed (in tests, at least)
-     env = os.environ.copy()
--    subprocess.run(('pylint-3', '--score=n', '--notes=FIXME,XXX', *files),
-+    subprocess.run(('pylint-3', *files),
-                    env=env, check=False)
+-    run_pylint(files, env=env)
++    run_linter('pylint', files, env=env)
  
      print('=== mypy ===')
-diff --git a/tests/qemu-iotests/pylintrc b/tests/qemu-iotests/pylintrc
-index 8cb4e1d6a6d..32ab77b8bb9 100644
---- a/tests/qemu-iotests/pylintrc
-+++ b/tests/qemu-iotests/pylintrc
-@@ -31,6 +31,22 @@ disable=invalid-name,
-         too-many-statements,
-         consider-using-f-string,
+     sys.stdout.flush()
+-    run_mypy(files, env=env)
++    run_linter('mypy', files, env=env, suppress_output=True)
  
-+
-+[REPORTS]
-+
-+# Activate the evaluation score.
-+score=no
-+
-+
-+[MISCELLANEOUS]
-+
-+# List of note tags to take in consideration, separated by a comma.
-+# TODO notes are fine, but FIXMEs or XXXs should probably just be
-+# fixed (in tests, at least).
-+notes=FIXME,
-+      XXX,
-+
-+
- [FORMAT]
  
- # Maximum number of characters on a single line.
+ iotests.script_main(main)
 -- 
 2.31.1
 
