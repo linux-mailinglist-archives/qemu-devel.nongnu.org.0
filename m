@@ -2,86 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE37433448
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 13:03:28 +0200 (CEST)
-Received: from localhost ([::1]:49768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B14F43346A
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 13:09:25 +0200 (CEST)
+Received: from localhost ([::1]:54054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcmtz-0002nE-S2
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 07:03:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45638)
+	id 1mcmzk-0006HW-2A
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 07:09:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcmpz-0007z0-It
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:59:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35026)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mcmyB-0005Hq-Pf; Tue, 19 Oct 2021 07:07:47 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:45833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcmpx-0007iX-Mf
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:59:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634641157;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KOsP7DuiZQNpdyts6MpTYzDdZ+be9mM1xlvzXACJ74Q=;
- b=MfhEtAUtS8+lunC2IJStZhReqhiTmuvhyrXuCXeTYYipOAY4VOhZyrV9Dr+8YhWqR5vdZx
- DvQlDz8UvsYY4Hju4lNq1WsjH1IuPmLI/tPPfjR5wmWecP3e0SAi4xYgCyrkCByTZ1He1f
- CEMSDxedJyaFCVCC2d8anxPorOCiYTI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-TsbXTiI9MO2KZEkpdW4x3g-1; Tue, 19 Oct 2021 06:59:15 -0400
-X-MC-Unique: TsbXTiI9MO2KZEkpdW4x3g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n9-20020a1c7209000000b0030da7d466b8so1009744wmc.5
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 03:59:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KOsP7DuiZQNpdyts6MpTYzDdZ+be9mM1xlvzXACJ74Q=;
- b=7NbvBnSUBN11doCLr1syF9qf44ZOOFr6zY30Y8QjeLlrOCTdujqEojBxgKIczTHEZv
- gsvBSDx1ZzQ67NRr46E/FpDSa4BAuM9dtpqbEv1pNpTUhqJS6NWVw4IkOklYeicNtVTY
- OOIuHLWgiLkhoGRC2RfX25xXlAqxFKL7b3Izh/nOIavKwaNNP6rz+XwNYHfgrAv7sNUg
- eIcPgrE66PkbgCvigoqKy0dMl4me/Vxtn3Zmpj883HhUF7LTKVqVjRwsjCKW8nJgApXy
- G0N6qwLyvQjTKZxYd/4u4DFKXRqbM25caMFgfWxHiQX0gD6hwPGYZS7f9NCZpTRaxIAY
- bJQA==
-X-Gm-Message-State: AOAM532MQRDMAD5PSw6vUx18L7v5vVv89AsgoW7iMdD3H27V4r+ayglC
- dKC+miSfcj9OSK1EYZi3z4qpfXA4FJKUByIDWJ6i7A4p3DYf9BFABzhRaEvXnpAjXAJn2d4MEWb
- LWPdK6QMVgBzPsZg=
-X-Received: by 2002:adf:a390:: with SMTP id l16mr42667847wrb.104.1634641154768; 
- Tue, 19 Oct 2021 03:59:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxJZL5+AZS/uCVQ7TDRoVdjr0JdobieEqZIMyFYEs2dX0UEeJa7LpaFYNxXh16G0eW5yKDo/g==
-X-Received: by 2002:adf:a390:: with SMTP id l16mr42667816wrb.104.1634641154513; 
- Tue, 19 Oct 2021 03:59:14 -0700 (PDT)
-Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id j11sm1875368wmi.24.2021.10.19.03.59.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 03:59:14 -0700 (PDT)
-Date: Tue, 19 Oct 2021 06:59:09 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: [PATCH] hw/qdev-core: Add compatibility for (non)-transitional
- devs
-Message-ID: <20211019065850-mutt-send-email-mst@kernel.org>
-References: <20211012082428.16222-1-jean-louis@dupond.be>
- <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
- <YW6h+YcNEgyzh5zw@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mcmy6-0002sS-B3; Tue, 19 Oct 2021 07:07:47 -0400
+Received: from [192.168.100.1] ([82.142.24.54]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MhlXE-1nGGVs1VXU-00droE; Tue, 19 Oct 2021 13:07:36 +0200
+Subject: Re: [PATCH] po: update turkish translation
+To: Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?O=c4=9fuz_Ersen?=
+ <oguzersen@protonmail.com>
+References: <lDpmNUjNrVETJ2QoHoYmSoRvKoEIVFbF4IZAa1R5PVzqPCTh7nmV_ERHQlgYtNJN1Ppagtvelbo4uhSihEd5bSqIxCvGQchEWVpP-ofn2kw=@protonmail.com>
+ <57904976-7779-7519-f1e4-f7e800c1145f@vivier.eu>
+ <164d5ec6-b29a-eb8a-9bce-3b690039522e@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <d87ba143-9430-c4ec-ba81-f975b7e8067b@vivier.eu>
+Date: Tue, 19 Oct 2021 13:07:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YW6h+YcNEgyzh5zw@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <164d5ec6-b29a-eb8a-9bce-3b690039522e@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:7Ql1C9B5vmV7LrHFkzvBIVOvsqWOVl1t6tmaX8uD4t7lNf4w7Y1
+ xfajT+rONxYdggfkYEMck9/cNcQch9VnBBdTs/nxAPU/6Wb5Qu6iafRjNOFLC/MWhNjEiqX
+ M0lEYnEphgl6jIAVyNgzSYjE/wUJLPmvhpklJHXP7h0W1dHl63DWeIGrpr2BVX6z+INWhYv
+ vDqsf3+NsvRDD0NnpA2zA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:53YX78ORajs=:iXj/X8XFpyu0V3nOqpQsV2
+ 8jjQcAtEJUoNo9eY2CEN5rL/FL2COTPf4AslUh8LEGCgXQYhw0nl4OqpQS+l99uNImV3djYDp
+ 231QWqPFHQlmOJMTcQ3ma3xQpXXPbzXhOjnqFvvmqzlfDQD4VDORnziZbGKr+L3A4khBqHDgt
+ W8yRNRV7Ppj0pjkhX1EeRfq/KUR2pOEs1RU31qb1JdHipLsA2P08ndaRmVcLSxvve+o+Fbc6O
+ owtsYYhU7pTxje/pe0IobZhkvNqrvMv2V+3IPJKsuclFR9bR0gGoNr24oyHHeOKPwFZlLkPYX
+ OuDUX+n0F1YjaJaDgEgJ8cVHcw/mMyY7g4m266QOiNyRlLnGCTPrUwwSsvbviPHXtYES+c8GE
+ tHdqvcdjFOBkdf0/AvJQ9ZZxg9gSiKWfJEMYA196beJ7p/5Yso5hLgWVFEoz6ckfKmo+ZK1IO
+ OPP02jscarsKyXAScqqCfnIB3/wXlQkFIiU9c6rs3aRFxZIx/+sAshbBXbhmYxwTz/2AVgIkW
+ fhr7KIivl+X9mbrRJi36UBHAkgkJzOD5HVSK2+mjtizf9z7Xgxl43hSiYAtXjCIWOyRc/b67X
+ Yo/d2aQ1wcdZcXC4R5Sy5CKE0cpX/7OyVGtrt1ShB3FZhZY82H0ixEHGy9NzDC6w8iqJYj9vo
+ SeosMMXpKz0CdLxnaYCHxBBQSBX4zYmK9nHXsCzMs0BpPxyN+qjHHl3xlea6CoybnFfiy/lEK
+ sK7HkE+ov8plp16ONyDUXuRVWUnQFjAHqoYonA==
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,91 +72,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, Jean-Louis Dupond <jean-louis@dupond.be>,
- pbonzini@redhat.com
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 19, 2021 at 11:46:17AM +0100, Stefan Hajnoczi wrote:
-> On Tue, Oct 12, 2021 at 10:36:01AM +0200, Jean-Louis Dupond wrote:
-> > Forgot to CC maintainers.
+Le 19/10/2021 à 12:20, Paolo Bonzini a écrit :
+> On 23/09/21 17:26, Laurent Vivier wrote:
+>> Le 15/08/2021 à 22:24, Oğuz Ersen a écrit :
+>>> Hi, this is a small patch to update Turkish translation, thanks.
+>>>
+>> Please don't send patch as an attachment, use "git send-email" or "git publish" if you can.
+>>
+>> https://wiki.qemu.org/Contribute/SubmitAPatch#Do_not_send_as_an_attachment
+>>
+>> With the help of Google Translate:
+>>
+>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+>>
+>> There is a typo that can be fixed during merge:
+>>
+>>>   msgid "_Copy"
+>>> -msgstr ""
+>>> +msgstr "K_opyala"
+>>
+>> s/K_opyala/_Kopyala/
 > 
-> Also CCing Jason Wang and Michael Tsirkin for VIRTIO.
+> This was intentional, because "K" was already used by the translation for "Show Tabs" ("Se_kmeleri
+> Göster").  However, it is possible to keep "_Kopyala" if you modify "Show Tabs" instead:
 > 
-> Stefan
+> diff --git a/po/tr.po b/po/tr.po
+> index 2845f3779c..f4f0425c43 100644
+> --- a/po/tr.po
+> +++ b/po/tr.po
+> @@ -61,7 +61,7 @@ msgid "_Grab Input"
+>  msgstr "Girdiyi _Yakala"
+> 
+>  msgid "Show _Tabs"
+> -msgstr "Se_kmeleri Göster"
+> +msgstr "_Sekmeleri Göster"
+> 
+>  msgid "Detach Tab"
+>  msgstr "Sekmeyi Ayır"
+> 
+> 
+> Can you squash this in the commit in your trivial-patches branch?
 
-OMG
-where all compat properties broken all the time?
+mmhhh, there is also "_Kapat"... and there is no "Copy" menuentry in GUI,
 
+So perhaps I should only remove the "_" from "Kopyala"
 
-> > 
-> > On 12/10/2021 10:24, Jean-Louis Dupond wrote:
-> > > hw_compat modes only take into account their base name.
-> > > But if a device is created with (non)-transitional, then the compat
-> > > values are not used, causing migrating issues.
-> > > 
-> > > This commit adds their (non)-transitional entries with the same settings
-> > > as the base entry.
-> > > 
-> > > Fixes https://bugzilla.redhat.com/show_bug.cgi?id=1999141
-> > > 
-> > > Signed-off-by: Jean-Louis Dupond <jean-louis@dupond.be>
-> > > ---
-> > >   include/hw/qdev-core.h | 34 ++++++++++++++++++++++++++++++++++
-> > >   1 file changed, 34 insertions(+)
-> > > 
-> > > diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> > > index 4ff19c714b..5726825c2d 100644
-> > > --- a/include/hw/qdev-core.h
-> > > +++ b/include/hw/qdev-core.h
-> > > @@ -293,6 +293,30 @@ typedef struct GlobalProperty {
-> > >       bool optional;
-> > >   } GlobalProperty;
-> > > +
-> > > +/**
-> > > + * Helper to add (non)transitional compat properties
-> > > + */
-> > > +static inline void
-> > > +compat_props_add_transitional(GPtrArray *arr, GlobalProperty *prop)
-> > > +{
-> > > +    GlobalProperty *transitional = g_new0(typeof(*transitional), 1);
-> > > +    transitional->driver = g_strdup_printf("%s-transitional", prop->driver);
-> > > +    transitional->property = g_strdup(prop->property);
-> > > +    transitional->value = g_strdup(prop->value);
-> > > +    transitional->used = prop->used;
-> > > +    transitional->optional = prop->optional;
-> > > +    g_ptr_array_add(arr, (void *)transitional);
-> > > +
-> > > +    GlobalProperty *non_transitional = g_new0(typeof(*non_transitional), 1);
-> > > +    non_transitional->driver = g_strdup_printf("%s-non-transitional", prop->driver);
-> > > +    non_transitional->property = g_strdup(prop->property);
-> > > +    non_transitional->value = g_strdup(prop->value);
-> > > +    non_transitional->used = prop->used;
-> > > +    non_transitional->optional = prop->optional;
-> > > +    g_ptr_array_add(arr, (void *)non_transitional);
-> > > +}
-> > > +
-> > >   static inline void
-> > >   compat_props_add(GPtrArray *arr,
-> > >                    GlobalProperty props[], size_t nelem)
-> > > @@ -300,6 +324,16 @@ compat_props_add(GPtrArray *arr,
-> > >       int i;
-> > >       for (i = 0; i < nelem; i++) {
-> > >           g_ptr_array_add(arr, (void *)&props[i]);
-> > > +        if (g_str_equal(props[i].driver, "vhost-user-blk-pci") ||
-> > > +            g_str_equal(props[i].driver, "virtio-scsi-pci") ||
-> > > +            g_str_equal(props[i].driver, "virtio-blk-pci") ||
-> > > +            g_str_equal(props[i].driver, "virtio-balloon-pci") ||
-> > > +            g_str_equal(props[i].driver, "virtio-serial-pci") ||
-> > > +            g_str_equal(props[i].driver, "virtio-9p-pci") ||
-> > > +            g_str_equal(props[i].driver, "virtio-net-pci") ||
-> > > +            g_str_equal(props[i].driver, "virtio-rng-pci")) {
-> > > +            compat_props_add_transitional(arr, &props[i]);
-> > > +        }
-> > >       }
-> > >   }
-> > 
-
-
+Thanks,
+Laurent
 
