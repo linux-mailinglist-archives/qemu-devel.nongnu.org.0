@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2AD433339
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 12:09:07 +0200 (CEST)
-Received: from localhost ([::1]:38788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FFE943333F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 12:11:32 +0200 (CEST)
+Received: from localhost ([::1]:42648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcm3O-0005K5-8y
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 06:09:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58904)
+	id 1mcm5j-0007sP-8L
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 06:11:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mcljy-0001Nc-J4; Tue, 19 Oct 2021 05:49:02 -0400
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:55000)
+ id 1mcljz-0001RU-N4; Tue, 19 Oct 2021 05:49:03 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:55012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mcljs-0006dP-DE; Tue, 19 Oct 2021 05:49:02 -0400
+ id 1mcljs-0006dl-Gu; Tue, 19 Oct 2021 05:49:03 -0400
 Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id D08B0420BB;
- Tue, 19 Oct 2021 11:48:34 +0200 (CEST)
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 04F7042068;
+ Tue, 19 Oct 2021 11:48:35 +0200 (CEST)
 Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id B8A67601D5;
+ by mailhost.u-ga.fr (Postfix) with ESMTP id E68CD601D5;
  Tue, 19 Oct 2021 11:48:34 +0200 (CEST)
 Received: from palmier.u-ga.fr (palmier.tima.u-ga.fr [147.171.132.208])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 97C5E14005D;
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id BCB2914005A;
  Tue, 19 Oct 2021 11:48:34 +0200 (CEST)
 From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
  <frederic.petrot@univ-grenoble-alpes.fr>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v3 18/21] target/riscv: modification of the trans_csrxx for
- 128-bit support
-Date: Tue, 19 Oct 2021 11:48:09 +0200
-Message-Id: <20211019094812.614056-19-frederic.petrot@univ-grenoble-alpes.fr>
+Subject: [PATCH v3 19/21] target/riscv: actual functions to realize crs
+ 128-bit insns
+Date: Tue, 19 Oct 2021 11:48:10 +0200
+Message-Id: <20211019094812.614056-20-frederic.petrot@univ-grenoble-alpes.fr>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
 References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
@@ -76,268 +76,251 @@ Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As opposed to the gen_arith and gen_shift generation helpers, the csr insns
-do not have a common prototype, so the choice to generate 32/64 or 128-bit
-helper calls is done in the trans_csrxx functions.
+The csrs are accessed through function pointers: we set-up the table
+for the 128-bit accesses, make the stub a function that does what it
+should, and implement basic accesses on read-only csrs.
 
 Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
 Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
 ---
- target/riscv/insn_trans/trans_rvi.c.inc | 201 ++++++++++++++++++------
- 1 file changed, 156 insertions(+), 45 deletions(-)
+ target/riscv/cpu.h |  16 +++++
+ target/riscv/csr.c | 152 ++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 165 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-index 6497338842..e08fa482c4 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -962,20 +962,74 @@ static bool do_csrrw(DisasContext *ctx, int rd, int rc, TCGv src, TCGv mask)
-     return do_csr_post(ctx);
- }
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index eb4f63fcbf..253e87cd92 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -474,6 +474,15 @@ RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
+                                 Int128 *ret_value,
+                                 Int128 new_value, Int128 write_mask);
  
-+static bool do_csrr_i128(DisasContext *ctx, int rd, int rc)
-+{
-+    TCGv_i32 csr = tcg_constant_i32(rc);
++typedef RISCVException (*riscv_csr_read128_fn)(CPURISCVState *env, int csrno,
++                                               Int128 *ret_value);
++typedef RISCVException (*riscv_csr_write128_fn)(CPURISCVState *env, int csrno,
++                                             Int128 new_value);
++typedef RISCVException (*riscv_csr_op128_fn)(CPURISCVState *env, int csrno,
++                                             Int128 *ret_value,
++                                             Int128 new_value,
++                                             Int128 write_mask);
 +
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+    gen_helper_csrr_i128(cpu_env, csr);
-+    gen_set_gpr(ctx, rd, cpu_hlpr[0]);
-+    gen_set_gprh(ctx, rd, cpu_hlpr[1]);
-+    return do_csr_post(ctx);
+ typedef struct {
+     const char *name;
+     riscv_csr_predicate_fn predicate;
+@@ -482,6 +491,12 @@ typedef struct {
+     riscv_csr_op_fn op;
+ } riscv_csr_operations;
+ 
++typedef struct {
++    riscv_csr_read128_fn read128;
++    riscv_csr_write128_fn write128;
++    riscv_csr_op128_fn op128;
++} riscv_csr_operations128;
++
+ /* CSR function table constants */
+ enum {
+     CSR_TABLE_SIZE = 0x1000
+@@ -489,6 +504,7 @@ enum {
+ 
+ /* CSR function table */
+ extern riscv_csr_operations csr_ops[CSR_TABLE_SIZE];
++extern riscv_csr_operations128 csr_ops_128[CSR_TABLE_SIZE];
+ 
+ void riscv_get_csr_ops(int csrno, riscv_csr_operations *ops);
+ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops);
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index b802ee0dbc..3aac19e277 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -462,6 +462,13 @@ static const char valid_vm_1_10_64[16] = {
+ };
+ 
+ /* Machine Information Registers */
++static RISCVException read_zero_i128(CPURISCVState *env, int csrno,
++                                    Int128 *val)
++{
++    *val = int128_zero();
++    return RISCV_EXCP_NONE;
 +}
 +
-+static bool do_csrw_i128(DisasContext *ctx, int rc, TCGv srcl, TCGv srch)
+ static RISCVException read_zero(CPURISCVState *env, int csrno,
+                                 target_ulong *val)
+ {
+@@ -469,6 +476,13 @@ static RISCVException read_zero(CPURISCVState *env, int csrno,
+     return RISCV_EXCP_NONE;
+ }
+ 
++static RISCVException read_mhartid_i128(CPURISCVState *env, int csrno,
++                                       Int128 *val)
 +{
-+    TCGv_i32 csr = tcg_constant_i32(rc);
-+
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+    gen_helper_csrw_i128(cpu_env, csr, srcl, srch);
-+    return do_csr_post(ctx);
++    *val = int128_make64(env->mhartid);
++    return RISCV_EXCP_NONE;
 +}
 +
-+static bool do_csrrw_i128(DisasContext *ctx, int rd, int rc,
-+                          TCGv srcl, TCGv srch, TCGv maskl, TCGv maskh)
+ static RISCVException read_mhartid(CPURISCVState *env, int csrno,
+                                    target_ulong *val)
+ {
+@@ -569,6 +583,13 @@ static RISCVException write_mstatush(CPURISCVState *env, int csrno,
+     return RISCV_EXCP_NONE;
+ }
+ 
++static RISCVException read_misa_i128(CPURISCVState *env, int csrno,
++                                    Int128 *val)
 +{
-+    TCGv_i32 csr = tcg_constant_i32(rc);
-+
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+    gen_helper_csrrw_i128(cpu_env, csr, srcl, srch, maskl, maskh);
-+    gen_set_gpr(ctx, rd, cpu_hlpr[0]);
-+    gen_set_gprh(ctx, rd, cpu_hlpr[1]);
-+    return do_csr_post(ctx);
++    *val = int128_make128(env->misa_ext, (uint64_t)MXL_RV128 << 62);
++    return RISCV_EXCP_NONE;
 +}
 +
- static bool trans_csrrw(DisasContext *ctx, arg_csrrw *a)
+ static RISCVException read_misa(CPURISCVState *env, int csrno,
+                                 target_ulong *val)
  {
--    TCGv src = get_gpr(ctx, a->rs1, EXT_NONE);
--
--    /*
--     * If rd == 0, the insn shall not read the csr, nor cause any of the
--     * side effects that might occur on a csr read.
--     */
--    if (a->rd == 0) {
--        return do_csrw(ctx, a->csr, src);
-+    if (get_xl(ctx) < MXL_RV128) {
-+        TCGv src = get_gpr(ctx, a->rs1, EXT_NONE);
+@@ -1516,11 +1537,118 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+     return RISCV_EXCP_NONE;
+ }
+ 
++static inline RISCVException riscv_csrrw_check_i128(CPURISCVState *env,
++                                                    int csrno,
++                                                    Int128 write_mask,
++                                                    RISCVCPU *cpu)
++{
++    /* check privileges and return -1 if check fails */
++#if !defined(CONFIG_USER_ONLY)
++    int effective_priv = env->priv;
++    int read_only = get_field(csrno, 0xc00) == 3;
 +
++    if (riscv_has_ext(env, RVH) &&
++        env->priv == PRV_S &&
++        !riscv_cpu_virt_enabled(env)) {
 +        /*
-+         * If rd == 0, the insn shall not read the csr, nor cause any of the
-+         * side effects that might occur on a csr read.
++         * We are in S mode without virtualisation, therefore we are in HS Mode.
++         * Add 1 to the effective privledge level to allow us to access the
++         * Hypervisor CSRs.
 +         */
-+        if (a->rd == 0) {
-+            return do_csrw(ctx, a->csr, src);
-+        }
++        effective_priv++;
++    }
 +
-+        TCGv mask = tcg_constant_tl(-1);
-+        return do_csrrw(ctx, a->rd, a->csr, src, mask);
-+    } else {
-+        TCGv srcl = get_gpr(ctx, a->rs1, EXT_NONE);
-+        TCGv srch = get_gprh(ctx, a->rs1);
++    if ((int128_nz(write_mask) && read_only) ||
++        (!env->debugger && (effective_priv < get_field(csrno, 0x300)))) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
++#endif
 +
-+        /*
-+         * If rd == 0, the insn shall not read the csr, nor cause any of the
-+         * side effects that might occur on a csr read.
-+         */
-+        if (a->rd == 0) {
-+            return do_csrw_i128(ctx, a->csr, srcl, srch);
-+        }
++    /* ensure the CSR extension is enabled. */
++    if (!cpu->cfg.ext_icsr) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
 +
-+        TCGv mask = tcg_constant_tl(-1);
-+        return do_csrrw_i128(ctx, a->rd, a->csr, srcl, srch, mask, mask);
-     }
--
--    TCGv mask = tcg_constant_tl(-1);
--    return do_csrrw(ctx, a->rd, a->csr, src, mask);
- }
- 
- static bool trans_csrrs(DisasContext *ctx, arg_csrrs *a)
-@@ -987,13 +1041,24 @@ static bool trans_csrrs(DisasContext *ctx, arg_csrrs *a)
-      * a zero value, the instruction will still attempt to write the
-      * unmodified value back to the csr and will cause side effects.
-      */
--    if (a->rs1 == 0) {
--        return do_csrr(ctx, a->rd, a->csr);
-+    if (get_xl(ctx) < MXL_RV128) {
-+        if (a->rs1 == 0) {
-+            return do_csrr(ctx, a->rd, a->csr);
-+        }
++    /* check predicate */
++    if (!csr_ops[csrno].predicate) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
++    RISCVException ret = csr_ops[csrno].predicate(env, csrno);
++    if (ret != RISCV_EXCP_NONE) {
++        return ret;
++    }
 +
-+        TCGv ones = tcg_constant_tl(-1);
-+        TCGv mask = get_gpr(ctx, a->rs1, EXT_ZERO);
-+        return do_csrrw(ctx, a->rd, a->csr, ones, mask);
-+    } else {
-+        if (a->rs1 == 0) {
-+            return do_csrr_i128(ctx, a->rd, a->csr);
-+        }
++    return RISCV_EXCP_NONE;
++}
 +
-+        TCGv ones = tcg_constant_tl(-1);
-+        TCGv maskl = get_gpr(ctx, a->rs1, EXT_ZERO);
-+        TCGv maskh = get_gprh(ctx, a->rs1);
-+        return do_csrrw_i128(ctx, a->rd, a->csr, ones, ones, maskl, maskh);
-     }
--
--    TCGv ones = tcg_constant_tl(-1);
--    TCGv mask = get_gpr(ctx, a->rs1, EXT_ZERO);
--    return do_csrrw(ctx, a->rd, a->csr, ones, mask);
- }
- 
- static bool trans_csrrc(DisasContext *ctx, arg_csrrc *a)
-@@ -1005,28 +1070,54 @@ static bool trans_csrrc(DisasContext *ctx, arg_csrrc *a)
-      * a zero value, the instruction will still attempt to write the
-      * unmodified value back to the csr and will cause side effects.
-      */
--    if (a->rs1 == 0) {
--        return do_csrr(ctx, a->rd, a->csr);
-+    if (get_xl(ctx) < MXL_RV128) {
-+        if (a->rs1 == 0) {
-+            return do_csrr(ctx, a->rd, a->csr);
-+        }
-+
-+        TCGv mask = get_gpr(ctx, a->rs1, EXT_ZERO);
-+        return do_csrrw(ctx, a->rd, a->csr, ctx->zero, mask);
-+    } else {
-+        if (a->rs1 == 0) {
-+            return do_csrr_i128(ctx, a->rd, a->csr);
-+        }
-+
-+        TCGv maskl = get_gpr(ctx, a->rs1, EXT_ZERO);
-+        TCGv maskh = get_gprh(ctx, a->rs1);
-+        return do_csrrw_i128(ctx, a->rd, a->csr,
-+                             ctx->zero, ctx->zero, maskl, maskh);
-     }
--
--    TCGv mask = get_gpr(ctx, a->rs1, EXT_ZERO);
--    return do_csrrw(ctx, a->rd, a->csr, ctx->zero, mask);
- }
- 
- static bool trans_csrrwi(DisasContext *ctx, arg_csrrwi *a)
+ RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
+-                               Int128 *ret_value,
+-                               Int128 new_value, Int128 write_mask)
++                                Int128 *ret_value,
++                                Int128 new_value, Int128 write_mask)
  {
--    TCGv src = tcg_constant_tl(a->rs1);
--
--    /*
--     * If rd == 0, the insn shall not read the csr, nor cause any of the
--     * side effects that might occur on a csr read.
--     */
--    if (a->rd == 0) {
--        return do_csrw(ctx, a->csr, src);
-+    if (get_xl(ctx) < MXL_RV128) {
-+        TCGv src = tcg_constant_tl(a->rs1);
+-    return RISCV_EXCP_ILLEGAL_INST;
++    RISCVException ret;
++    Int128 old_value;
 +
++    RISCVCPU *cpu = env_archcpu(env);
++
++    if (!csr_ops_128[csrno].read128 && !csr_ops_128[csrno].op128) {
 +        /*
-+         * If rd == 0, the insn shall not read the csr, nor cause any of the
-+         * side effects that might occur on a csr read.
++         * FIXME: Fall back to 64-bit version for now, if the 128-bit
++         * alternative isn't defined.
++         * Note, some CSRs don't extend to MXLEN, for those,
++         * this fallback is correctly handling the read/write.
 +         */
-+        if (a->rd == 0) {
-+            return do_csrw(ctx, a->csr, src);
++        target_ulong ret_64;
++        ret = riscv_csrrw(env, csrno, &ret_64,
++                          int128_getlo(new_value),
++                          int128_getlo(write_mask));
++
++        if (ret_value) {
++            *ret_value = int128_make64(ret_64);
 +        }
 +
-+        TCGv mask = tcg_constant_tl(-1);
-+        return do_csrrw(ctx, a->rd, a->csr, src, mask);
-+    } else {
-+        TCGv src = tcg_constant_tl(a->rs1);
++        return ret;
++    }
 +
-+        /*
-+         * If rd == 0, the insn shall not read the csr, nor cause any of the
-+         * side effects that might occur on a csr read.
-+         */
-+        if (a->rd == 0) {
-+            return do_csrw_i128(ctx, a->csr, src, ctx->zero);
++    RISCVException check_status =
++        riscv_csrrw_check_i128(env, csrno, write_mask, cpu);
++    if (check_status != RISCV_EXCP_NONE) {
++        return check_status;
++    }
++
++    /* execute combined read/write operation if it exists */
++    if (csr_ops_128[csrno].op128) {
++        return csr_ops_128[csrno].op128(env, csrno, ret_value,
++                                        new_value, write_mask);
++    }
++
++    /* if no accessor exists then return failure */
++    if (!csr_ops_128[csrno].read128) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
++    /* read old value */
++    ret = csr_ops_128[csrno].read128(env, csrno, &old_value);
++    if (ret != RISCV_EXCP_NONE) {
++        return ret;
++    }
++
++    /* write value if writable and write mask set, otherwise drop writes */
++    if (int128_nz(write_mask)) {
++        new_value = int128_or(int128_and(old_value, int128_not(write_mask)),
++                              int128_and(new_value, write_mask));
++        if (csr_ops_128[csrno].write128) {
++            ret = csr_ops_128[csrno].write128(env, csrno, new_value);
++            if (ret != RISCV_EXCP_NONE) {
++                return ret;
++            }
 +        }
++    }
 +
-+        TCGv mask = tcg_constant_tl(-1);
-+        return do_csrrw_i128(ctx, a->rd, a->csr, src, ctx->zero, mask, mask);
-     }
--
--    TCGv mask = tcg_constant_tl(-1);
--    return do_csrrw(ctx, a->rd, a->csr, src, mask);
++    /* return old value */
++    if (ret_value) {
++        *ret_value = old_value;
++    }
++
++    return RISCV_EXCP_NONE;
  }
  
- static bool trans_csrrsi(DisasContext *ctx, arg_csrrsi *a)
-@@ -1038,16 +1129,26 @@ static bool trans_csrrsi(DisasContext *ctx, arg_csrrsi *a)
-      * a zero value, the instruction will still attempt to write the
-      * unmodified value back to the csr and will cause side effects.
-      */
--    if (a->rs1 == 0) {
--        return do_csrr(ctx, a->rd, a->csr);
-+    if (get_xl(ctx) < MXL_RV128) {
-+        if (a->rs1 == 0) {
-+            return do_csrr(ctx, a->rd, a->csr);
-+        }
-+
-+        TCGv ones = tcg_constant_tl(-1);
-+        TCGv mask = tcg_constant_tl(a->rs1);
-+        return do_csrrw(ctx, a->rd, a->csr, ones, mask);
-+    } else {
-+        if (a->rs1 == 0) {
-+            return do_csrr_i128(ctx, a->rd, a->csr);
-+        }
-+
-+        TCGv ones = tcg_constant_tl(-1);
-+        TCGv mask = tcg_constant_tl(a->rs1);
-+        return do_csrrw_i128(ctx, a->rd, a->csr, ones, ones, mask, ctx->zero);
-     }
--
--    TCGv ones = tcg_constant_tl(-1);
--    TCGv mask = tcg_constant_tl(a->rs1);
--    return do_csrrw(ctx, a->rd, a->csr, ones, mask);
+ /*
+@@ -1544,6 +1672,24 @@ RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
  }
  
--static bool trans_csrrci(DisasContext *ctx, arg_csrrci *a)
-+static bool trans_csrrci(DisasContext *ctx, arg_csrrci * a)
- {
-     /*
-      * If rs1 == 0, the insn shall not write to the csr at all, nor
-@@ -1056,10 +1157,20 @@ static bool trans_csrrci(DisasContext *ctx, arg_csrrci *a)
-      * a zero value, the instruction will still attempt to write the
-      * unmodified value back to the csr and will cause side effects.
-      */
--    if (a->rs1 == 0) {
--        return do_csrr(ctx, a->rd, a->csr);
-+    if (get_xl(ctx) < MXL_RV128) {
-+        if (a->rs1 == 0) {
-+            return do_csrr(ctx, a->rd, a->csr);
-+        }
+ /* Control and Status Register function table */
++riscv_csr_operations128 csr_ops_128[CSR_TABLE_SIZE] = {
++#if !defined(CONFIG_USER_ONLY)
++    [CSR_MVENDORID]  = { read_zero_i128    },
++    [CSR_MARCHID]    = { read_zero_i128    },
++    [CSR_MIMPID]     = { read_zero_i128    },
++    [CSR_MHARTID]    = { read_mhartid_i128 },
 +
-+        TCGv mask = tcg_constant_tl(a->rs1);
-+        return do_csrrw(ctx, a->rd, a->csr, ctx->zero, mask);
-+    } else {
-+        if (a->rs1 == 0) {
-+            return do_csrr_i128(ctx, a->rd, a->csr);
-+        }
++    [CSR_MSTATUS]    = { read_zero_i128    },
++    [CSR_MISA]       = { read_misa_i128    },
++    [CSR_MTVEC]      = { read_zero_i128    },
 +
-+        TCGv mask = tcg_constant_tl(a->rs1);
-+        return do_csrrw_i128(ctx, a->rd, a->csr,
-+                             ctx->zero, ctx->zero, mask, ctx->zero);
-     }
--
--    TCGv mask = tcg_constant_tl(a->rs1);
--    return do_csrrw(ctx, a->rd, a->csr, ctx->zero, mask);
- }
++    [CSR_MSCRATCH]   = { read_zero_i128    },
++    [CSR_MEPC]       = { read_zero_i128    },
++
++    [CSR_SATP]       = { read_zero_i128    },
++#endif
++};
++
+ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     /* User Floating-Point CSRs */
+     [CSR_FFLAGS]   = { "fflags",   fs,     read_fflags,  write_fflags },
 -- 
 2.33.0
 
