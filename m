@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACFB7433896
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 16:44:00 +0200 (CEST)
-Received: from localhost ([::1]:60240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1A04339A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 17:03:35 +0200 (CEST)
+Received: from localhost ([::1]:48480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcqLP-0001MH-Os
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 10:43:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37544)
+	id 1mcqeM-0006bS-97
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 11:03:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcpyH-0007wB-PR; Tue, 19 Oct 2021 10:20:05 -0400
-Received: from mail-sn1anam02on2044.outbound.protection.outlook.com
- ([40.107.96.44]:46248 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+ id 1mcpye-0008Fx-PA; Tue, 19 Oct 2021 10:20:28 -0400
+Received: from mail-dm6nam10on2083.outbound.protection.outlook.com
+ ([40.107.93.83]:29965 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcpyF-0007kE-GP; Tue, 19 Oct 2021 10:20:05 -0400
+ id 1mcpyc-00083V-RT; Tue, 19 Oct 2021 10:20:28 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ry8PDeMDcnsiMin0JpKJuMY2S8duWO4JoelL33DcD6hNnAEjhO3xnGRakSpZDX5ETevwFu36OJ69NX9mbJc5RosH97b0QN4QhKYWO+2IydMsrLk+sSt73+MfViytNkVtrA3odtWWbCmFmXfy5txC25OlPmLEjCwuGlZZ2dFNa2rypzpbZpJPuCINHHJzSavGjM9M0B89N0qt5AKauP5njO8brfJYV9A+N/NXeIsCtc9r/NidWVqqMMM88exQD4yjGKXapcgmu2Ng8HODv9ywyul6ltU4qj6CUAuqgqCyRVUJq884lUQiXZFHEZVzVoGGhaPrEnrcpZfF+2H/w63nFA==
+ b=MY3YgZCTA4UZ2PyC3QznGV8QFUZYFl4+osyPCnw8AQqMILezWGV1LUS89Acdv6fhJYUBnrnguv8Ex7HpKa9IioNQUqn8yncWvoCTZFfWFDCETBMtsRxhiNtCHTnu194o3jfAFeQoOG8GrzTgQdZ+esk/m296F5FnKl1em4v7pNhDwxQCC2kxlI1fDZehrvK2vfLIV23GYV6tQduYEudmgpPSb8eusXq8fXrRcy4ZlSX43gcPx1dsDJ8VzLJKIuuaotmJuhg95EHdlHGoz8oLgfMFcD5udioc7KTl9iknHaBG/Wbf8zfeDjdlJWrdCGJcIBlyjfeghp0TgixC9KAOtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lQswjtRPTwJL8Nv7i4tKKD1IU1m/bQO/urZtle86sqg=;
- b=UCkP7qf7Ur+3UgIMHL9GAM0Lu8d3tdpttnAZ4ow1X6vgtlxgGroiEZ3ViYb7SMSJwbVxkErMnqDCib2IbDD3vhTVGRGndZpIjIaLeww4yEgxekrT0D9Jngl3OnI9hNuvOhiY93zc/RRhBWQ30PYSKtrmych4d15Zw8apSWrRyS7CMPAsTBaDqraIwZ18ywZ7IQ/QdAhlaH7s8JtdzzdPn5ILYt0HPFFckRVohhj8jdmKLkO2lPlw2oUCSCrury9jxWApMZbZFiIq7e4ESLdwduFbNZtG/Obz6eKupzweyn345L9ZjZ4CYdywyuXo7qtvzycMReYH0845yq82nS9VZA==
+ bh=ZneDv9v/wgTpdLKFiCQyDzLIEnp4jb7OieCyJfWdLYU=;
+ b=ed8x8/d+JpChQDfmUc3dvew8F3pkj5l2Y6muX7O+OJs7DqAsKt8hz19skVEa/pzaXrxLu0sP/JafsD12deGwrYjid6vvcsWYIcOIsk9mKcOmbJrG79iBLI4akFIBL0Rz6R/afH0i5tuZ28MhfXaohkG9r1W0cSq1KQqohZwOqVyM0s7gHx/ppPN1LYOlzLDr9uInMlZ7SvzZzBEOSO+RyjsSlcyhYAdwy5uYsFTqqyF3Pb5h3f+Vn+eFyZRQeVggiIR/gHgk3sVFkh94EhB7NyAuBHwS8ngZx6Gwshy26jfMixO7ghHPNX87ktq1oriT/TBVRLE8fHz1u6I5+UgKpQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lQswjtRPTwJL8Nv7i4tKKD1IU1m/bQO/urZtle86sqg=;
- b=IKilvhjkz2WtO9BsZFZpqrm3+Ji6oGmzvXtWLEcyVQMV1jfNQrJv+Y49Tka3fOSYadqMLjw6KGSsYJZPQRfDjINDrqV/JA7Nu6QTfnGC+xXPvBoLmcR+euHjz/T9wCGwjGPuS0z/UAXVMn1Qqk5KnjTBVxqGkHxmWEt5c2SNo6A=
-Received: from BN9P220CA0028.NAMP220.PROD.OUTLOOK.COM (2603:10b6:408:13e::33)
- by BN6PR1201MB0225.namprd12.prod.outlook.com (2603:10b6:405:5a::14)
+ bh=ZneDv9v/wgTpdLKFiCQyDzLIEnp4jb7OieCyJfWdLYU=;
+ b=DkCPEFzSV+c7Al0Dwo3s/U1PIZ9+sCfz7lo/wcEWIEGJ85ghGuopIn19FTNzejNY2ZFbGvV1qljN7C5PKe+m0WopA5G0YJynW8Q+jfQ5lgtLqjZh2ZH3aGp+LwKBNV8HIWRANkyyh7bPGEhhqd8aCdojHNPGtAkoQWYbe966fL4=
+Received: from BN9PR03CA0936.namprd03.prod.outlook.com (2603:10b6:408:108::11)
+ by MWHPR12MB1199.namprd12.prod.outlook.com (2603:10b6:300:10::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.18; Tue, 19 Oct
- 2021 14:19:59 +0000
-Received: from BN8NAM11FT025.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:13e:cafe::f) by BN9P220CA0028.outlook.office365.com
- (2603:10b6:408:13e::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.18 via Frontend
- Transport; Tue, 19 Oct 2021 14:19:59 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Tue, 19 Oct
+ 2021 14:20:20 +0000
+Received: from BN8NAM11FT038.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:108:cafe::9a) by BN9PR03CA0936.outlook.office365.com
+ (2603:10b6:408:108::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16 via Frontend
+ Transport; Tue, 19 Oct 2021 14:20:20 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=pass action=none header.from=amd.com;
@@ -50,56 +50,57 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT025.mail.protection.outlook.com (10.13.177.136) with Microsoft SMTP
+ BN8NAM11FT038.mail.protection.outlook.com (10.13.176.246) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:19:59 +0000
+ 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:20:20 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 19 Oct
- 2021 09:19:58 -0500
+ 2021 09:20:19 -0500
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, Zhenzhong Duan <zhenzhong.duan@intel.com>, Paolo
- Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 23/64] vl: Fix an assert failure in error path
-Date: Tue, 19 Oct 2021 09:09:03 -0500
-Message-ID: <20211019140944.152419-24-michael.roth@amd.com>
+CC: <qemu-stable@nongnu.org>, Richard Henderson
+ <richard.henderson@linaro.org>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>
+Subject: [PATCH 24/64] tcg/sparc: Fix temp_allocate_frame vs sparc stack bias
+Date: Tue, 19 Oct 2021 09:09:04 -0500
+Message-ID: <20211019140944.152419-25-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211019140944.152419-1-michael.roth@amd.com>
 References: <20211019140944.152419-1-michael.roth@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
 X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ba5106af-dcfd-4ed0-c39b-08d9930b8856
-X-MS-TrafficTypeDiagnostic: BN6PR1201MB0225:
-X-Microsoft-Antispam-PRVS: <BN6PR1201MB022507488795BB78BD1ED63D95BD9@BN6PR1201MB0225.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:632;
+X-MS-Office365-Filtering-Correlation-Id: 6a0c0e23-d304-4e5a-602e-08d9930b953e
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1199:
+X-Microsoft-Antispam-PRVS: <MWHPR12MB11990ACBF1AD8A19D868611E95BD9@MWHPR12MB1199.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:227;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OdnmCGS6/w1u7oC8wrzdVORAbGYNXmvsJxgOhk/cCyvkg8nN52YyIxOR9MDeV0Z39xmOtECnXRL9ZSVTVUK3QVZaSkCEfj/qij2EQp5VzF3p0Xe1mDa+NJhoELoMaLQ6xVc0lfG5Ya0NJK9n+oVZaXYg5GRDfT/2eL9IhmvUi5InjgrrSdj02bLz8O1UvI8c4pOzfW86w9qE5As8oTfb0zzr4/IIuZ5nrl5NsmTgbF3tWhI6PNAVrIWT988MnVnJTBXe63sw9f31Rc1j83HzOBL9i5RNuE5YJ8C4w2oLp7Nj4Hzew8XBjTS3FM8zSFUjMXtUt1xlud8D1GCZiMbfJEqgSc9OOS1Nl7gs6NU19Ds6NMTj0voL7VPTdkECo8SXHLKmtxqVxXRbR0BC6EFzeR6mxSK5M3OZWAokwEz9YtpzeL6g0mggpcDn4ES6yW15LJmm4W4LU6MTmmnrADfGPsiwXwpERnfBqu1QbmFEBHzJApN6P90k8TI6WrUKS3/hpBSaZfG0ChySxqwWuaoMX6ZgZgD/o4SG1ZEbl9ioA4hoj0qqjYVSHpZA4vumJ2yMHPekB6R9NIoV9CiX1EGGzPHcmRT1DN4Qu1Y08j49CbWEHLZ2Y8EtFbOBkay9Wf6xGZyyf6jD+RcGiQkOda5djJF0qOKuRK68dJzeFquXebG0TBJa3B7EqHDYRHphG/MWnxOoHkQIT1gJL8A54LnsUKN+zy5gQqOBnKo4cbilWGk=
+X-Microsoft-Antispam-Message-Info: t5tlf4I8wV0fJ1z+JH68boV+RWeqXWz/RiUt8WYbZoY+KHAT5dahATxDI+aMFmyW11JlUAN0K8zhsR37qDfYFUkBJAxn8H8uVl27wWPVcFl080oJxn7GCYaFe7w5kwiaUhqWZ4iml5hd+gbaupu/PctUr0zwO0ASvprEdFOZGgbOH9IVkETXSXiKwPPJSvJ8x08xmdNEXPV3K58emKsyOYhQk7f7RkywBw1+SK1OqKZFAfLqMoabXyjaCMj7vWIaPGK1MKh1WFJkmFvdqhrdygP5z3Jzd5+BvLr27YSHgmTNKEAmBmRGk4xwe7VRgcmJA1tVa+zN0Ip16TjS/Lhdn3+9apVizlkOfqW8qShEpierlfV92Iue0X9kwxiVyNIPs9/gRBM+ur+qPqPblnxXP5WqwbWXPKNJ7kzn7SnQOf6571jAUkasdQsHFml+t3OJfIZ3SLlnTmjKi405guIOuvT733jC6/jL57tQncioaYhFO5wOz8KW3+0mSWYNQcDzU41Yr/+bnbQPUaArUzg38MDTTr7J5am9A1yUXF6oWbEWW9bAl9nsAgx33z+s88jdg0IHBFrgOb0/8/XDjYK5xmO7kvKQxCYbbkpfiDOuX2PdipGzgFL3zHQdGr1EiV46Mfq/k9GvbrBZVVlHb/dvx6BSUCPIK5oHMp2AmUFNJgtGkOivpHGo5YwcSY9zq6vYlBP2QH5KIWQ9zPIIZWsSzgUa7i/nNIRAvkiN5IdBCIw=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(1076003)(26005)(356005)(5660300002)(82310400003)(81166007)(36756003)(44832011)(4326008)(86362001)(336012)(16526019)(83380400001)(426003)(316002)(2616005)(186003)(47076005)(70586007)(6666004)(70206006)(8676002)(508600001)(36860700001)(6916009)(2906002)(54906003)(8936002)(4001150100001)(36900700001);
+ SFS:(4636009)(36840700001)(46966006)(426003)(26005)(336012)(47076005)(36860700001)(16526019)(8676002)(36756003)(82310400003)(186003)(316002)(2616005)(5660300002)(4326008)(1076003)(8936002)(83380400001)(70206006)(6666004)(70586007)(2906002)(356005)(44832011)(508600001)(6916009)(86362001)(54906003)(81166007)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:19:59.0506 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba5106af-dcfd-4ed0-c39b-08d9930b8856
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:20:20.6993 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a0c0e23-d304-4e5a-602e-08d9930b953e
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT025.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT038.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0225
-Received-SPF: softfail client-ip=40.107.96.44;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1199
+Received-SPF: softfail client-ip=40.107.93.83;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM02-SN1-obe.outbound.protection.outlook.com
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -122,44 +123,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Based on the description of error_setg(), the local variable err in
-qemu_maybe_daemonize() should be initialized to NULL.
+We should not be aligning the offset in temp_allocate_frame,
+because the odd offset produces an aligned address in the end.
+Instead, pass the logical offset into tcg_set_frame and add
+the stack bias last.
 
-Without fix, the uninitialized *errp triggers assert failure which
-doesn't show much valuable information.
-
-Before the fix:
-qemu-system-x86_64: ../util/error.c:59: error_setv: Assertion `*errp == NULL' failed.
-
-After fix:
-qemu-system-x86_64: cannot create PID file: Cannot open pid file: Permission denied
-
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
-Message-Id: <20210610084741.456260-1-zhenzhong.duan@intel.com>
 Cc: qemu-stable@nongnu.org
-Fixes: 0546c0609c ("vl: split various early command line options to a separate function", 2020-12-10)
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit 38f71349c7c4969bc14da4da1c70b8cc4078d596)
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+(cherry picked from commit 9defd1bdfb0f2ddb3ca9863e39577f3a9929d58c)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- softmmu/vl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tcg/sparc/tcg-target.c.inc | 16 ++++++++++------
+ tcg/tcg.c                  |  9 +++------
+ 2 files changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 6be510b035..848b98851c 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2508,7 +2508,7 @@ static void qemu_process_help_options(void)
- 
- static void qemu_maybe_daemonize(const char *pid_file)
+diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
+index 3d50f985c6..c046d1cc60 100644
+--- a/tcg/sparc/tcg-target.c.inc
++++ b/tcg/sparc/tcg-target.c.inc
+@@ -987,14 +987,18 @@ static void tcg_target_qemu_prologue(TCGContext *s)
  {
--    Error *err;
-+    Error *err = NULL;
+     int tmp_buf_size, frame_size;
  
-     os_daemonize();
-     rcu_disable_atfork();
+-    /* The TCG temp buffer is at the top of the frame, immediately
+-       below the frame pointer.  */
++    /*
++     * The TCG temp buffer is at the top of the frame, immediately
++     * below the frame pointer.  Use the logical (aligned) offset here;
++     * the stack bias is applied in temp_allocate_frame().
++     */
+     tmp_buf_size = CPU_TEMP_BUF_NLONGS * (int)sizeof(long);
+-    tcg_set_frame(s, TCG_REG_I6, TCG_TARGET_STACK_BIAS - tmp_buf_size,
+-                  tmp_buf_size);
++    tcg_set_frame(s, TCG_REG_I6, -tmp_buf_size, tmp_buf_size);
+ 
+-    /* TCG_TARGET_CALL_STACK_OFFSET includes the stack bias, but is
+-       otherwise the minimal frame usable by callees.  */
++    /*
++     * TCG_TARGET_CALL_STACK_OFFSET includes the stack bias, but is
++     * otherwise the minimal frame usable by callees.
++     */
+     frame_size = TCG_TARGET_CALL_STACK_OFFSET - TCG_TARGET_STACK_BIAS;
+     frame_size += TCG_STATIC_CALL_ARGS_SIZE + tmp_buf_size;
+     frame_size += TCG_TARGET_STACK_ALIGN - 1;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 1fbe0b686d..a9cf55531e 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -3489,17 +3489,14 @@ static void check_regs(TCGContext *s)
+ 
+ static void temp_allocate_frame(TCGContext *s, TCGTemp *ts)
+ {
+-#if !(defined(__sparc__) && TCG_TARGET_REG_BITS == 64)
+-    /* Sparc64 stack is accessed with offset of 2047 */
+-    s->current_frame_offset = (s->current_frame_offset +
+-                               (tcg_target_long)sizeof(tcg_target_long) - 1) &
+-        ~(sizeof(tcg_target_long) - 1);
+-#endif
+     if (s->current_frame_offset + (tcg_target_long)sizeof(tcg_target_long) >
+         s->frame_end) {
+         tcg_abort();
+     }
+     ts->mem_offset = s->current_frame_offset;
++#if defined(__sparc__)
++    ts->mem_offset += TCG_TARGET_STACK_BIAS;
++#endif
+     ts->mem_base = s->frame_temp;
+     ts->mem_allocated = 1;
+     s->current_frame_offset += sizeof(tcg_target_long);
 -- 
 2.25.1
 
