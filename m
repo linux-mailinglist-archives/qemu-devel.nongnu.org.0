@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CB7432EBF
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 08:59:24 +0200 (CEST)
-Received: from localhost ([::1]:59408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE77432EDC
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 09:04:00 +0200 (CEST)
+Received: from localhost ([::1]:38984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcj5n-0003V8-FW
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 02:59:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49006)
+	id 1mcjAE-0000bj-17
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 03:03:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcj3D-0000Tf-25
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:56:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43973)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcj4C-00023o-GV
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:57:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcj3A-0001C3-4x
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:56:42 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcj4A-00029j-5A
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:57:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634626599;
+ s=mimecast20190719; t=1634626661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Acokz86RgTPKd5JmmvvxNuropEqMwsCGGd1q9A8L3Vs=;
- b=B2Y7fljCBDP9a6wVTNq8JEXz8qGD8aK76kV2H8g6SHgQU+yJF+JFrvg12DIM2gehQD5HLL
- fxEsRDI/rpHUEagO5PINJl7DNzcJkmplo6GqA1t3+qlvf1cGdtr/zrwLRMZ7fbwxCu8EWv
- 3u4EUXf+CEC7lBBSELs7XaHVNb62NjI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-8dTsvctHN12JRL8VkMIuyw-1; Tue, 19 Oct 2021 02:56:38 -0400
-X-MC-Unique: 8dTsvctHN12JRL8VkMIuyw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- l6-20020adfa386000000b00160c4c1866eso9756319wrb.4
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 23:56:37 -0700 (PDT)
+ bh=YHby0sdQY6z1gQFtLJJUYEUATtI3tIOfsAAHNxeZhD4=;
+ b=HQEEf7qpXZDy5oIhnN9sW18vs/qSjZDV77dsZD40BASF1vFQC39RkiR+Fgv1CnMcKvehvw
+ iE1iaweqqdzTfov0QcMaNq5vUk+/gbXmLnY2A/qzBKX8wRbAVJv9nIGsq7d8Zy+WZKWEGE
+ GaZje85SIGHPywJ4axF78W4rGLDm4lM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-208-F0gEeIhkOceOzeVrApJ9cw-1; Tue, 19 Oct 2021 02:57:40 -0400
+X-MC-Unique: F0gEeIhkOceOzeVrApJ9cw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r16-20020adfbb10000000b00160958ed8acso9712443wrg.16
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 23:57:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Acokz86RgTPKd5JmmvvxNuropEqMwsCGGd1q9A8L3Vs=;
- b=Y9F0FzlSzEQkZExOSXfxSrORl5vTsMkdC14uhP4CYlVdE4McKDtiPVBuUKlxx7Jq0C
- FVAiO1yayjl9FO7WLhyhw8WcCXRP6h81QIYvze29nXliwYy+g3T/ZwICY2wWJrOm7ONT
- 0DWyjQnwnN2VQHxxanm5znUXazvn14038qbpvnKEs/VOXkvwaHAUqBQYKwNlX8f1PPaJ
- O/PFQ6Ewvox7xR01HgOHvBbC7VfJ+YWwGnr8EtjDhflx9DU6pzmc9VrOFjQAQshGt9O6
- 9C0qzJbzNi/grXWbQkQ4CBXt4LAdeJ88KN1lVPzPy0TjMLFPHsSRwoohQpOs/yzC8D52
- yoIw==
-X-Gm-Message-State: AOAM533KH+9mKr/H+XLKYD6gouD9gpEzxW5S6xks4he1ip/6tGswy922
- y1VOCgUvgfoextwEs8efCtdeMGlqJv7DGge+i5z61t168Lreq1CRw3S8cdvtSKQVgTeUJlgdymf
- EDb09aHDlluOfigA=
-X-Received: by 2002:adf:ee42:: with SMTP id w2mr35313635wro.227.1634626596937; 
- Mon, 18 Oct 2021 23:56:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJytX+ly6V+xmqoo4L7fUhas8PkdZ9dEvTFWfirTSotPUeopW7Z1Y8Uc/N5KBuIfUkmYLgYDuw==
-X-Received: by 2002:adf:ee42:: with SMTP id w2mr35313608wro.227.1634626596627; 
- Mon, 18 Oct 2021 23:56:36 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=YHby0sdQY6z1gQFtLJJUYEUATtI3tIOfsAAHNxeZhD4=;
+ b=WP047lAaqA/zWxGiVE0kbwvQOyiWnD5AvWJAnbkN4EAUtTTByEnseFSF0leTqO/Klq
+ GcGpO/dtNPxabXw8DSu8gjg2GpaCJYMP3pJ57Kpkpv+uzRzSoYtfe5LgU/1tOiRhTv06
+ 80hXLn+gL8K14p7lQNz8Y926LFIiNS5hnTTCyBMEGzRoRkyiXFCXy5B9XX1NUA+QoD6A
+ KiMh1UIdcXbDMLfBsn79r/+pjjFy/ZcGbUz8uZmuMRZxWBnhaeLECik/0SYZAHI85nNz
+ +/4BGYob3Pu7KOYOEX45S/FbYVEB83sFEm1/4ilpojkja0XYAQn7m5aDyLSoo0NQ6Nsd
+ w0Pg==
+X-Gm-Message-State: AOAM533jzfYQDTAlqAHOz1H5WsyFinoo7ZX5nTRCYyOXraCF4TaC4Pa/
+ aY0Lri/xaIAR9Diq5ph5t71hNFTpxLBsLPEdfHRTVdRY4IaNSwi21wbLzH5TkUug0io+ZGisNUy
+ eQ16bDXsfA8PGPRY=
+X-Received: by 2002:adf:a347:: with SMTP id d7mr43206784wrb.139.1634626659160; 
+ Mon, 18 Oct 2021 23:57:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxPcKN+k9WB1r/il4sWCLc1uhDlw7LOqPWoFiKlnHFgz6OmD0m/37xiRGcx6EOlTJA4iPFmeQ==
+X-Received: by 2002:adf:a347:: with SMTP id d7mr43206777wrb.139.1634626659008; 
+ Mon, 18 Oct 2021 23:57:39 -0700 (PDT)
 Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id n12sm1500594wms.27.2021.10.18.23.56.34
+ by smtp.gmail.com with ESMTPSA id f184sm1382288wmf.22.2021.10.18.23.57.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 23:56:36 -0700 (PDT)
-Date: Tue, 19 Oct 2021 02:56:32 -0400
+ Mon, 18 Oct 2021 23:57:38 -0700 (PDT)
+Date: Tue, 19 Oct 2021 02:57:35 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Cindy Lu <lulu@redhat.com>
-Subject: Re: [PATCH v9 00/10] vhost-vdpa: add support for configure interrupt
-Message-ID: <20211019025504-mutt-send-email-mst@kernel.org>
-References: <20210930023348.17770-1-lulu@redhat.com>
+To: "Xueming(Steven) Li" <xuemingl@nvidia.com>
+Subject: Re: [PATCH v3 1/2] vhost-user: fix VirtQ notifier cleanup
+Message-ID: <20211019025722-mutt-send-email-mst@kernel.org>
+References: <20211008075805.589644-1-xuemingl@nvidia.com>
+ <20211008075805.589644-2-xuemingl@nvidia.com>
+ <20211019021457-mutt-send-email-mst@kernel.org>
+ <4a1739ac3cdb895e41f7554865d5e1df4d70658c.camel@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20210930023348.17770-1-lulu@redhat.com>
+In-Reply-To: <4a1739ac3cdb895e41f7554865d5e1df4d70658c.camel@nvidia.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -91,109 +97,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, dgilbert@redhat.com, qemu-devel@nongnu.org,
- arei.gonglei@huawei.com, kraxel@redhat.com, stefanha@redhat.com,
- marcandre.lureau@redhat.com
+Cc: "zhangyuwei.9149@bytedance.com" <zhangyuwei.9149@bytedance.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "tiwei.bie@intel.com" <tiwei.bie@intel.com>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 30, 2021 at 10:33:38AM +0800, Cindy Lu wrote:
-> these patches add the support for configure interrupt
+On Tue, Oct 19, 2021 at 06:45:19AM +0000, Xueming(Steven) Li wrote:
+> On Tue, 2021-10-19 at 02:15 -0400, Michael S. Tsirkin wrote:
+> > On Fri, Oct 08, 2021 at 03:58:04PM +0800, Xueming Li wrote:
+> > > When vhost-user device cleanup and unmmap notifier address, VM cpu
+> > > thread that writing the notifier failed with accessing invalid address.
+> > > 
+> > > To avoid this concurrent issue, wait memory flatview update by draining
+> > > rcu callbacks, then unmap notifiers.
+> > > 
+> > > Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
+> > > Cc: tiwei.bie@intel.com
+> > > Cc: qemu-stable@nongnu.org
+> > > Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
+> > > Signed-off-by: Xueming Li <xuemingl@nvidia.com>
+> > > ---
+> > >  hw/virtio/vhost-user.c | 21 ++++++++++++++-------
+> > >  1 file changed, 14 insertions(+), 7 deletions(-)
+> > > 
+> > > diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> > > index bf6e50223c..b2e948bdc7 100644
+> > > --- a/hw/virtio/vhost-user.c
+> > > +++ b/hw/virtio/vhost-user.c
+> > > @@ -1165,6 +1165,12 @@ static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
+> > >  
+> > >      if (n->addr && n->set) {
+> > >          virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
+> > > +        if (!qemu_in_vcpu_thread()) { /* Avoid vCPU dead lock. */
+> > > +            /* Wait for VM threads accessing old flatview which contains notifier. */
+> > > +            drain_call_rcu();
+> > > +        }
+> > > +        munmap(n->addr, qemu_real_host_page_size);
+> > > +        n->addr = NULL;
+> > >          n->set = false;
+> > >      }
+> > >  }
+> > 
+> > 
+> > ../hw/virtio/vhost-user.c: In function ‘vhost_user_host_notifier_remove’:
+> > ../hw/virtio/vhost-user.c:1168:14: error: implicit declaration of function ‘qemu_in_vcpu_thread’ [-Werror=implicit-function-declaration]
+> >  1168 |         if (!qemu_in_vcpu_thread()) { /* Avoid vCPU dead lock. */
+> >       |              ^~~~~~~~~~~~~~~~~~~
+> > ../hw/virtio/vhost-user.c:1168:14: error: nested extern declaration of ‘qemu_in_vcpu_thread’ [-Werror=nested-externs]
+> > cc1: all warnings being treated as errors
+> > ninja: build stopped: subcommand failed.
+> > make[1]: *** [Makefile:162: run-ninja] Error 1
+> > make[1]: Leaving directory '/scm/qemu/build'
+> > make: *** [GNUmakefile:11: all] Error 2
+> > 
+> > 
+> > Although the following patch fixes it, bisect is broken.
 > 
-> These codes are all tested in vp-vdpa (support configure interrupt)
-> vdpa_sim (not support configure interrupt), virtio tap device
-> 
-> test in virtio-pci bus and virtio-mmio bus
+> Yes, really an issue, v4 posted, thanks!
 
+Pls address the comment on 2/2 too.
 
-I was inclined to let it slide but it hangs make check
-so needs more work.
-Meanwhile please go over how the patchset is structured,
-and over description of each patch.
-I sent some comments but same applied to everything.
-
-Also, pls document the index == -1 hack in more detail.
-how does it work and why it's helpful.
-
-Thanks!
-
-> Change in v2:
-> Add support for virtio-mmio bus
-> active the notifier while the backend support configure interrupt
-> misc fixes from v1
+> > 
+> > 
+> > > @@ -1502,12 +1508,7 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+> > >  
+> > >      n = &user->notifier[queue_idx];
+> > >  
+> > > -    if (n->addr) {
+> > > -        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
+> > > -        object_unparent(OBJECT(&n->mr));
+> > > -        munmap(n->addr, page_size);
+> > > -        n->addr = NULL;
+> > > -    }
+> > > +    vhost_user_host_notifier_remove(dev, queue_idx);
+> > >  
+> > >      if (area->u64 & VHOST_USER_VRING_NOFD_MASK) {
+> > >          return 0;
+> > > @@ -2485,11 +2486,17 @@ void vhost_user_cleanup(VhostUserState *user)
+> > >      for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+> > >          if (user->notifier[i].addr) {
+> > >              object_unparent(OBJECT(&user->notifier[i].mr));
+> > > +        }
+> > > +    }
+> > > +    memory_region_transaction_commit();
+> > > +    /* Wait for VM threads accessing old flatview which contains notifier. */
+> > > +    drain_call_rcu();
+> > > +    for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+> > > +        if (user->notifier[i].addr) {
+> > >              munmap(user->notifier[i].addr, qemu_real_host_page_size);
+> > >              user->notifier[i].addr = NULL;
+> > >          }
+> > >      }
+> > > -    memory_region_transaction_commit();
+> > >      user->chr = NULL;
+> > >  }
+> > >  
+> > > -- 
+> > > 2.33.0
+> > 
 > 
-> Change in v3
-> fix the coding style problems
-> 
-> Change in v4
-> misc fixes from v3
-> merge the set_config_notifier to set_guest_notifier
-> when vdpa start, check the feature by VIRTIO_NET_F_STATUS
-> 
-> Change in v5
-> misc fixes from v4
-> split the code to introduce configure interrupt type and the callback function
-> will init the configure interrupt in all virtio-pci and virtio-mmio bus, but will
-> only active while using vhost-vdpa driver
-> 
-> Change in v6
-> misc fixes from v5
-> decouple virtqueue from interrupt setting and misc process
-> fix the bug in virtio_net_handle_rx
-> use -1 as the queue number to identify if the interrupt is configure interrupt
-> 
-> Change in v7
-> misc fixes from v6
-> decouple virtqueue from interrupt setting and misc process
-> decouple virtqueue from vector use/release process
-> decouple virtqueue from set notifier fd handler process
-> move config_notifier and masked_config_notifier to VirtIODevice
-> fix the bug in virtio_net_handle_rx, add more information
-> add VIRTIO_CONFIG_IRQ_IDX as the queue number to identify if the interrupt is configure interrupt
-> 
-> Change in v8
-> misc fixes from v7
-> decouple virtqueue from interrupt setting and misc process
-> decouple virtqueue from vector use/release process
-> decouple virtqueue from set notifier fd handler process
-> move the vhost configure interrupt to vhost_net
-> 
-> Change in v9
-> misc fixes from v8
-> address the comments for v8
-> 
-> Cindy Lu (10):
->   virtio: introduce macro IRTIO_CONFIG_IRQ_IDX
->   virtio-pci: decouple notifier from interrupt process
->   virtio-pci: decouple the single vector from the interrupt process
->   vhost: add new call back function for config interrupt
->   vhost-vdpa: add support for config interrupt call back
->   virtio: add support for configure interrupt
->   virtio-net: add support for configure interrupt
->   vhost: add support for configure interrupt
->   virtio-mmio: add support for configure interrupt
->   virtio-pci: add support for configure interrupt
-> 
->  hw/display/vhost-user-gpu.c       |   6 +
->  hw/net/vhost_net.c                |  10 ++
->  hw/net/virtio-net.c               |  16 +-
->  hw/virtio/trace-events            |   2 +
->  hw/virtio/vhost-user-fs.c         |   9 +-
->  hw/virtio/vhost-vdpa.c            |   7 +
->  hw/virtio/vhost-vsock-common.c    |   6 +
->  hw/virtio/vhost.c                 |  76 +++++++++
->  hw/virtio/virtio-crypto.c         |   6 +
->  hw/virtio/virtio-mmio.c           |  27 ++++
->  hw/virtio/virtio-pci.c            | 260 ++++++++++++++++++++----------
->  hw/virtio/virtio-pci.h            |   4 +-
->  hw/virtio/virtio.c                |  29 ++++
->  include/hw/virtio/vhost-backend.h |   3 +
->  include/hw/virtio/vhost.h         |   4 +
->  include/hw/virtio/virtio.h        |   6 +
->  include/net/vhost_net.h           |   3 +
->  17 files changed, 386 insertions(+), 88 deletions(-)
-> 
-> -- 
-> 2.21.3
 
 
