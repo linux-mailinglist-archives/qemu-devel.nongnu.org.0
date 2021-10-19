@@ -2,90 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD315433D31
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 19:16:38 +0200 (CEST)
-Received: from localhost ([::1]:42458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A53433C4B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:33:03 +0200 (CEST)
+Received: from localhost ([::1]:49082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcsj7-0005KZ-Ts
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 13:16:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37116)
+	id 1mcs2w-0001GF-Qr
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcrk3-0002vs-CT
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:13:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35170)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcrjz-0004QU-OG
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:13:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634660005;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qwz8bY5J2F/YBrh+euMSyKJiZFgydVc7g7t4Ycg2dZE=;
- b=anbN2pOBEgLahozZBe7S+YSyfYK8advuZJz2q7LnCoSBhOeeotICjWj7durTX0yz3+puVO
- wL+6FBrCAaB7IepI6nuQTQ17wwmvS87Vdan7189d2gC7TERpmyLJYLTshZ6+9bdwd+1xmw
- quAOFWbKIlO/a0HwAIcFvoC23A4/hlo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-w1yfIL8RMrukp794ZLIBWA-1; Tue, 19 Oct 2021 12:13:24 -0400
-X-MC-Unique: w1yfIL8RMrukp794ZLIBWA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- p20-20020a50cd94000000b003db23619472so18137622edi.19
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 09:13:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mcrkM-00046d-Fi
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:13:50 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40732)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mcrkG-0004cu-Nk
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:13:50 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ a140-20020a1c7f92000000b0030d8315b593so3655095wmd.5
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 09:13:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=BmFhrzlgU2vWA8l6AgAc0993Yj/LiIJ2/ti+ss5HpWk=;
+ b=zZwaZwM87waF7C/Qj2uaCLe5eGEZ8QoU40c2yfVOyzjmQVnqmhwHej0dju4zLzYLpr
+ /52UwT0/jSohkwYQcMrswV1jCL4zUzd4JtQHOzbMRQ1yMjW+HoJGueoRZdj1b3Q2Y+nl
+ t/fOs4kv63ri1YmPSd4Uzdph2PTDK5JkIPgOuClBlYTBCPByNCW/BQ1XGOZYzmzEBUzz
+ EGK5pNYQaO7JbmALWriVuGFHRssejUEqzpvJGIGoaCHGKl6EN4fmHtIjkUpmGh2rsXLv
+ He4GWDBlMyEn3jPQqxujgLBJquoR7E1wgBZGGysHgw8PeVXg4Xp+uhHADoHdIBp8NMAJ
+ 8NXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qwz8bY5J2F/YBrh+euMSyKJiZFgydVc7g7t4Ycg2dZE=;
- b=Tl6Omhap8ik9B9Xs2sFge5QzFGUq5kBztfYkomOau6jCrolXMI/Ono915Ul/MKH9h+
- 5vJDHag/XiRi0N0DjtNqAz2M4S3Z+e+JCC6iGi/Fe/NxE2Onj6I2oR3/h8iDBCXmMFWN
- T04C6Zwn/iNxubQC9E6c8RacLOJshtRh0lEIfsOh6Ou61Zm6i/u1pH+D6gHl1Ib65pGo
- kOoLUnypder1utunJqLMsobi+JMFOp0DJJFz2s7pdd+Q9x9hRzlEaxG1wW5MJSk33vQA
- KNZGuVdl8GSFsBOiEx1pZ3FKj4oW4dB1JwIRTi6eRV4MiHoNpE+vq1PQ5diJrCPoVQd6
- fgMg==
-X-Gm-Message-State: AOAM531lYqxypvG468PX2qCiYlQFikn1sJ73v8mrXhjHIToB9yYT8+/y
- qchFUcVoDS9UnPu9T4eApiG1BT9qVeR6clTL2nzN8t9Dz8UIPnT7bXDMyKYFPTtdBEmBbp7WjGD
- YVpkKXs8XCS9sq6Y=
-X-Received: by 2002:a17:906:eda6:: with SMTP id
- sa6mr38131768ejb.443.1634660003171; 
- Tue, 19 Oct 2021 09:13:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6U/0xly58hl0LE0Wuvawn2z3od8pDHljS5EnOZNjTy8n6vxNl/HwulT8QnS+rhfc0TgnevQ==
-X-Received: by 2002:a17:906:eda6:: with SMTP id
- sa6mr38131742ejb.443.1634660002910; 
- Tue, 19 Oct 2021 09:13:22 -0700 (PDT)
-Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id r22sm10373074ejd.109.2021.10.19.09.13.19
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=BmFhrzlgU2vWA8l6AgAc0993Yj/LiIJ2/ti+ss5HpWk=;
+ b=aDWudy19n9K40qTiIj0ESvwmA6krQwShykwFO/t+Mv1jYhlGxqtDAJ2pGefHfVZfCV
+ JbQ+CHmbxBa95uRYqeegRDutAhmG5X7K1RpiCsIqLMG0FOpOjcW85MG6yfOEGYdJUpLt
+ L/vRTIQ1ZzYxzM83yYIENXH5YekfOwH2+iNev/MQTWqkEfjcHUJXGWdhJYNMAU0UWxNf
+ HxgMVegaWSf6DZxn86TSNe8Ar7vBwDyEw8FeT3rWDt69GteK4bHm7ZftsPcHXq3Ge32l
+ WYrvY17pr0ffg2nbdJRbiAPwi9tXhMYLCWVmYpvF0rIeKSlT4tO7bFZiRespUIKYojIg
+ egOQ==
+X-Gm-Message-State: AOAM531GnQcvXKbcEw5sLyX3ctMMsXTLOpOO2JXztFf2ol7iE9dDRuhE
+ ZVkaKDz3MEtSJVxMTjvVG3ZazQ==
+X-Google-Smtp-Source: ABdhPJx2WAkH0Lw+s112HnmbqQJ470e71azlXn79X1GvF/iny87HD9wP+6Za1QwNtRPLBbu/uWjpJg==
+X-Received: by 2002:adf:8b4d:: with SMTP id v13mr13408733wra.438.1634660023301; 
+ Tue, 19 Oct 2021 09:13:43 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o10sm2651383wmq.46.2021.10.19.09.13.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 09:13:20 -0700 (PDT)
-Date: Tue, 19 Oct 2021 12:13:17 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH] hw/qdev-core: Add compatibility for (non)-transitional
- devs
-Message-ID: <20211019120619-mutt-send-email-mst@kernel.org>
-References: <20211012082428.16222-1-jean-louis@dupond.be>
- <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
- <YW6h+YcNEgyzh5zw@stefanha-x1.localdomain>
- <20211019065850-mutt-send-email-mst@kernel.org>
- <20211019152913.wjipmv6trjx6k7xa@habkost.net>
+ Tue, 19 Oct 2021 09:13:42 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D2BD11FF96;
+ Tue, 19 Oct 2021 17:13:41 +0100 (BST)
+References: <20211007195456.1168070-1-richard.henderson@linaro.org>
+ <20211007195456.1168070-7-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.0; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 06/48] tcg/optimize: Split out init_arguments
+Date: Tue, 19 Oct 2021 17:13:36 +0100
+In-reply-to: <20211007195456.1168070-7-richard.henderson@linaro.org>
+Message-ID: <875yttxaa2.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20211019152913.wjipmv6trjx6k7xa@habkost.net>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,47 +87,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, Stefan Hajnoczi <stefanha@gmail.com>,
- jasowang@redhat.com, qemu-devel@nongnu.org,
- Jean-Louis Dupond <jean-louis@dupond.be>, pbonzini@redhat.com
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 19, 2021 at 11:29:13AM -0400, Eduardo Habkost wrote:
-> On Tue, Oct 19, 2021 at 06:59:09AM -0400, Michael S. Tsirkin wrote:
-> > On Tue, Oct 19, 2021 at 11:46:17AM +0100, Stefan Hajnoczi wrote:
-> > > On Tue, Oct 12, 2021 at 10:36:01AM +0200, Jean-Louis Dupond wrote:
-> > > > Forgot to CC maintainers.
-> > > 
-> > > Also CCing Jason Wang and Michael Tsirkin for VIRTIO.
-> > > 
-> > > Stefan
-> > 
-> > OMG
-> > where all compat properties broken all the time?
-> 
-> Compat properties that existed when commit f6e501a28ef9 ("virtio:
-> Provide version-specific variants of virtio PCI devices") was
-> merged are not broken, because virtio-*-transitional and
-> virtio-*-non-transitional were brand new QOM types (so there's no
-> compatibility to be kept with old QEMU versions).
-> 
-> Compat properties referencing "virtio-*-pci" instead of
-> "virtio-*-pci-base" added after commit f6e501a28ef9 are probably
-> broken, yes.
-> 
-> -- 
-> Eduardo
 
-Oh. So just this one:
-    { "virtio-net-pci", "vectors", "3"},
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-right?
+> There was no real reason for calls to have separate code here.
+> Unify init for calls vs non-calls using the call path, which
+> handles TCG_CALL_DUMMY_ARG.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-about the patch: how do people feel about virtio specific
-stuff in qdev core? Ok by everyone?
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
--- 
-MST
-
+--=20
+Alex Benn=C3=A9e
 
