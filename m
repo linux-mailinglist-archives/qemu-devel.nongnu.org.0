@@ -2,92 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E63433492
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 13:21:23 +0200 (CEST)
-Received: from localhost ([::1]:38888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4750D433493
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 13:22:12 +0200 (CEST)
+Received: from localhost ([::1]:39638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcnBK-0007Q3-Qn
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 07:21:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49448)
+	id 1mcnC7-0007wT-AF
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 07:22:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcn78-0005KP-Sz
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:17:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54645)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcn7F-0005R2-6T
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:17:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcn77-0004ok-2v
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:17:02 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcn7D-0004ss-1B
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:17:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634642220;
+ s=mimecast20190719; t=1634642226;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YP6AYwdn+Z6MF0evpvAlUIvgrrbHdLebz6yiWHi64vA=;
- b=c4fuw1lhlSiFmfkVu/K7yeKdYauXSF1GctjKOhz/6hI5AtjR/gVzuLvll6kHlDolacRGwL
- 0zJdQctpf3QulOT59GEd/Lshn0b3h394WjzsvbCu5VYX3651lwVlbKzRK+oRtGm6N/c6lH
- G93JmojbCOmJwi56dt4vi0AqBoaROCU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-aBcF2N-cMSqfquMN4S9H9w-1; Tue, 19 Oct 2021 07:16:56 -0400
-X-MC-Unique: aBcF2N-cMSqfquMN4S9H9w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n9-20020a1c7209000000b0030da7d466b8so1026787wmc.5
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 04:16:56 -0700 (PDT)
+ bh=5zhz4UXPazu/R7bWpYv9SuJ8Exi96GhRPsjpfx+/COk=;
+ b=LosjGbOPMDY3msZP2sOqihQeb5Qx7ZQkW+jzXDWq/vVLZtR0O6A8K0mlLonnYUaWKmitGn
+ QHqn+y84jivpD58dg50g3CV8tJXFqYDwN6pge/32WSke2idqEkfR6f2oiq14983oab19wl
+ KOSHfVqZ3wnWOq+eStfVCvC4MwvXoXg=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-401-a4MmXLrKNBqGJ1SmdfXuaA-1; Tue, 19 Oct 2021 07:17:05 -0400
+X-MC-Unique: a4MmXLrKNBqGJ1SmdfXuaA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ d11-20020a50cd4b000000b003da63711a8aso17189572edj.20
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 04:17:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YP6AYwdn+Z6MF0evpvAlUIvgrrbHdLebz6yiWHi64vA=;
- b=zlqMfm2YTfaQavVliAEbh1wrZ7OalLC1vPxgbtG/dYqeAM+MapIyx/1xsSxxxEtgj6
- 9cqUUkbInJkVdqO6l/jWyPFidlrGuS1AjJnsLuA5WOCYb98DTLznGjIyY2L2/t7e2cNG
- mieXO3993KyuS0lH6A//XaE2nwb9xzsCtql32bigmhE5lclmn2jyX4H898E4TVnZc/h1
- piw6YsyeGWg7WaKh5r4FBGpnmJZjPhXMZIuHzvcz1rbVT2QZEUA7maHEftZ+hn23uzfe
- +vG1RaxT4FNvjUYkyUZS5tKIBufJE6bvsxXEivSljs30MlmZ8V6OzbOI/hqEGbdt1e72
- clww==
-X-Gm-Message-State: AOAM530UQ7s8pRJBAp1w8azMyotjxijsyWRbWEXzENKM//3ONUi3dUsx
- YAH6tA7sSwbdHBbPfaZQYg7ZOGjIjcTWAgKhHz1JmWkCUcPitMtcNEBdW8AA5Wz2B0sY48cKjdH
- anwcWbOYSKKbuRS8=
-X-Received: by 2002:a05:600c:4103:: with SMTP id
- j3mr5371708wmi.30.1634642215523; 
- Tue, 19 Oct 2021 04:16:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzVXk+J1yiUnYWUNjqkL19sIycJyNcLUclxhBE92KsnA6pk+6H5NskQ9vMNebMGZiYAS9vmGA==
-X-Received: by 2002:a05:600c:4103:: with SMTP id
- j3mr5371681wmi.30.1634642215357; 
- Tue, 19 Oct 2021 04:16:55 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-83-53-160.dynamicip.rima-tde.net.
- [83.53.160.121])
- by smtp.gmail.com with ESMTPSA id t1sm5183516wre.32.2021.10.19.04.16.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 04:16:54 -0700 (PDT)
-Message-ID: <236403cd-2454-9a02-e1c3-8103618c0eb1@redhat.com>
-Date: Tue, 19 Oct 2021 13:16:53 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5zhz4UXPazu/R7bWpYv9SuJ8Exi96GhRPsjpfx+/COk=;
+ b=kodO6hCpkOvc+pMGurmOGNmwNweyTLANeF2CgrHGwmRbsGW1TbDBOozBdmxHDZRs8G
+ SwSIrkBTAJnEk/FWToBP/CYQ+VbSiSYMUrT/Mk+RK9O2A4+jQc3wthlTncI/4in3dW8V
+ 40sfiZfsvuTuEgWxziX5shLzTkeCUCeLIuP3A74PKIWW+AdzW3PZLVI6gI1VGqqYIblE
+ Bd7YkCeJGIJn6B8reP/2BPPPdKs5mNyZQNgq0PNE+UonbUqCQpbg+whuaO+/lhUaFrVa
+ SQv5tcRk38ccL0IWM5PUSb8gZZvWMGCNlMJ0rf3W6qbaPv4yQ/ecFA7krI9d5uz06VpB
+ /44w==
+X-Gm-Message-State: AOAM532sWMuYCP9OcRNSq76pPb2X/aZt0mkkSp2BWmQrYB866GdhwmT8
+ M6domUJwoubN/D9RHFU8BZ782ibp64OwOiAgvgjO1oVT7EQkSgFC9pYSWqegC2XENZyxehCC5Z+
+ hxT23+UmQ5IjXVJw=
+X-Received: by 2002:a05:6402:358d:: with SMTP id
+ y13mr53850179edc.343.1634642224195; 
+ Tue, 19 Oct 2021 04:17:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxpub1kGonLMats5CWkPaCbW3nVAbf4aIeO7n3Ybi/L64iW84gchCJTpkE7sg9S8kWvs7mDbg==
+X-Received: by 2002:a05:6402:358d:: with SMTP id
+ y13mr53850143edc.343.1634642223966; 
+ Tue, 19 Oct 2021 04:17:03 -0700 (PDT)
+Received: from redhat.com ([2.55.24.172])
+ by smtp.gmail.com with ESMTPSA id z19sm10073935ejw.44.2021.10.19.04.17.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Oct 2021 04:17:03 -0700 (PDT)
+Date: Tue, 19 Oct 2021 07:17:00 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH V4 00/10] vhost-vDPA multiqueue
+Message-ID: <20211019071654-mutt-send-email-mst@kernel.org>
+References: <20211011042829.4159-1-jasowang@redhat.com>
+ <20211019030236-mutt-send-email-mst@kernel.org>
+ <CACGkMEvEQfQwR1nN-G19XbWRanPYSydeyWGbt_4Z5XNdLajmtA@mail.gmail.com>
+ <20211019064428-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2 2/6] docs: rSTify the "SpellCheck" wiki
-To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org
-References: <20211019090344.3054300-1-kchamart@redhat.com>
- <20211019090344.3054300-3-kchamart@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211019090344.3054300-3-kchamart@redhat.com>
+In-Reply-To: <20211019064428-mutt-send-email-mst@kernel.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,32 +96,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-trivial@nongnu.org, Eric Blake <eblake@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Cindy Lu <lulu@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Gautam Dawar <gdawar@xilinx.com>, eperezma <eperezma@redhat.com>,
+ Eli Cohen <elic@nvidia.com>, Zhu Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 11:03, Kashyap Chamarthy wrote:
-> The original wiki is here[1].  I converted by copying the wiki source
-> into a .wiki file and convert to rST using `pandoc`:
+On Tue, Oct 19, 2021 at 06:44:38AM -0400, Michael S. Tsirkin wrote:
+> On Tue, Oct 19, 2021 at 03:24:36PM +0800, Jason Wang wrote:
+> > On Tue, Oct 19, 2021 at 3:21 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >
+> > > On Mon, Oct 11, 2021 at 12:28:19PM +0800, Jason Wang wrote:
+> > > > Hi All:
+> > > >
+> > > > This patch implements the multiqueue support for vhost-vDPA. The most
+> > > > important requirement si the control virtqueue support. The virtio-net
+> > > > and vhost-net core are tweak to support control virtqueue as if what
+> > > > data queue pairs are done: a dedicated vhost_net device which is
+> > > > coupled with the NetClientState is intrdouced so most of the existing
+> > > > vhost codes could be reused with minor changes. This means the control
+> > > > virtqueue will bypass the Qemu. With the control virtqueue, vhost-vDPA
+> > > > are extend to support creating and destroying multiqueue queue pairs
+> > > > plus the control virtqueue.
+> > > >
+> > > > For the future, if we want to support live migration, we can either do
+> > > > shadow cvq on top or introduce new interfaces for reporting device
+> > > > states.
+> > >
+> > >
+> > > I had to defer this due to rework I picked up.
+> > > I pushed an experimental tree - it still has issues but
+> > > if you rebase on top of that I can apply.
+> > 
+> > Will do. For the tree, is it
+> > git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git next?
+> > 
+> > Thanks
+> > 
 > 
->     $ pandoc -f Mediawiki -t rst spell-check.wiki -o spell-check.rst
-> 
-> As part of this rST converstion, I've removed the dated and `codespell`
-> invocations, and linked to the GitHub repo.  And cleaned up a couple of
-> external URLs.
-> 
-> [1] https://wiki.qemu.org/Contribute/SpellCheck
-> 
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> ---
->  docs/devel/spell-check.rst | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->  create mode 100644 docs/devel/spell-check.rst
+> pci
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+pushed now
+
+> > >
+> > > > Tests are done via the vp_vdpa driver in L1 guest.
+> > > >
+> > > > Changes since V3:
+> > > >
+> > > > - fix build with vhost disabled
+> > > >
+> > > > Changes since V2:
+> > > >
+> > > > - rebase to qemu master
+> > > > - use "queue_pairs" instead of "qps"
+> > > > - typo fixes
+> > > >
+> > > > Changes since V1:
+> > > >
+> > > > - start and stop vhost devices when all queues were setup
+> > > > - fix the case when driver doesn't support MQ but device support
+> > > > - correctly set the batching capability to avoid a map/unmap storm
+> > > > - various other tweaks
+> > > >
+> > > > Jason Wang (10):
+> > > >   vhost-vdpa: open device fd in net_init_vhost_vdpa()
+> > > >   vhost-vdpa: classify one time request
+> > > >   vhost-vdpa: prepare for the multiqueue support
+> > > >   vhost-vdpa: let net_vhost_vdpa_init() returns NetClientState *
+> > > >   net: introduce control client
+> > > >   vhost-net: control virtqueue support
+> > > >   virtio-net: use "queue_pairs" instead of "queues" when possible
+> > > >   vhost: record the last virtqueue index for the virtio device
+> > > >   virtio-net: vhost control virtqueue support
+> > > >   vhost-vdpa: multiqueue support
+> > > >
+> > > >  hw/net/vhost_net-stub.c        |   4 +-
+> > > >  hw/net/vhost_net.c             |  55 ++++++++---
+> > > >  hw/net/virtio-net.c            | 165 ++++++++++++++++++---------------
+> > > >  hw/virtio/vhost-vdpa.c         |  56 +++++++++--
+> > > >  include/hw/virtio/vhost-vdpa.h |   1 +
+> > > >  include/hw/virtio/vhost.h      |   2 +
+> > > >  include/hw/virtio/virtio-net.h |   5 +-
+> > > >  include/net/net.h              |   5 +
+> > > >  include/net/vhost_net.h        |   6 +-
+> > > >  net/net.c                      |  24 ++++-
+> > > >  net/vhost-vdpa.c               | 127 ++++++++++++++++++++++---
+> > > >  11 files changed, 330 insertions(+), 120 deletions(-)
+> > > >
+> > > > --
+> > > > 2.25.1
+> > >
 
 
