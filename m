@@ -2,86 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66876432DFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 08:18:18 +0200 (CEST)
-Received: from localhost ([::1]:36562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F800432E01
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 08:19:16 +0200 (CEST)
+Received: from localhost ([::1]:38680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mciS1-0000x4-0s
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 02:18:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40958)
+	id 1mciSx-0002Qx-Ko
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 02:19:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mciPS-0007lD-9h
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:15:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28866)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mciS7-0001gH-Lc
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:18:23 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mciPO-0005zJ-1P
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:15:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634624132;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=60KlOswIUog4Z0nbwB+CKPjyYDEsfL3LQOQedWhA3tg=;
- b=Dh4c2aUJOgurRMvturY+kmDDot0OAl4N+XewO6/XPzyJ0mapRfPhbh2zD+4ZTEs3C5CeAW
- soHuJZ/GNSdrCUN6zJXdK7o7HRR8A/RF0kogoEDZ2PmBxeyn8q8koMBSLp4oXzUegEOs8L
- Kb/TD4SdeUf9X8WlsynfjDMG+/GUFbM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-575-f1M57hsTNIyFIbQl9VflBw-1; Tue, 19 Oct 2021 02:15:30 -0400
-X-MC-Unique: f1M57hsTNIyFIbQl9VflBw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- j19-20020adfb313000000b00160a9de13b3so9707788wrd.8
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 23:15:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=60KlOswIUog4Z0nbwB+CKPjyYDEsfL3LQOQedWhA3tg=;
- b=jJaGcUUIqEFJ3ltUZle1h3s4uFiMFRoliGwI1cIUcsTjay2zna8Ojb+GJJzfSRPrVu
- qyK+dU6rHoWKD/3ePu+b0YYwJoGDHhCbY+MMkmb2rixULhc27Ktp31zb47SkHqdq0xjc
- truobsN/1hW++1jamBbERzC8oAjjohGsexcK786k/dUn/0JvqeA3GPCiQ17DKURaL8MY
- 2723m+5S6tXi3giOA54DD4zkh0i/uidTavpIyaadyC2rBACfhWKWJho+ngfBs9g/XbSe
- gbb/vVfDankWAxKi8DpKwm6Zpy6hcGMBhEBoM7JfUbOVOqYOLRK4HuRLtL8NI6Yw/jkC
- 65kA==
-X-Gm-Message-State: AOAM533nwasN8LEGOo+Xyjzd8kV8xhMg0jh2N1EWCui8t6Vv8ji8yX41
- 0DpUHDl8qYQAJPcnpCGJsZi3hBlnVpMMG7Xs+j77TptZ91T/mfoXGgez93l3nArTGKwzxbjB2Qc
- 6uoMkcQkNGnkZ4qc=
-X-Received: by 2002:a7b:ce8d:: with SMTP id q13mr3834018wmj.103.1634624129700; 
- Mon, 18 Oct 2021 23:15:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxeCwChztu5676Mr0w+9Sfva05Adqlg/jbTLBEL4yegc1oqMYLCVZMoDogbZtmmo5RMwLT6Q==
-X-Received: by 2002:a7b:ce8d:: with SMTP id q13mr3833995wmj.103.1634624129510; 
- Mon, 18 Oct 2021 23:15:29 -0700 (PDT)
-Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id r128sm1337031wma.44.2021.10.18.23.15.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 23:15:28 -0700 (PDT)
-Date: Tue, 19 Oct 2021 02:15:25 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Xueming Li <xuemingl@nvidia.com>
-Subject: Re: [PATCH v3 1/2] vhost-user: fix VirtQ notifier cleanup
-Message-ID: <20211019021457-mutt-send-email-mst@kernel.org>
-References: <20211008075805.589644-1-xuemingl@nvidia.com>
- <20211008075805.589644-2-xuemingl@nvidia.com>
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mciS4-00089h-B4
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:18:23 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19J3Gl8f031168; 
+ Tue, 19 Oct 2021 02:18:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=qy6r5AUPNcS0KFF7wWfNEjR0EEFf2eJU1nH5UstibCg=;
+ b=LDvoJJJqD1XazFDs2PQI4Nwh4xuyUJecoVc+YNrwwd6OctUkj8jytFKmCf7ywKwIrvYT
+ mn3ONiKljYskhq1mE9JfOO2k4TBCR9LHlHlA4C6fKnHMflTdYdlKgCSoS7zPufYNeIlN
+ 4vNX+T8Vzy4buONbYoxraIiYkdkcqr2EVxXce0Fu6zyAA8/z7NmmlxriKi69Bns0TszW
+ DM/e7ch5U9SoySlwJ+IlC1E5G5ePYfziQMCIbn7tCfbFcD32u/VrBqJA2vMXT1rlsdk1
+ Zij0RQHaz6F0uzvVBt3ozbpjwlrl2zgUzf79tQ7R3x0fy+yYweBEpVsFG3BMXhjhhIop NA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bsnyq2qmk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 19 Oct 2021 02:18:16 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19J60uGw017562;
+ Tue, 19 Oct 2021 02:18:15 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bsnyq2qm5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 19 Oct 2021 02:18:15 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19J6DKdW023361;
+ Tue, 19 Oct 2021 06:18:14 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma03dal.us.ibm.com with ESMTP id 3bqpcasab6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 19 Oct 2021 06:18:14 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 19J6IBxi24838588
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 19 Oct 2021 06:18:11 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 28E6D6A047;
+ Tue, 19 Oct 2021 06:18:11 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DB7616A05A;
+ Tue, 19 Oct 2021 06:18:06 +0000 (GMT)
+Received: from [9.160.127.81] (unknown [9.160.127.81])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 19 Oct 2021 06:18:06 +0000 (GMT)
+Message-ID: <9474f5d8-68c5-606b-a123-419556afe5d4@linux.ibm.com>
+Date: Tue, 19 Oct 2021 09:18:04 +0300
 MIME-Version: 1.0
-In-Reply-To: <20211008075805.589644-2-xuemingl@nvidia.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 1/2] sev/i386: Introduce sev_add_kernel_loader_hashes
+ for measured linux boot
+Content-Language: en-US
+To: Tom Lendacky <thomas.lendacky@amd.com>, qemu-devel@nongnu.org
+References: <20210930054915.13252-1-dovmurik@linux.ibm.com>
+ <20210930054915.13252-2-dovmurik@linux.ibm.com>
+ <3b9d10d9-5d9c-da52-f18c-cd93c1931706@amd.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <3b9d10d9-5d9c-da52-f18c-cd93c1931706@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: dfRhsmV_3xjVKFggI7qoEAI7Md06ZOp2
+X-Proofpoint-GUID: YxfXdWRbsJ44ja-9h3uG7rxO7WmQ_gAX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-18_07,2021-10-18_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0
+ mlxscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0
+ impostorscore=0 priorityscore=1501 phishscore=0 clxscore=1015
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2110190036
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,95 +116,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>, qemu-devel@nongnu.org,
- tiwei.bie@intel.com, qemu-stable@nongnu.org
+Cc: Dov Murik <dovmurik@linux.ibm.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hubertus Franke <frankeh@us.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 08, 2021 at 03:58:04PM +0800, Xueming Li wrote:
-> When vhost-user device cleanup and unmmap notifier address, VM cpu
-> thread that writing the notifier failed with accessing invalid address.
+
+
+On 18/10/2021 21:02, Tom Lendacky wrote:
+> On 9/30/21 12:49 AM, Dov Murik wrote:
 > 
-> To avoid this concurrent issue, wait memory flatview update by draining
-> rcu callbacks, then unmap notifiers.
+> ...
 > 
-> Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
-> Cc: tiwei.bie@intel.com
-> Cc: qemu-stable@nongnu.org
-> Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
-> Signed-off-by: Xueming Li <xuemingl@nvidia.com>
-> ---
->  hw/virtio/vhost-user.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
+>> +/*
+>> + * Add the hashes of the linux kernel/initrd/cmdline to an encrypted
+>> guest page
+>> + * which is included in SEV's initial memory measurement.
+>> + */
+>> +bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error
+>> **errp)
+>> +{
+>> +    uint8_t *data;
+>> +    SevHashTableDescriptor *area;
+>> +    SevHashTable *ht;
+>> +    uint8_t cmdline_hash[HASH_SIZE];
+>> +    uint8_t initrd_hash[HASH_SIZE];
+>> +    uint8_t kernel_hash[HASH_SIZE];
+>> +    uint8_t *hashp;
+>> +    size_t hash_len = HASH_SIZE;
+>> +    int aligned_len;
+>> +
+>> +    if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data,
+>> NULL)) {
+>> +        error_setg(errp, "SEV: kernel specified but OVMF has no hash
+>> table guid");
+>> +        return false;
+>> +    }
 > 
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index bf6e50223c..b2e948bdc7 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -1165,6 +1165,12 @@ static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
->  
->      if (n->addr && n->set) {
->          virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
-> +        if (!qemu_in_vcpu_thread()) { /* Avoid vCPU dead lock. */
-> +            /* Wait for VM threads accessing old flatview which contains notifier. */
-> +            drain_call_rcu();
-> +        }
-> +        munmap(n->addr, qemu_real_host_page_size);
-> +        n->addr = NULL;
->          n->set = false;
->      }
->  }
+> This breaks backwards compatibility with an older OVMF image. Any older
+> OVMF image with SEV support that doesn't have the hash table GUID will
+> now fail to boot using -kernel/-initrd/-append, where it used to be able
+> to boot before.
+> 
 
 
-../hw/virtio/vhost-user.c: In function ‘vhost_user_host_notifier_remove’:
-../hw/virtio/vhost-user.c:1168:14: error: implicit declaration of function ‘qemu_in_vcpu_thread’ [-Werror=implicit-function-declaration]
- 1168 |         if (!qemu_in_vcpu_thread()) { /* Avoid vCPU dead lock. */
-      |              ^~~~~~~~~~~~~~~~~~~
-../hw/virtio/vhost-user.c:1168:14: error: nested extern declaration of ‘qemu_in_vcpu_thread’ [-Werror=nested-externs]
-cc1: all warnings being treated as errors
-ninja: build stopped: subcommand failed.
-make[1]: *** [Makefile:162: run-ninja] Error 1
-make[1]: Leaving directory '/scm/qemu/build'
-make: *** [GNUmakefile:11: all] Error 2
+Thanks Tom for noticing this.
+
+Just so we're on the same page: this patch is already merged.
 
 
-Although the following patch fixes it, bisect is broken.
+We're dealing with a scenario of launching a guest with SEV enabled and
+with -kernel.  The behaviours are:
 
 
-> @@ -1502,12 +1508,7 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
->  
->      n = &user->notifier[queue_idx];
->  
-> -    if (n->addr) {
-> -        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
-> -        object_unparent(OBJECT(&n->mr));
-> -        munmap(n->addr, page_size);
-> -        n->addr = NULL;
-> -    }
-> +    vhost_user_host_notifier_remove(dev, queue_idx);
->  
->      if (area->u64 & VHOST_USER_VRING_NOFD_MASK) {
->          return 0;
-> @@ -2485,11 +2486,17 @@ void vhost_user_cleanup(VhostUserState *user)
->      for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
->          if (user->notifier[i].addr) {
->              object_unparent(OBJECT(&user->notifier[i].mr));
-> +        }
-> +    }
-> +    memory_region_transaction_commit();
-> +    /* Wait for VM threads accessing old flatview which contains notifier. */
-> +    drain_call_rcu();
-> +    for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-> +        if (user->notifier[i].addr) {
->              munmap(user->notifier[i].addr, qemu_real_host_page_size);
->              user->notifier[i].addr = NULL;
->          }
->      }
-> -    memory_region_transaction_commit();
->      user->chr = NULL;
->  }
->  
-> -- 
-> 2.33.0
+A. With current QEMU:
+
+A1. New AmdSev OVMF build: OVMF will verify the hashes and boot correctly.
+A2. New Generic OvmfPkgX64 build: No verification but will boot correctly.
+
+A3. Old AmdSev OVMF build: QEMU aborts the launch because there's no
+hash table GUID.
+A4. Old Generic OvmfPkgX64 build: QEMU aborts the launch because there's
+no hash table GUID.
+
+
+B. With older QEMU (before this patch was merged):
+
+B1. New AmdSev OVMF build: OVMF will try to verify the hashes but they
+are not populated; boot aborted.
+B2. New Generic OvmfPkgX64 build: No verification but will boot correctly.
+
+B3. Old AmdSev OVMF build: OVMF aborts the launch because -kernel is not
+supported at all.
+B4. Old Generic OvmfPkgX64 build: No verification but will boot correctly.
+
+
+So the problem you are raising is scenario A4 (as opposed to previous
+behaviour B4).
+
+
+
+> Is that anything we need to be concerned about?
+> 
+
+Possible solutions:
+
+1. Do nothing. For users that encounter this: tell them to upgrade OVMF.
+2. Modify the code: remove the line: error_setg(errp, "SEV: kernel
+specified but OVMF has no hash table guid")
+
+I think that option 2 will not degrade security *if* the Guest Owner
+verifies the measurement (which is mandatory anyway; otherwise the
+untrusted host can replace OVMF with a "malicious" version that doesn't
+verify the hashes). Skipping silently might make debugging a bit harder.
+Maybe we can print a warning and return, and then the guest launch will
+continue?
+
+Other ideas?
+
+
+-Dov
 
 
