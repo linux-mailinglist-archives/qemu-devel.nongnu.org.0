@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6CE433210
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:21:47 +0200 (CEST)
-Received: from localhost ([::1]:51694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00607433212
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:22:03 +0200 (CEST)
+Received: from localhost ([::1]:53062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mclJY-00035r-Q8
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:21:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52848)
+	id 1mclJq-0004AL-3r
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:22:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mclGQ-0001Gq-07
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:18:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53138)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mclGr-0001sb-Jp; Tue, 19 Oct 2021 05:18:57 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:44561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mclGL-0004pb-Ra
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:18:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634635105;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4BQuD116ZwadeM8o+VsrqJ09TFb1YtrV7sB3T/H3X9I=;
- b=Nfr2C7kTxbFAlIHTSv/LB2Uj0OGFNNm9+V0Ic/ChCqqN4eTY8fKxF12lPx0/3yGciouPgc
- gjYvAb2udLPneM0yHFR6hEyxnlz72EkvTrKkKjvUTM5CtxdJ2OYzzJA3wCFZDb4JmiANz+
- voD2OEh+bvuoPZcCQYx38IBbpJw67NY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483--zEqUtuhPyasiPvgaDRv0g-1; Tue, 19 Oct 2021 05:18:23 -0400
-X-MC-Unique: -zEqUtuhPyasiPvgaDRv0g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C0DC806668;
- Tue, 19 Oct 2021 09:18:21 +0000 (UTC)
-Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA6FA5F4E0;
- Tue, 19 Oct 2021 09:18:18 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/ppc/ppc4xx_pci: Fix ppc4xx_pci_map_irq() for recent Linux
- kernels
-Date: Tue, 19 Oct 2021 11:18:17 +0200
-Message-Id: <20211019091817.469003-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mclGo-0005Bt-Mb; Tue, 19 Oct 2021 05:18:56 -0400
+Received: from [192.168.100.1] ([82.142.24.54]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MOQu6-1mLmsT2gmc-00PuAW; Tue, 19 Oct 2021 11:18:47 +0200
+Subject: Re: [PATCH v2 1/6] docs: rSTify the "TrivialPatches" wiki
+To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org
+References: <20211019090344.3054300-1-kchamart@redhat.com>
+ <20211019090344.3054300-2-kchamart@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <322f1d0e-e349-5554-9112-65a01f97c2e7@vivier.eu>
+Date: Tue, 19 Oct 2021 11:18:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211019090344.3054300-2-kchamart@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:/X/oyhsINLTlDke3wjMPCsiEHCXg5dsY/6qBkRtPQJHHpnUjwLa
+ 6oFijZhX6UYjLg2BnI3rnqpq8t9YSAnFo3CsOocY1sPoIMBOb6NSRF+/2RvmnvMeCHcq13i
+ a00HdVg7aWG12g3iwMhr6C8SmhrBfbaC2fTlsA+z8AgNGBSKLmmTRxwb123GVMA+6uh6WaW
+ e6IgJNwN8u1DCSsYv2iig==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uj5NJYqp52Y=:BGN7Ixtnj5VkypgMzVwiNy
+ rY4QNOo+kqe+oQatGdmqmjDTfQAV2f2sPi22FcKqnKdit+ncAtXZo1Vkoaq7Tx39hrRNMn96Q
+ 0JvMgEUsO5LEGlpwMxAt5/CJm4zKtmpohNONjqVcjrCDP1qj2yefsxkhQ9N2jPHiEa1bOY964
+ KkjwdCeSO3jO+QkHEfrfOpN0zaXHbxLxXrtH5u7OY4pkLAx3ymXRulg808HMasCsyeRTBuWRn
+ dkWKAyvUmPJeU7bO3tHif1HYks6y+UhTwR0nICArO6lCEN7CmR1EcbDN3maFE8ivvDgxYy39p
+ BsZzSwxoUzVvM3AOaIZX4fcOGuY0blblQwWp/b3gaRMq4EcgQ0oSR35/t588Jj+FHUkjru2yr
+ Ny+JlS8cixrfx472LmEChENrS9r3qycJobxlL5Ytru21Lonprs72dmyJ/mD6vVZnfFrl7irVT
+ /eqI3SdrJSIYaYLlE+JC9Wp5/4S6Rlj2VLVFk4c01uTzXY/GBO27NXTwD16wpU2wJw7uV7IKS
+ iqhPEJOK0v34NT/NTe5z8OKdfD0hQIgbyTMvwywbhjZrTVOLck4NidqCfHZeCJPVqBhePOhe0
+ kj+eJb7cVXlemXVf1uB4/Qif614ylybHUUp+XqeR+xoJgiRAI9jhVWWRCvWHIhX619yXhpYe5
+ VQCCcvRyv+ptoUaHpM512vQrSAYh/th++vNO+mllX43LBu/SPs6PTJU8XzQmn4q+TEJSmzSAK
+ 4hbxI5FBmfaEVxUQd53ld0fAGdq5u1gFIPR/Mg==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,71 +70,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Greg Kurz <groug@kaod.org>, Christophe Leroy <christophe.leroy@csgroup.eu>,
- qemu-ppc@nongnu.org, clg@kaod.org, edgar.iglesias@gmail.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-trivial@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, John Snow <jsnow@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent Linux kernels are accessing the PCI device in slot 0 that
-represents the PCI host bridge. This causes ppc4xx_pci_map_irq()
-to return -1 which causes an assert() later:
+Le 19/10/2021 à 11:03, Kashyap Chamarthy a écrit :
+> The original wiki is here[1].  I converted by copying the wiki source
+> into a .wiki file and convert to rST using `pandoc`:
+> 
+>         $ pandoc -f Mediawiki -t rst trivial-patches.wiki -o trivial-patches.rst
+> 
+> Update the active maintainer names to reflect current reality.
+> 
+> [1] https://wiki.qemu.org/Contribute/TrivialPatches
+> 
+> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+> ---
+> I've only retained Laurent's name as per Philip's review here:
+> https://lists.nongnu.org/archive/html/qemu-devel/2021-09/msg05624.html
 
- hw/pci/pci.c:262: pci_bus_change_irq_level: Assertion `irq_num >= 0' failed.
+Thank you Kashyap.
 
-Thus we should allocate an IRQ line for the device in slot 0, too.
-To avoid changes to the outside of ppc4xx_pci.c, we map it to
-the internal IRQ number 4 which will then happily be ignored since
-ppc440_bamboo.c does not wire it up.
+so you should also remove Michael's repo (corpit.ru).
 
-With these changes it is now possible again to use recent Linux
-kernels for the bamboo board.
+Thanks,
+Laurent
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/ppc/ppc4xx_pci.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
-index 8147ba6f94..304a29349c 100644
---- a/hw/ppc/ppc4xx_pci.c
-+++ b/hw/ppc/ppc4xx_pci.c
-@@ -48,12 +48,14 @@ OBJECT_DECLARE_SIMPLE_TYPE(PPC4xxPCIState, PPC4xx_PCI_HOST_BRIDGE)
- #define PPC4xx_PCI_NR_PMMS 3
- #define PPC4xx_PCI_NR_PTMS 2
- 
-+#define PPC4xx_PCI_NUM_DEVS 5
-+
- struct PPC4xxPCIState {
-     PCIHostState parent_obj;
- 
-     struct PCIMasterMap pmm[PPC4xx_PCI_NR_PMMS];
-     struct PCITargetMap ptm[PPC4xx_PCI_NR_PTMS];
--    qemu_irq irq[PCI_NUM_PINS];
-+    qemu_irq irq[PPC4xx_PCI_NUM_DEVS];
- 
-     MemoryRegion container;
-     MemoryRegion iomem;
-@@ -246,7 +248,7 @@ static int ppc4xx_pci_map_irq(PCIDevice *pci_dev, int irq_num)
- 
-     trace_ppc4xx_pci_map_irq(pci_dev->devfn, irq_num, slot);
- 
--    return slot - 1;
-+    return slot > 0 ? slot - 1 : PPC4xx_PCI_NUM_DEVS - 1;
- }
- 
- static void ppc4xx_pci_set_irq(void *opaque, int irq_num, int level)
-@@ -254,7 +256,7 @@ static void ppc4xx_pci_set_irq(void *opaque, int irq_num, int level)
-     qemu_irq *pci_irqs = opaque;
- 
-     trace_ppc4xx_pci_set_irq(irq_num);
--    assert(irq_num >= 0);
-+    assert(irq_num >= 0 && irq_num < PPC4xx_PCI_NUM_DEVS);
-     qemu_set_irq(pci_irqs[irq_num], level);
- }
- 
--- 
-2.27.0
+> ---
+>  docs/devel/trivial-patches.rst | 51 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 51 insertions(+)
+>  create mode 100644 docs/devel/trivial-patches.rst
+> 
+> diff --git a/docs/devel/trivial-patches.rst b/docs/devel/trivial-patches.rst
+> new file mode 100644
+> index 0000000000..7df0f901f5
+> --- /dev/null
+> +++ b/docs/devel/trivial-patches.rst
+> @@ -0,0 +1,51 @@
+> +Trivial Patches
+> +===============
+> +
+> +Overview
+> +--------
+> +
+> +Trivial patches that change just a few lines of code sometimes languish
+> +on the mailing list even though they require only a small amount of
+> +review. This is often the case for patches that do not fall under an
+> +actively maintained subsystem and therefore fall through the cracks.
+> +
+> +The trivial patches team take on the task of reviewing and building pull
+> +requests for patches that:
+> +
+> +- Do not fall under an actively maintained subsystem.
+> +- Are single patches or short series (max 2-4 patches).
+> +- Only touch a few lines of code.
+> +
+> +**You should hint that your patch is a candidate by CCing
+> +qemu-trivial@nongnu.org.**
+> +
+> +Repositories
+> +------------
+> +
+> +Since the trivial patch team rotates maintainership there is only one
+> +active repository at a time:
+> +
+> +- git://git.corpit.ru/qemu.git trivial-patches - `browse <http://git.corpit.ru/?p=qemu.git;a=shortlog;h=refs/heads/trivial-patches>`__
+> +- git://github.com/vivier/qemu.git trivial-patches - `browse <https://github.com/vivier/qemu/tree/trivial-patches>`__
+> +
+> +Workflow
+> +--------
+> +
+> +The trivial patches team rotates the duty of collecting trivial patches
+> +amongst its members. A team member's job is to:
+> +
+> +1. Identify trivial patches on the development mailing list.
+> +2. Review trivial patches, merge them into a git tree, and reply to state
+> +   that the patch is queued.
+> +3. Send pull requests to the development mailing list once a week.
+> +
+> +A single team member can be on duty as long as they like. The suggested
+> +time is 1 week before handing off to the next member.
+> +
+> +Team
+> +----
+> +
+> +If you would like to join the trivial patches team, contact Laurent
+> +Vivier. The current team includes:
+> +
+> +- `Laurent Vivier <mailto:laurent@vivier.eu>`__
+> 
 
 
