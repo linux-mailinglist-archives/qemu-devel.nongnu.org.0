@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092A543304D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 09:59:46 +0200 (CEST)
-Received: from localhost ([::1]:60958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E804A433066
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 10:04:28 +0200 (CEST)
+Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mck2D-0006RH-5a
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 03:59:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34652)
+	id 1mck6m-0005JB-1Y
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 04:04:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mcjze-00035Y-Ae; Tue, 19 Oct 2021 03:57:08 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:58269)
+ id 1mcjmu-0000VO-8I; Tue, 19 Oct 2021 03:43:56 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:37893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mcjzb-0000va-Sg; Tue, 19 Oct 2021 03:57:06 -0400
+ id 1mcjmr-0006dZ-GG; Tue, 19 Oct 2021 03:43:55 -0400
 Received: from [192.168.100.1] ([82.142.24.54]) by mrelayeu.kundenserver.de
  (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mm9NA-1n3F7a396W-00iFx2; Tue, 19 Oct 2021 09:56:58 +0200
-Subject: Re: [PATCH 0/2] analyze-migration.py: trivial fixes
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20211015131645.501281-1-lvivier@redhat.com>
+ 1MWhxY-1mEQZ03kFs-00X31z; Tue, 19 Oct 2021 09:43:39 +0200
+Subject: Re: [PATCH-for-6.2 0/2] disas/nios2: Simplify endianess conversion
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210807110939.95853-1-f4bug@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <3db7ddcd-9e4d-5d23-1479-2aa46d2becce@vivier.eu>
-Date: Tue, 19 Oct 2021 09:56:56 +0200
+Message-ID: <de933f9c-c3df-b5db-1107-15aa3e3c7213@vivier.eu>
+Date: Tue, 19 Oct 2021 09:43:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20211015131645.501281-1-lvivier@redhat.com>
+In-Reply-To: <20210807110939.95853-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:1apv2kCUtZH9J6G7LovSkyIfkvWCaggxLGYf5Q7Mf7OxxBivVly
- 0bHtktuAn8C0eOJrM5HeBsI1PvXu0iXk/fLjf+0q1DhkzoFbzuAIJvPvd5sOsTiIRnBv3DX
- 0ba7b7RuKv2hx5MR1L4e/7IUm3/YvDz13TKSYVpg0PZcyyBWUoCtejLCqa3aeLCenfWKzqt
- WbTk74956E93j+UGiS3TA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kwQbR2hF3jc=:lZX9RyrupegJYPmfAmxMLm
- YH25sqqwOnsmHHD/aWNbla2CsJ0DlPBrd33sWsQunEpI6zulTdcFmETnTjr+3xFe6+w1yc9XY
- qJKWYKM0Yxfj95L2ivibwVib+9uq787eFxenOaZVzrmJoLxYzJJPyF3gC9k+KU+vucHplWtdf
- xKM46UyLIU22J9aVKQAbwigOpAe5drjPUKeBAnxCVDr6TKSlnVAwgGDg+ZQeQ8zIaYjKBktf9
- an4Dfc3EzDZNQINkWxTYai7wxeClJ526R5uJyETdWcWViXgFiSSFDG5QLe7QAdwdtOgCon69B
- bCx1FIuOW5J3BPN8pzSCtUtUEC8jeqVJLp1xjAFwjzjf4DjPVTCLs0+qEsQev8zKzdZtfd7hj
- 7EKk7XRo+OWW3LE+/ZovnNLRIfWiG9bfy/7+EObH2pdFEVPmU2dXOk8gdsT0062ciYWttaOND
- 6H6fic1EtEsUpKjCW6YPsFmyd/f1SRIfL3iT0VUr92WA5aRYPPqIMgULL10fM3Gt+SQgaH+R9
- VkMghjOkguYt0L8j1UCWNK8go3KEzM1bHsArpK12OaqNE2bpYENcsF/qmtom3mlKU0tdYWj3q
- NyJJHyqPjPz6OxmxyQV8OfEFWFeicW5alDE9hMB6Z3b2hlDYLIqKHm+qVSJPE/VFuf5fugOc2
- c2w71mjjugOCfVcvZhgerx5Njx1m9bY6nshRJ9PgZYw8khvWJD2vkSrCikvMF21zuNASFGwLT
- gakEKIoqgkl3q0WlBvLCnPUlr3rdYaTTM20HXg==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:abHWmoeFV0Aae/u0KhZN6v9gFhzs+7bc2HEdTYxUmIf4bjqyqtk
+ ocIlmJcRtcSe3ML2edi2rf24+1RMMhmvXUNlt9eslNgCA9wb1I3OwFJ3uRzp3RfKbbXlt1b
+ XNfFC3lFgrmLHl/QP/3OKphaby3Pbny4uXV/tCJF1fg+aAQ7XoqPJDG0hD2NxbsagyHsyaf
+ /P3AWgtP0je3MKalEjWAg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7GTKhKgfD6o=:agtrVfo+ngy6M/MdG1s+zk
+ 4fLGwAU9UKBZ0tTcfz3tBz7do98xAxvc+epUvtGPgWe/sXp6KtcqHDY1+kf4i4cKTZ4rf6tNK
+ nbBz5QgGRit5GwIOA4UnC2vOpQMwG9KsbKTOAcfusbuOx0eVe44DfzS3RrVJKDF7EUKJrhClE
+ Ja6PbUEAuZZOM6xN3l8ELkuezVDQaJPKUER9p2Zz3XZO1yqtBSpFffXd9MBPxekaS8PEECXMV
+ tNMkkD6QD5SKvMKrsNs/2s8j1SGSEG4j5x/So0gQhDDHoG3k/k3vCtuy+nsxso257+XSBUQD5
+ OuwC5C8X0wkmtZW+fXPozQlXyjI/ryJOUyGtG84pMI8RGBGuDs2SOqbBRYhYtjgUKlkQzXA9o
+ MraIR/I9sXHvVkj0LaoD0W78gZlmAp/jvW3N6F0tlixc1wE5F/U+90W9C+QN4itdBNcFX+h4b
+ 3z2glSomNxXtKoiDm8rGkZZcHSvM95an5Fo7y0eiKRjHaXK3BToUZzvHV6v6JY/tuw5UjBYTr
+ JGY2/r6LnYMVnngchk1G7JiUY5OyhsA5xyo/T+tIEAOfNsX96HWBAgQfnpD++ODN48kFjRaRF
+ kbrHqjR7mm3I8FjHWOQf2On3UBiEwO3nJyU90kzYCFolEiPzytlr5nrMkfnscdIPasgVG4wEv
+ NUSnHyVCWAO/pLtdc8sqbaL2C9hF+CmdtrJ2Sb5dnWoQEmSTS445DK0jc6EgnE/wfkilq1dEP
+ 7p/6TMeegrT5WQl+twcwDSVbB10j2OEiHXXQFg==
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,29 +70,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Marek Vasut <marex@denx.de>, Thomas Huth <thuth@redhat.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ Chris Wulff <crwulff@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/10/2021 à 15:16, Laurent Vivier a écrit :
-> This script is not used a lot but it helps to debug migration,
-> so it's annoying when we need it and it doesn't work...
+Le 07/08/2021 à 13:09, Philippe Mathieu-Daudé a écrit :
+> After chatting with Richard Henderson and Paolo Bonzini, we
+> concluded the load/store API is mature enough to have target
+> code endianess-agnostic.
+> Thus we could remove the TARGET_WORDS_BIGENDIAN definition from
+> target-specific code (restricting it to the binary format loaders).
 > 
-> The first patch fix an error message that is erroneous and thus
-> doesn't help at all.
+> While experimenting, I noticed the Nios2 disassembler is an easy
+> win. MIPS will follow shortly.
 > 
-> The second fixes a problem introduced by python3 and preventing
-> to run the extract mode.
+> Philippe Mathieu-Daudé (2):
+>   disas/nios2: Fix style in print_insn_nios2()
+>   disas/nios2: Simplify endianess conversion
 > 
-> Laurent Vivier (2):
->   analyze-migration.py: fix a long standing typo
->   analyze-migration.py: fix extract contents ('-x') errors
+>  include/disas/dis-asm.h |  3 +-
+>  disas/nios2.c           | 71 ++++++++++++++++-------------------------
+>  target/nios2/cpu.c      |  6 +---
+>  3 files changed, 29 insertions(+), 51 deletions(-)
 > 
->  scripts/analyze-migration.py | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-
 
 Applied to my trivial-patches branch.
 
