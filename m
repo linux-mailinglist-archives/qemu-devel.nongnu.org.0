@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB80E433A47
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 17:26:56 +0200 (CEST)
-Received: from localhost ([::1]:53968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B080433A63
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 17:29:53 +0200 (CEST)
+Received: from localhost ([::1]:33976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcr0x-0006hu-OD
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 11:26:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40458)
+	id 1mcr3o-0003wy-Fb
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 11:29:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcqAY-0000GW-DQ; Tue, 19 Oct 2021 10:32:46 -0400
-Received: from mail-mw2nam12on2051.outbound.protection.outlook.com
- ([40.107.244.51]:45063 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ id 1mcqAq-0000vI-6V; Tue, 19 Oct 2021 10:33:04 -0400
+Received: from mail-mw2nam10on2042.outbound.protection.outlook.com
+ ([40.107.94.42]:36193 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcqAT-0003Yk-KW; Tue, 19 Oct 2021 10:32:43 -0400
+ id 1mcqAm-0004uC-Eg; Tue, 19 Oct 2021 10:33:03 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FPhWdT1h7cv9+Ki+OgJLJEGGwT4+gzy4/dejxtl0ZVXVLWRz//hA4RZ5aDi9bfvFj94i5hP0vw2N27eVuH52q28i87zPEpXuwAYr/E821DDXrq6dbz+9XAdSnPJ/eCu2ken6r8g/c35qhV1iq413aZTSPrgO566oL0SHKdLt71mIlHgMcRgX50zP/k4moxDvylMfJUWgC+kVZeMGdU6HdkjmPrCQIHBWuA2CUo21y1+DRcVHaBLlyb1HOQEPFaZhjJ0hESSpPsklfiwzMHyj0GCPlSgvl4qSEIt3mq+XUvEQiFOwiiyIilZtpT8SqnRHl1R2Pa119G7c34PVbTNG1A==
+ b=nT02M09Q8Wxv+VLN2JrTnCoepgOJTzDvOtObGYCnQ7yLK1SFK4VZ2izNMGVsa1KNgXXFxlS78L4Td1lXrHklFUSdJCDASpTiKWzjG/KLyVxdxMrjHi91KsxqBzx6ikRV0yy/AhdLSfaWrG5JMkPeJpFzfURUQ5B0mHcEdxaco2DeZwdk17h2CjRz7/hl4RZiF17OyGqEx68GEzc0xTHzqerQmJ6ZhNlKWYpjOlAFaZfXx68j7011EhTR1gG1JhtSaHm+iKjFRwOoeLcL28a+WbsLkJVPxL0a9WID+DgH1ubAETU3Vr7LCsSFp7E9ToF0Hk78wT8dkXU4NcD9B1AWDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BrL4aylYH3ae4cuUcay6KWZpjG+ZdRB5xVMOqFoqJpc=;
- b=Cs2NA8mycAxCmrzj7/47jmBaNrrFxCaqSsuLJWem5rD5GcgrdtzV/ooGfCRHG8f9cgYz/0/J7IWUyttlmWWvZjcUFUaiayyegMOY6IErrk5afGlxUtxirdMhstDrANqtQNqt+BebSkKCtZwlVFJ7vNEylqQr/0L6nMckVHAQqlNb6yLA7zEQQApJEee8HSgA7Xs1x9kdKw+Rf9lFUiIh7T/GgVj7MCS1a1CZRNW6Z+5JfJEqh5UkmwOzwz3crtUdtri5D8wvHwvwVTlObxkfiw7+2WLwdxCeWIF1cgSJ4MNf1YR1E5HNz/yTItiKaJ8JHWXYrQUneGpNz7uSHAyBNg==
+ bh=8aBVWEplFenlVU1Ww3LZqYlzRO4FDBKV4jnsPArWDHI=;
+ b=RJ1SHMJP4JL3tB2fPyab2KOY42UAoMUhgA9tbcObj/Ll3mSFLRIjt+egtHZXvhnyLGylZt1VgnZNS8iriN9TB4+nZJT/4y7UwX/BXI64wadqxbQqhfOONmnnHTf1zr6trYJbdUwOrTqYQuzR79MyK2qDAG3QaB0EmmHJ/+reTOkevZ1lil/Oag1ZwUWVpT1GYkHydkCBcXKf0PBT5EyWR63LNsmAA2Vl6z1n15aJHr2fsuoY/JIJOXMSVQ2SKddOnY+jTQNlJsWMfh2iD1bxpMcfDYO8bBccRPX1gVI+2GuCsQQbBSdbFj2KlZqgLp8/iKcTeddd6SfyeLTzWnw5Jw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BrL4aylYH3ae4cuUcay6KWZpjG+ZdRB5xVMOqFoqJpc=;
- b=odawLzVqNb9iC0PmHcUACt0CK9ODWwDYvEER3Qpy4bfimpcOr9wTxUZKDTouuWQx0Rd8sjqUfg0sUWpYu4/K06BxDwbeoZkq/zSyEhcFTCWlq5uKLPJN0oSwPNU0pE9uxeGdh05/iRpm67fSvoCap8lCIvVRykRWTbQWj8UAEoU=
-Received: from DM5PR13CA0022.namprd13.prod.outlook.com (2603:10b6:3:23::32) by
- DM5PR12MB1323.namprd12.prod.outlook.com (2603:10b6:3:75::12) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4608.16; Tue, 19 Oct 2021 14:32:36 +0000
-Received: from DM6NAM11FT056.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:23:cafe::c5) by DM5PR13CA0022.outlook.office365.com
- (2603:10b6:3:23::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.10 via Frontend
- Transport; Tue, 19 Oct 2021 14:32:36 +0000
+ bh=8aBVWEplFenlVU1Ww3LZqYlzRO4FDBKV4jnsPArWDHI=;
+ b=GGKvaObOwox7ppdo5NFaSMJZIxYa2+P+CwnJFfpjUQtJDqiOUqvDw+kj3Ol7+X6yOTznYDoH0HJO5R7MjGjTwCRKFHtZE5t9dGBaqmymnRV46sAsRTNhwsfq/MmC13OvwpndChsMMmcdcTfSPHI/s1hL1GS6gco0lMMp0lvEAhI=
+Received: from DS7PR03CA0194.namprd03.prod.outlook.com (2603:10b6:5:3b6::19)
+ by SA0PR12MB4381.namprd12.prod.outlook.com (2603:10b6:806:70::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.15; Tue, 19 Oct
+ 2021 14:32:56 +0000
+Received: from DM6NAM11FT048.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b6:cafe::87) by DS7PR03CA0194.outlook.office365.com
+ (2603:10b6:5:3b6::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.15 via Frontend
+ Transport; Tue, 19 Oct 2021 14:32:56 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=pass action=none header.from=amd.com;
@@ -50,55 +50,58 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT056.mail.protection.outlook.com (10.13.173.99) with Microsoft SMTP
+ DM6NAM11FT048.mail.protection.outlook.com (10.13.173.114) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:32:36 +0000
+ 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:32:56 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 19 Oct
- 2021 09:32:33 -0500
+ 2021 09:32:55 -0500
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 54/64] usb: limit combined packets to 1 MiB (CVE-2021-3527)
-Date: Tue, 19 Oct 2021 09:09:34 -0500
-Message-ID: <20211019140944.152419-55-michael.roth@amd.com>
+CC: <qemu-stable@nongnu.org>, Li Qiang <liq3ea@163.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>, Gerd
+ Hoffmann <kraxel@redhat.com>
+Subject: [PATCH 55/64] vhost-user-gpu: fix memory disclosure in
+ virgl_cmd_get_capset_info (CVE-2021-3545)
+Date: Tue, 19 Oct 2021 09:09:35 -0500
+Message-ID: <20211019140944.152419-56-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211019140944.152419-1-michael.roth@amd.com>
 References: <20211019140944.152419-1-michael.roth@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
 X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 86984d3a-dd4b-48b0-3a3c-08d9930d4be2
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1323:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB132397496958AF322A0D5F9B95BD9@DM5PR12MB1323.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:901;
+X-MS-Office365-Filtering-Correlation-Id: 2d78705e-b8b6-4cd2-8aef-08d9930d5787
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4381:
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4381EA90FD346AE6C66A306795BD9@SA0PR12MB4381.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:469;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: p5XkSiKyDXHX0IVHML150tvNKHJYhVJKK03GhuxywJn3RutvDpMdTT/JkQy2KNV0ObCfNrwma0eNUs54/BzM0xEpQqiZkvqcI37KI20aslhABaMEMUyEGXDvANNCNoHMPRDKJCnivdJ9Gm/GPCWOPfjcUdf7/pd/A+0zLfqKBoh/oQyGqxWK8TfU3YrnQaqJLS4wVzmUTANYRTZGn/1p5O1GdVKFUWXYD9S67LGEcyK6peIMraQiqSpoW9+IVHNpzYddqtaG+pUt2fQVm+L+Uvc/AuoSV2U8GH9LGvY3Qt0Pbv+zk94cFX3W2/uaLEjZC412b2uQC6KkIXewuhS2iMWF7yn4pyLd46/cOxlBtt8z2iEUWsT6IkBOQx5FwwFUAj9on59u6VMFtLI2AeFfPPsd6RcDace4Bbu+NbhTb3Z8Jw6ZpmcZ4m6BZ1sW0O5SFhSBGJwzrOBYAMSAzeAtkUBn9HfEI88nTNMz6BzCHuQdoak1BHNbgFjna6r5RIOvPGvEzp9HjfuDAIUN1fvCb5NV0Z/ToNBkAXGf2CcS6Oafhy2SnCLrK2YimO8EBr2el7ggUlk9gLnxDkOBPcjxHBrd7I6dCr+rd+5U8buCxYJlHS7tMWJz7NDz+LliYneVC+DI4D7DjtSjQ0gHa07C16I8BF/ji2d0oQW4pm+1yIrO1NCQa7LzzrNFXXjO2jKjmlypv2n2egjALOfGc0zyAQ5Z7BLC4U3/OX+IsnleQLo=
+X-Microsoft-Antispam-Message-Info: ZvNPd+WtHUDnqidVf99SK4srKxtrh3WFD/+1jZ2wufVhc2aI6QP2Tri2laarZxvs/4g42+hnRiK7bUkl8oOmq8jyBPyklS4hJkNx0EyaXbbpds/iark+K9bhQo4mwqZJ+HM85vzpniWdUKGBgl6Z9to4oI6KEVOH0oMMdHZH4nz9xRkYP5qrvK/vjOIW/fIDvKJLiL8Lua7dXzTmVLRgsRtt1EjdkP86i2bH45+uAftEs4e35E8SCS1w1VCXA6egxy16+uF2GI03fStqSNovW3BxCTYHjtAoNkz4/Z1CK3Rj8jiADATmyg1OcGDWBcVB3+rw30VBjBRldTEwkXV/NmaYem6HRuXUOCfF3Oe1gYbyQt9HzPw6MzqEor3rXVBEwrpuoCB80imLCWu7MplgIj2xB9XW2VVN0Nv74D9WJGbdP1Th1gevtSx9SXFr6tECX3ouoZsBp0ryZ6GksRcmYMzii2qG35lWIk72xx5EE+rpF2NPfojHTrqTQVtYeOlbtMXF5NIWaf5yML/R59WQHbv3DiWBah+1WMfPyGnkwhLXZ6OCK4l/2kKhmNYdVeQ56JBvpveB3CUOCe8XB3RSEFdl7EaXDajfQBIrRloLJJBwz/Hz8wnFBPeSAV69n+rc8Tt+S5cqu9ZG73oHXp30FvnO5WwDXj2lbrDFESE2s//6opVfNCmAYkdpueJ/gR68TFQfzG3Lc3jvJ1jXUYz8OpCHhcSmd2/y1W7OVJ+SZCc=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(1076003)(36860700001)(8936002)(54906003)(8676002)(336012)(70586007)(70206006)(508600001)(2906002)(426003)(2616005)(316002)(86362001)(186003)(5660300002)(4326008)(47076005)(82310400003)(44832011)(356005)(16526019)(6916009)(36756003)(26005)(83380400001)(81166007)(36900700001);
+ SFS:(4636009)(46966006)(36840700001)(36756003)(6916009)(82310400003)(86362001)(8936002)(5660300002)(54906003)(336012)(8676002)(2616005)(1076003)(426003)(26005)(6666004)(47076005)(16526019)(186003)(508600001)(4326008)(36860700001)(44832011)(2906002)(70586007)(70206006)(316002)(356005)(81166007)(83380400001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:32:36.5791 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86984d3a-dd4b-48b0-3a3c-08d9930d4be2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:32:56.1254 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d78705e-b8b6-4cd2-8aef-08d9930d5787
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT056.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT048.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1323
-Received-SPF: softfail client-ip=40.107.244.51;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4381
+Received-SPF: softfail client-ip=40.107.94.42;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -121,38 +124,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+From: Li Qiang <liq3ea@163.com>
 
-usb-host and usb-redirect try to batch bulk transfers by combining many
-small usb packets into a single, large transfer request, to reduce the
-overhead and improve performance.
+Otherwise some of the 'resp' will be leaked to guest.
 
-This patch adds a size limit of 1 MiB for those combined packets to
-restrict the host resources the guest can bind that way.
+Fixes: CVE-2021-3545
+Reported-by: Li Qiang <liq3ea@163.com>
+virtio-gpu fix: 42a8dadc74 ("virtio-gpu: fix information leak
+in getting capset info dispatch")
 
+Signed-off-by: Li Qiang <liq3ea@163.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20210516030403.107723-2-liq3ea@163.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20210503132915.2335822-6-kraxel@redhat.com>
-(cherry picked from commit 05a40b172e4d691371534828078be47e7fff524c)
+(cherry picked from commit 121841b25d72d13f8cad554363138c360f1250ea)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- hw/usb/combined-packet.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ contrib/vhost-user-gpu/virgl.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/usb/combined-packet.c b/hw/usb/combined-packet.c
-index 5d57e883dc..e56802f89a 100644
---- a/hw/usb/combined-packet.c
-+++ b/hw/usb/combined-packet.c
-@@ -171,7 +171,9 @@ void usb_ep_combine_input_packets(USBEndpoint *ep)
-         if ((p->iov.size % ep->max_packet_size) != 0 || !p->short_not_ok ||
-                 next == NULL ||
-                 /* Work around for Linux usbfs bulk splitting + migration */
--                (totalsize == (16 * KiB - 36) && p->int_req)) {
-+                (totalsize == (16 * KiB - 36) && p->int_req) ||
-+                /* Next package may grow combined package over 1MiB */
-+                totalsize > 1 * MiB - ep->max_packet_size) {
-             usb_device_handle_data(ep->dev, first);
-             assert(first->status == USB_RET_ASYNC);
-             if (first->combined) {
+diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user-gpu/virgl.c
+index 9e6660c7ab..6a332d601f 100644
+--- a/contrib/vhost-user-gpu/virgl.c
++++ b/contrib/vhost-user-gpu/virgl.c
+@@ -128,6 +128,7 @@ virgl_cmd_get_capset_info(VuGpu *g,
+ 
+     VUGPU_FILL_CMD(info);
+ 
++    memset(&resp, 0, sizeof(resp));
+     if (info.capset_index == 0) {
+         resp.capset_id = VIRTIO_GPU_CAPSET_VIRGL;
+         virgl_renderer_get_cap_set(resp.capset_id,
 -- 
 2.25.1
 
