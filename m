@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 759A5433A29
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 17:21:35 +0200 (CEST)
-Received: from localhost ([::1]:41026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EDD433A64
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 17:30:02 +0200 (CEST)
+Received: from localhost ([::1]:34754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcqvm-00066n-Ik
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 11:21:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39946)
+	id 1mcr3x-0004Sx-Fy
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 11:30:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcq7k-0005Gx-41; Tue, 19 Oct 2021 10:29:52 -0400
-Received: from mail-mw2nam12on2046.outbound.protection.outlook.com
- ([40.107.244.46]:22968 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ id 1mcq83-0005fM-M9; Tue, 19 Oct 2021 10:30:12 -0400
+Received: from mail-co1nam11on2052.outbound.protection.outlook.com
+ ([40.107.220.52]:20665 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcq7h-0007zC-W2; Tue, 19 Oct 2021 10:29:51 -0400
+ id 1mcq81-0008FB-JH; Tue, 19 Oct 2021 10:30:11 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZyJn9thatxHCu4nGUxdFgXcokbtz1zOBDguEdJeUbpPl4TwGFJxuNSjlc6cqpaeMGQd5hlkKwUdA27ZeyDEHSPJi3lhLZzG1Vbr1swuXEHbHq7/SBqPeagsj+K8uJxOM6yfpWqIZhqJGYr50jAkBl9ENeRKdo0QlGi/LvSmWSLP3pAQ8vNLDoG2Ng+RWNg5mMwtKa89VXkd5rqIOPVZDUNH++l1CmagNyAvLeEkmXOawHYDI7ofjnpPBJOkevS14MxdZw6M3lairNMfHsutCUJo/uzwbcXf1UAuHHQws2M19lGvloaFhm0g5TdaUNr32xY01ERs2TTJINPlk0wZmig==
+ b=UIaANTvJ54wpQRwqjhlPmr/Cbfzjk+RZV9YqSaKl0zfKMcWW2iA4S6Y56cdz2QPt+sGk43D0Bl319u+j/8cAo77+TGNXB+LO7C5I9Ifb2DT15i5qY/9fxI/PlnFPfgWlTEmfWS+Sam+DPFVpchFgCS370Er5/CCbv7e+bY+ioAB0xoMzeQL5OTEd2dNmvPy8Ws+e8R2KaUqiHTEStWpGPZBxEf5Z+dyH0RE68UKqqjmzLvByYeASuAffYfugfqHFzQvWtclfApYUM9iZlHFM8M7vWNPY58e+rhV0GMV7BX5qUx++pVXrb8VsQ71qhDbpfBsInb4rruznuBlsuaJ2jw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GfQ+H/xpPCSSJRn737zt7+p9SVApowO2Em6kFD/nCzA=;
- b=KJM22b83nXNL1N4nwPDrQXIVgONtES2EJre04BBKk0oRu2eCcsSh4mdvqjCpbm7QTJf8w0Ad30xnJxTvv5m5Jwzv7tqVYs0A+IZG8vaIi31e35LeCmhL/i+SczxgN1jofdriHwTRhdPnH3wCAGp3pDx765pZdJ+PSQxOy5VBjAnWBUEiNGAcx3COgsssDpQJz9tv/aT3vDcpakQdk8ebXSrPdE6jvkEtLwJcdsNdFkCCRfMVcfzhX1h0Mb49k3nP9N/0VSDvdwHQsooVn4Djrg04Ao0YhJuT93vRn4h2mGauQrp/zSFoIYX1vSa0mudspIOlzQs37nzHz1MNGRx3nA==
+ bh=f18gjX/lpVuH1bb8wZa+KCUCh8GvIqXkXRgdf5Fg95E=;
+ b=G+Oi5VRBWBfPTzCEiy6g1vBYMY8Y17C6r0Lm9M/RhAs5ehZvKRXb3CyDVe7ZMyOFQ4Q5nbQ/Zrk7QzzlWbx9AU1T6M4gR2frmvh9rX48jM/YxuAg80yxML70v+XkSinHFuyV9bIa5LDVQ2S4oofN6Pl8C/anZ7b5+aRIpY+3iaojQzBrdXRCGpohieazqgtKNf6JaU6BYvTPHe5v1s071rS550Qxp4QXSGmUCc4TEksGfI7lqw09lwSdXuU5r280n09bqx5mLQj/W/zmYcFKJlM0pBUaCI2Fa+utXbmM+ZD1ny3Lkh4/PqQZ+1SoogWdENL/93MczPsA7ds+vxygsw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GfQ+H/xpPCSSJRn737zt7+p9SVApowO2Em6kFD/nCzA=;
- b=nMkAPDPSYl2b8h15+qpxdjwmvM46GSCKHsQucwLnmAYY44pj+cayRW7lVohYV5USbUzodGq+qN9J22BFvAp/5vHz1PYii7A3UDiPI40qFWkxg+GhhZdBsJO9eZotNnXt1HDpssc0Ecw+rTZ0bS/KnkTOUvWpn4wUrJImALVAaUs=
-Received: from DM5PR04CA0048.namprd04.prod.outlook.com (2603:10b6:3:12b::34)
- by MW2PR12MB2490.namprd12.prod.outlook.com (2603:10b6:907:9::17) with
+ bh=f18gjX/lpVuH1bb8wZa+KCUCh8GvIqXkXRgdf5Fg95E=;
+ b=Q5Nsdw7+R+F+K12VYamOv2ApokI/eM901mdHibA5sutykwhf37IFXUw4RDpZmJDFaObkrBl/tvkcPRbv1hg2yCHii50xYB5WlDB7HDih7n0+6Di7BdNLrAfFnzf49szWjZc9LbzqoL93u6EkaeDH83gbqglfJaAWmjtZ1K4nJyA=
+Received: from DM5PR04CA0031.namprd04.prod.outlook.com (2603:10b6:3:12b::17)
+ by DM6PR12MB5567.namprd12.prod.outlook.com (2603:10b6:5:1ba::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.17; Tue, 19 Oct
- 2021 14:29:44 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.18; Tue, 19 Oct
+ 2021 14:30:05 +0000
 Received: from DM6NAM11FT011.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:12b:cafe::cf) by DM5PR04CA0048.outlook.office365.com
- (2603:10b6:3:12b::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.15 via Frontend
- Transport; Tue, 19 Oct 2021 14:29:44 +0000
+ (2603:10b6:3:12b:cafe::2c) by DM5PR04CA0031.outlook.office365.com
+ (2603:10b6:3:12b::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend
+ Transport; Tue, 19 Oct 2021 14:30:05 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=pass action=none header.from=amd.com;
@@ -52,19 +52,18 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  DM6NAM11FT011.mail.protection.outlook.com (10.13.172.108) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:29:44 +0000
+ 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:30:05 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 19 Oct
- 2021 09:29:40 -0500
+ 2021 09:30:02 -0500
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 47/64] target/arm: Don't skip M-profile reset entirely in user
- mode
-Date: Tue, 19 Oct 2021 09:09:27 -0500
-Message-ID: <20211019140944.152419-48-michael.roth@amd.com>
+CC: <qemu-stable@nongnu.org>, Jason Wang <jasowang@redhat.com>, Alexander
+ Bulekov <alxndr@bu.edu>
+Subject: [PATCH 48/64] virtio-net: fix use after unmap/free for sg
+Date: Tue, 19 Oct 2021 09:09:28 -0500
+Message-ID: <20211019140944.152419-49-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211019140944.152419-1-michael.roth@amd.com>
 References: <20211019140944.152419-1-michael.roth@amd.com>
@@ -76,31 +75,31 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0e082f2a-e587-4255-8e0a-08d9930ce544
-X-MS-TrafficTypeDiagnostic: MW2PR12MB2490:
-X-Microsoft-Antispam-PRVS: <MW2PR12MB249054814F9BA076B50839DF95BD9@MW2PR12MB2490.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 1b8a3856-b93b-4eac-34a9-08d9930cf1ba
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5567:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB5567AD747DBF780F27F4AA9995BD9@DM6PR12MB5567.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:792;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NvP2qrNq+mnUh8iMU7Nbq9USkTqhmAXiYHrO3TWyq6Ki/AR/8L9AgWzL7VTRsz7z+JKzf2GTFaRV8TtBBuJPLTJBpB41VEcm2/NK7J7ppe4hDkfW1oXEGiuoS7MdE8orF7zHWDwfGL/XCWwYf9Ui+O13drBXFS+LICGSVDR30l8BPzbXoP12GzH1fPNLoxax8RjkysfcG/D1LMiGqVv1i1bZnkCm+YiNGLPkZ9HPLqPlWF+zBPOd0G2uVUOXn+uB7sZL65i5hls4D8zkXqEW87TvVm8CJwcw1V1rO5uk4rqMu4a1OteVTGfoCYMpo2JajXZbj8eK/wgECefiIy3lKjdDNYoEe9hF2DmEOtXKAAGfNu2CaJRylZQBPrUCx+Irbyu3MIB8qlEyL5hPuuW6S7cnIxnS7CC2lzo6eHSEokus0ovZUQY2pOogCmIS8LUVf0rVJvnA7QE+sifqDPL99gy22NyEzy+W3FAF9dovGU9Q8udzWVumAAjUN7FEn5m1D/7wYu2oZa/9TJ+tMCn2u3VoarKqEF8AIqr1O4M8xgdEdE/bqmWo5eAb5W83HGa7YMcOKVsAggJbaIhIMpFJx4LGWgUPgPnRuRRrJ4zK1kZxFk+mkperPMM5Pqdv1/pn3Rji9w//49XJHkMbOCzQ5AGxelOcQfXLTSN/tnPjvozx/xlX4S2Uytrovkvznl5PksX+WXYRJAL64W4ZoJ7VyYMeqKDM436adILeQxkiKz6TmC8nul6IzDEbUIGLpieo02GjAGUNqN71PZdhap1ISMU2jHN+Gq/csF17nxgbJ8wyfei9xLfbI4a1umxf9mUW
+X-Microsoft-Antispam-Message-Info: OrPtT/G4VyfCJuW2uvwCiN/VNsVzP/JS92iiiRo9sAJ25ewzT+qBWQA6zmZRscguA5bbNDhxnvp6+0J9YemRBa2+ehAg+tKrg17BysqZv9iimNIN17eyI0DIWcGzbyF9q3Vn0RzmIRDG0w8KagXU5kkVHKKLRzp5EHkFtftlwgAj3LdwF7VH8pLH9rPag19/Aws5OTSAoqr4YnskFBniH0TvE41ShmcO40MIX4zm9omvUgvwpUQ/34Wi7oLxdl9Xfx8PhkYcVOGlBbS47Z7+oKGmwmYlv7TK3oMW3nKwG4wo8o10A6FSHzKE0sm00oaN9Dz97fNiCf+RwWTznc3G6+QapFLGMTPvq/5tooOiBBWMFSvNiBeVy88jQPgsXmnGejcDv5SNtF2o1tFReM7+7loGnEKe5i8q7xUtRoWujxGcbnXyNR/feWKxY+Hro5+wb/SStzMV5/4ib7HdJ+UfKXtOFSiKSNAnPfIVkbm4WB+i8ylH5ZwBVu+5XbjCnAxBEJ1WIQ4LfF3IkRgMRJl0ahksTqjfZtr0T1J6dZv81HMPxkhuAEiC+J4mPGqqGQi2zlZ4/Z9RZPYqLnFD3jWUQ8Gr+WUw1sS4DYbPIzD2uHfQRZn0LtFNHk1wRy13/feayCaxBWtr6fth2IJEWp/tQpXCyPScWYwU5/Tx4qFFBj7vj4ZIjZJ/Ns4X0eBP2HqVs0D72xFPiv+JLlp5++s3cO5seA4+ucPvEis8/uVn/Is=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(8676002)(5660300002)(2616005)(2906002)(36860700001)(86362001)(16526019)(4326008)(44832011)(186003)(81166007)(966005)(70206006)(47076005)(1076003)(70586007)(26005)(426003)(6916009)(82310400003)(36756003)(6666004)(8936002)(356005)(54906003)(83380400001)(336012)(508600001)(316002)(36900700001);
+ SFS:(4636009)(46966006)(36840700001)(336012)(2616005)(2906002)(6916009)(426003)(86362001)(36756003)(356005)(81166007)(70206006)(70586007)(6666004)(44832011)(8676002)(186003)(8936002)(508600001)(4326008)(54906003)(316002)(16526019)(36860700001)(5660300002)(83380400001)(47076005)(1076003)(82310400003)(26005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:29:44.4123 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e082f2a-e587-4255-8e0a-08d9930ce544
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:30:05.3245 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b8a3856-b93b-4eac-34a9-08d9930cf1ba
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT011.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2490
-Received-SPF: softfail client-ip=40.107.244.46;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB5567
+Received-SPF: softfail client-ip=40.107.220.52;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -123,91 +122,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+From: Jason Wang <jasowang@redhat.com>
 
-Currently all of the M-profile specific code in arm_cpu_reset() is
-inside a !defined(CONFIG_USER_ONLY) ifdef block.  This is
-unintentional: it happened because originally the only
-M-profile-specific handling was the setup of the initial SP and PC
-from the vector table, which is system-emulation only.  But then we
-added a lot of other M-profile setup to the same "if (ARM_FEATURE_M)"
-code block without noticing that it was all inside a not-user-mode
-ifdef.  This has generally been harmless, but with the addition of
-v8.1M low-overhead-loop support we ran into a problem: the reset of
-FPSCR.LTPSIZE to 4 was only being done for system emulation mode, so
-if a user-mode guest tried to execute the LE instruction it would
-incorrectly take a UsageFault.
+When mergeable buffer is enabled, we try to set the num_buffers after
+the virtqueue elem has been unmapped. This will lead several issues,
+E.g a use after free when the descriptor has an address which belongs
+to the non direct access region. In this case we use bounce buffer
+that is allocated during address_space_map() and freed during
+address_space_unmap().
 
-Adjust the ifdefs so only the really system-emulation specific parts
-are covered.  Because this means we now run some reset code that sets
-up initial values in the FPCCR and similar FPU related registers,
-explicitly set up the registers controlling FPU context handling in
-user-emulation mode so that the FPU works by design and not by
-chance.
+Fixing this by storing the elems temporarily in an array and delay the
+unmap after we set the the num_buffers.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/613
+This addresses CVE-2021-3748.
+
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Fixes: fbe78f4f55c6 ("virtio-net support")
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210914120725.24992-2-peter.maydell@linaro.org
-(cherry picked from commit b62ceeaf8096fdbbbfdc6087da0028bc4a4dd77e)
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+(cherry picked from commit bedd7e93d01961fcb16a97ae45d93acf357e11f6)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- target/arm/cpu.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ hw/net/virtio-net.c | 39 ++++++++++++++++++++++++++++++++-------
+ 1 file changed, 32 insertions(+), 7 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 0dd623e590..4f03e74664 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -265,12 +265,15 @@ static void arm_cpu_reset(DeviceState *dev)
-         env->uncached_cpsr = ARM_CPU_MODE_SVC;
-     }
-     env->daif = PSTATE_D | PSTATE_A | PSTATE_I | PSTATE_F;
-+#endif
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 66b9ff4511..760203309b 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -1659,10 +1659,13 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+     VirtIONet *n = qemu_get_nic_opaque(nc);
+     VirtIONetQueue *q = virtio_net_get_subqueue(nc);
+     VirtIODevice *vdev = VIRTIO_DEVICE(n);
++    VirtQueueElement *elems[VIRTQUEUE_MAX_SIZE];
++    size_t lens[VIRTQUEUE_MAX_SIZE];
+     struct iovec mhdr_sg[VIRTQUEUE_MAX_SIZE];
+     struct virtio_net_hdr_mrg_rxbuf mhdr;
+     unsigned mhdr_cnt = 0;
+-    size_t offset, i, guest_offset;
++    size_t offset, i, guest_offset, j;
++    ssize_t err;
  
-     if (arm_feature(env, ARM_FEATURE_M)) {
-+#ifndef CONFIG_USER_ONLY
-         uint32_t initial_msp; /* Loaded from 0x0 */
-         uint32_t initial_pc; /* Loaded from 0x4 */
-         uint8_t *rom;
-         uint32_t vecbase;
-+#endif
+     if (!virtio_net_can_receive(nc)) {
+         return -1;
+@@ -1693,6 +1696,12 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
  
-         if (cpu_isar_feature(aa32_lob, cpu)) {
-             /*
-@@ -324,6 +327,8 @@ static void arm_cpu_reset(DeviceState *dev)
-             env->v7m.fpccr[M_REG_S] = R_V7M_FPCCR_ASPEN_MASK |
-                 R_V7M_FPCCR_LSPEN_MASK | R_V7M_FPCCR_S_MASK;
-         }
+         total = 0;
+ 
++        if (i == VIRTQUEUE_MAX_SIZE) {
++            virtio_error(vdev, "virtio-net unexpected long buffer chain");
++            err = size;
++            goto err;
++        }
 +
-+#ifndef CONFIG_USER_ONLY
-         /* Unlike A/R profile, M profile defines the reset LR value */
-         env->regs[14] = 0xffffffff;
+         elem = virtqueue_pop(q->rx_vq, sizeof(VirtQueueElement));
+         if (!elem) {
+             if (i) {
+@@ -1704,7 +1713,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+                              n->guest_hdr_len, n->host_hdr_len,
+                              vdev->guest_features);
+             }
+-            return -1;
++            err = -1;
++            goto err;
+         }
  
-@@ -351,8 +356,22 @@ static void arm_cpu_reset(DeviceState *dev)
-         env->regs[13] = initial_msp & 0xFFFFFFFC;
-         env->regs[15] = initial_pc & ~1;
-         env->thumb = initial_pc & 1;
-+#else
-+        /*
-+         * For user mode we run non-secure and with access to the FPU.
-+         * The FPU context is active (ie does not need further setup)
-+         * and is owned by non-secure.
-+         */
-+        env->v7m.secure = false;
-+        env->v7m.nsacr = 0xcff;
-+        env->v7m.cpacr[M_REG_NS] = 0xf0ffff;
-+        env->v7m.fpccr[M_REG_S] &=
-+            ~(R_V7M_FPCCR_LSPEN_MASK | R_V7M_FPCCR_S_MASK);
-+        env->v7m.control[M_REG_S] |= R_V7M_CONTROL_FPCA_MASK;
-+#endif
+         if (elem->in_num < 1) {
+@@ -1712,7 +1722,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+                          "virtio-net receive queue contains no in buffers");
+             virtqueue_detach_element(q->rx_vq, elem, 0);
+             g_free(elem);
+-            return -1;
++            err = -1;
++            goto err;
+         }
+ 
+         sg = elem->in_sg;
+@@ -1749,12 +1760,13 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+         if (!n->mergeable_rx_bufs && offset < size) {
+             virtqueue_unpop(q->rx_vq, elem, total);
+             g_free(elem);
+-            return size;
++            err = size;
++            goto err;
+         }
+ 
+-        /* signal other side */
+-        virtqueue_fill(q->rx_vq, elem, total, i++);
+-        g_free(elem);
++        elems[i] = elem;
++        lens[i] = total;
++        i++;
      }
  
-+#ifndef CONFIG_USER_ONLY
-     /* AArch32 has a hard highvec setting of 0xFFFF0000.  If we are currently
-      * executing as AArch32 then check if highvecs are enabled and
-      * adjust the PC accordingly.
+     if (mhdr_cnt) {
+@@ -1764,10 +1776,23 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+                      &mhdr.num_buffers, sizeof mhdr.num_buffers);
+     }
+ 
++    for (j = 0; j < i; j++) {
++        /* signal other side */
++        virtqueue_fill(q->rx_vq, elems[j], lens[j], j);
++        g_free(elems[j]);
++    }
++
+     virtqueue_flush(q->rx_vq, i);
+     virtio_notify(vdev, q->rx_vq);
+ 
+     return size;
++
++err:
++    for (j = 0; j < i; j++) {
++        g_free(elems[j]);
++    }
++
++    return err;
+ }
+ 
+ static ssize_t virtio_net_do_receive(NetClientState *nc, const uint8_t *buf,
 -- 
 2.25.1
 
