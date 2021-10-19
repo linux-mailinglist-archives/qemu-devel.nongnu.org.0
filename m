@@ -2,68 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E214332C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:44:22 +0200 (CEST)
-Received: from localhost ([::1]:36722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31ACE4332DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:51:07 +0200 (CEST)
+Received: from localhost ([::1]:43414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mclfR-0006gt-UH
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:44:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56774)
+	id 1mclly-0003Hh-8I
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:51:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mclcX-00044C-JE
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:41:22 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:59071)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mcljQ-0000GH-5g; Tue, 19 Oct 2021 05:48:28 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:54578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mclcV-00040g-PT
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:41:21 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-ZLwskkuZOseCZk8cUN9FIg-1; Tue, 19 Oct 2021 05:41:15 -0400
-X-MC-Unique: ZLwskkuZOseCZk8cUN9FIg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mcljO-0006Pd-55; Tue, 19 Oct 2021 05:48:27 -0400
+Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 09EA741F73;
+ Tue, 19 Oct 2021 11:48:22 +0200 (CEST)
+Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id E418F601E2;
+ Tue, 19 Oct 2021 11:48:21 +0200 (CEST)
+Received: from palmier.u-ga.fr (palmier.tima.u-ga.fr [147.171.132.208])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAF4810A8E03;
- Tue, 19 Oct 2021 09:41:13 +0000 (UTC)
-Received: from bahia.huguette (unknown [10.39.192.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 681AE60C82;
- Tue, 19 Oct 2021 09:41:02 +0000 (UTC)
-Date: Tue, 19 Oct 2021 11:41:00 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: Re: Deprecate the ppc405 boards in QEMU?
-Message-ID: <20211019114100.6cf5971d@bahia.huguette>
-In-Reply-To: <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
-References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
- <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
- <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
- <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
- <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
- <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
- <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
- <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
- <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
- <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com>
- <YWQB1FMhQfmqRYxN@yekko>
- <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
- <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 3A34914005A;
+ Tue, 19 Oct 2021 11:48:21 +0200 (CEST)
+From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v3 00/21] Adding partial support for 128-bit riscv target
+Date: Tue, 19 Oct 2021 11:47:51 +0200
+Message-Id: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (41)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: 0
+X-Spam_score: -0.0
+X-Spam_bar: /
+X-Spam_report: (-0.0 / 5.0 requ) RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,102 +66,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- dbarboza@redhat.com, Alexey Kardashevskiy <aik@ozlabs.ru>,
- QEMU Developers <qemu-devel@nongnu.org>, Wainer dos Santos
- Moschetta <wainersm@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?= =?UTF-8?B?w6k=?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
+ alistair.francis@wdc.com, fabien.portas@grenoble-inp.org, palmer@dabbelt.com,
+ =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Oct 2021 11:31:03 +0200
-Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
+This series of patches provides partial 128-bit support for the riscv
+target architecture, namely RVI and RVM, with minimal csr support.
 
->=20
->=20
-> Le 11/10/2021 =C3=A0 15:24, Thomas Huth a =C3=A9crit=C2=A0:
-> > On 11/10/2021 11.20, David Gibson wrote:
-> >> On Mon, Oct 11, 2021 at 10:10:36AM +0200, Thomas Huth wrote:
-> >>> On 06/10/2021 09.25, Thomas Huth wrote:
-> >>>> On 05/10/2021 23.53, BALATON Zoltan wrote:
-> >>>> [...]
-> >>>>> Maybe these 405 boards in QEMU ran with modified firmware where the
-> >>>>> memory detection was patched out but it seems to detect the RAM so =
-I
-> >>>>> wonder where it gets that from. Maybe by reading the SDRAM
-> >>>>> controller DCRs ppc4xx_sdram_init() sets up. Then I'm not sure what
-> >>>>> it needs the SPD for, I forgot how this worked on sam460ex. Maybe
-> >>>>> for the speed calibration, so could be it detects ram by reading
-> >>>>> DCRs then tries to get SPD data and that's where it stops as i2c is
-> >>>>> not emulated on taihu. This could be confirmed by checking what it
-> >>>>> pokes with -d guest_errors that shows accesses to missing devices
-> >>>>> but don't know where 405 has the i2c controller and if it's the sam=
-e
-> >>>>> as newer SoCs. If so that could be reused and an i2c bus could be
-> >>>>> added with the SPD data like in sam460ex to make u-boot happy or yo=
-u
-> >>>>> could skip this in u-boot.
-> >>>>
-> >>>> FWIW, I've just tried the latter (skipping the sdram init in u-boot)=
-,
-> >>>> and indeed, I can get to the u-boot prompt now.
-> >>> [...]> I've also attached the patch with my modifications to u-boot.
-> >>>
-> >>> FYI, the changes can now be found on this branch here:
-> >>>
-> >>> =C2=A0 https://gitlab.com/huth/u-boot/-/commits/taihu
-> >>>
-> >>> I also added a gitlab-CI file, so you can now download the u-boot.bin=
-=20
-> >>> as an
-> >>> artifact from the corresponding pipeline, e.g.:
-> >>>
-> >>> =C2=A0 https://gitlab.com/huth/u-boot/-/jobs/1667201028
-> >>
-> >> Thanks.
-> >>
-> >> Are you going to send a v2 of your proposed deprecation patches?
-> >=20
-> > No, since there was interest in keeping the 405 boards for testing the=
-=20
-> > 405 code in the Linux kernel, and since there is now a way to do at=20
-> > least some very basic testing of these boards (with the u-boot=20
-> > firmware), I don't plan to respin the deprecation patch. I just sent a=
-=20
-> > patch for adding the boards to our CI instead:
-> >=20
-> >  =C2=A0https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg02072.h=
-tml
-> >=20
->=20
-> I have downloaded your u-boot.bin and tried it with both QEMU 5.2.0 and=
-=20
-> mainline, and I get:
->=20
-> ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: assertion=20
-> failed: (qemu_mutex_iothread_locked())
-> Bail out! ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt:=20
-> assertion failed: (qemu_mutex_iothread_locked())
-> Abandon (core dumped)
->=20
-> I see in the mail history that you got that problem as well at some=20
-> point. How did you fix it ?
->=20
+This v3 is based on Richard proposal for handling correctly the various
+register sizes (v4 version of his series).
+As compared to the v2, it simplifies a bit the API, and also allows to
+reuse existing generation functions where wrappers were needed before.
+It also should handle 128-bit sign extension in RV128 running as RV32 or
+RV64 correctly, but I did/could not run any tests making sure of it.
 
-https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg01019.html
+Based-on: 20211019000108.3678724-1-richard.henderson@linaro.org
 
-Not yet upstream but already in David's ppc-for-6.2 tree :
+Frédéric Pétrot (21):
+  memory: change define name for consistency
+  memory: add a few defines for octo (128-bit) values
+  Int128.h: addition of a few 128-bit operations
+  target/riscv: additional macros to check instruction support
+  target/riscv: separation of bitwise logic and aritmetic helpers
+  target/riscv: array for the 64 upper bits of 128-bit registers
+  target/riscv: setup everything so that riscv128-softmmu compiles
+  target/riscv: adding accessors to the registers upper part
+  target/riscv: moving some insns close to similar insns
+  target/riscv: support for 128-bit loads and store
+  target/riscv: support for 128-bit bitwise instructions
+  target/riscv: support for 128-bit U-type instructions
+  target/riscv: support for 128-bit shift instructions
+  target/riscv: support for 128-bit arithmetic instructions
+  target/riscv: support for 128-bit M extension
+  target/riscv: adding high part of some csrs
+  target/riscv: helper functions to wrap calls to 128-bit csr insns
+  target/riscv: modification of the trans_csrxx for 128-bit support
+  target/riscv: actual functions to realize crs 128-bit insns
+  target/riscv: adding 128-bit access functions for some csrs
+  target/riscv: support for 128-bit satp
 
-https://gitlab.com/dgibson/qemu/-/commit/c29fca5c8173e9e647ebff07cb78b7c813=
-5bd11a
+ configs/devices/riscv128-softmmu/default.mak |  17 +
+ configs/targets/riscv128-softmmu.mak         |   6 +
+ include/disas/dis-asm.h                      |   1 +
+ include/exec/memop.h                         |  12 +-
+ include/hw/riscv/sifive_cpu.h                |   3 +
+ include/qemu/int128.h                        | 264 ++++++
+ target/arm/translate-a32.h                   |   4 +-
+ target/riscv/cpu-param.h                     |  10 +
+ target/riscv/cpu.h                           |  32 +
+ target/riscv/cpu_bits.h                      |  11 +
+ target/riscv/helper.h                        |   9 +
+ target/riscv/insn16.decode                   |  32 +-
+ target/riscv/insn32.decode                   |  24 +
+ disas/riscv.c                                |   5 +
+ target/arm/translate-a64.c                   |   8 +-
+ target/arm/translate-neon.c                  |   6 +-
+ target/arm/translate-sve.c                   |   2 +-
+ target/arm/translate-vfp.c                   |   8 +-
+ target/arm/translate.c                       |   2 +-
+ target/ppc/translate.c                       |  24 +-
+ target/riscv/cpu.c                           |  23 +-
+ target/riscv/cpu_helper.c                    |  54 +-
+ target/riscv/csr.c                           | 329 +++++++-
+ target/riscv/gdbstub.c                       |   3 +
+ target/riscv/m128_helper.c                   | 109 +++
+ target/riscv/op_helper.c                     |  44 +
+ target/riscv/translate.c                     | 308 ++++++-
+ target/sparc/translate.c                     |   4 +-
+ target/ppc/translate/fixedpoint-impl.c.inc   |  20 +-
+ target/ppc/translate/fp-impl.c.inc           |   4 +-
+ target/ppc/translate/vsx-impl.c.inc          |   4 +-
+ target/riscv/insn_trans/trans_rvb.c.inc      |  48 +-
+ target/riscv/insn_trans/trans_rvd.c.inc      |  12 +-
+ target/riscv/insn_trans/trans_rvf.c.inc      |   6 +-
+ target/riscv/insn_trans/trans_rvi.c.inc      | 803 ++++++++++++++++---
+ target/riscv/insn_trans/trans_rvm.c.inc      | 273 ++++++-
+ tcg/aarch64/tcg-target.c.inc                 |   2 +-
+ tcg/arm/tcg-target.c.inc                     |  10 +-
+ tcg/i386/tcg-target.c.inc                    |   4 +-
+ tcg/mips/tcg-target.c.inc                    |   4 +-
+ tcg/ppc/tcg-target.c.inc                     |   8 +-
+ tcg/riscv/tcg-target.c.inc                   |   6 +-
+ tcg/s390x/tcg-target.c.inc                   |  10 +-
+ gdb-xml/riscv-128bit-cpu.xml                 |  48 ++
+ gdb-xml/riscv-128bit-virtual.xml             |  12 +
+ target/riscv/Kconfig                         |   3 +
+ target/riscv/meson.build                     |   1 +
+ 47 files changed, 2358 insertions(+), 274 deletions(-)
+ create mode 100644 configs/devices/riscv128-softmmu/default.mak
+ create mode 100644 configs/targets/riscv128-softmmu.mak
+ create mode 100644 target/riscv/m128_helper.c
+ create mode 100644 gdb-xml/riscv-128bit-cpu.xml
+ create mode 100644 gdb-xml/riscv-128bit-virtual.xml
 
-> Thanks
-> Christophe
+-- 
+2.33.0
 
 
