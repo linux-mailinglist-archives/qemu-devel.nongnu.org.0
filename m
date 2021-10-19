@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5340F433676
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 14:58:35 +0200 (CEST)
-Received: from localhost ([::1]:34020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B93843369E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 15:03:28 +0200 (CEST)
+Received: from localhost ([::1]:36636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcohN-0004Bz-Tv
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 08:58:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46480)
+	id 1mcom6-0006Bt-Re
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 09:03:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mcogZ-0003V2-81; Tue, 19 Oct 2021 08:57:43 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:41718)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mcogX-0001Dw-IP; Tue, 19 Oct 2021 08:57:42 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id s4so5682002ybs.8;
- Tue, 19 Oct 2021 05:57:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z1mftcwV205o0CNT78dWKBXbDsq9LuRnp/8NUY69cPc=;
- b=nG3ayim8qMQtAPFCNybd++HwCp8mMoyJQHLBrAzWunH+kqeKOAEtDK4Y0xteLYT6a0
- YB1QDFEtbEc2V+vK4LXtIby4Od2VlM4XUDO558ZzP2LCjj1//KRV1yF86I2LRXARVfzo
- 0+tDoS8ABrAZgXDW79tIyUkmmW78vvceqqozKsIx6NDxUnWpFKsQ11krU30GlSGHYooy
- rxUYK14+YY0DqtONA4+NNvg+pPjDZZEaJFssXcCKvvO+gjcIZNv1qeR7UMl572g+xiqZ
- KT/Jg3pHsikmwuqn3Da/UUzNeh9T6N4vLM9vbCBS6kKiBCVlNlj+sa6aEY0fjfkUE8Tm
- 65EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z1mftcwV205o0CNT78dWKBXbDsq9LuRnp/8NUY69cPc=;
- b=vGUzvu2JdN8/WT3ROIifOoHUOGfdKzA/7oVqQZKLvrhet5Svi3ld3xwEYDJ7mdxnlm
- suUlfXpUOD9YYCN9Ifs9w9XIFe0nwIdTZynYG8D9n6xBmlVHNFx3pW2dSnPWXffSbl8z
- rnnznC4T1TCXIHiwa9VAgggKU9RODE8bVZfy1FODjIXfcfxrlL6F+Zjc1cZ/HDPmVYJa
- 8bETCWMk3GbRREn99niuaIdo6BNbstXsHdhzwWginh//hQS8eLUtSA529KvCHo/nJScN
- 1/y94DQxFkCrOBgYyIouUjQYdJOpyHHDODZHaE7F3ERbXRUrmexv7GnQcihmMDojda5o
- nBkQ==
-X-Gm-Message-State: AOAM532PGKhZOdfFSbraKJfpoFv7pBy01roFjETJhgbrV1zRFdg3L2AH
- nzkxL9IQ+p1Y6kS8t2gYf8ezOuidphnjoW+zfW8=
-X-Google-Smtp-Source: ABdhPJzKs2YM6V7x8FyWbBNH5somzqJR2dj4WNO61OvRGkdIOxWuraidxTNEpRZxLkwVSpUwBmR484/f09T/lHhsCqo=
-X-Received: by 2002:a25:df84:: with SMTP id
- w126mr34695285ybg.109.1634648259903; 
- Tue, 19 Oct 2021 05:57:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mcokG-0005Kc-Fd
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 09:01:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27902)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mcok2-0003CX-FW
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 09:01:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634648473;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+m/TQyDqZskOb3huxf8DufeWst6wvhY0B2lMQw83TKQ=;
+ b=F/REaT6CpKo4xU2WsovaZKTb/oREAb4JeoB0JQMXmzjYnZs6x0b9oam0WhIpskgeotyqbI
+ z9iCaeA8j6UvSgmUTJHVbBOeY863QerrgDzQm28Oy8Wq5a0zPyQtfjlNFE6lVRgIgS032h
+ RbvPpezqTWEbVcck7q2G2Iu+iMeTLBw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-584-jhlEBnshPwWC3Wo9Ky3nnQ-1; Tue, 19 Oct 2021 09:01:12 -0400
+X-MC-Unique: jhlEBnshPwWC3Wo9Ky3nnQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E714C101B4A4;
+ Tue, 19 Oct 2021 13:01:10 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A8D1560C82;
+ Tue, 19 Oct 2021 13:00:56 +0000 (UTC)
+Date: Tue, 19 Oct 2021 15:00:55 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Peter Lieven <pl@kamp.de>
+Subject: Re: [PATCH V5] block/rbd: implement bdrv_co_block_status
+Message-ID: <YW7BhwgzolMCL5CF@redhat.com>
+References: <20211012152231.24868-1-pl@kamp.de>
 MIME-Version: 1.0
-References: <20211018153829.24382-1-bmeng.cn@gmail.com>
- <20211018153829.24382-2-bmeng.cn@gmail.com>
- <20211019091103.68908df5@redhat.com>
-In-Reply-To: <20211019091103.68908df5@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 19 Oct 2021 20:57:28 +0800
-Message-ID: <CAEUhbmWGSnJKaNVnDaVnACf_ynkPx6oBdfD89isf-epaA1t68w@mail.gmail.com>
-Subject: Re: [PATCH 2/6] hw/riscv: opentitan: Use MachineState::ram and
- MachineClass::default_ram_id
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20211012152231.24868-1-pl@kamp.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,81 +75,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: idryomov@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
+ ct@flyingcircus.io, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ idryomov@gmail.com, mreitz@redhat.com, dillaman@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor,
+Am 12.10.2021 um 17:22 hat Peter Lieven geschrieben:
+> the qemu rbd driver currently lacks support for bdrv_co_block_status.
+> This results mainly in incorrect progress during block operations (e.g.
+> qemu-img convert with an rbd image as source).
+> 
+> This patch utilizes the rbd_diff_iterate2 call from librbd to detect
+> allocated and unallocated (all zero areas).
+> 
+> To avoid querying the ceph OSDs for the answer this is only done if
+> the image has the fast-diff feature which depends on the object-map and
+> exclusive-lock features. In this case it is guaranteed that the information
+> is present in memory in the librbd client and thus very fast.
+> 
+> If fast-diff is not available all areas are reported to be allocated
+> which is the current behaviour if bdrv_co_block_status is not implemented.
+> 
+> Signed-off-by: Peter Lieven <pl@kamp.de>
 
-On Tue, Oct 19, 2021 at 3:11 PM Igor Mammedov <imammedo@redhat.com> wrote:
->
-> On Mon, 18 Oct 2021 23:38:25 +0800
-> Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> > Using memory_region_init_ram(), which can't possibly handle vhost-user,
-> > and can't work as expected with '-numa node,memdev' options.
-> >
-> > Use MachineState::ram instead of manually initializing RAM memory
-> > region, as well as by providing MachineClass::default_ram_id to
-> > opt in to memdev scheme.
-> >
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> > ---
-> >
-> >  hw/riscv/opentitan.c | 6 ++----
-> >  1 file changed, 2 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-> > index 9803ae6d70..c356293d29 100644
-> > --- a/hw/riscv/opentitan.c
-> > +++ b/hw/riscv/opentitan.c
-> > @@ -67,17 +67,14 @@ static void opentitan_board_init(MachineState *machine)
-> >      const MemMapEntry *memmap = ibex_memmap;
-> >      OpenTitanState *s = g_new0(OpenTitanState, 1);
-> >      MemoryRegion *sys_mem = get_system_memory();
-> > -    MemoryRegion *main_mem = g_new(MemoryRegion, 1);
->
-> It is likely that you are missing fixed size check here
-> (looking at code it seems to me that board doesn't support variable RAM size)
-> See commit 00b9829f83c for example.
+Thanks, applied to the block branch.
 
-Yep
+Kevin
 
->
-> >      /* Initialize SoC */
-> >      object_initialize_child(OBJECT(machine), "soc", &s->soc,
-> >                              TYPE_RISCV_IBEX_SOC);
-> >      qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
-> >
-> > -    memory_region_init_ram(main_mem, NULL, "riscv.lowrisc.ibex.ram",
-> > -        memmap[IBEX_DEV_RAM].size, &error_fatal);
-> >      memory_region_add_subregion(sys_mem,
-> > -        memmap[IBEX_DEV_RAM].base, main_mem);
-> > +        memmap[IBEX_DEV_RAM].base, machine->ram);
-> >
-> >      if (machine->firmware) {
-> >          riscv_load_firmware(machine->firmware, memmap[IBEX_DEV_RAM].base, NULL);
-> > @@ -95,6 +92,7 @@ static void opentitan_machine_init(MachineClass *mc)
-> >      mc->init = opentitan_board_init;
-> >      mc->max_cpus = 1;
-> >      mc->default_cpu_type = TYPE_RISCV_CPU_IBEX;
-> > +    mc->default_ram_id = "riscv.lowrisc.ibex.ram";
->
-> Are you missing "mc->default_ram_size = memmap[IBEX_DEV_RAM].size" here?
-
-Indeed, thanks for the review!
-
->
-> otherwise it will default to generic:
->   hw/core/machine.c:    mc->default_ram_size = 128 * MiB;
->
-> >  }
-> >
-> >  DEFINE_MACHINE("opentitan", opentitan_machine_init)
->
-
-Regards,
-Bin
 
