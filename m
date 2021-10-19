@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D537B433D73
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 19:26:49 +0200 (CEST)
-Received: from localhost ([::1]:38502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77417433D29
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 19:15:16 +0200 (CEST)
+Received: from localhost ([::1]:40334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcssz-0005vH-0R
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 13:26:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48808)
+	id 1mcshn-0003vK-AK
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 13:15:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcsOI-0001uo-Uw
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:55:06 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:54077)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcsOG-0008Sd-QL
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:55:06 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id ls18so400164pjb.3
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 09:55:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SBfHSEzPMAPEjebSiNpgs+15wWgTs6sCMoE30dkhVko=;
- b=tlAzXdsoVbYBAeukprEZH+cEsSe2fDaEiDVVh7K/51QMXxOIHJXVEzF4OR8HftaTyp
- cjy8gUW16YllaJ2YQsM+oEVKi/u6Q2tc5rx6i8KEg2+wZQGP8gW13nGmAR8RV2kZUrZx
- oxWNXy1CyBksM7pl7VthyYm4xGO3Ln8j+khQtqsKJXKPY3xB/CRzpgt6qmK6r6PFT7iq
- 7N+UmMzUsGcWVzcou6KHq8cMBY6wowmQcSm11zhd0K4bGbay7A1n3rVICqUx4BCQYHyS
- S5yip4sB+SeiOlVuuK4lGFAk3REuMYCxOqjO1v6jCfCS2UTQhPJztYWcVCULtOK07ZQ3
- lggg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SBfHSEzPMAPEjebSiNpgs+15wWgTs6sCMoE30dkhVko=;
- b=JdcOB86iMxwMGhytWwIw53ENFDcZ5rRr0HGgk4tqDG032kUNOX7sdE2LGPhQTfLIQD
- XRuctcH9QxJnH2HiN3Le+gSYoZNYWu7UZhjgrIuyTSAn4KWKMFL58c+Iv8NzvUM6oxkh
- 8ahvPOgSOpoVdMdrLSZbDPspAFp6HIdA4/yhYyzNWvY+dSIyaRe5e0BaVyLtsP0p4WD1
- 45qbe80VyUHEvIBLuBlw/BVGMHI28YWs5Ezx9pRsGBfmiZ0EEK1V+mcmpJWI0I1yjRMc
- GiG8UomNBa3uSnqcVZnyisjYX7PM7m05jLmRF1CvnB0yOj0f1WhUieJN9liPAHao1fKv
- cx3g==
-X-Gm-Message-State: AOAM530Z3O+k0ktG2+P1Yn8HUlBUslxuQgkNn4+SUMa6HPyY3+Uym8K7
- 9LrUoevyJ5nWyC5YUtyaqndrhQ==
-X-Google-Smtp-Source: ABdhPJwU/sWFut9KcFzxKRajVcANvQbP2VrI/3KfCjo7eTlhce/gfFIkHqe/QZEj+o7+lI0tX+LpwA==
-X-Received: by 2002:a17:90a:f415:: with SMTP id
- ch21mr1090009pjb.235.1634662503055; 
- Tue, 19 Oct 2021 09:55:03 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id y2sm3361580pjl.6.2021.10.19.09.55.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 09:55:02 -0700 (PDT)
-Subject: Re: [PULL 0/7] Migration.next patches
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-References: <20211019092907.5255-1-quintela@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <59c7e680-deea-786e-77d3-3e17207a2595@linaro.org>
-Date: Tue, 19 Oct 2021 09:55:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mcsPd-0003gJ-1F
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:56:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mcsPZ-00019M-Oq
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:56:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634662583;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NblAFXvuKp7Z3socW2L9SHOaoq2jr2Wv+/LMxV54zZs=;
+ b=BqNn+IX2+2vYm14/LlunMiMddC9CX7MW1eaTFxErVWETfpvrn3WNMLttXNUOGosvc/BO9n
+ iPLaFUATAGGgp8kBWNc1MNmiOw0119moefNPVA33Y/3Y69XvNGIraGvJicOTZyK7biC+HZ
+ z/HyuA23a4zTaZrCIDzJ+eDsdcU1XMg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-516-lkIgnbW_PQaethoxCBc4Xg-1; Tue, 19 Oct 2021 12:56:20 -0400
+X-MC-Unique: lkIgnbW_PQaethoxCBc4Xg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D21710A8E00;
+ Tue, 19 Oct 2021 16:56:19 +0000 (UTC)
+Received: from localhost (unknown [10.22.17.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8AC1C5DAA5;
+ Tue, 19 Oct 2021 16:56:12 +0000 (UTC)
+Date: Tue, 19 Oct 2021 12:56:11 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] hw/qdev-core: Add compatibility for (non)-transitional
+ devs
+Message-ID: <20211019165611.scfagcp4ikhigx5k@habkost.net>
+References: <20211012082428.16222-1-jean-louis@dupond.be>
+ <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
+ <YW6h+YcNEgyzh5zw@stefanha-x1.localdomain>
+ <20211019065850-mutt-send-email-mst@kernel.org>
+ <20211019152913.wjipmv6trjx6k7xa@habkost.net>
+ <20211019120619-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20211019092907.5255-1-quintela@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.074,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211019120619-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,59 +83,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: berrange@redhat.com, Stefan Hajnoczi <stefanha@gmail.com>,
+ jasowang@redhat.com, qemu-devel@nongnu.org,
+ Jean-Louis Dupond <jean-louis@dupond.be>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 2:29 AM, Juan Quintela wrote:
-> The following changes since commit 362534a643b4a34bcb223996538ce9de5cdab946:
+On Tue, Oct 19, 2021 at 12:13:17PM -0400, Michael S. Tsirkin wrote:
+> On Tue, Oct 19, 2021 at 11:29:13AM -0400, Eduardo Habkost wrote:
+> > On Tue, Oct 19, 2021 at 06:59:09AM -0400, Michael S. Tsirkin wrote:
+> > > On Tue, Oct 19, 2021 at 11:46:17AM +0100, Stefan Hajnoczi wrote:
+> > > > On Tue, Oct 12, 2021 at 10:36:01AM +0200, Jean-Louis Dupond wrote:
+> > > > > Forgot to CC maintainers.
+> > > > 
+> > > > Also CCing Jason Wang and Michael Tsirkin for VIRTIO.
+> > > > 
+> > > > Stefan
+> > > 
+> > > OMG
+> > > where all compat properties broken all the time?
+> > 
+> > Compat properties that existed when commit f6e501a28ef9 ("virtio:
+> > Provide version-specific variants of virtio PCI devices") was
+> > merged are not broken, because virtio-*-transitional and
+> > virtio-*-non-transitional were brand new QOM types (so there's no
+> > compatibility to be kept with old QEMU versions).
+> > 
+> > Compat properties referencing "virtio-*-pci" instead of
+> > "virtio-*-pci-base" added after commit f6e501a28ef9 are probably
+> > broken, yes.
+> > 
+> > -- 
+> > Eduardo
 > 
->    Merge remote-tracking branch 'remotes/bsdimp/tags/pull-bsd-user-20211018-pull-request' into staging (2021-10-18 12:17:24 -0700)
+> Oh. So just this one:
+>     { "virtio-net-pci", "vectors", "3"},
 > 
-> are available in the Git repository at:
-> 
->    https://github.com/juanquintela/qemu.git tags/migration.next-pull-request
-> 
-> for you to fetch changes up to 911965ace9386e35ca022a65bb45a32fd421af3e:
-> 
->    migration/rdma: advise prefetch write for ODP region (2021-10-19 08:39:04 +0200)
-> 
-> ----------------------------------------------------------------
-> Migration Pull request (3rd try)
-> 
-> Hi
-> 
-> This should fix all the freebsd problems.
-> 
-> Please apply,
-> 
-> ----------------------------------------------------------------
-> 
-> David Hildenbrand (1):
->    migration/ram: Don't passs RAMState to
->      migration_clear_memory_region_dirty_bitmap_*()
-> 
-> Li Zhijian (4):
->    migration: allow multifd for socket protocol only
->    migration: allow enabling mutilfd for specific protocol only
->    migration/rdma: Try to register On-Demand Paging memory region
->    migration/rdma: advise prefetch write for ODP region
-> 
-> Lukas Straub (2):
->    multifd: Implement yank for multifd send side
->    multifd: Unconditionally unregister yank function
-> 
->   meson.build            |   6 +++
->   migration/multifd.h    |   4 ++
->   migration/migration.c  |  12 +++++
->   migration/multifd.c    |  35 ++++++++++---
->   migration/ram.c        |  13 ++---
->   migration/rdma.c       | 113 ++++++++++++++++++++++++++++++++++-------
->   migration/trace-events |   2 +
->   7 files changed, 151 insertions(+), 34 deletions(-)
+> right?
 
-Applied, thanks.
+I think so.  That's the only post-4.0 virtio-*-pci compat property I see in
+hw/core/machine.c.
 
-r~
+pc.c doesn't have any post-4.0 virtio-*-pci compat props.  I didn't see any
+virtio compat props on spapr.c and s390-virtio-ccw.c.
+
+> 
+> about the patch: how do people feel about virtio specific
+> stuff in qdev core? Ok by everyone?
+
+Not OK, if we have a mechanism to avoid that, already (the
+"virtio-net-pci-base" type name).  I wonder what we can do to
+make this kind of mistake less likely, though.
+
+Jean-Louis, Jason, does the following fix work?
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index b8d95eec32d..bd9c6156c1a 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -56,7 +56,7 @@ GlobalProperty hw_compat_5_2[] = {
+     { "ICH9-LPC", "smm-compat", "on"},
+     { "PIIX4_PM", "smm-compat", "on"},
+     { "virtio-blk-device", "report-discard-granularity", "off" },
+-    { "virtio-net-pci", "vectors", "3"},
++    { "virtio-net-pci-base", "vectors", "3"},
+ };
+ const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+ 
+-- 
+Eduardo
 
 
