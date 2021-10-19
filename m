@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13864433F90
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 22:04:44 +0200 (CEST)
-Received: from localhost ([::1]:44680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95384433FC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 22:26:48 +0200 (CEST)
+Received: from localhost ([::1]:38130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcvLm-0002I5-MH
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 16:04:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34170)
+	id 1mcvh9-0001fp-5B
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 16:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mcvKJ-0000xn-Qm
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 16:03:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60366)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mcvKF-0001a6-00
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 16:03:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634673785;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GijRUyiAmG4JuQAfxEDeFZtTlYkpfGbL5QqIHQf2WFk=;
- b=fuAolWYMEjSSBcOF1ooeERpKuhYck5P4duPfLljpLV8EvkqMUSYNfi/IMCVYA4Krocbsys
- Weo9pLR+kRXmRqNzYxF4MGnDy025QIkmKUicPEyywJ8iJbVExKYoQeyp0PZhnboVzyJUoH
- 3hgZUr8CiYPX83Lg0pl3x+9mr7KQG2M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-3GU9br6CP7OV4xgtoEAY8g-1; Tue, 19 Oct 2021 16:03:04 -0400
-X-MC-Unique: 3GU9br6CP7OV4xgtoEAY8g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41458101872D
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 20:03:03 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.33.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48DF65DAA5;
- Tue, 19 Oct 2021 20:02:54 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id C446B2256F7; Tue, 19 Oct 2021 16:02:53 -0400 (EDT)
-Date: Tue, 19 Oct 2021 16:02:53 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v4 10/12] virtiofsd: Add inodes_by_handle hash table
-Message-ID: <YW8kbdCeqs11E0Tl@redhat.com>
-References: <20210916084045.31684-1-hreitz@redhat.com>
- <20210916084045.31684-11-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mcvfX-0000xr-Uh
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 16:25:08 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:45873)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mcvfV-0000NY-7g
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 16:25:07 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ ls14-20020a17090b350e00b001a00e2251c8so790144pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 13:25:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0NPyVwfuUYZT6TuVock5zHOQeP0UZDNfOsniJxSP98I=;
+ b=HjG6CMtmLTMeH2YUQpfGvNS7MhdtTrL68mCMMDCr4FhzP9tU6t8vxtfck2P2GtlUKD
+ Sm83eWMtRVPAjUqYmMQ5fOVmS08osbbZjqIPaxuxg8B/WTZd4++EXrwxrFTy0UgAcCyR
+ 276lM4bRwpv2uQZJZ0V7Wo7iqn5SVN6+Ya6VR/1ScyLV9EHQ1Rr02pz/lpu6ymhnauyf
+ 2Y5SbFSSu5bi0cY/odAvFxtkvHW4hEljnjFvEvfNJ1Hs/A8/KPCeyXi8qbzD1pLyp+X8
+ aH+lldtBOxN5NZ+D8syjKB0AzsTVzUTKZ67YXFu/oCgUgstu0oGB5ykBVN9zfd3peTnN
+ bZ4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0NPyVwfuUYZT6TuVock5zHOQeP0UZDNfOsniJxSP98I=;
+ b=AYMj6GDkH33iBAW5sV10j1K/QbnPmIRfA1f/1zl9iYUoaYSQvuPBs5SV9eOvEzTXUf
+ hZnDkuIWEJbYuD3OnsYA2na1XFGXs6kbsi6aANqaYNMUdn2cQUyXbNwhCAymbOaWTpbo
+ r8pdwCrORo1S8L1VcEu8Lp9Rb8HKWvqANuQqf8TWNqEwgjM8wJ3A29+q+24rZCFc2ZgV
+ dNizTFuA6s/HEHQP0GmzjNJzHvljHIXQJmSV3xCUXXmp3PRHam8+/pGdzsqgKixYxU4q
+ uvJY4+7QIjPgmfspq9VHvQjd2/91Is0mp1M9XN4tM4kgjm9QtbRj7Tm7hpCyyu0oh9PF
+ /p0Q==
+X-Gm-Message-State: AOAM531XACZdYIO7KXWxhWJcd+VspP043U+lC0J1DIr4iWbRNNn/Cy4N
+ Liv8ekYH/Or/U9EJoPWgC+lNGg==
+X-Google-Smtp-Source: ABdhPJxFysJO1OlzsUFa00Xd4yfDON+clxay27FIj2XisfJJ1KkDzLudOVD9ezGRIN5AVwZgrtfm5g==
+X-Received: by 2002:a17:90a:eac1:: with SMTP id
+ ev1mr2330572pjb.16.1634675103558; 
+ Tue, 19 Oct 2021 13:25:03 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id c13sm92326pfj.78.2021.10.19.13.25.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Oct 2021 13:25:03 -0700 (PDT)
+Subject: Re: [PATCH 05/31] target/loongarch: Implement
+ qmp_query_cpu_definitions()
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1634628917-10031-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1634628917-10031-6-git-send-email-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <14e7ef01-28ab-917b-f8ff-8270c4d5bce9@linaro.org>
+Date: Tue, 19 Oct 2021 13:25:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210916084045.31684-11-hreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <1634628917-10031-6-git-send-email-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.074,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,149 +90,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
+ mst@redhat.com, philmd@redhat.com, mark.cave-ayland@ilande.co.uk,
+ laurent@vivier.eu, peterx@redhat.com, f4bug@amsat.org,
+ alistair.francis@wdc.com, maobibo@loongson.cn, gaosong@loongson.cn,
+ pbonzini@redhat.com, bmeng.cn@gmail.com, alex.bennee@linaro.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 16, 2021 at 10:40:43AM +0200, Hanna Reitz wrote:
-> Currently, lo_inode.fhandle is always NULL and so always keep an O_PATH
-> FD in lo_inode.fd.  Therefore, when the respective inode is unlinked,
-> its inode ID will remain in use until we drop our lo_inode (and
-> lo_inode_put() thus closes the FD).  Therefore, lo_find() can safely use
-> the inode ID as an lo_inode key, because any inode with an inode ID we
-> find in lo_data.inodes (on the same filesystem) must be the exact same
-> file.
+On 10/19/21 12:34 AM, Xiaojuan Yang wrote:
+> This patch introduce qmp_query_cpu_definitions interface.
 > 
-> This will change when we start setting lo_inode.fhandle so we do not
-> have to keep an O_PATH FD open.  Then, unlinking such an inode will
-> immediately remove it, so its ID can then be reused by newly created
-> files, even while the lo_inode object is still there[1].
-> 
-> So creating a new file can then reuse the old file's inode ID, and
-> looking up the new file would lead to us finding the old file's
-> lo_inode, which is not ideal.
-> 
-> Luckily, just as file handles cause this problem, they also solve it:  A
-> file handle contains a generation ID, which changes when an inode ID is
-> reused, so the new file can be distinguished from the old one.  So all
-> we need to do is to add a second map besides lo_data.inodes that maps
-> file handles to lo_inodes, namely lo_data.inodes_by_handle.  For
-> clarity, lo_data.inodes is renamed to lo_data.inodes_by_ids.
-> 
-> Unfortunately, we cannot rely on being able to generate file handles
-> every time.  Therefore, we still enter every lo_inode object into
-> inodes_by_ids, but having an entry in inodes_by_handle is optional.  A
-> potential inodes_by_handle entry then has precedence, the inodes_by_ids
-> entry is just a fallback.
-> 
-> Note that we do not generate lo_fhandle objects yet, and so we also do
-> not enter anything into the inodes_by_handle map yet.  Also, all lookups
-> skip that map.  We might manually create file handles with some code
-> that is immediately removed by the next patch again, but that would
-> break the assumption in lo_find() that every lo_inode with a non-NULL
-> .fhandle must have an entry in inodes_by_handle and vice versa.  So we
-> leave actually using the inodes_by_handle map for the next patch.
-> 
-> [1] If some application in the guest still has the file open, there is
-> going to be a corresponding FD mapping in lo_data.fd_map.  In such a
-> case, the inode will only go away once every application in the guest
-> has closed it.  The problem described only applies to cases where the
-> guest does not have the file open, and it is just in the dentry cache,
-> basically.
-> 
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
 > ---
->  tools/virtiofsd/passthrough_ll.c | 81 +++++++++++++++++++++++++-------
->  1 file changed, 65 insertions(+), 16 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index bd8fc922ea..b7d6aa7f9d 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -186,7 +186,8 @@ struct lo_data {
->      int announce_submounts;
->      bool use_statx;
->      struct lo_inode root;
-> -    GHashTable *inodes; /* protected by lo->mutex */
-> +    GHashTable *inodes_by_ids; /* protected by lo->mutex */
-> +    GHashTable *inodes_by_handle; /* protected by lo->mutex */
->      struct lo_map ino_map; /* protected by lo->mutex */
->      struct lo_map dirp_map; /* protected by lo->mutex */
->      struct lo_map fd_map; /* protected by lo->mutex */
-> @@ -275,8 +276,9 @@ static struct {
->  /* That we loaded cap-ng in the current thread from the saved */
->  static __thread bool cap_loaded = 0;
->  
-> -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
-> -                                uint64_t mnt_id);
-> +static struct lo_inode *lo_find(struct lo_data *lo,
-> +                                const struct lo_fhandle *fhandle,
-> +                                struct stat *st, uint64_t mnt_id);
->  static int xattr_map_client(const struct lo_data *lo, const char *client_name,
->                              char **out_name);
->  
-> @@ -1143,18 +1145,40 @@ out_err:
->      fuse_reply_err(req, saverr);
->  }
->  
-> -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
-> -                                uint64_t mnt_id)
+>   qapi/machine-target.json |  6 ++++--
+>   target/loongarch/cpu.c   | 28 ++++++++++++++++++++++++++++
+>   2 files changed, 32 insertions(+), 2 deletions(-)
 
-> +static struct lo_inode *lo_find(struct lo_data *lo,
-> +                                const struct lo_fhandle *fhandle,
-> +                                struct stat *st, uint64_t mnt_id)
->  {
-> -    struct lo_inode *p;
-> -    struct lo_key key = {
-> +    struct lo_inode *p = NULL;
-> +    struct lo_key ids_key = {
->          .ino = st->st_ino,
->          .dev = st->st_dev,
->          .mnt_id = mnt_id,
->      };
->  
->      pthread_mutex_lock(&lo->mutex);
-> -    p = g_hash_table_lookup(lo->inodes, &key);
-> +    if (fhandle) {
-> +        p = g_hash_table_lookup(lo->inodes_by_handle, fhandle);
-> +    }
-> +    if (!p) {
-> +        p = g_hash_table_lookup(lo->inodes_by_ids, &ids_key);
-> +        /*
-> +         * When we had to fall back to looking up an inode by its
-> +         * inode ID, ensure that we hit an entry that has a valid file
-> +         * descriptor.  Having an FD open means that the inode cannot
-> +         * really be deleted until the FD is closed, so that the inode
-> +         * ID remains valid until we evict our lo_inode.
-> +         * With no FD open (and just a file handle), the inode can be
-> +         * deleted while we still have our lo_inode, and so the inode
-> +         * ID may be reused by a completely different new inode.  We
-> +         * then must look up the lo_inode by file handle, because this
-> +         * handle contains a generation ID to differentiate between
-> +         * the old and the new inode.
-> +         */
-> +        if (p && p->fd == -1) {
-> +            p = NULL;
-> +        }
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-What happens in following scenario.
-
-- Say I have a hard linked file foo.txt with link foo-link.txt.
-
-- I lookup foo.txt. We generate file handle and add inode for foo.txt
-  to inode cache. lo_inode->fhandle will be valie but lo_inode->fd == -1.
-
-- Now later lookup for foo-link.txt happens. Say this time we can't
-  generate file handle. When we try to lookup inode, lo_find() should
-  return NULL. It will find inode by ids but not use it because inode
-  was added using file handle and p->fd == -1. That means lookup
-  for foo-link.txt will end up adding another inode, when it should
-  not have?
-
-Am I understanding it correctly?
-
-Vivek
-
+r~
 
