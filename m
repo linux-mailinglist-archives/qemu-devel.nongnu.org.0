@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023D5433BDA
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:16:35 +0200 (CEST)
-Received: from localhost ([::1]:35574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 772AB433BFB
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:21:06 +0200 (CEST)
+Received: from localhost ([::1]:49136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcrmz-000647-L9
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:16:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44786)
+	id 1mcrrN-0006g5-IQ
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:21:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQr-0001lw-Ny
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40008)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQs-0001pK-Ur
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52280)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQq-0008Af-3s
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:37 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mcqQr-0008BS-3A
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 10:49:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634654975;
+ s=mimecast20190719; t=1634654976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i4QoQLHos0sHo8mJLAtEuZcoHQUyZPuhbO0V7tN3Iyk=;
- b=L+U+di9kjNhDtaWWD6Ny0LsJZCWJRy7bf+228OpFoppEBt2ZstxNLw+xsDUsoSGlp/SvoX
- qB9iurUfiFITO/f8znmHOYp4JMfJYBGHcL4dOuXC4CK8VnuiJzHjbhA1c6ZZMzq5rDEh7l
- 7RdEqc1+2PYSer2vbasYyEa5mMAuBAw=
+ bh=MVtyAdbRBc2Y0+kMVQs8JXlxwsZDnAEVndjgEBtkfKw=;
+ b=g1QAekP/7PH4VUDqfxj5i5siYbsHvn3RjJWaDUYjHp5XC/3TjNk+xIoYtYAyWFBwR+aG1H
+ 5Lg4RZRMA/PvPAmdz/nrL+KP1HPLsfBRtBmODJLtsdbnc/TdyLsO3jnZh1IhAtDMy3RoYO
+ yHYvFfHzulQ8ZgU9OJEfntmoxtSsPVA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-Qc5XaEPbMJmshIJiJr2h1Q-1; Tue, 19 Oct 2021 10:49:32 -0400
-X-MC-Unique: Qc5XaEPbMJmshIJiJr2h1Q-1
+ us-mta-291-XpMu-CIZMrG67SmRP5dxLg-1; Tue, 19 Oct 2021 10:49:33 -0400
+X-MC-Unique: XpMu-CIZMrG67SmRP5dxLg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3134881E20C;
- Tue, 19 Oct 2021 14:49:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40DDA101F001;
+ Tue, 19 Oct 2021 14:49:32 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 50BF25D6D7;
- Tue, 19 Oct 2021 14:49:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5AE7C5D6D7;
+ Tue, 19 Oct 2021 14:49:31 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/15] iotests/297: update tool availability checks
-Date: Tue, 19 Oct 2021 10:49:12 -0400
-Message-Id: <20211019144918.3159078-10-jsnow@redhat.com>
+Subject: [PATCH v2 10/15] iotests/297: split test into sub-cases
+Date: Tue, 19 Oct 2021 10:49:13 -0400
+Message-Id: <20211019144918.3159078-11-jsnow@redhat.com>
 In-Reply-To: <20211019144918.3159078-1-jsnow@redhat.com>
 References: <20211019144918.3159078-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,42 +82,95 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As mentioned in 'iotests/297: Don't rely on distro-specific linter
-binaries', these checks are overly strict. Update them to be in-line
-with how we actually invoke the linters themselves.
+Take iotest 297's main() test function and split it into two sub-cases
+that can be skipped individually. We can also drop custom environment
+setup from the pylint test as it isn't needed.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/297 | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/297 | 63 ++++++++++++++++++++++++++----------------
+ 1 file changed, 39 insertions(+), 24 deletions(-)
 
 diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index 76d6a23f531..b2ad8d1cbe0 100755
+index b2ad8d1cbe0..b7d9d6077b3 100755
 --- a/tests/qemu-iotests/297
 +++ b/tests/qemu-iotests/297
-@@ -18,7 +18,6 @@
- 
- import os
- import re
--import shutil
- import subprocess
- import sys
- from typing import List, Mapping, Optional
-@@ -84,9 +83,11 @@ def run_linter(
+@@ -82,36 +82,51 @@ def run_linter(
+     )
  
  
++def check_linter(linter: str) -> bool:
++    try:
++        run_linter(linter, ['--version'], suppress_output=True)
++    except subprocess.CalledProcessError:
++        iotests.case_notrun(f"'{linter}' not found")
++        return False
++    return True
++
++
++def test_pylint(files: List[str]) -> None:
++    print('=== pylint ===')
++    sys.stdout.flush()
++
++    if not check_linter('pylint'):
++        return
++
++    run_linter('pylint', files)
++
++
++def test_mypy(files: List[str]) -> None:
++    print('=== mypy ===')
++    sys.stdout.flush()
++
++    if not check_linter('mypy'):
++        return
++
++    env = os.environ.copy()
++    env['MYPYPATH'] = env['PYTHONPATH']
++
++    run_linter('mypy', files, env=env, suppress_output=True)
++
++
  def main() -> None:
--    for linter in ('pylint-3', 'mypy'):
--        if shutil.which(linter) is None:
--            iotests.notrun(f'{linter} not found')
-+    for linter in ('pylint', 'mypy'):
-+        try:
-+            run_linter(linter, ['--version'], suppress_output=True)
-+        except subprocess.CalledProcessError:
-+            iotests.notrun(f"'{linter}' not found")
- 
+-    for linter in ('pylint', 'mypy'):
+-        try:
+-            run_linter(linter, ['--version'], suppress_output=True)
+-        except subprocess.CalledProcessError:
+-            iotests.notrun(f"'{linter}' not found")
+-
      files = get_test_files()
  
+     iotests.logger.debug('Files to be checked:')
+     iotests.logger.debug(', '.join(sorted(files)))
+ 
+-    env = os.environ.copy()
+-    env['MYPYPATH'] = env['PYTHONPATH']
+-
+-    print('=== pylint ===')
+-    sys.stdout.flush()
+-    try:
+-        run_linter('pylint', files, env=env)
+-    except subprocess.CalledProcessError:
+-        # pylint failure will be caught by diffing the IO.
+-        pass
+-
+-    print('=== mypy ===')
+-    sys.stdout.flush()
+-    try:
+-        run_linter('mypy', files, env=env, suppress_output=True)
+-    except subprocess.CalledProcessError as exc:
+-        if exc.output:
+-            print(exc.output)
++    for test in (test_pylint, test_mypy):
++        try:
++            test(files)
++        except subprocess.CalledProcessError as exc:
++            # Linter failure will be caught by diffing the IO.
++            if exc.output:
++                print(exc.output)
+ 
+ 
+ iotests.script_main(main)
 -- 
 2.31.1
 
