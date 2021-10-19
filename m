@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1349433251
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:35:07 +0200 (CEST)
-Received: from localhost ([::1]:47852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0C4433275
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:38:04 +0200 (CEST)
+Received: from localhost ([::1]:55086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mclWU-0003Lg-Np
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54734)
+	id 1mclZL-0008MA-HD
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:38:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mclQt-0003fx-La
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:29:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33590)
+ id 1mclR7-0004PO-Ko
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:29:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mclQr-0005cq-2W
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:29:19 -0400
+ id 1mclQr-0005dZ-9d
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:29:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634635755;
+ s=mimecast20190719; t=1634635756;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=loashz0+j0OcIJRCFBlcKJzh8A8l4zO8lqCJ5F9pqk4=;
- b=gYYQQgyQIoYht2j9YBnKBshzAE6V5AmA/4D8ylO/dyKwuCpAKfQIpQwUAuxzU6Eail6BD0
- AYLk/BoQm/WqC1P/FeuD9FgZDHVWOXpGbColIyoHvvSYIXA9Bj3qJI9uKUITyKL3MHTCFp
- 6NOW7ciJVUpYTgvHl1tNZisuhqp7bq8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-435-oMp63k84Mf27oS4WNamWOw-1; Tue, 19 Oct 2021 05:29:14 -0400
-X-MC-Unique: oMp63k84Mf27oS4WNamWOw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n9-20020a1c7209000000b0030da7d466b8so912376wmc.5
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 02:29:14 -0700 (PDT)
+ bh=xiin61qQHRQJuFfJtZIvj/8PDAv1mtm9Lzc4rxWOruY=;
+ b=dRlJmDo6G97noKFGlkvWBzG3xsN7I4+UE9BQa76DdoIF0+uxZkAOc3825uDkcWLIN2WUoR
+ JgR+vqSoIsl2P2i2Ioq/36UQ4h4F7wu68L5l8HrEIvlMfk05qElq+4o11HgGlB9alFOndJ
+ n19/UcBWEhtZZbKCzzuVugbY3KQC9Dw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464-WJliWjDBPm2OzsX9a8MIiw-1; Tue, 19 Oct 2021 05:29:15 -0400
+X-MC-Unique: WJliWjDBPm2OzsX9a8MIiw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ u14-20020a05600c19ce00b0030d8549d49aso608124wmq.0
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 02:29:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=loashz0+j0OcIJRCFBlcKJzh8A8l4zO8lqCJ5F9pqk4=;
- b=vc8nloWYN+DpRDMog+DqB+GqP6YfYoIDHAVk4MQDLl7/a5HbyjAmW/1/8DaFvNpigW
- JAw9sN9pr3aQhSQ3zgLXhRMvH2Ils+mtIBLiHLHOpf09KQt8ao/57j8ht19bSx7tBCRF
- 62IMC1tXt/DSxlZuSFjnfyl5cqB1gkAufaT7c90btLfoXDvD8VYUhOgwpODtYvArI3i4
- 7N6uUCwDHY0wh8AuzEOnjw4DWl67AHIFuTenF9IXIMiEB9OP2w6dn6zk+F/87klcQwqv
- E691yClUM3BuFtwt3RigrIP1VP0NDkie7YG2UAVN3wrcSLUWiYoQZvUDKamd/9j+SsAE
- 2jOg==
-X-Gm-Message-State: AOAM532XWDKScz6FNzTl2AfuMSpiU8FZkcx4//KuLVkVKT281uoHAJYe
- Yx2cBSDn0pn5oCO4zyaiv2uE4fO/s21sx8iW3ACXLhV76/wQpfk44WubHebq8lzDMKljQ8qzRIA
- ML7Wx+iLbLPopdbTw48UF7EvASaCKg5vvhxrbI+/yZqNFUbLRPPfh5y/vu2FZBFug8d8=
-X-Received: by 2002:adf:d1c9:: with SMTP id b9mr43372917wrd.426.1634635752864; 
- Tue, 19 Oct 2021 02:29:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzaIQbT8pVgzX7S3gPoba7EXVmfLRi/jYrziEaoQg1DUbL6+eWZxFMnXXzX3zrb7i3NkBGJ4Q==
-X-Received: by 2002:adf:d1c9:: with SMTP id b9mr43372895wrd.426.1634635752690; 
- Tue, 19 Oct 2021 02:29:12 -0700 (PDT)
+ bh=xiin61qQHRQJuFfJtZIvj/8PDAv1mtm9Lzc4rxWOruY=;
+ b=hnRW3DN4IQMY3kJoPbgZw9m1rWrkqiJ1n+lIU5vzPo2mFpbAMpe1rJYrGACO2eqz4U
+ AghaPr4+7JZlYwEzV2dnsifjUq+gr1X3HwD0pS+Aa7t7aGIGT2GdliX3B3janoo1gPzc
+ 8jfYRNsDtPf+2kvp87Ti3eNzz0oQVscrHPdx03Mg0myEb6maJk+l0G3qo2UWh2TSp2v0
+ 42JZhu+BkhdxaIX1VFRJTU8T2wwLb0B+oCXu5YKgkyrm+fEGF2q9xq4wDLDa4mQTWP95
+ fC3qSFGwiap7PvWQKlt8FY0to5Iyjx8Gc1g34eSlmCmkj0/W5kqfdMIO6oeBiZkoRpV7
+ RP4g==
+X-Gm-Message-State: AOAM533BeNGzd+tyjyWAS1eEzY0YQiM/NIzGV1iePL8eJNMhlSku14Sd
+ k3lqiN2IgH1NYz0xLPcGJoFaoxJDTCRShw4V4lQhayuHlSmqG1VsKUwMPIjLAhcoOaUIxUZD2g7
+ xrRof0gQBfTTwc/E+P08UO3rEaPaxLDX651rN395Cz26UDU3oHkI7ETR+wYKhcxleAAA=
+X-Received: by 2002:a05:600c:2301:: with SMTP id
+ 1mr4788630wmo.125.1634635754121; 
+ Tue, 19 Oct 2021 02:29:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJydWRELIJrwDPwo8c3E131bNzk6+8/WlO7ZY7+nhTRe/zqlURFJru1WcqDvMBbReNwR5kv1LQ==
+X-Received: by 2002:a05:600c:2301:: with SMTP id
+ 1mr4788604wmo.125.1634635753910; 
+ Tue, 19 Oct 2021 02:29:13 -0700 (PDT)
 Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
  [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id s186sm2145799wme.14.2021.10.19.02.29.12
+ by smtp.gmail.com with ESMTPSA id c185sm1749652wma.8.2021.10.19.02.29.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 02:29:12 -0700 (PDT)
+ Tue, 19 Oct 2021 02:29:13 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/7] multifd: Unconditionally unregister yank function
-Date: Tue, 19 Oct 2021 11:29:02 +0200
-Message-Id: <20211019092907.5255-3-quintela@redhat.com>
+Subject: [PULL 3/7] migration/ram: Don't passs RAMState to
+ migration_clear_memory_region_dirty_bitmap_*()
+Date: Tue, 19 Oct 2021 11:29:03 +0200
+Message-Id: <20211019092907.5255-4-quintela@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211019092907.5255-1-quintela@redhat.com>
 References: <20211019092907.5255-1-quintela@redhat.com>
@@ -73,17 +76,16 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,54 +98,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+Cc: David Hildenbrand <david@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
  Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lukas Straub <lukasstraub2@web.de>
+From: David Hildenbrand <david@redhat.com>
 
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Juan Quintela
- <quintela@redhat.com>, Peter Xu <peterx@redhat.com>, Leonardo Bras Soares
- Passos <lsoaresp@redhat.com>
-Date: Wed, 4 Aug 2021 21:26:32 +0200 (5 weeks, 11 hours, 52 minutes ago)
+The parameter is unused, let's drop it.
 
-[[PGP Signed Part:No public key for 35AB0B289C5DB258 created at 2021-08-04T21:26:32+0200 using RSA]]
-Unconditionally unregister yank function in multifd_load_cleanup().
-If it is not unregistered here, it will leak and cause a crash
-in yank_unregister_instance(). Now if the ioc is still in use
-afterwards, it will only lead to qemu not being able to recover
-from a hang related to that ioc.
-
-After checking the code, i am pretty sure that ref is always 1
-when arriving here. So all this currently does is remove the
-unneeded check.
-
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ migration/ram.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 5a4f158f3c..efd424bc97 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -991,10 +991,7 @@ int multifd_load_cleanup(Error **errp)
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-         MultiFDRecvParams *p = &multifd_recv_state->params[i];
+diff --git a/migration/ram.c b/migration/ram.c
+index 7a43bfd7af..bb908822d5 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -789,8 +789,7 @@ unsigned long migration_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
+     return find_next_bit(bitmap, size, start);
+ }
  
--        if (OBJECT(p->c)->ref == 1) {
--            migration_ioc_unregister_yank(p->c);
--        }
--
-+        migration_ioc_unregister_yank(p->c);
-         object_unref(OBJECT(p->c));
-         p->c = NULL;
-         qemu_mutex_destroy(&p->mutex);
+-static void migration_clear_memory_region_dirty_bitmap(RAMState *rs,
+-                                                       RAMBlock *rb,
++static void migration_clear_memory_region_dirty_bitmap(RAMBlock *rb,
+                                                        unsigned long page)
+ {
+     uint8_t shift;
+@@ -818,8 +817,7 @@ static void migration_clear_memory_region_dirty_bitmap(RAMState *rs,
+ }
+ 
+ static void
+-migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
+-                                                 RAMBlock *rb,
++migration_clear_memory_region_dirty_bitmap_range(RAMBlock *rb,
+                                                  unsigned long start,
+                                                  unsigned long npages)
+ {
+@@ -832,7 +830,7 @@ migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
+      * exclusive.
+      */
+     for (i = chunk_start; i < chunk_end; i += chunk_pages) {
+-        migration_clear_memory_region_dirty_bitmap(rs, rb, i);
++        migration_clear_memory_region_dirty_bitmap(rb, i);
+     }
+ }
+ 
+@@ -850,7 +848,7 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
+      * the page in the chunk we clear the remote dirty bitmap for all.
+      * Clearing it earlier won't be a problem, but too late will.
+      */
+-    migration_clear_memory_region_dirty_bitmap(rs, rb, page);
++    migration_clear_memory_region_dirty_bitmap(rb, page);
+ 
+     ret = test_and_clear_bit(page, rb->bmap);
+     if (ret) {
+@@ -2777,8 +2775,7 @@ void qemu_guest_free_page_hint(void *addr, size_t len)
+          * are initially set. Otherwise those skipped pages will be sent in
+          * the next round after syncing from the memory region bitmap.
+          */
+-        migration_clear_memory_region_dirty_bitmap_range(ram_state, block,
+-                                                         start, npages);
++        migration_clear_memory_region_dirty_bitmap_range(block, start, npages);
+         ram_state->migration_dirty_pages -=
+                       bitmap_count_one_with_offset(block->bmap, start, npages);
+         bitmap_clear(block->bmap, start, npages);
 -- 
 2.31.1
 
