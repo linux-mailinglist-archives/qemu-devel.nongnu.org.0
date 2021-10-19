@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71BCD4331D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:10:02 +0200 (CEST)
-Received: from localhost ([::1]:34514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333574331DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:10:05 +0200 (CEST)
+Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcl8D-00088Y-9p
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50750)
+	id 1mcl8G-0008L7-99
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:10:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mcl2k-00014a-Fq
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:04:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54775)
+ id 1mcl2g-00013G-5U
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:04:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mcl2f-0007BW-SU
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:04:21 -0400
+ id 1mcl2c-0006yK-IF
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:04:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634634256;
+ s=mimecast20190719; t=1634634253;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AOGm4vK+NE9UAvOpm9xDnOyNCpUTjIP9TRU6et7ywjc=;
- b=hjmU34+JU8VyMB37GPKNJ6RhWMgG7iKFcEQLtMnLXMtjo8U4gTpE3Ua7Rqsz+3gqcfvhCa
- uCuzlj+DXVJD/o9eG3QvIvCn52VM1NQPL4nQjCY86x9j/4TA3vcQmnyGBy/WiKEZk0NMiq
- 7CoK28gIC4CyL8xFOPtXYrPlU6QFs38=
+ bh=TC3q6jkQP7DXrgT7NDpkNU+5AI3iGndsylS945PDy+E=;
+ b=LNmWgW+EH3VPoxh3l+8NzKJ85cdOI7XtKdpsYVxDBlqSml5hKRWCAXzNvs5gmp27mA6ljA
+ T+TtojcPetEDPSgY8hkmCIDrOc3i2X1NdLejy/X7u3HIt8hs1H3lcZllqe+lYzCbgYDmDN
+ 29EpcOKqTf01habM4Xj7j5lRWI75NT0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-zF4cbfO6PjGq4HfqN6Lfxw-1; Tue, 19 Oct 2021 05:04:07 -0400
-X-MC-Unique: zF4cbfO6PjGq4HfqN6Lfxw-1
+ us-mta-548-pypDYXFMNBiW7mJsY-jCHA-1; Tue, 19 Oct 2021 05:04:10 -0400
+X-MC-Unique: pypDYXFMNBiW7mJsY-jCHA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B82F18125C6;
- Tue, 19 Oct 2021 09:04:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4623380A5C8;
+ Tue, 19 Oct 2021 09:04:09 +0000 (UTC)
 Received: from paraplu.home (unknown [10.39.194.235])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53D347092E;
- Tue, 19 Oct 2021 09:04:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 98DC570951;
+ Tue, 19 Oct 2021 09:04:06 +0000 (UTC)
 From: Kashyap Chamarthy <kchamart@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/6] docs: rSTify the "KeySigningParty" wiki
-Date: Tue, 19 Oct 2021 11:03:41 +0200
-Message-Id: <20211019090344.3054300-4-kchamart@redhat.com>
+Subject: [PATCH v2 4/6] docs: rSTify the "SubmitAPullRequest" wiki
+Date: Tue, 19 Oct 2021 11:03:42 +0200
+Message-Id: <20211019090344.3054300-5-kchamart@redhat.com>
 In-Reply-To: <20211019090344.3054300-1-kchamart@redhat.com>
 References: <20211019090344.3054300-1-kchamart@redhat.com>
 MIME-Version: 1.0
@@ -57,13 +57,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kchamart@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,196 +91,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 The original wiki is here[1].  I converted by copying the wiki source
 into a .wiki file and convert to rST using `pandoc`:
 
-    $ pandoc -f Mediawiki -t rst key-signing-party.wiki -o
-            key-signing-party.rst
+    $ pandoc -f Mediawiki -t rst submitting-a-pull-request.wiki \
+        -o submitting-a-pull-request.rst
 
-This is a 1-1 conversion; no content changes.
+This is a 1-1 conversion; no content changes besides updating the
+"KeySigningParty" linkt to the rSTified (HTML) page.
 
-[1] https://wiki.qemu.org/KeySigningParty
+[1] https://wiki.qemu.org/Contribute/SubmitAPullRequest
 
 Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
 ---
- docs/devel/key-signing-party.rst | 171 +++++++++++++++++++++++++++++++
- 1 file changed, 171 insertions(+)
- create mode 100644 docs/devel/key-signing-party.rst
+ docs/devel/submitting-a-pull-request.rst | 79 ++++++++++++++++++++++++
+ 1 file changed, 79 insertions(+)
+ create mode 100644 docs/devel/submitting-a-pull-request.rst
 
-diff --git a/docs/devel/key-signing-party.rst b/docs/devel/key-signing-party.rst
+diff --git a/docs/devel/submitting-a-pull-request.rst b/docs/devel/submitting-a-pull-request.rst
 new file mode 100644
-index 0000000000..94e133c40e
+index 0000000000..d2ee84c85a
 --- /dev/null
-+++ b/docs/devel/key-signing-party.rst
-@@ -0,0 +1,171 @@
-+Key-signing Party
-+=================
++++ b/docs/devel/submitting-a-pull-request.rst
+@@ -0,0 +1,79 @@
++Submit a Pull Request
++=====================
 +
-+.. _whats_a_key_signing_party:
++QEMU welcomes contributions of code, but we generally expect these to be
++sent as simple patch emails to the mailing list (see our page on
++`submitting a patch
++<https://qemu-project.gitlab.io/qemu/devel/submitting-a-patch.html>`__
++for more details).  Generally only existing submaintainers of a tree
++will need to submit pull requests, although occasionally for a large
++patch series we might ask a submitter to send a pull request. This page
++documents our recommendations on pull requests for those people.
 +
-+What's a key-signing party?
-+---------------------------
++A good rule of thumb is not to send a pull request unless somebody asks
++you to.
 +
-+A key-signing party is a get-together with PGP users for the purpose of
-+meeting other PGP users and signing each other's keys. This helps to
-+extend the "web of trust" to a great degree. Also, it sometimes serves
-+as a forum to discuss strong cryptography and related issues. In QEMU we
-+use PGP keys to sign pull requests, so submaintainers need to have PGP
-+keys signed by those with direct commit access.
++**Resend the patches with the pull request** as emails which are
++threaded as follow-ups to the pull request itself. The simplest way to
++do this is to use ``git format-patch --cover-letter`` to create the
++emails, and then edit the cover letter to include the pull request
++details that ``git request-pull`` outputs.
 +
-+This wiki page gives general information on how we run key-signing
-+parties for QEMU; usually there will be one at KVM Forum. For details of
-+a specific event (location, organizer, etc) see the wiki page for that
-+event.
++**Use PULL as the subject line tag** in both the cover letter and the
++retransmitted patch mails (for example, by using
++``--subject-prefix=PULL`` in your ``git format-patch`` command). This
++helps people to filter in or out the resulting emails (especially useful
++if they are only CC'd on one email out of the set).
 +
-+The instructions here are pretty specific, because there will likely be
-+at least a dozen people trying to arrange to sign each others' keys. To
-+get this done in a reasonable time we need to be efficient about it, so
-+following the instructions makes it easier and smoother for everyone. If
-+(for instance) you don't send your key to the organizer before the
-+deadline then it's quite likely you won't get your key signed.
++**Each patch must have your own Signed-off-by: line** as well as that of
++the original author if the patch was not written by you. This is because
++with a pull request you're now indicating that the patch has passed via
++you rather than directly from the original author.
 +
-+.. _what_do_i_need_for_this_party:
++**Don't forget to add Reviewed-by: and Acked-by: lines**. When other
++people have reviewed the patches you're putting in the pull request,
++make sure you've copied their signoffs across. (If you use the `patches
++tool <https://github.com/stefanha/patches>`__ to add patches from email
++directly to your git repo it will include the tags automatically; if
++you're updating patches manually or in some other way you'll need to
++edit the commit messages by hand.)
 +
-+What do I need for this party?
-+------------------------------
++**Don't send pull requests for code that hasn't passed review**. A pull
++request says these patches are ready to go into QEMU now, so they must
++have passed the standard code review processes. In particular if you've
++corrected issues in one round of code review, you need to send your
++fixed patch series as normal to the list; you can't put it in a pull
++request until it's gone through. (Extremely trivial fixes may be OK to
++just fix in passing, but if in doubt err on the side of not.)
 +
-+.. _required_items:
++**Test before sending**. This is an obvious thing to say, but make sure
++everything builds (including that it compiles at each step of the patch
++series) and that "make check" passes before sending out the pull
++request. As a submaintainer you're one of QEMU's lines of defense
++against bad code, so double check the details.
 +
-+Required Items
-+~~~~~~~~~~~~~~
++**All pull requests must be signed**. If your key is not already signed
++by members of the QEMU community, you should make arrangements to attend
++a `KeySigningParty
++<https://qemu-project.gitlab.io/qemu/devel/key-signing-party.html>`__
++(for example at KVM Forum) or make alternative arrangements to have your
++key signed by an attendee.  Key signing requires meeting another
++community member \*in person\* so please make appropriate arrangements.
++By "signed" here we mean that the pullreq email should quote a tag which
++is a GPG-signed tag (as created with 'gpg tag -s ...').
 +
-+-  Physical attendance
-+-  Positive picture ID
-+-  Your Key ID, Key type, HEX fingerprint, and Key size
-+-  A pen/pencil or whatever you'd like to write with....
-+-  NO computer
++**Pull requests not for master should say "not for master" and have
++"PULL SUBSYSTEM whatever" in the subject tag**. If your pull request is
++targeting a stable branch or some submaintainer tree, please include the
++string "not for master" in the cover letter email, and make sure the
++subject tag is "PULL SUBSYSTEM s390/block/whatever" rather than just
++"PULL". This allows it to be automatically filtered out of the set of
++pull requests that should be applied to master.
 +
-+.. _required_process:
-+
-+Required Process
-+~~~~~~~~~~~~~~~~
-+
-+-  Generate a key/Remember your pass phrase
-+-  All attendees send their public keys to a public keyserver. Unless
-+   specified otherwise, use keys.gnupg.net. If for some reason you don't
-+   want your key to be in a public keyserver, but still want to
-+   participate, please let me know.
-+-  All attendees send their key ID, key type, fingerprint, and key size
-+   to the host, who will compile everyone's key information.
-+-  The host prints a list with everyone's key ID, key type, fingerprint,
-+   and key size from the compiled keyrings and distributes copies of the
-+   printout at the meeting.
-+-  Attend the party. Bring along a paper copy of your key ID, key type,
-+   fingerprint, and key size that you obtained from your own keyring.
-+   You must also bring along a suitable photo ID. Instruct the attendees
-+   at the beginning that they are to make two marks on the listing, one
-+   for correct key information (key ID, key type, fingerprint, and key
-+   size) and one if the ID check is ok.
-+-  At the meeting each key owner reads his key ID, key type,
-+   fingerprint, key size, and user ID from his own printout, not from
-+   the distributed listing. This is because there could be an error,
-+   intended or not, on the listing. This is also the time to tell which
-+   ID's to sign or not. If the key information matches your printout
-+   then place a check-mark by the key.
-+-  After everyone has read his key ID information, have all attendees
-+   form a line.
-+-  The first person walks down the line having every person check his
-+   ID.
-+-  The second person follows immediately behind the first person and so
-+   on.
-+-  If you are satisfied that the person is who they say they are, and
-+   that the key on the printout is theirs, you place another check-mark
-+   next to their key on your printout.
-+-  Once the first person cycles back around to the front of the line he
-+   has checked all the other IDs and his ID has been checked by all
-+   others.
-+-  After everybody has identified himself or herself the formal part of
-+   the meeting is over. You are free to leave or to stay and discuss
-+   matters of PGP and privacy (or anything else) with fellow PGP users.
-+   If everyone is punctual the formal part of the evening should take
-+   less than an hour.
-+-  After confirming that the key information on the key server matches
-+   the printout that you have checked, sign the appropriate keys. Keys
-+   can only be signed if they have two check-marks. Note that it is
-+   really important to check the full fingerprint -- there are many keys
-+   on the keyservers are maliciously generated fakes which have the same
-+   short 32-bit keyid but the wrong fingerprint!
-+-  Send the signed keys back to the keyservers.
-+-  Use those keys as often as possible.
-+
-+.. _why_shouldnt_i_bring_a_computer:
-+
-+Why shouldn't I bring a computer?
-+---------------------------------
-+
-+There are a variety of reasons, why you don't want to do this. The short
-+answer is it would be insecure, unsafe, and of no benefit. For those not
-+convinced, here are some reasons why it is insecure, unsafe, and of no
-+benefit.
-+
-+-  Someone might have modified the computers programs, operating system,
-+   or hardware to steal or modify keys.
-+-  If people are swapping disks with their keys on them the computer
-+   owner has to worry about viruses.
-+-  If people are carrying their secret keys with them and intend to do
-+   the signing at the actual meeting by typing their passphrase into a
-+   computer, then they are open to key-logging attacks,
-+   shoulder-surfing, etc.
-+-  It is much better to just exchange key details and verify ID and then
-+   do the signing when you get home to your own trusted computer.
-+-  Someone might spill beer on it.
-+-  Someone might drop it or knock it off the table.
-+-  More reasons, I don't feel like articulating
-+
-+.. _other_questions_about_signing_keys:
-+
-+Other questions about signing keys?
-+-----------------------------------
-+
-+You may want to read the `Keysigning Party
-+Howto <http://www.cryptnet.net/fdp/crypto/gpg-party.html>`__ which
-+includes an explanation of the concepts behind keysigning, instructions
-+for hosting a keysigning party, instructions for participating in a
-+keysigning party, and step by step instructions for signing other's
-+keys.
-+
-+If you're looking for quick answers you may want to look to the
-+questions and answers below, which all come from the `PGP
-+FAQ <http://www.pgp.net/pgpnet/pgp-faq/faq.html>`__. It also has a lot
-+of other good information, besides what is linked to below.
-+
-+-  `What is key
-+   signing? <http://www.pgp.net/pgpnet/pgp-faq/faq.html#KEY-SIGNING-WHAT>`__
-+-  `How do I sign a
-+   key? <http://www.pgp.net/pgpnet/pgp-faq/faq.html#KEY-SIGNING-HOW>`__
-+-  `Should I sign my own
-+   key? <http://www.pgp.net/pgpnet/pgp-faq/faq.html#KEY-SIGNING-SELF>`__
-+-  `Should I sign X's
-+   key? <http://www.pgp.net/pgpnet/pgp-faq/faq.html#KEY-SIGNING-WHEN>`__
-+-  `How do I verify someone's
-+   identity? <http://www.pgp.net/pgpnet/pgp-faq/faq.html#KEY-SIGNING-IDENTITY-CHECK>`__
-+-  `How do I know someone hasn't sent me a bogus key to
-+   sign? <http://www.pgp.net/pgpnet/pgp-faq/faq.html#KEY-SIGNING-KEY-VERIFICATION>`__
-+
-+.. _other_useful_pgp_links:
-+
-+Other useful PGP links
-+----------------------
-+
-+A few more links for PGP newbies, or those who wish to re acquaint
-+themselves.
-+
-+-  http://www.pgpi.org/ -- The International PGP Home Page
-+-  http://www.pgpi.org/download/ -- Download PGP
-+-  http://www.gnupg.org/ -- GNU PGP (Linux)
-+-  http://www.pgpi.org/products/tools/search/ -- PGP Tools, Shells, and
-+   Plugins
-+
-+.. _what_if_i_still_have_a_question:
-+
-+What if I still have a question?
-+--------------------------------
-+
-+If you'd like some help answering it, you can contact the event
-+coordinator.
++You might be interested in
++`https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/make-pullreq
++the make-pullreq
++script <https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/make-pullreq_the_make-pullreq_script>`__,
++which automates some of this process for you and includes a few sanity
++checks. Note that you must edit it to configure it suitably for your
++local situation!
 -- 
 2.31.1
 
