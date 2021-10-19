@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B8E432C70
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 05:48:30 +0200 (CEST)
-Received: from localhost ([::1]:57086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A91C0432D1E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 07:23:44 +0200 (CEST)
+Received: from localhost ([::1]:40030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcg73-0002y6-5U
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 23:48:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49456)
+	id 1mchbD-00077b-D7
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 01:23:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcg5i-0001ra-F9
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 23:47:06 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42749)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mcg5g-00051q-Sn
- for qemu-devel@nongnu.org; Mon, 18 Oct 2021 23:47:06 -0400
-Received: by mail-wr1-x433.google.com with SMTP id v17so45012689wrv.9
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 20:47:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/ixCIxEQX1tBzBXl89LUyyiPBfEc4Yy387cP9wfwX7g=;
- b=JHdgHn2cZigT8QpDdrHY77VzGRkwy9cvjXB67zWBGMIOGDhqJg0ulsRKD0q3RP6V0W
- XZHu53BePVqGzhzKDxp3E5QgrMex48fyUy4Szb4s8vRkECc9iWzn/GZJH5yPThjJW4LF
- B3Mvc81zQRK2A3mYM0RtMoQ20rrFMxkTPdMDF5uonkDZG2wYO4IBWu0FmzSpH/sWR0ab
- myPapGwMREazZwUgqD4AXS6yDOzog7TKka9gwSdmitSRIYUD7s+uKIrVTYWn3D+p07sB
- OvZI0Be3Qe+vLzIiyzLbRyQYMH2bl9nJpMbvNr4ULEoZe8HHYkDd/IHYcuzRZRluyU3N
- ncBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/ixCIxEQX1tBzBXl89LUyyiPBfEc4Yy387cP9wfwX7g=;
- b=K+S41tHGGNQIwtJLRGq4fBX+Z85O5YfrC4+pWXIjWMPwkE7RTEQyfefIWHLoWCF8ha
- A35J4mwzujhW4Kz3Mk7ekdbEz9grCo6bu9PJyFPcFkNl553/eKZ1DlX/THKC8qD4vgd1
- WZYnqjU6h7Z/BmPEyTmfcLmy7kWtLLze3bdrowZ5Wrk8qRpCLtNAsFC1xkiNtag4Uj9H
- B7XY7jrxDTGlb0uIKlXkVwXRxadreUFI1VSqsOEI8ZTXc1cOY+zBj6LnaovbeQqBfurQ
- hq13ZbSonnDB6ciYKQVOoOuIurL+At/mHbaYDANAyErlkwosEdBz63xGuI/sGzexzR71
- PfLA==
-X-Gm-Message-State: AOAM531dCfcYOnhLpLkTVzXC5ZAxrkToSqXq2M99yA8c6Q6Dih14Czsv
- +Dy9JXEnMwlzmzx6AVrx4Eg=
-X-Google-Smtp-Source: ABdhPJxZzjaM5cFTuD94jbPj98BFGWOJXQ7/7XkhQhABAXG9A+6/une6jouuUXP+px41A6b3GMaMKw==
-X-Received: by 2002:adf:a549:: with SMTP id j9mr40894919wrb.123.1634615221673; 
- Mon, 18 Oct 2021 20:47:01 -0700 (PDT)
-Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id a2sm14198509wru.82.2021.10.18.20.47.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Oct 2021 20:47:01 -0700 (PDT)
-Message-ID: <fc2ee0a9-1c12-ce04-4e01-b5d30cf78f51@amsat.org>
-Date: Tue, 19 Oct 2021 05:47:00 +0200
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mchZa-0006Mf-Lg
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 01:22:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27209)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mchZW-0001ra-Ff
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 01:22:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634620916;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=H05AqTEn6HNpFw2my/J+z/UBrljG2A4N+hK5XBQ949I=;
+ b=BVBT41IGwYYbm77G0gs5LnwSAD2iogoC+x5xkqo4GPClq/pLraI89nshyqByk7k3ZUNic7
+ wGwXYZ/ZdaXXruCLEztx1+29GwSnfrN0q0sb3+xIJGZDWFaXdHEuurXtiDwBrv7i9+V8PI
+ pQi4aNYGZISjAHbWsrywmIFAz85K6nc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-455-PBWm3hg-M_O3Ol5qNpIqXw-1; Tue, 19 Oct 2021 01:21:54 -0400
+X-MC-Unique: PBWm3hg-M_O3Ol5qNpIqXw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D4D31017965;
+ Tue, 19 Oct 2021 05:21:53 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 70F9F17CEE;
+ Tue, 19 Oct 2021 05:21:46 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id C46711800393; Tue, 19 Oct 2021 07:21:44 +0200 (CEST)
+Date: Tue, 19 Oct 2021 07:21:44 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 0/6] RfC: try improve native hotplug for pcie root ports
+Message-ID: <20211019052144.q4cy2qrvdh34rxml@sirius.home.kraxel.org>
+References: <20211011120504.254053-1-kraxel@redhat.com>
+ <20211018113535-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] Hexagon (target/hexagon) put writes to USR into temp
- until commit
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1634031081-25450-1-git-send-email-tsimpson@quicinc.com>
- <1634031081-25450-3-git-send-email-tsimpson@quicinc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <1634031081-25450-3-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211018113535-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,27 +78,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, richard.henderson@linaro.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/21 11:31, Taylor Simpson wrote:
-> Change SET_USR_FIELD to write to hex_new_value[HEX_REG_USR] instead
-> of hex_gpr[HEX_REG_USR].
+On Mon, Oct 18, 2021 at 11:36:45AM -0400, Michael S. Tsirkin wrote:
+> On Mon, Oct 11, 2021 at 02:04:58PM +0200, Gerd Hoffmann wrote:
+> > 
+> > 
+> > Gerd Hoffmann (6):
+> >   pci: implement power state
+> >   pcie: implement slow power control for pcie root ports
+> >   pcie: add power indicator blink check
+> >   pcie: factor out pcie_cap_slot_unplug()
+> >   pcie: fast unplug when slot power is off
+> >   pcie: expire pending delete
 > 
-> Then, we need code to mark the instructions that can set implicitly
-> set USR
-> - Macros added to hex_common.py
-> - A_FPOP added in translate.c
-> 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->  target/hexagon/macros.h          | 2 +-
->  target/hexagon/attribs_def.h.inc | 1 +
->  target/hexagon/translate.c       | 9 ++++++++-
->  target/hexagon/hex_common.py     | 2 ++
->  4 files changed, 12 insertions(+), 2 deletions(-)
+> So what's left to do here?
+> I'm guessing more testing?
 
-This is stale v1. git-publish helps to avoid this workflow
-mistakes ;) https://github.com/stefanha/git-publish
+Yes.  Maybe ask rh qe to run the patch set through their hotplug test
+suite (to avoid a apci-hotplug style disaster where qe found various
+issues after release)?
+
+> I would also like to see a shorter timeout, maybe 100ms, so
+> that we are more responsive to guest changes in resending request.
+
+I don't think it is a good idea to go for a shorter timeout given that
+the 5 seconds are in the specs and we want avoid a resent request being
+interpreted as cancel.
+
+It also wouldn't change anything at least for linux guests because linux
+is waiting those 5 seconds (with power indicator in blinking state).
+Only the reason for refusing 'device_del' changes from "5 secs not over
+yet" to "guest is busy processing the hotplug request".
+
+We could consider to tackle the 5sec timeout on the guest side, i.e.
+have linux skip the 5sec wait in case the root port is virtual (should
+be easy to figure by checking the pci id).
+
+take care,
+  Gerd
+
 
