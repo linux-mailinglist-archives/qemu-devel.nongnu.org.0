@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F48D43361F
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 14:39:57 +0200 (CEST)
-Received: from localhost ([::1]:49996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5340F433676
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 14:58:35 +0200 (CEST)
+Received: from localhost ([::1]:34020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcoPL-00033v-Ma
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 08:39:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40620)
+	id 1mcohN-0004Bz-Tv
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 08:58:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mcoNg-0001v0-8x; Tue, 19 Oct 2021 08:38:16 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:24437)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mcoNc-0003h2-B7; Tue, 19 Oct 2021 08:38:10 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D07AC746353;
- Tue, 19 Oct 2021 14:38:02 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 86341746333; Tue, 19 Oct 2021 14:38:02 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 83B537462D3;
- Tue, 19 Oct 2021 14:38:02 +0200 (CEST)
-Date: Tue, 19 Oct 2021 14:38:02 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: Re: Deprecate the ppc405 boards in QEMU?
-In-Reply-To: <262b6af0-b5c5-1d28-2f48-7a021c5cd0b9@csgroup.eu>
-Message-ID: <a3d28088-2012-9450-5491-1de77d962da7@eik.bme.hu>
-References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
- <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
- <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
- <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
- <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
- <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
- <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
- <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
- <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
- <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com>
- <YWQB1FMhQfmqRYxN@yekko> <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
- <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
- <8c382ce4-f706-376c-289a-b8c64393decb@redhat.com>
- <880f4bde-19fc-1267-3a04-3d9efd660897@csgroup.eu>
- <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
- <be7a734a-b88b-3130-fee8-398387fb65b4@redhat.com>
- <262b6af0-b5c5-1d28-2f48-7a021c5cd0b9@csgroup.eu>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mcogZ-0003V2-81; Tue, 19 Oct 2021 08:57:43 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:41718)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mcogX-0001Dw-IP; Tue, 19 Oct 2021 08:57:42 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id s4so5682002ybs.8;
+ Tue, 19 Oct 2021 05:57:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Z1mftcwV205o0CNT78dWKBXbDsq9LuRnp/8NUY69cPc=;
+ b=nG3ayim8qMQtAPFCNybd++HwCp8mMoyJQHLBrAzWunH+kqeKOAEtDK4Y0xteLYT6a0
+ YB1QDFEtbEc2V+vK4LXtIby4Od2VlM4XUDO558ZzP2LCjj1//KRV1yF86I2LRXARVfzo
+ 0+tDoS8ABrAZgXDW79tIyUkmmW78vvceqqozKsIx6NDxUnWpFKsQ11krU30GlSGHYooy
+ rxUYK14+YY0DqtONA4+NNvg+pPjDZZEaJFssXcCKvvO+gjcIZNv1qeR7UMl572g+xiqZ
+ KT/Jg3pHsikmwuqn3Da/UUzNeh9T6N4vLM9vbCBS6kKiBCVlNlj+sa6aEY0fjfkUE8Tm
+ 65EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z1mftcwV205o0CNT78dWKBXbDsq9LuRnp/8NUY69cPc=;
+ b=vGUzvu2JdN8/WT3ROIifOoHUOGfdKzA/7oVqQZKLvrhet5Svi3ld3xwEYDJ7mdxnlm
+ suUlfXpUOD9YYCN9Ifs9w9XIFe0nwIdTZynYG8D9n6xBmlVHNFx3pW2dSnPWXffSbl8z
+ rnnznC4T1TCXIHiwa9VAgggKU9RODE8bVZfy1FODjIXfcfxrlL6F+Zjc1cZ/HDPmVYJa
+ 8bETCWMk3GbRREn99niuaIdo6BNbstXsHdhzwWginh//hQS8eLUtSA529KvCHo/nJScN
+ 1/y94DQxFkCrOBgYyIouUjQYdJOpyHHDODZHaE7F3ERbXRUrmexv7GnQcihmMDojda5o
+ nBkQ==
+X-Gm-Message-State: AOAM532PGKhZOdfFSbraKJfpoFv7pBy01roFjETJhgbrV1zRFdg3L2AH
+ nzkxL9IQ+p1Y6kS8t2gYf8ezOuidphnjoW+zfW8=
+X-Google-Smtp-Source: ABdhPJzKs2YM6V7x8FyWbBNH5somzqJR2dj4WNO61OvRGkdIOxWuraidxTNEpRZxLkwVSpUwBmR484/f09T/lHhsCqo=
+X-Received: by 2002:a25:df84:: with SMTP id
+ w126mr34695285ybg.109.1634648259903; 
+ Tue, 19 Oct 2021 05:57:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-587572496-1634647082=:78548"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20211018153829.24382-1-bmeng.cn@gmail.com>
+ <20211018153829.24382-2-bmeng.cn@gmail.com>
+ <20211019091103.68908df5@redhat.com>
+In-Reply-To: <20211019091103.68908df5@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 19 Oct 2021 20:57:28 +0800
+Message-ID: <CAEUhbmWGSnJKaNVnDaVnACf_ynkPx6oBdfD89isf-epaA1t68w@mail.gmail.com>
+Subject: Re: [PATCH 2/6] hw/riscv: opentitan: Use MachineState::ram and
+ MachineClass::default_ram_id
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,174 +78,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- dbarboza@redhat.com, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
- Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
- =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi Igor,
 
---3866299591-587572496-1634647082=:78548
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+On Tue, Oct 19, 2021 at 3:11 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> On Mon, 18 Oct 2021 23:38:25 +0800
+> Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> > Using memory_region_init_ram(), which can't possibly handle vhost-user,
+> > and can't work as expected with '-numa node,memdev' options.
+> >
+> > Use MachineState::ram instead of manually initializing RAM memory
+> > region, as well as by providing MachineClass::default_ram_id to
+> > opt in to memdev scheme.
+> >
+> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> > ---
+> >
+> >  hw/riscv/opentitan.c | 6 ++----
+> >  1 file changed, 2 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> > index 9803ae6d70..c356293d29 100644
+> > --- a/hw/riscv/opentitan.c
+> > +++ b/hw/riscv/opentitan.c
+> > @@ -67,17 +67,14 @@ static void opentitan_board_init(MachineState *machine)
+> >      const MemMapEntry *memmap = ibex_memmap;
+> >      OpenTitanState *s = g_new0(OpenTitanState, 1);
+> >      MemoryRegion *sys_mem = get_system_memory();
+> > -    MemoryRegion *main_mem = g_new(MemoryRegion, 1);
+>
+> It is likely that you are missing fixed size check here
+> (looking at code it seems to me that board doesn't support variable RAM size)
+> See commit 00b9829f83c for example.
 
-On Tue, 19 Oct 2021, Christophe Leroy wrote:
-> Le 19/10/2021 à 13:11, Thomas Huth a écrit :
->> On 19/10/2021 12.07, BALATON Zoltan wrote:
->>> On Tue, 19 Oct 2021, Christophe Leroy wrote:
->>>> Le 19/10/2021 à 11:39, Thomas Huth a écrit :
->>>>> On 19/10/2021 11.31, Christophe Leroy wrote:
->>>>>> Le 11/10/2021 à 15:24, Thomas Huth a écrit :
->>>>>>> On 11/10/2021 11.20, David Gibson wrote:
->>>>>>>> On Mon, Oct 11, 2021 at 10:10:36AM +0200, Thomas Huth wrote:
->>>>>>>>> On 06/10/2021 09.25, Thomas Huth wrote:
->>>>>>>>>> On 05/10/2021 23.53, BALATON Zoltan wrote:
->>>>>>>>>> [...]
->>>>>>>>>>> Maybe these 405 boards in QEMU ran with modified firmware where 
->>>>>>>>>>> the
->>>>>>>>>>> memory detection was patched out but it seems to detect the RAM so 
->>>>>>>>>>> I
->>>>>>>>>>> wonder where it gets that from. Maybe by reading the SDRAM
->>>>>>>>>>> controller DCRs ppc4xx_sdram_init() sets up. Then I'm not sure 
->>>>>>>>>>> what
->>>>>>>>>>> it needs the SPD for, I forgot how this worked on sam460ex. Maybe
->>>>>>>>>>> for the speed calibration, so could be it detects ram by reading
->>>>>>>>>>> DCRs then tries to get SPD data and that's where it stops as i2c 
->>>>>>>>>>> is
->>>>>>>>>>> not emulated on taihu. This could be confirmed by checking what it
->>>>>>>>>>> pokes with -d guest_errors that shows accesses to missing devices
->>>>>>>>>>> but don't know where 405 has the i2c controller and if it's the 
->>>>>>>>>>> same
->>>>>>>>>>> as newer SoCs. If so that could be reused and an i2c bus could be
->>>>>>>>>>> added with the SPD data like in sam460ex to make u-boot happy or 
->>>>>>>>>>> you
->>>>>>>>>>> could skip this in u-boot.
->>>>>>>>>> 
->>>>>>>>>> FWIW, I've just tried the latter (skipping the sdram init in 
->>>>>>>>>> u-boot),
->>>>>>>>>> and indeed, I can get to the u-boot prompt now.
->>>>>>>>> [...]> I've also attached the patch with my modifications to u-boot.
->>>>>>>>> 
->>>>>>>>> FYI, the changes can now be found on this branch here:
->>>>>>>>> 
->>>>>>>>>   https://gitlab.com/huth/u-boot/-/commits/taihu
->>>>>>>>> 
->>>>>>>>> I also added a gitlab-CI file, so you can now download the 
->>>>>>>>> u-boot.bin as an
->>>>>>>>> artifact from the corresponding pipeline, e.g.:
->>>>>>>>> 
->>>>>>>>>   https://gitlab.com/huth/u-boot/-/jobs/1667201028
->>>>>>>> 
->>>>>>>> Thanks.
->>>>>>>> 
->>>>>>>> Are you going to send a v2 of your proposed deprecation patches?
->>>>>>> 
->>>>>>> No, since there was interest in keeping the 405 boards for testing the 
->>>>>>> 405 code in the Linux kernel, and since there is now a way to do at 
->>>>>>> least some very basic testing of these boards (with the u-boot 
->>>>>>> firmware), I don't plan to respin the deprecation patch. I just sent a 
->>>>>>> patch for adding the boards to our CI instead:
->>>>>>> 
->>>>>>>   https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg02072.html
->>>>>>> 
->>>>>> 
->>>>>> I have downloaded your u-boot.bin and tried it with both QEMU 5.2.0 and 
->>>>>> mainline, and I get:
->>>>>> 
->>>>>> ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: assertion 
->>>>>> failed: (qemu_mutex_iothread_locked())
->>>>>> Bail out! ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: 
->>>>>> assertion failed: (qemu_mutex_iothread_locked())
->>>>>> Abandon (core dumped)
->>>>>> 
->>>>>> I see in the mail history that you got that problem as well at some 
->>>>>> point. How did you fix it ?
->>>>> 
->>>>> You need this patch here to fix this issue:
->>>>> 
->>>>>   https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg01019.html
->>>>>   ("hw/ppc: Fix iothread locking in the 405 code")
->>>>> 
->>>> 
->>>> Thank you.
->>>> 
->>>> Is there anything special to do then in order to boot a Linux kernel ?
->>>> 
->>>> I build the uImage for ppc40x_defconfig
->>>> 
->>>> I use the following command, but it does nothing, it stays in uboot 
->>>> prompt as when I don't get a kernel argument
->>>> 
->>>>     ~/qemu/build/qemu-system-ppc -M taihu -bios 
->>>> ~/Téléchargements/u-boot.bin -serial null -serial mon:stdio -kernel 
->>>> arch/powerpc/boot/uImage
->>> 
->>> I'm not sure using -bios and -kernel together makes sense, it probably 
->>> starts u-boot in this case and you have to load and start the kernel from 
->>> u-boot as you'd notmally do on a real machine. Alternatively you could use 
->>> -kernel instead of -bios which then loads a kernel and starts it directly 
->>> but not sure if it needs a firmware to work.
->>> 
->>> Ot I could be completely wrong as I don't know this machine and haven't 
->>> tried it.
->> 
->> Actually, these 405 machines are quite weird. They refuse to boot without 
->> bios image, so you currently need the firmware image for sure.
->> 
->> OTOH, when you look at the ref405ep_init() function, it seems that at least 
->> the ref405ep machine was once supposed to start a kernel directly:
->>
->>          env->nip = KERNEL_LOAD_ADDR;
->> 
->> ... however, this does not seem to work anymore, the initial NIP is always 
->> reset to the firmware entry when the board resets. Not sure if/how this 
->> ever used worked ...
->> 
->
-> On the e500 we use both -bios and -kernel:
->
-> 	qemu-system-ppc64 -nographic -M ppce500 -cpu e5500 -m 1G -bios 
-> u-boot-e500 -kernel ./arch/powerpc/boot/uImage  -initrd ./qemu/rootfs.cpio.gz 
-> -append noreboot -s
->
->
-> Uboot for e500 has the following environment:
->
-> 	=> printenv
-> 	bootcmd=test -n "$qemu_kernel_addr" && bootm $qemu_kernel_addr - 
-> $fdt_addr_r
-> 	fdt_addr_r=e8000000
-> 	qemu_kernel_addr=2000000
-> 	stderr=serial
-> 	stdin=serial
-> 	stdout=serial
->
-> 	Environment size: 164/8188 bytes
+Yep
 
-The -bios and -kernel options are handled by the machine code so these 
-work differently on every machine depending on what they decide to do for 
-these.
+>
+> >      /* Initialize SoC */
+> >      object_initialize_child(OBJECT(machine), "soc", &s->soc,
+> >                              TYPE_RISCV_IBEX_SOC);
+> >      qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
+> >
+> > -    memory_region_init_ram(main_mem, NULL, "riscv.lowrisc.ibex.ram",
+> > -        memmap[IBEX_DEV_RAM].size, &error_fatal);
+> >      memory_region_add_subregion(sys_mem,
+> > -        memmap[IBEX_DEV_RAM].base, main_mem);
+> > +        memmap[IBEX_DEV_RAM].base, machine->ram);
+> >
+> >      if (machine->firmware) {
+> >          riscv_load_firmware(machine->firmware, memmap[IBEX_DEV_RAM].base, NULL);
+> > @@ -95,6 +92,7 @@ static void opentitan_machine_init(MachineClass *mc)
+> >      mc->init = opentitan_board_init;
+> >      mc->max_cpus = 1;
+> >      mc->default_cpu_type = TYPE_RISCV_CPU_IBEX;
+> > +    mc->default_ram_id = "riscv.lowrisc.ibex.ram";
+>
+> Are you missing "mc->default_ram_size = memmap[IBEX_DEV_RAM].size" here?
 
-> I think I need to findout where QEMU loads the kernel when using TAIHU 
-> machine.
+Indeed, thanks for the review!
 
-Look in qemu/hw/ppc/ppc405_boards.c it has
-#define KERNEL_LOAD_ADDR 0x00000000
-but it does not seem to do anything with a kernel other than loading it. I 
-don't see anything that would start the kernel. I think this board is 
-probably unfinished, if you want to use it you may need to implement some 
-stuff in it. Also try using -d unimp,guest_errors options to see errors 
-when something goes wrong otherwise you may not get much feedback.
+>
+> otherwise it will default to generic:
+>   hw/core/machine.c:    mc->default_ram_size = 128 * MiB;
+>
+> >  }
+> >
+> >  DEFINE_MACHINE("opentitan", opentitan_machine_init)
+>
 
-Regard,
-BALATON Zoltan
---3866299591-587572496-1634647082=:78548--
+Regards,
+Bin
 
