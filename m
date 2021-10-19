@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CDE9432FD3
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 09:41:10 +0200 (CEST)
-Received: from localhost ([::1]:44924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F8A433008
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 09:47:08 +0200 (CEST)
+Received: from localhost ([::1]:33748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcjkD-0001O1-A3
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 03:41:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55898)
+	id 1mcjpy-0004V7-AP
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 03:47:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1mcjf0-0001I6-2q
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:35:46 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:34916 helo=loongson.cn)
+ id 1mcjfC-0001nM-ED
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:35:59 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:35008 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1mcjex-0004W9-9l
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:35:45 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1mcjf9-0004YK-OV
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:35:58 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP2s1dW5h3HwcAA--.43474S13; 
- Tue, 19 Oct 2021 15:35:36 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP2s1dW5h3HwcAA--.43474S14; 
+ Tue, 19 Oct 2021 15:35:37 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/31] target/loongarch: Add stabletimer support
-Date: Tue, 19 Oct 2021 15:34:57 +0800
-Message-Id: <1634628917-10031-12-git-send-email-yangxiaojuan@loongson.cn>
+Subject: [PATCH 12/31] target/loongarch: Add timer related instructions
+ support.
+Date: Tue, 19 Oct 2021 15:34:58 +0800
+Message-Id: <1634628917-10031-13-git-send-email-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1634628917-10031-1-git-send-email-yangxiaojuan@loongson.cn>
 References: <1634628917-10031-1-git-send-email-yangxiaojuan@loongson.cn>
-X-CM-TRANSID: AQAAf9DxP2s1dW5h3HwcAA--.43474S13
-X-Coremail-Antispam: 1UD129KBjvJXoW3Gr48JFWktFWxXFW7Ary7Wrg_yoWxKF47pF
- W7CFy3tr4rtrZ2y3s7tas0qr1DXw47G342qan29rZ2kanrJrs7Z34vvwsrXFyUJa1YgrWx
- ZF95Z3WagF47Z3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9DxP2s1dW5h3HwcAA--.43474S14
+X-Coremail-Antispam: 1UD129KBjvJXoWxGryUAryxWryxAr4UXrW7twb_yoW5KFWrpF
+ 42krWUGrWUKrZ3XayfJws0grn8Xa18Kw4Iqa9ayw4rCF47XwnFvF10q3sIkFy5Jw1kWrya
+ vFs5A34DGF47X3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -63,232 +64,116 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch add a stabletimer support.
+This includes:
+-RDTIME{L/H}.W
+-RDTIME.D
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/cpu.c         |  1 +
- target/loongarch/cpu.h         | 10 +++++
- target/loongarch/csr_helper.c  | 26 +++++++++++++
- target/loongarch/meson.build   |  1 +
- target/loongarch/stabletimer.c | 71 ++++++++++++++++++++++++++++++++++
- 5 files changed, 109 insertions(+)
- create mode 100644 target/loongarch/stabletimer.c
+ target/loongarch/helper.h                 |  2 ++
+ target/loongarch/insn_trans/trans_core.c  | 23 +++++++++++++++++++++
+ target/loongarch/insn_trans/trans_extra.c |  2 ++
+ target/loongarch/op_helper.c              | 25 +++++++++++++++++++++++
+ 4 files changed, 52 insertions(+)
 
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index 3e3cf233db..2886dbd642 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -435,6 +435,7 @@ static void set_loongarch_csr(CPULoongArchState *env)
-     env->CSR_CPUID = (cs->cpu_index & 0x1ff);
-     env->CSR_EENTRY |= (uint64_t)0x80000000;
-     env->CSR_TLBRENTRY |= (uint64_t)0x80000000;
-+    env->CSR_TMID = cs->cpu_index;
+diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
+index 8544771790..b4ed62896f 100644
+--- a/target/loongarch/helper.h
++++ b/target/loongarch/helper.h
+@@ -116,4 +116,6 @@ DEF_HELPER_4(lddir, tl, env, tl, tl, i32)
+ DEF_HELPER_4(ldpte, void, env, tl, tl, i32)
+ DEF_HELPER_1(ertn, void, env)
+ DEF_HELPER_1(idle, void, env)
++DEF_HELPER_4(rdtime_w, void, env, tl, tl, i64)
++DEF_HELPER_3(rdtime_d, void, env, tl, tl)
+ #endif /* !CONFIG_USER_ONLY */
+diff --git a/target/loongarch/insn_trans/trans_core.c b/target/loongarch/insn_trans/trans_core.c
+index 7fa13e65b9..24eb12b97a 100644
+--- a/target/loongarch/insn_trans/trans_core.c
++++ b/target/loongarch/insn_trans/trans_core.c
+@@ -276,4 +276,27 @@ static bool trans_idle(DisasContext *ctx, arg_idle *a)
+     return true;
  }
- #endif
  
-diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-index 182b03fb33..e77517d375 100644
---- a/target/loongarch/cpu.h
-+++ b/target/loongarch/cpu.h
-@@ -46,6 +46,9 @@ FIELD(FCSR0, CAUSE, 24, 5)
- extern const char * const regnames[];
- extern const char * const fregnames[];
- 
-+#define N_IRQS      14
-+#define IRQ_TIMER   11
++static bool trans_rdtimel_w(DisasContext *ctx, arg_rdtimel_w *a)
++{
++    TCGv t0 = tcg_constant_tl(a->rd);
++    TCGv t1 = tcg_constant_tl(a->rj);
++    gen_helper_rdtime_w(cpu_env, t0, t1, tcg_constant_tl(0));
++    return true;
++}
 +
- #define LOONGARCH_HFLAG_KU     0x00003 /* kernel/user mode mask   */
- #define LOONGARCH_HFLAG_UM     0x00003 /* user mode flag                     */
- #define LOONGARCH_HFLAG_KM     0x00000 /* kernel mode flag                   */
-@@ -84,6 +87,8 @@ struct CPULoongArchState {
-     int error_code;
-     target_ulong exception_base;
++static bool trans_rdtimeh_w(DisasContext *ctx, arg_rdtimeh_w *a)
++{
++    TCGv t0 = tcg_constant_tl(a->rd);
++    TCGv t1 = tcg_constant_tl(a->rj);
++    gen_helper_rdtime_w(cpu_env, t0, t1, tcg_constant_tl(1));
++    return true;
++}
++
++static bool trans_rdtime_d(DisasContext *ctx, arg_rdtime_d *a)
++{
++    TCGv t0 = tcg_constant_tl(a->rd);
++    TCGv t1 = tcg_constant_tl(a->rj);
++    gen_helper_rdtime_d(cpu_env, t0, t1);
++    return true;
++}
  #endif
-+    void *irq[N_IRQS];
-+    QEMUTimer *timer; /* Internal timer */
- };
+diff --git a/target/loongarch/insn_trans/trans_extra.c b/target/loongarch/insn_trans/trans_extra.c
+index 8da3b404f3..426b67f154 100644
+--- a/target/loongarch/insn_trans/trans_extra.c
++++ b/target/loongarch/insn_trans/trans_extra.c
+@@ -36,6 +36,7 @@ static bool trans_asrtgt_d(DisasContext *ctx, arg_asrtgt_d * a)
+     return true;
+ }
  
- /**
-@@ -181,4 +186,9 @@ enum {
- #define LOONGARCH_CPU_TYPE_NAME(model) model LOONGARCH_CPU_TYPE_SUFFIX
- #define CPU_RESOLVING_TYPE TYPE_LOONGARCH_CPU
- 
-+void cpu_loongarch_clock_init(LoongArchCPU *cpu);
-+uint64_t cpu_loongarch_get_stable_counter(CPULoongArchState *env);
-+uint64_t cpu_loongarch_get_stable_timer_ticks(CPULoongArchState *env);
-+void cpu_loongarch_store_stable_timer_config(CPULoongArchState *env,
-+                                             uint64_t value);
- #endif /* LOONGARCH_CPU_H */
-diff --git a/target/loongarch/csr_helper.c b/target/loongarch/csr_helper.c
-index 9251bfa2a6..6cfb910799 100644
---- a/target/loongarch/csr_helper.c
-+++ b/target/loongarch/csr_helper.c
-@@ -14,6 +14,7 @@
- #include "exec/helper-proto.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
-+#include "hw/irq.h"
- #include "cpu-csr.h"
- #include "tcg/tcg-ldst.h"
- 
-@@ -78,7 +79,12 @@ target_ulong helper_csr_rdq(CPULoongArchState *env, uint64_t csr)
-     CASE_CSR_RDQ(KS7)
-     CASE_CSR_RDQ(KS8)
-     CASE_CSR_RDQ(TMID)
-+    CASE_CSR_RDQ(TCFG)
-+    case LOONGARCH_CSR_TVAL:
-+        v = cpu_loongarch_get_stable_timer_ticks(env);
-+        break;
-     CASE_CSR_RDQ(CNTC)
-+    CASE_CSR_RDQ(TINTCLR)
-     CASE_CSR_RDQ(LLBCTL)
-     CASE_CSR_RDQ(IMPCTL1)
-     CASE_CSR_RDQ(IMPCTL2)
-@@ -223,8 +229,16 @@ target_ulong helper_csr_wrq(CPULoongArchState *env, target_ulong val,
-     CASE_CSR_WRQ(KS7)
-     CASE_CSR_WRQ(KS8)
-     CASE_CSR_WRQ(TMID)
-+    case LOONGARCH_CSR_TCFG:
-+        old_v = env->CSR_TCFG;
-+        cpu_loongarch_store_stable_timer_config(env, val);
-+        break;
-     CASE_CSR_WRQ(TVAL)
-     CASE_CSR_WRQ(CNTC)
-+    case LOONGARCH_CSR_TINTCLR:
-+        old_v = 0;
-+        qemu_irq_lower(env->irq[IRQ_TIMER]);
-+        break;
-     CASE_CSR_WRQ(LLBCTL)
-     CASE_CSR_WRQ(IMPCTL1)
-     CASE_CSR_WRQ(IMPCTL2)
-@@ -373,8 +387,12 @@ void helper_csr_xchgq_r0(CPULoongArchState *env, target_ulong mask, uint64_t csr
-     CASE_CSR_XCHGQ(KS7)
-     CASE_CSR_XCHGQ(KS8)
-     CASE_CSR_XCHGQ(TMID)
-+    case LOONGARCH_CSR_TCFG:
-+        cpu_loongarch_store_stable_timer_config(env, env->CSR_TCFG & (~mask));
-+        break;
-     CASE_CSR_XCHGQ(TVAL)
-     CASE_CSR_XCHGQ(CNTC)
-+    CASE_CSR_XCHGQ(TINTCLR)
-     CASE_CSR_XCHGQ(LLBCTL)
-     CASE_CSR_XCHGQ(IMPCTL1)
-     CASE_CSR_XCHGQ(IMPCTL2)
-@@ -471,6 +489,7 @@ void helper_csr_xchgq_r0(CPULoongArchState *env, target_ulong mask, uint64_t csr
- target_ulong helper_csr_xchgq(CPULoongArchState *env, target_ulong val,
-                               target_ulong mask, uint64_t csr)
++#ifdef CONFIG_USER_ONLY
+ static bool trans_rdtimel_w(DisasContext *ctx, arg_rdtimel_w *a)
  {
-+    target_ulong tmp;
-     target_ulong v = val & mask;
+     tcg_gen_movi_tl(cpu_gpr[a->rd], 0);
+@@ -53,6 +54,7 @@ static bool trans_rdtime_d(DisasContext *ctx, arg_rdtime_d *a)
+     tcg_gen_movi_tl(cpu_gpr[a->rd], 0);
+     return true;
+ }
++#endif
  
- #define CASE_CSR_XCHGQ(csr)                                 \
-@@ -523,8 +542,15 @@ target_ulong helper_csr_xchgq(CPULoongArchState *env, target_ulong val,
-     CASE_CSR_XCHGQ(KS7)
-     CASE_CSR_XCHGQ(KS8)
-     CASE_CSR_XCHGQ(TMID)
-+    case LOONGARCH_CSR_TCFG:
-+        val = env->CSR_TCFG;
-+        tmp = val & ~mask;
-+        tmp |= v;
-+        cpu_loongarch_store_stable_timer_config(env, tmp);
-+        break;
-     CASE_CSR_XCHGQ(TVAL)
-     CASE_CSR_XCHGQ(CNTC)
-+    CASE_CSR_XCHGQ(TINTCLR)
-     CASE_CSR_XCHGQ(LLBCTL)
-     CASE_CSR_XCHGQ(IMPCTL1)
-     CASE_CSR_XCHGQ(IMPCTL2)
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-index 74f4a63d15..fd0365cffd 100644
---- a/target/loongarch/meson.build
-+++ b/target/loongarch/meson.build
-@@ -18,6 +18,7 @@ loongarch_softmmu_ss.add(files(
-   'machine.c',
-   'tlb_helper.c',
-   'csr_helper.c',
-+  'stabletimer.c',
- ))
+ static bool trans_cpucfg(DisasContext *ctx, arg_cpucfg *a)
+ {
+diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
+index 4547880c8f..41b1ec2f1b 100644
+--- a/target/loongarch/op_helper.c
++++ b/target/loongarch/op_helper.c
+@@ -130,4 +130,29 @@ void helper_idle(CPULoongArchState *env)
+     do_raise_exception(env, EXCP_HLT, 0);
+ }
  
- loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
-diff --git a/target/loongarch/stabletimer.c b/target/loongarch/stabletimer.c
-new file mode 100644
-index 0000000000..a3bf32a865
---- /dev/null
-+++ b/target/loongarch/stabletimer.c
-@@ -0,0 +1,71 @@
-+/*
-+ * QEMU LoongArch timer support
-+ *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ *
-+ * SPDX-License-Identifier: LGPL-2.1+
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/irq.h"
-+#include "hw/loongarch/loongarch.h"
-+#include "qemu/timer.h"
-+#include "cpu.h"
-+
-+#define TIMER_PERIOD                10 /* 10 ns period for 100 Mhz frequency */
-+#define STABLETIMER_TICK_MASK       0xfffffffffffcUL
-+#define STABLETIMER_ENABLE          0x1UL
-+
-+/* LoongArch timer */
-+uint64_t cpu_loongarch_get_stable_counter(CPULoongArchState *env)
++void helper_rdtime_w(CPULoongArchState *env, target_ulong rd,
++                     target_ulong rj, target_ulong high)
 +{
-+    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / TIMER_PERIOD;
-+}
-+
-+uint64_t cpu_loongarch_get_stable_timer_ticks(CPULoongArchState *env)
-+{
-+    uint64_t now, expire;
-+
-+    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    expire = timer_expire_time_ns(env->timer);
-+
-+    return (expire - now) / TIMER_PERIOD;
-+}
-+
-+void cpu_loongarch_store_stable_timer_config(CPULoongArchState *env,
-+                                             uint64_t value)
-+{
-+    uint64_t now, next;
-+
-+    env->CSR_TCFG = value;
-+    if (value & STABLETIMER_ENABLE) {
-+        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+        next = now + (value & STABLETIMER_TICK_MASK) * TIMER_PERIOD;
-+        timer_mod(env->timer, next);
++    if (rd) {
++        if (high) {
++            env->gpr[rd] = cpu_loongarch_get_stable_counter(env) >> 32;
++        } else {
++            env->gpr[rd] = cpu_loongarch_get_stable_counter(env) & 0xffffffff;
++        }
++    }
++    if (rj) {
++        env->gpr[rj] = env->CSR_TMID;
 +    }
 +}
 +
-+static void loongarch_stable_timer_cb(void *opaque)
++void helper_rdtime_d(CPULoongArchState *env, target_ulong rd, target_ulong rj)
 +{
-+    CPULoongArchState *env;
-+    uint64_t now, next;
-+
-+    env = opaque;
-+    if (FIELD_EX64(env->CSR_TCFG, CSR_TCFG, PERIODIC)) {
-+        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+        next = now + (env->CSR_TCFG & STABLETIMER_TICK_MASK) * TIMER_PERIOD;
-+        timer_mod(env->timer, next);
-+    } else {
-+        env->CSR_TCFG = FIELD_DP64(env->CSR_TCFG, CSR_TCFG, EN, 0);
++    if (rd) {
++        env->gpr[rd] = cpu_loongarch_get_stable_counter(env);
 +    }
-+
-+   qemu_irq_raise(env->irq[IRQ_TIMER]);
++    if (rj) {
++        env->gpr[rj] = env->CSR_TMID;
++    }
 +}
 +
-+void cpu_loongarch_clock_init(LoongArchCPU *cpu)
-+{
-+    CPULoongArchState *env = &cpu->env;
-+
-+    env->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-+                              &loongarch_stable_timer_cb, env);
-+}
+ #endif /* !CONFIG_USER_ONLY */
 -- 
 2.27.0
 
