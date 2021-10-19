@@ -2,93 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77EE0433122
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 10:34:13 +0200 (CEST)
-Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C0BE43313F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 10:41:36 +0200 (CEST)
+Received: from localhost ([::1]:39648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mckZY-0002ef-JG
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 04:34:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43804)
+	id 1mckge-00005V-2U
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 04:41:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mckXt-0001sG-LX
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 04:32:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27325)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mckfH-0007gx-1u
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 04:40:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mckXn-0001LC-FN
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 04:32:29 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mckfE-0002IU-4K
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 04:40:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634632342;
+ s=mimecast20190719; t=1634632802;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OVGko/nSsfhy2b/kZJNAj48VhqVbJIKHB+N1rs5CPi0=;
- b=ILbiw+ci91oC189Un3pebYh5nMHYc3Te8rnxfvwDwnZ/+deTQOXOPJDZAsZABwmh06ITj3
- jag3tKg8VFtlEwCtImPy8DTP3ZP3Bf7zLeJF8Gm51xFb2eD/UXpe7v7m+5ry9zh+McX6SW
- CGs1CNSdnvEdx3fxV4zvsX25Crq5yF0=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-509-x-ZS-57sNhainmsNbMUClw-1; Tue, 19 Oct 2021 04:32:18 -0400
-X-MC-Unique: x-ZS-57sNhainmsNbMUClw-1
-Received: by mail-pf1-f199.google.com with SMTP id
- j3-20020a056a00234300b0044d605e3e0fso10471130pfj.21
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 01:32:18 -0700 (PDT)
+ bh=jnKvhFFzzs9dLgJkh8miW0paqi9+3Fb4ETj82Vkdvxs=;
+ b=PsQ8U2ppqKx7YN5X0BuMxD9pWD7ZM5KTfZdEb6/SlPc9r9b1TbI/68g7G5qlFrIpip8V+v
+ 7DFqXy+WJUkS/JFJAhxnQQBLT8P1eOCBA7HH2Yn0LuAYtQj6zyagA5ldY9GfowGELZswsA
+ Or9cMp+B1va0DcDdK8nSHEE7YxIh/7w=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-230-18T94T9fOfC52sWpzAEuvA-1; Tue, 19 Oct 2021 04:40:01 -0400
+X-MC-Unique: 18T94T9fOfC52sWpzAEuvA-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ gw8-20020a0562140f0800b0038366347de1so16897342qvb.16
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 01:40:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=OVGko/nSsfhy2b/kZJNAj48VhqVbJIKHB+N1rs5CPi0=;
- b=l5dMvlo8FXMwUugcAZg+j0mn54wSN8e0Q2CsN0J0IRhnSnyFpMvAtlyxYPaORdCxXD
- VubGN03kVM7cZ8jGDNSnvm1AhO4glsTrlLCByoeyyMt5tCuPXfd15nHHprJ4FZ/wu1+2
- wMRNUdbzQb7aH+t/tzUMKDgg8qcbzP91SNrnuJ253eVOELWKR+dmexNd/pSiaMDJJ3nX
- HKVilidb14j0kjQUEi6fbneJTQ1wgR0pCAKlPaIs/BRT+kBafz9MCEjdAiwaCf57V4Gp
- HH78CzoOGCLUJA1eeqdTFeZmZ6hp2ZnDpEaM7SZOcC8TsQBAcZruYeB4wCzhdjXeLr6A
- Zn1g==
-X-Gm-Message-State: AOAM532h+uxW4R5/fAhzXMzMX0Y0fbFyUSBqf0fCWZSfst4u6/EZPesJ
- ua0s6+m7wEpKZuVFjSHObfmwkrFlAv5MGrCiUsbqvOcRHrQR/FpwcNU/7oZL63T0Cm59oCi5dbR
- WBm5Nlwt+voJuqKs=
-X-Received: by 2002:a62:7b90:0:b0:44d:fa6:325 with SMTP id
- w138-20020a627b90000000b0044d0fa60325mr33923040pfc.1.1634632337612; 
- Tue, 19 Oct 2021 01:32:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdpXE8v36sVtNTb5MNVIvzv7bQEpPDPWw9S6Pg0KoXHysnjKxuVFKzUoHY2NLCAJSDqU0iMQ==
-X-Received: by 2002:a62:7b90:0:b0:44d:fa6:325 with SMTP id
- w138-20020a627b90000000b0044d0fa60325mr33923001pfc.1.1634632337166; 
- Tue, 19 Oct 2021 01:32:17 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id q14sm4499003pfk.3.2021.10.19.01.32.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 01:32:16 -0700 (PDT)
-Subject: Re: [RFC PATCH v4 18/20] vhost: Add VhostIOVATree
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-References: <20211001070603.307037-1-eperezma@redhat.com>
- <20211001070603.307037-19-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <79905c11-e313-ad60-17dc-1a47d35f12cc@redhat.com>
-Date: Tue, 19 Oct 2021 16:32:03 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jnKvhFFzzs9dLgJkh8miW0paqi9+3Fb4ETj82Vkdvxs=;
+ b=G2HZ7EKw448JdTeMczdFsGGS5cMWqABXG5Vb93jMyv0jXBSm1UjCXYBZUL8jp1+qCD
+ giowQHa07k4f0z3t4hCjBTozDh7D/yGQaC5+52et7e2upMOJt0ShgxdGKCJTqNEmGBw9
+ fZ3zVcDLHi60KVU20Afw+Af8k8hHpDDAXGaTmF9Xot2ZDXvI0k8rUPT5SKckVCpBbIDh
+ uOKZWZx8SdujkeAzMKnl9XvjfXeWHek6b3nqdmgH5JSeidICbTDSxxExJEaotYo0+o7o
+ /7jHWAY7GC4RPkf+CPk5iVvhRvM+Q4z4g9frQ69H4akqUXcA0RwnvMQ1eaf5/tvm+APl
+ 7B4w==
+X-Gm-Message-State: AOAM5334r2KqpgnJfcfQOU1F4MHOmawS0saVKk1JDwA1NfpK0Oks0lkO
+ N9Qj1i+6Zl8yqDiNqBPIvqs8RFUldCm4buRi/hzBDHc0RVkg2TT/HrbpSz9EqLYZlLFt4mWLXz1
+ ha16tFbSWFx4vNcHaFDKVkSQMwP3sFf8=
+X-Received: by 2002:a05:6214:1763:: with SMTP id
+ et3mr30357080qvb.37.1634632801040; 
+ Tue, 19 Oct 2021 01:40:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzgLAMZjdUzVpqa37qSz5b3bEuoWS1g04LY6ZjT3vqTjFhQVMNTd17OMoD2NMIMEjcQpCCRMmbS2er0RF21Nc0=
+X-Received: by 2002:a05:6214:1763:: with SMTP id
+ et3mr30357063qvb.37.1634632800689; 
+ Tue, 19 Oct 2021 01:40:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211001070603.307037-19-eperezma@redhat.com>
+References: <20211001070603.307037-1-eperezma@redhat.com>
+ <20211001070603.307037-12-eperezma@redhat.com>
+ <ab9a7771-5f9b-6413-3e38-bd3dc7373256@redhat.com>
+ <CAJaqyWfm734HrwTJK71hUQNYVkyDaR8OiqtGro_AX9i_pXfmBQ@mail.gmail.com>
+ <78843cbf-0096-816b-da74-5406fdcc3783@redhat.com>
+In-Reply-To: <78843cbf-0096-816b-da74-5406fdcc3783@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 19 Oct 2021 10:39:24 +0200
+Message-ID: <CAJaqyWcO9oaGsRe-oMNbmHx7G4Mw0vZfc+7WYQ23+SteoFVn4Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 11/20] vhost: Route host->guest notification
+ through shadow virtqueue
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,377 +98,250 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Peter Xu <peterx@redhat.com>, virtualization@lists.linux-foundation.org,
+ Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>,
+ virtualization <virtualization@lists.linux-foundation.org>,
  Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Eric Blake <eblake@redhat.com>, Michael Lilja <ml@napatech.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2021/10/1 下午3:06, Eugenio Pérez 写道:
-> This tree is able to look for a translated address from an IOVA address.
+On Fri, Oct 15, 2021 at 6:42 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> At first glance is similar to util/iova-tree. However, SVQ working on
-> devices with limited IOVA space need more capabilities, like allocating
-> IOVA chunks or perform reverse translations (qemu addresses to iova).
+>
+> =E5=9C=A8 2021/10/15 =E4=B8=8A=E5=8D=8812:39, Eugenio Perez Martin =E5=86=
+=99=E9=81=93:
+> > On Wed, Oct 13, 2021 at 5:47 AM Jason Wang <jasowang@redhat.com> wrote:
+> >>
+> >> =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:05, Eugenio P=C3=A9rez =E5=86=
+=99=E9=81=93:
+> >>> This will make qemu aware of the device used buffers, allowing it to
+> >>> write the guest memory with its contents if needed.
+> >>>
+> >>> Since the use of vhost_virtqueue_start can unmasks and discard call
+> >>> events, vhost_virtqueue_start should be modified in one of these ways=
+:
+> >>> * Split in two: One of them uses all logic to start a queue with no
+> >>>     side effects for the guest, and another one tha actually assumes =
+that
+> >>>     the guest has just started the device. Vdpa should use just the
+> >>>     former.
+> >>> * Actually store and check if the guest notifier is masked, and do it
+> >>>     conditionally.
+> >>> * Left as it is, and duplicate all the logic in vhost-vdpa.
+> >>>
+> >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >>> ---
+> >>>    hw/virtio/vhost-shadow-virtqueue.c | 19 +++++++++++++++
+> >>>    hw/virtio/vhost-vdpa.c             | 38 ++++++++++++++++++++++++++=
++++-
+> >>>    2 files changed, 56 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-sha=
+dow-virtqueue.c
+> >>> index 21dc99ab5d..3fe129cf63 100644
+> >>> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> >>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> >>> @@ -53,6 +53,22 @@ static void vhost_handle_guest_kick(EventNotifier =
+*n)
+> >>>        event_notifier_set(&svq->kick_notifier);
+> >>>    }
+> >>>
+> >>> +/* Forward vhost notifications */
+> >>> +static void vhost_svq_handle_call_no_test(EventNotifier *n)
+> >>> +{
+> >>> +    VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtque=
+ue,
+> >>> +                                             call_notifier);
+> >>> +
+> >>> +    event_notifier_set(&svq->guest_call_notifier);
+> >>> +}
+> >>> +
+> >>> +static void vhost_svq_handle_call(EventNotifier *n)
+> >>> +{
+> >>> +    if (likely(event_notifier_test_and_clear(n))) {
+> >>> +        vhost_svq_handle_call_no_test(n);
+> >>> +    }
+> >>> +}
+> >>> +
+> >>>    /*
+> >>>     * Obtain the SVQ call notifier, where vhost device notifies SVQ t=
+hat there
+> >>>     * exists pending used buffers.
+> >>> @@ -180,6 +196,8 @@ VhostShadowVirtqueue *vhost_svq_new(struct vhost_=
+dev *dev, int idx)
+> >>>        }
+> >>>
+> >>>        svq->vq =3D virtio_get_queue(dev->vdev, vq_idx);
+> >>> +    event_notifier_set_handler(&svq->call_notifier,
+> >>> +                               vhost_svq_handle_call);
+> >>>        return g_steal_pointer(&svq);
+> >>>
+> >>>    err_init_call_notifier:
+> >>> @@ -195,6 +213,7 @@ err_init_kick_notifier:
+> >>>    void vhost_svq_free(VhostShadowVirtqueue *vq)
+> >>>    {
+> >>>        event_notifier_cleanup(&vq->kick_notifier);
+> >>> +    event_notifier_set_handler(&vq->call_notifier, NULL);
+> >>>        event_notifier_cleanup(&vq->call_notifier);
+> >>>        g_free(vq);
+> >>>    }
+> >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> >>> index bc34de2439..6c5f4c98b8 100644
+> >>> --- a/hw/virtio/vhost-vdpa.c
+> >>> +++ b/hw/virtio/vhost-vdpa.c
+> >>> @@ -712,13 +712,40 @@ static bool vhost_vdpa_svq_start_vq(struct vhos=
+t_dev *dev, unsigned idx)
+> >>>    {
+> >>>        struct vhost_vdpa *v =3D dev->opaque;
+> >>>        VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs,=
+ idx);
+> >>> -    return vhost_svq_start(dev, idx, svq);
+> >>> +    EventNotifier *vhost_call_notifier =3D vhost_svq_get_svq_call_no=
+tifier(svq);
+> >>> +    struct vhost_vring_file vhost_call_file =3D {
+> >>> +        .index =3D idx + dev->vq_index,
+> >>> +        .fd =3D event_notifier_get_fd(vhost_call_notifier),
+> >>> +    };
+> >>> +    int r;
+> >>> +    bool b;
+> >>> +
+> >>> +    /* Set shadow vq -> guest notifier */
+> >>> +    assert(v->call_fd[idx]);
+> >>
+> >> We need aovid the asser() here. On which case we can hit this?
+> >>
+> > I would say that there is no way we can actually hit it, so let's remov=
+e it.
+> >
+> >>> +    vhost_svq_set_guest_call_notifier(svq, v->call_fd[idx]);
+> >>> +
+> >>> +    b =3D vhost_svq_start(dev, idx, svq);
+> >>> +    if (unlikely(!b)) {
+> >>> +        return false;
+> >>> +    }
+> >>> +
+> >>> +    /* Set device -> SVQ notifier */
+> >>> +    r =3D vhost_vdpa_set_vring_dev_call(dev, &vhost_call_file);
+> >>> +    if (unlikely(r)) {
+> >>> +        error_report("vhost_vdpa_set_vring_call for shadow vq failed=
+");
+> >>> +        return false;
+> >>> +    }
+> >>
+> >> Similar to kick, do we need to set_vring_call() before vhost_svq_start=
+()?
+> >>
+> > It should not matter at this moment because the device should not be
+> > started at this point and device calls should not run
+> > vhost_svq_handle_call until BQL is released.
+>
+>
+> Yes, we stop virtqueue before.
+>
+>
+> >
+> > The "logic" of doing it after is to make clear that svq must be fully
+> > initialized before processing device calls, even in the case that we
+> > extract SVQ in its own iothread or similar. But this could be done
+> > before vhost_svq_start for sure.
+> >
+> >>> +
+> >>> +    /* Check for pending calls */
+> >>> +    event_notifier_set(vhost_call_notifier);
+> >>
+> >> Interesting, can this result spurious interrupt?
+> >>
+> > This actually "queues" a vhost_svq_handle_call after the BQL release,
+> > where the device should be fully reset. In that regard, if there are
+> > no used descriptors there will not be an irq raised to the guest. Does
+> > that answer the question? Or have I missed something?
+>
+>
+> Yes, please explain this in the comment.
+>
 
+I'm reviewing this again, and actually I think I was wrong in solving the i=
+ssue.
 
-I don't see any reverse translation is used in the shadow code. Or 
-anything I missed?
+Since at this point the device is being configured, there is no chance
+that we had a missing call notification here: A previous kick is
+needed for the device to generate any calls, and these cannot be
+processed.
 
+What is not solved in this series is that we could have pending used
+buffers in vdpa device stopping SVQ, but queuing a check for that is
+not going to solve anything, since SVQ vring would be already
+destroyed:
+
+* vdpa device marks N > 0 buffers as used, and calls.
+* Before processing them, SVQ stop is called. SVQ have not processed
+these, and cleans them, making this event_notifier_set useless.
+
+So this would require a few changes. Mainly, instead of queueing a
+check for used, these need to be checked before svq cleaning. After
+that, obtain the VQ state (is not obtained in the stop at the moment,
+trusting in guest's used idx) and run a last
+vhost_svq_handle_call_no_test while the device is paused.
+
+Thanks!
 
 >
-> The allocation capability, as "assign a free IOVA address to this chunk
-> of memory in qemu's address space" allows shadow virtqueue to create a
-> new address space that is not restricted by guest's addressable one, so
-> we can allocate shadow vqs vrings outside of its reachability, nor
-> qemu's one. At the moment, the allocation is just done growing, not
-> allowing deletion.
+> >
+> >>> +    return true;
+> >>>    }
+> >>>
+> >>>    static unsigned vhost_vdpa_enable_svq(struct vhost_vdpa *v, bool e=
+nable)
+> >>>    {
+> >>>        struct vhost_dev *hdev =3D v->dev;
+> >>>        unsigned n;
+> >>> +    int r;
+> >>>
+> >>>        if (enable =3D=3D v->shadow_vqs_enabled) {
+> >>>            return hdev->nvqs;
+> >>> @@ -752,9 +779,18 @@ static unsigned vhost_vdpa_enable_svq(struct vho=
+st_vdpa *v, bool enable)
+> >>>        if (!enable) {
+> >>>            /* Disable all queues or clean up failed start */
+> >>>            for (n =3D 0; n < v->shadow_vqs->len; ++n) {
+> >>> +            struct vhost_vring_file file =3D {
+> >>> +                .index =3D vhost_vdpa_get_vq_index(hdev, n),
+> >>> +                .fd =3D v->call_fd[n],
+> >>> +            };
+> >>> +
+> >>> +            r =3D vhost_vdpa_set_vring_call(hdev, &file);
+> >>> +            assert(r =3D=3D 0);
+> >>> +
+> >>>                unsigned vq_idx =3D vhost_vdpa_get_vq_index(hdev, n);
+> >>>                VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->sha=
+dow_vqs, n);
+> >>>                vhost_svq_stop(hdev, n, svq);
+> >>> +            /* TODO: This can unmask or override call fd! */
+> >>
+> >> I don't get this comment. Does this mean the current code can't work
+> >> with mask_notifiers? If yes, this is something we need to fix.
+> >>
+> > Yes, but it will be addressed in the next series. I should have
+> > explained it bette here, sorry :).
 >
-> A different name could be used, but ordered searchable array is a
-> little bit long though.
 >
-> It duplicates the array so it can search efficiently both directions,
-> and it will signal overlap if iova or the translated address is
-> present in it's each array.
+> Ok.
 >
-> Use of array will be changed to util-iova-tree in future series.
-
-
-Adding Peter.
-
-It looks to me the only thing miseed is the iova allocator. And it looks 
-to me it's better to decouple the allocator from the iova tree.
-
-Then we had:
-
-1) initialize iova range
-2) iova = iova_alloc(size)
-3) built the iova tree map
-4) buffer forwarding
-5) iova_free(size)
-
-
+> Thanks
 >
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
->   hw/virtio/vhost-iova-tree.h |  40 +++++++
->   hw/virtio/vhost-iova-tree.c | 230 ++++++++++++++++++++++++++++++++++++
->   hw/virtio/meson.build       |   2 +-
->   3 files changed, 271 insertions(+), 1 deletion(-)
->   create mode 100644 hw/virtio/vhost-iova-tree.h
->   create mode 100644 hw/virtio/vhost-iova-tree.c
 >
-> diff --git a/hw/virtio/vhost-iova-tree.h b/hw/virtio/vhost-iova-tree.h
-> new file mode 100644
-> index 0000000000..d163a88905
-> --- /dev/null
-> +++ b/hw/virtio/vhost-iova-tree.h
-> @@ -0,0 +1,40 @@
-> +/*
-> + * vhost software live migration ring
-> + *
-> + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-> + * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#ifndef HW_VIRTIO_VHOST_IOVA_TREE_H
-> +#define HW_VIRTIO_VHOST_IOVA_TREE_H
-> +
-> +#include "exec/memory.h"
-> +
-> +typedef struct VhostDMAMap {
-> +    void *translated_addr;
-> +    hwaddr iova;
-> +    hwaddr size;                /* Inclusive */
-> +    IOMMUAccessFlags perm;
-> +} VhostDMAMap;
-> +
-> +typedef enum VhostDMAMapNewRC {
-> +    VHOST_DMA_MAP_NO_SPACE = -3,
-> +    VHOST_DMA_MAP_OVERLAP = -2,
-> +    VHOST_DMA_MAP_INVALID = -1,
-> +    VHOST_DMA_MAP_OK = 0,
-> +} VhostDMAMapNewRC;
-> +
-> +typedef struct VhostIOVATree VhostIOVATree;
-> +
-> +VhostIOVATree *vhost_iova_tree_new(void);
-> +void vhost_iova_tree_unref(VhostIOVATree *iova_rm);
-> +G_DEFINE_AUTOPTR_CLEANUP_FUNC(VhostIOVATree, vhost_iova_tree_unref);
-> +
-> +const VhostDMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *iova_rm,
-> +                                             const VhostDMAMap *map);
-> +VhostDMAMapNewRC vhost_iova_tree_alloc(VhostIOVATree *iova_rm,
-> +                                       VhostDMAMap *map);
-> +
-> +#endif
-> diff --git a/hw/virtio/vhost-iova-tree.c b/hw/virtio/vhost-iova-tree.c
-> new file mode 100644
-> index 0000000000..c284e27607
-> --- /dev/null
-> +++ b/hw/virtio/vhost-iova-tree.c
-> @@ -0,0 +1,230 @@
-> +/*
-> + * vhost software live migration ring
-> + *
-> + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-> + * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "vhost-iova-tree.h"
-> +
-> +#define G_ARRAY_NOT_ZERO_TERMINATED false
-> +#define G_ARRAY_NOT_CLEAR_ON_ALLOC false
-> +
-> +#define iova_min qemu_real_host_page_size
-> +
-> +/**
-> + * VhostIOVATree, able to:
-> + * - Translate iova address
-> + * - Reverse translate iova address (from translated to iova)
-> + * - Allocate IOVA regions for translated range (potentially slow operation)
-> + *
-> + * Note that it cannot remove nodes.
-> + */
-> +struct VhostIOVATree {
-> +    /* Ordered array of reverse translations, IOVA address to qemu memory. */
-> +    GArray *iova_taddr_map;
-> +
-> +    /*
-> +     * Ordered array of translations from qemu virtual memory address to iova
-> +     */
-> +    GArray *taddr_iova_map;
-> +};
-
-
-Any reason for using GArray? Is it faster?
-
-
-> +
-> +/**
-> + * Inserts an element after an existing one in garray.
-> + *
-> + * @array      The array
-> + * @prev_elem  The previous element of array of NULL if prepending
-> + * @map        The DMA map
-> + *
-> + * It provides the aditional advantage of being type safe over
-> + * g_array_insert_val, which accepts a reference pointer instead of a value
-> + * with no complains.
-> + */
-> +static void vhost_iova_tree_insert_after(GArray *array,
-> +                                         const VhostDMAMap *prev_elem,
-> +                                         const VhostDMAMap *map)
-> +{
-> +    size_t pos;
-> +
-> +    if (!prev_elem) {
-> +        pos = 0;
-> +    } else {
-> +        pos = prev_elem - &g_array_index(array, typeof(*prev_elem), 0) + 1;
-> +    }
-> +
-> +    g_array_insert_val(array, pos, *map);
-> +}
-> +
-> +static gint vhost_iova_tree_cmp_taddr(gconstpointer a, gconstpointer b)
-> +{
-> +    const VhostDMAMap *m1 = a, *m2 = b;
-> +
-> +    if (m1->translated_addr > m2->translated_addr + m2->size) {
-> +        return 1;
-> +    }
-> +
-> +    if (m1->translated_addr + m1->size < m2->translated_addr) {
-> +        return -1;
-> +    }
-> +
-> +    /* Overlapped */
-> +    return 0;
-> +}
-> +
-> +/**
-> + * Find the previous node to a given iova
-> + *
-> + * @array  The ascending ordered-by-translated-addr array of VhostDMAMap
-> + * @map    The map to insert
-> + * @prev   Returned location of the previous map
-> + *
-> + * Return VHOST_DMA_MAP_OK if everything went well, or VHOST_DMA_MAP_OVERLAP if
-> + * it already exists. It is ok to use this function to check if a given range
-> + * exists, but it will use a linear search.
-> + *
-> + * TODO: We can use bsearch to locate the entry if we save the state in the
-> + * needle, knowing that the needle is always the first argument to
-> + * compare_func.
-> + */
-> +static VhostDMAMapNewRC vhost_iova_tree_find_prev(const GArray *array,
-> +                                                  GCompareFunc compare_func,
-> +                                                  const VhostDMAMap *map,
-> +                                                  const VhostDMAMap **prev)
-> +{
-> +    size_t i;
-> +    int r;
-> +
-> +    *prev = NULL;
-> +    for (i = 0; i < array->len; ++i) {
-> +        r = compare_func(map, &g_array_index(array, typeof(*map), i));
-> +        if (r == 0) {
-> +            return VHOST_DMA_MAP_OVERLAP;
-> +        }
-> +        if (r < 0) {
-> +            return VHOST_DMA_MAP_OK;
-> +        }
-> +
-> +        *prev = &g_array_index(array, typeof(**prev), i);
-> +    }
-> +
-> +    return VHOST_DMA_MAP_OK;
-> +}
-> +
-> +/**
-> + * Create a new IOVA tree
-> + *
-> + * Returns the new IOVA tree
-> + */
-> +VhostIOVATree *vhost_iova_tree_new(void)
-> +{
-
-
-So I think it needs to be initialized with the range we get from 
-get_iova_range().
-
-Thanks
-
-
-> +    VhostIOVATree *tree = g_new(VhostIOVATree, 1);
-> +    tree->iova_taddr_map = g_array_new(G_ARRAY_NOT_ZERO_TERMINATED,
-> +                                       G_ARRAY_NOT_CLEAR_ON_ALLOC,
-> +                                       sizeof(VhostDMAMap));
-> +    tree->taddr_iova_map = g_array_new(G_ARRAY_NOT_ZERO_TERMINATED,
-> +                                       G_ARRAY_NOT_CLEAR_ON_ALLOC,
-> +                                       sizeof(VhostDMAMap));
-> +    return tree;
-> +}
-> +
-> +/**
-> + * Destroy an IOVA tree
-> + *
-> + * @tree  The iova tree
-> + */
-> +void vhost_iova_tree_unref(VhostIOVATree *tree)
-> +{
-> +    g_array_unref(g_steal_pointer(&tree->iova_taddr_map));
-> +    g_array_unref(g_steal_pointer(&tree->taddr_iova_map));
-> +}
-> +
-> +/**
-> + * Find the IOVA address stored from a memory address
-> + *
-> + * @tree     The iova tree
-> + * @map      The map with the memory address
-> + *
-> + * Return the stored mapping, or NULL if not found.
-> + */
-> +const VhostDMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *tree,
-> +                                             const VhostDMAMap *map)
-> +{
-> +    /*
-> +     * This can be replaced with g_array_binary_search (Since glib 2.62) when
-> +     * that version become common enough.
-> +     */
-> +    return bsearch(map, tree->taddr_iova_map->data, tree->taddr_iova_map->len,
-> +                   sizeof(*map), vhost_iova_tree_cmp_taddr);
-> +}
-> +
-> +static bool vhost_iova_tree_find_iova_hole(const GArray *iova_map,
-> +                                           const VhostDMAMap *map,
-> +                                           const VhostDMAMap **prev_elem)
-> +{
-> +    size_t i;
-> +    hwaddr iova = iova_min;
-> +
-> +    *prev_elem = NULL;
-> +    for (i = 0; i < iova_map->len; i++) {
-> +        const VhostDMAMap *next = &g_array_index(iova_map, typeof(*next), i);
-> +        hwaddr hole_end = next->iova;
-> +        if (map->size < hole_end - iova) {
-> +            return true;
-> +        }
-> +
-> +        iova = next->iova + next->size + 1;
-> +        *prev_elem = next;
-> +    }
-> +
-> +    return ((hwaddr)-1 - iova) > iova_map->len;
-> +}
-> +
-> +/**
-> + * Allocate a new mapping
-> + *
-> + * @tree  The iova tree
-> + * @map   The iova map
-> + *
-> + * Returns:
-> + * - VHOST_DMA_MAP_OK if the map fits in the container
-> + * - VHOST_DMA_MAP_INVALID if the map does not make sense (like size overflow)
-> + * - VHOST_DMA_MAP_OVERLAP if the tree already contains that map
-> + * - VHOST_DMA_MAP_NO_SPACE if iova_rm cannot allocate more space.
-> + *
-> + * It returns assignated iova in map->iova if return value is VHOST_DMA_MAP_OK.
-> + */
-> +VhostDMAMapNewRC vhost_iova_tree_alloc(VhostIOVATree *tree,
-> +                                       VhostDMAMap *map)
-> +{
-> +    const VhostDMAMap *qemu_prev, *iova_prev;
-> +    int find_prev_rc;
-> +    bool fit;
-> +
-> +    if (map->translated_addr + map->size < map->translated_addr ||
-> +        map->iova + map->size < map->iova || map->perm == IOMMU_NONE) {
-> +        return VHOST_DMA_MAP_INVALID;
-> +    }
-> +
-> +    /* Search for a hole in iova space big enough */
-> +    fit = vhost_iova_tree_find_iova_hole(tree->iova_taddr_map, map,
-> +                                         &iova_prev);
-> +    if (!fit) {
-> +        return VHOST_DMA_MAP_NO_SPACE;
-> +    }
-> +
-> +    map->iova = iova_prev ? (iova_prev->iova + iova_prev->size) + 1 : iova_min;
-> +    find_prev_rc = vhost_iova_tree_find_prev(tree->taddr_iova_map,
-> +                                             vhost_iova_tree_cmp_taddr, map,
-> +                                             &qemu_prev);
-> +    if (find_prev_rc == VHOST_DMA_MAP_OVERLAP) {
-> +        return VHOST_DMA_MAP_OVERLAP;
-> +    }
-> +
-> +    vhost_iova_tree_insert_after(tree->iova_taddr_map, iova_prev, map);
-> +    vhost_iova_tree_insert_after(tree->taddr_iova_map, qemu_prev, map);
-> +    return VHOST_DMA_MAP_OK;
-> +}
-> diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-> index 8b5a0225fe..cb306b83c6 100644
-> --- a/hw/virtio/meson.build
-> +++ b/hw/virtio/meson.build
-> @@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
->   
->   virtio_ss = ss.source_set()
->   virtio_ss.add(files('virtio.c'))
-> -virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-shadow-virtqueue.c'))
-> +virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-shadow-virtqueue.c', 'vhost-iova-tree.c'))
->   virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
->   virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
->   virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
+> >
+> > Thanks!
+> >
+> >> Thanks
+> >>
+> >>
+> >>>                vhost_virtqueue_start(hdev, hdev->vdev, &hdev->vqs[n],=
+ vq_idx);
+> >>>            }
+> >>>
+>
 
 
