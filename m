@@ -2,88 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D04543303D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 09:54:49 +0200 (CEST)
-Received: from localhost ([::1]:49986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4640E43302E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 09:54:39 +0200 (CEST)
+Received: from localhost ([::1]:49638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcjxQ-0007Cm-NJ
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 03:54:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56574)
+	id 1mcjxG-0006yQ-BK
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 03:54:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mcjiw-0001LP-2V
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:39:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44796)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mcjjm-0002fa-25; Tue, 19 Oct 2021 03:40:42 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:48291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mcjiu-0002Kc-7j
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:39:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634629187;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YfsrHPH1MnCf3qhJ0S6kwPTiJlEnD48f+kOzvIaospE=;
- b=eMqk24DE0EY3Tuj+N9X4lD+cxhVPpaVtNIdlWG2E0TfgLh3smO0nMIpOT0GccN2h4ZPutJ
- bNslMI874WN43uqZBtSol3eF0mCgfQGdWVkRmnOvcp+6/vCQ6pzpbYm/ec6u40hwTZllxC
- vwp88fPyKLjCADBZ+GfvARl7E/baykE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-48UjDmHGPWOO0bWsTJai8Q-1; Tue, 19 Oct 2021 03:39:46 -0400
-X-MC-Unique: 48UjDmHGPWOO0bWsTJai8Q-1
-Received: by mail-wr1-f69.google.com with SMTP id
- 10-20020a5d47aa000000b001610cbda93dso9748629wrb.23
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 00:39:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=YfsrHPH1MnCf3qhJ0S6kwPTiJlEnD48f+kOzvIaospE=;
- b=u5Thv3WzS4MsutSUskEwDKjLfBlhwE9RcJJsApzvTHFjFDwo+jiNHRJFE/u3XK3zhv
- OQBll6cq/rnzuFS10HaAzk//AYBR3zAXtjboXn9N6ijkmPMZ9QXQd0T2tO+3yiDsTh4w
- ReI9Ae7Wa8irQC+g/wQjYaf6kjMVSxCmKCYLqAgeQyUqOEnvaIOjHbOsXfFjQOg9RFIR
- uB7Uy/ZaEAywAgHEDZUBhzaPkVBasH492ZQ/wSHm0ZRC7HCw/0ZywYayTIoQ+j/6ag7F
- Wlyy9ITfim9mZcSjrGZzUqtyIDnLimsKenmd7SKjjZv06xfEKZUE7pbVNkurc43a1AiV
- Z9Jg==
-X-Gm-Message-State: AOAM531cSpzVk9W/Pz3zu4qnAHh7AyZwE92Inn7fF/EZNHlAYYQzIzOl
- 2kPVSGt3erOAXlA3wdePOigZf0hLvlA5cM1odW/njiAyRDRIuMB+wrExLM3Urydb6BZnN7Bpbnv
- iAkG5Jt23GvhMYnE=
-X-Received: by 2002:adf:ca10:: with SMTP id o16mr40749467wrh.212.1634629185093; 
- Tue, 19 Oct 2021 00:39:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxHpEMphpGDAg1n0eYuCdO3PylUFIbJfgiMgmR8OuPJ64g778YtZh7/wWBO+TRVbDqVJ6zBag==
-X-Received: by 2002:adf:ca10:: with SMTP id o16mr40749442wrh.212.1634629184853; 
- Tue, 19 Oct 2021 00:39:44 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id v18sm16004874wrm.63.2021.10.19.00.39.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 00:39:44 -0700 (PDT)
-Date: Tue, 19 Oct 2021 09:39:43 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH 1/6] hw/riscv: microchip_pfsoc: Use MachineState::ram
- and MachineClass::default_ram_id
-Message-ID: <20211019093943.54c36b3f@redhat.com>
-In-Reply-To: <20211018153829.24382-1-bmeng.cn@gmail.com>
-References: <20211018153829.24382-1-bmeng.cn@gmail.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mcjjk-0002xi-63; Tue, 19 Oct 2021 03:40:41 -0400
+Received: from [192.168.100.1] ([82.142.24.54]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1Ml6i4-1mzwX02SU8-00lWkC; Tue, 19 Oct 2021 09:40:34 +0200
+Subject: Re: [PATCH] po: update turkish translation
+To: =?UTF-8?Q?O=c4=9fuz_Ersen?= <oguzersen@protonmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <lDpmNUjNrVETJ2QoHoYmSoRvKoEIVFbF4IZAa1R5PVzqPCTh7nmV_ERHQlgYtNJN1Ppagtvelbo4uhSihEd5bSqIxCvGQchEWVpP-ofn2kw=@protonmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <78735ae3-1cb3-f808-b93f-8bea765eb6c4@vivier.eu>
+Date: Tue, 19 Oct 2021 09:40:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <lDpmNUjNrVETJ2QoHoYmSoRvKoEIVFbF4IZAa1R5PVzqPCTh7nmV_ERHQlgYtNJN1Ppagtvelbo4uhSihEd5bSqIxCvGQchEWVpP-ofn2kw=@protonmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:ewTi7kmBTKUgfj+rB67JjjTXcz+QnEkBCe8fjpCNDFlEYgN96/d
+ DEKsKTvsaJqvujNH8Tn1gkLdVAvtuP8onPVFMUWaLJgkcY4/ZvOoDi5iIRTz4w6U2tjWi6r
+ jQbeVP4YiWGFTkze0FjaQj5gNgtbtMm3gzCB57zyxl+BMGcbGfplkzaPZ+m20h8iMTSpZFQ
+ C8nNcgByYG9pt84u6aknA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:PuXWFsx4r6s=:EXuoikskeL3yTDcLtNhV/w
+ g1FjpHePo/WrJqij/gndFiv8jfLnDpgHqnzWrdZZA2uEn6hcDx3UvXW7yQHZ4XH5F6aQ/tVfe
+ TJc/tNFqYoTzV4GjTDghPAVHA6BTpyMQGBi8jlpgv5ky12P3yIqJqci4UD42bxD2o68iC/FsY
+ RQ4LdPhvS4XuCH7SDlC5P3oRAwc0DzBzqxzUO6v8dmCVDEoE7Ujm/zmlCg9TrgdtTf/6bGw4s
+ CWsit3VMB3s0+9aVe4cz7pZv3WN2PDkk5OOkP3wyX2ItIAj3gQb8LI7pQSjGrTXvMPVXTfEtt
+ RPSIsPp13y0wH/MuoZ4QHFN4KMIyZKiPTpUAeTC8ZhIcxPmp243rvy15j8B2ekhjZNo4nq9wd
+ ZrghS4i2CrRryAiVbE+1+fSYc8764APBO36hiBzAFjOuCBe0aooWYw3us83+t/1mDgDMhjeE3
+ 5EsVhe42SL0D+IKpCB8cTDmhRfzb5WG36KgMeOXupxDg8/6zquyCNL8savhXCkQme2qpIHBo4
+ n3Pgnn3qytIFFuEza1iF2M1jcE6JjiH/aNF3YSA/0lqgq8Q/c1PqomXKe7NOzwSdA5FnxO7vu
+ H+US5lHglBQGPBvGgWSmU2maDlYN0Lr7n7/htnn6SZuVcqoEmLg3LwDNvfsZAExT6VKldfy00
+ f5FtTQVosm81rllev7oSFQJsONbgNd7bWMPj96Y80ElcRjNsdpEd9aYUYkwmFXPFluVlwvbUO
+ xxHhueKjjLwOiNuTltKxkeROHB1ktEkhBdOskA==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,79 +70,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- qemu-devel@nongnu.org
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Oct 2021 23:38:24 +0800
-Bin Meng <bmeng.cn@gmail.com> wrote:
-
-> Using memory_region_init_ram(), which can't possibly handle vhost-user,
-> and can't work as expected with '-numa node,memdev' options.
+Le 15/08/2021 à 22:24, Oğuz Ersen a écrit :
+> Hi, this is a small patch to update Turkish translation, thanks.
 > 
-> Use MachineState::ram instead of manually initializing RAM memory
-> region, as well as by providing MachineClass::default_ram_id to
-> opt in to memdev scheme.
+> --
+> Best Regards
+> Oğuz Ersen
 > 
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> ---
-> 
->  hw/riscv/microchip_pfsoc.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index e475b6d511..f10f55b488 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -459,7 +459,6 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
->      const MemMapEntry *memmap = microchip_pfsoc_memmap;
->      MicrochipIcicleKitState *s = MICROCHIP_ICICLE_KIT_MACHINE(machine);
->      MemoryRegion *system_memory = get_system_memory();
-> -    MemoryRegion *mem_low = g_new(MemoryRegion, 1);
->      MemoryRegion *mem_low_alias = g_new(MemoryRegion, 1);
->      MemoryRegion *mem_high = g_new(MemoryRegion, 1);
->      MemoryRegion *mem_high_alias = g_new(MemoryRegion, 1);
-> @@ -486,16 +485,13 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
->      qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
->  
->      /* Register RAM */
-> -    memory_region_init_ram(mem_low, NULL, "microchip.icicle.kit.ram_low",
-> -                           memmap[MICROCHIP_PFSOC_DRAM_LO].size,
-> -                           &error_fatal);
->      memory_region_init_alias(mem_low_alias, NULL,
->                               "microchip.icicle.kit.ram_low.alias",
-> -                             mem_low, 0,
-> +                             machine->ram, 0,
->                               memmap[MICROCHIP_PFSOC_DRAM_LO_ALIAS].size);
->      memory_region_add_subregion(system_memory,
->                                  memmap[MICROCHIP_PFSOC_DRAM_LO].base,
-> -                                mem_low);
-> +                                machine->ram);
->      memory_region_add_subregion(system_memory,
->                                  memmap[MICROCHIP_PFSOC_DRAM_LO_ALIAS].base,
->                                  mem_low_alias);
 
-looking at code it seems RAM is split between low and high regions,
-so converting only low region is wrong.
 
-I'd suggest something similar to 2dc9ce13d210 : taihu_405ep_init().
-i.e. ms->ram should hold whole RAM that is split between low and high
-using aliases.
+Applied to my trivial-patches branch.
 
-> @@ -606,6 +602,7 @@ static void microchip_icicle_kit_machine_class_init(ObjectClass *oc, void *data)
->                     MICROCHIP_PFSOC_COMPUTE_CPU_COUNT;
->      mc->min_cpus = MICROCHIP_PFSOC_MANAGEMENT_CPU_COUNT + 1;
->      mc->default_cpus = mc->min_cpus;
-> +    mc->default_ram_id = "microchip.icicle.kit.ram_low";
-
-given it is not versioned machine, so we don't have to worry about
-cross version migration here,
-so I'd use "microchip.icicle.kit.ram" for the name here
-and currently used "microchip.icicle.kit.ram_low" for corresponding alias
-
->  
->      /*
->       * Map 513 MiB high memory, the mimimum required high memory size, because
-
+Thanks,
+Laurent
 
