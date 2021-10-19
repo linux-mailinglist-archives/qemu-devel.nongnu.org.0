@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F3A433EA7
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 20:40:58 +0200 (CEST)
-Received: from localhost ([::1]:48216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871DE433EDD
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 20:58:10 +0200 (CEST)
+Received: from localhost ([::1]:58714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcu2h-00054n-Qm
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 14:40:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44466)
+	id 1mcuJN-0004Zt-77
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 14:58:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcu06-0004MA-Sz
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 14:38:16 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:33713)
+ id 1mcuHi-0003tw-2r
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 14:56:26 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:43925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcu04-0007Oy-Lc
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 14:38:14 -0400
-Received: by mail-pl1-x634.google.com with SMTP id y4so14348354plb.0
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 11:38:11 -0700 (PDT)
+ id 1mcuHf-0002ll-6M
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 14:56:25 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id r2so20219053pgl.10
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 11:56:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8fD+A6DzJ8NnKoknUG9vBzOou4rrRx/EJ2BCzm9s/5w=;
- b=ptN+WXQBq4ck9kQKvDefrhMQbpmbbkqJ8xApcCbqubg6S58ViDxTtG6Vs+jGOcVxCP
- qxCAs5TFb3wnec5zfCi5HZBVYhldLQRP66uUbZR/oFihdRE0hIKhTDbQcaNET/4rVmTh
- ziiVxivsqGunBW5Htr+4AcxwEVj5w/LQ232FwwuyQ97UAn/DLoJAbCYoxOZmXRX1Bsy+
- AXrVnlLx4MqWIRmoSPbmK0Lh7RgWuxAqK15SA3yUDTwKoqzIBj9+7Up1yjBSTkzDVkN4
- 8n/ZhCQyc3CIE1l/kFuVC2xOTURhNPFOQpEzR2touBFUw9AHsaQOl4pC9ADZzUaaoWBA
- MEXQ==
+ bh=z5ZHqEbXhhsQktvfM6ugDXdRygJQdokgGfe//IqKYYk=;
+ b=mQJeqLGVlr0YkQt9Gb5onmNu3dxslr5uXeHtfK03313QPezWC9uqsI/LZf0Z0gV4UM
+ EhBaqjEAA2dfxrvvtCtJOKIgApcE4XTYXttSWRuu0MmOxHkgvnto+gm/gLZHVaa6KiC3
+ JHJDpbpxyxpyXmZBYtSNGt9S3vyLKP5weNHbWHlMDHeYlIvyFMJ2QOhmKd2fhBOnA0B4
+ b44NN767rcbXcEf7JykY6mrW2f5ZN817D7lu+ZtJaTHOO12DqW8yA995F3JSfE/9id1Z
+ Z4JzmoqlbmpDQyua2o+39R+LPcLibRyx/c9oG0qWRspib/aCHXasV+ytjX4kFSBFRYrO
+ r8Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8fD+A6DzJ8NnKoknUG9vBzOou4rrRx/EJ2BCzm9s/5w=;
- b=Rt983phJ5crJfvBCd5VAlHqvZ7vwMd1FAUABzjOpM/5tWGRtQ+wP847Ujf4+0iV8FQ
- ydrMVg7/LbnUnY7bSeoGfX8eD2Glo9Qfhf0WtCGsVZW+J69MACRwfBfTOXp1BEPkFkiu
- PiX+nO+rCFIT7Ms+drOSReF2OQ7VqPVwd11s8I54XUuC6WWNM+gXYUfwTHjszXYAI+gf
- T3dlXmPZ84niQdPNObeB52k+zOoOIItbpM5zz+mC5/61FeB98gO+DdtNZkG0CtvYIZqc
- OYjTVaXH1fywnhyQuZRGbk0Pn0irZPaG9UFRM80LQ1QRkc8w4RTvQbgkZ65EEFC+V6eP
- Js4A==
-X-Gm-Message-State: AOAM532sOiLklS6b0yIDcJItdXnSJipTXhDue+5gvLNOis5sN1APFhnN
- fwnkghX3rV5dZNsyUTqefLLNlw==
-X-Google-Smtp-Source: ABdhPJyTgqQtnTZ5P+ruXS3L0e4dGaQMw911u8RQeefze7mqJo/Rh3bLNUs8af0Fbju3Yhd6ipukfQ==
-X-Received: by 2002:a17:902:6902:b0:13f:c1cd:88f1 with SMTP id
- j2-20020a170902690200b0013fc1cd88f1mr11924805plk.36.1634668690698; 
- Tue, 19 Oct 2021 11:38:10 -0700 (PDT)
+ bh=z5ZHqEbXhhsQktvfM6ugDXdRygJQdokgGfe//IqKYYk=;
+ b=yqvaqon5ZO29zrmUFPMnaMOab+I0VUD5efDIJpso74NuFqlD8vVsH33/suiCHQQphh
+ awYuPH/+Lw7XGX3Z9Y7qBBfqWMHw16ZQxmINJEwJHqPPLqQxBPBmdwzaDRlx964GvqZJ
+ yf3fW+mCtV0oTbikj9UdkNKjKixMaTPlA7xj67JJWdTKNL3REiXzz2M2u0OB1h4bl9mU
+ Xk2IWGKf1wK/sQ51UjzTvLOKUFede4Tv8g50ChFkP+MnpPFlKVUjzY6wO/QLzH3Gkkil
+ 0k1DBQt2KcQA+49RDzPQBCepQsNo33Co40ggaVwn7tshNWDoEqYjQQ3oEQNb4Tm7IKj7
+ 5h2A==
+X-Gm-Message-State: AOAM531zszy4RteYCvYwwzvuOF9l/AQr+wEO6RjqyXTHZbhXkweOPWxb
+ oKaS3Ix/R6JKHAa+V17RWj7fJA==
+X-Google-Smtp-Source: ABdhPJz6WSJeKdvEtc/8qltKDXyh2s2VdFW3fF15dFnBONk2N5CnEwn+IO0gGwLt7lv1i++TH1JCXA==
+X-Received: by 2002:a62:64c9:0:b0:44d:27ba:9a8e with SMTP id
+ y192-20020a6264c9000000b0044d27ba9a8emr1645760pfb.2.1634669781566; 
+ Tue, 19 Oct 2021 11:56:21 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id b18sm9507395pfl.24.2021.10.19.11.38.10
+ by smtp.gmail.com with ESMTPSA id d12sm15941306pgf.19.2021.10.19.11.56.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 11:38:10 -0700 (PDT)
-Subject: Re: [PULL 00/29] pc,pci,virtio: features, fixes
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20211019111923.679826-1-mst@redhat.com>
+ Tue, 19 Oct 2021 11:56:21 -0700 (PDT)
+Subject: Re: [PATCH 01/31] target/loongarch: Upate the README for the softmmu.
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1634628917-10031-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1634628917-10031-2-git-send-email-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4cc1b92e-a3f0-bab9-6e71-112ef3fb13a1@linaro.org>
-Date: Tue, 19 Oct 2021 11:38:08 -0700
+Message-ID: <bdc2249e-f6d0-bbcf-b53e-0a9c81d8e378@linaro.org>
+Date: Tue, 19 Oct 2021 11:56:18 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211019111923.679826-1-mst@redhat.com>
+In-Reply-To: <1634628917-10031-2-git-send-email-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -87,156 +88,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
+ mst@redhat.com, philmd@redhat.com, mark.cave-ayland@ilande.co.uk,
+ laurent@vivier.eu, peterx@redhat.com, f4bug@amsat.org,
+ alistair.francis@wdc.com, maobibo@loongson.cn, gaosong@loongson.cn,
+ pbonzini@redhat.com, bmeng.cn@gmail.com, alex.bennee@linaro.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 4:19 AM, Michael S. Tsirkin wrote:
-> The following changes since commit 9c050b661d3a43dfe2fd44106e559b39706d1296:
-> 
->    Merge remote-tracking branch 'remotes/philmd/tags/mips-20211018' into staging (2021-10-18 09:16:51 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> 
-> for you to fetch changes up to bf2dd99b7d536cdba157fd6687810ce7b8340ccc:
-> 
->    failover: fix a regression introduced by JSON'ification of -device (2021-10-19 07:15:34 -0400)
-> 
-> ----------------------------------------------------------------
-> pc,pci,virtio: features, fixes
-> 
-> vhost user rng
-> Fixes, cleanups all over the place.
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> ----------------------------------------------------------------
-> Ani Sinha (3):
->        tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT table blob
->        tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges for q35
->        tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge test
-> 
-> David Hildenbrand (1):
->        libvhost-user: fix VHOST_USER_REM_MEM_REG skipping mmap_addr
-> 
-> Eric Auger (2):
->        virtio-iommu: Remove the non transitional name
->        virtio-iommu: Drop base_name and change generic_name
-> 
-> Eugenio Pérez (3):
->        vdpa: Skip protected ram IOMMU mappings
->        vdpa: Add vhost_vdpa_section_end
->        vdpa: Check for iova range at mappings changes
-> 
-> Igor Mammedov (15):
->        tests: acpi: dump table with failed checksum
->        tests: qtest: add qtest_has_accel() to check if tested binary supports accelerator
->        tests: acpi: whitelist expected tables for acpi/q35/xapic testcase
->        tests: acpi: q35: test for x2APIC entries in SRAT
->        tests: acpi: update expected tables blobs
->        tests: acpi: whitelist new expected table tests/data/acpi/q35/DMAR.dmar
->        tests: acpi: add testcase for intel_iommu (DMAR table)
->        tests: acpi: add expected blob for DMAR table
->        tests: acpi: whitelist expected blobs for new acpi/q35/ivrs testcase
->        tests: acpi: add testcase for amd-iommu (IVRS table)
->        tests: acpi: update expected blobs
->        tests: acpi: arm/virt: drop redundant test_acpi_one() in test_acpi_virt_tcg()
->        tests: arm-cpu-features: use qtest_has_kvm() API
->        tests: migration-test: use qtest_has_accel() API
->        tests: bios-tables-test: use qtest_has_accel() API to register TCG only tests
-> 
-> Laurent Vivier (1):
->        failover: fix a regression introduced by JSON'ification of -device
-> 
-> Mathieu Poirier (3):
->        vhost-user-rng: Add vhost-user-rng implementation
->        vhost-user-rng-pci: Add vhost-user-rng-pci implementation
->        docs: Add documentation for vhost based RNG implementation
-> 
-> Xueming Li (1):
->        vhost-user: fix duplicated notifier MR init
-> 
->   include/hw/virtio/vhost-user-rng.h        |  33 ++++
->   include/hw/virtio/vhost-vdpa.h            |   2 +
->   include/hw/virtio/virtio-iommu.h          |   2 +-
->   tests/qtest/libqos/libqtest.h             |   8 +
->   hw/net/virtio-net.c                       |  24 ++-
->   hw/virtio/vhost-user-rng-pci.c            |  79 ++++++++
->   hw/virtio/vhost-user-rng.c                | 289 ++++++++++++++++++++++++++++++
->   hw/virtio/vhost-user.c                    |   5 +-
->   hw/virtio/vhost-vdpa.c                    |  81 ++++++---
->   hw/virtio/virtio-iommu-pci.c              |   4 +-
->   subprojects/libvhost-user/libvhost-user.c |   1 +
->   tests/qtest/acpi-utils.c                  |  14 ++
->   tests/qtest/arm-cpu-features.c            |  29 +--
->   tests/qtest/bios-tables-test.c            |  90 ++++++++--
->   tests/qtest/libqtest.c                    |  27 +++
->   tests/qtest/migration-test.c              |  15 +-
->   docs/system/device-emulation.rst          |   1 +
->   docs/system/devices/vhost-user-rng.rst    |  39 ++++
->   hw/virtio/Kconfig                         |   5 +
->   hw/virtio/meson.build                     |   2 +
->   hw/virtio/trace-events                    |   1 +
->   meson.build                               |   6 +
->   tests/data/acpi/q35/APIC.xapic            | Bin 0 -> 2686 bytes
->   tests/data/acpi/q35/DMAR.dmar             | Bin 0 -> 120 bytes
->   tests/data/acpi/q35/DSDT.ivrs             | Bin 0 -> 8306 bytes
->   tests/data/acpi/q35/DSDT.multi-bridge     | Bin 0 -> 8583 bytes
->   tests/data/acpi/q35/DSDT.xapic            | Bin 0 -> 35652 bytes
->   tests/data/acpi/q35/FACP.xapic            | Bin 0 -> 244 bytes
->   tests/data/acpi/q35/IVRS.ivrs             | Bin 0 -> 104 bytes
->   tests/data/acpi/q35/SRAT.xapic            | Bin 0 -> 5080 bytes
->   30 files changed, 672 insertions(+), 85 deletions(-)
->   create mode 100644 include/hw/virtio/vhost-user-rng.h
->   create mode 100644 hw/virtio/vhost-user-rng-pci.c
->   create mode 100644 hw/virtio/vhost-user-rng.c
->   create mode 100644 docs/system/devices/vhost-user-rng.rst
->   create mode 100644 tests/data/acpi/q35/APIC.xapic
->   create mode 100644 tests/data/acpi/q35/DMAR.dmar
->   create mode 100644 tests/data/acpi/q35/DSDT.ivrs
->   create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
->   create mode 100644 tests/data/acpi/q35/DSDT.xapic
->   create mode 100644 tests/data/acpi/q35/FACP.xapic
->   create mode 100644 tests/data/acpi/q35/IVRS.ivrs
->   create mode 100644 tests/data/acpi/q35/SRAT.xapic
+On 10/19/21 12:34 AM, Xiaojuan Yang wrote:
+> ---
+>   target/loongarch/README  | 134 +++++++++++++++++++++++++++++++++++++++
+>   target/loongarch/ramdisk | Bin 0 -> 3077952 bytes
+>   target/loongarch/vmlinux | Bin 0 -> 24565536 bytes
+>   3 files changed, 134 insertions(+)
+>   create mode 100644 target/loongarch/ramdisk
+>   create mode 100755 target/loongarch/vmlinux
 
-32-bit printf errors:
+Wang Xuerui has already mentioned this, but let's make sure not to include such large test 
+binaries in future.
 
-../hw/virtio/vhost-vdpa.c: In function 'vhost_vdpa_listener_skipped_section':
-../hw/virtio/vhost-vdpa.c:55:22: error: format '%lu' expects argument of type 'long 
-unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigned int'} 
-[-Werror=format=]
-          error_report("RAM section out of device range (min=%lu, addr=%lu)",
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                       iova_min, section->offset_within_address_space);
-                       ~~~~~~~~
-../hw/virtio/vhost-vdpa.c:55:22: error: format '%lu' expects argument of type 'long 
-unsigned int', but argument 3 has type 'hwaddr' {aka 'long long unsigned int'} 
-[-Werror=format=]
-../hw/virtio/vhost-vdpa.c:62:22: error: format '%lu' expects argument of type 'long 
-unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigned int'} 
-[-Werror=format=]
-          error_report("RAM section out of device range (max=%lu, end addr=%lu)",
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                       iova_max, int128_get64(llend));
-                       ~~~~~~~~
-../hw/virtio/vhost-vdpa.c:62:22: error: format '%lu' expects argument of type 'long 
-unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} 
-[-Werror=format=]
-cc1: all warnings being treated as errors
+The proper place for this is in a stable url, which could then either be referenced in the 
+documentation.  But even better than that would be an acceptance test entry -- see 
+tests/acceptance/boot_linux_console.py.
 
+> +  2.Modify the kernel code for the tcg. Modifications are listed later. I will try to
+> +    commit to the kernel host.
 
-Also fails s390x host testing:
-
-
-ERROR:../tests/qtest/boot-sector.c:170:boot_sector_test: assertion failed (signature == 
-SIGNATURE): (0x00000000 == 0x0000dead)
-ERROR qtest-i386/bios-tables-test - Bail out! 
-ERROR:../tests/qtest/boot-sector.c:170:boot_sector_test: assertion failed (signature == 
-SIGNATURE): (0x00000000 == 0x0000dead)
-Makefile.mtest:368: recipe for target 'run-test-44' failed
+This sounds like a bug in the qemu emulation of the device or boot environment.
 
 
 r~
