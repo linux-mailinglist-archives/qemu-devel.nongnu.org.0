@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36EC433017
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 09:51:18 +0200 (CEST)
-Received: from localhost ([::1]:42344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1126B433041
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 09:55:37 +0200 (CEST)
+Received: from localhost ([::1]:51672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcju1-0001t5-Me
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 03:51:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56034)
+	id 1mcjyC-0008MJ-5l
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 03:55:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1mcjfE-0001qA-33
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:36:00 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:34974 helo=loongson.cn)
+ id 1mcjfP-0001x5-6K
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:36:11 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:35048 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1mcjf8-0004XH-PJ
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:35:59 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1mcjfA-0004ZP-AX
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:36:10 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP2s1dW5h3HwcAA--.43474S15; 
- Tue, 19 Oct 2021 15:35:37 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP2s1dW5h3HwcAA--.43474S16; 
+ Tue, 19 Oct 2021 15:35:38 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/31] hw/pci-host: Add ls7a1000 PCIe Host bridge support for
- Loongson Platform
-Date: Tue, 19 Oct 2021 15:34:59 +0800
-Message-Id: <1634628917-10031-14-git-send-email-yangxiaojuan@loongson.cn>
+Subject: [PATCH 14/31] hw/loongarch: Add a virt loongarch 3A5000 board support
+Date: Tue, 19 Oct 2021 15:35:00 +0800
+Message-Id: <1634628917-10031-15-git-send-email-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1634628917-10031-1-git-send-email-yangxiaojuan@loongson.cn>
 References: <1634628917-10031-1-git-send-email-yangxiaojuan@loongson.cn>
-X-CM-TRANSID: AQAAf9DxP2s1dW5h3HwcAA--.43474S15
-X-Coremail-Antispam: 1UD129KBjvJXoW3Xr1rKr43GF1xXr1rtrykuFg_yoWfAFW8pF
- n5CasakF4UtFW7J393JFn7WF1rXFs3C34UJrW7uw1Iyayxtw1qvrnrKFWUt3y7GrWqqF45
- XaykG3W2ga18JaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9DxP2s1dW5h3HwcAA--.43474S16
+X-Coremail-Antispam: 1UD129KBjvAXoW3Zw4xArykJw4xGw43tFW7XFb_yoW8XryxXo
+ WavFy7Kw48Gr1avrn5KrnxWrW7Kr1vkF45AayfZa98Ga10yF15JFyDKwn0yFy3JFn5tr45
+ uayagFsrJ34xtr95n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -64,298 +63,485 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a model of the PCIe Host Bridge found on a Loongson-5000
-processor. It includes a interrupt controller, some interface for
-pci and nonpci devices we only emulate part devices for tcg mode.
-It support for MSI and MSIX interrupt sources.
+LoongArch is a new RISC ISA, support 32bit mode
+or 64bit mode. Now we only add 64bit support.
 
-For more detailed info about ls7a1000 you can see the doc at
-https://github.com/loongson/LoongArch-Documentation/releases/latest/
-download/Loongson-7A1000-usermanual-2.00-EN.pdf
+More detailed info you can see
+https://github.com/loongson/LoongArch-Documentation
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- hw/pci-host/Kconfig        |   4 +
- hw/pci-host/ls7a.c         | 188 +++++++++++++++++++++++++++++++++++++
- hw/pci-host/meson.build    |   1 +
- include/hw/pci-host/ls7a.h |  48 ++++++++++
- 4 files changed, 241 insertions(+)
- create mode 100644 hw/pci-host/ls7a.c
- create mode 100644 include/hw/pci-host/ls7a.h
+ .../devices/loongarch64-softmmu/default.mak   |   3 +
+ configs/targets/loongarch64-softmmu.mak       |   2 +
+ hw/Kconfig                                    |   1 +
+ hw/loongarch/Kconfig                          |   3 +
+ hw/loongarch/ls3a5000_virt.c                  | 207 ++++++++++++++++++
+ hw/loongarch/meson.build                      |   4 +
+ hw/meson.build                                |   1 +
+ include/exec/poison.h                         |   2 +
+ include/hw/loongarch/loongarch.h              |  47 ++++
+ include/sysemu/arch_init.h                    |   1 +
+ qapi/machine.json                             |   2 +-
+ target/Kconfig                                |   1 +
+ target/loongarch/Kconfig                      |   2 +
+ target/loongarch/cpu.c                        |   8 +
+ target/loongarch/cpu.h                        |   4 +
+ 15 files changed, 287 insertions(+), 1 deletion(-)
+ create mode 100644 configs/devices/loongarch64-softmmu/default.mak
+ create mode 100644 configs/targets/loongarch64-softmmu.mak
+ create mode 100644 hw/loongarch/Kconfig
+ create mode 100644 hw/loongarch/ls3a5000_virt.c
+ create mode 100644 hw/loongarch/meson.build
+ create mode 100644 include/hw/loongarch/loongarch.h
+ create mode 100644 target/loongarch/Kconfig
 
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index 2b5f7d58cc..b02a9d1454 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -77,3 +77,7 @@ config MV64361
-     bool
-     select PCI
-     select I8259
-+
-+config PCI_EXPRESS_7A
-+    bool
-+    select PCI_EXPRESS
-diff --git a/hw/pci-host/ls7a.c b/hw/pci-host/ls7a.c
+diff --git a/configs/devices/loongarch64-softmmu/default.mak b/configs/devices/loongarch64-softmmu/default.mak
 new file mode 100644
-index 0000000000..1d6d5ea35a
+index 0000000000..a6705b9e4a
 --- /dev/null
-+++ b/hw/pci-host/ls7a.c
-@@ -0,0 +1,188 @@
++++ b/configs/devices/loongarch64-softmmu/default.mak
+@@ -0,0 +1,3 @@
++# Default configuration for loongarch64-softmmu
++
++CONFIG_LOONGSON_3A5000=y
+diff --git a/configs/targets/loongarch64-softmmu.mak b/configs/targets/loongarch64-softmmu.mak
+new file mode 100644
+index 0000000000..77c266b3b1
+--- /dev/null
++++ b/configs/targets/loongarch64-softmmu.mak
+@@ -0,0 +1,2 @@
++TARGET_ARCH=loongarch64
++TARGET_BASE_ARCH=loongarch
+diff --git a/hw/Kconfig b/hw/Kconfig
+index ad20cce0a9..f71b2155ed 100644
+--- a/hw/Kconfig
++++ b/hw/Kconfig
+@@ -49,6 +49,7 @@ source avr/Kconfig
+ source cris/Kconfig
+ source hppa/Kconfig
+ source i386/Kconfig
++source loongarch/Kconfig
+ source m68k/Kconfig
+ source microblaze/Kconfig
+ source mips/Kconfig
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+new file mode 100644
+index 0000000000..720822f32c
+--- /dev/null
++++ b/hw/loongarch/Kconfig
+@@ -0,0 +1,3 @@
++config LOONGSON_3A5000
++    bool
++    select PCI_EXPRESS_7A
+diff --git a/hw/loongarch/ls3a5000_virt.c b/hw/loongarch/ls3a5000_virt.c
+new file mode 100644
+index 0000000000..71ffc2b81f
+--- /dev/null
++++ b/hw/loongarch/ls3a5000_virt.c
+@@ -0,0 +1,207 @@
 +/*
-+ * QEMU Loongson 7A1000 North Bridge Emulation
++ * QEMU loongson 3a5000 develop board emulation
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
++ */
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "qemu/units.h"
++#include "qemu/datadir.h"
++#include "qapi/error.h"
++#include "hw/boards.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/qtest.h"
++#include "sysemu/runstate.h"
++#include "sysemu/reset.h"
++#include "hw/loongarch/loongarch.h"
++#include "hw/pci-host/ls7a.h"
++
++CPULoongArchState *cpu_states[LOONGARCH_MAX_VCPUS];
++
++static void main_cpu_reset(void *opaque)
++{
++    LoongArchCPU *cpu = opaque;
++
++    cpu_reset(CPU(cpu));
++}
++
++static uint64_t loongarch_pm_mem_read(void *opaque, hwaddr addr, unsigned size)
++{
++    return 0;
++}
++
++static void loongarch_pm_mem_write(void *opaque, hwaddr addr,
++                                   uint64_t val, unsigned size)
++{
++
++    if (addr != PM_CNT_MODE) {
++        return;
++    }
++
++    switch (val) {
++    case 0x00:
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++        return;
++    case 0xff:
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++        return;
++    default:
++        return;
++    }
++}
++
++static const MemoryRegionOps loongarch_pm_ops = {
++    .read  = loongarch_pm_mem_read,
++    .write = loongarch_pm_mem_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++#define LOONGARCH_SIMPLE_MMIO_OPS(ADDR, NAME, SIZE) \
++({\
++     MemoryRegion *iomem = g_new(MemoryRegion, 1);\
++     memory_region_init_io(iomem, NULL, &loongarch_qemu_ops,\
++                           (void *)ADDR, NAME, SIZE);\
++     memory_region_add_subregion_overlap(address_space_mem, ADDR, iomem, 1);\
++})
++
++static void loongarch_qemu_write(void *opaque, hwaddr addr,
++                                 uint64_t val, unsigned size)
++{
++}
++
++static uint64_t loongarch_qemu_read(void *opaque, hwaddr addr, unsigned size)
++{
++    uint64_t feature = 0UL;
++    addr = ((hwaddr)(long)opaque) + addr;
++    addr = addr & 0xffffffff;
++    switch (addr) {
++    case FEATURE_REG:
++        feature |= 1UL << IOCSRF_MSI | 1UL << IOCSRF_EXTIOI |
++                   1UL << IOCSRF_CSRIPI;
++        return feature ;
++    case VENDOR_REG:
++        return *(uint64_t *)"Loongson-3A5000";
++    case CPUNAME_REG:
++        return *(uint64_t *)"3A5000";
++    }
++    return 0;
++}
++
++static const MemoryRegionOps loongarch_qemu_ops = {
++    .read = loongarch_qemu_read,
++    .write = loongarch_qemu_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 8,
++    },
++    .impl = {
++        .min_access_size = 4,
++        .max_access_size = 8,
++    },
++};
++
++static void ls3a5000_virt_init(MachineState *machine)
++{
++    const char *cpu_model = machine->cpu_type;
++    LoongArchCPU *cpu;
++    CPULoongArchState *env;
++    uint64_t lowram_size = 0, highram_size = 0;
++    MemoryRegion *lowmem = g_new(MemoryRegion, 1);
++    char *ramName = NULL;
++    ram_addr_t ram_size = machine->ram_size;
++    MemoryRegion *address_space_mem = get_system_memory();
++    int i;
++    MemoryRegion *iomem = NULL;
++
++    if (!cpu_model) {
++        cpu_model = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
++    }
++    if (!strstr(cpu_model, "Loongson-3A5000")) {
++        error_report("Loongarch/TCG needs cpu type Loongson-3A5000");
++        exit(1);
++    }
++
++    /* init CPUs */
++    for (i = 0; i < machine->smp.cpus; i++) {
++        Object *cpuobj = NULL;
++        CPUState *cs;
++
++        cpuobj = object_new(machine->cpu_type);
++
++        cs = CPU(cpuobj);
++        cs->cpu_index = i;
++
++        qdev_realize(DEVICE(cpuobj), NULL, &error_fatal);
++        object_unref(cpuobj);
++
++        cpu = LOONGARCH_CPU(cs);
++        if (cpu == NULL) {
++            fprintf(stderr, "Unable to find CPU definition\n");
++            exit(1);
++        }
++        env = &cpu->env;
++        cpu_states[i] = env;
++
++        cpu_loongarch_clock_init(cpu);
++        qemu_register_reset(main_cpu_reset, cpu);
++    }
++
++    ramName = g_strdup_printf("loongarch.lowram");
++    lowram_size = MIN(ram_size, 256 * 0x100000);
++    memory_region_init_alias(lowmem, NULL, ramName, machine->ram,
++                             0, lowram_size);
++    memory_region_add_subregion(address_space_mem, 0, lowmem);
++
++    highram_size = ram_size > lowram_size ? ram_size - 256 * 0x100000 : 0;
++    if (highram_size > 0) {
++        MemoryRegion *highmem = g_new(MemoryRegion, 1);
++        ramName = g_strdup_printf("loongarch.highram");
++        memory_region_init_alias(highmem, NULL, ramName, machine->ram,
++                                 lowram_size, highram_size);
++        memory_region_add_subregion(address_space_mem, 0x90000000, highmem);
++    }
++
++    /*Add PM mmio memory for reboot and shutdown*/
++    iomem = g_new(MemoryRegion, 1);
++    memory_region_init_io(iomem, NULL, &loongarch_pm_ops, NULL,
++                          "loongarch_pm", PM_MMIO_SIZE);
++    memory_region_add_subregion(address_space_mem,
++                                PM_MMIO_ADDR, iomem);
++
++    LOONGARCH_SIMPLE_MMIO_OPS(FEATURE_REG, "loongarch_feature", 0x8);
++    LOONGARCH_SIMPLE_MMIO_OPS(VENDOR_REG, "loongarch_vendor", 0x8);
++    LOONGARCH_SIMPLE_MMIO_OPS(CPUNAME_REG, "loongarch_cpuname", 0x8);
++    LOONGARCH_SIMPLE_MMIO_OPS(MISC_FUNC_REG, "loongarch_misc", 0x8);
++    LOONGARCH_SIMPLE_MMIO_OPS(FREQ_REG, "loongarch_freq", 0x8);
++}
++
++static void loongarch_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    mc->desc = "Loongson-5000 LS7A1000 machine";
++    mc->init = ls3a5000_virt_init;
++    mc->default_ram_size = 1 * GiB;
++    mc->default_cpu_type = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
++    mc->default_ram_id = "loongarch.ram";
++    mc->max_cpus = LOONGARCH_MAX_VCPUS;
++    mc->is_default = 1;
++    mc->default_kernel_irqchip_split = false;
++    mc->block_default_type = IF_VIRTIO;
++    mc->default_boot_order = "c";
++    mc->no_cdrom = 1;
++}
++
++static const TypeInfo loongarch_machine_types[] = {
++    {
++        .name           = TYPE_LOONGARCH_MACHINE,
++        .parent         = TYPE_MACHINE,
++        .instance_size  = sizeof(LoongarchMachineState),
++        .class_init     = loongarch_class_init,
++    }
++};
++
++DEFINE_TYPES(loongarch_machine_types)
+diff --git a/hw/loongarch/meson.build b/hw/loongarch/meson.build
+new file mode 100644
+index 0000000000..1e743cadb8
+--- /dev/null
++++ b/hw/loongarch/meson.build
+@@ -0,0 +1,4 @@
++loongarch_ss = ss.source_set()
++loongarch_ss.add(when: 'CONFIG_LOONGSON_3A5000', if_true: files('ls3a5000_virt.c'))
++
++hw_arch += {'loongarch': loongarch_ss}
+diff --git a/hw/meson.build b/hw/meson.build
+index b3366c888e..95202649b7 100644
+--- a/hw/meson.build
++++ b/hw/meson.build
+@@ -49,6 +49,7 @@ subdir('avr')
+ subdir('cris')
+ subdir('hppa')
+ subdir('i386')
++subdir('loongarch')
+ subdir('m68k')
+ subdir('microblaze')
+ subdir('mips')
+diff --git a/include/exec/poison.h b/include/exec/poison.h
+index 7ad4ad18e8..590bc305c7 100644
+--- a/include/exec/poison.h
++++ b/include/exec/poison.h
+@@ -14,6 +14,7 @@
+ #pragma GCC poison TARGET_CRIS
+ #pragma GCC poison TARGET_HEXAGON
+ #pragma GCC poison TARGET_HPPA
++#pragma GCC poison TARGET_LOONGARCH64
+ #pragma GCC poison TARGET_M68K
+ #pragma GCC poison TARGET_MICROBLAZE
+ #pragma GCC poison TARGET_MIPS
+@@ -73,6 +74,7 @@
+ #pragma GCC poison CONFIG_HPPA_DIS
+ #pragma GCC poison CONFIG_I386_DIS
+ #pragma GCC poison CONFIG_HEXAGON_DIS
++#pragma GCC poison CONFIG_LOONGARCH_DIS
+ #pragma GCC poison CONFIG_M68K_DIS
+ #pragma GCC poison CONFIG_MICROBLAZE_DIS
+ #pragma GCC poison CONFIG_MIPS_DIS
+diff --git a/include/hw/loongarch/loongarch.h b/include/hw/loongarch/loongarch.h
+new file mode 100644
+index 0000000000..087a988c34
+--- /dev/null
++++ b/include/hw/loongarch/loongarch.h
+@@ -0,0 +1,47 @@
++/*
++ * Definitions for loongarch board emulation.
 + *
 + * Copyright (C) 2021 Loongson Technology Corporation Limited
 + *
 + * SPDX-License-Identifier: LGPL-2.1+
 + */
 +
-+#include "qemu/osdep.h"
++#ifndef HW_LOONGARCH_H
++#define HW_LOONGARCH_H
 +
-+#include "hw/pci/pci.h"
-+#include "hw/pci/pcie_host.h"
-+#include "qapi/error.h"
-+#include "hw/irq.h"
-+#include "hw/pci/pci_bridge.h"
-+#include "hw/pci/pci_bus.h"
-+#include "sysemu/reset.h"
-+#include "hw/pci-host/ls7a.h"
-+#include "migration/vmstate.h"
++#include "target/loongarch/cpu.h"
++#include "qemu-common.h"
++#include "hw/boards.h"
++#include "qemu/queue.h"
 +
-+static const VMStateDescription vmstate_ls7a_pcie = {
-+    .name = "LS7A_PCIE",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_PCI_DEVICE(dev, LS7APCIState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
++#define LOONGARCH_MAX_VCPUS     4
++#define PM_MMIO_ADDR            0x10080000UL
++#define PM_MMIO_SIZE            0x100
++#define PM_CNT_MODE             0x10
++#define FEATURE_REG             0x1fe00008
++#define IOCSRF_TEMP             0
++#define IOCSRF_NODECNT          1
++#define IOCSRF_MSI              2
++#define IOCSRF_EXTIOI           3
++#define IOCSRF_CSRIPI           4
++#define IOCSRF_FREQCSR          5
++#define IOCSRF_FREQSCALE        6
++#define IOCSRF_DVFSV1           7
++#define IOCSRF_GMOD             9
++#define IOCSRF_VM               11
 +
-+static void pci_ls7a_config_write(void *opaque, hwaddr addr,
-+                                  uint64_t val, unsigned size)
-+{
-+    pci_data_write(opaque, addr, val, size);
-+}
++#define VENDOR_REG              0x1fe00010
++#define CPUNAME_REG             0x1fe00020
++#define MISC_FUNC_REG           0x1fe00420
++#define FREQ_REG                0x1fe001d0
 +
-+static uint64_t pci_ls7a_config_read(void *opaque,
-+                                     hwaddr addr, unsigned size)
-+{
-+    uint64_t val;
++typedef struct LoongarchMachineState {
++    /*< private >*/
++    MachineState parent_obj;
 +
-+    val = pci_data_read(opaque, addr, size);
++} LoongarchMachineState;
 +
-+    return val;
-+}
-+
-+static const MemoryRegionOps pci_ls7a_config_ops = {
-+    .read = pci_ls7a_config_read,
-+    .write = pci_ls7a_config_write,
-+    .valid = {
-+        .min_access_size = 1,
-+        .max_access_size = 4,
-+    },
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 4,
-+    },
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+};
-+
-+static void ls7a_pciehost_realize(DeviceState *dev, Error **errp)
-+{
-+    LS7APCIEHost *pciehost = LS7A_PCIE_HOST_BRIDGE(dev);
-+    PCIExpressHost *e = PCIE_HOST_BRIDGE(dev);
-+    PCIHostState *phb = PCI_HOST_BRIDGE(e);
-+
-+    phb->bus = pci_register_root_bus(dev, "pcie.0", NULL,
-+                                     NULL, pciehost,
-+                                     get_system_memory(), get_system_io(),
-+                                     PCI_DEVFN(1, 0), 128, TYPE_PCIE_BUS);
-+
-+    memory_region_init_io(&pciehost->pci_conf, OBJECT(dev),
-+                          &pci_ls7a_config_ops, phb->bus,
-+                          "ls7a_pci_conf", HT1LO_PCICFG_SIZE);
-+    memory_region_add_subregion(get_system_memory(), HT1LO_PCICFG_BASE,
-+                                &pciehost->pci_conf);
-+
-+    /* Add ls7a pci-io */
-+    memory_region_init_alias(&pciehost->pci_io, OBJECT(dev), "ls7a-pci-io",
-+                             get_system_io(), 0, LS7A_PCI_IO_SIZE);
-+    memory_region_add_subregion(get_system_memory(), LS7A_PCI_IO_BASE,
-+                                &pciehost->pci_io);
-+
-+    pcie_host_mmcfg_update(e, true, LS_PCIECFG_BASE, LS_PCIECFG_SIZE);
-+}
-+
-+PCIBus *ls7a_init(MachineState *machine, qemu_irq *pic)
-+{
-+    DeviceState *dev;
-+    PCIHostState *phb;
-+    LS7APCIState *pbs;
-+    LS7APCIEHost *pciehost;
-+    PCIDevice *pci_dev;
-+    PCIExpressHost *e;
-+
-+    dev = qdev_new(TYPE_LS7A_PCIE_HOST_BRIDGE);
-+    e = PCIE_HOST_BRIDGE(dev);
-+    phb = PCI_HOST_BRIDGE(e);
-+    pciehost = LS7A_PCIE_HOST_BRIDGE(dev);
-+    pciehost->pic = pic;
-+
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+
-+    pci_dev = pci_new(PCI_DEVFN(0, 0), TYPE_LS7A_PCIE);
-+    pbs = LS7A_PCIE(pci_dev);
-+    pbs->pciehost = pciehost;
-+    pbs->pciehost->pci_dev = pbs;
-+
-+    pci_realize_and_unref(pci_dev, phb->bus, &error_fatal);
-+
-+    return phb->bus;
-+}
-+
-+static void ls7a_reset(DeviceState *qdev)
-+{
-+    uint64_t wmask;
-+    wmask = ~(-1);
-+    PCIDevice *dev = PCI_DEVICE(qdev);
-+
-+    pci_set_word(dev->config + PCI_STATUS, 0x0010);
-+    pci_set_word(dev->wmask + PCI_STATUS, wmask & 0xffff);
-+    pci_set_word(dev->cmask + PCI_STATUS, 0xffff);
-+    pci_set_byte(dev->config + PCI_HEADER_TYPE, 0x1);
-+    pci_set_byte(dev->wmask + PCI_HEADER_TYPE, wmask & 0xff);
-+    pci_set_byte(dev->cmask + PCI_HEADER_TYPE, 0xff);
-+    pci_set_word(dev->config + PCI_SUBSYSTEM_VENDOR_ID, 0x0014);
-+    pci_set_word(dev->wmask + PCI_SUBSYSTEM_VENDOR_ID, wmask & 0xffff);
-+    pci_set_word(dev->cmask + PCI_SUBSYSTEM_VENDOR_ID, 0xffff);
-+    pci_set_word(dev->config + PCI_SUBSYSTEM_ID, 0x7a00);
-+    pci_set_word(dev->wmask + PCI_SUBSYSTEM_ID, wmask & 0xffff);
-+    pci_set_word(dev->cmask + PCI_SUBSYSTEM_ID, 0xffff);
-+    pci_set_byte(dev->config + PCI_CAPABILITY_LIST, 0x40);
-+    pci_set_byte(dev->wmask + PCI_CAPABILITY_LIST, wmask & 0xff);
-+    pci_set_byte(dev->cmask + PCI_CAPABILITY_LIST, 0xff);
-+}
-+
-+static void ls7a_pcie_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-+
-+    k->vendor_id = 0x0014;
-+    k->device_id = 0x7a00;
-+    k->revision = 0x00;
-+    k->class_id = PCI_CLASS_BRIDGE_HOST;
-+    dc->reset = ls7a_reset;
-+    dc->desc = "LS7A1000 PCIE Host bridge";
-+    dc->vmsd = &vmstate_ls7a_pcie;
-+    /*
-+     * PCI-facing part of the host bridge, not usable without the
-+     * host-facing part, which can't be device_add'ed, yet.
-+     */
-+    dc->user_creatable = false;
-+}
-+
-+static const TypeInfo ls7a_pcie_device_info = {
-+    .name          = TYPE_LS7A_PCIE,
-+    .parent        = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(LS7APCIState),
-+    .class_init    = ls7a_pcie_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { },
-+    },
-+};
-+
-+static void ls7a_pciehost_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    dc->realize = ls7a_pciehost_realize;
-+    dc->fw_name = "pci";
-+    dc->user_creatable = false;
-+}
-+
-+static const TypeInfo ls7a_pciehost_info = {
-+    .name          = TYPE_LS7A_PCIE_HOST_BRIDGE,
-+    .parent        = TYPE_PCIE_HOST_BRIDGE,
-+    .instance_size = sizeof(LS7APCIEHost),
-+    .class_init    = ls7a_pciehost_class_init,
-+};
-+
-+static void ls7a_register_types(void)
-+{
-+    type_register_static(&ls7a_pciehost_info);
-+    type_register_static(&ls7a_pcie_device_info);
-+}
-+
-+type_init(ls7a_register_types)
-diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
-index 4c4f39c15c..c4955455fd 100644
---- a/hw/pci-host/meson.build
-+++ b/hw/pci-host/meson.build
-@@ -11,6 +11,7 @@ pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
- pci_ss.add(when: 'CONFIG_XEN_IGD_PASSTHROUGH', if_true: files('xen_igd_pt.c'))
- pci_ss.add(when: 'CONFIG_REMOTE_PCIHOST', if_true: files('remote.c'))
- pci_ss.add(when: 'CONFIG_SH_PCI', if_true: files('sh_pci.c'))
-+pci_ss.add(when: 'CONFIG_PCI_EXPRESS_7A', if_true: files('ls7a.c'))
++#define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("loongson7a")
++DECLARE_INSTANCE_CHECKER(LoongarchMachineState, LOONGARCH_MACHINE,
++                         TYPE_LOONGARCH_MACHINE)
++#endif
+diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
+index 70c579560a..3ac3634bbb 100644
+--- a/include/sysemu/arch_init.h
++++ b/include/sysemu/arch_init.h
+@@ -24,6 +24,7 @@ enum {
+     QEMU_ARCH_RX = (1 << 20),
+     QEMU_ARCH_AVR = (1 << 21),
+     QEMU_ARCH_HEXAGON = (1 << 22),
++    QEMU_ARCH_LOONGARCH = (1 << 23),
+ };
  
- # PPC devices
- pci_ss.add(when: 'CONFIG_RAVEN_PCI', if_true: files('raven.c'))
-diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
+ extern const uint32_t arch_type;
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 5db54df298..0ffe84f074 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -30,7 +30,7 @@
+ ##
+ { 'enum' : 'SysEmuTarget',
+   'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386',
+-             'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
++             'loongarch64', 'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+              'mips64el', 'mipsel', 'nios2', 'or1k', 'ppc',
+              'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
+              'sh4eb', 'sparc', 'sparc64', 'tricore',
+diff --git a/target/Kconfig b/target/Kconfig
+index ae7f24fc66..83da0bd293 100644
+--- a/target/Kconfig
++++ b/target/Kconfig
+@@ -4,6 +4,7 @@ source avr/Kconfig
+ source cris/Kconfig
+ source hppa/Kconfig
+ source i386/Kconfig
++source loongarch/Kconfig
+ source m68k/Kconfig
+ source microblaze/Kconfig
+ source mips/Kconfig
+diff --git a/target/loongarch/Kconfig b/target/loongarch/Kconfig
 new file mode 100644
-index 0000000000..4c95a11ab8
+index 0000000000..46b26b1a85
 --- /dev/null
-+++ b/include/hw/pci-host/ls7a.h
-@@ -0,0 +1,48 @@
-+/*
-+ * QEMU LoongArch CPU
-+ *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ *
-+ * SPDX-License-Identifier: LGPL-2.1+
-+ */
-+
-+#ifndef HW_LS7A_H
-+#define HW_LS7A_H
-+
-+#include "hw/pci/pci.h"
-+#include "hw/pci/pcie_host.h"
-+#include "hw/pci-host/pam.h"
-+#include "qemu/units.h"
-+#include "qemu/range.h"
-+#include "qom/object.h"
-+
-+#define HT1LO_PCICFG_BASE        0x1a000000
-+#define HT1LO_PCICFG_SIZE        0x02000000
-+
-+#define LS_PCIECFG_BASE          0x20000000
-+#define LS_PCIECFG_SIZE          0x08000000
-+
-+#define LS7A_PCI_IO_BASE        0x18000000UL
-+#define LS7A_PCI_IO_SIZE        0x00010000
-+typedef struct LS7APCIState LS7APCIState;
-+typedef struct LS7APCIEHost {
-+    PCIExpressHost parent_obj;
-+    LS7APCIState *pci_dev;
-+    qemu_irq *pic;
-+    MemoryRegion pci_conf;
-+    MemoryRegion pci_io;
-+} LS7APCIEHost;
-+
-+struct LS7APCIState {
-+    PCIDevice dev;
-+    LS7APCIEHost *pciehost;
++++ b/target/loongarch/Kconfig
+@@ -0,0 +1,2 @@
++config LOONGARCH64
++    bool
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 2886dbd642..532b229c05 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -12,6 +12,7 @@
+ #include "qemu/module.h"
+ #include "sysemu/qtest.h"
+ #include "exec/exec-all.h"
++#include "hw/qdev-properties.h"
+ #include "qapi/qapi-commands-machine-target.h"
+ #include "migration/vmstate.h"
+ #include "cpu.h"
+@@ -537,6 +538,12 @@ static ObjectClass *loongarch_cpu_class_by_name(const char *cpu_model)
+     return oc;
+ }
+ 
++static Property loongarch_cpu_properties[] = {
++    DEFINE_PROP_INT32("core-id", LoongArchCPU, core_id, -1),
++    DEFINE_PROP_UINT32("id", LoongArchCPU, id, UNASSIGNED_CPU_ID),
++    DEFINE_PROP_END_OF_LIST()
 +};
 +
-+#define TYPE_LS7A_PCIE_HOST_BRIDGE "ls7a1000-pciehost"
-+OBJECT_DECLARE_SIMPLE_TYPE(LS7APCIEHost, LS7A_PCIE_HOST_BRIDGE)
+ void loongarch_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+ {
+     LoongArchCPU *cpu = LOONGARCH_CPU(cs);
+@@ -636,6 +643,7 @@ static void loongarch_cpu_class_init(ObjectClass *c, void *data)
+     device_class_set_parent_realize(dc, loongarch_cpu_realizefn,
+                                     &lacc->parent_realize);
+     device_class_set_parent_reset(dc, loongarch_cpu_reset, &lacc->parent_reset);
++    device_class_set_props(dc, loongarch_cpu_properties);
+ 
+     cc->class_by_name = loongarch_cpu_class_by_name;
+     cc->has_work = loongarch_cpu_has_work;
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+index e77517d375..cfdcf1d4a0 100644
+--- a/target/loongarch/cpu.h
++++ b/target/loongarch/cpu.h
+@@ -16,6 +16,8 @@
+ 
+ #define TCG_GUEST_DEFAULT_MO (0)
+ 
++#define UNASSIGNED_CPU_ID 0xFFFFFFFF
 +
-+#define TYPE_LS7A_PCIE "ls7a1000_pcie"
-+OBJECT_DECLARE_SIMPLE_TYPE(LS7APCIState, LS7A_PCIE)
-+
-+PCIBus *ls7a_init(MachineState *machine, qemu_irq *irq);
-+#endif /* HW_LS7A_H */
+ #define FCSR0_M1    0x1f         /* FCSR1 mask, Enables */
+ #define FCSR0_M2    0x1f1f0000   /* FCSR2 mask, Cause and Flags */
+ #define FCSR0_M3    0x300        /* FCSR3 mask, Round Mode */
+@@ -104,6 +106,8 @@ struct LoongArchCPU {
+ 
+     CPUNegativeOffsetState neg;
+     CPULoongArchState env;
++    uint32_t id;
++    int32_t core_id;
+ };
+ 
+ #define TYPE_LOONGARCH_CPU "loongarch64-cpu"
 -- 
 2.27.0
 
