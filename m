@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387D94339D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 17:09:00 +0200 (CEST)
-Received: from localhost ([::1]:33980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB80E433A47
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 17:26:56 +0200 (CEST)
+Received: from localhost ([::1]:53968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcqja-0007Ps-U5
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 11:08:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40390)
+	id 1mcr0x-0006hu-OD
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 11:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcqAE-0008JA-7r; Tue, 19 Oct 2021 10:32:26 -0400
-Received: from mail-dm6nam12on2076.outbound.protection.outlook.com
- ([40.107.243.76]:56161 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ id 1mcqAY-0000GW-DQ; Tue, 19 Oct 2021 10:32:46 -0400
+Received: from mail-mw2nam12on2051.outbound.protection.outlook.com
+ ([40.107.244.51]:45063 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcqA9-0002DC-5i; Tue, 19 Oct 2021 10:32:25 -0400
+ id 1mcqAT-0003Yk-KW; Tue, 19 Oct 2021 10:32:43 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=At+VZ8wNcAmXGrVmQO/O6bS/AIlqOhK3MRCSE4UHeLeSOigIdKBGW/uKDXW1K6lhpsztK853025f7UbF3Tj5fCJVNWwhoA9rcN1ci8Il2l/YNDeJLNKoT3+lVsJVcytvScI/Qi52fPMYODg+muqZOz8sLObHZsVCf1T9XkYtKT78YIFBBFxixPJ8MI4QpY4I14T9b5+i0vfHxz5nrdNmUTlu3RrtwavUG7U9a6hiBxuDsGMbLU8kHO1IAlCtmlDEPe5OCg/wOM2jrw/9N0s0+Qr9BD9c8Gehe+0C7NB5CNXswsnlJlfWlqaInR1BBhS2rsl+1B0pHABTDMn4Kgxogg==
+ b=FPhWdT1h7cv9+Ki+OgJLJEGGwT4+gzy4/dejxtl0ZVXVLWRz//hA4RZ5aDi9bfvFj94i5hP0vw2N27eVuH52q28i87zPEpXuwAYr/E821DDXrq6dbz+9XAdSnPJ/eCu2ken6r8g/c35qhV1iq413aZTSPrgO566oL0SHKdLt71mIlHgMcRgX50zP/k4moxDvylMfJUWgC+kVZeMGdU6HdkjmPrCQIHBWuA2CUo21y1+DRcVHaBLlyb1HOQEPFaZhjJ0hESSpPsklfiwzMHyj0GCPlSgvl4qSEIt3mq+XUvEQiFOwiiyIilZtpT8SqnRHl1R2Pa119G7c34PVbTNG1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jSI4HZaHBOcAjDAqOqUwKpf3VV+6TPKcrPPU80jFBUM=;
- b=bu75DmRQAyTwOGueJUG7ISuVQK4H1MqmYSgC1Bz29eJgcZRJ4I7tG6EssNIYRROcH01PmL5Nkh0NwHLLxqlANVpB8lb9rc3yVcAl/dn5uhG0d1VvIeIusZIkH0gWLICJwAasbPQjePSeytkYVYzJjRQOrg0WuN3ShPmH8y7+f55uTulbVw/BMmA3+FSwPrUdrWCsASYJlyuf5MgT3hjGJquO6Eg5T15uDMpTAlxiI8eCKi8Ga6Tnpu+PRDCJEO+MtlOlO55jppkH5fIC7HVyOlPzHyLtDTPDmvRY3lb3/RQ9TiazvtF9l+VF68k8zJqzFnyUJAjBtYWQ+l9EDEeRzw==
+ bh=BrL4aylYH3ae4cuUcay6KWZpjG+ZdRB5xVMOqFoqJpc=;
+ b=Cs2NA8mycAxCmrzj7/47jmBaNrrFxCaqSsuLJWem5rD5GcgrdtzV/ooGfCRHG8f9cgYz/0/J7IWUyttlmWWvZjcUFUaiayyegMOY6IErrk5afGlxUtxirdMhstDrANqtQNqt+BebSkKCtZwlVFJ7vNEylqQr/0L6nMckVHAQqlNb6yLA7zEQQApJEee8HSgA7Xs1x9kdKw+Rf9lFUiIh7T/GgVj7MCS1a1CZRNW6Z+5JfJEqh5UkmwOzwz3crtUdtri5D8wvHwvwVTlObxkfiw7+2WLwdxCeWIF1cgSJ4MNf1YR1E5HNz/yTItiKaJ8JHWXYrQUneGpNz7uSHAyBNg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jSI4HZaHBOcAjDAqOqUwKpf3VV+6TPKcrPPU80jFBUM=;
- b=Jm0q7LdNjM5K02GChZbMoBgiiJhN2VT0qgQ3M0vPsYqQZfvv8KMoCDCJJEGKpHD0Cv6evO/f7fxdmr48IkzDvVCdy5MDdf59y9YK2mceVT4AnSaLpSJpDh0rj1ElpoHlNIA70miZagutxcYif1xxKABEiE/VuTH5a7MnHz87i54=
-Received: from DM5PR20CA0038.namprd20.prod.outlook.com (2603:10b6:3:13d::24)
- by MW2PR12MB4681.namprd12.prod.outlook.com (2603:10b6:302:12::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.18; Tue, 19 Oct
- 2021 14:32:16 +0000
-Received: from DM6NAM11FT041.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:13d::4) by DM5PR20CA0038.outlook.office365.com
- (2603:10b6:3:13d::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.15 via Frontend
- Transport; Tue, 19 Oct 2021 14:32:16 +0000
+ bh=BrL4aylYH3ae4cuUcay6KWZpjG+ZdRB5xVMOqFoqJpc=;
+ b=odawLzVqNb9iC0PmHcUACt0CK9ODWwDYvEER3Qpy4bfimpcOr9wTxUZKDTouuWQx0Rd8sjqUfg0sUWpYu4/K06BxDwbeoZkq/zSyEhcFTCWlq5uKLPJN0oSwPNU0pE9uxeGdh05/iRpm67fSvoCap8lCIvVRykRWTbQWj8UAEoU=
+Received: from DM5PR13CA0022.namprd13.prod.outlook.com (2603:10b6:3:23::32) by
+ DM5PR12MB1323.namprd12.prod.outlook.com (2603:10b6:3:75::12) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4608.16; Tue, 19 Oct 2021 14:32:36 +0000
+Received: from DM6NAM11FT056.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:23:cafe::c5) by DM5PR13CA0022.outlook.office365.com
+ (2603:10b6:3:23::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.10 via Frontend
+ Transport; Tue, 19 Oct 2021 14:32:36 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=pass action=none header.from=amd.com;
@@ -50,57 +50,55 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT041.mail.protection.outlook.com (10.13.172.98) with Microsoft SMTP
+ DM6NAM11FT056.mail.protection.outlook.com (10.13.173.99) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:32:15 +0000
+ 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:32:36 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 19 Oct
- 2021 09:32:12 -0500
+ 2021 09:32:33 -0500
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH 53/64] usb/redir: avoid dynamic stack allocation
- (CVE-2021-3527)
-Date: Tue, 19 Oct 2021 09:09:33 -0500
-Message-ID: <20211019140944.152419-54-michael.roth@amd.com>
+CC: <qemu-stable@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH 54/64] usb: limit combined packets to 1 MiB (CVE-2021-3527)
+Date: Tue, 19 Oct 2021 09:09:34 -0500
+Message-ID: <20211019140944.152419-55-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211019140944.152419-1-michael.roth@amd.com>
 References: <20211019140944.152419-1-michael.roth@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
 X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6ec3fc3a-5e29-4436-8383-08d9930d3f5e
-X-MS-TrafficTypeDiagnostic: MW2PR12MB4681:
-X-Microsoft-Antispam-PRVS: <MW2PR12MB4681E1708A28F1EF1646B25395BD9@MW2PR12MB4681.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:454;
+X-MS-Office365-Filtering-Correlation-Id: 86984d3a-dd4b-48b0-3a3c-08d9930d4be2
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1323:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB132397496958AF322A0D5F9B95BD9@DM5PR12MB1323.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:901;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UTFkxxBB7H050vaPsazJPXxs1K6PEypQwjVYJ8c/fv5DpXw87rJ0FUKLfgudcTJrgbCTC+yEQN1XTPfcrTNEaBZN8cW/QdK+vydfoDkijrxclCHSX5ySstkUC7TUw9MkZn3Mb8xAeKDqvBa5W2L1EBsyuneEkgS6BZaYzRkW0Xnqe7NgYssowarBOyqkEMmNKx99cRtuZdYOzWAsnWcvXEUFiu0BsKCCiucJzlctUqLng0fMg9Ic8ODLVpbsmKmmia2qUHqPGoIuai/zdGnVHpgbHV/bKBuSLcbbWwM+fl1XmsU0dXNsaYwyc5ieK051i/DDRXmKWpyWCg7bQVST10XDui9vUytMn8GqBqW+m/evn/O3DD9634xGK5xSkBlWDpheulJFF1CbEW9D5oleXNWAZPYfDKL0O32biwSlJoqkZ8P9n7/nMjhzC7y8xjOlSdcrarZUHTZupRnNyzakkZHUAmH06FAhVRynqhW5V3uPtOGH9JdV14JzKnbs3K+3/lDw5YRo1GyTr18KxCEIsKy96UGRZXOswvDQkXl2SPXBjWbF9nbELQ3MTkhqL5S+038ZvngFGjx6jv7cv54F8XYD+PT2ZBZMoJ6H/xQUO4ItVheAD8N1jIVun6Y+v7UicaQPlXgPiHR4R3/beQ+qxva26TwQwqlwy5BlrPv7jI619rrcnnuo2gzfViVVcbyOeNi9XAi5KhWK+86T9WSyZnzyb1Cay39vx9RPrBFA/TU=
+X-Microsoft-Antispam-Message-Info: p5XkSiKyDXHX0IVHML150tvNKHJYhVJKK03GhuxywJn3RutvDpMdTT/JkQy2KNV0ObCfNrwma0eNUs54/BzM0xEpQqiZkvqcI37KI20aslhABaMEMUyEGXDvANNCNoHMPRDKJCnivdJ9Gm/GPCWOPfjcUdf7/pd/A+0zLfqKBoh/oQyGqxWK8TfU3YrnQaqJLS4wVzmUTANYRTZGn/1p5O1GdVKFUWXYD9S67LGEcyK6peIMraQiqSpoW9+IVHNpzYddqtaG+pUt2fQVm+L+Uvc/AuoSV2U8GH9LGvY3Qt0Pbv+zk94cFX3W2/uaLEjZC412b2uQC6KkIXewuhS2iMWF7yn4pyLd46/cOxlBtt8z2iEUWsT6IkBOQx5FwwFUAj9on59u6VMFtLI2AeFfPPsd6RcDace4Bbu+NbhTb3Z8Jw6ZpmcZ4m6BZ1sW0O5SFhSBGJwzrOBYAMSAzeAtkUBn9HfEI88nTNMz6BzCHuQdoak1BHNbgFjna6r5RIOvPGvEzp9HjfuDAIUN1fvCb5NV0Z/ToNBkAXGf2CcS6Oafhy2SnCLrK2YimO8EBr2el7ggUlk9gLnxDkOBPcjxHBrd7I6dCr+rd+5U8buCxYJlHS7tMWJz7NDz+LliYneVC+DI4D7DjtSjQ0gHa07C16I8BF/ji2d0oQW4pm+1yIrO1NCQa7LzzrNFXXjO2jKjmlypv2n2egjALOfGc0zyAQ5Z7BLC4U3/OX+IsnleQLo=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(26005)(36860700001)(81166007)(8676002)(6666004)(86362001)(316002)(70206006)(336012)(5660300002)(44832011)(16526019)(508600001)(82310400003)(8936002)(2616005)(356005)(426003)(36756003)(6916009)(186003)(2906002)(1076003)(83380400001)(54906003)(4326008)(47076005)(70586007)(36900700001);
+ SFS:(4636009)(46966006)(36840700001)(1076003)(36860700001)(8936002)(54906003)(8676002)(336012)(70586007)(70206006)(508600001)(2906002)(426003)(2616005)(316002)(86362001)(186003)(5660300002)(4326008)(47076005)(82310400003)(44832011)(356005)(16526019)(6916009)(36756003)(26005)(83380400001)(81166007)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:32:15.5662 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ec3fc3a-5e29-4436-8383-08d9930d3f5e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:32:36.5791 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86984d3a-dd4b-48b0-3a3c-08d9930d4be2
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT041.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT056.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB4681
-Received-SPF: softfail client-ip=40.107.243.76;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1323
+Received-SPF: softfail client-ip=40.107.244.51;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -125,50 +123,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Use autofree heap allocation instead.
+usb-host and usb-redirect try to batch bulk transfers by combining many
+small usb packets into a single, large transfer request, to reduce the
+overhead and improve performance.
 
-Fixes: 4f4321c11ff ("usb: use iovecs in USBPacket")
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+This patch adds a size limit of 1 MiB for those combined packets to
+restrict the host resources the guest can bind that way.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210503132915.2335822-3-kraxel@redhat.com>
-(cherry picked from commit 7ec54f9eb62b5d177e30eb8b1cad795a5f8d8986)
+Message-Id: <20210503132915.2335822-6-kraxel@redhat.com>
+(cherry picked from commit 05a40b172e4d691371534828078be47e7fff524c)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- hw/usb/redirect.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/usb/combined-packet.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index 17f06f3417..6a75b0dc4a 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -620,7 +620,7 @@ static void usbredir_handle_iso_data(USBRedirDevice *dev, USBPacket *p,
-                 .endpoint = ep,
-                 .length = p->iov.size
-             };
--            uint8_t buf[p->iov.size];
-+            g_autofree uint8_t *buf = g_malloc(p->iov.size);
-             /* No id, we look at the ep when receiving a status back */
-             usb_packet_copy(p, buf, p->iov.size);
-             usbredirparser_send_iso_packet(dev->parser, 0, &iso_packet,
-@@ -818,7 +818,7 @@ static void usbredir_handle_bulk_data(USBRedirDevice *dev, USBPacket *p,
-         usbredirparser_send_bulk_packet(dev->parser, p->id,
-                                         &bulk_packet, NULL, 0);
-     } else {
--        uint8_t buf[size];
-+        g_autofree uint8_t *buf = g_malloc(size);
-         usb_packet_copy(p, buf, size);
-         usbredir_log_data(dev, "bulk data out:", buf, size);
-         usbredirparser_send_bulk_packet(dev->parser, p->id,
-@@ -923,7 +923,7 @@ static void usbredir_handle_interrupt_out_data(USBRedirDevice *dev,
-                                                USBPacket *p, uint8_t ep)
- {
-     struct usb_redir_interrupt_packet_header interrupt_packet;
--    uint8_t buf[p->iov.size];
-+    g_autofree uint8_t *buf = g_malloc(p->iov.size);
- 
-     DPRINTF("interrupt-out ep %02X len %zd id %"PRIu64"\n", ep,
-             p->iov.size, p->id);
+diff --git a/hw/usb/combined-packet.c b/hw/usb/combined-packet.c
+index 5d57e883dc..e56802f89a 100644
+--- a/hw/usb/combined-packet.c
++++ b/hw/usb/combined-packet.c
+@@ -171,7 +171,9 @@ void usb_ep_combine_input_packets(USBEndpoint *ep)
+         if ((p->iov.size % ep->max_packet_size) != 0 || !p->short_not_ok ||
+                 next == NULL ||
+                 /* Work around for Linux usbfs bulk splitting + migration */
+-                (totalsize == (16 * KiB - 36) && p->int_req)) {
++                (totalsize == (16 * KiB - 36) && p->int_req) ||
++                /* Next package may grow combined package over 1MiB */
++                totalsize > 1 * MiB - ep->max_packet_size) {
+             usb_device_handle_data(ep->dev, first);
+             assert(first->status == USB_RET_ASYNC);
+             if (first->combined) {
 -- 
 2.25.1
 
