@@ -2,88 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE77432EDC
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 09:04:00 +0200 (CEST)
-Received: from localhost ([::1]:38984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17134432EE5
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 09:04:27 +0200 (CEST)
+Received: from localhost ([::1]:39964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcjAE-0000bj-17
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 03:03:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49306)
+	id 1mcjAg-0001HC-79
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 03:04:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcj4C-00023o-GV
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:57:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29963)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcj4A-00029j-5A
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:57:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634626661;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YHby0sdQY6z1gQFtLJJUYEUATtI3tIOfsAAHNxeZhD4=;
- b=HQEEf7qpXZDy5oIhnN9sW18vs/qSjZDV77dsZD40BASF1vFQC39RkiR+Fgv1CnMcKvehvw
- iE1iaweqqdzTfov0QcMaNq5vUk+/gbXmLnY2A/qzBKX8wRbAVJv9nIGsq7d8Zy+WZKWEGE
- GaZje85SIGHPywJ4axF78W4rGLDm4lM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-F0gEeIhkOceOzeVrApJ9cw-1; Tue, 19 Oct 2021 02:57:40 -0400
-X-MC-Unique: F0gEeIhkOceOzeVrApJ9cw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- r16-20020adfbb10000000b00160958ed8acso9712443wrg.16
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 23:57:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1mcj9J-00082I-Ux; Tue, 19 Oct 2021 03:03:01 -0400
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:41542)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1mcj9I-000169-B0; Tue, 19 Oct 2021 03:03:01 -0400
+Received: by mail-lf1-x134.google.com with SMTP id u21so5238416lff.8;
+ Tue, 19 Oct 2021 00:02:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GSKLXvZvL2/MxJBWWyOuBI4DqH3VyR3gjpsr+SL5eB0=;
+ b=PIPiFH4r7PuuEZRv6Mw+qRP+G5WOYAOleFlPGxFu6xt0b3HrsBOT+6CjbH2R8u8Mrs
+ HCN8ywaTme/mkkOh20KQcIPMnlL8tu2lQom99IgIfiVoDbA1I0MciGC+rhDroe7TfNQy
+ b8kAQuNnOrvXH59IXIMoMFppeemmTDkbQTEhh9sMwJI94VhDfpq+31at1iTXNLjC2+PX
+ TJ9MWJPxGow+9s8R3fvoqPtupMgK5ieyp29PRBx5pvfJlmvmC8ZzNmU/m9cOp/gP7+hX
+ tkWNP10xpGOnwkvnRIhnCZ8obiVGGBLNwR8VEwL2WLFKGFhgYgAbVzqdm9fgJ9EbmpPm
+ dY4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=YHby0sdQY6z1gQFtLJJUYEUATtI3tIOfsAAHNxeZhD4=;
- b=WP047lAaqA/zWxGiVE0kbwvQOyiWnD5AvWJAnbkN4EAUtTTByEnseFSF0leTqO/Klq
- GcGpO/dtNPxabXw8DSu8gjg2GpaCJYMP3pJ57Kpkpv+uzRzSoYtfe5LgU/1tOiRhTv06
- 80hXLn+gL8K14p7lQNz8Y926LFIiNS5hnTTCyBMEGzRoRkyiXFCXy5B9XX1NUA+QoD6A
- KiMh1UIdcXbDMLfBsn79r/+pjjFy/ZcGbUz8uZmuMRZxWBnhaeLECik/0SYZAHI85nNz
- +/4BGYob3Pu7KOYOEX45S/FbYVEB83sFEm1/4ilpojkja0XYAQn7m5aDyLSoo0NQ6Nsd
- w0Pg==
-X-Gm-Message-State: AOAM533jzfYQDTAlqAHOz1H5WsyFinoo7ZX5nTRCYyOXraCF4TaC4Pa/
- aY0Lri/xaIAR9Diq5ph5t71hNFTpxLBsLPEdfHRTVdRY4IaNSwi21wbLzH5TkUug0io+ZGisNUy
- eQ16bDXsfA8PGPRY=
-X-Received: by 2002:adf:a347:: with SMTP id d7mr43206784wrb.139.1634626659160; 
- Mon, 18 Oct 2021 23:57:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxPcKN+k9WB1r/il4sWCLc1uhDlw7LOqPWoFiKlnHFgz6OmD0m/37xiRGcx6EOlTJA4iPFmeQ==
-X-Received: by 2002:adf:a347:: with SMTP id d7mr43206777wrb.139.1634626659008; 
- Mon, 18 Oct 2021 23:57:39 -0700 (PDT)
-Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id f184sm1382288wmf.22.2021.10.18.23.57.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 23:57:38 -0700 (PDT)
-Date: Tue, 19 Oct 2021 02:57:35 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Xueming(Steven) Li" <xuemingl@nvidia.com>
-Subject: Re: [PATCH v3 1/2] vhost-user: fix VirtQ notifier cleanup
-Message-ID: <20211019025722-mutt-send-email-mst@kernel.org>
-References: <20211008075805.589644-1-xuemingl@nvidia.com>
- <20211008075805.589644-2-xuemingl@nvidia.com>
- <20211019021457-mutt-send-email-mst@kernel.org>
- <4a1739ac3cdb895e41f7554865d5e1df4d70658c.camel@nvidia.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GSKLXvZvL2/MxJBWWyOuBI4DqH3VyR3gjpsr+SL5eB0=;
+ b=CBkMKYSiPQResue1mOe2jey1ibU0qLsEfwFkTjzrwNeVi6OdCbE0G2oTsMuSmRs+1D
+ 9XstZ8lohh4G3EgYFn4GiIqH58EdEj75erhBACHIHDSqCpX7gVAsPgQasD2MTkLvWP1l
+ c58CnJbJlupIm592F1ffl0F0XJoFfHU5SaVbuixGSBewGHL/H5/VwNzlfagZvSfwe5uq
+ JmIGJ+KdHrvUcUgLAec15Xx3Lcd65bvfp2Q3BYUQKHhVid90T2BYCYTvvYmkvrbDTL4b
+ Wz1ajmZ5vqcDK5ng9THce8T+ch+lteNMJ27DolGj4EJ4mG2x2AdWD/B5yimWR79Rdy6i
+ iPzA==
+X-Gm-Message-State: AOAM532PwyALp1HYYi+KhCTUfXx/sI3KMgvc1zI2PNxxwyHPpVvvzuaY
+ vEkXpQONxcCTjXvKUJu88/46Szzam0armum94Ew=
+X-Google-Smtp-Source: ABdhPJwP09R9jNT2M3OtRNZs4fr6LNf6PTzAjqDkJzyINj48kM2RCc85NG5ZVYMw+Ed9e383sA57E3owX1acOIkiCpw=
+X-Received: by 2002:a05:6512:c3:: with SMTP id
+ c3mr4578900lfp.409.1634626977411; 
+ Tue, 19 Oct 2021 00:02:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <4a1739ac3cdb895e41f7554865d5e1df4d70658c.camel@nvidia.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20211017172728.759687-1-space.monkey.delivers@gmail.com>
+ <20211017172728.759687-5-space.monkey.delivers@gmail.com>
+ <CAKmqyKPDfYan+czM+1AnJ7+gyjZAKDobxDvJ40R8Sor0FH4HNw@mail.gmail.com>
+In-Reply-To: <CAKmqyKPDfYan+czM+1AnJ7+gyjZAKDobxDvJ40R8Sor0FH4HNw@mail.gmail.com>
+From: Alexey Baturo <baturo.alexey@gmail.com>
+Date: Tue, 19 Oct 2021 10:02:46 +0300
+Message-ID: <CAFukJ-AogZ-cN9XUowC1VcgAfsbN_ZqZ98UPvJ7=0Tq1DPCEKQ@mail.gmail.com>
+Subject: Re: [PATCH v14 4/8] [RISCV_PM] Add J extension state description
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000054353905ceaf4085"
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=baturo.alexey@gmail.com; helo=mail-lf1-x134.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,106 +77,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "zhangyuwei.9149@bytedance.com" <zhangyuwei.9149@bytedance.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "tiwei.bie@intel.com" <tiwei.bie@intel.com>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "space.monkey.delivers@gmail.com" <space.monkey.delivers@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Dave Smith <kupokupokupopo@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 19, 2021 at 06:45:19AM +0000, Xueming(Steven) Li wrote:
-> On Tue, 2021-10-19 at 02:15 -0400, Michael S. Tsirkin wrote:
-> > On Fri, Oct 08, 2021 at 03:58:04PM +0800, Xueming Li wrote:
-> > > When vhost-user device cleanup and unmmap notifier address, VM cpu
-> > > thread that writing the notifier failed with accessing invalid address.
-> > > 
-> > > To avoid this concurrent issue, wait memory flatview update by draining
-> > > rcu callbacks, then unmap notifiers.
-> > > 
-> > > Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
-> > > Cc: tiwei.bie@intel.com
-> > > Cc: qemu-stable@nongnu.org
-> > > Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
-> > > Signed-off-by: Xueming Li <xuemingl@nvidia.com>
-> > > ---
-> > >  hw/virtio/vhost-user.c | 21 ++++++++++++++-------
-> > >  1 file changed, 14 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> > > index bf6e50223c..b2e948bdc7 100644
-> > > --- a/hw/virtio/vhost-user.c
-> > > +++ b/hw/virtio/vhost-user.c
-> > > @@ -1165,6 +1165,12 @@ static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
-> > >  
-> > >      if (n->addr && n->set) {
-> > >          virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
-> > > +        if (!qemu_in_vcpu_thread()) { /* Avoid vCPU dead lock. */
-> > > +            /* Wait for VM threads accessing old flatview which contains notifier. */
-> > > +            drain_call_rcu();
-> > > +        }
-> > > +        munmap(n->addr, qemu_real_host_page_size);
-> > > +        n->addr = NULL;
-> > >          n->set = false;
-> > >      }
-> > >  }
-> > 
-> > 
-> > ../hw/virtio/vhost-user.c: In function ‘vhost_user_host_notifier_remove’:
-> > ../hw/virtio/vhost-user.c:1168:14: error: implicit declaration of function ‘qemu_in_vcpu_thread’ [-Werror=implicit-function-declaration]
-> >  1168 |         if (!qemu_in_vcpu_thread()) { /* Avoid vCPU dead lock. */
-> >       |              ^~~~~~~~~~~~~~~~~~~
-> > ../hw/virtio/vhost-user.c:1168:14: error: nested extern declaration of ‘qemu_in_vcpu_thread’ [-Werror=nested-externs]
-> > cc1: all warnings being treated as errors
-> > ninja: build stopped: subcommand failed.
-> > make[1]: *** [Makefile:162: run-ninja] Error 1
-> > make[1]: Leaving directory '/scm/qemu/build'
-> > make: *** [GNUmakefile:11: all] Error 2
-> > 
-> > 
-> > Although the following patch fixes it, bisect is broken.
-> 
-> Yes, really an issue, v4 posted, thanks!
+--00000000000054353905ceaf4085
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Pls address the comment on 2/2 too.
+Sure, will fix that.
+Thanks
 
-> > 
-> > 
-> > > @@ -1502,12 +1508,7 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
-> > >  
-> > >      n = &user->notifier[queue_idx];
-> > >  
-> > > -    if (n->addr) {
-> > > -        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
-> > > -        object_unparent(OBJECT(&n->mr));
-> > > -        munmap(n->addr, page_size);
-> > > -        n->addr = NULL;
-> > > -    }
-> > > +    vhost_user_host_notifier_remove(dev, queue_idx);
-> > >  
-> > >      if (area->u64 & VHOST_USER_VRING_NOFD_MASK) {
-> > >          return 0;
-> > > @@ -2485,11 +2486,17 @@ void vhost_user_cleanup(VhostUserState *user)
-> > >      for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-> > >          if (user->notifier[i].addr) {
-> > >              object_unparent(OBJECT(&user->notifier[i].mr));
-> > > +        }
-> > > +    }
-> > > +    memory_region_transaction_commit();
-> > > +    /* Wait for VM threads accessing old flatview which contains notifier. */
-> > > +    drain_call_rcu();
-> > > +    for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-> > > +        if (user->notifier[i].addr) {
-> > >              munmap(user->notifier[i].addr, qemu_real_host_page_size);
-> > >              user->notifier[i].addr = NULL;
-> > >          }
-> > >      }
-> > > -    memory_region_transaction_commit();
-> > >      user->chr = NULL;
-> > >  }
-> > >  
-> > > -- 
-> > > 2.33.0
-> > 
-> 
+=D0=B2=D1=82, 19 =D0=BE=D0=BA=D1=82. 2021 =D0=B3. =D0=B2 09:53, Alistair Fr=
+ancis <alistair23@gmail.com>:
 
+> On Mon, Oct 18, 2021 at 3:36 AM Alexey Baturo <baturo.alexey@gmail.com>
+> wrote:
+> >
+> > Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
+> > ---
+> >  target/riscv/machine.c | 27 +++++++++++++++++++++++++++
+> >  1 file changed, 27 insertions(+)
+> >
+> > diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> > index 16a08302da..4d99880797 100644
+> > --- a/target/riscv/machine.c
+> > +++ b/target/riscv/machine.c
+> > @@ -84,6 +84,14 @@ static bool vector_needed(void *opaque)
+> >      return riscv_has_ext(env, RVV);
+> >  }
+> >
+> > +static bool pointermasking_needed(void *opaque)
+> > +{
+> > +    RISCVCPU *cpu =3D opaque;
+> > +    CPURISCVState *env =3D &cpu->env;
+> > +
+> > +    return riscv_has_ext(env, RVJ);
+> > +}
+> > +
+> >  static const VMStateDescription vmstate_vector =3D {
+> >      .name =3D "cpu/vector",
+> >      .version_id =3D 1,
+> > @@ -138,6 +146,24 @@ static const VMStateDescription vmstate_hyper =3D =
+{
+> >      }
+> >  };
+> >
+> > +static const VMStateDescription vmstate_pointermasking =3D {
+> > +    .name =3D "cpu/pm",
+>
+> Can we write "cpu/pointer_masking"? pm sounds like power management
+>
+> Alistair
+>
+
+--00000000000054353905ceaf4085
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Sure, will fix that.<div>Thanks</div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=D0=B2=D1=82, 19 =D0=
+=BE=D0=BA=D1=82. 2021 =D0=B3. =D0=B2 09:53, Alistair Francis &lt;<a href=3D=
+"mailto:alistair23@gmail.com">alistair23@gmail.com</a>&gt;:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">On Mon, Oct 18, 2021 at 3:36 AM=
+ Alexey Baturo &lt;<a href=3D"mailto:baturo.alexey@gmail.com" target=3D"_bl=
+ank">baturo.alexey@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Signed-off-by: Alexey Baturo &lt;<a href=3D"mailto:space.monkey.delive=
+rs@gmail.com" target=3D"_blank">space.monkey.delivers@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 target/riscv/machine.c | 27 +++++++++++++++++++++++++++<br>
+&gt;=C2=A0 1 file changed, 27 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/target/riscv/machine.c b/target/riscv/machine.c<br>
+&gt; index 16a08302da..4d99880797 100644<br>
+&gt; --- a/target/riscv/machine.c<br>
+&gt; +++ b/target/riscv/machine.c<br>
+&gt; @@ -84,6 +84,14 @@ static bool vector_needed(void *opaque)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return riscv_has_ext(env, RVV);<br>
+&gt;=C2=A0 }<br>
+&gt;<br>
+&gt; +static bool pointermasking_needed(void *opaque)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 RISCVCPU *cpu =3D opaque;<br>
+&gt; +=C2=A0 =C2=A0 CPURISCVState *env =3D &amp;cpu-&gt;env;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return riscv_has_ext(env, RVJ);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 static const VMStateDescription vmstate_vector =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 .name =3D &quot;cpu/vector&quot;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 .version_id =3D 1,<br>
+&gt; @@ -138,6 +146,24 @@ static const VMStateDescription vmstate_hyper =3D=
+ {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 };<br>
+&gt;<br>
+&gt; +static const VMStateDescription vmstate_pointermasking =3D {<br>
+&gt; +=C2=A0 =C2=A0 .name =3D &quot;cpu/pm&quot;,<br>
+<br>
+Can we write &quot;cpu/pointer_masking&quot;? pm sounds like power manageme=
+nt<br>
+<br>
+Alistair<br>
+</blockquote></div>
+
+--00000000000054353905ceaf4085--
 
