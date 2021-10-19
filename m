@@ -2,104 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5F0433474
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 13:13:40 +0200 (CEST)
-Received: from localhost ([::1]:59386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F7143348E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 13:18:38 +0200 (CEST)
+Received: from localhost ([::1]:36634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcn3n-0001zT-Ji
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 07:13:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48458)
+	id 1mcn8f-0005tw-PH
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 07:18:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mcn1z-000153-W8
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:11:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47696)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcn4L-0003Oo-U2
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:14:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mcn1x-0001Um-WD
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:11:43 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mcn4K-00031O-BS
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:14:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634641901;
+ s=mimecast20190719; t=1634642047;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kiIMsfnbQ+hzHPUcmTpUy4HXPNbe/SIvNc0CR6DEZ0o=;
- b=iSHqVSLuBX9uvVhim8vaFExm4t2zgNVOj7Ps3ylDWxK1mW3Z7IMuLAIh4HgkMKC428V3il
- UVm/P5C5NZlHGkF1LyTW6unyI4TIsAztgQgyB5BV7y1q4M858n9E9TD8baSIl/9Ktk5yjg
- Z/j7wFkRkEoYDO79vaTtB/PDb6fLWWY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-wkq5uNUAN7iVvanq4XtW3w-1; Tue, 19 Oct 2021 07:11:39 -0400
-X-MC-Unique: wkq5uNUAN7iVvanq4XtW3w-1
-Received: by mail-wr1-f69.google.com with SMTP id
- p12-20020adfc38c000000b00160d6a7e293so9977755wrf.18
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 04:11:38 -0700 (PDT)
+ bh=PY1UBN+z0IyXg5lfdapdgy4zMHImy9GZ7yuSsld5Gwo=;
+ b=atXGGw/Qf42Zuh9Par/HMQ0y3Lq21RQf458biUH2vT04WJvKdR/URCefIu6gv/jegLjxsb
+ f8Sdx4ALAwr/7d/I3fIEji0xwkqJmyqCM00IpxsCcbZE0UJlr2Noa1S3PyZydznHi3RP+t
+ TLhbv5sgp93/Q3Z46z8jJGBJ+7nIL9s=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-127-leb4IlhpMnyBpMxxl_MwkA-1; Tue, 19 Oct 2021 07:13:57 -0400
+X-MC-Unique: leb4IlhpMnyBpMxxl_MwkA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ s25-20020a7bc399000000b0030da0f36afeso1029168wmj.1
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 04:13:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=kiIMsfnbQ+hzHPUcmTpUy4HXPNbe/SIvNc0CR6DEZ0o=;
- b=uG8+t20kWuIRg8gDezeY8a2CLMC/0pkEjkyLDsZ9DjYklOYzhr/sGFzCoo6BCRzYDZ
- Q1znlMOB4k2NG75wn5wikIbpnlTAyvDhG78pN/NrXx+qEKdIkKEcyQlRBP16OasMfUfL
- du4Uf3t/njk0GTpvdxMt96lq6UApuTdsa4FMR8yczK45rKemir+8NQ2GwRJ9iDp30CpR
- VCCGmiKk28GRyEGbdySxf3rI8itlbRYst0gmxnvG53XqtWTiHh6SeBnnD9r+OPKV/Y+F
- rMt+MFvjmYQGqnI1eE8jr2vOGTaVDV8Yg5jvQvz2dGFsy/sh/jIaodzPAveUyW4R/4sh
- HaQA==
-X-Gm-Message-State: AOAM533EkN0JrVgNSfVM8H1hcbvsTo1xDjKqbCsBRrTQB3Wl1XfU1gJq
- GD+atWzrJgBpz3Ur4+0QiZEbe8Ltuf50OB+KWQ3JMCom3kqzQcoevTi5yKOltVmHrdnesxJvp03
- /KsLvDBhFCvoJDpM=
-X-Received: by 2002:adf:9bce:: with SMTP id e14mr43115841wrc.353.1634641897729; 
- Tue, 19 Oct 2021 04:11:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzpRTzLa4Uyt4eaw2Z+k9G753cQX2AQtWnCwCc4jXvlR/yS7lstSDQ8ttZhQmzcHvn//rUUaQ==
-X-Received: by 2002:adf:9bce:: with SMTP id e14mr43115796wrc.353.1634641897408; 
- Tue, 19 Oct 2021 04:11:37 -0700 (PDT)
-Received: from thuth.remote.csb (tmo-097-184.customers.d1-online.com.
- [80.187.97.184])
- by smtp.gmail.com with ESMTPSA id o6sm18978319wri.49.2021.10.19.04.11.35
+ bh=PY1UBN+z0IyXg5lfdapdgy4zMHImy9GZ7yuSsld5Gwo=;
+ b=tEGnrKTh91jsc59kprw6HRoPd41qWCBqJlHeC9KJ9CSpJqOz8k/mukv1xbMAfe1c3z
+ Ek5UecsJOiWlohH7uGMEOK8blutxV/ixGFBbwrnFRS6+pNVO+B4SXLfOQmgHLwuVGk0X
+ XtJHu913VvYXyu+Sh5k+BlafBeDbh5a5i5UijkFetLXhlnc/uLGvloei9KdtF1aXXLDp
+ haSXpmGE3srkLZG+hAGpBxl5jfxoH1wa4sDPIauO9wXL4VU23wWqUBZZyQMTBMmNaRBy
+ JcCMcxj2/HkEMBC55AOVhTeTKUXjWctdnritE+wAZkKTj49HJCOjB9jGd/tR+2s74ms+
+ Po2g==
+X-Gm-Message-State: AOAM5320X4vx3bVNM09iE3rEnpJhiTai+4diVeeKRcyhy/A2xWB5CRMC
+ ls1Py6Ppb68Wuv1rYkS6dW31OhWcR5oenguYboyzxvgn3FUk6zxfLmbCO5eeeSeFTO7WAo8TFP7
+ KmGVSD0BTKKsbSJY=
+X-Received: by 2002:a05:600c:4fd3:: with SMTP id
+ o19mr5267245wmq.147.1634642036004; 
+ Tue, 19 Oct 2021 04:13:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxurVvDePB6ObfEDgYD+Q0mqbiMq6SRmWSLWvu1ZlLsi53820I4x4KdOCXLY8Wdm4LauDfoiA==
+X-Received: by 2002:a05:600c:4fd3:: with SMTP id
+ o19mr5267223wmq.147.1634642035849; 
+ Tue, 19 Oct 2021 04:13:55 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-83-53-160.dynamicip.rima-tde.net.
+ [83.53.160.121])
+ by smtp.gmail.com with ESMTPSA id k8sm1272545wms.41.2021.10.19.04.13.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 04:11:36 -0700 (PDT)
-To: BALATON Zoltan <balaton@eik.bme.hu>,
- Christophe Leroy <christophe.leroy@csgroup.eu>
-References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
- <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
- <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
- <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
- <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
- <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
- <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
- <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
- <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
- <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com> <YWQB1FMhQfmqRYxN@yekko>
- <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
- <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
- <8c382ce4-f706-376c-289a-b8c64393decb@redhat.com>
- <880f4bde-19fc-1267-3a04-3d9efd660897@csgroup.eu>
- <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: Deprecate the ppc405 boards in QEMU?
-Message-ID: <be7a734a-b88b-3130-fee8-398387fb65b4@redhat.com>
-Date: Tue, 19 Oct 2021 13:11:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Tue, 19 Oct 2021 04:13:55 -0700 (PDT)
+Message-ID: <7fe8ecee-167a-86a4-5f65-6b08c29194f6@redhat.com>
+Date: Tue, 19 Oct 2021 13:13:53 +0200
 MIME-Version: 1.0
-In-Reply-To: <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v2 4/6] docs: rSTify the "SubmitAPullRequest" wiki
+To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org
+References: <20211019090344.3054300-1-kchamart@redhat.com>
+ <20211019090344.3054300-5-kchamart@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211019090344.3054300-5-kchamart@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,121 +101,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, dbarboza@redhat.com,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
- Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-trivial@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/10/2021 12.07, BALATON Zoltan wrote:
-> On Tue, 19 Oct 2021, Christophe Leroy wrote:
->> Le 19/10/2021 à 11:39, Thomas Huth a écrit :
->>> On 19/10/2021 11.31, Christophe Leroy wrote:
->>>> Le 11/10/2021 à 15:24, Thomas Huth a écrit :
->>>>> On 11/10/2021 11.20, David Gibson wrote:
->>>>>> On Mon, Oct 11, 2021 at 10:10:36AM +0200, Thomas Huth wrote:
->>>>>>> On 06/10/2021 09.25, Thomas Huth wrote:
->>>>>>>> On 05/10/2021 23.53, BALATON Zoltan wrote:
->>>>>>>> [...]
->>>>>>>>> Maybe these 405 boards in QEMU ran with modified firmware where the
->>>>>>>>> memory detection was patched out but it seems to detect the RAM so I
->>>>>>>>> wonder where it gets that from. Maybe by reading the SDRAM
->>>>>>>>> controller DCRs ppc4xx_sdram_init() sets up. Then I'm not sure what
->>>>>>>>> it needs the SPD for, I forgot how this worked on sam460ex. Maybe
->>>>>>>>> for the speed calibration, so could be it detects ram by reading
->>>>>>>>> DCRs then tries to get SPD data and that's where it stops as i2c is
->>>>>>>>> not emulated on taihu. This could be confirmed by checking what it
->>>>>>>>> pokes with -d guest_errors that shows accesses to missing devices
->>>>>>>>> but don't know where 405 has the i2c controller and if it's the same
->>>>>>>>> as newer SoCs. If so that could be reused and an i2c bus could be
->>>>>>>>> added with the SPD data like in sam460ex to make u-boot happy or you
->>>>>>>>> could skip this in u-boot.
->>>>>>>>
->>>>>>>> FWIW, I've just tried the latter (skipping the sdram init in u-boot),
->>>>>>>> and indeed, I can get to the u-boot prompt now.
->>>>>>> [...]> I've also attached the patch with my modifications to u-boot.
->>>>>>>
->>>>>>> FYI, the changes can now be found on this branch here:
->>>>>>>
->>>>>>>   https://gitlab.com/huth/u-boot/-/commits/taihu
->>>>>>>
->>>>>>> I also added a gitlab-CI file, so you can now download the u-boot.bin 
->>>>>>> as an
->>>>>>> artifact from the corresponding pipeline, e.g.:
->>>>>>>
->>>>>>>   https://gitlab.com/huth/u-boot/-/jobs/1667201028
->>>>>>
->>>>>> Thanks.
->>>>>>
->>>>>> Are you going to send a v2 of your proposed deprecation patches?
->>>>>
->>>>> No, since there was interest in keeping the 405 boards for testing the 
->>>>> 405 code in the Linux kernel, and since there is now a way to do at 
->>>>> least some very basic testing of these boards (with the u-boot 
->>>>> firmware), I don't plan to respin the deprecation patch. I just sent a 
->>>>> patch for adding the boards to our CI instead:
->>>>>
->>>>>   https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg02072.html
->>>>>
->>>>
->>>> I have downloaded your u-boot.bin and tried it with both QEMU 5.2.0 and 
->>>> mainline, and I get:
->>>>
->>>> ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: assertion 
->>>> failed: (qemu_mutex_iothread_locked())
->>>> Bail out! ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: 
->>>> assertion failed: (qemu_mutex_iothread_locked())
->>>> Abandon (core dumped)
->>>>
->>>> I see in the mail history that you got that problem as well at some 
->>>> point. How did you fix it ?
->>>
->>> You need this patch here to fix this issue:
->>>
->>>   https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg01019.html
->>>   ("hw/ppc: Fix iothread locking in the 405 code")
->>>
->>
->> Thank you.
->>
->> Is there anything special to do then in order to boot a Linux kernel ?
->>
->> I build the uImage for ppc40x_defconfig
->>
->> I use the following command, but it does nothing, it stays in uboot prompt 
->> as when I don't get a kernel argument
->>
->>     ~/qemu/build/qemu-system-ppc -M taihu -bios 
->> ~/Téléchargements/u-boot.bin -serial null -serial mon:stdio -kernel 
->> arch/powerpc/boot/uImage
+On 10/19/21 11:03, Kashyap Chamarthy wrote:
+> The original wiki is here[1].  I converted by copying the wiki source
+> into a .wiki file and convert to rST using `pandoc`:
 > 
-> I'm not sure using -bios and -kernel together makes sense, it probably 
-> starts u-boot in this case and you have to load and start the kernel from 
-> u-boot as you'd notmally do on a real machine. Alternatively you could use 
-> -kernel instead of -bios which then loads a kernel and starts it directly 
-> but not sure if it needs a firmware to work.
+>     $ pandoc -f Mediawiki -t rst submitting-a-pull-request.wiki \
+>         -o submitting-a-pull-request.rst
 > 
-> Ot I could be completely wrong as I don't know this machine and haven't 
-> tried it.
+> This is a 1-1 conversion; no content changes besides updating the
+> "KeySigningParty" linkt to the rSTified (HTML) page.
+> 
+> [1] https://wiki.qemu.org/Contribute/SubmitAPullRequest
+> 
+> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+> ---
+>  docs/devel/submitting-a-pull-request.rst | 79 ++++++++++++++++++++++++
+>  1 file changed, 79 insertions(+)
+>  create mode 100644 docs/devel/submitting-a-pull-request.rst
 
-Actually, these 405 machines are quite weird. They refuse to boot without 
-bios image, so you currently need the firmware image for sure.
-
-OTOH, when you look at the ref405ep_init() function, it seems that at least 
-the ref405ep machine was once supposed to start a kernel directly:
-
-         env->nip = KERNEL_LOAD_ADDR;
-
-... however, this does not seem to work anymore, the initial NIP is always 
-reset to the firmware entry when the board resets. Not sure if/how this ever 
-used worked ...
-
-  Thomas
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
