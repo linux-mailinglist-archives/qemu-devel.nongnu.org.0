@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC58F433CD1
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:54:53 +0200 (CEST)
-Received: from localhost ([::1]:52448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3212B433C26
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:29:33 +0200 (CEST)
+Received: from localhost ([::1]:40578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcsO3-0007iW-Ec
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:54:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34098)
+	id 1mcrzW-0003V3-Vs
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcrY3-00063c-0w
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:01:07 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:38456)
+ id 1mcrgH-00037r-N3
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:09:37 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:41756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcrY0-0001t4-W8
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:01:06 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- g13-20020a17090a3c8d00b00196286963b9so202061pjc.3
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 09:01:04 -0700 (PDT)
+ id 1mcrgD-0005iE-E4
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:09:37 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id t184so6819944pgd.8
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 09:09:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ItzDsHy/eoRICmTkA+53DaMcDAISZdVlQOWPPy0w1Y0=;
- b=YXI3gGZ9a/GQco87pVZlDMNLfNHGU5w8wBPXu511ZZsJeVdIWuc/J5ywxTSW9fJNBA
- eata2DFAFXkOPngeylOZtyKjbbLYvI9bOQKjG1QrSX8tgm53yx5lNfXNpf6kX0kW0SB3
- bnS9xM4Y62mo8QpR17y7slcHCZGm1ulBfSjmOIT9k7A4O7ISSZOsvWV3KUixiWepEHVM
- 9Zc+HMAxzldl/ql8Iuo7a9uk8XtSKs6gPRiPiXEgOyjSDmaJrrDRJZ88cGuqGP9b6s0s
- bgjNw9t4nM3iJgN25bZNK8p7LPCr+zp+2sfoWEPm8N5XTlq/0NE1oBibvbJubZPaf26A
- TOew==
+ bh=BmHhT6Eu1siEcsobY7Jr9GLQmBv2VeVAvYC4nxhtsPs=;
+ b=NpOQTZCNGE9Z41MZx0qLDWI1d0GqG1FlYWdxcmRPgkrNMDt3AIa/ve/lOSwi22Tt8r
+ A1fHsGY+3kA/YvbGrqX7gcoaPzXORlyRtrZEBny8Xzwb+o43f436hb1M95ZKtuLVMnvz
+ 0x3IbsNwrz2hpgkA0AEMw4IEiNLqhcBIsU6mGPw5cqqVLZPZufY3GEpZqsnE3XtNK5DI
+ NsP8CT7VJhcoP04rduNQeyKpyMi2IcZI+aQmUXYTd00XafsPKqS5sA4O6d2F3h0oKUFu
+ 6NZoncw1LY5WKbRSNZCyHGcW8aRUuGRL5U1DW4GPKRd3ls9qd2Km/cgXNZET38vcWmwh
+ GQUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ItzDsHy/eoRICmTkA+53DaMcDAISZdVlQOWPPy0w1Y0=;
- b=ejpbZhPbn5Bd34RFYN0LAfPyd2qOHvKRHErntaIOktiwqcfg3FFIHcTVRTh5Fz28Hh
- aBGe6bW3OQXJifA/UxxXzPcbozMDC9DieSmPv8u1oXwh3KvCC/HUiKtW4Q165SWMeP57
- 5og0EkhZTJO0d+vfBdTym2etXoJZR4LvD4k3ZcnAmk4XvUGW/Z4f/5r27wj+2nOCc/la
- 38JCxlycZClw5H2x3u4P4NUo9X96Nxins2ovM3yqZ7JiDEHud/evzZ0A0QKuJxbhOBP9
- eMxnv5j/eDbj3qD/UR7cE7DME4j65dYTrcK/6bSvYfKB4Pz4OIF4UHTRH/j+Sfw8swZj
- FzoQ==
-X-Gm-Message-State: AOAM5316qztkhzjv+VNAqShgwgjPP1XKN4xMVKsMh1vlE0eaneM0lNq8
- LCwTfJwdENYORNF4LtuwuS7Dozk5oRtvJw==
-X-Google-Smtp-Source: ABdhPJwz8pmwDDtoiBNV0u2tkeXh6fgClPI9ZmhhYQ15USuzwgKGu1fKtkO0pmHS7BRnw698NWycgA==
-X-Received: by 2002:a17:902:8f8a:b0:13f:9c2c:de84 with SMTP id
- z10-20020a1709028f8a00b0013f9c2cde84mr22595760plo.66.1634659263297; 
- Tue, 19 Oct 2021 09:01:03 -0700 (PDT)
+ bh=BmHhT6Eu1siEcsobY7Jr9GLQmBv2VeVAvYC4nxhtsPs=;
+ b=GzTeh6F+ftSfiTxpStsBurnrLk8ILBtSN6dn1X0hdIG3CUBCC/23/i9G+WY3PSQNP9
+ Y050NmEZ2Hz8+MwH/SNefwFfZmI8orCxR9LfXMxsQLHYxtCpVbT6IYaUmz+N2rNPuYHd
+ Ubnwa6dKBdvakDUzJs9KWvbm2dhQsNv3RsG79kKF5PIIYhU9Mwg5q3Agxyq6JYxqpUrm
+ 2HBxk5vS+DbuX4GAp5gjCsycNwQiQOW8KNGsdM/e3byCTGcE8iHaYBAaMJkoGHCm7XQ7
+ T6MbJ7FsuDDmukyQHFa6o0rxkpR6ZVllN5Qotu72hr88UVo5W2xGLC8CXLie1LtZMlC6
+ EotA==
+X-Gm-Message-State: AOAM5310X+BF+SSZ84TRlDqiDq4QtcxudfFbyjg1prWiyAv6Wsazst9b
+ sY36ovMEEDJBg9uJJmRfQcxbAA==
+X-Google-Smtp-Source: ABdhPJyDvY/sUHYqHhrPfa+utzkPLFtQ/Oo6ljNd9lc4/tuNs7nyEWkmw3iMpDgkxstVprG9LnB+2A==
+X-Received: by 2002:aa7:8243:0:b0:44e:599:bfe8 with SMTP id
+ e3-20020aa78243000000b0044e0599bfe8mr672730pfn.36.1634659771842; 
+ Tue, 19 Oct 2021 09:09:31 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id q13sm17568561pfj.26.2021.10.19.09.01.02
+ by smtp.gmail.com with ESMTPSA id a11sm8638743pfv.11.2021.10.19.09.09.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 09:01:02 -0700 (PDT)
-Subject: Re: [PATCH v2 40/48] tcg/optimize: Expand fold_addsub2_i32 to 64-bit
- ops
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20211007195456.1168070-1-richard.henderson@linaro.org>
- <20211007195456.1168070-41-richard.henderson@linaro.org>
- <87mtn5xbzt.fsf@linaro.org>
+ Tue, 19 Oct 2021 09:09:31 -0700 (PDT)
+Subject: Re: [PATCH v5 0/3] hw/arm/virt_acpi_build: Generate DBG2 table
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ mst@redhat.com, imammedo@redhat.com, philmd@redhat.com,
+ peter.maydell@linaro.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, ardb@kernel.org, drjones@redhat.com
+References: <20211019080037.930641-1-eric.auger@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5f2ec0b9-c496-6af1-384f-53a3a3f990a2@linaro.org>
-Date: Tue, 19 Oct 2021 09:01:01 -0700
+Message-ID: <b1571ebb-5d40-ebb4-04aa-c4701e98b684@linaro.org>
+Date: Tue, 19 Oct 2021 09:09:29 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <87mtn5xbzt.fsf@linaro.org>
+In-Reply-To: <20211019080037.930641-1-eric.auger@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -91,29 +90,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Cc: gshan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 8:34 AM, Alex Bennée wrote:
->    ../../tcg/optimize.c: In function ‘fold_addsub2’:
->    ../../tcg/optimize.c:865:13: error: unknown type name ‘Int128’
->      865 |             Int128 a = int128_make128(al, ah);
->          |             ^~~~~~
->    ../../tcg/optimize.c:865:24: error: implicit declaration of function ‘int128_make128’ [-Werror=implicit-function-declaration]
->      865 |             Int128 a = int128_make128(al, ah);
+On 10/19/21 1:00 AM, Eric Auger wrote:
+> This series generates the ACPI DBG2 table along with machvirt.
+> 
+> The DBG2 specification can be found at
+> https://docs.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-debug-port-table.
+> 
+> DBG2 is mandated by ARM SBBR since its v1.0 release (the rationale
+> behind is Windows requires it on all systems).
+> 
+> The DBG2 is used to describe a debug port, used by the kernel debugger.
+> 
+> The series can be found at:
+> https://github.com/eauger/qemu.git
+> branch: dbg2_v5
+> 
+> History:
+> 
+> v4 -> v5:
+> - added Drew and Igor's R-b on patch 2.
+> 
+> v3 -> v4:
+> - fix revision in header (0)
+> - added Michael's R-b
+> - address 2 minor style issues (Drew, Igor)
+> 
+> v2 -> v3:
+> - addressed all comments from Igor on v2:
+>    patches 2/3 swapped
+>    style adjustments in "hw/arm/virt_acpi_build: Generate DBG2 table"
+>    + more precision on spec references
+> 
+> v1 -> v2:
+> - rebase on top of Igor's series and use acpi_init_table/acpi_table_composed
+>    and build_append_int_noprefix()
 > 
 > 
-> possibly we are just missing:
+> Eric Auger (3):
+>    tests/acpi: Add void table for virt/DBG2 bios-tables-test
+>    hw/arm/virt_acpi_build: Generate DBG2 table
+>    bios-tables-test: Generate reference table for virt/DBG2
 > 
-> #include "qemu/int128.h"
+>   hw/arm/virt-acpi-build.c  |  63 +++++++++++++++++++++++++++++++++++++-
+>   tests/data/acpi/virt/DBG2 | Bin 0 -> 87 bytes
+>   2 files changed, 62 insertions(+), 1 deletion(-)
+>   create mode 100644 tests/data/acpi/virt/DBG2
 
-Ah, this patch set predates a cleanup to tcg_ldst.h.
-Previously we included int128.h in tcg.h.
-
-Will fix.
-
+Thanks, applied to target-arm.next.
 
 r~
+
 
