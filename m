@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505BE432F4D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 09:24:22 +0200 (CEST)
-Received: from localhost ([::1]:41700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90853432F43
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 09:21:31 +0200 (CEST)
+Received: from localhost ([::1]:33382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcjTx-0005EU-BQ
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 03:24:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52248)
+	id 1mcjRA-0007w3-Bq
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 03:21:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mcjLy-00031u-Qb
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:16:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23337)
+ id 1mcjMG-0003EH-KA
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:16:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mcjLw-0004wr-P1
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:16:06 -0400
+ id 1mcjMF-0005J6-13
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 03:16:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634627764;
+ s=mimecast20190719; t=1634627782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1+Vke/DKqMJiOINHIcmDhCeagUoC/h2zRobooVAE83Y=;
- b=NiSYRCMv9v56HmruKMJdYorUNa56GWZt0UtQUU8Vo3uCvRnwD8Qm7ajzEPB81ndPfwIzUl
- Fr1cYJ7ccQow3kDC77n2SD3vmkfrssc9xUGB/1+N31hmfqxtC61Rd0kq5PkQbEhASRzkOw
- naU0cGnUX1NgNXWoyxKbUJHroKfXvvA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KUFoCN50rdSSVjE7HaqIY2uzdyARcugkhlW7pMfuSvk=;
+ b=TlyWtkZ+d8kTiqcp3MBJLHgkUOvfgZqsjHAmxW//wDhhzI9iqEPJrztqOxD9d0z7x/qfqJ
+ I/XRM7A/ZPPzNjBCVj+/J9xkyV1rhGSNQkU59gz4WJcRLShkP7RatqSxO4Yyv/pJM5o+Uu
+ YKKd54kVsAuUw8rOBAKol8q4Mz/KLfw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-lVDN_yCJNJKSbOdEx1npPA-1; Tue, 19 Oct 2021 03:16:00 -0400
-X-MC-Unique: lVDN_yCJNJKSbOdEx1npPA-1
+ us-mta-375-c34XGLrEMrWRNdToy72czQ-1; Tue, 19 Oct 2021 03:16:20 -0400
+X-MC-Unique: c34XGLrEMrWRNdToy72czQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0D1718414A0
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 07:15:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1383B18414A6
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 07:16:20 +0000 (UTC)
 Received: from thinkpad.redhat.com (unknown [10.39.193.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E166260657;
- Tue, 19 Oct 2021 07:15:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 324D469203;
+ Tue, 19 Oct 2021 07:16:00 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] failover: fix a regression introduced by JSON'ification
+Subject: [PATCH 1/2] failover: fix a regression introduced by JSON'ification
  of -device
-Date: Tue, 19 Oct 2021 09:15:30 +0200
-Message-Id: <20211019071532.682717-1-lvivier@redhat.com>
+Date: Tue, 19 Oct 2021 09:15:31 +0200
+Message-Id: <20211019071532.682717-2-lvivier@redhat.com>
+In-Reply-To: <20211019071532.682717-1-lvivier@redhat.com>
+References: <20211019071532.682717-1-lvivier@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,24 +86,80 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin's series "qdev: Add JSON -device" has introduced a regression=0D
-in failover by removing the QemuOpts parameter.=0D
-=0D
-This series fixes that (see PATCH 1) and also makes some cleanup=0D
-in the hide_device function caller to remove the failover specific=0D
-code from qdev_device_add_from_qdict() and clarify the fact that=0D
-a primary device must have an id.=0D
-=0D
-Laurent Vivier (2):=0D
-  failover: fix a regression introduced by JSON'ification of -device=0D
-  qdev/qbus: remove failover specific code=0D
-=0D
- hw/net/virtio-net.c    | 36 +++++++++++++++++++++++++++++-------=0D
- softmmu/qdev-monitor.c | 18 ++++++------------=0D
- 2 files changed, 35 insertions(+), 19 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+The hide_device helper can be called several times for the same
+devices as it shouldn't change any state and should only return an
+information.
+
+But not to rely anymore on QemuOpts we have introduced a new field
+to store the parameters of the device and don't allow to update it
+once it is done.
+
+And as the function is called several times, we ends with:
+
+  warning: Cannot attach more than one primary device to 'virtio0'
+
+That is not only a warning as it prevents to hide the device and breaks
+failover.
+
+Fix that by checking the device id.
+
+Now, we fail only if the virtio-net device is really used by two different
+devices, for instance:
+
+   -device virtio-net-pci,id=virtio0,failover=on,... \
+   -device vfio-pci,id=hostdev0,failover_pair_id=virtio0,... \
+   -device e1000e,id=e1000e0,failover_pair_id=virtio0,... \
+
+will exit with:
+
+  Cannot attach more than one primary device to 'virtio0': 'hostdev0' and 'e1000e0'
+
+Fixes: 259a10dbcb4f ("virtio-net: Store failover primary opts pointer locally")
+Cc: kwolf@redhat.com
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+---
+ hw/net/virtio-net.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
+
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 09e173a55854..83642c85b2e5 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -3304,15 +3304,27 @@ static bool failover_hide_primary_device(DeviceListener *listener,
+         return false;
+     }
+ 
++    /*
++     * The hide helper can be called several times for a given device.
++     * Check there is only one primary for a virtio-net device but
++     * don't duplicate the qdict several times if it's called for the same
++     * device.
++     */
+     if (n->primary_opts) {
+-        error_setg(errp, "Cannot attach more than one primary device to '%s'",
+-                   n->netclient_name);
+-        return false;
++        const char *old, *new;
++        /* devices with failover_pair_id always have an id */
++        old = qdict_get_str(n->primary_opts, "id");
++        new = qdict_get_str(device_opts, "id");
++        if (strcmp(old, new) != 0) {
++            error_setg(errp, "Cannot attach more than one primary device to "
++                       "'%s': '%s' and '%s'", n->netclient_name, old, new);
++            return false;
++        }
++    } else {
++        n->primary_opts = qdict_clone_shallow(device_opts);
++        n->primary_opts_from_json = from_json;
+     }
+ 
+-    n->primary_opts = qdict_clone_shallow(device_opts);
+-    n->primary_opts_from_json = from_json;
+-
+     /* failover_primary_hidden is set during feature negotiation */
+     return qatomic_read(&n->failover_primary_hidden);
+ }
+-- 
+2.31.1
 
 
