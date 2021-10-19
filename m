@@ -2,87 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329C6433242
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:31:58 +0200 (CEST)
-Received: from localhost ([::1]:39732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A18D433241
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:31:57 +0200 (CEST)
+Received: from localhost ([::1]:39602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mclTR-00069A-65
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:31:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54704)
+	id 1mclTQ-00062v-4T
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:31:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mclQr-0003dI-4G
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:29:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26519)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mclQp-0005c9-Ip
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:29:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634635754;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XOX7nqARL3VBZUhOlMwCyMghOR6R49bsh/b43icc/og=;
- b=c5ukPO0a6rUZqlPnGmU6R77xZYnhK7/WCzSl2HDaVhD2Jy5vRFn32pqyfjsUP7BkLyd9+O
- LGCVtQZgtafxmWHKFx7kkpjU/WHjoZxfKWv6i6jeqdIMUIvj0zbhad3ekEzIGh7qqFp7RM
- DMi8h+YBwKeYcP6bWbyBBbtcL51aqrA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-8li7iqUlNIOO3G5OBZXjvg-1; Tue, 19 Oct 2021 05:29:13 -0400
-X-MC-Unique: 8li7iqUlNIOO3G5OBZXjvg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- y142-20020a1c7d94000000b00322f2e380f2so542574wmc.6
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 02:29:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mclQk-0003TU-SW
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:29:10 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37880)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mclQj-0005JW-2P
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:29:10 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ n7-20020a05600c4f8700b00323023159e1so1995814wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 02:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=y/uK1jDKTLkid3j4yaxLUFlZ/3QtXdnoxP/si0rXyn0=;
+ b=nIksu12YCU+A22rKmAMp6UkyTzdHrN2QSVDvdIHGtxzIt5E95d2Sfrekju8CmK37d0
+ vrCWKbImPuALSyK98jZMbC7dxtsHW2GRT1MQqBMLl+iCu4Fne54hrg/MDlPPmjUAWIqR
+ 9bN3qGm/ohLp/L1MSdBG3UMsANc0mF/lsSgBHCg2yvFm6XRMqLkpnNILVRhy1uiKWLn9
+ W6jh4yxWPJ+CbUEbY7uvMTnLpC7hzRC5Rg9+MPWk/0N7LW/geWD2+wZbJn2U+q3GHqrM
+ llfYOh2BdAjJkRB82hmLds+tdhTsUBFyGCQGPYe6dj6fosvHWUQVfxgB7Vy0ja/WR84v
+ 3tyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XOX7nqARL3VBZUhOlMwCyMghOR6R49bsh/b43icc/og=;
- b=Qd6dzp9F5VwaTpo16fr/f27FyVnyiPTohPiUXJyfphnetOMyJSdWmfrkwTYtlQDG8O
- MkXNwuLMUQZpsSTK/+K06/Vej99rppxxda14uXDMoH5SpezLjW4my00At8Cl1ZrompZw
- yZaAOhW3ydwuOyMexq5Fo5uga8n/GBlLPbEj/mHtoUgkavXSJJwrtzfLKIN7B9pQr1Dx
- Im6eh82OmThur1UmbEic9s+P+tkBECnQTz5G5Htux5dfHt891pzlShuImAr/w/8wfrWk
- oX1K5cqMT0+qcU6gvFs9eNP6hp2iMRbt2vogFHR58BUDjsri3ftwGxCe+9Job3zY2yJ5
- /tmg==
-X-Gm-Message-State: AOAM531thkWLA+muOkJicaI9zj+IckQSqIJJluPeG8TXkDv8PEDlp8OS
- /w5HmQisxJ+mbWHTuLZFw3BKwJAhEo7IxtrTpnLbhLjdBDRIx5s4I1qd+Ai+dYfOFeod3Qg8cJW
- zwCNJgU4QbgjaEpUoYILZwbTwPTx66uyRT8+12EBhf1egfXzXIgqF5w1IjZUHUuqqEcg=
-X-Received: by 2002:a5d:58c1:: with SMTP id o1mr25586285wrf.181.1634635751910; 
- Tue, 19 Oct 2021 02:29:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwcgWt6Wy2h78Dt3EjrNXMy3t9CdHC8VdiKtKJKnYlbx1NwV8JODdn0l/WUlpIGetzgSkDHig==
-X-Received: by 2002:a5d:58c1:: with SMTP id o1mr25586249wrf.181.1634635751560; 
- Tue, 19 Oct 2021 02:29:11 -0700 (PDT)
-Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
- [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id k27sm1717984wms.21.2021.10.19.02.29.10
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=y/uK1jDKTLkid3j4yaxLUFlZ/3QtXdnoxP/si0rXyn0=;
+ b=xnTDHQAJ1bx3oZn4WJRW37hlmM5HDsJnRWVa1fvMKcpgdHswV6qUwJSXJBNddAst9u
+ Ro95IA10TTL4ib4a3VbO12D7xYdiXaZl2X3/VGtE05RG/SdS3Y3Y9o4Ab/lhObdMKfxf
+ nMKmlIei75D85fMyBTSZKZAhZJCjZ7JHrOmt2RPVRrnpZc3HdHFAV4xWKNRvHX4IxP8O
+ BZt896UoDak/LxBcVO3x6m0yb2Zg/Nic6HuZUqFYipQbZ20HSJOBXzb/S9KR1CPaRg4k
+ uhMr5OmD4rPC6f9UPCkvjyPDqeRYEsQPDUKD2r9tYMZ1xAQadF30ZIHaLmxNnEPlSRhE
+ Qm+w==
+X-Gm-Message-State: AOAM5336k3oVAgMN+Fv0Dh4f5HFiwbTKQgRRdGAfRReeSXgyXI2TRuq8
+ 9WVqLo4wNss1RbCqAc8JLvKQJg==
+X-Google-Smtp-Source: ABdhPJxnSoDdvTsSZD24kVstNtIEtSB5I1HJLD+CmSqW3rNIfriR8xDCABBNR/8z3XqRAapR5TIyww==
+X-Received: by 2002:a05:600c:2301:: with SMTP id
+ 1mr4788026wmo.125.1634635747463; 
+ Tue, 19 Oct 2021 02:29:07 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s3sm14582497wrm.40.2021.10.19.02.29.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 02:29:11 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
+ Tue, 19 Oct 2021 02:29:06 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B57201FF96;
+ Tue, 19 Oct 2021 10:29:05 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/7] multifd: Implement yank for multifd send side
-Date: Tue, 19 Oct 2021 11:29:01 +0200
-Message-Id: <20211019092907.5255-2-quintela@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211019092907.5255-1-quintela@redhat.com>
-References: <20211019092907.5255-1-quintela@redhat.com>
+Subject: [PATCH v2] chardev: don't exit() straight away on C-a x
+Date: Tue, 19 Oct 2021 10:29:01 +0100
+Message-Id: <20211019092901.1519570-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,72 +86,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Leonardo Bras <leobras@redhat.com>, Juan Quintela <quintela@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Lukas=20J=C3=BCnger?= <lukas.junger@greensocs.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lukas Straub <lukasstraub2@web.de>
+While there are a number of uses in the code-base of the exit(0)
+pattern it gets in the way of clean exit which can do all of it's
+house-keeping. In particular it was reported that you can crash
+plugins this way because TCG can still be running on other threads
+when the atexit callback is called.
 
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Juan Quintela
- <quintela@redhat.com>, Peter Xu <peterx@redhat.com>, Leonardo Bras Soares
- Passos <lsoaresp@redhat.com>
-Date: Wed, 1 Sep 2021 17:58:57 +0200 (1 week, 15 hours, 17 minutes ago)
+Use qmp_quit() instead which takes care of some housekeeping before
+triggering the shutdown.
 
-[[PGP Signed Part:No public key for 35AB0B289C5DB258 created at 2021-09-01T17:58:57+0200 using RSA]]
-When introducing yank functionality in the migration code I forgot
-to cover the multifd send side.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reported-by: Lukas Jünger <lukas.junger@greensocs.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20211018140226.838137-1-alex.bennee@linaro.org>
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Tested-by: Leonardo Bras <leobras@redhat.com>
-Reviewed-by: Leonardo Bras <leobras@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd.h | 2 ++
- migration/multifd.c | 6 +++++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+v2
+  - use qmp_quit instead of direct qemu_system_shutdown_request
+  - g_assert_not_reached() for the stub definition
+---
+ chardev/char-mux.c | 3 ++-
+ stubs/qmp-quit.c   | 8 ++++++++
+ stubs/meson.build  | 1 +
+ 3 files changed, 11 insertions(+), 1 deletion(-)
+ create mode 100644 stubs/qmp-quit.c
 
-diff --git a/migration/multifd.h b/migration/multifd.h
-index 8d6751f5ed..16c4d112d1 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -85,6 +85,8 @@ typedef struct {
-     bool running;
-     /* should this thread finish */
-     bool quit;
-+    /* is the yank function registered */
-+    bool registered_yank;
-     /* thread has work to do */
-     int pending_job;
-     /* array of pages to sent */
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 377da78f5b..5a4f158f3c 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -546,6 +546,9 @@ void multifd_save_cleanup(void)
-         MultiFDSendParams *p = &multifd_send_state->params[i];
-         Error *local_err = NULL;
+diff --git a/chardev/char-mux.c b/chardev/char-mux.c
+index ada0c6866f..ee2d47b20d 100644
+--- a/chardev/char-mux.c
++++ b/chardev/char-mux.c
+@@ -28,6 +28,7 @@
+ #include "qemu/option.h"
+ #include "chardev/char.h"
+ #include "sysemu/block-backend.h"
++#include "qapi/qapi-commands-control.h"
+ #include "chardev-internal.h"
  
-+        if (p->registered_yank) {
-+            migration_ioc_unregister_yank(p->c);
-+        }
-         socket_send_channel_destroy(p->c);
-         p->c = NULL;
-         qemu_mutex_destroy(&p->mutex);
-@@ -813,7 +816,8 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
-                 return false;
+ /* MUX driver for serial I/O splitting */
+@@ -157,7 +158,7 @@ static int mux_proc_byte(Chardev *chr, MuxChardev *d, int ch)
+             {
+                  const char *term =  "QEMU: Terminated\n\r";
+                  qemu_chr_write_all(chr, (uint8_t *)term, strlen(term));
+-                 exit(0);
++                 qmp_quit(NULL);
+                  break;
              }
-         } else {
--            /* update for tls qio channel */
-+            migration_ioc_register_yank(ioc);
-+            p->registered_yank = true;
-             p->c = ioc;
-             qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
-                                    QEMU_THREAD_JOINABLE);
+         case 's':
+diff --git a/stubs/qmp-quit.c b/stubs/qmp-quit.c
+new file mode 100644
+index 0000000000..a3ff47f7bd
+--- /dev/null
++++ b/stubs/qmp-quit.c
+@@ -0,0 +1,8 @@
++#include "qemu/osdep.h"
++#include "qapi/qapi-commands-control.h"
++#include "qapi/qmp/dispatch.h"
++
++void qmp_quit(Error **errp)
++{
++    g_assert_not_reached();
++}
+diff --git a/stubs/meson.build b/stubs/meson.build
+index f6aa3aa94f..71469c1d50 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -31,6 +31,7 @@ stub_ss.add(files('pci-bus.c'))
+ stub_ss.add(files('qemu-timer-notify-cb.c'))
+ stub_ss.add(files('qmp_memory_device.c'))
+ stub_ss.add(files('qmp-command-available.c'))
++stub_ss.add(files('qmp-quit.c'))
+ stub_ss.add(files('qtest.c'))
+ stub_ss.add(files('ram-block.c'))
+ stub_ss.add(files('ramfb.c'))
 -- 
-2.31.1
+2.30.2
 
 
