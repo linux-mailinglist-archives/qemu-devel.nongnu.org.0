@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9043B4330CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 10:09:25 +0200 (CEST)
-Received: from localhost ([::1]:57836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BECA4330DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 10:11:56 +0200 (CEST)
+Received: from localhost ([::1]:38224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mckBY-0006hr-Lf
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 04:09:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36020)
+	id 1mckDz-0003zC-2I
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 04:11:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mck4I-0002Rl-1O
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 04:01:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37119)
+ id 1mck4R-0002sh-Az
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 04:02:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mck4F-0001vt-BU
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 04:01:53 -0400
+ id 1mck4K-00020O-Vr
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 04:02:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634630510;
+ s=mimecast20190719; t=1634630516;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7rKMODgkMX1iWaLLov7L8wkvTA1BmGYczydq2aUyyk0=;
- b=L/gTOw4LqjRSCOnLgO2z5Xp9oNdfBsQ3JpeEigifvhX6JHBab0n6X7lIafZipBq7+bBzd2
- sfphUQYr3koseBuPqS8V+guQFXibWURdKM5jXVWmieNwYFyR74pZSxpyc8G7+vdcSW/KwJ
- +UVzrE9Oxl7OCCf+gjo579Kl7WR1hag=
+ bh=zKLTd6OOu3MagQZJmRM543Uno1fF5cqdFuW3oUqOJug=;
+ b=LiFcPTTH8fFcjr+Vd22FQWhRf/Px8YmV4tkB+HthzgdAmt7dl9fymDeqQJ2zCdC0OmmNl4
+ MBNaIyPiIH8pET7WD3ELpHslepL1bfc2PVpLrBv04yPVyNyRyt8mri7dMYGSh/u77jdhy8
+ YgKjK9jlwp+MFYyKR8H8LiTCkmMNQ+8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-dn-wI0MHNs2RxkjILbQL6g-1; Tue, 19 Oct 2021 04:01:47 -0400
-X-MC-Unique: dn-wI0MHNs2RxkjILbQL6g-1
+ us-mta-498-anT-YokJMX2nJmJx3VJ33g-1; Tue, 19 Oct 2021 04:01:53 -0400
+X-MC-Unique: anT-YokJMX2nJmJx3VJ33g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07D995075D;
- Tue, 19 Oct 2021 08:01:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6F0218125C0;
+ Tue, 19 Oct 2021 08:01:51 +0000 (UTC)
 Received: from laptop.redhat.com (unknown [10.39.193.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B4F75DF35;
- Tue, 19 Oct 2021 08:01:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5EA545DAA5;
+ Tue, 19 Oct 2021 08:01:46 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, mst@redhat.com,
  imammedo@redhat.com, richard.henderson@linaro.org, philmd@redhat.com,
  peter.maydell@linaro.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org, ardb@kernel.org, drjones@redhat.com
-Subject: [PATCH v5 1/3] tests/acpi: Add void table for virt/DBG2
- bios-tables-test
-Date: Tue, 19 Oct 2021 10:00:35 +0200
-Message-Id: <20211019080037.930641-2-eric.auger@redhat.com>
+Subject: [PATCH v5 2/3] hw/arm/virt_acpi_build: Generate DBG2 table
+Date: Tue, 19 Oct 2021 10:00:36 +0200
+Message-Id: <20211019080037.930641-3-eric.auger@redhat.com>
 In-Reply-To: <20211019080037.930641-1-eric.auger@redhat.com>
 References: <20211019080037.930641-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -63,13 +62,13 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,28 +85,113 @@ Cc: gshan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add placeholders for DBG2 reference table for
-virt tests and ignore till reference blob is added.
+ARM SBBR specification mandates DBG2 table (Debug Port Table 2)
+since v1.0 (ARM DEN0044F 8.3.1.7 DBG2).
+
+The DBG2 table allows to describe one or more debug ports.
+
+Generate an DBG2 table featuring a single debug port, the PL011.
+
+The DBG2 specification can be found at
+"Microsoft Debug Port Table 2 (DBG2)"
+https://docs.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-debug-port-table?redirectedfrom=MSDN
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/data/acpi/virt/DBG2                   | 0
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- 2 files changed, 1 insertion(+)
- create mode 100644 tests/data/acpi/virt/DBG2
+ hw/arm/virt-acpi-build.c | 63 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 62 insertions(+), 1 deletion(-)
 
-diff --git a/tests/data/acpi/virt/DBG2 b/tests/data/acpi/virt/DBG2
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..1910d154c2 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/DBG2",
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 6cec97352b..dd17a48c00 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -616,6 +616,64 @@ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     acpi_table_end(linker, &table);
+ }
+ 
++/* Debug Port Table 2 (DBG2) */
++static void
++build_dbg2(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
++{
++    AcpiTable table = { .sig = "DBG2", .rev = 0, .oem_id = vms->oem_id,
++                        .oem_table_id = vms->oem_table_id };
++    int dbg2devicelength;
++    const char name[] = "COM0";
++    const int namespace_length = sizeof(name);
++
++    acpi_table_begin(&table, table_data);
++
++    dbg2devicelength = 22 + /* BaseAddressRegister[] offset */
++                       12 + /* BaseAddressRegister[] */
++                       4 + /* AddressSize[] */
++                       namespace_length /* NamespaceString[] */;
++
++    /* OffsetDbgDeviceInfo */
++    build_append_int_noprefix(table_data, 44, 4);
++    /* NumberDbgDeviceInfo */
++    build_append_int_noprefix(table_data, 1, 4);
++
++    /* Table 2. Debug Device Information structure format */
++    build_append_int_noprefix(table_data, 0, 1); /* Revision */
++    build_append_int_noprefix(table_data, dbg2devicelength, 2); /* Length */
++    /* NumberofGenericAddressRegisters */
++    build_append_int_noprefix(table_data, 1, 1);
++    /* NameSpaceStringLength */
++    build_append_int_noprefix(table_data, namespace_length, 2);
++    build_append_int_noprefix(table_data, 38, 2); /* NameSpaceStringOffset */
++    build_append_int_noprefix(table_data, 0, 2); /* OemDataLength */
++    /* OemDataOffset (0 means no OEM data) */
++    build_append_int_noprefix(table_data, 0, 2);
++
++    /* Port Type */
++    build_append_int_noprefix(table_data, 0x8000 /* Serial */, 2);
++    /* Port Subtype */
++    build_append_int_noprefix(table_data, 0x3 /* ARM PL011 UART */, 2);
++    build_append_int_noprefix(table_data, 0, 2); /* Reserved */
++    /* BaseAddressRegisterOffset */
++    build_append_int_noprefix(table_data, 22, 2);
++    /* AddressSizeOffset */
++    build_append_int_noprefix(table_data, 34, 2);
++
++    /* BaseAddressRegister[] */
++    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 8, 0, 1,
++                     vms->memmap[VIRT_UART].base);
++
++    /* AddressSize[] */
++    build_append_int_noprefix(table_data,
++                              vms->memmap[VIRT_UART].size, 4);
++
++    /* NamespaceString[] */
++    g_array_append_vals(table_data, name, namespace_length);
++
++    acpi_table_end(linker, &table);
++};
++
+ /*
+  * ACPI spec, Revision 5.1 Errata A
+  * 5.2.12 Multiple APIC Description Table (MADT)
+@@ -875,7 +933,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+     dsdt = tables_blob->len;
+     build_dsdt(tables_blob, tables->linker, vms);
+ 
+-    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
++    /* FADT MADT GTDT MCFG SPCR DBG2 pointed to by RSDT */
+     acpi_add_table(table_offsets, tables_blob);
+     build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
+ 
+@@ -898,6 +956,9 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+     acpi_add_table(table_offsets, tables_blob);
+     build_spcr(tables_blob, tables->linker, vms);
+ 
++    acpi_add_table(table_offsets, tables_blob);
++    build_dbg2(tables_blob, tables->linker, vms);
++
+     if (vms->ras) {
+         build_ghes_error_table(tables->hardware_errors, tables->linker);
+         acpi_add_table(table_offsets, tables_blob);
 -- 
 2.26.3
 
