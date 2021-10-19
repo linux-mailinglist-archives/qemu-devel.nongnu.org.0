@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB9F432EAD
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 08:54:50 +0200 (CEST)
-Received: from localhost ([::1]:50842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6BB432EC7
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 09:01:39 +0200 (CEST)
+Received: from localhost ([::1]:33996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcj1N-0005rY-57
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 02:54:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48050)
+	id 1mcj7y-0005YE-6r
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 03:01:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mciyw-0003ji-EH
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:52:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36218)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mciyu-0005au-NL
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 02:52:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634626335;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XuQHXmL6R1pi0a1t4ZiQyR3jrT50fLlEOPbfg5NPHrU=;
- b=MteubiAvKgTwlSEBXa4sgOJY0c/I0AfvxkttbuB4rKRW75FzJpO6dLRNyhFYjXnQpJMHml
- aIalbGHhos8oxfkugAJmlZZHfxtxpysXMp9BxB8msmLEIVWohC2HIym8pS6LplFzjK4qDL
- /MkiuQHt/TIxhim1PqxiNhP0cDKWjvM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-Q7EGHYbJNXqCVSU91dJhAA-1; Tue, 19 Oct 2021 02:52:12 -0400
-X-MC-Unique: Q7EGHYbJNXqCVSU91dJhAA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- d16-20020a1c1d10000000b0030d738feddfso777525wmd.0
- for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 23:52:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mcj08-0005cZ-Tv; Tue, 19 Oct 2021 02:53:36 -0400
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:41570)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mcj07-0006c7-80; Tue, 19 Oct 2021 02:53:32 -0400
+Received: by mail-il1-x135.google.com with SMTP id l7so4082920iln.8;
+ Mon, 18 Oct 2021 23:53:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UvYdCkPWlVxNR2cg+1VbdxVWthPp7Gc3ywXihIkt0Ck=;
+ b=h+WvNtSKxJgKkp4VbQtKbuBKRqdGC8lAqA/oqT3aUOoEb8pS4zXRNQ8Jd+Bg9hQAY/
+ o+GAvHEMKvwiNLTnfXoLkKSX4VPvMk8yBOJhKW1GBBqRiUNmbXdAUuRK7xm4+qJetbb8
+ gswJUJsXZpb/K5IDyJMVzsHIH3y5C755evqbfHLfPULDUbLK7jzXNOLRTRakUsiUjY31
+ RNzsYLVOrKPivP1XuprDnWNRDjlcb/IkQdEECs15+ezp+SaxlNtK+cTlIAP/47yyOkhF
+ JajaYcMseQFsczPa45w+mh1jfAIB/EBPvA1kCUpsOAPLakbJ49oXXlXebpdfo8zDhgfu
+ 7tMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=XuQHXmL6R1pi0a1t4ZiQyR3jrT50fLlEOPbfg5NPHrU=;
- b=UMSPPH/J80R+FJeQjWn4u/J6dhkONBA656TuV9NNpjYaKBdNXJyzXZC55yZv5KcotI
- ZKIG1oRNBAXP4y0ZuHW5jXmxav0YYlC1vG4YAFhH9M1AWHLcqeKsw5HrW+Iqzdbobmcx
- Tu0SuyUMcS5RSdcWs3vXnDV7T0UnNvfTa2ycGKFw/2NqHwWshHbcvJ4wY3ikW3imuplk
- uXa/LEpw4Gdnn/oGDrkHCLi4LcqbOmWDC0tyQ95qQEIEaZ+T/cgCETg25yOBkenzbvs+
- rg554lJDutuT5E8tIHmeWdcbeC5fmuQ6fg5aFzr3mH8q/bzvcTeRPjii8mz1L/+dJniv
- 5u7g==
-X-Gm-Message-State: AOAM531RlnLarALs+C1ghrNcOsG4msAFu6Z0eRK2c6LwINyOszQlKyNe
- fk3bV1Gd0ud0aupFGUIt1axdCNE2wAvE2xMI9gSbxXghE0zRW6RL3eLEyuPLfQBBCSB0tEj652S
- BHQQmP/Wv/asQ2Po=
-X-Received: by 2002:a05:600c:209:: with SMTP id 9mr4048223wmi.42.1634626330850; 
- Mon, 18 Oct 2021 23:52:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJweSlXkewz4jv/U3MuZIaPtSYdNNusEAiFRutjRMRMk2sH/Y6lyd9a1jso0P2FjBLrZBNR8uw==
-X-Received: by 2002:a05:600c:209:: with SMTP id 9mr4048210wmi.42.1634626330686; 
- Mon, 18 Oct 2021 23:52:10 -0700 (PDT)
-Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id a2sm16554155wrq.9.2021.10.18.23.52.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 23:52:10 -0700 (PDT)
-Date: Tue, 19 Oct 2021 02:52:07 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Cindy Lu <lulu@redhat.com>
-Subject: Re: [PATCH v9 04/10] vhost: add new call back function for config
- interrupt
-Message-ID: <20211019025041-mutt-send-email-mst@kernel.org>
-References: <20210930023348.17770-1-lulu@redhat.com>
- <20210930023348.17770-5-lulu@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UvYdCkPWlVxNR2cg+1VbdxVWthPp7Gc3ywXihIkt0Ck=;
+ b=OFaEwaa9poW3ZlPODU8Gqc1ytBymzjn0FDKCu7mBukgbdZV5E7CsKHcqw24DsrcMoc
+ mTyiwlfWQ6/mVLyALCQPCT+Kx7WveBw7Kkxq3ZfkNfEzX5f6bNenF9+DDx76Z0+cT0Q7
+ qeGXPVRn7wiNM9RLlFzUUD2kPY/ym/OmE4paUKczt4w5q1kFgUlP4zsrYoE1vVmEyDcE
+ h6fauVTcsEfsBVUxrB9DyhcNH4CcBblsgp8lf2dRv5Goc10kkQq2c4wCAOXD2Bjb2O0x
+ +VM8e5Lgt5+y6jiolfdZzV4J3pcLmZCD6jhdzcxBTUC0/hcDGWtpL9Te++xI3R3+l3aA
+ y79Q==
+X-Gm-Message-State: AOAM530W59+o5ck0ZOjuRWL9WpZyFzG+pwXqq1m1Z0ABVTn6E3LPk/AF
+ 2zTBNTa+G4crKYKbmrXp7zjFa7TaunmpZwdBOy8=
+X-Google-Smtp-Source: ABdhPJxQYb4noEeNyyHts3Ewdz9OQlVkAifG5MffL9IphxQL0jQp8MOIPw/yaMLnBdpXIENSfsbniacJgagoIezHFzo=
+X-Received: by 2002:a05:6e02:214a:: with SMTP id
+ d10mr17898898ilv.290.1634626409894; 
+ Mon, 18 Oct 2021 23:53:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210930023348.17770-5-lulu@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20211017172728.759687-1-space.monkey.delivers@gmail.com>
+ <20211017172728.759687-5-space.monkey.delivers@gmail.com>
+In-Reply-To: <20211017172728.759687-5-space.monkey.delivers@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 19 Oct 2021 16:53:03 +1000
+Message-ID: <CAKmqyKPDfYan+czM+1AnJ7+gyjZAKDobxDvJ40R8Sor0FH4HNw@mail.gmail.com>
+Subject: Re: [PATCH v14 4/8] [RISCV_PM] Add J extension state description
+To: Alexey Baturo <baturo.alexey@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::135;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x135.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,48 +77,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, dgilbert@redhat.com, qemu-devel@nongnu.org,
- arei.gonglei@huawei.com, kraxel@redhat.com, stefanha@redhat.com,
- marcandre.lureau@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ space.monkey.delivers@gmail.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ Dave Smith <kupokupokupopo@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 30, 2021 at 10:33:42AM +0800, Cindy Lu wrote:
-> To support the config interrupt, we need to
-> add a new call back function for config interrupt.
-> 
-> Signed-off-by: Cindy Lu <lulu@redhat.com>
-
-Pls make commit log more informative.
-Doing what? Called back when?
-
-
+On Mon, Oct 18, 2021 at 3:36 AM Alexey Baturo <baturo.alexey@gmail.com> wrote:
+>
+> Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
 > ---
->  include/hw/virtio/vhost-backend.h | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-> index 8475c5a29d..e732d2e702 100644
-> --- a/include/hw/virtio/vhost-backend.h
-> +++ b/include/hw/virtio/vhost-backend.h
-> @@ -126,6 +126,8 @@ typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
->  
->  typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
->  
-> +typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
-> +                                       int fd);
->  typedef struct VhostOps {
->      VhostBackendType backend_type;
->      vhost_backend_init vhost_backend_init;
-> @@ -171,6 +173,7 @@ typedef struct VhostOps {
->      vhost_vq_get_addr_op  vhost_vq_get_addr;
->      vhost_get_device_id_op vhost_get_device_id;
->      vhost_force_iommu_op vhost_force_iommu;
-> +    vhost_set_config_call_op vhost_set_config_call;
->  } VhostOps;
->  
->  extern const VhostOps user_ops;
-> -- 
-> 2.21.3
+>  target/riscv/machine.c | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+>
+> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> index 16a08302da..4d99880797 100644
+> --- a/target/riscv/machine.c
+> +++ b/target/riscv/machine.c
+> @@ -84,6 +84,14 @@ static bool vector_needed(void *opaque)
+>      return riscv_has_ext(env, RVV);
+>  }
+>
+> +static bool pointermasking_needed(void *opaque)
+> +{
+> +    RISCVCPU *cpu = opaque;
+> +    CPURISCVState *env = &cpu->env;
+> +
+> +    return riscv_has_ext(env, RVJ);
+> +}
+> +
+>  static const VMStateDescription vmstate_vector = {
+>      .name = "cpu/vector",
+>      .version_id = 1,
+> @@ -138,6 +146,24 @@ static const VMStateDescription vmstate_hyper = {
+>      }
+>  };
+>
+> +static const VMStateDescription vmstate_pointermasking = {
+> +    .name = "cpu/pm",
 
+Can we write "cpu/pointer_masking"? pm sounds like power management
+
+Alistair
 
