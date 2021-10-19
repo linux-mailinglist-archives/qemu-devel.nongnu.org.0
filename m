@@ -2,77 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFE8D4333D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 12:48:27 +0200 (CEST)
-Received: from localhost ([::1]:58452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12ED54333F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 12:51:32 +0200 (CEST)
+Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcmfS-0005KO-SR
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 06:48:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42994)
+	id 1mcmiR-0000Ff-6t
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 06:51:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1mcmdU-0003vO-KW
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:46:24 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41537)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1mcmdR-0005Ef-Q9
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:46:24 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id t2so47024115wrb.8
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 03:46:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=qVxTDHKkjG4B/KDsCEDUFj4j+utKMbgmC6ux1xGGZeA=;
- b=CM6UjfA8sIkapRyJRsdT/1Mx1kG14dVq2ttjqm9wJQ1Q5Ein6u4l7g9C0hbog8sTu3
- Hha/ddIVh1pQhgJXnpX1P/D7L+XIhJh4kvWvRnqrcJgM22mtxyEgTQhDGke0zHIjftfQ
- vIPt5Y/8QxCUwYGcHIDcTLObkyL5sfRlITtJgr7CJu4DTjEFKDdHBqP0PcURu4XmDSly
- uI5zzsG+6lNls5NsgmvPExBs2uEiWe9yxwLxrAohRFh32L3AwFq3V/jvCw20onPR88C/
- YlH8nxbQynW3Nl3rdnbo3W1g2B+4SYubyDfuMe47oeMpep1Q959Ooj6oPQD0JU5dDpEs
- EimA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mcmgu-0007gG-Dc
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:49:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44565)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mcmgr-0008Gu-Vh
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:49:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634640592;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WMxtrNFG0gW3Xw8LtpS3/KIiM1tUrGvy/pNxtJBMaoU=;
+ b=A4fKL0cn/mfn1wtrkqwT1AI3U5vDLVmgJ+eYfMgG0T1cJ9deWy1utNVo1C91qO+4y1Dh38
+ 2axpAJ3daq3CFrgAX7dc+Q0CS/FGP/ca5i9LMzZiLCxE0kkwFM+hcjeaAvA9e5DL8m90D8
+ S9L4NMvj89zTFi+LItKcoTOQzeaQj0s=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-lMHmluEYPMqpJezftEKiSg-1; Tue, 19 Oct 2021 06:49:51 -0400
+X-MC-Unique: lMHmluEYPMqpJezftEKiSg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ 41-20020adf812c000000b00160dfbfe1a2so10026484wrm.3
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 03:49:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qVxTDHKkjG4B/KDsCEDUFj4j+utKMbgmC6ux1xGGZeA=;
- b=y8RGo/AqbCl96D5K4PUYue+oY3veH8G9rIK6bRReeg1POUlHHP1AevTTxB99JRAp9X
- zbdEDQRy4S1wy4hEeXf3xjAtW4dz1t/28AlUOeITgzdXzHimvhkewoiUs6cZ7TNFdiQO
- s8BqzFOMZpdSqP/BO7bPrm2fT3Ltsg/n6fbTbE4lfGhpsIfacNp228wT1dtjrjX+NqGW
- 05LTqfQvYLbgi6pA2axG1rPoGXpFonIU2aPgnrs3sHCKwQ3zsZrTg3cNYYyZlj2nO9Ko
- k2vnJHT2A1ybQL7Rv+BIZ+jeB31xWxSUiHv7MGVTysPv47nwcnyqdz5jfbJf8YaI5z9r
- 8ruw==
-X-Gm-Message-State: AOAM533m93OyGWNQkTg4pdwOlA7FBHdFNYH79G3VxkeaQuGNR5DMjePJ
- CNjlbzTQoSBpu/9njFIkACE=
-X-Google-Smtp-Source: ABdhPJzbsqGk+mCxjxRugyqzp/KvI1JBPhziJkoy0AFFl9YCgrTRmrxzLKo1z/ys0nfnzpbuQJ7KRA==
-X-Received: by 2002:adf:bbd1:: with SMTP id z17mr42347263wrg.61.1634640379653; 
- Tue, 19 Oct 2021 03:46:19 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id y5sm14350126wrq.85.2021.10.19.03.46.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 03:46:18 -0700 (PDT)
-Date: Tue, 19 Oct 2021 11:46:17 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Jean-Louis Dupond <jean-louis@dupond.be>
-Subject: Re: [PATCH] hw/qdev-core: Add compatibility for (non)-transitional
- devs
-Message-ID: <YW6h+YcNEgyzh5zw@stefanha-x1.localdomain>
-References: <20211012082428.16222-1-jean-louis@dupond.be>
- <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WMxtrNFG0gW3Xw8LtpS3/KIiM1tUrGvy/pNxtJBMaoU=;
+ b=hNgRHUJGr45UD6Zdr93CyR+Ik0e5zxN7aw+tZ+fEQx2Zb5yc38nGT4UdVAgwOVN0Ii
+ vd9Jryn/ffDmsRicWRhBKz8O1t/oTzAqaDnes1iqGNMe0iEHrgx10p+c2JJEQR8L9sZS
+ Zjos0RaRzszj61v69R7c5GzeHFVSV2IvFZDBl3Dk9YfZBHZFaMFlKxB+qlxdoapt8jOW
+ r7zP/WDmTff5CK5L4iLoRlmdWg3kx0nDAmUGXLG8jQVSOdIY3dXcIrlnS3CYd0ueZqZa
+ c8RSBKIXWWuUliXf0jfHpl7gkD4FtlYPwglTRH4+HHgemwD/EsHYvMHloPG0gfz+yDMt
+ ISBA==
+X-Gm-Message-State: AOAM531VnSYjDCQhprYw248l2CjiZIzMERjUAQ2aPSVeEY5duS+qPRnD
+ Pw00Y1t55nm21PmVrC8XoiTqtYHcQxcLsiZJggMUKwtgdNDylOZMJ39AIq3zFw8Yz2pZ/Dm9Jnh
+ 3ATbMSdt7Rf5/f88=
+X-Received: by 2002:a1c:1dcb:: with SMTP id d194mr5178356wmd.156.1634640590275; 
+ Tue, 19 Oct 2021 03:49:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZWrEDJS7lPHEIGC0B7rPbu/ALazo80kOD+AR7k+FhK0LHgehjJOr+UdL1k93D/rqOhiiFGw==
+X-Received: by 2002:a1c:1dcb:: with SMTP id d194mr5178338wmd.156.1634640590097; 
+ Tue, 19 Oct 2021 03:49:50 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:8e02:b072:96b1:56d0?
+ ([2001:b07:6468:f312:8e02:b072:96b1:56d0])
+ by smtp.gmail.com with ESMTPSA id 196sm1866194wme.20.2021.10.19.03.49.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Oct 2021 03:49:49 -0700 (PDT)
+Message-ID: <1cb1a05d-d96b-198e-771c-79f7cc26ee1d@redhat.com>
+Date: Tue, 19 Oct 2021 12:49:48 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ErNugYUo3jKz/ibg"
-Content-Disposition: inline
-In-Reply-To: <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [RFC PATCH] chardev: don't exit() straight away on C-a x
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20211018140226.838137-1-alex.bennee@linaro.org>
+ <139066ae-053c-8e55-da76-2b69f51f0717@redhat.com> <87sfwyz8n8.fsf@linaro.org>
+ <726ce2e3-71e9-639e-df62-6f1cdbf8c1fc@redhat.com> <87fssyz1se.fsf@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <87fssyz1se.fsf@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,110 +101,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>, jasowang@redhat.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Lukas_J=c3=bcnger?= <lukas.junger@greensocs.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 18/10/21 19:20, Alex Bennée wrote:
+>>      shutdown_action = SHUTDOWN_ACTION_POWEROFF;
+> I guess this is it? I couldn't follow the chain of qemu_opts to find
+> what sort of change -no-shutdown made to the shutdown_action.
+> 
 
---ErNugYUo3jKz/ibg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, "-no-shutdown" is short for "-action shutdown=pause".  From there 
+it goes process_runstate_actions -> qmp_marshal_set_action -> 
+qmp_set_action, where it sets "shutdown_action = SHUTDOWN_ACTION_PAUSE".
 
-On Tue, Oct 12, 2021 at 10:36:01AM +0200, Jean-Louis Dupond wrote:
-> Forgot to CC maintainers.
+Paolo
 
-Also CCing Jason Wang and Michael Tsirkin for VIRTIO.
-
-Stefan
-
->=20
-> On 12/10/2021 10:24, Jean-Louis Dupond wrote:
-> > hw_compat modes only take into account their base name.
-> > But if a device is created with (non)-transitional, then the compat
-> > values are not used, causing migrating issues.
-> >=20
-> > This commit adds their (non)-transitional entries with the same settings
-> > as the base entry.
-> >=20
-> > Fixes https://bugzilla.redhat.com/show_bug.cgi?id=3D1999141
-> >=20
-> > Signed-off-by: Jean-Louis Dupond <jean-louis@dupond.be>
-> > ---
-> >   include/hw/qdev-core.h | 34 ++++++++++++++++++++++++++++++++++
-> >   1 file changed, 34 insertions(+)
-> >=20
-> > diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> > index 4ff19c714b..5726825c2d 100644
-> > --- a/include/hw/qdev-core.h
-> > +++ b/include/hw/qdev-core.h
-> > @@ -293,6 +293,30 @@ typedef struct GlobalProperty {
-> >       bool optional;
-> >   } GlobalProperty;
-> > +
-> > +/**
-> > + * Helper to add (non)transitional compat properties
-> > + */
-> > +static inline void
-> > +compat_props_add_transitional(GPtrArray *arr, GlobalProperty *prop)
-> > +{
-> > +    GlobalProperty *transitional =3D g_new0(typeof(*transitional), 1);
-> > +    transitional->driver =3D g_strdup_printf("%s-transitional", prop->=
-driver);
-> > +    transitional->property =3D g_strdup(prop->property);
-> > +    transitional->value =3D g_strdup(prop->value);
-> > +    transitional->used =3D prop->used;
-> > +    transitional->optional =3D prop->optional;
-> > +    g_ptr_array_add(arr, (void *)transitional);
-> > +
-> > +    GlobalProperty *non_transitional =3D g_new0(typeof(*non_transition=
-al), 1);
-> > +    non_transitional->driver =3D g_strdup_printf("%s-non-transitional"=
-, prop->driver);
-> > +    non_transitional->property =3D g_strdup(prop->property);
-> > +    non_transitional->value =3D g_strdup(prop->value);
-> > +    non_transitional->used =3D prop->used;
-> > +    non_transitional->optional =3D prop->optional;
-> > +    g_ptr_array_add(arr, (void *)non_transitional);
-> > +}
-> > +
-> >   static inline void
-> >   compat_props_add(GPtrArray *arr,
-> >                    GlobalProperty props[], size_t nelem)
-> > @@ -300,6 +324,16 @@ compat_props_add(GPtrArray *arr,
-> >       int i;
-> >       for (i =3D 0; i < nelem; i++) {
-> >           g_ptr_array_add(arr, (void *)&props[i]);
-> > +        if (g_str_equal(props[i].driver, "vhost-user-blk-pci") ||
-> > +            g_str_equal(props[i].driver, "virtio-scsi-pci") ||
-> > +            g_str_equal(props[i].driver, "virtio-blk-pci") ||
-> > +            g_str_equal(props[i].driver, "virtio-balloon-pci") ||
-> > +            g_str_equal(props[i].driver, "virtio-serial-pci") ||
-> > +            g_str_equal(props[i].driver, "virtio-9p-pci") ||
-> > +            g_str_equal(props[i].driver, "virtio-net-pci") ||
-> > +            g_str_equal(props[i].driver, "virtio-rng-pci")) {
-> > +            compat_props_add_transitional(arr, &props[i]);
-> > +        }
-> >       }
-> >   }
->=20
-
---ErNugYUo3jKz/ibg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFuofkACgkQnKSrs4Gr
-c8jCXgf/cboWp8k/7egwJEf1xunaL2sxFO0BhdB4vJcRLYVIDKwzzLI/mzWbG3R9
-yGkZC2r3tlsHUs9p2EIxX6NfOKIJm+39oknOeX45I3Z2y7y6G4Kk/I+mHezFrOdJ
-TUlDt5LMnp5Y/Rp1A7ZTd5CyA+Iy75GNpaiyEHWJC5eGx7zeRkhDkKPiy+DKhKc5
-zTMD6huF5theI66M3WMs2bRh89/ZAgtjDr+VBdmoG7wa16qhsXDxflws7qAb6sXA
-t8hVPIIj/GLQo3wvxmMPm/rClpvQz9MdfFvPqU8uuvGDwP3yZ5wDs3kN1eF2jE4H
-YnXefwPshu1p2oWsMtn2LGitrzCzTA==
-=l+0z
------END PGP SIGNATURE-----
-
---ErNugYUo3jKz/ibg--
 
