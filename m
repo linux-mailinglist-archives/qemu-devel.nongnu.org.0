@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB0D433D75
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 19:28:28 +0200 (CEST)
-Received: from localhost ([::1]:41100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F51433CCF
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 18:54:11 +0200 (CEST)
+Received: from localhost ([::1]:50764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcsuZ-0007kD-Lx
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 13:28:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45762)
+	id 1mcsNO-0006b9-Tf
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 12:54:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcsEt-00008e-Pl
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:45:23 -0400
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:34536)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcsEw-0000Dl-6U
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:45:26 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:34688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcsEl-0000Io-DI
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:45:23 -0400
-Received: by mail-il1-x132.google.com with SMTP id g2so19089248ild.1
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 09:45:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mcsEm-0000Jg-71
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 12:45:25 -0400
+Received: by mail-io1-xd30.google.com with SMTP id i189so21175202ioa.1
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 09:45:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qhGZ41nOlvsySd2XyLCyulTBUhHoEjSzSjYsF8X0b4I=;
- b=BXXaiuZAdQ7m1ifomxu1G7S3+MWfyEKqI4Ltq54yjgCRw0gR92KrX8RFIzw5Q4tHiC
- a055TTvMy25DSVUHrfM7sndHN1pEOSIetNfMn6UfxL0IO8si9DRqjLGccxr/8J+YNp7R
- qM9hOsI/KLK4zT+Q+QdTc5YAHl7sdh8SkvrFNSpLaC3bP4QAQ77AqXkCuid0++A/R3lL
- nGV0uCpDxJmVWSLODZYykiOTFolQkEaQddOGZWcKenBSePj4bSm3DIuV2+u905Mz8rr5
- 2D3fz2ZUsJQd0Pc9dsGx5SpLEFNhMeT0gpQR887/DPWOxzD0V5PJHx+P35Q8fm1Ks6sD
- ZAPQ==
+ bh=vaJwXu/eD2iCjrLKVnfYufKTq6BQat7mctIUm7bBXz8=;
+ b=UeINsJ9nReGtA0Qe8jARdFi8nHLVNZo1YLmzpj5NRD75uYex0ET7wDwJlnVsNv+Qcp
+ FNQrKWCfAn1svhwF4bCxOdU/RkJtO2MGGoqbMqYfKvFzi2k+SkRAHMPQF542I2eKO0u+
+ yaL5luZIjTz0NHcDA4OX0hB4nw5HhIL8QC7mgNsFEYCxsxLXDjeGROTrIX/PRFEXpi7f
+ lKQj3XBg8W2uoUAZVe1LTPydJnI1yomDnHc4xNNdzMg4Ahyf1Hwi/Ynw7KF3BVij1Yic
+ NhE9LVpDmjVRtz9AZV3pWvDk1h4aum4nsYNBmvPw47pgJIGpvweRB9uHjK6A0cLCcC+N
+ E5hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qhGZ41nOlvsySd2XyLCyulTBUhHoEjSzSjYsF8X0b4I=;
- b=hwBpY5y48gLnfQ7R+Sf2V9Gfkh2ixhdzk8t3FhU3DHDTEppPtW4ogezxVeQIx3kQzn
- aMER6c1+z0bTlKvxau+TYWd1ujTRqYTPt9mhGslZvHqIN/DDrApX4EApPJKlIyXHoWv5
- ubPrByeKQ68DrKODIY+kN3vQUCgow0tZC5tPkQiCTWIAtXzuHas/27tOy/cEsDwBrCbv
- FsPCQe2Yka+ur9azeLZHgAea0+0mE1RvLWb8+83TckHPUweMpz9L/M3TLt0nI//eevxT
- nopKGc2AGGmlIyQxp7zs2QG61kzAibo3ZhP8tINdVRiLrl3DFe78Vn9pdsGTTODA3/I2
- +E/g==
-X-Gm-Message-State: AOAM533Ozl8AOApDw31xrBmnwjmk03pGc0c7tzKUIMQO1PYT0A/2Y51R
- 2Vym6ikb9Yo2VrQgLxhYOHdEFO/38PQ=
-X-Google-Smtp-Source: ABdhPJz4UWipIdRt6PxNOTDwOfwrk7eJnwwK6a86IUFB6i6ic7JCZev5vDJ5PI8nXS8Gii4cXd92uw==
-X-Received: by 2002:a92:da91:: with SMTP id u17mr3680522iln.242.1634661913850; 
- Tue, 19 Oct 2021 09:45:13 -0700 (PDT)
+ bh=vaJwXu/eD2iCjrLKVnfYufKTq6BQat7mctIUm7bBXz8=;
+ b=6CrqlVAGR8SW1B0oPjBB3p1Z0Xw83zxJs97DGNjDa0yKt54KJJTXNCYkCD7j0J3C0e
+ gDnFVlETuRSPqQiDErgpnqMwCOsk1O1O3zzxBguTyT+J9OhIoAyjgLoisGWEpISO5d5n
+ PpO5KTeMsZU//u79ODdkVrMjjTmnkUlYFsgZOWtr+hF1uQpa6vwdyeaqG9HHgKuYzuMk
+ tqpE9RccpzdHmu1+SaMdJOOpcKofLM24f6832m/XYoZHqgBqPi7Ra8dcpNJqVsK6kkky
+ EV15bwrc+IBNjD3iqrjmft3hV+1N3d4c2VCxUa5kCZCcPtuPUkArd/MDSGMHmVokjKSa
+ KU2g==
+X-Gm-Message-State: AOAM5315ed2+JNvM5WcEy+t7z9PcMQuROd/FM4mY6E+zGwUY281exopd
+ IfN7nWZqXqm5FtS+YGVDV6ExTW64/3pF1Q==
+X-Google-Smtp-Source: ABdhPJyBWWv4SOzibyK3ygfTOqCr+PekuUQ0FqWKHKj5zv1IzNx0+pjAx6/ZJDxQpG2I8Y7v3WVPKg==
+X-Received: by 2002:a05:6602:1504:: with SMTP id
+ g4mr19278479iow.133.1634661914968; 
+ Tue, 19 Oct 2021 09:45:14 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id q7sm1133951ilv.48.2021.10.19.09.45.12
+ by smtp.gmail.com with ESMTPSA id q7sm1133951ilv.48.2021.10.19.09.45.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 09:45:13 -0700 (PDT)
+ Tue, 19 Oct 2021 09:45:14 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/24] bsd-user/arm/target_arch_cpu.h: Implment trivial EXCP
+Subject: [PATCH 08/24] bsd-user/arm/target_arch_cpu.h: Implement data abort
  exceptions
-Date: Tue, 19 Oct 2021 10:44:30 -0600
-Message-Id: <20211019164447.16359-8-imp@bsdimp.com>
+Date: Tue, 19 Oct 2021 10:44:31 -0600
+Message-Id: <20211019164447.16359-9-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211019164447.16359-1-imp@bsdimp.com>
 References: <20211019164447.16359-1-imp@bsdimp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::132;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x132.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd30.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -84,65 +84,45 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
- Klye Evans <kevans@FreeBSD.org>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Mika=C3=ABl=20Urankar?= <mikael.urankar@gmail.com>,
+ Klye Evans <kevans@FreeBSD.org>, Olivier Houchard <cognet@ci0.org>,
+ Laurent Vivier <laurent@vivier.eu>, Michael Tokarev <mjt@tls.msk.ru>,
  Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implent EXCP_UDEF, EXCP_DEBUG, EXCP_INTERRUPT, EXCP_ATOMIC and
-EXCP_YIELD. The first two generate a signal to the emulated
-binary. EXCP_ATOMIC handles atomic operations. The remainder are fancy
-nops.
+Implement EXCP_PREFETCH_ABORT AND EXCP_DATA_ABORT. Both of these data
+exceptions cause a SIGSEGV.
 
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Signed-off-by: Mikaël Urankar <mikael.urankar@gmail.com>
 Signed-off-by: Klye Evans <kevans@FreeBSD.org>
+Signed-off-by: Olivier Houchard <cognet@ci0.org>
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/arm/target_arch_cpu.h | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ bsd-user/arm/target_arch_cpu.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
-index 94c9109c3f..f22384676a 100644
+index f22384676a..62d6ee89b6 100644
 --- a/bsd-user/arm/target_arch_cpu.h
 +++ b/bsd-user/arm/target_arch_cpu.h
-@@ -47,6 +47,34 @@ static inline void target_cpu_loop(CPUARMState *env)
-         cpu_exec_end(cs);
-         process_queued_cpu_work(cs);
-         switch (trapnr) {
-+        case EXCP_UDEF:
-+            {
-+                /* See arm/arm/undefined.c undefinedinstruction(); */
-+                info.si_addr = env->regs[15];
-+                info.si_signo = TARGET_SIGILL;
-+                info.si_errno = 0;
-+                info.si_code = TARGET_ILL_ILLADR;
-+                queue_signal(env, info.si_signo, &info);
-+            }
+@@ -60,6 +60,17 @@ static inline void target_cpu_loop(CPUARMState *env)
+         case EXCP_INTERRUPT:
+             /* just indicate that signals should be handled asap */
+             break;
++        case EXCP_PREFETCH_ABORT:
++            /* See arm/arm/trap.c prefetch_abort_handler() */
++        case EXCP_DATA_ABORT:
++            /* See arm/arm/trap.c data_abort_handler() */
++            info.si_signo = TARGET_SIGSEGV;
++            info.si_errno = 0;
++            /* XXX: check env->error_code */
++            info.si_code = 0;
++            info.si_addr = env->exception.vaddress;
++            queue_signal(env, info.si_signo, &info);
 +            break;
-+        case EXCP_INTERRUPT:
-+            /* just indicate that signals should be handled asap */
-+            break;
-+        case EXCP_DEBUG:
-+            {
-+
-+                info.si_signo = TARGET_SIGTRAP;
-+                info.si_errno = 0;
-+                info.si_code = TARGET_TRAP_BRKPT;
-+                queue_signal(env, info.si_signo, &info);
-+            }
-+            break;
-+        case EXCP_ATOMIC:
-+            cpu_exec_step_atomic(cs);
-+            break;
-+        case EXCP_YIELD:
-+            /* nothing to do here for user-mode, just resume guest code */
-+            break;
-         default:
-             fprintf(stderr, "qemu: unhandled CPU exception 0x%x - aborting\n",
-                     trapnr);
+         case EXCP_DEBUG:
+             {
+ 
 -- 
 2.32.0
 
