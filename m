@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ABA64335EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 14:27:58 +0200 (CEST)
-Received: from localhost ([::1]:37138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D12433604
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 14:30:55 +0200 (CEST)
+Received: from localhost ([::1]:41828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcoDk-0001CA-K6
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 08:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37198)
+	id 1mcoGc-0004rT-AV
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 08:30:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mco9f-0000Bp-Pm
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 08:23:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30046)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mco9a-0002gQ-8v
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 08:23:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634646216;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dDR8hJWj4p18ll6vpxHJQHo22rZCE1zG/ppJjHd5SKY=;
- b=WFHeOqvao1RfNqY3DLlFWoNo2qPoRoeNeTM84/L0mWGG7mgMo1hHwfL9sYojS+M2MQ+Gv7
- 6dV+VR8lVegfy+zxuIV7JBBbwJ8SPNi8UV6lTr8OmY2Ntg3Np249Jv6EGKNw1buuy1AyRa
- xq6voMSayI7eAhv+Uk7YHSX82JciSrI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-xtDXIlsvOBeLrZ8LZfmxjg-1; Tue, 19 Oct 2021 08:23:35 -0400
-X-MC-Unique: xtDXIlsvOBeLrZ8LZfmxjg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6753A10A8E00;
- Tue, 19 Oct 2021 12:23:34 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AE4560936;
- Tue, 19 Oct 2021 12:23:33 +0000 (UTC)
-Date: Tue, 19 Oct 2021 14:23:31 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH] block: Fail gracefully when blockdev-snapshot creates
- loops
-Message-ID: <YW64w8dA7VPQOEwq@redhat.com>
-References: <20211018134714.48438-1-kwolf@redhat.com>
- <e4c03aee-fd0f-0b8a-3b86-35776d2d3ad3@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mcoB2-0001TC-OS
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 08:25:08 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:40605)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mcoB0-0003b2-6c
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 08:25:08 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id 5so11818773edw.7
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 05:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8ghuzqagYRpNaamew+FagY/12PWrk7bYFQ3mi8P6OII=;
+ b=kbC9noZ/6bY65sGWu31MdyEC9VGa0+3SSdvbQ+7x8IR8GW622oUmw8hLMqNBRfhpHF
+ tXka4xRT0B7m6wJ9Bf5IXw78kznCd1Q+RlLAe0hPmTNUpbjmVpjsbKpoVIQyBb0lYl/1
+ /8K0SA9HpTTTrcGBzLMq+NIVbFaYNjOzn+b1ID4prBNNktxaOZQ0xXtIAs3XWtFBpwiD
+ BDbDVBoKBglrlTVA12ewEEK6X7FYb12tafpwaRc3PBah5DlwLgYqWtZ1MTJLJa/4TYDv
+ Ofm9ojwdr8Pzq04IGF/4wnaQZRFqZro1Es1z5KU7/GtJhk35RZ/BxghKe2qn1qxkFx55
+ priQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8ghuzqagYRpNaamew+FagY/12PWrk7bYFQ3mi8P6OII=;
+ b=daklYGh5Tf4SyFNCP2t39EFAtIikB+6wXau/VqdgZ7xKx2S2xSn1wo5tHNvgnZ+DeF
+ 3NtznR3zT6NPv0JJgVDlXTMMFFbWNrHAUXgD14TaP8zHNMK5kZwe29jFX9ixcrnfRxPU
+ ZcodtmSC5cvGu2gGcOY6HV5mrn/c+25X1Qi/oSr2ZVb1B8SvuqrDLOItXeFI9BP8CsS+
+ /7qHrN1zJOZwFEO+6en+/IFxEfNI597pjndr3+XCDWv/4xQwoKTsY+0FF/xwY5GaxJxn
+ ZmMc5zPF53NcY3fd+YbxwM9yceNLgjI6IvfKG0/ntjDytM8AxzhBDDyjSms/jn+UGeag
+ mk6w==
+X-Gm-Message-State: AOAM532XNh7lztBV0iHl4BpIaq9QlpZxSsD5fiZlFpLuD74kFHfQ7vM0
+ eIR0JKXkQLvOGwrU9oJNRRqlUEdnTVYkmAkvbSA5nQ==
+X-Google-Smtp-Source: ABdhPJzOZMYybq79I1x2UNjPcxzbQBmDBpdKzUAELCC6vxMthgk3fm14fjQCMv7d8AJZLqLqAbTRDe+kmMg2fEEp/14=
+X-Received: by 2002:a05:6402:c05:: with SMTP id
+ co5mr53702049edb.65.1634646302188; 
+ Tue, 19 Oct 2021 05:25:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e4c03aee-fd0f-0b8a-3b86-35776d2d3ad3@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+References: <1634324580-27120-1-git-send-email-eric.devolder@oracle.com>
+ <alpine.DEB.2.22.394.2110191728580.168116@anisinha-lenovo>
+In-Reply-To: <alpine.DEB.2.22.394.2110191728580.168116@anisinha-lenovo>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 19 Oct 2021 17:54:51 +0530
+Message-ID: <CAARzgwxyEaTGSPkSqRZHMJADKhf3dnOvnTiEdY5baTjb318Mzg@mail.gmail.com>
+Subject: Re: [PATCH v8 00/10] acpi: Error Record Serialization Table, ERST,
+ support for QEMU
+To: Eric DeVolder <eric.devolder@oracle.com>
+Content-Type: multipart/alternative; boundary="0000000000002cfac805ceb3c065"
+Received-SPF: none client-ip=2a00:1450:4864:20::52e;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,53 +77,292 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: hreitz@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: berrange@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ mst@redhat.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.10.2021 um 16:22 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 18.10.2021 16:47, Kevin Wolf wrote:
-> > Using blockdev-snapshot to append a node as an overlay to itself, or to
-> > any of its parents, causes crashes. Catch the condition and return an
-> > error for these cases instead.
-> > 
-> > Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1824363
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+--0000000000002cfac805ceb3c065
+Content-Type: text/plain; charset="UTF-8"
+
+Oh sorry. Please disregard that. I see you did send all the patches in the
+series for v8. My Gmail tagging went wrong.
+
+On Tue, Oct 19, 2021 at 17:30 Ani Sinha <ani@anisinha.ca> wrote:
+
+> Hi Eric:
+>
+> So I do not see all the patches in the series for v8. Just so you know,
+> when you spin out a new version, please do send all the patches in the
+> series again, including the ones that might have been already reviewed.
+>
+> Ani
+>
+>
+> On Fri, 15 Oct 2021, Eric DeVolder wrote:
+>
+> > This patchset introduces support for the ACPI Error Record
+> > Serialization Table, ERST.
+> >
+> > For background and implementation information, please see
+> > docs/specs/acpi_erst.rst, which is patch 2/10.
+> >
+> > Suggested-by: Konrad Wilk <konrad.wilk@oracle.com>
+> > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> >
 > > ---
-> >   block.c                    | 10 ++++++++++
-> >   tests/qemu-iotests/085     | 31 ++++++++++++++++++++++++++++++-
-> >   tests/qemu-iotests/085.out | 33 ++++++++++++++++++++++++++++++---
-> >   3 files changed, 70 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/block.c b/block.c
-> > index 45f653a88b..231dddf655 100644
-> > --- a/block.c
-> > +++ b/block.c
-> > @@ -84,6 +84,9 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
-> >                                              BdrvChildRole child_role,
-> >                                              Error **errp);
-> > +static bool bdrv_recurse_has_child(BlockDriverState *bs,
-> > +                                   BlockDriverState *child);
-> > +
-> >   static void bdrv_replace_child_noperm(BdrvChild *child,
-> >                                         BlockDriverState *new_bs);
-> >   static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
-> > @@ -2673,6 +2676,7 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
-> >       int drain_saldo;
-> >       assert(!child->frozen);
-> > +    assert(old_bs != new_bs);
-> >       if (old_bs && new_bs) {
-> >           assert(bdrv_get_aio_context(old_bs) == bdrv_get_aio_context(new_bs));
-> > @@ -2892,6 +2896,12 @@ static int bdrv_attach_child_noperm(BlockDriverState *parent_bs,
-> >       assert(parent_bs->drv);
-> > +    if (bdrv_recurse_has_child(child_bs, parent_bs)) {
-> > +        error_setg(errp, "Making '%s' a %s child of '%s' would create a cycle",
-> > +                   parent_bs->node_name, child_name, child_bs->node_name);
-> 
-> Seems, child_bs and parent_bs should be swapped.
+> > v8: 15oct2021
+> >  - Added Kconfig option for ERST, per Ani Sinha
+> >  - Fixed patch ordering, per Ani
+> >
+> > v7: 7oct2021
+> >  - style improvements, per Igor
+> >  - use of endian accessors for storage header, per Igor
+> >  - a number of optimizations and improvements, per Igor
+> >  - updated spec for header, per Igor
+> >  - updated spec for rst format, per Michael Tsirkin
+> >  - updated spec for new record_size parameter
+> >    Due to changes in the spec, I am not carrying the
+> >    Acked-by from Ani Sinha.
+> >  - changes for and testing of migration to systems with
+> >    differing ERST_RECORD_SIZE
+> >
+> > v6: 5aug2021
+> >  - Fixed compile warning/error, per Michael Tsirkin
+> >  - Fixed mingw32 build error, per Michael
+> >  - Converted exchange buffer to MemoryBackend, per Igor
+> >  - Migrated test to PCI, per Igor
+> >  - Significantly reduced amount of copying, per Igor
+> >  - Corrections/enhancements to acpi_erst.txt, per Igor
+> >  - Many misc/other small items, per Igor
+> >
+> > v5: 30jun2021
+> >  - Create docs/specs/acpi_erst.txt, per Igor
+> >  - Separate PCI BARs for registers and memory, per Igor
+> >  - Convert debugging to use trace infrastructure, per Igor
+> >  - Various other fixups, per Igor
+> >
+> > v4: 11jun2021
+> >  - Converted to a PCI device, per Igor.
+> >  - Updated qtest.
+> >  - Rearranged patches, per Igor.
+> >
+> > v3: 28may2021
+> >  - Converted to using a TYPE_MEMORY_BACKEND_FILE object rather than
+> >    internal array with explicit file operations, per Igor.
+> >  - Changed the way the qdev and base address are handled, allowing
+> >    ERST to be disabled at run-time. Also aligns better with other
+> >    existing code.
+> >
+> > v2: 8feb2021
+> >  - Added qtest/smoke test per Paolo Bonzini
+> >  - Split patch into smaller chunks, per Igor Mammedov
+> >  - Did away with use of ACPI packed structures, per Igor Mammedov
+> >
+> > v1: 26oct2020
+> >  - initial post
+> >
+> > ---
+> > Eric DeVolder (10):
+> >   ACPI ERST: bios-tables-test.c steps 1 and 2
+> >   ACPI ERST: specification for ERST support
+> >   ACPI ERST: PCI device_id for ERST
+> >   ACPI ERST: header file for ERST
+> >   ACPI ERST: support for ACPI ERST feature
+> >   ACPI ERST: build the ACPI ERST table
+> >   ACPI ERST: create ACPI ERST table for pc/x86 machines
+> >   ACPI ERST: qtest for ERST
+> >   ACPI ERST: bios-tables-test testcase
+> >   ACPI ERST: step 6 of bios-tables-test.c
+> >
+> >  docs/specs/acpi_erst.rst          |  200 +++++++
+> >  hw/acpi/Kconfig                   |    6 +
+> >  hw/acpi/erst.c                    | 1077
+> +++++++++++++++++++++++++++++++++++++
+> >  hw/acpi/meson.build               |    1 +
+> >  hw/acpi/trace-events              |   15 +
+> >  hw/i386/acpi-build.c              |    9 +
+> >  hw/i386/acpi-microvm.c            |    9 +
+> >  include/hw/acpi/erst.h            |   24 +
+> >  include/hw/pci/pci.h              |    1 +
+> >  tests/data/acpi/microvm/ERST.pcie |  Bin 0 -> 912 bytes
+> >  tests/data/acpi/pc/DSDT.acpierst  |  Bin 0 -> 5969 bytes
+> >  tests/data/acpi/pc/ERST           |    0
+> >  tests/data/acpi/q35/DSDT.acpierst |  Bin 0 -> 8306 bytes
+> >  tests/data/acpi/q35/ERST          |    0
+> >  tests/qtest/bios-tables-test.c    |   55 ++
+> >  tests/qtest/erst-test.c           |  167 ++++++
+> >  tests/qtest/meson.build           |    2 +
+> >  17 files changed, 1566 insertions(+)
+> >  create mode 100644 docs/specs/acpi_erst.rst
+> >  create mode 100644 hw/acpi/erst.c
+> >  create mode 100644 include/hw/acpi/erst.h
+> >  create mode 100644 tests/data/acpi/microvm/ERST.pcie
+> >  create mode 100644 tests/data/acpi/pc/DSDT.acpierst
+> >  create mode 100644 tests/data/acpi/pc/ERST
+> >  create mode 100644 tests/data/acpi/q35/DSDT.acpierst
+> >  create mode 100644 tests/data/acpi/q35/ERST
+> >  create mode 100644 tests/qtest/erst-test.c
+> >
+> > --
+> > 1.8.3.1
+> >
+> >
+>
 
-Oops, thanks. I'm fixing it up while applying.
+--0000000000002cfac805ceb3c065
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Kevin
+<div dir=3D"auto">Oh sorry. Please disregard that. I see you did send all t=
+he patches in the series for v8. My Gmail tagging went wrong.</div><div><br=
+><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, O=
+ct 19, 2021 at 17:30 Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca">ani@a=
+nisinha.ca</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi Eric:=
+<br>
+<br>
+So I do not see all the patches in the series for v8. Just so you know,<br>
+when you spin out a new version, please do send all the patches in the<br>
+series again, including the ones that might have been already reviewed.<br>
+<br>
+Ani<br>
+<br>
+<br>
+On Fri, 15 Oct 2021, Eric DeVolder wrote:<br>
+<br>
+&gt; This patchset introduces support for the ACPI Error Record<br>
+&gt; Serialization Table, ERST.<br>
+&gt;<br>
+&gt; For background and implementation information, please see<br>
+&gt; docs/specs/acpi_erst.rst, which is patch 2/10.<br>
+&gt;<br>
+&gt; Suggested-by: Konrad Wilk &lt;<a href=3D"mailto:konrad.wilk@oracle.com=
+" target=3D"_blank">konrad.wilk@oracle.com</a>&gt;<br>
+&gt; Signed-off-by: Eric DeVolder &lt;<a href=3D"mailto:eric.devolder@oracl=
+e.com" target=3D"_blank">eric.devolder@oracle.com</a>&gt;<br>
+&gt;<br>
+&gt; ---<br>
+&gt; v8: 15oct2021<br>
+&gt;=C2=A0 - Added Kconfig option for ERST, per Ani Sinha<br>
+&gt;=C2=A0 - Fixed patch ordering, per Ani<br>
+&gt;<br>
+&gt; v7: 7oct2021<br>
+&gt;=C2=A0 - style improvements, per Igor<br>
+&gt;=C2=A0 - use of endian accessors for storage header, per Igor<br>
+&gt;=C2=A0 - a number of optimizations and improvements, per Igor<br>
+&gt;=C2=A0 - updated spec for header, per Igor<br>
+&gt;=C2=A0 - updated spec for rst format, per Michael Tsirkin<br>
+&gt;=C2=A0 - updated spec for new record_size parameter<br>
+&gt;=C2=A0 =C2=A0 Due to changes in the spec, I am not carrying the<br>
+&gt;=C2=A0 =C2=A0 Acked-by from Ani Sinha.<br>
+&gt;=C2=A0 - changes for and testing of migration to systems with<br>
+&gt;=C2=A0 =C2=A0 differing ERST_RECORD_SIZE<br>
+&gt;<br>
+&gt; v6: 5aug2021<br>
+&gt;=C2=A0 - Fixed compile warning/error, per Michael Tsirkin<br>
+&gt;=C2=A0 - Fixed mingw32 build error, per Michael<br>
+&gt;=C2=A0 - Converted exchange buffer to MemoryBackend, per Igor<br>
+&gt;=C2=A0 - Migrated test to PCI, per Igor<br>
+&gt;=C2=A0 - Significantly reduced amount of copying, per Igor<br>
+&gt;=C2=A0 - Corrections/enhancements to acpi_erst.txt, per Igor<br>
+&gt;=C2=A0 - Many misc/other small items, per Igor<br>
+&gt;<br>
+&gt; v5: 30jun2021<br>
+&gt;=C2=A0 - Create docs/specs/acpi_erst.txt, per Igor<br>
+&gt;=C2=A0 - Separate PCI BARs for registers and memory, per Igor<br>
+&gt;=C2=A0 - Convert debugging to use trace infrastructure, per Igor<br>
+&gt;=C2=A0 - Various other fixups, per Igor<br>
+&gt;<br>
+&gt; v4: 11jun2021<br>
+&gt;=C2=A0 - Converted to a PCI device, per Igor.<br>
+&gt;=C2=A0 - Updated qtest.<br>
+&gt;=C2=A0 - Rearranged patches, per Igor.<br>
+&gt;<br>
+&gt; v3: 28may2021<br>
+&gt;=C2=A0 - Converted to using a TYPE_MEMORY_BACKEND_FILE object rather th=
+an<br>
+&gt;=C2=A0 =C2=A0 internal array with explicit file operations, per Igor.<b=
+r>
+&gt;=C2=A0 - Changed the way the qdev and base address are handled, allowin=
+g<br>
+&gt;=C2=A0 =C2=A0 ERST to be disabled at run-time. Also aligns better with =
+other<br>
+&gt;=C2=A0 =C2=A0 existing code.<br>
+&gt;<br>
+&gt; v2: 8feb2021<br>
+&gt;=C2=A0 - Added qtest/smoke test per Paolo Bonzini<br>
+&gt;=C2=A0 - Split patch into smaller chunks, per Igor Mammedov<br>
+&gt;=C2=A0 - Did away with use of ACPI packed structures, per Igor Mammedov=
+<br>
+&gt;<br>
+&gt; v1: 26oct2020<br>
+&gt;=C2=A0 - initial post<br>
+&gt;<br>
+&gt; ---<br>
+&gt; Eric DeVolder (10):<br>
+&gt;=C2=A0 =C2=A0ACPI ERST: bios-tables-test.c steps 1 and 2<br>
+&gt;=C2=A0 =C2=A0ACPI ERST: specification for ERST support<br>
+&gt;=C2=A0 =C2=A0ACPI ERST: PCI device_id for ERST<br>
+&gt;=C2=A0 =C2=A0ACPI ERST: header file for ERST<br>
+&gt;=C2=A0 =C2=A0ACPI ERST: support for ACPI ERST feature<br>
+&gt;=C2=A0 =C2=A0ACPI ERST: build the ACPI ERST table<br>
+&gt;=C2=A0 =C2=A0ACPI ERST: create ACPI ERST table for pc/x86 machines<br>
+&gt;=C2=A0 =C2=A0ACPI ERST: qtest for ERST<br>
+&gt;=C2=A0 =C2=A0ACPI ERST: bios-tables-test testcase<br>
+&gt;=C2=A0 =C2=A0ACPI ERST: step 6 of bios-tables-test.c<br>
+&gt;<br>
+&gt;=C2=A0 docs/specs/acpi_erst.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 200 +++++++<br>
+&gt;=C2=A0 hw/acpi/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 6 +<br>
+&gt;=C2=A0 hw/acpi/erst.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | 1077 +++++++++++++++++++++++++++++++++++++<br>
+&gt;=C2=A0 hw/acpi/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 =C2=A0 1 +<br>
+&gt;=C2=A0 hw/acpi/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 =C2=A015 +<br>
+&gt;=C2=A0 hw/i386/acpi-build.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 =C2=A0 9 +<br>
+&gt;=C2=A0 hw/i386/acpi-microvm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+|=C2=A0 =C2=A0 9 +<br>
+&gt;=C2=A0 include/hw/acpi/erst.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+|=C2=A0 =C2=A024 +<br>
+&gt;=C2=A0 include/hw/pci/pci.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 =C2=A0 1 +<br>
+&gt;=C2=A0 tests/data/acpi/microvm/ERST.pcie |=C2=A0 Bin 0 -&gt; 912 bytes<=
+br>
+&gt;=C2=A0 tests/data/acpi/pc/DSDT.acpierst=C2=A0 |=C2=A0 Bin 0 -&gt; 5969 =
+bytes<br>
+&gt;=C2=A0 tests/data/acpi/pc/ERST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+|=C2=A0 =C2=A0 0<br>
+&gt;=C2=A0 tests/data/acpi/q35/DSDT.acpierst |=C2=A0 Bin 0 -&gt; 8306 bytes=
+<br>
+&gt;=C2=A0 tests/data/acpi/q35/ERST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A0 0<br>
+&gt;=C2=A0 tests/qtest/bios-tables-test.c=C2=A0 =C2=A0 |=C2=A0 =C2=A055 ++<=
+br>
+&gt;=C2=A0 tests/qtest/erst-test.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+|=C2=A0 167 ++++++<br>
+&gt;=C2=A0 tests/qtest/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+|=C2=A0 =C2=A0 2 +<br>
+&gt;=C2=A0 17 files changed, 1566 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 docs/specs/acpi_erst.rst<br>
+&gt;=C2=A0 create mode 100644 hw/acpi/erst.c<br>
+&gt;=C2=A0 create mode 100644 include/hw/acpi/erst.h<br>
+&gt;=C2=A0 create mode 100644 tests/data/acpi/microvm/ERST.pcie<br>
+&gt;=C2=A0 create mode 100644 tests/data/acpi/pc/DSDT.acpierst<br>
+&gt;=C2=A0 create mode 100644 tests/data/acpi/pc/ERST<br>
+&gt;=C2=A0 create mode 100644 tests/data/acpi/q35/DSDT.acpierst<br>
+&gt;=C2=A0 create mode 100644 tests/data/acpi/q35/ERST<br>
+&gt;=C2=A0 create mode 100644 tests/qtest/erst-test.c<br>
+&gt;<br>
+&gt; --<br>
+&gt; 1.8.3.1<br>
+&gt;<br>
+&gt;<br>
+</blockquote></div></div>
 
+--0000000000002cfac805ceb3c065--
 
