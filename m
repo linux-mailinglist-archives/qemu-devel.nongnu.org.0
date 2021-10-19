@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1DA243340B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 12:59:26 +0200 (CEST)
-Received: from localhost ([::1]:44332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36576433423
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 12:59:58 +0200 (CEST)
+Received: from localhost ([::1]:45136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcmq5-0007Co-O3
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 06:59:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45204)
+	id 1mcmqb-0007jY-C2
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 06:59:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcmmk-0003y1-PQ
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:55:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36832)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mcmoh-0006Fr-RU
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:57:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcmmi-0004vr-6r
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:55:58 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mcmob-0006Ws-CF
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:57:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634640955;
+ s=mimecast20190719; t=1634641072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=oF1LO+zZt5LPqidAFiTdzHJSWmeS04R8XzKItGwlBUI=;
- b=abVPNEVLKWsE26aKCNA+0ULDHGQFPMwYnP6ErCwOOgzeoG7vSjn9oeTWhlTdN2PNvMyKac
- RJZhwSY75jxH+L5wo2vidiNuO4/cyiGxQoFwH1gfGsvPi54oEvo9q4Ms4eZhCCpTuUNMCR
- IREWcf+o6ahj7Du1aX2dra0ghaAozEw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-5MM4TNZtPaS476UcOTV_fg-1; Tue, 19 Oct 2021 06:55:54 -0400
-X-MC-Unique: 5MM4TNZtPaS476UcOTV_fg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s1-20020adfc541000000b001645b92c65bso4771669wrf.6
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 03:55:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=oF1LO+zZt5LPqidAFiTdzHJSWmeS04R8XzKItGwlBUI=;
- b=5cKt1SJCDCUikBKsnZpjZpDnlb+YB/b7K9FiLvGxAPhuliVcOTM6NtJdS0Z8Ja1YDe
- qf1siVOX5BayAs7SnFC4Cvu4x+Rf6YITt5rco4wA30rkOFWccrQhkA9fx4j9op2rvAx2
- LOZI5OJ05+9QkL6ebgx40UqlQz7SQAU7zR2RhDX9W+dIpsnP1du4mzR6vNCgAJcGdIs4
- dvYUl84cue1v7Y4gXbDGovwFMV37IXv4fAR4xxYm0njjiHkYO3fMkaUUKF17UEb0stdp
- j/T5WCQK0LAlEMCXdkY/lcvKaq6GVnPNOFUlhiyyIzHkZtoMXVH7J29OFss8SldvVHMd
- DNpA==
-X-Gm-Message-State: AOAM533lMYArnuhj6n3sQfSlQmW/s040RRLpq1ArXoesy36zfQcT2UHY
- q4tEPeKo5hHd66jgP02v+SetOb+/cbFMJkds4DdQ8oPn9EjnIvRrAmt0wAUuIgcEkzUC+JXhkme
- CP9UCN/lPrI/SCO8=
-X-Received: by 2002:adf:f044:: with SMTP id t4mr43075329wro.406.1634640952892; 
- Tue, 19 Oct 2021 03:55:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw64gQGACLNHzRHh1RhxEt8O5Ny+vUag0e48MVm+bZoR1hZigL+3nHtExGWIPrtwMFMvZGGFQ==
-X-Received: by 2002:adf:f044:: with SMTP id t4mr43075299wro.406.1634640952646; 
- Tue, 19 Oct 2021 03:55:52 -0700 (PDT)
-Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id h11sm14094824wrz.5.2021.10.19.03.55.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 03:55:52 -0700 (PDT)
-Date: Tue, 19 Oct 2021 06:55:49 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Xueming Li <xuemingl@nvidia.com>
-Subject: Re: [PATCH v5 2/2] vhost-user: remove VirtQ notifier restore
-Message-ID: <20211019065517-mutt-send-email-mst@kernel.org>
-References: <20211019075743.2162432-1-xuemingl@nvidia.com>
- <20211019075743.2162432-3-xuemingl@nvidia.com>
+ bh=jGfhgucF0hs1HcOPzJk3PckuNfIFCLe30SBUEqpOwYE=;
+ b=OgDIfMpfz6pbqICau5yTrx/m57ebbDCyQEnrfDwbgqzTi8uDHcveljDC09fLHZL3zrmhe3
+ 6bfKOND36/q6epTg8+4hoo4b1H0bH4b/HZ10mCAc8wav/2BcFunUYcKHt6oN0UBezqBrBH
+ 7J5I/fT+PX/f10GvVU4nB57TixgwRxQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-57-dqNcMWAmPeaYn8xrUTwC3Q-1; Tue, 19 Oct 2021 06:57:49 -0400
+X-MC-Unique: dqNcMWAmPeaYn8xrUTwC3Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4AD15721D;
+ Tue, 19 Oct 2021 10:57:47 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C878B60936;
+ Tue, 19 Oct 2021 10:57:31 +0000 (UTC)
+Date: Tue, 19 Oct 2021 12:57:30 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH v2 12/15] virtio-net: Store failover primary opts pointer
+ locally
+Message-ID: <YW6kmnhGPwjFQlZd@redhat.com>
+References: <20211008133442.141332-1-kwolf@redhat.com>
+ <20211008133442.141332-13-kwolf@redhat.com>
+ <3be47c0d-817b-b5e6-fa7f-234a417ec2c5@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211019075743.2162432-3-xuemingl@nvidia.com>
+In-Reply-To: <3be47c0d-817b-b5e6-fa7f-234a417ec2c5@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,104 +78,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org
+Cc: damien.hedde@greensocs.com, pkrempa@redhat.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
+ libvir-list@redhat.com, jasowang@redhat.com, quintela@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, vsementsov@virtuozzo.com,
+ its@irrelevant.dk, pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 19, 2021 at 03:57:43PM +0800, Xueming Li wrote:
-> When vhost-user vdpa client restart, VQ notifier mmap address and MR
-> become invalid, restore MR only is wrong.
-
-wrong how? as opposed to what?
-
-> vdpa client will set VQ
-> notifier after reconnect.
+Am 19.10.2021 um 10:06 hat Laurent Vivier geschrieben:
+> On 08/10/2021 15:34, Kevin Wolf wrote:
+> > Instead of accessing the global QemuOptsList, which really belong to the
+> > command line parser and shouldn't be accessed from devices, store a
+> > pointer to the QemuOpts in a new VirtIONet field.
+> > 
+> > This is not the final state, but just an intermediate step to get rid of
+> > QemuOpts in devices. It will later be replaced with an options QDict.
+> > 
+> > Before this patch, two "primary" devices could be hidden for the same
+> > standby device, but only one of them would actually be enabled and the
+> > other one would be kept hidden forever, so this doesn't make sense.
+> > After this patch, configuring a second primary device is an error.
+> > 
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >   include/hw/virtio/virtio-net.h |  1 +
+> >   hw/net/virtio-net.c            | 26 ++++++++++++++++++--------
+> >   2 files changed, 19 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
+> > index 824a69c23f..d118c95f69 100644
+> > --- a/include/hw/virtio/virtio-net.h
+> > +++ b/include/hw/virtio/virtio-net.h
+> > @@ -209,6 +209,7 @@ struct VirtIONet {
+> >       bool failover_primary_hidden;
+> >       bool failover;
+> >       DeviceListener primary_listener;
+> > +    QemuOpts *primary_opts;
+> >       Notifier migration_state;
+> >       VirtioNetRssData rss_data;
+> >       struct NetRxPkt *rx_pkt;
+> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > index a17d5739fc..ed9a9012e9 100644
+> > --- a/hw/net/virtio-net.c
+> > +++ b/hw/net/virtio-net.c
+> > @@ -858,27 +858,24 @@ static DeviceState *failover_find_primary_device(VirtIONet *n)
+> >   static void failover_add_primary(VirtIONet *n, Error **errp)
+> >   {
+> >       Error *err = NULL;
+> > -    QemuOpts *opts;
+> > -    char *id;
+> >       DeviceState *dev = failover_find_primary_device(n);
+> >       if (dev) {
+> >           return;
+> >       }
+> > -    id = failover_find_primary_device_id(n);
+> > -    if (!id) {
+> > +    if (!n->primary_opts) {
+> >           error_setg(errp, "Primary device not found");
+> >           error_append_hint(errp, "Virtio-net failover will not work. Make "
+> >                             "sure primary device has parameter"
+> >                             " failover_pair_id=%s\n", n->netclient_name);
+> >           return;
+> >       }
+> > -    opts = qemu_opts_find(qemu_find_opts("device"), id);
+> > -    g_assert(opts); /* cannot be NULL because id was found using opts list */
+> > -    dev = qdev_device_add(opts, &err);
+> > +
+> > +    dev = qdev_device_add(n->primary_opts, &err);
+> >       if (err) {
+> > -        qemu_opts_del(opts);
+> > +        qemu_opts_del(n->primary_opts);
+> > +        n->primary_opts = NULL;
+> >       } else {
+> >           object_unref(OBJECT(dev));
+> >       }
+> > @@ -3317,6 +3314,19 @@ static bool failover_hide_primary_device(DeviceListener *listener,
+> >           return false;
+> >       }
+> > +    if (n->primary_opts) {
+> > +        error_setg(errp, "Cannot attach more than one primary device to '%s'",
+> > +                   n->netclient_name);
+> > +        return false;
+> > +    }
+> > +
 > 
-> This patch removes VQ notifier restore and related flags.
-
-with the result that ...
-
+> This part has introduced a regression, I've sent a patch to fix that.
 > 
-> Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
-> Cc: qemu-stable@nongnu.org
-> Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
-> Signed-off-by: Xueming Li <xuemingl@nvidia.com>
-> ---
->  hw/virtio/vhost-user.c         | 19 +------------------
->  include/hw/virtio/vhost-user.h |  1 -
->  2 files changed, 1 insertion(+), 19 deletions(-)
-> 
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index cfca1b9adc..cc33f4b042 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -1144,19 +1144,6 @@ static int vhost_user_set_vring_num(struct vhost_dev *dev,
->      return vhost_set_vring(dev, VHOST_USER_SET_VRING_NUM, ring);
->  }
->  
-> -static void vhost_user_host_notifier_restore(struct vhost_dev *dev,
-> -                                             int queue_idx)
-> -{
-> -    struct vhost_user *u = dev->opaque;
-> -    VhostUserHostNotifier *n = &u->user->notifier[queue_idx];
-> -    VirtIODevice *vdev = dev->vdev;
-> -
-> -    if (n->addr && !n->set) {
-> -        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, true);
-> -        n->set = true;
-> -    }
-> -}
-> -
->  static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
->                                              int queue_idx)
->  {
-> @@ -1164,7 +1151,7 @@ static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
->      VhostUserHostNotifier *n = &u->user->notifier[queue_idx];
->      VirtIODevice *vdev = dev->vdev;
->  
-> -    if (n->addr && n->set) {
-> +    if (n->addr) {
->          virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
->          if (!qemu_in_vcpu_thread()) { /* Avoid vCPU dead lock. */
->              /* Wait for VM threads accessing old flatview which contains notifier. */
-> @@ -1172,15 +1159,12 @@ static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
->          }
->          munmap(n->addr, qemu_real_host_page_size);
->          n->addr = NULL;
-> -        n->set = false;
->      }
->  }
->  
->  static int vhost_user_set_vring_base(struct vhost_dev *dev,
->                                       struct vhost_vring_state *ring)
->  {
-> -    vhost_user_host_notifier_restore(dev, ring->index);
-> -
->      return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
->  }
->  
-> @@ -1540,7 +1524,6 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
->      }
->  
->      n->addr = addr;
-> -    n->set = true;
->  
->      return 0;
->  }
-> diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
-> index a9abca3288..f6012b2078 100644
-> --- a/include/hw/virtio/vhost-user.h
-> +++ b/include/hw/virtio/vhost-user.h
-> @@ -14,7 +14,6 @@
->  typedef struct VhostUserHostNotifier {
->      MemoryRegion mr;
->      void *addr;
-> -    bool set;
->  } VhostUserHostNotifier;
->  
->  typedef struct VhostUserState {
-> -- 
-> 2.33.0
+> https://patchew.org/QEMU/20211019071532.682717-1-lvivier@redhat.com/
+
+Thanks for catching this! The fix looks good to me.
+
+Kevin
 
 
