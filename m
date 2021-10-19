@@ -2,81 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB77433DE5
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 19:55:39 +0200 (CEST)
-Received: from localhost ([::1]:58198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF6B433DEA
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 19:57:28 +0200 (CEST)
+Received: from localhost ([::1]:57258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mctKs-0005Nx-IA
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 13:55:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53428)
+	id 1mctMd-0004jE-Lg
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 13:57:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mcsgp-0003ch-5J
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 13:14:15 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39742)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mcsgn-0001OQ-JL
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 13:14:14 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- 63-20020a1c0042000000b0030d60716239so4108581wma.4
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 10:14:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=BNvILEezEt4p48UW2jDnCuiqB0oAWo53d3AM8dyl/WE=;
- b=YxY0MXqOrpB/T3lD4JSo2fnHGkX0oHydgEh1rSoXlLW/a1LpQWp3OF7holucx83Xit
- mqrTHAtoy+znJpOK5qHUTiZ/QVo4jtVhkWGudVKJE3Vk7aZqT/rsI1cj7rUM7pJB35ml
- GP3Ruep19dqgLdY0C7RtkdGHhADM4di1XH1JdybRa+jQMWmsyDHWbFzFiit+q5jS9c5L
- BTsJ9zm+SagbV9fvmjVaiRKRDoGur+wkbUhlRf40Zl6ERZOqXIeh212ipM148j2tNzD9
- 7P9GTZbOqgdu08lsbaC2DSD8bvi0hw/YUwDNJYrCVJ7wmJ19OydQOkueQnMvNSb3oFGA
- BvtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=BNvILEezEt4p48UW2jDnCuiqB0oAWo53d3AM8dyl/WE=;
- b=DN2GcvnIiVLoUMnTA0Ga6MxyavhhlVIvs6r49izE2Zyohj448kwHz58wyxsc9FK419
- Vq39Q3EmtJ6WV6gB4jbjvEUvkInFShTer2kPDajw29NhCquqC47eGbkNBmYPf6O+ezZF
- eruuKZ0aCIqwHU52Zf6Tf4TuYopZRSbRl8Ut+1Dcachp65wIryqUnqxntRVBKmZp0KSR
- izHfqNmznHHlCnIuWE7AAlodb4+mHuAuCNefMkrKgGr/opgEDRaGUbfe57ZTElW5MdoN
- 8JERzP/lqXowuic57faynVsfOYB0ED3//BpZWrXG/teTibtJ76jIMv9C6Vp+I3hFiKI4
- nk6A==
-X-Gm-Message-State: AOAM531Xj4XmpEeRz/RTctkJ/c5CU4o0+sbKXagmW9Md+jCA8hp0F6aK
- +Rq/yqJQLc9Yf6bkOApMGi8B+UAzMoY=
-X-Google-Smtp-Source: ABdhPJwYuBRfPFr/3ucHBGyuHKf9w2ZE/Us5F9ATfu+xFlcTRO6pnAESj+uPqCNwktmDeSbQGOKiCQ==
-X-Received: by 2002:a7b:c08b:: with SMTP id r11mr7357915wmh.167.1634663652079; 
- Tue, 19 Oct 2021 10:14:12 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n7sm10098764wrp.17.2021.10.19.10.14.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 10:14:11 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C5F541FF96;
- Tue, 19 Oct 2021 18:14:10 +0100 (BST)
+ (Exim 4.90_1) (envelope-from <pavel@labath.sk>) id 1mctFj-0007UL-DP
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 13:50:20 -0400
+Received: from holomatrix.labath.sk ([92.48.125.149]:52754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel@labath.sk>) id 1mctFf-000121-HE
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 13:50:18 -0400
+Received: from unimatrix0.localdomain (unknown [172.29.152.10])
+ by holomatrix.labath.sk (Postfix) with ESMTPS id 85B7F7760C5B;
+ Tue, 19 Oct 2021 17:50:11 +0000 (GMT)
+Received: by unimatrix0.localdomain (Postfix, from userid 1000)
+ id 0C0972940A9; Tue, 19 Oct 2021 19:50:11 +0200 (CEST)
+From: Pavel Labath <pavel@labath.sk>
+To: alex.bennee@linaro.org
+Subject: [PATCH v2] gdbstub: Switch to the thread receiving a signal
+Date: Tue, 19 Oct 2021 19:49:52 +0200
+Message-Id: <20211019174953.36560-1-pavel@labath.sk>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210930095111.23205-1-pavel@labath.sk>
 References: <20210930095111.23205-1-pavel@labath.sk>
- <9b435ae3-27f3-4838-421e-f40ac58a7905@labath.sk>
- <87czo6th1k.fsf@linaro.org>
- <18ff3adb-6777-730b-ecdb-a99addd9109f@labath.sk>
-User-agent: mu4e 1.7.0; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pavel Labath <pavel@labath.sk>
-Subject: Re: [PATCH] gdbstub: Switch to the thread receiving a signal
-Date: Tue, 19 Oct 2021 18:13:36 +0100
-In-reply-to: <18ff3adb-6777-730b-ecdb-a99addd9109f@labath.sk>
-Message-ID: <87k0i9vswt.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=92.48.125.149; envelope-from=pavel@labath.sk;
+ helo=holomatrix.labath.sk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,37 +51,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Pavel Labath <pavel@labath.sk>, philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Respond with Txxthread:yyyy; instead of a plain Sxx to indicate which
+thread received the signal. Otherwise, the debugger will associate it
+with the main one. Also automatically select this thread, as that is
+what gdb expects.
 
-Pavel Labath <pavel@labath.sk> writes:
+Signed-off-by: Pavel Labath <pavel@labath.sk>
+---
+ gdbstub.c                                     |  8 ++-
+ tests/tcg/multiarch/Makefile.target           | 10 +++-
+ .../gdbstub/test-thread-breakpoint.py         | 60 +++++++++++++++++++
+ 3 files changed, 75 insertions(+), 3 deletions(-)
+ create mode 100644 tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
 
-> On 15/10/2021 17:59, Alex Benn=C3=A9e wrote:
->> Pavel Labath <pavel@labath.sk> writes:
->>=20
->>> Ping.
->>>
->>> (This is my first qemu patch, so please let me know if I am doing
->>> something wrong.)
->> Apologies it slipped though the cracks. I shall have a look on
->> Monday.
->>=20
->
-> I don't want to impose, but did this get buried over the weekend by
-> any chance?
+diff --git a/gdbstub.c b/gdbstub.c
+index 36b85aa..23baaef 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -3138,8 +3138,12 @@ gdb_handlesig(CPUState *cpu, int sig)
+     tb_flush(cpu);
+ 
+     if (sig != 0) {
+-        snprintf(buf, sizeof(buf), "S%02x", target_signal_to_gdb(sig));
+-        put_packet(buf);
++        gdb_set_stop_cpu(cpu);
++        g_string_printf(gdbserver_state.str_buf,
++                        "T%02xthread:", target_signal_to_gdb(sig));
++        gdb_append_thread_id(cpu, gdbserver_state.str_buf);
++        g_string_append_c(gdbserver_state.str_buf, ';');
++        put_strbuf();
+     }
+     /* put_packet() might have detected that the peer terminated the
+        connection.  */
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index 6ccb592..c84683f 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -70,11 +70,19 @@ run-gdbstub-qxfer-auxv-read: sha1
+ 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-qxfer-auxv-read.py, \
+ 	"basic gdbstub qXfer:auxv:read support")
+ 
++run-gdbstub-thread-breakpoint: testthread
++	$(call run-test, $@, $(GDB_SCRIPT) \
++		--gdb $(HAVE_GDB_BIN) \
++		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
++		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-thread-breakpoint.py, \
++	"hitting a breakpoint on non-main thread")
++
+ else
+ run-gdbstub-%:
+ 	$(call skip-test, "gdbstub test $*", "need working gdb")
+ endif
+-EXTRA_RUNS += run-gdbstub-sha1 run-gdbstub-qxfer-auxv-read
++EXTRA_RUNS += run-gdbstub-sha1 run-gdbstub-qxfer-auxv-read \
++	      run-gdbstub-thread-breakpoint
+ 
+ # ARM Compatible Semi Hosting Tests
+ #
+diff --git a/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py b/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
+new file mode 100644
+index 0000000..798d508
+--- /dev/null
++++ b/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
+@@ -0,0 +1,60 @@
++from __future__ import print_function
++#
++# Test auxiliary vector is loaded via gdbstub
++#
++# This is launched via tests/guest-debug/run-test.py
++#
++
++import gdb
++import sys
++
++failcount = 0
++
++def report(cond, msg):
++    "Report success/fail of test"
++    if cond:
++        print ("PASS: %s" % (msg))
++    else:
++        print ("FAIL: %s" % (msg))
++        global failcount
++        failcount += 1
++
++def run_test():
++    "Run through the tests one by one"
++
++    sym, ok = gdb.lookup_symbol("thread1_func")
++    gdb.execute("b thread1_func")
++    gdb.execute("c")
++
++    frame = gdb.selected_frame()
++    report(str(frame.function()) == "thread1_func", "break @ %s"%frame)
++
++#
++# This runs as the script it sourced (via -x, via run-test.py)
++#
++try:
++    inferior = gdb.selected_inferior()
++    arch = inferior.architecture()
++    print("ATTACHED: %s" % arch.name())
++except (gdb.error, AttributeError):
++    print("SKIPPING (not connected)", file=sys.stderr)
++    exit(0)
++
++if gdb.parse_and_eval('$pc') == 0:
++    print("SKIP: PC not set")
++    exit(0)
++
++try:
++    # These are not very useful in scripts
++    gdb.execute("set pagination off")
++    gdb.execute("set confirm off")
++
++    # Run the actual tests
++    run_test()
++except (gdb.error):
++    print ("GDB Exception: %s" % (sys.exc_info()[0]))
++    failcount += 1
++    pass
++
++print("All tests complete: %d failures" % failcount)
++exit(failcount)
+-- 
+2.32.0
 
-I had a quick look over and made some comments. I haven't been able to
-replicate the test manually so far but I might have broken tooling so I
-need to dig into that.
-
->
-> regards,
-> pl
-
-
---=20
-Alex Benn=C3=A9e
 
