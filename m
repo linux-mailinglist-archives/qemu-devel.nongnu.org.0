@@ -2,91 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F2543330A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 12:02:19 +0200 (CEST)
-Received: from localhost ([::1]:47194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55874433310
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 12:03:12 +0200 (CEST)
+Received: from localhost ([::1]:50094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mclwo-0000N6-AK
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 06:02:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59988)
+	id 1mclxf-0002R2-9e
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 06:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mclrX-0001Hc-OM
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:56:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21078)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mcljY-0000UV-O0; Tue, 19 Oct 2021 05:48:37 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:54766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mclrV-0006Zu-Sq
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:56:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634637408;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rjsNZgxKh1B15mEPCMHL7EAyeLzK132CVQoDHuULcA8=;
- b=LsrOfG/krf83fvFMd/uqbwfMePpry2c02k3JIVX9YJbEULt/F88TfeKX5DUX3mcRE9iwff
- 5AhhHITdVJl8v/bcpuBmZFBDyuDf3s59G9kG5rpVst1scXZPkVVh4g2BHgqOo3AmLnCYlG
- m1dw2R7KXjZ3HWYMJtuyvcBiG+poUE4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437--rED6F8yMLefGkczKO6PuQ-1; Tue, 19 Oct 2021 05:56:47 -0400
-X-MC-Unique: -rED6F8yMLefGkczKO6PuQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- j12-20020adf910c000000b0015e4260febdso2943619wrj.20
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 02:56:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=rjsNZgxKh1B15mEPCMHL7EAyeLzK132CVQoDHuULcA8=;
- b=fKBx+EYmXdNj3VwkshF/7tkYtU2OJqrKJskafKdS9LtOeqofaMflyms5LZAq5vn+W5
- dnw6HaIXLxr003z/gAxMYHzx21lHh+pa8oVaAikfssp03PsPhi77jAG2cbQmFGXmsM75
- CiDA6bLdeVF1ABCq5UrDrBGF40+O7NYugH+1Ccn6b8XMyoq9Tn2zOSZYZQTLTDDbt6l6
- kCpb6VxNAE1TopeGrNZstEjOLvE17twUcFQzflLGLbOlGaIF8V6dRxVpnR8XGQbOVJlI
- rcZod3OhiOblhN0l0IennabgpJG7FhJhOIzyv5BCsRN61z0IDO9SIGWhlugoq6YkODYF
- ukLA==
-X-Gm-Message-State: AOAM530b9KtZhrWBcUYCMStB84rg+3MwM2r4c235Yz7g8GCtVyNLbSbn
- 7rg1qFKiNCjmKVbc3aZxmklesacY4H/2YHT2/LsgJlX2/Jlo/9Juv0orAdXPRw+ebgnvRX7XR6a
- ltdEK1+C9A6zh/BU=
-X-Received: by 2002:a05:600c:198d:: with SMTP id
- t13mr4900654wmq.21.1634637406105; 
- Tue, 19 Oct 2021 02:56:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZOjbvuyibvGmoG2scrt1k+M42ulQl/5ZL7jFYZdMc4SYjl4a87YuLvSpNAhVgmtv+1VtzlA==
-X-Received: by 2002:a05:600c:198d:: with SMTP id
- t13mr4900637wmq.21.1634637405943; 
- Tue, 19 Oct 2021 02:56:45 -0700 (PDT)
-Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id 10sm2081950wme.27.2021.10.19.02.56.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 02:56:45 -0700 (PDT)
-Message-ID: <0d5955be-09ac-3581-a13f-f7f8eaa53790@redhat.com>
-Date: Tue, 19 Oct 2021 11:56:44 +0200
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mcljS-0006Vl-EW; Tue, 19 Oct 2021 05:48:36 -0400
+Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 37C0741F6E;
+ Tue, 19 Oct 2021 11:48:28 +0200 (CEST)
+Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 1FAC1601D5;
+ Tue, 19 Oct 2021 11:48:28 +0200 (CEST)
+Received: from palmier.u-ga.fr (palmier.tima.u-ga.fr [147.171.132.208])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 03BF514005D;
+ Tue, 19 Oct 2021 11:48:27 +0200 (CEST)
+From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v3 08/21] target/riscv: adding accessors to the registers
+ upper part
+Date: Tue, 19 Oct 2021 11:47:59 +0200
+Message-Id: <20211019094812.614056-9-frederic.petrot@univ-grenoble-alpes.fr>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
+References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2] chardev: don't exit() straight away on C-a x
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20211019092901.1519570-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211019092901.1519570-1-alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (41)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,38 +69,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Lukas_J=c3=bcnger?= <lukas.junger@greensocs.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
+ alistair.francis@wdc.com, fabien.portas@grenoble-inp.org, palmer@dabbelt.com,
+ =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 11:29, Alex Bennée wrote:
-> While there are a number of uses in the code-base of the exit(0)
-> pattern it gets in the way of clean exit which can do all of it's
-> house-keeping. In particular it was reported that you can crash
-> plugins this way because TCG can still be running on other threads
-> when the atexit callback is called.
-> 
-> Use qmp_quit() instead which takes care of some housekeeping before
-> triggering the shutdown.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reported-by: Lukas Jünger <lukas.junger@greensocs.com>
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Message-Id: <20211018140226.838137-1-alex.bennee@linaro.org>
-> 
-> ---
-> v2
->   - use qmp_quit instead of direct qemu_system_shutdown_request
->   - g_assert_not_reached() for the stub definition
-> ---
->  chardev/char-mux.c | 3 ++-
->  stubs/qmp-quit.c   | 8 ++++++++
->  stubs/meson.build  | 1 +
->  3 files changed, 11 insertions(+), 1 deletion(-)
->  create mode 100644 stubs/qmp-quit.c
+Set and get functions to access the 64 top bits of a register, stored in
+the gprh field of the cpu state.  The access to the gprh field can not be
+protected at compile time to make sure it is accessed only
+in the 128-bit version of the processor because we have no way to
+indicate that the misa_mxl_max field is const.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
+---
+ target/riscv/translate.c | 45 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index b64fe8470d..b6ddcf7a10 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -55,6 +55,7 @@ typedef struct DisasContext {
+     /* pc_succ_insn points to the instruction following base.pc_next */
+     target_ulong pc_succ_insn;
+     target_ulong priv_ver;
++    RISCVMXL misa_mxl_max;
+     RISCVMXL xl;
+     uint32_t misa_ext;
+     uint32_t opcode;
+@@ -116,6 +117,13 @@ static inline int get_olen(DisasContext *ctx)
+     return 16 << get_ol(ctx);
+ }
+ 
++/* The maximum register length */
++#ifdef TARGET_RISCV32
++#define get_xl_max(ctx)    MXL_RV32
++#else
++#define get_xl_max(ctx)    ((ctx)->misa_mxl_max)
++#endif
++
+ /*
+  * RISC-V requires NaN-boxing of narrower width floating point values.
+  * This applies when a 32-bit value is assigned to a 64-bit FP register.
+@@ -220,6 +228,7 @@ static TCGv get_gpr(DisasContext *ctx, int reg_num, DisasExtend ext)
+         }
+         break;
+     case MXL_RV64:
++    case MXL_RV128:
+         break;
+     default:
+         g_assert_not_reached();
+@@ -227,6 +236,14 @@ static TCGv get_gpr(DisasContext *ctx, int reg_num, DisasExtend ext)
+     return cpu_gpr[reg_num];
+ }
+ 
++static TCGv get_gprh(DisasContext *ctx, int reg_num)
++{
++    if (reg_num == 0 || get_ol(ctx) < MXL_RV128) {
++        return ctx->zero;
++    }
++    return cpu_gprh[reg_num];
++}
++
+ static TCGv dest_gpr(DisasContext *ctx, int reg_num)
+ {
+     if (reg_num == 0 || get_olen(ctx) < TARGET_LONG_BITS) {
+@@ -235,6 +252,14 @@ static TCGv dest_gpr(DisasContext *ctx, int reg_num)
+     return cpu_gpr[reg_num];
+ }
+ 
++static TCGv dest_gprh(DisasContext *ctx, int reg_num)
++{
++    if (reg_num == 0 || get_ol(ctx) < MXL_RV128) {
++        return temp_new(ctx);
++    }
++    return cpu_gprh[reg_num];
++}
++
+ static void gen_set_gpr(DisasContext *ctx, int reg_num, TCGv t)
+ {
+     if (reg_num != 0) {
+@@ -243,6 +268,7 @@ static void gen_set_gpr(DisasContext *ctx, int reg_num, TCGv t)
+             tcg_gen_ext32s_tl(cpu_gpr[reg_num], t);
+             break;
+         case MXL_RV64:
++        case MXL_RV128:
+             tcg_gen_mov_tl(cpu_gpr[reg_num], t);
+             break;
+         default:
+@@ -251,6 +277,17 @@ static void gen_set_gpr(DisasContext *ctx, int reg_num, TCGv t)
+     }
+ }
+ 
++static void gen_set_gprh(DisasContext *ctx, int reg_num, TCGv t)
++{
++    if (reg_num != 0) {
++        if (get_ol(ctx) < MXL_RV128) {
++            tcg_gen_sari_tl(cpu_gprh[reg_num], cpu_gpr[reg_num], 63);
++        } else {
++            tcg_gen_mov_tl(cpu_gprh[reg_num], t);
++        }
++    }
++}
++
+ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+ {
+     target_ulong next_pc;
+@@ -392,6 +429,13 @@ static bool gen_logic_imm_fn(DisasContext *ctx, arg_i *a, DisasExtend ext,
+ 
+     gen_set_gpr(ctx, a->rd, dest);
+ 
++    /* devilish temporary code so that the patch compiles */
++    if (get_xl_max(ctx) == MXL_RV128) {
++        (void)get_gprh(ctx, 6);
++        (void)dest_gprh(ctx, 6);
++        gen_set_gprh(ctx, 6, NULL);
++    }
++
+     return true;
+ }
+ 
+@@ -655,6 +699,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->lmul = FIELD_EX32(tb_flags, TB_FLAGS, LMUL);
+     ctx->mlen = 1 << (ctx->sew  + 3 - ctx->lmul);
+     ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
++    ctx->misa_mxl_max = env->misa_mxl_max;
+     ctx->xl = FIELD_EX32(tb_flags, TB_FLAGS, XL);
+     ctx->cs = cs;
+     ctx->ntemp = 0;
+-- 
+2.33.0
 
 
