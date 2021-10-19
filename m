@@ -2,112 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED54F433E5B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 20:25:39 +0200 (CEST)
-Received: from localhost ([::1]:37634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F3A433EA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 20:40:58 +0200 (CEST)
+Received: from localhost ([::1]:48216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mctnu-0005kT-Iy
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 14:25:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41248)
+	id 1mcu2h-00054n-Qm
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 14:40:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mctlU-0004JH-Ax; Tue, 19 Oct 2021 14:23:08 -0400
-Received: from mail-dm6nam11on2041.outbound.protection.outlook.com
- ([40.107.223.41]:57664 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mctlR-0007Vn-UX; Tue, 19 Oct 2021 14:23:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ja+bhS3WE7xwi5hCWlzj316Yqs2N3Eh0HH/aibd7N3oOMWy0p93PGTVLCWamb3q2Lov+Sgd8HutqGDgDmw4b+3WU4ScuFYA4wVYiNweQS/hkDZqnjZska//O7Ny2dm7f7UzINRP5mHsU0LGPz00kb3IidgvVVRAVZHd7EJXyhg/YOD81rwdre7cv8N5oV5tFX0MYwKSD4xluSSS9iG5XvNBsbrhy7PAH6MIbJLlJIPB30W8Fi0xqm/Vvre/lMz+FKfI/zbZp1ZcGt1MAk7E8qNzdfvkRWb3rQe6NhmBlsLfvSkhx1ddBzQbDBf1aBmCCmnJ1j0E64Lkre9D74jBeig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uN8++mTI/jQbywPTdHTF0IQitDSjJdL5rFtNXXrAaYY=;
- b=lXtWhkjzoVe7DbVy7yVyR2GHGXTC+1d6uPRqKX8hYZNYH7YruXn0q5i97xQBdrww4EhonwQOlhpCBtsvQ6l2/10AZnsd0NgqrGr8ATXrtH68m0nyi+6jjuxPcyV28TdIlos57f40QGIYwg5ALiPzvKYdpjEGIvKCifFJyrol/5ZapFrVXvqVZeb2DlR9FbmS2SLOGHThGk36LJMa6CPV6AcGtmycAfLYKzVWDHH7oSNyqwHBVDLnyi7yR6bEhujLtdlD/syYqkLpy5ugcQbgYZX83rciRe0DtEJ75yReUC8yPAakF4Gr3HR7tGGf0v5R8qzIKyYQk7XJbGCOXzfDIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uN8++mTI/jQbywPTdHTF0IQitDSjJdL5rFtNXXrAaYY=;
- b=XWxJPk6ho9PQP3+f06bOkOWDII3eBlAqkAcZe2uCeTgT4eQkYS3jv7f2X59fbZofBwsZoafuknND9UUXiMyVMShE0fi5Pm/VQ1baFtBKQujxhGyYwSwph9B74qYpdE2fLUbPxoTtWDxP/Qj4hPsBOzr7bARH+v6ihjFd+zLh2YI=
-Received: from DM5PR19CA0033.namprd19.prod.outlook.com (2603:10b6:3:9a::19) by
- BL1PR12MB5112.namprd12.prod.outlook.com (2603:10b6:208:316::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.17; Tue, 19 Oct
- 2021 18:23:01 +0000
-Received: from DM6NAM11FT019.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:9a:cafe::93) by DM5PR19CA0033.outlook.office365.com
- (2603:10b6:3:9a::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend
- Transport; Tue, 19 Oct 2021 18:23:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT019.mail.protection.outlook.com (10.13.172.172) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 18:23:00 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 19 Oct
- 2021 13:22:56 -0500
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mcu06-0004MA-Sz
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 14:38:16 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:33713)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mcu04-0007Oy-Lc
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 14:38:14 -0400
+Received: by mail-pl1-x634.google.com with SMTP id y4so14348354plb.0
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 11:38:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8fD+A6DzJ8NnKoknUG9vBzOou4rrRx/EJ2BCzm9s/5w=;
+ b=ptN+WXQBq4ck9kQKvDefrhMQbpmbbkqJ8xApcCbqubg6S58ViDxTtG6Vs+jGOcVxCP
+ qxCAs5TFb3wnec5zfCi5HZBVYhldLQRP66uUbZR/oFihdRE0hIKhTDbQcaNET/4rVmTh
+ ziiVxivsqGunBW5Htr+4AcxwEVj5w/LQ232FwwuyQ97UAn/DLoJAbCYoxOZmXRX1Bsy+
+ AXrVnlLx4MqWIRmoSPbmK0Lh7RgWuxAqK15SA3yUDTwKoqzIBj9+7Up1yjBSTkzDVkN4
+ 8n/ZhCQyc3CIE1l/kFuVC2xOTURhNPFOQpEzR2touBFUw9AHsaQOl4pC9ADZzUaaoWBA
+ MEXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8fD+A6DzJ8NnKoknUG9vBzOou4rrRx/EJ2BCzm9s/5w=;
+ b=Rt983phJ5crJfvBCd5VAlHqvZ7vwMd1FAUABzjOpM/5tWGRtQ+wP847Ujf4+0iV8FQ
+ ydrMVg7/LbnUnY7bSeoGfX8eD2Glo9Qfhf0WtCGsVZW+J69MACRwfBfTOXp1BEPkFkiu
+ PiX+nO+rCFIT7Ms+drOSReF2OQ7VqPVwd11s8I54XUuC6WWNM+gXYUfwTHjszXYAI+gf
+ T3dlXmPZ84niQdPNObeB52k+zOoOIItbpM5zz+mC5/61FeB98gO+DdtNZkG0CtvYIZqc
+ OYjTVaXH1fywnhyQuZRGbk0Pn0irZPaG9UFRM80LQ1QRkc8w4RTvQbgkZ65EEFC+V6eP
+ Js4A==
+X-Gm-Message-State: AOAM532sOiLklS6b0yIDcJItdXnSJipTXhDue+5gvLNOis5sN1APFhnN
+ fwnkghX3rV5dZNsyUTqefLLNlw==
+X-Google-Smtp-Source: ABdhPJyTgqQtnTZ5P+ruXS3L0e4dGaQMw911u8RQeefze7mqJo/Rh3bLNUs8af0Fbju3Yhd6ipukfQ==
+X-Received: by 2002:a17:902:6902:b0:13f:c1cd:88f1 with SMTP id
+ j2-20020a170902690200b0013fc1cd88f1mr11924805plk.36.1634668690698; 
+ Tue, 19 Oct 2021 11:38:10 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id b18sm9507395pfl.24.2021.10.19.11.38.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Oct 2021 11:38:10 -0700 (PDT)
+Subject: Re: [PULL 00/29] pc,pci,virtio: features, fixes
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20211019111923.679826-1-mst@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4cc1b92e-a3f0-bab9-6e71-112ef3fb13a1@linaro.org>
+Date: Tue, 19 Oct 2021 11:38:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <alpine.DEB.2.22.394.2110192010430.172612@anisinha-lenovo>
-References: <20211019140944.152419-1-michael.roth@amd.com>
- <alpine.DEB.2.22.394.2110192010430.172612@anisinha-lenovo>
-Subject: Re: [PATCH 00/64] Patch Round-up for stable 6.0.1,
- freeze on 2021-10-26
-From: Michael Roth <michael.roth@amd.com>
-CC: <imammedo@redhat.com>, <mst@redhat.com>, <qemu-devel@nongnu.org>,
- <qemu-stable@nongnu.org>
-To: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 19 Oct 2021 13:22:41 -0500
-Message-ID: <163466776130.169626.15936594200289260492@amd.com>
-User-Agent: alot/0.9
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a4a75bb4-32a7-4ee3-7996-08d9932d7bdb
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5112:
-X-Microsoft-Antispam-PRVS: <BL1PR12MB511271018BF8A56EB776A11795BD9@BL1PR12MB5112.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IZlsfJfdsrTznbRC5SGWSU9dBI7F0M4YQ1Mqnm26h0Vnlhsriu8hGbv3YKpET104DOY6PE+wM+QzgEvpYfPPooObtIiGsD31qwt9p/3ACMSEi++ud9liU58aOcp4xXBPAGrWhqInXkLKrCnWuwAblYK51cYFIHA1aF0Ue4OfUKGr+9PdLD+XVAy/CSZhzE7y/FU+3eAAAdiEqbdOFi0P0oS2hZ3nNpdZAjrDVg14eVdwKO9D3OSuSAyJtSuAwfct/DAQKtbKurYjF/LAkKuhrArYdBjXgJ2zP0tjexGAxjOhpwQSK2JN4YqBXb5F9LRnmA86TpoJpw7R93E9EwNGD3O2x3rIqkq42GtkwOYt77g1zZHXZPzNRMIzfZRaB8iE+NTLK8MI8QS4x9VeHI6eKrwBI4hwn3Rzva0KxC7D6zm0k1h5XfrrfIhpy2Vl9JOXbgZ21DZ6EgqT5fbB0MhraPXPVXoSfCEQVN/3Etierme6apvMOgQTuxj2WCLtKDIh5LJFhAUksseWuMLJ0qoIeYI8rf/xwh19us+ZZGDdn71M2PNzsMV7fibLBhVzRUOADLEmYa6VB6lZ354L5exlbAZM1aiOXsgCOxJzLxV6nPQJDh58Y+39Tt5AKPIQ5EHHzQc/PuvnusQWdWbUuIsG1cu3/Scpja76tTq2pcr7RG3XsvZL8vgfew53S/g7GX/LPJh/1sOMzl3Ig12sYUsLauAsJknFaADxs6yf69jMZ6KotRv4LGSC0Me5vRmMs6CVqg0Kav2tQe3gMeKykIFQSQyFS7ZiUrDgFvMZcKwOLCpPV1kwgslbeLDznMr8BflcgQB3KINRzSILV9iYpsCxvl/vTvCOx1jmRjCK7yvQVHo=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(70586007)(26005)(966005)(336012)(36756003)(81166007)(16526019)(6666004)(47076005)(2616005)(44832011)(316002)(4326008)(426003)(6916009)(5660300002)(54906003)(36860700001)(186003)(356005)(70206006)(8936002)(508600001)(4001150100001)(2906002)(86362001)(82310400003)(8676002)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 18:23:00.9698 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4a75bb4-32a7-4ee3-7996-08d9932d7bdb
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT019.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5112
-Received-SPF: softfail client-ip=40.107.223.41;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20211019111923.679826-1-mst@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.074,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,45 +87,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting Ani Sinha (2021-10-19 09:43:52)
->=20
->=20
-> On Tue, 19 Oct 2021, Michael Roth wrote:
->=20
-> > Hi everyone,
-> >
-> > The following new patches are queued for QEMU stable v6.0.1:
-> >
-> >   https://gitlab.com/qemu-project/qemu/-/commits/stable-6.0-staging/
-> >
-> > Patch freeze is 2021-10-26, and the release is planned for 2021-10-28:
-> >
-> >   https://wiki.qemu.org/Planning/6.0
-> >
-> > Please respond here or CC qemu-stable@nongnu.org on any additional patc=
-hes
-> > you think should (or shouldn't) be included in the release.
->=20
-> I believe we should also include this patch:
-> https://lore.kernel.org/qemu-devel/20210916132838.3469580-2-ani@anisinha.=
-ca/T/
->=20
-> It is also CC'd to qemu-stable@ but the patch itself was not tagged so (my
-> apologies for that).
+On 10/19/21 4:19 AM, Michael S. Tsirkin wrote:
+> The following changes since commit 9c050b661d3a43dfe2fd44106e559b39706d1296:
+> 
+>    Merge remote-tracking branch 'remotes/philmd/tags/mips-20211018' into staging (2021-10-18 09:16:51 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> 
+> for you to fetch changes up to bf2dd99b7d536cdba157fd6687810ce7b8340ccc:
+> 
+>    failover: fix a regression introduced by JSON'ification of -device (2021-10-19 07:15:34 -0400)
+> 
+> ----------------------------------------------------------------
+> pc,pci,virtio: features, fixes
+> 
+> vhost user rng
+> Fixes, cleanups all over the place.
+> 
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> 
+> ----------------------------------------------------------------
+> Ani Sinha (3):
+>        tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT table blob
+>        tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges for q35
+>        tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge test
+> 
+> David Hildenbrand (1):
+>        libvhost-user: fix VHOST_USER_REM_MEM_REG skipping mmap_addr
+> 
+> Eric Auger (2):
+>        virtio-iommu: Remove the non transitional name
+>        virtio-iommu: Drop base_name and change generic_name
+> 
+> Eugenio Pérez (3):
+>        vdpa: Skip protected ram IOMMU mappings
+>        vdpa: Add vhost_vdpa_section_end
+>        vdpa: Check for iova range at mappings changes
+> 
+> Igor Mammedov (15):
+>        tests: acpi: dump table with failed checksum
+>        tests: qtest: add qtest_has_accel() to check if tested binary supports accelerator
+>        tests: acpi: whitelist expected tables for acpi/q35/xapic testcase
+>        tests: acpi: q35: test for x2APIC entries in SRAT
+>        tests: acpi: update expected tables blobs
+>        tests: acpi: whitelist new expected table tests/data/acpi/q35/DMAR.dmar
+>        tests: acpi: add testcase for intel_iommu (DMAR table)
+>        tests: acpi: add expected blob for DMAR table
+>        tests: acpi: whitelist expected blobs for new acpi/q35/ivrs testcase
+>        tests: acpi: add testcase for amd-iommu (IVRS table)
+>        tests: acpi: update expected blobs
+>        tests: acpi: arm/virt: drop redundant test_acpi_one() in test_acpi_virt_tcg()
+>        tests: arm-cpu-features: use qtest_has_kvm() API
+>        tests: migration-test: use qtest_has_accel() API
+>        tests: bios-tables-test: use qtest_has_accel() API to register TCG only tests
+> 
+> Laurent Vivier (1):
+>        failover: fix a regression introduced by JSON'ification of -device
+> 
+> Mathieu Poirier (3):
+>        vhost-user-rng: Add vhost-user-rng implementation
+>        vhost-user-rng-pci: Add vhost-user-rng-pci implementation
+>        docs: Add documentation for vhost based RNG implementation
+> 
+> Xueming Li (1):
+>        vhost-user: fix duplicated notifier MR init
+> 
+>   include/hw/virtio/vhost-user-rng.h        |  33 ++++
+>   include/hw/virtio/vhost-vdpa.h            |   2 +
+>   include/hw/virtio/virtio-iommu.h          |   2 +-
+>   tests/qtest/libqos/libqtest.h             |   8 +
+>   hw/net/virtio-net.c                       |  24 ++-
+>   hw/virtio/vhost-user-rng-pci.c            |  79 ++++++++
+>   hw/virtio/vhost-user-rng.c                | 289 ++++++++++++++++++++++++++++++
+>   hw/virtio/vhost-user.c                    |   5 +-
+>   hw/virtio/vhost-vdpa.c                    |  81 ++++++---
+>   hw/virtio/virtio-iommu-pci.c              |   4 +-
+>   subprojects/libvhost-user/libvhost-user.c |   1 +
+>   tests/qtest/acpi-utils.c                  |  14 ++
+>   tests/qtest/arm-cpu-features.c            |  29 +--
+>   tests/qtest/bios-tables-test.c            |  90 ++++++++--
+>   tests/qtest/libqtest.c                    |  27 +++
+>   tests/qtest/migration-test.c              |  15 +-
+>   docs/system/device-emulation.rst          |   1 +
+>   docs/system/devices/vhost-user-rng.rst    |  39 ++++
+>   hw/virtio/Kconfig                         |   5 +
+>   hw/virtio/meson.build                     |   2 +
+>   hw/virtio/trace-events                    |   1 +
+>   meson.build                               |   6 +
+>   tests/data/acpi/q35/APIC.xapic            | Bin 0 -> 2686 bytes
+>   tests/data/acpi/q35/DMAR.dmar             | Bin 0 -> 120 bytes
+>   tests/data/acpi/q35/DSDT.ivrs             | Bin 0 -> 8306 bytes
+>   tests/data/acpi/q35/DSDT.multi-bridge     | Bin 0 -> 8583 bytes
+>   tests/data/acpi/q35/DSDT.xapic            | Bin 0 -> 35652 bytes
+>   tests/data/acpi/q35/FACP.xapic            | Bin 0 -> 244 bytes
+>   tests/data/acpi/q35/IVRS.ivrs             | Bin 0 -> 104 bytes
+>   tests/data/acpi/q35/SRAT.xapic            | Bin 0 -> 5080 bytes
+>   30 files changed, 672 insertions(+), 85 deletions(-)
+>   create mode 100644 include/hw/virtio/vhost-user-rng.h
+>   create mode 100644 hw/virtio/vhost-user-rng-pci.c
+>   create mode 100644 hw/virtio/vhost-user-rng.c
+>   create mode 100644 docs/system/devices/vhost-user-rng.rst
+>   create mode 100644 tests/data/acpi/q35/APIC.xapic
+>   create mode 100644 tests/data/acpi/q35/DMAR.dmar
+>   create mode 100644 tests/data/acpi/q35/DSDT.ivrs
+>   create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
+>   create mode 100644 tests/data/acpi/q35/DSDT.xapic
+>   create mode 100644 tests/data/acpi/q35/FACP.xapic
+>   create mode 100644 tests/data/acpi/q35/IVRS.ivrs
+>   create mode 100644 tests/data/acpi/q35/SRAT.xapic
 
-It looks like this patch is a fix for:
+32-bit printf errors:
 
-  commit caf108bc587908f7608729f39639dccdfa53010b
-  Author: Julia Suvorova <jusual@redhat.com>
-  Date:   Tue Jul 13 02:42:00 2021 +0200
- =20
-      hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35
+../hw/virtio/vhost-vdpa.c: In function 'vhost_vdpa_listener_skipped_section':
+../hw/virtio/vhost-vdpa.c:55:22: error: format '%lu' expects argument of type 'long 
+unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigned int'} 
+[-Werror=format=]
+          error_report("RAM section out of device range (min=%lu, addr=%lu)",
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                       iova_min, section->offset_within_address_space);
+                       ~~~~~~~~
+../hw/virtio/vhost-vdpa.c:55:22: error: format '%lu' expects argument of type 'long 
+unsigned int', but argument 3 has type 'hwaddr' {aka 'long long unsigned int'} 
+[-Werror=format=]
+../hw/virtio/vhost-vdpa.c:62:22: error: format '%lu' expects argument of type 'long 
+unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigned int'} 
+[-Werror=format=]
+          error_report("RAM section out of device range (max=%lu, end addr=%lu)",
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                       iova_max, int128_get64(llend));
+                       ~~~~~~~~
+../hw/virtio/vhost-vdpa.c:62:22: error: format '%lu' expects argument of type 'long 
+unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} 
+[-Werror=format=]
+cc1: all warnings being treated as errors
 
-which is in 6.1.0, but not 6.0.0, so it didn't seem like it was needed
-for 6.0.1. Let me know if that's incorrect.
 
-Will definitely pull it in for 6.1.1 though.
+Also fails s390x host testing:
+
+
+ERROR:../tests/qtest/boot-sector.c:170:boot_sector_test: assertion failed (signature == 
+SIGNATURE): (0x00000000 == 0x0000dead)
+ERROR qtest-i386/bios-tables-test - Bail out! 
+ERROR:../tests/qtest/boot-sector.c:170:boot_sector_test: assertion failed (signature == 
+SIGNATURE): (0x00000000 == 0x0000dead)
+Makefile.mtest:368: recipe for target 'run-test-44' failed
+
+
+r~
 
