@@ -2,81 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F6E433E4D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 20:18:57 +0200 (CEST)
-Received: from localhost ([::1]:59418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED54F433E5B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 20:25:39 +0200 (CEST)
+Received: from localhost ([::1]:37634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcthQ-0000lZ-DT
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 14:18:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39682)
+	id 1mctnu-0005kT-Iy
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 14:25:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcte2-0007u6-Jd
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 14:15:26 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:34397)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mcte0-0007QV-OZ
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 14:15:26 -0400
-Received: by mail-pl1-x629.google.com with SMTP id g5so14276193plg.1
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 11:15:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tKtw1luCR8dSI1/pd7ZoPa/fHQaXWEMaBGh/9sEqzZg=;
- b=VB9q/b6LO8w6YrW9CGCMY0wc3U0HHmA00b5K+z1ees7LLQzUcrGsndZC1SbloxjS6q
- 0k+8cGRRWa4fNnF9S5TPsvIbpEU8RNNRjW/zYowWedKISMC6V0FPF3YJ13R8fvITM1BU
- 4hxhz4dwWWSYs9xKn6PGTjDo5tKxFICOVryAKe0KZfNunSrg7l7APxpDgcJH6e9WfWM1
- jk5IDubxkjXzD/JOj8yDu2V35Vn9dMX8pveFABYO0qw7Lrh+YAskESQbbnrzu3U7BqmB
- oRTHoLPmdtHBN/p9H4P0dhRkM57BwesheFBJ3dJmCXi9263VLCk+ODislXE3yjnoUTAt
- 7xkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tKtw1luCR8dSI1/pd7ZoPa/fHQaXWEMaBGh/9sEqzZg=;
- b=bQ5i6qx482m3AfUe+x5Bc3iQjfOzTrSgFp35FwJZCK2FhjgwkVa9e73ukit6a6DByZ
- 3+WJZ3jOUvjDrr05xNWu5j1GAWi6wEFbJljahTtTM7wKNKF1ZUnSXOcF2K9gmFQsJmqj
- g4mH9CJnaHc1k08sCxH3kMR+BbyLrvXiLFkVMiF3+5PukWhhz8DURKG3irLleVBQ7LDU
- b1ADZfazKsXLQFxDruSVVCiN0Kzjco8wSPJBU30mNl74p8r13B+J5uaiTSVJqXdi5EKn
- u3Gf5zZSbTup8Pa+lWk8bTL0T8Wa1uGYrZeJAfXNrnraFi1ltGfyEPK5vYZNznj8CXjd
- bL1g==
-X-Gm-Message-State: AOAM532mryhkZ3O9Y4pQfYZG6PPQyyOJO6RN/w8dEZuyHhXbtBzmwhmS
- 3qyHOWk7mgfRHyAz/7qfCDOkQQ==
-X-Google-Smtp-Source: ABdhPJwTPq4RGfzg6U/f5C4xyR3EU1ryOwYQQ78OtowOyqKK8kFu1eF4WNgolpwwPmM3g7LLMlqWGg==
-X-Received: by 2002:a17:903:32cf:b0:13f:d59:7a4c with SMTP id
- i15-20020a17090332cf00b0013f0d597a4cmr34885202plr.78.1634667322333; 
- Tue, 19 Oct 2021 11:15:22 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id f15sm16881675pfq.193.2021.10.19.11.15.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 11:15:21 -0700 (PDT)
-Subject: Re: [PATCH v3 03/21] Int128.h: addition of a few 128-bit operations
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211019094812.614056-4-frederic.petrot@univ-grenoble-alpes.fr>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a3f382c4-5799-4dad-43d9-d07b5a46efcc@linaro.org>
-Date: Tue, 19 Oct 2021 11:15:20 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1mctlU-0004JH-Ax; Tue, 19 Oct 2021 14:23:08 -0400
+Received: from mail-dm6nam11on2041.outbound.protection.outlook.com
+ ([40.107.223.41]:57664 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1mctlR-0007Vn-UX; Tue, 19 Oct 2021 14:23:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ja+bhS3WE7xwi5hCWlzj316Yqs2N3Eh0HH/aibd7N3oOMWy0p93PGTVLCWamb3q2Lov+Sgd8HutqGDgDmw4b+3WU4ScuFYA4wVYiNweQS/hkDZqnjZska//O7Ny2dm7f7UzINRP5mHsU0LGPz00kb3IidgvVVRAVZHd7EJXyhg/YOD81rwdre7cv8N5oV5tFX0MYwKSD4xluSSS9iG5XvNBsbrhy7PAH6MIbJLlJIPB30W8Fi0xqm/Vvre/lMz+FKfI/zbZp1ZcGt1MAk7E8qNzdfvkRWb3rQe6NhmBlsLfvSkhx1ddBzQbDBf1aBmCCmnJ1j0E64Lkre9D74jBeig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uN8++mTI/jQbywPTdHTF0IQitDSjJdL5rFtNXXrAaYY=;
+ b=lXtWhkjzoVe7DbVy7yVyR2GHGXTC+1d6uPRqKX8hYZNYH7YruXn0q5i97xQBdrww4EhonwQOlhpCBtsvQ6l2/10AZnsd0NgqrGr8ATXrtH68m0nyi+6jjuxPcyV28TdIlos57f40QGIYwg5ALiPzvKYdpjEGIvKCifFJyrol/5ZapFrVXvqVZeb2DlR9FbmS2SLOGHThGk36LJMa6CPV6AcGtmycAfLYKzVWDHH7oSNyqwHBVDLnyi7yR6bEhujLtdlD/syYqkLpy5ugcQbgYZX83rciRe0DtEJ75yReUC8yPAakF4Gr3HR7tGGf0v5R8qzIKyYQk7XJbGCOXzfDIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uN8++mTI/jQbywPTdHTF0IQitDSjJdL5rFtNXXrAaYY=;
+ b=XWxJPk6ho9PQP3+f06bOkOWDII3eBlAqkAcZe2uCeTgT4eQkYS3jv7f2X59fbZofBwsZoafuknND9UUXiMyVMShE0fi5Pm/VQ1baFtBKQujxhGyYwSwph9B74qYpdE2fLUbPxoTtWDxP/Qj4hPsBOzr7bARH+v6ihjFd+zLh2YI=
+Received: from DM5PR19CA0033.namprd19.prod.outlook.com (2603:10b6:3:9a::19) by
+ BL1PR12MB5112.namprd12.prod.outlook.com (2603:10b6:208:316::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.17; Tue, 19 Oct
+ 2021 18:23:01 +0000
+Received: from DM6NAM11FT019.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:9a:cafe::93) by DM5PR19CA0033.outlook.office365.com
+ (2603:10b6:3:9a::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend
+ Transport; Tue, 19 Oct 2021 18:23:01 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT019.mail.protection.outlook.com (10.13.172.172) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 18:23:00 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 19 Oct
+ 2021 13:22:56 -0500
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20211019094812.614056-4-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.074,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <alpine.DEB.2.22.394.2110192010430.172612@anisinha-lenovo>
+References: <20211019140944.152419-1-michael.roth@amd.com>
+ <alpine.DEB.2.22.394.2110192010430.172612@anisinha-lenovo>
+Subject: Re: [PATCH 00/64] Patch Round-up for stable 6.0.1,
+ freeze on 2021-10-26
+From: Michael Roth <michael.roth@amd.com>
+CC: <imammedo@redhat.com>, <mst@redhat.com>, <qemu-devel@nongnu.org>,
+ <qemu-stable@nongnu.org>
+To: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 19 Oct 2021 13:22:41 -0500
+Message-ID: <163466776130.169626.15936594200289260492@amd.com>
+User-Agent: alot/0.9
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a4a75bb4-32a7-4ee3-7996-08d9932d7bdb
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5112:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB511271018BF8A56EB776A11795BD9@BL1PR12MB5112.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IZlsfJfdsrTznbRC5SGWSU9dBI7F0M4YQ1Mqnm26h0Vnlhsriu8hGbv3YKpET104DOY6PE+wM+QzgEvpYfPPooObtIiGsD31qwt9p/3ACMSEi++ud9liU58aOcp4xXBPAGrWhqInXkLKrCnWuwAblYK51cYFIHA1aF0Ue4OfUKGr+9PdLD+XVAy/CSZhzE7y/FU+3eAAAdiEqbdOFi0P0oS2hZ3nNpdZAjrDVg14eVdwKO9D3OSuSAyJtSuAwfct/DAQKtbKurYjF/LAkKuhrArYdBjXgJ2zP0tjexGAxjOhpwQSK2JN4YqBXb5F9LRnmA86TpoJpw7R93E9EwNGD3O2x3rIqkq42GtkwOYt77g1zZHXZPzNRMIzfZRaB8iE+NTLK8MI8QS4x9VeHI6eKrwBI4hwn3Rzva0KxC7D6zm0k1h5XfrrfIhpy2Vl9JOXbgZ21DZ6EgqT5fbB0MhraPXPVXoSfCEQVN/3Etierme6apvMOgQTuxj2WCLtKDIh5LJFhAUksseWuMLJ0qoIeYI8rf/xwh19us+ZZGDdn71M2PNzsMV7fibLBhVzRUOADLEmYa6VB6lZ354L5exlbAZM1aiOXsgCOxJzLxV6nPQJDh58Y+39Tt5AKPIQ5EHHzQc/PuvnusQWdWbUuIsG1cu3/Scpja76tTq2pcr7RG3XsvZL8vgfew53S/g7GX/LPJh/1sOMzl3Ig12sYUsLauAsJknFaADxs6yf69jMZ6KotRv4LGSC0Me5vRmMs6CVqg0Kav2tQe3gMeKykIFQSQyFS7ZiUrDgFvMZcKwOLCpPV1kwgslbeLDznMr8BflcgQB3KINRzSILV9iYpsCxvl/vTvCOx1jmRjCK7yvQVHo=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(36840700001)(46966006)(70586007)(26005)(966005)(336012)(36756003)(81166007)(16526019)(6666004)(47076005)(2616005)(44832011)(316002)(4326008)(426003)(6916009)(5660300002)(54906003)(36860700001)(186003)(356005)(70206006)(8936002)(508600001)(4001150100001)(2906002)(86362001)(82310400003)(8676002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 18:23:00.9698 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4a75bb4-32a7-4ee3-7996-08d9932d7bdb
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT019.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5112
+Received-SPF: softfail client-ip=40.107.223.41;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,55 +121,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 2:47 AM, Frédéric Pétrot wrote:
-> +static inline void divrem128(uint64_t ul, uint64_t uh,
-> +                             uint64_t vl, uint64_t vh,
-> +                             uint64_t *ql, uint64_t *qh,
-> +                             uint64_t *rl, uint64_t *rh)
+Quoting Ani Sinha (2021-10-19 09:43:52)
+>=20
+>=20
+> On Tue, 19 Oct 2021, Michael Roth wrote:
+>=20
+> > Hi everyone,
+> >
+> > The following new patches are queued for QEMU stable v6.0.1:
+> >
+> >   https://gitlab.com/qemu-project/qemu/-/commits/stable-6.0-staging/
+> >
+> > Patch freeze is 2021-10-26, and the release is planned for 2021-10-28:
+> >
+> >   https://wiki.qemu.org/Planning/6.0
+> >
+> > Please respond here or CC qemu-stable@nongnu.org on any additional patc=
+hes
+> > you think should (or shouldn't) be included in the release.
+>=20
+> I believe we should also include this patch:
+> https://lore.kernel.org/qemu-devel/20210916132838.3469580-2-ani@anisinha.=
+ca/T/
+>=20
+> It is also CC'd to qemu-stable@ but the patch itself was not tagged so (my
+> apologies for that).
 
-I think we should move all of the division implementation out of the header; this is 
-really much too large to inline.
+It looks like this patch is a fix for:
 
-I think util/int128.c would be a reasonable place.
+  commit caf108bc587908f7608729f39639dccdfa53010b
+  Author: Julia Suvorova <jusual@redhat.com>
+  Date:   Tue Jul 13 02:42:00 2021 +0200
+ =20
+      hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35
 
-That said, why are you splitting the Int128 apart to pass as pieces here?  Seems like 
-passing the Int128 and doing the split inside would make more sense.
+which is in 6.1.0, but not 6.0.0, so it didn't seem like it was needed
+for 6.0.1. Let me know if that's incorrect.
 
-> +        /* never happens, but makes gcc shy */
-> +        n = 0;
-
-Then g_assert_not_reached(), or change the previous if to an assert.
-
-Hmm, it's not "never happens" so much as "divide by zero".
-Please update the comment accordingly.
-
-> +        if (r != NULL) {
-> +            r[0] = k;
-> +        }
-
-r is a local array; useless check for null.
-
-> +        s = clz32(v[n - 1]); /* 0 <= s <= 32 */
-> +        if (s != 0) {
-> +            for (i = n - 1; i > 0; i--) {
-> +                vn[i] = ((v[i] << s) | (v[i - 1] >> (32 - s)));
-> +            }
-> +            vn[0] = v[0] << s;
-> +
-> +            un[m] = u[m - 1] >> (32 - s);
-> +            for (i = m - 1; i > 0; i--) {
-> +                un[i] = (u[i] << s) | (u[i - 1] >> (32 - s));
-> +            }
-> +            un[0] = u[0] << s;
-
-Why are you shifting the 128-bit value in 4 parts, rather than letting int128_lshift do 
-the job?
-
-
-r~
+Will definitely pull it in for 6.1.1 though.
 
