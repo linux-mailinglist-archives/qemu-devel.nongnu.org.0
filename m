@@ -2,60 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 900CE4332F7
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:59:52 +0200 (CEST)
-Received: from localhost ([::1]:43836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0400F4332E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 11:54:19 +0200 (CEST)
+Received: from localhost ([::1]:53298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcluR-0006WC-Kh
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:59:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58888)
+	id 1mclp4-00025v-3D
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 05:54:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mcljx-0001KU-QD; Tue, 19 Oct 2021 05:49:01 -0400
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:54936)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mcljZ-0000Sl-9T
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:48:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mcljs-0006cw-0B; Tue, 19 Oct 2021 05:49:01 -0400
-Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 61FB041F73;
- Tue, 19 Oct 2021 11:48:34 +0200 (CEST)
-Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id 48B2C601D5;
- Tue, 19 Oct 2021 11:48:34 +0200 (CEST)
-Received: from palmier.u-ga.fr (palmier.tima.u-ga.fr [147.171.132.208])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 160D814005A;
- Tue, 19 Oct 2021 11:48:34 +0200 (CEST)
-From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v3 15/21] target/riscv: support for 128-bit M extension
-Date: Tue, 19 Oct 2021 11:48:06 +0200
-Message-Id: <20211019094812.614056-16-frederic.petrot@univ-grenoble-alpes.fr>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
-References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mcljU-0006Yg-RJ
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 05:48:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634636910;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TCozy3Hl1ZzIdKk3HCUfrnR+8vtCGsDUfKQA6CSlkKo=;
+ b=DO9EHfqfWOVpn7pf1vYSzUBY/BG2SdRUcsr6HTLdHeOTtWbiN0CulSJCQF8hy+mu6m64Fw
+ yW0CTWYALENAz9LFVhVsMoJme50143WvuEwHaZg8wrugRywTCb45QH7A4gLkD1iiJ+0/57
+ P5P0IpZtwDirx4SevV3LfUvfANRx/DI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-ZHeraZg3POOHoi8Kc5OSmw-1; Tue, 19 Oct 2021 05:48:29 -0400
+X-MC-Unique: ZHeraZg3POOHoi8Kc5OSmw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v18-20020a7bcb52000000b00322fea1d5b7so926066wmj.9
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 02:48:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TCozy3Hl1ZzIdKk3HCUfrnR+8vtCGsDUfKQA6CSlkKo=;
+ b=b9ysSya9IrWecjdQDsABxRmcVGIBaxOpZeSbjdsi1vDIF+u8LADV7deQGmAi1mYKOA
+ MTbnmNGK39Z+jc/AxhvtA34dElv/W1GcLxFxlOiJ69EPpqGD10xj531BEw2/T5tb+Gry
+ nIqcH1uS6PPlw4+CcV1nxJLKkoQlmobsPWd2eEmlxlRi2aarWNusx74HfQIJnE62P78c
+ FwzTgrjZHddxbWEIY/vGf2Tj0lobfHmKY2Olv7judsdfiEpAnK8QqgjGXjjdgONn0AkD
+ s3I194dtvE3v7kjGVSRvvFnOpRFO1CRhsS2P4v11+Q+iKivNXfRk9U9SOp2YLfKwTm6V
+ 0sAw==
+X-Gm-Message-State: AOAM530jiE3X877OmIfHajA12muzJzqHkoInHiFMJJJD3U/EqoScxDVe
+ vl1n54iVVhgclDb0b+j35DsGjhgQFcRffJQl0ouocFqdzDCjRXb8ioEp4bsAA5JHl0CoIajz1p2
+ hmxEM+C4HEl6jUAA=
+X-Received: by 2002:a5d:64a6:: with SMTP id m6mr12172325wrp.100.1634636908078; 
+ Tue, 19 Oct 2021 02:48:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx9bQDBcR/K95euf8yznMSHgPFvfNUyV243jaGGL66bH13zdSFqU2ZRy3n9wN3c7OAWWxH+EA==
+X-Received: by 2002:a5d:64a6:: with SMTP id m6mr12172303wrp.100.1634636907883; 
+ Tue, 19 Oct 2021 02:48:27 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id n68sm1724177wmn.13.2021.10.19.02.48.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Oct 2021 02:48:27 -0700 (PDT)
+Date: Tue, 19 Oct 2021 11:48:25 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2 04/15] tests: acpi: q35: test for x2APIC entries in SRAT
+Message-ID: <20211019114825.1464da19@redhat.com>
+In-Reply-To: <20211018173052-mutt-send-email-mst@kernel.org>
+References: <20210902113551.461632-1-imammedo@redhat.com>
+ <20210902113551.461632-5-imammedo@redhat.com>
+ <20211018173052-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
- via submission-587 ACL (41)
-X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
-Received-SPF: pass client-ip=152.77.200.56;
- envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
- helo=zm-mta-out-3.u-ga.fr
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,590 +97,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
- alistair.francis@wdc.com, fabien.portas@grenoble-inp.org, palmer@dabbelt.com,
- =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
- <frederic.petrot@univ-grenoble-alpes.fr>, philmd@redhat.com
+Cc: lvivier@redhat.com, pbonzini@redhat.com, thuth@redhat.com,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Given the complexity of the implementation of these instructions, we call
-helpers to produce their behavior. From an implementation standpoint, we
-ended up by adding two more tcg globals to return the 128-bit result in a
-wrapper that itself is called by gen_arith.
-The sub 128-bit insns are now handled through the existing generation
-functions.
+On Mon, 18 Oct 2021 17:31:33 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
-Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
----
- target/riscv/cpu.h                      |   1 +
- target/riscv/helper.h                   |   6 +
- target/riscv/insn32.decode              |   7 +
- target/riscv/m128_helper.c              | 109 ++++++++++
- target/riscv/translate.c                |   7 +-
- target/riscv/insn_trans/trans_rvm.c.inc | 263 ++++++++++++++++++++++--
- target/riscv/meson.build                |   1 +
- 7 files changed, 380 insertions(+), 14 deletions(-)
- create mode 100644 target/riscv/m128_helper.c
+> On Thu, Sep 02, 2021 at 07:35:40AM -0400, Igor Mammedov wrote:
+> > Set -smp 1,maxcpus=288 to test for ACPI code that
+> > deal with CPUs with large APIC ID (>255).
+> > 
+> > PS:
+> > Test requires KVM and in-kernel irqchip support,
+> > so skip test if KVM is not available.
+> > 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> > v3:
+> >   - add dedicated test instead of abusing 'numamem' one
+> >   - add 'kvm' prefix to the test name
+> >       ("Michael S. Tsirkin" <mst@redhat.com>)
+> > v2:
+> >   - switch to qtest_has_accel() API
+> > 
+> > CC: thuth@redhat.com
+> > CC: lvivier@redhat.com
+> > ---
+> >  tests/qtest/bios-tables-test.c | 17 +++++++++++++++++
+> >  1 file changed, 17 insertions(+)
+> > 
+> > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> > index 51d3a4e239..1f6779da87 100644
+> > --- a/tests/qtest/bios-tables-test.c
+> > +++ b/tests/qtest/bios-tables-test.c
+> > @@ -1033,6 +1033,19 @@ static void test_acpi_q35_tcg_numamem(void)
+> >      free_test_data(&data);
+> >  }
+> >  
+> > +static void test_acpi_q35_kvm_xapic(void)
+> > +{
+> > +    test_data data;
+> > +
+> > +    memset(&data, 0, sizeof(data));
+> > +    data.machine = MACHINE_Q35;
+> > +    data.variant = ".xapic";
+> > +    test_acpi_one(" -object memory-backend-ram,id=ram0,size=128M"
+> > +                  " -numa node -numa node,memdev=ram0"
+> > +                  " -machine kernel-irqchip=on -smp 1,maxcpus=288", &data);
+> > +    free_test_data(&data);
+> > +}
+> > +
+> >  static void test_acpi_q35_tcg_nosmm(void)
+> >  {
+> >      test_data data;  
+> 
+> 
+> This causes an annoying message each time I run it:
+> 
+> qemu-system-x86_64: -accel kvm: warning: Number of hotpluggable cpus requested (288) exceeds the recommended cpus supported by KVM (240)
+> 
+> what gives?
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 5d21128865..8b96ccb37a 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -113,6 +113,7 @@ FIELD(VTYPE, VILL, sizeof(target_ulong) * 8 - 1, 1)
- struct CPURISCVState {
-     target_ulong gpr[32];
-     target_ulong gprh[32]; /* 64 top bits of the 128-bit registers */
-+    target_ulong hlpr[2];  /* scratch registers for 128-bit div/rem helpers */
-     uint64_t fpr[32]; /* assume both F and D extensions */
- 
-     /* vector coprocessor state. */
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index c7a5376227..67f5d23692 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -1147,3 +1147,9 @@ DEF_HELPER_6(vcompress_vm_b, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vcompress_vm_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vcompress_vm_w, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vcompress_vm_d, void, ptr, ptr, ptr, ptr, env, i32)
-+
-+/* 128-bit integer multiplication and division */
-+DEF_HELPER_5(divu_i128, void, env, i64, i64, i64, i64)
-+DEF_HELPER_5(divs_i128, void, env, i64, i64, i64, i64)
-+DEF_HELPER_5(remu_i128, void, env, i64, i64, i64, i64)
-+DEF_HELPER_5(rems_i128, void, env, i64, i64, i64, i64)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 3556bf49cc..876e5f7f5b 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -197,6 +197,13 @@ divuw    0000001 .....  ..... 101 ..... 0111011 @r
- remw     0000001 .....  ..... 110 ..... 0111011 @r
- remuw    0000001 .....  ..... 111 ..... 0111011 @r
- 
-+# *** RV128M Standard Extension (in addition to RV64M) ***
-+muld     0000001 .....  ..... 000 ..... 1111011 @r
-+divd     0000001 .....  ..... 100 ..... 1111011 @r
-+divud    0000001 .....  ..... 101 ..... 1111011 @r
-+remd     0000001 .....  ..... 110 ..... 1111011 @r
-+remud    0000001 .....  ..... 111 ..... 1111011 @r
-+
- # *** RV32A Standard Extension ***
- lr_w       00010 . . 00000 ..... 010 ..... 0101111 @atom_ld
- sc_w       00011 . . ..... ..... 010 ..... 0101111 @atom_st
-diff --git a/target/riscv/m128_helper.c b/target/riscv/m128_helper.c
-new file mode 100644
-index 0000000000..694ca5da9b
---- /dev/null
-+++ b/target/riscv/m128_helper.c
-@@ -0,0 +1,109 @@
-+/*
-+ * RISC-V Emulation Helpers for QEMU.
-+ *
-+ * Copyright (c) 2016-2017 Sagar Karandikar, sagark@eecs.berkeley.edu
-+ * Copyright (c) 2017-2018 SiFive, Inc.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "qemu/main-loop.h"
-+#include "exec/exec-all.h"
-+#include "exec/helper-proto.h"
-+
-+void HELPER(divu_i128)(CPURISCVState *env,
-+                       uint64_t ul, uint64_t uh,
-+                       uint64_t vl, uint64_t vh)
-+{
-+    uint64_t ql, qh;
-+    Int128 q;
-+
-+    if (vl == 0 && vh == 0) { /* Handle special behavior on div by zero */
-+        ql = ~0x0;
-+        qh = ~0x0;
-+    } else {
-+        q = int128_divu(int128_make128(ul, uh), int128_make128(vl, vh));
-+        ql = int128_getlo(q);
-+        qh = int128_gethi(q);
-+    }
-+
-+    env->hlpr[0] = ql;
-+    env->hlpr[1] = qh;
-+}
-+
-+void HELPER(remu_i128)(CPURISCVState *env,
-+                       uint64_t ul, uint64_t uh,
-+                       uint64_t vl, uint64_t vh)
-+{
-+    uint64_t rl, rh;
-+    Int128 r;
-+
-+    if (vl == 0 && vh == 0) {
-+        rl = ul;
-+        rh = uh;
-+    } else {
-+        r = int128_remu(int128_make128(ul, uh), int128_make128(vl, vh));
-+        rl = int128_getlo(r);
-+        rh = int128_gethi(r);
-+    }
-+
-+    env->hlpr[0] = rl;
-+    env->hlpr[1] = rh;
-+}
-+
-+void HELPER(divs_i128)(CPURISCVState *env,
-+                       uint64_t ul, uint64_t uh,
-+                       uint64_t vl, uint64_t vh)
-+{
-+    uint64_t qh, ql;
-+    Int128 q;
-+
-+    if (vl == 0 && vh == 0) { /* Div by zero check */
-+        ql = ~0x0;
-+        qh = ~0x0;
-+    } else if (uh == 0x8000000000000000 && ul == 0 &&
-+               vh == ~0x0 && vl == ~0x0) {
-+        /* Signed div overflow check (-2**127 / -1) */
-+        ql = ul;
-+        qh = uh;
-+    } else {
-+        q = int128_divs(int128_make128(ul, uh), int128_make128(vl, vh));
-+        ql = int128_getlo(q);
-+        qh = int128_gethi(q);
-+    }
-+
-+    env->hlpr[0] = ql;
-+    env->hlpr[1] = qh;
-+}
-+
-+void HELPER(rems_i128)(CPURISCVState *env,
-+                       uint64_t ul, uint64_t uh,
-+                       uint64_t vl, uint64_t vh)
-+{
-+    uint64_t rh, rl;
-+    Int128 r;
-+
-+    if (vl == 0 && vh == 0) {
-+        rl = ul;
-+        rh = uh;
-+    } else {
-+        r = int128_rems(int128_make128(ul, uh), int128_make128(vl, vh));
-+        rl = int128_getlo(r);
-+        rh = int128_gethi(r);
-+    }
-+
-+    env->hlpr[0] = rl;
-+    env->hlpr[1] = rh;
-+}
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 332a5d0384..2d76832d56 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -32,7 +32,7 @@
- #include "instmap.h"
- 
- /* global register indices */
--static TCGv cpu_gpr[32], cpu_gprh[32], cpu_pc, cpu_vl;
-+static TCGv cpu_gpr[32], cpu_gprh[32], cpu_hlpr[2], cpu_pc, cpu_vl;
- static TCGv_i64 cpu_fpr[32]; /* assume F and D extensions */
- static TCGv load_res;
- static TCGv load_val;
-@@ -953,6 +953,11 @@ void riscv_translate_init(void)
-             offsetof(CPURISCVState, gprh[i]), riscv_int_regnames[i]);
-     }
- 
-+    cpu_hlpr[0] = tcg_global_mem_new(cpu_env,
-+        offsetof(CPURISCVState, hlpr[0]), "helper_reg0");
-+    cpu_hlpr[1] = tcg_global_mem_new(cpu_env,
-+        offsetof(CPURISCVState, hlpr[1]), "helper_reg1");
-+
-     for (i = 0; i < 32; i++) {
-         cpu_fpr[i] = tcg_global_mem_new_i64(cpu_env,
-             offsetof(CPURISCVState, fpr[i]), riscv_fpr_regnames[i]);
-diff --git a/target/riscv/insn_trans/trans_rvm.c.inc b/target/riscv/insn_trans/trans_rvm.c.inc
-index efe25dfc11..ea355ce333 100644
---- a/target/riscv/insn_trans/trans_rvm.c.inc
-+++ b/target/riscv/insn_trans/trans_rvm.c.inc
-@@ -18,11 +18,106 @@
-  * this program.  If not, see <http://www.gnu.org/licenses/>.
-  */
- 
-+static void gen_mulu2_i128(TCGv rll, TCGv rlh, TCGv rhl, TCGv rhh,
-+                           TCGv al, TCGv ah, TCGv bl, TCGv bh)
-+{
-+    TCGv tmpl = tcg_temp_new(),
-+         tmph = tcg_temp_new(),
-+         cnst_zero = tcg_constant_tl(0);
-+
-+    tcg_gen_mulu2_tl(rll, rlh, al, bl);
-+
-+    tcg_gen_mulu2_tl(tmpl, tmph, al, bh);
-+    tcg_gen_add2_tl(rlh, rhl, rlh, cnst_zero, tmpl, tmph);
-+    tcg_gen_mulu2_tl(tmpl, tmph, ah, bl);
-+    tcg_gen_add2_tl(rlh, tmph, rlh, rhl, tmpl, tmph);
-+    /* Overflow detection into rhh */
-+    tcg_gen_setcond_tl(TCG_COND_LTU, rhh, tmph, rhl);
-+
-+    tcg_gen_mov_tl(rhl, tmph);
-+
-+    tcg_gen_mulu2_tl(tmpl, tmph, ah, bh);
-+    tcg_gen_add2_tl(rhl, rhh, rhl, rhh, tmpl, tmph);
-+
-+    tcg_temp_free(tmpl);
-+    tcg_temp_free(tmph);
-+}
-+
-+static void gen_mul_i128(TCGv rll, TCGv rlh,
-+                         TCGv rs1l, TCGv rs1h, TCGv rs2l, TCGv rs2h)
-+{
-+    TCGv rhl = tcg_temp_new(),
-+         rhh = tcg_temp_new();
-+
-+    gen_mulu2_i128(rll, rlh, rhl, rhh, rs1l, rs1h, rs2l, rs2h);
-+
-+    tcg_temp_free(rhl);
-+    tcg_temp_free(rhh);
-+}
-+
- 
- static bool trans_mul(DisasContext *ctx, arg_mul *a)
- {
-     REQUIRE_EXT(ctx, RVM);
--    return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl, NULL);
-+    return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl, gen_mul_i128);
-+}
-+
-+static void gen_mulh_i128(TCGv rhl, TCGv rhh,
-+                          TCGv rs1l, TCGv rs1h, TCGv rs2l, TCGv rs2h)
-+{
-+    TCGv rll = tcg_temp_new(),
-+         rlh = tcg_temp_new(),
-+         rlln = tcg_temp_new(),
-+         rlhn = tcg_temp_new(),
-+         rhln = tcg_temp_new(),
-+         rhhn = tcg_temp_new(),
-+         sgnres = tcg_temp_new(),
-+         tmp = tcg_temp_new(),
-+         cnst_one = tcg_constant_tl(1),
-+         cnst_zero = tcg_constant_tl(0);
-+
-+    /* Extract sign of result (=> sgn(a) xor sgn(b)) */
-+    tcg_gen_setcondi_tl(TCG_COND_LT, sgnres, rs1h, 0);
-+    tcg_gen_setcondi_tl(TCG_COND_LT, tmp, rs2h, 0);
-+    tcg_gen_xor_tl(sgnres, sgnres, tmp);
-+
-+    /* Take absolute value of operands */
-+    tcg_gen_sari_tl(rhl, rs1h, 63);
-+    tcg_gen_add2_tl(rlln, rlhn, rs1l, rs1h, rhl, rhl);
-+    tcg_gen_xor_tl(rlln, rlln, rhl);
-+    tcg_gen_xor_tl(rlhn, rlhn, rhl);
-+
-+    tcg_gen_sari_tl(rhl, rs2h, 63);
-+    tcg_gen_add2_tl(rhln, rhhn, rs2l, rs2h, rhl, rhl);
-+    tcg_gen_xor_tl(rhln, rhln, rhl);
-+    tcg_gen_xor_tl(rhhn, rhhn, rhl);
-+
-+    /* Unsigned multiplication */
-+    gen_mulu2_i128(rll, rlh, rhl, rhh, rlln, rlhn, rhln, rhhn);
-+
-+    /* Negation of result (two's complement : ~res + 1) */
-+    tcg_gen_not_tl(rlln, rll);
-+    tcg_gen_not_tl(rlhn, rlh);
-+    tcg_gen_not_tl(rhln, rhl);
-+    tcg_gen_not_tl(rhhn, rhh);
-+
-+    tcg_gen_add2_tl(rlln, tmp, rlln, cnst_zero, cnst_one, cnst_zero);
-+    tcg_gen_add2_tl(rlhn, tmp, rlhn, cnst_zero, tmp, cnst_zero);
-+    tcg_gen_add2_tl(rhln, tmp, rhln, cnst_zero, tmp, cnst_zero);
-+    tcg_gen_add2_tl(rhhn, tmp, rhhn, cnst_zero, tmp, cnst_zero);
-+
-+    /* Move conditionally result or -result depending on result sign */
-+    tcg_gen_movcond_tl(TCG_COND_NE, rhl, sgnres, cnst_zero, rhln, rhl);
-+    tcg_gen_movcond_tl(TCG_COND_NE, rhh, sgnres, cnst_zero, rhhn, rhh);
-+
-+    tcg_temp_free(rll);
-+    tcg_temp_free(rlh);
-+    tcg_temp_free(rlln);
-+    tcg_temp_free(rlhn);
-+    tcg_temp_free(rhln);
-+    tcg_temp_free(rhhn);
-+    tcg_temp_free(sgnres);
-+    tcg_temp_free(tmp);
- }
- 
- static void gen_mulh(TCGv ret, TCGv s1, TCGv s2)
-@@ -42,7 +137,59 @@ static void gen_mulh_w(TCGv ret, TCGv s1, TCGv s2)
- static bool trans_mulh(DisasContext *ctx, arg_mulh *a)
- {
-     REQUIRE_EXT(ctx, RVM);
--    return gen_arith_per_ol(ctx, a, EXT_SIGN, gen_mulh, gen_mulh_w, NULL);
-+    return gen_arith_per_ol(ctx, a, EXT_SIGN, gen_mulh, gen_mulh_w,
-+                            gen_mulh_i128);
-+}
-+
-+static void gen_mulhsu_i128(TCGv rhl, TCGv rhh,
-+                            TCGv rs1l, TCGv rs1h, TCGv rs2l, TCGv rs2h)
-+{
-+    TCGv rll = tcg_temp_new(),
-+         rlh = tcg_temp_new(),
-+         rlln = tcg_temp_new(),
-+         rlhn = tcg_temp_new(),
-+         rhln = tcg_temp_new(),
-+         rhhn = tcg_temp_new(),
-+         sgnres = tcg_temp_new(),
-+         tmp = tcg_temp_new(),
-+         cnst_one = tcg_constant_tl(1),
-+         cnst_zero = tcg_constant_tl(0);
-+
-+    /* Extract sign of result (=> sgn(a)) */
-+    tcg_gen_setcondi_tl(TCG_COND_LT, sgnres, rs1h, 0);
-+
-+    /* Take absolute value of rs1 */
-+    tcg_gen_sari_tl(rhl, rs1h, 63);
-+    tcg_gen_add2_tl(rlln, rlhn, rs1l, rs1h, rhl, rhl);
-+    tcg_gen_xor_tl(rlln, rlln, rhl);
-+    tcg_gen_xor_tl(rlhn, rlhn, rhl);
-+
-+    /* Unsigned multiplication */
-+    gen_mulu2_i128(rll, rlh, rhl, rhh, rlln, rlhn, rs2l, rs2h);
-+
-+    /* Negation of result (two's complement : ~res + 1) */
-+    tcg_gen_not_tl(rlln, rll);
-+    tcg_gen_not_tl(rlhn, rlh);
-+    tcg_gen_not_tl(rhln, rhl);
-+    tcg_gen_not_tl(rhhn, rhh);
-+
-+    tcg_gen_add2_tl(rlln, tmp, rlln, cnst_zero, cnst_one, cnst_zero);
-+    tcg_gen_add2_tl(rlhn, tmp, rlhn, cnst_zero, tmp, cnst_zero);
-+    tcg_gen_add2_tl(rhln, tmp, rhln, cnst_zero, tmp, cnst_zero);
-+    tcg_gen_add2_tl(rhhn, tmp, rhhn, cnst_zero, tmp, cnst_zero);
-+
-+    /* Move conditionally result or -result depending on result sign */
-+    tcg_gen_movcond_tl(TCG_COND_NE, rhl, sgnres, cnst_zero, rhln, rhl);
-+    tcg_gen_movcond_tl(TCG_COND_NE, rhh, sgnres, cnst_zero, rhhn, rhh);
-+
-+    tcg_temp_free(rll);
-+    tcg_temp_free(rlh);
-+    tcg_temp_free(rlln);
-+    tcg_temp_free(rlhn);
-+    tcg_temp_free(rhln);
-+    tcg_temp_free(rhhn);
-+    tcg_temp_free(sgnres);
-+    tcg_temp_free(tmp);
- }
- 
- static void gen_mulhsu(TCGv ret, TCGv arg1, TCGv arg2)
-@@ -76,7 +223,20 @@ static void gen_mulhsu_w(TCGv ret, TCGv arg1, TCGv arg2)
- static bool trans_mulhsu(DisasContext *ctx, arg_mulhsu *a)
- {
-     REQUIRE_EXT(ctx, RVM);
--    return gen_arith_per_ol(ctx, a, EXT_NONE, gen_mulhsu, gen_mulhsu_w, NULL);
-+    return gen_arith_per_ol(ctx, a, EXT_NONE, gen_mulhsu, gen_mulhsu_w,
-+                            gen_mulhsu_i128);
-+}
-+
-+static void gen_mulhu_i128(TCGv rhl, TCGv rhh,
-+                           TCGv rs1l, TCGv rs1h, TCGv rs2l, TCGv rs2h)
-+{
-+    TCGv rll = tcg_temp_new(),
-+         rlh = tcg_temp_new();
-+
-+    gen_mulu2_i128(rll, rlh, rhl, rhh, rs1l, rs1h, rs2l, rs2h);
-+
-+    tcg_temp_free(rll);
-+    tcg_temp_free(rlh);
- }
- 
- static void gen_mulhu(TCGv ret, TCGv s1, TCGv s2)
-@@ -91,7 +251,17 @@ static bool trans_mulhu(DisasContext *ctx, arg_mulhu *a)
- {
-     REQUIRE_EXT(ctx, RVM);
-     /* gen_mulh_w works for either sign as input. */
--    return gen_arith_per_ol(ctx, a, EXT_ZERO, gen_mulhu, gen_mulh_w, NULL);
-+    return gen_arith_per_ol(ctx, a, EXT_ZERO, gen_mulhu, gen_mulh_w,
-+                            gen_mulhu_i128);
-+}
-+
-+static void gen_div_i128(TCGv rdl, TCGv rdh,
-+                         TCGv rs1l, TCGv rs1h, TCGv rs2l, TCGv rs2h)
-+{
-+    gen_helper_divs_i128(cpu_env, (TCGv_i64)rs1l, (TCGv_i64)rs1h,
-+                                  (TCGv_i64)rs2l, (TCGv_i64)rs2h);
-+    tcg_gen_mov_tl(rdl, cpu_hlpr[0]);
-+    tcg_gen_mov_tl(rdh, cpu_hlpr[1]);
- }
- 
- static void gen_div(TCGv ret, TCGv source1, TCGv source2)
-@@ -130,7 +300,16 @@ static void gen_div(TCGv ret, TCGv source1, TCGv source2)
- static bool trans_div(DisasContext *ctx, arg_div *a)
- {
-     REQUIRE_EXT(ctx, RVM);
--    return gen_arith(ctx, a, EXT_SIGN, gen_div, NULL);
-+    return gen_arith(ctx, a, EXT_SIGN, gen_div, gen_div_i128);
-+}
-+
-+static void gen_divu_i128(TCGv rdl, TCGv rdh,
-+                          TCGv rs1l, TCGv rs1h, TCGv rs2l, TCGv rs2h)
-+{
-+    gen_helper_divu_i128(cpu_env, (TCGv_i64)rs1l, (TCGv_i64)rs1h,
-+                                  (TCGv_i64)rs2l, (TCGv_i64)rs2h);
-+    tcg_gen_mov_tl(rdl, cpu_hlpr[0]);
-+    tcg_gen_mov_tl(rdh, cpu_hlpr[1]);
- }
- 
- static void gen_divu(TCGv ret, TCGv source1, TCGv source2)
-@@ -158,7 +337,16 @@ static void gen_divu(TCGv ret, TCGv source1, TCGv source2)
- static bool trans_divu(DisasContext *ctx, arg_divu *a)
- {
-     REQUIRE_EXT(ctx, RVM);
--    return gen_arith(ctx, a, EXT_ZERO, gen_divu, NULL);
-+    return gen_arith(ctx, a, EXT_ZERO, gen_divu, gen_divu_i128);
-+}
-+
-+static void gen_rem_i128(TCGv rdl, TCGv rdh,
-+                         TCGv rs1l, TCGv rs1h, TCGv rs2l, TCGv rs2h)
-+{
-+    gen_helper_rems_i128(cpu_env, (TCGv_i64)rs1l, (TCGv_i64)rs1h,
-+                                  (TCGv_i64)rs2l, (TCGv_i64)rs2h);
-+    tcg_gen_mov_tl(rdl, cpu_hlpr[0]);
-+    tcg_gen_mov_tl(rdh, cpu_hlpr[1]);
- }
- 
- static void gen_rem(TCGv ret, TCGv source1, TCGv source2)
-@@ -199,7 +387,16 @@ static void gen_rem(TCGv ret, TCGv source1, TCGv source2)
- static bool trans_rem(DisasContext *ctx, arg_rem *a)
- {
-     REQUIRE_EXT(ctx, RVM);
--    return gen_arith(ctx, a, EXT_SIGN, gen_rem, NULL);
-+    return gen_arith(ctx, a, EXT_SIGN, gen_rem, gen_rem_i128);
-+}
-+
-+static void gen_remu_i128(TCGv rdl, TCGv rdh,
-+                          TCGv rs1l, TCGv rs1h, TCGv rs2l, TCGv rs2h)
-+{
-+    gen_helper_remu_i128(cpu_env, (TCGv_i64)rs1l, (TCGv_i64)rs1h,
-+                                  (TCGv_i64)rs2l, (TCGv_i64)rs2h);
-+    tcg_gen_mov_tl(rdl, cpu_hlpr[0]);
-+    tcg_gen_mov_tl(rdh, cpu_hlpr[1]);
- }
- 
- static void gen_remu(TCGv ret, TCGv source1, TCGv source2)
-@@ -227,12 +424,12 @@ static void gen_remu(TCGv ret, TCGv source1, TCGv source2)
- static bool trans_remu(DisasContext *ctx, arg_remu *a)
- {
-     REQUIRE_EXT(ctx, RVM);
--    return gen_arith(ctx, a, EXT_ZERO, gen_remu, NULL);
-+    return gen_arith(ctx, a, EXT_ZERO, gen_remu, gen_remu_i128);
- }
- 
- static bool trans_mulw(DisasContext *ctx, arg_mulw *a)
- {
--    REQUIRE_64BIT(ctx);
-+    REQUIRE_64_OR_128BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
-     ctx->ol = MXL_RV32;
-     return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl, NULL);
-@@ -240,7 +437,7 @@ static bool trans_mulw(DisasContext *ctx, arg_mulw *a)
- 
- static bool trans_divw(DisasContext *ctx, arg_divw *a)
- {
--    REQUIRE_64BIT(ctx);
-+    REQUIRE_64_OR_128BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
-     ctx->ol = MXL_RV32;
-     return gen_arith(ctx, a, EXT_SIGN, gen_div, NULL);
-@@ -248,7 +445,7 @@ static bool trans_divw(DisasContext *ctx, arg_divw *a)
- 
- static bool trans_divuw(DisasContext *ctx, arg_divuw *a)
- {
--    REQUIRE_64BIT(ctx);
-+    REQUIRE_64_OR_128BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
-     ctx->ol = MXL_RV32;
-     return gen_arith(ctx, a, EXT_ZERO, gen_divu, NULL);
-@@ -256,7 +453,7 @@ static bool trans_divuw(DisasContext *ctx, arg_divuw *a)
- 
- static bool trans_remw(DisasContext *ctx, arg_remw *a)
- {
--    REQUIRE_64BIT(ctx);
-+    REQUIRE_64_OR_128BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
-     ctx->ol = MXL_RV32;
-     return gen_arith(ctx, a, EXT_SIGN, gen_rem, NULL);
-@@ -264,8 +461,48 @@ static bool trans_remw(DisasContext *ctx, arg_remw *a)
- 
- static bool trans_remuw(DisasContext *ctx, arg_remuw *a)
- {
--    REQUIRE_64BIT(ctx);
-+    REQUIRE_64_OR_128BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
-     ctx->ol = MXL_RV32;
-     return gen_arith(ctx, a, EXT_ZERO, gen_remu, NULL);
- }
-+
-+static bool trans_muld(DisasContext *ctx, arg_muld *a)
-+{
-+    REQUIRE_128BIT(ctx);
-+    REQUIRE_EXT(ctx, RVM);
-+    ctx->ol = MXL_RV64;
-+    return gen_arith(ctx, a, EXT_SIGN, tcg_gen_mul_tl, NULL);
-+}
-+
-+static bool trans_divd(DisasContext *ctx, arg_divd *a)
-+{
-+    REQUIRE_128BIT(ctx);
-+    REQUIRE_EXT(ctx, RVM);
-+    ctx->ol = MXL_RV64;
-+    return gen_arith(ctx, a, EXT_SIGN, gen_div, NULL);
-+}
-+
-+static bool trans_divud(DisasContext *ctx, arg_divud *a)
-+{
-+    REQUIRE_128BIT(ctx);
-+    REQUIRE_EXT(ctx, RVM);
-+    ctx->ol = MXL_RV64;
-+    return gen_arith(ctx, a, EXT_ZERO, gen_divu, NULL);
-+}
-+
-+static bool trans_remd(DisasContext *ctx, arg_remd *a)
-+{
-+    REQUIRE_128BIT(ctx);
-+    REQUIRE_EXT(ctx, RVM);
-+    ctx->ol = MXL_RV64;
-+    return gen_arith(ctx, a, EXT_SIGN, gen_rem, NULL);
-+}
-+
-+static bool trans_remud(DisasContext *ctx, arg_remud *a)
-+{
-+    REQUIRE_128BIT(ctx);
-+    REQUIRE_EXT(ctx, RVM);
-+    ctx->ol = MXL_RV64;
-+    return gen_arith(ctx, a, EXT_ZERO, gen_remu, NULL);
-+}
-diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-index d5e0bc93ea..a32158da93 100644
---- a/target/riscv/meson.build
-+++ b/target/riscv/meson.build
-@@ -18,6 +18,7 @@ riscv_ss.add(files(
-   'vector_helper.c',
-   'bitmanip_helper.c',
-   'translate.c',
-+  'm128_helper.c'
- ))
- 
- riscv_softmmu_ss = ss.source_set()
--- 
-2.33.0
+it depends on kernel, see kvm_recommended_vcpus().
+
+We probably should bump it on upstream kernel side
+(it's much more than that in RHEL8).
+
+Is there anything that prevents bumping upstream kernel limits?
+
+> > @@ -1506,6 +1519,7 @@ static void test_acpi_oem_fields_virt(void)
+> >  int main(int argc, char *argv[])
+> >  {
+> >      const char *arch = qtest_get_arch();
+> > +    const bool has_kvm = qtest_has_accel("kvm");
+> >      int ret;
+> >  
+> >      g_test_init(&argc, &argv, NULL);
+> > @@ -1561,6 +1575,9 @@ int main(int argc, char *argv[])
+> >          if (strcmp(arch, "x86_64") == 0) {
+> >              qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
+> >          }
+> > +        if (has_kvm) {
+> > +            qtest_add_func("acpi/q35/kvm/xapic", test_acpi_q35_kvm_xapic);
+> > +        }
+> >      } else if (strcmp(arch, "aarch64") == 0) {
+> >          qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+> >          qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+> > -- 
+> > 2.27.0  
+> 
 
 
