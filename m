@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E569433867
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 16:29:03 +0200 (CEST)
-Received: from localhost ([::1]:52478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2509F433870
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 16:33:41 +0200 (CEST)
+Received: from localhost ([::1]:33036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcq6w-0002AL-7r
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 10:29:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36934)
+	id 1mcqBQ-0008E6-8G
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 10:33:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcpvU-0002Fo-7v; Tue, 19 Oct 2021 10:17:12 -0400
-Received: from mail-dm6nam12on2050.outbound.protection.outlook.com
- ([40.107.243.50]:52064 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ id 1mcpvn-0002lz-DF; Tue, 19 Oct 2021 10:17:31 -0400
+Received: from mail-dm6nam12on2063.outbound.protection.outlook.com
+ ([40.107.243.63]:31745 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mcpvR-0002i9-6T; Tue, 19 Oct 2021 10:17:11 -0400
+ id 1mcpvl-0002vd-1v; Tue, 19 Oct 2021 10:17:31 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=miK/QNaJANum0BtxRS7qvwVcw6HGqIHoX4nHM/eg7ezFHS2YRBI0XKXhCaBTzs5vuWYPB7/mxYk+JmBjYpjFI0oiP/L6adLgYZJdAUxxhZmh15K9k4XwJm3gWx+o65jvSEC+u34AItf5uzDPCJdKlT4mYW6Z2cycUZyvymhSUjJInrZvKuyUsh9youFXtkNBJtFNXjPKdeqpxxa9qJzMxti+DtXh5PDXaY7YbROrywxhuhUQPW8L7oL5bFLyoAkb0C+1m9QK18BGg3qjbbrruQ/pjv+ckYd4P7ZpmC3f7cImhYzBHAJp4f5ZXDSTdkuKBPrLqiRyU4KkHCK6S/WBIw==
+ b=IBzseZcyrwNdFEZC7wdv1KYraMQXkA2nrtxLFSuY/mVeIKPfIQP88uQRAHAwx2Fv3nyzjOtIqKwUZPiRNyxgpu5uQzyKJ8ifzZMFTRiNf1IiXe2ckz+k+d7tUD4U4c7s0A0/CvPgiWXGbB7paLyFjSXmWFqys/knGtqX8+Yo/GVNyv7+iW9mMtLkFWIfB54wDXO7t+iDAAllNi3fSGd9QogxouewcIqPPzk2hDfTzTXgP77gtg/ymH+B910Arj4it4vKbWoVHkF4vwAaGWAqJJaIlkO7OFA35j9xPzBVVsbcUOCX3ffa2hD1PcGKzwu9tfmcsMrl2rKNPBKcWL8Z0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IN/8C9/co98L5Ube2j+iRDc/uFKYem4+llU8MT754sk=;
- b=BrTmSbScKN+YYXp9YAPmDhnUs5JUe0BCzwa8fyGssuY2A0k6pRROWYyGDvbqCeeHBvD1H8EsFJESwya/8tH8AislepxI314fXgZYlbMW06Ze5s5hbrRVCrQovbUwide4z36xN5/Ig/UCXDDa7jbDF1gZtH7WhDd7WBm9k4KT16uIlWe892JYTRpBoj9OW3v7zdQiYxYZMU07sTLraQT5Wkpk0WPpPWnKYbFsoMPPWj/er203W5ks9Lohseg6IbsHTMu6QhIU+5NSrkGja83BkFqWjvzeE4WolMWMc3b69lXKyffIvAmcsC2KwYxYNcXsOQfV/nW23xtwqCAIhZ8dRQ==
+ bh=jY09/SatjM0SFjBkgU0qtNTjL0xLtEfXlZXdX7/JqUI=;
+ b=QP6VZo335ohm0ihFo3eV7AfPdwvjnNZtu6/EqaHAgO558YWgT4OsFpMsN3tdy9VHnQZgE+V9SNuzw3ROs7Id1FVDHkTzyhh/TYGjfZljAdoOQk6jxyuG8oUD8AssHNqD1DMRjjf+QwCfzvq4QSgnvo0Pqz4lP6hoPWVrWuaC54d60S78uZMybggnn+SkAiOqXLtIChl2ZeGp1X9pxbrkD0dYfiWhA/2T/LJcNCui/K4hVgJuC0Wgrx3TrLrAdS69p/Dr4CcRYATnMctPIY8TIca7pfGQxYJ40zhyqUpUb0Q0cyQO6K6OXcYI4YettYynWobgawFTzZUDu5/kB4d1QQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IN/8C9/co98L5Ube2j+iRDc/uFKYem4+llU8MT754sk=;
- b=aL8Ej4PLQnEGPUkkOp//Ub3Ep93Yk5D3jud7RKFXhqPpEpt8bI7EMkMjaQGUThGOJHejqunWYU0/C5oz7xoloplDaqRLtfYJOz+6o3L8wsFMYvdP71RT98cdyuUUZ0wb0qfBSZarx4xfLhAeEx7KtdTWeQMLxH1xqGVgcdDkaPs=
-Received: from BN8PR03CA0015.namprd03.prod.outlook.com (2603:10b6:408:94::28)
- by SA0PR12MB4415.namprd12.prod.outlook.com (2603:10b6:806:70::17)
+ bh=jY09/SatjM0SFjBkgU0qtNTjL0xLtEfXlZXdX7/JqUI=;
+ b=1D//neUfGDLBj346Aj6WkzROHEPgmvkkiIv9DiZIJxAF8W8PTDTEd4S5O/4hGwtc1yAx8BjxQdp52weycg+4XGx9BGFUbbNUQgNRGBfXVnvb5FKPR4811Z8Et4zzweVW5ld1mYGfZ3zGyLqL8bp1/mH34NgKXzsJCzIMRpaoNkc=
+Received: from BN9PR03CA0392.namprd03.prod.outlook.com (2603:10b6:408:111::7)
+ by BN8PR12MB2867.namprd12.prod.outlook.com (2603:10b6:408:99::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Tue, 19 Oct
- 2021 14:17:06 +0000
-Received: from BN8NAM11FT035.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:94:cafe::65) by BN8PR03CA0015.outlook.office365.com
- (2603:10b6:408:94::28) with Microsoft SMTP Server (version=TLS1_2,
+ 2021 14:17:25 +0000
+Received: from BN8NAM11FT065.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:111:cafe::89) by BN9PR03CA0392.outlook.office365.com
+ (2603:10b6:408:111::7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16 via Frontend
- Transport; Tue, 19 Oct 2021 14:17:05 +0000
+ Transport; Tue, 19 Oct 2021 14:17:25 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=pass action=none header.from=amd.com;
@@ -50,21 +50,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT035.mail.protection.outlook.com (10.13.177.116) with Microsoft SMTP
+ BN8NAM11FT065.mail.protection.outlook.com (10.13.177.63) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:17:04 +0000
+ 15.20.4608.15 via Frontend Transport; Tue, 19 Oct 2021 14:17:25 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 19 Oct
- 2021 09:17:03 -0500
+ 2021 09:17:25 -0500
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, Kevin Wolf <kwolf@redhat.com>, Yanhui Ma
- <yama@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH 16/64] hmp: Fix loadvm to resume the VM on success instead of
- failure
-Date: Tue, 19 Oct 2021 09:08:56 -0500
-Message-ID: <20211019140944.152419-17-michael.roth@amd.com>
+CC: <qemu-stable@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, Sebastian
+ Mitterle <smitterl@redhat.com>
+Subject: [PATCH 17/64] configure: fix detection of gdbus-codegen
+Date: Tue, 19 Oct 2021 09:08:57 -0500
+Message-ID: <20211019140944.152419-18-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211019140944.152419-1-michael.roth@amd.com>
 References: <20211019140944.152419-1-michael.roth@amd.com>
@@ -76,29 +75,29 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 72ac4018-5e6f-4c5a-c506-08d9930b206a
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4415:
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4415292F888B584F8BDF31F695BD9@SA0PR12MB4415.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:185;
+X-MS-Office365-Filtering-Correlation-Id: ed6e2179-68a8-40cd-1a22-08d9930b2cea
+X-MS-TrafficTypeDiagnostic: BN8PR12MB2867:
+X-Microsoft-Antispam-PRVS: <BN8PR12MB2867BE4A19CDB38F890C479C95BD9@BN8PR12MB2867.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:595;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4FRWPb6R9WxjB+bBfIBMP+pzxh3w+epOPOk94148qxPXuRJo6WMviUFjMI2drIrw/BFN6WdCNWleaDC43MimeL7MJuSsfUAgaaCFLyqpM2R54j05uTE7lKgZkH2NQiO3/8LXdA51lasH/3BeDo2+atlV2Gv7NIpi2YQlv8nN9HBpTL9CJ6hd+wESiTIPt+MS6v39KDIG3BdPbr8QK05qO1cF+oEUQ2KESa8w50zg01LLmVdIxr+w5Vx44SX9tnq5sCdfXxzd1xVA1zjZmWaz16tci7STmOSG6Mrax9YbGo5H1aH6+WIIZnodh+7cNZ3jFZYZAC/HsUfhwcuj357CH7rY1CovDmiqn88rEkDOg8oKMuq4Xrzsef/wEt7/kij5dAtjw5BxyvhI+HLt+UCSVVgHV2FmCTjZDL6uhrKcPpy/0dTeQEvl0aiD9msJULbZjr7wq5zErA3w/XC5+oZvMkRqnK2Xy8CIy2QtuykzGZrdbjI4OE4msWv9KITuO7VKL5T3s8SXXuvjo67AJ+TsQFhEYUeGMNr5wUlDOJd0QMMbUlpZM0WFr7//AEn5f3C4XLWOmnbE+5yvNaeBjP0aghWYiOASiyUTzdDWnedEvJqqdKXp84qwbbtA81StMXkRMHQnw/+h9a7FNt360pqcOuyEr/OtIViN62+fBH/LH83T+m05CsJqy+2iI00zADoOwD/qdBBLPrguqKYB8eD2BSlsXw933xKgWblf/BWebtk=
+X-Microsoft-Antispam-Message-Info: ukJmwAONs6V+hlHn7SBetlc9TyF0DP+6jNe6kRaUZCZynSDswCJ33BrCgAUBAV7wJKaAbYveOtzsrSqegZp8nAuL1scyvaYPfcDIhfr4aZ6DicipSV8tWCUwHRC5ve7abUbZ82LeiV2LzbLik533XpsgWAtQsqKnlqszQW6cr+2f+9vMyc3id5jfeE4G4tzFQ0WMU7CpG0Sp04VeyOD+/2/3EJp471si6pBmUbP3qnyHVU9xdsMqbIZVKiHuhBySRldW5Bhcfnqn3MSXZi1Lpg3CNZM9pQ+g/OFrLnomuN8KoJtql/BNyn9ie3N21GgSXbY4Ix77yfQm5Zv3ERp+ZNwZwkCtUMFPL4KcpAq9/NE3zCfCGiiERJ5k3+p6IoShnbI/PS9Mhqc83uLJESld15zJve87d03tlqtiNHMGcxEp2k4FE02uGs9Qg1RYcNORYlclEiXlHZLc6tpHUSbC2p/KZVi/ugNn7ys2qE+EP4FZTsfV4SNmQnSnRw059jlHj1VCt73jORMFkMT5dtVM3s03OKKY4lCgV2xykIqvP/hnF6yf6QzcNmZdIk6QWeaBjGMxavWcP7KmwMShmmd3SzL4aBE60MvYrIP+YgpFIqQ1D8bVM2Kbn1BtgF2BqDzP9c6NCfZ6Szt+7ZWRza7zeLE+n7r1ZRSPRGJDOjfPKW8EQx0M8wdFqMdEc+4u964tjoYrIKa3CjsRFtWMQB1qbKB/cJ8l/7QCjyMm2zEOcbo=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(336012)(86362001)(426003)(70206006)(36756003)(6916009)(82310400003)(2616005)(26005)(316002)(16526019)(81166007)(4326008)(1076003)(2906002)(8936002)(36860700001)(47076005)(186003)(356005)(70586007)(83380400001)(6666004)(5660300002)(508600001)(8676002)(54906003)(44832011)(36900700001);
+ SFS:(4636009)(36840700001)(46966006)(6916009)(54906003)(82310400003)(44832011)(6666004)(316002)(70206006)(4326008)(36860700001)(2906002)(47076005)(1076003)(36756003)(5660300002)(16526019)(186003)(426003)(508600001)(336012)(70586007)(8936002)(86362001)(81166007)(2616005)(8676002)(356005)(26005)(83380400001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:17:04.6987 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72ac4018-5e6f-4c5a-c506-08d9930b206a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 14:17:25.6669 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed6e2179-68a8-40cd-1a22-08d9930b2cea
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT035.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT065.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4415
-Received-SPF: softfail client-ip=40.107.243.50;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2867
+Received-SPF: softfail client-ip=40.107.243.63;
  envelope-from=Michael.Roth@amd.com;
  helo=NAM12-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -123,40 +122,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Commit f61fe11aa6f broke hmp_loadvm() by adding an incorrect negation
-when converting from 0/-errno return values to a bool value. The result
-is that loadvm resumes the VM now if it failed and keeps it stopped if
-it failed. Fix it to restore the old behaviour and do it the other way
-around.
+"pkg-config --variable=gdbus_codegen gio-2.0" returns "gdbus-codegen",
+and it does not pass test -x (which does not walk the path).
 
-Fixes: f61fe11aa6f7f8f0ffe4ddaa56a8108f3ab57854
-Cc: qemu-stable@nongnu.org
-Reported-by: Yanhui Ma <yama@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210511163151.45167-1-kwolf@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-(cherry picked from commit c53cd04e70641fdf9410aac40c617d074047b3e1)
+Meson 0.58.0 notices that something is iffy, as the dbus_vmstate1
+assignment in tests/qtest/meson.build uses an empty string as the
+command, and fails very eloquently:
+
+../tests/qtest/meson.build:92:2: ERROR: No program name specified.
+
+Use the "has" function instead of test -x, and fix the generation
+of config-host.mak since meson.build expects that GDBUS_CODEGEN
+is absent, rather than empty, if the tool is unavailable.
+
+Reported-by: Sebastian Mitterle <smitterl@redhat.com>
+Fixes: #178
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+(cherry picked from commit 5ecfb76ccc056eb6127e44268e475827ae73b9e0)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- monitor/hmp-cmds.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 0ad5b77477..cc15d9b6ee 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1133,7 +1133,7 @@ void hmp_loadvm(Monitor *mon, const QDict *qdict)
- 
-     vm_stop(RUN_STATE_RESTORE_VM);
- 
--    if (!load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
-+    if (load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
-         vm_start();
-     }
-     hmp_handle_error(mon, err);
+diff --git a/configure b/configure
+index 4f374b4889..7c321662ca 100755
+--- a/configure
++++ b/configure
+@@ -3331,7 +3331,7 @@ if ! test "$gio" = "no"; then
+         gio_cflags=$($pkg_config --cflags gio-2.0)
+         gio_libs=$($pkg_config --libs gio-2.0)
+         gdbus_codegen=$($pkg_config --variable=gdbus_codegen gio-2.0)
+-        if [ ! -x "$gdbus_codegen" ]; then
++        if ! has "$gdbus_codegen"; then
+             gdbus_codegen=
+         fi
+         # Check that the libraries actually work -- Ubuntu 18.04 ships
+@@ -5678,6 +5678,8 @@ if test "$gio" = "yes" ; then
+     echo "CONFIG_GIO=y" >> $config_host_mak
+     echo "GIO_CFLAGS=$gio_cflags" >> $config_host_mak
+     echo "GIO_LIBS=$gio_libs" >> $config_host_mak
++fi
++if test "$gdbus_codegen" != "" ; then
+     echo "GDBUS_CODEGEN=$gdbus_codegen" >> $config_host_mak
+ fi
+ echo "CONFIG_TLS_PRIORITY=\"$tls_priority\"" >> $config_host_mak
 -- 
 2.25.1
 
