@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B473043400C
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 22:57:51 +0200 (CEST)
-Received: from localhost ([::1]:58090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB1B43403D
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 23:12:44 +0200 (CEST)
+Received: from localhost ([::1]:37564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcwBC-00006U-B1
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 16:57:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44664)
+	id 1mcwPb-0006Fl-Aj
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 17:12:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mcw9P-0007by-0H
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 16:55:59 -0400
-Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:60909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mcw9M-0007w1-Sw
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 16:55:58 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.93])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 374012040F;
- Tue, 19 Oct 2021 20:55:52 +0000 (UTC)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 19 Oct
- 2021 22:55:51 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006a06a05af-792d-4482-8a27-816ace138ac6,
- 5B5731C74782081D4A8FE9ECE1C2E20B2A30CE7F) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <85bb8afc-d22e-c127-85c7-a083848569ba@kaod.org>
-Date: Tue, 19 Oct 2021 22:55:50 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mcwO8-0005Vq-Op
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 17:11:12 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:41966)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mcwO6-000105-LD
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 17:11:12 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ na16-20020a17090b4c1000b0019f5bb661f9so933130pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 14:11:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1/+vEKP2Ydmmgoy/Y658yF4AjsXqK6S0XIknQKpKmk8=;
+ b=fbikLcy2j5IzT7d4fECKAnF3eBRWWyeGaGqyfGWjyG/9wf6OA6ApXCTJswmRWn9Tms
+ cXK8IzipxwgG8JMOooKpzF2CZhxEkrU7msl3UEeq4DEuebivVuNrVgoZL/+7psv8X7uP
+ iywlQb/rDM+yIMz7Lc2Bf7Lbvc0fw47Qo81EHFhs95WrGZl4qbmevyQRkLLSS3oF+tfT
+ iScYv+yZYWxOji9yIDIxJlqv1sz/CtWKZwEZB9vE15N/X3dIVy3Tep8gKIS23IlI9bwB
+ nzzlD1mL79afNMloIesLsaudYdsgr+xvSA8vfJGQicXCi36FAUiFOw5O6BZH+CW0Al10
+ X3dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1/+vEKP2Ydmmgoy/Y658yF4AjsXqK6S0XIknQKpKmk8=;
+ b=qQmLQEVcIVa1Fp+fYnfGU1RJCFQb23tOvCWH6ygfp+0g12be8CIBN1b74rBJd/fleT
+ PRC+r0/B6CAM4w+LRLpDub+y+zyjmIBczEG1KmnPr/Itcv06aYgg84X/p3ZaXFakXvRN
+ fcmKAtqJTMyyKGA7mAvhFJu862xmd2ayVNTMC1/JI6abLERuR5ZIm9LUcay0RBJoQUmh
+ yLGLsVukc9kEbJpgTVdbHIuis2bI4thVCaonj/P+YHfS54YiL5JFkzRe86vNcabB4Zo6
+ rfI0uEyTi3yhRH7Dn6bE333rU6JGeHecrxGZLFQYOHqnRe2WqtqoTS2/qQi46qOUor9X
+ aJDA==
+X-Gm-Message-State: AOAM533jnbMR0smmgSLYl1rV8hmoJuiPLY1p6UIxV/69MqcNc8loaYmi
+ sdswE5trBtAIgvCPvEiuyM3a6Q==
+X-Google-Smtp-Source: ABdhPJyFaoWX3tEB/o42nNYbEfjCOTGNjMK3ECxtHlUnfpnNEYYsQywtblcdZwDgAh7ufcb48feGoA==
+X-Received: by 2002:a17:90b:3e87:: with SMTP id
+ rj7mr2618797pjb.88.1634677868894; 
+ Tue, 19 Oct 2021 14:11:08 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id k14sm132020pga.65.2021.10.19.14.11.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Oct 2021 14:11:08 -0700 (PDT)
+Subject: Re: [PATCH 06/31] target/loongarch: Add mmu support for Loongarch CPU.
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1634628917-10031-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1634628917-10031-7-git-send-email-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <538a03ec-a1cf-3b1d-e0c6-4bec54aad94c@linaro.org>
+Date: Tue, 19 Oct 2021 14:11:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: Deprecate the ppc405 boards in QEMU?
+In-Reply-To: <1634628917-10031-7-git-send-email-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Christophe Leroy <christophe.leroy@csgroup.eu>, BALATON Zoltan
- <balaton@eik.bme.hu>
-References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
- <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
- <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
- <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
- <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
- <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
- <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com> <YWQB1FMhQfmqRYxN@yekko>
- <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
- <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
- <8c382ce4-f706-376c-289a-b8c64393decb@redhat.com>
- <880f4bde-19fc-1267-3a04-3d9efd660897@csgroup.eu>
- <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
- <be7a734a-b88b-3130-fee8-398387fb65b4@redhat.com>
- <262b6af0-b5c5-1d28-2f48-7a021c5cd0b9@csgroup.eu>
- <a3d28088-2012-9450-5491-1de77d962da7@eik.bme.hu>
- <d8c9661e-4439-b3f8-48d8-b6f659e862c8@csgroup.eu>
- <5491ed41-7328-3949-12ad-1a94f0f525d1@csgroup.eu>
- <6be2745-2eb7-7b85-31c3-def20eb21f@eik.bme.hu>
- <17b48b89-ef2a-f38d-b081-a3e2ffc1ca67@csgroup.eu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <17b48b89-ef2a-f38d-b081-a3e2ffc1ca67@csgroup.eu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 87337deb-e01c-4b66-929b-c8fac0b4773f
-X-Ovh-Tracer-Id: 3519563110926224190
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvvddgudeflecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
- helo=7.mo548.mail-out.ovh.net
-X-Spam_score_int: -39
-X-Spam_score: -4.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.074,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.074,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,134 +89,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- dbarboza@redhat.com, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
- Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
+ mst@redhat.com, philmd@redhat.com, mark.cave-ayland@ilande.co.uk,
+ laurent@vivier.eu, peterx@redhat.com, f4bug@amsat.org,
+ alistair.francis@wdc.com, maobibo@loongson.cn, gaosong@loongson.cn,
+ pbonzini@redhat.com, bmeng.cn@gmail.com, alex.bennee@linaro.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 18:12, Christophe Leroy wrote:
-> 
-> 
-> Le 19/10/2021 à 16:56, BALATON Zoltan a écrit :
->> On Tue, 19 Oct 2021, Christophe Leroy wrote:
->>> Le 19/10/2021 à 15:44, Christophe Leroy a écrit :
->>>> There is something:
->>>>
->>>> => bootm 0
->>>> Wrong Image Format for bootm command
->>>> ERROR: can't get kernel image!
->>>>
->>>> => md 0
->>>> 00000000: 00000000 b497aae1 616e9207 003227a4    '..V....an...2'.
->>>> 00000010: 00000000 00000000 ee36255f 05070201    .........6%_....
->>>> 00000020: 4c696e75 782d352e 31352e30 2d726335    Linux-5.15.0-rc5
->>>> 00000030: 2d303232 32342d67 61336330 30376164    -02224-ga3c007ad
->>>> 00000040: 1f8b0800 00000000 0203ec5c 0f7013e7    ...........\.p..
->>>>
->>>> => mw.l 0 0x27051956
->>>>
->>>> => bootm 0
->>>> ## Booting kernel from Legacy Image at 00000000 ...
->>>>     Image Name:   Linux-5.15.0-rc5-02224-ga3c007ad
->>>>     Image Type:   PowerPC Linux Kernel Image (gzip compressed)
->>>>     Data Size:    3286948 Bytes = 3.1 MiB
->>>>     Load Address: 00000000
->>>>     Entry Point:  00000000
->>>>     Verifying Checksum ... Bad Data CRC
->>>> ERROR: can't get kernel image!
->>>>
->>>>
->>>> So we have something but it seems it gets overwritten by stuff.
->>>>
->>>> Anyway loading a uImage at 0 is just bad because it is a gzipped image that should get gunzipped at address 0.
->>>>
->>>> Or should we just copy the raw kernel at 0 and jump to the entry point ? But then we also need a device tree somewhere.
->>>>
->>>
->>> If I change KERNEL_LOAD_ADDR to 0x1000000, I can bootm at that address, and it seems it properly decompress the kernel:
->>>
->>> => bootm 0x1000000
->>> ## Booting kernel from Legacy Image at 01000000 ...
->>>   Image Name:   Linux-5.15.0-rc5-02224-ga3c007ad
->>>   Image Type:   PowerPC Linux Kernel Image (gzip compressed)
->>>   Data Size:    3296789 Bytes = 3.1 MiB
->>>   Load Address: 00000000
->>>   Entry Point:  00000000
->>>   Verifying Checksum ... OK
->>>   Uncompressing Kernel Image ... OK
->>>
->>>
->>> And it initialises the MMU properly.
->>>
->>> Then it gets stuck because there is no devicetree.
->>>
->>> (gdb) bt
->>> #0  0xc00094cc in udelay ()
->>> #1  0xc0025d34 in panic ()
->>> #2  0xc06415a0 in early_init_devtree ()
->>> #3  0xc0641da8 in machine_init ()
->>> #4  0xc0002200 in start_here ()
->>
->> Maybe you need to embed a dtb in your kernel if that's possible somehow? Or QEMU has a -dtb option that sets machine->dtb but you need board code to do something with it. See how it's done in other boards like virtex_ml507 and sam460ex. But maybe you'd be better off not using -kernel option as it seems to not really working for these 405 boards but load and start the kernel from u-boot. Not sure what device does u-boot support but QEMU can emulate usb-storage, network, different disks so something might work with u-boot if this board has any peripherals. If it doesn't emulate any peripherals what do you expect to do with the kernel once it boots?
->>
-> 
-> I should be able to build a multi-FIT image that embeds the kernel and the device tree.
-> 
-> I don't know about the peripherals, what I need it a kernel that is able to boot and run some user exe. I'm working on low level functionnalities like VMAP_STACK, STRICT_KERNEL_RWX, Userspace protection, etc ... I want to be able to check that after some modifications the kernel can still boot on every CPU sub-family, and I need to run LKDTM tests.
-> 
-> For this a kernel + initrd is enough.
-> 
-> Thanks
-> Christophe
+On 10/19/21 12:34 AM, Xiaojuan Yang wrote:
+> @@ -272,6 +288,7 @@ static const struct SysemuCPUOps loongarch_sysemu_ops = {
+>   #ifdef CONFIG_TCG
+>   #include "hw/core/tcg-cpu-ops.h"
+>   
+> +#ifdef CONFIG_USER_ONLY
+>   static bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>                          MMUAccessType access_type, int mmu_idx,
+>                          bool probe, uintptr_t retaddr)
+> @@ -280,9 +297,14 @@ static bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>       CPULoongArchState *env = &cpu->env;
+>   
+>       env->badaddr = address;
+> -    cs->exception_index = EXCP_ADE;
+> +    if (access_type == MMU_DATA_STORE) {
+> +        cs->exception_index = EXCP_ADES;
+> +    } else {
+> +        cs->exception_index = EXCP_ADEL;
+> +    }
+>       do_raise_exception(env, cs->exception_index, retaddr);
+>   }
+> +#endif
 
-If we don't need a loader, we are better off simplifying the 405 boards with
-a simple init sequence such as :
+It's too early to add this ifdef.  With what's upstream at the moment, you've broken 
+loongarch-linux-user build by removing loongarch_cpu_tlb_fill.
 
-     if (machine->kernel_filename) {
-         hwaddr kernel_base = 0;
-         int kernel_size = 0;
-         hwaddr initrd_base = 0;
-         int initrd_size = 0;
+There are patches out for review that would require tlb_fill be a system-only hook, but 
+they have not landed yet.
 
-         kernel_size = load_elf(machine->kernel_filename, NULL, NULL, NULL,
-                                &boot_entry, &kernel_base, NULL, NULL,
-                                0 /* LE */, PPC_ELF_MACHINE, 0, 0);
-         if (kernel_size < 0) {
-             error_report("Could not load kernel '%s' : %s",
-                          machine->kernel_filename, load_elf_strerror(kernel_size));
-             exit(1);
-         }
+> +#define LOONGARCH_HFLAG_KU     0x00003 /* kernel/user mode mask   */
+> +#define LOONGARCH_HFLAG_UM     0x00003 /* user mode flag                     */
+> +#define LOONGARCH_HFLAG_KM     0x00000 /* kernel mode flag                   */
 
-         if (machine->initrd_filename) {
-             initrd_base = QEMU_ALIGN_UP(kernel_base + kernel_size, 0x10000);
-             initrd_size = load_image_targphys(machine->initrd_filename,
-                                               initrd_base, 16 * MiB /* Some value */);
-             if (initrd_size < 0) {
-                 error_report("Could not load initial ram disk '%s'",
-                              machine->initrd_filename);
-                 exit(1);
-             }
-         }
+I think you might as well represent all 3 priv levels: it's not a "kernel/user" mask.
 
-         if (machine->dtb) {
-             dt_base = mw_dtb_load(machine, kernel_base, kernel_size, initrd_base,
-                                   initrd_size);
-         }
-     }
+> +#define EXCP_TLB_NOMATCH   0x1
+> +#define EXCP_INST_NOTAVAIL 0x2 /* No valid instruction word for BadInstr */
 
-We need to set the nip to 'boot_entry' and gpr[3] to 'dt_base'.
+These should be with the other EXCP values in the enum.
+At the moment you're overlapping EXCP_ADES and EXCP_SYSCALL.
 
-unless some pre-initialization of hw is required before running Linux ?
+> @@ -130,7 +139,11 @@ void loongarch_cpu_list(void);
+>   
+>   static inline int cpu_mmu_index(CPULoongArchState *env, bool ifetch)
+>   {
+> +#ifdef CONFIG_USER_ONLY
+>       return MMU_USER_IDX;
+> +#else
+> +    return env->CSR_CRMD & LOONGARCH_HFLAG_KU;
 
-Thanks,
+Better would be
 
-C.
+     return FIELD_EX64(env->CSR_CRMD, CSR_CRMD, PLV);
+
+since that's the field you're extracting from CRMD.
+
+> +typedef struct ls3a5k_tlb_t ls3a5k_tlb_t;
+
+Types should be in CamelCase, without _t suffix.
+
+> +struct ls3a5k_tlb_t {
+> +    target_ulong VPN;
+> +    uint64_t PageMask;
+> +    uint32_t PageSize;
+> +    uint16_t ASID;
+> +    unsigned int V0:1;     /* CSR_TLBLO[0] */
+> +    unsigned int V1:1;
+> +
+> +    unsigned int D0:1;     /* CSR_TLBLO[1] */
+> +    unsigned int D1:1;
+> +
+> +    unsigned int PLV0:2;   /* CSR_TLBLO[3:2] */
+> +    unsigned int PLV1:2;
+> +
+> +    unsigned int MAT0:3;   /* CSR_TLBLO[5:4] */
+> +    unsigned int MAT1:3;
+> +
+> +    unsigned int G:1;      /* CSR_TLBLO[6] */
+> +
+> +    uint64_t PPN0;         /* CSR_TLBLO[47:12] */
+> +    uint64_t PPN1;
+> +
+> +    unsigned int NR0:1;    /* CSR_TLBLO[61] */
+> +    unsigned int NR1:1;
+> +
+> +    unsigned int NX0:1;    /* CSR_TLBLO[62] */
+> +    unsigned int NX1:1;
+> +
+> +    unsigned int NE:1;     /* CSR_TLBIDX[31] */
+> +
+> +    unsigned int RPLV0:1;
+> +    unsigned int RPLV1:1;  /* CSR_TLBLO[63] */
+> +};
+
+It would be much better if you didn't use bitfields at all.  This was a bad idea when mips 
+did it; let us not compound the error.
+
+Just use the format defined by the architecture for the CSRs: a couple of uint64_t.  Use 
+FIELD definitions to give the parts intelligible names.
+
+> +typedef struct ls3a5k_tlb_t ls3a5k_tlb_t;
+> +
+> +struct CPULoongArchTLBContext {
+> +    uint32_t nb_tlb;
+> +    int (*map_address)(struct CPULoongArchState *env, hwaddr *physical,
+> +                       int *prot, target_ulong address,
+> +                       MMUAccessType access_type);
+> +    struct {
+> +        uint64_t     stlb_mask;
+> +        uint32_t     stlb_size; /* at most : 8 * 256 = 2048 */
+> +        uint32_t     mtlb_size; /* at most : 64 */
+> +        ls3a5k_tlb_t tlb[LOONGARCH_TLB_MAX];
+> +    } ls3a5k;
+> +};
+
+There's probably no point in using an indirect function call until you've got more than 
+one mmu implementation.  You're copying too much from mips.
+
+> +/* TLB state */
+> +static int get_tlb(QEMUFile *f, void *pv, size_t size,
+> +                   const VMStateField *field)
+> +{
+> +    ls3a5k_tlb_t *v = pv;
+> +    uint32_t flags;
+> +
+> +    qemu_get_betls(f, &v->VPN);
+> +    qemu_get_be64s(f, &v->PageMask);
+> +    qemu_get_be32s(f, &v->PageSize);
+> +    qemu_get_be16s(f, &v->ASID);
+> +    qemu_get_be32s(f, &flags);
+> +    v->RPLV1 = (flags >> 21) & 1;
+> +    v->RPLV0 = (flags >> 20) & 1;
+> +    v->PLV1 = (flags >> 18) & 3;
+> +    v->PLV0 = (flags >> 16) & 3;
+> +    v->NE = (flags >> 15) & 1;
+> +    v->NR1 = (flags >> 14) & 1;
+> +    v->NR0 = (flags >> 13) & 1;
+> +    v->NX1 = (flags >> 12) & 1;
+> +    v->NX0 = (flags >> 11) & 1;
+> +    v->D1 = (flags >> 10) & 1;
+> +    v->D0 = (flags >> 9) & 1;
+> +    v->V1 = (flags >> 8) & 1;
+> +    v->V0 = (flags >> 7) & 1;
+> +    v->MAT1 = (flags >> 4) & 7;
+> +    v->MAT0 = (flags >> 1) & 7;
+> +    v->G = (flags >> 0) & 1;
+> +    qemu_get_be64s(f, &v->PPN0);
+> +    qemu_get_be64s(f, &v->PPN1);
+
+Some of the ugly things that go away if you don't use bitfields.
+
+> +const VMStateDescription vmstate_tlb = {
+> +    .name = "cpu/tlb",
+> +    .version_id = 2,
+> +    .minimum_version_id = 2,
+
+Too much copying again: version numbers do not start at 2.
+
+> +void ls3a5k_mmu_init(CPULoongArchState *env)
+> +{
+> +    env->tlb = g_malloc0(sizeof(CPULoongArchTLBContext));
+
+I think you should not make this a separate structure, and instead allocate this with 
+CPULoongArchState.
+
+> diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
+> index bea290df66..0be29994f9 100644
+> --- a/target/loongarch/translate.c
+> +++ b/target/loongarch/translate.c
+> @@ -61,9 +61,10 @@ static void loongarch_tr_init_disas_context(DisasContextBase *dcbase,
+>   {
+>       int64_t bound;
+>       DisasContext *ctx = container_of(dcbase, DisasContext, base);
+> +    CPULoongArchState *env = cs->env_ptr;
+>   
+>       ctx->page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
+> -    ctx->mem_idx = MMU_USER_IDX;
+> +    ctx->mem_idx = cpu_mmu_index(env, false);
+
+This is incorrect.  You want
+
+     tb_flags = ctx->base.tb->flags;
+     mem_idx = tb_flags & LOONGARCH_HFLAG_PRIV.
+
+It is almost always incorrect to dereference env at this point.  Everything should have 
+been encoded into tb_flags so that when we do the hashing of the TranslationBlocks we find 
+the one that has been compiled for the correct privilege level, etc.
 
 
+r~
 
