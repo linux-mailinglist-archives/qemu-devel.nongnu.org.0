@@ -2,94 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D81D433566
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 14:06:23 +0200 (CEST)
-Received: from localhost ([::1]:43666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F63D43357A
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 14:09:50 +0200 (CEST)
+Received: from localhost ([::1]:50878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcnss-00021N-AN
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 08:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51496)
+	id 1mcnwC-000729-UO
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 08:09:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mcnGM-0001ic-NF
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:26:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21183)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcnY1-0001UO-4O
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:44:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mcnGK-0006le-6T
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:26:34 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcnXx-0005Ox-Nn
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:44:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634642790;
+ s=mimecast20190719; t=1634643885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rxn9JN6+fn7uwf6ZHaF+rNB1gvPPTnpCSe0e96rlvaI=;
- b=ItmJf3nl0HJgUCb5szmihKXRCV756LnjEh+HcZcG/DSXF4GMoX48qCmEOFekk3XUen0DcE
- r5MmiJW5CJRkCSmAFHoI+P9+m0UqZjt9rzGS96yNivrgIdrJ1l/nU+ROv8BCRubBH6anMQ
- XuQpSqf6aLbubFbqBTC2IaaYzDKUf4s=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536-nn1pM4woN8ityAhd6TGBDQ-1; Tue, 19 Oct 2021 07:26:29 -0400
-X-MC-Unique: nn1pM4woN8ityAhd6TGBDQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- l22-20020aa7c316000000b003dbbced0731so17292776edq.6
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 04:26:28 -0700 (PDT)
+ bh=MTl7gUEKm1cWJXeSR37GXErL3qD5+V2Dz4E6s6z5KXw=;
+ b=Sf1F7kf4UcmRLCqa4IY3u3DEnjKXO+EWs1xIyKbaY8EK92Xa1gwXOWehjy0ZTO7jPhy3PD
+ BjIoViWcgQUblBMEAi2GehVA3jyWlio/ddabIO7mkg5ziWqHEDC1vtOWOIuITCaYbk2Cwv
+ sl0CbduU6npF+TVH0NlUT/o/QjyTvpQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-bO2WYLf1PiaqTyxxoR15xg-1; Tue, 19 Oct 2021 07:44:43 -0400
+X-MC-Unique: bO2WYLf1PiaqTyxxoR15xg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ a20-20020a1c9814000000b0032311c7fc54so146890wme.1
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 04:44:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Rxn9JN6+fn7uwf6ZHaF+rNB1gvPPTnpCSe0e96rlvaI=;
- b=eTJ+awmXeboxrbB5/g0W2NQw16JWpUpB6JaJl1C+dkhoYlSOR3h0Ja8WVhFroM0blN
- YbZU2bZ8wF9wQGdAIcaOH9bfHmGYhz1iLFcy8U5HHmxk4QbIvqKfQylxMHQueAeCLMHd
- KamTzm/QAMPaUM+vANNZJPyw+iGkU1Iwd2feY9aH2HUXCbL6ZJd0ZhzwEbw3inLE11iJ
- H9Wv6fRwpMxnBl9fa5Sca1tt2XA4dyXnQXEwkfKbWdPqfMm/5d0G23YIa7AiFm9aCmZk
- zn5gTYGRLVaxSYflztRUNxk/2I1uxwVdJBOy/J4HpEMw97PZa9bWHNh8VKfX84amUheT
- LUow==
-X-Gm-Message-State: AOAM533U1tNSpGyiOYHvuDATPOH4VSo2+WlkZy3xaImHF6zJumEcRiEZ
- TbGh4TJ1VU0JypJoJjsDZYBgh5uPsjL8ZyBisnANAqnucmBp3HzqBGvAgBM/ybt8IHC8yzAYimA
- QlMYV1ulkCrAarVQ=
-X-Received: by 2002:a17:906:68d6:: with SMTP id
- y22mr37486524ejr.274.1634642787733; 
- Tue, 19 Oct 2021 04:26:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxFc3Altr63RTdg+YPHGnNv0tZj86MLOYqrx8S76cjrIwgBEzdsjz61LHQYRkpJidXebDY52g==
-X-Received: by 2002:a17:906:68d6:: with SMTP id
- y22mr37486483ejr.274.1634642787393; 
- Tue, 19 Oct 2021 04:26:27 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:8e02:b072:96b1:56d0?
- ([2001:b07:6468:f312:8e02:b072:96b1:56d0])
- by smtp.gmail.com with ESMTPSA id gt16sm3296073ejc.111.2021.10.19.04.26.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 04:26:26 -0700 (PDT)
-Message-ID: <642435ff-975a-c46c-f73b-2dfb8aff0463@redhat.com>
-Date: Tue, 19 Oct 2021 13:26:25 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=MTl7gUEKm1cWJXeSR37GXErL3qD5+V2Dz4E6s6z5KXw=;
+ b=oztp/bhsmBZZgqbMTiXOChzDeib4Q9PyPqlWHgNdrvLkilQFBY22ysN0rIK5EVtvwu
+ wSce4iHttsk3utYxm8pNeLBYfsl+yo89sCG49LzNUMURw6V+DQg2+c3FkPpm5JzBcH3Y
+ quLHEYEEnAXKV9kSjkUzHJq0qNccdugc9MMm/WKkF019cwRx05MvlHXkOm78qN21tf22
+ w4mKuQGgLQMOZooOWzfS8pSUdLIElxhKtmYiHYWsvWz6H4vXO1KVTCQpQOd8doMRjUPi
+ xkHE4tNWBFxgyaB3I6683wQhycaVitfbw3Ys5I1Wcne1sZ62p6O69r1Dj0B1ZnZWuXtY
+ 5Xpg==
+X-Gm-Message-State: AOAM5322ap2Jsevt6+Q4UJCwB5SXmukfJZCp1IUr7sgi+n7H2EBHx33Y
+ bgTd2g6O2u/hAvv3P95IOlr2IWhAB363SvmMf8XTPn79eAKlL1VMkvhzzfVd/g8OIrgCYXfuaXM
+ 4TOFj7wxZ9caHRPo=
+X-Received: by 2002:a05:600c:ac2:: with SMTP id
+ c2mr5428748wmr.194.1634643882602; 
+ Tue, 19 Oct 2021 04:44:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxABudBdBhMVniAj6hKpu3zuKz5Zq7Bn1GKsCMg5QsNt9LEGu+95unTqxXaRuWQjMGZwYsO5g==
+X-Received: by 2002:a05:600c:ac2:: with SMTP id
+ c2mr5428728wmr.194.1634643882378; 
+ Tue, 19 Oct 2021 04:44:42 -0700 (PDT)
+Received: from redhat.com ([2.55.24.172])
+ by smtp.gmail.com with ESMTPSA id k17sm15167990wrq.7.2021.10.19.04.44.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Oct 2021 04:44:41 -0700 (PDT)
+Date: Tue, 19 Oct 2021 07:44:38 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v2 04/15] tests: acpi: q35: test for x2APIC entries in SRAT
+Message-ID: <20211019074422-mutt-send-email-mst@kernel.org>
+References: <20210902113551.461632-1-imammedo@redhat.com>
+ <20210902113551.461632-5-imammedo@redhat.com>
+ <20211018173052-mutt-send-email-mst@kernel.org>
+ <20211019114825.1464da19@redhat.com>
+ <20211019061656-mutt-send-email-mst@kernel.org>
+ <20211019133624.5cd5ae3d@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2 1/2] rcu: Introduce force_rcu notifier
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-References: <20211019055632.252879-1-groug@kaod.org>
- <20211019055632.252879-2-groug@kaod.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211019055632.252879-2-groug@kaod.org>
+In-Reply-To: <20211019133624.5cd5ae3d@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.074, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,93 +98,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-stable@nongnu.org
+Cc: lvivier@redhat.com, pbonzini@redhat.com, thuth@redhat.com,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/10/21 07:56, Greg Kurz wrote:
-> The drain_rcu_call() function can be blocked as long as an RCU reader
-> stays in a read-side critical section. This is typically what happens
-> when a TCG vCPU is executing a busy loop. It can deadlock the QEMU
-> monitor as reported in https://gitlab.com/qemu-project/qemu/-/issues/650 .
+On Tue, Oct 19, 2021 at 01:36:24PM +0200, Igor Mammedov wrote:
+> On Tue, 19 Oct 2021 06:23:40 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
 > 
-> This can be avoided by allowing drain_rcu_call() to enforce an RCU grace
-> period. Since each reader might need to do specific actions to end a
-> read-side critical section, do it with notifiers.
+> > On Tue, Oct 19, 2021 at 11:48:25AM +0200, Igor Mammedov wrote:
+> > > On Mon, 18 Oct 2021 17:31:33 -0400
+> > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > >   
+> > > > On Thu, Sep 02, 2021 at 07:35:40AM -0400, Igor Mammedov wrote:  
+> > > > > Set -smp 1,maxcpus=288 to test for ACPI code that
+> > > > > deal with CPUs with large APIC ID (>255).
+> > > > > 
+> > > > > PS:
+> > > > > Test requires KVM and in-kernel irqchip support,
+> > > > > so skip test if KVM is not available.
+> > > > > 
+> > > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > > > > ---
+> > > > > v3:
+> > > > >   - add dedicated test instead of abusing 'numamem' one
+> > > > >   - add 'kvm' prefix to the test name
+> > > > >       ("Michael S. Tsirkin" <mst@redhat.com>)
+> > > > > v2:
+> > > > >   - switch to qtest_has_accel() API
+> > > > > 
+> > > > > CC: thuth@redhat.com
+> > > > > CC: lvivier@redhat.com
+> > > > > ---
+> > > > >  tests/qtest/bios-tables-test.c | 17 +++++++++++++++++
+> > > > >  1 file changed, 17 insertions(+)
+> > > > > 
+> > > > > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> > > > > index 51d3a4e239..1f6779da87 100644
+> > > > > --- a/tests/qtest/bios-tables-test.c
+> > > > > +++ b/tests/qtest/bios-tables-test.c
+> > > > > @@ -1033,6 +1033,19 @@ static void test_acpi_q35_tcg_numamem(void)
+> > > > >      free_test_data(&data);
+> > > > >  }
+> > > > >  
+> > > > > +static void test_acpi_q35_kvm_xapic(void)
+> > > > > +{
+> > > > > +    test_data data;
+> > > > > +
+> > > > > +    memset(&data, 0, sizeof(data));
+> > > > > +    data.machine = MACHINE_Q35;
+> > > > > +    data.variant = ".xapic";
+> > > > > +    test_acpi_one(" -object memory-backend-ram,id=ram0,size=128M"
+> > > > > +                  " -numa node -numa node,memdev=ram0"
+> > > > > +                  " -machine kernel-irqchip=on -smp 1,maxcpus=288", &data);
+> > > > > +    free_test_data(&data);
+> > > > > +}
+> > > > > +
+> > > > >  static void test_acpi_q35_tcg_nosmm(void)
+> > > > >  {
+> > > > >      test_data data;    
+> > > > 
+> > > > 
+> > > > This causes an annoying message each time I run it:
+> > > > 
+> > > > qemu-system-x86_64: -accel kvm: warning: Number of hotpluggable cpus requested (288) exceeds the recommended cpus supported by KVM (240)
+> > > > 
+> > > > what gives?  
+> > > 
+> > > it depends on kernel, see kvm_recommended_vcpus().
+> > > 
+> > > We probably should bump it on upstream kernel side
+> > > (it's much more than that in RHEL8).
+> > > 
+> > > Is there anything that prevents bumping upstream kernel limits?  
+> > 
+> > what should we do with the annoying warning though?
 > 
-> Prepare ground for this by adding a notifier list to the RCU reader
-> struct and use it in wait_for_readers() if drain_rcu_call() is in
-> progress. An API is added for readers to register their notifiers.
-> 
-> This is largely based on a draft from Paolo Bonzini.
-> 
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->   include/qemu/rcu.h | 16 ++++++++++++++++
->   util/rcu.c         | 22 +++++++++++++++++++++-
->   2 files changed, 37 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-> index 515d327cf11c..d8c4fd8686b4 100644
-> --- a/include/qemu/rcu.h
-> +++ b/include/qemu/rcu.h
-> @@ -27,6 +27,7 @@
->   #include "qemu/thread.h"
->   #include "qemu/queue.h"
->   #include "qemu/atomic.h"
-> +#include "qemu/notify.h"
->   #include "qemu/sys_membarrier.h"
->   
->   #ifdef __cplusplus
-> @@ -66,6 +67,14 @@ struct rcu_reader_data {
->   
->       /* Data used for registry, protected by rcu_registry_lock */
->       QLIST_ENTRY(rcu_reader_data) node;
-> +
-> +    /*
-> +     * NotifierList used to force an RCU grace period.  Accessed under
-> +     * rcu_registry_lock.  Note that the notifier is called _outside_
-> +     * the thread!
-> +     */
-> +    NotifierList force_rcu;
-> +    void *force_rcu_data;
+> I'd leave it alone.
+> What do you suggest?
+>  
 
-This is a bit ugly because the force_rcu_data is shared across all 
-notifiers.  Sure right now we have only one, but still the data argument 
-should be in rcu_register_thread rather than rcu_add_force_rcu_notifier.
+reduce the value so a typical system does not trigger it?
 
-It's a pity because I liked the Notifier local variable...  But after 
-thinking about it more and deleting some suggestions that won't work, 
-it's just easiest to have the notifier in CPUState.
-
-Maybe even move the unregistration to the existing function 
-tcg_cpus_destroy, and add tcg_cpus_init that calls tcg_register_thread() 
-and rcu_add_force_rcu_notifier().  This way you don't have to export 
-tcg_cpus_force_rcu, and the tcg-accel-ops.h APIs are a bit more tidy.
-
-Paolo
-
-> +void rcu_add_force_rcu_notifier(Notifier *n, void *data)
-> +{
-> +    qemu_mutex_lock(&rcu_registry_lock);
-> +    notifier_list_add(&rcu_reader.force_rcu, n);
-> +    rcu_reader.force_rcu_data = data;
-> +    qemu_mutex_unlock(&rcu_registry_lock);
-> +}
-> +
-> +void rcu_remove_force_rcu_notifier(Notifier *n)
-> +{
-> +    qemu_mutex_lock(&rcu_registry_lock);
-> +    rcu_reader.force_rcu_data = NULL;
-> +    notifier_remove(n);
-> +    qemu_mutex_unlock(&rcu_registry_lock);
-> +}
-> +
->   static void rcu_init_complete(void)
->   {
->       QemuThread thread;
-> 
+> > > > > @@ -1506,6 +1519,7 @@ static void test_acpi_oem_fields_virt(void)
+> > > > >  int main(int argc, char *argv[])
+> > > > >  {
+> > > > >      const char *arch = qtest_get_arch();
+> > > > > +    const bool has_kvm = qtest_has_accel("kvm");
+> > > > >      int ret;
+> > > > >  
+> > > > >      g_test_init(&argc, &argv, NULL);
+> > > > > @@ -1561,6 +1575,9 @@ int main(int argc, char *argv[])
+> > > > >          if (strcmp(arch, "x86_64") == 0) {
+> > > > >              qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
+> > > > >          }
+> > > > > +        if (has_kvm) {
+> > > > > +            qtest_add_func("acpi/q35/kvm/xapic", test_acpi_q35_kvm_xapic);
+> > > > > +        }
+> > > > >      } else if (strcmp(arch, "aarch64") == 0) {
+> > > > >          qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+> > > > >          qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+> > > > > -- 
+> > > > > 2.27.0    
+> > > >   
+> > 
 
 
