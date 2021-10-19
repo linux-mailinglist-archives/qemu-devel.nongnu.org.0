@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A254329ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 00:57:04 +0200 (CEST)
-Received: from localhost ([::1]:56256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E62432AF0
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 02:04:22 +0200 (CEST)
+Received: from localhost ([::1]:50022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcbZ1-0005oH-31
-	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 18:57:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34508)
+	id 1mccc8-0007UA-Mt
+	for lists+qemu-devel@lfdr.de; Mon, 18 Oct 2021 20:04:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mcbXe-0004uv-J2; Mon, 18 Oct 2021 18:55:38 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:45667)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mccZ7-0004bM-1Z
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 20:01:13 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:56177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mcbXb-0004bz-J0; Mon, 18 Oct 2021 18:55:37 -0400
-Received: by mail-io1-xd30.google.com with SMTP id 188so18143365iou.12;
- Mon, 18 Oct 2021 15:55:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DAW8SRRi9Jdr9x2ZE0UGtzpXsWZ6iHLCgkK7tf7iBmk=;
- b=TZUanW9JU5IsA6xdezByyoQSi70lE7NhwzQFLDmKbbZx9/uyNuOfes8lMFnP0Zs1gO
- VE1SoX43tjiE4WE53AGW+RiwrfPv7vsPtBIEFn7kiGL0aWmCLJHGyt/t1+p//pQ4+DUe
- XRz7wnDcc1WiNTUlUd5Rmj4///A2oKEfJ/7gLmLVEhC7e1XizBq4/HEXRWaOm4X3KYGr
- lIHKb0AxzeDGtpzCGmIYaeninj7upl6KDjj1/ELqqXY8kdIdZctJUZxuWaUFcjlUCNf6
- 5Nv9tBCTWKokexB2njviQKouMmTC6q/Rx6VMZyviIOQdXmoroKqNeMBwWIr/wphPFVcn
- V0bQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mccZ5-0001bs-6u
+ for qemu-devel@nongnu.org; Mon, 18 Oct 2021 20:01:12 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id om14so13333411pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 18 Oct 2021 17:01:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=C9F9tI/rqlGGF57t6AqXKgYAHw97tLQc+VYqRavmhEc=;
+ b=JEW0Dy4ndZ7HwEMq0EcEAjyA1aX9sVg1z5OMXLdulDqTyNbnR6mU5A7Q5gaabxC1gB
+ j5W4TN6SBVh4piRbRmfIeTNOtL6RyFFudTD3Iye08R3cdOCbiERopSyEgPgKaeGj/pXI
+ avVD6Uuy1wyi5H5NH/9LKb0UvOUsqmJemhPQtPatxA4+yDmoqHdUd9eM1LLyOlUXqvK5
+ Kd6PLqvQDwXg/ZYxpuPaPKdXNx4v8JUNvDc202oixW+wddUZ2MYxwKlG4+M28yQ0CQdN
+ 2OaF6I38fj6OTygI89CdDywJ9MKZ2lNTsOP73opWxUSNVluRf9aNWU9zuzJIIjtKir2g
+ 5l7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DAW8SRRi9Jdr9x2ZE0UGtzpXsWZ6iHLCgkK7tf7iBmk=;
- b=0XvbNAgOcZI8kl6GP43l10h00zwkasOdeiIgQoxFZnXE+xsWoeZ0XAfUUpfeJ6nd83
- PsmupRJnldAJNspZYmpbAPOL+p3SGBnqJL3+KmoEGHJ3HBMDuywI0ZE5bxbydJsJCXA6
- gjPCbgwV0AHzrGSeuTD9tnC09PaDq+kekCF0uWUpRjpFzExKA/M7zcM1zsm2bLZHpzvk
- LIaopADvozU910r5ArcsfZbF92eqATxRU85wMypt+lemeODjuBqoSYM3lTzj8mbYMLLc
- hvZ1uLp9Pf0RB7dYsQXcIwsE93Zqhn3JVdMLxO8sCoKpUx+qd+TautZ0u6SI55gs8esx
- QBnA==
-X-Gm-Message-State: AOAM5333emlQWWKdzBBTBEaF9kvoS21U9HVzBRukPZ2dmqs4QNj1LmBS
- j6/1ivjrwvOsXE0X0LCm5iMufbodefjReHNhMvY=
-X-Google-Smtp-Source: ABdhPJzCdc0Hx5cXp+FwG0Nh+/FvjF0rT4bJ9bq2fjJWv/bvTH5VbjUqIV+pJnRcOuLn2UizctYtoJQRULrRz1MRqlw=
-X-Received: by 2002:a05:6602:2599:: with SMTP id
- p25mr16447779ioo.90.1634597734008; 
- Mon, 18 Oct 2021 15:55:34 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=C9F9tI/rqlGGF57t6AqXKgYAHw97tLQc+VYqRavmhEc=;
+ b=eShKnrKougYDXiJbCj0E3irToAvE+YhjrXWdQiKwr6hS4E9s+e5IbvWXRE8L22T36B
+ g8EDZXgLYreiQPxk1B/3GjN0qPt9BUDQFG8ntKXsxuxbsUDq+K3UTzEShG2uKME8+AlD
+ nKFvwSkMFHzNzkXK2/e4qSqNFCsZFJiKRpUX9KRaNUq9WjdS/vQxuC0rU1cHdx0/cm/B
+ tnkIWL+d1j93WtRX7Nzq+eoIDaLdBw9UeFQZVFdTY2LNp/q7BuYwH1iYuLPj3kW1z8gB
+ s0jKCYsmyoZGhYx9I1cpSJfVsSPRC8D02qloktO8M1n0AyIBLk5v7laltx5Ml4TiQkuv
+ OE1Q==
+X-Gm-Message-State: AOAM5311P8ePdFUnZWQ7go72WXDyI7/t3P88fH/MsncPXdUwWnxSkdIQ
+ /cZA4o6R6SctK1/72wTNRJg8XpycupM=
+X-Google-Smtp-Source: ABdhPJxunxaqxuL+JigxudqI5GiCyazRp8mQJ6rTyT2cM5JxfRgOjeBZq1GGJnADOlb7aBZBsVF8rA==
+X-Received: by 2002:a17:902:bb94:b0:13c:9113:5652 with SMTP id
+ m20-20020a170902bb9400b0013c91135652mr30742474pls.70.1634601669531; 
+ Mon, 18 Oct 2021 17:01:09 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id q14sm3068220pfk.3.2021.10.18.17.01.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Oct 2021 17:01:08 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/16] target/riscv: Rationalize XLEN and operand length
+Date: Mon, 18 Oct 2021 17:00:52 -0700
+Message-Id: <20211019000108.3678724-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210902112520.475901-1-anup.patel@wdc.com>
- <20210902112520.475901-5-anup.patel@wdc.com>
- <CAKmqyKPK9zrtM=g6hruL+eRLVPdz76jLR+P0xZ8qPfWXvnSTzg@mail.gmail.com>
- <CAAhSdy2jihzXxxMJkrb7vydjETbpiGDA6b9OmWnUaJv8-jF6OQ@mail.gmail.com>
- <CAKmqyKN8MeKKS1h-eu+3QEuubbgW+kYAVR6-T750xvW-4HYq+g@mail.gmail.com>
- <CAAhSdy3yDLmGMofZxocoPBydfQbXy_qNJUsQ7MWsL=0eWpx6QQ@mail.gmail.com>
- <CAKmqyKPqYoRvo-u-XiM3r=EXnwQWEo_gBEF+Vpzwj9gHQzx_2g@mail.gmail.com>
- <CAAhSdy36BLy4QVALv0SOk37XacpT6q-BYOVA-KiXxtuMey0Qog@mail.gmail.com>
-In-Reply-To: <CAAhSdy36BLy4QVALv0SOk37XacpT6q-BYOVA-KiXxtuMey0Qog@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 19 Oct 2021 08:55:08 +1000
-Message-ID: <CAKmqyKOSNQeWbDAocDKGV3heeqdx7CfAGtz4_vyv_VrJ7c7_OQ@mail.gmail.com>
-Subject: Re: [PATCH v2 04/22] target/riscv: Improve fidelity of guest external
- interrupts
-To: Anup Patel <anup@brainfault.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,127 +81,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org, zhiwei_liu@c-sky.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 18, 2021 at 10:55 PM Anup Patel <anup@brainfault.org> wrote:
->
-> On Fri, Oct 15, 2021 at 11:54 AM Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Thu, Sep 16, 2021 at 11:42 PM Anup Patel <anup@brainfault.org> wrote:
-> > >
-> > > On Wed, Sep 15, 2021 at 6:19 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > > >
-> > > > On Tue, Sep 14, 2021 at 2:33 AM Anup Patel <anup@brainfault.org> wrote:
-> > > > >
-> > > > > On Thu, Sep 9, 2021 at 12:14 PM Alistair Francis <alistair23@gmail.com> wrote:
-> > > > > >
-> > > > > > On Thu, Sep 2, 2021 at 9:26 PM Anup Patel <anup.patel@wdc.com> wrote:
-> > > > > > >
-> > > > > > > The guest external interrupts for external interrupt controller are
-> > > > > > > not delivered to the guest running under hypervisor on time. This
-> > > > > > > results in a guest having sluggish response to serial console input
-> > > > > > > and other I/O events. To improve timely delivery of guest external
-> > > > > > > interrupts, we check and inject interrupt upon every sret instruction.
-> > > > > > >
-> > > > > > > Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> > > > > > > ---
-> > > > > > >  target/riscv/op_helper.c | 9 +++++++++
-> > > > > > >  1 file changed, 9 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> > > > > > > index ee7c24efe7..4c995c239e 100644
-> > > > > > > --- a/target/riscv/op_helper.c
-> > > > > > > +++ b/target/riscv/op_helper.c
-> > > > > > > @@ -129,6 +129,15 @@ target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
-> > > > > > >
-> > > > > > >      riscv_cpu_set_mode(env, prev_priv);
-> > > > > > >
-> > > > > > > +    /*
-> > > > > > > +     * QEMU does not promptly deliver guest external interrupts
-> > > > > > > +     * to a guest running on a hypervisor which in-turn is running
-> > > > > > > +     * on QEMU. We make dummy call to riscv_cpu_update_mip() upon
-> > > > > > > +     * every sret instruction so that QEMU pickup guest external
-> > > > > > > +     * interrupts sooner.
-> > > > > > > +     */
-> > > > > > > +     riscv_cpu_update_mip(env_archcpu(env), 0, 0);
-> > > > > >
-> > > > > > This doesn't seem right. I don't understand why we need this?
-> > > > > >
-> > > > > > riscv_cpu_update_mip() is called when an interrupt is delivered to the
-> > > > > > CPU, if we are missing interrupts then that is a bug somewhere else.
-> > > > >
-> > > > > I have finally figured out the cause of guest external interrupts being
-> > > > > missed by Guest/VM.
-> > > > >
-> > > > > The riscv_cpu_set_irq() which handles guest external interrupt lines
-> > > > > of each CPU is called asynchronously. This function in-turn calls
-> > > > > riscv_cpu_update_mip() but the CPU might be in host mode (V=0)
-> > > > > or in Guest/VM mode (V=1). If the CPU is in host mode (V=0) when
-> > > >
-> > > > The IRQ being raised should just directly call riscv_cpu_update_mip()
-> > > > so the IRQ should happen straight away.
-> > >
-> > > That's not true for guest external interrupts. The target Guest/VM might
-> > > not be running on the receiving HART.
-> > >
-> > > Let say IMSIC injected guest external IRQ1 to HARTx which is meant
-> > > for a Guest/VM, so the riscv_cpu_set_irq() will call riscv_cpu_update_mip().
-> > > If HARTx might be in HS-mode or HARTx might be running some
-> > > other Guest/VM then cpu_interrupt() request queued by riscv_cpu_update_mip()
-> > > will not result in any interrupt being injected. This further means that
-> > > QEMU has to check and inject guest external interrupts to target
-> > > Guest/VM when HARTx makes a switch from HS-mode to VS-mode. By
-> > > calling riscv_cpu_update_mip() upon SRET instruction we are ensuring
-> > > that if any guest external interrupt was missed then it is injected ot
-> > > VS-mode.
-> >
-> > Ah ok.
-> >
-> > So the problem is that an interrupt can occur for a guest, while that
-> > guest isn't executing.
->
-> Yes, that's right.
->
-> >
-> > So for example a CPU is executing with V=0. `riscv_cpu_update_mip()`
-> > is called, which triggers a hard interrupt. That in turn calls
-> > `riscv_cpu_exec_interrupt()` and `riscv_cpu_local_irq_pending()`.
->
-> In this case, the hard interrupt is actually a guest external interrupt
-> which is tracked via hgeip CSR. The hgeip CSR is updated immediately
-> but `riscv_cpu_local_irq_pending()` might be called while V=0 hence
-> no interrupt.
->
-> >
-> > This results in the guest Hypervisor receiving the interrupt, which it
-> > then doesn't act on? Or is MIP set but `riscv_cpu_local_irq_pending()`
-> > returns false due to the enable checks?
->
-> Here, hgeip CSR will be set and it will be reflected in mip.VSEIP
-> bit only when hypervisor schedules/runs the Guest (i.e. V=1 and
-> hstatus.VGEIN pointing to the appropriate bit of hgeip csr).
->
-> >
-> > That either seems like a guest bug or that we need some functionality
-> > in `riscv_cpu_swap_hypervisor_regs()` to trigger an interrupt on
-> > context swap.
->
-> This certainly is not a bug with Guest or Hypervisor but rather an
-> issue of invoking `riscv_cpu_exec_interrupt()` and
-> `riscv_cpu_local_irq_pending()` at the right time.
->
-> Your suggestion of checking and triggering guest external interrupt
-> in `riscv_cpu_swap_hypervisor_regs()` is a better approach. If you
-> are okay then I will update this patch in the next revision.
+This is a partial patch set attempting to set things in the
+right direction for both the UXL and RV128 patch sets.
 
-Yeah, let's do that instead.
 
-Alistair
+r~
+
+
+Changes for v4:
+  * Use riscv_csrrw_debug for cpu_dump.
+    This fixes the issue that Alistair pointed out wrt the
+    MSTATUS.SD bit not being correct in the dump; note that
+    gdbstub already uses riscv_csrrw_debug, and so did not
+    have a problem.
+  * Align the registers in cpu_dump.
+
+Changes for v3:
+  * Fix CONFIG_ typo.
+  * Fix ctzw typo.
+  * Mark get_xlen unused (clang werror)
+  * Compute MSTATUS_SD on demand.
+
+Changes for v2:
+  * Set mxl/sxl/uxl at reset.
+  * Set sxl/uxl in write_mstatus.
+
+
+Richard Henderson (16):
+  target/riscv: Move cpu_get_tb_cpu_state out of line
+  target/riscv: Create RISCVMXL enumeration
+  target/riscv: Split misa.mxl and misa.ext
+  target/riscv: Replace riscv_cpu_is_32bit with riscv_cpu_mxl
+  target/riscv: Add MXL/SXL/UXL to TB_FLAGS
+  target/riscv: Use REQUIRE_64BIT in amo_check64
+  target/riscv: Properly check SEW in amo_op
+  target/riscv: Replace is_32bit with get_xl/get_xlen
+  target/riscv: Replace DisasContext.w with DisasContext.ol
+  target/riscv: Use gen_arith_per_ol for RVM
+  target/riscv: Adjust trans_rev8_32 for riscv64
+  target/riscv: Use gen_unary_per_ol for RVB
+  target/riscv: Use gen_shift*_per_ol for RVB, RVI
+  target/riscv: Align gprs and fprs in cpu_dump
+  target/riscv: Use riscv_csrrw_debug for cpu_dump
+  target/riscv: Compute mstatus.sd on demand
+
+ target/riscv/cpu.h                      |  73 +++-----
+ target/riscv/cpu_bits.h                 |   8 +-
+ hw/riscv/boot.c                         |   2 +-
+ linux-user/elfload.c                    |   2 +-
+ linux-user/riscv/cpu_loop.c             |   2 +-
+ semihosting/arm-compat-semi.c           |   2 +-
+ target/riscv/cpu.c                      | 212 ++++++++++++++----------
+ target/riscv/cpu_helper.c               |  92 +++++++++-
+ target/riscv/csr.c                      | 104 +++++++-----
+ target/riscv/gdbstub.c                  |  10 +-
+ target/riscv/machine.c                  |  10 +-
+ target/riscv/monitor.c                  |   4 +-
+ target/riscv/translate.c                | 174 ++++++++++++++-----
+ target/riscv/insn_trans/trans_rvb.c.inc | 140 +++++++++-------
+ target/riscv/insn_trans/trans_rvi.c.inc |  44 ++---
+ target/riscv/insn_trans/trans_rvm.c.inc |  36 +++-
+ target/riscv/insn_trans/trans_rvv.c.inc |  29 ++--
+ 17 files changed, 590 insertions(+), 354 deletions(-)
+
+-- 
+2.25.1
+
 
