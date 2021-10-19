@@ -2,62 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CB7433479
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 13:15:43 +0200 (CEST)
-Received: from localhost ([::1]:33826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D5F0433474
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 13:13:40 +0200 (CEST)
+Received: from localhost ([::1]:59386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcn5o-0003qf-N3
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 07:15:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48716)
+	id 1mcn3n-0001zT-Ji
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 07:13:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ari@tuxera.com>)
- id 1mcn3Z-0002SU-LG; Tue, 19 Oct 2021 07:13:23 -0400
-Received: from mgw-02.mpynet.fi ([82.197.21.91]:35766)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mcn1z-000153-W8
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:11:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ari@tuxera.com>)
- id 1mcn3V-0002Th-GF; Tue, 19 Oct 2021 07:13:20 -0400
-Received: from pps.filterd (mgw-02.mpynet.fi [127.0.0.1])
- by mgw-02.mpynet.fi (8.16.0.43/8.16.0.43) with SMTP id 19JB8qmo017179;
- Tue, 19 Oct 2021 14:13:11 +0300
-Received: from ex13.tuxera.com (ex13.tuxera.com [178.16.184.72])
- by mgw-02.mpynet.fi with ESMTP id 3bs3ras6wg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Tue, 19 Oct 2021 14:13:11 +0300
-Received: from giga-user.srv.tuxera.com (194.100.106.190) by
- tuxera-exch.ad.tuxera.com (10.20.48.11) with Microsoft SMTP Server (TLS) id
- 15.0.1497.23; Tue, 19 Oct 2021 14:13:10 +0300
-From: Ari Sundholm <ari@tuxera.com>
-To: <qemu-block@nongnu.org>
-Subject: [PATCH v2] block/file-posix: Fix return value translation for AIO
- discards.
-Date: Tue, 19 Oct 2021 14:09:55 +0300
-Message-ID: <20211019110954.4170931-1-ari@tuxera.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211018180753.2436008-1-ari@tuxera.com>
-References: <20211018180753.2436008-1-ari@tuxera.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mcn1x-0001Um-WD
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:11:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634641901;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kiIMsfnbQ+hzHPUcmTpUy4HXPNbe/SIvNc0CR6DEZ0o=;
+ b=iSHqVSLuBX9uvVhim8vaFExm4t2zgNVOj7Ps3ylDWxK1mW3Z7IMuLAIh4HgkMKC428V3il
+ UVm/P5C5NZlHGkF1LyTW6unyI4TIsAztgQgyB5BV7y1q4M858n9E9TD8baSIl/9Ktk5yjg
+ Z/j7wFkRkEoYDO79vaTtB/PDb6fLWWY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-438-wkq5uNUAN7iVvanq4XtW3w-1; Tue, 19 Oct 2021 07:11:39 -0400
+X-MC-Unique: wkq5uNUAN7iVvanq4XtW3w-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ p12-20020adfc38c000000b00160d6a7e293so9977755wrf.18
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 04:11:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kiIMsfnbQ+hzHPUcmTpUy4HXPNbe/SIvNc0CR6DEZ0o=;
+ b=uG8+t20kWuIRg8gDezeY8a2CLMC/0pkEjkyLDsZ9DjYklOYzhr/sGFzCoo6BCRzYDZ
+ Q1znlMOB4k2NG75wn5wikIbpnlTAyvDhG78pN/NrXx+qEKdIkKEcyQlRBP16OasMfUfL
+ du4Uf3t/njk0GTpvdxMt96lq6UApuTdsa4FMR8yczK45rKemir+8NQ2GwRJ9iDp30CpR
+ VCCGmiKk28GRyEGbdySxf3rI8itlbRYst0gmxnvG53XqtWTiHh6SeBnnD9r+OPKV/Y+F
+ rMt+MFvjmYQGqnI1eE8jr2vOGTaVDV8Yg5jvQvz2dGFsy/sh/jIaodzPAveUyW4R/4sh
+ HaQA==
+X-Gm-Message-State: AOAM533EkN0JrVgNSfVM8H1hcbvsTo1xDjKqbCsBRrTQB3Wl1XfU1gJq
+ GD+atWzrJgBpz3Ur4+0QiZEbe8Ltuf50OB+KWQ3JMCom3kqzQcoevTi5yKOltVmHrdnesxJvp03
+ /KsLvDBhFCvoJDpM=
+X-Received: by 2002:adf:9bce:: with SMTP id e14mr43115841wrc.353.1634641897729; 
+ Tue, 19 Oct 2021 04:11:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzpRTzLa4Uyt4eaw2Z+k9G753cQX2AQtWnCwCc4jXvlR/yS7lstSDQ8ttZhQmzcHvn//rUUaQ==
+X-Received: by 2002:adf:9bce:: with SMTP id e14mr43115796wrc.353.1634641897408; 
+ Tue, 19 Oct 2021 04:11:37 -0700 (PDT)
+Received: from thuth.remote.csb (tmo-097-184.customers.d1-online.com.
+ [80.187.97.184])
+ by smtp.gmail.com with ESMTPSA id o6sm18978319wri.49.2021.10.19.04.11.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Oct 2021 04:11:36 -0700 (PDT)
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>
+References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
+ <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
+ <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
+ <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
+ <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
+ <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
+ <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
+ <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
+ <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
+ <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com> <YWQB1FMhQfmqRYxN@yekko>
+ <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
+ <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
+ <8c382ce4-f706-376c-289a-b8c64393decb@redhat.com>
+ <880f4bde-19fc-1267-3a04-3d9efd660897@csgroup.eu>
+ <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: Deprecate the ppc405 boards in QEMU?
+Message-ID: <be7a734a-b88b-3130-fee8-398387fb65b4@redhat.com>
+Date: Tue, 19 Oct 2021 13:11:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [194.100.106.190]
-X-ClientProxiedBy: tuxera-exch.ad.tuxera.com (10.20.48.11) To
- tuxera-exch.ad.tuxera.com (10.20.48.11)
-X-Proofpoint-GUID: CGL_e78JIKNtEMCTk5pqxf4H4dVU02-V
-X-Proofpoint-ORIG-GUID: CGL_e78JIKNtEMCTk5pqxf4H4dVU02-V
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.790
- definitions=2021-10-19_01:2021-10-18,
- 2021-10-18 signatures=0
-X-Proofpoint-Spam-Details: rule=mpy_notspam policy=mpy score=0 spamscore=0
- malwarescore=0 adultscore=0
- mlxscore=0 mlxlogscore=999 phishscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110190068
-Received-SPF: pass client-ip=82.197.21.91; envelope-from=ari@tuxera.com;
- helo=mgw-02.mpynet.fi
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,76 +112,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Emil Karlson <jkarlson@tuxera.com>, Hanna Reitz <hreitz@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Ari Sundholm <ari@tuxera.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, dbarboza@redhat.com,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AIO discards regressed as a result of the following commit:
-	0dfc7af2 block/file-posix: Optimize for macOS
+On 19/10/2021 12.07, BALATON Zoltan wrote:
+> On Tue, 19 Oct 2021, Christophe Leroy wrote:
+>> Le 19/10/2021 à 11:39, Thomas Huth a écrit :
+>>> On 19/10/2021 11.31, Christophe Leroy wrote:
+>>>> Le 11/10/2021 à 15:24, Thomas Huth a écrit :
+>>>>> On 11/10/2021 11.20, David Gibson wrote:
+>>>>>> On Mon, Oct 11, 2021 at 10:10:36AM +0200, Thomas Huth wrote:
+>>>>>>> On 06/10/2021 09.25, Thomas Huth wrote:
+>>>>>>>> On 05/10/2021 23.53, BALATON Zoltan wrote:
+>>>>>>>> [...]
+>>>>>>>>> Maybe these 405 boards in QEMU ran with modified firmware where the
+>>>>>>>>> memory detection was patched out but it seems to detect the RAM so I
+>>>>>>>>> wonder where it gets that from. Maybe by reading the SDRAM
+>>>>>>>>> controller DCRs ppc4xx_sdram_init() sets up. Then I'm not sure what
+>>>>>>>>> it needs the SPD for, I forgot how this worked on sam460ex. Maybe
+>>>>>>>>> for the speed calibration, so could be it detects ram by reading
+>>>>>>>>> DCRs then tries to get SPD data and that's where it stops as i2c is
+>>>>>>>>> not emulated on taihu. This could be confirmed by checking what it
+>>>>>>>>> pokes with -d guest_errors that shows accesses to missing devices
+>>>>>>>>> but don't know where 405 has the i2c controller and if it's the same
+>>>>>>>>> as newer SoCs. If so that could be reused and an i2c bus could be
+>>>>>>>>> added with the SPD data like in sam460ex to make u-boot happy or you
+>>>>>>>>> could skip this in u-boot.
+>>>>>>>>
+>>>>>>>> FWIW, I've just tried the latter (skipping the sdram init in u-boot),
+>>>>>>>> and indeed, I can get to the u-boot prompt now.
+>>>>>>> [...]> I've also attached the patch with my modifications to u-boot.
+>>>>>>>
+>>>>>>> FYI, the changes can now be found on this branch here:
+>>>>>>>
+>>>>>>>   https://gitlab.com/huth/u-boot/-/commits/taihu
+>>>>>>>
+>>>>>>> I also added a gitlab-CI file, so you can now download the u-boot.bin 
+>>>>>>> as an
+>>>>>>> artifact from the corresponding pipeline, e.g.:
+>>>>>>>
+>>>>>>>   https://gitlab.com/huth/u-boot/-/jobs/1667201028
+>>>>>>
+>>>>>> Thanks.
+>>>>>>
+>>>>>> Are you going to send a v2 of your proposed deprecation patches?
+>>>>>
+>>>>> No, since there was interest in keeping the 405 boards for testing the 
+>>>>> 405 code in the Linux kernel, and since there is now a way to do at 
+>>>>> least some very basic testing of these boards (with the u-boot 
+>>>>> firmware), I don't plan to respin the deprecation patch. I just sent a 
+>>>>> patch for adding the boards to our CI instead:
+>>>>>
+>>>>>   https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg02072.html
+>>>>>
+>>>>
+>>>> I have downloaded your u-boot.bin and tried it with both QEMU 5.2.0 and 
+>>>> mainline, and I get:
+>>>>
+>>>> ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: assertion 
+>>>> failed: (qemu_mutex_iothread_locked())
+>>>> Bail out! ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: 
+>>>> assertion failed: (qemu_mutex_iothread_locked())
+>>>> Abandon (core dumped)
+>>>>
+>>>> I see in the mail history that you got that problem as well at some 
+>>>> point. How did you fix it ?
+>>>
+>>> You need this patch here to fix this issue:
+>>>
+>>>   https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg01019.html
+>>>   ("hw/ppc: Fix iothread locking in the 405 code")
+>>>
+>>
+>> Thank you.
+>>
+>> Is there anything special to do then in order to boot a Linux kernel ?
+>>
+>> I build the uImage for ppc40x_defconfig
+>>
+>> I use the following command, but it does nothing, it stays in uboot prompt 
+>> as when I don't get a kernel argument
+>>
+>>     ~/qemu/build/qemu-system-ppc -M taihu -bios 
+>> ~/Téléchargements/u-boot.bin -serial null -serial mon:stdio -kernel 
+>> arch/powerpc/boot/uImage
+> 
+> I'm not sure using -bios and -kernel together makes sense, it probably 
+> starts u-boot in this case and you have to load and start the kernel from 
+> u-boot as you'd notmally do on a real machine. Alternatively you could use 
+> -kernel instead of -bios which then loads a kernel and starts it directly 
+> but not sure if it needs a firmware to work.
+> 
+> Ot I could be completely wrong as I don't know this machine and haven't 
+> tried it.
 
-When trying to run blkdiscard within a Linux guest, the request would
-fail, with some errors in dmesg:
+Actually, these 405 machines are quite weird. They refuse to boot without 
+bios image, so you currently need the firmware image for sure.
 
----- [ snip ] ----
-[    4.010070] sd 2:0:0:0: [sda] tag#0 FAILED Result: hostbyte=DID_OK
-driverbyte=DRIVER_SENSE
-[    4.011061] sd 2:0:0:0: [sda] tag#0 Sense Key : Aborted Command
-[current]
-[    4.011061] sd 2:0:0:0: [sda] tag#0 Add. Sense: I/O process
-terminated
-[    4.011061] sd 2:0:0:0: [sda] tag#0 CDB: Unmap/Read sub-channel 42
-00 00 00 00 00 00 00 18 00
-[    4.011061] blk_update_request: I/O error, dev sda, sector 0
----- [ snip ] ----
+OTOH, when you look at the ref405ep_init() function, it seems that at least 
+the ref405ep machine was once supposed to start a kernel directly:
 
-This turns out to be a result of a flaw in changes to the error value
-translation logic in handle_aiocb_discard(). The default return value
-may be left untranslated in some configurations, and the wrong variable
-is used in one translation.
+         env->nip = KERNEL_LOAD_ADDR;
 
-Fix both issues.
+... however, this does not seem to work anymore, the initial NIP is always 
+reset to the firmware entry when the board resets. Not sure if/how this ever 
+used worked ...
 
-Signed-off-by: Ari Sundholm <ari@tuxera.com>
-Signed-off-by: Emil Karlson <jkarlson@tuxera.com>
-Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
-Cc: qemu-stable@nongnu.org
-Fixes: 0dfc7af2b28 ("block/file-posix: Optimize for macOS")
----
-
-v1 -> v2:
-* Add Reviewed-by, Cc to qemu-stable and Fixes lines
-
- block/file-posix.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 53be0bdc1b..6def2a4cba 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1807,7 +1807,7 @@ static int handle_aiocb_copy_range(void *opaque)
- static int handle_aiocb_discard(void *opaque)
- {
-     RawPosixAIOData *aiocb = opaque;
--    int ret = -EOPNOTSUPP;
-+    int ret = -ENOTSUP;
-     BDRVRawState *s = aiocb->bs->opaque;
- 
-     if (!s->has_discard) {
-@@ -1829,7 +1829,7 @@ static int handle_aiocb_discard(void *opaque)
- #ifdef CONFIG_FALLOCATE_PUNCH_HOLE
-         ret = do_fallocate(s->fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
-                            aiocb->aio_offset, aiocb->aio_nbytes);
--        ret = translate_err(-errno);
-+        ret = translate_err(ret);
- #elif defined(__APPLE__) && (__MACH__)
-         fpunchhole_t fpunchhole;
-         fpunchhole.fp_flags = 0;
--- 
-2.31.1
+  Thomas
 
 
