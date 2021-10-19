@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A47D433512
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 13:51:01 +0200 (CEST)
-Received: from localhost ([::1]:44964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B7004334DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 13:38:28 +0200 (CEST)
+Received: from localhost ([::1]:50848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcne0-0008R5-Kg
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 07:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50878)
+	id 1mcnRr-0001BR-In
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 07:38:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcnD1-0004Gs-J3
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:23:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.153.124]:42195)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcnAp-0000LN-Be
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:20:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcnCz-0003yL-UF
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:23:07 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcnAW-0002Hp-41
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:20:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634642585;
+ s=mimecast20190719; t=1634642431;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+l55gFO3MSoGNl8FmX8HypllSa9dmHDnz4W6+bwhZI4=;
- b=bv1LpsCuZKxoSrCCxcf94Z3dQpZArCrXJYS4Ku7/T9pOV7NovsKtQW7WgK0A9tbsxZR3t5
- FeGe7rVBkqOxCHpoyxOgh3050+daCWDpdr391kKkkKL9PMH9xMk5FvSaxql+tHto33AM0O
- YhfJAMyLp6CoaslEXd0JRAOsVgLZVGc=
+ bh=2YfMqludtVxGe6ZQMypK2Vw2Q7PYFz1rFSXdv5+28mU=;
+ b=jM+1v9CtWetwxn3PY0O5PM+jM0yRdiaRwgLa9GwkVJ5I4aoBcTMCRpzp1MIS7RVx00kVVu
+ 7CWemCw6v9sf4CLiW+tuEai9F8PfDj+p+g7esCUAeP59mLet2cHBfqyJS7NV3SUvMJZX40
+ 1xR2beQu98DqcfOjl0Vfr8RxR/HtymY=
 Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
  [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-mrXGjczBNeepLJTLXm3bEA-1; Tue, 19 Oct 2021 07:20:27 -0400
-X-MC-Unique: mrXGjczBNeepLJTLXm3bEA-1
+ us-mta-467-7Jw9fA7qOvubl44icMGXIQ-1; Tue, 19 Oct 2021 07:20:30 -0400
+X-MC-Unique: 7Jw9fA7qOvubl44icMGXIQ-1
 Received: by mail-ed1-f69.google.com with SMTP id
- p20-20020a50cd94000000b003db23619472so17313429edi.19
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 04:20:26 -0700 (PDT)
+ s12-20020a50dacc000000b003dbf7a78e88so14235976edj.2
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 04:20:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+l55gFO3MSoGNl8FmX8HypllSa9dmHDnz4W6+bwhZI4=;
- b=hnY5eqZFhWoH5K/rtclHdt3PXh409W4qtJZ077AfEbxph02jlLgrgL7/HJqBESBN8X
- S0EcqETxUzFEfbhT/7D7u6cBdjzVlCtIR6X3gicNu3J3WdgoQsUnjQwfupwVCvlDdJDb
- o3U3JPnw4RmSBrTsZPoneLEbBAwPDmYoQ92lK3HV09KjFLW5zL4b9nRuhuU4qXhb9h1K
- JTyGM1D6WW1vJFYUIVnor5nGhd1XT0IW76QSine2CzvQSFHMY03sAurvwdCtmlO8li69
- 54ixlFgIEsGZwzzWWAUdb0gzl2iDZwtKjl1V7p5TRbCVDUCrtMtFSaY3bwwPcO3Zghxx
- oSkw==
-X-Gm-Message-State: AOAM533gjSdagbfQpOiSsu1jTNiXmY8pRrgD2bUOUgTADLl0ErRGxSkI
- gBi7CSKZxtdimt0J4szK/Zb+gtc75xF4yblEQ8whdTf5HhaZ6rleNtmA7MGz4nzMXsDEJ5PpBck
- iJ6MQgyCcUTou5cN+td5PXD6EhgF/SZm20OxE99ccpmLgugh6dh/bPEMgFTYw
-X-Received: by 2002:a17:906:b311:: with SMTP id
- n17mr35830315ejz.571.1634642425537; 
- Tue, 19 Oct 2021 04:20:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyW0LM7j6SIwVsT58GmKvqGEeqvb7tU0DjdJPkcVrwkxeZOsEKdtgLzizxFETXtmWYuIpQR/Q==
-X-Received: by 2002:a17:906:b311:: with SMTP id
- n17mr35830289ejz.571.1634642425285; 
- Tue, 19 Oct 2021 04:20:25 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=2YfMqludtVxGe6ZQMypK2Vw2Q7PYFz1rFSXdv5+28mU=;
+ b=p2MXl1hfrsD0YmceQQvK2omS+SlYe1oyvLVpqEHUN6gYy2UAWhklw9TdTvynnAKGGa
+ dW+3E12Fr7bw9o9WDYXclDR1HFN8nZa1AqfTMple0SBAW1PCmKnUsXo0vw/6+PVk81XV
+ NMLSoBEydT85TGWGTXt2/l0h9TiOwR/t3NXgW/kkSzF196TaokK37yiJlwilmHMul4Dj
+ J07A0Jmk/ENuAg6pOy7U4Ck+uOwBde6F3MnT5V8LK1kNodPofKRWIJ/gBk18bK7XBhjS
+ 5N92MUeIjh97PLfR2MI4zgUEFPW8C5UCT2hD07lj3IhRxYEhaiI8dVMwWqWqkDqV01LF
+ hr4Q==
+X-Gm-Message-State: AOAM530zmC3lNfB+Kd5urjbmK0b+b3Th/UKwucvrKNFP3mR1p1gHsp5c
+ worSDuQzjRtLUIAhhabowOuLFUV7g1msmROgKveez+xYtVd6H7SROUift2LrkaLATG+px1B2MYW
+ gZiABSEH8dp7rgcZ9Khw9EY7gW0kQwCudDmyOsXaGFwCcoMv8ENzHlSMOzpVJ
+X-Received: by 2002:a17:906:eb86:: with SMTP id
+ mh6mr37791589ejb.141.1634642428489; 
+ Tue, 19 Oct 2021 04:20:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwgI8WK+MVtgTnPilS76zNUChZFMp30RVIW+D5zqVJKEhU9SZc3yAFXGLvFWUZS7x+7z9geoQ==
+X-Received: by 2002:a17:906:eb86:: with SMTP id
+ mh6mr37791539ejb.141.1634642428040; 
+ Tue, 19 Oct 2021 04:20:28 -0700 (PDT)
 Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id g8sm12594724edb.60.2021.10.19.04.20.24
+ by smtp.gmail.com with ESMTPSA id nd36sm10355069ejc.17.2021.10.19.04.20.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 04:20:24 -0700 (PDT)
-Date: Tue, 19 Oct 2021 07:20:22 -0400
+ Tue, 19 Oct 2021 04:20:27 -0700 (PDT)
+Date: Tue, 19 Oct 2021 07:20:25 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/29] tests: bios-tables-test: use qtest_has_accel() API to
- register TCG only tests
-Message-ID: <20211019111923.679826-16-mst@redhat.com>
+Subject: [PULL 16/29] vdpa: Skip protected ram IOMMU mappings
+Message-ID: <20211019111923.679826-17-mst@redhat.com>
 References: <20211019111923.679826-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211019111923.679826-1-mst@redhat.com>
@@ -73,16 +74,18 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.153.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,89 +98,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Eugenio Pérez <eperezma@redhat.com>
 
- .. only if TCG is available
+Following the logic of commit 56918a126ae ("memory: Add RAM_PROTECTED
+flag to skip IOMMU mappings") with VFIO, skip memory sections
+inaccessible via normal mechanisms, including DMA.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20210902113551.461632-16-imammedo@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20211014141236.923287-2-eperezma@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ hw/virtio/vhost-vdpa.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 873eb9c037..6e21a650d2 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -722,13 +722,6 @@ static void test_acpi_one(const char *params, test_data *data)
-     char *args;
-     bool use_uefi = data->uefi_fl1 && data->uefi_fl2;
- 
--#ifndef CONFIG_TCG
--    if (data->tcg_only) {
--        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
--        return;
--    }
--#endif /* CONFIG_TCG */
--
-     args = test_acpi_create_args(data, params, use_uefi);
-     data->qts = qtest_init(args);
-     test_acpi_load_tables(data, use_uefi);
-@@ -1544,6 +1537,7 @@ int main(int argc, char *argv[])
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 47d7a5a23d..ea1aa71ad8 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -28,6 +28,7 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section)
  {
-     const char *arch = qtest_get_arch();
-     const bool has_kvm = qtest_has_accel("kvm");
-+    const bool has_tcg = qtest_has_accel("tcg");
-     int ret;
- 
-     g_test_init(&argc, &argv, NULL);
-@@ -1590,7 +1584,6 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/smm-compat-nosmm",
-                        test_acpi_q35_tcg_smm_compat_nosmm);
-         qtest_add_func("acpi/q35/nohpet", test_acpi_q35_tcg_nohpet);
--        qtest_add_func("acpi/q35/ivrs", test_acpi_q35_tcg_ivrs);
-         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
-@@ -1600,19 +1593,24 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
-         qtest_add_func("acpi/microvm/ioapic2", test_acpi_microvm_ioapic2_tcg);
-         qtest_add_func("acpi/microvm/oem-fields", test_acpi_oem_fields_microvm);
--        if (strcmp(arch, "x86_64") == 0) {
--            qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-+        if (has_tcg) {
-+            qtest_add_func("acpi/q35/ivrs", test_acpi_q35_tcg_ivrs);
-+            if (strcmp(arch, "x86_64") == 0) {
-+                qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-+            }
-         }
-         if (has_kvm) {
-             qtest_add_func("acpi/q35/kvm/xapic", test_acpi_q35_kvm_xapic);
-             qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
-         }
-     } else if (strcmp(arch, "aarch64") == 0) {
--        qtest_add_func("acpi/virt", test_acpi_virt_tcg);
--        qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
--        qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
--        qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
--        qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
-+        if (has_tcg) {
-+            qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-+            qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-+            qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
-+            qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
-+            qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
-+        }
-     }
-     ret = g_test_run();
-     boot_sector_cleanup(disk);
+     return (!memory_region_is_ram(section->mr) &&
+             !memory_region_is_iommu(section->mr)) ||
++            memory_region_is_protected(section->mr) ||
+            /* vhost-vDPA doesn't allow MMIO to be mapped  */
+             memory_region_is_ram_device(section->mr) ||
+            /*
 -- 
 MST
 
