@@ -2,96 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FDC433470
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 13:11:21 +0200 (CEST)
-Received: from localhost ([::1]:56938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5CB7433479
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 13:15:43 +0200 (CEST)
+Received: from localhost ([::1]:33826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcn1c-0000CM-Ue
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 07:11:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48022)
+	id 1mcn5o-0003qf-N3
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 07:15:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mcmzq-00077Z-M6
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:09:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59596)
+ (Exim 4.90_1) (envelope-from <ari@tuxera.com>)
+ id 1mcn3Z-0002SU-LG; Tue, 19 Oct 2021 07:13:23 -0400
+Received: from mgw-02.mpynet.fi ([82.197.21.91]:35766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mcmzm-0004dG-9b
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 07:09:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634641764;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u3CsX8T3qEYZQyF3xI6T7fQ16w3pF9wnmJbWY2Smv3U=;
- b=FG/+Bx8AmpRkC/tYS8fxEAUWkwhLxTeH+bwtzvAIr/GU4bv+dtfD/k1c2SNUjFrueTUAkl
- 0EIzZRI2s0SEG/t2Gtg5If4j8JxPr5wx03zVT8WNyb8tL4HsIhz8p6ExrFahLO9dsUZq/Y
- 0erTvx2fafj0hGtZjyn0e15aXcP6Xy4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-Mfv0apBxMqiL8KdaJd_u8Q-1; Tue, 19 Oct 2021 07:09:23 -0400
-X-MC-Unique: Mfv0apBxMqiL8KdaJd_u8Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- s26-20020a7bc39a000000b0030d9db6c428so2474389wmj.6
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 04:09:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=u3CsX8T3qEYZQyF3xI6T7fQ16w3pF9wnmJbWY2Smv3U=;
- b=ikkvLBcJBcT4q548WF8FPqsbYrXBZUIRFrERC0sHnbbekRF7VPhBruG2t9tnCnlRNj
- o/Iv9s5zcKUbjPPX8tBwveU/vnhi/Ka/2RoxswPM9HR86aamYVzILvPidBjFqcn59rct
- 2W299+yMmfqfwIfkczQmjBDYZSEz23pQdKAD9EqGpdjxogq4YOX5MZM12lncVzwxEl+r
- 0XJI/ohnuCo/zs/cHwgmdydltIL7Gca4jRyiRymL2ojsGK56VKo/4C9s5hPHzp3uuU1W
- lzbi8Qp9B5/JBUVQ7EuOtOKyTUyHPkus1yPVXS6pzmgjswTmr6Fi/HmPPkBcb8yRNnfd
- n4RQ==
-X-Gm-Message-State: AOAM531ty5UvRDt4aXdNof2lZhFALyNkRJpnm0Z5NA2LFPdvC7WXMFmx
- jqZrIQz63bMwXnUU0n+s/9SZyio56WUWNN2SPlRp0SUBWElJTH2wmldw0NeIqn7WYgiF9Ub/Xgq
- t8ZcFyDcpXfv1yUQ=
-X-Received: by 2002:a05:600c:4305:: with SMTP id
- p5mr5242555wme.185.1634641762622; 
- Tue, 19 Oct 2021 04:09:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyteFgNmRHy85Nuz+p8H08zOMufE4QGRhWjygS6YTDm6DYyI+mjabmB0eI3kARX/8AOktqmKw==
-X-Received: by 2002:a05:600c:4305:: with SMTP id
- p5mr5242432wme.185.1634641761296; 
- Tue, 19 Oct 2021 04:09:21 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:8e02:b072:96b1:56d0?
- ([2001:b07:6468:f312:8e02:b072:96b1:56d0])
- by smtp.gmail.com with ESMTPSA id f20sm2190045wmq.38.2021.10.19.04.09.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 04:09:20 -0700 (PDT)
-Message-ID: <0a36e753-7750-17d3-f1ba-39e27cf16371@redhat.com>
-Date: Tue, 19 Oct 2021 13:09:19 +0200
+ (Exim 4.90_1) (envelope-from <ari@tuxera.com>)
+ id 1mcn3V-0002Th-GF; Tue, 19 Oct 2021 07:13:20 -0400
+Received: from pps.filterd (mgw-02.mpynet.fi [127.0.0.1])
+ by mgw-02.mpynet.fi (8.16.0.43/8.16.0.43) with SMTP id 19JB8qmo017179;
+ Tue, 19 Oct 2021 14:13:11 +0300
+Received: from ex13.tuxera.com (ex13.tuxera.com [178.16.184.72])
+ by mgw-02.mpynet.fi with ESMTP id 3bs3ras6wg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+ Tue, 19 Oct 2021 14:13:11 +0300
+Received: from giga-user.srv.tuxera.com (194.100.106.190) by
+ tuxera-exch.ad.tuxera.com (10.20.48.11) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.23; Tue, 19 Oct 2021 14:13:10 +0300
+From: Ari Sundholm <ari@tuxera.com>
+To: <qemu-block@nongnu.org>
+Subject: [PATCH v2] block/file-posix: Fix return value translation for AIO
+ discards.
+Date: Tue, 19 Oct 2021 14:09:55 +0300
+Message-ID: <20211019110954.4170931-1-ari@tuxera.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211018180753.2436008-1-ari@tuxera.com>
+References: <20211018180753.2436008-1-ari@tuxera.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] po: update turkish translation
-To: Laurent Vivier <laurent@vivier.eu>, =?UTF-8?Q?O=c4=9fuz_Ersen?=
- <oguzersen@protonmail.com>
-References: <lDpmNUjNrVETJ2QoHoYmSoRvKoEIVFbF4IZAa1R5PVzqPCTh7nmV_ERHQlgYtNJN1Ppagtvelbo4uhSihEd5bSqIxCvGQchEWVpP-ofn2kw=@protonmail.com>
- <57904976-7779-7519-f1e4-f7e800c1145f@vivier.eu>
- <164d5ec6-b29a-eb8a-9bce-3b690039522e@redhat.com>
- <d87ba143-9430-c4ec-ba81-f975b7e8067b@vivier.eu>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <d87ba143-9430-c4ec-ba81-f975b7e8067b@vivier.eu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [194.100.106.190]
+X-ClientProxiedBy: tuxera-exch.ad.tuxera.com (10.20.48.11) To
+ tuxera-exch.ad.tuxera.com (10.20.48.11)
+X-Proofpoint-GUID: CGL_e78JIKNtEMCTk5pqxf4H4dVU02-V
+X-Proofpoint-ORIG-GUID: CGL_e78JIKNtEMCTk5pqxf4H4dVU02-V
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.790
+ definitions=2021-10-19_01:2021-10-18,
+ 2021-10-18 signatures=0
+X-Proofpoint-Spam-Details: rule=mpy_notspam policy=mpy score=0 spamscore=0
+ malwarescore=0 adultscore=0
+ mlxscore=0 mlxlogscore=999 phishscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2110190068
+Received-SPF: pass client-ip=82.197.21.91; envelope-from=ari@tuxera.com;
+ helo=mgw-02.mpynet.fi
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,20 +71,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Emil Karlson <jkarlson@tuxera.com>, Hanna Reitz <hreitz@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Ari Sundholm <ari@tuxera.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/10/21 13:07, Laurent Vivier wrote:
->> Can you squash this in the commit in your trivial-patches branch?
-> mmhhh, there is also "_Kapat"... and there is no "Copy" menuentry in GUI,
-> 
-> So perhaps I should only remove the "_" from "Kopyala"
+AIO discards regressed as a result of the following commit:
+	0dfc7af2 block/file-posix: Optimize for macOS
 
-_Kapat is in the Machine menu, and Copy is only there if you have 
-CONFIG_VTE.
+When trying to run blkdiscard within a Linux guest, the request would
+fail, with some errors in dmesg:
 
-Paolo
+---- [ snip ] ----
+[    4.010070] sd 2:0:0:0: [sda] tag#0 FAILED Result: hostbyte=DID_OK
+driverbyte=DRIVER_SENSE
+[    4.011061] sd 2:0:0:0: [sda] tag#0 Sense Key : Aborted Command
+[current]
+[    4.011061] sd 2:0:0:0: [sda] tag#0 Add. Sense: I/O process
+terminated
+[    4.011061] sd 2:0:0:0: [sda] tag#0 CDB: Unmap/Read sub-channel 42
+00 00 00 00 00 00 00 18 00
+[    4.011061] blk_update_request: I/O error, dev sda, sector 0
+---- [ snip ] ----
+
+This turns out to be a result of a flaw in changes to the error value
+translation logic in handle_aiocb_discard(). The default return value
+may be left untranslated in some configurations, and the wrong variable
+is used in one translation.
+
+Fix both issues.
+
+Signed-off-by: Ari Sundholm <ari@tuxera.com>
+Signed-off-by: Emil Karlson <jkarlson@tuxera.com>
+Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+Cc: qemu-stable@nongnu.org
+Fixes: 0dfc7af2b28 ("block/file-posix: Optimize for macOS")
+---
+
+v1 -> v2:
+* Add Reviewed-by, Cc to qemu-stable and Fixes lines
+
+ block/file-posix.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 53be0bdc1b..6def2a4cba 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -1807,7 +1807,7 @@ static int handle_aiocb_copy_range(void *opaque)
+ static int handle_aiocb_discard(void *opaque)
+ {
+     RawPosixAIOData *aiocb = opaque;
+-    int ret = -EOPNOTSUPP;
++    int ret = -ENOTSUP;
+     BDRVRawState *s = aiocb->bs->opaque;
+ 
+     if (!s->has_discard) {
+@@ -1829,7 +1829,7 @@ static int handle_aiocb_discard(void *opaque)
+ #ifdef CONFIG_FALLOCATE_PUNCH_HOLE
+         ret = do_fallocate(s->fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
+                            aiocb->aio_offset, aiocb->aio_nbytes);
+-        ret = translate_err(-errno);
++        ret = translate_err(ret);
+ #elif defined(__APPLE__) && (__MACH__)
+         fpunchhole_t fpunchhole;
+         fpunchhole.fp_flags = 0;
+-- 
+2.31.1
 
 
