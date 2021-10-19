@@ -2,94 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA21433354
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 12:14:58 +0200 (CEST)
-Received: from localhost ([::1]:49934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D27B643335A
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 12:17:23 +0200 (CEST)
+Received: from localhost ([::1]:54304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcm93-0004Pe-O2
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 06:14:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35284)
+	id 1mcmBO-0007QD-W1
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 06:17:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mcm7b-0002UG-WE
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:13:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40080)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcm8p-0005BU-6r
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:14:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mcm7Q-0007AJ-An
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:13:27 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcm8m-0008K4-Og
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:14:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634638395;
+ s=mimecast20190719; t=1634638480;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oyFzS/UsWSbhrnKX1t7oaXRicHAQQPfiXlVZ3LXkEwE=;
- b=HewD5j6mviAwhAI8fh56sw2b6B2E1cDg9LZSE2cxIGQmnw4/XBis1jcWGzgw8CVm1MDpyM
- g7wGB0zP+g8kPEPTedq7beCELWNUTk0hB7LwIsSEdDYj9M+dA8Pkf7yIgSY+YnY3yO1wif
- uta9gItBfpz2SfwrAYFWqr0VQMsdH2I=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-CAYtZ9VsP--VJjtdX6wYrg-1; Tue, 19 Oct 2021 06:13:11 -0400
-X-MC-Unique: CAYtZ9VsP--VJjtdX6wYrg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- u10-20020a50d94a000000b003dc51565894so10447809edj.21
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 03:13:11 -0700 (PDT)
+ bh=tIMDHvcvJc3w4onZve5dCwg26nMcuueLjmCCPzwrLjw=;
+ b=feX7JZind0XQsfy+MbOlvDKwQO3Asak258bEdrj/hulVeaYgj/6pKx8YbRByR560tvseAg
+ fchPtkyROqrhI+nRuQxwQLQ9i+46GnJEcdLB40aJBSXTph0I3Yjwv3w88SKgky8eEcMnRr
+ duHww3YShACLmm6DKSxY9otIkHnBIO0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-120-e8FF82m1PXi3THesvofH9A-1; Tue, 19 Oct 2021 06:14:39 -0400
+X-MC-Unique: e8FF82m1PXi3THesvofH9A-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r25-20020adfab59000000b001609ddd5579so9915500wrc.21
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 03:14:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=oyFzS/UsWSbhrnKX1t7oaXRicHAQQPfiXlVZ3LXkEwE=;
- b=JSGIS7ZwLgvEss5Ddiwjxh5MhkakhjRUpebeYqGdZlfUSovpF2ZnaKcr3c4lxUndRH
- sz9r5fXx2R4wUfwrHAqIDENFA5VWdGJbyM+mTxj4SXPktsxcTqIibnZeLjo+nOs9zOhs
- 7Jvh8rk2G5TBE8aquN8GUmsGB6qphTSje4uBLSy5TdaKlVBsR2f7j42UytDNyK3Ualyo
- 2ymNEIuirAEGocr+MOS+S5v/HUhJi/UggxpWtaSmmdGbwcZVXOovwhi9mJ5EJ7dCCW4C
- vDI/DGZF8x/eyeZZWGw4VOmN95dYosSLYzyWE8DKyIwYYjFkmVwA3ypcvAY2O0w9vVU+
- 41rg==
-X-Gm-Message-State: AOAM533bVYjhaoUh2lPLB2mYtzlSKEUfoSURiZWBc5g38DUu9DDDv4Xn
- 7DR8TQApS2GDOO7HUOwkCx0Sx+cjcayFq5SFwKEOXoBTEXWAgn3++ZRNikoDdsE5kkdvlP7DV13
- YI9gDYzHKbq+CKZI=
-X-Received: by 2002:a17:906:f109:: with SMTP id
- gv9mr34770339ejb.184.1634638390305; 
- Tue, 19 Oct 2021 03:13:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFvid4Eecci9W3ogRFxQumZDLSxg53na5UmGuJfm9BN3NFXMQqNBFfkvYs7jA8ElknqDAEHQ==
-X-Received: by 2002:a17:906:f109:: with SMTP id
- gv9mr34770322ejb.184.1634638390039; 
- Tue, 19 Oct 2021 03:13:10 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:8e02:b072:96b1:56d0?
- ([2001:b07:6468:f312:8e02:b072:96b1:56d0])
- by smtp.gmail.com with ESMTPSA id e13sm9889571eje.95.2021.10.19.03.13.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 03:13:09 -0700 (PDT)
-Message-ID: <367cc443-7e2a-36e0-b3fb-bf79b2d65b2d@redhat.com>
-Date: Tue, 19 Oct 2021 12:13:08 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=tIMDHvcvJc3w4onZve5dCwg26nMcuueLjmCCPzwrLjw=;
+ b=mfY4SURpoSpDkhGYdo9VSgo2JklTC9neimMn9kqYogeyPvBz/lEahkDMseYf6OYdhn
+ EhfjJ9VkYSzyz+rcfYKPJM9feZ55b8vY6R0SPkAYbFu/ZGdIAFblmIkuz76hGqRmgnuA
+ +InZOo/KP92B6/VgZwMUSqpplhZFohWCr8w2N1u5vAfKyPb8hxlw/EFtDTjsl1svmP3N
+ GvbYdUojJQDXJGJ4qcYfqdJBh99p3UA9wknzaqCum8fJDHW68mPGxqQ1XKr3mzY6HXDb
+ 12RO2Zn9QWpv/RcdAEb+4vU3W19Z1sTE2Pbmkr1k1BTaRMObohPOMNZENUu/FVbAJC1g
+ bUsQ==
+X-Gm-Message-State: AOAM531FpMuJ7cYcdh/bDBlQ5hyn66/xFZCO/3RsgXTR0Ay34ZM3U7GR
+ ym+gjPVU/F+7vLmZcXVqPDcuM98yfpy/gA/8iyMUa5bV/OPNGFTof/e0z5Yv+sYhJ69I1PBOiSD
+ XB09Ky0fj0luTZPGZIBSIqo63IRWy8nlyn31p12EjQtIRzvu3UsP/ZgIwBkJb
+X-Received: by 2002:a05:600c:1994:: with SMTP id
+ t20mr5135477wmq.94.1634638477761; 
+ Tue, 19 Oct 2021 03:14:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxlkGHZ/munRjeDERGyF3vGWkFPZtA0Jyf5b8BPQ4mVdw4TP9LxtsyEJ5nJbnQIU/ftO4Z7Hg==
+X-Received: by 2002:a05:600c:1994:: with SMTP id
+ t20mr5135447wmq.94.1634638477521; 
+ Tue, 19 Oct 2021 03:14:37 -0700 (PDT)
+Received: from redhat.com ([2.55.24.172])
+ by smtp.gmail.com with ESMTPSA id l6sm1837504wmq.17.2021.10.19.03.14.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Oct 2021 03:14:37 -0700 (PDT)
+Date: Tue, 19 Oct 2021 06:14:34 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] bios-tables-test: don't disassemble empty files
+Message-ID: <20211019061424-mutt-send-email-mst@kernel.org>
+References: <20211019101245.574716-1-mst@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] monitor: Fix find_device_state() for IDs containing
- slashes
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20211019085711.86377-1-armbru@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211019085711.86377-1-armbru@redhat.com>
+In-Reply-To: <20211019101245.574716-1-mst@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,108 +93,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, borntraeger@de.ibm.com, berrange@redhat.com,
- ehabkost@redhat.com
+Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/10/21 10:57, Markus Armbruster wrote:
-> Recent commit 6952026120 "monitor: Tidy up find_device_state()"
-> assumed the function's argument is "the device's ID or QOM path" (as
-> documented for device_del).  It's actually either an absolute QOM
-> path, or a QOM path relative to /machine/peripheral/.  Such a relative
-> path is a device ID when it doesn't contain a slash.  When it does,
-> the function now always fails.  Broke iotest 200, which uses relative
-> path "vda/virtio-backend".
+On Tue, Oct 19, 2021 at 06:12:52AM -0400, Michael S. Tsirkin wrote:
+> A recommended way to populate new tables is to have an
+> empty expected file. In this case, attempts to disassemble
+> will fail but it is useful to disassemble the actual files.
+> Detect and skip decompile step in this case.
 > 
-> It fails because object_resolve_path_component() resolves just one
-> component, not a relative path.
-> 
-> The obvious function to resolve relative paths is
-> object_resolve_path().  It picks a parent automatically.  Too much
-> magic, we want to specify the parent.  Create new
-> object_resolve_path_at() for that, and use it in find_device_state().
-> 
-> Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+sorry fat fingers. sent too soon.
+
 > ---
->   include/qom/object.h   | 12 ++++++++++++
->   qom/object.c           | 11 +++++++++++
->   softmmu/qdev-monitor.c |  8 +-------
->   3 files changed, 24 insertions(+), 7 deletions(-)
+>  tests/qtest/bios-tables-test.c | 32 +++++++++++++++++++++++++-------
+>  1 file changed, 25 insertions(+), 7 deletions(-)
 > 
-> diff --git a/include/qom/object.h b/include/qom/object.h
-> index faae0d841f..fae096f51c 100644
-> --- a/include/qom/object.h
-> +++ b/include/qom/object.h
-> @@ -1543,6 +1543,18 @@ Object *object_resolve_path(const char *path, bool *ambiguous);
->   Object *object_resolve_path_type(const char *path, const char *typename,
->                                    bool *ambiguous);
->   
-> +/**
-> + * object_resolve_path_at:
-> + * @parent: the object in which to resolve the path
-> + * @path: the path to resolve
-> + *
-> + * This is like object_resolve_path(), except paths not starting with
-> + * a slash are relative to @parent.
-> + *
-> + * Returns: The resolved object or NULL on path lookup failure.
-> + */
-> +Object *object_resolve_path_at(Object *parent, const char *path);
-> +
->   /**
->    * object_resolve_path_component:
->    * @parent: the object in which to resolve the path
-> diff --git a/qom/object.c b/qom/object.c
-> index 6be710bc40..4f0677cca9 100644
-> --- a/qom/object.c
-> +++ b/qom/object.c
-> @@ -2144,6 +2144,17 @@ Object *object_resolve_path(const char *path, bool *ambiguous)
->       return object_resolve_path_type(path, TYPE_OBJECT, ambiguous);
->   }
->   
-> +Object *object_resolve_path_at(Object *parent, const char *path)
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index a5546180b7..ee0ddb088e 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -271,19 +271,28 @@ static void dump_aml_files(test_data *data, bool rebuild)
+>      }
+>  }
+>  
+> +static bool create_tmp_asl(AcpiSdtTable *sdt)
 > +{
-> +    g_auto(GStrv) parts = g_strsplit(path, "/", 0);
+> +    GError *error = NULL;
+> +    gint fd;
 > +
-> +    if (*path == '/') {
-> +        return object_resolve_abs_path(object_get_root(), parts + 1,
-> +                                       TYPE_OBJECT);
-> +    }
-> +    return object_resolve_abs_path(parent, parts, TYPE_OBJECT);
+> +    fd = g_file_open_tmp("asl-XXXXXX.dsl", &sdt->asl_file, &error);
+> +    g_assert_no_error(error);
+> +    close(fd);
+> +
+> +    return false;
 > +}
 > +
->   typedef struct StringProperty
->   {
->       char *(*get)(Object *, Error **);
-> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> index 89c473cb22..e8a1c7e52a 100644
-> --- a/softmmu/qdev-monitor.c
-> +++ b/softmmu/qdev-monitor.c
-> @@ -865,15 +865,9 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
->   
->   static DeviceState *find_device_state(const char *id, Error **errp)
->   {
-> -    Object *obj;
-> +    Object *obj = object_resolve_path_at(qdev_get_peripheral(), id);
->       DeviceState *dev;
->   
-> -    if (id[0] == '/') {
-> -        obj = object_resolve_path(id, NULL);
-> -    } else {
-> -        obj = object_resolve_path_component(qdev_get_peripheral(), id);
-> -    }
-> -
->       if (!obj) {
->           error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,
->                     "Device '%s' not found", id);
-> 
-
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Thanks for the quick fix!
-
-Paolo
+>  static bool load_asl(GArray *sdts, AcpiSdtTable *sdt)
+>  {
+>      AcpiSdtTable *temp;
+>      GError *error = NULL;
+>      GString *command_line = g_string_new(iasl);
+> -    gint fd;
+>      gchar *out, *out_err;
+>      gboolean ret;
+>      int i;
+>  
+> -    fd = g_file_open_tmp("asl-XXXXXX.dsl", &sdt->asl_file, &error);
+> -    g_assert_no_error(error);
+> -    close(fd);
+> +    create_tmp_asl(sdt);
+>  
+>      /* build command line */
+>      g_string_append_printf(command_line, " -p %s ", sdt->asl_file);
+> @@ -463,11 +472,20 @@ static void test_acpi_asl(test_data *data)
+>          err = load_asl(data->tables, sdt);
+>          asl = normalize_asl(sdt->asl);
+>  
+> -        exp_err = load_asl(exp_data.tables, exp_sdt);
+> -        exp_asl = normalize_asl(exp_sdt->asl);
+> +        /*
+> +         * If expected file is empty - it's likely that it was a stub just
+> +         * created for step 1 above: we do want to decompile the actual one.
+> +         */
+> +        if (exp_sdt->aml_len) {
+> +            exp_err = load_asl(exp_data.tables, exp_sdt);
+> +            exp_asl = normalize_asl(exp_sdt->asl);
+> +        } else {
+> +            exp_err = create_tmp_asl(exp_sdt);
+> +            GString *asl = g_string_new("");
+> +        }
+>  
+>          /* TODO: check for warnings */
+> -        g_assert(!err || exp_err);
+> +        g_assert(!err || exp_err || !exp_sdt->aml_len);
+>  
+>          if (g_strcmp0(asl->str, exp_asl->str)) {
+>              sdt->tmp_files_retain = true;
+> -- 
+> MST
 
 
