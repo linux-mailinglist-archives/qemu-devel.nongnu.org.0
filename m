@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F98C4333D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 12:47:40 +0200 (CEST)
-Received: from localhost ([::1]:56906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE8D4333D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Oct 2021 12:48:27 +0200 (CEST)
+Received: from localhost ([::1]:58452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mcmeh-0004Hb-6e
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 06:47:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42526)
+	id 1mcmfS-0005KO-SR
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 06:48:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcmbw-0003Hj-Qv
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:44:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22207)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mcmbp-0003oZ-Da
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:44:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634640280;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KG/BVGOJi8W4bopf4+o/s3YsoU9woMs6y/PVzsiRNEA=;
- b=MtZsT9+iF9YB2xqfA5sgVv2irqEf4/YkPKquU7V5MTy8fLq1TlL2VD5WWf1uqaZn81JaJl
- 2o+4LnlDcE5Y7AbDuShTCef93kAoH/jWKoYH+6PM9W9oYeFkmJ7xyJ+MduW4EYMZVo82lw
- kG7SpvsZHTzEJ5zDs6r3V+4gXbT2N+Q=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-B3eYECZLPSKqyNWYDV0CnA-1; Tue, 19 Oct 2021 06:44:39 -0400
-X-MC-Unique: B3eYECZLPSKqyNWYDV0CnA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c1-20020a05600c0ac100b00322fcaa2bc7so996939wmr.4
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 03:44:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1mcmdU-0003vO-KW
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:46:24 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41537)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1mcmdR-0005Ef-Q9
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 06:46:24 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id t2so47024115wrb.8
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 03:46:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=qVxTDHKkjG4B/KDsCEDUFj4j+utKMbgmC6ux1xGGZeA=;
+ b=CM6UjfA8sIkapRyJRsdT/1Mx1kG14dVq2ttjqm9wJQ1Q5Ein6u4l7g9C0hbog8sTu3
+ Hha/ddIVh1pQhgJXnpX1P/D7L+XIhJh4kvWvRnqrcJgM22mtxyEgTQhDGke0zHIjftfQ
+ vIPt5Y/8QxCUwYGcHIDcTLObkyL5sfRlITtJgr7CJu4DTjEFKDdHBqP0PcURu4XmDSly
+ uI5zzsG+6lNls5NsgmvPExBs2uEiWe9yxwLxrAohRFh32L3AwFq3V/jvCw20onPR88C/
+ YlH8nxbQynW3Nl3rdnbo3W1g2B+4SYubyDfuMe47oeMpep1Q959Ooj6oPQD0JU5dDpEs
+ EimA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=KG/BVGOJi8W4bopf4+o/s3YsoU9woMs6y/PVzsiRNEA=;
- b=YBzHO6f0f6I+xgbbuvmxoJ18o9ldjFuO7LhqLo4ut/h47t/SY2zbPgVY/5wesmnmar
- RMaiVdRjuIcxxNJGb5y0vnCPpVTODy926Vsraq5msd44J8hI/xXJpLbb4AEOQceM8E9u
- aIovr7k1//Owa4xQRsQ02g9i7iRD4kDU8k2AShni5E4q8xSQ4KeNJvbYNu5Hq0l40fm2
- ijM2wyrJ2kiqrC5yqhTBV765ESbKhGMfvXs2+ABWXVbP285wMofv1gwfOaxUgj8qHSH8
- cH8WgA2GkYH9tkanVVQso+2L4si11utd1qUwSVwp+eIQ5gflVRNioJbRLDAxScAGLBDq
- g45g==
-X-Gm-Message-State: AOAM5326VdACdGHvTrT3dNWmwWcvCv5cNvSaLeFFMI4PQZclKsPLjOYr
- 8D88uZR28L3i4EmBOn4xVvu8jkN03LA2gpBqZ5jVKfidFToRvQVOV87BVs95zpWHbCzqlR6ACb5
- HgufKwkyHT++Xw90=
-X-Received: by 2002:a1c:f609:: with SMTP id w9mr5236015wmc.24.1634640278060;
- Tue, 19 Oct 2021 03:44:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxNWuOEBRbUJVld18cke9rNqoqAY7NzSpbPXR+eGXv7G22IYpFDOQ38Gx9GZk8hRPpRWGRIGQ==
-X-Received: by 2002:a1c:f609:: with SMTP id w9mr5235990wmc.24.1634640277813;
- Tue, 19 Oct 2021 03:44:37 -0700 (PDT)
-Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id v185sm1858849wme.35.2021.10.19.03.44.36
+ bh=qVxTDHKkjG4B/KDsCEDUFj4j+utKMbgmC6ux1xGGZeA=;
+ b=y8RGo/AqbCl96D5K4PUYue+oY3veH8G9rIK6bRReeg1POUlHHP1AevTTxB99JRAp9X
+ zbdEDQRy4S1wy4hEeXf3xjAtW4dz1t/28AlUOeITgzdXzHimvhkewoiUs6cZ7TNFdiQO
+ s8BqzFOMZpdSqP/BO7bPrm2fT3Ltsg/n6fbTbE4lfGhpsIfacNp228wT1dtjrjX+NqGW
+ 05LTqfQvYLbgi6pA2axG1rPoGXpFonIU2aPgnrs3sHCKwQ3zsZrTg3cNYYyZlj2nO9Ko
+ k2vnJHT2A1ybQL7Rv+BIZ+jeB31xWxSUiHv7MGVTysPv47nwcnyqdz5jfbJf8YaI5z9r
+ 8ruw==
+X-Gm-Message-State: AOAM533m93OyGWNQkTg4pdwOlA7FBHdFNYH79G3VxkeaQuGNR5DMjePJ
+ CNjlbzTQoSBpu/9njFIkACE=
+X-Google-Smtp-Source: ABdhPJzbsqGk+mCxjxRugyqzp/KvI1JBPhziJkoy0AFFl9YCgrTRmrxzLKo1z/ys0nfnzpbuQJ7KRA==
+X-Received: by 2002:adf:bbd1:: with SMTP id z17mr42347263wrg.61.1634640379653; 
+ Tue, 19 Oct 2021 03:46:19 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id y5sm14350126wrq.85.2021.10.19.03.46.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 03:44:37 -0700 (PDT)
-Date: Tue, 19 Oct 2021 06:44:34 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH V4 00/10] vhost-vDPA multiqueue
-Message-ID: <20211019064428-mutt-send-email-mst@kernel.org>
-References: <20211011042829.4159-1-jasowang@redhat.com>
- <20211019030236-mutt-send-email-mst@kernel.org>
- <CACGkMEvEQfQwR1nN-G19XbWRanPYSydeyWGbt_4Z5XNdLajmtA@mail.gmail.com>
+ Tue, 19 Oct 2021 03:46:18 -0700 (PDT)
+Date: Tue, 19 Oct 2021 11:46:17 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Jean-Louis Dupond <jean-louis@dupond.be>
+Subject: Re: [PATCH] hw/qdev-core: Add compatibility for (non)-transitional
+ devs
+Message-ID: <YW6h+YcNEgyzh5zw@stefanha-x1.localdomain>
+References: <20211012082428.16222-1-jean-louis@dupond.be>
+ <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEvEQfQwR1nN-G19XbWRanPYSydeyWGbt_4Z5XNdLajmtA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ErNugYUo3jKz/ibg"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+In-Reply-To: <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=stefanha@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,92 +85,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cindy Lu <lulu@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Gautam Dawar <gdawar@xilinx.com>, eperezma <eperezma@redhat.com>,
- Eli Cohen <elic@nvidia.com>, Zhu Lingshan <lingshan.zhu@intel.com>
+Cc: berrange@redhat.com, ehabkost@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, jasowang@redhat.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 19, 2021 at 03:24:36PM +0800, Jason Wang wrote:
-> On Tue, Oct 19, 2021 at 3:21 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Mon, Oct 11, 2021 at 12:28:19PM +0800, Jason Wang wrote:
-> > > Hi All:
-> > >
-> > > This patch implements the multiqueue support for vhost-vDPA. The most
-> > > important requirement si the control virtqueue support. The virtio-net
-> > > and vhost-net core are tweak to support control virtqueue as if what
-> > > data queue pairs are done: a dedicated vhost_net device which is
-> > > coupled with the NetClientState is intrdouced so most of the existing
-> > > vhost codes could be reused with minor changes. This means the control
-> > > virtqueue will bypass the Qemu. With the control virtqueue, vhost-vDPA
-> > > are extend to support creating and destroying multiqueue queue pairs
-> > > plus the control virtqueue.
-> > >
-> > > For the future, if we want to support live migration, we can either do
-> > > shadow cvq on top or introduce new interfaces for reporting device
-> > > states.
-> >
-> >
-> > I had to defer this due to rework I picked up.
-> > I pushed an experimental tree - it still has issues but
-> > if you rebase on top of that I can apply.
-> 
-> Will do. For the tree, is it
-> git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git next?
-> 
-> Thanks
-> 
 
-pci
+--ErNugYUo3jKz/ibg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> >
-> > > Tests are done via the vp_vdpa driver in L1 guest.
-> > >
-> > > Changes since V3:
-> > >
-> > > - fix build with vhost disabled
-> > >
-> > > Changes since V2:
-> > >
-> > > - rebase to qemu master
-> > > - use "queue_pairs" instead of "qps"
-> > > - typo fixes
-> > >
-> > > Changes since V1:
-> > >
-> > > - start and stop vhost devices when all queues were setup
-> > > - fix the case when driver doesn't support MQ but device support
-> > > - correctly set the batching capability to avoid a map/unmap storm
-> > > - various other tweaks
-> > >
-> > > Jason Wang (10):
-> > >   vhost-vdpa: open device fd in net_init_vhost_vdpa()
-> > >   vhost-vdpa: classify one time request
-> > >   vhost-vdpa: prepare for the multiqueue support
-> > >   vhost-vdpa: let net_vhost_vdpa_init() returns NetClientState *
-> > >   net: introduce control client
-> > >   vhost-net: control virtqueue support
-> > >   virtio-net: use "queue_pairs" instead of "queues" when possible
-> > >   vhost: record the last virtqueue index for the virtio device
-> > >   virtio-net: vhost control virtqueue support
-> > >   vhost-vdpa: multiqueue support
-> > >
-> > >  hw/net/vhost_net-stub.c        |   4 +-
-> > >  hw/net/vhost_net.c             |  55 ++++++++---
-> > >  hw/net/virtio-net.c            | 165 ++++++++++++++++++---------------
-> > >  hw/virtio/vhost-vdpa.c         |  56 +++++++++--
-> > >  include/hw/virtio/vhost-vdpa.h |   1 +
-> > >  include/hw/virtio/vhost.h      |   2 +
-> > >  include/hw/virtio/virtio-net.h |   5 +-
-> > >  include/net/net.h              |   5 +
-> > >  include/net/vhost_net.h        |   6 +-
-> > >  net/net.c                      |  24 ++++-
-> > >  net/vhost-vdpa.c               | 127 ++++++++++++++++++++++---
-> > >  11 files changed, 330 insertions(+), 120 deletions(-)
-> > >
-> > > --
-> > > 2.25.1
-> >
+On Tue, Oct 12, 2021 at 10:36:01AM +0200, Jean-Louis Dupond wrote:
+> Forgot to CC maintainers.
 
+Also CCing Jason Wang and Michael Tsirkin for VIRTIO.
+
+Stefan
+
+>=20
+> On 12/10/2021 10:24, Jean-Louis Dupond wrote:
+> > hw_compat modes only take into account their base name.
+> > But if a device is created with (non)-transitional, then the compat
+> > values are not used, causing migrating issues.
+> >=20
+> > This commit adds their (non)-transitional entries with the same settings
+> > as the base entry.
+> >=20
+> > Fixes https://bugzilla.redhat.com/show_bug.cgi?id=3D1999141
+> >=20
+> > Signed-off-by: Jean-Louis Dupond <jean-louis@dupond.be>
+> > ---
+> >   include/hw/qdev-core.h | 34 ++++++++++++++++++++++++++++++++++
+> >   1 file changed, 34 insertions(+)
+> >=20
+> > diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> > index 4ff19c714b..5726825c2d 100644
+> > --- a/include/hw/qdev-core.h
+> > +++ b/include/hw/qdev-core.h
+> > @@ -293,6 +293,30 @@ typedef struct GlobalProperty {
+> >       bool optional;
+> >   } GlobalProperty;
+> > +
+> > +/**
+> > + * Helper to add (non)transitional compat properties
+> > + */
+> > +static inline void
+> > +compat_props_add_transitional(GPtrArray *arr, GlobalProperty *prop)
+> > +{
+> > +    GlobalProperty *transitional =3D g_new0(typeof(*transitional), 1);
+> > +    transitional->driver =3D g_strdup_printf("%s-transitional", prop->=
+driver);
+> > +    transitional->property =3D g_strdup(prop->property);
+> > +    transitional->value =3D g_strdup(prop->value);
+> > +    transitional->used =3D prop->used;
+> > +    transitional->optional =3D prop->optional;
+> > +    g_ptr_array_add(arr, (void *)transitional);
+> > +
+> > +    GlobalProperty *non_transitional =3D g_new0(typeof(*non_transition=
+al), 1);
+> > +    non_transitional->driver =3D g_strdup_printf("%s-non-transitional"=
+, prop->driver);
+> > +    non_transitional->property =3D g_strdup(prop->property);
+> > +    non_transitional->value =3D g_strdup(prop->value);
+> > +    non_transitional->used =3D prop->used;
+> > +    non_transitional->optional =3D prop->optional;
+> > +    g_ptr_array_add(arr, (void *)non_transitional);
+> > +}
+> > +
+> >   static inline void
+> >   compat_props_add(GPtrArray *arr,
+> >                    GlobalProperty props[], size_t nelem)
+> > @@ -300,6 +324,16 @@ compat_props_add(GPtrArray *arr,
+> >       int i;
+> >       for (i =3D 0; i < nelem; i++) {
+> >           g_ptr_array_add(arr, (void *)&props[i]);
+> > +        if (g_str_equal(props[i].driver, "vhost-user-blk-pci") ||
+> > +            g_str_equal(props[i].driver, "virtio-scsi-pci") ||
+> > +            g_str_equal(props[i].driver, "virtio-blk-pci") ||
+> > +            g_str_equal(props[i].driver, "virtio-balloon-pci") ||
+> > +            g_str_equal(props[i].driver, "virtio-serial-pci") ||
+> > +            g_str_equal(props[i].driver, "virtio-9p-pci") ||
+> > +            g_str_equal(props[i].driver, "virtio-net-pci") ||
+> > +            g_str_equal(props[i].driver, "virtio-rng-pci")) {
+> > +            compat_props_add_transitional(arr, &props[i]);
+> > +        }
+> >       }
+> >   }
+>=20
+
+--ErNugYUo3jKz/ibg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFuofkACgkQnKSrs4Gr
+c8jCXgf/cboWp8k/7egwJEf1xunaL2sxFO0BhdB4vJcRLYVIDKwzzLI/mzWbG3R9
+yGkZC2r3tlsHUs9p2EIxX6NfOKIJm+39oknOeX45I3Z2y7y6G4Kk/I+mHezFrOdJ
+TUlDt5LMnp5Y/Rp1A7ZTd5CyA+Iy75GNpaiyEHWJC5eGx7zeRkhDkKPiy+DKhKc5
+zTMD6huF5theI66M3WMs2bRh89/ZAgtjDr+VBdmoG7wa16qhsXDxflws7qAb6sXA
+t8hVPIIj/GLQo3wvxmMPm/rClpvQz9MdfFvPqU8uuvGDwP3yZ5wDs3kN1eF2jE4H
+YnXefwPshu1p2oWsMtn2LGitrzCzTA==
+=l+0z
+-----END PGP SIGNATURE-----
+
+--ErNugYUo3jKz/ibg--
 
