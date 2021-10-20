@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61EC34349EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:17:21 +0200 (CEST)
-Received: from localhost ([::1]:42764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E74A143496F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:53:39 +0200 (CEST)
+Received: from localhost ([::1]:53348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md9ay-0007jO-FZ
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:17:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48396)
+	id 1md9E3-00007N-1v
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8i0-0004fn-IN
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8i0-0004iX-OG
  for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54173)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hw-0003XJ-5X
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:30 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hy-0003aY-S3
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634725227;
+ s=mimecast20190719; t=1634725230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ovgGFzduCrnIeJvjYt5D1svpWOkcO96pV6pxkCNnsKE=;
- b=BxCLpIgDqhJ/y1ocI2vibBYRaQuGBqx44/sam6r/t2rcjX7ga8ZA70wxnnBQpQl1pZU94j
- T9k2EKpO+SsuX/zifFLU6wPxJSHWD1c68ziKNzCQQmB5ljXUZhOszklFr6jSVo3hR9RwFl
- +k8BxOLRjkLyxD7SbEoGm0tfOgmMW40=
+ bh=8WUvKS8fdXJA9x2sA/adDQPr/E4an91R5a8EOdVOfhc=;
+ b=Z31Vm85cxNRPHLPShT24YP1PIRHQf6tdPtHdpI0PSj3Auxh8V2odEHbirBhohXS/PX5Nnm
+ zW9HK3c0h+K153y05NFovigEgaYIPJ19xIcSwdFazngs+QJL2I8Jpqr3cgJn9t2lEde/vu
+ XL1PWd1we4UzYehH0G4mwGQZ5a8Od/Y=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-wq3HI3P3OlK9GVaJFhiPzA-1; Wed, 20 Oct 2021 06:20:25 -0400
-X-MC-Unique: wq3HI3P3OlK9GVaJFhiPzA-1
+ us-mta-299-_Xpn6GiFP6CBHU-jvGrnVw-1; Wed, 20 Oct 2021 06:20:27 -0400
+X-MC-Unique: _Xpn6GiFP6CBHU-jvGrnVw-1
 Received: by mail-ed1-f71.google.com with SMTP id
- u17-20020a50d511000000b003daa3828c13so20514298edi.12
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:20:24 -0700 (PDT)
+ v2-20020a50f082000000b003db24e28d59so20507132edl.5
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:20:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ovgGFzduCrnIeJvjYt5D1svpWOkcO96pV6pxkCNnsKE=;
- b=zLCRg1T/2xkP5e8PIYrvQRevAPWAsyTSoi5/Vsizbq02JCclVOE77FiXDiiyXnflsT
- Oxpdd7QsP8qP3en2cQQeSzCiz4F5IVMNg5GeGVpx90os2IPmx2vNgMMBKLY+xK2iiXpt
- oZtll5m47u19D6pSzsz+cA5VUKNYkLGx1koozEtv0yjFf4rOn1U42YaeWdCAdYLl2wB8
- 7NoQuEsOZQ+WGjrHQmFT7BYGdw7StCPqJpNKDgLBZblUZmKjYXWwDwb8PFzmZVTQ9P9l
- qo/O1+CHsURPEjJIh0pnRMO3TaiiIQ4iVvaAC02wdAvBQ2KRUcMIku/8G8zvVTpjIZUR
- lqtQ==
-X-Gm-Message-State: AOAM531kgLvJUqf7spPmwgPpatV5Q976mNypjuKgbUF+4XnE7OfUAt9G
- Thfrxp6RbEHsmEc6rc1SHEI/0/x0J/PlLYYmrKW/AKBNZUczQypw1z2qKMUuWLUnHijICN4WJVi
- oPJj3n95W2N3Cx4WxYS0E36OOll8NFauz8DucLkEdvzy4W0zwOlpqBntKGloS
-X-Received: by 2002:a50:e183:: with SMTP id k3mr62562068edl.22.1634725223531; 
- Wed, 20 Oct 2021 03:20:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyBe5essEzHiEgNYxnMItTUZJNzxqFpoSl/oiY7OPXStM8IxtVRmLVXktJWkDpxbr8YlnrVzQ==
-X-Received: by 2002:a50:e183:: with SMTP id k3mr62562040edl.22.1634725223368; 
- Wed, 20 Oct 2021 03:20:23 -0700 (PDT)
+ bh=8WUvKS8fdXJA9x2sA/adDQPr/E4an91R5a8EOdVOfhc=;
+ b=ZabIqBCeeLV6RD/gMdmcXphJ7dH6PVGszZj89hNL1A8xGgqAOs15UdNfkbp1QwZMm5
+ CEEmYDdwTkgU012lICamaav0oGVnM9BYtBY4Yd07LzoQrxU8tjzLLWcdHRkGBYw8TGIf
+ fDyAFIFQLl+JTsx/GVTBuFCpWp145m3di4jgybnOqaOEo1W9aC6f/uLWzjCi/0wGwOH3
+ i/7YRo7HUkj7+n13pwkqEeOLSZ84SQpLRWSjULDdgBX9MBGwr++bG7h71WrfApLJCdxn
+ eLWLGb5z/otkW9j7fNVPfLj7Y7W14WJnYvK2Dy8vOUJWF2x8aQJYoYifvBlQbk0GIrv6
+ iE/A==
+X-Gm-Message-State: AOAM531uX8pzeABgHV5EX4MhbNWg7T1ZlskR1NDHZpY8aPC2uMsthF0M
+ 0E4VtHtEI8vfQTk+YDShrtGWrN1/buqZHam2Q51ipMrFfTeVrIT/Ced6PMVmNoQW6c6jDL2fuud
+ 6iy1Bi8t2zA8FH6n4FIKuPvZX9azAn3G8jYu3hXpDc8qNnHYoX2wS7dZZlDzj
+X-Received: by 2002:a50:e60a:: with SMTP id y10mr61655440edm.233.1634725226328; 
+ Wed, 20 Oct 2021 03:20:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyxa/kpu0UT7+u4BdJxxMGuLAEw+T0HuE+EVqn0IfquQRqKFCF2ox1HHyrz+KfCjfM34NRygA==
+X-Received: by 2002:a50:e60a:: with SMTP id y10mr61655403edm.233.1634725226031; 
+ Wed, 20 Oct 2021 03:20:26 -0700 (PDT)
 Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id lf17sm831268ejb.25.2021.10.20.03.20.21
+ by smtp.gmail.com with ESMTPSA id w7sm970886ede.8.2021.10.20.03.20.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 03:20:22 -0700 (PDT)
-Date: Wed, 20 Oct 2021 06:20:20 -0400
+ Wed, 20 Oct 2021 03:20:25 -0700 (PDT)
+Date: Wed, 20 Oct 2021 06:20:23 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 24/44] docs: Add documentation for vhost based RNG
- implementation
-Message-ID: <20211020101844.988480-25-mst@redhat.com>
+Subject: [PULL v2 25/44] vhost-user: fix duplicated notifier MR init
+Message-ID: <20211020101844.988480-26-mst@redhat.com>
 References: <20211020101844.988480-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211020101844.988480-1-mst@redhat.com>
@@ -73,13 +72,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,82 +93,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>,
+ Peter Maydell <peter.maydell@linaro.org>, tiwei.bie@intel.com,
+ Xueming Li <xuemingl@nvidia.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
+From: Xueming Li <xuemingl@nvidia.com>
 
-Add description and example for the vhost-user based RNG implementation.
+In case of device resume after suspend, VQ notifier MR still valid.
+Duplicated registrations explode memory block list and slow down device
+resume.
 
-Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-Message-Id: <20211012205904.4106769-4-mathieu.poirier@linaro.org>
+Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
+Cc: tiwei.bie@intel.com
+Cc: qemu-stable@nongnu.org
+Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
+
+Signed-off-by: Xueming Li <xuemingl@nvidia.com>
+Message-Id: <20211008080215.590292-1-xuemingl@nvidia.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- docs/system/device-emulation.rst       |  1 +
- docs/system/devices/vhost-user-rng.rst | 39 ++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+)
- create mode 100644 docs/system/devices/vhost-user-rng.rst
+ hw/virtio/vhost-user.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
-index 7afcfd8064..19944f526c 100644
---- a/docs/system/device-emulation.rst
-+++ b/docs/system/device-emulation.rst
-@@ -88,3 +88,4 @@ Emulated Devices
-    devices/usb.rst
-    devices/vhost-user.rst
-    devices/virtio-pmem.rst
-+   devices/vhost-user-rng.rst
-diff --git a/docs/system/devices/vhost-user-rng.rst b/docs/system/devices/vhost-user-rng.rst
-new file mode 100644
-index 0000000000..a145d4105c
---- /dev/null
-+++ b/docs/system/devices/vhost-user-rng.rst
-@@ -0,0 +1,39 @@
-+QEMU vhost-user-rng - RNG emulation
-+===================================
-+
-+Background
-+----------
-+
-+What follows builds on the material presented in vhost-user.rst - it should
-+be reviewed before moving forward with the content in this file.
-+
-+Description
-+-----------
-+
-+The vhost-user-rng device implementation was designed to work with a random
-+number generator daemon such as the one found in the vhost-device crate of
-+the rust-vmm project available on github [1].
-+
-+[1]. https://github.com/rust-vmm/vhost-device
-+
-+Examples
-+--------
-+
-+The daemon should be started first:
-+
-+::
-+
-+  host# vhost-device-rng --socket-path=rng.sock -c 1 -m 512 -p 1000
-+
-+The QEMU invocation needs to create a chardev socket the device can
-+use to communicate as well as share the guests memory over a memfd.
-+
-+::
-+
-+  host# qemu-system								\
-+      -chardev socket,path=$(PATH)/rng.sock,id=rng0				\
-+      -device vhost-user-rng-pci,chardev=rng0					\
-+      -m 4096 									\
-+      -object memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on	\
-+      -numa node,memdev=mem							\
-+      ...
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 2c8556237f..bf6e50223c 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1526,8 +1526,9 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+ 
+     name = g_strdup_printf("vhost-user/host-notifier@%p mmaps[%d]",
+                            user, queue_idx);
+-    memory_region_init_ram_device_ptr(&n->mr, OBJECT(vdev), name,
+-                                      page_size, addr);
++    if (!n->mr.ram) /* Don't init again after suspend. */
++        memory_region_init_ram_device_ptr(&n->mr, OBJECT(vdev), name,
++                                          page_size, addr);
+     g_free(name);
+ 
+     if (virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, true)) {
 -- 
 MST
 
