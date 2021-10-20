@@ -2,89 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EA7B43483A
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 11:47:50 +0200 (CEST)
-Received: from localhost ([::1]:53892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F67C43483E
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 11:48:13 +0200 (CEST)
+Received: from localhost ([::1]:54756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md8CL-0006Wq-JU
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 05:47:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38994)
+	id 1md8Ch-00076h-Sk
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 05:48:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md89o-00059v-Nn
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 05:45:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28056)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1md8B3-0005gU-0w
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 05:46:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md89m-0007so-Mu
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 05:45:12 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1md8Am-0000KS-JN
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 05:46:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634723110;
+ s=mimecast20190719; t=1634723171;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0L+Fu1EMYMFzhSsq6MC1fQ6pBSDOKUps0Cz8/waJPdA=;
- b=Xdv9vGA0sh1JckFWQky7i1VqkMVq/tikV7mSZLS001Dwu5Vhr4rArqa/pAoZ+JQsRywuRb
- ICj1ZXMtoDubPF6RMSKx4MqyWnXNzmxCfKHnXHo/IEge4bW6cf+iGPQagQM9dvL8D/maqi
- GI2/+kGhEAXfF3FUwaFCqXPaUGghIwI=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-hC6cBm2rOYSmwRa0vP1azQ-1; Wed, 20 Oct 2021 05:45:08 -0400
-X-MC-Unique: hC6cBm2rOYSmwRa0vP1azQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- s12-20020a50dacc000000b003dbf7a78e88so17407824edj.2
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 02:45:08 -0700 (PDT)
+ bh=jGhe2gxSvc33PHTS5Tfffy5OWEtP/o0clLI4cTAcUqU=;
+ b=eJE9sn6j9QiQK7qWErc8heLdLfd7OVjCmGWjDRl8ARIL658mN3HAFFU4HKP5F6nCCsn3PF
+ kp7tIFCm6z8M7gAYXBlcigRQGuaIoueLPy5976+eUrXaTGdVF4wUI6JPP/bx7C1eK8orgO
+ qVesGhpn52LoOY8fZgMyZFfaLO49450=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-55-xBR7n5VIPRKYmQ_e3b5sHg-1; Wed, 20 Oct 2021 05:46:10 -0400
+X-MC-Unique: xBR7n5VIPRKYmQ_e3b5sHg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 128-20020a1c0486000000b0030dcd45476aso3911890wme.0
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 02:46:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0L+Fu1EMYMFzhSsq6MC1fQ6pBSDOKUps0Cz8/waJPdA=;
- b=OGK/AZzCDx61vkPie2G3ckJnXolAedek/6X+tJzax66MBVkggV0b3rwJlV0kMBWxW9
- ggYzF6ctgL239Phl0/BdNkFwgNgQx7Hp126ElACIEmwjSPPe62iQQYzvH8wKeH31fTZr
- PtAP4wKM/ftKHb/XGajlinqZzktaKqO+evE4WJ9cJZaDEZ+NkbMhJLwoJWT5B8AyyiPg
- Z4G2RVo7l4+8UyVlQnI3n8E7e5dRygySVygeflK4QXNCYF04OYOa1A/wqVsYX/Fq4AsK
- bJD7AZuMn98hSwIuDXrs4UON8TXLtvuR6eIltz+T4MWaSfVTGWU4WusDS5ACHyIGDrlG
- 5F+Q==
-X-Gm-Message-State: AOAM532rVMw54glBJlOqETQ7JDOhagw4TaMBzbcA487pgqkHhMyDjiMa
- W6hL80ZITmJjKhTTjY8SVNvVdzuP7ksul+EaoXizN04dhYMvLwtfIOZsrObr9chpzELvCGT/OHk
- hKkcVSxmLbQfWRMo=
-X-Received: by 2002:a05:6402:42cd:: with SMTP id
- i13mr61054156edc.396.1634723107102; 
- Wed, 20 Oct 2021 02:45:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdBZvMGlfZOMfqlqzWvZkUoFCDW7H+nfXueh84JmWSYh29xPPyt89QAOYgAvUUWTI9mwTf+g==
-X-Received: by 2002:a05:6402:42cd:: with SMTP id
- i13mr61054126edc.396.1634723106805; 
- Wed, 20 Oct 2021 02:45:06 -0700 (PDT)
-Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id ke24sm747483ejc.73.2021.10.20.02.45.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 02:45:06 -0700 (PDT)
-Date: Wed, 20 Oct 2021 05:45:03 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2 05/15] tests: acpi: update expected tables blobs
-Message-ID: <20211020054302-mutt-send-email-mst@kernel.org>
-References: <20210902113551.461632-1-imammedo@redhat.com>
- <20210902113551.461632-6-imammedo@redhat.com>
- <20211018163459-mutt-send-email-mst@kernel.org>
- <20211019115632.283aabe0@redhat.com>
- <20211019062402-mutt-send-email-mst@kernel.org>
- <20211020110521.5d4ba9e0@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jGhe2gxSvc33PHTS5Tfffy5OWEtP/o0clLI4cTAcUqU=;
+ b=LqK5oEOKeCM7SkmFVbwzWaoL+fOUOVabsztihn5t3WRk5UxorldDC1NDZcHQSrz5id
+ 0wCYoUQb1OWUpWvPgmrA236ozILh0e0q+g29AUlNAnhAZPQ54LaR9yi3wBL/XS+SCtPf
+ uAH6cYPBCv12MZDcJoNsrjICW7BZx8xI/qBwWFNIIpGMcDsgfZ39nxoxjLHGLn/5+eBz
+ V1DIeqSIJ7fIXSkwzLlLDkL5GO/4WhNHqrKXUFPaziKdQkamlgf5ol+ww058j3ZZq7Zz
+ YUsbG6mP+X04ZdrUIPqj1vUz3U1/MriHs0WMThf0lndmDVMoyjU70/bgWbxlHLdVEN6q
+ 9xrQ==
+X-Gm-Message-State: AOAM533qazGKwAU1FnxKFaHo9LFFCPEbCNdAt9tKGrbTPQzg45z4hhFx
+ QzottoD3HorakVsJefLMWw7R0su6JSxZtRxuwZ6F4WUb0RWpUjUgOrZ7OQkzIObYBSCkZAFp8ge
+ i6Q8lzLV66UO9x4U=
+X-Received: by 2002:a05:6000:154b:: with SMTP id
+ 11mr49929913wry.422.1634723169014; 
+ Wed, 20 Oct 2021 02:46:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz0kVJJHNFW3P/HoF6ZkVgt6Ns3zigkCPjrQY9bNa8K7Woh0vxPDkhYHOpY/wtPn/iT1+NIXQ==
+X-Received: by 2002:a05:6000:154b:: with SMTP id
+ 11mr49929874wry.422.1634723168630; 
+ Wed, 20 Oct 2021 02:46:08 -0700 (PDT)
+Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id o11sm1960091wry.0.2021.10.20.02.46.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Oct 2021 02:46:08 -0700 (PDT)
+Subject: Re: [PULL 00/29] pc,pci,virtio: features, fixes
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20211019111923.679826-1-mst@redhat.com>
+ <4cc1b92e-a3f0-bab9-6e71-112ef3fb13a1@linaro.org>
+ <20211020103929.5cc1fb32@redhat.com>
+ <f2a6b49c-f1f7-f50c-0ff6-49e37427007c@redhat.com>
+ <20211020054105-mutt-send-email-mst@kernel.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <1244b6ad-062e-5d86-cea1-15f1e1763a60@redhat.com>
+Date: Wed, 20 Oct 2021 11:46:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211020110521.5d4ba9e0@redhat.com>
+In-Reply-To: <20211020054105-mutt-send-email-mst@kernel.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-2.074, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,258 +101,249 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, Marcel Apfelbaum <mapfelba@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 20, 2021 at 11:05:21AM +0200, Igor Mammedov wrote:
-> On Tue, 19 Oct 2021 06:27:26 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+On 20/10/2021 11.41, Michael S. Tsirkin wrote:
+> On Wed, Oct 20, 2021 at 11:39:28AM +0200, Thomas Huth wrote:
+>> On 20/10/2021 10.39, Igor Mammedov wrote:
+>>> On Tue, 19 Oct 2021 11:38:08 -0700
+>>> Richard Henderson <richard.henderson@linaro.org> wrote:
+>>>
+>>>> On 10/19/21 4:19 AM, Michael S. Tsirkin wrote:
+>>>>> The following changes since commit 9c050b661d3a43dfe2fd44106e559b39706d1296:
+>>>>>
+>>>>>      Merge remote-tracking branch 'remotes/philmd/tags/mips-20211018' into staging (2021-10-18 09:16:51 -0700)
+>>>>>
+>>>>> are available in the Git repository at:
+>>>>>
+>>>>>      git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>>>>>
+>>>>> for you to fetch changes up to bf2dd99b7d536cdba157fd6687810ce7b8340ccc:
+>>>>>
+>>>>>      failover: fix a regression introduced by JSON'ification of -device (2021-10-19 07:15:34 -0400)
+>>>>>
+>>>>> ----------------------------------------------------------------
+>>>>> pc,pci,virtio: features, fixes
+>>>>>
+>>>>> vhost user rng
+>>>>> Fixes, cleanups all over the place.
+>>>>>
+>>>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>>>>>
+>>>>> ----------------------------------------------------------------
+>>>>> Ani Sinha (3):
+>>>>>          tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT table blob
+>>>>>          tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges for q35
+>>>>>          tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge test
+>>>>>
+>>>>> David Hildenbrand (1):
+>>>>>          libvhost-user: fix VHOST_USER_REM_MEM_REG skipping mmap_addr
+>>>>>
+>>>>> Eric Auger (2):
+>>>>>          virtio-iommu: Remove the non transitional name
+>>>>>          virtio-iommu: Drop base_name and change generic_name
+>>>>>
+>>>>> Eugenio Pérez (3):
+>>>>>          vdpa: Skip protected ram IOMMU mappings
+>>>>>          vdpa: Add vhost_vdpa_section_end
+>>>>>          vdpa: Check for iova range at mappings changes
+>>>>>
+>>>>> Igor Mammedov (15):
+>>>>>          tests: acpi: dump table with failed checksum
+>>>>>          tests: qtest: add qtest_has_accel() to check if tested binary supports accelerator
+>>>>>          tests: acpi: whitelist expected tables for acpi/q35/xapic testcase
+>>>>>          tests: acpi: q35: test for x2APIC entries in SRAT
+>>>>>          tests: acpi: update expected tables blobs
+>>>>>          tests: acpi: whitelist new expected table tests/data/acpi/q35/DMAR.dmar
+>>>>>          tests: acpi: add testcase for intel_iommu (DMAR table)
+>>>>>          tests: acpi: add expected blob for DMAR table
+>>>>>          tests: acpi: whitelist expected blobs for new acpi/q35/ivrs testcase
+>>>>>          tests: acpi: add testcase for amd-iommu (IVRS table)
+>>>>>          tests: acpi: update expected blobs
+>>>>>          tests: acpi: arm/virt: drop redundant test_acpi_one() in test_acpi_virt_tcg()
+>>>>>          tests: arm-cpu-features: use qtest_has_kvm() API
+>>>>>          tests: migration-test: use qtest_has_accel() API
+>>>>>          tests: bios-tables-test: use qtest_has_accel() API to register TCG only tests
+>>>>>
+>>>>> Laurent Vivier (1):
+>>>>>          failover: fix a regression introduced by JSON'ification of -device
+>>>>>
+>>>>> Mathieu Poirier (3):
+>>>>>          vhost-user-rng: Add vhost-user-rng implementation
+>>>>>          vhost-user-rng-pci: Add vhost-user-rng-pci implementation
+>>>>>          docs: Add documentation for vhost based RNG implementation
+>>>>>
+>>>>> Xueming Li (1):
+>>>>>          vhost-user: fix duplicated notifier MR init
+>>>>>
+>>>>>     include/hw/virtio/vhost-user-rng.h        |  33 ++++
+>>>>>     include/hw/virtio/vhost-vdpa.h            |   2 +
+>>>>>     include/hw/virtio/virtio-iommu.h          |   2 +-
+>>>>>     tests/qtest/libqos/libqtest.h             |   8 +
+>>>>>     hw/net/virtio-net.c                       |  24 ++-
+>>>>>     hw/virtio/vhost-user-rng-pci.c            |  79 ++++++++
+>>>>>     hw/virtio/vhost-user-rng.c                | 289 ++++++++++++++++++++++++++++++
+>>>>>     hw/virtio/vhost-user.c                    |   5 +-
+>>>>>     hw/virtio/vhost-vdpa.c                    |  81 ++++++---
+>>>>>     hw/virtio/virtio-iommu-pci.c              |   4 +-
+>>>>>     subprojects/libvhost-user/libvhost-user.c |   1 +
+>>>>>     tests/qtest/acpi-utils.c                  |  14 ++
+>>>>>     tests/qtest/arm-cpu-features.c            |  29 +--
+>>>>>     tests/qtest/bios-tables-test.c            |  90 ++++++++--
+>>>>>     tests/qtest/libqtest.c                    |  27 +++
+>>>>>     tests/qtest/migration-test.c              |  15 +-
+>>>>>     docs/system/device-emulation.rst          |   1 +
+>>>>>     docs/system/devices/vhost-user-rng.rst    |  39 ++++
+>>>>>     hw/virtio/Kconfig                         |   5 +
+>>>>>     hw/virtio/meson.build                     |   2 +
+>>>>>     hw/virtio/trace-events                    |   1 +
+>>>>>     meson.build                               |   6 +
+>>>>>     tests/data/acpi/q35/APIC.xapic            | Bin 0 -> 2686 bytes
+>>>>>     tests/data/acpi/q35/DMAR.dmar             | Bin 0 -> 120 bytes
+>>>>>     tests/data/acpi/q35/DSDT.ivrs             | Bin 0 -> 8306 bytes
+>>>>>     tests/data/acpi/q35/DSDT.multi-bridge     | Bin 0 -> 8583 bytes
+>>>>>     tests/data/acpi/q35/DSDT.xapic            | Bin 0 -> 35652 bytes
+>>>>>     tests/data/acpi/q35/FACP.xapic            | Bin 0 -> 244 bytes
+>>>>>     tests/data/acpi/q35/IVRS.ivrs             | Bin 0 -> 104 bytes
+>>>>>     tests/data/acpi/q35/SRAT.xapic            | Bin 0 -> 5080 bytes
+>>>>>     30 files changed, 672 insertions(+), 85 deletions(-)
+>>>>>     create mode 100644 include/hw/virtio/vhost-user-rng.h
+>>>>>     create mode 100644 hw/virtio/vhost-user-rng-pci.c
+>>>>>     create mode 100644 hw/virtio/vhost-user-rng.c
+>>>>>     create mode 100644 docs/system/devices/vhost-user-rng.rst
+>>>>>     create mode 100644 tests/data/acpi/q35/APIC.xapic
+>>>>>     create mode 100644 tests/data/acpi/q35/DMAR.dmar
+>>>>>     create mode 100644 tests/data/acpi/q35/DSDT.ivrs
+>>>>>     create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
+>>>>>     create mode 100644 tests/data/acpi/q35/DSDT.xapic
+>>>>>     create mode 100644 tests/data/acpi/q35/FACP.xapic
+>>>>>     create mode 100644 tests/data/acpi/q35/IVRS.ivrs
+>>>>>     create mode 100644 tests/data/acpi/q35/SRAT.xapic
+>>>>
+>>>> 32-bit printf errors:
+>>>>
+>>>> ../hw/virtio/vhost-vdpa.c: In function 'vhost_vdpa_listener_skipped_section':
+>>>> ../hw/virtio/vhost-vdpa.c:55:22: error: format '%lu' expects argument of type 'long
+>>>> unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigned int'}
+>>>> [-Werror=format=]
+>>>>             error_report("RAM section out of device range (min=%lu, addr=%lu)",
+>>>>                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>                          iova_min, section->offset_within_address_space);
+>>>>                          ~~~~~~~~
+>>>> ../hw/virtio/vhost-vdpa.c:55:22: error: format '%lu' expects argument of type 'long
+>>>> unsigned int', but argument 3 has type 'hwaddr' {aka 'long long unsigned int'}
+>>>> [-Werror=format=]
+>>>> ../hw/virtio/vhost-vdpa.c:62:22: error: format '%lu' expects argument of type 'long
+>>>> unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigned int'}
+>>>> [-Werror=format=]
+>>>>             error_report("RAM section out of device range (max=%lu, end addr=%lu)",
+>>>>                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>                          iova_max, int128_get64(llend));
+>>>>                          ~~~~~~~~
+>>>> ../hw/virtio/vhost-vdpa.c:62:22: error: format '%lu' expects argument of type 'long
+>>>> unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'}
+>>>> [-Werror=format=]
+>>>> cc1: all warnings being treated as errors
+>>>>
+>>>>
+>>>> Also fails s390x host testing:
+>>>>
+>>>>
+>>>> ERROR:../tests/qtest/boot-sector.c:170:boot_sector_test: assertion failed (signature ==
+>>>> SIGNATURE): (0x00000000 == 0x0000dead)
+>>>> ERROR qtest-i386/bios-tables-test - Bail out!
+>>>> ERROR:../tests/qtest/boot-sector.c:170:boot_sector_test: assertion failed (signature ==
+>>>> SIGNATURE): (0x00000000 == 0x0000dead)
+>>>> Makefile.mtest:368: recipe for target 'run-test-44' failed
+>>>
+>>> it might happen if VM is too slow
+>>>      /* Wait at most 600 seconds ...
+>>> Let me find s390 host and see if it's reproducable
+>>
+>> Micheal already asked Cornelia and me off-list whether it's reproducible,
+>> and it is. It's the new multif-bridge test that is hanging, but it seems
+>> like this only uncovered a pre-existing problem: SeaBIOS does bail out as
+>> soon as QEMU is started with "-device pcie-root-port" on a s390x host. I've
+>> already enabled the serial debug in SeaBIOS and got this output:
+>>
+>> $ build/qemu-system-x86_64 -nographic -machine q35  -vga none  -device
+>> pcie-root-port -bios ~/bios.bin
+>> Changing serial settings was 0/0 now 3/0
+>> SeaBIOS (version rel-1.14.0-0-g155821a)
+>> BUILD: gcc: (GCC) 8.4.1 20200928 (Red Hat 8.4.1-1) binutils: version 2.30-93.el8
+>> No Xen hypervisor found.
+>> Running on QEMU (q35)
+>> Found QEMU fw_cfg
+>> QEMU fw_cfg DMA interface supported
+>> qemu/e820: addr 0x0000000000000000 len 0x0000000008000000 [RAM]
+>> Relocating init from 0x000d6400 to 0x07faa7a0 (size 88000)
+>> Moving pm_base to 0x600
+>> === PCI bus & bridge init ===
+>> PCI: pci_bios_init_bus_rec bus = 0x0
+>> PCI: pci_bios_init_bus_rec bdf = 0x10
+>> PCI: primary bus = 0x0
+>> PCI: secondary bus = 0xff -> 0x1
+>> PCI: pci_bios_init_bus_rec bus = 0x1
+>> PCI: subordinate bus = 0x0 -> 0x1
+>> === PCI device probing ===
+>> Found 6 PCI devices (max PCI bus is 01)
+>> PCIe: using q35 mmconfig at 0xb0000000
+>> === PCI new allocation pass #1 ===
+>> PCI: check devices
+>> PCI: QEMU resource reserve cap: size 10000000000000 type io
+>> PCI: secondary bus 1 size 10000000000000 type io
+>> PCI: secondary bus 1 size 00200000 type mem
+>> PCI: secondary bus 1 size 00200000 type prefmem
+>> === PCI new allocation pass #2 ===
+>> PCI: out of I/O address space
+>>
+>> I also noticed that the problem did not occur on older versions of QEMU, so
+>> I just bisected and ended up with this commit here:
+>>
+>> e2a6290aab578b2170c1f5909fa556385dc0d820 is the first bad commit
+>> commit e2a6290aab578b2170c1f5909fa556385dc0d820
+>> Author: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+>> Date:   Mon Aug 2 12:00:57 2021 +0300
+>>
+>>      hw/pcie-root-port: Fix hotplug for PCI devices requiring IO
+>>
+>> Seems like something goes wrong with setting up the IO space on big endian
+>> hosts?
+>>
+>>   Thomas
 > 
-> > On Tue, Oct 19, 2021 at 11:56:32AM +0200, Igor Mammedov wrote:
-> > > On Mon, 18 Oct 2021 16:37:28 -0400
-> > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > >   
-> > > > On Thu, Sep 02, 2021 at 07:35:41AM -0400, Igor Mammedov wrote:  
-> > > > > Update adds CPU entries to MADT/SRAT/FACP and DSDT to cover 288 CPUs.
-> > > > > Notable changes are that CPUs with APIC ID 255 and higher
-> > > > > use 'Processor Local x2APIC Affinity' structure in SRAT and
-> > > > > "Device" element in DSDT.
-> > > > > 
-> > > > > FACP:
-> > > > > -                 Use APIC Cluster Model (V4) : 0
-> > > > > +                 Use APIC Cluster Model (V4) : 1
-> > > > > 
-> > > > > SRAT:
-> > > > > ...
-> > > > > +[1010h 4112   1]                Subtable Type : 00 [Processor Local APIC/SAPIC Affinity]
-> > > > > +[1011h 4113   1]                       Length : 10
-> > > > > +
-> > > > > +[1012h 4114   1]      Proximity Domain Low(8) : 00
-> > > > > +[1013h 4115   1]                      Apic ID : FE
-> > > > > +[1014h 4116   4]        Flags (decoded below) : 00000001
-> > > > > +                                     Enabled : 1
-> > > > > +[1018h 4120   1]              Local Sapic EID : 00
-> > > > > +[1019h 4121   3]    Proximity Domain High(24) : 000000
-> > > > > +[101Ch 4124   4]                 Clock Domain : 00000000
-> > > > > +
-> > > > > +[1020h 4128   1]                Subtable Type : 02 [Processor Local x2APIC Affinity]
-> > > > > +[1021h 4129   1]                       Length : 18
-> > > > > +
-> > > > > +[1022h 4130   2]                    Reserved1 : 0000
-> > > > > +[1024h 4132   4]             Proximity Domain : 00000001
-> > > > > +[1028h 4136   4]                      Apic ID : 000000FF
-> > > > > +[102Ch 4140   4]        Flags (decoded below) : 00000001
-> > > > > +                                     Enabled : 1
-> > > > > +[1030h 4144   4]                 Clock Domain : 00000000
-> > > > > +[1034h 4148   4]                    Reserved2 : 00000000
-> > > > > 
-> > > > > ...
-> > > > > 
-> > > > > +[1320h 4896   1]                Subtable Type : 02 [Processor Local x2APIC Affinity]
-> > > > > +[1321h 4897   1]                       Length : 18
-> > > > > +
-> > > > > +[1322h 4898   2]                    Reserved1 : 0000
-> > > > > +[1324h 4900   4]             Proximity Domain : 00000001
-> > > > > +[1328h 4904   4]                      Apic ID : 0000011F
-> > > > > +[132Ch 4908   4]        Flags (decoded below) : 00000001
-> > > > > +                                     Enabled : 1
-> > > > > +[1330h 4912   4]                 Clock Domain : 00000000
-> > > > > +[1334h 4916   4]                    Reserved2 : 00000000
-> > > > > 
-> > > > > DSDT:
-> > > > > 
-> > > > > ...
-> > > > > +            Processor (C0FE, 0xFE, 0x00000000, 0x00)
-> > > > > +            {
-> > > > > ...
-> > > > > +            }
-> > > > > +
-> > > > > +            Device (C0FF)
-> > > > > +            {
-> > > > > +                Name (_HID, "ACPI0007" /* Processor Device */)  // _HID: Hardware ID
-> > > > > +                Name (_UID, 0xFF)  // _UID: Unique ID
-> > > > > ...
-> > > > > +            }
-> > > > > 
-> > > > > +            Device (C11F)
-> > > > > +            {
-> > > > > +                Name (_HID, "ACPI0007" /* Processor Device */)  // _HID: Hardware ID
-> > > > > +                Name (_UID, 0x011F)  // _UID: Unique ID
-> > > > > ...
-> > > > > +            }
-> > > > > 
-> > > > > APIC:
-> > > > > +[034h 0052   1]                Subtable Type : 00 [Processor Local APIC]
-> > > > > +[035h 0053   1]                       Length : 08
-> > > > > +[036h 0054   1]                 Processor ID : 01
-> > > > > +[037h 0055   1]                Local Apic ID : 01
-> > > > > +[038h 0056   4]        Flags (decoded below) : 00000000
-> > > > > +                           Processor Enabled : 0
-> > > > > 
-> > > > > ...
-> > > > > 
-> > > > > +[81Ch 2076   1]                Subtable Type : 00 [Processor Local APIC]
-> > > > > +[81Dh 2077   1]                       Length : 08
-> > > > > +[81Eh 2078   1]                 Processor ID : FE
-> > > > > +[81Fh 2079   1]                Local Apic ID : FE
-> > > > > +[820h 2080   4]        Flags (decoded below) : 00000000
-> > > > > +                           Processor Enabled : 0
-> > > > > +
-> > > > > +[824h 2084   1]                Subtable Type : 09 [Processor Local x2APIC]
-> > > > > +[825h 2085   1]                       Length : 10
-> > > > > +[826h 2086   2]                     Reserved : 0000
-> > > > > +[828h 2088   4]          Processor x2Apic ID : 000000FF
-> > > > > +[82Ch 2092   4]        Flags (decoded below) : 00000000
-> > > > > +                           Processor Enabled : 0
-> > > > > +[830h 2096   4]                Processor UID : 000000FF
-> > > > > 
-> > > > > ...
-> > > > > 
-> > > > > +[A24h 2596   1]                Subtable Type : 09 [Processor Local x2APIC]
-> > > > > +[A25h 2597   1]                       Length : 10
-> > > > > +[A26h 2598   2]                     Reserved : 0000
-> > > > > +[A28h 2600   4]          Processor x2Apic ID : 0000011F
-> > > > > +[A2Ch 2604   4]        Flags (decoded below) : 00000000
-> > > > > +                           Processor Enabled : 0
-> > > > > +[A30h 2608   4]                Processor UID : 0000011F
-> > > > > +
-> > > > > +[A34h 2612   1]                Subtable Type : 01 [I/O APIC]
-> > > > > +[A35h 2613   1]                       Length : 0C
-> > > > > +[A36h 2614   1]                  I/O Apic ID : 00
-> > > > > +[A37h 2615   1]                     Reserved : 00
-> > > > > +[A38h 2616   4]                      Address : FEC00000
-> > > > > +[A3Ch 2620   4]                    Interrupt : 00000000
-> > > > > +
-> > > > > +[A40h 2624   1]                Subtable Type : 02 [Interrupt Source Override]
-> > > > > +[A41h 2625   1]                       Length : 0A
-> > > > > +[A42h 2626   1]                          Bus : 00
-> > > > > +[A43h 2627   1]                       Source : 00
-> > > > > +[A44h 2628   4]                    Interrupt : 00000002
-> > > > > +[A48h 2632   2]        Flags (decoded below) : 0000
-> > > > >                                      Polarity : 0
-> > > > >                                  Trigger Mode : 0
-> > > > > 
-> > > > > -[04Ah 0074   1]                Subtable Type : 02 [Interrupt Source Override]
-> > > > > -[04Bh 0075   1]                       Length : 0A
-> > > > > -[04Ch 0076   1]                          Bus : 00
-> > > > > -[04Dh 0077   1]                       Source : 05
-> > > > > -[04Eh 0078   4]                    Interrupt : 00000005
-> > > > > -[052h 0082   2]        Flags (decoded below) : 000D
-> > > > > +[A4Ah 2634   1]                Subtable Type : 02 [Interrupt Source Override]
-> > > > > +[A4Bh 2635   1]                       Length : 0A
-> > > > > +[A4Ch 2636   1]                          Bus : 00
-> > > > > +[A4Dh 2637   1]                       Source : 05
-> > > > > +[A4Eh 2638   4]                    Interrupt : 00000005
-> > > > > +[A52h 2642   2]        Flags (decoded below) : 000D
-> > > > >                                      Polarity : 1
-> > > > >                                  Trigger Mode : 3
-> > > > > 
-> > > > > -[054h 0084   1]                Subtable Type : 02 [Interrupt Source Override]
-> > > > > -[055h 0085   1]                       Length : 0A
-> > > > > -[056h 0086   1]                          Bus : 00
-> > > > > -[057h 0087   1]                       Source : 09
-> > > > > -[058h 0088   4]                    Interrupt : 00000009
-> > > > > -[05Ch 0092   2]        Flags (decoded below) : 000D
-> > > > > +[A54h 2644   1]                Subtable Type : 02 [Interrupt Source Override]
-> > > > > +[A55h 2645   1]                       Length : 0A
-> > > > > +[A56h 2646   1]                          Bus : 00
-> > > > > +[A57h 2647   1]                       Source : 09
-> > > > > +[A58h 2648   4]                    Interrupt : 00000009
-> > > > > +[A5Ch 2652   2]        Flags (decoded below) : 000D
-> > > > >                                      Polarity : 1
-> > > > >                                  Trigger Mode : 3
-> > > > > 
-> > > > > -[05Eh 0094   1]                Subtable Type : 02 [Interrupt Source Override]
-> > > > > -[05Fh 0095   1]                       Length : 0A
-> > > > > -[060h 0096   1]                          Bus : 00
-> > > > > -[061h 0097   1]                       Source : 0A
-> > > > > -[062h 0098   4]                    Interrupt : 0000000A
-> > > > > -[066h 0102   2]        Flags (decoded below) : 000D
-> > > > > +[A5Eh 2654   1]                Subtable Type : 02 [Interrupt Source Override]
-> > > > > +[A5Fh 2655   1]                       Length : 0A
-> > > > > +[A60h 2656   1]                          Bus : 00
-> > > > > +[A61h 2657   1]                       Source : 0A
-> > > > > +[A62h 2658   4]                    Interrupt : 0000000A
-> > > > > +[A66h 2662   2]        Flags (decoded below) : 000D
-> > > > >                                      Polarity : 1
-> > > > >                                  Trigger Mode : 3
-> > > > > 
-> > > > > -[068h 0104   1]                Subtable Type : 02 [Interrupt Source Override]
-> > > > > -[069h 0105   1]                       Length : 0A
-> > > > > -[06Ah 0106   1]                          Bus : 00
-> > > > > -[06Bh 0107   1]                       Source : 0B
-> > > > > -[06Ch 0108   4]                    Interrupt : 0000000B
-> > > > > -[070h 0112   2]        Flags (decoded below) : 000D
-> > > > > +[A68h 2664   1]                Subtable Type : 02 [Interrupt Source Override]
-> > > > > +[A69h 2665   1]                       Length : 0A
-> > > > > +[A6Ah 2666   1]                          Bus : 00
-> > > > > +[A6Bh 2667   1]                       Source : 0B
-> > > > > +[A6Ch 2668   4]                    Interrupt : 0000000B
-> > > > > +[A70h 2672   2]        Flags (decoded below) : 000D
-> > > > >                                      Polarity : 1
-> > > > >                                  Trigger Mode : 3
-> > > > > 
-> > > > > -[072h 0114   1]                Subtable Type : 04 [Local APIC NMI]
-> > > > > -[073h 0115   1]                       Length : 06
-> > > > > -[074h 0116   1]                 Processor ID : FF
-> > > > > -[075h 0117   2]        Flags (decoded below) : 0000
-> > > > > +[A72h 2674   1]                Subtable Type : 0A [Local x2APIC NMI]
-> > > > > +[A73h 2675   1]                       Length : 0C
-> > > > > +[A74h 2676   2]        Flags (decoded below) : 0000
-> > > > >                                      Polarity : 0
-> > > > >                                  Trigger Mode : 0
-> > > > > -[077h 0119   1]         Interrupt Input LINT : 01
-> > > > > +[A76h 2678   4]                Processor UID : FFFFFFFF
-> > > > > +[A7Ah 2682   1]         Interrupt Input LINT : 01
-> > > > > +[A7Bh 2683   3]                     Reserved : 000000
-> > > > > 
-> > > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > > > > ---
-> > > > > v2:
-> > > > >   - rebase on top of ACPI PCI hotplug changes
-> > > > > ---
-> > > > >  tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
-> > > > >  tests/data/acpi/q35/APIC.xapic              | Bin 0 -> 2686 bytes
-> > > > >  tests/data/acpi/q35/DSDT.xapic              | Bin 0 -> 35652 bytes
-> > > > >  tests/data/acpi/q35/FACP.xapic              | Bin 0 -> 244 bytes
-> > > > >  tests/data/acpi/q35/SRAT.xapic              | Bin 0 -> 5080 bytes
-> > > > >  5 files changed, 4 deletions(-)
-> > > > >  create mode 100644 tests/data/acpi/q35/APIC.xapic
-> > > > >  create mode 100644 tests/data/acpi/q35/FACP.xapic
-> > > > > 
-> > > > > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> > > > > index c79ff104fb..dfb8523c8b 100644
-> > > > > --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> > > > > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> > > > > @@ -1,5 +1 @@
-> > > > >  /* List of comma-separated changed AML files to ignore */
-> > > > > -"tests/data/acpi/q35/DSDT.xapic",
-> > > > > -"tests/data/acpi/q35/SRAT.xapic",
-> > > > > -"tests/data/acpi/q35/FACP",
-> > > > > -"tests/data/acpi/q35/APIC",    
-> > > >   
-> > >   
-> > > > This should have just allowed changes to FACP.xapic and APIC.xapic  
-> > > Probably, I don't recall why I did this.
-> > > Maybe I wanted to get diff for this tables vs baseline as opposed to whole new table.  
-> > 
-> > You can softlink the table to expected if you want this.
+> Yep. The bug is older though, going back to when we first
+> added the vendor specific capability. Does this help?
 > 
-> that would make git copy/commit link's content
+> diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
+> index d1f902ee86..da34c8ebcd 100644
+> --- a/hw/pci/pci_bridge.c
+> +++ b/hw/pci/pci_bridge.c
+> @@ -448,11 +448,11 @@ int pci_bridge_qemu_reserve_cap_init(PCIDevice *dev, int cap_offset,
+>       PCIBridgeQemuCap cap = {
+>               .len = cap_len,
+>               .type = REDHAT_PCI_CAP_RESOURCE_RESERVE,
+> -            .bus_res = res_reserve.bus,
+> -            .io = res_reserve.io,
+> -            .mem = res_reserve.mem_non_pref,
+> -            .mem_pref_32 = res_reserve.mem_pref_32,
+> -            .mem_pref_64 = res_reserve.mem_pref_64
+> +            .bus_res = cpu_to_le32(res_reserve.bus),
+> +            .io = cpu_to_le64(res_reserve.io),
+> +            .mem = cpu_to_le32(res_reserve.mem_non_pref),
+> +            .mem_pref_32 = cpu_to_le32(res_reserve.mem_pref_32),
+> +            .mem_pref_64 = cpu_to_le64(res_reserve.mem_pref_64)
+>       };
+>   
+>       int offset = pci_add_capability(dev, PCI_CAP_ID_VNDR,
 
-Are you sure? Git has a special object type for symlinks ...
+Yes, that fixes the issue, indeed!
 
-> (unless it's done temporary to just generate diff,
-> but then there might be a question why it's not full
-> table diff as it's committed)
-> 
-> Using suffixless baseline here is fine
-> what rises questions is that .xapic is used only for some files,
-> and I don't recall why I wrote it this way anymore.
-> 
-> 
-> 
-> > > Shall I respin?
+  Thanks,
+   Thomas
 
 
