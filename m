@@ -2,68 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55CAB4349F1
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:19:00 +0200 (CEST)
-Received: from localhost ([::1]:45400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 588F6434A51
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:41:08 +0200 (CEST)
+Received: from localhost ([::1]:44008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md9cY-0001LI-R2
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:18:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56254)
+	id 1md9xz-00041B-A7
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:41:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1md9NX-0004tM-W4; Wed, 20 Oct 2021 07:03:28 -0400
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:41503)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1md9NW-000120-4z; Wed, 20 Oct 2021 07:03:27 -0400
-Received: by mail-io1-xd2a.google.com with SMTP id b188so19142082iof.8;
- Wed, 20 Oct 2021 04:03:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n4NsRNcTNd9QBFN0dr19wdrKyZyK3JwHGajMjGiM41Y=;
- b=Q9pgz1I4H6dnCq/Naiz7k2jMP+ux5BPq6yBgM0K2IClrXcm12peGhFSRYFG2KFPJGj
- CaBq1QLkR3GRCu9lgdtOI2owvDQd3C1U9E7cjrr0ymZadQ1JO0YKZ37fgMKkL2RR8VmU
- admAM4B0REaSzqsXmPRmCXEoybYEwkf5KiPFB8LC4gcDTmwthBOEDjBn9WWjjCTAjQc0
- 27Gt4dgB8IYer8lLsl+otGYUj+zGjFc2uwozMrEzgXVQ9FGiBXUoP0lsXJFrk5H1bRwE
- RizLcv2QLWN91Oh35jjIHXhy4tqyWg+LYkLNf1FfrVVJ+XrtwkCT+dBDu4py280vJFpO
- MqYQ==
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1md9VJ-0001nC-LY
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 07:11:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1md9VH-00034b-Gn
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 07:11:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634728286;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sHArnnmZn6y1qiZCM8dcXDPGcn7445v3TSZrguf7cYc=;
+ b=bpoi8Wo5c5bXdLww9/4ym7sKuhnxeb4+oYJycK0ovFxSTzJUQ0bc0Tl//frluPcCtzQSzQ
+ l8Nyf8WQ9L+KH3Qi8ILVvTdCsYqZD8dSLDJmLVWJTbXcA4i8t78jS5fHGW813JISsyIriL
+ OnmNyLN/2BRk/SiPrO6hH8LlndvXyP8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-593-pq44a9luNMKNd9xV_leAIg-1; Wed, 20 Oct 2021 07:11:25 -0400
+X-MC-Unique: pq44a9luNMKNd9xV_leAIg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p3-20020a05600c204300b0030daa138dfeso4022412wmg.9
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 04:11:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=n4NsRNcTNd9QBFN0dr19wdrKyZyK3JwHGajMjGiM41Y=;
- b=d4HwCaT8tFvgqHVONhALmzTjA0SJrlkUsQoiK8e/Cf14BE0CGzkSe+KLc3+yqSDXkk
- RlfZ6pGp65YtJ3ivTdO+vWoGIXye11sPDwbfffzZuQUjqCl8X0e5fbAW/d0lb1knrt5R
- oxBqhivNyJ9EwXNYPxboQ7WZrw3fglbAYBWhog7CEx02DVsRwp4CGHgq6ljCq4PyV53k
- +GZLNlXB7hr4Ws71KGhFkOAgEWdhBZJxd18buiBKb72+Dt7hRXnHzV5btSGNVD34ct2u
- e0M5NP4omB4w1icxSfp8brtrgg5egKZh5wj3aLxXlf2eOCm8Q8E0KmnsSkyGBvavqE/P
- dNLQ==
-X-Gm-Message-State: AOAM532m8xyiWV9Dtj+cvS1b3TfWaBPpuAiHGz2K1eqQmgcXXxk+aqIw
- uJ1FVCbqfDlmf+gA30++vc8NyZVdUdCM+0wjUqY=
-X-Google-Smtp-Source: ABdhPJztV50xaOh2eg6eKeChjMZ3c3wA8Tn4t9j71RqnBkhA3tsSLaGxBrbiPV0e3E7P3lAEZKEB674giCCjQJEWyQ4=
-X-Received: by 2002:a05:6638:32a6:: with SMTP id
- f38mr7999679jav.63.1634727804702; 
- Wed, 20 Oct 2021 04:03:24 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sHArnnmZn6y1qiZCM8dcXDPGcn7445v3TSZrguf7cYc=;
+ b=DzUSp75L/gJ1xl2Xl0p02hutDRjwMgCFj70suvquJCf5Mv9HV4u1PD32RFZbsU1Skw
+ tJdWs6aVmBNeArnDFT9vKPxClHQBtBSW3DFIrWrnubVtwMw9gprru4Gf3L+qXRETGI7e
+ u9+fTXcKN5528l18HqDf9lwDSRf41eIcpx/1zodfMj8e8MKN+c7RcyWCduiz5kQuG+6a
+ XI/Z0CozUhE/Jv+JO9dDuGHs4k78NflIQQjt32nvBNj5pG3oVWaBjoTrMpKHtSWMQgEO
+ bp1vbaoFDdHnXcn80uG8Gp0+sV39zFxbxMxq48uYRhpOxTI7LvgaTOyqK03mik8WnQm2
+ I7zA==
+X-Gm-Message-State: AOAM532gAAi4IpjgKOoiue/YV7Hovk8FoebyXaPt5lWKVFgVtdGPtui1
+ 3MFEYGCxOlJ/hqp/aKwSwYqwAOufg/ixm8PS3uI/UcLymctV8BlWbNLgL7xG9uUmtd9Ha+ZXr4V
+ XtqQpNfKAjQv26uM=
+X-Received: by 2002:a7b:ce08:: with SMTP id m8mr12925213wmc.93.1634728280625; 
+ Wed, 20 Oct 2021 04:11:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz/0TVgqyCtkWPNRGMNZMZjTHct5uleMZykg8HRvsi1t7FNrwTn0X+Q3rErC8JuYzwFHB/0kA==
+X-Received: by 2002:a7b:ce08:: with SMTP id m8mr12925159wmc.93.1634728280180; 
+ Wed, 20 Oct 2021 04:11:20 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id e9sm1726388wrn.2.2021.10.20.04.11.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Oct 2021 04:11:19 -0700 (PDT)
+Subject: Re: [PATCH v8 5/8] hw/acpi/aml-build: Add PPTT table
+To: "wangyanan (Y)" <wangyanan55@huawei.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+References: <20211014132206.19220-1-wangyanan55@huawei.com>
+ <20211014132206.19220-6-wangyanan55@huawei.com>
+ <316edbd3-2235-efb1-7176-e3f477aec6a4@redhat.com>
+ <1f4eaecf-8718-fc8a-5366-7e32945b9953@huawei.com>
+From: Eric Auger <eauger@redhat.com>
+Message-ID: <2651e5c8-8cd0-e912-2f62-f7393bf49aa3@redhat.com>
+Date: Wed, 20 Oct 2021 13:11:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20211020031709.359469-1-richard.henderson@linaro.org>
-In-Reply-To: <20211020031709.359469-1-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 20 Oct 2021 21:02:58 +1000
-Message-ID: <CAKmqyKN8TxxtaCg06q7jLvmO_22jNfaOZuWKFxMbpO4tnXfE0Q@mail.gmail.com>
-Subject: Re: [PATCH v6 00/15] target/riscv: Rationalize XLEN and operand length
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1f4eaecf-8718-fc8a-5366-7e32945b9953@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eauger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,97 +102,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- liuzhiwei <zhiwei_liu@c-sky.com>
+Cc: qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 20, 2021 at 1:26 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This is a partial patch set attempting to set things in the
-> right direction for both the UXL and RV128 patch sets.
->
->
-> r~
->
->
-> Changes for v6:
->   * Rebase on riscv-to-apply.next.
->
-> Changes for v5:
->   * Fix cpu_dump, which asserted for -accel qtest.
->     Instead of filtering CSRs explicitly in cpu_dump,
->     let the riscv_csr_operations predicate do the job.
->     This means we won't dump S-mode registers when RVS
->     is not enabled, much like we currently filter on RVH.
->
-> Changes for v4:
->   * Use riscv_csrrw_debug for cpu_dump.
->     This fixes the issue that Alistair pointed out wrt the
->     MSTATUS.SD bit not being correct in the dump; note that
->     gdbstub already uses riscv_csrrw_debug, and so did not
->     have a problem.
->   * Align the registers in cpu_dump.
->
-> Changes for v3:
->   * Fix CONFIG_ typo.
->   * Fix ctzw typo.
->   * Mark get_xlen unused (clang werror)
->   * Compute MSTATUS_SD on demand.
->
-> Changes for v2:
->   * Set mxl/sxl/uxl at reset.
->   * Set sxl/uxl in write_mstatus.
->
->
-> Richard Henderson (15):
->   target/riscv: Move cpu_get_tb_cpu_state out of line
->   target/riscv: Create RISCVMXL enumeration
->   target/riscv: Split misa.mxl and misa.ext
->   target/riscv: Replace riscv_cpu_is_32bit with riscv_cpu_mxl
->   target/riscv: Add MXL/SXL/UXL to TB_FLAGS
->   target/riscv: Use REQUIRE_64BIT in amo_check64
->   target/riscv: Properly check SEW in amo_op
->   target/riscv: Replace is_32bit with get_xl/get_xlen
->   target/riscv: Replace DisasContext.w with DisasContext.ol
->   target/riscv: Use gen_arith_per_ol for RVM
->   target/riscv: Adjust trans_rev8_32 for riscv64
->   target/riscv: Use gen_unary_per_ol for RVB
->   target/riscv: Use gen_shift*_per_ol for RVB, RVI
->   target/riscv: Use riscv_csrrw_debug for cpu_dump
->   target/riscv: Compute mstatus.sd on demand
+Hi Yanan,
+On 10/20/21 11:51 AM, wangyanan (Y) wrote:
+> Hi Eric,
+> 
+> On 2021/10/20 16:02, Eric Auger wrote:
+>> Hi,
+>>
+>> On 10/14/21 3:22 PM, Yanan Wang wrote:
+>>> From: Andrew Jones <drjones@redhat.com>
+>>>
+>>> Add the Processor Properties Topology Table (PPTT) used to
+>>> describe CPU topology information to ACPI guests.
+>>>
+>>> Note, a DT-boot Linux guest with a non-flat CPU topology will
+>>> see socket and core IDs being sequential integers starting
+>>> from zero, which is different from ACPI-boot Linux guest,
+>>> e.g. with -smp 4,sockets=2,cores=2,threads=1
+>>>
+>>> a DT boot produces:
+>>>
+>>>   cpu:  0 package_id:  0 core_id:  0
+>>>   cpu:  1 package_id:  0 core_id:  1
+>>>   cpu:  2 package_id:  1 core_id:  0
+>>>   cpu:  3 package_id:  1 core_id:  1
+>>>
+>>> an ACPI boot produces:
+>>>
+>>>   cpu:  0 package_id: 36 core_id:  0
+>>>   cpu:  1 package_id: 36 core_id:  1
+>>>   cpu:  2 package_id: 96 core_id:  2
+>>>   cpu:  3 package_id: 96 core_id:  3
+>>>
+>>> This is due to several reasons:
+>>>
+>>>   1) DT cpu nodes do not have an equivalent field to what the PPTT
+>>>      ACPI Processor ID must be, i.e. something equal to the MADT CPU
+>>>      UID or equal to the UID of an ACPI processor container. In both
+>>>      ACPI cases those are platform dependant IDs assigned by the
+>>>      vendor.
+>>>
+>>>   2) While QEMU is the vendor for a guest, if the topology specifies
+>>>      SMT (> 1 thread), then, with ACPI, it is impossible to assign a
+>>>      core-id the same value as a package-id, thus it is not possible
+>>>      to have package-id=0 and core-id=0. This is because package and
+>>>      core containers must be in the same ACPI namespace and therefore
+>>>      must have unique UIDs.
+>>>
+>>>   3) ACPI processor containers are not mandatorily required for PPTT
+>>>      tables to be used and, due to the limitations of which IDs are
+>>>      selected described above in (2), they are not helpful for QEMU,
+>>>      so we don't build them with this patch. In the absence of them,
+>>>      Linux assigns its own unique IDs. The maintainers have chosen not
+>>>      to use counters from zero, but rather ACPI table offsets, which
+>>>      explains why the numbers are so much larger than with DT.
+>>>
+>>>   4) When there is no SMT (threads=1) the core IDs for ACPI boot guests
+>>>      match the logical CPU IDs, because these IDs must be equal to the
+>>>      MADT CPU UID (as no processor containers are present), and QEMU
+>>>      uses the logical CPU ID for these MADT IDs.
+>>>
+>>> So in summary, with QEMU as the vendor for the guests, we simply
+>>> use sequential integers starting from zero for the non-leaf nodes
+>>> but with ID-valid flag unset, so that guest will ignore them and
+>>> use table offsets as unique container IDs. And we use logical CPU
+>>> IDs for the leaf nodes with the ID-valid flag set, which will be
+>>> consistent with MADT.
+>>>
+>>> Signed-off-by: Andrew Jones <drjones@redhat.com>
+>>> Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
+>>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>>> ---
+>>>   hw/acpi/aml-build.c         | 60 +++++++++++++++++++++++++++++++++++++
+>>>   include/hw/acpi/aml-build.h |  3 ++
+>>>   2 files changed, 63 insertions(+)
+>>>
+>>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+>>> index b7b9db6888..0d50e88e9d 100644
+>>> --- a/hw/acpi/aml-build.c
+>>> +++ b/hw/acpi/aml-build.c
+>>> @@ -1990,6 +1990,66 @@ void build_processor_hierarchy_node(GArray
+>>> *tbl, uint32_t flags,
+>>>       }
+>>>   }
+>>>   +/* ACPI 6.2: 5.2.29 Processor Properties Topology Table (PPTT) */
+>>> +void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState
+>>> *ms,
+>>> +                const char *oem_id, const char *oem_table_id)
+>>> +{
+>>> +    int pptt_start = table_data->len;
+>>> +    int uid = 0;
+>>> +    int socket;
+>>> +    AcpiTable table = { .sig = "PPTT", .rev = 2,
+>>> +                        .oem_id = oem_id, .oem_table_id =
+>>> oem_table_id };
+>> Table 5-149 of 6.2 spec (6.2 May 2017) tells the rev shall be 1. Or is
+>> it an erratum somewhere I did miss?
+> Yes, the revision in 6.2 spec is 1. And it's 2 in spec 6.3.
+> So just to be sure, should I use the oldest revision ?
+If you need (and use) features (such as flags) introduced in 6.3 then
+you should say the code complies with 6.3 and update the above comment.
+>> I would also add the spec version in the commit msg.
+>>> +
+>>> +    acpi_table_begin(&table, table_data);
+>>> +
+>>> +    for (socket = 0; socket < ms->smp.sockets; socket++) {
+>>> +        uint32_t socket_offset = table_data->len - pptt_start;
+>>> +        int core;
+>>> +
+>>> +        build_processor_hierarchy_node(
+>>> +            table_data,
+>>> +            /*
+>>> +             * ACPI 6.2 - Physical package
+>>> +             * represents the boundary of a physical package
+>>> +             */
+>>> +            (1 << 0),
+>>> +            0, socket, NULL, 0);
+>> I see we set an ACPI process ID but in the meantime the ACPI processor
+>> ID valid flag is not set. I am not sure I fully catch the meaning of
+>> this latter but just to double check if this is done on purpose.
+> Yes, it's on purpose.
+>> Maybe
+>> wort a general comment as this also happens below.
+> The ID of the container node is invalid and ID of the leaf node is valid.
+> The commit message by Andrew has explained why (reason 3). I think
+> it may be clear enough to explain there why we don't need a valid ID
+> for the container node.
+>>> +
+>>> +        for (core = 0; core < ms->smp.cores; core++) {
+>>> +            uint32_t core_offset = table_data->len - pptt_start;
+>>> +            int thread;
+>>> +
+>>> +            if (ms->smp.threads > 1) {
+>>> +                build_processor_hierarchy_node(
+>>> +                    table_data,
+>>> +                    /*
+>>> +                     * ACPI 6.2 - Physical package
+>>> +                     * doesn't represent the boundary of a physical
+>>> package
+>>> +                     */
+>>> +                    (0 << 0),
+>> would rather say (0 << 0) /* not a physical package */ and same elsewhere
+> Ok, thanks.
+>>> +                    socket_offset, core, NULL, 0);
+>>> +
+>>> +                for (thread = 0; thread < ms->smp.threads; thread++) {
+>>> +                    build_processor_hierarchy_node(
+>>> +                        table_data,
+>>> +                        (1 << 1) | /* ACPI 6.2 - ACPI Processor ID
+>>> valid */
+>>> +                        (1 << 2) | /* ACPI 6.3 - Processor is a
+>>> Thread */
+>> So the references look globaly confusing to me. Either it complies to
+>> 6.2 or to 6.3. Looks ir rather complies with 6.3. To me, this needs to
+>> be clarified.
+> ACPI 6.2 in the comment means the flag is introduced in the spec since 6.2.
+> The same, ACPI 6.3 means the flag is introduced since 6.3. Maybe I should
+> just drop all the version-prefix in the comment ?
+Yes I think you can drop those comments and just upgrade the global
+compliance with 6.3
 
-Thanks!
+Thanks
 
-Applied to riscv-to-apply.next
+Eric
+>> I would also add the reference it complies to in the
+>> commit msg.
+> Ok, sure.
+> 
+> Thanks,
+> Yanan
+> .
+>>> +                        (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
+>>> +                        core_offset, uid++, NULL, 0);
+>>> +                }
+>>> +            } else {
+>>> +                build_processor_hierarchy_node(
+>>> +                    table_data,
+>>> +                    (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
+>>> +                    (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
+>>> +                    socket_offset, uid++, NULL, 0);
+>>> +            }
+>>> +        }
+>>> +    }
+>>> +
+>>> +    acpi_table_end(linker, &table);
+>>> +}
+>>> +
+>>>   /* build rev1/rev3/rev5.1 FADT */
+>>>   void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData
+>>> *f,
+>>>                   const char *oem_id, const char *oem_table_id)
+>>> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+>>> index 2c457c8f17..b92706388c 100644
+>>> --- a/include/hw/acpi/aml-build.h
+>>> +++ b/include/hw/acpi/aml-build.h
+>>> @@ -493,6 +493,9 @@ void build_processor_hierarchy_node(GArray *tbl,
+>>> uint32_t flags,
+>>>                                       uint32_t parent, uint32_t id,
+>>>                                       uint32_t *priv_rsrc, uint32_t
+>>> priv_num);
+>>>   +void build_pptt(GArray *table_data, BIOSLinker *linker,
+>>> MachineState *ms,
+>>> +                const char *oem_id, const char *oem_table_id);
+>>> +
+>>>   void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData
+>>> *f,
+>>>                   const char *oem_id, const char *oem_table_id);
+>>>  
+>> Thanks
+>>
+>> Eric
+>>
+>> .
+> 
 
-Alistair
-
->
->  target/riscv/cpu.h                      |  73 +++------
->  target/riscv/cpu_bits.h                 |   8 +-
->  hw/riscv/boot.c                         |   2 +-
->  linux-user/elfload.c                    |   2 +-
->  linux-user/riscv/cpu_loop.c             |   2 +-
->  semihosting/arm-compat-semi.c           |   2 +-
->  target/riscv/cpu.c                      | 195 +++++++++++++-----------
->  target/riscv/cpu_helper.c               |  92 ++++++++++-
->  target/riscv/csr.c                      | 104 ++++++++-----
->  target/riscv/gdbstub.c                  |  10 +-
->  target/riscv/machine.c                  |  10 +-
->  target/riscv/monitor.c                  |   4 +-
->  target/riscv/translate.c                | 174 +++++++++++++++------
->  target/riscv/insn_trans/trans_rvb.c.inc | 140 +++++++++--------
->  target/riscv/insn_trans/trans_rvi.c.inc |  44 +++---
->  target/riscv/insn_trans/trans_rvm.c.inc |  36 ++++-
->  target/riscv/insn_trans/trans_rvv.c.inc |  29 ++--
->  17 files changed, 576 insertions(+), 351 deletions(-)
->
-> --
-> 2.25.1
->
->
 
