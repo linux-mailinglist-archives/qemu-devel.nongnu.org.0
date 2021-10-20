@@ -2,97 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF5D43478C
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 11:02:50 +0200 (CEST)
-Received: from localhost ([::1]:34452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 334404347A0
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 11:07:11 +0200 (CEST)
+Received: from localhost ([::1]:40102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md7Un-00067M-Sh
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 05:02:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52328)
+	id 1md7Z0-0001dv-0P
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 05:07:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1md7RF-0004Wq-Gn
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:59:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28861)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1md7Th-0006EK-L5
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 05:01:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1md7R8-0004Dd-72
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:59:09 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1md7Tf-0008Ay-RN
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 05:01:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634720341;
+ s=mimecast20190719; t=1634720499;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xhJyJIWaQ5N/hLikD4R2GLOmeauEn0TqdZoqMYajkzU=;
- b=E9jJFs4vTPa6x6cONZGeRapyfZfHcq7akaqxDJxA+ZUpL5PuHlBFxiBAYKjPtFA5BO53CU
- YJ+pB2dH2aokI3bkxLeNk6q0iliVYRElgVSD4ZK4OF4Qzvbr/0droJQYVoWWvPZsP49A0y
- FEqeO92/vgOqboQBDB8Yw98zacwKYG8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-gmjwS2BSOeaDvkvB3SLwSg-1; Wed, 20 Oct 2021 04:58:57 -0400
-X-MC-Unique: gmjwS2BSOeaDvkvB3SLwSg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- f20-20020a05600c155400b0030db7b29174so2766715wmg.2
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 01:58:57 -0700 (PDT)
+ bh=OeIM3b3a9OTfXYldrnqO/3YdJ6F8u22/85b1rgGrfjM=;
+ b=ho8St/FcUdnzEi4e2rO+LkOOUKqQdiuhCZoYqFh57i3vx6MvRKLsaHHBfT07YGJq0oYAjl
+ /u9IMMZTc6g/PABoS0bkqAtSX3sJUnXUVu+Nm3vI3C6ifp/Neu5HI2nhIUYbDUvIz6Mw6E
+ Bt6/COzPWrpwc0v6fBYHed2PBs1AFvM=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-352-d263puRYNJWTJHRiUaqsXA-1; Wed, 20 Oct 2021 05:01:37 -0400
+X-MC-Unique: d263puRYNJWTJHRiUaqsXA-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ i1-20020a056512340100b003fdd5b951e0so2829379lfr.22
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 02:01:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xhJyJIWaQ5N/hLikD4R2GLOmeauEn0TqdZoqMYajkzU=;
- b=uUS2SG3Rl8U1pdTvueAZzdX7/jOff5vJf5ANiyu67/R53fekJqjZBfGCyMzYYVCalJ
- BaOAMPI49IH1GK+TKE+dXkdioM6Z+y7RsZ8X9oIfydkM12bMhQQ9sE82VAiBJg1C/EV7
- zbvGdTokB5A0qXh1Bbts1sptUmwoAZSw830XNAcCEdBBfsG0oyD6GSdLn51Dhw9qJmcd
- 95GFZBt0oQJ7Okdf0U+uxTq8fdzmARgSAXjn2fHtfHomIW1MzIkYwJzkvtIBBHX6LYYs
- LC8Wa9aFKQXpr7Gp21KS/FMdCkRQxlBt6B/Hyz+rlHT7Z1xoAxWmr5gbUuvFyaE42fSe
- jzxg==
-X-Gm-Message-State: AOAM530QcG5IqxSts7EWwWUuW8LEgdvjufSs/vCGDXHPeFbme2sCttqh
- EAyOhQUdrUrxkUdRjHNHaC56JCSw4b9R3ZDXEv6bU64StBMYyalpeaS7r/7Ye4m00KMcrHTSPAQ
- UgTWTMhuyvBppbcY=
-X-Received: by 2002:a7b:cc8f:: with SMTP id p15mr10081466wma.151.1634720336777; 
- Wed, 20 Oct 2021 01:58:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxXSAebT3PHLXI9cTZm8PY+PFB1BFzrkHPlEoTjzfamwgykKrYwdQmJmhExcKIGdUVfaJ1/SA==
-X-Received: by 2002:a7b:cc8f:: with SMTP id p15mr10081444wma.151.1634720336547; 
- Wed, 20 Oct 2021 01:58:56 -0700 (PDT)
-Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id r128sm4609301wma.44.2021.10.20.01.58.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 01:58:56 -0700 (PDT)
-Subject: Re: [PATCH v2 04/15] tests: acpi: q35: test for x2APIC entries in SRAT
-To: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20210902113551.461632-1-imammedo@redhat.com>
- <20210902113551.461632-5-imammedo@redhat.com>
- <20211018173052-mutt-send-email-mst@kernel.org>
- <20211019114825.1464da19@redhat.com>
- <20211019061656-mutt-send-email-mst@kernel.org>
- <20211019133624.5cd5ae3d@redhat.com>
- <20211019074422-mutt-send-email-mst@kernel.org>
- <20211020101607.5181e69d@redhat.com>
- <20211020041734-mutt-send-email-mst@kernel.org>
- <20211020105348.7ef7cdd5@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <8b2dbf60-0e52-1a06-ff70-b6b253413aad@redhat.com>
-Date: Wed, 20 Oct 2021 10:58:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OeIM3b3a9OTfXYldrnqO/3YdJ6F8u22/85b1rgGrfjM=;
+ b=zvGAmloF3voj0oG+MVjJPGQNfz81mf/kA9o/bUd5jK9WoSuSlEXIFfStCtliR2F5QR
+ 7tWtY6VxlvSNJLR9XMuVjcRbGOCd0dFr4uuBHe5MRd/64elMaHmnHRrIe5wzGMVatpRw
+ 2EVVErBkw57bJ9BpahRpUtUgqHVxHV5d9ybE1bCl/UFEej1GrJNZHIWSk/w/MyPoqYQb
+ byKFD0iAX8cp/eincZaXfpgcBzHOZQg3AeEuB+zU1ArYyUn5u+PyKERP4CNLTIggvZSh
+ DoNmcUA8+Q2wDttLjz2TyID55LB2qQdbPfieCuhregD6+iDUJ1e+Pd2aGFbvPFG0S6IF
+ p08A==
+X-Gm-Message-State: AOAM5338xn0OlgO1THYPr0GeEAPzOa/uqwBGtDpgOjrTXyWvue2fcEvb
+ dGnaXAzoh5g175i6d6NO7/whqEYUs7uLEfhOxFNHM8ZlHOnXsNEHVo6qa5AmMlcoN4CuiZGSDVH
+ JrUANtoIjxPPWT+txdZlV6fysftmYqb0=
+X-Received: by 2002:ac2:494d:: with SMTP id o13mr11393083lfi.580.1634720496113; 
+ Wed, 20 Oct 2021 02:01:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyDBTuBk3Em445V9wHDhC35s7/sRtYTVBrj+JZ7HluDXe537dY+Kj/zSFVKmCVHx5hiBy/r8ejm52ztlOErHUY=
+X-Received: by 2002:ac2:494d:: with SMTP id o13mr11393058lfi.580.1634720495811; 
+ Wed, 20 Oct 2021 02:01:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211020105348.7ef7cdd5@redhat.com>
+References: <20211001070603.307037-1-eperezma@redhat.com>
+ <20211001070603.307037-19-eperezma@redhat.com>
+ <79905c11-e313-ad60-17dc-1a47d35f12cc@redhat.com>
+ <CACGkMEtc6tw5xauzw=1zSFUfC0oSRfokZbA6QsR7nEe5T7-4_A@mail.gmail.com>
+ <CAJaqyWfvT36tbnSRhMoQcWXCYhjdkaOs_E3yKisPhv-o0oajCQ@mail.gmail.com>
+In-Reply-To: <CAJaqyWfvT36tbnSRhMoQcWXCYhjdkaOs_E3yKisPhv-o0oajCQ@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 20 Oct 2021 17:01:25 +0800
+Message-ID: <CACGkMEvHopK4akFLeg56qN35AnJUHURs2MnFNwLWtOTvJ643uA@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 18/20] vhost: Add VhostIOVATree
+To: Eugenio Perez Martin <eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.074, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,109 +94,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/10/2021 10.53, Igor Mammedov wrote:
-> On Wed, 20 Oct 2021 04:18:07 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
->> On Wed, Oct 20, 2021 at 10:16:07AM +0200, Igor Mammedov wrote:
->>> On Tue, 19 Oct 2021 07:44:38 -0400
->>> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->>>    
->>>> On Tue, Oct 19, 2021 at 01:36:24PM +0200, Igor Mammedov wrote:
->>>>> On Tue, 19 Oct 2021 06:23:40 -0400
->>>>> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->>>>>      
->>>>>> On Tue, Oct 19, 2021 at 11:48:25AM +0200, Igor Mammedov wrote:
->>>>>>> On Mon, 18 Oct 2021 17:31:33 -0400
->>>>>>> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->>>>>>>        
->>>>>>>> On Thu, Sep 02, 2021 at 07:35:40AM -0400, Igor Mammedov wrote:
->>>>>>>>> Set -smp 1,maxcpus=288 to test for ACPI code that
->>>>>>>>> deal with CPUs with large APIC ID (>255).
->>>>>>>>>
->>>>>>>>> PS:
->>>>>>>>> Test requires KVM and in-kernel irqchip support,
->>>>>>>>> so skip test if KVM is not available.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
->>>>>>>>> ---
->>>>>>>>> v3:
->>>>>>>>>    - add dedicated test instead of abusing 'numamem' one
->>>>>>>>>    - add 'kvm' prefix to the test name
->>>>>>>>>        ("Michael S. Tsirkin" <mst@redhat.com>)
->>>>>>>>> v2:
->>>>>>>>>    - switch to qtest_has_accel() API
->>>>>>>>>
->>>>>>>>> CC: thuth@redhat.com
->>>>>>>>> CC: lvivier@redhat.com
->>>>>>>>> ---
->>>>>>>>>   tests/qtest/bios-tables-test.c | 17 +++++++++++++++++
->>>>>>>>>   1 file changed, 17 insertions(+)
->>>>>>>>>
->>>>>>>>> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
->>>>>>>>> index 51d3a4e239..1f6779da87 100644
->>>>>>>>> --- a/tests/qtest/bios-tables-test.c
->>>>>>>>> +++ b/tests/qtest/bios-tables-test.c
->>>>>>>>> @@ -1033,6 +1033,19 @@ static void test_acpi_q35_tcg_numamem(void)
->>>>>>>>>       free_test_data(&data);
->>>>>>>>>   }
->>>>>>>>>   
->>>>>>>>> +static void test_acpi_q35_kvm_xapic(void)
->>>>>>>>> +{
->>>>>>>>> +    test_data data;
->>>>>>>>> +
->>>>>>>>> +    memset(&data, 0, sizeof(data));
->>>>>>>>> +    data.machine = MACHINE_Q35;
->>>>>>>>> +    data.variant = ".xapic";
->>>>>>>>> +    test_acpi_one(" -object memory-backend-ram,id=ram0,size=128M"
->>>>>>>>> +                  " -numa node -numa node,memdev=ram0"
->>>>>>>>> +                  " -machine kernel-irqchip=on -smp 1,maxcpus=288", &data);
->>>>>>>>> +    free_test_data(&data);
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>>   static void test_acpi_q35_tcg_nosmm(void)
->>>>>>>>>   {
->>>>>>>>>       test_data data;
->>>>>>>>
->>>>>>>>
->>>>>>>> This causes an annoying message each time I run it:
->>>>>>>>
->>>>>>>> qemu-system-x86_64: -accel kvm: warning: Number of hotpluggable cpus requested (288) exceeds the recommended cpus supported by KVM (240)
->>>>>>>>
->>>>>>>> what gives?
->>>>>>>
->>>>>>> it depends on kernel, see kvm_recommended_vcpus().
->>>>>>>
->>>>>>> We probably should bump it on upstream kernel side
->>>>>>> (it's much more than that in RHEL8).
->>>>>>>
->>>>>>> Is there anything that prevents bumping upstream kernel limits?
->>>>>>
->>>>>> what should we do with the annoying warning though?
->>>>>
->>>>> I'd leave it alone.
->>>>> What do you suggest?
->>>>>       
->>>>
->>>> reduce the value so a typical system does not trigger it?
->>>
->>> it won't work, test needs as minimum 255 vcpus to trigger X2APIC logic
->>> and 288 value additionally tests max limits
->>
->> Add a flag to disable the warning while running this specific test?
-> 
-> if it were qtest accel, it would be trivial but
-> I'm not aware of something similar for tcg/kvm mode.
-> Do you suggest to add to QEMU a CLI option for that?
+On Wed, Oct 20, 2021 at 3:54 PM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
+>
+> On Tue, Oct 19, 2021 at 11:23 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Tue, Oct 19, 2021 at 4:32 PM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > >
+> > > =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:06, Eugenio P=C3=A9rez =E5=86=
+=99=E9=81=93:
+> > > > This tree is able to look for a translated address from an IOVA add=
+ress.
+> > > >
+> > > > At first glance is similar to util/iova-tree. However, SVQ working =
+on
+> > > > devices with limited IOVA space need more capabilities, like alloca=
+ting
+> > > > IOVA chunks or perform reverse translations (qemu addresses to iova=
+).
+> > >
+> > >
+> > > I don't see any reverse translation is used in the shadow code. Or
+> > > anything I missed?
+> >
+> > Ok, it looks to me that it is used in the iova allocator. But I think
+> > it's better to decouple it to an independent allocator instead of
+> > vhost iova tree.
+> >
+>
+> Reverse translation is used every time a buffer is made available,
+> since buffers content are not copied, only the descriptors to SVQ
+> vring.
 
-I think you can still use qtest_enabled(), even if -accel kvm has been 
-specified on top?
+I may miss something but I didn't see the code? Qemu knows the VA of
+virtqueue, and the VA of the VQ is stored in the VirtQueueElem?
 
-  Thomas
+>
+> At this point all the limits are copied to vhost iova tree in the next
+> revision I will send, defined at its creation at
+> vhost_iova_tree_new(). They are outside of util/iova-tree, only sent
+> to the latter at allocation time.
+>
+> Since vhost_iova_tree has its own vhost_iova_tree_alloc(), that wraps
+> the iova_tree_alloc() [1], limits could be kept in vhost-vdpa and make
+> them an argument of vhost_iova_tree_alloc. But I'm not sure if it's
+> what you are proposing or I'm missing something.
+
+If the reverse translation is only used in iova allocation, I meant to
+split the logic of IOVA allocation itself.
+
+>
+> Either way, I think it is harder to talk about this specific case
+> without code, since this one still does not address the limits. Would
+> you prefer me to send another RFC in WIP quality, with *not* all
+> comments addressed? I would say that there is not a lot of pending
+> work to send the next one, but it might be easier for all of us.
+
+I'd prefer to try to address them all, otherwise it's not easy to see
+what is missing.
+
+Thanks
+
+>
+> Thanks!
+>
+> [1] This util/iova-tree method will be proposed in the next series,
+> and vhost_iova_tree wraps it since it needs to keep in sync both
+> trees: iova->qemu vaddr for iova allocation and the reverse one to
+> translate available buffers.
+>
+> > Thanks
+> >
+>
 
 
