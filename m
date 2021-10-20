@@ -2,58 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9121843431D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 03:50:25 +0200 (CEST)
-Received: from localhost ([::1]:47330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8E643431F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 03:58:17 +0200 (CEST)
+Received: from localhost ([::1]:57630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md0kI-0003gH-Rn
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 21:50:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59618)
+	id 1md0rv-0002bl-7L
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 21:58:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1md0bx-00087T-3P; Tue, 19 Oct 2021 21:41:45 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1md0bu-0005xz-QX; Tue, 19 Oct 2021 21:41:44 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HYtWf5yz1zbhFL;
- Wed, 20 Oct 2021 09:37:02 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Wed, 20 Oct 2021 09:41:33 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.15; Wed, 20 Oct 2021 09:41:32 +0800
-Subject: Re: [PATCH v8 6/8] tests/data/acpi/virt: Add an empty expected file
- for PPTT
-To: "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-References: <20211014132206.19220-1-wangyanan55@huawei.com>
- <20211014132206.19220-7-wangyanan55@huawei.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <5dae46cc-7ae2-06d5-8018-9313f8915003@huawei.com>
-Date: Wed, 20 Oct 2021 09:41:32 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1md0ps-0000jX-Ux; Tue, 19 Oct 2021 21:56:08 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:37689)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1md0pp-0001DI-0c; Tue, 19 Oct 2021 21:56:08 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id l80so12015135ybf.4;
+ Tue, 19 Oct 2021 18:56:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Nnc4ApTSf5zhc9tQzLnqBjcLhDOBY9NADLG68UDuKQ0=;
+ b=VNwzTMBUn7WRONYqLPfGwqAEOb3VsSalKm43gtSpDO4rJDmE8olPmEPjszDUnkUf0x
+ eXCf74yCM1K6gZaaqC2nY0fEOMu34K4IWOtUipd4KqhIGvX4BjU8fO4uzfA8C4IBFeDc
+ MuQFd4r02O0K4zwdw0EecW4kDPJg2ZCH6ikc4IQ/fHVSqVXKqTURSORTfx54xlqRJoC+
+ zLc3yB0m9vqXqaeePczpYw5Wjm6x3qClWzSIxoJnKkyam98QEj6276YrS69iALsFuWaU
+ Ek9WyY+fmSP5h1QWMo5FPonNo5Bx/946ZvKBH3E2QbD/6IuZtT9XYaUMLxrsYUgZrZCp
+ Afnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Nnc4ApTSf5zhc9tQzLnqBjcLhDOBY9NADLG68UDuKQ0=;
+ b=sG8pj5UqnGvBWkgZ29pwCqhl/iGMxVA7eBQVn/MbMtqdoKAO1xHQhzMQDdccR4uHtp
+ QvrOqGg8EYfXDBJUTyX7AS77+r5IW8Cmwc0vxOvmz7BWULF/Q1ayOgWzQfYwTXpapJZ1
+ 0ZEcTMJAwDtkYMhn+kuvD0cS7mnws63KNNlh5/2umc4AK8Hd0J5TdeKq412YzVt1iLgT
+ gTK1g+glsLaWXGvTiFY2r2qGkF2opmMmLnQCncpEi4n7Dmqox94vLXSc+zwLQYh6RUwf
+ KJz94shjz+94Qg7n9PzGadXm2Pd3IvjHq5wIlYQIg5vvO/Z7qCGWCYYYDqvkZyggPe3D
+ KScQ==
+X-Gm-Message-State: AOAM530D2CqfokXbNy1LftnSyJL7O4Dl7eoYowSP8FVwKScLr41mKI9y
+ KpcSzXj7LRixoCG+TQHQ50BBH0w7PVd8ZtdWapM=
+X-Google-Smtp-Source: ABdhPJzbvAyxOc9HlYnauB0KyQnOTTbccMWpghnmH1/wu8eu3HSOKQ82yRdK1I+KTxOEl8UYGopnOIyJF5xzfB4PkTo=
+X-Received: by 2002:a25:346:: with SMTP id 67mr37700285ybd.345.1634694963309; 
+ Tue, 19 Oct 2021 18:56:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211014132206.19220-7-wangyanan55@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -62
-X-Spam_score: -6.3
-X-Spam_bar: ------
-X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.074,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20211018153829.24382-1-bmeng.cn@gmail.com>
+ <20211019093943.54c36b3f@redhat.com>
+In-Reply-To: <20211019093943.54c36b3f@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 20 Oct 2021 09:55:52 +0800
+Message-ID: <CAEUhbmUa1CU_7+HMEuBmAc-DqFAH8iByfDAjV_uXnof6TZQz_Q@mail.gmail.com>
+Subject: Re: [PATCH 1/6] hw/riscv: microchip_pfsoc: Use MachineState::ram and
+ MachineClass::default_ram_id
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,35 +76,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping...
+Hi Igor,
 
-On 2021/10/14 21:22, Yanan Wang wrote:
-> Add a generic empty binary file for the new introduced PPTT table
-> under tests/data/acpi/virt, and list it as files to be changed in
-> tests/qtest/bios-tables-test-allowed-diff.h
+On Tue, Oct 19, 2021 at 3:39 PM Igor Mammedov <imammedo@redhat.com> wrote:
 >
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->   tests/data/acpi/virt/PPTT                   | 0
->   tests/qtest/bios-tables-test-allowed-diff.h | 1 +
->   2 files changed, 1 insertion(+)
->   create mode 100644 tests/data/acpi/virt/PPTT
+> On Mon, 18 Oct 2021 23:38:24 +0800
+> Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> diff --git a/tests/data/acpi/virt/PPTT b/tests/data/acpi/virt/PPTT
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index dfb8523c8b..cb143a55a6 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,2 @@
->   /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/virt/PPTT",
+> > Using memory_region_init_ram(), which can't possibly handle vhost-user,
+> > and can't work as expected with '-numa node,memdev' options.
+> >
+> > Use MachineState::ram instead of manually initializing RAM memory
+> > region, as well as by providing MachineClass::default_ram_id to
+> > opt in to memdev scheme.
+> >
+> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> > ---
+> >
+> >  hw/riscv/microchip_pfsoc.c | 9 +++------
+> >  1 file changed, 3 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+> > index e475b6d511..f10f55b488 100644
+> > --- a/hw/riscv/microchip_pfsoc.c
+> > +++ b/hw/riscv/microchip_pfsoc.c
+> > @@ -459,7 +459,6 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+> >      const MemMapEntry *memmap = microchip_pfsoc_memmap;
+> >      MicrochipIcicleKitState *s = MICROCHIP_ICICLE_KIT_MACHINE(machine);
+> >      MemoryRegion *system_memory = get_system_memory();
+> > -    MemoryRegion *mem_low = g_new(MemoryRegion, 1);
+> >      MemoryRegion *mem_low_alias = g_new(MemoryRegion, 1);
+> >      MemoryRegion *mem_high = g_new(MemoryRegion, 1);
+> >      MemoryRegion *mem_high_alias = g_new(MemoryRegion, 1);
+> > @@ -486,16 +485,13 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+> >      qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
+> >
+> >      /* Register RAM */
+> > -    memory_region_init_ram(mem_low, NULL, "microchip.icicle.kit.ram_low",
+> > -                           memmap[MICROCHIP_PFSOC_DRAM_LO].size,
+> > -                           &error_fatal);
+> >      memory_region_init_alias(mem_low_alias, NULL,
+> >                               "microchip.icicle.kit.ram_low.alias",
+> > -                             mem_low, 0,
+> > +                             machine->ram, 0,
+> >                               memmap[MICROCHIP_PFSOC_DRAM_LO_ALIAS].size);
+> >      memory_region_add_subregion(system_memory,
+> >                                  memmap[MICROCHIP_PFSOC_DRAM_LO].base,
+> > -                                mem_low);
+> > +                                machine->ram);
+> >      memory_region_add_subregion(system_memory,
+> >                                  memmap[MICROCHIP_PFSOC_DRAM_LO_ALIAS].base,
+> >                                  mem_low_alias);
+>
+> looking at code it seems RAM is split between low and high regions,
+> so converting only low region is wrong.
+>
+> I'd suggest something similar to 2dc9ce13d210 : taihu_405ep_init().
+> i.e. ms->ram should hold whole RAM that is split between low and high
+> using aliases.
 
+Thank you for your pointers. I have just sent v2.
+
+One note when looking at the taihu_405ep_init() implementation, the
+following looks incorrect to me:
+
+    memory_region_init_alias(&ram_memories[1], NULL,
+                             "taihu_405ep.ram-1", machine->ram, ram_bases[1],
+                             ram_sizes[1]);
+
+I think the 'offset' should be ram_sizes[0] instead of ram_bases[1],
+although their values are the same which means they are two contiguous
+regions, so it happens to work. But I might be nitpicking ...
+
+>
+> > @@ -606,6 +602,7 @@ static void microchip_icicle_kit_machine_class_init(ObjectClass *oc, void *data)
+> >                     MICROCHIP_PFSOC_COMPUTE_CPU_COUNT;
+> >      mc->min_cpus = MICROCHIP_PFSOC_MANAGEMENT_CPU_COUNT + 1;
+> >      mc->default_cpus = mc->min_cpus;
+> > +    mc->default_ram_id = "microchip.icicle.kit.ram_low";
+>
+> given it is not versioned machine, so we don't have to worry about
+> cross version migration here,
+> so I'd use "microchip.icicle.kit.ram" for the name here
+> and currently used "microchip.icicle.kit.ram_low" for corresponding alias
+
+Regards,
+Bin
 
