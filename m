@@ -2,95 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6858243476F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 10:55:52 +0200 (CEST)
-Received: from localhost ([::1]:53402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56D8C434773
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 10:56:18 +0200 (CEST)
+Received: from localhost ([::1]:54362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md7O2-000816-W2
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 04:55:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51306)
+	id 1md7OT-0000F5-EC
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 04:56:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1md7MD-0006yp-08
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:53:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51543)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1md7MA-0008LQ-Co
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:53:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634720032;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W6ESm9thjrXyLdcfgtomJx0PHaWjrzV9u8nGAxeKMn4=;
- b=ANpUE3ZeJLhQ4361ApahDdrqg9q3/ro6/+VL8XAmV+XPeSsr15VMLOgJXkY7Lp6rh0dB+Z
- 1oO/e8k7itr+2Vbtlx3sspJjpOifwKbF+fakXzvRrzSZK/QAILN7v/Muxn+zSoC/UmMyBy
- RYYD1ds9wVhitc1XhdJ5VOCRgBYLVd0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-NjTwDWP7MaSZ_i98O431vg-1; Wed, 20 Oct 2021 04:53:51 -0400
-X-MC-Unique: NjTwDWP7MaSZ_i98O431vg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- p3-20020a05600c204300b0030daa138dfeso3832511wmg.9
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 01:53:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=W6ESm9thjrXyLdcfgtomJx0PHaWjrzV9u8nGAxeKMn4=;
- b=zvniO6oK8MSnRj2aEYHHVB31Or5njJqizkujTYA6ZAsnRJ4nL7rexLlg/cDsaw2jOo
- Cl+MBKOXi7fDA/Fy3zVLLbLKqGXeuboM1tKurY1bzkGUT/QYmCvnfGDOVqIJW6iXIqyt
- 88SshFrDo6xttje/1sXVa6RjiCiSJlYWk7MyK6EAS1mxvPvasHUCB2QxQPXvfsH9DHTE
- IwdCF5rvQRqo6o3uJ/vyxwknZirXY+vACoSy5oM8qBzNJIrzyRaYEY4dBZpXN7L0mrIX
- jB7mex1D9hwMpmsrotxlcRNbTGHHPsS/ZdsUSId71cvoD5Ld+4/c2TTC4cmH/3obRiN5
- UT8w==
-X-Gm-Message-State: AOAM532BSbgGAaur2nVnmlycfeTjHiZZoJtWOPspGQeAOVOf0RVsV8iz
- Qmmj6j9bw+eiPdSIEI2iYnzu760EfsVCpmLOru1eBG4ru0vOl3izdwtODLqdvM+Cl4ACj4GvbKq
- SYucmWOI05JXgK9E=
-X-Received: by 2002:a1c:80c8:: with SMTP id b191mr12127021wmd.36.1634720029908; 
- Wed, 20 Oct 2021 01:53:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyum+vUm4ycckaIOh2Ia17rvQZZZkwfIncIdlAVaSJrNR85a1qsSl/5mVUJDsktbdXYrpZcfw==
-X-Received: by 2002:a1c:80c8:: with SMTP id b191mr12127005wmd.36.1634720029690; 
- Wed, 20 Oct 2021 01:53:49 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id q12sm1447574wrp.13.2021.10.20.01.53.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 01:53:49 -0700 (PDT)
-Date: Wed, 20 Oct 2021 10:53:48 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 04/15] tests: acpi: q35: test for x2APIC entries in SRAT
-Message-ID: <20211020105348.7ef7cdd5@redhat.com>
-In-Reply-To: <20211020041734-mutt-send-email-mst@kernel.org>
-References: <20210902113551.461632-1-imammedo@redhat.com>
- <20210902113551.461632-5-imammedo@redhat.com>
- <20211018173052-mutt-send-email-mst@kernel.org>
- <20211019114825.1464da19@redhat.com>
- <20211019061656-mutt-send-email-mst@kernel.org>
- <20211019133624.5cd5ae3d@redhat.com>
- <20211019074422-mutt-send-email-mst@kernel.org>
- <20211020101607.5181e69d@redhat.com>
- <20211020041734-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1md7MV-0007KP-98
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:54:15 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:56364 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1md7MR-00008e-GO
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:54:14 -0400
+Received: from localhost.localdomain (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx72op2W9hcS8dAA--.30298S3; 
+ Wed, 20 Oct 2021 16:54:03 +0800 (CST)
+Subject: Re: [PATCH v7 02/21] target/loongarch: Add core definition
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ WANG Xuerui <i.qemu@xen0n.name>, qemu-devel@nongnu.org
+References: <1634561247-25499-1-git-send-email-gaosong@loongson.cn>
+ <1634561247-25499-3-git-send-email-gaosong@loongson.cn>
+ <5d8d1719-c6f3-1de5-b086-298e8379d8b6@xen0n.name>
+ <274b9066-66c1-b246-72c6-35d6791cba0e@amsat.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <aa983155-85ed-f3e3-47b2-b7138125e8d0@loongson.cn>
+Date: Wed, 20 Oct 2021 16:54:01 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <274b9066-66c1-b246-72c6-35d6791cba0e@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dx72op2W9hcS8dAA--.30298S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxZr45XFyfZF4fZr1xurykXwb_yoW5GFWxpr
+ 1kCFZ8trWUJrZ7Jw4ag3WUXr98Zr18G3ZrA3WSgFykArW7Xr92gw10gr4qgF1DJw48CF1j
+ vryFvr9xuFn8J3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBq1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
+ z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzx
+ vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ JVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+ 8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI
+ 62AI1cAE67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6c
+ x26ryrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
+ 3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
+ AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAI
+ cVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
+ 80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.074,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,132 +75,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, pbonzini@redhat.com, thuth@redhat.com,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, richard.henderson@linaro.org,
+ yangxiaojuan@loongson.cn, peterx@redhat.com, laurent@vivier.eu,
+ alistair.francis@wdc.com, maobibo@loongson.cn, pbonzini@redhat.com,
+ bmeng.cn@gmail.com, alex.bennee@linaro.org, chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Oct 2021 04:18:07 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+Hi, Xuerui, Philippe.
 
-> On Wed, Oct 20, 2021 at 10:16:07AM +0200, Igor Mammedov wrote:
-> > On Tue, 19 Oct 2021 07:44:38 -0400
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >   
-> > > On Tue, Oct 19, 2021 at 01:36:24PM +0200, Igor Mammedov wrote:  
-> > > > On Tue, 19 Oct 2021 06:23:40 -0400
-> > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > >     
-> > > > > On Tue, Oct 19, 2021 at 11:48:25AM +0200, Igor Mammedov wrote:    
-> > > > > > On Mon, 18 Oct 2021 17:31:33 -0400
-> > > > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > > >       
-> > > > > > > On Thu, Sep 02, 2021 at 07:35:40AM -0400, Igor Mammedov wrote:      
-> > > > > > > > Set -smp 1,maxcpus=288 to test for ACPI code that
-> > > > > > > > deal with CPUs with large APIC ID (>255).
-> > > > > > > > 
-> > > > > > > > PS:
-> > > > > > > > Test requires KVM and in-kernel irqchip support,
-> > > > > > > > so skip test if KVM is not available.
-> > > > > > > > 
-> > > > > > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > > > > > > > ---
-> > > > > > > > v3:
-> > > > > > > >   - add dedicated test instead of abusing 'numamem' one
-> > > > > > > >   - add 'kvm' prefix to the test name
-> > > > > > > >       ("Michael S. Tsirkin" <mst@redhat.com>)
-> > > > > > > > v2:
-> > > > > > > >   - switch to qtest_has_accel() API
-> > > > > > > > 
-> > > > > > > > CC: thuth@redhat.com
-> > > > > > > > CC: lvivier@redhat.com
-> > > > > > > > ---
-> > > > > > > >  tests/qtest/bios-tables-test.c | 17 +++++++++++++++++
-> > > > > > > >  1 file changed, 17 insertions(+)
-> > > > > > > > 
-> > > > > > > > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> > > > > > > > index 51d3a4e239..1f6779da87 100644
-> > > > > > > > --- a/tests/qtest/bios-tables-test.c
-> > > > > > > > +++ b/tests/qtest/bios-tables-test.c
-> > > > > > > > @@ -1033,6 +1033,19 @@ static void test_acpi_q35_tcg_numamem(void)
-> > > > > > > >      free_test_data(&data);
-> > > > > > > >  }
-> > > > > > > >  
-> > > > > > > > +static void test_acpi_q35_kvm_xapic(void)
-> > > > > > > > +{
-> > > > > > > > +    test_data data;
-> > > > > > > > +
-> > > > > > > > +    memset(&data, 0, sizeof(data));
-> > > > > > > > +    data.machine = MACHINE_Q35;
-> > > > > > > > +    data.variant = ".xapic";
-> > > > > > > > +    test_acpi_one(" -object memory-backend-ram,id=ram0,size=128M"
-> > > > > > > > +                  " -numa node -numa node,memdev=ram0"
-> > > > > > > > +                  " -machine kernel-irqchip=on -smp 1,maxcpus=288", &data);
-> > > > > > > > +    free_test_data(&data);
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > >  static void test_acpi_q35_tcg_nosmm(void)
-> > > > > > > >  {
-> > > > > > > >      test_data data;        
-> > > > > > > 
-> > > > > > > 
-> > > > > > > This causes an annoying message each time I run it:
-> > > > > > > 
-> > > > > > > qemu-system-x86_64: -accel kvm: warning: Number of hotpluggable cpus requested (288) exceeds the recommended cpus supported by KVM (240)
-> > > > > > > 
-> > > > > > > what gives?      
-> > > > > > 
-> > > > > > it depends on kernel, see kvm_recommended_vcpus().
-> > > > > > 
-> > > > > > We probably should bump it on upstream kernel side
-> > > > > > (it's much more than that in RHEL8).
-> > > > > > 
-> > > > > > Is there anything that prevents bumping upstream kernel limits?      
-> > > > > 
-> > > > > what should we do with the annoying warning though?    
-> > > > 
-> > > > I'd leave it alone.
-> > > > What do you suggest?
-> > > >      
-> > > 
-> > > reduce the value so a typical system does not trigger it?  
-> > 
-> > it won't work, test needs as minimum 255 vcpus to trigger X2APIC logic
-> > and 288 value additionally tests max limits  
+On 10/19/2021 01:38 AM, Philippe Mathieu-Daudé wrote:
+> On 10/18/21 18:06, WANG Xuerui wrote:
+>> Hi Song,
+>>
+>> On 10/18/21 20:47, Song Gao wrote:
+>>> This patch add target state header, target definitions
+>>> and initialization routines.
+>> "adds"; fix in other patches too.
+>>>
+>>> Signed-off-by: Song Gao <gaosong@loongson.cn>
+>>> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>   target/loongarch/cpu-param.h |  19 +++
+>>>   target/loongarch/cpu.c       | 285
+>>> +++++++++++++++++++++++++++++++++++++++++++
+>>>   target/loongarch/cpu.h       | 151 +++++++++++++++++++++++
+>>>   target/loongarch/internals.h |  23 ++++
+>>>   4 files changed, 478 insertions(+)
+>>>   create mode 100644 target/loongarch/cpu-param.h
+>>>   create mode 100644 target/loongarch/cpu.c
+>>>   create mode 100644 target/loongarch/cpu.h
+>>>   create mode 100644 target/loongarch/internals.h
 > 
-> Add a flag to disable the warning while running this specific test?
-
-if it were qtest accel, it would be trivial but
-I'm not aware of something similar for tcg/kvm mode.
-Do you suggest to add to QEMU a CLI option for that?
-
-
-
 > 
-> > >   
-> > > > > > > > @@ -1506,6 +1519,7 @@ static void test_acpi_oem_fields_virt(void)
-> > > > > > > >  int main(int argc, char *argv[])
-> > > > > > > >  {
-> > > > > > > >      const char *arch = qtest_get_arch();
-> > > > > > > > +    const bool has_kvm = qtest_has_accel("kvm");
-> > > > > > > >      int ret;
-> > > > > > > >  
-> > > > > > > >      g_test_init(&argc, &argv, NULL);
-> > > > > > > > @@ -1561,6 +1575,9 @@ int main(int argc, char *argv[])
-> > > > > > > >          if (strcmp(arch, "x86_64") == 0) {
-> > > > > > > >              qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-> > > > > > > >          }
-> > > > > > > > +        if (has_kvm) {
-> > > > > > > > +            qtest_add_func("acpi/q35/kvm/xapic", test_acpi_q35_kvm_xapic);
-> > > > > > > > +        }
-> > > > > > > >      } else if (strcmp(arch, "aarch64") == 0) {
-> > > > > > > >          qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-> > > > > > > >          qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-> > > > > > > > -- 
-> > > > > > > > 2.27.0        
-> > > > > > >       
-> > > > >     
-> > >   
+>>> +static void set_loongarch_cpucfg(CPULoongArchState *env)
+>>> +{
+>>> +    int i;
+>>> +
+>>> +    for (i = 0; i < 49; i++) {
+>>> +        env->cpucfg[i] = 0x0;
+>>> +    }
+>>> +    env->cpucfg[0] = 0x14c010;
+>>> +    env->cpucfg[1] = 0x3f2f2fe;
+>>> +    env->cpucfg[2] = 0x60c3cf;
+>>> +    env->cpucfg[3] = 0xcff;
+>>> +    env->cpucfg[4] = 0x5f5e100;
+>>> +    env->cpucfg[5] = 0x10001;
+>>> +    env->cpucfg[16] = 0x2c3d;
+>>> +    env->cpucfg[17] = 0x6080003;
+>>> +    env->cpucfg[18] = 0x6080003;
+>>> +    env->cpucfg[19] = 0x60800f;
+>>> +    env->cpucfg[20] = 0x60f000f;
+>> I know these values are taken from a real 3A5000 chip, since I have such
+>> a machine and I've done the experiment, but others likely wouldn't
+>> notice so quickly. Maybe put some comment on top of this function to
+>> illustrate this?
 > 
+> Simpler: ...
+> 
+On linux-user emulation. We don't care about the value of cpucfg[i]. 
+I think we only need to set cpucfg[i] to 0. and set value on system emulations, is that better? 
+
+>>> +}
+>>> +
+>>> +/* LoongArch CPU definitions */
+>> Doc-string for such a function should be verb phrase; but in this case
+>> would it be better to just drop the comment? The code is pretty concise
+>> and self-documenting after all.
+>>> +static void loongarch_3a5000_initfn(Object *obj)
+>>> +{
+>>> +    LoongArchCPU *cpu = LOONGARCH_CPU(obj);
+>>> +    CPULoongArchState *env = &cpu->env;
+>>> +
+>>> +    set_loongarch_cpucfg(env);
+> 
+> ... directly inline here.
+> OK.
+
+Thanks
+Song Gao
+>>> +}
 
 
