@@ -2,78 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6EC435638
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 00:57:20 +0200 (CEST)
-Received: from localhost ([::1]:45096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5BB943563C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 01:01:09 +0200 (CEST)
+Received: from localhost ([::1]:50980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdKWM-0003nN-W2
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 18:57:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42832)
+	id 1mdKa4-0007mD-FQ
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 19:01:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1mdKB1-0003eo-Jb; Wed, 20 Oct 2021 18:35:15 -0400
-Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236]:36824)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1mdKAq-0003g9-1f; Wed, 20 Oct 2021 18:35:14 -0400
-Received: by mail-lj1-x236.google.com with SMTP id q16so276048ljg.3;
- Wed, 20 Oct 2021 15:35:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=WJGUh3ufkJv6o8JVZjrsDao7FRPF19t3sg2L2kpnvvw=;
- b=h+HwM2lSTVU46+bQkqi3ebb+7FbKA+KZ7ywd7Ce/lg7mnsriXYdNuL7iEq2h6CiHO/
- dSZJFdIXJmKIbaX+84UUGJA0VHrzhvcfOGA1okOCTp0jBKuUo0gh1lugomOFEGfNun/e
- 9VMiNldevu53kn2qocicnpf6fC31yd4rBVkGrouqSWXats8pfl50ZSQVR3jHdPXb0jGV
- GzJ0/CkLC+YfU2REB8X/B0jCmzsmLpmnY168+d+8fVYID92wmntDaTxVibws9BKhlNGT
- m9UmGwGzm7/sgXKchu2BLJw81jB7awNlSo0Udmv7I6Ly1uKYYkNS0wTipnjj7/8r69lO
- WkjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=WJGUh3ufkJv6o8JVZjrsDao7FRPF19t3sg2L2kpnvvw=;
- b=NGuTP5zKeWM9DDUI+uP3NBrpdhAuJ6LVzRbXzYbqsEnRRfU6+vC9tBHyw6vFwjnfug
- Bd+Lzxzjn12Q80+x0WF29zCKjdJchEQivfg7/GiHx7fV0Hgzg7x5A/OWnEPzriQX+gXf
- z9Qu9n8B3iP8JPCI868fL3x85OMtsY4MYXA1SG+YHo4Kjcf2so1W++0WNwpqf1ND6Xow
- ymK9/ARjzY1gZkCzKeB0g6/AXfoLNDUdUhCUCMRQ5cMsOm1N7SK04jK47gOTlKNKsP/S
- LyHxegRD9XYdnnOEgzJylz90ulpY4/9vCiD1ZjDdbKbp345WE51l+lVuXdVG/zTh2j32
- UIpw==
-X-Gm-Message-State: AOAM532wNaauGKjzLcEBMl+GX9rAXc46jxCqd0q8KeJQQjEfHZmNzNm0
- U6PA1NzAT26P7VFvdjVxOFA=
-X-Google-Smtp-Source: ABdhPJxXrXRnPOWCBDLs2TXuRXbW7ikLOW26+UQV5LzFKuGPbwNzdds5YP0CbwH5tNPqMKHcmqA6bw==
-X-Received: by 2002:a2e:9c8d:: with SMTP id x13mr1889804lji.29.1634769299103; 
- Wed, 20 Oct 2021 15:34:59 -0700 (PDT)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- c21sm294317lfi.192.2021.10.20.15.34.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 15:34:58 -0700 (PDT)
-Date: Thu, 21 Oct 2021 00:34:57 +0200
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2 5/5] speed/sdhci: Add trace events
-Message-ID: <20211020223456.GF23846@fralle-msi>
-References: <20211018132609.160008-1-clg@kaod.org>
- <20211018132609.160008-6-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mdKXV-0006MX-AP
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 18:58:29 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:44374)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mdKXP-0001iv-7A
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 18:58:25 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id CDA65748F58;
+ Thu, 21 Oct 2021 00:58:20 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 988E5746333; Thu, 21 Oct 2021 00:58:20 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 93D577462D3;
+ Thu, 21 Oct 2021 00:58:20 +0200 (CEST)
+Date: Thu, 21 Oct 2021 00:58:20 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH] via-ide: Avoid expensive operations in irq handler
+In-Reply-To: <20211020143626.dvthmwizsljuwqz4@habkost.net>
+Message-ID: <2313205c-2b0-714-f3bf-718a573fee75@eik.bme.hu>
+References: <20211018014059.13E65746353@zero.eik.bme.hu>
+ <549ece11-990f-a19b-5dfe-508e315a6163@amsat.org>
+ <a36736da-32a0-84fe-f33-32b2f31126bf@eik.bme.hu>
+ <31027ddc-b618-9628-d725-1516f7bfd098@amsat.org>
+ <20211020143626.dvthmwizsljuwqz4@habkost.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211018132609.160008-6-clg@kaod.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::236;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x236.google.com
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed; boundary="3866299591-58779624-1634770700=:75753"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,71 +60,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ qemu-devel@nongnu.org,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cedric,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On the subject s/speed/aspeed/. Otherwise:
+--3866299591-58779624-1634770700=:75753
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+On Wed, 20 Oct 2021, Eduardo Habkost wrote:
+> On Mon, Oct 18, 2021 at 12:10:04PM +0200, Philippe Mathieu-Daudé wrote:
+>> On 10/18/21 11:51, BALATON Zoltan wrote:
+>>> On Mon, 18 Oct 2021, Philippe Mathieu-Daudé wrote:
+>>>> On 10/18/21 03:36, BALATON Zoltan wrote:
+>>>>> Cache the pointer to PCI function 0 (ISA bridge, that this IDE device
+>>>>> has to use for IRQs) in the PCIIDEState and pass that as the opaque
+>>>>> data for the interrupt handler to eliminate both the need to look up
+>>>>> function 0 at every interrupt and also a QOM type cast of the opaque
+>>>>> pointer as that's also expensive (mainly due to qom-debug being
+>>>>> enabled by default).
+>>>>>
+>>>>> Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>>> ---
+>>>>>  hw/ide/via.c         | 11 ++++++-----
+>>>>>  include/hw/ide/pci.h |  1 +
+>>>>>  2 files changed, 7 insertions(+), 5 deletions(-)
+>>>>>
+>>>>> diff --git a/hw/ide/via.c b/hw/ide/via.c
+>>>>> index 82def819c4..30566bc409 100644
+>>>>> --- a/hw/ide/via.c
+>>>>> +++ b/hw/ide/via.c
+>>>>> @@ -104,15 +104,15 @@ static void bmdma_setup_bar(PCIIDEState *d)
+>>>>>
+>>>>>  static void via_ide_set_irq(void *opaque, int n, int level)
+>>>>>  {
+>>>>> -    PCIDevice *d = PCI_DEVICE(opaque);
+>>>>> +    PCIIDEState *d = opaque;
+>>>>>
+>>>>>      if (level) {
+>>>>> -        d->config[0x70 + n * 8] |= 0x80;
+>>>>> +        d->parent_obj.config[0x70 + n * 8] |= 0x80;
+>>>>>      } else {
+>>>>> -        d->config[0x70 + n * 8] &= ~0x80;
+>>>>> +        d->parent_obj.config[0x70 + n * 8] &= ~0x80;
+>>>>>      }
+>>>>
+>>>> Better not to access parent_obj, so I'd rather keep the previous
+>>>> code as it. The rest is OK, thanks. If you don't want to respin
+>>>> I can fix and take via mips-next.
+>>>
+>>> Why not? If it's OK to access other fields why not parent_obj? That
+>>> avoids the QOM cast PCI_DEVICE(opaque) or PCI_DEVICE(d) after this
+>>> patch. We know it's a PCIIDEState and has PCIDevice parent_obj field
+>>> because we set the opaque pointer when adding this callback so I think
+>>> this works and is the less expensive way. But feel free to change it any
+>>> way you like and use it that way. I'd keep it as it is.
+>>
+>> My understanding of QOM is we shouldn't access internal states that
+>> way, because 1/ this makes object refactors harder and 2/ this is
+>> not the style/example we want in the codebase, but it doesn't seem
+>> documented, so Cc'ing Markus/Eduardo for confirmation.
+>
+> `PCI_DEVICE(d)` is preferred instead `of d.parent_obj` (parent_obj is
+> just a QOM implementation detail).  If there are real performance
+> reasons to avoid it, we need numbers to support that.
+>
+> Also, note that `OBJECT_CHECK(obj)` is just `return obj` if
+> CONFIG_QOM_CAST_DEBUG is disabled.
 
-/BR
+I've tried to do some measurements but could be I did not come up with a 
+good enough test (I was just trying to copy a few hundred megabytes and 
+timed that) as I could not find any significant difference with or without 
+QOM casts or even without this patch (so even caching func0 did not seem 
+to make a difference). Could be there are other bigger bottlenecks 
+elsewhere before this becomes critical so for now maybe just drop this 
+patch and the similar one for USB (that is first and last patch in the 
+series) and take the rest of the series only until somebody can do some 
+better tests to see if this optimisation would help.
 
-On [2021 Oct 18] Mon 15:26:09, C�dric Le Goater wrote:
-> Signed-off-by: C�dric Le Goater <clg@kaod.org>
-> ---
->  hw/sd/aspeed_sdhci.c | 5 +++++
->  hw/sd/trace-events   | 4 ++++
->  2 files changed, 9 insertions(+)
-> 
-> diff --git a/hw/sd/aspeed_sdhci.c b/hw/sd/aspeed_sdhci.c
-> index 3299844de6dc..df1bdf1fa4ed 100644
-> --- a/hw/sd/aspeed_sdhci.c
-> +++ b/hw/sd/aspeed_sdhci.c
-> @@ -14,6 +14,7 @@
->  #include "hw/irq.h"
->  #include "migration/vmstate.h"
->  #include "hw/qdev-properties.h"
-> +#include "trace.h"
->  
->  #define ASPEED_SDHCI_INFO            0x00
->  #define  ASPEED_SDHCI_INFO_SLOT1     (1 << 17)
-> @@ -60,6 +61,8 @@ static uint64_t aspeed_sdhci_read(void *opaque, hwaddr addr, unsigned int size)
->          }
->      }
->  
-> +    trace_aspeed_sdhci_read(addr, size, (uint64_t) val);
-> +
->      return (uint64_t)val;
->  }
->  
-> @@ -68,6 +71,8 @@ static void aspeed_sdhci_write(void *opaque, hwaddr addr, uint64_t val,
->  {
->      AspeedSDHCIState *sdhci = opaque;
->  
-> +    trace_aspeed_sdhci_write(addr, size, val);
-> +
->      switch (addr) {
->      case ASPEED_SDHCI_INFO:
->          /* The RESET bit automatically clears. */
-> diff --git a/hw/sd/trace-events b/hw/sd/trace-events
-> index 3cc2ef89ba6b..94a00557b26f 100644
-> --- a/hw/sd/trace-events
-> +++ b/hw/sd/trace-events
-> @@ -68,3 +68,7 @@ pl181_fifo_push(uint32_t data) "FIFO push 0x%08" PRIx32
->  pl181_fifo_pop(uint32_t data) "FIFO pop 0x%08" PRIx32
->  pl181_fifo_transfer_complete(void) "FIFO transfer complete"
->  pl181_data_engine_idle(void) "data engine idle"
-> +
-> +# aspeed_sdhci.c
-> +aspeed_sdhci_read(uint64_t addr, uint32_t size, uint64_t data) "@0x%" PRIx64 " size %u: 0x%" PRIx64
-> +aspeed_sdhci_write(uint64_t addr, uint32_t size, uint64_t data) "@0x%" PRIx64 " size %u: 0x%" PRIx64
-> -- 
-> 2.31.1
-> 
-> 
+Gerd, Philippe which of you can take care of merging the remaining 
+patches? That's still needed to fix USB interrupt on pegasos2.
+
+Regards,
+BALATON Zoltan
+--3866299591-58779624-1634770700=:75753--
 
