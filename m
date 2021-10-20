@@ -2,58 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E921743465C
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 10:02:05 +0200 (CEST)
-Received: from localhost ([::1]:57130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5A2434668
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 10:04:35 +0200 (CEST)
+Received: from localhost ([::1]:34682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md6Y0-0003pi-Qd
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 04:02:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39048)
+	id 1md6aQ-0007ho-FJ
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 04:04:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1md6Vg-00030C-VT
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 03:59:40 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:47447)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1md6Vf-00052Z-1g
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 03:59:40 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-XzglGPe4OLOdV4j1Ny9r2g-1; Wed, 20 Oct 2021 03:59:36 -0400
-X-MC-Unique: XzglGPe4OLOdV4j1Ny9r2g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 136FF362FC;
- Wed, 20 Oct 2021 07:59:35 +0000 (UTC)
-Received: from bahia.huguette (unknown [10.39.192.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 175BC104253A;
- Wed, 20 Oct 2021 07:59:27 +0000 (UTC)
-Date: Wed, 20 Oct 2021 09:59:26 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 1/2] rcu: Introduce force_rcu notifier
-Message-ID: <20211020095926.5a42076f@bahia.huguette>
-In-Reply-To: <642435ff-975a-c46c-f73b-2dfb8aff0463@redhat.com>
-References: <20211019055632.252879-1-groug@kaod.org>
- <20211019055632.252879-2-groug@kaod.org>
- <642435ff-975a-c46c-f73b-2dfb8aff0463@redhat.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1md6Z3-0005xM-Pn
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:03:09 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:43762 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1md6Yy-0000Fz-4K
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:03:09 -0400
+Received: from localhost.localdomain (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz2k5uW9hWBgdAA--.30136S3; 
+ Wed, 20 Oct 2021 14:37:46 +0800 (CST)
+Subject: Re: [PATCH v7 16/21] target/loongarch: Add disassembler
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ WANG Xuerui <i.qemu@xen0n.name>, qemu-devel@nongnu.org
+References: <1634561247-25499-1-git-send-email-gaosong@loongson.cn>
+ <1634561247-25499-17-git-send-email-gaosong@loongson.cn>
+ <f55bffde-64ec-d390-2942-4ec4b2bbedbc@xen0n.name>
+ <9ba04d0a-44bb-1ebd-31f4-35c282842b4a@linaro.org>
+ <75f4be9c-47b7-415f-4468-093b74130481@xen0n.name>
+ <8e1da0c0-5f24-abca-78de-2304c1453904@linaro.org>
+ <95bb07bb-d1ad-c166-8af4-b2ac9ae7dcdf@amsat.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <c3b80ba4-aaa8-4530-3857-ffa218f6c618@loongson.cn>
+Date: Wed, 20 Oct 2021 14:37:45 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <95bb07bb-d1ad-c166-8af4-b2ac9ae7dcdf@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxz2k5uW9hWBgdAA--.30136S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw17uFWDWrWxuFy8JrykGrg_yoW8GFW7pa
+ 92kasrKF4Dt3y0yrn2g3W7Xa1UtF48JFn8Xan5Xry8A3Z0g343Xrn7Kan8Ca43Cr1xC34U
+ ZF4jqa43Zr4kZFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBS1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
+ 87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
+ Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
+ 6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
+ 1lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
+ e2xFo4CEbIxvr21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY2
+ 0_XrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2Iq
+ xVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42
+ IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY
+ 6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
+ Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.074,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,115 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, alex.bennee@linaro.org,
+ yangxiaojuan@loongson.cn, peterx@redhat.com, laurent@vivier.eu,
+ alistair.francis@wdc.com, maobibo@loongson.cn, pbonzini@redhat.com,
+ bmeng.cn@gmail.com, philmd@redhat.com, chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Oct 2021 13:26:25 +0200
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+Hi, all.
 
-> On 19/10/21 07:56, Greg Kurz wrote:
-> > The drain_rcu_call() function can be blocked as long as an RCU reader
-> > stays in a read-side critical section. This is typically what happens
-> > when a TCG vCPU is executing a busy loop. It can deadlock the QEMU
-> > monitor as reported in https://gitlab.com/qemu-project/qemu/-/issues/65=
-0 .
-> >=20
-> > This can be avoided by allowing drain_rcu_call() to enforce an RCU grac=
-e
-> > period. Since each reader might need to do specific actions to end a
-> > read-side critical section, do it with notifiers.
-> >=20
-> > Prepare ground for this by adding a notifier list to the RCU reader
-> > struct and use it in wait_for_readers() if drain_rcu_call() is in
-> > progress. An API is added for readers to register their notifiers.
-> >=20
-> > This is largely based on a draft from Paolo Bonzini.
-> >=20
-> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >   include/qemu/rcu.h | 16 ++++++++++++++++
-> >   util/rcu.c         | 22 +++++++++++++++++++++-
-> >   2 files changed, 37 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-> > index 515d327cf11c..d8c4fd8686b4 100644
-> > --- a/include/qemu/rcu.h
-> > +++ b/include/qemu/rcu.h
-> > @@ -27,6 +27,7 @@
-> >   #include "qemu/thread.h"
-> >   #include "qemu/queue.h"
-> >   #include "qemu/atomic.h"
-> > +#include "qemu/notify.h"
-> >   #include "qemu/sys_membarrier.h"
-> >  =20
-> >   #ifdef __cplusplus
-> > @@ -66,6 +67,14 @@ struct rcu_reader_data {
-> >  =20
-> >       /* Data used for registry, protected by rcu_registry_lock */
-> >       QLIST_ENTRY(rcu_reader_data) node;
-> > +
-> > +    /*
-> > +     * NotifierList used to force an RCU grace period.  Accessed under
-> > +     * rcu_registry_lock.  Note that the notifier is called _outside_
-> > +     * the thread!
-> > +     */
-> > +    NotifierList force_rcu;
-> > +    void *force_rcu_data;
->=20
-> This is a bit ugly because the force_rcu_data is shared across all=20
-> notifiers.  Sure right now we have only one, but still the data argument=
-=20
-> should be in rcu_register_thread rather than rcu_add_force_rcu_notifier.
->=20
+On 10/19/2021 02:57 AM, Philippe Mathieu-Daudé wrote:
+> On 10/18/21 20:33, Richard Henderson wrote:
+>> On 10/18/21 11:18 AM, WANG Xuerui wrote:
+>>> On 10/19/21 01:29, Richard Henderson wrote:
+>>>> On 10/18/21 8:38 AM, WANG Xuerui wrote:
+>>>>>
+>>>>> For now any implementation would suffice, and I already saw one or
+>>>>> two bugs in the output during my TCG host work, but it surely would
+>>>>> be nice to switch to generated decoder in the future. The
+>>>>> loongarch-opcodes tables could be extended to support peculiarities
+>>>>> as exhibited in the v1.00 ISA manual and binutils implementation,
+>>>>> via additional attributes, and I'm open to such contributions.
+>>>>
+>>>> Perhaps it would be easiest to re-use the decodetree description?
+>>>> See e.g. target/openrisc/disas.c.
+>>>>
+>>> Indeed; I didn't thought of disassemblers in target/ instead of
+>>> disas/. That would be the most elegant way forward!
+>>
+>>
+>> The one quirk will be that so far using decodetree for disas is limited
+>> to the target, whereas you'll want this for host as well.  It shouldn't
+>> be a big deal, just a small matter of the correct build rules.
+> 
+> Oh, good to know. OTOH I expect very few developers to look at
+> host disas.
+> 
 
-I don't quite see why we'd need more than one notifier, but indeed
-this isn't conceptually correct.
+Sorry to reply too late, I asked for leave yesterday.
 
-> It's a pity because I liked the Notifier local variable...  But after=20
-> thinking about it more and deleting some suggestions that won't work,=20
-> it's just easiest to have the notifier in CPUState.
->=20
+This patch refers to disas/riscv.c. 
 
-Agreed.
+I didn't notice target/openrisc/disas.c before.  Thanks for Richard' advice.
 
-> Maybe even move the unregistration to the existing function=20
-> tcg_cpus_destroy, and add tcg_cpus_init that calls tcg_register_thread()=
-=20
-> and rcu_add_force_rcu_notifier().  This way you don't have to export=20
-> tcg_cpus_force_rcu, and the tcg-accel-ops.h APIs are a bit more tidy.
->=20
 
-I don't think we can do that because of round-robin : we only have one
-thread in this case but tcg_cpus_destroy() must still be called for all
-vCPUs. Also, a single notifier will work just fine no matter which
-vCPU is running when wait_for_readers() is called if I understand
-correctly how round-robin works.
-
-> Paolo
->=20
-> > +void rcu_add_force_rcu_notifier(Notifier *n, void *data)
-> > +{
-> > +    qemu_mutex_lock(&rcu_registry_lock);
-> > +    notifier_list_add(&rcu_reader.force_rcu, n);
-> > +    rcu_reader.force_rcu_data =3D data;
-> > +    qemu_mutex_unlock(&rcu_registry_lock);
-> > +}
-> > +
-> > +void rcu_remove_force_rcu_notifier(Notifier *n)
-> > +{
-> > +    qemu_mutex_lock(&rcu_registry_lock);
-> > +    rcu_reader.force_rcu_data =3D NULL;
-> > +    notifier_remove(n);
-> > +    qemu_mutex_unlock(&rcu_registry_lock);
-> > +}
-> > +
-> >   static void rcu_init_complete(void)
-> >   {
-> >       QemuThread thread;
-> >=20
->=20
+Thanks
+Song Gao 
 
 
