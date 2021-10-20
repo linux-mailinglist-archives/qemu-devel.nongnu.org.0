@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA24434892
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:08:02 +0200 (CEST)
-Received: from localhost ([::1]:53210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69D443489A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:08:51 +0200 (CEST)
+Received: from localhost ([::1]:57536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md8Vs-0000Ms-Cz
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:08:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43030)
+	id 1md8Wg-0003KE-NT
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:08:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8SH-00062s-Iv
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:04:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32111)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1md8To-0007zr-LK
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:05:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8SF-0002RF-J2
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:04:17 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1md8Tl-0003hv-CZ
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:05:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634724255;
+ s=mimecast20190719; t=1634724343;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0asX/LIiyEZCJeCGjmvKvPU3uZwMWTG+h7gxhqUSxu0=;
- b=i/n3idonv6EzYdEGb3oUDcBXSFh6nBTykdfAiOwKcimL9JGrUrlnCMCIzx/L55XQFqIGTe
- JaGdwFl1W1euIy6DKEnpwdqhqIkJqpTtGj3p39yUbmyKxD6a+LuKGZXIdkEl83sxeQNsZd
- 5esoIhmBuAWB84irqTg9YeDPr7qwI3U=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-3T7OZ-_dPlOWBSGxeVTXFQ-1; Wed, 20 Oct 2021 06:04:13 -0400
-X-MC-Unique: 3T7OZ-_dPlOWBSGxeVTXFQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- l10-20020a056402230a00b003db6977b694so20467372eda.23
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:04:13 -0700 (PDT)
+ bh=z9I5SfJEsNXiO07HaLcpBHRJTYB+BfHD+ePAz1GwfCo=;
+ b=gLbFqsJO2IAgXTXtYHie/FiQCyfgSFnBc/RQSdNwsp3JooKMol4Rc3n+w/6ZSQMkveXsgQ
+ 8KCbPP8bRAHN/VOSLSAJHqITNrtTDkgHOQPeDny0fZP4xOk++Fr9XI5UfEftil3RdmbQv/
+ gxL6Pu6eF0MdpekMWLnA2+TrhmdgND8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-138-i8xfMoG_PpaZvp2qKO87SA-1; Wed, 20 Oct 2021 06:05:42 -0400
+X-MC-Unique: i8xfMoG_PpaZvp2qKO87SA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 204-20020a1c01d5000000b003101167101bso3937683wmb.3
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:05:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0asX/LIiyEZCJeCGjmvKvPU3uZwMWTG+h7gxhqUSxu0=;
- b=6iSAQox9Q09/RI3UO4OOV5VUBqfHkWOWLoMH4XJAmcOXTrwmnu97TSons+8MzefEkJ
- yBO0T6A9HxpNqaSFoFArWmj/du+bVqDautAmL50k7cP4pWh6BoLiVpKiLHm43sXDwi0Q
- k8EXlVIxNTIJuAIiB03XAm0EgMq7Zp5uD4rI5KzAtg4jqkFoWMOPB8HHkWASrom0q3bE
- TjrFD2OVCs4ymoyp0NUgbjcFD4Nn1IZ/Mnkjm1b+vkqtM74h3CzX8iMhkRpTGgaiaVMq
- /nkAjT3eskSZl3YdserociHQBwAI51JoAHPD5KjErWDTNGm4S/OMROGfnSIdXRdjX06g
- yovg==
-X-Gm-Message-State: AOAM533OkiFF/joTWmRVJzbR2K8PogjsKAt/XvyJB6f3O6sCDaFHZFzr
- R251BSXmLTY3L8738g36Uaur3f4R0/EJu+azds2pOZ9valxcYFILJrLomNmLirQ5Krgt+P6FT4v
- RjRBEpaevNL6wNuc=
-X-Received: by 2002:a17:906:c248:: with SMTP id
- bl8mr43503388ejb.360.1634724252487; 
- Wed, 20 Oct 2021 03:04:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxRJgKwg3/iAhq2OQ4aD8sLKmw3bNLYQPz+l97K5fPhikYyrVS3qr2Dc0uISWmj1E8cdCjeiQ==
-X-Received: by 2002:a17:906:c248:: with SMTP id
- bl8mr43503349ejb.360.1634724252140; 
- Wed, 20 Oct 2021 03:04:12 -0700 (PDT)
-Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id b22sm926544edj.83.2021.10.20.03.04.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 03:04:11 -0700 (PDT)
-Date: Wed, 20 Oct 2021 06:04:08 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Subject: Re: [PATCH v8 4/8] hw/acpi/aml-build: Add Processor hierarchy node
- structure
-Message-ID: <20211020060349-mutt-send-email-mst@kernel.org>
-References: <20211014132206.19220-1-wangyanan55@huawei.com>
- <20211014132206.19220-5-wangyanan55@huawei.com>
- <3089e3c8-0eb0-3360-357d-4ba82ede8952@redhat.com>
- <f8f361b6-33b5-6314-cf07-e71efe8e362e@huawei.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=z9I5SfJEsNXiO07HaLcpBHRJTYB+BfHD+ePAz1GwfCo=;
+ b=nuu17UlboQ3uAF5OrUfC3RS7MTsJh7xAyPsEg02n1v9eUNcQa1z4PeyzGBejjgm3Bf
+ qMvRE86h6p7lKwPHZZLl3jq8A9PfBn+p+2P/CVEgvbH1cp6ct2R2ZyRj62YGPiBXU3Yd
+ BKiavuMgi4qV5mcMwki5HNUWPsTDGY/O4xVlMymGIQItLpE/NQ+HfPFouhOI8hmlU/HK
+ DnyR7vcWvD7OQhM3PCpfzPzCU1uk2FsizdyWkclUjs6wPS4BOsnAe5A24lHWie67HhSh
+ gKzz1OSLRc1XbR7F6jUt1h/Yf43Xlh8HIh1n248kjP1cCHhOPLeG9DtAk1UP7ZUaK5PG
+ DLJQ==
+X-Gm-Message-State: AOAM530BhNz6gTn+gDwC3pEY3osPKTh7hzhjcYcjY6HAsHU16RL03Cn7
+ EUs6KqC3Tzp5YX7lVEtZY+64qSm7BXJOesCcsYHKlpgtq7vHuMaYyu2hkc3OVrK4QecybPR0n6b
+ OvJX56y5iK7+xlZc=
+X-Received: by 2002:adf:b355:: with SMTP id k21mr50758641wrd.380.1634724341076; 
+ Wed, 20 Oct 2021 03:05:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJymz/e92eLanbRu/qPF1Z6dO0jRpVVKwGiaY9Ip39dsHLcVBa/OOi3tq8BUW7qdX2S0KKdJUw==
+X-Received: by 2002:adf:b355:: with SMTP id k21mr50758621wrd.380.1634724340846; 
+ Wed, 20 Oct 2021 03:05:40 -0700 (PDT)
+Received: from [192.168.1.36] (33.red-81-36-146.dynamicip.rima-tde.net.
+ [81.36.146.33])
+ by smtp.gmail.com with ESMTPSA id j13sm1549745wro.97.2021.10.20.03.05.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Oct 2021 03:05:40 -0700 (PDT)
+Message-ID: <4e75691f-d40c-3cf3-4e45-2cb71e676581@redhat.com>
+Date: Wed, 20 Oct 2021 12:05:38 +0200
 MIME-Version: 1.0
-In-Reply-To: <f8f361b6-33b5-6314-cf07-e71efe8e362e@huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] pci: fix PCI resource reserve capability on BE
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20211020095408.917102-1-mst@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211020095408.917102-1-mst@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.001,
+ DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.074, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,104 +98,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Eric Auger <eauger@redhat.com>, wanghaibin.wang@huawei.com,
- Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Thomas Huth <thuth@redhat.com>, jing2.liu@linux.intel.com,
+ zuban32s@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 20, 2021 at 05:51:46PM +0800, wangyanan (Y) wrote:
+On 10/20/21 11:54, Michael S. Tsirkin wrote:
+> PCI resource reserve capability should use LE format as all other PCI
+> things. If we don't then seabios won't boot:
 > 
-> On 2021/10/20 15:43, Eric Auger wrote:
-> > Hi
-> > 
-> > On 10/14/21 3:22 PM, Yanan Wang wrote:
-> > > Add a generic API to build Processor hierarchy node structure (Type 0),
-> > > which is strictly consistent with descriptions in ACPI 6.2: 5.2.29.1.
-> > > 
-> > > This function will be used to build ACPI PPTT table for cpu topology.
-> > > 
-> > > Co-developed-by: Ying Fang <fangying1@huawei.com>
-> > > Co-developed-by: Henglong Fan <fanhenglong@huawei.com>
-> > > Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
-> > > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> > > Reviewed-by: Andrew Jones <drjones@redhat.com>
-> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > > ---
-> > >   hw/acpi/aml-build.c         | 26 ++++++++++++++++++++++++++
-> > >   include/hw/acpi/aml-build.h |  4 ++++
-> > >   2 files changed, 30 insertions(+)
-> > > 
-> > > diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> > > index 76af0ebaf9..b7b9db6888 100644
-> > > --- a/hw/acpi/aml-build.c
-> > > +++ b/hw/acpi/aml-build.c
-> > > @@ -1964,6 +1964,32 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-> > >       acpi_table_end(linker, &table);
-> > >   }
-> > > +/* ACPI 6.2: 5.2.29.1 Processor hierarchy node structure (Type 0) */
-> > > +void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
-> > > +                                    uint32_t parent, uint32_t id,
-> > > +                                    uint32_t *priv_rsrc, uint32_t priv_num)
-> > > +{
-> > > +    int i;
-> > > +
-> > > +    build_append_byte(tbl, 0);                 /* Type 0 - processor */
-> > nit: I think Igor would generally prefer
-> > build_append_byte(tbl, 0 /* processor structure */);  /* Type */
-> > although it generates checkpatch warnings
-> Ok.
-
-I think it's ok as is. Right Igor?
-
-> > 
-> > > +    build_append_byte(tbl, 20 + priv_num * 4); /* Length */
-> > > +    build_append_int_noprefix(tbl, 0, 2);      /* Reserved */
-> > > +    build_append_int_noprefix(tbl, flags, 4);  /* Flags */
-> > > +    build_append_int_noprefix(tbl, parent, 4); /* Parent */
-> > > +    build_append_int_noprefix(tbl, id, 4);     /* ACPI Processor ID */
-> > > +
-> > > +    /* Number of private resources */
-> > > +    build_append_int_noprefix(tbl, priv_num, 4);
-> > > +
-> > > +    /* Private resources[N] */
-> > > +    if (priv_num > 0) {
-> > > +        assert(priv_rsrc);
-> > > +        for (i = 0; i < priv_num; i++) {
-> > > +            build_append_int_noprefix(tbl, priv_rsrc[i], 4);
-> > > +        }
-> > > +    }
-> > > +}
-> > > +
-> > >   /* build rev1/rev3/rev5.1 FADT */
-> > >   void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-> > >                   const char *oem_id, const char *oem_table_id)
-> > > diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-> > > index 3cf6f2c1b9..2c457c8f17 100644
-> > > --- a/include/hw/acpi/aml-build.h
-> > > +++ b/include/hw/acpi/aml-build.h
-> > > @@ -489,6 +489,10 @@ void build_srat_memory(GArray *table_data, uint64_t base,
-> > >   void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-> > >                   const char *oem_id, const char *oem_table_id);
-> > > +void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
-> > > +                                    uint32_t parent, uint32_t id,
-> > > +                                    uint32_t *priv_rsrc, uint32_t priv_num);
-> > > +
-> > >   void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-> > >                   const char *oem_id, const char *oem_table_id);
-> > > 
-> > Besides
-> > Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> Thanks for your review!
+> === PCI new allocation pass #1 ===
+> PCI: check devices
+> PCI: QEMU resource reserve cap: size 10000000000000 type io
+> PCI: secondary bus 1 size 10000000000000 type io
+> PCI: secondary bus 1 size 00200000 type mem
+> PCI: secondary bus 1 size 00200000 type prefmem
+> === PCI new allocation pass #2 ===
+> PCI: out of I/O address space
 > 
-> Yanan
-> .
-> > 
-> > Eric
-> > 
-> > .
+> This became more important since we started reserving IO by default,
+> previously no one noticed.
+> 
+> Fixes: e2a6290aab ("hw/pcie-root-port: Fix hotplug for PCI devices requiring IO")
+> Cc: marcel.apfelbaum@gmail.com
+> Fixes: 226263fb5c ("hw/pci: add QEMU-specific PCI capability to the Generic PCI Express Root Port")
+> Cc: zuban32s@gmail.com
+> Fixes: 6755e618d0 ("hw/pci: add PCI resource reserve capability to legacy PCI bridge")
+> Cc: jing2.liu@linux.intel.com
+> Tested-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  hw/pci/pci_bridge.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
