@@ -2,35 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8126E434E13
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:39:20 +0200 (CEST)
-Received: from localhost ([::1]:48946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 347E8434E26
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:42:29 +0200 (CEST)
+Received: from localhost ([::1]:55858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdCkQ-0007ce-ST
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:39:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48066)
+	id 1mdCnU-0003nu-Aa
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:42:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mdCce-0006fn-DT; Wed, 20 Oct 2021 10:31:19 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:56202)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mdCfh-0001Z2-8a
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:34:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mdCcb-0001jU-BC; Wed, 20 Oct 2021 10:31:15 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 30E5B756044;
- Wed, 20 Oct 2021 16:31:09 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0B4FF75603A; Wed, 20 Oct 2021 16:31:09 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 08D99756036;
- Wed, 20 Oct 2021 16:31:09 +0200 (CEST)
-Date: Wed, 20 Oct 2021 16:31:09 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: LEROY Christophe <christophe.leroy@csgroup.eu>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mdCfb-0006CM-O4
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:34:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634740457;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nglcX0K4dpfe62mj1tWzw4Quv+YvNFWc332/GGmfDfI=;
+ b=e7Ed3szai6iLJNak0XgbmhmPZKPM3SATZ0I8RIwRv7eTisV71wgg7izo5T4NKRGMa99IPK
+ NgKZHGyjjs3HW66Ng+LgAGHQLs2F3JDtdTGA8npI2fEDFYJ4UI6SzQYyWedUrtq86KfAtK
+ PRB+zx1ct30eus+JMDA5vDyRKynAZdE=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-587-YLhoOq0YMBqQ7KAlt8QCEg-1; Wed, 20 Oct 2021 10:34:14 -0400
+X-MC-Unique: YLhoOq0YMBqQ7KAlt8QCEg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ c25-20020a056402143900b003dc19782ea8so17722434edx.3
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 07:34:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nglcX0K4dpfe62mj1tWzw4Quv+YvNFWc332/GGmfDfI=;
+ b=Hyd29HOZKLWtBfc+HKb6Z0tvOUOSnJO2JEzFUbkeSL5zgIQAsjlOsdTPlPW01X2Y0F
+ SbEe1p6ScZjaI6BmvK7oVcR99MDreBr2jQnKb2z5AQ0EeuRaDfNVhPUauIwr3m7wVffq
+ 1LIWnX9NcMh71XQSgCerVYpiMDUz+mQ4Dack4B96PEcyZgfohIBXk2qkYuWVpQ5jv2Zk
+ sxR8Wcn26YWIDTi6oGki9tqiZ4GItPEiIOGKtmveNeKTaqM5nlj6K57Llqd9+rg7b9eV
+ vmb4wy6+511BZJMdgNXbLSdRUHe15paWMTMX2k0onQ3FlJc5qcrdTpLCA4FupuxKbHrT
+ tqjg==
+X-Gm-Message-State: AOAM533bHQH0cqtDGMf1b+i7XW2KF3b+dcixekLFTwAFqBC8vRNKJb6N
+ Su2pat2agSYUoq468AEbNvmW5t1ISY2/8or250NRu5e40N1bvKjE6HWAGmxBtPr3frezqSuvbim
+ MvWcJbnV00zClIsQ=
+X-Received: by 2002:a17:906:5343:: with SMTP id
+ j3mr146053ejo.538.1634740453300; 
+ Wed, 20 Oct 2021 07:34:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw/68z5GrYr3BstxGouMb3ZJvAnzr/UWxQ7OOY5d5QEdRoON1NPMihui6kByvIJL6tnJd6yGQ==
+X-Received: by 2002:a17:906:5343:: with SMTP id
+ j3mr146010ejo.538.1634740453042; 
+ Wed, 20 Oct 2021 07:34:13 -0700 (PDT)
+Received: from thuth.remote.csb (tmo-097-184.customers.d1-online.com.
+ [80.187.97.184])
+ by smtp.gmail.com with ESMTPSA id u23sm1310447edr.97.2021.10.20.07.34.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Oct 2021 07:34:12 -0700 (PDT)
 Subject: Re: Deprecate the ppc405 boards in QEMU?
-In-Reply-To: <e63df215-aacc-b57b-6ed2-d63927060eb7@csgroup.eu>
-Message-ID: <19612059-3e61-f920-339c-63162a94dd22@eik.bme.hu>
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ LEROY Christophe <christophe.leroy@csgroup.eu>
 References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
  <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com> <YWQB1FMhQfmqRYxN@yekko>
  <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
@@ -49,16 +82,29 @@ References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
  <a9b483e2-9176-2349-2478-faa15592c28b@csgroup.eu>
  <38de2462-17ea-0264-5606-6e07b129920d@kaod.org>
  <e63df215-aacc-b57b-6ed2-d63927060eb7@csgroup.eu>
+ <19612059-3e61-f920-339c-63162a94dd22@eik.bme.hu>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <a4d1571d-0419-054d-b127-8c0b57425f6b@redhat.com>
+Date: Wed, 20 Oct 2021 16:34:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1607508830-1634740269=:45829"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+In-Reply-To: <19612059-3e61-f920-339c-63162a94dd22@eik.bme.hu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,77 +118,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "dbarboza@redhat.com" <dbarboza@redhat.com>, Greg Kurz <groug@kaod.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <agraf@csgraf.de>,
- qemu-ppc <qemu-ppc@nongnu.org>,
- =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "dbarboza@redhat.com" <dbarboza@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
  Cleber Rosa <crosa@redhat.com>,
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-1607508830-1634740269=:45829
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Wed, 20 Oct 2021, LEROY Christophe wrote:
-> Le 20/10/2021 à 12:10, Cédric Le Goater a écrit :
->> I dont understand how
+On 20/10/2021 16.31, BALATON Zoltan wrote:
+> On Wed, 20 Oct 2021, LEROY Christophe wrote:
+>> Le 20/10/2021 à 12:10, Cédric Le Goater a écrit :
+>>> I dont understand how
+>>>
+>>>    static bd_t bd;
+>>>
+>>> can be updated in the kernel.
+>>>
 >>
->>    static bd_t bd;
+>> It's not updated in the kernel.
 >>
->> can be updated in the kernel.
+>> It is supposed to be provided by UBoot to Linux Kernel. But modern
+>> kernels don't take that anymore, they take a device tree. For this
+>> reason cuboot takes the content of bd to build/update the device tree.
 >>
->
-> It's not updated in the kernel.
->
-> It is supposed to be provided by UBoot to Linux Kernel. But modern
-> kernels don't take that anymore, they take a device tree. For this
-> reason cuboot takes the content of bd to build/update the device tree.
->
-> Looks like QEMU also provides the bd, see ref405ep_init()
->
-> I managed to get a kernel booting with the following change (and with
-> CONFIG_ETHERNET removed)
->
-> diff --git a/arch/powerpc/boot/cuboot-hotfoot.c
-> b/arch/powerpc/boot/cuboot-hotfoot.c
-> index 888a6b9bfead..63a9545ff55d 100644
-> --- a/arch/powerpc/boot/cuboot-hotfoot.c
-> +++ b/arch/powerpc/boot/cuboot-hotfoot.c
-> @@ -132,6 +132,12 @@ void platform_init(unsigned long r3, unsigned long
-> r4, unsigned long r5,
->                    unsigned long r6, unsigned long r7)
->  {
->         CUBOOT_INIT();
-> +        bd.bi_intfreq = 133333333;
-> +        bd.bi_busfreq = 33333333;
-> +        bd.bi_procfreq = 133333333;
-> +        bd.bi_plb_busfreq = 33333333;
-> +        bd.bi_pci_busfreq = 33333333;
-> +        bd.bi_opbfreq = 33333333;
->         platform_ops.fixups = hotfoot_fixups;
->          platform_ops.exit = ibm40x_dbcr_reset;
->         fdt_init(_dtb_start);
+>> Looks like QEMU also provides the bd, see ref405ep_init()
+>>
+>> I managed to get a kernel booting with the following change (and with
+>> CONFIG_ETHERNET removed)
+>>
+>> diff --git a/arch/powerpc/boot/cuboot-hotfoot.c
+>> b/arch/powerpc/boot/cuboot-hotfoot.c
+>> index 888a6b9bfead..63a9545ff55d 100644
+>> --- a/arch/powerpc/boot/cuboot-hotfoot.c
+>> +++ b/arch/powerpc/boot/cuboot-hotfoot.c
+>> @@ -132,6 +132,12 @@ void platform_init(unsigned long r3, unsigned long
+>> r4, unsigned long r5,
+>>                    unsigned long r6, unsigned long r7)
+>>  {
+>>         CUBOOT_INIT();
+>> +        bd.bi_intfreq = 133333333;
+>> +        bd.bi_busfreq = 33333333;
+>> +        bd.bi_procfreq = 133333333;
+>> +        bd.bi_plb_busfreq = 33333333;
+>> +        bd.bi_pci_busfreq = 33333333;
+>> +        bd.bi_opbfreq = 33333333;
+>>         platform_ops.fixups = hotfoot_fixups;
+>>          platform_ops.exit = ibm40x_dbcr_reset;
+>>         fdt_init(_dtb_start);
+> 
+> So maybe taihu should also provide this boot info when linux_boot is true 
+> (i.e. using -kernel) like the ref405ep does? Usually when using -kernel 
+> without -bios then QEMU has to also emulate enough of what the firmware 
+> would otherwise do like setting up devices and setting boot environment. Or 
+> if we have both -bios and -kernel then maybe -kernel should tell the 
+> firmware to boot a kernel but that may need a way to do that like setting 
+> variables in nvram but we don't have models of that in taihu. This taihu 
+> machine seems to be an early skeleton that wasn't finished, the ref405ep 
+> seems to be more advanced.
 
-So maybe taihu should also provide this boot info when linux_boot is true 
-(i.e. using -kernel) like the ref405ep does? Usually when using -kernel 
-without -bios then QEMU has to also emulate enough of what the firmware 
-would otherwise do like setting up devices and setting boot environment. 
-Or if we have both -bios and -kernel then maybe -kernel should tell the 
-firmware to boot a kernel but that may need a way to do that like setting 
-variables in nvram but we don't have models of that in taihu. This taihu 
-machine seems to be an early skeleton that wasn't finished, the ref405ep 
-seems to be more advanced.
+I agree, looking code, the ref405ep board seems to be in a better shape than 
+the taihu board. My u-boot image seems to run fine with both machines, so 
+I'd suggest that we deprecate (and later remove) the taihu board, and keep 
+the ref405ep board in QEMU if it is still helpful for Christophe (or anybody 
+else).
 
-Regards,
-BALATON Zoltan
---3866299591-1607508830-1634740269=:45829--
+  Thomas
+
 
