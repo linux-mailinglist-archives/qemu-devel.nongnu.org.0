@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2D23434A6A
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:44:01 +0200 (CEST)
-Received: from localhost ([::1]:48494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323CB434A73
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:46:36 +0200 (CEST)
+Received: from localhost ([::1]:52622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdA0m-0007IO-W9
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:44:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35874)
+	id 1mdA3H-0001fB-2I
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:46:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
- id 1md9vf-0004nI-5n
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 07:38:45 -0400
-Received: from mail-vk1-xa30.google.com ([2607:f8b0:4864:20::a30]:34688)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
- id 1md9vd-0000S1-RZ
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 07:38:42 -0400
-Received: by mail-vk1-xa30.google.com with SMTP id bc10so4958228vkb.1
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 04:38:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=nn2UYYDdpck2Ee6IHX96LGoZfuB2XaFlAtc3SglVIfU=;
- b=X1QjsM75bHh2hiqyVJpZ+GjPExwmK8fsFfbumHEUTIt5kQcSNkUI2KXORi5SDeG0pP
- womePe9ok8GDfsaX1l5P2oiA5pvSEav2+BGRgM+zLqhslpvFCWkYJidRmYIh5sgFtiWr
- oUCXZdieEKvcvc0q4Kjj/iBctEEN2zQ9qcH93GAX0i1Ex4ulJjiYCAJAWE9wBZ4dGYS2
- Sch4UiV7M1bhCn4T67f/ffwQFVl1AJkpp8+kpkhWKrxnLmzqtR7auv/MLZ4MjrYwMRBx
- b6opZ73xBbVA6+8TTvXk6cS6C/pR+8xA1LUb1+HlTBSD8y6EwTQ2oy3h8Jp7fsSVISK4
- k6qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=nn2UYYDdpck2Ee6IHX96LGoZfuB2XaFlAtc3SglVIfU=;
- b=iiXfS8vw8GCIb9J4C3+XTdp6X4hFPGhzOm3MAk3Z5eJ5rgKOMoBqIkIw7Z3bUH4ky6
- 6Vl8AWw3XQ7w+ESm1xJB2GDeVG6rhRGglAthypl1TNJfMvBGPQv8u8SlPe/dYwL/YiEW
- 8AtrsxjFTEXucrfYuiGHU/8sQgl1W1nW/AYM4SBucMLCwkhKBWsw2dxbA04syzFr69b+
- p/oJ0zSjE5EIGwWgL4zrIPhRrlJ8xh0kYfmP6GWficPVlkjyuYvXhXYPN8o8L3aTnTZM
- aFAAs1ZnyBkHpHDXDwlzJ25EfYxN4mWXaoOUmyX+n+liRmcwr92wt4kUV/Bk2Ht+Fmta
- VYmQ==
-X-Gm-Message-State: AOAM530RkqoMqRRd0KXW/RduaWD2txHSVwBKZ625TSMGmyvWEtuyaKgR
- SWHQ3XLIqoK1wBhubc9U0x69Txd2BuQCSQ8qovhZNZ01Te0=
-X-Google-Smtp-Source: ABdhPJxO+pZnePphW0KYG6Raxc8cJQHpwEhJB/YcUmGr0n8oSs3Mf4tOif0IZXAIDsInJubzp7KfyieYLTGWgW0jXoM=
-X-Received: by 2002:a05:6122:17a4:: with SMTP id
- o36mr38173976vkf.0.1634729919161; 
- Wed, 20 Oct 2021 04:38:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1md9xA-0005Ea-At; Wed, 20 Oct 2021 07:40:17 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:10729)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1md9x7-0001u5-OB; Wed, 20 Oct 2021 07:40:16 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 569F5748F57;
+ Wed, 20 Oct 2021 13:40:11 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 048857475FA; Wed, 20 Oct 2021 13:40:11 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id F3E02746399;
+ Wed, 20 Oct 2021 13:40:10 +0200 (CEST)
+Date: Wed, 20 Oct 2021 13:40:10 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: Deprecate the ppc405 boards in QEMU?
+In-Reply-To: <75686a5d-63da-fda7-8dab-7e0f190b6282@redhat.com>
+Message-ID: <c03e888a-ae99-98d6-89f8-7968a17e69e5@eik.bme.hu>
+References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
+ <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
+ <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
+ <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
+ <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
+ <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
+ <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
+ <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
+ <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
+ <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com>
+ <YWQB1FMhQfmqRYxN@yekko> <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
+ <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
+ <8c382ce4-f706-376c-289a-b8c64393decb@redhat.com>
+ <880f4bde-19fc-1267-3a04-3d9efd660897@csgroup.eu>
+ <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
+ <be7a734a-b88b-3130-fee8-398387fb65b4@redhat.com>
+ <75686a5d-63da-fda7-8dab-7e0f190b6282@redhat.com>
 MIME-Version: 1.0
-From: Duo jia <jiaduo19920301@gmail.com>
-Date: Wed, 20 Oct 2021 19:38:27 +0800
-Message-ID: <CALUzjTbVKxsVBf9uzYhg_vVK-wq=qBJ9qni2tcvdT5y+w1uxBg@mail.gmail.com>
-Subject: =?UTF-8?Q?How_does_QMEU_connect_USB_devices_in_GUEST_to_HOST?=
- =?UTF-8?Q?=EF=BC=9F?=
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000022aa0005cec738c7"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a30;
- envelope-from=jiaduo19920301@gmail.com; helo=mail-vk1-xa30.google.com
-X-Spam_score_int: 1
-X-Spam_score: 0.1
-X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) BAYES_40=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1077615932-1634730010=:8668"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,37 +71,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ dbarboza@redhat.com, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <agraf@csgraf.de>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000022aa0005cec738c7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-I simulate an MCU firmware.
-This firmware uses USB peripherals and is a function of a USB flash drive.
-QEMU can well support the operation of instructions, but I don't know how
-to extend the function of a USB so that the USB flash drive can be
-connected to the host.
+--3866299591-1077615932-1634730010=:8668
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-I have checked some qemu documents, all of which are connected to the guest
-by the usb device in the HOST.
+On Wed, 20 Oct 2021, Philippe Mathieu-Daudé wrote:
+> On 10/19/21 13:11, Thomas Huth wrote:
+>> On 19/10/2021 12.07, BALATON Zoltan wrote:
+>>> On Tue, 19 Oct 2021, Christophe Leroy wrote:
+>>>> Le 19/10/2021 à 11:39, Thomas Huth a écrit :
+>>>>> On 19/10/2021 11.31, Christophe Leroy wrote:
+>>>>>> Le 11/10/2021 à 15:24, Thomas Huth a écrit :
+>>>>>>> On 11/10/2021 11.20, David Gibson wrote:
+>>>>>>>> On Mon, Oct 11, 2021 at 10:10:36AM +0200, Thomas Huth wrote:
+>>>>>>>>> On 06/10/2021 09.25, Thomas Huth wrote:
+>>>>>>>>>> On 05/10/2021 23.53, BALATON Zoltan wrote:
+>>>>>>>>>> [...]
+>>>>>>>>>>> Maybe these 405 boards in QEMU ran with modified firmware
+>>>>>>>>>>> where the
+>>>>>>>>>>> memory detection was patched out but it seems to detect the
+>>>>>>>>>>> RAM so I
+>>>>>>>>>>> wonder where it gets that from. Maybe by reading the SDRAM
+>>>>>>>>>>> controller DCRs ppc4xx_sdram_init() sets up. Then I'm not sure
+>>>>>>>>>>> what
+>>>>>>>>>>> it needs the SPD for, I forgot how this worked on sam460ex. Maybe
+>>>>>>>>>>> for the speed calibration, so could be it detects ram by reading
+>>>>>>>>>>> DCRs then tries to get SPD data and that's where it stops as
+>>>>>>>>>>> i2c is
+>>>>>>>>>>> not emulated on taihu. This could be confirmed by checking
+>>>>>>>>>>> what it
+>>>>>>>>>>> pokes with -d guest_errors that shows accesses to missing devices
+>>>>>>>>>>> but don't know where 405 has the i2c controller and if it's
+>>>>>>>>>>> the same
+>>>>>>>>>>> as newer SoCs. If so that could be reused and an i2c bus could be
+>>>>>>>>>>> added with the SPD data like in sam460ex to make u-boot happy
+>>>>>>>>>>> or you
+>>>>>>>>>>> could skip this in u-boot.
+>>>>>>>>>>
+>>>>>>>>>> FWIW, I've just tried the latter (skipping the sdram init in
+>>>>>>>>>> u-boot),
+>>>>>>>>>> and indeed, I can get to the u-boot prompt now.
+>>>>>>>>> [...]> I've also attached the patch with my modifications to
+>>>>>>>>> u-boot.
+>>>>>>>>>
+>>>>>>>>> FYI, the changes can now be found on this branch here:
+>>>>>>>>>
+>>>>>>>>>   https://gitlab.com/huth/u-boot/-/commits/taihu
+>>>>>>>>>
+>>>>>>>>> I also added a gitlab-CI file, so you can now download the
+>>>>>>>>> u-boot.bin as an
+>>>>>>>>> artifact from the corresponding pipeline, e.g.:
+>>>>>>>>>
+>>>>>>>>>   https://gitlab.com/huth/u-boot/-/jobs/1667201028
+>>>>>>>>
+>>>>>>>> Thanks.
+>>>>>>>>
+>>>>>>>> Are you going to send a v2 of your proposed deprecation patches?
+>>>>>>>
+>>>>>>> No, since there was interest in keeping the 405 boards for testing
+>>>>>>> the 405 code in the Linux kernel, and since there is now a way to
+>>>>>>> do at least some very basic testing of these boards (with the
+>>>>>>> u-boot firmware), I don't plan to respin the deprecation patch. I
+>>>>>>> just sent a patch for adding the boards to our CI instead:
+>>>>>>>
+>>>>>>>   https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg02072.html
+>>>>>>>
+>>>>>>
+>>>>>> I have downloaded your u-boot.bin and tried it with both QEMU 5.2.0
+>>>>>> and mainline, and I get:
+>>>>>>
+>>>>>> ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt:
+>>>>>> assertion failed: (qemu_mutex_iothread_locked())
+>>>>>> Bail out!
+>>>>>> ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt:
+>>>>>> assertion failed: (qemu_mutex_iothread_locked())
+>>>>>> Abandon (core dumped)
+>>>>>>
+>>>>>> I see in the mail history that you got that problem as well at some
+>>>>>> point. How did you fix it ?
+>>>>>
+>>>>> You need this patch here to fix this issue:
+>>>>>
+>>>>>   https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg01019.html
+>>>>>   ("hw/ppc: Fix iothread locking in the 405 code")
+>>>>>
+>>>>
+>>>> Thank you.
+>>>>
+>>>> Is there anything special to do then in order to boot a Linux kernel ?
+>>>>
+>>>> I build the uImage for ppc40x_defconfig
+>>>>
+>>>> I use the following command, but it does nothing, it stays in uboot
+>>>> prompt as when I don't get a kernel argument
+>>>>
+>>>>     ~/qemu/build/qemu-system-ppc -M taihu -bios
+>>>> ~/Téléchargements/u-boot.bin -serial null -serial mon:stdio -kernel
+>>>> arch/powerpc/boot/uImage
+>>>
+>>> I'm not sure using -bios and -kernel together makes sense, it probably
+>>> starts u-boot in this case and you have to load and start the kernel
+>>> from u-boot as you'd notmally do on a real machine. Alternatively you
+>>> could use -kernel instead of -bios which then loads a kernel and
+>>> starts it directly but not sure if it needs a firmware to work.
+>>>
+>>> Ot I could be completely wrong as I don't know this machine and
+>>> haven't tried it.
+>>
+>> Actually, these 405 machines are quite weird. They refuse to boot
+>> without bios image, so you currently need the firmware image for sure.
+>
+> When using -kernel/-append, if a BIOS is required by the kernel,
+> then it should be crafted by the machine IMO. Usually OS only
+> access a configuration area in PROM. The PROM must be mapped,
+> and the minimum configuration structure filled.
+>
+> Anyhow I find -bios confusing, I never know if this option parse
+> or expects a full/partial raw flash image, an ELF image, something
+> else...
 
-Can you help me?
+Generally a firmware image in whatever format the board expects. Usually 
+raw binary or ELF. Not that different from -kernel that also takes 
+different formats depending on the machine. Think of -bios like -kernel 
+for firmware, i.e. specifying what firmware to use like -kernel specifies 
+what kernel to use.
 
-thank you=EF=BC=81
-
---00000000000022aa0005cec738c7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I simulate an MCU firmware.<br>This firmware uses USB peri=
-pherals and is a function of a USB flash drive. QEMU can well support the o=
-peration of instructions, but I don&#39;t know how to extend the function o=
-f a USB so that the USB flash drive can be connected to the host.<br><br>I =
-have checked some qemu documents, all of which are connected to the guest b=
-y the usb device in the HOST.<br><br>Can you help me?<br><div><br></div><di=
-v>thank you=EF=BC=81</div></div>
-
---00000000000022aa0005cec738c7--
+Regards,
+BALATON Zoltan
+--3866299591-1077615932-1634730010=:8668--
 
