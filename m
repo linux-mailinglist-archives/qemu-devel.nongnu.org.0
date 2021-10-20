@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B994348FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:33:17 +0200 (CEST)
-Received: from localhost ([::1]:35312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA70434918
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:39:17 +0200 (CEST)
+Received: from localhost ([::1]:49344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md8uK-0002Ej-9B
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:33:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48130)
+	id 1md908-0003bO-GO
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:39:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1md8hP-0003n2-MZ; Wed, 20 Oct 2021 06:19:55 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:35606)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1md8hN-00032k-C1; Wed, 20 Oct 2021 06:19:55 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id w19so24294344edd.2;
- Wed, 20 Oct 2021 03:19:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=WX5XX48DMBcs3sY/O4MWnvihk8w9+6+uzGwdj8DEbnQ=;
- b=jSL1xDEJBnX9XEYcqsFfutsaLY7uv1BPk6GTH18saqCnqTodqV9T/C0PvWmIlisYx7
- K7pH3Fziai85B83dMUX7DegAMtpD1pjHI1a6HoZzlNWgSWHikijFH/8Fy76V1rZ3GSAh
- s/yOIjrCMtkHeqUxnjEo8j5m4tHZyPOzqGSZsyKituzY/XM9UQl0UJ/jeRYu2w7ZLzRe
- e25lpjsvzaposINktWB7lefHxDSjoLRReGyoEKIqVLBQlEqVUZrGOmNkIq9q2Qb1SN1B
- 8B7Tbcs1R+lXLLQcMzFWb/1F4U88eXHX1blm5vgpFWAV4OmeuIp3SjAz6HoRKLwo4p9p
- DRKg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hI-0003Vs-MR
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:19:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36036)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hE-0002uW-Aj
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:19:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634725182;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NYKn9Og3lz4o30x/1JiH1NpvUb3mCz2MPvSBP82Jf0k=;
+ b=DACpa+6ahkfMHFBkPiqAgZQriZicgx1IGVuXb4ifyLxpDnCBrUHFgydy2ZGMYsPt5UVsOX
+ AbweG2bRwMTJpNk1DLXKjgtZhLD+QRPkoJbQIRGvs5oGEtD2D8n+g4MsP7n+zBsV+/3jbQ
+ rdk2FH35JVVKc/y00Ro8dGydtGo479A=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-208-4zgMl_REObqrxW46VvW24Q-1; Wed, 20 Oct 2021 06:19:41 -0400
+X-MC-Unique: 4zgMl_REObqrxW46VvW24Q-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ l10-20020a056402230a00b003db6977b694so20504018eda.23
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:19:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=WX5XX48DMBcs3sY/O4MWnvihk8w9+6+uzGwdj8DEbnQ=;
- b=7RkkEdITOhPgzU793QmHLjm36c+N80lKE22kfPDPjmoBjad9hxh72aavlMJg+qXItR
- l10nNkDORWGkSyk7dqGT3teK5xZlf5A3u9YF8w7EadbB2jXNJ3uuRoupUCydZHclA7mV
- 0IgJyaz/swuVCBCkob2gLMib20ToS8+4cZU9PMMR+1XPphpyEG5jNQt+q36mVb5n05Sm
- rBT43oEteICKmoCotHRZA+QTTxHLBGiPFhE3IR0qb2UCos7Ypyd3NREDSdwff0JasJ+u
- cDl6gh34R7InbY+8cngRP3vOPPVjC4YHmdG3nPrQPMqan6JFB5SK7eFt/HB9dqRRPJ7U
- RrPg==
-X-Gm-Message-State: AOAM531zv0pH2Eim7xk//zVTFlca5iCRNf5NPoRoBGRa0mu/I+5qNbrD
- poWC13U7ixeYUDNE2kiS0+M=
-X-Google-Smtp-Source: ABdhPJycSOVGuZwPXgzJV/oENA2q6ImNMWk91zSXFrVH2pl3/ocjPW9MdoJowX+4tYkinDWc04h5xw==
-X-Received: by 2002:a17:906:f184:: with SMTP id
- gs4mr45442622ejb.116.1634725191730; 
- Wed, 20 Oct 2021 03:19:51 -0700 (PDT)
-Received: from neptune.lab ([46.39.228.224])
- by smtp.googlemail.com with ESMTPSA id k19sm821284ejg.13.2021.10.20.03.19.50
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NYKn9Og3lz4o30x/1JiH1NpvUb3mCz2MPvSBP82Jf0k=;
+ b=X8BJraTnpAxtodNrIqWwTKnpJq4hEsYaZ62luLuwnL54SdCbfhlxmEOdHozJ7/eKdy
+ AHF06CuzkwEPicbdvgPCNoEiwgoWuJaMfQjpDL3S+uThV8ej+T69inIzot1Yf1iZpHuq
+ RY4gXXG6sVMYyngQkO9HdrGdptxjdnTUo3DcZ0+Zcyx4oUl/P7vZKaBczS+zE4PZmydV
+ wZsuGK28AFw+7uUUz+jjp4yceOSiA5YDQtgMWltbUeO5cQhMMVlIjSzWq4TTCPSLFKCf
+ Mrqky/ybhzTD5XCj6VOHtow77xEJgx50PoXLPtn41k1RpDyoghkaK63YoNg3g6AMHY07
+ Z3nA==
+X-Gm-Message-State: AOAM531O13V8JycvxkvbWW4M4StKCTewUpNkAWbkTNtCloinfH1iwSvb
+ fki4YpcjMYW8xp51eD/9wWux4FXiQoQCmwUuJ/JVHKQT9qhFrruPKEych7MErtFCIyYjQgh2G9K
+ rQ+RdA8fK/RIXqkJ3pOwwHiRUCWUlavZw1ZqnUd3FFcVo2gl/EqElLYhCqtrV
+X-Received: by 2002:aa7:d8c7:: with SMTP id k7mr56181768eds.85.1634725179970; 
+ Wed, 20 Oct 2021 03:19:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrg8Sncz6ysTvkwLqL+Jj9JHWaPqdCjpcuK+3QGE4WkABc1TghPDCCHx05op6OLt+3zS7F0g==
+X-Received: by 2002:aa7:d8c7:: with SMTP id k7mr56181744eds.85.1634725179761; 
+ Wed, 20 Oct 2021 03:19:39 -0700 (PDT)
+Received: from redhat.com ([2.55.24.172])
+ by smtp.gmail.com with ESMTPSA id e7sm1021511edk.3.2021.10.20.03.19.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 03:19:51 -0700 (PDT)
-From: Alexey Baturo <baturo.alexey@gmail.com>
-X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
-To: 
-Subject: [PATCH v15 8/8] [RISCV_PM] Allow experimental J-ext to be turned on
-Date: Wed, 20 Oct 2021 13:19:35 +0300
-Message-Id: <20211020101935.1369682-9-space.monkey.delivers@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211020101935.1369682-1-space.monkey.delivers@gmail.com>
-References: <20211020101935.1369682-1-space.monkey.delivers@gmail.com>
+ Wed, 20 Oct 2021 03:19:39 -0700 (PDT)
+Date: Wed, 20 Oct 2021 06:19:37 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 09/44] tests: acpi: whitelist expected blobs for new
+ acpi/q35/ivrs testcase
+Message-ID: <20211020101844.988480-10-mst@redhat.com>
+References: <20211020101844.988480-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=baturo.alexey@gmail.com; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211020101844.988480-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,45 +94,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
- Alistair Francis <alistair.francis@wdc.com>, kupokupokupopo@gmail.com,
- palmer@dabbelt.com, Bin Meng <bmeng.cn@gmail.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+From: Igor Mammedov <imammedo@redhat.com>
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 7f9dde70b7..fb08c0ffb8 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -558,6 +558,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-             }
-             set_vext_version(env, vext_version);
-         }
-+        if (cpu->cfg.ext_j) {
-+            target_misa |= RVJ;
-+        }
- 
-         set_misa(env, target_misa);
-     }
-@@ -624,6 +627,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
-     DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-+    DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20210902113551.461632-10-imammedo@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
+ tests/data/acpi/q35/DSDT.ivrs               | 0
+ tests/data/acpi/q35/IVRS.ivrs               | 0
+ 3 files changed, 2 insertions(+)
+ create mode 100644 tests/data/acpi/q35/DSDT.ivrs
+ create mode 100644 tests/data/acpi/q35/IVRS.ivrs
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..4fe8e8272a 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,3 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/DSDT.ivrs",
++"tests/data/acpi/q35/IVRS.ivrs",
+diff --git a/tests/data/acpi/q35/DSDT.ivrs b/tests/data/acpi/q35/DSDT.ivrs
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/q35/IVRS.ivrs b/tests/data/acpi/q35/IVRS.ivrs
+new file mode 100644
+index 0000000000..e69de29bb2
 -- 
-2.30.2
+MST
 
 
