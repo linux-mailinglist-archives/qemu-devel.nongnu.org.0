@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1349F434DD2
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:31:02 +0200 (CEST)
-Received: from localhost ([::1]:59862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07EF8434D93
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:28:15 +0200 (CEST)
+Received: from localhost ([::1]:52466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdCcP-0003vj-1e
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:31:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45712)
+	id 1mdCZi-0007DC-3r
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:28:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mdCTS-0006yW-Rz; Wed, 20 Oct 2021 10:21:46 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3160)
+ id 1mdCTO-0006vM-8q; Wed, 20 Oct 2021 10:21:42 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mdCTL-0002Gh-JK; Wed, 20 Oct 2021 10:21:46 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HZCN64QZCz90LQ;
- Wed, 20 Oct 2021 22:16:38 +0800 (CST)
+ id 1mdCTJ-0002CQ-Nm; Wed, 20 Oct 2021 10:21:41 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HZCRj226mzZcMq;
+ Wed, 20 Oct 2021 22:19:45 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Wed, 20 Oct 2021 22:21:31 +0800
+ 15.1.2308.15; Wed, 20 Oct 2021 22:21:32 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Wed, 20 Oct 2021 22:21:30 +0800
+ 15.1.2308.15; Wed, 20 Oct 2021 22:21:31 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: Peter Maydell <peter.maydell@linaro.org>, Richard Henderson
  <richard.henderson@linaro.org>, Eric Auger <eauger@redhat.com>, Andrew Jones
  <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
  <imammedo@redhat.com>
-Subject: [PATCH v9 3/8] hw/arm/virt: Add cpu-map to device tree
-Date: Wed, 20 Oct 2021 22:21:20 +0800
-Message-ID: <20211020142125.7516-4-wangyanan55@huawei.com>
+Subject: [PATCH v9 4/8] hw/acpi/aml-build: Add Processor hierarchy node
+ structure
+Date: Wed, 20 Oct 2021 22:21:21 +0800
+Message-ID: <20211020142125.7516-5-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20211020142125.7516-1-wangyanan55@huawei.com>
 References: <20211020142125.7516-1-wangyanan55@huawei.com>
@@ -45,8 +46,8 @@ X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -72,126 +73,63 @@ Cc: qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Jones <drjones@redhat.com>
+Add a generic API to build Processor hierarchy node structure (Type 0),
+which is strictly consistent with descriptions in ACPI 6.3: 5.2.29.1.
 
-Support device tree CPU topology descriptions.
+This function will be used to build ACPI PPTT table for cpu topology.
 
-In accordance with the Devicetree Specification, the Linux Doc
-"arm/cpus.yaml" requires that cpus and cpu nodes in the DT are
-present. And we have already met the requirement by generating
-/cpus/cpu@* nodes for members within ms->smp.cpus. Accordingly,
-we should also create subnodes in cpu-map for the present cpus,
-each of which relates to an unique cpu node.
-
-The Linux Doc "cpu/cpu-topology.txt" states that the hierarchy
-of CPUs in a SMP system is defined through four entities and
-they are socket/cluster/core/thread. It is also required that
-a socket node's child nodes must be one or more cluster nodes.
-Given that currently we are only provided with information of
-socket/core/thread, we assume there is one cluster child node
-in each socket node when creating cpu-map.
-
-Signed-off-by: Andrew Jones <drjones@redhat.com>
+Co-developed-by: Ying Fang <fangying1@huawei.com>
+Co-developed-by: Henglong Fan <fanhenglong@huawei.com>
 Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 ---
- hw/arm/virt.c | 70 +++++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 60 insertions(+), 10 deletions(-)
+ hw/acpi/aml-build.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 15e8d8cf4a..ca433adb5b 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -351,20 +351,21 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-     int cpu;
-     int addr_cells = 1;
-     const MachineState *ms = MACHINE(vms);
-+    const VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
-     int smp_cpus = ms->smp.cpus;
- 
-     /*
--     * From Documentation/devicetree/bindings/arm/cpus.txt
--     *  On ARM v8 64-bit systems value should be set to 2,
--     *  that corresponds to the MPIDR_EL1 register size.
--     *  If MPIDR_EL1[63:32] value is equal to 0 on all CPUs
--     *  in the system, #address-cells can be set to 1, since
--     *  MPIDR_EL1[63:32] bits are not used for CPUs
--     *  identification.
-+     * See Linux Documentation/devicetree/bindings/arm/cpus.yaml
-+     * On ARM v8 64-bit systems value should be set to 2,
-+     * that corresponds to the MPIDR_EL1 register size.
-+     * If MPIDR_EL1[63:32] value is equal to 0 on all CPUs
-+     * in the system, #address-cells can be set to 1, since
-+     * MPIDR_EL1[63:32] bits are not used for CPUs
-+     * identification.
-      *
--     *  Here we actually don't know whether our system is 32- or 64-bit one.
--     *  The simplest way to go is to examine affinity IDs of all our CPUs. If
--     *  at least one of them has Aff3 populated, we set #address-cells to 2.
-+     * Here we actually don't know whether our system is 32- or 64-bit one.
-+     * The simplest way to go is to examine affinity IDs of all our CPUs. If
-+     * at least one of them has Aff3 populated, we set #address-cells to 2.
-      */
-     for (cpu = 0; cpu < smp_cpus; cpu++) {
-         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(cpu));
-@@ -407,8 +408,57 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-                 ms->possible_cpus->cpus[cs->cpu_index].props.node_id);
-         }
- 
-+        if (!vmc->no_cpu_topology) {
-+            qemu_fdt_setprop_cell(ms->fdt, nodename, "phandle",
-+                                  qemu_fdt_alloc_phandle(ms->fdt));
-+        }
-+
-         g_free(nodename);
-     }
-+
-+    if (!vmc->no_cpu_topology) {
-+        /*
-+         * Add vCPU topology description through fdt node cpu-map.
-+         *
-+         * See Linux Documentation/devicetree/bindings/cpu/cpu-topology.txt
-+         * In a SMP system, the hierarchy of CPUs can be defined through
-+         * four entities that are used to describe the layout of CPUs in
-+         * the system: socket/cluster/core/thread.
-+         *
-+         * A socket node represents the boundary of system physical package
-+         * and its child nodes must be one or more cluster nodes. A system
-+         * can contain several layers of clustering within a single physical
-+         * package and cluster nodes can be contained in parent cluster nodes.
-+         *
-+         * Given that cluster is not yet supported in the vCPU topology,
-+         * we currently generate one cluster node within each socket node
-+         * by default.
-+         */
-+        qemu_fdt_add_subnode(ms->fdt, "/cpus/cpu-map");
-+
-+        for (cpu = smp_cpus - 1; cpu >= 0; cpu--) {
-+            char *cpu_path = g_strdup_printf("/cpus/cpu@%d", cpu);
-+            char *map_path;
-+
-+            if (ms->smp.threads > 1) {
-+                map_path = g_strdup_printf(
-+                    "/cpus/cpu-map/socket%d/cluster0/core%d/thread%d",
-+                    cpu / (ms->smp.cores * ms->smp.threads),
-+                    (cpu / ms->smp.threads) % ms->smp.cores,
-+                    cpu % ms->smp.threads);
-+            } else {
-+                map_path = g_strdup_printf(
-+                    "/cpus/cpu-map/socket%d/cluster0/core%d",
-+                    cpu / ms->smp.cores,
-+                    cpu % ms->smp.cores);
-+            }
-+            qemu_fdt_add_path(ms->fdt, map_path);
-+            qemu_fdt_setprop_phandle(ms->fdt, map_path, "cpu", cpu_path);
-+
-+            g_free(map_path);
-+            g_free(cpu_path);
-+        }
-+    }
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index 76af0ebaf9..5195324585 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -1964,6 +1964,36 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+     acpi_table_end(linker, &table);
  }
  
- static void fdt_add_its_gic_node(VirtMachineState *vms)
++/*
++ * ACPI spec, Revision 6.3
++ * 5.2.29.1 Processor hierarchy node structure (Type 0)
++ */
++static void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
++                                           uint32_t parent, uint32_t id,
++                                           uint32_t *priv_rsrc,
++                                           uint32_t priv_num)
++{
++    int i;
++
++    build_append_byte(tbl, 0);                 /* Type 0 - processor */
++    build_append_byte(tbl, 20 + priv_num * 4); /* Length */
++    build_append_int_noprefix(tbl, 0, 2);      /* Reserved */
++    build_append_int_noprefix(tbl, flags, 4);  /* Flags */
++    build_append_int_noprefix(tbl, parent, 4); /* Parent */
++    build_append_int_noprefix(tbl, id, 4);     /* ACPI Processor ID */
++
++    /* Number of private resources */
++    build_append_int_noprefix(tbl, priv_num, 4);
++
++    /* Private resources[N] */
++    if (priv_num > 0) {
++        assert(priv_rsrc);
++        for (i = 0; i < priv_num; i++) {
++            build_append_int_noprefix(tbl, priv_rsrc[i], 4);
++        }
++    }
++}
++
+ /* build rev1/rev3/rev5.1 FADT */
+ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+                 const char *oem_id, const char *oem_table_id)
 -- 
 2.19.1
 
