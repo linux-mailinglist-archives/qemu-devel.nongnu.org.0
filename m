@@ -2,77 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53509434D6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:23:10 +0200 (CEST)
-Received: from localhost ([::1]:41536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A4C434D50
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:18:31 +0200 (CEST)
+Received: from localhost ([::1]:57752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdCUn-0007ru-CA
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:23:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43122)
+	id 1mdCQI-0007hf-Sg
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:18:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mdCHk-0005UL-2c
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:09:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50134)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mdCJ0-00074I-W4
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:10:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mdCHd-0002Sd-Pn
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:09:39 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mdCIx-0003bY-VG
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:10:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634738971;
+ s=mimecast20190719; t=1634739055;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MMmnOnOduNNwvFhwGROyIRE7EMawiYM0rhA8+q9M9yE=;
- b=YJkWxlKRs56+QskYFjGGntz4mAVEKVdrOgrblLhVLX9cavkUiieExGphWL4WUn+YRqxWRW
- +fYlasjRjqyjvGUqZZHeCnfKrby1cjgzPPTdavhVKoWVYDGPjYcc3wyvF4V+qBSODhXiBE
- kLg8aONAchxMqvTMte4G1DF5eNi/fFg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-tphIa1cLOG21lQqHR7GlnQ-1; Wed, 20 Oct 2021 10:09:28 -0400
-X-MC-Unique: tphIa1cLOG21lQqHR7GlnQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEFA2192781B;
- Wed, 20 Oct 2021 14:09:26 +0000 (UTC)
-Received: from localhost (unknown [10.22.17.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D140360C5F;
- Wed, 20 Oct 2021 14:09:17 +0000 (UTC)
-Date: Wed, 20 Oct 2021 10:09:17 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH] hw/qdev-core: Add compatibility for (non)-transitional
- devs
-Message-ID: <20211020140917.2mirnsjkhcykotcu@habkost.net>
-References: <20211012082428.16222-1-jean-louis@dupond.be>
- <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
- <YW6h+YcNEgyzh5zw@stefanha-x1.localdomain>
- <20211019065850-mutt-send-email-mst@kernel.org>
- <20211019152913.wjipmv6trjx6k7xa@habkost.net>
- <20211019120619-mutt-send-email-mst@kernel.org>
- <20211019165611.scfagcp4ikhigx5k@habkost.net>
- <CACGkMEskUCah0t5FEzrf1kHnC4=iOVSU9=h9zJozQLynEQznaQ@mail.gmail.com>
- <CACGkMEuegAVjRudWPb5YZ7s7AZ1V_MvCkFviV1w5J_0f+bh+Vg@mail.gmail.com>
+ bh=glS9MlGE560KzrBWDfv5/jzvxPwZNEtHzz4ylEhkAQM=;
+ b=XphDO3J8lCQ5Y2eFzM1CgZxffXAUtLvgEqc5xDv7MHPNPpsjPmooZajOmITJylLzX4ybAC
+ aGqf8txGZUL2qRXyyyuXUWJWl/vwB5zA13dr9E2BRGTEDLs7LgyxQd3F5iUQVDZ9F8blMZ
+ xpLE/rkkWPCdy7i86cIsm/NlVpA4jAQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-Zl1IcLxrPpOZgAzm082G4A-1; Wed, 20 Oct 2021 10:10:54 -0400
+X-MC-Unique: Zl1IcLxrPpOZgAzm082G4A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ z137-20020a1c7e8f000000b0030cd1800d86so4292167wmc.2
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 07:10:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=glS9MlGE560KzrBWDfv5/jzvxPwZNEtHzz4ylEhkAQM=;
+ b=XxjT30RqIq0G2Gr66GYp1kjAxjeNkpUWTjjTH94K35luJIHiEUmYs0zAXUFBERL39c
+ APnFBh6w7tJzWhfJAdPaqFj9z9oT576N57yMsuE1dCLdJ8mh8w0KGJuVjH+2L0N8il/o
+ GGkJ+3qVvlBf62OuoOdo0XllhAH268FGcxYrrLvcAlakii4mEeZG4UHRIDEEumx/UjGl
+ V+C4S4jMcLHl52QSpLvfeHSrvfZpb8njUmsJ53iGGfr0J8pf+39YPVAbELmf4hOaDWBS
+ PyDgu+agTRAvfp2w9Gshk/pwq+Esxc/DJSIY5u8S/QbNHOCIW6LOVwYhPpj70nBubOm6
+ udTQ==
+X-Gm-Message-State: AOAM532RTKVdU6P2gZNfzgu7lZzKxN39O/OMPqwpePEsvXK7PgSRK3ef
+ KrxZ8PkDobW6/4tRyRi4IIxRWHjQIC20xcGQzdbbR+znGW6//L9EAIuN/3wQ4ZFHBSlw/JsmnLq
+ 2hcRIPAcIIt1sEUU=
+X-Received: by 2002:adf:bbc3:: with SMTP id z3mr811wrg.10.1634739052968;
+ Wed, 20 Oct 2021 07:10:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxPighE9/znOnyN28TLZ1OubugHDuxqvdB9PEAm4VF/elyyfieBXWSGuDbAxI+tz9fvdigTAg==
+X-Received: by 2002:adf:bbc3:: with SMTP id z3mr762wrg.10.1634739052597;
+ Wed, 20 Oct 2021 07:10:52 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id s8sm2154836wrr.15.2021.10.20.07.10.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Oct 2021 07:10:52 -0700 (PDT)
+Message-ID: <53540c84-a06a-281d-db4a-51affe7a0e0c@redhat.com>
+Date: Wed, 20 Oct 2021 16:10:51 +0200
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEuegAVjRudWPb5YZ7s7AZ1V_MvCkFviV1w5J_0f+bh+Vg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v4 10/12] virtiofsd: Add inodes_by_handle hash table
+To: Vivek Goyal <vgoyal@redhat.com>
+References: <20210916084045.31684-1-hreitz@redhat.com>
+ <20210916084045.31684-11-hreitz@redhat.com> <YW8kbdCeqs11E0Tl@redhat.com>
+ <194cd5f5-e5b3-2929-3ae7-ad2fb1083021@redhat.com>
+ <YXALvGmoKxXOXMdN@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <YXALvGmoKxXOXMdN@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.001,
+ DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,113 +101,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>, Jean-Louis Dupond <jean-louis@dupond.be>,
- pbonzini <pbonzini@redhat.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 20, 2021 at 01:02:24PM +0800, Jason Wang wrote:
-> On Wed, Oct 20, 2021 at 9:31 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Wed, Oct 20, 2021 at 12:56 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
-> > >
-> > > On Tue, Oct 19, 2021 at 12:13:17PM -0400, Michael S. Tsirkin wrote:
-> > > > On Tue, Oct 19, 2021 at 11:29:13AM -0400, Eduardo Habkost wrote:
-> > > > > On Tue, Oct 19, 2021 at 06:59:09AM -0400, Michael S. Tsirkin wrote:
-> > > > > > On Tue, Oct 19, 2021 at 11:46:17AM +0100, Stefan Hajnoczi wrote:
-> > > > > > > On Tue, Oct 12, 2021 at 10:36:01AM +0200, Jean-Louis Dupond wrote:
-> > > > > > > > Forgot to CC maintainers.
-> > > > > > >
-> > > > > > > Also CCing Jason Wang and Michael Tsirkin for VIRTIO.
-> > > > > > >
-> > > > > > > Stefan
-> > > > > >
-> > > > > > OMG
-> > > > > > where all compat properties broken all the time?
-> > > > >
-> > > > > Compat properties that existed when commit f6e501a28ef9 ("virtio:
-> > > > > Provide version-specific variants of virtio PCI devices") was
-> > > > > merged are not broken, because virtio-*-transitional and
-> > > > > virtio-*-non-transitional were brand new QOM types (so there's no
-> > > > > compatibility to be kept with old QEMU versions).
-> > > > >
-> > > > > Compat properties referencing "virtio-*-pci" instead of
-> > > > > "virtio-*-pci-base" added after commit f6e501a28ef9 are probably
-> > > > > broken, yes.
-> > > > >
-> > > > > --
-> > > > > Eduardo
-> > > >
-> > > > Oh. So just this one:
-> > > >     { "virtio-net-pci", "vectors", "3"},
-> > > >
-> > > > right?
-> > >
-> > > I think so.  That's the only post-4.0 virtio-*-pci compat property I see in
-> > > hw/core/machine.c.
-> > >
-> > > pc.c doesn't have any post-4.0 virtio-*-pci compat props.  I didn't see any
-> > > virtio compat props on spapr.c and s390-virtio-ccw.c.
-> > >
-> > > >
-> > > > about the patch: how do people feel about virtio specific
-> > > > stuff in qdev core? Ok by everyone?
-> > >
-> > > Not OK, if we have a mechanism to avoid that, already (the
-> > > "virtio-net-pci-base" type name).  I wonder what we can do to
-> > > make this kind of mistake less likely, though.
-> > >
-> > > Jean-Louis, Jason, does the following fix work?
-> >
-> > Yes.
-> >
-> > Acked-by: Jason Wang <jasowang@redhat.com>
-> >
-> > Thanks
-> >
-> > >
-> > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > > ---
-> > > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > > index b8d95eec32d..bd9c6156c1a 100644
-> > > --- a/hw/core/machine.c
-> > > +++ b/hw/core/machine.c
-> > > @@ -56,7 +56,7 @@ GlobalProperty hw_compat_5_2[] = {
-> > >      { "ICH9-LPC", "smm-compat", "on"},
-> > >      { "PIIX4_PM", "smm-compat", "on"},
-> > >      { "virtio-blk-device", "report-discard-granularity", "off" },
-> > > -    { "virtio-net-pci", "vectors", "3"},
-> > > +    { "virtio-net-pci-base", "vectors", "3"},
-> 
-> Rethink about this, any chance that we can use "virtio-net-pci" as the
-> base_name? It looks to me this can cause less confusion and consistent
-> with the existing compat properties.
+On 20.10.21 14:29, Vivek Goyal wrote:
+> On Wed, Oct 20, 2021 at 12:02:32PM +0200, Hanna Reitz wrote:
+>> On 19.10.21 22:02, Vivek Goyal wrote:
+>>> On Thu, Sep 16, 2021 at 10:40:43AM +0200, Hanna Reitz wrote:
+>>>> Currently, lo_inode.fhandle is always NULL and so always keep an O_PATH
+>>>> FD in lo_inode.fd.  Therefore, when the respective inode is unlinked,
+>>>> its inode ID will remain in use until we drop our lo_inode (and
+>>>> lo_inode_put() thus closes the FD).  Therefore, lo_find() can safely use
+>>>> the inode ID as an lo_inode key, because any inode with an inode ID we
+>>>> find in lo_data.inodes (on the same filesystem) must be the exact same
+>>>> file.
+>>>>
+>>>> This will change when we start setting lo_inode.fhandle so we do not
+>>>> have to keep an O_PATH FD open.  Then, unlinking such an inode will
+>>>> immediately remove it, so its ID can then be reused by newly created
+>>>> files, even while the lo_inode object is still there[1].
+>>>>
+>>>> So creating a new file can then reuse the old file's inode ID, and
+>>>> looking up the new file would lead to us finding the old file's
+>>>> lo_inode, which is not ideal.
+>>>>
+>>>> Luckily, just as file handles cause this problem, they also solve it:  A
+>>>> file handle contains a generation ID, which changes when an inode ID is
+>>>> reused, so the new file can be distinguished from the old one.  So all
+>>>> we need to do is to add a second map besides lo_data.inodes that maps
+>>>> file handles to lo_inodes, namely lo_data.inodes_by_handle.  For
+>>>> clarity, lo_data.inodes is renamed to lo_data.inodes_by_ids.
+>>>>
+>>>> Unfortunately, we cannot rely on being able to generate file handles
+>>>> every time.  Therefore, we still enter every lo_inode object into
+>>>> inodes_by_ids, but having an entry in inodes_by_handle is optional.  A
+>>>> potential inodes_by_handle entry then has precedence, the inodes_by_ids
+>>>> entry is just a fallback.
+>>>>
+>>>> Note that we do not generate lo_fhandle objects yet, and so we also do
+>>>> not enter anything into the inodes_by_handle map yet.  Also, all lookups
+>>>> skip that map.  We might manually create file handles with some code
+>>>> that is immediately removed by the next patch again, but that would
+>>>> break the assumption in lo_find() that every lo_inode with a non-NULL
+>>>> .fhandle must have an entry in inodes_by_handle and vice versa.  So we
+>>>> leave actually using the inodes_by_handle map for the next patch.
+>>>>
+>>>> [1] If some application in the guest still has the file open, there is
+>>>> going to be a corresponding FD mapping in lo_data.fd_map.  In such a
+>>>> case, the inode will only go away once every application in the guest
+>>>> has closed it.  The problem described only applies to cases where the
+>>>> guest does not have the file open, and it is just in the dentry cache,
+>>>> basically.
+>>>>
+>>>> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+>>>> ---
+>>>>    tools/virtiofsd/passthrough_ll.c | 81 +++++++++++++++++++++++++-------
+>>>>    1 file changed, 65 insertions(+), 16 deletions(-)
+>>>>
+>>>> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+>>>> index bd8fc922ea..b7d6aa7f9d 100644
+>>>> --- a/tools/virtiofsd/passthrough_ll.c
+>>>> +++ b/tools/virtiofsd/passthrough_ll.c
+>>>> @@ -186,7 +186,8 @@ struct lo_data {
+>>>>        int announce_submounts;
+>>>>        bool use_statx;
+>>>>        struct lo_inode root;
+>>>> -    GHashTable *inodes; /* protected by lo->mutex */
+>>>> +    GHashTable *inodes_by_ids; /* protected by lo->mutex */
+>>>> +    GHashTable *inodes_by_handle; /* protected by lo->mutex */
+>>>>        struct lo_map ino_map; /* protected by lo->mutex */
+>>>>        struct lo_map dirp_map; /* protected by lo->mutex */
+>>>>        struct lo_map fd_map; /* protected by lo->mutex */
+>>>> @@ -275,8 +276,9 @@ static struct {
+>>>>    /* That we loaded cap-ng in the current thread from the saved */
+>>>>    static __thread bool cap_loaded = 0;
+>>>> -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
+>>>> -                                uint64_t mnt_id);
+>>>> +static struct lo_inode *lo_find(struct lo_data *lo,
+>>>> +                                const struct lo_fhandle *fhandle,
+>>>> +                                struct stat *st, uint64_t mnt_id);
+>>>>    static int xattr_map_client(const struct lo_data *lo, const char *client_name,
+>>>>                                char **out_name);
+>>>> @@ -1143,18 +1145,40 @@ out_err:
+>>>>        fuse_reply_err(req, saverr);
+>>>>    }
+>>>> -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
+>>>> -                                uint64_t mnt_id)
+>>>> +static struct lo_inode *lo_find(struct lo_data *lo,
+>>>> +                                const struct lo_fhandle *fhandle,
+>>>> +                                struct stat *st, uint64_t mnt_id)
+>>>>    {
+>>>> -    struct lo_inode *p;
+>>>> -    struct lo_key key = {
+>>>> +    struct lo_inode *p = NULL;
+>>>> +    struct lo_key ids_key = {
+>>>>            .ino = st->st_ino,
+>>>>            .dev = st->st_dev,
+>>>>            .mnt_id = mnt_id,
+>>>>        };
+>>>>        pthread_mutex_lock(&lo->mutex);
+>>>> -    p = g_hash_table_lookup(lo->inodes, &key);
+>>>> +    if (fhandle) {
+>>>> +        p = g_hash_table_lookup(lo->inodes_by_handle, fhandle);
+>>>> +    }
+>>>> +    if (!p) {
+>>>> +        p = g_hash_table_lookup(lo->inodes_by_ids, &ids_key);
+>>>> +        /*
+>>>> +         * When we had to fall back to looking up an inode by its
+>>>> +         * inode ID, ensure that we hit an entry that has a valid file
+>>>> +         * descriptor.  Having an FD open means that the inode cannot
+>>>> +         * really be deleted until the FD is closed, so that the inode
+>>>> +         * ID remains valid until we evict our lo_inode.
+>>>> +         * With no FD open (and just a file handle), the inode can be
+>>>> +         * deleted while we still have our lo_inode, and so the inode
+>>>> +         * ID may be reused by a completely different new inode.  We
+>>>> +         * then must look up the lo_inode by file handle, because this
+>>>> +         * handle contains a generation ID to differentiate between
+>>>> +         * the old and the new inode.
+>>>> +         */
+>>>> +        if (p && p->fd == -1) {
+>>>> +            p = NULL;
+>>>> +        }
+>>> What happens in following scenario.
+>>>
+>>> - Say I have a hard linked file foo.txt with link foo-link.txt.
+>>>
+>>> - I lookup foo.txt. We generate file handle and add inode for foo.txt
+>>>     to inode cache. lo_inode->fhandle will be valie but lo_inode->fd == -1.
+>>>
+>>> - Now later lookup for foo-link.txt happens. Say this time we can't
+>>>     generate file handle.
+>> Which we’ve already decided is practically impossible.
+> Agreed that probably is very less but it can happen when sufficient
+> resources are not available, like -ENOMEM.
+>
+> static long do_sys_name_to_handle(struct path *path,
+>                                    struct file_handle __user *ufh,
+>                                    int __user *mnt_id)
+> {
+>          handle = kmalloc(sizeof(struct file_handle) + f_handle.handle_bytes,
+>                           GFP_KERNEL);
+>          if (!handle)
+>                  return -ENOMEM;
+> }
 
-It's probably too late now: we can't change the semantics of
-"-global virtio-net-pci" without breaking compatibility.
+OK, but do we really want to be prepared for an ENOMEM from the kernel?
 
-The original reasoning for making generic_name != base_name is at
-this comment in struct VirtioPCIDeviceTypeInfo:
+>>> When we try to lookup inode, lo_find() should
+>>>     return NULL. It will find inode by ids but not use it because inode
+>>>     was added using file handle and p->fd == -1. That means lookup
+>>>     for foo-link.txt will end up adding another inode, when it should
+>>>     not have?
+>> Yes, it would end up adding another inode, which doesn’t seem catastrophic
+>> to me.
+>> But again, the whole case seems impossible to me.
+> Given we can get -ENOMEM error it is not impossible.
+>
+> I thought all along you wanted to write code so that we could fallback
+> to ids in case of errors.
 
-    /*
-     * Common base class for the subclasses below.
-     *
-     * Required only if transitional_name or non_transitional_name is set.
-     *
-     * We need a separate base type instead of making all types
-     * inherit from generic_name for two reasons:
-     * 1) generic_name implements INTERFACE_PCIE_DEVICE, but
-     *    transitional_name does not.
-     * 2) generic_name has the "disable-legacy" and "disable-modern"
-     *    properties, transitional_name and non_transitional name don't.
-     */
-    const char *base_name;
+Well, yes, if possible, but unfortunately it isn’t possible here.
 
-(I had to look it up.  I didn't remember the original reason for that)
+> Anyway, if you agree that except the case of
+> -EOPNOTSUPP, we don't have to worry about fallback, then let us just
+> reutrn error to caller if get_file_handle() fails (except the case
+> of -EOPNOTSUPP).
 
--- 
-Eduardo
+We’ve had this discussion before, and so I tried that for v3 but 
+abandoned it again because I found it unreasonably complicated. Always 
+falling back is simpler than deciding when to return an error to the 
+guest and when not to; and also, considering errors other than 
+EOPNOTSUPP should be rare, the code that returns errors to the guest 
+would effectively be dead code.
+
+If we really must return an error in the case you describe, then I don’t 
+think there’s a way around it, though...  In virtiofsd-rs, we could let 
+FileHandle::from_name_at() return an io::Result<Option<Self>>, such that 
+it returns Ok(None) in case of EOPNOTSUPP, or an Error in case there is 
+an unexpected error like ENOMEM.  I think that shouldn’t be too bad, but 
+my experience says the devil’s in the details.
+
+It’s just that it seems to be a purely theoretical problem, because if 
+the kernel gives us ENOMEM, we probably won’t live too long anyway.
+
+Hanna
 
 
