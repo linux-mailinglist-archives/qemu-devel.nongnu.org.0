@@ -2,146 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DA5434C24
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 15:31:54 +0200 (CEST)
-Received: from localhost ([::1]:49782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2DBF434C2C
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 15:34:09 +0200 (CEST)
+Received: from localhost ([::1]:52708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdBh9-0001nX-TL
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 09:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34462)
+	id 1mdBjN-0003wY-2c
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 09:34:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
- id 1mdBcv-0007bY-W3; Wed, 20 Oct 2021 09:27:30 -0400
-Received: from mail-eopbgr90059.outbound.protection.outlook.com
- ([40.107.9.59]:41194 helo=FRA01-MR2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1mdBhD-0002Rh-Gx; Wed, 20 Oct 2021 09:31:55 -0400
+Received: from mga12.intel.com ([192.55.52.136]:41639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
- id 1mdBct-0005Nx-2b; Wed, 20 Oct 2021 09:27:29 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NSuaTEbY2zsAkewCC6E2oiVKHofpxOJ+Ab+4ZDf1FsnRPJObzymINZq9YEnB78sNBOqzi1sXVjhQPUZfnjy1pwDH1jJv8s+BcKjDIzSUPB2GMHSNIKGZbkwx0zdGjxQfdpcxPOG1EDOb9e12qo+o+VeOgkShbRljBtNKrgR12GlVuL6Z1G/lYmTa1wenES2qqi0l2zDXlOBKh0A1F23HTaNpI8o52Fy6ilBvamki4ZK0kx0s4S5KpYhEXoRy5B69X1wHPucVznnh0oIsHi5n2Wcrdaq1OFEd1oNJcIxiJ4cBnuyvLxOQYp5YuElnprF/mkG1cjOkbRPxAcrNq7Z41w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=huqfM42pCy7l7fs7vuI5utmp3ZW8hE8Q6mAc07dHJJk=;
- b=NknxN0gjDjIo2k0RyO6vK/iFecd2JuD9yxNYlhW3Ra+KtPu8waEmQYONhj9//I7eAaMD+9wGC4mKOpZilcb3ZdU6ZcL2xlx3CNIUigQc3lErlkzTHVrkLqtf3gIdGWE5S+vEbRZU3IxyF6BNr/UolWdE9AwIaWBpVFtPMloFOlFqznsOMtzSzPfECEikwXPlCNm9xk/MGUIww4+JlU9oUemDWuYAA6YJ1BOslafKGdcmhGtwVtN/GC52WPubN5ZWAyUnNBQwgEinWt4ier8CduyeyUBJNvioa+f7noFk5LRqXfCnZZcuFhphHC3b5K5/VXu57IPRLu3xVedOdMLcXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=csgroup.eu; dmarc=pass action=none header.from=csgroup.eu;
- dkim=pass header.d=csgroup.eu; arc=none
-Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:31::15)
- by MR1P264MB1857.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:4::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.16; Wed, 20 Oct
- 2021 13:27:23 +0000
-Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
- ([fe80::fc67:d895:7965:663f]) by MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
- ([fe80::fc67:d895:7965:663f%2]) with mapi id 15.20.4628.016; Wed, 20 Oct 2021
- 13:27:23 +0000
-From: LEROY Christophe <christophe.leroy@csgroup.eu>
-To: =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>, BALATON Zoltan
- <balaton@eik.bme.hu>
-Subject: Re: Deprecate the ppc405 boards in QEMU?
-Thread-Topic: Deprecate the ppc405 boards in QEMU?
-Thread-Index: AQHXucZF2mvlN0sthUetBB/8OV47qqvEUmkAgAAFE4CAAJvQAIAAn+CAgAfoOACAABN7AIAAREAAgAxRZYCAAAJLgIAAB8TCgAASBwCAABgs+4AAJtCugABt5+KAANSDEoAANuAA
-Date: Wed, 20 Oct 2021 13:27:23 +0000
-Message-ID: <e63df215-aacc-b57b-6ed2-d63927060eb7@csgroup.eu>
-References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
- <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
- <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
- <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com> <YWQB1FMhQfmqRYxN@yekko>
- <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
- <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
- <8c382ce4-f706-376c-289a-b8c64393decb@redhat.com>
- <880f4bde-19fc-1267-3a04-3d9efd660897@csgroup.eu>
- <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
- <be7a734a-b88b-3130-fee8-398387fb65b4@redhat.com>
- <262b6af0-b5c5-1d28-2f48-7a021c5cd0b9@csgroup.eu>
- <a3d28088-2012-9450-5491-1de77d962da7@eik.bme.hu>
- <d8c9661e-4439-b3f8-48d8-b6f659e862c8@csgroup.eu>
- <5491ed41-7328-3949-12ad-1a94f0f525d1@csgroup.eu>
- <6be2745-2eb7-7b85-31c3-def20eb21f@eik.bme.hu>
- <17b48b89-ef2a-f38d-b081-a3e2ffc1ca67@csgroup.eu>
- <51c1e658-a8ec-a41b-ef8f-a1677ea94f4a@kaod.org>
- <a9b483e2-9176-2349-2478-faa15592c28b@csgroup.eu>
- <38de2462-17ea-0264-5606-6e07b129920d@kaod.org>
-In-Reply-To: <38de2462-17ea-0264-5606-6e07b129920d@kaod.org>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kaod.org; dkim=none (message not signed)
- header.d=none;kaod.org; dmarc=none action=none header.from=csgroup.eu;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 21718761-c3c6-4bc1-d57a-08d993cd59a6
-x-ms-traffictypediagnostic: MR1P264MB1857:
-x-microsoft-antispam-prvs: <MR1P264MB1857E94F076E01013FE50155EDBE9@MR1P264MB1857.FRAP264.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hUiJPbgqj+0Nt6SC4IHdMNaAEgoFcc382DpK3gE6iQmCmL2H1kL5RB2ki5KyQT2zQklkh1JsoYZ4FAuht6ZFZmn3qBv4ardyeypVLcPw3QLBvTHg7SjZhX2CsdtrOjhkto82O8TnutOiPj8QIL8VX2aadQoB/EU+XfRhEbVUQsg8eBaGJcaRoUQzN8F0PylwBLAMH9ApDW72mtATYWJRXIXy8Nwar4FZeEjz5hIeNH0tGsmFtW/23ItXEzFytOoDTh+AiUA+C1vTe5i02XoCoXHLfsLc1nNujBEGQdEfWMFyp8aDLU06k9cZhAgzTDpY/yyx+7tY3+y5fCaqEhv3x99quxagzOoVqnpFrTgMGBfPSfcEAd1abo48IIZ36/uBubAblAtjGM/uVGQOLZjm6hUz4dr7TLqiVAI3afwDXhgxqdVJlXxjE8heW6nWWtU8cOtAHvO7M0fCuS88iVS23RlCEbBufCFcPrJkelGdKtkS/JaO1XGLMdx+Sc1vh/PSQrb4T1mIWPzbjJWcM2FkXcfj3rwVsym8V03qplSmb9jTOpincvjx+YjzgrFZtgR8wi0gfEEUfmKBhbeEmKmYYAdgAgW/0sbUax6p8EeGFP7OGlYtppKdR+hi0HZzTUO9xBDY7n1noHh2lgrUxojqWJZceRCL5IXzQyn18ysnGRfiHFhtRIE53deFjAgTnhHBScKNVPQMaazVZZDa9k0FwjLnfa2pUHx1EnMhrB9hcrVxti6xJxSu8hLc/nOfyjpS
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(366004)(53546011)(6506007)(508600001)(8936002)(110136005)(64756008)(66556008)(66446008)(91956017)(2906002)(6486002)(76116006)(66476007)(66946007)(26005)(36756003)(5660300002)(2616005)(86362001)(83380400001)(8676002)(31696002)(66574015)(6512007)(38070700005)(122000001)(4326008)(316002)(54906003)(186003)(38100700002)(71200400001)(7416002)(31686004)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OERNQTFtd1o5VXNha1Mvc3VxN3A0bi8rdlhFTVJJMysyU0NFTGRxRi84WDE4?=
- =?utf-8?B?L1czRHAwSytIZkRpMlZWOVVRZUVQNW1NcnFkS1g2Ynl4c2ZscFVEdE5PMXNP?=
- =?utf-8?B?b1UwMmFmSG55eTQvV2p1TXcwUFhNSXdNUWZZMzhLUFlIT2hVTmg5N0JMamZQ?=
- =?utf-8?B?Rm5yZVNiY0pWc1NwN1JnUmxmUURFcCt5cWJXL3FYKzk0UjB3WlFEVWd3cnRY?=
- =?utf-8?B?bHFCblNab3pydkdrbWxOSUl4dncvd3d5Wk10bG1LdzBJSTlPaVRXenRsd3Q1?=
- =?utf-8?B?OG4yNHBHT0VsVlJIZXhFa0w5anQ4WmlmYUVZdzYzTWQ5aVFOOHE1Z2U4RXB2?=
- =?utf-8?B?dG1jSXZ0M1M5U3ZWY2dBK2VuRlV2elhPKzM0QmxkRk92MDJEYXZ4RUowOXVp?=
- =?utf-8?B?OWJzTUtaS083MWJJR3MveUtYcVNRbmhTRkUxc0VwRXQ0elZ4RnpvOVhsMjJO?=
- =?utf-8?B?a1Nhd0NLSmpBOEk1UUdlSHd6SHh2TE9rN2twejFFQitERmh1RUxWMjl2VVN4?=
- =?utf-8?B?TThaaFlIcDdxU2FPTzVNb0l0aityOUxsN2hZbHRXOFpjeTRibHA1SDFVWnNk?=
- =?utf-8?B?OFZEczgxRDJHYWc0VUpWdGJnMDY0TGVPU0ZUVEo1czBwVFFvWHYrZlA2Y0lR?=
- =?utf-8?B?WCtacUJlOGlaeDVkbVBJanFLb1ovbzRhbTFqdkpacUVmSHNwSG1RN3Z2a0VB?=
- =?utf-8?B?UTVBM0cxY2paSFZQZVJCQlBFWnpqd3hjOVlJZE0xMHp6Q0NMakIzVmJUNnJZ?=
- =?utf-8?B?OE1yaWNlQzU3TVA1ZElFNi9aOFNkZ1VDcThqZDNCT2Q4WUVQNUtvdkZxaGdY?=
- =?utf-8?B?eEhWd3BsUnFYbkZUMGpGRzZucHI4K2orRk9hcXZGTTBRYWJSd0E1bFNCTGJN?=
- =?utf-8?B?K3RMR2dBazRFWHVYSnNwVlNGS0VKaGIxUXdrNGJLb2pZT1lYT1Yveml6QTB0?=
- =?utf-8?B?Ti9aeUlIRnRkV014WW1iSzYzUm1yRUhBNEJiak9HKzU0OEJOSmRhcUVoN3hY?=
- =?utf-8?B?VEt1eG40MWFtZDFsWG5ZSys5NzNLYzUwYnhDbzN3WUZlUGkweXV2N2Q1ZGRE?=
- =?utf-8?B?azk0dXZHYngxSDQ5THFGZEc3d2NUODlnS1RPTDJ1OHpLZXZqczl4bW5EeXF5?=
- =?utf-8?B?Rk5vRWZ6SmpXU1dpZEEwMXptRHB1ZWJYRlREWHg5bktFVVMrNDVXOEI1alQ0?=
- =?utf-8?B?S0g2ZXl5UEQwYytzeVdwbmxad21QMTBQY05XUk41aW5PdFphWm9zNlVTSkNt?=
- =?utf-8?B?bmZQQzRrL09aZzM2ekZuVzJkbzBPMWF6bjJ4ZkF2Z0tNT0l6SFIyaEMzZzdj?=
- =?utf-8?B?KzdSSGVUOERsdkYyQXFwSGF3TTd1M3JlM1lPY2ZnNWFwdEQydDhsSVIzYkJM?=
- =?utf-8?B?L2tNakxNRytFUEUrQk5TRDMxZW5KSzBwQUd4K0dNNldQN3lUaTFaSE5lWjdR?=
- =?utf-8?B?UDIwVHkyRFhSMEE3ejExR3FCdkVDUC85c2VHUXg1Wm95ODJNRXY3Y3JhcGlj?=
- =?utf-8?B?STdjcDhJdTF2TmRaMUhUajJ2MVMxZ01BVUd1anp6bE1OOGRrdzBCLzBKVDhN?=
- =?utf-8?B?TldLOWVpa0oyLzJ5RDZ6ajZYV2tDUTFvemFIN2hTYm5LSkQzWnBEVFFzTWw0?=
- =?utf-8?B?N3pKTldFUkhya1NGSEJUYm1tRFNDZ1hnT2txeC9IVHZTZkpnbGdvL2dGOXc4?=
- =?utf-8?B?MkdoelViejFUbFkzVUZlQXhjUnZlUWFEOVJWS1NscjdIZThVNEgycHViZzFj?=
- =?utf-8?B?T2VOS1puZXVuYlJNY0Zlb3gzM21wRG52bGw3MUx4WDVaRm13ZnVQeG9yTDBo?=
- =?utf-8?B?czNVWGhqVlorOEd2Z2VvNWV3bkdZTWVESFdWSi9UKytwMkkyL0tyNFNDUlhO?=
- =?utf-8?B?WGdicWp1NXZFaWlocW9aVitncE13b1E2TzI4VW0vMmx2UG0wdDN2UFEvK3lr?=
- =?utf-8?B?VE9WbFAxb3FmK3FMci9KQW9pRGdQNmMxWDlEckdFcGhoU2ZnRDJ3VlBraHQ0?=
- =?utf-8?B?T1J5T3NhOVB3PT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C10DFB59F0DCEF4395CEC4E0FF095F26@FRAP264.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1mdBh9-0001qN-HH; Wed, 20 Oct 2021 09:31:55 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10142"; a="208880689"
+X-IronPort-AV: E=Sophos;i="5.87,167,1631602800"; d="scan'208";a="208880689"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2021 06:31:43 -0700
+X-IronPort-AV: E=Sophos;i="5.87,167,1631602800"; d="scan'208";a="494624466"
+Received: from lmaniak-dev.igk.intel.com ([10.55.248.48])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2021 06:31:41 -0700
+Date: Wed, 20 Oct 2021 15:30:34 +0200
+From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 04/15] pcie: Add callback preceding SR-IOV VFs update
+Message-ID: <20211020133034.GA3991385@lmaniak-dev.igk.intel.com>
+References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
+ <20211007162406.1920374-5-lukasz.maniak@linux.intel.com>
+ <20211012032026-mutt-send-email-mst@kernel.org>
+ <20211012160646.GA2286339@lmaniak-dev.igk.intel.com>
+ <20211013050638-mutt-send-email-mst@kernel.org>
+ <20211015162414.GA3191260@lmaniak-dev.igk.intel.com>
+ <20211015133019-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: csgroup.eu
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21718761-c3c6-4bc1-d57a-08d993cd59a6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2021 13:27:23.0822 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 9914def7-b676-4fda-8815-5d49fb3b45c8
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: christophe.leroy@csgroup.eu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR1P264MB1857
-Received-SPF: pass client-ip=40.107.9.59;
- envelope-from=christophe.leroy@csgroup.eu;
- helo=FRA01-MR2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211015133019-mutt-send-email-mst@kernel.org>
+Received-SPF: none client-ip=192.55.52.136;
+ envelope-from=lukasz.maniak@linux.intel.com; helo=mga12.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -154,198 +61,306 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "dbarboza@redhat.com" <dbarboza@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
- Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?utf-8?B?SGVydsOpIFBvdXNzaW5lYXU=?= <hpoussin@reactos.org>,
- =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
+ Knut Omang <knuto@ifi.uio.no>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCkxlIDIwLzEwLzIwMjEgw6AgMTI6MTAsIEPDqWRyaWMgTGUgR29hdGVyIGEgw6ljcml0wqA6
-DQo+IE9uIDEwLzIwLzIxIDExOjAyLCBDaHJpc3RvcGhlIExlcm95IHdyb3RlOg0KPj4NCj4+DQo+
-PiBMZSAxOS8xMC8yMDIxIMOgIDIzOjMwLCBDw6lkcmljIExlIEdvYXRlciBhIMOpY3JpdMKgOg0K
-Pj4+IE9uIDEwLzE5LzIxIDE4OjEyLCBDaHJpc3RvcGhlIExlcm95IHdyb3RlOg0KPj4+Pg0KPj4+
-Pg0KPj4+PiBMZSAxOS8xMC8yMDIxIMOgIDE2OjU2LCBCQUxBVE9OIFpvbHRhbiBhIMOpY3JpdMKg
-Og0KPj4+Pj4gT24gVHVlLCAxOSBPY3QgMjAyMSwgQ2hyaXN0b3BoZSBMZXJveSB3cm90ZToNCj4+
-Pj4+PiBMZSAxOS8xMC8yMDIxIMOgIDE1OjQ0LCBDaHJpc3RvcGhlIExlcm95IGEgw6ljcml0wqA6
-DQo+Pj4+Pj4+IFRoZXJlIGlzIHNvbWV0aGluZzoNCj4+Pj4+Pj4NCj4+Pj4+Pj4gPT4gYm9vdG0g
-MA0KPj4+Pj4+PiBXcm9uZyBJbWFnZSBGb3JtYXQgZm9yIGJvb3RtIGNvbW1hbmQNCj4+Pj4+Pj4g
-RVJST1I6IGNhbid0IGdldCBrZXJuZWwgaW1hZ2UhDQo+Pj4+Pj4+DQo+Pj4+Pj4+ID0+IG1kIDAN
-Cj4+Pj4+Pj4gMDAwMDAwMDA6IDAwMDAwMDAwIGI0OTdhYWUxIDYxNmU5MjA3IDAwMzIyN2E0wqDC
-oMKgICcuLlYuLi4uYW4uLi4yJy4NCj4+Pj4+Pj4gMDAwMDAwMTA6IDAwMDAwMDAwIDAwMDAwMDAw
-IGVlMzYyNTVmIDA1MDcwMjAxwqDCoMKgIC4uLi4uLi4uLjYlXy4uLi4NCj4+Pj4+Pj4gMDAwMDAw
-MjA6IDRjNjk2ZTc1IDc4MmQzNTJlIDMxMzUyZTMwIDJkNzI2MzM1wqDCoMKgIExpbnV4LTUuMTUu
-MC1yYzUNCj4+Pj4+Pj4gMDAwMDAwMzA6IDJkMzAzMjMyIDMyMzQyZDY3IDYxMzM2MzMwIDMwMzc2
-MTY0wqDCoMKgIC0wMjIyNC1nYTNjMDA3YWQNCj4+Pj4+Pj4gMDAwMDAwNDA6IDFmOGIwODAwIDAw
-MDAwMDAwIDAyMDNlYzVjIDBmNzAxM2U3wqDCoMKgIC4uLi4uLi4uLi4uXC5wLi4NCj4+Pj4+Pj4N
-Cj4+Pj4+Pj4gPT4gbXcubCAwIDB4MjcwNTE5NTYNCj4+Pj4+Pj4NCj4+Pj4+Pj4gPT4gYm9vdG0g
-MA0KPj4+Pj4+PiAjIyBCb290aW5nIGtlcm5lbCBmcm9tIExlZ2FjeSBJbWFnZSBhdCAwMDAwMDAw
-MCAuLi4NCj4+Pj4+Pj4gwqDCoMKgIEltYWdlIE5hbWU6wqDCoCBMaW51eC01LjE1LjAtcmM1LTAy
-MjI0LWdhM2MwMDdhZA0KPj4+Pj4+PiDCoMKgwqAgSW1hZ2UgVHlwZTrCoMKgIFBvd2VyUEMgTGlu
-dXggS2VybmVsIEltYWdlIChnemlwIGNvbXByZXNzZWQpDQo+Pj4+Pj4+IMKgwqDCoCBEYXRhIFNp
-emU6wqDCoMKgIDMyODY5NDggQnl0ZXMgPSAzLjEgTWlCDQo+Pj4+Pj4+IMKgwqDCoCBMb2FkIEFk
-ZHJlc3M6IDAwMDAwMDAwDQo+Pj4+Pj4+IMKgwqDCoCBFbnRyeSBQb2ludDrCoCAwMDAwMDAwMA0K
-Pj4+Pj4+PiDCoMKgwqAgVmVyaWZ5aW5nIENoZWNrc3VtIC4uLiBCYWQgRGF0YSBDUkMNCj4+Pj4+
-Pj4gRVJST1I6IGNhbid0IGdldCBrZXJuZWwgaW1hZ2UhDQo+Pj4+Pj4+DQo+Pj4+Pj4+DQo+Pj4+
-Pj4+IFNvIHdlIGhhdmUgc29tZXRoaW5nIGJ1dCBpdCBzZWVtcyBpdCBnZXRzIG92ZXJ3cml0dGVu
-IGJ5IHN0dWZmLg0KPj4+Pj4+Pg0KPj4+Pj4+PiBBbnl3YXkgbG9hZGluZyBhIHVJbWFnZSBhdCAw
-IGlzIGp1c3QgYmFkIGJlY2F1c2UgaXQgaXMgYSBnemlwcGVkIA0KPj4+Pj4+PiBpbWFnZSB0aGF0
-IHNob3VsZCBnZXQgZ3VuemlwcGVkIGF0IGFkZHJlc3MgMC4NCj4+Pj4+Pj4NCj4+Pj4+Pj4gT3Ig
-c2hvdWxkIHdlIGp1c3QgY29weSB0aGUgcmF3IGtlcm5lbCBhdCAwIGFuZCBqdW1wIHRvIHRoZSBl
-bnRyeSANCj4+Pj4+Pj4gcG9pbnQgPyBCdXQgdGhlbiB3ZSBhbHNvIG5lZWQgYSBkZXZpY2UgdHJl
-ZSBzb21ld2hlcmUuDQo+Pj4+Pj4+DQo+Pj4+Pj4NCj4+Pj4+PiBJZiBJIGNoYW5nZSBLRVJORUxf
-TE9BRF9BRERSIHRvIDB4MTAwMDAwMCwgSSBjYW4gYm9vdG0gYXQgdGhhdCANCj4+Pj4+PiBhZGRy
-ZXNzLCBhbmQgaXQgc2VlbXMgaXQgcHJvcGVybHkgZGVjb21wcmVzcyB0aGUga2VybmVsOg0KPj4+
-Pj4+DQo+Pj4+Pj4gPT4gYm9vdG0gMHgxMDAwMDAwDQo+Pj4+Pj4gIyMgQm9vdGluZyBrZXJuZWwg
-ZnJvbSBMZWdhY3kgSW1hZ2UgYXQgMDEwMDAwMDAgLi4uDQo+Pj4+Pj4gwqAgSW1hZ2UgTmFtZTrC
-oMKgIExpbnV4LTUuMTUuMC1yYzUtMDIyMjQtZ2EzYzAwN2FkDQo+Pj4+Pj4gwqAgSW1hZ2UgVHlw
-ZTrCoMKgIFBvd2VyUEMgTGludXggS2VybmVsIEltYWdlIChnemlwIGNvbXByZXNzZWQpDQo+Pj4+
-Pj4gwqAgRGF0YSBTaXplOsKgwqDCoCAzMjk2Nzg5IEJ5dGVzID0gMy4xIE1pQg0KPj4+Pj4+IMKg
-IExvYWQgQWRkcmVzczogMDAwMDAwMDANCj4+Pj4+PiDCoCBFbnRyeSBQb2ludDrCoCAwMDAwMDAw
-MA0KPj4+Pj4+IMKgIFZlcmlmeWluZyBDaGVja3N1bSAuLi4gT0sNCj4+Pj4+PiDCoCBVbmNvbXBy
-ZXNzaW5nIEtlcm5lbCBJbWFnZSAuLi4gT0sNCj4+Pj4+Pg0KPj4+Pj4+DQo+Pj4+Pj4gQW5kIGl0
-IGluaXRpYWxpc2VzIHRoZSBNTVUgcHJvcGVybHkuDQo+Pj4+Pj4NCj4+Pj4+PiBUaGVuIGl0IGdl
-dHMgc3R1Y2sgYmVjYXVzZSB0aGVyZSBpcyBubyBkZXZpY2V0cmVlLg0KPj4+Pj4+DQo+Pj4+Pj4g
-KGdkYikgYnQNCj4+Pj4+PiAjMMKgIDB4YzAwMDk0Y2MgaW4gdWRlbGF5ICgpDQo+Pj4+Pj4gIzHC
-oCAweGMwMDI1ZDM0IGluIHBhbmljICgpDQo+Pj4+Pj4gIzLCoCAweGMwNjQxNWEwIGluIGVhcmx5
-X2luaXRfZGV2dHJlZSAoKQ0KPj4+Pj4+ICMzwqAgMHhjMDY0MWRhOCBpbiBtYWNoaW5lX2luaXQg
-KCkNCj4+Pj4+PiAjNMKgIDB4YzAwMDIyMDAgaW4gc3RhcnRfaGVyZSAoKQ0KPj4+Pj4NCj4+Pj4+
-IE1heWJlIHlvdSBuZWVkIHRvIGVtYmVkIGEgZHRiIGluIHlvdXIga2VybmVsIGlmIHRoYXQncyBw
-b3NzaWJsZSANCj4+Pj4+IHNvbWVob3c/IE9yIFFFTVUgaGFzIGEgLWR0YiBvcHRpb24gdGhhdCBz
-ZXRzIG1hY2hpbmUtPmR0YiBidXQgeW91IA0KPj4+Pj4gbmVlZCBib2FyZCBjb2RlIHRvIGRvIHNv
-bWV0aGluZyB3aXRoIGl0LiBTZWUgaG93IGl0J3MgZG9uZSBpbiBvdGhlciANCj4+Pj4+IGJvYXJk
-cyBsaWtlIHZpcnRleF9tbDUwNyBhbmQgc2FtNDYwZXguIEJ1dCBtYXliZSB5b3UnZCBiZSBiZXR0
-ZXIgDQo+Pj4+PiBvZmYgbm90IHVzaW5nIC1rZXJuZWwgb3B0aW9uIGFzIGl0IHNlZW1zIHRvIG5v
-dCByZWFsbHkgd29ya2luZyBmb3IgDQo+Pj4+PiB0aGVzZSA0MDUgYm9hcmRzIGJ1dCBsb2FkIGFu
-ZCBzdGFydCB0aGUga2VybmVsIGZyb20gdS1ib290LiBOb3QgDQo+Pj4+PiBzdXJlIHdoYXQgZGV2
-aWNlIGRvZXMgdS1ib290IHN1cHBvcnQgYnV0IFFFTVUgY2FuIGVtdWxhdGUgDQo+Pj4+PiB1c2It
-c3RvcmFnZSwgbmV0d29yaywgZGlmZmVyZW50IGRpc2tzIHNvIHNvbWV0aGluZyBtaWdodCB3b3Jr
-IHdpdGggDQo+Pj4+PiB1LWJvb3QgaWYgdGhpcyBib2FyZCBoYXMgYW55IHBlcmlwaGVyYWxzLiBJ
-ZiBpdCBkb2Vzbid0IGVtdWxhdGUgYW55IA0KPj4+Pj4gcGVyaXBoZXJhbHMgd2hhdCBkbyB5b3Ug
-ZXhwZWN0IHRvIGRvIHdpdGggdGhlIGtlcm5lbCBvbmNlIGl0IGJvb3RzPw0KPj4+Pj4NCj4+Pj4N
-Cj4+Pj4gSSBzaG91bGQgYmUgYWJsZSB0byBidWlsZCBhIG11bHRpLUZJVCBpbWFnZSB0aGF0IGVt
-YmVkcyB0aGUga2VybmVsIA0KPj4+PiBhbmQgdGhlIGRldmljZSB0cmVlLg0KPj4+Pg0KPj4+PiBJ
-IGRvbid0IGtub3cgYWJvdXQgdGhlIHBlcmlwaGVyYWxzLCB3aGF0IEkgbmVlZCBpdCBhIGtlcm5l
-bCB0aGF0IGlzIA0KPj4+PiBhYmxlIHRvIGJvb3QgYW5kIHJ1biBzb21lIHVzZXIgZXhlLiBJJ20g
-d29ya2luZyBvbiBsb3cgbGV2ZWwgDQo+Pj4+IGZ1bmN0aW9ubmFsaXRpZXMgbGlrZSBWTUFQX1NU
-QUNLLCBTVFJJQ1RfS0VSTkVMX1JXWCwgVXNlcnNwYWNlIA0KPj4+PiBwcm90ZWN0aW9uLCBldGMg
-Li4uIEkgd2FudCB0byBiZSBhYmxlIHRvIGNoZWNrIHRoYXQgYWZ0ZXIgc29tZSANCj4+Pj4gbW9k
-aWZpY2F0aW9ucyB0aGUga2VybmVsIGNhbiBzdGlsbCBib290IG9uIGV2ZXJ5IENQVSBzdWItZmFt
-aWx5LCBhbmQgDQo+Pj4+IEkgbmVlZCB0byBydW4gTEtEVE0gdGVzdHMuDQo+Pj4+DQo+Pj4+IEZv
-ciB0aGlzIGEga2VybmVsICsgaW5pdHJkIGlzIGVub3VnaC4NCj4+Pg0KPj4+IGhvdGZvb3QuZHRz
-IGlzIHRoZSBvbmx5IERUIHdpdGggYSBDUFUgbW9kZWwgIlBvd2VyUEMsNDA1RVAiLg0KPj4+DQo+
-Pj4gV2l0aCBjdUltYWdlLmhvdGZvb3QsDQo+Pj4NCj4+PiBVLUJvb3QgMjAxNS4xMC0wMDIzNi1n
-Njc3Zjk3MGJjNi1kaXJ0eSAoT2N0IDA2IDIwMjEgLSAwODo1OTo1MyArMDIwMCkNCj4+Pg0KPj4+
-IENQVTrCoMKgIEFNQ0MgUG93ZXJQQyA0MDVFUCBSZXYuIEIgYXQgNzcwIE1IeiAoUExCPTI1NiBP
-UEI9MTI4IEVCQz0xMjgpDQo+Pj4gwqDCoMKgwqDCoMKgwqAgSTJDIGJvb3QgRUVQUk9NIGRpc2Fi
-bGVkDQo+Pj4gwqDCoMKgwqDCoMKgwqAgSW50ZXJuYWwgUENJIGFyYml0ZXIgZW5hYmxlZA0KPj4+
-IMKgwqDCoMKgwqDCoMKgIDE2IEtpQiBJLUNhY2hlIDE2IEtpQiBELUNhY2hlDQo+Pj4gQm9hcmQ6
-IFRhaWh1IC0gQU1DQyBQUEM0MDVFUCBFdmFsdWF0aW9uIEJvYXJkDQo+Pj4gSTJDOsKgwqAgcmVh
-ZHkNCj4+PiBEUkFNOsKgIDEyOCBNaUINCj4+PiBGbGFzaDogIyMgVW5rbm93biBGTEFTSCBvbiBC
-YW5rIDAgLSBTaXplID0gMHgwMDAwMDAwMCA9IDAgTUINCj4+PiAjIyBVbmtub3duIEZMQVNIIG9u
-IEJhbmsgMSAtIFNpemUgPSAweDAwMDAwMDAwID0gMCBNQg0KPj4+IDAgQnl0ZXMNCj4+PiAqKiog
-V2FybmluZyAtIGJhZCBDUkMsIHVzaW5nIGRlZmF1bHQgZW52aXJvbm1lbnQNCj4+Pg0KPj4+IFBD
-STrCoMKgIEJ1cyBEZXYgVmVuSWQgRGV2SWQgQ2xhc3MgSW50DQo+Pj4gUENJOg0KPj4+IE5ldDrC
-oMKgIE5vIGV0aGVybmV0IGZvdW5kLg0KPj4+DQo+Pj4gVHlwZSBydW4gZmxhc2hfbmZzIHRvIG1v
-dW50IHJvb3QgZmlsZXN5c3RlbSBvdmVyIE5GUw0KPj4+DQo+Pj4gSGl0IGFueSBrZXkgdG8gc3Rv
-cCBhdXRvYm9vdDrCoCAwDQo+Pj4gPT4gYm9vdG0gMDEwMDAwMDANCj4+PiAjIyBCb290aW5nIGtl
-cm5lbCBmcm9tIExlZ2FjeSBJbWFnZSBhdCAwMTAwMDAwMCAuLi4NCj4+PiDCoMKgwqAgSW1hZ2Ug
-TmFtZTrCoMKgIExpbnV4LTUuMTUuMC1yYzYtZGlydHkNCj4+PiDCoMKgwqAgSW1hZ2UgVHlwZTrC
-oMKgIFBvd2VyUEMgTGludXggS2VybmVsIEltYWdlIChnemlwIGNvbXByZXNzZWQpDQo+Pj4gwqDC
-oMKgIERhdGEgU2l6ZTrCoMKgwqAgMzMyNjg3OCBCeXRlcyA9IDMuMiBNaUINCj4+PiDCoMKgwqAg
-TG9hZCBBZGRyZXNzOiAwMDcwMDAwMA0KPj4+IMKgwqDCoCBFbnRyeSBQb2ludDrCoCAwMDcwMWFh
-OA0KPj4+IMKgwqDCoCBWZXJpZnlpbmcgQ2hlY2tzdW0gLi4uIE9LDQo+Pj4gwqDCoMKgIFVuY29t
-cHJlc3NpbmcgS2VybmVsIEltYWdlIC4uLiBPSw0KPj4+IE1lbW9yeSA8LSA8MHgwIDB4ODAwMDAw
-MD4gKDEyOE1CKQ0KPj4+IENQVSBjbG9jay1mcmVxdWVuY3kgPC0gMHgwICgwTUh6KQ0KPj4+IENQ
-VSB0aW1lYmFzZS1mcmVxdWVuY3kgPC0gMHgwICgwTUh6KQ0KPj4+IC9wbGI6IGNsb2NrLWZyZXF1
-ZW5jeSA8LSAwICgwTUh6KQ0KPj4+IC9wbGIvb3BiOiBjbG9jay1mcmVxdWVuY3kgPC0gMCAoME1I
-eikNCj4+PiAvcGxiL2ViYzogY2xvY2stZnJlcXVlbmN5IDwtIDAgKDBNSHopDQo+Pj4gL3BsYi9v
-cGIvc2VyaWFsQGVmNjAwMzAwOiBjbG9jay1mcmVxdWVuY3kgPC0gMCAoME1IeikNCj4+PiAvcGxi
-L29wYi9zZXJpYWxAZWY2MDA0MDA6IGNsb2NrLWZyZXF1ZW5jeSA8LSAwICgwTUh6KQ0KPj4+IGV0
-aGVybmV0MDogbG9jYWwtbWFjLWFkZHJlc3MgPC0gMDA6MDA6MDA6MDA6MDA6MDANCj4+PiBldGhl
-cm5ldDE6IGxvY2FsLW1hYy1hZGRyZXNzIDwtIDAwOjAwOjJkOmU1OjQ0OjgwDQo+Pj4gRml4aW5n
-IGRldnRyZWUgZm9yIDRNIEZsYXNoDQo+Pj4NCj4+PiB6SW1hZ2Ugc3RhcnRpbmc6IGxvYWRlZCBh
-dCAweDAwNzAwMDAwIChzcDogMHgwN2VhYWJiMCkNCj4+PiBEZWNvbXByZXNzaW9uIGVycm9yOiAn
-Tm90IGEgZ3ppcCBmaWxlJw0KPj4+IE5vIHZhbGlkIGNvbXByZXNzZWQgZGF0YSBmb3VuZCwgYXNz
-dW1lIHVuY29tcHJlc3NlZCBkYXRhDQo+Pj4gQWxsb2NhdGluZyAweDZjMTI4YyBieXRlcyBmb3Ig
-a2VybmVsLi4uDQo+Pj4gMHg2OWUxZWMgYnl0ZXMgb2YgdW5jb21wcmVzc2VkIGRhdGEgY29waWVk
-DQo+Pj4NCj4+PiBMaW51eC9Qb3dlclBDIGxvYWQ6DQo+Pj4gRmluYWxpemluZyBkZXZpY2UgdHJl
-ZS4uLiBmbGF0IHRyZWUgYXQgMHhkYzU5NjANCj4+PiBMaW51eCB2ZXJzaW9uIDUuMTUuMC1yYzYt
-ZGlydHkgKGxlZ29hdGVyQHl1a29uKSANCj4+PiAocG93ZXJwYzY0LWxpbnV4LWdudS1nY2MgKEdD
-QykgMTEuMi4xIDIwMjEwNzI4IChSZWQgSGF0IENyb3NzIA0KPj4+IDExLjIuMS0xKSwgR05VIGxk
-IHZlcnNpb24gMi4zNS4yLTEuZmMzNCkgIzEgVHVlIE9jdCAxOSAxNToxNToyMSBDRVNUIA0KPj4+
-IDIwMjENCj4+PiBVc2luZyBQb3dlclBDIDQweCBQbGF0Zm9ybSBtYWNoaW5lIGRlc2NyaXB0aW9u
-DQo+Pj4gcHJpbnRrOiBib290Y29uc29sZSBbdWRiZzBdIGVuYWJsZWQNCj4+PiAtLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPj4+IHBoeXNfbWVt
-X3NpemXCoMKgwqDCoCA9IDB4ODAwMDAwMA0KPj4+IGRjYWNoZV9ic2l6ZcKgwqDCoMKgwqAgPSAw
-eDIwDQo+Pj4gaWNhY2hlX2JzaXplwqDCoMKgwqDCoCA9IDB4MjANCj4+PiBjcHVfZmVhdHVyZXPC
-oMKgwqDCoMKgID0gMHgwMDAwMDAwMDAwMDAwMTAwDQo+Pj4gwqDCoCBwb3NzaWJsZcKgwqDCoMKg
-wqDCoMKgID0gMHgwMDAwMDAwMDAwMDAwMTAwDQo+Pj4gwqDCoCBhbHdheXPCoMKgwqDCoMKgwqDC
-oMKgwqAgPSAweDAwMDAwMDAwMDAwMDAxMDANCj4+PiBjcHVfdXNlcl9mZWF0dXJlcyA9IDB4ODYw
-MDAwMDAgMHgwMDAwMDAwMA0KPj4+IG1tdV9mZWF0dXJlc8KgwqDCoMKgwqAgPSAweDAwMDAwMDA0
-DQo+Pj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0NCj4+PiBab25lIHJhbmdlczoNCj4+PiDCoMKgIE5vcm1hbMKgwqAgW21lbSAweDAwMDAwMDAw
-MDAwMDAwMDAtMHgwMDAwMDAwMDA3ZmZmZmZmXQ0KPj4+IE1vdmFibGUgem9uZSBzdGFydCBmb3Ig
-ZWFjaCBub2RlDQo+Pj4gRWFybHkgbWVtb3J5IG5vZGUgcmFuZ2VzDQo+Pj4gwqDCoCBub2RlwqDC
-oCAwOiBbbWVtIDB4MDAwMDAwMDAwMDAwMDAwMC0weDAwMDAwMDAwMDdmZmZmZmZdDQo+Pj4gSW5p
-dG1lbSBzZXR1cCBub2RlIDAgW21lbSAweDAwMDAwMDAwMDAwMDAwMDAtMHgwMDAwMDAwMDA3ZmZm
-ZmZmXQ0KPj4+IE1NVTogQWxsb2NhdGVkIDEwODggYnl0ZXMgb2YgY29udGV4dCBtYXBzIGZvciAy
-NTUgY29udGV4dHMNCj4+PiBCdWlsdCAxIHpvbmVsaXN0cywgbW9iaWxpdHkgZ3JvdXBpbmcgb24u
-wqAgVG90YWwgcGFnZXM6IDMyNTEyDQo+Pj4gS2VybmVsIGNvbW1hbmQgbGluZToNCj4+PiBEZW50
-cnkgY2FjaGUgaGFzaCB0YWJsZSBlbnRyaWVzOiAxNjM4NCAob3JkZXI6IDQsIDY1NTM2IGJ5dGVz
-LCBsaW5lYXIpDQo+Pj4gSW5vZGUtY2FjaGUgaGFzaCB0YWJsZSBlbnRyaWVzOiA4MTkyIChvcmRl
-cjogMywgMzI3NjggYnl0ZXMsIGxpbmVhcikNCj4+PiBtZW0gYXV0by1pbml0OiBzdGFjazpvZmYs
-IGhlYXAgYWxsb2M6b2ZmLCBoZWFwIGZyZWU6b2ZmDQo+Pj4gS2VybmVsIHZpcnR1YWwgbWVtb3J5
-IGxheW91dDoNCj4+PiDCoMKgICogMHhmZmJkZjAwMC4uMHhmZmZmZjAwMMKgIDogZml4bWFwDQo+
-Pj4gwqDCoCAqIDB4YzkwMDAwMDAuLjB4ZmZiZGYwMDDCoCA6IHZtYWxsb2MgJiBpb3JlbWFwDQo+
-Pj4gTWVtb3J5OiAxMjI5NDhLLzEzMTA3MksgYXZhaWxhYmxlICg1MDQwSyBrZXJuZWwgY29kZSwg
-MjIwSyByd2RhdGEsIA0KPj4+IDEzMjBLIHJvZGF0YSwgMjAwSyBpbml0LCAxMzZLIGJzcywgODEy
-NEsgcmVzZXJ2ZWQsIDBLIGNtYS1yZXNlcnZlZCkNCj4+PiBTTFVCOiBIV2FsaWduPTMyLCBPcmRl
-cj0wLTMsIE1pbk9iamVjdHM9MCwgQ1BVcz0xLCBOb2Rlcz0xDQo+Pj4gTlJfSVJRUzogNTEyLCBu
-cl9pcnFzOiA1MTIsIHByZWFsbG9jYXRlZCBpcnFzOiAxNg0KPj4+IFVJQzAgKDMyIElSUSBzb3Vy
-Y2VzKSBhdCBEQ1IgMHhjMA0KPj4+IHJhbmRvbTogZ2V0X3JhbmRvbV91MzIgY2FsbGVkIGZyb20g
-c3RhcnRfa2VybmVsKzB4NDk4LzB4NWY4IHdpdGggDQo+Pj4gY3JuZ19pbml0PTANCj4+Pg0KPj4N
-Cj4+IEdyZWF0Lg0KPj4NCj4+IChnZGIpIGJ0DQo+PiAjMMKgIF9fZGl2NjRfMzIgKCkgYXQgYXJj
-aC9wb3dlcnBjL2xpYi9kaXY2NC5TOjI5DQo+PiAjMcKgIDB4YzAwMDk5YmMgaW4gZGl2MTI4X2J5
-XzMyIChkaXZpZGVuZF9oaWdoPTxvcHRpbWl6ZWQgb3V0PiwgDQo+PiBkaXZpZGVuZF9sb3c9PG9w
-dGltaXplZCBvdXQ+LCBkaXZpc29yPTxvcHRpbWl6ZWQgb3V0PiwgDQo+PiBkcj1kckBlbnRyeT0w
-eGMwNjkzZjc4KSBhdCBhcmNoL3Bvd2VycGMva2VybmVsL3RpbWUuYzoxMDM4DQo+PiAjMsKgIDB4
-YzA2NDEwNjAgaW4gdGltZV9pbml0ICgpIGF0IGFyY2gvcG93ZXJwYy9rZXJuZWwvdGltZS5jOjk3
-OA0KPj4gIzPCoCAweGMwNjNkYzQ4IGluIHN0YXJ0X2tlcm5lbCAoKSBhdCBpbml0L21haW4uYzox
-MDU1DQo+PiAjNMKgIDB4YzAwMDIyMDQgaW4gc3RhcnRfaGVyZSAoKSBhdCBhcmNoL3Bvd2VycGMv
-a2VybmVsL2hlYWRfNDB4LlM6NjE3DQo+Pg0KPj4NCj4+IExvb3BpbmcgZm9yZXZlciBpbiBfX2Rp
-djY0XzMyKCkgZHVlIHRvOg0KPj4NCj4+IMKgPiBDUFUgY2xvY2stZnJlcXVlbmN5IDwtIDB4MCAo
-ME1IeikNCj4+IMKgPiBDUFUgdGltZWJhc2UtZnJlcXVlbmN5IDwtIDB4MCAoME1IeikNCj4+IMKg
-PiAvcGxiOiBjbG9jay1mcmVxdWVuY3kgPC0gMCAoME1IeikNCj4+IMKgPiAvcGxiL29wYjogY2xv
-Y2stZnJlcXVlbmN5IDwtIDAgKDBNSHopDQo+PiDCoD4gL3BsYi9lYmM6IGNsb2NrLWZyZXF1ZW5j
-eSA8LSAwICgwTUh6KQ0KPj4gwqA+IC9wbGIvb3BiL3NlcmlhbEBlZjYwMDMwMDogY2xvY2stZnJl
-cXVlbmN5IDwtIDAgKDBNSHopDQo+PiDCoD4gL3BsYi9vcGIvc2VyaWFsQGVmNjAwNDAwOiBjbG9j
-ay1mcmVxdWVuY3kgPC0gMCAoME1IeikNCj4gDQo+IA0KPiBJIGRvbnQgdW5kZXJzdGFuZCBob3cN
-Cj4gDQo+ICDCoCBzdGF0aWMgYmRfdCBiZDsNCj4gDQo+IGNhbiBiZSB1cGRhdGVkIGluIHRoZSBr
-ZXJuZWwuDQo+IA0KDQpJdCdzIG5vdCB1cGRhdGVkIGluIHRoZSBrZXJuZWwuDQoNCkl0IGlzIHN1
-cHBvc2VkIHRvIGJlIHByb3ZpZGVkIGJ5IFVCb290IHRvIExpbnV4IEtlcm5lbC4gQnV0IG1vZGVy
-biANCmtlcm5lbHMgZG9uJ3QgdGFrZSB0aGF0IGFueW1vcmUsIHRoZXkgdGFrZSBhIGRldmljZSB0
-cmVlLiBGb3IgdGhpcyANCnJlYXNvbiBjdWJvb3QgdGFrZXMgdGhlIGNvbnRlbnQgb2YgYmQgdG8g
-YnVpbGQvdXBkYXRlIHRoZSBkZXZpY2UgdHJlZS4NCg0KTG9va3MgbGlrZSBRRU1VIGFsc28gcHJv
-dmlkZXMgdGhlIGJkLCBzZWUgcmVmNDA1ZXBfaW5pdCgpDQoNCkkgbWFuYWdlZCB0byBnZXQgYSBr
-ZXJuZWwgYm9vdGluZyB3aXRoIHRoZSBmb2xsb3dpbmcgY2hhbmdlIChhbmQgd2l0aCANCkNPTkZJ
-R19FVEhFUk5FVCByZW1vdmVkKQ0KDQpkaWZmIC0tZ2l0IGEvYXJjaC9wb3dlcnBjL2Jvb3QvY3Vi
-b290LWhvdGZvb3QuYyANCmIvYXJjaC9wb3dlcnBjL2Jvb3QvY3Vib290LWhvdGZvb3QuYw0KaW5k
-ZXggODg4YTZiOWJmZWFkLi42M2E5NTQ1ZmY1NWQgMTAwNjQ0DQotLS0gYS9hcmNoL3Bvd2VycGMv
-Ym9vdC9jdWJvb3QtaG90Zm9vdC5jDQorKysgYi9hcmNoL3Bvd2VycGMvYm9vdC9jdWJvb3QtaG90
-Zm9vdC5jDQpAQCAtMTMyLDYgKzEzMiwxMiBAQCB2b2lkIHBsYXRmb3JtX2luaXQodW5zaWduZWQg
-bG9uZyByMywgdW5zaWduZWQgbG9uZyANCnI0LCB1bnNpZ25lZCBsb25nIHI1LA0KICAgICAgICAg
-ICAgICAgICAgICB1bnNpZ25lZCBsb25nIHI2LCB1bnNpZ25lZCBsb25nIHI3KQ0KICB7DQogICAg
-ICAgICBDVUJPT1RfSU5JVCgpOw0KKyAgICAgICAgYmQuYmlfaW50ZnJlcSA9IDEzMzMzMzMzMzsN
-CisgICAgICAgIGJkLmJpX2J1c2ZyZXEgPSAzMzMzMzMzMzsNCisgICAgICAgIGJkLmJpX3Byb2Nm
-cmVxID0gMTMzMzMzMzMzOw0KKyAgICAgICAgYmQuYmlfcGxiX2J1c2ZyZXEgPSAzMzMzMzMzMzsN
-CisgICAgICAgIGJkLmJpX3BjaV9idXNmcmVxID0gMzMzMzMzMzM7DQorICAgICAgICBiZC5iaV9v
-cGJmcmVxID0gMzMzMzMzMzM7DQogICAgICAgICBwbGF0Zm9ybV9vcHMuZml4dXBzID0gaG90Zm9v
-dF9maXh1cHM7DQogICAgICAgICAgcGxhdGZvcm1fb3BzLmV4aXQgPSBpYm00MHhfZGJjcl9yZXNl
-dDsNCiAgICAgICAgIGZkdF9pbml0KF9kdGJfc3RhcnQpOw0KDQoNCkNocmlzdG9waGUNCg0K
+On Fri, Oct 15, 2021 at 01:30:32PM -0400, Michael S. Tsirkin wrote:
+> On Fri, Oct 15, 2021 at 06:24:14PM +0200, Lukasz Maniak wrote:
+> > On Wed, Oct 13, 2021 at 05:10:35AM -0400, Michael S. Tsirkin wrote:
+> > > On Tue, Oct 12, 2021 at 06:06:46PM +0200, Lukasz Maniak wrote:
+> > > > On Tue, Oct 12, 2021 at 03:25:12AM -0400, Michael S. Tsirkin wrote:
+> > > > > On Thu, Oct 07, 2021 at 06:23:55PM +0200, Lukasz Maniak wrote:
+> > > > > > PCIe devices implementing SR-IOV may need to perform certain actions
+> > > > > > before the VFs are unrealized or vice versa.
+> > > > > > 
+> > > > > > Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+> > > > > 
+> > > > > Callbacks are annoying and easy to misuse though.
+> > > > > VFs are enabled through a config cycle, we generally just
+> > > > > have devices invoke the capability handler.
+> > > > > E.g.
+> > > > > 
+> > > > > static void pci_bridge_dev_write_config(PCIDevice *d,
+> > > > >                                         uint32_t address, uint32_t val, int len)
+> > > > > {
+> > > > >     pci_bridge_write_config(d, address, val, len);
+> > > > >     if (msi_present(d)) {
+> > > > >         msi_write_config(d, address, val, len);
+> > > > >     }
+> > > > > }
+> > > > > 
+> > > > > this makes it easy to do whatever you want before/after
+> > > > > the write. You can also add a helper to check
+> > > > > that SRIOV is being enabled/disabled if necessary.
+> > > > > 
+> > > > > > ---
+> > > > > >  docs/pcie_sriov.txt         |  2 +-
+> > > > > >  hw/pci/pcie_sriov.c         | 14 +++++++++++++-
+> > > > > >  include/hw/pci/pcie_sriov.h |  8 +++++++-
+> > > > > >  3 files changed, 21 insertions(+), 3 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/docs/pcie_sriov.txt b/docs/pcie_sriov.txt
+> > > > > > index f5e891e1d4..63ca1a7b8e 100644
+> > > > > > --- a/docs/pcie_sriov.txt
+> > > > > > +++ b/docs/pcie_sriov.txt
+> > > > > > @@ -57,7 +57,7 @@ setting up a BAR for a VF.
+> > > > > >        /* Add and initialize the SR/IOV capability */
+> > > > > >        pcie_sriov_pf_init(d, 0x200, "your_virtual_dev",
+> > > > > >                         vf_devid, initial_vfs, total_vfs,
+> > > > > > -                       fun_offset, stride);
+> > > > > > +                       fun_offset, stride, pre_vfs_update_cb);
+> > > > > >  
+> > > > > >        /* Set up individual VF BARs (parameters as for normal BARs) */
+> > > > > >        pcie_sriov_pf_init_vf_bar( ... )
+> > > > > > diff --git a/hw/pci/pcie_sriov.c b/hw/pci/pcie_sriov.c
+> > > > > > index 501a1ff433..cac2aee061 100644
+> > > > > > --- a/hw/pci/pcie_sriov.c
+> > > > > > +++ b/hw/pci/pcie_sriov.c
+> > > > > > @@ -30,7 +30,8 @@ static void unregister_vfs(PCIDevice *dev);
+> > > > > >  void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
+> > > > > >                          const char *vfname, uint16_t vf_dev_id,
+> > > > > >                          uint16_t init_vfs, uint16_t total_vfs,
+> > > > > > -                        uint16_t vf_offset, uint16_t vf_stride)
+> > > > > > +                        uint16_t vf_offset, uint16_t vf_stride,
+> > > > > > +                        SriovVfsUpdate pre_vfs_update)
+> > > > > >  {
+> > > > > >      uint8_t *cfg = dev->config + offset;
+> > > > > >      uint8_t *wmask;
+> > > > > > @@ -41,6 +42,7 @@ void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
+> > > > > >      dev->exp.sriov_pf.num_vfs = 0;
+> > > > > >      dev->exp.sriov_pf.vfname = g_strdup(vfname);
+> > > > > >      dev->exp.sriov_pf.vf = NULL;
+> > > > > > +    dev->exp.sriov_pf.pre_vfs_update = pre_vfs_update;
+> > > > > >  
+> > > > > >      pci_set_word(cfg + PCI_SRIOV_VF_OFFSET, vf_offset);
+> > > > > >      pci_set_word(cfg + PCI_SRIOV_VF_STRIDE, vf_stride);
+> > > > > > @@ -180,6 +182,11 @@ static void register_vfs(PCIDevice *dev)
+> > > > > >      assert(dev->exp.sriov_pf.vf);
+> > > > > >  
+> > > > > >      trace_sriov_register_vfs(SRIOV_ID(dev), num_vfs);
+> > > > > > +
+> > > > > > +    if (dev->exp.sriov_pf.pre_vfs_update) {
+> > > > > > +        dev->exp.sriov_pf.pre_vfs_update(dev, dev->exp.sriov_pf.num_vfs, num_vfs);
+> > > > > > +    }
+> > > > > > +
+> > > > > >      for (i = 0; i < num_vfs; i++) {
+> > > > > >          dev->exp.sriov_pf.vf[i] = register_vf(dev, devfn, dev->exp.sriov_pf.vfname, i);
+> > > > > >          if (!dev->exp.sriov_pf.vf[i]) {
+> > > > > > @@ -198,6 +205,11 @@ static void unregister_vfs(PCIDevice *dev)
+> > > > > >      uint16_t i;
+> > > > > >  
+> > > > > >      trace_sriov_unregister_vfs(SRIOV_ID(dev), num_vfs);
+> > > > > > +
+> > > > > > +    if (dev->exp.sriov_pf.pre_vfs_update) {
+> > > > > > +        dev->exp.sriov_pf.pre_vfs_update(dev, dev->exp.sriov_pf.num_vfs, 0);
+> > > > > > +    }
+> > > > > > +
+> > > > > >      for (i = 0; i < num_vfs; i++) {
+> > > > > >          PCIDevice *vf = dev->exp.sriov_pf.vf[i];
+> > > > > >          object_property_set_bool(OBJECT(vf), "realized", false, &local_err);
+> > > > > > diff --git a/include/hw/pci/pcie_sriov.h b/include/hw/pci/pcie_sriov.h
+> > > > > > index 0974f00054..9ab48b79c0 100644
+> > > > > > --- a/include/hw/pci/pcie_sriov.h
+> > > > > > +++ b/include/hw/pci/pcie_sriov.h
+> > > > > > @@ -13,11 +13,16 @@
+> > > > > >  #ifndef QEMU_PCIE_SRIOV_H
+> > > > > >  #define QEMU_PCIE_SRIOV_H
+> > > > > >  
+> > > > > > +typedef void (*SriovVfsUpdate)(PCIDevice *dev, uint16_t prev_num_vfs,
+> > > > > > +                               uint16_t num_vfs);
+> > > > > > +
+> > > > > >  struct PCIESriovPF {
+> > > > > >      uint16_t num_vfs;           /* Number of virtual functions created */
+> > > > > >      uint8_t vf_bar_type[PCI_NUM_REGIONS];  /* Store type for each VF bar */
+> > > > > >      const char *vfname;         /* Reference to the device type used for the VFs */
+> > > > > >      PCIDevice **vf;             /* Pointer to an array of num_vfs VF devices */
+> > > > > > +
+> > > > > > +    SriovVfsUpdate pre_vfs_update;  /* Callback preceding VFs count change */
+> > > > > >  };
+> > > > > >  
+> > > > > >  struct PCIESriovVF {
+> > > > > > @@ -28,7 +33,8 @@ struct PCIESriovVF {
+> > > > > >  void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
+> > > > > >                          const char *vfname, uint16_t vf_dev_id,
+> > > > > >                          uint16_t init_vfs, uint16_t total_vfs,
+> > > > > > -                        uint16_t vf_offset, uint16_t vf_stride);
+> > > > > > +                        uint16_t vf_offset, uint16_t vf_stride,
+> > > > > > +                        SriovVfsUpdate pre_vfs_update);
+> > > > > >  void pcie_sriov_pf_exit(PCIDevice *dev);
+> > > > > >  
+> > > > > >  /* Set up a VF bar in the SR/IOV bar area */
+> > > > > > -- 
+> > > > > > 2.25.1
+> > > > >
+> > > > 
+> > > > Hi Michael,
+> > > > 
+> > > > A custom config_write callback was the first approach we used.
+> > > > However, once implemented, we realized it looks the same as the
+> > > > pcie_sriov_config_write function. To avoid code duplication and
+> > > > interfering with the internal SR-IOV structures for purposes of NVMe,
+> > > > we opted for this callback prior to the VFs update.
+> > > > After all, we have callbacks in both approaches, config_write and the
+> > > > added pre_vfs_update, so both are prone to misuse.
+> > > > 
+> > > > But I agree it may not be a good moment yet to add a new API
+> > > > specifically for SR-IOV functionality, as NVMe will be the first device
+> > > > to use it.
+> > > > 
+> > > > CCing Knut, perhaps as the author of SR-IOV you have some thoughts on
+> > > > how the device notification of an upcoming VFs update would be handled.
+> > > > 
+> > > > Thanks,
+> > > > Lukasz
+> > > 
+> > > So just split it up?
+> > > 
+> > > void pcie_sriov_config_write(PCIDevice *dev, uint32_t address, uint32_t val, int len)
+> > > {
+> > >     uint32_t off;
+> > >     uint16_t sriov_cap = dev->exp.sriov_cap;
+> > > 
+> > >     if (!sriov_cap || address < sriov_cap) {
+> > >         return;
+> > >     }
+> > >     off = address - sriov_cap;
+> > >     if (off >= PCI_EXT_CAP_SRIOV_SIZEOF) {
+> > >         return;
+> > >     }
+> > >     
+> > >     trace_sriov_config_write(SRIOV_ID(dev), off, val, len);
+> > >         
+> > >     if (range_covers_byte(off, len, PCI_SRIOV_CTRL)) {
+> > >         if (dev->exp.sriov_pf.num_vfs) {
+> > >             if (!(val & PCI_SRIOV_CTRL_VFE)) {
+> > >                 unregister_vfs(dev);
+> > >             }
+> > >         } else {
+> > >             if (val & PCI_SRIOV_CTRL_VFE) {
+> > >                 register_vfs(dev);
+> > >             }
+> > >         }
+> > >     }
+> > > }
+> > > 
+> > > 
+> > > Would become:
+> > > 
+> > > bool
+> > >  pcie_sriov_is_config_write(PCIDevice *dev, uint32_t address, uint32_t val, int len)
+> > > {
+> > >     uint32_t off;
+> > >     uint16_t sriov_cap = dev->exp.sriov_cap;
+> > > 
+> > >     if (!sriov_cap || address < sriov_cap) {
+> > >         return false;
+> > >     }
+> > >     off = address - sriov_cap;
+> > >     if (off >= PCI_EXT_CAP_SRIOV_SIZEOF) {
+> > >         return false;
+> > >     }
+> > > }
+> > > 
+> > > bool
+> > >  pcie_sriov_do_config_write(PCIDevice *dev, uint32_t address, uint32_t val, int len)
+> > > {
+> > >     trace_sriov_config_write(SRIOV_ID(dev), off, val, len);
+> > >         
+> > >     if (range_covers_byte(off, len, PCI_SRIOV_CTRL)) {
+> > >         if (dev->exp.sriov_pf.num_vfs) {
+> > >             if (!(val & PCI_SRIOV_CTRL_VFE)) {
+> > >                 unregister_vfs(dev);
+> > >             }
+> > >         } else {
+> > >             if (val & PCI_SRIOV_CTRL_VFE) {
+> > >                 register_vfs(dev);
+> > >             }
+> > >         }
+> > >     }
+> > > }
+> > > 
+> > > 
+> > > 
+> > > void pcie_sriov_config_write(PCIDevice *dev, uint32_t address, uint32_t val, int len)
+> > > {
+> > > 	if (pcie_sriov_is_config_write(dev, address, val, len)) {
+> > > 		pcie_sriov_do_config_write(dev, address, val, len);
+> > > 	}
+> > >     
+> > > }
+> > > 
+> > > 
+> > > Now  pcie_sriov_is_config_write and pcie_sriov_do_config_write
+> > > can be reused by NVME.
+> > > 
+> > > -- 
+> > > MST
+> > > 
+> > 
+> > Hi Michael,
+> > 
+> > I extracted one condition to the helper, what do you think?
+> > 
+> > bool pcie_sriov_is_config_write(PCIDevice *dev, uint32_t address, uint32_t val, int len)
+> > {
+> >     uint32_t off;
+> >     uint16_t sriov_cap = dev->exp.sriov_cap;
+> > 
+> >     if (!sriov_cap || address < sriov_cap) {
+> >         return false;
+> >     }
+> >     off = address - sriov_cap;
+> >     if (off >= PCI_EXT_CAP_SRIOV_SIZEOF) {
+> >         return false;
+> >     }
+> > 
+> >     if (range_covers_byte(off, len, PCI_SRIOV_CTRL)) {
+> >         return true;
+> >     }
+> > 
+> >     return false;
+> > }
+> > 
+> > static void pcie_sriov_do_config_write(PCIDevice *dev, uint32_t address,
+> >                                        uint32_t val, int len)
+> > {
+> >     uint32_t off = address - dev->exp.sriov_cap;
+> >     trace_sriov_config_write(SRIOV_ID(dev), off, val, len);
+> > 
+> >     if (dev->exp.sriov_pf.num_vfs) {
+> >         if (!(val & PCI_SRIOV_CTRL_VFE)) {
+> >             unregister_vfs(dev);
+> >         }
+> >     } else {
+> >         if (val & PCI_SRIOV_CTRL_VFE) {
+> >             register_vfs(dev);
+> >         }
+> >     }
+> > }
+> > 
+> > void pcie_sriov_config_write(PCIDevice *dev, uint32_t address, uint32_t val, int len)
+> > {
+> >     if (pcie_sriov_is_config_write(dev, address, val, len)) {
+> >         pcie_sriov_do_config_write(dev, address, val, len);
+> >     }
+> > }
+> 
+> ok
+> 
+> > --
+> > Lukasz
+> 
+
+Hi Michael,
+
+After more investigation, we concluded that both pre_vfs_update callback
+and pcie_sriov_config_write split are not required to perform needed
+device-side actions prior to the SR-IOV state change.
+
+Hence, we decided to drop this patch for v2.
+
+Kind regards,
+Lukasz
 
