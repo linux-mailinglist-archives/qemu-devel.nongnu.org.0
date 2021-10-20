@@ -2,85 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C30434652
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 09:56:01 +0200 (CEST)
-Received: from localhost ([::1]:54878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E921743465C
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 10:02:05 +0200 (CEST)
+Received: from localhost ([::1]:57130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md6S8-0001su-3M
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 03:56:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37044)
+	id 1md6Y0-0003pi-Qd
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 04:02:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1md6Qu-0001Cz-JN
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 03:54:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37032)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1md6Vg-00030C-VT
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 03:59:40 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:47447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1md6Qs-0007vm-74
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 03:54:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634716481;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5g+N4vvd7G7dffvmnTFb4SVz+9oHrsP7hHXKlWpFX5k=;
- b=c2eAfuULl9GAD08/a2IrbNauuUHRWMholCwHUbGyl8QmJuYJjwcZ7kTz64Jtt8PJHbduG1
- 49kd3fpkKDaXP2yadpsZHAb1OTAhXBZWnYSedfamdIdvwly9u12w/h8aSBdM9LB/Tl01Ow
- d2Kv1IJzzJOWM2RToeL6dHWAbrZ8igc=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-cFT8PyOBPaOUXxGRfajZqw-1; Wed, 20 Oct 2021 03:54:39 -0400
-X-MC-Unique: cFT8PyOBPaOUXxGRfajZqw-1
-Received: by mail-qv1-f71.google.com with SMTP id
- p9-20020a05621421e900b003830bb235fbso2122715qvj.14
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 00:54:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5g+N4vvd7G7dffvmnTFb4SVz+9oHrsP7hHXKlWpFX5k=;
- b=gr+1gle8JvU1xn5QwDrbsUoIFsJP2+CemuxsBQOnyeT4GFdMR9XISULI4NvW/viw5m
- LNNTrF8Ijv2jR3so9QYlhA9l4BDVIUuifZCYH4lLfMzIfMCq7r/6mlqgXTIVWbcPDCnz
- uodP6jlVbCLqoY9cKi7igINaqD32aDksyY7o3Enfb6NWDINbyUXeaz+D2iSJRr/Sf2tX
- 0TRUS30+ojoHmHglCemjAjXXHzdeydousCnRsFGBORlGrlbIJ5YOvG1d2aMFjC9KnadE
- kpGsqfkbkWCJmIvqziPvBXh5aIpHSgIdXhvKpQQq+1gSLGQPVdvzz06j5SLcja0RNh9M
- /rtw==
-X-Gm-Message-State: AOAM532WCcSvJOWr7rn+thrkAkBOIwC0+Ry/9FgJTPk5r2CJJpU2yBHl
- CwbtMnw+7jimQ4ZUrvgqndmtprU7wPa9lzLPRzz6fOuG0ajkf0EbuE52/N6zCCfNydwe0L56mp0
- 4ZRuNATo9CBCR0hFFYJOU/B79A+LJ8d0=
-X-Received: by 2002:ac8:7d13:: with SMTP id g19mr5375991qtb.178.1634716479190; 
- Wed, 20 Oct 2021 00:54:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwzg2DhaATkGuDPhxVhye70mSLYWhJbi3NBu4ojlx2i0LO/cj5Q6buNbLgsMbEFGRqKX659+SbJOW6CzgxN5JY=
-X-Received: by 2002:ac8:7d13:: with SMTP id g19mr5375981qtb.178.1634716478986; 
- Wed, 20 Oct 2021 00:54:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1md6Vf-00052Z-1g
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 03:59:40 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-XzglGPe4OLOdV4j1Ny9r2g-1; Wed, 20 Oct 2021 03:59:36 -0400
+X-MC-Unique: XzglGPe4OLOdV4j1Ny9r2g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 136FF362FC;
+ Wed, 20 Oct 2021 07:59:35 +0000 (UTC)
+Received: from bahia.huguette (unknown [10.39.192.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 175BC104253A;
+ Wed, 20 Oct 2021 07:59:27 +0000 (UTC)
+Date: Wed, 20 Oct 2021 09:59:26 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 1/2] rcu: Introduce force_rcu notifier
+Message-ID: <20211020095926.5a42076f@bahia.huguette>
+In-Reply-To: <642435ff-975a-c46c-f73b-2dfb8aff0463@redhat.com>
+References: <20211019055632.252879-1-groug@kaod.org>
+ <20211019055632.252879-2-groug@kaod.org>
+ <642435ff-975a-c46c-f73b-2dfb8aff0463@redhat.com>
 MIME-Version: 1.0
-References: <20211001070603.307037-1-eperezma@redhat.com>
- <20211001070603.307037-19-eperezma@redhat.com>
- <79905c11-e313-ad60-17dc-1a47d35f12cc@redhat.com>
- <CACGkMEtc6tw5xauzw=1zSFUfC0oSRfokZbA6QsR7nEe5T7-4_A@mail.gmail.com>
-In-Reply-To: <CACGkMEtc6tw5xauzw=1zSFUfC0oSRfokZbA6QsR7nEe5T7-4_A@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 20 Oct 2021 09:54:02 +0200
-Message-ID: <CAJaqyWfvT36tbnSRhMoQcWXCYhjdkaOs_E3yKisPhv-o0oajCQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 18/20] vhost: Add VhostIOVATree
-To: Jason Wang <jasowang@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,62 +66,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: qemu-stable@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 19, 2021 at 11:23 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Tue, Oct 19, 2021 at 4:32 PM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> >
-> > =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:06, Eugenio P=C3=A9rez =E5=86=
-=99=E9=81=93:
-> > > This tree is able to look for a translated address from an IOVA addre=
-ss.
-> > >
-> > > At first glance is similar to util/iova-tree. However, SVQ working on
-> > > devices with limited IOVA space need more capabilities, like allocati=
-ng
-> > > IOVA chunks or perform reverse translations (qemu addresses to iova).
-> >
-> >
-> > I don't see any reverse translation is used in the shadow code. Or
-> > anything I missed?
->
-> Ok, it looks to me that it is used in the iova allocator. But I think
-> it's better to decouple it to an independent allocator instead of
-> vhost iova tree.
->
+On Tue, 19 Oct 2021 13:26:25 +0200
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-Reverse translation is used every time a buffer is made available,
-since buffers content are not copied, only the descriptors to SVQ
-vring.
+> On 19/10/21 07:56, Greg Kurz wrote:
+> > The drain_rcu_call() function can be blocked as long as an RCU reader
+> > stays in a read-side critical section. This is typically what happens
+> > when a TCG vCPU is executing a busy loop. It can deadlock the QEMU
+> > monitor as reported in https://gitlab.com/qemu-project/qemu/-/issues/65=
+0 .
+> >=20
+> > This can be avoided by allowing drain_rcu_call() to enforce an RCU grac=
+e
+> > period. Since each reader might need to do specific actions to end a
+> > read-side critical section, do it with notifiers.
+> >=20
+> > Prepare ground for this by adding a notifier list to the RCU reader
+> > struct and use it in wait_for_readers() if drain_rcu_call() is in
+> > progress. An API is added for readers to register their notifiers.
+> >=20
+> > This is largely based on a draft from Paolo Bonzini.
+> >=20
+> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >   include/qemu/rcu.h | 16 ++++++++++++++++
+> >   util/rcu.c         | 22 +++++++++++++++++++++-
+> >   2 files changed, 37 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+> > index 515d327cf11c..d8c4fd8686b4 100644
+> > --- a/include/qemu/rcu.h
+> > +++ b/include/qemu/rcu.h
+> > @@ -27,6 +27,7 @@
+> >   #include "qemu/thread.h"
+> >   #include "qemu/queue.h"
+> >   #include "qemu/atomic.h"
+> > +#include "qemu/notify.h"
+> >   #include "qemu/sys_membarrier.h"
+> >  =20
+> >   #ifdef __cplusplus
+> > @@ -66,6 +67,14 @@ struct rcu_reader_data {
+> >  =20
+> >       /* Data used for registry, protected by rcu_registry_lock */
+> >       QLIST_ENTRY(rcu_reader_data) node;
+> > +
+> > +    /*
+> > +     * NotifierList used to force an RCU grace period.  Accessed under
+> > +     * rcu_registry_lock.  Note that the notifier is called _outside_
+> > +     * the thread!
+> > +     */
+> > +    NotifierList force_rcu;
+> > +    void *force_rcu_data;
+>=20
+> This is a bit ugly because the force_rcu_data is shared across all=20
+> notifiers.  Sure right now we have only one, but still the data argument=
+=20
+> should be in rcu_register_thread rather than rcu_add_force_rcu_notifier.
+>=20
 
-At this point all the limits are copied to vhost iova tree in the next
-revision I will send, defined at its creation at
-vhost_iova_tree_new(). They are outside of util/iova-tree, only sent
-to the latter at allocation time.
+I don't quite see why we'd need more than one notifier, but indeed
+this isn't conceptually correct.
 
-Since vhost_iova_tree has its own vhost_iova_tree_alloc(), that wraps
-the iova_tree_alloc() [1], limits could be kept in vhost-vdpa and make
-them an argument of vhost_iova_tree_alloc. But I'm not sure if it's
-what you are proposing or I'm missing something.
+> It's a pity because I liked the Notifier local variable...  But after=20
+> thinking about it more and deleting some suggestions that won't work,=20
+> it's just easiest to have the notifier in CPUState.
+>=20
 
-Either way, I think it is harder to talk about this specific case
-without code, since this one still does not address the limits. Would
-you prefer me to send another RFC in WIP quality, with *not* all
-comments addressed? I would say that there is not a lot of pending
-work to send the next one, but it might be easier for all of us.
+Agreed.
 
-Thanks!
+> Maybe even move the unregistration to the existing function=20
+> tcg_cpus_destroy, and add tcg_cpus_init that calls tcg_register_thread()=
+=20
+> and rcu_add_force_rcu_notifier().  This way you don't have to export=20
+> tcg_cpus_force_rcu, and the tcg-accel-ops.h APIs are a bit more tidy.
+>=20
 
-[1] This util/iova-tree method will be proposed in the next series,
-and vhost_iova_tree wraps it since it needs to keep in sync both
-trees: iova->qemu vaddr for iova allocation and the reverse one to
-translate available buffers.
+I don't think we can do that because of round-robin : we only have one
+thread in this case but tcg_cpus_destroy() must still be called for all
+vCPUs. Also, a single notifier will work just fine no matter which
+vCPU is running when wait_for_readers() is called if I understand
+correctly how round-robin works.
 
-> Thanks
->
+> Paolo
+>=20
+> > +void rcu_add_force_rcu_notifier(Notifier *n, void *data)
+> > +{
+> > +    qemu_mutex_lock(&rcu_registry_lock);
+> > +    notifier_list_add(&rcu_reader.force_rcu, n);
+> > +    rcu_reader.force_rcu_data =3D data;
+> > +    qemu_mutex_unlock(&rcu_registry_lock);
+> > +}
+> > +
+> > +void rcu_remove_force_rcu_notifier(Notifier *n)
+> > +{
+> > +    qemu_mutex_lock(&rcu_registry_lock);
+> > +    rcu_reader.force_rcu_data =3D NULL;
+> > +    notifier_remove(n);
+> > +    qemu_mutex_unlock(&rcu_registry_lock);
+> > +}
+> > +
+> >   static void rcu_init_complete(void)
+> >   {
+> >       QemuThread thread;
+> >=20
+>=20
 
 
