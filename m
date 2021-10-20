@@ -2,59 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62ED5434C30
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 15:35:07 +0200 (CEST)
-Received: from localhost ([::1]:54950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8043434C39
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 15:38:29 +0200 (CEST)
+Received: from localhost ([::1]:58348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdBkI-0005Tx-GE
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 09:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35730)
+	id 1mdBnY-00084x-Tq
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 09:38:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mdBhf-0002bU-Uh
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:32:25 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56374
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mdBki-00068l-OX
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:35:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mdBhe-0002Su-8C
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:32:23 -0400
-Received: from [2a00:23c4:8b9d:f500:9396:df17:737c:b32c]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mdBhJ-0000yP-0o; Wed, 20 Oct 2021 14:32:01 +0100
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20211013212132.31519-1-mark.cave-ayland@ilande.co.uk>
- <20211013212132.31519-9-mark.cave-ayland@ilande.co.uk>
- <40098631-e3de-b334-43a7-e0e7ff2751c4@vivier.eu>
- <20e94c6d-99e7-2ecd-412d-20265ab43c97@ilande.co.uk>
- <e17830c6-2b0c-c42e-423d-a1008da8a82f@vivier.eu>
- <1e25bce7-4b37-0e42-7b99-6b173e255262@ilande.co.uk>
- <50238fee-e5ae-671a-59cd-b46b41d1f6ff@vivier.eu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <af27fff4-c85d-55ae-067c-1b886ea2aab6@ilande.co.uk>
-Date: Wed, 20 Oct 2021 14:32:13 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mdBkd-0005U9-FA
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:35:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634736925;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iLGCXiI5YVNqIF8c2pZOMlTM6ud6NAfRiLFszeSsWXs=;
+ b=EcjNpcOv72y7eq6/bAmRU7TNM4bR5FHtrRfmGbquDDaENioVbEXnFbSk8SeIgtKvs/vUky
+ tELmIB6I2saRRbHxB2ryZwdcNFb0JXXfu/AEjgZ5EMc64rerrFZpw4z/XOSJrQbbfQNtED
+ yBwnArat2rafgC2At9cgOep41goB0es=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-543-MdDEcs_nNieFgxESvVlLMQ-1; Wed, 20 Oct 2021 09:35:21 -0400
+X-MC-Unique: MdDEcs_nNieFgxESvVlLMQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ l22-20020aa7c316000000b003dbbced0731so21015807edq.6
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 06:35:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iLGCXiI5YVNqIF8c2pZOMlTM6ud6NAfRiLFszeSsWXs=;
+ b=FqSZE9Mxzr6P7NYrTioFLM1OlKEcdpsyggMLXCzWpJUR8YRH+rwkOKTj3fbJivnGBk
+ w9frbplGB9PDAjpYchuNVYCFXc0CFm5CSglybyFdp+wRlwouyLbYW5GIGbfa8hdgCCR9
+ zhAvPxztHIed3UNCJ7C/ieNqFJ8ri/8vjK3rwGnBIWhvjKxzLmwDCMt1f16V9FVOSZE4
+ pRqu3Fa2jJnkQkVqXSTOhBXqqvggmm+IRB+hIpiLU4Ey4UZFUphf0Rkoqxkuc6CrD5VC
+ cf7iASUX0NQpsmjCnSOK5uX0/kP1LM1k5fQRr3xPs1w/lRvjRW1zYR2VuAQsfM1pq8uT
+ LY8A==
+X-Gm-Message-State: AOAM531agZXDeKd7TJlJIOZLee07U/HCjwD1FRpcEhSdDAyGv5Xr6toh
+ bKfsnvLsIoTeO5x1kkp9N6zq4Hkc60TYr6BG9pfA/3CHVFrIc9Gh7wgm7YgjWSP+yXthvPJeFUv
+ SWPPEkoSTo610Fc8=
+X-Received: by 2002:a17:907:e9f:: with SMTP id
+ ho31mr8005895ejc.156.1634736920042; 
+ Wed, 20 Oct 2021 06:35:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyyeNU+fsbeACCF3ihtL1bxhLx0eQJy6hLREiCCppDvqpW3LP1U8sZ69gI8le5SThquLir7wg==
+X-Received: by 2002:a17:907:e9f:: with SMTP id
+ ho31mr8005842ejc.156.1634736919646; 
+ Wed, 20 Oct 2021 06:35:19 -0700 (PDT)
+Received: from thuth.remote.csb (tmo-097-184.customers.d1-online.com.
+ [80.187.97.184])
+ by smtp.gmail.com with ESMTPSA id l19sm1330997edb.65.2021.10.20.06.35.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Oct 2021 06:35:18 -0700 (PDT)
+Subject: Re: Deprecate the ppc405 boards in QEMU?
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+ <20210927044808.73391-5-david@gibson.dropbear.id.au>
+ <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
+ <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
+ <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
+ <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
+ <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
+ <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
+ <1397f18f-f187-6f48-ed6c-13c0b77abed9@redhat.com> <YVug7l8LWl3e+DN5@yekko>
+ <9aeb7010-0a17-864a-cfac-ea5d90356085@csgroup.eu>
+ <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
+ <5e4f78ce-1508-5689-ec29-79edad0c824e@kaod.org>
+ <491d6265-3785-b11-b7f0-621a3d2823@eik.bme.hu>
+ <b9f27c1b-1162-b178-9333-89c0dd707c12@redhat.com>
+ <103e098a-a8ac-a22a-8aad-3df7d8cde148@amsat.org>
+ <939f2d12-38f6-4ab0-b688-384136d1d9c@eik.bme.hu>
+ <4e07823e-7162-525a-4a61-9bed63e85d58@kaod.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <03d047aa-6d73-8697-ac43-29ab56563567@redhat.com>
+Date: Wed, 20 Oct 2021 15:35:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <50238fee-e5ae-671a-59cd-b46b41d1f6ff@vivier.eu>
+In-Reply-To: <4e07823e-7162-525a-4a61-9bed63e85d58@kaod.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:f500:9396:df17:737c:b32c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 8/8] q800: add NMI handler
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.267,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,64 +117,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
+ Peter Maydell <peter.maydell@linaro.org>, dbarboza@redhat.com,
+ Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <agraf@csgraf.de>,
+ qemu-ppc <qemu-ppc@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/10/2021 17:56, Laurent Vivier wrote:
+On 20/10/2021 14.43, Cédric Le Goater wrote:
 
-> Le 17/10/2021 à 12:00, Mark Cave-Ayland a écrit :
-> ...
->> I've just tried this on Linux, and it seems to work okay although I get several copies of the
->> register dump on the console for a single invocation of "info nmi" e.g.
->>
->> [    4.610000] Non-Maskable Interrupt
->> [    4.610000] Modules linked in: mac_esp(+) esp_scsi macsonic
->> [    4.610000] PC: [<00002dc0>] arch_cpu_idle+0x4/0x6
->> [    4.610000] SR: 2000  SP: (ptrval)  a2: 00395314
->> [    4.610000] d0: 00000000    d1: 00000002    d2: 0004b492    d3: 00392000
->> [    4.610000] d4: 00000000    d5: 00000000    a0: 00392000    a1: 00395314
->> [    4.610000] Process swapper (pid: 0, task=(ptrval))
->> [    4.610000] Frame format=0
->> [    4.610000] Stack from 00393f9c:
->> [    4.610000]         0004b540 00000431 0040ee22 0004b4c4 0002bf6a 004005f0 00393ff8 0004b714
->> [    4.610000]         0003e23a 0029c518 000000c2 0040eb54 3dc1e5d0 00000000 0004ff74 0003efe2
->> [    4.610000]         003f4e92 00000000 00000040 00000000 00000000 00000000 0040ee22 00000000
->> [    4.610000]         003f3872
->> [    4.610000] Call Trace: [<0004b540>] do_idle+0x7c/0xd2
->> [    4.610000]  [<0004b4c4>] do_idle+0x0/0xd2
->> [    4.610000]  [<0002bf6a>] kernel_thread+0x0/0x26
->> [    4.610000]  [<004005f0>] __alloc_bootmem+0x0/0x38
->> [    4.610000]  [<0004b714>] cpu_startup_entry+0xe/0x12
->> [    4.610000]  [<0003e23a>] find_task_by_pid_ns+0x0/0x22
->> [    4.610000]  [<0029c518>] rest_init+0x78/0x82
->> [    4.610000]  [<0004ff74>] printk+0x0/0x18
->> [    4.610000]  [<0003efe2>] parse_args+0x0/0x2c2
->> [    4.610000]  [<003f4e92>] start_kernel+0x43e/0x448
->> [    4.610000]  [<003f3872>] _sinittext+0x872/0x11f8
->> [    4.610000] Code: bc00 0060 f210 f0ff 7001 60cc 4e72 2000 <4e75> 2079 003b fc6c 4a88 6702 4e90
->> 60fe 2079 003b fc68 4a88 6702 4e90 60fe 2f0c
->>
->> (repeated 7 or 8 times)
->>
->> MacsBug seems to handle this better: as soon as the NMI is triggered, MacsBug opens and displays
->> "NMI" both if the programmer switch GPIO is held active, or pulsed as implemented in the patch. When
->> using the above patch, subsequent NMI triggers do not display "NMI" or change MacsBug in any visible
->> way which suggests that once the NMI is triggered, the NMI is ignored until the programmers switch
->> GPIO is inactive once again.
->>
->> Do you see the repeated register output in Linux for a single press of the programmers switch on a
->> real Quadra 800? It may be that Linux could be improved by having similar logic.
-> 
-> In fact, register output is repeated while I keep the button pressed (5.14 kernel provided by Finn)
-> 
-> If I press and release one (or several) time(s) before the end of the first output I have only one
-> output.
+> The 405 machine are still close to deprecation I think. We are still
+> struggling to boot one with mainline Linux, using uboot provided by
+> Thomas which skips SDRAM init. It is not clear to me if u-boot is
+> strictly necessary. It depends if Linux relies on it to do some
+> pre-initialization of HW. I guess once we find a good DTS for it, or
+> not, we can take a decision.
 
-Thanks, that makes sense - my guess is that the repeated output in QEMU is just a 
-symptom of the QEMU machine being much faster than the real one.
+FWIW, seems like this tarball contains a dts for a "taihushui" 405ep board:
 
+https://dev.archive.openwrt.org/raw-attachment/ticket/4153/kolsch.tranzeo.openwrt.bsp.tar.bz2
 
-ATB,
+... I wonder whether that's the same board as the "taihu" board in QEMU?
 
-Mark.
+  Thomas
+
 
