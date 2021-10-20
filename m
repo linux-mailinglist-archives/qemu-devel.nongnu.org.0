@@ -2,96 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AC204348BE
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:14:29 +0200 (CEST)
-Received: from localhost ([::1]:38880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D81134348DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:22:26 +0200 (CEST)
+Received: from localhost ([::1]:43756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md8c7-0001Oc-MZ
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:14:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45878)
+	id 1md8jp-0005G4-UX
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:22:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1md8Zv-0008QX-Lt
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:12:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34584)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8gs-0002kq-UV
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:19:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1md8Zt-0000wn-Bn
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:12:11 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8gr-0002aX-55
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:19:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634724728;
+ s=mimecast20190719; t=1634725159;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pm87A2KM+JzbCLWA5Ua3+fWWo418Dk4cB4BdfOpYIck=;
- b=QGxl+AOTRGaw9H6nU94j2l0x7j426t2Wk5k2RegbeQkiifO2A/efzxB+8UvUWJmJ9+44ma
- uJQ9MdhjxydCRiPZ8dCBM45Z/aYofQoNzLu6AclHAc/+KbJHAWkTcyvNeQ77YarTSRwnzJ
- WhxkeRCjS0g2onGorbr2Yv/ZIBPou18=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-GbQTJ3aQOEGumlBfwYVnKg-1; Wed, 20 Oct 2021 06:12:06 -0400
-X-MC-Unique: GbQTJ3aQOEGumlBfwYVnKg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- q203-20020a1ca7d4000000b0030dcdcd37c5so10952wme.8
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:12:06 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=n9f5g9sNTtkHzUTAAFRfoa3gsKryG7j55F+xZDrdxAQ=;
+ b=MyCvjwgq2ORsq7/iUwQnDHeW3LDAsR3x5fxYLQ0wU5PkeCcSSLgK1PiRvNlM5VWWFEJ0QA
+ alE6nmcFiIVS1tH8VgJLkuHIAxFqTZIoZAQjycFAZTGuQbZr1yNQKtok2mW7FFmwBiI1jH
+ KjpPsoI4X7SKg21dwLISpVElk4Crroo=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-4IYU8_ufMXqVrpD0cOfE3w-1; Wed, 20 Oct 2021 06:19:16 -0400
+X-MC-Unique: 4IYU8_ufMXqVrpD0cOfE3w-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ g28-20020a50d0dc000000b003dae69dfe3aso20514328edf.7
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:19:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Pm87A2KM+JzbCLWA5Ua3+fWWo418Dk4cB4BdfOpYIck=;
- b=J+CqbR1042+RTolAZAsFKBDLUFwG+jGiHsn2YoMuVadocS5i8MmhVvmcIl8groDGrz
- egVKe78gLKEx0tErI2BBKScEqGkjnmns+cRlnTWyZqtWoelbfdm0Dj+OxHkGYOxx1cDC
- DBClYavzedIzClZe4fIQcx9lpVz7K5kokVRdLgpeHnCyFMDuQMdVUFYNOjULrCYOl8Zs
- RclNxEBU3zHCmyNanNVYdpBkweDKkKmWTsTNUHDuJwgFByxLJ8rILt7XItN+e/hQyJtD
- sEYfGepzUAG55wCxKzhyi2gnUbDEFJmqR7ciTdt8urUdHZ0a3H1VddyWEr+BXjnXxpJg
- 9GlA==
-X-Gm-Message-State: AOAM532IQ9lmIHDl2xaLgkF4aqXdt+7Ofr8uQbHv0USiu+q+kWph2jIK
- pXrDxIrSWBoOeCYzVnZqE2Ugr+kjCvfXrCjMu/kXb2SWykbEx8WWRTqc9T1mq1Hy4O47PptapoF
- w9j2wLAL1KvAJdqw=
-X-Received: by 2002:a5d:4ec9:: with SMTP id s9mr36287225wrv.225.1634724725772; 
- Wed, 20 Oct 2021 03:12:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyw4rQtL0bOk4kklc3veGP3EnKwHmgDnU7JIhIcfvWB4KymcmzwDpyYX2+2tNYw7dUTsfYoMg==
-X-Received: by 2002:a5d:4ec9:: with SMTP id s9mr36287182wrv.225.1634724725533; 
- Wed, 20 Oct 2021 03:12:05 -0700 (PDT)
-Received: from [192.168.1.36] (33.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.33])
- by smtp.gmail.com with ESMTPSA id l2sm1569020wrw.42.2021.10.20.03.12.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 03:12:05 -0700 (PDT)
-Message-ID: <054c5b53-84ab-370f-8806-5f54265e8d3e@redhat.com>
-Date: Wed, 20 Oct 2021 12:12:03 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=n9f5g9sNTtkHzUTAAFRfoa3gsKryG7j55F+xZDrdxAQ=;
+ b=pfuKRmMFHFH53o4thisixbTSorT2I42cxY3BgSCAivOhB/StrERiHbHy5MWQC4azjL
+ dm1mgJq6qx3RlduVM1C+x7c3ebHfPyw45L+M8wNPzmaSU2PviB3T/21cle5bvIbwUXz2
+ vrCEGZ83kOcEIWQZGAizsGQcZVo+aKNL4t3fkZWSkkM5+V5XSA9ntAJePDyKvUXTXSQq
+ OX9g0rzHieiXSdxWIUuE63qRf45s96pwEaBXDzyWV0xIvtrUb6KW0mfTlDAI2LHaqC6b
+ dJ5UkGl62FAgz4itygHQWjd84T17/ax5Y/Go54r6jDHqQeKbcAz7ofmP6WuwmaVfdQdO
+ NrLA==
+X-Gm-Message-State: AOAM5318jVnB9lhdnuBe8+NzGPO46ZWkqRbozCwRGuTAPuJ7HWBZtlvM
+ tm9ZUr5x8RgLpVo222PT62z9AUkakzz+2+8u6XoogGlUaoFNSP44tgwNpEjINKXkYTWknxDyUMU
+ flIV7p6N4oCMQNmZwFSx9/Lb37imbP66YUSNzRWzNRaOOfqQBv5w51F06Jklo
+X-Received: by 2002:a05:6402:268c:: with SMTP id
+ w12mr62276441edd.376.1634725154427; 
+ Wed, 20 Oct 2021 03:19:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwvK+SIJiSmrE2P0ZzBwISVHbDckBcjaH1V0sXS6Dz4sgQbMxPtPLt3XGUT0jYSBvrVG/MG+w==
+X-Received: by 2002:a05:6402:268c:: with SMTP id
+ w12mr62276408edd.376.1634725154090; 
+ Wed, 20 Oct 2021 03:19:14 -0700 (PDT)
+Received: from redhat.com ([2.55.24.172])
+ by smtp.gmail.com with ESMTPSA id v13sm964502edl.69.2021.10.20.03.19.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Oct 2021 03:19:13 -0700 (PDT)
+Date: Wed, 20 Oct 2021 06:19:11 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/44] pc,pci,virtio: features, fixes, tests
+Message-ID: <20211020101844.988480-1-mst@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: CLI: Using -bios AND -kernel
-To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
-References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
- <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
- <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
- <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
- <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
- <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
- <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
- <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
- <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
- <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com> <YWQB1FMhQfmqRYxN@yekko>
- <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
- <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
- <8c382ce4-f706-376c-289a-b8c64393decb@redhat.com>
- <880f4bde-19fc-1267-3a04-3d9efd660897@csgroup.eu>
- <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -112,50 +94,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- dbarboza@redhat.com, QEMU Developers <qemu-devel@nongnu.org>,
- Greg Kurz <groug@kaod.org>, Christophe Leroy <christophe.leroy@csgroup.eu>,
- Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi John / Paolo / Markus,
+The following changes since commit 50352cce138ef3b30c1cda28a4df68fff5da3202:
 
-On 10/19/21 12:07, BALATON Zoltan wrote:
-> On Tue, 19 Oct 2021, Christophe Leroy wrote:
->> Le 19/10/2021 à 11:39, Thomas Huth a écrit :
->>> On 19/10/2021 11.31, Christophe Leroy wrote:
-[...]
->> I use the following command, but it does nothing, it stays in uboot
->> prompt as when I don't get a kernel argument
->>
->>     ~/qemu/build/qemu-system-ppc -M taihu -bios
->> ~/Téléchargements/u-boot.bin -serial null -serial mon:stdio -kernel
->> arch/powerpc/boot/uImage
-> 
-> I'm not sure using -bios and -kernel together makes sense, it probably
-> starts u-boot in this case and you have to load and start the kernel
-> from u-boot as you'd notmally do on a real machine. Alternatively you
-> could use -kernel instead of -bios which then loads a kernel and starts
-> it directly but not sure if it needs a firmware to work.
-> 
-> Ot I could be completely wrong as I don't know this machine and haven't
-> tried it.
+  Merge remote-tracking branch 'remotes/juanquintela/tags/migration.next-pull-request' into staging (2021-10-19 07:41:04 -0700)
 
-Usually -bios overwrites -kernel/-append cmdline options.
-Having them accepted together is probably a configuration mistake,
-and we should reject that (generically).
+are available in the Git repository at:
 
-You guys have been working on the CLI recently, is there an easy
-way to not allow such combination?
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-Thanks,
+for you to fetch changes up to a8339e07f94a47f99560baef59d65a9e039aaf45:
 
-Phil.
+  tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge test (2021-10-20 06:18:17 -0400)
+
+----------------------------------------------------------------
+pc,pci,virtio: features, fixes, tests
+
+vhost user rng
+vdpa multiqueue
+Fixes, cleanups, new tests all over the place.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Ani Sinha (3):
+      tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT table blob
+      tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges for q35
+      tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge test
+
+David Hildenbrand (1):
+      libvhost-user: fix VHOST_USER_REM_MEM_REG skipping mmap_addr
+
+Eric Auger (2):
+      virtio-iommu: Remove the non transitional name
+      virtio-iommu: Drop base_name and change generic_name
+
+Eugenio Pérez (3):
+      vdpa: Skip protected ram IOMMU mappings
+      vdpa: Add vhost_vdpa_section_end
+      vdpa: Check for iova range at mappings changes
+
+Igor Mammedov (15):
+      tests: acpi: dump table with failed checksum
+      tests: qtest: add qtest_has_accel() to check if tested binary supports accelerator
+      tests: acpi: whitelist expected tables for acpi/q35/xapic testcase
+      tests: acpi: q35: test for x2APIC entries in SRAT
+      tests: acpi: update expected tables blobs
+      tests: acpi: whitelist new expected table tests/data/acpi/q35/DMAR.dmar
+      tests: acpi: add testcase for intel_iommu (DMAR table)
+      tests: acpi: add expected blob for DMAR table
+      tests: acpi: whitelist expected blobs for new acpi/q35/ivrs testcase
+      tests: acpi: add testcase for amd-iommu (IVRS table)
+      tests: acpi: update expected blobs
+      tests: acpi: arm/virt: drop redundant test_acpi_one() in test_acpi_virt_tcg()
+      tests: arm-cpu-features: use qtest_has_kvm() API
+      tests: migration-test: use qtest_has_accel() API
+      tests: bios-tables-test: use qtest_has_accel() API to register TCG only tests
+
+Jason Wang (10):
+      vhost-vdpa: open device fd in net_init_vhost_vdpa()
+      vhost-vdpa: classify one time request
+      vhost-vdpa: prepare for the multiqueue support
+      vhost-vdpa: let net_vhost_vdpa_init() returns NetClientState *
+      net: introduce control client
+      vhost-net: control virtqueue support
+      virtio-net: use "queue_pairs" instead of "queues" when possible
+      vhost: record the last virtqueue index for the virtio device
+      virtio-net: vhost control virtqueue support
+      vhost-vdpa: multiqueue support
+
+Laurent Vivier (2):
+      failover: fix a regression introduced by JSON'ification of -device
+      qdev/qbus: remove failover specific code
+
+Mathieu Poirier (3):
+      vhost-user-rng: Add vhost-user-rng implementation
+      vhost-user-rng-pci: Add vhost-user-rng-pci implementation
+      docs: Add documentation for vhost based RNG implementation
+
+Michael S. Tsirkin (3):
+      rebuild-expected-aml.sh: allow partial target list
+      bios-tables-test: don't disassemble empty files
+      pci: fix PCI resource reserve capability on BE
+
+Stefan Hajnoczi (1):
+      vhost-user-blk-test: pass vhost-user socket fds to QSD
+
+Xueming Li (1):
+      vhost-user: fix duplicated notifier MR init
+
+ include/hw/virtio/vhost-user-rng.h        |  33 ++++
+ include/hw/virtio/vhost-vdpa.h            |   3 +
+ include/hw/virtio/vhost.h                 |   2 +
+ include/hw/virtio/virtio-iommu.h          |   2 +-
+ include/hw/virtio/virtio-net.h            |   5 +-
+ include/net/net.h                         |   5 +
+ include/net/vhost_net.h                   |   6 +-
+ tests/qtest/libqos/libqtest.h             |   8 +
+ hw/net/vhost_net-stub.c                   |   4 +-
+ hw/net/vhost_net.c                        |  55 ++++--
+ hw/net/virtio-net.c                       | 201 ++++++++++++---------
+ hw/pci/pci_bridge.c                       |  10 +-
+ hw/virtio/vhost-user-rng-pci.c            |  79 ++++++++
+ hw/virtio/vhost-user-rng.c                | 289 ++++++++++++++++++++++++++++++
+ hw/virtio/vhost-user.c                    |   5 +-
+ hw/virtio/vhost-vdpa.c                    | 140 ++++++++++++---
+ hw/virtio/virtio-iommu-pci.c              |   4 +-
+ net/net.c                                 |  24 ++-
+ net/vhost-vdpa.c                          | 127 +++++++++++--
+ softmmu/qdev-monitor.c                    |  18 +-
+ subprojects/libvhost-user/libvhost-user.c |   1 +
+ tests/qtest/acpi-utils.c                  |  14 ++
+ tests/qtest/arm-cpu-features.c            |  29 +--
+ tests/qtest/bios-tables-test.c            | 122 ++++++++++---
+ tests/qtest/libqtest.c                    |  27 +++
+ tests/qtest/migration-test.c              |  15 +-
+ tests/qtest/vhost-user-blk-test.c         |   4 +-
+ docs/system/device-emulation.rst          |   1 +
+ docs/system/devices/vhost-user-rng.rst    |  39 ++++
+ hw/virtio/Kconfig                         |   5 +
+ hw/virtio/meson.build                     |   2 +
+ hw/virtio/trace-events                    |   1 +
+ meson.build                               |   6 +
+ tests/data/acpi/q35/APIC.xapic            | Bin 0 -> 2686 bytes
+ tests/data/acpi/q35/DMAR.dmar             | Bin 0 -> 120 bytes
+ tests/data/acpi/q35/DSDT.ivrs             | Bin 0 -> 8306 bytes
+ tests/data/acpi/q35/DSDT.multi-bridge     | Bin 0 -> 8583 bytes
+ tests/data/acpi/q35/DSDT.xapic            | Bin 0 -> 35652 bytes
+ tests/data/acpi/q35/FACP.xapic            | Bin 0 -> 244 bytes
+ tests/data/acpi/q35/IVRS.ivrs             | Bin 0 -> 104 bytes
+ tests/data/acpi/q35/SRAT.xapic            | Bin 0 -> 5080 bytes
+ tests/data/acpi/rebuild-expected-aml.sh   |  22 ++-
+ 42 files changed, 1075 insertions(+), 233 deletions(-)
+ create mode 100644 include/hw/virtio/vhost-user-rng.h
+ create mode 100644 hw/virtio/vhost-user-rng-pci.c
+ create mode 100644 hw/virtio/vhost-user-rng.c
+ create mode 100644 docs/system/devices/vhost-user-rng.rst
+ create mode 100644 tests/data/acpi/q35/APIC.xapic
+ create mode 100644 tests/data/acpi/q35/DMAR.dmar
+ create mode 100644 tests/data/acpi/q35/DSDT.ivrs
+ create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
+ create mode 100644 tests/data/acpi/q35/DSDT.xapic
+ create mode 100644 tests/data/acpi/q35/FACP.xapic
+ create mode 100644 tests/data/acpi/q35/IVRS.ivrs
+ create mode 100644 tests/data/acpi/q35/SRAT.xapic
 
 
