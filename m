@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CCF3435257
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 20:08:15 +0200 (CEST)
-Received: from localhost ([::1]:35844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A00A435258
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 20:08:19 +0200 (CEST)
+Received: from localhost ([::1]:36032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdG0c-0002xS-7P
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 14:08:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44484)
+	id 1mdG0g-00034q-BR
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 14:08:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdFvH-0005VT-TZ
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 14:02:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42772)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mdFyr-0001EU-3G
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 14:06:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdFvD-0001q0-AH
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 14:02:41 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mdFyn-000515-FX
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 14:06:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634752957;
+ s=mimecast20190719; t=1634753180;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qzOXBxLCYJpjtssZ+9RTI0mGEjGG71mElYTKjYL6U2w=;
- b=a3BelmKI5FYXPk6zwfSSdYANiwdxaMXgjkdyqge+dI/y2Zg1/cxF+Kfjv2G35eg7pdw4LO
- RRsW5Jc+40pxOTjUzQQInYjSHDNYDHgd1wJztW4tdV4aTC70uik1/yZAKkRmEkdtNKmH8a
- 67fjM9HwgOTZVaY8HACqbYqbGe+hjGI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e2PGlMStDgyIuOJoZSG7TZes3LdcT3iPO06QNY5Gle8=;
+ b=Uhnzj9G5AZbmkFzqw1GzALdq61jSB4zlCYOLA9SI1Ec0/s8CKtU51H6YqXec84Bg8vXXL5
+ m5AEKaWWbZh7uzfUe54vVEfejB7lGG/+qNX7sGCR7MjoPFNplpBdc+2YLiRQwh1L7cMD+v
+ MsTHqE6Oey+KFOgzAbxJ1709kkJOzN4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-RroXKA7AMt67SdjXShnOpQ-1; Wed, 20 Oct 2021 14:02:34 -0400
-X-MC-Unique: RroXKA7AMt67SdjXShnOpQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-38-qTMvTRQwPSW20tcLU27JUQ-1; Wed, 20 Oct 2021 14:06:19 -0400
+X-MC-Unique: qTMvTRQwPSW20tcLU27JUQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53739806668;
- Wed, 20 Oct 2021 18:02:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F13A3ADCD;
- Wed, 20 Oct 2021 18:02:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 80B8B11380A7; Wed, 20 Oct 2021 20:02:31 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] qapi: Improve input_type_enum()'s error message
-Date: Wed, 20 Oct 2021 20:02:31 +0200
-Message-Id: <20211020180231.434071-1-armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78EBEA40C1
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 18:06:18 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.33.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6FC6260936;
+ Wed, 20 Oct 2021 18:06:10 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id EA8DB2256FC; Wed, 20 Oct 2021 14:06:09 -0400 (EDT)
+Date: Wed, 20 Oct 2021 14:06:09 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v4 10/12] virtiofsd: Add inodes_by_handle hash table
+Message-ID: <YXBakXrPBcZmXQox@redhat.com>
+References: <20210916084045.31684-1-hreitz@redhat.com>
+ <20210916084045.31684-11-hreitz@redhat.com>
+ <YW8kbdCeqs11E0Tl@redhat.com>
+ <194cd5f5-e5b3-2929-3ae7-ad2fb1083021@redhat.com>
+ <YXALvGmoKxXOXMdN@redhat.com>
+ <53540c84-a06a-281d-db4a-51affe7a0e0c@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <53540c84-a06a-281d-db4a-51affe7a0e0c@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -75,165 +84,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- michael.roth@amd.com, hreitz@redhat.com, pbonzini@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The error message claims the parameter is invalid:
+On Wed, Oct 20, 2021 at 04:10:51PM +0200, Hanna Reitz wrote:
+> On 20.10.21 14:29, Vivek Goyal wrote:
+> > On Wed, Oct 20, 2021 at 12:02:32PM +0200, Hanna Reitz wrote:
+> > > On 19.10.21 22:02, Vivek Goyal wrote:
+> > > > On Thu, Sep 16, 2021 at 10:40:43AM +0200, Hanna Reitz wrote:
+> > > > > Currently, lo_inode.fhandle is always NULL and so always keep an O_PATH
+> > > > > FD in lo_inode.fd.  Therefore, when the respective inode is unlinked,
+> > > > > its inode ID will remain in use until we drop our lo_inode (and
+> > > > > lo_inode_put() thus closes the FD).  Therefore, lo_find() can safely use
+> > > > > the inode ID as an lo_inode key, because any inode with an inode ID we
+> > > > > find in lo_data.inodes (on the same filesystem) must be the exact same
+> > > > > file.
+> > > > > 
+> > > > > This will change when we start setting lo_inode.fhandle so we do not
+> > > > > have to keep an O_PATH FD open.  Then, unlinking such an inode will
+> > > > > immediately remove it, so its ID can then be reused by newly created
+> > > > > files, even while the lo_inode object is still there[1].
+> > > > > 
+> > > > > So creating a new file can then reuse the old file's inode ID, and
+> > > > > looking up the new file would lead to us finding the old file's
+> > > > > lo_inode, which is not ideal.
+> > > > > 
+> > > > > Luckily, just as file handles cause this problem, they also solve it:  A
+> > > > > file handle contains a generation ID, which changes when an inode ID is
+> > > > > reused, so the new file can be distinguished from the old one.  So all
+> > > > > we need to do is to add a second map besides lo_data.inodes that maps
+> > > > > file handles to lo_inodes, namely lo_data.inodes_by_handle.  For
+> > > > > clarity, lo_data.inodes is renamed to lo_data.inodes_by_ids.
+> > > > > 
+> > > > > Unfortunately, we cannot rely on being able to generate file handles
+> > > > > every time.  Therefore, we still enter every lo_inode object into
+> > > > > inodes_by_ids, but having an entry in inodes_by_handle is optional.  A
+> > > > > potential inodes_by_handle entry then has precedence, the inodes_by_ids
+> > > > > entry is just a fallback.
+> > > > > 
+> > > > > Note that we do not generate lo_fhandle objects yet, and so we also do
+> > > > > not enter anything into the inodes_by_handle map yet.  Also, all lookups
+> > > > > skip that map.  We might manually create file handles with some code
+> > > > > that is immediately removed by the next patch again, but that would
+> > > > > break the assumption in lo_find() that every lo_inode with a non-NULL
+> > > > > .fhandle must have an entry in inodes_by_handle and vice versa.  So we
+> > > > > leave actually using the inodes_by_handle map for the next patch.
+> > > > > 
+> > > > > [1] If some application in the guest still has the file open, there is
+> > > > > going to be a corresponding FD mapping in lo_data.fd_map.  In such a
+> > > > > case, the inode will only go away once every application in the guest
+> > > > > has closed it.  The problem described only applies to cases where the
+> > > > > guest does not have the file open, and it is just in the dentry cache,
+> > > > > basically.
+> > > > > 
+> > > > > Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> > > > > ---
+> > > > >    tools/virtiofsd/passthrough_ll.c | 81 +++++++++++++++++++++++++-------
+> > > > >    1 file changed, 65 insertions(+), 16 deletions(-)
+> > > > > 
+> > > > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > > > > index bd8fc922ea..b7d6aa7f9d 100644
+> > > > > --- a/tools/virtiofsd/passthrough_ll.c
+> > > > > +++ b/tools/virtiofsd/passthrough_ll.c
+> > > > > @@ -186,7 +186,8 @@ struct lo_data {
+> > > > >        int announce_submounts;
+> > > > >        bool use_statx;
+> > > > >        struct lo_inode root;
+> > > > > -    GHashTable *inodes; /* protected by lo->mutex */
+> > > > > +    GHashTable *inodes_by_ids; /* protected by lo->mutex */
+> > > > > +    GHashTable *inodes_by_handle; /* protected by lo->mutex */
+> > > > >        struct lo_map ino_map; /* protected by lo->mutex */
+> > > > >        struct lo_map dirp_map; /* protected by lo->mutex */
+> > > > >        struct lo_map fd_map; /* protected by lo->mutex */
+> > > > > @@ -275,8 +276,9 @@ static struct {
+> > > > >    /* That we loaded cap-ng in the current thread from the saved */
+> > > > >    static __thread bool cap_loaded = 0;
+> > > > > -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
+> > > > > -                                uint64_t mnt_id);
+> > > > > +static struct lo_inode *lo_find(struct lo_data *lo,
+> > > > > +                                const struct lo_fhandle *fhandle,
+> > > > > +                                struct stat *st, uint64_t mnt_id);
+> > > > >    static int xattr_map_client(const struct lo_data *lo, const char *client_name,
+> > > > >                                char **out_name);
+> > > > > @@ -1143,18 +1145,40 @@ out_err:
+> > > > >        fuse_reply_err(req, saverr);
+> > > > >    }
+> > > > > -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
+> > > > > -                                uint64_t mnt_id)
+> > > > > +static struct lo_inode *lo_find(struct lo_data *lo,
+> > > > > +                                const struct lo_fhandle *fhandle,
+> > > > > +                                struct stat *st, uint64_t mnt_id)
+> > > > >    {
+> > > > > -    struct lo_inode *p;
+> > > > > -    struct lo_key key = {
+> > > > > +    struct lo_inode *p = NULL;
+> > > > > +    struct lo_key ids_key = {
+> > > > >            .ino = st->st_ino,
+> > > > >            .dev = st->st_dev,
+> > > > >            .mnt_id = mnt_id,
+> > > > >        };
+> > > > >        pthread_mutex_lock(&lo->mutex);
+> > > > > -    p = g_hash_table_lookup(lo->inodes, &key);
+> > > > > +    if (fhandle) {
+> > > > > +        p = g_hash_table_lookup(lo->inodes_by_handle, fhandle);
+> > > > > +    }
+> > > > > +    if (!p) {
+> > > > > +        p = g_hash_table_lookup(lo->inodes_by_ids, &ids_key);
+> > > > > +        /*
+> > > > > +         * When we had to fall back to looking up an inode by its
+> > > > > +         * inode ID, ensure that we hit an entry that has a valid file
+> > > > > +         * descriptor.  Having an FD open means that the inode cannot
+> > > > > +         * really be deleted until the FD is closed, so that the inode
+> > > > > +         * ID remains valid until we evict our lo_inode.
+> > > > > +         * With no FD open (and just a file handle), the inode can be
+> > > > > +         * deleted while we still have our lo_inode, and so the inode
+> > > > > +         * ID may be reused by a completely different new inode.  We
+> > > > > +         * then must look up the lo_inode by file handle, because this
+> > > > > +         * handle contains a generation ID to differentiate between
+> > > > > +         * the old and the new inode.
+> > > > > +         */
+> > > > > +        if (p && p->fd == -1) {
+> > > > > +            p = NULL;
+> > > > > +        }
+> > > > What happens in following scenario.
+> > > > 
+> > > > - Say I have a hard linked file foo.txt with link foo-link.txt.
+> > > > 
+> > > > - I lookup foo.txt. We generate file handle and add inode for foo.txt
+> > > >     to inode cache. lo_inode->fhandle will be valie but lo_inode->fd == -1.
+> > > > 
+> > > > - Now later lookup for foo-link.txt happens. Say this time we can't
+> > > >     generate file handle.
+> > > Which we’ve already decided is practically impossible.
+> > Agreed that probably is very less but it can happen when sufficient
+> > resources are not available, like -ENOMEM.
+> > 
+> > static long do_sys_name_to_handle(struct path *path,
+> >                                    struct file_handle __user *ufh,
+> >                                    int __user *mnt_id)
+> > {
+> >          handle = kmalloc(sizeof(struct file_handle) + f_handle.handle_bytes,
+> >                           GFP_KERNEL);
+> >          if (!handle)
+> >                  return -ENOMEM;
+> > }
+> 
+> OK, but do we really want to be prepared for an ENOMEM from the kernel?
 
-    $ qemu-system-x86_64 -object qom-type=nonexistent
-    qemu-system-x86_64: -object qom-type=nonexistent: Invalid parameter 'nonexistent'
+Why not. Other filesystem methods are dealing with it and return -ENOMEM
+to fuse client. So I don't see any reason why file handle stuff should
+be special. In fact in an attempt to trying to make it special just
+increases complexity and having to deal with fallback plans (except
+-EOPNOTSUP).
 
-What's wrong is actually the *value* 'nonexistent'.  Improve the
-message to
 
-    qemu-system-x86_64: -object qom-type=nonexistent: Parameter 'qom-type' does not accept value 'nonexistent'
+> 
+> > > > When we try to lookup inode, lo_find() should
+> > > >     return NULL. It will find inode by ids but not use it because inode
+> > > >     was added using file handle and p->fd == -1. That means lookup
+> > > >     for foo-link.txt will end up adding another inode, when it should
+> > > >     not have?
+> > > Yes, it would end up adding another inode, which doesn’t seem catastrophic
+> > > to me.
+> > > But again, the whole case seems impossible to me.
+> > Given we can get -ENOMEM error it is not impossible.
+> > 
+> > I thought all along you wanted to write code so that we could fallback
+> > to ids in case of errors.
+> 
+> Well, yes, if possible, but unfortunately it isn’t possible here.
+> 
+> > Anyway, if you agree that except the case of
+> > -EOPNOTSUPP, we don't have to worry about fallback, then let us just
+> > reutrn error to caller if get_file_handle() fails (except the case
+> > of -EOPNOTSUPP).
+> 
+> We’ve had this discussion before, and so I tried that for v3 but abandoned
+> it again because I found it unreasonably complicated.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-v2: iotests 287 and 308 updated [Kevin]
+I guess you had some code previously (when you were not parsing mountinfo)
+that made it harder to deal with -ENOMEM. You could not afford a failure.
+With a move to mountinfo parsing, that restriction might have gone away
+now.
 
- qapi/qapi-visit-core.c          | 3 ++-
- tests/unit/check-qom-proplist.c | 2 +-
- tests/qemu-iotests/049.out      | 6 +++---
- tests/qemu-iotests/206.out      | 2 +-
- tests/qemu-iotests/237.out      | 6 +++---
- tests/qemu-iotests/245          | 2 +-
- tests/qemu-iotests/287          | 2 +-
- tests/qemu-iotests/308          | 2 +-
- 8 files changed, 13 insertions(+), 12 deletions(-)
+> Always falling back is
+> simpler than deciding when to return an error to the guest and when not to;
+> and also, considering errors other than EOPNOTSUPP should be rare, the code
+> that returns errors to the guest would effectively be dead code.
 
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index a641adec51..7310f0a0ca 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -392,7 +392,8 @@ static bool input_type_enum(Visitor *v, const char *name, int *obj,
- 
-     value = qapi_enum_parse(lookup, enum_str, -1, NULL);
-     if (value < 0) {
--        error_setg(errp, QERR_INVALID_PARAMETER, enum_str);
-+        error_setg(errp, "Parameter '%s' does not accept value '%s'",
-+                   name ? name : "null", enum_str);
-         g_free(enum_str);
-         return false;
-     }
-diff --git a/tests/unit/check-qom-proplist.c b/tests/unit/check-qom-proplist.c
-index 48503e0dff..ed341088d3 100644
---- a/tests/unit/check-qom-proplist.c
-+++ b/tests/unit/check-qom-proplist.c
-@@ -488,7 +488,7 @@ static void test_dummy_badenum(void)
-     g_assert(dobj == NULL);
-     g_assert(err != NULL);
-     g_assert_cmpstr(error_get_pretty(err), ==,
--                    "Invalid parameter 'yeti'");
-+                    "Parameter 'av' does not accept value 'yeti'");
- 
-     g_assert(object_resolve_path_component(parent, "dummy0")
-              == NULL);
-diff --git a/tests/qemu-iotests/049.out b/tests/qemu-iotests/049.out
-index 01f7b1f240..8719c91b48 100644
---- a/tests/qemu-iotests/049.out
-+++ b/tests/qemu-iotests/049.out
-@@ -174,11 +174,11 @@ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off comp
- 
- qemu-img create -f qcow2 -o compat=0.42 TEST_DIR/t.qcow2 64M
- Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=67108864 compat=0.42 lazy_refcounts=off refcount_bits=16
--qemu-img: TEST_DIR/t.qcow2: Invalid parameter '0.42'
-+qemu-img: TEST_DIR/t.qcow2: Parameter 'version' does not accept value '0.42'
- 
- qemu-img create -f qcow2 -o compat=foobar TEST_DIR/t.qcow2 64M
- Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=67108864 compat=foobar lazy_refcounts=off refcount_bits=16
--qemu-img: TEST_DIR/t.qcow2: Invalid parameter 'foobar'
-+qemu-img: TEST_DIR/t.qcow2: Parameter 'version' does not accept value 'foobar'
- 
- == Check preallocation option ==
- 
-@@ -190,7 +190,7 @@ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off prea
- 
- qemu-img create -f qcow2 -o preallocation=1234 TEST_DIR/t.qcow2 64M
- Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off preallocation=1234 compression_type=zlib size=67108864 lazy_refcounts=off refcount_bits=16
--qemu-img: TEST_DIR/t.qcow2: Invalid parameter '1234'
-+qemu-img: TEST_DIR/t.qcow2: Parameter 'preallocation' does not accept value '1234'
- 
- == Check encryption option ==
- 
-diff --git a/tests/qemu-iotests/206.out b/tests/qemu-iotests/206.out
-index b68c443867..3593e8e9c2 100644
---- a/tests/qemu-iotests/206.out
-+++ b/tests/qemu-iotests/206.out
-@@ -192,7 +192,7 @@ Job failed: Could not resize image: Failed to grow the L1 table: File too large
- 
- === Invalid version ===
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "qcow2", "file": "node0", "size": 67108864, "version": "v1"}}}
--{"error": {"class": "GenericError", "desc": "Invalid parameter 'v1'"}}
-+{"error": {"class": "GenericError", "desc": "Parameter 'version' does not accept value 'v1'"}}
- 
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "qcow2", "file": "node0", "lazy-refcounts": true, "size": 67108864, "version": "v2"}}}
- {"return": {}}
-diff --git a/tests/qemu-iotests/237.out b/tests/qemu-iotests/237.out
-index aa94986803..2f09ff5512 100644
---- a/tests/qemu-iotests/237.out
-+++ b/tests/qemu-iotests/237.out
-@@ -116,13 +116,13 @@ Job failed: Cannot find device='this doesn't exist' nor node-name='this doesn't
- == Invalid adapter types ==
- 
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"adapter-type": "foo", "driver": "vmdk", "file": "node0", "size": 33554432}}}
--{"error": {"class": "GenericError", "desc": "Invalid parameter 'foo'"}}
-+{"error": {"class": "GenericError", "desc": "Parameter 'adapter-type' does not accept value 'foo'"}}
- 
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"adapter-type": "IDE", "driver": "vmdk", "file": "node0", "size": 33554432}}}
--{"error": {"class": "GenericError", "desc": "Invalid parameter 'IDE'"}}
-+{"error": {"class": "GenericError", "desc": "Parameter 'adapter-type' does not accept value 'IDE'"}}
- 
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"adapter-type": "legacyesx", "driver": "vmdk", "file": "node0", "size": 33554432}}}
--{"error": {"class": "GenericError", "desc": "Invalid parameter 'legacyesx'"}}
-+{"error": {"class": "GenericError", "desc": "Parameter 'adapter-type' does not accept value 'legacyesx'"}}
- 
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"adapter-type": 1, "driver": "vmdk", "file": "node0", "size": 33554432}}}
- {"error": {"class": "GenericError", "desc": "Invalid parameter type for 'options.adapter-type', expected: string"}}
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index 9b12b42eed..24ac43f70e 100755
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -149,7 +149,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         self.reopen(opts, {'node-name': ''}, "Failed to find node with node-name=''")
-         self.reopen(opts, {'node-name': None}, "Invalid parameter type for 'options[0].node-name', expected: string")
-         self.reopen(opts, {'driver': 'raw'}, "Cannot change the option 'driver'")
--        self.reopen(opts, {'driver': ''}, "Invalid parameter ''")
-+        self.reopen(opts, {'driver': ''}, "Parameter 'driver' does not accept value ''")
-         self.reopen(opts, {'driver': None}, "Invalid parameter type for 'options[0].driver', expected: string")
-         self.reopen(opts, {'file': 'not-found'}, "Cannot find device='' nor node-name='not-found'")
-         self.reopen(opts, {'file': ''}, "Cannot find device='' nor node-name=''")
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-index 22ce9ff0e4..2d5334e8bf 100755
---- a/tests/qemu-iotests/287
-+++ b/tests/qemu-iotests/287
-@@ -53,7 +53,7 @@ CLUSTER_SIZE=65536
- 
- # Check if we can run this test.
- output=$(_make_test_img -o 'compression_type=zstd' 64M; _cleanup_test_img)
--if echo "$output" | grep -q "Invalid parameter 'zstd'"; then
-+if echo "$output" | grep -q "Parameter 'compression-type' does not accept value 'zstd'"; then
-     _notrun "ZSTD is disabled"
- fi
- 
-diff --git a/tests/qemu-iotests/308 b/tests/qemu-iotests/308
-index 6b386bd523..2e3f8f4282 100755
---- a/tests/qemu-iotests/308
-+++ b/tests/qemu-iotests/308
-@@ -148,7 +148,7 @@ rmdir "$EXT_MP" 2>/dev/null
- rm -f "$EXT_MP"
- output=$(fuse_export_add 'export-err' "'mountpoint': '$EXT_MP'" error)
- 
--if echo "$output" | grep -q "Invalid parameter 'fuse'"; then
-+if echo "$output" | grep -q "Parameter 'type' does not accept value 'fuse'"; then
-     _notrun 'No FUSE support'
- fi
- 
--- 
-2.31.1
+May be. I probably should take your patches and try to convert them to 
+return all temporary errors to client (except -ENOTSUPP) and see what
+are the issues I face.
+
+> 
+> If we really must return an error in the case you describe, then I don’t
+> think there’s a way around it, though...  In virtiofsd-rs, we could let
+> FileHandle::from_name_at() return an io::Result<Option<Self>>, such that it
+> returns Ok(None) in case of EOPNOTSUPP, or an Error in case there is an
+> unexpected error like ENOMEM.  I think that shouldn’t be too bad, but my
+> experience says the devil’s in the details.
+> 
+> It’s just that it seems to be a purely theoretical problem, because if the
+> kernel gives us ENOMEM, we probably won’t live too long anyway.
+
+Or may be some other process will exit/die freeing memory and virtiofsd
+will continue to live. So we should not conclude that after -ENOMEM
+virtiofsd will not live too long anyway. Atleast code should not be
+written with this assumption.
+
+Thanks
+Vivek
 
 
