@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F3B4343EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 05:38:00 +0200 (CEST)
-Received: from localhost ([::1]:35334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC90C4343F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 05:39:23 +0200 (CEST)
+Received: from localhost ([::1]:37482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md2QS-0000SN-3u
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 23:38:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47302)
+	id 1md2Rn-0001ui-13
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 23:39:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1md26e-0007SB-5c
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 23:17:32 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:40464)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1md26U-00018U-Mc
- for qemu-devel@nongnu.org; Tue, 19 Oct 2021 23:17:31 -0400
-Received: by mail-pl1-x629.google.com with SMTP id v20so15117284plo.7
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 20:17:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mc33rRzzUwsbFNZd+/6Yg+kSllYkJDD+UOY7AOL7278=;
- b=EnT9hnu1xg//jt1clHG0lX7QBKd6fv1u4JqUjbXJUIkk0oSQKrUpA3VV7wle1dp5Mp
- uz8B+jQ22jkPof2WrHpPJGzWASMzzqaY3WXGtKaiVjt9+j/xUF4/VEKX0coBEWPRKc/X
- 0i1bP3OSmQlhQvMcJzAMPwA2ZEepgXwxuxOzsj38W7INWe8G9lETMhHUjyLf6xY+tcmt
- SbfF+dOocXh4UigpGdu3fw1f7iMI9Xcj5c3FyeYE/i+K0bOPdWWv7GTsz1hRPQuSQd+9
- NlyVpOAyKcAI0S4YxOf1jWH8GlqeHU6kDH29+8tzvuHvp/+TllpPfLHFUMJCoCURApXQ
- XMzA==
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1md29s-00042V-2N
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 23:20:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31253)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1md29p-0004OA-Ex
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 23:20:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634700046;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=E0SjV+K2uII9s7mwn+LvvmOjlHFCEIsOztf8UEzgctk=;
+ b=BOX2hids7U7YgUQ+lp1QcmQ0mDYNSEDgNolyrnL813NORcpXWHT5/WPuE55ERC4IdySnWy
+ T/mI48qhq1Q7ImMrk0x9rAK1X58NvO9gdhzuhjAJh0u+VNlehArFy/P8UEegu/BFRsMfq4
+ zCA81WjpjcvKF6R930Tx+kX2Y4FXuLc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-589-249Qg-qsNOebRGM-vS4VKw-1; Tue, 19 Oct 2021 23:20:45 -0400
+X-MC-Unique: 249Qg-qsNOebRGM-vS4VKw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ c25-20020a056402143900b003dc19782ea8so16117790edx.3
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 20:20:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mc33rRzzUwsbFNZd+/6Yg+kSllYkJDD+UOY7AOL7278=;
- b=ohj1yQ41JuG0XYu898tuvq/XL84O8l7b36jK6m/jLt7tRR2BgwynkYQoi+5YKWgx8d
- /evFsJBL+2DNYhsO+7FsnmZA8/Gha+v5i8UdjrZ9nHFDS5T2eFHUW6Gil4kMBcGjSYqF
- s31YopzIXgFREOGqtEBcXwpdj4akc19m0pYOYicbu9rhRYx3kJEsCJYYnbE6iImogbFG
- iLFzPzGHqNxG9NcGOvhtTgJBAwGnGLrrmnl4Zspw67BN6UZdeIfE6XiESfE5OIsQWxpf
- xW3fI1gAVm1AY8RRLEnuCCr0ATlgpDSJ/gbW8l1YP/iHaGVryE3ZkWb99FzWo19NdLEY
- yzXw==
-X-Gm-Message-State: AOAM530UaI1Izv2LH5IRRm3drQzx+r5nlrxBMR0rIeFYT3hVxaT5QxHF
- 50ynlKchtUHlOnO6fLRpcQ5SypD4IzjumA==
-X-Google-Smtp-Source: ABdhPJzlN4XVtm8n9p1eh9YB+u1AkDs/34GMaSwPe6GCfFoNbtFai21xGDSsp5NsKM8L1I/XfoWijw==
-X-Received: by 2002:a17:90a:ac0a:: with SMTP id
- o10mr4271095pjq.125.1634699841164; 
- Tue, 19 Oct 2021 20:17:21 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id c8sm505364pjr.38.2021.10.19.20.17.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 20:17:20 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 15/15] target/riscv: Compute mstatus.sd on demand
-Date: Tue, 19 Oct 2021 20:17:09 -0700
-Message-Id: <20211020031709.359469-16-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211020031709.359469-1-richard.henderson@linaro.org>
-References: <20211020031709.359469-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E0SjV+K2uII9s7mwn+LvvmOjlHFCEIsOztf8UEzgctk=;
+ b=gYASKedSnWh428RrWohj0I8YpanK7RiRz6IvYYt7/wRTd3OaccBduyhqN+aGP1aisy
+ FZUW0KijAzkfe/FIy+Yy11K1pJU+BFFkKo/69CdkjKJECMo+u9tO4ccztxLfZpE5qZgX
+ DLE4+99mKwbM2znz3imgZl8PW4o7RDjbeupSpT+JpCSg2nencs7JbSEa+0wDRSEWW29f
+ NBnzAtkRm30BmO4VBicXAnITliUcqHbC66VNBBzh1fPs342aC1zZHinqMeYjL9KUOYMQ
+ 6x0pBXMCG5vE/XHlkVY6qJRYnn43kphPeKAYENkn+a+ykDyY/9Jz2zeWyQBVhY2idI3H
+ yrAQ==
+X-Gm-Message-State: AOAM532Z64DECOsG9l0dc9N3nzffdGkFFOEvwNgnWgmfCrQmOd/sHRi3
+ /tJGZ4VyzhAPTUSIsMIMOv7389PWcKTrnemgZQ1oXrcTsCwtLbG7clul+1cMnGK+E5vMAK2o7W3
+ jBvQHhoKWtj4ngwwXR0Vg1c2+RkrDn2A=
+X-Received: by 2002:a50:8dcb:: with SMTP id s11mr57301612edh.143.1634700044383; 
+ Tue, 19 Oct 2021 20:20:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx+7ZNtJuVGhAgW4vrTFy/Yd0BMW0MwCvK795HRA089Ejp4Y9YBwoDzruPbG28LFaYBDECZXQlYVSDBRXtIpiQ=
+X-Received: by 2002:a50:8dcb:: with SMTP id s11mr57301586edh.143.1634700044171; 
+ Tue, 19 Oct 2021 20:20:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20210930023348.17770-1-lulu@redhat.com>
+ <20210930023348.17770-6-lulu@redhat.com>
+ <20211019025230-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211019025230-mutt-send-email-mst@kernel.org>
+From: Cindy Lu <lulu@redhat.com>
+Date: Wed, 20 Oct 2021 11:20:07 +0800
+Message-ID: <CACLfguVVY+gYrWxh_1_mHd94XmpnoKUEW20Fnhp4UStJJut=sg@mail.gmail.com>
+Subject: Re: [PATCH v9 05/10] vhost-vdpa: add support for config interrupt
+ call back
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,141 +89,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org, zhiwei_liu@c-sky.com
+Cc: Jason Wang <jasowang@redhat.com>, dgilbert@redhat.com,
+ QEMU Developers <qemu-devel@nongnu.org>, arei.gonglei@huawei.com,
+ kraxel@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The position of this read-only field is dependent on the current xlen.
-Rather than having to compute that difference in many places, compute
-it only on read.
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/cpu_helper.c |  3 +--
- target/riscv/csr.c        | 37 ++++++++++++++++++++++---------------
- target/riscv/translate.c  |  5 ++---
- 3 files changed, 25 insertions(+), 20 deletions(-)
-
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 429afd1f48..0d1132f39d 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -185,10 +185,9 @@ bool riscv_cpu_fp_enabled(CPURISCVState *env)
- 
- void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env)
- {
--    uint64_t sd = riscv_cpu_mxl(env) == MXL_RV32 ? MSTATUS32_SD : MSTATUS64_SD;
-     uint64_t mstatus_mask = MSTATUS_MXR | MSTATUS_SUM | MSTATUS_FS |
-                             MSTATUS_SPP | MSTATUS_SPIE | MSTATUS_SIE |
--                            MSTATUS64_UXL | sd;
-+                            MSTATUS64_UXL;
-     bool current_virt = riscv_cpu_virt_enabled(env);
- 
-     g_assert(riscv_has_ext(env, RVH));
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index c4a479ddd2..69e4d65fcd 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -477,10 +477,28 @@ static RISCVException read_mhartid(CPURISCVState *env, int csrno,
- }
- 
- /* Machine Trap Setup */
-+
-+/* We do not store SD explicitly, only compute it on demand. */
-+static uint64_t add_status_sd(RISCVMXL xl, uint64_t status)
-+{
-+    if ((status & MSTATUS_FS) == MSTATUS_FS ||
-+        (status & MSTATUS_XS) == MSTATUS_XS) {
-+        switch (xl) {
-+        case MXL_RV32:
-+            return status | MSTATUS32_SD;
-+        case MXL_RV64:
-+            return status | MSTATUS64_SD;
-+        default:
-+            g_assert_not_reached();
-+        }
-+    }
-+    return status;
-+}
-+
- static RISCVException read_mstatus(CPURISCVState *env, int csrno,
-                                    target_ulong *val)
- {
--    *val = env->mstatus;
-+    *val = add_status_sd(riscv_cpu_mxl(env), env->mstatus);
-     return RISCV_EXCP_NONE;
- }
- 
-@@ -498,7 +516,6 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
- {
-     uint64_t mstatus = env->mstatus;
-     uint64_t mask = 0;
--    int dirty;
- 
-     /* flush tlb on mstatus fields that affect VM */
-     if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
-@@ -520,12 +537,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
- 
-     mstatus = (mstatus & ~mask) | (val & mask);
- 
--    dirty = ((mstatus & MSTATUS_FS) == MSTATUS_FS) |
--            ((mstatus & MSTATUS_XS) == MSTATUS_XS);
--    if (riscv_cpu_mxl(env) == MXL_RV32) {
--        mstatus = set_field(mstatus, MSTATUS32_SD, dirty);
--    } else {
--        mstatus = set_field(mstatus, MSTATUS64_SD, dirty);
-+    if (riscv_cpu_mxl(env) == MXL_RV64) {
-         /* SXL and UXL fields are for now read only */
-         mstatus = set_field(mstatus, MSTATUS64_SXL, MXL_RV64);
-         mstatus = set_field(mstatus, MSTATUS64_UXL, MXL_RV64);
-@@ -798,13 +810,8 @@ static RISCVException read_sstatus(CPURISCVState *env, int csrno,
- {
-     target_ulong mask = (sstatus_v1_10_mask);
- 
--    if (riscv_cpu_mxl(env) == MXL_RV32) {
--        mask |= SSTATUS32_SD;
--    } else {
--        mask |= SSTATUS64_SD;
--    }
--
--    *val = env->mstatus & mask;
-+    /* TODO: Use SXL not MXL. */
-+    *val = add_status_sd(riscv_cpu_mxl(env), env->mstatus & mask);
-     return RISCV_EXCP_NONE;
- }
- 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 0b3da060fd..1d6bf01a48 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -305,7 +305,6 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
- static void mark_fs_dirty(DisasContext *ctx)
- {
-     TCGv tmp;
--    target_ulong sd = get_xl(ctx) == MXL_RV32 ? MSTATUS32_SD : MSTATUS64_SD;
- 
-     if (ctx->mstatus_fs != MSTATUS_FS) {
-         /* Remember the state change for the rest of the TB. */
-@@ -313,7 +312,7 @@ static void mark_fs_dirty(DisasContext *ctx)
- 
-         tmp = tcg_temp_new();
-         tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
--        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
-+        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
-         tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-         tcg_temp_free(tmp);
-     }
-@@ -324,7 +323,7 @@ static void mark_fs_dirty(DisasContext *ctx)
- 
-         tmp = tcg_temp_new();
-         tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
--        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
-+        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
-         tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
-         tcg_temp_free(tmp);
-     }
--- 
-2.25.1
+On Tue, Oct 19, 2021 at 2:55 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Thu, Sep 30, 2021 at 10:33:43AM +0800, Cindy Lu wrote:
+> > Add new call back function in vhost-vdpa, this call back function will
+> > set the fb number to hardware.
+> >
+> > Signed-off-by: Cindy Lu <lulu@redhat.com>
+>
+> fb being what? you mean fd. said fd doing what exactly?
+> all this needs to be in the commit log pls.
+>
+I will add more information for this
+Thanks
+> > ---
+> >  hw/virtio/trace-events | 2 ++
+> >  hw/virtio/vhost-vdpa.c | 7 +++++++
+> >  2 files changed, 9 insertions(+)
+> >
+> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> > index 8ed19e9d0c..836e73d1f7 100644
+> > --- a/hw/virtio/trace-events
+> > +++ b/hw/virtio/trace-events
+> > @@ -52,6 +52,8 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int index, int fd) "dev: %p index:
+> >  vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRIx64
+> >  vhost_vdpa_set_owner(void *dev) "dev: %p"
+> >  vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
+> > +vhost_vdpa_set_config_call(void *dev, int fd)"dev: %p fd: %d"
+> > +
+> >
+> >  # virtio.c
+> >  virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 4fa414feea..73764afc61 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -622,6 +622,12 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
+> >      trace_vhost_vdpa_set_vring_call(dev, file->index, file->fd);
+> >      return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
+> >  }
+> > +static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
+> > +                                       int fd)
+> > +{
+> > +    trace_vhost_vdpa_set_config_call(dev, fd);
+> > +    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, &fd);
+> > +}
+> >
+> >  static int vhost_vdpa_get_features(struct vhost_dev *dev,
+> >                                       uint64_t *features)
+> > @@ -688,4 +694,5 @@ const VhostOps vdpa_ops = {
+> >          .vhost_get_device_id = vhost_vdpa_get_device_id,
+> >          .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
+> >          .vhost_force_iommu = vhost_vdpa_force_iommu,
+> > +        .vhost_set_config_call = vhost_vdpa_set_config_call,
+> >  };
+> > --
+> > 2.21.3
+>
 
 
