@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F9E4348E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:27:50 +0200 (CEST)
-Received: from localhost ([::1]:53636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C66FA4348EE
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:29:04 +0200 (CEST)
+Received: from localhost ([::1]:55328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md8p3-0003kx-EH
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:27:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48150)
+	id 1md8qF-0004wO-RZ
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:29:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1md8hQ-0003pC-CW; Wed, 20 Oct 2021 06:19:56 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:43652)
+ id 1md8hO-0003jL-8L; Wed, 20 Oct 2021 06:19:54 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:35604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1md8hK-0002zq-PN; Wed, 20 Oct 2021 06:19:56 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id i20so23928643edj.10;
- Wed, 20 Oct 2021 03:19:48 -0700 (PDT)
+ id 1md8hL-0002zy-6g; Wed, 20 Oct 2021 06:19:53 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id w19so24293776edd.2;
+ Wed, 20 Oct 2021 03:19:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PxGW3q7OnYm8XKJF6QWr7hh+mJnqfCRkNv0/dwcD8DA=;
- b=Xpg7lERYKMMTZc8M7uhl0jWi/yJI7r0jhHg5Xw7J4c//FthkniXWenUhlcojZf7HRl
- ZcmaFaJWQI6Xb3PJa3XlMA7ZUDkw1FUXqcpBVHrWEESS9M8OB4hzjbxkHUVeQZdrHkXR
- GIiRPz+FvEYe2XB2kusVUQ68iZJUFXmAMomlcWC3lY93d8Gj4A/WLHMPxkrBRWtdZyIV
- HyOV2uKg7yDdyNCip9+43pjIZff7HShHi9m2ZahBGVWQd+2Oao6RhZ4tOTPTBJrjV1KL
- okexwE4dUQkjohim36Cn9YP1HIwCpnWMI4ka8ElyVU8cgfnV78VOv8/L0mAwKhSg+Cs5
- oH1Q==
+ bh=K05JcbwHzwcb6rZL7rDmh7yc1UsvDdWX5/9rOusuP/8=;
+ b=ZBbofTOdvB8FzbwuA6BSGaomS1Klm+D2cNPeFZoH5VVmfJ1xZH3PVyyBQWbczmrguu
+ scueBRDUU2nAAmufNKnxHJdiYuITAwUNEn6sqsENoL8hYDesHJSJ0vCgDj289CXHsKap
+ 63SPiCWjS5iDQ9KOvCutER40BAw7iTijdkUynoycqARHG7WMZW/SK/AY4bhUOjTPaNd3
+ TqTmcKDHCUoSLcZq3dsRdxJZMVhmu4Ia5Z44kPZCcfUwFcNKn2+aSUtel6d7HZAw/yFA
+ iphtiTkuicR++8EFbyUivarxonQs2qyvN8PhIqVyFZiHWhIvK4Iv9wR/3vU22S6hhT7F
+ T3Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PxGW3q7OnYm8XKJF6QWr7hh+mJnqfCRkNv0/dwcD8DA=;
- b=1HwsUmI3phasD63Am7BHR/o0nB6CGgk8neAwOk/dvQVk+Tcaif1UC9X4jdjid8VFQL
- 8W2e1s9H3DOTuC+aw9pcMjJsVwfLx1mTvSDWIKJhQxgKggNtFG1Dq0BnD2Zwm3iPQYBx
- SQlAs/XX7GWLarX9Rn0MIgeS5agsY+nqON6R4XrOT5KmlavyJF28hv5MyFcco1Asdob6
- OEIqgAIh/p1qpcF6lJ0b4eafr9A644Pp7DH7wc+zlZV0oG46KRTvBcMEdhX6JUN4gUJn
- gKrrSsSt/8k9e9ioITi9ixrhdM6MtVAI7Smds41B0Gmr+3QP8N+/m+Yuq4ZE8jkNNhBt
- Cqww==
-X-Gm-Message-State: AOAM531aRS8hWqI4Z+nkJVGsaOfiIRiXHH8lqEL4fxeEwgr+GsrLIjpu
- 9oES5C56WQcE9FhqJN2lBOc=
-X-Google-Smtp-Source: ABdhPJxQiKZPnE90icQoIzmxBVFC3VpoFhW+yZP/T0BELwWg4A38SsA5KCbWwVnAfntU8XEYh8en8g==
-X-Received: by 2002:a50:e044:: with SMTP id g4mr59914117edl.46.1634725187165; 
- Wed, 20 Oct 2021 03:19:47 -0700 (PDT)
+ bh=K05JcbwHzwcb6rZL7rDmh7yc1UsvDdWX5/9rOusuP/8=;
+ b=cPZFB00bCGeolvrI265G/hZHgTnYoKf8p1psCxa8d3GxWS0kK9np9zCfCNN+X9Omim
+ IvHU1d9D995/AVHXevbXXGdaH0vrz6aggJ8BN9vYa7muHZ+QkGUOhaAk85it/EGkmSud
+ dPkxwMYt0WPzE6F6KJzCJvwrkVmaSUXiQVZYGSPzirzoNnmNt/YSD36WcC3N7Neb2jRG
+ GlU4TWQz/fErLYiARgdrN8Iae9ZLHI6oijUWuGcu7OoMR58rzNI009KuTCnZX27IgS5A
+ yOqlQ/CaWVXtKCuQ6ViFOf64Lh1qV+E2Vzx9y0VRM8Rx8oy6BY6mG7tAmjcveB0oH3BM
+ r1Zg==
+X-Gm-Message-State: AOAM5310fFrlrASVtEKd8FYE17V98Az1me/Ff434m5vFsjY7lFoAVLdE
+ jkJrUvsb8xK1S6up8S1wPvv7g0+TAwZmtEKOXgk=
+X-Google-Smtp-Source: ABdhPJz8yt3IOoHqhNdQoDTzhPXVkbvQ8Ugovy73w+jPLnJrpVc2uaZQfrRc4KM5g2iyb/C1Nlpktw==
+X-Received: by 2002:a05:6402:14d5:: with SMTP id
+ f21mr30362493edx.268.1634725188299; 
+ Wed, 20 Oct 2021 03:19:48 -0700 (PDT)
 Received: from neptune.lab ([46.39.228.224])
- by smtp.googlemail.com with ESMTPSA id k19sm821284ejg.13.2021.10.20.03.19.46
+ by smtp.googlemail.com with ESMTPSA id k19sm821284ejg.13.2021.10.20.03.19.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 03:19:46 -0700 (PDT)
+ Wed, 20 Oct 2021 03:19:47 -0700 (PDT)
 From: Alexey Baturo <baturo.alexey@gmail.com>
 X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
 To: 
-Subject: [PATCH v15 4/8] [RISCV_PM] Add J extension state description
-Date: Wed, 20 Oct 2021 13:19:31 +0300
-Message-Id: <20211020101935.1369682-5-space.monkey.delivers@gmail.com>
+Subject: [PATCH v15 5/8] [RISCV_PM] Print new PM CSRs in QEMU logs
+Date: Wed, 20 Oct 2021 13:19:32 +0300
+Message-Id: <20211020101935.1369682-6-space.monkey.delivers@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211020101935.1369682-1-space.monkey.delivers@gmail.com>
 References: <20211020101935.1369682-1-space.monkey.delivers@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=baturo.alexey@gmail.com; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=baturo.alexey@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,67 +85,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
  kbastian@mail.uni-paderborn.de, richard.henderson@linaro.org,
  qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
- Alistair.Francis@wdc.com, kupokupokupopo@gmail.com, palmer@dabbelt.com
+ Alistair Francis <alistair.francis@wdc.com>, kupokupokupopo@gmail.com,
+ palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/machine.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ target/riscv/cpu.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index 16a08302da..ae82f82525 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -84,6 +84,14 @@ static bool vector_needed(void *opaque)
-     return riscv_has_ext(env, RVV);
- }
- 
-+static bool pointermasking_needed(void *opaque)
-+{
-+    RISCVCPU *cpu = opaque;
-+    CPURISCVState *env = &cpu->env;
-+
-+    return riscv_has_ext(env, RVJ);
-+}
-+
- static const VMStateDescription vmstate_vector = {
-     .name = "cpu/vector",
-     .version_id = 1,
-@@ -138,6 +146,24 @@ static const VMStateDescription vmstate_hyper = {
-     }
- };
- 
-+static const VMStateDescription vmstate_pointermasking = {
-+    .name = "cpu/pointer_masking",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = pointermasking_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINTTL(env.mmte, RISCVCPU),
-+        VMSTATE_UINTTL(env.mpmmask, RISCVCPU),
-+        VMSTATE_UINTTL(env.mpmbase, RISCVCPU),
-+        VMSTATE_UINTTL(env.spmmask, RISCVCPU),
-+        VMSTATE_UINTTL(env.spmbase, RISCVCPU),
-+        VMSTATE_UINTTL(env.upmmask, RISCVCPU),
-+        VMSTATE_UINTTL(env.upmbase, RISCVCPU),
-+
-+        VMSTATE_END_OF_LIST()
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 75e8b8ca83..7f9dde70b7 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -295,6 +295,31 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mscratch", env->mscratch);
+     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "sscratch", env->sscratch);
+     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "satp    ", env->satp);
++    if (riscv_has_ext(env, RVJ)) {
++        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mmte    ", env->mmte);
++        switch (env->priv) {
++        case PRV_U:
++            qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "upmbase ",
++                         env->upmbase);
++            qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "upmmask ",
++                         env->upmmask);
++            break;
++        case PRV_S:
++            qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "spmbase ",
++                         env->spmbase);
++            qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "spmmask ",
++                         env->spmmask);
++            break;
++        case PRV_M:
++            qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mpmbase ",
++                         env->mpmbase);
++            qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mpmmask ",
++                         env->mpmmask);
++            break;
++        default:
++            g_assert_not_reached();
++        }
 +    }
-+};
-+
- const VMStateDescription vmstate_riscv_cpu = {
-     .name = "cpu",
-     .version_id = 2,
-@@ -189,6 +215,7 @@ const VMStateDescription vmstate_riscv_cpu = {
-         &vmstate_pmp,
-         &vmstate_hyper,
-         &vmstate_vector,
-+        &vmstate_pointermasking,
-         NULL
-     }
- };
+ #endif
+ 
+     for (i = 0; i < 32; i++) {
 -- 
 2.30.2
 
