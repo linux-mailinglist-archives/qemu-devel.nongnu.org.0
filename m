@@ -2,66 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239B64353DA
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 21:33:10 +0200 (CEST)
-Received: from localhost ([::1]:47542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5ADD4353E3
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 21:36:26 +0200 (CEST)
+Received: from localhost ([::1]:50932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdHKm-0002Pj-6D
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 15:33:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35178)
+	id 1mdHNx-0004l9-Qo
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 15:36:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mdH6R-00015N-7Q; Wed, 20 Oct 2021 15:18:22 -0400
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:37288)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mdH7U-0001L8-Hb
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 15:19:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mdH6K-0004U2-61; Wed, 20 Oct 2021 15:18:15 -0400
-Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 5AE554212B;
- Wed, 20 Oct 2021 21:18:05 +0200 (CEST)
-Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id 4824360067;
- Wed, 20 Oct 2021 21:18:05 +0200 (CEST)
-Received: from [192.168.1.36] (35.201.90.79.rev.sfr.net [79.90.201.35])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 6F9AF14005D;
- Wed, 20 Oct 2021 21:18:04 +0200 (CEST)
-To: Richard Henderson <rth7680@gmail.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211019094812.614056-12-frederic.petrot@univ-grenoble-alpes.fr>
- <1eb7ef2b-b636-3c93-a2d3-4d498da9865d@gmail.com>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Subject: Re: [PATCH v3 11/21] target/riscv: support for 128-bit bitwise
- instructions
-Message-ID: <2f7facfa-41c2-fc3b-718f-c921af5ce2c2@univ-grenoble-alpes.fr>
-Date: Wed, 20 Oct 2021 21:18:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mdH7T-0005TK-4a
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 15:19:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634757561;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=focIT5N6CTycMPJowLNwa8meDt82z3230n0dELvLT5s=;
+ b=H/OKSwBxgccnACGTUjQ09tWZAJwJjcsSgijiDzSv146MBDu+NnVWxA6Q+9VT8YNMY6Dk4O
+ urW2Jc90jlDQDUQFsWt/rcp6VUFc8nmLeecbu3GEgLbP3hclyUeZ9S/BVNs2ham1A1Y1zE
+ cXxwN9hgEp0ms/QXXDuYXV37CRZH5IA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-zd-MhIbwOSSX5PnpgKWmSA-1; Wed, 20 Oct 2021 15:19:16 -0400
+X-MC-Unique: zd-MhIbwOSSX5PnpgKWmSA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ f185-20020a1c1fc2000000b0032311c7fc54so941322wmf.1
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 12:19:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=focIT5N6CTycMPJowLNwa8meDt82z3230n0dELvLT5s=;
+ b=jB3UKKlwHwf2VXP4RhDh/eZmjsY06Y7nU0bufXULZUtB4SFv1zlaOfzASImoDwBEK9
+ 3hPh9yJ2iM90cP0mTIM9nxwrvkZgGCXRblGCKgjnqGqTYFIxCBpySRSfubi/EvHM4Rek
+ CULS+nWL5wccll15D7XDjP8+AQWs9bQkb6kqCYS5yYtHop4xd+h2EC3I/e8Ys8+AJAO3
+ E02DBbn1UwV99QH3E6Dazemp6Sc1LbilqYq3Cv5YcX/5y+VSuvjFUDm/ZBaqiswMAyXS
+ eSJ1S2s3g2B+ToBL0pdbi1SeUpA/Tm3RyqFlv/5iA6rZhg+AuazrFY93TshoV6fQRAOR
+ sygQ==
+X-Gm-Message-State: AOAM5304C5OcVe6x5iKYeZV2XonnLPwEro76iyzcXNZ8G2ldGA3lRrN5
+ n8NNLZBCynrkcn/rjGUgDXIriXp/tFPRrN1/zJGTVxhg7lc0+cfilgUVtNnLT11ozyJyYCi1mAZ
+ fz0FTxS72KmirWuo=
+X-Received: by 2002:adf:ab46:: with SMTP id r6mr1354207wrc.71.1634757555692;
+ Wed, 20 Oct 2021 12:19:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz7z8FVXw2QIOkgw/H8GjSPjD617a8Kk7Kes5/lkBrfyq93CQQUd+c/cx/xvHQn449MMKMgew==
+X-Received: by 2002:adf:ab46:: with SMTP id r6mr1354183wrc.71.1634757555503;
+ Wed, 20 Oct 2021 12:19:15 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id k13sm2774536wrp.86.2021.10.20.12.19.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Oct 2021 12:19:15 -0700 (PDT)
+Message-ID: <c55a03f4-3613-7616-28ff-2bb452c59aa6@redhat.com>
+Date: Wed, 20 Oct 2021 21:19:14 +0200
 MIME-Version: 1.0
-In-Reply-To: <1eb7ef2b-b636-3c93-a2d3-4d498da9865d@gmail.com>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 3/3] target/i386: use DMA-enabled multiboot ROM for
+ new-enough QEMU machine types
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20211020140244.485249-1-pbonzini@redhat.com>
+ <20211020140244.485249-4-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211020140244.485249-4-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
- via submission-587 ACL (41)
-X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
-Received-SPF: pass client-ip=152.77.200.56;
- envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
- helo=zm-mta-out-3.u-ga.fr
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.267,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,60 +99,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Cc: adam@l4re.org, marcus.haehnel@kernkonzept.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 20/10/2021 à 19:47, Richard Henderson a écrit :
-> On 10/19/21 2:48 AM, Frédéric Pétrot wrote:
->> The 128-bit bitwise instructions do not need any function prototype change
->> as the functions can be applied independently on the lower and upper part of
->> the registers.
->>
->> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
->> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
->> ---
->>   target/riscv/translate.c | 22 ++++++++++++++++++++++
->>   1 file changed, 22 insertions(+)
->>
->> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
->> index e8f08f921e..71982f6284 100644
->> --- a/target/riscv/translate.c
->> +++ b/target/riscv/translate.c
->> @@ -429,6 +429,17 @@ static bool gen_logic_imm_fn(DisasContext *ctx, arg_i *a,
->> DisasExtend ext,
->>         gen_set_gpr(ctx, a->rd, dest);
->>   +    if (get_xl_max(ctx) == MXL_RV128) {
->> +        if (get_ol(ctx) ==  MXL_RV128) {
->> +            uint64_t immh = -(a->imm < 0);
->> +            src1 = get_gprh(ctx, a->rs1);
->> +            dest = dest_gprh(ctx, a->rd);
->> +
->> +            func(dest, src1, immh);
->> +        }
->> +        gen_set_gprh(ctx, a->rd, dest);
->> +    }
+On 10/20/21 16:02, Paolo Bonzini wrote:
+> As long as fw_cfg supports DMA, the new ROM can be used also on older
+> machine types because it has the same size as the existing one.
 > 
-> If ol < RV128, you're storing the low dest into the gprh, which is wrong.  It
-> should be the sign-extension of the low part.  But that should happen for all
-> writes.
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  hw/i386/multiboot.c | 10 ++++++++--
+>  hw/i386/multiboot.h |  4 +++-
+>  hw/i386/pc.c        |  3 ++-
+>  hw/i386/x86.c       |  2 +-
+>  4 files changed, 14 insertions(+), 5 deletions(-)
 
-  Thanks for your feedback (on the other parts too) that I'll apply.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-  On this specific case, in gen_set_gprh I check that the operation is not on
-  128 bit in which case I propagate the sign of the low part instead of using
-  dest (the spec says that the sign should propagate to misa_xl_max, irrelevant
-  of xl).
-  This implicitly forces the order in which the functions must be called as you
-  noticed, and introducing a higher level function as you suggest would indeed
-  make things more readable, and this can probably be applied in most places.
-
-Frédéric
--- 
-+---------------------------------------------------------------------------+
-| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
-| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
-| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
-+---------------------------------------------------------------------------+
 
