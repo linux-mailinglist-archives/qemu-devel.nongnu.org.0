@@ -2,93 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5AB434858
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 11:52:08 +0200 (CEST)
-Received: from localhost ([::1]:57776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C86843485F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 11:54:39 +0200 (CEST)
+Received: from localhost ([::1]:33634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md8GV-0000pO-LG
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 05:52:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39372)
+	id 1md8Iw-0003f7-KN
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 05:54:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8BO-00068S-Om
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 05:46:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42548)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1md8GH-0001ew-VX; Wed, 20 Oct 2021 05:51:53 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8BM-0000pB-R8
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 05:46:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634723207;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zWHR/o8xjWFri2DSi6vJD3KLCwzrWshbkS1gsBRjGsw=;
- b=PwVYnMC+5y2nRnTQ/Jt0Udaf/xaQGw4KcMSkVp14ixQkL9+3H6UQx6n1n/Ht8tj2H9HAhe
- EH/3qFyrfQ/BPtlpngXO2pqosYbpv8TUzizvKxoCDUIpcJ7sJ04pJR5UkAD2L/LZNBBimV
- o+alwZQ/3PxMsO6jPzVwZkLQNkMisik=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-VbtxXetJNbecmVpoS7vVyQ-1; Wed, 20 Oct 2021 05:46:46 -0400
-X-MC-Unique: VbtxXetJNbecmVpoS7vVyQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- v2-20020a50f082000000b003db24e28d59so20426948edl.5
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 02:46:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=zWHR/o8xjWFri2DSi6vJD3KLCwzrWshbkS1gsBRjGsw=;
- b=cvnP2Uwi3ArlATBQnLn3xMx6GLSLQ/Hzsp1+jT8f74tE6Cr9stA7maxKj3hd/G0tc+
- Y8D7q8HzM3uNaUEIxTqNK27a44yc6kMV5GOSAkcrkayTKb40VfjZq3Sb5ToBQkqjY5RE
- NHvWdpmTVzNkwcT8+4/8sxUk7eWkd29stkQPCBGF0fMCMcUplqWsvbyCzLk4CdwAaZA4
- oIcs/6ueKNidt6pAo7Yp71TeieR4rghPVNn2h4bLpojSLB+b3Zqw2rGPRI3YxGNO8byu
- fDL9Opyis6/A92MJl5Vc21BG1mmzv4DjOVMdDt7sUy0HzVxaW3Z8SF8Jkh3jI04SAuII
- HNjA==
-X-Gm-Message-State: AOAM532pxRjnDqPYc7obzcW3ab16s4qeXu2MosxJdDZW8QuLiMKn34b1
- bYh9lRbIrUyrd9Mtmj/zTKHf9cgJjbmP6DS4s7l0wQ7lWVxsbsPoAcUD7sUGpeQwofENm2FgjqN
- 7SMLdV13z9hLvdCw=
-X-Received: by 2002:a05:6402:50c7:: with SMTP id
- h7mr62064291edb.191.1634723204654; 
- Wed, 20 Oct 2021 02:46:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwATMzp908UCodkPH3pv1ogC7Hvl8FjB5aq9iXH9hn2v9JBJPjMv1Q3i2eRcYyM4e2zLcm4+Q==
-X-Received: by 2002:a05:6402:50c7:: with SMTP id
- h7mr62064267edb.191.1634723204477; 
- Wed, 20 Oct 2021 02:46:44 -0700 (PDT)
-Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id t18sm937392edd.18.2021.10.20.02.46.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 02:46:43 -0700 (PDT)
-Date: Wed, 20 Oct 2021 05:46:40 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2 04/15] tests: acpi: q35: test for x2APIC entries in SRAT
-Message-ID: <20211020054600-mutt-send-email-mst@kernel.org>
-References: <20210902113551.461632-1-imammedo@redhat.com>
- <20210902113551.461632-5-imammedo@redhat.com>
- <20211018173052-mutt-send-email-mst@kernel.org>
- <20211019114825.1464da19@redhat.com>
- <20211019061656-mutt-send-email-mst@kernel.org>
- <20211019133624.5cd5ae3d@redhat.com>
- <20211019074422-mutt-send-email-mst@kernel.org>
- <20211020101607.5181e69d@redhat.com>
- <20211020041734-mutt-send-email-mst@kernel.org>
- <20211020105348.7ef7cdd5@redhat.com>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1md8GE-0004kl-D0; Wed, 20 Oct 2021 05:51:53 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HZ5P41jmKzbhH6;
+ Wed, 20 Oct 2021 17:47:04 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Wed, 20 Oct 2021 17:51:36 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.15; Wed, 20 Oct 2021 17:51:35 +0800
+Subject: Re: [PATCH v8 5/8] hw/acpi/aml-build: Add PPTT table
+To: Eric Auger <eauger@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ Andrew Jones <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, 
+ Igor Mammedov <imammedo@redhat.com>
+References: <20211014132206.19220-1-wangyanan55@huawei.com>
+ <20211014132206.19220-6-wangyanan55@huawei.com>
+ <316edbd3-2235-efb1-7176-e3f477aec6a4@redhat.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <1f4eaecf-8718-fc8a-5366-7e32945b9953@huawei.com>
+Date: Wed, 20 Oct 2021 17:51:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20211020105348.7ef7cdd5@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <316edbd3-2235-efb1-7176-e3f477aec6a4@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme708-chm.china.huawei.com (10.1.199.104) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -62
+X-Spam_score: -6.3
+X-Spam_bar: ------
+X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.074,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,137 +69,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, pbonzini@redhat.com, thuth@redhat.com,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 20, 2021 at 10:53:48AM +0200, Igor Mammedov wrote:
-> On Wed, 20 Oct 2021 04:18:07 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
-> > On Wed, Oct 20, 2021 at 10:16:07AM +0200, Igor Mammedov wrote:
-> > > On Tue, 19 Oct 2021 07:44:38 -0400
-> > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > >   
-> > > > On Tue, Oct 19, 2021 at 01:36:24PM +0200, Igor Mammedov wrote:  
-> > > > > On Tue, 19 Oct 2021 06:23:40 -0400
-> > > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > >     
-> > > > > > On Tue, Oct 19, 2021 at 11:48:25AM +0200, Igor Mammedov wrote:    
-> > > > > > > On Mon, 18 Oct 2021 17:31:33 -0400
-> > > > > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > > > >       
-> > > > > > > > On Thu, Sep 02, 2021 at 07:35:40AM -0400, Igor Mammedov wrote:      
-> > > > > > > > > Set -smp 1,maxcpus=288 to test for ACPI code that
-> > > > > > > > > deal with CPUs with large APIC ID (>255).
-> > > > > > > > > 
-> > > > > > > > > PS:
-> > > > > > > > > Test requires KVM and in-kernel irqchip support,
-> > > > > > > > > so skip test if KVM is not available.
-> > > > > > > > > 
-> > > > > > > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > > > > > > > > ---
-> > > > > > > > > v3:
-> > > > > > > > >   - add dedicated test instead of abusing 'numamem' one
-> > > > > > > > >   - add 'kvm' prefix to the test name
-> > > > > > > > >       ("Michael S. Tsirkin" <mst@redhat.com>)
-> > > > > > > > > v2:
-> > > > > > > > >   - switch to qtest_has_accel() API
-> > > > > > > > > 
-> > > > > > > > > CC: thuth@redhat.com
-> > > > > > > > > CC: lvivier@redhat.com
-> > > > > > > > > ---
-> > > > > > > > >  tests/qtest/bios-tables-test.c | 17 +++++++++++++++++
-> > > > > > > > >  1 file changed, 17 insertions(+)
-> > > > > > > > > 
-> > > > > > > > > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> > > > > > > > > index 51d3a4e239..1f6779da87 100644
-> > > > > > > > > --- a/tests/qtest/bios-tables-test.c
-> > > > > > > > > +++ b/tests/qtest/bios-tables-test.c
-> > > > > > > > > @@ -1033,6 +1033,19 @@ static void test_acpi_q35_tcg_numamem(void)
-> > > > > > > > >      free_test_data(&data);
-> > > > > > > > >  }
-> > > > > > > > >  
-> > > > > > > > > +static void test_acpi_q35_kvm_xapic(void)
-> > > > > > > > > +{
-> > > > > > > > > +    test_data data;
-> > > > > > > > > +
-> > > > > > > > > +    memset(&data, 0, sizeof(data));
-> > > > > > > > > +    data.machine = MACHINE_Q35;
-> > > > > > > > > +    data.variant = ".xapic";
-> > > > > > > > > +    test_acpi_one(" -object memory-backend-ram,id=ram0,size=128M"
-> > > > > > > > > +                  " -numa node -numa node,memdev=ram0"
-> > > > > > > > > +                  " -machine kernel-irqchip=on -smp 1,maxcpus=288", &data);
-> > > > > > > > > +    free_test_data(&data);
-> > > > > > > > > +}
-> > > > > > > > > +
-> > > > > > > > >  static void test_acpi_q35_tcg_nosmm(void)
-> > > > > > > > >  {
-> > > > > > > > >      test_data data;        
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > > This causes an annoying message each time I run it:
-> > > > > > > > 
-> > > > > > > > qemu-system-x86_64: -accel kvm: warning: Number of hotpluggable cpus requested (288) exceeds the recommended cpus supported by KVM (240)
-> > > > > > > > 
-> > > > > > > > what gives?      
-> > > > > > > 
-> > > > > > > it depends on kernel, see kvm_recommended_vcpus().
-> > > > > > > 
-> > > > > > > We probably should bump it on upstream kernel side
-> > > > > > > (it's much more than that in RHEL8).
-> > > > > > > 
-> > > > > > > Is there anything that prevents bumping upstream kernel limits?      
-> > > > > > 
-> > > > > > what should we do with the annoying warning though?    
-> > > > > 
-> > > > > I'd leave it alone.
-> > > > > What do you suggest?
-> > > > >      
-> > > > 
-> > > > reduce the value so a typical system does not trigger it?  
-> > > 
-> > > it won't work, test needs as minimum 255 vcpus to trigger X2APIC logic
-> > > and 288 value additionally tests max limits  
-> > 
-> > Add a flag to disable the warning while running this specific test?
-> 
-> if it were qtest accel, it would be trivial but
-> I'm not aware of something similar for tcg/kvm mode.
-> Do you suggest to add to QEMU a CLI option for that?
+Hi Eric,
 
-Yea, like "x-kvm-dont-warn-about-recommended-cpu-limit".
+On 2021/10/20 16:02, Eric Auger wrote:
+> Hi,
+>
+> On 10/14/21 3:22 PM, Yanan Wang wrote:
+>> From: Andrew Jones <drjones@redhat.com>
+>>
+>> Add the Processor Properties Topology Table (PPTT) used to
+>> describe CPU topology information to ACPI guests.
+>>
+>> Note, a DT-boot Linux guest with a non-flat CPU topology will
+>> see socket and core IDs being sequential integers starting
+>> from zero, which is different from ACPI-boot Linux guest,
+>> e.g. with -smp 4,sockets=2,cores=2,threads=1
+>>
+>> a DT boot produces:
+>>
+>>   cpu:  0 package_id:  0 core_id:  0
+>>   cpu:  1 package_id:  0 core_id:  1
+>>   cpu:  2 package_id:  1 core_id:  0
+>>   cpu:  3 package_id:  1 core_id:  1
+>>
+>> an ACPI boot produces:
+>>
+>>   cpu:  0 package_id: 36 core_id:  0
+>>   cpu:  1 package_id: 36 core_id:  1
+>>   cpu:  2 package_id: 96 core_id:  2
+>>   cpu:  3 package_id: 96 core_id:  3
+>>
+>> This is due to several reasons:
+>>
+>>   1) DT cpu nodes do not have an equivalent field to what the PPTT
+>>      ACPI Processor ID must be, i.e. something equal to the MADT CPU
+>>      UID or equal to the UID of an ACPI processor container. In both
+>>      ACPI cases those are platform dependant IDs assigned by the
+>>      vendor.
+>>
+>>   2) While QEMU is the vendor for a guest, if the topology specifies
+>>      SMT (> 1 thread), then, with ACPI, it is impossible to assign a
+>>      core-id the same value as a package-id, thus it is not possible
+>>      to have package-id=0 and core-id=0. This is because package and
+>>      core containers must be in the same ACPI namespace and therefore
+>>      must have unique UIDs.
+>>
+>>   3) ACPI processor containers are not mandatorily required for PPTT
+>>      tables to be used and, due to the limitations of which IDs are
+>>      selected described above in (2), they are not helpful for QEMU,
+>>      so we don't build them with this patch. In the absence of them,
+>>      Linux assigns its own unique IDs. The maintainers have chosen not
+>>      to use counters from zero, but rather ACPI table offsets, which
+>>      explains why the numbers are so much larger than with DT.
+>>
+>>   4) When there is no SMT (threads=1) the core IDs for ACPI boot guests
+>>      match the logical CPU IDs, because these IDs must be equal to the
+>>      MADT CPU UID (as no processor containers are present), and QEMU
+>>      uses the logical CPU ID for these MADT IDs.
+>>
+>> So in summary, with QEMU as the vendor for the guests, we simply
+>> use sequential integers starting from zero for the non-leaf nodes
+>> but with ID-valid flag unset, so that guest will ignore them and
+>> use table offsets as unique container IDs. And we use logical CPU
+>> IDs for the leaf nodes with the ID-valid flag set, which will be
+>> consistent with MADT.
+>>
+>> Signed-off-by: Andrew Jones <drjones@redhat.com>
+>> Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
+>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>> ---
+>>   hw/acpi/aml-build.c         | 60 +++++++++++++++++++++++++++++++++++++
+>>   include/hw/acpi/aml-build.h |  3 ++
+>>   2 files changed, 63 insertions(+)
+>>
+>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+>> index b7b9db6888..0d50e88e9d 100644
+>> --- a/hw/acpi/aml-build.c
+>> +++ b/hw/acpi/aml-build.c
+>> @@ -1990,6 +1990,66 @@ void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
+>>       }
+>>   }
+>>   
+>> +/* ACPI 6.2: 5.2.29 Processor Properties Topology Table (PPTT) */
+>> +void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>> +                const char *oem_id, const char *oem_table_id)
+>> +{
+>> +    int pptt_start = table_data->len;
+>> +    int uid = 0;
+>> +    int socket;
+>> +    AcpiTable table = { .sig = "PPTT", .rev = 2,
+>> +                        .oem_id = oem_id, .oem_table_id = oem_table_id };
+> Table 5-149 of 6.2 spec (6.2 May 2017) tells the rev shall be 1. Or is
+> it an erratum somewhere I did miss?
+Yes, the revision in 6.2 spec is 1. And it's 2 in spec 6.3.
+So just to be sure, should I use the oldest revision ?
+> I would also add the spec version in the commit msg.
+>> +
+>> +    acpi_table_begin(&table, table_data);
+>> +
+>> +    for (socket = 0; socket < ms->smp.sockets; socket++) {
+>> +        uint32_t socket_offset = table_data->len - pptt_start;
+>> +        int core;
+>> +
+>> +        build_processor_hierarchy_node(
+>> +            table_data,
+>> +            /*
+>> +             * ACPI 6.2 - Physical package
+>> +             * represents the boundary of a physical package
+>> +             */
+>> +            (1 << 0),
+>> +            0, socket, NULL, 0);
+> I see we set an ACPI process ID but in the meantime the ACPI processor
+> ID valid flag is not set. I am not sure I fully catch the meaning of
+> this latter but just to double check if this is done on purpose.
+Yes, it's on purpose.
+> Maybe
+> wort a general comment as this also happens below.
+The ID of the container node is invalid and ID of the leaf node is valid.
+The commit message by Andrew has explained why (reason 3). I think
+it may be clear enough to explain there why we don't need a valid ID
+for the container node.
+>> +
+>> +        for (core = 0; core < ms->smp.cores; core++) {
+>> +            uint32_t core_offset = table_data->len - pptt_start;
+>> +            int thread;
+>> +
+>> +            if (ms->smp.threads > 1) {
+>> +                build_processor_hierarchy_node(
+>> +                    table_data,
+>> +                    /*
+>> +                     * ACPI 6.2 - Physical package
+>> +                     * doesn't represent the boundary of a physical package
+>> +                     */
+>> +                    (0 << 0),
+> would rather say (0 << 0) /* not a physical package */ and same elsewhere
+Ok, thanks.
+>> +                    socket_offset, core, NULL, 0);
+>> +
+>> +                for (thread = 0; thread < ms->smp.threads; thread++) {
+>> +                    build_processor_hierarchy_node(
+>> +                        table_data,
+>> +                        (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
+>> +                        (1 << 2) | /* ACPI 6.3 - Processor is a Thread */
+> So the references look globaly confusing to me. Either it complies to
+> 6.2 or to 6.3. Looks ir rather complies with 6.3. To me, this needs to
+> be clarified.
+ACPI 6.2 in the comment means the flag is introduced in the spec since 6.2.
+The same, ACPI 6.3 means the flag is introduced since 6.3. Maybe I should
+just drop all the version-prefix in the comment ?
+> I would also add the reference it complies to in the
+> commit msg.
+Ok, sure.
 
-
-
-> 
-> 
-> > 
-> > > >   
-> > > > > > > > > @@ -1506,6 +1519,7 @@ static void test_acpi_oem_fields_virt(void)
-> > > > > > > > >  int main(int argc, char *argv[])
-> > > > > > > > >  {
-> > > > > > > > >      const char *arch = qtest_get_arch();
-> > > > > > > > > +    const bool has_kvm = qtest_has_accel("kvm");
-> > > > > > > > >      int ret;
-> > > > > > > > >  
-> > > > > > > > >      g_test_init(&argc, &argv, NULL);
-> > > > > > > > > @@ -1561,6 +1575,9 @@ int main(int argc, char *argv[])
-> > > > > > > > >          if (strcmp(arch, "x86_64") == 0) {
-> > > > > > > > >              qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-> > > > > > > > >          }
-> > > > > > > > > +        if (has_kvm) {
-> > > > > > > > > +            qtest_add_func("acpi/q35/kvm/xapic", test_acpi_q35_kvm_xapic);
-> > > > > > > > > +        }
-> > > > > > > > >      } else if (strcmp(arch, "aarch64") == 0) {
-> > > > > > > > >          qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-> > > > > > > > >          qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-> > > > > > > > > -- 
-> > > > > > > > > 2.27.0        
-> > > > > > > >       
-> > > > > >     
-> > > >   
-> > 
+Thanks,
+Yanan
+.
+>> +                        (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
+>> +                        core_offset, uid++, NULL, 0);
+>> +                }
+>> +            } else {
+>> +                build_processor_hierarchy_node(
+>> +                    table_data,
+>> +                    (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
+>> +                    (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
+>> +                    socket_offset, uid++, NULL, 0);
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    acpi_table_end(linker, &table);
+>> +}
+>> +
+>>   /* build rev1/rev3/rev5.1 FADT */
+>>   void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+>>                   const char *oem_id, const char *oem_table_id)
+>> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+>> index 2c457c8f17..b92706388c 100644
+>> --- a/include/hw/acpi/aml-build.h
+>> +++ b/include/hw/acpi/aml-build.h
+>> @@ -493,6 +493,9 @@ void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
+>>                                       uint32_t parent, uint32_t id,
+>>                                       uint32_t *priv_rsrc, uint32_t priv_num);
+>>   
+>> +void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>> +                const char *oem_id, const char *oem_table_id);
+>> +
+>>   void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+>>                   const char *oem_id, const char *oem_table_id);
+>>   
+>>
+> Thanks
+>
+> Eric
+>
+> .
 
 
