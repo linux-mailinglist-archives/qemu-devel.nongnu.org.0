@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5BC43565C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 01:17:11 +0200 (CEST)
-Received: from localhost ([::1]:41064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73C4435652
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 01:14:34 +0200 (CEST)
+Received: from localhost ([::1]:35046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdKpa-0003qB-6f
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 19:17:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49096)
+	id 1mdKn3-00084O-Cf
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 19:14:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdKin-0005cV-Eo
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 19:10:10 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:43736)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mdKji-0006Do-Mb; Wed, 20 Oct 2021 19:11:06 -0400
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:36461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdKih-0003yp-6b
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 19:10:08 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- e5-20020a17090a804500b001a116ad95caso3534621pjw.2
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 16:10:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=soQvrgqh4ZNwE5RbI5gTgjb1JJ8xynfnRurxUIY0LXg=;
- b=ygVIBjSmXBgfKFhciPdPRRHgVSgq/bpYQqxopFlpgkriUzHPZHyS9JtZqtBwftYjrv
- zXCz05Ai6WQi2Ns3wswoywxALLEYXfSybp5Mv8Z0PxCKVLJaAhiPt4AfN0PXWDTEnEmx
- XWpiBJeWkrgnVBXN6bfqXdFmhgprfQCvuAJ/CFF2AFn6P7jwuG/pEO/x96fsKXcIQiNQ
- OpLZ43smfUZii91MDyWHhZXHdJTg+1kZ17DKOTWyeXNhMF+U8DgfcczfxJSefjlAxDBG
- SZHAP5gqm43pi9U55bzadA54r98tY3wC7TXCeIgjiIpq4bc/JuYG4Z5vR9qR71PXmr/d
- uUtw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mdKjZ-0004zt-PM; Wed, 20 Oct 2021 19:11:02 -0400
+Received: by mail-io1-xd36.google.com with SMTP id e144so26696121iof.3;
+ Wed, 20 Oct 2021 16:10:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pwNCaV6ssjRvuTHSsfGpRlfb8HQu0HGdDTnmOVSRL8c=;
+ b=MRrUTF+gyKYFTuaNnXGuTpJcZaOv/jljxNw1q6LUOTQd9BWg2axyLObix2BDqQjlNr
+ V1rJysqElzXeAfA9YFDlj+w3MQCKd82+1/mw/gNKAo/gj+N5XJQAWzox0vmY3CDnRhMn
+ ez57XRRbnbDXQT7bT58r1GPyHGHsl6ywHOh8IDPoV8aCgRLeMvkaVuo9uBArsI1+KVYL
+ of6+Yq22OV6Bckitz0B2pSDejb2PIrPyOAVf81UhpGrmxUhuvotQQf++FTh9aRlU6G2A
+ RxDBsrFHvvBLBqwUy86apbuDxOfPWE5ggCaJ8eGi1VuyZxglvwXme/yboGmCvQB6ncZ/
+ PEpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=soQvrgqh4ZNwE5RbI5gTgjb1JJ8xynfnRurxUIY0LXg=;
- b=6A+F/GL5cZHIXh5IMozKtd8FVAUdjZrXlcNymrzOA/+jvkaxwt0g19lTRD44F8CEAQ
- YjXKcFIBO4sikBGYQXDD8Jj003KjlTRrQbUqAfWgqoPQ6h+Ak4g/53lCnNTvfkH+AwHN
- TwB1Z+J1el0AiVjbL6fjSO6XxHsWtUsuKAHI1dEiasrLR0z//GcmED8VhQvwurE/okfr
- wNwYNTuVs3mQ64vzfUJ5hGMQKk+ezHH7qg5C3hkdZ1cn8Y4lQuDdJNEDn3tAx78/BOL2
- qfaN+w1jYUXcGPPMr9T/SEc2P95xhonzVBrnu1B5Fzsk6dAm+9oubSbNV6fY6DNfca7o
- vs2Q==
-X-Gm-Message-State: AOAM532BbTfLvBhRLHHZhn8voW6DoN9QReXOAq67jyK7fi/oY1uHx/Yb
- aaMi8QsGy0SqU6oGOh9JvfMjEA==
-X-Google-Smtp-Source: ABdhPJypIYsQrkNeVoS+/PCzIlG4m5mwIRexfILFjU+eGzntSMFa2V+OQjwYV4cyZrVhzDjOoml6nw==
-X-Received: by 2002:a17:90b:1c09:: with SMTP id
- oc9mr2203464pjb.33.1634771401556; 
- Wed, 20 Oct 2021 16:10:01 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id v9sm3701916pfc.23.2021.10.20.16.10.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 16:10:01 -0700 (PDT)
-Subject: Re: [PATCH v3 21/21] target/riscv: support for 128-bit satp
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211019094812.614056-22-frederic.petrot@univ-grenoble-alpes.fr>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c3434f40-830b-f762-b1c5-55e10726271d@linaro.org>
-Date: Wed, 20 Oct 2021 16:09:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pwNCaV6ssjRvuTHSsfGpRlfb8HQu0HGdDTnmOVSRL8c=;
+ b=4NeY67nDg7I8TqtAvj11CBPVInQgAkKjHDL8jEigH0sj8hfGzn9hG2orB1wp9lEyxb
+ UhlVay++YAaJh1AqFYpioHCKqmqfzVwdSR7LboSm7//4Fd5aeDs6/KOjRweHwPO0dEZq
+ 6JAuL65wXXS2ozD6E62LVUmeDx5zodAEZP/5UN40oBTgm0aGwk0M7o+1kAeqCfjHe9bk
+ 4f83TKiw4dG9wXMKaqWSJ3C4oGwmmRhFmaKIUVqrfLD8zemAk1JMGLGV2rYr3xUqkAkh
+ kKkskILS0Cu9M3fPbrUGBFe2CyAlQv4vnvuLudyJAGATCNKthqmg80QwVmz2gTZSvFWA
+ cpkw==
+X-Gm-Message-State: AOAM5321Pi/QA1hKUH9yR1JVfASmaXtP4RbdwZlUzzUYe6/u6U85kdw0
+ knGuZEbqbut/cT2xof8aojhPUO59AiKELv2qe/Y=
+X-Google-Smtp-Source: ABdhPJwb+2vBXbeIV1eXLW7edDvZrgGEDWeV4lKDJnR45UDqU++glz8F2JOd9PmEoyMDilsK1UU91Vc8+VOhWIN9/BY=
+X-Received: by 2002:a05:6638:32a6:: with SMTP id
+ f38mr1428830jav.63.1634771456303; 
+ Wed, 20 Oct 2021 16:10:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211019094812.614056-22-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267,
+References: <20211020014112.7336-1-bmeng.cn@gmail.com>
+ <20211020014112.7336-3-bmeng.cn@gmail.com>
+In-Reply-To: <20211020014112.7336-3-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 21 Oct 2021 09:10:29 +1000
+Message-ID: <CAKmqyKOHMdRmBoy2dwCu7r=m71E0xnekeA3Qo9uqzxv6FwebMQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] hw/riscv: opentitan: Use MachineState::ram and
+ MachineClass::default_ram_id
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,30 +77,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 2:48 AM, Frédéric Pétrot wrote:
-> Support for a 128-bit satp. This is a bit more involved than necessary
-> because we took the opportunity to increase the page size to 16kB, and
-> change the page table geometry, which makes the page walk a bit more
-> parametrizable (variables instead of defines).
-> Note that is anyway a necessary step for the merging of the 32-bit and
-> 64-bit riscv versions in a single executable.
-> 
-> Signed-off-by: Frédéric Pétrot<frederic.petrot@univ-grenoble-alpes.fr>
-> Co-authored-by: Fabien Portas<fabien.portas@grenoble-inp.org>
+On Wed, Oct 20, 2021 at 11:44 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Using memory_region_init_ram(), which can't possibly handle vhost-user,
+> and can't work as expected with '-numa node,memdev' options.
+>
+> Use MachineState::ram instead of manually initializing RAM memory
+> region, as well as by providing MachineClass::default_ram_id to
+> opt in to memdev scheme.
+>
+> While at it add check for user supplied RAM size and error out if it
+> mismatches board expected value.
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+>
 > ---
->   target/riscv/cpu-param.h  |   9 +++-
->   target/riscv/cpu_bits.h   |  10 ++++
->   target/riscv/cpu_helper.c |  54 ++++++++++++++------
->   target/riscv/csr.c        | 105 ++++++++++++++++++++++++++++++++------
->   4 files changed, 144 insertions(+), 34 deletions(-)
-
-Is there a spec for this?  I don't see anything in the 2021-10-06 draft...
-
-
-r~
+>
+> Changes in v2:
+> - add RAM size check
+> - assign mc->default_ram_size
+>
+>  hw/riscv/opentitan.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index 9803ae6d70..5d568ea58a 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -19,6 +19,7 @@
+>   */
+>
+>  #include "qemu/osdep.h"
+> +#include "qemu/cutils.h"
+>  #include "hw/riscv/opentitan.h"
+>  #include "qapi/error.h"
+>  #include "hw/boards.h"
+> @@ -64,20 +65,25 @@ static const MemMapEntry ibex_memmap[] = {
+>
+>  static void opentitan_board_init(MachineState *machine)
+>  {
+> +    MachineClass *mc = MACHINE_GET_CLASS(machine);
+>      const MemMapEntry *memmap = ibex_memmap;
+>      OpenTitanState *s = g_new0(OpenTitanState, 1);
+>      MemoryRegion *sys_mem = get_system_memory();
+> -    MemoryRegion *main_mem = g_new(MemoryRegion, 1);
+> +
+> +    if (machine->ram_size != mc->default_ram_size) {
+> +        char *sz = size_to_str(mc->default_ram_size);
+> +        error_report("Invalid RAM size, should be %s", sz);
+> +        g_free(sz);
+> +        exit(EXIT_FAILURE);
+> +    }
+>
+>      /* Initialize SoC */
+>      object_initialize_child(OBJECT(machine), "soc", &s->soc,
+>                              TYPE_RISCV_IBEX_SOC);
+>      qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
+>
+> -    memory_region_init_ram(main_mem, NULL, "riscv.lowrisc.ibex.ram",
+> -        memmap[IBEX_DEV_RAM].size, &error_fatal);
+>      memory_region_add_subregion(sys_mem,
+> -        memmap[IBEX_DEV_RAM].base, main_mem);
+> +        memmap[IBEX_DEV_RAM].base, machine->ram);
+>
+>      if (machine->firmware) {
+>          riscv_load_firmware(machine->firmware, memmap[IBEX_DEV_RAM].base, NULL);
+> @@ -95,6 +101,8 @@ static void opentitan_machine_init(MachineClass *mc)
+>      mc->init = opentitan_board_init;
+>      mc->max_cpus = 1;
+>      mc->default_cpu_type = TYPE_RISCV_CPU_IBEX;
+> +    mc->default_ram_id = "riscv.lowrisc.ibex.ram";
+> +    mc->default_ram_size = ibex_memmap[IBEX_DEV_RAM].size;
+>  }
+>
+>  DEFINE_MACHINE("opentitan", opentitan_machine_init)
+> --
+> 2.25.1
+>
+>
 
