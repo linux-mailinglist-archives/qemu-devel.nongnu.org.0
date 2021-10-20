@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F68434923
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:43:45 +0200 (CEST)
-Received: from localhost ([::1]:55718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5493A434953
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:47:31 +0200 (CEST)
+Received: from localhost ([::1]:36068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md94S-0007v0-3q
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:43:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48204)
+	id 1md986-0005P3-Cb
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:47:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hV-00046K-Lf
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48565)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8ha-0004Le-8z
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hT-00039B-Sw
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:01 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hX-0003Bk-44
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634725199;
+ s=mimecast20190719; t=1634725202;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+l55gFO3MSoGNl8FmX8HypllSa9dmHDnz4W6+bwhZI4=;
- b=OthCx010L4LBa2V+lG5XPqxSuoF9idxaF2WyHsg2WLuy+9+PoSSm+jIKZvvKZwn2kiZAV2
- 2uaGCr+bPP0gFNCLZ4I9NRodOa+MpcD8/Gh1i2jekYI+qGL74OdStisQ9U4OFm45Hxq6U+
- KYLYrHr2Ud7e1OgWU5M2EZTERWVWJTo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-mUL5cKY8MM6CNfgmYXfAMw-1; Wed, 20 Oct 2021 06:19:58 -0400
-X-MC-Unique: mUL5cKY8MM6CNfgmYXfAMw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- u23-20020a50a417000000b003db23c7e5e2so20548706edb.8
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:19:57 -0700 (PDT)
+ bh=2YfMqludtVxGe6ZQMypK2Vw2Q7PYFz1rFSXdv5+28mU=;
+ b=ewT7L0B9K4xxtYrMTOvAonHXIM2IPwLHHdeWvBbv8Wi+ZO4hPgyxBLRUy3T8dqOTrKtZYN
+ jm74EYxbVY0yXjxb0ABMgSmYl9QRFTwmYAB0fPuPddXxkt2ug0O4hrJCEqKrXZVVWWh1jA
+ nzx2JlxFVFM57+7aq3y47OUHu0aj/sk=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-VRs5mt77PWmfM07TA2u3-A-1; Wed, 20 Oct 2021 06:20:01 -0400
+X-MC-Unique: VRs5mt77PWmfM07TA2u3-A-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ x5-20020a50f185000000b003db0f796903so20523856edl.18
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:20:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+l55gFO3MSoGNl8FmX8HypllSa9dmHDnz4W6+bwhZI4=;
- b=ZWPB4FxCE6TPdYv45QR9f3zNGnYNrtTbMWKeELRIy20CkaoR8xoh3j4isyZXWXHVkB
- MUx341c5ojCEK/feTrJCBaPClPJXQfTBzBWBlElA4tn2QqCC/PDj/D4WHn6v2ZanO6VP
- ryHG4tOSHnMBnHLsZnZnZ1vni5M8Eb8Y49/v1nNOQhKAdopb85f9A08fLSVwbTXgOB4A
- SdJXj0svsmPOBykj7/xlgpZNdjkJUxFZvVxoSK5RaFPUyQmHqOe5YEoudmI7bSYb0gTd
- l7bcyk1xZko39swkdcBTIUg3VA6hKZhqzgt1NFDLu0WX0gOqSdXi1UIP7zW79S19dsPf
- M/jA==
-X-Gm-Message-State: AOAM533viVxHQm8eq4Yt107YKcujQkmWSZ/AAvx7QBnqJ4xSFEdE4e21
- 88I9mlmcnyMPi4ba8trqW5Nb3dYFKvZaiSxrObISuiYt0Xo7ULArardw5XSUNhCLyebLTKT1ikU
- yTAsnheOLEeYNhOF8eRIgbDePfSn+lDdX0Le183OXv2vG+FWR8ONNFf0QCM11
-X-Received: by 2002:a50:e0c3:: with SMTP id j3mr60891038edl.97.1634725196573; 
- Wed, 20 Oct 2021 03:19:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwTE+JjuSKXno5yI3FLNa2ZuyhYOgF1xhd7gV0embkulesqjtPXm+a66ER68hgbLRUq+XOUQg==
-X-Received: by 2002:a50:e0c3:: with SMTP id j3mr60891006edl.97.1634725196339; 
- Wed, 20 Oct 2021 03:19:56 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=2YfMqludtVxGe6ZQMypK2Vw2Q7PYFz1rFSXdv5+28mU=;
+ b=CJ8Fr+444SOnxea+DT3ZU0qSkRZ3YBToWpOb6JYXiq6kG3lskGqQ51OAPYHFTnX6gL
+ meHeNhCs9bE7/9aPM4WsnQrXNfeA+vh4bX/AMu9qU2FJoGfyCSU+Oto/lNYT1wesJVTh
+ EOH/e1Y+ehjUsUZMJum+aw2SjRgXw/79fzrEORaGoyty5yQY2zOwABTIhjgWyy16W0gi
+ sC5lZ6yUcsOwRx63hjIdrYegdXf3iqDf7WTwabcY4at1uBt/lO/y6v8umUyzgDL7XSte
+ 2FKyPvS2heBnOEAMutKUpgnzfz9mWM9W9Mr+JVw2HrNfss5E9eUGQytewtSgEgE55gwN
+ c/yA==
+X-Gm-Message-State: AOAM532FsxPmNHzPdicy9cyVNrWI6U9KiKd0WPO1dYA1RNaYQdVKWaWX
+ 1GhNu89vDd47Rktmff439w2M4avrCaTOX/xxoKZ4q+bX1nurgMa1GZTWCwVe11Q7M52Bf1301h/
+ 7ih3ZG1a2n+09p+OJIOqtxjLZ4uW2F4z382lz2thg37iiLONGzM8CTxFX7M/w
+X-Received: by 2002:a17:906:eb05:: with SMTP id
+ mb5mr46378364ejb.88.1634725199424; 
+ Wed, 20 Oct 2021 03:19:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw3Io84OnIvAOJ47jcYs3m93WjSsZ1JB4xY/ytCO/PAyWkw/3NRJucdmIVoS1Tzf9HFAaLnZw==
+X-Received: by 2002:a17:906:eb05:: with SMTP id
+ mb5mr46378334ejb.88.1634725199192; 
+ Wed, 20 Oct 2021 03:19:59 -0700 (PDT)
 Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id u16sm823409ejy.16.2021.10.20.03.19.55
+ by smtp.gmail.com with ESMTPSA id ke24sm792999ejc.73.2021.10.20.03.19.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 03:19:55 -0700 (PDT)
-Date: Wed, 20 Oct 2021 06:19:53 -0400
+ Wed, 20 Oct 2021 03:19:58 -0700 (PDT)
+Date: Wed, 20 Oct 2021 06:19:56 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 15/44] tests: bios-tables-test: use qtest_has_accel() API
- to register TCG only tests
-Message-ID: <20211020101844.988480-16-mst@redhat.com>
+Subject: [PULL v2 16/44] vdpa: Skip protected ram IOMMU mappings
+Message-ID: <20211020101844.988480-17-mst@redhat.com>
 References: <20211020101844.988480-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211020101844.988480-1-mst@redhat.com>
@@ -71,8 +74,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -94,89 +98,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Eugenio Pérez <eperezma@redhat.com>
 
- .. only if TCG is available
+Following the logic of commit 56918a126ae ("memory: Add RAM_PROTECTED
+flag to skip IOMMU mappings") with VFIO, skip memory sections
+inaccessible via normal mechanisms, including DMA.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20210902113551.461632-16-imammedo@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20211014141236.923287-2-eperezma@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ hw/virtio/vhost-vdpa.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 873eb9c037..6e21a650d2 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -722,13 +722,6 @@ static void test_acpi_one(const char *params, test_data *data)
-     char *args;
-     bool use_uefi = data->uefi_fl1 && data->uefi_fl2;
- 
--#ifndef CONFIG_TCG
--    if (data->tcg_only) {
--        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
--        return;
--    }
--#endif /* CONFIG_TCG */
--
-     args = test_acpi_create_args(data, params, use_uefi);
-     data->qts = qtest_init(args);
-     test_acpi_load_tables(data, use_uefi);
-@@ -1544,6 +1537,7 @@ int main(int argc, char *argv[])
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 47d7a5a23d..ea1aa71ad8 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -28,6 +28,7 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section)
  {
-     const char *arch = qtest_get_arch();
-     const bool has_kvm = qtest_has_accel("kvm");
-+    const bool has_tcg = qtest_has_accel("tcg");
-     int ret;
- 
-     g_test_init(&argc, &argv, NULL);
-@@ -1590,7 +1584,6 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/smm-compat-nosmm",
-                        test_acpi_q35_tcg_smm_compat_nosmm);
-         qtest_add_func("acpi/q35/nohpet", test_acpi_q35_tcg_nohpet);
--        qtest_add_func("acpi/q35/ivrs", test_acpi_q35_tcg_ivrs);
-         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
-@@ -1600,19 +1593,24 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
-         qtest_add_func("acpi/microvm/ioapic2", test_acpi_microvm_ioapic2_tcg);
-         qtest_add_func("acpi/microvm/oem-fields", test_acpi_oem_fields_microvm);
--        if (strcmp(arch, "x86_64") == 0) {
--            qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-+        if (has_tcg) {
-+            qtest_add_func("acpi/q35/ivrs", test_acpi_q35_tcg_ivrs);
-+            if (strcmp(arch, "x86_64") == 0) {
-+                qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-+            }
-         }
-         if (has_kvm) {
-             qtest_add_func("acpi/q35/kvm/xapic", test_acpi_q35_kvm_xapic);
-             qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
-         }
-     } else if (strcmp(arch, "aarch64") == 0) {
--        qtest_add_func("acpi/virt", test_acpi_virt_tcg);
--        qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
--        qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
--        qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
--        qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
-+        if (has_tcg) {
-+            qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-+            qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-+            qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
-+            qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
-+            qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
-+        }
-     }
-     ret = g_test_run();
-     boot_sector_cleanup(disk);
+     return (!memory_region_is_ram(section->mr) &&
+             !memory_region_is_iommu(section->mr)) ||
++            memory_region_is_protected(section->mr) ||
+            /* vhost-vDPA doesn't allow MMIO to be mapped  */
+             memory_region_is_ram_device(section->mr) ||
+            /*
 -- 
 MST
 
