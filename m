@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F25435155
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 19:33:26 +0200 (CEST)
-Received: from localhost ([::1]:32912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3C943523F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 20:01:10 +0200 (CEST)
+Received: from localhost ([::1]:50314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdFSv-00048E-1I
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 13:33:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36554)
+	id 1mdFtl-0001mh-B2
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 14:01:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdFQp-0003FX-4d
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 13:31:15 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:46679)
+ (Exim 4.90_1) (envelope-from <rth7680@gmail.com>)
+ id 1mdFgw-0004FI-Cp; Wed, 20 Oct 2021 13:47:54 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:36861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdFQm-00077o-Sg
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 13:31:14 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id m21so23104153pgu.13
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 10:31:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <rth7680@gmail.com>)
+ id 1mdFgn-000131-52; Wed, 20 Oct 2021 13:47:54 -0400
+Received: by mail-pf1-x429.google.com with SMTP id m26so3592908pff.3;
+ Wed, 20 Oct 2021 10:47:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EfkdZjom+WhcDzmHdJvFHJNYxJnGonGza0DydxQyhCU=;
- b=bvwVre2q+3bByC95YgbQDMSfz1M8DXp8sxrScznNPqkTB8/pDWtiO+46M6bl2BYlLD
- 7gqflC5LbLoL/ldvfhf067ICAAZqVTBlcJB8PNDd0Y0yqdU+Q1ve5YSd+oU/ebZZtufu
- N9OCs7PTDbcOgAcTk/g8nnCSbjszqsNvqkCmxBYC1pfJxRNcMZpCZmN5tznEp8thQ/1H
- 7nncKTLDvzGkK5t3rva0X0EoPJOKu64jTeSSfxQHne1mV5BrRmjhyl+YUKpLsbMLon/A
- 4iu2yvbZXG03D1zaoE/v7dQwahzRU6PnAB07edoE1Six9PbqUkdIyL2YGPN2bhwJOJaS
- PXZg==
+ bh=3u02ffGnaKIHZjuFlaXATPxHUVZkCd5WOwZHeAmjUjY=;
+ b=kfhMPWjZeYrzPYcVpu6LERO/4VnlUDax4MTG/Rexu6gTVyo5iesDoWwV65Z/3KWAqA
+ K1w9AnwmWZvQ4+s2VB/ix1CXkV8Ewo91HeEiBUALppRiDINnPANo7SnxX1/N5RgHh70u
+ chNvflx3aUXRSxfoF+E+8tYKPyKobN5hPCxwUlPm964hGwXniIeUSG7kdM0FP/1qwHE9
+ qsfy3Owtdey/3SgM+FQRXSPNfVgLystCZVFBBmF12SCOxoPAwBh4WVR1bxFG0VAuQZKh
+ SP4A7uji1vhkFSqqGncQedsAHwBOg5Jo57SB9jutNztMEW+hOkCd6mT32+tR18it0n+M
+ 51uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EfkdZjom+WhcDzmHdJvFHJNYxJnGonGza0DydxQyhCU=;
- b=vLncHqU4IR0bPZQUjGrv+vOJfdfto8Vgvpx68EMK03swYiXIFSUOrXLeybAhc9EiM1
- qi5OMSRtpchmPOJfp4+HFqDE2EwLlUErvKmm2vH0P4V8kxIqCZIJuCEbQOgzNu0eT5Hz
- 6FChNFzY2hal4s8A2Svms+OIo2VUlNY/z9YXmFDqqaroyWpHv3U+bpeBx5sZQtt9BjgT
- QYNrv3opBf3z14v8AEv1bOe0nGc1FF2gZTs/qhHcZ3ayLMzgXyrMJ8To9vRg54/EmUlE
- a+ApGLI3rGU2+Pk3aQo0/oi0Z8Akxtulhkh2b4TbHyezivRTqHYZFL7N8vnifkegsXQp
- LYIQ==
-X-Gm-Message-State: AOAM532h+iKzL+ceVGc/S2ukCzJ6704DCV6kIwrWYNH2BCgR5JIVLbvB
- v/UtNKYdb7uvjvcZEn0C5rSJdg==
-X-Google-Smtp-Source: ABdhPJyzYgXY8C7pA/AK3yTX3MW4b3aYdYB2AhmetrOab1CovMevvr/hjmHRhwS9IxWeq8LG0MgA0g==
-X-Received: by 2002:a63:bf07:: with SMTP id v7mr449322pgf.333.1634751069344;
- Wed, 20 Oct 2021 10:31:09 -0700 (PDT)
+ bh=3u02ffGnaKIHZjuFlaXATPxHUVZkCd5WOwZHeAmjUjY=;
+ b=0TvXPEWbEnSaueQcI7sBecM12gZyzNR3rzW/yxmuqABBbW/6X4DGRavvXEf2iNmjZ4
+ oFbDDCQfl7JE254jiXuJ8kuUnWdSG+o3qoUJAVNjI9X/u55VxMolkQ7eaNQrRjOkRJ1U
+ xFQAHtxafm0qAwTXvsIpP1N4/RkL4Niw5NkfgSd6yZBh7Uc2xB2jcBOjzIBDbvVnBipO
+ Zcct1XxHI4CxywItq4fV8KeeBNh74UaoXxV4Q3xfCy4Lp/Msop/TWzN7Ah5GEnEiUgB6
+ 3I5j//UXlAUz2nhD7ltVMp3ovs1weHgeLkBjHyYPkFqq0gC2pqImESG/bBa0dc3/NtC1
+ SNhg==
+X-Gm-Message-State: AOAM533qjUlO30s/654LFrqdyeBnjVM+rIRTKFqMuyaODw6WgSQIdSXR
+ SqiMr0KGaKTL0T1aI8R7UOo=
+X-Google-Smtp-Source: ABdhPJyLJ8/gx+pzQbDJmpoKCDMbJrecJkPGQBcv30GmhSSWk3Gh+sxaBXl0mpbzd+S08OAPUc4MIA==
+X-Received: by 2002:a63:84c3:: with SMTP id k186mr549697pgd.462.1634752059507; 
+ Wed, 20 Oct 2021 10:47:39 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id x27sm3050320pfr.181.2021.10.20.10.31.08
+ by smtp.googlemail.com with ESMTPSA id f11sm2732916pgv.76.2021.10.20.10.47.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 10:31:08 -0700 (PDT)
-Subject: Re: [PATCH v3 10/21] target/riscv: support for 128-bit loads and store
+ Wed, 20 Oct 2021 10:47:39 -0700 (PDT)
+Subject: Re: [PATCH v3 11/21] target/riscv: support for 128-bit bitwise
+ instructions
 To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
  <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
 References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211019094812.614056-11-frederic.petrot@univ-grenoble-alpes.fr>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <51084314-f5aa-8d6f-e9e3-26cce8ee56f8@linaro.org>
-Date: Wed, 20 Oct 2021 10:31:07 -0700
+ <20211019094812.614056-12-frederic.petrot@univ-grenoble-alpes.fr>
+From: Richard Henderson <rth7680@gmail.com>
+Message-ID: <1eb7ef2b-b636-3c93-a2d3-4d498da9865d@gmail.com>
+Date: Wed, 20 Oct 2021 10:47:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211019094812.614056-11-frederic.petrot@univ-grenoble-alpes.fr>
+In-Reply-To: <20211019094812.614056-12-frederic.petrot@univ-grenoble-alpes.fr>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=rth7680@gmail.com; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.267,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,79 +95,70 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/19/21 2:48 AM, Frédéric Pétrot wrote:
-> +# Added for 128 bit support
-> +%uimm_cl_q    5:2 10:3               !function=ex_shift_3
-> +%uimm_6bit_lq 2:3 12:1 5:2           !function=ex_shift_3
-> +%uimm_6bit_sq 7:3 10:3               !function=ex_shift_3
+> The 128-bit bitwise instructions do not need any function prototype change
+> as the functions can be applied independently on the lower and upper part of
+> the registers.
+> 
+> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
+> ---
+>   target/riscv/translate.c | 22 ++++++++++++++++++++++
+>   1 file changed, 22 insertions(+)
+> 
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index e8f08f921e..71982f6284 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -429,6 +429,17 @@ static bool gen_logic_imm_fn(DisasContext *ctx, arg_i *a, DisasExtend ext,
 >   
-
-These are incorrect.  LQ and LQSP are scaled by shift 4, not 3.  And the immediate bits 
-are differently swizzled from LD and LW.
-
-
-> -fld               001  ... ... .. ... 00 @cl_d
-> +{
-> +  fld             001  ... ... .. ... 00 @cl_d
-> +  # *** RV128C specific Standard Extension (Quadrant 0) ***
-> +  lq              001  ... ... .. ... 00 @cl_q
-> +}
-
-You need to move lq first, so that it overrides fld when RV128 is enabled.  Otherwise you 
-have to invent some c_fld_not_rv32 pattern with the proper XLEN predicate inside.
-
-Likewise for all of the other groups.
-
-> +/*
-> + * TODO: we should assert that src1h == 0, as we do not change the
-> + *       address translation mechanism
-> + */
-> +static bool gen_load_i128(DisasContext *ctx, arg_lb *a, MemOp memop)
-> +{
-> +    TCGv src1l = get_gpr(ctx, a->rs1, EXT_NONE);
-> +    TCGv src1h = get_gprh(ctx, a->rs1);
-> +    TCGv destl = dest_gpr(ctx, a->rd);
-> +    TCGv desth = dest_gprh(ctx, a->rd);
-> +    TCGv addrl = tcg_temp_new();
-> +    TCGv addrh = tcg_temp_new();
-> +    TCGv imml = tcg_temp_new();
-> +    TCGv immh = tcg_constant_tl(-(a->imm < 0));
+>       gen_set_gpr(ctx, a->rd, dest);
+>   
+> +    if (get_xl_max(ctx) == MXL_RV128) {
+> +        if (get_ol(ctx) ==  MXL_RV128) {
+> +            uint64_t immh = -(a->imm < 0);
+> +            src1 = get_gprh(ctx, a->rs1);
+> +            dest = dest_gprh(ctx, a->rd);
 > +
-> +    /* Build a 128-bit address */
-> +    if (a->imm != 0) {
-> +        tcg_gen_movi_tl(imml, a->imm);
-> +        tcg_gen_add2_tl(addrl, addrh, src1l, src1h, imml, immh);
-> +    } else {
-> +        tcg_gen_mov_tl(addrl, src1l);
-> +        tcg_gen_mov_tl(addrh, src1h);
+> +            func(dest, src1, immh);
+> +        }
+> +        gen_set_gprh(ctx, a->rd, dest);
 > +    }
 
-Hmm.. I thought I remembered some clause by which the top N bits of the address could be 
-ignored, but I can't find it now.
+If ol < RV128, you're storing the low dest into the gprh, which is wrong.  It should be 
+the sign-extension of the low part.  But that should happen for all writes.
 
-In any case, even if it should be done eventually, I don't think it's worthwhile to 
-compute addrh at all right now.
+Earlier, I suggested gen_set_gpr128 instead of gen_set_gprh.
+I think this should be written
 
-> +    if (memop != (MemOp)MO_TEO) {
+     if (get_xl(ctx) == MXL_RV128) {
+         TCGv src1h = get_gprh(ctx, a->rs1);
+         TCGv desth = dest_gprh(ctx, a->rd);
 
-Why the cast?  MO_TEO is a MemOp enumerator.
+         func(dest, src1h, -(a->imm < 0));
+         gen_set_gpr128(ctx, a->rd, dest, desth);
+     } else {
+         gen_set_gpr(ctx, a->rd, dest);
+     }
 
-> +        tcg_gen_qemu_ld_tl(memop & MO_BSWAP ? desth : destl, addrl,
-> +                           ctx->mem_idx, MO_TEQ);
-> +        gen_addi2_i128(addrl, addrh, addrl, addrh, 8);
-> +        tcg_gen_qemu_ld_tl(memop & MO_BSWAP ? destl : desth, addrl,
-> +                           ctx->mem_idx, MO_TEQ);
+Where gen_set_gpr will handle the sign-extension to 128-bits.
 
-In addition... we need an atomic load here for aligned 128-bit addresses (unaligned 
-addresses are allowed to be non-atomic).
 
-We don't currently have such an operation in TCG, though we need one (the Power8 LQ 
-instruction is also only atomic when aligned).
+> @@ -443,6 +454,17 @@ static bool gen_logic(DisasContext *ctx, arg_r *a, DisasExtend ext,
+>   
+>       gen_set_gpr(ctx, a->rd, dest);
+>   
+> +    if (get_xl_max(ctx) == MXL_RV128) {
+> +        if (get_ol(ctx) ==  MXL_RV128) {
+> +            dest = dest_gprh(ctx, a->rd);
+> +            src1 = get_gprh(ctx, a->rs1);
+> +            src2 = get_gprh(ctx, a->rs2);
+> +
+> +            func(dest, src1, src2);
+> +        }
+> +        gen_set_gprh(ctx, a->rd, dest);
+> +    }
 
-We should either add this right away (shouldn't be too hard), or change the default to 
-thread=single for -cpu rv128.  We should disable thread=multi if !HAVE_ATOMIC128, because 
-we will be constantly trapping with EXCP_ATOMIC.
-
-Similarly for store, of course.
+Similarly.
 
 
 r~
