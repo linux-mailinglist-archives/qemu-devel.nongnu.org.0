@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B576A434D54
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:19:28 +0200 (CEST)
-Received: from localhost ([::1]:33964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53509434D6F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:23:10 +0200 (CEST)
+Received: from localhost ([::1]:41536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdCRD-0002Kz-R9
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:19:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42814)
+	id 1mdCUn-0007ru-CA
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:23:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdCGz-00043r-A5
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:08:53 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:33548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdCGu-0001xV-CW
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:08:52 -0400
-Received: by mail-pl1-x635.google.com with SMTP id y4so16266051plb.0
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 07:08:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=siuQKns33SrWGg4rsZhdh33gw76glUF1t6ASC/6a2TY=;
- b=txGIUeG1dys4SAC2GHDtg3i+m752Fuw6ZA9Bpw6rst8bP5ITGT41mI51kwazLqmvqA
- wUd7lOzykBy/LPgwc4XQkj659oTtnZSPogpTX7UuJbye63LUAKwixtAUsL1O3hGN/Shu
- xB4kvTXp9JpXC1jLkf5SrhAq/zHhJ47GYG6HtdqoF+5FH4FSwNs1tjHsp5zKPuUXCcdj
- JDsAZezYosFEFB3g/HJz5hOmte09/5pyqhfKo7xmtzs1cQkkPSXSIvjIAVcyHUT0sjr4
- InhfvtO0/fU11ADsdjqqGz7Zic6rN10iKcGcZdqD4JRfCXBLHAIOb2R3OVS2nrldRvxJ
- IApQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=siuQKns33SrWGg4rsZhdh33gw76glUF1t6ASC/6a2TY=;
- b=v6KhZvuiAh64QXTaBR0ZdK8JuRgwU6GuukDSHO7tnVmxMVdHS19nJJtKQgakjLaZaL
- k1U0BemuI8JsMU+BROpeDJdI4xy8+vmCQa0iUX0fvM+MwsU4cT9ICEtzH4rsHz+zZvYX
- rAyq/I8Y1JwIu4fIwMIuyTtcOyxM240eJ+LEGzQhe+eFbV8M1zRlL/HXkREdRLWQMm3V
- 8sRLii6Z6Wji/AleV8JIOuGuyspgToIwXNI2qh3hof4g1l3x6jb1VLXGLyv/b9Jxlz+r
- 0SRuwub9Zcu88R8rp4vPnQxUUM1yySVqt1a5zYu8YVbjP/rh7iaEl7oTR7iThHNlKLFq
- aGew==
-X-Gm-Message-State: AOAM5324o3dqyjGiNfWGJGSZN1e/Om0ac9ygiljMJfhDGL5JbbwxK7uP
- syF27NyQxX6Ou51Nx0EgStljVw==
-X-Google-Smtp-Source: ABdhPJxjd9mP71tFDShKU2wZOQxPbCQRdI+x/hK46l/suPUO/UFOT5yFvylHZzASbsNnrREcgfyk3A==
-X-Received: by 2002:a17:90a:e54d:: with SMTP id
- ei13mr7667976pjb.65.1634738926631; 
- Wed, 20 Oct 2021 07:08:46 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id c12sm2848799pfc.161.2021.10.20.07.08.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 07:08:46 -0700 (PDT)
-Subject: Re: [PATCH v3 04/21] target/riscv: additional macros to check
- instruction support
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211019094812.614056-5-frederic.petrot@univ-grenoble-alpes.fr>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3cd0ab2a-1261-066c-cd74-6ce226d1d1b0@linaro.org>
-Date: Wed, 20 Oct 2021 07:08:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mdCHk-0005UL-2c
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:09:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50134)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mdCHd-0002Sd-Pn
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:09:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634738971;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MMmnOnOduNNwvFhwGROyIRE7EMawiYM0rhA8+q9M9yE=;
+ b=YJkWxlKRs56+QskYFjGGntz4mAVEKVdrOgrblLhVLX9cavkUiieExGphWL4WUn+YRqxWRW
+ +fYlasjRjqyjvGUqZZHeCnfKrby1cjgzPPTdavhVKoWVYDGPjYcc3wyvF4V+qBSODhXiBE
+ kLg8aONAchxMqvTMte4G1DF5eNi/fFg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-332-tphIa1cLOG21lQqHR7GlnQ-1; Wed, 20 Oct 2021 10:09:28 -0400
+X-MC-Unique: tphIa1cLOG21lQqHR7GlnQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEFA2192781B;
+ Wed, 20 Oct 2021 14:09:26 +0000 (UTC)
+Received: from localhost (unknown [10.22.17.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D140360C5F;
+ Wed, 20 Oct 2021 14:09:17 +0000 (UTC)
+Date: Wed, 20 Oct 2021 10:09:17 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH] hw/qdev-core: Add compatibility for (non)-transitional
+ devs
+Message-ID: <20211020140917.2mirnsjkhcykotcu@habkost.net>
+References: <20211012082428.16222-1-jean-louis@dupond.be>
+ <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
+ <YW6h+YcNEgyzh5zw@stefanha-x1.localdomain>
+ <20211019065850-mutt-send-email-mst@kernel.org>
+ <20211019152913.wjipmv6trjx6k7xa@habkost.net>
+ <20211019120619-mutt-send-email-mst@kernel.org>
+ <20211019165611.scfagcp4ikhigx5k@habkost.net>
+ <CACGkMEskUCah0t5FEzrf1kHnC4=iOVSU9=h9zJozQLynEQznaQ@mail.gmail.com>
+ <CACGkMEuegAVjRudWPb5YZ7s7AZ1V_MvCkFviV1w5J_0f+bh+Vg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20211019094812.614056-5-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CACGkMEuegAVjRudWPb5YZ7s7AZ1V_MvCkFviV1w5J_0f+bh+Vg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,57 +86,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Jean-Louis Dupond <jean-louis@dupond.be>,
+ pbonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 2:47 AM, Frédéric Pétrot wrote:
-> Given that the 128-bit version of the riscv spec adds new instructions, and
-> that some instructions that were previously only available in 64-bit mode
-> are now available for both 64-bit and 128-bit, we added new macros to check
-> for the processor mode during translation.
+On Wed, Oct 20, 2021 at 01:02:24PM +0800, Jason Wang wrote:
+> On Wed, Oct 20, 2021 at 9:31 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Wed, Oct 20, 2021 at 12:56 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
+> > >
+> > > On Tue, Oct 19, 2021 at 12:13:17PM -0400, Michael S. Tsirkin wrote:
+> > > > On Tue, Oct 19, 2021 at 11:29:13AM -0400, Eduardo Habkost wrote:
+> > > > > On Tue, Oct 19, 2021 at 06:59:09AM -0400, Michael S. Tsirkin wrote:
+> > > > > > On Tue, Oct 19, 2021 at 11:46:17AM +0100, Stefan Hajnoczi wrote:
+> > > > > > > On Tue, Oct 12, 2021 at 10:36:01AM +0200, Jean-Louis Dupond wrote:
+> > > > > > > > Forgot to CC maintainers.
+> > > > > > >
+> > > > > > > Also CCing Jason Wang and Michael Tsirkin for VIRTIO.
+> > > > > > >
+> > > > > > > Stefan
+> > > > > >
+> > > > > > OMG
+> > > > > > where all compat properties broken all the time?
+> > > > >
+> > > > > Compat properties that existed when commit f6e501a28ef9 ("virtio:
+> > > > > Provide version-specific variants of virtio PCI devices") was
+> > > > > merged are not broken, because virtio-*-transitional and
+> > > > > virtio-*-non-transitional were brand new QOM types (so there's no
+> > > > > compatibility to be kept with old QEMU versions).
+> > > > >
+> > > > > Compat properties referencing "virtio-*-pci" instead of
+> > > > > "virtio-*-pci-base" added after commit f6e501a28ef9 are probably
+> > > > > broken, yes.
+> > > > >
+> > > > > --
+> > > > > Eduardo
+> > > >
+> > > > Oh. So just this one:
+> > > >     { "virtio-net-pci", "vectors", "3"},
+> > > >
+> > > > right?
+> > >
+> > > I think so.  That's the only post-4.0 virtio-*-pci compat property I see in
+> > > hw/core/machine.c.
+> > >
+> > > pc.c doesn't have any post-4.0 virtio-*-pci compat props.  I didn't see any
+> > > virtio compat props on spapr.c and s390-virtio-ccw.c.
+> > >
+> > > >
+> > > > about the patch: how do people feel about virtio specific
+> > > > stuff in qdev core? Ok by everyone?
+> > >
+> > > Not OK, if we have a mechanism to avoid that, already (the
+> > > "virtio-net-pci-base" type name).  I wonder what we can do to
+> > > make this kind of mistake less likely, though.
+> > >
+> > > Jean-Louis, Jason, does the following fix work?
+> >
+> > Yes.
+> >
+> > Acked-by: Jason Wang <jasowang@redhat.com>
+> >
+> > Thanks
+> >
+> > >
+> > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > > ---
+> > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > index b8d95eec32d..bd9c6156c1a 100644
+> > > --- a/hw/core/machine.c
+> > > +++ b/hw/core/machine.c
+> > > @@ -56,7 +56,7 @@ GlobalProperty hw_compat_5_2[] = {
+> > >      { "ICH9-LPC", "smm-compat", "on"},
+> > >      { "PIIX4_PM", "smm-compat", "on"},
+> > >      { "virtio-blk-device", "report-discard-granularity", "off" },
+> > > -    { "virtio-net-pci", "vectors", "3"},
+> > > +    { "virtio-net-pci-base", "vectors", "3"},
 > 
-> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
-> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
-> ---
->   target/riscv/translate.c | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
-> 
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 35245aafa7..121fcd71fe 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -350,6 +350,24 @@ EX_SH(12)
->       }                              \
->   } while (0)
->   
-> +#define REQUIRE_128BIT(ctx) do {   \
-> +    if (get_xl(ctx) < MXL_RV128) { \
-> +        return false;              \
-> +    }                              \
-> +} while (0)
-> +
-> +#define REQUIRE_32_OR_64BIT(ctx) do { \
-> +    if (get_xl(ctx) == MXL_RV128) {   \
-> +        return false;                 \
-> +    }                                 \
-> +} while (0)
-> +
-> +#define REQUIRE_64_OR_128BIT(ctx) do { \
-> +    if (get_xl(ctx) == MXL_RV32) {     \
-> +        return false;                  \
-> +    }                                  \
-> +} while (0)
+> Rethink about this, any chance that we can use "virtio-net-pci" as the
+> base_name? It looks to me this can cause less confusion and consistent
+> with the existing compat properties.
 
-So... you've left REQUIRE_64BIT accepting RV128, so that means that your current 
-REQUIRE_64_OR_128BIT is redundant.  Is that intentional?
+It's probably too late now: we can't change the semantics of
+"-global virtio-net-pci" without breaking compatibility.
 
-It does seem like all places that accept RV128 should accept RV64, but perhaps that's just 
-your "limited" caveat in the cover letter.
+The original reasoning for making generic_name != base_name is at
+this comment in struct VirtioPCIDeviceTypeInfo:
 
-You don't use REQUIRE_32_OR_64BIT at all.  Remove it?
+    /*
+     * Common base class for the subclasses below.
+     *
+     * Required only if transitional_name or non_transitional_name is set.
+     *
+     * We need a separate base type instead of making all types
+     * inherit from generic_name for two reasons:
+     * 1) generic_name implements INTERFACE_PCIE_DEVICE, but
+     *    transitional_name does not.
+     * 2) generic_name has the "disable-legacy" and "disable-modern"
+     *    properties, transitional_name and non_transitional name don't.
+     */
+    const char *base_name;
 
+(I had to look it up.  I didn't remember the original reason for that)
 
-r~
+-- 
+Eduardo
+
 
