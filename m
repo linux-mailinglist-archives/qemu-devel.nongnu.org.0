@@ -2,93 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 063ED434EDF
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 17:18:16 +0200 (CEST)
-Received: from localhost ([::1]:50550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83054434EE5
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 17:19:37 +0200 (CEST)
+Received: from localhost ([::1]:54796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdDM6-00070x-Pv
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 11:18:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60478)
+	id 1mdDNQ-0001vK-Ka
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 11:19:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mdDKI-0005ol-T4
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 11:16:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29353)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mdDLp-0007lP-US
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 11:17:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mdDKF-0008GH-HX
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 11:16:21 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mdDLo-0001WS-Dj
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 11:17:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634742976;
+ s=mimecast20190719; t=1634743075;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9EnZmV+TFFnWOiWHkOVOueLFKAg4VHU+aqxgTS9S/+Q=;
- b=Tri75cnlsvVtdCLw14T8qLrsX2KjmEPvF172ezloPAaCAu57HieHcqYIq6QOTaVLLac2wO
- chbbv9dhwkeSZcYGviHBYMZbCc5hz7/wNfrP+HrDBMrk7EPn/gJ4Cy96J5R2yvohRpBWZB
- P/F2BrS2kM9ihMybqRDiBJ+IDFmHWeI=
+ bh=LF+oqdbhhv44LY9JasX2H465wzrRGDRDwrw3Hf8U89c=;
+ b=ZelD/iFe2nfabg0Y8t9q7y0oybIHR6odSWtxa7cY5qboSkruATPQTJqiBQINtTENEQNa1A
+ 7gX3MPQ3TSm0aLtDGrQqsxEssjh8gdQshVBRyRK+Kxojr3YJNGmqt4KT/Kun9iCVqDNDMk
+ r5BDDpzq1n+8c7uj6ungcE+htwuFiVs=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-bjF6bixDMPyNXF1Ys1a0LQ-1; Wed, 20 Oct 2021 11:16:15 -0400
-X-MC-Unique: bjF6bixDMPyNXF1Ys1a0LQ-1
+ us-mta-7-HH4dh2iONzSYi1bEnG7Hpw-1; Wed, 20 Oct 2021 11:17:54 -0400
+X-MC-Unique: HH4dh2iONzSYi1bEnG7Hpw-1
 Received: by mail-wm1-f69.google.com with SMTP id
- n9-20020a1c7209000000b0030da7d466b8so3404762wmc.5
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 08:16:14 -0700 (PDT)
+ o22-20020a1c7516000000b0030d6f9c7f5fso4408308wmc.1
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 08:17:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=9EnZmV+TFFnWOiWHkOVOueLFKAg4VHU+aqxgTS9S/+Q=;
- b=0VAEXoMkes33wUVZpRGJ8YSubzP/3w1ECDVQmZlexRKoYBuzPhYhhid4n1MqLOZy4P
- tqNQg9cFFs3YrSWIgd16ZcPBAqjc9wZy/dqjPpwur2Th6x83Yg9YfQ6cdo5uihobduBG
- hRDj0bdWgdmvrf2jz+YvOnqVmfW9+kOwWrJYy2ss2mIiWyEu55NWhLwgaJ4E2robdD2B
- gy1CJfH0UUeg/DiBrXIdnY6sNFnXSpQYYxqKOlepv7l5n1jnv9+KykR4WYTgOR0ODAZq
- WsXDZzNAE4cB6iwM2VXKSoGfnJGJTocCMavdksdX5NKtHwAqbVtxAOHcMs4YlicZr+OE
- KcbQ==
-X-Gm-Message-State: AOAM530h3kdxA82HU37a3QPVZisbNtZBPtijPiLLBaDg4GhM+nAzJoRv
- ueBa/3sobECOc2InIJKsPI6vAs9hZF4rUfsGGsKDkTnhLOmCR5GC+xvJuH2lkAcvZGokJAnL0Ao
- Ls9E9Ab4Tkm1rnzA=
-X-Received: by 2002:a7b:cb99:: with SMTP id m25mr14550398wmi.192.1634742973682; 
- Wed, 20 Oct 2021 08:16:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwJS34GkC9F/5vMv3lp+t9F795/5cJczr6oPqkPQhfFWrF59ptgp4Ha/+q7ELipu1Xdoat5+A==
-X-Received: by 2002:a7b:cb99:: with SMTP id m25mr14550359wmi.192.1634742973352; 
- Wed, 20 Oct 2021 08:16:13 -0700 (PDT)
+ bh=LF+oqdbhhv44LY9JasX2H465wzrRGDRDwrw3Hf8U89c=;
+ b=jT9gBqMWPAVKOwvmksU1JWYL50JDjMYHhaVqGsODXu/MzXNTKsjpF6wJdfWvSR4PgJ
+ /ZCCJox0drnoEvTdWOtlyXaeTKI4VGczdPpXwWkxEsHD8tCp43H6tzKFwb73rRTDGFsV
+ c1RuZmyG85KfxI70xCbvDX6qENj/m5alsMOJxEE5lXIWI169yyS4OnFhZug29Ya8U7eT
+ phXrSl5noGEiE5fZzPzZJ3pKTWv1tXOi70r14qgt43sIQVC7/c+VFyX5WBZkv8N/Y/co
+ VD/OWZMTlMxfPPmivf0ZArOa6gx9oq7UOX6an511ovoxsdX7VdzAiyhqGEk4/4Wup1k+
+ Y4Ag==
+X-Gm-Message-State: AOAM530ztQiHjQ4c3X2FoYaQSI4zukDCmgCKDgCqdRroqzLiWCsIjI1l
+ DxqDf3a9ayKgd2USJ+hFjAQbHrLigxcbk2myZcgKlwS9Bxarw+2sl4ldOFD9XboNQ0O+iZJnRsN
+ 4RvYCf/KpGpPbkRI=
+X-Received: by 2002:a5d:698a:: with SMTP id g10mr469407wru.14.1634743073287;
+ Wed, 20 Oct 2021 08:17:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGykUofcfMHvv68qt/IwRnPg0FN1/zJcfATXazKWQmpL7jMOmgsDpg08ufBqLxTYOXunoWdQ==
+X-Received: by 2002:a5d:698a:: with SMTP id g10mr469360wru.14.1634743073004;
+ Wed, 20 Oct 2021 08:17:53 -0700 (PDT)
 Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id 73sm2278781wmb.40.2021.10.20.08.16.11
+ by smtp.gmail.com with ESMTPSA id q17sm2286951wrm.6.2021.10.20.08.17.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 08:16:12 -0700 (PDT)
-Date: Wed, 20 Oct 2021 11:16:09 -0400
+ Wed, 20 Oct 2021 08:17:52 -0700 (PDT)
+Date: Wed, 20 Oct 2021 11:17:48 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH] hw/qdev-core: Add compatibility for (non)-transitional
- devs
-Message-ID: <20211020111227-mutt-send-email-mst@kernel.org>
-References: <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
- <YW6h+YcNEgyzh5zw@stefanha-x1.localdomain>
- <20211019065850-mutt-send-email-mst@kernel.org>
- <20211019152913.wjipmv6trjx6k7xa@habkost.net>
- <20211019120619-mutt-send-email-mst@kernel.org>
- <20211019165611.scfagcp4ikhigx5k@habkost.net>
- <20211020034005-mutt-send-email-mst@kernel.org>
- <20211020135737.3wubfa4c6ijflolp@habkost.net>
- <20211020105521-mutt-send-email-mst@kernel.org>
- <20211020150143.kocjozzcuz3f35b2@habkost.net>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v4 00/11] virtio-iommu: Add ACPI support
+Message-ID: <20211020111729-mutt-send-email-mst@kernel.org>
+References: <20211001173358.863017-1-jean-philippe@linaro.org>
+ <20211005113719-mutt-send-email-mst@kernel.org>
+ <YWBhEQxM4wRyZWzs@myrica>
+ <20211018112402-mutt-send-email-mst@kernel.org>
+ <YW7mqILh/tYNH56L@myrica>
 MIME-Version: 1.0
-In-Reply-To: <20211020150143.kocjozzcuz3f35b2@habkost.net>
+In-Reply-To: <YW7mqILh/tYNH56L@myrica>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,107 +95,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, Stefan Hajnoczi <stefanha@gmail.com>,
- jasowang@redhat.com, qemu-devel@nongnu.org,
- Jean-Louis Dupond <jean-louis@dupond.be>, pbonzini@redhat.com
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ qemu-arm@nongnu.org, imammedo@redhat.com, ani@anisinha.ca, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 20, 2021 at 11:01:43AM -0400, Eduardo Habkost wrote:
-> On Wed, Oct 20, 2021 at 10:55:59AM -0400, Michael S. Tsirkin wrote:
-> > On Wed, Oct 20, 2021 at 09:57:37AM -0400, Eduardo Habkost wrote:
-> > > On Wed, Oct 20, 2021 at 03:41:38AM -0400, Michael S. Tsirkin wrote:
-> > > > On Tue, Oct 19, 2021 at 12:56:11PM -0400, Eduardo Habkost wrote:
-> > > > > On Tue, Oct 19, 2021 at 12:13:17PM -0400, Michael S. Tsirkin wrote:
-> > > > > > On Tue, Oct 19, 2021 at 11:29:13AM -0400, Eduardo Habkost wrote:
-> > > > > > > On Tue, Oct 19, 2021 at 06:59:09AM -0400, Michael S. Tsirkin wrote:
-> > > > > > > > On Tue, Oct 19, 2021 at 11:46:17AM +0100, Stefan Hajnoczi wrote:
-> > > > > > > > > On Tue, Oct 12, 2021 at 10:36:01AM +0200, Jean-Louis Dupond wrote:
-> > > > > > > > > > Forgot to CC maintainers.
-> > > > > > > > > 
-> > > > > > > > > Also CCing Jason Wang and Michael Tsirkin for VIRTIO.
-> > > > > > > > > 
-> > > > > > > > > Stefan
-> > > > > > > > 
-> > > > > > > > OMG
-> > > > > > > > where all compat properties broken all the time?
-> > > > > > > 
-> > > > > > > Compat properties that existed when commit f6e501a28ef9 ("virtio:
-> > > > > > > Provide version-specific variants of virtio PCI devices") was
-> > > > > > > merged are not broken, because virtio-*-transitional and
-> > > > > > > virtio-*-non-transitional were brand new QOM types (so there's no
-> > > > > > > compatibility to be kept with old QEMU versions).
-> > > > > > > 
-> > > > > > > Compat properties referencing "virtio-*-pci" instead of
-> > > > > > > "virtio-*-pci-base" added after commit f6e501a28ef9 are probably
-> > > > > > > broken, yes.
-> > > > > > > 
-> > > > > > > -- 
-> > > > > > > Eduardo
-> > > > > > 
-> > > > > > Oh. So just this one:
-> > > > > >     { "virtio-net-pci", "vectors", "3"},
-> > > > > > 
-> > > > > > right?
-> > > > > 
-> > > > > I think so.  That's the only post-4.0 virtio-*-pci compat property I see in
-> > > > > hw/core/machine.c.
-> > > > > 
-> > > > > pc.c doesn't have any post-4.0 virtio-*-pci compat props.  I didn't see any
-> > > > > virtio compat props on spapr.c and s390-virtio-ccw.c.
-> > > > > 
-> > > > > > 
-> > > > > > about the patch: how do people feel about virtio specific
-> > > > > > stuff in qdev core? Ok by everyone?
-> > > > > 
-> > > > > Not OK, if we have a mechanism to avoid that, already (the
-> > > > > "virtio-net-pci-base" type name).  I wonder what we can do to
-> > > > > make this kind of mistake less likely, though.
-> > > > > 
-> > > > > Jean-Louis, Jason, does the following fix work?
-> > > > > 
-> > > > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > > > > ---
-> > > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > > > > index b8d95eec32d..bd9c6156c1a 100644
-> > > > > --- a/hw/core/machine.c
-> > > > > +++ b/hw/core/machine.c
-> > > > > @@ -56,7 +56,7 @@ GlobalProperty hw_compat_5_2[] = {
-> > > > >      { "ICH9-LPC", "smm-compat", "on"},
-> > > > >      { "PIIX4_PM", "smm-compat", "on"},
-> > > > >      { "virtio-blk-device", "report-discard-granularity", "off" },
-> > > > > -    { "virtio-net-pci", "vectors", "3"},
-> > > > > +    { "virtio-net-pci-base", "vectors", "3"},
-> > > > >  };
-> > > > >  const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
-> > > > 
-> > > > Hmm I'm a bit confused at this point, as to why does
-> > > > specifying properties for virtio-net-pci on command
-> > > > line with -global work, but in compat list doesn't. Do others
-> > > > understand?
+On Tue, Oct 19, 2021 at 04:39:20PM +0100, Jean-Philippe Brucker wrote:
+> On Mon, Oct 18, 2021 at 11:25:05AM -0400, Michael S. Tsirkin wrote:
+> > On Fri, Oct 08, 2021 at 04:17:37PM +0100, Jean-Philippe Brucker wrote:
+> > > On Tue, Oct 05, 2021 at 11:45:42AM -0400, Michael S. Tsirkin wrote:
+> > > > Looks like this can not be applied yet because the bypass bit
+> > > > isn't in yet. what's up with that?
 > > > 
-> > > I don't think that's the case.  -global behaves similarly to compat_props.
+> > > The boot-bypass bit isn't a hard dependency for this series, but it will
+> > > be needed for full support eventually. It will be delayed by spec and
+> > > Linux header changes
 > > > 
-> > > Running an unpatched QEMU 6.1.0 binary:
+> > > In the meantime we can work around the problem by having the boot disks
+> > > bypass the IOMMU (virtio without iommu-platform, or iommu-bypass bus).
 > > > 
-> > > $ echo -e 'info qtree\nquit' | qemu-system-x86_64 -device virtio-net-pci -machine pc-q35-5.2 -monitor stdio | grep vectors
-> > >         vectors = 3 (0x3)
-> > > $ echo -e 'info qtree\nquit' | qemu-system-x86_64 -device virtio-net-pci-non-transitional -machine pc-q35-5.2 -monitor stdio | grep vectors
-> > >         vectors = 4 (0x4)
-> > > $ echo -e 'info qtree\nquit' | qemu-system-x86_64 -device virtio-net-pci-non-transitional -global virtio-net-pci.vectors=3 -monitor stdio | grep vectors
-> > >         vectors = 4 (0x4)
-> > > $ echo -e 'info qtree\nquit' | qemu-system-x86_64 -device virtio-net-pci-non-transitional -global virtio-net-pci-base.vectors=3 -monitor stdio | grep vectors
-> > >         vectors = 3 (0x3)
+> > > Thanks,
+> > > Jean
 > > 
-> > OK so ... that's another breakage then. Suggestions how to fix?
+> > OK... how do we want to apply all this?
+> > If my tree I either need ack from an ARM maintainers, or
+> > post a partial patchset with just x86 bits.
 > 
-> What exactly is another breakage?  virtio-net-pci,
-> virtio-net-pci-non-transitional, and virtio-net-pci-transitional
-> are three distinct device types.
+> Either works for me, with preference for keeping a single series
+> (otherwise I need to split patch 8, or add the tests later). I'll send v5
+> whole.
+> 
+> Thanks,
+> Jean
 
-Hmm. I guess ... good point.
+Then you will need an ack from arm maintainers.
 
-> -- 
-> Eduardo
+-- 
+MST
 
 
