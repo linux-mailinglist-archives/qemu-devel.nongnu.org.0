@@ -2,67 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8E643431F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 03:58:17 +0200 (CEST)
-Received: from localhost ([::1]:57630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 329DD43433A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 04:03:35 +0200 (CEST)
+Received: from localhost ([::1]:33708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md0rv-0002bl-7L
-	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 21:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33660)
+	id 1md0x3-0005hR-Uy
+	for lists+qemu-devel@lfdr.de; Tue, 19 Oct 2021 22:03:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1md0ps-0000jX-Ux; Tue, 19 Oct 2021 21:56:08 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:37689)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1md0pp-0001DI-0c; Tue, 19 Oct 2021 21:56:08 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id l80so12015135ybf.4;
- Tue, 19 Oct 2021 18:56:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Nnc4ApTSf5zhc9tQzLnqBjcLhDOBY9NADLG68UDuKQ0=;
- b=VNwzTMBUn7WRONYqLPfGwqAEOb3VsSalKm43gtSpDO4rJDmE8olPmEPjszDUnkUf0x
- eXCf74yCM1K6gZaaqC2nY0fEOMu34K4IWOtUipd4KqhIGvX4BjU8fO4uzfA8C4IBFeDc
- MuQFd4r02O0K4zwdw0EecW4kDPJg2ZCH6ikc4IQ/fHVSqVXKqTURSORTfx54xlqRJoC+
- zLc3yB0m9vqXqaeePczpYw5Wjm6x3qClWzSIxoJnKkyam98QEj6276YrS69iALsFuWaU
- Ek9WyY+fmSP5h1QWMo5FPonNo5Bx/946ZvKBH3E2QbD/6IuZtT9XYaUMLxrsYUgZrZCp
- Afnw==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1md0ux-0004GG-JZ
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 22:01:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58205)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1md0ut-0005o7-0R
+ for qemu-devel@nongnu.org; Tue, 19 Oct 2021 22:01:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634695277;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X1GC11yL6MuwZSP/ZQ7reFvX80h4HWr/oOm7A4CY2Qc=;
+ b=hfWh/QsvHEPipidWvRCBfZluk1Vy8Y1+6HUfn/XtKXdqUOcMO0zuffJltX53fqJctHjfbI
+ aVS9Avm7ochHBfvukSOga1731lz2B5VXcPf5klecuaRN+80Xhgz/kbesFmP/OJ4EHGmsOu
+ tNgmS4SBVHLHvZ32qtvuqly3Wu/oXBE=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-G6qhQhkEOnSjKSdAbKhWbw-1; Tue, 19 Oct 2021 22:01:16 -0400
+X-MC-Unique: G6qhQhkEOnSjKSdAbKhWbw-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ z29-20020a195e5d000000b003fd437f0e07so2308210lfi.20
+ for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 19:01:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Nnc4ApTSf5zhc9tQzLnqBjcLhDOBY9NADLG68UDuKQ0=;
- b=sG8pj5UqnGvBWkgZ29pwCqhl/iGMxVA7eBQVn/MbMtqdoKAO1xHQhzMQDdccR4uHtp
- QvrOqGg8EYfXDBJUTyX7AS77+r5IW8Cmwc0vxOvmz7BWULF/Q1ayOgWzQfYwTXpapJZ1
- 0ZEcTMJAwDtkYMhn+kuvD0cS7mnws63KNNlh5/2umc4AK8Hd0J5TdeKq412YzVt1iLgT
- gTK1g+glsLaWXGvTiFY2r2qGkF2opmMmLnQCncpEi4n7Dmqox94vLXSc+zwLQYh6RUwf
- KJz94shjz+94Qg7n9PzGadXm2Pd3IvjHq5wIlYQIg5vvO/Z7qCGWCYYYDqvkZyggPe3D
- KScQ==
-X-Gm-Message-State: AOAM530D2CqfokXbNy1LftnSyJL7O4Dl7eoYowSP8FVwKScLr41mKI9y
- KpcSzXj7LRixoCG+TQHQ50BBH0w7PVd8ZtdWapM=
-X-Google-Smtp-Source: ABdhPJzbvAyxOc9HlYnauB0KyQnOTTbccMWpghnmH1/wu8eu3HSOKQ82yRdK1I+KTxOEl8UYGopnOIyJF5xzfB4PkTo=
-X-Received: by 2002:a25:346:: with SMTP id 67mr37700285ybd.345.1634694963309; 
- Tue, 19 Oct 2021 18:56:03 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=X1GC11yL6MuwZSP/ZQ7reFvX80h4HWr/oOm7A4CY2Qc=;
+ b=ltsNClooRn28S9MqPzDxYvc/nI/Ls+Ss/vKBp2VvaI/rQmT4Utq/1HBzk1jBEWCDEx
+ NkT1Os7BghlBjvZc+3otFz3kOtgkKWg07nrkEIte+wBnNwmhGdchAC2jKLU1nP1zt4sN
+ a7JKtBMUiBmqJFo5yDPRudcBmQjnIxPNibllcFBQq0Mu0i0aGcsWmoAQ6kPcDE64VMn1
+ fEQMnzMQWvioYJBw4ENywpzMJhFnHXPQrJgRN6sFdJBsh8vQnlHR0e+UOhbklc5aBj8K
+ rS4iPtAessmoZ/x6BJesPbEaKnMMZ62dHoDemZnkwFQB/qb2LPAIu2SNCTPxAGXupRzo
+ Vl+g==
+X-Gm-Message-State: AOAM533BRKyqOw/VCeplcua/R3TT9mtGqOBE0wGKc4568lwpLy9eIgCV
+ +v62FnHm/Y6FwA71nnye1xQsEY+OYCYn4moiRWLk3puyYInHCy9ybnA+Sd58CHiBEnNxNSVlFKO
+ sa0+pRjXHZrAgRrTAfcpaYPJGIrBr5LM=
+X-Received: by 2002:a05:6512:128a:: with SMTP id
+ u10mr9644302lfs.84.1634695274653; 
+ Tue, 19 Oct 2021 19:01:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyGTPWl2zk+ZZgzQ8IheHmFDNopa7S1gX0FfGYj1aBUc1VlnTSM8GHcI+QJGZFwjX6AdRebgh47YC1xyMxtBJQ=
+X-Received: by 2002:a05:6512:128a:: with SMTP id
+ u10mr9644267lfs.84.1634695274317; 
+ Tue, 19 Oct 2021 19:01:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211018153829.24382-1-bmeng.cn@gmail.com>
- <20211019093943.54c36b3f@redhat.com>
-In-Reply-To: <20211019093943.54c36b3f@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 20 Oct 2021 09:55:52 +0800
-Message-ID: <CAEUhbmUa1CU_7+HMEuBmAc-DqFAH8iByfDAjV_uXnof6TZQz_Q@mail.gmail.com>
-Subject: Re: [PATCH 1/6] hw/riscv: microchip_pfsoc: Use MachineState::ram and
- MachineClass::default_ram_id
-To: Igor Mammedov <imammedo@redhat.com>
+References: <20211001070603.307037-1-eperezma@redhat.com>
+ <20211001070603.307037-12-eperezma@redhat.com>
+ <ab9a7771-5f9b-6413-3e38-bd3dc7373256@redhat.com>
+ <CAJaqyWfm734HrwTJK71hUQNYVkyDaR8OiqtGro_AX9i_pXfmBQ@mail.gmail.com>
+ <78843cbf-0096-816b-da74-5406fdcc3783@redhat.com>
+ <CAJaqyWcO9oaGsRe-oMNbmHx7G4Mw0vZfc+7WYQ23+SteoFVn4Q@mail.gmail.com>
+In-Reply-To: <CAJaqyWcO9oaGsRe-oMNbmHx7G4Mw0vZfc+7WYQ23+SteoFVn4Q@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 20 Oct 2021 10:01:03 +0800
+Message-ID: <CACGkMEtPAR6qwMN5++Q+e5aJGtzMgzo59_+Jf7=Ra=rtdLYS8g@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 11/20] vhost: Route host->guest notification
+ through shadow virtqueue
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,96 +98,265 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor,
-
-On Tue, Oct 19, 2021 at 3:39 PM Igor Mammedov <imammedo@redhat.com> wrote:
+On Tue, Oct 19, 2021 at 4:40 PM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
 >
-> On Mon, 18 Oct 2021 23:38:24 +0800
-> Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> > Using memory_region_init_ram(), which can't possibly handle vhost-user,
-> > and can't work as expected with '-numa node,memdev' options.
+> On Fri, Oct 15, 2021 at 6:42 AM Jason Wang <jasowang@redhat.com> wrote:
 > >
-> > Use MachineState::ram instead of manually initializing RAM memory
-> > region, as well as by providing MachineClass::default_ram_id to
-> > opt in to memdev scheme.
 > >
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> > ---
+> > =E5=9C=A8 2021/10/15 =E4=B8=8A=E5=8D=8812:39, Eugenio Perez Martin =E5=
+=86=99=E9=81=93:
+> > > On Wed, Oct 13, 2021 at 5:47 AM Jason Wang <jasowang@redhat.com> wrot=
+e:
+> > >>
+> > >> =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:05, Eugenio P=C3=A9rez =E5=
+=86=99=E9=81=93:
+> > >>> This will make qemu aware of the device used buffers, allowing it t=
+o
+> > >>> write the guest memory with its contents if needed.
+> > >>>
+> > >>> Since the use of vhost_virtqueue_start can unmasks and discard call
+> > >>> events, vhost_virtqueue_start should be modified in one of these wa=
+ys:
+> > >>> * Split in two: One of them uses all logic to start a queue with no
+> > >>>     side effects for the guest, and another one tha actually assume=
+s that
+> > >>>     the guest has just started the device. Vdpa should use just the
+> > >>>     former.
+> > >>> * Actually store and check if the guest notifier is masked, and do =
+it
+> > >>>     conditionally.
+> > >>> * Left as it is, and duplicate all the logic in vhost-vdpa.
+> > >>>
+> > >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > >>> ---
+> > >>>    hw/virtio/vhost-shadow-virtqueue.c | 19 +++++++++++++++
+> > >>>    hw/virtio/vhost-vdpa.c             | 38 ++++++++++++++++++++++++=
++++++-
+> > >>>    2 files changed, 56 insertions(+), 1 deletion(-)
+> > >>>
+> > >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-s=
+hadow-virtqueue.c
+> > >>> index 21dc99ab5d..3fe129cf63 100644
+> > >>> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > >>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > >>> @@ -53,6 +53,22 @@ static void vhost_handle_guest_kick(EventNotifie=
+r *n)
+> > >>>        event_notifier_set(&svq->kick_notifier);
+> > >>>    }
+> > >>>
+> > >>> +/* Forward vhost notifications */
+> > >>> +static void vhost_svq_handle_call_no_test(EventNotifier *n)
+> > >>> +{
+> > >>> +    VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtq=
+ueue,
+> > >>> +                                             call_notifier);
+> > >>> +
+> > >>> +    event_notifier_set(&svq->guest_call_notifier);
+> > >>> +}
+> > >>> +
+> > >>> +static void vhost_svq_handle_call(EventNotifier *n)
+> > >>> +{
+> > >>> +    if (likely(event_notifier_test_and_clear(n))) {
+> > >>> +        vhost_svq_handle_call_no_test(n);
+> > >>> +    }
+> > >>> +}
+> > >>> +
+> > >>>    /*
+> > >>>     * Obtain the SVQ call notifier, where vhost device notifies SVQ=
+ that there
+> > >>>     * exists pending used buffers.
+> > >>> @@ -180,6 +196,8 @@ VhostShadowVirtqueue *vhost_svq_new(struct vhos=
+t_dev *dev, int idx)
+> > >>>        }
+> > >>>
+> > >>>        svq->vq =3D virtio_get_queue(dev->vdev, vq_idx);
+> > >>> +    event_notifier_set_handler(&svq->call_notifier,
+> > >>> +                               vhost_svq_handle_call);
+> > >>>        return g_steal_pointer(&svq);
+> > >>>
+> > >>>    err_init_call_notifier:
+> > >>> @@ -195,6 +213,7 @@ err_init_kick_notifier:
+> > >>>    void vhost_svq_free(VhostShadowVirtqueue *vq)
+> > >>>    {
+> > >>>        event_notifier_cleanup(&vq->kick_notifier);
+> > >>> +    event_notifier_set_handler(&vq->call_notifier, NULL);
+> > >>>        event_notifier_cleanup(&vq->call_notifier);
+> > >>>        g_free(vq);
+> > >>>    }
+> > >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > >>> index bc34de2439..6c5f4c98b8 100644
+> > >>> --- a/hw/virtio/vhost-vdpa.c
+> > >>> +++ b/hw/virtio/vhost-vdpa.c
+> > >>> @@ -712,13 +712,40 @@ static bool vhost_vdpa_svq_start_vq(struct vh=
+ost_dev *dev, unsigned idx)
+> > >>>    {
+> > >>>        struct vhost_vdpa *v =3D dev->opaque;
+> > >>>        VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vq=
+s, idx);
+> > >>> -    return vhost_svq_start(dev, idx, svq);
+> > >>> +    EventNotifier *vhost_call_notifier =3D vhost_svq_get_svq_call_=
+notifier(svq);
+> > >>> +    struct vhost_vring_file vhost_call_file =3D {
+> > >>> +        .index =3D idx + dev->vq_index,
+> > >>> +        .fd =3D event_notifier_get_fd(vhost_call_notifier),
+> > >>> +    };
+> > >>> +    int r;
+> > >>> +    bool b;
+> > >>> +
+> > >>> +    /* Set shadow vq -> guest notifier */
+> > >>> +    assert(v->call_fd[idx]);
+> > >>
+> > >> We need aovid the asser() here. On which case we can hit this?
+> > >>
+> > > I would say that there is no way we can actually hit it, so let's rem=
+ove it.
+> > >
+> > >>> +    vhost_svq_set_guest_call_notifier(svq, v->call_fd[idx]);
+> > >>> +
+> > >>> +    b =3D vhost_svq_start(dev, idx, svq);
+> > >>> +    if (unlikely(!b)) {
+> > >>> +        return false;
+> > >>> +    }
+> > >>> +
+> > >>> +    /* Set device -> SVQ notifier */
+> > >>> +    r =3D vhost_vdpa_set_vring_dev_call(dev, &vhost_call_file);
+> > >>> +    if (unlikely(r)) {
+> > >>> +        error_report("vhost_vdpa_set_vring_call for shadow vq fail=
+ed");
+> > >>> +        return false;
+> > >>> +    }
+> > >>
+> > >> Similar to kick, do we need to set_vring_call() before vhost_svq_sta=
+rt()?
+> > >>
+> > > It should not matter at this moment because the device should not be
+> > > started at this point and device calls should not run
+> > > vhost_svq_handle_call until BQL is released.
 > >
-> >  hw/riscv/microchip_pfsoc.c | 9 +++------
-> >  1 file changed, 3 insertions(+), 6 deletions(-)
 > >
-> > diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> > index e475b6d511..f10f55b488 100644
-> > --- a/hw/riscv/microchip_pfsoc.c
-> > +++ b/hw/riscv/microchip_pfsoc.c
-> > @@ -459,7 +459,6 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
-> >      const MemMapEntry *memmap = microchip_pfsoc_memmap;
-> >      MicrochipIcicleKitState *s = MICROCHIP_ICICLE_KIT_MACHINE(machine);
-> >      MemoryRegion *system_memory = get_system_memory();
-> > -    MemoryRegion *mem_low = g_new(MemoryRegion, 1);
-> >      MemoryRegion *mem_low_alias = g_new(MemoryRegion, 1);
-> >      MemoryRegion *mem_high = g_new(MemoryRegion, 1);
-> >      MemoryRegion *mem_high_alias = g_new(MemoryRegion, 1);
-> > @@ -486,16 +485,13 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
-> >      qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
+> > Yes, we stop virtqueue before.
 > >
-> >      /* Register RAM */
-> > -    memory_region_init_ram(mem_low, NULL, "microchip.icicle.kit.ram_low",
-> > -                           memmap[MICROCHIP_PFSOC_DRAM_LO].size,
-> > -                           &error_fatal);
-> >      memory_region_init_alias(mem_low_alias, NULL,
-> >                               "microchip.icicle.kit.ram_low.alias",
-> > -                             mem_low, 0,
-> > +                             machine->ram, 0,
-> >                               memmap[MICROCHIP_PFSOC_DRAM_LO_ALIAS].size);
-> >      memory_region_add_subregion(system_memory,
-> >                                  memmap[MICROCHIP_PFSOC_DRAM_LO].base,
-> > -                                mem_low);
-> > +                                machine->ram);
-> >      memory_region_add_subregion(system_memory,
-> >                                  memmap[MICROCHIP_PFSOC_DRAM_LO_ALIAS].base,
-> >                                  mem_low_alias);
+> >
+> > >
+> > > The "logic" of doing it after is to make clear that svq must be fully
+> > > initialized before processing device calls, even in the case that we
+> > > extract SVQ in its own iothread or similar. But this could be done
+> > > before vhost_svq_start for sure.
+> > >
+> > >>> +
+> > >>> +    /* Check for pending calls */
+> > >>> +    event_notifier_set(vhost_call_notifier);
+> > >>
+> > >> Interesting, can this result spurious interrupt?
+> > >>
+> > > This actually "queues" a vhost_svq_handle_call after the BQL release,
+> > > where the device should be fully reset. In that regard, if there are
+> > > no used descriptors there will not be an irq raised to the guest. Doe=
+s
+> > > that answer the question? Or have I missed something?
+> >
+> >
+> > Yes, please explain this in the comment.
+> >
 >
-> looking at code it seems RAM is split between low and high regions,
-> so converting only low region is wrong.
+> I'm reviewing this again, and actually I think I was wrong in solving the=
+ issue.
 >
-> I'd suggest something similar to 2dc9ce13d210 : taihu_405ep_init().
-> i.e. ms->ram should hold whole RAM that is split between low and high
-> using aliases.
+> Since at this point the device is being configured, there is no chance
+> that we had a missing call notification here: A previous kick is
+> needed for the device to generate any calls, and these cannot be
+> processed.
+>
+> What is not solved in this series is that we could have pending used
+> buffers in vdpa device stopping SVQ, but queuing a check for that is
+> not going to solve anything, since SVQ vring would be already
+> destroyed:
+>
+> * vdpa device marks N > 0 buffers as used, and calls.
+> * Before processing them, SVQ stop is called. SVQ have not processed
+> these, and cleans them, making this event_notifier_set useless.
+>
+> So this would require a few changes. Mainly, instead of queueing a
+> check for used, these need to be checked before svq cleaning. After
+> that, obtain the VQ state (is not obtained in the stop at the moment,
+> trusting in guest's used idx) and run a last
+> vhost_svq_handle_call_no_test while the device is paused.
 
-Thank you for your pointers. I have just sent v2.
-
-One note when looking at the taihu_405ep_init() implementation, the
-following looks incorrect to me:
-
-    memory_region_init_alias(&ram_memories[1], NULL,
-                             "taihu_405ep.ram-1", machine->ram, ram_bases[1],
-                             ram_sizes[1]);
-
-I think the 'offset' should be ram_sizes[0] instead of ram_bases[1],
-although their values are the same which means they are two contiguous
-regions, so it happens to work. But I might be nitpicking ...
+It looks to me what's really important is that SVQ needs to
+drain/forwared used buffers after vdpa is stopped. Then we should be
+fine.
 
 >
-> > @@ -606,6 +602,7 @@ static void microchip_icicle_kit_machine_class_init(ObjectClass *oc, void *data)
-> >                     MICROCHIP_PFSOC_COMPUTE_CPU_COUNT;
-> >      mc->min_cpus = MICROCHIP_PFSOC_MANAGEMENT_CPU_COUNT + 1;
-> >      mc->default_cpus = mc->min_cpus;
-> > +    mc->default_ram_id = "microchip.icicle.kit.ram_low";
+> Thanks!
 >
-> given it is not versioned machine, so we don't have to worry about
-> cross version migration here,
-> so I'd use "microchip.icicle.kit.ram" for the name here
-> and currently used "microchip.icicle.kit.ram_low" for corresponding alias
+> >
+> > >
+> > >>> +    return true;
+> > >>>    }
+> > >>>
+> > >>>    static unsigned vhost_vdpa_enable_svq(struct vhost_vdpa *v, bool=
+ enable)
+> > >>>    {
+> > >>>        struct vhost_dev *hdev =3D v->dev;
+> > >>>        unsigned n;
+> > >>> +    int r;
+> > >>>
+> > >>>        if (enable =3D=3D v->shadow_vqs_enabled) {
+> > >>>            return hdev->nvqs;
+> > >>> @@ -752,9 +779,18 @@ static unsigned vhost_vdpa_enable_svq(struct v=
+host_vdpa *v, bool enable)
+> > >>>        if (!enable) {
+> > >>>            /* Disable all queues or clean up failed start */
+> > >>>            for (n =3D 0; n < v->shadow_vqs->len; ++n) {
+> > >>> +            struct vhost_vring_file file =3D {
+> > >>> +                .index =3D vhost_vdpa_get_vq_index(hdev, n),
+> > >>> +                .fd =3D v->call_fd[n],
+> > >>> +            };
+> > >>> +
+> > >>> +            r =3D vhost_vdpa_set_vring_call(hdev, &file);
+> > >>> +            assert(r =3D=3D 0);
+> > >>> +
+> > >>>                unsigned vq_idx =3D vhost_vdpa_get_vq_index(hdev, n)=
+;
+> > >>>                VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->s=
+hadow_vqs, n);
+> > >>>                vhost_svq_stop(hdev, n, svq);
+> > >>> +            /* TODO: This can unmask or override call fd! */
+> > >>
+> > >> I don't get this comment. Does this mean the current code can't work
+> > >> with mask_notifiers? If yes, this is something we need to fix.
+> > >>
+> > > Yes, but it will be addressed in the next series. I should have
+> > > explained it bette here, sorry :).
+> >
+> >
+> > Ok.
+> >
+> > Thanks
+> >
+> >
+> > >
+> > > Thanks!
+> > >
+> > >> Thanks
+> > >>
+> > >>
+> > >>>                vhost_virtqueue_start(hdev, hdev->vdev, &hdev->vqs[n=
+], vq_idx);
+> > >>>            }
+> > >>>
+> >
+>
 
-Regards,
-Bin
 
