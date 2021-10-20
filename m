@@ -2,96 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C79E4349F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:19:10 +0200 (CEST)
-Received: from localhost ([::1]:45646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C464349FC
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:26:14 +0200 (CEST)
+Received: from localhost ([::1]:53284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md9cj-0001Wd-I8
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:19:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49848)
+	id 1md9jZ-0007XP-SO
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1md8nT-0003Er-1X; Wed, 20 Oct 2021 06:26:11 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:36459)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1md8nP-00019j-6Q; Wed, 20 Oct 2021 06:26:10 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- z11-20020a1c7e0b000000b0030db7b70b6bso436928wmc.1; 
- Wed, 20 Oct 2021 03:26:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=msvvKILlhTQj111fXpWHy+SBH9bCrAHvZnAELsr3mVw=;
- b=UWnTbBJAt2Q1c7wbTgdytVZoRHmtUSTKshm59KO/EXR5Go3bFzM7Hp1zy7cRcZhtTJ
- HxePdstiGP8R1e6dPBFIDNNtucxJQnUEvZxrzk+Mqb/GsGxqeJMv7BF8MAf+aAq0wocq
- Qud1yx6xlJIQWxE2Ct4cokmGpChONZnHRFBI3whrr6VodRVdxS2auhIk1nsLdj13rdJl
- iNRbbnWw0PmSMHR+1vzxHd5bNUXYAct8ApYZqNCMYE62Ms6Uee2jCSEo+Sdr/xcDJc51
- HSsxyzpTttKGZs3zVMg9BetLE68Ky/hdpEo45HJT6X4CdOOAdKf8sQsmc0kX60UEabBL
- vZHg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1md9F9-0005E3-AB
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:54:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25124)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1md9F6-0000gZ-EO
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:54:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634727282;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=26D6RplWtJlPo89MFZk4m9/d0qq7cfTYZZAo8RZ6Qjc=;
+ b=YiORo/vuRxiQOnqTC3tbiSDr4LSnHLlH3Ot0rX7uQXsa8bwgX8XSetGsUTTsd/SKpGRDX4
+ 6FSXaAiS2EApHJUdcVJ7Ky4pKi88NfvEgvdLsgCE1epsHp1RuVGsp+WlPKfxF2af8z9SUv
+ JacxOaqIC8HPZV4aPKGvPBUxp1gAWVA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390-Vu_uWR0RPaujbFcFKP-rHQ-1; Wed, 20 Oct 2021 06:54:41 -0400
+X-MC-Unique: Vu_uWR0RPaujbFcFKP-rHQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ z26-20020a05600c221a00b0030da55bc454so3999210wml.4
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:54:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=msvvKILlhTQj111fXpWHy+SBH9bCrAHvZnAELsr3mVw=;
- b=hHu+KCQGIKwCD9t2lB9iogh+5wh5OjPt6H5EV6MS9RKrxDXzaB/FUW5cOVm4BbQNeQ
- 1LAPLbMKhmM5quuvh3YG5FTO2OevN0oIXL4AyRuhdPdVqGNklhjsE2gwER9bhBz8Ojos
- KDvSATKgsIgR9UR1Z/WwyD/O/QsKgOSQWxW7nfBi98rYxkr903kANT2vazTh57/Vr46B
- zWX3hjs8tA3hfhPtrbLEkCrNcLJqBck4B4onDXQ0WFn5nElwcW71s4IkWMx+biNkAQmX
- Wqc3qGmS7AWQqNehRAPNZ8g902H01+biYilvogRD7TjTTW2byIDFONQDgzRpcnyHnVNx
- vEpg==
-X-Gm-Message-State: AOAM530x0L+pGT9PxQfeyt5s/BkjFqRb6iW3KiZPGDTXGrckJoduqQnJ
- Qv4SWhj0K8TPeLyXYDjtml4=
-X-Google-Smtp-Source: ABdhPJwiFphe7pZ+f6mAFqxbkOunDjo/ejBVQb6XRWS5iHZfGqfPCnaqcA5XnEqhUOL4XZQC+oc1wg==
-X-Received: by 2002:adf:bb08:: with SMTP id r8mr52793900wrg.247.1634725564496; 
- Wed, 20 Oct 2021 03:26:04 -0700 (PDT)
-Received: from [192.168.1.36] (33.red-81-36-146.dynamicip.rima-tde.net.
- [81.36.146.33])
- by smtp.gmail.com with ESMTPSA id o12sm1584970wrv.78.2021.10.20.03.26.02
+ bh=26D6RplWtJlPo89MFZk4m9/d0qq7cfTYZZAo8RZ6Qjc=;
+ b=yYMmn748+QsS5RC0DUEXCS5slBIfs1cuWH7QzmoufgVY/bsm2t22f3HtMlEyOVaaLz
+ 6ISlqS/E2rpKaWFPTJIBW47hHmZLwWdsti7cknz+WaTl6KhNTaQBUkxifvbGFn7g3x5Y
+ J8Vm9frRwZtHVD7Oe7s1+E4LsAlQX84EnAnV77XOgch1PWRST2kS3EQrk0l3ul03loEa
+ +BJPvLsHIfOv2TD+GXVLWogK9geR9bOpnbWxwcdVR+eDpf06yZWF8SSkN/U7u7IE0tEy
+ Ea1O9we94d8RVVRoWeoc0jpVZrDhgd6xQ0rHzjAMwPXMZkPpthmSEVWQYlJxx/36FDso
+ lmDA==
+X-Gm-Message-State: AOAM533AM8n+ImrGfUGeo8App4cWsumoWk5RIVkODHBUdxQnIIV8Ud19
+ bz9cuCDSPtuc2WIfVIA+bfCfzAICWFKvg2SG1WN4DMpkjizWusywgC92+nfYOBQOlc2MvlsO+8P
+ ux16B82yBz1zLmAY=
+X-Received: by 2002:adf:b748:: with SMTP id n8mr50936492wre.133.1634727280549; 
+ Wed, 20 Oct 2021 03:54:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwXfrvnGu4z5nTp3LZTKju00gKW+3TSRxg0+0qhM72RPmMvI/6sLP0wdURj8Kohb6h1kI6e9w==
+X-Received: by 2002:adf:b748:: with SMTP id n8mr50936459wre.133.1634727280295; 
+ Wed, 20 Oct 2021 03:54:40 -0700 (PDT)
+Received: from thuth.remote.csb (tmo-097-184.customers.d1-online.com.
+ [80.187.97.184])
+ by smtp.gmail.com with ESMTPSA id o10sm1876174wmq.46.2021.10.20.03.54.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 03:26:03 -0700 (PDT)
-Message-ID: <103e098a-a8ac-a22a-8aad-3df7d8cde148@amsat.org>
-Date: Wed, 20 Oct 2021 12:26:02 +0200
+ Wed, 20 Oct 2021 03:54:39 -0700 (PDT)
+Subject: Re: CLI: Using -bios AND -kernel
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
+References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
+ <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
+ <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
+ <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
+ <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
+ <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
+ <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
+ <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
+ <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
+ <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com> <YWQB1FMhQfmqRYxN@yekko>
+ <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
+ <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
+ <8c382ce4-f706-376c-289a-b8c64393decb@redhat.com>
+ <880f4bde-19fc-1267-3a04-3d9efd660897@csgroup.eu>
+ <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
+ <054c5b53-84ab-370f-8806-5f54265e8d3e@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <5d0b9827-616b-120b-3100-dac69fe86bed@redhat.com>
+Date: Wed, 20 Oct 2021 12:54:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: Deprecate the ppc405 boards in QEMU? (was: [PATCH v3 4/7]
- MAINTAINERS: Orphan obscure ppc platforms)
+In-Reply-To: <054c5b53-84ab-370f-8806-5f54265e8d3e@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
- <20210927044808.73391-5-david@gibson.dropbear.id.au>
- <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
- <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
- <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
- <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
- <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
- <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
- <1397f18f-f187-6f48-ed6c-13c0b77abed9@redhat.com> <YVug7l8LWl3e+DN5@yekko>
- <9aeb7010-0a17-864a-cfac-ea5d90356085@csgroup.eu>
- <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
- <5e4f78ce-1508-5689-ec29-79edad0c824e@kaod.org>
- <491d6265-3785-b11-b7f0-621a3d2823@eik.bme.hu>
- <b9f27c1b-1162-b178-9333-89c0dd707c12@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <b9f27c1b-1162-b178-9333-89c0dd707c12@redhat.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-2.074,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,99 +114,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
- Peter Maydell <peter.maydell@linaro.org>, dbarboza@redhat.com,
- Alexey Kardashevskiy <aik@ozlabs.ru>, Greg Kurz <groug@kaod.org>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <agraf@csgraf.de>,
- qemu-ppc <qemu-ppc@nongnu.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, dbarboza@redhat.com,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- David Gibson <david@gibson.dropbear.id.au>
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Richard
-
-On 10/5/21 14:29, Thomas Huth wrote:
-> On 05/10/2021 14.20, BALATON Zoltan wrote:
->> On Tue, 5 Oct 2021, Cédric Le Goater wrote:
->>> On 10/5/21 08:18, Alexey Kardashevskiy wrote:
->>>> On 05/10/2021 15:44, Christophe Leroy wrote:
->>>>> Le 05/10/2021 à 02:48, David Gibson a écrit :
->>>>>> On Fri, Oct 01, 2021 at 04:18:49PM +0200, Thomas Huth wrote:
->>>>>>> On 01/10/2021 15.04, Christophe Leroy wrote:
->>>>>>>> Le 01/10/2021 à 14:04, Thomas Huth a écrit :
->>>>>>>>> On 01/10/2021 13.12, Peter Maydell wrote:
->>>>>>>>>> On Fri, 1 Oct 2021 at 10:43, Thomas Huth <thuth@redhat.com>
->>>>>>>>>> wrote:
->>>>>>>>>>> Nevertheless, as long as nobody has a hint where to find that
->>>>>>>>>>> ppc405_rom.bin, I think both boards are pretty useless in
->>>>>>>>>>> QEMU (as far as I
->>>>>>>>>>> can see, they do not work without the bios at all, so it's
->>>>>>>>>>> also not possible
->>>>>>>>>>> to use a Linux image with the "-kernel" CLI option directly).
->>>>>>>>>>
->>>>>>>>>> It is at least in theory possible to run bare-metal code on
->>>>>>>>>> either board, by passing either a pflash or a bios argument.
->>>>>>>>>
->>>>>>>>> True. I did some more research, and seems like there was once
->>>>>>>>> support for those boards in u-boot, but it got removed there a
->>>>>>>>> couple of years ago already:
->>>>>>>>>
->>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/98f705c9cefdf
->>>>>>>>>
->>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/b147ff2f37d5b
->>>>>>>>>
->>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/7514037bcdc37
->>>>>>>>>
->>>>>>>>>> But I agree that there seem to be no signs of anybody actually
->>>>>>>>>> successfully using these boards for anything, so we should
->>>>>>>>>> deprecate-and-delete them.
->>>>>>>>>
->>>>>>>>> Yes, let's mark them as deprecated now ... if someone still uses
->>>>>>>>> them and speaks up, we can still revert the deprecation again.
->>>>>>>>
->>>>>>>> I really would like to be able to use them to validate Linux Kernel
->>>>>>>> changes, hence looking for that missing BIOS.
->>>>>>>>
->>>>>>>> If we remove ppc405 from QEMU, we won't be able to do any
->>>>>>>> regression
->>>>>>>> tests of Linux Kernel on those processors.
->>>>>>>
->>>>>>> If you/someone managed to compile an old version of u-boot for
->>>>>>> one of these
->>>>>>> two boards, so that we would finally have something for
->>>>>>> regression testing,
->>>>>>> we can of course also keep the boards in QEMU...
->>>>>>
->>>>>> I can see that it would be usefor for some cases, but unless someone
->>>>>> volunteers to track down the necessary firmware and look after it, I
->>>>>> think we do need to deprecate it - I certainly don't have the
->>>>>> capacity
->>>>>> to look into this.
->>>>>>
->>>>>
->>>>> I will look at it, please allow me a few weeks though.
->>>>
->>>> Well, building it was not hard but now I'd like to know what board
->>>> QEMU actually emulates, there are way too many codenames and PVRs.
->>>
->>> yes. We should try to reduce the list below. Deprecating embedded
->>> machines
->>> is one way.
->>
->> Why should we reduce that list? It's good to have different cpu
->> options when one wants to test code for different PPC versions (maybe
->> also in user mode) or just to have a quick list of these at one place.
+On 20/10/2021 12.12, Philippe Mathieu-Daudé wrote:
+> Hi John / Paolo / Markus,
 > 
-> I think there are many CPUs in that list which cannot be used with any
-> board, some of them might be also in a very incomplete state. So
-> presenting such a big list to the users is confusing and might create
-> wrong expectations. It would be good to remove at least the CPUs which
-> are really completely useless.
+> On 10/19/21 12:07, BALATON Zoltan wrote:
+>> On Tue, 19 Oct 2021, Christophe Leroy wrote:
+>>> Le 19/10/2021 à 11:39, Thomas Huth a écrit :
+>>>> On 19/10/2021 11.31, Christophe Leroy wrote:
+> [...]
+>>> I use the following command, but it does nothing, it stays in uboot
+>>> prompt as when I don't get a kernel argument
+>>>
+>>>      ~/qemu/build/qemu-system-ppc -M taihu -bios
+>>> ~/Téléchargements/u-boot.bin -serial null -serial mon:stdio -kernel
+>>> arch/powerpc/boot/uImage
+>>
+>> I'm not sure using -bios and -kernel together makes sense, it probably
+>> starts u-boot in this case and you have to load and start the kernel
+>> from u-boot as you'd notmally do on a real machine. Alternatively you
+>> could use -kernel instead of -bios which then loads a kernel and starts
+>> it directly but not sure if it needs a firmware to work.
+>>
+>> Ot I could be completely wrong as I don't know this machine and haven't
+>> tried it.
+> 
+> Usually -bios overwrites -kernel/-append cmdline options.
+> Having them accepted together is probably a configuration mistake,
+> and we should reject that (generically).
 
-Maybe only remove some from system emulation but keep all of them
-in user emulation?
+No, having -bios and -kernel together is perfectly fine if the BIOS knows 
+about it. Have a look at the ppc64 pseries machine, it works perfectly fine 
+with -bios and -kernel at the same time.
+
+  Thomas
+
 
