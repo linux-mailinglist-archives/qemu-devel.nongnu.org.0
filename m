@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5211A434A30
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:38:00 +0200 (CEST)
-Received: from localhost ([::1]:42632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D23434A6A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:44:01 +0200 (CEST)
+Received: from localhost ([::1]:48494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md9ux-00037H-5R
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:37:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35230)
+	id 1mdA0m-0007IO-W9
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:44:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1md9t1-0001SW-Qk; Wed, 20 Oct 2021 07:36:02 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:16140)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1md9sx-0004hp-Cv; Wed, 20 Oct 2021 07:35:58 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3BC76748F5B;
- Wed, 20 Oct 2021 13:35:50 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 17011748F57; Wed, 20 Oct 2021 13:35:50 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 156357475FA;
- Wed, 20 Oct 2021 13:35:50 +0200 (CEST)
-Date: Wed, 20 Oct 2021 13:35:50 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: CLI: Using -bios AND -kernel
-In-Reply-To: <5d0b9827-616b-120b-3100-dac69fe86bed@redhat.com>
-Message-ID: <f060a3df-a94-144-f555-40c9f1c1c4e3@eik.bme.hu>
-References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
- <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
- <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
- <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
- <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
- <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
- <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
- <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
- <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
- <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com>
- <YWQB1FMhQfmqRYxN@yekko> <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
- <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
- <8c382ce4-f706-376c-289a-b8c64393decb@redhat.com>
- <880f4bde-19fc-1267-3a04-3d9efd660897@csgroup.eu>
- <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
- <054c5b53-84ab-370f-8806-5f54265e8d3e@redhat.com>
- <5d0b9827-616b-120b-3100-dac69fe86bed@redhat.com>
+ (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
+ id 1md9vf-0004nI-5n
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 07:38:45 -0400
+Received: from mail-vk1-xa30.google.com ([2607:f8b0:4864:20::a30]:34688)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
+ id 1md9vd-0000S1-RZ
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 07:38:42 -0400
+Received: by mail-vk1-xa30.google.com with SMTP id bc10so4958228vkb.1
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 04:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=nn2UYYDdpck2Ee6IHX96LGoZfuB2XaFlAtc3SglVIfU=;
+ b=X1QjsM75bHh2hiqyVJpZ+GjPExwmK8fsFfbumHEUTIt5kQcSNkUI2KXORi5SDeG0pP
+ womePe9ok8GDfsaX1l5P2oiA5pvSEav2+BGRgM+zLqhslpvFCWkYJidRmYIh5sgFtiWr
+ oUCXZdieEKvcvc0q4Kjj/iBctEEN2zQ9qcH93GAX0i1Ex4ulJjiYCAJAWE9wBZ4dGYS2
+ Sch4UiV7M1bhCn4T67f/ffwQFVl1AJkpp8+kpkhWKrxnLmzqtR7auv/MLZ4MjrYwMRBx
+ b6opZ73xBbVA6+8TTvXk6cS6C/pR+8xA1LUb1+HlTBSD8y6EwTQ2oy3h8Jp7fsSVISK4
+ k6qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=nn2UYYDdpck2Ee6IHX96LGoZfuB2XaFlAtc3SglVIfU=;
+ b=iiXfS8vw8GCIb9J4C3+XTdp6X4hFPGhzOm3MAk3Z5eJ5rgKOMoBqIkIw7Z3bUH4ky6
+ 6Vl8AWw3XQ7w+ESm1xJB2GDeVG6rhRGglAthypl1TNJfMvBGPQv8u8SlPe/dYwL/YiEW
+ 8AtrsxjFTEXucrfYuiGHU/8sQgl1W1nW/AYM4SBucMLCwkhKBWsw2dxbA04syzFr69b+
+ p/oJ0zSjE5EIGwWgL4zrIPhRrlJ8xh0kYfmP6GWficPVlkjyuYvXhXYPN8o8L3aTnTZM
+ aFAAs1ZnyBkHpHDXDwlzJ25EfYxN4mWXaoOUmyX+n+liRmcwr92wt4kUV/Bk2Ht+Fmta
+ VYmQ==
+X-Gm-Message-State: AOAM530RkqoMqRRd0KXW/RduaWD2txHSVwBKZ625TSMGmyvWEtuyaKgR
+ SWHQ3XLIqoK1wBhubc9U0x69Txd2BuQCSQ8qovhZNZ01Te0=
+X-Google-Smtp-Source: ABdhPJxO+pZnePphW0KYG6Raxc8cJQHpwEhJB/YcUmGr0n8oSs3Mf4tOif0IZXAIDsInJubzp7KfyieYLTGWgW0jXoM=
+X-Received: by 2002:a05:6122:17a4:: with SMTP id
+ o36mr38173976vkf.0.1634729919161; 
+ Wed, 20 Oct 2021 04:38:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-727218841-1634729750=:8668"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+From: Duo jia <jiaduo19920301@gmail.com>
+Date: Wed, 20 Oct 2021 19:38:27 +0800
+Message-ID: <CALUzjTbVKxsVBf9uzYhg_vVK-wq=qBJ9qni2tcvdT5y+w1uxBg@mail.gmail.com>
+Subject: =?UTF-8?Q?How_does_QMEU_connect_USB_devices_in_GUEST_to_HOST?=
+ =?UTF-8?Q?=EF=BC=9F?=
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000022aa0005cec738c7"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a30;
+ envelope-from=jiaduo19920301@gmail.com; helo=mail-vk1-xa30.google.com
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) BAYES_40=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,71 +76,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, dbarboza@redhat.com,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Markus Armbruster <armbru@redhat.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Greg Kurz <groug@kaod.org>,
- Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, John Snow <jsnow@redhat.com>,
- =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+--00000000000022aa0005cec738c7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---3866299591-727218841-1634729750=:8668
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+I simulate an MCU firmware.
+This firmware uses USB peripherals and is a function of a USB flash drive.
+QEMU can well support the operation of instructions, but I don't know how
+to extend the function of a USB so that the USB flash drive can be
+connected to the host.
 
-On Wed, 20 Oct 2021, Thomas Huth wrote:
-> On 20/10/2021 12.12, Philippe Mathieu-Daudé wrote:
->> Hi John / Paolo / Markus,
->> 
->> On 10/19/21 12:07, BALATON Zoltan wrote:
->>> On Tue, 19 Oct 2021, Christophe Leroy wrote:
->>>> Le 19/10/2021 à 11:39, Thomas Huth a écrit :
->>>>> On 19/10/2021 11.31, Christophe Leroy wrote:
->> [...]
->>>> I use the following command, but it does nothing, it stays in uboot
->>>> prompt as when I don't get a kernel argument
->>>>
->>>>      ~/qemu/build/qemu-system-ppc -M taihu -bios
->>>> ~/Téléchargements/u-boot.bin -serial null -serial mon:stdio -kernel
->>>> arch/powerpc/boot/uImage
->>> 
->>> I'm not sure using -bios and -kernel together makes sense, it probably
->>> starts u-boot in this case and you have to load and start the kernel
->>> from u-boot as you'd notmally do on a real machine. Alternatively you
->>> could use -kernel instead of -bios which then loads a kernel and starts
->>> it directly but not sure if it needs a firmware to work.
->>> 
->>> Ot I could be completely wrong as I don't know this machine and haven't
->>> tried it.
->> 
->> Usually -bios overwrites -kernel/-append cmdline options.
->> Having them accepted together is probably a configuration mistake,
->> and we should reject that (generically).
->
-> No, having -bios and -kernel together is perfectly fine if the BIOS knows 
-> about it. Have a look at the ppc64 pseries machine, it works perfectly fine 
-> with -bios and -kernel at the same time.
+I have checked some qemu documents, all of which are connected to the guest
+by the usb device in the HOST.
 
-Also this way the board can decide what's right, In pegasos2 I added a 
-warning for cases that may not work as expected to let users know but on 
-other machines a firmware may be needed and -kernel could set firmware 
-environment to boot that loaded kernel (this may be what ref405 is trying 
-to do or e500 also messes with some boot_info struct that it writes to 
-guest I think). So maybe there's no generic way to handle it. These 
-options are just defined by the board which is not great for UI 
-consistency but may be needed for enough flexibility to implement 
-everything boards want.
+Can you help me?
 
-Regards,
-BALATON Zoltan
---3866299591-727218841-1634729750=:8668--
+thank you=EF=BC=81
+
+--00000000000022aa0005cec738c7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I simulate an MCU firmware.<br>This firmware uses USB peri=
+pherals and is a function of a USB flash drive. QEMU can well support the o=
+peration of instructions, but I don&#39;t know how to extend the function o=
+f a USB so that the USB flash drive can be connected to the host.<br><br>I =
+have checked some qemu documents, all of which are connected to the guest b=
+y the usb device in the HOST.<br><br>Can you help me?<br><div><br></div><di=
+v>thank you=EF=BC=81</div></div>
+
+--00000000000022aa0005cec738c7--
 
