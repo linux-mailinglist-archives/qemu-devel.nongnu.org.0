@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE7F434D31
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:12:19 +0200 (CEST)
-Received: from localhost ([::1]:44202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B707434D3A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:13:17 +0200 (CEST)
+Received: from localhost ([::1]:45400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdCKI-0006vx-Sc
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:12:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41922)
+	id 1mdCLE-0007lx-Es
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:13:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mdCCf-0004YX-Mj
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:04:26 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:37378)
+ id 1mdCDT-0005T0-IB
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:05:16 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:33687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mdCCd-0006V8-QB
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:04:25 -0400
-Received: by mail-ed1-x529.google.com with SMTP id y12so29022048eda.4
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 07:04:23 -0700 (PDT)
+ id 1mdCDR-0007hF-Kx
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:05:15 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id y30so24366117edi.0
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 07:05:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xkpyQ5AbPw+FNWjiWupZngTj/v1uTkaJRn/m66KNdZI=;
- b=BTw7umoj+miGB0KjxlLfq2Tvi/13DTGEzPAHa856igG/mqQrQdAkjNWCFRFi9mXfAV
- ko5uOphOPD3kdHtRE8iF0UPipGcobJQ6TGkDUtIK24Nc/S90VoOgd6T4A5i4FUgGt9fk
- 9T43NtsuWe3ZL3XitYsVtEU8JcYVWxKXBlSl3ChzCVEB+a7Gdm4yNiAC3nKWi90lTyu4
- RbcrmjEeaTwWk8I2VhKNQ139Zfut75tqrq4+lVKm/cwLN3lJ8UHjysf3h5V8gko01+5S
- byzH/WcOj5+sTz+A6h5G9QhzEolHu84wpmuWN9/rw5HWp7D9GYOQx4xGIpDCmKT3K3tr
- JZxQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=h9p/+sNJF4UoADiuc/UNzSuF6N6VVZml17lGfFKsmQU=;
+ b=lHiXzDUFpHNkuGUXdMfsEkaBnpBulIuQDzxKfFlK9IvcE3QAG88e3kKCDOnBbC7zY0
+ FEtV9+AqL6q7XaGX0OQfGcipCx7CDQzFd7o5nIuGZsv9uGIopOXOOpV2G9DWhyPgGAT/
+ zKylxssNR/nEjMZSZJ2F1LdjDNmF7Vrd/IV64KZ1zN6dN/Gc1Y/9JbFe4zWQph0CjWlB
+ Wh4l2QmJvBnWIuu+8UM6MxvXLTa8nl2cQKur5fHgqMqK+AQwX6JBP5VN3lzwoPYmLPaJ
+ f27SOlyDmg5q/6rOPe+dBzaxCkbmn6ys8yGwjoTANlPtia0SPCUXgfgWeM1m44Vd06ZY
+ Sd0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=xkpyQ5AbPw+FNWjiWupZngTj/v1uTkaJRn/m66KNdZI=;
- b=BJlDkOIoLBsfZFEmxlF92m1zvPWBqq/Tg/5r8+cYha5gOmJTLutF32sSx7fUpaENzZ
- 9mJMr8mkHNxA4VxQfLN19kMQYpMUZ8TGHNpdM7A1efWRrIDEkYIrbiX/Lla4mIkIiMGl
- zva9zOGC/2MHZ3S/1NWaEVX9p+JD1pAETDhMIJ7kvbIYwh40cFOA4YlHvzqOyTtLEXEZ
- VPGUh6q9PjYsVqyaw+FBdXUQFn2CE13t6dAksKkt9xE5LWE3Hep1NubsYKk6qCSYj2PR
- jGmF/d1d65A2gXig0wp81LySaALOeKtXhR1soO97cfNu7Tyj7FrVE1G3tgfBhG2Qqdak
- uqsA==
-X-Gm-Message-State: AOAM5323lBB9eZNWnX4wjGOD9lIjvb1F2ilT52Om/DQtZHaAZhxm/+Vo
- 6SlxAE1Eh1r7QzMpTBtRu0dmy+n3JkE=
-X-Google-Smtp-Source: ABdhPJxNa20GUlpj7nOq5z0bUgbfoyQR1jPE+jhdbMxWhsoQcvIUYdz3R15S0N02Q9UdZPCv02R6Fw==
-X-Received: by 2002:a17:907:1c0c:: with SMTP id
- nc12mr45193874ejc.548.1634738569901; 
- Wed, 20 Oct 2021 07:02:49 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=h9p/+sNJF4UoADiuc/UNzSuF6N6VVZml17lGfFKsmQU=;
+ b=mTg4PiUtdCIt2hSt6oqVIcQd32M/aksVzyfrtb6UdMa1lNEQiVXH0lgT5zEO6LubGO
+ 5B74OtVClQb45Pud0anVfXQGEhOBmMLjPOaiLXclkA+mSixC4lCklXKCL03dyGF1O4oa
+ Ttczjl9H/5sX+TqWOM5Dmpbmrd+6mlviXbTVoF6eNh3mUICK+Vdp/NRg0xZu6OUqp/pu
+ dShFmJXokUPxtTnp9Ok/JOnc4kP8AM6a+C//nyMil6N0UsOz9FONLSA0MHH0wpj5lmw8
+ pBSRRhxIno5a5KHxedo058jzpIwQYpLk3/dwle2o94h9eY1UeysM4eCeROP1duPU1UDF
+ bhKw==
+X-Gm-Message-State: AOAM533XG/D4N/X+AFHDQVfB3M3Xl9ADu0nogaW17AM6f9/YBKj1DbZr
+ 8BCSV5QFTeliHFtA/6G7Zx5XjqW9J3k=
+X-Google-Smtp-Source: ABdhPJzcpcZCBgzbPUv1SbQwa7TaEolnCg121tznNN3EEVW4fKLtvINPBOuNhBqAsTQLYZPyNjtc0A==
+X-Received: by 2002:a05:6402:402:: with SMTP id
+ q2mr258953edv.248.1634738571158; 
+ Wed, 20 Oct 2021 07:02:51 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id a4sm1287095edk.71.2021.10.20.07.02.47
+ by smtp.gmail.com with ESMTPSA id a4sm1287095edk.71.2021.10.20.07.02.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 07:02:48 -0700 (PDT)
+ Wed, 20 Oct 2021 07:02:50 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] multiboot: Use DMA instead port-based transfer
-Date: Wed, 20 Oct 2021 16:02:41 +0200
-Message-Id: <20211020140244.485249-1-pbonzini@redhat.com>
+Subject: [PATCH 1/3] target/i386: move linuxboot_dma_enabled to X86MachineState
+Date: Wed, 20 Oct 2021 16:02:42 +0200
+Message-Id: <20211020140244.485249-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211020140244.485249-1-pbonzini@redhat.com>
+References: <20211020140244.485249-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,40 +88,180 @@ Cc: adam@l4re.org, marcus.haehnel@kernkonzept.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An updated version of the patch at
-https://patchew.org/QEMU/YWM6jboU9fUib6Iy@os.inf.tu-dresden.de/,
-which includes the necessary glue for compatibility with older
-machine types.  When fw_cfg DMA is disabled, the existing ROM
-is used instead.
+This removes a parameter from x86_load_linux, and will avoid code
+duplication between the linux and multiboot cases once multiboot
+starts to support DMA.
 
-Marcus Hähnel (1):
-  optionrom: add a DMA-enabled multiboot ROM
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/i386/microvm.c     | 5 ++++-
+ hw/i386/pc.c          | 5 ++---
+ hw/i386/pc_piix.c     | 3 ++-
+ hw/i386/pc_q35.c      | 3 ++-
+ hw/i386/x86.c         | 5 +++--
+ include/hw/i386/pc.h  | 3 ---
+ include/hw/i386/x86.h | 5 +++--
+ 7 files changed, 16 insertions(+), 13 deletions(-)
 
-Paolo Bonzini (2):
-  target/i386: move linuxboot_dma_enabled to X86MachineState
-  target/i386: use DMA-enabled multiboot ROM for new-enough QEMU machine
-    types
-
- hw/i386/microvm.c                 |   5 ++-
- hw/i386/multiboot.c               |  10 ++++-
- hw/i386/multiboot.h               |   4 +-
- hw/i386/pc.c                      |   8 ++--
- hw/i386/pc_piix.c                 |   3 +-
- hw/i386/pc_q35.c                  |   3 +-
- hw/i386/x86.c                     |   7 ++--
- include/hw/i386/pc.h              |   3 --
- include/hw/i386/x86.h             |   5 ++-
- pc-bios/meson.build               |   1 +
- pc-bios/multiboot_dma.bin         | Bin 0 -> 1024 bytes
- pc-bios/optionrom/Makefile        |   4 +-
- pc-bios/optionrom/multiboot.S     |   4 +-
- pc-bios/optionrom/multiboot_dma.S |   2 +
- pc-bios/optionrom/optionrom.h     |  66 ++++++++++++++++++++++++++++++
- 15 files changed, 102 insertions(+), 23 deletions(-)
- create mode 100644 pc-bios/multiboot_dma.bin
- create mode 100644 pc-bios/optionrom/multiboot_dma.S
-
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index f257ec5a0b..837bafb64a 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -331,7 +331,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+     rom_set_fw(fw_cfg);
+ 
+     if (machine->kernel_filename != NULL) {
+-        x86_load_linux(x86ms, fw_cfg, 0, true, true);
++        x86_load_linux(x86ms, fw_cfg, 0, true);
+     }
+ 
+     if (mms->option_roms) {
+@@ -667,6 +667,7 @@ static void microvm_machine_initfn(Object *obj)
+ 
+ static void microvm_class_init(ObjectClass *oc, void *data)
+ {
++    X86MachineClass *x86mc = X86_MACHINE_CLASS(oc);
+     MachineClass *mc = MACHINE_CLASS(oc);
+     HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
+ 
+@@ -697,6 +698,8 @@ static void microvm_class_init(ObjectClass *oc, void *data)
+     hc->unplug_request = microvm_device_unplug_request_cb;
+     hc->unplug = microvm_device_unplug_cb;
+ 
++    x86mc->fwcfg_dma_enabled = true;
++
+     object_class_property_add(oc, MICROVM_MACHINE_PIC, "OnOffAuto",
+                               microvm_machine_get_pic,
+                               microvm_machine_set_pic,
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 86223acfd3..d203db7845 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -775,7 +775,7 @@ void xen_load_linux(PCMachineState *pcms)
+     rom_set_fw(fw_cfg);
+ 
+     x86_load_linux(x86ms, fw_cfg, pcmc->acpi_data_size,
+-                   pcmc->pvh_enabled, pcmc->linuxboot_dma_enabled);
++                   pcmc->pvh_enabled);
+     for (i = 0; i < nb_option_roms; i++) {
+         assert(!strcmp(option_rom[i].name, "linuxboot.bin") ||
+                !strcmp(option_rom[i].name, "linuxboot_dma.bin") ||
+@@ -927,7 +927,7 @@ void pc_memory_init(PCMachineState *pcms,
+ 
+     if (linux_boot) {
+         x86_load_linux(x86ms, fw_cfg, pcmc->acpi_data_size,
+-                       pcmc->pvh_enabled, pcmc->linuxboot_dma_enabled);
++                       pcmc->pvh_enabled);
+     }
+ 
+     for (i = 0; i < nb_option_roms; i++) {
+@@ -1664,7 +1664,6 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     /* BIOS ACPI tables: 128K. Other BIOS datastructures: less than 4K reported
+      * to be used at the moment, 32K should be enough for a while.  */
+     pcmc->acpi_data_size = 0x20000 + 0x8000;
+-    pcmc->linuxboot_dma_enabled = true;
+     pcmc->pvh_enabled = true;
+     pcmc->kvmclock_create_always = true;
+     assert(!mc->get_hotplug_handler);
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 6ad0d763c5..223dd3e05d 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -620,11 +620,12 @@ DEFINE_I440FX_MACHINE(v2_7, "pc-i440fx-2.7", NULL,
+ 
+ static void pc_i440fx_2_6_machine_options(MachineClass *m)
+ {
++    X86MachineClass *x86mc = X86_MACHINE_CLASS(m);
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+ 
+     pc_i440fx_2_7_machine_options(m);
+     pcmc->legacy_cpu_hotplug = true;
+-    pcmc->linuxboot_dma_enabled = false;
++    x86mc->fwcfg_dma_enabled = false;
+     compat_props_add(m->compat_props, hw_compat_2_6, hw_compat_2_6_len);
+     compat_props_add(m->compat_props, pc_compat_2_6, pc_compat_2_6_len);
+ }
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index fcc6e4eb2b..797e09500b 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -573,11 +573,12 @@ DEFINE_Q35_MACHINE(v2_7, "pc-q35-2.7", NULL,
+ 
+ static void pc_q35_2_6_machine_options(MachineClass *m)
+ {
++    X86MachineClass *x86mc = X86_MACHINE_CLASS(m);
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+ 
+     pc_q35_2_7_machine_options(m);
+     pcmc->legacy_cpu_hotplug = true;
+-    pcmc->linuxboot_dma_enabled = false;
++    x86mc->fwcfg_dma_enabled = false;
+     compat_props_add(m->compat_props, hw_compat_2_6, hw_compat_2_6_len);
+     compat_props_add(m->compat_props, pc_compat_2_6, pc_compat_2_6_len);
+ }
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 76de7e2265..a34498fe16 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -764,9 +764,9 @@ static bool load_elfboot(const char *kernel_filename,
+ void x86_load_linux(X86MachineState *x86ms,
+                     FWCfgState *fw_cfg,
+                     int acpi_data_size,
+-                    bool pvh_enabled,
+-                    bool linuxboot_dma_enabled)
++                    bool pvh_enabled)
+ {
++    bool linuxboot_dma_enabled = X86_MACHINE_GET_CLASS(x86ms)->fwcfg_dma_enabled;
+     uint16_t protocol;
+     int setup_size, kernel_size, cmdline_size;
+     int dtb_size, setup_data_offset;
+@@ -1332,6 +1332,7 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+     mc->possible_cpu_arch_ids = x86_possible_cpu_arch_ids;
+     x86mc->compat_apic_id_mode = false;
+     x86mc->save_tsc_khz = true;
++    x86mc->fwcfg_dma_enabled = true;
+     nc->nmi_monitor_handler = x86_nmi;
+ 
+     object_class_property_add(oc, X86_MACHINE_SMM, "OnOffAuto",
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 11426e26dc..9162aded21 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -116,9 +116,6 @@ struct PCMachineClass {
+     /* generate legacy CPU hotplug AML */
+     bool legacy_cpu_hotplug;
+ 
+-    /* use DMA capable linuxboot option rom */
+-    bool linuxboot_dma_enabled;
+-
+     /* use PVH to load kernels that support this feature */
+     bool pvh_enabled;
+ 
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 23267a3674..bb1cfb8896 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -38,6 +38,8 @@ struct X86MachineClass {
+     bool save_tsc_khz;
+     /* Enables contiguous-apic-ID mode */
+     bool compat_apic_id_mode;
++    /* use DMA capable linuxboot option rom */
++    bool fwcfg_dma_enabled;
+ };
+ 
+ struct X86MachineState {
+@@ -120,8 +122,7 @@ void x86_bios_rom_init(MachineState *ms, const char *default_firmware,
+ void x86_load_linux(X86MachineState *x86ms,
+                     FWCfgState *fw_cfg,
+                     int acpi_data_size,
+-                    bool pvh_enabled,
+-                    bool linuxboot_dma_enabled);
++                    bool pvh_enabled);
+ 
+ bool x86_machine_is_smm_enabled(const X86MachineState *x86ms);
+ bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
 -- 
 2.31.1
+
 
 
