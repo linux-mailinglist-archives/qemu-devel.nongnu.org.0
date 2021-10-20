@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E99E4345C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 09:16:05 +0200 (CEST)
-Received: from localhost ([::1]:46076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67FA4345E3
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 09:28:47 +0200 (CEST)
+Received: from localhost ([::1]:57542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md5pU-0000QZ-2L
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 03:16:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54352)
+	id 1md61m-0000Qk-S8
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 03:28:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1md5mj-0007wS-95
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 03:13:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27270)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1md5zv-0007D9-JS
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 03:26:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1md5me-0002rL-VI
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 03:13:12 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1md5zs-0001b8-U6
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 03:26:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634713983;
+ s=mimecast20190719; t=1634714807;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ICPZpJ/7+RJ6DTaOfS5Iu2KAP/XMMrirk6OivVUbS0k=;
- b=HTfWwPbVmKp7/Mw/ExqwilfwQ2g8TBBwLT7x9F5M5jg/8xtZeb1qzFsWMOn53LB1e1JPAM
- Tyt1QHhffs/kNODub+DiC+mVxP6p1DJL+Dt3Ne0UIfa8LYeJoWnXKqMSF3tB+i0j29B98p
- RwFimoeynZeyNLdoGgvdaZ0HRKIXPTg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-z4N8Abl0Mq6lZflMZ9_OTg-1; Wed, 20 Oct 2021 03:13:02 -0400
-X-MC-Unique: z4N8Abl0Mq6lZflMZ9_OTg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k5-20020a7bc3050000b02901e081f69d80so3677071wmj.8
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 00:13:01 -0700 (PDT)
+ bh=fG+WsyqAvJ3ccP/NPMXqnClHKK0geZLrnWA3C12g9Uk=;
+ b=Qy563+ljQlRKWKa25C6FASGZtpJZfKfsFSA/jZrnfJriXRVwYwW4h0CG8pnIKHf/sHI4qh
+ lwhkjjCYk6biPkds75iPn7/B3mghhPLDgbE1Zt4rwbRA3wMseBSIhDukjmclMjjPK4ybpZ
+ Eg+UBOGZ8kqQYQUJjG5Bk9iY0DKVHws=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-318-LEWt0yTdNS-dn78D1SHrJg-1; Wed, 20 Oct 2021 03:26:46 -0400
+X-MC-Unique: LEWt0yTdNS-dn78D1SHrJg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ u17-20020a50d511000000b003daa3828c13so20081403edi.12
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 00:26:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ICPZpJ/7+RJ6DTaOfS5Iu2KAP/XMMrirk6OivVUbS0k=;
- b=NP5o+3baqY0i8zRjICUKD/p02gTz7Y7i+EGMlUoIOS6qQGscLfNbefrw/gJGGlUSfa
- zY+++34V7Z2knqK7Db83UIge98Pghmkacqa1nE604vic66DYr9ROvbFF66GXeBr64SMK
- 0w9xtmE0uos13eoVjXtUibdtWtLPSzIlvZRLj7vnUcXZ9R4Keb84GdHsvcFZTHNZejmX
- m9FTQ2wy5R+FDgW+YKmS1VkgO+PG2Wek0M+HPdoCVcztmwAlmIFNSZ7KglxzjFShyWKa
- 6lQxYMRRyDhUQDlVdbwXdQCMJLpthpW+GSQ9lF5SZ6gfM4n+yPa6Xk0KJ7BxgKyIGr4q
- wc9Q==
-X-Gm-Message-State: AOAM533+PIjkDBGb1oH4eEQAvsUp/LAtvt7lZuAT3C924XBpC82pMnQC
- aZhN5/Aw1Dz+jlKJOxlHf9xSv+JwABuVsAooFMdXYky+rYT0Rx4zrvSSmVARcOQdKc9QngosIeV
- FrliDInv8ZDEDgTk=
-X-Received: by 2002:a5d:4a08:: with SMTP id m8mr32248855wrq.18.1634713980964; 
- Wed, 20 Oct 2021 00:13:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJziVCA19PJSuKA4AjuyxCn+V5wJcNU3XlYFakcrY6CAmSH8ve3GAXFchph2yj8Tc+57wut0Yg==
-X-Received: by 2002:a5d:4a08:: with SMTP id m8mr32248827wrq.18.1634713980701; 
- Wed, 20 Oct 2021 00:13:00 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id c3sm1144855wrw.66.2021.10.20.00.12.59
+ bh=fG+WsyqAvJ3ccP/NPMXqnClHKK0geZLrnWA3C12g9Uk=;
+ b=wUFzG2Z7CkGq/+FOUKCf2ud2YdGd0LQzLizCxyq1MaDgUdTdT+fTTFmBqdf8Eoe1ec
+ 44JhTjbmEZQp0PD4NFoLj1+8Ii3oNZoAGRs68rUAfvxh+zExW3OxgOZlK2RX01iIj0Cg
+ Q4kHgR67d0ut5bwZwpuuVhRSm2zBehbYiahVM7THIF5vriR9ETSzrWG7HddEXtQjF81c
+ nM0tpduIZWzqMzAA5ZCCweo8XM2zwguUJQCkr2hAQG9HbJPAiqAHVQ3JldM5A9GNqe7R
+ pUosmeKq0I+ZJanZKCWTFPM3MWyOvtcCOAloGE8kPzp8Adqa6fK/jBK9CwDyNGkvhgS4
+ IEtw==
+X-Gm-Message-State: AOAM532dXZfG6dNDawWQHechbvM+X5QjMDITGqKzMwkec8zmv2bDaW5X
+ XCRWhAtgS9SHMLpdfVe82UuGWetI4pJ2qTWTU9aj/2oG5ij6Zj9Wp1JL0qy4UZ4XmJB2DeOMppU
+ vMESfVlfyQL6zcXY=
+X-Received: by 2002:a17:906:38ce:: with SMTP id
+ r14mr42703771ejd.268.1634714805038; 
+ Wed, 20 Oct 2021 00:26:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw9g+ijnafEyhIrdBhpCE3WtkbcS/J6QWFZ2rAs4sOsklRSovUXbp3aOOJIn9eKimrPbCR59Q==
+X-Received: by 2002:a17:906:38ce:: with SMTP id
+ r14mr42703748ejd.268.1634714804758; 
+ Wed, 20 Oct 2021 00:26:44 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id e11sm678489edl.70.2021.10.20.00.26.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 00:12:59 -0700 (PDT)
-Subject: Re: [PATCH v8 6/8] tests/data/acpi/virt: Add an empty expected file
- for PPTT
-To: Yanan Wang <wangyanan55@huawei.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-References: <20211014132206.19220-1-wangyanan55@huawei.com>
- <20211014132206.19220-7-wangyanan55@huawei.com>
-From: Eric Auger <eauger@redhat.com>
-Message-ID: <3a626a9f-37de-0487-66cc-408eb74704a9@redhat.com>
-Date: Wed, 20 Oct 2021 09:12:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Wed, 20 Oct 2021 00:26:44 -0700 (PDT)
+Message-ID: <45a7173a-19e9-b5b8-7df2-0d494e4af3b6@redhat.com>
+Date: Wed, 20 Oct 2021 09:26:42 +0200
 MIME-Version: 1.0
-In-Reply-To: <20211014132206.19220-7-wangyanan55@huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 0/2] Support fd-based KVM stats
+To: Mark Kanda <mark.kanda@oracle.com>, qemu-devel@nongnu.org
+References: <20211019202904.4857-1-mark.kanda@oracle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20211019202904.4857-1-mark.kanda@oracle.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -48
 X-Spam_score: -4.9
@@ -101,38 +101,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Yanan,
-On 10/14/21 3:22 PM, Yanan Wang wrote:
-> Add a generic empty binary file for the new introduced PPTT table
-> under tests/data/acpi/virt, and list it as files to be changed in> tests/qtest/bios-tables-test-allowed-diff.h
+On 19/10/21 22:29, Mark Kanda wrote:
+> This patchset adds QEMU support for querying fd-based KVM stats. The kernel
+> support is provided by:
 > 
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->  tests/data/acpi/virt/PPTT                   | 0
->  tests/qtest/bios-tables-test-allowed-diff.h | 1 +
->  2 files changed, 1 insertion(+)
->  create mode 100644 tests/data/acpi/virt/PPTT
+> cb082bfab59a ("KVM: stats: Add fd-based API to read binary stats data")
 > 
-> diff --git a/tests/data/acpi/virt/PPTT b/tests/data/acpi/virt/PPTT
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index dfb8523c8b..cb143a55a6 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,2 @@
->  /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/virt/PPTT",
-> 
+> Patch 1 adds QMP support; patch 2 adds HMP support.
 
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Thanks
-Eric
+Hi Mark,
+
+that's awesome, thanks!
+
+Just a couple remarks on the implementation:
+
+1) for QMP, it would be nice to have separate commands for the schema 
+and the value.  This is because in the future we could consider passing 
+the file descriptor directly to the QMP client; in which case, it would 
+still be nicer to have QEMU turn the schema information into something 
+more easily consumable.
+
+2) for HMP, it would be nice to have the exponent converted to e.g. 
+"nanoseconds" if the KvmStatUnit is seconds.  It's not super important, 
+but it would be nice.  Something as simple as
+
+if (kvm_stat->unit == KVM_STAT_UNIT_SECONDS &&
+     kvm_stat->exponent >= -9 && kvm_stat->exponent <= 0 &&
+     kvm_stat->exponent % 3 == 0 && kvm_stat->base == 10) {
+     const char *si_prefix[] = { "", "milli", "micro", "nano" };
+     monitor_printf(" %lu %sseconds", val->value,
+                    si_prefix[kvm_stat->exponent / -3]);
+} else ...
+
+(Yes, this is nitpicking; but in practice nanoseconds are the only case 
+where currently the exponent is not 0, so...).
+
+3) more recent versions of Linux also support histograms, for which you 
+have to include the bucket size and the kind (logarithmic/linear) in 
+QMP.  For HMP it would be nice to have it printed as
+
+     halt_wait_hist: [1 nanosecond]=200 [2]=30 [4]=50 [8]=120
+
+but, for the first version, it's also okay if the QMP commands just 
+skips unknown KVM_STATS_TYPE values altogether.
+
+Paolo
+
+> Mark Kanda (2):
+>    qmp: Support fd-based KVM stats query
+>    hmp: Support fd-based KVM stats query
+> 
+>   accel/kvm/kvm-all.c   | 246 ++++++++++++++++++++++++++++++++++++++++++
+>   hmp-commands-info.hx  |  13 +++
+>   include/monitor/hmp.h |   1 +
+>   monitor/hmp-cmds.c    |  52 +++++++++
+>   qapi/misc.json        |  73 +++++++++++++
+>   5 files changed, 385 insertions(+)
+> 
 
 
