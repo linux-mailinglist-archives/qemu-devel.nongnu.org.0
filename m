@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A4C434D50
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:18:31 +0200 (CEST)
-Received: from localhost ([::1]:57752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8A6434D4F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:18:01 +0200 (CEST)
+Received: from localhost ([::1]:56480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdCQI-0007hf-Sg
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:18:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43384)
+	id 1mdCPo-0006pP-KN
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:18:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mdCJ0-00074I-W4
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:10:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26722)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mdCIx-0003bY-VG
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:10:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634739055;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=glS9MlGE560KzrBWDfv5/jzvxPwZNEtHzz4ylEhkAQM=;
- b=XphDO3J8lCQ5Y2eFzM1CgZxffXAUtLvgEqc5xDv7MHPNPpsjPmooZajOmITJylLzX4ybAC
- aGqf8txGZUL2qRXyyyuXUWJWl/vwB5zA13dr9E2BRGTEDLs7LgyxQd3F5iUQVDZ9F8blMZ
- xpLE/rkkWPCdy7i86cIsm/NlVpA4jAQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-Zl1IcLxrPpOZgAzm082G4A-1; Wed, 20 Oct 2021 10:10:54 -0400
-X-MC-Unique: Zl1IcLxrPpOZgAzm082G4A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- z137-20020a1c7e8f000000b0030cd1800d86so4292167wmc.2
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 07:10:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mdCM8-0003VX-N8
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:14:12 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:34634)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mdCM6-0005l4-Ud
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:14:12 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ q2-20020a17090a2e0200b001a0fd4efd49so3881740pjd.1
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 07:14:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lgFI911CtAA9atZ/7vcjBz4OY+cJmyTOdX+QsOEk6x0=;
+ b=naMeXS0gPh/NnTz5VAHiIMbLsE9/H2hWP4RRbDQL526uEZLni2Tx3kByzgLBjrS6Zd
+ icfCfwVWbJzsGcd1bmSwH7XWDHI8W4sYhP+Wz7W6IfdFFRMtQck0evG+fdU65JmbM+/N
+ 2GQYzjDS9zoEIbaCe+7FR8cCtBOhXrFlwsND1X6R7QaTkvXV6JlI/6Zw1I73CyMR8ejN
+ S3w17WR1EdQ837aVdjDmDCUxV3p4ZtWq15uWX4AZK8VRBJku8NzKdLfkuF+VrMOuTlei
+ 7qOAOFTwjE+GqjIAsltn3v15O8wF8nJ8r75yukpYbx20ToOuXGmWD7FPY1B3IPOJ9hTQ
+ 4yhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=glS9MlGE560KzrBWDfv5/jzvxPwZNEtHzz4ylEhkAQM=;
- b=XxjT30RqIq0G2Gr66GYp1kjAxjeNkpUWTjjTH94K35luJIHiEUmYs0zAXUFBERL39c
- APnFBh6w7tJzWhfJAdPaqFj9z9oT576N57yMsuE1dCLdJ8mh8w0KGJuVjH+2L0N8il/o
- GGkJ+3qVvlBf62OuoOdo0XllhAH268FGcxYrrLvcAlakii4mEeZG4UHRIDEEumx/UjGl
- V+C4S4jMcLHl52QSpLvfeHSrvfZpb8njUmsJ53iGGfr0J8pf+39YPVAbELmf4hOaDWBS
- PyDgu+agTRAvfp2w9Gshk/pwq+Esxc/DJSIY5u8S/QbNHOCIW6LOVwYhPpj70nBubOm6
- udTQ==
-X-Gm-Message-State: AOAM532RTKVdU6P2gZNfzgu7lZzKxN39O/OMPqwpePEsvXK7PgSRK3ef
- KrxZ8PkDobW6/4tRyRi4IIxRWHjQIC20xcGQzdbbR+znGW6//L9EAIuN/3wQ4ZFHBSlw/JsmnLq
- 2hcRIPAcIIt1sEUU=
-X-Received: by 2002:adf:bbc3:: with SMTP id z3mr811wrg.10.1634739052968;
- Wed, 20 Oct 2021 07:10:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxPighE9/znOnyN28TLZ1OubugHDuxqvdB9PEAm4VF/elyyfieBXWSGuDbAxI+tz9fvdigTAg==
-X-Received: by 2002:adf:bbc3:: with SMTP id z3mr762wrg.10.1634739052597;
- Wed, 20 Oct 2021 07:10:52 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id s8sm2154836wrr.15.2021.10.20.07.10.52
+ bh=lgFI911CtAA9atZ/7vcjBz4OY+cJmyTOdX+QsOEk6x0=;
+ b=dx6DMfeIUMGltkqrZDHsHW6Pcs/wYM/8gk9MRkBqRbBQ7qbJiIbZLE6qWO+3rK4rvz
+ +uIo3p39qe1g7UoeXY/KnUbNK9FyTppG7ttpzVaxFxjFN3nMXSuhU06p2DL/pTh9mykX
+ 9mZ+cT6NlNmMkNYpW1jYqpUvpg8OMzuZrWFEZevGkzxeSl6gd7Aa9KFA5bvS0jcSU5TA
+ CxEBvU+smRdryVMo53B+kbenS38/LUcvBUOKvm9THf0fKPQZpuAmelcQtL51QvYSALoH
+ l79a0l0nCb+vWB+cLMDEUe9bimXnpMF0YL3fYLEp7sYLCpq6e+7D7nNfeyvwsYSdIoiZ
+ SN5w==
+X-Gm-Message-State: AOAM531G1gUSyTGImVC4H/q15vb54vrAoOaZzqJWJO9Zlqw8W0jPwFTs
+ c6oGvSaRrfaa0WpWOwizTJ4maQ==
+X-Google-Smtp-Source: ABdhPJwVdCV5AD4Z+u7gBpaWqE7IWOXSWL9g6blL+q7gbv361u06EloVya4kBLtsdU2l2MWf1Ms9nw==
+X-Received: by 2002:a17:90a:718c:: with SMTP id
+ i12mr7754814pjk.182.1634739249296; 
+ Wed, 20 Oct 2021 07:14:09 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id m22sm2658645pfo.71.2021.10.20.07.14.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 07:10:52 -0700 (PDT)
-Message-ID: <53540c84-a06a-281d-db4a-51affe7a0e0c@redhat.com>
-Date: Wed, 20 Oct 2021 16:10:51 +0200
+ Wed, 20 Oct 2021 07:14:08 -0700 (PDT)
+Subject: Re: [PATCH v3 05/21] target/riscv: separation of bitwise logic and
+ aritmetic helpers
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211019094812.614056-6-frederic.petrot@univ-grenoble-alpes.fr>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <436bec93-eea7-8ce7-e7d2-8a225a49a8c3@linaro.org>
+Date: Wed, 20 Oct 2021 07:14:07 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v4 10/12] virtiofsd: Add inodes_by_handle hash table
-To: Vivek Goyal <vgoyal@redhat.com>
-References: <20210916084045.31684-1-hreitz@redhat.com>
- <20210916084045.31684-11-hreitz@redhat.com> <YW8kbdCeqs11E0Tl@redhat.com>
- <194cd5f5-e5b3-2929-3ae7-ad2fb1083021@redhat.com>
- <YXALvGmoKxXOXMdN@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <YXALvGmoKxXOXMdN@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211019094812.614056-6-frederic.petrot@univ-grenoble-alpes.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.001,
- DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,192 +92,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
+ palmer@dabbelt.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.10.21 14:29, Vivek Goyal wrote:
-> On Wed, Oct 20, 2021 at 12:02:32PM +0200, Hanna Reitz wrote:
->> On 19.10.21 22:02, Vivek Goyal wrote:
->>> On Thu, Sep 16, 2021 at 10:40:43AM +0200, Hanna Reitz wrote:
->>>> Currently, lo_inode.fhandle is always NULL and so always keep an O_PATH
->>>> FD in lo_inode.fd.  Therefore, when the respective inode is unlinked,
->>>> its inode ID will remain in use until we drop our lo_inode (and
->>>> lo_inode_put() thus closes the FD).  Therefore, lo_find() can safely use
->>>> the inode ID as an lo_inode key, because any inode with an inode ID we
->>>> find in lo_data.inodes (on the same filesystem) must be the exact same
->>>> file.
->>>>
->>>> This will change when we start setting lo_inode.fhandle so we do not
->>>> have to keep an O_PATH FD open.  Then, unlinking such an inode will
->>>> immediately remove it, so its ID can then be reused by newly created
->>>> files, even while the lo_inode object is still there[1].
->>>>
->>>> So creating a new file can then reuse the old file's inode ID, and
->>>> looking up the new file would lead to us finding the old file's
->>>> lo_inode, which is not ideal.
->>>>
->>>> Luckily, just as file handles cause this problem, they also solve it:  A
->>>> file handle contains a generation ID, which changes when an inode ID is
->>>> reused, so the new file can be distinguished from the old one.  So all
->>>> we need to do is to add a second map besides lo_data.inodes that maps
->>>> file handles to lo_inodes, namely lo_data.inodes_by_handle.  For
->>>> clarity, lo_data.inodes is renamed to lo_data.inodes_by_ids.
->>>>
->>>> Unfortunately, we cannot rely on being able to generate file handles
->>>> every time.  Therefore, we still enter every lo_inode object into
->>>> inodes_by_ids, but having an entry in inodes_by_handle is optional.  A
->>>> potential inodes_by_handle entry then has precedence, the inodes_by_ids
->>>> entry is just a fallback.
->>>>
->>>> Note that we do not generate lo_fhandle objects yet, and so we also do
->>>> not enter anything into the inodes_by_handle map yet.  Also, all lookups
->>>> skip that map.  We might manually create file handles with some code
->>>> that is immediately removed by the next patch again, but that would
->>>> break the assumption in lo_find() that every lo_inode with a non-NULL
->>>> .fhandle must have an entry in inodes_by_handle and vice versa.  So we
->>>> leave actually using the inodes_by_handle map for the next patch.
->>>>
->>>> [1] If some application in the guest still has the file open, there is
->>>> going to be a corresponding FD mapping in lo_data.fd_map.  In such a
->>>> case, the inode will only go away once every application in the guest
->>>> has closed it.  The problem described only applies to cases where the
->>>> guest does not have the file open, and it is just in the dentry cache,
->>>> basically.
->>>>
->>>> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
->>>> ---
->>>>    tools/virtiofsd/passthrough_ll.c | 81 +++++++++++++++++++++++++-------
->>>>    1 file changed, 65 insertions(+), 16 deletions(-)
->>>>
->>>> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
->>>> index bd8fc922ea..b7d6aa7f9d 100644
->>>> --- a/tools/virtiofsd/passthrough_ll.c
->>>> +++ b/tools/virtiofsd/passthrough_ll.c
->>>> @@ -186,7 +186,8 @@ struct lo_data {
->>>>        int announce_submounts;
->>>>        bool use_statx;
->>>>        struct lo_inode root;
->>>> -    GHashTable *inodes; /* protected by lo->mutex */
->>>> +    GHashTable *inodes_by_ids; /* protected by lo->mutex */
->>>> +    GHashTable *inodes_by_handle; /* protected by lo->mutex */
->>>>        struct lo_map ino_map; /* protected by lo->mutex */
->>>>        struct lo_map dirp_map; /* protected by lo->mutex */
->>>>        struct lo_map fd_map; /* protected by lo->mutex */
->>>> @@ -275,8 +276,9 @@ static struct {
->>>>    /* That we loaded cap-ng in the current thread from the saved */
->>>>    static __thread bool cap_loaded = 0;
->>>> -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
->>>> -                                uint64_t mnt_id);
->>>> +static struct lo_inode *lo_find(struct lo_data *lo,
->>>> +                                const struct lo_fhandle *fhandle,
->>>> +                                struct stat *st, uint64_t mnt_id);
->>>>    static int xattr_map_client(const struct lo_data *lo, const char *client_name,
->>>>                                char **out_name);
->>>> @@ -1143,18 +1145,40 @@ out_err:
->>>>        fuse_reply_err(req, saverr);
->>>>    }
->>>> -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
->>>> -                                uint64_t mnt_id)
->>>> +static struct lo_inode *lo_find(struct lo_data *lo,
->>>> +                                const struct lo_fhandle *fhandle,
->>>> +                                struct stat *st, uint64_t mnt_id)
->>>>    {
->>>> -    struct lo_inode *p;
->>>> -    struct lo_key key = {
->>>> +    struct lo_inode *p = NULL;
->>>> +    struct lo_key ids_key = {
->>>>            .ino = st->st_ino,
->>>>            .dev = st->st_dev,
->>>>            .mnt_id = mnt_id,
->>>>        };
->>>>        pthread_mutex_lock(&lo->mutex);
->>>> -    p = g_hash_table_lookup(lo->inodes, &key);
->>>> +    if (fhandle) {
->>>> +        p = g_hash_table_lookup(lo->inodes_by_handle, fhandle);
->>>> +    }
->>>> +    if (!p) {
->>>> +        p = g_hash_table_lookup(lo->inodes_by_ids, &ids_key);
->>>> +        /*
->>>> +         * When we had to fall back to looking up an inode by its
->>>> +         * inode ID, ensure that we hit an entry that has a valid file
->>>> +         * descriptor.  Having an FD open means that the inode cannot
->>>> +         * really be deleted until the FD is closed, so that the inode
->>>> +         * ID remains valid until we evict our lo_inode.
->>>> +         * With no FD open (and just a file handle), the inode can be
->>>> +         * deleted while we still have our lo_inode, and so the inode
->>>> +         * ID may be reused by a completely different new inode.  We
->>>> +         * then must look up the lo_inode by file handle, because this
->>>> +         * handle contains a generation ID to differentiate between
->>>> +         * the old and the new inode.
->>>> +         */
->>>> +        if (p && p->fd == -1) {
->>>> +            p = NULL;
->>>> +        }
->>> What happens in following scenario.
->>>
->>> - Say I have a hard linked file foo.txt with link foo-link.txt.
->>>
->>> - I lookup foo.txt. We generate file handle and add inode for foo.txt
->>>     to inode cache. lo_inode->fhandle will be valie but lo_inode->fd == -1.
->>>
->>> - Now later lookup for foo-link.txt happens. Say this time we can't
->>>     generate file handle.
->> Which we’ve already decided is practically impossible.
-> Agreed that probably is very less but it can happen when sufficient
-> resources are not available, like -ENOMEM.
->
-> static long do_sys_name_to_handle(struct path *path,
->                                    struct file_handle __user *ufh,
->                                    int __user *mnt_id)
-> {
->          handle = kmalloc(sizeof(struct file_handle) + f_handle.handle_bytes,
->                           GFP_KERNEL);
->          if (!handle)
->                  return -ENOMEM;
-> }
+On 10/19/21 2:47 AM, Frédéric Pétrot wrote:
+> Introduction of a gen_logic function for bitwise logic to implement
+> instructions in which not propagation of information occurs between bits and
+> use of this function on the bitwise instructions.
+> 
+> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
+> ---
+>   target/riscv/translate.c                | 27 +++++++++++++++++++++++++
+>   target/riscv/insn_trans/trans_rvb.c.inc |  6 +++---
+>   target/riscv/insn_trans/trans_rvi.c.inc | 12 +++++------
+>   3 files changed, 36 insertions(+), 9 deletions(-)
+> 
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 121fcd71fe..3c2e9fb790 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -382,6 +382,33 @@ static int ex_rvc_shifti(DisasContext *ctx, int imm)
+>   /* Include the auto-generated decoder for 32 bit insn */
+>   #include "decode-insn32.c.inc"
+>   
+> +static bool gen_logic_imm_fn(DisasContext *ctx, arg_i *a, DisasExtend ext,
+> +                             void (*func)(TCGv, TCGv, target_long))
+> +{
+> +    TCGv dest = dest_gpr(ctx, a->rd);
+> +    TCGv src1 = get_gpr(ctx, a->rs1, ext);
+> +
+> +    func(dest, src1, a->imm);
+> +
+> +    gen_set_gpr(ctx, a->rd, dest);
+> +
+> +    return true;
+> +}
+> +
+> +static bool gen_logic(DisasContext *ctx, arg_r *a, DisasExtend ext,
+> +                      void (*func)(TCGv, TCGv, TCGv))
+> +{
 
-OK, but do we really want to be prepared for an ENOMEM from the kernel?
+I think you should drop the ext argument, which is (by nature of the operations) 
+universally EXT_NONE for all callers.  Otherwise,
 
->>> When we try to lookup inode, lo_find() should
->>>     return NULL. It will find inode by ids but not use it because inode
->>>     was added using file handle and p->fd == -1. That means lookup
->>>     for foo-link.txt will end up adding another inode, when it should
->>>     not have?
->> Yes, it would end up adding another inode, which doesn’t seem catastrophic
->> to me.
->> But again, the whole case seems impossible to me.
-> Given we can get -ENOMEM error it is not impossible.
->
-> I thought all along you wanted to write code so that we could fallback
-> to ids in case of errors.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Well, yes, if possible, but unfortunately it isn’t possible here.
-
-> Anyway, if you agree that except the case of
-> -EOPNOTSUPP, we don't have to worry about fallback, then let us just
-> reutrn error to caller if get_file_handle() fails (except the case
-> of -EOPNOTSUPP).
-
-We’ve had this discussion before, and so I tried that for v3 but 
-abandoned it again because I found it unreasonably complicated. Always 
-falling back is simpler than deciding when to return an error to the 
-guest and when not to; and also, considering errors other than 
-EOPNOTSUPP should be rare, the code that returns errors to the guest 
-would effectively be dead code.
-
-If we really must return an error in the case you describe, then I don’t 
-think there’s a way around it, though...  In virtiofsd-rs, we could let 
-FileHandle::from_name_at() return an io::Result<Option<Self>>, such that 
-it returns Ok(None) in case of EOPNOTSUPP, or an Error in case there is 
-an unexpected error like ENOMEM.  I think that shouldn’t be too bad, but 
-my experience says the devil’s in the details.
-
-It’s just that it seems to be a purely theoretical problem, because if 
-the kernel gives us ENOMEM, we probably won’t live too long anyway.
-
-Hanna
-
+r~
 
