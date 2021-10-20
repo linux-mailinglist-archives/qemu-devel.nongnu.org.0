@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74A143496F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:53:39 +0200 (CEST)
-Received: from localhost ([::1]:53348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B81443497B
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:56:25 +0200 (CEST)
+Received: from localhost ([::1]:58938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md9E3-00007N-1v
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:53:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48408)
+	id 1md9Gi-00042r-92
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:56:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8i0-0004iX-OG
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28674)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8i2-0004mN-2o
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hy-0003aY-S3
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:32 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8i0-0003bL-AL
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634725230;
+ s=mimecast20190719; t=1634725231;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=8WUvKS8fdXJA9x2sA/adDQPr/E4an91R5a8EOdVOfhc=;
- b=Z31Vm85cxNRPHLPShT24YP1PIRHQf6tdPtHdpI0PSj3Auxh8V2odEHbirBhohXS/PX5Nnm
- zW9HK3c0h+K153y05NFovigEgaYIPJ19xIcSwdFazngs+QJL2I8Jpqr3cgJn9t2lEde/vu
- XL1PWd1we4UzYehH0G4mwGQZ5a8Od/Y=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-_Xpn6GiFP6CBHU-jvGrnVw-1; Wed, 20 Oct 2021 06:20:27 -0400
-X-MC-Unique: _Xpn6GiFP6CBHU-jvGrnVw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- v2-20020a50f082000000b003db24e28d59so20507132edl.5
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:20:27 -0700 (PDT)
+ bh=/9dVY/FdYgobEPIXwfeyLGyGilitrT6maCqqauzoxr8=;
+ b=Sw1fwT5mmtS+YlfwyenCI66dDS+qdo1PTvQ1qLBiCsQTDzWASUYkXFSb2YPhulqwYrmx8w
+ urzb75gG0YkDjZbkDgOCBVXlVmOPzQ2LYGJ01+ta7MgVU6Zd0o2Ggks8VkJynDXJ3jUXu3
+ ATAMOIaoNGHLYeEMgzhmuwKOFQYibzM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-502-6QuaIj_2OZauN7-sKlMsUw-1; Wed, 20 Oct 2021 06:20:30 -0400
+X-MC-Unique: 6QuaIj_2OZauN7-sKlMsUw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ u23-20020a50a417000000b003db23c7e5e2so20550287edb.8
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:20:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=8WUvKS8fdXJA9x2sA/adDQPr/E4an91R5a8EOdVOfhc=;
- b=ZabIqBCeeLV6RD/gMdmcXphJ7dH6PVGszZj89hNL1A8xGgqAOs15UdNfkbp1QwZMm5
- CEEmYDdwTkgU012lICamaav0oGVnM9BYtBY4Yd07LzoQrxU8tjzLLWcdHRkGBYw8TGIf
- fDyAFIFQLl+JTsx/GVTBuFCpWp145m3di4jgybnOqaOEo1W9aC6f/uLWzjCi/0wGwOH3
- i/7YRo7HUkj7+n13pwkqEeOLSZ84SQpLRWSjULDdgBX9MBGwr++bG7h71WrfApLJCdxn
- eLWLGb5z/otkW9j7fNVPfLj7Y7W14WJnYvK2Dy8vOUJWF2x8aQJYoYifvBlQbk0GIrv6
- iE/A==
-X-Gm-Message-State: AOAM531uX8pzeABgHV5EX4MhbNWg7T1ZlskR1NDHZpY8aPC2uMsthF0M
- 0E4VtHtEI8vfQTk+YDShrtGWrN1/buqZHam2Q51ipMrFfTeVrIT/Ced6PMVmNoQW6c6jDL2fuud
- 6iy1Bi8t2zA8FH6n4FIKuPvZX9azAn3G8jYu3hXpDc8qNnHYoX2wS7dZZlDzj
-X-Received: by 2002:a50:e60a:: with SMTP id y10mr61655440edm.233.1634725226328; 
- Wed, 20 Oct 2021 03:20:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyxa/kpu0UT7+u4BdJxxMGuLAEw+T0HuE+EVqn0IfquQRqKFCF2ox1HHyrz+KfCjfM34NRygA==
-X-Received: by 2002:a50:e60a:: with SMTP id y10mr61655403edm.233.1634725226031; 
- Wed, 20 Oct 2021 03:20:26 -0700 (PDT)
+ bh=/9dVY/FdYgobEPIXwfeyLGyGilitrT6maCqqauzoxr8=;
+ b=Q7wE62EhjMazXTt6pfFRSoRLiedizBlkQUkeuKkXECK8RVM3ZqXP5TSQGyvYU9hiFp
+ 4CHGyB/s1MC6C9Oovo79cPnn7mfwAmhIKG58o+eaIep2cSH8EvZVqhUGfqyL3aCOHfsu
+ xcV2esK/yPcjjVR3omXEXJnf6PdhDf3J01PYjHCi/cX4OQtDrvp8Tee2qWWgttgNr6e4
+ O/xi8s3b6chFpUsg8QNr0j8fwvICZ7prO5ese+GvGmNntbLo7Cgj5OohM5+nrsGMWShg
+ BgFVm8FaT40h+RMIzduvSNOfQoHJFD51MzTCfS/2DbxvFylh2IMd5w2z09dlaDJHRfGX
+ zotA==
+X-Gm-Message-State: AOAM5333L3knudda+c2oq2va8lnKlsjEOqQEUiyaJRLKJe6Tu3jou2QX
+ rhZnN3zENDrNFm/ony/P1yWyWzQty5Vd+kG9GOdXtImbcfpKKNFDxwxfbagdzdzGrUVDlkikaJc
+ h84hFZG7wl1PQh2RUWFs+qevtMeBBcodpJqbpHjsJD0W29pQ9N/ytVvILDdIF
+X-Received: by 2002:a17:906:34c3:: with SMTP id
+ h3mr46167669ejb.10.1634725229028; 
+ Wed, 20 Oct 2021 03:20:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwahFq2ZHFFXrZFt2R4tFM6Fb3G13eUBeu7Ozi1S5ZfZXybYXUaI5RljNWTN3mGFUzAWIHKVA==
+X-Received: by 2002:a17:906:34c3:: with SMTP id
+ h3mr46167640ejb.10.1634725228796; 
+ Wed, 20 Oct 2021 03:20:28 -0700 (PDT)
 Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id w7sm970886ede.8.2021.10.20.03.20.24
+ by smtp.gmail.com with ESMTPSA id h10sm931715edf.85.2021.10.20.03.20.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 03:20:25 -0700 (PDT)
-Date: Wed, 20 Oct 2021 06:20:23 -0400
+ Wed, 20 Oct 2021 03:20:28 -0700 (PDT)
+Date: Wed, 20 Oct 2021 06:20:26 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 25/44] vhost-user: fix duplicated notifier MR init
-Message-ID: <20211020101844.988480-26-mst@redhat.com>
+Subject: [PULL v2 26/44] failover: fix a regression introduced by
+ JSON'ification of -device
+Message-ID: <20211020101844.988480-27-mst@redhat.com>
 References: <20211020101844.988480-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211020101844.988480-1-mst@redhat.com>
@@ -72,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -93,47 +96,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>,
- Peter Maydell <peter.maydell@linaro.org>, tiwei.bie@intel.com,
- Xueming Li <xuemingl@nvidia.com>, qemu-stable@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ kwolf@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xueming Li <xuemingl@nvidia.com>
+From: Laurent Vivier <lvivier@redhat.com>
 
-In case of device resume after suspend, VQ notifier MR still valid.
-Duplicated registrations explode memory block list and slow down device
-resume.
+The hide_device helper can be called several times for the same
+devices as it shouldn't change any state and should only return an
+information.
 
-Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
-Cc: tiwei.bie@intel.com
-Cc: qemu-stable@nongnu.org
-Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
+But not to rely anymore on QemuOpts we have introduced a new field
+to store the parameters of the device and don't allow to update it
+once it is done.
 
-Signed-off-by: Xueming Li <xuemingl@nvidia.com>
-Message-Id: <20211008080215.590292-1-xuemingl@nvidia.com>
+And as the function is called several times, we ends with:
+
+  warning: Cannot attach more than one primary device to 'virtio0'
+
+That is not only a warning as it prevents to hide the device and breaks
+failover.
+
+Fix that by checking the device id.
+
+Now, we fail only if the virtio-net device is really used by two different
+devices, for instance:
+
+   -device virtio-net-pci,id=virtio0,failover=on,... \
+   -device vfio-pci,id=hostdev0,failover_pair_id=virtio0,... \
+   -device e1000e,id=e1000e0,failover_pair_id=virtio0,... \
+
+will exit with:
+
+  Cannot attach more than one primary device to 'virtio0': 'hostdev0' and 'e1000e0'
+
+Fixes: 259a10dbcb4f ("virtio-net: Store failover primary opts pointer locally")
+Cc: kwolf@redhat.com
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Message-Id: <20211019071532.682717-2-lvivier@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/virtio/vhost-user.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/net/virtio-net.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 2c8556237f..bf6e50223c 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -1526,8 +1526,9 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 09e173a558..83642c85b2 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -3304,15 +3304,27 @@ static bool failover_hide_primary_device(DeviceListener *listener,
+         return false;
+     }
  
-     name = g_strdup_printf("vhost-user/host-notifier@%p mmaps[%d]",
-                            user, queue_idx);
--    memory_region_init_ram_device_ptr(&n->mr, OBJECT(vdev), name,
--                                      page_size, addr);
-+    if (!n->mr.ram) /* Don't init again after suspend. */
-+        memory_region_init_ram_device_ptr(&n->mr, OBJECT(vdev), name,
-+                                          page_size, addr);
-     g_free(name);
++    /*
++     * The hide helper can be called several times for a given device.
++     * Check there is only one primary for a virtio-net device but
++     * don't duplicate the qdict several times if it's called for the same
++     * device.
++     */
+     if (n->primary_opts) {
+-        error_setg(errp, "Cannot attach more than one primary device to '%s'",
+-                   n->netclient_name);
+-        return false;
++        const char *old, *new;
++        /* devices with failover_pair_id always have an id */
++        old = qdict_get_str(n->primary_opts, "id");
++        new = qdict_get_str(device_opts, "id");
++        if (strcmp(old, new) != 0) {
++            error_setg(errp, "Cannot attach more than one primary device to "
++                       "'%s': '%s' and '%s'", n->netclient_name, old, new);
++            return false;
++        }
++    } else {
++        n->primary_opts = qdict_clone_shallow(device_opts);
++        n->primary_opts_from_json = from_json;
+     }
  
-     if (virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, true)) {
+-    n->primary_opts = qdict_clone_shallow(device_opts);
+-    n->primary_opts_from_json = from_json;
+-
+     /* failover_primary_hidden is set during feature negotiation */
+     return qatomic_read(&n->failover_primary_hidden);
+ }
 -- 
 MST
 
