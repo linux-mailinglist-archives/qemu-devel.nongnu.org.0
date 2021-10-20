@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D834353ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 21:39:09 +0200 (CEST)
-Received: from localhost ([::1]:52046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D56B4353BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 21:23:57 +0200 (CEST)
+Received: from localhost ([::1]:34070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdHQa-0005Vi-I8
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 15:39:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60120)
+	id 1mdHBr-0001IN-QT
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 15:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mdGun-0002Wl-JN; Wed, 20 Oct 2021 15:06:17 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:47133)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mdGul-0007Ij-3V; Wed, 20 Oct 2021 15:06:17 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 5C3AB320148A;
- Wed, 20 Oct 2021 15:06:10 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 20 Oct 2021 15:06:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=u9iW6BS5kK/VlZ5YPVe7k7jZgVU
- e+VS4L7D57OsRkTI=; b=h04l50fLZeHMSfJGccCItscZqWzcdbbpQ1LvoJtmuWT
- hGDdjhV9xeEuDK2mPPh2IpIVOxpnTSZ4CpL51Blm0l9MtabYWTluH0qbYZK5f0+N
- XYXVJ3eCamyePM5t1iqzohSkqyA4af2hRCBGrABu0DRqS3DgnA4o6S7cNgZQ/+Ng
- cECF63QSCsBb2jHxPyPdrzexPO2x+6GYSOUPakVc4wqMATP+wrEZakqjFMYTnTTg
- OqanrX8c9s/WS/cX7Uw6P42/DqM4JALq6/OP35U5t7qrST9oNXsj4J3RvUczd6eU
- hIaBT52uWhSxwf6fl2nK5JxMPGU7eB2NeXmFgFZzLIQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=u9iW6B
- S5kK/VlZ5YPVe7k7jZgVUe+VS4L7D57OsRkTI=; b=V/dgwoepNgbpJsDGPfCYYb
- od7xl5I5D85KpLbAu7nKK2Ugvykk0p88b0ZjWNfag5JNu7P8Hwn6TkNUW1DNsUK0
- NTlF7bw40X0wwInn3jH17Vu4g8DEQwp6z3lNaimoQNYM2B8PGjDixV6LYp7PqHPP
- 4QUOn2oEb9HD5lQIymIdZQ/QDlLvlNJrg76qpCvbkjOgoA3LiQNsYCQVoC9xJC8J
- YcstD70TflCucWlSx6Pyrvr0U119GYcamdTXH+XEdh9MD31YBHCoC1knlEXVTqXJ
- uJmDhm5pAvEFpvGlkHR/m5z2GCnzoo/gKKpYQhWs0HPFq6BcE1odYQQ0t3to2KSQ
- ==
-X-ME-Sender: <xms:oWhwYX-8Cu5W0Uj4x-8M6yoAOTZ0Y76P4emZM76KI8emD8nD8UjsJg>
- <xme:oWhwYTt49i7bf8hz0I3BBRIYCTdTiry6E-Q9jM8Zny2g7n0npDBZxcPCcZsUPevqf
- rRfxEhjb1YFDIjBYvE>
-X-ME-Received: <xmr:oWhwYVCLumaEQ-aO0TcAyMUk-HqU4WlsrEcUxYFSt0AFviFdPfhvL1ItzzjMaiuwNlOG2GAW05JgDTB46k_hpcTFd7Un0QT3tPauD0v_Z4SVvl9FbQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvgedguddvkecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:oWhwYTedOmnip-MVXrtOoC-xhD52MBsWqVx0KGM2DH9-JmP2yLtJnQ>
- <xmx:oWhwYcMeLFRt_hi7JomkY8yE4twADG_GBaqjUh7ZsyYbua0yruBGJw>
- <xmx:oWhwYVnnFnFmklGsLXpQ2j14bob8BLz6vrEkBeSLb6jC168ED4s3Uw>
- <xmx:omhwYZoZaAwSG51jV5KGdlvdXeGgDVGhrqbp1K0QPmRDJr0DIGBrKg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 20 Oct 2021 15:06:07 -0400 (EDT)
-Date: Wed, 20 Oct 2021 21:06:06 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-Subject: Re: [PATCH 10/15] hw/nvme: Make max_ioqpairs and msix_qsize
- configurable in runtime
-Message-ID: <YXBonn0gwolecWnp@apples.localdomain>
-References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
- <20211007162406.1920374-11-lukasz.maniak@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mdGvZ-0003KT-0j
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 15:07:05 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:40822)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mdGvW-0001E1-9o
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 15:07:04 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id v20so16800791plo.7
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 12:07:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8T0ASnC2AEKxtoVK4GdyqxCeZjT67QbxnKzeH37StBs=;
+ b=tmpwsPwB61XZ+WEPNKxStCcAlB0/s9U6N95tAqKjtOmV7bxYGoLdlbGqJUYni0MIal
+ +DYIO498sAJsSVDpfOOWFI+qPpzDLtfFwlm7XLFw6LsZhskpaL1B1MPbaZO0rD9u4HEg
+ fm/Rw2Eau5peTO21E3dxNYnaUQqGdqtl0ptm+occ0Z3hYzKMRCRRdYViF3k/LQJLjCBJ
+ L1pdVlh1cxtC3d0AGj7LHwMNJ3ls1Hq8FiUw1v8HV+hg6tld8V/jginK2zKLrOzzpeJ4
+ +VGUIeq9CxrbPEQ/J2Egxh9/eFojraeVon2dZAZ5SCGZRoNy36rKstyKw+xm6sc1NGDo
+ SsSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8T0ASnC2AEKxtoVK4GdyqxCeZjT67QbxnKzeH37StBs=;
+ b=LZSsReD18FbsB4+rp3wiFX8ErET6lApPMT9KR57Ma9HljdpCRhyJ/bn2tGQmvpEBPC
+ 1ATlsqCxjwVprQb/keeQkaYJrTabe3A+MDThbGO39mwuta7+F49hHowFV3gUAoVoIbwH
+ 0KiBLNt7DwRA3JEJJ18KFWhY+zReIWNlmerEV56rq7mXU8sPb2mZ2scwwAsiklQlOI0K
+ jmhjCDZgzXjMRTYg3nIAjyVtQqjct+LRWb6VZH+pNKnHBzETYm5j98z1oRxu2vk4xeA6
+ zdHDOifYwb5r4T22JzSrk3Zp+FAilz6DO9uj1MFi8ETamEWu7m/lezXP/0uaGtIZ1nX5
+ 8flA==
+X-Gm-Message-State: AOAM531yIpfXoXeqaBlYKpj/bPZRG27Y2uGciYQZIrlnVx2S0QiyGTGP
+ zaBxUHwRuvy2WAZtx+995uDs8A==
+X-Google-Smtp-Source: ABdhPJxKPNmDwP9EEFtqx5lF/iFyMuHFvhLJJcaMzk5nL6P8j69dUYSCAKZdD2WAqPRVadD76qiq6A==
+X-Received: by 2002:a17:90a:a08d:: with SMTP id
+ r13mr863635pjp.191.1634756820254; 
+ Wed, 20 Oct 2021 12:07:00 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id o6sm3431327pfp.79.2021.10.20.12.06.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Oct 2021 12:06:59 -0700 (PDT)
+Subject: Re: [PATCH v3 13/21] target/riscv: support for 128-bit shift
+ instructions
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211019094812.614056-14-frederic.petrot@univ-grenoble-alpes.fr>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <63197bd9-52d1-66a1-e056-17d84ba7ec02@linaro.org>
+Date: Wed, 20 Oct 2021 12:06:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pi1+3/3vGe0Pb4Eh"
-Content-Disposition: inline
-In-Reply-To: <20211007162406.1920374-11-lukasz.maniak@linux.intel.com>
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20211019094812.614056-14-frederic.petrot@univ-grenoble-alpes.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,78 +91,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>,
- =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
+ palmer@dabbelt.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/19/21 2:48 AM, Frédéric Pétrot wrote:
+> +    } else {
+> +        TCGv src1l = get_gpr(ctx, a->rs1, ext),
+> +             src1h = get_gprh(ctx, a->rs1),
+> +             destl = tcg_temp_new(),
+> +             desth = tcg_temp_new();
 
---pi1+3/3vGe0Pb4Eh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Don't do this comma, reuse of type and indent thing.
+I know there are several instances.
 
-On Oct  7 18:24, Lukasz Maniak wrote:
-> From: =C5=81ukasz Gieryk <lukasz.gieryk@linux.intel.com>
->=20
-> The Nvme device defines two properties: max_ioqpairs, msix_qsize. Having
-> them as constants is problematic for SR-IOV support.
->=20
-> The SR-IOV feature introduces virtual resources (queues, interrupts)
-> that can be assigned to PF and its dependent VFs. Each device, following
-> a reset, should work with the configured number of queues. A single
-> constant is no longer sufficient to hold the whole state.
->=20
-> This patch tries to solve the problem by introducing additional
-> variables in NvmeCtrl=E2=80=99s state. The variables for, e.g., managing =
-queues
-> are therefore organized as:
->=20
->  - n->params.max_ioqpairs =E2=80=93 no changes, constant set by the user.
->=20
->  - n->max_ioqpairs - (new) value derived from n->params.* in realize();
->                      constant through device=E2=80=99s lifetime.
->=20
->  - n->(mutable_state) =E2=80=93 (not a part of this patch) user-configura=
-ble,
->                         specifies number of queues available _after_
->                         reset.
->=20
->  - n->conf_ioqpairs - (new) used in all the places instead of the =E2=80=
-=98old=E2=80=99
->                       n->params.max_ioqpairs; initialized in realize()
->                       and updated during reset() to reflect user=E2=80=99s
->                       changes to the mutable state.
->=20
-> Since the number of available i/o queues and interrupts can change in
-> runtime, buffers for sq/cqs and the MSIX-related structures are
-> allocated big enough to handle the limits, to completely avoid the
-> complicated reallocation. A helper function (nvme_update_msixcap_ts)
-> updates the corresponding capability register, to signal configuration
-> changes.
->=20
-> Signed-off-by: =C5=81ukasz Gieryk <lukasz.gieryk@linux.intel.com>
+> +        if (max_len < 128) {
+> +            func(destl, src1l, a->shamt);
+> +            gen_set_gpr(ctx, a->rd, destl);
+> +            gen_set_gprh(ctx, a->rd, desth);
 
-Instead of this, how about adding new parameters, say, sriov_vi_private
-and sriov_vq_private. Then, max_ioqpairs and msix_qsize are still the
-"physical" limits and the new parameters just reserve some for the
-primary controller, the rest being available for flexsible resources.
+You hadn't initialized desth.  Again, where gen_set_gpr and gen_set_gpr128 are clearer 
+than this.
 
---pi1+3/3vGe0Pb4Eh
-Content-Type: application/pgp-signature; name="signature.asc"
+>       int olen = get_olen(ctx);
+>       if (olen != TARGET_LONG_BITS) {
+>           if (olen == 32) {
+>               f_tl = f_32;
+> -        } else {
+> +        } else if (olen != 128) {
+>               g_assert_not_reached();
+>           }
+>       }
+> -    return gen_shift_imm_fn(ctx, a, ext, f_tl);
+> +    return gen_shift_imm_fn(ctx, a, ext, f_tl, f_128);
 
------BEGIN PGP SIGNATURE-----
+Surely it would be cleaner to split out f_128 at this point, and not pass along f_128 to 
+gen_shift_imm_fn?
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmFwaJoACgkQTeGvMW1P
-Demp2gf+KPlS6kHj5feM4LTBUfKp3wHVdwRmWeTIf6DjQwCC/A/sibQ52wsD1lxj
-wp9wWHScy6tTVE7vlyc79tOJBDUDlrTO/r46xNbHDfqsiieEg2VYxrJx93slke8z
-YfzuO/19i3Uqeojlw6TMtGLmfy0hDj3RUCXVTtdR110RtSR5eEmrWC57zX4rIiYn
-4r80JM45SAW+DpFIfCSDc0npTLmJkYnufXYEN5883YjXry9HMX2T8FaZqYumKu0F
-4mIpGVK8gx9XYCufdA3eAl1fEhcxsbDdOMxvelqf9FyK/gEbvNadAjCU0dkzu74D
-DgcXR5eJKReuovr07QcE5qbuqiHHsw==
-=w+X1
------END PGP SIGNATURE-----
+>   static bool gen_shift(DisasContext *ctx, arg_r *a, DisasExtend ext,
+> -                      void (*func)(TCGv, TCGv, TCGv))
+> +                      void (*func)(TCGv, TCGv, TCGv),
+> +                      void (*f128)(TCGv, TCGv, TCGv, TCGv, TCGv))
+>   {
+> -    TCGv dest = dest_gpr(ctx, a->rd);
+> -    TCGv src1 = get_gpr(ctx, a->rs1, ext);
+>       TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
+>       TCGv ext2 = tcg_temp_new();
+>   
+>       tcg_gen_andi_tl(ext2, src2, get_olen(ctx) - 1);
+> -    func(dest, src1, ext2);
+>   
+> -    gen_set_gpr(ctx, a->rd, dest);
+> +    if (get_xl_max(ctx) < MXL_RV128) {
+> +        TCGv dest = dest_gpr(ctx, a->rd);
+> +        TCGv src1 = get_gpr(ctx, a->rs1, ext);
+> +        func(dest, src1, ext2);
+> +
+> +        gen_set_gpr(ctx, a->rd, dest);
+> +    } else {
+> +        TCGv src1l = get_gpr(ctx, a->rs1, ext),
+> +             src1h = get_gprh(ctx, a->rs1),
+> +             destl = tcg_temp_new(),
+> +             desth = tcg_temp_new();
 
---pi1+3/3vGe0Pb4Eh--
+Should be dest_gpr*.
+
+> +
+> +        if (get_olen(ctx) < 128) {
+> +            func(destl, src1l, ext2);
+> +            gen_set_gpr(ctx, a->rd, destl);
+> +            gen_set_gprh(ctx, a->rd, desth);
+> +        } else {
+> +            assert(f128 != NULL);
+
+I think you don't want to assert, but just return false.  This will make all of the Zb 
+instructions come out undefined for rv128, which is probably what you want.  You'd want to 
+do that earlier, before all the get_gpr* above.
+
+> @@ -447,9 +486,75 @@ static bool trans_sub(DisasContext *ctx, arg_sub *a)
+>       return gen_arith(ctx, a, EXT_NONE, tcg_gen_sub_tl);
+>   }
+>   
+> +enum M128_DIR {
+> +    M128_LEFT,
+> +    M128_RIGHT,
+> +    M128_RIGHT_ARITH
+> +};
+
+Why "M"?
+
+> +         cnst_zero = tcg_constant_tl(0);
+
+This is ctx->zero.
+
+Lots of instances throughout your patch set
+though this is the first time I noticed.
+
+> +    tcg_gen_setcondi_tl(TCG_COND_GEU, tmp1, arg2, 64);
+
+You should fold this test into the movcond.
+
+> +        tcg_gen_movi_tl(tmp, 64);
+> +        tcg_gen_sub_tl(tmp, tmp, shamt);
+
+tcg_gen_subfi_tl.
+
+The indentation is off in gen_sll_i128.
+
+Hmm.  3 * (and + shift + cmp + cmov) + 2 * (sub + or) = 16 ops.
+Not horrible...
+
+Let's see.
+
+     ls = sh & 63;        1
+     rs = -sh & 63;       3
+     hs = sh & 64;        4
+
+     ll = s1l << ls;      5
+     h0 = s1h << ls;      6
+     lr = s1l >> rs;      7
+     h1 = h0 | lr;        8
+
+     dl = hs ? 0 : ll;    10
+     dh = hs ? ll : h1;   12
+
+That seems right, and would be 4 ops smaller.
+Would need testing of course.
+
+
+r~
 
