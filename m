@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2073434D19
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:08:45 +0200 (CEST)
-Received: from localhost ([::1]:36314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98970434D42
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:16:36 +0200 (CEST)
+Received: from localhost ([::1]:54284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdCGr-0001bm-0h
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:08:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41872)
+	id 1mdCOR-0005EF-4t
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:16:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mdCCV-0004QP-P1
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:04:16 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:53899)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mdCFI-0008Tf-FT
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:07:08 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:48751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mdCCS-0006NL-9q
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:04:14 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mdCFF-0000qx-Dp
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:07:06 -0400
 Received: from [192.168.100.1] ([82.142.24.54]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mzz6m-1msH2U2J6c-00wzzx; Wed, 20 Oct 2021 16:04:08 +0200
-Message-ID: <7d9165eb-1001-6000-779c-a479cbc99279@vivier.eu>
-Date: Wed, 20 Oct 2021 16:04:07 +0200
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1Mr8O8-1n0y1J1PxG-00oIo2; Wed, 20 Oct 2021 16:07:03 +0200
+Message-ID: <08c7efd8-00fc-77b7-2206-d6c1f45abade@vivier.eu>
+Date: Wed, 20 Oct 2021 16:07:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v2 3/8] q800: use GLUE IRQ numbers instead of IRQ level
- for GLUE IRQs
+Subject: Re: [PATCH v2 6/8] q800: route SONIC on-board Ethernet IRQ via nubus
+ IRQ 9 in classic mode
 Content-Language: fr
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 References: <20211020134131.4392-1-mark.cave-ayland@ilande.co.uk>
- <20211020134131.4392-4-mark.cave-ayland@ilande.co.uk>
+ <20211020134131.4392-7-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211020134131.4392-4-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20211020134131.4392-7-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MrQePmFBMIkOdyeqZQ1TsiYCpNEWlNOarxs7eknYmTHMw9wHqCi
- oaQ8Xxrf8MCSNLAMoQUfIjneBl8GOyvc/Ss94+x9q9gDbL8fdWVFjhvXpD6LSUQkrPDSnIr
- uRFnOCxomeYshLessvCXRWQTB41t1dDRcL7NtbO0nCcpe/dA3Va8vaQ3IywTvgAVWpCBF9I
- /4OkiJKnTS7hu807KYOJQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vloBUHLA69o=:yRxEcdkEh2FG/3BiJt1IjH
- IfCViz1+ulJKPsoFDI5wUtz3wspnDLvHHBPmGY+/pW5wVWdXMuR03mjDX8I8TxpZaGaF3BOcq
- 26JQKb/+U54KPvo5McBBXM2DGNqqbMfgSgy2QtNrRlWI+9X3QfvOtaTzqhBXZd8zky96zzsay
- 9dFb+fTwkoYq+wz/eN2nYKBZXsOhQ3C1s+gNfuWgz2qHylI5zAGHfCyahODlvPil8nMtrxbB0
- NHJkdwnRYucvlpdx3jt+PSjNBKVQLZkZXV3nBTPcxVanWI7/hDcv7lT2yCrXFi8utz0JBtwgp
- /FBWwIXrwgJ5kg8rYGyWebqFnIw3P6ihZ5OAC4c5LnKvETTdbchKo4A4R3wbgxKJbNl3Veack
- cvbs0e3aPRS+NrMayUg+M+1SWcOaPsxeJq/2e+JrbIUS4Aoue+Tm5deHAInKEXvXk2kgScdCZ
- PzsBCbe6PrxFPuAOZhq6uu3bBcPzdIEL0nD7lDozTAT2Ud05bg0iciEX26/6oH5zhaQcwC5mt
- iTmd8CxWgRZV2cxm/hi61aij+jJEver3rMCuyXgaVpXFIFbj28kX7fb0pMyLb8XhSCGtP3mqP
- vfDCXxdQO+WMfBTb9pZVGIg3ssBh2DUsOs5wTcxXtFUdL3PbeVSJ5d8QnU656fvepQNoFjd7f
- 3oXohzrrAtXqHqAEGGvwQBG/fXtV3nkP1ECN8sJ4iza4ctQCQErNP/z0TWU3OGluYrGJ4LBTL
- rgi97/5vEDsNNcDekXIc8RhecAAIEy6AtVnykA==
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:DPvvX5TeVirWAD7OFXHWNgzO+A4fKXhmtANnY+q57pEAyKdBHa5
+ i+IBxKxmyJf9U1ffWV3a4D8A+NbU2o07ecqgT0qT0IHnMpa8ehiSrjl3iU73xgSMPVgceMB
+ cnFiNV7f+quH2Ot98M/Nfih83wiG4ARtZc1OWQgMUI02AGrazu3fmciiT+Htvo7ZbX07Xzz
+ 9axp1Wbsy9dPINjjKYd0w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5TbFRl8hBrg=:xBomxIAQms7aj+T/OghNdZ
+ x6TiHlRa+8Vz4q3QRq2ScV5e5faNaXmm3xuH47b992yitEiNzvAajlirLPNd5fkbcQBjAAxFC
+ AYrMuurF/Kr818gXi3HINwei1xiK7dldNU9ao9TnBgNCHCJgNiW6icjGLzB+hwoER/GsDkPCI
+ 0zMbcTkywpeh+BtzwPi5UpPWE0/9YJwyyL+O1OqIwdBFCIjl1YKtM3L5P06BLdMx9+fVXB2eZ
+ 6KBJ6vO0fHlhC90ITnpfgBBAhuq1q0xpuDauPHguyLaMLSri1Fj9R81G7XP29H/i4AEogcCje
+ d2CR7PGUsoC+mqFCCbDRg7Ysj78ajmTFsoNVKpC2hHHw/epHUq3VMUTKj15O8cXlyooodTNnH
+ cV8IXZINN5mItusMDB2HVuYfqnwPMZEOEXRKmaYlt8eeWrcKEY6S/lYVRQduOHgzM8CQYdH9j
+ hIdCRnCZ80sLdufv0YeGnZB0DxaC4cAjkbebFqib/4IOXlygxl8EXgqvKJo+NnG+ujNgCijQr
+ 4lApVrcgFziA3ZCvrPyhmzLP4mcGxAUhgxayzZP9pzsGmNOeBb3wh8T8r3MLU5DIlmjHWgOJe
+ 55OdsGqpG+493DrAiRv14XkXlGCE013QqHrQnao0KDj6OV0ZlbkeVPMfiBZYdkNx2TR8NP3v4
+ 5QHtZXCgCQ3bbc1H4ILwdbQgL9bKJW1PewA7wx7FSokrQ3zNv+lmyRe2hKwgx2O03ThE=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.267,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,91 +74,113 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 20/10/2021 à 15:41, Mark Cave-Ayland a écrit :
-> In order to allow dynamic routing of IRQs to different IRQ levels on the CPU
-> depending upon port B bit 6, use GLUE IRQ numbers and map them to the the
-> corresponding CPU IRQ level accordingly.
+> When the hardware is operating in classic mode the SONIC on-board Ethernet IRQ is
+> routed to nubus IRQ 9 instead of directly to the CPU at level 3. This does not
+> affect the framebuffer which although it exists in slot 9, has its own
+> dedicated IRQ on the Quadra 800 hardware.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->   hw/m68k/q800.c | 32 ++++++++++++++++++++++++++++----
->   1 file changed, 28 insertions(+), 4 deletions(-)
+>   hw/m68k/q800.c | 57 ++++++++++++++++++++++++++++++++++++--------------
+>   1 file changed, 41 insertions(+), 16 deletions(-)
 > 
 > diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-> index 15f3067811..81c335bf16 100644
+> index 0093872d89..7a8de089f4 100644
 > --- a/hw/m68k/q800.c
 > +++ b/hw/m68k/q800.c
-> @@ -102,11 +102,34 @@ struct GLUEState {
+> @@ -101,6 +101,7 @@ struct GLUEState {
+>       M68kCPU *cpu;
 >       uint8_t ipr;
+>       uint8_t auxmode;
+> +    qemu_irq irqs[1];
 >   };
 >   
-> +#define GLUE_IRQ_IN_VIA1       0
-> +#define GLUE_IRQ_IN_VIA2       1
-> +#define GLUE_IRQ_IN_SONIC      2
-> +#define GLUE_IRQ_IN_ESCC       3
+>   #define GLUE_IRQ_IN_VIA1       0
+> @@ -108,27 +109,40 @@ struct GLUEState {
+>   #define GLUE_IRQ_IN_SONIC      2
+>   #define GLUE_IRQ_IN_ESCC       3
+>   
+> +#define GLUE_IRQ_NUBUS_9       0
 > +
 >   static void GLUE_set_irq(void *opaque, int irq, int level)
 >   {
 >       GLUEState *s = opaque;
 >       int i;
 >   
-> +    switch (irq) {
-> +    case GLUE_IRQ_IN_VIA1:
-> +        irq = 5;
-> +        break;
+> -    switch (irq) {
+> -    case GLUE_IRQ_IN_VIA1:
+> -        irq = 5;
+> -        break;
+> -
+> -    case GLUE_IRQ_IN_VIA2:
+> -        irq = 1;
+> -        break;
+> -
+> -    case GLUE_IRQ_IN_SONIC:
+> -        irq = 2;
+> -        break;
+> -
+> -    case GLUE_IRQ_IN_ESCC:
+> -        irq = 3;
+> -        break;
+> +    if (s->auxmode) {
+> +        /* Classic mode */
+> +        switch (irq) {
+> +        case GLUE_IRQ_IN_SONIC:
+> +            /* Route to VIA2 instead */
+> +            qemu_set_irq(s->irqs[GLUE_IRQ_NUBUS_9], level);
+> +            return;
+> +        }
+> +    } else {
+> +        /* A/UX mode */
+> +        switch (irq) {
+> +        case GLUE_IRQ_IN_VIA1:
+> +            irq = 5;
+> +            break;
 > +
-> +    case GLUE_IRQ_IN_VIA2:
-> +        irq = 1;
-> +        break;
+> +        case GLUE_IRQ_IN_VIA2:
+> +            irq = 1;
+> +            break;
 > +
-> +    case GLUE_IRQ_IN_SONIC:
-> +        irq = 2;
-> +        break;
+> +        case GLUE_IRQ_IN_SONIC:
+> +            irq = 2;
+> +            break;
 > +
-> +    case GLUE_IRQ_IN_ESCC:
-> +        irq = 3;
-> +        break;
-> +    }
-> +
+> +        case GLUE_IRQ_IN_ESCC:
+> +            irq = 3;
+> +            break;
+> +        }
+>       }
+>   
 >       if (level) {
->           s->ipr |= 1 << irq;
->       } else {
-> @@ -284,7 +307,7 @@ static void q800_init(MachineState *machine)
->       sysbus = SYS_BUS_DEVICE(via1_dev);
->       sysbus_realize_and_unref(sysbus, &error_fatal);
->       sysbus_mmio_map(sysbus, 1, VIA_BASE);
-> -    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, 5));
-> +    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, GLUE_IRQ_IN_VIA1));
+> @@ -186,9 +200,12 @@ static Property glue_properties[] = {
+>   static void glue_init(Object *obj)
+>   {
+>       DeviceState *dev = DEVICE(obj);
+> +    GLUEState *s = GLUE(dev);
 >   
->       adb_bus = qdev_get_child_bus(via1_dev, "adb.0");
->       dev = qdev_new(TYPE_ADB_KEYBOARD);
-> @@ -297,7 +320,7 @@ static void q800_init(MachineState *machine)
->       sysbus = SYS_BUS_DEVICE(via2_dev);
->       sysbus_realize_and_unref(sysbus, &error_fatal);
->       sysbus_mmio_map(sysbus, 1, VIA_BASE + VIA_SIZE);
-> -    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, 1));
-> +    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, GLUE_IRQ_IN_VIA2));
+>       qdev_init_gpio_in(dev, GLUE_set_irq, 8);
+>       qdev_init_gpio_in_named(dev, glue_auxmode_set_irq, "auxmode", 1);
+> +
+> +    qdev_init_gpio_out(dev, s->irqs, 1);
+>   }
 >   
->       /* MACSONIC */
+>   static void glue_class_init(ObjectClass *klass, void *data)
+> @@ -454,6 +471,14 @@ static void q800_init(MachineState *machine)
+>                                                        VIA2_NUBUS_IRQ_9 + i));
+>       }
 >   
-> @@ -330,7 +353,7 @@ static void q800_init(MachineState *machine)
->       sysbus = SYS_BUS_DEVICE(dev);
->       sysbus_realize_and_unref(sysbus, &error_fatal);
->       sysbus_mmio_map(sysbus, 0, SONIC_BASE);
-> -    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, 2));
-> +    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, GLUE_IRQ_IN_SONIC));
+> +    /*
+> +     * Since the framebuffer in slot 0x9 uses a separate IRQ, wire the unused
+> +     * IRQ via GLUE for use by SONIC Ethernet in classic mode
+> +     */
+> +    qdev_connect_gpio_out(glue, GLUE_IRQ_NUBUS_9,
+> +                          qdev_get_gpio_in_named(via2_dev, "nubus-irq",
+> +                                                 VIA2_NUBUS_IRQ_9));
+> +
+>       nubus = &NUBUS_BRIDGE(dev)->bus;
 >   
->       memory_region_init_rom(dp8393x_prom, NULL, "dp8393x-q800.prom",
->                              SONIC_PROM_SIZE, &error_fatal);
-> @@ -366,7 +389,8 @@ static void q800_init(MachineState *machine)
->       qdev_realize_and_unref(escc_orgate, NULL, &error_fatal);
->       sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(escc_orgate, 0));
->       sysbus_connect_irq(sysbus, 1, qdev_get_gpio_in(escc_orgate, 1));
-> -    qdev_connect_gpio_out(DEVICE(escc_orgate), 0, qdev_get_gpio_in(glue, 3));
-> +    qdev_connect_gpio_out(DEVICE(escc_orgate), 0,
-> +                          qdev_get_gpio_in(glue, GLUE_IRQ_IN_ESCC));
->       sysbus_mmio_map(sysbus, 0, SCC_BASE);
->   
->       /* SCSI */
+>       /* framebuffer in nubus slot #9 */
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
