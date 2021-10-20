@@ -2,88 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88DBD4349C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:07:24 +0200 (CEST)
-Received: from localhost ([::1]:48652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5264349DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:13:00 +0200 (CEST)
+Received: from localhost ([::1]:35800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md9RK-0000LR-3o
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:07:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48746)
+	id 1md9Wl-00031Z-I8
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:12:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8iq-0005gv-O0
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:21:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48876)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1md8j6-0006JZ-Gx
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:21:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8io-0004KG-FD
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:21:24 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1md8j4-0004Yr-O5
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:21:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634725281;
+ s=mimecast20190719; t=1634725297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8YzxcP6eWW0MzKgpH9P2B9MCLwBZUNGvG/OLjjN9aos=;
- b=AmFucOp9PEH2F7NIQ64s3zn7PQ9lbcYj6CQZ3RxyzBiGiBT4sRiEQv4K8+8g2Flqi41gXP
- gDaOnAh+CSa6YolN7OtDEe4ct3SaWN3KnJhDGNa2trsAgGa/r08kM7AYcakbDkV15g4n6t
- ma6ehDjDf/7FkAV12LdkuNeMZz2osU8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-TQFVjRfeNU-Bre0YfLPKNA-1; Wed, 20 Oct 2021 06:21:20 -0400
-X-MC-Unique: TQFVjRfeNU-Bre0YfLPKNA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- r25-20020a05640216d900b003dca3501ab4so4078888edx.15
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:21:20 -0700 (PDT)
+ bh=0INw4569ZAeS+8ZketPmsMjEJrarPHE1e3gy36H82SE=;
+ b=OxTI+MSANHkfusWptl7QYctxdxSndeVk98am1kT+91CHhoJftb5bc0dXcp/MzUtiUXTJQf
+ xnlZg00oXH72H5rlU1V4klvktpVzu19avgPLESJVW7J/HASE+sLpdWMs5eXAZ98c4w4uW3
+ /DcvxR+A2uwxRbzGkKjyA98Vsfx51tk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-70-rupUohxHNiu2EpDhNaOFcw-1; Wed, 20 Oct 2021 06:21:33 -0400
+X-MC-Unique: rupUohxHNiu2EpDhNaOFcw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ b131-20020a1c1b89000000b0030d95485d90so82119wmb.2
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:21:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=8YzxcP6eWW0MzKgpH9P2B9MCLwBZUNGvG/OLjjN9aos=;
- b=oyMhcfYHg2FYP7MHpfCHLkydfVtpDb3YMF2KaDxl7tAVJ/ujsCQU1ddDfUW3aEyZFp
- OcinFHW1e4H/1Ui62yBE63h2Prm++ZmjMbwM8TiIRUmwhDh6qiSBgf09MDAO6dPeCT+i
- qB/y0z5KqD36aWpOu8+moT6sbejKfG1b+Lpo5tsPX10vRT8052ZhTsL+fjxY35k1ngZ7
- mWK9wvYWBOpjnmubKO0674oPzpoJ2RhZwal/ZxPNQrTK9KzwRQqetluXM/HocY4H6+So
- E830XJTKwFYnhiUertrzAQ0WTDMAsIZAzRu1F3RTP8DSs13DgTVxSF5U3pXmQo/Ob7oL
- M35A==
-X-Gm-Message-State: AOAM531tY3pLhUeSgOP0kVgm7DqGTl7yWfwl2QCrdV1gg4QD5MgvTAwU
- D0hjNLd3SmBn42MdFQHb6iFsXgqm8auZ+aa12nVZtx6iejfKn7E1AwiexWjguZCNP6HzbHX2UFB
- GsNtdYpzhDfc+bey28imJDAgpM6+qYy+M+DfwOi+OIXlVC1sqCFZ7vyuc1LbM
-X-Received: by 2002:a05:6402:5252:: with SMTP id
- t18mr59522802edd.129.1634725278910; 
- Wed, 20 Oct 2021 03:21:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2JRXe5k6x1Lwo4oBTgNURb5H8LguWcQGz6loN/Pwg5M49A1Dl3gvued+bXHVRakxLKqlZAw==
-X-Received: by 2002:a05:6402:5252:: with SMTP id
- t18mr59522774edd.129.1634725278610; 
- Wed, 20 Oct 2021 03:21:18 -0700 (PDT)
-Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id y22sm1000567edc.76.2021.10.20.03.21.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 03:21:18 -0700 (PDT)
-Date: Wed, 20 Oct 2021 06:21:16 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 44/44] tests/acpi/bios-tables-test: update DSDT blob for
- multifunction bridge test
-Message-ID: <20211020101844.988480-45-mst@redhat.com>
-References: <20211020101844.988480-1-mst@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0INw4569ZAeS+8ZketPmsMjEJrarPHE1e3gy36H82SE=;
+ b=xSneUnA9Spekwz/vXAFUY20mSRCW7oJ6u54YlGT8v5IBydZaT58jlhe1EK9K47fGqX
+ TxEeAJdYjV3bojBBfvqeoPxxeXflm3SGBD+Cly61AG14zD9Fv7RKbXj2WhHlUYR000cO
+ 9OMN/82f/lZMScmGwsv8aNadxoqkrjh6rn+k68bl0ORhOAepJVT3oTfVE6zrpdGET3+W
+ aucyVIp1zlzQTGMcGY+b4EPBwD1C76C/bID+5c9Row4QmuYoeWucFD1gdpzfKnz9VlPS
+ 5LnKEPVib621yu5GpZDSbXFwWEYVJGzB7wfKk+7/lW4Vyq80U/UMbgzD4RSyiLkl/u0Q
+ +igg==
+X-Gm-Message-State: AOAM532FTfRc/FSfTrgdMZXkN8PzAmY7smNXDQ0FhBFEMplsNfnhIefW
+ oj5wcrr9Risufp9eerbv+8MWTeRdeAxv61Tw/uiTC1bft9/aFj90Ll0WvuLWihBNl/gtJqngAPG
+ 86dft6W8cd+KD2Xc=
+X-Received: by 2002:adf:97cc:: with SMTP id t12mr50340962wrb.189.1634725291188; 
+ Wed, 20 Oct 2021 03:21:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw1rb7mPPaLWDUF91/SOF9RQBt1e+uSMBZo5fTgPZaKwIbrDmGIKahKk0vytOpVzGuS7r9n8A==
+X-Received: by 2002:adf:97cc:: with SMTP id t12mr50340917wrb.189.1634725290897; 
+ Wed, 20 Oct 2021 03:21:30 -0700 (PDT)
+Received: from [192.168.1.36] (33.red-81-36-146.dynamicip.rima-tde.net.
+ [81.36.146.33])
+ by smtp.gmail.com with ESMTPSA id r27sm1517824wrr.70.2021.10.20.03.21.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Oct 2021 03:21:30 -0700 (PDT)
+Message-ID: <75686a5d-63da-fda7-8dab-7e0f190b6282@redhat.com>
+Date: Wed, 20 Oct 2021 12:21:29 +0200
 MIME-Version: 1.0
-In-Reply-To: <20211020101844.988480-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: Deprecate the ppc405 boards in QEMU?
+To: Thomas Huth <thuth@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>
+References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
+ <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
+ <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
+ <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
+ <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
+ <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
+ <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
+ <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
+ <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
+ <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com> <YWQB1FMhQfmqRYxN@yekko>
+ <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
+ <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
+ <8c382ce4-f706-376c-289a-b8c64393decb@redhat.com>
+ <880f4bde-19fc-1267-3a04-3d9efd660897@csgroup.eu>
+ <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
+ <be7a734a-b88b-3130-fee8-398387fb65b4@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <be7a734a-b88b-3130-fee8-398387fb65b4@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.074, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,251 +113,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, dbarboza@redhat.com,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ani Sinha <ani@anisinha.ca>
+On 10/19/21 13:11, Thomas Huth wrote:
+> On 19/10/2021 12.07, BALATON Zoltan wrote:
+>> On Tue, 19 Oct 2021, Christophe Leroy wrote:
+>>> Le 19/10/2021 à 11:39, Thomas Huth a écrit :
+>>>> On 19/10/2021 11.31, Christophe Leroy wrote:
+>>>>> Le 11/10/2021 à 15:24, Thomas Huth a écrit :
+>>>>>> On 11/10/2021 11.20, David Gibson wrote:
+>>>>>>> On Mon, Oct 11, 2021 at 10:10:36AM +0200, Thomas Huth wrote:
+>>>>>>>> On 06/10/2021 09.25, Thomas Huth wrote:
+>>>>>>>>> On 05/10/2021 23.53, BALATON Zoltan wrote:
+>>>>>>>>> [...]
+>>>>>>>>>> Maybe these 405 boards in QEMU ran with modified firmware
+>>>>>>>>>> where the
+>>>>>>>>>> memory detection was patched out but it seems to detect the
+>>>>>>>>>> RAM so I
+>>>>>>>>>> wonder where it gets that from. Maybe by reading the SDRAM
+>>>>>>>>>> controller DCRs ppc4xx_sdram_init() sets up. Then I'm not sure
+>>>>>>>>>> what
+>>>>>>>>>> it needs the SPD for, I forgot how this worked on sam460ex. Maybe
+>>>>>>>>>> for the speed calibration, so could be it detects ram by reading
+>>>>>>>>>> DCRs then tries to get SPD data and that's where it stops as
+>>>>>>>>>> i2c is
+>>>>>>>>>> not emulated on taihu. This could be confirmed by checking
+>>>>>>>>>> what it
+>>>>>>>>>> pokes with -d guest_errors that shows accesses to missing devices
+>>>>>>>>>> but don't know where 405 has the i2c controller and if it's
+>>>>>>>>>> the same
+>>>>>>>>>> as newer SoCs. If so that could be reused and an i2c bus could be
+>>>>>>>>>> added with the SPD data like in sam460ex to make u-boot happy
+>>>>>>>>>> or you
+>>>>>>>>>> could skip this in u-boot.
+>>>>>>>>>
+>>>>>>>>> FWIW, I've just tried the latter (skipping the sdram init in
+>>>>>>>>> u-boot),
+>>>>>>>>> and indeed, I can get to the u-boot prompt now.
+>>>>>>>> [...]> I've also attached the patch with my modifications to
+>>>>>>>> u-boot.
+>>>>>>>>
+>>>>>>>> FYI, the changes can now be found on this branch here:
+>>>>>>>>
+>>>>>>>>   https://gitlab.com/huth/u-boot/-/commits/taihu
+>>>>>>>>
+>>>>>>>> I also added a gitlab-CI file, so you can now download the
+>>>>>>>> u-boot.bin as an
+>>>>>>>> artifact from the corresponding pipeline, e.g.:
+>>>>>>>>
+>>>>>>>>   https://gitlab.com/huth/u-boot/-/jobs/1667201028
+>>>>>>>
+>>>>>>> Thanks.
+>>>>>>>
+>>>>>>> Are you going to send a v2 of your proposed deprecation patches?
+>>>>>>
+>>>>>> No, since there was interest in keeping the 405 boards for testing
+>>>>>> the 405 code in the Linux kernel, and since there is now a way to
+>>>>>> do at least some very basic testing of these boards (with the
+>>>>>> u-boot firmware), I don't plan to respin the deprecation patch. I
+>>>>>> just sent a patch for adding the boards to our CI instead:
+>>>>>>
+>>>>>>   https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg02072.html
+>>>>>>
+>>>>>
+>>>>> I have downloaded your u-boot.bin and tried it with both QEMU 5.2.0
+>>>>> and mainline, and I get:
+>>>>>
+>>>>> ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt:
+>>>>> assertion failed: (qemu_mutex_iothread_locked())
+>>>>> Bail out!
+>>>>> ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt:
+>>>>> assertion failed: (qemu_mutex_iothread_locked())
+>>>>> Abandon (core dumped)
+>>>>>
+>>>>> I see in the mail history that you got that problem as well at some
+>>>>> point. How did you fix it ?
+>>>>
+>>>> You need this patch here to fix this issue:
+>>>>
+>>>>   https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg01019.html
+>>>>   ("hw/ppc: Fix iothread locking in the 405 code")
+>>>>
+>>>
+>>> Thank you.
+>>>
+>>> Is there anything special to do then in order to boot a Linux kernel ?
+>>>
+>>> I build the uImage for ppc40x_defconfig
+>>>
+>>> I use the following command, but it does nothing, it stays in uboot
+>>> prompt as when I don't get a kernel argument
+>>>
+>>>     ~/qemu/build/qemu-system-ppc -M taihu -bios
+>>> ~/Téléchargements/u-boot.bin -serial null -serial mon:stdio -kernel
+>>> arch/powerpc/boot/uImage
+>>
+>> I'm not sure using -bios and -kernel together makes sense, it probably
+>> starts u-boot in this case and you have to load and start the kernel
+>> from u-boot as you'd notmally do on a real machine. Alternatively you
+>> could use -kernel instead of -bios which then loads a kernel and
+>> starts it directly but not sure if it needs a firmware to work.
+>>
+>> Ot I could be completely wrong as I don't know this machine and
+>> haven't tried it.
+> 
+> Actually, these 405 machines are quite weird. They refuse to boot
+> without bios image, so you currently need the firmware image for sure.
 
-We added a new unit test for testing acpi hotplug on multifunction bridges in
-q35 machines. Here, we update the DSDT table gloden master blob for this unit
-test.
+When using -kernel/-append, if a BIOS is required by the kernel,
+then it should be crafted by the machine IMO. Usually OS only
+access a configuration area in PROM. The PROM must be mapped,
+and the minimum configuration structure filled.
 
-The test adds the following devices to qemu and then checks the changes
-introduced in the DSDT table due to the addition of the following devices:
-
-(a) a multifunction bridge device
-(b) a bridge device with function 1
-(c) a non-bridge device with function 2
-
-In the DSDT table, we should see AML hotplug descriptions for (a) and (b).
-For (a) we should find a hotplug AML description for function 0.
-
-Following is the ASL diff between the original DSDT table and the modified DSDT
-table due to the unit test. We see that multifunction bridge on bus 2 and single
-function bridge on bus 3 function 1 are described, not the non-bridge balloon
-device on bus 4, function 2.
-
-@@ -1,30 +1,30 @@
- /*
-  * Intel ACPI Component Architecture
-  * AML/ASL+ Disassembler version 20190509 (64-bit version)
-  * Copyright (c) 2000 - 2019 Intel Corporation
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/q35/DSDT, Thu Oct  7 18:29:19 2021
-+ * Disassembly of /tmp/aml-C7JCA1, Thu Oct  7 18:29:19 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x00002061 (8289)
-+ *     Length           0x00002187 (8583)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0xF9
-+ *     Checksum         0x8D
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
- DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\)
-     {
-         OperationRegion (DBG, SystemIO, 0x0402, One)
-         Field (DBG, ByteAcc, NoLock, Preserve)
-         {
-             DBGB,   8
-         }
-
-@@ -3265,23 +3265,95 @@
-                 Method (_S1D, 0, NotSerialized)  // _S1D: S1 Device State
-                 {
-                     Return (Zero)
-                 }
-
-                 Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
-                 {
-                     Return (Zero)
-                 }
-
-                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
-                 {
-                     Return (Zero)
-                 }
-             }
-
-+            Device (S10)
-+            {
-+                Name (_ADR, 0x00020000)  // _ADR: Address
-+                Name (BSEL, One)
-+                Device (S00)
-+                {
-+                    Name (_SUN, Zero)  // _SUN: Slot User Number
-+                    Name (_ADR, Zero)  // _ADR: Address
-+                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
-+                    {
-+                        PCEJ (BSEL, _SUN)
-+                    }
-+
-+                    Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-+                    {
-+                        Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
-+                    }
-+                }
-+
-+                Method (DVNT, 2, NotSerialized)
-+                {
-+                    If ((Arg0 & One))
-+                    {
-+                        Notify (S00, Arg1)
-+                    }
-+                }
-+
-+                Method (PCNT, 0, NotSerialized)
-+                {
-+                    BNUM = One
-+                    DVNT (PCIU, One)
-+                    DVNT (PCID, 0x03)
-+                }
-+            }
-+
-+            Device (S19)
-+            {
-+                Name (_ADR, 0x00030001)  // _ADR: Address
-+                Name (BSEL, Zero)
-+                Device (S00)
-+                {
-+                    Name (_SUN, Zero)  // _SUN: Slot User Number
-+                    Name (_ADR, Zero)  // _ADR: Address
-+                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
-+                    {
-+                        PCEJ (BSEL, _SUN)
-+                    }
-+
-+                    Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-+                    {
-+                        Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
-+                    }
-+                }
-+
-+                Method (DVNT, 2, NotSerialized)
-+                {
-+                    If ((Arg0 & One))
-+                    {
-+                        Notify (S00, Arg1)
-+                    }
-+                }
-+
-+                Method (PCNT, 0, NotSerialized)
-+                {
-+                    BNUM = Zero
-+                    DVNT (PCIU, One)
-+                    DVNT (PCID, 0x03)
-+                }
-+            }
-+
-             Method (PCNT, 0, NotSerialized)
-             {
-+                ^S19.PCNT ()
-+                ^S10.PCNT ()
-             }
-         }
-     }
- }
-
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Message-Id: <20211007135750.1277213-4-ani@anisinha.ca>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
----
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- tests/data/acpi/q35/DSDT.multi-bridge       | Bin 0 -> 8583 bytes
- 2 files changed, 1 deletion(-)
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dabc024f53..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/DSDT.multi-bridge",
-diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..a24c713d22102a1a1583b5c902edffe1694e5cfe 100644
-GIT binary patch
-literal 8583
-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
-P)}F_He7!|yIezv(me~h+
-
-literal 0
-HcmV?d00001
-
--- 
-MST
+Anyhow I find -bios confusing, I never know if this option parse
+or expects a full/partial raw flash image, an ELF image, something
+else...
 
 
