@@ -2,53 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A944345A0
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 09:01:16 +0200 (CEST)
-Received: from localhost ([::1]:36792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8664345A8
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 09:03:19 +0200 (CEST)
+Received: from localhost ([::1]:40952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md5b8-0001yo-KL
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 03:01:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51582)
+	id 1md5d8-0004tK-Hk
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 03:03:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-louis@dupond.be>)
- id 1md5Yo-0000nm-QM
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 02:58:50 -0400
-Received: from apollo.dupie.be ([51.159.20.238]:58738)
+ id 1md5aV-0002RN-LL
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 03:00:35 -0400
+Received: from apollo.dupie.be ([51.159.20.238]:58916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-louis@dupond.be>)
- id 1md5Yl-0006MC-NM
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 02:58:49 -0400
+ id 1md5aQ-0000De-47
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 03:00:35 -0400
 Received: from [IPV6:2a02:a03f:fa8f:3301:eba1:a8ad:64a3:d6c8] (unknown
  [IPv6:2a02:a03f:fa8f:3301:eba1:a8ad:64a3:d6c8])
- by apollo.dupie.be (Postfix) with ESMTPSA id 2A2581520E03;
- Wed, 20 Oct 2021 08:58:41 +0200 (CEST)
+ by apollo.dupie.be (Postfix) with ESMTPSA id 1488B1520E03;
+ Wed, 20 Oct 2021 09:00:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dupond.be; s=dkim;
- t=1634713121;
+ t=1634713227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rmtMmWP9EsaALzd32z6+r80g7N6w7bS5vG6saW5PGXE=;
- b=TMnzpUHy159BRbshUgInqKE/5dFjd/SMKdiECrsI5rja5trDHAJo1nnNhjnXj2nIK/1Skd
- YJfUGS7J3BCoMKPNnvMmpaphHPcQAA7kJ+HmK+vbnfJCMhdkBTrlIA6RyUAjrhy22i7wE4
- spbEVp/EIOLnfMxDOuzrcBovbzRy4Ryi8g1ugXYBMEg6glUKnscoe+7xo9WoZf0rGOwGQY
- ZnqGft3OUz6u53CXj79BSZB1f9g07KqGPWdFobVSCRPSntCrGyu3P/uwTPBugw/zX7FuEI
- yKW2YDZJdZ352IOqmgEes35pxZ1l0hnTptCO6E2kaNISiIZ2/hm4uOkNS4A3Kg==
-Message-ID: <5031fd16-72ed-75d4-4b4d-7e434e6c9cc0@dupond.be>
-Date: Wed, 20 Oct 2021 08:58:40 +0200
+ bh=TgOnuJ2+GY05PVffN8yynHDCfrSdGKgvDipAtFKwfMU=;
+ b=HD+ZJXSlfGlHSX4S5RSaS4x/kd/0UKCupycmQZDHrb/apaTeU8yw3plnaPMpPaW6cLpjSq
+ MqM2lDfBiWR1StM4u8ZyF0VJ+EzWdqHSrli2MiKFxqH9+21v8QpN7Ehi7m2tlakId3jMGd
+ 5i5Gd6egvaV5Pib9kqOC1SDkLNlr9s5htdh8do+KYSEWNJjrZqUbYR2duJnOh31cD7DQMX
+ jLBM0J27au/d5cjZ9Jb9h4rDYhbCsBeF+3ZpuEOJt9CljLsPuZT0i7UYoMhvo0u9ExWgSD
+ anQiPyvWQUZmsDV7dw9fmMRFHuxOBzFjyd3P5dKEvY5vBxSZDTvgp2jituQBvA==
+Message-ID: <fd5d8692-c2c7-4bf1-40e1-d0b6d6704537@dupond.be>
+Date: Wed, 20 Oct 2021 09:00:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
 Subject: Re: [PATCH] hw/qdev-core: Add compatibility for (non)-transitional
  devs
 Content-Language: nl-BE
-To: Eduardo Habkost <ehabkost@redhat.com>
-Cc: qemu-devel@nongnu.org
+To: Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, berrange@redhat.com, jasowang@redhat.com
 References: <20211012082428.16222-1-jean-louis@dupond.be>
- <20211019152733.mjiucqhu2vyuofpb@habkost.net>
+ <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
+ <YW6h+YcNEgyzh5zw@stefanha-x1.localdomain>
+ <20211019065850-mutt-send-email-mst@kernel.org>
+ <20211019152913.wjipmv6trjx6k7xa@habkost.net>
+ <20211019120619-mutt-send-email-mst@kernel.org>
+ <20211019165611.scfagcp4ikhigx5k@habkost.net>
 From: Jean-Louis Dupond <jean-louis@dupond.be>
-In-Reply-To: <20211019152733.mjiucqhu2vyuofpb@habkost.net>
+In-Reply-To: <20211019165611.scfagcp4ikhigx5k@habkost.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=51.159.20.238; envelope-from=jean-louis@dupond.be;
@@ -74,86 +81,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/10/2021 17:27, Eduardo Habkost wrote:
-> On Tue, Oct 12, 2021 at 10:24:28AM +0200, Jean-Louis Dupond wrote:
->> hw_compat modes only take into account their base name.
-> What do you mean by "base name"?
-virtio-net-pci (without the (non-)transitional extension.
->> But if a device is created with (non)-transitional, then the compat
->> values are not used, causing migrating issues.
+On 19/10/2021 18:56, Eduardo Habkost wrote:
+> On Tue, Oct 19, 2021 at 12:13:17PM -0400, Michael S. Tsirkin wrote:
+>> On Tue, Oct 19, 2021 at 11:29:13AM -0400, Eduardo Habkost wrote:
+>>> On Tue, Oct 19, 2021 at 06:59:09AM -0400, Michael S. Tsirkin wrote:
+>>>> On Tue, Oct 19, 2021 at 11:46:17AM +0100, Stefan Hajnoczi wrote:
+>>>>> On Tue, Oct 12, 2021 at 10:36:01AM +0200, Jean-Louis Dupond wrote:
+>>>>>> Forgot to CC maintainers.
+>>>>> Also CCing Jason Wang and Michael Tsirkin for VIRTIO.
+>>>>>
+>>>>> Stefan
+>>>> OMG
+>>>> where all compat properties broken all the time?
+>>> Compat properties that existed when commit f6e501a28ef9 ("virtio:
+>>> Provide version-specific variants of virtio PCI devices") was
+>>> merged are not broken, because virtio-*-transitional and
+>>> virtio-*-non-transitional were brand new QOM types (so there's no
+>>> compatibility to be kept with old QEMU versions).
+>>>
+>>> Compat properties referencing "virtio-*-pci" instead of
+>>> "virtio-*-pci-base" added after commit f6e501a28ef9 are probably
+>>> broken, yes.
+>>>
+>>> -- 
+>>> Eduardo
+>> Oh. So just this one:
+>>      { "virtio-net-pci", "vectors", "3"},
 >>
->> This commit adds their (non)-transitional entries with the same settings
->> as the base entry.
+>> right?
+> I think so.  That's the only post-4.0 virtio-*-pci compat property I see in
+> hw/core/machine.c.
 >
-> Wouldn't it be easier to fix the incorrect compat_props arrays to
-> use "virtio-*-pci-base" instead?
+> pc.c doesn't have any post-4.0 virtio-*-pci compat props.  I didn't see any
+> virtio compat props on spapr.c and s390-virtio-ccw.c.
 >
-> If a piece of code is supposed to affect/support both
-> non-transitional and transitional subclasses, that's why
-> VirtioPCIDeviceTypeInfo.base_name exists.
+>> about the patch: how do people feel about virtio specific
+>> stuff in qdev core? Ok by everyone?
+> Not OK, if we have a mechanism to avoid that, already (the
+> "virtio-net-pci-base" type name).  I wonder what we can do to
+> make this kind of mistake less likely, though.
 >
-Thats easier indeed :)
->> Fixes https://bugzilla.redhat.com/show_bug.cgi?id=1999141
->>
->> Signed-off-by: Jean-Louis Dupond <jean-louis@dupond.be>
->> ---
->>   include/hw/qdev-core.h | 34 ++++++++++++++++++++++++++++++++++
->>   1 file changed, 34 insertions(+)
->>
->> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
->> index 4ff19c714b..5726825c2d 100644
->> --- a/include/hw/qdev-core.h
->> +++ b/include/hw/qdev-core.h
->> @@ -293,6 +293,30 @@ typedef struct GlobalProperty {
->>       bool optional;
->>   } GlobalProperty;
->>   
->> +
->> +/**
->> + * Helper to add (non)transitional compat properties
->> + */
->> +static inline void
->> +compat_props_add_transitional(GPtrArray *arr, GlobalProperty *prop)
->> +{
->> +    GlobalProperty *transitional = g_new0(typeof(*transitional), 1);
->> +    transitional->driver = g_strdup_printf("%s-transitional", prop->driver);
->> +    transitional->property = g_strdup(prop->property);
->> +    transitional->value = g_strdup(prop->value);
->> +    transitional->used = prop->used;
->> +    transitional->optional = prop->optional;
->> +    g_ptr_array_add(arr, (void *)transitional);
->> +
->> +    GlobalProperty *non_transitional = g_new0(typeof(*non_transitional), 1);
->> +    non_transitional->driver = g_strdup_printf("%s-non-transitional", prop->driver);
->> +    non_transitional->property = g_strdup(prop->property);
->> +    non_transitional->value = g_strdup(prop->value);
->> +    non_transitional->used = prop->used;
->> +    non_transitional->optional = prop->optional;
->> +    g_ptr_array_add(arr, (void *)non_transitional);
->> +}
->> +
->>   static inline void
->>   compat_props_add(GPtrArray *arr,
->>                    GlobalProperty props[], size_t nelem)
->> @@ -300,6 +324,16 @@ compat_props_add(GPtrArray *arr,
->>       int i;
->>       for (i = 0; i < nelem; i++) {
->>           g_ptr_array_add(arr, (void *)&props[i]);
->> +        if (g_str_equal(props[i].driver, "vhost-user-blk-pci") ||
->> +            g_str_equal(props[i].driver, "virtio-scsi-pci") ||
->> +            g_str_equal(props[i].driver, "virtio-blk-pci") ||
->> +            g_str_equal(props[i].driver, "virtio-balloon-pci") ||
->> +            g_str_equal(props[i].driver, "virtio-serial-pci") ||
->> +            g_str_equal(props[i].driver, "virtio-9p-pci") ||
->> +            g_str_equal(props[i].driver, "virtio-net-pci") ||
->> +            g_str_equal(props[i].driver, "virtio-rng-pci")) {
->> +            compat_props_add_transitional(arr, &props[i]);
->> +        }
->>       }
->>   }
->>   
->> -- 
->> 2.33.0
->>
->>
+> Jean-Louis, Jason, does the following fix work?
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index b8d95eec32d..bd9c6156c1a 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -56,7 +56,7 @@ GlobalProperty hw_compat_5_2[] = {
+>       { "ICH9-LPC", "smm-compat", "on"},
+>       { "PIIX4_PM", "smm-compat", "on"},
+>       { "virtio-blk-device", "report-discard-granularity", "off" },
+> -    { "virtio-net-pci", "vectors", "3"},
+> +    { "virtio-net-pci-base", "vectors", "3"},
+>   };
+>   const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+>   
+That patch fixes it indeed!
+
+Acked-by: Jean-Louis Dupond <jean-louis@dupond.be>
 
