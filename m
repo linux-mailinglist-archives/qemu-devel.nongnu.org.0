@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0631043495D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:51:22 +0200 (CEST)
-Received: from localhost ([::1]:49332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B97F4349D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:10:55 +0200 (CEST)
+Received: from localhost ([::1]:57192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md9Bp-0005l9-0y
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:51:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48292)
+	id 1md9Uk-0006Rl-A5
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:10:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hi-0004Pg-DK
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36739)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hk-0004Q1-KO
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hg-0003Jc-TD
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:14 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hj-0003LQ-0K
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634725212;
+ s=mimecast20190719; t=1634725214;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=A7I3owIbz1hLTkvG+O1oeRq8T2bvra3NbCuqdt9S6fE=;
- b=N3RMdzZ60ZjWYgoEfvaPpVGjYhQ61im38ZHrN3nh7JPxNYjK+XUsAmVZAaqxk+wkWarnND
- fRYAI6JijXNp1vMD4ZYx5yWHEGgXh5w/f9zhptsDhrl1xLoUZNs/qECv9t++u+QDabGLJ+
- qy2H4tBzcJwmCuKUd9NXDWhYvj3cE+s=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588--FVG5KQ9OLSXY5FkGgjKHg-1; Wed, 20 Oct 2021 06:20:10 -0400
-X-MC-Unique: -FVG5KQ9OLSXY5FkGgjKHg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- f4-20020a50e084000000b003db585bc274so20480302edl.17
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:20:09 -0700 (PDT)
+ bh=2oaB/YSoqgr6XdYYhUq9BpuWK0l58b7kZ1rtp8COlWY=;
+ b=CtIkSWXzB887vCTPaa1rLQVI7ljIPIpZ0EngYIHEhAgy9Nr7sRp2o70rEqwSaHvXa4mCCm
+ aRoDbW+xihwef82Q/nvbtknJaL+WfayiN95ej1pYjoIddtaG/DJPcz49q55G5dR9TtDD+6
+ XDow+ieYEH0eTXqXLQYO7VJ2ugJ41sw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-Ic5BVvxCPryaNCe5EF-rJQ-1; Wed, 20 Oct 2021 06:20:13 -0400
+X-MC-Unique: Ic5BVvxCPryaNCe5EF-rJQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ l10-20020a056402230a00b003db6977b694so20505290eda.23
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:20:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=A7I3owIbz1hLTkvG+O1oeRq8T2bvra3NbCuqdt9S6fE=;
- b=w9GLSYDz0FJE1/myAhQIXe4453a7d0or40VMg7t4OY1MsO+MSDyjnruSQl8cfF3PIK
- 7B2a9Ula30M694btRG47b9g5o1wwynXzjYZ8uG7H4Hc94ENYfRICSyvdfixJxFd67n+n
- srCVeJToQu7DIiel7kzTra56X2n59ukJeq2KrU+CNxd4A1xq5nYp+4MFKfvctAxuT1/J
- CaA8WbiRWmh5ddsLVFc8NrOwKXmDu3tqBhyQVYQn4+tSavQaUCrB5cKlr4r3sK4dL6lz
- Ww5FYP6r4VhWl7u0LsObe7Y0Y3+WKV0PaqCHTI01Yamz664zpFipxCfDFWc5a4hywqlM
- ESJw==
-X-Gm-Message-State: AOAM531rQVcwfLAs1KkCVRULJGCWgCQNUNOB94sg8EmrFhgZf0E1gRRY
- BdOf9+zZ5wnnB8idN7CId7NCrZFvf8d6ai46WdzedD8vALY+Y3DTECvIIoP+D1ptn09vsL242ap
- Qy3BRn8Z9eRW0NVetNJbFH3E/TPCszOCfh1BsO+VhMDjtlJEDWqKTvpip9hNa
-X-Received: by 2002:a05:6402:42ce:: with SMTP id
- i14mr62789764edc.5.1634725208514; 
- Wed, 20 Oct 2021 03:20:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCIuvA6l8ORedk+zYheKbUkSIKpydsNNa+TWQmTgDqcmwYjt3uWGjecU8BxI0JiuaDbUdKlw==
-X-Received: by 2002:a05:6402:42ce:: with SMTP id
- i14mr62789743edc.5.1634725208328; 
- Wed, 20 Oct 2021 03:20:08 -0700 (PDT)
+ bh=2oaB/YSoqgr6XdYYhUq9BpuWK0l58b7kZ1rtp8COlWY=;
+ b=xLRWSP/YyoeD0I71wZr6zdqhQieumBw4L6HbRlhBEDcaoUuy6tCXyGHbkwgJgUHXgn
+ Pfc35qEdiBV6/2GXQOubWnra0QYQPdot6UZ4cZmEL/DSRfuDIYML2Uwvd8OmxkGNi2wu
+ gNzPlEoJgZM+xsRQa1JKHYo+J0PQMiAphh1jdkVyMHlRYo0Xg4f53MgYiJXRM5K/jeeT
+ UFjmZwnhLZFJZ98+N3YU6IIzbpdmDfy1rzDJisTeLcGXgu1YBnUhvk/szVaxBhkA2muQ
+ IHI1feh2mMPLgKsGkCul/ovxYTM4xz3FQxby2UahFBoIQh1xrESMpDkCAGhiCNtM0L3J
+ yLNQ==
+X-Gm-Message-State: AOAM532J6C7AHbgua7Rm7V/SiRnYPJLeJfN3Ft9gj/uvcfwQbyIvz1mY
+ Nbi0Kpn99wLUvLtOTJv6Qyy93WBzRWziQfjfdptG6aXWz9qm0VheIPW5sj2mln22RhQky3mD5qe
+ TDe2fvGdsZnbF89UUSpiBwCeo6KpVfnfKDcnxhPzLPOw7qDjj4xe8z6vy1RX5
+X-Received: by 2002:a17:906:4e4a:: with SMTP id
+ g10mr43717894ejw.524.1634725211504; 
+ Wed, 20 Oct 2021 03:20:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxVihFRFyLGt/T+IJCK/gCpPjwxd9b3VLjMHsGiemR8cXoIjExv7u8fChzYEy5o/nwX9d/1JA==
+X-Received: by 2002:a17:906:4e4a:: with SMTP id
+ g10mr43717876ejw.524.1634725211336; 
+ Wed, 20 Oct 2021 03:20:11 -0700 (PDT)
 Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id b7sm857374ejl.10.2021.10.20.03.20.06
+ by smtp.gmail.com with ESMTPSA id m6sm836459ejl.42.2021.10.20.03.20.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 03:20:07 -0700 (PDT)
-Date: Wed, 20 Oct 2021 06:20:05 -0400
+ Wed, 20 Oct 2021 03:20:10 -0700 (PDT)
+Date: Wed, 20 Oct 2021 06:20:08 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 19/44] virtio-iommu: Remove the non transitional name
-Message-ID: <20211020101844.988480-20-mst@redhat.com>
+Subject: [PULL v2 20/44] virtio-iommu: Drop base_name and change generic_name
+Message-ID: <20211020101844.988480-21-mst@redhat.com>
 References: <20211020101844.988480-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211020101844.988480-1-mst@redhat.com>
@@ -74,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -97,37 +97,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
- Eric Auger <eric.auger@redhat.com>
+ Cornelia Huck <cohuck@redhat.com>, Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-Remove the non transitional name for virtio iommu. Like other
-devices introduced after 1.0 spec, the virtio-iommu does
-not need it.
+Drop base_name and turn generic_name into
+"virtio-iommu-pci". This is more in line with
+other modern-only devices.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reported-by: Andrea Bolognani <abologna@redhat.com>
+Suggested-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20211013191755.767468-2-eric.auger@redhat.com>
+Message-Id: <20211013191755.767468-3-eric.auger@redhat.com>
 Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-iommu-pci.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/hw/virtio/virtio-iommu.h | 2 +-
+ hw/virtio/virtio-iommu-pci.c     | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-iommu.h
+index 273e35c04b..e2339e5b72 100644
+--- a/include/hw/virtio/virtio-iommu.h
++++ b/include/hw/virtio/virtio-iommu.h
+@@ -26,7 +26,7 @@
+ #include "qom/object.h"
+ 
+ #define TYPE_VIRTIO_IOMMU "virtio-iommu-device"
+-#define TYPE_VIRTIO_IOMMU_PCI "virtio-iommu-device-base"
++#define TYPE_VIRTIO_IOMMU_PCI "virtio-iommu-pci"
+ OBJECT_DECLARE_SIMPLE_TYPE(VirtIOIOMMU, VIRTIO_IOMMU)
+ 
+ #define TYPE_VIRTIO_IOMMU_MEMORY_REGION "virtio-iommu-memory-region"
 diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-index 770c286be7..86fa4e6c28 100644
+index 86fa4e6c28..a160ae6b41 100644
 --- a/hw/virtio/virtio-iommu-pci.c
 +++ b/hw/virtio/virtio-iommu-pci.c
-@@ -100,7 +100,6 @@ static void virtio_iommu_pci_instance_init(Object *obj)
+@@ -98,8 +98,7 @@ static void virtio_iommu_pci_instance_init(Object *obj)
+ }
+ 
  static const VirtioPCIDeviceTypeInfo virtio_iommu_pci_info = {
-     .base_name             = TYPE_VIRTIO_IOMMU_PCI,
-     .generic_name          = "virtio-iommu-pci",
--    .non_transitional_name = "virtio-iommu-pci-non-transitional",
+-    .base_name             = TYPE_VIRTIO_IOMMU_PCI,
+-    .generic_name          = "virtio-iommu-pci",
++    .generic_name          = TYPE_VIRTIO_IOMMU_PCI,
      .instance_size = sizeof(VirtIOIOMMUPCI),
      .instance_init = virtio_iommu_pci_instance_init,
      .class_init    = virtio_iommu_pci_class_init,
