@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5296434901
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:35:23 +0200 (CEST)
-Received: from localhost ([::1]:40880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1BE4349A0
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:03:13 +0200 (CEST)
+Received: from localhost ([::1]:38818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md8wL-00068J-Hy
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:35:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47940)
+	id 1md9NI-0001PK-I5
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:03:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hC-0003QI-Th
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:19:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28556)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hB-0002sq-2j
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:19:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634725180;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DojFyI8EvkqW3utABMlfyrMcp5+zRY2rAvm55Ie1TK0=;
- b=DG1EmT0tVODytU58ol5NnbMkPCu9ysq8NyN0DFDrMiIqOW0hkSooLtJrv3KZ0qwl4t26b2
- IbbRYhstQRwo2pq4xnzGYOGQV0JHU6UqIgQdjjt789GCRRWeUvLKJWR9REilAsF2Pv7tyi
- EZGlQMZuZnPG8R9ZCqDxdzw3oTWI4ms=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-jzpyBquOOtWYb4iOq7Xf3A-1; Wed, 20 Oct 2021 06:19:38 -0400
-X-MC-Unique: jzpyBquOOtWYb4iOq7Xf3A-1
-Received: by mail-ed1-f69.google.com with SMTP id
- x5-20020a50f185000000b003db0f796903so20523015edl.18
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:19:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1md8hP-0003nT-RO; Wed, 20 Oct 2021 06:19:55 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:40883)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1md8hM-00032b-V4; Wed, 20 Oct 2021 06:19:55 -0400
+Received: by mail-ed1-x531.google.com with SMTP id 5so23541577edw.7;
+ Wed, 20 Oct 2021 03:19:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=MMqnqsUUcK1PWEgJODm9TEqM0MGx97DCR5kYwOP0Arg=;
+ b=g9vYyeYC1/GQU1AoEua5A+B+2ZMEG9WfZooSy92CDogKxcWVIZ+HOVpgaASE8v/+a2
+ cmf+sdFjIA6clOQtphJSx4rwwPR/si0icRJeSDlV326nj/A9pAgmijRFJjEZ5AmhWdla
+ QszVBC5Gx+riIoja7yP5rTy6g16Rg8kPb+7Xe4SvcRWgmp4LF0T9FcffiqiP5PYS9R9w
+ WshLzVqTMSfxOYucAhrj7l2f2Z813H33gN8hCmcbRyoAXDoqc1oJpcU8AAwN5fkZlfDy
+ bTHRRWFaq0ukT2MUG5ozgEnWU6Jw+FTPqIBpwgOpvMy0TPEsAd1EvB3Ia244f4GE8XAA
+ cxwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DojFyI8EvkqW3utABMlfyrMcp5+zRY2rAvm55Ie1TK0=;
- b=InVfwQpvHTKQAbMLVElVchKtnG6TT54oxseQp14gIJkI8A5tiT3c/TKmg7aZ7F6FOH
- AhMQrFSWXPvgwMjaP0RFs63j0b/jI5i+YJ8SSIG29lujQTOyt/uni/4ztU8pTYQok1eJ
- Rz+VDKbeG8KA+s5eXRlfHmbzp2E9okEu+9Gve8ThIY4f0bonRrxCUXKEbLkW7UznUDBJ
- NXZsCIaVCbwqtBE6FD19GYgM000tH623tLBjTIB8YJixDxscpGzEFLKkKFlMkYT3kvEv
- deUWyzZuhvbOG19hlFsum2xDqDwB2yo99V4I8q6hjRtWc4jbRd5fox/bJ31xsvpMcbCR
- dN9w==
-X-Gm-Message-State: AOAM530+cAjXKAeDiAfnmzUBN/h5K++oELuMedaRvrO/hVCqfVJScctX
- T6fWRkJf4AeJStSLYpXCmqDz54FDALE/GskntioTpoPqn6OJd36pIQCOTQ+tPDzv0iK/YAfweEV
- 9YNOWFYl+pYvlQSVGsWjAzvbb4c9mnx2Y3PbG3FUqx2G5mj09PRPTT8tNYdht
-X-Received: by 2002:a05:6402:447:: with SMTP id
- p7mr61037963edw.261.1634725177425; 
- Wed, 20 Oct 2021 03:19:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz7sLPt1sHod/PbcuROnDfc+Mti47qldjbvNbTRIJ1sC8cHASd0/Wf+io6v5zTy6k0lgQE3Yw==
-X-Received: by 2002:a05:6402:447:: with SMTP id
- p7mr61037921edw.261.1634725177220; 
- Wed, 20 Oct 2021 03:19:37 -0700 (PDT)
-Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id bw12sm827021ejb.9.2021.10.20.03.19.35
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=MMqnqsUUcK1PWEgJODm9TEqM0MGx97DCR5kYwOP0Arg=;
+ b=oTbuUeZpAdJZpGI9z42EGFrXNq6mW5sLF+ozL6JhcWOEGwsVaze3eWJMgGFPZef+1g
+ 9qoXfpZ2zVmCkNo4gGBZ7vBGOGEuAtGMdxGF8V51vwWMBfmf/voyhUmgnIvx3mHRXkCX
+ u5VHGqc+q6xQi2vTl2zSjuSmVY41wMC6n2NkQTRsRMOnvA6HZNqmDicpwgJgnTvHcso+
+ P3RfPl1bYDHKMmDugoZsn+n+8oe8swv8rs7MTPXfnrGQsDV/AXvCNKqnFfUwNyqQOSRp
+ 6FxSoehMVqQY0g0NHOAerJIo0LftkCC722VFfdde0skUkWBEIVC41glnE4IvmJT8Kx/P
+ RXQA==
+X-Gm-Message-State: AOAM532WHZuAqNqhE+YoANbaYDVWtyHErWhmTjPfUWF5C1WJpHFO1yqA
+ HIszVg6hcm26gjsU0NODdko=
+X-Google-Smtp-Source: ABdhPJyXVpIWR8wpmYrGyw3XcRBHC+FW2MZBhMua+XlG4LZNwbDaRzjZrYzW35ZE6rkXOdBtAfJZjg==
+X-Received: by 2002:a05:6402:141:: with SMTP id
+ s1mr61545782edu.317.1634725190571; 
+ Wed, 20 Oct 2021 03:19:50 -0700 (PDT)
+Received: from neptune.lab ([46.39.228.224])
+ by smtp.googlemail.com with ESMTPSA id k19sm821284ejg.13.2021.10.20.03.19.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 03:19:36 -0700 (PDT)
-Date: Wed, 20 Oct 2021 06:19:34 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 08/44] tests: acpi: add expected blob for DMAR table
-Message-ID: <20211020101844.988480-9-mst@redhat.com>
-References: <20211020101844.988480-1-mst@redhat.com>
+ Wed, 20 Oct 2021 03:19:50 -0700 (PDT)
+From: Alexey Baturo <baturo.alexey@gmail.com>
+X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
+To: 
+Subject: [PATCH v15 7/8] [RISCV_PM] Implement address masking functions
+ required for RISC-V Pointer Masking extension
+Date: Wed, 20 Oct 2021 13:19:34 +0300
+Message-Id: <20211020101935.1369682-8-space.monkey.delivers@gmail.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211020101935.1369682-1-space.monkey.delivers@gmail.com>
+References: <20211020101935.1369682-1-space.monkey.delivers@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20211020101844.988480-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=baturo.alexey@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,117 +83,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
+ Alistair Francis <alistair.francis@wdc.com>, kupokupokupopo@gmail.com,
+ palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Anatoly Parshintsev <kupokupokupopo@gmail.com>
 
-[000h 0000   4]                    Signature : "DMAR"    [DMA Remapping table]
-[004h 0004   4]                 Table Length : 00000078
-[008h 0008   1]                     Revision : 01
-[009h 0009   1]                     Checksum : 15
-[00Ah 0010   6]                       Oem ID : "BOCHS "
-[010h 0016   8]                 Oem Table ID : "BXPC    "
-[018h 0024   4]                 Oem Revision : 00000001
-[01Ch 0028   4]              Asl Compiler ID : "BXPC"
-[020h 0032   4]        Asl Compiler Revision : 00000001
-
-[024h 0036   1]           Host Address Width : 26
-[025h 0037   1]                        Flags : 01
-[026h 0038  10]                     Reserved : 00 00 00 00 00 00 00 00 00 00
-
-[030h 0048   2]                Subtable Type : 0000 [Hardware Unit Definition]
-[032h 0050   2]                       Length : 0040
-
-[034h 0052   1]                        Flags : 00
-[035h 0053   1]                     Reserved : 00
-[036h 0054   2]           PCI Segment Number : 0000
-[038h 0056   8]        Register Base Address : 00000000FED90000
-
-[040h 0064   1]            Device Scope Type : 03 [IOAPIC Device]
-[041h 0065   1]                 Entry Length : 08
-[042h 0066   2]                     Reserved : 0000
-[044h 0068   1]               Enumeration ID : 00
-[045h 0069   1]               PCI Bus Number : FF
-
-[046h 0070   2]                     PCI Path : 00,00
-
-[048h 0072   1]            Device Scope Type : 01 [PCI Endpoint Device]
-[049h 0073   1]                 Entry Length : 08
-[04Ah 0074   2]                     Reserved : 0000
-[04Ch 0076   1]               Enumeration ID : 00
-[04Dh 0077   1]               PCI Bus Number : 00
-
-[04Eh 0078   2]                     PCI Path : 00,00
-
-[050h 0080   1]            Device Scope Type : 01 [PCI Endpoint Device]
-[051h 0081   1]                 Entry Length : 08
-[052h 0082   2]                     Reserved : 0000
-[054h 0084   1]               Enumeration ID : 00
-[055h 0085   1]               PCI Bus Number : 00
-
-[056h 0086   2]                     PCI Path : 01,00
-
-[058h 0088   1]            Device Scope Type : 01 [PCI Endpoint Device]
-[059h 0089   1]                 Entry Length : 08
-[05Ah 0090   2]                     Reserved : 0000
-[05Ch 0092   1]               Enumeration ID : 00
-[05Dh 0093   1]               PCI Bus Number : 00
-
-[05Eh 0094   2]                     PCI Path : 1F,00
-
-[060h 0096   1]            Device Scope Type : 01 [PCI Endpoint Device]
-[061h 0097   1]                 Entry Length : 08
-[062h 0098   2]                     Reserved : 0000
-[064h 0100   1]               Enumeration ID : 00
-[065h 0101   1]               PCI Bus Number : 00
-
-[066h 0102   2]                     PCI Path : 1F,02
-
-[068h 0104   1]            Device Scope Type : 01 [PCI Endpoint Device]
-[069h 0105   1]                 Entry Length : 08
-[06Ah 0106   2]                     Reserved : 0000
-[06Ch 0108   1]               Enumeration ID : 00
-[06Dh 0109   1]               PCI Bus Number : 00
-
-[06Eh 0110   2]                     PCI Path : 1F,03
-
-[070h 0112   2]                Subtable Type : 0002 [Root Port ATS Capability]
-[072h 0114   2]                       Length : 0008
-
-[074h 0116   1]                        Flags : 01
-[075h 0117   1]                     Reserved : 00
-[076h 0118   2]           PCI Segment Number : 0000
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20210902113551.461632-9-imammedo@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Anatoly Parshintsev <kupokupokupopo@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- tests/data/acpi/q35/DMAR.dmar               | Bin 0 -> 120 bytes
- 2 files changed, 1 deletion(-)
+ target/riscv/cpu.h       | 20 ++++++++++++++++++++
+ target/riscv/translate.c | 39 +++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 57 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index a2843335c8..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/DMAR.dmar",
-diff --git a/tests/data/acpi/q35/DMAR.dmar b/tests/data/acpi/q35/DMAR.dmar
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..0dca6e68ad8a8ca5b981bcfbc745385a63e9f216 100644
-GIT binary patch
-literal 120
-zcmZ?qbquOtU|?Vrb@F%i2v%^42yj*a0!E-1hz+9EKm;5(Kv_5cff&pjK;l18KZphb
-W2+atk<zX}vL|mSkiGhOwWE=ohp9%p0
-
-literal 0
-HcmV?d00001
-
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index acb4ce9d23..0ae12b9e61 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -407,6 +407,8 @@ FIELD(TB_FLAGS, VILL, 8, 1)
+ /* Is a Hypervisor instruction load/store allowed? */
+ FIELD(TB_FLAGS, HLSX, 9, 1)
+ FIELD(TB_FLAGS, MSTATUS_HS_FS, 10, 2)
++/* If PointerMasking should be applied */
++FIELD(TB_FLAGS, PM_ENABLED, 10, 1)
+ 
+ bool riscv_cpu_is_32bit(CPURISCVState *env);
+ 
+@@ -467,6 +469,24 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+         flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
+                            get_field(env->mstatus_hs, MSTATUS_FS));
+     }
++    if (riscv_has_ext(env, RVJ)) {
++        int priv = flags & TB_FLAGS_PRIV_MMU_MASK;
++        bool pm_enabled = false;
++        switch (priv) {
++        case PRV_U:
++            pm_enabled = env->mmte & U_PM_ENABLE;
++            break;
++        case PRV_S:
++            pm_enabled = env->mmte & S_PM_ENABLE;
++            break;
++        case PRV_M:
++            pm_enabled = env->mmte & M_PM_ENABLE;
++            break;
++        default:
++            g_assert_not_reached();
++        }
++        flags = FIELD_DP32(flags, TB_FLAGS, PM_ENABLED, pm_enabled);
++    }
+ #endif
+ 
+     *pflags = flags;
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 9e176b8137..e1a5725395 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -36,6 +36,9 @@ static TCGv cpu_gpr[32], cpu_pc, cpu_vl;
+ static TCGv_i64 cpu_fpr[32]; /* assume F and D extensions */
+ static TCGv load_res;
+ static TCGv load_val;
++/* globals for PM CSRs */
++static TCGv pm_mask[4];
++static TCGv pm_base[4];
+ 
+ #include "exec/gen-icount.h"
+ 
+@@ -82,6 +85,10 @@ typedef struct DisasContext {
+     TCGv zero;
+     /* Space for 3 operands plus 1 extra for address computation. */
+     TCGv temp[4];
++    /* PointerMasking extension */
++    bool pm_enabled;
++    TCGv pm_mask;
++    TCGv pm_base;
+ } DisasContext;
+ 
+ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+@@ -248,11 +255,20 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+ }
+ 
+ /*
+- * Temp stub: generates address adjustment for PointerMasking
++ * Generates address adjustment for PointerMasking
+  */
+ static TCGv gen_pm_adjust_address(DisasContext *s, TCGv src)
+ {
+-    return src;
++    TCGv temp;
++    if (!s->pm_enabled) {
++        /* Load unmodified address */
++        return src;
++    } else {
++        temp = temp_new(s);
++        tcg_gen_andc_tl(temp, src, s->pm_mask);
++        tcg_gen_or_tl(temp, temp, s->pm_base);
++        return temp;
++    }
+ }
+ 
+ #ifndef CONFIG_USER_ONLY
+@@ -536,6 +552,10 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->w = false;
+     ctx->ntemp = 0;
+     memset(ctx->temp, 0, sizeof(ctx->temp));
++    ctx->pm_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_ENABLED);
++    int priv = tb_flags & TB_FLAGS_PRIV_MMU_MASK;
++    ctx->pm_mask = pm_mask[priv];
++    ctx->pm_base = pm_base[priv];
+ 
+     ctx->zero = tcg_constant_tl(0);
+ }
+@@ -649,4 +669,19 @@ void riscv_translate_init(void)
+                              "load_res");
+     load_val = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, load_val),
+                              "load_val");
++#ifndef CONFIG_USER_ONLY
++    /* Assign PM CSRs to tcg globals */
++    pm_mask[PRV_U] =
++      tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, upmmask), "upmmask");
++    pm_base[PRV_U] =
++      tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, upmbase), "upmbase");
++    pm_mask[PRV_S] =
++      tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, spmmask), "spmmask");
++    pm_base[PRV_S] =
++      tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, spmbase), "spmbase");
++    pm_mask[PRV_M] =
++      tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, mpmmask), "mpmmask");
++    pm_base[PRV_M] =
++      tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, mpmbase), "mpmbase");
++#endif
+ }
 -- 
-MST
+2.30.2
 
 
