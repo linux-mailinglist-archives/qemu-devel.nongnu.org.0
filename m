@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC49434CA2
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 15:49:57 +0200 (CEST)
-Received: from localhost ([::1]:54232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64191434C6F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 15:45:02 +0200 (CEST)
+Received: from localhost ([::1]:41138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdBye-0000MF-UX
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 09:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37788)
+	id 1mdBtt-000835-Bm
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 09:45:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mdBrS-0004XS-Rb
+ id 1mdBrS-0004XR-ON
  for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:42:32 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56442
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56446
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mdBrN-0002op-O7
+ id 1mdBrR-0002sF-3b
  for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:42:30 -0400
 Received: from [2a00:23c4:8b9d:f500:9396:df17:737c:b32c] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mdBr3-00011V-Qv; Wed, 20 Oct 2021 14:42:09 +0100
+ id 1mdBr7-00011V-NL; Wed, 20 Oct 2021 14:42:13 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: laurent@vivier.eu,
 	qemu-devel@nongnu.org
-Date: Wed, 20 Oct 2021 14:41:30 +0100
-Message-Id: <20211020134131.4392-8-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 20 Oct 2021 14:41:31 +0100
+Message-Id: <20211020134131.4392-9-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211020134131.4392-1-mark.cave-ayland@ilande.co.uk>
 References: <20211020134131.4392-1-mark.cave-ayland@ilande.co.uk>
@@ -37,7 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:f500:9396:df17:737c:b32c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 7/8] q800: wire up remaining IRQs in classic mode
+Subject: [PATCH v2 8/8] q800: add NMI handler
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -63,97 +63,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Explicitly wire up the remaining IRQs in classic mode to enable the use of
-g_assert_not_reached() in the default case to detect any unexpected IRQs.
-
-Add a comment explaining the IRQ routing differences in A/UX mode based
-upon the comments in NetBSD (also noting that at least A/UX 3.0.1 still
-uses classic mode).
+This allows the programmer's switch to be triggered via the monitor for debugging
+purposes. Since the CPU level 7 interrupt is level-triggered, use a timer to hold
+the NMI active for 100ms before releasing it again.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewied-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/m68k/q800.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ hw/m68k/q800.c | 47 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
 diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 7a8de089f4..83fde39298 100644
+index 83fde39298..a081051a8d 100644
 --- a/hw/m68k/q800.c
 +++ b/hw/m68k/q800.c
-@@ -111,6 +111,37 @@ struct GLUEState {
+@@ -28,6 +28,7 @@
+ #include "cpu.h"
+ #include "hw/boards.h"
+ #include "hw/or-irq.h"
++#include "hw/nmi.h"
+ #include "elf.h"
+ #include "hw/loader.h"
+ #include "ui/console.h"
+@@ -102,12 +103,14 @@ struct GLUEState {
+     uint8_t ipr;
+     uint8_t auxmode;
+     qemu_irq irqs[1];
++    QEMUTimer *nmi_release;
+ };
+ 
+ #define GLUE_IRQ_IN_VIA1       0
+ #define GLUE_IRQ_IN_VIA2       1
+ #define GLUE_IRQ_IN_SONIC      2
+ #define GLUE_IRQ_IN_ESCC       3
++#define GLUE_IRQ_IN_NMI        4
  
  #define GLUE_IRQ_NUBUS_9       0
  
-+/*
-+ * The GLUE logic on the Quadra 800 supports 2 different IRQ routing modes
-+ * controlled from the VIA1 auxmode GPIO (port B bit 6) which are documented
-+ * in NetBSD as follows:
-+ *
-+ * A/UX mode (Linux, NetBSD, auxmode GPIO low)
-+ *
-+ *   Level 0:        Spurious: ignored
-+ *   Level 1:        Software
-+ *   Level 2:        VIA2 (except ethernet, sound)
-+ *   Level 3:        Ethernet
-+ *   Level 4:        Serial (SCC)
-+ *   Level 5:        Sound
-+ *   Level 6:        VIA1
-+ *   Level 7:        NMIs: parity errors, RESET button, YANCC error
-+ *
-+ * Classic mode (default: used by MacOS, A/UX 3.0.1, auxmode GPIO high)
-+ *
-+ *   Level 0:        Spurious: ignored
-+ *   Level 1:        VIA1 (clock, ADB)
-+ *   Level 2:        VIA2 (NuBus, SCSI)
-+ *   Level 3:
-+ *   Level 4:        Serial (SCC)
-+ *   Level 5:
-+ *   Level 6:
-+ *   Level 7:        Non-maskable: parity errors, RESET button
-+ *
-+ * Note that despite references to A/UX mode in Linux and NetBSD, at least
-+ * A/UX 3.0.1 still uses Classic mode.
-+ */
-+
- static void GLUE_set_irq(void *opaque, int irq, int level)
- {
-     GLUEState *s = opaque;
-@@ -119,10 +150,25 @@ static void GLUE_set_irq(void *opaque, int irq, int level)
-     if (s->auxmode) {
-         /* Classic mode */
-         switch (irq) {
-+        case GLUE_IRQ_IN_VIA1:
-+            irq = 0;
-+            break;
-+
-+        case GLUE_IRQ_IN_VIA2:
-+            irq = 1;
-+            break;
-+
-         case GLUE_IRQ_IN_SONIC:
-             /* Route to VIA2 instead */
-             qemu_set_irq(s->irqs[GLUE_IRQ_NUBUS_9], level);
-             return;
-+
-+        case GLUE_IRQ_IN_ESCC:
-+            irq = 3;
-+            break;
-+
-+        default:
-+            g_assert_not_reached();
-         }
-     } else {
-         /* A/UX mode */
-@@ -142,6 +188,9 @@ static void GLUE_set_irq(void *opaque, int irq, int level)
-         case GLUE_IRQ_IN_ESCC:
+@@ -167,6 +170,10 @@ static void GLUE_set_irq(void *opaque, int irq, int level)
              irq = 3;
              break;
-+
-+        default:
-+            g_assert_not_reached();
-         }
-     }
  
++        case GLUE_IRQ_IN_NMI:
++            irq = 6;
++            break;
++
+         default:
+             g_assert_not_reached();
+         }
+@@ -189,6 +196,10 @@ static void GLUE_set_irq(void *opaque, int irq, int level)
+             irq = 3;
+             break;
+ 
++        case GLUE_IRQ_IN_NMI:
++            irq = 6;
++            break;
++
+         default:
+             g_assert_not_reached();
+         }
+@@ -216,12 +227,30 @@ static void glue_auxmode_set_irq(void *opaque, int irq, int level)
+     s->auxmode = level;
+ }
+ 
++static void glue_nmi(NMIState *n, int cpu_index, Error **errp)
++{
++    GLUEState *s = GLUE(n);
++
++    /* Hold NMI active for 100ms */
++    GLUE_set_irq(s, GLUE_IRQ_IN_NMI, 1);
++    timer_mod(s->nmi_release, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 100);
++}
++
++static void glue_nmi_release(void *opaque)
++{
++    GLUEState *s = GLUE(opaque);
++
++    GLUE_set_irq(s, GLUE_IRQ_IN_NMI, 0);
++}
++
+ static void glue_reset(DeviceState *dev)
+ {
+     GLUEState *s = GLUE(dev);
+ 
+     s->ipr = 0;
+     s->auxmode = 0;
++
++    timer_del(s->nmi_release);
+ }
+ 
+ static const VMStateDescription vmstate_glue = {
+@@ -231,6 +260,7 @@ static const VMStateDescription vmstate_glue = {
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT8(ipr, GLUEState),
+         VMSTATE_UINT8(auxmode, GLUEState),
++        VMSTATE_TIMER_PTR(nmi_release, GLUEState),
+         VMSTATE_END_OF_LIST(),
+     },
+ };
+@@ -246,6 +276,13 @@ static Property glue_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
++static void glue_finalize(Object *obj)
++{
++    GLUEState *s = GLUE(obj);
++
++    timer_free(s->nmi_release);
++}
++
+ static void glue_init(Object *obj)
+ {
+     DeviceState *dev = DEVICE(obj);
+@@ -255,15 +292,20 @@ static void glue_init(Object *obj)
+     qdev_init_gpio_in_named(dev, glue_auxmode_set_irq, "auxmode", 1);
+ 
+     qdev_init_gpio_out(dev, s->irqs, 1);
++
++    /* NMI release timer */
++    s->nmi_release = timer_new_ms(QEMU_CLOCK_VIRTUAL, glue_nmi_release, s);
+ }
+ 
+ static void glue_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
++    NMIClass *nc = NMI_CLASS(klass);
+ 
+     dc->vmsd = &vmstate_glue;
+     dc->reset = glue_reset;
+     device_class_set_props(dc, glue_properties);
++    nc->nmi_monitor_handler = glue_nmi;
+ }
+ 
+ static const TypeInfo glue_info = {
+@@ -271,7 +313,12 @@ static const TypeInfo glue_info = {
+     .parent = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(GLUEState),
+     .instance_init = glue_init,
++    .instance_finalize = glue_finalize,
+     .class_init = glue_class_init,
++    .interfaces = (InterfaceInfo[]) {
++         { TYPE_NMI },
++         { }
++    },
+ };
+ 
+ static void main_cpu_reset(void *opaque)
 -- 
 2.20.1
 
