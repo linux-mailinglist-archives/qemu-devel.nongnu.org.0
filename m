@@ -2,90 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C3E434703
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 10:34:17 +0200 (CEST)
-Received: from localhost ([::1]:40462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E90B643471F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 10:41:38 +0200 (CEST)
+Received: from localhost ([::1]:47762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md73A-0006dm-CP
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 04:34:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46312)
+	id 1md7AH-0003II-K4
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 04:41:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1md71Q-0005gX-7P
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:32:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49417)
+ id 1md78N-0001d5-Cm
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:39:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1md71K-0001wg-M7
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:32:25 -0400
+ id 1md78K-00049g-L2
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:39:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634718741;
+ s=mimecast20190719; t=1634719175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QkyiOIh245EX1Ey2mEyLYnA2g+75dHhMOpbkSpwutJU=;
- b=U0uVQKSwZDKAHizT1s+s8LQm71j91pRhKaD3YzbjFcPIFghtDs1tzNGXNrDroCtLFM0S/5
- sSpmmLUMZ11OILSyuhh9vmVUiQaFUZeTWZUGHurGjAxi8OiZngoyCY1YiWn6Qh5wJcTwGV
- PwQFKxzQpwygr822glMn9/9Ifol7ZPM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-ICVnhKTnO1G7ZW1qqlCqJg-1; Wed, 20 Oct 2021 04:32:18 -0400
-X-MC-Unique: ICVnhKTnO1G7ZW1qqlCqJg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- a20-20020a1c9814000000b0032311c7fc54so1738334wme.1
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 01:32:18 -0700 (PDT)
+ bh=NZIBxfjFsnaVnBMUvbDWAhLIpgQ4YpsxFbP1V/KFOz4=;
+ b=NLRBYzKkc4l/t1N1HX5x9iBsPKUYgV/d4ZDFjpLVvVXLknEEvEmmOXlzaRT8AsJClBvM6A
+ 0+shblSruNm4hqPniWYWgC9dPd/zSZh49/xkdqyFh6quWC64nGknnLRw2BnTMfq723zrBx
+ kEZtmhwl/+TYoudgq6xwHB/Awyv9DjI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-jSbSzscENVuregqclYpHdQ-1; Wed, 20 Oct 2021 04:39:32 -0400
+X-MC-Unique: jSbSzscENVuregqclYpHdQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l39-20020a05600c1d2700b0030dba1dc6eeso2718665wms.7
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 01:39:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QkyiOIh245EX1Ey2mEyLYnA2g+75dHhMOpbkSpwutJU=;
- b=NAOdUt9hO53rJa4aUmFJk3CsZN4tbUHHLrf4jmiBlA0nXDGqCrnNq9FHla1j7i9pzq
- Nh+IGe9H5dxP7ZdORMW2ptCAe/u0qJZejL0qwuuepJvwwbLoItDQvEvq7LHteJUC75hG
- nmRs0A50Z6y1SUPqbYlWfrqENA16NFk5bQPEyhptdzf1yLC2IoInXJquzYftvceMPbKF
- QGN3NYaugWSPdOwC0di8jyaq5l8Yh9ApRJk98PX88ZF0T3LeUHMfKKVPNLacUbbBayyj
- s/+gGyc0sLv2xFR5/wQ0DtVDCvOnpsMvBSfxKOEExJTswxRL3D5WE0UzgrRZfPJZDxA5
- bBcQ==
-X-Gm-Message-State: AOAM530PKfBEbXI6WHzfxWIEC1iGjJKp0IL+0xwuT/VRv2BEFn68E8+P
- NICLS8ulwJzRGA77ojTXZXT2NDI6OEkFNpJ1/wctn5WwMF9AwXfzH8eEIqd0auQ80G9cXPbQ1N1
- 2nRLIgARSRyta5Ik=
-X-Received: by 2002:adf:a1da:: with SMTP id v26mr50765434wrv.186.1634718737058; 
- Wed, 20 Oct 2021 01:32:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwRr0II8pl5sKDcJdlPKyjeKZ4wSkCFN5IoIGQm04dfg/7DtoaCZqoIqCqlqPrMzEoUvC5iRg==
-X-Received: by 2002:adf:a1da:: with SMTP id v26mr50765402wrv.186.1634718736750; 
- Wed, 20 Oct 2021 01:32:16 -0700 (PDT)
+ bh=ZdxLIYuD0negc8Cdt3gYbdHPi2dL4qYHorx/j5rHqNM=;
+ b=o0d+8PbdZiKRVTyKdnhj92YzMC/o8N00yXrMyMqKgrBrqBF7HHeXKD0Mj18XyuTc89
+ YvCtq0L6VE8Q1jJ6IEGuDYxbqObo9H4uOPhdmmqLrhPt75Ku9scMwkMjZc69mvikqeTC
+ /tQxh37kj00eoJZlP43BSvVhCtTRvuj9WvqA0FF37O6eVhpFHvh3rIqVwP8FO8AQSFo5
+ n4QivTlLWkM9zh570gXL6N1MdgTg26FWdAOK4J0iiRsgzIzjSYUv7YOnSpjys5KGGWYD
+ N7IE6s+lbvPKVlyvVawbhAxXOkcZyX0f0kyQRaa9BGMGa8ycdgDY2iltOeK8svVnCgre
+ UnaQ==
+X-Gm-Message-State: AOAM533PdjX5tb8ewTVXj+CljxxLagQgoqh4kW7hR7bYNxXpPj8ABq+f
+ cMFxba3X45EjPJ/SfGmih+JYxnMBfJerhf0nK1gZaIWmz0iJG/bdWXQvIWgnzcBtxZ/5RbTbRXo
+ rwXackTVGcI+sTMQ=
+X-Received: by 2002:adf:a48e:: with SMTP id g14mr50629652wrb.11.1634719171088; 
+ Wed, 20 Oct 2021 01:39:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxQe4lDweqDdMJRVwNEztjK0cArS0BXk237qXoz4AxzBIXw4tiM0Xf45ArS2c0yK1L7f1ERfg==
+X-Received: by 2002:adf:a48e:: with SMTP id g14mr50629626wrb.11.1634719170855; 
+ Wed, 20 Oct 2021 01:39:30 -0700 (PDT)
 Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id f24sm1277868wmb.33.2021.10.20.01.32.15
+ by smtp.gmail.com with ESMTPSA id g3sm1559518wri.45.2021.10.20.01.39.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 01:32:16 -0700 (PDT)
-Date: Wed, 20 Oct 2021 10:32:15 +0200
+ Wed, 20 Oct 2021 01:39:30 -0700 (PDT)
+Date: Wed, 20 Oct 2021 10:39:29 +0200
 From: Igor Mammedov <imammedo@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH 1/6] hw/riscv: microchip_pfsoc: Use MachineState::ram
- and MachineClass::default_ram_id
-Message-ID: <20211020103215.17288634@redhat.com>
-In-Reply-To: <CAEUhbmUa1CU_7+HMEuBmAc-DqFAH8iByfDAjV_uXnof6TZQz_Q@mail.gmail.com>
-References: <20211018153829.24382-1-bmeng.cn@gmail.com>
- <20211019093943.54c36b3f@redhat.com>
- <CAEUhbmUa1CU_7+HMEuBmAc-DqFAH8iByfDAjV_uXnof6TZQz_Q@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PULL 00/29] pc,pci,virtio: features, fixes
+Message-ID: <20211020103929.5cc1fb32@redhat.com>
+In-Reply-To: <4cc1b92e-a3f0-bab9-6e71-112ef3fb13a1@linaro.org>
+References: <20211019111923.679826-1-mst@redhat.com>
+ <4cc1b92e-a3f0-bab9-6e71-112ef3fb13a1@linaro.org>
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,114 +96,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org
- Developers" <qemu-devel@nongnu.org>, laurent@vivier.eu, qemu-ppc@nongnu.org,
- alistair.francis@wdc.com, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Oct 2021 09:55:52 +0800
-Bin Meng <bmeng.cn@gmail.com> wrote:
+On Tue, 19 Oct 2021 11:38:08 -0700
+Richard Henderson <richard.henderson@linaro.org> wrote:
 
-> Hi Igor,
-> 
-> On Tue, Oct 19, 2021 at 3:39 PM Igor Mammedov <imammedo@redhat.com> wrote:
-> >
-> > On Mon, 18 Oct 2021 23:38:24 +0800
-> > Bin Meng <bmeng.cn@gmail.com> wrote:
-> >  
-> > > Using memory_region_init_ram(), which can't possibly handle vhost-user,
-> > > and can't work as expected with '-numa node,memdev' options.
-> > >
-> > > Use MachineState::ram instead of manually initializing RAM memory
-> > > region, as well as by providing MachineClass::default_ram_id to
-> > > opt in to memdev scheme.
-> > >
-> > > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> > > ---
-> > >
-> > >  hw/riscv/microchip_pfsoc.c | 9 +++------
-> > >  1 file changed, 3 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> > > index e475b6d511..f10f55b488 100644
-> > > --- a/hw/riscv/microchip_pfsoc.c
-> > > +++ b/hw/riscv/microchip_pfsoc.c
-> > > @@ -459,7 +459,6 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
-> > >      const MemMapEntry *memmap = microchip_pfsoc_memmap;
-> > >      MicrochipIcicleKitState *s = MICROCHIP_ICICLE_KIT_MACHINE(machine);
-> > >      MemoryRegion *system_memory = get_system_memory();
-> > > -    MemoryRegion *mem_low = g_new(MemoryRegion, 1);
-> > >      MemoryRegion *mem_low_alias = g_new(MemoryRegion, 1);
-> > >      MemoryRegion *mem_high = g_new(MemoryRegion, 1);
-> > >      MemoryRegion *mem_high_alias = g_new(MemoryRegion, 1);
-> > > @@ -486,16 +485,13 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
-> > >      qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
-> > >
-> > >      /* Register RAM */
-> > > -    memory_region_init_ram(mem_low, NULL, "microchip.icicle.kit.ram_low",
-> > > -                           memmap[MICROCHIP_PFSOC_DRAM_LO].size,
-> > > -                           &error_fatal);
-> > >      memory_region_init_alias(mem_low_alias, NULL,
-> > >                               "microchip.icicle.kit.ram_low.alias",
-> > > -                             mem_low, 0,
-> > > +                             machine->ram, 0,
-> > >                               memmap[MICROCHIP_PFSOC_DRAM_LO_ALIAS].size);
-> > >      memory_region_add_subregion(system_memory,
-> > >                                  memmap[MICROCHIP_PFSOC_DRAM_LO].base,
-> > > -                                mem_low);
-> > > +                                machine->ram);
-> > >      memory_region_add_subregion(system_memory,
-> > >                                  memmap[MICROCHIP_PFSOC_DRAM_LO_ALIAS].base,
-> > >                                  mem_low_alias);  
-> >
-> > looking at code it seems RAM is split between low and high regions,
-> > so converting only low region is wrong.
-> >
-> > I'd suggest something similar to 2dc9ce13d210 : taihu_405ep_init().
-> > i.e. ms->ram should hold whole RAM that is split between low and high
-> > using aliases.  
-> 
-> Thank you for your pointers. I have just sent v2.
+> On 10/19/21 4:19 AM, Michael S. Tsirkin wrote:
+> > The following changes since commit 9c050b661d3a43dfe2fd44106e559b39706d=
+1296:
+> >=20
+> >    Merge remote-tracking branch 'remotes/philmd/tags/mips-20211018' int=
+o staging (2021-10-18 09:16:51 -0700)
+> >=20
+> > are available in the Git repository at:
+> >=20
+> >    git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> >=20
+> > for you to fetch changes up to bf2dd99b7d536cdba157fd6687810ce7b8340ccc=
+:
+> >=20
+> >    failover: fix a regression introduced by JSON'ification of -device (=
+2021-10-19 07:15:34 -0400)
+> >=20
+> > ----------------------------------------------------------------
+> > pc,pci,virtio: features, fixes
+> >=20
+> > vhost user rng
+> > Fixes, cleanups all over the place.
+> >=20
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> >=20
+> > ----------------------------------------------------------------
+> > Ani Sinha (3):
+> >        tests/acpi/bios-tables-test: add and allow changes to a new q35 =
+DSDT table blob
+> >        tests/acpi/pcihp: add unit tests for hotplug on multifunction br=
+idges for q35
+> >        tests/acpi/bios-tables-test: update DSDT blob for multifunction =
+bridge test
+> >=20
+> > David Hildenbrand (1):
+> >        libvhost-user: fix VHOST_USER_REM_MEM_REG skipping mmap_addr
+> >=20
+> > Eric Auger (2):
+> >        virtio-iommu: Remove the non transitional name
+> >        virtio-iommu: Drop base_name and change generic_name
+> >=20
+> > Eugenio P=C3=A9rez (3):
+> >        vdpa: Skip protected ram IOMMU mappings
+> >        vdpa: Add vhost_vdpa_section_end
+> >        vdpa: Check for iova range at mappings changes
+> >=20
+> > Igor Mammedov (15):
+> >        tests: acpi: dump table with failed checksum
+> >        tests: qtest: add qtest_has_accel() to check if tested binary su=
+pports accelerator
+> >        tests: acpi: whitelist expected tables for acpi/q35/xapic testca=
+se
+> >        tests: acpi: q35: test for x2APIC entries in SRAT
+> >        tests: acpi: update expected tables blobs
+> >        tests: acpi: whitelist new expected table tests/data/acpi/q35/DM=
+AR.dmar
+> >        tests: acpi: add testcase for intel_iommu (DMAR table)
+> >        tests: acpi: add expected blob for DMAR table
+> >        tests: acpi: whitelist expected blobs for new acpi/q35/ivrs test=
+case
+> >        tests: acpi: add testcase for amd-iommu (IVRS table)
+> >        tests: acpi: update expected blobs
+> >        tests: acpi: arm/virt: drop redundant test_acpi_one() in test_ac=
+pi_virt_tcg()
+> >        tests: arm-cpu-features: use qtest_has_kvm() API
+> >        tests: migration-test: use qtest_has_accel() API
+> >        tests: bios-tables-test: use qtest_has_accel() API to register T=
+CG only tests
+> >=20
+> > Laurent Vivier (1):
+> >        failover: fix a regression introduced by JSON'ification of -devi=
+ce
+> >=20
+> > Mathieu Poirier (3):
+> >        vhost-user-rng: Add vhost-user-rng implementation
+> >        vhost-user-rng-pci: Add vhost-user-rng-pci implementation
+> >        docs: Add documentation for vhost based RNG implementation
+> >=20
+> > Xueming Li (1):
+> >        vhost-user: fix duplicated notifier MR init
+> >=20
+> >   include/hw/virtio/vhost-user-rng.h        |  33 ++++
+> >   include/hw/virtio/vhost-vdpa.h            |   2 +
+> >   include/hw/virtio/virtio-iommu.h          |   2 +-
+> >   tests/qtest/libqos/libqtest.h             |   8 +
+> >   hw/net/virtio-net.c                       |  24 ++-
+> >   hw/virtio/vhost-user-rng-pci.c            |  79 ++++++++
+> >   hw/virtio/vhost-user-rng.c                | 289 +++++++++++++++++++++=
++++++++++
+> >   hw/virtio/vhost-user.c                    |   5 +-
+> >   hw/virtio/vhost-vdpa.c                    |  81 ++++++---
+> >   hw/virtio/virtio-iommu-pci.c              |   4 +-
+> >   subprojects/libvhost-user/libvhost-user.c |   1 +
+> >   tests/qtest/acpi-utils.c                  |  14 ++
+> >   tests/qtest/arm-cpu-features.c            |  29 +--
+> >   tests/qtest/bios-tables-test.c            |  90 ++++++++--
+> >   tests/qtest/libqtest.c                    |  27 +++
+> >   tests/qtest/migration-test.c              |  15 +-
+> >   docs/system/device-emulation.rst          |   1 +
+> >   docs/system/devices/vhost-user-rng.rst    |  39 ++++
+> >   hw/virtio/Kconfig                         |   5 +
+> >   hw/virtio/meson.build                     |   2 +
+> >   hw/virtio/trace-events                    |   1 +
+> >   meson.build                               |   6 +
+> >   tests/data/acpi/q35/APIC.xapic            | Bin 0 -> 2686 bytes
+> >   tests/data/acpi/q35/DMAR.dmar             | Bin 0 -> 120 bytes
+> >   tests/data/acpi/q35/DSDT.ivrs             | Bin 0 -> 8306 bytes
+> >   tests/data/acpi/q35/DSDT.multi-bridge     | Bin 0 -> 8583 bytes
+> >   tests/data/acpi/q35/DSDT.xapic            | Bin 0 -> 35652 bytes
+> >   tests/data/acpi/q35/FACP.xapic            | Bin 0 -> 244 bytes
+> >   tests/data/acpi/q35/IVRS.ivrs             | Bin 0 -> 104 bytes
+> >   tests/data/acpi/q35/SRAT.xapic            | Bin 0 -> 5080 bytes
+> >   30 files changed, 672 insertions(+), 85 deletions(-)
+> >   create mode 100644 include/hw/virtio/vhost-user-rng.h
+> >   create mode 100644 hw/virtio/vhost-user-rng-pci.c
+> >   create mode 100644 hw/virtio/vhost-user-rng.c
+> >   create mode 100644 docs/system/devices/vhost-user-rng.rst
+> >   create mode 100644 tests/data/acpi/q35/APIC.xapic
+> >   create mode 100644 tests/data/acpi/q35/DMAR.dmar
+> >   create mode 100644 tests/data/acpi/q35/DSDT.ivrs
+> >   create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
+> >   create mode 100644 tests/data/acpi/q35/DSDT.xapic
+> >   create mode 100644 tests/data/acpi/q35/FACP.xapic
+> >   create mode 100644 tests/data/acpi/q35/IVRS.ivrs
+> >   create mode 100644 tests/data/acpi/q35/SRAT.xapic =20
+>=20
+> 32-bit printf errors:
+>=20
+> ../hw/virtio/vhost-vdpa.c: In function 'vhost_vdpa_listener_skipped_secti=
+on':
+> ../hw/virtio/vhost-vdpa.c:55:22: error: format '%lu' expects argument of =
+type 'long=20
+> unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigne=
+d int'}=20
+> [-Werror=3Dformat=3D]
+>           error_report("RAM section out of device range (min=3D%lu, addr=
+=3D%lu)",
+>                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+>                        iova_min, section->offset_within_address_space);
+>                        ~~~~~~~~
+> ../hw/virtio/vhost-vdpa.c:55:22: error: format '%lu' expects argument of =
+type 'long=20
+> unsigned int', but argument 3 has type 'hwaddr' {aka 'long long unsigned =
+int'}=20
+> [-Werror=3Dformat=3D]
+> ../hw/virtio/vhost-vdpa.c:62:22: error: format '%lu' expects argument of =
+type 'long=20
+> unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigne=
+d int'}=20
+> [-Werror=3Dformat=3D]
+>           error_report("RAM section out of device range (max=3D%lu, end a=
+ddr=3D%lu)",
+>                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+>                        iova_max, int128_get64(llend));
+>                        ~~~~~~~~
+> ../hw/virtio/vhost-vdpa.c:62:22: error: format '%lu' expects argument of =
+type 'long=20
+> unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigne=
+d int'}=20
+> [-Werror=3Dformat=3D]
+> cc1: all warnings being treated as errors
+>
+=20
+>
+> Also fails s390x host testing:
+>=20
+>=20
+> ERROR:../tests/qtest/boot-sector.c:170:boot_sector_test: assertion failed=
+ (signature =3D=3D=20
+> SIGNATURE): (0x00000000 =3D=3D 0x0000dead)
+> ERROR qtest-i386/bios-tables-test - Bail out!=20
+> ERROR:../tests/qtest/boot-sector.c:170:boot_sector_test: assertion failed=
+ (signature =3D=3D=20
+> SIGNATURE): (0x00000000 =3D=3D 0x0000dead)
+> Makefile.mtest:368: recipe for target 'run-test-44' failed
 
+it might happen if VM is too slow
+   /* Wait at most 600 seconds ...
+=20
+Let me find s390 host and see if it's reproducable
 
- 
-> One note when looking at the taihu_405ep_init() implementation, the
-> following looks incorrect to me:
-> 
->     memory_region_init_alias(&ram_memories[1], NULL,
->                              "taihu_405ep.ram-1", machine->ram, ram_bases[1],
->                              ram_sizes[1]);
-> 
-> I think the 'offset' should be ram_sizes[0] instead of ram_bases[1],
-> although their values are the same which means they are two contiguous
-> regions, so it happens to work. But I might be nitpicking ...
-
-I fail to see what's wrong there, from the way code is written
-it looks like hardware has 2 memory banks with different base
-address. It just happens that ram_bases[1] starts right after
-ram_bases[0] but if it weren't then using ram_sizes[0]
-for offset would be wrong. So current code looks fine to me.
-
-Anyways,
-CCing PPC folks to have a second look at it.
-
-> 
-> >  
-> > > @@ -606,6 +602,7 @@ static void microchip_icicle_kit_machine_class_init(ObjectClass *oc, void *data)
-> > >                     MICROCHIP_PFSOC_COMPUTE_CPU_COUNT;
-> > >      mc->min_cpus = MICROCHIP_PFSOC_MANAGEMENT_CPU_COUNT + 1;
-> > >      mc->default_cpus = mc->min_cpus;
-> > > +    mc->default_ram_id = "microchip.icicle.kit.ram_low";  
-> >
-> > given it is not versioned machine, so we don't have to worry about
-> > cross version migration here,
-> > so I'd use "microchip.icicle.kit.ram" for the name here
-> > and currently used "microchip.icicle.kit.ram_low" for corresponding alias  
-> 
-> Regards,
-> Bin
-> 
+> r~
+>=20
 
 
