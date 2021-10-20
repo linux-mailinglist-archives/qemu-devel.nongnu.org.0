@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D6A435229
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 19:58:40 +0200 (CEST)
-Received: from localhost ([::1]:45744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD2C435255
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 20:05:54 +0200 (CEST)
+Received: from localhost ([::1]:59896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdFrL-00074t-Kj
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 13:58:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42286)
+	id 1mdFyL-0008PP-AY
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 14:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdFp7-000510-HG
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 13:56:21 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:44883)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mdFsf-0002Jl-F5
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 14:00:01 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdFp5-0002zn-8z
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 13:56:20 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id v8so3580774pfu.11
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 10:56:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mdFsa-0006or-4Q
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 13:59:59 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id m22so140895wrb.0
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 10:59:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wfNkl84FZRD9A7HgTJg+9puJJBL+L9voJzSfRcHPDX4=;
- b=xXC3kDgGvkrvv46+J4pgfcn47JVGPnejcWIZXqDJQVsWY9Ehdrlcnl6xW6jB7kkNaV
- PNiCH4+jaMIEZhLER+VZcUI8N8t59sanHDOTkAhQV/JkcIiptuJt4cEkRv8hSJVPrcfj
- U+3FuihkBA+jsq68UDwMuLKouoWd0ZRQ5wfeohl1joF3SoIO4jZsEdCDVCXTM0+9HSKT
- FNUO6dTELFDAx8M8pCQQTA8IdprALQAEKDqytMqha5hdpEnb18JtQOsKqUPL1ey0kjKD
- HgZn5r8s3bu2ZloG0ckdS3+4gH8iwjZ+B4QiqKc/sET5AIBW91Mmi4lTXZD8v/86oSC9
- hxAw==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=oSP8OjQ/e3fbPuDu1kACwGuLYkcyqyq9spAVbZvLTo0=;
+ b=rOZy1SBMCqKAgUzY4gJdYlwHMALKYTC22hLpSMA0gZ04nhpJ71yaVjaW6Nh5JDJDV7
+ fbfCzHfQ78JpZLJa77X7CcbDvAqTMaaKSZsQgBFI/3SymVgQUSpQKxaGzAMpTmqqLL+a
+ ZOs6/HjNkQ5H36lnXsuzsYlU3VsLqaZVGRb9zSSoHT8SQGG5NcDMPArjUacGeQOA3Cl3
+ dLYWHK1cAOTJbE0Hz1xeT3Jx9O5QoxUwxdvqMUinvpQD4Lk2m3CGLFh6NSsvGJzLPoLf
+ 36jJA+7T/w94/AwexQByRLWCmsdQa6QtQttspIGTvM6BbBC8SQ7aSojcRws4OQhbsDuh
+ xGqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wfNkl84FZRD9A7HgTJg+9puJJBL+L9voJzSfRcHPDX4=;
- b=neVZa7UyjBqFa9A94aBxrDUb8OGCadj8ibh6lQypDvKJHYU6KEmJq72VWmHZOeQB5U
- IO9ywRSY8qf+q5OVNynMdBDe8d6pohkNNWer4srfjvw8wlrZuYG1AYgWqod6Igq9BIAC
- 1nhF/yDwOnCqDomLwmNLJ1rrrTXKOsd7rWYiKk0DOD8BAmV+TcdMOwJtTmrenX1vGCh/
- 8hw9pWN+wxZm6q6M4E2WUCxuqKhw1+30Oyt/TyFq2iey+0RTQt2fhSCUIJqgxu2AIJ0G
- Loj9qMK7/q/voGrD2779yI+Jgyku/x/GzIIq0RHx0xTjcAJWuvQD+587RQWC3HM3gv5S
- A5xQ==
-X-Gm-Message-State: AOAM532+y72sMy8VHJ2gvg30dq77/pqGwVepmOUJa8m5DIUdOP3ZolhN
- C/cvO9jowuohgcDTxq5OIZRwyA==
-X-Google-Smtp-Source: ABdhPJz2fs95cGlrbSozBYpzTD2dlM/0/V2JLa5S9iqdCjPgIsSiNQQNixKZO3q87uKVQEdNS3fYRQ==
-X-Received: by 2002:a62:6411:0:b0:44c:bf9f:f584 with SMTP id
- y17-20020a626411000000b0044cbf9ff584mr735602pfb.29.1634752577371; 
- Wed, 20 Oct 2021 10:56:17 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id h12sm4653169pja.1.2021.10.20.10.56.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 10:56:16 -0700 (PDT)
-Subject: Re: [PULL v2 00/44] pc,pci,virtio: features, fixes, tests
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20211020101844.988480-1-mst@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1c76bddd-b090-3953-5876-3d969196db49@linaro.org>
-Date: Wed, 20 Oct 2021 10:56:15 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=oSP8OjQ/e3fbPuDu1kACwGuLYkcyqyq9spAVbZvLTo0=;
+ b=3Y3emTxTFYQPUbHy7y8l5Yhasw5h8WG3G+LPfGxklO7WyuaAQWwapT1UxG8e7JZjiz
+ EX/egR/ijrrKRTMd/PonLhvjQfvrNUxVpo8rNBk1w2NfKbxeEBt0tEhiHPFUQeEjxJgP
+ rbOHcbgCMTQdpB3629CV6f7h6yBzlWAJMeQa+BWPEavRHNnjwYLzV7S4ihJ0jV1/NCQs
+ WuK+7gY1mJ1BqHXwi0E4r+cBOhhNm8q3zb5lhdCSQmRN7JuejUw5XgfSLlbyuWJMIId3
+ vrT1L7ZNdM2Ww8CHEseVlnHHu29WnybBFbyvQxlGc/KAhtT/gIPd0+4hmqHPP+UlCMYz
+ rAaw==
+X-Gm-Message-State: AOAM531dPlkJukkSsa/I82bfb64Acy/ihWOEBQkXoOOUvzF3T9L+DU4S
+ NiNaHJ5QvzZma1OlqAtPMQwb8w2GpQniDA==
+X-Google-Smtp-Source: ABdhPJyc7vJ5Dyp7c8dYmhG0EScN455vzvbWDNsibBPJQr4xxqZMCPTtj2KxMAqLefn9r3xWZJC0cA==
+X-Received: by 2002:adf:f04c:: with SMTP id t12mr885083wro.7.1634752794042;
+ Wed, 20 Oct 2021 10:59:54 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 133sm5789633wmb.24.2021.10.20.10.59.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Oct 2021 10:59:53 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 83BC91FF96;
+ Wed, 20 Oct 2021 18:59:52 +0100 (BST)
+References: <20210930095111.23205-1-pavel@labath.sk>
+ <20211019174953.36560-1-pavel@labath.sk> <87fsswvsfy.fsf@linaro.org>
+ <4a9b5f62-3189-7afd-217f-1386f44e0e7c@labath.sk>
+User-agent: mu4e 1.7.0; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Pavel Labath <pavel@labath.sk>
+Subject: Re: [PATCH v2] gdbstub: Switch to the thread receiving a signal
+Date: Wed, 20 Oct 2021 18:57:22 +0100
+In-reply-to: <4a9b5f62-3189-7afd-217f-1386f44e0e7c@labath.sk>
+Message-ID: <878rynvap3.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20211020101844.988480-1-mst@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,156 +88,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: philmd@redhat.com, qemu-devel@nongnu.org, stanshebs@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/20/21 3:19 AM, Michael S. Tsirkin wrote:
-> The following changes since commit 50352cce138ef3b30c1cda28a4df68fff5da3202:
-> 
->    Merge remote-tracking branch 'remotes/juanquintela/tags/migration.next-pull-request' into staging (2021-10-19 07:41:04 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> 
-> for you to fetch changes up to a8339e07f94a47f99560baef59d65a9e039aaf45:
-> 
->    tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge test (2021-10-20 06:18:17 -0400)
-> 
-> ----------------------------------------------------------------
-> pc,pci,virtio: features, fixes, tests
-> 
-> vhost user rng
-> vdpa multiqueue
-> Fixes, cleanups, new tests all over the place.
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> ----------------------------------------------------------------
-> Ani Sinha (3):
->        tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT table blob
->        tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges for q35
->        tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge test
-> 
-> David Hildenbrand (1):
->        libvhost-user: fix VHOST_USER_REM_MEM_REG skipping mmap_addr
-> 
-> Eric Auger (2):
->        virtio-iommu: Remove the non transitional name
->        virtio-iommu: Drop base_name and change generic_name
-> 
-> Eugenio Pérez (3):
->        vdpa: Skip protected ram IOMMU mappings
->        vdpa: Add vhost_vdpa_section_end
->        vdpa: Check for iova range at mappings changes
-> 
-> Igor Mammedov (15):
->        tests: acpi: dump table with failed checksum
->        tests: qtest: add qtest_has_accel() to check if tested binary supports accelerator
->        tests: acpi: whitelist expected tables for acpi/q35/xapic testcase
->        tests: acpi: q35: test for x2APIC entries in SRAT
->        tests: acpi: update expected tables blobs
->        tests: acpi: whitelist new expected table tests/data/acpi/q35/DMAR.dmar
->        tests: acpi: add testcase for intel_iommu (DMAR table)
->        tests: acpi: add expected blob for DMAR table
->        tests: acpi: whitelist expected blobs for new acpi/q35/ivrs testcase
->        tests: acpi: add testcase for amd-iommu (IVRS table)
->        tests: acpi: update expected blobs
->        tests: acpi: arm/virt: drop redundant test_acpi_one() in test_acpi_virt_tcg()
->        tests: arm-cpu-features: use qtest_has_kvm() API
->        tests: migration-test: use qtest_has_accel() API
->        tests: bios-tables-test: use qtest_has_accel() API to register TCG only tests
-> 
-> Jason Wang (10):
->        vhost-vdpa: open device fd in net_init_vhost_vdpa()
->        vhost-vdpa: classify one time request
->        vhost-vdpa: prepare for the multiqueue support
->        vhost-vdpa: let net_vhost_vdpa_init() returns NetClientState *
->        net: introduce control client
->        vhost-net: control virtqueue support
->        virtio-net: use "queue_pairs" instead of "queues" when possible
->        vhost: record the last virtqueue index for the virtio device
->        virtio-net: vhost control virtqueue support
->        vhost-vdpa: multiqueue support
-> 
-> Laurent Vivier (2):
->        failover: fix a regression introduced by JSON'ification of -device
->        qdev/qbus: remove failover specific code
-> 
-> Mathieu Poirier (3):
->        vhost-user-rng: Add vhost-user-rng implementation
->        vhost-user-rng-pci: Add vhost-user-rng-pci implementation
->        docs: Add documentation for vhost based RNG implementation
-> 
-> Michael S. Tsirkin (3):
->        rebuild-expected-aml.sh: allow partial target list
->        bios-tables-test: don't disassemble empty files
->        pci: fix PCI resource reserve capability on BE
-> 
-> Stefan Hajnoczi (1):
->        vhost-user-blk-test: pass vhost-user socket fds to QSD
-> 
-> Xueming Li (1):
->        vhost-user: fix duplicated notifier MR init
-> 
->   include/hw/virtio/vhost-user-rng.h        |  33 ++++
->   include/hw/virtio/vhost-vdpa.h            |   3 +
->   include/hw/virtio/vhost.h                 |   2 +
->   include/hw/virtio/virtio-iommu.h          |   2 +-
->   include/hw/virtio/virtio-net.h            |   5 +-
->   include/net/net.h                         |   5 +
->   include/net/vhost_net.h                   |   6 +-
->   tests/qtest/libqos/libqtest.h             |   8 +
->   hw/net/vhost_net-stub.c                   |   4 +-
->   hw/net/vhost_net.c                        |  55 ++++--
->   hw/net/virtio-net.c                       | 201 ++++++++++++---------
->   hw/pci/pci_bridge.c                       |  10 +-
->   hw/virtio/vhost-user-rng-pci.c            |  79 ++++++++
->   hw/virtio/vhost-user-rng.c                | 289 ++++++++++++++++++++++++++++++
->   hw/virtio/vhost-user.c                    |   5 +-
->   hw/virtio/vhost-vdpa.c                    | 140 ++++++++++++---
->   hw/virtio/virtio-iommu-pci.c              |   4 +-
->   net/net.c                                 |  24 ++-
->   net/vhost-vdpa.c                          | 127 +++++++++++--
->   softmmu/qdev-monitor.c                    |  18 +-
->   subprojects/libvhost-user/libvhost-user.c |   1 +
->   tests/qtest/acpi-utils.c                  |  14 ++
->   tests/qtest/arm-cpu-features.c            |  29 +--
->   tests/qtest/bios-tables-test.c            | 122 ++++++++++---
->   tests/qtest/libqtest.c                    |  27 +++
->   tests/qtest/migration-test.c              |  15 +-
->   tests/qtest/vhost-user-blk-test.c         |   4 +-
->   docs/system/device-emulation.rst          |   1 +
->   docs/system/devices/vhost-user-rng.rst    |  39 ++++
->   hw/virtio/Kconfig                         |   5 +
->   hw/virtio/meson.build                     |   2 +
->   hw/virtio/trace-events                    |   1 +
->   meson.build                               |   6 +
->   tests/data/acpi/q35/APIC.xapic            | Bin 0 -> 2686 bytes
->   tests/data/acpi/q35/DMAR.dmar             | Bin 0 -> 120 bytes
->   tests/data/acpi/q35/DSDT.ivrs             | Bin 0 -> 8306 bytes
->   tests/data/acpi/q35/DSDT.multi-bridge     | Bin 0 -> 8583 bytes
->   tests/data/acpi/q35/DSDT.xapic            | Bin 0 -> 35652 bytes
->   tests/data/acpi/q35/FACP.xapic            | Bin 0 -> 244 bytes
->   tests/data/acpi/q35/IVRS.ivrs             | Bin 0 -> 104 bytes
->   tests/data/acpi/q35/SRAT.xapic            | Bin 0 -> 5080 bytes
->   tests/data/acpi/rebuild-expected-aml.sh   |  22 ++-
->   42 files changed, 1075 insertions(+), 233 deletions(-)
->   create mode 100644 include/hw/virtio/vhost-user-rng.h
->   create mode 100644 hw/virtio/vhost-user-rng-pci.c
->   create mode 100644 hw/virtio/vhost-user-rng.c
->   create mode 100644 docs/system/devices/vhost-user-rng.rst
->   create mode 100644 tests/data/acpi/q35/APIC.xapic
->   create mode 100644 tests/data/acpi/q35/DMAR.dmar
->   create mode 100644 tests/data/acpi/q35/DSDT.ivrs
->   create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
->   create mode 100644 tests/data/acpi/q35/DSDT.xapic
->   create mode 100644 tests/data/acpi/q35/FACP.xapic
->   create mode 100644 tests/data/acpi/q35/IVRS.ivrs
->   create mode 100644 tests/data/acpi/q35/SRAT.xapic
 
-Applied, thanks.
+Pavel Labath <pavel@labath.sk> writes:
 
-r~
+> On 20/10/2021 10:35, Alex Benn=C3=A9e wrote:
+>> Pavel Labath <pavel@labath.sk> writes:
+>>=20
+>>> Respond with Txxthread:yyyy; instead of a plain Sxx to indicate which
+>>> thread received the signal. Otherwise, the debugger will associate it
+>>> with the main one. Also automatically select this thread, as that is
+>>> what gdb expects.
+>> Just for reference it's best to post vN's in a new thread as the
+>> Replied-to field can confuse some of the automatic tools (b4, patchew
+>> etc).
+>
+> Got it.
+>>=20
+>>> Signed-off-by: Pavel Labath <pavel@labath.sk>
+>>> ---
+>>>   gdbstub.c                                     |  8 ++-
+>>>   tests/tcg/multiarch/Makefile.target           | 10 +++-
+>>>   .../gdbstub/test-thread-breakpoint.py         | 60 +++++++++++++++++++
+>>>   3 files changed, 75 insertions(+), 3 deletions(-)
+>>>   create mode 100644 tests/tcg/multiarch/gdbstub/test-thread-breakpoint=
+.py
+>>>
+>>> diff --git a/gdbstub.c b/gdbstub.c
+>>> index 36b85aa..23baaef 100644
+>>> --- a/gdbstub.c
+>>> +++ b/gdbstub.c
+>>> @@ -3138,8 +3138,12 @@ gdb_handlesig(CPUState *cpu, int sig)
+>>>       tb_flush(cpu);
+>>>         if (sig !=3D 0) {
+>>> -        snprintf(buf, sizeof(buf), "S%02x", target_signal_to_gdb(sig));
+>>> -        put_packet(buf);
+>>> +        gdb_set_stop_cpu(cpu);
+>>> +        g_string_printf(gdbserver_state.str_buf,
+>>> +                        "T%02xthread:", target_signal_to_gdb(sig));
+>>> +        gdb_append_thread_id(cpu, gdbserver_state.str_buf);
+>>> +        g_string_append_c(gdbserver_state.str_buf, ';');
+>>> +        put_strbuf();
+>>>       }
+>>>       /* put_packet() might have detected that the peer terminated the
+>>>          connection.  */
+>>> diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/=
+Makefile.target
+>>> index 6ccb592..c84683f 100644
+>>> --- a/tests/tcg/multiarch/Makefile.target
+>>> +++ b/tests/tcg/multiarch/Makefile.target
+>>> @@ -70,11 +70,19 @@ run-gdbstub-qxfer-auxv-read: sha1
+>>>   		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-qxfer-auxv-read.py, \
+>>>   	"basic gdbstub qXfer:auxv:read support")
+>>>   +run-gdbstub-thread-breakpoint: testthread
+>>> +	$(call run-test, $@, $(GDB_SCRIPT) \
+>>> +		--gdb $(HAVE_GDB_BIN) \
+>>> +		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
+>>> +		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-thread-breakpoint.py, \
+>>> +	"hitting a breakpoint on non-main thread")
+>>> +
+>>>   else
+>>>   run-gdbstub-%:
+>>>   	$(call skip-test, "gdbstub test $*", "need working gdb")
+>>>   endif
+>>> -EXTRA_RUNS +=3D run-gdbstub-sha1 run-gdbstub-qxfer-auxv-read
+>>> +EXTRA_RUNS +=3D run-gdbstub-sha1 run-gdbstub-qxfer-auxv-read \
+>>> +	      run-gdbstub-thread-breakpoint
+>>>     # ARM Compatible Semi Hosting Tests
+>>>   #
+>>> diff --git a/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py b/te=
+sts/tcg/multiarch/gdbstub/test-thread-breakpoint.py
+>>> new file mode 100644
+>>> index 0000000..798d508
+>>> --- /dev/null
+>>> +++ b/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
+>>> @@ -0,0 +1,60 @@
+>>> +from __future__ import print_function
+>>> +#
+>>> +# Test auxiliary vector is loaded via gdbstub
+>> I'm fairly sure this isn't what the test is doing...
+> Oops. I'll fix this in the next version.
+>
+>>=20
+>>> +#
+>>> +# This is launched via tests/guest-debug/run-test.py
+>>> +#
+>>> +
+>>> +import gdb
+>>> +import sys
+>>> +
+>>> +failcount =3D 0
+>>> +
+>>> +def report(cond, msg):
+>>> +    "Report success/fail of test"
+>>> +    if cond:
+>>> +        print ("PASS: %s" % (msg))
+>>> +    else:
+>>> +        print ("FAIL: %s" % (msg))
+>>> +        global failcount
+>>> +        failcount +=3D 1
+>>> +
+>>> +def run_test():
+>>> +    "Run through the tests one by one"
+>>> +
+>>> +    sym, ok =3D gdb.lookup_symbol("thread1_func")
+>>> +    gdb.execute("b thread1_func")
+>>> +    gdb.execute("c")
+>>> +
+>>> +    frame =3D gdb.selected_frame()
+>>> +    report(str(frame.function()) =3D=3D "thread1_func", "break @
+>>> %s"%frame)
+>> I think we can do better here by checking gdb.selected_thread() and
+>> ensuring the num (or global_num) is not 1. Also maybe check the
+>> is_stopped() status:
+>
+> Checking `num` is a good idea. Checking is_stopped() doesn't hurt
+> either, though I believe that (in all-stop mode) gdb just hardwires
+> this to True for all threads, even those that are not actually stopped
+> (more on that below).
+>
+> However, if that's ok with you, I think it'd still be nice to keep the
+> frame check as well.
+
+That's fine.
+
+>>    https://sourceware.org/gdb/current/onlinedocs/gdb/Threads-In-Python.h=
+tml
+>> I noticed while running the test that output still continued for
+>> some
+>> time from the other thread but it was still doing that pre this change
+>> so I'm not quite sure what was going on there.
+>>=20
+>>> +
+>>> +#
+>>> +# This runs as the script it sourced (via -x, via run-test.py)
+>>> +#
+>>> +try:
+>>> +    inferior =3D gdb.selected_inferior()
+>>> +    arch =3D inferior.architecture()
+>>> +    print("ATTACHED: %s" % arch.name())
+>>> +except (gdb.error, AttributeError):
+>>> +    print("SKIPPING (not connected)", file=3Dsys.stderr)
+>>> +    exit(0)
+>>> +
+>>> +if gdb.parse_and_eval('$pc') =3D=3D 0:
+>>> +    print("SKIP: PC not set")
+>>> +    exit(0)
+>>> +
+>>> +try:
+>>> +    # These are not very useful in scripts
+>>> +    gdb.execute("set pagination off")
+>>> +    gdb.execute("set confirm off")
+>>> +
+>>> +    # Run the actual tests
+>>> +    run_test()
+>>> +except (gdb.error):
+>>> +    print ("GDB Exception: %s" % (sys.exc_info()[0]))
+>>> +    failcount +=3D 1
+>>> +    pass
+>>> +
+>>> +print("All tests complete: %d failures" % failcount)
+>>> +exit(failcount)
+>> I also tried some manual testing:
+>>    =E2=9E=9C  ./qemu-aarch64 -g 1234 tests/tcg/aarch64-linux-user/testth=
+read
+>>    fish: =E2=80=9C./qemu-aarch64 -g 1234 tests/tc=E2=80=A6=E2=80=9D term=
+inated by signal SIGSEGV (Address boundary error)
+>>    =F0=9F=95=9912:33:49 alex@zen:qemu.git/builds/arm.all  on =EE=82=A0 g=
+dbstub/next [$!?=E2=87=A1] took 12s [=E2=9A=A1 SEGV]
+>>    =E2=9C=97
+>> where in the other window I did:
+>>    0x00000000004005d0 in _start ()
+>>    (gdb) hbreak thread2_func
+>>    Hardware assisted breakpoint 1 at 0x400824: file /home/alex/lsrc/qemu=
+.git/tests/tcg/multiarch/testthread.c, line 34.
+>>    (gdb) hbreak thread1_func
+>>    Hardware assisted breakpoint 2 at 0x400798: file /home/alex/lsrc/qemu=
+.git/tests/tcg/multiarch/testthread.c, line 22.
+>>    (gdb) c
+>>    Continuing.
+>>    [New Thread 1.2748248]
+>>    Remote connection closed
+>> which seems to indicate some problems with breaking on multiple
+>> threads.
+>> Maybe this is related to the weird output I was seeing above?
+>>=20
+>
+> Yes, that's definitely related. What's happening is that the qemu does
+> not stop other thread when one of them hits a breakpoint (or stops for
+> any other reason) -- as far as I can tell it does not have any code
+> which would even attempt to do that. This is why you're seeing the
+> output even after the process is purportedly stopped.
+>
+> Things get even more interesting when you have two threads hitting a
+> breakpoint simultaneously. At that point both of them will enter their
+> gdb stubs and attempt to talk to gdb at the same time. As you can
+> imagine, this cannot end well, and eventually the connection will
+> become so messed up that one side just gives up and terminates the
+> link.
+>
+> I am aware of this issue, and I (well, Stan (cc'ed) is, for the most
+> part) looking for a way to fix it. If you have any ideas, we'd very
+> much like to hear them. The way I see it, we need to implement some
+> kind of a "stop the world" mechanism, to stop/interrupt all threads
+> whenever the gdb stub becomes active (and make sure it can handle
+> simultaneous debug events).
+
+vm_stop(RUN_STATE_PAUSED) should do the trick. We do it elsewhere in
+the gdbstub.
+
+> However, I am don't know enough about qemu
+> internals to tell how to actually go about doing that.
+>
+> My plan was to "get my feet wet" with a simple patch that improves the
+> situation for the case when there are no simultaneous debug events,
+> and eventually hopefully figure out a way how to address the bigger
+> problem.
+
+Great. Once you've made the changes I think the patch is ready to go in
+and the larger questions can be dealt with later.
+
+>
+> regards,
+> Pavel
+
+
+--=20
+Alex Benn=C3=A9e
 
