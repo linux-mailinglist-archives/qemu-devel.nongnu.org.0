@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74581434496
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 07:18:34 +0200 (CEST)
-Received: from localhost ([::1]:37430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD894344AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 07:31:31 +0200 (CEST)
+Received: from localhost ([::1]:41694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md3zl-00029P-Jz
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 01:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36006)
+	id 1md4CG-0005X0-SJ
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 01:31:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1md3yc-0001S4-5i
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 01:17:22 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:45662)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1md4A7-0004s0-IL; Wed, 20 Oct 2021 01:29:15 -0400
+Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e]:46952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1md3ya-0004mP-8R
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 01:17:21 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id f5so21436715pgc.12
- for <qemu-devel@nongnu.org>; Tue, 19 Oct 2021 22:17:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bEbxsL6ri7/izx+Tbhj+kECrM2FbCazMmMcNDiBZ0A8=;
- b=ajmFuFM96JSmZDMqj4v9agN2rowpkYCvgB3Xuj/p0houq8n8jZ9YNaeFOoB3wkF/B3
- KAP4iPeFDljXA4IFL6EhkZPr0iusIaytHEmrdKzre0UR4b0TWEDT1NDNvCe6bPu7xNW4
- grKzYWID7uY9VBPmPMoXPLuDdHsE1RV1AN5m9g4abH5I1Nc1i66zm5Pm9eS0MVz18/p4
- ZmS1zYUeOvFCijJM/anW33xONlQ1fL8j4eC/3qrMPHyi111mJ0VbPlaBmWRpresyKbPw
- 2tolN3cb8J4C8A+un2AfX6H7hDiJEM6lx8SZD8HKalCtHfvE4S50z7wAlL3OfLDSpSe8
- ecCw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1md4A4-0000cQ-Sx; Wed, 20 Oct 2021 01:29:15 -0400
+Received: by mail-il1-x12e.google.com with SMTP id w10so20773425ilc.13;
+ Tue, 19 Oct 2021 22:29:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Qxcmrzz4ItFdZDjpn59T9wdpGJ+IZN0rWSgZn8U7bRo=;
+ b=b5yYh5oTjJAxJAalVOM/T4ju2oRVehQPeWz8hjfC400EAoxsjXlG/Ixk69T9OGbBls
+ MdwQ2E4dCo3lqXz5ovdGwjfTqLWJkfiTQ6Z2X3wgEFo/uSI648f5pGgYMml4jROQT+H0
+ ZqI7dNmiXWWLMxaHyAxFlNeUtcEb6flNOL8KlDAT1js5Y7xiB3pz4nLyJ1IKl0KXXUL+
+ Fe4Q//zKQWjnlfr8nEcsTF6AGlhz7Kksn1yMa/QpySOTCZw8YYPrTk+sdbEE4sUAzv8o
+ Wq3Hn/XYKt6uYuvMydrIu30uBCj3GmkXyMMxDuKYTfhWRJY+2HBW8VqfkekPtD5FNaPQ
+ JHnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bEbxsL6ri7/izx+Tbhj+kECrM2FbCazMmMcNDiBZ0A8=;
- b=gAtxni56Vq+pb+ZlKZplNm0e9UfTFy6LYkvWq9wYccrQFWxFR1wLUmfu+vK6QIyizo
- cKkc2Mvu5ozBiZLYVdFEkRfj4yo3Pl8F+BTcYJwbybl5B4HeBxI33WYoAhFu/Q3cXLUA
- EMR4uIFVOkHllkOcCMHHI0Pzkbt0Uj2Xfux4AgMA3inJRccJVVLmqlDPal/ZulC88DuM
- Hitm+IbcxBrG9bMvZNkiALZC62Nayt88LBMYuuupnq6tGTfBF/k0YosXyaHeo4g/E3mE
- r2tH9mvzsgXbTjws1SZ0GK9FsreJOXSohuD1UhQy5KES/ffy0FwD6nld3HO/VxUfr5tj
- +o8A==
-X-Gm-Message-State: AOAM532dapcxgEH6c/3UunaDs5+Dy7JFvquHhxniSdufaVU5PeKJuS4u
- yFPjsp/aUd4dBiNkajCx0qrwKg==
-X-Google-Smtp-Source: ABdhPJyDndFO4iWAVKmhbQYvXqfdqjY/EBSuqmqABuTDnXeHs/eeJ+6mqL/d8MepZh9ol0UuN4dPsg==
-X-Received: by 2002:aa7:991e:0:b0:44c:a172:e670 with SMTP id
- z30-20020aa7991e000000b0044ca172e670mr4143833pff.10.1634707038179; 
- Tue, 19 Oct 2021 22:17:18 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id nr14sm804203pjb.24.2021.10.19.22.17.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 22:17:17 -0700 (PDT)
-Subject: Re: [PATCH 12/31] target/loongarch: Add timer related instructions
- support.
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <1634628917-10031-1-git-send-email-yangxiaojuan@loongson.cn>
- <1634628917-10031-13-git-send-email-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <31f9d679-2354-64bc-7fbb-a6bc84caab11@linaro.org>
-Date: Tue, 19 Oct 2021 22:17:15 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Qxcmrzz4ItFdZDjpn59T9wdpGJ+IZN0rWSgZn8U7bRo=;
+ b=jyDFYVm/tIfoY2AkgbsnwKcNPacYzLdqGvrcmRDaWxlQU4lwHW/2uJTbW8HInBYjHk
+ f1fvGTZxWBfd9I8T3VC6xl77w4EEgecM4uI5aPpx6d4A6dbaT5up1t/eiTYkqkA7azAo
+ 3Zu+X/J12svTtFRYtl510ew+w0yQIThADJn0NNiclVtTTL2KE9zPD9mvzJtp0TGOmBOl
+ fLqUUQQc29zmHv08Z+22VqFbL0yPw0+M/eAKIrT4NXly67xga4By0SD+BOeZsngq+YVH
+ gMbEl95Nyn0+59KwCptUrH5MAbPEep7Av69PO+qSWO04YMZDwZc+734HUPbv0t1EiweM
+ 4Xzg==
+X-Gm-Message-State: AOAM533dOC9SsibkWC/O82jMFXjiOuMt0qJ/LeyLqc5qc001Gj5ZSxff
+ 4bCdF/lQSuhNWQpdjcicKZJTUmuNuYa+ztFtl/Y=
+X-Google-Smtp-Source: ABdhPJzk8zOebbqpu9G0y57mWF9+XSQeJvfSpJdipeIv/g2/yhVAwJyXf4rsdQreIhxAKcmP0KAkgzkSYLmh5MrMpZQ=
+X-Received: by 2002:a05:6e02:214a:: with SMTP id
+ d10mr22260435ilv.290.1634707750312; 
+ Tue, 19 Oct 2021 22:29:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1634628917-10031-13-git-send-email-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.074,
+References: <20211015074627.3957162-1-frank.chang@sifive.com>
+ <c6d6ca26-aa14-8950-2aef-2f92803036c6@c-sky.com>
+ <3938e703-3000-a11a-a3e6-4a1ffd0e5601@c-sky.com>
+In-Reply-To: <3938e703-3000-a11a-a3e6-4a1ffd0e5601@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 20 Oct 2021 15:28:44 +1000
+Message-ID: <CAKmqyKPTGSKL_oHKOFacO1=YAQx5VBjbbWE0S8rpBfwhpT_nyg@mail.gmail.com>
+Subject: Re: [PATCH v8 00/78] support vector extension v1.0
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,119 +80,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
- mst@redhat.com, philmd@redhat.com, mark.cave-ayland@ilande.co.uk,
- laurent@vivier.eu, peterx@redhat.com, f4bug@amsat.org,
- alistair.francis@wdc.com, maobibo@loongson.cn, gaosong@loongson.cn,
- pbonzini@redhat.com, bmeng.cn@gmail.com, alex.bennee@linaro.org,
- david@gibson.dropbear.id.au
+Cc: Frank Chang <frank.chang@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 12:34 AM, Xiaojuan Yang wrote:
-> This includes:
-> -RDTIME{L/H}.W
-> -RDTIME.D
-> 
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   target/loongarch/helper.h                 |  2 ++
->   target/loongarch/insn_trans/trans_core.c  | 23 +++++++++++++++++++++
->   target/loongarch/insn_trans/trans_extra.c |  2 ++
->   target/loongarch/op_helper.c              | 25 +++++++++++++++++++++++
->   4 files changed, 52 insertions(+)
-> 
-> diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-> index 8544771790..b4ed62896f 100644
-> --- a/target/loongarch/helper.h
-> +++ b/target/loongarch/helper.h
-> @@ -116,4 +116,6 @@ DEF_HELPER_4(lddir, tl, env, tl, tl, i32)
->   DEF_HELPER_4(ldpte, void, env, tl, tl, i32)
->   DEF_HELPER_1(ertn, void, env)
->   DEF_HELPER_1(idle, void, env)
-> +DEF_HELPER_4(rdtime_w, void, env, tl, tl, i64)
-> +DEF_HELPER_3(rdtime_d, void, env, tl, tl)
->   #endif /* !CONFIG_USER_ONLY */
-> diff --git a/target/loongarch/insn_trans/trans_core.c b/target/loongarch/insn_trans/trans_core.c
-> index 7fa13e65b9..24eb12b97a 100644
-> --- a/target/loongarch/insn_trans/trans_core.c
-> +++ b/target/loongarch/insn_trans/trans_core.c
-> @@ -276,4 +276,27 @@ static bool trans_idle(DisasContext *ctx, arg_idle *a)
->       return true;
->   }
->   
-> +static bool trans_rdtimel_w(DisasContext *ctx, arg_rdtimel_w *a)
-> +{
-> +    TCGv t0 = tcg_constant_tl(a->rd);
-> +    TCGv t1 = tcg_constant_tl(a->rj);
-> +    gen_helper_rdtime_w(cpu_env, t0, t1, tcg_constant_tl(0));
-> +    return true;
-> +}
+On Mon, Oct 18, 2021 at 7:37 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> Hi Alistair,
+>
+> Sorry for the  send error.  And I have a question about this patch set.
 
-Missing icount boilerplate:
+Hello Zhiwei,
 
-     if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-         gen_io_start();
-         ctx->base.is_jmp = DISAS_TOO_MANY;
-     }
+>
+> Firstly, I totally support the vector v1.0 upstream.
 
-Something similar is probably required before some of the other instructions that always 
-result in i/o.
+Great!
 
-> diff --git a/target/loongarch/insn_trans/trans_extra.c b/target/loongarch/insn_trans/trans_extra.c
-> index 8da3b404f3..426b67f154 100644
-> --- a/target/loongarch/insn_trans/trans_extra.c
-> +++ b/target/loongarch/insn_trans/trans_extra.c
-> @@ -36,6 +36,7 @@ static bool trans_asrtgt_d(DisasContext *ctx, arg_asrtgt_d * a)
->       return true;
->   }
->   
-> +#ifdef CONFIG_USER_ONLY
->   static bool trans_rdtimel_w(DisasContext *ctx, arg_rdtimel_w *a)
->   {
->       tcg_gen_movi_tl(cpu_gpr[a->rd], 0);
-> @@ -53,6 +54,7 @@ static bool trans_rdtime_d(DisasContext *ctx, arg_rdtime_d *a)
->       tcg_gen_movi_tl(cpu_gpr[a->rd], 0);
->       return true;
->   }
-> +#endif
+>
+> The concern is how to deal with the v0.7.1 code on QEMU. There are some
+> products based on the vector v0.7.1,
+> such as D1 SOC from Allwinner and  Xuantie CPU  from Alibaba. The Linux
+> and GCC upstream for D1 is working in progress,
+> and eventually these projects will support v0.7.1 in some way, probably
+> as "x-thead-v" (the "thead" stands for Alibaba T-Head).
 
-You shouldn't have two copies of these.
+Yep, so QEMU's stance is to only support the latest version of a draft
+specification. Once a specification moves from draft to frozen we will
+also only support the frozen spec.
 
-> +void helper_rdtime_w(CPULoongArchState *env, target_ulong rd,
-> +                     target_ulong rj, target_ulong high)
-> +{
-> +    if (rd) {
-> +        if (high) {
-> +            env->gpr[rd] = cpu_loongarch_get_stable_counter(env) >> 32;
-> +        } else {
-> +            env->gpr[rd] = cpu_loongarch_get_stable_counter(env) & 0xffffffff;
-> +        }
+I understand that there is hardware with the v0.7.1 of the vector
+extension. But in QEMU we don't have the resources for RISC-V to
+maintain multiple sets of draft extensions. Especially the vector
+extension, which is very different between v0.7.1 and v1.0 (see the 78
+patches in this series).
 
-This is incorrect -- the result should be sign-extended in RD.
+I realise this is disappointing for companies and people who have
+invested in v0.7.1 in QEMU, and I hope it doesn't put anyone off
+upstream work. Having the v0.7.1 even for a short period of time has
+been helpful for the vector extension development and related
+software/tools.
 
-> +void helper_rdtime_d(CPULoongArchState *env, target_ulong rd, target_ulong rj)
-> +{
-> +    if (rd) {
-> +        env->gpr[rd] = cpu_loongarch_get_stable_counter(env);
-> +    }
-> +    if (rj) {
-> +        env->gpr[rj] = env->CSR_TMID;
-> +    }
+>
+> Maybe we can
+>
+> 1. Drop the v0.7.1 support permanently.
+>
+> 2. Drop the v0.7.1  temporarily and add  it  back later.
 
-You shouldn't need two functions.  Just return the full 64-bit result, placing that into 
-RD, then read TMID separately.
+If in the future there is broad community support for v0.7.1 and we
+can get some more QEMU resources for RISC-V we can re-evaluate v0.7.1
+support. But for the time being it will just be dropped.
 
-     rd = gpr_dst(ctx, a->rd, EXT_NONE);
-     gen_helper_rdtime_d(rd, cpu_env);
-     if (word) {
-         tcg_gen_sextract_tl(rd, rd, high ? 32 : 0, 32);
-     }
+There are a few QEMU releases with v0.7.1 support, so you can use
+those for development. The v0.7.1 has received a few bug fixes in the
+upstream code base which will be beneficial for those using it.
 
-     rj = gpr_dst(ctx, a->rj, EXT_NONE);
-     tcg_gen_ld_i64(rj, cpu_env, offsetof(CPULoongArchState, CSR_TMID));
+Sorry about that
 
+Alistair
 
-r~
+>
+> 3. Do some compatible work for v0.7.1 in the v1.0 patch set.
+>
+> Look forward to your idea. Thanks very much.
+>
+> Best Regards,
+> Zhiwei
+>
+> On 2021/10/18 =E4=B8=8B=E5=8D=885:01, LIU Zhiwei wrote:
+> > Hi Alistair,
+> >
+> > There is some products based on the vector v0.7.1, such as D1 SOC from
+> > Allwinner and  Xuantie CPU  And we have spent a lot of work to
+> > support  vector  on QEMU.
+> >
+> >
+> >
+> > Allwinner
+> >
+> >
 
