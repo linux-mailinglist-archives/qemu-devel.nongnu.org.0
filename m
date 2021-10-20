@@ -2,48 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F68A434D3D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:14:15 +0200 (CEST)
-Received: from localhost ([::1]:48710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA13C434D0C
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:06:14 +0200 (CEST)
+Received: from localhost ([::1]:56548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdCMA-0001Yb-7x
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:14:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40166)
+	id 1mdCEP-0004XL-Uv
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:06:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mdC3s-000795-BQ
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:55:20 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:32577)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mdCAb-0001Qz-MR
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:02:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mdC3o-0006uA-Ow
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:55:19 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 7B4314691F;
- Wed, 20 Oct 2021 15:55:13 +0200 (CEST)
-From: Stefan Reiter <s.reiter@proxmox.com>
-To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wolfgang Bumiller <w.bumiller@proxmox.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
-Subject: [PATCH v6 1/5] monitor/hmp: add support for flag argument with value
-Date: Wed, 20 Oct 2021 15:54:56 +0200
-Message-Id: <20211020135500.2384930-2-s.reiter@proxmox.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211020135500.2384930-1-s.reiter@proxmox.com>
-References: <20211020135500.2384930-1-s.reiter@proxmox.com>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mdCAY-0005AV-VZ
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:02:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634738532;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=htdzXuBURcbvhi7WJ8nGeJ3qlt2raArlTzBK57kXhD4=;
+ b=jNWeXeNMoo8J+Nxrh1KUqq0G8dW1UyRubCaA+0abpEp23dauuEZzzqiTDnjEkGNlzfevnC
+ EFmy4/26HrIx26s5x0nTRotO2RjNvqpHURrsMPr+eeGAhVfF5JtzrraRkQNB2IOppju7nX
+ pyvfK685MD+QBShkgOr0BHDdvQydFXI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-551-gOE05hBWMTmIiJ_XdVx0FQ-1; Wed, 20 Oct 2021 09:58:05 -0400
+X-MC-Unique: gOE05hBWMTmIiJ_XdVx0FQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F7FF814414;
+ Wed, 20 Oct 2021 13:57:38 +0000 (UTC)
+Received: from localhost (unknown [10.22.17.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C36D717155;
+ Wed, 20 Oct 2021 13:57:37 +0000 (UTC)
+Date: Wed, 20 Oct 2021 09:57:37 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] hw/qdev-core: Add compatibility for (non)-transitional
+ devs
+Message-ID: <20211020135737.3wubfa4c6ijflolp@habkost.net>
+References: <20211012082428.16222-1-jean-louis@dupond.be>
+ <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
+ <YW6h+YcNEgyzh5zw@stefanha-x1.localdomain>
+ <20211019065850-mutt-send-email-mst@kernel.org>
+ <20211019152913.wjipmv6trjx6k7xa@habkost.net>
+ <20211019120619-mutt-send-email-mst@kernel.org>
+ <20211019165611.scfagcp4ikhigx5k@habkost.net>
+ <20211020034005-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211020034005-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,92 +85,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: berrange@redhat.com, Stefan Hajnoczi <stefanha@gmail.com>,
+ jasowang@redhat.com, qemu-devel@nongnu.org,
+ Jean-Louis Dupond <jean-louis@dupond.be>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adds support for the "-xV" parameter type, where "-x" denotes a flag
-name and the "V" suffix indicates that this flag is supposed to take an
-arbitrary string parameter.
+On Wed, Oct 20, 2021 at 03:41:38AM -0400, Michael S. Tsirkin wrote:
+> On Tue, Oct 19, 2021 at 12:56:11PM -0400, Eduardo Habkost wrote:
+> > On Tue, Oct 19, 2021 at 12:13:17PM -0400, Michael S. Tsirkin wrote:
+> > > On Tue, Oct 19, 2021 at 11:29:13AM -0400, Eduardo Habkost wrote:
+> > > > On Tue, Oct 19, 2021 at 06:59:09AM -0400, Michael S. Tsirkin wrote:
+> > > > > On Tue, Oct 19, 2021 at 11:46:17AM +0100, Stefan Hajnoczi wrote:
+> > > > > > On Tue, Oct 12, 2021 at 10:36:01AM +0200, Jean-Louis Dupond wrote:
+> > > > > > > Forgot to CC maintainers.
+> > > > > > 
+> > > > > > Also CCing Jason Wang and Michael Tsirkin for VIRTIO.
+> > > > > > 
+> > > > > > Stefan
+> > > > > 
+> > > > > OMG
+> > > > > where all compat properties broken all the time?
+> > > > 
+> > > > Compat properties that existed when commit f6e501a28ef9 ("virtio:
+> > > > Provide version-specific variants of virtio PCI devices") was
+> > > > merged are not broken, because virtio-*-transitional and
+> > > > virtio-*-non-transitional were brand new QOM types (so there's no
+> > > > compatibility to be kept with old QEMU versions).
+> > > > 
+> > > > Compat properties referencing "virtio-*-pci" instead of
+> > > > "virtio-*-pci-base" added after commit f6e501a28ef9 are probably
+> > > > broken, yes.
+> > > > 
+> > > > -- 
+> > > > Eduardo
+> > > 
+> > > Oh. So just this one:
+> > >     { "virtio-net-pci", "vectors", "3"},
+> > > 
+> > > right?
+> > 
+> > I think so.  That's the only post-4.0 virtio-*-pci compat property I see in
+> > hw/core/machine.c.
+> > 
+> > pc.c doesn't have any post-4.0 virtio-*-pci compat props.  I didn't see any
+> > virtio compat props on spapr.c and s390-virtio-ccw.c.
+> > 
+> > > 
+> > > about the patch: how do people feel about virtio specific
+> > > stuff in qdev core? Ok by everyone?
+> > 
+> > Not OK, if we have a mechanism to avoid that, already (the
+> > "virtio-net-pci-base" type name).  I wonder what we can do to
+> > make this kind of mistake less likely, though.
+> > 
+> > Jean-Louis, Jason, does the following fix work?
+> > 
+> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > ---
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index b8d95eec32d..bd9c6156c1a 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -56,7 +56,7 @@ GlobalProperty hw_compat_5_2[] = {
+> >      { "ICH9-LPC", "smm-compat", "on"},
+> >      { "PIIX4_PM", "smm-compat", "on"},
+> >      { "virtio-blk-device", "report-discard-granularity", "off" },
+> > -    { "virtio-net-pci", "vectors", "3"},
+> > +    { "virtio-net-pci-base", "vectors", "3"},
+> >  };
+> >  const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+> 
+> Hmm I'm a bit confused at this point, as to why does
+> specifying properties for virtio-net-pci on command
+> line with -global work, but in compat list doesn't. Do others
+> understand?
 
-These parameters are always optional, the entry in the qdict will be
-omitted if the flag is not given.
+I don't think that's the case.  -global behaves similarly to compat_props.
 
-Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
----
+Running an unpatched QEMU 6.1.0 binary:
 
-v6:
-It wasn't possible to pass the 'connected' parameter to set_password, since the
-code to handle optional parameters couldn't live with a different param (not
-starting with '-') coming up instead - fix that by advancing over the 'value
-flag' modifier in case `*p != '-'`.
+$ echo -e 'info qtree\nquit' | qemu-system-x86_64 -device virtio-net-pci -machine pc-q35-5.2 -monitor stdio | grep vectors
+        vectors = 3 (0x3)
+$ echo -e 'info qtree\nquit' | qemu-system-x86_64 -device virtio-net-pci-non-transitional -machine pc-q35-5.2 -monitor stdio | grep vectors
+        vectors = 4 (0x4)
+$ echo -e 'info qtree\nquit' | qemu-system-x86_64 -device virtio-net-pci-non-transitional -global virtio-net-pci.vectors=3 -monitor stdio | grep vectors
+        vectors = 4 (0x4)
+$ echo -e 'info qtree\nquit' | qemu-system-x86_64 -device virtio-net-pci-non-transitional -global virtio-net-pci-base.vectors=3 -monitor stdio | grep vectors
+        vectors = 3 (0x3)
 
-Also change the modifier to 'V' instead of 'S' so it can be distinguished from
-an actual trailing 'S' type param.
 
-Discovered in testing. I dropped Eric's R-b due to the code change.
-
- monitor/hmp.c              | 19 ++++++++++++++++++-
- monitor/monitor-internal.h |  3 ++-
- 2 files changed, 20 insertions(+), 2 deletions(-)
-
-diff --git a/monitor/hmp.c b/monitor/hmp.c
-index d50c3124e1..899e0c990f 100644
---- a/monitor/hmp.c
-+++ b/monitor/hmp.c
-@@ -980,6 +980,7 @@ static QDict *monitor_parse_arguments(Monitor *mon,
-             {
-                 const char *tmp = p;
-                 int skip_key = 0;
-+                int ret;
-                 /* option */
- 
-                 c = *typestr++;
-@@ -1002,11 +1003,27 @@ static QDict *monitor_parse_arguments(Monitor *mon,
-                     }
-                     if (skip_key) {
-                         p = tmp;
-+                    } else if (*typestr == 'V') {
-+                        /* has option with string value */
-+                        typestr++;
-+                        tmp = p++;
-+                        while (qemu_isspace(*p)) {
-+                            p++;
-+                        }
-+                        ret = get_str(buf, sizeof(buf), &p);
-+                        if (ret < 0) {
-+                            monitor_printf(mon, "%s: value expected for -%c\n",
-+                                           cmd->name, *tmp);
-+                            goto fail;
-+                        }
-+                        qdict_put_str(qdict, key, buf);
-                     } else {
--                        /* has option */
-+                        /* has boolean option */
-                         p++;
-                         qdict_put_bool(qdict, key, true);
-                     }
-+                } else if (*typestr == 'V') {
-+                    typestr++;
-                 }
-             }
-             break;
-diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-index 9c3a09cb01..9e708b329d 100644
---- a/monitor/monitor-internal.h
-+++ b/monitor/monitor-internal.h
-@@ -63,7 +63,8 @@
-  * '.'          other form of optional type (for 'i' and 'l')
-  * 'b'          boolean
-  *              user mode accepts "on" or "off"
-- * '-'          optional parameter (eg. '-f')
-+ * '-'          optional parameter (eg. '-f'); if followed by an 'V', it
-+ *              specifies an optional string param (e.g. '-fV' allows '-f foo')
-  *
-  */
- 
 -- 
-2.30.2
-
+Eduardo
 
 
