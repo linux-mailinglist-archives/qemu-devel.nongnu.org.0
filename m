@@ -2,81 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA51434E6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:59:52 +0200 (CEST)
-Received: from localhost ([::1]:51322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55486434E78
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 17:01:43 +0200 (CEST)
+Received: from localhost ([::1]:53018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdD4J-0004Hd-LP
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:59:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55172)
+	id 1mdD66-0005WH-Dt
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 11:01:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdD2F-0002Qr-Iv
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:57:43 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:35775)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdD2D-0003rH-RO
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:57:43 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id 136so2982306pgc.2
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 07:57:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=j/BSM1NtGtUJuZBkikYYglLhadup4cDc5ZB/aZuPQv8=;
- b=UwKDXj6bAE2o4sGUvothVhuf0hAbJSLfZyouoY1MT6hg8N26G1V58X5a4/ThcgpeCw
- Nf6ZumajJj5d7wUFDVNzcUUZvxBJ+ATcnZ3VT++nPf5Oc0Aw1NgoFlpK3iaRm7mYbJ9m
- k2lyTBQHseXOH0IhD9PL4DZtXwvi0+6E3iVdEDiLfS8xcy36++t0Io8DsVGwgaq3Gamw
- p+rXM1pXW0yhLzk7uXOCraNwxn+YElnQYXLDdwR9CPRNEy7FVPTRIRo6lEc7i8hScRDM
- 0M69JPltJ3Lwlm9d98IyaHbaRH8sNUwhwI5CCOKVCovO3jwyRHu207u9TljC6ElHkaWC
- 7CVA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mdD2r-0003Kq-Gp
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:58:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mdD2p-0005E5-OE
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:58:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634741898;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sUMHvaAweaLRvHwGDM638Xi6t3XU1P17Qi1nsIB7ByI=;
+ b=VBSONbFTe4SCojJsKFNjAJrujjK2uNEmN3zymjbfEyK+r219Ej5h2jpLKnvldYFSFytATS
+ l0Ck271vS/PLijRWUXOJR4shYT5J+FOO7SQvePiW4I0rnFEmv0YASICkupCa9uM3x1VPFt
+ QjzpogCf1sZRearQiBnLuRbxZZCTX0g=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-usB_SejKPjuavzXxJfiBtA-1; Wed, 20 Oct 2021 10:58:17 -0400
+X-MC-Unique: usB_SejKPjuavzXxJfiBtA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ k9-20020a7bc409000000b0030d978403e9so4372547wmi.7
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 07:58:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=j/BSM1NtGtUJuZBkikYYglLhadup4cDc5ZB/aZuPQv8=;
- b=pdWLplX3dkyYsDkQ6U5WpYRUgkN32Zs0jx1NSA9iK9JwlDdeqd3s2/hpgUYzIagdE5
- pdaXrweJq3iSEAboCXsEnL96eMLi1nOTlvKxT/KPrPoBiu9AYIsrOfpDZ/ihxKoYWcSa
- H5fqSFNfNIuaR1vZF7rG1zhUkeVWo3YsdtxAlIk0C8gUY1+DJCtBr6B9ih4YfZ6AGD72
- AU4oNX/xGfjECsrZG0MMiM0OyO14uqBaJUCrp/OkFBzfn7ofFZb/ekU3WP0o6oNTqcV4
- A/eGeXG1AVmDb03IGlCe3T0N532WTvd59hQT8R562peHaPo3AQQiN2JzTfZ2UvjFwUhn
- d/fQ==
-X-Gm-Message-State: AOAM532fXuwa0UiqkDyAHRAJ/7Dsq0Mncj+6f0gLAzq0Y9L+V0qspESr
- b7hSRJcH9pxwfqvOKmsV/8Cl/w==
-X-Google-Smtp-Source: ABdhPJw/4NB8n32lPUMSBh5NPoTu3i9zRzHf+pf3zCiI76La3GcLQhDtJ2ux+xB02woUhtHBUttEDw==
-X-Received: by 2002:a63:15:: with SMTP id 21mr336870pga.479.1634741860360;
- Wed, 20 Oct 2021 07:57:40 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id l4sm3421100pfc.121.2021.10.20.07.57.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 07:57:39 -0700 (PDT)
-Subject: Re: [PATCH v3 07/21] target/riscv: setup everything so that
- riscv128-softmmu compiles
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211019094812.614056-8-frederic.petrot@univ-grenoble-alpes.fr>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7a5d64f7-0587-4ade-85c3-6b0cea5228bd@linaro.org>
-Date: Wed, 20 Oct 2021 07:57:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sUMHvaAweaLRvHwGDM638Xi6t3XU1P17Qi1nsIB7ByI=;
+ b=IAXLs9+FI7NJIYBlwWge4VKAWLVcdNWZ64be0nQAgseNf5gzeyxvpwNszHz3ASHcp/
+ cs1CYKPwgib8d2w/hJmWrg5QwIArK4cAvEZbFgRtOZb8FuKYIHYWzTRAW7udP5PGyB4M
+ azAqezrGEs0MoxGyfoBXlPPLWmub+X5oHh5wwIJWvOqEkiTGz8I726Vn60f+VlkqLKCI
+ nL15RI7/JeF5thZ7Z7Xxn1rjNS79+ITdB4Anb7Nv4QNLm3l1Mb1B9oRBv3D0CauOqYUG
+ tzPr4e5l8W49Tk0ouOtzM0ggIwucwMStPWibUKqpVAUSqP8Cb+fSP9WAb2+3sTB+KfEN
+ Ktrw==
+X-Gm-Message-State: AOAM533vlEEvjrxoOxCmgU8Sw1w8sjKa4Bw+8/4XHifAgr3zANpzJIMb
+ jmrIhvxAuaGc4R3/zudbfENmtWPwyfrNmkKig2Ps02ekDAFYPqS5cRICIKsR0rNFQe4OFQiwPb8
+ 5wGe1erObgG28ca4=
+X-Received: by 2002:adf:d209:: with SMTP id j9mr243955wrh.43.1634741896090;
+ Wed, 20 Oct 2021 07:58:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNygy63IAnQShYv89ZHa6Rf17pDT6PKso3beuG9oN32wmi7VK/yUKLz/Md160KI6IF1fPkLQ==
+X-Received: by 2002:adf:d209:: with SMTP id j9mr243926wrh.43.1634741895843;
+ Wed, 20 Oct 2021 07:58:15 -0700 (PDT)
+Received: from redhat.com ([2.55.24.172])
+ by smtp.gmail.com with ESMTPSA id z5sm6517992wmp.26.2021.10.20.07.58.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Oct 2021 07:58:15 -0700 (PDT)
+Date: Wed, 20 Oct 2021 10:58:12 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH] hw/qdev-core: Add compatibility for (non)-transitional
+ devs
+Message-ID: <20211020105655-mutt-send-email-mst@kernel.org>
+References: <20211012082428.16222-1-jean-louis@dupond.be>
+ <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
+ <YW6h+YcNEgyzh5zw@stefanha-x1.localdomain>
+ <20211019065850-mutt-send-email-mst@kernel.org>
+ <20211019152913.wjipmv6trjx6k7xa@habkost.net>
+ <20211019120619-mutt-send-email-mst@kernel.org>
+ <20211019165611.scfagcp4ikhigx5k@habkost.net>
+ <CACGkMEskUCah0t5FEzrf1kHnC4=iOVSU9=h9zJozQLynEQznaQ@mail.gmail.com>
+ <CACGkMEuegAVjRudWPb5YZ7s7AZ1V_MvCkFviV1w5J_0f+bh+Vg@mail.gmail.com>
+ <20211020140917.2mirnsjkhcykotcu@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <20211019094812.614056-8-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211020140917.2mirnsjkhcykotcu@habkost.net>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,66 +101,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Jean-Louis Dupond <jean-louis@dupond.be>,
+ pbonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 2:47 AM, Frédéric Pétrot wrote:
-> This patch is kind of a mess because several files have to be slightly
-> modified to allow for a new target. Most of these modifications have to deal
-> with changing what was a binary choice into a ternary one.  Although we did
-> our best to avoid testing for TARGET_RISCV128 (which we did), it is
-> implicitly there in '#else' statements.
-> Most added infrastructure files are no far from being copies of the 64-bit
-> version.
-> Once this patch applied, adding risc128-sofmmu to --target-list produces
-> a (no so useful yet) executable.
+On Wed, Oct 20, 2021 at 10:09:17AM -0400, Eduardo Habkost wrote:
+> On Wed, Oct 20, 2021 at 01:02:24PM +0800, Jason Wang wrote:
+> > On Wed, Oct 20, 2021 at 9:31 AM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > > On Wed, Oct 20, 2021 at 12:56 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
+> > > >
+> > > > On Tue, Oct 19, 2021 at 12:13:17PM -0400, Michael S. Tsirkin wrote:
+> > > > > On Tue, Oct 19, 2021 at 11:29:13AM -0400, Eduardo Habkost wrote:
+> > > > > > On Tue, Oct 19, 2021 at 06:59:09AM -0400, Michael S. Tsirkin wrote:
+> > > > > > > On Tue, Oct 19, 2021 at 11:46:17AM +0100, Stefan Hajnoczi wrote:
+> > > > > > > > On Tue, Oct 12, 2021 at 10:36:01AM +0200, Jean-Louis Dupond wrote:
+> > > > > > > > > Forgot to CC maintainers.
+> > > > > > > >
+> > > > > > > > Also CCing Jason Wang and Michael Tsirkin for VIRTIO.
+> > > > > > > >
+> > > > > > > > Stefan
+> > > > > > >
+> > > > > > > OMG
+> > > > > > > where all compat properties broken all the time?
+> > > > > >
+> > > > > > Compat properties that existed when commit f6e501a28ef9 ("virtio:
+> > > > > > Provide version-specific variants of virtio PCI devices") was
+> > > > > > merged are not broken, because virtio-*-transitional and
+> > > > > > virtio-*-non-transitional were brand new QOM types (so there's no
+> > > > > > compatibility to be kept with old QEMU versions).
+> > > > > >
+> > > > > > Compat properties referencing "virtio-*-pci" instead of
+> > > > > > "virtio-*-pci-base" added after commit f6e501a28ef9 are probably
+> > > > > > broken, yes.
+> > > > > >
+> > > > > > --
+> > > > > > Eduardo
+> > > > >
+> > > > > Oh. So just this one:
+> > > > >     { "virtio-net-pci", "vectors", "3"},
+> > > > >
+> > > > > right?
+> > > >
+> > > > I think so.  That's the only post-4.0 virtio-*-pci compat property I see in
+> > > > hw/core/machine.c.
+> > > >
+> > > > pc.c doesn't have any post-4.0 virtio-*-pci compat props.  I didn't see any
+> > > > virtio compat props on spapr.c and s390-virtio-ccw.c.
+> > > >
+> > > > >
+> > > > > about the patch: how do people feel about virtio specific
+> > > > > stuff in qdev core? Ok by everyone?
+> > > >
+> > > > Not OK, if we have a mechanism to avoid that, already (the
+> > > > "virtio-net-pci-base" type name).  I wonder what we can do to
+> > > > make this kind of mistake less likely, though.
+> > > >
+> > > > Jean-Louis, Jason, does the following fix work?
+> > >
+> > > Yes.
+> > >
+> > > Acked-by: Jason Wang <jasowang@redhat.com>
+> > >
+> > > Thanks
+> > >
+> > > >
+> > > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > > > ---
+> > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > > index b8d95eec32d..bd9c6156c1a 100644
+> > > > --- a/hw/core/machine.c
+> > > > +++ b/hw/core/machine.c
+> > > > @@ -56,7 +56,7 @@ GlobalProperty hw_compat_5_2[] = {
+> > > >      { "ICH9-LPC", "smm-compat", "on"},
+> > > >      { "PIIX4_PM", "smm-compat", "on"},
+> > > >      { "virtio-blk-device", "report-discard-granularity", "off" },
+> > > > -    { "virtio-net-pci", "vectors", "3"},
+> > > > +    { "virtio-net-pci-base", "vectors", "3"},
+> > 
+> > Rethink about this, any chance that we can use "virtio-net-pci" as the
+> > base_name? It looks to me this can cause less confusion and consistent
+> > with the existing compat properties.
 > 
-> Signed-off-by: Frédéric Pétrot<frederic.petrot@univ-grenoble-alpes.fr>
-> Co-authored-by: Fabien Portas<fabien.portas@grenoble-inp.org>
-> ---
->   configs/devices/riscv128-softmmu/default.mak | 17 +++++++
->   configs/targets/riscv128-softmmu.mak         |  6 +++
->   include/disas/dis-asm.h                      |  1 +
->   include/hw/riscv/sifive_cpu.h                |  3 ++
->   target/riscv/cpu-param.h                     |  5 ++
->   target/riscv/cpu.h                           |  3 ++
->   disas/riscv.c                                |  5 ++
->   target/riscv/cpu.c                           | 23 +++++++++-
->   target/riscv/gdbstub.c                       |  3 ++
->   target/riscv/insn_trans/trans_rvd.c.inc      | 12 ++---
->   target/riscv/insn_trans/trans_rvf.c.inc      |  6 +--
->   gdb-xml/riscv-128bit-cpu.xml                 | 48 ++++++++++++++++++++
->   gdb-xml/riscv-128bit-virtual.xml             | 12 +++++
->   target/riscv/Kconfig                         |  3 ++
->   14 files changed, 137 insertions(+), 10 deletions(-)
->   create mode 100644 configs/devices/riscv128-softmmu/default.mak
->   create mode 100644 configs/targets/riscv128-softmmu.mak
->   create mode 100644 gdb-xml/riscv-128bit-cpu.xml
->   create mode 100644 gdb-xml/riscv-128bit-virtual.xml
+> It's probably too late now: we can't change the semantics of
+> "-global virtio-net-pci" without breaking compatibility.
 
-So... do we really want to go down this route, with a separate binary?  It seems like we 
-could reasonably support rv128 in the qemu-system-riscv64 binary with -cpu rv128.
+You mean someone playing with virtio-net-pci-base and friends?
+We could maybe make virtio-net-pci-base be an alias to
+virtio-net-pci.
 
-> +++ b/gdb-xml/riscv-128bit-cpu.xml
-> @@ -0,0 +1,48 @@
-> +<?xml version="1.0"?>
-> +<!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.
-> +
-> +     Copying and distribution of this file, with or without modification,
-> +     are permitted in any medium without royalty provided the copyright
-> +     notice and this notice are preserved.  -->
-> +
-> +<!-- Register numbers are hard-coded in order to maintain backward
-> +     compatibility with older versions of tools that didn't use xml
-> +     register descriptions.  -->
-> +
-> +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-> +<!-- FIXME : All GPRs are marked as 64-bits since gdb doesn't like 128-bit registers for now. -->
-
-If the widths are not correct, we can just as easily skip it for now.
+> The original reasoning for making generic_name != base_name is at
+> this comment in struct VirtioPCIDeviceTypeInfo:
+> 
+>     /*
+>      * Common base class for the subclasses below.
+>      *
+>      * Required only if transitional_name or non_transitional_name is set.
+>      *
+>      * We need a separate base type instead of making all types
+>      * inherit from generic_name for two reasons:
+>      * 1) generic_name implements INTERFACE_PCIE_DEVICE, but
+>      *    transitional_name does not.
+>      * 2) generic_name has the "disable-legacy" and "disable-modern"
+>      *    properties, transitional_name and non_transitional name don't.
+>      */
+>     const char *base_name;
+> 
+> (I had to look it up.  I didn't remember the original reason for that)
 
 
-r~
+Maybe we can find a different way to address these. Jason, any ideas?
+
+> -- 
+> Eduardo
+
 
