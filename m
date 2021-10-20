@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2CB743491F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:41:02 +0200 (CEST)
-Received: from localhost ([::1]:51514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3593943492F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:44:23 +0200 (CEST)
+Received: from localhost ([::1]:58168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md91p-000528-Qv
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:41:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47992)
+	id 1md954-0001DK-6E
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:44:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hJ-0003XT-54
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:19:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43619)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hL-0003cT-A8
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:19:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hH-0002wq-Db
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:19:48 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8hI-0002ze-Jr
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:19:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634725185;
+ s=mimecast20190719; t=1634725187;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JGBYmvhDt6E8gZOldDQh567mQwOZUysQwDU9UgiIntM=;
- b=cCCf2ecLSWjKG71P05gI2iE9nnwVMPxBPqlM9jp6TKWvHpBLvqOPrtePnOC0Z2OIc0cwQn
- tv94tP9dGOcxktrEQ0m4Evu3Bols1UFp8t0MC00nCgsQjEJgRA93lYyIUNcgmmk8bGJfoD
- Qfucf3F+IKU8gK17C+Yhiy6ezwT6D2A=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-lCEo4AZiMda3M1_Qt5zJFw-1; Wed, 20 Oct 2021 06:19:44 -0400
-X-MC-Unique: lCEo4AZiMda3M1_Qt5zJFw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- v2-20020a50f082000000b003db24e28d59so20505183edl.5
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:19:43 -0700 (PDT)
+ bh=Ny6i22dSZQC3mrPDi4s6PRK4pnVtAekpF8G2Yb/TCEg=;
+ b=RRZtTVTltCT2M4paGnhaIyEn8rLt7fTSIOGzu52NSCC2dxo4hSnWYiM61+r/aBcR6nm2z7
+ IU7VC2aynDn3uj98hVniEyk693PpomPGpXgnRadvxacvXX9yq+W16umebWLN42lh6NAR2I
+ pXPBGcejND4BKfWWhE4SxiCpAYoMjXU=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-6BSCQqMeMJWfoXNlEFPKxg-1; Wed, 20 Oct 2021 06:19:46 -0400
+X-MC-Unique: 6BSCQqMeMJWfoXNlEFPKxg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ p20-20020a50cd94000000b003db23619472so20586146edi.19
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:19:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=JGBYmvhDt6E8gZOldDQh567mQwOZUysQwDU9UgiIntM=;
- b=ZoKJZ4XwrnLPYFgxD/x0ax0PCMsbVuN+GJxZkmopJsdwlJYsgPi/1wFqxD19U170ny
- SjYEHZg8yAVQlr2j/e51FNkL2olllx7i8Fn3F7KlK8cq+Gtfw2cErqjqeDTjpykLQNBB
- yz7GU+K0tUbLLJhpva/azEJAAJks0tFrQTgVhH7k8r0APKPDncbm1PtIn9RNMSwxT1Iu
- MJ/xqJHNgsFEwUFcK9J11nt4oUDSuHnx6oe/RsrsYIJczFwx6AAUcpzC+zuxygqSdAP6
- 6S+ly6om2pHGN89zJqb4MZO1QL1sqZFKU45R90S50hKgT9R8ZanJB4KV1iPp186isk4i
- hZBQ==
-X-Gm-Message-State: AOAM530G22p3kOsT4pLOzPGiqSeUM+sav1q//Aam0mn2jCU6aexVLFkl
- AipEPPdzcCv4oh1Wbrf+aKUhi7Uio0n9jx5VU2v2XE7dm2uOMwP1yiANi0PpuXv4T0GiKAmEd2Z
- qLm4t1UTp/CXn13XgPk3mrwbZ6gqww2f6hR3aCpAOoJhdwTpzNZaHk3l29ghO
-X-Received: by 2002:a17:906:480a:: with SMTP id
- w10mr46484408ejq.262.1634725182453; 
- Wed, 20 Oct 2021 03:19:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyEe4wrDIarrs0GEw622lySSiyk5EOl7E+LjemrW363uqF2jd5iCgYTZm2aZz2ydAIw4113rg==
-X-Received: by 2002:a17:906:480a:: with SMTP id
- w10mr46484390ejq.262.1634725182276; 
- Wed, 20 Oct 2021 03:19:42 -0700 (PDT)
+ bh=Ny6i22dSZQC3mrPDi4s6PRK4pnVtAekpF8G2Yb/TCEg=;
+ b=t8CM442meGynZT5hGjGfpfEUukFaiZKkZD1ncI15SkT7pfvu3q+TdcKrSwMsR25dnW
+ GOto99cmwtRPBLzi+q61BO28q8zAVIQm1Ax+9T511y1PQHTSnTeLMiCZqNzR6Hve7Bs2
+ PMRd5IKetrVfMIwLyrPlRqRsjCqrrszoBbCVpT+QRYqBx35sK6wj3/IOCmpmUuIpyRD6
+ kmZM6PIQX7kMqHf/G9e+2XpB+QzHKg0Yr5XZsV+uq+7GF3rSdKG6EgiI/69xYlPibdL5
+ qNeoKauFAUH1A7NgmV4NgQT3GxdGT97WSl4OhStA33U6YbBMFxRXuEZDgYmqjwqKFPOm
+ dvHA==
+X-Gm-Message-State: AOAM530dxZi81wrayZnE0qMpFwV1mLsQJk3XkodFwTK/47uAToeu93OZ
+ TLK0E2wLEwwWGQhS0/VAXIzs+pLJsoYMr74UZ6rSOrkMMd0TYyoGjyWAdyPukWBfUGWkWtGz7pI
+ ozlvmSj5dq7A5yceWFcBkMRUY8iF/NfRTsb8qmFrrCwl74OLTOPKutyOYtO8I
+X-Received: by 2002:a05:6402:5112:: with SMTP id
+ m18mr60428046edd.101.1634725184944; 
+ Wed, 20 Oct 2021 03:19:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwCv+aI6kT8FxdrtkExnIjkiQuMZCMRwCjT39eRxiXiqYdzl4zGlAgghalQixxr253scbwKQw==
+X-Received: by 2002:a05:6402:5112:: with SMTP id
+ m18mr60428013edd.101.1634725184662; 
+ Wed, 20 Oct 2021 03:19:44 -0700 (PDT)
 Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id a1sm943218edu.43.2021.10.20.03.19.41
+ by smtp.gmail.com with ESMTPSA id m15sm1038878edd.5.2021.10.20.03.19.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 03:19:41 -0700 (PDT)
-Date: Wed, 20 Oct 2021 06:19:39 -0400
+ Wed, 20 Oct 2021 03:19:44 -0700 (PDT)
+Date: Wed, 20 Oct 2021 06:19:42 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 10/44] tests: acpi: add testcase for amd-iommu (IVRS table)
-Message-ID: <20211020101844.988480-11-mst@redhat.com>
+Subject: [PULL v2 11/44] tests: acpi: update expected blobs
+Message-ID: <20211020101844.988480-12-mst@redhat.com>
 References: <20211020101844.988480-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211020101844.988480-1-mst@redhat.com>
@@ -102,45 +102,166 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
+DSDT:
++            Device (S10)
++            {
++                Name (_ADR, 0x00020000)  // _ADR: Address
++            }
+
+New IVRS table:
+
+[000h 0000   4]                    Signature : "IVRS"    [I/O Virtualization Reporting Structure]
+[004h 0004   4]                 Table Length : 00000068
+[008h 0008   1]                     Revision : 01
+[009h 0009   1]                     Checksum : 43
+[00Ah 0010   6]                       Oem ID : "BOCHS "
+[010h 0016   8]                 Oem Table ID : "BXPC    "
+[018h 0024   4]                 Oem Revision : 00000001
+[01Ch 0028   4]              Asl Compiler ID : "BXPC"
+[020h 0032   4]        Asl Compiler Revision : 00000001
+
+[024h 0036   4]          Virtualization Info : 00002800
+[028h 0040   8]                     Reserved : 0000000000000000
+
+[030h 0048   1]                Subtable Type : 10 [Hardware Definition Block]
+[031h 0049   1]                        Flags : D1
+[032h 0050   2]                       Length : 0038
+[034h 0052   2]                     DeviceId : 0010
+
+[036h 0054   2]            Capability Offset : 0040
+[038h 0056   8]                 Base Address : 00000000FED80000
+[040h 0064   2]            PCI Segment Group : 0000
+[042h 0066   2]          Virtualization Info : 0000
+[044h 0068   4]                     Reserved : 00000044
+
+[048h 0072   1]                   Entry Type : 02
+[049h 0073   2]                    Device ID : 0000
+[04Bh 0075   1]                 Data Setting : 00
+
+[04Ch 0076   1]                   Entry Type : 02
+[04Dh 0077   2]                    Device ID : 0008
+[04Fh 0079   1]                 Data Setting : 00
+
+[050h 0080   1]                   Entry Type : 02
+[051h 0081   2]                    Device ID : 0010
+[053h 0083   1]                 Data Setting : 00
+
+[054h 0084   1]                   Entry Type : 02
+[055h 0085   2]                    Device ID : 00F8
+[057h 0087   1]                 Data Setting : 00
+
+[058h 0088   1]                   Entry Type : 02
+[059h 0089   2]                    Device ID : 00FA
+[05Bh 0091   1]                 Data Setting : 00
+
+[05Ch 0092   1]                   Entry Type : 02
+[05Dh 0093   2]                    Device ID : 00FB
+[05Fh 0095   1]                 Data Setting : 00
+
+[060h 0096   1]                   Entry Type : 48
+[061h 0097   2]                    Device ID : 0000
+[063h 0099   1]                 Data Setting : 00
+[064h 0100   1]                       Handle : 00
+[065h 0101   2]        Source Used Device ID : 00A0
+[067h 0103   1]                      Variety : 01
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20210902113551.461632-11-imammedo@redhat.com>
+Message-Id: <20210902113551.461632-12-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ tests/qtest/bios-tables-test-allowed-diff.h |   2 --
+ tests/data/acpi/q35/DSDT.ivrs               | Bin 0 -> 8306 bytes
+ tests/data/acpi/q35/IVRS.ivrs               | Bin 0 -> 104 bytes
+ 3 files changed, 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 0361c84c5e..ef28bb41f3 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1102,6 +1102,18 @@ static void test_acpi_q35_kvm_dmar(void)
-     free_test_data(&data);
- }
- 
-+static void test_acpi_q35_tcg_ivrs(void)
-+{
-+    test_data data;
-+
-+    memset(&data, 0, sizeof(data));
-+    data.machine = MACHINE_Q35;
-+    data.variant = ".ivrs";
-+    data.tcg_only = true,
-+    test_acpi_one(" -device amd-iommu", &data);
-+    free_test_data(&data);
-+}
-+
- static void test_acpi_piix4_tcg_numamem(void)
- {
-     test_data data;
-@@ -1581,6 +1593,7 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/smm-compat-nosmm",
-                        test_acpi_q35_tcg_smm_compat_nosmm);
-         qtest_add_func("acpi/q35/nohpet", test_acpi_q35_tcg_nohpet);
-+        qtest_add_func("acpi/q35/ivrs", test_acpi_q35_tcg_ivrs);
-         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 4fe8e8272a..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,3 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/q35/DSDT.ivrs",
+-"tests/data/acpi/q35/IVRS.ivrs",
+diff --git a/tests/data/acpi/q35/DSDT.ivrs b/tests/data/acpi/q35/DSDT.ivrs
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..b0eafe90e5832935557ec5e6802c0147c88f379c 100644
+GIT binary patch
+literal 8306
+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
+L!3s0<%&`9h*gn5%
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/q35/IVRS.ivrs b/tests/data/acpi/q35/IVRS.ivrs
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..17611202e53a32f7da8e4925d6955b384670b8b1 100644
+GIT binary patch
+literal 104
+zcmeYa3kuF)U|?W$cJg=j2v%^42yj*a0!E-1hz+6{G(ZFd2wb#a5MXcsa&G*C3Ng3<
+b8B8F|0mK48`~!%80r77J1`m*;1q_S;Any(V
+
+literal 0
+HcmV?d00001
+
 -- 
 MST
 
