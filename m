@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F03C434B35
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 14:32:39 +0200 (CEST)
-Received: from localhost ([::1]:41452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF09434B3A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 14:33:46 +0200 (CEST)
+Received: from localhost ([::1]:44462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdAlo-0003jh-TD
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 08:32:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47270)
+	id 1mdAmv-0006Cv-IF
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 08:33:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mdAh7-0000Sz-GX; Wed, 20 Oct 2021 08:27:45 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:3190)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mdAkQ-0003ea-R0
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 08:31:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mdAgz-00037U-Nk; Wed, 20 Oct 2021 08:27:44 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4HZ8wh12qfz8tkY;
- Wed, 20 Oct 2021 20:26:12 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Wed, 20 Oct 2021 20:27:25 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.15; Wed, 20 Oct 2021 20:27:23 +0800
-Subject: Re: [PATCH v8 5/8] hw/acpi/aml-build: Add PPTT table
-To: Eric Auger <eauger@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Andrew Jones <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, 
- Igor Mammedov <imammedo@redhat.com>
-References: <20211014132206.19220-1-wangyanan55@huawei.com>
- <20211014132206.19220-6-wangyanan55@huawei.com>
- <316edbd3-2235-efb1-7176-e3f477aec6a4@redhat.com>
- <1f4eaecf-8718-fc8a-5366-7e32945b9953@huawei.com>
- <2651e5c8-8cd0-e912-2f62-f7393bf49aa3@redhat.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <9c51d6bf-8ed4-6aff-c503-f123190efcae@huawei.com>
-Date: Wed, 20 Oct 2021 20:27:21 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mdAkJ-0005wI-1v
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 08:31:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634733060;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YB5zAChUYITID0OceORMlC4PIuaPwR3WufFAq38u5k4=;
+ b=QLTbYoUY9OVb6i74tGCB87TuPev4VNmJTmJTUooP24JsaMg1y4HmYkySQDDbLlMm2GmDul
+ 5hCmDDjVR0ijKNc9uptY5EndxpC8fph7DO0lbia0M3BQ2+rTs50LEWitKtV0arY3IbWsSN
+ qkZTEw8eOg3W+rgs9vrEHHC9yBpXdnU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-gDRJeI5rOxi9osOHBYu0mQ-1; Wed, 20 Oct 2021 08:30:58 -0400
+X-MC-Unique: gDRJeI5rOxi9osOHBYu0mQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94E6C10B7440
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 12:30:57 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.33.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8728D16A30;
+ Wed, 20 Oct 2021 12:29:49 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id DC8E62256F7; Wed, 20 Oct 2021 08:29:48 -0400 (EDT)
+Date: Wed, 20 Oct 2021 08:29:48 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v4 10/12] virtiofsd: Add inodes_by_handle hash table
+Message-ID: <YXALvGmoKxXOXMdN@redhat.com>
+References: <20210916084045.31684-1-hreitz@redhat.com>
+ <20210916084045.31684-11-hreitz@redhat.com>
+ <YW8kbdCeqs11E0Tl@redhat.com>
+ <194cd5f5-e5b3-2929-3ae7-ad2fb1083021@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <2651e5c8-8cd0-e912-2f62-f7393bf49aa3@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <194cd5f5-e5b3-2929-3ae7-ad2fb1083021@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -64
-X-Spam_score: -6.5
-X-Spam_bar: ------
-X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.267,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,241 +82,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+On Wed, Oct 20, 2021 at 12:02:32PM +0200, Hanna Reitz wrote:
+> On 19.10.21 22:02, Vivek Goyal wrote:
+> > On Thu, Sep 16, 2021 at 10:40:43AM +0200, Hanna Reitz wrote:
+> > > Currently, lo_inode.fhandle is always NULL and so always keep an O_PATH
+> > > FD in lo_inode.fd.  Therefore, when the respective inode is unlinked,
+> > > its inode ID will remain in use until we drop our lo_inode (and
+> > > lo_inode_put() thus closes the FD).  Therefore, lo_find() can safely use
+> > > the inode ID as an lo_inode key, because any inode with an inode ID we
+> > > find in lo_data.inodes (on the same filesystem) must be the exact same
+> > > file.
+> > > 
+> > > This will change when we start setting lo_inode.fhandle so we do not
+> > > have to keep an O_PATH FD open.  Then, unlinking such an inode will
+> > > immediately remove it, so its ID can then be reused by newly created
+> > > files, even while the lo_inode object is still there[1].
+> > > 
+> > > So creating a new file can then reuse the old file's inode ID, and
+> > > looking up the new file would lead to us finding the old file's
+> > > lo_inode, which is not ideal.
+> > > 
+> > > Luckily, just as file handles cause this problem, they also solve it:  A
+> > > file handle contains a generation ID, which changes when an inode ID is
+> > > reused, so the new file can be distinguished from the old one.  So all
+> > > we need to do is to add a second map besides lo_data.inodes that maps
+> > > file handles to lo_inodes, namely lo_data.inodes_by_handle.  For
+> > > clarity, lo_data.inodes is renamed to lo_data.inodes_by_ids.
+> > > 
+> > > Unfortunately, we cannot rely on being able to generate file handles
+> > > every time.  Therefore, we still enter every lo_inode object into
+> > > inodes_by_ids, but having an entry in inodes_by_handle is optional.  A
+> > > potential inodes_by_handle entry then has precedence, the inodes_by_ids
+> > > entry is just a fallback.
+> > > 
+> > > Note that we do not generate lo_fhandle objects yet, and so we also do
+> > > not enter anything into the inodes_by_handle map yet.  Also, all lookups
+> > > skip that map.  We might manually create file handles with some code
+> > > that is immediately removed by the next patch again, but that would
+> > > break the assumption in lo_find() that every lo_inode with a non-NULL
+> > > .fhandle must have an entry in inodes_by_handle and vice versa.  So we
+> > > leave actually using the inodes_by_handle map for the next patch.
+> > > 
+> > > [1] If some application in the guest still has the file open, there is
+> > > going to be a corresponding FD mapping in lo_data.fd_map.  In such a
+> > > case, the inode will only go away once every application in the guest
+> > > has closed it.  The problem described only applies to cases where the
+> > > guest does not have the file open, and it is just in the dentry cache,
+> > > basically.
+> > > 
+> > > Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> > > ---
+> > >   tools/virtiofsd/passthrough_ll.c | 81 +++++++++++++++++++++++++-------
+> > >   1 file changed, 65 insertions(+), 16 deletions(-)
+> > > 
+> > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > > index bd8fc922ea..b7d6aa7f9d 100644
+> > > --- a/tools/virtiofsd/passthrough_ll.c
+> > > +++ b/tools/virtiofsd/passthrough_ll.c
+> > > @@ -186,7 +186,8 @@ struct lo_data {
+> > >       int announce_submounts;
+> > >       bool use_statx;
+> > >       struct lo_inode root;
+> > > -    GHashTable *inodes; /* protected by lo->mutex */
+> > > +    GHashTable *inodes_by_ids; /* protected by lo->mutex */
+> > > +    GHashTable *inodes_by_handle; /* protected by lo->mutex */
+> > >       struct lo_map ino_map; /* protected by lo->mutex */
+> > >       struct lo_map dirp_map; /* protected by lo->mutex */
+> > >       struct lo_map fd_map; /* protected by lo->mutex */
+> > > @@ -275,8 +276,9 @@ static struct {
+> > >   /* That we loaded cap-ng in the current thread from the saved */
+> > >   static __thread bool cap_loaded = 0;
+> > > -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
+> > > -                                uint64_t mnt_id);
+> > > +static struct lo_inode *lo_find(struct lo_data *lo,
+> > > +                                const struct lo_fhandle *fhandle,
+> > > +                                struct stat *st, uint64_t mnt_id);
+> > >   static int xattr_map_client(const struct lo_data *lo, const char *client_name,
+> > >                               char **out_name);
+> > > @@ -1143,18 +1145,40 @@ out_err:
+> > >       fuse_reply_err(req, saverr);
+> > >   }
+> > > -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
+> > > -                                uint64_t mnt_id)
+> > > +static struct lo_inode *lo_find(struct lo_data *lo,
+> > > +                                const struct lo_fhandle *fhandle,
+> > > +                                struct stat *st, uint64_t mnt_id)
+> > >   {
+> > > -    struct lo_inode *p;
+> > > -    struct lo_key key = {
+> > > +    struct lo_inode *p = NULL;
+> > > +    struct lo_key ids_key = {
+> > >           .ino = st->st_ino,
+> > >           .dev = st->st_dev,
+> > >           .mnt_id = mnt_id,
+> > >       };
+> > >       pthread_mutex_lock(&lo->mutex);
+> > > -    p = g_hash_table_lookup(lo->inodes, &key);
+> > > +    if (fhandle) {
+> > > +        p = g_hash_table_lookup(lo->inodes_by_handle, fhandle);
+> > > +    }
+> > > +    if (!p) {
+> > > +        p = g_hash_table_lookup(lo->inodes_by_ids, &ids_key);
+> > > +        /*
+> > > +         * When we had to fall back to looking up an inode by its
+> > > +         * inode ID, ensure that we hit an entry that has a valid file
+> > > +         * descriptor.  Having an FD open means that the inode cannot
+> > > +         * really be deleted until the FD is closed, so that the inode
+> > > +         * ID remains valid until we evict our lo_inode.
+> > > +         * With no FD open (and just a file handle), the inode can be
+> > > +         * deleted while we still have our lo_inode, and so the inode
+> > > +         * ID may be reused by a completely different new inode.  We
+> > > +         * then must look up the lo_inode by file handle, because this
+> > > +         * handle contains a generation ID to differentiate between
+> > > +         * the old and the new inode.
+> > > +         */
+> > > +        if (p && p->fd == -1) {
+> > > +            p = NULL;
+> > > +        }
+> > What happens in following scenario.
+> > 
+> > - Say I have a hard linked file foo.txt with link foo-link.txt.
+> > 
+> > - I lookup foo.txt. We generate file handle and add inode for foo.txt
+> >    to inode cache. lo_inode->fhandle will be valie but lo_inode->fd == -1.
+> > 
+> > - Now later lookup for foo-link.txt happens. Say this time we can't
+> >    generate file handle.
+> 
+> Which we’ve already decided is practically impossible.
 
-On 2021/10/20 19:11, Eric Auger wrote:
-> Hi Yanan,
-> On 10/20/21 11:51 AM, wangyanan (Y) wrote:
->> Hi Eric,
->>
->> On 2021/10/20 16:02, Eric Auger wrote:
->>> Hi,
->>>
->>> On 10/14/21 3:22 PM, Yanan Wang wrote:
->>>> From: Andrew Jones <drjones@redhat.com>
->>>>
->>>> Add the Processor Properties Topology Table (PPTT) used to
->>>> describe CPU topology information to ACPI guests.
->>>>
->>>> Note, a DT-boot Linux guest with a non-flat CPU topology will
->>>> see socket and core IDs being sequential integers starting
->>>> from zero, which is different from ACPI-boot Linux guest,
->>>> e.g. with -smp 4,sockets=2,cores=2,threads=1
->>>>
->>>> a DT boot produces:
->>>>
->>>>    cpu:  0 package_id:  0 core_id:  0
->>>>    cpu:  1 package_id:  0 core_id:  1
->>>>    cpu:  2 package_id:  1 core_id:  0
->>>>    cpu:  3 package_id:  1 core_id:  1
->>>>
->>>> an ACPI boot produces:
->>>>
->>>>    cpu:  0 package_id: 36 core_id:  0
->>>>    cpu:  1 package_id: 36 core_id:  1
->>>>    cpu:  2 package_id: 96 core_id:  2
->>>>    cpu:  3 package_id: 96 core_id:  3
->>>>
->>>> This is due to several reasons:
->>>>
->>>>    1) DT cpu nodes do not have an equivalent field to what the PPTT
->>>>       ACPI Processor ID must be, i.e. something equal to the MADT CPU
->>>>       UID or equal to the UID of an ACPI processor container. In both
->>>>       ACPI cases those are platform dependant IDs assigned by the
->>>>       vendor.
->>>>
->>>>    2) While QEMU is the vendor for a guest, if the topology specifies
->>>>       SMT (> 1 thread), then, with ACPI, it is impossible to assign a
->>>>       core-id the same value as a package-id, thus it is not possible
->>>>       to have package-id=0 and core-id=0. This is because package and
->>>>       core containers must be in the same ACPI namespace and therefore
->>>>       must have unique UIDs.
->>>>
->>>>    3) ACPI processor containers are not mandatorily required for PPTT
->>>>       tables to be used and, due to the limitations of which IDs are
->>>>       selected described above in (2), they are not helpful for QEMU,
->>>>       so we don't build them with this patch. In the absence of them,
->>>>       Linux assigns its own unique IDs. The maintainers have chosen not
->>>>       to use counters from zero, but rather ACPI table offsets, which
->>>>       explains why the numbers are so much larger than with DT.
->>>>
->>>>    4) When there is no SMT (threads=1) the core IDs for ACPI boot guests
->>>>       match the logical CPU IDs, because these IDs must be equal to the
->>>>       MADT CPU UID (as no processor containers are present), and QEMU
->>>>       uses the logical CPU ID for these MADT IDs.
->>>>
->>>> So in summary, with QEMU as the vendor for the guests, we simply
->>>> use sequential integers starting from zero for the non-leaf nodes
->>>> but with ID-valid flag unset, so that guest will ignore them and
->>>> use table offsets as unique container IDs. And we use logical CPU
->>>> IDs for the leaf nodes with the ID-valid flag set, which will be
->>>> consistent with MADT.
->>>>
->>>> Signed-off-by: Andrew Jones <drjones@redhat.com>
->>>> Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
->>>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->>>> ---
->>>>    hw/acpi/aml-build.c         | 60 +++++++++++++++++++++++++++++++++++++
->>>>    include/hw/acpi/aml-build.h |  3 ++
->>>>    2 files changed, 63 insertions(+)
->>>>
->>>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
->>>> index b7b9db6888..0d50e88e9d 100644
->>>> --- a/hw/acpi/aml-build.c
->>>> +++ b/hw/acpi/aml-build.c
->>>> @@ -1990,6 +1990,66 @@ void build_processor_hierarchy_node(GArray
->>>> *tbl, uint32_t flags,
->>>>        }
->>>>    }
->>>>    +/* ACPI 6.2: 5.2.29 Processor Properties Topology Table (PPTT) */
->>>> +void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState
->>>> *ms,
->>>> +                const char *oem_id, const char *oem_table_id)
->>>> +{
->>>> +    int pptt_start = table_data->len;
->>>> +    int uid = 0;
->>>> +    int socket;
->>>> +    AcpiTable table = { .sig = "PPTT", .rev = 2,
->>>> +                        .oem_id = oem_id, .oem_table_id =
->>>> oem_table_id };
->>> Table 5-149 of 6.2 spec (6.2 May 2017) tells the rev shall be 1. Or is
->>> it an erratum somewhere I did miss?
->> Yes, the revision in 6.2 spec is 1. And it's 2 in spec 6.3.
->> So just to be sure, should I use the oldest revision ?
-> If you need (and use) features (such as flags) introduced in 6.3 then
-> you should say the code complies with 6.3 and update the above comment.
-The comment /* ACPI 6.2: 5.2.29 Processor Properties Topology Table 
-(PPTT) */
-tried to explain the first spec version where PPTT is introduced is 6.2. 
-But it may
-adds some confusion. I think it's better to replace it with:
-/*
-  * ACPI spec 5.2.29 Processor Properties Topology Table (PPTT)
-  * (Revision 6.2 or later)
-  */
+Agreed that probably is very less but it can happen when sufficient
+resources are not available, like -ENOMEM.
 
-just like our build_slit().
->>> I would also add the spec version in the commit msg.
->>>> +
->>>> +    acpi_table_begin(&table, table_data);
->>>> +
->>>> +    for (socket = 0; socket < ms->smp.sockets; socket++) {
->>>> +        uint32_t socket_offset = table_data->len - pptt_start;
->>>> +        int core;
->>>> +
->>>> +        build_processor_hierarchy_node(
->>>> +            table_data,
->>>> +            /*
->>>> +             * ACPI 6.2 - Physical package
->>>> +             * represents the boundary of a physical package
->>>> +             */
->>>> +            (1 << 0),
->>>> +            0, socket, NULL, 0);
->>> I see we set an ACPI process ID but in the meantime the ACPI processor
->>> ID valid flag is not set. I am not sure I fully catch the meaning of
->>> this latter but just to double check if this is done on purpose.
->> Yes, it's on purpose.
->>> Maybe
->>> wort a general comment as this also happens below.
->> The ID of the container node is invalid and ID of the leaf node is valid.
->> The commit message by Andrew has explained why (reason 3). I think
->> it may be clear enough to explain there why we don't need a valid ID
->> for the container node.
->>>> +
->>>> +        for (core = 0; core < ms->smp.cores; core++) {
->>>> +            uint32_t core_offset = table_data->len - pptt_start;
->>>> +            int thread;
->>>> +
->>>> +            if (ms->smp.threads > 1) {
->>>> +                build_processor_hierarchy_node(
->>>> +                    table_data,
->>>> +                    /*
->>>> +                     * ACPI 6.2 - Physical package
->>>> +                     * doesn't represent the boundary of a physical
->>>> package
->>>> +                     */
->>>> +                    (0 << 0),
->>> would rather say (0 << 0) /* not a physical package */ and same elsewhere
->> Ok, thanks.
->>>> +                    socket_offset, core, NULL, 0);
->>>> +
->>>> +                for (thread = 0; thread < ms->smp.threads; thread++) {
->>>> +                    build_processor_hierarchy_node(
->>>> +                        table_data,
->>>> +                        (1 << 1) | /* ACPI 6.2 - ACPI Processor ID
->>>> valid */
->>>> +                        (1 << 2) | /* ACPI 6.3 - Processor is a
->>>> Thread */
->>> So the references look globaly confusing to me. Either it complies to
->>> 6.2 or to 6.3. Looks ir rather complies with 6.3. To me, this needs to
->>> be clarified.
->> ACPI 6.2 in the comment means the flag is introduced in the spec since 6.2.
->> The same, ACPI 6.3 means the flag is introduced since 6.3. Maybe I should
->> just drop all the version-prefix in the comment ?
-> Yes I think you can drop those comments and just upgrade the global
-> compliance with 6.3
->
-I will drop the prefix and keep the rest. And add a generic comment on
-top of build_pptt() as I replied above.
+static long do_sys_name_to_handle(struct path *path,
+                                  struct file_handle __user *ufh,
+                                  int __user *mnt_id)
+{
+        handle = kmalloc(sizeof(struct file_handle) + f_handle.handle_bytes,
+                         GFP_KERNEL);
+        if (!handle)
+                return -ENOMEM;
+}
 
-Thanks,
-Yanan
->>> I would also add the reference it complies to in the
->>> commit msg.
->> Ok, sure.
->>
->> Thanks,
->> Yanan
->> .
->>>> +                        (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
->>>> +                        core_offset, uid++, NULL, 0);
->>>> +                }
->>>> +            } else {
->>>> +                build_processor_hierarchy_node(
->>>> +                    table_data,
->>>> +                    (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
->>>> +                    (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
->>>> +                    socket_offset, uid++, NULL, 0);
->>>> +            }
->>>> +        }
->>>> +    }
->>>> +
->>>> +    acpi_table_end(linker, &table);
->>>> +}
->>>> +
->>>>    /* build rev1/rev3/rev5.1 FADT */
->>>>    void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData
->>>> *f,
->>>>                    const char *oem_id, const char *oem_table_id)
->>>> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
->>>> index 2c457c8f17..b92706388c 100644
->>>> --- a/include/hw/acpi/aml-build.h
->>>> +++ b/include/hw/acpi/aml-build.h
->>>> @@ -493,6 +493,9 @@ void build_processor_hierarchy_node(GArray *tbl,
->>>> uint32_t flags,
->>>>                                        uint32_t parent, uint32_t id,
->>>>                                        uint32_t *priv_rsrc, uint32_t
->>>> priv_num);
->>>>    +void build_pptt(GArray *table_data, BIOSLinker *linker,
->>>> MachineState *ms,
->>>> +                const char *oem_id, const char *oem_table_id);
->>>> +
->>>>    void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData
->>>> *f,
->>>>                    const char *oem_id, const char *oem_table_id);
->>>>   
->>> Thanks
->>>
->>> Eric
->>>
->>> .
-> .
+> 
+> > When we try to lookup inode, lo_find() should
+> >    return NULL. It will find inode by ids but not use it because inode
+> >    was added using file handle and p->fd == -1. That means lookup
+> >    for foo-link.txt will end up adding another inode, when it should
+> >    not have?
+> 
+> Yes, it would end up adding another inode, which doesn’t seem catastrophic
+> to me.
+
+> But again, the whole case seems impossible to me.
+
+Given we can get -ENOMEM error it is not impossible.
+
+I thought all along you wanted to write code so that we could fallback
+to ids in case of errors. Anyway, if you agree that except the case of
+-EOPNOTSUPP, we don't have to worry about fallback, then let us just
+reutrn error to caller if get_file_handle() fails (except the case
+of -EOPNOTSUPP).
+
+And then lo_find() logic could be simpler too. And there is no need
+for checks like this.
+
+    if (p && p->fd == -1) {
+        p = NULL;
+    }
+
+if (fhandle) {
+    lookup_using_handle
+} else {
+    lookup_using_ids
+}
+
+Thanks
+Vivek
 
 
