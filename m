@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C71A4349F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:20:03 +0200 (CEST)
-Received: from localhost ([::1]:49088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A342E43491E
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 12:40:44 +0200 (CEST)
+Received: from localhost ([::1]:50616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md9da-0003vc-Be
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:20:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48430)
+	id 1md91X-0004R0-PH
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 06:40:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8i5-0004nN-4y
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44264)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8i8-0004nY-1v
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8i3-0003hQ-KN
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:36 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md8i6-0003ja-Gc
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 06:20:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634725235;
+ s=mimecast20190719; t=1634725237;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Yj3JiZzos9wfmafHbbhWyjt5GZKs2MQbtgHmoUqM9p0=;
- b=Kl+pIYIZewt9QKVyVjvv1b1hiPLhcsUfUYYTAO7v2h58T/7Cdh4V5rg+UOrgdQG/X832kt
- hoYR54MEhSwQxXi3fNOHKpjwELZ7FtABDGMmhdyu7G9PUqvdJGBuk7FyeFyHBH64qaCgQv
- oTq4LF2BNKgsGG0P5fbJ38dMqEQs8Mc=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-i8c97qYhNpmUWxHpXbyJjA-1; Wed, 20 Oct 2021 06:20:33 -0400
-X-MC-Unique: i8c97qYhNpmUWxHpXbyJjA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- g28-20020a50d0dc000000b003dae69dfe3aso20517552edf.7
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:20:33 -0700 (PDT)
+ bh=vDSmLhCNyhjwq4dSlabAJpt3Pwq7xbTenlNw9fzietw=;
+ b=WJkHJmRAulFLJMv9lCYLaHPo55XSzzB1qgVty26a4Tx6Nc1EjA3VwVDZ+o2zKbeuf9Trli
+ gUlDRmnRVO4Bj4GrQh7F2GwqDVQ3xeApTyY+msutj9qjtQzH2SDBd1ECY/XFpt2HiOSiIw
+ U/y4sDHV+dBPWU2QFMqe2WaO/0FW9LM=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-178-SXsq0n3LO_K9oywTJiWfXg-1; Wed, 20 Oct 2021 06:20:36 -0400
+X-MC-Unique: SXsq0n3LO_K9oywTJiWfXg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ t18-20020a056402021200b003db9e6b0e57so20536882edv.10
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 03:20:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Yj3JiZzos9wfmafHbbhWyjt5GZKs2MQbtgHmoUqM9p0=;
- b=sgKLBLpswRCzWHZrK2Zl1rdrylrxgs1mx8UgtGsIVQadernoBTb+HyKUue/le9WZDU
- 2pL8yLKpPS+VfkoxKytL8liLARWCcZ5JjYYnG2AAIiZcHRp4FKmL6maiI9awLkFi7qZl
- OOh8XO6YG6zyJfcmuUZ15ptdmGDw202tzOXIBKKIqAGqBTBIfW3jUzBL9D0aUui3L3FX
- D6jqKzT1/y+Kc3DXBOutfgOmDSYr2X2cE3/AipEtGI19hNS0H3kIu8e4fYJvAYHG1ZtF
- UBwxz9+dMHJEXHyozpQoDuGOaUqIL32x1frC5e9C7yFlB11/QSoEKYWupad8HGUAhThb
- AGJA==
-X-Gm-Message-State: AOAM531dv/vT/oOUcXML9xPSNS1JZCbIlV3dJnKfzXKZY8KwoxUzEuNV
- M8Zf0nfouqjYZR4yZCdXG5LZW/z5IWBXV0WnRlZwz8hSEOG8yLbBda0oznC/fQRLt6scWzXcdFr
- ikkVlpGXRCmi2yxZ7m4r1kUPePc0trBWOvkpEPAxfmeYCwEdOdHq8V7Asjg8j
-X-Received: by 2002:a17:907:971e:: with SMTP id
- jg30mr45041160ejc.169.1634725232115; 
- Wed, 20 Oct 2021 03:20:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyhIgydcQQGt/U1Xvpc84XOVU9AFYeaCsmYROJIkLCgLNGR/zG0oCbyJj46t+t0WIxfB8gFVg==
-X-Received: by 2002:a17:907:971e:: with SMTP id
- jg30mr45041118ejc.169.1634725231781; 
- Wed, 20 Oct 2021 03:20:31 -0700 (PDT)
+ bh=vDSmLhCNyhjwq4dSlabAJpt3Pwq7xbTenlNw9fzietw=;
+ b=ScZtN8wabdxe24G/WgAtOWbhEZr1Xifp1buCMJiQMWOU19R6Xxv9Q/3jQFhLGczVn+
+ HtR73dth4Ux7CbRVV4ErYJp1RNS1NtI4WT6JJmh3F0xL+v+xSSDf3XrHoyMcG2Eedggz
+ hdZpSiRrB/Jti0uU5WXFEyRuYGap32erec+BzzKZX804gb4PDjza3KWZnzwC+uEeWBKN
+ fHy7aGnHmxnp89e3NAhPgeWiSVZxCaGgVXBjIjV+hLGX2BJjsvq6a/sVoxKoGMOF8qvQ
+ DnxoaqgU5AtuPvQ5O4Ref4RJbwIlOm3oC3CXzxxRgE9FAk9mnCCa4qqIJuY3abdql/qe
+ lGDA==
+X-Gm-Message-State: AOAM5329rkEAdoXDx9JeiyMzcoUVIzlztYKXKM9QUQa9gYY4q8lFo86v
+ karvFoYE+kbXrc0AaC0UauSZJXq3nDknNuORNWPoqN1VpgOcHGOoEbqLlberEoLnjbn5RCFU29H
+ QSlXEDCDAnsValNZ5Gpd39/sfUG8fFvWc7vm1OZ3G+sfxXVRCo3LiMOZE9Kg8
+X-Received: by 2002:a17:906:3c51:: with SMTP id
+ i17mr45960946ejg.86.1634725235235; 
+ Wed, 20 Oct 2021 03:20:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw7JRFEWGQ6DDwx+gRfMsI75tVOzEbxYUnSz2T3yGmmGkoM/VdDqyCe11cNXSVUcLrxfbkVcg==
+X-Received: by 2002:a17:906:3c51:: with SMTP id
+ i17mr45960907ejg.86.1634725234999; 
+ Wed, 20 Oct 2021 03:20:34 -0700 (PDT)
 Received: from redhat.com ([2.55.24.172])
- by smtp.gmail.com with ESMTPSA id c6sm811707ejb.41.2021.10.20.03.20.30
+ by smtp.gmail.com with ESMTPSA id b2sm950425edv.73.2021.10.20.03.20.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 03:20:31 -0700 (PDT)
-Date: Wed, 20 Oct 2021 06:20:28 -0400
+ Wed, 20 Oct 2021 03:20:34 -0700 (PDT)
+Date: Wed, 20 Oct 2021 06:20:32 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 27/44] vhost-user-blk-test: pass vhost-user socket fds to QSD
-Message-ID: <20211020101844.988480-28-mst@redhat.com>
+Subject: [PULL v2 28/44] qdev/qbus: remove failover specific code
+Message-ID: <20211020101844.988480-29-mst@redhat.com>
 References: <20211020101844.988480-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211020101844.988480-1-mst@redhat.com>
@@ -74,15 +74,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,58 +96,89 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Coiby Xu <coiby.xu@gmail.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
 
-qemu-storage-daemon is launched with the vhost-user listen socket path.
-The path is first unlinked before opening the listen socket. This
-prevents stale UNIX domain socket files from stopping socket
-initialization.
+Commit f3a850565693 ("qdev/qbus: add hidden device support") has
+introduced a generic way to hide a device but it has modified
+qdev_device_add() to check a specific option of the failover device,
+"failover_pair_id", before calling the generic mechanism.
 
-This behavior is undesirable in vhost-user-blk-test and the cause of a
-bug:
+It's not needed (and not generic) to do that in qdev_device_add() because
+this is also checked by the failover_hide_primary_device() function that
+uses the generic mechanism to hide the device.
 
-There is a race condition in vhost-user-blk-test when QEMU launches
-before QSD. It connects to the old socket that QSD unlinks and the
-vhost-user connection is never serviced, resulting in a hang.
-
-Pass the listen socket fd to QSD to maintain listen socket continuity
-and prevent the lost connection.
-
-Fixes: 806952026df41939680abe92b329715b9b4e01cc ("test: new qTest case to test the vhost-user-blk-server")
-Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Coiby Xu <coiby.xu@gmail.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20211019135655.83067-1-stefanha@redhat.com>
+Cc: Jens Freimann <jfreimann@redhat.com>
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Message-Id: <20211019071532.682717-3-lvivier@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qtest/vhost-user-blk-test.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/net/virtio-net.c    | 12 +++++++++++-
+ softmmu/qdev-monitor.c | 18 ++++++------------
+ 2 files changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-index 6f108a1b62..62e670f39b 100644
---- a/tests/qtest/vhost-user-blk-test.c
-+++ b/tests/qtest/vhost-user-blk-test.c
-@@ -906,9 +906,9 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
-         img_path = drive_create();
-         g_string_append_printf(storage_daemon_command,
-             "--blockdev driver=file,node-name=disk%d,filename=%s "
--            "--export type=vhost-user-blk,id=disk%d,addr.type=unix,addr.path=%s,"
-+            "--export type=vhost-user-blk,id=disk%d,addr.type=fd,addr.str=%d,"
-             "node-name=disk%i,writable=on,num-queues=%d ",
--            i, img_path, i, sock_path, i, num_queues);
-+            i, img_path, i, fd, i, num_queues);
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 83642c85b2..3dd2896ff9 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -3299,7 +3299,17 @@ static bool failover_hide_primary_device(DeviceListener *listener,
+     if (!device_opts) {
+         return false;
+     }
+-    standby_id = qdict_get_try_str(device_opts, "failover_pair_id");
++
++    if (!qdict_haskey(device_opts, "failover_pair_id")) {
++        return false;
++    }
++
++    if (!qdict_haskey(device_opts, "id")) {
++        error_setg(errp, "Device with failover_pair_id needs to have id");
++        return false;
++    }
++
++    standby_id = qdict_get_str(device_opts, "failover_pair_id");
+     if (g_strcmp0(standby_id, n->netclient_name) != 0) {
+         return false;
+     }
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index 89c473cb22..4851de51a5 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -639,19 +639,13 @@ DeviceState *qdev_device_add_from_qdict(const QDict *opts,
+         }
+     }
  
-         g_string_append_printf(cmd_line, "-chardev socket,id=char%d,path=%s ",
-                                i + 1, sock_path);
+-    if (qdict_haskey(opts, "failover_pair_id")) {
+-        if (!qdict_haskey(opts, "id")) {
+-            error_setg(errp, "Device with failover_pair_id don't have id");
+-            return NULL;
+-        }
+-        if (qdev_should_hide_device(opts, from_json, errp)) {
+-            if (bus && !qbus_is_hotpluggable(bus)) {
+-                error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
+-            }
+-            return NULL;
+-        } else if (*errp) {
+-            return NULL;
++    if (qdev_should_hide_device(opts, from_json, errp)) {
++        if (bus && !qbus_is_hotpluggable(bus)) {
++            error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
+         }
++        return NULL;
++    } else if (*errp) {
++        return NULL;
+     }
+ 
+     if (phase_check(PHASE_MACHINE_READY) && bus && !qbus_is_hotpluggable(bus)) {
 -- 
 MST
 
