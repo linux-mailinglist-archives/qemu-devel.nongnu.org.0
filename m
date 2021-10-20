@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D56B4353BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 21:23:57 +0200 (CEST)
-Received: from localhost ([::1]:34070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1914353D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 21:32:40 +0200 (CEST)
+Received: from localhost ([::1]:42234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdHBr-0001IN-QT
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 15:23:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60438)
+	id 1mdHKF-00079F-AD
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 15:32:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdGvZ-0003KT-0j
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 15:07:05 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:40822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdGvW-0001E1-9o
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 15:07:04 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id v20so16800791plo.7
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 12:07:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8T0ASnC2AEKxtoVK4GdyqxCeZjT67QbxnKzeH37StBs=;
- b=tmpwsPwB61XZ+WEPNKxStCcAlB0/s9U6N95tAqKjtOmV7bxYGoLdlbGqJUYni0MIal
- +DYIO498sAJsSVDpfOOWFI+qPpzDLtfFwlm7XLFw6LsZhskpaL1B1MPbaZO0rD9u4HEg
- fm/Rw2Eau5peTO21E3dxNYnaUQqGdqtl0ptm+occ0Z3hYzKMRCRRdYViF3k/LQJLjCBJ
- L1pdVlh1cxtC3d0AGj7LHwMNJ3ls1Hq8FiUw1v8HV+hg6tld8V/jginK2zKLrOzzpeJ4
- +VGUIeq9CxrbPEQ/J2Egxh9/eFojraeVon2dZAZ5SCGZRoNy36rKstyKw+xm6sc1NGDo
- SsSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8T0ASnC2AEKxtoVK4GdyqxCeZjT67QbxnKzeH37StBs=;
- b=LZSsReD18FbsB4+rp3wiFX8ErET6lApPMT9KR57Ma9HljdpCRhyJ/bn2tGQmvpEBPC
- 1ATlsqCxjwVprQb/keeQkaYJrTabe3A+MDThbGO39mwuta7+F49hHowFV3gUAoVoIbwH
- 0KiBLNt7DwRA3JEJJ18KFWhY+zReIWNlmerEV56rq7mXU8sPb2mZ2scwwAsiklQlOI0K
- jmhjCDZgzXjMRTYg3nIAjyVtQqjct+LRWb6VZH+pNKnHBzETYm5j98z1oRxu2vk4xeA6
- zdHDOifYwb5r4T22JzSrk3Zp+FAilz6DO9uj1MFi8ETamEWu7m/lezXP/0uaGtIZ1nX5
- 8flA==
-X-Gm-Message-State: AOAM531yIpfXoXeqaBlYKpj/bPZRG27Y2uGciYQZIrlnVx2S0QiyGTGP
- zaBxUHwRuvy2WAZtx+995uDs8A==
-X-Google-Smtp-Source: ABdhPJxKPNmDwP9EEFtqx5lF/iFyMuHFvhLJJcaMzk5nL6P8j69dUYSCAKZdD2WAqPRVadD76qiq6A==
-X-Received: by 2002:a17:90a:a08d:: with SMTP id
- r13mr863635pjp.191.1634756820254; 
- Wed, 20 Oct 2021 12:07:00 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id o6sm3431327pfp.79.2021.10.20.12.06.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 12:06:59 -0700 (PDT)
-Subject: Re: [PATCH v3 13/21] target/riscv: support for 128-bit shift
- instructions
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211019094812.614056-14-frederic.petrot@univ-grenoble-alpes.fr>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <63197bd9-52d1-66a1-e056-17d84ba7ec02@linaro.org>
-Date: Wed, 20 Oct 2021 12:06:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mdGwN-00041K-OY; Wed, 20 Oct 2021 15:07:55 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:39879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mdGwL-00021p-D5; Wed, 20 Oct 2021 15:07:55 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 362BF3201C39;
+ Wed, 20 Oct 2021 15:07:51 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Wed, 20 Oct 2021 15:07:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=ve4skNB4mTp3vOHZgodZTYwjmo0
+ AIWaVph3sIxvehbE=; b=fMh97TWxO0Y6RDjaNaKCe7+rCKC8EIjuKVT9UjYHYkL
+ U+hzoVuEz1ButNjgNb1nD2AxCTc/zE8Ll4EyPfvJhkrCq4k2+7fIcenfgcV1BRwi
+ j3ypVxrX8Cga0xNAJqgV6Fhxy84LtyBis2CI4M7mggU09gdeiwoKrpPKPT1lcahh
+ wEfqn0Hhe74j8dmDQaVSdt8hXGrTtsANl/a5YaphufhkqSW/O7WDvWFEZwZUYWRH
+ rqiVrCLMJmn1Pop5+0WmHPBaBuuPy5A3G3XzYFkYtL45eOuwMJk/fRZcJuB0080b
+ zbAJ00SVfkPqCtrGU5RGd2HlD0YovFbfV6raX7v2N5Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ve4skN
+ B4mTp3vOHZgodZTYwjmo0AIWaVph3sIxvehbE=; b=AygDpaTe28fdK0dR4PH/CL
+ 3Lj0jaOY0fxU9nsJnAR432cU0hfP3ya2gMNqIlqRqjv+O0dsTqrpUdn4F5eT9rD1
+ /2ywJhde25jDn45reNQE3zXoggKT2oB+gz8AVI+9Ol48SjNIW0E/fcninpqot/vD
+ pBFxuvC3hgpXY2EeZt/n+tfj7wvwGDYtOkq2zTMYWeaujpOBnek6/lfsmX5dXFHs
+ p7bjdBaXfd84RZfJbz81igFo7ORbRoOZ2wgDVoHeFSG1JC/iYZYlcLADqpfMnt3o
+ 7LPsAKXEr2uNhI4yOX/YfvAdrxa/ba+Up95ezCgFhIlRCkt+S78OsCuiCFWxbCAA
+ ==
+X-ME-Sender: <xms:BmlwYbkgq5DCC6SMVvTVkChejJ98lddYrwThlCqWqvH2RZqhJJx0Rg>
+ <xme:BmlwYe1AxTi1invTPZKa3METXbuBXypWp09S6ZJrup9RcCDxpaFbP_lsvu6eTb8V2
+ mdjHIf-U00TxjNg85s>
+X-ME-Received: <xmr:BmlwYRrrLbycCo8SADzJj-bn-mGLwEIEHbNW0Ql2NyGVkogdzpv6rOjHEX7BXBGZKq2yLWnsf8ekfFXyx7gU6_RwCE6h6fuaeSMhazzOqacDOibfbw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvgedguddvkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
+ ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:BmlwYTnioe3FpJXvAZeV9nLLHo9fDleYXiaKsKhWd6dHCuerdxpIRw>
+ <xmx:BmlwYZ1M_NXBJsyOzca52n2XhvxI-dAOMGFXg4czN4lPj-xznMtwIg>
+ <xmx:BmlwYStJ5BA6uBkN9Ii0Ya9M-B298_X4H-0boNlwlrKPykWUuv9A-Q>
+ <xmx:BmlwYTom9vB1by8_MJRNGyzYXAEpNfaF57CNPkijqhTUBm3mztSjyw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 20 Oct 2021 15:07:49 -0400 (EDT)
+Date: Wed, 20 Oct 2021 21:07:47 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+Subject: Re: [PATCH 05/15] hw/nvme: Add support for SR-IOV
+Message-ID: <YXBpA7ydMl9//wZ1@apples.localdomain>
+References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
+ <20211007162406.1920374-6-lukasz.maniak@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20211019094812.614056-14-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="rGMfoqr83zDoNpob"
+Content-Disposition: inline
+In-Reply-To: <20211007162406.1920374-6-lukasz.maniak@linux.intel.com>
+Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
+ helo=wout4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,134 +93,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
+ qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 2:48 AM, Frédéric Pétrot wrote:
-> +    } else {
-> +        TCGv src1l = get_gpr(ctx, a->rs1, ext),
-> +             src1h = get_gprh(ctx, a->rs1),
-> +             destl = tcg_temp_new(),
-> +             desth = tcg_temp_new();
 
-Don't do this comma, reuse of type and indent thing.
-I know there are several instances.
+--rGMfoqr83zDoNpob
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +        if (max_len < 128) {
-> +            func(destl, src1l, a->shamt);
-> +            gen_set_gpr(ctx, a->rd, destl);
-> +            gen_set_gprh(ctx, a->rd, desth);
-
-You hadn't initialized desth.  Again, where gen_set_gpr and gen_set_gpr128 are clearer 
-than this.
-
->       int olen = get_olen(ctx);
->       if (olen != TARGET_LONG_BITS) {
->           if (olen == 32) {
->               f_tl = f_32;
-> -        } else {
-> +        } else if (olen != 128) {
->               g_assert_not_reached();
->           }
->       }
-> -    return gen_shift_imm_fn(ctx, a, ext, f_tl);
-> +    return gen_shift_imm_fn(ctx, a, ext, f_tl, f_128);
-
-Surely it would be cleaner to split out f_128 at this point, and not pass along f_128 to 
-gen_shift_imm_fn?
-
->   static bool gen_shift(DisasContext *ctx, arg_r *a, DisasExtend ext,
-> -                      void (*func)(TCGv, TCGv, TCGv))
-> +                      void (*func)(TCGv, TCGv, TCGv),
-> +                      void (*f128)(TCGv, TCGv, TCGv, TCGv, TCGv))
->   {
-> -    TCGv dest = dest_gpr(ctx, a->rd);
-> -    TCGv src1 = get_gpr(ctx, a->rs1, ext);
->       TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
->       TCGv ext2 = tcg_temp_new();
->   
->       tcg_gen_andi_tl(ext2, src2, get_olen(ctx) - 1);
-> -    func(dest, src1, ext2);
->   
-> -    gen_set_gpr(ctx, a->rd, dest);
-> +    if (get_xl_max(ctx) < MXL_RV128) {
-> +        TCGv dest = dest_gpr(ctx, a->rd);
-> +        TCGv src1 = get_gpr(ctx, a->rs1, ext);
-> +        func(dest, src1, ext2);
+On Oct  7 18:23, Lukasz Maniak wrote:
+> This patch implements initial support for Single Root I/O Virtualization
+> on an NVMe device.
+>=20
+> Essentially, it allows to define the maximum number of virtual functions
+> supported by the NVMe controller via sriov_max_vfs parameter.
+>=20
+> Passing a non-zero value to sriov_max_vfs triggers reporting of SR-IOV
+> capability by a physical controller and ARI capability by both the
+> physical and virtual function devices.
+>=20
+> NVMe controllers created via virtual functions mirror functionally
+> the physical controller, which may not entirely be the case, thus
+> consideration would be needed on the way to limit the capabilities of
+> the VF.
+>=20
+> NVMe subsystem is required for the use of SR-IOV.
+>=20
+> Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+> ---
+>  hw/nvme/ctrl.c           | 74 ++++++++++++++++++++++++++++++++++++++--
+>  hw/nvme/nvme.h           |  1 +
+>  include/hw/pci/pci_ids.h |  1 +
+>  3 files changed, 73 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 6a571d18cf..ad79ff0c00 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -35,6 +35,7 @@
+>   *              mdts=3D<N[optional]>,vsl=3D<N[optional]>, \
+>   *              zoned.zasl=3D<N[optional]>, \
+>   *              zoned.auto_transition=3D<on|off[optional]>, \
+> + *              sriov_max_vfs=3D<N[optional]> \
+>   *              subsys=3D<subsys_id>
+>   *      -device nvme-ns,drive=3D<drive_id>,bus=3D<bus_name>,nsid=3D<nsid=
+>,\
+>   *              zoned=3D<true|false[optional]>, \
+> @@ -106,6 +107,12 @@
+>   *   transitioned to zone state closed for resource management purposes.
+>   *   Defaults to 'on'.
+>   *
+> + * - `sriov_max_vfs`
+> + *   Indicates the maximum number of PCIe virtual functions supported
+> + *   by the controller. The default value is 0. Specifying a non-zero va=
+lue
+> + *   enables reporting of both SR-IOV and ARI capabilities by the NVMe d=
+evice.
+> + *   Virtual function controllers will not report SR-IOV capability.
+> + *
+>   * nvme namespace device parameters
+>   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   * - `shared`
+> @@ -160,6 +167,7 @@
+>  #include "sysemu/block-backend.h"
+>  #include "sysemu/hostmem.h"
+>  #include "hw/pci/msix.h"
+> +#include "hw/pci/pcie_sriov.h"
+>  #include "migration/vmstate.h"
+> =20
+>  #include "nvme.h"
+> @@ -175,6 +183,9 @@
+>  #define NVME_TEMPERATURE_CRITICAL 0x175
+>  #define NVME_NUM_FW_SLOTS 1
+>  #define NVME_DEFAULT_MAX_ZA_SIZE (128 * KiB)
+> +#define NVME_MAX_VFS 127
+> +#define NVME_VF_OFFSET 0x1
+> +#define NVME_VF_STRIDE 1
+> =20
+>  #define NVME_GUEST_ERR(trace, fmt, ...) \
+>      do { \
+> @@ -5583,6 +5594,10 @@ static void nvme_ctrl_reset(NvmeCtrl *n)
+>          g_free(event);
+>      }
+> =20
+> +    if (!pci_is_vf(&n->parent_obj) && n->params.sriov_max_vfs) {
+> +        pcie_sriov_pf_disable_vfs(&n->parent_obj);
+> +    }
 > +
-> +        gen_set_gpr(ctx, a->rd, dest);
-> +    } else {
-> +        TCGv src1l = get_gpr(ctx, a->rs1, ext),
-> +             src1h = get_gprh(ctx, a->rs1),
-> +             destl = tcg_temp_new(),
-> +             desth = tcg_temp_new();
-
-Should be dest_gpr*.
-
+>      n->aer_queued =3D 0;
+>      n->outstanding_aers =3D 0;
+>      n->qs_created =3D false;
+> @@ -6264,6 +6279,19 @@ static void nvme_check_constraints(NvmeCtrl *n, Er=
+ror **errp)
+>          error_setg(errp, "vsl must be non-zero");
+>          return;
+>      }
 > +
-> +        if (get_olen(ctx) < 128) {
-> +            func(destl, src1l, ext2);
-> +            gen_set_gpr(ctx, a->rd, destl);
-> +            gen_set_gprh(ctx, a->rd, desth);
-> +        } else {
-> +            assert(f128 != NULL);
+> +    if (params->sriov_max_vfs) {
+> +        if (!n->subsys) {
+> +            error_setg(errp, "subsystem is required for the use of SR-IO=
+V");
+> +            return;
+> +        }
+> +
+> +        if (params->sriov_max_vfs > NVME_MAX_VFS) {
+> +            error_setg(errp, "sriov_max_vfs must be between 0 and %d",
+> +                       NVME_MAX_VFS);
+> +            return;
+> +        }
+> +    }
+>  }
+> =20
+>  static void nvme_init_state(NvmeCtrl *n)
+> @@ -6321,6 +6349,20 @@ static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *=
+pci_dev)
+>      memory_region_set_enabled(&n->pmr.dev->mr, false);
+>  }
+> =20
+> +static void nvme_init_sriov(NvmeCtrl *n, PCIDevice *pci_dev, uint16_t of=
+fset,
+> +                            uint64_t bar_size)
+> +{
+> +    uint16_t vf_dev_id =3D n->params.use_intel_id ?
+> +                         PCI_DEVICE_ID_INTEL_NVME : PCI_DEVICE_ID_REDHAT=
+_NVME;
+> +
+> +    pcie_sriov_pf_init(pci_dev, offset, "nvme", vf_dev_id,
+> +                       n->params.sriov_max_vfs, n->params.sriov_max_vfs,
+> +                       NVME_VF_OFFSET, NVME_VF_STRIDE, NULL);
 
-I think you don't want to assert, but just return false.  This will make all of the Zb 
-instructions come out undefined for rv128, which is probably what you want.  You'd want to 
-do that earlier, before all the get_gpr* above.
+Did you consider adding a new device for the virtual function device,
+"nvmevf"?
 
-> @@ -447,9 +486,75 @@ static bool trans_sub(DisasContext *ctx, arg_sub *a)
->       return gen_arith(ctx, a, EXT_NONE, tcg_gen_sub_tl);
->   }
->   
-> +enum M128_DIR {
-> +    M128_LEFT,
-> +    M128_RIGHT,
-> +    M128_RIGHT_ARITH
-> +};
+Down the road it might help with the variations in capabilities that you
+describe.
 
-Why "M"?
+--rGMfoqr83zDoNpob
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +         cnst_zero = tcg_constant_tl(0);
+-----BEGIN PGP SIGNATURE-----
 
-This is ctx->zero.
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmFwaQEACgkQTeGvMW1P
+DelNHwf/SA6or6DI5YYG/qAwli89h1ZpxG4cVKILWSVhu6rYLkfMQAUw793QtYAn
+4PWi74xbiP9Cg7De+fTsl6cJ5pIMIkMk2GTKG2tc+kbhy8bLohK5CWcfb9/GiGTq
+2pvrN2To38VmdqEmnpfFDCkOY476xDXQ7jt0KKSPPnuEQ2WZg4H0DVSLk11gvn90
+wqYojGLMv80mbXvcnQ0NxgWB3KjLlwlEb623RIS/ynNfb5Ab5dhYRZpsY0MiNzIr
+xuUTQDN74+gB6HdnefqVJuxvRbAWbJilPn9cfeJHFERNZvnIyG+mTrcAVZdz+m4Y
+KO2KxhZhnH9+8LLH0PJrWF8DtVVNVg==
+=9wBP
+-----END PGP SIGNATURE-----
 
-Lots of instances throughout your patch set
-though this is the first time I noticed.
-
-> +    tcg_gen_setcondi_tl(TCG_COND_GEU, tmp1, arg2, 64);
-
-You should fold this test into the movcond.
-
-> +        tcg_gen_movi_tl(tmp, 64);
-> +        tcg_gen_sub_tl(tmp, tmp, shamt);
-
-tcg_gen_subfi_tl.
-
-The indentation is off in gen_sll_i128.
-
-Hmm.  3 * (and + shift + cmp + cmov) + 2 * (sub + or) = 16 ops.
-Not horrible...
-
-Let's see.
-
-     ls = sh & 63;        1
-     rs = -sh & 63;       3
-     hs = sh & 64;        4
-
-     ll = s1l << ls;      5
-     h0 = s1h << ls;      6
-     lr = s1l >> rs;      7
-     h1 = h0 | lr;        8
-
-     dl = hs ? 0 : ll;    10
-     dh = hs ? ll : h1;   12
-
-That seems right, and would be 4 ops smaller.
-Would need testing of course.
-
-
-r~
+--rGMfoqr83zDoNpob--
 
