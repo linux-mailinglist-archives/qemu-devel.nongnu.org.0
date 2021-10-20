@@ -2,108 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD6FC434EB7
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 17:11:24 +0200 (CEST)
-Received: from localhost ([::1]:41314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04619434EAD
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 17:10:07 +0200 (CEST)
+Received: from localhost ([::1]:40362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdDFT-0000Q8-QD
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 11:11:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57230)
+	id 1mdDEE-0008DQ-1P
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 11:10:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mdD9S-00039B-Kv
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 11:05:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33859)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mdD9Q-0007vo-Iw
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 11:05:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634742307;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QZEM6rYDofu5FzUiJHKRA4yX/hBTmYNPJvVHApHWM4s=;
- b=iN50iE537SS49fbS8UVKZV6wvFnBDkomym/epSDBrQu6YyVNVdOshkBS4xOadZfrhyHw0B
- Zh2fE65p/6Q66ASKWhmP1f3sVshwGioZSO2rJX7KoClhbzC4RnZjKsZJRp7iPY+i/fsqFi
- 2gIal6vpqAr3GxeDGPs4CqvmsnQF7Yw=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-EaAmGUr4P_KDzt44C9kNwA-1; Wed, 20 Oct 2021 11:05:03 -0400
-X-MC-Unique: EaAmGUr4P_KDzt44C9kNwA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- c25-20020a056402143900b003dc19782ea8so17819076edx.3
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 08:05:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mdDC9-0006bz-G3; Wed, 20 Oct 2021 11:07:58 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35686)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mdDC6-0003RJ-RB; Wed, 20 Oct 2021 11:07:57 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 77-20020a1c0450000000b0030da2439b21so2565166wme.0; 
+ Wed, 20 Oct 2021 08:07:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BuctDYWOCUxUSqgxbj2U7nMheTqAbIzFCYzFQBRp+Ng=;
+ b=SJ0/n5e5OfRN05x0sPa72TSR6D0xTxiXhddXX7RhVUn5B65e5Ch7DRVXXrgIsNSIUH
+ 4duYYWhgl2wcSY47ozX/TraWZv11NePuK1KuApiCtuDX4I1lpIk7u3TmjO3xSfpf6+Ui
+ R+RfyPD8bakIQuN4stkmTiU/YHnequEYnx4YLuDQ+f/J2kuAVkey078wTQwm8/0Ak/pV
+ BXCtKDzfnYPOtx4KMVL+UYzHqBWIvXir54M23dxd2W/ClMAGE8Lq/i7+4zN672Nxq7Pf
+ cRil+1/YV+NNRoqAz6rPgpGh8aouVzVgRYMgKAE3W5vyaP44gO5AZmEUeMAklEs0opoz
+ uDLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=QZEM6rYDofu5FzUiJHKRA4yX/hBTmYNPJvVHApHWM4s=;
- b=0YG1ut5pSHyEEiCWDcXYukvZU6uJjJM6KtOkZzKIh1MzAs+sfmREdke+MmvJzB680I
- O8UzVoqjKCIeKwzyKzUlua93p4d570EMvtDo9aAFR+WejSFt/1uOxr7OVV0wwOS9xTzy
- GAO8w78ShVOwGkI+cAXR+UKQxL00KQqnvOstW/1vO0JVvtCaiaUX8b+lu1R3xixEEME5
- +x1JyUiO/33WBB+rgzT4uFsbOoNn19xZRu+l/ukB20Q0BNOWEq5Miq3Z8pF3n8tZkKpk
- jtiDpYkPEl1USxjl24p8jDv3H7rioWrzdaVgIIMZYXB8YwTliUENG/idTVjweGfSTBG0
- IzPQ==
-X-Gm-Message-State: AOAM531NJz/gOSjrp6tsfXCyA98iBOYm/mgr2gh1oQmtQi/9x5mSuPTy
- tmMaLOnJUW2Al4IbqjyxSnYsXh+Z/QiargkerbHLXyEbQwcGE/MtSsEp079sH1sffKfc1eWb3Uw
- nmKMeTuqUUy/Ffmk=
-X-Received: by 2002:a17:906:c248:: with SMTP id
- bl8mr131162ejb.360.1634742302044; 
- Wed, 20 Oct 2021 08:05:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJya/LIFRqqOUSo7Lmi4tFCFAzBuKiM0WFSBG+1eHkP4BZH0gU/AYXixT+oka4L8TMjs9TmZpw==
-X-Received: by 2002:a17:906:c248:: with SMTP id
- bl8mr131052ejb.360.1634742301084; 
- Wed, 20 Oct 2021 08:05:01 -0700 (PDT)
-Received: from thuth.remote.csb (tmo-097-184.customers.d1-online.com.
- [80.187.97.184])
- by smtp.gmail.com with ESMTPSA id ox9sm1157263ejb.66.2021.10.20.08.04.59
+ bh=BuctDYWOCUxUSqgxbj2U7nMheTqAbIzFCYzFQBRp+Ng=;
+ b=GEr88OWk1cOmfhOSxOySKKuyDAq6B5b84AxFu+iRd+K33oNIMbER3US1NPGgQJwnsf
+ 75ec1epsUlw8X1U68H5kGj/qP3kloRkhsBdnFB3oql7ZCExE/gTLtyWav91mn9uP/42n
+ +DLwprWonA+CF4XvP0eaSJoNO1wE8PiNc428ERft+NjvGuz4TH1PCe9oEDwSXiuGTdxB
+ p8MGyT0slsHH7TtvAn5tMYiBmo/hrgXUvM178IpHhWvH7uZHH/e2gOYU5dAM0N7mynQL
+ WViRu6lhx9kLqES+C54LqMt43y284sqIUsGQpXHiRS3AgkRJzoPIkUePIedo5ZKILqA+
+ cIbQ==
+X-Gm-Message-State: AOAM530QxxpmdekRKBCR2KhGYZkPLH1c1hox2pM8ydJiKr1jepwlTkjz
+ HziQx3Cx1uBEUy1msUS/uC8=
+X-Google-Smtp-Source: ABdhPJyrNHZ7vW3jzuJGhkrsvCkLKBd4wRhj/b7eAKet6O00jTf8TmIDbLicwY8da9HB2Veh4HEX0Q==
+X-Received: by 2002:a7b:c741:: with SMTP id w1mr13864402wmk.9.1634742472865;
+ Wed, 20 Oct 2021 08:07:52 -0700 (PDT)
+Received: from [192.168.1.36] (33.red-81-36-146.dynamicip.rima-tde.net.
+ [81.36.146.33])
+ by smtp.gmail.com with ESMTPSA id x7sm2216648wrq.69.2021.10.20.08.07.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 08:05:00 -0700 (PDT)
-Subject: Re: Deprecate the ppc405 boards in QEMU?
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
- <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
- <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
- <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
- <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
- <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
- <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
- <1397f18f-f187-6f48-ed6c-13c0b77abed9@redhat.com> <YVug7l8LWl3e+DN5@yekko>
- <9aeb7010-0a17-864a-cfac-ea5d90356085@csgroup.eu>
- <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
- <5e4f78ce-1508-5689-ec29-79edad0c824e@kaod.org>
- <491d6265-3785-b11-b7f0-621a3d2823@eik.bme.hu>
- <b9f27c1b-1162-b178-9333-89c0dd707c12@redhat.com>
- <103e098a-a8ac-a22a-8aad-3df7d8cde148@amsat.org>
- <939f2d12-38f6-4ab0-b688-384136d1d9c@eik.bme.hu>
- <4e07823e-7162-525a-4a61-9bed63e85d58@kaod.org>
- <03d047aa-6d73-8697-ac43-29ab56563567@redhat.com>
- <942cf427-d052-5bd-6b66-ddc5a53fbec5@eik.bme.hu>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <87acd22b-6288-16e5-aebf-03cf720873d3@redhat.com>
-Date: Wed, 20 Oct 2021 17:04:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Wed, 20 Oct 2021 08:07:52 -0700 (PDT)
+Message-ID: <fdc3d6b9-e784-6acc-06c2-62aed8e33319@amsat.org>
+Date: Wed, 20 Oct 2021 17:07:50 +0200
 MIME-Version: 1.0
-In-Reply-To: <942cf427-d052-5bd-6b66-ddc5a53fbec5@eik.bme.hu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v3 01/21] memory: change define name for consistency
 Content-Language: en-US
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211019094812.614056-2-frederic.petrot@univ-grenoble-alpes.fr>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211019094812.614056-2-frederic.petrot@univ-grenoble-alpes.fr>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.267,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,52 +91,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, dbarboza@redhat.com,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Greg Kurz <groug@kaod.org>,
- Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: richard.henderson@linaro.org, bin.meng@windriver.com,
+ alistair.francis@wdc.com, palmer@dabbelt.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/10/2021 16.55, BALATON Zoltan wrote:
-> On Wed, 20 Oct 2021, Thomas Huth wrote:
->> On 20/10/2021 14.43, Cédric Le Goater wrote:
->>
->>> The 405 machine are still close to deprecation I think. We are still
->>> struggling to boot one with mainline Linux, using uboot provided by
->>> Thomas which skips SDRAM init. It is not clear to me if u-boot is
->>> strictly necessary. It depends if Linux relies on it to do some
->>> pre-initialization of HW. I guess once we find a good DTS for it, or
->>> not, we can take a decision.
->>
->> FWIW, seems like this tarball contains a dts for a "taihushui" 405ep board:
->>
->> https://dev.archive.openwrt.org/raw-attachment/ticket/4153/kolsch.tranzeo.openwrt.bsp.tar.bz2 
->>
->>
->> ... I wonder whether that's the same board as the "taihu" board in QEMU?
+On 10/19/21 11:47, Frédéric Pétrot wrote:
+> Changed MO_Q into MO_UQ so as to avoid confusion, as suggested by
+> Philippe Mathieu-Daudé.
 > 
-> The corresponding ticket has some info on the machine:
+> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+> ---
+>  include/exec/memop.h                       |  8 ++++----
+>  target/arm/translate-a32.h                 |  4 ++--
+>  target/arm/translate-a64.c                 |  8 ++++----
+>  target/arm/translate-neon.c                |  6 +++---
+>  target/arm/translate-sve.c                 |  2 +-
+>  target/arm/translate-vfp.c                 |  8 ++++----
+>  target/arm/translate.c                     |  2 +-
+>  target/ppc/translate.c                     | 24 +++++++++++-----------
+>  target/sparc/translate.c                   |  4 ++--
+>  target/ppc/translate/fixedpoint-impl.c.inc | 20 +++++++++---------
+>  target/ppc/translate/fp-impl.c.inc         |  4 ++--
+>  target/ppc/translate/vsx-impl.c.inc        |  4 ++--
+>  tcg/aarch64/tcg-target.c.inc               |  2 +-
+>  tcg/arm/tcg-target.c.inc                   | 10 ++++-----
+>  tcg/i386/tcg-target.c.inc                  |  4 ++--
+>  tcg/mips/tcg-target.c.inc                  |  4 ++--
+>  tcg/ppc/tcg-target.c.inc                   |  8 ++++----
+>  tcg/riscv/tcg-target.c.inc                 |  6 +++---
+>  tcg/s390x/tcg-target.c.inc                 | 10 ++++-----
+>  19 files changed, 69 insertions(+), 69 deletions(-)
 > 
-> https://dev.archive.openwrt.org/ticket/4153.html
+> diff --git a/include/exec/memop.h b/include/exec/memop.h
+> index 04264ffd6b..c554bb0ee8 100644
+> --- a/include/exec/memop.h
+> +++ b/include/exec/memop.h
+> @@ -88,26 +88,26 @@ typedef enum MemOp {
+>      MO_SB    = MO_SIGN | MO_8,
+>      MO_SW    = MO_SIGN | MO_16,
+>      MO_SL    = MO_SIGN | MO_32,
+> -    MO_Q     = MO_64,
+> +    MO_UQ     = MO_64,
+> diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+> index 633b8a37ba..e31f454695 100644
+> --- a/tcg/arm/tcg-target.c.inc
+> +++ b/tcg/arm/tcg-target.c.inc
+> @@ -1443,13 +1443,13 @@ static void * const qemu_ld_helpers[MO_SSIZE + 1] = {
+>  #ifdef HOST_WORDS_BIGENDIAN
+>      [MO_UW] = helper_be_lduw_mmu,
+>      [MO_UL] = helper_be_ldul_mmu,
+> -    [MO_Q]  = helper_be_ldq_mmu,
+> +    [MO_UQ]  = helper_be_ldq_mmu,
+>      [MO_SW] = helper_be_ldsw_mmu,
+>      [MO_SL] = helper_be_ldul_mmu,
+>  #else
+>      [MO_UW] = helper_le_lduw_mmu,
+>      [MO_UL] = helper_le_ldul_mmu,
+> -    [MO_Q]  = helper_le_ldq_mmu,
+> +    [MO_UQ]  = helper_le_ldq_mmu,
+>      [MO_SW] = helper_le_ldsw_mmu,
+>      [MO_SL] = helper_le_ldul_mmu,
+>  #endif
 
-Ok, so as far as I got that now, Taihu was a board by AMCC, while Taihushui 
-was from Tranzeo ? ... so they were likely different boards, I think.
+> --- a/tcg/ppc/tcg-target.c.inc
+> +++ b/tcg/ppc/tcg-target.c.inc
+> @@ -1935,24 +1935,24 @@ static const uint32_t qemu_ldx_opc[(MO_SSIZE + MO_BSWAP) + 1] = {
+>      [MO_UB] = LBZX,
+>      [MO_UW] = LHZX,
+>      [MO_UL] = LWZX,
+> -    [MO_Q]  = LDX,
+> +    [MO_UQ]  = LDX,
+>      [MO_SW] = LHAX,
+>      [MO_SL] = LWAX,
+>      [MO_BSWAP | MO_UB] = LBZX,
+>      [MO_BSWAP | MO_UW] = LHBRX,
+>      [MO_BSWAP | MO_UL] = LWBRX,
+> -    [MO_BSWAP | MO_Q]  = LDBRX,
+> +    [MO_BSWAP | MO_UQ]  = LDBRX,
+>  };
+>  
+>  static const uint32_t qemu_stx_opc[(MO_SIZE + MO_BSWAP) + 1] = {
+>      [MO_UB] = STBX,
+>      [MO_UW] = STHX,
+>      [MO_UL] = STWX,
+> -    [MO_Q]  = STDX,
+> +    [MO_UQ]  = STDX,
+>      [MO_BSWAP | MO_UB] = STBX,
+>      [MO_BSWAP | MO_UW] = STHBRX,
+>      [MO_BSWAP | MO_UL] = STWBRX,
+> -    [MO_BSWAP | MO_Q]  = STDBRX,
+> +    [MO_BSWAP | MO_UQ]  = STDBRX,
+>  };
 
-> I wonder what ref405ep was then, an earlier or later or different version?
+> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+> index 9b13a46fb4..b621694321 100644
+> --- a/tcg/riscv/tcg-target.c.inc
+> +++ b/tcg/riscv/tcg-target.c.inc
+> @@ -862,7 +862,7 @@ static void * const qemu_ld_helpers[MO_SSIZE + 1] = {
+>  #if TCG_TARGET_REG_BITS == 64
+>      [MO_SL] = helper_be_ldsl_mmu,
+>  #endif
+> -    [MO_Q]  = helper_be_ldq_mmu,
+> +    [MO_UQ]  = helper_be_ldq_mmu,
+>  #else
+>      [MO_UW] = helper_le_lduw_mmu,
+>      [MO_SW] = helper_le_ldsw_mmu,
+> @@ -870,7 +870,7 @@ static void * const qemu_ld_helpers[MO_SSIZE + 1] = {
+>  #if TCG_TARGET_REG_BITS == 64
+>      [MO_SL] = helper_le_ldsl_mmu,
+>  #endif
+> -    [MO_Q]  = helper_le_ldq_mmu,
+> +    [MO_UQ]  = helper_le_ldq_mmu,
+>  #endif
+>  };
 
-According to hw/ppc/ppc405_boards.c, the ref405ep machine was a reference 
-board by IBM, not from AMCC ?
+Some '=' are now mis-indented.
 
-  Thomas
+Otherwise:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+Also this subject would be more appropriate:
+"exec/memop: Rename MO_Q definition as MO_UQ"
+
+Regards,
+
+Phil.
 
