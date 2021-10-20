@@ -2,70 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B689D434D14
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:07:58 +0200 (CEST)
-Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF482434D21
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:10:09 +0200 (CEST)
+Received: from localhost ([::1]:40696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdCG5-0007Lx-Rv
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:07:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39270)
+	id 1mdCIC-0004T2-RA
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:10:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mdByb-0001KH-1y
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:49:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33240)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1mdC3s-00078t-7T
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:55:20 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:54112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mdByX-0002Jj-Vh
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:49:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634737788;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Jal3w2Kw/G3jkvBDZHac17SVq9eiusd4p0wsKCQYMZE=;
- b=LkepCuBowyF6sgSTCjYTUL1gQqVNLWWBQc+0egK6VJd/lzk1h0yFTad+Q1K0siUkAku40G
- clwplBqOMFdRVfUAj0d3Pj+tpMItA2QJrjDijOpDjKBC2/r/5/fuGIWZmy6cOwAiGWKts1
- Pw1vZj8lNyomh/dZ1xGIx++emNbv5iI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-eKN4bWmePJuK5ebyRFNTlA-1; Wed, 20 Oct 2021 09:49:43 -0400
-X-MC-Unique: eKN4bWmePJuK5ebyRFNTlA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBDF4948
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 13:49:42 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.254])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C768E6A8E5;
- Wed, 20 Oct 2021 13:48:12 +0000 (UTC)
-Date: Wed, 20 Oct 2021 14:48:09 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH 0/4] vl: Prioritize device realizations
-Message-ID: <YXAeGdkCPh5h+kHg@redhat.com>
-References: <20210818194217.110451-1-peterx@redhat.com>
- <2817620d-facb-eeee-b854-64193fa4da33@redhat.com>
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1mdC3o-0006ua-N8
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:55:19 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 9FCAD46921;
+ Wed, 20 Oct 2021 15:55:13 +0200 (CEST)
+From: Stefan Reiter <s.reiter@proxmox.com>
+To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
+Subject: [PATCH v6 0/5] VNC-related HMP/QMP fixes
+Date: Wed, 20 Oct 2021 15:54:55 +0200
+Message-Id: <20211020135500.2384930-1-s.reiter@proxmox.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <2817620d-facb-eeee-b854-64193fa4da33@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,79 +56,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 20, 2021 at 03:44:08PM +0200, David Hildenbrand wrote:
-> On 18.08.21 21:42, Peter Xu wrote:
-> > This is a long pending issue that we haven't fixed.  The issue is in QEMU we
-> > have implicit device ordering requirement when realizing, otherwise some of the
-> > device may not work properly.
-> > 
-> > The initial requirement comes from when vfio-pci starts to work with vIOMMUs.
-> > To make sure vfio-pci will get the correct DMA address space, the vIOMMU device
-> > needs to be created before vfio-pci otherwise vfio-pci will stop working when
-> > the guest enables the vIOMMU and the device at the same time.
-> > 
-> > AFAIU Libvirt should have code that guarantees that.  For QEMU cmdline users,
-> > they need to pay attention or things will stop working at some point.
-> > 
-> > Recently there's a growing and similar requirement on vDPA.  It's not a hard
-> > requirement so far but vDPA has patches that try to workaround this issue.
-> > 
-> > This patchset allows us to realize the devices in the order that e.g. platform
-> > devices will be created first (bus device, IOMMU, etc.), then the rest of
-> > normal devices.  It's done simply by ordering the QemuOptsList of "device"
-> > entries before realization.  The priority so far comes from migration
-> > priorities which could be a little bit odd, but that's really about the same
-> > problem and we can clean that part up in the future.
-> > 
-> > Libvirt can still keep its ordering for sure so old QEMU will still work,
-> > however that won't be needed for new qemus after this patchset, so with the new
-> > binary we should be able to specify qemu cmdline as wish on '-device'.
-> > 
-> > Logically this should also work for vDPA and the workaround code can be done
-> > with more straightforward approaches.
-> > 
-> > Please review, thanks.
-> 
-> Hi Peter, looks like I have another use case:
-> 
-> vhost devices can heavily restrict the number of available memslots:
-> e.g., upstream KVM ~64k, vhost-user usually 32 (!). With virtio-mem
-> intending to make use of multiple memslots [1] and auto-detecting how
-> many to use based on currently avilable memslots when plugging and
-> realizing the virtio-mem device, this implies that realizing vhost
-> devices (especially vhost-user device) after virtio-mem devices can
-> similarly result in issues: when trying realization of the vhost device
-> with restricted memslots, QEMU will bail out.
-> 
-> So similarly, we'd want to realize any vhost-* before any virtio-mem device.
+Since the removal of the generic 'qmp_change' command, one can no longer replace
+the 'default' VNC display listen address at runtime (AFAIK). For our users who
+need to set up a secondary VNC access port, this means configuring a second VNC
+display (in addition to our standard one for web-access), but it turns out one
+cannot set a password on this second display at the moment, as the
+'set_password' call only operates on the 'default' display.
 
-Ordering virtio-mem vs vhost-* devices doesn't feel like a good
-solution to this problem. eg if you start a guest with several
-vhost-* devices, then virtio-mem auto-decides to use all/most
-remaining memslots, we've now surely broken the abiltiy to then
-hotplug more vhost-* devices at runtime by not leaving memslots
-for them.
+Additionally, using secret objects, the password is only read once at startup.
+This could be considered a bug too, but is not touched in this series and left
+for a later date.
 
-I think virtio-mem configuration needs to be stable in its memslot
-usage regardless of how many other types of devices are present,
-and not auto-adjust how many it consumes.
+v5 -> v6:
+* consider feedback from Markus' review, mainly:
+  * fix crash bug in patch 1 (sorry, artifact of patch-splitting)
+  * rely on '!has_param => param == NULL' to shorten code
+  * add note to 'docs/about/deprecated.rst' and touch up comments a bit
+* go back to g_free instead of qapi_free_* since the latter apparently tries to
+  free the passed in pointer which lives on the stack...
+* fix bug in HMP parsing (see patch 1)
 
-Regards,
-Daniel
+v4 -> v5:
+* add comment to patch 1 in "monitor-internal.h"
+* use qapi_free_SetPasswordOptions and friends, don't leak strdups
+* split QAPI change into 3 seperate patches
+
+v3 -> v4:
+* drop previously patch 1, this was fixed here instead:
+  https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02529.html
+* patch 1: add Eric's R-b
+* patch 2: remove if-assignment, use 'deprecated' feature in schema
+
+v2 -> v3:
+* refactor QMP schema for set/expire_password as suggested by Eric Blake and
+  Markus Armbruster
+
+v1 -> v2:
+* add Marc-André's R-b on patch 1
+* use '-d' flag as suggested by Eric Blake and Gerd Hoffmann
+  * I didn't see a way to do this yet, so I added a "flags with values" arg type
+
+
+Stefan Reiter (5):
+  monitor/hmp: add support for flag argument with value
+  qapi/monitor: refactor set/expire_password with enums
+  qapi/monitor: allow VNC display id in set/expire_password
+  qapi/monitor: only allow 'keep' SetPasswordAction for VNC and
+    deprecate
+  docs: add deprecation note about 'set_password' param 'connected'
+
+ docs/about/deprecated.rst  |   6 ++
+ hmp-commands.hx            |  24 +++---
+ monitor/hmp-cmds.c         |  54 ++++++++++++-
+ monitor/hmp.c              |  19 ++++-
+ monitor/monitor-internal.h |   3 +-
+ monitor/qmp-cmds.c         |  54 ++++---------
+ qapi/ui.json               | 156 ++++++++++++++++++++++++++++++++-----
+ 7 files changed, 242 insertions(+), 74 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.30.2
 
 
