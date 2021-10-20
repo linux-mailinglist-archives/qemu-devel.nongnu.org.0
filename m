@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90B643471F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 10:41:38 +0200 (CEST)
-Received: from localhost ([::1]:47762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D11434722
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 10:41:43 +0200 (CEST)
+Received: from localhost ([::1]:48070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1md7AH-0003II-K4
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 04:41:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47594)
+	id 1md7AM-0003Vu-AN
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 04:41:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1md78N-0001d5-Cm
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:39:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48416)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md78Y-0001tD-Ad
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:39:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1md78K-00049g-L2
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:39:38 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1md78W-0004rt-HH
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 04:39:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634719175;
+ s=mimecast20190719; t=1634719187;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NZIBxfjFsnaVnBMUvbDWAhLIpgQ4YpsxFbP1V/KFOz4=;
- b=NLRBYzKkc4l/t1N1HX5x9iBsPKUYgV/d4ZDFjpLVvVXLknEEvEmmOXlzaRT8AsJClBvM6A
- 0+shblSruNm4hqPniWYWgC9dPd/zSZh49/xkdqyFh6quWC64nGknnLRw2BnTMfq723zrBx
- kEZtmhwl/+TYoudgq6xwHB/Awyv9DjI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-jSbSzscENVuregqclYpHdQ-1; Wed, 20 Oct 2021 04:39:32 -0400
-X-MC-Unique: jSbSzscENVuregqclYpHdQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l39-20020a05600c1d2700b0030dba1dc6eeso2718665wms.7
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 01:39:32 -0700 (PDT)
+ bh=lpm+4pWlKCfEUWvvss3eKoSvoULIRcyP2c6+gZkVRJA=;
+ b=ADt+Lx2gE8Yzfs9l+64TAlkJpzEP/DVY4KMmishy2jH8z1L23pyUgoa8+tO7WxhI4p3oel
+ 3rRrM5nMKhMyPq6zQsPAtxbvQ+V50i5RHi1m1DEQGY/QTy6J4dcI0vpAdSAEH7qBBa+fP0
+ fzF996EUQRyH+CJX5cYHgmNGCY0SNhs=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-176-OOp3YuacOzqtJcHrmPkbFQ-1; Wed, 20 Oct 2021 04:39:46 -0400
+X-MC-Unique: OOp3YuacOzqtJcHrmPkbFQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ l10-20020a056402230a00b003db6977b694so20259096eda.23
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 01:39:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZdxLIYuD0negc8Cdt3gYbdHPi2dL4qYHorx/j5rHqNM=;
- b=o0d+8PbdZiKRVTyKdnhj92YzMC/o8N00yXrMyMqKgrBrqBF7HHeXKD0Mj18XyuTc89
- YvCtq0L6VE8Q1jJ6IEGuDYxbqObo9H4uOPhdmmqLrhPt75Ku9scMwkMjZc69mvikqeTC
- /tQxh37kj00eoJZlP43BSvVhCtTRvuj9WvqA0FF37O6eVhpFHvh3rIqVwP8FO8AQSFo5
- n4QivTlLWkM9zh570gXL6N1MdgTg26FWdAOK4J0iiRsgzIzjSYUv7YOnSpjys5KGGWYD
- N7IE6s+lbvPKVlyvVawbhAxXOkcZyX0f0kyQRaa9BGMGa8ycdgDY2iltOeK8svVnCgre
- UnaQ==
-X-Gm-Message-State: AOAM533PdjX5tb8ewTVXj+CljxxLagQgoqh4kW7hR7bYNxXpPj8ABq+f
- cMFxba3X45EjPJ/SfGmih+JYxnMBfJerhf0nK1gZaIWmz0iJG/bdWXQvIWgnzcBtxZ/5RbTbRXo
- rwXackTVGcI+sTMQ=
-X-Received: by 2002:adf:a48e:: with SMTP id g14mr50629652wrb.11.1634719171088; 
- Wed, 20 Oct 2021 01:39:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxQe4lDweqDdMJRVwNEztjK0cArS0BXk237qXoz4AxzBIXw4tiM0Xf45ArS2c0yK1L7f1ERfg==
-X-Received: by 2002:adf:a48e:: with SMTP id g14mr50629626wrb.11.1634719170855; 
- Wed, 20 Oct 2021 01:39:30 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id g3sm1559518wri.45.2021.10.20.01.39.30
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=lpm+4pWlKCfEUWvvss3eKoSvoULIRcyP2c6+gZkVRJA=;
+ b=wxSsuIXNlreOMxv9i0h3NCzjxVt8sy2IgWOS6xQml7rlgdwRxmYWPdaZMzz9n7qPzA
+ VMzEH6MnFsPdQ9BsFngZGmS9QCndaLqX8rga9Xx3lKhLKdlHA1Ag9+yNbZPi3wP3QEO7
+ X3Myxb6zLqn6zvq0t9R5QJlryEGJbkOW1s/k1JQVhyqu2jFGDMYKk+UT+OfOXnLj5aB8
+ 7fDdiynILNVuM+d5DHfnrkGQ65BkOV+DXIZYi2UPrp24NZeGSqfCOrihUF2RAaZWTF0T
+ 8kTYFrOPdpYCLLdll1elQ7sz39V1BpvbGkyfXyXI5RdRjzhL6+hERFIzSAKtDSMNOJ/h
+ ar3Q==
+X-Gm-Message-State: AOAM533r8G2qd20/F1IK8lSWYS6HFnYg5yZLWwiBssXv2fpV7QY21ES/
+ 9qMtO9Hk9jAn3pMvC4GkERXsfd4Kj3zLpl8XFlDIQz504tmhdYtgrv12qA8EBtHzFj3FLRwrvDa
+ dT9qow29clqX84QY=
+X-Received: by 2002:a05:6402:4256:: with SMTP id
+ g22mr60133171edb.399.1634719185413; 
+ Wed, 20 Oct 2021 01:39:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy9DurjBMeajGDIjgDcvxz/A+NGe3iGswNd/IiMm7YNHN+sSybZsRrLEtGK73L66+qlcaN2RQ==
+X-Received: by 2002:a05:6402:4256:: with SMTP id
+ g22mr60133158edb.399.1634719185262; 
+ Wed, 20 Oct 2021 01:39:45 -0700 (PDT)
+Received: from redhat.com ([2.55.24.172])
+ by smtp.gmail.com with ESMTPSA id l23sm683179ejn.15.2021.10.20.01.39.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 01:39:30 -0700 (PDT)
-Date: Wed, 20 Oct 2021 10:39:29 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PULL 00/29] pc,pci,virtio: features, fixes
-Message-ID: <20211020103929.5cc1fb32@redhat.com>
-In-Reply-To: <4cc1b92e-a3f0-bab9-6e71-112ef3fb13a1@linaro.org>
-References: <20211019111923.679826-1-mst@redhat.com>
- <4cc1b92e-a3f0-bab9-6e71-112ef3fb13a1@linaro.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ Wed, 20 Oct 2021 01:39:44 -0700 (PDT)
+Date: Wed, 20 Oct 2021 04:39:41 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v3 0/3] tests/acpi/pcihp: add unit tests for hotplug on
+ multifunction bridges for q35
+Message-ID: <20211020043845-mutt-send-email-mst@kernel.org>
+References: <20211007135750.1277213-1-ani@anisinha.ca>
 MIME-Version: 1.0
+In-Reply-To: <20211007135750.1277213-1-ani@anisinha.ca>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -96,198 +94,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Oct 2021 11:38:08 -0700
-Richard Henderson <richard.henderson@linaro.org> wrote:
+On Thu, Oct 07, 2021 at 07:27:47PM +0530, Ani Sinha wrote:
+> changelist:
+> v3: removed "nodefaults" from the command line and rebased the patchset.
+> v2: incorporated some of the feedbacks from Igor.
+> v1 : initial RFC patch.
 
-> On 10/19/21 4:19 AM, Michael S. Tsirkin wrote:
-> > The following changes since commit 9c050b661d3a43dfe2fd44106e559b39706d=
-1296:
-> >=20
-> >    Merge remote-tracking branch 'remotes/philmd/tags/mips-20211018' int=
-o staging (2021-10-18 09:16:51 -0700)
-> >=20
-> > are available in the Git repository at:
-> >=20
-> >    git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >=20
-> > for you to fetch changes up to bf2dd99b7d536cdba157fd6687810ce7b8340ccc=
-:
-> >=20
-> >    failover: fix a regression introduced by JSON'ification of -device (=
-2021-10-19 07:15:34 -0400)
-> >=20
-> > ----------------------------------------------------------------
-> > pc,pci,virtio: features, fixes
-> >=20
-> > vhost user rng
-> > Fixes, cleanups all over the place.
-> >=20
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >=20
-> > ----------------------------------------------------------------
-> > Ani Sinha (3):
-> >        tests/acpi/bios-tables-test: add and allow changes to a new q35 =
-DSDT table blob
-> >        tests/acpi/pcihp: add unit tests for hotplug on multifunction br=
-idges for q35
-> >        tests/acpi/bios-tables-test: update DSDT blob for multifunction =
-bridge test
-> >=20
-> > David Hildenbrand (1):
-> >        libvhost-user: fix VHOST_USER_REM_MEM_REG skipping mmap_addr
-> >=20
-> > Eric Auger (2):
-> >        virtio-iommu: Remove the non transitional name
-> >        virtio-iommu: Drop base_name and change generic_name
-> >=20
-> > Eugenio P=C3=A9rez (3):
-> >        vdpa: Skip protected ram IOMMU mappings
-> >        vdpa: Add vhost_vdpa_section_end
-> >        vdpa: Check for iova range at mappings changes
-> >=20
-> > Igor Mammedov (15):
-> >        tests: acpi: dump table with failed checksum
-> >        tests: qtest: add qtest_has_accel() to check if tested binary su=
-pports accelerator
-> >        tests: acpi: whitelist expected tables for acpi/q35/xapic testca=
-se
-> >        tests: acpi: q35: test for x2APIC entries in SRAT
-> >        tests: acpi: update expected tables blobs
-> >        tests: acpi: whitelist new expected table tests/data/acpi/q35/DM=
-AR.dmar
-> >        tests: acpi: add testcase for intel_iommu (DMAR table)
-> >        tests: acpi: add expected blob for DMAR table
-> >        tests: acpi: whitelist expected blobs for new acpi/q35/ivrs test=
-case
-> >        tests: acpi: add testcase for amd-iommu (IVRS table)
-> >        tests: acpi: update expected blobs
-> >        tests: acpi: arm/virt: drop redundant test_acpi_one() in test_ac=
-pi_virt_tcg()
-> >        tests: arm-cpu-features: use qtest_has_kvm() API
-> >        tests: migration-test: use qtest_has_accel() API
-> >        tests: bios-tables-test: use qtest_has_accel() API to register T=
-CG only tests
-> >=20
-> > Laurent Vivier (1):
-> >        failover: fix a regression introduced by JSON'ification of -devi=
-ce
-> >=20
-> > Mathieu Poirier (3):
-> >        vhost-user-rng: Add vhost-user-rng implementation
-> >        vhost-user-rng-pci: Add vhost-user-rng-pci implementation
-> >        docs: Add documentation for vhost based RNG implementation
-> >=20
-> > Xueming Li (1):
-> >        vhost-user: fix duplicated notifier MR init
-> >=20
-> >   include/hw/virtio/vhost-user-rng.h        |  33 ++++
-> >   include/hw/virtio/vhost-vdpa.h            |   2 +
-> >   include/hw/virtio/virtio-iommu.h          |   2 +-
-> >   tests/qtest/libqos/libqtest.h             |   8 +
-> >   hw/net/virtio-net.c                       |  24 ++-
-> >   hw/virtio/vhost-user-rng-pci.c            |  79 ++++++++
-> >   hw/virtio/vhost-user-rng.c                | 289 +++++++++++++++++++++=
-+++++++++
-> >   hw/virtio/vhost-user.c                    |   5 +-
-> >   hw/virtio/vhost-vdpa.c                    |  81 ++++++---
-> >   hw/virtio/virtio-iommu-pci.c              |   4 +-
-> >   subprojects/libvhost-user/libvhost-user.c |   1 +
-> >   tests/qtest/acpi-utils.c                  |  14 ++
-> >   tests/qtest/arm-cpu-features.c            |  29 +--
-> >   tests/qtest/bios-tables-test.c            |  90 ++++++++--
-> >   tests/qtest/libqtest.c                    |  27 +++
-> >   tests/qtest/migration-test.c              |  15 +-
-> >   docs/system/device-emulation.rst          |   1 +
-> >   docs/system/devices/vhost-user-rng.rst    |  39 ++++
-> >   hw/virtio/Kconfig                         |   5 +
-> >   hw/virtio/meson.build                     |   2 +
-> >   hw/virtio/trace-events                    |   1 +
-> >   meson.build                               |   6 +
-> >   tests/data/acpi/q35/APIC.xapic            | Bin 0 -> 2686 bytes
-> >   tests/data/acpi/q35/DMAR.dmar             | Bin 0 -> 120 bytes
-> >   tests/data/acpi/q35/DSDT.ivrs             | Bin 0 -> 8306 bytes
-> >   tests/data/acpi/q35/DSDT.multi-bridge     | Bin 0 -> 8583 bytes
-> >   tests/data/acpi/q35/DSDT.xapic            | Bin 0 -> 35652 bytes
-> >   tests/data/acpi/q35/FACP.xapic            | Bin 0 -> 244 bytes
-> >   tests/data/acpi/q35/IVRS.ivrs             | Bin 0 -> 104 bytes
-> >   tests/data/acpi/q35/SRAT.xapic            | Bin 0 -> 5080 bytes
-> >   30 files changed, 672 insertions(+), 85 deletions(-)
-> >   create mode 100644 include/hw/virtio/vhost-user-rng.h
-> >   create mode 100644 hw/virtio/vhost-user-rng-pci.c
-> >   create mode 100644 hw/virtio/vhost-user-rng.c
-> >   create mode 100644 docs/system/devices/vhost-user-rng.rst
-> >   create mode 100644 tests/data/acpi/q35/APIC.xapic
-> >   create mode 100644 tests/data/acpi/q35/DMAR.dmar
-> >   create mode 100644 tests/data/acpi/q35/DSDT.ivrs
-> >   create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
-> >   create mode 100644 tests/data/acpi/q35/DSDT.xapic
-> >   create mode 100644 tests/data/acpi/q35/FACP.xapic
-> >   create mode 100644 tests/data/acpi/q35/IVRS.ivrs
-> >   create mode 100644 tests/data/acpi/q35/SRAT.xapic =20
->=20
-> 32-bit printf errors:
->=20
-> ../hw/virtio/vhost-vdpa.c: In function 'vhost_vdpa_listener_skipped_secti=
-on':
-> ../hw/virtio/vhost-vdpa.c:55:22: error: format '%lu' expects argument of =
-type 'long=20
-> unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigne=
-d int'}=20
-> [-Werror=3Dformat=3D]
->           error_report("RAM section out of device range (min=3D%lu, addr=
-=3D%lu)",
->                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
->                        iova_min, section->offset_within_address_space);
->                        ~~~~~~~~
-> ../hw/virtio/vhost-vdpa.c:55:22: error: format '%lu' expects argument of =
-type 'long=20
-> unsigned int', but argument 3 has type 'hwaddr' {aka 'long long unsigned =
-int'}=20
-> [-Werror=3Dformat=3D]
-> ../hw/virtio/vhost-vdpa.c:62:22: error: format '%lu' expects argument of =
-type 'long=20
-> unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigne=
-d int'}=20
-> [-Werror=3Dformat=3D]
->           error_report("RAM section out of device range (max=3D%lu, end a=
-ddr=3D%lu)",
->                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
->                        iova_max, int128_get64(llend));
->                        ~~~~~~~~
-> ../hw/virtio/vhost-vdpa.c:62:22: error: format '%lu' expects argument of =
-type 'long=20
-> unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigne=
-d int'}=20
-> [-Werror=3Dformat=3D]
-> cc1: all warnings being treated as errors
->
-=20
->
-> Also fails s390x host testing:
->=20
->=20
-> ERROR:../tests/qtest/boot-sector.c:170:boot_sector_test: assertion failed=
- (signature =3D=3D=20
-> SIGNATURE): (0x00000000 =3D=3D 0x0000dead)
-> ERROR qtest-i386/bios-tables-test - Bail out!=20
-> ERROR:../tests/qtest/boot-sector.c:170:boot_sector_test: assertion failed=
- (signature =3D=3D=20
-> SIGNATURE): (0x00000000 =3D=3D 0x0000dead)
-> Makefile.mtest:368: recipe for target 'run-test-44' failed
+This seems to break on s390 hosts for people. Likely an
+endian-ness bug somewhere. Dropped for now - care tracking that down
+and fixing so I can pick up the test again?
 
-it might happen if VM is too slow
-   /* Wait at most 600 seconds ...
-=20
-Let me find s390 host and see if it's reproducable
+Thanks!
 
-> r~
->=20
+> This patchset adds a unit test to exercize acpi hotplug support for multifunction
+> bridges on q35 machines. This support was added with the commit:
+> 
+> d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction bridges")
+> 
+> Ani Sinha (3):
+>   tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT
+>     table blob
+>   tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges
+>     for q35
+>   tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge
+>     test
+> 
+>  tests/data/acpi/q35/DSDT.multi-bridge | Bin 0 -> 8583 bytes
+>  tests/qtest/bios-tables-test.c        |  18 ++++++++++++++++++
+>  2 files changed, 18 insertions(+)
+>  create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
+> 
+> -- 
+> 2.25.1
 
 
