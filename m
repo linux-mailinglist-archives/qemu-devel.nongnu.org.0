@@ -2,83 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3ABA434ED0
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 17:15:53 +0200 (CEST)
-Received: from localhost ([::1]:48096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 063ED434EDF
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 17:18:16 +0200 (CEST)
+Received: from localhost ([::1]:50550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdDJp-0005Am-4k
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 11:15:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58960)
+	id 1mdDM6-00070x-Pv
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 11:18:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdDFa-0001c4-1m
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 11:11:30 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:39688)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdDFY-0002Ih-Jn
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 11:11:29 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- u6-20020a17090a3fc600b001a00250584aso717534pjm.4
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 08:11:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pbOmR/uu9Y6U9PShnUphTe5F9bZJmgePHMeigmGuR9I=;
- b=JVYkBeTJF6H/fuo0LdiHpbuvtq5Mv8Jpi+1IqDMQPMX7/UKD23KZM/s2B8Ix5KpXU9
- GXneBLQMv8TVMCGsbA7CTJdUugU0WoAFS3OQUnDZndcvM1mOBRqzeqUgunY8KfcCIf3Z
- QymyZ4iKMoWNkge0zFG/rkUgrdoVsenn2orLtIulY/WOQ5lxMAqamD7VhEDYITfmPhrk
- c2horpMzcCQf0aAGK1AP+ETUyytFaGiLttmpmvzyGb0qOyvs4VilA8ansbxvy0U89z/V
- 5vDR5K5G7GSr9cereG1McfOPb4GDqU/+Txn60XggmpNq2vytPFFOqry6vBGFHwl9JbNh
- YsEg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mdDKI-0005ol-T4
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 11:16:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29353)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mdDKF-0008GH-HX
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 11:16:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634742976;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9EnZmV+TFFnWOiWHkOVOueLFKAg4VHU+aqxgTS9S/+Q=;
+ b=Tri75cnlsvVtdCLw14T8qLrsX2KjmEPvF172ezloPAaCAu57HieHcqYIq6QOTaVLLac2wO
+ chbbv9dhwkeSZcYGviHBYMZbCc5hz7/wNfrP+HrDBMrk7EPn/gJ4Cy96J5R2yvohRpBWZB
+ P/F2BrS2kM9ihMybqRDiBJ+IDFmHWeI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-bjF6bixDMPyNXF1Ys1a0LQ-1; Wed, 20 Oct 2021 11:16:15 -0400
+X-MC-Unique: bjF6bixDMPyNXF1Ys1a0LQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n9-20020a1c7209000000b0030da7d466b8so3404762wmc.5
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 08:16:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pbOmR/uu9Y6U9PShnUphTe5F9bZJmgePHMeigmGuR9I=;
- b=kIqfRyUHtswtNGINWQZRxhKTBDMcsWxX5Y3C9N5/S/1QLG4uwfje6vNIHpvNZ+5tZb
- HN+D9OH7m5V1K+jbwcM/Qqso4DvKC+scKR8zMtliunAvbJpwKNbbd2VoukwGawa+A0Xw
- RxU04iQiPi5K3Xa1tQup2yIRtG/KmKUyehlx7wxN6u/jT8UOGNUxIdJZy9Cvx3XiuCU4
- 3Je8rLeIfgwKUDtx1oECOzMhzUMETxREKUXfBijRVlhHiCRNGctLddhZkvCw8wNMHDs2
- q4U5/mMb1RAn+Z+CM+Y6qZ7Qdtk+2OoIi8q45Maf3+dABS5txVyY/UMO2k26JFKrQEmi
- ZuRA==
-X-Gm-Message-State: AOAM532geBczQFXX4ExYHvd7SzhcQHv6RwNuHv3D7AjKM8xjeak9CUix
- ieO2bZ8NYFQ5cOJX3BPdCb1hiQ==
-X-Google-Smtp-Source: ABdhPJw+tmT5o3O4S5RRiwEP/4DdKpW3EXbUvQBJpL3CCnRb79eD5G1DTrwNg6T50UEBQ7Q1i2yOHw==
-X-Received: by 2002:a17:90b:4b4f:: with SMTP id
- mi15mr8062521pjb.97.1634742687000; 
- Wed, 20 Oct 2021 08:11:27 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id z11sm6305182pjl.45.2021.10.20.08.11.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 08:11:26 -0700 (PDT)
-Subject: Re: [PATCH v3 09/21] target/riscv: moving some insns close to similar
- insns
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211019094812.614056-10-frederic.petrot@univ-grenoble-alpes.fr>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bc095a77-aef6-9915-ba51-7cdd7aaf9351@linaro.org>
-Date: Wed, 20 Oct 2021 08:11:25 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9EnZmV+TFFnWOiWHkOVOueLFKAg4VHU+aqxgTS9S/+Q=;
+ b=0VAEXoMkes33wUVZpRGJ8YSubzP/3w1ECDVQmZlexRKoYBuzPhYhhid4n1MqLOZy4P
+ tqNQg9cFFs3YrSWIgd16ZcPBAqjc9wZy/dqjPpwur2Th6x83Yg9YfQ6cdo5uihobduBG
+ hRDj0bdWgdmvrf2jz+YvOnqVmfW9+kOwWrJYy2ss2mIiWyEu55NWhLwgaJ4E2robdD2B
+ gy1CJfH0UUeg/DiBrXIdnY6sNFnXSpQYYxqKOlepv7l5n1jnv9+KykR4WYTgOR0ODAZq
+ WsXDZzNAE4cB6iwM2VXKSoGfnJGJTocCMavdksdX5NKtHwAqbVtxAOHcMs4YlicZr+OE
+ KcbQ==
+X-Gm-Message-State: AOAM530h3kdxA82HU37a3QPVZisbNtZBPtijPiLLBaDg4GhM+nAzJoRv
+ ueBa/3sobECOc2InIJKsPI6vAs9hZF4rUfsGGsKDkTnhLOmCR5GC+xvJuH2lkAcvZGokJAnL0Ao
+ Ls9E9Ab4Tkm1rnzA=
+X-Received: by 2002:a7b:cb99:: with SMTP id m25mr14550398wmi.192.1634742973682; 
+ Wed, 20 Oct 2021 08:16:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwJS34GkC9F/5vMv3lp+t9F795/5cJczr6oPqkPQhfFWrF59ptgp4Ha/+q7ELipu1Xdoat5+A==
+X-Received: by 2002:a7b:cb99:: with SMTP id m25mr14550359wmi.192.1634742973352; 
+ Wed, 20 Oct 2021 08:16:13 -0700 (PDT)
+Received: from redhat.com ([2.55.24.172])
+ by smtp.gmail.com with ESMTPSA id 73sm2278781wmb.40.2021.10.20.08.16.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Oct 2021 08:16:12 -0700 (PDT)
+Date: Wed, 20 Oct 2021 11:16:09 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH] hw/qdev-core: Add compatibility for (non)-transitional
+ devs
+Message-ID: <20211020111227-mutt-send-email-mst@kernel.org>
+References: <a9b2ff3a-0bba-216c-eeda-50821be4940e@dupond.be>
+ <YW6h+YcNEgyzh5zw@stefanha-x1.localdomain>
+ <20211019065850-mutt-send-email-mst@kernel.org>
+ <20211019152913.wjipmv6trjx6k7xa@habkost.net>
+ <20211019120619-mutt-send-email-mst@kernel.org>
+ <20211019165611.scfagcp4ikhigx5k@habkost.net>
+ <20211020034005-mutt-send-email-mst@kernel.org>
+ <20211020135737.3wubfa4c6ijflolp@habkost.net>
+ <20211020105521-mutt-send-email-mst@kernel.org>
+ <20211020150143.kocjozzcuz3f35b2@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <20211019094812.614056-10-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211020150143.kocjozzcuz3f35b2@habkost.net>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,26 +101,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Cc: berrange@redhat.com, Stefan Hajnoczi <stefanha@gmail.com>,
+ jasowang@redhat.com, qemu-devel@nongnu.org,
+ Jean-Louis Dupond <jean-louis@dupond.be>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 2:48 AM, Frédéric Pétrot wrote:
-> lwu and ld are functionally close to the other loads, but were after the
-> stores in the source file.
-> Similarly, xor was away from or and and by two arithmetic functions, while
-> the immediate versions were nicely put together.
-> This patch moves the aforementioned loads after lhu, and xor above or,
-> where they more logically belong.
+On Wed, Oct 20, 2021 at 11:01:43AM -0400, Eduardo Habkost wrote:
+> On Wed, Oct 20, 2021 at 10:55:59AM -0400, Michael S. Tsirkin wrote:
+> > On Wed, Oct 20, 2021 at 09:57:37AM -0400, Eduardo Habkost wrote:
+> > > On Wed, Oct 20, 2021 at 03:41:38AM -0400, Michael S. Tsirkin wrote:
+> > > > On Tue, Oct 19, 2021 at 12:56:11PM -0400, Eduardo Habkost wrote:
+> > > > > On Tue, Oct 19, 2021 at 12:13:17PM -0400, Michael S. Tsirkin wrote:
+> > > > > > On Tue, Oct 19, 2021 at 11:29:13AM -0400, Eduardo Habkost wrote:
+> > > > > > > On Tue, Oct 19, 2021 at 06:59:09AM -0400, Michael S. Tsirkin wrote:
+> > > > > > > > On Tue, Oct 19, 2021 at 11:46:17AM +0100, Stefan Hajnoczi wrote:
+> > > > > > > > > On Tue, Oct 12, 2021 at 10:36:01AM +0200, Jean-Louis Dupond wrote:
+> > > > > > > > > > Forgot to CC maintainers.
+> > > > > > > > > 
+> > > > > > > > > Also CCing Jason Wang and Michael Tsirkin for VIRTIO.
+> > > > > > > > > 
+> > > > > > > > > Stefan
+> > > > > > > > 
+> > > > > > > > OMG
+> > > > > > > > where all compat properties broken all the time?
+> > > > > > > 
+> > > > > > > Compat properties that existed when commit f6e501a28ef9 ("virtio:
+> > > > > > > Provide version-specific variants of virtio PCI devices") was
+> > > > > > > merged are not broken, because virtio-*-transitional and
+> > > > > > > virtio-*-non-transitional were brand new QOM types (so there's no
+> > > > > > > compatibility to be kept with old QEMU versions).
+> > > > > > > 
+> > > > > > > Compat properties referencing "virtio-*-pci" instead of
+> > > > > > > "virtio-*-pci-base" added after commit f6e501a28ef9 are probably
+> > > > > > > broken, yes.
+> > > > > > > 
+> > > > > > > -- 
+> > > > > > > Eduardo
+> > > > > > 
+> > > > > > Oh. So just this one:
+> > > > > >     { "virtio-net-pci", "vectors", "3"},
+> > > > > > 
+> > > > > > right?
+> > > > > 
+> > > > > I think so.  That's the only post-4.0 virtio-*-pci compat property I see in
+> > > > > hw/core/machine.c.
+> > > > > 
+> > > > > pc.c doesn't have any post-4.0 virtio-*-pci compat props.  I didn't see any
+> > > > > virtio compat props on spapr.c and s390-virtio-ccw.c.
+> > > > > 
+> > > > > > 
+> > > > > > about the patch: how do people feel about virtio specific
+> > > > > > stuff in qdev core? Ok by everyone?
+> > > > > 
+> > > > > Not OK, if we have a mechanism to avoid that, already (the
+> > > > > "virtio-net-pci-base" type name).  I wonder what we can do to
+> > > > > make this kind of mistake less likely, though.
+> > > > > 
+> > > > > Jean-Louis, Jason, does the following fix work?
+> > > > > 
+> > > > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > > > > ---
+> > > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > > > index b8d95eec32d..bd9c6156c1a 100644
+> > > > > --- a/hw/core/machine.c
+> > > > > +++ b/hw/core/machine.c
+> > > > > @@ -56,7 +56,7 @@ GlobalProperty hw_compat_5_2[] = {
+> > > > >      { "ICH9-LPC", "smm-compat", "on"},
+> > > > >      { "PIIX4_PM", "smm-compat", "on"},
+> > > > >      { "virtio-blk-device", "report-discard-granularity", "off" },
+> > > > > -    { "virtio-net-pci", "vectors", "3"},
+> > > > > +    { "virtio-net-pci-base", "vectors", "3"},
+> > > > >  };
+> > > > >  const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+> > > > 
+> > > > Hmm I'm a bit confused at this point, as to why does
+> > > > specifying properties for virtio-net-pci on command
+> > > > line with -global work, but in compat list doesn't. Do others
+> > > > understand?
+> > > 
+> > > I don't think that's the case.  -global behaves similarly to compat_props.
+> > > 
+> > > Running an unpatched QEMU 6.1.0 binary:
+> > > 
+> > > $ echo -e 'info qtree\nquit' | qemu-system-x86_64 -device virtio-net-pci -machine pc-q35-5.2 -monitor stdio | grep vectors
+> > >         vectors = 3 (0x3)
+> > > $ echo -e 'info qtree\nquit' | qemu-system-x86_64 -device virtio-net-pci-non-transitional -machine pc-q35-5.2 -monitor stdio | grep vectors
+> > >         vectors = 4 (0x4)
+> > > $ echo -e 'info qtree\nquit' | qemu-system-x86_64 -device virtio-net-pci-non-transitional -global virtio-net-pci.vectors=3 -monitor stdio | grep vectors
+> > >         vectors = 4 (0x4)
+> > > $ echo -e 'info qtree\nquit' | qemu-system-x86_64 -device virtio-net-pci-non-transitional -global virtio-net-pci-base.vectors=3 -monitor stdio | grep vectors
+> > >         vectors = 3 (0x3)
+> > 
+> > OK so ... that's another breakage then. Suggestions how to fix?
 > 
-> Signed-off-by: Frédéric Pétrot<frederic.petrot@univ-grenoble-alpes.fr>
-> Co-authored-by: Fabien Portas<fabien.portas@grenoble-inp.org>
-> ---
->   target/riscv/insn_trans/trans_rvi.c.inc | 34 ++++++++++++-------------
->   1 file changed, 17 insertions(+), 17 deletions(-)
+> What exactly is another breakage?  virtio-net-pci,
+> virtio-net-pci-non-transitional, and virtio-net-pci-transitional
+> are three distinct device types.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hmm. I guess ... good point.
 
-r~
+> -- 
+> Eduardo
+
 
