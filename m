@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49862434D04
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:03:57 +0200 (CEST)
-Received: from localhost ([::1]:53316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B689D434D14
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:07:58 +0200 (CEST)
+Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdCCC-0002LX-DT
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:03:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38686)
+	id 1mdCG5-0007Lx-Rv
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:07:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mdBvv-0004Si-OU
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:47:09 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mdBvf-0006cO-S3
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:47:07 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id g39so15002774wmp.3
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 06:46:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=R1T/tYl4mT67kjR3LPygkLEm7X+RJ2C9exJnfczCl7Y=;
- b=SrZU7ocTIhifGpsxTLonDYhWkg/05YhfkvshrH6MfZwIHWq7CvtanvLtVSWtb/TUgo
- Z2IZmjPl+uplfMMHGbIhi/oQWXotTa0itKm8UyNGmEcfJCvyOgWQb0t2t9ssopX2TprR
- yuIe6m1DomKUKokXvUnrpoT9kb7GsY5ePH7sAVYEwGrPoENl7KjcbUrGByZc/6qskDcs
- BvqOywlO99I5XCBGz823Ffje7hbcU6fJBYBzU/GFEJwPjx0/K0Iv9AWJnjTrRqHkM4tI
- PsLp9f4hlq89REMmRhvDAA8PpMtQ32HQbaxyrZfMJXlECVG+2V9/onGfWwWHZddKij/m
- GizQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=R1T/tYl4mT67kjR3LPygkLEm7X+RJ2C9exJnfczCl7Y=;
- b=Tfk5ZVMOQmNepZ0mm1M00pJ1RePur6twJhAA/KyRKvfqW/WBEN2CZ4MDF2cWske/24
- LJkrlsAYfDx5rGvEKZPr06uDm8Zwm6Qu0dbdUHrZqQirfujGamJXxrfXV7Ig7pTd4b5B
- 8BFPtu8r+9NZz5pF+FTkOXxK6+2FBALQr70vG34TDYKtG1oO9fDp5fIH3NFF8Um7OLse
- 9H7dxY48YyRZI1cqYPqUga+7gPiRLf/JlRTnZFLWkw41/Gv+UqM9NSKOUSGqtBPQsTXn
- PWvJXH7KLKEtpq0XR1JVeuJ+rfPhcfUKm62yvIsSQ32NWqt9aT5YCuUzD2a0KjK6lIJy
- CPDQ==
-X-Gm-Message-State: AOAM5301SJyD59D1ae8Uc++LNiu1DlouNEXtQOoBrmkRAfPU0uLINbye
- /NjtIWgM8djziJWBhK5c2RKNSg==
-X-Google-Smtp-Source: ABdhPJzIqbQrtqCejkdUjqQHcUhsTU+S+blHjQ9n3yz2+5vx2LoxlcCpIeGbsJUVgUBE2bNE0cc0UQ==
-X-Received: by 2002:adf:f60e:: with SMTP id t14mr31964583wrp.373.1634737608641; 
- Wed, 20 Oct 2021 06:46:48 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n17sm2000579wrq.11.2021.10.20.06.46.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 06:46:47 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E9EAE1FF96;
- Wed, 20 Oct 2021 14:46:46 +0100 (BST)
-References: <162125666020.1252655.9997723318921206001.stgit@pasha-ThinkPad-X280>
- <a0210fac-af32-8f1e-ae5f-237d773c32bf@redhat.com>
- <91370f34-5a37-1cb1-fa7e-c95e3b7521c4@ispras.ru>
-User-agent: mu4e 1.7.0; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Subject: Re: [PATCH] replay: improve determinism of virtio-net
-Date: Wed, 20 Oct 2021 14:40:18 +0100
-In-reply-to: <91370f34-5a37-1cb1-fa7e-c95e3b7521c4@ispras.ru>
-Message-ID: <8735ovx0zd.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mdByb-0001KH-1y
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:49:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33240)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mdByX-0002Jj-Vh
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 09:49:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634737788;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Jal3w2Kw/G3jkvBDZHac17SVq9eiusd4p0wsKCQYMZE=;
+ b=LkepCuBowyF6sgSTCjYTUL1gQqVNLWWBQc+0egK6VJd/lzk1h0yFTad+Q1K0siUkAku40G
+ clwplBqOMFdRVfUAj0d3Pj+tpMItA2QJrjDijOpDjKBC2/r/5/fuGIWZmy6cOwAiGWKts1
+ Pw1vZj8lNyomh/dZ1xGIx++emNbv5iI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-eKN4bWmePJuK5ebyRFNTlA-1; Wed, 20 Oct 2021 09:49:43 -0400
+X-MC-Unique: eKN4bWmePJuK5ebyRFNTlA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBDF4948
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 13:49:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C768E6A8E5;
+ Wed, 20 Oct 2021 13:48:12 +0000 (UTC)
+Date: Wed, 20 Oct 2021 14:48:09 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH 0/4] vl: Prioritize device realizations
+Message-ID: <YXAeGdkCPh5h+kHg@redhat.com>
+References: <20210818194217.110451-1-peterx@redhat.com>
+ <2817620d-facb-eeee-b854-64193fa4da33@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <2817620d-facb-eeee-b854-64193fa4da33@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,51 +79,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, mst@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Oct 20, 2021 at 03:44:08PM +0200, David Hildenbrand wrote:
+> On 18.08.21 21:42, Peter Xu wrote:
+> > This is a long pending issue that we haven't fixed.  The issue is in QEMU we
+> > have implicit device ordering requirement when realizing, otherwise some of the
+> > device may not work properly.
+> > 
+> > The initial requirement comes from when vfio-pci starts to work with vIOMMUs.
+> > To make sure vfio-pci will get the correct DMA address space, the vIOMMU device
+> > needs to be created before vfio-pci otherwise vfio-pci will stop working when
+> > the guest enables the vIOMMU and the device at the same time.
+> > 
+> > AFAIU Libvirt should have code that guarantees that.  For QEMU cmdline users,
+> > they need to pay attention or things will stop working at some point.
+> > 
+> > Recently there's a growing and similar requirement on vDPA.  It's not a hard
+> > requirement so far but vDPA has patches that try to workaround this issue.
+> > 
+> > This patchset allows us to realize the devices in the order that e.g. platform
+> > devices will be created first (bus device, IOMMU, etc.), then the rest of
+> > normal devices.  It's done simply by ordering the QemuOptsList of "device"
+> > entries before realization.  The priority so far comes from migration
+> > priorities which could be a little bit odd, but that's really about the same
+> > problem and we can clean that part up in the future.
+> > 
+> > Libvirt can still keep its ordering for sure so old QEMU will still work,
+> > however that won't be needed for new qemus after this patchset, so with the new
+> > binary we should be able to specify qemu cmdline as wish on '-device'.
+> > 
+> > Logically this should also work for vDPA and the workaround code can be done
+> > with more straightforward approaches.
+> > 
+> > Please review, thanks.
+> 
+> Hi Peter, looks like I have another use case:
+> 
+> vhost devices can heavily restrict the number of available memslots:
+> e.g., upstream KVM ~64k, vhost-user usually 32 (!). With virtio-mem
+> intending to make use of multiple memslots [1] and auto-detecting how
+> many to use based on currently avilable memslots when plugging and
+> realizing the virtio-mem device, this implies that realizing vhost
+> devices (especially vhost-user device) after virtio-mem devices can
+> similarly result in issues: when trying realization of the vhost device
+> with restricted memslots, QEMU will bail out.
+> 
+> So similarly, we'd want to realize any vhost-* before any virtio-mem device.
 
-Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
+Ordering virtio-mem vs vhost-* devices doesn't feel like a good
+solution to this problem. eg if you start a guest with several
+vhost-* devices, then virtio-mem auto-decides to use all/most
+remaining memslots, we've now surely broken the abiltiy to then
+hotplug more vhost-* devices at runtime by not leaving memslots
+for them.
 
-> On 31.05.2021 07:55, Jason Wang wrote:
->> =E5=9C=A8 2021/5/17 =E4=B8=8B=E5=8D=889:04, Pavel Dovgalyuk =E5=86=99=E9=
-=81=93:
-<snip>
->>> @@ -2546,7 +2547,7 @@ static void
->>> virtio_net_handle_tx_bh(VirtIODevice *vdev, VirtQueue *vq)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 virtio_queue_set_notification(vq, 0);
->>> -=C2=A0=C2=A0=C2=A0 qemu_bh_schedule(q->tx_bh);
->>> +=C2=A0=C2=A0=C2=A0 replay_bh_schedule_event(q->tx_bh);
->> Not familiar with replay but any chance to change qemu_bh_schedule()
->> instead?
->
-> It would be better, but sometimes qemu_bh_schedule is used for the
-> callbacks that are not related to the guest state change.
+I think virtio-mem configuration needs to be stable in its memslot
+usage regardless of how many other types of devices are present,
+and not auto-adjust how many it consumes.
 
-Maybe that indicates we should expand the API:
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-  void qemu_bh_schedule(QEMUBH *bh, bool guest_state);
-
-or maybe explicit functions:
-
-  void qemu_bh_schedule(QEMUBH *bh);
-  void qemu_bh_schedule_guest_update(QEMUBH *bh);
-
-And document the cases with proper prototypes in main-loop.h.
-
-While I was poking around I also saw qemu_bh_schedule_idle which made me
-wonder what happens if a guest change is triggered by this. Would this
-be impossible to make deterministic because we don't know when the bh
-actually get activated?
-
-My concern with just adding replay_bh_schedule_event in the appropriate
-places is we end up with a patchwork of support for different devices
-and make it very easy to break things.
-
---=20
-Alex Benn=C3=A9e
 
