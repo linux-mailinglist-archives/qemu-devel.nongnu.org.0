@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10CA143517D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 19:39:58 +0200 (CEST)
-Received: from localhost ([::1]:41866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A7143518D
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 19:43:04 +0200 (CEST)
+Received: from localhost ([::1]:46992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdFZF-0001nQ-2I
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 13:39:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37452)
+	id 1mdFcF-0005IE-Pe
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 13:43:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mdFUY-00057t-RV
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 13:35:06 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35589)
+ id 1mdFUX-00054F-Fh
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 13:35:05 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mdFUT-0002Yf-It
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 13:35:06 -0400
-Received: by mail-wr1-x435.google.com with SMTP id g25so52571wrb.2
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 10:35:00 -0700 (PDT)
+ id 1mdFUU-0002ZX-El
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 13:35:05 -0400
+Received: by mail-wr1-x431.google.com with SMTP id u18so27196wrg.5
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 10:35:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qeaTmZSDk/Gw7IgtRc4USWfswVE7NvHNqpapepv6UO4=;
- b=L2lvwXsGp+FffPLBsPgpobooIKbidC+J2dOMz8A6yueX03txkArQmRqAPWl6riO/19
- qweE33iL6UCcpMXZ/HCxgpzTy0WwFaVtI0iTTbyBs28ytX5IUEHC9i4OTZctyJNF1QNu
- JysqX44fgmSAhxr+44bLZr1NGpWyRhcuWRNtkccNCKhQztzIEVP1VwFi1yADezeMCXD9
- ndg0H+hyRF9D17kX3GPu9+9TWHvhWXckYqmQQnlHDjoFG/tQInXfdAxHkOelheUpycD2
- I/cNzU0I4Qy6VM9kbZFwTzGc9QzxO58vJANkxMtrfjCGCRlDAd68VlbzOZfZr6QLwaEb
- /Lvw==
+ bh=v0Q7UmquKNnlNjJfzVAqtJId7snjF4fwvfjyxqNqrCM=;
+ b=WuM9ItxjRNslon9TCgB2tPO03npX3Jx4ovnWK1CKkuvR9/gF+9HxFRmArRBtJiCVwF
+ rsHZU5L+TVXtqfXvh66vbSUd0BMzVmFHp73vytsGuE+54u+TEIZ02z9hrKNEL1H/Gxce
+ 8zM5ROZTtHlHdbZ3Ipn7hAkdJhHu8F9RthwNJtal3ncIXWc9LnDm5DYNWapizoJS+EMr
+ IvMFhxpl8+52eAAYZS6YGYneq0sD+Pm61gxhE7RB7a1gIxDmHLqZDdUtlyMOl9Pxy/MH
+ YwbC5upb8YYLhRtbFwRO1vsST/CNceCf7OWT/+pbpKTSDpuSeoElXG25C4n0752M0yR1
+ 9E3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qeaTmZSDk/Gw7IgtRc4USWfswVE7NvHNqpapepv6UO4=;
- b=ASoq91fUOwb4L9T++9WVllrBAxl57vWM/VLjAuBtbF2189KewttTchNb8BTl/ZjyZa
- qQJZV+ZlxYzYHAp1xK9aEG26/k2nKs3ZZsxv8jl1BJJkkTMNnyV7XS12SMCCjv+QAcv3
- H9QJUA/B/Czuq07BGYPRFFJVlyHdXFKZ+C41qIUygOHKzDdOES0sVXeHqCHBnUiqBeaU
- +Uh4C8xnFMJgFMYJb4z4CNA0r+hSf/dOwYdjerf+a/nCNOW5R561a0ULmtMqNydIdzGt
- be7fgHgqteYgnki7J4uGH3cKucaVvU2unk9gPvrYJqc1X0CTX7pF8UUvmnv2fZ5IvOko
- 1ZQQ==
-X-Gm-Message-State: AOAM533wfFeeENn919T2ULGwb2bx8l09tR8ELKjQ2JG3J3RPafCxvRVC
- SM1JqXuQ1PDqSPUU3b30VUHH5Q==
-X-Google-Smtp-Source: ABdhPJyuE76TIixsrHaVaxZQt8I0E+WrRqQ/Kvp/r6JKs8cKCpYo+w+gFFmT8uKg99xQKQTn1g46tg==
-X-Received: by 2002:adf:97d0:: with SMTP id t16mr750146wrb.124.1634751300066; 
- Wed, 20 Oct 2021 10:35:00 -0700 (PDT)
+ bh=v0Q7UmquKNnlNjJfzVAqtJId7snjF4fwvfjyxqNqrCM=;
+ b=pnV9gzN17aMYvwluTwjZruuLRDidL1h7ikch9+JSEJwrkfZEctNFjjIhEWTB+u5dkO
+ RekbaQet0sl/3gM5yKW2Nd0AhIkJv1nEFjPztha2UJhqOr1md8gX2Bmu4K/GGPqX1DFE
+ V8UGu46iw5ZCBplR2zqlFZomefCcH+ovyIrCr54/m7Wn7ESiJGenaymfkZvUGfmW0zH5
+ ta+kAnEnZ3Qhao483UjAB5i10BIIhjQ4PjR04FWrE+Jwb2+SEfXbZZDYkDxNTRuhgErP
+ sX9VFOzodLgcOli0emc0M4RHrvly76i/FtYmrCoiJBI35AqBQ8STGlpjHLGNb2KA3sPU
+ 9m8w==
+X-Gm-Message-State: AOAM532VVSmRBwn08wQ3GCR9HUu2IyrpPZfnS+thmsWnmBZxNjl3qdXP
+ 01dy+zVZ857r2ZHy81IixyEOeg==
+X-Google-Smtp-Source: ABdhPJx5sIPAGQ59+Q+GbmSQHVecQoEqeTUgwA8qycjGz/yX87S+a4miMFHpBwy+8aiXOR8VBOqjzQ==
+X-Received: by 2002:adf:bd91:: with SMTP id l17mr679556wrh.261.1634751301187; 
+ Wed, 20 Oct 2021 10:35:01 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id n7sm2662270wrp.17.2021.10.20.10.34.59
+ by smtp.gmail.com with ESMTPSA id n7sm2662270wrp.17.2021.10.20.10.35.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 10:34:59 -0700 (PDT)
+ Wed, 20 Oct 2021 10:35:00 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: mst@redhat.com,
 	imammedo@redhat.com,
 	peter.maydell@linaro.org
-Subject: [PATCH v5 03/12] hw/i386/pc: Move IOMMU singleton into PCMachineState
-Date: Wed, 20 Oct 2021 18:27:37 +0100
-Message-Id: <20211020172745.620101-4-jean-philippe@linaro.org>
+Subject: [PATCH v5 04/12] hw/i386/pc: Allow instantiating a virtio-iommu device
+Date: Wed, 20 Oct 2021 18:27:38 +0100
+Message-Id: <20211020172745.620101-5-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211020172745.620101-1-jean-philippe@linaro.org>
 References: <20211020172745.620101-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,112 +92,119 @@ Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're about to support a third vIOMMU for x86, virtio-iommu which
-doesn't inherit X86IOMMUState. Move the IOMMU singleton into
-PCMachineState, so it can be shared between all three vIOMMUs.
+Allow instantiating a virtio-iommu device by adding an ACPI Virtual I/O
+Translation table (VIOT), which describes the relation between the
+virtio-iommu and the endpoints it manages.
 
-The x86_iommu_get_default() helper is still needed by KVM and IOAPIC to
-fetch the default IRQ-remapping IOMMU. Since virtio-iommu doesn't
-support IRQ remapping, this interface doesn't need to change for the
-moment. We could later replace X86IOMMUState with an "IRQ remapping
-IOMMU" interface if necessary.
+Add a hotplug handler for virtio-iommu on x86 and set the necessary
+reserved region property. On x86, the [0xfee00000, 0xfeefffff] DMA
+region is reserved for MSIs. DMA transactions to this range either
+trigger IRQ remapping in the IOMMU or bypasses IOMMU translation.
 
+Although virtio-iommu does not support IRQ remapping it must be informed
+of the reserved region so that it can forward DMA transactions targeting
+this region.
+
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Tested-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- include/hw/i386/pc.h |  1 +
- hw/i386/pc.c         | 12 +++++++++++-
- hw/i386/x86-iommu.c  | 26 ++++++++------------------
- 3 files changed, 20 insertions(+), 19 deletions(-)
+ hw/i386/acpi-build.c | 10 +++++++++-
+ hw/i386/pc.c         | 16 +++++++++++++++-
+ hw/i386/Kconfig      |  1 +
+ 3 files changed, 25 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 11426e26dc..b72e5bf9d1 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -35,6 +35,7 @@ typedef struct PCMachineState {
-     I2CBus *smbus;
-     PFlashCFI01 *flash[2];
-     ISADevice *pcspk;
-+    DeviceState *iommu;
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index ab49e799ff..3ca6cc8118 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -68,9 +68,11 @@
+ #include "qom/qom-qobject.h"
+ #include "hw/i386/amd_iommu.h"
+ #include "hw/i386/intel_iommu.h"
++#include "hw/virtio/virtio-iommu.h"
  
-     /* Configuration options: */
-     uint64_t max_ram_below_4g;
+ #include "hw/acpi/ipmi.h"
+ #include "hw/acpi/hmat.h"
++#include "hw/acpi/viot.h"
+ 
+ /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
+  * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
+@@ -2488,7 +2490,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+     PCMachineState *pcms = PC_MACHINE(machine);
+     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+     X86MachineState *x86ms = X86_MACHINE(machine);
+-    X86IOMMUState *iommu = x86_iommu_get_default();
++    DeviceState *iommu = pcms->iommu;
+     GArray *table_offsets;
+     unsigned facs, dsdt, rsdt, fadt;
+     AcpiPmInfo pm;
+@@ -2613,6 +2615,12 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+         acpi_add_table(table_offsets, tables_blob);
+         build_dmar_q35(tables_blob, tables->linker, x86ms->oem_id,
+                        x86ms->oem_table_id);
++    } else if (object_dynamic_cast(OBJECT(iommu), TYPE_VIRTIO_IOMMU_PCI)) {
++        PCIDevice *pdev = PCI_DEVICE(iommu);
++
++        acpi_add_table(table_offsets, tables_blob);
++        build_viot(machine, tables_blob, tables->linker, pci_get_bdf(pdev),
++                   x86ms->oem_id, x86ms->oem_table_id);
+     }
+     if (machine->nvdimms_state->is_enabled) {
+         nvdimm_build_acpi(table_offsets, tables_blob, tables->linker,
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 54e4c00dce..fcbf328e8d 100644
+index fcbf328e8d..f47f7866c7 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -1330,6 +1330,15 @@ static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+@@ -83,6 +83,7 @@
+ #include "hw/i386/intel_iommu.h"
+ #include "hw/net/ne2000-isa.h"
+ #include "standard-headers/asm-x86/bootparam.h"
++#include "hw/virtio/virtio-iommu.h"
+ #include "hw/virtio/virtio-pmem-pci.h"
+ #include "hw/virtio/virtio-mem-pci.h"
+ #include "hw/mem/memory-device.h"
+@@ -1330,7 +1331,19 @@ static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
      } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
                 object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
          pc_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE)) {
-+        PCMachineState *pcms = PC_MACHINE(hotplug_dev);
+-    } else if (object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE)) {
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
++        /* Declare the APIC range as the reserved MSI region */
++        char *resv_prop_str = g_strdup_printf("0xfee00000:0xfeefffff:%d",
++                                              VIRTIO_IOMMU_RESV_MEM_T_MSI);
 +
-+        if (pcms->iommu) {
-+            error_setg(errp, "QEMU does not support multiple vIOMMUs "
-+                       "for x86 yet.");
-+            return;
-+        }
-+        pcms->iommu = dev;
-     }
- }
++        object_property_set_uint(OBJECT(dev), "len-reserved-regions", 1, errp);
++        object_property_set_str(OBJECT(dev), "reserved-regions[0]",
++                                resv_prop_str, errp);
++        g_free(resv_prop_str);
++    }
++
++    if (object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE) ||
++        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+         PCMachineState *pcms = PC_MACHINE(hotplug_dev);
  
-@@ -1384,7 +1393,8 @@ static HotplugHandler *pc_get_hotplug_handler(MachineState *machine,
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
+         if (pcms->iommu) {
+@@ -1394,6 +1407,7 @@ static HotplugHandler *pc_get_hotplug_handler(MachineState *machine,
          object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
          object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
--        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI) ||
-+        object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE)) {
+         object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI) ||
++        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI) ||
+         object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE)) {
          return HOTPLUG_HANDLER(machine);
      }
- 
-diff --git a/hw/i386/x86-iommu.c b/hw/i386/x86-iommu.c
-index dc968c7a53..01d11325a6 100644
---- a/hw/i386/x86-iommu.c
-+++ b/hw/i386/x86-iommu.c
-@@ -77,25 +77,17 @@ void x86_iommu_irq_to_msi_message(X86IOMMUIrq *irq, MSIMessage *msg_out)
-     msg_out->data = msg.msi_data;
- }
- 
--/* Default X86 IOMMU device */
--static X86IOMMUState *x86_iommu_default = NULL;
--
--static void x86_iommu_set_default(X86IOMMUState *x86_iommu)
-+X86IOMMUState *x86_iommu_get_default(void)
- {
--    assert(x86_iommu);
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+    PCMachineState *pcms =
-+        PC_MACHINE(object_dynamic_cast(OBJECT(ms), TYPE_PC_MACHINE));
- 
--    if (x86_iommu_default) {
--        error_report("QEMU does not support multiple vIOMMUs "
--                     "for x86 yet.");
--        exit(1);
-+    if (pcms &&
-+        object_dynamic_cast(OBJECT(pcms->iommu), TYPE_X86_IOMMU_DEVICE)) {
-+        return X86_IOMMU_DEVICE(pcms->iommu);
-     }
--
--    x86_iommu_default = x86_iommu;
--}
--
--X86IOMMUState *x86_iommu_get_default(void)
--{
--    return x86_iommu_default;
-+    return NULL;
- }
- 
- static void x86_iommu_realize(DeviceState *dev, Error **errp)
-@@ -131,8 +123,6 @@ static void x86_iommu_realize(DeviceState *dev, Error **errp)
-     if (x86_class->realize) {
-         x86_class->realize(dev, errp);
-     }
--
--    x86_iommu_set_default(X86_IOMMU_DEVICE(dev));
- }
- 
- static Property x86_iommu_properties[] = {
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index 962d2c981b..d22ac4a4b9 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -59,6 +59,7 @@ config PC_ACPI
+     select ACPI_X86
+     select ACPI_CPU_HOTPLUG
+     select ACPI_MEMORY_HOTPLUG
++    select ACPI_VIOT
+     select SMBUS_EEPROM
+     select PFLASH_CFI01
+     depends on ACPI_SMBUS
 -- 
 2.33.0
 
