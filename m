@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323CB434A73
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:46:36 +0200 (CEST)
-Received: from localhost ([::1]:52622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0250434A75
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 13:47:28 +0200 (CEST)
+Received: from localhost ([::1]:54602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdA3H-0001fB-2I
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:46:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36122)
+	id 1mdA47-00037H-F8
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 07:47:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1md9xA-0005Ea-At; Wed, 20 Oct 2021 07:40:17 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:10729)
+ id 1md9zE-0006aU-W3; Wed, 20 Oct 2021 07:42:25 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:10785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1md9x7-0001u5-OB; Wed, 20 Oct 2021 07:40:16 -0400
+ id 1md9zC-0005O8-7d; Wed, 20 Oct 2021 07:42:24 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 569F5748F57;
- Wed, 20 Oct 2021 13:40:11 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 39BB4756057;
+ Wed, 20 Oct 2021 13:42:19 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 048857475FA; Wed, 20 Oct 2021 13:40:11 +0200 (CEST)
+ id 01549756036; Wed, 20 Oct 2021 13:42:19 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id F3E02746399;
- Wed, 20 Oct 2021 13:40:10 +0200 (CEST)
-Date: Wed, 20 Oct 2021 13:40:10 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id F2FE3756047;
+ Wed, 20 Oct 2021 13:42:18 +0200 (CEST)
+Date: Wed, 20 Oct 2021 13:42:18 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: Deprecate the ppc405 boards in QEMU?
-In-Reply-To: <75686a5d-63da-fda7-8dab-7e0f190b6282@redhat.com>
-Message-ID: <c03e888a-ae99-98d6-89f8-7968a17e69e5@eik.bme.hu>
-References: <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
- <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
- <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
- <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
- <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
- <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
- <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
- <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
- <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
- <ad151b9d-27a7-bb5d-2cad-1196ceecfdd6@redhat.com>
- <YWQB1FMhQfmqRYxN@yekko> <bcdf63a4-8d22-8b25-d980-7fc574f80e82@redhat.com>
- <be84c7bf-47d3-1ba8-20ca-084a487db29d@csgroup.eu>
- <8c382ce4-f706-376c-289a-b8c64393decb@redhat.com>
- <880f4bde-19fc-1267-3a04-3d9efd660897@csgroup.eu>
- <c09d92d9-a5a3-328f-824c-07653f8e649@eik.bme.hu>
- <be7a734a-b88b-3130-fee8-398387fb65b4@redhat.com>
- <75686a5d-63da-fda7-8dab-7e0f190b6282@redhat.com>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: Deprecate the ppc405 boards in QEMU? (was: [PATCH v3 4/7]
+ MAINTAINERS: Orphan obscure ppc platforms)
+In-Reply-To: <103e098a-a8ac-a22a-8aad-3df7d8cde148@amsat.org>
+Message-ID: <939f2d12-38f6-4ab0-b688-384136d1d9c@eik.bme.hu>
+References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+ <20210927044808.73391-5-david@gibson.dropbear.id.au>
+ <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
+ <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
+ <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
+ <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
+ <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
+ <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
+ <1397f18f-f187-6f48-ed6c-13c0b77abed9@redhat.com> <YVug7l8LWl3e+DN5@yekko>
+ <9aeb7010-0a17-864a-cfac-ea5d90356085@csgroup.eu>
+ <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
+ <5e4f78ce-1508-5689-ec29-79edad0c824e@kaod.org>
+ <491d6265-3785-b11-b7f0-621a3d2823@eik.bme.hu>
+ <b9f27c1b-1162-b178-9333-89c0dd707c12@redhat.com>
+ <103e098a-a8ac-a22a-8aad-3df7d8cde148@amsat.org>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="3866299591-1077615932-1634730010=:8668"
+ boundary="3866299591-2035401154-1634730138=:8668"
 X-Spam-Probability: 9%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
@@ -71,147 +70,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- dbarboza@redhat.com, Greg Kurz <groug@kaod.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ dbarboza@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
  QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <agraf@csgraf.de>,
- qemu-ppc <qemu-ppc@nongnu.org>, Christophe Leroy <christophe.leroy@csgroup.eu>,
+ qemu-ppc <qemu-ppc@nongnu.org>,
+ =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
  Cleber Rosa <crosa@redhat.com>,
  =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-1077615932-1634730010=:8668
+--3866299591-2035401154-1634730138=:8668
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
 On Wed, 20 Oct 2021, Philippe Mathieu-Daudé wrote:
-> On 10/19/21 13:11, Thomas Huth wrote:
->> On 19/10/2021 12.07, BALATON Zoltan wrote:
->>> On Tue, 19 Oct 2021, Christophe Leroy wrote:
->>>> Le 19/10/2021 à 11:39, Thomas Huth a écrit :
->>>>> On 19/10/2021 11.31, Christophe Leroy wrote:
->>>>>> Le 11/10/2021 à 15:24, Thomas Huth a écrit :
->>>>>>> On 11/10/2021 11.20, David Gibson wrote:
->>>>>>>> On Mon, Oct 11, 2021 at 10:10:36AM +0200, Thomas Huth wrote:
->>>>>>>>> On 06/10/2021 09.25, Thomas Huth wrote:
->>>>>>>>>> On 05/10/2021 23.53, BALATON Zoltan wrote:
->>>>>>>>>> [...]
->>>>>>>>>>> Maybe these 405 boards in QEMU ran with modified firmware
->>>>>>>>>>> where the
->>>>>>>>>>> memory detection was patched out but it seems to detect the
->>>>>>>>>>> RAM so I
->>>>>>>>>>> wonder where it gets that from. Maybe by reading the SDRAM
->>>>>>>>>>> controller DCRs ppc4xx_sdram_init() sets up. Then I'm not sure
->>>>>>>>>>> what
->>>>>>>>>>> it needs the SPD for, I forgot how this worked on sam460ex. Maybe
->>>>>>>>>>> for the speed calibration, so could be it detects ram by reading
->>>>>>>>>>> DCRs then tries to get SPD data and that's where it stops as
->>>>>>>>>>> i2c is
->>>>>>>>>>> not emulated on taihu. This could be confirmed by checking
->>>>>>>>>>> what it
->>>>>>>>>>> pokes with -d guest_errors that shows accesses to missing devices
->>>>>>>>>>> but don't know where 405 has the i2c controller and if it's
->>>>>>>>>>> the same
->>>>>>>>>>> as newer SoCs. If so that could be reused and an i2c bus could be
->>>>>>>>>>> added with the SPD data like in sam460ex to make u-boot happy
->>>>>>>>>>> or you
->>>>>>>>>>> could skip this in u-boot.
+> On 10/5/21 14:29, Thomas Huth wrote:
+>> On 05/10/2021 14.20, BALATON Zoltan wrote:
+>>> On Tue, 5 Oct 2021, Cédric Le Goater wrote:
+>>>> On 10/5/21 08:18, Alexey Kardashevskiy wrote:
+>>>>> On 05/10/2021 15:44, Christophe Leroy wrote:
+>>>>>> Le 05/10/2021 à 02:48, David Gibson a écrit :
+>>>>>>> On Fri, Oct 01, 2021 at 04:18:49PM +0200, Thomas Huth wrote:
+>>>>>>>> On 01/10/2021 15.04, Christophe Leroy wrote:
+>>>>>>>>> Le 01/10/2021 à 14:04, Thomas Huth a écrit :
+>>>>>>>>>> On 01/10/2021 13.12, Peter Maydell wrote:
+>>>>>>>>>>> On Fri, 1 Oct 2021 at 10:43, Thomas Huth <thuth@redhat.com>
+>>>>>>>>>>> wrote:
+>>>>>>>>>>>> Nevertheless, as long as nobody has a hint where to find that
+>>>>>>>>>>>> ppc405_rom.bin, I think both boards are pretty useless in
+>>>>>>>>>>>> QEMU (as far as I
+>>>>>>>>>>>> can see, they do not work without the bios at all, so it's
+>>>>>>>>>>>> also not possible
+>>>>>>>>>>>> to use a Linux image with the "-kernel" CLI option directly).
+>>>>>>>>>>>
+>>>>>>>>>>> It is at least in theory possible to run bare-metal code on
+>>>>>>>>>>> either board, by passing either a pflash or a bios argument.
 >>>>>>>>>>
->>>>>>>>>> FWIW, I've just tried the latter (skipping the sdram init in
->>>>>>>>>> u-boot),
->>>>>>>>>> and indeed, I can get to the u-boot prompt now.
->>>>>>>>> [...]> I've also attached the patch with my modifications to
->>>>>>>>> u-boot.
+>>>>>>>>>> True. I did some more research, and seems like there was once
+>>>>>>>>>> support for those boards in u-boot, but it got removed there a
+>>>>>>>>>> couple of years ago already:
+>>>>>>>>>>
+>>>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/98f705c9cefdf
+>>>>>>>>>>
+>>>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/b147ff2f37d5b
+>>>>>>>>>>
+>>>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/7514037bcdc37
+>>>>>>>>>>
+>>>>>>>>>>> But I agree that there seem to be no signs of anybody actually
+>>>>>>>>>>> successfully using these boards for anything, so we should
+>>>>>>>>>>> deprecate-and-delete them.
+>>>>>>>>>>
+>>>>>>>>>> Yes, let's mark them as deprecated now ... if someone still uses
+>>>>>>>>>> them and speaks up, we can still revert the deprecation again.
 >>>>>>>>>
->>>>>>>>> FYI, the changes can now be found on this branch here:
+>>>>>>>>> I really would like to be able to use them to validate Linux Kernel
+>>>>>>>>> changes, hence looking for that missing BIOS.
 >>>>>>>>>
->>>>>>>>>   https://gitlab.com/huth/u-boot/-/commits/taihu
->>>>>>>>>
->>>>>>>>> I also added a gitlab-CI file, so you can now download the
->>>>>>>>> u-boot.bin as an
->>>>>>>>> artifact from the corresponding pipeline, e.g.:
->>>>>>>>>
->>>>>>>>>   https://gitlab.com/huth/u-boot/-/jobs/1667201028
+>>>>>>>>> If we remove ppc405 from QEMU, we won't be able to do any
+>>>>>>>>> regression
+>>>>>>>>> tests of Linux Kernel on those processors.
 >>>>>>>>
->>>>>>>> Thanks.
->>>>>>>>
->>>>>>>> Are you going to send a v2 of your proposed deprecation patches?
+>>>>>>>> If you/someone managed to compile an old version of u-boot for
+>>>>>>>> one of these
+>>>>>>>> two boards, so that we would finally have something for
+>>>>>>>> regression testing,
+>>>>>>>> we can of course also keep the boards in QEMU...
 >>>>>>>
->>>>>>> No, since there was interest in keeping the 405 boards for testing
->>>>>>> the 405 code in the Linux kernel, and since there is now a way to
->>>>>>> do at least some very basic testing of these boards (with the
->>>>>>> u-boot firmware), I don't plan to respin the deprecation patch. I
->>>>>>> just sent a patch for adding the boards to our CI instead:
->>>>>>>
->>>>>>>   https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg02072.html
+>>>>>>> I can see that it would be usefor for some cases, but unless someone
+>>>>>>> volunteers to track down the necessary firmware and look after it, I
+>>>>>>> think we do need to deprecate it - I certainly don't have the
+>>>>>>> capacity
+>>>>>>> to look into this.
 >>>>>>>
 >>>>>>
->>>>>> I have downloaded your u-boot.bin and tried it with both QEMU 5.2.0
->>>>>> and mainline, and I get:
->>>>>>
->>>>>> ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt:
->>>>>> assertion failed: (qemu_mutex_iothread_locked())
->>>>>> Bail out!
->>>>>> ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt:
->>>>>> assertion failed: (qemu_mutex_iothread_locked())
->>>>>> Abandon (core dumped)
->>>>>>
->>>>>> I see in the mail history that you got that problem as well at some
->>>>>> point. How did you fix it ?
+>>>>>> I will look at it, please allow me a few weeks though.
 >>>>>
->>>>> You need this patch here to fix this issue:
->>>>>
->>>>>   https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg01019.html
->>>>>   ("hw/ppc: Fix iothread locking in the 405 code")
->>>>>
+>>>>> Well, building it was not hard but now I'd like to know what board
+>>>>> QEMU actually emulates, there are way too many codenames and PVRs.
 >>>>
->>>> Thank you.
->>>>
->>>> Is there anything special to do then in order to boot a Linux kernel ?
->>>>
->>>> I build the uImage for ppc40x_defconfig
->>>>
->>>> I use the following command, but it does nothing, it stays in uboot
->>>> prompt as when I don't get a kernel argument
->>>>
->>>>     ~/qemu/build/qemu-system-ppc -M taihu -bios
->>>> ~/Téléchargements/u-boot.bin -serial null -serial mon:stdio -kernel
->>>> arch/powerpc/boot/uImage
+>>>> yes. We should try to reduce the list below. Deprecating embedded
+>>>> machines
+>>>> is one way.
 >>>
->>> I'm not sure using -bios and -kernel together makes sense, it probably
->>> starts u-boot in this case and you have to load and start the kernel
->>> from u-boot as you'd notmally do on a real machine. Alternatively you
->>> could use -kernel instead of -bios which then loads a kernel and
->>> starts it directly but not sure if it needs a firmware to work.
->>>
->>> Ot I could be completely wrong as I don't know this machine and
->>> haven't tried it.
+>>> Why should we reduce that list? It's good to have different cpu
+>>> options when one wants to test code for different PPC versions (maybe
+>>> also in user mode) or just to have a quick list of these at one place.
 >>
->> Actually, these 405 machines are quite weird. They refuse to boot
->> without bios image, so you currently need the firmware image for sure.
+>> I think there are many CPUs in that list which cannot be used with any
+>> board, some of them might be also in a very incomplete state. So
+>> presenting such a big list to the users is confusing and might create
+>> wrong expectations. It would be good to remove at least the CPUs which
+>> are really completely useless.
 >
-> When using -kernel/-append, if a BIOS is required by the kernel,
-> then it should be crafted by the machine IMO. Usually OS only
-> access a configuration area in PROM. The PROM must be mapped,
-> and the minimum configuration structure filled.
->
-> Anyhow I find -bios confusing, I never know if this option parse
-> or expects a full/partial raw flash image, an ELF image, something
-> else...
+> Maybe only remove some from system emulation but keep all of them
+> in user emulation?
 
-Generally a firmware image in whatever format the board expects. Usually 
-raw binary or ELF. Not that different from -kernel that also takes 
-different formats depending on the machine. Think of -bios like -kernel 
-for firmware, i.e. specifying what firmware to use like -kernel specifies 
-what kernel to use.
+Or keep them all but mark those that are not tested/may be incomplete? So 
+the used can see what is expected to work and what may need to be fixed. 
+That way somebody may try and fix it whereas if it's not there they are 
+unlikely to try to add it.
 
 Regards,
 BALATON Zoltan
---3866299591-1077615932-1634730010=:8668--
+--3866299591-2035401154-1634730138=:8668--
 
