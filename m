@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A62643566A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 01:19:46 +0200 (CEST)
-Received: from localhost ([::1]:46136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE67435683
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 01:28:58 +0200 (CEST)
+Received: from localhost ([::1]:52650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdKs5-0007Sr-FP
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 19:19:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50056)
+	id 1mdL0z-0003z2-Oe
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 19:28:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdKqT-0005qp-Ta
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 19:18:05 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:42820)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mdKxa-0002Vh-Mq; Wed, 20 Oct 2021 19:25:26 -0400
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:46596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdKqS-0005ua-5Z
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 19:18:05 -0400
-Received: by mail-pf1-x434.google.com with SMTP id m14so4235500pfc.9
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 16:18:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=T+QfIHwgF1KDzpoIiQq86ew/xoGOwXhBcGtonVDtt1U=;
- b=Wbz6nExhyrx8zAKYwrmMVHz02j1JzORc/1gqF8H/2A9Q4H2bZfAI4F3Jg9pTZyIKiC
- +XndU87m9GetbvfIFFQTsTpnV2Gq9VGj73odhV445P5Sm7CWOcD7fenT+jXtofbSoTFJ
- M+X6arMTfv1AEG4G3I61rbVuWP08SjChiJCuX7Cx7MTHiAXqzV3TNmepz0/epfVL9mn5
- 3t/edMTml+zNNd1YLNdPAm/q7GjrpnnOBt1FZfqbqLmqLULY/8yMmZrirH8q5A6lwqD2
- 4+Mt78btJh3mAG2aGtUDNMekRG26a6fwQkgmY0/mK10jlSLnVmi1Zt2sTeU4rIuCPj7/
- d59w==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mdKxY-0004bQ-1s; Wed, 20 Oct 2021 19:25:25 -0400
+Received: by mail-io1-xd2c.google.com with SMTP id s17so26646067ioa.13;
+ Wed, 20 Oct 2021 16:25:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VF6qywzIaa9dZxoMAJ+jNDITWBxcCQIgUWRYh2CNTqw=;
+ b=eA/OQcUx+guZwrDnBcj/2HzVi3EsYuBCNSvhgrZS9G5lb3ZsXNFssGbe4ADY8PipY7
+ sPeBWvNr++cpxta7T7IzmqArPX6NNYJ1JrfWkGlF9GYhRlbKNIyIy8tqqYcB2jDJ2HBi
+ fc0Lp1CZe2NUCpi9ZIeRuTg4L0Mrg18UjU4OpLNcEByN5zkb5Vf5UORRoDWC2XVUa8aO
+ TYOSLeFIXKMxp2BnrRyKjfjoAftFSNHYWLhkZ5ftWI2hFxvaU8NhVMm0HX+8ngEqJNuD
+ asAtT61yujRvDF2TYSkSPzhNYULDAtSWiVGi5c3If9lQi8U2dlKpFNTjRBRua1K6OQi6
+ 7JNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=T+QfIHwgF1KDzpoIiQq86ew/xoGOwXhBcGtonVDtt1U=;
- b=JlN/65kuqiLP9v7U6u/HithrlsZ60B3/ZvKNxOreEzkJ4I6tx1C+v+NbFopziu9c+J
- au7o93YHK3jHn8U2NAOjvahaDota8N+V7NjtFVJUGhrKbIZUIOgigXT3DPZ3/3myLolO
- OtxbgZa8b+A4bI2+YV2u5g/0uBda8Ol/nhhLcBqJaJDh/23inPR8Ju+tFBgmWkNsFTjy
- nAwJotBaOvFUL64oxxxxSGNSdQKEmUuOKT1HPKywbMtEHHU2KCNXG3q4MOj3kXa7CQiY
- xQ5bTDJIIGksA2s0QpnP1C5xYUFuzTkKCmEhImYXrV91tLUHoMlJJjtFm902RfDO2pnA
- I59g==
-X-Gm-Message-State: AOAM532uA5i6hhDklIFvYcXjFPFeSrPGt0O37UvajS+uqbjSJ87tJgZG
- AfWaAOBWWZD5hpKsGsYRPQHE9Q==
-X-Google-Smtp-Source: ABdhPJyn1kLeXX0ZOp5zKmSycVcok0g1vqfHFz+HbTqMt08BgOaBQZYmNhHm0CwFz3nisrtUwAnLfg==
-X-Received: by 2002:a65:6389:: with SMTP id h9mr1653075pgv.83.1634771882531;
- Wed, 20 Oct 2021 16:18:02 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id d60sm6857584pjk.49.2021.10.20.16.18.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 16:18:02 -0700 (PDT)
-Subject: Re: [PATCH v3 20/21] target/riscv: adding 128-bit access functions
- for some csrs
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211019094812.614056-21-frederic.petrot@univ-grenoble-alpes.fr>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <31202e87-7456-cf0e-4107-06d6f063801f@linaro.org>
-Date: Wed, 20 Oct 2021 16:18:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VF6qywzIaa9dZxoMAJ+jNDITWBxcCQIgUWRYh2CNTqw=;
+ b=socY3fyZg4UykBM1pN6o9NrpQkY5TSBuCLG3B+XZewzeSWIQ40R2cQDHxlTfTyhUGf
+ Yi/77fInyFd7PcAsok/p0eIgn7gaNV0//OjqoXXE5FucuJZhocZpjtel9A8cNO/eKNaL
+ kExgBe1fUmnYuv0e1YpOUL8LAiJq0rZkq9czRJdeCCcKc37e7onKnS5yQBQbV8Qx6oO3
+ ZrduinpqSJLRWY7y4gveAFIoR6U/HVK58eMLD5S3RCzklcJtdsdGzTrtMdE11E7DofaE
+ Qn183AncBIvGd76qic275UnguzF7YcFcz7qGMRcygKQkCEMeSLbA7WuhqGN/qqvTYI2E
+ 6wgg==
+X-Gm-Message-State: AOAM530J5/AAXEIFh+SiMK9CbUi5j9bfXPMSrxeGZJO/fP43zoYZApwE
+ wiPsV0qma7iwCp4K4SFg9CkQ5jS4dlw1SkDAmJQ=
+X-Google-Smtp-Source: ABdhPJwHyiTl3oTfl9qeMLYRBIcHumc/by2hial384bnLA3pS3TWHgyACOOQtZ+Ys/lq7+SvQ+SqVtbxo64iJ/PYSzY=
+X-Received: by 2002:a05:6602:2bf7:: with SMTP id
+ d23mr1457960ioy.187.1634772322075; 
+ Wed, 20 Oct 2021 16:25:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211019094812.614056-21-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267,
+References: <20211016085428.3001501-1-frank.chang@sifive.com>
+ <20211016085428.3001501-3-frank.chang@sifive.com>
+In-Reply-To: <20211016085428.3001501-3-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 21 Oct 2021 09:24:55 +1000
+Message-ID: <CAKmqyKNwyuqFNrJJCun4_1tAOW6Jyq2tfSFDabBoVg6TW7PMAg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] target/riscv: change the api for RVF/RVD fmin/fmax
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,44 +77,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Chih-Min Chao <chihmin.chao@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 2:48 AM, Frédéric Pétrot wrote:
-> +static RISCVException read_mstatus_i128(CPURISCVState *env, int csrno,
-> +                                   Int128 *val)
-> +{
-> +    *val = int128_make128(env->mstatus, env->mstatush);
-> +    return RISCV_EXCP_NONE;
-> +}
+On Sat, Oct 16, 2021 at 6:55 PM <frank.chang@sifive.com> wrote:
+>
+> From: Chih-Min Chao <chihmin.chao@sifive.com>
+>
+> The sNaN propagation behavior has been changed since
+> cd20cee7 in https://github.com/riscv/riscv-isa-manual.
 
-Needs updating from split SD bit.  I suggest
+It would be a good idea to justify why we are using the priv spec for
+the version check.
 
-     uint64_t val64;
-     read_mstatus(env, CSR_MSTATUS, &val64);
-     *val = int128_make128(val64 & MSTATUS64_SD, val64 & MSTATUS64_SD);
+>
+> Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
 
-> +static RISCVException write_mstatus_i128(CPURISCVState *env, int csrno,
-> +                                        Int128 val)
-> +{
-...
-> +    dirty = ((int128_getlo(mstatus) & MSTATUS_FS) == MSTATUS_FS) |
-> +            ((int128_getlo(mstatus) & MSTATUS_XS) == MSTATUS_XS);
-> +    if (dirty) {
-> +        if (riscv_cpu_is_32bit(env)) {
-> +            mstatus = int128_make64(int128_getlo(mstatus) | MSTATUS32_SD);
-> +        } else if (riscv_cpu_is_64bit(env)) {
-> +            mstatus = int128_make64(int128_getlo(mstatus) | MSTATUS64_SD);
-> +        } else {
-> +            mstatus = int128_or(mstatus, int128_make128(0, MSTATUSH128_SD));
-> +        }
-> +    }
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
-Needs updating for change to SD.
-Now you can defer everything to the 64-bit write_mstatus.
+Alistair
 
-
-r~
+> ---
+>  target/riscv/fpu_helper.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+>
+> diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
+> index 8700516a14c..d62f4709002 100644
+> --- a/target/riscv/fpu_helper.c
+> +++ b/target/riscv/fpu_helper.c
+> @@ -174,14 +174,18 @@ uint64_t helper_fmin_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
+>  {
+>      float32 frs1 = check_nanbox_s(rs1);
+>      float32 frs2 = check_nanbox_s(rs2);
+> -    return nanbox_s(float32_minnum(frs1, frs2, &env->fp_status));
+> +    return nanbox_s(env->priv_ver < PRIV_VERSION_1_11_0 ?
+> +                    float32_minnum(frs1, frs2, &env->fp_status) :
+> +                    float32_minimum_number(frs1, frs2, &env->fp_status));
+>  }
+>
+>  uint64_t helper_fmax_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
+>  {
+>      float32 frs1 = check_nanbox_s(rs1);
+>      float32 frs2 = check_nanbox_s(rs2);
+> -    return nanbox_s(float32_maxnum(frs1, frs2, &env->fp_status));
+> +    return nanbox_s(env->priv_ver < PRIV_VERSION_1_11_0 ?
+> +                    float32_maxnum(frs1, frs2, &env->fp_status) :
+> +                    float32_maximum_number(frs1, frs2, &env->fp_status));
+>  }
+>
+>  uint64_t helper_fsqrt_s(CPURISCVState *env, uint64_t rs1)
+> @@ -283,12 +287,16 @@ uint64_t helper_fdiv_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
+>
+>  uint64_t helper_fmin_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
+>  {
+> -    return float64_minnum(frs1, frs2, &env->fp_status);
+> +    return env->priv_ver < PRIV_VERSION_1_11_0 ?
+> +            float64_minnum(frs1, frs2, &env->fp_status) :
+> +            float64_minimum_number(frs1, frs2, &env->fp_status);
+>  }
+>
+>  uint64_t helper_fmax_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
+>  {
+> -    return float64_maxnum(frs1, frs2, &env->fp_status);
+> +    return env->priv_ver < PRIV_VERSION_1_11_0 ?
+> +            float64_maxnum(frs1, frs2, &env->fp_status) :
+> +            float64_maximum_number(frs1, frs2, &env->fp_status);
+>  }
+>
+>  uint64_t helper_fcvt_s_d(CPURISCVState *env, uint64_t rs1)
+> --
+> 2.25.1
+>
+>
 
