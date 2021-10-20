@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 772B8434D18
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:08:36 +0200 (CEST)
-Received: from localhost ([::1]:35450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F05434D17
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Oct 2021 16:08:16 +0200 (CEST)
+Received: from localhost ([::1]:33700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdCGh-00011T-Ic
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41760)
+	id 1mdCGO-0008Fs-1Q
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 10:08:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mdCCE-0003xk-Jl
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:03:58 -0400
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:38592)
+ id 1mdCDQ-0005S7-7z
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:05:14 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:44772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mdCC9-0006Ba-6O
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:03:58 -0400
-Received: by mail-lf1-x12b.google.com with SMTP id x27so15340002lfu.5
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 07:03:52 -0700 (PDT)
+ id 1mdCDO-0007ef-PR
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 10:05:11 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id w14so25370797edv.11
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 07:05:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
@@ -36,14 +36,14 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
  bh=X3SQejK3WrW99drRT37J6slxXvRt4OUdqxEbD8zahlg=;
- b=mPqTSDg3889Hl8REfrzEl8ZisrKNOy3V8N0P80fxpmxKjENlbna255tPWgVQ/JKWEO
- Cqin0APjCE1tbMxLv6y1r+CKvwYErJxTCUbnaVjJGj9/nto+9OHE2dPR21gColVB18BP
- D+vgpKZU5bugdiE3TT/eDBhNijNQ467srchut0LONRZCcz26uh1Gf4xCBCP4qe8WIqYQ
- De9DAXDHKGjo+Y+sZ3d0KDPdU+aNegMhWtruN6hhtyrwcROxZdwGhafgDvVF4XkTbo5t
- /xb375Uj/o6cu4HHTRWljr4PfJYz03BwSpQJ98pO/u/jZLfIfMkk51OobZGv2j+K4ATJ
- SYvA==
-X-Gm-Message-State: AOAM531ZRBYvB+5YLqt0NuJn+nvoPu7kmpcgMSDEjWBZLnOIsuCdBfct
- AGWRDzi4RclOsxsauHqdJrSrMM/w5f0=
+ b=p5fL1liglRil8DH3QpfzUsPfQFXmT+jJeoNP+2fXhfUkHmxUzsBbJDY1jfg+Ymv7aX
+ m7Fs61D5pOi1pml1USYJ9eeyxRbycUBJZgZpoRTvud0/x0kAcWPrZC2WXjh8aSe5nCBi
+ cFefh6EpuqShITYwCh57sBEWkKI6K5hswGguWkdW7dFU5EkoVA/7Wj1EocSeiXB7Pszt
+ n1RjVp26tdbuUTSFX6brHUA1kHx62t2JpkNhDI5i0Q+4FSK4SYCNoErO2oejbPgljM9b
+ SE35eIn3L2BGy5cAU02LQrSG+0ev+2uvIWVjW8Dg7IizF3vVcveDF/iDNbB7GNEyypf0
+ SO3Q==
+X-Gm-Message-State: AOAM530x3v4AZep4yjkxSlAGgDIuLwILo/y7h8W6ubPbjdWACEn9xpfB
+ VgivUF15ZKn3SSeJWBIXs+cJCP8iQ9c=
 X-Google-Smtp-Source: ABdhPJwmoetITe4aHhc92ZCycOH4tM9YhasWyO1kF4Kvn/XNRxBS+f/gauuAOWlv6oU7lG9cw8EWfA==
 X-Received: by 2002:a17:907:75c1:: with SMTP id
  jl1mr47404527ejc.288.1634738574043; 
@@ -63,8 +63,8 @@ In-Reply-To: <20211020140244.485249-1-pbonzini@redhat.com>
 References: <20211020140244.485249-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-lf1-x12b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
