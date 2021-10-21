@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9ED435A3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 07:14:44 +0200 (CEST)
-Received: from localhost ([::1]:44648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A09F435A1D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:53:29 +0200 (CEST)
+Received: from localhost ([::1]:45080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdQPb-0006VI-3C
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 01:14:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42786)
+	id 1mdQ52-0004Dm-7E
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:53:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZZ-0005go-BA; Thu, 21 Oct 2021 00:20:57 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:55169)
+ id 1mdPZa-0005ir-56; Thu, 21 Oct 2021 00:20:58 -0400
+Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:50879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZW-0000Ld-On; Thu, 21 Oct 2021 00:20:57 -0400
+ id 1mdPZX-0000PO-MY; Thu, 21 Oct 2021 00:20:57 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HZZ5p5YtSz4xdT; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
+ id 4HZZ5p5gQJz4xdV; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1634790030;
- bh=5U4wFjBv8JJsuvs2bK3ktaoR98BIdxGtkG0+CCwAH4c=;
+ bh=kXoJ4vJMgqJSP1MDWvF1/CNq3wSngxtLLjpSVyctz5M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HqnNZbMYxQX0mbh00KzDhO/gwGEfK3sQt3R08qMfJ7cvh0gnduHRXk+OiKB4tHLHG
- +kZpEkwQqsCav8SGT2lL58dtapP2zXk+AWY/rmR/xWqs35U7tdyTSa8hfZTlz7MNOT
- IW4Mvbfjff/lapoK2XHDqIIfj+VUBcZpNUa7XTkY=
+ b=l5fwtzMd2ERzBuioqcsmk5NueKrp1MmwtdIlTHgHcwovOA+1RMjtRv0j7ifTunYB5
+ JI4gut8dsai5PZ8bu8djMAxhwZxJWJOmaWsxo6l3ukDjZGp8i63hbxgM3F+kAvvdvY
+ GDOILpC9eKxuAscvio6cqi2MaJvu4xmQLGEGcfXw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 19/25] tests/acceptance: Add a test for the bamboo ppc board
-Date: Thu, 21 Oct 2021 15:20:21 +1100
-Message-Id: <20211021042027.345405-20-david@gibson.dropbear.id.au>
+Subject: [PULL 20/25] target/ppc: Filter mtmsr[d] input before setting MSR
+Date: Thu, 21 Oct 2021 15:20:22 +1100
+Message-Id: <20211021042027.345405-21-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211021042027.345405-1-david@gibson.dropbear.id.au>
 References: <20211021042027.345405-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: 1
-X-Spam_score: 0.1
-X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,86 +56,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, danielhb413@gmail.com,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-The kernel and initrd from the "Aboriginal Linux" project can be
-used to run some tests on the bamboo ppc machine.
+PowerISA says that mtmsr[d] "does not alter MSR[HV], MSR[S], MSR[ME], or
+MSR[LE]", but the current code only filters the GPR-provided value if
+L=1. This behavior caused some problems in FreeBSD, and a build option
+was added to work around the issue [1], but it seems that the bug was
+not reported in launchpad/gitlab. This patch address the issue in qemu,
+so the option on FreeBSD should no longer be required.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20211015090008.1299609-1-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+[1] https://cgit.freebsd.org/src/commit/?id=4efb1ca7d2a44cfb33d7f9e18bd92f8d68dcfee0
+
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Message-Id: <20211015181940.197982-1-matheus.ferst@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- MAINTAINERS                    |  1 +
- tests/acceptance/ppc_bamboo.py | 39 ++++++++++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+)
- create mode 100644 tests/acceptance/ppc_bamboo.py
+ target/ppc/cpu.h       |  1 +
+ target/ppc/translate.c | 73 +++++++++++++++++++++++-------------------
+ 2 files changed, 41 insertions(+), 33 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9e9f489a41..4e77d03651 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1245,6 +1245,7 @@ Bamboo
- L: qemu-ppc@nongnu.org
- S: Orphan
- F: hw/ppc/ppc440_bamboo.c
-+F: tests/acceptance/ppc_bamboo.py
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index c6fc0043a9..cc1911bc75 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -314,6 +314,7 @@ typedef struct ppc_v3_pate_t {
+ #define MSR_AP   23 /* Access privilege state on 602                  hflags */
+ #define MSR_VSX  23 /* Vector Scalar Extension (ISA 2.06 and later) x hflags */
+ #define MSR_SA   22 /* Supervisor access mode on 602                  hflags */
++#define MSR_S    22 /* Secure state                                          */
+ #define MSR_KEY  19 /* key bit on 603e                                       */
+ #define MSR_POW  18 /* Power management                                      */
+ #define MSR_TGPR 17 /* TGPR usage on 602/603                        x        */
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 98f304302e..d0d400cd8c 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -4934,32 +4934,40 @@ static void gen_mtmsrd(DisasContext *ctx)
+     CHK_SV;
  
- e500
- L: qemu-ppc@nongnu.org
-diff --git a/tests/acceptance/ppc_bamboo.py b/tests/acceptance/ppc_bamboo.py
-new file mode 100644
-index 0000000000..dd33bf66f3
---- /dev/null
-+++ b/tests/acceptance/ppc_bamboo.py
-@@ -0,0 +1,39 @@
-+# Test that Linux kernel boots on the ppc bamboo board and check the console
-+#
-+# Copyright (c) 2021 Red Hat
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
+ #if !defined(CONFIG_USER_ONLY)
++    TCGv t0, t1;
++    target_ulong mask;
 +
-+from avocado.utils import archive
-+from avocado_qemu import Test
-+from avocado_qemu import wait_for_console_pattern
-+from avocado_qemu import exec_command_and_wait_for_pattern
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
 +
-+class BambooMachine(Test):
+     gen_icount_io_start(ctx);
 +
-+    timeout = 90
+     if (ctx->opcode & 0x00010000) {
+         /* L=1 form only updates EE and RI */
+-        TCGv t0 = tcg_temp_new();
+-        TCGv t1 = tcg_temp_new();
+-        tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
+-                        (1 << MSR_RI) | (1 << MSR_EE));
+-        tcg_gen_andi_tl(t1, cpu_msr,
+-                        ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
+-        tcg_gen_or_tl(t1, t1, t0);
+-
+-        gen_helper_store_msr(cpu_env, t1);
+-        tcg_temp_free(t0);
+-        tcg_temp_free(t1);
+-
++        mask = (1ULL << MSR_RI) | (1ULL << MSR_EE);
+     } else {
++        /* mtmsrd does not alter HV, S, ME, or LE */
++        mask = ~((1ULL << MSR_LE) | (1ULL << MSR_ME) | (1ULL << MSR_S) |
++                 (1ULL << MSR_HV));
+         /*
+          * XXX: we need to update nip before the store if we enter
+          *      power saving mode, we will exit the loop directly from
+          *      ppc_store_msr
+          */
+         gen_update_nip(ctx, ctx->base.pc_next);
+-        gen_helper_store_msr(cpu_env, cpu_gpr[rS(ctx->opcode)]);
+     }
 +
-+    def test_ppc_bamboo(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=machine:bamboo
-+        :avocado: tags=cpu:440epb
-+        :avocado: tags=device:rtl8139
-+        """
-+        tar_url = ('http://landley.net/aboriginal/downloads/binaries/'
-+                   'system-image-powerpc-440fp.tar.gz')
-+        tar_hash = '53e5f16414b195b82d2c70272f81c2eedb39bad9'
-+        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-+        archive.extract(file_path, self.workdir)
-+        self.vm.set_console()
-+        self.vm.add_args('-kernel', self.workdir +
-+                                   '/system-image-powerpc-440fp/linux',
-+                         '-initrd', self.workdir +
-+                                   '/system-image-powerpc-440fp/rootfs.cpio.gz',
-+                         '-nic', 'user,model=rtl8139,restrict=on')
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'Type exit when done')
-+        exec_command_and_wait_for_pattern(self, 'ping 10.0.2.2',
-+                                          '10.0.2.2 is alive!')
-+        exec_command_and_wait_for_pattern(self, 'halt', 'System Halted')
++    tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)], mask);
++    tcg_gen_andi_tl(t1, cpu_msr, ~mask);
++    tcg_gen_or_tl(t0, t0, t1);
++
++    gen_helper_store_msr(cpu_env, t0);
++
+     /* Must stop the translation as machine state (may have) changed */
+     ctx->base.is_jmp = DISAS_EXIT_UPDATE;
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
+ #endif /* !defined(CONFIG_USER_ONLY) */
+ }
+ #endif /* defined(TARGET_PPC64) */
+@@ -4969,23 +4977,19 @@ static void gen_mtmsr(DisasContext *ctx)
+     CHK_SV;
+ 
+ #if !defined(CONFIG_USER_ONLY)
++    TCGv t0, t1;
++    target_ulong mask = 0xFFFFFFFF;
++
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++
+     gen_icount_io_start(ctx);
+     if (ctx->opcode & 0x00010000) {
+         /* L=1 form only updates EE and RI */
+-        TCGv t0 = tcg_temp_new();
+-        TCGv t1 = tcg_temp_new();
+-        tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
+-                        (1 << MSR_RI) | (1 << MSR_EE));
+-        tcg_gen_andi_tl(t1, cpu_msr,
+-                        ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
+-        tcg_gen_or_tl(t1, t1, t0);
+-
+-        gen_helper_store_msr(cpu_env, t1);
+-        tcg_temp_free(t0);
+-        tcg_temp_free(t1);
+-
++        mask &= (1ULL << MSR_RI) | (1ULL << MSR_EE);
+     } else {
+-        TCGv msr = tcg_temp_new();
++        /* mtmsr does not alter S, ME, or LE */
++        mask &= ~((1ULL << MSR_LE) | (1ULL << MSR_ME) | (1ULL << MSR_S));
+ 
+         /*
+          * XXX: we need to update nip before the store if we enter
+@@ -4993,16 +4997,19 @@ static void gen_mtmsr(DisasContext *ctx)
+          *      ppc_store_msr
+          */
+         gen_update_nip(ctx, ctx->base.pc_next);
+-#if defined(TARGET_PPC64)
+-        tcg_gen_deposit_tl(msr, cpu_msr, cpu_gpr[rS(ctx->opcode)], 0, 32);
+-#else
+-        tcg_gen_mov_tl(msr, cpu_gpr[rS(ctx->opcode)]);
+-#endif
+-        gen_helper_store_msr(cpu_env, msr);
+-        tcg_temp_free(msr);
+     }
++
++    tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)], mask);
++    tcg_gen_andi_tl(t1, cpu_msr, ~mask);
++    tcg_gen_or_tl(t0, t0, t1);
++
++    gen_helper_store_msr(cpu_env, t0);
++
+     /* Must stop the translation as machine state (may have) changed */
+     ctx->base.is_jmp = DISAS_EXIT_UPDATE;
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
+ #endif
+ }
+ 
 -- 
 2.31.1
 
