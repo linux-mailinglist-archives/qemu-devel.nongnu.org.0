@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783D8436B96
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 21:55:41 +0200 (CEST)
-Received: from localhost ([::1]:46230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0168B436B88
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 21:52:28 +0200 (CEST)
+Received: from localhost ([::1]:39988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdeA8-0004Hy-EJ
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 15:55:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33484)
+	id 1mde71-0008N8-1O
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 15:52:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mde1p-0002r3-76; Thu, 21 Oct 2021 15:47:05 -0400
+ id 1mde1t-00031C-VG; Thu, 21 Oct 2021 15:47:09 -0400
 Received: from [201.28.113.2] (port=45000 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mde1n-00078b-DP; Thu, 21 Oct 2021 15:47:04 -0400
+ id 1mde1q-00078b-Tw; Thu, 21 Oct 2021 15:47:09 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Thu, 21 Oct 2021 16:46:54 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id BAF49800145;
- Thu, 21 Oct 2021 16:46:53 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 2E55E80012A;
+ Thu, 21 Oct 2021 16:46:54 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH 01/33] target/ppc: introduce do_ea_calc
-Date: Thu, 21 Oct 2021 16:45:15 -0300
-Message-Id: <20211021194547.672988-2-matheus.ferst@eldorado.org.br>
+Subject: [PATCH 02/33] target/ppc: move resolve_PLS_D to translate.c
+Date: Thu, 21 Oct 2021 16:45:16 -0300
+Message-Id: <20211021194547.672988-3-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
 References: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 21 Oct 2021 19:46:54.0274 (UTC)
- FILETIME=[66421A20:01D7C6B4]
+X-OriginalArrivalTime: 21 Oct 2021 19:46:54.0731 (UTC)
+ FILETIME=[6687D5B0:01D7C6B4]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,60 +64,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: pherde <phervalle@gmail.com>
 
-The do_ea_calc function will calculate the effective address(EA)
-according to PowerIsa 3.1. With that, it was replaced part of
-do_ldst() that calculates the EA by this new function.
+Move resolve_PLS_D from fixedpoint-impl.c.inc to translate.c
+because this way the function can be used not only by fixed
+point instructions.
 
 Signed-off-by: Fernando Eckhardt Valle (pherde) <phervalle@gmail.com>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/translate.c                     | 12 ++++++++++++
- target/ppc/translate/fixedpoint-impl.c.inc |  9 +--------
- 2 files changed, 13 insertions(+), 8 deletions(-)
+ target/ppc/translate.c                     | 19 +++++++++++++++++++
+ target/ppc/translate/fixedpoint-impl.c.inc | 19 -------------------
+ 2 files changed, 19 insertions(+), 19 deletions(-)
 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 62414adb75..bb8edd9d8f 100644
+index bb8edd9d8f..39f03ac658 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -3197,6 +3197,18 @@ static inline void gen_align_no_le(DisasContext *ctx)
-                       (ctx->opcode & 0x03FF0000) | POWERPC_EXCP_ALIGN_LE);
- }
+@@ -7521,6 +7521,25 @@ static int times_4(DisasContext *ctx, int x)
+ #include "decode-insn64.c.inc"
+ #include "power8-pmu-regs.c.inc"
  
-+static inline void do_ea_calc(DisasContext *ctx, int ra, TCGv displ, TCGv ea)
++/*
++ * Incorporate CIA into the constant when R=1.
++ * Validate that when R=1, RA=0.
++ */
++static bool resolve_PLS_D(DisasContext *ctx, arg_D *d, arg_PLS_D *a)
 +{
-+    if (ra) {
-+        tcg_gen_add_tl(ea, cpu_gpr[ra], displ);
-+    } else {
-+        tcg_gen_mov_tl(ea, displ);
++    d->rt = a->rt;
++    d->ra = a->ra;
++    d->si = a->si;
++    if (a->r) {
++        if (unlikely(a->ra != 0)) {
++            gen_invalid(ctx);
++            return false;
++        }
++        d->si += ctx->cia;
 +    }
-+    if (NARROW_MODE(ctx)) {
-+        tcg_gen_ext32u_tl(ea, ea);
-+    }
++    return true;
 +}
 +
- /***                             Integer load                              ***/
- #define DEF_MEMOP(op) ((op) | ctx->default_tcg_memop_mask)
- #define BSWAP_MEMOP(op) ((op) | (ctx->default_tcg_memop_mask ^ MO_BSWAP))
+ #include "translate/fixedpoint-impl.c.inc"
+ 
+ #include "translate/fp-impl.c.inc"
 diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index 2e2518ee15..53d8fbdcfe 100644
+index 53d8fbdcfe..1c35b60eb4 100644
 --- a/target/ppc/translate/fixedpoint-impl.c.inc
 +++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -52,14 +52,7 @@ static bool do_ldst(DisasContext *ctx, int rt, int ra, TCGv displ, bool update,
-     gen_set_access_type(ctx, ACCESS_INT);
+@@ -17,25 +17,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
  
-     ea = tcg_temp_new();
--    if (ra) {
--        tcg_gen_add_tl(ea, cpu_gpr[ra], displ);
--    } else {
--        tcg_gen_mov_tl(ea, displ);
+-/*
+- * Incorporate CIA into the constant when R=1.
+- * Validate that when R=1, RA=0.
+- */
+-static bool resolve_PLS_D(DisasContext *ctx, arg_D *d, arg_PLS_D *a)
+-{
+-    d->rt = a->rt;
+-    d->ra = a->ra;
+-    d->si = a->si;
+-    if (a->r) {
+-        if (unlikely(a->ra != 0)) {
+-            gen_invalid(ctx);
+-            return false;
+-        }
+-        d->si += ctx->cia;
 -    }
--    if (NARROW_MODE(ctx)) {
--        tcg_gen_ext32u_tl(ea, ea);
--    }
-+    do_ea_calc(ctx, ra, displ, ea);
-     mop ^= ctx->default_tcg_memop_mask;
-     if (store) {
-         tcg_gen_qemu_st_tl(cpu_gpr[rt], ea, ctx->mem_idx, mop);
+-    return true;
+-}
+-
+ /*
+  * Fixed-Point Load/Store Instructions
+  */
 -- 
 2.25.1
 
