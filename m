@@ -2,50 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED59436372
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 15:51:46 +0200 (CEST)
-Received: from localhost ([::1]:60730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9108436373
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 15:52:03 +0200 (CEST)
+Received: from localhost ([::1]:33524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdYTx-00008c-Fa
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 09:51:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52586)
+	id 1mdYUE-0000xb-Ui
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 09:52:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mdYRv-0007D0-Aq
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:49:39 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:25591)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mdYSM-0007Uq-9v
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:50:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mdYRr-00030J-C6
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:49:38 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 41E6075604D;
- Thu, 21 Oct 2021 15:49:32 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 1C9BF75604C; Thu, 21 Oct 2021 15:49:32 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 1AE44756041;
- Thu, 21 Oct 2021 15:49:32 +0200 (CEST)
-Date: Thu, 21 Oct 2021 15:49:32 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Subject: Re: Looking for advise on debugging a non-boot kernel on
- qemu-system-sh4
-In-Reply-To: <013d782d-0d7c-8204-cab2-08102a7d80f4@physik.fu-berlin.de>
-Message-ID: <3c524162-e83-a9b3-1e28-2aa28dbefa76@eik.bme.hu>
-References: <4882e4cc-6754-1c8a-a8ae-a2ceeca115fb@physik.fu-berlin.de>
- <e11d3ee1-2a25-7633-babd-d45f36b04c5b@eik.bme.hu>
- <013d782d-0d7c-8204-cab2-08102a7d80f4@physik.fu-berlin.de>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mdYSK-0003Oj-6I
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:50:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634824202;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3pz3qWhl9OL8SpuRlRZ3gWKEiV1rRdSSNcUt1+su0Sw=;
+ b=NHC4GeHwZgbr2UEy39zbM8odByCKGOQUjb7nReqEKXAvSPRUpsFk6wcsGlbkCrpAVSB0wt
+ c62ScbENFP00UXgmz6THTeQW4V4lw7EQUSvg9vQWD5kXxD9UcM2rwMN9q2Na+YSLXDUQ9f
+ ICUwmDYGQoIgVBV9UJhF9LF+b1MkPLo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-fphRyiyHOG-EmbYzq_5QHg-1; Thu, 21 Oct 2021 09:50:01 -0400
+X-MC-Unique: fphRyiyHOG-EmbYzq_5QHg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ f4-20020a50e084000000b003db585bc274so367131edl.17
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 06:50:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3pz3qWhl9OL8SpuRlRZ3gWKEiV1rRdSSNcUt1+su0Sw=;
+ b=PyOCxMlZhJAOj1dLsBLkcDTyICaO8q9FyqAjfw/d53F+es3isNhm11RiJK5LseNKkX
+ iroP6XmQDQdU0V3iXBkPTJAyneKtqwrjdGmA7cjAPWW3JcpybrvjV6BxqqTq+dVoIG5s
+ m//yDi4SoMP0B7NW1v9VlSlPSShrZE0ghARSfNKnR+CvS8EeeApJktjUY2SIOmdCTx70
+ PK3iFDZrVCz4EAOiaq+Lnj02bwVTUJEmq0Kni8hhB4Wo+ZHVNir4XMtQAMRSePPnO3+6
+ aEMKFptPHVqf1iOonnkpnGcXmIjbAb/GfkuiQZBeNEfeQe6UMlbHIDK1GZyVQ3drJFqT
+ LDFg==
+X-Gm-Message-State: AOAM531Mc+W3RSEYGbDMS1iW0B1zEtlgR5PQgQOIeFWPjEQmg961w2gT
+ y5op5JxDseYf02+pK5KO8ya5zldkMsXyfQel7v1YGwy/+JlwM5Phff4haUBRCCtc588YbtG8cby
+ JEpSi6JXWHwXhgvA=
+X-Received: by 2002:a50:950b:: with SMTP id u11mr7902998eda.121.1634824199869; 
+ Thu, 21 Oct 2021 06:49:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxHrNIYLyi3WOmV4XRFkOgfR7m0JXlu1mh9X3hfNpsi3HHhzX2TBhD5UGwtMhVxf9psXIYwuw==
+X-Received: by 2002:a50:950b:: with SMTP id u11mr7902969eda.121.1634824199683; 
+ Thu, 21 Oct 2021 06:49:59 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id g17sm2924151edv.72.2021.10.21.06.49.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Oct 2021 06:49:59 -0700 (PDT)
+Date: Thu, 21 Oct 2021 15:49:58 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v5 05/12] hw/arm/virt-acpi-build: Add VIOT table for
+ virtio-iommu
+Message-ID: <20211021154958.6ca48692@redhat.com>
+In-Reply-To: <20211020172745.620101-6-jean-philippe@linaro.org>
+References: <20211020172745.620101-1-jean-philippe@linaro.org>
+ <20211020172745.620101-6-jean-philippe@linaro.org>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,86 +97,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
+ jasowang@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ peterx@redhat.com, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
+ ani@anisinha.ca, pbonzini@redhat.com, eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 Oct 2021, John Paul Adrian Glaubitz wrote:
-> Hi Zoltan!
->
-> On 10/21/21 14:12, BALATON Zoltan wrote:
->> Adding -d in_asm shows it seems to loop early in the kernel but not sure where.
->> Maybe try to compare addresses with System.map to find out where it's getting
->> stuck (but System.map was not included in your installer image).
->
-> Here is the System.map if that helps [1].
->
->> Also if it works on earlier kernel you might try to bisect which kernel commit
->> caused the problem. Maybe knowing that helps to tell where to look further.
->
-> If nothing else helps, I will try that.
->
-> Adrian
->
->> [1] https://people.debian.org/~glaubitz/System.map-5.14.0-3-sh7751r.gz
+On Wed, 20 Oct 2021 18:27:39 +0100
+Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
 
-I could not find any addresses that look like those in the map but I now 
-see it seems to reboot on encountering an invalid instruction maybe before 
-(during) uncomressing the kernel:
+> When a virtio-iommu is instantiated, describe it using the ACPI VIOT
+> table.
+> 
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-start:
-0xac800000:  mov.l	0xac80007c,r1	! 0x500000f0
-[,,,]
-0x8c80085e:  mov.l	r1,@(4,r8)
-0x8c800860:  bra	0x8c800b84
-0x8c800862:  mov	r6,r0
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 
-----------------
-IN:
-0x8c80058c:  .word 0x0000
+> ---
+>  hw/arm/virt-acpi-build.c | 7 +++++++
+>  hw/arm/Kconfig           | 1 +
+>  2 files changed, 8 insertions(+)
+> 
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 6cec97352b..e26639e1e1 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -55,6 +55,7 @@
+>  #include "kvm_arm.h"
+>  #include "migration/vmstate.h"
+>  #include "hw/acpi/ghes.h"
+> +#include "hw/acpi/viot.h"
+>  
+>  #define ARM_SPI_BASE 32
+>  
+> @@ -934,6 +935,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>      }
+>  #endif
+>  
+> +    if (vms->iommu == VIRT_IOMMU_VIRTIO) {
+> +        acpi_add_table(table_offsets, tables_blob);
+> +        build_viot(ms, tables_blob, tables->linker, vms->virtio_iommu_bdf,
+> +                   vms->oem_id, vms->oem_table_id);
+> +    }
+> +
+>      /* XSDT is pointed to by RSDP */
+>      xsdt = tables_blob->len;
+>      build_xsdt(tables_blob, tables->linker, table_offsets, vms->oem_id,
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 2d37d29f02..e652590943 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -27,6 +27,7 @@ config ARM_VIRT
+>      select DIMM
+>      select ACPI_HW_REDUCED
+>      select ACPI_APEI
+> +    select ACPI_VIOT
+>  
+>  config CHEETAH
+>      bool
 
-----------------
-IN:
-0xac800000:  mov.l	0xac80007c,r1	! 0x500000f0
-
-and then this repeats. I wonder what's that zero opcode is and why is it 
-there. Previously before it gets zero there was running it and there was 
-still code there:
-
-IN:
-0x8c800ad4:  mov.l      r1,@(36,r9)
-0x8c800ad6:  mov.l      @(28,r9),r1
-0x8c800ad8:  mov.l      @(8,r15),r5
-0x8c800ada:  mov.l      r1,@(32,r9)
-0x8c800adc:  mov.l      @(24,r9),r1
-0x8c800ade:  mov.l      r1,@(28,r9)
-0x8c800ae0:  mov.l      @(20,r9),r1
-0x8c800ae2:  mov.l      r1,@(24,r9)
-0x8c800ae4:  mov.l      0x8c800c44,r1   ! 0x8c80058c
-0x8c800ae6:  jsr        @r1
-0x8c800ae8:  mov        r8,r4
-
-----------------
-IN:
-0x8c80058c:  mov.l      r8,@-r15
-0x8c80058e:  mov.l      r9,@-r15
-0x8c800590:  mov.l      r10,@-r15
-0x8c800592:  mov.l      r11,@-r15
-0x8c800594:  mov.l      @r4,r2
-0x8c800596:  mov.l      0x8c800718,r1   ! 0xffffff
-0x8c800598:  mov.l      r12,@-r15
-0x8c80059a:  cmp/hi     r1,r2
-0x8c80059c:  bt.s       0x8c8005ba
-0x8c80059e:  mov.l      r13,@-r15
-
-So somthing seems to overwrite it. Maybe you can try building an 
-uncompressed kernel or one using a different compression and see if that 
-does the same, at least that way we can see if it's in the decompressing 
-or later. I think it's past linux/arch/sh/boot/compressed/head32.S and 
-maybe somewhere in decompress_kernel but not sure which decompression it 
-uses. Kernel config is also missing to check but I probably give up at 
-this point and let you experiment some more.
-
-Regards,
-BALATON Zoltan
 
