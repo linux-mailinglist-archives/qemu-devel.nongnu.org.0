@@ -2,80 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B47B436D8C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 00:36:12 +0200 (CEST)
-Received: from localhost ([::1]:50236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8014436D95
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 00:38:09 +0200 (CEST)
+Received: from localhost ([::1]:57318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdgfS-0002VZ-St
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 18:36:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41044)
+	id 1mdghM-00079s-QN
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 18:38:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdgWf-0005q3-5H
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 18:27:05 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:51716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdgWd-0000WF-MV
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 18:27:04 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id kk10so1557184pjb.1
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 15:27:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=x6UC3RtGH4/ZhBedRplFo1uVwwrOYjrrogjpyP1VuMQ=;
- b=HJkNgDoplGWxSjlNYlR3Hdd72pTufujS0C/iyNNzidyDSv/uQSOBQsw7DmREajtvVC
- YhxcMeheuqTUAi3tnJF6hWFk+lAFeqVacCVxePxvueZuDofymV7NQ4baTz1tnxpPWicx
- Po2OmeyzFZqnA4yDgLVoncml+M1HuJzxZD54z15fr3j1/e7raffg0MuqPKZA4Lx98CB9
- N4FOGWH5FCKPQaW89rxedcRKQocZvJ2JihLA5MngOcAAuqOkD9SWfU1nC4A+2aJv8ChF
- A35bexs0klWWKSKM0Ju9zzO1hXC0gACpIDccYAw4qtRW0omQH5iqjQmdjLDTQkmK9X6o
- XlZA==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1mdgaJ-0006G2-OE
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 18:30:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60523)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1mdgaG-0004Mj-AQ
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 18:30:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634855446;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rxMjHy2Xlp9LihoMwY7JspUaYiJ7ejKwHU72Da//tsg=;
+ b=H4OWRrvo3+L0eslwBQa0OLn6BqijpmEGiTFQZ8j+nBcpH07LHpWHoyrHLOcoCULn+688DJ
+ Tc5dDn5tI4P6TsxOom8MJ1kZy0D48jP9BFCEfo2c0zEVVuc6Rv7KRaL/TitwyLTNl7Mi3q
+ szjAkmv23mPXGjBG2p4mKTQ4UPQH5XQ=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-aHp7AhEpPSmExMaJyF1K2A-1; Thu, 21 Oct 2021 18:30:42 -0400
+X-MC-Unique: aHp7AhEpPSmExMaJyF1K2A-1
+Received: by mail-oi1-f199.google.com with SMTP id
+ r79-20020acaa852000000b002991da0573aso1137974oie.23
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 15:30:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=x6UC3RtGH4/ZhBedRplFo1uVwwrOYjrrogjpyP1VuMQ=;
- b=RmQEVZ9nRc7HKhwakkJdNDQWgX9OabxY82riIvAaCx6Y+NG+9h800MFzwUwfOIVipe
- E+8cocxKPCNrZJ57mwQ8J2+SQfaFfkdov1sSX33WXG8Ut2gwcBNDs4Mh0lqALu0tn/zo
- Yzv72+bnjt41Pk4XKm96oUcDO2JKf3WkPF5H0T1zvQe2rOTbPxt6enYqb3/6arwTjRjE
- 6uU3oCcONDUlNVnzWIR359RIMW3aHwebO3LFSFgPraXuW63a5r+O/wdu5gTgmOAy70O4
- mGut4MlRdQ6e1BEHwCYkCNNjPp5m2MJgsWYZrIJt4+fRFTrfgXgjxCx7R8mtgfmdNb4y
- TCRg==
-X-Gm-Message-State: AOAM530rS6ilZbNjnrXI737IVfe6pznkZ9vlGXLcnHkHryjpxiz+tuvX
- +9SEf2WPqvflLPf5rqhdI4ZoYg==
-X-Google-Smtp-Source: ABdhPJwUf/leBLnvtX1YAIFq/XIpxFmFSfWad9JcNZ3hwW8m8xJQW/9FkKZXt7S8tYFTD9O+DQ92lQ==
-X-Received: by 2002:a17:90b:2248:: with SMTP id
- hk8mr9727628pjb.102.1634855222205; 
- Thu, 21 Oct 2021 15:27:02 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id h10sm7724829pfi.208.2021.10.21.15.27.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Oct 2021 15:27:01 -0700 (PDT)
-Subject: Re: [PATCH v3 20/22] target/ppc: Move dqua[q], drrnd[q] to decodetree
-To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210910112624.72748-1-luis.pires@eldorado.org.br>
- <20210910112624.72748-21-luis.pires@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ebebcc5a-6e4a-609e-dfd7-667c5f8a71e9@linaro.org>
-Date: Thu, 21 Oct 2021 15:27:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=rxMjHy2Xlp9LihoMwY7JspUaYiJ7ejKwHU72Da//tsg=;
+ b=HCzCs+xt88eXWrvvRUFYvSY/in8dTeqdQgYwk0ewCyWgkv4AEwktCKluIWTbX7Z9Kk
+ ZMKmkyH1ucDlPJYqKku9AG5e1GAuowkyUQjdNmM/eZtaYOBtHiCmGQlznaFWGxI2zfoa
+ XwxvCPvxaQx+kPQ1++oQTmuDscYI27hK+75EUchti7XIaTVnFF3pjn8ZPBn7enYLUvc4
+ C9vMF77NsD2po8UhwgzupT08b1V5wjfu8ueBckEYSLNzNslbRHtbnSv2MbCcwHpod2Wb
+ HTBpiF2ECVB29L/YO9bn4hprP8gYpFcWjoOki0qNa8r9Plpe3zZ9905EBWzcsrQ449pb
+ CcPg==
+X-Gm-Message-State: AOAM533wP4xIdea/A5uZl9er/dRFiH7wmdPWx8x2UxPfjxm5PKyMrMgZ
+ 1vx+vXuTdsEa4XwF/L3gAwaKVTM3BKNb/HwiuT/MFBXBdFsPxjPMyTrrIFpjoH7QDADmW8iNmd2
+ SXet3w7Q3KG4w83g=
+X-Received: by 2002:a9d:4114:: with SMTP id o20mr7047537ote.171.1634855442197; 
+ Thu, 21 Oct 2021 15:30:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwU+0U258/dV4Nw5XEb6vhBeXuW3W7sM7kZTBCfBx4s+VilyJYQrqbBZ0uWaj/jYGp6a4yxdA==
+X-Received: by 2002:a9d:4114:: with SMTP id o20mr7047511ote.171.1634855441879; 
+ Thu, 21 Oct 2021 15:30:41 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239])
+ by smtp.gmail.com with ESMTPSA id y123sm1379491oie.0.2021.10.21.15.30.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Oct 2021 15:30:41 -0700 (PDT)
+Date: Thu, 21 Oct 2021 16:30:39 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 8/8] x86-iommu: Fail early if vIOMMU specified after
+ vfio-pci
+Message-ID: <20211021163039.324e92b1.alex.williamson@redhat.com>
+In-Reply-To: <20211021104259.57754-9-peterx@redhat.com>
+References: <20211021104259.57754-1-peterx@redhat.com>
+ <20211021104259.57754-9-peterx@redhat.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210910112624.72748-21-luis.pires@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.867,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,27 +98,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, groug@kaod.org,
- david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/10/21 4:26 AM, Luis Pires wrote:
-> -#define GEN_DFP_T_A_B_I32_Rc(name, i32fld)       \
-> -static void gen_##name(DisasContext *ctx)        \
-> -{                                                \
-> -    TCGv_ptr rt, ra, rb;                         \
-> -    TCGv_i32 i32;                                \
-> -    if (unlikely(!ctx->fpu_enabled)) {           \
-> -        gen_exception(ctx, POWERPC_EXCP_FPU);    \
-> -        return;                                  \
-> -    }                                            \
-> -    gen_update_nip(ctx, ctx->base.pc_next - 4);  \
+On Thu, 21 Oct 2021 18:42:59 +0800
+Peter Xu <peterx@redhat.com> wrote:
 
-nip.
+> Scan the pci bus to make sure there's no vfio-pci device attached before vIOMMU
+> is realized.
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Sorry, I'm not onboard with this solution at all.
 
-r~
+It would be really useful though if this commit log or a code comment
+described exactly the incompatibility for which vfio-pci devices are
+being called out here.  Otherwise I see this as a bit of magic voodoo
+that gets lost in lore and copied elsewhere and we're constantly trying
+to figure out specific incompatibilities when vfio-pci devices are
+trying really hard to be "just another device".
+
+I infer from the link of the previous alternate solution that this is
+to do with the fact that vfio devices attach a memory listener to the
+device address space.  Interestingly that previous cover letter also
+discusses how vdpa devices might have a similar issue, which makes it
+confusing again that we're calling out vfio-pci devices by name rather
+than for a behavior.
+
+If the behavior here is that vfio-pci devices attach a listener to the
+device address space, then that provides a couple possible options.  We
+could look for devices that have recorded an interest in their address
+space, such as by setting a flag on PCIDevice when someone calls
+pci_device_iommu_address_space(), where we could walk all devices using
+the code in this series to find a device with such a flag.
+
+Another option might be to attach owner objects to memory listeners,
+walk all the listeners on the system address space (that the vIOMMU is
+about to replace for some devices) and evaluate the owner objects
+against TYPE_PCI_DEVICE.
+
+Please lets not just call out arbitrary devices, especially not without
+a thorough explanation of the incompatibility.  Thanks,
+
+Alex
+
+
+> Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  hw/i386/x86-iommu.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/hw/i386/x86-iommu.c b/hw/i386/x86-iommu.c
+> index 86ad03972e..58abce7edc 100644
+> --- a/hw/i386/x86-iommu.c
+> +++ b/hw/i386/x86-iommu.c
+> @@ -21,6 +21,7 @@
+>  #include "hw/sysbus.h"
+>  #include "hw/i386/x86-iommu.h"
+>  #include "hw/qdev-properties.h"
+> +#include "hw/vfio/pci.h"
+>  #include "hw/i386/pc.h"
+>  #include "qapi/error.h"
+>  #include "qemu/error-report.h"
+> @@ -103,6 +104,16 @@ IommuType x86_iommu_get_type(void)
+>      return x86_iommu_default->type;
+>  }
+>  
+> +static void x86_iommu_pci_dev_hook(PCIBus *bus, PCIDevice *dev, void *opaque)
+> +{
+> +    Error **errp = (Error **)opaque;
+> +
+> +    if (object_dynamic_cast(OBJECT(dev), TYPE_VFIO_PCI)) {
+> +        error_setg(errp, "Device '%s' must be specified before vIOMMUs",
+> +                   TYPE_VFIO_PCI);
+> +    }
+> +}
+> +
+>  static void x86_iommu_realize(DeviceState *dev, Error **errp)
+>  {
+>      X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(dev);
+> @@ -120,6 +131,12 @@ static void x86_iommu_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>  
+> +    /* Make sure there's no special device plugged before vIOMMU */
+> +    pci_for_each_device_all(x86_iommu_pci_dev_hook, (void *)errp);
+> +    if (*errp) {
+> +        return;
+> +    }
+> +
+>      /* If the user didn't specify IR, choose a default value for it */
+>      if (x86_iommu->intr_supported == ON_OFF_AUTO_AUTO) {
+>          x86_iommu->intr_supported = irq_all_kernel ?
+> @@ -151,6 +168,7 @@ static Property x86_iommu_properties[] = {
+>  static void x86_iommu_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+>      dc->realize = x86_iommu_realize;
+>      device_class_set_props(dc, x86_iommu_properties);
+>  }
+
 
