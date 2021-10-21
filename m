@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6937436D30
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 23:59:50 +0200 (CEST)
-Received: from localhost ([::1]:39168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76324436D26
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 23:56:34 +0200 (CEST)
+Received: from localhost ([::1]:60452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdg6H-0007Dy-RG
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 17:59:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52310)
+	id 1mdg37-0002JG-Ic
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 17:56:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdfbY-00043z-3y
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 17:28:04 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:52013)
+ id 1mdfmf-0007nm-Oq
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 17:39:33 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:53042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdfbW-0003n0-7n
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 17:28:03 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id kk10so1466288pjb.1
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 14:28:01 -0700 (PDT)
+ id 1mdfmc-0006x6-8b
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 17:39:33 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id oa4so1478587pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 14:39:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3TIEc5sXmEk1FCFhJFXyVPqkCVb+P/EyN0mfU5Xc7nE=;
- b=R6mvfz7hYQC0Cd5yj1xPNWWeT6D/Q/r1zIXBuYZn0iWo2rJRgdfd64GOvoqjH8aFPe
- wYV/kq0hutRQK2bN/AeQnyY77+Bu3P3dSWOXqxSnL7MaHscYIsTGC1g3nApuftOpyklY
- 4/E7/Y3F2EhvO68xF/ResAgf8cB+AGpC5WEhi6RNPHeVTgth5MzKgPaf6QGmi/jmL8/w
- k4T3cWuW9EFVYxic2CbpKEf0uO+r6wTF43+vSsVJlp4rgxiMM3m0M7JXcV1F9rQ6v16I
- wQWGKbT2Fw2/DWxJ6QyiQDx/vu/0QJit1R5Q+3M0GFHTG75LcgS3YIb+7Ctfiiq1hkwU
- 2xEw==
+ bh=L6bK8S+2nF6FyT1Sf6rg4dtm9bXgM1Oedv2NGQm6GCk=;
+ b=nIp6Cfrfs2pONDtwDuN+EeFgb37X85cCnomj6cpe75py2ZLHOJDO+xPrPmgYduzxg6
+ GRJIw33wc+hduJcmw/ApUzAlj+V/hMcUj81qPTMqY/EDLR3ZPHIJa0zrx54+TgwVgquk
+ ULiBaMwWBrI4KffTyh/113q/pdng6sqTjycagBNHsZXZzNMdCZSw09UEkoH5LgHAkzGi
+ pV+Tkqx6elD7fBSXzMpWO1e/+oqqlLOjVRsU9fv2VuQYjDlZ3vSVza8D+E3eqM23xA+1
+ QWCBZeiWukupGuiSkYoJHqdLewLiimFntz4loLTzrK3dr0QoDr/CgimoPPb/beb7QzFz
+ xOQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3TIEc5sXmEk1FCFhJFXyVPqkCVb+P/EyN0mfU5Xc7nE=;
- b=TtpyzL1tBnGPQJcDdrXpeMwpCmv/TbcGJJJaNgRLkJJTHzOR8EM35mBCLKrHnuGlYv
- 7QDe9PsgJBP9sxxnZeHf0b+yw7RKXyLzH+bGg5/9BDgsE0iN/ZkdWU1qZGkwHLiDhkZm
- owBQojXk5OaazplLt1tGIhw5UOf1PNxkEJiZRdN+E4LuLiLDpXf75qGlXYtJCxPxXUBD
- abt/ZZjvlsx7rhdM7ceCuGQHV5YVoUf7bpgCrZOHWq5eiPIPnHDOs7U5RpzcJ16mGNQF
- nRzljK0G11xLx40Bk/MlKkCmxQxirPN3aDr/DGBFHKTVF51m5LUuopFZuW+ss1wgItKL
- 4SjA==
-X-Gm-Message-State: AOAM533w7H+NDRC89DYwD5PrAWarSaGhjd+RfmaGOLBvDUBJBiLDK9Aq
- gqY6b1kDvsmgFpXEXObVVxCZjQ==
-X-Google-Smtp-Source: ABdhPJylFjynuD64GnKN2KZpP0riG7jVrp0qLMZyD1fCwSrYqTNisQ6xSloLi6SGS6gOi4/TpiJSKQ==
-X-Received: by 2002:a17:902:d2c2:b0:13e:f4d2:ed3f with SMTP id
- n2-20020a170902d2c200b0013ef4d2ed3fmr7387561plc.87.1634851680092; 
- Thu, 21 Oct 2021 14:28:00 -0700 (PDT)
+ bh=L6bK8S+2nF6FyT1Sf6rg4dtm9bXgM1Oedv2NGQm6GCk=;
+ b=bMvysA7nO1ZARHbwufy9aWg3akYtGPxnnNZGdlouvNfSaFdW/IeKumOWu7rS70Vh/8
+ /3WW7hnXlGodhjsGy7N6JSA017E/y8uMUFb26rkmxBExZcbXVayX5kJqW8RePpnvlOxZ
+ AkAsp3g/qLQ7a1B5fHIOaAlhX9SDwoyYEl6QV7U1QQT93aFMxDK91a5u+sDl2Ci3spJl
+ 8OsvXkcgDUBAUR+ng0LkbTiYDphWEAkMkY5qfg39nvo2m814lkfGozCvrYppx6+M3b+z
+ u9yPMMQkiP4fRQhqYATKWR0ycyUqS+4LamvkyF6qidHPFFfg7i+w9GZuqm4ce8okoRFp
+ uXbA==
+X-Gm-Message-State: AOAM532AmnBd69g4qqlpTQ9vsEdoborOxoXFpxj2nX/nmtLlimZDd/lP
+ ViW1YXnVz+cCBF7r2EIcpdMzPA==
+X-Google-Smtp-Source: ABdhPJyi+ToIR/HKb097H0D09MaROU2ZQRqDclhsUF6Z0nTuTabmd+GMf+SNJ8CogLcpYLYU7/DMkw==
+X-Received: by 2002:a17:90b:4f87:: with SMTP id
+ qe7mr9717020pjb.29.1634852368689; 
+ Thu, 21 Oct 2021 14:39:28 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id y9sm6962819pjj.6.2021.10.21.14.27.59
+ by smtp.gmail.com with ESMTPSA id x6sm7760903pfh.77.2021.10.21.14.39.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Oct 2021 14:27:59 -0700 (PDT)
-Subject: Re: [PATCH v3 12/22] target/ppc: Implement DCFFIXQQ
+ Thu, 21 Oct 2021 14:39:28 -0700 (PDT)
+Subject: Re: [PATCH v3 15/22] target/ppc: Implement DCTFIXQQ
 To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 References: <20210910112624.72748-1-luis.pires@eldorado.org.br>
- <20210910112624.72748-13-luis.pires@eldorado.org.br>
+ <20210910112624.72748-16-luis.pires@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0d0bfbfd-9784-b3d7-0fd0-bf69f653df43@linaro.org>
-Date: Thu, 21 Oct 2021 14:27:57 -0700
+Message-ID: <dc3ebde7-5f80-9a88-2165-b7b69eda5e05@linaro.org>
+Date: Thu, 21 Oct 2021 14:39:26 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210910112624.72748-13-luis.pires@eldorado.org.br>
+In-Reply-To: <20210910112624.72748-16-luis.pires@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -94,22 +94,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/10/21 4:26 AM, Luis Pires wrote:
-> +void helper_DCFFIXQQ(CPUPPCState *env, ppc_fprp_t *t, ppc_avr_t *b)
+> --- a/target/ppc/dfp_helper.c
+> +++ b/target/ppc/dfp_helper.c
+> @@ -51,6 +51,12 @@ static void set_dfp128(ppc_fprp_t *dfp, ppc_vsr_t *src)
+>       dfp[1].VsrD(0) = src->VsrD(1);
+>   }
+>   
+> +static void set_dfp128_to_avr(ppc_avr_t *dst, ppc_vsr_t *src)
 > +{
-> +    struct PPC_DFP dfp;
-
-Space here after the variable declaration would help.
-
-> +    dfp_prepare_decimal128(&dfp, NULL, NULL, env);
-> +    decNumberFromInt128(&dfp.t, (uint64_t)b->VsrD(1), (int64_t)b->VsrD(0));
-> +    dfp_finalize_decimal128(&dfp);
-> +    CFFIX_PPs(&dfp);
-> +
-> +    set_dfp128(t, &dfp.vt);
+> +    dst->VsrD(0) = src->VsrD(0);
+> +    dst->VsrD(1) = src->VsrD(1);
 > +}
+
+Given that these two are typedef of one another, I would think this is unnecessary and you 
+should just write *dst = *src.
 
 Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
