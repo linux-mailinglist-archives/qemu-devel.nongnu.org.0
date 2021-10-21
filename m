@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD500435B12
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 08:46:56 +0200 (CEST)
-Received: from localhost ([::1]:55964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E54435B23
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 08:50:53 +0200 (CEST)
+Received: from localhost ([::1]:58472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdRqp-00042H-9A
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 02:46:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46704)
+	id 1mdRue-00061C-Cf
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 02:50:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mdRp6-0003Ds-Ih
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 02:45:08 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:42807)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mdRp4-0004mM-Qw
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 02:45:08 -0400
-Received: by mail-pf1-x436.google.com with SMTP id m14so5013598pfc.9
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 23:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=PSG7mH00HjM1oJzTMcokuaPPOKtNlBxFHm18JImeqiQ=;
- b=aQSM6nhcApxXymU8Zjs/TKAsrqUFWHihE32ghvryWcT3y2VILRX3NuGv/pYeAtXppp
- pLD1cFOWjuU7DgwexnESWz+2dcnXPHWNZG9okzez9TKpXDKIYTanml2kwY8tBtYb2YhX
- Nhlca3JBmAHmHBf+S6dNLebqvxBXj2wLkUXLIqIxFTQQFKtn/h7vy4WFRNYMKurJu0qm
- Ebv/n1YqJxfOjqaBwOxUzK1ribhJs81XSNwWZL2sDtqRgOsQXrMqwdkVgkmma27xe35Y
- EA7EAjFNumsqVIdU/4+E0NuPbV1cg+o/nUmhlyoReJnVdqgvtJuEIJZFQ0hYT4g3JRd9
- 218A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=PSG7mH00HjM1oJzTMcokuaPPOKtNlBxFHm18JImeqiQ=;
- b=UsZYwhZk7dtg9GOYWm4FQvrcwfxTvJfxUr82wCTyTpZqv603jOvDC8K6PtuOENkvF3
- Ho/JNLD8fhlK2XbARC4BC+vjYxJXYo3MzxXNQZjYE7hh//VlnySMARHQETWszYVldzKS
- vLefffOeSoWPgql9MDxeRM5zMaNmK2GhTI3C8JPDRJVMcrn8F6Wz6uvzoFU6VtJI1U0k
- J/cUbzEREWM8LCyq9Ly99p6hIpYNpIbDjrr1Llr3D0Dew0S4nys8xXgQ/fIeVJFz6Et+
- JK4gl+9jtDu+S3IE6zWavenM7+WyQtvUcd8BWeOhN0RV9uGUTPXYM1rZy0TbPxDWzyCN
- DBRA==
-X-Gm-Message-State: AOAM533rPid1WzguHI3nzMPHw9vgq0bkWee/vXHJXWOHuzK8910gHnxK
- GEGQ7+6Na+/WUfiSzi6G+ZvieA==
-X-Google-Smtp-Source: ABdhPJyGg/v4ORnSyiNCfJFe29hGJJR5ZrYv/22qND6BKqIaJ+O/hbfV3nAMR752y5/8LazEN4Mjdw==
-X-Received: by 2002:a05:6a00:2309:b0:44d:bc24:4db8 with SMTP id
- h9-20020a056a00230900b0044dbc244db8mr3766117pfh.84.1634798705181; 
- Wed, 20 Oct 2021 23:45:05 -0700 (PDT)
-Received: from anisinha-lenovo ([203.212.246.18])
- by smtp.googlemail.com with ESMTPSA id u74sm4683498pfc.87.2021.10.20.23.45.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 23:45:04 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Thu, 21 Oct 2021 12:14:58 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v3 0/3] tests/acpi/pcihp: add unit tests for hotplug on
- multifunction bridges for q35
-In-Reply-To: <20211021021635-mutt-send-email-mst@kernel.org>
-Message-ID: <alpine.DEB.2.22.394.2110211213010.235596@anisinha-lenovo>
-References: <20211007135750.1277213-1-ani@anisinha.ca>
- <20211020043845-mutt-send-email-mst@kernel.org>
- <CAARzgwxh6g=p7UNsKnwPw9EKf+5kAv4Z0s2Bw8qvmX1Lc38wxQ@mail.gmail.com>
- <20211021021635-mutt-send-email-mst@kernel.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
+ id 1mdRsM-00053j-R4; Thu, 21 Oct 2021 02:48:30 -0400
+Received: from pegase2.c-s.fr ([93.17.235.10]:57103)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
+ id 1mdRsK-0007Vv-0X; Thu, 21 Oct 2021 02:48:30 -0400
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+ by localhost (Postfix) with ESMTP id 4HZdNN6Hgxz9sSQ;
+ Thu, 21 Oct 2021 08:48:20 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+ by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id YEXGZVjw8fF8; Thu, 21 Oct 2021 08:48:20 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4HZdNN4x3yz9sSN;
+ Thu, 21 Oct 2021 08:48:20 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 92B018B811;
+ Thu, 21 Oct 2021 08:48:20 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id hQLNkNAa5yxU; Thu, 21 Oct 2021 08:48:20 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.204.154])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 3FB868B764;
+ Thu, 21 Oct 2021 08:48:19 +0200 (CEST)
+Subject: Re: Deprecate the ppc405 boards in QEMU? (was: [PATCH v3 4/7]
+ MAINTAINERS: Orphan obscure ppc platforms)
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+ <20210927044808.73391-5-david@gibson.dropbear.id.au>
+ <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
+ <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
+ <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
+ <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
+ <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
+ <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
+ <1397f18f-f187-6f48-ed6c-13c0b77abed9@redhat.com> <YVug7l8LWl3e+DN5@yekko>
+ <9aeb7010-0a17-864a-cfac-ea5d90356085@csgroup.eu>
+ <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
+ <5e4f78ce-1508-5689-ec29-79edad0c824e@kaod.org>
+ <491d6265-3785-b11-b7f0-621a3d2823@eik.bme.hu>
+ <b9f27c1b-1162-b178-9333-89c0dd707c12@redhat.com>
+ <103e098a-a8ac-a22a-8aad-3df7d8cde148@amsat.org>
+ <939f2d12-38f6-4ab0-b688-384136d1d9c@eik.bme.hu>
+ <4e07823e-7162-525a-4a61-9bed63e85d58@kaod.org>
+ <5263c819-b13c-f48a-d720-15b085537070@csgroup.eu>
+Message-ID: <8add201d-73cc-d7b1-cb52-f1fd18eb5d69@csgroup.eu>
+Date: Thu, 21 Oct 2021 08:48:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="2088271309-1926629746-1634798704=:235596"
-Received-SPF: none client-ip=2607:f8b0:4864:20::436;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <5263c819-b13c-f48a-d720-15b085537070@csgroup.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr-FR
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=93.17.235.10;
+ envelope-from=christophe.leroy@csgroup.eu; helo=pegase2.c-s.fr
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.267,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,92 +89,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ dbarboza@redhat.com, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <agraf@csgraf.de>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---2088271309-1926629746-1634798704=:235596
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8BIT
 
 
+Le 20/10/2021 Ã  15:16, Christophe Leroy a Ã©critÂ :
+> 
+> 
+> Le 20/10/2021 Ã  14:43, CÃ©dric Le Goater a Ã©critÂ :
+>> On 10/20/21 13:42, BALATON Zoltan wrote:
+>>> On Wed, 20 Oct 2021, Philippe Mathieu-DaudÃ© wrote:
+>>>> On 10/5/21 14:29, Thomas Huth wrote:
+>>>>> On 05/10/2021 14.20, BALATON Zoltan wrote:
+>>>>>> On Tue, 5 Oct 2021, CÃ©dric Le Goater wrote:
+>>>>>>> On 10/5/21 08:18, Alexey Kardashevskiy wrote:
+>>>>>>>> On 05/10/2021 15:44, Christophe Leroy wrote:
+>>>>>>>>> Le 05/10/2021 Ã  02:48, David Gibson a Ã©critÂ :
+>>>>>>>>>> On Fri, Oct 01, 2021 at 04:18:49PM +0200, Thomas Huth wrote:
+>>>>>>>>>>> On 01/10/2021 15.04, Christophe Leroy wrote:
+>>>>>>>>>>>> Le 01/10/2021 Ã  14:04, Thomas Huth a Ã©critÂ :
+>>>>>>>>>>>>> On 01/10/2021 13.12, Peter Maydell wrote:
+>>>>>>>>>>>>>> On Fri, 1 Oct 2021 at 10:43, Thomas Huth <thuth@redhat.com>
+>>>>>>>>>>>>>> wrote:
+>>>>>>>>>>>>>>> Nevertheless, as long as nobody has a hint where to find 
+>>>>>>>>>>>>>>> that
+>>>>>>>>>>>>>>> ppc405_rom.bin, I think both boards are pretty useless in
+>>>>>>>>>>>>>>> QEMU (as far as I
+>>>>>>>>>>>>>>> can see, they do not work without the bios at all, so it's
+>>>>>>>>>>>>>>> also not possible
+>>>>>>>>>>>>>>> to use a Linux image with the "-kernel" CLI option 
+>>>>>>>>>>>>>>> directly).
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> It is at least in theory possible to run bare-metal code on
+>>>>>>>>>>>>>> either board, by passing either a pflash or a bios argument.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> True. I did some more research, and seems like there was once
+>>>>>>>>>>>>> support for those boards in u-boot, but it got removed there a
+>>>>>>>>>>>>> couple of years ago already:
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/98f705c9cefdf
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/b147ff2f37d5b
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/7514037bcdc37
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>> But I agree that there seem to be no signs of anybody 
+>>>>>>>>>>>>>> actually
+>>>>>>>>>>>>>> successfully using these boards for anything, so we should
+>>>>>>>>>>>>>> deprecate-and-delete them.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Yes, let's mark them as deprecated now ... if someone still 
+>>>>>>>>>>>>> uses
+>>>>>>>>>>>>> them and speaks up, we can still revert the deprecation again.
+>>>>>>>>>>>>
+>>>>>>>>>>>> I really would like to be able to use them to validate Linux 
+>>>>>>>>>>>> Kernel
+>>>>>>>>>>>> changes, hence looking for that missing BIOS.
+>>>>>>>>>>>>
+>>>>>>>>>>>> If we remove ppc405 from QEMU, we won't be able to do any
+>>>>>>>>>>>> regression
+>>>>>>>>>>>> tests of Linux Kernel on those processors.
+>>>>>>>>>>>
+>>>>>>>>>>> If you/someone managed to compile an old version of u-boot for
+>>>>>>>>>>> one of these
+>>>>>>>>>>> two boards, so that we would finally have something for
+>>>>>>>>>>> regression testing,
+>>>>>>>>>>> we can of course also keep the boards in QEMU...
+>>>>>>>>>>
+>>>>>>>>>> I can see that it would be usefor for some cases, but unless 
+>>>>>>>>>> someone
+>>>>>>>>>> volunteers to track down the necessary firmware and look after 
+>>>>>>>>>> it, I
+>>>>>>>>>> think we do need to deprecate it - I certainly don't have the
+>>>>>>>>>> capacity
+>>>>>>>>>> to look into this.
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> I will look at it, please allow me a few weeks though.
+>>>>>>>>
+>>>>>>>> Well, building it was not hard but now I'd like to know what board
+>>>>>>>> QEMU actually emulates, there are way too many codenames and PVRs.
+>>>>>>>
+>>>>>>> yes. We should try to reduce the list below. Deprecating embedded
+>>>>>>> machines
+>>>>>>> is one way.
+>>>>>>
+>>>>>> Why should we reduce that list? It's good to have different cpu
+>>>>>> options when one wants to test code for different PPC versions (maybe
+>>>>>> also in user mode) or just to have a quick list of these at one 
+>>>>>> place.
+>>>>>
+>>>>> I think there are many CPUs in that list which cannot be used with any
+>>>>> board, some of them might be also in a very incomplete state. So
+>>>>> presenting such a big list to the users is confusing and might create
+>>>>> wrong expectations. It would be good to remove at least the CPUs which
+>>>>> are really completely useless.
+>>>>
+>>>> Maybe only remove some from system emulation but keep all of them
+>>>> in user emulation?
+>>>
+>>> Or keep them all but mark those that are not tested/may be 
+>>> incomplete? So the used can see what is expected to work and what may 
+>>> need to be fixed. That way somebody may try and fix it whereas if 
+>>> it's not there they are unlikely to try to add it.
+>>
+>>
+>> The bamboo machine with 440 CPUs is booting with the latest kernel
+>> and we have an acceptance test for it now, thanks to Thomas. There
+>> is not much effort in keeping them in a working state until someone
+>> volunteers. Hopefully, Christophe is making sure that we are not
+>> breaking anything with Linux support.
+>>
+>> The 405 machine are still close to deprecation I think. We are still
+>> struggling to boot one with mainline Linux, using uboot provided by
+>> Thomas which skips SDRAM init. It is not clear to me if u-boot is
+>> strictly necessary. It depends if Linux relies on it to do some
+>> pre-initialization of HW. I guess once we find a good DTS for it, or
+>> not, we can take a decision.
+>>
+> 
+> I now have a hacked configuration booting linux with the hotfoot DTS and 
+> the kernel is booting up to starting /init
+> 
+> Then it is faulting forever taking a DSI for write protection. The 
+> problem is now likely in Linux and I'm investigating it, but I'm having 
+> problem with GDB (7.8.1), I'm hitting the bug 
+> https://sourceware.org/bugzilla/show_bug.cgi?id=17700
+> 
+> And GDB 11.1 coredumps while reading vmlinux's symbols
+> 
+> Hopefully I'll find a GDB version between 7.8 and 11 that works.
 
-On Thu, 21 Oct 2021, Michael S. Tsirkin wrote:
+I bisected the issue to 
+https://github.com/linuxppc/linux/commit/52ae92cc290f0506eef9ad5466bb453ce4a9e80e
 
-> On Thu, Oct 21, 2021 at 07:18:43AM +0530, Ani Sinha wrote:
-> >
-> >
-> > On Wed, Oct 20, 2021 at 2:09 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> >     On Thu, Oct 07, 2021 at 07:27:47PM +0530, Ani Sinha wrote:
-> >     > changelist:
-> >     > v3: removed "nodefaults" from the command line and rebased the patchset.
-> >     > v2: incorporated some of the feedbacks from Igor.
-> >     > v1 : initial RFC patch.
-> >
-> >     This seems to break on s390 hosts for people. Likely an
-> >     endian-ness bug somewhere. Dropped for now - care tracking that down
-> >     and fixing so I can pick up the test again?
-> >
-> >     Thanks!
-> >
-> >
-> > So I take it this patch wasn't causing the issue since this has been merged to
-> > master now?
-> >
-> >
->
-> Yes, we knew the bug is in the tested functionality not the test of
-> course.
+The problem is in QEMU, it should ignore upper bits of PID register.
 
-Yes which is why I was confused as well since the test would not
-introduce regression in the product!
+The following change fixes the issue, don't know it is it the right way 
+to fix though
 
-> With help from Thomas I was able to fix the original bug.
+diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
+index 754509e556..44f4fa5280 100644
+--- a/target/ppc/mmu_common.c
++++ b/target/ppc/mmu_common.c
+@@ -570,7 +570,7 @@ static int mmu40x_get_physical_address(CPUPPCState 
+*env, mmu_ctx_t *ctx,
+      for (i = 0; i < env->nb_tlb; i++) {
+          tlb = &env->tlb.tlbe[i];
+          if (ppcemb_tlb_check(env, tlb, &raddr, address,
+-                             env->spr[SPR_40x_PID], 0, i) < 0) {
++                             env->spr[SPR_40x_PID] & 0xff, 0, i) < 0) {
+              continue;
+          }
+          zsel = (tlb->attr >> 4) & 0xF;
+diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+index 2cb98c5169..9331830f34 100644
+--- a/target/ppc/mmu_helper.c
++++ b/target/ppc/mmu_helper.c
+@@ -789,7 +789,7 @@ void helper_4xx_tlbwe_hi(CPUPPCState *env, 
+target_ulong entry,
+      } else {
+          tlb->prot &= ~PAGE_VALID;
+      }
+-    tlb->PID = env->spr[SPR_40x_PID]; /* PID */
++    tlb->PID = env->spr[SPR_40x_PID] & 0xff; /* PID */
+      LOG_SWTLB("%s: set up TLB %d RPN " TARGET_FMT_plx " EPN " 
+TARGET_FMT_lx
+                " size " TARGET_FMT_lx " prot %c%c%c%c PID %d\n", __func__,
+                (int)entry, tlb->RPN, tlb->EPN, tlb->size,
+@@ -837,7 +837,7 @@ void helper_4xx_tlbwe_lo(CPUPPCState *env, 
+target_ulong entry,
 
-Ok good. wanted to take a look at it with a clear mind in the morning but
-since this is fixed, all is good.
+  target_ulong helper_4xx_tlbsx(CPUPPCState *env, target_ulong address)
+  {
+-    return ppcemb_tlb_search(env, address, env->spr[SPR_40x_PID]);
++    return ppcemb_tlb_search(env, address, env->spr[SPR_40x_PID] & 0xff);
+  }
 
-> The fix with more detail is here:
->
-> commit 0e464f7d993113119f0fd17b890831440734ce15
-> Author: Michael S. Tsirkin <mst@redhat.com>
-> Date:   Wed Oct 20 05:48:54 2021 -0400
->
->     pci: fix PCI resource reserve capability on BE
->
->
->
-> >
-> >     > This patchset adds a unit test to exercize acpi hotplug support for
-> >     multifunction
-> >     > bridges on q35 machines. This support was added with the commit:
-> >     >
-> >     > d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction
-> >     bridges")
-> >     >
-> >     > Ani Sinha (3):
-> >     >   tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT
-> >     >     table blob
-> >     >   tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges
-> >     >     for q35
-> >     >   tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge
-> >     >     test
-> >     >
-> >     >  tests/data/acpi/q35/DSDT.multi-bridge | Bin 0 -> 8583 bytes
-> >     >  tests/qtest/bios-tables-test.c        |  18 ++++++++++++++++++
-> >     >  2 files changed, 18 insertions(+)
-> >     >  create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
-> >     >
-> >     > --
-> >     > 2.25.1
-> >
-> >
->
->
---2088271309-1926629746-1634798704=:235596--
+  /* PowerPC 440 TLB management */
+---
+
+Christophe
 
