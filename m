@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27EE435EFB
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 12:23:57 +0200 (CEST)
-Received: from localhost ([::1]:48042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248B1435F0E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 12:29:20 +0200 (CEST)
+Received: from localhost ([::1]:55864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdVEp-0006Pl-7n
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 06:23:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59190)
+	id 1mdVK3-0003XP-5D
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 06:29:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdVBY-0002zS-Fq
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:20:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31377)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdVBy-00039O-2J
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:20:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdVBT-0002Cx-3T
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:20:30 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdVBs-0002eZ-6B
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:20:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634811625;
+ s=mimecast20190719; t=1634811650;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=M5/xnV7Bw0FGlOwd/INg1rBChrPG0nqDdjABQNzVRPQ=;
- b=SfEU6ZrRqlipzGqZ6brZsrPXNAsp+SearL2x6OQQZRrGS3SlipkBtAz9/dS25xjFYDwG1n
- gL/vC7dv2alBJcEmI44aVPmvbGhGWaJSc8XfKxIMYw3IGrgksXNisMoP2UeATPct15vuPi
- CmyhkRIksi8lQEDUm2S/EmpO++Gygs4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TZP6NgMdeef/0HC5IsTFCrbdKpBXASKvnSPRcCeD2lE=;
+ b=aFINhvCOobwyW0hhr+VCvPhoIKCT+nDBBUTZnPZ8ViP4sGhyXjR6SHAYCdtJP4PrH53A7Q
+ PtZJVkB9zl/UH3pTLd4/MWkERGnXm5XUxvSQPcrRejY/f4bMRSBELXakDN5u/ANM6/SSbN
+ 8Dubnox9AOf6gkJz7KNWhHbARoRT5TI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-5gSryh-3M8WSXBL-6h7C7Q-1; Thu, 21 Oct 2021 06:20:24 -0400
-X-MC-Unique: 5gSryh-3M8WSXBL-6h7C7Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-365-gln-qFGkMrySKnrfTn0iLA-1; Thu, 21 Oct 2021 06:20:31 -0400
+X-MC-Unique: gln-qFGkMrySKnrfTn0iLA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C22421922960;
- Thu, 21 Oct 2021 10:20:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0605E10A8E03;
+ Thu, 21 Oct 2021 10:20:30 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 088921346F;
- Thu, 21 Oct 2021 10:20:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EE81579447;
+ Thu, 21 Oct 2021 10:20:02 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5722111380A7; Thu, 21 Oct 2021 12:20:01 +0200 (CEST)
+ id 59B8911380AA; Thu, 21 Oct 2021 12:20:01 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/5] qapi: Add feature flags to enum members
-Date: Thu, 21 Oct 2021 12:19:56 +0200
-Message-Id: <20211021102001.803780-1-armbru@redhat.com>
+Subject: [PATCH v3 1/5] qapi: Enable enum member introspection to show more
+ than name
+Date: Thu, 21 Oct 2021 12:19:57 +0200
+Message-Id: <20211021102001.803780-2-armbru@redhat.com>
+In-Reply-To: <20211021102001.803780-1-armbru@redhat.com>
+References: <20211021102001.803780-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,77 +86,179 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PATCH 1+2 add feature flags to enum members.  Awkward due to an
-introspection design mistake; see PATCH 1 for details.
+The next commit will add feature flags to enum members.  There's a
+problem, though: query-qmp-schema shows an enum type's members as an
+array of member names (SchemaInfoEnum member @values).  If it showed
+an array of objects with a name member, we could simply add more
+members to these objects.  Since it's just strings, we can't.
 
-PATCH 3+4 implement policy deprecated-input={reject,crash} for enum
-values.
+I can see three ways to correct this design mistake:
 
-Policy deprecated-output=hide is not implemented, because we can't
-hide a value without hiding the entire member, which is almost
-certainly more than the requester of this policy bargained for.
-Perhaps we want a new policy deprecated-output=hide-or-else-crash to
-help us catch unwanted use of deprecated enum values.  Perhaps we want
-deprecated-output=hide to behave that way together with
-deprecated-input=crash.  Or even always.  Thoughts?
+1. Do it the way we should have done it, plus compatibility goo.
 
-PATCH 5 puts the new feature flags to use.  It's RFC because it makes
-sense only on top of Vladimir's deprecation of drive-backup.  See its
-commit message for a reference.
+   We want a ['SchemaInfoEnumMember'] member in SchemaInfoEnum.  Since
+   changing @values would be a compatibility break, add a new member
+   @members instead.
 
-I prefer to commit new features together with a use outside tests/.
-PATCH 5 adds such a use, but it's RFC, because it depends on
-Vladimir's work.  Perhaps another use pops up.  I can delay this work
-in the hope of a use becoming ready, but the feature flags work I have
-in the pipeline will eventually force my hand.
+   @values is now redundant.  In my testing, output of
+   qemu-system-x86_64's query-qmp-schema grows by 11% (18.5KiB).
 
-v3:
-* PATCH 1+2: Update qapi-code-gen.rst [Kevin, Eric]
-* PATCH 4: Commit message typo [Eric], doc update moved to PATCH 2
-* PATCH 5: Doc comment FIXME resolved [Kevin]
+   We can deprecate @values now and drop it later.  This will break
+   outmoded clients.  Well-behaved clients such as libvirt are
+   expected to break cleanly.
 
-v2:
-* Rebased with straightforward conflicts.
-* PATCH 1-4: No longer RFC.
-* PATCH 1: "Since" information fixed [Eric].  Commit message updated
-  to reflect feedback.
-* PATCH 2: Commit message amended to point out special feature flag
- 'deprecated' is ignored at this stage.
-* PATCH 4: Documentation updated.  Commit message tweaked.
+2. Like 1, but omit "boring" elements of @member, and empty @member.
 
-Markus Armbruster (5):
-  qapi: Enable enum member introspection to show more than name
-  qapi: Add feature flags to enum members
-  qapi: Move compat policy from QObject to generic visitor
-  qapi: Implement deprecated-input={reject,crash} for enum values
-  block: Deprecate transaction type drive-backup
+   @values does not become redundant.  @members augments it.  Somewhat
+   cumbersome, but output of query-qmp-schema grows only as we make
+   enum members non-boring.
 
- docs/devel/qapi-code-gen.rst                  | 29 ++++++++++++++-----
- qapi/compat.json                              |  3 ++
- qapi/introspect.json                          | 24 +++++++++++++--
- qapi/transaction.json                         |  6 +++-
- include/qapi/qobject-input-visitor.h          |  4 ---
- include/qapi/qobject-output-visitor.h         |  4 ---
- include/qapi/util.h                           |  6 +++-
- include/qapi/visitor-impl.h                   |  3 ++
- include/qapi/visitor.h                        |  9 ++++++
- qapi/qapi-visit-core.c                        | 27 +++++++++++++++--
- qapi/qmp-dispatch.c                           |  4 +--
- qapi/qobject-input-visitor.c                  | 14 +--------
- qapi/qobject-output-visitor.c                 | 14 +--------
- scripts/qapi/expr.py                          |  3 +-
- scripts/qapi/introspect.py                    | 19 +++++++++---
- scripts/qapi/schema.py                        | 22 ++++++++++++--
- scripts/qapi/types.py                         | 17 ++++++++++-
- tests/qapi-schema/doc-good.json               |  5 +++-
- tests/qapi-schema/doc-good.out                |  3 ++
- tests/qapi-schema/doc-good.txt                |  3 ++
- .../qapi-schema/enum-dict-member-unknown.err  |  2 +-
- tests/qapi-schema/qapi-schema-test.json       |  3 +-
- tests/qapi-schema/qapi-schema-test.out        |  1 +
- tests/qapi-schema/test-qapi.py                |  1 +
- 24 files changed, 164 insertions(+), 62 deletions(-)
+   There is nothing to deprecate here.
 
+3. Versioned query-qmp-schema.
+
+   query-qmp-schema provides either @values or @members.  The QMP
+   client can select which version it wants.  There is no redundant
+   output.
+
+   We can deprecate old versions and eventually drop them.  This will
+   break outmoded clients.  Breaking cleanly is easier than for 1.
+
+   While 1 and 2 operate within the common rules for compatible
+   evolution apply (section "Compatibility considerations" in
+   docs/devel/qapi-code-gen.rst), 3 bypasses them.  Attractive when
+   operating within the rules is just too awkward.  Not the case here.
+
+This commit implements 1.  Libvirt developers prefer it.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Tested-by: Peter Krempa <pkrempa@redhat.com>
+Acked-by: Peter Krempa <pkrempa@redhat.com>
+---
+ docs/devel/qapi-code-gen.rst | 15 +++++++++++----
+ qapi/introspect.json         | 21 +++++++++++++++++++--
+ scripts/qapi/introspect.py   | 18 ++++++++++++++----
+ 3 files changed, 44 insertions(+), 10 deletions(-)
+
+diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+index b2569de486..d267889d2c 100644
+--- a/docs/devel/qapi-code-gen.rst
++++ b/docs/devel/qapi-code-gen.rst
+@@ -1231,14 +1231,21 @@ Example: the SchemaInfo for ['str'] ::
+       "element-type": "str" }
+ 
+ The SchemaInfo for an enumeration type has meta-type "enum" and
+-variant member "values".  The values are listed in no particular
+-order; clients must search the entire enum when learning whether a
+-particular value is supported.
++variant member "members".
++
++"members" is a JSON array describing the enumeration values.  Each
++element is a JSON object with member "name" (the member's name).  The
++"members" array is in no particular order; clients must search the
++entire array when learning whether a particular value is supported.
+ 
+ Example: the SchemaInfo for MyEnum from section `Enumeration types`_ ::
+ 
+     { "name": "MyEnum", "meta-type": "enum",
+-      "values": [ "value1", "value2", "value3" ] }
++      "members": [
++        { "name": "value1" },
++        { "name": "value2" },
++        { "name": "value3" }
++      ] }
+ 
+ The SchemaInfo for a built-in type has the same name as the type in
+ the QAPI schema (see section `Built-in Types`_), with one exception
+diff --git a/qapi/introspect.json b/qapi/introspect.json
+index 39bd303778..f806bd7281 100644
+--- a/qapi/introspect.json
++++ b/qapi/introspect.json
+@@ -142,14 +142,31 @@
+ #
+ # Additional SchemaInfo members for meta-type 'enum'.
+ #
+-# @values: the enumeration type's values, in no particular order.
++# @members: the enum type's members, in no particular order
++#           (since 6.2).
++#
++# @values: the enumeration type's member names, in no particular order.
++#          Redundant with @members.  Just for backward compatibility.
+ #
+ # Values of this type are JSON string on the wire.
+ #
+ # Since: 2.5
+ ##
+ { 'struct': 'SchemaInfoEnum',
+-  'data': { 'values': ['str'] } }
++  'data': { 'members': [ 'SchemaInfoEnumMember' ],
++            'values': ['str'] } }
++
++##
++# @SchemaInfoEnumMember:
++#
++# An object member.
++#
++# @name: the member's name, as defined in the QAPI schema.
++#
++# Since: 6.2
++##
++{ 'struct': 'SchemaInfoEnumMember',
++  'data': { 'name': 'str' } }
+ 
+ ##
+ # @SchemaInfoArray:
+diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+index 4c079ee627..6334546363 100644
+--- a/scripts/qapi/introspect.py
++++ b/scripts/qapi/introspect.py
+@@ -68,6 +68,7 @@
+ # TypedDict constructs, so they are broadly typed here as simple
+ # Python Dicts.
+ SchemaInfo = Dict[str, object]
++SchemaInfoEnumMember = Dict[str, object]
+ SchemaInfoObject = Dict[str, object]
+ SchemaInfoObjectVariant = Dict[str, object]
+ SchemaInfoObjectMember = Dict[str, object]
+@@ -274,8 +275,16 @@ def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
+             obj['features'] = self._gen_features(features)
+         self._trees.append(Annotated(obj, ifcond, comment))
+ 
+-    def _gen_member(self, member: QAPISchemaObjectTypeMember
+-                    ) -> Annotated[SchemaInfoObjectMember]:
++    @staticmethod
++    def _gen_enum_member(member: QAPISchemaEnumMember
++                         ) -> Annotated[SchemaInfoEnumMember]:
++        obj: SchemaInfoEnumMember = {
++            'name': member.name,
++        }
++        return Annotated(obj, member.ifcond)
++
++    def _gen_object_member(self, member: QAPISchemaObjectTypeMember
++                           ) -> Annotated[SchemaInfoObjectMember]:
+         obj: SchemaInfoObjectMember = {
+             'name': member.name,
+             'type': self._use_type(member.type)
+@@ -305,7 +314,8 @@ def visit_enum_type(self, name: str, info: Optional[QAPISourceInfo],
+                         prefix: Optional[str]) -> None:
+         self._gen_tree(
+             name, 'enum',
+-            {'values': [Annotated(m.name, m.ifcond) for m in members]},
++            {'members': [self._gen_enum_member(m) for m in members],
++             'values': [Annotated(m.name, m.ifcond) for m in members]},
+             ifcond, features
+         )
+ 
+@@ -322,7 +332,7 @@ def visit_object_type_flat(self, name: str, info: Optional[QAPISourceInfo],
+                                members: List[QAPISchemaObjectTypeMember],
+                                variants: Optional[QAPISchemaVariants]) -> None:
+         obj: SchemaInfoObject = {
+-            'members': [self._gen_member(m) for m in members]
++            'members': [self._gen_object_member(m) for m in members]
+         }
+         if variants:
+             obj['tag'] = variants.tag_member.name
 -- 
 2.31.1
 
