@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF291435EF9
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 12:23:06 +0200 (CEST)
-Received: from localhost ([::1]:46710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FEE0435EFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 12:27:03 +0200 (CEST)
+Received: from localhost ([::1]:51740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdVE1-0005UU-U4
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 06:23:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59206)
+	id 1mdVHq-0000Vp-9V
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 06:27:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdVBc-00030U-88
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:20:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39375)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdVBu-00036Z-1Q
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:20:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdVBa-0002SC-6E
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:20:35 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdVBm-0002aA-B1
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:20:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634811633;
+ s=mimecast20190719; t=1634811641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qlNzPqw6ia8B6tlqqTBvPygeeTCyKs53LLdUY+T5TdI=;
- b=VpivVRFPkkeQdvYIU1UkqCtgMiVyfSpkBClC/bS5qADSEbgKn97GQOloU0POkQtPwZVDcX
- J0J5TakhYTZCq/pSPwb2l1Se47hC9c1ccI2aSaw/fR4Wltc/LZobFl4cceqtpX6ynaN6NS
- cbGrTNnotQd2qf8nv4R2mY7/Zr9tjMk=
+ bh=TDuE6wB+NhgVZWT1yd+7ld8eNMlPXfVnsXRFVQ7a3Y8=;
+ b=ZKALCSNfnhoVCzdidp6LSFqNxlAHHTS+W/oDX8N5mJVmBqN8YX5iB+2w3jN0rnS851Ve1T
+ 7Aq3gdjdMEiqT1NDy5K3I+zkVAZ/hDWiOa+KJFze7R6uMT8pzDCnU4SuNqrFx6Po4Wfcfl
+ fxXSY0ZjSbt87u3KQ8wxg9Im5b997bI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-jbzRJABLOBqoyK-ssD9mmw-1; Thu, 21 Oct 2021 06:20:30 -0400
-X-MC-Unique: jbzRJABLOBqoyK-ssD9mmw-1
+ us-mta-599-TZqXkbhSMFSEe9CnVbucAQ-1; Thu, 21 Oct 2021 06:20:39 -0400
+X-MC-Unique: TZqXkbhSMFSEe9CnVbucAQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E85891271;
- Thu, 21 Oct 2021 10:20:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61B769126B;
+ Thu, 21 Oct 2021 10:20:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0851760C0F;
- Thu, 21 Oct 2021 10:20:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2566F60CC3;
+ Thu, 21 Oct 2021 10:20:25 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6401511380C3; Thu, 21 Oct 2021 12:20:01 +0200 (CEST)
+ id 696C811380CA; Thu, 21 Oct 2021 12:20:01 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/5] qapi: Implement deprecated-input={reject,
- crash} for enum values
-Date: Thu, 21 Oct 2021 12:20:00 +0200
-Message-Id: <20211021102001.803780-5-armbru@redhat.com>
+Subject: [PATCH RFC v3 5/5] block: Deprecate transaction type drive-backup
+Date: Thu, 21 Oct 2021 12:20:01 +0200
+Message-Id: <20211021102001.803780-6-armbru@redhat.com>
 In-Reply-To: <20211021102001.803780-1-armbru@redhat.com>
 References: <20211021102001.803780-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -86,134 +85,55 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This copies the code implementing the policy from qapi/qmp-dispatch.c
-to qapi/qobject-input-visitor.c.  Tolerable, but if we acquire more
-copies, we should look into factoring them out.
+Several moons ago, Vladimir posted
+
+    Subject: [PATCH v2 3/3] qapi: deprecate drive-backup
+    Date: Wed,  5 May 2021 16:58:03 +0300
+    Message-Id: <20210505135803.67896-4-vsementsov@virtuozzo.com>
+    https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01394.html
+
+with this
+
+    TODO: We also need to deprecate drive-backup transaction action..
+    But union members in QAPI doesn't support 'deprecated' feature. I tried
+    to dig a bit, but failed :/ Markus, could you please help with it? At
+    least by advice?
+
+This is one way to resolve it.  Sorry it took so long.
+
+John explored another way, namely adding feature flags to union
+branches.  Could also be useful, say to add different features to
+branches in multiple unions sharing the same tag enum.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Tested-by: Peter Krempa <pkrempa@redhat.com>
-Acked-by: Peter Krempa <pkrempa@redhat.com>
 ---
- qapi/compat.json       |  3 ++-
- include/qapi/util.h    |  6 +++++-
- qapi/qapi-visit-core.c | 18 +++++++++++++++---
- scripts/qapi/types.py  | 17 ++++++++++++++++-
- 4 files changed, 38 insertions(+), 6 deletions(-)
+ qapi/transaction.json | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/compat.json b/qapi/compat.json
-index 1d2b76f00c..74a8493d3d 100644
---- a/qapi/compat.json
-+++ b/qapi/compat.json
-@@ -42,7 +42,8 @@
- # with feature 'deprecated'.  We may want to extend it to cover
- # semantic aspects, CLI, and experimental features.
+diff --git a/qapi/transaction.json b/qapi/transaction.json
+index d175b5f863..381a2df782 100644
+--- a/qapi/transaction.json
++++ b/qapi/transaction.json
+@@ -54,6 +54,10 @@
+ # @blockdev-snapshot-sync: since 1.1
+ # @drive-backup: Since 1.6
  #
--# Limitation: not implemented for deprecated enumeration values.
-+# Limitation: deprecated-output policy @hide is not implemented for
-+# enumeration values.  They behave the same as with policy @accept.
- #
- # @deprecated-input: how to handle deprecated input (default 'accept')
- # @deprecated-output: how to handle deprecated output (default 'accept')
-diff --git a/include/qapi/util.h b/include/qapi/util.h
-index d7bfb30e25..257c600f99 100644
---- a/include/qapi/util.h
-+++ b/include/qapi/util.h
-@@ -11,9 +11,13 @@
- #ifndef QAPI_UTIL_H
- #define QAPI_UTIL_H
++# Features:
++# @deprecated: Member @drive-backup is deprecated.  Use member
++#              @blockdev-backup instead.
++#
+ # Since: 1.1
+ ##
+ { 'enum': 'TransactionActionKind',
+@@ -62,7 +66,7 @@
+             'block-dirty-bitmap-disable', 'block-dirty-bitmap-merge',
+             'blockdev-backup', 'blockdev-snapshot',
+             'blockdev-snapshot-internal-sync', 'blockdev-snapshot-sync',
+-            'drive-backup' ] }
++            { 'name': 'drive-backup', 'features': [ 'deprecated' ] } ] }
  
-+/* QEnumLookup flags */
-+#define QAPI_ENUM_DEPRECATED 1
-+
- typedef struct QEnumLookup {
-     const char *const *array;
--    int size;
-+    const unsigned char *const flags;
-+    const int size;
- } QEnumLookup;
- 
- const char *qapi_enum_lookup(const QEnumLookup *lookup, int val);
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index 066f77a26d..49136ae88e 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -393,7 +393,7 @@ static bool input_type_enum(Visitor *v, const char *name, int *obj,
-                             const QEnumLookup *lookup, Error **errp)
- {
-     int64_t value;
--    char *enum_str;
-+    g_autofree char *enum_str = NULL;
- 
-     if (!visit_type_str(v, name, &enum_str, errp)) {
-         return false;
-@@ -402,11 +402,23 @@ static bool input_type_enum(Visitor *v, const char *name, int *obj,
-     value = qapi_enum_parse(lookup, enum_str, -1, NULL);
-     if (value < 0) {
-         error_setg(errp, QERR_INVALID_PARAMETER, enum_str);
--        g_free(enum_str);
-         return false;
-     }
- 
--    g_free(enum_str);
-+    if (lookup->flags && (lookup->flags[value] & QAPI_ENUM_DEPRECATED)) {
-+        switch (v->compat_policy.deprecated_input) {
-+        case COMPAT_POLICY_INPUT_ACCEPT:
-+            break;
-+        case COMPAT_POLICY_INPUT_REJECT:
-+            error_setg(errp, "Deprecated value '%s' disabled by policy",
-+                       enum_str);
-+            return false;
-+        case COMPAT_POLICY_INPUT_CRASH:
-+        default:
-+            abort();
-+        }
-+    }
-+
-     *obj = value;
-     return true;
- }
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index 831294fe42..ab2441adc9 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -38,6 +38,8 @@
- def gen_enum_lookup(name: str,
-                     members: List[QAPISchemaEnumMember],
-                     prefix: Optional[str] = None) -> str:
-+    max_index = c_enum_const(name, '_MAX', prefix)
-+    flags = ''
-     ret = mcgen('''
- 
- const QEnumLookup %(c_name)s_lookup = {
-@@ -52,13 +54,26 @@ def gen_enum_lookup(name: str,
- ''',
-                      index=index, name=memb.name)
-         ret += memb.ifcond.gen_endif()
-+        if 'deprecated' in (f.name for f in memb.features):
-+            flags += mcgen('''
-+        [%(index)s] = QAPI_ENUM_DEPRECATED,
-+''',
-+                           index=index)
-+
-+    if flags:
-+        ret += mcgen('''
-+    },
-+    .flags = (const unsigned char[%(max_index)s]) {
-+''',
-+                     max_index=max_index)
-+        ret += flags
- 
-     ret += mcgen('''
-     },
-     .size = %(max_index)s
- };
- ''',
--                 max_index=c_enum_const(name, '_MAX', prefix))
-+                 max_index=max_index)
-     return ret
- 
- 
+ ##
+ # @AbortWrapper:
 -- 
 2.31.1
 
