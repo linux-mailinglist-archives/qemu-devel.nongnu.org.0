@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72290436B40
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 21:21:21 +0200 (CEST)
-Received: from localhost ([::1]:60624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81CDA436B45
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 21:22:01 +0200 (CEST)
+Received: from localhost ([::1]:34046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mddcu-0007Tn-29
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 15:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56308)
+	id 1mdddY-0000FY-KJ
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 15:22:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mddZb-0004kf-FX
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 15:17:56 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:43886)
+ id 1mddbK-0006gN-Q8
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 15:19:42 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:43600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mddZY-0004dZ-8B
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 15:17:55 -0400
-Received: by mail-pl1-x632.google.com with SMTP id y1so1085055plk.10
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 12:17:51 -0700 (PDT)
+ id 1mddbJ-00067r-3w
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 15:19:42 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ e5-20020a17090a804500b001a116ad95caso1312580pjw.2
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 12:19:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CZDVbEOBz3H+krrc3O9iH66vm8nNa/jKcitNvsoDL1U=;
- b=xdXLqpEnA+SKwaUV2L5l9LPi+G1XvLLBsL2n61uVAkZkp6qt605ly9tv6fA3W7yKyS
- ejB91c6ejcNVQP8f2ZfCnOeMbcQveej+yBsBRh2ghzZtoqzfS5Fj0VcVEuFarNKJlLqf
- RJE8f3MV7euHYLW632eWf8mvHcOkvbXXjXiebIWaNNtJTI8cPLCNBbtxwyrRE23aK7dn
- +rzASYnlWr8X223geIaA27h1Z7tipoSE/UNvVffYPRl4SD47VZQvlnAZQurPNy9tUx5a
- cmDQbd3nvROgh34m/wK7JmIsmJHT6586yg2bY7UquwmwHfw8trHLTs1UHTuqi6qWBA2R
- 0N5Q==
+ h=subject:from:to:references:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=TFpPC7YN2KrYbfN0XEh+ekZ4ofGcnFkKniDPDuURfrM=;
+ b=tYTg1P+HUbiX2xIIX67NkNJAhSVdr6oVKa4UheuuvqmX7bzYlpv/4gHswdjiur9Z+v
+ ddTL1SMjgKMN9OyI4Ky9qmznLsgmQ2Jg2D5zrXw6ocWOnLVDxPVSOIWnInE2CWqQL6RR
+ yZCk2uaDwPgJzGbGISNjvo4VxJfhxoAKl54RbzXd7tm7AOpEI56xeyYLXcLQ36/LqwcA
+ NUPB0xthw2/6IduaakuiYm8zoHrrXEAPPmxGZH6dwU6P2h846IyhqcvXJamCTTEw6ffi
+ 4juOiRCGdU4OMBd2UGPReStB2Wur+2InY7dw/TiXT6Hiqecqn8A4y5Hd45Zmtby2u1/r
+ Fnxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=CZDVbEOBz3H+krrc3O9iH66vm8nNa/jKcitNvsoDL1U=;
- b=xxDWrgbFJ5lWbdKO6AwP2+oSrqCO99XfrX4Zy5vy2gFIyyYuexwsW02FY5VZhUKgog
- orS3K67wVzjAr3c5yMSRJZBX8s8/ROQGN1y3rNv3rUwAWgKEZUPxSICwuEZlUdqMQLHk
- I6ij6jzRuYZ1+T8lbUGxTKYoqtxcOMATP3qO8huRN2yODhzwDkQTAfQriAB02G2tBlZ4
- rCtvLPuNyrJ6lJtK0XCZYyiWfevD37tMx2HkAnB+Wjgzubuil3kFumQEOE5MX6v91l4/
- b8QQfJksUTZVExrGpSI3JAZPJdxdQizvoezljsmsvWb+nENReSup6qOaI43AmBBZhzne
- xCEA==
-X-Gm-Message-State: AOAM531koIHWH1Rd9UmqOui8DldcSrkbtpxk2VolGW4j7zwi9J+dpJK6
- I0yOU20zrnJ2TqOVHgFek0HqXw==
-X-Google-Smtp-Source: ABdhPJwkc/jKgbrOb634bYNdcAmmBO+f8qGXfJcze0Kh1HmcAGt1M9doFi5BpkmapdkOkpRyTitUjA==
-X-Received: by 2002:a17:90b:2382:: with SMTP id
- mr2mr9009701pjb.186.1634843869743; 
- Thu, 21 Oct 2021 12:17:49 -0700 (PDT)
+ bh=TFpPC7YN2KrYbfN0XEh+ekZ4ofGcnFkKniDPDuURfrM=;
+ b=hahlRBzcrLyK5NKxaIg3FezY5DqmsRkrvk2OEfN2Yyj7IBvb8cTwJV9UDCY6IDiNJr
+ 6/7I5cCHdZhoYZKqoStUAmJ3bqw0nHkYJeDstJVqKZVbSpVUhgkG0Y9DuoukwG7yNAgY
+ tVSGQd7Ed9qcpXe0UE2V5pJu9XMVCM5YKMriWPtPJUxsqe78/sAvmEyyd62LvAEO/OJV
+ Xa20ctkQbB1gdVQB17rcb0QqG4/Igr/TCrujr3TXliozAczHMR6Qo1fkcjn5HACH/Wp/
+ o21NBcDgDORgwPMzKFf8lWpn9M4vkEjuPFcTdeXDRCeL5ogup+5KsxgTsGMRPMhGY56Z
+ 5iMQ==
+X-Gm-Message-State: AOAM5322Apw9pjmvuKpOysJiBY0SCJDT473VSrxWxDDD8dFnajFEQjRa
+ f1O3vwb9a3dFyYKmShk+2xmX+RnhHnY1Zg==
+X-Google-Smtp-Source: ABdhPJws5meTwt9E3aeegwpULRAPp1jBMv+6lkaMHhZO8Ne3Ougiq8eoMutg5Xshsx0q6/kXOItnvw==
+X-Received: by 2002:a17:902:b691:b029:12d:2b6:d116 with SMTP id
+ c17-20020a170902b691b029012d02b6d116mr6778454pls.71.1634843979527; 
+ Thu, 21 Oct 2021 12:19:39 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id nn10sm11086133pjb.46.2021.10.21.12.17.48
+ by smtp.gmail.com with ESMTPSA id y3sm6863593pfo.188.2021.10.21.12.19.39
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Oct 2021 12:17:49 -0700 (PDT)
-Subject: Re: [RFC PATCH v1 2/2] Enable custom instruction suport for Andes A25
- and AX25 CPU model
-To: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>, alistair23@gmail.com,
- wangjunqiang@iscas.ac.cn, bmeng.cn@gmail.com
-References: <20211021151136.721746-1-ruinland@andestech.com>
- <20211021151136.721746-2-ruinland@andestech.com>
+ Thu, 21 Oct 2021 12:19:39 -0700 (PDT)
+Subject: Re: [PULL 00/19] target/arm patch queue
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <00563f20-1867-6a4e-e9ea-a33ff85f058e@linaro.org>
-Date: Thu, 21 Oct 2021 12:17:47 -0700
+To: qemu-devel@nongnu.org
+References: <20211021152541.781175-1-richard.henderson@linaro.org>
+Message-ID: <e6db062f-fe08-686a-aa93-ef3990965092@linaro.org>
+Date: Thu, 21 Oct 2021 12:19:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211021151136.721746-2-ruinland@andestech.com>
+In-Reply-To: <20211021152541.781175-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -90,288 +89,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, dylan@andestech.com, ycliang@andestech.com,
- qemu-devel@nongnu.org, alankao@andestech.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/21/21 8:11 AM, Ruinland Chuan-Tzu Tsai wrote:
-> In this patch, we demonstrate how Andes Performance Extension(c) insn :
-> bfos and bfoz could be used with Andes CoDense : exec.it.
+On 10/21/21 8:25 AM, Richard Henderson wrote:
+> The following changes since commit afc9fcde55296b83f659de9da3cdf044812a6eeb:
 > 
-> By doing so, an Andes vendor designed CSR : uitb must be used.
+>    Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2021-10-20 06:10:51 -0700)
 > 
-> Signed-off-by: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>
-> ---
->   target/riscv/andes_codense.decode         |  23 +++++
->   target/riscv/andes_custom_rv32.decode     |  27 +++++
->   target/riscv/andes_custom_rv64.decode     |  27 +++++
->   target/riscv/andes_helper.c               |  49 +++++++++
->   target/riscv/andes_helper.h               |   1 +
->   target/riscv/cpu.c                        |   8 ++
->   target/riscv/helper.h                     |   2 +
->   target/riscv/insn_trans/trans_andes.c.inc | 115 ++++++++++++++++++++++
->   target/riscv/meson.build                  |  13 +++
->   target/riscv/translate.c                  |  12 +++
->   10 files changed, 277 insertions(+)
->   create mode 100644 target/riscv/andes_codense.decode
->   create mode 100644 target/riscv/andes_custom_rv32.decode
->   create mode 100644 target/riscv/andes_custom_rv64.decode
->   create mode 100644 target/riscv/andes_helper.c
->   create mode 100644 target/riscv/andes_helper.h
->   create mode 100644 target/riscv/insn_trans/trans_andes.c.inc
+> are available in the Git repository at:
 > 
-> diff --git a/target/riscv/andes_codense.decode b/target/riscv/andes_codense.decode
-> new file mode 100644
-> index 0000000000..639d22ac67
-> --- /dev/null
-> +++ b/target/riscv/andes_codense.decode
-> @@ -0,0 +1,23 @@
-> +#
-> +# RISC-V translation routines for the RVXI Base Integer Instruction Set.
-> +#
-> +# Copyright (c) 2018 Peer Adelt, peer.adelt@hni.uni-paderborn.de
-> +#                    Bastian Koppelmann, kbastian@mail.uni-paderborn.de
-> +#
-> +# This program is free software; you can redistribute it and/or modify it
-> +# under the terms and conditions of the GNU General Public License,
-> +# version 2 or later, as published by the Free Software Foundation.
-> +#
-> +# This program is distributed in the hope it will be useful, but WITHOUT
-> +# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> +# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> +# more details.
-> +#
-> +# You should have received a copy of the GNU General Public License along with
-> +# this program.  If not, see <http://www.gnu.org/licenses/>.
-> +
-> +
-> +%imm_ex10 8:s1 12:1 3:1 9:1 5:2 2:1 10:2 4:1
-> +&codense imm_codense
-> +@ex10     ... .... . . ..... .. &codense imm_codense=%imm_ex10
-> +execit    100 .... . 0 ..... 00 @ex10
+>    https://gitlab.com/rth7680/qemu.git tags/pull-arm-20211021
+> 
+> for you to fetch changes up to f801789ff00f457044dcd91323316dbde42578d1:
+> 
+>    tests/data/acpi/virt: Update the empty expected file for PPTT (2021-10-21 08:04:15 -0700)
+> 
+> ----------------------------------------------------------------
+> Introduce cpu topology support
+> Generate DBG2 table
+> Switch to ssize_t for elf loader return type
+> Fixed sbsa cpu type error message typo
+> Only initialize required submodules for edk2
+> Dont create device-tree node for empty NUMA node
+> 
+> ----------------------------------------------------------------
+> Andrew Jones (2):
+>        hw/arm/virt: Add cpu-map to device tree
+>        hw/acpi/aml-build: Add PPTT table
+> 
+> Eric Auger (6):
+>        tests/acpi: Get prepared for IORT E.b revision upgrade
+>        hw/arm/virt-acpi-build: IORT upgrade up to revision E.b
+>        tests/acpi: Generate reference blob for IORT rev E.b
+>        tests/acpi: Add void table for virt/DBG2 bios-tables-test
+>        hw/arm/virt_acpi_build: Generate DBG2 table
+>        bios-tables-test: Generate reference table for virt/DBG2
+> 
+> Gavin Shan (1):
+>        hw/arm/virt: Don't create device-tree node for empty NUMA node
+> 
+> Luc Michel (1):
+>        hw/elf_ops.h: switch to ssize_t for elf loader return type
+> 
+> Philippe Mathieu-Daudé (2):
+>        roms/edk2: Only init brotli submodule to build BaseTools
+>        roms/edk2: Only initialize required submodules
+> 
+> Shuuichirou Ishii (1):
+>        hw/arm/sbsa-ref: Fixed cpu type error message typo.
+> 
+> Yanan Wang (6):
+>        hw/arm/virt: Only describe cpu topology since virt-6.2
+>        device_tree: Add qemu_fdt_add_path
+>        hw/acpi/aml-build: Add Processor hierarchy node structure
+>        tests/data/acpi/virt: Add an empty expected file for PPTT
+>        hw/arm/virt-acpi-build: Generate PPTT table
+>        tests/data/acpi/virt: Update the empty expected file for PPTT
+> 
+>   include/hw/acpi/aml-build.h       |   3 +
+>   include/hw/arm/virt.h             |   4 +-
+>   include/hw/elf_ops.h              |  27 ++++-----
+>   include/hw/loader.h               |  58 +++++++++----------
+>   include/sysemu/device_tree.h      |   1 +
+>   hw/acpi/aml-build.c               |  89 +++++++++++++++++++++++++++++
+>   hw/arm/boot.c                     |  13 +++++
+>   hw/arm/sbsa-ref.c                 |   2 +-
+>   hw/arm/virt-acpi-build.c          | 117 +++++++++++++++++++++++++++++++-------
+>   hw/arm/virt.c                     |  71 +++++++++++++++++++----
+>   hw/core/loader.c                  |  60 +++++++++----------
+>   softmmu/device_tree.c             |  44 +++++++++++++-
+>   .gitlab-ci.d/edk2.yml             |   6 +-
+>   roms/Makefile                     |   3 +-
+>   roms/Makefile.edk2                |   7 ++-
+>   scripts/make-release              |   7 ++-
+>   tests/data/acpi/virt/DBG2         | Bin 0 -> 87 bytes
+>   tests/data/acpi/virt/IORT         | Bin 124 -> 128 bytes
+>   tests/data/acpi/virt/IORT.memhp   | Bin 124 -> 128 bytes
+>   tests/data/acpi/virt/IORT.numamem | Bin 124 -> 128 bytes
+>   tests/data/acpi/virt/IORT.pxb     | Bin 124 -> 128 bytes
+>   tests/data/acpi/virt/PPTT         | Bin 0 -> 76 bytes
+>   22 files changed, 403 insertions(+), 109 deletions(-)
+>   create mode 100644 tests/data/acpi/virt/DBG2
+>   create mode 100644 tests/data/acpi/virt/PPTT
 
-It would probably be a bit clearer without the argument set and format, which in this case 
-are used exactly once, so there's no actual savings.
-
-execit    100 ..... 0 ..... 00   imm=%imm_ex10
-
-
-> +++ b/target/riscv/andes_custom_rv32.decode
-...
-> +++ b/target/riscv/andes_custom_rv64.decode
-
-Note that we're moving toward a single riscv64 executable, and so these two files should 
-be combined.  In this case, just taking the rv64 file will work for RV32, with an extra 
-check during translate.
-
-> +# Fields:
-> +%rs1       15:5
-> +%rd        7:5
-> +## Similar to I-Type
-> +%mbfob    26:6
-> +%lbfob    20:6
-> +&i_b mbfob lbfob rs1 rd
-> +@i_bfo    . ..... . ..... ..... ... ..... .......  &i_b %mbfob %lbfob %rs1 %rd
-
-Better as
-
-@i_bfo       msb:6 lsb:6 rs1:5 ... rd:5 .......   &i_bfo
-
-There's quite a lot of riscv code that could be cleaned up like this.
-
-> +++ b/target/riscv/andes_helper.c
-> @@ -0,0 +1,49 @@
-> +#include "qemu/osdep.h"
-
-All new files must have copyright boilerplate.
-That said...
-
-> +#include "cpu.h"
-> +#include "qemu/host-utils.h"
-> +#include "exec/exec-all.h"
-> +#include "exec/helper-proto.h"
-> +#include "fpu/softfloat.h"
-> +#include "internals.h"
-> +typedef int (*test_function)(uint8_t a, uint8_t b);
-> +target_ulong helper_andes_v5_bfo_x(target_ulong rd, target_ulong rs1,
-> +                                   target_ulong insn)
-
-Never pass the instruction to a helper. This is an indication that you should have done 
-more work during translate.
-
-> --- /dev/null
-> +++ b/target/riscv/insn_trans/trans_andes.c.inc
-> @@ -0,0 +1,115 @@
-> +#define GP 3
-
-Again, boilerplate.
-
-> +#define ANDES_V5_CODE_DENSE_MASK (0xe083)
-> +#define ANDES_V5_CODE_DENSE_ID(x) ((x)&ANDES_V5_CODE_DENSE_MASK)
-> +#define ANDES_V5_CODE_DENSE_IMM11(x) (     \
-> +    (extract32(x, 4, 1) << 2) |   \
-> +    (extract32(x, 10, 2) << 3) |  \
-> +    (extract32(x, 2, 1) << 5) |   \
-> +    (extract32(x, 5, 2) << 6) |   \
-> +    (extract32(x, 9, 1) << 8) |   \
-> +    (extract32(x, 3, 1) << 9) |   \
-> +    (extract32(x, 12, 1) << 10) | \
-> +    (extract64(x, 8, 1) << 11) | \
-> +    0)
-> +
-> +#define ANDES_V5_GET_JAL_UIMM(inst) ((extract32(inst, 21, 10) << 1) \
-> +                           | (extract32(inst, 20, 1) << 11) \
-> +                           | (extract32(inst, 12, 8) << 12) \
-> +                           | (extract32(inst, 31, 1) << 20))
-> +
-> +
-> +enum andes_v5_inst_id
-> +{
-> +    /* Code Dense Extension */
-> +    EXEC_IT = (0x8000),
-> +    /* custom 2 */
-> +    BFOS = 0x03,
-> +    BFOZ = 0x02,
-> +};
-
-Left over from something else?
-This all looks like something that should be handled by decodetree.
-
-> +static bool trans_bfos(DisasContext *ctx, arg_bfos *a)
-> +{
-> +    TCGv v0, v1, v2;
-> +    v2 = tcg_const_tl(ctx->opcode);
-> +    v0 = get_gpr(ctx, a->rs1, EXT_NONE);
-> +    v1 = get_gpr(ctx, a->rd, EXT_NONE);
-> +    gen_helper_andes_v5_bfo_x(v1, v1, v0, v2);
-> +    gen_set_gpr(ctx, a->rd, v1);
-> +    tcg_temp_free(v2);
-> +    return true;
-> +}
-> +
-> +static bool trans_bfoz(DisasContext *ctx, arg_bfoz *a)
-> +{
-> +    TCGv v0, v1, v2;
-> +    v2 = tcg_const_tl(ctx->opcode);
-> +    v0 = get_gpr(ctx, a->rs1, EXT_NONE);
-> +    v1 = get_gpr(ctx, a->rd,  EXT_NONE);
-> +    gen_helper_andes_v5_bfo_x(v1, v1, v0, v2);
-> +    gen_set_gpr(ctx, a->rd, v1);
-> +    tcg_temp_free(v2);
-> +    return true;
-> +}
-
-So, you've just passed off everything to the helper.  Not good.
-
-First, these two instructions are so close we add a common helper.
-
-static bool do_bfox(DisasContext *ctx, arg_i_bfo *a, bool is_signed)
-{
-     ...
-}
-
-static bool trans_bfos(DisasContext *ctx, arg_i_bfo *a)
-{
-     return do_bfox(ctx, a, true);
-}
-
-static bool trans_bfoz(DisasContext *ctx, arg_i_bfo *a)
-{
-     return do_bfox(ctx, a, false);
-}
-
-Second, re the RV32/RV64 merge, range check the bits:
-
-     if (a->msb >= get_xlen(ctx) || a->lsb >= get_xlen(ctx)) {
-         return false;
-     }
-
-Third, TCG can easily handle extract/deposit inline:
-
-     dest = dest_gpr(ctx, a->rd);
-     src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-     if (a->msb >= a->lsb) {
-         len = a->msb - a->lsb + 1;
-         if (is_signed) {
-             tcg_gen_sextract_tl(dest, src1, a->lsb, len);
-         } else {
-             tcg_gen_extract_tl(dest, src1, a->lsb, len);
-         }
-     } else {
-         len = a->lsb - a->msb + 1;
-         if (is_signed) {
-             tcg_gen_sextract_tl(dest, src1, 0, len);
-         } else {
-             tcg_gen_extract_tl(dest, src1, 0, len);
-         }
-         tcg_gen_shli_tl(dest, dest, a->msb);
-     }
-     gen_set_gpr(ctx, a->rd, dest);
-
-
-> +static int andes_v5_gen_codense_exec_it(CPURISCVState *env, DisasContext *ctx, arg_execit *a)
-> +{
-> +    uint32_t insn;
-> +    uint32_t imm_ex10 = a->imm_codense;
-> +    target_ulong uitb_val = 0;
-> +    riscv_csrrw(env, 0x800, &uitb_val, 0, 0);
-
-This won't work -- you can't access env during translation.  So all this faff around 
-passing env through HartState is for naught.
-
-Having a look through the rest of this:
-
-> +
-> +    if (extract32(uitb_val, 0, 1)) { /* UTIB.HW == 1 */
-> +        qemu_log_mask(LOG_GUEST_ERROR, "exec.it: UITB.HW == 1 is not supported by now!\n");
-> +        gen_exception_illegal(ctx);
-> +
-> +        uint32_t instruction_table[0];
-> +        insn = instruction_table[imm_ex10 >> 2];
-> +
-> +        return false;
-> +    } else { /* UTIB.HW == 0 */
-> +        target_ulong vaddr = (uitb_val & ~0x3) + (imm_ex10<<2);
-> +        insn = cpu_ldl_code(env, vaddr);
-> +    }
-> +
-> +/*  Execute(insn)
-> + *  do as the replaced instruction, even exceptions,
-> + *  except ctx->pc_succ_insn value (2).
-> + */
-> +        uint32_t op = MASK_OP_MAJOR(insn);
-> +        if (op == OPC_RISC_JAL) {
-> +            /* implement this by hack imm */
-> +            int rd = GET_RD(ctx->opcode);
-> +            target_long imm = ANDES_V5_GET_JAL_UIMM(ctx->opcode);
-> +            target_ulong next_pc = (ctx->base.pc_next >> 21 << 21) | imm;
-> +            imm = next_pc - ctx->base.pc_next;
-> +            gen_jal(ctx, rd, imm);
-> +        } else {
-> +            /* JARL done as SPEC already */
-> +            /* presume ctx->pc_succ_insn not changed in any ISA extension */
-> +            decode_opc_andes(env, ctx, insn);
-> +        }
-> +
-> +    return true;
-> +}
-
-This looks quite a lot like the S390X EXECUTE instruction.  It's hard to suggest exactly 
-how to structure this, because I can't find documentation, and thus the edge cases are 
-unknown.
-
-Because of the .HW check, I would expect all of this do be in a helper function.  The 
-qemu_log_mask would be followed by riscv_raise_exception.
-
-As for the actual execute, I'd suggest following the lead of s390x and utilize the cs_base 
-field of cpu_get_tb_cpu_state to hold the opcode to be executed.  You'd load the opcode in 
-the helper, install the proper state into env, and end the current TranslationBlock.  The 
-next TranslationBlock will find the opcode and decode it in the normal way.
-
-Have a look at target/s390x/tcg/mem_helper.c, HELPER(ex), where we load the opcode and 
-store state.  Then translate.c, extract_insn, where we consume the state.
-
+Applied, thanks.
 
 r~
+
 
