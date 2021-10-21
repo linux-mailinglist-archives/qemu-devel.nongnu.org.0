@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41803436BB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 22:02:12 +0200 (CEST)
-Received: from localhost ([::1]:58866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B61A436BB2
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 22:01:15 +0200 (CEST)
+Received: from localhost ([::1]:56386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdeGR-0004ZY-9A
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 16:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33596)
+	id 1mdeFW-0002qw-3f
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 16:01:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mde2J-0003jh-Pa; Thu, 21 Oct 2021 15:47:36 -0400
+ id 1mde2N-0003lU-Qc; Thu, 21 Oct 2021 15:47:41 -0400
 Received: from [201.28.113.2] (port=10704 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mde2H-0007UN-4j; Thu, 21 Oct 2021 15:47:35 -0400
+ id 1mde2K-0007UN-S7; Thu, 21 Oct 2021 15:47:39 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Thu, 21 Oct 2021 16:46:57 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id F326B800145;
- Thu, 21 Oct 2021 16:46:56 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 5EA0A80012A;
+ Thu, 21 Oct 2021 16:46:57 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH 08/33] target/ppc: Implement cnttzdm
-Date: Thu, 21 Oct 2021 16:45:22 -0300
-Message-Id: <20211021194547.672988-9-matheus.ferst@eldorado.org.br>
+Subject: [PATCH 09/33] target/ppc: Implement pdepd instruction
+Date: Thu, 21 Oct 2021 16:45:23 -0300
+Message-Id: <20211021194547.672988-10-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
 References: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 21 Oct 2021 19:46:57.0467 (UTC)
- FILETIME=[682950B0:01D7C6B4]
+X-OriginalArrivalTime: 21 Oct 2021 19:46:57.0860 (UTC)
+ FILETIME=[68654840:01D7C6B4]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -62,86 +62,84 @@ Cc: lucas.castro@eldorado.org.br, richard.henderson@linaro.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Luis Pires <luis.pires@eldorado.org.br>
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Implement the following PowerISA v3.1 instruction:
-cnttzdm: Count Trailing Zeros Doubleword Under Bit Mask
-
-Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
  target/ppc/helper.h                        |  1 +
  target/ppc/insn32.decode                   |  1 +
- target/ppc/int_helper.c                    | 16 ++++++++++++++++
+ target/ppc/int_helper.c                    | 18 ++++++++++++++++++
  target/ppc/translate/fixedpoint-impl.c.inc | 12 ++++++++++++
- 4 files changed, 30 insertions(+)
+ 4 files changed, 32 insertions(+)
 
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index ee7c82fb60..115bdf474a 100644
+index 115bdf474a..4a87e1258b 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -48,6 +48,7 @@ DEF_HELPER_FLAGS_2(cmpb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- DEF_HELPER_3(sraw, tl, env, tl, tl)
+@@ -49,6 +49,7 @@ DEF_HELPER_3(sraw, tl, env, tl, tl)
  DEF_HELPER_FLAGS_2(cfuged, TCG_CALL_NO_RWG_SE, i64, i64, i64)
  DEF_HELPER_FLAGS_2(CNTLZDM, TCG_CALL_NO_RWG_SE, i64, i64, i64)
-+DEF_HELPER_FLAGS_2(CNTTZDM, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+ DEF_HELPER_FLAGS_2(CNTTZDM, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(PDEPD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
  #if defined(TARGET_PPC64)
  DEF_HELPER_FLAGS_2(cmpeqb, TCG_CALL_NO_RWG_SE, i32, tl, tl)
  DEF_HELPER_FLAGS_1(popcntw, TCG_CALL_NO_RWG_SE, tl, tl)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 221cb00dd6..3d692e9e6a 100644
+index 3d692e9e6a..ff70b3e863 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -204,6 +204,7 @@ ADDPCIS         010011 ..... ..... .......... 00010 .   @DX
- 
+@@ -205,6 +205,7 @@ ADDPCIS         010011 ..... ..... .......... 00010 .   @DX
  CFUGED          011111 ..... ..... ..... 0011011100 -   @X
  CNTLZDM         011111 ..... ..... ..... 0000111011 -   @X
-+CNTTZDM         011111 ..... ..... ..... 1000111011 -   @X
+ CNTTZDM         011111 ..... ..... ..... 1000111011 -   @X
++PDEPD           011111 ..... ..... ..... 0010011100 -   @X
  
  ### Float-Point Load Instructions
  
 diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index dcef356034..efda78ed8e 100644
+index efda78ed8e..ba8ff1a475 100644
 --- a/target/ppc/int_helper.c
 +++ b/target/ppc/int_helper.c
-@@ -404,6 +404,22 @@ uint64_t helper_CNTLZDM(uint64_t src, uint64_t mask)
+@@ -420,6 +420,24 @@ uint64_t helper_CNTTZDM(uint64_t src, uint64_t mask)
      return count;
  }
  
-+uint64_t helper_CNTTZDM(uint64_t src, uint64_t mask)
++uint64_t helper_PDEPD(uint64_t src, uint64_t mask)
 +{
-+    uint64_t count = 0;
++    int i, o;
++    uint64_t result = 0;
 +
-+    while (mask != 0) {
-+        if ((src >> ctz64(mask)) & 1) {
-+            break;
-+        }
-+
-+        count++;
-+        mask &= mask - 1;
++    if (mask == -1) {
++        return src;
 +    }
 +
-+    return count;
++    for (i = 0; mask != 0; i++) {
++        o = ctz64(mask);
++        mask &= mask - 1;
++        result |= ((src >> i) & 1) << o;
++    }
++
++    return result;
 +}
 +
  /*****************************************************************************/
  /* PowerPC 601 specific instructions (POWER bridge) */
  target_ulong helper_div(CPUPPCState *env, target_ulong arg1, target_ulong arg2)
 diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index 814fef2782..8c66fca96a 100644
+index 8c66fca96a..c86b4621b8 100644
 --- a/target/ppc/translate/fixedpoint-impl.c.inc
 +++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -427,3 +427,15 @@ static bool trans_CNTLZDM(DisasContext *ctx, arg_X *a)
+@@ -439,3 +439,15 @@ static bool trans_CNTTZDM(DisasContext *ctx, arg_X *a)
  #endif
      return true;
  }
 +
-+static bool trans_CNTTZDM(DisasContext *ctx, arg_X *a)
++static bool trans_PDEPD(DisasContext *ctx, arg_X *a)
 +{
 +    REQUIRE_64BIT(ctx);
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +#if defined(TARGET_PPC64)
-+    gen_helper_CNTTZDM(cpu_gpr[a->ra], cpu_gpr[a->rt], cpu_gpr[a->rb]);
++    gen_helper_PDEPD(cpu_gpr[a->ra], cpu_gpr[a->rt], cpu_gpr[a->rb]);
 +#else
 +    qemu_build_not_reached();
 +#endif
