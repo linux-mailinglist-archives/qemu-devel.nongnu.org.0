@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 647E14364AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 16:48:12 +0200 (CEST)
-Received: from localhost ([::1]:60202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D634364C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 16:51:27 +0200 (CEST)
+Received: from localhost ([::1]:36644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdZMY-0008CM-Sz
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 10:48:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47014)
+	id 1mdZPh-00030F-6U
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 10:51:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mdZKF-0006hL-Gl
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 10:45:47 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:56152)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdZMv-0001KI-RH
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 10:48:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mdZKC-0001WO-8S
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 10:45:47 -0400
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdZMq-00069o-6r
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 10:48:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634827706;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/30n6FzWouTq3vTyM7a5C1u2jGShyBvKIXk03n/PnVU=;
+ b=H7yQoDTQmRq+uBYSatE4jgD0NHABBoGhycpFmG/zAutc5i5XKf/Ugr6lENqWstSho2RcEZ
+ R2x/XS5F6fRv3xXhLdyOOp7rsLkzaCtvnUZmIWezhIfC3iHYXLMyXvs+TPNXXzdtlGSO68
+ Sio3BIchDYWGJ+u1BI4J+AEU3VzCstA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-175-jvXwudw-Msaou25Jd4dojA-1; Thu, 21 Oct 2021 10:48:23 -0400
+X-MC-Unique: jvXwudw-Msaou25Jd4dojA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id CE4BF40344
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 14:45:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1634827539;
- bh=4Q8tIDd/c1J0yDR65C90ktkBldk4K4ImQ8iKxcA9Vhg=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=KLeoXVt7XHpx1A8Pqu5w4o5y0Trw+eOjlI0BShZhsrzGgFqW7O3BIfmvYPHOnvTdi
- Rc3y0TRtizyL3Qzn+mPVjpIALaGEAZqxtALx8EgkaDMxRiGZGtkcbDJUDnui9N357w
- 07dkyHBsGCyuCZsOmcVW2Boh9ERcBFYWblT1MEn4datGQjgUueK0vrH/X2i/zR+2K+
- lZppgFPbVleoETnqtr70A5beZEPUqJNGAvp546mgaobPHrI/I7ikf/SjAxePRyvcq1
- urnkc+P4CbFLNH8844s+ZSWAcns3LGOSap8a0EjFp8YRK0drRJIlTcMCItnZ20FjTY
- UBIogv99SyPpw==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C3B1E2E817B
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 14:45:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04942809CD6;
+ Thu, 21 Oct 2021 14:48:18 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 00801794DA;
+ Thu, 21 Oct 2021 14:47:44 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7FC7211380A7; Thu, 21 Oct 2021 16:47:43 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [RFC PATCH 02/10] accel: Use qemu_security_policy_taint(), mark
+ KVM and Xen as safe
+References: <20210908232024.2399215-1-philmd@redhat.com>
+ <20210908232024.2399215-3-philmd@redhat.com>
+ <YTnj2M+lygKzdsgO@redhat.com>
+Date: Thu, 21 Oct 2021 16:47:43 +0200
+In-Reply-To: <YTnj2M+lygKzdsgO@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 9 Sep 2021 11:37:12 +0100")
+Message-ID: <87k0i6a0z4.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 21 Oct 2021 14:36:56 -0000
-From: Thomas Huth <1874888@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: i386 tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor philmd skotik th-huth
-X-Launchpad-Bug-Reporter: Konstantin (skotik)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158775385817.8537.12364422091879172270.malonedeb@gac.canonical.com>
-Message-Id: <163482701608.6261.5961162094011610687.malone@chaenomeles.canonical.com>
-Subject: [Bug 1874888] Re: certain programs make QEMU crash with "tcg fatal
- error"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="077cd577c00fa794e72ab856f950ae412860db5f"; Instance="production"
-X-Launchpad-Hash: 24493022712e684b6b85638737d119931be9c5fc
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,91 +84,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1874888 <1874888@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ xen-devel@lists.xenproject.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved to QEMU's
-new bug tracker on gitlab.com and thus gets marked as 'expired' now.
-Please continue with the discussion here:
+It's been a while...
 
- https://gitlab.com/qemu-project/qemu/-/issues/683
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
+> On Thu, Sep 09, 2021 at 01:20:16AM +0200, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+>> Add the AccelClass::secure_policy_supported field to classify
+>> safe (within security boundary) vs unsafe accelerators.
+>>=20
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>  include/qemu/accel.h | 5 +++++
+>>  accel/kvm/kvm-all.c  | 1 +
+>>  accel/xen/xen-all.c  | 1 +
+>>  softmmu/vl.c         | 3 +++
+>>  4 files changed, 10 insertions(+)
+>>=20
+>> diff --git a/include/qemu/accel.h b/include/qemu/accel.h
+>> index 4f4c283f6fc..895e30be0de 100644
+>> --- a/include/qemu/accel.h
+>> +++ b/include/qemu/accel.h
+>> @@ -44,6 +44,11 @@ typedef struct AccelClass {
+>>                         hwaddr start_addr, hwaddr size);
+>>  #endif
+>>      bool *allowed;
+>> +    /*
+>> +     * Whether the accelerator is withing QEMU security policy boundary=
+.
+>> +     * See: https://www.qemu.org/contribute/security-process/
+>> +     */
+>> +    bool secure_policy_supported;
+>
+> The security handling policy is a high level concept that is
+> open to variation over time and also by downstream distro
+> vendors.
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #683
-   https://gitlab.com/qemu-project/qemu/-/issues/683
+Moreover, the concept of "tainting" isn't limited to "because
+security".
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1874888
+> At a code level we should be dealing in a more fundamental
+> concept. At an accelerator level we should really jsut
+> declare whether or not the accelerator impl is considered
+> to be secure against malicious guest code.
+>
+> eg
+>
+>     /* Whether this accelerator is secure against execution
+>      * of malciious guest machine code */
+>     bool secure;
 
-Title:
-  certain programs make QEMU crash with "tcg fatal error"
+What I'd like to see is a separation of "assertions", like "not meant to
+serve as security boundary", and policy.  Yes, this is vague.  Take it
+as food for thought.
 
-Status in QEMU:
-  Expired
+>>      /*
+>>       * Array of global properties that would be applied when specific
+>>       * accelerator is chosen. It works like MachineClass.compat_props
+>> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+>> index 0125c17edb8..eb6b9e44df2 100644
+>> --- a/accel/kvm/kvm-all.c
+>> +++ b/accel/kvm/kvm-all.c
+>> @@ -3623,6 +3623,7 @@ static void kvm_accel_class_init(ObjectClass *oc, =
+void *data)
+>>      ac->init_machine =3D kvm_init;
+>>      ac->has_memory =3D kvm_accel_has_memory;
+>>      ac->allowed =3D &kvm_allowed;
+>> +    ac->secure_policy_supported =3D true;
+>> =20
+>>      object_class_property_add(oc, "kernel-irqchip", "on|off|split",
+>>          NULL, kvm_set_kernel_irqchip,
+>> diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
+>> index 69aa7d018b2..57867af5faf 100644
+>> --- a/accel/xen/xen-all.c
+>> +++ b/accel/xen/xen-all.c
+>> @@ -198,6 +198,7 @@ static void xen_accel_class_init(ObjectClass *oc, vo=
+id *data)
+>>      ac->setup_post =3D xen_setup_post;
+>>      ac->allowed =3D &xen_allowed;
+>>      ac->compat_props =3D g_ptr_array_new();
+>> +    ac->secure_policy_supported =3D true;
+>> =20
+>>      compat_props_add(ac->compat_props, compat, G_N_ELEMENTS(compat));
+>> =20
+>> diff --git a/softmmu/vl.c b/softmmu/vl.c
+>> index 92c05ac97ee..e4f94e159c3 100644
+>> --- a/softmmu/vl.c
+>> +++ b/softmmu/vl.c
+>> @@ -2388,6 +2388,9 @@ static int do_configure_accelerator(void *opaque, =
+QemuOpts *opts, Error **errp)
+>>          return 0;
+>>      }
+>> =20
+>> +    qemu_security_policy_taint(!ac->secure_policy_supported,
+>> +                               "%s accelerator", acc);
+>
+> We need this information to be introspectable, becuase stuff printed
+> to stderr is essentially opaque to libvirt and mgmt apps above.
+>
+> We don't have a convenient "query-accel" command but I think this
+> could possibly fit into 'query-target'. ie the TargetInfo struct
+> gain a field:
+> =20
+>
+>   ##
+>   # @TargetInfo:
+>   #
+>   # Information describing the QEMU target.
+>   #
+>   # @arch: the target architecture
+>   # @secure: Whether the currently active accelerator for this target
+>   #          is secure against execution of malicous guest code
+>   #
+>   # Since: 1.2
+>   ##
+>   { 'struct': 'TargetInfo',
+>     'data': { 'arch': 'SysEmuTarget',
+>               'secure': 'bool'} }
 
-Bug description:
-  The following code snippet crashes qemu with
+My preferred means of introspection is QAPI schema introspection.  For
+QMP, that's query-qmp-schema.  For CLI, it doesn't exist, yet.
 
-  .../tcg/tcg.c:3279: tcg fatal error
-  qemu-x86_64: /usr/local/google/home/kostik/qemu-5.0.0-rc4/accel/tcg/cpu-e=
-xec.c:701: int cpu_exec(CPUState *): Assertion `!have_mmap_lock()' failed.
+If it did, then it would tell us that (QAPIfied) -accel takes an
+argument @accel of a certain enumeration type.  We could then tack
+suitable feature flags to the enumeration type's values.
 
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  int main() {
-    /*
-  00000000 <.data>:
-     0:   2e 45 71 ff             cs rex.RB jno 0x3
-     4:   e9 00 00 f0 00          jmp    0xf00009
-     9:   c4 42 7d 31 3e          vpmovzxbd ymm15,QWORD PTR [r14]
-     e:   c4 a3 7d 08 64 82 44    vroundps ymm4,YMMWORD PTR [rdx+r8*4+0x44]=
-,0x0
-    15:   00=20
-    16:   0f 1e 0a                nop    DWORD PTR [rdx]
-    19:   43 0f ec 20             rex.XB paddsb mm4,QWORD PTR [r8]
-    1d:   66 47 0f 3a 0c 3d 00    rex.RXB blendps xmm15,XMMWORD PTR [rip+0x=
-8000],0x0        # 0x8028
-    24:   80 00 00 00=20
-    28:   c4 e3 f9 df 5f 86 0d    vaeskeygenassist xmm3,XMMWORD PTR [rdi-0x=
-7a],0xd
-    2f:   c4 e2 55 92 74 fc 0a    vgatherdps ymm6,DWORD PTR [rsp+ymm7*8+0xa=
-],ymm5
-    36:   c4 e2 f9 17 9a 01 00    vptest xmm3,XMMWORD PTR [rdx+0x1]
-    3d:   00 00=20
-  */
-    char buf[] =3D {
-      0x2E, 0x45, 0x71, 0xFF, 0xE9, 0x00, 0x00, 0xF0, 0x00, 0xC4, 0x42, 0x7=
-D, 0x31, 0x3E, 0xC4, 0xA3, 0x7D, 0x08, 0x64, 0x82, 0x44, 0x00, 0x0F, 0x1E, =
-0x0A, 0x43, 0x0F, 0xEC, 0x20, 0x66, 0x47, 0x0F, 0x3A, 0x0C, 0x3D, 0x00, 0x8=
-0, 0x00, 0x00, 0x00, 0xC4, 0xE3, 0xF9, 0xDF, 0x5F, 0x86, 0x0D, 0xC4, 0xE2, =
-0x55, 0x92, 0x74, 0xFC, 0x0A, 0xC4, 0xE2, 0xF9, 0x17, 0x9A, 0x01, 0x00, 0x0=
-0, 0x00
-    };
-    void (*f)(void) =3D (void (*) (void))buf;
-    f();
-    return 0;
-  }
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  Steps to reproduce:
-  1) clang -static repro.c -o repro
-  2) qemu-x86_64-static repro
+If we make the feature flags "special", i.e. known to QAPI, we can then
+tie them to policy, like special feature flag 'deprecated' is tied to
+policy configured with -compat deprecated-{input,output}=3D...
 
-  Tested with 4.2.0 and 5.0.0-rc4. Both -user and -system variants are
-  affected.
+Alternatively, leave policy to the management application.
 
-  A few more snippets that cause the same sort of behavior:
-  1) 0x64, 0x46, 0x7D, 0xFF, 0xDF, 0x27, 0x46, 0x0F, 0xD4, 0x83, 0x5E, 0x00=
-, 0x00, 0x00, 0x3E, 0x0F, 0x6A, 0xEF, 0x0F, 0x05, 0xC4, 0x42, 0xFD, 0x1E, 0=
-xCF, 0x46, 0x18, 0xE3, 0x47, 0xCD, 0x4E, 0x6E, 0x0F, 0x0F, 0x16, 0x8A
+QAPI schema feature flags plus policy are is not a *complete* solution,
+just like feature flag 'deprecated' and -compat are not a complete
+solution for handling use of deprecated interfaces: we can and do
+deprecate usage that isn't tied to a syntactic element in the QAPI
+schema.  Example: commit a9b305ba291 deprecated use of socket chardev
+option wait together with server=3Dtrue.
 
-  2) 0x67, 0x45, 0xDB, 0xD0, 0xAA, 0xC4, 0xE2, 0xB1, 0x01, 0x57, 0x00,
-  0xF3, 0x6F, 0xF3, 0x42, 0x0F, 0x1E, 0xFD, 0x64, 0x2E, 0xF2, 0x45,
-  0xD9, 0xC4, 0x3E, 0xF3, 0x0F, 0xAE, 0xF4, 0x3E, 0x47, 0x0F, 0x1C,
-  0x22, 0x42, 0x73, 0xFF, 0xD9, 0xFD
+It is, however, a solution for a sizable part of the problem with useful
+properties:
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1874888/+subscriptions
+* In QEMU, the code is generic (handling of feature flags, policy), and
+  the non-generic stuff is declarative (feature flags in the QAPI
+  schema).
+
+* No new introspection mechanism: feature flags already exist in QAPI
+  schema introspection.
 
 
