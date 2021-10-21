@@ -2,81 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525884358AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 04:34:06 +0200 (CEST)
-Received: from localhost ([::1]:48118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048D14358AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 04:36:37 +0200 (CEST)
+Received: from localhost ([::1]:50772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdNu9-0008Gx-5v
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 22:34:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55308)
+	id 1mdNwa-0001eu-4T
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 22:36:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdNsr-0007az-0z
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 22:32:45 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:42724)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdNsp-0003mH-8f
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 22:32:44 -0400
-Received: by mail-pg1-x534.google.com with SMTP id t7so9785784pgl.9
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 19:32:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=e7oVyaCcPk73OlTPHhYFnq/OZV8IBOIRXVPbs+q6xks=;
- b=H6S0uEnec7ZAo88CBKawsi+a7vB4ylTpnlHvZ96CCun34fz+peK4JT9fV70qNAAVYO
- nj4kneP75CidSJgqIKMR70OU6gFj2uRxZoD3zm3vinfKHpMSKUUn9rkFG8AHN/S4mKXC
- Pt9l5SyQTVktbblNIugLWzOahku6anGIuIfxAMwsM5neWilUhJXRA9b2Xu95ZsFLyhx4
- Vc2yXlgbdqWBV3gfnosmVtEX9wGawMjgPsp4umcdQPKd76lGIiHUy6qU57dSlKAtjZrH
- h99Z5ldc+Pb5w+LZ6HDKKcZ5dbuQS4RLHd4SjE4A6XiEC6s5b+UxGgHe6fLYIiMovNzz
- TF9Q==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mdNux-0000cl-B6
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 22:34:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48904)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mdNut-0007Iw-P1
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 22:34:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634783690;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+CUe1x+E8bGu/72iChGYTQ+poQeBwCR1eRlzAU+j+Y4=;
+ b=X7PCEm1RqGZ3CzfbwBzQCTtcaFeqstjKpilnxl0vAyaJ9YY3dZPDpgbm1UP9ywj5IpAoAF
+ lCFlMN2jG3wczfCTOmKOMVczeLNTE+dtoaDnvRj3Uag1VqumQcKz0pgdh4XDSF1eod7fpy
+ 9UQqEJun1Rmx4/vcrRi2Y9Me7epPSfE=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-30-BiZoCwLnOYqe10zmywexhg-1; Wed, 20 Oct 2021 22:34:48 -0400
+X-MC-Unique: BiZoCwLnOYqe10zmywexhg-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ j12-20020a2e800c000000b00210c475e1aaso2331128ljg.15
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 19:34:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=e7oVyaCcPk73OlTPHhYFnq/OZV8IBOIRXVPbs+q6xks=;
- b=RkcM3qjFvcD59wnBHa4TvGahFKcouPueVqYbbLWe47RvG1C872luYcNoUmtlbZrm1U
- vU4xsbpS/2B2tvvo1RlKT4RBss3e6xy2SGFlYy6tGz7rU1zT5/5dM41xMbC2vGhKunmw
- 6N2UufsgLxMxCo+xWasolqGLDk0fUtPWuO/ES4Waq7bTPAblCHs5Yo9CtEMl+YBFPcpb
- UK4v2ppJ8BhnnhCJb3LBcVaX4zd9bt3+m4IGCE0n3Qup5kRiJ42x5ZVYoXFYr2sNfLq0
- sVpBou5FFqAI0NVC8I5lEHAEwn3b/H0JKxdpRG1VI1Wb8wgJAJi87YgbPQP20XKxN5IS
- SrCA==
-X-Gm-Message-State: AOAM533wpkJvk2+CWKQjuVRntJHamTwe2lXFyzlyJMd42KdvL+fDCGhA
- d93GgYyBQZ3Cr1gcNUf8l5y7f9LwBBcFZA==
-X-Google-Smtp-Source: ABdhPJzreb88piKOsjCmf/3BG2O8IAc85jm25DcPRP8VyAHwZFsjRurpfKRGRjNVox8nd415G7Of5A==
-X-Received: by 2002:a05:6a00:22c8:b0:44d:cb37:86e4 with SMTP id
- f8-20020a056a0022c800b0044dcb3786e4mr2490688pfj.78.1634783561560; 
- Wed, 20 Oct 2021 19:32:41 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id t14sm7089529pjl.10.2021.10.20.19.32.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 19:32:41 -0700 (PDT)
-Subject: Re: [PATCH v2 17/48] tcg/optimize: Split out fold_brcond2
-To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20211007195456.1168070-1-richard.henderson@linaro.org>
- <20211007195456.1168070-18-richard.henderson@linaro.org>
- <CPXPR80MB52245558D605EAE1AD3421FFDABE9@CPXPR80MB5224.lamprd80.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <40b64d55-23b0-7ad8-7a92-8b1a17a428ff@linaro.org>
-Date: Wed, 20 Oct 2021 19:32:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+CUe1x+E8bGu/72iChGYTQ+poQeBwCR1eRlzAU+j+Y4=;
+ b=5luGJuW2OrSBeoebyQwch7lbqSsxszNky+PfAvcT6sPRh8OQJvfrNmoWshkkx64lYa
+ iRfFPDcpoFBWJ2pPKiyp+m6C6KyurXNFDvCxSUbOHJcxuTwxXVueVsm2uEFzt8Y9gnCp
+ UBpZpiBo2gefWYcn66XXIW3qgXD4t1K8BQijezqrMHQbadyAagroQvMVOgj7zsAQn2XP
+ 4ees5TVXC95NNocHFEomCfxx8E0+9PKDkTyYQbUXOER8IHtd0sRC+b4oL+epmcyMyGff
+ QFkB3jxCgDW/H74YS2NRMqB70z0SdMypmkHk3Zc+S4MgCG5RLhC/TeGwsKAXXWzjNKXf
+ RF6w==
+X-Gm-Message-State: AOAM532NJ5ESWYa3H7wO129mzP9/WFzpbsVEL2IF6ebPr7Ot7bfcmLZi
+ imedoLTUaXUiPi25jI7FNFFDGjusLOaXvayJ/z64ohuQLX34vARvlrhAuPCrB5XowcgCHQDXl1c
+ lxrFrG4t0Uts6tFzas3+HpYRbQkps1ow=
+X-Received: by 2002:a2e:8099:: with SMTP id i25mr2920446ljg.277.1634783687206; 
+ Wed, 20 Oct 2021 19:34:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxRDo95s5e7iNB46zrTeZAe8KC9n49srN4A8MHrmNDd+sKzoUCSG1mVR38L9obbOvS3834nqXQ91XH3o2pAdCY=
+X-Received: by 2002:a2e:8099:: with SMTP id i25mr2920420ljg.277.1634783686821; 
+ Wed, 20 Oct 2021 19:34:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CPXPR80MB52245558D605EAE1AD3421FFDABE9@CPXPR80MB5224.lamprd80.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20211001070603.307037-1-eperezma@redhat.com>
+ <20211001070603.307037-19-eperezma@redhat.com>
+ <79905c11-e313-ad60-17dc-1a47d35f12cc@redhat.com>
+ <CACGkMEtc6tw5xauzw=1zSFUfC0oSRfokZbA6QsR7nEe5T7-4_A@mail.gmail.com>
+ <CAJaqyWfvT36tbnSRhMoQcWXCYhjdkaOs_E3yKisPhv-o0oajCQ@mail.gmail.com>
+ <CACGkMEvHopK4akFLeg56qN35AnJUHURs2MnFNwLWtOTvJ643uA@mail.gmail.com>
+ <CAJaqyWdK6ZWeB3r2bU9SthL2Z9qWPR++km5QAzD48XH3Srv8mA@mail.gmail.com>
+In-Reply-To: <CAJaqyWdK6ZWeB3r2bU9SthL2Z9qWPR++km5QAzD48XH3Srv8mA@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 21 Oct 2021 10:34:36 +0800
+Message-ID: <CACGkMEtFirKqFvS_wWu65wEDecSYwBo6Ke_H9eKzv5OrJzkwrw@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 18/20] vhost: Add VhostIOVATree
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,36 +96,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/20/21 3:27 PM, Luis Fernando Fujita Pires wrote:
-> From: Richard Henderson <richard.henderson@linaro.org>
->> Reduce some code duplication by folding the NE and EQ cases.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   tcg/optimize.c | 161 +++++++++++++++++++++++++------------------------
->>   1 file changed, 83 insertions(+), 78 deletions(-)
-> 
->> +    case TCG_COND_NE:
->> +        inv = 1;
->> +        QEMU_FALLTHROUGH;
->> +    case TCG_COND_EQ:
->> +        /*
->> +         * Simplify EQ/NE comparisons where one of the pairs
->> +         * can be simplified.
->> +         */
->> +        i = do_constant_folding_cond(INDEX_op_brcond_i32, op->args[0],
->> +                                     op->args[2], cond);
->> +        switch (i ^ inv) {
->> +        case 0:
->> +            goto do_brcond_false;
-> 
-> I believe this should go to do_brcond_true when cond==TCG_COND_NE.
+On Wed, Oct 20, 2021 at 8:07 PM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
+>
+> On Wed, Oct 20, 2021 at 11:01 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Wed, Oct 20, 2021 at 3:54 PM Eugenio Perez Martin
+> > <eperezma@redhat.com> wrote:
+> > >
+> > > On Tue, Oct 19, 2021 at 11:23 AM Jason Wang <jasowang@redhat.com> wro=
+te:
+> > > >
+> > > > On Tue, Oct 19, 2021 at 4:32 PM Jason Wang <jasowang@redhat.com> wr=
+ote:
+> > > > >
+> > > > >
+> > > > > =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:06, Eugenio P=C3=A9rez =
+=E5=86=99=E9=81=93:
+> > > > > > This tree is able to look for a translated address from an IOVA=
+ address.
+> > > > > >
+> > > > > > At first glance is similar to util/iova-tree. However, SVQ work=
+ing on
+> > > > > > devices with limited IOVA space need more capabilities, like al=
+locating
+> > > > > > IOVA chunks or perform reverse translations (qemu addresses to =
+iova).
+> > > > >
+> > > > >
+> > > > > I don't see any reverse translation is used in the shadow code. O=
+r
+> > > > > anything I missed?
+> > > >
+> > > > Ok, it looks to me that it is used in the iova allocator. But I thi=
+nk
+> > > > it's better to decouple it to an independent allocator instead of
+> > > > vhost iova tree.
+> > > >
+> > >
+> > > Reverse translation is used every time a buffer is made available,
+> > > since buffers content are not copied, only the descriptors to SVQ
+> > > vring.
+> >
+> > I may miss something but I didn't see the code? Qemu knows the VA of
+> > virtqueue, and the VA of the VQ is stored in the VirtQueueElem?
+> >
+>
+> It's used in the patch 20/20, could that be the misunderstanding? The
+> function calling it is vhost_svq_translate_addr.
+>
+> Qemu knows the VA address of the buffer, but it must offer a valid SVQ
+> iova to the device. That is the translation I mean.
 
-Good eyes, thanks.
-This needs to be more like setcond2, with do_brcond_const.
+Ok, I get you. So if I understand correctly, what you did is:
 
-r~
+1) allocate IOVA during region_add
+2) preform VA->IOVA reverse lookup in handle_kick
+
+This should be fine, but here're some suggestions:
+
+1) remove the assert(map) in vhost_svq_translate_addr() since guest
+can add e.g BAR address
+2) we probably need a better name vhost_iova_tree_alloc(), maybe
+"vhost_iova_tree_map_alloc()"
+
+There's actually another method.
+
+1) don't do IOVA/map allocation in region_add()
+2) do the allocation in handle_kick(), then we know the IOVA so no
+reverse lookup
+
+The advantage is that this can work for the case of vIOMMU. And they
+should perform the same:
+
+1) you method avoid the iova allocation per sg
+2) my method avoid the reverse lookup per sg
+
+>
+> > >
+> > > At this point all the limits are copied to vhost iova tree in the nex=
+t
+> > > revision I will send, defined at its creation at
+> > > vhost_iova_tree_new(). They are outside of util/iova-tree, only sent
+> > > to the latter at allocation time.
+> > >
+> > > Since vhost_iova_tree has its own vhost_iova_tree_alloc(), that wraps
+> > > the iova_tree_alloc() [1], limits could be kept in vhost-vdpa and mak=
+e
+> > > them an argument of vhost_iova_tree_alloc. But I'm not sure if it's
+> > > what you are proposing or I'm missing something.
+> >
+> > If the reverse translation is only used in iova allocation, I meant to
+> > split the logic of IOVA allocation itself.
+> >
+>
+> Still don't understand it, sorry :). In SVQ setup we allocate an iova
+> address for every guest's GPA address its driver can use. After that
+> there should be no allocation unless memory is hotplugged.
+>
+> So the limits are only needed precisely at allocation time. Not sure
+> if that is what you mean here, but to first allocate and then check if
+> it is within the range could lead to false negatives, since there
+> could be a valid range *in* the address but the iova allocator
+> returned us another range that fell outside the range. How could we
+> know the cause if it is not using the range itself?
+
+See my above reply. And we can teach the iova allocator to return the
+IOVA in the range that vhost-vDPA supports.
+
+Thanks
+
+>
+> > >
+> > > Either way, I think it is harder to talk about this specific case
+> > > without code, since this one still does not address the limits. Would
+> > > you prefer me to send another RFC in WIP quality, with *not* all
+> > > comments addressed? I would say that there is not a lot of pending
+> > > work to send the next one, but it might be easier for all of us.
+> >
+> > I'd prefer to try to address them all, otherwise it's not easy to see
+> > what is missing.
+> >
+>
+> Got it, I will do it that way then!
+>
+> Thanks!
+>
+> > Thanks
+> >
+> > >
+> > > Thanks!
+> > >
+> > > [1] This util/iova-tree method will be proposed in the next series,
+> > > and vhost_iova_tree wraps it since it needs to keep in sync both
+> > > trees: iova->qemu vaddr for iova allocation and the reverse one to
+> > > translate available buffers.
+> > >
+> > > > Thanks
+> > > >
+> > >
+> >
+>
+
 
