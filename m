@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ABC543676C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 18:17:00 +0200 (CEST)
-Received: from localhost ([::1]:53240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D559E436773
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 18:17:59 +0200 (CEST)
+Received: from localhost ([::1]:54980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdakU-0002Wq-Mf
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 12:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37706)
+	id 1mdalT-0003qA-0G
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 12:17:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mdacm-000333-Ir
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 12:09:01 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:53786)
+ id 1mdacq-00034s-DC
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 12:09:05 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:40712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mdack-0003IE-Bz
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 12:09:00 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id ls18so839696pjb.3
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 09:08:57 -0700 (PDT)
+ id 1mdaco-0003M5-Kt
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 12:09:04 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id q5so737845pgr.7
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 09:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KqtsASlfOloSiXLW4HD9lgyRZbkJtv9iF/YUV61MIw8=;
- b=Pik/zmC1L+otS8BK1A3ys6/+HzT4Rz+MCkATjGDJln9bT0msoiMR3Z5Eke/oqYu2Or
- fsM29vdw4N2aueNhJUfZsqdxrwskVzr0X+TSpeKh7bT4Q0VpqhLJtwg3iAxrjRSsx/Xz
- RG3RDpS2VUru9w1zxU7Y5d6yCZvRPN9yVqfyMxX+Qewc5Fjv7OI4APJDUdeoBY7vkeZk
- 7iXk/QLJW6UoVILc65VQTwgZ/DwR3KgriugOxvneDt36IeJpb1fyS3a6m+mR7YyERDLQ
- JbWQZAFMowo+GC7/knSOaHMcpeslOkW4v0w8lXENOtsbLfKeRUYDCjOEUytV+BI0wM8B
- EMuw==
+ bh=9tEcUEbq/W7hoeVzwLuM0tbgOGVONjT5DUAf8eknZOQ=;
+ b=D+f5WkBZWVpod5UZRTOAZUAkJ9ZJpL1pCYvhNfZZbWmvvWLB8k2wGF6iXIQayvEyv2
+ NGcU6uIw7uqqTzLW/0bK3QpwOxWTDl8FCXjbnIMCl1uy/RddNTQm4tMdAx45zueCA3HC
+ cGe8SEGuTNX2sCPn5Qd13/fUytSxDxpjh4gZGpDaIrSX4gI9jsLhfHmoMBTy9FcGD4Z5
+ BJ9PJmhVu/85CiIItPGHsLygqr34eLUiSqC0LAotWIbHhkT5H1GJQK6DNZI0oKA2E83Y
+ Bc/xXYRXoPzhReAUv1hNIzClW/SA5ainiLWUcCq9pJThgkDUJIKKi1JUp10XasOIfmnc
+ x/Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KqtsASlfOloSiXLW4HD9lgyRZbkJtv9iF/YUV61MIw8=;
- b=7ETvt1tjDVfcRWfqRne7EUIV93vmuUEIPQr8DBUVftDjDWHkbuKE8pAeMEi1/czCno
- vIC3a2ll8VHnmI/AxEWUTX/ElbVcrFrViMrui2SgipAbDLfL82RwI6r42Xt1BC3l3u5I
- XIGKhe3Xdd6umw8GvsNGWYzK6bFQDFY0W+vxcNJN81685NKWUWwr1zyV0Jsyag2P3R2b
- 4Sb95c6/J0x3PkpKyDTmpoU7ZQ4cZdCtmJ53Sz9kXuLK3WWv0ZBOwlomi8k3wkq5mgll
- AYGbUSapOqypEfyQ9uFBSLrjCauvr5oM6oQQ/tvkNGR99jvOGha0kAQnqQe+0vshSFeQ
- GNBw==
-X-Gm-Message-State: AOAM533ZAT4w3qExUmTMgsbM1fXZejd1vAhObqNOcUyBAjQbmUAs5/GS
- p2a1agSb28QZ1HYs0z+2tlKtIg==
-X-Google-Smtp-Source: ABdhPJxdXCCPQg0KPBtgmeJHBuRhhRTpsWnQTLHy7HCI7cRz+PcwKqHovK2zTThOrI34YBV2qMlTFA==
-X-Received: by 2002:a17:90b:30d6:: with SMTP id
- hi22mr7887691pjb.4.1634832536898; 
- Thu, 21 Oct 2021 09:08:56 -0700 (PDT)
+ bh=9tEcUEbq/W7hoeVzwLuM0tbgOGVONjT5DUAf8eknZOQ=;
+ b=03eVp2p7M9HW006jytnE0I/1kzwOW7jPTWMM0DZEntdzmgXUQCBy/v0TvNnBGsZ+9Q
+ l/M5PDcJMOr6SI+tkFOXXKVSmrT4BbiTGBLiMmLN7oxnHHnmYKIPrgoIivMn8c5+dRlX
+ 3ik82Rd5fpzXGEdbj9xjfUrb8m3tvrYdVFsCmJGLjudTCS7+e/3c7fN8RDBNyW7IlBRW
+ fwnyfSq9bBE7O7qdMdivHla1k2sIuzsAETByn9xparsqPXg834PkAo76ii4Fv9gU/SsE
+ V6oabQKiwvbmrFi/gMonDTWb9AKAWEEDewmm5IOHfwJTGo721nYUgLuCSFp9ocAs/st+
+ qCJA==
+X-Gm-Message-State: AOAM531Y9GndyuNNTOWfEAVEU+fRabZAWKydMkBCDhTrv0FrLCZwu/bQ
+ XvwhUItymbczse1QJTpo3fhbmw==
+X-Google-Smtp-Source: ABdhPJxZuiBBmL6Zjiby5o74CvkLl7C7Q0fAyHut8YQPQSKlSh4oFX3vs92jjt7PSST0hCCUvvgEUg==
+X-Received: by 2002:a63:710d:: with SMTP id m13mr5110788pgc.115.1634832541208; 
+ Thu, 21 Oct 2021 09:09:01 -0700 (PDT)
 Received: from localhost.localdomain (123-193-74-252.dynamic.kbronet.com.tw.
  [123.193.74.252])
- by smtp.gmail.com with ESMTPSA id r13sm5752505pgv.21.2021.10.21.09.08.55
+ by smtp.gmail.com with ESMTPSA id r13sm5752505pgv.21.2021.10.21.09.08.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 09:08:56 -0700 (PDT)
+ Thu, 21 Oct 2021 09:09:00 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-riscv@nongnu.org
-Subject: [PATCH v5 1/2] softfloat: add APIs to handle alternative sNaN
- propagation for fmax/fmin
-Date: Fri, 22 Oct 2021 00:08:45 +0800
-Message-Id: <20211021160847.2748577-2-frank.chang@sifive.com>
+Subject: [PATCH v5 2/2] target/riscv: change the api for RVF/RVD fmin/fmax
+Date: Fri, 22 Oct 2021 00:08:46 +0800
+Message-Id: <20211021160847.2748577-3-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211021160847.2748577-1-frank.chang@sifive.com>
 References: <20211021160847.2748577-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,168 +83,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Frank Chang <frank.chang@sifive.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Chih-Min Chao <chihmin.chao@sifive.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
+ qemu-devel@nongnu.org, Chih-Min Chao <chihmin.chao@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chih-Min Chao <chihmin.chao@sifive.com>
 
-For "fmax/fmin ft0, ft1, ft2" and if one of the inputs is sNaN,
+The sNaN propagation behavior has been changed since cd20cee7 in
+https://github.com/riscv/riscv-isa-manual.
 
-  The original logic:
-    Return NaN and set invalid flag if ft1 == sNaN || ft2 == sNan.
+In Priv spec v1.10, RVF is v2.0. fmin.s and fmax.s are implemented with
+IEEE 754-2008 minNum and maxNum operations.
 
-  The alternative path:
-    Set invalid flag if ft1 == sNaN || ft2 == sNaN.
-    Return NaN only if ft1 == NaN && ft2 == NaN.
+In Priv spec v1.11, RVF is v2.2. fmin.s and fmax.s are amended to
+implement IEEE 754-2019 minimumNumber and maximumNumber operations.
 
-The IEEE 754 spec allows both implementation and some architecture such
-as riscv choose different defintions in two spec versions.
-(riscv-spec-v2.2 use original version, riscv-spec-20191213 changes to
- alternative)
+Therefore, to prevent the risk of having too many version variables.
+Instead of introducing an extra *fext_ver* variable, we tie RVF version
+to Priv version. Though it's not completely accurate but is close enough.
 
 Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- fpu/softfloat-parts.c.inc | 25 +++++++++++++++++++++++--
- fpu/softfloat.c           | 19 +++++++++++++------
- include/fpu/softfloat.h   | 10 ++++++++++
- 3 files changed, 46 insertions(+), 8 deletions(-)
+ target/riscv/fpu_helper.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-index dddee92d6ee..41d4b17e419 100644
---- a/fpu/softfloat-parts.c.inc
-+++ b/fpu/softfloat-parts.c.inc
-@@ -1219,14 +1219,35 @@ static FloatPartsN *partsN(minmax)(FloatPartsN *a, FloatPartsN *b,
+diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
+index 8700516a14c..d62f4709002 100644
+--- a/target/riscv/fpu_helper.c
++++ b/target/riscv/fpu_helper.c
+@@ -174,14 +174,18 @@ uint64_t helper_fmin_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
+ {
+     float32 frs1 = check_nanbox_s(rs1);
+     float32 frs2 = check_nanbox_s(rs2);
+-    return nanbox_s(float32_minnum(frs1, frs2, &env->fp_status));
++    return nanbox_s(env->priv_ver < PRIV_VERSION_1_11_0 ?
++                    float32_minnum(frs1, frs2, &env->fp_status) :
++                    float32_minimum_number(frs1, frs2, &env->fp_status));
+ }
  
-     if (unlikely(ab_mask & float_cmask_anynan)) {
-         /*
--         * For minnum/maxnum, if one operand is a QNaN, and the other
-+         * For minNum/maxNum (IEEE 754-2008)
-+         * or minimumNumber/maximumNumber (IEEE 754-2019),
-+         * if one operand is a QNaN, and the other
-          * operand is numerical, then return numerical argument.
-          */
--        if ((flags & minmax_isnum)
-+        if ((flags & (minmax_isnum | minmax_isnumber))
-             && !(ab_mask & float_cmask_snan)
-             && (ab_mask & ~float_cmask_qnan)) {
-             return is_nan(a->cls) ? b : a;
-         }
-+
-+        /*
-+         * In IEEE 754-2019, minNum, maxNum, minNumMag and maxNumMag
-+         * are removed and replaced with minimum, minimumNumber, maximum
-+         * and maximumNumber.
-+         * minimumNumber/maximumNumber behavior for SNaN is changed to:
-+         *   If both operands are NaNs, a QNaN is returned.
-+         *   If either operand is a SNaN,
-+         *   an invalid operation exception is signaled,
-+         *   but unless both operands are NaNs,
-+         *   the SNaN is otherwise ignored and not converted to a QNaN.
-+         */
-+        if ((flags & minmax_isnumber)
-+            && (ab_mask & float_cmask_snan)
-+            && (ab_mask & ~float_cmask_anynan)) {
-+            float_raise(float_flag_invalid, s);
-+            return is_nan(a->cls) ? b : a;
-+        }
-+
-         return parts_pick_nan(a, b, s);
-     }
+ uint64_t helper_fmax_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
+ {
+     float32 frs1 = check_nanbox_s(rs1);
+     float32 frs2 = check_nanbox_s(rs2);
+-    return nanbox_s(float32_maxnum(frs1, frs2, &env->fp_status));
++    return nanbox_s(env->priv_ver < PRIV_VERSION_1_11_0 ?
++                    float32_maxnum(frs1, frs2, &env->fp_status) :
++                    float32_maximum_number(frs1, frs2, &env->fp_status));
+ }
  
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 6e769f990c2..9a28720d82a 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -436,6 +436,11 @@ enum {
-     minmax_isnum = 2,
-     /* Set for the IEEE 754-2008 minNumMag() and minNumMag() operations. */
-     minmax_ismag = 4,
-+    /*
-+     * Set for the IEEE 754-2019 minimumNumber() and maximumNumber()
-+     * operations.
-+     */
-+    minmax_isnumber = 8,
- };
+ uint64_t helper_fsqrt_s(CPURISCVState *env, uint64_t rs1)
+@@ -283,12 +287,16 @@ uint64_t helper_fdiv_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
  
- /* Simple helpers for checking if, or what kind of, NaN we have */
-@@ -3927,12 +3932,14 @@ static float128 float128_minmax(float128 a, float128 b,
-     { return type##_minmax(a, b, s, flags); }
+ uint64_t helper_fmin_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
+ {
+-    return float64_minnum(frs1, frs2, &env->fp_status);
++    return env->priv_ver < PRIV_VERSION_1_11_0 ?
++            float64_minnum(frs1, frs2, &env->fp_status) :
++            float64_minimum_number(frs1, frs2, &env->fp_status);
+ }
  
- #define MINMAX_2(type) \
--    MINMAX_1(type, max, 0)                                      \
--    MINMAX_1(type, maxnum, minmax_isnum)                        \
--    MINMAX_1(type, maxnummag, minmax_isnum | minmax_ismag)      \
--    MINMAX_1(type, min, minmax_ismin)                           \
--    MINMAX_1(type, minnum, minmax_ismin | minmax_isnum)         \
--    MINMAX_1(type, minnummag, minmax_ismin | minmax_isnum | minmax_ismag)
-+    MINMAX_1(type, max, 0)                                                \
-+    MINMAX_1(type, maxnum, minmax_isnum)                                  \
-+    MINMAX_1(type, maxnummag, minmax_isnum | minmax_ismag)                \
-+    MINMAX_1(type, maximum_number, minmax_isnumber)                       \
-+    MINMAX_1(type, min, minmax_ismin)                                     \
-+    MINMAX_1(type, minnum, minmax_ismin | minmax_isnum)                   \
-+    MINMAX_1(type, minnummag, minmax_ismin | minmax_isnum | minmax_ismag) \
-+    MINMAX_1(type, minimum_number, minmax_ismin | minmax_isnumber)        \
+ uint64_t helper_fmax_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
+ {
+-    return float64_maxnum(frs1, frs2, &env->fp_status);
++    return env->priv_ver < PRIV_VERSION_1_11_0 ?
++            float64_maxnum(frs1, frs2, &env->fp_status) :
++            float64_maximum_number(frs1, frs2, &env->fp_status);
+ }
  
- MINMAX_2(float16)
- MINMAX_2(bfloat16)
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index ec7dca09606..a249991e612 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -243,6 +243,8 @@ float16 float16_minnum(float16, float16, float_status *status);
- float16 float16_maxnum(float16, float16, float_status *status);
- float16 float16_minnummag(float16, float16, float_status *status);
- float16 float16_maxnummag(float16, float16, float_status *status);
-+float16 float16_minimum_number(float16, float16, float_status *status);
-+float16 float16_maximum_number(float16, float16, float_status *status);
- float16 float16_sqrt(float16, float_status *status);
- FloatRelation float16_compare(float16, float16, float_status *status);
- FloatRelation float16_compare_quiet(float16, float16, float_status *status);
-@@ -422,6 +424,8 @@ bfloat16 bfloat16_minnum(bfloat16, bfloat16, float_status *status);
- bfloat16 bfloat16_maxnum(bfloat16, bfloat16, float_status *status);
- bfloat16 bfloat16_minnummag(bfloat16, bfloat16, float_status *status);
- bfloat16 bfloat16_maxnummag(bfloat16, bfloat16, float_status *status);
-+bfloat16 bfloat16_minimum_number(bfloat16, bfloat16, float_status *status);
-+bfloat16 bfloat16_maximum_number(bfloat16, bfloat16, float_status *status);
- bfloat16 bfloat16_sqrt(bfloat16, float_status *status);
- FloatRelation bfloat16_compare(bfloat16, bfloat16, float_status *status);
- FloatRelation bfloat16_compare_quiet(bfloat16, bfloat16, float_status *status);
-@@ -589,6 +593,8 @@ float32 float32_minnum(float32, float32, float_status *status);
- float32 float32_maxnum(float32, float32, float_status *status);
- float32 float32_minnummag(float32, float32, float_status *status);
- float32 float32_maxnummag(float32, float32, float_status *status);
-+float32 float32_minimum_number(float32, float32, float_status *status);
-+float32 float32_maximum_number(float32, float32, float_status *status);
- bool float32_is_quiet_nan(float32, float_status *status);
- bool float32_is_signaling_nan(float32, float_status *status);
- float32 float32_silence_nan(float32, float_status *status);
-@@ -778,6 +784,8 @@ float64 float64_minnum(float64, float64, float_status *status);
- float64 float64_maxnum(float64, float64, float_status *status);
- float64 float64_minnummag(float64, float64, float_status *status);
- float64 float64_maxnummag(float64, float64, float_status *status);
-+float64 float64_minimum_number(float64, float64, float_status *status);
-+float64 float64_maximum_number(float64, float64, float_status *status);
- bool float64_is_quiet_nan(float64 a, float_status *status);
- bool float64_is_signaling_nan(float64, float_status *status);
- float64 float64_silence_nan(float64, float_status *status);
-@@ -1210,6 +1218,8 @@ float128 float128_minnum(float128, float128, float_status *status);
- float128 float128_maxnum(float128, float128, float_status *status);
- float128 float128_minnummag(float128, float128, float_status *status);
- float128 float128_maxnummag(float128, float128, float_status *status);
-+float128 float128_minimum_number(float128, float128, float_status *status);
-+float128 float128_maximum_number(float128, float128, float_status *status);
- bool float128_is_quiet_nan(float128, float_status *status);
- bool float128_is_signaling_nan(float128, float_status *status);
- float128 float128_silence_nan(float128, float_status *status);
+ uint64_t helper_fcvt_s_d(CPURISCVState *env, uint64_t rs1)
 -- 
 2.25.1
 
