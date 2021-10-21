@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14333435A1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:57:38 +0200 (CEST)
-Received: from localhost ([::1]:52882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E62435A38
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 07:08:35 +0200 (CEST)
+Received: from localhost ([::1]:40410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdQ92-0000wF-HZ
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:57:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42766)
+	id 1mdQJe-0003VZ-6o
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 01:08:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZY-0005cu-5i; Thu, 21 Oct 2021 00:20:56 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:49731)
+ id 1mdPZZ-0005fr-1Q; Thu, 21 Oct 2021 00:20:57 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:54395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZW-0000JC-9R; Thu, 21 Oct 2021 00:20:55 -0400
+ id 1mdPZW-0000LR-NF; Thu, 21 Oct 2021 00:20:56 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HZZ5p5KyVz4xdR; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
+ id 4HZZ5p5RY6z4xdS; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1634790030;
- bh=RmGCdBUsGauCbTZYFxJB9b85cUOt8+dHAgX8Hsbu2+s=;
+ bh=ags7wlUX/Q3oogmTMtkF2sLxWFtrxRkvHZVmkqQsFSo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZhL6IedTAKVEv8flCMMhcYeeE+IePPHYqCleFEtT18c9QMxCo0cFzod0W2w6EtK3N
- NvFhJ8HyYKye2oBWI13M9dAxK66YAB/jdt/4G7+GJCoUnGlvbLM7Cvtn9nE4pU2hVw
- YlCLfPWd9XgSpYD8uQJXCT7gDH3XeYpS+f8aEAlI=
+ b=FLB63GbF/fpFhTbqrvVZVdSu1OSrmYmiswc5eshqCP3BlMGT4Rd7zw03yy/UDdQfR
+ JDN6rf/Ai87H+Ie6fSe6weCQSiCe6tTL3xFJcCNDNYK7ycX7fXeNByHcOsIzfVmAnq
+ GxtAYkGxA2eiZgyTtl4TP4V/00a4J/UfuTaktSD8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 17/25] ppc/pegasos2: Add constants for PCI config addresses
-Date: Thu, 21 Oct 2021 15:20:19 +1100
-Message-Id: <20211021042027.345405-18-david@gibson.dropbear.id.au>
+Subject: [PULL 18/25] ppc/pegasos2: Implement power-off RTAS function with VOF
+Date: Thu, 21 Oct 2021 15:20:20 +1100
+Message-Id: <20211021042027.345405-19-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211021042027.345405-1-david@gibson.dropbear.id.au>
 References: <20211021042027.345405-1-david@gibson.dropbear.id.au>
@@ -63,52 +63,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-Define a constant for PCI config addresses to make it clearer what
-these numbers are.
+This only helps Linux guests as only that seems to use it.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <9bd8e84d02d91693b71082a1fadeb86e6bce3025.1634241019.git.balaton@eik.bme.hu>
+Message-Id: <1c1e030f2bbc86e950b3310fb5922facdc21ef86.1634241019.git.balaton@eik.bme.hu>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pegasos2.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/ppc/pegasos2.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index a861bf16b8..39e96d323f 100644
+index 39e96d323f..e427ac2fe0 100644
 --- a/hw/ppc/pegasos2.c
 +++ b/hw/ppc/pegasos2.c
-@@ -54,11 +54,13 @@
- 
- #define BUS_FREQ_HZ 133333333
- 
-+#define PCI0_CFG_ADDR 0xcf8
- #define PCI0_MEM_BASE 0xc0000000
- #define PCI0_MEM_SIZE 0x20000000
- #define PCI0_IO_BASE  0xf8000000
- #define PCI0_IO_SIZE  0x10000
- 
-+#define PCI1_CFG_ADDR 0xc78
- #define PCI1_MEM_BASE 0x80000000
- #define PCI1_MEM_SIZE 0x40000000
- #define PCI1_IO_BASE  0xfe000000
-@@ -226,7 +228,7 @@ static void pegasos2_mv_reg_write(Pegasos2MachineState *pm, uint32_t addr,
- static uint32_t pegasos2_pci_config_read(Pegasos2MachineState *pm, int bus,
-                                          uint32_t addr, uint32_t len)
- {
--    hwaddr pcicfg = bus ? 0xc78 : 0xcf8;
-+    hwaddr pcicfg = bus ? PCI1_CFG_ADDR : PCI0_CFG_ADDR;
-     uint64_t val = 0xffffffffULL;
- 
-     if (len <= 4) {
-@@ -239,7 +241,7 @@ static uint32_t pegasos2_pci_config_read(Pegasos2MachineState *pm, int bus,
- static void pegasos2_pci_config_write(Pegasos2MachineState *pm, int bus,
-                                       uint32_t addr, uint32_t len, uint32_t val)
- {
--    hwaddr pcicfg = bus ? 0xc78 : 0xcf8;
-+    hwaddr pcicfg = bus ? PCI1_CFG_ADDR : PCI0_CFG_ADDR;
- 
-     pegasos2_mv_reg_write(pm, pcicfg, 4, addr | BIT(31));
-     pegasos2_mv_reg_write(pm, pcicfg + 4, len, val);
+@@ -22,6 +22,7 @@
+ #include "hw/i2c/smbus_eeprom.h"
+ #include "hw/qdev-properties.h"
+ #include "sysemu/reset.h"
++#include "sysemu/runstate.h"
+ #include "hw/boards.h"
+ #include "hw/loader.h"
+ #include "hw/fw-path-provider.h"
+@@ -429,6 +430,16 @@ static target_ulong pegasos2_rtas(PowerPCCPU *cpu, Pegasos2MachineState *pm,
+         qemu_log_mask(LOG_UNIMP, "%c", ldl_be_phys(as, args));
+         stl_be_phys(as, rets, 0);
+         return H_SUCCESS;
++    case RTAS_POWER_OFF:
++    {
++        if (nargs != 2 || nrets != 1) {
++            stl_be_phys(as, rets, -1);
++            return H_PARAMETER;
++        }
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++        stl_be_phys(as, rets, 0);
++        return H_SUCCESS;
++    }
+     default:
+         qemu_log_mask(LOG_UNIMP, "Unknown RTAS token %u (args=%u, rets=%u)\n",
+                       token, nargs, nrets);
 -- 
 2.31.1
 
