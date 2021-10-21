@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9F52435FB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 12:51:34 +0200 (CEST)
-Received: from localhost ([::1]:50540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9045435FD1
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 12:58:06 +0200 (CEST)
+Received: from localhost ([::1]:37298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdVfa-00031G-0a
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 06:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37370)
+	id 1mdVlt-0004zH-PF
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 06:58:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdVYE-0002Y8-3W
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:43:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24759)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdVYI-0002aa-Kf
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:44:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdVYB-00045k-2j
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:43:57 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdVYH-0004JH-3V
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:44:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634813034;
+ s=mimecast20190719; t=1634813040;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2mNYA6IDBekMNlW8LTQ3HC5m6CdJcnmnKC8KNWJHNY0=;
- b=XY1kz96nFOfk8LVXr96EhS+QJ0MKG+r94M1aZa5IAWWBGV8C/g6Z9KtznR0a2GbjgNVw/S
- bNFcQqXFFwJl7n0GXKLmGezQGx412W5nc41IptYmL8f2FCSzscuMOU9viYv+Fefl/kUhuE
- H/TTrR9BSURBLBb/JYCQ0x06If3XgEk=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-Z7rsh-F4NWqEMp1Gpkhh8A-1; Thu, 21 Oct 2021 06:43:53 -0400
-X-MC-Unique: Z7rsh-F4NWqEMp1Gpkhh8A-1
-Received: by mail-pg1-f197.google.com with SMTP id
- z7-20020a63c047000000b0026b13e40309so14879029pgi.19
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 03:43:53 -0700 (PDT)
+ bh=LAHZVTTSpFR2aYi9YoixPjZOJE9O81a6qTEA4Wx3tno=;
+ b=hYQeYmQoci+uTgnWcZCPLpUUzW0oBHoyBZ01uBLX50f4WvGhNWokM1bF49OkAcHEsdwiiw
+ WTNRqRjwohuEnBUdJW7P7nD1p7+dGsnT/x7ypYr43y4BmsS5OsDOQwgHhP1/SSWX12UPow
+ zgRdxQEcFFwC14aynbPl7Vi6ZyaYyUE=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-364-nDf7SAVGPsukRpxukQXWSw-1; Thu, 21 Oct 2021 06:43:59 -0400
+X-MC-Unique: nDf7SAVGPsukRpxukQXWSw-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ h3-20020a170902704300b0013dbfc88e14so60670plt.13
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 03:43:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2mNYA6IDBekMNlW8LTQ3HC5m6CdJcnmnKC8KNWJHNY0=;
- b=V/26MruTQiilIV6y+jKrsqNHj2WmtDKyIQlkgJpsg369IcEWAA6wjl0ehRB9DgskZp
- yYbe0vQm8ddk8L4QKaelMVehybCBEB/GWjXs9eKhm4vRkfMNGiop7rFFXN9Qe8ZafFIO
- wtiK3EoynBYUtr39MV3g4dEpZClS8oqYorJH2XqtomcyNWh9boFGO6SbZLIqWeRxUqam
- Xfimcwo8KmrKM5+34Gi9SnkCzQqzSoyV0mCSW2YUd1Ddh6iwaFzf9FmnvgZTRezU/I5h
- TV5KWFh91psl9ln71KZLhydeg+AvxcIQaLyEoghEP2K5Ov5tU7bzxBMHhOk4NfOMKZi1
- XlSg==
-X-Gm-Message-State: AOAM533vqSNbRM0nfCbuBy+68iAdqQOR9CTDThoIsde+lq4RaWlvI4Ue
- bR2u4NmpaXb/OoTH682CZHwe/UaNdm1ri7U9dEgzHzy8L3Bc9iidre/QNrBQqKkSvAYIcEV6zlC
- E2eXfjJt+cxfSyhORGjadOZjm4/gXzJzBSLbSABsbj7dQTk7uRGtyOTwl18jKjleW
-X-Received: by 2002:a17:90b:78d:: with SMTP id
- l13mr5811310pjz.37.1634813031927; 
- Thu, 21 Oct 2021 03:43:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxteYFf3Z8SYbUueptdwqZw9C66njC04GXUMehDaXv8lbLKaFmfQwZ5CYUjRImDvpgpIK0YVA==
-X-Received: by 2002:a17:90b:78d:: with SMTP id
- l13mr5811251pjz.37.1634813031527; 
- Thu, 21 Oct 2021 03:43:51 -0700 (PDT)
+ bh=LAHZVTTSpFR2aYi9YoixPjZOJE9O81a6qTEA4Wx3tno=;
+ b=Bh9nsOMfePFO4fu4yf1aYs9wmoSk9dJFP2hhBmV70KT0Eio078sVpePKVBYtFuTtD6
+ wTOSbfLOfWL7HV/+PwMcy5Mes4kiQnOrY7JMKqY8b+dp/6apu3CeRQ0Yk60Q50kZeStz
+ DnRjxcUuK2fb6e7Qgk4XTMyVqz6CaQ2cNs9srCBaS+FAtyMJWIxbGqkOMShyVMbI/RmQ
+ qPLQGwbatzCAlnuaifxWvUYXCRem9gfxMyx6qcYnCEaoAezsGniQT3B7+DmGdoS3Q75t
+ MWEhkUwWe/ZNCgMlVCzko5BNbqxzp2msCDW+tG3asIuA2Zpa8Y+yjvcoXnzBYXqneAXM
+ EY2Q==
+X-Gm-Message-State: AOAM531Paqtd8rXbxjne1HsHrcYYSuhEhpId6VOI3jm5jQGJsc1aWfYj
+ WoL7GVeYpW65jzguWRmKgLERNCY1ZV4SJbUBi9MHieuTZRjuQy2GUpRJ/ZyeehrNliRzG7CWCFD
+ 5jdH4bGEVzXXaPwsaJTuOYeSIt4ApUQ+fhSVWfjql5KlowvhCyS+lBMSLkb7/Wbsk
+X-Received: by 2002:a62:7656:0:b0:44c:591b:5a42 with SMTP id
+ r83-20020a627656000000b0044c591b5a42mr4744644pfc.57.1634813037938; 
+ Thu, 21 Oct 2021 03:43:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz7T8Rrvr/LBsD+hJPH7C6Z0SSgGsqjwF5DZ0l1IK+3zQYA94se44x37sRul01libGydPdLHQ==
+X-Received: by 2002:a62:7656:0:b0:44c:591b:5a42 with SMTP id
+ r83-20020a627656000000b0044c591b5a42mr4744598pfc.57.1634813037593; 
+ Thu, 21 Oct 2021 03:43:57 -0700 (PDT)
 Received: from localhost.localdomain ([84.17.34.135])
- by smtp.gmail.com with ESMTPSA id e1sm5246893pgi.43.2021.10.21.03.43.45
+ by smtp.gmail.com with ESMTPSA id e1sm5246893pgi.43.2021.10.21.03.43.52
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 21 Oct 2021 03:43:51 -0700 (PDT)
+ Thu, 21 Oct 2021 03:43:56 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/8] pci: Add pci_for_each_device_all()
-Date: Thu, 21 Oct 2021 18:42:58 +0800
-Message-Id: <20211021104259.57754-8-peterx@redhat.com>
+Subject: [PATCH 8/8] x86-iommu: Fail early if vIOMMU specified after vfio-pci
+Date: Thu, 21 Oct 2021 18:42:59 +0800
+Message-Id: <20211021104259.57754-9-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211021104259.57754-1-peterx@redhat.com>
 References: <20211021104259.57754-1-peterx@redhat.com>
@@ -107,64 +107,65 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With all the prepared infrastructures, we can easily add one helper now to loop
-over all the existing PCI devices across the whole system.
+Scan the pci bus to make sure there's no vfio-pci device attached before vIOMMU
+is realized.
 
+Suggested-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- hw/pci/pci.c         | 25 +++++++++++++++++++++++++
- include/hw/pci/pci.h |  2 ++
- 2 files changed, 27 insertions(+)
+ hw/i386/x86-iommu.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 1623bc9099..5c970f0727 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2124,6 +2124,31 @@ void pci_for_each_root_bus(pci_bus_fn fn, void *opaque)
-     object_child_foreach_recursive(object_get_root(), pci_find_root_bus, &args);
+diff --git a/hw/i386/x86-iommu.c b/hw/i386/x86-iommu.c
+index 86ad03972e..58abce7edc 100644
+--- a/hw/i386/x86-iommu.c
++++ b/hw/i386/x86-iommu.c
+@@ -21,6 +21,7 @@
+ #include "hw/sysbus.h"
+ #include "hw/i386/x86-iommu.h"
+ #include "hw/qdev-properties.h"
++#include "hw/vfio/pci.h"
+ #include "hw/i386/pc.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+@@ -103,6 +104,16 @@ IommuType x86_iommu_get_type(void)
+     return x86_iommu_default->type;
  }
  
-+typedef struct {
-+    pci_bus_dev_fn fn;
-+    void *opaque;
-+} pci_bus_dev_args;
-+
-+static void pci_single_bus_hook(PCIBus *bus, void *opaque)
++static void x86_iommu_pci_dev_hook(PCIBus *bus, PCIDevice *dev, void *opaque)
 +{
-+    pci_bus_dev_args *args = opaque;
++    Error **errp = (Error **)opaque;
 +
-+    pci_for_each_device_under_bus(bus, args->fn, args->opaque);
++    if (object_dynamic_cast(OBJECT(dev), TYPE_VFIO_PCI)) {
++        error_setg(errp, "Device '%s' must be specified before vIOMMUs",
++                   TYPE_VFIO_PCI);
++    }
 +}
 +
-+static void pci_root_bus_hook(PCIBus *bus, void *opaque)
-+{
-+    assert(pci_bus_is_root(bus));
-+    pci_for_each_bus(bus, pci_single_bus_hook, opaque);
-+}
-+
-+void pci_for_each_device_all(pci_bus_dev_fn fn, void *opaque)
-+{
-+    pci_bus_dev_args args = { .fn = fn, .opaque = opaque };
-+
-+    pci_for_each_root_bus(pci_root_bus_hook, &args);
-+}
-+
- PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn)
+ static void x86_iommu_realize(DeviceState *dev, Error **errp)
  {
-     bus = pci_find_bus_nr(bus, bus_num);
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 9e490d8969..1a862d1903 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -476,6 +476,8 @@ void pci_for_each_bus_depth_first(PCIBus *bus, pci_bus_ret_fn begin,
-                                   pci_bus_fn end, void *parent_state);
- /* Call `fn' for each pci root bus on the system */
- void pci_for_each_root_bus(pci_bus_fn fn, void *opaque);
-+/* Call 'fn' for each pci device on the system */
-+void pci_for_each_device_all(pci_bus_dev_fn fn, void *opaque);
- PCIDevice *pci_get_function_0(PCIDevice *pci_dev);
+     X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(dev);
+@@ -120,6 +131,12 @@ static void x86_iommu_realize(DeviceState *dev, Error **errp)
+         return;
+     }
  
- /* Use this wrapper when specific scan order is not required. */
++    /* Make sure there's no special device plugged before vIOMMU */
++    pci_for_each_device_all(x86_iommu_pci_dev_hook, (void *)errp);
++    if (*errp) {
++        return;
++    }
++
+     /* If the user didn't specify IR, choose a default value for it */
+     if (x86_iommu->intr_supported == ON_OFF_AUTO_AUTO) {
+         x86_iommu->intr_supported = irq_all_kernel ?
+@@ -151,6 +168,7 @@ static Property x86_iommu_properties[] = {
+ static void x86_iommu_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
++
+     dc->realize = x86_iommu_realize;
+     device_class_set_props(dc, x86_iommu_properties);
+ }
 -- 
 2.32.0
 
