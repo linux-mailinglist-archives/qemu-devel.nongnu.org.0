@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47ED1435A10
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:39:28 +0200 (CEST)
-Received: from localhost ([::1]:52542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F168435A07
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:32:25 +0200 (CEST)
+Received: from localhost ([::1]:42994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdPrT-0006kS-7B
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:39:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
+	id 1mdPke-00005t-OY
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:32:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZR-0005UQ-QU; Thu, 21 Oct 2021 00:20:50 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:39775)
+ id 1mdPZS-0005UR-62; Thu, 21 Oct 2021 00:20:50 -0400
+Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:57893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZQ-0008Bq-5a; Thu, 21 Oct 2021 00:20:49 -0400
+ id 1mdPZQ-0008EO-3h; Thu, 21 Oct 2021 00:20:49 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HZZ5p3nGlz4xdD; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
+ id 4HZZ5p3vMnz4xdF; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1634790030;
- bh=11g+LQZXh6gn96UCaphB1SgsttB5UW2BYqAOiKC95Mo=;
+ bh=xTjxyXDsAhACrgB7tmQu79b8AqV1hBRQBgtQJlME33E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Q5dtmf4GUrNQr2H8GwmZpaRe8thVwJADV6kJPsOAKPng5G1kRQRqpG8HO+rg8GhaS
- q9G0SaGNzsrYG7zd9lKOEb8acCM5sC8/8Hqiu+0uiCKTR/Sa2PZYxlX1syosB5QR70
- pD1AsOgeq1N9d0PjkTlgOIIKTZ0VtbWaw5ORDasc=
+ b=d2uuRdMsWtQ000n+FDRog9lfbJ+sGiHaRGreEQAhVB694BHQAi7SMruY29dM5vDmI
+ w5enTTDT2iNgmj5Zhd255FcZBEDTQFTyKvkUs8bXAhP7YwybTPmFuy2su3jy0IqJs3
+ rOqvrLWTg2droDZHe+ZMDqqh7bzfB8m8AbJ0cr5k=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/25] spapr/xive: Use xive_esb_rw() to trigger interrupts
-Date: Thu, 21 Oct 2021 15:20:08 +1100
-Message-Id: <20211021042027.345405-7-david@gibson.dropbear.id.au>
+Subject: [PULL 07/25] hw/ppc: Fix iothread locking in the 405 code
+Date: Thu, 21 Oct 2021 15:20:09 +1100
+Message-Id: <20211021042027.345405-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211021042027.345405-1-david@gibson.dropbear.id.au>
 References: <20211021042027.345405-1-david@gibson.dropbear.id.au>
@@ -39,12 +39,12 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: 1
-X-Spam_score: 0.1
-X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,38 +57,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Thomas Huth <thuth@redhat.com>, danielhb413@gmail.com,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Thomas Huth <thuth@redhat.com>
 
-xive_esb_rw() is the common routine used for memory accesses on ESB
-page. Use it for triggers also.
+When using u-boot as firmware with the taihu board, QEMU aborts with
+this assertion:
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20211006210546.641102-1-clg@kaod.org>
+ ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: assertion failed:
+  (qemu_mutex_iothread_locked())
+
+Running QEMU with "-d in_asm" shows that the crash happens when writing
+to SPR 0x3f2, so we are missing to lock the iothread in the code path
+here.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20211006071140.565952-1-thuth@redhat.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Tested-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive_kvm.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/ppc/ppc.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index be94cff148..61fe7bd2d3 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -301,9 +301,7 @@ static uint8_t xive_esb_read(XiveSource *xsrc, int srcno, uint32_t offset)
- 
- static void kvmppc_xive_esb_trigger(XiveSource *xsrc, int srcno)
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index a724b0bb5e..e8127599c9 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -336,6 +336,8 @@ void store_40x_dbcr0(CPUPPCState *env, uint32_t val)
  {
--    uint64_t *addr = xsrc->esb_mmap + xive_source_esb_page(xsrc, srcno);
--
--    *addr = 0x0;
-+    xive_esb_rw(xsrc, srcno, 0, 0, true);
+     PowerPCCPU *cpu = env_archcpu(env);
+ 
++    qemu_mutex_lock_iothread();
++
+     switch ((val >> 28) & 0x3) {
+     case 0x0:
+         /* No action */
+@@ -353,6 +355,8 @@ void store_40x_dbcr0(CPUPPCState *env, uint32_t val)
+         ppc40x_system_reset(cpu);
+         break;
+     }
++
++    qemu_mutex_unlock_iothread();
  }
  
- uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int srcno, uint32_t offset,
+ /* PowerPC 40x internal IRQ controller */
 -- 
 2.31.1
 
