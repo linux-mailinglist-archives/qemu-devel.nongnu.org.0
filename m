@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1D8435ED8
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 12:17:20 +0200 (CEST)
-Received: from localhost ([::1]:33986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F72435EE2
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 12:19:14 +0200 (CEST)
+Received: from localhost ([::1]:39050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdV8R-00050B-KO
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 06:17:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57804)
+	id 1mdVAH-0008Vc-PH
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 06:19:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mdV4P-0001XX-2P; Thu, 21 Oct 2021 06:13:10 -0400
+ id 1mdV4R-0001Zr-Mm; Thu, 21 Oct 2021 06:13:12 -0400
 Received: from mail-vi1eur05on2114.outbound.protection.outlook.com
  ([40.107.21.114]:9813 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mdV4M-0004tm-O0; Thu, 21 Oct 2021 06:13:08 -0400
+ id 1mdV4P-0004tm-Od; Thu, 21 Oct 2021 06:13:11 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lcdX+UUwcAiDlimL/BCmkuaiVTIj6yX5Nbn6/Mv7NYbAMVR4sCVBa7A3w82ZuIUBK7cxFA/HpyW8JnRdfTlTnElaJihhXc/HPuS92Bj1pqgMKd2kHKJEgaYQgUhHd1eKLB0nE6sB53QQKdZLgr+p6fA3+b6jrdImnp1qzmuG/BzvLB4aDgWHc2YPGboL1EoSWlosSpL+YNa85N/I1qUFJfBBJVYD5ZM5IrSmDpmzD/bPJ9PwrXVfZ5FZs+jY80D45UQSwBnDNHgj+ejA++UBtHHaAc3eEIcQ+rOKOm7dOOw0ArTvSg7Y8iW5+ilUDtBcC0lhKp3ZGI96HqwGj+tP5w==
+ b=WL++FuXUz36rcL0/kpnv1eX29XJIg9N+sg2QCsWhJ2DiFxT5L8W6MNbM3jal/ee+oUG9V3TpihSbZF8zch5LLXB67p8+qos2C+AVFBzHYMtZWV6XAVwnXv0HguH0ka7jCt/cAFDbpGzHjxMkgU1NKOgVi6y85V8IxMSHnyqxtak0NgAwyswojqbx0m+InuCKcraIKp+7p+crbedRILQz9Ltcxj8YNWUOEHAkPNgVRdmBJieKaV5nMgprdvTQSTAnWM8qENPOEv0DDr2o5a7lEUUITtRzxKVCaFysGJIkrIgDL2iKab+z36Z9ZqlM+bdPwNvBurId46lJzxb5z11gHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gxcqpGkAZQMpZfKI8f7xdBHinwErsewxy6gc2qoDeLY=;
- b=Hmw4A2C7MUi3mm/mEVbEkDWvyoCKBEq6poTiLDuTO/CLeVu4ZkxG8HQORS/4eq6GY4xOSkZ2dknWDk7Vk26nOg950wWpa/KAI4F3kJ0iknrpNmO5lptNNn2QYXnbAOCkAkoYH7tARG/DGLVYKLiu05tLm+q+ocUTAeImBzrkpKQsjlVOaKzIQgfxqPhG9qM/ziLGEYV5gRPAtREuIXzAjpOXwinB1eZWxfKM3A3t/I9u1UGuUOnBk8jFkTOlKx6CYbgywl+YjQY67KVUUbNXwN75pJW7PEZmnPSDjmjZr1Pb3EfLbCT0vV5dA5ROuNqnYIladNWGlJDtdJF0AuFmRg==
+ bh=4jNns/NsuhT7+AwvW8iFq+MxflD4KTgF1DQ95DSMeMs=;
+ b=ezae7YX7KVFRPaT9BBLoFHbc+iw/QBSWMDfn7k4oB0RmekurwJAQAKnbtgjzRGLbgbigVPzQfTfYnqWijBSXiHxda1rxv8Kq8EYpjKEk7lLlstEm3te8A16hUUHmoSLJNmvBGpxkJN48Et018kOFwowikdvpfLMhAwbjLQvUm/hOtv3yV1GdF5MDkqIj+a76AmQLVLMP8qSHzbVRB9Ej0EYTFIpkkEeloNDdrKB703c5XoAOgJmISdraG0T1fPBchzp/KZMydWWjKcHaNqqi3pXKpEvWAFug1MhEt6thtcBfU6I+j6gvGG2w1UGibNsOblxA/7AWA9MZO4+Km/Xwvw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gxcqpGkAZQMpZfKI8f7xdBHinwErsewxy6gc2qoDeLY=;
- b=imPOyBfYQw2XpywkdC6cNeWn1nDvLDM0WNMDXySlsZ1z+8gxmRSPEGSfscu/dKAHYXIEhmidG2GLCurz7o2RYpt8S7EkvdGtReZypvVntq4w00SjPPHoK2DJcZ2V6KQjjbW2xHTb6unYlv9HiVLWUb82SGr/ylkep9ryVZKyBfo=
+ bh=4jNns/NsuhT7+AwvW8iFq+MxflD4KTgF1DQ95DSMeMs=;
+ b=m/NsXmrxFhYRa7pOiGfMTNc3Ux7gaIWpPyBqzDJZX5tnkcFRqf8CtWYtBVKhgcQrmlzsFSt0UcUHQNfUYMdk30gLOJHqamRBm+cKuLyHkE3IAs39zNlh8af4t/998qSC3LojhUgxg4RQiYtJmyLR9tpRjxpqaamiOC91cqneaNI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB5078.eurprd08.prod.outlook.com (2603:10a6:20b:e7::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Thu, 21 Oct
- 2021 10:12:48 +0000
+ 2021 10:12:49 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a994:9f7c:53a5:84bc%4]) with mapi id 15.20.4608.018; Thu, 21 Oct 2021
- 10:12:48 +0000
+ 10:12:49 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
  nsoffer@redhat.com, eblake@redhat.com, jsnow@redhat.com,
  vsementsov@virtuozzo.com, den@openvz.org, nikita.lapshin@virtuozzo.com
-Subject: [PATCH v2 3/4] qemu-img: add --shallow option for qemu-img compare
-Date: Thu, 21 Oct 2021 12:12:35 +0200
-Message-Id: <20211021101236.1144824-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 4/4] iotests: add qemu-img-compare-stat test
+Date: Thu, 21 Oct 2021 12:12:36 +0200
+Message-Id: <20211021101236.1144824-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211021101236.1144824-1-vsementsov@virtuozzo.com>
 References: <20211021101236.1144824-1-vsementsov@virtuozzo.com>
@@ -67,49 +67,49 @@ Received: from kvm.ch-qa.sw.ru (130.117.225.5) by
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.16 via Frontend
  Transport; Thu, 21 Oct 2021 10:12:48 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c0d4e362-0d36-4dde-ff79-08d9947b5579
+X-MS-Office365-Filtering-Correlation-Id: a36adbbb-29cb-4433-32db-08d9947b55c5
 X-MS-TrafficTypeDiagnostic: AM6PR08MB5078:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB507841818870F2C279A93808C1BF9@AM6PR08MB5078.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:130;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB50782B266ED0BC71BEA733CEC1BF9@AM6PR08MB5078.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 04Qo/xtfo2+CyJwcdtRF62dZdPBdO0NdKOw/6e3DhXCicYUQd7zmVIhZmgNTRbbVuEuwr9uK9vgwN/gJR+F9D1dQ/M64BeQTMf6gRl1G2Y7dMynjQks91RYK9YcSnCcijpNDLTuyVwaM8V5PW5O0IpTBLeLVaWI3OKQi1Rbdr44wS8FZdIMflRk+TpGc8se14gtd780Nszaarq5r0C2mwONKtadGoreLtCBmng2hc1EUOKcVGhTB003mZkOqCq0RQ7IsQOYpXtB+0zqUoDeYae+esKYDTkPWIVh6EX6vr8VN+/B6LwjiwfI1wkWH7Dab0OSsaOKIFZIza9qLjrSj020FrYb2qWDhBM1EFCU55yVyNqiZxsnI6r0nBrBMWGKr1/2S14r6rmOoT6JkgJb/qmZkMsQtFQqW1W+M6T8JrRK6vB0THjihk7yYhrt99+BG6lUIAOA2E/+rB9+pUQIAW0aMgGjqQorpLjcDqDvW83qGJvWsGG9MyEVbacrx8h4rAe/NjUgHAmGLKFBraB+UJjPT/WnZVFso7PjHrIjedDK0lNf7DwrZpf8uoXVJ5pschyQXPHixkF+BK3YmZ/KWPWBfwR7QH6ohwk229Afo0Z8ZHjg/2A4pUdAEM7yGQ+i93daEJQVelM37E/SA1eC94FFKED+B+mB//0nsMk42bmDweUCM2wgiO/rMmw2QyYqiQ0LkNlirj8N5LFe+06p+WA==
+X-Microsoft-Antispam-Message-Info: 8lR1y4kMmHiPFpbgj6/0ns7Da6I3OqtoTAWXghf7otfHCvgpoXVJBsIP0PvIAOWbG7I+a1WIoouukFs68+DZ+thSyoUPuOEFNdpaxiGgD5UOtUqA+h5RohKakL9OI9uuWKSyOCveVB0Ddd8W1diGptfNZj8GGdE8WwwNuvKzkZgfcnj3mSy3AERCRsAH/RyyXYlLO81jwwzQ2hIX805gUYKcWYINijK1uPsfzQ5XXva43sr1RJrrG6ZSfFn9NfqOeaXq65rOI7zbVhWHT2z6jmNdyl9lj+Y3TOSG+4DXmtWKLXi41bwMTU6Lohpj5dxuDtGsYZJ2ivnRKpQRJ3DuWHamBfmxgQYH2yKTozE/S3NZo+7AtBvt/8INSgOpV4/teULQFaGTwMEhYbOmlKHyw3wtmBBF0OQBc8Ag9N9MPrOptahMNmslV35G4rS/eECC8+OZPIPFX4d9kVSXgHW7HNVJ7g2qrHLomoNFy0ZAG79GOwjOhynhXTo7RAXHg0//GmGESSo6VCkCdz+PBH02MNfKBtv+eKXRibZXQh+ra+XjV/601WNFppxSTnJVt6YSeMIj1VfTUMoBQ5vRc9IR1eyt7+qcVLPIbJy7Yk2LKn6PmSSBzUTsertuW0dqvKeq8QiHQuisG5ulyILJ/txIyTM+cQpM+kynhkCaY7dQMJeNd6khBbxIqB5FYPIKGo4LhFiZmzcJvvlhXQYOXHRSpok3lPA+G/MECPBgyqry2Zo1d1OHS2ImISjMqU+KkqLT096qpCqb0EyfoZ0e5DMfr55p/ThNLYq7TSOqCLAlFpE=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(8936002)(107886003)(956004)(66556008)(508600001)(83380400001)(66476007)(6486002)(66946007)(4326008)(86362001)(6512007)(6666004)(6506007)(52116002)(36756003)(316002)(5660300002)(8676002)(186003)(38100700002)(1076003)(2616005)(26005)(38350700002)(6916009)(2906002);
+ SFS:(366004)(8936002)(107886003)(956004)(66556008)(508600001)(83380400001)(66476007)(6486002)(66946007)(4326008)(86362001)(6512007)(6666004)(6506007)(52116002)(36756003)(316002)(5660300002)(8676002)(186003)(38100700002)(1076003)(2616005)(26005)(38350700002)(6916009)(2906002)(2004002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?upXA9Hzxzhduhy+AMU5P1itv4pLInBsOTe9hJBUNODqEeVjlGFYeWAMnl4O2?=
- =?us-ascii?Q?BNqj2zqehaULSqJ8+L1QKCIExHkrhfpn+hpBQtbtE+B6HXYmdrlvpmhxLnk0?=
- =?us-ascii?Q?KPgoy2x1vP0HbI3vTIGU/dysQzS+W7Eg8Pj7CBL2HMw9CFxjb7pvEVN+iAo6?=
- =?us-ascii?Q?VuSZgofKisCGQpwtmZlastpbizF2rJKunnmeREJPEJ9wZzhQK3COuuw4tt9V?=
- =?us-ascii?Q?82fIZrFbNpJbTyJ+Lpsj1+ejMarBSjfosbx+CvEBlFdE33aQR/qRsSmO0XAq?=
- =?us-ascii?Q?xHKX3p76hpKTfdw0w6PGjGFEN6qZzxa+8AYBrDy183H69O1TyTTc2YvTdCJJ?=
- =?us-ascii?Q?j2fwVLQTLN4k3vXWLSnh1wZiJ1nk3XBHsngLm1kmdlw2SKUfNwxObMnTJY33?=
- =?us-ascii?Q?y2PPl+I9u7DrTxboIlt399qK5ur3Ib+y2orgeQM3IDtn1zW2z6vpH4eBTjE0?=
- =?us-ascii?Q?q0vGjCMVw8j+ghNtKBPbxxUKL/Ux6ZwMGvVdJxm3vsyLj/C/eB2bJRynpZIJ?=
- =?us-ascii?Q?kT8ubiax0LkXY3HGGYwvC5088hnrjx8sr0ImiUT0w+c1p37GKI4NwAIY8goy?=
- =?us-ascii?Q?MFHQjCEkyiKAmw4SVQmLdlu9mZn7kGnmsytGQdMgVeVvjJc8PJ+aNWn39SjC?=
- =?us-ascii?Q?Jw9RNpqWpKqzkmhESvTG1nNTpF5EB4pgjKIHL0FKsz7AlL4WFdvlOm0V7y8D?=
- =?us-ascii?Q?T08gpdIT59qo3NVKxq3fFCSbhiEYyR2/Lu0j8iJRzSuQwFzQMUX9psJRcmq/?=
- =?us-ascii?Q?zV24py8682FrxVvBZJmdNh2M4rdhL+zWSw6rmBathvRdOvY64KxFgmfpZOri?=
- =?us-ascii?Q?ru7AK4WI6k66xHSMuV1kGOxW2BkHkLYsecJafkA9LDmOLg3FxxKXXBF5v+kR?=
- =?us-ascii?Q?06kckeFOSUm5+o1Riutpf4p0yUII5Kml/Bzgl/Fau+8ED2J/qsH0sTgmrZ7/?=
- =?us-ascii?Q?Bi4/p1xyo1XI34ClotMTPUS+saCJlfWHj7xlqm7JjkSApE2iFvrP8DRZ7voe?=
- =?us-ascii?Q?3cyglsxqd/T5fxUAIXqbkkPx0rYAQCUaZmuBmmGjTYnJ7kYH07wI+G/2DkHO?=
- =?us-ascii?Q?v2oDYpkaN+M2g/I0F45tBrHF9XU5ViEUh53s/TevZDttB+CcYpvd33WxvxRS?=
- =?us-ascii?Q?8IyYF7Xp9nvALBFTb4Y/WNpd89enceUzSMjc2SIuhEWTV1M/5sqRNvaT3aXb?=
- =?us-ascii?Q?JFDjTPpPy7zyWRxybteekyo/8Jmk0iJ1iguxAWlF5krtarhlvLeIE1Bq7CeS?=
- =?us-ascii?Q?TPALLVfDDKy3cY/IKz/rqA+JsSlpD7zfpsNrJD2QJXGEnA2Md6LH2I9khVIm?=
- =?us-ascii?Q?PeSYi7E2fNNKKiV4vrZB7PDmSy3AZ7uEIoz3hze10nvabvEE38Cfy1gFrYp0?=
- =?us-ascii?Q?sojDWx2zVVXA3RvuOTSXM/T0bijVRabM9D1K/BFjERbLuc4LRXmHfgo7Z5qY?=
- =?us-ascii?Q?YILEfbqoSvT2aRC83Cj7DiZxpfYSvMA5?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sSzaRfvbbEXRMYHtNVS++ty2mlT/CF25Ond79GYPhezPmLc4iVHvDdhWEwYw?=
+ =?us-ascii?Q?is1M9XB2TOxNRwSd6yDNR6ob4xSn025tcdoWF8l/aJIL1PkLcAu3cbZ2jCwM?=
+ =?us-ascii?Q?1d4s/hASEtpossp4kwMGDaWi/wyaKa4ZWjTRym4yu8IQe7CudK9YGVVHlyaa?=
+ =?us-ascii?Q?NfhcFyXjJSa2clrCMBl4tCEaEWlY6jzvYO6wdYAQ0TOLcyh9y0/e5aBq5jrj?=
+ =?us-ascii?Q?v/sArHHBKfR+LxzT2fvYA5s7t3K+Z2MijS/1Zrq4/cHg3fBulo6hipm6gOVh?=
+ =?us-ascii?Q?37xA+z+j/wLIMAYjMcvOB+aWTgXUq/h+jQw0ZyR0Op48NNcieip6c7ZtZZ5o?=
+ =?us-ascii?Q?OFoQzNKFNeurMKS+rmB9UI2koIakASwR1w65MoNnmq4BR0RnPh8f1w+uOQaT?=
+ =?us-ascii?Q?UuSlobbpuAmaYapii5GgBddYqfyZ7x7VxSqwWu3fpqcuyV5gVfQ48F4HBtIY?=
+ =?us-ascii?Q?SIdn0PDj5yWH4ApwD4qWcarq8khvRBDCVMUoJ+Q0oY0ZSQqpeZ0dY4t2sgUP?=
+ =?us-ascii?Q?YLZPM73+UCWWCazf4r4Ef2NTDyUIa+oBHCmI+G12388s2Qe1EyuV87epGIM5?=
+ =?us-ascii?Q?ed7i0vvBqXQQszoIN3Coa9fC+LjlVWHfT6GWtJ2Aeuj9LPTyilWM4+2Iw7bi?=
+ =?us-ascii?Q?P2F9pGv1BrjgtqGl84UENKbyydmtZVAbpAEZ1TcSQ/kECYzJwnDX3+or/6sn?=
+ =?us-ascii?Q?vDFK5WAEHXclFwCF1rVf/8kaX2n9bvXaZ4lng2BMTiUlybgZVoC6UC6tOnP0?=
+ =?us-ascii?Q?yHUfkSuz2EMds+N63MYNSvDzVwJSB7qgIxF9IOWRo8tTqguURDcAP0EU1RJM?=
+ =?us-ascii?Q?UFq/Anopfyg6W97KeuAT7m6BvvSzeyuzgmZgykmZuEORaemVt80kxfM/K6/J?=
+ =?us-ascii?Q?6RmiiW1BLOx/+5JYcqzin/kM1q4vIehfpcJWfb9mjQ4iJWatEllS9EsokKa6?=
+ =?us-ascii?Q?AJDVKjk7ozBGkvs8dj2RdeqFA3VegJJ1gsT9zhv4grUrYokH+z2JyIaJhbJD?=
+ =?us-ascii?Q?Y64+DwJ7F3ynf5iKoXBDz4uFaSGS4DQPKQ4xp4iwzvmNE6KU7C8yCdfEG99J?=
+ =?us-ascii?Q?ZRRRr+aN93bWVuXCj0a2IP2S7wuzTBE8riPZZnC1iizWR99DdERCODzswxGx?=
+ =?us-ascii?Q?z6/g2THw/hs0/wZQxHunxT8PYXlcvqa9MGidtCBlAtGqpPog+UYV3xJJP+Md?=
+ =?us-ascii?Q?O8aCI21UXegC24xUn5aFQ4oxVOi3nccJqmAD4HSW6Nwmrsl644Y+hMvKj/hp?=
+ =?us-ascii?Q?zOhzWnrLxaMFPS3nxrakdgmzj1bVveIsfRi3uVk6ir3gplzoAqIKSLUQHAWd?=
+ =?us-ascii?Q?14/LvmlL+xIRIico7YWeWnNeNaApcj2aDu3Fl1BdzN0fq92sUqL7hXZbpJnI?=
+ =?us-ascii?Q?dEECBw+MN2ro33lFYK6vbX8K4FlBzBEbI2SD8U1116XekLrQCYSkIzrYuMpZ?=
+ =?us-ascii?Q?JeSNPvzfxoG+ai5h8ExyP24i35zeYj+d?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0d4e362-0d36-4dde-ff79-08d9947b5579
+X-MS-Exchange-CrossTenant-Network-Message-Id: a36adbbb-29cb-4433-32db-08d9947b55c5
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2021 10:12:48.6797 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2021 10:12:49.1825 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
@@ -141,107 +141,222 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow compare only top images of backing chains. This is useful to
-compare images with same backing file or to compare incremental images
-from the chain of incremental backups with "--stat" option.
+Test new feature qemu-img compare --stat.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- docs/tools/qemu-img.rst | 9 ++++++++-
- qemu-img.c              | 8 ++++++--
- qemu-img-cmds.hx        | 4 ++--
- 3 files changed, 16 insertions(+), 5 deletions(-)
+ .../qemu-iotests/tests/qemu-img-compare-stat  |  88 +++++++++++++++
+ .../tests/qemu-img-compare-stat.out           | 106 ++++++++++++++++++
+ 2 files changed, 194 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/qemu-img-compare-stat
+ create mode 100644 tests/qemu-iotests/tests/qemu-img-compare-stat.out
 
-diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-index 4b382ca2b0..4ae9543472 100644
---- a/docs/tools/qemu-img.rst
-+++ b/docs/tools/qemu-img.rst
-@@ -176,6 +176,13 @@ Parameters to compare subcommand:
-     - If both files don't specify cluster-size, use default of 64K
-     - If only one file specify cluster-size, just use it.
- 
-+.. option:: --shallow
+diff --git a/tests/qemu-iotests/tests/qemu-img-compare-stat b/tests/qemu-iotests/tests/qemu-img-compare-stat
+new file mode 100755
+index 0000000000..e2c0bcc7ef
+--- /dev/null
++++ b/tests/qemu-iotests/tests/qemu-img-compare-stat
+@@ -0,0 +1,88 @@
++#!/usr/bin/env python3
++#
++# Test qemu-img compare --stat
++#
++# Copyright (c) 2021 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-+  This option prevents opening and comparing any backing files.
-+  This is useful to compare images with same backing file or to compare
-+  incremental images from the chain of incremental backups with
-+  ``--stat`` option.
++import iotests
++from iotests import qemu_img_create, qemu_io, qemu_img_log, log
 +
- Parameters to convert subcommand:
- 
- .. program:: qemu-img-convert
-@@ -395,7 +402,7 @@ Command description:
- 
-   The rate limit for the commit process is specified by ``-r``.
- 
--.. option:: compare [--object OBJECTDEF] [--image-opts] [-f FMT] [-F FMT] [-T SRC_CACHE] [-p] [-q] [-s] [-U] [--stat [--block-size BLOCK_SIZE]] FILENAME1 FILENAME2
-+.. option:: compare [--object OBJECTDEF] [--image-opts] [-f FMT] [-F FMT] [-T SRC_CACHE] [-p] [-q] [-s] [-U] [--stat [--block-size BLOCK_SIZE]] [--shallow] FILENAME1 FILENAME2
- 
-   Check if two images have the same content. You can compare images with
-   different format or settings.
-diff --git a/qemu-img.c b/qemu-img.c
-index 61e7f470bb..c9b5067353 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -85,6 +85,7 @@ enum {
-     OPTION_SKIP_BROKEN = 277,
-     OPTION_STAT = 277,
-     OPTION_BLOCK_SIZE = 278,
-+    OPTION_SHALLOW = 279,
- };
- 
- typedef enum OutputFormat {
-@@ -1482,7 +1483,7 @@ static int img_compare(int argc, char **argv)
-     int64_t block_end;
-     int ret = 0; /* return value - 0 Ident, 1 Different, >1 Error */
-     bool progress = false, quiet = false, strict = false;
--    int flags;
-+    int flags = 0;
-     bool writethrough;
-     int64_t total_size;
-     int64_t offset = 0;
-@@ -1504,6 +1505,7 @@ static int img_compare(int argc, char **argv)
-             {"force-share", no_argument, 0, 'U'},
-             {"stat", no_argument, 0, OPTION_STAT},
-             {"block-size", required_argument, 0, OPTION_BLOCK_SIZE},
-+            {"shallow", no_argument, 0, OPTION_SHALLOW},
-             {0, 0, 0, 0}
-         };
-         c = getopt_long(argc, argv, ":hf:F:T:pqsU",
-@@ -1569,6 +1571,9 @@ static int img_compare(int argc, char **argv)
-                 exit(EXIT_SUCCESS);
-             }
-             break;
-+        case OPTION_SHALLOW:
-+            flags |= BDRV_O_NO_BACKING;
-+            break;
-         }
-     }
- 
-@@ -1593,7 +1598,6 @@ static int img_compare(int argc, char **argv)
-     /* Initialize before goto out */
-     qemu_progress_init(progress, 2.0);
- 
--    flags = 0;
-     ret = bdrv_parse_cache_mode(cache, &flags, &writethrough);
-     if (ret < 0) {
-         error_report("Invalid source cache option: %s", cache);
-diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index 96a193eea8..6b164767fd 100644
---- a/qemu-img-cmds.hx
-+++ b/qemu-img-cmds.hx
-@@ -40,9 +40,9 @@ SRST
- ERST
- 
- DEF("compare", img_compare,
--    "compare [--object objectdef] [--image-opts] [-f fmt] [-F fmt] [-T src_cache] [-p] [-q] [-s] [-U] [--stat [--block-size BLOCK_SIZE]] filename1 filename2")
-+    "compare [--object objectdef] [--image-opts] [-f fmt] [-F fmt] [-T src_cache] [-p] [-q] [-s] [-U] [--stat [--block-size BLOCK_SIZE]] [--shallow] filename1 filename2")
- SRST
--.. option:: compare [--object OBJECTDEF] [--image-opts] [-f FMT] [-F FMT] [-T SRC_CACHE] [-p] [-q] [-s] [-U] [--stat [--block-size BLOCK_SIZE]] FILENAME1 FILENAME2
-+.. option:: compare [--object OBJECTDEF] [--image-opts] [-f FMT] [-F FMT] [-T SRC_CACHE] [-p] [-q] [-s] [-U] [--stat [--block-size BLOCK_SIZE]] [--shallow] FILENAME1 FILENAME2
- ERST
- 
- DEF("convert", img_convert,
++iotests.script_initialize(supported_fmts=['qcow2'])
++
++a, b, c = iotests.file_path('a', 'b', 'c')
++
++log('= compare two images =\n')
++
++qemu_img_create('-f', iotests.imgfmt, a, '1M')
++qemu_img_create('-f', iotests.imgfmt, b, '1M')
++
++# equal data and zero
++qemu_io('-c', 'write -z 0 64K', a)
++qemu_io('-c', 'write -P 0 0 64K', b)
++
++# different data
++qemu_io('-c', 'write -P 1 64K 64K', a)
++qemu_io('-c', 'write -P 0 64K 64K', b)
++
++# equal data
++qemu_io('-c', 'write -P 2 128K 64K', a)
++qemu_io('-c', 'write -P 2 128K 64K', b)
++
++# equal unallocated and allocated zero
++qemu_io('-c', 'write -z 192K 64K', b)
++
++# unequal data and unallocated zero
++qemu_io('-c', 'write -P 3 256K 64K', a)
++
++qemu_img_log('compare', '--stat', a, b)
++
++log('\n= compare two increments =\n')
++
++qemu_img_create('-f', iotests.imgfmt, a, '1M')
++qemu_img_create('-f', iotests.imgfmt, '-b', a, '-F', iotests.imgfmt, b, '1M')
++qemu_img_create('-f', iotests.imgfmt, '-b', b, '-F', iotests.imgfmt, c, '1M')
++
++qemu_io('-c', 'write -P 1 0 1M', a)
++qemu_io('-c', 'write -P 2 0 64K', b)
++qemu_io('-c', 'write -P 3 64K 64K', c)
++qemu_img_log('compare', '--stat', b, c)
++
++log('\n= compare two increments with --shallow=\n')
++qemu_img_log('compare', '--stat', '--shallow', b, c)
++
++log('\n= compare images of different size =\n')
++qemu_img_create('-f', iotests.imgfmt, a, '1M')
++qemu_img_create('-f', iotests.imgfmt, b, '2M')
++qemu_io('-c', 'write -P 1 0 1M', a)
++qemu_io('-c', 'write -P 2 0 1M', b)
++qemu_io('-c', 'write -P 1 1M 64K', b)
++qemu_io('-c', f'write -z {1024 + 64 * 2}K 64K', b)
++qemu_io('-c', f'write -P 0 {1024 + 64 * 3}K 64K', b)
++qemu_img_log('compare', '--stat', a, b)
++
++log('\n= compare images with only 512 bytes different =\n')
++qemu_img_create('-f', iotests.imgfmt, a, '1M')
++qemu_img_create('-f', iotests.imgfmt, b, '1M')
++qemu_io('-c', 'write -P 1 0 1M', a)
++qemu_io('-c', 'write -P 2 0 512', b)
++qemu_io('-c', f'write -P 1 512 {1024 * 1024 - 512}', b)
++qemu_img_log('compare', '--stat', a, b)
++
++log('\n= compare images with only 512 bytes different, block-size=4K =\n')
++qemu_img_log('compare', '--stat', '--block-size', '4K', a, b)
++
++log('\n= end =')
+diff --git a/tests/qemu-iotests/tests/qemu-img-compare-stat.out b/tests/qemu-iotests/tests/qemu-img-compare-stat.out
+new file mode 100644
+index 0000000000..0dec76feb6
+--- /dev/null
++++ b/tests/qemu-iotests/tests/qemu-img-compare-stat.out
+@@ -0,0 +1,106 @@
++= compare two images =
++
++Compare stats:
++Agenda
++D: DATA
++Z: ZERO
++A: ALLOCATED
++E: after end of file
++
++Equal:
++_Z__ -> _Z__ 720896 bytes (704 KiB) 68.8%
++_Z__ -> _ZA_ 65536 bytes (64 KiB) 6.2%
++D_A_ -> D_A_ 65536 bytes (64 KiB) 6.2%
++_ZA_ -> D_A_ 65536 bytes (64 KiB) 6.2%
++
++Unequal:
++D_A_ -> _Z__ 65536 bytes (64 KiB) 6.2%
++D_A_ -> D_A_ 65536 bytes (64 KiB) 6.2%
++
++
++= compare two increments =
++
++Compare stats:
++Agenda
++D: DATA
++Z: ZERO
++A: ALLOCATED
++E: after end of file
++
++Equal:
++D_A_ -> D_A_ 983040 bytes (960 KiB) 93.8%
++
++Unequal:
++D_A_ -> D_A_ 65536 bytes (64 KiB) 6.2%
++
++
++= compare two increments with --shallow=
++
++Compare stats:
++Agenda
++D: DATA
++Z: ZERO
++A: ALLOCATED
++E: after end of file
++
++Equal:
++_Z__ -> _Z__ 917504 bytes (896 KiB) 87.5%
++
++Unequal:
++_Z__ -> D_A_ 65536 bytes (64 KiB) 6.2%
++D_A_ -> _Z__ 65536 bytes (64 KiB) 6.2%
++
++
++= compare images of different size =
++
++Warning: Image size mismatch!
++Compare stats:
++Agenda
++D: DATA
++Z: ZERO
++A: ALLOCATED
++E: after end of file
++
++Equal:
++_Z_E -> _Z__ 851968 bytes (832 KiB) 40.6%
++_Z_E -> D_A_ 65536 bytes (64 KiB) 3.1%
++_Z_E -> _ZA_ 65536 bytes (64 KiB) 3.1%
++
++Unequal:
++D_A_ -> D_A_ 1048576 bytes (1 MiB) 50.0%
++_Z_E -> D_A_ 65536 bytes (64 KiB) 3.1%
++
++
++= compare images with only 512 bytes different =
++
++Compare stats:
++Agenda
++D: DATA
++Z: ZERO
++A: ALLOCATED
++E: after end of file
++
++Equal:
++D_A_ -> D_A_ 983040 bytes (960 KiB) 93.8%
++
++Unequal:
++D_A_ -> D_A_ 65536 bytes (64 KiB) 6.2%
++
++
++= compare images with only 512 bytes different, block-size=4K =
++
++Compare stats:
++Agenda
++D: DATA
++Z: ZERO
++A: ALLOCATED
++E: after end of file
++
++Equal:
++D_A_ -> D_A_ 1044480 bytes (0.996 MiB) 99.6%
++
++Unequal:
++D_A_ -> D_A_ 4096 bytes (4 KiB) 0.4%
++
++
++= end =
 -- 
 2.31.1
 
