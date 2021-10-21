@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F7A435A19
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:49:47 +0200 (CEST)
-Received: from localhost ([::1]:37194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31FA3435A21
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:58:50 +0200 (CEST)
+Received: from localhost ([::1]:55232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdQ1S-0007Ju-Tc
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:49:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42934)
+	id 1mdQAD-0002dd-7Y
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:58:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZw-0006Us-BY; Thu, 21 Oct 2021 00:21:20 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:35191)
+ id 1mdPZc-0005np-0X; Thu, 21 Oct 2021 00:21:00 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:41113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZt-0000Sj-FF; Thu, 21 Oct 2021 00:21:18 -0400
+ id 1mdPZZ-0000Uu-64; Thu, 21 Oct 2021 00:20:59 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HZZ5p5mpSz4xdW; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
+ id 4HZZ5p5rZ8z4xdX; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1634790030;
- bh=AHvt3jVno9VpQiUitApvasHrE+Rhsg/V2BQGQ+GEJhg=;
+ bh=sPF2Uwy6P08/8hbffrhl8dvp4lKotmOQr3HSKQsXhVY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dcCbUQZ/SehIjQu3amGmabZDJkzMfjAPaWyJfYT98ZQfAWO34ipQPak2tVf5y585Q
- Ufbw1K7gZCDGLYJ35pxs8KFoQyjjZ/sO18uTzmCTldTdi5RwnM9T4eLNQKvNz7dx5z
- 7fgvD9xK5Kp41gGaKRVfWyquq1MB8Zqhe735Om4A=
+ b=ShhTd8zRMIbX6alcqWwtCu7hJTyXqKTn3OFv1mDLz+FR4LIyhTPMdF28Zks6wM1fs
+ b1/zueGar1HUXfkyocQa69ny1bs0QRuE/YuwIrSXYxSaloKEzBDHGfrbXwYFucjVJJ
+ 48v28NflunzaM/cr2jsGnlCVZhD993B1X6inigZM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 21/25] target/ppc: add MMCR0 PMCC bits to hflags
-Date: Thu, 21 Oct 2021 15:20:23 +1100
-Message-Id: <20211021042027.345405-22-david@gibson.dropbear.id.au>
+Subject: [PULL 22/25] target/ppc: add user read/write functions for MMCR0
+Date: Thu, 21 Oct 2021 15:20:24 +1100
+Message-Id: <20211021042027.345405-23-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211021042027.345405-1-david@gibson.dropbear.id.au>
 References: <20211021042027.345405-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -56,95 +56,249 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Gustavo Romero <gustavo.romero@linaro.org>,
+ Gustavo Romero <gromero@linux.ibm.com>, danielhb413@gmail.com,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: Gustavo Romero <gromero@linux.ibm.com>
 
-We're going to add PMU support for TCG PPC64 chips, based on IBM POWER8+
-emulation and following PowerISA v3.1. This requires several PMU related
-registers to be exposed to userspace (problem state). PowerISA v3.1
-dictates that the PMCC bits of the MMCR0 register controls the level of
-access of the PMU registers to problem state.
+Userspace need access to PMU SPRs to be able to operate the PMU. One of
+such SPRs is MMCR0.
 
-This patch start things off by exposing both PMCC bits to hflags,
-allowing us to access them via DisasContext in the read/write callbacks
-that we're going to add next.
+MMCR0, as defined by PowerISA v3.1, is classified as a 'group A' PMU
+register. This class of registers has common read/write rules that are
+governed by MMCR0 PMCC bits. MMCR0 is also not fully exposed to problem
+state: only MMCR0_FC, MMCR0_PMAO and MMCR0_PMAE bits are
+readable/writable in this case.
 
+This patch exposes MMCR0 to userspace by doing the following:
+
+- two new callbacks, spr_read_MMCR0_ureg() and spr_write_MMCR0_ureg(),
+are added to be used as problem state read/write callbacks of UMMCR0.
+Both callbacks filters the amount of bits userspace is able to
+read/write by using a MMCR0_UREG_MASK;
+
+- problem state access control is done by the spr_groupA_read_allowed()
+and spr_groupA_write_allowed() helpers. These helpers will read the
+current PMCC bits from DisasContext and check whether the read/write
+MMCR0 operation is valid or noti;
+
+- to avoid putting exclusive PMU logic into the already loaded
+translate.c file, let's create a new 'power8-pmu-regs.c.inc' file that
+will hold all the spr_read/spr_write functions of PMU registers.
+
+The 'power8' name of this new file intends to hint about the proven
+support of the PMU logic to be added. The code has been tested with the
+IBM POWER chip family, POWER8 being the oldest version tested. This
+doesn't mean that the PMU logic will break with any other PPC64 chip
+that implements Book3s, but rather that we can't assert that it works
+properly with any Book3s compliant chip.
+
+CC: Gustavo Romero <gustavo.romero@linaro.org>
+Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20211018010133.315842-2-danielhb413@gmail.com>
+Message-Id: <20211018010133.315842-3-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu.h         | 6 ++++++
- target/ppc/helper_regs.c | 6 ++++++
- target/ppc/translate.c   | 4 ++++
- 3 files changed, 16 insertions(+)
+ target/ppc/cpu.h                 |   7 ++
+ target/ppc/cpu_init.c            |   2 +-
+ target/ppc/power8-pmu-regs.c.inc | 116 +++++++++++++++++++++++++++++++
+ target/ppc/spr_tcg.h             |   2 +
+ target/ppc/translate.c           |   2 +
+ 5 files changed, 128 insertions(+), 1 deletion(-)
+ create mode 100644 target/ppc/power8-pmu-regs.c.inc
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index cc1911bc75..24d1f2cf97 100644
+index 24d1f2cf97..0bd008f4b8 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -343,6 +343,10 @@ typedef struct ppc_v3_pate_t {
- #define MSR_RI   1  /* Recoverable interrupt                        1        */
+@@ -344,8 +344,15 @@ typedef struct ppc_v3_pate_t {
  #define MSR_LE   0  /* Little-endian mode                           1 hflags */
  
-+/* PMU bits */
-+#define MMCR0_PMCC0  PPC_BIT(44)         /* PMC Control bit 0 */
-+#define MMCR0_PMCC1  PPC_BIT(45)         /* PMC Control bit 1 */
-+
+ /* PMU bits */
++#define MMCR0_FC     PPC_BIT(32)         /* Freeze Counters  */
++#define MMCR0_PMAO   PPC_BIT(56)         /* Perf Monitor Alert Ocurred */
++#define MMCR0_PMAE   PPC_BIT(37)         /* Perf Monitor Alert Enable */
++#define MMCR0_EBE    PPC_BIT(43)         /* Perf Monitor EBB Enable */
++#define MMCR0_FCECE  PPC_BIT(38)         /* FC on Enabled Cond or Event */
+ #define MMCR0_PMCC0  PPC_BIT(44)         /* PMC Control bit 0 */
+ #define MMCR0_PMCC1  PPC_BIT(45)         /* PMC Control bit 1 */
++/* MMCR0 userspace r/w mask */
++#define MMCR0_UREG_MASK (MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE)
+ 
  /* LPCR bits */
  #define LPCR_VPM0         PPC_BIT(0)
- #define LPCR_VPM1         PPC_BIT(1)
-@@ -608,6 +612,8 @@ enum {
-     HFLAGS_SE = 10,  /* MSR_SE -- from elsewhere on embedded ppc */
-     HFLAGS_FP = 13,  /* MSR_FP */
-     HFLAGS_PR = 14,  /* MSR_PR */
-+    HFLAGS_PMCC0 = 15,  /* MMCR0 PMCC bit 0 */
-+    HFLAGS_PMCC1 = 16,  /* MMCR0 PMCC bit 1 */
-     HFLAGS_VSX = 23, /* MSR_VSX if cpu has VSX */
-     HFLAGS_VR = 25,  /* MSR_VR if cpu has VRE */
- 
-diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index 1bfb480ecf..99562edd57 100644
---- a/target/ppc/helper_regs.c
-+++ b/target/ppc/helper_regs.c
-@@ -109,6 +109,12 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
-     if (env->spr[SPR_LPCR] & LPCR_HR) {
-         hflags |= 1 << HFLAGS_HR;
-     }
-+    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMCC0) {
-+        hflags |= 1 << HFLAGS_PMCC0;
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 6aad01d1d3..375bdca1e1 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -6867,7 +6867,7 @@ static void register_book3s_pmu_sup_sprs(CPUPPCState *env)
+ static void register_book3s_pmu_user_sprs(CPUPPCState *env)
+ {
+     spr_register(env, SPR_POWER_UMMCR0, "UMMCR0",
+-                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_MMCR0_ureg, &spr_write_MMCR0_ureg,
+                  &spr_read_ureg, &spr_write_ureg,
+                  0x00000000);
+     spr_register(env, SPR_POWER_UMMCR1, "UMMCR1",
+diff --git a/target/ppc/power8-pmu-regs.c.inc b/target/ppc/power8-pmu-regs.c.inc
+new file mode 100644
+index 0000000000..37c812dd4d
+--- /dev/null
++++ b/target/ppc/power8-pmu-regs.c.inc
+@@ -0,0 +1,116 @@
++/*
++ * PMU register read/write functions for TCG IBM POWER chips
++ *
++ * Copyright IBM Corp. 2021
++ *
++ * Authors:
++ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++
++/*
++ * Checks whether the Group A SPR (MMCR0, MMCR2, MMCRA, and the
++ * PMCs) has problem state read access.
++ *
++ * Read acccess is granted for all PMCC values but 0b01, where a
++ * Facility Unavailable Interrupt will occur.
++ */
++static bool spr_groupA_read_allowed(DisasContext *ctx)
++{
++    if (!ctx->mmcr0_pmcc0 && ctx->mmcr0_pmcc1) {
++        gen_hvpriv_exception(ctx, POWERPC_EXCP_FU);
++        return false;
 +    }
-+    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMCC1) {
-+        hflags |= 1 << HFLAGS_PMCC1;
++
++    return true;
++}
++
++/*
++ * Checks whether the Group A SPR (MMCR0, MMCR2, MMCRA, and the
++ * PMCs) has problem state write access.
++ *
++ * Write acccess is granted for PMCC values 0b10 and 0b11. Userspace
++ * writing with PMCC 0b00 will generate a Hypervisor Emulation
++ * Assistance Interrupt. Userspace writing with PMCC 0b01 will
++ * generate a Facility Unavailable Interrupt.
++ */
++static bool spr_groupA_write_allowed(DisasContext *ctx)
++{
++    if (ctx->mmcr0_pmcc0) {
++        return true;
 +    }
++
++    if (ctx->mmcr0_pmcc1) {
++        /* PMCC = 0b01 */
++        gen_hvpriv_exception(ctx, POWERPC_EXCP_FU);
++    } else {
++        /* PMCC = 0b00 */
++        gen_hvpriv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
++    }
++
++    return false;
++}
++
++void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn)
++{
++    TCGv t0;
++
++    if (!spr_groupA_read_allowed(ctx)) {
++        return;
++    }
++
++    t0 = tcg_temp_new();
++
++    /*
++     * Filter out all bits but FC, PMAO, and PMAE, according
++     * to ISA v3.1, in 10.4.4 Monitor Mode Control Register 0,
++     * fourth paragraph.
++     */
++    gen_load_spr(t0, SPR_POWER_MMCR0);
++    tcg_gen_andi_tl(t0, t0, MMCR0_UREG_MASK);
++    tcg_gen_mov_tl(cpu_gpr[gprn], t0);
++
++    tcg_temp_free(t0);
++}
++
++void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
++{
++    TCGv t0, t1;
++
++    if (!spr_groupA_write_allowed(ctx)) {
++        return;
++    }
++
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++
++    /*
++     * Filter out all bits but FC, PMAO, and PMAE, according
++     * to ISA v3.1, in 10.4.4 Monitor Mode Control Register 0,
++     * fourth paragraph.
++     */
++    tcg_gen_andi_tl(t0, cpu_gpr[gprn], MMCR0_UREG_MASK);
++    gen_load_spr(t1, SPR_POWER_MMCR0);
++    tcg_gen_andi_tl(t1, t1, ~(MMCR0_UREG_MASK));
++    /* Keep all other bits intact */
++    tcg_gen_or_tl(t1, t1, t0);
++    gen_store_spr(SPR_POWER_MMCR0, t1);
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++}
++#else
++void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn)
++{
++    spr_read_ureg(ctx, gprn, sprn);
++}
++
++void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
++{
++    spr_noaccess(ctx, gprn, sprn);
++}
++#endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
+diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
+index 0be5f347d5..b28b095097 100644
+--- a/target/ppc/spr_tcg.h
++++ b/target/ppc/spr_tcg.h
+@@ -32,6 +32,7 @@ void spr_write_lr(DisasContext *ctx, int sprn, int gprn);
+ void spr_read_ctr(DisasContext *ctx, int gprn, int sprn);
+ void spr_write_ctr(DisasContext *ctx, int sprn, int gprn);
+ void spr_read_ureg(DisasContext *ctx, int gprn, int sprn);
++void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn);
+ void spr_read_tbl(DisasContext *ctx, int gprn, int sprn);
+ void spr_read_tbu(DisasContext *ctx, int gprn, int sprn);
+ void spr_read_atbl(DisasContext *ctx, int gprn, int sprn);
+@@ -40,6 +41,7 @@ void spr_read_601_rtcl(DisasContext *ctx, int gprn, int sprn);
+ void spr_read_601_rtcu(DisasContext *ctx, int gprn, int sprn);
+ void spr_read_spefscr(DisasContext *ctx, int gprn, int sprn);
+ void spr_write_spefscr(DisasContext *ctx, int sprn, int gprn);
++void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn);
  
  #ifndef CONFIG_USER_ONLY
-     if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
+ void spr_write_generic32(DisasContext *ctx, int sprn, int gprn);
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index d0d400cd8c..a4c5ef3701 100644
+index a4c5ef3701..518337bcb7 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -175,6 +175,8 @@ struct DisasContext {
-     bool tm_enabled;
-     bool gtse;
-     bool hr;
-+    bool mmcr0_pmcc0;
-+    bool mmcr0_pmcc1;
-     ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
-     int singlestep_enabled;
-     uint32_t flags;
-@@ -8552,6 +8554,8 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->tm_enabled = (hflags >> HFLAGS_TM) & 1;
-     ctx->gtse = (hflags >> HFLAGS_GTSE) & 1;
-     ctx->hr = (hflags >> HFLAGS_HR) & 1;
-+    ctx->mmcr0_pmcc0 = (hflags >> HFLAGS_PMCC0) & 1;
-+    ctx->mmcr0_pmcc1 = (hflags >> HFLAGS_PMCC1) & 1;
+@@ -7486,6 +7486,8 @@ static int times_4(DisasContext *ctx, int x)
  
-     ctx->singlestep_enabled = 0;
-     if ((hflags >> HFLAGS_SE) & 1) {
+ #include "decode-insn32.c.inc"
+ #include "decode-insn64.c.inc"
++#include "power8-pmu-regs.c.inc"
++
+ #include "translate/fixedpoint-impl.c.inc"
+ 
+ #include "translate/fp-impl.c.inc"
 -- 
 2.31.1
 
