@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B97C435998
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 05:58:02 +0200 (CEST)
-Received: from localhost ([::1]:36836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E034359C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:13:04 +0200 (CEST)
+Received: from localhost ([::1]:52592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdPDN-0000nk-0G
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 23:58:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38616)
+	id 1mdPRv-0003Yd-K7
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:13:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mdPBu-0008Rx-EN; Wed, 20 Oct 2021 23:56:30 -0400
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:35685)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mdPBs-0006bb-Sm; Wed, 20 Oct 2021 23:56:30 -0400
-Received: by mail-il1-x132.google.com with SMTP id k3so24407324ilu.2;
- Wed, 20 Oct 2021 20:56:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=afR8Dz+dAOb0WF9kUPyQz/FYT6XDG9HG3Dp3S4kuoYM=;
- b=CkFBvsBzeA2mRiIECxE6jYkf0FZ5SGfzA6h0vcC8qzlhyadASvtQawSAgbayMEVvC0
- nT9JHjw8QEj0LYAkKoL85TvIkzlxVlS7Z26JrgzCzdSFJFZxeoB280HHoDKS8eBc4xbd
- iA3q9+ZIbWj1TQbol7hR7ejsEImxYBA98MS/aQPaAaSfIn3SPCo+153oJ1psoPt59GHg
- zKPZobSP0RPa3nLh2QXDnDfH6rkfOZhIyJ4xVvZIFEUj8X1LNRAM0zEbEWA0MeE/Qj6a
- Cp4j1U+h2J6q/EEf0ldJROJ7ZP1bWKEiZuWsPdlk72HFOwRuOfpwMKM25TpDdqwLFPDh
- hZ9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=afR8Dz+dAOb0WF9kUPyQz/FYT6XDG9HG3Dp3S4kuoYM=;
- b=k+TTnUIbtxMpHaWMPwA6d7u2OdDgwCWF/q4MqDn4mLMsU0vDx3ItZixVAt9sOdAZRs
- AAHiDci+nPgrZ/cKIG9mmDk/kZBSgYsU1tSI/jIwHvrkn2IcsZwMYQzTJS0CSoot2aEl
- 1eTbP+hmQDoJnvDgsBGpOeknnEv2mMjVJ1gsiZp44boug/ICon9ZsJiaVOQUTEnrELPN
- c3VMzr1rU9WdaViy2Jopap+bj4QJr94y7pOID+cP5Tt7QY72ib6MoDFT7iZiTFbcO9/F
- +2TfEsls/AVlHC6AuRrRg/M0hvRNRsVQbKawYjil5OEOk5LhycIb2V1NduzOwIOGqmzG
- 4cHQ==
-X-Gm-Message-State: AOAM532wbkWuftHkeGRojinpnSIV/zBvRA4e8qEMpxY3VlTif0vDW9DR
- H/v6kh5yrlS/p5w9d4m+O/kTN4Pa6zh07GZFsr4=
-X-Google-Smtp-Source: ABdhPJwSa/yRdUBWiqS9uO73eCr4yUCkumQUlln0FiB4fBoVMs9qAnWr81Yte1nO24ZE6k/Qh0jiBNXQ9Ugwz8CjMOo=
-X-Received: by 2002:a05:6e02:214a:: with SMTP id
- d10mr2111916ilv.290.1634788587413; 
- Wed, 20 Oct 2021 20:56:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>)
+ id 1mdPPi-0001rG-OS; Thu, 21 Oct 2021 00:10:49 -0400
+Received: from mail.xen0n.name ([115.28.160.31]:41318
+ helo=mailbox.box.xen0n.name)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>)
+ id 1mdPPe-000343-KV; Thu, 21 Oct 2021 00:10:46 -0400
+Received: from [192.168.9.172] (unknown [101.88.135.223])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 36FE1600B5;
+ Thu, 21 Oct 2021 12:10:36 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1634789436; bh=X2wQd5Wt89WN/JfZ9I/2SoZGdFwLNv9dFoddkRYoTjk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=I4MEvyHAuNavD2mEEZrBzrURNf17xAFbETxvY/MDyUZPAN4EvP6zcYT/IZ4SyWHs0
+ 9+CgbmG9rhFXG16w69InWxGzaA905XEODNPze+D4YcBSVL4NdUwXMb0EIEUeaLy0O9
+ KQK/XyqcevV7HFjuHvBIk/fI1zU0tnQCGlM9UkN0=
+Message-ID: <143c6683-a84e-c3b3-ab67-33db648c6c0f@xen0n.name>
+Date: Thu, 21 Oct 2021 12:10:35 +0800
 MIME-Version: 1.0
-References: <20211020101935.1369682-1-space.monkey.delivers@gmail.com>
- <20211020101935.1369682-5-space.monkey.delivers@gmail.com>
-In-Reply-To: <20211020101935.1369682-5-space.monkey.delivers@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 21 Oct 2021 13:56:01 +1000
-Message-ID: <CAKmqyKOiE-m1SWKpDgKcoQAD-Lb7ze3YcoOHHRjh9FzgdmeTRA@mail.gmail.com>
-Subject: Re: [PATCH v15 4/8] [RISCV_PM] Add J extension state description
-To: Alexey Baturo <baturo.alexey@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101
+ Thunderbird/95.0a1
+Subject: Re: [PATCH v7 02/21] target/loongarch: Add core definition
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, karl@freefriends.org
+References: <1634561247-25499-1-git-send-email-gaosong@loongson.cn>
+ <1634561247-25499-3-git-send-email-gaosong@loongson.cn>
+ <5d8d1719-c6f3-1de5-b086-298e8379d8b6@xen0n.name>
+ <274b9066-66c1-b246-72c6-35d6791cba0e@amsat.org>
+ <aa983155-85ed-f3e3-47b2-b7138125e8d0@loongson.cn>
+ <74bbac65-2cd4-dac7-86d1-e18cfa3f3f1f@xen0n.name>
+ <da597248-8e06-2f14-b39e-67c457aa5a71@linaro.org>
+ <49d356da-30dd-6460-73fa-8a9e165a9091@loongson.cn>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <49d356da-30dd-6460-73fa-8a9e165a9091@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,82 +72,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- space.monkey.delivers@gmail.com, Alistair Francis <Alistair.Francis@wdc.com>,
- Dave Smith <kupokupokupopo@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, qemu-devel-owner@nongnu.org,
+ yangxiaojuan@loongson.cn, peterx@redhat.com, laurent@vivier.eu,
+ alistair.francis@wdc.com, maobibo@loongson.cn, pbonzini@redhat.com,
+ bmeng.cn@gmail.com, alex.bennee@linaro.org, chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 20, 2021 at 8:24 PM Alexey Baturo <baturo.alexey@gmail.com> wrote:
->
-> Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
+On 10/21/21 11:21, Song Gao wrote:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> BTW,
+> Account yangxiaojuan@loongson.cn It seems that she has been blacklisted. Xiaojuan sent 31 e-mails, which were not displayed since the 21st one, people who don't have a CC can't read all the emails,  and xiaojuan reply can't be in qemu-level@nongnu.org.
+>    
+> <snip>
+>
+>
+> Xuerui said:
+>
+> "You may address the several review comments then just send v2. This way
+> the threading is less likely to be damaged (you need to exactly specify
+> In-Reply-To headers and such for the re-sent patches to correctly link
+> to this thread, I think it's not worth the effort). "
+>
+> I think this will have the same problem.
+>
+> Richard and Karl,  How can we solve this problem？
 
-Alistair
+You and Xiaojuan seem to be in some kind of close cooperation; for 
+example every patch from you has double Signed-off-by lines. So I 
+suppose you could just switch to the intended branch and `git 
+send-email` for her; proper "From:" lines will be prepended to every 
+mail where Git author differs from git-send-email identity. Just 
+remember not to commit/send blobs next time though.
 
-> ---
->  target/riscv/machine.c | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
->
-> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> index 16a08302da..ae82f82525 100644
-> --- a/target/riscv/machine.c
-> +++ b/target/riscv/machine.c
-> @@ -84,6 +84,14 @@ static bool vector_needed(void *opaque)
->      return riscv_has_ext(env, RVV);
->  }
->
-> +static bool pointermasking_needed(void *opaque)
-> +{
-> +    RISCVCPU *cpu = opaque;
-> +    CPURISCVState *env = &cpu->env;
-> +
-> +    return riscv_has_ext(env, RVJ);
-> +}
-> +
->  static const VMStateDescription vmstate_vector = {
->      .name = "cpu/vector",
->      .version_id = 1,
-> @@ -138,6 +146,24 @@ static const VMStateDescription vmstate_hyper = {
->      }
->  };
->
-> +static const VMStateDescription vmstate_pointermasking = {
-> +    .name = "cpu/pointer_masking",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = pointermasking_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINTTL(env.mmte, RISCVCPU),
-> +        VMSTATE_UINTTL(env.mpmmask, RISCVCPU),
-> +        VMSTATE_UINTTL(env.mpmbase, RISCVCPU),
-> +        VMSTATE_UINTTL(env.spmmask, RISCVCPU),
-> +        VMSTATE_UINTTL(env.spmbase, RISCVCPU),
-> +        VMSTATE_UINTTL(env.upmmask, RISCVCPU),
-> +        VMSTATE_UINTTL(env.upmbase, RISCVCPU),
-> +
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  const VMStateDescription vmstate_riscv_cpu = {
->      .name = "cpu",
->      .version_id = 2,
-> @@ -189,6 +215,7 @@ const VMStateDescription vmstate_riscv_cpu = {
->          &vmstate_pmp,
->          &vmstate_hyper,
->          &vmstate_vector,
-> +        &vmstate_pointermasking,
->          NULL
->      }
->  };
-> --
-> 2.30.2
->
->
+As for the supposed "ban" on Xiaojuan's account, we cannot diagnose this 
+without mailing list owners' help; maybe it was just some kind of 
+automatic temporary ban, or even connectivity problem on Loongson's side.
+
 
