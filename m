@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A09F435A1D
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:53:29 +0200 (CEST)
-Received: from localhost ([::1]:45080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F7A435A19
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:49:47 +0200 (CEST)
+Received: from localhost ([::1]:37194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdQ52-0004Dm-7E
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42790)
+	id 1mdQ1S-0007Ju-Tc
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:49:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZa-0005ir-56; Thu, 21 Oct 2021 00:20:58 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:50879)
+ id 1mdPZw-0006Us-BY; Thu, 21 Oct 2021 00:21:20 -0400
+Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:35191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZX-0000PO-MY; Thu, 21 Oct 2021 00:20:57 -0400
+ id 1mdPZt-0000Sj-FF; Thu, 21 Oct 2021 00:21:18 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HZZ5p5gQJz4xdV; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
+ id 4HZZ5p5mpSz4xdW; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1634790030;
- bh=kXoJ4vJMgqJSP1MDWvF1/CNq3wSngxtLLjpSVyctz5M=;
+ bh=AHvt3jVno9VpQiUitApvasHrE+Rhsg/V2BQGQ+GEJhg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=l5fwtzMd2ERzBuioqcsmk5NueKrp1MmwtdIlTHgHcwovOA+1RMjtRv0j7ifTunYB5
- JI4gut8dsai5PZ8bu8djMAxhwZxJWJOmaWsxo6l3ukDjZGp8i63hbxgM3F+kAvvdvY
- GDOILpC9eKxuAscvio6cqi2MaJvu4xmQLGEGcfXw=
+ b=dcCbUQZ/SehIjQu3amGmabZDJkzMfjAPaWyJfYT98ZQfAWO34ipQPak2tVf5y585Q
+ Ufbw1K7gZCDGLYJ35pxs8KFoQyjjZ/sO18uTzmCTldTdi5RwnM9T4eLNQKvNz7dx5z
+ 7fgvD9xK5Kp41gGaKRVfWyquq1MB8Zqhe735Om4A=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 20/25] target/ppc: Filter mtmsr[d] input before setting MSR
-Date: Thu, 21 Oct 2021 15:20:22 +1100
-Message-Id: <20211021042027.345405-21-david@gibson.dropbear.id.au>
+Subject: [PULL 21/25] target/ppc: add MMCR0 PMCC bits to hflags
+Date: Thu, 21 Oct 2021 15:20:23 +1100
+Message-Id: <20211021042027.345405-22-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211021042027.345405-1-david@gibson.dropbear.id.au>
 References: <20211021042027.345405-1-david@gibson.dropbear.id.au>
@@ -57,161 +57,94 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org,
- Matheus Ferst <matheus.ferst@eldorado.org.br>,
- David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-PowerISA says that mtmsr[d] "does not alter MSR[HV], MSR[S], MSR[ME], or
-MSR[LE]", but the current code only filters the GPR-provided value if
-L=1. This behavior caused some problems in FreeBSD, and a build option
-was added to work around the issue [1], but it seems that the bug was
-not reported in launchpad/gitlab. This patch address the issue in qemu,
-so the option on FreeBSD should no longer be required.
+We're going to add PMU support for TCG PPC64 chips, based on IBM POWER8+
+emulation and following PowerISA v3.1. This requires several PMU related
+registers to be exposed to userspace (problem state). PowerISA v3.1
+dictates that the PMCC bits of the MMCR0 register controls the level of
+access of the PMU registers to problem state.
 
-[1] https://cgit.freebsd.org/src/commit/?id=4efb1ca7d2a44cfb33d7f9e18bd92f8d68dcfee0
+This patch start things off by exposing both PMCC bits to hflags,
+allowing us to access them via DisasContext in the read/write callbacks
+that we're going to add next.
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20211015181940.197982-1-matheus.ferst@eldorado.org.br>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20211018010133.315842-2-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu.h       |  1 +
- target/ppc/translate.c | 73 +++++++++++++++++++++++-------------------
- 2 files changed, 41 insertions(+), 33 deletions(-)
+ target/ppc/cpu.h         | 6 ++++++
+ target/ppc/helper_regs.c | 6 ++++++
+ target/ppc/translate.c   | 4 ++++
+ 3 files changed, 16 insertions(+)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index c6fc0043a9..cc1911bc75 100644
+index cc1911bc75..24d1f2cf97 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -314,6 +314,7 @@ typedef struct ppc_v3_pate_t {
- #define MSR_AP   23 /* Access privilege state on 602                  hflags */
- #define MSR_VSX  23 /* Vector Scalar Extension (ISA 2.06 and later) x hflags */
- #define MSR_SA   22 /* Supervisor access mode on 602                  hflags */
-+#define MSR_S    22 /* Secure state                                          */
- #define MSR_KEY  19 /* key bit on 603e                                       */
- #define MSR_POW  18 /* Power management                                      */
- #define MSR_TGPR 17 /* TGPR usage on 602/603                        x        */
+@@ -343,6 +343,10 @@ typedef struct ppc_v3_pate_t {
+ #define MSR_RI   1  /* Recoverable interrupt                        1        */
+ #define MSR_LE   0  /* Little-endian mode                           1 hflags */
+ 
++/* PMU bits */
++#define MMCR0_PMCC0  PPC_BIT(44)         /* PMC Control bit 0 */
++#define MMCR0_PMCC1  PPC_BIT(45)         /* PMC Control bit 1 */
++
+ /* LPCR bits */
+ #define LPCR_VPM0         PPC_BIT(0)
+ #define LPCR_VPM1         PPC_BIT(1)
+@@ -608,6 +612,8 @@ enum {
+     HFLAGS_SE = 10,  /* MSR_SE -- from elsewhere on embedded ppc */
+     HFLAGS_FP = 13,  /* MSR_FP */
+     HFLAGS_PR = 14,  /* MSR_PR */
++    HFLAGS_PMCC0 = 15,  /* MMCR0 PMCC bit 0 */
++    HFLAGS_PMCC1 = 16,  /* MMCR0 PMCC bit 1 */
+     HFLAGS_VSX = 23, /* MSR_VSX if cpu has VSX */
+     HFLAGS_VR = 25,  /* MSR_VR if cpu has VRE */
+ 
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index 1bfb480ecf..99562edd57 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -109,6 +109,12 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+     if (env->spr[SPR_LPCR] & LPCR_HR) {
+         hflags |= 1 << HFLAGS_HR;
+     }
++    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMCC0) {
++        hflags |= 1 << HFLAGS_PMCC0;
++    }
++    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMCC1) {
++        hflags |= 1 << HFLAGS_PMCC1;
++    }
+ 
+ #ifndef CONFIG_USER_ONLY
+     if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 98f304302e..d0d400cd8c 100644
+index d0d400cd8c..a4c5ef3701 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -4934,32 +4934,40 @@ static void gen_mtmsrd(DisasContext *ctx)
-     CHK_SV;
+@@ -175,6 +175,8 @@ struct DisasContext {
+     bool tm_enabled;
+     bool gtse;
+     bool hr;
++    bool mmcr0_pmcc0;
++    bool mmcr0_pmcc1;
+     ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
+     int singlestep_enabled;
+     uint32_t flags;
+@@ -8552,6 +8554,8 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->tm_enabled = (hflags >> HFLAGS_TM) & 1;
+     ctx->gtse = (hflags >> HFLAGS_GTSE) & 1;
+     ctx->hr = (hflags >> HFLAGS_HR) & 1;
++    ctx->mmcr0_pmcc0 = (hflags >> HFLAGS_PMCC0) & 1;
++    ctx->mmcr0_pmcc1 = (hflags >> HFLAGS_PMCC1) & 1;
  
- #if !defined(CONFIG_USER_ONLY)
-+    TCGv t0, t1;
-+    target_ulong mask;
-+
-+    t0 = tcg_temp_new();
-+    t1 = tcg_temp_new();
-+
-     gen_icount_io_start(ctx);
-+
-     if (ctx->opcode & 0x00010000) {
-         /* L=1 form only updates EE and RI */
--        TCGv t0 = tcg_temp_new();
--        TCGv t1 = tcg_temp_new();
--        tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
--                        (1 << MSR_RI) | (1 << MSR_EE));
--        tcg_gen_andi_tl(t1, cpu_msr,
--                        ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
--        tcg_gen_or_tl(t1, t1, t0);
--
--        gen_helper_store_msr(cpu_env, t1);
--        tcg_temp_free(t0);
--        tcg_temp_free(t1);
--
-+        mask = (1ULL << MSR_RI) | (1ULL << MSR_EE);
-     } else {
-+        /* mtmsrd does not alter HV, S, ME, or LE */
-+        mask = ~((1ULL << MSR_LE) | (1ULL << MSR_ME) | (1ULL << MSR_S) |
-+                 (1ULL << MSR_HV));
-         /*
-          * XXX: we need to update nip before the store if we enter
-          *      power saving mode, we will exit the loop directly from
-          *      ppc_store_msr
-          */
-         gen_update_nip(ctx, ctx->base.pc_next);
--        gen_helper_store_msr(cpu_env, cpu_gpr[rS(ctx->opcode)]);
-     }
-+
-+    tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)], mask);
-+    tcg_gen_andi_tl(t1, cpu_msr, ~mask);
-+    tcg_gen_or_tl(t0, t0, t1);
-+
-+    gen_helper_store_msr(cpu_env, t0);
-+
-     /* Must stop the translation as machine state (may have) changed */
-     ctx->base.is_jmp = DISAS_EXIT_UPDATE;
-+
-+    tcg_temp_free(t0);
-+    tcg_temp_free(t1);
- #endif /* !defined(CONFIG_USER_ONLY) */
- }
- #endif /* defined(TARGET_PPC64) */
-@@ -4969,23 +4977,19 @@ static void gen_mtmsr(DisasContext *ctx)
-     CHK_SV;
- 
- #if !defined(CONFIG_USER_ONLY)
-+    TCGv t0, t1;
-+    target_ulong mask = 0xFFFFFFFF;
-+
-+    t0 = tcg_temp_new();
-+    t1 = tcg_temp_new();
-+
-     gen_icount_io_start(ctx);
-     if (ctx->opcode & 0x00010000) {
-         /* L=1 form only updates EE and RI */
--        TCGv t0 = tcg_temp_new();
--        TCGv t1 = tcg_temp_new();
--        tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
--                        (1 << MSR_RI) | (1 << MSR_EE));
--        tcg_gen_andi_tl(t1, cpu_msr,
--                        ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
--        tcg_gen_or_tl(t1, t1, t0);
--
--        gen_helper_store_msr(cpu_env, t1);
--        tcg_temp_free(t0);
--        tcg_temp_free(t1);
--
-+        mask &= (1ULL << MSR_RI) | (1ULL << MSR_EE);
-     } else {
--        TCGv msr = tcg_temp_new();
-+        /* mtmsr does not alter S, ME, or LE */
-+        mask &= ~((1ULL << MSR_LE) | (1ULL << MSR_ME) | (1ULL << MSR_S));
- 
-         /*
-          * XXX: we need to update nip before the store if we enter
-@@ -4993,16 +4997,19 @@ static void gen_mtmsr(DisasContext *ctx)
-          *      ppc_store_msr
-          */
-         gen_update_nip(ctx, ctx->base.pc_next);
--#if defined(TARGET_PPC64)
--        tcg_gen_deposit_tl(msr, cpu_msr, cpu_gpr[rS(ctx->opcode)], 0, 32);
--#else
--        tcg_gen_mov_tl(msr, cpu_gpr[rS(ctx->opcode)]);
--#endif
--        gen_helper_store_msr(cpu_env, msr);
--        tcg_temp_free(msr);
-     }
-+
-+    tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)], mask);
-+    tcg_gen_andi_tl(t1, cpu_msr, ~mask);
-+    tcg_gen_or_tl(t0, t0, t1);
-+
-+    gen_helper_store_msr(cpu_env, t0);
-+
-     /* Must stop the translation as machine state (may have) changed */
-     ctx->base.is_jmp = DISAS_EXIT_UPDATE;
-+
-+    tcg_temp_free(t0);
-+    tcg_temp_free(t1);
- #endif
- }
- 
+     ctx->singlestep_enabled = 0;
+     if ((hflags >> HFLAGS_SE) & 1) {
 -- 
 2.31.1
 
