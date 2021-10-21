@@ -2,48 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BF3435A27
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 07:05:27 +0200 (CEST)
-Received: from localhost ([::1]:37082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161074359CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:22:33 +0200 (CEST)
+Received: from localhost ([::1]:56876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdQGc-0001BU-HR
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 01:05:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42940)
+	id 1mdPb5-0007Gh-Kw
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZx-0006WQ-2p; Thu, 21 Oct 2021 00:21:21 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:46519)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdPZL-0005T2-43
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 00:20:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZt-0000Za-V5; Thu, 21 Oct 2021 00:21:20 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HZZ5p5xgcz4xdY; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1634790030;
- bh=fERvpXSTg1BfarES3CGhZHRLqXv8rpDezo0X7vDukUI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YdW2YAVxVlb5wxX6kHxtVOZXbGZPEmC38M5Hhg8GleOBSwWGbifiOeCRBNrYuXlqf
- dkczLj/tFAVPy8hYdbujW6u1N4qiB6MkLuKkTu24bngKSWQOj1oGpfupx1jyV1ggGr
- 5V6XaOkoaLkPfkBphM6sApMi1a3DR/kewGpXBPts=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Subject: [PULL 23/25] target/ppc: add user read/write functions for MMCR2
-Date: Thu, 21 Oct 2021 15:20:25 +1100
-Message-Id: <20211021042027.345405-24-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211021042027.345405-1-david@gibson.dropbear.id.au>
-References: <20211021042027.345405-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdPZG-0007KM-7i
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 00:20:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634790036;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=N+TwV2vq4POafBZ9Oj5d4zS5xmDaFBrtt1KzuI6MxoY=;
+ b=GjRWnbRmbHA+is2ebcBmCZSKdnZPg7uhlduvUFt3Lkg7s9rn8XAWI8L3qNooLp8ehdzQNY
+ NcUHLyJUU5quxYle/v52698+Rv1J5bdg3ODcB3Uf+VkNMDqHIxOTR0Kv3L+xBB1HjwfFQs
+ HAwmq2TE6W0yoCHVDPhPJXwcQr54f3Q=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-514-0ziHRYYkPFisd_AhGFcFGA-1; Thu, 21 Oct 2021 00:20:33 -0400
+X-MC-Unique: 0ziHRYYkPFisd_AhGFcFGA-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ s15-20020a170902b18f00b0013fb4449cecso5923012plr.19
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 21:20:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=N+TwV2vq4POafBZ9Oj5d4zS5xmDaFBrtt1KzuI6MxoY=;
+ b=q31j4iJqxhFWemd0oXwpcdeu18FIQMojpiVbLOKw13Fc05sBwP3p8nQ4GcDM4TeIbP
+ NH0yWYM6VXqKteNREzkQagHFL/un5FWxbvD0oreyuDA7oSsRk/grbl4NJh0J8Pg9aNTg
+ ze7iYncbR7lrvioLIGdElc3RgtMi0W4HpyCdHEH5pVX5wUiqO8T87NhpORPJEzo2H9W9
+ BrqzYWnupVcc1mValOHvfC/Jjprk24DNDntExmaQRkMZzl0D2bZC9XA5/yu85Dvvy3jn
+ d+5NMi44AvW24UPNPn03huV9a4G0crj+UhlJH8cX4VInLaoyoGrk+JI7ZebfgCdMthkB
+ bf+g==
+X-Gm-Message-State: AOAM5329ihk81wXZflCp2NOWAblklH9NsCb7PcBkkXasAvkhurN+tP1X
+ 3ZTdgje+s4JVV2c5WEjn7ZsUI8N6YHBIK+CrbYwag+XKMtzmMVrQuFR6i6MFh628kgnhWdawOgI
+ uVX/L/gHr1TKM7ls=
+X-Received: by 2002:a17:902:8d8b:b0:13f:ed59:7950 with SMTP id
+ v11-20020a1709028d8b00b0013fed597950mr2992394plo.61.1634790032704; 
+ Wed, 20 Oct 2021 21:20:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxF6rtStdJvvHxxUghCVXeLbUnthiyWH4qcUJ0c8NnL3yIrbxOOK1Xvwyl5PknbnFMVnIfABQ==
+X-Received: by 2002:a17:902:8d8b:b0:13f:ed59:7950 with SMTP id
+ v11-20020a1709028d8b00b0013fed597950mr2992358plo.61.1634790032320; 
+ Wed, 20 Oct 2021 21:20:32 -0700 (PDT)
+Received: from xz-m1.local ([84.17.34.135])
+ by smtp.gmail.com with ESMTPSA id z5sm3598868pge.2.2021.10.20.21.20.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Oct 2021 21:20:31 -0700 (PDT)
+Date: Thu, 21 Oct 2021 12:20:25 +0800
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH 0/4] vl: Prioritize device realizations
+Message-ID: <YXDqaZL71DCEghbr@xz-m1.local>
+References: <20210818194217.110451-1-peterx@redhat.com>
+ <2817620d-facb-eeee-b854-64193fa4da33@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <2817620d-facb-eeee-b854-64193fa4da33@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,214 +94,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+On Wed, Oct 20, 2021 at 03:44:08PM +0200, David Hildenbrand wrote:
+> On 18.08.21 21:42, Peter Xu wrote:
+> > This is a long pending issue that we haven't fixed.  The issue is in QEMU we
+> > have implicit device ordering requirement when realizing, otherwise some of the
+> > device may not work properly.
+> > 
+> > The initial requirement comes from when vfio-pci starts to work with vIOMMUs.
+> > To make sure vfio-pci will get the correct DMA address space, the vIOMMU device
+> > needs to be created before vfio-pci otherwise vfio-pci will stop working when
+> > the guest enables the vIOMMU and the device at the same time.
+> > 
+> > AFAIU Libvirt should have code that guarantees that.  For QEMU cmdline users,
+> > they need to pay attention or things will stop working at some point.
+> > 
+> > Recently there's a growing and similar requirement on vDPA.  It's not a hard
+> > requirement so far but vDPA has patches that try to workaround this issue.
+> > 
+> > This patchset allows us to realize the devices in the order that e.g. platform
+> > devices will be created first (bus device, IOMMU, etc.), then the rest of
+> > normal devices.  It's done simply by ordering the QemuOptsList of "device"
+> > entries before realization.  The priority so far comes from migration
+> > priorities which could be a little bit odd, but that's really about the same
+> > problem and we can clean that part up in the future.
+> > 
+> > Libvirt can still keep its ordering for sure so old QEMU will still work,
+> > however that won't be needed for new qemus after this patchset, so with the new
+> > binary we should be able to specify qemu cmdline as wish on '-device'.
+> > 
+> > Logically this should also work for vDPA and the workaround code can be done
+> > with more straightforward approaches.
+> > 
+> > Please review, thanks.
+> 
+> Hi Peter, looks like I have another use case:
 
-Similar to the previous patch, let's add problem state read/write access to
-the MMCR2 SPR, which is also a group A PMU SPR that needs to be filtered
-to be read/written by userspace.
+Hi, David,
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20211018010133.315842-4-danielhb413@gmail.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- target/ppc/cpu.h                 |  9 +++
- target/ppc/cpu_init.c            |  2 +-
- target/ppc/power8-pmu-regs.c.inc | 98 ++++++++++++++++++++++++++++----
- target/ppc/spr_tcg.h             |  2 +
- 4 files changed, 99 insertions(+), 12 deletions(-)
+> 
+> vhost devices can heavily restrict the number of available memslots:
+> e.g., upstream KVM ~64k, vhost-user usually 32 (!). With virtio-mem
+> intending to make use of multiple memslots [1] and auto-detecting how
+> many to use based on currently avilable memslots when plugging and
+> realizing the virtio-mem device, this implies that realizing vhost
+> devices (especially vhost-user device) after virtio-mem devices can
+> similarly result in issues: when trying realization of the vhost device
+> with restricted memslots, QEMU will bail out.
+> 
+> So similarly, we'd want to realize any vhost-* before any virtio-mem device.
+> 
+> Do you have any updated version of this patchset? Thanks!
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 0bd008f4b8..0472ec9154 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -353,6 +353,15 @@ typedef struct ppc_v3_pate_t {
- #define MMCR0_PMCC1  PPC_BIT(45)         /* PMC Control bit 1 */
- /* MMCR0 userspace r/w mask */
- #define MMCR0_UREG_MASK (MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE)
-+/* MMCR2 userspace r/w mask */
-+#define MMCR2_FC1P0  PPC_BIT(1)          /* MMCR2 FCnP0 for PMC1 */
-+#define MMCR2_FC2P0  PPC_BIT(10)         /* MMCR2 FCnP0 for PMC2 */
-+#define MMCR2_FC3P0  PPC_BIT(19)         /* MMCR2 FCnP0 for PMC3 */
-+#define MMCR2_FC4P0  PPC_BIT(28)         /* MMCR2 FCnP0 for PMC4 */
-+#define MMCR2_FC5P0  PPC_BIT(37)         /* MMCR2 FCnP0 for PMC5 */
-+#define MMCR2_FC6P0  PPC_BIT(46)         /* MMCR2 FCnP0 for PMC6 */
-+#define MMCR2_UREG_MASK (MMCR2_FC1P0 | MMCR2_FC2P0 | MMCR2_FC3P0 | \
-+                         MMCR2_FC4P0 | MMCR2_FC5P0 | MMCR2_FC6P0)
- 
- /* LPCR bits */
- #define LPCR_VPM0         PPC_BIT(0)
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 375bdca1e1..ad88e54950 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -6975,7 +6975,7 @@ static void register_power8_pmu_sup_sprs(CPUPPCState *env)
- static void register_power8_pmu_user_sprs(CPUPPCState *env)
- {
-     spr_register(env, SPR_POWER_UMMCR2, "UMMCR2",
--                 &spr_read_ureg, SPR_NOACCESS,
-+                 &spr_read_MMCR2_ureg, &spr_write_MMCR2_ureg,
-                  &spr_read_ureg, &spr_write_ureg,
-                  0x00000000);
-     spr_register(env, SPR_POWER_USIER, "USIER",
-diff --git a/target/ppc/power8-pmu-regs.c.inc b/target/ppc/power8-pmu-regs.c.inc
-index 37c812dd4d..fb95175183 100644
---- a/target/ppc/power8-pmu-regs.c.inc
-+++ b/target/ppc/power8-pmu-regs.c.inc
-@@ -55,6 +55,33 @@ static bool spr_groupA_write_allowed(DisasContext *ctx)
-     return false;
- }
- 
-+/*
-+ * Helper function to avoid code repetition between MMCR0 and
-+ * MMCR2 problem state write functions.
-+ *
-+ * 'ret' must be tcg_temp_freed() by the caller.
-+ */
-+static TCGv masked_gprn_for_spr_write(int gprn, int sprn,
-+                                      uint64_t spr_mask)
-+{
-+    TCGv ret = tcg_temp_new();
-+    TCGv t0 = tcg_temp_new();
-+
-+    /* 'ret' starts with all mask bits cleared */
-+    gen_load_spr(ret, sprn);
-+    tcg_gen_andi_tl(ret, ret, ~(spr_mask));
-+
-+    /* Apply the mask into 'gprn' in a temp var */
-+    tcg_gen_andi_tl(t0, cpu_gpr[gprn], spr_mask);
-+
-+    /* Add the masked gprn bits into 'ret' */
-+    tcg_gen_or_tl(ret, ret, t0);
-+
-+    tcg_temp_free(t0);
-+
-+    return ret;
-+}
-+
- void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn)
- {
-     TCGv t0;
-@@ -79,29 +106,68 @@ void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn)
- 
- void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
- {
--    TCGv t0, t1;
-+    TCGv masked_gprn;
- 
-     if (!spr_groupA_write_allowed(ctx)) {
-         return;
-     }
- 
--    t0 = tcg_temp_new();
--    t1 = tcg_temp_new();
--
-     /*
-      * Filter out all bits but FC, PMAO, and PMAE, according
-      * to ISA v3.1, in 10.4.4 Monitor Mode Control Register 0,
-      * fourth paragraph.
-      */
--    tcg_gen_andi_tl(t0, cpu_gpr[gprn], MMCR0_UREG_MASK);
--    gen_load_spr(t1, SPR_POWER_MMCR0);
--    tcg_gen_andi_tl(t1, t1, ~(MMCR0_UREG_MASK));
--    /* Keep all other bits intact */
--    tcg_gen_or_tl(t1, t1, t0);
--    gen_store_spr(SPR_POWER_MMCR0, t1);
-+    masked_gprn = masked_gprn_for_spr_write(gprn, SPR_POWER_MMCR0,
-+                                            MMCR0_UREG_MASK);
-+    gen_store_spr(SPR_POWER_MMCR0, masked_gprn);
-+
-+    tcg_temp_free(masked_gprn);
-+}
-+
-+void spr_read_MMCR2_ureg(DisasContext *ctx, int gprn, int sprn)
-+{
-+    TCGv t0;
-+
-+    if (!spr_groupA_read_allowed(ctx)) {
-+        return;
-+    }
-+
-+    t0 = tcg_temp_new();
-+
-+    /*
-+     * On read, filter out all bits that are not FCnP0 bits.
-+     * When MMCR0[PMCC] is set to 0b10 or 0b11, providing
-+     * problem state programs read/write access to MMCR2,
-+     * only the FCnP0 bits can be accessed. All other bits are
-+     * not changed when mtspr is executed in problem state, and
-+     * all other bits return 0s when mfspr is executed in problem
-+     * state, according to ISA v3.1, section 10.4.6 Monitor Mode
-+     * Control Register 2, p. 1316, third paragraph.
-+     */
-+    gen_load_spr(t0, SPR_POWER_MMCR2);
-+    tcg_gen_andi_tl(t0, t0, MMCR2_UREG_MASK);
-+    tcg_gen_mov_tl(cpu_gpr[gprn], t0);
- 
-     tcg_temp_free(t0);
--    tcg_temp_free(t1);
-+}
-+
-+void spr_write_MMCR2_ureg(DisasContext *ctx, int sprn, int gprn)
-+{
-+    TCGv masked_gprn;
-+
-+    if (!spr_groupA_write_allowed(ctx)) {
-+        return;
-+    }
-+
-+    /*
-+     * Filter the bits that can be written using MMCR2_UREG_MASK,
-+     * similar to what is done in spr_write_MMCR0_ureg().
-+     */
-+    masked_gprn = masked_gprn_for_spr_write(gprn, SPR_POWER_MMCR2,
-+                                            MMCR2_UREG_MASK);
-+    gen_store_spr(SPR_POWER_MMCR2, masked_gprn);
-+
-+    tcg_temp_free(masked_gprn);
- }
- #else
- void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn)
-@@ -113,4 +179,14 @@ void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
- {
-     spr_noaccess(ctx, gprn, sprn);
- }
-+
-+void spr_read_MMCR2_ureg(DisasContext *ctx, int gprn, int sprn)
-+{
-+    spr_read_ureg(ctx, gprn, sprn);
-+}
-+
-+void spr_write_MMCR2_ureg(DisasContext *ctx, int sprn, int gprn)
-+{
-+    spr_noaccess(ctx, gprn, sprn);
-+}
- #endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
-diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
-index b28b095097..cb7f40eedf 100644
---- a/target/ppc/spr_tcg.h
-+++ b/target/ppc/spr_tcg.h
-@@ -33,6 +33,7 @@ void spr_read_ctr(DisasContext *ctx, int gprn, int sprn);
- void spr_write_ctr(DisasContext *ctx, int sprn, int gprn);
- void spr_read_ureg(DisasContext *ctx, int gprn, int sprn);
- void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn);
-+void spr_read_MMCR2_ureg(DisasContext *ctx, int gprn, int sprn);
- void spr_read_tbl(DisasContext *ctx, int gprn, int sprn);
- void spr_read_tbu(DisasContext *ctx, int gprn, int sprn);
- void spr_read_atbl(DisasContext *ctx, int gprn, int sprn);
-@@ -42,6 +43,7 @@ void spr_read_601_rtcu(DisasContext *ctx, int gprn, int sprn);
- void spr_read_spefscr(DisasContext *ctx, int gprn, int sprn);
- void spr_write_spefscr(DisasContext *ctx, int sprn, int gprn);
- void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn);
-+void spr_write_MMCR2_ureg(DisasContext *ctx, int sprn, int gprn);
- 
- #ifndef CONFIG_USER_ONLY
- void spr_write_generic32(DisasContext *ctx, int sprn, int gprn);
+Yes I should follow this up, thanks for asking.
+
+Though after Markus and Igor pointed out to me that it's much more than types
+of device and objects to order, I don't have a good way to fix the ordering
+issue for good on all the problems; obviously current solution only applies to
+device class ordering.
+
+Examples that Markus provided:
+
+https://lore.kernel.org/qemu-devel/87ilzj81q7.fsf@dusky.pond.sub.org/
+
+Also there can be inter-dependency issue too for single device class, e.g., for
+pci buses if bus pcie.2 has a parent pci bus of pcie.1, then we must speficy
+the "-device" for pcie.1 before the "-device" of pcie.2, otherwise qemu will
+fail to boot too.
+
+Any of above examples means ordering based on device class can only solve
+partial of the problems, not all.
+
+And I can buy in with what people worry about on having yet another way to fix
+ordering, since the root issue is still unsettled, even if the current solution
+seems to work for vIOMMU/vfio, and I had a feeling it could work too with the
+virtio-mem issue you're tackling with.
+
+My plan is to move on with what Igor suggested, on using either pre_plug hook
+for vIOMMU to make sure no special devices like vfio are realized before that.
+I think it'll be as silly as a pci bus scan on all the pcie host bridges
+looking for vfio-pci, it can even be put directly into realize() I think as I
+don't see an obvious difference on failing pre_plug() or realize() so far.
+Then I'll just drop this series so the new version may not really help with
+virtio-mem anymore; though not sure virtio-mem can do similar thing.
+
+One step back, OTOH, I do second on what Daniel commented in the other thread
+on leaving that problem to the user; sad to know that we already have pmem
+restriction so hot plugging some device already start to fail, but maybe
+failing is fine as long as nothing will crash? :)
+
+I also do think it's nice to at least allow the user to specify the exact value
+of virtio-mem slot number without any smart tricks to be played when the user
+wants - I think it's still okay to do automatic detection, but that's already
+part of "policy" not "mechanism" to me so imho it should be better optional,
+and now I had a feeling that maybe qemu should be good enough on providing
+these mechanisms first then we leave the rest of the problems to libvirt, maybe
+that's a better place to do all these sanity checks and doing smart things on
+deciding the slot numbers.  For qemu failing at the right point without
+interrupting the guest seems to be good enough so far.
+
+I think "early failing" seems to not be a problem for virtio-mem already since
+if there's a conflict on the slot number then e.g. vhost-user will already fail
+early, not sure whether it means it's good enough.  For vIOMMU I may need to
+work on the other bus scanning patchset to make sure when vfio is specified
+before vIOMMU then we should fail qemu early, and that's still missing.
+
+Thanks,
+
 -- 
-2.31.1
+Peter Xu
 
 
