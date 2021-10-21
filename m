@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7894366C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 17:51:43 +0200 (CEST)
-Received: from localhost ([::1]:34582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ABC543676C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 18:17:00 +0200 (CEST)
+Received: from localhost ([::1]:53240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdaM2-000411-F8
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 11:51:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59666)
+	id 1mdakU-0002Wq-Mf
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 12:16:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mdaAO-0002se-Cc; Thu, 21 Oct 2021 11:39:40 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:43543)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mdaAL-0001QG-1Z; Thu, 21 Oct 2021 11:39:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=CxQ442I4VUiYwoh8W91ZacufD1Fdb/a06fawcfhKy7o=; b=RsWNra3v3RXGyJ7sD4Qnok28fl
- HAWjoKrVSlpHOQw/cbPysNAC5UnJ63/njGq5uKHVBHy2AE7+DVxNPboTvM4UfeCh7fgkrWCZUNck/
- vtHK4jZQzzORHuZwTldFP5EMWvadkmpT1a9whrwVEavJC/37h7w//e0KQoyan2gd/AQizKqKNNTK1
- 2hNrFUVOGJ6CXJnsa98oIrI9tTquQl8ybaJx4os/qC+apMNqx7VEn1wHUL5KO4qnTF5AM3ypXNq+w
- xX09XEG+kNP3BU72GuyfXEmBgrbdhoqOgVtyT4Se9/0YpXW3djoZjhnzdBnfwj34c7uoMKlFjfqhb
- +RSXggecG7l2glzDmzFNIN8Nd8sZnL1mTnZQlPoE4aq402nm+uWVRNKl6J0uHVak5z59IhP9qLEfp
- vWdb94JUpgPHRy+Z35rIlFMis9t+/pbY2Id6CMBP+7rzibOf3wqEjRK58X4vxBcpA52BAZ36Avrzl
- jFIFA82L8BBIYgBYCCAMYRIQ71oRYMFBODWYuhT27ev2Fr1zUeLX+ImJ/SXk7KRMeDnnHY2PiQAfU
- 6inHh5X6mbIYkNRRhzWSS/v5SO+Jgo9qC76zWiKpO5NoH+ZeUxuI0rOYuWILPaB4wFg3rZT5EaZJZ
- p/ErZ4XjD2qd59/eUBJ0jFje1l9oEL02t02wSlcrs=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Amit Shah <amit@kernel.org>,
- David Hildenbrand <david@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, virtio-fs@redhat.com,
- Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 0/3] virtio: increase VIRTQUEUE_MAX_SIZE to 32k
-Date: Thu, 21 Oct 2021 17:39:28 +0200
-Message-ID: <4038040.djDU9dF7GM@silver>
-In-Reply-To: <2657765.azTuxnmmC0@silver>
-References: <cover.1633376313.git.qemu_oss@crudebyte.com>
- <1853723.Wj769PA2Ue@silver> <2657765.azTuxnmmC0@silver>
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mdacm-000333-Ir
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 12:09:01 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:53786)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mdack-0003IE-Bz
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 12:09:00 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id ls18so839696pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 09:08:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=KqtsASlfOloSiXLW4HD9lgyRZbkJtv9iF/YUV61MIw8=;
+ b=Pik/zmC1L+otS8BK1A3ys6/+HzT4Rz+MCkATjGDJln9bT0msoiMR3Z5Eke/oqYu2Or
+ fsM29vdw4N2aueNhJUfZsqdxrwskVzr0X+TSpeKh7bT4Q0VpqhLJtwg3iAxrjRSsx/Xz
+ RG3RDpS2VUru9w1zxU7Y5d6yCZvRPN9yVqfyMxX+Qewc5Fjv7OI4APJDUdeoBY7vkeZk
+ 7iXk/QLJW6UoVILc65VQTwgZ/DwR3KgriugOxvneDt36IeJpb1fyS3a6m+mR7YyERDLQ
+ JbWQZAFMowo+GC7/knSOaHMcpeslOkW4v0w8lXENOtsbLfKeRUYDCjOEUytV+BI0wM8B
+ EMuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=KqtsASlfOloSiXLW4HD9lgyRZbkJtv9iF/YUV61MIw8=;
+ b=7ETvt1tjDVfcRWfqRne7EUIV93vmuUEIPQr8DBUVftDjDWHkbuKE8pAeMEi1/czCno
+ vIC3a2ll8VHnmI/AxEWUTX/ElbVcrFrViMrui2SgipAbDLfL82RwI6r42Xt1BC3l3u5I
+ XIGKhe3Xdd6umw8GvsNGWYzK6bFQDFY0W+vxcNJN81685NKWUWwr1zyV0Jsyag2P3R2b
+ 4Sb95c6/J0x3PkpKyDTmpoU7ZQ4cZdCtmJ53Sz9kXuLK3WWv0ZBOwlomi8k3wkq5mgll
+ AYGbUSapOqypEfyQ9uFBSLrjCauvr5oM6oQQ/tvkNGR99jvOGha0kAQnqQe+0vshSFeQ
+ GNBw==
+X-Gm-Message-State: AOAM533ZAT4w3qExUmTMgsbM1fXZejd1vAhObqNOcUyBAjQbmUAs5/GS
+ p2a1agSb28QZ1HYs0z+2tlKtIg==
+X-Google-Smtp-Source: ABdhPJxdXCCPQg0KPBtgmeJHBuRhhRTpsWnQTLHy7HCI7cRz+PcwKqHovK2zTThOrI34YBV2qMlTFA==
+X-Received: by 2002:a17:90b:30d6:: with SMTP id
+ hi22mr7887691pjb.4.1634832536898; 
+ Thu, 21 Oct 2021 09:08:56 -0700 (PDT)
+Received: from localhost.localdomain (123-193-74-252.dynamic.kbronet.com.tw.
+ [123.193.74.252])
+ by smtp.gmail.com with ESMTPSA id r13sm5752505pgv.21.2021.10.21.09.08.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Oct 2021 09:08:56 -0700 (PDT)
+From: frank.chang@sifive.com
+To: qemu-riscv@nongnu.org
+Subject: [PATCH v5 1/2] softfloat: add APIs to handle alternative sNaN
+ propagation for fmax/fmin
+Date: Fri, 22 Oct 2021 00:08:45 +0800
+Message-Id: <20211021160847.2748577-2-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211021160847.2748577-1-frank.chang@sifive.com>
+References: <20211021160847.2748577-1-frank.chang@sifive.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,444 +85,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Frank Chang <frank.chang@sifive.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Chih-Min Chao <chihmin.chao@sifive.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 8. Oktober 2021 18:08:48 CEST Christian Schoenebeck wrote:
-> On Freitag, 8. Oktober 2021 16:24:42 CEST Christian Schoenebeck wrote:
-> > On Freitag, 8. Oktober 2021 09:25:33 CEST Greg Kurz wrote:
-> > > On Thu, 7 Oct 2021 16:42:49 +0100
-> > > 
-> > > Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > > > On Thu, Oct 07, 2021 at 02:51:55PM +0200, Christian Schoenebeck wrote:
-> > > > > On Donnerstag, 7. Oktober 2021 07:23:59 CEST Stefan Hajnoczi wrote:
-> > > > > > On Mon, Oct 04, 2021 at 09:38:00PM +0200, Christian Schoenebeck
-> 
-> wrote:
-> > > > > > > At the moment the maximum transfer size with virtio is limited
-> > > > > > > to
-> > > > > > > 4M
-> > > > > > > (1024 * PAGE_SIZE). This series raises this limit to its maximum
-> > > > > > > theoretical possible transfer size of 128M (32k pages) according
-> > > > > > > to
-> > > > > > > the
-> > > > > > > virtio specs:
-> > > > > > > 
-> > > > > > > https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-
-> > > > > > > cs
-> > > > > > > 01
-> > > > > > > .html#
-> > > > > > > x1-240006
-> > > > > > 
-> > > > > > Hi Christian,
-> > > 
-> > > > > > I took a quick look at the code:
-> > > Hi,
-> > > 
-> > > Thanks Stefan for sharing virtio expertise and helping Christian !
-> > > 
-> > > > > > - The Linux 9p driver restricts descriptor chains to 128 elements
-> > > > > > 
-> > > > > >   (net/9p/trans_virtio.c:VIRTQUEUE_NUM)
-> > > > > 
-> > > > > Yes, that's the limitation that I am about to remove (WIP); current
-> > > > > kernel
-> > > > > patches:
-> > > > > https://lore.kernel.org/netdev/cover.1632327421.git.linux_oss@crudeb
-> > > > > yt
-> > > > > e.
-> > > > > com/>
-> > > > 
-> > > > I haven't read the patches yet but I'm concerned that today the driver
-> > > > is pretty well-behaved and this new patch series introduces a spec
-> > > > violation. Not fixing existing spec violations is okay, but adding new
-> > > > ones is a red flag. I think we need to figure out a clean solution.
-> > 
-> > Nobody has reviewed the kernel patches yet. My main concern therefore
-> > actually is that the kernel patches are already too complex, because the
-> > current situation is that only Dominique is handling 9p patches on kernel
-> > side, and he barely has time for 9p anymore.
-> > 
-> > Another reason for me to catch up on reading current kernel code and
-> > stepping in as reviewer of 9p on kernel side ASAP, independent of this
-> > issue.
-> > 
-> > As for current kernel patches' complexity: I can certainly drop patch 7
-> > entirely as it is probably just overkill. Patch 4 is then the biggest
-> > chunk, I have to see if I can simplify it, and whether it would make
-> > sense to squash with patch 3.
-> > 
-> > > > > > - The QEMU 9pfs code passes iovecs directly to preadv(2) and will
-> > > > > > fail
-> > > > > > 
-> > > > > >   with EINVAL when called with more than IOV_MAX iovecs
-> > > > > >   (hw/9pfs/9p.c:v9fs_read())
-> > > > > 
-> > > > > Hmm, which makes me wonder why I never encountered this error during
-> > > > > testing.
-> > > > > 
-> > > > > Most people will use the 9p qemu 'local' fs driver backend in
-> > > > > practice,
-> > > > > so
-> > > > > that v9fs_read() call would translate for most people to this
-> > > > > implementation on QEMU side (hw/9p/9p-local.c):
-> > > > > 
-> > > > > static ssize_t local_preadv(FsContext *ctx, V9fsFidOpenState *fs,
-> > > > > 
-> > > > >                             const struct iovec *iov,
-> > > > >                             int iovcnt, off_t offset)
-> > > > > 
-> > > > > {
-> > > > > #ifdef CONFIG_PREADV
-> > > > > 
-> > > > >     return preadv(fs->fd, iov, iovcnt, offset);
-> > > > > 
-> > > > > #else
-> > > > > 
-> > > > >     int err = lseek(fs->fd, offset, SEEK_SET);
-> > > > >     if (err == -1) {
-> > > > >     
-> > > > >         return err;
-> > > > >     
-> > > > >     } else {
-> > > > >     
-> > > > >         return readv(fs->fd, iov, iovcnt);
-> > > > >     
-> > > > >     }
-> > > > > 
-> > > > > #endif
-> > > > > }
-> > > > > 
-> > > > > > Unless I misunderstood the code, neither side can take advantage
-> > > > > > of
-> > > > > > the
-> > > > > > new 32k descriptor chain limit?
-> > > > > > 
-> > > > > > Thanks,
-> > > > > > Stefan
-> > > > > 
-> > > > > I need to check that when I have some more time. One possible
-> > > > > explanation
-> > > > > might be that preadv() already has this wrapped into a loop in its
-> > > > > implementation to circumvent a limit like IOV_MAX. It might be
-> > > > > another
-> > > > > "it
-> > > > > works, but not portable" issue, but not sure.
-> > > > > 
-> > > > > There are still a bunch of other issues I have to resolve. If you
-> > > > > look
-> > > > > at
-> > > > > net/9p/client.c on kernel side, you'll notice that it basically does
-> > > > > this ATM> >
-> > > > > 
-> > > > >     kmalloc(msize);
-> > > 
-> > > Note that this is done twice : once for the T message (client request)
-> > > and
-> > > once for the R message (server answer). The 9p driver could adjust the
-> > > size
-> > > of the T message to what's really needed instead of allocating the full
-> > > msize. R message size is not known though.
-> > 
-> > Would it make sense adding a second virtio ring, dedicated to server
-> > responses to solve this? IIRC 9p server already calculates appropriate
-> > exact sizes for each response type. So server could just push space that's
-> > really needed for its responses.
-> > 
-> > > > > for every 9p request. So not only does it allocate much more memory
-> > > > > for
-> > > > > every request than actually required (i.e. say 9pfs was mounted with
-> > > > > msize=8M, then a 9p request that actually would just need 1k would
-> > > > > nevertheless allocate 8M), but also it allocates > PAGE_SIZE, which
-> > > > > obviously may fail at any time.>
-> > > > 
-> > > > The PAGE_SIZE limitation sounds like a kmalloc() vs vmalloc()
-> > > > situation.
-> > 
-> > Hu, I didn't even consider vmalloc(). I just tried the kvmalloc() wrapper
-> > as a quick & dirty test, but it crashed in the same way as kmalloc() with
-> > large msize values immediately on mounting:
-> > 
-> > diff --git a/net/9p/client.c b/net/9p/client.c
-> > index a75034fa249b..cfe300a4b6ca 100644
-> > --- a/net/9p/client.c
-> > +++ b/net/9p/client.c
-> > @@ -227,15 +227,18 @@ static int parse_opts(char *opts, struct p9_client
-> > *clnt)
-> > 
-> >  static int p9_fcall_init(struct p9_client *c, struct p9_fcall *fc,
-> >  
-> >                          int alloc_msize)
-> >  
-> >  {
-> > 
-> > -       if (likely(c->fcall_cache) && alloc_msize == c->msize) {
-> > +       //if (likely(c->fcall_cache) && alloc_msize == c->msize) {
-> > +       if (false) {
-> > 
-> >                 fc->sdata = kmem_cache_alloc(c->fcall_cache, GFP_NOFS);
-> >                 fc->cache = c->fcall_cache;
-> >         
-> >         } else {
-> > 
-> > -               fc->sdata = kmalloc(alloc_msize, GFP_NOFS);
-> > +               fc->sdata = kvmalloc(alloc_msize, GFP_NOFS);
-> 
-> Ok, GFP_NOFS -> GFP_KERNEL did the trick.
-> 
-> Now I get:
-> 
->    virtio: bogus descriptor or out of resources
-> 
-> So, still some work ahead on both ends.
+From: Chih-Min Chao <chihmin.chao@sifive.com>
 
-Few hacks later (only changes on 9p client side) I got this running stable
-now. The reason for the virtio error above was that kvmalloc() returns a
-non-logical kernel address for any kvmalloc(>4M), i.e. an address that is
-inaccessible from host side, hence that "bogus descriptor" message by QEMU.
-So I had to split those linear 9p client buffers into sparse ones (set of
-individual pages).
+For "fmax/fmin ft0, ft1, ft2" and if one of the inputs is sNaN,
 
-I tested this for some days with various virtio transmission sizes and it
-works as expected up to 128 MB (more precisely: 128 MB read space + 128 MB
-write space per virtio round trip message).
+  The original logic:
+    Return NaN and set invalid flag if ft1 == sNaN || ft2 == sNan.
 
-I did not encounter a show stopper for large virtio transmission sizes
-(4 MB ... 128 MB) on virtio level, neither as a result of testing, nor after
-reviewing the existing code.
+  The alternative path:
+    Set invalid flag if ft1 == sNaN || ft2 == sNaN.
+    Return NaN only if ft1 == NaN && ft2 == NaN.
 
-About IOV_MAX: that's apparently not an issue on virtio level. Most of the
-iovec code, both on Linux kernel side and on QEMU side do not have this
-limitation. It is apparently however indeed a limitation for userland apps
-calling the Linux kernel's syscalls yet.
+The IEEE 754 spec allows both implementation and some architecture such
+as riscv choose different defintions in two spec versions.
+(riscv-spec-v2.2 use original version, riscv-spec-20191213 changes to
+ alternative)
 
-Stefan, as it stands now, I am even more convinced that the upper virtio
-transmission size limit should not be squeezed into the queue size argument of
-virtio_add_queue(). Not because of the previous argument that it would waste
-space (~1MB), but rather because they are two different things. To outline
-this, just a quick recap of what happens exactly when a bulk message is pushed
-over the virtio wire (assuming virtio "split" layout here):
+Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ fpu/softfloat-parts.c.inc | 25 +++++++++++++++++++++++--
+ fpu/softfloat.c           | 19 +++++++++++++------
+ include/fpu/softfloat.h   | 10 ++++++++++
+ 3 files changed, 46 insertions(+), 8 deletions(-)
 
----------- [recap-start] ----------
-
-For each bulk message sent guest <-> host, exactly *one* of the pre-allocated
-descriptors is taken and placed (subsequently) into exactly *one* position of
-the two available/used ring buffers. The actual descriptor table though,
-containing all the DMA addresses of the message bulk data, is allocated just
-in time for each round trip message. Say, it is the first message sent, it
-yields in the following structure:
-
-Ring Buffer   Descriptor Table      Bulk Data Pages
-
-   +-+              +-+           +-----------------+
-   |D|------------->|d|---------->| Bulk data block |
-   +-+              |d|--------+  +-----------------+
-   | |              |d|------+ |
-   +-+               .       | |  +-----------------+
-   | |               .       | +->| Bulk data block |
-    .                .       |    +-----------------+
-    .               |d|-+    |
-    .               +-+ |    |    +-----------------+
-   | |                  |    +--->| Bulk data block |
-   +-+                  |         +-----------------+
-   | |                  |                 .
-   +-+                  |                 .
-                        |                 .
-                        |         +-----------------+
-                        +-------->| Bulk data block |
-                                  +-----------------+
-Legend:
-D: pre-allocated descriptor
-d: just in time allocated descriptor
--->: memory pointer (DMA)
-
-The bulk data blocks are allocated by the respective device driver above
-virtio subsystem level (guest side).
-
-There are exactly as many descriptors pre-allocated (D) as the size of a ring
-buffer.
-
-A "descriptor" is more or less just a chainable DMA memory pointer; defined
-as:
-
-/* Virtio ring descriptors: 16 bytes.  These can chain together via "next". */
-struct vring_desc {
-	/* Address (guest-physical). */
-	__virtio64 addr;
-	/* Length. */
-	__virtio32 len;
-	/* The flags as indicated above. */
-	__virtio16 flags;
-	/* We chain unused descriptors via this, too */
-	__virtio16 next;
-};
-
-There are 2 ring buffers; the "available" ring buffer is for sending a message
-guest->host (which will transmit DMA addresses of guest allocated bulk data
-blocks that are used for data sent to device, and separate guest allocated
-bulk data blocks that will be used by host side to place its response bulk
-data), and the "used" ring buffer is for sending host->guest to let guest know
-about host's response and that it could now safely consume and then deallocate
-the bulk data blocks subsequently.
-
----------- [recap-end] ----------
-
-So the "queue size" actually defines the ringbuffer size. It does not define
-the maximum amount of descriptors. The "queue size" rather defines how many
-pending messages can be pushed into either one ringbuffer before the other
-side would need to wait until the counter side would step up (i.e. ring buffer
-full).
-
-The maximum amount of descriptors (what VIRTQUEUE_MAX_SIZE actually is) OTOH
-defines the max. bulk data size that could be transmitted with each virtio
-round trip message.
-
-And in fact, 9p currently handles the virtio "queue size" as directly
-associative with its maximum amount of active 9p requests the server could
-handle simultaniously:
-
-  hw/9pfs/9p.h:#define MAX_REQ         128
-  hw/9pfs/9p.h:    V9fsPDU pdus[MAX_REQ];
-  hw/9pfs/virtio-9p-device.c:    v->vq = virtio_add_queue(vdev, MAX_REQ,
-                                 handle_9p_output);
-
-So if I would change it like this, just for the purpose to increase the max.
-virtio transmission size:
-
---- a/hw/9pfs/virtio-9p-device.c
-+++ b/hw/9pfs/virtio-9p-device.c
-@@ -218,7 +218,7 @@ static void virtio_9p_device_realize(DeviceState *dev, Error **errp)
-     v->config_size = sizeof(struct virtio_9p_config) + strlen(s->fsconf.tag);
-     virtio_init(vdev, "virtio-9p", VIRTIO_ID_9P, v->config_size,
-                 VIRTQUEUE_MAX_SIZE);
--    v->vq = virtio_add_queue(vdev, MAX_REQ, handle_9p_output);
-+    v->vq = virtio_add_queue(vdev, 32*1024, handle_9p_output);
- }
+diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
+index dddee92d6ee..41d4b17e419 100644
+--- a/fpu/softfloat-parts.c.inc
++++ b/fpu/softfloat-parts.c.inc
+@@ -1219,14 +1219,35 @@ static FloatPartsN *partsN(minmax)(FloatPartsN *a, FloatPartsN *b,
  
-Then it would require additional synchronization code on both ends and
-therefore unnecessary complexity, because it would now be possible that more
-requests are pushed into the ringbuffer than server could handle.
-
-There is one potential issue though that probably did justify the "don't
-exceed the queue size" rule:
-
-ATM the descriptor table is allocated (just in time) as *one* continuous
-buffer via kmalloc_array():
-https://github.com/torvalds/linux/blob/2f111a6fd5b5297b4e92f53798ca086f7c7d33a4/drivers/virtio/virtio_ring.c#L440
-
-So assuming transmission size of 2 * 128 MB that kmalloc_array() call would
-yield in kmalloc(1M) and the latter might fail if guest had highly fragmented
-physical memory. For such kind of error case there is currently a fallback
-path in virtqueue_add_split() that would then use the required amount of
-pre-allocated descriptors instead:
-https://github.com/torvalds/linux/blob/2f111a6fd5b5297b4e92f53798ca086f7c7d33a4/drivers/virtio/virtio_ring.c#L525
-
-That fallback recovery path would no longer be viable if the queue size was
-exceeded. There would be alternatives though, e.g. by allowing to chain
-indirect descriptor tables (currently prohibited by the virtio specs).
-
-Best regards,
-Christian Schoenebeck
-
-> 
-> >                 fc->cache = NULL;
-> >         
-> >         }
-> > 
-> > -       if (!fc->sdata)
-> > +       if (!fc->sdata) {
-> > +               pr_info("%s !fc->sdata", __func__);
-> > 
-> >                 return -ENOMEM;
-> > 
-> > +       }
-> > 
-> >         fc->capacity = alloc_msize;
-> >         return 0;
-> >  
-> >  }
-> > 
-> > I try to look at this at the weekend, I would have expected this hack to
-> > bypass this issue.
-> > 
-> > > > I saw zerocopy code in the 9p guest driver but didn't investigate when
-> > > > it's used. Maybe that should be used for large requests (file
-> > > > reads/writes)?
-> > > 
-> > > This is the case already : zero-copy is only used for
-> > > reads/writes/readdir
-> > > if the requested size is 1k or more.
-> > > 
-> > > Also you'll note that in this case, the 9p driver doesn't allocate msize
-> > > for the T/R messages but only 4k, which is largely enough to hold the
-> > > header.
-> > > 
-> > > 	/*
-> > > 	
-> > > 	 * We allocate a inline protocol data of only 4k bytes.
-> > > 	 * The actual content is passed in zero-copy fashion.
-> > > 	 */
-> > > 	
-> > > 	req = p9_client_prepare_req(c, type, P9_ZC_HDR_SZ, fmt, ap);
-> > > 
-> > > and
-> > > 
-> > > /* size of header for zero copy read/write */
-> > > #define P9_ZC_HDR_SZ 4096
-> > > 
-> > > A huge msize only makes sense for Twrite, Rread and Rreaddir because
-> > > of the amount of data they convey. All other messages certainly fit
-> > > in a couple of kilobytes only (sorry, don't remember the numbers).
-> > > 
-> > > A first change should be to allocate MIN(XXX, msize) for the
-> > > regular non-zc case, where XXX could be a reasonable fixed
-> > > value (8k?). In the case of T messages, it is even possible
-> > > to adjust the size to what's exactly needed, ala snprintf(NULL).
-> > 
-> > Good idea actually! That would limit this problem to reviewing the 9p
-> > specs
-> > and picking one reasonable max value. Because you are right, those message
-> > types are tiny. Probably not worth to pile up new code to calculate exact
-> > message sizes for each one of them.
-> > 
-> > Adding some safety net would make sense though, to force e.g. if a new
-> > message type is added in future, that this value would be reviewed as
-> > well,
-> > something like:
-> > 
-> > static int max_msg_size(int msg_type) {
-> > 
-> >     switch (msg_type) {
-> >     
-> >         /* large zero copy messages */
-> >         case Twrite:
-> >         case Tread:
-> >         
-> >         case Treaddir:
-> >             BUG_ON(true);
-> >         
-> >         /* small messages */
-> >         case Tversion:
-> >         ....
-> >         
-> >             return 8k; /* to be replaced with appropriate max value */
-> >     
-> >     }
-> > 
-> > }
-> > 
-> > That way the compiler would bark on future additions. But on doubt, a
-> > simple comment on msg type enum might do as well though.
-> > 
-> > > > virtio-blk/scsi don't memcpy data into a new buffer, they
-> > > > directly access page cache or O_DIRECT pinned pages.
-> > > > 
-> > > > Stefan
-> > > 
-> > > Cheers,
-> > > 
-> > > --
-> > > Greg
-
+     if (unlikely(ab_mask & float_cmask_anynan)) {
+         /*
+-         * For minnum/maxnum, if one operand is a QNaN, and the other
++         * For minNum/maxNum (IEEE 754-2008)
++         * or minimumNumber/maximumNumber (IEEE 754-2019),
++         * if one operand is a QNaN, and the other
+          * operand is numerical, then return numerical argument.
+          */
+-        if ((flags & minmax_isnum)
++        if ((flags & (minmax_isnum | minmax_isnumber))
+             && !(ab_mask & float_cmask_snan)
+             && (ab_mask & ~float_cmask_qnan)) {
+             return is_nan(a->cls) ? b : a;
+         }
++
++        /*
++         * In IEEE 754-2019, minNum, maxNum, minNumMag and maxNumMag
++         * are removed and replaced with minimum, minimumNumber, maximum
++         * and maximumNumber.
++         * minimumNumber/maximumNumber behavior for SNaN is changed to:
++         *   If both operands are NaNs, a QNaN is returned.
++         *   If either operand is a SNaN,
++         *   an invalid operation exception is signaled,
++         *   but unless both operands are NaNs,
++         *   the SNaN is otherwise ignored and not converted to a QNaN.
++         */
++        if ((flags & minmax_isnumber)
++            && (ab_mask & float_cmask_snan)
++            && (ab_mask & ~float_cmask_anynan)) {
++            float_raise(float_flag_invalid, s);
++            return is_nan(a->cls) ? b : a;
++        }
++
+         return parts_pick_nan(a, b, s);
+     }
+ 
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 6e769f990c2..9a28720d82a 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -436,6 +436,11 @@ enum {
+     minmax_isnum = 2,
+     /* Set for the IEEE 754-2008 minNumMag() and minNumMag() operations. */
+     minmax_ismag = 4,
++    /*
++     * Set for the IEEE 754-2019 minimumNumber() and maximumNumber()
++     * operations.
++     */
++    minmax_isnumber = 8,
+ };
+ 
+ /* Simple helpers for checking if, or what kind of, NaN we have */
+@@ -3927,12 +3932,14 @@ static float128 float128_minmax(float128 a, float128 b,
+     { return type##_minmax(a, b, s, flags); }
+ 
+ #define MINMAX_2(type) \
+-    MINMAX_1(type, max, 0)                                      \
+-    MINMAX_1(type, maxnum, minmax_isnum)                        \
+-    MINMAX_1(type, maxnummag, minmax_isnum | minmax_ismag)      \
+-    MINMAX_1(type, min, minmax_ismin)                           \
+-    MINMAX_1(type, minnum, minmax_ismin | minmax_isnum)         \
+-    MINMAX_1(type, minnummag, minmax_ismin | minmax_isnum | minmax_ismag)
++    MINMAX_1(type, max, 0)                                                \
++    MINMAX_1(type, maxnum, minmax_isnum)                                  \
++    MINMAX_1(type, maxnummag, minmax_isnum | minmax_ismag)                \
++    MINMAX_1(type, maximum_number, minmax_isnumber)                       \
++    MINMAX_1(type, min, minmax_ismin)                                     \
++    MINMAX_1(type, minnum, minmax_ismin | minmax_isnum)                   \
++    MINMAX_1(type, minnummag, minmax_ismin | minmax_isnum | minmax_ismag) \
++    MINMAX_1(type, minimum_number, minmax_ismin | minmax_isnumber)        \
+ 
+ MINMAX_2(float16)
+ MINMAX_2(bfloat16)
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index ec7dca09606..a249991e612 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -243,6 +243,8 @@ float16 float16_minnum(float16, float16, float_status *status);
+ float16 float16_maxnum(float16, float16, float_status *status);
+ float16 float16_minnummag(float16, float16, float_status *status);
+ float16 float16_maxnummag(float16, float16, float_status *status);
++float16 float16_minimum_number(float16, float16, float_status *status);
++float16 float16_maximum_number(float16, float16, float_status *status);
+ float16 float16_sqrt(float16, float_status *status);
+ FloatRelation float16_compare(float16, float16, float_status *status);
+ FloatRelation float16_compare_quiet(float16, float16, float_status *status);
+@@ -422,6 +424,8 @@ bfloat16 bfloat16_minnum(bfloat16, bfloat16, float_status *status);
+ bfloat16 bfloat16_maxnum(bfloat16, bfloat16, float_status *status);
+ bfloat16 bfloat16_minnummag(bfloat16, bfloat16, float_status *status);
+ bfloat16 bfloat16_maxnummag(bfloat16, bfloat16, float_status *status);
++bfloat16 bfloat16_minimum_number(bfloat16, bfloat16, float_status *status);
++bfloat16 bfloat16_maximum_number(bfloat16, bfloat16, float_status *status);
+ bfloat16 bfloat16_sqrt(bfloat16, float_status *status);
+ FloatRelation bfloat16_compare(bfloat16, bfloat16, float_status *status);
+ FloatRelation bfloat16_compare_quiet(bfloat16, bfloat16, float_status *status);
+@@ -589,6 +593,8 @@ float32 float32_minnum(float32, float32, float_status *status);
+ float32 float32_maxnum(float32, float32, float_status *status);
+ float32 float32_minnummag(float32, float32, float_status *status);
+ float32 float32_maxnummag(float32, float32, float_status *status);
++float32 float32_minimum_number(float32, float32, float_status *status);
++float32 float32_maximum_number(float32, float32, float_status *status);
+ bool float32_is_quiet_nan(float32, float_status *status);
+ bool float32_is_signaling_nan(float32, float_status *status);
+ float32 float32_silence_nan(float32, float_status *status);
+@@ -778,6 +784,8 @@ float64 float64_minnum(float64, float64, float_status *status);
+ float64 float64_maxnum(float64, float64, float_status *status);
+ float64 float64_minnummag(float64, float64, float_status *status);
+ float64 float64_maxnummag(float64, float64, float_status *status);
++float64 float64_minimum_number(float64, float64, float_status *status);
++float64 float64_maximum_number(float64, float64, float_status *status);
+ bool float64_is_quiet_nan(float64 a, float_status *status);
+ bool float64_is_signaling_nan(float64, float_status *status);
+ float64 float64_silence_nan(float64, float_status *status);
+@@ -1210,6 +1218,8 @@ float128 float128_minnum(float128, float128, float_status *status);
+ float128 float128_maxnum(float128, float128, float_status *status);
+ float128 float128_minnummag(float128, float128, float_status *status);
+ float128 float128_maxnummag(float128, float128, float_status *status);
++float128 float128_minimum_number(float128, float128, float_status *status);
++float128 float128_maximum_number(float128, float128, float_status *status);
+ bool float128_is_quiet_nan(float128, float_status *status);
+ bool float128_is_signaling_nan(float128, float_status *status);
+ float128 float128_silence_nan(float128, float_status *status);
+-- 
+2.25.1
 
 
