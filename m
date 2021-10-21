@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F168435A07
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:32:25 +0200 (CEST)
-Received: from localhost ([::1]:42994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829AC435A0E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:38:02 +0200 (CEST)
+Received: from localhost ([::1]:50588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdPke-00005t-OY
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42620)
+	id 1mdPq5-0005Kj-K7
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:38:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZS-0005UR-62; Thu, 21 Oct 2021 00:20:50 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:57893)
+ id 1mdPZU-0005WZ-9x; Thu, 21 Oct 2021 00:20:54 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:56045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZQ-0008EO-3h; Thu, 21 Oct 2021 00:20:49 -0400
+ id 1mdPZQ-0008EQ-6n; Thu, 21 Oct 2021 00:20:52 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HZZ5p3vMnz4xdF; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
+ id 4HZZ5p40n1z4xdG; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1634790030;
- bh=xTjxyXDsAhACrgB7tmQu79b8AqV1hBRQBgtQJlME33E=;
+ bh=XIFG7RTmGkrXR8UqPAoN716vrZqlFqwHCd/RBErCBBo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=d2uuRdMsWtQ000n+FDRog9lfbJ+sGiHaRGreEQAhVB694BHQAi7SMruY29dM5vDmI
- w5enTTDT2iNgmj5Zhd255FcZBEDTQFTyKvkUs8bXAhP7YwybTPmFuy2su3jy0IqJs3
- rOqvrLWTg2droDZHe+ZMDqqh7bzfB8m8AbJ0cr5k=
+ b=PteX8SRl7JaSpHoj3NN9lXpOzEsAtiLY2+XjlaaEXiCZnOkh/GspnX63RPhhtvo6N
+ OPUGuSUi2byQrtZPPET+MmSmtep7CWoS7QMTcCoAPjitGBeSaD42+nhFaRsE2aagW3
+ T79BgzGaN50OWfi27CATFxZiwCGbM8bFUVAK14Yk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 07/25] hw/ppc: Fix iothread locking in the 405 code
-Date: Thu, 21 Oct 2021 15:20:09 +1100
-Message-Id: <20211021042027.345405-8-david@gibson.dropbear.id.au>
+Subject: [PULL 08/25] tests/acceptance: Add tests for the ppc405 boards
+Date: Thu, 21 Oct 2021 15:20:10 +1100
+Message-Id: <20211021042027.345405-9-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211021042027.345405-1-david@gibson.dropbear.id.au>
 References: <20211021042027.345405-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,53 +59,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>, danielhb413@gmail.com,
  qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-When using u-boot as firmware with the taihu board, QEMU aborts with
-this assertion:
-
- ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: assertion failed:
-  (qemu_mutex_iothread_locked())
-
-Running QEMU with "-d in_asm" shows that the crash happens when writing
-to SPR 0x3f2, so we are missing to lock the iothread in the code path
-here.
+Using the U-Boot firmware, we can check that at least the serial console
+of the ppc405 boards is still usable.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20211006071140.565952-1-thuth@redhat.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Tested-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20211011125930.750217-1-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+[dwg: Added an extra tag at Philippe's suggestion]
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/ppc.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/acceptance/ppc_405.py | 42 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
+ create mode 100644 tests/acceptance/ppc_405.py
 
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index a724b0bb5e..e8127599c9 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -336,6 +336,8 @@ void store_40x_dbcr0(CPUPPCState *env, uint32_t val)
- {
-     PowerPCCPU *cpu = env_archcpu(env);
- 
-+    qemu_mutex_lock_iothread();
+diff --git a/tests/acceptance/ppc_405.py b/tests/acceptance/ppc_405.py
+new file mode 100644
+index 0000000000..c534d5d32f
+--- /dev/null
++++ b/tests/acceptance/ppc_405.py
+@@ -0,0 +1,42 @@
++# Test that the U-Boot firmware boots on ppc 405 machines and check the console
++#
++# Copyright (c) 2021 Red Hat, Inc.
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
 +
-     switch ((val >> 28) & 0x3) {
-     case 0x0:
-         /* No action */
-@@ -353,6 +355,8 @@ void store_40x_dbcr0(CPUPPCState *env, uint32_t val)
-         ppc40x_system_reset(cpu);
-         break;
-     }
++from avocado.utils import archive
++from avocado_qemu import Test
++from avocado_qemu import wait_for_console_pattern
++from avocado_qemu import exec_command_and_wait_for_pattern
 +
-+    qemu_mutex_unlock_iothread();
- }
- 
- /* PowerPC 40x internal IRQ controller */
++class Ppc405Machine(Test):
++
++    timeout = 90
++
++    def do_test_ppc405(self):
++        uboot_url = ('https://gitlab.com/huth/u-boot/-/raw/'
++                     'taihu-2021-10-09/u-boot-taihu.bin')
++        uboot_hash = ('3208940e908a5edc7c03eab072c60f0dcfadc2ab');
++        file_path = self.fetch_asset(uboot_url, asset_hash=uboot_hash)
++        self.vm.set_console(console_index=1)
++        self.vm.add_args('-bios', file_path)
++        self.vm.launch()
++        wait_for_console_pattern(self, 'AMCC PPC405EP Evaluation Board')
++        exec_command_and_wait_for_pattern(self, 'reset', 'AMCC PowerPC 405EP')
++
++    def test_ppc_taihu(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=machine:taihu
++        :avocado: tags=cpu:405ep
++        """
++        self.do_test_ppc405()
++
++    def test_ppc_ref405ep(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=machine:ref405ep
++        :avocado: tags=cpu:405ep
++        """
++        self.do_test_ppc405()
 -- 
 2.31.1
 
