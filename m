@@ -2,55 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE197435E4D
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 11:51:30 +0200 (CEST)
-Received: from localhost ([::1]:41184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D876B435E9D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 12:06:17 +0200 (CEST)
+Received: from localhost ([::1]:48394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdUjS-0006ky-38
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 05:51:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53510)
+	id 1mdUxk-0003ko-Fb
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 06:06:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1mdUhw-0005XV-N8
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 05:49:56 -0400
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:35689)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1mdUtQ-0001gx-CX
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:01:48 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:23577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1mdUht-0008Ud-62
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 05:49:56 -0400
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.94)
- for qemu-devel@nongnu.org with esmtps (TLS1.2)
- tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1mdUhV-0015Pc-2T; Thu, 21 Oct 2021 11:49:29 +0200
-Received: from p57bd9c1a.dip0.t-ipconnect.de ([87.189.156.26]
- helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.94)
- for qemu-devel@nongnu.org with esmtpsa (TLS1.2)
- tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1mdUhU-000Sd0-Kb; Thu, 21 Oct 2021 11:49:29 +0200
-Message-ID: <4882e4cc-6754-1c8a-a8ae-a2ceeca115fb@physik.fu-berlin.de>
-Date: Thu, 21 Oct 2021 11:49:28 +0200
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1mdUtN-0002mm-4U
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:01:47 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id ED718468DC;
+ Thu, 21 Oct 2021 12:01:41 +0200 (CEST)
+From: Stefan Reiter <s.reiter@proxmox.com>
+To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
+Subject: [PATCH v7 0/4] VNC-related HMP/QMP fixes
+Date: Thu, 21 Oct 2021 12:01:31 +0200
+Message-Id: <20211021100135.4146766-1-s.reiter@proxmox.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Content-Language: en-US
-To: QEMU Developers <qemu-devel@nongnu.org>
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Subject: Looking for advise on debugging a non-boot kernel on qemu-system-sh4
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.156.26
-Received-SPF: pass client-ip=130.133.4.66;
- envelope-from=glaubitz@zedat.fu-berlin.de; helo=outpost1.zedat.fu-berlin.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,41 +56,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello!
+Since the removal of the generic 'qmp_change' command, one can no longer replace
+the 'default' VNC display listen address at runtime (AFAIK). For our users who
+need to set up a secondary VNC access port, this means configuring a second VNC
+display (in addition to our standard one for web-access), but it turns out one
+cannot set a password on this second display at the moment, as the
+'set_password' call only operates on the 'default' display.
 
-I'm regularly building debian-installer packages for Debian's unofficial ports
-which includes sh4 among others. The kernel package and therefore the installer
-package contains a kernel for the SH7751R machine which is emulated by QEMU when
-choosing the "r2d" type.
+Additionally, using secret objects, the password is only read once at startup.
+This could be considered a bug too, but is not touched in this series and left
+for a later date.
 
-Unfortunately, I have not yet been able to boot a current kernel on qemu-system-sh4,
-the screen remains blank and there are no error messages. Booting an older 2.6 kernel
-works just fine.
+v6 -> v7:
+* remove g_strdup and g_free, use strings directly
+* squash in last patch
 
-I'm using qemu-system-sh4 as follows:
+v5 -> v6:
+* consider feedback from Markus' review, mainly:
+  * fix crash bug in patch 1 (sorry, artifact of patch-splitting)
+  * rely on '!has_param => param == NULL' to shorten code
+  * add note to 'docs/about/deprecated.rst' and touch up comments a bit
+* go back to g_free instead of qapi_free_* since the latter apparently tries to
+  free the passed in pointer which lives on the stack...
+* fix bug in HMP parsing (see patch 1)
 
-$ qemu-system-sh4 -M r2d -kernel vmlinuz-2.6.32-5-sh7751r -initrd initrd.gz -hda debian.img \
-  -append "root=/dev/sda1 console=tty0 noiotrap"
+v4 -> v5:
+* add comment to patch 1 in "monitor-internal.h"
+* use qapi_free_SetPasswordOptions and friends, don't leak strdups
+* split QAPI change into 3 seperate patches
 
-The old 2.6 kernel from [1] boots fine while the current 5.14.x kernel from [2] does
-not produce any output.
+v3 -> v4:
+* drop previously patch 1, this was fixed here instead:
+  https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02529.html
+* patch 1: add Eric's R-b
+* patch 2: remove if-assignment, use 'deprecated' feature in schema
 
-Can anyone enlighten me what I might be missing?
+v2 -> v3:
+* refactor QMP schema for set/expire_password as suggested by Eric Blake and
+  Markus Armbruster
 
-Thanks,
-Adrian
+v1 -> v2:
+* add Marc-André's R-b on patch 1
+* use '-d' flag as suggested by Eric Blake and Gerd Hoffmann
+  * I didn't see a way to do this yet, so I added a "flags with values" arg type
 
-PS: Please CC me as I am subscribed without getting messages.
 
-> [1] https://people.debian.org/~aurel32/qemu/sh4/
-> [2] https://cdimage.debian.org/cdimage/ports/current-debian-installer/sh4/
+Stefan Reiter (4):
+  monitor/hmp: add support for flag argument with value
+  qapi/monitor: refactor set/expire_password with enums
+  qapi/monitor: allow VNC display id in set/expire_password
+  qapi/monitor: only allow 'keep' SetPasswordAction for VNC and
+    deprecate
+
+ docs/about/deprecated.rst  |   6 ++
+ hmp-commands.hx            |  24 +++---
+ monitor/hmp-cmds.c         |  48 +++++++++++-
+ monitor/hmp.c              |  19 ++++-
+ monitor/monitor-internal.h |   3 +-
+ monitor/qmp-cmds.c         |  54 ++++---------
+ qapi/ui.json               | 156 ++++++++++++++++++++++++++++++++-----
+ 7 files changed, 236 insertions(+), 74 deletions(-)
 
 -- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+2.30.2
+
 
