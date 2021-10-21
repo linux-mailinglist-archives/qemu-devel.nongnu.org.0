@@ -2,92 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D020435C8F
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 10:03:18 +0200 (CEST)
-Received: from localhost ([::1]:43796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A365435C9B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 10:07:12 +0200 (CEST)
+Received: from localhost ([::1]:48768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdT2j-0005jN-6s
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 04:03:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33794)
+	id 1mdT6V-0000nA-NV
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 04:07:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdT05-0004j9-1D
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 04:00:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37370)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mdT59-0008Ru-Lb
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 04:05:51 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:52130)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdT00-0005WE-Or
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 04:00:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634803226;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BEj1DTo7+1QjV0XKsjD2VQzoagUyCZkPHQ8QJpa0dUA=;
- b=ByjNgLCYtw+KonFkNXokrUQVyoVqRO1BFwvzep2hM3udL3OKbaOj3p6eW31Xngb9ykgqGy
- IwOCMvnrvtCteQhnQh9g+XajRZUY3nyf6dxGjrlXuxNhqMSL1HDxCL15/O6FuaemUXO4VE
- UvF3at1LvQA8325IqaYFYl3V6qhddAI=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-aw8pfYOtPEG3JNbnkrWH3Q-1; Thu, 21 Oct 2021 04:00:25 -0400
-X-MC-Unique: aw8pfYOtPEG3JNbnkrWH3Q-1
-Received: by mail-pf1-f197.google.com with SMTP id
- q202-20020a6275d3000000b0044dc3987ae6so3297185pfc.12
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 01:00:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BEj1DTo7+1QjV0XKsjD2VQzoagUyCZkPHQ8QJpa0dUA=;
- b=mFf1OxIUFJvQyB3yUDe39vaPe9pYHyF8mmnzMxzuL1XxO1EYB1ruyuXB3/MhOwZOL4
- CaSC3shs4wFnp4qJrApk643YvGzxmYHqacu8K4B7ppatSixcENzbm/vifImxLsc0Ztzf
- QrnnBuFDYgbIyOx73q489jEvPuhWJrquUpQtL7l6/XPw6Yye7zIegXuQtAcGPsmEvWXw
- 3YnqNmbSu1NkSAa6RFg91sIP49kqUexZgO7eDIKmKfR7kErDOLIcsH1M6SUrIlZikNHq
- NDmCR5+l9f4AfD+glmveH9+QdY9VAl72xp2jQAHFk5kj/iqAvxdu6X+WJW1l5K4qjdJq
- aDmw==
-X-Gm-Message-State: AOAM531Kuwjnd1ynPrhgs+twH06pBEbOxVzARwXYW+MZoW74Ez4rlMYl
- 43IY2z6Ny0UkX9QU9mANAnS6xPFOk9KAC762aJx2NqAhSxwY8lcVvaQIgsErTNnID60sfEBr/tt
- Ae1Ch3uzdjP+WN2w=
-X-Received: by 2002:a17:90a:e38f:: with SMTP id
- b15mr4945116pjz.76.1634803224098; 
- Thu, 21 Oct 2021 01:00:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxLm+KgsJiz30xzsAFF5Q0BXs8os2bdKV4lGcrT9iYQsLiUGYy5SUoyf9o8J9hGu8z127jt9Q==
-X-Received: by 2002:a17:90a:e38f:: with SMTP id
- b15mr4945047pjz.76.1634803223590; 
- Thu, 21 Oct 2021 01:00:23 -0700 (PDT)
-Received: from xz-m1.local ([84.17.34.135])
- by smtp.gmail.com with ESMTPSA id t38sm5442182pfg.102.2021.10.21.01.00.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 01:00:22 -0700 (PDT)
-Date: Thu, 21 Oct 2021 16:00:16 +0800
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH 0/4] vl: Prioritize device realizations
-Message-ID: <YXEeEFuovkNqRRMu@xz-m1.local>
-References: <20210818194217.110451-1-peterx@redhat.com>
- <2817620d-facb-eeee-b854-64193fa4da33@redhat.com>
- <YXDqaZL71DCEghbr@xz-m1.local>
- <12cdd7f4-16c2-5af8-aeb2-e168506eefc2@redhat.com>
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mdT53-00029j-17
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 04:05:46 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 7E2163F70F
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 08:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1634803536;
+ bh=ijCa7ZJzAt0MXeMqftUXIFhMx5WpDI1dnsKi0PnReNE=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=drLzYc+ODKQE3SSTDAD12XP9TNjqKWSAfRBBZVShAAW4FgQ2tKmCH8k0KDCBzuLhi
+ FQ5PVimUfTj9eWGS+564qIWYyJMcG4FKNNqfk+vv3spj3sXcrgu3D0AQZhPed4mqG1
+ 0othwIxugImJPfSFLlbH+tBxkgQcFpnxYxfGOTq5qihig4qowwwISebqFwbiPBfOW3
+ aKGqgQwjeHhZS6lPj5bhnxS5XUEpeL14OHhX41K3SpOIdbtkS/yonf8BWJE5axktt6
+ 5NPLI4HEwmFj6R68F49GMOpPwZMZanY6uYOhcR6vjW/dqQJ8Z8gtVubnGsokh2PUqs
+ GF6V1McTItOMQ==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D5EE72E8186
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 08:05:35 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <12cdd7f4-16c2-5af8-aeb2-e168506eefc2@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 21 Oct 2021 08:00:20 -0000
+From: Thomas Huth <1947933@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fysnet th-huth
+X-Launchpad-Bug-Reporter: Benjamin David Lunt (fysnet)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <163478174635.4762.7000104834501032351.malonedeb@wampee.canonical.com>
+Message-Id: <163480322041.23599.10756211159107611552.malone@chaenomeles.canonical.com>
+Subject: [Bug 1947933] Re: xHCI Port Status Change Event at port powered
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="077cd577c00fa794e72ab856f950ae412860db5f"; Instance="production"
+X-Launchpad-Hash: c432885420f0c40c1b6c824f07623f392fbd66ea
+Received-SPF: pass client-ip=185.125.188.251;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -96,36 +83,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1947933 <1947933@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 21, 2021 at 09:17:57AM +0200, David Hildenbrand wrote:
-> I know, whenever someone proposes a way to tackle part of a challenging
-> problem, everybody discovers their hopes and dreams and suddenly you
-> have to go all the way to solve the complete problem. The end result is
-> that there is no improvement at all instead of incremental improvement.
+This bug tracker is not used anymore. Please open new tickets here:
 
-Yeah, there's the trade-off; we either not moving forward or otherwise we could
-potentially bring (more) chaos so the code is less maintainable.  Before I'm
-sure I won't do the latter and convince the others, I need to hold off a bit. :-)
+https://gitlab.com/qemu-project/qemu/-/issues
 
-> I'm not planning on letting the user set the actual number of memslots
-> to use, only an upper limit. But to me, it's fundamentally the same: the
-> user has to enable this behavior explicitly.
+** Changed in: qemu
+       Status: New =3D> Invalid
 
-I'm not familiar enough on virtio-mem's side, it's just that it will stop
-working when the ideal value (even in a very corner case) is less than the
-maximum specified, then that trick stops people from specifying the ideal.  But
-if it's bigger the better then indeed I don't see much to worry.
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1947933
 
--- 
-Peter Xu
+Title:
+  xHCI Port Status Change Event at port powered
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Per section 4.19.3 of the xHCI version 1.0 specification, when the
+  Port Power bit transitions from 0 to 1, if there is a connection on
+  that port, a Port Status Change Event should be issued.
+
+  Currently, when the port is powered, this event is not being issued.
+
+  I don't know the QEMU code base well enough to submit a patch, but I
+  believe that when the port is powered, check to see if there is a
+  connection (hence, setting the CCS and CSC bits), and then a call to:
+
+  xhci_port_notify(port, PORTSC_PLC);
+
+  will suffice.
+
+  Thank you,
+  Ben
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1947933/+subscriptions
 
 
