@@ -2,65 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA5D435ADA
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 08:28:36 +0200 (CEST)
-Received: from localhost ([::1]:52078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD500435B12
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 08:46:56 +0200 (CEST)
+Received: from localhost ([::1]:55964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdRZ3-0000Zr-38
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 02:28:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42700)
+	id 1mdRqp-00042H-9A
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 02:46:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mdRVE-00084A-ER
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 02:24:36 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:40766 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mdRVB-0002DX-ES
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 02:24:35 -0400
-Received: from localhost.localdomain (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxb2qYB3FhP+kdAA--.31821S3; 
- Thu, 21 Oct 2021 14:24:26 +0800 (CST)
-Subject: Re: [PATCH v7 21/21] scripts: add loongarch64 binfmt config
-To: WANG Xuerui <i.qemu@xen0n.name>
-References: <1634561247-25499-1-git-send-email-gaosong@loongson.cn>
- <1634561247-25499-22-git-send-email-gaosong@loongson.cn>
- <c0b25e56-e730-017e-dbd9-3cb2769ba1aa@xen0n.name>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <462f4784-bcfe-0783-12c5-7afaca4a3b89@loongson.cn>
-Date: Thu, 21 Oct 2021 14:24:24 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mdRp6-0003Ds-Ih
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 02:45:08 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:42807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mdRp4-0004mM-Qw
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 02:45:08 -0400
+Received: by mail-pf1-x436.google.com with SMTP id m14so5013598pfc.9
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 23:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=PSG7mH00HjM1oJzTMcokuaPPOKtNlBxFHm18JImeqiQ=;
+ b=aQSM6nhcApxXymU8Zjs/TKAsrqUFWHihE32ghvryWcT3y2VILRX3NuGv/pYeAtXppp
+ pLD1cFOWjuU7DgwexnESWz+2dcnXPHWNZG9okzez9TKpXDKIYTanml2kwY8tBtYb2YhX
+ Nhlca3JBmAHmHBf+S6dNLebqvxBXj2wLkUXLIqIxFTQQFKtn/h7vy4WFRNYMKurJu0qm
+ Ebv/n1YqJxfOjqaBwOxUzK1ribhJs81XSNwWZL2sDtqRgOsQXrMqwdkVgkmma27xe35Y
+ EA7EAjFNumsqVIdU/4+E0NuPbV1cg+o/nUmhlyoReJnVdqgvtJuEIJZFQ0hYT4g3JRd9
+ 218A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=PSG7mH00HjM1oJzTMcokuaPPOKtNlBxFHm18JImeqiQ=;
+ b=UsZYwhZk7dtg9GOYWm4FQvrcwfxTvJfxUr82wCTyTpZqv603jOvDC8K6PtuOENkvF3
+ Ho/JNLD8fhlK2XbARC4BC+vjYxJXYo3MzxXNQZjYE7hh//VlnySMARHQETWszYVldzKS
+ vLefffOeSoWPgql9MDxeRM5zMaNmK2GhTI3C8JPDRJVMcrn8F6Wz6uvzoFU6VtJI1U0k
+ J/cUbzEREWM8LCyq9Ly99p6hIpYNpIbDjrr1Llr3D0Dew0S4nys8xXgQ/fIeVJFz6Et+
+ JK4gl+9jtDu+S3IE6zWavenM7+WyQtvUcd8BWeOhN0RV9uGUTPXYM1rZy0TbPxDWzyCN
+ DBRA==
+X-Gm-Message-State: AOAM533rPid1WzguHI3nzMPHw9vgq0bkWee/vXHJXWOHuzK8910gHnxK
+ GEGQ7+6Na+/WUfiSzi6G+ZvieA==
+X-Google-Smtp-Source: ABdhPJyGg/v4ORnSyiNCfJFe29hGJJR5ZrYv/22qND6BKqIaJ+O/hbfV3nAMR752y5/8LazEN4Mjdw==
+X-Received: by 2002:a05:6a00:2309:b0:44d:bc24:4db8 with SMTP id
+ h9-20020a056a00230900b0044dbc244db8mr3766117pfh.84.1634798705181; 
+ Wed, 20 Oct 2021 23:45:05 -0700 (PDT)
+Received: from anisinha-lenovo ([203.212.246.18])
+ by smtp.googlemail.com with ESMTPSA id u74sm4683498pfc.87.2021.10.20.23.45.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Oct 2021 23:45:04 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Thu, 21 Oct 2021 12:14:58 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v3 0/3] tests/acpi/pcihp: add unit tests for hotplug on
+ multifunction bridges for q35
+In-Reply-To: <20211021021635-mutt-send-email-mst@kernel.org>
+Message-ID: <alpine.DEB.2.22.394.2110211213010.235596@anisinha-lenovo>
+References: <20211007135750.1277213-1-ani@anisinha.ca>
+ <20211020043845-mutt-send-email-mst@kernel.org>
+ <CAARzgwxh6g=p7UNsKnwPw9EKf+5kAv4Z0s2Bw8qvmX1Lc38wxQ@mail.gmail.com>
+ <20211021021635-mutt-send-email-mst@kernel.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <c0b25e56-e730-017e-dbd9-3cb2769ba1aa@xen0n.name>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxb2qYB3FhP+kdAA--.31821S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZryUCr4ktr4rGF4xXr1xGrg_yoW5Jry3pr
- 15Ja4rCF48W3WUA3WkX3WfGr1DJr1Ykas7Jr43tr1UAF1Yyw1rAr1fJr1UJw1DJF4rJr1j
- yFn8Jan8WF4SkF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBv1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
- z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4
- CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_
- Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwI
- xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY
- 0VAS07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaV
- Av8VW5Wr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
- 0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMI
- IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF
- 0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
- A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.267,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="2088271309-1926629746-1634798704=:235596"
+Received-SPF: none client-ip=2607:f8b0:4864:20::436;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,54 +88,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, f4bug@amsat.org,
- wuxiaotian@loongson.cn, alex.bennee@linaro.org, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, peterx@redhat.com, laurent@vivier.eu,
- yangxiaojuan@loongson.cn, alistair.francis@wdc.com, maobibo@loongson.cn,
- pbonzini@redhat.com, bmeng.cn@gmail.com, philmd@redhat.com,
- chenhuacai@loongson.cn
+Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Xuerui
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On 10/18/2021 11:49 PM, WANG Xuerui wrote:
-> Hi Song,
-> 
-> On 10/18/21 20:47, Song Gao wrote:
->> Signed-off-by: Song Gao <gaosong@loongson.cn>
->> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->> Â  scripts/qemu-binfmt-conf.sh | 6 +++++-
->> Â  1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
->> index 7de996d..5575bdd 100755
->> --- a/scripts/qemu-binfmt-conf.sh
->> +++ b/scripts/qemu-binfmt-conf.sh
->> @@ -4,7 +4,7 @@
->> Â  qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
->> Â  ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
->> Â  sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
->> -microblaze microblazeel or1k x86_64 hexagon"
->> +microblaze microblazeel or1k x86_64 hexagon loongarch64"
->> Â  Â  i386_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x03\x00'
->> Â  i386_mask='\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
->> @@ -140,6 +140,10 @@ hexagon_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x
->> Â  hexagon_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
->> Â  hexagon_family=hexagon
->> Â  +loongarch64_magic='\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x02\x01'
->> +loongarch64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-> 
-> Here the EI_OSABI (7th, 0-based offset) byte is ignored which is okay (we want at least ELFOSABI_SYSV=0 and ELFOSABI_GNU=3 but not others, mask of this byte could be "\xfc" to exclude values > 3).
-> 
-The EI_OSABI can not be modified. If we support FreeBSD and OpenBSD in the future.
-> However, the EI_ABIVERSION (8th) byte is fixed to be zero; according to the draft LoongArch ELF psABI spec [1] there might be future revision(s) to necessitate a bump of ABI version, but it's highly unlikely to in turn require modifications to QEMU code, with almost all logic happening in the dynamic loader. I suggest unmasking this whole byte (setting mask for this byte to "\x00").
->That's a good suggestionï¼Œ thank you very much.
+--2088271309-1926629746-1634798704=:235596
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
 
 
-Thanks
-Song Gao
 
+On Thu, 21 Oct 2021, Michael S. Tsirkin wrote:
+
+> On Thu, Oct 21, 2021 at 07:18:43AM +0530, Ani Sinha wrote:
+> >
+> >
+> > On Wed, Oct 20, 2021 at 2:09 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> >     On Thu, Oct 07, 2021 at 07:27:47PM +0530, Ani Sinha wrote:
+> >     > changelist:
+> >     > v3: removed "nodefaults" from the command line and rebased the patchset.
+> >     > v2: incorporated some of the feedbacks from Igor.
+> >     > v1 : initial RFC patch.
+> >
+> >     This seems to break on s390 hosts for people. Likely an
+> >     endian-ness bug somewhere. Dropped for now - care tracking that down
+> >     and fixing so I can pick up the test again?
+> >
+> >     Thanks!
+> >
+> >
+> > So I take it this patch wasn't causing the issue since this has been merged to
+> > master now?
+> >
+> >
+>
+> Yes, we knew the bug is in the tested functionality not the test of
+> course.
+
+Yes which is why I was confused as well since the test would not
+introduce regression in the product!
+
+> With help from Thomas I was able to fix the original bug.
+
+Ok good. wanted to take a look at it with a clear mind in the morning but
+since this is fixed, all is good.
+
+> The fix with more detail is here:
+>
+> commit 0e464f7d993113119f0fd17b890831440734ce15
+> Author: Michael S. Tsirkin <mst@redhat.com>
+> Date:   Wed Oct 20 05:48:54 2021 -0400
+>
+>     pci: fix PCI resource reserve capability on BE
+>
+>
+>
+> >
+> >     > This patchset adds a unit test to exercize acpi hotplug support for
+> >     multifunction
+> >     > bridges on q35 machines. This support was added with the commit:
+> >     >
+> >     > d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction
+> >     bridges")
+> >     >
+> >     > Ani Sinha (3):
+> >     >   tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT
+> >     >     table blob
+> >     >   tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges
+> >     >     for q35
+> >     >   tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge
+> >     >     test
+> >     >
+> >     >  tests/data/acpi/q35/DSDT.multi-bridge | Bin 0 -> 8583 bytes
+> >     >  tests/qtest/bios-tables-test.c        |  18 ++++++++++++++++++
+> >     >  2 files changed, 18 insertions(+)
+> >     >  create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
+> >     >
+> >     > --
+> >     > 2.25.1
+> >
+> >
+>
+>
+--2088271309-1926629746-1634798704=:235596--
 
