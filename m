@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C501A436062
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 13:35:05 +0200 (CEST)
-Received: from localhost ([::1]:42694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59669436063
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 13:36:19 +0200 (CEST)
+Received: from localhost ([::1]:44318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdWLg-0004zK-DJ
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 07:35:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46744)
+	id 1mdWMs-000648-Fb
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 07:36:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mdWJl-00041D-Ib
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 07:33:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45663)
+ id 1mdWKs-0004bA-KT
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 07:34:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mdWJh-0005Ep-9q
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 07:33:04 -0400
+ id 1mdWKq-0005zS-Eb
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 07:34:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634815979;
+ s=mimecast20190719; t=1634816051;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lmdBzIzpEyO22jKUjbSOyf0y95rm49so3UDBg+KR5rk=;
- b=L6hrZH+rp+Hh1Uxb9wawiaxXu0fTQX3dYM1b3xvncvQWRyPsZ2kMrHlh1ZIjaF8NV4e4++
- AiABCPclc99QPlxZSuXT4mpWelrCUNjUVISy4ZPN41syK4QQc8jiB8QwqAFQexfoPS3dg2
- udarBwnWZTUIcZX4IlcFq5J+64qAg0s=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-t1BZ_H9ePj2qfIURQ0nW3g-1; Thu, 21 Oct 2021 07:32:58 -0400
-X-MC-Unique: t1BZ_H9ePj2qfIURQ0nW3g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- s1-20020adfc541000000b001645b92c65bso87042wrf.6
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 04:32:58 -0700 (PDT)
+ bh=kldq/+LkGWYAfDieXzBYvHh2N/UigpZAVC4bKn5V1us=;
+ b=g8zQ46XZJMx7heH7tG4igkW3ztWoxA5XCnojwgP2K/I+BqhHunr8qQSUI/bmfHvvXfuHS1
+ Pk7r5K4jX1jbKnahdfISQspJTczu5HGKrs5K+bSeHNYZRNEncjYXfBBneDaANdtYvQNz2s
+ 9OUKKKtOxBXlutKmHTlraFdhMCzZswY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-249-oBMkNhNGMPKFiH_H98m3PA-1; Thu, 21 Oct 2021 07:34:10 -0400
+X-MC-Unique: oBMkNhNGMPKFiH_H98m3PA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ c4-20020a5d6cc4000000b00160edc8bb28so83035wrc.9
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 04:34:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:reply-to:subject:to:cc:references:from
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-transfer-encoding:content-language;
- bh=lmdBzIzpEyO22jKUjbSOyf0y95rm49so3UDBg+KR5rk=;
- b=oZEcICzIBSodvuiTtlH+usYEb4hYxYYQ/lnlOB+tjbIO4QPr2pzdhf7TTrUzxRYUiO
- ChGf1EX/OA0T4mle5Z6PVenjhmSwLnx0F6HGRV6wd2MC3eJUsE7QEF9V03ytAiKChhev
- vWEFRyvRvRAsfr0TjUboFVMeFxQP0Q8VuSuxs6+O1WCEw9yRGrdzV3HZTOakrSOyw31j
- c0whAGczNJWkB/s5iQ9yQ0llHm7dv1lpjSRBw/+VG+EseMzPY0tPXGD+uUgENBwGA3XM
- oxVx1TgHmtnOaGAGuniCbieMQDcDdVgtSqP637CPQUMU/bexOWjlzL6rLREQHWnI16fh
- 0Tag==
-X-Gm-Message-State: AOAM531fv24NwwBZfbsvD7EVGJnyRbmWCZWEr/2Z2EYAwOj8Anw+jER+
- bGuG6+fcBdNdyLBuJDk/qBx6i9V2gABPqUKkdY2HSB1TmU42fg6CUONEHsJ+OF9tFlIRbGyK9Dq
- ESxTthTBtVXPUHY8=
-X-Received: by 2002:adf:b19c:: with SMTP id q28mr6599954wra.348.1634815977255; 
- Thu, 21 Oct 2021 04:32:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzUmtjqfChyiKeH+aa9XiYcCKL2SVWXbbY8YNNunIVZxYRX7JgSO0NZqxUNbxWuirJ2shkf6Q==
-X-Received: by 2002:adf:b19c:: with SMTP id q28mr6599919wra.348.1634815977038; 
- Thu, 21 Oct 2021 04:32:57 -0700 (PDT)
+ bh=kldq/+LkGWYAfDieXzBYvHh2N/UigpZAVC4bKn5V1us=;
+ b=CDCfdqBBasM5/mv7Kl5H2Temf9NnlewWprop9xBjx0COmtf/bi2Rm/W3sxSFYlNRC5
+ Lf/sJqLoJAKGupbayesVbiKKa1j//XM3o94AyL5rgsOgKX9mPsLzLuYrstexlgrAt2br
+ kAtandF0UrE0PNIOhngEGNZw2WOP6tDi/HG8TTdGpI275map3WNzJ2sTIln1/C/RHL9M
+ OFkIrhzSLzwzM+PMafXZgvdjoLO3DttgGapM0Z1BT0/hN8N4A47xCsiAld2EkBilKkKB
+ g3LXAWjRiv3Un2TKfMfAfpLwwLxdzTjvlPTXcufSB3XqMnfLqKaE5x1u8ID6SduWxitN
+ Z1gw==
+X-Gm-Message-State: AOAM530uN2Ew4sOUrLQ1GFGT/wc1tuNUzD35nTldYOWgxotz+s2hIGWF
+ GXj7BmLYV7/7/iDdZX8K7Hfs0okWEIMt3c2bhoIJmjJOQ9vHrRY7pGI3sSmc77uFTNHAniQSXWQ
+ NovxggaCmqUi5I/M=
+X-Received: by 2002:a05:6000:15c6:: with SMTP id
+ y6mr6644504wry.210.1634816049358; 
+ Thu, 21 Oct 2021 04:34:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx9/94PnRqZbktvh9NrTdpCz8r4hgI7StyALy+426HzeFLcVI0BrVkE78EEA8rNd4ISXcNq4w==
+X-Received: by 2002:a05:6000:15c6:: with SMTP id
+ y6mr6644471wry.210.1634816049084; 
+ Thu, 21 Oct 2021 04:34:09 -0700 (PDT)
 Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
  ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id n9sm4967113wmq.6.2021.10.21.04.32.55
+ by smtp.gmail.com with ESMTPSA id n12sm5622234wri.22.2021.10.21.04.34.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Oct 2021 04:32:56 -0700 (PDT)
-Subject: Re: [PATCH 2/8] pci: Export pci_for_each_device_under_bus*()
+ Thu, 21 Oct 2021 04:34:08 -0700 (PDT)
+Subject: Re: [PATCH 3/8] pci: Use pci_for_each_device_under_bus*()
 To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
 References: <20211021104259.57754-1-peterx@redhat.com>
- <20211021104259.57754-3-peterx@redhat.com>
+ <20211021104259.57754-4-peterx@redhat.com>
 From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <aff870b0-9eea-7bfc-f9b4-9b543c9b6831@redhat.com>
-Date: Thu, 21 Oct 2021 13:32:54 +0200
+Message-ID: <f1bdd887-975f-8d23-e933-39b95843c2b1@redhat.com>
+Date: Thu, 21 Oct 2021 13:34:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20211021104259.57754-3-peterx@redhat.com>
+In-Reply-To: <20211021104259.57754-4-peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -113,65 +115,180 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
+Hi Peter,
 On 10/21/21 12:42 PM, Peter Xu wrote:
-> They're actually more commonly used than the helper without _under_bus, because
-> most callers do have the pci bus on hand.  After exporting we can switch a lot
-> of the call sites to use these two helpers.
+> Replace all the call sites of existing pci_for_each_device*() where the bus
+> number is calculated from a PCIBus* already.  It should avoid the lookup of the
+> PCIBus again.
 >
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->  hw/pci/pci.c         | 10 +++++-----
->  include/hw/pci/pci.h |  5 +++++
->  2 files changed, 10 insertions(+), 5 deletions(-)
+>  hw/i386/acpi-build.c       |  5 ++---
+>  hw/pci/pcie.c              |  4 +---
+>  hw/ppc/spapr_pci.c         | 12 +++++-------
+>  hw/ppc/spapr_pci_nvlink2.c |  7 +++----
+>  hw/ppc/spapr_pci_vfio.c    |  4 ++--
+>  hw/s390x/s390-pci-bus.c    |  5 ++---
+>  hw/xen/xen_pt.c            |  4 ++--
+>  7 files changed, 17 insertions(+), 24 deletions(-)
 >
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 1ab2b78321..6b834cace5 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -1654,9 +1654,9 @@ static const pci_class_desc pci_class_descriptions[] =
->      { 0, NULL}
->  };
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 81418b7911..a76b17ed92 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2132,8 +2132,7 @@ dmar_host_bridges(Object *obj, void *opaque)
+>          PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
 >  
-> -static void pci_for_each_device_under_bus_reverse(PCIBus *bus,
-> -                                                  pci_bus_dev_fn fn,
-> -                                                  void *opaque)
-> +void pci_for_each_device_under_bus_reverse(PCIBus *bus,
-> +                                           pci_bus_dev_fn fn,
-> +                                           void *opaque)
->  {
->      PCIDevice *d;
->      int devfn;
-> @@ -1679,8 +1679,8 @@ void pci_for_each_device_reverse(PCIBus *bus, int bus_num,
+>          if (bus && !pci_bus_bypass_iommu(bus)) {
+> -            pci_for_each_device(bus, pci_bus_num(bus), insert_scope,
+> -                                scope_blob);
+> +            pci_for_each_device_under_bus(bus, insert_scope, scope_blob);
+>          }
 >      }
+>  
+> @@ -2339,7 +2338,7 @@ ivrs_host_bridges(Object *obj, void *opaque)
+>          PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
+>  
+>          if (bus && !pci_bus_bypass_iommu(bus)) {
+> -            pci_for_each_device(bus, pci_bus_num(bus), insert_ivhd, ivhd_blob);
+> +            pci_for_each_device_under_bus(bus, insert_ivhd, ivhd_blob);
+>          }
+>      }
+>  
+> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> index 6e95d82903..914a9bf3d1 100644
+> --- a/hw/pci/pcie.c
+> +++ b/hw/pci/pcie.c
+> @@ -694,9 +694,7 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
+>          (!(old_slt_ctl & PCI_EXP_SLTCTL_PCC) ||
+>          (old_slt_ctl & PCI_EXP_SLTCTL_PIC_OFF) != PCI_EXP_SLTCTL_PIC_OFF)) {
+>          PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
+> -        pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+> -                            pcie_unplug_device, NULL);
+> -
+> +        pci_for_each_device_under_bus(sec_bus, pcie_unplug_device, NULL);
+>          pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
+>                                       PCI_EXP_SLTSTA_PDS);
+>          if (dev->cap_present & QEMU_PCIE_LNKSTA_DLLLA ||
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 7430bd6314..5bfd4aa9e5 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -1317,8 +1317,7 @@ static int spapr_dt_pci_bus(SpaprPhbState *sphb, PCIBus *bus,
+>                            RESOURCE_CELLS_SIZE));
+>  
+>      assert(bus);
+> -    pci_for_each_device_reverse(bus, pci_bus_num(bus),
+> -                                spapr_dt_pci_device_cb, &cbinfo);
+> +    pci_for_each_device_under_bus_reverse(bus, spapr_dt_pci_device_cb, &cbinfo);
+>      if (cbinfo.err) {
+>          return cbinfo.err;
+>      }
+> @@ -2306,8 +2305,8 @@ static void spapr_phb_pci_enumerate_bridge(PCIBus *bus, PCIDevice *pdev,
+>          return;
+>      }
+>  
+> -    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+> -                        spapr_phb_pci_enumerate_bridge, bus_no);
+> +    pci_for_each_device_under_bus(sec_bus, spapr_phb_pci_enumerate_bridge,
+> +                                  bus_no);
+>      pci_default_write_config(pdev, PCI_SUBORDINATE_BUS, *bus_no, 1);
 >  }
 >  
-> -static void pci_for_each_device_under_bus(PCIBus *bus,
-> -                                          pci_bus_dev_fn fn, void *opaque)
-> +void pci_for_each_device_under_bus(PCIBus *bus,
-> +                                   pci_bus_dev_fn fn, void *opaque)
+> @@ -2316,9 +2315,8 @@ static void spapr_phb_pci_enumerate(SpaprPhbState *phb)
+>      PCIBus *bus = PCI_HOST_BRIDGE(phb)->bus;
+>      unsigned int bus_no = 0;
+>  
+> -    pci_for_each_device(bus, pci_bus_num(bus),
+> -                        spapr_phb_pci_enumerate_bridge,
+> -                        &bus_no);
+> +    pci_for_each_device_under_bus(bus, spapr_phb_pci_enumerate_bridge,
+> +                                  &bus_no);
+>  
+>  }
+>  
+> diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
+> index 8ef9b40a18..7fb0cf4d04 100644
+> --- a/hw/ppc/spapr_pci_nvlink2.c
+> +++ b/hw/ppc/spapr_pci_nvlink2.c
+> @@ -164,8 +164,7 @@ static void spapr_phb_pci_collect_nvgpu(PCIBus *bus, PCIDevice *pdev,
+>          return;
+>      }
+>  
+> -    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+> -                        spapr_phb_pci_collect_nvgpu, opaque);
+> +    pci_for_each_device_under_bus(sec_bus, spapr_phb_pci_collect_nvgpu, opaque);
+>  }
+>  
+>  void spapr_phb_nvgpu_setup(SpaprPhbState *sphb, Error **errp)
+> @@ -183,8 +182,8 @@ void spapr_phb_nvgpu_setup(SpaprPhbState *sphb, Error **errp)
+>      sphb->nvgpus->nv2_atsd_current = sphb->nv2_atsd_win_addr;
+>  
+>      bus = PCI_HOST_BRIDGE(sphb)->bus;
+> -    pci_for_each_device(bus, pci_bus_num(bus),
+> -                        spapr_phb_pci_collect_nvgpu, sphb->nvgpus);
+> +    pci_for_each_device_under_bus(bus, spapr_phb_pci_collect_nvgpu,
+> +                                  sphb->nvgpus);
+>  
+>      if (sphb->nvgpus->err) {
+>          error_propagate(errp, sphb->nvgpus->err);
+> diff --git a/hw/ppc/spapr_pci_vfio.c b/hw/ppc/spapr_pci_vfio.c
+> index f3b37df8ea..2a76b4e0b5 100644
+> --- a/hw/ppc/spapr_pci_vfio.c
+> +++ b/hw/ppc/spapr_pci_vfio.c
+> @@ -164,8 +164,8 @@ static void spapr_phb_vfio_eeh_clear_dev_msix(PCIBus *bus,
+>  
+>  static void spapr_phb_vfio_eeh_clear_bus_msix(PCIBus *bus, void *opaque)
 >  {
->      PCIDevice *d;
->      int devfn;
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 8e2d80860b..437eabe609 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -465,6 +465,11 @@ void pci_for_each_device(PCIBus *bus, int bus_num,
->  void pci_for_each_device_reverse(PCIBus *bus, int bus_num,
->                                   pci_bus_dev_fn fn,
->                                   void *opaque);
-> +void pci_for_each_device_under_bus(PCIBus *bus,
-> +                                   pci_bus_dev_fn fn, void *opaque);
-> +void pci_for_each_device_under_bus_reverse(PCIBus *bus,
-> +                                           pci_bus_dev_fn fn,
-> +                                           void *opaque);
->  void pci_for_each_bus_depth_first(PCIBus *bus,
->                                    void *(*begin)(PCIBus *bus, void *parent_state),
->                                    void (*end)(PCIBus *bus, void *state),
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> -       pci_for_each_device(bus, pci_bus_num(bus),
+> -                           spapr_phb_vfio_eeh_clear_dev_msix, NULL);
+> +       pci_for_each_device_under_bus(bus, spapr_phb_vfio_eeh_clear_dev_msix,
+> +                                     NULL);
+>  }
+>  
+>  static void spapr_phb_vfio_eeh_pre_reset(SpaprPhbState *sphb)
+> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+> index 6fafffb029..1b51a72838 100644
+> --- a/hw/s390x/s390-pci-bus.c
+> +++ b/hw/s390x/s390-pci-bus.c
+> @@ -1163,8 +1163,7 @@ static void s390_pci_enumerate_bridge(PCIBus *bus, PCIDevice *pdev,
+>      }
+>  
+>      /* Assign numbers to all child bridges. The last is the highest number. */
+> -    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+> -                        s390_pci_enumerate_bridge, s);
+> +    pci_for_each_device_under_bus(sec_bus, s390_pci_enumerate_bridge, s);
+>      pci_default_write_config(pdev, PCI_SUBORDINATE_BUS, s->bus_no, 1);
+>  }
+>  
+> @@ -1193,7 +1192,7 @@ static void s390_pcihost_reset(DeviceState *dev)
+>       * on every system reset, we also have to reassign numbers.
+>       */
+>      s->bus_no = 0;
+> -    pci_for_each_device(bus, pci_bus_num(bus), s390_pci_enumerate_bridge, s);
+> +    pci_for_each_device_under_bus(bus, s390_pci_enumerate_bridge, s);
+>  }
+>  
+>  static void s390_pcihost_class_init(ObjectClass *klass, void *data)
+> diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
+> index ca0a98187e..027190fa44 100644
+> --- a/hw/xen/xen_pt.c
+> +++ b/hw/xen/xen_pt.c
+> @@ -615,8 +615,8 @@ static void xen_pt_region_update(XenPCIPassthroughState *s,
+>      }
+>  
+>      args.type = d->io_regions[bar].type;
+> -    pci_for_each_device(pci_get_bus(d), pci_dev_bus_num(d),
+> -                        xen_pt_check_bar_overlap, &args);
+> +    pci_for_each_device_under_bus(pci_get_bus(d),
+> +                                  xen_pt_check_bar_overlap, &args);
+>      if (args.rc) {
+>          XEN_PT_WARN(d, "Region: %d (addr: 0x%"FMT_PCIBUS
+>                      ", len: 0x%"FMT_PCIBUS") is overlapped.\n",
+Maybe squash with the previous one?
 
+Besides
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
 Eric
 
