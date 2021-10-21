@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9108436373
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 15:52:03 +0200 (CEST)
-Received: from localhost ([::1]:33524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC00E436391
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 15:55:35 +0200 (CEST)
+Received: from localhost ([::1]:38940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdYUE-0000xb-Ui
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 09:52:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52714)
+	id 1mdYXT-0004jW-CS
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 09:55:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mdYSM-0007Uq-9v
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:50:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37144)
+ id 1mdYVW-0003J0-Kc
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:53:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mdYSK-0003Oj-6I
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:50:06 -0400
+ id 1mdYVU-0006GR-VA
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:53:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634824202;
+ s=mimecast20190719; t=1634824400;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3pz3qWhl9OL8SpuRlRZ3gWKEiV1rRdSSNcUt1+su0Sw=;
- b=NHC4GeHwZgbr2UEy39zbM8odByCKGOQUjb7nReqEKXAvSPRUpsFk6wcsGlbkCrpAVSB0wt
- c62ScbENFP00UXgmz6THTeQW4V4lw7EQUSvg9vQWD5kXxD9UcM2rwMN9q2Na+YSLXDUQ9f
- ICUwmDYGQoIgVBV9UJhF9LF+b1MkPLo=
+ bh=KKbyJTdxpEjK5nV0vqJvtMsg5+E7yquIbZbyhZcc8Y0=;
+ b=NUsLwjFgNoZy2bDnVFyk+S3kpo4eohQnO7Vt8sT4h1/I7OK7XNa9EzrL7ciXyHIMT+aLMh
+ 2OfL4jEemIA2QEYFLiFqYvtOgbPvZNidigkbC9rYsvtmjFhgGa9jzTy8/uRvNg01GqcxeZ
+ oE4v37G75iQT+9UmRu9rI8OP8yOSpB8=
 Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
  [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-fphRyiyHOG-EmbYzq_5QHg-1; Thu, 21 Oct 2021 09:50:01 -0400
-X-MC-Unique: fphRyiyHOG-EmbYzq_5QHg-1
+ us-mta-497-iCObXVCkPJi-BkYGcZUvFA-1; Thu, 21 Oct 2021 09:53:17 -0400
+X-MC-Unique: iCObXVCkPJi-BkYGcZUvFA-1
 Received: by mail-ed1-f69.google.com with SMTP id
- f4-20020a50e084000000b003db585bc274so367131edl.17
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 06:50:00 -0700 (PDT)
+ s12-20020a50dacc000000b003dbf7a78e88so440706edj.2
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 06:53:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3pz3qWhl9OL8SpuRlRZ3gWKEiV1rRdSSNcUt1+su0Sw=;
- b=PyOCxMlZhJAOj1dLsBLkcDTyICaO8q9FyqAjfw/d53F+es3isNhm11RiJK5LseNKkX
- iroP6XmQDQdU0V3iXBkPTJAyneKtqwrjdGmA7cjAPWW3JcpybrvjV6BxqqTq+dVoIG5s
- m//yDi4SoMP0B7NW1v9VlSlPSShrZE0ghARSfNKnR+CvS8EeeApJktjUY2SIOmdCTx70
- PK3iFDZrVCz4EAOiaq+Lnj02bwVTUJEmq0Kni8hhB4Wo+ZHVNir4XMtQAMRSePPnO3+6
- aEMKFptPHVqf1iOonnkpnGcXmIjbAb/GfkuiQZBeNEfeQe6UMlbHIDK1GZyVQ3drJFqT
- LDFg==
-X-Gm-Message-State: AOAM531Mc+W3RSEYGbDMS1iW0B1zEtlgR5PQgQOIeFWPjEQmg961w2gT
- y5op5JxDseYf02+pK5KO8ya5zldkMsXyfQel7v1YGwy/+JlwM5Phff4haUBRCCtc588YbtG8cby
- JEpSi6JXWHwXhgvA=
-X-Received: by 2002:a50:950b:: with SMTP id u11mr7902998eda.121.1634824199869; 
- Thu, 21 Oct 2021 06:49:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxHrNIYLyi3WOmV4XRFkOgfR7m0JXlu1mh9X3hfNpsi3HHhzX2TBhD5UGwtMhVxf9psXIYwuw==
-X-Received: by 2002:a50:950b:: with SMTP id u11mr7902969eda.121.1634824199683; 
- Thu, 21 Oct 2021 06:49:59 -0700 (PDT)
+ bh=KKbyJTdxpEjK5nV0vqJvtMsg5+E7yquIbZbyhZcc8Y0=;
+ b=NvIVC8zD5Mq9xHSWONeQ1MjaW2AjP+dSC09PQl5Gb1mB9Pc6vTojOtAlyQoTdX74ds
+ AoRRXYK9CGVhJ0ihvs6/tuSAzKZbmuHm9aPJzTYhnoNUqwvuqfunYSmYARwJ3PYCSo4P
+ 0XoorGcQ8gSN2aB6nSsFzUK2rXGwQxCoLdTLkpllh7P8EsFNhThUXydVrv3RzjHs+P33
+ XR8IWgwlKC80JDDa5ZsDWd/O3azD+uu/f4ny1QYg4kKOvER/+yRgzcjB4Rv5Of7c6uF4
+ L+NHYsI4qBt1KlyEdAP8et9oAi8I2oXtEk22hSY3n7vKm7GZ8EEEFaHxLs6tCch8GZH5
+ LlrA==
+X-Gm-Message-State: AOAM530M5WRUir1KSIArdByeaXfIHzBroOp4mYUDU0wsQ/oXM6tALQzk
+ ERiiu82bN04ycv3wJzBBqOmjFmTyirsxXbwrRGEJL5Bt0sdes/eEgamz6zdu28ObF2PQSBd2aZ5
+ lrZXWUw0AZYKpFmg=
+X-Received: by 2002:a17:907:7e81:: with SMTP id
+ qb1mr7382885ejc.65.1634824395945; 
+ Thu, 21 Oct 2021 06:53:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzdd9YcKOxSUqR0G52qi4Q7wKuSqRLAEu5k74W6NsW5/IfBtdQlSpMRlD4RLQGtQNVRna06Qg==
+X-Received: by 2002:a17:907:7e81:: with SMTP id
+ qb1mr7382832ejc.65.1634824395718; 
+ Thu, 21 Oct 2021 06:53:15 -0700 (PDT)
 Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id g17sm2924151edv.72.2021.10.21.06.49.58
+ by smtp.gmail.com with ESMTPSA id a13sm2545230ejx.39.2021.10.21.06.53.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 06:49:59 -0700 (PDT)
-Date: Thu, 21 Oct 2021 15:49:58 +0200
+ Thu, 21 Oct 2021 06:53:15 -0700 (PDT)
+Date: Thu, 21 Oct 2021 15:53:14 +0200
 From: Igor Mammedov <imammedo@redhat.com>
 To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v5 05/12] hw/arm/virt-acpi-build: Add VIOT table for
- virtio-iommu
-Message-ID: <20211021154958.6ca48692@redhat.com>
-In-Reply-To: <20211020172745.620101-6-jean-philippe@linaro.org>
+Subject: Re: [PATCH v5 06/12] hw/arm/virt: Remove device tree restriction
+ for virtio-iommu
+Message-ID: <20211021155314.1ccd3999@redhat.com>
+In-Reply-To: <20211020172745.620101-7-jean-philippe@linaro.org>
 References: <20211020172745.620101-1-jean-philippe@linaro.org>
- <20211020172745.620101-6-jean-philippe@linaro.org>
+ <20211020172745.620101-7-jean-philippe@linaro.org>
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
@@ -104,11 +106,12 @@ Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Oct 2021 18:27:39 +0100
+On Wed, 20 Oct 2021 18:27:40 +0100
 Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
 
-> When a virtio-iommu is instantiated, describe it using the ACPI VIOT
-> table.
+> virtio-iommu is now supported with ACPI VIOT as well as device tree.
+> Remove the restriction that prevents from instantiating a virtio-iommu
+> device under ACPI.
 > 
 > Reviewed-by: Eric Auger <eric.auger@redhat.com>
 > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
@@ -116,46 +119,55 @@ Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
 Acked-by: Igor Mammedov <imammedo@redhat.com>
 
 > ---
->  hw/arm/virt-acpi-build.c | 7 +++++++
->  hw/arm/Kconfig           | 1 +
->  2 files changed, 8 insertions(+)
+>  hw/arm/virt.c                | 10 ++--------
+>  hw/virtio/virtio-iommu-pci.c | 12 ++----------
+>  2 files changed, 4 insertions(+), 18 deletions(-)
 > 
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 6cec97352b..e26639e1e1 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -55,6 +55,7 @@
->  #include "kvm_arm.h"
->  #include "migration/vmstate.h"
->  #include "hw/acpi/ghes.h"
-> +#include "hw/acpi/viot.h"
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index f7f456bf58..3da7a86e37 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2561,16 +2561,10 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+>      MachineClass *mc = MACHINE_GET_CLASS(machine);
 >  
->  #define ARM_SPI_BASE 32
->  
-> @@ -934,6 +935,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>      if (device_is_dynamic_sysbus(mc, dev) ||
+> -       (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
+> +        object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
+> +        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+>          return HOTPLUG_HANDLER(machine);
 >      }
->  #endif
+> -    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+> -        VirtMachineState *vms = VIRT_MACHINE(machine);
+> -
+> -        if (!vms->bootinfo.firmware_loaded || !virt_is_acpi_enabled(vms)) {
+> -            return HOTPLUG_HANDLER(machine);
+> -        }
+> -    }
+>      return NULL;
+>  }
 >  
-> +    if (vms->iommu == VIRT_IOMMU_VIRTIO) {
-> +        acpi_add_table(table_offsets, tables_blob);
-> +        build_viot(ms, tables_blob, tables->linker, vms->virtio_iommu_bdf,
-> +                   vms->oem_id, vms->oem_table_id);
-> +    }
-> +
->      /* XSDT is pointed to by RSDP */
->      xsdt = tables_blob->len;
->      build_xsdt(tables_blob, tables->linker, table_offsets, vms->oem_id,
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 2d37d29f02..e652590943 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -27,6 +27,7 @@ config ARM_VIRT
->      select DIMM
->      select ACPI_HW_REDUCED
->      select ACPI_APEI
-> +    select ACPI_VIOT
+> diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
+> index 770c286be7..5c0b87316a 100644
+> --- a/hw/virtio/virtio-iommu-pci.c
+> +++ b/hw/virtio/virtio-iommu-pci.c
+> @@ -48,16 +48,8 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>      VirtIOIOMMU *s = VIRTIO_IOMMU(vdev);
 >  
->  config CHEETAH
->      bool
+>      if (!qdev_get_machine_hotplug_handler(DEVICE(vpci_dev))) {
+> -        MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
+> -
+> -        error_setg(errp,
+> -                   "%s machine fails to create iommu-map device tree bindings",
+> -                   mc->name);
+> -        error_append_hint(errp,
+> -                          "Check your machine implements a hotplug handler "
+> -                          "for the virtio-iommu-pci device\n");
+> -        error_append_hint(errp, "Check the guest is booted without FW or with "
+> -                          "-no-acpi\n");
+> +        error_setg(errp, "Check your machine implements a hotplug handler "
+> +                         "for the virtio-iommu-pci device");
+>          return;
+>      }
+>      for (int i = 0; i < s->nb_reserved_regions; i++) {
 
 
