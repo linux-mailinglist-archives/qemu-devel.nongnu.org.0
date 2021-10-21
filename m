@@ -2,90 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674D0435FCF
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 12:57:47 +0200 (CEST)
-Received: from localhost ([::1]:35740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 087F5435FD3
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 12:58:46 +0200 (CEST)
+Received: from localhost ([::1]:39126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdVla-0003vR-FO
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 06:57:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39460)
+	id 1mdVmX-0006Dw-30
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 06:58:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mdViM-0000yy-C6
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:54:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37552)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mdVj3-0002V8-Lh
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:55:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mdViK-0004Wj-Iz
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:54:26 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mdVj1-00057G-NL
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:55:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634813664;
+ s=mimecast20190719; t=1634813706;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wOjHxfimuM1Sxx/sSuTd3lct+rJSAx+JHVlDU/yrpd8=;
- b=bmjEzUJaMlfmF0bJAnuqZqe1DVdQgglKABeAXHNtOzlTK3Y66IAAXRBPx7L7wCMWdJ8yRg
- 9xrhltT5UAmQNUsHTzna7lIh4jMvglwEkM9V0t+SXdp69H/kiQspX7opZMGrd8wDj57QX4
- DQrDDWWuD0xGvcwF8stNEteJRoMDtdg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-PjU3Dl7IOGCXKZ9tpxZoFA-1; Thu, 21 Oct 2021 06:54:22 -0400
-X-MC-Unique: PjU3Dl7IOGCXKZ9tpxZoFA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- o140-20020a1ca592000000b0030d66991388so1566738wme.7
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 03:54:22 -0700 (PDT)
+ bh=gor+3JEJjhrLsQJF2eXJ4FRyttoVPGoM1mgTggEg9KU=;
+ b=LOy0zuWk/B2mIepwyf5vPIEl3kB178rrcK545jdP9HB0sGjIyOTOn/ZEE1yagaHP2fvQMX
+ WoTIzRh700xnOaaeMU5ImaXIxvXzaqMGSGel74T9D2tUezduOyank78UvGbhjdwoMBMckM
+ 5WP0IRg+0OuFgdaRbrt96CLOCvg9YuI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-Q9ZMduMzNJSwtntKKsSa-Q-1; Thu, 21 Oct 2021 06:55:05 -0400
+X-MC-Unique: Q9ZMduMzNJSwtntKKsSa-Q-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ l6-20020adfa386000000b00160c4c1866eso67955wrb.4
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 03:55:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=wOjHxfimuM1Sxx/sSuTd3lct+rJSAx+JHVlDU/yrpd8=;
- b=MLala6zng0o/Hlsxp98eUADD3R125iL8UhBjPMBmBS1W8Yq1yYRBk55Uc4sG4QTrpx
- UwuE/K3zE6dlj2cUKw6clSOnm0NjVuDHK2Etz4yd1RfrLPGOJ3jMj1bpsp2oJU8xDZmt
- Mh5UUQzk1kgi5OVtHLAA3qU3nNo5eDD2ou4LDbxvhEJnj69Gq0VjmP9avRwmT0b71msb
- vTlBsPibgK7zuZfvWr3WunjtDjd0miIS7s7lu6BHq4CJa7honhJ0yWr47wbtLCnqDGuW
- w3KnxfKo5Pbgo2gD5aGJRpR5mZlFD7HaDn0eWt9mMJ8TAn8QwCuxMk/2wMiL/XchWqJB
- V+Pw==
-X-Gm-Message-State: AOAM530Y0ZckuSoqlO/hIYq2m+v0hJ+h79LMyCHOcrMPwjkSDbOkP+st
- ghVxxS9SiQVNJ/J88sDw7+PmkJ0cjEkxtloYr0z4txbERlc5zaQQNAnxk5TR4p9ssjcoE7JCruV
- DVT99X1LuRayOFlE=
-X-Received: by 2002:a7b:c149:: with SMTP id z9mr20616332wmi.180.1634813661724; 
- Thu, 21 Oct 2021 03:54:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz2Lq6BqNpEDtAAlB9Kagb/wp/LIOfUMe9gm4b1RtPy4IGxxLtQMihQ9/rxzKJQc22/YkdPaQ==
-X-Received: by 2002:a7b:c149:: with SMTP id z9mr20616305wmi.180.1634813661554; 
- Thu, 21 Oct 2021 03:54:21 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23aba.dip0.t-ipconnect.de. [79.242.58.186])
- by smtp.gmail.com with ESMTPSA id v3sm4763997wrg.23.2021.10.21.03.54.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Oct 2021 03:54:20 -0700 (PDT)
-Message-ID: <09fc205c-ea99-4c20-3062-97816cebded2@redhat.com>
-Date: Thu, 21 Oct 2021 12:54:19 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 2/8] pci: Export pci_for_each_device_under_bus*()
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=gor+3JEJjhrLsQJF2eXJ4FRyttoVPGoM1mgTggEg9KU=;
+ b=GI85JgFmTV7XCWk3RvCEK90M4Ezgbp9HQ16ZRCVugvCMGPK2kJ0Q272vOLSK/SqxaF
+ ozL6mMupTvtDEV/0aHMMMVvjb7h2h/SArl/fftntTwc/Zpkh7riD0kjEe4FaAp1lndNq
+ F/i2wlUliHdS04tH3tM/vCFjRZspDxMOaZW99lV4TsTDp62EcsaMTR38M7zhEsmPB9NS
+ VXa07ksqAU160gljqwT+V9OzstNlyazTWyEBbW6IBRGJ/WZKOg5ciHqW6lOuRi9fBkVs
+ 7ttpF83bb5DhKN916ORA37UDrUmczqAzGIxLQDIpv2p2QP1aJZpLVjy5TRAt9RjeMPjf
+ u9XQ==
+X-Gm-Message-State: AOAM5311zRvGPNxGeo5OKrpibWIp5nxRX3z/3xntUIR7yNTlGCY+OfUZ
+ LgyvGIMW4MlnDUAxVaG57fUijr4A5n6JnKivHVVcb5f3u1N0fv2tDFRgEC1P7R0P2413N73EeX7
+ 4BZPm68Cvn9iVwNs=
+X-Received: by 2002:a05:600c:4fd3:: with SMTP id
+ o19mr5735609wmq.147.1634813704461; 
+ Thu, 21 Oct 2021 03:55:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyINqkMLLKD+5PVm2kbtrz/SudYONHQ/yxSkoiGFATC6Y/ml8C8oDss3xU8pLRxyV5ga10PTw==
+X-Received: by 2002:a05:600c:4fd3:: with SMTP id
+ o19mr5735576wmq.147.1634813704222; 
+ Thu, 21 Oct 2021 03:55:04 -0700 (PDT)
+Received: from redhat.com ([2.55.24.172])
+ by smtp.gmail.com with ESMTPSA id c18sm4614076wrr.60.2021.10.21.03.55.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Oct 2021 03:55:03 -0700 (PDT)
+Date: Thu, 21 Oct 2021 06:54:59 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 7/8] pci: Add pci_for_each_device_all()
+Message-ID: <20211021064948-mutt-send-email-mst@kernel.org>
 References: <20211021104259.57754-1-peterx@redhat.com>
- <20211021104259.57754-3-peterx@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20211021104259.57754-3-peterx@redhat.com>
+ <20211021104259.57754-8-peterx@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20211021104259.57754-8-peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,32 +96,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Shannon Zhao <shannon.zhaosl@gmail.com>,
  Alex Williamson <alex.williamson@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21.10.21 12:42, Peter Xu wrote:
-> They're actually more commonly used than the helper without _under_bus, because
-> most callers do have the pci bus on hand.  After exporting we can switch a lot
-> of the call sites to use these two helpers.
+On Thu, Oct 21, 2021 at 06:42:58PM +0800, Peter Xu wrote:
+> With all the prepared infrastructures, we can easily add one helper now to loop
+> over all the existing PCI devices across the whole system.
 > 
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->  hw/pci/pci.c         | 10 +++++-----
->  include/hw/pci/pci.h |  5 +++++
->  2 files changed, 10 insertions(+), 5 deletions(-)
+>  hw/pci/pci.c         | 25 +++++++++++++++++++++++++
+>  include/hw/pci/pci.h |  2 ++
+>  2 files changed, 27 insertions(+)
 > 
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 1623bc9099..5c970f0727 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -2124,6 +2124,31 @@ void pci_for_each_root_bus(pci_bus_fn fn, void *opaque)
+>      object_child_foreach_recursive(object_get_root(), pci_find_root_bus, &args);
+>  }
+>  
+> +typedef struct {
+> +    pci_bus_dev_fn fn;
+> +    void *opaque;
+> +} pci_bus_dev_args;
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+code style violation. CamelCase for structs pls.
 
--- 
-Thanks,
+> +
+> +static void pci_single_bus_hook(PCIBus *bus, void *opaque)
+> +{
+> +    pci_bus_dev_args *args = opaque;
+> +
+> +    pci_for_each_device_under_bus(bus, args->fn, args->opaque);
+> +}
+> +
+> +static void pci_root_bus_hook(PCIBus *bus, void *opaque)
+> +{
+> +    assert(pci_bus_is_root(bus));
+> +    pci_for_each_bus(bus, pci_single_bus_hook, opaque);
+> +}
+> +
+> +void pci_for_each_device_all(pci_bus_dev_fn fn, void *opaque)
+> +{
+> +    pci_bus_dev_args args = { .fn = fn, .opaque = opaque };
+> +
+> +    pci_for_each_root_bus(pci_root_bus_hook, &args);
+> +}
+> +
+>  PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn)
+>  {
+>      bus = pci_find_bus_nr(bus, bus_num);
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index 9e490d8969..1a862d1903 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -476,6 +476,8 @@ void pci_for_each_bus_depth_first(PCIBus *bus, pci_bus_ret_fn begin,
+>                                    pci_bus_fn end, void *parent_state);
+>  /* Call `fn' for each pci root bus on the system */
+>  void pci_for_each_root_bus(pci_bus_fn fn, void *opaque);
+> +/* Call 'fn' for each pci device on the system */
+> +void pci_for_each_device_all(pci_bus_dev_fn fn, void *opaque);
 
-David / dhildenb
+Instead of hacking pci making initialization o(N^2),
+can't we add a variant of object_resolve_path_type ?
+
+
+>  PCIDevice *pci_get_function_0(PCIDevice *pci_dev);
+>  
+>  /* Use this wrapper when specific scan order is not required. */
+> -- 
+> 2.32.0
 
 
