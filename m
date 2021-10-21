@@ -2,108 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D5A435D4A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 10:48:21 +0200 (CEST)
-Received: from localhost ([::1]:45798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C77F9435D46
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 10:47:17 +0200 (CEST)
+Received: from localhost ([::1]:43418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdTkK-00030b-FX
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 04:48:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42316)
+	id 1mdTjI-0001QJ-Jg
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 04:47:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mdTgg-0006KL-H7; Thu, 21 Oct 2021 04:44:34 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63126)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mdTgb-0006It-N8
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 04:44:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mdTgd-0008Sg-Nz; Thu, 21 Oct 2021 04:44:34 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19L8VBQ2029738; 
- Thu, 21 Oct 2021 04:44:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=sb6B6c+ptMqjN+vb+zrjXtXpNBBbCpG96N2KvR2/EQA=;
- b=hT6nhe/ldC+NNyAoHOdHrG5V4JD7lmsLPFKA0w2O1v6Yyy1BesgbkdBW8vCnFQ91DoME
- g+5m7LKCcwX78wVRGezQ4S98pL8w9AO6cXqSlKXSOUxfGllz3r4YTTzkHHoFFxrG03kc
- exL7Xw2dxdqohfWAk6bGl7CQFPZb9DnS6uO/RWk2tTh6MGL6RXFjXc+3mzLaXLVqAaPt
- H6YBbiqMIlO7GzelSbMPhdpEC63YCKj7rEvSB0SwluDx4xJFfnFxeElYhFrUNW3L1O/p
- ZehrCJdNb2clZ8y4ahypU50kqpQYUh4lRkYPi8Htutw4ifRNV41GsNe0fo0BH+0zzafX TA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bty9ef10n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Oct 2021 04:44:26 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19L7ukpW002322;
- Thu, 21 Oct 2021 04:44:26 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bty9ef0yw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Oct 2021 04:44:26 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19L8i0Dj001476;
- Thu, 21 Oct 2021 08:44:23 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3bqpcacmm7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Oct 2021 08:44:23 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 19L8cKli63635792
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Oct 2021 08:38:20 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C8CFD11C069;
- Thu, 21 Oct 2021 08:44:15 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6CAD411C054;
- Thu, 21 Oct 2021 08:44:15 +0000 (GMT)
-Received: from [9.171.84.111] (unknown [9.171.84.111])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 21 Oct 2021 08:44:15 +0000 (GMT)
-Message-ID: <5be20072-a052-e4a1-9dd1-b8c6fe383778@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mdTgY-0008QL-IN
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 04:44:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634805865;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/VYcyTiqdNF0X5alpwNIr56ZKYLtlXKC78TR/mAjCIU=;
+ b=gt46amkvt/eY7Is8vx03UeyZkahkFmcbmya3ufYEnm7kEgTPMppEgh9/Bv/DK4g/QAcLFU
+ 9GQ/ECmOpHsKvLLCto588m61bAo1LICGFlQs0I2T4w6mrHyobxEMh6Sfo74hc8GMcGce/s
+ itP8aTcGaKwEt8WfDu2zzou5DSHIXKE=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-rSvF4JB8PlW-Qrxat3qXZA-1; Thu, 21 Oct 2021 04:44:24 -0400
+X-MC-Unique: rSvF4JB8PlW-Qrxat3qXZA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ c25-20020a056402143900b003dc19782ea8so20154294edx.3
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 01:44:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/VYcyTiqdNF0X5alpwNIr56ZKYLtlXKC78TR/mAjCIU=;
+ b=Fcps1umwSn/rKC1NeSAfYHuhGv3dN26EJIR1NAlOaX1UwpXeMzXXCtpvTU+FhrWEmf
+ zHmqNVGkNznv5lClq1cFcQbkDHC8Lz/G48cVPTj2JzSrGxYzvQ+tFxG+Io5wWaWlKopP
+ f7jIrf86mMKLBViiTJlVvtOWjYQt4Wqgi/GYNiup3ORYQTFlgbkqyDhC+M34nxh2zusj
+ +V4NKS5dh3v9B5dRfYQRV0X7lgjbgtkftI1xwI8GIUIibz1hrImoxjQKZoQSCAe54aX2
+ fHVq0C4C3vxXcWSd9EdwRJuENQZUFxU7S32h/AOIrl4h4YHRUvzf7tOd6xbLdMfsEqA9
+ FWfg==
+X-Gm-Message-State: AOAM533YjpEoLJ+odXOB9PJn29dE8VkjqVEUM/hgs0Y6pHX13q8x2V+u
+ xho+jLEeM7L3JyIuISPiyKUg+a13DZUVfuT9e17u6+XlMlB5ORybQ/ZkOXcUsyKRNXt+/xwsN5h
+ YeT+PbzdA6bvSvxI=
+X-Received: by 2002:a17:906:e85:: with SMTP id
+ p5mr5657233ejf.159.1634805863457; 
+ Thu, 21 Oct 2021 01:44:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzc0d8pWxp44ZQSazS0mijFzCbuLRL/Ynyv2D+FHrkuPeFVadPbmSyR7VGr53SzTGhM9X8NBA==
+X-Received: by 2002:a17:906:e85:: with SMTP id
+ p5mr5657220ejf.159.1634805863253; 
+ Thu, 21 Oct 2021 01:44:23 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id kw10sm2181305ejc.71.2021.10.21.01.44.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Oct 2021 01:44:22 -0700 (PDT)
 Date: Thu, 21 Oct 2021 10:44:21 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v2 2/6] hw/riscv: opentitan: Use MachineState::ram and
+ MachineClass::default_ram_id
+Message-ID: <20211021104421.203a387b@redhat.com>
+In-Reply-To: <20211020014112.7336-3-bmeng.cn@gmail.com>
+References: <20211020014112.7336-1-bmeng.cn@gmail.com>
+ <20211020014112.7336-3-bmeng.cn@gmail.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3 2/4] s390x: kvm: topology: interception of PTF
- instruction
-Content-Language: en-US
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-References: <1631800254-25762-1-git-send-email-pmorel@linux.ibm.com>
- <1631800254-25762-3-git-send-email-pmorel@linux.ibm.com>
- <ae0cf5c1-b0b8-0758-7c38-35c1845201ba@redhat.com>
- <80eeffd4-25cf-c2ac-e74b-c8d5301fa98a@linux.ibm.com>
- <803cd1be-0b06-694c-82ae-d5015a34879f@redhat.com>
- <a5d5fbdb-fe81-d8f0-a510-3f94e63fbf98@linux.ibm.com>
-In-Reply-To: <a5d5fbdb-fe81-d8f0-a510-3f94e63fbf98@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 7ZrRFTbmQtA2DdfGmNyeO3k_OH4fTBxv
-X-Proofpoint-GUID: yV9uNHlg-Mp7FeoExDtsPZZSrRi8Zi5_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-10-21_02,2021-10-20_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 priorityscore=1501
- malwarescore=0 spamscore=0 phishscore=0 lowpriorityscore=0 mlxlogscore=999
- bulkscore=0 impostorscore=0 clxscore=1015 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110210041
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.267,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,88 +99,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
+Cc: qemu-riscv@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ qemu-devel@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 20 Oct 2021 09:41:08 +0800
+Bin Meng <bmeng.cn@gmail.com> wrote:
 
+> Using memory_region_init_ram(), which can't possibly handle vhost-user,
+> and can't work as expected with '-numa node,memdev' options.
+> 
+> Use MachineState::ram instead of manually initializing RAM memory
+> region, as well as by providing MachineClass::default_ram_id to
+> opt in to memdev scheme.
+> 
+> While at it add check for user supplied RAM size and error out if it
+> mismatches board expected value.
+> 
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-On 10/14/21 10:09, Pierre Morel wrote:
-> 
-> 
-> On 10/13/21 11:11, Thomas Huth wrote:
->> On 13/10/2021 09.55, Pierre Morel wrote:
->>>
->>>
->>> On 10/13/21 09:25, Thomas Huth wrote:
->>>> On 16/09/2021 15.50, Pierre Morel wrote:
->>>>> When the host supports the CPU topology facility, the PTF
->>>>> instruction with function code 2 is interpreted by the SIE,
->>>>> provided that the userland hypervizor activates the interpretation
->>>>> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
->>>>>
->>>>> The PTF instructions with function code 0 and 1 are intercepted
->>>>> and must be emulated by the userland hypervizor.
->>>>>
->>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>>> ---
->> ...
->>>>> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
->>>>> index 5b1fdb55c4..dd036961fe 100644
->>>>> --- a/target/s390x/kvm/kvm.c
->>>>> +++ b/target/s390x/kvm/kvm.c
->>>>> @@ -97,6 +97,7 @@
->>>>>   #define PRIV_B9_EQBS                    0x9c
->>>>>   #define PRIV_B9_CLP                     0xa0
->>>>> +#define PRIV_B9_PTF                     0xa2
->>>>>   #define PRIV_B9_PCISTG                  0xd0
->>>>>   #define PRIV_B9_PCILG                   0xd2
->>>>>   #define PRIV_B9_RPCIT                   0xd3
->>>>> @@ -362,6 +363,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>>>>       kvm_vm_enable_cap(s, KVM_CAP_S390_USER_SIGP, 0);
->>>>>       kvm_vm_enable_cap(s, KVM_CAP_S390_VECTOR_REGISTERS, 0);
->>>>>       kvm_vm_enable_cap(s, KVM_CAP_S390_USER_STSI, 0);
->>>>> +    kvm_vm_enable_cap(s, KVM_CAP_S390_CPU_TOPOLOGY, 0);
->>>>
->>>> Should this maybe rather be done in the last patch, to avoid a state 
->>>> where PTF is available, but STSI 15 is not implemented yet (when 
->>>> bisecting through these commits later)?
->>>>
->>>>   Thomas
->>>>
->>>
->>> Yes you are right, thanks.
->>
->> I'm also still a little bit surprised that there is really no 
->> migration code involved here yet. What if a guest gets started on a 
->> system with KVM_CAP_S390_CPU_TOPOLOGY support and later migrated to a 
->> system without KVM_CAP_S390_CPU_TOPOLOGY support? Is there already 
->> some magic in place that rejects such a migration? If not, the guest 
->> might first learn that it could use the PTF instruction, but suddenly 
->> it is then not available anymore? Does Linux cope right with PTF 
->> becoming unavailable during runtime? But even if it does, I think it's 
->> likely not in the sense of the architecture if certain instructions 
->> might disappear during runtime? Or do I miss something?
->>
->>   Thomas
->>
-> 
-> 
-> I check on this and take the consequences.
-> 
-> Pierre
-> 
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-I can use a solution using pre_save/postload migration entries to verify 
-that both side of the migration use PTF and STSI_15 the same way.
+> 
+> ---
+> 
+> Changes in v2:
+> - add RAM size check
+> - assign mc->default_ram_size
+> 
+>  hw/riscv/opentitan.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index 9803ae6d70..5d568ea58a 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -19,6 +19,7 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> +#include "qemu/cutils.h"
+>  #include "hw/riscv/opentitan.h"
+>  #include "qapi/error.h"
+>  #include "hw/boards.h"
+> @@ -64,20 +65,25 @@ static const MemMapEntry ibex_memmap[] = {
+>  
+>  static void opentitan_board_init(MachineState *machine)
+>  {
+> +    MachineClass *mc = MACHINE_GET_CLASS(machine);
+>      const MemMapEntry *memmap = ibex_memmap;
+>      OpenTitanState *s = g_new0(OpenTitanState, 1);
+>      MemoryRegion *sys_mem = get_system_memory();
+> -    MemoryRegion *main_mem = g_new(MemoryRegion, 1);
+> +
+> +    if (machine->ram_size != mc->default_ram_size) {
+> +        char *sz = size_to_str(mc->default_ram_size);
+> +        error_report("Invalid RAM size, should be %s", sz);
+> +        g_free(sz);
+> +        exit(EXIT_FAILURE);
+> +    }
+>  
+>      /* Initialize SoC */
+>      object_initialize_child(OBJECT(machine), "soc", &s->soc,
+>                              TYPE_RISCV_IBEX_SOC);
+>      qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
+>  
+> -    memory_region_init_ram(main_mem, NULL, "riscv.lowrisc.ibex.ram",
+> -        memmap[IBEX_DEV_RAM].size, &error_fatal);
+>      memory_region_add_subregion(sys_mem,
+> -        memmap[IBEX_DEV_RAM].base, main_mem);
+> +        memmap[IBEX_DEV_RAM].base, machine->ram);
+>  
+>      if (machine->firmware) {
+>          riscv_load_firmware(machine->firmware, memmap[IBEX_DEV_RAM].base, NULL);
+> @@ -95,6 +101,8 @@ static void opentitan_machine_init(MachineClass *mc)
+>      mc->init = opentitan_board_init;
+>      mc->max_cpus = 1;
+>      mc->default_cpu_type = TYPE_RISCV_CPU_IBEX;
+> +    mc->default_ram_id = "riscv.lowrisc.ibex.ram";
+> +    mc->default_ram_size = ibex_memmap[IBEX_DEV_RAM].size;
+>  }
+>  
+>  DEFINE_MACHINE("opentitan", opentitan_machine_init)
 
-Seems this direction OK ?
-
-Regards,
-Pierre
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
