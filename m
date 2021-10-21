@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D670435E14
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 11:37:44 +0200 (CEST)
-Received: from localhost ([::1]:59920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 456EF435E22
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 11:43:29 +0200 (CEST)
+Received: from localhost ([::1]:34960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdUW7-00083I-BA
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 05:37:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50580)
+	id 1mdUbf-00020D-TZ
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 05:43:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdUUc-000783-AP
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 05:36:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40174)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdUZX-0000V4-AI
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 05:41:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdUUW-0004O4-Ci
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 05:36:09 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdUZV-0003Nw-5Z
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 05:41:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634808962;
+ s=mimecast20190719; t=1634809272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tNh5j6nByuBahZFUIyGVwR+jPIfLJGfsi0wQzqugNY0=;
- b=V54vJ0FJRHbB0TezwREMcfKSw0ud8HTCdTdYOZmK/AO7MyJGfsi8NiLdXVu09tfkqNdYQc
- C8aBRMiS4Gu61berNB5M+Z1zxk5vf2isVf1JiN6SWuilkihNqaZHO0kCmhQn4lDVYBSLfO
- GdWftUALyrqYmXyRy0rD30JHlwM/9/Y=
+ bh=+6AGyIlslrgIdGe9jP4DGU/j02in1K4zrQhZsPyZW2A=;
+ b=K5KclpluLzKCbU0n1wPhhFN41UXv5Vij8OKRmbhuP3vz0qtgfItDAVeFc5Fje5xHInUt4y
+ PKyw1M5renmuBWplGFcdltNfo7MwBR3rblMuS7/RZtjtEm3MR678lB+6hw6/OjkeKtvVtc
+ HATBj7bb75Lyt4WRfwjXQH51LIgagxc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-bU5t3I3XMNySzd3zJOLzBw-1; Thu, 21 Oct 2021 05:35:59 -0400
-X-MC-Unique: bU5t3I3XMNySzd3zJOLzBw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-128-_lrKRDi9O9SoywrGYpipKg-1; Thu, 21 Oct 2021 05:41:08 -0400
+X-MC-Unique: _lrKRDi9O9SoywrGYpipKg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DFBF19067FE;
- Thu, 21 Oct 2021 09:35:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F20A1006ABE;
+ Thu, 21 Oct 2021 09:41:07 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 662E85C1D5;
- Thu, 21 Oct 2021 09:35:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 539487A8DF;
+ Thu, 21 Oct 2021 09:40:59 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EDBC511380A7; Thu, 21 Oct 2021 11:35:37 +0200 (CEST)
+ id 7A66811380A7; Thu, 21 Oct 2021 11:40:58 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Reiter <s.reiter@proxmox.com>
-Subject: Re: [PATCH v6 3/5] qapi/monitor: allow VNC display id in
- set/expire_password
-References: <20211020135500.2384930-1-s.reiter@proxmox.com>
- <20211020135500.2384930-4-s.reiter@proxmox.com>
- <87zgr3ezmj.fsf@dusky.pond.sub.org>
- <f562acca-2c34-cce5-f918-f94f7962b33e@proxmox.com>
-Date: Thu, 21 Oct 2021 11:35:37 +0200
-In-Reply-To: <f562acca-2c34-cce5-f918-f94f7962b33e@proxmox.com> (Stefan
- Reiter's message of "Thu, 21 Oct 2021 10:42:31 +0200")
-Message-ID: <87ee8een4m.fsf@dusky.pond.sub.org>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v2 4/5] qapi: Implement deprecated-input={reject,crash}
+ for enum values
+References: <20211009120944.2858887-1-armbru@redhat.com>
+ <20211009120944.2858887-5-armbru@redhat.com>
+ <20211011185323.ajhqe4qyvvi3bke4@redhat.com>
+Date: Thu, 21 Oct 2021 11:40:58 +0200
+In-Reply-To: <20211011185323.ajhqe4qyvvi3bke4@redhat.com> (Eric Blake's
+ message of "Mon, 11 Oct 2021 13:53:23 -0500")
+Message-ID: <87a6j2emvp.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,187 +81,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
+ qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com,
+ Markus Armbruster <armbru@redhat.com>, libvir-list@redhat.com,
+ pkrempa@redhat.com, marcandre.lureau@redhat.com, jsnow@redhat.com,
+ libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Reiter <s.reiter@proxmox.com> writes:
+Eric Blake <eblake@redhat.com> writes:
 
-> On 10/21/21 7:05 AM, Markus Armbruster wrote:
->> Stefan Reiter <s.reiter@proxmox.com> writes:
->>=20
->>> It is possible to specify more than one VNC server on the command line,
->>> either with an explicit ID or the auto-generated ones =C3=A0 la "defaul=
-t",
->>> "vnc2", "vnc3", ...
->>>
->>> It is not possible to change the password on one of these extra VNC
->>> displays though. Fix this by adding a "display" parameter to the
->>> "set_password" and "expire_password" QMP and HMP commands.
->>>
->>> For HMP, the display is specified using the "-d" value flag.
->>>
->>> For QMP, the schema is updated to explicitly express the supported
->>> variants of the commands with protocol-discriminated unions.
->>>
->>> Suggested-by: Markus Armbruster <armbru@redhat.com>
->>> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
->>> ---
-
-[...]
-
->>> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->>> index b8abe69609..daa4a8e106 100644
->>> --- a/monitor/hmp-cmds.c
->>> +++ b/monitor/hmp-cmds.c
->>> @@ -1451,26 +1451,39 @@ void hmp_set_password(Monitor *mon, const QDict=
- *qdict)
->>>   {
->>>       const char *protocol  =3D qdict_get_str(qdict, "protocol");
->>>       const char *password  =3D qdict_get_str(qdict, "password");
->>> +    const char *display =3D qdict_get_try_str(qdict, "display");
->>>       const char *connected =3D qdict_get_try_str(qdict, "connected");
->>>       Error *err =3D NULL;
->>> -    DisplayProtocol proto;
->>> -    SetPasswordAction conn;
->>>  =20
->>> -    proto =3D qapi_enum_parse(&DisplayProtocol_lookup, protocol,
->>> -                            DISPLAY_PROTOCOL_VNC, &err);
->>> +    SetPasswordOptions opts =3D {
->>> +        .password =3D g_strdup(password),
->>> +        .u.vnc.display =3D NULL,
->>> +    };
->>> +
->>> +    opts.protocol =3D qapi_enum_parse(&DisplayProtocol_lookup, protoco=
-l,
->>> +                                    DISPLAY_PROTOCOL_VNC, &err);
->>>       if (err) {
->>>           goto out;
->>>       }
->>>  =20
->>> -    conn =3D qapi_enum_parse(&SetPasswordAction_lookup, connected,
->>> -                           SET_PASSWORD_ACTION_KEEP, &err);
->>> -    if (err) {
->>> -        goto out;
->>> +    if (opts.protocol =3D=3D DISPLAY_PROTOCOL_VNC) {
->>> +        opts.u.vnc.has_display =3D !!display;
->>> +        opts.u.vnc.display =3D g_strdup(display);
->>> +    } else if (opts.protocol =3D=3D DISPLAY_PROTOCOL_SPICE) {
->>> +        opts.u.spice.has_connected =3D !!connected;
->>> +        opts.u.spice.connected =3D
->>> +            qapi_enum_parse(&SetPasswordAction_lookup, connected,
->>> +                            SET_PASSWORD_ACTION_KEEP, &err);
->>> +        if (err) {
->>> +            goto out;
->>> +        }
->>>       }
->>>  =20
->>> -    qmp_set_password(proto, password, !!connected, conn, &err);
->>> +    qmp_set_password(&opts, &err);
->>>  =20
->>>   out:
->>> +    g_free(opts.password);
->>> +    g_free(opts.u.vnc.display);
->>=20
->> Uh-oh...
->>=20
->> For DISPLAY_PROTOCOL_SPICE, we execute
->>=20
->>             .u.vnc.display =3D NULL,
->>             opts.u.spice.has_connected =3D !!connected;
->>             opts.u.spice.connected =3D
->>                 qapi_enum_parse(&SetPasswordAction_lookup, connected,
->>                                 SET_PASSWORD_ACTION_KEEP, &err);
->>             opts.u.vnc.has_display =3D !!display;
->>         g_free(opts.u.vnc.display);
->>=20
->> The assignments to opts.u.spice.has_connected and opts.u.spice_connected
->> clobber opts.u.vnc.display.
->>=20
->> The simplest fix is to pass @display directly.  Precedence:
->> hmp_drive_mirror().
+> On Sat, Oct 09, 2021 at 02:09:43PM +0200, Markus Armbruster wrote:
+>> This copies the code implementing the policy from qapi/qmp-dispatch.c
+>> to qapi/qobject-input-visitor.c.  Tolerable, but if we acquire more
+>> copes, we should look into factoring them out.
 >
-> With "directly", I assume you mean without g_strdup, so:
+> copies
+
+Fixing, thanks!
+
+>> 
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  docs/devel/qapi-code-gen.rst |  6 ++++--
+>>  qapi/compat.json             |  3 ++-
+>>  include/qapi/util.h          |  6 +++++-
+>>  qapi/qapi-visit-core.c       | 18 +++++++++++++++---
+>>  scripts/qapi/types.py        | 17 ++++++++++++++++-
+>>  5 files changed, 42 insertions(+), 8 deletions(-)
+>> 
+>> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+>> index 00334e9fb8..006a6f4a9a 100644
+>> --- a/docs/devel/qapi-code-gen.rst
+>> +++ b/docs/devel/qapi-code-gen.rst
+>> @@ -708,8 +708,10 @@ QEMU shows a certain behaviour.
+>>  Special features
+>>  ~~~~~~~~~~~~~~~~
+>>  
+>> -Feature "deprecated" marks a command, event, or struct member as
+>> -deprecated.  It is not supported elsewhere so far.
+>> +Feature "deprecated" marks a command, event, struct or enum member as
 >
->    opts.u.vnc.display =3D (char *)display;
+> Do we want the comma before the conjunction?  (I've seen style guides
+> that recommend it, and style guides that discourage it; while I tend
+> to write by the former style, I usually don't care about the latter.
+> Rather, switching styles mid-patch caught my attention).
+
+With a comma there, we claim structs can be marked, which is actually
+wrong.  Correct is "command, event, struct member, or enum member".
+
+I'll rephrase to "marks a command, event, enum value, or struct member
+deprecated."
+
+>> +deprecated.  It is not supported elsewhere so far.  Interfaces so
+>> +marked may be withdrawn in future releases in accordance with QEMU's
+>> +deprecation policy.
+>>  
+>>  
+>> +++ b/qapi/qapi-visit-core.c
+>> @@ -393,7 +393,7 @@ static bool input_type_enum(Visitor *v, const char *name, int *obj,
+>>                              const QEnumLookup *lookup, Error **errp)
+>>  {
+>>      int64_t value;
+>> -    char *enum_str;
+>> +    g_autofree char *enum_str = NULL;
 >
-> right?
+> Nice change while touching the code.  Is it worth mentioning in the
+> commit message?
 
-Right.
+I figure it would be more distracting than useful.
 
->        Does it matter that we drop the 'const'?
-
-It's ugly, but harmless.
-
-qdict_get_try_str() returns const char * to discourage you from messing
-with the string while it's in the QDict.
-
-qmp_set_password() does not actually mess with its argument.
-
->> Do the same for @password, of course.
->>=20
->>>       hmp_handle_error(mon, err);
->>>   }
->>>  =20
->>> @@ -1478,18 +1491,30 @@ void hmp_expire_password(Monitor *mon, const QD=
-ict *qdict)
->>>   {
->>>       const char *protocol  =3D qdict_get_str(qdict, "protocol");
->>>       const char *whenstr =3D qdict_get_str(qdict, "time");
->>> +    const char *display =3D qdict_get_try_str(qdict, "display");
->>>       Error *err =3D NULL;
->>> -    DisplayProtocol proto;
->>>  =20
->>> -    proto =3D qapi_enum_parse(&DisplayProtocol_lookup, protocol,
->>> -                            DISPLAY_PROTOCOL_VNC, &err);
->>> +    ExpirePasswordOptions opts =3D {
->>> +        .time =3D g_strdup(whenstr),
->>> +        .u.vnc.display =3D NULL,
->>> +    };
->>> +
->>> +    opts.protocol =3D qapi_enum_parse(&DisplayProtocol_lookup, protoco=
-l,
->>> +                                    DISPLAY_PROTOCOL_VNC, &err);
->>>       if (err) {
->>>           goto out;
->>>       }
->>>  =20
->>> -    qmp_expire_password(proto, whenstr, &err);
->>> +    if (opts.protocol =3D=3D DISPLAY_PROTOCOL_VNC) {
->>> +        opts.u.vnc.has_display =3D !!display;
->>> +        opts.u.vnc.display =3D g_strdup(display);
->>> +    }
->>=20
->> Use of -d with spice are silently ignored.  Do we care?  Same for
->> hmp_set_password() above.
+>>  
+>>      if (!visit_type_str(v, name, &enum_str, errp)) {
+>>          return false;
+>> @@ -402,11 +402,23 @@ static bool input_type_enum(Visitor *v, const char *name, int *obj,
+>>      value = qapi_enum_parse(lookup, enum_str, -1, NULL);
+>>      if (value < 0) {
+>>          error_setg(errp, QERR_INVALID_PARAMETER, enum_str);
+>> -        g_free(enum_str);
+>>          return false;
+>>      }
+>>  
+>> -    g_free(enum_str);
+>> +    if (lookup->flags && (lookup->flags[value] & QAPI_ENUM_DEPRECATED)) {
+>> +        switch (v->compat_policy.deprecated_input) {
+>> +        case COMPAT_POLICY_INPUT_ACCEPT:
+>> +            break;
+>> +        case COMPAT_POLICY_INPUT_REJECT:
+>> +            error_setg(errp, "Deprecated value '%s' disabled by policy",
+>> +                       enum_str);
+>> +            return false;
+>> +        case COMPAT_POLICY_INPUT_CRASH:
+>> +        default:
+>> +            abort();
+>> +        }
+>> +    }
+>> +
+>>      *obj = value;
+>>      return true;
+>>  }
 >
-> Depends on you, I don't. I think it's not worth catching even more
-> in HMP, since it's clear there's only one SPICE display anyway, and
-> it's all documented.
+> Grammar fixes are minor, so:
+>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Up to the HMP maintainer, and we'll take silence as tacit agreement with
-you :)
-
->>> +
->>> +    qmp_expire_password(&opts, &err);
->>>  =20
->>>   out:
->>> +    g_free(opts.time);
->>> +    g_free(opts.u.vnc.display);
->>=20
->> No uh-oh here, since opts.u.vnc is actually the only member of opts.u.
->> Still, let's pass @time and @display directly for consistency and
->> robustness.
->>=20
->>>       hmp_handle_error(mon, err);
->>>   }
->>>  =20
->>=20
->> [...]
+Thanks!
 
 
