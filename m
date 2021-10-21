@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1572E436666
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 17:37:17 +0200 (CEST)
-Received: from localhost ([::1]:56722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B63BB4366B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 17:47:20 +0200 (CEST)
+Received: from localhost ([::1]:52702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mda84-0005Yz-3T
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 11:37:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56072)
+	id 1mdaHn-0005cg-Oi
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 11:47:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdZv4-0005Y7-Lx
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 11:23:51 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:41977)
+ id 1mdZx2-0008W4-9k
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 11:25:52 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:36570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdZv2-0007uV-EZ
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 11:23:50 -0400
-Received: by mail-pg1-x530.google.com with SMTP id t184so615752pgd.8
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 08:23:47 -0700 (PDT)
+ id 1mdZww-00020a-Ne
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 11:25:51 -0400
+Received: by mail-pg1-x535.google.com with SMTP id 75so643870pga.3
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 08:25:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=xq7nDHzy/zK9nHyorNMekruJvvqX0DZueE9EXsdrTT4=;
- b=HNdaELcq1r0+hyTv3OoyQJtj12qB0O/XvGBTdY834YbNBvjpRDT4QxWTsO5JZAhgbW
- b+2IOToW4eEuGhg9jyVFXh9mZrPHpCMdq4/MKQq69lqwqF37zTyNBpO5VcZc+1uJsyAS
- MC8cB1eB0GQIRPhLNV5erUun4S7kgBwC+1Rq87ovScO7oWtIdlHgmwNYwYcLdFpQlKWH
- 3M/FHjlI2j19BV32DNpYGUWKYv/ieo1wD44AMEqGOaBeX4EDwDnQMvdTeqeiURzcjS6e
- OxuAT0Y0uwzYTEFoWP7P4xqnCLSCFGvlqStrfKIjRX4GQ05zBfFiU+7CznUPYPNRbVCN
- 5Kzw==
+ b=UpvuTG3w40bVFNgpYAE7FNJ3vW7gxAdG4sx5Kg8xAePIT6IzwhiQSYa06nKdH/e4hZ
+ lcIdHi0nCTMBiIJHTD3e78sA1X0ltOGiVDbwXS7LBXiFBygkERMAxJtdQ3dAu13eAhdN
+ BBIJSDxSfnBKSmSJcDg0jcBAwRubTVH4ulXZyeSk/WkDbGOKn6O/lsmkMWKREvkdJwDp
+ +C9D1O2fPZ4TlN8W+LB9+75VQfgfk7k0Kt4BEz8133zocMozRGWJ+C1LvChdbI2L/iWr
+ RojTLZ7PIBQWD/AzerkcmUZOmszo8WhE9dYG+4IMrU6bDdBcR/m5Y2kXkUurvYnVgX70
+ sKwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=xq7nDHzy/zK9nHyorNMekruJvvqX0DZueE9EXsdrTT4=;
- b=oijAHkZlkIcGzFF+orBpmErYrKFK50/dbWSp4uyfzNmZ5tVuh3+fgikm4qh+MJOBgQ
- GikLrfrCD75GAQANYGGKRKaQ01g6nWDRWLMt6TFNsLvdhzeHjotRQRzt1jz8RAzUri9p
- SOo4p02ep9q54eZ1OpdG6ov0ZOeQiyKE5q84CxOrDIiDe2Z7209+IucemJlUUfDiq1qb
- We+2bD3UcLOkbygbcgX11tMLr1PUAyEaB7k/ZVMlhsPdzAR6NSM+WGkT4my6DhBaW0T7
- DDvRFMES6tIbSMMqG3enz8gAKeqbaZzHoJzfJ4asPftUYxgAfY8qwkcP6Ddep3quXPL1
- 8mAQ==
-X-Gm-Message-State: AOAM533gxrClSNm+IuhCSrFzYomBfU5O/4tqL8Xk0l0IIKetlfeBxxgj
- 6/+7yf6/qhzgX4CdQDY7tUpJgeewrNm92w==
-X-Google-Smtp-Source: ABdhPJzjHiD1qljYdqMmzTZyV3u7W6E8ySh9GUrUjMEmEcoddc0o2W0Zpep3Prjc5Qcw/I8B7M4+0g==
-X-Received: by 2002:aa7:811a:0:b0:44c:b9ef:f618 with SMTP id
- b26-20020aa7811a000000b0044cb9eff618mr6158301pfi.9.1634829826551; 
- Thu, 21 Oct 2021 08:23:46 -0700 (PDT)
+ b=xMPVkc2i773tCj+VJEWV0rFsj5t8V5SbdGcdTW1tyRU1JfeL6Pa6GklU6+WbNOdcMF
+ mrCsIVJGtkwBYMYwIdFg/M3/QQRAlAc+SLO9wHf5kfFKgvZnwvGn/Cill7SDK8bFhIiv
+ ww5cM+hl6szB8REOWoQrziXFSLzHX5bRpBkypyQf4QYieb26wHHGmyEe33Uhcc+krcck
+ Uy0IjZOfrnJJAzKcCLohm9BibFSJSZidbN3FLTE+fdNVaXn30Q1GKnaBrzfiY8jhufT2
+ AvfaEn4AxkxtMkqygcE2kNBIo5mPXbrBG8R5R1q+sd2z3x0eOcX1VASia31+bMVCq+f3
+ JKMA==
+X-Gm-Message-State: AOAM530S15NBoYpfcP4HXgcoDEqH7ix/6ALyS9I6WXZG4/kzOJadKcKQ
+ 5V002fj8OtP07Kk4xQQc93lbVmW3IwN5nQ==
+X-Google-Smtp-Source: ABdhPJyCH+0TAAeUaKg9AfuYroK2yuP/nCakIPOuD+CfElFTVQX/GZ6iXIBWsewSnXLVUDjkSealKQ==
+X-Received: by 2002:a62:5a41:0:b0:448:152d:78bf with SMTP id
+ o62-20020a625a41000000b00448152d78bfmr6269322pfb.77.1634829942058; 
+ Thu, 21 Oct 2021 08:25:42 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id e8sm7029399pfn.45.2021.10.21.08.23.46
+ by smtp.gmail.com with ESMTPSA id y3sm5676257pge.44.2021.10.21.08.25.41
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 08:23:46 -0700 (PDT)
+ Thu, 21 Oct 2021 08:25:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Subject: [PULL 00/19] target/arm patch queue
-Date: Thu, 21 Oct 2021 08:22:38 -0700
-Message-Id: <20211021152345.780875-1-richard.henderson@linaro.org>
+Date: Thu, 21 Oct 2021 08:25:22 -0700
+Message-Id: <20211021152541.781175-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
