@@ -2,46 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C47D4369BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 19:49:45 +0200 (CEST)
-Received: from localhost ([::1]:38010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD81943699D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 19:46:16 +0200 (CEST)
+Received: from localhost ([::1]:36302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdcCF-0006pD-Tx
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 13:49:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35714)
+	id 1mdc8t-0005Xb-DP
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 13:46:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel@labath.sk>) id 1mdc13-0002ZG-BF
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 13:38:10 -0400
-Received: from holomatrix.labath.sk ([92.48.125.149]:45398)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mdc4E-0003PU-4A
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 13:41:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel@labath.sk>) id 1mdc0z-0007h0-Ub
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 13:38:08 -0400
-Received: from [172.29.152.10] (unknown [172.29.152.10])
- by holomatrix.labath.sk (Postfix) with ESMTP id C9A877760BD6;
- Thu, 21 Oct 2021 17:36:59 +0000 (GMT)
-Subject: Re: [PATCH v2] gdbstub: Switch to the thread receiving a signal
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210930095111.23205-1-pavel@labath.sk>
- <20211019174953.36560-1-pavel@labath.sk> <87fsswvsfy.fsf@linaro.org>
- <4a9b5f62-3189-7afd-217f-1386f44e0e7c@labath.sk> <878rynvap3.fsf@linaro.org>
-From: Pavel Labath <pavel@labath.sk>
-Message-ID: <525a7948-0e36-9121-960c-579fa25c89df@labath.sk>
-Date: Thu, 21 Oct 2021 19:36:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mdc4A-0005l5-Jj
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 13:41:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634838080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=t8vVjhgBGG8/VwWiMdlmEalW0dV7eytI8iXiuABXiFo=;
+ b=fH+mKx5moRQ1h+6UhCerUqk7J/GIYOlD/yWUlwL0aBhOVY3xkHWQm1joKHT3fnOAITM7y0
+ 17vfBYtC3ggt/ehIaSQzyGjMnr6eONDSuKpllG5/yT9zbcNUY2MMq83ZY01nZqbYY92cNQ
+ XKkIz7wjZOcK2+yollJKOnQ0orRK+fE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-gxJ1U0AXPKuWAiiGWCkA4Q-1; Thu, 21 Oct 2021 13:41:17 -0400
+X-MC-Unique: gxJ1U0AXPKuWAiiGWCkA4Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACAC41B18BCC;
+ Thu, 21 Oct 2021 17:41:16 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9496A5BAE3;
+ Thu, 21 Oct 2021 17:41:05 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 0/1] Block patches
+Date: Thu, 21 Oct 2021 18:41:03 +0100
+Message-Id: <20211021174104.52826-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <878rynvap3.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=92.48.125.149; envelope-from=pavel@labath.sk;
- helo=holomatrix.labath.sk
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.867,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,58 +76,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, qemu-devel@nongnu.org, stanshebs@google.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/10/2021 19:57, Alex Bennée wrote:
-> 
-> Pavel Labath <pavel@labath.sk> writes:
-> 
->> On 20/10/2021 10:35, Alex Bennée wrote:
->>> Maybe this is related to the weird output I was seeing above?
->>>
->>
->> Yes, that's definitely related. What's happening is that the qemu does
->> not stop other thread when one of them hits a breakpoint (or stops for
->> any other reason) -- as far as I can tell it does not have any code
->> which would even attempt to do that. This is why you're seeing the
->> output even after the process is purportedly stopped.
->>
->> Things get even more interesting when you have two threads hitting a
->> breakpoint simultaneously. At that point both of them will enter their
->> gdb stubs and attempt to talk to gdb at the same time. As you can
->> imagine, this cannot end well, and eventually the connection will
->> become so messed up that one side just gives up and terminates the
->> link.
->>
->> I am aware of this issue, and I (well, Stan (cc'ed) is, for the most
->> part) looking for a way to fix it. If you have any ideas, we'd very
->> much like to hear them. The way I see it, we need to implement some
->> kind of a "stop the world" mechanism, to stop/interrupt all threads
->> whenever the gdb stub becomes active (and make sure it can handle
->> simultaneous debug events).
-> 
-> vm_stop(RUN_STATE_PAUSED) should do the trick. We do it elsewhere in
-> the gdbstub.
-Unfortunately, it seems that vm_stop is only available in softmmu 
-targets. Is there a user-mode equivalent by any chance?
+The following changes since commit afc9fcde55296b83f659de9da3cdf044812a6eeb=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging=
+ (2021-10-20 06:10:51 -0700)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/stefanha/qemu.git tags/block-pull-request=0D
+=0D
+for you to fetch changes up to 4b2b3d2653f255ef4259a7689af1956536565901:=0D
+=0D
+  coroutine: resize pool periodically instead of limiting size (2021-10-21 =
+18:40:07 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+Pull request=0D
+=0D
+Performance optimization when guest applications submit a lot of parallel I=
+/O.=0D
+This has also been found to improve clang SafeStack performance.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Stefan Hajnoczi (1):=0D
+  coroutine: resize pool periodically instead of limiting size=0D
+=0D
+ include/qemu/coroutine-pool-timer.h | 36 ++++++++++++++++=0D
+ include/qemu/coroutine.h            |  7 ++++=0D
+ iothread.c                          |  6 +++=0D
+ util/coroutine-pool-timer.c         | 35 ++++++++++++++++=0D
+ util/main-loop.c                    |  5 +++=0D
+ util/qemu-coroutine.c               | 64 ++++++++++++++++-------------=0D
+ util/meson.build                    |  1 +=0D
+ 7 files changed, 125 insertions(+), 29 deletions(-)=0D
+ create mode 100644 include/qemu/coroutine-pool-timer.h=0D
+ create mode 100644 util/coroutine-pool-timer.c=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-> 
->> However, I am don't know enough about qemu
->> internals to tell how to actually go about doing that.
->>
->> My plan was to "get my feet wet" with a simple patch that improves the
->> situation for the case when there are no simultaneous debug events,
->> and eventually hopefully figure out a way how to address the bigger
->> problem.
-> 
-> Great. Once you've made the changes I think the patch is ready to go in
-> and the larger questions can be dealt with later.
-
-Cool. I've sent out v3 of the patch. Let me know if there's anything 
-else I need to do.
-
-regards,
-Pavel
 
