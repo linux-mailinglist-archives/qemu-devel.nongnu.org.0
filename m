@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C606B435A08
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:33:00 +0200 (CEST)
-Received: from localhost ([::1]:43840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8F94359FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:27:16 +0200 (CEST)
+Received: from localhost ([::1]:35144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdPlD-0000hN-T5
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:32:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42578)
+	id 1mdPfe-0003D6-LD
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:27:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZO-0005Te-P3; Thu, 21 Oct 2021 00:20:46 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:58969)
+ id 1mdPZN-0005TA-9N; Thu, 21 Oct 2021 00:20:46 -0400
+Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:54523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZL-0006tL-10; Thu, 21 Oct 2021 00:20:46 -0400
+ id 1mdPZL-0006tM-11; Thu, 21 Oct 2021 00:20:44 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HZZ5p2lpSz4xbY; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
+ id 4HZZ5p31Pfz4xd8; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1634790030;
- bh=K8Bd/Kl/s5smcnQyubqNNSoEJGapJYr+XZh9hhgHrKQ=;
+ bh=66aDyVN+FKDVcYoPjyeyWUlv2EqM0jIOVBJdqqk/Qx8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZmpRh96Wxsf8Cxw1ujqLdNF9zNO8n2KHk7oPSglrtiNXD0kksPRfCxj4WbGFMStAD
- +0oz7DU/6qDBo8lCpBI4bxUI9o2xHmkLrCB+9FW1OMbjnhh0s4vPRPmJ9W4ASbxLmb
- jnBn5nBX1H9zMfasuVhMEfRZCc0eQRehI/nptKfo=
+ b=bsj9Rteabtr4jOYi+xKbzVCdq5Dz1Gds8wvpw/wBukXcBFDMJNxeVGbTdf4Shfy17
+ dCri5Puy2DVeyadJ/QGMICAq+eYZ+rfWPNJAaFPIwHLwfouotHQiKb9LUdIbYjL0qB
+ hSmMKxeUyB3t9MZl3EmkxnWiwzI81ZMThYt1FJ2Y=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 02/25] target/ppc: Use tcg_constant_i32() in gen_setb()
-Date: Thu, 21 Oct 2021 15:20:04 +1100
-Message-Id: <20211021042027.345405-3-david@gibson.dropbear.id.au>
+Subject: [PULL 03/25] target/ppc: Use tcg_constant_i64() in gen_brh()
+Date: Thu, 21 Oct 2021 15:20:05 +1100
+Message-Id: <20211021042027.345405-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211021042027.345405-1-david@gibson.dropbear.id.au>
 References: <20211021042027.345405-1-david@gibson.dropbear.id.au>
@@ -66,42 +66,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Avoid using TCG temporaries for the -1 and 8 constant values.
+The mask of the Byte-Reverse Halfword opcode is a read-only
+constant. We can avoid using a TCG temporary by moving the
+mask to the constant pool.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211003141711.3673181-2-f4bug@amsat.org>
+Message-Id: <20211003141711.3673181-3-f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/translate.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ target/ppc/translate.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index c3c6cb9589..0258c1be16 100644
+index 0258c1be16..98f304302e 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -5068,19 +5068,15 @@ static void gen_mtspr(DisasContext *ctx)
- static void gen_setb(DisasContext *ctx)
+@@ -7569,18 +7569,16 @@ static void gen_brw(DisasContext *ctx)
+ /* brh */
+ static void gen_brh(DisasContext *ctx)
  {
-     TCGv_i32 t0 = tcg_temp_new_i32();
--    TCGv_i32 t8 = tcg_temp_new_i32();
--    TCGv_i32 tm1 = tcg_temp_new_i32();
-+    TCGv_i32 t8 = tcg_constant_i32(8);
-+    TCGv_i32 tm1 = tcg_constant_i32(-1);
-     int crf = crfS(ctx->opcode);
+-    TCGv_i64 t0 = tcg_temp_new_i64();
++    TCGv_i64 mask = tcg_constant_i64(0x00ff00ff00ff00ffull);
+     TCGv_i64 t1 = tcg_temp_new_i64();
+     TCGv_i64 t2 = tcg_temp_new_i64();
  
-     tcg_gen_setcondi_i32(TCG_COND_GEU, t0, cpu_crf[crf], 4);
--    tcg_gen_movi_i32(t8, 8);
--    tcg_gen_movi_i32(tm1, -1);
-     tcg_gen_movcond_i32(TCG_COND_GEU, t0, cpu_crf[crf], t8, tm1, t0);
-     tcg_gen_ext_i32_tl(cpu_gpr[rD(ctx->opcode)], t0);
+-    tcg_gen_movi_i64(t0, 0x00ff00ff00ff00ffull);
+     tcg_gen_shri_i64(t1, cpu_gpr[rS(ctx->opcode)], 8);
+-    tcg_gen_and_i64(t2, t1, t0);
+-    tcg_gen_and_i64(t1, cpu_gpr[rS(ctx->opcode)], t0);
++    tcg_gen_and_i64(t2, t1, mask);
++    tcg_gen_and_i64(t1, cpu_gpr[rS(ctx->opcode)], mask);
+     tcg_gen_shli_i64(t1, t1, 8);
+     tcg_gen_or_i64(cpu_gpr[rA(ctx->opcode)], t1, t2);
  
-     tcg_temp_free_i32(t0);
--    tcg_temp_free_i32(t8);
--    tcg_temp_free_i32(tm1);
+-    tcg_temp_free_i64(t0);
+     tcg_temp_free_i64(t1);
+     tcg_temp_free_i64(t2);
  }
- #endif
- 
 -- 
 2.31.1
 
