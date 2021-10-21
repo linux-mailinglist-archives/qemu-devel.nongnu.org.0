@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1287B4358B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 04:41:12 +0200 (CEST)
-Received: from localhost ([::1]:52960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753F14358C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 05:04:58 +0200 (CEST)
+Received: from localhost ([::1]:38670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdO11-0003Ng-5n
-	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 22:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56194)
+	id 1mdOO0-0005Wy-5X
+	for lists+qemu-devel@lfdr.de; Wed, 20 Oct 2021 23:04:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mdNzF-0002dj-A6
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 22:39:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34941)
+ id 1mdOL8-00043V-TK
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 23:01:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mdNz7-0001CK-3C
- for qemu-devel@nongnu.org; Wed, 20 Oct 2021 22:39:19 -0400
+ id 1mdOL4-0003fq-EC
+ for qemu-devel@nongnu.org; Wed, 20 Oct 2021 23:01:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634783952;
+ s=mimecast20190719; t=1634785312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hng2FawQkf0+nbFDv6BpptClmSZCRyVwgqWFn3tHjWc=;
- b=XpJttRbQbD4NrjNqpxLkhVrWoYDdDksZmuLCJLaplnlwcJ3ykEpLZvMAl6o1/V0r9ZvTKa
- Hgjbf1n7nXPCC4tbFYs4+jQjOCKAa/xN/vscWiB9XPenNWopDQPvsAbQQpnwaDcP+C2P9F
- nHEaQLQVphwP6rpKX+t1j1inU2cYnmI=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-BoVSckJAMJedoIH-DflVjA-1; Wed, 20 Oct 2021 22:39:10 -0400
-X-MC-Unique: BoVSckJAMJedoIH-DflVjA-1
-Received: by mail-lj1-f200.google.com with SMTP id
- z9-20020a2e3509000000b00210f31ea0e3so2349519ljz.16
- for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 19:39:10 -0700 (PDT)
+ bh=yLTii+Z0w1HCob8oXWkYGFl6LRw1n793LcNb211FEmw=;
+ b=WtIdR7hstOQ11UeaJQxMJbmR9Hvkp81IEeCZ7Tbtjf7PKrClAhPKHzobLbBs9oxDsAiC0m
+ Ax9kQaed4vzRGlPO3QZekZBIhYPEm+5Y+xnxTSKD+s5u4wcsZ2OadJIAQpdfYtEHZRYDwx
+ UVzulGs2wJWrTECIagvljGO4orT0d2U=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-434-tAJBuWBgMMOVzSEUy-i3jw-1; Wed, 20 Oct 2021 23:01:51 -0400
+X-MC-Unique: tAJBuWBgMMOVzSEUy-i3jw-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ p10-20020a056512234a00b003fe188e9960so3340861lfu.19
+ for <qemu-devel@nongnu.org>; Wed, 20 Oct 2021 20:01:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Hng2FawQkf0+nbFDv6BpptClmSZCRyVwgqWFn3tHjWc=;
- b=W1lU4bfLjKj5VsYCjKRA4QJd+bg4ONiRQuxhszlcC27nHRP/zdJTYXdV5WWIqULi1T
- NluYz2NldhtQi2euBkZ4PrKODfutPnIH2dE3rzAhj+r9bbWNTRnxl9MILUriVSAkMDzX
- BgJqKOyf4yTn6ITceAFkcsA6ObkEsP1+eNh7dyCyXtv+lhjIjCAJ4Xjr2eOAKvsOIPuM
- 6GBEe9ozy3dr3fLaj79Az5jfLQ3upeSmFo3rbmRF8WMLz2uocHhn/nGT8SlNloFEQmT1
- mPLxDmrGJFWDZOCvt6YqZqXBMX8V/YytQRO9A2HiVV/CCLm0GTl2XqF7SEySyRsaq2yB
- 6I+A==
-X-Gm-Message-State: AOAM533rM7Czx/x12h05DrVzciKCk01zoWhqcZmmI7L3EkG2J9nTYLsu
- BAfOhQ9FwDOgqKKu81Xs+NllpQZEG/RhQ3A8DY9dMQgs2QWhzpAMNHk+k5WI1O2fQkmE2cOlgF+
- UHwYfB4I98s+RuFD9cuWqR8OesughqWM=
-X-Received: by 2002:a05:6512:110d:: with SMTP id
- l13mr2709041lfg.199.1634783949009; 
- Wed, 20 Oct 2021 19:39:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwk4O1IDdNk4dA4nnGOecVsFU2bqIbdfj/0lsR0E3jjFzjUzE5WVlSn5+kKIUbTRYMgdtOxy5iopD+xzlb8bxk=
-X-Received: by 2002:a05:6512:110d:: with SMTP id
- l13mr2708983lfg.199.1634783948192; 
- Wed, 20 Oct 2021 19:39:08 -0700 (PDT)
+ bh=yLTii+Z0w1HCob8oXWkYGFl6LRw1n793LcNb211FEmw=;
+ b=m+v9iBrdd+l7e/8xjqTMBTImqr/3fKHKXhOvrzQ9PE3Wgc7+xWaRLXrh2allA2NhfX
+ Yntj4G79wlAzJOC+oEIeBJLwvXZlZ0H1kcbEJHFHEiBHpawU9mmB5XilWtC9BlRPkB5Q
+ NrwLPDLcvFUaTgk78B9ZvvDI/ksMS2VOcMQdxL2hVEu21QPIO1p4sAWHFqhznagU5Jbs
+ wH3oOiar04OdkRkpeWkjmIqOryfb8OH8wkYnCFSFFALZd/M5947/uw6SnSI6tZyEcAdX
+ yfyENszKYVDFpsddUOrAEd0SIuQ0tsL4L7bYFI/UXXZ64tngXWBC4sp+dFxNdK7yUVxu
+ tutw==
+X-Gm-Message-State: AOAM531es9PCq/clvpdqG1Lb09W9VFw4TicHmtnV34q7asn+mm7s6X6h
+ D1vD0jm/qoJWIOkaheQH7r8Fbn0/LT10ysIcDi7wy3WmJFk8eg9Lirb3VlkMEgfkOysJREsd5st
+ yHBDhIxMG1td4Jcfg/8kkTyZgIR6eyyQ=
+X-Received: by 2002:a2e:a5c8:: with SMTP id n8mr2928982ljp.307.1634785309667; 
+ Wed, 20 Oct 2021 20:01:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJybqTwqERuC3sEUZrE2toAiiVYFxXQsE2QaRalS29bvyeLtqNRuPBKwN0AqEmQnnoZ76QR+Z3KXxi068670yrE=
+X-Received: by 2002:a2e:a5c8:: with SMTP id n8mr2928959ljp.307.1634785309366; 
+ Wed, 20 Oct 2021 20:01:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211001070603.307037-1-eperezma@redhat.com>
- <20211001070603.307037-21-eperezma@redhat.com>
- <a426c22c-f41a-4e3f-d140-7e7a0defeacb@redhat.com>
- <CAJaqyWcRcm9rwuTqJHS0FmuMrXpoCvF34TzXKQmxXTfZssZ-jA@mail.gmail.com>
- <CACGkMEtgOc6ccaV5fckMwgEccEwL=sfuvkGymjAsQh7Tvn9krw@mail.gmail.com>
- <CACGkMEsjnnsTbCOdEP6iq8Fwc0=BSKfheGPubg7bcbF-BPU1gg@mail.gmail.com>
- <CAJaqyWe6R_32Se75XF3+NUZyiWr+cLYQ_86LExmom-vCRT9G0g@mail.gmail.com>
- <CACGkMEs_HEfV6PE4LRex7cqKtux2RtQUDz8MTgROa2dWchNfwg@mail.gmail.com>
- <CAJaqyWd9LjpA5w2f1s+pNmdNjYPvcbJgPqY+Qv1fWb+6LPPzAg@mail.gmail.com>
-In-Reply-To: <CAJaqyWd9LjpA5w2f1s+pNmdNjYPvcbJgPqY+Qv1fWb+6LPPzAg@mail.gmail.com>
+References: <20210918020437.1822937-1-chen.zhang@intel.com>
+ <3f1ead6c-4429-3edc-75cd-d48ecac317fc@redhat.com>
+ <MWHPR11MB00316C47878D3EEA430424419BBE9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <CACGkMEspzhjzeS-wzRy5t17pdXE4=zhXbuoPmNedis2BisVF8Q@mail.gmail.com>
+ <MWHPR11MB0031C91B3AAA62F79E496B8E9BBE9@MWHPR11MB0031.namprd11.prod.outlook.com>
+In-Reply-To: <MWHPR11MB0031C91B3AAA62F79E496B8E9BBE9@MWHPR11MB0031.namprd11.prod.outlook.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 21 Oct 2021 10:38:57 +0800
-Message-ID: <CACGkMEs3zq_sqkGaKNzKO8vzyeXaxOy7ebuCswajdOdW6-N0Og@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 20/20] vdpa: Add custom IOTLB translations to SVQ
-To: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 21 Oct 2021 11:01:38 +0800
+Message-ID: <CACGkMEu-3zGx+uK53_35Jh601yqo5hkYDDR5S1mW5HbSXgS1vw@mail.gmail.com>
+Subject: Re: [PATCH V3] net/colo: check vnet_hdr_support flag when using
+ virtio-net
+To: "Zhang, Chen" <chen.zhang@intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,684 +95,504 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Eric Blake <eblake@redhat.com>, Michael Lilja <ml@napatech.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Lukas Straub <lukasstraub2@web.de>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ qemu-dev <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 20, 2021 at 7:57 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
+On Wed, Oct 20, 2021 at 2:19 PM Zhang, Chen <chen.zhang@intel.com> wrote:
 >
-> On Wed, Oct 20, 2021 at 11:03 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Wed, Oct 20, 2021 at 2:52 PM Eugenio Perez Martin
-> > <eperezma@redhat.com> wrote:
-> > >
-> > > On Wed, Oct 20, 2021 at 4:07 AM Jason Wang <jasowang@redhat.com> wrot=
-e:
-> > > >
-> > > > On Wed, Oct 20, 2021 at 10:02 AM Jason Wang <jasowang@redhat.com> w=
-rote:
-> > > > >
-> > > > > On Tue, Oct 19, 2021 at 6:29 PM Eugenio Perez Martin
-> > > > > <eperezma@redhat.com> wrote:
-> > > > > >
-> > > > > > On Tue, Oct 19, 2021 at 11:25 AM Jason Wang <jasowang@redhat.co=
-m> wrote:
-> > > > > > >
-> > > > > > >
-> > > > > > > =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:06, Eugenio P=C3=A9re=
-z =E5=86=99=E9=81=93:
-> > > > > > > > Use translations added in VhostIOVATree in SVQ.
-> > > > > > > >
-> > > > > > > > Now every element needs to store the previous address also,=
- so VirtQueue
-> > > > > > > > can consume the elements properly. This adds a little overh=
-ead per VQ
-> > > > > > > > element, having to allocate more memory to stash them. As a=
- possible
-> > > > > > > > optimization, this allocation could be avoided if the descr=
-iptor is not
-> > > > > > > > a chain but a single one, but this is left undone.
-> > > > > > > >
-> > > > > > > > TODO: iova range should be queried before, and add logic to=
- fail when
-> > > > > > > > GPA is outside of its range and memory listener or svq add =
-it.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > > > > > ---
-> > > > > > > >   hw/virtio/vhost-shadow-virtqueue.h |   4 +-
-> > > > > > > >   hw/virtio/vhost-shadow-virtqueue.c | 130 ++++++++++++++++=
-++++++++-----
-> > > > > > > >   hw/virtio/vhost-vdpa.c             |  40 ++++++++-
-> > > > > > > >   hw/virtio/trace-events             |   1 +
-> > > > > > > >   4 files changed, 152 insertions(+), 23 deletions(-)
-> > > > > > > >
-> > > > > > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio=
-/vhost-shadow-virtqueue.h
-> > > > > > > > index b7baa424a7..a0e6b5267a 100644
-> > > > > > > > --- a/hw/virtio/vhost-shadow-virtqueue.h
-> > > > > > > > +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> > > > > > > > @@ -11,6 +11,7 @@
-> > > > > > > >   #define VHOST_SHADOW_VIRTQUEUE_H
-> > > > > > > >
-> > > > > > > >   #include "hw/virtio/vhost.h"
-> > > > > > > > +#include "hw/virtio/vhost-iova-tree.h"
-> > > > > > > >
-> > > > > > > >   typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
-> > > > > > > >
-> > > > > > > > @@ -28,7 +29,8 @@ bool vhost_svq_start(struct vhost_dev *de=
-v, unsigned idx,
-> > > > > > > >   void vhost_svq_stop(struct vhost_dev *dev, unsigned idx,
-> > > > > > > >                       VhostShadowVirtqueue *svq);
-> > > > > > > >
-> > > > > > > > -VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev,=
- int idx);
-> > > > > > > > +VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev,=
- int idx,
-> > > > > > > > +                                    VhostIOVATree *iova_ma=
-p);
-> > > > > > > >
-> > > > > > > >   void vhost_svq_free(VhostShadowVirtqueue *vq);
-> > > > > > > >
-> > > > > > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio=
-/vhost-shadow-virtqueue.c
-> > > > > > > > index 2fd0bab75d..9db538547e 100644
-> > > > > > > > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > > > > > > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > > > > > > > @@ -11,12 +11,19 @@
-> > > > > > > >   #include "hw/virtio/vhost-shadow-virtqueue.h"
-> > > > > > > >   #include "hw/virtio/vhost.h"
-> > > > > > > >   #include "hw/virtio/virtio-access.h"
-> > > > > > > > +#include "hw/virtio/vhost-iova-tree.h"
-> > > > > > > >
-> > > > > > > >   #include "standard-headers/linux/vhost_types.h"
-> > > > > > > >
-> > > > > > > >   #include "qemu/error-report.h"
-> > > > > > > >   #include "qemu/main-loop.h"
-> > > > > > > >
-> > > > > > > > +typedef struct SVQElement {
-> > > > > > > > +    VirtQueueElement elem;
-> > > > > > > > +    void **in_sg_stash;
-> > > > > > > > +    void **out_sg_stash;
-> > > > > > > > +} SVQElement;
-> > > > > > > > +
-> > > > > > > >   /* Shadow virtqueue to relay notifications */
-> > > > > > > >   typedef struct VhostShadowVirtqueue {
-> > > > > > > >       /* Shadow vring */
-> > > > > > > > @@ -46,8 +53,11 @@ typedef struct VhostShadowVirtqueue {
-> > > > > > > >       /* Virtio device */
-> > > > > > > >       VirtIODevice *vdev;
-> > > > > > > >
-> > > > > > > > +    /* IOVA mapping if used */
-> > > > > > > > +    VhostIOVATree *iova_map;
-> > > > > > > > +
-> > > > > > > >       /* Map for returning guest's descriptors */
-> > > > > > > > -    VirtQueueElement **ring_id_maps;
-> > > > > > > > +    SVQElement **ring_id_maps;
-> > > > > > > >
-> > > > > > > >       /* Next head to expose to device */
-> > > > > > > >       uint16_t avail_idx_shadow;
-> > > > > > > > @@ -79,13 +89,6 @@ bool vhost_svq_valid_device_features(uin=
-t64_t *dev_features)
-> > > > > > > >               continue;
-> > > > > > > >
-> > > > > > > >           case VIRTIO_F_ACCESS_PLATFORM:
-> > > > > > > > -            /* SVQ needs this feature disabled. Can't cont=
-inue */
-> > > > > > > > -            if (*dev_features & BIT_ULL(b)) {
-> > > > > > > > -                clear_bit(b, dev_features);
-> > > > > > > > -                r =3D false;
-> > > > > > > > -            }
-> > > > > > > > -            break;
-> > > > > > > > -
-> > > > > > > >           case VIRTIO_F_VERSION_1:
-> > > > > > > >               /* SVQ needs this feature, so can't continue =
-*/
-> > > > > > > >               if (!(*dev_features & BIT_ULL(b))) {
-> > > > > > > > @@ -126,6 +129,64 @@ static void vhost_svq_set_notification=
-(VhostShadowVirtqueue *svq, bool enable)
-> > > > > > > >       }
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > > +static void vhost_svq_stash_addr(void ***stash, const stru=
-ct iovec *iov,
-> > > > > > > > +                                 size_t num)
-> > > > > > > > +{
-> > > > > > > > +    size_t i;
-> > > > > > > > +
-> > > > > > > > +    if (num =3D=3D 0) {
-> > > > > > > > +        return;
-> > > > > > > > +    }
-> > > > > > > > +
-> > > > > > > > +    *stash =3D g_new(void *, num);
-> > > > > > > > +    for (i =3D 0; i < num; ++i) {
-> > > > > > > > +        (*stash)[i] =3D iov[i].iov_base;
-> > > > > > > > +    }
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +static void vhost_svq_unstash_addr(void **stash, struct io=
-vec *iov, size_t num)
-> > > > > > > > +{
-> > > > > > > > +    size_t i;
-> > > > > > > > +
-> > > > > > > > +    if (num =3D=3D 0) {
-> > > > > > > > +        return;
-> > > > > > > > +    }
-> > > > > > > > +
-> > > > > > > > +    for (i =3D 0; i < num; ++i) {
-> > > > > > > > +        iov[i].iov_base =3D stash[i];
-> > > > > > > > +    }
-> > > > > > > > +    g_free(stash);
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +static void vhost_svq_translate_addr(const VhostShadowVirt=
-queue *svq,
-> > > > > > > > +                                     struct iovec *iovec, =
-size_t num)
-> > > > > > > > +{
-> > > > > > > > +    size_t i;
-> > > > > > > > +
-> > > > > > > > +    for (i =3D 0; i < num; ++i) {
-> > > > > > > > +        VhostDMAMap needle =3D {
-> > > > > > > > +            .translated_addr =3D iovec[i].iov_base,
-> > > > > > > > +            .size =3D iovec[i].iov_len,
-> > > > > > > > +        };
-> > > > > > > > +        size_t off;
-> > > > > > > > +
-> > > > > > > > +        const VhostDMAMap *map =3D vhost_iova_tree_find_io=
-va(svq->iova_map,
-> > > > > > > > +                                                          =
- &needle);
-> > > > > > >
-> > > > > > >
-> > > > > > > Is it possible that we end up with more than one maps here?
-> > > > > > >
-> > > > > >
-> > > > > > Actually it is possible, since there is no guarantee that one
-> > > > > > descriptor (or indirect descriptor) maps exactly to one iov. It=
- could
-> > > > > > map to many if qemu vaddr is not contiguous but GPA + size is. =
-This is
-> > > > > > something that must be fixed for the next revision, so thanks f=
-or
-> > > > > > pointing it out!
-> > > > > >
-> > > > > > Taking that into account, the condition that svq vring avail_id=
-x -
-> > > > > > used_idx was always less or equal than guest's vring avail_idx =
--
-> > > > > > used_idx is not true anymore. Checking for that before adding b=
-uffers
-> > > > > > to SVQ is the easy part, but how could we recover in that case?
-> > > > > >
-> > > > > > I think that the easy solution is to check for more available b=
-uffers
-> > > > > > unconditionally at the end of vhost_svq_handle_call, which hand=
-les the
-> > > > > > SVQ used and is supposed to make more room for available buffer=
-s. So
-> > > > > > vhost_handle_guest_kick would not check if eventfd is set or no=
-t
-> > > > > > anymore.
-> > > > > >
-> > > > > > Would that make sense?
-> > > > >
-> > > > > Yes, I think it should work.
-> > > >
-> > > > Btw, I wonder how to handle indirect descriptors. SVQ doesn't use
-> > > > indirect descriptors for now, but it looks like a must otherwise we
-> > > > may end up SVQ is full before VQ.
-> > > >
-> > >
-> > > We can get to that situation without indirect too, if a single
-> > > descriptor maps to more than one sg buffer. The next revision is goin=
+>
+>
+> > -----Original Message-----
+> > From: Jason Wang <jasowang@redhat.com>
+> > Sent: Wednesday, October 20, 2021 11:13 AM
+> > To: Zhang, Chen <chen.zhang@intel.com>
+> > Cc: Eric Blake <eblake@redhat.com>; Markus Armbruster
+> > <armbru@redhat.com>; qemu-dev <qemu-devel@nongnu.org>; Li Zhijian
+> > <lizhijian@cn.fujitsu.com>; Lukas Straub <lukasstraub2@web.de>
+> > Subject: Re: [PATCH V3] net/colo: check vnet_hdr_support flag when usin=
 g
-> > > to control that too.
+> > virtio-net
+> >
+> > On Wed, Oct 20, 2021 at 10:53 AM Zhang, Chen <chen.zhang@intel.com>
+> > wrote:
 > > >
-> > > > It looks to me an easy way is to always use indirect descriptors if=
- #sg >=3D 2?
+> > >
+> > >
+> > > > -----Original Message-----
+> > > > From: Jason Wang <jasowang@redhat.com>
+> > > > Sent: Tuesday, October 19, 2021 3:39 PM
+> > > > To: Zhang, Chen <chen.zhang@intel.com>; Eric Blake
+> > > > <eblake@redhat.com>; Markus Armbruster <armbru@redhat.com>
+> > > > Cc: qemu-dev <qemu-devel@nongnu.org>; Li Zhijian
+> > > > <lizhijian@cn.fujitsu.com>; Lukas Straub <lukasstraub2@web.de>; Tao
+> > > > Xu <tao3.xu@intel.com>
+> > > > Subject: Re: [PATCH V3] net/colo: check vnet_hdr_support flag when
+> > > > using virtio-net
 > > > >
+> > > >
+> > > > =E5=9C=A8 2021/9/18 =E4=B8=8A=E5=8D=8810:04, Zhang Chen =E5=86=99=
+=E9=81=93:
+> > > > > When COLO use only one vnet_hdr_support parameter between COLO
+> > > > network
+> > > > > filter(filter-mirror, filter-redirector or filter-rewriter and
+> > > > > colo-compare, packet will not be parsed correctly. Acquire networ=
+k
+> > > > > driver related to COLO, if it is nirtio-net,
+> > > >
+> > > >
+> > > > Typo.
 > > >
-> > > I will use that, but that does not solve the case where a descriptor
-> > > maps to > 1 different buffers in qemu vaddr.
+> > > Oh~ will fix in next version.
+> > >
+> > > >
+> > > >
+> > > > >   check vnet_hdr_support flag of COLO network filter and colo-com=
+pare.
+> > > > >
+> > > > > Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> > > > > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> > > > > ---
+> > > > >
+> > > > > Changelog:
+> > > > > v3:
+> > > > >      Fix some typos.
+> > > > >      Rebased for Qemu 6.2.
+> > > > >
+> > > > > v2:
+> > > > >      Detect virtio-net driver and apply vnet_hdr_support
+> > > > >      automatically. (Jason)
+> > > > > ---
+> > > > >   net/colo-compare.c    | 57
+> > > > +++++++++++++++++++++++++++++++++++++++++++
+> > > > >   net/colo.c            | 20 +++++++++++++++
+> > > > >   net/colo.h            |  4 +++
+> > > > >   net/filter-mirror.c   | 21 ++++++++++++++++
+> > > > >   net/filter-rewriter.c | 10 ++++++++
+> > > > >   qapi/qom.json         |  6 +++++
+> > > > >   qemu-options.hx       |  6 +++--
+> > > > >   7 files changed, 122 insertions(+), 2 deletions(-)
+> > > > >
+> > > > > diff --git a/net/colo-compare.c b/net/colo-compare.c index
+> > > > > b100e7b51f..870bd05a41 100644
+> > > > > --- a/net/colo-compare.c
+> > > > > +++ b/net/colo-compare.c
+> > > > > @@ -110,6 +110,7 @@ struct CompareState {
+> > > > >       char *sec_indev;
+> > > > >       char *outdev;
+> > > > >       char *notify_dev;
+> > > > > +    char *netdev;
+> > > > >       CharBackend chr_pri_in;
+> > > > >       CharBackend chr_sec_in;
+> > > > >       CharBackend chr_out;
+> > > > > @@ -838,6 +839,28 @@ static int compare_chr_can_read(void *opaque=
+)
+> > > > >       return COMPARE_READ_LEN_MAX;
+> > > > >   }
+> > > > >
+> > > > > +static int colo_set_default_netdev(void *opaque, QemuOpts *opts,
+> > > > > +Error **errp) {
+> > > > > +    const char *colo_obj_type, *netdev_from_filter;
+> > > > > +    char **netdev =3D (char **)opaque;
+> > > > > +
+> > > > > +    colo_obj_type =3D qemu_opt_get(opts, "qom-type");
+> > > > > +
+> > > > > +    if (colo_obj_type &&
+> > > > > +        (strcmp(colo_obj_type, "filter-mirror") =3D=3D 0 ||
+> > > > > +         strcmp(colo_obj_type, "filter-redirector") =3D=3D 0 ||
+> > > > > +         strcmp(colo_obj_type, "filter-rewriter") =3D=3D 0)) {
+> > > > > +        netdev_from_filter =3D qemu_opt_get(opts, "netdev");
+> > > > > +        if (*netdev =3D=3D NULL) {
+> > > > > +            *netdev =3D g_strdup(netdev_from_filter);
+> > > > > +        } else if (strcmp(*netdev, netdev_from_filter) !=3D 0) {
+> > > > > +            warn_report("%s is using a different netdev from oth=
+er COLO "
+> > > > > +                        "component", colo_obj_type);
+> > > > > +        }
+> > > > > +    }
+> > > > > +    return 0;
+> > > > > +}
+> > > > > +
+> > > > >   /*
+> > > > >    * Called from the main thread on the primary for packets
+> > > > >    * arriving over the socket from the primary.
+> > > > > @@ -1050,6 +1073,21 @@ static void compare_set_vnet_hdr(Object
+> > *obj,
+> > > > >       s->vnet_hdr =3D value;
+> > > > >   }
+> > > > >
+> > > > > +static char *compare_get_netdev(Object *obj, Error **errp) {
+> > > > > +    CompareState *s =3D COLO_COMPARE(obj);
+> > > > > +
+> > > > > +    return g_strdup(s->netdev);
+> > > > > +}
+> > > > > +
+> > > > > +static void compare_set_netdev(Object *obj, const char *value,
+> > > > > +Error
+> > > > > +**errp) {
+> > > > > +    CompareState *s =3D COLO_COMPARE(obj);
+> > > > > +
+> > > > > +    g_free(s->netdev);
+> > > > > +    s->netdev =3D g_strdup(value);
+> > > > > +}
+> > > > > +
+> > > > >   static char *compare_get_notify_dev(Object *obj, Error **errp)
+> > > > >   {
+> > > > >       CompareState *s =3D COLO_COMPARE(obj); @@ -1274,6 +1312,12
+> > @@
+> > > > > static void colo_compare_complete(UserCreatable *uc, Error **errp=
+)
+> > > > >           max_queue_size =3D MAX_QUEUE_SIZE;
+> > > > >       }
+> > > > >
+> > > > > +    if (!s->netdev) {
+> > > > > +        /* Set default netdev as the first colo netfilter found =
+*/
+> > > > > +        qemu_opts_foreach(qemu_find_opts("object"),
+> > > > > +                          colo_set_default_netdev, &s->netdev, N=
+ULL);
+> > > > > +    }
+> > > > > +
+> > > > >       if (find_and_check_chardev(&chr, s->pri_indev, errp) ||
+> > > > >           !qemu_chr_fe_init(&s->chr_pri_in, chr, errp)) {
+> > > > >           return;
+> > > > > @@ -1289,6 +1333,16 @@ static void
+> > > > colo_compare_complete(UserCreatable *uc, Error **errp)
+> > > > >           return;
+> > > > >       }
+> > > > >
+> > > > > +    if (!s->vnet_hdr &&
+> > > > > +        qemu_opts_foreach(qemu_find_opts("device"),
+> > > > > +                          vnet_driver_check, s->netdev, NULL)) {
+> > > > > +        /*
+> > > > > +         * colo compare needs 'vnet_hdr_support' when it works o=
+n
+> > virtio-net,
+> > > > > +         * add 'vnet_hdr_support' automatically
+> > > > > +         */
+> > > > > +        s->vnet_hdr =3D true;
+> > > > > +    }
+> > > > > +
+> > > > >       net_socket_rs_init(&s->pri_rs, compare_pri_rs_finalize, s-
+> > >vnet_hdr);
+> > > > >       net_socket_rs_init(&s->sec_rs, compare_sec_rs_finalize,
+> > > > > s->vnet_hdr);
+> > > > >
+> > > > > @@ -1400,6 +1454,9 @@ static void colo_compare_init(Object *obj)
+> > > > >       s->vnet_hdr =3D false;
+> > > > >       object_property_add_bool(obj, "vnet_hdr_support",
+> > > > compare_get_vnet_hdr,
+> > > > >                                compare_set_vnet_hdr);
+> > > > > +    /* colo compare can't varify that netdev is correct */
+> > > > > +    object_property_add_str(obj, "netdev", compare_get_netdev,
+> > > > > +                            compare_set_netdev);
+> > > > >   }
+> > > > >
+> > > > >   void colo_compare_cleanup(void)
+> > > > > diff --git a/net/colo.c b/net/colo.c index 3a3e6e89a0..4a03780f45
+> > > > > 100644
+> > > > > --- a/net/colo.c
+> > > > > +++ b/net/colo.c
+> > > > > @@ -243,3 +243,23 @@ bool connection_has_tracked(GHashTable
+> > > > > *connection_track_table,
+> > > > >
+> > > > >       return conn ? true : false;
+> > > > >   }
+> > > > > +
+> > > > > +/* check the network driver related to COLO, return 1 if it is
+> > > > > +virtio-net */ int vnet_driver_check(void *opaque, QemuOpts *opts=
+,
+> > > > > +Error **errp) {
+> > > > > +    const char *driver_type, *netdev_from_driver;
+> > > > > +    char *netdev_from_filter =3D (char *)opaque;
+> > > > > +
+> > > > > +    driver_type =3D qemu_opt_get(opts, "driver");
+> > > > > +    netdev_from_driver =3D qemu_opt_get(opts, "netdev");
+> > > > > +
+> > > > > +    if (!driver_type || !netdev_from_driver || !netdev_from_filt=
+er) {
+> > > > > +        return 0;
+> > > > > +    }
+> > > > > +
+> > > > > +    if (g_str_has_prefix(driver_type, "virtio-net") &&
+> > > > > +        strcmp(netdev_from_driver, netdev_from_filter) =3D=3D 0)=
+ {
+> > > > > +        return 1;
+> > > > > +    }
+> > > > > +    return 0;
+> > > > > +}
+> > > > > diff --git a/net/colo.h b/net/colo.h index d91cd245c4..d401fc76b6
+> > > > > 100644
+> > > > > --- a/net/colo.h
+> > > > > +++ b/net/colo.h
+> > > > > @@ -18,6 +18,9 @@
+> > > > >   #include "qemu/jhash.h"
+> > > > >   #include "qemu/timer.h"
+> > > > >   #include "net/eth.h"
+> > > > > +#include "qemu/option.h"
+> > > > > +#include "qemu/option_int.h"
+> > > > > +#include "qemu/config-file.h"
+> > > > >
+> > > > >   #define HASHTABLE_MAX_SIZE 16384
+> > > > >
+> > > > > @@ -104,5 +107,6 @@ Packet *packet_new(const void *data, int size=
+,
+> > > > > int
+> > > > vnet_hdr_len);
+> > > > >   Packet *packet_new_nocopy(void *data, int size, int vnet_hdr_le=
+n);
+> > > > >   void packet_destroy(void *opaque, void *user_data);
+> > > > >   void packet_destroy_partial(void *opaque, void *user_data);
+> > > > > +int vnet_driver_check(void *opaque, QemuOpts *opts, Error
+> > > > > +**errp);
+> > > > >
+> > > > >   #endif /* NET_COLO_H */
+> > > > > diff --git a/net/filter-mirror.c b/net/filter-mirror.c index
+> > > > > f20240cc9f..69ca9c9839 100644
+> > > > > --- a/net/filter-mirror.c
+> > > > > +++ b/net/filter-mirror.c
+> > > > > @@ -12,6 +12,7 @@
+> > > > >   #include "qemu/osdep.h"
+> > > > >   #include "net/filter.h"
+> > > > >   #include "net/net.h"
+> > > > > +#include "net/colo.h"
+> > > > >   #include "qapi/error.h"
+> > > > >   #include "qom/object.h"
+> > > > >   #include "qemu/main-loop.h"
+> > > > > @@ -224,6 +225,16 @@ static void
+> > > > > filter_mirror_setup(NetFilterState *nf,
+> > > > Error **errp)
+> > > > >           return;
+> > > > >       }
+> > > > >
+> > > > > +    if (!s->vnet_hdr &&
+> > > > > +        qemu_opts_foreach(qemu_find_opts("device"),
+> > > > > +                          vnet_driver_check, nf->netdev_id, NULL=
+)) {
+> > > > > +        /*
+> > > > > +         * filter mirror needs 'vnet_hdr_support' when colo filt=
+er modules
+> > > > > +         * work on virtio-net, add 'vnet_hdr_support' automatica=
+lly
+> > > > > +         */
+> > > > > +        s->vnet_hdr =3D true;
+> > > > > +    }
+> > > > > +
+> > > > >       qemu_chr_fe_init(&s->chr_out, chr, errp);
+> > > > >   }
+> > > > >
+> > > > > @@ -252,6 +263,16 @@ static void
+> > > > > filter_redirector_setup(NetFilterState
+> > > > *nf, Error **errp)
+> > > > >           }
+> > > > >       }
+> > > > >
+> > > > > +    if (!s->vnet_hdr &&
+> > > > > +        qemu_opts_foreach(qemu_find_opts("device"),
+> > > > > +                          vnet_driver_check, nf->netdev_id, NULL=
+)) {
+> > > > > +        /*
+> > > > > +         * filter redirector needs 'vnet_hdr_support' when colo =
+filter
+> > modules
+> > > > > +         * work on virtio-net, add 'vnet_hdr_support' automatica=
+lly
+> > > > > +         */
+> > > > > +        s->vnet_hdr =3D true;
+> > > > > +    }
+> > > > > +
+> > > > >       net_socket_rs_init(&s->rs, redirector_rs_finalize,
+> > > > > s->vnet_hdr);
+> > > > >
+> > > > >       if (s->indev) {
+> > > > > diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c index
+> > > > > cb3a96cde1..637ef4ce71 100644
+> > > > > --- a/net/filter-rewriter.c
+> > > > > +++ b/net/filter-rewriter.c
+> > > > > @@ -388,6 +388,16 @@ static void
+> > > > > colo_rewriter_setup(NetFilterState *nf,
+> > > > Error **errp)
+> > > > >   {
+> > > > >       RewriterState *s =3D FILTER_REWRITER(nf);
+> > > > >
+> > > > > +    if (!s->vnet_hdr &&
+> > > > > +        qemu_opts_foreach(qemu_find_opts("device"),
+> > > > > +                          vnet_driver_check, nf->netdev_id, NULL=
+)) {
+> > > > > +        /*
+> > > > > +         * filter rewriter needs 'vnet_hdr_support' when colo fi=
+lter
+> > modules
+> > > > > +         * work on virtio-net, add 'vnet_hdr_support' automatica=
+lly
+> > > > > +         */
+> > > > > +        s->vnet_hdr =3D true;
+> > > > > +    }
+> > > > > +
+> > > > >       s->connection_track_table =3D
+> > > > g_hash_table_new_full(connection_key_hash,
+> > > > >                                                         connectio=
+n_key_equal,
+> > > > >                                                         g_free,
+> > > > > diff --git a/qapi/qom.json b/qapi/qom.json index
+> > > > > a25616bc7a..5760107160
+> > > > > 100644
+> > > > > --- a/qapi/qom.json
+> > > > > +++ b/qapi/qom.json
+> > > > > @@ -241,6 +241,11 @@
+> > > > >   # @notify_dev: name of the character device backend to be used
+> > > > > to
+> > > > communicate
+> > > > >   #              with the remote colo-frame (only for Xen COLO)
+> > > > >   #
+> > > > > +# @netdev: id of the network device backend to colo-compare.
+> > Although
+> > > > > +#          colo-compare doesn't depend on network device directl=
+y, this
+> > > > > +#          parameter helps colo-compare know what network driver=
+ it is
+> > > > > +#          working on.(since 6.2)
+> > > >
+> > > >
+> > > > This looks kind of not elegant. We don't want to couple COLO with n=
+etdev.
+> > > >
+> > > > I wonder if we can do this without adding netdev.
+> > >
+> > > Yes, current COLO is not bind to netdev, but here we want to auto fix
+> > configuration issue.
 > >
-> > Right, so we need to deal with the case when SVQ is out of space.
+> > If my memory is correct, the current design allows an external comparin=
+g
+> > module to work.
+>
+> Yes, this netdev used by identify a series of comparing modules (include =
+filters).
+>
 > >
+> > > To avoid wrong setting other non-colo related existing filter,  COLO =
+need
+> > know the colo-effect netdev to setup.
+> > > And this parameter is optional, this patch will setup default colo-ef=
+fect
+> > netdev in colo_set_default_netdev().
+> > > Or any good idea?
 > >
-> > > So I think that some
-> > > check after marking descriptors as used is a must somehow.
+> > How about
 > >
-> > I thought it should be before processing the available buffer?
+> > 1) adding a handshake in the protocol before receiving packets or
+> > 2) add a header to the payload to show if it contains a vnet header or
+> > 3) go back to let mgmt set vnet_hdr=3Don/off (looks like the first prop=
+osal but
+> > it avoids the coupling).
 >
-> Yes, I meant after that. Somehow, because I include checking the
-> number of sg buffers as "processing". :).
+> Current code already have a header to the payload to show the vnet header=
+(in net/filter-mirror.c filter_send()).
+> But the vnet_hdr_len is not necessary:
+> Disabled vnet_hdr payload:
+> 1. size ---> 2. Real network payload.
+> Enbaled vnet_hdr payload:
+> 1. size ---> 2. Vnet_hdr_len ----> 3. Real network payload.
 >
-> > It's
-> > the guest driver that make sure there's sufficient space for used
-> > ring?
-> >
+> It looks we can define the vnet_hdr_len as necessary part of protocol.
+> If no vnet_hdr, we set the vnet_hdr_len to 0.
+> 1. size ---> 2. Vnet_hdr_len ----> 3. Real network payload.
 >
-> (I think we are talking the same with different words, but just in
-> case I will develop the idea here with an example).
->
-> The guest is able to check if there is enough space in the SVQ's
-> vring, but not in the device's vring. As an example of this, imagine
-> that a guest makes available a GPA contiguous buffer of 64K, one
-> descriptor. However, this memory is divided into 16 chunks of 4K in
-> qemu's VA space. Imagine that at this moment there are only eight
-> slots free in each vring, and that neither communication is using
-> indirect descriptors.
->
-> The guest only needs 1 descriptor available to make that buffer
-> available, so it will add to avail ring. But SVQ needs 16 chained
-> descriptors, so the buffer is not going to reach the device until it
-> makes at least 8 more descriptors as used. SVQ checked for the amount
-> of available room, as you said, but it cannot forward the available
-> one.
->
-> Since the guest already sent kick when it made the descriptor
-> available, we need another mechanism to know when we have all the
-> needed free slots in the SVQ vring. And that's what I meant with the
-> check after marking some buffers as available.
->
-> I still think it is not worth it to protect the forwarding methods of
-> hogging BQL, since there must be a limit sooner or later, but it is
-> something that is worth putting on the table again. But this requires
-> changes for the next version for sure.
+> How about this proposal?
 
-Ok.
-
->
-> I can think in more scenarios, like guest making available an indirect
-> descriptor of vq size that needs to be splitted in even more sgs. Qemu
-> already does not support more than 1024 sgs buffers in VirtQueue, but
-> a driver (as SVQ) must *not* create an indirect descriptor chain
-> longer than the Queue Size. Should we always increase vq size to 1024
-> always? I think these are highly unlikely, but again these concerns
-> must be at least commented here.
->
-> Does it make sense?
-
-Right. So I think the SVQ codes should be ready to handle all those cases.
+I think it should work.
 
 Thanks
 
 >
-> Thanks!
+> Thanks
+> Chen
 >
+>
+> >
 > > Thanks
 > >
 > > >
+> > > Thanks
+> > > Chen
 > > >
+> > > >
 > > > > Thanks
 > > > >
-> > > > >
-> > > > > Thanks
-> > > > >
-> > > > > >
-> > > > > > Thanks!
-> > > > > >
-> > > > > > >
-> > > > > > > > +        /*
-> > > > > > > > +         * Map cannot be NULL since iova map contains all =
-guest space and
-> > > > > > > > +         * qemu already has a physical address mapped
-> > > > > > > > +         */
-> > > > > > > > +        assert(map);
-> > > > > > > > +
-> > > > > > > > +        /*
-> > > > > > > > +         * Map->iova chunk size is ignored. What to do if =
-descriptor
-> > > > > > > > +         * (addr, size) does not fit is delegated to the d=
-evice.
-> > > > > > > > +         */
-> > > > > > > > +        off =3D needle.translated_addr - map->translated_a=
-ddr;
-> > > > > > > > +        iovec[i].iov_base =3D (void *)(map->iova + off);
-> > > > > > > > +    }
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > >   static void vhost_vring_write_descs(VhostShadowVirtqueue =
-*svq,
-> > > > > > > >                                       const struct iovec *i=
-ovec,
-> > > > > > > >                                       size_t num, bool more=
-_descs, bool write)
-> > > > > > > > @@ -156,8 +217,9 @@ static void vhost_vring_write_descs(Vho=
-stShadowVirtqueue *svq,
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > >   static unsigned vhost_svq_add_split(VhostShadowVirtqueue =
-*svq,
-> > > > > > > > -                                    VirtQueueElement *elem=
-)
-> > > > > > > > +                                    SVQElement *svq_elem)
-> > > > > > > >   {
-> > > > > > > > +    VirtQueueElement *elem =3D &svq_elem->elem;
-> > > > > > > >       int head;
-> > > > > > > >       unsigned avail_idx;
-> > > > > > > >       vring_avail_t *avail =3D svq->vring.avail;
-> > > > > > > > @@ -167,6 +229,12 @@ static unsigned vhost_svq_add_split(Vh=
-ostShadowVirtqueue *svq,
-> > > > > > > >       /* We need some descriptors here */
-> > > > > > > >       assert(elem->out_num || elem->in_num);
-> > > > > > > >
-> > > > > > > > +    vhost_svq_stash_addr(&svq_elem->in_sg_stash, elem->in_=
-sg, elem->in_num);
-> > > > > > > > +    vhost_svq_stash_addr(&svq_elem->out_sg_stash, elem->ou=
-t_sg, elem->out_num);
-> > > > > > >
-> > > > > > >
-> > > > > > > I wonder if we can solve the trick like stash and unstash wit=
-h a
-> > > > > > > dedicated sgs in svq_elem, instead of reusing the elem.
-> > > > > > >
-> > > > > >
-> > > > > > Actually yes, it would be way simpler to use a new sgs array in
-> > > > > > svq_elem. I will change that.
-> > > > > >
-> > > > > > Thanks!
-> > > > > >
-> > > > > > > Thanks
-> > > > > > >
-> > > > > > >
-> > > > > > > > +
-> > > > > > > > +    vhost_svq_translate_addr(svq, elem->in_sg, elem->in_nu=
-m);
-> > > > > > > > +    vhost_svq_translate_addr(svq, elem->out_sg, elem->out_=
-num);
-> > > > > > > > +
-> > > > > > > >       vhost_vring_write_descs(svq, elem->out_sg, elem->out_=
-num,
-> > > > > > > >                               elem->in_num > 0, false);
-> > > > > > > >       vhost_vring_write_descs(svq, elem->in_sg, elem->in_nu=
-m, false, true);
-> > > > > > > > @@ -187,7 +255,7 @@ static unsigned vhost_svq_add_split(Vho=
-stShadowVirtqueue *svq,
-> > > > > > > >
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > > -static void vhost_svq_add(VhostShadowVirtqueue *svq, VirtQ=
-ueueElement *elem)
-> > > > > > > > +static void vhost_svq_add(VhostShadowVirtqueue *svq, SVQEl=
-ement *elem)
-> > > > > > > >   {
-> > > > > > > >       unsigned qemu_head =3D vhost_svq_add_split(svq, elem)=
-;
-> > > > > > > >
-> > > > > > > > @@ -221,7 +289,7 @@ static void vhost_handle_guest_kick(Eve=
-ntNotifier *n)
-> > > > > > > >           }
-> > > > > > > >
-> > > > > > > >           while (true) {
-> > > > > > > > -            VirtQueueElement *elem =3D virtqueue_pop(svq->=
-vq, sizeof(*elem));
-> > > > > > > > +            SVQElement *elem =3D virtqueue_pop(svq->vq, si=
-zeof(*elem));
-> > > > > > > >               if (!elem) {
-> > > > > > > >                   break;
-> > > > > > > >               }
-> > > > > > > > @@ -247,7 +315,7 @@ static bool vhost_svq_more_used(VhostSh=
-adowVirtqueue *svq)
-> > > > > > > >       return svq->used_idx !=3D svq->shadow_used_idx;
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > > -static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirt=
-queue *svq)
-> > > > > > > > +static SVQElement *vhost_svq_get_buf(VhostShadowVirtqueue =
-*svq)
-> > > > > > > >   {
-> > > > > > > >       vring_desc_t *descs =3D svq->vring.desc;
-> > > > > > > >       const vring_used_t *used =3D svq->vring.used;
-> > > > > > > > @@ -279,7 +347,7 @@ static VirtQueueElement *vhost_svq_get_=
-buf(VhostShadowVirtqueue *svq)
-> > > > > > > >       descs[used_elem.id].next =3D svq->free_head;
-> > > > > > > >       svq->free_head =3D used_elem.id;
-> > > > > > > >
-> > > > > > > > -    svq->ring_id_maps[used_elem.id]->len =3D used_elem.len=
-;
-> > > > > > > > +    svq->ring_id_maps[used_elem.id]->elem.len =3D used_ele=
-m.len;
-> > > > > > > >       return g_steal_pointer(&svq->ring_id_maps[used_elem.i=
-d]);
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > > @@ -296,12 +364,19 @@ static void vhost_svq_handle_call_no_=
-test(EventNotifier *n)
-> > > > > > > >
-> > > > > > > >           vhost_svq_set_notification(svq, false);
-> > > > > > > >           while (true) {
-> > > > > > > > -            g_autofree VirtQueueElement *elem =3D vhost_sv=
-q_get_buf(svq);
-> > > > > > > > -            if (!elem) {
-> > > > > > > > +            g_autofree SVQElement *svq_elem =3D vhost_svq_=
-get_buf(svq);
-> > > > > > > > +            VirtQueueElement *elem;
-> > > > > > > > +            if (!svq_elem) {
-> > > > > > > >                   break;
-> > > > > > > >               }
-> > > > > > > >
-> > > > > > > >               assert(i < svq->vring.num);
-> > > > > > > > +            elem =3D &svq_elem->elem;
-> > > > > > > > +
-> > > > > > > > +            vhost_svq_unstash_addr(svq_elem->in_sg_stash, =
-elem->in_sg,
-> > > > > > > > +                                   elem->in_num);
-> > > > > > > > +            vhost_svq_unstash_addr(svq_elem->out_sg_stash,=
- elem->out_sg,
-> > > > > > > > +                                   elem->out_num);
-> > > > > > > >               virtqueue_fill(vq, elem, elem->len, i++);
-> > > > > > > >           }
-> > > > > > > >
-> > > > > > > > @@ -451,14 +526,24 @@ void vhost_svq_stop(struct vhost_dev =
-*dev, unsigned idx,
-> > > > > > > >       event_notifier_set_handler(&svq->host_notifier, NULL)=
-;
-> > > > > > > >
-> > > > > > > >       for (i =3D 0; i < svq->vring.num; ++i) {
-> > > > > > > > -        g_autofree VirtQueueElement *elem =3D svq->ring_id=
-_maps[i];
-> > > > > > > > +        g_autofree SVQElement *svq_elem =3D svq->ring_id_m=
-aps[i];
-> > > > > > > > +        VirtQueueElement *elem;
-> > > > > > > > +
-> > > > > > > > +        if (!svq_elem) {
-> > > > > > > > +            continue;
-> > > > > > > > +        }
-> > > > > > > > +
-> > > > > > > > +        elem =3D &svq_elem->elem;
-> > > > > > > > +        vhost_svq_unstash_addr(svq_elem->in_sg_stash, elem=
-->in_sg,
-> > > > > > > > +                               elem->in_num);
-> > > > > > > > +        vhost_svq_unstash_addr(svq_elem->out_sg_stash, ele=
-m->out_sg,
-> > > > > > > > +                               elem->out_num);
-> > > > > > > > +
-> > > > > > > >           /*
-> > > > > > > >            * Although the doc says we must unpop in order, =
-it's ok to unpop
-> > > > > > > >            * everything.
-> > > > > > > >            */
-> > > > > > > > -        if (elem) {
-> > > > > > > > -            virtqueue_unpop(svq->vq, elem, elem->len);
-> > > > > > > > -        }
-> > > > > > > > +        virtqueue_unpop(svq->vq, elem, elem->len);
-> > > > > > > >       }
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > > @@ -466,7 +551,8 @@ void vhost_svq_stop(struct vhost_dev *d=
-ev, unsigned idx,
-> > > > > > > >    * Creates vhost shadow virtqueue, and instruct vhost dev=
-ice to use the shadow
-> > > > > > > >    * methods and file descriptors.
-> > > > > > > >    */
-> > > > > > > > -VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev,=
- int idx)
-> > > > > > > > +VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev,=
- int idx,
-> > > > > > > > +                                    VhostIOVATree *iova_ma=
-p)
-> > > > > > > >   {
-> > > > > > > >       int vq_idx =3D dev->vq_index + idx;
-> > > > > > > >       unsigned num =3D virtio_queue_get_num(dev->vdev, vq_i=
-dx);
-> > > > > > > > @@ -500,11 +586,13 @@ VhostShadowVirtqueue *vhost_svq_new(s=
-truct vhost_dev *dev, int idx)
-> > > > > > > >       memset(svq->vring.desc, 0, driver_size);
-> > > > > > > >       svq->vring.used =3D qemu_memalign(qemu_real_host_page=
-_size, device_size);
-> > > > > > > >       memset(svq->vring.used, 0, device_size);
-> > > > > > > > +    svq->iova_map =3D iova_map;
-> > > > > > > > +
-> > > > > > > >       for (i =3D 0; i < num - 1; i++) {
-> > > > > > > >           svq->vring.desc[i].next =3D cpu_to_le16(i + 1);
-> > > > > > > >       }
-> > > > > > > >
-> > > > > > > > -    svq->ring_id_maps =3D g_new0(VirtQueueElement *, num);
-> > > > > > > > +    svq->ring_id_maps =3D g_new0(SVQElement *, num);
-> > > > > > > >       event_notifier_set_handler(&svq->call_notifier,
-> > > > > > > >                                  vhost_svq_handle_call);
-> > > > > > > >       return g_steal_pointer(&svq);
-> > > > > > > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.=
-c
-> > > > > > > > index a9c680b487..f5a12fee9d 100644
-> > > > > > > > --- a/hw/virtio/vhost-vdpa.c
-> > > > > > > > +++ b/hw/virtio/vhost-vdpa.c
-> > > > > > > > @@ -176,6 +176,18 @@ static void vhost_vdpa_listener_region=
-_add(MemoryListener *listener,
-> > > > > > > >                                            vaddr, section->=
-readonly);
-> > > > > > > >
-> > > > > > > >       llsize =3D int128_sub(llend, int128_make64(iova));
-> > > > > > > > +    if (v->shadow_vqs_enabled) {
-> > > > > > > > +        VhostDMAMap mem_region =3D {
-> > > > > > > > +            .translated_addr =3D vaddr,
-> > > > > > > > +            .size =3D int128_get64(llsize) - 1,
-> > > > > > > > +            .perm =3D IOMMU_ACCESS_FLAG(true, section->rea=
-donly),
-> > > > > > > > +        };
-> > > > > > > > +
-> > > > > > > > +        int r =3D vhost_iova_tree_alloc(v->iova_map, &mem_=
-region);
-> > > > > > > > +        assert(r =3D=3D VHOST_DMA_MAP_OK);
-> > > > > > > > +
-> > > > > > > > +        iova =3D mem_region.iova;
-> > > > > > > > +    }
-> > > > > > > >
-> > > > > > > >       ret =3D vhost_vdpa_dma_map(v, iova, int128_get64(llsi=
-ze),
-> > > > > > > >                                vaddr, section->readonly);
-> > > > > > > > @@ -754,6 +766,23 @@ static bool  vhost_vdpa_force_iommu(st=
-ruct vhost_dev *dev)
-> > > > > > > >       return true;
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > > +static int vhost_vdpa_get_iova_range(struct vhost_dev *dev=
-,
-> > > > > > > > +                                     hwaddr *first, hwaddr=
- *last)
-> > > > > > > > +{
-> > > > > > > > +    int ret;
-> > > > > > > > +    struct vhost_vdpa_iova_range range;
-> > > > > > > > +
-> > > > > > > > +    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_IOVA_RANGE=
-, &range);
-> > > > > > > > +    if (ret !=3D 0) {
-> > > > > > > > +        return ret;
-> > > > > > > > +    }
-> > > > > > > > +
-> > > > > > > > +    *first =3D range.first;
-> > > > > > > > +    *last =3D range.last;
-> > > > > > > > +    trace_vhost_vdpa_get_iova_range(dev, *first, *last);
-> > > > > > > > +    return ret;
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > >   /**
-> > > > > > > >    * Maps QEMU vaddr memory to device in a suitable way for=
- shadow virtqueue:
-> > > > > > > >    * - It always reference qemu memory address, not guest's=
- memory.
-> > > > > > > > @@ -881,6 +910,7 @@ static bool vhost_vdpa_svq_start_vq(str=
-uct vhost_dev *dev, unsigned idx)
-> > > > > > > >   static unsigned vhost_vdpa_enable_svq(struct vhost_vdpa *=
-v, bool enable)
-> > > > > > > >   {
-> > > > > > > >       struct vhost_dev *hdev =3D v->dev;
-> > > > > > > > +    hwaddr iova_first, iova_last;
-> > > > > > > >       unsigned n;
-> > > > > > > >       int r;
-> > > > > > > >
-> > > > > > > > @@ -894,7 +924,7 @@ static unsigned vhost_vdpa_enable_svq(s=
-truct vhost_vdpa *v, bool enable)
-> > > > > > > >           /* Allocate resources */
-> > > > > > > >           assert(v->shadow_vqs->len =3D=3D 0);
-> > > > > > > >           for (n =3D 0; n < hdev->nvqs; ++n) {
-> > > > > > > > -            VhostShadowVirtqueue *svq =3D vhost_svq_new(hd=
-ev, n);
-> > > > > > > > +            VhostShadowVirtqueue *svq =3D vhost_svq_new(hd=
-ev, n, v->iova_map);
-> > > > > > > >               if (unlikely(!svq)) {
-> > > > > > > >                   g_ptr_array_set_size(v->shadow_vqs, 0);
-> > > > > > > >                   return 0;
-> > > > > > > > @@ -903,6 +933,8 @@ static unsigned vhost_vdpa_enable_svq(s=
-truct vhost_vdpa *v, bool enable)
-> > > > > > > >           }
-> > > > > > > >       }
-> > > > > > > >
-> > > > > > > > +    r =3D vhost_vdpa_get_iova_range(hdev, &iova_first, &io=
-va_last);
-> > > > > > > > +    assert(r =3D=3D 0);
-> > > > > > > >       r =3D vhost_vdpa_vring_pause(hdev);
-> > > > > > > >       assert(r =3D=3D 0);
-> > > > > > > >
-> > > > > > > > @@ -913,6 +945,12 @@ static unsigned vhost_vdpa_enable_svq(=
-struct vhost_vdpa *v, bool enable)
-> > > > > > > >           }
-> > > > > > > >       }
-> > > > > > > >
-> > > > > > > > +    memory_listener_unregister(&v->listener);
-> > > > > > > > +    if (vhost_vdpa_dma_unmap(v, iova_first,
-> > > > > > > > +                             (iova_last - iova_first) & TA=
-RGET_PAGE_MASK)) {
-> > > > > > > > +        error_report("Fail to invalidate device iotlb");
-> > > > > > > > +    }
-> > > > > > > > +
-> > > > > > > >       /* Reset device so it can be configured */
-> > > > > > > >       r =3D vhost_vdpa_dev_start(hdev, false);
-> > > > > > > >       assert(r =3D=3D 0);
-> > > > > > > > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-event=
-s
-> > > > > > > > index 8ed19e9d0c..650e521e35 100644
-> > > > > > > > --- a/hw/virtio/trace-events
-> > > > > > > > +++ b/hw/virtio/trace-events
-> > > > > > > > @@ -52,6 +52,7 @@ vhost_vdpa_set_vring_call(void *dev, unsi=
-gned int index, int fd) "dev: %p index:
-> > > > > > > >   vhost_vdpa_get_features(void *dev, uint64_t features) "de=
-v: %p features: 0x%"PRIx64
-> > > > > > > >   vhost_vdpa_set_owner(void *dev) "dev: %p"
-> > > > > > > >   vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc=
-_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq:=
- %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr=
-: 0x%"PRIx64
-> > > > > > > > +vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint6=
-4_t last) "dev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
-> > > > > > > >
-> > > > > > > >   # virtio.c
-> > > > > > > >   virtqueue_alloc_element(void *elem, size_t sz, unsigned i=
-n_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
-> > > > > > >
-> > > > > >
 > > > >
+> > > > > +#
+> > > > >   # @compare_timeout: the maximum time to hold a packet from
+> > > > @primary_in for
+> > > > >   #                   comparison with an incoming packet on @seco=
+ndary_in in
+> > > > >   #                   milliseconds (default: 3000)
+> > > > > @@ -264,6 +269,7 @@
+> > > > >               'outdev': 'str',
+> > > > >               'iothread': 'str',
+> > > > >               '*notify_dev': 'str',
+> > > > > +            '*netdev': 'str',
+> > > > >               '*compare_timeout': 'uint64',
+> > > > >               '*expired_scan_cycle': 'uint32',
+> > > > >               '*max_queue_size': 'uint32', diff --git
+> > > > > a/qemu-options.hx b/qemu-options.hx index 8f603cc7e6..250937fbbf
+> > > > > 100644
+> > > > > --- a/qemu-options.hx
+> > > > > +++ b/qemu-options.hx
+> > > > > @@ -4964,12 +4964,14 @@ SRST
+> > > > >           stored. The file format is libpcap, so it can be analyz=
+ed with
+> > > > >           tools such as tcpdump or Wireshark.
+> > > > >
+> > > > > -    ``-object colo-
+> > > >
+> > compare,id=3Did,primary_in=3Dchardevid,secondary_in=3Dchardevid,outdev=
+=3Dcha
+> > > > rd
+> > > > evid,iothread=3Did[,vnet_hdr_support][,notify_dev=3Did][,compare_ti=
+meout
+> > > > =3D@
+> > > >
+> > var{ms}][,expired_scan_cycle=3D@var{ms}][,max_queue_size=3D@var{size}]`=
+`
+> > > > > +    ``-object
+> > > > > + colo-
+> > > > compare,id=3Did,primary_in=3Dchardevid,secondary_in=3Dchardevid,out=
+de
+> > > > > + v=3Dchardevid,iothread=3Did[,netdev=3Dnetdevid][,vnet_hdr_suppo=
+rt][,no
+> > > > > + tify
+> > > > > +
+> > > >
+> > _dev=3Did][,compare_timeout=3D@var{ms}][,expired_scan_cycle=3D@var{ms}]=
+[,
+> > > > m
+> > > > > + ax_queue_size=3D@var{size}]``
+> > > > >           Colo-compare gets packet from primary\_in chardevid and
+> > > > >           secondary\_in, then compare whether the payload of prim=
+ary
+> > packet
+> > > > >           and secondary packet are the same. If same, it will out=
+put
+> > > > >           primary packet to out\_dev, else it will notify COLO-fr=
+amework to
+> > do
+> > > > > -        checkpoint and send primary packet to out\_dev. In order=
+ to
+> > > > > +        checkpoint and send primary packet to out\_dev. Although
+> > > > > + colo-
+> > > > compare
+> > > > > +        does not depend on network device directly, netdevid hel=
+ps
+> > > > > +        colo-compare know what network driver it is working on.
+> > > > > + In order to
+> > > > >           improve efficiency, we need to put the task of comparis=
+on in
+> > > > >           another iothread. If it has the vnet\_hdr\_support flag=
+,
+> > > > >           colo compare will send/recv packet with vnet\_hdr\_len.
 > > >
-> >
 >
 
 
