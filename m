@@ -2,70 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA0143659C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 17:14:39 +0200 (CEST)
-Received: from localhost ([::1]:37972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE024365ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 17:22:03 +0200 (CEST)
+Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdZmA-0007FY-K5
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 11:14:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53482)
+	id 1mdZtK-00073d-Ef
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 11:22:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mdZjY-0004EF-W4
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 11:11:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26270)
+ (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
+ id 1mdZpM-0004Lu-Oa; Thu, 21 Oct 2021 11:17:57 -0400
+Received: from atcsqr.andestech.com ([60.248.187.195]:14453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mdZjX-0005P7-JE
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 11:11:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634829115;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0K1A4T1yY52cqNnPLMbNJZ6WwAU/1WCEdZsCQ3Bog4s=;
- b=Wb6e3P8naYVLZXlL4zgbqmgxBTbdieWalObb8H9AthBBCHch68hVdIvbzlLq0fqjqUaomg
- vNV833sZTjJHUSYsDUrVtM09R3NXvcZ3EGx7GL+VbASeSm5Z92Qucqgr8Ci/roKI6v+S1x
- N41bUArrJLHXdX0tfq+sQUCLpPV8lko=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-LAan63qNMnqqoeaDBXLskg-1; Thu, 21 Oct 2021 11:11:53 -0400
-X-MC-Unique: LAan63qNMnqqoeaDBXLskg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E8591926DA2;
- Thu, 21 Oct 2021 15:11:52 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94D205B826;
- Thu, 21 Oct 2021 15:11:51 +0000 (UTC)
-Date: Thu, 21 Oct 2021 16:11:50 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v3 24/25] job.h: split function pointers in JobDriver
-Message-ID: <YXGDNsiTcNWrZB41@stefanha-x1.localdomain>
-References: <20211012084906.2060507-1-eesposit@redhat.com>
- <20211012084906.2060507-25-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
+ id 1mdZpK-0002cH-2L; Thu, 21 Oct 2021 11:17:56 -0400
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+ by ATCSQR.andestech.com with ESMTP id 19LFHQYn090085;
+ Thu, 21 Oct 2021 23:17:26 +0800 (GMT-8)
+ (envelope-from ruinland@andestech.com)
+Received: from APC301.andestech.com (10.0.12.120) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Thu, 21 Oct 2021
+ 23:17:26 +0800
+From: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>
+To: <alistair23@gmail.com>, <wangjunqiang@iscas.ac.cn>, <bmeng.cn@gmail.com>
+Subject: [RFC PATCH v1 0/2] riscv: Add preliminary custom instruction support
+Date: Thu, 21 Oct 2021 23:13:41 +0800
+Message-ID: <20211021151341.721815-1-ruinland@andestech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211012084906.2060507-25-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2bA7Cn9qx6nC9T4q"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.0.12.120]
+X-DNSRBL: 
+X-MAIL: ATCSQR.andestech.com 19LFHQYn090085
+Received-SPF: pass client-ip=60.248.187.195;
+ envelope-from=ruinland@andestech.com; helo=ATCSQR.andestech.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,49 +55,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: ycliang@andestech.com, alankao@andestech.com, dylan@andestech.com,
+ qemu-devel@nongnu.org, Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>,
+ qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---2bA7Cn9qx6nC9T4q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Alistair, Bin and all,
 
-On Tue, Oct 12, 2021 at 04:49:05AM -0400, Emanuele Giuseppe Esposito wrote:
-> The job API will be handled separately in another serie.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  include/qemu/job.h | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+This patchset is based on the V5 patch of custom CSR support.
+It demonstrates how Andes intends to use custom CSR by revealing how
+Andes CoDense Extension(c), exec.it, uses a custom CSR, uitb, to
+execute an instruction mapped by either user code or firmware.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+To accomplish such features, we bumped into obstacles which lead us
+to expose DisasContext and we feel the urge to reuse riscv_csrrw() as
+a "general" API to access either custom or standard CSR.
 
---2bA7Cn9qx6nC9T4q
-Content-Type: application/pgp-signature; name="signature.asc"
+Furthermore, since Andes Performance Extension(c) instructions, e.g.
+bfoz/bfos has the same opcode with different encoding of bitfields on
+RV32 and RV64, also, it's highly likely that some custom instruction
+might only appear in either RV32 or RV64 (e.g. PULP is RV32 only),
+we'd suggest to give some leeway to use `when: TARGET_RISCV32/64`
+directive to toggle custom decoder in `target/riscv/meson.build`.
 
------BEGIN PGP SIGNATURE-----
+= = = =
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFxgzYACgkQnKSrs4Gr
-c8hKTQgAxwu/tOz7wxbM5T6fQMYc1bES8Mu4CNGbr9qmjm2K3vjw2nB3nSZyM4w6
-r9x9G8DbbVgLM2mJ/xtB6cIVrgB4hrAYzt/F2Y7DUYLyjCkKZg/Q0oDus57Y3FgH
-265xlLRg6pOgsgS1HvRRDvynCMT+hivOt7DtRqpOYxOzY14qCbau9Cr64mQX4J3z
-19yl5MmyznTHkVdoXU+XaLZPcV2i6kXH3nzkTqc6HG9Hd4o64PJ2VnUKAj4I3KLj
-Xy3De23sXfm58PtiHOeKU7fGvUgF3Z7Gj0vW25OV85KuWoxUIGMJzgt8OSUIskR4
-kJ+wegz0Wl7svFMfVGP9Jgog7r0leQ==
-=74G2
------END PGP SIGNATURE-----
+How to test - -
 
---2bA7Cn9qx6nC9T4q--
+/* payload.S */
+addi t1,zero,1
+.word 0x0013235b # bfoz t1,t1,0,1
+addi t1,zero,-1
+.word 0x0413335b # bfos t1,t1,1,1
+
+/* test.c */
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+
+int main(int ac, char *av[]) {
+
+    int efd = open("./payload.bin", O_RDONLY);
+    void* exec_heap = mmap(0, 1024, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_PRIVATE, efd, 0);
+
+    __asm__("csrrw x0, 0x800, %0"::"r" (exec_heap));
+    __asm__(".hword 0x8000"); // exec.it exec_heap
+    __asm__(".hword 0x8010"); // exec.it exec_heap+4
+    __asm__("csrrw x0, 0x800, %0"::"r" ((char *)exec_heap+0x8));
+    __asm__(".hword 0x8000"); // exec.it exec_heap+0x8
+    __asm__(".hword 0x8010"); // exec.it exec_heap+0x12
+
+    close(efd);
+
+    return 0;
+    }
+
+= = = =
+
+$ riscv64-linux-gcc -g3 -O0 -fno-builtin -static ./test.c -o ./test
+$ riscv64-linux-as ./payload.S -o ./payload.o
+$ riscv64-linux-objcopy -O binary ./payload.o ./payload.bin
+$ qemu-riscv64 -g 1234 ./test &
+$ gdb-multiarch ./test -ex 'target remote localhost:1234' -ex 'b main' -ex 'c'
+# You can single step through the custom instructions and witness the
+change on $t1.
+
+Cordially yours,
+Ruinland Chuan-Tzu Tsai
+
+Ruinland Chuan-Tzu Tsai (2):
+  riscv: Add preliminary infra for custom instrcution handling
+  Enable custom instruction suport for Andes A25 and AX25 CPU model
+
+ target/riscv/andes_codense.decode         |  23 +++++
+ target/riscv/andes_custom_rv32.decode     |  27 +++++
+ target/riscv/andes_custom_rv64.decode     |  27 +++++
+ target/riscv/andes_helper.c               |  49 +++++++++
+ target/riscv/andes_helper.h               |   1 +
+ target/riscv/cpu.c                        |  33 ++++++-
+ target/riscv/helper.h                     |   2 +
+ target/riscv/insn_trans/trans_andes.c.inc | 115 ++++++++++++++++++++++
+ target/riscv/meson.build                  |  13 +++
+ target/riscv/translate.c                  |  90 ++++++++++++++---
+ 10 files changed, 362 insertions(+), 18 deletions(-)
+ create mode 100644 target/riscv/andes_codense.decode
+ create mode 100644 target/riscv/andes_custom_rv32.decode
+ create mode 100644 target/riscv/andes_custom_rv64.decode
+ create mode 100644 target/riscv/andes_helper.c
+ create mode 100644 target/riscv/andes_helper.h
+ create mode 100644 target/riscv/insn_trans/trans_andes.c.inc
+
+-- 
+2.25.1
 
 
