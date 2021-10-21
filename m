@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76324436D26
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 23:56:34 +0200 (CEST)
-Received: from localhost ([::1]:60452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DFF436D34
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 00:01:44 +0200 (CEST)
+Received: from localhost ([::1]:42656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdg37-0002JG-Ic
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 17:56:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53836)
+	id 1mdg87-0001pt-5V
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 18:01:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdfmf-0007nm-Oq
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 17:39:33 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:53042)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mdg52-0006OK-FR; Thu, 21 Oct 2021 17:58:32 -0400
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:37604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdfmc-0006x6-8b
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 17:39:33 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id oa4so1478587pjb.2
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 14:39:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=L6bK8S+2nF6FyT1Sf6rg4dtm9bXgM1Oedv2NGQm6GCk=;
- b=nIp6Cfrfs2pONDtwDuN+EeFgb37X85cCnomj6cpe75py2ZLHOJDO+xPrPmgYduzxg6
- GRJIw33wc+hduJcmw/ApUzAlj+V/hMcUj81qPTMqY/EDLR3ZPHIJa0zrx54+TgwVgquk
- ULiBaMwWBrI4KffTyh/113q/pdng6sqTjycagBNHsZXZzNMdCZSw09UEkoH5LgHAkzGi
- pV+Tkqx6elD7fBSXzMpWO1e/+oqqlLOjVRsU9fv2VuQYjDlZ3vSVza8D+E3eqM23xA+1
- QWCBZeiWukupGuiSkYoJHqdLewLiimFntz4loLTzrK3dr0QoDr/CgimoPPb/beb7QzFz
- xOQw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mdg50-0000zP-05; Thu, 21 Oct 2021 17:58:32 -0400
+Received: by mail-il1-x12a.google.com with SMTP id x1so2247228ilv.4;
+ Thu, 21 Oct 2021 14:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qdbPopKIAz+jDz9hpuMA5PN50exzbWt0Pzu7/RTIP9E=;
+ b=lzU2fEJig0YITXA+ILwi8uL5szUkS/JPe4znBHM09rzrgjbAJosYEs1ztWFg/OQ9Gw
+ furIAeakOIGk3NhcDmeL2xP3m8PvHWgxRE1SDvMUxrXRwQtIraIYFzv7IAFX2MQUCQ5R
+ 5Dtt+3TgEcBP7muLrNqXRpKTxAglma9+o4ia9Aq3Xonw3+PPjrG32g1fWBWgFzfpmgDC
+ Xd+65R8S+LP3MElIEwFsHBEOIFwVSE5BzHyBY9QTbrkaqIIQLZhnL9sishLDD5OhQ7DF
+ hiznZDwYwbbj+n0l6XLebcNFWtcpgi7VmqAOrEVy1avyg8r2qD0Rk2XQpL+KXwoOEvhx
+ 66/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=L6bK8S+2nF6FyT1Sf6rg4dtm9bXgM1Oedv2NGQm6GCk=;
- b=bMvysA7nO1ZARHbwufy9aWg3akYtGPxnnNZGdlouvNfSaFdW/IeKumOWu7rS70Vh/8
- /3WW7hnXlGodhjsGy7N6JSA017E/y8uMUFb26rkmxBExZcbXVayX5kJqW8RePpnvlOxZ
- AkAsp3g/qLQ7a1B5fHIOaAlhX9SDwoyYEl6QV7U1QQT93aFMxDK91a5u+sDl2Ci3spJl
- 8OsvXkcgDUBAUR+ng0LkbTiYDphWEAkMkY5qfg39nvo2m814lkfGozCvrYppx6+M3b+z
- u9yPMMQkiP4fRQhqYATKWR0ycyUqS+4LamvkyF6qidHPFFfg7i+w9GZuqm4ce8okoRFp
- uXbA==
-X-Gm-Message-State: AOAM532AmnBd69g4qqlpTQ9vsEdoborOxoXFpxj2nX/nmtLlimZDd/lP
- ViW1YXnVz+cCBF7r2EIcpdMzPA==
-X-Google-Smtp-Source: ABdhPJyi+ToIR/HKb097H0D09MaROU2ZQRqDclhsUF6Z0nTuTabmd+GMf+SNJ8CogLcpYLYU7/DMkw==
-X-Received: by 2002:a17:90b:4f87:: with SMTP id
- qe7mr9717020pjb.29.1634852368689; 
- Thu, 21 Oct 2021 14:39:28 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id x6sm7760903pfh.77.2021.10.21.14.39.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Oct 2021 14:39:28 -0700 (PDT)
-Subject: Re: [PATCH v3 15/22] target/ppc: Implement DCTFIXQQ
-To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210910112624.72748-1-luis.pires@eldorado.org.br>
- <20210910112624.72748-16-luis.pires@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dc3ebde7-5f80-9a88-2165-b7b69eda5e05@linaro.org>
-Date: Thu, 21 Oct 2021 14:39:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qdbPopKIAz+jDz9hpuMA5PN50exzbWt0Pzu7/RTIP9E=;
+ b=e2bzCAePL7mlL0miRdMqV+IzOmHFSxQNdfKoRX8o7kyaXLz/qpLAtGgGZ/IbhJnLZl
+ dp04/VNSLkKAEfkvaphbSp1oisiOFaMZ1Ws2DsEifbHoxSJoi9xVsUwms+EMFPl1Psp3
+ E9JitPpc3JFR39T2tI8O5fM4Y/wEfHRxqLrvO4adNMRoHo40z+JMEizoSvCGOt+ETsWS
+ avmryG5J/vyWU4feEhe8mueNiVF7ByCV+xNpkXuzAWd8Z9xchOsFdysVEeiC13DJ6/ok
+ Tnbdpev4RQjjUiadsHhkDMSwcp2JSGYNbpFXcutAFieBNQrE8FAcBBM8Js1zXxK7mCuF
+ UqkQ==
+X-Gm-Message-State: AOAM5311Cp2NIFOO5b7tDFcnjmJz75Gt8ce3RUH5SAcQNQX2TrtJLZrB
+ i17/EMuPlIgb24R/Oo4g2bM+3Y0h5RYgq80L5Q8=
+X-Google-Smtp-Source: ABdhPJwHkXmOlhm3Cvqs6MnMjUsiKr6Y8CrQH/jnQIrxv+dunJoCLrarXw7HDof3MG823wXYtAXFFdDHl5gNSbA4/TE=
+X-Received: by 2002:a05:6e02:214a:: with SMTP id
+ d10mr5473274ilv.290.1634853507815; 
+ Thu, 21 Oct 2021 14:58:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210910112624.72748-16-luis.pires@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.867,
+References: <20211020014112.7336-1-bmeng.cn@gmail.com>
+In-Reply-To: <20211020014112.7336-1-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 22 Oct 2021 07:58:01 +1000
+Message-ID: <CAKmqyKMV1SkvyCzi0Lu2UxfO7kJeyG=LY3VvtawpUsEA8YQGjQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] hw/riscv: Use MachineState::ram and
+ MachineClass::default_ram_id in all machines
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,29 +77,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, david@gibson.dropbear.id.au
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/10/21 4:26 AM, Luis Pires wrote:
-> --- a/target/ppc/dfp_helper.c
-> +++ b/target/ppc/dfp_helper.c
-> @@ -51,6 +51,12 @@ static void set_dfp128(ppc_fprp_t *dfp, ppc_vsr_t *src)
->       dfp[1].VsrD(0) = src->VsrD(1);
->   }
->   
-> +static void set_dfp128_to_avr(ppc_avr_t *dst, ppc_vsr_t *src)
-> +{
-> +    dst->VsrD(0) = src->VsrD(0);
-> +    dst->VsrD(1) = src->VsrD(1);
-> +}
+On Wed, Oct 20, 2021 at 11:41 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> As of today, all RISC-V machines (except virt) are still using memory_region_init_ram()
+> to initilize the sysytem RAM, which can't possibly handle vhost-user, and can't
+> work as expected with '-numa node,memdev' options.
+>
+> Change to use MachineState::ram instead of manually initializing RAM memory
+> region, as well as by providing MachineClass::default_ram_id to opt in to
+> memdev scheme.
+>
+> Changes in v2:
+> - split RAM into low and high regions using aliases to machine->ram
+> - rename mc->default_ram_id to "microchip.icicle.kit.ram"
+> - opentitan: add RAM size check
+> - opentitan: assign mc->default_ram_size
+> - sifive_e: add RAM size check
+> - sifive_e: assign mc->default_ram_size
+>
+> Bin Meng (6):
+>   hw/riscv: microchip_pfsoc: Use MachineState::ram and
+>     MachineClass::default_ram_id
+>   hw/riscv: opentitan: Use MachineState::ram and
+>     MachineClass::default_ram_id
+>   hw/riscv: shakti_c: Use MachineState::ram and
+>     MachineClass::default_ram_id
+>   hw/riscv: sifive_e: Use MachineState::ram and
+>     MachineClass::default_ram_id
+>   hw/riscv: sifive_u: Use MachineState::ram and
+>     MachineClass::default_ram_id
+>   hw/riscv: spike: Use MachineState::ram and
+>     MachineClass::default_ram_id
 
-Given that these two are typedef of one another, I would think this is unnecessary and you 
-should just write *dst = *src.
+Thanks!
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Applied to riscv-to-apply.next
 
+Alistair
 
-r~
+>
+>  hw/riscv/microchip_pfsoc.c | 36 ++++++++++++++++++++----------------
+>  hw/riscv/opentitan.c       | 16 ++++++++++++----
+>  hw/riscv/shakti_c.c        |  6 ++----
+>  hw/riscv/sifive_e.c        | 16 ++++++++++++----
+>  hw/riscv/sifive_u.c        |  6 ++----
+>  hw/riscv/spike.c           |  6 ++----
+>  6 files changed, 50 insertions(+), 36 deletions(-)
+>
+> --
+> 2.25.1
+>
+>
 
