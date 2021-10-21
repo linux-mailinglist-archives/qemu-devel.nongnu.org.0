@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C782435BD8
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 09:37:55 +0200 (CEST)
-Received: from localhost ([::1]:50854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF02A435C48
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 09:44:23 +0200 (CEST)
+Received: from localhost ([::1]:53328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdSeA-00075R-7s
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 03:37:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55556)
+	id 1mdSkQ-0000Jx-UB
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 03:44:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mdSaL-0002rt-I6; Thu, 21 Oct 2021 03:33:57 -0400
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:40780)
+ id 1mdSdZ-0006ub-Ux; Thu, 21 Oct 2021 03:37:18 -0400
+Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:46730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mdSaK-0003Q2-5K; Thu, 21 Oct 2021 03:33:57 -0400
-Received: by mail-qk1-x735.google.com with SMTP id x123so6307568qke.7;
- Thu, 21 Oct 2021 00:33:55 -0700 (PDT)
+ id 1mdSdY-0006KR-06; Thu, 21 Oct 2021 03:37:17 -0400
+Received: by mail-qk1-x72b.google.com with SMTP id h20so6296446qko.13;
+ Thu, 21 Oct 2021 00:37:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=y3C63pHISOqd/oJurThrVK9ofOtOPHn01WRd7tblJxY=;
- b=lhDRa0DxPLUj/s7Pfcvhk69cKHOmnApfu6S0FYhREukmnJe4jQ0j/LZ30l1h2KjuEq
- SJuZ/q1pJbC1kSnozUGwE1bgk8X0AZDg+P6Js3XN7YgR/hXSoAlfrluNoQMysvQs7g4y
- 0l/A4aWB+6vFLFLDrKQPVsHTh/L9S7ZNZB7cpnGc2kuf727JjxIXdXinPApiPNJQ+czf
- XQROrgU1+e/IopCj2DDcjv0iKq0NzYMADRt9Pnwq1Dx8DyTOVjSLNJ0ZRY8M9JQqWv4J
- BoP5gK29a5TByfoung/qDptP4geTqmy936svzT3svcHJNOfESu3JCKGvuC3sjVAmMTUy
- 46zA==
+ :cc; bh=Xf2/WvkPjJew3MhIBjJB+/CTy6dwZ2FgQsTjqgRVdrc=;
+ b=UkIPPyGyV7rc0YSafjTikbK9BByvaYG1S4Hv02RvoZbV19vcKC9iP4EkRU55ibwyY0
+ chKHHni+mzrSPbdHNsw8Ayf4SMuCTSBuTKZLcs4QTHVR7JImR9eU4e2GkitNvQ9Eh7Mh
+ uKmf1UHmlo4+2oGG8w/uHIvVkLH+z3lq4nUmTyQ+n89GH1gkBxofTAOxCG9bQprDQrcQ
+ 8hgFe/nHjqtCJALwZd5DGORxeyf4SUWEeqe6FrwZAvFvBmOAOaA8SPFjQwsaw+6olM+9
+ KdwWKTWt0Hi8v9xeJnMGGSyBI6jyQjNf45ixYD7x2blNfw3jhWvlHk2fWLLCl4ThcorD
+ RUIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=y3C63pHISOqd/oJurThrVK9ofOtOPHn01WRd7tblJxY=;
- b=8EeFpkX2SB9wZHi86b6aXoRnZDMbz28ueUif+pvdgsBCIs/XKTjMLRwQJwiWweqfDp
- Vj0rGBEkBYItI61A3dA28b7AHCyToFEHdoR1lenqraZDUFgET7ocb5N/NDqV1aw+Apwg
- kNMvJswQXc1PFQ47TnxmAYoQFwrA9IvKyYSv7lOhxNohQw43vi8hppg4BlWJnaDEgN9O
- 44VHRE6ZE0tk2wH1X8UnLxXwnzu9GaXC9DtQsEoyBcF6SSSIpTpR332IqXlbtmQQAiYJ
- tSLj6dsihAoVanb91HcIsBTw5xDQOOeiN+Y2qrpJXYF3TPNZ02QLxLQooUfDPIb68oTU
- 64bA==
-X-Gm-Message-State: AOAM531RwUNBrHfRuKwv2r9nFtxZw8t5dSQH67nYsGwdvq3O3cdZHeR0
- zEDDyVYRTgqGHVtLS/+YJBhkY+An8eNXcwHWdA8=
-X-Google-Smtp-Source: ABdhPJwclbwF8xvCVIJSW3ExJYReQo1JZcQWJZdbC1dycltghRLgyA6IWZ5RfQBvmh+/hrSMMKkRpiGiPhQ5MtfPNHU=
-X-Received: by 2002:a25:c0d2:: with SMTP id c201mr4470201ybf.467.1634801634848; 
- Thu, 21 Oct 2021 00:33:54 -0700 (PDT)
+ bh=Xf2/WvkPjJew3MhIBjJB+/CTy6dwZ2FgQsTjqgRVdrc=;
+ b=ICq5ZhfQso0xg4Gz8cmuLSboKyUtlc44Feu8Z7C0pm9M8VcZCEL39k5aH1FKP+x5cW
+ iSQIrelDH+xYCDSuGONq6Z9lKo6yfWAuXYAhT2rZCMfdRZzPAs1Ux2HT8RCZqFLa+ssT
+ QTgkOjQQNMnZsG3RAEDKMRZaFuSZwatRSl6NajvF39G/gBe2A1eGwkbjNbTfTTV1MJKn
+ 9zzUvp3m6aNXoQhAeTgfcsVhzo7isf6F31OItHJ7i91/ylDp9Lqw8YfgvwiULj/iAzEW
+ oUMjn1Uq83ZkwE4UVgHeH9F0KsQnm4rggt26jlDb7Zi4QkLi8AQZuyXQfNS9yiXOOuh6
+ VPOQ==
+X-Gm-Message-State: AOAM533+LGE/rw6lfTPIAHd13wn6hSr/eYP5nurDpfnpfBWtNS1cySU+
+ A7YKd6Ls+G2ug58Yt97DRGxCixB05+3gDHUS0yE=
+X-Google-Smtp-Source: ABdhPJwZLJ+f2K6EuTac+ND5Zr8l1MNYfGBKPsQWjewObh3FMcN9CIjRpJl/BQTx1ziAA9V8Sl3zD+xfhafEPFa65x8=
+X-Received: by 2002:a25:3843:: with SMTP id f64mr4197668yba.313.1634801834932; 
+ Thu, 21 Oct 2021 00:37:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <18b1b681b0f8dd2461e819d1217bf0b530812680.1634524691.git.alistair.francis@wdc.com>
- <4200da222a65c89ed1ba35f754dcca7fdd9f08d6.1634524691.git.alistair.francis@wdc.com>
-In-Reply-To: <4200da222a65c89ed1ba35f754dcca7fdd9f08d6.1634524691.git.alistair.francis@wdc.com>
+ <8fdf384ca71009a6c3f4e684dc88940c5cd3f284.1634524691.git.alistair.francis@wdc.com>
+In-Reply-To: <8fdf384ca71009a6c3f4e684dc88940c5cd3f284.1634524691.git.alistair.francis@wdc.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 21 Oct 2021 15:33:43 +0800
-Message-ID: <CAEUhbmUuTNYFDy=84xxQbtp7hy=TwGmLXK6YATa076tGW7Ddug@mail.gmail.com>
-Subject: Re: [PATCH v1 5/9] hw/intc: sifive_plic: Cleanup the irq_request
- function
+Date: Thu, 21 Oct 2021 15:37:03 +0800
+Message-ID: <CAEUhbmXez21dQicgRtydMTxv0P6V5eVubca1t_yZq_JC8LhgEw@mail.gmail.com>
+Subject: Re: [PATCH v1 6/9] hw/intc: sifive_plic: Add a reset function
 To: Alistair Francis <alistair.francis@opensource.wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x735.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x72b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,16 +83,51 @@ Cc: Palmer Dabbelt <palmer@dabbelt.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 18, 2021 at 10:39 AM Alistair Francis
+On Mon, Oct 18, 2021 at 10:40 AM Alistair Francis
 <alistair.francis@opensource.wdc.com> wrote:
 >
 > From: Alistair Francis <alistair.francis@wdc.com>
 >
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  hw/intc/sifive_plic.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
+>  hw/intc/sifive_plic.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 >
+> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> index 877e76877c..5444368ad4 100644
+> --- a/hw/intc/sifive_plic.c
+> +++ b/hw/intc/sifive_plic.c
+> @@ -355,6 +355,18 @@ static const MemoryRegionOps sifive_plic_ops = {
+>      }
+>  };
+>
+> +static void sifive_plic_reset(DeviceState *dev)
+> +{
+> +    SiFivePLICState *s = SIFIVE_PLIC(dev);
+> +
+> +    memset(s->claimed, 0, sizeof(uint32_t) * s->bitfield_words);
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+This line should be removed.
+
+> +    memset(s->source_priority, 0, sizeof(uint32_t) * s->num_sources);
+> +    memset(s->target_priority, 0, sizeof(uint32_t) * s->num_addrs);
+> +    memset(s->pending, 0, sizeof(uint32_t) * s->bitfield_words);
+> +    memset(s->claimed, 0, sizeof(uint32_t) * s->bitfield_words);
+> +    memset(s->enable, 0, sizeof(uint32_t) * s->num_enables);
+> +}
+> +
+>  /*
+>   * parse PLIC hart/mode address offset config
+>   *
+> @@ -501,6 +513,7 @@ static void sifive_plic_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+>
+> +    dc->reset = sifive_plic_reset;
+>      device_class_set_props(dc, sifive_plic_properties);
+>      dc->realize = sifive_plic_realize;
+>      dc->vmsd = &vmstate_sifive_plic;
+
+Regards,
+Bin
 
