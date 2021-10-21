@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8ED435A14
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:46:45 +0200 (CEST)
-Received: from localhost ([::1]:60050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47ED1435A10
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 06:39:28 +0200 (CEST)
+Received: from localhost ([::1]:52542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdPyV-0003RW-La
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:46:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42682)
+	id 1mdPrT-0006kS-7B
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 00:39:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZU-0005We-C5; Thu, 21 Oct 2021 00:20:54 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:33351)
+ id 1mdPZR-0005UQ-QU; Thu, 21 Oct 2021 00:20:50 -0400
+Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:39775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mdPZQ-0008Bp-60; Thu, 21 Oct 2021 00:20:52 -0400
+ id 1mdPZQ-0008Bq-5a; Thu, 21 Oct 2021 00:20:49 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HZZ5p3fF0z4xdB; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
+ id 4HZZ5p3nGlz4xdD; Thu, 21 Oct 2021 15:20:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1634790030;
- bh=+pyKoynpeIaOLPZBWqOQ58TrLzhA4W0YFbH1vE9ROhk=;
+ bh=11g+LQZXh6gn96UCaphB1SgsttB5UW2BYqAOiKC95Mo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MaaYyHCaafcqdmmAwB44qQ5G3nT/hH8OHUibZ+8f61j73Ev55t1DgjsdIIMpshmFB
- rRr8xi5t2j7UAkXsxAo4kwwhWL347gHyFfd9htoN/fd94WqJzfmt/FDo/f/T1puHBA
- IKJ+nayKGdSAnz7s/8fXd9kVEuiQyzI5aCdNMdmg=
+ b=Q5dtmf4GUrNQr2H8GwmZpaRe8thVwJADV6kJPsOAKPng5G1kRQRqpG8HO+rg8GhaS
+ q9G0SaGNzsrYG7zd9lKOEb8acCM5sC8/8Hqiu+0uiCKTR/Sa2PZYxlX1syosB5QR70
+ pD1AsOgeq1N9d0PjkTlgOIIKTZ0VtbWaw5ORDasc=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 05/25] hw/ppc/spapr_softmmu: Reduce include list
-Date: Thu, 21 Oct 2021 15:20:07 +1100
-Message-Id: <20211021042027.345405-6-david@gibson.dropbear.id.au>
+Subject: [PULL 06/25] spapr/xive: Use xive_esb_rw() to trigger interrupts
+Date: Thu, 21 Oct 2021 15:20:08 +1100
+Message-Id: <20211021042027.345405-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211021042027.345405-1-david@gibson.dropbear.id.au>
 References: <20211021042027.345405-1-david@gibson.dropbear.id.au>
@@ -39,12 +39,12 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,54 +58,37 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Cédric Le Goater <clg@kaod.org>
 
-Commit 962104f0448 ("hw/ppc: moved hcalls that depend on softmmu")
-introduced a lot of unnecessary #include directives. Remove them.
+xive_esb_rw() is the common routine used for memory accesses on ESB
+page. Use it for triggers also.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20211006170801.178023-1-philmd@redhat.com>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20211006210546.641102-1-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_softmmu.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+ hw/intc/spapr_xive_kvm.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/hw/ppc/spapr_softmmu.c b/hw/ppc/spapr_softmmu.c
-index 6c6b86dd3c..f8924270ef 100644
---- a/hw/ppc/spapr_softmmu.c
-+++ b/hw/ppc/spapr_softmmu.c
-@@ -1,25 +1,10 @@
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
--#include "qapi/error.h"
--#include "sysemu/hw_accel.h"
--#include "sysemu/runstate.h"
--#include "qemu/log.h"
--#include "qemu/main-loop.h"
--#include "qemu/module.h"
--#include "qemu/error-report.h"
- #include "cpu.h"
--#include "exec/exec-all.h"
- #include "helper_regs.h"
- #include "hw/ppc/spapr.h"
--#include "hw/ppc/spapr_cpu_core.h"
- #include "mmu-hash64.h"
--#include "cpu-models.h"
--#include "trace.h"
--#include "kvm_ppc.h"
--#include "hw/ppc/fdt.h"
--#include "hw/ppc/spapr_ovec.h"
- #include "mmu-book3s-v3.h"
--#include "hw/mem/memory-device.h"
+diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+index be94cff148..61fe7bd2d3 100644
+--- a/hw/intc/spapr_xive_kvm.c
++++ b/hw/intc/spapr_xive_kvm.c
+@@ -301,9 +301,7 @@ static uint8_t xive_esb_read(XiveSource *xsrc, int srcno, uint32_t offset)
  
- static inline bool valid_ptex(PowerPCCPU *cpu, target_ulong ptex)
+ static void kvmppc_xive_esb_trigger(XiveSource *xsrc, int srcno)
  {
+-    uint64_t *addr = xsrc->esb_mmap + xive_source_esb_page(xsrc, srcno);
+-
+-    *addr = 0x0;
++    xive_esb_rw(xsrc, srcno, 0, 0, true);
+ }
+ 
+ uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int srcno, uint32_t offset,
 -- 
 2.31.1
 
