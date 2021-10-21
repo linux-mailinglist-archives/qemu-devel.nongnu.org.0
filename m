@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F3943628D
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 15:14:01 +0200 (CEST)
-Received: from localhost ([::1]:53612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B994436302
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 15:32:33 +0200 (CEST)
+Received: from localhost ([::1]:33556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdXtO-0007G0-Vs
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 09:13:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39854)
+	id 1mdYBL-0005kl-Uk
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 09:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mdXr6-0005ue-EB
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:11:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20471)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mdY8x-0004hr-0Z
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:30:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mdXr4-0008Kh-Ey
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:11:36 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mdY8t-0002UD-Jq
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:30:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634821893;
+ s=mimecast20190719; t=1634822997;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CftjE5Nb6DylUlfZ6grrMU5QwF73EESqCQTVwox8PNY=;
- b=UZTUXotVfkPqVbn7Hv0I4aptAOoZK6TWMzBDbWSYYu0fSJDhLvfJ84imjxOVJKG1hB7JTd
- b+v/RSVNydZMTtBq/A2+HwvRF+0axjyPli3U0UDEaFzkJQfKWFEsOB6+VJYa70TcDFLu+N
- mo1JS4XrboQIa+4UZX0ndkvXbel4bI4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-jZnrAWfgMX2HUdxjkbUQCg-1; Thu, 21 Oct 2021 09:11:32 -0400
-X-MC-Unique: jZnrAWfgMX2HUdxjkbUQCg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- s1-20020adfc541000000b001645b92c65bso173224wrf.6
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 06:11:31 -0700 (PDT)
+ bh=pw+fqHWiLgylJMx+AQvyoaUGWS9TdC/5B7lKsHL/UC4=;
+ b=bOsKyVHRiiLiMClbsDX80dbAcsatU2vyOkBVqIldkwdEyyz5cp4Kl07/bO2SEjYTy3rB0/
+ jzHX7Y550ZF9MqVjKkHy39gb61SRddtQQ2fARjrb4tYKb3fcpxpbS6mzh0EjaAObXw5m4N
+ 2quMYMav1lZpSjNhOgu+ZSLy0j210WE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-547-xR2InCyZMweOqLVFRqMD2w-1; Thu, 21 Oct 2021 09:29:54 -0400
+X-MC-Unique: xR2InCyZMweOqLVFRqMD2w-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ v11-20020a056402348b00b003dcf725d986so369091edc.1
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 06:29:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:cc:from:in-reply-to
- :content-transfer-encoding;
- bh=CftjE5Nb6DylUlfZ6grrMU5QwF73EESqCQTVwox8PNY=;
- b=FXjWu5hgxXb6kadg0aL2MvG0K/BMa0VDKMf0TLssFFwlHhCBgK4v9p2+bTWzIxzUvW
- WVN3nmse3hq5pCVL080/6azz690Ve16AyRQ6dsW7fBlABvQP0AjyYKT3SA9gAm1cSsuw
- DqntehtUDNqBX/yiinEyp5a+Ed5uIEVLo2k4qHBbbjgaHSjVEWoqix23XwCQYqtcWLH5
- ehhy/727OADYGFuuxahURQHeJ1fLQc7sHTRQMbIIgmc2+CKr+SHEyJ5R6FJu4fxUEI2J
- aUs7fZgyuuJl57i9SX8+aymujLG4aKBEId5rv0CiIA4oqzcK02qnq1a1gxTrbllY1p3P
- kQDw==
-X-Gm-Message-State: AOAM532qsGZLEgydGgS6HDKqiX6fwrIEaj9GRM4q6nG6rBGfjS694K/B
- iPggStqc2gkWJQOVGtyqwpe1U8jnEMMJhD9Fq6L67tDUMZXtlIoIrBPTRTukIz5km7L6iGUzjog
- L1K/fxzCR5JQ9AI4=
-X-Received: by 2002:a5d:58ec:: with SMTP id f12mr7394420wrd.24.1634821890292; 
- Thu, 21 Oct 2021 06:11:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwbY8oyDO9bYslSvdaTHxCV+Vio4bl+idnNC7eJ7k/vaMQE8RanwlhGIajan/sxQa83NMo8rg==
-X-Received: by 2002:a5d:58ec:: with SMTP id f12mr7394384wrd.24.1634821890046; 
- Thu, 21 Oct 2021 06:11:30 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id g8sm4856439wrx.26.2021.10.21.06.11.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Oct 2021 06:11:29 -0700 (PDT)
-Message-ID: <fad02feb-09f3-4ef8-a2eb-bec76e2ee968@redhat.com>
-Date: Thu, 21 Oct 2021 15:11:28 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=pw+fqHWiLgylJMx+AQvyoaUGWS9TdC/5B7lKsHL/UC4=;
+ b=t5XKTqqfFCNdwcemV2qnQHpjZA+eY/CZ7k3r1tuZvhwZLdDI+cx3LYzgFyk/LYiDKg
+ 5Eax9tp5AzlN+ESO9kEwq7/JwQ1dwR9mDeoiKyVDhcNXveKaw3KhRNTvmxkqetwpvG5K
+ irRZTOcQer1V2aQJuA+ptXhpSPul5+vfYcpsG5zPbxzc23HMzYrJdROuawLdUpwQSHXi
+ vBuLieP/xfMUWhxGlgCZS3shS3r2MU/QWbirlG+ohkXJ9o6c0ZZHQIcNpEaWb9xMyjVM
+ /IOGK1QFmufwg3ktzuMA8Jq45fnmeJLNATxkJbkOOrQS9RmkfFNHRg6Uoj4nynzRMhY8
+ /wiw==
+X-Gm-Message-State: AOAM533KYHTH/dmvy44wku2Goll0eHyMntQ8cL6KDUj46Ouh5vls1VSj
+ lJN4Ich7mtGHcG6O/P0DwiYYAdr8K+n7m38b1RlVRziBJlauiDgbMoEXR5azjsci7CdI47vCYNB
+ vIFRKBtj7tZylJr0=
+X-Received: by 2002:a05:6402:34f:: with SMTP id
+ r15mr7749938edw.111.1634822992990; 
+ Thu, 21 Oct 2021 06:29:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJweJVBZJ6T7hi0cncH/B3AnSHf6Mm5TEjqLLhEeINQFi9OmXgvRCNfFasZLfslyzwnVwfBwSA==
+X-Received: by 2002:a05:6402:34f:: with SMTP id
+ r15mr7749898edw.111.1634822992730; 
+ Thu, 21 Oct 2021 06:29:52 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id hp3sm2148346ejc.61.2021.10.21.06.29.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Oct 2021 06:29:52 -0700 (PDT)
+Date: Thu, 21 Oct 2021 15:29:51 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v5 02/12] hw/i386/pc: Remove x86_iommu_get_type()
+Message-ID: <20211021152951.6582b98f@redhat.com>
+In-Reply-To: <20211020172745.620101-3-jean-philippe@linaro.org>
+References: <20211020172745.620101-1-jean-philippe@linaro.org>
+ <20211020172745.620101-3-jean-philippe@linaro.org>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [gdbstub] redirecting qemu console output to a debugger
-To: Sid Manning <sidneym@quicinc.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <BYAPR02MB550976DDDA818CEB090B41C5BEBF9@BYAPR02MB5509.namprd02.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <BYAPR02MB550976DDDA818CEB090B41C5BEBF9@BYAPR02MB5509.namprd02.prod.outlook.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.867, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,105 +98,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
+ jasowang@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ peterx@redhat.com, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
+ ani@anisinha.ca, pbonzini@redhat.com, eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Sid,
+On Wed, 20 Oct 2021 18:27:36 +0100
+Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
 
-Cc'ing maintainers:
+> To generate the IOMMU ACPI table, acpi-build.c can use base QEMU types
+> instead of a special IommuType value.
+> 
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-$ ./scripts/get_maintainer.pl -f  chardev/char.c
-"Marc-André Lureau" <marcandre.lureau@redhat.com> (maintainer:chardev)
-Paolo Bonzini <pbonzini@redhat.com> (reviewer:Character device...)
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-$ ./scripts/get_maintainer.pl -f  gdbstub.c
-"Alex Bennée" <alex.bennee@linaro.org> (maintainer:GDB stub)
-"Philippe Mathieu-Daudé" <philmd@redhat.com> (reviewer:GDB stub)
-
-On 10/21/21 14:37, Sid Manning wrote:
-> Currently when I attach a debugger (lldb) to my qemu session all of the output goes to the shell running qemu not to the debugger.  Fixing this meant that I needed to point the semi-hosting output to the gdb chardev.  I started qemu like this:
+> ---
+>  include/hw/i386/x86-iommu.h | 12 ------------
+>  hw/i386/acpi-build.c        | 20 +++++++++-----------
+>  hw/i386/amd_iommu.c         |  2 --
+>  hw/i386/intel_iommu.c       |  3 ---
+>  hw/i386/x86-iommu-stub.c    |  5 -----
+>  hw/i386/x86-iommu.c         |  5 -----
+>  6 files changed, 9 insertions(+), 38 deletions(-)
 > 
-> -s -S -semihosting-config target=auto,chardev=ch0 -chardev gdb,id=ch0
-> 
-> But this failed with the error:
-> -chardev gdb,id=ch0: 'gdb' is not a valid char driver name
-> 
-> In order to fix this I needed to change the stub's chardev from internal to external:
-> 
-> @@ -3446,7 +3446,7 @@ static void char_gdb_class_init(ObjectClass *oc, void *data)
->  {
->      ChardevClass *cc = CHARDEV_CLASS(oc);
+> diff --git a/include/hw/i386/x86-iommu.h b/include/hw/i386/x86-iommu.h
+> index 9de92d33a1..5ba0c056d6 100644
+> --- a/include/hw/i386/x86-iommu.h
+> +++ b/include/hw/i386/x86-iommu.h
+> @@ -33,12 +33,6 @@ OBJECT_DECLARE_TYPE(X86IOMMUState, X86IOMMUClass, X86_IOMMU_DEVICE)
+>  typedef struct X86IOMMUIrq X86IOMMUIrq;
+>  typedef struct X86IOMMU_MSIMessage X86IOMMU_MSIMessage;
 >  
-> -    cc->internal = true;
-> +    cc->internal = false;
->      cc->open = gdb_monitor_open;
->      cc->chr_write = gdb_monitor_write;
+> -typedef enum IommuType {
+> -    TYPE_INTEL,
+> -    TYPE_AMD,
+> -    TYPE_NONE
+> -} IommuType;
+> -
+>  struct X86IOMMUClass {
+>      SysBusDeviceClass parent;
+>      /* Intel/AMD specific realize() hook */
+> @@ -71,7 +65,6 @@ struct X86IOMMUState {
+>      OnOffAuto intr_supported;   /* Whether vIOMMU supports IR */
+>      bool dt_supported;          /* Whether vIOMMU supports DT */
+>      bool pt_supported;          /* Whether vIOMMU supports pass-through */
+> -    IommuType type;             /* IOMMU type - AMD/Intel     */
+>      QLIST_HEAD(, IEC_Notifier) iec_notifiers; /* IEC notify list */
+>  };
+>  
+> @@ -140,11 +133,6 @@ struct X86IOMMU_MSIMessage {
+>   */
+>  X86IOMMUState *x86_iommu_get_default(void);
+>  
+> -/*
+> - * x86_iommu_get_type - get IOMMU type
+> - */
+> -IommuType x86_iommu_get_type(void);
+> -
+>  /**
+>   * x86_iommu_iec_register_notifier - register IEC (Interrupt Entry
+>   *                                   Cache) notifiers
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 81418b7911..ab49e799ff 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2488,6 +2488,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+>      PCMachineState *pcms = PC_MACHINE(machine);
+>      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+>      X86MachineState *x86ms = X86_MACHINE(machine);
+> +    X86IOMMUState *iommu = x86_iommu_get_default();
+>      GArray *table_offsets;
+>      unsigned facs, dsdt, rsdt, fadt;
+>      AcpiPmInfo pm;
+> @@ -2604,17 +2605,14 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+>          build_mcfg(tables_blob, tables->linker, &mcfg, x86ms->oem_id,
+>                     x86ms->oem_table_id);
+>      }
+> -    if (x86_iommu_get_default()) {
+> -        IommuType IOMMUType = x86_iommu_get_type();
+> -        if (IOMMUType == TYPE_AMD) {
+> -            acpi_add_table(table_offsets, tables_blob);
+> -            build_amd_iommu(tables_blob, tables->linker, x86ms->oem_id,
+> -                            x86ms->oem_table_id);
+> -        } else if (IOMMUType == TYPE_INTEL) {
+> -            acpi_add_table(table_offsets, tables_blob);
+> -            build_dmar_q35(tables_blob, tables->linker, x86ms->oem_id,
+> -                           x86ms->oem_table_id);
+> -        }
+> +    if (object_dynamic_cast(OBJECT(iommu), TYPE_AMD_IOMMU_DEVICE)) {
+> +        acpi_add_table(table_offsets, tables_blob);
+> +        build_amd_iommu(tables_blob, tables->linker, x86ms->oem_id,
+> +                        x86ms->oem_table_id);
+> +    } else if (object_dynamic_cast(OBJECT(iommu), TYPE_INTEL_IOMMU_DEVICE)) {
+> +        acpi_add_table(table_offsets, tables_blob);
+> +        build_dmar_q35(tables_blob, tables->linker, x86ms->oem_id,
+> +                       x86ms->oem_table_id);
+>      }
+>      if (machine->nvdimms_state->is_enabled) {
+>          nvdimm_build_acpi(table_offsets, tables_blob, tables->linker,
+> diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+> index 9242a0d3ed..91fe34ae58 100644
+> --- a/hw/i386/amd_iommu.c
+> +++ b/hw/i386/amd_iommu.c
+> @@ -1538,7 +1538,6 @@ static void amdvi_sysbus_realize(DeviceState *dev, Error **errp)
+>  {
+>      int ret = 0;
+>      AMDVIState *s = AMD_IOMMU_DEVICE(dev);
+> -    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(dev);
+>      MachineState *ms = MACHINE(qdev_get_machine());
+>      PCMachineState *pcms = PC_MACHINE(ms);
+>      X86MachineState *x86ms = X86_MACHINE(ms);
+> @@ -1548,7 +1547,6 @@ static void amdvi_sysbus_realize(DeviceState *dev, Error **errp)
+>                                       amdvi_uint64_equal, g_free, g_free);
+>  
+>      /* This device should take care of IOMMU PCI properties */
+> -    x86_iommu->type = TYPE_AMD;
+>      if (!qdev_realize(DEVICE(&s->pci), &bus->qbus, errp)) {
+>          return;
+>      }
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index 75f075547f..c27b20090e 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -3806,9 +3806,6 @@ static void vtd_realize(DeviceState *dev, Error **errp)
+>      X86MachineState *x86ms = X86_MACHINE(ms);
+>      PCIBus *bus = pcms->bus;
+>      IntelIOMMUState *s = INTEL_IOMMU_DEVICE(dev);
+> -    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(dev);
+> -
+> -    x86_iommu->type = TYPE_INTEL;
+>  
+>      if (!vtd_decide_config(s, errp)) {
+>          return;
+> diff --git a/hw/i386/x86-iommu-stub.c b/hw/i386/x86-iommu-stub.c
+> index c5ba077f9d..781b5ff922 100644
+> --- a/hw/i386/x86-iommu-stub.c
+> +++ b/hw/i386/x86-iommu-stub.c
+> @@ -36,8 +36,3 @@ bool x86_iommu_ir_supported(X86IOMMUState *s)
+>  {
+>      return false;
 >  }
-> 
-> Afterward console output was routed to the debugger.  This is the only chardev device I found that is marked as internal so I suspect this is the wrong thing to do.  What is the proper way to redirect output from qemu to the debugger?
-
-commit 777357d758d937c9dd83082c39aff9f1e53e9ba3
-Author: Marc-André Lureau <marcandre.lureau@redhat.com>
-Date:   Wed Dec 7 18:39:10 2016 +0300
-
-    chardev: qom-ify
-
-    Turn Chardev into Object.
-
-    qemu_chr_alloc() is replaced by the qemu_chardev_new() constructor.
-    It will call qemu_char_open() to open/intialize the chardev with the
-    ChardevCommon *backend settings.
-
-    The CharDriver::create() callback is turned into a
-    ChardevClass::open() which is called from the newly introduced
-    qemu_chardev_open().
-
-    "chardev-gdb" and "chardev-hci" are internal chardev and aren't
-    creatable directly with -chardev. Use a new internal flag to disable
-    them. We may want to use TYPE_USER_CREATABLE interface instead, or
-    perhaps allow -chardev usage.
-
-    Although in general we keep typename and macros private, unless
-    the type is being used by some other file, in this patch, all types
-    and common helper macros for qemu-char.c are in char.h. This is to
-    help transition now (some types must be declared early, while some
-    aren't shared) and when splitting in several units. This is to be
-    improved later.
-
-    Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-    Reviewed-by: Eric Blake <eblake@redhat.com>
-    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-I'm not sure why "chardev-gdb" is internal, maybe because it uses
-static state as singleton, so can't be TYPE_USER_CREATABLE?
-
-  static GDBState gdbserver_state;
-
-But TYPE_DBUS_VMSTATE is TYPE_USER_CREATABLE and have:
-
-static void
-dbus_vmstate_complete(UserCreatable *uc, Error **errp)
-{
-    DBusVMState *self = DBUS_VMSTATE(uc);
-    g_autoptr(GError) err = NULL;
-
-    if (!object_resolve_path_type("", TYPE_DBUS_VMSTATE, NULL)) {
-        error_setg(errp, "There is already an instance of %s",
-                   TYPE_DBUS_VMSTATE);
-        return;
-    }
-    ...
-
-So it should be possible to have TYPE_CHARDEV_GDB implement
-TYPE_USER_CREATABLE and check for singleton the same way,
-then remove the ChardevClass::internal field IMO...
-
-But let see what the maintainers prefer :)
-
-Regards,
-
-Phil.
+> -
+> -IommuType x86_iommu_get_type(void)
+> -{
+> -    abort();
+> -}
+> diff --git a/hw/i386/x86-iommu.c b/hw/i386/x86-iommu.c
+> index 86ad03972e..dc968c7a53 100644
+> --- a/hw/i386/x86-iommu.c
+> +++ b/hw/i386/x86-iommu.c
+> @@ -98,11 +98,6 @@ X86IOMMUState *x86_iommu_get_default(void)
+>      return x86_iommu_default;
+>  }
+>  
+> -IommuType x86_iommu_get_type(void)
+> -{
+> -    return x86_iommu_default->type;
+> -}
+> -
+>  static void x86_iommu_realize(DeviceState *dev, Error **errp)
+>  {
+>      X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(dev);
 
 
