@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0CE4364DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 16:59:08 +0200 (CEST)
-Received: from localhost ([::1]:45842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB664436511
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 17:07:48 +0200 (CEST)
+Received: from localhost ([::1]:52980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdZX9-00014J-EG
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 10:59:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49986)
+	id 1mdZfX-0006H2-6i
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 11:07:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mdZVy-0000EU-Hi
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 10:57:54 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:40779)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mdZd2-0004gX-Gl
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 11:05:14 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:41499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mdZVw-0005ol-8h
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 10:57:54 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- 193-20020a1c01ca000000b00327775075f7so1661626wmb.5
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 07:57:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mdZct-0007aK-2O
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 11:05:09 -0400
+Received: by mail-pl1-x629.google.com with SMTP id e10so605214plh.8
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 08:05:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=XBwBrgQ+QhHg2DZhvB+1RbSt0CLOxJPUx281Vzsyp1o=;
- b=sUjrvGjh4Vu0PrXYlzss8XXPO70WjcuappGE9RaDODOFhEyWTHNx9Cpc6KmMjPkPiM
- HW8p5RUc51CbxtJh8ohwOcJKLxBILOYt1yWclvien8ocZLkZ7PAIIPqU1siyop/etdtV
- cLBdLzcS5O0jMWjbtSiekZTthMiysUsT67bTmb9ck2zMdinA7Fq3Zv8jUz9EBLDWFF2b
- A3wsnzPf7vh/RZv00WDMHTl+iQcQTe3wbG4vUOG2ybxI2SctLIhEvKwctml3RKRtB4Vk
- MXkC0ZZJjUI9RqtvPvT0EYPcUCPY6fvkDC0NjUaegS/DQ085MfoJ4JvWa28A/Bz6eKoT
- juyQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UP5j9FBbC46FIrSC2i1YkhYx4mcUupSU+N5eJM4Es/Y=;
+ b=KZreq+W/u56MKUPEV4ywIXAXmArHjHe7ViK9tm8oJ/TS6oCcTlphjuz87j98XtPoJF
+ EbjwJJXJx03hASXIoifw8xj9H347qs3d+y4hL1r5S5+W1be51aTgD5uD9VHaCKJPGdVj
+ nuRbj9jpDDM2Rf0otG6SyDafHIx26vXrd5lsp0f30KqjBKvjiVtb/fOmzzXTLIMorotM
+ ig842HNLIfTAJ/fEfO6fiXH1+KZX/MsY6K4FaJAWkvjfA+6WnQ429Nrdjp3Lng35ku82
+ Rgo+xX8I9aCnh5yqFl1TifInM8MkJCkmWrfDQnUE/iPgYbKbKz5UWMs5NAWWG6JpdHBg
+ x6Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=XBwBrgQ+QhHg2DZhvB+1RbSt0CLOxJPUx281Vzsyp1o=;
- b=Wj5DuYbV13i5LSfqykRg7UWSP7AzaSYYjT0InSiqQIYUn7+Afsv2h1gPfpOkae5r+H
- +HCMxWiZlW34JqshS9PvPVhI8fU01fytfgVUAPHnY3VdRs24Ax1Bmr/5goMK1plqN6ln
- 3tcIH6AI+kVnxg8Xvyu0Nfnr1k3DiL4xm5PCC7NufqW2Plyra03xFG/YahurX8vy5Z9H
- /yNKHYs//Q1weB3Ck0fWSvLLVLzwzbQxTmVXLIvV7Oiz8ST7LtNrvW+eL7nY/NLnPqc2
- 9KarRY0Q8NtdlsFUgsOqQRPXhGzuEQ2mxVTeOFIpGmO3tsiePggT9QREEHYfrubN3Qsg
- 2fkA==
-X-Gm-Message-State: AOAM530E8RtW6EeWS/5nH9/NPK3znEnldOk0/3JJWzDUHhxLSRLi768Q
- lrwuQAWns9UABi45O3+My4kjo/usf/tjng==
-X-Google-Smtp-Source: ABdhPJx4RfFJkGGbXIlj9CE1OolELi4GJ9608WpA8LWdP9kljnBz1m8WaAOXFDkhXlVTrGNuXkHlxg==
-X-Received: by 2002:a05:600c:3508:: with SMTP id
- h8mr22111473wmq.122.1634828269349; 
- Thu, 21 Oct 2021 07:57:49 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n26sm6445749wmi.16.2021.10.21.07.57.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 07:57:48 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E2DFF1FF96;
- Thu, 21 Oct 2021 15:57:47 +0100 (BST)
-References: <BYAPR02MB550976DDDA818CEB090B41C5BEBF9@BYAPR02MB5509.namprd02.prod.outlook.com>
- <fad02feb-09f3-4ef8-a2eb-bec76e2ee968@redhat.com>
-User-agent: mu4e 1.7.0; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [gdbstub] redirecting qemu console output to a debugger
-Date: Thu, 21 Oct 2021 15:51:55 +0100
-In-reply-to: <fad02feb-09f3-4ef8-a2eb-bec76e2ee968@redhat.com>
-Message-ID: <87ilxqtogk.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UP5j9FBbC46FIrSC2i1YkhYx4mcUupSU+N5eJM4Es/Y=;
+ b=uTfUesJXsFlKnyRP4dq/OzeDEWTef4kkxuBiGzaDtaMEAcgGQB8KL37JRTJbPl/pnT
+ FBQDuprDyFQZ9Jn2NzaGyjZeavgoYJYATIrjafQ0o0ZQGYwLE/kzt35JWD0bx8nzaisD
+ HMeUoPobCQu/ljbhTb6DWl8lNe8I5Cay5dxbqDo5BusZTSw1cInRcFHRJDqNqvBMT1Ug
+ 8ZDEaU2qkOErEtt6tsdL8Bkc1iPX3YW8E1MgZM9JITD+niP0C55Icz0DLq85gXTizm8Z
+ Z1Bp1fH5ZsChBzYPA5PR15no1QgNyHF/+uNwvpiQ/TxHG7154LIP3kDRaEhCWctN6rXi
+ 8dsA==
+X-Gm-Message-State: AOAM532qrZjB4n3Jv+Yz2wWajRzlhtNG6Vkn55On0hAJOPOsd8xl+V7o
+ tPuvZLhPXD6QlG3XZjSZxE4K3w==
+X-Google-Smtp-Source: ABdhPJwKzDrdK21816qbdyHktRpAs7HSwYGjArgl+qjai2rmMWi6Sh4nrwoSuoNh/P0zU8Uozxxrgg==
+X-Received: by 2002:a17:90b:4a01:: with SMTP id
+ kk1mr7256947pjb.208.1634828701103; 
+ Thu, 21 Oct 2021 08:05:01 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id ob5sm10927220pjb.2.2021.10.21.08.05.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Oct 2021 08:05:00 -0700 (PDT)
+Subject: Re: [PATCH v9 0/8] hw/arm/virt: Introduce cpu topology support
+To: Yanan Wang <wangyanan55@huawei.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Eric Auger <eauger@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
+References: <20211020142125.7516-1-wangyanan55@huawei.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8cb07ece-22fe-cb1e-30d0-11aecdc0ba70@linaro.org>
+Date: Thu, 21 Oct 2021 08:04:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20211020142125.7516-1-wangyanan55@huawei.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.867,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,84 +90,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Sid Manning <sidneym@quicinc.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/20/21 7:21 AM, Yanan Wang wrote:
+> Hi,
+> 
+> This is the latest v9 series which supports exposing vCPU topology
+> to the guest for Arm virt machines.
+> 
+> Description of this series:
+> Once the view of an accurate virtual cpu topology is provided to guest,
+> with a well-designed vCPU pinning to the pCPU we may get a huge benefit,
+> e.g., the scheduling performance improvement. See Dario Faggioli's
+> research and the related performance tests in [1] for reference.
+> 
+> This patch series introduces cpu topology support for Arm platform.
+> Both cpu-map in DT and ACPI PPTT table are introduced to store the
+> topology information. And we only describe the topology information
+> to 6.2 and newer virt machines, considering compatibility.
+> 
+> [1] https://kvmforum2020.sched.com/event/eE1y/virtual-topology-for-virtual-machines
+> -friend-or-foe-dario-faggioli-suse
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> Hi Sid,
->
-> Cc'ing maintainers:
->
-> $ ./scripts/get_maintainer.pl -f  chardev/char.c
-> "Marc-Andr=C3=A9 Lureau" <marcandre.lureau@redhat.com> (maintainer:charde=
-v)
-> Paolo Bonzini <pbonzini@redhat.com> (reviewer:Character device...)
->
-> $ ./scripts/get_maintainer.pl -f  gdbstub.c
-> "Alex Benn=C3=A9e" <alex.bennee@linaro.org> (maintainer:GDB stub)
-> "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com> (reviewer:GDB stub)
->
-> On 10/21/21 14:37, Sid Manning wrote:
->> Currently when I attach a debugger (lldb) to my qemu session all of the =
-output goes to the shell running qemu not to the debugger.  Fixing this mea=
-nt that I needed to point the semi-hosting output to the gdb chardev.  I st=
-arted qemu like this:
->>=20
->> -s -S -semihosting-config target=3Dauto,chardev=3Dch0 -chardev gdb,id=3D=
-ch0
-
-Mixing up semihosting and gdb is not going to end well. We do already
-re-direct semihosting output to the debugger when it's attached. To
-specify a socket for gdb to connect to you need:
-
-  -chardev socket,path=3D/tmp/gdb-socket,server=3Don,wait=3Doff,id=3Dgdb0 -=
-gdb chardev:gdb0
-
-The -chardev specifies the details of the socket and the -gdb tells gdb
-where it should make the gdbserver port visible. The only
-semihosting-config variable you may want to tweak is the target.
-
-<snip>
->
-> I'm not sure why "chardev-gdb" is internal, maybe because it uses
-> static state as singleton, so can't be TYPE_USER_CREATABLE?
->
->   static GDBState gdbserver_state;
-
-One good reason - we don't support multiple connections.
-
->
-> But TYPE_DBUS_VMSTATE is TYPE_USER_CREATABLE and have:
->
-> static void
-> dbus_vmstate_complete(UserCreatable *uc, Error **errp)
-> {
->     DBusVMState *self =3D DBUS_VMSTATE(uc);
->     g_autoptr(GError) err =3D NULL;
->
->     if (!object_resolve_path_type("", TYPE_DBUS_VMSTATE, NULL)) {
->         error_setg(errp, "There is already an instance of %s",
->                    TYPE_DBUS_VMSTATE);
->         return;
->     }
->     ...
->
-> So it should be possible to have TYPE_CHARDEV_GDB implement
-> TYPE_USER_CREATABLE and check for singleton the same way,
-> then remove the ChardevClass::internal field IMO...
->
-> But let see what the maintainers prefer :)
->
-> Regards,
->
-> Phil.
+Queued to target-arm.next, thanks.
 
 
---=20
-Alex Benn=C3=A9e
+r~
+
+> 
+> Changelog:
+> v8->v9:
+> - add Eric's R-bs, thanks!
+> - address Eric's suggestions to update some function comments and commit msg (patch #5)
+> - make build_processor_hierarchy_node static as it's only used by build_pptt (patch #4)
+> - retested.
+> - v8: https://lore.kernel.org/qemu-devel/20211014132206.19220-1-wangyanan55@huawei.com/
+> 
+> v7->v8:
+> - rebased on top of master (commit e5b2333f24)
+> - only add one generic expected file for PPTT instead of four, which works
+>    fine enough for now (patch #6 and #8 updated)
+> - v7: https://lore.kernel.org/qemu-devel/20211007030746.10420-1-wangyanan55@huawei.com/
+> 
+> v6->v7:
+> - rebased on top of master (commit ca61fa4b80)
+> - use newly introduced acpi_table_begin/acpi_table_end APIs to build PPTT
+>    (patch #5 updated)
+> - add reference files for PPTT to fix broken bios-table-test for Aarch64
+>    virt machine (patch #6-#8 added)
+> - v6: https://lore.kernel.org/qemu-devel/20210824122016.144364-1-wangyanan55@huawei.com/
+> 
+> Andrew Jones (2):
+>    hw/arm/virt: Add cpu-map to device tree
+>    hw/acpi/aml-build: Add PPTT table
+> 
+> Yanan Wang (6):
+>    hw/arm/virt: Only describe cpu topology since virt-6.2
+>    device_tree: Add qemu_fdt_add_path
+>    hw/acpi/aml-build: Add Processor hierarchy node structure
+>    tests/data/acpi/virt: Add an empty expected file for PPTT
+>    hw/arm/virt-acpi-build: Generate PPTT table
+>    tests/data/acpi/virt: Update the empty expected file for PPTT
+> 
+>   hw/acpi/aml-build.c          |  89 +++++++++++++++++++++++++++++++++++
+>   hw/arm/virt-acpi-build.c     |   8 +++-
+>   hw/arm/virt.c                |  71 ++++++++++++++++++++++++----
+>   include/hw/acpi/aml-build.h  |   3 ++
+>   include/hw/arm/virt.h        |   4 +-
+>   include/sysemu/device_tree.h |   1 +
+>   softmmu/device_tree.c        |  44 ++++++++++++++++-
+>   tests/data/acpi/virt/PPTT    | Bin 0 -> 76 bytes
+>   8 files changed, 206 insertions(+), 14 deletions(-)
+>   create mode 100644 tests/data/acpi/virt/PPTT
+> 
+> --
+> 2.19.1
+> 
+
 
