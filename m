@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0BF436D00
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 23:46:21 +0200 (CEST)
-Received: from localhost ([::1]:59594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A403436D1B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 23:54:18 +0200 (CEST)
+Received: from localhost ([::1]:56522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdftE-0007gK-IT
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 17:46:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49314)
+	id 1mdg0v-00085G-5J
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 17:54:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdfJR-00045P-4V
+ id 1mdfJQ-00045O-Pc
  for qemu-devel@nongnu.org; Thu, 21 Oct 2021 17:09:24 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:41916)
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:42574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdfJO-00009f-33
+ id 1mdfJO-0000A2-T8
  for qemu-devel@nongnu.org; Thu, 21 Oct 2021 17:09:20 -0400
-Received: by mail-pf1-x435.google.com with SMTP id y7so1761702pfg.8
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 14:09:17 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id w17so1280459plg.9
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 14:09:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5G0K+H2e7otmmKQ9zQj4DbcKrZpcr7GS6k3OOPhe8m0=;
- b=vCm+AY8XgFxNqih386bdjh1udkCg8ZLLYM8SkbeYNOAR48KzWyXJAy2WomEfqNuszo
- WK6zSBhDz7pkZEImz8D33Px0mn0TKUVcUuKmzg9g3dMhCOB+oy8+LIAwn/g17wcHltOB
- PfQBKZUyhe9tgFg0AWKRzPlU6BvfPRkSJp4uFCFB9aCggiKKi2K0f0ODdlEDAXmUwqeq
- FfE6ueRFLOgyMSVPBG3n+aKcnAtZ3ByWwhmQ2SNQWxHvGSJEag9xY5cI0V2brjgzAXJv
- 6fgJqSBUtvvBd+FgrUnl6J8jV56X9gBdNV0Y+AHZGOG5+qANK5tFQISHTt5cLSAK0P4n
- fRMA==
+ bh=IOs5dk/JjBB+U1kfM4iGuyzcyV6uCGa5kiLeJfswCh8=;
+ b=p2Z55PxB+CCq278VYHceK6G6MwhAVqzaD4o+Xyg3FAk/pucA3qObjv9qncqwL8BuX5
+ DFdc5+PYdLMnOg2Gnvtehq6q1mitzWLVQ8NBCHR3qmWJwkyzZbPUG2FAvtnk28RCXhWS
+ pU2AAvfewzjoFB5rV6S5CGPozyFSofpRr5LsFSkYX7NmTyBHKyXFH2QFk1/YJFLkexmM
+ MEDHzCKfhc9hvT7CDjA9sbT89Fm6y+5cHC/J/vnVdbhkg8AJn3YLqOqTqauFqk20pbp1
+ 9nsgTRhoTToucuZW8fXpqIopgXPCle7mX6d42jF5Ux/AXTVUaz2djDMyEUIY61xP+jo9
+ +2NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5G0K+H2e7otmmKQ9zQj4DbcKrZpcr7GS6k3OOPhe8m0=;
- b=ERTbfpXFjpTLHopRbODMWk8fxg5O03QfdUn2/evJIGt79yGYw/DEZdb4JgLpcN2oLt
- ytZ5u51GfByi0YBMwySe/qJIeJ1+WRxZpH5W2IQ/0CYAQjGFpNhIoAkdf2Dt+WAe3fVx
- /6gjZ/bkT8xarGCFcDK8kPe6Wpuy+KhA3vFvdPwBWrr+fHpnwM9I18QJ8iFv1oziHEmm
- ZuXfbLQLXfyVzgyuyGpLLU2ijFdYYurnWa3ksfxGim00cBmzqNaOddi+ZEphGVV+b1Hj
- wmjMJlVWmTrEPGRWdodjGFH15+wW7Rpya37IwIlcwPWP4PJ0GnfmAM9jvfXFsGv7zEM4
- fCxA==
-X-Gm-Message-State: AOAM533at+tSayRm/jKOATZshY2yRVT5vFYAaXh/pPlBoj/liCp0sZIb
- z2NfElSC0gK5O1WqH4flMjHvP4OyAdQ8dA==
-X-Google-Smtp-Source: ABdhPJzdUl0kY0BTURs85ZX8z2cFCVy2zlb2bKyJbYoFe5iVAPY9GIlJiUbr0ZUn3uhtMKe7tcBOvA==
-X-Received: by 2002:a05:6a00:124e:b0:44d:cb39:40f6 with SMTP id
- u14-20020a056a00124e00b0044dcb3940f6mr8092425pfi.22.1634850556758; 
- Thu, 21 Oct 2021 14:09:16 -0700 (PDT)
+ bh=IOs5dk/JjBB+U1kfM4iGuyzcyV6uCGa5kiLeJfswCh8=;
+ b=gjbz5haoeMyLoXdoQhcCmI/iOQhDONO7rl4gTJYd3RcIGJTWUnbKTAgmCwPEjotsDh
+ JYL4SMf/omoVW/w+LVeOwPCs4440gljOYWX4LPhKhV2BQi5JKP8azcS45M8w+gcEUayo
+ L1A5zWhs0YTmp9H8Ea/CmSxqhfNo3rMlo1ri5cW8sSSK6OOqtQJtPqPbKyM/sja7k9DB
+ y6ti2ifcezzGIeCDWEjwK9tCepmDyulV+XAAr52xnxjyuHZroFK2NiYkf3YIWHawCOR6
+ TFSpQ999Q85uMcSZriut0GFcEkdjZVPiWclhZsIFYLSg2c/E+6GwG7Ev9G5R1aKQucxj
+ qZzg==
+X-Gm-Message-State: AOAM533zD0fIZYc9ScAfwFb3RwwRDDURQQ5E3yPl8KAQuz/xoiSzGd32
+ OuWyrYzfEXwJuQyafR13+5a+JbwXfQeXug==
+X-Google-Smtp-Source: ABdhPJwNKGyshvYe4BdJEsxwr48X6PTh2oqxkdF11eA7xfihw6dcuXprRkIJShMFyoWBezuy8/T7Kw==
+X-Received: by 2002:a17:902:c950:b0:13e:fbf9:7939 with SMTP id
+ i16-20020a170902c95000b0013efbf97939mr7339824pla.65.1634850557442; 
+ Thu, 21 Oct 2021 14:09:17 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
  by smtp.gmail.com with ESMTPSA id i5sm6258856pgo.36.2021.10.21.14.09.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 14:09:16 -0700 (PDT)
+ Thu, 21 Oct 2021 14:09:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 47/48] tcg/optimize: Propagate sign info for bit counting
-Date: Thu, 21 Oct 2021 14:05:38 -0700
-Message-Id: <20211021210539.825582-48-richard.henderson@linaro.org>
+Subject: [PATCH v3 48/48] tcg/optimize: Propagate sign info for shifting
+Date: Thu, 21 Oct 2021 14:05:39 -0700
+Message-Id: <20211021210539.825582-49-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211021210539.825582-1-richard.henderson@linaro.org>
 References: <20211021210539.825582-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,33 +87,96 @@ Cc: luis.pires@eldorado.org.br, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The results are generally 6 bit unsigned values, though
-the count leading and trailing bits may produce any value
-for a zero input.
+For constant shifts, we can simply shift the s_mask.
+
+For variable shifts, we know that sar does not reduce
+the s_mask, which helps for sequences like
+
+    ext32s_i64  t, in
+    sar_i64     t, t, v
+    ext32s_i64  out, t
+
+allowing the final extend to be eliminated.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tcg/optimize.c | 50 +++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 47 insertions(+), 3 deletions(-)
 
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 64d3256bbc..3dd9219d69 100644
+index 3dd9219d69..5e239e00ee 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -1215,7 +1215,7 @@ static bool fold_count_zeros(OptContext *ctx, TCGOp *op)
-         g_assert_not_reached();
-     }
-     ctx->z_mask = arg_info(op->args[2])->z_mask | z_mask;
--
-+    ctx->s_mask = smask_from_zmask(ctx->z_mask);
-     return false;
+@@ -85,6 +85,18 @@ static uint64_t smask_from_zmask(uint64_t zmask)
+     return ~(~0ull >> rep);
  }
  
-@@ -1235,6 +1235,7 @@ static bool fold_ctpop(OptContext *ctx, TCGOp *op)
-     default:
-         g_assert_not_reached();
++/*
++ * Recreate a properly left-aligned smask after manipulation.
++ * Some bit-shuffling, particularly shifts and rotates, may
++ * retain sign bits on the left, but may scatter disconnected
++ * sign bits on the right.  Retain only what remains to the left.
++ */
++static uint64_t smask_from_smask(int64_t smask)
++{
++    /* Only the 1 bits are significant for smask */
++    return smask_from_zmask(~smask);
++}
++
+ static inline TempOptInfo *ts_info(TCGTemp *ts)
+ {
+     return ts->state_ptr;
+@@ -1801,18 +1813,50 @@ static bool fold_sextract(OptContext *ctx, TCGOp *op)
+ 
+ static bool fold_shift(OptContext *ctx, TCGOp *op)
+ {
++    uint64_t s_mask, z_mask, sign;
++
+     if (fold_const2(ctx, op) ||
+         fold_ix_to_i(ctx, op, 0) ||
+         fold_xi_to_x(ctx, op, 0)) {
+         return true;
      }
-+    ctx->s_mask = smask_from_zmask(ctx->z_mask);
+ 
++    s_mask = arg_info(op->args[1])->s_mask;
++    z_mask = arg_info(op->args[1])->z_mask;
++
+     if (arg_is_const(op->args[2])) {
+-        ctx->z_mask = do_constant_folding(op->opc, ctx->type,
+-                                          arg_info(op->args[1])->z_mask,
+-                                          arg_info(op->args[2])->val);
++        int sh = arg_info(op->args[2])->val;
++
++        ctx->z_mask = do_constant_folding(op->opc, ctx->type, z_mask, sh);
++
++        s_mask = do_constant_folding(op->opc, ctx->type, s_mask, sh);
++        ctx->s_mask = smask_from_smask(s_mask);
++
+         return fold_masks(ctx, op);
+     }
++
++    switch (op->opc) {
++    CASE_OP_32_64(sar):
++        /*
++         * Arithmetic right shift will not reduce the number of
++         * input sign repetitions.
++         */
++        ctx->s_mask = s_mask;
++        break;
++    CASE_OP_32_64(shr):
++        /*
++         * If the sign bit is known zero, then logical right shift
++         * will not reduced the number of input sign repetitions.
++         */
++        sign = (s_mask & -s_mask) >> 1;
++        if (!(z_mask & sign)) {
++            ctx->s_mask = s_mask;
++        }
++        break;
++    default:
++        break;
++    }
++
      return false;
  }
  
