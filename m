@@ -2,48 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E9B436C45
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 22:36:55 +0200 (CEST)
-Received: from localhost ([::1]:33106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8367436C55
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 22:46:05 +0200 (CEST)
+Received: from localhost ([::1]:52936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdeo2-0003pS-2e
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 16:36:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34748)
+	id 1mdewu-00013b-6p
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 16:46:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mde8k-00051m-6k; Thu, 21 Oct 2021 15:54:14 -0400
-Received: from [201.28.113.2] (port=19044 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mde8i-0006WJ-Ah; Thu, 21 Oct 2021 15:54:13 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 21 Oct 2021 16:47:08 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id BE76080012A;
- Thu, 21 Oct 2021 16:47:07 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH 33/33] target/ppc: Implement lxvkq instruction
-Date: Thu, 21 Oct 2021 16:45:47 -0300
-Message-Id: <20211021194547.672988-34-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
-References: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mdeGZ-0006v7-9D
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 16:02:19 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:42685)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mdeGW-0001yM-RL
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 16:02:18 -0400
+Received: by mail-pf1-x432.google.com with SMTP id m14so1601379pfc.9
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 13:02:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FNj7rUBJnZux10sXvCPS9kdHFpvGLRa+UUCv+G5xk2g=;
+ b=p/BchLw+GGwrxOgjO+EYQQxyJIBG5xATPA03majSReMVJoQP8irVeLsiWPm+0x5jr4
+ sXkHGI7rC6PTvNrY9iEhN9GcN8HHiR0qTvO07+AezXh6+AeieZ0z1k4b74x91z5BEZd2
+ 7mlIUDSyDDAqEum5+75mQ0//qg4m6VmATilN46WAI+CZMUuoCjaMe1MsI7XvSZcf19AS
+ +FYyvU1tdPT5GuS3DiMgxZD34yFP1B8/X6Nfo023FAMMO5Kyh3W0NoU6CT9Y18ZPk2tC
+ SN/piUywq06ORwCUCUFfsAn27m3jGlIV6BwINKBDTFF9dSCIqlR7FMkAwT9QW0EzDoPy
+ R97w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FNj7rUBJnZux10sXvCPS9kdHFpvGLRa+UUCv+G5xk2g=;
+ b=Yr5NYxk2vMXTzSoVvK1j3kNRKqy0yIVGs0TmfwVVBHGZptc+fAdJl0LjflhtI3xlDM
+ z2wmxZXa7xlylhBkgtXln+oOv0ifvTwPj7tFJJGWzoOifIk3mir21qYDcnpsdpPdcLBU
+ qxMe8svPhaLFPTGlKhlvm9XYTfyvccvI9/lWqmJ3mra97YqafmVQVPlQY0Jh5b261o4i
+ nx9OWcWuKDP6gdHytzxzPUjHGZg7ahmuzDzcsc0Ts7bvHsfHaKpbZt4PTiYoBrzHNkAv
+ 3KXhNYEHshbg+DOnuKvnd53+GuweeCSeuDG0awIyj0Ed8dCRoABkBa2vMKdhoGi1ddM4
+ jkHg==
+X-Gm-Message-State: AOAM53360O0HppIGvujIxmDLqk6a4V4R6N5dK99rxzrlZTR60jCI2Npk
+ qL09jhsye6tCzF0hfm1bu6G35Q==
+X-Google-Smtp-Source: ABdhPJziuvpYyygeBvlLyegCp2z6azPaX3Xqw2ZAzVlRzqpR+gmil3FuV2hgInh3HbiyutjOO4Gx/g==
+X-Received: by 2002:a65:4008:: with SMTP id f8mr5955316pgp.310.1634846535314; 
+ Thu, 21 Oct 2021 13:02:15 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id j8sm6624889pfe.105.2021.10.21.13.02.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Oct 2021 13:02:14 -0700 (PDT)
+Subject: Re: [PATCH v3 02/22] host-utils: fix missing zero-extension in divs128
+To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20210910112624.72748-1-luis.pires@eldorado.org.br>
+ <20210910112624.72748-3-luis.pires@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b106abfc-6067-aa81-5d43-cd80d2265b8d@linaro.org>
+Date: Thu, 21 Oct 2021 13:02:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 21 Oct 2021 19:47:08.0251 (UTC)
- FILETIME=[6E96D2B0:01D7C6B4]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210910112624.72748-3-luis.pires@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.867,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,99 +88,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lucas.castro@eldorado.org.br, richard.henderson@linaro.org, groug@kaod.org,
- luis.pires@eldorado.org.br, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+On 9/10/21 4:26 AM, Luis Pires wrote:
+> *plow (lower 64 bits of the dividend) is passed into divs128() as
+> a signed 64-bit integer. When building an __int128_t from it, it
+> must be zero-extended, instead of sign-extended.
+> 
+> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Luis Pires<luis.pires@eldorado.org.br>
+> ---
+>   include/qemu/host-utils.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/insn32.decode            |  7 +++++
- target/ppc/translate/vsx-impl.c.inc | 44 +++++++++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index fd73946122..e135b8aba4 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -100,6 +100,9 @@
- &X_imm8         xt imm:uint8_t
- @X_imm8         ...... ..... .. imm:8 .......... .              &X_imm8 xt=%x_xt
- 
-+&X_uim5         xt uim:uint8_t
-+@X_uim5         ...... ..... ..... uim:5 .......... .           &X_uim5 xt=%x_xt
-+
- &X_tb_sp_rc     rt rb sp rc:bool
- @X_tb_sp_rc     ...... rt:5 sp:2 ... rb:5 .......... rc:1       &X_tb_sp_rc
- 
-@@ -420,3 +423,7 @@ STXVPX          011111 ..... ..... ..... 0111001101 -   @X_TSXP
- 
- XXSPLTIB        111100 ..... 00 ........ 0101101000 .   @X_imm8
- XXSPLTW         111100 ..... ---.. ..... 010100100 . .  @XX2
-+
-+## VSX Vector Load Special Value Instruction
-+
-+LXVKQ           111100 ..... 11111 ..... 0101101000 .   @X_uim5
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 4619d7f238..badf70cb01 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1552,6 +1552,50 @@ static bool trans_XXSPLTI32DX(DisasContext *ctx, arg_8RR_D_IX *a)
-     return true;
- }
- 
-+static bool trans_LXVKQ(DisasContext *ctx, arg_X_uim5 *a)
-+{
-+    static const uint32_t valid_values = 0b00000001111111110000001111111110;
-+    static const uint64_t values[32] = {
-+        0, /* Unspecified */
-+        0x3FFF000000000000llu, /* QP +1.0 */
-+        0x4000000000000000llu, /* QP +2.0 */
-+        0x4000800000000000llu, /* QP +3.0 */
-+        0x4001000000000000llu, /* QP +4.0 */
-+        0x4001400000000000llu, /* QP +5.0 */
-+        0x4001800000000000llu, /* QP +6.0 */
-+        0x4001C00000000000llu, /* QP +7.0 */
-+        0x7FFF000000000000llu, /* QP +Inf */
-+        0x7FFF800000000000llu, /* QP dQNaN */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0x8000000000000000llu, /* QP -0.0 */
-+        0xBFFF000000000000llu, /* QP -1.0 */
-+        0xC000000000000000llu, /* QP -2.0 */
-+        0xC000800000000000llu, /* QP -3.0 */
-+        0xC001000000000000llu, /* QP -4.0 */
-+        0xC001400000000000llu, /* QP -5.0 */
-+        0xC001800000000000llu, /* QP -6.0 */
-+        0xC001C00000000000llu, /* QP -7.0 */
-+        0xFFFF000000000000llu, /* QP -Inf */
-+    };
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+    REQUIRE_VSX(ctx);
-+
-+    if (!(valid_values & (1 << a->uim))) {
-+        gen_invalid(ctx);
-+    } else {
-+        set_cpu_vsrl(a->xt, tcg_constant_i64(0x0));
-+        set_cpu_vsrh(a->xt, tcg_constant_i64(values[a->uim]));
-+    }
-+
-+    return true;
-+}
-+
- static void gen_xxsldwi(DisasContext *ctx)
- {
-     TCGv_i64 xth, xtl;
--- 
-2.25.1
-
+r~
 
