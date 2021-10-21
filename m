@@ -2,71 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20CB04365A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 17:15:08 +0200 (CEST)
-Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 153324365FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 17:23:35 +0200 (CEST)
+Received: from localhost ([::1]:56306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdZmd-0007SU-6a
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 11:15:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53288)
+	id 1mdZuo-000320-4N
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 11:23:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mdZiQ-0002BX-2Q
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 11:10:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48599)
+ (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
+ id 1mdZnB-00011O-TV; Thu, 21 Oct 2021 11:15:42 -0400
+Received: from atcsqr.andestech.com ([60.248.187.195]:29479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mdZiO-0004O2-17
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 11:10:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634829041;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9XHpu2+MsEVeeNQt8yR6TvZEpUyYdfGrGhMaBfUtEOM=;
- b=fSLlrU+T03OKQ7jd2q6+FCDUUqaX355Ex4O2Ai5hTydI0QSAoI3GcKYEiYsq7wDCk8nrxX
- dIF+FBcpv16Tz0LFBsGLOEPXBMhnT4SgG80Pv36La02RhrMtuEO+fYPPxRQN6I1Atxy5PT
- kbTcIHYPXJyH7Dhj1lXnyyFbkqZpcfc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-i1lLPecdNYudAy0_L5An_Q-1; Thu, 21 Oct 2021 11:10:38 -0400
-X-MC-Unique: i1lLPecdNYudAy0_L5An_Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06B271926DA0;
- Thu, 21 Oct 2021 15:10:37 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FA1F69217;
- Thu, 21 Oct 2021 15:10:11 +0000 (UTC)
-Date: Thu, 21 Oct 2021 16:10:10 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v3 17/25] block/copy-before-write.h: global state API +
- assertions
-Message-ID: <YXGC0s2LL5iQd4sn@stefanha-x1.localdomain>
-References: <20211012084906.2060507-1-eesposit@redhat.com>
- <20211012084906.2060507-18-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
+ id 1mdZn7-0000Xu-PM; Thu, 21 Oct 2021 11:15:41 -0400
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+ by ATCSQR.andestech.com with ESMTP id 19LFFJHm089296;
+ Thu, 21 Oct 2021 23:15:19 +0800 (GMT-8)
+ (envelope-from ruinland@andestech.com)
+Received: from APC301.andestech.com (10.0.12.120) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Thu, 21 Oct 2021
+ 23:15:20 +0800
+From: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>
+To: <alistair23@gmail.com>, <wangjunqiang@iscas.ac.cn>, <bmeng.cn@gmail.com>
+Subject: [RFC PATCH v1 1/2] riscv: Add preliminary infra for custom
+ instrcution handling
+Date: Thu, 21 Oct 2021 23:11:35 +0800
+Message-ID: <20211021151136.721746-1-ruinland@andestech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211012084906.2060507-18-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="iaCoR0hMMFBrTjJo"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.0.12.120]
+X-DNSRBL: 
+X-MAIL: ATCSQR.andestech.com 19LFFJHm089296
+Received-SPF: pass client-ip=60.248.187.195;
+ envelope-from=ruinland@andestech.com; helo=ATCSQR.andestech.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,51 +56,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: ycliang@andestech.com, alankao@andestech.com, dylan@andestech.com,
+ qemu-devel@nongnu.org, Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>,
+ qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---iaCoR0hMMFBrTjJo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is inspired by Antmicro's work on their fork of TCG.
+We try to decode custom instrucions first - - if the decoders reject
+what they encounter, invoke the decoders for standard instructions.
 
-On Tue, Oct 12, 2021 at 04:48:58AM -0400, Emanuele Giuseppe Esposito wrote:
-> copy-before-write functions always run under BQL lock.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  block/copy-before-write.c | 2 ++
->  block/copy-before-write.h | 7 +++++++
->  2 files changed, 9 insertions(+)
+Caveats: the pc_succ_next shall be corrected if custom decoder rejcets
+the incoming opcode.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>
+---
+ target/riscv/cpu.c       | 25 ++++++++++---
+ target/riscv/translate.c | 78 ++++++++++++++++++++++++++++++++--------
+ 2 files changed, 85 insertions(+), 18 deletions(-)
 
---iaCoR0hMMFBrTjJo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFxgtIACgkQnKSrs4Gr
-c8iRRAf/TOeMRsvUHUkZ6nwLgmveI/834RLuI5kacPejIMtwc/N6Wt5chiKqyA8o
-tR/KclpV+S79JhmiF+ZT0+GHc8Tzmvjc2mmADVMzrxDr6ZbyFxWRFPWZ7aMTlMes
-9x+Bl0zijgKrwATIrHtSr8Fzz24EK64uH4weWDvOE16H8Wyi3f0TpuxdkTLQSqDI
-1TrdI77i31csTQtUnzqFXUFCziTS35nsbsg2d9VVd9kaiLJDFBuGz7G3y0pncUFA
-k5+5tmvR4D2+RPTzdSOi+RXxSz3zGFbDmK52uFcM1rwY+wgAbw4IdXqYbbF/tHcs
-Uvj12EGQY9MXJ9T0woMGWYhEzU2wTQ==
-=6s/+
------END PGP SIGNATURE-----
-
---iaCoR0hMMFBrTjJo--
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index fe63e68b8e..e8ab5734c2 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -36,6 +36,14 @@ static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
+ 
+ GHashTable *custom_csr_map = NULL;
+ #include "custom_csr_defs.h"
++#include "custom_insn_defs.h"
++
++/* Custom instruction related prototypes/variables */
++bool (*custom_c_insn_handler) (DisasContext *, uint16_t);
++bool (*custom_insn_handler) (DisasContext *, uint32_t);
++__thread bool cpu_has_custom_insns = false;
++/* Custom instruction handlers sometimes needs hart state */
++__thread CPURISCVState *HartState = NULL;
+ 
+ const char * const riscv_int_regnames[] = {
+   "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
+@@ -151,12 +159,20 @@ static void set_resetvec(CPURISCVState *env, target_ulong resetvec)
+     env->resetvec = resetvec;
+ #endif
+ }
++void setup_custom_csr(CPURISCVState *env,
++                             riscv_custom_csr_operations csr_map_struct[]
++                             );
++
++void setup_custom_csr(CPURISCVState *env,
++                             riscv_custom_csr_operations csr_map_struct[]
++                             ) {
++
++    env->custom_csr_map = g_hash_table_new_full(g_direct_hash, \
++                                                g_direct_equal, \
++                                                NULL, NULL);
++
+ 
+-static void setup_custom_csr(CPURISCVState *env,
+-                             riscv_custom_csr_operations csr_map_struct[])
+-{
+     int i;
+-    env->custom_csr_map = g_hash_table_new(g_direct_hash, g_direct_equal);
+     for (i = 0; i < MAX_CUSTOM_CSR_NUM; i++) {
+         if (csr_map_struct[i].csrno != 0) {
+             g_hash_table_insert(env->custom_csr_map,
+@@ -187,6 +203,7 @@ static void rv64_base_cpu_init(Object *obj)
+     set_misa(env, RV64);
+ }
+ 
++
+ static void ax25_cpu_init(Object *obj)
+ {
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 74b33fa3c9..f755749380 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -485,27 +485,77 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+ /* Include the auto-generated decoder for 16 bit insn */
+ #include "decode-insn16.c.inc"
+ 
+-static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
++/* Custom insn related definitions/prototypes */
++extern __thread bool cpu_has_custom_insns;
++/*
++ * These 2 are for indication if decode fails.
++ * We don't want to interfere the following regular extension decoding
++ * We assume MTTCG is 1-1 mapping for now.
++ */
++__thread bool custom_c_insn_decoded;
++__thread bool custom_insn_decoded;
++
++extern bool (*custom_c_insn_handler)(DisasContext *, uint16_t);
++extern bool (*custom_insn_handler)(DisasContext *, uint32_t);
++
++static void try_decode_custom_insn(CPURISCVState *env, DisasContext *ctx,
++                                   uint16_t opcode)
+ {
+-    /* check for compressed insn */
+-    if (extract16(opcode, 0, 2) != 3) {
++    bool is_compressed_custom = false;
++    is_compressed_custom = extract16(opcode, 0, 2) != 3 ? true : false;
++    if (is_compressed_custom) {
+         if (!has_ext(ctx, RVC)) {
+             gen_exception_illegal(ctx);
++        }
++        ctx->pc_succ_insn = ctx->base.pc_next + 2;
++        custom_c_insn_decoded = custom_c_insn_handler(ctx, opcode);
++        if(custom_c_insn_decoded) {custom_insn_decoded = true;}
++    } else {
++    uint32_t opcode32 = opcode;
++    opcode32 = deposit32(opcode32, 16, 16, translator_lduw(env, &ctx->base,
++                         ctx->base.pc_next + 2));
++    ctx->opcode = opcode32;
++    ctx->pc_succ_insn = ctx->base.pc_next + 4;
++    custom_insn_decoded = custom_insn_handler(ctx, opcode32);
++    }
++}
++
++static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
++{
++    /*
++     * Try to deocde and trans the custom instruction before any others
++     * This is a bad idea which introduces great performance penalties,
++     * but we don't have other choices here ...
++     */
++    custom_insn_decoded = false;
++    custom_c_insn_decoded = false;
++    if (unlikely(cpu_has_custom_insns)) {
++        try_decode_custom_insn(env, ctx, opcode);
++    }
++
++    if (likely(!custom_insn_decoded)) {
++        if(unlikely(cpu_has_custom_insns))
++            ctx->pc_succ_insn = ctx->base.pc_next - !custom_c_insn_decoded ? 4 : 2;
++        /* check for compressed insn */
++        if (extract16(opcode, 0, 2) != 3) {
++            if (!has_ext(ctx, RVC)) {
++                gen_exception_illegal(ctx);
++            } else {
++                ctx->pc_succ_insn = ctx->base.pc_next + 2;
++                if (!decode_insn16(ctx, opcode)) {
++                    gen_exception_illegal(ctx);
++                }
++            }
+         } else {
+-            ctx->pc_succ_insn = ctx->base.pc_next + 2;
+-            if (!decode_insn16(ctx, opcode)) {
++            uint32_t opcode32 = opcode;
++            opcode32 = deposit32(opcode32, 16, 16,
++                                 translator_lduw(env, &ctx->base,
++                                                 ctx->base.pc_next + 2));
++            ctx->pc_succ_insn = ctx->base.pc_next + 4;
++            if (!decode_insn32(ctx, opcode32)) {
+                 gen_exception_illegal(ctx);
+             }
+         }
+-    } else {
+-        uint32_t opcode32 = opcode;
+-        opcode32 = deposit32(opcode32, 16, 16,
+-                             translator_lduw(env, &ctx->base,
+-                                             ctx->base.pc_next + 2));
+-        ctx->pc_succ_insn = ctx->base.pc_next + 4;
+-        if (!decode_insn32(ctx, opcode32)) {
+-            gen_exception_illegal(ctx);
+-        }
+     }
+ }
+ 
+-- 
+2.25.1
 
 
