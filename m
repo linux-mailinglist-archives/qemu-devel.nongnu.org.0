@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C39436AC3
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 20:43:58 +0200 (CEST)
-Received: from localhost ([::1]:56492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C77F436AE2
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 20:49:46 +0200 (CEST)
+Received: from localhost ([::1]:38312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdd2j-0000aO-Vs
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 14:43:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49328)
+	id 1mdd8L-0007bz-C0
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 14:49:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3FbRxYQgKClYKI5yCHG54CC492.0CAE2AI-12J29BCB4BI.CF4@flex--wuhaotsh.bounces.google.com>)
- id 1mdczP-0005F9-1y
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 14:40:34 -0400
-Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a]:53893)
+ <3FrRxYQgKClcLJ6zDIH65DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--wuhaotsh.bounces.google.com>)
+ id 1mdczN-0005DX-5S
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 14:40:30 -0400
+Received: from mail-pl1-x64a.google.com ([2607:f8b0:4864:20::64a]:33489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3FbRxYQgKClYKI5yCHG54CC492.0CAE2AI-12J29BCB4BI.CF4@flex--wuhaotsh.bounces.google.com>)
- id 1mdczI-00038O-1a
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 14:40:29 -0400
-Received: by mail-pg1-x54a.google.com with SMTP id
- z12-20020a655a4c000000b0029506c80060so560716pgs.20
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 11:40:22 -0700 (PDT)
+ <3FrRxYQgKClcLJ6zDIH65DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--wuhaotsh.bounces.google.com>)
+ id 1mdczJ-0003Dy-Hs
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 14:40:28 -0400
+Received: by mail-pl1-x64a.google.com with SMTP id
+ z8-20020a170903018800b0013f23528cb6so645697plg.0
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 11:40:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=wQVZTwCslLUnQZGHmdjXJxmy+NVCTnayBulUiUM5Lv0=;
- b=YAOpda+wIs+eFGI05S3c7byL+JHH/fMQDsU1QWxZIb5hEBMseh54Wv55zJ5mdggSJI
- Mg0lLwfJEPe47nmlZ7x5PNZE58tUzpyJi5lW00V6vmRYCk3ogdgwQoEmEFgcYMDtOdxi
- QC+UwtDvedersO622F70hq/mDTK/qilJ+6OOVyFO5G/CljShAeSvsR42s5jVRfJUISBl
- eVDZ7RI+CL2IgVJ2SoaQaL6+yKLUmnmzjnbbW3vUzdkk9UzaySoPiogWZ2Shg8xmrZQt
- 7Y46XcHQPHl/ap5CLnCpw6QfMMliSdK1/HFYuiBS0ObyGqTZLdnPBjmdKxudreNjsiBQ
- /RtA==
+ :cc; bh=fAqAMR6EyliijFOAc7rsq13AWc3asmznUg+7CYurHZc=;
+ b=TwjCUAYn0+gDtVov0Hf7YCnyrQBjfS9WoC0+l7khILqNiHf4gnYF4GWFboiuuConop
+ 2cOqFnAuLPjN1dnhG/2W/nS4SULd7UQrBZ3OGcmXSlwa6D143l5VJzOQu3MldHLFfohD
+ mMOGBE4srruZO+zCCLjzh8MlPPVuuGctXsjxrp/lcm8JPXlx1SECE1W0HINs0jp+Z/4n
+ OFWFmcrice8/Qe+/AFFlnmtZbZDM9Vb2HBm251VihrrmKibc4ILLXXyTVla2yeYA5ZUD
+ MvJ6qenupUhvx1cgF5zq3Mm2+OIgm07DJIvMksHJCHM7ZtY45JgUTw3aWhHS93IFNPFL
+ QuxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=wQVZTwCslLUnQZGHmdjXJxmy+NVCTnayBulUiUM5Lv0=;
- b=pvCTOkgGlqMCnF06enFxte1OFuNEi83blNEaBdE0SIyw6dnvMuHg9PPP0/LDKWkAO+
- 41XzoeqkdpvAR16LKsZcEeINBzfZ57lmQF/8jYr7SpVwabWaQ+3JNiyp88OgWgC9vXWr
- aFq88QkjSHAVfqMpj+3pURNsXY1OGjGabRX+Sm98OTNfzPmRE8ERgyG1R94KNaPiwTrD
- BkyACdelB0ck6EiXQncl03NqLT7g4Zyo3ctodNE6AMi6nb9ktPnv4zOHs2qOOBJhd5JV
- ujIQPuYeWiuGJEuYWKKhp+0RizhPdvOgI07hWQn1g+qwc7x90z0D0hWLvzJFQ484F4uv
- 1xHw==
-X-Gm-Message-State: AOAM531wpplNkU7RQWoZX3fswylIJZsN+aQOc1eKy1cDazkUna8W26IG
- w+3WZDrEAimMl3pr6w1fLc/y0YQtR4bZsw==
-X-Google-Smtp-Source: ABdhPJykbUzbEtQ5d6c5OccUXxQZ56FJaAv9djKqJJzndQcDrb0XNXl1i+9H49cigqnsrVULwWq/ZHunJvgQBQ==
+ bh=fAqAMR6EyliijFOAc7rsq13AWc3asmznUg+7CYurHZc=;
+ b=WxyqZkLyfwsvsvXacqopwW4zZMDJ4uYS71Qu7cn1wv7YdK/ZraThjT9sG1oKtO0b63
+ drrSLny4J8e4evANB/YWz8eNoXMfey3vfJf3a4fD5Owqa9qTMPlMYb9pLsV91C50Fz7P
+ X6gpq5Q/+GYff8hNjNEZBo/AET8CRrv/IGD0EWhqfRJC/Zg8iE7KpNUwUdgYCTLaqwla
+ DZuEDLiQPqdX2WyusS98Jz/uszWMMUkZH/ETugw85Mk6nHoeIhsyDFcaKIpX93HpfwAB
+ nSdPV+kvs3ftpANmJPvV3y/ZGgfm9z+v3nGQ6LvDQcihUAMBDT08LPjd/8oWnLub9Ufn
+ wVYg==
+X-Gm-Message-State: AOAM530K0tf7/AIyLUoTMlbV1MlfHknUagx6ja3oUEIEuz5iQWVD5KY4
+ d+Qi9T1eS1DQ5vUA64HOOSkBULr/JyBKuA==
+X-Google-Smtp-Source: ABdhPJxj161If3ZQiMkUJUCgahJK6OaRIK5W5xZHqrNtDbktdSJhnZJx2LNqFNNbrFYQq/NblS4DtPJmbsrHUw==
 X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a17:902:b691:b029:12d:2b6:d116 with SMTP
- id c17-20020a170902b691b029012d02b6d116mr6599083pls.71.1634841621124; Thu, 21
- Oct 2021 11:40:21 -0700 (PDT)
-Date: Thu, 21 Oct 2021 11:39:51 -0700
+ (user=wuhaotsh job=sendgmr) by 2002:a17:902:6902:b0:13f:c1cd:88f1 with SMTP
+ id j2-20020a170902690200b0013fc1cd88f1mr6853697plk.36.1634841622820; Thu, 21
+ Oct 2021 11:40:22 -0700 (PDT)
+Date: Thu, 21 Oct 2021 11:39:52 -0700
 In-Reply-To: <20211021183956.920822-1-wuhaotsh@google.com>
-Message-Id: <20211021183956.920822-3-wuhaotsh@google.com>
+Message-Id: <20211021183956.920822-4-wuhaotsh@google.com>
 Mime-Version: 1.0
 References: <20211021183956.920822-1-wuhaotsh@google.com>
 X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
-Subject: [PATCH v2 2/7] hw/i2c: Read FIFO during RXF_CTL change in NPCM7XX
- SMBus
+Subject: [PATCH v2 3/7] hw/adc: Fix CONV bit in NPCM7XX ADC CON register
 From: Hao Wu <wuhaotsh@google.com>
 To: peter.maydell@linaro.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com, 
  venture@google.com, Avi.Fishman@nuvoton.com, kfting@nuvoton.com, 
- hskinnemoen@google.com, Titus Rwantare <titusr@google.com>
+ hskinnemoen@google.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
- envelope-from=3FbRxYQgKClYKI5yCHG54CC492.0CAE2AI-12J29BCB4BI.CF4@flex--wuhaotsh.bounces.google.com;
- helo=mail-pg1-x54a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::64a;
+ envelope-from=3FrRxYQgKClcLJ6zDIH65DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--wuhaotsh.bounces.google.com;
+ helo=mail-pl1-x64a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -90,41 +89,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Originally we read in from SMBus when RXF_STS is cleared. However,
-the driver clears RXF_STS before setting RXF_CTL, causing the SM bus
-module to read incorrect amount of bytes in FIFO mode when the number
-of bytes read changed. This patch fixes this issue.
+The correct bit for the CONV bit in NPCM7XX ADC is bit 13. This patch
+fixes that in the module, and also lower the IRQ when the guest
+is done handling an interrupt event from the ADC module.
 
 Signed-off-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Titus Rwantare <titusr@google.com>
+Reviewed-by: Patrick Venture<venture@google.com>
 ---
- hw/i2c/npcm7xx_smbus.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/adc/npcm7xx_adc.c           | 2 +-
+ tests/qtest/npcm7xx_adc-test.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i2c/npcm7xx_smbus.c b/hw/i2c/npcm7xx_smbus.c
-index f18e311556..1435daea94 100644
---- a/hw/i2c/npcm7xx_smbus.c
-+++ b/hw/i2c/npcm7xx_smbus.c
-@@ -637,9 +637,6 @@ static void npcm7xx_smbus_write_rxf_sts(NPCM7xxSMBusState *s, uint8_t value)
- {
-     if (value & NPCM7XX_SMBRXF_STS_RX_THST) {
-         s->rxf_sts &= ~NPCM7XX_SMBRXF_STS_RX_THST;
--        if (s->status == NPCM7XX_SMBUS_STATUS_RECEIVING) {
--            npcm7xx_smbus_recv_fifo(s);
--        }
-     }
- }
+diff --git a/hw/adc/npcm7xx_adc.c b/hw/adc/npcm7xx_adc.c
+index 0f0a9f63e2..47fb9e5f74 100644
+--- a/hw/adc/npcm7xx_adc.c
++++ b/hw/adc/npcm7xx_adc.c
+@@ -36,7 +36,7 @@ REG32(NPCM7XX_ADC_DATA, 0x4)
+ #define NPCM7XX_ADC_CON_INT     BIT(18)
+ #define NPCM7XX_ADC_CON_EN      BIT(17)
+ #define NPCM7XX_ADC_CON_RST     BIT(16)
+-#define NPCM7XX_ADC_CON_CONV    BIT(14)
++#define NPCM7XX_ADC_CON_CONV    BIT(13)
+ #define NPCM7XX_ADC_CON_DIV(rv) extract32(rv, 1, 8)
  
-@@ -651,6 +648,9 @@ static void npcm7xx_smbus_write_rxf_ctl(NPCM7xxSMBusState *s, uint8_t value)
-         new_ctl = KEEP_OLD_BIT(s->rxf_ctl, new_ctl, NPCM7XX_SMBRXF_CTL_LAST);
-     }
-     s->rxf_ctl = new_ctl;
-+    if (s->status == NPCM7XX_SMBUS_STATUS_RECEIVING) {
-+        npcm7xx_smbus_recv_fifo(s);
-+    }
- }
+ #define NPCM7XX_ADC_MAX_RESULT      1023
+diff --git a/tests/qtest/npcm7xx_adc-test.c b/tests/qtest/npcm7xx_adc-test.c
+index 5ce8ce13b3..aaf127dd42 100644
+--- a/tests/qtest/npcm7xx_adc-test.c
++++ b/tests/qtest/npcm7xx_adc-test.c
+@@ -50,7 +50,7 @@
+ #define CON_INT     BIT(18)
+ #define CON_EN      BIT(17)
+ #define CON_RST     BIT(16)
+-#define CON_CONV    BIT(14)
++#define CON_CONV    BIT(13)
+ #define CON_DIV(rv) extract32(rv, 1, 8)
  
- static uint64_t npcm7xx_smbus_read(void *opaque, hwaddr offset, unsigned size)
+ #define FST_RDST    BIT(1)
 -- 
 2.33.0.1079.g6e70778dc9-goog
 
