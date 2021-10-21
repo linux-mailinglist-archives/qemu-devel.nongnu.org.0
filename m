@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35278436BC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 22:05:58 +0200 (CEST)
-Received: from localhost ([::1]:37176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE81436BDA
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 22:13:36 +0200 (CEST)
+Received: from localhost ([::1]:51932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdeK5-0000ce-28
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 16:05:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33864)
+	id 1mdeRT-0002NU-0P
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 16:13:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mde3W-0005It-Lb; Thu, 21 Oct 2021 15:48:50 -0400
+ id 1mde3a-0005Ru-1W; Thu, 21 Oct 2021 15:48:54 -0400
 Received: from [201.28.113.2] (port=47716 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mde3U-0001rY-4s; Thu, 21 Oct 2021 15:48:50 -0400
+ id 1mde3X-0001rY-LQ; Thu, 21 Oct 2021 15:48:53 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Thu, 21 Oct 2021 16:46:59 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 95EFD80012A;
- Thu, 21 Oct 2021 16:46:58 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 0F6A980012A;
+ Thu, 21 Oct 2021 16:46:59 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH 12/33] target/ppc: Implement vclzdm/vctzdm instructions
-Date: Thu, 21 Oct 2021 16:45:26 -0300
-Message-Id: <20211021194547.672988-13-matheus.ferst@eldorado.org.br>
+Subject: [PATCH 13/33] target/ppc: Implement vpdepd/vpextd instruction
+Date: Thu, 21 Oct 2021 16:45:27 -0300
+Message-Id: <20211021194547.672988-14-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
 References: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 21 Oct 2021 19:46:59.0144 (UTC)
- FILETIME=[69293480:01D7C6B4]
+X-OriginalArrivalTime: 21 Oct 2021 19:46:59.0534 (UTC)
+ FILETIME=[6964B6E0:01D7C6B4]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -72,28 +72,28 @@ Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
  2 files changed, 38 insertions(+)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 65075f0d03..6ce06b231d 100644
+index 6ce06b231d..4666c06f55 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -334,3 +334,5 @@ DSCRIQ          111111 ..... ..... ...... 001100010 .   @Z22_tap_sh_rc
- ## Vector Bit Manipulation Instruction
- 
+@@ -336,3 +336,5 @@ DSCRIQ          111111 ..... ..... ...... 001100010 .   @Z22_tap_sh_rc
  VCFUGED         000100 ..... ..... ..... 10101001101    @VX
-+VCLZDM          000100 ..... ..... ..... 11110000100    @VX
-+VCTZDM          000100 ..... ..... ..... 11111000100    @VX
+ VCLZDM          000100 ..... ..... ..... 11110000100    @VX
+ VCTZDM          000100 ..... ..... ..... 11111000100    @VX
++VPDEPD          000100 ..... ..... ..... 10111001101    @VX
++VPEXTD          000100 ..... ..... ..... 10110001101    @VX
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index f0f6d561e1..ee9426862c 100644
+index ee9426862c..b240fd5fc6 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1577,6 +1577,42 @@ static bool trans_VCFUGED(DisasContext *ctx, arg_VX *a)
+@@ -1613,6 +1613,42 @@ static bool trans_VCTZDM(DisasContext *ctx, arg_VX *a)
      return true;
  }
  
-+static bool trans_VCLZDM(DisasContext *ctx, arg_VX *a)
++static bool trans_VPDEPD(DisasContext *ctx, arg_VX *a)
 +{
 +    static const TCGOpcode vecop_list[] = { 0 };
 +    static const GVecGen3 g = {
-+        .fni8 = gen_helper_CNTLZDM,
++        .fni8 = gen_helper_PDEPD,
 +        .opt_opc = vecop_list,
 +        .vece = MO_64,
 +    };
@@ -107,11 +107,11 @@ index f0f6d561e1..ee9426862c 100644
 +    return true;
 +}
 +
-+static bool trans_VCTZDM(DisasContext *ctx, arg_VX *a)
++static bool trans_VPEXTD(DisasContext *ctx, arg_VX *a)
 +{
 +    static const TCGOpcode vecop_list[] = { 0 };
 +    static const GVecGen3 g = {
-+        .fni8 = gen_helper_CNTTZDM,
++        .fni8 = gen_helper_PEXTD,
 +        .opt_opc = vecop_list,
 +        .vece = MO_64,
 +    };
