@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D79443628C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 15:13:54 +0200 (CEST)
-Received: from localhost ([::1]:53392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F3943628D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 15:14:01 +0200 (CEST)
+Received: from localhost ([::1]:53612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdXtJ-00077C-58
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 09:13:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39630)
+	id 1mdXtO-0007G0-Vs
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 09:13:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mdXqZ-00056U-LI
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:11:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49229)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mdXr6-0005ue-EB
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:11:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mdXqR-0007kT-6f
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:11:02 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mdXr4-0008Kh-Ey
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:11:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634821852;
+ s=mimecast20190719; t=1634821893;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0FARcLaS6If/MkSwO6cvZpcdybLvnZXR+q00qGN6Utk=;
- b=blK0Ss7gsJ9/cTV6a4bC/D/u1WXYxm/PzdmEjBCT2iWZHGKegnyPEreH0HlKfHxK2jcB0s
- Iynln50BzYOriOPMevslpR0Jcw+E98PHyp4PJ9YbqoWajhLe8h1Tn4pdboqZLvx7i5j8Cf
- 1Zdzqv84IsDEIQg+7ugCFeS2QtR4byU=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-rsUMf8s-MpGr6gmw4bQxhg-1; Thu, 21 Oct 2021 09:10:46 -0400
-X-MC-Unique: rsUMf8s-MpGr6gmw4bQxhg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- e14-20020a056402088e00b003db6ebb9526so219059edy.22
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 06:10:46 -0700 (PDT)
+ bh=CftjE5Nb6DylUlfZ6grrMU5QwF73EESqCQTVwox8PNY=;
+ b=UZTUXotVfkPqVbn7Hv0I4aptAOoZK6TWMzBDbWSYYu0fSJDhLvfJ84imjxOVJKG1hB7JTd
+ b+v/RSVNydZMTtBq/A2+HwvRF+0axjyPli3U0UDEaFzkJQfKWFEsOB6+VJYa70TcDFLu+N
+ mo1JS4XrboQIa+4UZX0ndkvXbel4bI4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-562-jZnrAWfgMX2HUdxjkbUQCg-1; Thu, 21 Oct 2021 09:11:32 -0400
+X-MC-Unique: jZnrAWfgMX2HUdxjkbUQCg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ s1-20020adfc541000000b001645b92c65bso173224wrf.6
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 06:11:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:cc:from:in-reply-to
  :content-transfer-encoding;
- bh=0FARcLaS6If/MkSwO6cvZpcdybLvnZXR+q00qGN6Utk=;
- b=YiwiPXYsCVJ6EjLRlHb/U6/PJD1sTGGhL+eL3mPn9XHCcz+qd53/VYc+XalPG18Sac
- TC8LEK3z5erhgsXNwl9ZOK57VVfwDP3WHRCtQ2ZBeKc0CDtCIrUxe0Zl6y/83zdX9jut
- nVcqGPgxQPUQJLb/MCG8XG6WBspHs6/vtFUjr+33tbATVTMOjOo+fRbVSN1o9da+8c33
- JDAARZDHqlLssjU8/4KHM/WHgdDjZ00Jj9jbGsaWvkxLD/1boluCH8hRM4f/XHb0ln25
- FHkt8HnDZvMj3Erpnf3wPh325v6HuUxUmKEvNxWh1hHNmUAcB6R2faNnHftlytVPnto+
- zhVg==
-X-Gm-Message-State: AOAM532EHR8Jm+E33/W9awK7h5GhtzzGvpRmhN14cu0pWyapxmOg6dS+
- QSkQ/QALmoB/pMrDCLCqaywI0oiKijwi0ejxfgHvpQSwWaL+SqKHYtu0kO05JUWU2y3NX1xN4lH
- W4KsO38PD4xi4aSMkBCzbkhDapr7cl9JScVL3GMYwTGxsSHTB1PB/qZNfQ9etLPI=
-X-Received: by 2002:a17:907:6e07:: with SMTP id
- sd7mr7263485ejc.392.1634821845764; 
- Thu, 21 Oct 2021 06:10:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxsLtmNIZbNSEZUZkB3Gyaj0fQ5xDeZ9lsAZSob82TEgtrvapiAllq0MBieqUvI57DoDUoLfw==
-X-Received: by 2002:a17:907:6e07:: with SMTP id
- sd7mr7263463ejc.392.1634821845497; 
- Thu, 21 Oct 2021 06:10:45 -0700 (PDT)
-Received: from thuth.remote.csb (tmo-097-144.customers.d1-online.com.
- [80.187.97.144])
- by smtp.gmail.com with ESMTPSA id j21sm2727348edr.64.2021.10.21.06.10.43
+ bh=CftjE5Nb6DylUlfZ6grrMU5QwF73EESqCQTVwox8PNY=;
+ b=FXjWu5hgxXb6kadg0aL2MvG0K/BMa0VDKMf0TLssFFwlHhCBgK4v9p2+bTWzIxzUvW
+ WVN3nmse3hq5pCVL080/6azz690Ve16AyRQ6dsW7fBlABvQP0AjyYKT3SA9gAm1cSsuw
+ DqntehtUDNqBX/yiinEyp5a+Ed5uIEVLo2k4qHBbbjgaHSjVEWoqix23XwCQYqtcWLH5
+ ehhy/727OADYGFuuxahURQHeJ1fLQc7sHTRQMbIIgmc2+CKr+SHEyJ5R6FJu4fxUEI2J
+ aUs7fZgyuuJl57i9SX8+aymujLG4aKBEId5rv0CiIA4oqzcK02qnq1a1gxTrbllY1p3P
+ kQDw==
+X-Gm-Message-State: AOAM532qsGZLEgydGgS6HDKqiX6fwrIEaj9GRM4q6nG6rBGfjS694K/B
+ iPggStqc2gkWJQOVGtyqwpe1U8jnEMMJhD9Fq6L67tDUMZXtlIoIrBPTRTukIz5km7L6iGUzjog
+ L1K/fxzCR5JQ9AI4=
+X-Received: by 2002:a5d:58ec:: with SMTP id f12mr7394420wrd.24.1634821890292; 
+ Thu, 21 Oct 2021 06:11:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwbY8oyDO9bYslSvdaTHxCV+Vio4bl+idnNC7eJ7k/vaMQE8RanwlhGIajan/sxQa83NMo8rg==
+X-Received: by 2002:a5d:58ec:: with SMTP id f12mr7394384wrd.24.1634821890046; 
+ Thu, 21 Oct 2021 06:11:30 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id g8sm4856439wrx.26.2021.10.21.06.11.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Oct 2021 06:10:44 -0700 (PDT)
-Subject: Re: Looking for advise on debugging a non-boot kernel on
- qemu-system-sh4
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <4882e4cc-6754-1c8a-a8ae-a2ceeca115fb@physik.fu-berlin.de>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <541c421b-d4a0-be8c-7d5e-ec204c7dba9f@redhat.com>
-Date: Thu, 21 Oct 2021 15:10:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thu, 21 Oct 2021 06:11:29 -0700 (PDT)
+Message-ID: <fad02feb-09f3-4ef8-a2eb-bec76e2ee968@redhat.com>
+Date: Thu, 21 Oct 2021 15:11:28 +0200
 MIME-Version: 1.0
-In-Reply-To: <4882e4cc-6754-1c8a-a8ae-a2ceeca115fb@physik.fu-berlin.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [gdbstub] redirecting qemu console output to a debugger
+To: Sid Manning <sidneym@quicinc.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <BYAPR02MB550976DDDA818CEB090B41C5BEBF9@BYAPR02MB5509.namprd02.prod.outlook.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <BYAPR02MB550976DDDA818CEB090B41C5BEBF9@BYAPR02MB5509.namprd02.prod.outlook.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -56
 X-Spam_score: -5.7
@@ -101,45 +99,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/10/2021 11.49, John Paul Adrian Glaubitz wrote:
-> Hello!
-> 
-> I'm regularly building debian-installer packages for Debian's unofficial ports
-> which includes sh4 among others. The kernel package and therefore the installer
-> package contains a kernel for the SH7751R machine which is emulated by QEMU when
-> choosing the "r2d" type.
-> 
-> Unfortunately, I have not yet been able to boot a current kernel on qemu-system-sh4,
-> the screen remains blank and there are no error messages. Booting an older 2.6 kernel
-> works just fine.
-> 
-> I'm using qemu-system-sh4 as follows:
-> 
-> $ qemu-system-sh4 -M r2d -kernel vmlinuz-2.6.32-5-sh7751r -initrd initrd.gz -hda debian.img \
->    -append "root=/dev/sda1 console=tty0 noiotrap"
-> 
-> The old 2.6 kernel from [1] boots fine while the current 5.14.x kernel from [2] does
-> not produce any output.
-> 
-> Can anyone enlighten me what I might be missing?
+Hi Sid,
 
-I can't say much about very recent kernels, but FWIW, it was still working 
-fine with kernel 4.9 in 2018, see:
+Cc'ing maintainers:
 
-  https://www.qemu-advent-calendar.org/2018/#day-9
+$ ./scripts/get_maintainer.pl -f  chardev/char.c
+"Marc-André Lureau" <marcandre.lureau@redhat.com> (maintainer:chardev)
+Paolo Bonzini <pbonzini@redhat.com> (reviewer:Character device...)
 
-In case it's just the video driver that is not working anymore, try:
+$ ./scripts/get_maintainer.pl -f  gdbstub.c
+"Alex Bennée" <alex.bennee@linaro.org> (maintainer:GDB stub)
+"Philippe Mathieu-Daudé" <philmd@redhat.com> (reviewer:GDB stub)
 
-  -append "console=ttySC1" -serial null -serial stdio
+On 10/21/21 14:37, Sid Manning wrote:
+> Currently when I attach a debugger (lldb) to my qemu session all of the output goes to the shell running qemu not to the debugger.  Fixing this meant that I needed to point the semi-hosting output to the gdb chardev.  I started qemu like this:
+> 
+> -s -S -semihosting-config target=auto,chardev=ch0 -chardev gdb,id=ch0
+> 
+> But this failed with the error:
+> -chardev gdb,id=ch0: 'gdb' is not a valid char driver name
+> 
+> In order to fix this I needed to change the stub's chardev from internal to external:
+> 
+> @@ -3446,7 +3446,7 @@ static void char_gdb_class_init(ObjectClass *oc, void *data)
+>  {
+>      ChardevClass *cc = CHARDEV_CLASS(oc);
+>  
+> -    cc->internal = true;
+> +    cc->internal = false;
+>      cc->open = gdb_monitor_open;
+>      cc->chr_write = gdb_monitor_write;
+>  }
+> 
+> Afterward console output was routed to the debugger.  This is the only chardev device I found that is marked as internal so I suspect this is the wrong thing to do.  What is the proper way to redirect output from qemu to the debugger?
 
-... that should hopefully redirect the kernel output to the serial console 
-on stdio of the host terminal (at least it does so with the advent calendar 
-image that I mentioned above).
+commit 777357d758d937c9dd83082c39aff9f1e53e9ba3
+Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+Date:   Wed Dec 7 18:39:10 2016 +0300
 
-  HTH,
-   Thomas
+    chardev: qom-ify
+
+    Turn Chardev into Object.
+
+    qemu_chr_alloc() is replaced by the qemu_chardev_new() constructor.
+    It will call qemu_char_open() to open/intialize the chardev with the
+    ChardevCommon *backend settings.
+
+    The CharDriver::create() callback is turned into a
+    ChardevClass::open() which is called from the newly introduced
+    qemu_chardev_open().
+
+    "chardev-gdb" and "chardev-hci" are internal chardev and aren't
+    creatable directly with -chardev. Use a new internal flag to disable
+    them. We may want to use TYPE_USER_CREATABLE interface instead, or
+    perhaps allow -chardev usage.
+
+    Although in general we keep typename and macros private, unless
+    the type is being used by some other file, in this patch, all types
+    and common helper macros for qemu-char.c are in char.h. This is to
+    help transition now (some types must be declared early, while some
+    aren't shared) and when splitting in several units. This is to be
+    improved later.
+
+    Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+    Reviewed-by: Eric Blake <eblake@redhat.com>
+    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+I'm not sure why "chardev-gdb" is internal, maybe because it uses
+static state as singleton, so can't be TYPE_USER_CREATABLE?
+
+  static GDBState gdbserver_state;
+
+But TYPE_DBUS_VMSTATE is TYPE_USER_CREATABLE and have:
+
+static void
+dbus_vmstate_complete(UserCreatable *uc, Error **errp)
+{
+    DBusVMState *self = DBUS_VMSTATE(uc);
+    g_autoptr(GError) err = NULL;
+
+    if (!object_resolve_path_type("", TYPE_DBUS_VMSTATE, NULL)) {
+        error_setg(errp, "There is already an instance of %s",
+                   TYPE_DBUS_VMSTATE);
+        return;
+    }
+    ...
+
+So it should be possible to have TYPE_CHARDEV_GDB implement
+TYPE_USER_CREATABLE and check for singleton the same way,
+then remove the ChardevClass::internal field IMO...
+
+But let see what the maintainers prefer :)
+
+Regards,
+
+Phil.
 
 
