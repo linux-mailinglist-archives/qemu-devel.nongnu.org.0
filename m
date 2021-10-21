@@ -2,68 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23DFF436D34
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 00:01:44 +0200 (CEST)
-Received: from localhost ([::1]:42656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B811D436D36
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 00:04:58 +0200 (CEST)
+Received: from localhost ([::1]:51162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdg87-0001pt-5V
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 18:01:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57332)
+	id 1mdgBF-0000cD-5y
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 18:04:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mdg52-0006OK-FR; Thu, 21 Oct 2021 17:58:32 -0400
-Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:37604)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mdg50-0000zP-05; Thu, 21 Oct 2021 17:58:32 -0400
-Received: by mail-il1-x12a.google.com with SMTP id x1so2247228ilv.4;
- Thu, 21 Oct 2021 14:58:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qdbPopKIAz+jDz9hpuMA5PN50exzbWt0Pzu7/RTIP9E=;
- b=lzU2fEJig0YITXA+ILwi8uL5szUkS/JPe4znBHM09rzrgjbAJosYEs1ztWFg/OQ9Gw
- furIAeakOIGk3NhcDmeL2xP3m8PvHWgxRE1SDvMUxrXRwQtIraIYFzv7IAFX2MQUCQ5R
- 5Dtt+3TgEcBP7muLrNqXRpKTxAglma9+o4ia9Aq3Xonw3+PPjrG32g1fWBWgFzfpmgDC
- Xd+65R8S+LP3MElIEwFsHBEOIFwVSE5BzHyBY9QTbrkaqIIQLZhnL9sishLDD5OhQ7DF
- hiznZDwYwbbj+n0l6XLebcNFWtcpgi7VmqAOrEVy1avyg8r2qD0Rk2XQpL+KXwoOEvhx
- 66/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qdbPopKIAz+jDz9hpuMA5PN50exzbWt0Pzu7/RTIP9E=;
- b=e2bzCAePL7mlL0miRdMqV+IzOmHFSxQNdfKoRX8o7kyaXLz/qpLAtGgGZ/IbhJnLZl
- dp04/VNSLkKAEfkvaphbSp1oisiOFaMZ1Ws2DsEifbHoxSJoi9xVsUwms+EMFPl1Psp3
- E9JitPpc3JFR39T2tI8O5fM4Y/wEfHRxqLrvO4adNMRoHo40z+JMEizoSvCGOt+ETsWS
- avmryG5J/vyWU4feEhe8mueNiVF7ByCV+xNpkXuzAWd8Z9xchOsFdysVEeiC13DJ6/ok
- Tnbdpev4RQjjUiadsHhkDMSwcp2JSGYNbpFXcutAFieBNQrE8FAcBBM8Js1zXxK7mCuF
- UqkQ==
-X-Gm-Message-State: AOAM5311Cp2NIFOO5b7tDFcnjmJz75Gt8ce3RUH5SAcQNQX2TrtJLZrB
- i17/EMuPlIgb24R/Oo4g2bM+3Y0h5RYgq80L5Q8=
-X-Google-Smtp-Source: ABdhPJwHkXmOlhm3Cvqs6MnMjUsiKr6Y8CrQH/jnQIrxv+dunJoCLrarXw7HDof3MG823wXYtAXFFdDHl5gNSbA4/TE=
-X-Received: by 2002:a05:6e02:214a:: with SMTP id
- d10mr5473274ilv.290.1634853507815; 
- Thu, 21 Oct 2021 14:58:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcus.haehnel@kernkonzept.com>)
+ id 1mdg2p-00035n-R8
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 17:56:17 -0400
+Received: from serv1.kernkonzept.com ([2a01:4f8:1c1c:b490::2]:42535
+ helo=mx.kernkonzept.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcus.haehnel@kernkonzept.com>)
+ id 1mdg2i-00007L-7c
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 17:56:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=kernkonzept.com; s=mx1; h=Content-Type:MIME-Version:References:In-Reply-To:
+ Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=t5+c+a0iWDYNRkstPg5GSlNTxpQXFQIomvyLc0eaFus=; b=n8mdquADteXtroa2S9pJdxAK4T
+ VnixBbXrvGhA4oKo3mhx6SE/s9Na1pTuvELyMC8C3Hts5iGCtbGDqKCSric0Aj31pEs8qDnr0djD+
+ EXO0uZFH//M4Nxal1I7pI5Xh6K5mbo/E8Bq1p69rT176RrotgHjWJsne0ggYIGACuFADBsNw1eIJT
+ erwruyJ6ICsBhBem8NTOrYF4K7yAKCF1Jf7weGwAMs0m1srbL/ylSMfWZNNz8ZeBAfJcrVUTQ3wdo
+ 4ES4/qd628O3L4PQ3/3XIDesBBqKDT1R0GwATsNjikULRrLr/+z+BNiPxge/Yj5HLo0xB5cdtM3Wo
+ xRoOuZBA==;
+Received: from i5e8604c4.versanet.de ([94.134.4.196] helo=amethyst.localnet)
+ by mx.kernkonzept.com with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim 4.94.2)
+ id 1mdg2b-00FjAu-Nc; Thu, 21 Oct 2021 23:56:02 +0200
+From: Marcus =?ISO-8859-1?Q?H=E4hnel?= <marcus.haehnel@kernkonzept.com>
+To: Adam Lackorzynski <adam@l4re.org>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] multiboot: Use DMA instead port-based transfer
+Date: Thu, 21 Oct 2021 23:55:41 +0200
+Message-ID: <2800151.e9J7NaK4W3@amethyst>
+In-Reply-To: <da674bf3-fc7f-28c8-7c45-f98754ecb5d1@redhat.com>
+References: <YWM6jboU9fUib6Iy@os.inf.tu-dresden.de>
+ <da674bf3-fc7f-28c8-7c45-f98754ecb5d1@redhat.com>
 MIME-Version: 1.0
-References: <20211020014112.7336-1-bmeng.cn@gmail.com>
-In-Reply-To: <20211020014112.7336-1-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 22 Oct 2021 07:58:01 +1000
-Message-ID: <CAKmqyKMV1SkvyCzi0Lu2UxfO7kJeyG=LY3VvtawpUsEA8YQGjQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] hw/riscv: Use MachineState::ram and
- MachineClass::default_ram_id in all machines
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; boundary="nextPart3137432.aeNJFYEL58";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+Received-SPF: pass client-ip=2a01:4f8:1c1c:b490::2;
+ envelope-from=marcus.haehnel@kernkonzept.com; helo=mx.kernkonzept.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,63 +67,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 20, 2021 at 11:41 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> As of today, all RISC-V machines (except virt) are still using memory_region_init_ram()
-> to initilize the sysytem RAM, which can't possibly handle vhost-user, and can't
-> work as expected with '-numa node,memdev' options.
->
-> Change to use MachineState::ram instead of manually initializing RAM memory
-> region, as well as by providing MachineClass::default_ram_id to opt in to
-> memdev scheme.
->
-> Changes in v2:
-> - split RAM into low and high regions using aliases to machine->ram
-> - rename mc->default_ram_id to "microchip.icicle.kit.ram"
-> - opentitan: add RAM size check
-> - opentitan: assign mc->default_ram_size
-> - sifive_e: add RAM size check
-> - sifive_e: assign mc->default_ram_size
->
-> Bin Meng (6):
->   hw/riscv: microchip_pfsoc: Use MachineState::ram and
->     MachineClass::default_ram_id
->   hw/riscv: opentitan: Use MachineState::ram and
->     MachineClass::default_ram_id
->   hw/riscv: shakti_c: Use MachineState::ram and
->     MachineClass::default_ram_id
->   hw/riscv: sifive_e: Use MachineState::ram and
->     MachineClass::default_ram_id
->   hw/riscv: sifive_u: Use MachineState::ram and
->     MachineClass::default_ram_id
->   hw/riscv: spike: Use MachineState::ram and
->     MachineClass::default_ram_id
+--nextPart3137432.aeNJFYEL58
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
+From: Marcus =?ISO-8859-1?Q?H=E4hnel?= <marcus.haehnel@kernkonzept.com>
+To: Adam Lackorzynski <adam@l4re.org>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] multiboot: Use DMA instead port-based transfer
+Date: Thu, 21 Oct 2021 23:55:41 +0200
+Message-ID: <2800151.e9J7NaK4W3@amethyst>
+In-Reply-To: <da674bf3-fc7f-28c8-7c45-f98754ecb5d1@redhat.com>
+References: <YWM6jboU9fUib6Iy@os.inf.tu-dresden.de> <da674bf3-fc7f-28c8-7c45-f98754ecb5d1@redhat.com>
 
-Thanks!
+On Tuesday, October 19, 2021 6:45:44 PM CEST Paolo Bonzini wrote:
+> On my system (a relatively recent laptop) I get 15-20 MiB per second,=20
+> which is slow but not as slow as what you got.  Out of curiosity, can=20
+> you test what you get with the following kernel patch?
+>=20
+> diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
+> index 798508e8b6f5..5853ae93bcb2 100644
+> --- a/arch/x86/kvm/kvm_emulate.h
+> +++ b/arch/x86/kvm/kvm_emulate.h
+> @@ -272,7 +272,7 @@ struct fetch_cache {
+>   };
+>=20
+>   struct read_cache {
+> -	u8 data[1024];
+> +	u8 data[4096];
+>   	unsigned long pos;
+>   	unsigned long end;
+>   };
 
-Applied to riscv-to-apply.next
+Hi Paolo,
 
-Alistair
+Thank you very much for the cleaned up and improved patch in the other
+thread, which solves our issue perfectly! Your work is much appreciated.
 
->
->  hw/riscv/microchip_pfsoc.c | 36 ++++++++++++++++++++----------------
->  hw/riscv/opentitan.c       | 16 ++++++++++++----
->  hw/riscv/shakti_c.c        |  6 ++----
->  hw/riscv/sifive_e.c        | 16 ++++++++++++----
->  hw/riscv/sifive_u.c        |  6 ++----
->  hw/riscv/spike.c           |  6 ++----
->  6 files changed, 50 insertions(+), 36 deletions(-)
->
-> --
-> 2.25.1
->
->
+Regarding your question above I made some quick benchmark runs. Using a
+195kB kernel image and measuring from QEmu start until the first complete
+line is sent over the serial output I get the following timings, all=20
+numbers in seconds:
+
+ kvm?  | DMA Multiboot | Old Multiboot |
+=2D------|---------------|---------------|
+no-kvm |  0.209 =B1 0.01 | 15.283 =B1 0.19 |
+kvm    |  0.207 =B1 0.01 | 20.771 =B1 0.26 |
+kvm-4k |  0.208 =B1 0.01 | 19.878 =B1 0.22 |
+
+The tests were run 10 times using perf stat -r10. The table shows the
+averages and standard deviation. While perf does have some overhead
+the general issue is independent of that.
+
+Changing the read cache to 4k has a negligible impact compared to running
+without kvm. The numbers for DMA are roughly two orders of magnitude better
+in all cases.
+
+Hardware: Lenovo T480, Intel(R) Core(TM) i7-8550U CPU @ 1.80GHz
+Software: Gentoo, Custom Linux 5.14.9 kernel
+          QEmu master with your DMA multiboot patches applied, v6.1.0-1564-=
+g1a510366d8-dirty
+          configured without any options, only the x86_64 softmmu as target
+Commandline: qemu-system-x86_64 -enable-kvm -kernel /path/to/kernel -serial=
+ stdio -nographic -monitor none -m 512
+
+General ballpark of results was confirmed on a different T480 with
+another OS and QEmu version and on a server system. As you can see we get
+not MiB/s when booting through multiboot without DMA but KiB/s.
+
+
+=2D Marcus
+
+--nextPart3137432.aeNJFYEL58
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEgT4APPdHbf52NFOF/DQnC9omn0QFAmFx4d0ACgkQ/DQnC9om
+n0S2VAgAlsMtPx6XS4LggjfyVRzkZBwSjJYqJy7LRcTyQOHPHuHDSoWC8KXW4FK5
+BOsz4nmHZ9HENwUeczJDjtWs9x9SIsUrvw+XBJOPz6JC0ZkPyN5+YjZFs4SQ1iKY
+w67t/txUsc3Bmk+s7/bRqJCBdTdO4nnaSBX0t+qi6NF0Oi0vt/LumgNbq06CQ7Sb
+5SfxX2AwjsEqf99QMlDILMF22+vj7Zr/gZWPDANeoTn0SWWNzv30eHpHY2jHHH+l
+NU1xGteOmy6/83/bDCCAngerqu4geyvUI5PTbCWK1doJPpwm7YFG/RNc/T7alqvi
+hDFRznYKo6NCCO1q7AZedmJRM/zTdA==
+=y75+
+-----END PGP SIGNATURE-----
+
+--nextPart3137432.aeNJFYEL58--
+
+
+
 
