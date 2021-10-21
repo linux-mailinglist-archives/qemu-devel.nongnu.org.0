@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8702435FE1
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 13:04:04 +0200 (CEST)
-Received: from localhost ([::1]:46066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01CF9435FEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 13:04:38 +0200 (CEST)
+Received: from localhost ([::1]:47402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdVrf-0002kJ-Dd
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 07:04:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40142)
+	id 1mdVsD-0003eY-21
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 07:04:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mdVlL-0005aj-Hc
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:57:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46257)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mdVoC-0001OU-Kr
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 07:00:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29406)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mdVlK-0007Eb-2j
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 06:57:31 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mdVoA-0001K6-62
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 07:00:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634813849;
+ s=mimecast20190719; t=1634814025;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iNxOXJLsUKlxh8+qNKGEfolq+ouzSLzUgmXC1c5JVOs=;
- b=RFHm9X3/XsAbY9sSQt6ByB+59/vN+pMEr25bvXfJKlOUDN0Jxr9nxgOfu/XZ9HqTSRALJI
- q823QPfmIFeaXXYy+MwolYNXkaGAD2fcpZS7kWpa0YU7qtfOP4bifxSk1RMYnAvVitIceg
- OOfan1sJEBCsPNCOIWrkWhD75SuQUoo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-gOngyYoBPG28xzvCDq3NXQ-1; Thu, 21 Oct 2021 06:57:28 -0400
-X-MC-Unique: gOngyYoBPG28xzvCDq3NXQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m1-20020a1ca301000000b003231d5b3c4cso785672wme.5
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 03:57:28 -0700 (PDT)
+ bh=mQxuZ+qru9uwAMqCGWwthd2ckwQfVKKkCEP2GWRT1J0=;
+ b=LBAW4D3lU1mvT4+IH4QHma0MuZ4OEHrKrDFoxVqlVj17J6GoapRlh8QvyHsrhIEAuo5wnq
+ /xs+y3Wea9J8ft5vgOdfnY/FhZAGqIKSal+4+Gh1U8T1qpMBerh6vwQMHWSY9jqLeSqmRO
+ 8hMxMlJWJt83yBQIeky6gmfJb8JQVbY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-561-IxSCBlo0PE-O1BPzlBZ7bQ-1; Thu, 21 Oct 2021 07:00:22 -0400
+X-MC-Unique: IxSCBlo0PE-O1BPzlBZ7bQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ a15-20020a056000188f00b00161068d8461so62424wri.11
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 04:00:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:organization:in-reply-to
  :content-transfer-encoding;
- bh=iNxOXJLsUKlxh8+qNKGEfolq+ouzSLzUgmXC1c5JVOs=;
- b=K1wnyqr4hE11Jf3MSNRgv3Bxeifj4G007jyvllsgY4qzdvxb35KmwhEPgMHBkB+gXN
- OaICtPqE0RqQTceNjGOfJ2XX94CAWyIslA4WM5KT/9xgRA3V8dkatZqAor0d2oxjAme5
- 8eJFPJY479NE0R99eBlOqBC47c3iFhcL7YIrI2z72Eq3fAnksd/WflCKRjDW8auQJeVW
- bvKXlGrp4p/Pfju0PwemIKTMPlFZ1S3lZ5H+1zkwjlrJW1ZIdXI4m2TpmbF3skGp5jfz
- vb3IXoKDR6bzoyK9zMn54XJ/0UKGlCc1SfTV7MbXRHqb+mIYIb63EIrwG5PDrQ2ROGOG
- l2rg==
-X-Gm-Message-State: AOAM531am+ardSncLDf7PONoewlhvgNOxoE4YsaPaXo3eWSbd2wJK9O4
- +raA4JU9S1Om04JdC9+JY/AMpvZnYRuOpYkZPjw2lIUkBUdMkXazB8PGuPm9XsGEVDLao9fArvB
- a0Vfr1fpGYKyLJKk=
-X-Received: by 2002:adf:ff91:: with SMTP id j17mr6066987wrr.132.1634813847407; 
- Thu, 21 Oct 2021 03:57:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz4XlXcCvL9bFkCRb+aKOPpT8Ogt8iJDqbNmw1txadh+T+lFxySkcuYVqlsnhBPl5jnZK6IzA==
-X-Received: by 2002:adf:ff91:: with SMTP id j17mr6066955wrr.132.1634813847226; 
- Thu, 21 Oct 2021 03:57:27 -0700 (PDT)
+ bh=mQxuZ+qru9uwAMqCGWwthd2ckwQfVKKkCEP2GWRT1J0=;
+ b=5ykHpfU0aDkH4eRqWzVrS3+lOacP0wkvY4mnzjCRls3UxzfnWZEPBjsNdk5Zd/dXGl
+ cbg1mIvF4yNRFSNyI9PrQ5DfB9UmcxsNOkGznxUswepjUzqrZppHQT/Sqwnriem2Z098
+ jvmBb7WANnDmL93X3azgnnqKAoZZUIHMKaJnWDO1TVjmcXL286xqDYLmDILHGjSpbPri
+ gc7qEWvZFlmyqVbEMbywsBAb1VqBTH4E9EP+0LkdYHc7QlqnxQ7U2OoW4QRSbDkVAd6z
+ UHXybPlZC6WixHz1hokv7AGLxcXcE/csu8Vd6vsGm73YZpGnXdexmReMmKqANEoY1djd
+ xJSw==
+X-Gm-Message-State: AOAM533npOTXKZhX95FjugK0WoE7Go6zSzrvKQWDPiJmMELCwlqZgt0/
+ u62n/4Y/6ha/cIYX7wCFbujMyu8S/W0MZ4WGo3tYkaW+XnCwLqtLXcl14Crokz94sZep/73IzEn
+ 53az7r6Y2dF8eOdA=
+X-Received: by 2002:adf:9bc4:: with SMTP id e4mr6387273wrc.257.1634814020911; 
+ Thu, 21 Oct 2021 04:00:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxg+aKSPc534+aaHjvP7OSwUD1Op+sA6nX6+r3M76J2GMasvX1XMpHThcZN6YL89ay2EcJ9JQ==
+X-Received: by 2002:adf:9bc4:: with SMTP id e4mr6387236wrc.257.1634814020708; 
+ Thu, 21 Oct 2021 04:00:20 -0700 (PDT)
 Received: from [192.168.3.132] (p4ff23aba.dip0.t-ipconnect.de. [79.242.58.186])
- by smtp.gmail.com with ESMTPSA id j1sm5174477wrd.28.2021.10.21.03.57.25
+ by smtp.gmail.com with ESMTPSA id t21sm4380631wmi.19.2021.10.21.04.00.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Oct 2021 03:57:26 -0700 (PDT)
-Message-ID: <856f5d4d-6964-dd3c-7a51-7edd8660a125@redhat.com>
-Date: Thu, 21 Oct 2021 12:57:24 +0200
+ Thu, 21 Oct 2021 04:00:20 -0700 (PDT)
+Message-ID: <e4da17e2-8244-a6a8-54de-be21b21d9040@redhat.com>
+Date: Thu, 21 Oct 2021 13:00:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 4/8] pci: Define pci_bus_fn/pci_bus_ret_fn type
+Subject: Re: [PATCH 5/8] pci: Add pci_for_each_root_bus()
 To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
 References: <20211021104259.57754-1-peterx@redhat.com>
- <20211021104259.57754-5-peterx@redhat.com>
+ <20211021104259.57754-6-peterx@redhat.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20211021104259.57754-5-peterx@redhat.com>
+In-Reply-To: <20211021104259.57754-6-peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -110,18 +110,77 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 21.10.21 12:42, Peter Xu wrote:
-> The pci_bus_fn is similar to pci_bus_dev_fn that only takes a PCIBus* and an
-> opaque.  The pci_bus_ret_fn is similar to pci_bus_fn but it allows to return a
-> void* pointer.
-> 
-> Use them where proper in pci.[ch], and to be used elsewhere.
+> Add a helper to loop over each root bus of the system, either the default root
+> bus or extended buses like pxb-pcie.
 > 
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
+>  hw/pci/pci.c         | 26 ++++++++++++++++++++++++++
+>  include/hw/pci/pci.h |  2 ++
+>  2 files changed, 28 insertions(+)
+> 
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 4a84e478ce..1623bc9099 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -2097,6 +2097,32 @@ void pci_for_each_bus_depth_first(PCIBus *bus, pci_bus_ret_fn begin,
+>      }
+>  }
+>  
+> +typedef struct {
+> +    pci_bus_fn fn;
+> +    void *opaque;
+> +} pci_root_bus_args;
+> +
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+PCIRootBusArgs ?
 
-But should we just have squashed that into patch #1?
+Or maybe
+
+PCIForEachRootBusInfo
+
+... but it gets lengthy .. ;)
+
+> +static int pci_find_root_bus(Object *obj, void *opaque)
+> +{
+> +    pci_root_bus_args *args = opaque;
+> +
+> +    if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {
+> +        PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
+> +
+> +        if (bus) {
+> +            args->fn(bus, args->opaque);
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +void pci_for_each_root_bus(pci_bus_fn fn, void *opaque)
+> +{
+> +    pci_root_bus_args args = { .fn = fn, .opaque = opaque };
+> +
+> +    object_child_foreach_recursive(object_get_root(), pci_find_root_bus, &args);
+> +}
+>  
+>  PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn)
+>  {
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index a7e81f04d3..9e490d8969 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -474,6 +474,8 @@ void pci_for_each_device_under_bus_reverse(PCIBus *bus,
+>                                             void *opaque);
+>  void pci_for_each_bus_depth_first(PCIBus *bus, pci_bus_ret_fn begin,
+>                                    pci_bus_fn end, void *parent_state);
+> +/* Call `fn' for each pci root bus on the system */
+> +void pci_for_each_root_bus(pci_bus_fn fn, void *opaque);
+>  PCIDevice *pci_get_function_0(PCIDevice *pci_dev);
+>  
+>  /* Use this wrapper when specific scan order is not required. */
+> 
+
+Apart from that LGTM, but not a PCI expert.
 
 -- 
 Thanks,
