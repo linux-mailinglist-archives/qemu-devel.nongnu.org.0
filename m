@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B53436AC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 20:43:48 +0200 (CEST)
-Received: from localhost ([::1]:55364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B265436ADE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 20:47:00 +0200 (CEST)
+Received: from localhost ([::1]:33592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdd2Y-0008GA-JK
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 14:43:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49198)
+	id 1mdd5f-0004Ma-GP
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 14:46:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3ErRxYQgKClMHF2v9ED219916z.x97Bz7F-yzGz689818F.9C1@flex--wuhaotsh.bounces.google.com>)
- id 1mdczH-0005D8-1f
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 14:40:24 -0400
-Received: from mail-pg1-x549.google.com ([2607:f8b0:4864:20::549]:39672)
+ <3E7RxYQgKClQIG3wAFE32AA270.yA8C08G-z0H079A929G.AD2@flex--wuhaotsh.bounces.google.com>)
+ id 1mdczJ-0005DD-6Z
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 14:40:27 -0400
+Received: from mail-pj1-x1049.google.com ([2607:f8b0:4864:20::1049]:36834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3ErRxYQgKClMHF2v9ED219916z.x97Bz7F-yzGz689818F.9C1@flex--wuhaotsh.bounces.google.com>)
- id 1mdczF-0002uF-0J
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 14:40:22 -0400
-Received: by mail-pg1-x549.google.com with SMTP id
- d6-20020a63d646000000b00268d368ead8so589338pgj.6
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 11:40:19 -0700 (PDT)
+ <3E7RxYQgKClQIG3wAFE32AA270.yA8C08G-z0H079A929G.AD2@flex--wuhaotsh.bounces.google.com>)
+ id 1mdczG-00033H-9V
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 14:40:24 -0400
+Received: by mail-pj1-x1049.google.com with SMTP id
+ ms23-20020a17090b235700b001a0d49be015so370135pjb.1
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 11:40:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=XySEhkJlNcR3diZ58Nj8hN3phEiW/3CrFyOD9IYp7uY=;
- b=VlGzyzoY41XkXXDtt2c3YpLs6i/YCAgqjrjnoa2yePRrO3/ft+yqxIgTejMqCSch1c
- En47UgEwSJlhBld1TAGcD43AnWXyU6TPClwzwUYyZHE1+kHDcroqwkLq3CQIbsr5zYNE
- 13wISK7B72jLpZM6WJf/yzWK0q6054b34KSJpnm9n0ucuBFzdKeM7l1A4mXkeC1DmvCV
- 04FCq884+fg6hUixDrBgblG3J26XOViml0myqVFMAOVgJtNuYupzCsFKAZlG6uTQKbhj
- 1Sdz1cypV5tcqYuUA9U41XBss2t3n8BTeOW5CTmXq7pkmZUhl7+gG0UtrWIdrDxrWbvn
- EbOQ==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=prjL0IYXvRm4Htgay889/PxyOqJwqIRrZSdP/e3VblQ=;
+ b=kUTCCJhU11q6/B+hRu+hcJZwYHti5BdJ8ONsVBMWaQfNdwIViTsd42LfdIrVrcEZF8
+ xH0e9d13Jky0/9n2AUtDOuP3JtDQAs37j+JwkLDAEC12kZpX0hTwApC4kaTumWlvV0vk
+ HsvNSctctIQmBseKJb89/iXiQ7nbW6D4mslyc+GtPGMFY3ijTip/hVEyP1Whmyt7iGH0
+ fRBXTXNEVU2M1FkMkLLgiD8QeBnB7PRc+xygVspRBH1SO6wnHJ+lOH2nj/ODI5sQX4cf
+ Qk+llLVRxiThjeFpoPcM5CSiMTC13WqdMWfbm4//FGHLn7a1YeZGL6HobROEKWFRHM4v
+ Jpag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=XySEhkJlNcR3diZ58Nj8hN3phEiW/3CrFyOD9IYp7uY=;
- b=mChQcAXyhbqptPH+bix+BE+JfrASwgBOpqkswHFVJSZOCOW1rSCl7olAoWnkSiHKgw
- HkFjTVDrvfLjnzQXVgj2sFiC8mg+h9W4hkuttvOQ/Ug6D8vxxfDS6Aq2jwZj500LIJGb
- uJ2AKUIZCcBxvmj9vGWf26ZhHOnIV0vePD6Uu6ahHcfWDKlUbT86H/6oE1NhA5d8apSR
- QV+zpabVU5HdEa/frii2F612vfYH8+AYyo5ngrDUJbnXdxWLmY5NBqRMpW/xyHBRljDh
- twRJBiM7htEkzRQQzW3hS593VLlTu31asMEHyj3j5goCbeNZijVu2KGCOG2HaErHoJ6a
- Javg==
-X-Gm-Message-State: AOAM5327xcT+SZNChpJa5wiyOssTtiXAGUvB+7xxG+bt35/NjRiYaX+9
- JC/A4OkI3kktV/V5pUELM+OZcpC4HdOgcw==
-X-Google-Smtp-Source: ABdhPJxwA2GmP3TbEDQ4298QkhGZR0NwmLoAa2M74AEDCxUBYCGml1X2wI16Oi9amSaYTPpF4C9HnGws1dKUQw==
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=prjL0IYXvRm4Htgay889/PxyOqJwqIRrZSdP/e3VblQ=;
+ b=nPCp/BnNcPHYqGVYaTEb//LzeAfDYBWO33/4f50lVKWLYVSjxm3eBV4iDEtEwsPuef
+ EEDQHIg/cXRAZc6erTq6EF2vXx9cnuqYEfAKz1HBO4QdpH3pOJGzcCcvHW8RCRKxaUgC
+ U/uZrdjGwCPriMqAwbzGru+gUGbHJ9Hr0LpAhzEWAMKvC9y91eDFI1luzHam92GlMI43
+ jISAXjEdeVXfJbT5+cX2e4E8ACWLFWle777q0X/Zo+wqirgGntTqU7Ub23U7NoRUTTYs
+ djiBX0WZjkCiCGpX8+vPs9EHINN1VlxO42y29z3Jb+iHXgCQwL98Eto4nDnOCoAVREpq
+ uzlw==
+X-Gm-Message-State: AOAM530GYWRUp4EWxn723t06c6m0M+5ERlHPpQC1d4XEOtATR2WOhvR0
+ iu5UHrWWLsbxy6ZgtP0AGxx+EOhHns+wIw==
+X-Google-Smtp-Source: ABdhPJxDO9cacwYoy0zo5m+K7kj1mCOfwHkLO65nEfXdAm7UYu1wU4rIj8QnIrK/8B885sFRGwPNzVyaitRN6Q==
 X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a05:6a00:1354:b0:44c:eb65:8570 with SMTP
- id k20-20020a056a00135400b0044ceb658570mr7562672pfu.34.1634841618298; Thu, 21
- Oct 2021 11:40:18 -0700 (PDT)
-Date: Thu, 21 Oct 2021 11:39:49 -0700
-Message-Id: <20211021183956.920822-1-wuhaotsh@google.com>
+ (user=wuhaotsh job=sendgmr) by 2002:a17:90b:4f4c:: with SMTP id
+ pj12mr3919834pjb.239.1634841619752; Thu, 21 Oct 2021 11:40:19 -0700 (PDT)
+Date: Thu, 21 Oct 2021 11:39:50 -0700
+In-Reply-To: <20211021183956.920822-1-wuhaotsh@google.com>
+Message-Id: <20211021183956.920822-2-wuhaotsh@google.com>
 Mime-Version: 1.0
+References: <20211021183956.920822-1-wuhaotsh@google.com>
 X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
-Subject: [PATCH v2 0/7] Misc NPCM7XX patches
+Subject: [PATCH v2 1/7] hw/i2c: Clear ACK bit in NPCM7xx SMBus module
 From: Hao Wu <wuhaotsh@google.com>
 To: peter.maydell@linaro.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com, 
  venture@google.com, Avi.Fishman@nuvoton.com, kfting@nuvoton.com, 
- hskinnemoen@google.com
+ hskinnemoen@google.com, Titus Rwantare <titusr@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::549;
- envelope-from=3ErRxYQgKClMHF2v9ED219916z.x97Bz7F-yzGz689818F.9C1@flex--wuhaotsh.bounces.google.com;
- helo=mail-pg1-x549.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1049;
+ envelope-from=3E7RxYQgKClQIG3wAFE32AA270.yA8C08G-z0H079A929G.AD2@flex--wuhaotsh.bounces.google.com;
+ helo=mail-pj1-x1049.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -86,52 +88,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch set contains a few bug fixes and I2C devices for some
-NPCM7XX boards.
+The ACK bit in NPCM7XX SMBus module should be cleared each time it
+sends out a NACK signal. This patch fixes the bug that it fails to
+do so.
 
-Patch 1~2 fix a problem that causes the SMBus module to behave
-incorrectly when it's in FIFO mode and trying to receive more than
-16 bytes at a time.
+Signed-off-by: Hao Wu <wuhaotsh@google.com>
+Reviewed-by: Titus Rwantare <titusr@google.com>
+---
+ hw/i2c/npcm7xx_smbus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Patch 3 fixes a error in a register for ADC module.
-
-Patch 4 makes the ADC input to be R/W instead of write only. It allows
-a test system to read these via QMP and has no negative effect.
-
-Patch 5 modifies at24c_eeprom_init in NPCM7xx boards so that it can fit
-more use cases.
-
-Patch 6 uses the function defined in patch 5 to add the EEPROM and other
-I2C devices for Quanta GBS board.
-
-Patch 7 adds an ID for SMBus devices in NPCM7xx boards. This allows us to
-add device to these buses using "-device" parameter.
-
--- Changes since v1:
-1. Rewrote patch 5 to implement the function in NPCM7xx board file instead
-   of the EEPROM device file.
-2. Slightly modify patch 6 to adapt to the changes and QEMU comment style.
-3. Squash patch 7 into patch 5 to make it compile.
-4. Add a new patch 7.
-
-Hao Wu (6):
-  hw/i2c: Clear ACK bit in NPCM7xx SMBus module
-  hw/i2c: Read FIFO during RXF_CTL change in NPCM7XX SMBus
-  hw/adc: Fix CONV bit in NPCM7XX ADC CON register
-  hw/adc: Make adci[*] R/W in NPCM7XX ADC
-  hw/nvram: Update at24c EEPROM init function in NPCM7xx boards
-  hw/arm: Add ID for NPCM7XX SMBus
-
-Patrick Venture (1):
-  hw/arm: quanta-gbs-bmc add i2c devices
-
- hw/adc/npcm7xx_adc.c           |  4 +-
- hw/arm/npcm7xx.c               |  1 +
- hw/arm/npcm7xx_boards.c        | 97 +++++++++++++++++++++-------------
- hw/i2c/npcm7xx_smbus.c         |  8 +--
- tests/qtest/npcm7xx_adc-test.c |  2 +-
- 5 files changed, 67 insertions(+), 45 deletions(-)
-
+diff --git a/hw/i2c/npcm7xx_smbus.c b/hw/i2c/npcm7xx_smbus.c
+index e7e0ba66fe..f18e311556 100644
+--- a/hw/i2c/npcm7xx_smbus.c
++++ b/hw/i2c/npcm7xx_smbus.c
+@@ -270,7 +270,7 @@ static void npcm7xx_smbus_recv_byte(NPCM7xxSMBusState *s)
+     if (s->st & NPCM7XX_SMBCTL1_ACK) {
+         trace_npcm7xx_smbus_nack(DEVICE(s)->canonical_path);
+         i2c_nack(s->bus);
+-        s->st &= NPCM7XX_SMBCTL1_ACK;
++        s->st &= ~NPCM7XX_SMBCTL1_ACK;
+     }
+     trace_npcm7xx_smbus_recv_byte((DEVICE(s)->canonical_path), s->sda);
+     npcm7xx_smbus_update_irq(s);
 -- 
 2.33.0.1079.g6e70778dc9-goog
 
