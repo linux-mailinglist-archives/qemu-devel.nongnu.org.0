@@ -2,67 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3973F435D67
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 10:55:16 +0200 (CEST)
-Received: from localhost ([::1]:58062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EA0435D91
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 11:06:42 +0200 (CEST)
+Received: from localhost ([::1]:39540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdTr1-00031D-95
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 04:55:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43776)
+	id 1mdU25-0001Vs-Nm
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 05:06:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mdTpH-00005q-7g; Thu, 21 Oct 2021 04:53:27 -0400
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:33285)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mdTpF-0001EH-Fd; Thu, 21 Oct 2021 04:53:26 -0400
-Received: by mail-qk1-x730.google.com with SMTP id h65so2105798qke.0;
- Thu, 21 Oct 2021 01:53:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Oa9rcrvsXE8mlctoU7MNmbbQtQsMOtl1WLMOhI8hYNI=;
- b=aBvaK9voGwJXboKU8Km9Hl0q+EQvhND/dULJVsQTKmK8jvYSsjQ/DD5VmheZNzxIpw
- kFtG+iZVboxmjYhMtVCt6dtLm9JevscFYXW8+CroJgmw9OrzgyTI1E9h5K0W963l7/hO
- KjpV/q5alIxLjcqYINjkdhzxsLoCow+PvM7HTeJVBcm12phy95/f4Q1HyG/kJ1nycOI3
- l+UD7YogPx3x3E3+qx0pWcMMJ5MLiwq3lPxPtNFQDYSJqd0Ogx02b2vJWRUCyVGyazBp
- WojEslcQIVsOJK3kqVuKMTqHSDOCKfZx0/HM60u3uOkQaE8nr3RHVKKHEtuJ18WYHd+u
- gQWg==
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mdTyA-0007DE-Bz
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 05:02:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45285)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mdTy6-0005yx-4H
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 05:02:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634806952;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A78rqAmL4vROopRQqqY/d/L/E6qU9a0792ddVb1RaYY=;
+ b=eabzNeeZFSJaGB6jGYpQFpSgVWmhjB6WKq+3sAD95WuGkHVBUgrKQYai9EiKgs+AKt2e3X
+ 1aJcsQ/ZZAT8W32qyVJEnBi8ePUbKdm1Yy/wjh35rc+URmZpsiAcMXYJubHx1CuPr6Ct0Q
+ bOATe7MvgGusltAsFXL2z1fZnDSUau8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-7zt-bBPLP626TZZazBzUDg-1; Thu, 21 Oct 2021 05:02:31 -0400
+X-MC-Unique: 7zt-bBPLP626TZZazBzUDg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ z26-20020a05600c221a00b0030da55bc454so4897138wml.4
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 02:02:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Oa9rcrvsXE8mlctoU7MNmbbQtQsMOtl1WLMOhI8hYNI=;
- b=WKnMQCUD/inNdcTUvzIrSj+YD3ynIX6ELXJID31u+Y4UA3UUGf2KSssufNwdYdGk2D
- HUz6vLxf1yBOE89pFkMsLa6JCXPnynodBZcpGW4n/YxYeEHPn3ou2BkxKVE4gzFcq7v6
- 45fJpjJB/8wRBU0F/XOUTmUgACAq739RDWQCM+pCHO3jtuuU6lOMOvhtcjVlOJ8guGqg
- 47cXGTeIh6vjEPLNQIAY+z2UPapZCTGDxzylSEgROooK2/YPpMSWtPB6iL5N9vxruP69
- AW7BzFCSyjlts/pSok8/nbcBcrLM4QzUia85NAz03J/9AWxKhkUwsJo3yUeQ/ZRh5Tug
- h3UA==
-X-Gm-Message-State: AOAM530VQWIeEWq0LizKqUdhLLmtrn7uUsvg84GxlhxKe2oJeLzZGdpO
- CgjoF03EKPqHqvplLfr8xH8rc3mZftMmEwz4FUk=
-X-Google-Smtp-Source: ABdhPJySS3QD9EaFFuGqDLv8FK4d2Et91/IN8hX9PC926c6gMKN9i1/DoTz6RKHXNU6iYcfjqteaPvX8pD53gl9lR8E=
-X-Received: by 2002:a25:346:: with SMTP id 67mr4326559ybd.345.1634806403755;
- Thu, 21 Oct 2021 01:53:23 -0700 (PDT)
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=A78rqAmL4vROopRQqqY/d/L/E6qU9a0792ddVb1RaYY=;
+ b=HTbgQvdPGLyVS5yCiGaCFjFhPWx7JFaVHmS8YHYZ9FEqMTX8Sth40Un4R96+Hgrq5T
+ 9g74sNQxZLmTGEcx2oKfFIkudeO/wJpCILiADMpYIsErJqplTEdTbF1EJi3y3qQG/gZh
+ XqHshQyrQpU5tvVPXolGhKTt/eev+jnuTMWIgIOa+BtpPUIAomv8ETxe5+EvhOXNo9lW
+ 5G59pvRWwnXxsp9pyc7HcewHKtjRhSoDh8snSPbsiPNxa2+j1dsJEdScM0HX+n8YVqmt
+ ixIKXyaiKgV0ZkS9hwm53iPiRFIs8zAnNkcjXJoqSsyhYX4kMc3v+WLfdD8yeL6Ym2WU
+ Ut/A==
+X-Gm-Message-State: AOAM5301IU7SIjI7ywrTX/P0kM/SPv/iuN1jZGE6MgWH7fUBZV5uqwsC
+ UoCjz4yXCU+yP1+JlJV9rN8JA1lg6DBq6/gEZ+h4J8B7IaYYET/sMnko/EmWPFqnP8Mpe92aDx9
+ L5sa2augLxnrsdak=
+X-Received: by 2002:a05:6000:1362:: with SMTP id
+ q2mr5748505wrz.44.1634806950028; 
+ Thu, 21 Oct 2021 02:02:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzv44weoACd+Y+M4vVqXO9R8KO+0T34KD2xTCv6nR2K9iluYl4QAYJpCmBuNXSmdhzFwKFRVQ==
+X-Received: by 2002:a05:6000:1362:: with SMTP id
+ q2mr5748473wrz.44.1634806949805; 
+ Thu, 21 Oct 2021 02:02:29 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id q141sm757480wme.8.2021.10.21.02.02.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Oct 2021 02:02:29 -0700 (PDT)
+Subject: Re: [PATCH v5 10/12] tests/acpi: add test cases for VIOT
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>, mst@redhat.com,
+ imammedo@redhat.com, peter.maydell@linaro.org
+References: <20211020172745.620101-1-jean-philippe@linaro.org>
+ <20211020172745.620101-11-jean-philippe@linaro.org>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <c7dda57e-b154-1b69-1480-c89b4ba0db2e@redhat.com>
+Date: Thu, 21 Oct 2021 11:02:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <18b1b681b0f8dd2461e819d1217bf0b530812680.1634524691.git.alistair.francis@wdc.com>
- <e66367ce1b4ab64aab545916ad6818dac7b1f8ec.1634524691.git.alistair.francis@wdc.com>
-In-Reply-To: <e66367ce1b4ab64aab545916ad6818dac7b1f8ec.1634524691.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 21 Oct 2021 16:53:12 +0800
-Message-ID: <CAEUhbmVBNxunFGbDiiuLvxSTDC2+ffRN4sU7OLhncrHH1JWSUw@mail.gmail.com>
-Subject: Re: [PATCH v1 9/9] hw/intc: sifive_plic: Cleanup remaining functions
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x730.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211020172745.620101-11-jean-philippe@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,200 +104,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Reply-To: eric.auger@redhat.com
+Cc: ehabkost@redhat.com, jasowang@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, peterx@redhat.com, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, ani@anisinha.ca, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 18, 2021 at 10:40 AM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
+Hi Jean,
 
-This one needs some commit messages as it consolidates two functions
-into one which is not straight forward.
-
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+On 10/20/21 7:27 PM, Jean-Philippe Brucker wrote:
+> Add two test cases for VIOT, one on the q35 machine and the other on
+> virt. To test complex topologies the q35 test has two PCIe buses that
+> bypass the IOMMU (and are therefore not described by VIOT), and two
+> buses that are translated by virtio-iommu.
+>
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 > ---
->  hw/intc/sifive_plic.c | 109 +++++++++---------------------------------
->  1 file changed, 22 insertions(+), 87 deletions(-)
+>  tests/qtest/bios-tables-test.c | 38 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 38 insertions(+)
 >
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index d73503cea4..3f56223554 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -31,8 +31,6 @@
->  #include "migration/vmstate.h"
->  #include "hw/irq.h"
->
-> -#define RISCV_DEBUG_PLIC 0
-> -
->  static bool addr_between(uint32_t addr, uint32_t base, uint32_t num)
->  {
->      uint32_t end = base + num;
-> @@ -57,47 +55,6 @@ static PLICMode char_to_mode(char c)
->      }
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index 4f11d03055..599b155201 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -1403,6 +1403,42 @@ static void test_acpi_virt_tcg(void)
+>      free_test_data(&data);
 >  }
->
-> -static char mode_to_char(PLICMode m)
-> -{
-> -    switch (m) {
-> -    case PLICMode_U: return 'U';
-> -    case PLICMode_S: return 'S';
-> -    case PLICMode_H: return 'H';
-> -    case PLICMode_M: return 'M';
-> -    default: return '?';
-> -    }
-> -}
-> -
-> -static void sifive_plic_print_state(SiFivePLICState *plic)
-> -{
-> -    int i;
-> -    int addrid;
-> -
-> -    /* pending */
-> -    qemu_log("pending       : ");
-> -    for (i = plic->bitfield_words - 1; i >= 0; i--) {
-> -        qemu_log("%08x", plic->pending[i]);
-> -    }
-> -    qemu_log("\n");
-> -
-> -    /* pending */
-> -    qemu_log("claimed       : ");
-> -    for (i = plic->bitfield_words - 1; i >= 0; i--) {
-> -        qemu_log("%08x", plic->claimed[i]);
-> -    }
-> -    qemu_log("\n");
-> -
-> -    for (addrid = 0; addrid < plic->num_addrs; addrid++) {
-> -        qemu_log("hart%d-%c enable: ",
-> -            plic->addr_config[addrid].hartid,
-> -            mode_to_char(plic->addr_config[addrid].mode));
-> -        for (i = plic->bitfield_words - 1; i >= 0; i--) {
-> -            qemu_log("%08x", plic->enable[addrid * plic->bitfield_words + i]);
-> -        }
-> -        qemu_log("\n");
-> -    }
-> -}
-> -
->  static uint32_t atomic_set_masked(uint32_t *a, uint32_t mask, uint32_t value)
->  {
->      uint32_t old, new, cmp = qatomic_read(a);
-> @@ -121,26 +78,34 @@ static void sifive_plic_set_claimed(SiFivePLICState *plic, int irq, bool level)
->      atomic_set_masked(&plic->claimed[irq >> 5], 1 << (irq & 31), -!!level);
->  }
->
-> -static int sifive_plic_irqs_pending(SiFivePLICState *plic, uint32_t addrid)
-> +static uint32_t sifive_plic_claimed(SiFivePLICState *plic, uint32_t addrid)
->  {
-> +    uint32_t max_irq = 0;
-> +    uint32_t max_prio = plic->target_priority[addrid];
->      int i, j;
+>  
+> +static void test_acpi_q35_viot(void)
+> +{
+> +    test_data data = {
+> +        .machine = MACHINE_Q35,
+> +        .variant = ".viot",
+> +    };
 > +
->      for (i = 0; i < plic->bitfield_words; i++) {
->          uint32_t pending_enabled_not_claimed =
-> -            (plic->pending[i] & ~plic->claimed[i]) &
-> -            plic->enable[addrid * plic->bitfield_words + i];
-> +                        (plic->pending[i] & ~plic->claimed[i]) &
-> +                            plic->enable[addrid * plic->bitfield_words + i];
-> +
->          if (!pending_enabled_not_claimed) {
->              continue;
->          }
-> +
->          for (j = 0; j < 32; j++) {
->              int irq = (i << 5) + j;
->              uint32_t prio = plic->source_priority[irq];
->              int enabled = pending_enabled_not_claimed & (1 << j);
-> -            if (enabled && prio > plic->target_priority[addrid]) {
-> -                return 1;
-> +
-> +            if (enabled && prio > max_prio) {
-> +                max_irq = irq;
-> +                max_prio = prio;
->              }
->          }
->      }
-> -    return 0;
-> +
-> +    return max_irq;
->  }
->
->  static void sifive_plic_update(SiFivePLICState *plic)
-> @@ -151,7 +116,7 @@ static void sifive_plic_update(SiFivePLICState *plic)
->      for (addrid = 0; addrid < plic->num_addrs; addrid++) {
->          uint32_t hartid = plic->addr_config[addrid].hartid;
->          PLICMode mode = plic->addr_config[addrid].mode;
-> -        int level = sifive_plic_irqs_pending(plic, addrid);
-> +        bool level = !!sifive_plic_claimed(plic, addrid);
->
->          switch (mode) {
->          case PLICMode_M:
-> @@ -164,41 +129,6 @@ static void sifive_plic_update(SiFivePLICState *plic)
->              break;
->          }
->      }
-> -
-> -    if (RISCV_DEBUG_PLIC) {
-> -        sifive_plic_print_state(plic);
-> -    }
-> -}
-> -
-> -static uint32_t sifive_plic_claim(SiFivePLICState *plic, uint32_t addrid)
-> -{
-> -    int i, j;
-> -    uint32_t max_irq = 0;
-> -    uint32_t max_prio = plic->target_priority[addrid];
-> -
-> -    for (i = 0; i < plic->bitfield_words; i++) {
-> -        uint32_t pending_enabled_not_claimed =
-> -            (plic->pending[i] & ~plic->claimed[i]) &
-> -            plic->enable[addrid * plic->bitfield_words + i];
-> -        if (!pending_enabled_not_claimed) {
-> -            continue;
-> -        }
-> -        for (j = 0; j < 32; j++) {
-> -            int irq = (i << 5) + j;
-> -            uint32_t prio = plic->source_priority[irq];
-> -            int enabled = pending_enabled_not_claimed & (1 << j);
-> -            if (enabled && prio > max_prio) {
-> -                max_irq = irq;
-> -                max_prio = prio;
-> -            }
-> -        }
-> -    }
-> -
-> -    if (max_irq) {
-> -        sifive_plic_set_pending(plic, max_irq, false);
-> -        sifive_plic_set_claimed(plic, max_irq, true);
-> -    }
-> -    return max_irq;
->  }
->
->  static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned size)
-> @@ -229,10 +159,15 @@ static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned size)
->          if (contextid == 0) {
->              return plic->target_priority[addrid];
->          } else if (contextid == 4) {
-> -            uint32_t value = sifive_plic_claim(plic, addrid);
-> +            uint32_t max_irq = sifive_plic_claimed(plic, addrid);
-> +
-> +            if (max_irq) {
-> +                sifive_plic_set_pending(plic, max_irq, false);
-> +                sifive_plic_set_claimed(plic, max_irq, true);
-> +            }
->
->              sifive_plic_update(plic);
-> -            return value;
-> +            return max_irq;
->          }
->      }
->
+> +    /*
+> +     * To keep things interesting, two buses bypass the IOMMU.
+> +     * VIOT should only describes the other two buses.
+> +     */
+> +    test_acpi_one("-machine default_bus_bypass_iommu=on "
+Just a reminder that we still have a dependency on the
+default_bus_bypass_iommu fix here. Otherwise those tests will fail. So
+the fix needs to be upstreamed along with that series.
 
-Regards,
-Bin
+Eric
+> +                  "-device virtio-iommu-pci "
+> +                  "-device pxb-pcie,bus_nr=0x10,id=pcie.100,bus=pcie.0 "
+> +                  "-device pxb-pcie,bus_nr=0x20,id=pcie.200,bus=pcie.0,bypass_iommu=on "
+> +                  "-device pxb-pcie,bus_nr=0x30,id=pcie.300,bus=pcie.0",
+> +                  &data);
+> +    free_test_data(&data);
+> +}
+> +
+> +static void test_acpi_virt_viot(void)
+> +{
+> +    test_data data = {
+> +        .machine = "virt",
+> +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
+> +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
+> +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
+> +        .ram_start = 0x40000000ULL,
+> +        .scan_len = 128ULL * 1024 * 1024,
+> +    };
+> +
+> +    test_acpi_one("-cpu cortex-a57 "
+> +                  "-device virtio-iommu-pci", &data);
+> +    free_test_data(&data);
+> +}
+> +
+>  static void test_oem_fields(test_data *data)
+>  {
+>      int i;
+> @@ -1567,12 +1603,14 @@ int main(int argc, char *argv[])
+>          if (strcmp(arch, "x86_64") == 0) {
+>              qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
+>          }
+> +        qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
+>      } else if (strcmp(arch, "aarch64") == 0) {
+>          qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+>          qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+>          qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+>          qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
+>          qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
+> +        qtest_add_func("acpi/virt/viot", test_acpi_virt_viot);
+>      }
+>      ret = g_test_run();
+>      boot_sector_cleanup(disk);
+
 
