@@ -2,94 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC4D435D94
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 11:06:49 +0200 (CEST)
-Received: from localhost ([::1]:40060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DBF5435DAC
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 11:10:34 +0200 (CEST)
+Received: from localhost ([::1]:48958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdU2C-0001qk-32
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 05:06:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45468)
+	id 1mdU5p-0007se-6K
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 05:10:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mdTyP-0007SG-9p
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 05:02:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38445)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mdU3w-0005uQ-W5
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 05:08:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mdTyM-0006Sa-Ha
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 05:02:53 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mdU3u-0005SX-81
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 05:08:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634806969;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1634807313;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oxNV/kgRX5CB4LWX4jPNIHeznfnOIBPM1aW11lE4BRs=;
- b=hWbcPWWQu/+HBxhGZrTqL/Z+sLrWqNJbA4Lpt1fXT3lkL6IePoLRMGHUrfMiAcoqd6vXaH
- FkJPo7mLM9XA5PNO7FRPqKU+5w7yJl8YfIOHS8UQ9MGf9r07JKpxXhEa4h34wvNDUhUaWc
- plXPWLAqgrbgE5GdtcyJ9h8Tcg6n/5k=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-Tj3aAmAHOiqNBf87rh1_ow-1; Thu, 21 Oct 2021 05:02:48 -0400
-X-MC-Unique: Tj3aAmAHOiqNBf87rh1_ow-1
-Received: by mail-wr1-f72.google.com with SMTP id
- j12-20020adf910c000000b0015e4260febdso4105283wrj.20
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 02:02:48 -0700 (PDT)
+ bh=DcTjt3MRoOSSA/34Ra7n4A8rKWESK5AOdqUSmFbo/TQ=;
+ b=LCF2e7kGYTr+luk0xUdrn75x84TA/Zm62g59GNEvSu60XaRqR495kTVILcUyvbWTicrKfv
+ ihYHJ/2Hqf1u3NtZ4oiSxrWdVBI/R5/tIGF1Ki+kiyMWgtaij4NROdS120Q1K0sSwIyCJ/
+ Qq64dnzRa3LyyPPF2FzAat4UX0H9nLg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-108-s4g8GQLuPeuuhh0ZUMQNvQ-1; Thu, 21 Oct 2021 05:08:32 -0400
+X-MC-Unique: s4g8GQLuPeuuhh0ZUMQNvQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ s26-20020a7bc39a000000b0030d9db6c428so4903273wmj.6
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 02:08:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=oxNV/kgRX5CB4LWX4jPNIHeznfnOIBPM1aW11lE4BRs=;
- b=j3ofcV+e7QizxTb53AvWeOXUrjuMg2Nyoi5Cr6EYmqnPN6koHc/+yN9w4914g/Gb+K
- kSrVUS/Q4EpwB2Rlp64qLr6Q8itpJQSanNNREtDeApJnW8iFeaMdd9buWoVeokQNKEB7
- 08/NJ5lFwxyT2HrsF212msuBIfU67E5IrPRKZFwcY9ALQCRHMAv6LHgQqD/apnFyjbOj
- SZkLdjW4/oGoKHa6IjQsuA9y7SR24Wqc8gpwG/pSlTZSgPVZqV9xMNHC3ZBLe+zqEKXN
- P61hXguAKInlqtAixk50xLnr2igKclY37lOKKI02MOztdBNe0/JLrVEIjBzNpRjY8Ckf
- Xg+A==
-X-Gm-Message-State: AOAM531PgfPfcagtnax07qg26JEBsvoSacc0uWouCHBrYjMM7F/ASNhy
- kEEQZ0Hk83CritXefGSVB57FN2k4gY0/pKrQt5jkoehNC1W6IQ9MbHQD1wi8/P0zAhS4jJ1DaIg
- c8BIY/6Yj2tqJXZw=
-X-Received: by 2002:adf:a294:: with SMTP id s20mr5813480wra.34.1634806967132; 
- Thu, 21 Oct 2021 02:02:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwQB05sO1gHcW7RZkYklWPY2qcFm6noLG2Oe0gv22PNSVna2srXW7kAR6YR7ZiuMJtYVYpGDA==
-X-Received: by 2002:adf:a294:: with SMTP id s20mr5813439wra.34.1634806966858; 
- Thu, 21 Oct 2021 02:02:46 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id y191sm8434109wmc.36.2021.10.21.02.02.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Oct 2021 02:02:46 -0700 (PDT)
-Subject: Re: [PATCH v5 02/12] hw/i386/pc: Remove x86_iommu_get_type()
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, mst@redhat.com,
- imammedo@redhat.com, peter.maydell@linaro.org
-References: <20211020172745.620101-1-jean-philippe@linaro.org>
- <20211020172745.620101-3-jean-philippe@linaro.org>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <6dd6fc1d-1698-274c-82d4-468433e3db5f@redhat.com>
-Date: Thu, 21 Oct 2021 11:02:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=DcTjt3MRoOSSA/34Ra7n4A8rKWESK5AOdqUSmFbo/TQ=;
+ b=O9df5+I3WHg5dXxvdikZCEnZdlC18YmT4X4JDhhP92kI82Vbs/Kd/i2ViAN6ERXavp
+ eDcnApZKiqYa4n8AI0FdKgOaM9XbFgkocMg/prON/GUU7Cufi4jQc68KK8tTWZoNgZHO
+ mlxz4vh0CwzVSVQ3K4jww18qJzsf7kFwh0/Muofo2IXd8P/pgE5dfWdfxeXvjlCdy29K
+ fX/STuZVEI8B0Rc4C5XSUkNllK7C1xKIWPJMWXzbcSYLXNWU7i1PcnoynbpCWsNTB1l1
+ kP+hyAqMeyuwxolIIfMzl8fuW0WoRS6f7R1lDibr3N3FJjql/8UJhUJnULL2H3vRSFrO
+ 3JPg==
+X-Gm-Message-State: AOAM531enNIhOIHOxm7cKzHlNXVKBTMRnvqn3lHXhq/7fFTvykg2Gt3w
+ PLcWcLKhw6LuVAIVjVrDktiERwXiKAkqrrlBWxaNll706N3LHCo2flPMhU3GjsoeDU7e8H1qG39
+ b9PtPGa24NCW7LQM=
+X-Received: by 2002:adf:80cd:: with SMTP id 71mr1470169wrl.429.1634807310952; 
+ Thu, 21 Oct 2021 02:08:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxxnCkLHZq81HB8UPgkhq+te4c16N7295k+01uDY9w6USvZoYe7AYHppZ3OZXngWaDeRcKP0A==
+X-Received: by 2002:adf:80cd:: with SMTP id 71mr1470138wrl.429.1634807310761; 
+ Thu, 21 Oct 2021 02:08:30 -0700 (PDT)
+Received: from gator.home (cst2-174-2.cust.vodafone.cz. [31.30.174.2])
+ by smtp.gmail.com with ESMTPSA id i29sm868520wmb.6.2021.10.21.02.08.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Oct 2021 02:08:30 -0700 (PDT)
+Date: Thu, 21 Oct 2021 11:08:28 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: "wangyanan (Y)" <wangyanan55@huawei.com>
+Subject: Re: [PATCH v8 5/8] hw/acpi/aml-build: Add PPTT table
+Message-ID: <20211021090828.2nt6l55nrazzsa3d@gator.home>
+References: <20211014132206.19220-1-wangyanan55@huawei.com>
+ <20211014132206.19220-6-wangyanan55@huawei.com>
+ <316edbd3-2235-efb1-7176-e3f477aec6a4@redhat.com>
+ <1f4eaecf-8718-fc8a-5366-7e32945b9953@huawei.com>
+ <2651e5c8-8cd0-e912-2f62-f7393bf49aa3@redhat.com>
+ <9c51d6bf-8ed4-6aff-c503-f123190efcae@huawei.com>
+ <f6c0dc0b-aad7-bfe9-c355-9879ce6a798e@redhat.com>
+ <97c13d4a-d464-015d-d901-cf93534cf0d6@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20211020172745.620101-3-jean-philippe@linaro.org>
+In-Reply-To: <97c13d4a-d464-015d-d901-cf93534cf0d6@huawei.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,174 +103,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: ehabkost@redhat.com, jasowang@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, peterx@redhat.com, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, ani@anisinha.ca, pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>, Eric Auger <eauger@redhat.com>,
+ wanghaibin.wang@huawei.com, Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jean,
-
-On 10/20/21 7:27 PM, Jean-Philippe Brucker wrote:
-> To generate the IOMMU ACPI table, acpi-build.c can use base QEMU types
-> instead of a special IommuType value.
+On Wed, Oct 20, 2021 at 08:53:00PM +0800, wangyanan (Y) wrote:
+> > > > > > Table 5-149 of 6.2 spec (6.2 May 2017) tells the rev shall be 1. Or is
+> > > > > > it an erratum somewhere I did miss?
+> > > > > Yes, the revision in 6.2 spec is 1. And it's 2 in spec 6.3.
+> > > > > So just to be sure, should I use the oldest revision ?
+> > > > If you need (and use) features (such as flags) introduced in 6.3 then
+> > > > you should say the code complies with 6.3 and update the above comment.
+> > > The comment /* ACPI 6.2: 5.2.29 Processor Properties Topology Table
+> > > (PPTT) */
+> > > tried to explain the first spec version where PPTT is introduced is 6.2.
+> > > But it may
+> > > adds some confusion. I think it's better to replace it with:
+> > > /*
+> > >   * ACPI spec 5.2.29 Processor Properties Topology Table (PPTT)
+> > >   * (Revision 6.2 or later)
+> > >   */
+> > > 
+> > > just like our build_slit().
+> > That's not my understanding. I think we usually point to the latest spec
+> > revision you comply with, ie. in that case 6.3 chapter ...
+> Ok, I get it. Would
+> /*
+>  * ACPI spec, Revision 6.3
+>  * 5.2.29 Processor Properties Topology Table (PPTT)
+>  */
+> be ok ?
 >
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-Looks good to me
+Yes, we need to call out the oldest spec we can for the functionality
+we're using. In this case, we're using flags first defined in the 6.3
+spec, so we need to call out the 6.3 spec.
 
-Thanks
-
-Eric
-
-> ---
->  include/hw/i386/x86-iommu.h | 12 ------------
->  hw/i386/acpi-build.c        | 20 +++++++++-----------
->  hw/i386/amd_iommu.c         |  2 --
->  hw/i386/intel_iommu.c       |  3 ---
->  hw/i386/x86-iommu-stub.c    |  5 -----
->  hw/i386/x86-iommu.c         |  5 -----
->  6 files changed, 9 insertions(+), 38 deletions(-)
->
-> diff --git a/include/hw/i386/x86-iommu.h b/include/hw/i386/x86-iommu.h
-> index 9de92d33a1..5ba0c056d6 100644
-> --- a/include/hw/i386/x86-iommu.h
-> +++ b/include/hw/i386/x86-iommu.h
-> @@ -33,12 +33,6 @@ OBJECT_DECLARE_TYPE(X86IOMMUState, X86IOMMUClass, X86_IOMMU_DEVICE)
->  typedef struct X86IOMMUIrq X86IOMMUIrq;
->  typedef struct X86IOMMU_MSIMessage X86IOMMU_MSIMessage;
->  
-> -typedef enum IommuType {
-> -    TYPE_INTEL,
-> -    TYPE_AMD,
-> -    TYPE_NONE
-> -} IommuType;
-> -
->  struct X86IOMMUClass {
->      SysBusDeviceClass parent;
->      /* Intel/AMD specific realize() hook */
-> @@ -71,7 +65,6 @@ struct X86IOMMUState {
->      OnOffAuto intr_supported;   /* Whether vIOMMU supports IR */
->      bool dt_supported;          /* Whether vIOMMU supports DT */
->      bool pt_supported;          /* Whether vIOMMU supports pass-through */
-> -    IommuType type;             /* IOMMU type - AMD/Intel     */
->      QLIST_HEAD(, IEC_Notifier) iec_notifiers; /* IEC notify list */
->  };
->  
-> @@ -140,11 +133,6 @@ struct X86IOMMU_MSIMessage {
->   */
->  X86IOMMUState *x86_iommu_get_default(void);
->  
-> -/*
-> - * x86_iommu_get_type - get IOMMU type
-> - */
-> -IommuType x86_iommu_get_type(void);
-> -
->  /**
->   * x86_iommu_iec_register_notifier - register IEC (Interrupt Entry
->   *                                   Cache) notifiers
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 81418b7911..ab49e799ff 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -2488,6 +2488,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
->      PCMachineState *pcms = PC_MACHINE(machine);
->      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
->      X86MachineState *x86ms = X86_MACHINE(machine);
-> +    X86IOMMUState *iommu = x86_iommu_get_default();
->      GArray *table_offsets;
->      unsigned facs, dsdt, rsdt, fadt;
->      AcpiPmInfo pm;
-> @@ -2604,17 +2605,14 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
->          build_mcfg(tables_blob, tables->linker, &mcfg, x86ms->oem_id,
->                     x86ms->oem_table_id);
->      }
-> -    if (x86_iommu_get_default()) {
-> -        IommuType IOMMUType = x86_iommu_get_type();
-> -        if (IOMMUType == TYPE_AMD) {
-> -            acpi_add_table(table_offsets, tables_blob);
-> -            build_amd_iommu(tables_blob, tables->linker, x86ms->oem_id,
-> -                            x86ms->oem_table_id);
-> -        } else if (IOMMUType == TYPE_INTEL) {
-> -            acpi_add_table(table_offsets, tables_blob);
-> -            build_dmar_q35(tables_blob, tables->linker, x86ms->oem_id,
-> -                           x86ms->oem_table_id);
-> -        }
-> +    if (object_dynamic_cast(OBJECT(iommu), TYPE_AMD_IOMMU_DEVICE)) {
-> +        acpi_add_table(table_offsets, tables_blob);
-> +        build_amd_iommu(tables_blob, tables->linker, x86ms->oem_id,
-> +                        x86ms->oem_table_id);
-> +    } else if (object_dynamic_cast(OBJECT(iommu), TYPE_INTEL_IOMMU_DEVICE)) {
-> +        acpi_add_table(table_offsets, tables_blob);
-> +        build_dmar_q35(tables_blob, tables->linker, x86ms->oem_id,
-> +                       x86ms->oem_table_id);
->      }
->      if (machine->nvdimms_state->is_enabled) {
->          nvdimm_build_acpi(table_offsets, tables_blob, tables->linker,
-> diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-> index 9242a0d3ed..91fe34ae58 100644
-> --- a/hw/i386/amd_iommu.c
-> +++ b/hw/i386/amd_iommu.c
-> @@ -1538,7 +1538,6 @@ static void amdvi_sysbus_realize(DeviceState *dev, Error **errp)
->  {
->      int ret = 0;
->      AMDVIState *s = AMD_IOMMU_DEVICE(dev);
-> -    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(dev);
->      MachineState *ms = MACHINE(qdev_get_machine());
->      PCMachineState *pcms = PC_MACHINE(ms);
->      X86MachineState *x86ms = X86_MACHINE(ms);
-> @@ -1548,7 +1547,6 @@ static void amdvi_sysbus_realize(DeviceState *dev, Error **errp)
->                                       amdvi_uint64_equal, g_free, g_free);
->  
->      /* This device should take care of IOMMU PCI properties */
-> -    x86_iommu->type = TYPE_AMD;
->      if (!qdev_realize(DEVICE(&s->pci), &bus->qbus, errp)) {
->          return;
->      }
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index 75f075547f..c27b20090e 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -3806,9 +3806,6 @@ static void vtd_realize(DeviceState *dev, Error **errp)
->      X86MachineState *x86ms = X86_MACHINE(ms);
->      PCIBus *bus = pcms->bus;
->      IntelIOMMUState *s = INTEL_IOMMU_DEVICE(dev);
-> -    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(dev);
-> -
-> -    x86_iommu->type = TYPE_INTEL;
->  
->      if (!vtd_decide_config(s, errp)) {
->          return;
-> diff --git a/hw/i386/x86-iommu-stub.c b/hw/i386/x86-iommu-stub.c
-> index c5ba077f9d..781b5ff922 100644
-> --- a/hw/i386/x86-iommu-stub.c
-> +++ b/hw/i386/x86-iommu-stub.c
-> @@ -36,8 +36,3 @@ bool x86_iommu_ir_supported(X86IOMMUState *s)
->  {
->      return false;
->  }
-> -
-> -IommuType x86_iommu_get_type(void)
-> -{
-> -    abort();
-> -}
-> diff --git a/hw/i386/x86-iommu.c b/hw/i386/x86-iommu.c
-> index 86ad03972e..dc968c7a53 100644
-> --- a/hw/i386/x86-iommu.c
-> +++ b/hw/i386/x86-iommu.c
-> @@ -98,11 +98,6 @@ X86IOMMUState *x86_iommu_get_default(void)
->      return x86_iommu_default;
->  }
->  
-> -IommuType x86_iommu_get_type(void)
-> -{
-> -    return x86_iommu_default->type;
-> -}
-> -
->  static void x86_iommu_realize(DeviceState *dev, Error **errp)
->  {
->      X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(dev);
+Thanks,
+drew
 
 
