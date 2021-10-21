@@ -2,81 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CDA436B45
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 21:22:01 +0200 (CEST)
-Received: from localhost ([::1]:34046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD37D436B86
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 21:51:02 +0200 (CEST)
+Received: from localhost ([::1]:36736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdddY-0000FY-KJ
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 15:22:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56666)
+	id 1mde5d-000657-3K
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 15:51:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mddbK-0006gN-Q8
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 15:19:42 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:43600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mddbJ-00067r-3w
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 15:19:42 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- e5-20020a17090a804500b001a116ad95caso1312580pjw.2
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 12:19:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=TFpPC7YN2KrYbfN0XEh+ekZ4ofGcnFkKniDPDuURfrM=;
- b=tYTg1P+HUbiX2xIIX67NkNJAhSVdr6oVKa4UheuuvqmX7bzYlpv/4gHswdjiur9Z+v
- ddTL1SMjgKMN9OyI4Ky9qmznLsgmQ2Jg2D5zrXw6ocWOnLVDxPVSOIWnInE2CWqQL6RR
- yZCk2uaDwPgJzGbGISNjvo4VxJfhxoAKl54RbzXd7tm7AOpEI56xeyYLXcLQ36/LqwcA
- NUPB0xthw2/6IduaakuiYm8zoHrrXEAPPmxGZH6dwU6P2h846IyhqcvXJamCTTEw6ffi
- 4juOiRCGdU4OMBd2UGPReStB2Wur+2InY7dw/TiXT6Hiqecqn8A4y5Hd45Zmtby2u1/r
- Fnxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TFpPC7YN2KrYbfN0XEh+ekZ4ofGcnFkKniDPDuURfrM=;
- b=hahlRBzcrLyK5NKxaIg3FezY5DqmsRkrvk2OEfN2Yyj7IBvb8cTwJV9UDCY6IDiNJr
- 6/7I5cCHdZhoYZKqoStUAmJ3bqw0nHkYJeDstJVqKZVbSpVUhgkG0Y9DuoukwG7yNAgY
- tVSGQd7Ed9qcpXe0UE2V5pJu9XMVCM5YKMriWPtPJUxsqe78/sAvmEyyd62LvAEO/OJV
- Xa20ctkQbB1gdVQB17rcb0QqG4/Igr/TCrujr3TXliozAczHMR6Qo1fkcjn5HACH/Wp/
- o21NBcDgDORgwPMzKFf8lWpn9M4vkEjuPFcTdeXDRCeL5ogup+5KsxgTsGMRPMhGY56Z
- 5iMQ==
-X-Gm-Message-State: AOAM5322Apw9pjmvuKpOysJiBY0SCJDT473VSrxWxDDD8dFnajFEQjRa
- f1O3vwb9a3dFyYKmShk+2xmX+RnhHnY1Zg==
-X-Google-Smtp-Source: ABdhPJws5meTwt9E3aeegwpULRAPp1jBMv+6lkaMHhZO8Ne3Ougiq8eoMutg5Xshsx0q6/kXOItnvw==
-X-Received: by 2002:a17:902:b691:b029:12d:2b6:d116 with SMTP id
- c17-20020a170902b691b029012d02b6d116mr6778454pls.71.1634843979527; 
- Thu, 21 Oct 2021 12:19:39 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id y3sm6863593pfo.188.2021.10.21.12.19.39
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Oct 2021 12:19:39 -0700 (PDT)
-Subject: Re: [PULL 00/19] target/arm patch queue
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20211021152541.781175-1-richard.henderson@linaro.org>
-Message-ID: <e6db062f-fe08-686a-aa93-ef3990965092@linaro.org>
-Date: Thu, 21 Oct 2021 12:19:37 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mde1m-0002kY-Gi; Thu, 21 Oct 2021 15:47:02 -0400
+Received: from [201.28.113.2] (port=45000 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mde1j-00078b-5b; Thu, 21 Oct 2021 15:47:01 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 21 Oct 2021 16:46:53 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 031B580012A;
+ Thu, 21 Oct 2021 16:46:52 -0300 (-03)
+From: matheus.ferst@eldorado.org.br
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH 00/33] PowerISA v3.1 instruction batch
+Date: Thu, 21 Oct 2021 16:45:14 -0300
+Message-Id: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211021152541.781175-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.867,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 21 Oct 2021 19:46:53.0818 (UTC)
+ FILETIME=[65FC85A0:01D7C6B4]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,92 +54,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: lucas.castro@eldorado.org.br, richard.henderson@linaro.org, groug@kaod.org,
+ luis.pires@eldorado.org.br, matheus.ferst@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/21/21 8:25 AM, Richard Henderson wrote:
-> The following changes since commit afc9fcde55296b83f659de9da3cdf044812a6eeb:
-> 
->    Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2021-10-20 06:10:51 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/rth7680/qemu.git tags/pull-arm-20211021
-> 
-> for you to fetch changes up to f801789ff00f457044dcd91323316dbde42578d1:
-> 
->    tests/data/acpi/virt: Update the empty expected file for PPTT (2021-10-21 08:04:15 -0700)
-> 
-> ----------------------------------------------------------------
-> Introduce cpu topology support
-> Generate DBG2 table
-> Switch to ssize_t for elf loader return type
-> Fixed sbsa cpu type error message typo
-> Only initialize required submodules for edk2
-> Dont create device-tree node for empty NUMA node
-> 
-> ----------------------------------------------------------------
-> Andrew Jones (2):
->        hw/arm/virt: Add cpu-map to device tree
->        hw/acpi/aml-build: Add PPTT table
-> 
-> Eric Auger (6):
->        tests/acpi: Get prepared for IORT E.b revision upgrade
->        hw/arm/virt-acpi-build: IORT upgrade up to revision E.b
->        tests/acpi: Generate reference blob for IORT rev E.b
->        tests/acpi: Add void table for virt/DBG2 bios-tables-test
->        hw/arm/virt_acpi_build: Generate DBG2 table
->        bios-tables-test: Generate reference table for virt/DBG2
-> 
-> Gavin Shan (1):
->        hw/arm/virt: Don't create device-tree node for empty NUMA node
-> 
-> Luc Michel (1):
->        hw/elf_ops.h: switch to ssize_t for elf loader return type
-> 
-> Philippe Mathieu-Daudé (2):
->        roms/edk2: Only init brotli submodule to build BaseTools
->        roms/edk2: Only initialize required submodules
-> 
-> Shuuichirou Ishii (1):
->        hw/arm/sbsa-ref: Fixed cpu type error message typo.
-> 
-> Yanan Wang (6):
->        hw/arm/virt: Only describe cpu topology since virt-6.2
->        device_tree: Add qemu_fdt_add_path
->        hw/acpi/aml-build: Add Processor hierarchy node structure
->        tests/data/acpi/virt: Add an empty expected file for PPTT
->        hw/arm/virt-acpi-build: Generate PPTT table
->        tests/data/acpi/virt: Update the empty expected file for PPTT
-> 
->   include/hw/acpi/aml-build.h       |   3 +
->   include/hw/arm/virt.h             |   4 +-
->   include/hw/elf_ops.h              |  27 ++++-----
->   include/hw/loader.h               |  58 +++++++++----------
->   include/sysemu/device_tree.h      |   1 +
->   hw/acpi/aml-build.c               |  89 +++++++++++++++++++++++++++++
->   hw/arm/boot.c                     |  13 +++++
->   hw/arm/sbsa-ref.c                 |   2 +-
->   hw/arm/virt-acpi-build.c          | 117 +++++++++++++++++++++++++++++++-------
->   hw/arm/virt.c                     |  71 +++++++++++++++++++----
->   hw/core/loader.c                  |  60 +++++++++----------
->   softmmu/device_tree.c             |  44 +++++++++++++-
->   .gitlab-ci.d/edk2.yml             |   6 +-
->   roms/Makefile                     |   3 +-
->   roms/Makefile.edk2                |   7 ++-
->   scripts/make-release              |   7 ++-
->   tests/data/acpi/virt/DBG2         | Bin 0 -> 87 bytes
->   tests/data/acpi/virt/IORT         | Bin 124 -> 128 bytes
->   tests/data/acpi/virt/IORT.memhp   | Bin 124 -> 128 bytes
->   tests/data/acpi/virt/IORT.numamem | Bin 124 -> 128 bytes
->   tests/data/acpi/virt/IORT.pxb     | Bin 124 -> 128 bytes
->   tests/data/acpi/virt/PPTT         | Bin 0 -> 76 bytes
->   22 files changed, 403 insertions(+), 109 deletions(-)
->   create mode 100644 tests/data/acpi/virt/DBG2
->   create mode 100644 tests/data/acpi/virt/PPTT
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Applied, thanks.
+This patch series implements 56 new instructions for POWER10, moving 28
+"old" instructions to decodetree along the way. The series is divided by
+facility as follows:
 
-r~
+- From patch 1 to 4: Floating-Point
+- From patch 5 to 10: Fixed-Point
+- From patch 11 to 19: Vector
+- From patch 20 to 33: Vector-Scalar Extensions
+
+Based-on: <20210910112624.72748-1-luis.pires@eldorado.org.br>
+because of patch 10 ("target/ppc: Move REQUIRE_ALTIVEC/VECTOR to
+translate.c") and patch 11 ("target/ppc: Introduce REQUIRE_FPU").
+
+Bruno Larsen (billionai) (6):
+  target/ppc: Introduce REQUIRE_VSX macro
+  target/ppc: moved XXSPLTW to using decodetree
+  target/ppc: moved XXSPLTIB to using decodetree
+  target/ppc: implemented XXSPLTI32DX
+  target/ppc: Implemented XXSPLTIW using decodetree
+  target/ppc: implemented XXSPLTIDP instruction
+
+Lucas Mateus Castro (alqotel) (6):
+  target/ppc: moved stxv and lxv from legacy to decodtree
+  target/ppc: moved stxvx and lxvx from legacy to decodtree
+  target/ppc: added the instructions LXVP and STXVP
+  target/ppc: added the instructions LXVPX and STXVPX
+  target/ppc: added the instructions PLXV and PSTXV
+  target/ppc: added the instructions PLXVP and PSTXVP
+
+Luis Pires (2):
+  target/ppc: Implement cntlzdm
+  target/ppc: Implement cnttzdm
+
+Matheus Ferst (15):
+  target/ppc: Move LQ and STQ to decodetree
+  target/ppc: Implement PLQ and PSTQ
+  target/ppc: Implement pdepd instruction
+  target/ppc: Implement pextd instruction
+  target/ppc: Move vcfuged to vmx-impl.c.inc
+  target/ppc: Implement vclzdm/vctzdm instructions
+  target/ppc: Implement vpdepd/vpextd instruction
+  target/ppc: Implement vsldbi/vsrdbi instructions
+  target/ppc: Implement Vector Insert from GPR using GPR index insns
+  target/ppc: Implement Vector Insert Word from GPR using Immediate
+    insns
+  target/ppc: Implement Vector Insert from VSR using GPR index insns
+  target/ppc: Move vinsertb/vinserth/vinsertw/vinsertd to decodetree
+  target/ppc: Implement Vector Extract Double to VSR using GPR index
+    insns
+  target/ppc: Implement xxblendvb/xxblendvh/xxblendvw/xxblendvd
+    instructions
+  target/ppc: Implement lxvkq instruction
+
+pherde (4):
+  target/ppc: introduce do_ea_calc
+  target/ppc: move resolve_PLS_D to translate.c
+  target/ppc: Move load and store floating point instructions to
+    decodetree
+  target/ppc: Implement PLFS, PLFD, PSTFS and PSTFD instructions
+
+ target/ppc/helper.h                        |  22 +-
+ target/ppc/insn32.decode                   | 132 +++++++
+ target/ppc/insn64.decode                   |  72 ++++
+ target/ppc/int_helper.c                    | 169 +++++++-
+ target/ppc/translate.c                     | 213 +++--------
+ target/ppc/translate/fixedpoint-impl.c.inc | 188 +++++++--
+ target/ppc/translate/fp-impl.c.inc         | 254 ++++--------
+ target/ppc/translate/fp-ops.c.inc          |  29 --
+ target/ppc/translate/vector-impl.c.inc     |  48 ---
+ target/ppc/translate/vmx-impl.c.inc        | 358 ++++++++++++++++-
+ target/ppc/translate/vmx-ops.c.inc         |  10 +-
+ target/ppc/translate/vsx-impl.c.inc        | 424 ++++++++++++++-------
+ target/ppc/translate/vsx-ops.c.inc         |   4 -
+ 13 files changed, 1298 insertions(+), 625 deletions(-)
+ delete mode 100644 target/ppc/translate/vector-impl.c.inc
+
+-- 
+2.25.1
 
 
