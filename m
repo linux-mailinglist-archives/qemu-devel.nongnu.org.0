@@ -2,95 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C409A436330
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 15:36:54 +0200 (CEST)
-Received: from localhost ([::1]:36748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C4143635B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 15:48:34 +0200 (CEST)
+Received: from localhost ([::1]:56016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdYFZ-0008Ab-LE
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 09:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47546)
+	id 1mdYQr-0005Nq-Jb
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 09:48:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mdYDF-0006nE-Oe
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:34:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39386)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mdYOA-0002Ie-0B
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:45:46 -0400
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:42102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mdYDC-0000Rw-Vj
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:34:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634823266;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g3mLcux7jZj4mWCVnWCeCwIte0mY9b/6kM8JkmAPZ2o=;
- b=hb3wQby3+zeJIY3MoXSRNwHM0q2L7aIuYXNnXeAhj3wZv/SVjI2pQGsMbgMVusIQqqf1Ys
- AX9E12lzDrwB2XMxo0hzB+RWOaX87yLKdaLBQy0jU9xrVc4x9P52R/xSlCZaN1LDlb7X07
- lsTMos0ya5MOXz9n6ZC8zxYltEPTGOk=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-Zih4cyM-M1KK5v20LmKscA-1; Thu, 21 Oct 2021 09:34:25 -0400
-X-MC-Unique: Zih4cyM-M1KK5v20LmKscA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- t28-20020a508d5c000000b003dad7fc5caeso340527edt.11
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 06:34:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=g3mLcux7jZj4mWCVnWCeCwIte0mY9b/6kM8JkmAPZ2o=;
- b=4ahffHBZVZry5fPxtb1KJB0BSWCB2zfdZKlF5y2wIaGOr1Zq70X7oSrjFaNoZeVeVX
- wuFfLYG8uSBjw7XWSxhi1oYFSJVTsexTgzj8wI+PXSW/zxfj5hhvh51tKuLrFTdq1qAv
- C5DLiobsNIN/rr6eDiVq4FlRMEC0FmjBWikUHvmivp3Ccidae6vHvU8laIFQQhd7F6g4
- JlpfpuslmJeQAOq2K0NCebNNAwYy0RXUziMeLK+Tt7HmkwGIHTfbLt6rlkktH1b/7B6j
- IQKocRq6M0lkC2u95cMZShR4dB55FaPh6EXKrNyw8XO+XMcEvBdLFjWxE7FiRyGyCMII
- HVig==
-X-Gm-Message-State: AOAM532G/9eau3n3Qt1cFOk21F+7+YGCDS/wq7NdM337GQa1I4yvsEFn
- 4LnyzI2uUdO7xs3e1Mw9cgFppSYc3NZ2lgyQbhsVQIS4NXnd2dGjvcHUUQMdX3iWuIMGhNVlgAx
- 8JOIBdazo6tCfDyg=
-X-Received: by 2002:a17:906:c1c9:: with SMTP id
- bw9mr7260668ejb.3.1634823264064; 
- Thu, 21 Oct 2021 06:34:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzfYYdpekPqEq/IVbFKUenJm7kAbIwsri3G7VZiqy69oTKN3aHIc8fvEdO/xyd/4PkC9TtbIw==
-X-Received: by 2002:a17:906:c1c9:: with SMTP id
- bw9mr7260632ejb.3.1634823263730; 
- Thu, 21 Oct 2021 06:34:23 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id kw5sm2554132ejc.110.2021.10.21.06.34.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 06:34:23 -0700 (PDT)
-Date: Thu, 21 Oct 2021 15:34:22 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v5 03/12] hw/i386/pc: Move IOMMU singleton into
- PCMachineState
-Message-ID: <20211021153422.5399a4dc@redhat.com>
-In-Reply-To: <20211020172745.620101-4-jean-philippe@linaro.org>
-References: <20211020172745.620101-1-jean-philippe@linaro.org>
- <20211020172745.620101-4-jean-philippe@linaro.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mdYO6-00089L-EC
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 09:45:45 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 41CCE40385
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 13:45:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1634823938;
+ bh=F+B8ULyDt8pkuPOcySHA3f+32ibFD1gbKGAPVM/S5bk=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=ZkhEVc65IWFJa+YXW+89T3xBYNdYjTLSq9jwQTzpbgN8Mu/0Rdqu/Fi//Lq657tSX
+ HfBtm7CwMXmbt4/pkIetftQX7Snd1bWXY9rma7mBKdhuBtFRydSAhTPTvustwVAksX
+ ca8mqQki07kDUXq+43w+iC7Rg1HFnSulH9bH7f0RnYhtsfhUyGfvpTXb4IllHI6F7C
+ Fgm7ZTTSM3bevd2pEmkEV+bCwz4/OlVBC2A8mdJTwQSidNXSnaQqC8PgWhbcHkmGn/
+ ThJQ1pAThYOuMO15PDHJmtRM/qWGpaBMZhSEl2vciH6SA9l//t2n/lmqeMPpE0Hh4E
+ VSrYxJSHsohnw==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 19DC82E8175
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 13:45:38 +0000 (UTC)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 21 Oct 2021 13:37:38 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1874888@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: i386 tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor philmd skotik th-huth
+X-Launchpad-Bug-Reporter: Konstantin (skotik)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd=29?=
+References: <158775385817.8537.12364422091879172270.malonedeb@gac.canonical.com>
+Message-Id: <163482345897.20245.14355440793562364173.malone@chaenomeles.canonical.com>
+Subject: [Bug 1874888] Re: certain programs make QEMU crash with "tcg fatal
+ error"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="077cd577c00fa794e72ab856f950ae412860db5f"; Instance="production"
+X-Launchpad-Hash: 0020de1c2913001d5dee39ccd6f0293a87c1144a
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -99,124 +85,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- jasowang@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- peterx@redhat.com, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- ani@anisinha.ca, pbonzini@redhat.com, eric.auger@redhat.com
+Reply-To: Bug 1874888 <1874888@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Oct 2021 18:27:37 +0100
-Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+Running with '-d in_asm' under gdb I get:
 
-> We're about to support a third vIOMMU for x86, virtio-iommu which
-> doesn't inherit X86IOMMUState. Move the IOMMU singleton into
-> PCMachineState, so it can be shared between all three vIOMMUs.
-> 
-> The x86_iommu_get_default() helper is still needed by KVM and IOAPIC to
-> fetch the default IRQ-remapping IOMMU. Since virtio-iommu doesn't
-> support IRQ remapping, this interface doesn't need to change for the
-> moment. We could later replace X86IOMMUState with an "IRQ remapping
-> IOMMU" interface if necessary.
-> 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+----------------
+IN:=20
+0x40007feef0:  2e 45 71 ff              jno      0x40007feef3
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+----------------
+IN:=20
+0x40007feef3:  ff                       .byte    0xff
+0x40007feef4:  e9                       .byte    0xe9
 
-> ---
->  include/hw/i386/pc.h |  1 +
->  hw/i386/pc.c         | 12 +++++++++++-
->  hw/i386/x86-iommu.c  | 26 ++++++++------------------
->  3 files changed, 20 insertions(+), 19 deletions(-)
-> 
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 11426e26dc..b72e5bf9d1 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -35,6 +35,7 @@ typedef struct PCMachineState {
->      I2CBus *smbus;
->      PFlashCFI01 *flash[2];
->      ISADevice *pcspk;
-> +    DeviceState *iommu;
->  
->      /* Configuration options: */
->      uint64_t max_ram_below_4g;
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 54e4c00dce..fcbf328e8d 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1330,6 +1330,15 @@ static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
->      } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
->                 object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
->          pc_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
-> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE)) {
-> +        PCMachineState *pcms = PC_MACHINE(hotplug_dev);
-> +
-> +        if (pcms->iommu) {
-> +            error_setg(errp, "QEMU does not support multiple vIOMMUs "
-> +                       "for x86 yet.");
-> +            return;
-> +        }
-> +        pcms->iommu = dev;
->      }
->  }
->  
-> @@ -1384,7 +1393,8 @@ static HotplugHandler *pc_get_hotplug_handler(MachineState *machine,
->      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
->          object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
->          object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-> -        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-> +        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI) ||
-> +        object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE)) {
->          return HOTPLUG_HANDLER(machine);
->      }
->  
-> diff --git a/hw/i386/x86-iommu.c b/hw/i386/x86-iommu.c
-> index dc968c7a53..01d11325a6 100644
-> --- a/hw/i386/x86-iommu.c
-> +++ b/hw/i386/x86-iommu.c
-> @@ -77,25 +77,17 @@ void x86_iommu_irq_to_msi_message(X86IOMMUIrq *irq, MSIMessage *msg_out)
->      msg_out->data = msg.msi_data;
->  }
->  
-> -/* Default X86 IOMMU device */
-> -static X86IOMMUState *x86_iommu_default = NULL;
-> -
-> -static void x86_iommu_set_default(X86IOMMUState *x86_iommu)
-> +X86IOMMUState *x86_iommu_get_default(void)
->  {
-> -    assert(x86_iommu);
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-> +    PCMachineState *pcms =
-> +        PC_MACHINE(object_dynamic_cast(OBJECT(ms), TYPE_PC_MACHINE));
->  
-> -    if (x86_iommu_default) {
-> -        error_report("QEMU does not support multiple vIOMMUs "
-> -                     "for x86 yet.");
-> -        exit(1);
-> +    if (pcms &&
-> +        object_dynamic_cast(OBJECT(pcms->iommu), TYPE_X86_IOMMU_DEVICE)) {
-> +        return X86_IOMMU_DEVICE(pcms->iommu);
->      }
-> -
-> -    x86_iommu_default = x86_iommu;
-> -}
-> -
-> -X86IOMMUState *x86_iommu_get_default(void)
-> -{
-> -    return x86_iommu_default;
-> +    return NULL;
->  }
->  
->  static void x86_iommu_realize(DeviceState *dev, Error **errp)
-> @@ -131,8 +123,6 @@ static void x86_iommu_realize(DeviceState *dev, Error **errp)
->      if (x86_class->realize) {
->          x86_class->realize(dev, errp);
->      }
-> -
-> -    x86_iommu_set_default(X86_IOMMU_DEVICE(dev));
->  }
->  
->  static Property x86_iommu_properties[] = {
+
+Thread 1 "qemu-x86_64" received signal SIGILL, Illegal instruction.
+
+Thomas, could you migrate this to bug gitlab issues please?
+
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1874888
+
+Title:
+  certain programs make QEMU crash with "tcg fatal error"
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  The following code snippet crashes qemu with
+
+  .../tcg/tcg.c:3279: tcg fatal error
+  qemu-x86_64: /usr/local/google/home/kostik/qemu-5.0.0-rc4/accel/tcg/cpu-e=
+xec.c:701: int cpu_exec(CPUState *): Assertion `!have_mmap_lock()' failed.
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  int main() {
+    /*
+  00000000 <.data>:
+     0:   2e 45 71 ff             cs rex.RB jno 0x3
+     4:   e9 00 00 f0 00          jmp    0xf00009
+     9:   c4 42 7d 31 3e          vpmovzxbd ymm15,QWORD PTR [r14]
+     e:   c4 a3 7d 08 64 82 44    vroundps ymm4,YMMWORD PTR [rdx+r8*4+0x44]=
+,0x0
+    15:   00=20
+    16:   0f 1e 0a                nop    DWORD PTR [rdx]
+    19:   43 0f ec 20             rex.XB paddsb mm4,QWORD PTR [r8]
+    1d:   66 47 0f 3a 0c 3d 00    rex.RXB blendps xmm15,XMMWORD PTR [rip+0x=
+8000],0x0        # 0x8028
+    24:   80 00 00 00=20
+    28:   c4 e3 f9 df 5f 86 0d    vaeskeygenassist xmm3,XMMWORD PTR [rdi-0x=
+7a],0xd
+    2f:   c4 e2 55 92 74 fc 0a    vgatherdps ymm6,DWORD PTR [rsp+ymm7*8+0xa=
+],ymm5
+    36:   c4 e2 f9 17 9a 01 00    vptest xmm3,XMMWORD PTR [rdx+0x1]
+    3d:   00 00=20
+  */
+    char buf[] =3D {
+      0x2E, 0x45, 0x71, 0xFF, 0xE9, 0x00, 0x00, 0xF0, 0x00, 0xC4, 0x42, 0x7=
+D, 0x31, 0x3E, 0xC4, 0xA3, 0x7D, 0x08, 0x64, 0x82, 0x44, 0x00, 0x0F, 0x1E, =
+0x0A, 0x43, 0x0F, 0xEC, 0x20, 0x66, 0x47, 0x0F, 0x3A, 0x0C, 0x3D, 0x00, 0x8=
+0, 0x00, 0x00, 0x00, 0xC4, 0xE3, 0xF9, 0xDF, 0x5F, 0x86, 0x0D, 0xC4, 0xE2, =
+0x55, 0x92, 0x74, 0xFC, 0x0A, 0xC4, 0xE2, 0xF9, 0x17, 0x9A, 0x01, 0x00, 0x0=
+0, 0x00
+    };
+    void (*f)(void) =3D (void (*) (void))buf;
+    f();
+    return 0;
+  }
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  Steps to reproduce:
+  1) clang -static repro.c -o repro
+  2) qemu-x86_64-static repro
+
+  Tested with 4.2.0 and 5.0.0-rc4. Both -user and -system variants are
+  affected.
+
+  A few more snippets that cause the same sort of behavior:
+  1) 0x64, 0x46, 0x7D, 0xFF, 0xDF, 0x27, 0x46, 0x0F, 0xD4, 0x83, 0x5E, 0x00=
+, 0x00, 0x00, 0x3E, 0x0F, 0x6A, 0xEF, 0x0F, 0x05, 0xC4, 0x42, 0xFD, 0x1E, 0=
+xCF, 0x46, 0x18, 0xE3, 0x47, 0xCD, 0x4E, 0x6E, 0x0F, 0x0F, 0x16, 0x8A
+
+  2) 0x67, 0x45, 0xDB, 0xD0, 0xAA, 0xC4, 0xE2, 0xB1, 0x01, 0x57, 0x00,
+  0xF3, 0x6F, 0xF3, 0x42, 0x0F, 0x1E, 0xFD, 0x64, 0x2E, 0xF2, 0x45,
+  0xD9, 0xC4, 0x3E, 0xF3, 0x0F, 0xAE, 0xF4, 0x3E, 0x47, 0x0F, 0x1C,
+  0x22, 0x42, 0x73, 0xFF, 0xD9, 0xFD
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1874888/+subscriptions
 
 
