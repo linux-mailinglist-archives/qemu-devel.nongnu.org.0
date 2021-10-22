@@ -2,83 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE26A43741E
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 10:58:16 +0200 (CEST)
-Received: from localhost ([::1]:48346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A094373D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 10:46:43 +0200 (CEST)
+Received: from localhost ([::1]:36322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdqNT-0006PM-Me
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 04:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58426)
+	id 1mdqCI-0006J9-Rq
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 04:46:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mdqME-0005El-Du
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 04:56:58 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:51888)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mdqMC-0001Uc-7Z
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 04:56:57 -0400
-Received: by mail-wm1-x333.google.com with SMTP id p21so2170826wmq.1
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 01:56:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=3Vg9YlI/yWQf1i/iEjj4qoUzp4HvCVUfoWLhKSW4hV4=;
- b=FpSuRSEkCAB7qZgIjkl/H9QTzqkzrcLYUtHgMwgJHFNd8ocD4DUstljcz0DLgDAC+K
- iunV0KnD3lOQ4AtAlyoFs5AG+wtivwgmkKnZbFJtcfp7gIPYB2+5o7yNZ4Tf0BuaEoCv
- spBwNm3jbV2xjQFwok4M9PDI5P9VoiVXwy2ZGs+88DpcIrJblMqNuEWUFv2obGGXkEx/
- XvlJNsyI/KYdbwZFZxgf7Bc5Hlvh8O26uVycH5V2P17y+KCNTDu6VUl187LMl4l5w+FM
- TpJwf6jUE6SnF8IeBjymD+dmZxjScS83U3P5+t7GMuTIvZ7uCS5IwFFOha6chnivlCsN
- HskA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=3Vg9YlI/yWQf1i/iEjj4qoUzp4HvCVUfoWLhKSW4hV4=;
- b=v8J1IOBizw9uHZpSIcFepOWM4OUFVEv7nviZ8R+BnvRaqGwD033rFwG8vyPTEFY7Aq
- W4Yd9aZHI7cZ2qqKb/dONDFdexl16JtyQsPVIMHCZWfILLRZzF3A2uf8d+H9jBcTSdV9
- evjX0AKwU6EKQwg8pHYX3W2ZBa1b37h8mB7WozyYaJR6esS3n6Hd0dawSf2zRW+QhgJ+
- WjavgP2jkqfwRS+vsZWhjmCgGnd3iXr5jwdwb0BZ/aZwSUQLOWo3LwdTxKtMSBsyMpAy
- q+9ZTHZ9EfP75uueV1jiuHUPLdhV4pbcwyUydIM24dXfx/I25LHr5Ihbkt4VFNh9dVwn
- iDhw==
-X-Gm-Message-State: AOAM533B+JP9zQJGRyk6gowXHLV+zvmGmDl9zWTqS8Se/faB6kFMSBh6
- Kd1Ns6Vqe+deJSWjb7jVpUB/Dg==
-X-Google-Smtp-Source: ABdhPJzcXITFPW2A7U6pRTaBEHb2Rz1CFofpd66QNpMOdYMyuMObxwEypfPzsfm2dx5oxRL8RsyyOA==
-X-Received: by 2002:a05:600c:896:: with SMTP id
- l22mr12725308wmp.92.1634893012308; 
- Fri, 22 Oct 2021 01:56:52 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n66sm7400711wmn.2.2021.10.22.01.56.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Oct 2021 01:56:51 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2E6201FF96;
- Fri, 22 Oct 2021 09:56:50 +0100 (BST)
-References: <YUOssEF1lND+Rhsr@strawberry.localdomain>
- <87fsu3tppe.fsf@linaro.org> <YUpAXEYX0D27BnEA@strawberry.localdomain>
- <YUuQeSFsmM6YiBCp@strawberry.localdomain>
- <YXBN4UZvY5ESdz6v@strawberry.localdomain> <87cznzvavq.fsf@linaro.org>
- <YXCA62xdRDeueQR6@strawberry.localdomain> <87mtn2tv56.fsf@linaro.org>
- <YXHQORB9wMncI5uG@strawberry.localdomain>
-User-agent: mu4e 1.7.0; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
-Subject: Re: plugins: Missing Store Exclusive Memory Accesses
-Date: Fri, 22 Oct 2021 09:37:47 +0100
-In-reply-to: <YXHQORB9wMncI5uG@strawberry.localdomain>
-Message-ID: <87ee8dtp2l.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
+ id 1mdq7k-0000Ho-Lf; Fri, 22 Oct 2021 04:42:00 -0400
+Received: from atcsqr.andestech.com ([60.248.187.195]:14111)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
+ id 1mdq7f-0001Fp-DO; Fri, 22 Oct 2021 04:42:00 -0400
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+ by ATCSQR.andestech.com with ESMTP id 19M8fHYO012023;
+ Fri, 22 Oct 2021 16:41:17 +0800 (GMT-8)
+ (envelope-from ruinland@andestech.com)
+Received: from ruinland-x1c (192.168.21.142) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Fri, 22 Oct 2021
+ 16:41:12 +0800
+Date: Fri, 22 Oct 2021 16:41:11 +0800
+From: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [RFC PATCH v1 1/2] riscv: Add preliminary infra for custom
+ instrcution handling
+Message-ID: <YXJ5J/kYBtosvtWj@ruinland-x1c>
+References: <20211021151136.721746-1-ruinland@andestech.com>
+ <e085e176-4ed4-248d-7546-c992ac283077@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <e085e176-4ed4-248d-7546-c992ac283077@linaro.org>
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
+X-Originating-IP: [192.168.21.142]
+X-DNSRBL: 
+X-MAIL: ATCSQR.andestech.com 19M8fHYO012023
+Received-SPF: pass client-ip=60.248.187.195;
+ envelope-from=ruinland@andestech.com; helo=ATCSQR.andestech.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,66 +59,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cota@braap.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
+Cc: ycliang@andestech.com, qemu-riscv@nongnu.org, alankao@andestech.com,
+ wangjunqiang@iscas.ac.cn, dylan@andestech.com, qemu-devel@nongnu.org,
+ alistair23@gmail.com, bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Oct 21, 2021 at 09:11:44AM -0700, Richard Henderson wrote:
+> On 10/21/21 8:11 AM, Ruinland Chuan-Tzu Tsai wrote:
+> > -static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+> > +/* Custom insn related definitions/prototypes */
+> > +extern __thread bool cpu_has_custom_insns;
+> > +/*
+> > + * These 2 are for indication if decode fails.
+> > + * We don't want to interfere the following regular extension decoding
+> > + * We assume MTTCG is 1-1 mapping for now.
+> > + */
+> > +__thread bool custom_c_insn_decoded;
+> > +__thread bool custom_insn_decoded;
+> > +
+> > +extern bool (*custom_c_insn_handler)(DisasContext *, uint16_t);
+> > +extern bool (*custom_insn_handler)(DisasContext *, uint32_t);
+> > +
+> > +static void try_decode_custom_insn(CPURISCVState *env, DisasContext *ctx,
+> > +                                   uint16_t opcode)
+> 
+> 
+> This is way, way over-engineered.
+> 
+> You seem to be trying to design something that can be plugged in, which the
+> rest of QEMU knows nothing of.  I think that's a mistake.  Your custom cpu
+> extensions should be treated as any other RISC-V extension, since it is in
+> fact built in to QEMU.
+> 
+> Begin with adding the "bool ext_andes" field in RISCVCPU.  Propagate that
+> into the DisasContext just like the other extensions.
 
-Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+Wilco, thanks for the tips.
 
-> On Oct 21 13:28, Alex Benn=C3=A9e wrote:
->> It's a bit clearer if you use the contrib/execlog plugin:
->>=20
->>   ./qemu-aarch64 -plugin contrib/plugins/libexeclog.so -d plugin  ./test=
-s/tcg/aarch64-linux-user/stxp
->>=20
->>   0, 0x400910, 0xf9800011, "prfm pstl1strm, [x0]
->>   0, 0x400914, 0xc87f4410, "ldxp x16, x17, [x0]", load, 0x55007fffd0, lo=
-ad, 0x55007fffd8=20
->>   0, 0x400918, 0xc8300c02, "stxp w16, x2, x3, [x0]", load, 0x55007fffd0,=
- load, 0x55007fffd8, store, 0x55007fffd0, store, 0x55007fffd8=20
->>   0, 0x40091c, 0xf1000652, "subs x18, x18, #1"
->>   0, 0x400920, 0x54000040, "b.eq #0x400928"
->>   0, 0x400924, 0x17fffffb, "b #0x400910"
-<snip>
->>=20
->> Although you can see stxp looks a bit weird on account of the loads it
->> does during the cmpxchng. So consider me stumped. The only thing I can
->> thing of next is to see how closely I can replicate your build
->> environment.
->
-> I apologize, I had apparently gotten farther behind upstream than I
-> realized since originally encountering this. I tried the latest upstream
-> code and am now able to observe the same thing as you. Somewhere between
-> v6.1.0 and now, the original issue I reported has been resolved.
->
-> However, I am not sure reporting loads for a store exclusive makes sense
-> to me here, either. My understanding is that the stxp needs to check if
-> it still has exclusive access and QEMU's implementation results in the
-> extra loads, but I would expect that the plugin interface would only
-> report architectural loads.
+Cordially yours,
+Ruinland
 
-Yes this is an anomaly. It's not reporting all loads and stores because
-there are accesses to cpu_exclusive_addr and cpu_exclusive_val which we
-use to simulate the exclusivity check. However we don't currently have a
-way to signal to the TCG that a cmpxchg is only being done to simulate a
-store.
-
-I guess we need to either signal the helper someway to avoid calling
-atomic_trace_rmw_post and call atomic_trace_st_post instead. Ideally we
-could signal this in metadata somehow (although I suspect adding
-something to MemOpIdx might be too ugly). The alternative would be
-defining another series of cmpxchg helpers that did this.
-
-Looking at the code also reminds me that we need to excise the broken
-memory trace code.
-
-> Is there any obvious way to omit the loads from the plugin interface
-> here?
->
-> -Aaron
-
-
---=20
-Alex Benn=C3=A9e
+> 
+> Changes to decode_opc should be quite simple:
+> 
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 6d7fbca1fa..ea1e159259 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -473,13 +473,16 @@ static void decode_opc(CPURISCVState *env,
+> DisasContext *ctx, uint16_t opcode)
+>  {
+>      /* check for compressed insn */
+>      if (extract16(opcode, 0, 2) != 3) {
+> +        ctx->pc_succ_insn = ctx->base.pc_next + 2;
+>          if (!has_ext(ctx, RVC)) {
+>              gen_exception_illegal(ctx);
+> -        } else {
+> -            ctx->pc_succ_insn = ctx->base.pc_next + 2;
+> -            if (!decode_insn16(ctx, opcode)) {
+> -                gen_exception_illegal(ctx);
+> -            }
+> +            return;
+> +        }
+> +        if (ctx->ext_andes && decode_andes16(ctx, opcode)) {
+> +            return;
+> +        }
+> +        if (!decode_insn16(ctx, opcode)) {
+> +            gen_exception_illegal(ctx);
+>          }
+>      } else {
+>          uint32_t opcode32 = opcode;
+> @@ -487,6 +490,9 @@ static void decode_opc(CPURISCVState *env, DisasContext
+> *ctx, uint16_t opcode)
+>                               translator_lduw(env, &ctx->base,
+>                                               ctx->base.pc_next + 2));
+>          ctx->pc_succ_insn = ctx->base.pc_next + 4;
+> +        if (ctx->ext_andes && decode_andes32(ctx, opcode)) {
+> +            return;
+> +        }
+>          if (!decode_insn32(ctx, opcode32)) {
+>              gen_exception_illegal(ctx);
+>          }
+> 
+> 
+> r~
 
