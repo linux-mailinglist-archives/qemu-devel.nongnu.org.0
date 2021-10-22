@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A8C43800D
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 23:59:26 +0200 (CEST)
-Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F59438014
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 00:03:04 +0200 (CEST)
+Received: from localhost ([::1]:60284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1me2ZR-0007Ta-TK
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 17:59:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42630)
+	id 1me2cx-0000p9-RU
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 18:03:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1me2Y0-00069n-E6
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:57:56 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:56299)
+ id 1me2bt-0008OM-JQ
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 18:01:57 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:36473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1me2Xy-000475-2m
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:57:56 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id om14so3840599pjb.5
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 14:57:53 -0700 (PDT)
+ id 1me2bs-0007nK-4a
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 18:01:57 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id m26so4832432pff.3
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 15:01:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dH1MUHNJJYZ4ciYokCnXVB4/D0In4JrANc0ZkRYfwVc=;
- b=v0M+0LdSjJi8vIG1PUyRNMdkoB2E/jp8CTwXBVLV6gKmxAcYlphbeTCHr8ifA+gSN0
- B2QXF/pSlxnpemvDhtWXB3sYIQXaJNQ6QN7OUXD/H4jsUPOUa67wxSYs+eu78sd+Hy0O
- 3bRdD9wNt4BIfF0/BwBUJX5gitOmcVaa7ZDkK8tnoSBzsG+z9/pst137Pa2MSOTzKoyX
- 6LaoLlmWsR+WiAhXpdPfr5BJurQHCMeRU5ZqDusgHVesX/wHk6f0wQvu3SnYI5MqoOh/
- TFi2Idsp9Nqm8rK/ai3p6mY4qnTLStAjIg2GCVRQLKjy4lWpLQ5iI414V+VFmK3N3ejK
- Nbbg==
+ bh=smpcGyHABf1Thyq1K8OF0xFWxa80ceoU+WjPOUiofys=;
+ b=yZ3hct+CMVez4pWfNcXR92mRlJwYAbJCIxDO5hj/DZCnGQCT2buZizTYHMi/KWtEbk
+ XojrMH/4kh0oHEQaJY6lQf6G0RlVKo9MOhKC3PbC9YKaCunRw2hE26axVpze6NaT0t49
+ Hh14jxpaXTDxIFAFac2MewPaxYukA695Xgm7uf3h9Ep1mTImUGOV2yvYoT3flVPC7//V
+ T0c5vTJ+s0GFs16gnGNk6h81H8zgv0uju89VKXFadWw5s4YX9pYFvX3D2zi7NH8JtVaY
+ 5YEwKcqEJzUO0Na+xPtPr5IqXYQrHOH14J8xXkw8DW5m/018G+3QnROlfsKsy+CrKxQU
+ x7Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dH1MUHNJJYZ4ciYokCnXVB4/D0In4JrANc0ZkRYfwVc=;
- b=WfzX57cs8Tbpihcp8DEjiFI5VFdWXN3uw4i/CPZtPg/aF0pr/djSRF2GTLMMC9VOsh
- t8EONEnLTn8OOibTzkhhTMyHvfyHaRubcBzheyV+yMQXG2diQBdq9ZCs3RKpKQWLR6CS
- odUEhPoxEP+jj5NaoEp+YIkskDMl2o8qSnfWEMPY+Ul7F7DmKLOL4n2q0Wa5fhSeza0T
- hmaU4lymDv6ZIM0l/CmDA1ObMKmLVgJ4+LsuzDP9nl/d7XTZeBGCAHrc8vSF7MCoVxWr
- M/WzVn463y2BZyq2SWQOToAL6p9DpVRMIk5SflxORI29TOX7WYtP0XX0tIfTVSMcviVy
- VUFw==
-X-Gm-Message-State: AOAM532cIeZiIm3NsRwah5u/L24TGXV4F83CDA/oqcKvImd/S038GXfa
- fFSUkQ1dr6nZ3n5Gu65wuN7+jw==
-X-Google-Smtp-Source: ABdhPJwIk9YQCHfp1uRwUliJnuBAVURp4BvDNJAXQhdz1/iFWzffLMWr1RIfWOf7dt6sFw6ZmMxxrQ==
-X-Received: by 2002:a17:90a:a609:: with SMTP id
- c9mr17953778pjq.134.1634939872621; 
- Fri, 22 Oct 2021 14:57:52 -0700 (PDT)
+ bh=smpcGyHABf1Thyq1K8OF0xFWxa80ceoU+WjPOUiofys=;
+ b=ZVJxHTIXGyiYjoKQ6yLMNZOoOSbAsj4K+k4MBMotMTzBdhTO8ylaDaMXQHXKa9ClxT
+ pms08BPFa8eUUbMohZVAcSjSCtqCjWaEM/Tg4UDeHQVe/pOwQK9/aC5VNvrihX9F06tB
+ FMnTdvN1jUPqTvb1z5Sd4jZA7p7Xy8WkDrkFSivF01GJaA0eLvgdKnJTsJ95OEIScQH4
+ PjJmQeN0hUyB1mPBCZ03rcmGHRaVPD4jWwNa5ojnLqbpUYy4IprM7V+Rqjij9qSo3ow4
+ q+UVLx16ktH8B+PiFMGawFimVuEj4cnFSHfq93CakN86zlWJmdmDDdDkOczyffTJlggx
+ Ha7g==
+X-Gm-Message-State: AOAM533S2BoByAZJUtZsZoy8Tk7Tulc1R+6gR0AY8aL83HRe5KS6FAt8
+ j82MLN6uL7RXivmwgPIREr/5/Q==
+X-Google-Smtp-Source: ABdhPJxUa1au/PmLcR0aLc5ol9XclVXLs52/iOqw8Hesy+C8QcYBa9vj4dUT6kkdcA8q8klJpLL3NA==
+X-Received: by 2002:a05:6a00:26dd:b0:44d:2531:9f46 with SMTP id
+ p29-20020a056a0026dd00b0044d25319f46mr2290912pfw.46.1634940114524; 
+ Fri, 22 Oct 2021 15:01:54 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id lp9sm11776630pjb.35.2021.10.22.14.57.52
+ by smtp.gmail.com with ESMTPSA id c21sm12278945pfv.145.2021.10.22.15.01.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Oct 2021 14:57:52 -0700 (PDT)
-Subject: Re: [PATCH 01/33] target/ppc: introduce do_ea_calc
+ Fri, 22 Oct 2021 15:01:54 -0700 (PDT)
+Subject: Re: [PATCH 02/33] target/ppc: move resolve_PLS_D to translate.c
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
- <20211021194547.672988-2-matheus.ferst@eldorado.org.br>
+ <20211021194547.672988-3-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <23bcc387-4b1e-983c-4478-928fad545b12@linaro.org>
-Date: Fri, 22 Oct 2021 14:57:50 -0700
+Message-ID: <61a8528b-d51d-4016-6b1c-82690a3022b2@linaro.org>
+Date: Fri, 22 Oct 2021 15:01:52 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211021194547.672988-2-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20211021194547.672988-3-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -96,15 +96,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 10/21/21 12:45 PM, matheus.ferst@eldorado.org.br wrote:
 > From: pherde<phervalle@gmail.com>
 > 
-> The do_ea_calc function will calculate the effective address(EA)
-> according to PowerIsa 3.1. With that, it was replaced part of
-> do_ldst() that calculates the EA by this new function.
+> Move resolve_PLS_D from fixedpoint-impl.c.inc to translate.c
+> because this way the function can be used not only by fixed
+> point instructions.
 > 
 > Signed-off-by: Fernando Eckhardt Valle (pherde)<phervalle@gmail.com>
 > Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > ---
+>   target/ppc/translate.c                     | 19 +++++++++++++++++++
+>   target/ppc/translate/fixedpoint-impl.c.inc | 19 -------------------
+>   2 files changed, 19 insertions(+), 19 deletions(-)
 
-Oh, and please fix the commit author to Fernando's complete name.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
