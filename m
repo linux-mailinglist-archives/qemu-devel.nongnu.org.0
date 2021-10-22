@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833514373A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 10:28:01 +0200 (CEST)
-Received: from localhost ([::1]:50860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 609D54373CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 10:43:58 +0200 (CEST)
+Received: from localhost ([::1]:58772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdpuC-0003nd-8P
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 04:28:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49930)
+	id 1mdq9d-0002Lz-1V
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 04:43:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mdpsZ-0002x4-19; Fri, 22 Oct 2021 04:26:19 -0400
-Received: from out28-101.mail.aliyun.com ([115.124.28.101]:37600)
+ (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
+ id 1mdq7S-00006Q-Rs; Fri, 22 Oct 2021 04:41:46 -0400
+Received: from atcsqr.andestech.com ([60.248.187.195]:14093)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mdpsV-0003uS-Pi; Fri, 22 Oct 2021 04:26:18 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07523525|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.00944311-0.000403697-0.990153;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047213; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=4; RT=4; SR=0; TI=SMTPD_---.Lg-xofl_1634891162; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.Lg-xofl_1634891162)
- by smtp.aliyun-inc.com(10.147.42.22); Fri, 22 Oct 2021 16:26:03 +0800
-Subject: Re: [PATCH v6 00/15] target/riscv: Rationalize XLEN and operand length
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211020031709.359469-1-richard.henderson@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <17397bbe-7dfe-ac2e-6033-4ab4840a11bd@c-sky.com>
-Date: Fri, 22 Oct 2021 16:26:02 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
+ id 1mdq7P-0008Ta-Ml; Fri, 22 Oct 2021 04:41:42 -0400
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+ by ATCSQR.andestech.com with ESMTP id 19M8YVOk000178;
+ Fri, 22 Oct 2021 16:34:31 +0800 (GMT-8)
+ (envelope-from ruinland@andestech.com)
+Received: from ruinland-x1c (192.168.21.142) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Fri, 22 Oct 2021
+ 16:34:29 +0800
+Date: Fri, 22 Oct 2021 16:34:28 +0800
+From: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [RFC PATCH v5 2/3] riscv: Introduce custom CSR hooks to
+ riscv_csrrw()
+Message-ID: <YXJ3lEChs9bSkqSZ@ruinland-x1c>
+References: <20211021150921.721630-1-ruinland@andestech.com>
+ <20211021150921.721630-3-ruinland@andestech.com>
+ <cdafb564-6ed8-c951-9381-3a90175abdde@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20211020031709.359469-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.101; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-101.mail.aliyun.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.867,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <cdafb564-6ed8-c951-9381-3a90175abdde@linaro.org>
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
+X-Originating-IP: [192.168.21.142]
+X-DNSRBL: 
+X-MAIL: ATCSQR.andestech.com 19M8YVOk000178
+Received-SPF: pass client-ip=60.248.187.195;
+ envelope-from=ruinland@andestech.com; helo=ATCSQR.andestech.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,109 +60,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org
+Cc: ycliang@andestech.com, qemu-riscv@nongnu.org, alankao@andestech.com,
+ wangjunqiang@iscas.ac.cn, dylan@andestech.com, qemu-devel@nongnu.org,
+ alistair23@gmail.com, bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+On Thu, Oct 21, 2021 at 05:08:09PM -0700, Richard Henderson wrote:
+> On 10/21/21 8:09 AM, Ruinland Chuan-Tzu Tsai wrote:
+> > riscv_csrrw() will be called by CSR handling helpers, which is the
+> > most suitable place for checking wheter a custom CSR is being accessed.
+> > 
+> > If we're touching a custom CSR, invoke the registered handlers.
+> > 
+> > Signed-off-by: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>
+> > ---
+> >   target/riscv/cpu.c             | 19 +++++++++++++++++
+> >   target/riscv/cpu.h             | 13 +++++++++++-
+> >   target/riscv/csr.c             | 38 +++++++++++++++++++++++++++-------
+> >   target/riscv/custom_csr_defs.h |  7 +++++++
+> >   4 files changed, 68 insertions(+), 9 deletions(-)
+> >   create mode 100644 target/riscv/custom_csr_defs.h
+> > 
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index 0c93b7edd7..a72fd32f01 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -34,6 +34,9 @@
+> >   static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
+> > +GHashTable *custom_csr_map = NULL;
+> 
+> Leftover from a previous revision?
 
-I am implementing the UXL based on this patch set and have a question
-about how to process  the PC register.
+By default there's no custom_csr_map (pointing to NULL) and thus only the
+custom CSR equipped CPU models will need to initialize that. Standard CPU will
+pass the check of custom_csr_map in riscv_csrrw() by default.
 
-As the specification said, "PC bits above XLEN are ignored, and when
-the PC is written, it is sign-extended to fill the widest supported XLEN."
-We still need special process of PC for exceptions or jump instructions.
+> 
+> > +#include "custom_csr_defs.h"
+> 
+> I think that the few declarations that are required can just go in internals.h.
 
-I have two methods to implement  PC register access,
-but not sure which is the right way.
+Wilco.
 
-First, normally process the PC register as the specification points.
-That means expanding  the PC when setting the global TCGv variable
-cpu_pc, and truncating the pc_first and  pc_next fields in
-DisasContextBase before decoding instructions.    I am not sure
-whether the sign-extended pc is compatible with QEMU common code.
+> 
+> > +
+> >   const char * const riscv_int_regnames[] = {
+> >     "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
+> >     "x7/t2",   "x8/s0",  "x9/s1",  "x10/a0", "x11/a1", "x12/a2",  "x13/a3",
+> > @@ -149,6 +152,22 @@ static void set_resetvec(CPURISCVState *env, target_ulong resetvec)
+> >   #endif
+> >   }
+> > +static void setup_custom_csr(CPURISCVState *env,
+> > +                             riscv_custom_csr_operations csr_map_struct[])
+> 
+> Why is this static?  Surely it needs to be called from csr_andes.c, etc?
+> Oh, I see that in the next patch you call this directly from ax25_cpu_init.
+> 
+> I think the split of declarations is less than ideal.  See below.
+> 
+> > +{
+> > +    int i;
+> > +    env->custom_csr_map = g_hash_table_new(g_direct_hash, g_direct_equal);
+> > +    for (i = 0; i < MAX_CUSTOM_CSR_NUM; i++) {
+> 
+> Having a hard maximum seems a mistake.  You should pass in the array size...
+> 
+> > +        if (csr_map_struct[i].csrno != 0) {
+> > +            g_hash_table_insert(env->custom_csr_map,
+> > +                GINT_TO_POINTER(csr_map_struct[i].csrno),
+> > +                &csr_map_struct[i].csr_opset);
+> > +        } else {
+> > +            break;
+> > +        }
+> 
+> ... which would also allow you to remove the terminator in the data, and the check here.
 
-Second,  ignore ignore the PC special process for jump instructions.
-Just expand or truncate the PC register when exception processing,
-gdb read, or cpu dump registers. It is not a stright way,  but I think 
-it is still right.
+Wilco.
 
-Hope to get you advice. Thanks very much.
+> 
+> > @@ -245,6 +245,11 @@ struct CPURISCVState {
+> >       /* Fields from here on are preserved across CPU reset. */
+> >       QEMUTimer *timer; /* Internal timer */
+> > +
+> > +    /* Custom CSR opset table per hart */
+> > +    GHashTable *custom_csr_map;
+> 
+> I think placing this in the CPURISCVState is incorrect.  A much better place
+> would be on the RISCVCPUClass, so that there is exactly one copy of this per
+> cpu type, i.e. all A25/AX25 cpus would share the same table.
+> 
+> You would of course need to hook class_init, which the current definition of
+> DEFINE_CPU does not allow.  But that's easy to fix.
+> 
+> > +    /* Custom CSR value holder per hart */
+> > +    void *custom_csr_val;
+> >   };
+> 
+> Value singular?  Anyhow, I think that it's a mistake trying to hide the
+> value structure in another file.  It complicates allocation of the
+> CPURISCVState, and you have no mechanism by which to migrate the csr values.
 
-Best Regards,
-Zhiwei
+What I'm trying to do here is to provide a hook for CSR value storage and let
+it being set during CPU initilization. We have heterogeneous harts which
+have different sets of CSRs.
 
-On 2021/10/20 上午11:16, Richard Henderson wrote:
-> This is a partial patch set attempting to set things in the
-> right direction for both the UXL and RV128 patch sets.
->
->
+> 
+> I think you should simply place your structure here in CPURISCVState.
+> 
+> > +static gpointer find_custom_csr(CPURISCVState *env, int csrno)
+> > +{
+> > +    gpointer ret;
+> > +    ret = g_hash_table_lookup(env->custom_csr_map, GINT_TO_POINTER(csrno));
+> > +    return ret;
+> > +}
+> 
+> Fix the return type; the csr is not gpointer.
+> It would be better to put the map not null test here.
+> 
+> I think it would be even better to name this find_csr,
+> and include the normal index of csr_ops[] if the map
+> test fails.
+
+Wilco.
+
+> 
+> > @@ -1449,26 +1458,39 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+> >           return RISCV_EXCP_ILLEGAL_INST;
+> >       }
+> > +    /* try to handle_custom_csr */
+> > +    if (unlikely(env->custom_csr_map != NULL)) {
+> > +        riscv_csr_operations *custom_csr_opset = (riscv_csr_operations *)
+> > +            find_custom_csr(env, csrno);
+> > +        if (custom_csr_opset != NULL) {
+> > +            csr_op = custom_csr_opset;
+> > +            } else {
+> > +            csr_op = &csr_ops[csrno];
+> > +            }
+> > +        } else {
+> > +        csr_op = &csr_ops[csrno];
+> > +        }
+> 
+> As Alistair noted, run checkpatch.pl to find all of these indentation errors.
+> 
+> That said, a better structure here would be
+> 
+>     csr_op = find_csr(env, csrno);
+>     if (csr_op == NULL) {
+>         return RISCV_EXCP_ILLEGAL_INST;
+>     }
+
+Thanks for the tips. Wilco.
+> 
+> 
 > r~
->
->
-> Changes for v6:
->    * Rebase on riscv-to-apply.next.
->
-> Changes for v5:
->    * Fix cpu_dump, which asserted for -accel qtest.
->      Instead of filtering CSRs explicitly in cpu_dump,
->      let the riscv_csr_operations predicate do the job.
->      This means we won't dump S-mode registers when RVS
->      is not enabled, much like we currently filter on RVH.
->
-> Changes for v4:
->    * Use riscv_csrrw_debug for cpu_dump.
->      This fixes the issue that Alistair pointed out wrt the
->      MSTATUS.SD bit not being correct in the dump; note that
->      gdbstub already uses riscv_csrrw_debug, and so did not
->      have a problem.
->    * Align the registers in cpu_dump.
->
-> Changes for v3:
->    * Fix CONFIG_ typo.
->    * Fix ctzw typo.
->    * Mark get_xlen unused (clang werror)
->    * Compute MSTATUS_SD on demand.
->
-> Changes for v2:
->    * Set mxl/sxl/uxl at reset.
->    * Set sxl/uxl in write_mstatus.
->
->
-> Richard Henderson (15):
->    target/riscv: Move cpu_get_tb_cpu_state out of line
->    target/riscv: Create RISCVMXL enumeration
->    target/riscv: Split misa.mxl and misa.ext
->    target/riscv: Replace riscv_cpu_is_32bit with riscv_cpu_mxl
->    target/riscv: Add MXL/SXL/UXL to TB_FLAGS
->    target/riscv: Use REQUIRE_64BIT in amo_check64
->    target/riscv: Properly check SEW in amo_op
->    target/riscv: Replace is_32bit with get_xl/get_xlen
->    target/riscv: Replace DisasContext.w with DisasContext.ol
->    target/riscv: Use gen_arith_per_ol for RVM
->    target/riscv: Adjust trans_rev8_32 for riscv64
->    target/riscv: Use gen_unary_per_ol for RVB
->    target/riscv: Use gen_shift*_per_ol for RVB, RVI
->    target/riscv: Use riscv_csrrw_debug for cpu_dump
->    target/riscv: Compute mstatus.sd on demand
->
->   target/riscv/cpu.h                      |  73 +++------
->   target/riscv/cpu_bits.h                 |   8 +-
->   hw/riscv/boot.c                         |   2 +-
->   linux-user/elfload.c                    |   2 +-
->   linux-user/riscv/cpu_loop.c             |   2 +-
->   semihosting/arm-compat-semi.c           |   2 +-
->   target/riscv/cpu.c                      | 195 +++++++++++++-----------
->   target/riscv/cpu_helper.c               |  92 ++++++++++-
->   target/riscv/csr.c                      | 104 ++++++++-----
->   target/riscv/gdbstub.c                  |  10 +-
->   target/riscv/machine.c                  |  10 +-
->   target/riscv/monitor.c                  |   4 +-
->   target/riscv/translate.c                | 174 +++++++++++++++------
->   target/riscv/insn_trans/trans_rvb.c.inc | 140 +++++++++--------
->   target/riscv/insn_trans/trans_rvi.c.inc |  44 +++---
->   target/riscv/insn_trans/trans_rvm.c.inc |  36 ++++-
->   target/riscv/insn_trans/trans_rvv.c.inc |  29 ++--
->   17 files changed, 576 insertions(+), 351 deletions(-)
->
+
+Cordially yours,
+Ruinland
 
