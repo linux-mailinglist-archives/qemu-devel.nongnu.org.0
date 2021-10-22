@@ -2,93 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055A9438003
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 23:48:12 +0200 (CEST)
-Received: from localhost ([::1]:48810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEBE4438004
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 23:51:31 +0200 (CEST)
+Received: from localhost ([::1]:50946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1me2OZ-00018r-4Q
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 17:48:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41274)
+	id 1me2Rm-0002go-Vv
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 17:51:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1me2N5-0000S3-DI
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:46:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48169)
+ (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1me2Qa-0001w5-Oe
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:50:17 -0400
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:43149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1me2N1-0007Ba-Vj
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:46:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634939195;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lIZIQ3mYE62DqF45OP1btlXezubRtjgW2MB6oakfjBo=;
- b=h2YmUX/gopvVM8MfE1F4oDYY3Z7j9psV0PaNQ2o6dqkxaNmnhkO9FbpcIpsmrPQJ8Pulyh
- Da+bGhgRKBZu4n8/kzofHdG3kK3FzbjQgrd3yEqpI4Xj0ZqzQ6/zukevrLHT7ReIjQ+g5F
- CcmGnoFacEMcItvW0FbKNlmXAM2N2wc=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-zY2SS22nM6iaC-esqEQ3xA-1; Fri, 22 Oct 2021 17:46:33 -0400
-X-MC-Unique: zY2SS22nM6iaC-esqEQ3xA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- u17-20020a50d511000000b003daa3828c13so4958457edi.12
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 14:46:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=lIZIQ3mYE62DqF45OP1btlXezubRtjgW2MB6oakfjBo=;
- b=61LTqCX2LBLVvjoev0h4ansLgGx3VKEn+wL0idLIVwC3E+LYrHHhoVHbZcXWHOH+LW
- fC1CDZ9S1ggz1FpBwceQy23jY1wpwDszZW+joJoWgHiaoyQXi1y14zWsWvmmPBOMV5Vn
- Lv9i6pUszXAYscHNUi9DUcehKIR0fQ6hWy6D6GhuaErizFTPzcIJberB+oTmMccGMtRV
- ama7prAtqc3YpTv5x5iGeDCj5esMlKO7Dzj8/2vQjYfmSpEE1B0AvVYg9DhO4gExfkm8
- jzlEEAH4cjghZKFhh7ff8OkH3U/xwL64NKgwtNbtOyzsicbkqacQ9XD0LzHHwq1jPzld
- v7Mw==
-X-Gm-Message-State: AOAM533i4kXYZulUTrnyM4ultYM4sNMyj7Uh/vrERtdZ3uaeCtpgKS16
- eMpQHPHJsk71h0YQ44xfeg4OnQSZ3YUZZjeab/Ebfy0TaU7+Z7P8WAt4cE3RejHxIrKCtN3W4JR
- 0SBpv2osu6x9MqBk=
-X-Received: by 2002:a17:907:7f01:: with SMTP id
- qf1mr2556019ejc.190.1634939192653; 
- Fri, 22 Oct 2021 14:46:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz+MwfwnORMBGjhzZVJgd4wKtLSWRRvTlJCNtDgs42WDaxFntVSBnIyBbybOrG0EANliRkJfA==
-X-Received: by 2002:a17:907:7f01:: with SMTP id
- qf1mr2555998ejc.190.1634939192430; 
- Fri, 22 Oct 2021 14:46:32 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id s3sm4352493ejm.49.2021.10.22.14.46.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Oct 2021 14:46:31 -0700 (PDT)
-Message-ID: <6e04392e-e52b-2011-0d62-4a6c24628e7b@redhat.com>
-Date: Fri, 22 Oct 2021 23:46:30 +0200
+ (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1me2QY-0002MT-EJ
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:50:16 -0400
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.94) with esmtps (TLS1.2)
+ tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1me2QD-000tYC-09; Fri, 22 Oct 2021 23:49:53 +0200
+Received: from p57bd9015.dip0.t-ipconnect.de ([87.189.144.21]
+ helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.94)
+ with esmtpsa (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1me2QC-000229-Q0; Fri, 22 Oct 2021 23:49:52 +0200
+Message-ID: <9189dbe7-cf92-19c7-dee5-b707262964d1@physik.fu-berlin.de>
+Date: Fri, 22 Oct 2021 23:49:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2 5/5] sgx: Reset the vEPC regions during VM reboot
-To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
-References: <20211022192754.58196-1-yang.zhong@intel.com>
- <20211022192754.58196-6-yang.zhong@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211022192754.58196-6-yang.zhong@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.2.0
+Subject: Re: Looking for advise on debugging a non-boot kernel on
+ qemu-system-sh4
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <4882e4cc-6754-1c8a-a8ae-a2ceeca115fb@physik.fu-berlin.de>
+ <e11d3ee1-2a25-7633-babd-d45f36b04c5b@eik.bme.hu>
+ <013d782d-0d7c-8204-cab2-08102a7d80f4@physik.fu-berlin.de>
+ <3c524162-e83-a9b3-1e28-2aa28dbefa76@eik.bme.hu>
+ <f0933be1-75ee-b053-1f53-f96258d41163@physik.fu-berlin.de>
+ <d2553511-b83c-d4f1-5a88-b661bc97eb@eik.bme.hu>
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+In-Reply-To: <d2553511-b83c-d4f1-5a88-b661bc97eb@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.742, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.144.21
+Received-SPF: pass client-ip=130.133.4.66;
+ envelope-from=glaubitz@zedat.fu-berlin.de; helo=outpost1.zedat.fu-berlin.de
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.742,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,72 +70,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, jarkko@kernel.org, eblake@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/10/21 21:27, Yang Zhong wrote:
-> +
-> +    for (j = 0; j < num; j++) {
-> +        epc = pcms->sgx_epc.sections[j];
-> +        hostmem = MEMORY_BACKEND(epc->hostmem);
-> +        fd = memory_region_get_fd(host_memory_backend_get_memory(hostmem));
-> +
-> +        failures = ioctl(fd, SGX_IOC_VEPC_REMOVE_ALL);
-> +        if (failures < 0) {
-> +            return failures;
-> +        } else if (failures > 0) {
-> +            /* Remove SECS pages */
-> +            sleep(1);
-> +            failures_1 = ioctl(fd, SGX_IOC_VEPC_REMOVE_ALL);
-> +        }
-> +
-> +        /*
-> +         * The host or guest can support 8 EPC sections, use the
-> +         * corresponding bit to show each section removal status.
-> +         */
-> +        if (failures_1) {
-> +            set_bit(j, &ret);
-> +        }
-> +    }
+Hi Zoltan!
 
-This sleep is not necessary, just do two tries on all the regions.  So 
-something like
+Thanks a lot for helping me to investigate the problem. Much appreciated!
 
-     int failures;
+On 10/22/21 23:06, BALATON Zoltan wrote:
+>> I think I've seen problems with compressed kernel images and QEMU before. I will switch
+>> to an uncompressed kernel and try again.
+> 
+> How did you compile the kernel that does not boot? What config have you used?
 
-     /*
-      * The second pass is needed to remove SECS pages that could not
-      * be removed during the first.
-      */
-     for (i = 0; i < 2; i++) {
-         failures = 0;
-         for (j = 0; j < pcms->sgx_epc.nr_sections; j++) {
-             epc = pcms->sgx_epc.sections[j];
-             hostmem = MEMORY_BACKEND(epc->hostmem);
-             fd = 
-memory_region_get_fd(host_memory_backend_get_memory(hostmem));
+The config is constructed from the Debian kernel configuration tree. I have uploaded
+the resulting config file here:
 
-             r = ioctl(fd, SGX_IOC_VEPC_REMOVE_ALL);
-             if (r < 0) {
-                 return r;
-             }
-             if (r > 0) {
-                 /* SECS pages remain */
-                 failures++;
-                 if (pass == 1) {
-                     error_report("cannot reset vEPC section %d\n", j);
-                 }
-             }
-         }
-         if (!failures) {
-             return 0;
-         }
-     }
-     return failures;
+> https://people.debian.org/~glaubitz/config-5.14.0-3-sh7751r.gz
 
-is enough, without any need to do further retries.
+I've tried to reproduce it by compiling a kernel with rts7751r2d1_defconfig and different
+> compression methods but it did start and never got the problem seen with your kernel.
 
-Paolo
+Oh, that's very interesting. How big were the kernel images you got? My suspicion was
+that the current Debian kernel might be too much.
+
+> Maybe it's the gcc version? My cross compiler is 8.4.0 and you seem to use 10.x. Maybe
+> newer gcc uses something that's not emulated correctly?
+
+Yes, it has been built with gcc-10 which is currently Debian's default kernel for building
+the kernel.
+
+> It would be interesting to identify what's causing the problem.
+
+Indeed. Thanks for helping me with that.
+
+Adrian
+
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
 
