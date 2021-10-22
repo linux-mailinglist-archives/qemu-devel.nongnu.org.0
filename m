@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22A8437299
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 09:19:44 +0200 (CEST)
-Received: from localhost ([::1]:51586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 825C94372A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 09:23:13 +0200 (CEST)
+Received: from localhost ([::1]:59624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdoq8-0003cC-0f
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 03:19:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60256)
+	id 1mdotU-0000lG-Iq
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 03:23:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mdoni-0000xJ-MH
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mdoni-0000wy-BD
  for qemu-devel@nongnu.org; Fri, 22 Oct 2021 03:17:14 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:38735)
+Received: from mout.kundenserver.de ([212.227.126.187]:32949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mdong-0003Id-4g
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mdonf-0003Ij-8C
  for qemu-devel@nongnu.org; Fri, 22 Oct 2021 03:17:14 -0400
 Received: from quad ([82.142.24.54]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1M27Bp-1mgIhw0Oi1-002a87; Fri, 22
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N4A1h-1mmvUC2sbZ-0101Mt; Fri, 22
  Oct 2021 09:17:09 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/9] mac_via: add GPIO for A/UX mode
-Date: Fri, 22 Oct 2021 09:17:00 +0200
-Message-Id: <20211022071705.471954-5-laurent@vivier.eu>
+Subject: [PULL 5/9] q800: wire up auxmode GPIO to GLUE
+Date: Fri, 22 Oct 2021 09:17:01 +0200
+Message-Id: <20211022071705.471954-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211022071705.471954-1-laurent@vivier.eu>
 References: <20211022071705.471954-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:D1XaLNO/CCfD++noskQfzQUeB6ICQrIsbrSxSvKvvd1dsRQFW6O
- 99e2J74PeiN1Z1EHfVhN22jtQrSDLMCNFfVys8uZ/DYz36VKxusxZ4fEi7Otbp43dCcnjUE
- bQC4ZXSmDi/Pizs12gFGuudvZXzfpktSJqB3O3fQSbUBPMlNGOlgx9bVX6c8LmTPd/Xoret
- 2882xeyeFJwptiOBDDCag==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ADBCcVZ20sU=:0GEQwtuvfVHynDAyfmp+hM
- 0mK3pyf3GTEslaCukAfuO4J6WNaxFwpJgfnm32dob1WRrvuAkDsd6yH1KAgUwivszLuaj1q1V
- f2XGR9XzxtEEuRftz8kw+EpTDvZjVZkjgtg8DwJ1xzLYxzGYKiB72nwToMzaw0WqmiD+0Q6tY
- UtqvpcYa4sWnylEGB8O6IIw8ShLpIHdsAJKKe0W0bnisyFq4iHXvlK9weGtrtgG6RRZ3sVQI6
- xD21qKA1s0r2MQC9uidJtjq/D36lkoMgm1jhDQcrymFw/7yVF+wzLMaRqmC8z9szfep2rWTm+
- pSZW0xcjR2ILUG30NB0ymHL8gVLrd8iWlMuUDEH5OSP3hNYJUKPUz8z4KXqhQhIH/Gpm4tro+
- JfYQfnkOIjiTHLp2YlIcEUwk5zzZbAsXwU9TxyD8tuU20EvykRlcHBpOs+qM1Tday4XXuLI6S
- EbB7616BVQnIvhFhroMM2tHxOMjhstbiP2GHYDm+FmurfYUZyFwKRjk1Rvj2r4+sTzJgnmeXr
- aoSrg2ygUt+C+pMuP+ud15XVH6s1ja6P0thukMDYJGipSzdlSBksgrjOSZ0OTI8ZG/bYiVy/E
- vL84NZOVexfGdUiJdGhl2YO0heoNPNpiSpfZPtnbzMOwDWIBKoB2q92j+3HP1mWLpVaQeQmi0
- GJ/2D33KdhmMZ9YalB/E0xc3wg1efBz29RLe/0RxEG0iVGnyuO4L91ot7gKzAiqz6zoE=
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:vtPPTCaYqfDFm728FdnmaJdJYSPLNu/M1iIGr3s5kGeuUXAFaRu
+ +zEAwi/gEgibzg0EV1if6vsAEs84dRKHTyC+n17LfD0n3f+tjG2wwB8/3oYz4b3krurbcQw
+ e1Vur/3i8iG6rl2CqRVfaFFUI6zyLQyXmOknkRLQlEPQ7CBSTptwONHEuL3qYVXneE81BuF
+ Iit6cjzYsfV4xUiyu2u6w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UE3wqNvXPAc=:N4ia85kGWY/cZglQslzUhd
+ oEmIKTMujWyGrHGmbQp90/9H600NCQ3LfJjQLhCbgkARpOrIeeZoqGsLkFx0uUEm8V4lkLTr+
+ 83V/dZA8tMOshKrJB9PiWPML5FgCy3gDI2Hfbg5iBUJBaZnJJC3421AfcYZ86O/UCZqsgNFGE
+ ayGM7y7myFNxWU0zeYt1qZG1l9kh0LH5w/vGGMmqyARJ8rgbQw6t5cFzddqhXyrHx9k9mX+wV
+ kVoD8kVN5VbUsyJBzWk3jtLVBVevnGF2PbC/Z/BciBgOlKxt/oWMCHaXskMhwdonDbuQnaKEK
+ 8cbOkBTGL55rJ51qmFFUBKbzotvLL/4X72FOKTbM/yXL7FMiUyDFZP3eDv5db8W9Qb4FwD6dx
+ rCC0RYdfezy3iyBkftSie5y1E6DwjYpyE0W82ADXslaAiWVkp8GSEYsIB7uyCnZWGew4VZIyh
+ aF7W2PfWeHLpRZ7zSkhVBdrAF3s1lK6RGXi1MhEiKDD6QlksWcnrM1OSSv+vqLLGrHu68p6ca
+ Tv1zX/jhFWM3cxHxEzrOWGIiLI+wAua5J5wV3sgvz0TKqQDyO4B8jsMUexroZodF1I7M2gUTp
+ mYyGuqF7PCHMI5CePy4x/1zoekx1je99KzK+q/AmvoXDo3W5rtdi3yHEyWsYgTlJKxbOnEKzE
+ Zb/fjYKfTzKZZ5osFkbpNwckmGT41YV+DhYE60vvE3mTISE+9MaQTAVYoxYeg1lMquB0=
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,87 +72,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Add a new auxmode GPIO that is updated when port B bit 6 is changed indicating
-whether the hardware is configured for A/UX mode.
+This enables the GLUE logic to change its CPU level IRQ routing depending upon
+whether the hardware has been configured for A/UX mode.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20211020134131.4392-5-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20211020134131.4392-6-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/hw/misc/mac_via.h |  1 +
- hw/misc/mac_via.c         | 19 +++++++++++++++++++
- hw/misc/trace-events      |  1 +
- 3 files changed, 21 insertions(+)
+ hw/m68k/q800.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
-index 4506abe5d0e3..b44556586601 100644
---- a/include/hw/misc/mac_via.h
-+++ b/include/hw/misc/mac_via.h
-@@ -43,6 +43,7 @@ struct MOS6522Q800VIA1State {
-     MemoryRegion via_mem;
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 81c335bf16bc..0093872d8923 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -100,6 +100,7 @@ struct GLUEState {
+     SysBusDevice parent_obj;
+     M68kCPU *cpu;
+     uint8_t ipr;
++    uint8_t auxmode;
+ };
  
-     qemu_irq irqs[VIA1_IRQ_NB];
-+    qemu_irq auxmode_irq;
-     uint8_t last_b;
- 
-     /* RTC */
-diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index 7a53a8b4c04d..b378e6b30554 100644
---- a/hw/misc/mac_via.c
-+++ b/hw/misc/mac_via.c
-@@ -880,6 +880,21 @@ static void via1_adb_update(MOS6522Q800VIA1State *v1s)
-     }
+ #define GLUE_IRQ_IN_VIA1       0
+@@ -145,11 +146,19 @@ static void GLUE_set_irq(void *opaque, int irq, int level)
+     m68k_set_irq_level(s->cpu, 0, 0);
  }
  
-+static void via1_auxmode_update(MOS6522Q800VIA1State *v1s)
++static void glue_auxmode_set_irq(void *opaque, int irq, int level)
 +{
-+    MOS6522State *s = MOS6522(v1s);
-+    int oldirq, irq;
++    GLUEState *s = GLUE(opaque);
 +
-+    oldirq = (v1s->last_b & VIA1B_vMystery) ? 1 : 0;
-+    irq = (s->b & VIA1B_vMystery) ? 1 : 0;
-+
-+    /* Check to see if the A/UX mode bit has changed */
-+    if (irq != oldirq) {
-+        trace_via1_auxmode(irq);
-+        qemu_set_irq(v1s->auxmode_irq, irq);
-+    }
++    s->auxmode = level;
 +}
 +
- static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
+ static void glue_reset(DeviceState *dev)
  {
-     MOS6522Q800VIA1State *s = MOS6522_Q800_VIA1(opaque);
-@@ -902,6 +917,7 @@ static void mos6522_q800_via1_write(void *opaque, hwaddr addr, uint64_t val,
-     case VIA_REG_B:
-         via1_rtc_update(v1s);
-         via1_adb_update(v1s);
-+        via1_auxmode_update(v1s);
+     GLUEState *s = GLUE(dev);
  
-         v1s->last_b = ms->b;
-         break;
-@@ -1046,6 +1062,9 @@ static void mos6522_q800_via1_init(Object *obj)
-               TYPE_ADB_BUS, DEVICE(v1s), "adb.0");
- 
-     qdev_init_gpio_in(DEVICE(obj), via1_irq_request, VIA1_IRQ_NB);
-+
-+    /* A/UX mode */
-+    qdev_init_gpio_out(DEVICE(obj), &v1s->auxmode_irq, 1);
+     s->ipr = 0;
++    s->auxmode = 0;
  }
  
- static const VMStateDescription vmstate_q800_via1 = {
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index ede413965b6c..2da96d167a7b 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -228,6 +228,7 @@ via1_rtc_cmd_pram_sect_write(int sector, int offset, int addr, int value) "secto
- via1_adb_send(const char *state, uint8_t data, const char *vadbint) "state %s data=0x%02x vADBInt=%s"
- via1_adb_receive(const char *state, uint8_t data, const char *vadbint, int status, int index, int size) "state %s data=0x%02x vADBInt=%s status=0x%x index=%d size=%d"
- via1_adb_poll(uint8_t data, const char *vadbint, int status, int index, int size) "data=0x%02x vADBInt=%s status=0x%x index=%d size=%d"
-+via1_auxmode(int mode) "setting auxmode to %d"
+ static const VMStateDescription vmstate_glue = {
+@@ -158,6 +167,7 @@ static const VMStateDescription vmstate_glue = {
+     .minimum_version_id = 0,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT8(ipr, GLUEState),
++        VMSTATE_UINT8(auxmode, GLUEState),
+         VMSTATE_END_OF_LIST(),
+     },
+ };
+@@ -178,6 +188,7 @@ static void glue_init(Object *obj)
+     DeviceState *dev = DEVICE(obj);
  
- # grlib_ahb_apb_pnp.c
- grlib_ahb_pnp_read(uint64_t addr, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" data:0x%08x"
+     qdev_init_gpio_in(dev, GLUE_set_irq, 8);
++    qdev_init_gpio_in_named(dev, glue_auxmode_set_irq, "auxmode", 1);
+ }
+ 
+ static void glue_class_init(ObjectClass *klass, void *data)
+@@ -308,6 +319,9 @@ static void q800_init(MachineState *machine)
+     sysbus_realize_and_unref(sysbus, &error_fatal);
+     sysbus_mmio_map(sysbus, 1, VIA_BASE);
+     sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, GLUE_IRQ_IN_VIA1));
++    /* A/UX mode */
++    qdev_connect_gpio_out(via1_dev, 0,
++                          qdev_get_gpio_in_named(glue, "auxmode", 0));
+ 
+     adb_bus = qdev_get_child_bus(via1_dev, "adb.0");
+     dev = qdev_new(TYPE_ADB_KEYBOARD);
 -- 
 2.31.1
 
