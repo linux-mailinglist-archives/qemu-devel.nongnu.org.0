@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C58DE4378A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 16:03:02 +0200 (CEST)
-Received: from localhost ([::1]:48916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D03834378AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 16:06:07 +0200 (CEST)
+Received: from localhost ([::1]:55808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdv8P-0007ao-So
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 10:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57484)
+	id 1mdvBO-0003ky-Rt
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 10:06:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9222bbd82=alistair.francis@opensource.wdc.com>)
- id 1mdumg-0001pO-TP
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:40:35 -0400
+ id 1mduml-0001rI-HR
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:40:39 -0400
 Received: from esa5.hgst.iphmx.com ([216.71.153.144]:39690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9222bbd82=alistair.francis@opensource.wdc.com>)
- id 1mdume-0001Qs-Hd
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:40:34 -0400
+ id 1mdumj-0001Qs-7I
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:40:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1634910031; x=1666446031;
+ t=1634910036; x=1666446036;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4DS/XWr3pNjpqgLBujVnjAyIdXduE58PjNTGgxFTWEo=;
- b=ovx/MyhXjkXaaIREObIcW6B+oYIPxNmFSnwYkD835IRzeaYnSKoQG8Gq
- Nik80ikYGAzXLutBGjfVc1LlSnBzJvP+gMeaEqXlNRPb5vbNku/0ZqmKc
- tTrQh9D2XAeSRufjJsv65wYmP3uMXX6IRQF+9g3h8D6Kr4BK8yeXrkhio
- oMx2ns6g6ZB9OfP8AR4yzVQ4SAkGmYK29VAwwnkvOpwLnZHUmS7zU3hCh
- kmrHnb5Ybf0+IZZ6CtCToIfHrQ3vYGU5fH9HkMXDqwQcfqOU7pRuKvBFX
- GGqZ8JxXAnD6tAY6An4Q9FR0WcaQbAJNXFS7PE04S3NmZhp8ExQyz24tt A==;
-X-IronPort-AV: E=Sophos;i="5.87,172,1631548800"; d="scan'208";a="183617898"
+ bh=dwlquLthjZX05TmT+2s13vlTEdXzJHoYR1quCMUbtY8=;
+ b=K+9ukvZNOcT0Jw86KoTfq2BRPMyKqBBvHKEvYafFbMAx4XNpVtEAVxbl
+ 9t1Q4ZqYgNM6RuI8LZGZ+VUFXyA+CCnAqFjVEK+x0nP/NCe5X90B2ucIf
+ M5glzCp5MOXxWcplcNTRfACQEPwnUSwNUa682NgbSrCjqUUGcFsK33E1c
+ nIqpfD+0uvOn0LOWZnG+3VdsBUKJLARJ/Q7sq4In50d9vsZM6zMIE1CEN
+ YfOfJDAvew4+qxTkK+cGTcfS/katogGIc7nhHZHZA896hnQ520wis5RAc
+ YuM0ICFNXdobyFLjwi7JUvypFYSz1SYlFNMqAtF5Xt2UCD2UhvTlgja5k Q==;
+X-IronPort-AV: E=Sophos;i="5.87,172,1631548800"; d="scan'208";a="183617900"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 22 Oct 2021 21:40:30 +0800
-IronPort-SDR: cFGNN7LcRtIkp4P5ecpbyJ/xLy3P27nrpkiS22V08EJgmchafsxgFIrBVEQ3v2cpzk0KIQIdqF
- wRGICq0mieQ2T5FqB0kfMaZBDp/x0npXvvTs0Ym+WFicVSZHa8K28HUjbgY/UyksCTzD8wKXMh
- 9I46edgN5fD6z7izn5bXCGhYbXwrOS6vgPu5eWo1HG1Ksd4hQq0ItHiPYlOV9cF4hYi1ODELJS
- MAscFhBBdTVVBZ4fVkep5VwyaNN3srzNRTWP/J6mdfdTlNdvN415Wq4e+dSpVTlQGT5H9SEWFe
- SxPCgBV7KWpUv4RmuIfXo6iT
+ by ob1.hgst.iphmx.com with ESMTP; 22 Oct 2021 21:40:35 +0800
+IronPort-SDR: tbHUpoc90/rJXWocGQVOpGS5nvIAvkgFRjUb2ugnY+LmEh6ckPPZ+HjTSJHQcYx98g1/fm1mjb
+ rrW6hiAKSMXujnzZwpIVRYRM0pOjiErIFUNSt25QxSZjbrBLZNnHKE09k2/KSgMhcLxm+8Lpsi
+ de6y51TeK+xF7cs3qclAdSdQsN//5kWj6ThFD+gw9AXWz+egx/v1AtGwj1nfFKpf47+wPBfCHo
+ hYJMabb2IYmoceQL1+DzZGdRvl+8Sn852hLYRcIUecjEcUgM+1LST7rsk9TZP8bWbqiEykhTLy
+ 5UDIeag9rOYkR9JDjHWnFAVc
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 06:16:06 -0700
-IronPort-SDR: 3bF9b45U+KdAanXmGFFBZYQE/pIoOjZZ1WLlA0hVdzj/g1Lr+7ceGfCXeMceHqXf6MQvZ1idjW
- hD7BPvgs/wDpdj/yJVCVHqi4bulDGevsZ+1bMHzx+N8tbkBpIIU+u4d5Ugpjkwt8BDBYSQcWv2
- MABN1sGGO3ugb66Sg0w8AUhA4f4PSd87sIj3O0DXX04JtHu2nWShdfd7XendnMEr9SQwxxD/Sz
- +VWwxaCm7XfdMOqkquqt8md3AJei1uAQKoFmKnTfuTWKsdN+7ag1hZVmJEsRjymf6WFIeOAyHE
- Q9s=
+ 22 Oct 2021 06:16:11 -0700
+IronPort-SDR: dj4KRTpx8JURfM+uTVNmTL0gBCYddmQAfr6s/nsu9ZnEkPJjyHETHZC7C5ru96K4Lv3SqkE/8N
+ z2RYLL2hehN0ZK+xASbhnNALzD2VaJK2wSah2KSsIk7usYud8xpeMiqk3wqVZWC8BJJuxbX2yT
+ gT9IIULEaN1GG5VuNWKox/skeGBeoSzJzTVrjDMhNGQaVuY+nCUFv1LWCWpWVvhTNoakf39GUj
+ HiexS8oM5Y216qyuweJPasb8ZFTkf8c9byzQnuu5ZOpKqdU2MCn1Y9gilw7ZDN3VYbkejpLWPW
+ 9aE=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 06:40:32 -0700
+ 22 Oct 2021 06:40:36 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HbQTW4DCnz1RtVn
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 06:40:31 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HbQTc1RZVz1RtVt
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 06:40:36 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1634910031; x=1637502032; bh=4DS/XWr3pNjpqgLBuj
- VnjAyIdXduE58PjNTGgxFTWEo=; b=PasnbfC18qRHh3IvS73qg3+V1KN8SrzdOb
- 9w71ySwTpm00kzXc+YYVZL39R2F+Ki2oWJO3/OO4P3qPjnoo+y2VvuIZ8nErB7e/
- bUSC8M08JR738BeZJIj+WXTbUr5YnTLw3pZOYlupCP9D2w2yjQ+I9goNgxkQZC9o
- 89iZ23JRCm6efg+L1YnxKncoesQ4sWFL0fjR8ZCLHcobCywKGIvhbMRgaqFW2/dj
- UXY0cHg8sO9TF/3kVi9i7ILq1nBeOK1/Qd+N/Hd4VV/ADPfWH/fJGqrObpluSHeg
- /4OGQ2p1v1Evu/4602FUjCJ6tipKBTKCbFatZXpqU4ORzj/+EQQA==
+ :from; s=dkim; t=1634910035; x=1637502036; bh=dwlquLthjZX05TmT+2
+ s13vlTEdXzJHoYR1quCMUbtY8=; b=EeKLqG8PV3ddB1bCn8ZEzxlfQJOTe/aXUS
+ 6iZfCDpvS27CWH4v6dSIBNMpAT+8RWLvwHoga3ZniEJt08wS077jaYD+AIejJWfq
+ qpWH0Ec98viFn6HkNCTWC0bGiDs7GKcg8C84d75qjaC+AIRV2ceu6TohadS8aqqf
+ z5vZPUgkwCd9QNGN5KsiYzLPkhs1nELgVKndNro7ZnvTzjcwgzl2+5cu6s2Is8Dr
+ 7f7j8jL/LnTRUUgxABJaTz6Y1Bt5NLMsHRU3nev0if1z+7wi6foeImaQu3hLGWII
+ 8zf3bx3zpDLlqXx4bMsrHB/DWBccG4vJdrKMrJdx+kbzeBXWvIlA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id oUlvDIMJA908 for <qemu-devel@nongnu.org>;
- Fri, 22 Oct 2021 06:40:31 -0700 (PDT)
+ port 10026) with ESMTP id UrYcejofUIyr for <qemu-devel@nongnu.org>;
+ Fri, 22 Oct 2021 06:40:35 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.39])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HbQTR4c5rz1RtVl;
- Fri, 22 Oct 2021 06:40:27 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HbQTX28MNz1RtVl;
+ Fri, 22 Oct 2021 06:40:31 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 22/33] target/riscv: Compute mstatus.sd on demand
-Date: Fri, 22 Oct 2021 23:38:01 +1000
-Message-Id: <20211022133812.3972903-23-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bmeng.cn@gmail.com>
+Subject: [PULL 23/33] hw/riscv: opentitan: Update to the latest build
+Date: Fri, 22 Oct 2021 23:38:02 +1000
+Message-Id: <20211022133812.3972903-24-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211022133812.3972903-1-alistair.francis@opensource.wdc.com>
 References: <20211022133812.3972903-1-alistair.francis@opensource.wdc.com>
@@ -115,149 +115,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-The position of this read-only field is dependent on the current xlen.
-Rather than having to compute that difference in many places, compute
-it only on read.
+Update the OpenTitan machine model to match the latest OpenTitan FPGA
+design.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20211020031709.359469-16-richard.henderson@linaro.org
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-id: 18b1b681b0f8dd2461e819d1217bf0b530812680.1634524691.git.alist=
+air.francis@wdc.com
 ---
- target/riscv/cpu_helper.c |  3 +--
- target/riscv/csr.c        | 37 ++++++++++++++++++++++---------------
- target/riscv/translate.c  |  5 ++---
- 3 files changed, 25 insertions(+), 20 deletions(-)
+ include/hw/riscv/opentitan.h |  6 +++---
+ hw/riscv/opentitan.c         | 22 +++++++++++++++++-----
+ 2 files changed, 20 insertions(+), 8 deletions(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 429afd1f48..0d1132f39d 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -185,10 +185,9 @@ bool riscv_cpu_fp_enabled(CPURISCVState *env)
+diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+index 9f93bebdac..eac35ef590 100644
+--- a/include/hw/riscv/opentitan.h
++++ b/include/hw/riscv/opentitan.h
+@@ -20,7 +20,7 @@
+ #define HW_OPENTITAN_H
 =20
- void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env)
- {
--    uint64_t sd =3D riscv_cpu_mxl(env) =3D=3D MXL_RV32 ? MSTATUS32_SD : =
-MSTATUS64_SD;
-     uint64_t mstatus_mask =3D MSTATUS_MXR | MSTATUS_SUM | MSTATUS_FS |
-                             MSTATUS_SPP | MSTATUS_SPIE | MSTATUS_SIE |
--                            MSTATUS64_UXL | sd;
-+                            MSTATUS64_UXL;
-     bool current_virt =3D riscv_cpu_virt_enabled(env);
+ #include "hw/riscv/riscv_hart.h"
+-#include "hw/intc/ibex_plic.h"
++#include "hw/intc/sifive_plic.h"
+ #include "hw/char/ibex_uart.h"
+ #include "hw/timer/ibex_timer.h"
+ #include "qom/object.h"
+@@ -34,7 +34,7 @@ struct LowRISCIbexSoCState {
 =20
-     g_assert(riscv_has_ext(env, RVH));
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index c4a479ddd2..69e4d65fcd 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -477,10 +477,28 @@ static RISCVException read_mhartid(CPURISCVState *e=
-nv, int csrno,
- }
+     /*< public >*/
+     RISCVHartArrayState cpus;
+-    IbexPlicState plic;
++    SiFivePLICState plic;
+     IbexUartState uart;
+     IbexTimerState timer;
 =20
- /* Machine Trap Setup */
+@@ -87,7 +87,7 @@ enum {
+ };
+=20
+ enum {
+-    IBEX_TIMER_TIMEREXPIRED0_0 =3D 125,
++    IBEX_TIMER_TIMEREXPIRED0_0 =3D 126,
+     IBEX_UART0_RX_PARITY_ERR_IRQ =3D 8,
+     IBEX_UART0_RX_TIMEOUT_IRQ =3D 7,
+     IBEX_UART0_RX_BREAK_ERR_IRQ =3D 6,
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index 9803ae6d70..601f8deebe 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -46,19 +46,19 @@ static const MemMapEntry ibex_memmap[] =3D {
+     [IBEX_DEV_PINMUX] =3D         {  0x40460000,  0x1000  },
+     [IBEX_DEV_PADCTRL] =3D        {  0x40470000,  0x1000  },
+     [IBEX_DEV_FLASH_CTRL] =3D     {  0x41000000,  0x1000  },
+-    [IBEX_DEV_PLIC] =3D           {  0x41010000,  0x1000  },
+     [IBEX_DEV_AES] =3D            {  0x41100000,  0x1000  },
+     [IBEX_DEV_HMAC] =3D           {  0x41110000,  0x1000  },
+     [IBEX_DEV_KMAC] =3D           {  0x41120000,  0x1000  },
+-    [IBEX_DEV_KEYMGR] =3D         {  0x41130000,  0x1000  },
++    [IBEX_DEV_OTBN] =3D           {  0x41130000,  0x10000 },
++    [IBEX_DEV_KEYMGR] =3D         {  0x41140000,  0x1000  },
+     [IBEX_DEV_CSRNG] =3D          {  0x41150000,  0x1000  },
+     [IBEX_DEV_ENTROPY] =3D        {  0x41160000,  0x1000  },
+     [IBEX_DEV_EDNO] =3D           {  0x41170000,  0x1000  },
+     [IBEX_DEV_EDN1] =3D           {  0x41180000,  0x1000  },
+     [IBEX_DEV_ALERT_HANDLER] =3D  {  0x411b0000,  0x1000  },
+     [IBEX_DEV_NMI_GEN] =3D        {  0x411c0000,  0x1000  },
+-    [IBEX_DEV_OTBN] =3D           {  0x411d0000,  0x10000 },
+     [IBEX_DEV_PERI] =3D           {  0x411f0000,  0x10000 },
++    [IBEX_DEV_PLIC] =3D           {  0x48000000,  0x4005000  },
+     [IBEX_DEV_FLASH_VIRTUAL] =3D  {  0x80000000,  0x80000 },
+ };
+=20
+@@ -105,7 +105,7 @@ static void lowrisc_ibex_soc_init(Object *obj)
+=20
+     object_initialize_child(obj, "cpus", &s->cpus, TYPE_RISCV_HART_ARRAY=
+);
+=20
+-    object_initialize_child(obj, "plic", &s->plic, TYPE_IBEX_PLIC);
++    object_initialize_child(obj, "plic", &s->plic, TYPE_SIFIVE_PLIC);
+=20
+     object_initialize_child(obj, "uart", &s->uart, TYPE_IBEX_UART);
+=20
+@@ -145,6 +145,18 @@ static void lowrisc_ibex_soc_realize(DeviceState *de=
+v_soc, Error **errp)
+                                 &s->flash_alias);
+=20
+     /* PLIC */
++    qdev_prop_set_string(DEVICE(&s->plic), "hart-config", "M");
++    qdev_prop_set_uint32(DEVICE(&s->plic), "hartid-base", 0);
++    qdev_prop_set_uint32(DEVICE(&s->plic), "num-sources", 180);
++    qdev_prop_set_uint32(DEVICE(&s->plic), "num-priorities", 3);
++    qdev_prop_set_uint32(DEVICE(&s->plic), "priority-base", 0x00);
++    qdev_prop_set_uint32(DEVICE(&s->plic), "pending-base", 0x1000);
++    qdev_prop_set_uint32(DEVICE(&s->plic), "enable-base", 0x2000);
++    qdev_prop_set_uint32(DEVICE(&s->plic), "enable-stride", 0x18);
++    qdev_prop_set_uint32(DEVICE(&s->plic), "context-base", 0x200004);
++    qdev_prop_set_uint32(DEVICE(&s->plic), "context-stride", 4);
++    qdev_prop_set_uint32(DEVICE(&s->plic), "aperture-size", memmap[IBEX_=
+DEV_PLIC].size);
 +
-+/* We do not store SD explicitly, only compute it on demand. */
-+static uint64_t add_status_sd(RISCVMXL xl, uint64_t status)
-+{
-+    if ((status & MSTATUS_FS) =3D=3D MSTATUS_FS ||
-+        (status & MSTATUS_XS) =3D=3D MSTATUS_XS) {
-+        switch (xl) {
-+        case MXL_RV32:
-+            return status | MSTATUS32_SD;
-+        case MXL_RV64:
-+            return status | MSTATUS64_SD;
-+        default:
-+            g_assert_not_reached();
-+        }
-+    }
-+    return status;
-+}
-+
- static RISCVException read_mstatus(CPURISCVState *env, int csrno,
-                                    target_ulong *val)
- {
--    *val =3D env->mstatus;
-+    *val =3D add_status_sd(riscv_cpu_mxl(env), env->mstatus);
-     return RISCV_EXCP_NONE;
- }
-=20
-@@ -498,7 +516,6 @@ static RISCVException write_mstatus(CPURISCVState *en=
-v, int csrno,
- {
-     uint64_t mstatus =3D env->mstatus;
-     uint64_t mask =3D 0;
--    int dirty;
-=20
-     /* flush tlb on mstatus fields that affect VM */
-     if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
-@@ -520,12 +537,7 @@ static RISCVException write_mstatus(CPURISCVState *e=
-nv, int csrno,
-=20
-     mstatus =3D (mstatus & ~mask) | (val & mask);
-=20
--    dirty =3D ((mstatus & MSTATUS_FS) =3D=3D MSTATUS_FS) |
--            ((mstatus & MSTATUS_XS) =3D=3D MSTATUS_XS);
--    if (riscv_cpu_mxl(env) =3D=3D MXL_RV32) {
--        mstatus =3D set_field(mstatus, MSTATUS32_SD, dirty);
--    } else {
--        mstatus =3D set_field(mstatus, MSTATUS64_SD, dirty);
-+    if (riscv_cpu_mxl(env) =3D=3D MXL_RV64) {
-         /* SXL and UXL fields are for now read only */
-         mstatus =3D set_field(mstatus, MSTATUS64_SXL, MXL_RV64);
-         mstatus =3D set_field(mstatus, MSTATUS64_UXL, MXL_RV64);
-@@ -798,13 +810,8 @@ static RISCVException read_sstatus(CPURISCVState *en=
-v, int csrno,
- {
-     target_ulong mask =3D (sstatus_v1_10_mask);
-=20
--    if (riscv_cpu_mxl(env) =3D=3D MXL_RV32) {
--        mask |=3D SSTATUS32_SD;
--    } else {
--        mask |=3D SSTATUS64_SD;
--    }
--
--    *val =3D env->mstatus & mask;
-+    /* TODO: Use SXL not MXL. */
-+    *val =3D add_status_sd(riscv_cpu_mxl(env), env->mstatus & mask);
-     return RISCV_EXCP_NONE;
- }
-=20
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index bed1c2174e..d38f87d718 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -280,7 +280,6 @@ static void gen_jal(DisasContext *ctx, int rd, target=
-_ulong imm)
- static void mark_fs_dirty(DisasContext *ctx)
- {
-     TCGv tmp;
--    target_ulong sd =3D get_xl(ctx) =3D=3D MXL_RV32 ? MSTATUS32_SD : MST=
-ATUS64_SD;
-=20
-     if (ctx->mstatus_fs !=3D MSTATUS_FS) {
-         /* Remember the state change for the rest of the TB. */
-@@ -288,7 +287,7 @@ static void mark_fs_dirty(DisasContext *ctx)
-=20
-         tmp =3D tcg_temp_new();
-         tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
--        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
-+        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
-         tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-         tcg_temp_free(tmp);
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->plic), errp)) {
+         return;
      }
-@@ -299,7 +298,7 @@ static void mark_fs_dirty(DisasContext *ctx)
+@@ -153,7 +165,7 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
+_soc, Error **errp)
+     for (i =3D 0; i < ms->smp.cpus; i++) {
+         CPUState *cpu =3D qemu_get_cpu(i);
 =20
-         tmp =3D tcg_temp_new();
-         tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs))=
-;
--        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
-+        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
-         tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs))=
-;
-         tcg_temp_free(tmp);
+-        qdev_connect_gpio_out(DEVICE(&s->plic), i,
++        qdev_connect_gpio_out(DEVICE(&s->plic), ms->smp.cpus + i,
+                               qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
      }
+=20
 --=20
 2.31.1
 
