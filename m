@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 405E7437AA4
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 18:11:41 +0200 (CEST)
-Received: from localhost ([::1]:58810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5570437AA5
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 18:12:45 +0200 (CEST)
+Received: from localhost ([::1]:35418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdx8u-0005w6-9o
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 12:11:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38172)
+	id 1mdx9x-0000s1-09
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 12:12:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
- id 1mdx4f-00031m-J9
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:07:18 -0400
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:33319)
+ id 1mdx4n-00036o-6J
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:07:26 -0400
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:34338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
- id 1mdx4Z-0004lk-6D
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:07:14 -0400
-Received: by mail-lf1-x129.google.com with SMTP id j21so10262334lfe.0
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 09:07:10 -0700 (PDT)
+ id 1mdx4l-0004q6-2u
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:07:24 -0400
+Received: by mail-lj1-x230.google.com with SMTP id 145so1655031ljj.1
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 09:07:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :user-agent:mime-version:content-transfer-encoding;
- bh=Ul02qr83p0UCQN00dY8EGmXSFR8bKuehRSmvwndXbGs=;
- b=LZ9CJLSOIETbB2nYmaRM4k/Ob5fGdkokpNr64TZr6vU546gxoladtfqhyWFTLjjg9Y
- MW03Sb1AeKliU/4fZ0PcJXyDzLArG8WlS3YgxRdxp5jsbx5lAveN60s5ynasM7ZiM8J1
- UZHYOFBTFj7Nhrr9+tTr7HpIGrJEb/TK3l+dehTOfI/CFaBFK66pcJmmjeogOOkjRzay
- lKEOgGARjTX/r550HtkpV8BmqddgPiy/970np5G7W+qb3W1Y2Q4I1BBYU2tUKPTA8cPm
- Ik2E2zmZn8+UGhKxf3yKR3H7psSP59+VeAOmNttLkTRiJ1RWmFGmOwkYNYIriy2636bF
- GlwQ==
+ bh=Za/D2UN9Z9+XEWh61kGs3HCg0PZ2jhxOM6dupbpj9N8=;
+ b=JSbVHyFd6lw79tIxn2xe6gqhf6LrpBG4rlCEnu3JNyRYZ/jJrRUuQ2GbTYhbt/vg+1
+ Wxm6VpbI405+dB2l+uakmVNbGD0ojcITIK3bhdSqdgsNmmdY74ukcw0qZ/Asw/LQ1Had
+ TxwKK8uwPDDqrp3isp0lsIDWQPiEUiSK9gLBir94DvQMXjs3jz//0FVtuISNvXPIZTcv
+ C7czeUnbrczBSvE2FIJIoBrgkRHBqXTFZEapaFxqWKBmZgMVaRRnaddjVrOUhwJG2+PM
+ 5T9uja+loA7C8lNVTx/ybC+8XaM9mVM2axTWIZ1PyNPNhZxZrnRQzMUnaYU7oqysptPl
+ Or3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:user-agent:mime-version:content-transfer-encoding;
- bh=Ul02qr83p0UCQN00dY8EGmXSFR8bKuehRSmvwndXbGs=;
- b=Cr17ED2eDBirqyvnQVEFkZG0hooDFoO9sJBUrCM7nnu3hpALFTYAgSsydk9CvJ9NGH
- yNLyIu03p5uHV8nPw0BQRv/Ia23MxEBrtMtsGFCaVoFzAtpxt9jMH7vhNWlPcPx3mAWs
- lKariuXK53ZjQEq+OgIcIEvCtYXVWk79fKAW56xa1aYqW9zEDm4UDLTiOtjba4tmZDXp
- 3WDjTmGzEujfIfk1ER6B3UN2VLT76cdK4YuNuo2B66cTbJvnfM0LlilDPjSBqCghxsDz
- PfIdCvKJ8gZKr17/eInUIJY/NudM8FtHaqVYWVNvszjtILPdeZ7N8Io2hECe4NxUsJUA
- j+ug==
-X-Gm-Message-State: AOAM533gU0EtR/adSd4XxtwesJ7L34Ksni02aICvPGS1uVQzPLuEORaE
- GU/MmURCkGI97BA8Jl1gA/TIT3V30+TQlg==
-X-Google-Smtp-Source: ABdhPJxPEgge5mMpkvIwpKHl4B6k6uhp6Nz9dHBcOP4WOBrnV74cpSuGzBqoTfCC860oLIaP0QYrNA==
-X-Received: by 2002:a05:6512:3a92:: with SMTP id
- q18mr563916lfu.198.1634918829491; 
- Fri, 22 Oct 2021 09:07:09 -0700 (PDT)
+ bh=Za/D2UN9Z9+XEWh61kGs3HCg0PZ2jhxOM6dupbpj9N8=;
+ b=BBCbJqfs7bBplXukFjDdKFao0HtMtkk2sBznuu5Iuk1D6hljlNQZ8ecrgiVLddUkRg
+ eFj6Am41zG7j+5XVw2bua5ccIipF2G+ix58/3jRAG2HqzQcgTu0SJ5tY94QyzVaBqtxI
+ 4Lf4J0U6tZ4av7oRRV9SlO2GKQSwgal9O1+8UNbC84sDB+PLjawsBxCJ4FS3yzWAGFxh
+ fclTKJVhfAs7EJY4lao8b2LKu8+9H7FkPNJrdJarygKXNfPGKnxRa03nysma3u3FOPOq
+ OWNW6O2NmRKgeyW8DFq6JWJ7fWl8ubN8vfscPOV9IE7OmpDZ41r2Yh6AW/5hjec+xWgQ
+ fh8A==
+X-Gm-Message-State: AOAM532HOcBWn552UnC3NitbwVgSAc8BffBZHUJ8a55TB9iy5n+cvXLp
+ BmAR3NMCFOktHKkCvcGBNFDyigPsbyQfTQ==
+X-Google-Smtp-Source: ABdhPJw21VgPQXlFT8c1RZcjjG3MRnX+bSAQlmkZrk4ZWJPO5Fan6c0kA0jHmxoRA6IM1iQUDIFr4g==
+X-Received: by 2002:a2e:b5db:: with SMTP id g27mr767705ljn.531.1634918840405; 
+ Fri, 22 Oct 2021 09:07:20 -0700 (PDT)
 Received: from pc-System-Product-Name.intra.ispras.ru ([85.142.117.226])
- by smtp.gmail.com with ESMTPSA id d19sm769200lfa.271.2021.10.22.09.07.08
+ by smtp.gmail.com with ESMTPSA id v13sm1006551ljk.72.2021.10.22.09.07.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Oct 2021 09:07:09 -0700 (PDT)
+ Fri, 22 Oct 2021 09:07:20 -0700 (PDT)
 From: NDNF <arkaisp2021@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/3] src/plugins: sorted list
-Date: Fri, 22 Oct 2021 19:07:03 +0300
-Message-Id: <163491882316.304355.6955215012706902188.stgit@pc-System-Product-Name>
+Subject: [PATCH v3 2/3] This patch adds helper functions to the drcov plugin.
+Date: Fri, 22 Oct 2021 19:07:14 +0300
+Message-Id: <163491883461.304355.8210754161847179432.stgit@pc-System-Product-Name>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <163491872706.304355.11795681036780988723.stgit@pc-System-Product-Name>
 References: <163491872706.304355.11795681036780988723.stgit@pc-System-Product-Name>
@@ -64,8 +63,8 @@ User-Agent: StGit/0.19
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=arkaisp2021@gmail.com; helo=mail-lf1-x129.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::230;
+ envelope-from=arkaisp2021@gmail.com; helo=mail-lj1-x230.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -90,83 +89,130 @@ Cc: arkadiy.ivanov@ispras.ru, alex.bennee@linaro.org, pavel.dovgaluk@ispras.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The list is sorted to make it easier to find missing characters
+Which provide information about:
+- start_code.
+- end_code.
+- entry.
+- path to the executable binary.
 
 Signed-off-by: Ivanov Arkady <arkadiy.ivanov@ispras.ru>
 ---
- plugins/qemu-plugins.symbols |   52 +++++++++++++++++++++---------------------
- 1 file changed, 26 insertions(+), 26 deletions(-)
+ include/qemu/qemu-plugin.h   |   17 ++++++++++++++++
+ plugins/api.c                |   44 ++++++++++++++++++++++++++++++++++++++++++
+ plugins/qemu-plugins.symbols |    4 ++++
+ 3 files changed, 65 insertions(+)
 
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index 5775e82c4e..68af67acf2 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -405,4 +405,21 @@ int qemu_plugin_n_max_vcpus(void);
+  */
+ void qemu_plugin_outs(const char *string);
+ 
++/**
++ * qemu_plugin_path_to_binary() - returns path to binary file being executed
++ */
++QEMU_PLUGIN_EXPORT const char *qemu_plugin_path_to_binary(void);
++/**
++ * qemu_plugin_start_code() - returns start of text segment
++ */
++QEMU_PLUGIN_EXPORT uint64_t qemu_plugin_start_code(void);
++/**
++ * qemu_plugin_end_code() - returns end of text segment
++ */
++QEMU_PLUGIN_EXPORT uint64_t qemu_plugin_end_code(void);
++/**
++ * qemu_plugin_entry_code() - returns start address for module
++ */
++QEMU_PLUGIN_EXPORT uint64_t qemu_plugin_entry_code(void);
++
+ #endif /* QEMU_PLUGIN_API_H */
+diff --git a/plugins/api.c b/plugins/api.c
+index bbdc5a4eb4..064eebacd1 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -48,6 +48,10 @@
+ #endif
+ #include "trace/mem.h"
+ 
++#ifdef CONFIG_USER_ONLY
++#include "qemu.h"
++#endif
++
+ /* Uninstall and Reset handlers */
+ 
+ void qemu_plugin_uninstall(qemu_plugin_id_t id, qemu_plugin_simple_cb_t cb)
+@@ -340,3 +344,43 @@ void qemu_plugin_outs(const char *string)
+ {
+     qemu_log_mask(CPU_LOG_PLUGIN, "%s", string);
+ }
++
++const char *qemu_plugin_path_to_binary(void)
++{
++#ifdef CONFIG_USER_ONLY
++    TaskState *ts = (TaskState *) current_cpu->opaque;
++    return ts->bprm->filename;
++#else
++    return "path";
++#endif
++}
++
++uint64_t qemu_plugin_start_code(void)
++{
++#ifdef CONFIG_USER_ONLY
++    TaskState *ts = (TaskState *) current_cpu->opaque;
++    return ts->info->start_code;
++#else
++    return 0;
++#endif
++}
++
++uint64_t qemu_plugin_end_code(void)
++{
++#ifdef CONFIG_USER_ONLY
++    TaskState *ts = (TaskState *) current_cpu->opaque;
++    return ts->info->end_code;
++#else
++    return 0xFFFFFFFF;
++#endif
++}
++
++uint64_t qemu_plugin_entry_code(void)
++{
++#ifdef CONFIG_USER_ONLY
++    TaskState *ts = (TaskState *) current_cpu->opaque;
++    return ts->info->entry;
++#else
++    return 0;
++#endif
++}
 diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
-index 4bdb381f48..688db92773 100644
+index 688db92773..d956888f67 100644
 --- a/plugins/qemu-plugins.symbols
 +++ b/plugins/qemu-plugins.symbols
-@@ -1,40 +1,40 @@
+@@ -1,4 +1,6 @@
  {
--  qemu_plugin_uninstall;
--  qemu_plugin_reset;
--  qemu_plugin_register_vcpu_init_cb;
-+  qemu_plugin_get_hwaddr;
-+  qemu_plugin_hwaddr_is_io;
-+  qemu_plugin_hwaddr_to_raddr;
-+  qemu_plugin_insn_data;
-+  qemu_plugin_insn_disas;
-+  qemu_plugin_insn_haddr;
-+  qemu_plugin_insn_size;
-+  qemu_plugin_insn_vaddr;
-+  qemu_plugin_mem_is_big_endian;
-+  qemu_plugin_mem_is_sign_extended;
-+  qemu_plugin_mem_is_store;
-+  qemu_plugin_mem_size_shift;
-+  qemu_plugin_n_max_vcpus;
-+  qemu_plugin_n_vcpus;
-+  qemu_plugin_outs;
-+  qemu_plugin_ram_addr_from_host;
-+  qemu_plugin_register_atexit_cb;
-+  qemu_plugin_register_flush_cb;
-   qemu_plugin_register_vcpu_exit_cb;
-   qemu_plugin_register_vcpu_idle_cb;
--  qemu_plugin_register_vcpu_resume_cb;
-+  qemu_plugin_register_vcpu_init_cb;
-   qemu_plugin_register_vcpu_insn_exec_cb;
-   qemu_plugin_register_vcpu_insn_exec_inline;
-   qemu_plugin_register_vcpu_mem_cb;
-   qemu_plugin_register_vcpu_mem_haddr_cb;
-   qemu_plugin_register_vcpu_mem_inline;
--  qemu_plugin_ram_addr_from_host;
--  qemu_plugin_register_vcpu_tb_trans_cb;
--  qemu_plugin_register_vcpu_tb_exec_cb;
--  qemu_plugin_register_vcpu_tb_exec_inline;
--  qemu_plugin_register_flush_cb;
-+  qemu_plugin_register_vcpu_resume_cb;
-   qemu_plugin_register_vcpu_syscall_cb;
-   qemu_plugin_register_vcpu_syscall_ret_cb;
--  qemu_plugin_register_atexit_cb;
--  qemu_plugin_tb_n_insns;
-+  qemu_plugin_register_vcpu_tb_exec_cb;
-+  qemu_plugin_register_vcpu_tb_exec_inline;
-+  qemu_plugin_register_vcpu_tb_trans_cb;
-+  qemu_plugin_reset;
++  qemu_plugin_end_code;
++  qemu_plugin_entry_code;
+   qemu_plugin_get_hwaddr;
+   qemu_plugin_hwaddr_is_io;
+   qemu_plugin_hwaddr_to_raddr;
+@@ -14,6 +16,7 @@
+   qemu_plugin_n_max_vcpus;
+   qemu_plugin_n_vcpus;
+   qemu_plugin_outs;
++  qemu_plugin_path_to_binary;
+   qemu_plugin_ram_addr_from_host;
+   qemu_plugin_register_atexit_cb;
+   qemu_plugin_register_flush_cb;
+@@ -32,6 +35,7 @@
+   qemu_plugin_register_vcpu_tb_exec_inline;
+   qemu_plugin_register_vcpu_tb_trans_cb;
+   qemu_plugin_reset;
++  qemu_plugin_start_code;
    qemu_plugin_tb_get_insn;
-+  qemu_plugin_tb_n_insns;
+   qemu_plugin_tb_n_insns;
    qemu_plugin_tb_vaddr;
--  qemu_plugin_insn_data;
--  qemu_plugin_insn_size;
--  qemu_plugin_insn_vaddr;
--  qemu_plugin_insn_haddr;
--  qemu_plugin_insn_disas;
--  qemu_plugin_mem_size_shift;
--  qemu_plugin_mem_is_sign_extended;
--  qemu_plugin_mem_is_big_endian;
--  qemu_plugin_mem_is_store;
--  qemu_plugin_get_hwaddr;
--  qemu_plugin_hwaddr_is_io;
--  qemu_plugin_hwaddr_to_raddr;
-+  qemu_plugin_uninstall;
-   qemu_plugin_vcpu_for_each;
--  qemu_plugin_n_vcpus;
--  qemu_plugin_n_max_vcpus;
--  qemu_plugin_outs;
- };
 
 
