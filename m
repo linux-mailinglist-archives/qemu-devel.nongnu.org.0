@@ -2,89 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B735436FEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 04:26:34 +0200 (CEST)
-Received: from localhost ([::1]:59620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A801436FF0
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 04:27:50 +0200 (CEST)
+Received: from localhost ([::1]:33506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdkGP-0001d7-5h
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 22:26:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45472)
+	id 1mdkHd-0008TU-70
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 22:27:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdkEm-0000tT-CE
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 22:24:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdkEj-0004TZ-Uu
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 22:24:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634869488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hKbyP9D16zHC4xRclQHjV5/Jkrsd4zK+3sxcDsYAsYw=;
- b=N99bUi/bBsQtacI2casYdSGGmEjzpEdcn6HhN4IqzjvcyBOgETDiyvLVr++9du3yD49LWi
- s3nqCNuMvr2dLjwmwPf7WMU41RuGH3zFcxrZ0GrS4b+3F9/EAb+p5PeeKSZcBwv+FO4hs6
- HI5DppllobpojB7ci03KXN8mZ0pUCRU=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-XZ62Ns6mPSuY5afBBgtDSg-1; Thu, 21 Oct 2021 22:24:47 -0400
-X-MC-Unique: XZ62Ns6mPSuY5afBBgtDSg-1
-Received: by mail-pf1-f199.google.com with SMTP id
- d10-20020a621d0a000000b0044ca56b97f5so1466892pfd.2
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 19:24:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=hKbyP9D16zHC4xRclQHjV5/Jkrsd4zK+3sxcDsYAsYw=;
- b=RzRMI/FcPQVqDyP+8dyrJv7gdQsMRn8oWFXZELhbzUSunTv9F2oRwKFoqXNoyJk1sN
- +SXYUfSXXBdiZHvwEhFtjGF1hFYM8RCV5jDBY99d03L0gWpg1bKtHLeFa8BvKH73VpHb
- kMTGevA6b+akNDD7xmyMGvGzMY2cZ/QsO8NJTdEqZsuDoXmyaTXkwc/oUUuVVdAoirey
- gIIWpM6u3UbSkLUKK1bzPhfd3lWUAE4IquYO0bGTL/uXXFErxR3CXQoMfeyJiFguTR5W
- Ey0YQWdPv1ovg35YwuKIWXA/Ub2SvBLmnC2GHVU6PiRPv9ciOeGKH6V0f4mBOjRljr+4
- 8twQ==
-X-Gm-Message-State: AOAM530hk343+yQ4gda2coiyIZYjAvwsnFQ+ImWcETQ66F+sGr0yWms4
- LeAGBfPN5FYabbEXVcXM5l18EjlJQxQ14pHK6Da+CjjE0PmPkf3oqVQlt8TDS+GBV3QeV7/OnXu
- oKgkDvpVax5DPMRw=
-X-Received: by 2002:a63:3e4b:: with SMTP id l72mr7231463pga.438.1634869485896; 
- Thu, 21 Oct 2021 19:24:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxVuLD9wBW0a8QtrOH4IfeYowTJ3nO8YA/2w9LU7R4PbvTXMq27K9gBzz0peVmExciRJ3y1ZQ==
-X-Received: by 2002:a63:3e4b:: with SMTP id l72mr7231439pga.438.1634869485514; 
- Thu, 21 Oct 2021 19:24:45 -0700 (PDT)
-Received: from xz-m1.local ([94.177.118.50])
- by smtp.gmail.com with ESMTPSA id b6sm8792843pfv.171.2021.10.21.19.24.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 19:24:44 -0700 (PDT)
-Date: Fri, 22 Oct 2021 10:24:34 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 4/8] pci: Define pci_bus_fn/pci_bus_ret_fn type
-Message-ID: <YXIg4si2q6E3Sf0w@xz-m1.local>
-References: <20211021104259.57754-1-peterx@redhat.com>
- <20211021104259.57754-5-peterx@redhat.com>
- <f7062eed-3040-0ba2-1d8f-0cb002640acc@redhat.com>
- <c9f5420e-c2d2-9332-8780-c8bb07827609@redhat.com>
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1mdkFU-0001ZC-16
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 22:25:37 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:59398 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1mdkFQ-0004dL-UG
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 22:25:35 -0400
+Received: from localhost.localdomain (unknown [10.20.42.11])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxj2oJIXJhZXQeAA--.31643S3; 
+ Fri, 22 Oct 2021 10:25:14 +0800 (CST)
+Subject: Re: [PATCH 01/31] target/loongarch: Upate the README for the softmmu.
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <1634628917-10031-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1634628917-10031-2-git-send-email-yangxiaojuan@loongson.cn>
+ <bdc2249e-f6d0-bbcf-b53e-0a9c81d8e378@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <923fbb8b-cb3d-d556-5e52-aa028fbc97aa@loongson.cn>
+Date: Fri, 22 Oct 2021 10:25:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <c9f5420e-c2d2-9332-8780-c8bb07827609@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <bdc2249e-f6d0-bbcf-b53e-0a9c81d8e378@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: AQAAf9Dxj2oJIXJhZXQeAA--.31643S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrtryDuw1fuFW3AF48ur4fGrg_yoWkXwbEgF
+ WrZayvkw4UW3WjqFWYyryrZ3sxGF48GF12va4Yqr4qqrZ8JFs8J3Wqqas5ZF1DAFs5Arnx
+ tas7AryrKrWagjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbqkFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+ 6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 64x0Y40En7xvr7AKxVWUJVW8JwAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI
+ 0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8v
+ x2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkIec
+ xEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+ 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIx
+ kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+ wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r
+ 1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUx
+ 3kAUUUUU=
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.867,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,63 +73,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
+ mst@redhat.com, philmd@redhat.com, mark.cave-ayland@ilande.co.uk,
+ laurent@vivier.eu, peterx@redhat.com, f4bug@amsat.org,
+ alistair.francis@wdc.com, maobibo@loongson.cn, gaosong@loongson.cn,
+ pbonzini@redhat.com, bmeng.cn@gmail.com, alex.bennee@linaro.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 21, 2021 at 02:54:44PM +0200, Philippe Mathieu-Daudé wrote:
-> On 10/21/21 13:44, Philippe Mathieu-Daudé wrote:
-> > On 10/21/21 12:42, Peter Xu wrote:
-> >> The pci_bus_fn is similar to pci_bus_dev_fn that only takes a PCIBus* and an
-> >> opaque.  The pci_bus_ret_fn is similar to pci_bus_fn but it allows to return a
-> >> void* pointer.
-> >>
-> >> Use them where proper in pci.[ch], and to be used elsewhere.
-> >>
-> >> Signed-off-by: Peter Xu <peterx@redhat.com>
-> >> ---
-> >>  hw/pci/pci.c         |  6 ++----
-> >>  include/hw/pci/pci.h | 12 +++++-------
-> >>  2 files changed, 7 insertions(+), 11 deletions(-)
-> > 
-> >> --- a/include/hw/pci/pci.h
-> >> +++ b/include/hw/pci/pci.h
-> >> @@ -402,6 +402,8 @@ OBJECT_DECLARE_TYPE(PCIBus, PCIBusClass, PCI_BUS)
-> >>  #define TYPE_PCIE_BUS "PCIE"
-> >>  
-> >>  typedef void (*pci_bus_dev_fn)(PCIBus *b, PCIDevice *d, void *opaque);
-> >> +typedef void (*pci_bus_fn)(PCIBus *b, void *opaque);
-> >> +typedef void* (*pci_bus_ret_fn)(PCIBus *b, void *opaque);
+
+
+在 2021年10月20日 02:56, Richard Henderson 写道:
+> On 10/19/21 12:34 AM, Xiaojuan Yang wrote:
+>> ---
+>>   target/loongarch/README  | 134 +++++++++++++++++++++++++++++++++++++++
+>>   target/loongarch/ramdisk | Bin 0 -> 3077952 bytes
+>>   target/loongarch/vmlinux | Bin 0 -> 24565536 bytes
+>>   3 files changed, 134 insertions(+)
+>>   create mode 100644 target/loongarch/ramdisk
+>>   create mode 100755 target/loongarch/vmlinux
 > 
-> Now looking at patch #8, I wonder if it wouldn't be cleaner to have
-> a single:
+> Wang Xuerui has already mentioned this, but let's make sure not to include such large test binaries in future.
+Yes, I will put the test binaries on the github.
 > 
-> /*
->  * pci_bus_fn:
->  * @bus: PCI bus
->  * @opaque: Pointer to opaque pointer,
->             can be used as input *and* output
->  * Return #true on success, #false on failure
->  */
-> typedef bool (*pci_bus_fn)(PCIBus *bus, void **opaque);
-
-Having the errp could be better imho for patch 8 so we can allow the per-device
-hook to set the exact error message.  That could be useful when we extend the
-list of devices to scan (besides vfio-pci) so we can set different error
-messages rather than return "false" for all.
-
-I'll stole the rb and I'll adjust the "void* ()".  Thanks for looking, Phil.
-
--- 
-Peter Xu
+> The proper place for this is in a stable url, which could then either be referenced in the documentation.  But even better than that would be an acceptance test entry -- see tests/acceptance/boot_linux_console.py.
+> 
+>> +  2.Modify the kernel code for the tcg. Modifications are listed later. I will try to
+>> +    commit to the kernel host.
+> 
+> This sounds like a bug in the qemu emulation of the device or boot environment.
+>
+Yes, qemu needs some adjustments, in the next version we can use the kernel directly. Thanks
+> 
+> r~
 
 
