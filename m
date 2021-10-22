@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0234A437A9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 18:09:05 +0200 (CEST)
-Received: from localhost ([::1]:54528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B96B5437AA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 18:11:35 +0200 (CEST)
+Received: from localhost ([::1]:58596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdx6N-00030e-QX
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 12:09:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37432)
+	id 1mdx8o-0005nk-Lh
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 12:11:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdwzP-00057s-Pn
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:01:51 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:46605)
+ (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
+ id 1mdx4X-00030H-3x
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:07:10 -0400
+Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:46838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdwzM-0007yb-37
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:01:51 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- pi19-20020a17090b1e5300b0019fdd3557d3so3382207pjb.5
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 09:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=T41wgI3+Z6l4WVNM2jlZRcmcuzSS9a+E6e2wlnloUic=;
- b=ko1XqJ2wRD29jA52fIQmKuBJX3/9ZzhmlRUDV3E+zda2wJGTnKEOe3Vf+Ah+lB3pCo
- 6MA/dYLZgdq+5vMdVAADFZ+oUt/OLDJ9e9gYldj17+1/vvchK67QiQmjNMJRYulHHTzm
- 8kTokD41YIKyvY63NxAQeu0JLJtLMh/MFL+R2xJhwA6CMPSjJW2MYcijhEYGXvI+Q1+2
- vwrLSHueGrm73Zdt1A5JGzOLfo4nRz78njTZLnEh7MSQaTC79/jzqKu/rI5ULuP1E7M/
- 7nfqbzsB64OHQcZqRtBJakITwHDXHLK5CahPfAsFu6o22nXiJMEHG+m0GCcf2VWtB5k5
- Gveg==
+ (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
+ id 1mdx4R-0004ez-Qf
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:07:07 -0400
+Received: by mail-lj1-x22e.google.com with SMTP id l5so208302lja.13
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 09:06:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=XkNMdsHgl2hY/a8nzWlfQL04eLVr3TvlPzta3CNG/Tk=;
+ b=cFuqXiKcjlsBj80Oy+v8etvedggAMQ8ZJG5czPhc6Q/uAfnoJ8pTs1Y7vfA3QCTKF4
+ 2JgEQH+QuSMV97UxvrECd3c96zW5ryTvas7OrtF5qCLQq/SfqjC62rVApEb5H4lJ9FtV
+ ipCXsfF03VSLOZ+FdgwmeJ0CsiY4loVwhFtStAjOIrRtvkgSX8Zo076HSjWKzL8p7i+y
+ VxvC8rvgbTvf4POcM+0YC8QHF7szEWlu0tXAAl7jg4SdAWveD3o02b3KCuGCOcT1xPkY
+ GVpEgiBBI5VzGkfkcdFPKQREujbaxl3NC+Iik4ZgaRdoP6sLLVwjuKBu8LdP87fdSTno
+ BB9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=T41wgI3+Z6l4WVNM2jlZRcmcuzSS9a+E6e2wlnloUic=;
- b=iik+TezZQtuxGobUaZg7cGxlhnThDdOsIjUfl1kNhgbrf3wzGEx/tgqjbFYd1/bwMb
- sfvaOYPB+xiZ+Bw6QHDez3n4t1M/yyEYKHlp7EFuOClvL1kXP6AX+Ms1xd7k4CyllSMM
- XxXo7th4fOgpOuA9b+HDwqHdRWGAkq/7lqmnbHzOZWeM9HuplPNAQ5+AqNCH6hCEqlJ9
- qAmIAltPMNtsoffyIUAB3aRorvN1uT7/PsvaMS2MNc94gOBi1Wbf6xI3eQaz7CiLqk6h
- BpNXl3UdDhQTYCCss0ZkEsZpejB0N+YPf2kCgqvuBeyHVfze7D+vT6JgKyxvgc/8olG7
- FNRg==
-X-Gm-Message-State: AOAM5326tqqjuDIAMZ/yv8P9x1AlNYB9HsG4+IGm38gmyKgAEDqByrzz
- EN9ZjNQJEAEl+a18WvpvFFM1avfRrMo=
-X-Google-Smtp-Source: ABdhPJw6wkUMcSODtvi/zR9HD11y9TlAgLewSgqxZZgWBUxhvSFizCRn2QltUmjT/S/EHsCYRh4XLw==
-X-Received: by 2002:a17:90b:1e49:: with SMTP id
- pi9mr15673478pjb.144.1634918506451; 
- Fri, 22 Oct 2021 09:01:46 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id l1sm9099863pgt.39.2021.10.22.09.01.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Oct 2021 09:01:45 -0700 (PDT)
-Subject: Re: [PULL 0/9] Q800 patches
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20211022071705.471954-1-laurent@vivier.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5575bfdc-c833-78c6-9dcd-ab97c15311e2@linaro.org>
-Date: Fri, 22 Oct 2021 09:01:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:user-agent
+ :mime-version:content-transfer-encoding;
+ bh=XkNMdsHgl2hY/a8nzWlfQL04eLVr3TvlPzta3CNG/Tk=;
+ b=YChBQ4TnhZisKyDocaZTZ0BTdL50TU4q8W1CI5nQG2PW8HLCBpNjDujuZzdO5qVN1m
+ SS6FYVN4rVd+vSluwfoF/QvAXF/7fxgTw42PJqz8aIf2grqxzbTxuGqQCMH0MOiZPSWr
+ s8iLUK+7xid2TXumIyWk4Lecbigg6us1IpfHewxEyvG4YqGn67gU58bd7ITZTLx3duNs
+ HlUQYBoje3A4oa1w03DgtezffDTK2LyYHseLRM8NrMIY0opx7BMP0rr05IAczQb8WLdK
+ XWqlH2Xyh6MgBoV16bmtr6kAbfOJIpdZIzpVmTs7ADb/ns3dOdV7txqbDyKRpo+R+XE1
+ vfoA==
+X-Gm-Message-State: AOAM532IMpCnL/YbVnaDvMq7JsXzG6mSqYAY1d1lqMRWBtdE6DcdYyQg
+ CjtYYFK3CZf/RiIzJ9pKnBN9ssSzljBqtw==
+X-Google-Smtp-Source: ABdhPJwKW69AVNj5SqUQ4c6xQUfgAi7FID+UO0tEPNOI0CHOKpIUauFzkMz9uOgi4zBiXRbsRLF4fA==
+X-Received: by 2002:a2e:aa9b:: with SMTP id bj27mr858456ljb.528.1634918818036; 
+ Fri, 22 Oct 2021 09:06:58 -0700 (PDT)
+Received: from pc-System-Product-Name.intra.ispras.ru ([85.142.117.226])
+ by smtp.gmail.com with ESMTPSA id z21sm926503ljg.119.2021.10.22.09.06.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Oct 2021 09:06:57 -0700 (PDT)
+From: NDNF <arkaisp2021@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/3] plugins: add a drcov plugin
+Date: Fri, 22 Oct 2021 19:06:52 +0300
+Message-Id: <163491872706.304355.11795681036780988723.stgit@pc-System-Product-Name>
+X-Mailer: git-send-email 2.25.1
+User-Agent: StGit/0.19
 MIME-Version: 1.0
-In-Reply-To: <20211022071705.471954-1-laurent@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.742,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
+ envelope-from=arkaisp2021@gmail.com; helo=mail-lj1-x22e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,49 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: arkadiy.ivanov@ispras.ru, alex.bennee@linaro.org, pavel.dovgaluk@ispras.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/22/21 12:16 AM, Laurent Vivier wrote:
-> The following changes since commit 50352cce138ef3b30c1cda28a4df68fff5da3202:
-> 
->    Merge remote-tracking branch 'remotes/juanquintela/tags/migration.next-pull-request' into staging (2021-10-19 07:41:04 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git://github.com/vivier/qemu-m68k.git tags/q800-pull-request
-> 
-> for you to fetch changes up to a56c12fb760a57c1419df4a34e930160f1d8d428:
-> 
->    q800: drop 8-bit graphic_depth check for Apple 21 inch display (2021-10-20 16:25:04 +0200)
-> 
-> ----------------------------------------------------------------
-> Pull request Q800 20211022
-> 
-> GLUE updates for A/UX mode
-> 
-> ----------------------------------------------------------------
-> 
-> Mark Cave-Ayland (9):
->    mac_via: update comment for VIA1B_vMystery bit
->    q800: move VIA1 IRQ from level 1 to level 6
->    q800: use GLUE IRQ numbers instead of IRQ level for GLUE IRQs
->    mac_via: add GPIO for A/UX mode
->    q800: wire up auxmode GPIO to GLUE
->    q800: route SONIC on-board Ethernet IRQ via nubus IRQ 9 in classic
->      mode
->    q800: wire up remaining IRQs in classic mode
->    q800: add NMI handler
->    q800: drop 8-bit graphic_depth check for Apple 21 inch display
-> 
->   include/hw/misc/mac_via.h |   1 +
->   hw/m68k/q800.c            | 169 ++++++++++++++++++++++++++++++++++++--
->   hw/misc/mac_via.c         |  23 ++++++
->   hw/misc/trace-events      |   1 +
->   4 files changed, 189 insertions(+), 5 deletions(-)
+These patches adds the ability to generate files in drcov format.
+Primary goal this scripts is to have coverage
+logfiles thatwork in Lighthouse.
 
-Applied, thanks.
+Changelog:
+v3:
+  * Increased speed of the plugin.
+  * Added documentation to the helper functions.
+  * Sorted qemu-plugins.symbols.
 
-r~
+v2:
+  * Added path to executable binary file.
+  * base, end, entry have correct values now.
+  * Added option: "filename" for output file.
+  * Install an actual tracer when the TB gets executed.
 
+Signed-off-by: Ivanov Arkady <arkadiy.ivanov@ispras.ru>
+
+---
+
+Ivanov Arkady (3):
+      src/plugins: sorted list
+      This patch adds helper functions to the drcov plugin.
+      contrib/plugins: add a drcov plugin
+
+
+ contrib/plugins/Makefile     |    1 
+ contrib/plugins/drcov.c      |  152 ++++++++++++++++++++++++++++++++++++++++++
+ include/qemu/qemu-plugin.h   |   17 +++++
+ plugins/api.c                |   44 ++++++++++++
+ plugins/qemu-plugins.symbols |   56 ++++++++-------
+ 5 files changed, 244 insertions(+), 26 deletions(-)
+ create mode 100644 contrib/plugins/drcov.c
+
+--
+Ivanov Arkady
 
