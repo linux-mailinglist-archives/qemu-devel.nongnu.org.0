@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381CB43700A
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 04:34:36 +0200 (CEST)
-Received: from localhost ([::1]:40136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 571E5437014
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 04:38:49 +0200 (CEST)
+Received: from localhost ([::1]:43046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdkOA-00071y-Qe
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 22:34:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46610)
+	id 1mdkSG-0000iH-0v
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 22:38:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdkNA-0005vX-TB
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 22:33:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41229)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdkRM-0008TL-Lo
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 22:37:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdkN8-0003vu-F0
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 22:33:31 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mdkRK-0007n0-0l
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 22:37:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634870009;
+ s=mimecast20190719; t=1634870268;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=GN8pBMlLBoW1Ptw0FTtSaD59zgOHq4O71m6I8051YBs=;
- b=cekRjVvkqMp/47VytM5wOY2RGVQKTT4cZ8/ITT5fXXi1S3DNgEgltJt21MJAo8SiydGv2s
- MOrRGCShnpanZd0qiBauFRNEBNc+i+THZ3M4Zf51bzEfO3emd4RX/86QM6rjT0/JBRFKl0
- tnnEKQ3VYp7gqeImCKcih0oKGLV0VoM=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-G4EdXSAtP1KROnC0gxSQKw-1; Thu, 21 Oct 2021 22:33:27 -0400
-X-MC-Unique: G4EdXSAtP1KROnC0gxSQKw-1
-Received: by mail-pj1-f69.google.com with SMTP id
- lw18-20020a17090b181200b001a10ecde3d3so491459pjb.4
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 19:33:26 -0700 (PDT)
+ bh=dy8EyJYyun1MoOv1B5qDFWVweyiCWIUEwcb0C1sKxpg=;
+ b=NRyLVikAs13s093MebRF9BNWtv14WAYbx83s8XHbsHbX88w4KVQu/QIn/9OW8QPP5wmekY
+ +qjhJO6x0sYskfskM4vR8OwzGuTV0PSu4FbyveU+ctIKU+qt0dznvwsPEpxr36AgjpTOK6
+ LLbeUb4s+v94Hp2BPE8R2Ngf0cI6Ci8=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-407-Z9QTdA5UOYCPBhQ_7WkVEg-1; Thu, 21 Oct 2021 22:37:47 -0400
+X-MC-Unique: Z9QTdA5UOYCPBhQ_7WkVEg-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ y124-20020a623282000000b0047a09271e49so1154395pfy.16
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 19:37:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=GN8pBMlLBoW1Ptw0FTtSaD59zgOHq4O71m6I8051YBs=;
- b=lzGf+ZNR+q5Vs8UwO+3/2Du/TaGCMKAmc/GR2J1aO4Rz/TKWIxmScVB2xBZJwsvPPY
- egHTcz4tZQiAsk508Y5OrJbFKKohSditWPN0ysbc/GWNaP6PTpU+AGBYEOUOiYQKnv+1
- nvuRGiyEdaWmZLmGbbKnij3GYL+x1Hxj9IT5qd+qMcmm03oAzFi2DAExlzs1aTD5t76h
- e/j8M2LNHfZKnbYAt0T4N4acczDDNpUVF/ThBbvbPuwEqx+9HJJ1ptETn6n8F9rLSuj6
- LCiGwSC5fnuHARrKWCbCNWNaxHiWhkeAjxlApby40pUmamabuGeEccqaMxbZPm7QgDSZ
- Adew==
-X-Gm-Message-State: AOAM531cbn0VfVcM6/Ujh6jbvBfuydTAmaJj+jTwbaiNY8a3MY3Iyfug
- u/utVV/wMJGDre9c9BRFnOcVuoJI/KATdayOfYCTr40HkyalZGm0DyBVil7ME3xGy8SZr+su73A
- qve/FeYYM/BfC0Z0=
-X-Received: by 2002:a05:6a00:1398:b0:44d:3234:dc31 with SMTP id
- t24-20020a056a00139800b0044d3234dc31mr9248079pfg.7.1634870006055; 
- Thu, 21 Oct 2021 19:33:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyxRAtbtzrVbHk/K7Rcdya0aTE4oZJlUd4ajWLrjtQb0LF5S44TO2tmEHw5KdaHp5hbchhIXg==
-X-Received: by 2002:a05:6a00:1398:b0:44d:3234:dc31 with SMTP id
- t24-20020a056a00139800b0044d3234dc31mr9248057pfg.7.1634870005764; 
- Thu, 21 Oct 2021 19:33:25 -0700 (PDT)
+ bh=dy8EyJYyun1MoOv1B5qDFWVweyiCWIUEwcb0C1sKxpg=;
+ b=N01JggTYSL/Cgc+4irM7LbsFKdRylRTFClAW8bsA3IsD9WMkyGdx9sVq0W1FoX/EWh
+ Zh3H3o1P7sNIsf3kNS7wv5hLpouJvjnDy8EHG37zc9NfGxqxi4Iz/AGW+fcwL//BUV9z
+ zoh+3udVW/cdYtnVp4bBTAqhNse1eucY5/NPS/lvu+dpSo7nqskRsN6pPsYUXaRT8hBL
+ 24g91Kj6Oh2KCdjIMtKIU4brCAtkLZM9QfRMKZreNaftWtf2VDUpgdbo/POOnmzonkAK
+ V71p9nxzOVBRFWD4K9MpSv5s1iD2sF+I0Zx7Imb1+fkjrn3MmRapdcOcgR/QLcL5bHi9
+ dDBg==
+X-Gm-Message-State: AOAM533H8e5hgptCAf6nrGfZ5w1Kt511ljdv27nOKn1DVrBMCXftRVSu
+ NVIf5Ejo9UDK3wK22Onm9eFyeD9E/jodn1Lju9Yits86jGOP4G3dxoEBprCloPvdt78cdkcwrL2
+ aPvHC6995IHgKf6s=
+X-Received: by 2002:a62:1d04:0:b0:44d:cb39:40f0 with SMTP id
+ d4-20020a621d04000000b0044dcb3940f0mr9539790pfd.11.1634870266115; 
+ Thu, 21 Oct 2021 19:37:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwntuPnRh1aGlm0I4cAdsrl5KEqZI3Y22FIY7mfX6Xw18SkpYgcauiCzy1UzpUK82dsFrecSA==
+X-Received: by 2002:a62:1d04:0:b0:44d:cb39:40f0 with SMTP id
+ d4-20020a621d04000000b0044dcb3940f0mr9539762pfd.11.1634870265723; 
+ Thu, 21 Oct 2021 19:37:45 -0700 (PDT)
 Received: from xz-m1.local ([94.177.118.50])
- by smtp.gmail.com with ESMTPSA id on13sm7740892pjb.23.2021.10.21.19.33.17
+ by smtp.gmail.com with ESMTPSA id p31sm7448275pfw.201.2021.10.21.19.37.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 19:33:25 -0700 (PDT)
-Date: Fri, 22 Oct 2021 10:33:15 +0800
+ Thu, 21 Oct 2021 19:37:45 -0700 (PDT)
+Date: Fri, 22 Oct 2021 10:37:30 +0800
 From: Peter Xu <peterx@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 7/8] pci: Add pci_for_each_device_all()
-Message-ID: <YXIi65J4XiVcdYeZ@xz-m1.local>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH 8/8] x86-iommu: Fail early if vIOMMU specified after
+ vfio-pci
+Message-ID: <YXIj3skFTtnoUiWj@xz-m1.local>
 References: <20211021104259.57754-1-peterx@redhat.com>
- <20211021104259.57754-8-peterx@redhat.com>
- <20211021064948-mutt-send-email-mst@kernel.org>
+ <20211021104259.57754-9-peterx@redhat.com>
+ <51201622-3d09-e5cf-9963-692b19450dc0@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211021064948-mutt-send-email-mst@kernel.org>
+In-Reply-To: <51201622-3d09-e5cf-9963-692b19450dc0@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -97,7 +98,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
  Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
  qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Shannon Zhao <shannon.zhaosl@gmail.com>,
@@ -107,33 +108,54 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Michael,
-
-On Thu, Oct 21, 2021 at 06:54:59AM -0400, Michael S. Tsirkin wrote:
-> > +typedef struct {
-> > +    pci_bus_dev_fn fn;
-> > +    void *opaque;
-> > +} pci_bus_dev_args;
+On Thu, Oct 21, 2021 at 02:38:54PM +0200, Eric Auger wrote:
+> Hi Peter,
 > 
-> code style violation. CamelCase for structs pls.
+> On 10/21/21 12:42 PM, Peter Xu wrote:
+> > Scan the pci bus to make sure there's no vfio-pci device attached before vIOMMU
+> > is realized.
+> >
+> > Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > ---
+> >  hw/i386/x86-iommu.c | 18 ++++++++++++++++++
+> >  1 file changed, 18 insertions(+)
+> >
+> > diff --git a/hw/i386/x86-iommu.c b/hw/i386/x86-iommu.c
+> > index 86ad03972e..58abce7edc 100644
+> > --- a/hw/i386/x86-iommu.c
+> > +++ b/hw/i386/x86-iommu.c
+> > @@ -21,6 +21,7 @@
+> >  #include "hw/sysbus.h"
+> >  #include "hw/i386/x86-iommu.h"
+> >  #include "hw/qdev-properties.h"
+> > +#include "hw/vfio/pci.h"
+> >  #include "hw/i386/pc.h"
+> >  #include "qapi/error.h"
+> >  #include "qemu/error-report.h"
+> > @@ -103,6 +104,16 @@ IommuType x86_iommu_get_type(void)
+> >      return x86_iommu_default->type;
+> >  }
+> >  
+> > +static void x86_iommu_pci_dev_hook(PCIBus *bus, PCIDevice *dev, void *opaque)
+> > +{
+> > +    Error **errp = (Error **)opaque;
+> > +
+> > +    if (object_dynamic_cast(OBJECT(dev), TYPE_VFIO_PCI)) {
+> > +        error_setg(errp, "Device '%s' must be specified before vIOMMUs",
+> > +                   TYPE_VFIO_PCI);
+> if there are several VFIO-PCI devices set before the IOMMU, errp may be
+> overriden
+> as we do not exit the loop as soon as there is an error I think
 
-OK.
+Hmm, good point.  I won't worry too much about overriding yet as if there're
+more devices violating the rule then reporting any of them should work - then
+as the user tune the qemu cmdline it'll finally go right.
 
-> > +/* Call 'fn' for each pci device on the system */
-> > +void pci_for_each_device_all(pci_bus_dev_fn fn, void *opaque);
-> 
-> Instead of hacking pci making initialization o(N^2),
+But I do see that error_setv() has an assertion on *errp being NULL.. I'll at
+least make sure it won't trigger that assert by accident.
 
-Why it's O(N^2)?  One vIOMMU walks O(N), and we only have one vIOMMU, or am I
-wrong?
-
-> can't we add a variant of object_resolve_path_type ?
-
-Could you elaborate?  Here what we want to do is to make sure there're no
-specific PCI devices registered, and potentially it can be more than one type
-of device in the future.
-
-Thanks,
+Thanks for spotting it!
 
 -- 
 Peter Xu
