@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EA4E437A8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 18:04:01 +0200 (CEST)
-Received: from localhost ([::1]:47748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0234A437A9C
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 18:09:05 +0200 (CEST)
+Received: from localhost ([::1]:54528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdx1U-0006oL-0O
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 12:04:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37112)
+	id 1mdx6N-00030e-QX
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 12:09:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdwxe-0003ut-VY
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:00:03 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:54899)
+ id 1mdwzP-00057s-Pn
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:01:51 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:46605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mdwxb-0001zq-DD
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:00:02 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id np13so3278712pjb.4
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 08:59:58 -0700 (PDT)
+ id 1mdwzM-0007yb-37
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:01:51 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ pi19-20020a17090b1e5300b0019fdd3557d3so3382207pjb.5
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 09:01:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=D2HrNx6PoeRrrNE4aonbqT1oZEz+JaSt/XwvFjErvDM=;
- b=wTDkXpaGDvtxeFfKrSlxjBvuMdjqlhx8M1kLQPsbYCd+lr0lGOdRfslv6c9LKBeBTi
- j5TAjqxYPwbDjxFrY+9JzoUicW7Mu1Y+wQOtIMqkGm7kJ4W1PIh5/57zJVro6O9EJZMw
- 5nC3BWht+oazDRs8vZqm7G3qzqKW01U71Fv2fKlMYlTPKbW4BIEjNQxdFTfn16IWad5/
- LsyAvD9y3CAIT+WoQ7Ojr8z5Av0gaz9dLYtwLbDVknA+SxUGU2VHxIGOBMvuWtZlkLwA
- xOCzF1joj40JA8apXS2naFi0BrQj0z5o4eOx4URQEzY1O/nW+jJbMCXp4kYhspRFoAop
- 4jJw==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=T41wgI3+Z6l4WVNM2jlZRcmcuzSS9a+E6e2wlnloUic=;
+ b=ko1XqJ2wRD29jA52fIQmKuBJX3/9ZzhmlRUDV3E+zda2wJGTnKEOe3Vf+Ah+lB3pCo
+ 6MA/dYLZgdq+5vMdVAADFZ+oUt/OLDJ9e9gYldj17+1/vvchK67QiQmjNMJRYulHHTzm
+ 8kTokD41YIKyvY63NxAQeu0JLJtLMh/MFL+R2xJhwA6CMPSjJW2MYcijhEYGXvI+Q1+2
+ vwrLSHueGrm73Zdt1A5JGzOLfo4nRz78njTZLnEh7MSQaTC79/jzqKu/rI5ULuP1E7M/
+ 7nfqbzsB64OHQcZqRtBJakITwHDXHLK5CahPfAsFu6o22nXiJMEHG+m0GCcf2VWtB5k5
+ Gveg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=D2HrNx6PoeRrrNE4aonbqT1oZEz+JaSt/XwvFjErvDM=;
- b=ECllQNmw0uh0TLbunvR1o71GeWxNC8b63yKs/rsIlHlELckwcCc5NFsiXxSDiCda0/
- NW6trX/eP6ZedeVrVDt/+L67zlBYZCuqnG1vkLaWD5TMYHkUCdTcKmw87S9g/PlClfWD
- 4dkeWVhqq8az9nagEecH8AEN8jmT1EgTaknLQxBllxEF37xnzqb5KaT/TJK+vFR0m9iM
- 2hRbhKlO2ADcx5k2+bDjFEWcV2fA3zI8H8IYqAYG6ubZNYKhQvn0iYMTG8orYiCPNtzt
- Dpl+PeTPyOVAJf6FX5cae4pz7XUusBvS7JGspYKHgLIZhH8s5CHxqhtkmNYDDE1lmwQS
- ricw==
-X-Gm-Message-State: AOAM53387Ozpl4jLfCCHwOUXglI4OAI8vRahvHZP3YtoSron6GZwVWRe
- Xx4mbjcjmWe2h3lZm+lJE+5Mgg==
-X-Google-Smtp-Source: ABdhPJx5zR2mdchfFa/J8GGBAnrfm00k6eLxLt17Q7Pg2CDuSwYNJAA+XZjujZWlqIv68tg8iJ8bZA==
-X-Received: by 2002:a17:902:868c:b0:140:f6f:8a10 with SMTP id
- g12-20020a170902868c00b001400f6f8a10mr744502plo.77.1634918397606; 
- Fri, 22 Oct 2021 08:59:57 -0700 (PDT)
+ bh=T41wgI3+Z6l4WVNM2jlZRcmcuzSS9a+E6e2wlnloUic=;
+ b=iik+TezZQtuxGobUaZg7cGxlhnThDdOsIjUfl1kNhgbrf3wzGEx/tgqjbFYd1/bwMb
+ sfvaOYPB+xiZ+Bw6QHDez3n4t1M/yyEYKHlp7EFuOClvL1kXP6AX+Ms1xd7k4CyllSMM
+ XxXo7th4fOgpOuA9b+HDwqHdRWGAkq/7lqmnbHzOZWeM9HuplPNAQ5+AqNCH6hCEqlJ9
+ qAmIAltPMNtsoffyIUAB3aRorvN1uT7/PsvaMS2MNc94gOBi1Wbf6xI3eQaz7CiLqk6h
+ BpNXl3UdDhQTYCCss0ZkEsZpejB0N+YPf2kCgqvuBeyHVfze7D+vT6JgKyxvgc/8olG7
+ FNRg==
+X-Gm-Message-State: AOAM5326tqqjuDIAMZ/yv8P9x1AlNYB9HsG4+IGm38gmyKgAEDqByrzz
+ EN9ZjNQJEAEl+a18WvpvFFM1avfRrMo=
+X-Google-Smtp-Source: ABdhPJw6wkUMcSODtvi/zR9HD11y9TlAgLewSgqxZZgWBUxhvSFizCRn2QltUmjT/S/EHsCYRh4XLw==
+X-Received: by 2002:a17:90b:1e49:: with SMTP id
+ pi9mr15673478pjb.144.1634918506451; 
+ Fri, 22 Oct 2021 09:01:46 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id z4sm10590040pfz.99.2021.10.22.08.59.56
+ by smtp.gmail.com with ESMTPSA id l1sm9099863pgt.39.2021.10.22.09.01.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Oct 2021 08:59:57 -0700 (PDT)
-Subject: Re: [RFC PATCH v5 2/3] riscv: Introduce custom CSR hooks to
- riscv_csrrw()
-To: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
-References: <20211021150921.721630-1-ruinland@andestech.com>
- <20211021150921.721630-3-ruinland@andestech.com>
- <cdafb564-6ed8-c951-9381-3a90175abdde@linaro.org>
- <YXJ3lEChs9bSkqSZ@ruinland-x1c>
+ Fri, 22 Oct 2021 09:01:45 -0700 (PDT)
+Subject: Re: [PULL 0/9] Q800 patches
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20211022071705.471954-1-laurent@vivier.eu>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <04cab623-4695-097f-28b2-96e80c7a5ad2@linaro.org>
-Date: Fri, 22 Oct 2021 08:59:55 -0700
+Message-ID: <5575bfdc-c833-78c6-9dcd-ab97c15311e2@linaro.org>
+Date: Fri, 22 Oct 2021 09:01:44 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YXJ3lEChs9bSkqSZ@ruinland-x1c>
+In-Reply-To: <20211022071705.471954-1-laurent@vivier.eu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -91,32 +88,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ycliang@andestech.com, qemu-riscv@nongnu.org, alankao@andestech.com,
- wangjunqiang@iscas.ac.cn, dylan@andestech.com, qemu-devel@nongnu.org,
- alistair23@gmail.com, bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/22/21 1:34 AM, Ruinland ChuanTzu Tsai wrote:
->>> +    /* Custom CSR value holder per hart */
->>> +    void *custom_csr_val;
->>>    };
->>
->> Value singular?  Anyhow, I think that it's a mistake trying to hide the
->> value structure in another file.  It complicates allocation of the
->> CPURISCVState, and you have no mechanism by which to migrate the csr values.
+On 10/22/21 12:16 AM, Laurent Vivier wrote:
+> The following changes since commit 50352cce138ef3b30c1cda28a4df68fff5da3202:
 > 
-> What I'm trying to do here is to provide a hook for CSR value storage and let
-> it being set during CPU initilization. We have heterogeneous harts which
-> have different sets of CSRs.
+>    Merge remote-tracking branch 'remotes/juanquintela/tags/migration.next-pull-request' into staging (2021-10-19 07:41:04 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    git://github.com/vivier/qemu-m68k.git tags/q800-pull-request
+> 
+> for you to fetch changes up to a56c12fb760a57c1419df4a34e930160f1d8d428:
+> 
+>    q800: drop 8-bit graphic_depth check for Apple 21 inch display (2021-10-20 16:25:04 +0200)
+> 
+> ----------------------------------------------------------------
+> Pull request Q800 20211022
+> 
+> GLUE updates for A/UX mode
+> 
+> ----------------------------------------------------------------
+> 
+> Mark Cave-Ayland (9):
+>    mac_via: update comment for VIA1B_vMystery bit
+>    q800: move VIA1 IRQ from level 1 to level 6
+>    q800: use GLUE IRQ numbers instead of IRQ level for GLUE IRQs
+>    mac_via: add GPIO for A/UX mode
+>    q800: wire up auxmode GPIO to GLUE
+>    q800: route SONIC on-board Ethernet IRQ via nubus IRQ 9 in classic
+>      mode
+>    q800: wire up remaining IRQs in classic mode
+>    q800: add NMI handler
+>    q800: drop 8-bit graphic_depth check for Apple 21 inch display
+> 
+>   include/hw/misc/mac_via.h |   1 +
+>   hw/m68k/q800.c            | 169 ++++++++++++++++++++++++++++++++++++--
+>   hw/misc/mac_via.c         |  23 ++++++
+>   hw/misc/trace-events      |   1 +
+>   4 files changed, 189 insertions(+), 5 deletions(-)
 
-I understand that, but the common CPURISCVState should contain the storage for all of the 
-CSRs for every possible hart.
-
-I might have made a different call if we had a more object-y language, but we have C.  The 
-difference in size (here exactly one word) is not worth the complication of splitting 
-structures apart.
-
+Applied, thanks.
 
 r~
+
 
