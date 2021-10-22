@@ -2,69 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541E24377A8
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 15:06:38 +0200 (CEST)
-Received: from localhost ([::1]:38866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B07437832
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 15:41:34 +0200 (CEST)
+Received: from localhost ([::1]:46970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mduFp-0001rJ-2U
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 09:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50288)
+	id 1mdund-0001PP-D0
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 09:41:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1mduEG-0001Au-6l
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:05:00 -0400
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:34467)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1mduED-0003YK-V1
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:04:59 -0400
-Received: by mail-lj1-x232.google.com with SMTP id 145so752764ljj.1
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 06:04:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RXt8hhAYWxQh1kmleSCyU9pIys2a2G0UnLjoKfjXD1Q=;
- b=CR9BvkvpXPazH3PQcRf5t4USOFFV86W+sU4H7sAAl/WxoX7ogQqE4KNHa0UmrG6lEL
- 7GPJHDxeYF6pd3PDdWJLmOYicgq2CcqxT4lmkhj38gWi2WDY1NP+GbV6KoebeGzDBiLx
- wMXoqqiYzxPw+SThGwRqnFsyJ3Q4yYMLyhUdQV7luv1JeL6oEsUpTMEfhbheEVsLbKyn
- 4KUy5SXy8kgxTTXseHxPlYWXkht6GPqinGbXr9WsWsX6JRw3ieiuEVRDaHhExFCnqRrc
- zE6Rmi9e0OK2OslHGFRXoW0EvSfm6p0YFf/YuTCDRmZX7/RCpd55TrhApWO3FjtOcC/u
- 06zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RXt8hhAYWxQh1kmleSCyU9pIys2a2G0UnLjoKfjXD1Q=;
- b=UPZ48eGav7+XajODogvgxj8E8djLFwEA17E9gcfz3QPsAli4Aez1Eav+F2cWEdTaRX
- xp+tXFNbm1Pl4MTlkqtOklppBbtLyRDCqgTqUa+aFmHjDHZlf3hl13vwWg/LoqJLvt4H
- bVy6oq0I8tVsoNdrqoQwMk+VrPAfCPbEqEqoKrnBIqUVV6GEmh9/MLeE2ztptSroN/cQ
- Ur+AFuk4oNCYbMquytLOZ4UYBC1WQsfiCLGJLFNhGUvoQficjaEOvtwI+g2VFoN8SGgH
- 9efCvH+I5Clhtz5L01ihw0a4q2QxdCfQqbGje+EfNLtRtYq3LDdIpDl1kIsaMIwLzbpv
- Xkxg==
-X-Gm-Message-State: AOAM531QYSwKwMwYvu80V2v+RNALn3ML/wyMjF5XoM7uEenE8Rn6TgkA
- TFFQDA/2rnnT2Ih+GbrldFN/z/NOp7NkoIhDDlQ=
-X-Google-Smtp-Source: ABdhPJwxtap0TNQcV5tq/4/FiQqDSfGbNDKLNRv0qwHY4MtRvtQZoALOI3wvZ4nRepT5QFXJGSkWWk8nqjEtDPuOkfE=
-X-Received: by 2002:a2e:9d48:: with SMTP id y8mr13093468ljj.19.1634907895222; 
- Fri, 22 Oct 2021 06:04:55 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=9222bbd82=alistair.francis@opensource.wdc.com>)
+ id 1mduks-0007IP-R4
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:38:43 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:64360)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=9222bbd82=alistair.francis@opensource.wdc.com>)
+ id 1mdukp-0000oF-Fx
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:38:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1634909919; x=1666445919;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=uEVQAIRqHvXavZjymWUAyQZMtWpXG5LJsdlervEZ8Ys=;
+ b=NawACM9jqgyNBLgs3vMM6sO6/cLc4gJ1f4YW0r6qNSa8HXBtnShD4tby
+ cZPcGzrkYrZ8Kc98Z7RW9cXKJKRdrBJiIzR85QMU6jJEFoFv/eFmObG0V
+ Y+7oT4zf+I14l0GG9Q9Y3Yw9jSvsHRqA77yDNtZEcRYnxIfTtfJq1G5cx
+ xcUabCNisWkxcbNFSk+4XwgfINHy9zVylEaqyd1tFesd7XNe+fACn/vCA
+ fQj3jEuczdiBOGLwiH6i/sarQwFXJP9ZiL4Od/MKb6zWhKkBFO65jWujj
+ yw+QPKKmYeU0mDlqvGnu/LTGdqrReeh/HppJ2lePteCn300CFnDx2NJe0 Q==;
+X-IronPort-AV: E=Sophos;i="5.87,172,1631548800"; d="scan'208";a="182632544"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 22 Oct 2021 21:38:36 +0800
+IronPort-SDR: zUQY/3QI3RamAKmSE+LEpTQwdjgh1mu4ir4u0LAKy/OehPd09CB1sqmOsbS/9caP1fenAK98RM
+ C+pVnwL2VDjfk9pfSLmHCTrGbjFlxl8K1sUEvnf+I51iFW08AXC4Ur8zmPsJEkqTPa0Yn/BAho
+ e4uaboE7GEN3db27l63RJYcv5topQUnOzjU6tZBInJ3iJNLAOGAj2Ka2orKx6p61sLbGdTxmb2
+ dAw21jeYh8iTAm9FB8QFuu+g8kxcM0oPflPCLdC4hjjyb916kBlYftETmUE2zddb+Z/0n2InPj
+ WFv6+yYn9XN5qsFCJNRSYg4p
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2021 06:12:38 -0700
+IronPort-SDR: WjiyTawvm60yUO85cnuq2EhR7N/QpEm5giFB2BvhrrYjYO4NucSeLNc2HVOqPoytZf1EQLA2qL
+ pirpr/XI6IvOu0wD+WIUi3wjzzeKwjVfk+vx4zc5jZE4y2ED7RE/xaTbRPxbb/c/bm44R08DrP
+ BSuMAQVa04w8cm6kiw+JrRZWEb1xXJj68UbujyH9AlvKRH+CvR+8tUFWuAfYhlmo5m+sajxxhL
+ le+eSBd4O+lJ65Rb4kb/hn3zklrrIvSaau6CgNiOGfxDww4b2GmRqXFswR5O53EHli6iTrjRZh
+ 8uM=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2021 06:38:36 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HbQRJ3NGhz1RtVn
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 06:38:36 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1634909915; x=1637501916; bh=uEVQAIRqHvXavZjymWUAyQZMtWpXG5LJ
+ sdlervEZ8Ys=; b=Ftc9sO0CyevgxEaKXklJXwyNFgf6ppHpkCfy+nIDRWmBbNVa
+ k3lJZ5seMcKJj5y3zUkP0ndB9p2pWxiSPw6u7cumdIa9AloybNU/9CSVdtpAMYGH
+ 8hVkmCRXq2K4IrE+/k7uS9zqnBzyY/HEDH04+5y1+96IGfHRX5VH2dnX9HhmQsq/
+ 0vr8Q7j08uwdWGtk9He84Vs1psdipKqs/tklFpR9iwQiLQTZu952oc3B7+OH4rPC
+ dI00tVxcxciyCJedOLYlpwPqtRhkCgwOajuGqIf9OnaKu4ZnIwRb45/5OgJ3/IYs
+ rgXwcyTg/G6qzcqK+3NE+VMBaLMoQZa7emLcmw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id Mv9qUMPJ9AX1 for <qemu-devel@nongnu.org>;
+ Fri, 22 Oct 2021 06:38:35 -0700 (PDT)
+Received: from toolbox.wdc.com (unknown [10.225.165.39])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HbQRD2Rwjz1RtVl;
+ Fri, 22 Oct 2021 06:38:31 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 00/33] riscv-to-apply queue
+Date: Fri, 22 Oct 2021 23:37:39 +1000
+Message-Id: <20211022133812.3972903-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211020101844.988480-1-mst@redhat.com>
- <20211020101844.988480-3-mst@redhat.com>
-In-Reply-To: <20211020101844.988480-3-mst@redhat.com>
-From: Jason Andryuk <jandryuk@gmail.com>
-Date: Fri, 22 Oct 2021 09:04:43 -0400
-Message-ID: <CAKf6xpvZjvFMNOersS-dSxDOffNeOmhcL2y_36_xOnuPUsrEMQ@mail.gmail.com>
-Subject: Re: [PULL v2 02/44] tests: qtest: add qtest_has_accel() to check if
- tested binary supports accelerator
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::232;
- envelope-from=jandryuk@gmail.com; helo=mail-lj1-x232.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=9222bbd82=alistair.francis@opensource.wdc.com;
+ helo=esa4.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,126 +111,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 20, 2021 at 6:23 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> From: Igor Mammedov <imammedo@redhat.com>
->
-> Currently it is not possible to create tests that have KVM as a hard
-> requirement on a host that doesn't support KVM for tested target
-> binary (modulo going through the trouble of compiling out
-> the offending test case).
->
-> Following scenario makes test fail when it's run on non x86 host:
->   qemu-system-x86_64 -enable-kvm -M q35,kernel-irqchip=on -smp 1,maxcpus=288
->
-> This patch introduces qtest_has_accel() to let users check if accel is
-> available in advance and avoid executing non run-able test-cases.
->
-> It implements detection of TCG and KVM only, the rest could be
-> added later on, when we actually start testing them in qtest.
->
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Message-Id: <20210902113551.461632-3-imammedo@redhat.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->  tests/qtest/libqos/libqtest.h |  8 ++++++++
->  tests/qtest/libqtest.c        | 27 +++++++++++++++++++++++++++
->  meson.build                   |  6 ++++++
->  3 files changed, 41 insertions(+)
->
-> diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
-> index a68dcd79d4..59e9271195 100644
-> --- a/tests/qtest/libqos/libqtest.h
-> +++ b/tests/qtest/libqos/libqtest.h
-> @@ -588,6 +588,14 @@ bool qtest_big_endian(QTestState *s);
->   */
->  const char *qtest_get_arch(void);
->
-> +/**
-> + * qtest_has_accel:
-> + * @accel_name: Accelerator name to check for.
-> + *
-> + * Returns: true if the accelerator is built in.
-> + */
-> +bool qtest_has_accel(const char *accel_name);
-> +
->  /**
->   * qtest_add_func:
->   * @str: Test case path.
-> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> index 73f6b977a6..25aeea385b 100644
-> --- a/tests/qtest/libqtest.c
-> +++ b/tests/qtest/libqtest.c
-> @@ -922,6 +922,33 @@ const char *qtest_get_arch(void)
->      return end + 1;
->  }
->
-> +bool qtest_has_accel(const char *accel_name)
-> +{
-> +    if (g_str_equal(accel_name, "tcg")) {
-> +#if defined(CONFIG_TCG)
-> +        return true;
-> +#else
-> +        return false;
-> +#endif
-> +    } else if (g_str_equal(accel_name, "kvm")) {
-> +        int i;
-> +        const char *arch = qtest_get_arch();
-> +        const char *targets[] = { CONFIG_KVM_TARGETS };
-> +
-> +        for (i = 0; i < ARRAY_SIZE(targets); i++) {
+From: Alistair Francis <alistair.francis@wdc.com>
 
-A xen osstest build fails with:
-../qemu-xen-dir-remote/tests/qtest/libqtest.c: In function 'qtest_has_accel':
-../qemu-xen-dir-remote/tests/qtest/libqtest.c:938:23: error:
-comparison of unsigned expression < 0 is always false
-[-Werror=type-limits]
-         for (i = 0; i < ARRAY_SIZE(targets); i++) {
-                       ^
+The following changes since commit 4c127fdbe81d66e7cafed90908d0fd1f6f2a6c=
+d0:
 
-Super long osstest log
-here:http://logs.test-lab.xenproject.org/osstest/logs/165703/build-i386-xsm/6.ts-xen-build.log
+  Merge remote-tracking branch 'remotes/rth/tags/pull-arm-20211021' into =
+staging (2021-10-21 09:53:27 -0700)
 
-It was configured like:
-$source/configure --enable-xen --target-list=i386-softmmu \
---enable-debug \
---enable-trace-backend=log \
---prefix=/usr/local \
---libdir=/usr/local/lib/xen/lib \
---includedir=/usr/local/lib/xen/include \
---extra-cflags="-DXC_WANT_COMPAT_EVTCHN_API=1 \
--DXC_WANT_COMPAT_GNTTAB_API=1 \
--DXC_WANT_COMPAT_MAP_FOREIGN_API=1 \
--DXC_WANT_COMPAT_DEVICEMODEL_API=1 \
-" \
---extra-ldflags="-Wl,-rpath,/usr/local/lib/xen/lib" \
---bindir=/usr/local/lib/xen/bin \
---datadir=/usr/local/share/qemu-xen \
---localstatedir=/var \
---docdir=/usr/local/lib/xen/share/doc \
---mandir=/usr/local/lib/xen/share/man \
---libexecdir=/usr/local/lib/xen/libexec \
---firmwarepath=/usr/local/lib/xen/share/qemu-firmware \
---disable-kvm \
---disable-docs \
---disable-guest-agent \
---python=python3 \
---cpu=i386 ;
+are available in the Git repository at:
 
---cpu=i386 may be important?  osstest is building in a 32bit debian
-environment.  My 64bit fedora workstation fails to configure with
---cpu=i386, and it builds successfully without it.
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20211022-2
 
-Maybe add #if defined(CONFIG_KVM) around the code like CONFIG_TCG above?
+for you to fetch changes up to 11ec06f9eaedc801ded34c79861367b76ab2b731:
 
-Regards,
-Jason
+  hw/riscv: spike: Use MachineState::ram and MachineClass::default_ram_id=
+ (2021-10-22 23:35:47 +1000)
+
+----------------------------------------------------------------
+Fourth RISC-V PR for QEMU 6.2
+
+ - Vector extension bug fixes
+ - Bit manipulation extension bug fix
+ - Support vhost-user and numa mem options on all boards
+ - Rationalise XLEN and operand lengths
+ - Bump the OpenTitan FPGA support
+ - Remove the Ibex PLIC
+ - General code cleanup
+
+----------------------------------------------------------------
+Alistair Francis (7):
+      target/riscv: Remove some unused macros
+      target/riscv: Organise the CPU properties
+      hw/riscv: opentitan: Update to the latest build
+      hw/intc: Remove the Ibex PLIC
+      hw/intc: sifive_plic: Move the properties
+      hw/intc: sifive_plic: Cleanup the realize function
+      hw/intc: sifive_plic: Cleanup the irq_request function
+
+Bin Meng (6):
+      hw/riscv: microchip_pfsoc: Use MachineState::ram and MachineClass::=
+default_ram_id
+      hw/riscv: opentitan: Use MachineState::ram and MachineClass::defaul=
+t_ram_id
+      hw/riscv: shakti_c: Use MachineState::ram and MachineClass::default=
+_ram_id
+      hw/riscv: sifive_e: Use MachineState::ram and MachineClass::default=
+_ram_id
+      hw/riscv: sifive_u: Use MachineState::ram and MachineClass::default=
+_ram_id
+      hw/riscv: spike: Use MachineState::ram and MachineClass::default_ra=
+m_id
+
+Frank Chang (2):
+      target/riscv: Pass the same value to oprsz and maxsz for vmv.v.v
+      target/riscv: fix TB_FLAGS bits overlapping bug for rvv/rvh
+
+Mingwang Li (1):
+      hw/riscv: virt: Use machine->ram as the system memory
+
+Philipp Tomsich (1):
+      target/riscv: Fix orc.b implementation
+
+Richard Henderson (15):
+      target/riscv: Move cpu_get_tb_cpu_state out of line
+      target/riscv: Create RISCVMXL enumeration
+      target/riscv: Split misa.mxl and misa.ext
+      target/riscv: Replace riscv_cpu_is_32bit with riscv_cpu_mxl
+      target/riscv: Add MXL/SXL/UXL to TB_FLAGS
+      target/riscv: Use REQUIRE_64BIT in amo_check64
+      target/riscv: Properly check SEW in amo_op
+      target/riscv: Replace is_32bit with get_xl/get_xlen
+      target/riscv: Replace DisasContext.w with DisasContext.ol
+      target/riscv: Use gen_arith_per_ol for RVM
+      target/riscv: Adjust trans_rev8_32 for riscv64
+      target/riscv: Use gen_unary_per_ol for RVB
+      target/riscv: Use gen_shift*_per_ol for RVB, RVI
+      target/riscv: Use riscv_csrrw_debug for cpu_dump
+      target/riscv: Compute mstatus.sd on demand
+
+Travis Geiselbrecht (1):
+      target/riscv: line up all of the registers in the info register dum=
+p
+
+ include/hw/riscv/opentitan.h            |   6 +-
+ target/riscv/cpu.h                      |  87 +++------
+ target/riscv/cpu_bits.h                 |  16 +-
+ hw/intc/ibex_plic.c                     | 307 --------------------------=
+------
+ hw/intc/sifive_plic.c                   |  85 ++++-----
+ hw/riscv/boot.c                         |   2 +-
+ hw/riscv/microchip_pfsoc.c              |  36 ++--
+ hw/riscv/opentitan.c                    |  38 +++-
+ hw/riscv/shakti_c.c                     |   6 +-
+ hw/riscv/sifive_e.c                     |  16 +-
+ hw/riscv/sifive_u.c                     |   6 +-
+ hw/riscv/spike.c                        |   6 +-
+ hw/riscv/virt.c                         |   6 +-
+ linux-user/elfload.c                    |   2 +-
+ linux-user/riscv/cpu_loop.c             |   2 +-
+ semihosting/arm-compat-semi.c           |   2 +-
+ target/riscv/cpu.c                      | 216 ++++++++++++----------
+ target/riscv/cpu_helper.c               |  92 +++++++++-
+ target/riscv/csr.c                      | 104 ++++++-----
+ target/riscv/gdbstub.c                  |  10 +-
+ target/riscv/machine.c                  |  10 +-
+ target/riscv/monitor.c                  |   4 +-
+ target/riscv/translate.c                | 174 +++++++++++++-----
+ target/riscv/insn_trans/trans_rvb.c.inc | 153 +++++++++-------
+ target/riscv/insn_trans/trans_rvi.c.inc |  44 ++---
+ target/riscv/insn_trans/trans_rvm.c.inc |  36 +++-
+ target/riscv/insn_trans/trans_rvv.c.inc |  32 ++--
+ hw/intc/meson.build                     |   1 -
+ 28 files changed, 720 insertions(+), 779 deletions(-)
+ delete mode 100644 hw/intc/ibex_plic.c
 
