@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBE4438004
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 23:51:31 +0200 (CEST)
-Received: from localhost ([::1]:50946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 924F0438005
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 23:53:31 +0200 (CEST)
+Received: from localhost ([::1]:53286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1me2Rm-0002go-Vv
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 17:51:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41732)
+	id 1me2Ti-0004GW-NI
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 17:53:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1me2Qa-0001w5-Oe
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:50:17 -0400
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:43149)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1me2QY-0002MT-EJ
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:50:16 -0400
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.94) with esmtps (TLS1.2)
- tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1me2QD-000tYC-09; Fri, 22 Oct 2021 23:49:53 +0200
-Received: from p57bd9015.dip0.t-ipconnect.de ([87.189.144.21]
- helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.94)
- with esmtpsa (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1me2QC-000229-Q0; Fri, 22 Oct 2021 23:49:52 +0200
-Message-ID: <9189dbe7-cf92-19c7-dee5-b707262964d1@physik.fu-berlin.de>
-Date: Fri, 22 Oct 2021 23:49:52 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1me2SH-0003TG-Uf
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:52:01 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:45838)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1me2SG-0004wT-CY
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:52:01 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ ls14-20020a17090b350e00b001a00e2251c8so3943597pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 14:51:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=QFBsfgsFxC96o+OjK1bKeSK4+KBzKDS0Jdgyx3Wp15w=;
+ b=JU/UBf4/BOIcVjtHmxoOQXlqXcmVmZ/b+/sa4tiphykL3BYxrssqdxRIoKcNQgsRCk
+ nmVEv0MDnMQnmCd1NZdXHts9tySMefc3JDRBq1YRE4A3CI7xoCruG0F39bHPlvcpKEQp
+ FF94qpJ9GK+U+80uXszlcKqmKUoNZmNwNQxt4BoUm7VbaaDzFAvI3Y4Q9AH8/O3eMq2n
+ qoRAA1NLvl9L23Y9BuEvqkRMjGcEh+aQi1V2gpCOmw+ceOKc66rdAbvcTI6SX+re5NAX
+ huG9NlMNR6YTu5O0G/vizpMGrXzh37jfFLpoh2AE1qf4nWlkKX1OAlGBrPouDcGInrTf
+ sG5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QFBsfgsFxC96o+OjK1bKeSK4+KBzKDS0Jdgyx3Wp15w=;
+ b=649P3zhqv5hjdP0J6FAhhP0Sm6IXca8EN4azEh5MFl85SqX5OSEaUKVTR1ktVtn+Al
+ NciWc5EuvNkQiknOSSeqEXiE3bp6I3nG2oknI35EIOsh3kQ2tj8zly/VJbTGausUiV7R
+ Zmu7YxR0eos0YjOg5apz3HVdbjyPmG9K/TzgdvITyi3hzZ+WyJAMJkxoRm6qj2Qia94y
+ CaRihDioAJ4IyNvH6frhaF2C7PuWJgTxWM3AuBwi2n5A8iqEHI8p9oeYm9FTIDZSlOSz
+ xHiiaFLCu1OxKaeFx+BaUiA/1PyIKLXeJg6lzMHoMt5CPskFz1SD2OgMx8ugVfJf0ohJ
+ nAOQ==
+X-Gm-Message-State: AOAM53092Jzjp4F6ic35zRcjSwWKhSQUcpZ3bTeBPvsc/b7+f2D/NvqC
+ hMtH9aDnfhBxprnFn4Y33KPNbQ==
+X-Google-Smtp-Source: ABdhPJzosSca/RFK/k+eLBkVk6gzdeVSD9CUAWZJRrTK5PMkB8vaah6TRaRv6fRlHYRSwfNQtOK/VA==
+X-Received: by 2002:a17:90b:390f:: with SMTP id
+ ob15mr16338129pjb.185.1634939518633; 
+ Fri, 22 Oct 2021 14:51:58 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id e2sm10570039pfd.137.2021.10.22.14.51.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Oct 2021 14:51:58 -0700 (PDT)
+Subject: Re: [PATCH 01/33] target/ppc: introduce do_ea_calc
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
+ <20211021194547.672988-2-matheus.ferst@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <99166925-540a-0922-9f7a-6c1df264fb6e@linaro.org>
+Date: Fri, 22 Oct 2021 14:51:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: Looking for advise on debugging a non-boot kernel on
- qemu-system-sh4
+In-Reply-To: <20211021194547.672988-2-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <4882e4cc-6754-1c8a-a8ae-a2ceeca115fb@physik.fu-berlin.de>
- <e11d3ee1-2a25-7633-babd-d45f36b04c5b@eik.bme.hu>
- <013d782d-0d7c-8204-cab2-08102a7d80f4@physik.fu-berlin.de>
- <3c524162-e83-a9b3-1e28-2aa28dbefa76@eik.bme.hu>
- <f0933be1-75ee-b053-1f53-f96258d41163@physik.fu-berlin.de>
- <d2553511-b83c-d4f1-5a88-b661bc97eb@eik.bme.hu>
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-In-Reply-To: <d2553511-b83c-d4f1-5a88-b661bc97eb@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.144.21
-Received-SPF: pass client-ip=130.133.4.66;
- envelope-from=glaubitz@zedat.fu-berlin.de; helo=outpost1.zedat.fu-berlin.de
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.742,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.742,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,47 +89,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: lucas.castro@eldorado.org.br, luis.pires@eldorado.org.br,
+ pherde <phervalle@gmail.com>, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Zoltan!
+On 10/21/21 12:45 PM, matheus.ferst@eldorado.org.br wrote:
+> +static inline void do_ea_calc(DisasContext *ctx, int ra, TCGv displ, TCGv ea)
+> +{
+> +    if (ra) {
+> +        tcg_gen_add_tl(ea, cpu_gpr[ra], displ);
+> +    } else {
+> +        tcg_gen_mov_tl(ea, displ);
+> +    }
+> +    if (NARROW_MODE(ctx)) {
+> +        tcg_gen_ext32u_tl(ea, ea);
+> +    }
+> +}
 
-Thanks a lot for helping me to investigate the problem. Much appreciated!
+Drop the inline.
 
-On 10/22/21 23:06, BALATON Zoltan wrote:
->> I think I've seen problems with compressed kernel images and QEMU before. I will switch
->> to an uncompressed kernel and try again.
-> 
-> How did you compile the kernel that does not boot? What config have you used?
+Allocate ea locally and return it?
+All uses do the allocate immediately beforehand...
 
-The config is constructed from the Debian kernel configuration tree. I have uploaded
-the resulting config file here:
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> https://people.debian.org/~glaubitz/config-5.14.0-3-sh7751r.gz
-
-I've tried to reproduce it by compiling a kernel with rts7751r2d1_defconfig and different
-> compression methods but it did start and never got the problem seen with your kernel.
-
-Oh, that's very interesting. How big were the kernel images you got? My suspicion was
-that the current Debian kernel might be too much.
-
-> Maybe it's the gcc version? My cross compiler is 8.4.0 and you seem to use 10.x. Maybe
-> newer gcc uses something that's not emulated correctly?
-
-Yes, it has been built with gcc-10 which is currently Debian's default kernel for building
-the kernel.
-
-> It would be interesting to identify what's causing the problem.
-
-Indeed. Thanks for helping me with that.
-
-Adrian
-
--- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
-
+r~
 
