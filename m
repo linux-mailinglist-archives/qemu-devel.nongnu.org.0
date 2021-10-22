@@ -2,52 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C124373F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 10:51:03 +0200 (CEST)
-Received: from localhost ([::1]:41104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C7D43752B
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 11:55:25 +0200 (CEST)
+Received: from localhost ([::1]:42072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdqGU-0001Aa-KT
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 04:51:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55488)
+	id 1mdrGm-0008Sb-8C
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 05:55:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
- id 1mdqFC-0000N7-Fq; Fri, 22 Oct 2021 04:49:42 -0400
-Received: from exmail.andestech.com ([60.248.187.195]:59744
- helo=ATCSQR.andestech.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
- id 1mdqF8-0001In-CJ; Fri, 22 Oct 2021 04:49:41 -0400
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
- by ATCSQR.andestech.com with ESMTP id 19M8mwVe019332;
- Fri, 22 Oct 2021 16:48:58 +0800 (GMT-8)
- (envelope-from ruinland@andestech.com)
-Received: from ruinland-x1c (192.168.21.142) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Fri, 22 Oct 2021
- 16:48:54 +0800
-Date: Fri, 22 Oct 2021 16:48:54 +0800
-From: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [RFC PATCH v1 2/2] Enable custom instruction suport for Andes
- A25 and AX25 CPU model
-Message-ID: <YXJ69gaslRMnOSHm@ruinland-x1c>
-References: <20211021151136.721746-1-ruinland@andestech.com>
- <20211021151136.721746-2-ruinland@andestech.com>
- <00563f20-1867-6a4e-e9ea-a33ff85f058e@linaro.org>
+ (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
+ id 1mdrFK-0007dh-JA; Fri, 22 Oct 2021 05:53:54 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36737)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
+ id 1mdrFI-0001Mn-4u; Fri, 22 Oct 2021 05:53:53 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ z11-20020a1c7e0b000000b0030db7b70b6bso2753873wmc.1; 
+ Fri, 22 Oct 2021 02:53:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vwGdRKci3ZcNcStPpM0Q7+Z34Cq1DJ0kFqnISlcdnxc=;
+ b=UUGDKZQTwZToZ7Md5ZV3EJ0i045PXAklSZsfXTEcscjdxAtwiqBjZ6exKqUyEynTna
+ nx8GVVgDn7kV1qdJ9QGYh0quynxzwm1iPdZE2dCqgK6YNWVlPFKZwQfVkm9GU5eJeHeq
+ aJGFIjDQxC0lRQyyWJR5QIqhlb2UQkVmYlC/U4cL6ejo3OAkuTE/QBOE7FXUp2FRLq5a
+ 5wkY2JZyUkkycQybUeH39293p1tK3D8LndlhdN8sFii58IN463NkcaRWFwm6IMF68+wt
+ KLQ6TFYrsLuJSO80nP12WPic5X0vz0eXL9NJWbSDUEO5e/sOUGhD0aLaYc1OwWP8t3T4
+ BgzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vwGdRKci3ZcNcStPpM0Q7+Z34Cq1DJ0kFqnISlcdnxc=;
+ b=NCjYgUrEvU16n2jc7MX3bfidC50v015gei/du8t259QTVydoay28vzKjPYAD3tuheg
+ BY4hA0iG4GbHjvtUlfBBZdA5z5Cy7JXKsFoO8nage3HaeyAczY6D8nGFZKVOY19VXVWZ
+ eaVzl7VSPRq88j0DqiV+DOlShB0CuM303JZTp1GPLjW7Zzb0KxmqKkg1xecV5yk6nB6u
+ jz1aLzhyB0dgYhXA8vo6MxZLNvKuRDgmLXwmHvP5p0XirL4hCLQK5EKd7rd1iOnYOPAw
+ XvTTsO9L4Lxuz7//tT1CJF1n2CW8HQyoyaFFDJSsO9Zfe/cqfNXuuFxi81lREJAS+MQ2
+ rBgg==
+X-Gm-Message-State: AOAM533GZV8y1qXAJ19I6ai4nad7P3uXbnVoMF/+OMoRgIyN7C9JifSg
+ SrSwIFfLWo7YrcDKygGURPrAojatIMU=
+X-Google-Smtp-Source: ABdhPJzC0xf2eYS0vpUar9KNJ4KxJVbCtLOM9vlpj4AQlX9jQq/Gf5Wx+cNFFtww2UeBlNXNaxbzQw==
+X-Received: by 2002:a1c:e911:: with SMTP id q17mr12511105wmc.174.1634896429404; 
+ Fri, 22 Oct 2021 02:53:49 -0700 (PDT)
+Received: from kali.home (lfbn-ren-1-1732-95.w86-253.abo.wanadoo.fr.
+ [86.253.44.95])
+ by smtp.gmail.com with ESMTPSA id u10sm9278508wrs.5.2021.10.22.02.53.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Oct 2021 02:53:47 -0700 (PDT)
+From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] block/export/fuse.c: fix musl build
+Date: Fri, 22 Oct 2021 11:52:09 +0200
+Message-Id: <20211022095209.1319671-1-fontaine.fabrice@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <00563f20-1867-6a4e-e9ea-a33ff85f058e@linaro.org>
-User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
-X-Originating-IP: [192.168.21.142]
-X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com 19M8mwVe019332
-Received-SPF: pass client-ip=60.248.187.195;
- envelope-from=ruinland@andestech.com; helo=ATCSQR.andestech.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=fontaine.fabrice@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,318 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ycliang@andestech.com, qemu-riscv@nongnu.org, alankao@andestech.com,
- wangjunqiang@iscas.ac.cn, dylan@andestech.com, qemu-devel@nongnu.org,
- alistair23@gmail.com, bmeng.cn@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Fabrice Fontaine <fontaine.fabrice@gmail.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 21, 2021 at 12:17:47PM -0700, Richard Henderson wrote:
-> On 10/21/21 8:11 AM, Ruinland Chuan-Tzu Tsai wrote:
-> > In this patch, we demonstrate how Andes Performance Extension(c) insn :
-> > bfos and bfoz could be used with Andes CoDense : exec.it.
-> > 
-> > By doing so, an Andes vendor designed CSR : uitb must be used.
-> > 
-> > Signed-off-by: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>
-> > ---
-> >   target/riscv/andes_codense.decode         |  23 +++++
-> >   target/riscv/andes_custom_rv32.decode     |  27 +++++
-> >   target/riscv/andes_custom_rv64.decode     |  27 +++++
-> >   target/riscv/andes_helper.c               |  49 +++++++++
-> >   target/riscv/andes_helper.h               |   1 +
-> >   target/riscv/cpu.c                        |   8 ++
-> >   target/riscv/helper.h                     |   2 +
-> >   target/riscv/insn_trans/trans_andes.c.inc | 115 ++++++++++++++++++++++
-> >   target/riscv/meson.build                  |  13 +++
-> >   target/riscv/translate.c                  |  12 +++
-> >   10 files changed, 277 insertions(+)
-> >   create mode 100644 target/riscv/andes_codense.decode
-> >   create mode 100644 target/riscv/andes_custom_rv32.decode
-> >   create mode 100644 target/riscv/andes_custom_rv64.decode
-> >   create mode 100644 target/riscv/andes_helper.c
-> >   create mode 100644 target/riscv/andes_helper.h
-> >   create mode 100644 target/riscv/insn_trans/trans_andes.c.inc
-> > 
-> > diff --git a/target/riscv/andes_codense.decode b/target/riscv/andes_codense.decode
-> > new file mode 100644
-> > index 0000000000..639d22ac67
-> > --- /dev/null
-> > +++ b/target/riscv/andes_codense.decode
-> > @@ -0,0 +1,23 @@
-> > +#
-> > +# RISC-V translation routines for the RVXI Base Integer Instruction Set.
-> > +#
-> > +# Copyright (c) 2018 Peer Adelt, peer.adelt@hni.uni-paderborn.de
-> > +#                    Bastian Koppelmann, kbastian@mail.uni-paderborn.de
-> > +#
-> > +# This program is free software; you can redistribute it and/or modify it
-> > +# under the terms and conditions of the GNU General Public License,
-> > +# version 2 or later, as published by the Free Software Foundation.
-> > +#
-> > +# This program is distributed in the hope it will be useful, but WITHOUT
-> > +# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> > +# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> > +# more details.
-> > +#
-> > +# You should have received a copy of the GNU General Public License along with
-> > +# this program.  If not, see <http://www.gnu.org/licenses/>.
-> > +
-> > +
-> > +%imm_ex10 8:s1 12:1 3:1 9:1 5:2 2:1 10:2 4:1
-> > +&codense imm_codense
-> > +@ex10     ... .... . . ..... .. &codense imm_codense=%imm_ex10
-> > +execit    100 .... . 0 ..... 00 @ex10
-> 
-> It would probably be a bit clearer without the argument set and format,
-> which in this case are used exactly once, so there's no actual savings.
-> 
-> execit    100 ..... 0 ..... 00   imm=%imm_ex10
-> 
-> 
-> > +++ b/target/riscv/andes_custom_rv32.decode
-> ...
-> > +++ b/target/riscv/andes_custom_rv64.decode
-> 
-> Note that we're moving toward a single riscv64 executable, and so these two
-> files should be combined.  In this case, just taking the rv64 file will work
-> for RV32, with an extra check during translate.
-> 
-> > +# Fields:
-> > +%rs1       15:5
-> > +%rd        7:5
-> > +## Similar to I-Type
-> > +%mbfob    26:6
-> > +%lbfob    20:6
-> > +&i_b mbfob lbfob rs1 rd
-> > +@i_bfo    . ..... . ..... ..... ... ..... .......  &i_b %mbfob %lbfob %rs1 %rd
-> 
-> Better as
-> 
-> @i_bfo       msb:6 lsb:6 rs1:5 ... rd:5 .......   &i_bfo
-> 
-> There's quite a lot of riscv code that could be cleaned up like this.
-> 
-> > +++ b/target/riscv/andes_helper.c
-> > @@ -0,0 +1,49 @@
-> > +#include "qemu/osdep.h"
-> 
-> All new files must have copyright boilerplate.
-> That said...
+Include linux/falloc.h if CONFIG_FALLOCATE_ZERO_RANGE is defined to fix
+https://gitlab.com/qemu-project/qemu/-/commit/50482fda98bd62e072c30b7ea73c985c4e9d9bbb
+and avoid the following build failure on musl:
 
-I deeply apologize for that.
-Was way too fatigued last night.
+../block/export/fuse.c: In function 'fuse_fallocate':
+../block/export/fuse.c:643:21: error: 'FALLOC_FL_ZERO_RANGE' undeclared (first use in this function)
+  643 |     else if (mode & FALLOC_FL_ZERO_RANGE) {
+      |                     ^~~~~~~~~~~~~~~~~~~~
 
-> 
-> > +#include "cpu.h"
-> > +#include "qemu/host-utils.h"
-> > +#include "exec/exec-all.h"
-> > +#include "exec/helper-proto.h"
-> > +#include "fpu/softfloat.h"
-> > +#include "internals.h"
-> > +typedef int (*test_function)(uint8_t a, uint8_t b);
-> > +target_ulong helper_andes_v5_bfo_x(target_ulong rd, target_ulong rs1,
-> > +                                   target_ulong insn)
-> 
-> Never pass the instruction to a helper. This is an indication that you
-> should have done more work during translate.
-> 
-> > --- /dev/null
-> > +++ b/target/riscv/insn_trans/trans_andes.c.inc
-> > @@ -0,0 +1,115 @@
-> > +#define GP 3
-> 
-> Again, boilerplate.
+Fixes:
+ - http://autobuild.buildroot.org/results/be24433a429fda681fb66698160132c1c99bc53b
 
-Wilco.
+Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+---
+ block/export/fuse.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> 
-> > +#define ANDES_V5_CODE_DENSE_MASK (0xe083)
-> > +#define ANDES_V5_CODE_DENSE_ID(x) ((x)&ANDES_V5_CODE_DENSE_MASK)
-> > +#define ANDES_V5_CODE_DENSE_IMM11(x) (     \
-> > +    (extract32(x, 4, 1) << 2) |   \
-> > +    (extract32(x, 10, 2) << 3) |  \
-> > +    (extract32(x, 2, 1) << 5) |   \
-> > +    (extract32(x, 5, 2) << 6) |   \
-> > +    (extract32(x, 9, 1) << 8) |   \
-> > +    (extract32(x, 3, 1) << 9) |   \
-> > +    (extract32(x, 12, 1) << 10) | \
-> > +    (extract64(x, 8, 1) << 11) | \
-> > +    0)
-> > +
-> > +#define ANDES_V5_GET_JAL_UIMM(inst) ((extract32(inst, 21, 10) << 1) \
-> > +                           | (extract32(inst, 20, 1) << 11) \
-> > +                           | (extract32(inst, 12, 8) << 12) \
-> > +                           | (extract32(inst, 31, 1) << 20))
-> > +
-> > +
-> > +enum andes_v5_inst_id
-> > +{
-> > +    /* Code Dense Extension */
-> > +    EXEC_IT = (0x8000),
-> > +    /* custom 2 */
-> > +    BFOS = 0x03,
-> > +    BFOZ = 0x02,
-> > +};
-> 
-> Left over from something else?
-> This all looks like something that should be handled by decodetree.
+diff --git a/block/export/fuse.c b/block/export/fuse.c
+index 2e3bf8270b..823c126d23 100644
+--- a/block/export/fuse.c
++++ b/block/export/fuse.c
+@@ -31,6 +31,10 @@
+ #include <fuse.h>
+ #include <fuse_lowlevel.h>
+ 
++#if defined(CONFIG_FALLOCATE_ZERO_RANGE)
++#include <linux/falloc.h>
++#endif
++
+ #ifdef __linux__
+ #include <linux/fs.h>
+ #endif
+-- 
+2.33.0
 
-Oops, sorry for that. This part was cutting out from our inhouse code.
-
-> 
-> > +static bool trans_bfos(DisasContext *ctx, arg_bfos *a)
-> > +{
-> > +    TCGv v0, v1, v2;
-> > +    v2 = tcg_const_tl(ctx->opcode);
-> > +    v0 = get_gpr(ctx, a->rs1, EXT_NONE);
-> > +    v1 = get_gpr(ctx, a->rd, EXT_NONE);
-> > +    gen_helper_andes_v5_bfo_x(v1, v1, v0, v2);
-> > +    gen_set_gpr(ctx, a->rd, v1);
-> > +    tcg_temp_free(v2);
-> > +    return true;
-> > +}
-> > +
-> > +static bool trans_bfoz(DisasContext *ctx, arg_bfoz *a)
-> > +{
-> > +    TCGv v0, v1, v2;
-> > +    v2 = tcg_const_tl(ctx->opcode);
-> > +    v0 = get_gpr(ctx, a->rs1, EXT_NONE);
-> > +    v1 = get_gpr(ctx, a->rd,  EXT_NONE);
-> > +    gen_helper_andes_v5_bfo_x(v1, v1, v0, v2);
-> > +    gen_set_gpr(ctx, a->rd, v1);
-> > +    tcg_temp_free(v2);
-> > +    return true;
-> > +}
-> 
-> So, you've just passed off everything to the helper.  Not good.
-> 
-> First, these two instructions are so close we add a common helper.
-> 
-> static bool do_bfox(DisasContext *ctx, arg_i_bfo *a, bool is_signed)
-> {
->     ...
-> }
-> 
-> static bool trans_bfos(DisasContext *ctx, arg_i_bfo *a)
-> {
->     return do_bfox(ctx, a, true);
-> }
-> 
-> static bool trans_bfoz(DisasContext *ctx, arg_i_bfo *a)
-> {
->     return do_bfox(ctx, a, false);
-> }
-> 
-> Second, re the RV32/RV64 merge, range check the bits:
-> 
->     if (a->msb >= get_xlen(ctx) || a->lsb >= get_xlen(ctx)) {
->         return false;
->     }
-
-Okay, that's new to me.
-
-> 
-> Third, TCG can easily handle extract/deposit inline:
-> 
->     dest = dest_gpr(ctx, a->rd);
->     src1 = get_gpr(ctx, a->rs1, EXT_NONE);
->     if (a->msb >= a->lsb) {
->         len = a->msb - a->lsb + 1;
->         if (is_signed) {
->             tcg_gen_sextract_tl(dest, src1, a->lsb, len);
->         } else {
->             tcg_gen_extract_tl(dest, src1, a->lsb, len);
->         }
->     } else {
->         len = a->lsb - a->msb + 1;
->         if (is_signed) {
->             tcg_gen_sextract_tl(dest, src1, 0, len);
->         } else {
->             tcg_gen_extract_tl(dest, src1, 0, len);
->         }
->         tcg_gen_shli_tl(dest, dest, a->msb);
->     }
->     gen_set_gpr(ctx, a->rd, dest);
-> 
-> 
-> > +static int andes_v5_gen_codense_exec_it(CPURISCVState *env, DisasContext *ctx, arg_execit *a)
-> > +{
-> > +    uint32_t insn;
-> > +    uint32_t imm_ex10 = a->imm_codense;
-> > +    target_ulong uitb_val = 0;
-> > +    riscv_csrrw(env, 0x800, &uitb_val, 0, 0);
-> 
-> This won't work -- you can't access env during translation.  So all this
-> faff around passing env through HartState is for naught.
-
-Sorry, please elaborate me a little bit more. 
-
-> 
-> Having a look through the rest of this:
-> 
-> > +
-> > +    if (extract32(uitb_val, 0, 1)) { /* UTIB.HW == 1 */
-> > +        qemu_log_mask(LOG_GUEST_ERROR, "exec.it: UITB.HW == 1 is not supported by now!\n");
-> > +        gen_exception_illegal(ctx);
-> > +
-> > +        uint32_t instruction_table[0];
-> > +        insn = instruction_table[imm_ex10 >> 2];
-> > +
-> > +        return false;
-> > +    } else { /* UTIB.HW == 0 */
-> > +        target_ulong vaddr = (uitb_val & ~0x3) + (imm_ex10<<2);
-> > +        insn = cpu_ldl_code(env, vaddr);
-> > +    }
-> > +
-> > +/*  Execute(insn)
-> > + *  do as the replaced instruction, even exceptions,
-> > + *  except ctx->pc_succ_insn value (2).
-> > + */
-> > +        uint32_t op = MASK_OP_MAJOR(insn);
-> > +        if (op == OPC_RISC_JAL) {
-> > +            /* implement this by hack imm */
-> > +            int rd = GET_RD(ctx->opcode);
-> > +            target_long imm = ANDES_V5_GET_JAL_UIMM(ctx->opcode);
-> > +            target_ulong next_pc = (ctx->base.pc_next >> 21 << 21) | imm;
-> > +            imm = next_pc - ctx->base.pc_next;
-> > +            gen_jal(ctx, rd, imm);
-> > +        } else {
-> > +            /* JARL done as SPEC already */
-> > +            /* presume ctx->pc_succ_insn not changed in any ISA extension */
-> > +            decode_opc_andes(env, ctx, insn);
-> > +        }
-> > +
-> > +    return true;
-> > +}
-> 
-> This looks quite a lot like the S390X EXECUTE instruction.  It's hard to
-> suggest exactly how to structure this, because I can't find documentation,
-> and thus the edge cases are unknown.
-
-Sorry for the inconvience, I'll try harder to make the spec to be publicily
-accessible.
-
-> 
-> Because of the .HW check, I would expect all of this do be in a helper
-> function.  The qemu_log_mask would be followed by riscv_raise_exception.
-
-The HW instruction table is a feature we still have no idea how to implement
-in QEMU, it was meant to be a security extension that rogue users couldn't
-copy out vendor kept code - - the only permission is execution, no read
-access on that region.
-
-> 
-> As for the actual execute, I'd suggest following the lead of s390x and
-> utilize the cs_base field of cpu_get_tb_cpu_state to hold the opcode to be
-> executed.  You'd load the opcode in the helper, install the proper state
-> into env, and end the current TranslationBlock.  The next TranslationBlock
-> will find the opcode and decode it in the normal way.
-> 
-> Have a look at target/s390x/tcg/mem_helper.c, HELPER(ex), where we load the
-> opcode and store state.  Then translate.c, extract_insn, where we consume
-> the state.
-> 
-> 
-> r~
 
