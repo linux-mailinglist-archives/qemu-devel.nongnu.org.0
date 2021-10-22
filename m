@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C65843718C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 08:08:45 +0200 (CEST)
-Received: from localhost ([::1]:42340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD16437196
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 08:13:32 +0200 (CEST)
+Received: from localhost ([::1]:49100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdnjQ-00073H-B1
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 02:08:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48062)
+	id 1mdno3-0003MI-Os
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 02:13:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mdnh6-0004V8-CP; Fri, 22 Oct 2021 02:06:20 -0400
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:59088)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mdnmX-0001jj-Kt; Fri, 22 Oct 2021 02:11:59 -0400
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:47771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mdnh4-0005Nu-29; Fri, 22 Oct 2021 02:06:19 -0400
-Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id EF24241B95;
- Fri, 22 Oct 2021 08:06:10 +0200 (CEST)
-Received: from smtps.univ-grenoble-alpes.fr (smtps3.u-ga.fr [195.83.24.62])
- by mailhost.u-ga.fr (Postfix) with ESMTP id DA7BD60070;
- Fri, 22 Oct 2021 08:06:10 +0200 (CEST)
-Received: from [192.168.1.75] (35.201.90.79.rev.sfr.net [79.90.201.35])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 1879A40063;
- Fri, 22 Oct 2021 08:06:10 +0200 (CEST)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211019094812.614056-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211019094812.614056-7-frederic.petrot@univ-grenoble-alpes.fr>
- <820e8060-694d-9566-9d7a-da7ef9e06d21@linaro.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Subject: Re: [PATCH v3 06/21] target/riscv: array for the 64 upper bits of
- 128-bit registers
-Message-ID: <ab652765-8cb8-58e6-9906-090d2b0df91b@univ-grenoble-alpes.fr>
-Date: Fri, 22 Oct 2021 08:06:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mdnmR-0003ss-P8; Fri, 22 Oct 2021 02:11:55 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.148])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 43093C63803B;
+ Fri, 22 Oct 2021 08:11:39 +0200 (CEST)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Fri, 22 Oct
+ 2021 08:11:38 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002ee799bff-900b-4c40-9879-1a9c17108f09,
+ 972C48F4C85068776659E713CFF049F78FAA73AB) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <c898783c-50e1-df8d-2246-c16e85db6c0f@kaod.org>
+Date: Fri, 22 Oct 2021 08:11:38 +0200
 MIME-Version: 1.0
-In-Reply-To: <820e8060-694d-9566-9d7a-da7ef9e06d21@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v2 0/5] aspeed/smc: Improve support for the alternate boot
+ function
+Content-Language: en-US
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+To: Peter Delevoryas <pdel@fb.com>
+References: <20211018132609.160008-1-clg@kaod.org>
+ <DDD67A99-FA65-4671-ACE6-5D3BACE3F45A@fb.com>
+ <2c54310f-2800-33ac-7c47-500a24f88b8f@kaod.org>
+In-Reply-To: <2c54310f-2800-33ac-7c47-500a24f88b8f@kaod.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
- via submission-587 ACL (40)
-X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 195.83.24.62
-Received-SPF: pass client-ip=152.77.200.56;
- envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
- helo=zm-mta-out-3.u-ga.fr
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 9b8e23c4-81ea-42a7-b41f-8fdbaeb55e8f
+X-Ovh-Tracer-Id: 6204552912246115177
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvjedguddttdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuhffvfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeihfefffffgedtkeegtdekffevudeggfegffethfffhefhhfevhfdtudejhfdvieenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruh
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
+ helo=smtpout4.mo529.mail-out.ovh.net
 X-Spam_score_int: -47
 X-Spam_score: -4.8
 X-Spam_bar: ----
 X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.867,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,49 +72,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Cameron Esfahani via <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 20/10/2021 à 16:44, Richard Henderson a écrit :
-> On 10/19/21 2:47 AM, Frédéric Pétrot wrote:
->> The upper 64-bit of the 128-bit registers have now a place inside
->> the cpu state structure, and are created as globals for future use.
->>
->> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
->> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
->> ---
->>   target/riscv/translate.c | 5 ++++-
->>   2 files changed, 5 insertions(+), 1 deletion(-)
->>       for (i = 1; i < 32; i++) {
->>           cpu_gpr[i] = tcg_global_mem_new(cpu_env,
->>               offsetof(CPURISCVState, gpr[i]), riscv_int_regnames[i]);
->> +        cpu_gprh[i] = tcg_global_mem_new(cpu_env,
->> +            offsetof(CPURISCVState, gprh[i]), riscv_int_regnames[i]);
+>> And the FMC registers are just an alias to write
+>> to these watchdog 2 registers? 
 > 
-> This will just be confusing in the tcg dumps -- let's not name the two temps the
-> identically.
-
-  Agreed.
-
-> Honestly, I'm not 100% thrilled about the / that appears in the current name; I
-> think it would be easiest to do
+> If this is the same watchdog mapped into the FMC, I would say yes
+> and the logic generate load/stores transactions on the AHB bus.
+> Adding an address space for the WDT registers in the model is the
+> closer we can get without implementing the bus protocol.
 > 
->   g_string_printf("x%d", i)
-> and
->   g_string_printf("x%dh", i)
+>> Just curious, is it
+>> strictly necessary to use the FMC registers to disable
+>> the alternate boot watchdog, or could you just use the
+>> old address, 0x1e78504C? 
+> 
+> Hey, this is something to try on HW and check how both register
+> sets evolve. Would you have time ?
 
-  Registers sw names are used by gcc -S and the default objdump -d output,
-  and also by disas/riscv.c, so dropping them might be a bit rough.
-  For now I'll just add an h in the existing names, and suggest we wait to see
-  if anyone cares.
+Andrew did some experiments in the past and the two register sets
+were evolving independently.
 
-  Frédéric
--- 
-+---------------------------------------------------------------------------+
-| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
-| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
-| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
-+---------------------------------------------------------------------------+
+>> In our OpenBMC initialization
+>> for Fuji, we’re using the FMC registers, but would
+>> it still work if we used the old addresses? Just curious,
+>> the more I think about it, it seems odd to me that these
+>> FMC watchdog registers exist if they’re just an alias.
+> 
+> We should ask the HW designers.
+
+Aspeed tells me its an independent logic. So, I will drop the
+model from this patchset.
+
+Thanks,
+
+C.
+
 
