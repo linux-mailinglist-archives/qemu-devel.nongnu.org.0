@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA434378D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 16:14:14 +0200 (CEST)
-Received: from localhost ([::1]:45386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4652F4378E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 16:17:43 +0200 (CEST)
+Received: from localhost ([::1]:52200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdvJF-0007S9-3h
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 10:14:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33294)
+	id 1mdvMc-0003b5-8n
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 10:17:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mdvB2-0004zk-JL
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 10:05:47 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42994)
+ id 1mdvD2-00083K-Q7
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 10:07:48 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:40582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mdvAz-0000pa-Bz
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 10:05:44 -0400
-Received: by mail-wr1-x432.google.com with SMTP id v17so910826wrv.9
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 07:05:40 -0700 (PDT)
+ id 1mdvD0-0001ZX-Sg
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 10:07:48 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 193-20020a1c01ca000000b00327775075f7so3518364wmb.5
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 07:07:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=7oR9+ZU6pfUGDJ0BByXBWb8Ek32bGmv/O1NtimSyj+Y=;
- b=Cgg0gOTFGuFSGZMVg5iRdx/7MXSpc3H52EI7puQzvkafJWc0uxAuuC/EcdHHbfZlpU
- R6nb1hmzfBaZZKND+YD3qOl9sPepL7jtTday6QWEqJoJ4zLlrPMwkG8SF02MgHywxjxU
- UhYFxF2q/7CqmsBaV3SMqBY7ZEFu93EqfN9T+K2Ic+IvG/WFdM5l/OhrfOffI7t21Szz
- u8xgqJUkqTbjyNGSsGo5i1fZ/KumJH3S+tkkUK8y2743dvXuzxbkPGvEnqaX7NNjzvKO
- pI0uU8XVyFdbceYvBFKu7GuucVAGyKyw/oXcxLd/86E62bLsNUi5MMXjfy+NmZOzWP0F
- 237w==
+ bh=qeoVWjtvSYsIJvsvMJqUhtTiuuxkNPM85YoK4VBmi5k=;
+ b=I/Mlifqwjkn8KQScDJKyUXjhGuRb+PyXm28LL/VcekQt7F1InR6+nes8fWzKU4eSVM
+ PgGwutX1EGm/dmDZqEpiBzwP+IFPUNI2os1xnXnE6nfsH2X4oVPRIKtUBY3uCju85vdl
+ mYGw2OpDnkmp8CoD9B7lehwM0/YtfTclqM7GKVblduKFTIE1yA/zMBtaZNRqrxoAR0Gs
+ HmjMn5eTp3oS0zwerQZuxfMbyyef+4q/hZxP9tfqUmirV/zAaASUXDK3vhBMuMyWj3rV
+ pQEFSBYeQ23IdIqH58xP3gF6VMYOtHK1woKeoCFQ+EtbWVO0xsDOt4yLMBe0CY07s25t
+ e2zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=7oR9+ZU6pfUGDJ0BByXBWb8Ek32bGmv/O1NtimSyj+Y=;
- b=BwsiUinq5RZvLH2r3P5pu5Zn8W7U02eSTanCrMtTLJ7t/pnC7NphwtoFqTgUIeLiyN
- NtPrUxOr58PIBCvU0on046dyGpRvAlTIDK17i2f8QxM2hw+c8gQ1Uv4/nl0QPU4A1Bhg
- prJzRkehWeOl1gOfz1DlYF0B++W1sBFTSkOTmRCLtwAIMKt9I0rFZm0nwXHxqHlhr870
- iSLPiHn0vPZZZSMCZ+KtRb+DJvlRe22nmI7/eeRYtj4wn+xLDe/u4e2j6iwGh5auWy7C
- NJpHfLNK1Di0CkwzRj0y/46DG1C2m94UyS1si+wlaOpWkUOSIP5rhGdmDxvHXb5mS6iB
- +gxQ==
-X-Gm-Message-State: AOAM530zFD6d1l9X3XlTsItnzAEm5gSZ1FQryBDvr3w0NvX94xT6ldKn
- eS94z7JF3v4hPshOdpZ5kcY=
-X-Google-Smtp-Source: ABdhPJyv55EBvlXK4GG4+YTQA4nEobWWooGr2IKxuJJTV/vETx4wh440KZWrJSM9YMKWSWXoKf0Gyg==
-X-Received: by 2002:adf:aa87:: with SMTP id h7mr110461wrc.254.1634911538365;
- Fri, 22 Oct 2021 07:05:38 -0700 (PDT)
+ bh=qeoVWjtvSYsIJvsvMJqUhtTiuuxkNPM85YoK4VBmi5k=;
+ b=MoAdwxvL0VPqn0x38NTdTDxgaM8M7NGbVpiCpvFlrsO6DAAG1WMlPB85kH/0rH/j0I
+ z6zMxi/mZYVMlqF20oRTRUfKOWg1cGwGiDssX3KgkawntSI1QMZRfX0IAcpNqQf8qaS6
+ RubOteXWAIDBuKUtIkCqj+qYBHeOtvzZhn0fj06X0IUXwXosdXJeAs5vZVVZ8RrF6REM
+ q1gOgASHuT8lL3griDMfQvky8XwRYcqSyAO4/4EdobnrCUPqayEACdqICszkdCKVzGgq
+ 3vCx3DTFHJ22w4xnQspk8gWe7VRL5GRebch+cOUHL6Xt6VjXlIg4cwKa0A+pYcPG8e4E
+ qKUg==
+X-Gm-Message-State: AOAM533wziy080YMUB69DWYd4d5xdUdTQ6QUJQPelhpNynmemB2GpkaL
+ Fp2hDvoEFo3Zn1z6S8sIN+c=
+X-Google-Smtp-Source: ABdhPJw7xTjmT/4cJfHSYIu4gvYYmFnkE+9domqLlXG6sFpHWgpMvdbYV1ScJ9PoIkH6fjHGX3zAVw==
+X-Received: by 2002:a1c:7e87:: with SMTP id z129mr64728wmc.75.1634911665261;
+ Fri, 22 Oct 2021 07:07:45 -0700 (PDT)
 Received: from [192.168.50.34] (static-180-27-86-188.ipcom.comunitel.net.
  [188.86.27.180])
- by smtp.gmail.com with ESMTPSA id z18sm407582wro.4.2021.10.22.07.05.37
+ by smtp.gmail.com with ESMTPSA id g2sm7871585wrq.62.2021.10.22.07.07.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Oct 2021 07:05:37 -0700 (PDT)
-Message-ID: <cf30a9a7-aa69-b12b-ecc3-1c8ad9b259c0@amsat.org>
-Date: Fri, 22 Oct 2021 16:05:36 +0200
+ Fri, 22 Oct 2021 07:07:44 -0700 (PDT)
+Message-ID: <2dfb25fb-6451-9e93-22ed-59c84988f945@amsat.org>
+Date: Fri, 22 Oct 2021 16:07:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v3 22/48] tcg/optimize: Split out fold_movcond
+Subject: Re: [PATCH v3 23/48] tcg/optimize: Split out fold_extract2
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211021210539.825582-1-richard.henderson@linaro.org>
- <20211021210539.825582-23-richard.henderson@linaro.org>
+ <20211021210539.825582-24-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211021210539.825582-23-richard.henderson@linaro.org>
+In-Reply-To: <20211021210539.825582-24-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.742,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.742,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,36 +98,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 10/21/21 23:05, Richard Henderson wrote:
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/optimize.c | 56 ++++++++++++++++++++++++++++----------------------
->  1 file changed, 31 insertions(+), 25 deletions(-)
+>  tcg/optimize.c | 39 ++++++++++++++++++++++-----------------
+>  1 file changed, 22 insertions(+), 17 deletions(-)
 
-> +static bool fold_movcond(OptContext *ctx, TCGOp *op)
+> +static bool fold_extract2(OptContext *ctx, TCGOp *op)
 > +{
-> +    TCGOpcode opc = op->opc;
-> +    TCGCond cond = op->args[5];
-> +    int i = do_constant_folding_cond(opc, op->args[1], op->args[2], cond);
+> +    if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
+> +        uint64_t v1 = arg_info(op->args[1])->val;
+> +        uint64_t v2 = arg_info(op->args[2])->val;
+> +        int shr = op->args[3];
 > +
-> +    if (i >= 0) {
-> +        return tcg_opt_gen_mov(ctx, op, op->args[0], op->args[4 - i]);
-> +    }
-> +
-> +    if (arg_is_const(op->args[3]) && arg_is_const(op->args[4])) {
-> +        uint64_t tv = arg_info(op->args[3])->val;
-> +        uint64_t fv = arg_info(op->args[4])->val;
-> +
-> +        opc = (opc == INDEX_op_movcond_i32
-> +               ? INDEX_op_setcond_i32 : INDEX_op_setcond_i64);
-> +
-> +        if (tv == 1 && fv == 0) {
-> +            op->opc = opc;
-> +            op->args[3] = cond;
-> +        } else if (fv == 1 && tv == 0) {
+> +        if (op->opc == INDEX_op_extract2_i64) {
+> +            v1 >>= shr;
+> +            v2 <<= 64 - shr;
+> +        } else {
+> +            v1 = (uint32_t)v1 >> shr;
+> +            v2 = (int32_t)v2 << (32 - shr);
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-> +            op->opc = opc;
-> +            op->args[3] = tcg_invert_cond(cond);
 > +        }
+> +        return tcg_opt_gen_movi(ctx, op, op->args[0], v1 | v2);
 > +    }
 > +    return false;
 > +}
