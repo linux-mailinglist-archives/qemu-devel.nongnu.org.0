@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96B5437AA3
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 18:11:35 +0200 (CEST)
-Received: from localhost ([::1]:58596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405E7437AA4
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 18:11:41 +0200 (CEST)
+Received: from localhost ([::1]:58810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdx8o-0005nk-Lh
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 12:11:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38148)
+	id 1mdx8u-0005w6-9o
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 12:11:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
- id 1mdx4X-00030H-3x
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:07:10 -0400
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:46838)
+ id 1mdx4f-00031m-J9
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:07:18 -0400
+Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:33319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
- id 1mdx4R-0004ez-Qf
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:07:07 -0400
-Received: by mail-lj1-x22e.google.com with SMTP id l5so208302lja.13
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 09:06:59 -0700 (PDT)
+ id 1mdx4Z-0004lk-6D
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 12:07:14 -0400
+Received: by mail-lf1-x129.google.com with SMTP id j21so10262334lfe.0
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 09:07:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:user-agent:mime-version
- :content-transfer-encoding;
- bh=XkNMdsHgl2hY/a8nzWlfQL04eLVr3TvlPzta3CNG/Tk=;
- b=cFuqXiKcjlsBj80Oy+v8etvedggAMQ8ZJG5czPhc6Q/uAfnoJ8pTs1Y7vfA3QCTKF4
- 2JgEQH+QuSMV97UxvrECd3c96zW5ryTvas7OrtF5qCLQq/SfqjC62rVApEb5H4lJ9FtV
- ipCXsfF03VSLOZ+FdgwmeJ0CsiY4loVwhFtStAjOIrRtvkgSX8Zo076HSjWKzL8p7i+y
- VxvC8rvgbTvf4POcM+0YC8QHF7szEWlu0tXAAl7jg4SdAWveD3o02b3KCuGCOcT1xPkY
- GVpEgiBBI5VzGkfkcdFPKQREujbaxl3NC+Iik4ZgaRdoP6sLLVwjuKBu8LdP87fdSTno
- BB9g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=Ul02qr83p0UCQN00dY8EGmXSFR8bKuehRSmvwndXbGs=;
+ b=LZ9CJLSOIETbB2nYmaRM4k/Ob5fGdkokpNr64TZr6vU546gxoladtfqhyWFTLjjg9Y
+ MW03Sb1AeKliU/4fZ0PcJXyDzLArG8WlS3YgxRdxp5jsbx5lAveN60s5ynasM7ZiM8J1
+ UZHYOFBTFj7Nhrr9+tTr7HpIGrJEb/TK3l+dehTOfI/CFaBFK66pcJmmjeogOOkjRzay
+ lKEOgGARjTX/r550HtkpV8BmqddgPiy/970np5G7W+qb3W1Y2Q4I1BBYU2tUKPTA8cPm
+ Ik2E2zmZn8+UGhKxf3yKR3H7psSP59+VeAOmNttLkTRiJ1RWmFGmOwkYNYIriy2636bF
+ GlwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:user-agent
- :mime-version:content-transfer-encoding;
- bh=XkNMdsHgl2hY/a8nzWlfQL04eLVr3TvlPzta3CNG/Tk=;
- b=YChBQ4TnhZisKyDocaZTZ0BTdL50TU4q8W1CI5nQG2PW8HLCBpNjDujuZzdO5qVN1m
- SS6FYVN4rVd+vSluwfoF/QvAXF/7fxgTw42PJqz8aIf2grqxzbTxuGqQCMH0MOiZPSWr
- s8iLUK+7xid2TXumIyWk4Lecbigg6us1IpfHewxEyvG4YqGn67gU58bd7ITZTLx3duNs
- HlUQYBoje3A4oa1w03DgtezffDTK2LyYHseLRM8NrMIY0opx7BMP0rr05IAczQb8WLdK
- XWqlH2Xyh6MgBoV16bmtr6kAbfOJIpdZIzpVmTs7ADb/ns3dOdV7txqbDyKRpo+R+XE1
- vfoA==
-X-Gm-Message-State: AOAM532IMpCnL/YbVnaDvMq7JsXzG6mSqYAY1d1lqMRWBtdE6DcdYyQg
- CjtYYFK3CZf/RiIzJ9pKnBN9ssSzljBqtw==
-X-Google-Smtp-Source: ABdhPJwKW69AVNj5SqUQ4c6xQUfgAi7FID+UO0tEPNOI0CHOKpIUauFzkMz9uOgi4zBiXRbsRLF4fA==
-X-Received: by 2002:a2e:aa9b:: with SMTP id bj27mr858456ljb.528.1634918818036; 
- Fri, 22 Oct 2021 09:06:58 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=Ul02qr83p0UCQN00dY8EGmXSFR8bKuehRSmvwndXbGs=;
+ b=Cr17ED2eDBirqyvnQVEFkZG0hooDFoO9sJBUrCM7nnu3hpALFTYAgSsydk9CvJ9NGH
+ yNLyIu03p5uHV8nPw0BQRv/Ia23MxEBrtMtsGFCaVoFzAtpxt9jMH7vhNWlPcPx3mAWs
+ lKariuXK53ZjQEq+OgIcIEvCtYXVWk79fKAW56xa1aYqW9zEDm4UDLTiOtjba4tmZDXp
+ 3WDjTmGzEujfIfk1ER6B3UN2VLT76cdK4YuNuo2B66cTbJvnfM0LlilDPjSBqCghxsDz
+ PfIdCvKJ8gZKr17/eInUIJY/NudM8FtHaqVYWVNvszjtILPdeZ7N8Io2hECe4NxUsJUA
+ j+ug==
+X-Gm-Message-State: AOAM533gU0EtR/adSd4XxtwesJ7L34Ksni02aICvPGS1uVQzPLuEORaE
+ GU/MmURCkGI97BA8Jl1gA/TIT3V30+TQlg==
+X-Google-Smtp-Source: ABdhPJxPEgge5mMpkvIwpKHl4B6k6uhp6Nz9dHBcOP4WOBrnV74cpSuGzBqoTfCC860oLIaP0QYrNA==
+X-Received: by 2002:a05:6512:3a92:: with SMTP id
+ q18mr563916lfu.198.1634918829491; 
+ Fri, 22 Oct 2021 09:07:09 -0700 (PDT)
 Received: from pc-System-Product-Name.intra.ispras.ru ([85.142.117.226])
- by smtp.gmail.com with ESMTPSA id z21sm926503ljg.119.2021.10.22.09.06.57
+ by smtp.gmail.com with ESMTPSA id d19sm769200lfa.271.2021.10.22.09.07.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Oct 2021 09:06:57 -0700 (PDT)
+ Fri, 22 Oct 2021 09:07:09 -0700 (PDT)
 From: NDNF <arkaisp2021@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/3] plugins: add a drcov plugin
-Date: Fri, 22 Oct 2021 19:06:52 +0300
-Message-Id: <163491872706.304355.11795681036780988723.stgit@pc-System-Product-Name>
+Subject: [PATCH v3 1/3] src/plugins: sorted list
+Date: Fri, 22 Oct 2021 19:07:03 +0300
+Message-Id: <163491882316.304355.6955215012706902188.stgit@pc-System-Product-Name>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <163491872706.304355.11795681036780988723.stgit@pc-System-Product-Name>
+References: <163491872706.304355.11795681036780988723.stgit@pc-System-Product-Name>
 User-Agent: StGit/0.19
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
- envelope-from=arkaisp2021@gmail.com; helo=mail-lj1-x22e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::129;
+ envelope-from=arkaisp2021@gmail.com; helo=mail-lf1-x129.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,40 +90,83 @@ Cc: arkadiy.ivanov@ispras.ru, alex.bennee@linaro.org, pavel.dovgaluk@ispras.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These patches adds the ability to generate files in drcov format.
-Primary goal this scripts is to have coverage
-logfiles thatwork in Lighthouse.
-
-Changelog:
-v3:
-  * Increased speed of the plugin.
-  * Added documentation to the helper functions.
-  * Sorted qemu-plugins.symbols.
-
-v2:
-  * Added path to executable binary file.
-  * base, end, entry have correct values now.
-  * Added option: "filename" for output file.
-  * Install an actual tracer when the TB gets executed.
+The list is sorted to make it easier to find missing characters
 
 Signed-off-by: Ivanov Arkady <arkadiy.ivanov@ispras.ru>
-
 ---
+ plugins/qemu-plugins.symbols |   52 +++++++++++++++++++++---------------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
-Ivanov Arkady (3):
-      src/plugins: sorted list
-      This patch adds helper functions to the drcov plugin.
-      contrib/plugins: add a drcov plugin
+diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
+index 4bdb381f48..688db92773 100644
+--- a/plugins/qemu-plugins.symbols
++++ b/plugins/qemu-plugins.symbols
+@@ -1,40 +1,40 @@
+ {
+-  qemu_plugin_uninstall;
+-  qemu_plugin_reset;
+-  qemu_plugin_register_vcpu_init_cb;
++  qemu_plugin_get_hwaddr;
++  qemu_plugin_hwaddr_is_io;
++  qemu_plugin_hwaddr_to_raddr;
++  qemu_plugin_insn_data;
++  qemu_plugin_insn_disas;
++  qemu_plugin_insn_haddr;
++  qemu_plugin_insn_size;
++  qemu_plugin_insn_vaddr;
++  qemu_plugin_mem_is_big_endian;
++  qemu_plugin_mem_is_sign_extended;
++  qemu_plugin_mem_is_store;
++  qemu_plugin_mem_size_shift;
++  qemu_plugin_n_max_vcpus;
++  qemu_plugin_n_vcpus;
++  qemu_plugin_outs;
++  qemu_plugin_ram_addr_from_host;
++  qemu_plugin_register_atexit_cb;
++  qemu_plugin_register_flush_cb;
+   qemu_plugin_register_vcpu_exit_cb;
+   qemu_plugin_register_vcpu_idle_cb;
+-  qemu_plugin_register_vcpu_resume_cb;
++  qemu_plugin_register_vcpu_init_cb;
+   qemu_plugin_register_vcpu_insn_exec_cb;
+   qemu_plugin_register_vcpu_insn_exec_inline;
+   qemu_plugin_register_vcpu_mem_cb;
+   qemu_plugin_register_vcpu_mem_haddr_cb;
+   qemu_plugin_register_vcpu_mem_inline;
+-  qemu_plugin_ram_addr_from_host;
+-  qemu_plugin_register_vcpu_tb_trans_cb;
+-  qemu_plugin_register_vcpu_tb_exec_cb;
+-  qemu_plugin_register_vcpu_tb_exec_inline;
+-  qemu_plugin_register_flush_cb;
++  qemu_plugin_register_vcpu_resume_cb;
+   qemu_plugin_register_vcpu_syscall_cb;
+   qemu_plugin_register_vcpu_syscall_ret_cb;
+-  qemu_plugin_register_atexit_cb;
+-  qemu_plugin_tb_n_insns;
++  qemu_plugin_register_vcpu_tb_exec_cb;
++  qemu_plugin_register_vcpu_tb_exec_inline;
++  qemu_plugin_register_vcpu_tb_trans_cb;
++  qemu_plugin_reset;
+   qemu_plugin_tb_get_insn;
++  qemu_plugin_tb_n_insns;
+   qemu_plugin_tb_vaddr;
+-  qemu_plugin_insn_data;
+-  qemu_plugin_insn_size;
+-  qemu_plugin_insn_vaddr;
+-  qemu_plugin_insn_haddr;
+-  qemu_plugin_insn_disas;
+-  qemu_plugin_mem_size_shift;
+-  qemu_plugin_mem_is_sign_extended;
+-  qemu_plugin_mem_is_big_endian;
+-  qemu_plugin_mem_is_store;
+-  qemu_plugin_get_hwaddr;
+-  qemu_plugin_hwaddr_is_io;
+-  qemu_plugin_hwaddr_to_raddr;
++  qemu_plugin_uninstall;
+   qemu_plugin_vcpu_for_each;
+-  qemu_plugin_n_vcpus;
+-  qemu_plugin_n_max_vcpus;
+-  qemu_plugin_outs;
+ };
 
-
- contrib/plugins/Makefile     |    1 
- contrib/plugins/drcov.c      |  152 ++++++++++++++++++++++++++++++++++++++++++
- include/qemu/qemu-plugin.h   |   17 +++++
- plugins/api.c                |   44 ++++++++++++
- plugins/qemu-plugins.symbols |   56 ++++++++-------
- 5 files changed, 244 insertions(+), 26 deletions(-)
- create mode 100644 contrib/plugins/drcov.c
-
---
-Ivanov Arkady
 
