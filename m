@@ -2,134 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A20437FE6
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 23:20:49 +0200 (CEST)
-Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871F7437FFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 23:41:25 +0200 (CEST)
+Received: from localhost ([::1]:42340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1me1y4-000734-FF
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 17:20:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37420)
+	id 1me2I0-0004wP-4j
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 17:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1me1vI-0005tf-ER
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:17:56 -0400
-Received: from mail-eopbgr820124.outbound.protection.outlook.com
- ([40.107.82.124]:10944 helo=NAM01-SN1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1me1vF-0001ac-Pn
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:17:56 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jIbJkYTseo5mYXgB/jRLJBHMzn3Fsf3RB8PsHlbTHBrMPt4qXB6qmmOVGvxS6tIKbZzxy7NJM7X5WMAJdzTFiOGl5eI+tlpyUmgH3StsEDtudj+0jV98vuyUwm4BCAg4EbmQKDhad1zEnPbFBBObnaQIvmOr/d7X816GXjYABvgbrAcCn1yLpzMhlvPGfNGypGy2LKryIKvPgxblljJJCoL6XgcakzVY5QGKfpmvAM2Iw/YqByoNU7Dpp/jEBN0qxK7SsdGnaZ4+BhPWwqbF99sWs2kB4z0CBzoYHrxoowFbgIYlqBOa6v9nBawCVqvszYf1tINHhMol54gsKo4Rew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L55i4VGUPAQBP3JZ9vnUbixr7jHhqIaecV/Ir3NxcK8=;
- b=jjBGEJCJESPTBV1B+C4AUpfxGwa7Tm7QHRRMeafDlButYBSXiS2RJmXgC2fxV580fSRjGN/ywZaMAiyzJei/Rhq3G/E4xH9rIXYL6QXb9eQvPLZA4F6+xuxdA/Cy+AcSOecV1B6ZC2OExgyFWze73UY1QSBZDt5G6vNNBzIxxEh+CM4RCQ5cPcHZz14t5M6go6GurDVFkZLnGabHsS6pVSZWt0RJDzLe3A8D1WUnGzQuqU3iZbfXyVEFbA4DsuszN5Dn9hGOgcEUphgKrkorERXS/IxaSw1cOU6PyvDTYauk03qUO2RsmpCnvzRKi1th0f0T+F+EMvyXAyQ9trdS5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=eldorado.org.br; dmarc=pass action=none
- header.from=eldorado.org.br; dkim=pass header.d=eldorado.org.br; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eldorado.org.br;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L55i4VGUPAQBP3JZ9vnUbixr7jHhqIaecV/Ir3NxcK8=;
- b=hNdKvSwiYIzRdKBe7xYKQg2bXe2Go0MeA2BVy1INJLUhO/JTyQHwnLecStemEUMPr19TkJxr/EbJMQVvAHsXI5hJTdRx/jpjPB361ksY+T1QJOHbf/2V44vQG+Rv6IJ5B+2YcEIOdm7iXAJREZdyysVcfkdN+4e6QqBTxv2mSWL+kSoPIfGracRsx0MyWNJXrD9t3CmMZFLRSJCov3AJmge0gSdLSmA00hYY2Z1lqNsxD3nNBsa98DtvLlkkIFa0lDedogjTxMEAxxS0yQRPfquWuRjp5ioWZVQ8avZ3Y93nV0jMWgxS4elaXeGowhmRGozG8yuegcCDDvrZktDB2w==
-Received: from CPXPR80MB5224.lamprd80.prod.outlook.com (2603:10d6:103:f::13)
- by CP2PR80MB4049.lamprd80.prod.outlook.com (2603:10d6:102:3c::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.15; Fri, 22 Oct
- 2021 21:17:48 +0000
-Received: from CPXPR80MB5224.lamprd80.prod.outlook.com
- ([fe80::bdcf:f3e5:cc0b:4047]) by CPXPR80MB5224.lamprd80.prod.outlook.com
- ([fe80::bdcf:f3e5:cc0b:4047%3]) with mapi id 15.20.4628.018; Fri, 22 Oct 2021
- 21:17:48 +0000
-From: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v3 32/48] tcg/optimize: Split out fold_xi_to_i
-Thread-Topic: [PATCH v3 32/48] tcg/optimize: Split out fold_xi_to_i
-Thread-Index: AQHXxr93J7yZ7shTnkGuqPjX7LAyF6vfhsog
-Date: Fri, 22 Oct 2021 21:17:48 +0000
-Message-ID: <CPXPR80MB5224BC3439B90A86D150B445DA809@CPXPR80MB5224.lamprd80.prod.outlook.com>
-References: <20211021210539.825582-1-richard.henderson@linaro.org>
- <20211021210539.825582-33-richard.henderson@linaro.org>
-In-Reply-To: <20211021210539.825582-33-richard.henderson@linaro.org>
-Accept-Language: pt-BR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none; linaro.org; dmarc=none action=none header.from=eldorado.org.br; 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fff08e2c-78f1-431d-9faf-08d995a16601
-x-ms-traffictypediagnostic: CP2PR80MB4049:
-x-microsoft-antispam-prvs: <CP2PR80MB40493830C65F0CA906BC4B37DA809@CP2PR80MB4049.lamprd80.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3044;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: jQcy7I4bmGSECelH7GrDRbWo/H6wROPwTiohTRb0zRgbR6f0Z2UumWt+rGMVC2yolJIKD3cMR8IWrCmfXKg0w8SzRC6Pz41ErFe7hQrZ/ZdJ7HOhTycA/ofKkZIDWuEexqmRc5TILVnXHAQfVhLoF1tsFtk2+jAWTjn3mNqe4PVZw9qDIf670WMNRLR55mZS6Uc01roBIaTMXHnpPSW3nUkFeRGkdyUet5VF7GUkGxY+iE2O2uo6qlsgk0wHKpw1w90Ogkl+NTtYhcH0H3bwpDckK4q95semcxCqPDkl1IXBrXns/+rJEsMoFxGXRjgDjuCHhECjopnGlmcPxhCZtVytNXiP/8S0t9mvdyBLGOUKrwW86+eeCCu8ZyxfNi9HCn4ECUoTajvg8TPGITnKNg2QOT+e7w8dXzUxe1FJOIdzi+PA6QeGsYPkhD7mcFXfLM5BRtCTOUWmr7isQDY4Uscd1ljvhjvm9Z5AoFg2jQnsrNP8GvZYSIf3uwelQWwc9opysQBqJrFdbNFDJG0R2FVikr5UHHuh0+Ql0EWv2gKJAwW2/mAM3hRe0lW1/Zr8dys/DvhiMLkE+ZZ+zxQ6QYFk86X145k69aWFmuOKSPpWOb8Vz9P9i7+5WFXKOb0apA0oEF0rBjHXf4lo2TAIR6fTqGMNMGWfzh41yonBxcDnF/y5EMQNR3fTxcJASCLRMQlVk6AyI2CEWZPYO+K44+TxbmgRmqVubwNzlHwag7GDkTnRTc10mt3ZWQKxveW3wG2XFUnpn2CGi5n3Jp9AjATC2xz7Sf3mmRTX21sngkQ=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CPXPR80MB5224.lamprd80.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(64756008)(66476007)(9686003)(66946007)(66446008)(26005)(66556008)(508600001)(4326008)(4744005)(83380400001)(5660300002)(8936002)(33656002)(54906003)(6506007)(2906002)(316002)(110136005)(38070700005)(52536014)(71200400001)(38100700002)(76116006)(86362001)(186003)(7696005)(8676002)(55016002)(122000001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SE92TE0rODl6OWo0eXJmV1pVSi9OM0J1NEN4WmhTUVhKTUUxQnVib29QSXFB?=
- =?utf-8?B?S2k1NVlUd2NVZnd1eWNONGNKUVdHZVZxV0M5RTR4blBtaHVLaVFFSS9YQjVx?=
- =?utf-8?B?WlBYeGV0cUJrY2l5SGYxWGVDYTZ3amtibnB4Rk53RkM5eDM3R21LbHJKMWV4?=
- =?utf-8?B?YWFEQVVTMGs3T1dWVlpjQmcrSkZKQ2hXSFE2TG5mWVY4THlWM0J1Wi9iblov?=
- =?utf-8?B?aFVFWnVGamxHWXFqbWdPTlpJaG9BK0J5aXpVQWN5UFJzTVArUkpPeUlEQVZy?=
- =?utf-8?B?WHM1YjlUWFVDRGMvYkFnOFJ5WWxrSUxWOXJCQThxOWFKakVlVHI2ZUVhanN2?=
- =?utf-8?B?RWVKWk1rRGFtZnFEYnFGeDRTNTE0RC8rQ3AwVDdXbi9zNWRqR3JVclZoMTJh?=
- =?utf-8?B?TlFJbWFMWGtzUXBwU2puM3NkWWZQdU5McHRScDJGV0NhMXBVY3V5NkNzU21j?=
- =?utf-8?B?Q3lFMzlJcmpYVGovSkJzejhsYmxjam5YTCtMQU5qb1hzV1dBWnF0UTJlYXZl?=
- =?utf-8?B?OGFEd3QxN21qd09CUzZ0STZHdER6YnlodUJoRHN3SElVdmxrd2pTQUZZT2tX?=
- =?utf-8?B?cU43eWhhdThIeVB1b2J6Q2xYSFc3YjFqdU1NOXdpbGdNYTdmWmVUd1RrNFNJ?=
- =?utf-8?B?M2tEY3g1dDhWTkJJMVFjT0tXOXdwRzNMSXZaVDhnMTVwZVkxYW5CUS8vTlhN?=
- =?utf-8?B?MDEzcWxwc01EbEhMNGorMnA5VUs3bW9lRDdyS3lSQ1lTbmxza1NvTURwaDc5?=
- =?utf-8?B?V1ZuWWhnM1VjL2xBNU1RUFN3MzRPRFBGNEFZOUxHcFlMRlFqWUhRMXJ6K2ht?=
- =?utf-8?B?TW1seTBzTHRObEVYWk9qV2N5MkN1dE9YMlNpTHJUKy8vd05GbGNrckM0U0M0?=
- =?utf-8?B?bWF4T2E3UHNka2pJTkVoOWlHOHVvK25waksrRmVuUEN3ZXhrdUJxUzZGY1ZG?=
- =?utf-8?B?Q1RIcHQzaEh0b2l2UURpTkpwd0VyZHZweEFyL3FTcjE3bkxwbFltWnlBRlhx?=
- =?utf-8?B?N213SkNiSjJyclg4bVhyenJKU0NxNnh4aVNOMmg1SzZidEVHWk4xRjZ3Q1VI?=
- =?utf-8?B?ZjhoMUJzcFMvMnI4Q004U2VRd0dqc3pvM0pPZmpnVzUvVldSbGc1U1ZNQzJI?=
- =?utf-8?B?MWo5ek5RcXovZEMrV01DTVFkTHRIdTcrZmNsY25KakNzNGo5UU9BN0tlc1BG?=
- =?utf-8?B?YkZaMjRBRkFYK2szOER0OVJqUjArdDQvN0hvMGhwTVBORnhoaXpNMmZleHZW?=
- =?utf-8?B?QzVhK1NUUjNwM1h4RGNCenV1L0pOdHZsaVFna0dHNFFxQ1UyUzRHWFdIMGow?=
- =?utf-8?B?MlVSTXNVV2FOOVBqdkc0STQvVHdDQjJ1Qjh6VFluMjh3QmRjNFY4cVRTbDZF?=
- =?utf-8?B?aTFuQ2pLbzMweUpUWGZRakpjNzFpTFhXRWlNYkRyc1R1RkNSZ1p1UytFMVgx?=
- =?utf-8?B?QVc3WXBNTEc4bkg1NmIyYlhmWjJLRXE4dDNKcVc4Q05aOU1jMlREc2poUSs1?=
- =?utf-8?B?Tmx5YVJJSVNYRzJSRWFOZVYxam5yUnJaVTVzOTM2RndHYmhjaUFZWEZWTFp0?=
- =?utf-8?B?b3d4VU1kUFFvTUx5Qzd5dVVTbUpaRzRXSG9wK3VjbkZ2YThlZ0w1YU91eDd6?=
- =?utf-8?B?RnNET1V3ZDNTbDh6WnBOMVNxSkxWTURIdURDSm5aMTZqRHVYRUM4eU5Nb1VU?=
- =?utf-8?B?NEkyeThQTTRzTEsyNFJmZjV3Mkg2WFJqbXdsZTB2WmlvY2Y1aGVUd3dteTdx?=
- =?utf-8?B?SlI3aTNsbXdNUDVoTW5Yb1NhZnpEaUpwSk1VVDNzcFVCRXY0SVgxa3h2WVJu?=
- =?utf-8?B?Z2VhQlV0UUNPU1oyLy9kd0lZanZtam5ZWkk4UXJPWWVwYStPVnlEd3JqNFo1?=
- =?utf-8?B?dEMzTzJoREdvcTgwSWZWYTMrK1pRNDRXRmpXTWVqUVJJLzAwdCtjK296WmxH?=
- =?utf-8?Q?Aa/zPjhFgD0=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1me2GL-0004Ds-Uo
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:39:41 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:38807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1me2GI-0002X8-K7
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 17:39:41 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id e65so4454974pgc.5
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 14:39:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EGMgdJzyREwPPTSWlATEOHKaWJAY5JHwuFYSfxDTPCE=;
+ b=oF0ZTlp6UPm2uS8KjWyC3tMVUvjvLXW7Td9NrkFvW4G8Kjd8FCQN6rp3DR4WQrXasc
+ xBRcTYAxrIUbCbB2gaGOvn9kwzrRHFj87ssf+29QenTgaPGFtw4XJFcngIPCya/S5zIW
+ cmWC0l0i5DaCT5XmlDmdS8NMcvM2Xfa5RN9KOwr72lIANQ1P9mygftPRhD6GsUjdpgfd
+ vcC/wlqgnV3MjGHyquQ2AV96ZIYX4hydSyosL6oYdk+IKliOJrr/xZBy3XrwJekp9di3
+ jb+tPuzji63Fb6liw4UFig1K1Pf/obo3jd764FAII6cer/mptjdD/W+kdaQ/EAdrdbLW
+ DjHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EGMgdJzyREwPPTSWlATEOHKaWJAY5JHwuFYSfxDTPCE=;
+ b=WDnvhJIpQDD3o8GID3Cof6AVhnG4TFISWaRnn2ktfWMCWyWllOIVSGBj/UHHiG1KBN
+ 3tD6IjOkvhFhA1/2n4vvqVcWALH0cwgRiPsfvTWqTWyq2vAvrRJDUNqE426WKGZFTBkH
+ +yBIVa1vxLAxawpm/TdMx0DIf+q0zYDB49/kmyslR8nOR+Z0MqQe+Z3pJXa+8CUQvNBt
+ 0+bMyi8eEBXgOip6KTvJzhbfqPEeF1dafKFILpi/oHzEDHDtrvOzQX6F+FqHXc1pL+Xn
+ XAz9rs/JM1h234mopgvDdgqFIkn2uYRl0dwe7WK+JwoMAPlHqb3daCrZQpf7Ki3Q3Lzm
+ EZXA==
+X-Gm-Message-State: AOAM531GG41Crt8MTWXnnsTQA6SIHka9NTpP653tXwWlP5QUOSWXCpzE
+ XvSWkbs6KQIk58SpFJwAThwovQ==
+X-Google-Smtp-Source: ABdhPJyQ0lXfMv6+68iN61wIa/3r9kpIrxullBv62gM+9o77NhYjqA8OFtVichCk4A8qEswt2YA0Fg==
+X-Received: by 2002:a63:710d:: with SMTP id m13mr1659840pgc.467.1634938775819; 
+ Fri, 22 Oct 2021 14:39:35 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id z5sm9168615pge.2.2021.10.22.14.39.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Oct 2021 14:39:35 -0700 (PDT)
+Subject: Re: [PULL 00/33] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org
+References: <20211022133812.3972903-1-alistair.francis@opensource.wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1d866b2a-41db-312a-e166-13191adf0dc8@linaro.org>
+Date: Fri, 22 Oct 2021 14:39:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-OriginatorOrg: eldorado.org.br
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CPXPR80MB5224.lamprd80.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fff08e2c-78f1-431d-9faf-08d995a16601
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Oct 2021 21:17:48.1992 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b9397c69-e827-4afc-a365-ab275e41638f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cjxb48@eldorado.org.br
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CP2PR80MB4049
-Received-SPF: pass client-ip=40.107.82.124;
- envelope-from=luis.pires@eldorado.org.br;
- helo=NAM01-SN1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20211022133812.3972903-1-alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.742,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -143,20 +87,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogUmljaGFyZCBIZW5kZXJzb24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+DQo+
-IFB1bGwgdGhlICJvcCByLCBhLCAwID0+IG1vdmkgciwgMCIgb3B0aW1pemF0aW9uIGludG8gYSBm
-dW5jdGlvbiwgYW5kIHVzZSBpdCBpbiB0aGUNCj4gb3V0ZXIgb3Bjb2RlIGZvbGQgZnVuY3Rpb25z
-Lg0KPiANCj4gUmV2aWV3ZWQtYnk6IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxmNGJ1Z0BhbXNh
-dC5vcmc+DQo+IFNpZ25lZC1vZmYtYnk6IFJpY2hhcmQgSGVuZGVyc29uIDxyaWNoYXJkLmhlbmRl
-cnNvbkBsaW5hcm8ub3JnPg0KPiAtLS0NCj4gIHRjZy9vcHRpbWl6ZS5jIHwgMzIgKysrKysrKysr
-KysrKysrLS0tLS0tLS0tLS0tLS0tLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25z
-KCspLCAxNyBkZWxldGlvbnMoLSkNCg0KUmV2aWV3ZWQtYnk6IEx1aXMgUGlyZXMgPGx1aXMucGly
-ZXNAZWxkb3JhZG8ub3JnLmJyPg0KDQotLQ0KTHVpcyBQaXJlcw0KSW5zdGl0dXRvIGRlIFBlc3F1
-aXNhcyBFTERPUkFETw0KQXZpc28gTGVnYWwgLSBEaXNjbGFpbWVyIDxodHRwczovL3d3dy5lbGRv
-cmFkby5vcmcuYnIvZGlzY2xhaW1lci5odG1sPg0K
+On 10/22/21 6:37 AM, Alistair Francis wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
+> 
+> The following changes since commit 4c127fdbe81d66e7cafed90908d0fd1f6f2a6cd0:
+> 
+>    Merge remote-tracking branch 'remotes/rth/tags/pull-arm-20211021' into staging (2021-10-21 09:53:27 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20211022-2
+> 
+> for you to fetch changes up to 11ec06f9eaedc801ded34c79861367b76ab2b731:
+> 
+>    hw/riscv: spike: Use MachineState::ram and MachineClass::default_ram_id (2021-10-22 23:35:47 +1000)
+> 
+> ----------------------------------------------------------------
+> Fourth RISC-V PR for QEMU 6.2
+> 
+>   - Vector extension bug fixes
+>   - Bit manipulation extension bug fix
+>   - Support vhost-user and numa mem options on all boards
+>   - Rationalise XLEN and operand lengths
+>   - Bump the OpenTitan FPGA support
+>   - Remove the Ibex PLIC
+>   - General code cleanup
+> 
+> ----------------------------------------------------------------
+> Alistair Francis (7):
+>        target/riscv: Remove some unused macros
+>        target/riscv: Organise the CPU properties
+>        hw/riscv: opentitan: Update to the latest build
+>        hw/intc: Remove the Ibex PLIC
+>        hw/intc: sifive_plic: Move the properties
+>        hw/intc: sifive_plic: Cleanup the realize function
+>        hw/intc: sifive_plic: Cleanup the irq_request function
+> 
+> Bin Meng (6):
+>        hw/riscv: microchip_pfsoc: Use MachineState::ram and MachineClass::default_ram_id
+>        hw/riscv: opentitan: Use MachineState::ram and MachineClass::default_ram_id
+>        hw/riscv: shakti_c: Use MachineState::ram and MachineClass::default_ram_id
+>        hw/riscv: sifive_e: Use MachineState::ram and MachineClass::default_ram_id
+>        hw/riscv: sifive_u: Use MachineState::ram and MachineClass::default_ram_id
+>        hw/riscv: spike: Use MachineState::ram and MachineClass::default_ram_id
+> 
+> Frank Chang (2):
+>        target/riscv: Pass the same value to oprsz and maxsz for vmv.v.v
+>        target/riscv: fix TB_FLAGS bits overlapping bug for rvv/rvh
+> 
+> Mingwang Li (1):
+>        hw/riscv: virt: Use machine->ram as the system memory
+> 
+> Philipp Tomsich (1):
+>        target/riscv: Fix orc.b implementation
+> 
+> Richard Henderson (15):
+>        target/riscv: Move cpu_get_tb_cpu_state out of line
+>        target/riscv: Create RISCVMXL enumeration
+>        target/riscv: Split misa.mxl and misa.ext
+>        target/riscv: Replace riscv_cpu_is_32bit with riscv_cpu_mxl
+>        target/riscv: Add MXL/SXL/UXL to TB_FLAGS
+>        target/riscv: Use REQUIRE_64BIT in amo_check64
+>        target/riscv: Properly check SEW in amo_op
+>        target/riscv: Replace is_32bit with get_xl/get_xlen
+>        target/riscv: Replace DisasContext.w with DisasContext.ol
+>        target/riscv: Use gen_arith_per_ol for RVM
+>        target/riscv: Adjust trans_rev8_32 for riscv64
+>        target/riscv: Use gen_unary_per_ol for RVB
+>        target/riscv: Use gen_shift*_per_ol for RVB, RVI
+>        target/riscv: Use riscv_csrrw_debug for cpu_dump
+>        target/riscv: Compute mstatus.sd on demand
+> 
+> Travis Geiselbrecht (1):
+>        target/riscv: line up all of the registers in the info register dump
+> 
+>   include/hw/riscv/opentitan.h            |   6 +-
+>   target/riscv/cpu.h                      |  87 +++------
+>   target/riscv/cpu_bits.h                 |  16 +-
+>   hw/intc/ibex_plic.c                     | 307 --------------------------------
+>   hw/intc/sifive_plic.c                   |  85 ++++-----
+>   hw/riscv/boot.c                         |   2 +-
+>   hw/riscv/microchip_pfsoc.c              |  36 ++--
+>   hw/riscv/opentitan.c                    |  38 +++-
+>   hw/riscv/shakti_c.c                     |   6 +-
+>   hw/riscv/sifive_e.c                     |  16 +-
+>   hw/riscv/sifive_u.c                     |   6 +-
+>   hw/riscv/spike.c                        |   6 +-
+>   hw/riscv/virt.c                         |   6 +-
+>   linux-user/elfload.c                    |   2 +-
+>   linux-user/riscv/cpu_loop.c             |   2 +-
+>   semihosting/arm-compat-semi.c           |   2 +-
+>   target/riscv/cpu.c                      | 216 ++++++++++++----------
+>   target/riscv/cpu_helper.c               |  92 +++++++++-
+>   target/riscv/csr.c                      | 104 ++++++-----
+>   target/riscv/gdbstub.c                  |  10 +-
+>   target/riscv/machine.c                  |  10 +-
+>   target/riscv/monitor.c                  |   4 +-
+>   target/riscv/translate.c                | 174 +++++++++++++-----
+>   target/riscv/insn_trans/trans_rvb.c.inc | 153 +++++++++-------
+>   target/riscv/insn_trans/trans_rvi.c.inc |  44 ++---
+>   target/riscv/insn_trans/trans_rvm.c.inc |  36 +++-
+>   target/riscv/insn_trans/trans_rvv.c.inc |  32 ++--
+>   hw/intc/meson.build                     |   1 -
+>   28 files changed, 720 insertions(+), 779 deletions(-)
+>   delete mode 100644 hw/intc/ibex_plic.c
+
+Applied, thanks.
+
+r~
+
 
