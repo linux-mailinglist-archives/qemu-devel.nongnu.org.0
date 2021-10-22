@@ -2,70 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866E9437078
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 05:27:04 +0200 (CEST)
-Received: from localhost ([::1]:59810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 172B7437186
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 08:04:16 +0200 (CEST)
+Received: from localhost ([::1]:59238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdlCx-0006Ne-4g
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 23:27:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53644)
+	id 1mdnf4-0007r5-KT
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 02:04:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mdlBU-0005Ss-DU
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 23:25:32 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:39698)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mdlBQ-00037K-Bh
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 23:25:32 -0400
-Received: by mail-io1-xd30.google.com with SMTP id o184so3616694iof.6
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 20:25:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zi/iD66Wxe147JjaGKlr/N3ukbAHB1lLA7xwYenMdtA=;
- b=YL8DLT1JLiq7SllAQNkjZg2iomfj++Lw5MFE0rkS8Z01m80+DDdWiBB/AFqor+7EVj
- /yp3MdkMdjfDQCDTf8Os0c3hf53vVbTl0ebFEVKLpzpIKqz9hcq+/UIj13eoKYCuYTm2
- O/y/rS1ZiZGMReW9ZBPVEXtSVGCpSFsDD8lFVBF++EXuCCOZTOV3k128bBOgdQQGie5t
- Zom8GSuWIBtl8iqddRz29Sj9f6PJ0r08UPWKLxKbptrYzM9V/3PA0ard7csCWFmlG8lL
- wCFMDoaH7fvy2leQrG0xCSriEcymEM9XPI24PZhif/NRwr9Ax6fj963VBjeVS4HKu03B
- /d6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zi/iD66Wxe147JjaGKlr/N3ukbAHB1lLA7xwYenMdtA=;
- b=WQT0yJWDkXx3NRdtnTQu/EOkcyUG2KT/0UtH7TGiXl2Rvs4frkkWesASUOlM+om/JQ
- g5Or7DNekwIHkSTqSMEqAYnyRrNNllyf+xAfxPi/45pr7J+cgnb5LRPsMcyYDKcszcmk
- ERDzHRIi8GgZIW4LrVxHZamreY5mX1kFn67Gunh/7DnxOlX1iYrQIOeWJ7KyFlI1rFT5
- /uNulA6erjXrNP95ZHUMLzjfFiJrp59mesb+QnhuMHMU4ELPzNdtbRvzkp5viR1vWmlj
- DgvA9yC5IQ1ElTZYdUOzXTEFMHF1t+5TEUwl+Ask8ossmcq0Sad1nqLzJrqATHO7iL/5
- /o3g==
-X-Gm-Message-State: AOAM530rzdl6pyAqe/721u0dwJiI5AYXV0tRjIigFMuSKmB8hGnjiIpD
- eeERjjv7bI7y7s4E2XCXNCufSdGSelWwKNzSePRYYA==
-X-Google-Smtp-Source: ABdhPJwZOngL5e5vY41HUwy6jBqN7x/tENteZhOBxkzVYAbYj+GTJpJ5NowuT6ok5SkrEGOwBvqlJ7jRAKQeoiyBAUA=
-X-Received: by 2002:a02:c6a5:: with SMTP id o5mr6676654jan.58.1634873126615;
- Thu, 21 Oct 2021 20:25:26 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=9222bbd82=alistair.francis@opensource.wdc.com>)
+ id 1mdnco-0005H3-LU
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 02:01:54 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:34370)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=9222bbd82=alistair.francis@opensource.wdc.com>)
+ id 1mdncl-0008Po-Ol
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 02:01:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1634882511; x=1666418511;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=CVf48zXDfzu9hCGPn6p0LxWxBuviOD/JLb8idXiH+PM=;
+ b=oHNyBMDZQTVcWwhajKcaS5h24mQt8vYzbP5gvIbEbID3KErZH29WdsBz
+ OeESRMF/wf+7KpFoYSSXa5qCxn70Ue1x6WIVKSSsrnKX/QmsgkzwEwMbf
+ i2pPOPDZsBC7uwNzQ1uCsTZXIEZxM/LvSm2YN0EZtCW77U6XgG+hTsWPV
+ ilTbM1nXcHL2GaEmVaR75m7HFl/AzKhHV7/B+Qheu1+CtYpUPeV0a5W9i
+ ROTuA9m6n5k9XyreAWEYwyoZPbRtClN3/sEn3hQ6bFlcXUcq7m+bvG1FK
+ 0+sSDr5kRlbD5MLYOl4Kdo+y+TRToqwiE/qW/VPhFq3kKv39p1ECONxV7 w==;
+X-IronPort-AV: E=Sophos;i="5.87,171,1631548800"; d="scan'208";a="287463422"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 22 Oct 2021 14:01:47 +0800
+IronPort-SDR: RVgFlBRajJOwU/PwmM9OoQWb6DRGxO4Gcj24k4kmpClEPt0Kvbd4VeReFMzCWlM6xvTfZFfE5q
+ b/eBX150rW2ZaoA2sGYMyBEold3qEkKsw4an0389LioZX/5PqMlvhr5j7X9pHuwRxoGwB6OuoE
+ vkRlIubD+TRnwWB8BWEip8xuOhuOkVPbcqypiRnQuyhFrZN+qI0N2PvYqPW8zcy9qFniFMZdBx
+ lJlSAx0vkgdmPuaGtbD+qtzYsSTkwfh3eWJ1wFIm19ok+0k9VvKkk4mTmYl+Afl4yVZq3NcQ7y
+ IreV6Y6KMj2tvXC9a87R/9Wo
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2021 22:37:23 -0700
+IronPort-SDR: 57NvwbJ5BdERpv8jmVMNypwLtOvGR48KtLm37SqxVXBAkwaRiTaDeuSRxvHNr2zLmrf6I5fX/3
+ M9X8+ptwTgtvY5QXmcFeZV9wljZTYJ14MMHz50CQOK6T90WgUd3dOahD/xEGX2mFa6msRCsrxF
+ kUCfN6PxxNcvLUn2eyRKgS0MkLgX5gG4FZBI08F7KD3ie5n7wzLn1sZL1XVjEij7deGYGZnr6S
+ BTxmujEUIFgQ4l8AN2y8HbzIWGgPFdEYjaN2NmmLywdAOzm0l94qO0jMOqcpWGdaVqWYNFLoRc
+ MKQ=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2021 23:01:48 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HbDJC1j7nz1RtVx
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 23:01:47 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:subject:to:from; s=dkim; t=1634882506;
+ x=1637474507; bh=CVf48zXDfzu9hCGPn6p0LxWxBuviOD/JLb8idXiH+PM=; b=
+ V06zzsr5MZaML+YEduMGu6zVcrGHDvu/LZAGDtNZQYFbNvsYO8XOBskO2IzhPq+6
+ Pz2HdSeF4aYNREPsa7x5I+MPR+ZSEL1p2z8ZRhWorxgt/yjFxDxPLMTCshQA3HCE
+ OMrVLldqTIUpgplKwaLsFAU/M6qHe35QFCYBu7wuZc20tK99Oz6GjYbifJV0YtYV
+ 74YBXmvRv8oia/kfkRqiXbK61e2OV6+JBecaKJl8DcIdkn4dwq4UWFOo8vfty29I
+ A3iCabPZgRVagKQZkVX2t1IavWACuvqPuZ5zsHdn+UwGFMN2vm9ksGEUZc6+W6cw
+ d4A9XsjfdJXXyYofAeO5Wg==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id tbppTExHZeRq for <qemu-devel@nongnu.org>;
+ Thu, 21 Oct 2021 23:01:46 -0700 (PDT)
+Received: from toolbox.wdc.com (unknown [10.225.165.39])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HbDJ46xLLz1RtVl;
+ Thu, 21 Oct 2021 23:01:40 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, alistair23@gmail.com,
+ Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>, bmeng.cn@gmail.com,
+ Alistair Francis <Alistair.Francis@wdc.com>
+Subject: [PATCH v2 1/5] hw/riscv: virt: Don't use a macro for the PLIC
+ configuration
+Date: Fri, 22 Oct 2021 16:01:29 +1000
+Message-Id: <20211022060133.3045020-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211021162956.2772656-1-frank.chang@sifive.com>
- <20211021162956.2772656-2-frank.chang@sifive.com>
- <CAKmqyKM7kf7mFrh6i33ZSbLtf6tLC=qSUmzRTvwk=H_rFYs3ZA@mail.gmail.com>
- <07a1c82b-a8d1-cb01-e647-e777cb3aa497@linaro.org>
-In-Reply-To: <07a1c82b-a8d1-cb01-e647-e777cb3aa497@linaro.org>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Fri, 22 Oct 2021 11:25:15 +0800
-Message-ID: <CAE_xrPiMv=WsDbORLeTubTfsi58h_xgjUbLfF0bm67t0RCFe7A@mail.gmail.com>
-Subject: Re: [PATCH v5 1/8] target/riscv: zfh: half-precision load and store
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000f7120d05cee88fe9"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=frank.chang@sifive.com; helo=mail-io1-xd30.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=68.232.143.124;
+ envelope-from=prvs=9222bbd82=alistair.francis@opensource.wdc.com;
+ helo=esa2.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,135 +114,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Chih-Min Chao <chihmin.chao@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair23@gmail.com>, Kito Cheng <kito.cheng@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f7120d05cee88fe9
-Content-Type: text/plain; charset="UTF-8"
+From: Alistair Francis <alistair.francis@wdc.com>
 
-On Fri, Oct 22, 2021 at 7:28 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+Using a macro for the PLIC configuration doesn't make the code any
+easier to read. Instead it makes it harder to figure out what is going
+on, so let's remove it.
 
-> On 10/21/21 3:31 PM, Alistair Francis wrote:
-> > On Fri, Oct 22, 2021 at 2:30 AM <frank.chang@sifive.com> wrote:
-> >>
-> >> From: Kito Cheng <kito.cheng@sifive.com>
-> >>
-> >> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-> >> Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
-> >> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> >> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> >
-> > It doesn't look like this made it through to the list. I only see v3
-> > on patchew:
-> https://patchew.org/QEMU/20211016090742.3034669-1-frank.chang@sifive.com/
->
-> It's just the cover-letter that got lost.
->
->
-> https://lore.kernel.org/qemu-devel/20211021162956.2772656-2-frank.chang@sifive.com/
->
->
-> > Can you rebase this on
-> > https://github.com/alistair23/qemu/tree/riscv-to-apply.next when you
-> > re-send it?
->
-> But a rebase is probably required anyway.
->
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+---
+ include/hw/riscv/virt.h | 1 -
+ hw/riscv/virt.c         | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-Hi Alistair and Richard,
+diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+index d9105c1886..b8ef99f348 100644
+--- a/include/hw/riscv/virt.h
++++ b/include/hw/riscv/virt.h
+@@ -73,7 +73,6 @@ enum {
+     VIRTIO_NDEV =3D 0x35 /* Arbitrary maximum number of interrupts */
+ };
+=20
+-#define VIRT_PLIC_HART_CONFIG "MS"
+ #define VIRT_PLIC_NUM_SOURCES 127
+ #define VIRT_PLIC_NUM_PRIORITIES 7
+ #define VIRT_PLIC_PRIORITY_BASE 0x04
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index ec0cb69b8c..2d3a8ec405 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -758,7 +758,7 @@ static char *plic_hart_config_string(int hart_count)
+     int i;
+=20
+     for (i =3D 0; i < hart_count; i++) {
+-        vals[i] =3D VIRT_PLIC_HART_CONFIG;
++        vals[i] =3D "MS";
+     }
+     vals[i] =3D NULL;
+=20
+--=20
+2.31.1
 
-This patchset is already rebased on riscv-to-apply.next.
-The Zfh and Zfhmin cpu properties are already moved to
-/* Defaults for standard extensions */ section,
-along with other Zi* extensions.
-
-BTW, I found out my patchset won't appear at Patchew
-if cover letter is only sent to qemu-riscv@nongnu.org.
-(I used: "git send-email --to 'qemu-riscv@nongnu.org' ...",
-instead of: "git send-email --to 'qemu-devel@nongnu.org,
-qemu-riscv@nongnu.org' ...")
-
-I will send it to qemu-devel@nongnu.org as well in my future patchset.
-
-Regards,
-Frank Chang
-
-
->
-> r~
->
-
---000000000000f7120d05cee88fe9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Oct 22, 2021 at 7:28 AM Richard H=
-enderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hender=
-son@linaro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">On 10/21/21 3:31 PM, Alistair Fran=
-cis wrote:<br>
-&gt; On Fri, Oct 22, 2021 at 2:30 AM &lt;<a href=3D"mailto:frank.chang@sifi=
-ve.com" target=3D"_blank">frank.chang@sifive.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; From: Kito Cheng &lt;<a href=3D"mailto:kito.cheng@sifive.com" targ=
-et=3D"_blank">kito.cheng@sifive.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Kito Cheng &lt;<a href=3D"mailto:kito.cheng@sifive.=
-com" target=3D"_blank">kito.cheng@sifive.com</a>&gt;<br>
-&gt;&gt; Signed-off-by: Chih-Min Chao &lt;<a href=3D"mailto:chihmin.chao@si=
-five.com" target=3D"_blank">chihmin.chao@sifive.com</a>&gt;<br>
-&gt;&gt; Signed-off-by: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifiv=
-e.com" target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
-&gt;&gt; Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.hende=
-rson@linaro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
-&gt; <br>
-&gt; It doesn&#39;t look like this made it through to the list. I only see =
-v3<br>
-&gt; on patchew: <a href=3D"https://patchew.org/QEMU/20211016090742.3034669=
--1-frank.chang@sifive.com/" rel=3D"noreferrer" target=3D"_blank">https://pa=
-tchew.org/QEMU/20211016090742.3034669-1-frank.chang@sifive.com/</a><br>
-<br>
-It&#39;s just the cover-letter that got lost.<br>
-<br>
-<a href=3D"https://lore.kernel.org/qemu-devel/20211021162956.2772656-2-fran=
-k.chang@sifive.com/" rel=3D"noreferrer" target=3D"_blank">https://lore.kern=
-el.org/qemu-devel/20211021162956.2772656-2-frank.chang@sifive.com/</a><br>
-<br>
-<br>
-&gt; Can you rebase this on<br>
-&gt; <a href=3D"https://github.com/alistair23/qemu/tree/riscv-to-apply.next=
-" rel=3D"noreferrer" target=3D"_blank">https://github.com/alistair23/qemu/t=
-ree/riscv-to-apply.next</a> when you<br>
-&gt; re-send it?<br>
-<br>
-But a rebase is probably required anyway.<br></blockquote><div><br></div><d=
-iv>Hi Alistair and Richard,</div><div><br></div><div>This patchset is alrea=
-dy rebased on riscv-to-apply.next.</div><div>The Zfh and Zfhmin cpu propert=
-ies are already moved to</div><div>/* Defaults for standard extensions */ s=
-ection,</div><div>along with other Zi* extensions.</div><div><br></div><div=
->BTW, I found out my patchset won&#39;t appear at Patchew</div><div>if cove=
-r letter is only sent=C2=A0to=C2=A0<a href=3D"mailto:qemu-riscv@nongnu.org"=
->qemu-riscv@nongnu.org</a>.</div><div>(I used: &quot;git send-email --to &#=
-39;<a href=3D"mailto:qemu-riscv@nongnu.org">qemu-riscv@nongnu.org</a>&#39; =
-...&quot;,</div><div>instead of: &quot;git send-email --to &#39;<a href=3D"=
-mailto:qemu-devel@nongnu.org">qemu-devel@nongnu.org</a>,<a href=3D"mailto:q=
-emu-riscv@nongnu.org">qemu-riscv@nongnu.org</a>&#39; ...&quot;)</div><div><=
-br></div><div>I will send it to=C2=A0<a href=3D"mailto:qemu-devel@nongnu.or=
-g">qemu-devel@nongnu.org</a> as well in my=C2=A0future=C2=A0patchset.</div>=
-<div><br></div><div>Regards,</div><div>Frank Chang</div><div><br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-<br>
-r~<br>
-</blockquote></div></div>
-
---000000000000f7120d05cee88fe9--
 
