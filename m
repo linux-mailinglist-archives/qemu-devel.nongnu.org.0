@@ -2,97 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B7943783F
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 15:43:31 +0200 (CEST)
-Received: from localhost ([::1]:56432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7064443783E
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 15:43:28 +0200 (CEST)
+Received: from localhost ([::1]:56164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdupW-0008A1-69
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 09:43:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57022)
+	id 1mdupT-0007yg-Cj
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 09:43:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9222bbd82=alistair.francis@opensource.wdc.com>)
- id 1mdulS-0008KB-6g
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:39:18 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:33487)
+ id 1mdulW-0008QP-Hx
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:39:23 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:64417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9222bbd82=alistair.francis@opensource.wdc.com>)
- id 1mdulP-000107-K5
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:39:17 -0400
+ id 1mdulU-00013i-DT
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:39:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1634909955; x=1666445955;
+ t=1634909960; x=1666445960;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=/EsC/RTOkV2XvnHOFKOA1r14eC57yHygNPuQQZky8l0=;
- b=o2deabj3rV30YGS5RvAsSioxKfTB6UbmdEra/DwsRvPLtV45dlXfszps
- fWzAOpjT7XlFfCisAkHkAtsMURfm4mx6jYPf5bYjZPspBAhAH47KU/raL
- CYjvsINy44fXtmlNS2z7/5MMd5D0zt/98A2AxwnZ/dsjSP+FsiagADdlI
- VpTPRdQ/mkmuEvSVJ6qVYaLE8SuHIxRKO2lYs5f6rRxjUE/4bF8RjUGOk
- RfLNRJOw1tPxmhJwrxdcG5iAaMwXmmVHqgsj4qwmGKJEVQEe5Hpb1b/Bx
- CCPSacFPrGFSNOVXnLdsXCaYCjcWzDDB86DeHcwSbPxhD71nYEMXvFOjo g==;
-X-IronPort-AV: E=Sophos;i="5.87,172,1631548800"; d="scan'208";a="295350940"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 22 Oct 2021 21:39:13 +0800
-IronPort-SDR: 1h7n7AfO7MHsgO4MIheCUrO9bLyixyJ/NmlFr3erXhWB9zQsOa8v1xKUd+sUABmKPyQmxg580B
- 4Z9/RFefmnk/+nxh4nCmk2GJNcSGrLh1rYmxX+LadnCvcurd699mgapn34m4Nn25yBRUrtGuga
- 9CTtiyuns7g1LBvw+cqm7cqpvV05ageBEq4bZxoBsbo1Asn0F8nUUtY4Hyd/5PpQLU5nS8YThu
- qLrh8tERgCOJBdPwmNv44eHyAVFLcYQGAUt+6xV9Lk/0kMGzgt4EnQeMC1EpvFGiC3pVQQqWeg
- QLYfjmw0NQVgiEMJwdxgXzMG
+ bh=EV/G3/L/beuAoU7qjn9Sh1uqgs8o/FR+FSpTeGAQbZA=;
+ b=R6+lEQVI0Pi0IcTBMANX+2XMfhu/nL9kTIT5SwgZtKeOLXaS0uKdXXJs
+ 18AYDuJYAm9DKWzxCkk83FLf+inio5Qu01fHRtsXTGN5lfEnrEuHWC5UL
+ Wyr2Uv7n2HRAy9pBttWXUTlFWKv+GDzEb55qNrwA8b1Cw/mq3FrUwC7Et
+ qi/F93yBK+YBtT1X5RS908oSbunkjs14uedilwnoAk/+TzN+y8B+P8Bu2
+ BjEX4fkcB2XFKTOkZvDVS1n/JTwYM1MF3dG5lBg70h431es/e37rBJWwS
+ HvqLhOnBWwyq3az7JzsD1rINYUulBC6v1aY7hfjIBGSNbJnCr+6wUh0zO g==;
+X-IronPort-AV: E=Sophos;i="5.87,172,1631548800"; d="scan'208";a="182632586"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 22 Oct 2021 21:39:18 +0800
+IronPort-SDR: x5DI2Fw6IOYTLWf4ZlWNrI7uOiFH+KZ9Fi3k8aFEPZ0DQ2eggiKN+QV3pZjU8Ee6KNA+pt64P7
+ E3RLycBP+qojJz5HUjkAqC0SZM5LfaK77d4yMmlIjgma8els4ZHZ++Efn8jJ0LZIFJ/FzHPgxm
+ 1yirARm+LgRUf7ZrugVybkRZ2au0vtbXDcgLtWUySGmW/nVixGHa+2zvobpig5KduKkxvq5O8i
+ bU1DBw8kODjhFltLYPBJaN/eoMVuNpc051prvSOg6sPwaraiAHuFKtq7v76nMwc6nuOrUn7GgS
+ zdXWfIYpgX0jMX8zfRGrmeBu
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 06:13:15 -0700
-IronPort-SDR: vgIUfkidJ7mzd7JfDzj54CAc511SG+vSMIGF7oUnUXp3/nO5q9gZ5y6e9RcQVJ8gQzNJyDPFSg
- ONhlS9HQxaiDY1CDd1ckUuHe5Y1rar9VKMB4hhfGkVA3RO6JGIlE8m2cV8gyfmNbthBljZy6mC
- GXMvEyB888QDtvP0/IES91TrVOh3AhTDtYjmLHYqSz3AixVBIl9SdU75kTcuXL2q3Hm8FSkqc7
- P8VKA6Mk0UV4tUI+dZEhJaG/7nHqlIBNVqGFtRk7zItrHuqMXspLxMe6gC2r/sqifTvNEbnOGY
- R5c=
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2021 06:14:53 -0700
+IronPort-SDR: h5T3uCsCkJ6kvplS/1IZ7kqPA9OdrnySAtFY5qDwXhbdOuGlHDZ/eBCbg3XM67QOKpGD9i8ae6
+ /tbpdeOFtGQUy1hVvFNu+OPmpc7pQ7RJlfQL84YXMx+hz1sk+xZsvgae1e+NyXseVkjE5nKJSD
+ jih5zHyKCjgT79/PsIhZ7Jlt21PlP8yYXrpgo2Z9rmVjcG8OutRb2nSyfTthWXj/BwQUxaWR+Z
+ ibm2MlFpTUShwHlHI9mRy7W41MV2BbBkE8v+1vDJOEsEoe6OrWXtP0gS5lxmgmXrt47lTr584t
+ 89I=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 06:39:13 -0700
+ 22 Oct 2021 06:39:19 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HbQS11rXFz1RtVn
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 06:39:13 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HbQS63KWwz1RtVm
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 06:39:18 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1634909952; x=1637501953; bh=/EsC/RTOkV2XvnHOFK
- OA1r14eC57yHygNPuQQZky8l0=; b=Uk5b41DPDohBhuIbACBYG1tWZw5Y4ukJFJ
- xn9KENIyFfhBbbOCiiNywKV3/gufP06BYVsOocMZQ8yGPDp6O7KK3t1Xfux5pWBj
- 677o23uyVr6Nldi6P5uEZNXbEVQHr8CdioS5FPDC9gc0FQckxz9qHpNBq62YOsyk
- gAagV6cyn+cQc2pvXYbAE+VQO05afpLz7zzqNGTUDi4tjqKH1FvwurpZQCec9bDl
- d3AMEO9fkq6Vgvh0Na/KWfs/uCcJFq01xLOXyLnB7u1e/YO/7nTBgVT+iM5Ee9vI
- AUdRp+I4BMdwtfqcHm5LlO15zfTMjlcfkvxoeZaeRrkj4zcJtQlg==
+ :from; s=dkim; t=1634909958; x=1637501959; bh=EV/G3/L/beuAoU7qjn
+ 9Sh1uqgs8o/FR+FSpTeGAQbZA=; b=eSmcvAMYjEYzMW0nYHYvQ4FGP8hppIFK/O
+ EloH1MVSM/SIelx7v5p8x3GdJff7JydP8PcV95yyrzrcBGiOh2Y4bv2HCV3KoXy9
+ JbjCcd8bN6ptxEYtokk7zAfPQZxvmkaLJF+1euTM6yBL9F4YgyLeWvu3MKAA1sRU
+ 5dEchZdoDX39OphF1oxc+UaCtXu6pS0RVhsJ5iTMbbyUmrlFhNB69XnBhW0C/40S
+ E2DPsWFqDjYpjJ7SiMsEV5ddvlMEMqvg0s0AZPiH76b1RaY8uxXA+PQ7fpLkD2ha
+ aKF57JTlfKXppi3MbWu7ei5mxVY716hw0JISUk8EZAsgCu/VYTAA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 5yjrg7n0FgjW for <qemu-devel@nongnu.org>;
- Fri, 22 Oct 2021 06:39:12 -0700 (PDT)
+ port 10026) with ESMTP id kwnkmqmr8nOw for <qemu-devel@nongnu.org>;
+ Fri, 22 Oct 2021 06:39:18 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.39])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HbQRw4DvZz1RtVl;
- Fri, 22 Oct 2021 06:39:07 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HbQS206llz1RtVl;
+ Fri, 22 Oct 2021 06:39:13 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Frank Chang <frank.chang@sifive.com>, Bin Meng <bmeng.cn@gmail.com>
-Subject: [PULL 07/33] target/riscv: Organise the CPU properties
-Date: Fri, 22 Oct 2021 23:37:46 +1000
-Message-Id: <20211022133812.3972903-8-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 08/33] target/riscv: Move cpu_get_tb_cpu_state out of line
+Date: Fri, 22 Oct 2021 23:37:47 +1000
+Message-Id: <20211022133812.3972903-9-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211022133812.3972903-1-alistair.francis@opensource.wdc.com>
 References: <20211022133812.3972903-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=68.232.141.245;
+Received-SPF: pass client-ip=216.71.154.42;
  envelope-from=prvs=9222bbd82=alistair.francis@opensource.wdc.com;
- helo=esa1.hgst.iphmx.com
+ helo=esa4.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -115,64 +116,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Organise the CPU properties so that standard extensions come first
-then followed by experimental extensions.
+Move the function to cpu_helper.c, as it is large and growing.
 
+Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20211020031709.359469-2-richard.henderson@linaro.org
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: b6598570f60c5ee7f402be56d837bb44b289cc4d.1634531504.git.alist=
-air.francis@wdc.com
 ---
- target/riscv/cpu.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ target/riscv/cpu.h        | 47 ++-------------------------------------
+ target/riscv/cpu_helper.c | 46 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+), 45 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 660f9ce131..11bb59ac6d 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -581,6 +581,7 @@ static void riscv_cpu_init(Object *obj)
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index ce42c83bda..f543364d51 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -413,51 +413,8 @@ static inline uint32_t vext_get_vlmax(RISCVCPU *cpu,=
+ target_ulong vtype)
+     return cpu->cfg.vlen >> (sew + 3 - lmul);
  }
 =20
- static Property riscv_cpu_properties[] =3D {
-+    /* Defaults for standard extensions */
-     DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
-     DEFINE_PROP_BOOL("e", RISCVCPU, cfg.ext_e, false),
-     DEFINE_PROP_BOOL("g", RISCVCPU, cfg.ext_g, true),
-@@ -591,22 +592,24 @@ static Property riscv_cpu_properties[] =3D {
-     DEFINE_PROP_BOOL("c", RISCVCPU, cfg.ext_c, true),
-     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
--    /* This is experimental so mark with 'x-' */
-+    DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-+    DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-+    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-+    DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-+    DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-+
-+    DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-+
-+    /* These are experimental so mark with 'x-' */
-     DEFINE_PROP_BOOL("x-zba", RISCVCPU, cfg.ext_zba, false),
-     DEFINE_PROP_BOOL("x-zbb", RISCVCPU, cfg.ext_zbb, false),
-     DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
-     DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
--    DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
--    DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
--    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
--    DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
--    DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
--    DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-     /* ePMP 0.9.3 */
-     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+-static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong=
+ *pc,
+-                                        target_ulong *cs_base, uint32_t =
+*pflags)
+-{
+-    uint32_t flags =3D 0;
+-
+-    *pc =3D env->pc;
+-    *cs_base =3D 0;
+-
+-    if (riscv_has_ext(env, RVV)) {
+-        uint32_t vlmax =3D vext_get_vlmax(env_archcpu(env), env->vtype);
+-        bool vl_eq_vlmax =3D (env->vstart =3D=3D 0) && (vlmax =3D=3D env=
+->vl);
+-        flags =3D FIELD_DP32(flags, TB_FLAGS, VILL,
+-                    FIELD_EX64(env->vtype, VTYPE, VILL));
+-        flags =3D FIELD_DP32(flags, TB_FLAGS, SEW,
+-                    FIELD_EX64(env->vtype, VTYPE, VSEW));
+-        flags =3D FIELD_DP32(flags, TB_FLAGS, LMUL,
+-                    FIELD_EX64(env->vtype, VTYPE, VLMUL));
+-        flags =3D FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
+-    } else {
+-        flags =3D FIELD_DP32(flags, TB_FLAGS, VILL, 1);
+-    }
+-
+-#ifdef CONFIG_USER_ONLY
+-    flags |=3D TB_FLAGS_MSTATUS_FS;
+-#else
+-    flags |=3D cpu_mmu_index(env, 0);
+-    if (riscv_cpu_fp_enabled(env)) {
+-        flags |=3D env->mstatus & MSTATUS_FS;
+-    }
+-
+-    if (riscv_has_ext(env, RVH)) {
+-        if (env->priv =3D=3D PRV_M ||
+-            (env->priv =3D=3D PRV_S && !riscv_cpu_virt_enabled(env)) ||
+-            (env->priv =3D=3D PRV_U && !riscv_cpu_virt_enabled(env) &&
+-                get_field(env->hstatus, HSTATUS_HU))) {
+-            flags =3D FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
+-        }
+-
+-        flags =3D FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
+-                           get_field(env->mstatus_hs, MSTATUS_FS));
+-    }
+-#endif
+-
+-    *pflags =3D flags;
+-}
++void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
++                          target_ulong *cs_base, uint32_t *pflags);
 =20
+ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+                            target_ulong *ret_value,
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index d41d5cd27c..14d1d3cb72 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -35,6 +35,52 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetc=
+h)
+ #endif
+ }
+=20
++void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
++                          target_ulong *cs_base, uint32_t *pflags)
++{
++    uint32_t flags =3D 0;
++
++    *pc =3D env->pc;
++    *cs_base =3D 0;
++
++    if (riscv_has_ext(env, RVV)) {
++        uint32_t vlmax =3D vext_get_vlmax(env_archcpu(env), env->vtype);
++        bool vl_eq_vlmax =3D (env->vstart =3D=3D 0) && (vlmax =3D=3D env=
+->vl);
++        flags =3D FIELD_DP32(flags, TB_FLAGS, VILL,
++                    FIELD_EX64(env->vtype, VTYPE, VILL));
++        flags =3D FIELD_DP32(flags, TB_FLAGS, SEW,
++                    FIELD_EX64(env->vtype, VTYPE, VSEW));
++        flags =3D FIELD_DP32(flags, TB_FLAGS, LMUL,
++                    FIELD_EX64(env->vtype, VTYPE, VLMUL));
++        flags =3D FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
++    } else {
++        flags =3D FIELD_DP32(flags, TB_FLAGS, VILL, 1);
++    }
++
++#ifdef CONFIG_USER_ONLY
++    flags |=3D TB_FLAGS_MSTATUS_FS;
++#else
++    flags |=3D cpu_mmu_index(env, 0);
++    if (riscv_cpu_fp_enabled(env)) {
++        flags |=3D env->mstatus & MSTATUS_FS;
++    }
++
++    if (riscv_has_ext(env, RVH)) {
++        if (env->priv =3D=3D PRV_M ||
++            (env->priv =3D=3D PRV_S && !riscv_cpu_virt_enabled(env)) ||
++            (env->priv =3D=3D PRV_U && !riscv_cpu_virt_enabled(env) &&
++                get_field(env->hstatus, HSTATUS_HU))) {
++            flags =3D FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
++        }
++
++        flags =3D FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
++                           get_field(env->mstatus_hs, MSTATUS_FS));
++    }
++#endif
++
++    *pflags =3D flags;
++}
++
+ #ifndef CONFIG_USER_ONLY
+ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+ {
 --=20
 2.31.1
 
