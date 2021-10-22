@@ -2,99 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16ED043784B
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 15:46:57 +0200 (CEST)
-Received: from localhost ([::1]:35858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3EE437859
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Oct 2021 15:49:21 +0200 (CEST)
+Received: from localhost ([::1]:44404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdusq-0004mS-4e
-	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 09:46:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56942)
+	id 1mduvA-00026U-Px
+	for lists+qemu-devel@lfdr.de; Fri, 22 Oct 2021 09:49:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9222bbd82=alistair.francis@opensource.wdc.com>)
- id 1mdulF-0007z1-QQ
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:39:05 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:60325)
+ id 1mdulM-00089M-9q
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:39:13 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:13246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9222bbd82=alistair.francis@opensource.wdc.com>)
- id 1mdulD-0000vk-Fv
- for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:39:05 -0400
+ id 1mdulJ-0000xx-Qk
+ for qemu-devel@nongnu.org; Fri, 22 Oct 2021 09:39:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1634909944; x=1666445944;
+ t=1634909949; x=1666445949;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XYdaywEPe4fL/1Ff2mytu134Il7CC9k0MP9aLw/zd2o=;
- b=qY/8H5NLRqbHLoj1N5dtVGpDccTAOUpuUkpH+SeeoAbA6P5rt3Cp0bGe
- XhX6fRmKYcrX+Z571RLJx/cdRUozC1C5Y4q3dv3SmmDf5862Ku8hSEJw2
- IswRlO60oWmqUlmSSHvG/X4TFzPNeehc7TZM+vCJHURGI3+8MwraSUFMX
- R3lV1my4UHYiazUARtLB2r0swSmw5cNpXn9/d7y3r05H05Rea8pT7Rf6W
- m7ZmA63asS2d87enrdnt004qRCchWVXZVD6kI0LniepalZkudv2WHHCJL
- VhjKFWVmQ+meRTPm+ZB1ZfwsCS57TAaHAiQrAv3ceUdKnLG8ff2Fjj7Li w==;
-X-IronPort-AV: E=Sophos;i="5.87,172,1631548800"; d="scan'208";a="184556253"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 22 Oct 2021 21:39:03 +0800
-IronPort-SDR: TTHHlUzXaHD6SPsbkdpm5KrC/wkprUOB21pqQ5++YEPR/xTAi+WWH9ny25kM3AxIV3Mat5FMKW
- YNx0v75Hf59euIvJAy7EYd7XbPQVMrbYHxhzjNvLt0L9mSy01JyCAIvQ6mTamWrCm42vRZp86F
- aEinAxH2P+IUzQ6+4qj5hzZkl4kgL2K1szsXIvWzniAnT6fhbB1OuK/0I0aNKGyBrutQyBzwA8
- QNmAhYJgxhaCKeEdD7K3X53E69BeSrdVnTGhIklyqTYl2EeHiqlzRV4JvIQM+wC9ekJN6T6g0P
- 3UUp2YMrImlgFeF2EMgPedi0
+ bh=XLkjPH1Pk1fNoGQSHYmS/4f1zxx0xDys1xNOCrOTxvs=;
+ b=ltcbgyKs84euXIZixtNqVVunxEgMQVftu/qv1Pu+gaGL/bhbGaIp7i4i
+ 5B0rAge0hO3xOnDoeqx+Gp9HdH94aWVK5ZM24qLZPpb2i0nnlvBHIJeZK
+ dbJx0QlfqUnZbpKXA30FDxn8glXP8cBcYWDDR7lvMKvU1K5ePDjSKkDGX
+ uA0BM1hTR/vSpKuOThtUtGIBx9UI0GKdkyhIgoiSTqSQ4CmyRdm2NHD3z
+ 5oiEMN34OpTIpaNgZI21arNAPEcEXm3loKx7GrwKZfRbsW82mmgSI/fk3
+ SH/M3400RHdsRq7CU+9U9bk/xrWosp9NjOU2pXzI5pp0ExRiEPylrE9/g g==;
+X-IronPort-AV: E=Sophos;i="5.87,172,1631548800"; d="scan'208";a="287492680"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 22 Oct 2021 21:39:07 +0800
+IronPort-SDR: efzdi3cCYoMSV5tfA7ZAQJtkk4jor4u9ZHWDPlOXP1m6pEvK83D1Q6K3Vl8MWoOJwSm2Ws8bim
+ Oc8vTXiDwikKkT5ils0pCnADcTW6mBtE5g9TCBoVlTW1QD0YlCELYLi3BRVHaCY0eQLX3jY2lS
+ Q3i9NLuBQT7AXCiBkeQN74j2RUQloVFwrn+3WVZhoqcgPvEEXC8OzXtaIkltGOsKcOAc6rhFe6
+ qtu7sBDUiLtP7VCzgtqIl7i0aGrElmAbx81rv8asxMW5P4pp0ZVd+JObxMWaGZeJz8uv76qp2o
+ Hag8/twpssbfkDoLkD+tOVfB
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 06:14:37 -0700
-IronPort-SDR: 9PYm1anEc05j3XtIJqZ0WuqIe20Gqv89BEX5snedAAPzJYZSZKP1BgaHd1jUz+DAd76+DhbA0t
- Zn48JqJQ2hecuVfZcGfmEfLxNXmAnynkMrzTRYNMKVQnff8MdJ9BIFNZtuLjp/AM5yFBDKVkdK
- QZ/K9fy27b/D3hYZ6P7YVNVwlSIJ1X6XbqqwAZ+doDqoyqyGbOx8hsQht2viw6fPVt26RMvArD
- gSk+pSIzAnpgmKiQtrUuhinixpqjEUrF/xbqqw1hKPzPUwdFyoiBeI0IqLmoTHADW69NGuJ+Yt
- S9A=
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2021 06:13:10 -0700
+IronPort-SDR: xO2k4QPiN1TS5uxYil0uRbja3RT1uEwJhpOSgHGmuPTJNQmMiwh4whOducKSn8A6xll1iD2s7w
+ k6JDQAj3jvDTnH1rscIkQLX3npMp29FfzVAb7uL6rIUud2nF3bBm5h1pNZG8oHIz1eej3GFJNT
+ A/Pxc/D3/2fGIiwzIWgCWuN3b5GzMHu4649xrinI271qVXBVxSLl4XU+AVbx3I8/21hqPYg+TF
+ +blAOO7QRu0RRfPOdc0J5lmuxOFUmsXzi3RoaqWm1b/BSHEy7SydBnH8aPSrTQXs5oC2Le98p+
+ H1I=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 06:39:02 -0700
+ 22 Oct 2021 06:39:08 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HbQRn73kWz1RtVm
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 06:39:01 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HbQRv5Hs7z1RtVn
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 06:39:07 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1634909941; x=1637501942; bh=XYdaywEPe4fL/1Ff2m
- ytu134Il7CC9k0MP9aLw/zd2o=; b=NJnHSN3sVI2+JVDRGfIvzC5rdpPXZyGHkT
- mUoV/kvlCgLNSTvZ8BT4i4WkqqCiXtdReuov838J8aDc+6gC6uFX2HnBiUZZBS0L
- MBGp43zpWS754MgSZittqiyhRGQjik/1xpTXFsYw67oktVNl2vPbsCrxZzovvJDt
- Mv5DVS2TAxKHQLn5bWPInX19DpAWRE2XUTZaj7esn8LiWmYVWbGw5NqMLyzMW+px
- 1v/Zvv4Z7FdgJNWA3hVQgyPg9kzQiyQWvpBORbu5ANux5TiUquRGPnaW4TVFT2gX
- HpQr2MvtUca8Sk4craztML9aGmr1dTCNeCEoJV286w2t8320Oy8Q==
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1634909947; x=1637501948; bh=XLkjPH1
+ Pk1fNoGQSHYmS/4f1zxx0xDys1xNOCrOTxvs=; b=SBTmyJ0zEzBQJ8U5bUrGhkr
+ lKHYBFnWHkwh1a4RoqXlmm0ncAzsFEwEI5Z/hPzhtHFU3lY2CD1zTNH9SjcM62Ub
+ Oriod7Q4A4QWshDv34bO6obUzL0jTp73BWr1a0ikyIGxzbbhJHLBWaqWLW7w803B
+ FDIGkKAu0lINaYipkrpjV4nmY0jHChyRMUIrLnYQM8IHgG16uH8+NNlBkG6S7/Kc
+ acqJX51M8XBimfHrophhX9/1hjlXnUWDzfarsrr36i0BiYSB/pPeJxmdp5nccj1H
+ kmJJRxfpgS2a0ROpZMdmKlgo9sQS/dzfRG5OvOYO1O+4dCgeZR7f5al2JrSy/qw=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 64fm03kJE9du for <qemu-devel@nongnu.org>;
- Fri, 22 Oct 2021 06:39:01 -0700 (PDT)
+ port 10026) with ESMTP id QhpWwc6LSYEb for <qemu-devel@nongnu.org>;
+ Fri, 22 Oct 2021 06:39:07 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.39])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HbQRj4YDRz1RtVl;
- Fri, 22 Oct 2021 06:38:57 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HbQRp5LQJz1RtVl;
+ Fri, 22 Oct 2021 06:39:02 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 05/33] target/riscv: fix TB_FLAGS bits overlapping bug for
- rvv/rvh
-Date: Fri, 22 Oct 2021 23:37:44 +1000
-Message-Id: <20211022133812.3972903-6-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ Frank Chang <frank.chang@sifive.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Bin Meng <bmeng.cn@gmail.com>
+Subject: [PULL 06/33] target/riscv: Remove some unused macros
+Date: Fri, 22 Oct 2021 23:37:45 +1000
+Message-Id: <20211022133812.3972903-7-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211022133812.3972903-1-alistair.francis@opensource.wdc.com>
 References: <20211022133812.3972903-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.45;
+Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=9222bbd82=alistair.francis@opensource.wdc.com;
- helo=esa6.hgst.iphmx.com
+ helo=esa2.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -117,71 +119,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-TB_FLAGS mem_idx bits was extended from 2 bits to 3 bits in
-commit: c445593, but other TB_FLAGS bits for rvv and rvh were
-not shift as well so these bits may overlap with each other when
-rvv is enabled.
+Since commit 1a9540d1f1a
+("target/riscv: Drop support for ISA spec version 1.09.1")
+these definitions are unused, remove them.
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20211015074627.3957162-2-frank.chang@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-id: f4d8a7a035f39c0a35d44c1e371c5c99cc2fa15a.1634531504.git.alist=
+air.francis@wdc.com
 ---
- target/riscv/cpu.h       | 14 +++++++-------
- target/riscv/translate.c |  2 +-
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ target/riscv/cpu_bits.h | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 9e55b2f5b1..ce42c83bda 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -378,7 +378,6 @@ void QEMU_NORETURN riscv_raise_exception(CPURISCVStat=
-e *env,
- target_ulong riscv_cpu_get_fflags(CPURISCVState *env);
- void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 999187a9ee..3aa2512d13 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -427,14 +427,6 @@
+ #define SATP64_ASID         0x0FFFF00000000000ULL
+ #define SATP64_PPN          0x00000FFFFFFFFFFFULL
 =20
--#define TB_FLAGS_MMU_MASK   7
- #define TB_FLAGS_PRIV_MMU_MASK                3
- #define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
- #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
-@@ -387,13 +386,14 @@ typedef CPURISCVState CPUArchState;
- typedef RISCVCPU ArchCPU;
- #include "exec/cpu-all.h"
-=20
--FIELD(TB_FLAGS, VL_EQ_VLMAX, 2, 1)
--FIELD(TB_FLAGS, LMUL, 3, 2)
--FIELD(TB_FLAGS, SEW, 5, 3)
--FIELD(TB_FLAGS, VILL, 8, 1)
-+FIELD(TB_FLAGS, MEM_IDX, 0, 3)
-+FIELD(TB_FLAGS, VL_EQ_VLMAX, 3, 1)
-+FIELD(TB_FLAGS, LMUL, 4, 2)
-+FIELD(TB_FLAGS, SEW, 6, 3)
-+FIELD(TB_FLAGS, VILL, 9, 1)
- /* Is a Hypervisor instruction load/store allowed? */
--FIELD(TB_FLAGS, HLSX, 9, 1)
--FIELD(TB_FLAGS, MSTATUS_HS_FS, 10, 2)
-+FIELD(TB_FLAGS, HLSX, 10, 1)
-+FIELD(TB_FLAGS, MSTATUS_HS_FS, 11, 2)
-=20
- bool riscv_cpu_is_32bit(CPURISCVState *env);
-=20
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 6d7fbca1fa..62214e97fa 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -501,7 +501,7 @@ static void riscv_tr_init_disas_context(DisasContextB=
-ase *dcbase, CPUState *cs)
-     uint32_t tb_flags =3D ctx->base.tb->flags;
-=20
-     ctx->pc_succ_insn =3D ctx->base.pc_first;
--    ctx->mem_idx =3D tb_flags & TB_FLAGS_MMU_MASK;
-+    ctx->mem_idx =3D FIELD_EX32(tb_flags, TB_FLAGS, MEM_IDX);
-     ctx->mstatus_fs =3D tb_flags & TB_FLAGS_MSTATUS_FS;
-     ctx->priv_ver =3D env->priv_ver;
- #if !defined(CONFIG_USER_ONLY)
+-/* VM modes (mstatus.vm) privileged ISA 1.9.1 */
+-#define VM_1_09_MBARE       0
+-#define VM_1_09_MBB         1
+-#define VM_1_09_MBBID       2
+-#define VM_1_09_SV32        8
+-#define VM_1_09_SV39        9
+-#define VM_1_09_SV48        10
+-
+ /* VM modes (satp.mode) privileged ISA 1.10 */
+ #define VM_1_10_MBARE       0
+ #define VM_1_10_SV32        1
 --=20
 2.31.1
 
