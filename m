@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0364385C2
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 00:14:45 +0200 (CEST)
-Received: from localhost ([::1]:58730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15CD84385EA
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 01:23:37 +0200 (CEST)
+Received: from localhost ([::1]:43462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mePHo-0008KB-Nj
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 18:14:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41268)
+	id 1meQMP-0006uH-TA
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 19:23:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1meOum-0008Cq-BS
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 17:50:56 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37505)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1meQLD-000615-Tc
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 19:22:19 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:33351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1meOug-0006M8-BQ
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 17:50:55 -0400
-Received: by mail-wr1-x435.google.com with SMTP id e12so4790301wra.4
- for <qemu-devel@nongnu.org>; Sat, 23 Oct 2021 14:50:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QX0MqgtzyZKOctor19fJypxbHtnwnz4pOB3v/AvZpLk=;
- b=a9WAet9wlHs/m6yUXVfaEv9ZQHmNcINmLCfX2FwCy+oPlBiSWkaVSCIt7dk1NeuD1W
- LcQW7WIOKgE+4/y8RYJOad9vONB0qjptd8eeDTppAOg7vPlct4et5G17sUNuCoWx97d6
- 4TxmHr9RYMe1RT0RY6GaaOW+I/lr3r+ixb4kqZEBG3Wl0i/YxYwrNDk/Dp/EsrwojsAD
- 31O4DoHWixW6QvQOIA5xTocWei7y6IxYpdZhjI0DGn56cJPMUOWccj8UhabsfzxOo05Q
- VeNTgpfUu5m71rIxZVFVRa+uIuH6lwXSd8gSQ55OJrPZ5jmBdTVu3RKaxtvDPBa95Okl
- TSPw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1meQLC-0003Tc-6d
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 19:22:19 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id r28so2606677pga.0
+ for <qemu-devel@nongnu.org>; Sat, 23 Oct 2021 16:22:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=JlEd7L5mIZV85VxDWrRYcS9At90Io6zRb25Py7kAKu8=;
+ b=JK9Dre0dX6Sz0YH+Ash1TM/KCAdaGtmftvr0iway05ySRxj8AUdSbKj3E/qSvzwoBZ
+ yLY3Eako2fbCjjv4OQc6j5OgZFxCnbBazCC60pDYhba7Z+Hgnk2aF7BbUzyIoMcdXXhg
+ 94G1Zuffzi4fUlAB1FvcQwG3d0u0YI06ml+ZR1WdZmQgFvbdS2fabw7lxB/JbuCOE1T7
+ QufHAuH1zDt/KePYxLJ1KQHLHX6ESGKtQ4Kkvexx4OkO43xXzkP8TVGw+UOQ6P+xaJqo
+ 47q+msz7r7w0X5cPRyoha7hGI49kd0VLHUJgv0vf9Kuc6FNx4Tn6Cuo//79n3Khgzxrw
+ igpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=QX0MqgtzyZKOctor19fJypxbHtnwnz4pOB3v/AvZpLk=;
- b=pOMoT6FEknO9iOPtojgmZoG+/6Y/Xx+VW4WyYn+4yjzG0zEwh85nWXsuG/m3VRSwqY
- 1VTmTe5Qxn5UKwTj5aYwh2gl7lNCuXOH06xMVpNz6T5zo6tfFILpguzoBy6wntrVs+7y
- sdFfSbHBHoHlJn4asMtkznabxjqm1VQmSCRfmRsXAiRcp4xfSJuthRJa4HQx1EzraB9l
- VZRaxC2s8h7w4GZkpHJtpPOeI2055a1aekNQSouT3Bhsl3As/eb0WhIit0zkqDOWFlJ4
- evIni4b0p8145pd6lKrUse/ki0NkGTplYsdLElp+RJ9RAXxD0DO7fT1ZBwBiAsEuCL0k
- 2uyw==
-X-Gm-Message-State: AOAM530XnVg5Y7JvTl7WJr6FGsbBst6HR4HVDcaB81IlXvErM5MYbdst
- B+NgkSRSM27ING78srj8gbNLDVxX2aE=
-X-Google-Smtp-Source: ABdhPJzwzbWy4hC6N9VL4jOhne6J1b8w6nWQ24GmtOpZ6a8lxON6prJKBAxJBSU/vKsUHrl36LVyDA==
-X-Received: by 2002:a05:6000:128f:: with SMTP id
- f15mr10517415wrx.143.1635025848768; 
- Sat, 23 Oct 2021 14:50:48 -0700 (PDT)
-Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id
- c17sm11722128wmk.23.2021.10.23.14.50.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Oct 2021 14:50:48 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 33/33] target/mips: Adjust style in msa_translate_init()
-Date: Sat, 23 Oct 2021 23:48:03 +0200
-Message-Id: <20211023214803.522078-34-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211023214803.522078-1-f4bug@amsat.org>
-References: <20211023214803.522078-1-f4bug@amsat.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JlEd7L5mIZV85VxDWrRYcS9At90Io6zRb25Py7kAKu8=;
+ b=CUdfOwbl3Qy2bIePagJVB5jXdoHoin2wpvObCUGHvc1xICPaphZ90Tf4nmrnoEyKlQ
+ tCIGta6NR8QTarXoIoFZtoOc1Rhiz8jqoU3sfPeT6T3aBUT+mhNohVt7uVoPaj3jpuj4
+ TAiIBSo9Jbg0LOMHiMXnzNjRwvkeFdV2VpeilugWEP521w180q6O3I8bMrl4KtQClR1+
+ /sU/aNK1ohWi0Pr8O7QoiBih/RFF62DZrJEHT0OBTAVyOnlm1aZZ1TOIOTuEaGkwFoCJ
+ aluwsmIiGkCh5ygF6GbfeU9W7fGg7EG17Z8wx7T+cRn0Bx3vCkCFGgwqZga/WzXzNFXc
+ aaOg==
+X-Gm-Message-State: AOAM533q5wNL0YYPBatCDYNBXM5yfuC36stDDKeKKOn+gB1RZ9MEDLWJ
+ SJClJWTLlVIFZhbNKvOxQwD1fQ==
+X-Google-Smtp-Source: ABdhPJyAAn/zibXBeuU+tDepH7T+2k0VV9s3bcPPez4DUYV83ZgkgqL32yKi1dXS7u35msi/rTPTPA==
+X-Received: by 2002:a63:b203:: with SMTP id x3mr6504449pge.239.1635031335808; 
+ Sat, 23 Oct 2021 16:22:15 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id v9sm14328206pfc.23.2021.10.23.16.22.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 23 Oct 2021 16:22:15 -0700 (PDT)
+Subject: Re: [PULL 00/11] Trivial branch for 6.2 patches
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20211023183123.813116-1-laurent@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <24f16c0d-a021-25ba-75d8-656d85e54f88@linaro.org>
+Date: Sat, 23 Oct 2021 16:22:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20211023183123.813116-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.781,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,45 +86,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Luis Pires <luis.pires@eldorado.org.br>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While the first 'off' variable assignment is unused, it helps
-to better understand the code logic. Move the assignation where
-it would have been used so it is easier to compare the MSA
-registers based on FPU ones versus the MSA specific registers.
+On 10/23/21 11:31 AM, Laurent Vivier wrote:
+> The following changes since commit 1dafe7656a9c2770065e91208edd4c073f5f98a9:
+> 
+>    Merge remote-tracking branch 'remotes/vivier-m68k/tags/q800-pull-request' into staging (2021-10-22 07:47:13 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    git://github.com/vivier/qemu.git tags/trivial-branch-for-6.2-pull-request
+> 
+> for you to fetch changes up to 2c92be50bcfa8b7529a39fc99078ef14dcfc71aa:
+> 
+>    analyze-migration.py: fix extract contents ('-x') errors (2021-10-23 20:28:56 +0200)
+> 
+> ----------------------------------------------------------------
+> Trivial patches pull request 20211023
+> 
+> ----------------------------------------------------------------
+> 
+> Greg Kurz (2):
+>    softmmu/physmem.c: Fix typo in comment
+>    README: Fix some documentation URLs
+> 
+> Laurent Vivier (2):
+>    analyze-migration.py: fix a long standing typo
+>    analyze-migration.py: fix extract contents ('-x') errors
+> 
+> Oğuz Ersen (1):
+>    po: update turkish translation
+> 
+> Philippe Mathieu-Daudé (3):
+>    disas/nios2: Fix style in print_insn_nios2()
+>    disas/nios2: Simplify endianess conversion
+>    MAINTAINERS: Add myself as reviewer of 'Machine core' API
+> 
+> Tong Ho (3):
+>    hw/nvram: Fix Memory Leak in Xilinx eFuse QOM
+>    hw/nvram: Fix Memory Leak in Xilinx Versal eFuse device
+>    hw/nvram: Fix Memory Leak in Xilinx ZynqMP eFuse device
+> 
+>   MAINTAINERS                       |  1 +
+>   README.rst                        | 14 +++---
+>   disas/nios2.c                     | 73 ++++++++++++-------------------
+>   hw/nvram/xlnx-efuse.c             |  9 ++--
+>   hw/nvram/xlnx-versal-efuse-ctrl.c | 20 ++++++---
+>   hw/nvram/xlnx-zynqmp-efuse.c      | 18 +++++---
+>   include/disas/dis-asm.h           |  3 +-
+>   po/tr.po                          | 25 +++++------
+>   scripts/analyze-migration.py      |  6 +--
+>   softmmu/physmem.c                 |  2 +-
+>   target/nios2/cpu.c                |  6 +--
+>   11 files changed, 87 insertions(+), 90 deletions(-)
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/mips/tcg/msa_translate.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Applied, thanks.
 
-diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
-index 5d8cad378e6..d196cad196b 100644
---- a/target/mips/tcg/msa_translate.c
-+++ b/target/mips/tcg/msa_translate.c
-@@ -80,13 +80,15 @@ void msa_translate_init(void)
-     int i;
- 
-     for (i = 0; i < 32; i++) {
--        int off = offsetof(CPUMIPSState, active_fpu.fpr[i].wr.d[0]);
-+        int off;
- 
-         /*
-          * The MSA vector registers are mapped on the
-          * scalar floating-point unit (FPU) registers.
-          */
-+        off = offsetof(CPUMIPSState, active_fpu.fpr[i].wr.d[0]);
-         msa_wr_d[i * 2] = fpu_f64[i];
-+
-         off = offsetof(CPUMIPSState, active_fpu.fpr[i].wr.d[1]);
-         msa_wr_d[i * 2 + 1] =
-                 tcg_global_mem_new_i64(cpu_env, off, msaregnames[i * 2 + 1]);
--- 
-2.31.1
+r~
 
 
