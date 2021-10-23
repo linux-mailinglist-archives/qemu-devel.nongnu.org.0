@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4883E4384B5
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 20:34:49 +0200 (CEST)
-Received: from localhost ([::1]:46332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0739B4384B4
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 20:34:48 +0200 (CEST)
+Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meLqy-00085c-D7
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 14:34:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56956)
+	id 1meLqw-00082V-TK
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 14:34:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1meLnp-0005Cn-6t; Sat, 23 Oct 2021 14:31:33 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:42101)
+ id 1meLno-0005Cm-OR; Sat, 23 Oct 2021 14:31:33 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:56289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1meLnm-0006VB-2z; Sat, 23 Oct 2021 14:31:32 -0400
+ id 1meLnm-0006Vr-2t; Sat, 23 Oct 2021 14:31:32 -0400
 Received: from quad ([82.142.24.54]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MLRI3-1mNVjq01DP-00ITIh; Sat, 23
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MmlCY-1n4MsV1wqk-00jrTS; Sat, 23
  Oct 2021 20:31:25 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/11] Trivial branch for 6.2 patches
-Date: Sat, 23 Oct 2021 20:31:12 +0200
-Message-Id: <20211023183123.813116-1-laurent@vivier.eu>
+Subject: [PULL 01/11] po: update turkish translation
+Date: Sat, 23 Oct 2021 20:31:13 +0200
+Message-Id: <20211023183123.813116-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211023183123.813116-1-laurent@vivier.eu>
+References: <20211023183123.813116-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:y3WQcbTvm3v86VWDWzPerYzFJS6NCRrTCQa7A5Srprz5+k/Q6W9
- P3SSkrlpCFdvBO5jksxzB/XBb/+2WpvmdxqIOncyzcz0docwMpBqj34QNhM4G/dNiQxtp8i
- 0QHJuzeUuqVlfUONeQp1872Ls9c1YpW3y6D5we9aStcVSW4F5h+z2Mvz7yPodA4rYcOlTk8
- A5kGhgdM1nakbkab7OrjA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4WWFyjQuWbI=:nCqKa3FRoVCT3dOFp5DAvf
- fCUrNTNd1iV3JTz9uvklmQLykaI5guthjc29GpMZMjWY3ZZlVy6swFix0u0638ZFJ1hjVfo3t
- 6RgIosYK59dm5csjQFIzMvSGeRIkr8DyzeDmlwA5XQ5ZhcFpvcf1n0zX6qWKwDntStz4hhgTi
- Qb7Xi4xwB02We1YljSBrjQEqxBPUPeW5z8EPQO0NxrbHkb1VEpX9tFiROWiP7GCyT0doqreL3
- ceEiqgsPUOdBZjgLNRoLSxKA8wXTlArMSd5U8etBLQ3LaZC0L84fHhFMjYCh+0EWFiVLDsynH
- WTBfPME/Cq0m7OOuYpRAACZ6dMDPTy6FfKIb7fhFPuootzLf/7Y1sXv4zyV79aEE06LUFxhTl
- NxCRvWuNiI5i6cJ8lRHthLuTtNOnEWakLEFX2451r+9Tew07PJOjPKxO3dv0CTM+1iduCmBTx
- AzYfIeobDXJ/DEX76Dbauk6KBWFYENg4MoNreUvRBtjEZxqLQVTmGDkXhFzv3m5tLHyCf5BCj
- D0e8h50Ml4nIsI7wlXedCzbxhUnH7F0warzhPc/xXaCmijlkdZDfly6Pp1whhqMAWJydaXbxz
- 5qlcy8l6Aob5xzC9idb5PpQpN7WMa8UF4GERVZsjPcFTKK77uCdCx/35sHeUdqh+N6i6hn02m
- C6/J9Ult9Isg5owTzrGJiCdTiuKHGYAiXMJH0MjMAPnYN9mh98LqC9QEB5DsBZkhWH0M=
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:q42VG5CpW34qgtqnsD3n0pcV2PKrltN3ceYw+vxEnAkdMd28jOM
+ G8MNbI9NZfKsKUGzy/deqsyeWZEZBLd7+SRw0wMox4rHH9j2QRYRyDl8e2XEZwCdxtXWo84
+ fYEkuE66sU6YOa8hFcznVKyO02TC5GiMpGFKrvBnX5gziTclYnNIqxAEmJ4OtOpebm47inc
+ 15H3SCZm2T3U12KKL4Kvw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UelQeXauHDY=:1SW5WqoutapakELsUZjrb/
+ wsN0n3u6e+HhprkDZeWD7oKYTiB0pvJQVbQQAEDyHsTDMpyBHJjhAqrdwKnIx+kzkgt16lWFI
+ wu8rSIQ8GsxTS9x1KkATcSQk/fVVf7oFz7nIEI4wCtngytjatjga3MO6TcUHbCjeQjgb82hHO
+ BrRE7KW3r9PL95kMWBWi3qe4wQrStovUgfAQK0Zn0lbSLzWTmdjM26KcnQM8znK1g/aeGzvaB
+ yDEcc80uNFtXMoynW3UCu4SYF4xyGljmrkcTpjGdIMOZhSyN6b+0OBWP8dkCHewQW2oe0Ql4V
+ 5V+qSF0e6elKKH1AehvQk83Q7FnGC5+P5GeIb3CbTXs4re/X0JjrpEYeqD7gM/UKwnnc62Q+S
+ kAXlpF8+LHgUtq2L13PDrXPCf1Tdll5ZD2a99oVwnOP8lAIypV/XrsZxshIJMVdy3oGQz8InP
+ qzJMSbqaep0Nr1tHDwuJYIjGrumtp5r38oT47MpJBzhw9VngFabB4iVfzdv1ANuOR/29E1MjS
+ rkBCuJ/4bwe8+EArzuZilVmbEgWCL0YvwycCLAvIotXPMzrby7fu5v+bSmt5dm7UoaPJgaSUV
+ fnIBqJG+G1zKeIKj9LvgHvfklpcdqky6akRh+jGL6b+tzmpk7O/rYjgo37XCATP7vtaDQH9yv
+ 9puPBTYJUf7UgKzqAM4hP/qNVHjEO/2U1jcZJDGiztEPXp2q2U7gT8KFoFUYWyU16tG0=
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,66 +66,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?O=C4=9Fuz=20Ersen?= <oguzersen@protonmail.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 1dafe7656a9c2770065e91208edd4c073f5f98a9=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/vivier-m68k/tags/q800-pull-request'=
- into staging (2021-10-22 07:47:13 -0700)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/trivial-branch-for-6.2-pull-request=
-=0D
-=0D
-for you to fetch changes up to 2c92be50bcfa8b7529a39fc99078ef14dcfc71aa:=0D
-=0D
-  analyze-migration.py: fix extract contents ('-x') errors (2021-10-23 20:2=
-8:56 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-Trivial patches pull request 20211023=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Greg Kurz (2):=0D
-  softmmu/physmem.c: Fix typo in comment=0D
-  README: Fix some documentation URLs=0D
-=0D
-Laurent Vivier (2):=0D
-  analyze-migration.py: fix a long standing typo=0D
-  analyze-migration.py: fix extract contents ('-x') errors=0D
-=0D
-O=C4=9Fuz Ersen (1):=0D
-  po: update turkish translation=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (3):=0D
-  disas/nios2: Fix style in print_insn_nios2()=0D
-  disas/nios2: Simplify endianess conversion=0D
-  MAINTAINERS: Add myself as reviewer of 'Machine core' API=0D
-=0D
-Tong Ho (3):=0D
-  hw/nvram: Fix Memory Leak in Xilinx eFuse QOM=0D
-  hw/nvram: Fix Memory Leak in Xilinx Versal eFuse device=0D
-  hw/nvram: Fix Memory Leak in Xilinx ZynqMP eFuse device=0D
-=0D
- MAINTAINERS                       |  1 +=0D
- README.rst                        | 14 +++---=0D
- disas/nios2.c                     | 73 ++++++++++++-------------------=0D
- hw/nvram/xlnx-efuse.c             |  9 ++--=0D
- hw/nvram/xlnx-versal-efuse-ctrl.c | 20 ++++++---=0D
- hw/nvram/xlnx-zynqmp-efuse.c      | 18 +++++---=0D
- include/disas/dis-asm.h           |  3 +-=0D
- po/tr.po                          | 25 +++++------=0D
- scripts/analyze-migration.py      |  6 +--=0D
- softmmu/physmem.c                 |  2 +-=0D
- target/nios2/cpu.c                |  6 +--=0D
- 11 files changed, 87 insertions(+), 90 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+From: Oğuz Ersen <oguzersen@protonmail.com>
+
+Message-Id: <lDpmNUjNrVETJ2QoHoYmSoRvKoEIVFbF4IZAa1R5PVzqPCTh7nmV_ERHQlgYtNJN1Ppagtvelbo4uhSihEd5bSqIxCvGQchEWVpP-ofn2kw=@protonmail.com>
+Signed-off-by: Oğuz Ersen <oguzersen@protonmail.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+[lv,pb: s/K_opyala/_Kopyala/;s/Se_kmeleri/_Sekmeleri/]
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ po/tr.po | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
+
+diff --git a/po/tr.po b/po/tr.po
+index 632c7f385132..f4f0425c4319 100644
+--- a/po/tr.po
++++ b/po/tr.po
+@@ -1,14 +1,15 @@
+ # Turkish translation for QEMU.
+ # This file is put in the public domain.
+ # Ozan Çağlayan <ozancag@gmail.com>, 2013.
++# Oğuz Ersen <oguzersen@protonmail.com>, 2021.
+ #
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: QEMU 1.4.50\n"
+ "Report-Msgid-Bugs-To: qemu-devel@nongnu.org\n"
+ "POT-Creation-Date: 2018-07-18 07:56+0200\n"
+-"PO-Revision-Date: 2013-04-22 18:35+0300\n"
+-"Last-Translator: Ozan Çağlayan <ozancag@gmail.com>\n"
++"PO-Revision-Date: 2021-08-15 22:17+0300\n"
++"Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
+ "Language-Team: Türkçe <>\n"
+ "Language: tr\n"
+ "MIME-Version: 1.0\n"
+@@ -33,24 +34,22 @@ msgid "Power _Down"
+ msgstr "_Kapat"
+ 
+ msgid "_Quit"
+-msgstr ""
++msgstr "_Çıkış"
+ 
+ msgid "_Fullscreen"
+-msgstr ""
++msgstr "_Tam Ekran"
+ 
+ msgid "_Copy"
+-msgstr ""
++msgstr "_Kopyala"
+ 
+-#, fuzzy
+ msgid "Zoom _In"
+-msgstr "Yakınlaş ve Sığ_dır"
++msgstr "_Yakınlaş"
+ 
+-#, fuzzy
+ msgid "Zoom _Out"
+-msgstr "Yakınlaş ve Sığ_dır"
++msgstr "_Uzaklaş"
+ 
+ msgid "Best _Fit"
+-msgstr ""
++msgstr "_En Uygun"
+ 
+ msgid "Zoom To _Fit"
+ msgstr "Yakınlaş ve Sığ_dır"
+@@ -62,13 +61,13 @@ msgid "_Grab Input"
+ msgstr "Girdiyi _Yakala"
+ 
+ msgid "Show _Tabs"
+-msgstr "Se_kmeleri Göster"
++msgstr "_Sekmeleri Göster"
+ 
+ msgid "Detach Tab"
+-msgstr ""
++msgstr "Sekmeyi Ayır"
+ 
+ msgid "Show Menubar"
+-msgstr ""
++msgstr "Menü Çubuğunu Göster"
+ 
+ msgid "_Machine"
+ msgstr "_Makine"
+-- 
+2.31.1
+
 
