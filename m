@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A914384CE
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 20:50:16 +0200 (CEST)
-Received: from localhost ([::1]:52766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBCA14384CC
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 20:48:07 +0200 (CEST)
+Received: from localhost ([::1]:46178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meM5v-0006eP-70
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 14:50:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57088)
+	id 1meM3q-00023h-PY
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 14:48:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1meLo4-0005Sa-EV; Sat, 23 Oct 2021 14:31:49 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:45775)
+ id 1meLo1-0005Kj-6C; Sat, 23 Oct 2021 14:31:45 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:55043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1meLnx-0006eI-Vn; Sat, 23 Oct 2021 14:31:48 -0400
+ id 1meLny-0006er-0G; Sat, 23 Oct 2021 14:31:44 -0400
 Received: from quad ([82.142.24.54]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MqbDs-1n0VLl0lSi-00mdQm; Sat, 23
- Oct 2021 20:31:29 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N4A1h-1mnWng3XA9-0101Zx; Sat, 23
+ Oct 2021 20:31:30 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/11] hw/nvram: Fix Memory Leak in Xilinx Versal eFuse device
-Date: Sat, 23 Oct 2021 20:31:19 +0200
-Message-Id: <20211023183123.813116-8-laurent@vivier.eu>
+Subject: [PULL 08/11] hw/nvram: Fix Memory Leak in Xilinx ZynqMP eFuse device
+Date: Sat, 23 Oct 2021 20:31:20 +0200
+Message-Id: <20211023183123.813116-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211023183123.813116-1-laurent@vivier.eu>
 References: <20211023183123.813116-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Vj8jqpUBdOYe12yja2gXIsPtV7DMUBmye2yDpTeoWYjcudRYBqT
- u1hKbSluR5gw9z5QyqebCAHSee+5b68fEK4TnMeT4Tzx+myRd6QKpEQjOnlqS2QuPyKeTX8
- 9MPFltu4sg6dg3was/hJ5VDv6Ewc5To8/L/ijNGcl55wJbZ5XXfy/BFJ76XWNq4EQaAt0QH
- CEP2NNrsBDJ5H6GGE5lSw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HNf4YdKWleA=:PdM8ozA+7BS00yqu5TvwbV
- mgRAEinX3RIJTqNOrlcF7NukE1j2xdkAHOXtGnU+PoNXETUaRIFuqnFOkFCzK/uG/XdUEtBwo
- 4xLnJtRhn4xybqtu6tvrPisAN8GgBjQOnMMKsDDFXA5L0ykYM82YfTH/XoB4QYr8Pbp0hMk8D
- JrnnE7U0Td5eMXbsaDLppxf/i0+fX4Y92S7GDPRoXmppX83QLaDAjckXRxGMApkqBdEMC+qPd
- issz714AGikMcl8maBocOE6573GiqXwvAMEsS+xDDt1OAOKKWflxZ8El2hiRFegLfJHJzbMnr
- Yvm/RP2dqRh4q/5Fp0xv+VD1Zi+UmkQtpajEiSq8ucf1S4TJdqoyvIbwdhhFE4PlVUsI3nlss
- E6MqDXBwgsxtq03pBwM4VTUgqsc6ke/EPBr9gkQTuzcIGPEf/c+jrth4QPknw1bni+oIYKm/9
- Ye8dp5R7CuQvoFAMPTP0YxjWq0Jcp+xkqIfx0hHI5qoPRWr5ccPUML7DwjLYsBfyWW2EmRe2L
- JzsKvOWaoDV67yN6eCBAsecxUdAIXDh+AZrWpQK9vUk+5dEnAdezr7DtWq1yktKYhOm5ecQh3
- 8P1MEjxrqeyzw7pxf82cFuon9i5C46AM9x/8PskOsiGGGfaD/HJB+jJijAj4wrCF4BVCKUHhc
- KB/e8bHgoNK93Y9gN79cqlzZ+zVRJ6r2NUHjGCqqWpAPG3jCq583zrI90ZA5xPh8h5MY=
+X-Provags-ID: V03:K1:NwSi9Ss8j1VXdmTgo13aOsmLR+XhahedXiwgM/x3gOJG9e4tLOU
+ FgsE5D5grYr0n9qiY6RVjsBewwuuUA2IFlOIZV/V1d3QMQcgAVGKIgc28GNGjHuqOtjIxvi
+ +omzsPJfvq/hi+X9WsLEZOowXoE1BeRNXRrKcH+zVCPdgLywP/NwDQCmVIqY9j2b8jgqG0A
+ mL+QqAebwqbCejmYlD3rA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XWEbJ8JYNfs=:NUNIszOwJIvOhxuB19LFoW
+ w9B1LBRoXArRUWpykKpAosjapAptZbPhxHgFFujX8mY2OYd7arsgMCWtB32YNDak5iLDwUXUQ
+ K7oCdZXBaY9gB/KpU+4VLGYRAkOT6YoaB26HJ6AqXC2ei7ULoi0cMxlghK/JI9gfTRjZ0TBUO
+ ABkF2V1BpXzgSiCswZAb27Yc3anZmYY4xDhJ7CONhZilADCzvfyNZXq+nr9wMrNphmnzjw6gu
+ g2wJesHE9IXMis0P0HaP4TInQTcghPX6CsEZMFMAauh8sguI9arq+BlJj0hbERjFdw4c+gI06
+ BhReDAwZkTGnvz/onbsWo1VwA77YqvYICJQapRGXhLdAsJ4jTsOJhquFDYfftWC7bHWupfeRM
+ ix3KrGfP/1sYo+inm/9bO/lrIhMQiEokv0mnmOPSU8LzlaLnu1L+YGnokz01EIRN1GnfF1AaM
+ 7/KDeXO6+0ABjHsp7M3JV3O3cMJVj/d8fLnMDXzRqKF2iWOfKqvRS2XVC5CtXWMbGECvZJ7EW
+ 4MlfN9WZDBgZGDQYyM+gcRbOSyU4C0M1YF/IBdfClTEoUMsJpoXH9KJXLCnwvUOJvCxfMn9cq
+ TEs0j1Thk4tLEx0BB5DvqohrKnFOlffcMGKI/JQViT2mIGCcJj5neVMOxsWFauwysH7XBDwil
+ h2Sc4l4azgQxTvFRGaD3sUxl68xhWnpEi4aIaFz0l0G1AlBVGKBRRrCLuIev043HPx5E=
 Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,44 +80,54 @@ Signed-off-by: Tong Ho <tong.ho@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211015203532.2463705-3-tong.ho@xilinx.com>
+Message-Id: <20211015203532.2463705-4-tong.ho@xilinx.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/nvram/xlnx-versal-efuse-ctrl.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ hw/nvram/xlnx-zynqmp-efuse.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/hw/nvram/xlnx-versal-efuse-ctrl.c b/hw/nvram/xlnx-versal-efuse-ctrl.c
-index d3623767032c..b35ba65ab57b 100644
---- a/hw/nvram/xlnx-versal-efuse-ctrl.c
-+++ b/hw/nvram/xlnx-versal-efuse-ctrl.c
-@@ -439,9 +439,11 @@ static void efuse_pgm_addr_postw(RegisterInfo *reg, uint64_t val64)
-      *       up to guest to do so (or by reset).
-      */
-     if (efuse_pgm_locked(s, bit)) {
+diff --git a/hw/nvram/xlnx-zynqmp-efuse.c b/hw/nvram/xlnx-zynqmp-efuse.c
+index 1f87dbf988d1..228ba0bbfaf1 100644
+--- a/hw/nvram/xlnx-zynqmp-efuse.c
++++ b/hw/nvram/xlnx-zynqmp-efuse.c
+@@ -434,11 +434,12 @@ static void zynqmp_efuse_pgm_addr_postw(RegisterInfo *reg, uint64_t val64)
+     if (!errmsg) {
+         ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, PGM_ERROR, 0);
+     } else {
 +        g_autofree char *path = object_get_canonical_path(OBJECT(s));
 +
+         ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, PGM_ERROR, 1);
          qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: Denied setting of efuse<%u, %u, %u>\n",
+                       "%s - eFuse write error: %s; addr=0x%x\n",
 -                      object_get_canonical_path(OBJECT(s)),
-+                      path,
-                       FIELD_EX32(bit, EFUSE_PGM_ADDR, PAGE),
-                       FIELD_EX32(bit, EFUSE_PGM_ADDR, ROW),
-                       FIELD_EX32(bit, EFUSE_PGM_ADDR, COLUMN));
-@@ -478,9 +480,11 @@ static void efuse_rd_addr_postw(RegisterInfo *reg, uint64_t val64)
-     s->regs[R_EFUSE_RD_DATA] = xlnx_versal_efuse_read_row(s->efuse,
-                                                           bit, &denied);
-     if (denied) {
-+        g_autofree char *path = object_get_canonical_path(OBJECT(s));
-+
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: Denied reading of efuse<%u, %u>\n",
--                      object_get_canonical_path(OBJECT(s)),
-+                      path,
-                       FIELD_EX32(bit, EFUSE_RD_ADDR, PAGE),
-                       FIELD_EX32(bit, EFUSE_RD_ADDR, ROW));
+-                      errmsg, (unsigned)val64);
++                      path, errmsg, (unsigned)val64);
+     }
  
-@@ -625,9 +629,11 @@ static void efuse_ctrl_reg_write(void *opaque, hwaddr addr,
-     s = XLNX_VERSAL_EFUSE_CTRL(dev);
+     ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, PGM_DONE, 1);
+@@ -448,6 +449,7 @@ static void zynqmp_efuse_pgm_addr_postw(RegisterInfo *reg, uint64_t val64)
+ static void zynqmp_efuse_rd_addr_postw(RegisterInfo *reg, uint64_t val64)
+ {
+     XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(reg->opaque);
++    g_autofree char *path = NULL;
+ 
+     /*
+      * Grant reads only to allowed bits; reference sources:
+@@ -538,10 +540,10 @@ static void zynqmp_efuse_rd_addr_postw(RegisterInfo *reg, uint64_t val64)
+     return;
+ 
+  denied:
++    path = object_get_canonical_path(OBJECT(s));
+     qemu_log_mask(LOG_GUEST_ERROR,
+                   "%s: Denied efuse read from array %u, row %u\n",
+-                  object_get_canonical_path(OBJECT(s)),
+-                  efuse_ary, efuse_row);
++                  path, efuse_ary, efuse_row);
+ 
+     s->regs[R_EFUSE_RD_DATA] = 0;
+ 
+@@ -731,9 +733,11 @@ static void zynqmp_efuse_reg_write(void *opaque, hwaddr addr,
+     s = XLNX_ZYNQMP_EFUSE(dev);
  
      if (addr != A_WR_LOCK && s->regs[R_WR_LOCK]) {
 +        g_autofree char *path = object_get_canonical_path(OBJECT(s));
@@ -129,8 +139,8 @@ index d3623767032c..b35ba65ab57b 100644
      } else {
          register_write_memory(opaque, addr, data, size);
      }
-@@ -681,16 +687,20 @@ static void efuse_ctrl_realize(DeviceState *dev, Error **errp)
-     const uint32_t lks_sz = sizeof(XlnxEFuseLkSpec) / 2;
+@@ -784,8 +788,10 @@ static void zynqmp_efuse_realize(DeviceState *dev, Error **errp)
+     XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(dev);
  
      if (!s->efuse) {
 +        g_autofree char *path = object_get_canonical_path(OBJECT(s));
@@ -138,17 +148,6 @@ index d3623767032c..b35ba65ab57b 100644
          error_setg(errp, "%s.efuse: link property not connected to XLNX-EFUSE",
 -                   object_get_canonical_path(OBJECT(dev)));
 +                   path);
-         return;
-     }
- 
-     /* Sort property-defined pgm-locks for bsearch lookup */
-     if ((s->extra_pg0_lock_n16 % lks_sz) != 0) {
-+        g_autofree char *path = object_get_canonical_path(OBJECT(s));
-+
-         error_setg(errp,
-                    "%s.pg0-lock: array property item-count not multiple of %u",
--                   object_get_canonical_path(OBJECT(dev)), lks_sz);
-+                   path, lks_sz);
          return;
      }
  
