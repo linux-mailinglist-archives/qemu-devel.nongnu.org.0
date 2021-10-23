@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65AAB438240
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 09:41:29 +0200 (CEST)
-Received: from localhost ([::1]:41606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA15438249
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 09:56:21 +0200 (CEST)
+Received: from localhost ([::1]:52868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meBeg-0001Oj-6S
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 03:41:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42432)
+	id 1meBt6-0001J3-LL
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 03:56:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1meBTy-0005kU-4R; Sat, 23 Oct 2021 03:30:22 -0400
-Received: from mx2.freebsd.org ([96.47.72.81]:47681)
+ id 1meBUn-0005zS-OY; Sat, 23 Oct 2021 03:31:15 -0400
+Received: from mx2.freebsd.org ([96.47.72.81]:48599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1meBTv-0002tK-9Q; Sat, 23 Oct 2021 03:30:21 -0400
+ id 1meBUj-0003Ka-Jo; Sat, 23 Oct 2021 03:31:13 -0400
 Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits)
  client-signature RSA-PSS (4096 bits))
  (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id 650EC995B2;
- Sat, 23 Oct 2021 07:30:17 +0000 (UTC)
+ by mx2.freebsd.org (Postfix) with ESMTPS id D485B98FFA;
+ Sat, 23 Oct 2021 07:31:08 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: from smtp.freebsd.org (smtp.freebsd.org
- [IPv6:2610:1c1:1:606c::24b:4])
+Received: from smtp.freebsd.org (smtp.freebsd.org [96.47.72.83])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
  client-signature RSA-PSS (4096 bits) client-digest SHA256)
  (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4HbtCs1yD8z3F0r;
- Sat, 23 Oct 2021 07:30:17 +0000 (UTC)
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4HbtDr5K9Kz3F1K;
+ Sat, 23 Oct 2021 07:31:08 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
- [209.85.222.173])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
  (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id 2492EA729;
- Sat, 23 Oct 2021 07:30:17 +0000 (UTC)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id 96C40A260;
+ Sat, 23 Oct 2021 07:31:08 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: by mail-qk1-f173.google.com with SMTP id y10so6722056qkp.9;
- Sat, 23 Oct 2021 00:30:17 -0700 (PDT)
-X-Gm-Message-State: AOAM531xiFdGX5eCR5NgmGm6rzpxWXzUM2prtxZy61MCLh6eTY75XzE7
- b9ba8HQwTONGgFd5ueW2JQtT1X/LmHEiksMvDMk=
-X-Google-Smtp-Source: ABdhPJybqbEsp1eIKCV09d3L9PAtiA6LZf+E6GxVhSShGqTntIg/TjAM1OrwFp0pODrYtZS+4f1p0u3h6PCGUVotrV4=
-X-Received: by 2002:a05:620a:424f:: with SMTP id
- w15mr3797331qko.258.1634974216773; 
- Sat, 23 Oct 2021 00:30:16 -0700 (PDT)
+Received: by mail-qt1-f175.google.com with SMTP id n2so5620568qta.2;
+ Sat, 23 Oct 2021 00:31:08 -0700 (PDT)
+X-Gm-Message-State: AOAM531wfIKKxtT5ckIG8ibUq2n5ouyvO1jrYekyhTZKEj1B12gAFT4f
+ agA/T20MbuvA5ZB3QnPYOvdb3CECEFmDub7gOVA=
+X-Google-Smtp-Source: ABdhPJwTgG/rUhuIPO+c1wtSJbHn1gDCH044Iqek2hyhG8k5P3kFSUMnh3rJh1sGcu9/17WHMxN9EDYzV83Imalv7+U=
+X-Received: by 2002:ac8:5747:: with SMTP id 7mr4852246qtx.11.1634974268185;
+ Sat, 23 Oct 2021 00:31:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-3-imp@bsdimp.com>
-In-Reply-To: <20211019164447.16359-3-imp@bsdimp.com>
+ <20211019164447.16359-4-imp@bsdimp.com>
+In-Reply-To: <20211019164447.16359-4-imp@bsdimp.com>
 From: Kyle Evans <kevans@freebsd.org>
-Date: Sat, 23 Oct 2021 02:30:06 -0500
-X-Gmail-Original-Message-ID: <CACNAnaF+c6DtEGbf9BxG_MyzAG3x5a8SDVqgE8+eHKeKwSNvBg@mail.gmail.com>
-Message-ID: <CACNAnaF+c6DtEGbf9BxG_MyzAG3x5a8SDVqgE8+eHKeKwSNvBg@mail.gmail.com>
-Subject: Re: [PATCH 02/24] bsd-user/arm/target_syscall.h: Add copyright and
- update name
+Date: Sat, 23 Oct 2021 02:30:57 -0500
+X-Gmail-Original-Message-ID: <CACNAnaEhoeTMXRggQZmv3S+jSy4CpytLWLZW5cxkg5L67Y=mpg@mail.gmail.com>
+Message-ID: <CACNAnaEhoeTMXRggQZmv3S+jSy4CpytLWLZW5cxkg5L67Y=mpg@mail.gmail.com>
+Subject: Re: [PATCH 03/24] bsd-user/arm/target_arch_cpu.c: Target specific TLS
+ routines
 To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=96.47.72.81; envelope-from=kevans@freebsd.org;
@@ -89,25 +87,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, Oct 19, 2021 at 11:45 AM Warner Losh <imp@bsdimp.com> wrote:
 >
-> The preferred name for the 32-bit arm is now armv7. Update the name to
-> reflect that. In addition, add Stacey's copyright to this file and
-> update the include guards to the new convention.
+> Target specific TLS routines to get and set the TLS values.
 >
+> Signed-off-by: Klye Evans <kevans@FreeBSD.org>
+
+s/Klye/Kyle/ :-)
+
 > Signed-off-by: Stacey Son <sson@FreeBSD.org>
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->  bsd-user/arm/target_syscall.h | 27 +++++++++++++++++++++++----
->  1 file changed, 23 insertions(+), 4 deletions(-)
+>  bsd-user/arm/target_arch.h     | 28 ++++++++++++++++++++++++
+>  bsd-user/arm/target_arch_cpu.c | 39 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 67 insertions(+)
+>  create mode 100644 bsd-user/arm/target_arch.h
+>  create mode 100644 bsd-user/arm/target_arch_cpu.c
 >
-> diff --git a/bsd-user/arm/target_syscall.h b/bsd-user/arm/target_syscall.h
-> index ef4b37f017..a5f2bb4e01 100644
-> --- a/bsd-user/arm/target_syscall.h
-> +++ b/bsd-user/arm/target_syscall.h
-> @@ -1,5 +1,24 @@
-> -#ifndef BSD_USER_ARCH_SYSCALL_H_
-> -#define BSD_USER_ARCH_SYSCALL_H_
+> diff --git a/bsd-user/arm/target_arch.h b/bsd-user/arm/target_arch.h
+> new file mode 100644
+> index 0000000000..93cfaea098
+> --- /dev/null
+> +++ b/bsd-user/arm/target_arch.h
+> @@ -0,0 +1,28 @@
 > +/*
-> + *  arm cpu system call stubs
+> + * ARM 32-bit specific prototypes for bsd-user
 > + *
 > + *  Copyright (c) 2013 Stacey D. Son
 > + *
@@ -125,23 +127,65 @@ On Tue, Oct 19, 2021 at 11:45 AM Warner Losh <imp@bsdimp.com> wrote:
 > + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 > + */
 > +
-> +#ifndef _TARGET_ARCH_SYSCALL_H_
-> +#define _TARGET_ARCH_SYSCALL_H_
->
->  struct target_pt_regs {
->      abi_long uregs[17];
-> @@ -31,6 +50,6 @@ struct target_pt_regs {
->  #define TARGET_FREEBSD_ARM_GET_TP       3
->
->  #define TARGET_HW_MACHINE       "arm"
-> -#define TARGET_HW_MACHINE_ARCH  "armv6"
-> +#define TARGET_HW_MACHINE_ARCH  "armv7"
->
-> -#endif /* !BSD_USER_ARCH_SYSCALL_H_ */
-> +#endif /* !_TARGET_ARCH_SYSCALL_H_ */
+> +#ifndef _TARGET_ARCH_H_
+> +#define _TARGET_ARCH_H_
+> +
+> +#include "qemu.h"
+> +
+> +void target_cpu_set_tls(CPUARMState *env, target_ulong newtls);
+> +target_ulong target_cpu_get_tls(CPUARMState *env);
+> +
+> +#endif /* !_TARGET_ARCH_H_ */
+> diff --git a/bsd-user/arm/target_arch_cpu.c b/bsd-user/arm/target_arch_cpu.c
+> new file mode 100644
+> index 0000000000..02bf9149d5
+> --- /dev/null
+> +++ b/bsd-user/arm/target_arch_cpu.c
+> @@ -0,0 +1,39 @@
+> +/*
+> + *  arm cpu related code
+> + *
+> + *  Copyright (c) 2013 Stacey D. Son
+> + *
+> + *  This program is free software; you can redistribute it and/or modify
+> + *  it under the terms of the GNU General Public License as published by
+> + *  the Free Software Foundation; either version 2 of the License, or
+> + *  (at your option) any later version.
+> + *
+> + *  This program is distributed in the hope that it will be useful,
+> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + *  GNU General Public License for more details.
+> + *
+> + *  You should have received a copy of the GNU General Public License
+> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +#include "target_arch.h"
+> +
+> +void target_cpu_set_tls(CPUARMState *env, target_ulong newtls)
+> +{
+> +    if (access_secure_reg(env)) {
+> +        env->cp15.tpidrurw_s = newtls;
+> +        env->cp15.tpidruro_s = newtls;
+> +        return;
+> +    }
+> +
+> +    env->cp15.tpidr_el[0] = newtls;
+> +    env->cp15.tpidrro_el[0] = newtls;
+> +}
+> +
+> +target_ulong target_cpu_get_tls(CPUARMState *env)
+> +{
+> +    if (access_secure_reg(env)) {
+> +        return env->cp15.tpidruro_s;
+> +    }
+> +    return env->cp15.tpidrro_el[0];
+> +}
 > --
 > 2.32.0
 >
+
+Modulo typo:
 
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 
