@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77BD438582
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 23:13:55 +0200 (CEST)
-Received: from localhost ([::1]:59956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03488438586
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 23:17:28 +0200 (CEST)
+Received: from localhost ([::1]:34648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meOKw-0000W6-Nb
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 17:13:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35110)
+	id 1meOON-0002e0-3n
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 17:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1meOK7-000867-2p
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 17:13:03 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:43721)
+ id 1meOMg-0001lk-Bs
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 17:15:42 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:43548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1meOK4-0003QS-RA
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 17:13:02 -0400
-Received: by mail-pg1-x529.google.com with SMTP id r2so6747504pgl.10
- for <qemu-devel@nongnu.org>; Sat, 23 Oct 2021 14:13:00 -0700 (PDT)
+ id 1meOMd-0004xr-U8
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 17:15:41 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id 187so6820854pfc.10
+ for <qemu-devel@nongnu.org>; Sat, 23 Oct 2021 14:15:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PhUwgiO3Dl6xFNMQhWCeIrx6MbdqaUG/JOlY0Ktet4g=;
- b=YBTaUg9yYt33mJPzKgjhZqcrNF5mfRV+Tq7HwIeme5hbfVOlmhB+uv6XjUiSuL69JF
- XHcaQXFWiQ9Yn7J/55Qm3kO2n7J0Lw5BGW0yDca/nWZBUzhGzvL3rNcBuK7fFDs+B7xq
- 22LIhLXnbNiAlJMOmrgW4kN77f+Vuqiy57NoMvWIvNjGIPUqOhRrUIIRS23BdGIRnTY9
- aMoD6IBpLqmJwoHT9uHxVmLFFfcr+vFHDBWMiBoGJPyn1RJ1xOvZopWpsKh2jgX2fAjx
- PXBGot33oaVA2QD6QOWBllEySNwFgwdalvRdDasWOzwvUZHWWbBjEu0FkZdeWivaXZ1G
- b1vw==
+ bh=6N2kGH4J2c6/2QREbPtINQzMpG9bzzNkvihSlu38GFA=;
+ b=KtG/u+6NJTsq4g30ylUSivttOw8+ezf2DzFm9PwCZt7HnFth+Oe2E9SAttRI/02BIy
+ FbFWYfJq4ZkOtdRORki8RMY3tdv+ilCsKOYTe7PPg1Cm1txw0XhvCzy/IXO9izmkoVcU
+ kL2JYQpse6d3/dTBypbwlW9WwVkqmAHKr9pZHOUkOloPEAYnTPq0VobKkdPG1aE68UA9
+ FRNnnGKNBl7x1iHPdqeqMik0rXdCnZaA+hn316QeAtIsmJya4rSQuEe3MW59MCauxUSO
+ QbclLskbnUUBUn9vgPr3XGqOJ5hhVzYtinpg/3Wn4SW65pmqkPVC3sp2eEWN9PB/CTDG
+ bjIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PhUwgiO3Dl6xFNMQhWCeIrx6MbdqaUG/JOlY0Ktet4g=;
- b=Hjxqm9/mHu2Smz42Mc/dTFPnhYahz9GCFFysp6E2nPrtI/ju57tUsHGREh4X4qiQvN
- RBCvf87YMO1c5j5hasmJcc6grJ+P4v7ocp18KIPhw+X1gNyJCtYgNX3z6SAzzKhNDD0c
- 7YpYwCUKCE11HMhtf7lz0JTka9+E88AMSTJ/dl5940ZNx6lSxQdQcLPPu7UYfEil5QF0
- 4+F/NgR/H35j2xcwsrE8luMhlw1oHq9GfxYxUe3QDyK40j3KHsI+2i5F09GbyAnrFCEM
- ROammLrzXZn9YZkOmzrSq4oxQ03GpPcADRfxr2dn6W8q1s4fx1g3Xlt6XRS7QIB+2007
- vj7w==
-X-Gm-Message-State: AOAM533Iz9iC1gEIQ8bL+maMbZoRglEMTu5rG3UATflRMY8NmdLepUnX
- ZspThLLpDGdM+/yb92dYgHS4cA==
-X-Google-Smtp-Source: ABdhPJy0DJaaMz9nwdAgk+Eru8GmuLfSyrr0ZyECcP3PoaSRXodP41Q1Afr1sydWUhzGvUakm83s2A==
-X-Received: by 2002:a63:af59:: with SMTP id s25mr6176363pgo.109.1635023579270; 
- Sat, 23 Oct 2021 14:12:59 -0700 (PDT)
+ bh=6N2kGH4J2c6/2QREbPtINQzMpG9bzzNkvihSlu38GFA=;
+ b=hy5BaiRy0sQ0RnQksFrAfOWkKtMURyvv3Rj/81E9ike48+DqdTAy7BMhNcY9TmSReF
+ MlO14XhHd80LGshtW3qx+b14iu5JBeB3QjNILd/qyvepEA4ogFbrtqCKXDFWJ0UYdUH+
+ emo6gP92gvld+mDBQcdwxo2OOXtMvqy1/rpHie8dJC8Sx+nUTqImFCJLS9mq/YmfAM+F
+ toYSr2NYAyytoF1tqUyLqpnnylzhPt5WYyWVbFVbcOsfNkVVvKsVVrU93CGPtnec2EQP
+ ucUUXE7WVd0MF/aFBV55Yzofy26srIu3zPmEY4NA74R2SVI/d18on4MJ+mb6LW/kZerE
+ mBsQ==
+X-Gm-Message-State: AOAM533eIh/hAFSRSiXDJ8LWIGTwEKpXpMPqQUJFCU0yZpIEY0fmdlfG
+ xnmKTM7E3S2R9qZYw9pl4JlKNw==
+X-Google-Smtp-Source: ABdhPJwpLlG8j6ekoPWEGAfGYywVYAJS+dQE+VS37USZb2PZ/Suh0M8XJWhLu4C/rX8R8opzLa7WZw==
+X-Received: by 2002:a05:6a00:1311:b0:455:c1f8:4637 with SMTP id
+ j17-20020a056a00131100b00455c1f84637mr8389127pfu.83.1635023738469; 
+ Sat, 23 Oct 2021 14:15:38 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id m4sm5948095pjl.11.2021.10.23.14.12.58
+ by smtp.gmail.com with ESMTPSA id q15sm10710841pfk.16.2021.10.23.14.15.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 23 Oct 2021 14:12:58 -0700 (PDT)
-Subject: Re: [PATCH 29/33] target/ppc: implemented XXSPLTI32DX
+ Sat, 23 Oct 2021 14:15:37 -0700 (PDT)
+Subject: Re: [PATCH 30/33] target/ppc: Implemented XXSPLTIW using decodetree
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
- <20211021194547.672988-30-matheus.ferst@eldorado.org.br>
+ <20211021194547.672988-31-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <eebf1b08-bc8f-4400-b14f-d8c7cd22b79d@linaro.org>
-Date: Sat, 23 Oct 2021 14:12:57 -0700
+Message-ID: <e4879451-fd5c-f5a4-0eba-195f2f746395@linaro.org>
+Date: Sat, 23 Oct 2021 14:15:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211021194547.672988-30-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20211021194547.672988-31-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
@@ -94,54 +95,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/21/21 12:45 PM, matheus.ferst@eldorado.org.br wrote:
-> From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+> From: "Bruno Larsen (billionai)"<bruno.larsen@eldorado.org.br>
 > 
-> Implemented XXSPLTI32DX emulation using decodetree
+> Implemented the XXSPLTIW instruction, using decodetree.
 > 
-> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
+> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > ---
->   target/ppc/insn64.decode            | 11 ++++++++
->   target/ppc/translate/vsx-impl.c.inc | 41 +++++++++++++++++++++++++++++
->   2 files changed, 52 insertions(+)
-> 
-> diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-> index 880ac3edc7..8d8d5d5729 100644
-> --- a/target/ppc/insn64.decode
-> +++ b/target/ppc/insn64.decode
-> @@ -32,6 +32,14 @@
->                   ...... ..... ra:5 ................       \
->                   &PLS_D si=%pls_si rt=%rt_tsxp
->   
-> +# Format 8RR:D
-> +%8rr_si         32:s16 0:16
-> +%8rr_xt         16:1 21:5
-> +&8RR_D_IX       xt ix si:int32_t
+>   target/ppc/insn64.decode            |  6 ++++++
+>   target/ppc/translate/vsx-impl.c.inc | 10 ++++++++++
+>   2 files changed, 16 insertions(+)
 
-What is it about this field that says signed, expecially?  It doesn't seem wrong, of 
-course, but you are jumping through extra hoops here...
-
-> +    get_cpu_vsrh(t0, a->xt);
-> +    get_cpu_vsrl(t1, a->xt);
-> +
-> +    tcg_gen_movi_i64(new_val, a->si);
-> +    if (a->ix) {
-> +        tcg_gen_movi_i64(mask, 0x00000000ffffffff);
-> +        tcg_gen_shli_i64(new_val, new_val, 32);
-> +    } else {
-> +        tcg_gen_movi_i64(mask, 0xffffffff00000000);
-> +    }
-> +    tcg_gen_and_i64(t0, t0, mask);
-> +    tcg_gen_or_i64(t0, t0, new_val);
-> +    tcg_gen_and_i64(t1, t1, mask);
-> +    tcg_gen_or_i64(t1, t1, new_val);
-> +
-> +    set_cpu_vsrh(a->xt, t0);
-> +    set_cpu_vsrl(a->xt, t1);
-
-You're working too hard here.  I think you should just store the two int32_t at the 
-correct offsets.  And failing that, use tcg_gen_deposit_i64.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
