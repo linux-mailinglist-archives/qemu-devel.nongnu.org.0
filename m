@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67FD84381A3
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 06:09:24 +0200 (CEST)
-Received: from localhost ([::1]:38406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 116CC4381DC
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 06:38:49 +0200 (CEST)
+Received: from localhost ([::1]:41144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1me8LR-0000Gv-Ot
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 00:09:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53152)
+	id 1me8nv-0003vn-KZ
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 00:38:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1me8JX-0006lc-Rq
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 00:07:23 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:33410)
+ id 1me8ms-000375-GJ
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 00:37:43 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:46881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1me8JW-0006Fb-0V
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 00:07:23 -0400
-Received: by mail-pg1-x532.google.com with SMTP id r28so783520pga.0
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 21:07:21 -0700 (PDT)
+ id 1me8mq-0007g8-Fo
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 00:37:42 -0400
+Received: by mail-pl1-x630.google.com with SMTP id c4so225722plg.13
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 21:37:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KEiqoNyBVcv6rXZAHn2MRsPyoaumqrQEAZ91TwmZuyU=;
- b=mAcv0C3OLQ3UrEHqbM0t8mf2qWmqhFCNPhXWxvqaStWhkHlGqmevjtlMZD2RBuFVzr
- 4/lq5jMUvriiAJxCBSVAaI+uTXwytQuwBZ38hiiJP1SSMKWA7St3HwaoWt8wj8i4YKMZ
- fvLcQ9ocVvl4FPvoQj6jxw89bYnesfMsBg8YpNRvyvAZraIOiydTONhto9lk22ebmnXK
- UwaK0aMBF69tsRkJI9Xe1wJJ+ppaVv/zo6C2W+tx7YmdAlvfbA/29hK3B0fVUZ0hQItl
- 469TraNfrth+Pk66NuiyFxW8hhx7gQWAq3HZ5iRBMJhWpJlykZwTyI8CEbbKIp7DQ+47
- 9o7A==
+ bh=q4+qm2rIXxBok22aqD/lD5kDry1YqJeOF+Hqo0lkMAg=;
+ b=PPP3yM93/GTCO2NOj8MHmJSe1i3A3rGWeDHMfqghmN0fnKyIp4Kwhi4OEZyg2Quh68
+ QA24/wdKmvakLJl6AQ7twlzn0Ubac6OYKKgHcOMv8lhKwYTJi2y1H2WYUwPAUzpMVV8V
+ cOxz7fuHpnExT3oY3kR1PE0bpNEtaLByucIOARfBQaytA0Wy/eQ3ZQhb2yZncGaG9r5L
+ HwLHlAluRFC7vACmxTrpY30EeXOoADgwAEclI0M61KLnWqgm5dcVXKM2LcsePX2mgqkv
+ 62iv5aCPnHp7FwH2+otme4J4hCSg72r0m4nvsVPKxt2vqLNtjWr/sfVURCY5wsbOUWTV
+ AGEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=KEiqoNyBVcv6rXZAHn2MRsPyoaumqrQEAZ91TwmZuyU=;
- b=yvSgjqflhOHu3oLbEgA7DMoOH5+fNIaB9nfSrebvewi8UqOf3FusP0DuODiGU8a/12
- LE2XjqsAI4ha4DJeh7coHHVLRZSgGq3LMzdtw40mBY3U11z5TkZ7GI8St+Cvd7wdaku1
- IEbvhVWNN9ddgoe7ka3CJ/YRBf7WIhSeDLoiSJ5lMpsEkAl/M/K89rRA+zxvxo6UGnvZ
- 21DRApRm+sLc/wELRipAyAwEfQ9W0QHO0URBVo5S/31AisSsPMSThNqg/f+Ojybfdsnh
- 4moWMd2QnsZgrNrzANe82F+pBQcrZcmHUho7kyUC5Ten7RAgiVvKFHxvC2uzP/qf2ynm
- wxVg==
-X-Gm-Message-State: AOAM531juv1++9QlAOyj2QnGcOsc11qRBSrqT+RwsZijC2VhgA4HVZfd
- wFqfVIqJRSicpYdVo/XuicAVA73OJ16pLg==
-X-Google-Smtp-Source: ABdhPJwSAAfhBcpFFMnpEfakgLFJg9eXa/EDsn52Svpfpadb5hgEfswJ3cz5FrmwxaQ9YL4pOmH39A==
-X-Received: by 2002:a63:4f57:: with SMTP id p23mr2909683pgl.376.1634962040024; 
- Fri, 22 Oct 2021 21:07:20 -0700 (PDT)
+ bh=q4+qm2rIXxBok22aqD/lD5kDry1YqJeOF+Hqo0lkMAg=;
+ b=f8XWyp8Z4g9dW4I1QAAvElU1z9T7RdWlYTVTIJUo1+oXEDFfv/f2oO7nEIIMczgYAJ
+ S2/XHjH9kvC+SeBbGxt2jfKlZMx6a2FGehCfLbRxPK6iAkRRhzlE37wlbp0Y76rCgydD
+ +VbD6OydJybihL1UrvJtq6V3AuBr/5/Mn4Ke8lxYCN2phvYU/B7I+7BFH8QtuzqeckdN
+ LDQFlxqdCqManOIU1qmKE4yXURFgWI1wBW8SJHsOIIKHPXfRbOsVwcLZnnverL4THOHD
+ B4m63xk5urkQajdmZplBoKjhBFZGRcBjA61GpPlwDYy7J/flA24UOCpFd7MsnWYkrl8F
+ Aw5A==
+X-Gm-Message-State: AOAM530vL6hJvez5kKDMvc7MDguE5U5pgqlc0H7uyWqr4OpQwwLBUr4F
+ Gg5ZjHatCZpj5KS5/xvqvhZZoQ==
+X-Google-Smtp-Source: ABdhPJzN9iwYU60U3tORi++MYF0SUD3KKB4s7bacPYeCDxIf4aFiKXHuQH3JvF3Rjx8gkSHU2CETjw==
+X-Received: by 2002:a17:90b:3749:: with SMTP id
+ ne9mr19609225pjb.192.1634963858769; 
+ Fri, 22 Oct 2021 21:37:38 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id d138sm11173667pfd.74.2021.10.22.21.07.18
+ by smtp.gmail.com with ESMTPSA id t3sm9711640pgu.87.2021.10.22.21.37.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Oct 2021 21:07:19 -0700 (PDT)
-Subject: Re: [PATCH 14/33] target/ppc: Implement vsldbi/vsrdbi instructions
+ Fri, 22 Oct 2021 21:37:38 -0700 (PDT)
+Subject: Re: [PATCH 15/33] target/ppc: Implement Vector Insert from GPR using
+ GPR index insns
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
- <20211021194547.672988-15-matheus.ferst@eldorado.org.br>
+ <20211021194547.672988-16-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0c6bc968-414f-a75c-0d9e-3135344e73a8@linaro.org>
-Date: Fri, 22 Oct 2021 21:07:16 -0700
+Message-ID: <1d768980-e69e-7aa8-3aab-55a87b9f9950@linaro.org>
+Date: Fri, 22 Oct 2021 21:37:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211021194547.672988-15-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20211021194547.672988-16-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -93,24 +95,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/21/21 12:45 PM, matheus.ferst@eldorado.org.br wrote:
-> +    if (a->sh != 0) {
-> +        t2 = tcg_temp_new_i64();
-> +
-> +        /* vrt.l = (vrb.l >> sh) | (vrb.h << (64 - sh)) */
-> +        tcg_gen_shri_i64(t0, t0, a->sh);
-> +        tcg_gen_shli_i64(t2, t1, 64 - a->sh);
-> +        tcg_gen_or_i64(t0, t0, t2);
+> +#if defined(HOST_WORDS_BIGENDIAN)
+> +#define ELEM_ADDR(VEC, IDX, SIZE) (&(VEC)->VsrB(IDX))
+> +#else
+> +#define ELEM_ADDR(VEC, IDX, SIZE) (&(VEC)->VsrB(IDX) - (SIZE) + 1)
+> +#endif
 
-tcg_gen_extract2_i64(t0, t1, t0, 64 - a->sh);
+This is a bit confusing.  There's host adjustment in VsrB *and* here.
 
-> +
-> +        /* vrt.h = (vrb.h >> sh) | (vra.l << (64 - sh)) */
-> +        get_avr64(t2, a->vra, false);
-> +        tcg_gen_shri_i64(t1, t1, a->sh);
-> +        tcg_gen_shli_i64(t2, t2, 64 - a->sh);
-> +        tcg_gen_or_i64(t1, t1, t2);
+> +#define VINSX(SUFFIX, TYPE) \
+> +void glue(glue(helper_VINS, SUFFIX), LX)(CPUPPCState *env, ppc_avr_t *t,       \
+> +                                         uint64_t val, target_ulong index)     \
+> +{                                                                              \
+> +    const int maxidx = ARRAY_SIZE(t->u8) - sizeof(TYPE);                       \
+> +    target_long idx = index;                                                   \
+> +                                                                               \
+> +    if (idx < 0 || idx > maxidx) {                                             \
+> +        char c = idx < 0 ? 'R' : 'L';                                          \
+> +        idx =  idx < 0 ? sizeof(TYPE) - idx : idx;                             \
+> +        qemu_log_mask(LOG_GUEST_ERROR, "Invalid index for VINS" #SUFFIX "%cX"  \
+> +                      " at 0x" TARGET_FMT_lx ", RA = " TARGET_FMT_ld " > %d\n",\
+> +                      c, env->nip, idx, maxidx);                               \
 
-Similarly.
+nip is not up to date.
+
+> +    } else {                                                                   \
+> +        *(TYPE *)ELEM_ADDR(t, idx, sizeof(TYPE)) = (TYPE)val;                  \
+
+This is a potentially misaligned store.  You need st*_he_p. 
+ 
+ 
+
 
 
 r~
