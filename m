@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB7014381E4
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 06:49:35 +0200 (CEST)
-Received: from localhost ([::1]:48542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D3654381EA
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 06:54:33 +0200 (CEST)
+Received: from localhost ([::1]:51718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1me8yM-000192-Ug
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 00:49:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56164)
+	id 1me93A-0003TP-J9
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 00:54:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1me8xY-0000Ju-Tp
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 00:48:44 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:42737)
+ id 1me91u-00027R-AQ
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 00:53:14 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:43580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1me8xW-0004Uc-Jh
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 00:48:44 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id m14so5428017pfc.9
- for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 21:48:42 -0700 (PDT)
+ id 1me91s-0006iH-Ow
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 00:53:14 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id y1so4121715plk.10
+ for <qemu-devel@nongnu.org>; Fri, 22 Oct 2021 21:53:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CbwGZkp95T99x1s7X7y3TMUA17rVI0k4T11Mvm/lS3U=;
- b=pg9u7nNA9I9e2kqaZ+WmeAk1S10wWybWHJpRHt5c8BCEKUN0f3SGUl92waCRNbH5fU
- 0chxAMpVPtGABsBYZ9TwG6S+x1TC2lWlKsyZ4JxKReatysBCnuBhcEF2JUt/1ZgkDKcR
- Tbhh0q1Dv8+8og8H+1OvLL8qs9N/V+ZVocwXioE//Sv5t7Num8J2XxthLe8OTjR39STZ
- uIRXNfdc7UMxu+EBAfmO9yHsDEoYlw3N5G7XKBjN/I6ZhhEoTmtGzIQU13jEJrvkC9lI
- rbfCVXTKwJFsvXVmkOi9VNpDtGAruTBu6jSfANvNjqqdw451JTIZqeaLujZpQAmZdycy
- /SoQ==
+ bh=k9sMBO4zmDNbySLwOsXjOy2WgF4JSmYQyS947gxI4Xc=;
+ b=FW7NqdJfffYRxypvbnGGfpL1zzacxXJkDwDfqtVtGSbtFed+ji3OQMWNi7bQD9OHCh
+ 5qbtQKzuHPcRxstZ9YbDcQfm7fnTn4UtB9gX1xqkFCupDolQ8bkyQa11hK22KTJs0Z48
+ DOQUQPwfa9BCMUYKfY3Zokcm6jnkdWdvzyy2r0QO0ktZNFxcPa5I2Ev7jsSgE9WSTefc
+ /smd30eE0/wpiGfqPJae/8za2mqxirMrPFTsYnjrC3GFo01bUsqGBd33iPl6h4tpmKPb
+ EF9Ci2M0Nass/LXafEVYUAAOd3HzX1isxXC+UPrULzlB65HGNU1T77QhxzzwGhnzfqEs
+ ERzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=CbwGZkp95T99x1s7X7y3TMUA17rVI0k4T11Mvm/lS3U=;
- b=hUiDOfCfRsy/ZELu3S8t+wAHe9lnZVW65nXtXMqUgZ6341pwtBk4JkoV0AJdjBPmXV
- YwP1g3pcrAR9hqx5nctwYTB6H+mWwmB7Le1yjCk4fCwsatFHCDvz8TrYvc0a2Rpu6PXV
- OPFf0++JGC/fBPYJUM08I2KHB+oVVXJ1irrI7MQ0jMOccXd1gLYIN1LHzd6DEWnagTaH
- MdFnbrU4z6ljJUpg4LssW/P+n06YKVIy8avYvMN8vNm/r6P2pDKKdpGxKVITXg0y+KoW
- mAlEtfeCcHht0OcCRYDRyU7Sk9nTs8bn5u32rdHSmhPFiW07mBr0qMXofGUPLarVBTi1
- tVwQ==
-X-Gm-Message-State: AOAM531U2P7bkRmHziWqNri/CiiDiVyvFyacBndpXn2yIzRWoLvgOt+d
- +RUSRzqrXa/GaMe9BxzHg7gUag==
-X-Google-Smtp-Source: ABdhPJxT/WCzbVCaaLi/U85+9dYF2aua9WX+rJ3mdS1VkOA5TphfBwOKyUn0da07PEYXOUycP/jyMQ==
-X-Received: by 2002:a63:7308:: with SMTP id o8mr2989089pgc.77.1634964520870;
- Fri, 22 Oct 2021 21:48:40 -0700 (PDT)
+ bh=k9sMBO4zmDNbySLwOsXjOy2WgF4JSmYQyS947gxI4Xc=;
+ b=qMYnt+vBelTvhdn43qHLtwlzCZ5hW2Y63FL2jjxFmBrQ0L/6YFIZkyOM572Jm0vhGY
+ jca4x4C5ES6yY+1AP9CVzCPMYKv1DDpT/5UEfHVmQQuv3sYawy1Fkx+CvPoCR8iznQVs
+ hN/3mjSZ9kqDuLF9tycBgXVqwndNtC2Er7F0X4U1sE4p1ov+K2GtDIDIXDTvFagZM5kW
+ zJN51vXe+rUCooYN9S8pN4NdQC/Wc18KheVgJgpKqEbn2Dx5PP3hqqiQKu6nvN1EucQS
+ NgicDIDX7jDThCkbk3+PpqzUVLBw8qzLK2bJJdWMr0LIe7APs7Is2OKc4GVfW95j2fSf
+ eQOQ==
+X-Gm-Message-State: AOAM532WMdzxWgGPXHIqbs18P2gP7pczlbj6QxcBa/BOutXp0n+/e3QP
+ /sF+A0ZCnOQyXU1+Y/m4jlRIAw==
+X-Google-Smtp-Source: ABdhPJy0jqax+eRCtYVgLpPyfxKKGqH7zYDhTxMSBauVPdAq45OCFTrqED5NaNo1kF6Ez1swWVThRw==
+X-Received: by 2002:a17:90a:a8f:: with SMTP id
+ 15mr4395234pjw.229.1634964790954; 
+ Fri, 22 Oct 2021 21:53:10 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id d13sm12374626pfu.196.2021.10.22.21.48.40
+ by smtp.gmail.com with ESMTPSA id j1sm31884pfj.155.2021.10.22.21.53.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Oct 2021 21:48:40 -0700 (PDT)
-Subject: Re: [PATCH 17/33] target/ppc: Implement Vector Insert from VSR using
- GPR index insns
+ Fri, 22 Oct 2021 21:53:10 -0700 (PDT)
+Subject: Re: [PATCH 18/33] target/ppc: Move
+ vinsertb/vinserth/vinsertw/vinsertd to decodetree
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
- <20211021194547.672988-18-matheus.ferst@eldorado.org.br>
+ <20211021194547.672988-19-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b31767a1-b11c-0535-46db-1b47da675ed6@linaro.org>
-Date: Fri, 22 Oct 2021 21:48:38 -0700
+Message-ID: <7df523dd-ef96-cbb4-afec-18e6ac80176a@linaro.org>
+Date: Fri, 22 Oct 2021 21:53:09 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211021194547.672988-18-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20211021194547.672988-19-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
 X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.742,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,22 +97,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 10/21/21 12:45 PM, matheus.ferst@eldorado.org.br wrote:
 > From: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > 
-> Implements the following PowerISA v3.1 instructions:
-> vinsbvlx: Vector Insert Byte from VSR using GPR-specified Left-Index
-> vinshvlx: Vector Insert Halfword from VSR using GPR-specified
->            Left-Index
-> vinswvlx: Vector Insert Word from VSR using GPR-specified Left-Index
-> vinsbvrx: Vector Insert Byte from VSR using GPR-specified Right-Index
-> vinshvrx: Vector Insert Halfword from VSR using GPR-specified
->            Right-Index
-> vinswvrx: Vector Insert Word from VSR using GPR-specified Right-Index
-> 
 > Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > ---
->   target/ppc/insn32.decode            |  7 +++++++
->   target/ppc/int_helper.c             |  6 +++---
->   target/ppc/translate/vmx-impl.c.inc | 32 +++++++++++++++++++++++++++++
->   3 files changed, 42 insertions(+), 3 deletions(-)
+>   target/ppc/helper.h                 |  4 ----
+>   target/ppc/insn32.decode            |  5 +++++
+>   target/ppc/int_helper.c             | 21 -------------------
+>   target/ppc/translate/vmx-impl.c.inc | 32 ++++++++++++++++++++---------
+>   target/ppc/translate/vmx-ops.c.inc  | 10 +++------
+>   5 files changed, 30 insertions(+), 42 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
