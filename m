@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6787438593
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 23:49:54 +0200 (CEST)
-Received: from localhost ([::1]:47700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4B1438594
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 23:50:01 +0200 (CEST)
+Received: from localhost ([::1]:48226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meOtl-0004ex-AB
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 17:49:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40626)
+	id 1meOts-00051i-2l
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 17:50:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1meOs7-00032J-EG
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 17:48:11 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:35385)
+ id 1meOsA-00033r-5D
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 17:48:14 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1meOs4-00052U-4Z
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 17:48:10 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- 84-20020a1c0457000000b003232b0f78f8so8316594wme.0
- for <qemu-devel@nongnu.org>; Sat, 23 Oct 2021 14:48:07 -0700 (PDT)
+ id 1meOs8-00054z-BA
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 17:48:13 -0400
+Received: by mail-wr1-x431.google.com with SMTP id z14so3682716wrg.6
+ for <qemu-devel@nongnu.org>; Sat, 23 Oct 2021 14:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GEZRVVxWl3KiT2RdI5oFWcJhS2OeBMe7WFpUsgBTO0g=;
- b=hc7mMln42sAQPKONZkg2j1TcMUWdm8Iz4UVkBRlFoT5EeBO6FF31zGUGSHjEIeWRcc
- KyDvUqzurOWqRk0vxKcmBPtMV3mtkdxQgAy9YFQqOT8OpB5usouf+DcHAFlzeajXnPXe
- RSBJAFu4vYB02X3G+Fxwn4e8TuK+ujVaJL6Dq6NUyhwBliqfJsk4vBWbszVYElj3P+8S
- 8p7fmRJnecfUJWYOeGdbKFj3Acx/rvxsML72kqnxItrwImKsHKf9gWBsoZ+eiNAsoABP
- +yg2MBwr73ZuXU2tNQLmdidp1JE66P9/yBO/oZyNbcB/2ZMgY0+inS6qFXLS5ImdMUk2
- Wc1A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=4h8cd2gj6LioCQKjAoPWyLIIdDE8FcGsphzqJRwMU9Y=;
+ b=g7j/ChCc/LcNFTfAhTouMvq95VT2Z/oE6cC6dPh783oLS+sQ+3v1F3jaD8QfE3rQMm
+ u29yIy9D3i/gjj+wHBs8p2pzW4P5OrC6SAKJ+RrqXwIVGpUtM5hm/0MLCsZq9flxwBjY
+ OCZ0+9gq4k72YJvXQ1D0azTYoGQ4erYCzBdgInpIWOcCT+120gikrDyKidALpJjTpAD3
+ rXqLpvIo5XT1O7+AgwUpPZT7ETORlgBDgDQA7TeFqT4WT/IIxv+xHmuHpN3ROSOGONTg
+ ilOj6l4E+Jtm19F5YbKO3aNJKTWz/oRHSy1jI1JlaxvK5WoCoMSgoBFT/Ifn+6OdRcoC
+ YzsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=GEZRVVxWl3KiT2RdI5oFWcJhS2OeBMe7WFpUsgBTO0g=;
- b=L7qhWbj9IX7xsqLj0IFE466AAgJHECFqxItS7PmZgOvMkcluhgU3iWUVzMfLLix1Ut
- G3guXRizvF//4SwrGPX/Cg52WdX0amPhFXg9GYhdYAs8T9VfJ70wJCwFdfzIK9heHUVB
- 2ZtLcUnuwhDfI1+XX9WixxQl0tx1Z1sAUwS6LsdCMa1hdObkgh0QmUZWy0J1eeovM8m6
- PGxRJCFFt+/XBOlCqWtzWZ0/mBD9osAVsevM1B/HIZRKh4eVj+zTqUXvkS6mDUYeGq4W
- i9iRQgSHgO+l127Gxkt8O+UcuroWFhB9U278DqewDBGMzDwl+bwhdnqP/X+u/x1Nhq7b
- hKNA==
-X-Gm-Message-State: AOAM531H4HoGTnfg6nIbsQx2a5gMt5E8/rPHzYok8lk1Tq0kUXDdWf7s
- VU4QRWzOsjYYe0CIUXORfVu9EfPeZOY=
-X-Google-Smtp-Source: ABdhPJxkqqQwf/L+8Mw7v++gQiH6ENpKz1GgAvDsJALBrqtXrj8IklxoSlEjh+0MG2ZeCtPv+b0EXw==
-X-Received: by 2002:a7b:c856:: with SMTP id c22mr9243592wml.178.1635025685607; 
- Sat, 23 Oct 2021 14:48:05 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=4h8cd2gj6LioCQKjAoPWyLIIdDE8FcGsphzqJRwMU9Y=;
+ b=u1wv/5lf25CEkVRfpfzaM24kUJCK/tzAVxs+zu7C47Fols2B0XNZ1tKzqT5WKOeLAf
+ +MrTFmWsT2w6BkvNGl9h8ideacVMAYC48NuCYUP2Vc90nOJao8llvGWgmFwo3K0Z6s5A
+ 8KtjD1134H7tlNDqXLnIcAaANxt9UMDNagW0k8pLNTE9Z0PO7aZB8uc0rWJ9FZ6klp6m
+ 83Z6sACzM6GPzfaDoPtpb/aLzdZexhAGbGd2+wSD7UDfHyZoU6D1ZLe7TO9ll7d6rHnH
+ ZduRHwW0EzjTaKQA39ErQnfkye2eeKW3QKl1SrFgLHY65arCGclG5yP0lalatekHPpHp
+ F6kA==
+X-Gm-Message-State: AOAM532iUdwxuAiIIDMnwMH87rXQgh7+nG6KUP9oLLC77qSE2LUfW7ZO
+ /RwY+5tsgq8DsFrxLDSTYbeCKVC2sSE=
+X-Google-Smtp-Source: ABdhPJygghYsMFNf79bfBq1NQEW0qB01qocNzzfDru+dan/hTivChMGkQG8+JCaUi1zsneKjy+UnGA==
+X-Received: by 2002:a5d:5229:: with SMTP id i9mr10653560wra.114.1635025690715; 
+ Sat, 23 Oct 2021 14:48:10 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- o194sm4985049wme.40.2021.10.23.14.48.04
+ s3sm11606358wrm.40.2021.10.23.14.48.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Oct 2021 14:48:05 -0700 (PDT)
+ Sat, 23 Oct 2021 14:48:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/33] target/mips: Fully convert MSA opcodes to decodetree
-Date: Sat, 23 Oct 2021 23:47:30 +0200
-Message-Id: <20211023214803.522078-1-f4bug@amsat.org>
+Subject: [PATCH 01/33] tests/tcg: Fix some targets default cross compiler path
+Date: Sat, 23 Oct 2021 23:47:31 +0200
+Message-Id: <20211023214803.522078-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211023214803.522078-1-f4bug@amsat.org>
+References: <20211023214803.522078-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,96 +92,55 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-This series converts 2000+ lines of switch() code to decodetree=0D
-description, so this hard-to-review/modify switch is auto generated=0D
-by the decodetree script. This is a big win for maintenance (and=0D
-indeed the convertion revealed 2 bugs).=0D
-=0D
-Massive convertions are - beside being often boring - bug-prone.=0D
-In this series we re-start running the MSA tests (the tests are=0D
-run automagically in the 'build-user-static' job on gitlab CI).=0D
-=0D
-Although boring, the conversion is very clean, so I hope it will=0D
-be easy enough to review. The TRANS*() macros are heavily used.=0D
-=0D
-When possible, constant fields are hold with tcg_constant().=0D
-=0D
-Note, various opcodes can be optimized using TCG host vectors.=0D
-We won't address that in this series, as it makes the resulting=0D
-review harder. We will post that in a following series. Here we=0D
-simply dummy-convert.=0D
-=0D
-The resulting msa.decode file is quite pleasant to look at, and=0D
-the diff-stat is encouraging: number of LoC halved.=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-git: https://gitlab.com/philmd/qemu.git tree/mips-msa-decodetree=0D
-Based-on: <20211023164329.328137-1-f4bug@amsat.org>=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (33):=0D
-  tests/tcg: Fix some targets default cross compiler path=0D
-  target/mips: Fix MSA MADDV.B opcode=0D
-  target/mips: Fix MSA MSUBV.B opcode=0D
-  tests/tcg/mips: Run MSA opcodes tests on user-mode emulation=0D
-  target/mips: Have check_msa_access() return a boolean=0D
-  target/mips: Use enum definitions from CPUMIPSMSADataFormat enum=0D
-  target/mips: Rename sa16 -> sa, bz_df -> bz -> bz_v=0D
-  target/mips: Convert MSA LDI opcode to decodetree=0D
-  target/mips: Introduce generic TRANS_CHECK() for decodetree helpers=0D
-  target/mips: Extract df_extract() helper=0D
-  target/mips: Convert MSA I5 instruction format to decodetree=0D
-  target/mips: Convert MSA BIT instruction format to decodetree=0D
-  target/mips: Convert MSA SHF opcode to decodetree=0D
-  target/mips: Convert MSA I8 instruction format to decodetree=0D
-  target/mips: Convert MSA load/store instruction format to decodetree=0D
-  target/mips: Convert MSA 2RF instruction format to decodetree=0D
-  target/mips: Convert MSA FILL opcode to decodetree=0D
-  target/mips: Convert MSA 2R instruction format to decodetree=0D
-  target/mips: Convert MSA VEC instruction format to decodetree=0D
-  target/mips: Convert MSA 3RF instruction format to decodetree=0D
-    (DF_HALF)=0D
-  target/mips: Convert MSA 3RF instruction format to decodetree=0D
-    (DF_WORD)=0D
-  target/mips: Convert MSA 3R instruction format to decodetree (part=0D
-    1/4)=0D
-  target/mips: Convert MSA 3R instruction format to decodetree (part=0D
-    2/4)=0D
-  target/mips: Convert MSA 3R instruction format to decodetree (part=0D
-    3/4)=0D
-  target/mips: Convert MSA 3R instruction format to decodetree (part=0D
-    4/4)=0D
-  target/mips: Convert MSA ELM instruction format to decodetree=0D
-  target/mips: Convert MSA COPY_U opcode to decodetree=0D
-  target/mips: Convert MSA COPY_S and INSERT opcodes to decodetree=0D
-  target/mips: Convert MSA MOVE.V opcode to decodetree=0D
-  target/mips: Convert CFCMSA and CTCMSA opcodes to decodetree=0D
-  target/mips: Remove generic MSA opcode=0D
-  target/mips: Remove one MSA unnecessary decodetree overlap group=0D
-  target/mips: Adjust style in msa_translate_init()=0D
-=0D
- tests/tcg/mips/ase-msa.mak         |   30 +=0D
- target/mips/tcg/translate.h        |    9 +=0D
- target/mips/tcg/msa.decode         |  231 ++-=0D
- target/mips/tcg/msa_helper.c       |   64 +-=0D
- target/mips/tcg/msa_translate.c    | 2781 +++++++---------------------=0D
- MAINTAINERS                        |    1 +=0D
- tests/tcg/configure.sh             |   14 +-=0D
- tests/tcg/mips/Makefile.target     |    5 +=0D
- tests/tcg/mips64/Makefile.target   |    9 +=0D
- tests/tcg/mips64el/Makefile.target |   12 +=0D
- tests/tcg/mipsel/Makefile.target   |    9 +=0D
- 11 files changed, 1052 insertions(+), 2113 deletions(-)=0D
- create mode 100644 tests/tcg/mips/ase-msa.mak=0D
- create mode 100644 tests/tcg/mips64/Makefile.target=0D
- create mode 100644 tests/tcg/mips64el/Makefile.target=0D
- create mode 100644 tests/tcg/mipsel/Makefile.target=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+We do not want a shell command substitution, but a parameter
+substitution (with assignment). Replace $() -> ${}, otherwise
+the expanded command return an empty string and the $cross_cc
+variable is not set.
+
+Fixes: 634ef789f8e ("tests/tcg: add more default compilers to configure.sh")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ tests/tcg/configure.sh | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 1f985ccfc0c..b8574165fa6 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -46,7 +46,7 @@ fi
+ : ${cross_cc_aarch64="aarch64-linux-gnu-gcc"}
+ : ${cross_cc_aarch64_be="$cross_cc_aarch64"}
+ : ${cross_cc_cflags_aarch64_be="-mbig-endian"}
+-: $(cross_cc_alpha="alpha-linux-gnu-gcc")
++: ${cross_cc_alpha="alpha-linux-gnu-gcc"}
+ : ${cross_cc_arm="arm-linux-gnueabihf-gcc"}
+ : ${cross_cc_cflags_armeb="-mbig-endian"}
+ : ${cross_cc_hexagon="hexagon-unknown-linux-musl-clang"}
+@@ -55,17 +55,17 @@ fi
+ : ${cross_cc_i386="i686-linux-gnu-gcc"}
+ : ${cross_cc_cflags_i386="-m32"}
+ : ${cross_cc_m68k="m68k-linux-gnu-gcc"}
+-: $(cross_cc_mips64el="mips64el-linux-gnuabi64-gcc")
+-: $(cross_cc_mips64="mips64-linux-gnuabi64-gcc")
+-: $(cross_cc_mipsel="mipsel-linux-gnu-gcc")
+-: $(cross_cc_mips="mips-linux-gnu-gcc")
++: ${cross_cc_mips64el="mips64el-linux-gnuabi64-gcc"}
++: ${cross_cc_mips64="mips64-linux-gnuabi64-gcc"}
++: ${cross_cc_mipsel="mipsel-linux-gnu-gcc"}
++: ${cross_cc_mips="mips-linux-gnu-gcc"}
+ : ${cross_cc_ppc="powerpc-linux-gnu-gcc"}
+ : ${cross_cc_cflags_ppc="-m32"}
+ : ${cross_cc_ppc64="powerpc64-linux-gnu-gcc"}
+ : ${cross_cc_ppc64le="powerpc64le-linux-gnu-gcc"}
+-: $(cross_cc_riscv64="riscv64-linux-gnu-gcc")
++: ${cross_cc_riscv64="riscv64-linux-gnu-gcc"}
+ : ${cross_cc_s390x="s390x-linux-gnu-gcc"}
+-: $(cross_cc_sh4="sh4-linux-gnu-gcc")
++: ${cross_cc_sh4="sh4-linux-gnu-gcc"}
+ : ${cross_cc_cflags_sparc="-m32 -mv8plus -mcpu=ultrasparc"}
+ : ${cross_cc_sparc64="sparc64-linux-gnu-gcc"}
+ : ${cross_cc_cflags_sparc64="-m64 -mcpu=ultrasparc"}
+-- 
+2.31.1
+
 
