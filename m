@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8804384BA
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 20:38:45 +0200 (CEST)
-Received: from localhost ([::1]:56476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 870544384B9
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 20:38:07 +0200 (CEST)
+Received: from localhost ([::1]:54750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meLum-0006Wb-Vd
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 14:38:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56976)
+	id 1meLuA-0005Ox-L1
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 14:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1meLnq-0005DX-9B; Sat, 23 Oct 2021 14:31:34 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:36341)
+ id 1meLnq-0005Cx-29; Sat, 23 Oct 2021 14:31:34 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:54297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1meLnn-0006X9-Le; Sat, 23 Oct 2021 14:31:33 -0400
+ id 1meLno-0006Xr-7y; Sat, 23 Oct 2021 14:31:33 -0400
 Received: from quad ([82.142.24.54]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mw99Y-1muugE43Fs-00s4y4; Sat, 23
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1M8hph-1maD422au1-004oIr; Sat, 23
  Oct 2021 20:31:27 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/11] MAINTAINERS: Add myself as reviewer of 'Machine core' API
-Date: Sat, 23 Oct 2021 20:31:16 +0200
-Message-Id: <20211023183123.813116-5-laurent@vivier.eu>
+Subject: [PULL 05/11] softmmu/physmem.c: Fix typo in comment
+Date: Sat, 23 Oct 2021 20:31:17 +0200
+Message-Id: <20211023183123.813116-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211023183123.813116-1-laurent@vivier.eu>
 References: <20211023183123.813116-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:BvcAaw+R/IwhQ4xfQkGCnhA5wh/x5okd9ZFDYBS3QRl8/mHhl6q
- ffJeq12APrx2mcYaKuNUUwVRchX5wfuDZMzPMZeQeZlET3SbdgmBqtxhau9wUQDMwYZEum8
- VJ/8JmqZP73TUhGgpd4iRTxhe1gzInDoDGlulQ30Ou9RRwey109E7nWb3q4u+vy6NFxsgAt
- 5BBRfbF+dfMmZIXBw1zdg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3o8ni+6GUSw=:d8dCzrCjqKLIYW9yu79q1f
- AV98GARjT2extYWcw67fQG+H4/C/iFKgnDuAO0OzestQlzBtoiP5gK9bwe3UfnN4qn3NO2SVf
- iyMQz1KtOR/k6RvVQoBNukFYNnuVfQ0QG44jIORamE5E+Kbg8r+hIxR8K89hbeBQdaoo3oqm2
- iDE2x/woih2zVbv1ZLXir73SesJ1fxa/ZWaYEKP5JH8EgREwrvzBb4Gt7e16R++S+PvnP8yDN
- dk1fXu2b9+OoqPKqGr8ZHldaWglmuh4CNCX9OeJU5bIgFfr7jEOiEIrqnAkFi39nTUrvkOfG9
- M06sdpKWWabRM4nqbNii5VTXZZaqkf2I+OJFXbh0TqGJKeQh/OEpTfpunR5RTk/3GP41Q27el
- dpYXCfhAcCP11wjun9fZiZWbYofiy8zsYdO67Kjg8JVP8jPyQe+vqyQonLUBxCwF5a/dCfYuR
- HMCocwSp9KOa46x9DmK5/s4gIaYGc9oqDCHt0brVx1/OCMyQTDqfSRUT9C2JM7h6VxO76pn1E
- TR+joYRwrFSrUlDwxAbqjTpBF6nV8+E4+139XxTElnLG9D+r2RXV1A941Y6gmdEEssjh/RCEc
- Y2GCtduqvt4wyj4D4gPq/JI9aTs7tIv8eZNiKb2A2ZlkCVEA/pvtMYznegQxhSvRLzYSITi/b
- 7Io9f/cvcix0QPSoNZZ6v2Lk2PcqLMzYmVi5JvSqhpfBmLOp8KR4tSFtz9viD3zENBf0=
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:y8oI+oP3VZBJGE7Vh5vENUQtDo2GgcjKJ7Zk2XTisExJFLPOyV+
+ R5TI9b4LUtPzIDYDFaKiAvNuOuNAyRgj3jBeEvIYLhZ15WDGEudEzB/z7RTak56vNtbVkFO
+ fIRghNvV9hR/QP3wNwJpsg6Ge9+WMQbgg3yNj0Xm8C9tI8dxSilBs3A0napWEYewegEf5tf
+ HnIoOcgpp+Qhw5iLXrAhg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UMVT3kHt2GE=:1x3C4wPoi7Mf96+2V4dHUH
+ vQNURsYVSHsuaSU1nmm3Ss35OaxWFURQnDLh1Fl60deN+v3KHE82UBwFp4oYPUQX9lBeECyII
+ d8wQYReEolsNeUk9ReOjwzzd86CPA741Ir6bRreg2lNFOOiaFs0aWw/rqNlQKw+9l3KGvEm79
+ 39muCwgKfrB8QcN7DZaOmU2dqg1+1aAZ96MyafQyMOB2vQZZfWz5EXKHjSxRSZWkLvYoOWNIC
+ uqDZ6x7VmwsYIlRz2bUzj1xe4b/CNvAnVK2JPOTggDd0DygJYRxi4cunBp+ifJX5anEhQDJ8j
+ PZUL6M7jGYuy8goGFmr8HsKQdY6u3R8g9zv8u1MMfh8uDfHQTmC3av2zShokSp4TA8h+X0dL9
+ ty2RU/imE6dwVXkdWsTH8ZKpA8FryNLy3Qvo+X8RJmBBlw1NUXClrK5of8UYb+wksAbMwsDg1
+ PqJDT5vdQxt6rLRhShOahy1XzReUmTbe+FJKimJcm2BlZmvGv+rF2aPkA7QLkdw98CWtmylyY
+ z0GGE2/tXfzn+BN8fHlrD6LEDVVgP9iA5RAD4OWPQE6KqENzbiblE8NrIG//RUZFeHmcc/17N
+ bd9O6U/IqoWUK7Q3Sr7/+1DbhdQA/TTVX2a1qxze095jIJ7mb2vJKrtOhTgn0/WzXA0QSBpD/
+ 9iLxaJoRQ7JRipTRbG5lDwQU2Mbv4qN0+o70WIjPrwrvLO9tTn1Mtwm/CZjtx5VB5Q3g=
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,38 +65,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Greg Kurz <groug@kaod.org>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Greg Kurz <groug@kaod.org>
 
-In order to help Eduardo and Marcel with the machine
-core API, add myself as reviewer. That will also help
-me to learn more about this subsystem :)
+Fix the comment to match what the code is doing, as explained in
+the changelog of commit 86cf9e154632cb28d749db0ea47946fba8cf3f09
+that introduced the change:
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-Id: <20211007093108.323223-1-philmd@redhat.com>
+    Commit 9458a9a1df1a4c719e24512394d548c1fc7abd22 added synchronization
+    of vCPU and migration operations through calling run_on_cpu operation.
+    However, in replay mode this synchronization is unneeded, because
+    I/O and vCPU threads are already synchronized.
+    This patch disables such synchronization for record/replay mode.
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <163429018454.1146856.3429437540871060739.stgit@bahia.huguette>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ softmmu/physmem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4e77d03651bb..894dc4310526 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1617,6 +1617,7 @@ F: pc-bios/bios-microvm.bin
- Machine core
- M: Eduardo Habkost <ehabkost@redhat.com>
- M: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-+R: Philippe Mathieu-Daudé <philmd@redhat.com>
- S: Supported
- F: cpu.c
- F: hw/core/cpu.c
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index f67ad2998121..555c907f6743 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -2633,7 +2633,7 @@ static void tcg_log_global_after_sync(MemoryListener *listener)
+          * In record/replay mode this causes a deadlock, because
+          * run_on_cpu waits for rr mutex. Therefore no races are possible
+          * in this case and no need for making run_on_cpu when
+-         * record/replay is not enabled.
++         * record/replay is enabled.
+          */
+         cpuas = container_of(listener, CPUAddressSpace, tcg_as_listener);
+         run_on_cpu(cpuas->cpu, do_nothing, RUN_ON_CPU_NULL);
 -- 
 2.31.1
 
