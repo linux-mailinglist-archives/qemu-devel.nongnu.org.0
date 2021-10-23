@@ -2,90 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01E64383A7
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 14:33:44 +0200 (CEST)
-Received: from localhost ([::1]:38388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F79A4383CC
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 15:23:49 +0200 (CEST)
+Received: from localhost ([::1]:38148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meGDX-0003IE-C3
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 08:33:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52474)
+	id 1meH00-0008Uz-2U
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 09:23:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1meGBH-0002UR-EW
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 08:31:23 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:57499)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1meGyi-0007G8-5q
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 09:22:28 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:49317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1meGBF-0004B1-5X
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 08:31:23 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 461E85C0080;
- Sat, 23 Oct 2021 08:31:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Sat, 23 Oct 2021 08:31:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=b
- a3jojt7d7UL1bDNERt5OvvcQSZT2cCSsLVPpvXiRoo=; b=H9fZOXIMTqAsDbP3p
- B4IosEYp/UKishWLlFmbqWlKBdyIgFil4oCnEttafADEQvT1X3uKGWSN8duESvEY
- CtlD5ItWFHFd47zKBcFklCxXldb1/s+VfPdaQzVrHMpqIGsQ7uRMYMYrh0x4t2N9
- bgXKMstPCb8PTcPtOcmkw3edw3McBs2inaGHtYQKO43aFbZ+UEqCFQgTFLdeCu+m
- gWX85USby1CyQkY3IQ38IFlqRZBXwLhsrS6MRxYJxmN3SFrSb0gMw0ZxlseDxplF
- JL+7cog/ZrtRfrotdjVN28c4iHzMlyojml4g6BJ07mCXM430Jtz5k2YvTuM8UzAr
- 7rP1w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=ba3jojt7d7UL1bDNERt5OvvcQSZT2cCSsLVPpvXiR
- oo=; b=livVXnqpij+bhX5iBBae46Og8oFndSwmMOrt0o0bFp9IhckR5C2NGVqAc
- SAmeWg/rlOFPRzf/W6ib58aMnlD8/8XNyjqAV6bOa1Q/j7QF+6tLO7n1WVt/8EXk
- pY7waS9T9nPS0TT+/5e5s1yMGtrtMsiqrd1ZnWEYDPOjRVc3Q1XB0kCzPgMRZseq
- Zsnu2wx3XIzj91wb86KzJOCO05sI4J/8l5hp51MYp5/y4ZCzYoQF/ch4b36m19Fb
- QMV6OLlDktvVFreZjKhIv3QwHiC59akjVaWJ1SHDmjk9Er57v8tUWK874qZZ/q4H
- /tOJz9U8Wd1cOlA+sW7FtF58ye53g==
-X-ME-Sender: <xms:kgB0YVVx4yrRoWl8MQSQfwoQnIJVK6HEB7lGSeBmmvT33oB0wW-MxQ>
- <xme:kgB0YVm7-xKoW3EuhFcEQ7lvM8kxNtkt8pT-AtwZEP2YZnea3d9v8mMK4M8EMBeVz
- BXIgX4dMan16rzG5Ao>
-X-ME-Received: <xmr:kgB0YRYT7RqBR459nlgKReCNlPIcmZEoZc5F-el75LhVQRID3TvuYl2sLTDIjSs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdeftddghedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepkfffgggfuffvfhfhjggtgfesthekredttdefjeenucfhrhhomheplfhirgig
- uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
- ggtffrrghtthgvrhhnpeehieduvdevhfekjeeftddtkeeitefhudekvdeiueeulefgleei
- jeeghedvkeduleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
- hrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:kgB0YYVQQmdQXvM-0HXoYHmNaXr4CMJLHLNnDL1aUL2g2fOxWJxgMA>
- <xmx:kgB0YfmKc1gAZDatWxudqLEvLM2IN7LqoUHkJIiQkZkBr_cKDScuRg>
- <xmx:kgB0YVd-gAQKJrCSFdmvFDP0MN8fhglxeM8Mi-oF_LdtyAoMHJBM-A>
- <xmx:lAB0YYD2tJsI2wixR2bEsdYGyO4Xlw8Yo4V0rBPxVlYiJ3MnascsMg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 23 Oct 2021 08:31:13 -0400 (EDT)
-Message-ID: <ab829c73-2a67-c383-12a9-dcfb4148ca8d@flygoat.com>
-Date: Sat, 23 Oct 2021 13:31:10 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1meGyf-0001k1-4P
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 09:22:27 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id B92A5748F48;
+ Sat, 23 Oct 2021 15:22:19 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 8320C7475FA; Sat, 23 Oct 2021 15:22:19 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 7E1FF7462D3;
+ Sat, 23 Oct 2021 15:22:19 +0200 (CEST)
+Date: Sat, 23 Oct 2021 15:22:19 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Subject: Re: Looking for advise on debugging a non-boot kernel on
+ qemu-system-sh4
+In-Reply-To: <105383e6-9dab-e2bd-ffe2-fead5555f37c@physik.fu-berlin.de>
+Message-ID: <c3cf7b52-10bc-eff3-c08a-d6e743cb863@eik.bme.hu>
+References: <4882e4cc-6754-1c8a-a8ae-a2ceeca115fb@physik.fu-berlin.de>
+ <e11d3ee1-2a25-7633-babd-d45f36b04c5b@eik.bme.hu>
+ <013d782d-0d7c-8204-cab2-08102a7d80f4@physik.fu-berlin.de>
+ <3c524162-e83-a9b3-1e28-2aa28dbefa76@eik.bme.hu>
+ <f0933be1-75ee-b053-1f53-f96258d41163@physik.fu-berlin.de>
+ <d2553511-b83c-d4f1-5a88-b661bc97eb@eik.bme.hu>
+ <9189dbe7-cf92-19c7-dee5-b707262964d1@physik.fu-berlin.de>
+ <3f483f63-9e68-b1da-01ab-a1e05dcf45aa@physik.fu-berlin.de>
+ <378d863-abbb-57b7-d624-ce1ca81d09c@eik.bme.hu>
+ <105383e6-9dab-e2bd-ffe2-fead5555f37c@physik.fu-berlin.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 3/3] target/mips: Fix Loongson-3A4000 MSAIR config register
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20211022174550.36937-1-f4bug@amsat.org>
- <20211022174550.36937-4-f4bug@amsat.org>
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <20211022174550.36937-4-f4bug@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=jiaxun.yang@flygoat.com;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.781,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,59 +66,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello,
 
-在 2021/10/22 18:45, Philippe Mathieu-Daudé 写道:
-> When using the Loongson-3A4000 CPU, the MSAIR is returned with a
-> zero value (because unimplemented). Checking on real hardware,
-> this value appears incorrect:
+On Sat, 23 Oct 2021, John Paul Adrian Glaubitz wrote:
+> On 10/23/21 03:07, BALATON Zoltan wrote:
+>>> I can confirm that the default config works for me, too. Both with gcc-8 and gcc-11.
+>>
+>> OK with your config I can reproduce the problem too but the kernel with that config
+>> is 177MB and the r2d board has 64MB RAM so this can't work that way. Then it's likely
+>> not a but but a too big kernel.
 >
->    $ cat /proc/cpuinfo
->    system type     : generic-loongson-machine
->    machine         : loongson,generic
->    cpu model       : Loongson-3 V0.4  FPU V0.1
->    model name      : Loongson-3A R4 (Loongson-3A4000) @ 1800MHz
->    isa             : mips1 mips2 mips3 mips4 mips5 mips32r1 mips32r2 mips64r1 mips64r2
->    ASEs implemented        : vz msa loongson-mmi loongson-cam loongson-ext loongson-ext2
->    ...
->
-> Checking the CFCMSA opcode result with gdb we get 0x60140:
->
->    Breakpoint 1, 0x00000001200037c4 in main ()
->    1: x/i $pc
->    => 0x1200037c4 <main+52>:  cfcmsa       v0,msa_ir
->    (gdb) si
->    0x00000001200037c8 in main ()
->    (gdb) i r v0
->    v0: 0x60140
->
-> So set MSAIR=0x60140 for the Loongson-3A4000 CPU model added in
-> commit af868995e1b ("target/mips: Add Loongson-3 CPU definition").
->
-> Cc: Huacai Chen <chenhuacai@kernel.org>
-> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->   target/mips/cpu-defs.c.inc | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
-> index cbc45fcb0e8..f43a8e7c9d9 100644
-> --- a/target/mips/cpu-defs.c.inc
-> +++ b/target/mips/cpu-defs.c.inc
-> @@ -886,6 +886,7 @@ const mips_def_t mips_defs[] =
->                       (0x1 << FCR0_D) | (0x1 << FCR0_S),
->           .CP1_fcr31 = 0,
->           .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
-> +        .MSAIR = (0x601 << MSAIR_ProcID) | (0x40 << MSAIR_Rev),
->           .SEGBITS = 48,
->           .PABITS = 48,
->           .insn_flags = CPU_MIPS64R2 | INSN_LOONGSON3A |
+> You either need to strip the kernel with "strip vmlinux" or use the image from arch/sh/
+> boot/zImage.
+
+I've actually used that kernel but looked at the wrong uncompressed size, 
+it's indeed just 9.2MB when stripped so that should work. I was trying to 
+debug further and found two problems:
+
+Commit abb0cd93494 (accel/tcg: Split out log_cpu_exec) seems to have 
+broken -singlestep -d in_asm,cpu output with sh after a delay slot. Since 
+that commit I get:
+
+pc=0xac80003e sr=0x500000f1 pr=0x00000000 fpscr=0x00040001
+spc=0x00000000 ssr=0x00000000 gbr=0x00000000 vbr=0x00000000
+sgr=0x00000000 dbr=0x00000000 delayed_pc=0x00000000 fpul=0x00000000
+r0=0x8cc9d000 r1=0xacc9d000 r2=0xe0000000 r3=0x8c800000
+r4=0x00000000 r5=0x00000000 r6=0x00000000 r7=0x00000000
+r8=0x00000000 r9=0x00000000 r10=0x00000000 r11=0x00000000
+r12=0x00000000 r13=0x00000000 r14=0x00000000 r15=0x00000000
+r16=0x00000000 r17=0x500000f0 r18=0x00000000 r19=0x00000000
+r20=0x00000000 r21=0x00000000 r22=0x00000000 r23=0x00000000
+----------------
+IN:
+0xac800040:  bt.s       0xac80001a
+
+pc=0xac800040 sr=0x500000f1 pr=0x00000000 fpscr=0x00040001
+spc=0x00000000 ssr=0x00000000 gbr=0x00000000 vbr=0x00000000
+sgr=0x00000000 dbr=0x00000000 delayed_pc=0x00000000 fpul=0x00000000
+r0=0x8cc9cfe0 r1=0xacc9d000 r2=0xe0000000 r3=0x8c800000
+r4=0x00000000 r5=0x00000000 r6=0x00000000 r7=0x00000000
+r8=0x00000000 r9=0x00000000 r10=0x00000000 r11=0x00000000
+r12=0x00000000 r13=0x00000000 r14=0x00000000 r15=0x00000000
+r16=0x00000000 r17=0x500000f0 r18=0x00000000 r19=0x00000000
+r20=0x00000000 r21=0x00000000 r22=0x00000000 r23=0x00000000
+----------------
+IN:
+0xac800042:  add        #-32,r1
+
+pc=0xac800042 sr=0x500000f1 pr=0x00000000 fpscr=0x00040001
+spc=0x00000000 ssr=0x00000000 gbr=0x00000000 vbr=0x00000000
+sgr=0x00000000 dbr=0x00000000 delayed_pc=0xac80001a fpul=0x00000000
+r0=0x8cc9cfe0 r1=0xacc9d000 r2=0xe0000000 r3=0x8c800000
+r4=0x00000000 r5=0x00000000 r6=0x00000000 r7=0x00000000
+r8=0x00000000 r9=0x00000000 r10=0x00000000 r11=0x00000000
+r12=0x00000000 r13=0x00000000 r14=0x00000000 r15=0x00000000
+r16=0x00000000 r17=0x500000f0 r18=0x00000000 r19=0x00000000
+r20=0x00000000 r21=0x00000000 r22=0x00000000 r23=0x00000000
+in conditional delay slot (delayed_pc=0xac80001a)
+pc=0xac80001a sr=0x500000f1 pr=0x00000000 fpscr=0x00040001
+spc=0x00000000 ssr=0x00000000 gbr=0x00000000 vbr=0x00000000
+sgr=0x00000000 dbr=0x00000000 delayed_pc=0xac80001a fpul=0x00000000
+r0=0x8cc9cfe0 r1=0xacc9cfe0 r2=0xe0000000 r3=0x8c800000
+r4=0x00000000 r5=0x00000000 r6=0x00000000 r7=0x00000000
+r8=0x00000000 r9=0x00000000 r10=0x00000000 r11=0x00000000
+r12=0x00000000 r13=0x00000000 r14=0x00000000 r15=0x00000000
+r16=0x00000000 r17=0x500000f0 r18=0x00000000 r19=0x00000000
+r20=0x00000000 r21=0x00000000 r22=0x00000000 r23=0x00000000
+pc=0xac80001c sr=0x500000f1 pr=0x00000000 fpscr=0x00040001
+spc=0x00000000 ssr=0x00000000 gbr=0x00000000 vbr=0x00000000
+sgr=0x00000000 dbr=0x00000000 delayed_pc=0xac80001a fpul=0x00000000
+r0=0x8cc9cfe0 r1=0xacc9cfe0 r2=0xe0000000 r3=0x8c800000
+r4=0x00000000 r5=0x00000000 r6=0x00000000 r7=0x00000000
+r8=0x00000000 r9=0x00000000 r10=0x00000000 r11=0x00000000
+r12=0x00000000 r13=0x00000000 r14=0x00000000 r15=0x00000000
+r16=0x00000000 r17=0x500000f0 r18=0x00000000 r19=0x00000000
+r20=0x00000000 r21=0x00000000 r22=0x00000000 r23=0x00000000
+
+After the first delay slot no more in_asm output is printed. Going back to 
+the commit before I get normal output. Then running zImage with your 
+config I see:
+
+----------------
+IN:
+0x8c801574:  bra        0x8c801528
+
+pc=0x8c801574 sr=0x500000f0 pr=0x8c8013d6 fpscr=0x00040001
+spc=0x00000000 ssr=0x00000000 gbr=0x00000000 vbr=0x00000000
+sgr=0x00000000 dbr=0x00000000 delayed_pc=0x8c801594 fpul=0x00000000
+r0=0x00000007 r1=0x0000000e r2=0x8cca1084 r3=0xfffffff9
+r4=0x00000137 r5=0xfffffffa r6=0x8cca1570 r7=0x00000012
+r8=0x8cca1044 r9=0x00000011 r10=0x00000005 r11=0x00097d36
+r12=0x8cca1014 r13=0x0000000f r14=0x8cc0183c r15=0x8cca0f80
+r16=0x00000000 r17=0x500000f0 r18=0x00000000 r19=0x00000000
+r20=0x00000000 r21=0x00000000 r22=0x00000000 r23=0x00000000
+----------------
+IN:
+0x8c801576:  add        #-7,r5
+
+pc=0x8c801576 sr=0x500000f0 pr=0x8c8013d6 fpscr=0x00040001
+spc=0x00000000 ssr=0x00000000 gbr=0x00000000 vbr=0x00000000
+sgr=0x00000000 dbr=0x00000000 delayed_pc=0x8c801528 fpul=0x00000000
+r0=0x00000007 r1=0x0000000e r2=0x8cca1084 r3=0xfffffff9
+r4=0x00000137 r5=0xfffffffa r6=0x8cca1570 r7=0x00000012
+r8=0x8cca1044 r9=0x00000011 r10=0x00000005 r11=0x00097d36
+r12=0x8cca1014 r13=0x0000000f r14=0x8cc0183c r15=0x8cca0f80
+r16=0x00000000 r17=0x500000f0 r18=0x00000000 r19=0x00000000
+r20=0x00000000 r21=0x00000000 r22=0x00000000 r23=0x00000000
+in delay slot (delayed_pc=0x8c801528)
+----------------
+IN:
+0x8c800964:  .word 0x0000
+
+pc=0x8c800964 sr=0x500000f1 pr=0x8c801654 fpscr=0x00040001
+spc=0x00000000 ssr=0x00000000 gbr=0x00000000 vbr=0x00000000
+sgr=0x00000000 dbr=0x00000000 delayed_pc=0x8c800964 fpul=0x00000000
+r0=0x0000001b r1=0xac8009ca r2=0x8cc9956d r3=0xfffffefe
+r4=0x8cca1014 r5=0x00000000 r6=0x0142850a r7=0x8cc5001e
+r8=0x8cca1044 r9=0x00000102 r10=0x00000000 r11=0x00000000
+r12=0xac8009ca r13=0xac8009aa r14=0x00000000 r15=0x8cca0f28
+r16=0x00000000 r17=0x500000f0 r18=0x00000000 r19=0x00000000
+r20=0x00000000 r21=0x00000000 r22=0x00000000 r23=0x00000000
+----------------
+IN:
+0xac800000:  mov.l      0xac80007c,r1   ! 0x500000f0
+
+pc=0xac800000 sr=0x700000f0 pr=0x00000000 fpscr=0x00040001
+spc=0x00000000 ssr=0x00000000 gbr=0x00000000 vbr=0x00000000
+sgr=0x00000000 dbr=0x00000000 delayed_pc=0x00000000 fpul=0x00000000
+r0=0x00000000 r1=0x00000000 r2=0x00000000 r3=0x00000000
+r4=0x00000000 r5=0x00000000 r6=0x00000000 r7=0x00000000
+r8=0x00000000 r9=0x00000000 r10=0x00000000 r11=0x00000000
+r12=0x00000000 r13=0x00000000 r14=0x00000000 r15=0x00000000
+r16=0x00000000 r17=0x00000000 r18=0x00000000 r19=0x00000000
+r20=0x00000000 r21=0x00000000 r22=0x00000000 r23=0x00000000
+
+This seems to take a wrong turn at the delayed branch and somehow ends up 
+at 0x8c800964 instead of 0x8c801528 but I'm not sure where to look firther 
+why. I'm cc-ing Richard for both the -d cpu and this hoping he has some 
+more insight.
+
+Regards,
+BALATON Zoltan
 
