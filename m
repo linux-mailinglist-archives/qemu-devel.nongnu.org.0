@@ -2,99 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1424383ED
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 16:28:15 +0200 (CEST)
-Received: from localhost ([::1]:59196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 110BD438407
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 17:20:11 +0200 (CEST)
+Received: from localhost ([::1]:44800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meI0M-0000uy-Jl
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 10:28:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43728)
+	id 1meIob-00051t-Eb
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 11:20:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1meHz5-0008Vx-8E
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 10:26:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49966)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1meHz1-000268-BJ
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 10:26:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634999208;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=h6yLvsXAbI0/ftOl1pzhDKM6gJc8hltwe2gtLKJ73Uk=;
- b=F9T0dfPilFdzc1ZTGU7ND4jskKhAALBqV2MYZ3zhG1/HUAxlB4jWm9kv2rn29XD599tHZY
- YtONSeEIPGioshW74OUrX9BnOO2F2At9IHG8WW52HxbWrk9QZ1MRq8cb5YB+zFep+T5qvB
- 4dsW0yGzuldIYD4dl1Kxf9dQAZWVp/o=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-wY9gbYneOzOgU6VxT4GxlA-1; Sat, 23 Oct 2021 10:26:44 -0400
-X-MC-Unique: wY9gbYneOzOgU6VxT4GxlA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v18-20020a7bcb52000000b00322fea1d5b7so2259662wmj.9
- for <qemu-devel@nongnu.org>; Sat, 23 Oct 2021 07:26:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1meImn-000489-Tw
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 11:18:17 -0400
+Received: from mail-ua1-x930.google.com ([2607:f8b0:4864:20::930]:35401)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1meIml-0005WX-32
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 11:18:17 -0400
+Received: by mail-ua1-x930.google.com with SMTP id q13so13356487uaq.2
+ for <qemu-devel@nongnu.org>; Sat, 23 Oct 2021 08:18:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=N26u/7t1fdi6ACQG/oacz0Qf8b7TvLV/6TGpPJvgWqE=;
+ b=blpC/veJKdKnaiqLi31GPfDCU26MzFodxZ/zL8gjY2etcA3m2fgvKvvvkd4fYuw+1h
+ y8YTW8kBhgg0xqqTigQzXy0ObVhIrL2tp5eVNtb7P9tBO5M0LK4j5TvW2QcewqjUw9fu
+ VPw55vlNgpSq14ckrOSW/TaqI+pJlpIjWq3vRTV9Nscpnz31y0KhDQ7EfiCjfvFkM2ji
+ oSsR4C9NBBY79fWNInFB1hzo2DShjC9UcAnc3bx6XrUoUofRArmAnW3DCknI4jTq1Hzs
+ CnP6esFvm30a+8nKYXQghAWkJwXgPdTXd8NqlAJK7q2/+zxXg9VuSn07r6xXS+m1gPwB
+ 6t4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=h6yLvsXAbI0/ftOl1pzhDKM6gJc8hltwe2gtLKJ73Uk=;
- b=geziLvX6zhV4q1YVdtutfx3l1PxsjpamhZJYal+0nyEJO/7g31QGuA5jhu1Wbid8J8
- hHN0txonPxKQ3NR4K5pLZbcTpyPQSlpNIw13GpZBUTjdsB3WBsI9z67t1BAm10vYYMBq
- WarmZuNOaQpPSt6BK5nyZc0QJSPyoe0FjY0TJMC+vbUtTu5wrvRoUaSMN4VchQD3z8zo
- DzkMOQJRfdEiKKTy2LnumHcjZR+8YioE2JGm8m2oKoflpKIrA0EHnOb96Sm4DRizMFsC
- J4AqULgOdaS3Thjc7FtEYjLtSVQXQOC8dDieb5fGBhombDvYtXbRQ+naE4szcuwggQaC
- OP0Q==
-X-Gm-Message-State: AOAM533AD9wqq5wXuCF/ZGd2wrySOUvGk+HOB9cCJSwU8Yf3gRBZSs+K
- RG5/cxLTLUk+B1k6yIXoiRfTCnlDwNkHE/qS+3hrFh8eS+Djs3HHdTVQ/sOsadKxcCN6CsENsAB
- x42Z7pzLg9SyOuNA=
-X-Received: by 2002:a5d:6502:: with SMTP id x2mr6111459wru.121.1634999203701; 
- Sat, 23 Oct 2021 07:26:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx2qXS/IYLpqi7ugdF+rzvrw4DyScVswRJQ9FpG/vnZ0XJTGhk+4DOVOA55MWOAvtebmXbZyQ==
-X-Received: by 2002:a5d:6502:: with SMTP id x2mr6111424wru.121.1634999203460; 
- Sat, 23 Oct 2021 07:26:43 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id v185sm14278161wme.35.2021.10.23.07.26.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 23 Oct 2021 07:26:42 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] vfio/pci: Fix vfio-pci sub-page MMIO BAR mmaping
- in live migration
-To: Kunkun Jiang <jiangkunkun@huawei.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20210914015326.1494-1-jiangkunkun@huawei.com>
- <20210914015326.1494-2-jiangkunkun@huawei.com>
- <571dc3ee-8b2a-fcef-b617-1ba85a3d442a@redhat.com>
- <248f1b98-07a7-619c-b5ef-0c1e8508fea9@huawei.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <d64e6e23-e698-82b5-6236-cb81983f9c92@redhat.com>
-Date: Sat, 23 Oct 2021 16:26:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=N26u/7t1fdi6ACQG/oacz0Qf8b7TvLV/6TGpPJvgWqE=;
+ b=CY188Thh+LkPmqnOm8aK9BvEgW6Y3Wd1HM4weVjjJjQuv+5hoXf3bLP1mQbC6VqlfA
+ bFq1fiwwuvzJBQ/5vZzzEVoOq08ENoKDuDuqKJp50/QgpY84arBsxn9NAFRusZL0TcAM
+ wsF9QzShqvJBQRQJ0GzVyeqFi61tHo9JiVHgM595T9WFlg5myZTvEEtksDBKGYJ3hYrb
+ hbWRvS/lSmWT/wbAe5b2NU2+mM0Qz6HhxuOM2DF/qr+dto9ImffMREU8DlxV/7/gtV7x
+ d0ZQI4ap/iazB73Hpyc/cmEJpJz57OwyVeSUD2Y6/KHIEH63Wo7EXrDgHnhw2aGHuCjF
+ e9XQ==
+X-Gm-Message-State: AOAM5301MuASr0TWrOMrGX0yCUwLpij6MOH6arR6CaEsN598mXSGkJxg
+ 6kMqP24EL0JB2astbrjcsDT3w966oKKanBQGLj/EIA==
+X-Google-Smtp-Source: ABdhPJxVI+3XZG1InnuHXrgqD/TIBSupck7RwfbqdoQdxuO/RFZMrVBvBXnIkoL+8Mn8cxTMIbLx2Qly6h/qFmjWJGA=
+X-Received: by 2002:a05:6102:2131:: with SMTP id
+ f17mr4792721vsg.42.1635002286830; 
+ Sat, 23 Oct 2021 08:18:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <248f1b98-07a7-619c-b5ef-0c1e8508fea9@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.781, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211019164447.16359-1-imp@bsdimp.com>
+ <20211019164447.16359-10-imp@bsdimp.com>
+ <CACNAnaHL4uySkKewBMcDDcC+5qqAJQ1HXqsCSKc_W46cOTvg8Q@mail.gmail.com>
+In-Reply-To: <CACNAnaHL4uySkKewBMcDDcC+5qqAJQ1HXqsCSKc_W46cOTvg8Q@mail.gmail.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Sat, 23 Oct 2021 09:17:55 -0600
+Message-ID: <CANCZdfpafHEugd47G6rCqPDyUPda__Lvh-3hLcdJ=2jhVDDRtQ@mail.gmail.com>
+Subject: Re: [PATCH 09/24] bsd-user/arm/target_arch_cpu.h: Implement system
+ call dispatch
+To: Kyle Evans <kevans@freebsd.org>
+Content-Type: multipart/alternative; boundary="000000000000838b0c05cf06a2fc"
+Received-SPF: none client-ip=2607:f8b0:4864:20::930;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x930.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,119 +78,325 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: wanghaibin.wang@huawei.com, tangnianyao@huawei.com, ganqixin@huawei.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Stacey Son <sson@freebsd.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Kunkun,
+--000000000000838b0c05cf06a2fc
+Content-Type: text/plain; charset="UTF-8"
 
-On 10/22/21 12:01 PM, Kunkun Jiang wrote:
-> Hi Eric,
->
-> On 2021/10/22 0:15, Eric Auger wrote:
->> Hi Kunkun,
->>
->> On 9/14/21 3:53 AM, Kunkun Jiang wrote:
->>> We expand MemoryRegions of vfio-pci sub-page MMIO BARs to
->>> vfio_pci_write_config to improve IO performance.
->> s/to vfio_pci_write_config/ in vfio_pci_write_config()
-> Thank you for your review. I will correct it in v3.
->>> The MemoryRegions of destination VM will not be expanded
->>> successful in live migration, because their addresses have
->> s/will not be expanded successful in live migration/are not expanded
->> anymore after live migration (?) Is that the correct symptom?
-> You are right. They are not expanded anymore after live migration,
-> not expanded unsuccessfully. I used the wrong words.
->>> been updated in vmstate_load_state (vfio_pci_load_config).
->>>
->>> So iterate BARs in vfio_pci_write_config and try to update
->>> sub-page BARs.
->>>
->>> Fixes: c5e2fb3ce4d (vfio: Add save and load functions for VFIO PCI
->>> devices)
->> is it an actual fix or an optimization?
-> I recently realized that this is actually an optimization.
->
-> The VF driver in VM use the assembly language instructions,
-> which can operate two registers simultaneously, like stp, ldp.
-> These instructions would result in non-ISV data abort, which
-> cannot be handled well at the moment.
->
-> If the driver doesn't use such instructions,  not expanding
-> only affects performance.
->
-> I will add these to the commit message in the next version.
->>> Reported-by: Nianyao Tang <tangnianyao@huawei.com>
->>> Reported-by: Qixin Gan <ganqixin@huawei.com>
->>> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
->>> ---
->>>   hw/vfio/pci.c | 15 ++++++++++++++-
->>>   1 file changed, 14 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->>> index e1ea1d8a23..43c7e93153 100644
->>> --- a/hw/vfio/pci.c
->>> +++ b/hw/vfio/pci.c
->>> @@ -2453,7 +2453,12 @@ static int vfio_pci_load_config(VFIODevice
->>> *vbasedev, QEMUFile *f)
->>>   {
->>>       VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice,
->>> vbasedev);
->>>       PCIDevice *pdev = &vdev->pdev;
->>> -    int ret;
->>> +    pcibus_t old_addr[PCI_NUM_REGIONS - 1];
->>> +    int bar, ret;
->>> +
->>> +    for (bar = 0; bar < PCI_ROM_SLOT; bar++) {
->>> +        old_addr[bar] = pdev->io_regions[bar].addr;
->>> +    }
->> what are those values before the vmstate_load_state ie. can't you do the
-> Are you referring to pdev->io_regions[bar].addr ? All of the bars addr is
-> PCI_BAR_UNMAPPED (~(pcibus_t)0) before the vmstate_load_state.
-OK that was my assumption. What I meant is in that case you always have
+On Sat, Oct 23, 2021 at 1:34 AM Kyle Evans <kevans@freebsd.org> wrote:
 
-old_addr[bar] != pdev->io_regions[bar].addr, right? In the positive this check is not needed and you don't need old_addr at all.
-In the original code this was needed since one wanted to call 
-vfio_sub_page_bar_update_mapping() only for the bar base address that were changed during the 
-vfio_pci_write_config.
-
-Thanks
-
-Eric
-
->> vfio_sub_page_bar_update_mapping() unconditionnaly on old_addr[bar] !=
->> pdev->io_regions[bar].addr
-> The size of Bar is a power of 2. The Bar, whose size is greater than host
-> page size, doesn't need to be expanded.
+> On Tue, Oct 19, 2021 at 11:45 AM Warner Losh <imp@bsdimp.com> wrote:
+> >
+> > Implement the system call dispatch. This implements all three kinds of
+> > system call: direct and the two indirect variants. It handles all the
+> > special cases for thumb as well.
+> >
+> > Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> > Signed-off-by: Klye Evans <kevans@FreeBSD.org>
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
 >
-> Can you explain more? May be I misunderstood you.
->
-> Thanks,
-> Kunkun Jiang
->>>         ret = vmstate_load_state(f, &vmstate_vfio_pci_config, vdev, 1);
->>>       if (ret) {
->>> @@ -2463,6 +2468,14 @@ static int vfio_pci_load_config(VFIODevice
->>> *vbasedev, QEMUFile *f)
->>>       vfio_pci_write_config(pdev, PCI_COMMAND,
->>>                             pci_get_word(pdev->config +
->>> PCI_COMMAND), 2);
->>>   +    for (bar = 0; bar < PCI_ROM_SLOT; bar++) {
->>> +        if (old_addr[bar] != pdev->io_regions[bar].addr &&
->>> +            vdev->bars[bar].region.size > 0 &&
->>> +            vdev->bars[bar].region.size < qemu_real_host_page_size) {
->>> +            vfio_sub_page_bar_update_mapping(pdev, bar);
->>> +        }
->>> +    }
->>> +
->>>       if (msi_enabled(pdev)) {
->>>           vfio_msi_enable(vdev);
->>>       } else if (msix_enabled(pdev)) {
->> Thanks
->>
->> Eric
->>
->> .
+> s/Klye/Kyle/
 >
 
+I'll fix the typo in the QEMU.SOB file I have... <blush>
+
+Thanks!
+
+
+> > ---
+> >  bsd-user/arm/target_arch_cpu.h | 95 ++++++++++++++++++++++++++++++++++
+> >  1 file changed, 95 insertions(+)
+> >
+> > diff --git a/bsd-user/arm/target_arch_cpu.h
+> b/bsd-user/arm/target_arch_cpu.h
+> > index 62d6ee89b6..bc2eb05cfe 100644
+> > --- a/bsd-user/arm/target_arch_cpu.h
+> > +++ b/bsd-user/arm/target_arch_cpu.h
+> > @@ -39,6 +39,7 @@ static inline void target_cpu_loop(CPUARMState *env)
+> >  {
+> >      int trapnr;
+> >      target_siginfo_t info;
+> > +    unsigned int n;
+> >      CPUState *cs = env_cpu(env);
+> >
+> >      for (;;) {
+> > @@ -57,6 +58,100 @@ static inline void target_cpu_loop(CPUARMState *env)
+> >                  queue_signal(env, info.si_signo, &info);
+> >              }
+> >              break;
+> > +        case EXCP_SWI:
+> > +        case EXCP_BKPT:
+> > +            {
+> > +                env->eabi = 1; /* FreeBSD is eabi only now */
+> > +                /*
+> > +                 * system call
+> > +                 * See arm/arm/trap.c cpu_fetch_syscall_args()
+> > +                 */
+> > +                if (trapnr == EXCP_BKPT) {
+> > +                    if (env->thumb) {
+> > +                        env->regs[15] += 2;
+> > +                    } else {
+> > +                        env->regs[15] += 4;
+> > +                    }
+> > +                }
+> > +                n = env->regs[7];
+> > +                if (bsd_type == target_freebsd) {
+> > +                    int ret;
+> > +                    abi_ulong params = get_sp_from_cpustate(env);
+> > +                    int32_t syscall_nr = n;
+> > +                    int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7,
+> arg8;
+> > +
+> > +                    /* See arm/arm/trap.c cpu_fetch_syscall_args() */
+> > +                    if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
+> > +                        syscall_nr = env->regs[0];
+> > +                        arg1 = env->regs[1];
+> > +                        arg2 = env->regs[2];
+> > +                        arg3 = env->regs[3];
+> > +                        get_user_s32(arg4, params);
+> > +                        params += sizeof(int32_t);
+> > +                        get_user_s32(arg5, params);
+> > +                        params += sizeof(int32_t);
+> > +                        get_user_s32(arg6, params);
+> > +                        params += sizeof(int32_t);
+> > +                        get_user_s32(arg7, params);
+> > +                        arg8 = 0;
+> > +                    } else if (syscall_nr ==
+> TARGET_FREEBSD_NR___syscall) {
+> > +                        syscall_nr = env->regs[0];
+> > +                        arg1 = env->regs[2];
+> > +                        arg2 = env->regs[3];
+> > +                        get_user_s32(arg3, params);
+> > +                        params += sizeof(int32_t);
+> > +                        get_user_s32(arg4, params);
+> > +                        params += sizeof(int32_t);
+> > +                        get_user_s32(arg5, params);
+> > +                        params += sizeof(int32_t);
+> > +                        get_user_s32(arg6, params);
+> > +                        arg7 = 0;
+> > +                        arg8 = 0;
+> > +                    } else {
+> > +                        arg1 = env->regs[0];
+> > +                        arg2 = env->regs[1];
+> > +                        arg3 = env->regs[2];
+> > +                        arg4 = env->regs[3];
+> > +                        get_user_s32(arg5, params);
+> > +                        params += sizeof(int32_t);
+> > +                        get_user_s32(arg6, params);
+> > +                        params += sizeof(int32_t);
+> > +                        get_user_s32(arg7, params);
+> > +                        params += sizeof(int32_t);
+> > +                        get_user_s32(arg8, params);
+> > +                    }
+> > +                    ret = do_freebsd_syscall(env, syscall_nr, arg1,
+> arg2, arg3,
+> > +                            arg4, arg5, arg6, arg7, arg8);
+> > +                    /*
+> > +                     * Compare to arm/arm/vm_machdep.c
+> > +                     * cpu_set_syscall_retval()
+> > +                     */
+> > +                    if (-TARGET_EJUSTRETURN == ret) {
+> > +                        /*
+> > +                         * Returning from a successful sigreturn
+> syscall.
+> > +                         * Avoid clobbering register state.
+> > +                         */
+> > +                        break;
+> > +                    }
+> > +                    if (-TARGET_ERESTART == ret) {
+> > +                        env->regs[15] -= env->thumb ? 2 : 4;
+> > +                        break;
+> > +                    }
+> > +                    if ((unsigned int)ret >= (unsigned int)(-515)) {
+> > +                        ret = -ret;
+> > +                        cpsr_write(env, CPSR_C, CPSR_C,
+> CPSRWriteByInstr);
+> > +                        env->regs[0] = ret;
+> > +                    } else {
+> > +                        cpsr_write(env, 0, CPSR_C, CPSRWriteByInstr);
+> > +                        env->regs[0] = ret; /* XXX need to handle
+> lseek()? */
+> > +                        /* env->regs[1] = 0; */
+> > +                    }
+> > +                } else {
+> > +                    fprintf(stderr, "qemu: bsd_type (= %d) syscall "
+> > +                            "not supported\n", bsd_type);
+> > +                }
+> > +            }
+> > +            break;
+> >          case EXCP_INTERRUPT:
+> >              /* just indicate that signals should be handled asap */
+> >              break;
+> > --
+> > 2.32.0
+> >
+>
+> Modulo typo:
+>
+> Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
+>
+
+--000000000000838b0c05cf06a2fc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+PGRpdiBkaXI9Imx0ciI+PGRpdiBkaXI9Imx0ciI+PGJyPjwvZGl2Pjxicj48ZGl2IGNsYXNzPSJn
+bWFpbF9xdW90ZSI+PGRpdiBkaXI9Imx0ciIgY2xhc3M9ImdtYWlsX2F0dHIiPk9uIFNhdCwgT2N0
+IDIzLCAyMDIxIGF0IDE6MzQgQU0gS3lsZSBFdmFucyAmbHQ7PGEgaHJlZj0ibWFpbHRvOmtldmFu
+c0BmcmVlYnNkLm9yZyI+a2V2YW5zQGZyZWVic2Qub3JnPC9hPiZndDsgd3JvdGU6PGJyPjwvZGl2
+PjxibG9ja3F1b3RlIGNsYXNzPSJnbWFpbF9xdW90ZSIgc3R5bGU9Im1hcmdpbjowcHggMHB4IDBw
+eCAwLjhleDtib3JkZXItbGVmdDoxcHggc29saWQgcmdiKDIwNCwyMDQsMjA0KTtwYWRkaW5nLWxl
+ZnQ6MWV4Ij5PbiBUdWUsIE9jdCAxOSwgMjAyMSBhdCAxMTo0NSBBTSBXYXJuZXIgTG9zaCAmbHQ7
+PGEgaHJlZj0ibWFpbHRvOmltcEBic2RpbXAuY29tIiB0YXJnZXQ9Il9ibGFuayI+aW1wQGJzZGlt
+cC5jb208L2E+Jmd0OyB3cm90ZTo8YnI+DQomZ3Q7PGJyPg0KJmd0OyBJbXBsZW1lbnQgdGhlIHN5
+c3RlbSBjYWxsIGRpc3BhdGNoLiBUaGlzIGltcGxlbWVudHMgYWxsIHRocmVlIGtpbmRzIG9mPGJy
+Pg0KJmd0OyBzeXN0ZW0gY2FsbDogZGlyZWN0IGFuZCB0aGUgdHdvIGluZGlyZWN0IHZhcmlhbnRz
+LiBJdCBoYW5kbGVzIGFsbCB0aGU8YnI+DQomZ3Q7IHNwZWNpYWwgY2FzZXMgZm9yIHRodW1iIGFz
+IHdlbGwuPGJyPg0KJmd0Ozxicj4NCiZndDsgU2lnbmVkLW9mZi1ieTogU3RhY2V5IFNvbiAmbHQ7
+c3NvbkBGcmVlQlNELm9yZyZndDs8YnI+DQomZ3Q7IFNpZ25lZC1vZmYtYnk6IEtseWUgRXZhbnMg
+Jmx0O2tldmFuc0BGcmVlQlNELm9yZyZndDs8YnI+DQomZ3Q7IFNpZ25lZC1vZmYtYnk6IFdhcm5l
+ciBMb3NoICZsdDs8YSBocmVmPSJtYWlsdG86aW1wQGJzZGltcC5jb20iIHRhcmdldD0iX2JsYW5r
+Ij5pbXBAYnNkaW1wLmNvbTwvYT4mZ3Q7PGJyPg0KPGJyPg0Kcy9LbHllL0t5bGUvPGJyPjwvYmxv
+Y2txdW90ZT48ZGl2Pjxicj48L2Rpdj48ZGl2PkkmIzM5O2xsIGZpeCB0aGUgdHlwbyBpbiB0aGUg
+UUVNVS5TT0IgZmlsZSBJIGhhdmUuLi4gJmx0O2JsdXNoJmd0OzwvZGl2PjxkaXY+PGJyPjwvZGl2
+PjxkaXY+VGhhbmtzITwvZGl2PjxkaXY+wqA8L2Rpdj48YmxvY2txdW90ZSBjbGFzcz0iZ21haWxf
+cXVvdGUiIHN0eWxlPSJtYXJnaW46MHB4IDBweCAwcHggMC44ZXg7Ym9yZGVyLWxlZnQ6MXB4IHNv
+bGlkIHJnYigyMDQsMjA0LDIwNCk7cGFkZGluZy1sZWZ0OjFleCI+DQomZ3Q7IC0tLTxicj4NCiZn
+dDvCoCBic2QtdXNlci9hcm0vdGFyZ2V0X2FyY2hfY3B1LmggfCA5NSArKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrPGJyPg0KJmd0O8KgIDEgZmlsZSBjaGFuZ2VkLCA5NSBpbnNlcnRp
+b25zKCspPGJyPg0KJmd0Ozxicj4NCiZndDsgZGlmZiAtLWdpdCBhL2JzZC11c2VyL2FybS90YXJn
+ZXRfYXJjaF9jcHUuaCBiL2JzZC11c2VyL2FybS90YXJnZXRfYXJjaF9jcHUuaDxicj4NCiZndDsg
+aW5kZXggNjJkNmVlODliNi4uYmMyZWIwNWNmZSAxMDA2NDQ8YnI+DQomZ3Q7IC0tLSBhL2JzZC11
+c2VyL2FybS90YXJnZXRfYXJjaF9jcHUuaDxicj4NCiZndDsgKysrIGIvYnNkLXVzZXIvYXJtL3Rh
+cmdldF9hcmNoX2NwdS5oPGJyPg0KJmd0OyBAQCAtMzksNiArMzksNyBAQCBzdGF0aWMgaW5saW5l
+IHZvaWQgdGFyZ2V0X2NwdV9sb29wKENQVUFSTVN0YXRlICplbnYpPGJyPg0KJmd0O8KgIHs8YnI+
+DQomZ3Q7wqAgwqAgwqAgaW50IHRyYXBucjs8YnI+DQomZ3Q7wqAgwqAgwqAgdGFyZ2V0X3NpZ2lu
+Zm9fdCBpbmZvOzxicj4NCiZndDsgK8KgIMKgIHVuc2lnbmVkIGludCBuOzxicj4NCiZndDvCoCDC
+oCDCoCBDUFVTdGF0ZSAqY3MgPSBlbnZfY3B1KGVudik7PGJyPg0KJmd0Ozxicj4NCiZndDvCoCDC
+oCDCoCBmb3IgKDs7KSB7PGJyPg0KJmd0OyBAQCAtNTcsNiArNTgsMTAwIEBAIHN0YXRpYyBpbmxp
+bmUgdm9pZCB0YXJnZXRfY3B1X2xvb3AoQ1BVQVJNU3RhdGUgKmVudik8YnI+DQomZ3Q7wqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgcXVldWVfc2lnbmFsKGVudiwgaW5mby5zaV9zaWdubywgJmFt
+cDtpbmZvKTs8YnI+DQomZ3Q7wqAgwqAgwqAgwqAgwqAgwqAgwqAgfTxicj4NCiZndDvCoCDCoCDC
+oCDCoCDCoCDCoCDCoCBicmVhazs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCBjYXNlIEVYQ1BfU1dJ
+Ojxicj4NCiZndDsgK8KgIMKgIMKgIMKgIGNhc2UgRVhDUF9CS1BUOjxicj4NCiZndDsgK8KgIMKg
+IMKgIMKgIMKgIMKgIHs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBlbnYtJmd0
+O2VhYmkgPSAxOyAvKiBGcmVlQlNEIGlzIGVhYmkgb25seSBub3cgKi88YnI+DQomZ3Q7ICvCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCAvKjxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgKiBzeXN0ZW0gY2FsbDxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgKiBT
+ZWUgYXJtL2FybS90cmFwLmMgY3B1X2ZldGNoX3N5c2NhbGxfYXJncygpPGJyPg0KJmd0OyArwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAqLzxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIGlmICh0cmFwbnIgPT0gRVhDUF9CS1BUKSB7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgaWYgKGVudi0mZ3Q7dGh1bWIpIHs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBlbnYtJmd0O3JlZ3NbMTVdICs9IDI7PGJyPg0KJmd0
+OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfSBlbHNlIHs8YnI+DQomZ3Q7ICvCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBlbnYtJmd0O3JlZ3NbMTVdICs9IDQ7PGJy
+Pg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfTxicj4NCiZndDsgK8KgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIH08YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBu
+ID0gZW52LSZndDtyZWdzWzddOzxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGlm
+IChic2RfdHlwZSA9PSB0YXJnZXRfZnJlZWJzZCkgezxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIGludCByZXQ7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgYWJpX3Vsb25nIHBhcmFtcyA9IGdldF9zcF9mcm9tX2NwdXN0YXRlKGVudik7PGJy
+Pg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgaW50MzJfdCBzeXNjYWxsX25y
+ID0gbjs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBpbnQzMl90IGFy
+ZzEsIGFyZzIsIGFyZzMsIGFyZzQsIGFyZzUsIGFyZzYsIGFyZzcsIGFyZzg7PGJyPg0KJmd0OyAr
+PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgLyogU2VlIGFybS9hcm0v
+dHJhcC5jIGNwdV9mZXRjaF9zeXNjYWxsX2FyZ3MoKSAqLzxicj4NCiZndDsgK8KgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIGlmIChzeXNjYWxsX25yID09IFRBUkdFVF9GUkVFQlNEX05SX3N5
+c2NhbGwpIHs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBz
+eXNjYWxsX25yID0gZW52LSZndDtyZWdzWzBdOzxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIGFyZzEgPSBlbnYtJmd0O3JlZ3NbMV07PGJyPg0KJmd0OyArwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgYXJnMiA9IGVudi0mZ3Q7cmVnc1syXTs8
+YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBhcmczID0gZW52
+LSZndDtyZWdzWzNdOzxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIGdldF91c2VyX3MzMihhcmc0LCBwYXJhbXMpOzxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIHBhcmFtcyArPSBzaXplb2YoaW50MzJfdCk7PGJyPg0KJmd0
+OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgZ2V0X3VzZXJfczMyKGFyZzUs
+IHBhcmFtcyk7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+cGFyYW1zICs9IHNpemVvZihpbnQzMl90KTs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCBnZXRfdXNlcl9zMzIoYXJnNiwgcGFyYW1zKTs8YnI+DQomZ3Q7ICvC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBwYXJhbXMgKz0gc2l6ZW9mKGludDMy
+X3QpOzxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGdldF91
+c2VyX3MzMihhcmc3LCBwYXJhbXMpOzxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIGFyZzggPSAwOzxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIH0gZWxzZSBpZiAoc3lzY2FsbF9uciA9PSBUQVJHRVRfRlJFRUJTRF9OUl9fX3N5c2Nh
+bGwpIHs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBzeXNj
+YWxsX25yID0gZW52LSZndDtyZWdzWzBdOzxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIGFyZzEgPSBlbnYtJmd0O3JlZ3NbMl07PGJyPg0KJmd0OyArwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgYXJnMiA9IGVudi0mZ3Q7cmVnc1szXTs8YnI+
+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBnZXRfdXNlcl9zMzIo
+YXJnMywgcGFyYW1zKTs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCBwYXJhbXMgKz0gc2l6ZW9mKGludDMyX3QpOzxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIGdldF91c2VyX3MzMihhcmc0LCBwYXJhbXMpOzxicj4NCiZn
+dDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIHBhcmFtcyArPSBzaXplb2Yo
+aW50MzJfdCk7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+Z2V0X3VzZXJfczMyKGFyZzUsIHBhcmFtcyk7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgcGFyYW1zICs9IHNpemVvZihpbnQzMl90KTs8YnI+DQomZ3Q7ICvC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBnZXRfdXNlcl9zMzIoYXJnNiwgcGFy
+YW1zKTs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBhcmc3
+ID0gMDs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBhcmc4
+ID0gMDs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCB9IGVsc2Ugezxi
+cj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGFyZzEgPSBlbnYt
+Jmd0O3JlZ3NbMF07PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgYXJnMiA9IGVudi0mZ3Q7cmVnc1sxXTs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCBhcmczID0gZW52LSZndDtyZWdzWzJdOzxicj4NCiZndDsgK8KgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGFyZzQgPSBlbnYtJmd0O3JlZ3NbM107PGJy
+Pg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgZ2V0X3VzZXJfczMy
+KGFyZzUsIHBhcmFtcyk7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgcGFyYW1zICs9IHNpemVvZihpbnQzMl90KTs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBnZXRfdXNlcl9zMzIoYXJnNiwgcGFyYW1zKTs8YnI+DQom
+Z3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBwYXJhbXMgKz0gc2l6ZW9m
+KGludDMyX3QpOzxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IGdldF91c2VyX3MzMihhcmc3LCBwYXJhbXMpOzxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIHBhcmFtcyArPSBzaXplb2YoaW50MzJfdCk7PGJyPg0KJmd0OyAr
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgZ2V0X3VzZXJfczMyKGFyZzgsIHBh
+cmFtcyk7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfTxicj4NCiZn
+dDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIHJldCA9IGRvX2ZyZWVic2Rfc3lzY2Fs
+bChlbnYsIHN5c2NhbGxfbnIsIGFyZzEsIGFyZzIsIGFyZzMsPGJyPg0KJmd0OyArwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgYXJnNCwgYXJnNSwgYXJnNiwgYXJnNywg
+YXJnOCk7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgLyo8YnI+DQom
+Z3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCogQ29tcGFyZSB0byBhcm0vYXJt
+L3ZtX21hY2hkZXAuYzxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+KiBjcHVfc2V0X3N5c2NhbGxfcmV0dmFsKCk8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCovPGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+aWYgKC1UQVJHRVRfRUpVU1RSRVRVUk4gPT0gcmV0KSB7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgLyo8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCogUmV0dXJuaW5nIGZyb20gYSBzdWNjZXNzZnVsIHNpZ3JldHVy
+biBzeXNjYWxsLjxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgKiBBdm9pZCBjbG9iYmVyaW5nIHJlZ2lzdGVyIHN0YXRlLjxicj4NCiZndDsgK8KgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgKi88YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBicmVhazs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCB9PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+aWYgKC1UQVJHRVRfRVJFU1RBUlQgPT0gcmV0KSB7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgZW52LSZndDtyZWdzWzE1XSAtPSBlbnYtJmd0O3RodW1iID8g
+MiA6IDQ7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgYnJl
+YWs7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfTxicj4NCiZndDsg
+K8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGlmICgodW5zaWduZWQgaW50KXJldCAmZ3Q7
+PSAodW5zaWduZWQgaW50KSgtNTE1KSkgezxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIHJldCA9IC1yZXQ7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgY3Bzcl93cml0ZShlbnYsIENQU1JfQywgQ1BTUl9DLCBDUFNSV3Jp
+dGVCeUluc3RyKTs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCBlbnYtJmd0O3JlZ3NbMF0gPSByZXQ7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgfSBlbHNlIHs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCBjcHNyX3dyaXRlKGVudiwgMCwgQ1BTUl9DLCBDUFNSV3JpdGVCeUluc3RyKTs8YnI+
+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBlbnYtJmd0O3JlZ3Nb
+MF0gPSByZXQ7IC8qIFhYWCBuZWVkIHRvIGhhbmRsZSBsc2VlaygpPyAqLzxicj4NCiZndDsgK8Kg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIC8qIGVudi0mZ3Q7cmVnc1sxXSA9IDA7
+ICovPGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfTxicj4NCiZndDsg
+K8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIH0gZWxzZSB7PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgZnByaW50ZihzdGRlcnIsICZxdW90O3FlbXU6IGJzZF90eXBlICg9
+ICVkKSBzeXNjYWxsICZxdW90Ozxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgICZxdW90O25vdCBzdXBwb3J0ZWRcbiZxdW90OywgYnNkX3R5cGUpOzxi
+cj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIH08YnI+DQomZ3Q7ICvCoCDCoCDCoCDC
+oCDCoCDCoCB9PGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgYnJlYWs7PGJyPg0KJmd0O8Kg
+IMKgIMKgIMKgIMKgIGNhc2UgRVhDUF9JTlRFUlJVUFQ6PGJyPg0KJmd0O8KgIMKgIMKgIMKgIMKg
+IMKgIMKgIC8qIGp1c3QgaW5kaWNhdGUgdGhhdCBzaWduYWxzIHNob3VsZCBiZSBoYW5kbGVkIGFz
+YXAgKi88YnI+DQomZ3Q7wqAgwqAgwqAgwqAgwqAgwqAgwqAgYnJlYWs7PGJyPg0KJmd0OyAtLTxi
+cj4NCiZndDsgMi4zMi4wPGJyPg0KJmd0Ozxicj4NCjxicj4NCk1vZHVsbyB0eXBvOjxicj4NCjxi
+cj4NClJldmlld2VkLWJ5OiBLeWxlIEV2YW5zICZsdDtrZXZhbnNARnJlZUJTRC5vcmcmZ3Q7PGJy
+Pg0KPC9ibG9ja3F1b3RlPjwvZGl2PjwvZGl2Pg0K
+--000000000000838b0c05cf06a2fc--
 
