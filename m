@@ -2,84 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADAF4384C3
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 20:44:22 +0200 (CEST)
-Received: from localhost ([::1]:38618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03717438525
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 22:04:08 +0200 (CEST)
+Received: from localhost ([::1]:56596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meM0D-0005K3-75
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 14:44:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57588)
+	id 1meNFP-0007AH-1X
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 16:04:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1meLsg-00042Q-VA
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 14:36:35 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:42645)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1meLse-0000Uj-DL
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 14:36:34 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- nn3-20020a17090b38c300b001a03bb6c4ebso5358200pjb.1
- for <qemu-devel@nongnu.org>; Sat, 23 Oct 2021 11:36:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=X3janyCeOIsPzgec325HfWco/XxW8Kou6uAMbNliFDA=;
- b=a7yz7f9v5U+EbijKkyMxzw5LYtV6pIY/O7MaPOZH+gEp/E+CczQUZLyczAGMhdCQgE
- K1Rx6/BILQEHKkGqZymlLhEeRXRS4OXSY3wyahBC123+avu5ktcGrdXFMnt6pzfdINmp
- 7hVDG2KVzE4dPMdPepzp/+TFQcvKovPT/vqQrHww+OZG2A+H1o8PVGaJuVRyIDSUQKX7
- gbBuAPw6HbTvvuduPGD/eMna3pN6lRipzLeZENIb9EMdcTpaFswtABkntZE5GXcn7jkk
- RdNIDZKoZxmGdJseUKQ+zytRyv1eqfNs6JwzmOrn/p2ZSXZBQbGihpkgyp9ULu8Sshi0
- 2rZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=X3janyCeOIsPzgec325HfWco/XxW8Kou6uAMbNliFDA=;
- b=rLWQmIk5Fy4R852vA8Fio48Q2lO5Dx8ZfFLctgblITCOq2NQmxy5WJ53YLS27NuuBP
- CC1qBpD3TAYD0gW4mz84xy/7xU4W7lhKShvD/eqsFt7XymPQ8Zn0sDTIpqIT1N3ZetrZ
- DpUDP95U0YR84+jd8yAfjLGngKZt5JqY9YZFUUTc2Tc/OwA3dFtr/VnUdPi2P5Hq+xC4
- jspwi5pYfYFR3ftD8xomOavQV/FiMwYrPz7jsrlmlVDajRJ3HQcE+c5CM7F4kgvyuSG2
- psTzkNVN/nIfbw5Zq/kz72m8R1wugaw0sqjyJaZGA9GUoNSLCpsDZ8Rs1h3nOAM+FzIs
- OeQQ==
-X-Gm-Message-State: AOAM533BDfvARTNBWz2MCy7MI6UMplKGJYYrCi5ZurVfRcQZLG2euB5g
- f59uLtDs+MvQXCrPKYTC8oA7cg==
-X-Google-Smtp-Source: ABdhPJzD7gma5GkxblwvycyP9cUiQCBdQ9Cx/boj2htwLFpE5G0NSV0FrcymJXK6tjglWqwSYF2cGw==
-X-Received: by 2002:a17:90b:1c0e:: with SMTP id
- oc14mr8462868pjb.159.1635014190600; 
- Sat, 23 Oct 2021 11:36:30 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id z2sm10793207pfe.119.2021.10.23.11.36.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 23 Oct 2021 11:36:29 -0700 (PDT)
-Subject: Re: [PATCH 15/33] target/ppc: Implement Vector Insert from GPR using
- GPR index insns
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
- <20211021194547.672988-16-matheus.ferst@eldorado.org.br>
- <0581a10f-1411-a174-5869-4fe0999132f3@linaro.org>
- <e7c53321-91e8-54af-9c6a-8f894fdc49@eik.bme.hu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f316ea9c-0876-9f80-5c56-210f65234fd1@linaro.org>
-Date: Sat, 23 Oct 2021 11:36:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <mschiffer@universe-factory.net>)
+ id 1meNBU-0006Bv-Bl
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 16:00:04 -0400
+Received: from orthanc.universe-factory.net ([104.238.176.138]:48790)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mschiffer@universe-factory.net>)
+ id 1meNBS-0004S8-2T
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 16:00:04 -0400
+Received: from avalon.. (unknown [IPv6:2001:19f0:6c01:100::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by orthanc.universe-factory.net (Postfix) with ESMTPSA id C42871F4BB;
+ Sat, 23 Oct 2021 21:59:58 +0200 (CEST)
+From: Matthias Schiffer <mschiffer@universe-factory.net>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH] linux-user/signal: Map exit signals in SIGCHLD siginfo_t
+Date: Sat, 23 Oct 2021 21:59:10 +0200
+Message-Id: <81534fde7cdfc6acea4889d886fbefdd606630fb.1635019124.git.mschiffer@universe-factory.net>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <e7c53321-91e8-54af-9c6a-8f894fdc49@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.781,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=104.238.176.138;
+ envelope-from=mschiffer@universe-factory.net;
+ helo=orthanc.universe-factory.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,27 +53,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lucas.castro@eldorado.org.br, qemu-devel@nongnu.org, groug@kaod.org,
- luis.pires@eldorado.org.br, qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Matthias Schiffer <mschiffer@universe-factory.net>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/21 3:12 AM, BALATON Zoltan wrote:
-> You mentioning target_ulong reminded me a question I had. Currently we have 
-> qemu-system-ppc and qemu-system-ppc64 but the latter includes all machines of the former 
-> too so you could run for example sam460ex with qemu-system-ppc64 (except mac99 which 
-> behaves differently based on which executable it's part of but you could use mac99 -cpu G4 
-> with qemu-system-ppc64 as well). But isn't target_ulong different in these executables and 
-> could that cause a problem with this? I've always used qemu-system-ppc for 32 bit machines 
-> but we could have one just executable for all machines if there's no need for both.
+When converting a siginfo_t from waitid(), the interpretation of si_status
+depends on the value of si_code: For CLD_EXITED, it is an exit code and
+should be copied verbatim. For other codes, it is a signal number
+(possibly with additional high bits from ptrace) that should be mapped.
 
-Yes, we can, and probably should, have one executable for all PPC system emulation.  RISCV 
-is actively working toward that, and I think it would be fairly easy for ARM and x86 to 
-follow.
+This code was previously changed in commit 1c3dfb506ea3
+("linux-user/signal: Decode waitid si_code"), but the fix was
+incomplete.
 
-It's something relatively easy to do that reduces the size of the test matrix.
+Tested with the following test program:
 
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <unistd.h>
+    #include <sys/wait.h>
 
-r~
+    int main() {
+    	pid_t pid = fork();
+    	if (pid == 0) {
+    		exit(12);
+    	} else {
+    		siginfo_t siginfo = {};
+    		waitid(P_PID, pid, &siginfo, WEXITED);
+    		printf("Code: %d, status: %d\n", (int)siginfo.si_code, (int)siginfo.si_status);
+    	}
+
+    	pid = fork();
+    	if (pid == 0) {
+    		raise(SIGUSR2);
+    	} else {
+    		siginfo_t siginfo = {};
+    		waitid(P_PID, pid, &siginfo, WEXITED);
+    		printf("Code: %d, status: %d\n", (int)siginfo.si_code, (int)siginfo.si_status);
+    	}
+    }
+
+Output with an x86_64 host and mips64el target before 1c3dfb506ea3
+(incorrect: exit code 12 is translated like a signal):
+
+    Code: 1, status: 17
+    Code: 2, status: 17
+
+After 1c3dfb506ea3 (incorrect: signal number is not translated):
+
+    Code: 1, status: 12
+    Code: 2, status: 12
+
+With this patch:
+
+    Code: 1, status: 12
+    Code: 2, status: 17
+
+Signed-off-by: Matthias Schiffer <mschiffer@universe-factory.net>
+---
+ linux-user/signal.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 14d8fdfde152..8e3af98ec0a7 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -403,7 +403,12 @@ static inline void host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
+         case TARGET_SIGCHLD:
+             tinfo->_sifields._sigchld._pid = info->si_pid;
+             tinfo->_sifields._sigchld._uid = info->si_uid;
+-            tinfo->_sifields._sigchld._status = info->si_status;
++            if (si_code == CLD_EXITED)
++                tinfo->_sifields._sigchld._status = info->si_status;
++            else
++                tinfo->_sifields._sigchld._status
++                    = host_to_target_signal(info->si_status & 0x7f)
++                        | (info->si_status & ~0x7f);
+             tinfo->_sifields._sigchld._utime = info->si_utime;
+             tinfo->_sifields._sigchld._stime = info->si_stime;
+             si_type = QEMU_SI_CHLD;
+-- 
+2.33.1
+
 
