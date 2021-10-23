@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0FCA438537
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 22:18:47 +0200 (CEST)
-Received: from localhost ([::1]:47474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 834BC438551
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Oct 2021 22:36:13 +0200 (CEST)
+Received: from localhost ([::1]:53032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meNTb-0004AG-1c
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 16:18:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50492)
+	id 1meNkS-0000Dm-5c
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 16:36:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1meNQQ-0002Po-M9
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 16:15:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54252)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1meNQN-0002iN-RB
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 16:15:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635020126;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=x4lw/D2Z0BwMVWS3v/gOzlpN4mtplpXUc8tzVz0y/BI=;
- b=jHoYbvyIIsyHZmXRtiEi5ggC4WwVhoB+aOSBzdI9HpF3eZuFxnvqSsquwypcIe1HINksMh
- beqNQGM04M05GHan00EDEyJxkF6ubXscNwqWr+wMBw4PpUCbE0sqVCeUUh2pNDASiIkwCj
- hMLmbg+nKuFK/2ddYFC9xjsK0iSL1sI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-VYX7nBZPPFKOuSJx8rmh9g-1; Sat, 23 Oct 2021 16:15:25 -0400
-X-MC-Unique: VYX7nBZPPFKOuSJx8rmh9g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- a18-20020a1cf012000000b0032ca3eb2ac3so1899612wmb.0
- for <qemu-devel@nongnu.org>; Sat, 23 Oct 2021 13:15:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1meNiz-0007yG-C9
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 16:34:41 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:45665)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1meNix-0005XJ-7D
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 16:34:40 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ ls14-20020a17090b350e00b001a00e2251c8so5450313pjb.4
+ for <qemu-devel@nongnu.org>; Sat, 23 Oct 2021 13:34:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ne8nkJNvSnY42BIyLFW776YloKrwDKAZcYBg6BkF2OI=;
+ b=Jpb5ommRJbpZ0KDI2p1xWZnl//h0eXdP1MMBfkGMuVBzd17Jf4cUEkGR36SMbEOI05
+ ba0uNAd9aRaj784PThmkGpSBeq+NS6D1BMZTK6PsVnulCRstmC5WaIOzx/s5ss95ImhM
+ zyCcucYAHxKH7w0ONcZAvN41n3Sb0pTnqOC1o3aovikFEI1+Zb2tHh5Mgj/qEMXYuCcu
+ O0Y0rBshB2SwdZK+KzC7QpQX85OBncgnKN31PTVJa4TfqdPXoiEafXAo7NpTT/nfArMa
+ nOUFkX9EZs09ecOJekcb9HOkc359bkXWUaJPJi51slIJSTOeKIVRjrKlABiqUoa10dJu
+ zaXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=x4lw/D2Z0BwMVWS3v/gOzlpN4mtplpXUc8tzVz0y/BI=;
- b=1C/8CQAC3yZDJdJ+gfrh6x6xLo1Krm6QhSb20sfqUpiJLY5maCA+clcAF7fOgKY3UC
- Lrt+aH7O3ypZm8XuoVaXKiiaOZ3oMEHRZqDZItNNeRVxMc+abEhRuNP1V5sRJ8aIcxvz
- Vo9JDN1rKVFt3Txxk7UOlg7WD3b5ko9QB4A1HMgjuDo2T3NLZi0lkciWWEZm9JpULEJ5
- emrwrWMOm+MABZwEp91BV+03rOiUXmADfUFDYog0QAgVBF+4RcQwl3V/WJylFzA6GZSY
- v8YRSAduEGva7Gs08+UHWO1E6lQpqPJ7AlXBrGHP/V5fIMGvfi87zJXMoiiMaXSlzbKM
- vB3A==
-X-Gm-Message-State: AOAM530HxrBKGdQw1SkU4qs2WsSyR9Kf1RLoTQpIVvrpbQOOhbwxW41/
- tiWz9iA51YRk0+beQ2cMgnLiXkc4o49MnRcoqWTtk0tPgEbyoTuYXdtbZDaANErOCQIgTcHkHVV
- PpStyIznwFpdxNEM=
-X-Received: by 2002:adf:e5c8:: with SMTP id a8mr10646983wrn.167.1635020124275; 
- Sat, 23 Oct 2021 13:15:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzGFsbhDJKjn9ybGJyuCObdoSMiaxRV7E05Vqb3d6qNw3XTjLn6MJU/DhMWnKKff7mM9TwKMA==
-X-Received: by 2002:adf:e5c8:: with SMTP id a8mr10646969wrn.167.1635020124130; 
- Sat, 23 Oct 2021 13:15:24 -0700 (PDT)
-Received: from redhat.com ([2.55.9.147])
- by smtp.gmail.com with ESMTPSA id u1sm5071986wrt.97.2021.10.23.13.15.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Oct 2021 13:15:23 -0700 (PDT)
-Date: Sat, 23 Oct 2021 16:15:20 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [RESEND PATCH 2/2] hw/i386: Rename default_bus_bypass_iommu
-Message-ID: <20211023161502-mutt-send-email-mst@kernel.org>
-References: <20211013160607.649990-1-jean-philippe@linaro.org>
- <20211013160607.649990-3-jean-philippe@linaro.org>
- <20211022104510-mutt-send-email-mst@kernel.org>
- <YXLRlLD1VkEyLm4b@myrica>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ne8nkJNvSnY42BIyLFW776YloKrwDKAZcYBg6BkF2OI=;
+ b=QfaocFt8CqATwkWx8+AA11KQRr+mSgGYY5QPk14+1VgUBi78R1V6uP/MWYjPdeGASd
+ Z2VF2ECj5cB73GwbSyBUCZrzYGbVHLS4nTOjnKol2zHwr0BuKwHtllCqg+aYC+LAKziZ
+ Q+mOpvuwgO/O9mHwIZFsXdtYz4TBhBeg1+BUMhXFT0FV0uJIlAaHbtHXF1/wQFcLl8ip
+ ndFSyCUnHxLbZD8dRzqDQkY4Yc37oKn+RWU89qQwHB2NqmJJqBANsS7MC+GAjClxBP/p
+ mdXCV0M8OMksu1h5Nr4PxWCjzF7Xf7iP1rm1is49gQVhRlqJqxIu7n0MmXT/g1VwjS1H
+ UnnQ==
+X-Gm-Message-State: AOAM530qlK1liJUU/Y37rCkMpnuEGb6Uvjb8rwg424sydwHlPtg1Plqo
+ 5xKYaI5lJNsJ70FFrddK/HW3tw==
+X-Google-Smtp-Source: ABdhPJwMjBIjfReSY5LwAdi413Aqff9AAbFKRFRpTa0P8S3fDSVbUMKn59jyxYKu9piNn/IE9s962A==
+X-Received: by 2002:a17:90b:33c3:: with SMTP id
+ lk3mr9105508pjb.237.1635021277531; 
+ Sat, 23 Oct 2021 13:34:37 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id nv5sm15310629pjb.10.2021.10.23.13.34.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 23 Oct 2021 13:34:37 -0700 (PDT)
+Subject: Re: [PATCH 21/33] target/ppc: moved stxv and lxv from legacy to
+ decodtree
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
+ <20211021194547.672988-22-matheus.ferst@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <092b768f-5805-e886-f2ca-66e69a0af9bc@linaro.org>
+Date: Sat, 23 Oct 2021 13:34:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YXLRlLD1VkEyLm4b@myrica>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211021194547.672988-22-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.781,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,64 +90,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, qemu-devel@nongnu.org,
- richard.henderson@linaro.org, armbru@redhat.com, qemu-stable@nongnu.org,
- Eric Auger <eric.auger@redhat.com>, eauger@redhat.com, pbonzini@redhat.com
+Cc: lucas.castro@eldorado.org.br, luis.pires@eldorado.org.br, groug@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 22, 2021 at 03:58:28PM +0100, Jean-Philippe Brucker wrote:
-> On Fri, Oct 22, 2021 at 10:46:08AM -0400, Michael S. Tsirkin wrote:
-> > On Wed, Oct 13, 2021 at 05:06:08PM +0100, Jean-Philippe Brucker wrote:
-> > > Since commit d8fb7d0969d5 ("vl: switch -M parsing to keyval"), machine
-> > > parameter definitions cannot use underscores, because keyval_dashify()
-> > > transforms them to dashes and the parser doesn't find the parameter.
-> > > 
-> > > This affects option default_bus_bypass_iommu which was introduced in the
-> > > same release:
-> > > 
-> > > $ qemu-system-x86_64 -M q35,default_bus_bypass_iommu=on
-> > > qemu-system-x86_64: Property 'pc-q35-6.1-machine.default-bus-bypass-iommu' not found
-> > > 
-> > > Rename the parameter to "default-bus-bypass-iommu". Passing
-> > > "default_bus_bypass_iommu" is still valid since the underscore are
-> > > transformed automatically.
-> > > 
-> > > Fixes: c9e96b04fc19 ("hw/i386: Add a default_bus_bypass_iommu pc machine option")
-> > > Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> > > Tested-by: Eric Auger <eric.auger@redhat.com>
-> > > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > 
-> > I can merge this one but I think it's independent of the
-> > ARM patch, right? So just two independent patches.
-> 
-> Yes they are independent
-> 
-> Thanks,
-> Jean
+On 10/21/21 12:45 PM, matheus.ferst@eldorado.org.br wrote:
+> +static bool do_lstxv(DisasContext *ctx, int ra, int displ,
+> +                     int rt, bool store)
 
-Ok just post them separately pls then.
+You need an int64_t displ before you add PLXV et al.  What happened to passing in arg_D as 
+for the other integer instructions?
 
-> > 
-> > > ---
-> > >  hw/i386/pc.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> > > index 86223acfd3..54e4c00dce 100644
-> > > --- a/hw/i386/pc.c
-> > > +++ b/hw/i386/pc.c
-> > > @@ -1718,7 +1718,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-> > >      object_class_property_add_bool(oc, "hpet",
-> > >          pc_machine_get_hpet, pc_machine_set_hpet);
-> > >  
-> > > -    object_class_property_add_bool(oc, "default_bus_bypass_iommu",
-> > > +    object_class_property_add_bool(oc, "default-bus-bypass-iommu",
-> > >          pc_machine_get_default_bus_bypass_iommu,
-> > >          pc_machine_set_default_bus_bypass_iommu);
-> > >  
-> > > -- 
-> > > 2.33.0
-> > 
+> +    do_ea_calc(ctx, ra, tcg_const_tl(displ), ea);
+> +
+> +    if (ctx->le_mode) {
+> +        gen_addr_add(ctx, ea, ea, 8);
+> +        offset = -8;
+> +    } else {
+> +        offset = 8;
+> +    }
 
+Adjust displ for le_mode, then you don't have to do the addition twice.
+
+
+r~
 
