@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781A2438B16
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 19:47:20 +0200 (CEST)
-Received: from localhost ([::1]:48058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16473438B1A
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 19:51:47 +0200 (CEST)
+Received: from localhost ([::1]:54900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mehaZ-0005uW-In
-	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 13:47:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58474)
+	id 1meher-0002EV-W8
+	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 13:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mehVf-0003vQ-1A
- for qemu-devel@nongnu.org; Sun, 24 Oct 2021 13:42:15 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:46667)
+ id 1mehWF-00046v-N6
+ for qemu-devel@nongnu.org; Sun, 24 Oct 2021 13:42:53 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:56109)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mehVc-00045f-2f
- for qemu-devel@nongnu.org; Sun, 24 Oct 2021 13:42:14 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- pi19-20020a17090b1e5300b0019fdd3557d3so6643926pjb.5
- for <qemu-devel@nongnu.org>; Sun, 24 Oct 2021 10:42:11 -0700 (PDT)
+ id 1mehWD-0004UL-Lr
+ for qemu-devel@nongnu.org; Sun, 24 Oct 2021 13:42:51 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id om14so6520785pjb.5
+ for <qemu-devel@nongnu.org>; Sun, 24 Oct 2021 10:42:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dYRcQUnDyUr8cdS0Gfey6nCt1UZFa/oNdM6Oxx9TWVg=;
- b=eXF8BKeC/EjVjK6n17AR1h25QXsLvhQ02kU60a8Hz4opHwYzKcS1NVGAc/ut6fsIGl
- zcJgL32ZMcbXEIB163V8jkw5eRA5tynSuZm0w0/fdTrqgS44SIDs/MwP+P6q6pkcwD0p
- gz3LxaNGRDcQoY+ZFqqVy0WZaUKYwQQk8ePSpebQl4h/h8OTZFWzdBih3qqP21Cqq2it
- loKuRGG3kXCTiUjnNYbiN9v0J+nHtbyxfAE7uV1JvksISfXluOJWdj4ZNrZqt0+2Y3WV
- dq0EkjVAVzUXd/tAqkYXJMyvOLzjMq/yQkHrtZrOPlSchDj4rx5D9rX/RBLtq+VzGbKL
- uDrA==
+ bh=K3fdHQm20dG5vSORWf9UqcLamhM1usP2JM8G8qWjMK4=;
+ b=cCIFthMb/PQixzoov7xysX+8gvzgbdKmm8ByzC2DTY2HUr5Ac+2eW6BcfAQFmlQw25
+ aRFGMl/TP4BjqdGj7VETlii/Lz+PLGSZ+21ka6v9AwOOFPt4JzQPz93V03xk1bAQXm8i
+ ZWObgQGU+rSgmWnRTbkt7a1Ivq3v3mx2dfo5lVTQUQOD3gC0yJE6RjvjueANggbutm3j
+ LpUS+98Y4F682HwT6BD7aIjZDajlJiGhVJB7ekwCDbZJSKhle2T95UuBuDN41SvFkac3
+ oBPHDTNJmGUuNH6BCLqMz6+Uf1Kgx5Y0PwR+kT51FxXJw3SiqE51zBKgatLOwfXIh0aV
+ yO8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dYRcQUnDyUr8cdS0Gfey6nCt1UZFa/oNdM6Oxx9TWVg=;
- b=ZykztSlDCsY2D35T31k7s32b0PeEJP8+HKrZNE72ty8RB2RP7ICz1zDlF6+nOUvSyw
- Ubt10xlDgE4s7Zn6SfLuUDi6hPpXF4DQq6GgGR+skv4ehdLZ/5SL2iZcICRApQI0Uadi
- Xf+cxwRTgszHaLEfKm3GQGBz5ruwdi+Ra9LDgf8MQ6k9Bmu8pFjUYCVV9L3VmxIld7qY
- sEVlJUb6m1BKabo3MJGR1xwJf9G1vsRrCAzt0qraxoPMpPCYLNINH9gYI1A2QRgNWrZY
- QmDSMr3WFH7nM/92o4yPiQ0t5Lfkg1zZB61oCVB+bvSP1lpdwy8dl1EiY/YEMK48ngp2
- w+lQ==
-X-Gm-Message-State: AOAM53056PMp6Ix6eIXcfn6sqTJijfFDaeul8UQiNDeNZ/4Hdep1wYzK
- C0ctsbfwzn2iGSpTg1dXOZqXog==
-X-Google-Smtp-Source: ABdhPJxBivgUsIUkDsO5TQGiprsGwYqsyvzn6CGZaekcPICoWnSw2vUwICWT46aW7dSpE/2YBb2uFg==
-X-Received: by 2002:a17:902:aa82:b0:140:4655:b211 with SMTP id
- d2-20020a170902aa8200b001404655b211mr4337740plr.38.1635097330612; 
- Sun, 24 Oct 2021 10:42:10 -0700 (PDT)
+ bh=K3fdHQm20dG5vSORWf9UqcLamhM1usP2JM8G8qWjMK4=;
+ b=NRc1bPqfgwdOU1PyvsYkFBTFsl1+7FyMUTG8yNG3dyFa9j6My661H68AJGdWgF+cpZ
+ HqlzX3B315nBwV1Hc6bliGMdNlmEPwvVSlo31/xWk/H+CcgxiF98b1fzdubBgJ1oqsIA
+ UP1Y7dlzZfXwkIerktWZDczKXCHQR9S1IM3KhLGTV0X1s/9er8GoEXmw6GVXiCCO//H3
+ CF871GtJmVlXzpaw0Z1boqIhY1sL9pRPdnEVjTltFJt+v5ENSRrCDFhzgJW/NTq7ET3q
+ grGgqTCLiH9dIBBf9WoB6K2lVameHxZsIaKHDfzwYLKdp8dtOyYYdjdSY6eEoYH5XTBJ
+ RcwQ==
+X-Gm-Message-State: AOAM533iIqk6h8k3Wpzl0tCoD7mKhGaqTFauJNebdrm6lgN7tVLY1OwH
+ +440pH8GqGuSxiON5pzgEOlhfjMO0Hh9PA==
+X-Google-Smtp-Source: ABdhPJw/F2fh4zsW67MJndOnTEU1elCEf4BBT/VpOtChH2yJHEew19rKd2Sp+KwJyEiQk3xrq3nH3A==
+X-Received: by 2002:a17:903:41c1:b0:13e:fe56:e42a with SMTP id
+ u1-20020a17090341c100b0013efe56e42amr11451759ple.52.1635097368070; 
+ Sun, 24 Oct 2021 10:42:48 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id e15sm9473042pja.52.2021.10.24.10.42.10
+ by smtp.gmail.com with ESMTPSA id 141sm3082253pge.23.2021.10.24.10.42.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 Oct 2021 10:42:10 -0700 (PDT)
-Subject: Re: [PATCH 20/33] target/mips: Convert MSA 3RF instruction format to
- decodetree (DF_HALF)
-From: Richard Henderson <richard.henderson@linaro.org>
+ Sun, 24 Oct 2021 10:42:47 -0700 (PDT)
+Subject: Re: [PATCH 21/33] target/mips: Convert MSA 3RF instruction format to
+ decodetree (DF_WORD)
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20211023214803.522078-1-f4bug@amsat.org>
- <20211023214803.522078-21-f4bug@amsat.org>
- <38e966f8-68d1-e444-e4be-2d19edffb603@linaro.org>
-Message-ID: <14f3e7f5-15ae-d0f5-4e78-88965c868526@linaro.org>
-Date: Sun, 24 Oct 2021 10:42:08 -0700
+ <20211023214803.522078-22-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <200d4ff8-e904-530c-592a-18fb24f1d357@linaro.org>
+Date: Sun, 24 Oct 2021 10:42:46 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <38e966f8-68d1-e444-e4be-2d19edffb603@linaro.org>
+In-Reply-To: <20211023214803.522078-22-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -53
 X-Spam_score: -5.4
 X-Spam_bar: -----
@@ -97,29 +95,17 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/21 10:37 AM, Richard Henderson wrote:
-> On 10/23/21 2:47 PM, Philippe Mathieu-Daudé wrote:
->> +static bool trans_msa_3rf(DisasContext *ctx, arg_msa_r *a,
->> +                          enum CPUMIPSMSADataFormat df_base,
->> +                          void (*gen_msa_3rf)(TCGv_ptr, TCGv_i32, TCGv_i32,
->> +                                              TCGv_i32, TCGv_i32))
->> +{
->> +    TCGv_i32 twd = tcg_const_i32(a->wd);
->> +    TCGv_i32 tws = tcg_const_i32(a->ws);
->> +    TCGv_i32 twt = tcg_const_i32(a->wt);
->> +    /* adjust df value for floating-point instruction */
->> +    TCGv_i32 tdf = tcg_constant_i32(a->df + df_base);
+On 10/23/21 2:47 PM, Philippe Mathieu-Daudé wrote:
+> Convert 3-register floating-point or fixed-point operations
+> to decodetree.
 > 
-> I think it would be better to decode df completely in decodetree.
-> E.g.
-> 
-> %df_hw        21:1 !function=plus_1
-> @3rf_hw       ...... .... . wt:5 ws:5 wd:5 ......  &msa_r df=%df_hw
-> 
-> %df_wd        21:1 !function=plus_2
-> @3rf_wd       ...... .... . wt:5 ws:5 wd:5 ......  &msa_r df=%df_wd
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   target/mips/tcg/msa.decode      |  37 ++++++
+>   target/mips/tcg/msa_translate.c | 213 ++++++--------------------------
+>   2 files changed, 74 insertions(+), 176 deletions(-)
 
-Meant to say, with that changed,
+With the decode fixed as per the previous,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
