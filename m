@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2667A4388E7
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 14:49:38 +0200 (CEST)
-Received: from localhost ([::1]:43534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CC143897A
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 16:10:43 +0200 (CEST)
+Received: from localhost ([::1]:52190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mecwS-00087w-Pk
-	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 08:49:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46616)
+	id 1meeCw-00045A-1v
+	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 10:10:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mecva-0007Ti-GC
- for qemu-devel@nongnu.org; Sun, 24 Oct 2021 08:48:43 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53859)
+ id 1meeBS-0003PX-El
+ for qemu-devel@nongnu.org; Sun, 24 Oct 2021 10:09:10 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:51987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mecvY-0003SA-QK
- for qemu-devel@nongnu.org; Sun, 24 Oct 2021 08:48:42 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id j205so7217646wmj.3
- for <qemu-devel@nongnu.org>; Sun, 24 Oct 2021 05:48:40 -0700 (PDT)
+ id 1meeBN-0001zl-Tg
+ for qemu-devel@nongnu.org; Sun, 24 Oct 2021 10:09:10 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id p21so8044735wmq.1
+ for <qemu-devel@nongnu.org>; Sun, 24 Oct 2021 07:09:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=t4wgQT8A6B1GQ8QXwoMfjVxlDwgA/Cx/FKVYo4Rtzxk=;
- b=hY/6i9a9tqRqejolOZ9Sqi7UuAbamdl6Svzw9Iq1gBgLbdGN0Vhz0u1GSRY30dt9ly
- ZYB/TgKQvbP9WPd7szzL5DM8l7UenUcXEDI6u4mqlqD/4HRgO70IAE31P0rVLr1Azm80
- DpkzrpO7GtwZFdcDJ9cmuKvFtE9PYx7fWwOdeOCFDql2c6ZlRvIYyMdZtN6UbEh+Z7Ng
- FU25o8PiM+cUt/uXttVRvGywQBaBwzua0Bde2TTAGNRbYeyPZ6ES2tBZ+0Scpx82afR/
- oFhfbatzPKU41ZAxm+ivIHbs1Xd8TRQAzca9JshbchuLeajdeukDHoKhsGlewydtjEpo
- SoLw==
+ bh=eX10VOWvm6HiVyOVEqn45x1BGdCtfUfJZ9loFtIwYng=;
+ b=MPxYpfLPdGwYok1iuyYr+dFUXRSPIaObcc4e2atrk3VkG4NXicdEax25PPjgATh8oZ
+ ZfahGLIrA/e/o5WFX635B3vHhHFaF3XfpN5EO3mRH8kspRds0k7F487nTBNbsIa7w8XU
+ ROrc58TBliV5F+SxGWH+Fq2NMByiWCU0ia0PDvV2P8ycOvbYmG/lh/MI/FSmuI0ydW9W
+ D3C6UyId6w7bbVvuInfybT3zDfzqxYde5az7I9xZcDoEhBl26Zjr8kvZxSn2zpCwZ1UW
+ +2Lpji6SQRPIT6U6BY32R5sx4Z/PnH/bg+ZfNmzYVQVJJbEW9fqUTDMZy6Gj7+RGfQg1
+ nmCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=t4wgQT8A6B1GQ8QXwoMfjVxlDwgA/Cx/FKVYo4Rtzxk=;
- b=c1z4lz9a2+Pu5zR8n1e1g/Y2OJ9qujszrfOXJo17nasd2VLNRT3I1gp2W0XbNt2Euw
- XdzhRptjQfJD3PxJCcJfVf+JVHQYHAuQyCnZHDPT7yAIugLOVUA9jCPOpeozPF4WfBrG
- eb7y4hlfa7/w4aBROnL8rwm2GlDAVeXweP7SypMJcBEzsr4P+XFonUQ1A0LC8vOPze04
- 8bkRy6Eu7G9eCkzqHJJUbxk9fRg9RvwPeX6rybTzM5rPwlHyj8BuK8avu2cJj3QC40Mv
- 0KIIU/+wLl1XFRgNo2cCDFrZ6tpwBIFWhxIkbvXZSyYylGwv0ZmWQUn1K8fNnRcA8aRn
- Wvig==
-X-Gm-Message-State: AOAM530HdVIUHF7uTwnnMQ2urPH3MLXqGOB3qdDWsCTZ77lwdhObPDEX
- njaENZXk9lTwXl5HSyhX6iQ=
-X-Google-Smtp-Source: ABdhPJycC2kuWk6OZ9pkQigBMeh7dcP/diL5GORf8C77cd6RwaSw5ysghoqMkNWDqDCGGRlyWRsEJg==
-X-Received: by 2002:a7b:c005:: with SMTP id c5mr13372912wmb.150.1635079718804; 
- Sun, 24 Oct 2021 05:48:38 -0700 (PDT)
+ bh=eX10VOWvm6HiVyOVEqn45x1BGdCtfUfJZ9loFtIwYng=;
+ b=eJRIVbz6YMWZz6wWddtzdO51n481htrOicmTTYB2q9bmeek1cN6l/2lgbylWvXdG2B
+ MPfqnM9ViUXOKLBQsn3zUvvbg6GMYBiZJ1L1ZEfR59EbkGPtgHZjZLzzNVwjBgvxqGpd
+ J7M3h+zenkVwSK5PBlqP480fbnDfZBLHIAgbmFxsgqOXSwf59xkBdg5Br/Y/uQc4PpiC
+ 3/ZJqK3kwLDMgJym0C2RtU3XHh7x5uyboDsBq3xJ+VHgjEf4XjzT4DDuImz6e+8ckpfO
+ 7EOENAR0D4GgurYafmtSlKC/WntiFZdA5r0Or1d8gqgyP2lO7NsiPk99+6Vn8DJTUDr6
+ z1Yw==
+X-Gm-Message-State: AOAM531dsRLn+9M0TvkNBPc3B+C6j9gM+73hjCNoO/slZpY8Y1yl++oK
+ I4txhK5NBh6NT9APdu3LHZg=
+X-Google-Smtp-Source: ABdhPJxF9322/qR3v2Ugkv8gTXP+evq6cwltFdZdYEQV2aawTUgFBdLXEgYSENLpPn54veoUQOshWQ==
+X-Received: by 2002:a7b:c316:: with SMTP id k22mr14223584wmj.22.1635084544154; 
+ Sun, 24 Oct 2021 07:09:04 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id w10sm8798103wrq.88.2021.10.24.05.48.37
+ by smtp.gmail.com with ESMTPSA id n15sm1059825wmq.3.2021.10.24.07.09.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 Oct 2021 05:48:38 -0700 (PDT)
-Message-ID: <e567c95c-721f-f5fe-2b9b-513afbc6d4d3@amsat.org>
-Date: Sun, 24 Oct 2021 14:48:37 +0200
+ Sun, 24 Oct 2021 07:09:03 -0700 (PDT)
+Message-ID: <614eb8b1-aa3e-8c2a-aeec-bd0f60e0eb6f@amsat.org>
+Date: Sun, 24 Oct 2021 16:09:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 05/33] target/mips: Have check_msa_access() return a
- boolean
+Subject: Re: [PATCH 0/5] hw/sh4: Codeing style fixes
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211023214803.522078-1-f4bug@amsat.org>
- <20211023214803.522078-6-f4bug@amsat.org>
- <74244c26-78e6-da58-6a84-b0538567d8e8@linaro.org>
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <cover.1635036053.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <74244c26-78e6-da58-6a84-b0538567d8e8@linaro.org>
+In-Reply-To: <cover.1635036053.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -47
 X-Spam_score: -4.8
 X-Spam_bar: ----
@@ -92,62 +89,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Luis Pires <luis.pires@eldorado.org.br>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/21 03:02, Richard Henderson wrote:
-> On 10/23/21 2:47 PM, Philippe Mathieu-Daudé wrote:
->> Have check_msa_access() return a boolean value so we can
->> return early if MSA is not enabled.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   target/mips/tcg/msa_translate.c | 20 +++++++++++++-------
->>   1 file changed, 13 insertions(+), 7 deletions(-)
->>
->> diff --git a/target/mips/tcg/msa_translate.c
->> b/target/mips/tcg/msa_translate.c
->> index 3ef912da6b8..9e0a08fe335 100644
->> --- a/target/mips/tcg/msa_translate.c
->> +++ b/target/mips/tcg/msa_translate.c
->> @@ -293,19 +293,19 @@ void msa_translate_init(void)
->>       }
->>   }
->>   -static inline int check_msa_access(DisasContext *ctx)
->> +static inline bool check_msa_access(DisasContext *ctx)
->>   {
->>       if (unlikely((ctx->hflags & MIPS_HFLAG_FPU) &&
->>                    !(ctx->hflags & MIPS_HFLAG_F64))) {
->>           gen_reserved_instruction(ctx);
->> -        return 0;
->> +        return false;
->>       }
->>         if (unlikely(!(ctx->hflags & MIPS_HFLAG_MSA))) {
->>           generate_exception_end(ctx, EXCP_MSADIS);
->> -        return 0;
->> +        return false;
->>       }
+On 10/24/21 02:40, BALATON Zoltan wrote:
+> This fixes coding style of files belonging to SH4 system emulation
+> which were not following current QEMU coding style requirements.
 > 
-> When we return false, we have raised an exception.
-> 
->> @@ -354,7 +354,9 @@ static bool gen_msa_BxZ_V(DisasContext *ctx, int
->> wt, int s16, TCGCond cond)
->>   {
->>       TCGv_i64 t0;
->>   -    check_msa_access(ctx);
->> +    if (!check_msa_access(ctx)) {
->> +        return false;
->> +    }
-> 
-> ... which means that here we should return true, meaning that we have
-> recognized the instruction and emitted some code for it.  In this case:
-> we have recognized that the instruction is valid but not enabled.
-> 
-> Otherwise, we will return to decode_opc and (eventually) emit another
-> gen_reserved_instruction.
+> BALATON Zoltan (5):
+>   hw/sh4: Coding style: Remove tabs
+>   hw/sh4: Coding style: Fix multi-line comments
+>   hw/sh4: Coding style: White space fixes
+>   hw/sh4: Coding style: Add missing braces
+>   hw/sh4: Coding style: Remove unnecessary casts
 
-Yes, this is what I intended to do. I incorrectly copied/pasted 'false'
-then it spread all over the file. Thanks for catching this.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
