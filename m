@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61CC143897A
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 16:10:43 +0200 (CEST)
-Received: from localhost ([::1]:52190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA6243898A
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 16:32:54 +0200 (CEST)
+Received: from localhost ([::1]:40374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meeCw-00045A-1v
-	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 10:10:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55558)
+	id 1meeYP-0007nv-80
+	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 10:32:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1meeBS-0003PX-El
- for qemu-devel@nongnu.org; Sun, 24 Oct 2021 10:09:10 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:51987)
+ (Exim 4.90_1) (envelope-from <pavlica.nikola@gmail.com>)
+ id 1meeX3-00077q-RB
+ for qemu-devel@nongnu.org; Sun, 24 Oct 2021 10:31:29 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1meeBN-0001zl-Tg
- for qemu-devel@nongnu.org; Sun, 24 Oct 2021 10:09:10 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id p21so8044735wmq.1
- for <qemu-devel@nongnu.org>; Sun, 24 Oct 2021 07:09:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pavlica.nikola@gmail.com>)
+ id 1meeX1-0002ts-Tq
+ for qemu-devel@nongnu.org; Sun, 24 Oct 2021 10:31:29 -0400
+Received: by mail-wr1-x434.google.com with SMTP id p14so1747676wrd.10
+ for <qemu-devel@nongnu.org>; Sun, 24 Oct 2021 07:31:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=eX10VOWvm6HiVyOVEqn45x1BGdCtfUfJZ9loFtIwYng=;
- b=MPxYpfLPdGwYok1iuyYr+dFUXRSPIaObcc4e2atrk3VkG4NXicdEax25PPjgATh8oZ
- ZfahGLIrA/e/o5WFX635B3vHhHFaF3XfpN5EO3mRH8kspRds0k7F487nTBNbsIa7w8XU
- ROrc58TBliV5F+SxGWH+Fq2NMByiWCU0ia0PDvV2P8ycOvbYmG/lh/MI/FSmuI0ydW9W
- D3C6UyId6w7bbVvuInfybT3zDfzqxYde5az7I9xZcDoEhBl26Zjr8kvZxSn2zpCwZ1UW
- +2Lpji6SQRPIT6U6BY32R5sx4Z/PnH/bg+ZfNmzYVQVJJbEW9fqUTDMZy6Gj7+RGfQg1
- nmCw==
+ bh=CTBzoqox30UwCYaP98zRplQKmIVZeMD3RlhV7gz8HWA=;
+ b=hS64MdUoV6COfsWgARFU9KtqkeYDbtjDXDzjumPRACWIAdGHgROVSoXTX33Gaeauam
+ Sf7NIEUvgsbEoVcTFMaLTe4j+BaCdtLHZZ6rNN7i5nWb8ipIF923zm8M3PijsPJP1Blu
+ S0bXPGM3+r+2waxRaDdiNxwFCzKsIrmqcNiB74TaV9IcJe8aze74gJCSkuw6DOme0vVB
+ EhhZgL23uvuEgr3ppPEJ9UI3o4lUlORHxbVQy6BsXdAX5eTdVgcKGamLNwhSk40OWmfO
+ 2BstvTSiTi5CnTiyJo79GlyHrVpz/RC8BUABPgMDYlqvki+QMgGPBmbpWzxhtLB9BoQM
+ 6ybQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=eX10VOWvm6HiVyOVEqn45x1BGdCtfUfJZ9loFtIwYng=;
- b=eJRIVbz6YMWZz6wWddtzdO51n481htrOicmTTYB2q9bmeek1cN6l/2lgbylWvXdG2B
- MPfqnM9ViUXOKLBQsn3zUvvbg6GMYBiZJ1L1ZEfR59EbkGPtgHZjZLzzNVwjBgvxqGpd
- J7M3h+zenkVwSK5PBlqP480fbnDfZBLHIAgbmFxsgqOXSwf59xkBdg5Br/Y/uQc4PpiC
- 3/ZJqK3kwLDMgJym0C2RtU3XHh7x5uyboDsBq3xJ+VHgjEf4XjzT4DDuImz6e+8ckpfO
- 7EOENAR0D4GgurYafmtSlKC/WntiFZdA5r0Or1d8gqgyP2lO7NsiPk99+6Vn8DJTUDr6
- z1Yw==
-X-Gm-Message-State: AOAM531dsRLn+9M0TvkNBPc3B+C6j9gM+73hjCNoO/slZpY8Y1yl++oK
- I4txhK5NBh6NT9APdu3LHZg=
-X-Google-Smtp-Source: ABdhPJxF9322/qR3v2Ugkv8gTXP+evq6cwltFdZdYEQV2aawTUgFBdLXEgYSENLpPn54veoUQOshWQ==
-X-Received: by 2002:a7b:c316:: with SMTP id k22mr14223584wmj.22.1635084544154; 
- Sun, 24 Oct 2021 07:09:04 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id n15sm1059825wmq.3.2021.10.24.07.09.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 Oct 2021 07:09:03 -0700 (PDT)
-Message-ID: <614eb8b1-aa3e-8c2a-aeec-bd0f60e0eb6f@amsat.org>
-Date: Sun, 24 Oct 2021 16:09:01 +0200
+ bh=CTBzoqox30UwCYaP98zRplQKmIVZeMD3RlhV7gz8HWA=;
+ b=Gd++ZvJIbQK9y4BqePhmB59uC24g6nnpvFSjoaJWbzMVqcDFZTU9zSnVundL0KkF/G
+ QqGmMe7ClQTJd+/EaKmpcOLO3HTDErVHcOem8mdHueHkqsF1xDzT5BFtOJlbwbLNHrC0
+ yBO5r/rtAOoWSKjH3Dc+hLR44z9TpLcU1rLgd6rXwn4s+HMkkGdOeHPQxSya3gGW3bbh
+ 3qXvBw2CKq+Km003lQkvTQCNmdAlngSFMqPLzBturyBSSgvDlfPDVKtSl8x5brtkJUZN
+ 47K2U/MXVyPX8PKd3admRDnhcpm1GUmblrKjVvQF2H09sCejwpFkFFo/9bT/rBLzB15q
+ 2sMg==
+X-Gm-Message-State: AOAM530Hgha8LWwxEB+61N3NFge4BZ36+UBHYVmpUAurKNDKG62BV3k5
+ hLaBKoaGPbPHYIuCjiAgD6dTYqesR5//3qIO
+X-Google-Smtp-Source: ABdhPJzzvcYl02TpbxSr9pVnqED5GxLGpfd72c7Wi2fx2YxAqK9LCGPQF5/XLkHcejA9rcXN8XcrzA==
+X-Received: by 2002:a05:6000:15c8:: with SMTP id
+ y8mr16359402wry.345.1635085885213; 
+ Sun, 24 Oct 2021 07:31:25 -0700 (PDT)
+Received: from localhost.localdomain ([212.178.231.132])
+ by smtp.gmail.com with ESMTPSA id y23sm5019751wmi.43.2021.10.24.07.31.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 24 Oct 2021 07:31:24 -0700 (PDT)
+From: Nikola Pavlica <pavlica.nikola@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] ui/gtk: Update the refresh rate for gl-area too
+Date: Sun, 24 Oct 2021 16:31:10 +0200
+Message-Id: <20211024143110.704296-1-pavlica.nikola@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 0/5] hw/sh4: Codeing style fixes
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1635036053.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <cover.1635036053.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.33,
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=pavlica.nikola@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,23 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: philmd@redhat.com, kraxel@redhat.com,
+ Nikola Pavlica <pavlica.nikola@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/21 02:40, BALATON Zoltan wrote:
-> This fixes coding style of files belonging to SH4 system emulation
-> which were not following current QEMU coding style requirements.
-> 
-> BALATON Zoltan (5):
->   hw/sh4: Coding style: Remove tabs
->   hw/sh4: Coding style: Fix multi-line comments
->   hw/sh4: Coding style: White space fixes
->   hw/sh4: Coding style: Add missing braces
->   hw/sh4: Coding style: Remove unnecessary casts
+This is a bugfix that stretches all the way back to January 2020,
+where I initially introduced this problem and potential solutions.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+A quick recap of the issue: QEMU did not sync up with the monitors
+refresh rate causing the VM to render frames that were NOT displayed
+to the user. That "fix" allowed QEMU to obtain the screen refreshrate
+information from the system using GDK API's and was for GTK only.
+
+Well, I'm back with the same issue again. But this time on Wayland.
+
+And I did NOT realize there was YET another screen refresh rate
+function, this time for Wayland specifically. Thankfully the fix was
+simple and without much hassle.
+
+Thanks,
+Nikola
+
+PS: It seems that my patch has gone missing from the mailing list,
+hence I'm sending it again. Sorry for any inconveniences.
+
+
+Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
+---
+ ui/gtk-gl-area.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
+index b23523748e..afcb29f658 100644
+--- a/ui/gtk-gl-area.c
++++ b/ui/gtk-gl-area.c
+@@ -112,6 +112,9 @@ void gd_gl_area_refresh(DisplayChangeListener *dcl)
+ {
+     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
+
++    vc->gfx.dcl.update_interval = gd_monitor_update_interval(
++            vc->window ? vc->window : vc->gfx.drawing_area);
++
+     if (!vc->gfx.gls) {
+         if (!gtk_widget_get_realized(vc->gfx.drawing_area)) {
+             return;
+--
+2.33.0
+
 
