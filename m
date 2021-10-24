@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D94438A9A
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 18:18:38 +0200 (CEST)
-Received: from localhost ([::1]:51736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C5A438AA0
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 18:24:45 +0200 (CEST)
+Received: from localhost ([::1]:37190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1megCj-0000J0-6Z
-	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 12:18:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45702)
+	id 1megIe-0001D2-Kq
+	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 12:24:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1megAt-00069a-0i; Sun, 24 Oct 2021 12:16:43 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39691)
+ id 1megB6-0006Zk-AY; Sun, 24 Oct 2021 12:16:56 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1megAq-0008Db-3a; Sun, 24 Oct 2021 12:16:41 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id z14so6953184wrg.6;
- Sun, 24 Oct 2021 09:16:38 -0700 (PDT)
+ id 1megAu-0008G0-IA; Sun, 24 Oct 2021 12:16:56 -0400
+Received: by mail-wr1-x433.google.com with SMTP id d13so5584616wrf.11;
+ Sun, 24 Oct 2021 09:16:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yP7BLA1h8Q3wRULGuTTgt/69jEjbxHvrn1EyN0eEB+I=;
- b=dIA/5dim4KbVkNv/T2pO2U2DYRwyozGNUfCOlH60rUK/P1FPH1MKseAMdrGjS6BKNk
- /QTvxfdDqFaCbxhy8dfcAfpCZTlz0GLFIEHt0LMxnNFL+fQ8aQbxDcE0gyY04Q3Mx1Mf
- JzStKyVn8+v/wiymBG4Y74vVHQ23rZIowbI45IVQsSOs3pMhFv5pfHJPHljgaUzpKe1E
- +PJ8HMk/uEU7FaH6+Z8OMddKdWeMhSn02tQOksj32kYeeNPOgudAHLFMYfGrfQupokZr
- VeYI38qRESxpPkcdpXtZZjjFVEuZieuni1QO+UOzfZWo0PF2nGeIw/Ebi84avAqMjo9V
- h8OA==
+ bh=+eCufxrSs/JG/dcQv3XIP+vKdVUBYPST3YpjCTe8HCs=;
+ b=epGvdkQeWhmvp0rdLyNV1/H5Iwe7YgjE/OBdHIdA+L1cWsSYUhDLDbh1886G+TDf4a
+ 0nioy9xlwZD6hnk+7iqodm49DC25+lFfXpioEWhd9pdn/NWIqQ3gWiwA8ScUJ/pmpz9c
+ LGxiyKcvOLbEh3WCUsktPox9bwKVuA/c+pVaFLFyDEmMV40iEH+EOVXo9BtJuZnUnVwW
+ 1jzLdIXkGQfT3HqveeV6j/1eh3PFQZ7HGi3NPVDD1Iehjgglyiqy7p898uGZYn5jQyIQ
+ q/YQuEQuhAjm1j6OfU/v3hCA0R0q0Z+UY/xU1QWdBrIkL/SCeVHVhb84DynumjtVKOAt
+ /C1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yP7BLA1h8Q3wRULGuTTgt/69jEjbxHvrn1EyN0eEB+I=;
- b=LLp1ybMR1BhEjYiVfhnd2OhzAJnG6GscagedC+krffzzwXJCiQqOIIDD9OBOibjY9q
- HJ4i23TP6iJno6Jy5As/qy7ZldzVfgVbt0jZGG+pULnJBkPiwNcnNLpdmU8Hh7ksxzSc
- 0Wg1iEkPpMjUD/cPDIxp4vJGZqSAFlwDece6+xAr5cEsMFpsptERqGnSEFTC1k7lnZOU
- RPkxPD/Dbc3auWry6p9/cZHYrGuEdFWJPW5kI+zJxHeFUsoK0aM2l/sV8xFQtBkuRoP8
- XSyNPEnECbrhOMZt7pQcrsKbqeKboOLW7GI1nRublMzgPxjkjS/EfSWi+LP8B83+KmG9
- 0p9w==
-X-Gm-Message-State: AOAM530yK6NjzrKFXlWvBwjz+KyRjwEKTnjwZSWFANqHAX5dDVkKjH6O
- /1ZmmSBHfoBYPRmtQoEETzZ+Yku9UHY=
-X-Google-Smtp-Source: ABdhPJz3TSloNAOizdj6p2h4ZptplFg+2Y5RYo/atRMwpFoQz0uBVfmXh3JhI1nJ92Tl5Csh4H/l2Q==
-X-Received: by 2002:a5d:6741:: with SMTP id l1mr16441144wrw.2.1635092196962;
- Sun, 24 Oct 2021 09:16:36 -0700 (PDT)
+ bh=+eCufxrSs/JG/dcQv3XIP+vKdVUBYPST3YpjCTe8HCs=;
+ b=IVOtrM/iFlUr9jYTN46Fv4lvS9IBBJviloxjMKmS6Et2waBulksvSd8GZSsn+tPIWj
+ cE2hc3fUQTJ1i09FZOkbsBuZibCE3KidMEssI96xtDewgGmjiH7c7H70kAS6YEdcd2ny
+ XrRLCR6dVJ/3cnYJwtYLskjn+gImbfOpQH7Br5g51txR3Yq9xsInZ/G1izxZP5eipiEi
+ dv2dkxzJNSJtNkE7UxW0F44cHGQXDEb7rcjGaaqEosh0A7E+hWJKXhAelnIeZdNZnNHv
+ VPucJtMkrmC+hBvqUWevlpBlOhqijz5Ty9ITj6DQY5NGzgSPNfBTKgkR14Z6y3kyLK0u
+ Gn+Q==
+X-Gm-Message-State: AOAM533MPM+wPYhRsHgL1oGzB/BwgXVD8LoqXcXjWyxvJzXhWmRN0eif
+ n5jHKIKjl6fc3/8njGAyzq54U8vyE3E=
+X-Google-Smtp-Source: ABdhPJw7BuPEkbeYOFICkoPQqsO98cxpBRMN5M/gpOPDOwFPxHFZMko2Apof4OlJ42mrRGR4gWdJUQ==
+X-Received: by 2002:adf:80cd:: with SMTP id 71mr16052364wrl.429.1635092201670; 
+ Sun, 24 Oct 2021 09:16:41 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- f7sm12480783wmg.14.2021.10.24.09.16.36
+ f7sm12480929wmg.14.2021.10.24.09.16.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Oct 2021 09:16:36 -0700 (PDT)
+ Sun, 24 Oct 2021 09:16:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] target/ppc: Use tcg_constant_tl() in gen_op_cmp()
-Date: Sun, 24 Oct 2021 18:16:18 +0200
-Message-Id: <20211024161619.325903-4-f4bug@amsat.org>
+Subject: [PATCH 4/4] target/ppc: Use tcg_constant_i32() in gen_ld/st()
+Date: Sun, 24 Oct 2021 18:16:19 +0200
+Message-Id: <20211024161619.325903-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211024161619.325903-1-f4bug@amsat.org>
 References: <20211024161619.325903-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,46 +91,83 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid using a TCG temporary by moving the compared values
+Avoid using a TCG temporary by moving the MemOp index
 to the constant pool.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/ppc/translate.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ target/ppc/translate.c | 29 +++++++++++++----------------
+ 1 file changed, 13 insertions(+), 16 deletions(-)
 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 518337bcb7f..507f6699f47 100644
+index 507f6699f47..9a4ae61a39d 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -1430,23 +1430,20 @@ static opc_handler_t invalid_handler = {
- static inline void gen_op_cmp(TCGv arg0, TCGv arg1, int s, int crf)
- {
-     TCGv t0 = tcg_temp_new();
--    TCGv t1 = tcg_temp_new();
-     TCGv_i32 t = tcg_temp_new_i32();
+@@ -3347,15 +3347,14 @@ static void gen_lq(DisasContext *ctx)
  
--    tcg_gen_movi_tl(t0, CRF_EQ);
--    tcg_gen_movi_tl(t1, CRF_LT);
-     tcg_gen_movcond_tl((s ? TCG_COND_LT : TCG_COND_LTU),
--                       t0, arg0, arg1, t1, t0);
--    tcg_gen_movi_tl(t1, CRF_GT);
-+                       t0, arg0, arg1,
-+                       tcg_constant_tl(CRF_LT), tcg_constant_tl(CRF_EQ));
-     tcg_gen_movcond_tl((s ? TCG_COND_GT : TCG_COND_GTU),
--                       t0, arg0, arg1, t1, t0);
-+                       t0, arg0, arg1,
-+                       tcg_constant_tl(CRF_GT), t0);
+     if (tb_cflags(ctx->base.tb) & CF_PARALLEL) {
+         if (HAVE_ATOMIC128) {
+-            TCGv_i32 oi = tcg_temp_new_i32();
++            TCGv_i32 oi;
+             if (ctx->le_mode) {
+-                tcg_gen_movi_i32(oi, make_memop_idx(MO_LEQ, ctx->mem_idx));
++                oi = tcg_constant_i32(make_memop_idx(MO_LEQ, ctx->mem_idx));
+                 gen_helper_lq_le_parallel(lo, cpu_env, EA, oi);
+             } else {
+-                tcg_gen_movi_i32(oi, make_memop_idx(MO_BEQ, ctx->mem_idx));
++                oi = tcg_constant_i32(make_memop_idx(MO_BEQ, ctx->mem_idx));
+                 gen_helper_lq_be_parallel(lo, cpu_env, EA, oi);
+             }
+-            tcg_temp_free_i32(oi);
+             tcg_gen_ld_i64(hi, cpu_env, offsetof(CPUPPCState, retxh));
+         } else {
+             /* Restart with exclusive lock.  */
+@@ -3458,17 +3457,16 @@ static void gen_std(DisasContext *ctx)
  
-     tcg_gen_trunc_tl_i32(t, t0);
-     tcg_gen_trunc_tl_i32(cpu_crf[crf], cpu_so);
-     tcg_gen_or_i32(cpu_crf[crf], cpu_crf[crf], t);
+         if (tb_cflags(ctx->base.tb) & CF_PARALLEL) {
+             if (HAVE_ATOMIC128) {
+-                TCGv_i32 oi = tcg_temp_new_i32();
++                TCGv_i32 oi;
+                 if (ctx->le_mode) {
+-                    tcg_gen_movi_i32(oi, make_memop_idx(MO_LE | MO_128,
+-                                                        ctx->mem_idx));
++                    oi = tcg_constant_i32(make_memop_idx(MO_LE | MO_128,
++                                                         ctx->mem_idx));
+                     gen_helper_stq_le_parallel(cpu_env, EA, lo, hi, oi);
+                 } else {
+-                    tcg_gen_movi_i32(oi, make_memop_idx(MO_BE | MO_128,
+-                                                        ctx->mem_idx));
++                    oi = tcg_constant_i32(make_memop_idx(MO_BE | MO_128,
++                                                         ctx->mem_idx));
+                     gen_helper_stq_be_parallel(cpu_env, EA, lo, hi, oi);
+                 }
+-                tcg_temp_free_i32(oi);
+             } else {
+                 /* Restart with exclusive lock.  */
+                 gen_helper_exit_atomic(cpu_env);
+@@ -4065,17 +4063,16 @@ static void gen_lqarx(DisasContext *ctx)
  
-     tcg_temp_free(t0);
--    tcg_temp_free(t1);
-     tcg_temp_free_i32(t);
- }
- 
+     if (tb_cflags(ctx->base.tb) & CF_PARALLEL) {
+         if (HAVE_ATOMIC128) {
+-            TCGv_i32 oi = tcg_temp_new_i32();
++            TCGv_i32 oi;
+             if (ctx->le_mode) {
+-                tcg_gen_movi_i32(oi, make_memop_idx(MO_LE | MO_128 | MO_ALIGN,
+-                                                    ctx->mem_idx));
++                oi = tcg_constant_i32(make_memop_idx(MO_LE | MO_128 | MO_ALIGN,
++                                                     ctx->mem_idx));
+                 gen_helper_lq_le_parallel(lo, cpu_env, EA, oi);
+             } else {
+-                tcg_gen_movi_i32(oi, make_memop_idx(MO_BE | MO_128 | MO_ALIGN,
+-                                                    ctx->mem_idx));
++                oi = tcg_constant_i32(make_memop_idx(MO_BE | MO_128 | MO_ALIGN,
++                                                     ctx->mem_idx));
+                 gen_helper_lq_be_parallel(lo, cpu_env, EA, oi);
+             }
+-            tcg_temp_free_i32(oi);
+             tcg_gen_ld_i64(hi, cpu_env, offsetof(CPUPPCState, retxh));
+         } else {
+             /* Restart with exclusive lock.  */
 -- 
 2.31.1
 
