@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32530438BD0
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 22:29:05 +0200 (CEST)
-Received: from localhost ([::1]:58110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320ED438BFA
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 22:54:15 +0200 (CEST)
+Received: from localhost ([::1]:43164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mek75-0005XP-RD
-	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 16:29:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52110)
+	id 1mekVR-0007KH-O6
+	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 16:54:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mek61-0004tH-0a
- for qemu-devel@nongnu.org; Sun, 24 Oct 2021 16:27:57 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:40945)
+ id 1mekU3-0006a7-Me
+ for qemu-devel@nongnu.org; Sun, 24 Oct 2021 16:52:48 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:37468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mek5y-0003Zp-OT
- for qemu-devel@nongnu.org; Sun, 24 Oct 2021 16:27:56 -0400
-Received: by mail-pg1-x533.google.com with SMTP id l186so2434527pge.7
- for <qemu-devel@nongnu.org>; Sun, 24 Oct 2021 13:27:53 -0700 (PDT)
+ id 1mekTw-0004nd-KR
+ for qemu-devel@nongnu.org; Sun, 24 Oct 2021 16:52:47 -0400
+Received: by mail-pl1-x635.google.com with SMTP id n11so6518978plf.4
+ for <qemu-devel@nongnu.org>; Sun, 24 Oct 2021 13:52:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gQYgio5A05cHtLFFi9FzdHYhJxsoSgyVu/F/j49dRlo=;
- b=mqEkPWYFlBe3EoArcCm2jX3bSBKvo4jEwgRk8GRAsbrZgrLv1uL54e3bLTWSa0vo5F
- q7XI7a0L7Ljmy0QEnKrwAXEh7FIvTjWJhnp81wJqwe0ewbq7CHtDYWh3khY0AqKhIo/6
- eIKhWVmaul/Q76KSK/vo305FuMOs3pVo/IFeuphAokA6t41uWX3KDLql8gBiO6OMhrdW
- by1Wl1dAPaWspNDK4069ojSJK4sQp8fZb1D5J6i6TgCS6kU/frdFonRY+AnpF9PQW71I
- Syfq8iBygnRVWxpxl7uQUKDVBz/e5HuIH7wt9fQO8Wk83ayDDut4/lBSNushFMF49jGc
- 8Nsw==
+ bh=S1KOBMU8izPiF9V3z4RL3vQxNi7ziJA/BtzPjZCYTks=;
+ b=OBoiKM08prItnXLAv7hnwyxOp8Esm72JUdNal/uVXBfOwZqRVbe0Q9B9/ex96tY0pV
+ 4s1dBGETz3vThAqgYbIHWRCfz/VgQl8DU324RMj+1AWr7A++/jF+eQzS6nD3EZO+RqP2
+ v/nsfg8gpEJCj/fhVOGpDfR2mArT727l+WV3Jfs11WgBkvVokzSd42xAFJOr4ywJqnl/
+ ShwPT55jkUrSKNyS/uCPisOUp67ESNbHAgqllBnUQyfAgfmH5cf/g7MuXcI3U/ABq8Va
+ shLOlSHsYJf3KfQniigiBLhUFaoAX+AHRXo8FMmidEflEGOpiCek/rUasbES3OWp0kgn
+ IZlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gQYgio5A05cHtLFFi9FzdHYhJxsoSgyVu/F/j49dRlo=;
- b=rek6k+ho/EqCf4BEIV6X5Xlroehfm/gmZuBfO+JJQRNti5V+fPe00FIGGLyUjCi9QA
- PxedilVb6JTTp3oAzg7ew/W8gOFJBi24OqJg4QL8CkCQUZOuQHoN9ZE8faX2FlgNBjcO
- 6xrgpFJPUcG3OdZWcQfdW4qKFOSQqh/XprbEh7rujsK9BBTXfNl+9tMV6NQWl2lhyQVe
- 0ldYiwR+bwnJFn7CNfVeaqAn2dB6IQmofAbhwEnvrtQMfhb+1VU79fPblONBG7hSvrSh
- 8QU/aAxnQ1cxmNhWvvdEIsLvBYN9HscIWhq+hAfuKJOFS85E0aw64QLwMK+7jC1VyHqZ
- sVoA==
-X-Gm-Message-State: AOAM533YjJm4DtSHwBBOhTm0XlDXOpErh80Vs6qzJlHzRMwxZSbJnBFZ
- 8XRnuvbLRNU3Xwr7Ff5rO3knBGIRNru1Qg==
-X-Google-Smtp-Source: ABdhPJwKMg3yxetCQPCkjgQlYDTwT89FKUGQa5DNBvCk60uS7p3FXKVsV+D7ztlJXJWvhhfTBWwsOA==
-X-Received: by 2002:a05:6a00:815:b0:44d:2193:f688 with SMTP id
- m21-20020a056a00081500b0044d2193f688mr14032916pfk.4.1635107272428; 
- Sun, 24 Oct 2021 13:27:52 -0700 (PDT)
+ bh=S1KOBMU8izPiF9V3z4RL3vQxNi7ziJA/BtzPjZCYTks=;
+ b=f4DKOUGV4D0ldSlTu3NqrYYCuIpy88ryzcTV87POLMdFJ4tUS+lvTpqg6XmJK+65+M
+ 8cQzu77IG+sa5Cq4SLmOiKzFfK/ZtQIgKHe9Mpk/bogxHFPWmmv8V/v/LEVNpMJigHO/
+ ynP7IFlwgd07lTK0panwxcjHS5PbgaEbxVqtu4GcA7eoA9wYduTZp8vEUMblDu059FBv
+ SiZZ/U9m3E7Q4JE4woWKOM19poiL3JDHzRzDfV67j+5lyHuXRcHfp6SsqqR7yrlboPf5
+ hMKkbohhrVrGRwuZ9WqYkbNBudlnkW0kaJ5pSGVjZASQ7yu+dUE8pkTFueQw0Ci+GE/m
+ SI3g==
+X-Gm-Message-State: AOAM532XvuD2x+YHyozyyOiY8UbK27+/AeE3NL7u2MJMgO3euirdrVy7
+ hS0WRXbpNfYgJ57fnCyH3AcquA==
+X-Google-Smtp-Source: ABdhPJz5HtlMBb6DyuUraMa6yUhHgQkqGFsxK5vCZ/W7qcrFYwTuMU3tM1ZKBwcqe0NHSD/WFa8HGQ==
+X-Received: by 2002:a17:90a:9cf:: with SMTP id
+ 73mr5891627pjo.158.1635108757496; 
+ Sun, 24 Oct 2021 13:52:37 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id h2sm15153421pjk.44.2021.10.24.13.27.51
+ by smtp.gmail.com with ESMTPSA id f7sm12479484pfj.63.2021.10.24.13.52.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 Oct 2021 13:27:51 -0700 (PDT)
-Subject: Re: [PATCH 22/33] target/mips: Convert MSA 3R instruction format to
- decodetree (part 1/4)
+ Sun, 24 Oct 2021 13:52:36 -0700 (PDT)
+Subject: Re: [PATCH 26/33] target/mips: Convert MSA ELM instruction format to
+ decodetree
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20211023214803.522078-1-f4bug@amsat.org>
- <20211023214803.522078-23-f4bug@amsat.org>
- <65fa8116-4a1a-eecf-4ee9-fc6ed2896f89@linaro.org>
- <5d91398c-310d-19cd-24ed-5ca8dc529f34@amsat.org>
+ <20211023214803.522078-27-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <37ba040f-1fcb-7855-6ec1-4507259fbbe3@linaro.org>
-Date: Sun, 24 Oct 2021 13:27:49 -0700
+Message-ID: <68ccd429-4878-51c9-ef31-331d57730c9c@linaro.org>
+Date: Sun, 24 Oct 2021 13:52:35 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <5d91398c-310d-19cd-24ed-5ca8dc529f34@amsat.org>
+In-Reply-To: <20211023214803.522078-27-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -53
 X-Spam_score: -5.4
 X-Spam_bar: -----
@@ -97,35 +95,34 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/21 11:57 AM, Philippe Mathieu-Daudé wrote:
-> On 10/24/21 19:52, Richard Henderson wrote:
->> On 10/23/21 2:47 PM, Philippe Mathieu-Daudé wrote:
->>> +static bool trans_msa_3r_df(DisasContext *ctx, arg_msa_r *a,
->>> +                            void (*gen_msa_3r_df)(TCGv_ptr, TCGv_i32,
->>> TCGv_i32,
->>> +                                                  TCGv_i32, TCGv_i32))
->>> +{
->>> +    TCGv_i32 tdf = tcg_constant_i32(a->df);
->>> +    TCGv_i32 twd = tcg_const_i32(a->wd);
->>> +    TCGv_i32 tws = tcg_const_i32(a->ws);
->>> +    TCGv_i32 twt = tcg_const_i32(a->wt);
->>> +
->>> +    gen_msa_3r_df(cpu_env, tdf, twd, tws, twt);
->>
->> Missing check_msa_access.
-> 
-> It is included in TRANS_MSA(). How could I make that clearer?
-> 
-> The style I follow is:
-> - trans_UPPER() -> direct implementation
-> - trans_lower() -> called via TRANS_xxx() macro
+On 10/23/21 2:47 PM, Philippe Mathieu-Daudé wrote:
+> +static bool trans_msa_elm_df(DisasContext *ctx, arg_msa_elm *a,
+> +                             void (*gen_msa_elm_df)(TCGv_ptr, TCGv_i32,
+> +                                                    TCGv_i32, TCGv_i32,
+> +                                                    TCGv_i32))
+> +{
+> +    TCGv_i32 twd;
+> +    TCGv_i32 tws;
+> +    TCGv_i32 tdf;
+> +    TCGv_i32 tn;
+> +    uint32_t df, n;
+> +
+> +    if (!df_extract(df_elm, a->df, &df, &n)) {
+> +        gen_reserved_instruction(ctx);
+> +        return true;
+> +    }
 
-Hmm.  I dunno.  Especially since some of the cases require checking for the null function 
-pointer *before* the access check.
+Again, I think this should happen before the access check.
 
-How many trans helpers do you wind up with in the end?
-Perhaps drop TRANS_MSA entirely?
+You could even return false from these extractions, because they represent an invalid 
+encoding for this instruction.  In a different context, there could be another grouped 
+insn that matches.
 
+
+> +    twd = tcg_const_i32(a->wd);
+> +    tws = tcg_const_i32(a->ws);
+
+tcg_constant_i32.
 
 r~
 
