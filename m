@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52288438A9B
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 18:18:41 +0200 (CEST)
-Received: from localhost ([::1]:51992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D94438A9A
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 18:18:38 +0200 (CEST)
+Received: from localhost ([::1]:51736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1megCm-0000Tt-AY
-	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 12:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45684)
+	id 1megCj-0000J0-6Z
+	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 12:18:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1megAo-0005z0-Mi; Sun, 24 Oct 2021 12:16:38 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34794)
+ id 1megAt-00069a-0i; Sun, 24 Oct 2021 12:16:43 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1megAl-00089X-Fz; Sun, 24 Oct 2021 12:16:37 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id d10so3990705wrb.1;
- Sun, 24 Oct 2021 09:16:33 -0700 (PDT)
+ id 1megAq-0008Db-3a; Sun, 24 Oct 2021 12:16:41 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id z14so6953184wrg.6;
+ Sun, 24 Oct 2021 09:16:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=O1BoBsNweUhtwI2foBYUrbLKkFOSUy9/c6YZdEqMFi0=;
- b=HLQx7+s9mS3U6Bvl98KXWFqJTLGr74GgiZKciOnQAmb+7/uxFgWCeOWZJOQWj20UTD
- rrelJvkwbTj+AOn3i3N/4PXLTSaxya3mvTUw5RyLCItuA10wIb6CK8L+tHqBmnCB1wnE
- zi1yZK8hKDKr95gquXeScTAUH4Q8BWTARbZOo490iLLuGEE+q+RYmHcLkF8tLg8KVu1p
- GBGDyKclBqHNVXD3fS9MyCho5J1y7oK5Zyqgrf2GXtXKeiH85HNP8JvAQFCGXq0zvXAy
- U+SgY66j0ED8DDQCvcpwucXi1XNKDTUvxc/LbVYVp3SkaIU4PJL4pzPKqL1aAE8bEX3w
- gKPQ==
+ bh=yP7BLA1h8Q3wRULGuTTgt/69jEjbxHvrn1EyN0eEB+I=;
+ b=dIA/5dim4KbVkNv/T2pO2U2DYRwyozGNUfCOlH60rUK/P1FPH1MKseAMdrGjS6BKNk
+ /QTvxfdDqFaCbxhy8dfcAfpCZTlz0GLFIEHt0LMxnNFL+fQ8aQbxDcE0gyY04Q3Mx1Mf
+ JzStKyVn8+v/wiymBG4Y74vVHQ23rZIowbI45IVQsSOs3pMhFv5pfHJPHljgaUzpKe1E
+ +PJ8HMk/uEU7FaH6+Z8OMddKdWeMhSn02tQOksj32kYeeNPOgudAHLFMYfGrfQupokZr
+ VeYI38qRESxpPkcdpXtZZjjFVEuZieuni1QO+UOzfZWo0PF2nGeIw/Ebi84avAqMjo9V
+ h8OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=O1BoBsNweUhtwI2foBYUrbLKkFOSUy9/c6YZdEqMFi0=;
- b=Np87esHRc04W2QNpi5gQ8enFmsmEldlfSjh9vVT2I8ery8kC+cifssd3Q5s4WQ6Cvp
- Yb5pQrFfwiUwPpwsUCp3o+2VXCdpmMtax2VKr/3cbN0mF68Yg1FfbrhCEGR3VnNXC8h7
- tJ4WmFDwfFXjybKaP3d6iJq8rhg3IfMkMNsETMQ4Vd8u1FVWAso6yvsS4ObaALPj49UL
- uovOzrEcr3/Bcbk2EdhnsLz51i30AJ/FnlgFXpAZY+FafHwyjb/uY1hrSraUWyX3G1ts
- s5rHbCS9yl4IneBX1gXEFslSPiIq5ier5cbcIICqdOEToLCrGSYqkGW2U/3PeLIw78FI
- JPzg==
-X-Gm-Message-State: AOAM5312dOP/X2AE/qPDLOpN0CZyBCV+0NivQ3OkTo7XfYIdrR75esLa
- Ebz5UxnHFMVeWx3TpuNVomS1wGjEfQs=
-X-Google-Smtp-Source: ABdhPJxDj8PiGq/HRzQ54R5Igr4+2Sa/DnlyjQeYFGs1T8sysTiV5+BpXZ3vC5+mwD/8GqpoZiLyAA==
-X-Received: by 2002:a5d:6941:: with SMTP id r1mr4573781wrw.373.1635092192305; 
- Sun, 24 Oct 2021 09:16:32 -0700 (PDT)
+ bh=yP7BLA1h8Q3wRULGuTTgt/69jEjbxHvrn1EyN0eEB+I=;
+ b=LLp1ybMR1BhEjYiVfhnd2OhzAJnG6GscagedC+krffzzwXJCiQqOIIDD9OBOibjY9q
+ HJ4i23TP6iJno6Jy5As/qy7ZldzVfgVbt0jZGG+pULnJBkPiwNcnNLpdmU8Hh7ksxzSc
+ 0Wg1iEkPpMjUD/cPDIxp4vJGZqSAFlwDece6+xAr5cEsMFpsptERqGnSEFTC1k7lnZOU
+ RPkxPD/Dbc3auWry6p9/cZHYrGuEdFWJPW5kI+zJxHeFUsoK0aM2l/sV8xFQtBkuRoP8
+ XSyNPEnECbrhOMZt7pQcrsKbqeKboOLW7GI1nRublMzgPxjkjS/EfSWi+LP8B83+KmG9
+ 0p9w==
+X-Gm-Message-State: AOAM530yK6NjzrKFXlWvBwjz+KyRjwEKTnjwZSWFANqHAX5dDVkKjH6O
+ /1ZmmSBHfoBYPRmtQoEETzZ+Yku9UHY=
+X-Google-Smtp-Source: ABdhPJz3TSloNAOizdj6p2h4ZptplFg+2Y5RYo/atRMwpFoQz0uBVfmXh3JhI1nJ92Tl5Csh4H/l2Q==
+X-Received: by 2002:a5d:6741:: with SMTP id l1mr16441144wrw.2.1635092196962;
+ Sun, 24 Oct 2021 09:16:36 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- f1sm9622312wrc.74.2021.10.24.09.16.31
+ f7sm12480783wmg.14.2021.10.24.09.16.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Oct 2021 09:16:31 -0700 (PDT)
+ Sun, 24 Oct 2021 09:16:36 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] target/arm: Use tcg_constant_i64() in do_sat_addsub_64()
-Date: Sun, 24 Oct 2021 18:16:17 +0200
-Message-Id: <20211024161619.325903-3-f4bug@amsat.org>
+Subject: [PATCH 3/4] target/ppc: Use tcg_constant_tl() in gen_op_cmp()
+Date: Sun, 24 Oct 2021 18:16:18 +0200
+Message-Id: <20211024161619.325903-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211024161619.325903-1-f4bug@amsat.org>
 References: <20211024161619.325903-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,70 +91,46 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The immediate value used for comparison is constant and
-read-only. Move it to the constant pool. This frees a
-TCG temporary for unsigned saturation opcodes.
+Avoid using a TCG temporary by moving the compared values
+to the constant pool.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/arm/translate-sve.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ target/ppc/translate.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index bc91a641711..76b5fe9f313 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -1943,20 +1943,20 @@ static void do_sat_addsub_32(TCGv_i64 reg, TCGv_i64 val, bool u, bool d)
- static void do_sat_addsub_64(TCGv_i64 reg, TCGv_i64 val, bool u, bool d)
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 518337bcb7f..507f6699f47 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -1430,23 +1430,20 @@ static opc_handler_t invalid_handler = {
+ static inline void gen_op_cmp(TCGv arg0, TCGv arg1, int s, int crf)
  {
-     TCGv_i64 t0 = tcg_temp_new_i64();
--    TCGv_i64 t1 = tcg_temp_new_i64();
-     TCGv_i64 t2;
+     TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+     TCGv_i32 t = tcg_temp_new_i32();
  
-     if (u) {
-         if (d) {
-             tcg_gen_sub_i64(t0, reg, val);
--            tcg_gen_movi_i64(t1, 0);
--            tcg_gen_movcond_i64(TCG_COND_LTU, reg, reg, val, t1, t0);
-+            t2 = tcg_constant_i64(0);
-+            tcg_gen_movcond_i64(TCG_COND_LTU, reg, reg, val, t2, t0);
-         } else {
-             tcg_gen_add_i64(t0, reg, val);
--            tcg_gen_movi_i64(t1, -1);
--            tcg_gen_movcond_i64(TCG_COND_LTU, reg, t0, reg, t1, t0);
-+            t2 = tcg_constant_i64(-1);
-+            tcg_gen_movcond_i64(TCG_COND_LTU, reg, t0, reg, t2, t0);
-         }
-     } else {
-+        TCGv_i64 t1 = tcg_temp_new_i64();
-         if (d) {
-             /* Detect signed overflow for subtraction.  */
-             tcg_gen_xor_i64(t0, reg, val);
-@@ -1966,7 +1966,7 @@ static void do_sat_addsub_64(TCGv_i64 reg, TCGv_i64 val, bool u, bool d)
+-    tcg_gen_movi_tl(t0, CRF_EQ);
+-    tcg_gen_movi_tl(t1, CRF_LT);
+     tcg_gen_movcond_tl((s ? TCG_COND_LT : TCG_COND_LTU),
+-                       t0, arg0, arg1, t1, t0);
+-    tcg_gen_movi_tl(t1, CRF_GT);
++                       t0, arg0, arg1,
++                       tcg_constant_tl(CRF_LT), tcg_constant_tl(CRF_EQ));
+     tcg_gen_movcond_tl((s ? TCG_COND_GT : TCG_COND_GTU),
+-                       t0, arg0, arg1, t1, t0);
++                       t0, arg0, arg1,
++                       tcg_constant_tl(CRF_GT), t0);
  
-             /* Bound the result.  */
-             tcg_gen_movi_i64(reg, INT64_MIN);
--            t2 = tcg_const_i64(0);
-+            t2 = tcg_constant_i64(0);
-             tcg_gen_movcond_i64(TCG_COND_LT, reg, t0, t2, reg, t1);
-         } else {
-             /* Detect signed overflow for addition.  */
-@@ -1977,13 +1977,12 @@ static void do_sat_addsub_64(TCGv_i64 reg, TCGv_i64 val, bool u, bool d)
+     tcg_gen_trunc_tl_i32(t, t0);
+     tcg_gen_trunc_tl_i32(cpu_crf[crf], cpu_so);
+     tcg_gen_or_i32(cpu_crf[crf], cpu_crf[crf], t);
  
-             /* Bound the result.  */
-             tcg_gen_movi_i64(t1, INT64_MAX);
--            t2 = tcg_const_i64(0);
-+            t2 = tcg_constant_i64(0);
-             tcg_gen_movcond_i64(TCG_COND_LT, reg, t0, t2, t1, reg);
-         }
--        tcg_temp_free_i64(t2);
-+        tcg_temp_free_i64(t1);
-     }
-     tcg_temp_free_i64(t0);
--    tcg_temp_free_i64(t1);
+     tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+     tcg_temp_free_i32(t);
  }
  
- /* Similarly with a vector and a scalar operand.  */
 -- 
 2.31.1
 
