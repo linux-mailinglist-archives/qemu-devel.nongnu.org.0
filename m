@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646BA438B95
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 20:59:05 +0200 (CEST)
-Received: from localhost ([::1]:48890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09638438B96
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 21:02:23 +0200 (CEST)
+Received: from localhost ([::1]:51238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meihz-0007QM-NB
-	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 14:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41458)
+	id 1meilA-0000l2-Ut
+	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 15:02:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1meigU-0006jt-CS
- for qemu-devel@nongnu.org; Sun, 24 Oct 2021 14:57:30 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45821)
+ id 1meik4-0008UW-FF
+ for qemu-devel@nongnu.org; Sun, 24 Oct 2021 15:01:12 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:42818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1meigS-0005U6-LT
- for qemu-devel@nongnu.org; Sun, 24 Oct 2021 14:57:30 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id a16so7344456wrh.12
- for <qemu-devel@nongnu.org>; Sun, 24 Oct 2021 11:57:28 -0700 (PDT)
+ id 1meik2-0007zr-RD
+ for qemu-devel@nongnu.org; Sun, 24 Oct 2021 15:01:12 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 62-20020a1c0241000000b0032ca21cffeeso6730797wmc.1
+ for <qemu-devel@nongnu.org>; Sun, 24 Oct 2021 12:01:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Oh6I5CXW8CFWyMbDJD6mCgd41ekvAZMgj4q7vdqNIgI=;
- b=SFc1Ox2vc3aGGg84rJImDLMRFXYhsJZoFnU//w2BHhoCUjwDGfk0uSrYZ+gLj+rmlJ
- KVza7vgsIaLw5czy1hxoLq2gE17WE6saL6XajXLo6rXm2lxOcjrbOvRNHgMuZe7A95SG
- HyEPk85/c3oApq4K/Ikv/YZ4vngXdaBGENGp0ZKy8+lluh/8UdHlaBYp8ZcN9mRcFhtJ
- LwAY/5rGKSPihNtAKBL259ZONjUPYL2UxqsaM3+gRhp633u4oKQQW+Z58HZI5DYzR/8Q
- Y78B28fvCmwMBnbvP5Rpkkkx/7dR8O+dQBXCthzpBzWyZ2SYyVZ9tw+oGzSXZ+H1nqKb
- 9pIg==
+ bh=eSrPaeKv2/m/AgJw/iEwEWEsnpI2b120anxnsX2+BYc=;
+ b=bTQ70HJZB4gab+OEIOinSSU1etjhezHERYEMNjRwjD8BGmOQqI5WDg39ACAsushz+P
+ /NGqjd85ChOBcQGuyBwtPIzcICh/96se8AJoWDwSaI2CieoqiO6BtqeA2JzKC4b08rvD
+ gJpf3XfIVVxk02LZbfUH9hcNAfGvh3nBAqM6RuJdJ3RdJ8cSEMTky6LZfR3c0NG3l/I8
+ imzQ9874GClIV9eqdnRywVYkuh+ajUTyZBJQ4fq5JY4/79pj+WiupV1fzFe0dpuaHevz
+ D9RKgseElTSP5bHHwZ+8jc2X2LOwVPeCfKSBVXeL3rix59SiEpDm3PTcf05Orr4rgXwU
+ 5emQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Oh6I5CXW8CFWyMbDJD6mCgd41ekvAZMgj4q7vdqNIgI=;
- b=S2mNWGTISWV19Sq3EDLnyzLndAahZ/r0xY3VkljNCnqyWlUCmiD2oNhwNeBeRcyNuR
- SOIRVQktMicVGOikPMQmN9LPawiYhNi8hNUygjEcjgmfDHVeXaNPKUANBgNt6iYacZr4
- KfVxNvgPfe9CEti9QykuwHy5wC/2rbqNHaGM5GgsffMHCHD1l1cHhj2g9uG+2V0YyHBK
- 9YKTWrN9Sg3sdwubvZqxgzDAODSaOp4pakgGFLPXCezu3rkThe6cJpJhZE80B5VLA+4b
- 346OgZQEcHu/KEHk62dfPHizanA5OlxUS1hhS+MgMOaIAzlxm8rGcw9VYU4fTnXArDKz
- XBdQ==
-X-Gm-Message-State: AOAM530yf6bQibdxGu1OHHX3rGJVVfAjvTK8wFmTWHUnS4leLUlmfUlS
- 2QJMVoi3msZi/TiTA8jbvsQ=
-X-Google-Smtp-Source: ABdhPJyZagfz1j2Fk1TM7r81YfrhYW3wQvxVh5TkRzj7BxpuoTnKmI51Lg0BZkz6+6N7jNuZ32W50A==
-X-Received: by 2002:a5d:6e8c:: with SMTP id k12mr16919666wrz.401.1635101847113; 
- Sun, 24 Oct 2021 11:57:27 -0700 (PDT)
+ bh=eSrPaeKv2/m/AgJw/iEwEWEsnpI2b120anxnsX2+BYc=;
+ b=hTiKomHzU0MsBtyDUxgww9O8n6qP3a+pQkVw9eWB47Wm7QW6iHqSqPmP6vCeyyHjwC
+ +jItd1pubcboH2+WkzSIEMcwm2wPY6A2yOfcl4GTADmiv+3uvq4nhDoVfY/T3qCeHPYH
+ XJCeQFm8jFkbBmcO3TaLQ8AYgSc2nIA8Nybv5Dm7yAfDqAAEwBTttTRCaWDZdizQxCyn
+ 9EOSVh2XuIr4w5Ueqe5T2aDkhCQtoxPkjNhgc4pClkhoUAzad4RMo0g78NyxWhogG/gM
+ mJmhLAbakPevzSSzUB5F26QroN32L5pOJPAZGIUXMK5BR965zJgeLLcu/IxFuysU4u1d
+ r2Lg==
+X-Gm-Message-State: AOAM532VK+I+Y9/unO+PJF/5hNDsLmrXfxjOKBjL+J9S4vdVnvC0MqU3
+ KJ4rFDhh8618p0uTyhaqIHk=
+X-Google-Smtp-Source: ABdhPJygGOFnf6Z8/FzDMF7PtQ5o3RgqFeqDRno4BTEak8ALB0Xev73G99y2XJ4u8JrPxvfHBVIQxQ==
+X-Received: by 2002:a05:600c:4f11:: with SMTP id
+ l17mr14909349wmq.77.1635102069484; 
+ Sun, 24 Oct 2021 12:01:09 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id h8sm14624087wrm.27.2021.10.24.11.57.25
+ by smtp.gmail.com with ESMTPSA id l2sm16963404wrs.90.2021.10.24.12.01.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 Oct 2021 11:57:26 -0700 (PDT)
-Message-ID: <5d91398c-310d-19cd-24ed-5ca8dc529f34@amsat.org>
-Date: Sun, 24 Oct 2021 20:57:25 +0200
+ Sun, 24 Oct 2021 12:01:08 -0700 (PDT)
+Message-ID: <ea5a1c70-fe60-63a0-60bd-7c46b5861104@amsat.org>
+Date: Sun, 24 Oct 2021 21:01:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 22/33] target/mips: Convert MSA 3R instruction format to
- decodetree (part 1/4)
+Subject: Re: [PATCH 00/33] target/mips: Fully convert MSA opcodes to decodetree
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
 References: <20211023214803.522078-1-f4bug@amsat.org>
- <20211023214803.522078-23-f4bug@amsat.org>
- <65fa8116-4a1a-eecf-4ee9-fc6ed2896f89@linaro.org>
+ <3331bed9-5435-1ef8-197e-f67e358c2768@flygoat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <65fa8116-4a1a-eecf-4ee9-fc6ed2896f89@linaro.org>
+In-Reply-To: <3331bed9-5435-1ef8-197e-f67e358c2768@flygoat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -47
 X-Spam_score: -4.8
 X-Spam_bar: ----
@@ -93,29 +93,27 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Luis Pires <luis.pires@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/21 19:52, Richard Henderson wrote:
-> On 10/23/21 2:47 PM, Philippe Mathieu-Daudé wrote:
->> +static bool trans_msa_3r_df(DisasContext *ctx, arg_msa_r *a,
->> +                            void (*gen_msa_3r_df)(TCGv_ptr, TCGv_i32,
->> TCGv_i32,
->> +                                                  TCGv_i32, TCGv_i32))
->> +{
->> +    TCGv_i32 tdf = tcg_constant_i32(a->df);
->> +    TCGv_i32 twd = tcg_const_i32(a->wd);
->> +    TCGv_i32 tws = tcg_const_i32(a->ws);
->> +    TCGv_i32 twt = tcg_const_i32(a->wt);
->> +
->> +    gen_msa_3r_df(cpu_env, tdf, twd, tws, twt);
+On 10/24/21 20:26, Jiaxun Yang wrote:
+
+> Thanks that's really helpful!
 > 
-> Missing check_msa_access.
+> For the whole series:
+> 
+> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> 
+> Double checked decode tree opcode with manual.
 
-It is included in TRANS_MSA(). How could I make that clearer?
+Thank you!
 
-The style I follow is:
-- trans_UPPER() -> direct implementation
-- trans_lower() -> called via TRANS_xxx() macro
+I'll respin addressing Richard comments but won't change the
+msa.decode file, so I'll include your R-b tag.
+
+Regards,
+
+Phil.
 
