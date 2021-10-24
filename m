@@ -2,46 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED4C438610
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 02:52:07 +0200 (CEST)
-Received: from localhost ([::1]:55918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9712643860B
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Oct 2021 02:48:22 +0200 (CEST)
+Received: from localhost ([::1]:47916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meRk6-0005bK-Oy
-	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 20:52:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57856)
+	id 1meRgT-0000De-8D
+	for lists+qemu-devel@lfdr.de; Sat, 23 Oct 2021 20:48:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1meRdr-0006G5-H6
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 20:45:39 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:57030)
+ id 1meRdo-0006FO-ED
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 20:45:38 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:63822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1meRdp-0004HK-1u
- for qemu-devel@nongnu.org; Sat, 23 Oct 2021 20:45:38 -0400
+ id 1meRdj-00048Z-Lw
+ for qemu-devel@nongnu.org; Sat, 23 Oct 2021 20:45:34 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E7AD4756198;
- Sun, 24 Oct 2021 02:45:32 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 047467475FA;
+ Sun, 24 Oct 2021 02:45:23 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id CC11E756194; Sun, 24 Oct 2021 02:45:32 +0200 (CEST)
-Message-Id: <9feba68dce02054c6d82ac65d12baa25a444ecaa.1635036053.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1635036053.git.balaton@eik.bme.hu>
-References: <cover.1635036053.git.balaton@eik.bme.hu>
+ id 8ADFA746333; Sun, 24 Oct 2021 02:45:22 +0200 (CEST)
+Message-Id: <cover.1635036053.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 5/5] hw/sh4: Coding style: Remove unnecessary casts
+Subject: [PATCH 0/5] hw/sh4: Codeing style fixes
 Date: Sun, 24 Oct 2021 02:40:53 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,33 +59,28 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/timer/sh_timer.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This fixes coding style of files belonging to SH4 system emulation
+which were not following current QEMU coding style requirements.
 
-diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
-index 68c109ecfd..02eb865908 100644
---- a/hw/timer/sh_timer.c
-+++ b/hw/timer/sh_timer.c
-@@ -233,7 +233,7 @@ static void *sh_timer_init(uint32_t freq, int feat, qemu_irq irq)
- {
-     sh_timer_state *s;
- 
--    s = (sh_timer_state *)g_malloc0(sizeof(sh_timer_state));
-+    s = g_malloc0(sizeof(*s));
-     s->freq = freq;
-     s->feat = feat;
-     s->tcor = 0xffffffff;
-@@ -358,7 +358,7 @@ void tmu012_init(MemoryRegion *sysmem, hwaddr base,
-     tmu012_state *s;
-     int timer_feat = (feat & TMU012_FEAT_EXTCLK) ? TIMER_FEAT_EXTCLK : 0;
- 
--    s = (tmu012_state *)g_malloc0(sizeof(tmu012_state));
-+    s = g_malloc0(sizeof(*s));
-     s->feat = feat;
-     s->timer[0] = sh_timer_init(freq, timer_feat, ch0_irq);
-     s->timer[1] = sh_timer_init(freq, timer_feat, ch1_irq);
+BALATON Zoltan (5):
+  hw/sh4: Coding style: Remove tabs
+  hw/sh4: Coding style: Fix multi-line comments
+  hw/sh4: Coding style: White space fixes
+  hw/sh4: Coding style: Add missing braces
+  hw/sh4: Coding style: Remove unnecessary casts
+
+ hw/char/sh_serial.c      |   77 +-
+ hw/intc/sh_intc.c        |  313 ++++----
+ hw/pci-host/sh_pci.c     |   10 +-
+ hw/sh4/r2d.c             |   68 +-
+ hw/sh4/sh7750.c          |  571 +++++++-------
+ hw/sh4/sh7750_regnames.c |  148 ++--
+ hw/sh4/sh7750_regs.h     | 1600 +++++++++++++++++++-------------------
+ hw/sh4/shix.c            |   12 +-
+ hw/timer/sh_timer.c      |   55 +-
+ include/hw/sh4/sh.h      |   20 +-
+ 10 files changed, 1466 insertions(+), 1408 deletions(-)
+
 -- 
 2.21.4
 
