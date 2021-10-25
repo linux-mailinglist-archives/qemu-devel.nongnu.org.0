@@ -2,90 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C588439770
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 15:23:17 +0200 (CEST)
-Received: from localhost ([::1]:57368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF97439787
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 15:26:33 +0200 (CEST)
+Received: from localhost ([::1]:34284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mezwa-0005ff-5P
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 09:23:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38174)
+	id 1mezzk-0000lC-8N
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 09:26:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mezti-0002gg-W6
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 09:20:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1meztg-0008PD-Tw
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 09:20:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635168016;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gS73QMhCABxdsK+8/NouLkryyYO8yHyD5fPWXjXLv/0=;
- b=BQaaPiMjbxJ6lRnLOMh50uesrxIibWB6JUKE6EmU8jwSSay+QSiJ1Rx9KqdnmICxzUdfYW
- p+9h9HVOlS5pnssNPveIbuuU7rSJLYLd2Lvgc3dxCNuq2QYxTMJIyaefFq6btwdiGdp66i
- iWg1p7dl+1X8TAYi6vhUFoztXW4KRbg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-547-TVNgLSOmOYyBZeu_zmz9Jg-1; Mon, 25 Oct 2021 09:20:13 -0400
-X-MC-Unique: TVNgLSOmOYyBZeu_zmz9Jg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c1-20020a05600c0ac100b00322fcaa2bc7so3952318wmr.4
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 06:20:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=gS73QMhCABxdsK+8/NouLkryyYO8yHyD5fPWXjXLv/0=;
- b=W5C1GH8KyRyd1FwPEOd6pMeQXoI45Y0AFiepJR1oLUlKBauFAuMK7tAEaO8pVxM2bV
- xbxIRe1ufSdG4boETpVuWz+kinmVHzO/3v81gRHwp02ZLlxwNBvS2qSioGyydgMqTRo9
- 5yfSYmRatPx5NqV3GcRFtwxsRd+Q20paNf3eKBnFXBKy69Bz45qNoaMaZbt+6M8a2Prd
- CDLO5BniURoJYCLBawQsa0tozwQ/AGnvZ0Z/xF2gbGfCnDOb4HVaoju8R5sgGBt491E9
- PYzdkceDzq/Gmfp1b4SJagpHmoVLnLIG+7SKfjy9r4o+ih1Mn7vXBrCu82jFM7vdT7pA
- K7wA==
-X-Gm-Message-State: AOAM5306b8fxNXqbTrW5TlsAavY4CiAin+edHJ6uwm+vF3PQZ39iOtFz
- eAnn05DIFwCKC/9+UAtxXchGzHt20+R1B1VfXDmMA/KLK59vkrWcGvwAHnXRpAQp7zS26ix01tV
- fV/lT/4dhrcLVoLg=
-X-Received: by 2002:a7b:c082:: with SMTP id r2mr2141882wmh.67.1635168011982;
- Mon, 25 Oct 2021 06:20:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2PXeRZCUcxeGHpl6pg0mh9NxTqBiE1BzsZZTV0XoSswPx5eYF5GeD2pvDZRDgp0jMurRsiA==
-X-Received: by 2002:a7b:c082:: with SMTP id r2mr2141849wmh.67.1635168011735;
- Mon, 25 Oct 2021 06:20:11 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id j11sm15811342wmi.24.2021.10.25.06.20.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 06:20:11 -0700 (PDT)
-Message-ID: <53d27c1f-c9de-5608-7f6a-f64bc39fb159@redhat.com>
-Date: Mon, 25 Oct 2021 15:20:10 +0200
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>) id 1mezvI-0005ik-EN
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 09:21:56 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:48090 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>) id 1mezvE-0001Qj-Oc
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 09:21:55 -0400
+Received: from localhost.localdomain
+ (dynamic-095-114-012-148.95.114.pool.telefonica.de [95.114.12.148])
+ by csgraf.de (Postfix) with ESMTPSA id 69262608043E;
+ Mon, 25 Oct 2021 15:21:48 +0200 (CEST)
+From: Alexander Graf <agraf@csgraf.de>
+To: Cameron Esfahani <dirty@apple.com>
+Subject: [PATCH v2] hvf: Avoid mapping regions < PAGE_SIZE as ram
+Date: Mon, 25 Oct 2021 15:21:47 +0200
+Message-Id: <20211025132147.28308-1-agraf@csgraf.de>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 6/8] iotests/300: avoid abnormal shutdown race condition
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20211013215748.2154908-1-jsnow@redhat.com>
- <20211013215748.2154908-7-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211013215748.2154908-7-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.846, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,68 +48,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13.10.21 23:57, John Snow wrote:
-> Wait for the destination VM to close itself instead of racing to shut it
-> down first, which produces different error log messages from AQMP
-> depending on precisely when we tried to shut it down.
->
-> (For example: We may try to issue 'quit' immediately prior to the target
-> VM closing its QMP socket, which will cause an ECONNRESET error to be
-> logged. Waiting for the VM to exit itself avoids the race on shutdown
-> behavior.)
->
-> Reported-by: Hanna Reitz <hreitz@redhat.com>
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   tests/qemu-iotests/300 | 12 ++++--------
->   1 file changed, 4 insertions(+), 8 deletions(-)
->
-> diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
-> index 10f9f2a8da6..bbea7248005 100755
-> --- a/tests/qemu-iotests/300
-> +++ b/tests/qemu-iotests/300
-> @@ -24,8 +24,6 @@ import random
->   import re
->   from typing import Dict, List, Optional
->   
-> -from qemu.machine import machine
-> -
->   import iotests
->   
->   
-> @@ -461,12 +459,10 @@ class TestBlockBitmapMappingErrors(TestDirtyBitmapMigration):
->                         f"'{self.src_node_name}': Name is longer than 255 bytes",
->                         log)
->   
-> -        # Expect abnormal shutdown of the destination VM because of
-> -        # the failed migration
-> -        try:
-> -            self.vm_b.shutdown()
-> -        except machine.AbnormalShutdown:
-> -            pass
-> +        # Destination VM will terminate w/ error of its own accord
-> +        # due to the failed migration.
-> +        self.vm_b.wait()
-> +        assert self.vm_b.exitcode() > 0
+HVF has generic memory listener code that adds all RAM regions as HVF RAM
+regions. However, HVF can only handle page aligned, page granule regions.
 
-Trying to test, I can see that this fails iotest 297, because 
-`.exitcode()` is `Optional[int]`...
+So let's ignore regions that are not page aligned and sized. They will be
+trapped as MMIO instead.
 
-(I can’t believe how long it took me to figure this out – the message 
-“300:465: Unsupported operand types for < ("int" and "None")” made me 
-believe that it was 300 that was failing, because `exitcode()` was 
-returning `None` for some inconceivable reason.  I couldn’t understand 
-why my usual test setup failed on every run, but I couldn’t get 300 to 
-fail manually...  Until I noticed that the message came below the “297” 
-line, not the “300” line...)
+Signed-off-by: Alexander Graf <agraf@csgraf.de>
 
-Hanna
+---
+
+v1 -> v2:
+
+  - Use QEMU_IS_ALIGNED()
+---
+ accel/hvf/hvf-accel-ops.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
+index 2b2c411076..54457c76c2 100644
+--- a/accel/hvf/hvf-accel-ops.c
++++ b/accel/hvf/hvf-accel-ops.c
+@@ -122,6 +122,7 @@ static void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
+     MemoryRegion *area = section->mr;
+     bool writeable = !area->readonly && !area->rom_device;
+     hv_memory_flags_t flags;
++    uint64_t page_size = qemu_real_host_page_size;
+ 
+     if (!memory_region_is_ram(area)) {
+         if (writeable) {
+@@ -135,6 +136,12 @@ static void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
+         }
+     }
+ 
++    if (!QEMU_IS_ALIGNED(int128_get64(section->size), page_size) ||
++        !QEMU_IS_ALIGNED(section->offset_within_address_space, page_size)) {
++        /* Not page aligned, so we can not map as RAM */
++        add = false;
++    }
++
+     mem = hvf_find_overlap_slot(
+             section->offset_within_address_space,
+             int128_get64(section->size));
+-- 
+2.30.1 (Apple Git-130)
 
 
