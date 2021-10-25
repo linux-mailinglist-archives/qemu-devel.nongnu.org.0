@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2491E438E4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 06:26:31 +0200 (CEST)
-Received: from localhost ([::1]:58212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C59E438E67
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 06:34:23 +0200 (CEST)
+Received: from localhost ([::1]:50128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1merZ8-0008Nb-8q
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 00:26:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45022)
+	id 1mergk-000590-H4
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 00:34:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1merXC-0005se-BH
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 00:24:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48281)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mereT-0002DC-TB
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 00:32:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1merX9-0005jc-NQ
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 00:24:29 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mereQ-0006Ew-SA
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 00:32:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635135865;
+ s=mimecast20190719; t=1635136317;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TDuE6wB+NhgVZWT1yd+7ld8eNMlPXfVnsXRFVQ7a3Y8=;
- b=GKzttsgggVwmrqHaDQfg+wnmlq8migzKBzAejUX0TwYCdWuHJI/bwZR3l9sre+7tGKV6An
- fsIxWtrjo4/tJAzRY0MSEkwf1Yi+1FqhveC9GtEh/oVG4Htgu+T2nvJ1bhsPYTcI94KHW4
- 8T3/x2ALSJl1R7NCY8xW9y74MXyC+00=
+ bh=UYyuSREaFqnpSwCtq8fVzl/ie1dudV2d2dBxXa8dGqA=;
+ b=JdWqTZXRxjUjk+JElbIguU1orZCDwr3T+LqVpICC2pUXSXzOkM/xxGhu3EEwskAKruLJUM
+ YL2A7z3x9vVvFJuzkOyjXbjGKTX0Bym5tPPDesSIslUgjYEx8yun++EV6ejzkPd3lRDNAh
+ mX5j5zmb9UZXcRJUQV6u1Z/fjHTDe0g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-7mNAdZ-MOTC4oO_QiM-Zig-1; Mon, 25 Oct 2021 00:24:21 -0400
-X-MC-Unique: 7mNAdZ-MOTC4oO_QiM-Zig-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-108-ymNNH4TGP8GS-EtofLsdew-1; Mon, 25 Oct 2021 00:31:56 -0400
+X-MC-Unique: ymNNH4TGP8GS-EtofLsdew-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86CA11006AA3;
- Mon, 25 Oct 2021 04:24:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50F461006AA3;
+ Mon, 25 Oct 2021 04:31:55 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 534396060F;
- Mon, 25 Oct 2021 04:24:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0481B5DD68;
+ Mon, 25 Oct 2021 04:31:38 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0F36B11380CA; Mon, 25 Oct 2021 06:24:06 +0200 (CEST)
+ id 8E68D11380A7; Mon, 25 Oct 2021 06:31:36 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/5] block: Deprecate transaction type drive-backup
-Date: Mon, 25 Oct 2021 06:24:05 +0200
-Message-Id: <20211025042405.3762351-6-armbru@redhat.com>
-In-Reply-To: <20211025042405.3762351-1-armbru@redhat.com>
-References: <20211025042405.3762351-1-armbru@redhat.com>
+Subject: Re: [PATCH v3 1/5] qapi: Enable enum member introspection to show
+ more than name
+References: <20211021102001.803780-1-armbru@redhat.com>
+ <20211021102001.803780-2-armbru@redhat.com>
+Date: Mon, 25 Oct 2021 06:31:36 +0200
+In-Reply-To: <20211021102001.803780-2-armbru@redhat.com> (Markus Armbruster's
+ message of "Thu, 21 Oct 2021 12:19:57 +0200")
+Message-ID: <87h7d54tef.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,56 +87,102 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Several moons ago, Vladimir posted
+Markus Armbruster <armbru@redhat.com> writes:
 
-    Subject: [PATCH v2 3/3] qapi: deprecate drive-backup
-    Date: Wed,  5 May 2021 16:58:03 +0300
-    Message-Id: <20210505135803.67896-4-vsementsov@virtuozzo.com>
-    https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01394.html
+> The next commit will add feature flags to enum members.  There's a
+> problem, though: query-qmp-schema shows an enum type's members as an
+> array of member names (SchemaInfoEnum member @values).  If it showed
+> an array of objects with a name member, we could simply add more
+> members to these objects.  Since it's just strings, we can't.
+>
+> I can see three ways to correct this design mistake:
+>
+> 1. Do it the way we should have done it, plus compatibility goo.
+>
+>    We want a ['SchemaInfoEnumMember'] member in SchemaInfoEnum.  Since
+>    changing @values would be a compatibility break, add a new member
+>    @members instead.
+>
+>    @values is now redundant.  In my testing, output of
+>    qemu-system-x86_64's query-qmp-schema grows by 11% (18.5KiB).
+>
+>    We can deprecate @values now and drop it later.  This will break
+>    outmoded clients.  Well-behaved clients such as libvirt are
+>    expected to break cleanly.
+>
+> 2. Like 1, but omit "boring" elements of @member, and empty @member.
+>
+>    @values does not become redundant.  @members augments it.  Somewhat
+>    cumbersome, but output of query-qmp-schema grows only as we make
+>    enum members non-boring.
+>
+>    There is nothing to deprecate here.
+>
+> 3. Versioned query-qmp-schema.
+>
+>    query-qmp-schema provides either @values or @members.  The QMP
+>    client can select which version it wants.  There is no redundant
+>    output.
+>
+>    We can deprecate old versions and eventually drop them.  This will
+>    break outmoded clients.  Breaking cleanly is easier than for 1.
+>
+>    While 1 and 2 operate within the common rules for compatible
+>    evolution apply (section "Compatibility considerations" in
+>    docs/devel/qapi-code-gen.rst), 3 bypasses them.  Attractive when
+>    operating within the rules is just too awkward.  Not the case here.
+>
+> This commit implements 1.  Libvirt developers prefer it.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Tested-by: Peter Krempa <pkrempa@redhat.com>
+> Acked-by: Peter Krempa <pkrempa@redhat.com>
 
-with this
+I meant to deprecate @values, but forgot.  I should really do it right
+away, because... 
 
-    TODO: We also need to deprecate drive-backup transaction action..
-    But union members in QAPI doesn't support 'deprecated' feature. I tried
-    to dig a bit, but failed :/ Markus, could you please help with it? At
-    least by advice?
+> ---
+>  docs/devel/qapi-code-gen.rst | 15 +++++++++++----
+>  qapi/introspect.json         | 21 +++++++++++++++++++--
+>  scripts/qapi/introspect.py   | 18 ++++++++++++++----
+>  3 files changed, 44 insertions(+), 10 deletions(-)
+>
+> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+> index b2569de486..d267889d2c 100644
+> --- a/docs/devel/qapi-code-gen.rst
+> +++ b/docs/devel/qapi-code-gen.rst
+> @@ -1231,14 +1231,21 @@ Example: the SchemaInfo for ['str'] ::
+>        "element-type": "str" }
+>  
+>  The SchemaInfo for an enumeration type has meta-type "enum" and
+> -variant member "values".  The values are listed in no particular
+> -order; clients must search the entire enum when learning whether a
+> -particular value is supported.
+> +variant member "members".
+> +
+> +"members" is a JSON array describing the enumeration values.  Each
+> +element is a JSON object with member "name" (the member's name).  The
+> +"members" array is in no particular order; clients must search the
+> +entire array when learning whether a particular value is supported.
+>  
+>  Example: the SchemaInfo for MyEnum from section `Enumeration types`_ ::
+>  
+>      { "name": "MyEnum", "meta-type": "enum",
+> -      "values": [ "value1", "value2", "value3" ] }
+> +      "members": [
+> +        { "name": "value1" },
+> +        { "name": "value2" },
+> +        { "name": "value3" }
+> +      ] }
+>  
+>  The SchemaInfo for a built-in type has the same name as the type in
+>  the QAPI schema (see section `Built-in Types`_), with one exception
 
-This is one way to resolve it.  Sorry it took so long.
+... this doesn't document @values anymore, only @members.
 
-John explored another way, namely adding feature flags to union
-branches.  Could also be useful, say to add different features to
-branches in multiple unions sharing the same tag enum.
+Done in v5.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/transaction.json | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/qapi/transaction.json b/qapi/transaction.json
-index d175b5f863..381a2df782 100644
---- a/qapi/transaction.json
-+++ b/qapi/transaction.json
-@@ -54,6 +54,10 @@
- # @blockdev-snapshot-sync: since 1.1
- # @drive-backup: Since 1.6
- #
-+# Features:
-+# @deprecated: Member @drive-backup is deprecated.  Use member
-+#              @blockdev-backup instead.
-+#
- # Since: 1.1
- ##
- { 'enum': 'TransactionActionKind',
-@@ -62,7 +66,7 @@
-             'block-dirty-bitmap-disable', 'block-dirty-bitmap-merge',
-             'blockdev-backup', 'blockdev-snapshot',
-             'blockdev-snapshot-internal-sync', 'blockdev-snapshot-sync',
--            'drive-backup' ] }
-+            { 'name': 'drive-backup', 'features': [ 'deprecated' ] } ] }
- 
- ##
- # @AbortWrapper:
--- 
-2.31.1
+[...]
 
 
