@@ -2,61 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B54E43922F
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 11:19:52 +0200 (CEST)
-Received: from localhost ([::1]:48120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F4043924B
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 11:26:28 +0200 (CEST)
+Received: from localhost ([::1]:54464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mew91-00055l-CF
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 05:19:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36512)
+	id 1mewFP-0001Co-1v
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 05:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mew6y-00045b-2Z; Mon, 25 Oct 2021 05:17:44 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:33701)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mewDX-0008EZ-8X; Mon, 25 Oct 2021 05:24:31 -0400
+Received: from out28-146.mail.aliyun.com ([115.124.28.146]:59510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mew6t-0004zy-7u; Mon, 25 Oct 2021 05:17:43 -0400
-Received: from [192.168.100.1] ([82.142.14.190]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N4NHS-1mm79Z2X1q-011RDK; Mon, 25 Oct 2021 11:17:31 +0200
-Message-ID: <a0a7067e-75b1-9f3f-77ca-6fd5060d87a0@vivier.eu>
-Date: Mon, 25 Oct 2021 11:17:30 +0200
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mewDR-00027p-EK; Mon, 25 Oct 2021 05:24:28 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08395304|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.137537-0.00225881-0.860204;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047199; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=4; RT=4; SR=0; TI=SMTPD_---.LhUsXA8_1635153851; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.LhUsXA8_1635153851)
+ by smtp.aliyun-inc.com(10.147.40.44); Mon, 25 Oct 2021 17:24:11 +0800
+Subject: Re: [PATCH v6 00/15] target/riscv: Rationalize XLEN and operand length
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211020031709.359469-1-richard.henderson@linaro.org>
+ <17397bbe-7dfe-ac2e-6033-4ab4840a11bd@c-sky.com>
+ <663d5df5-c107-c4ce-99e0-2a5d336a69ca@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <606880b5-83fc-6ab6-6d34-fb2b71536f99@c-sky.com>
+Date: Mon, 25 Oct 2021 17:24:11 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] Trim some trailing space from human-readable output
-Content-Language: fr
-To: Markus Armbruster <armbru@redhat.com>, qemu-trivial@nongnu.org
-References: <20211009152401.2982862-1-armbru@redhat.com>
- <87v91lii2b.fsf@dusky.pond.sub.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <87v91lii2b.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <663d5df5-c107-c4ce-99e0-2a5d336a69ca@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lEjVD4ZFRQF3QeqEqxLkaGs83tRBmvHRMoAH/dsc5NKi56ME7/z
- U8pC6urppR5vZmpp4MGaOv4m6ClVLd91V8SBVL6UVaMwqlOFcdEuaSZUmEQDk7xTP0R6NxV
- BLI1Oe/FbxqTuDU2mXOwXBfuegtbDeIZzLyGgdmvD2WTACus9HZ8PVo6QY1307AEDomApBO
- hyHjGumVgFlca9BLz1R8g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:aDr5WlF+30c=:RTVptq4FysCqjvqqp38kAs
- 8oX6AtKuy8OnFWq7W5pALR/KUk+Zu55ESb7lGe+sgheuQsapb9MDcYA+anO/YeM+f2jmfTuy0
- YYiaRinODrlF6w6pacWlXT3/qhnj706+D9yLMCOB8tIh0u+uPEuoPa43BhssjHgBbF7FbKXXs
- 2ObiW1VlDvHdjC1XC/IlxE46zxjD54E1rBGFqA0RrG8OOZB8pnW8heqemPVUaAhftG6xNeXvN
- EGStnqQEzostUVTdK/TVTryeUlcHJT7aWWo0eSHuheWMrsXjizrYnFA3rLq2dHc56bks408Ig
- muysCCk3yW8udorIVPjrekcvJuztUnt/rynh8cntDli1NNUeR1URCOAHJRmaE8nyQ+/d9ngk9
- gn4GEoxDH0V3i3IId2uWaiEwYWkrb6KAXVWm3BjNGko/c120CePHDKAkIzhLAqjc0ooySR9qb
- 3Il8v+kvVLsAWYyyjLfXVirQOSKmJdrXqFxYKFjppfvWCOo4+qryutvOXXT0uUnXdxWN7i4nM
- EBXOnChdDhCbb+GT7++G9txsReBnlVJjhfMsiinlY1fgAtHNMYMrjsWv6FfTVSWNRXG22HWA6
- WED+xFX2wpf8XS/Yy5hF3+rknOUCE68oSMVKfn27G3KkxRYijfTjNLcQztAdD8qCvPgjhF6U/
- MRTle9W6cFdZ73x+OS9kSw/hzxcv4QoRrsz9iDbxb9quXnPOxnYJymzyn5pKdOzZfLVY=
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.146; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-146.mail.aliyun.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
 X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.33,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,47 +61,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jiri@resnulli.us, ehabkost@redhat.com, david@redhat.com,
- qemu-devel@nongnu.org, groug@kaod.org, jcmvbkbc@gmail.com
+Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/10/2021 à 11:12, Markus Armbruster a écrit :
-> Nominating for qemu-trivial.
-> 
-> Tweaking the subject to
-> 
->      monitor: Trim some trailing space from human-readable output
-> 
-> as Philippe suggested would be nice.
-> 
-> Markus Armbruster <armbru@redhat.com> writes:
-> 
->> I noticed -cpu help printing enough trailing spaces to make the output
->> at least 84 characters wide.  Looks ugly unless the terminal is wider.
->> Ugly or not, trailing spaces are stupid.
->>
->> The culprit is this line in x86_cpu_list_entry():
->>
->>      qemu_printf("x86 %-20s  %-58s\n", name, desc);
->>
->> This prints a string with minimum field left-justified right before a
->> newline.  Change it to
->>
->>      qemu_printf("x86 %-20s  %s\n", name, desc);
->>
->> which avoids the trailing spaces and is simpler to boot.
->>
->> A search for the pattern with "git-grep -E '%-[0-9]+s\\n'" found a few
->> more instances.  Change them similarly.
->>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> 
-> 
 
-Applied to my trivial-patches branch with updated subject
+On 2021/10/22 下午11:50, Richard Henderson wrote:
+> On 10/22/21 1:26 AM, LIU Zhiwei wrote:
+>> As the specification said, "PC bits above XLEN are ignored, and when
+>> the PC is written, it is sign-extended to fill the widest supported 
+>> XLEN."
+>> We still need special process of PC for exceptions or jump instructions.
+>>
+>> I have two methods to implement  PC register access,
+>> but not sure which is the right way.
+>>
+>> First, normally process the PC register as the specification points.
+>> That means expanding  the PC when setting the global TCGv variable
+>> cpu_pc, and truncating the pc_first and  pc_next fields in
+>> DisasContextBase before decoding instructions.    I am not sure
+>> whether the sign-extended pc is compatible with QEMU common code.
+>
+> I think extending on write is the correct thing. 
 
-Thanks,
-Laurent
+Thanks. I will pick this way.
 
+> Jumps, exception entry and return, gdb write.
+
+If we carefully process jumps and gdb write, I think we can omit 
+exception entry and return. Is it right?
+
+>
+> Note that the read from PC for translation is in cpu_get_tb_cpu_state, 
+> before translation.  You should not need to change anything wrt 
+> pc_first/pc_next/etc, because it will already have been done.
+
+Good! Thanks.
+
+Best Regards,
+Zhiwei
+
+>
+>> Second,  ignore ignore the PC special process for jump instructions.
+>> Just expand or truncate the PC register when exception processing,
+>> gdb read, or cpu dump registers. It is not a stright way,  but I 
+>> think it is still right.
+>
+> I think you could make it work that way, but I don't know that it's 
+> less difficult, or that you'd have fewer changes.
+>
+>
+> r~
 
