@@ -2,50 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77BFD438CDA
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 02:41:58 +0200 (CEST)
-Received: from localhost ([::1]:44422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F059438CEF
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 03:16:48 +0200 (CEST)
+Received: from localhost ([::1]:54554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meo3p-0000BA-GC
-	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 20:41:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47470)
+	id 1meobW-0000l3-O3
+	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 21:16:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1menvz-00059m-Dg; Sun, 24 Oct 2021 20:33:52 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:41345)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1menvw-0008P1-0J; Sun, 24 Oct 2021 20:33:51 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Hcwt66CpDz4xbs; Mon, 25 Oct 2021 11:33:34 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1635122014;
- bh=l+YFcf0grl2hZoyv4ArFsAuXmmaKX/57VjdM9N2CjWQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GS9mIIB4f4pOEpueaI871d+Tmz0vsjX2My0+phNAtSYnNJX7DS354klMIDmqiSiJc
- ZBGbM7ij0vU4fEEONwgHuyTtSSt4JslVIwkH9/sG28hmdy75AylU/SKYuVCCMBGiCZ
- V0FHP4dgLhYS6C0h9Hf+1ZwI6fCjmKV6oTLfL0ak=
-Date: Mon, 25 Oct 2021 11:21:50 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 4/4] target/ppc: Use tcg_constant_i32() in gen_ld/st()
-Message-ID: <YXX4niw/6PUmeZhc@yekko>
-References: <20211024161619.325903-1-f4bug@amsat.org>
- <20211024161619.325903-5-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1meoaa-0008VY-HJ
+ for qemu-devel@nongnu.org; Sun, 24 Oct 2021 21:15:52 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:34653)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1meoaW-0002wo-0d
+ for qemu-devel@nongnu.org; Sun, 24 Oct 2021 21:15:46 -0400
+Received: by mail-pg1-x534.google.com with SMTP id h193so9309304pgc.1
+ for <qemu-devel@nongnu.org>; Sun, 24 Oct 2021 18:15:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Aap2W/wmBGr157FFT/2INm0Ddfg1qrsKm9lys/6GWOo=;
+ b=Qox46w5nUdp5PRX7Q7JslsKIcAfkEnSxhMQ+1Gh9QUIiF/pMWa/FuvFqLUppfO9zf6
+ kTFOsom0WLrc0GaGaiDrPvnhZEi8ihVHt46KStFzDtVnQ4kvh6GwBFEqXaoU0IawiFmF
+ L2VWw44PIe6slS5WMQ/TCNOLZk8cBpJghrcKrDsnFZ97Qm5z7C5U/br/f/Y7zz2n+C0g
+ nY0P9mUYI0c+SLrlMb+lyzez3OHf/qR4gn3hp8ZA7SVXnHyDSGLtIR5BAb8RTMCUanqJ
+ +RiwebDmxzYMBNe7nH8qpPzbRHW0QBN63Vf1vnBbRZPFhHIYjrhoxVs+Pd8av5EMZyPy
+ unKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Aap2W/wmBGr157FFT/2INm0Ddfg1qrsKm9lys/6GWOo=;
+ b=WuOsgFxqL5fw/mAGB5gLbvNGiH3pz4WO+iOmqBCtE1QpMHN/xYZo+PQuuTFvWHzZtK
+ M4EKLraaGG9KpX6ZdY0SahqCmMYUcSbYGk2lVVLf3GRj5enLgjC7yX8oQgxDMmZVor5W
+ tOE+tjvpg66Am6rqurhfhX+Kck27/2Py0i+g4ZB5AF8BYQQZ+6bbxbuGVi+apilaXqkq
+ O3WrUQXSJ/ypu5MS7sD3ZeEYZtorZrRkfLEIphRF3pSQ+WSJMAmaFwM0rERmTZkWEITz
+ p6IqhAmBVuoVulRLyBFjC5F4CMME8mREBC6FvkkRpMsQaJe7KBibTsi/9uzvT2omjgEC
+ 0pcA==
+X-Gm-Message-State: AOAM532C57gY6XKzBc+pDOoMvINtwq+hkoicZlatR2zU0qeYP3sDLb+L
+ /1ShKEgQr/Q5WmBMxOPXjTgdnhDM4L4CCw==
+X-Google-Smtp-Source: ABdhPJyWbOAOx5G0pkTvpcBTUH55WIAW6wZfOWpu2zF2usMtvhF3Pk29hypaBbhalUr8OkkuGdPykw==
+X-Received: by 2002:a05:6a00:813:b0:470:bbc2:49ae with SMTP id
+ m19-20020a056a00081300b00470bbc249aemr15244668pfk.29.1635124540831; 
+ Sun, 24 Oct 2021 18:15:40 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id 142sm8422430pgh.22.2021.10.24.18.15.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 24 Oct 2021 18:15:40 -0700 (PDT)
+Subject: Re: gitlab/cirrus auth token failure
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>
+References: <8257c433-f8fb-7766-dec3-a220e9bee84b@linaro.org>
+ <f80220c1-84cd-e9c1-9542-40f4ea9aa419@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c713ff41-0546-ee6c-dafa-f83624437fc2@linaro.org>
+Date: Sun, 24 Oct 2021 18:15:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EsX19Jzgmau0eqoy"
-Content-Disposition: inline
-In-Reply-To: <20211024161619.325903-5-f4bug@amsat.org>
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <f80220c1-84cd-e9c1-9542-40f4ea9aa419@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.33,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,135 +89,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/24/21 12:42 AM, Paolo Bonzini wrote:
+> On 22/10/21 20:31, Richard Henderson wrote:
+>> Hi Daniel, you win the cookie because you committed cirrus.yml.
+>>
+>> I should have reported this before the weekend, but at some point this week the auth 
+>> tokens expired(?).  All of the cirrus-run tests are now failing:
+>>
+>> cirrus_run.api.CirrusAPIError: API returned 1 error(s):
+>> [ { 'extensions': {'classification': 'DataFetchingException'},
+>>      'locations': [{'column': 13, 'line': 5}],
+>>      'message': 'Exception while fetching data (/createBuild) : '
+>>                 'AccessTokenAuthorization(token=[MASKED]) '
+>>                 "doesn't have permissions to create builds for "
+>>                 '5748266831446016!',
+>>      'path': ['createBuild']}]
+> 
+> It seems to have fixed itself for kvm-unit-tests, so maybe it was just a temporary issue 
+> within cirrus itself?
 
---EsX19Jzgmau0eqoy
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It's still failing today.
 
-On Sun, Oct 24, 2021 at 06:16:19PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Avoid using a TCG temporary by moving the MemOp index
-> to the constant pool.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-
-> ---
->  target/ppc/translate.c | 29 +++++++++++++----------------
->  1 file changed, 13 insertions(+), 16 deletions(-)
->=20
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 507f6699f47..9a4ae61a39d 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -3347,15 +3347,14 @@ static void gen_lq(DisasContext *ctx)
-> =20
->      if (tb_cflags(ctx->base.tb) & CF_PARALLEL) {
->          if (HAVE_ATOMIC128) {
-> -            TCGv_i32 oi =3D tcg_temp_new_i32();
-> +            TCGv_i32 oi;
->              if (ctx->le_mode) {
-> -                tcg_gen_movi_i32(oi, make_memop_idx(MO_LEQ, ctx->mem_idx=
-));
-> +                oi =3D tcg_constant_i32(make_memop_idx(MO_LEQ, ctx->mem_=
-idx));
->                  gen_helper_lq_le_parallel(lo, cpu_env, EA, oi);
->              } else {
-> -                tcg_gen_movi_i32(oi, make_memop_idx(MO_BEQ, ctx->mem_idx=
-));
-> +                oi =3D tcg_constant_i32(make_memop_idx(MO_BEQ, ctx->mem_=
-idx));
->                  gen_helper_lq_be_parallel(lo, cpu_env, EA, oi);
->              }
-> -            tcg_temp_free_i32(oi);
->              tcg_gen_ld_i64(hi, cpu_env, offsetof(CPUPPCState, retxh));
->          } else {
->              /* Restart with exclusive lock.  */
-> @@ -3458,17 +3457,16 @@ static void gen_std(DisasContext *ctx)
-> =20
->          if (tb_cflags(ctx->base.tb) & CF_PARALLEL) {
->              if (HAVE_ATOMIC128) {
-> -                TCGv_i32 oi =3D tcg_temp_new_i32();
-> +                TCGv_i32 oi;
->                  if (ctx->le_mode) {
-> -                    tcg_gen_movi_i32(oi, make_memop_idx(MO_LE | MO_128,
-> -                                                        ctx->mem_idx));
-> +                    oi =3D tcg_constant_i32(make_memop_idx(MO_LE | MO_12=
-8,
-> +                                                         ctx->mem_idx));
->                      gen_helper_stq_le_parallel(cpu_env, EA, lo, hi, oi);
->                  } else {
-> -                    tcg_gen_movi_i32(oi, make_memop_idx(MO_BE | MO_128,
-> -                                                        ctx->mem_idx));
-> +                    oi =3D tcg_constant_i32(make_memop_idx(MO_BE | MO_12=
-8,
-> +                                                         ctx->mem_idx));
->                      gen_helper_stq_be_parallel(cpu_env, EA, lo, hi, oi);
->                  }
-> -                tcg_temp_free_i32(oi);
->              } else {
->                  /* Restart with exclusive lock.  */
->                  gen_helper_exit_atomic(cpu_env);
-> @@ -4065,17 +4063,16 @@ static void gen_lqarx(DisasContext *ctx)
-> =20
->      if (tb_cflags(ctx->base.tb) & CF_PARALLEL) {
->          if (HAVE_ATOMIC128) {
-> -            TCGv_i32 oi =3D tcg_temp_new_i32();
-> +            TCGv_i32 oi;
->              if (ctx->le_mode) {
-> -                tcg_gen_movi_i32(oi, make_memop_idx(MO_LE | MO_128 | MO_=
-ALIGN,
-> -                                                    ctx->mem_idx));
-> +                oi =3D tcg_constant_i32(make_memop_idx(MO_LE | MO_128 | =
-MO_ALIGN,
-> +                                                     ctx->mem_idx));
->                  gen_helper_lq_le_parallel(lo, cpu_env, EA, oi);
->              } else {
-> -                tcg_gen_movi_i32(oi, make_memop_idx(MO_BE | MO_128 | MO_=
-ALIGN,
-> -                                                    ctx->mem_idx));
-> +                oi =3D tcg_constant_i32(make_memop_idx(MO_BE | MO_128 | =
-MO_ALIGN,
-> +                                                     ctx->mem_idx));
->                  gen_helper_lq_be_parallel(lo, cpu_env, EA, oi);
->              }
-> -            tcg_temp_free_i32(oi);
->              tcg_gen_ld_i64(hi, cpu_env, offsetof(CPUPPCState, retxh));
->          } else {
->              /* Restart with exclusive lock.  */
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---EsX19Jzgmau0eqoy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmF1+J0ACgkQbDjKyiDZ
-s5LzFxAArWKp0FkgdjBaAxwC+iUcXnUCPYYLhFKeq+xfATIbqN6sXC6svJpLwMBd
-755kYBLZYodfBMbBuHohZ2u8p5sMqvsBp83fhHlMthrZQw1DZspyOGdWSwK+vYMU
-aqX56MlPcJNAeB/HtoZ9p8TRVASFORlaUZwjjU4yPHcNynqH5A+QPNzilf5L9YhN
-olmb/2/FjVPuxI/QGAVnL5hUNvHki6UtbeL9fM0jLPiYt9K2rztVvBO3IfK2Lo1z
-pdmM5ST110JNV2YHldHsANjplUl1tVeBzx+JJ5uERvcdiolGCx0yyHC02v4bByAm
-91uAFmnQ8WxoFFn8OZ5Aj4rup7Hy2AHSF/6TqvyGNhbSIoQwlqspHC14cG0Tt3fi
-YUS653apyRAnpo1hu9YEus0H3wOuom6FoBz8CrbC7Lin/atxrjPn/0xEUbh68+Ud
-UG8BwpzDCzPnJhhC10vzk/DsS71l9FoXPCr8vwIvOXhfG1LxaNkRbaUDhdMXpnIi
-2/RZjWby6Zp0nJWyU8Ju8WfqPBDanDXwIABhnvvi+acsdYQ4GNXoRq11agMv/wUJ
-Nnn5rm5qj+YcIwxTt9XCzUs9Qo545EvPMTOJYWSOyFTju7mT6xCZ18lEQ7RHkVJM
-NwA6dYsS49Cgq4tBwiA02ZWDJL4NBUC4u95dVnPiumY4E8sZq8A=
-=yBlo
------END PGP SIGNATURE-----
-
---EsX19Jzgmau0eqoy--
+r~
 
