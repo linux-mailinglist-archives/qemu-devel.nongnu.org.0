@@ -2,140 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31885439EC4
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 20:56:43 +0200 (CEST)
-Received: from localhost ([::1]:38438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 720B4439EEF
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 21:04:17 +0200 (CEST)
+Received: from localhost ([::1]:48098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf59G-0006bf-8t
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 14:56:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36674)
+	id 1mf5Ga-0004mS-3o
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 15:04:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1mf55L-0004tp-Nb; Mon, 25 Oct 2021 14:52:39 -0400
-Received: from mail-eopbgr820098.outbound.protection.outlook.com
- ([40.107.82.98]:37532 helo=NAM01-SN1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mf5EL-0002gt-Uz
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 15:01:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37163)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1mf55K-0004aJ-71; Mon, 25 Oct 2021 14:52:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tz++9jG7EVSRw4t9Ps+Lig5YPTxJx6M5lBs6lmPYtBW1iH0QRtVa5JAlfAL0DDuymy/ofuoUMCuwr96+lxyIPcfKI/PuLDzPE1qnHND0kgpZtQhHMS96D3aUWoZR2raUgOkBxomdAD7Rk0z+BsGiK/13HToVUL2rQKzkjsGCezMQ/WuUw5tr8yDI/lzuvec5Jln1u1ER+U9iXc51XpglAJ2i/QkFQ+YPlSZX3ctPmvB9Ja3zhG2S2rC8kzqKrlRVCWNkg4FClMCia/Xmlb7+BnrOJjrAERP36Eb7oJpssD9PYfEwlIItXe3ZXE80beNU+x9qJDXmLmW0bk+BT+pLQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Xby0EG740+FQj/XuaAZjHYlrqulQmLtma3Wwukl9p1A=;
- b=MROdsRejJG4l5dWKO2iXu0ZjN4UARMZkOA3chl5WSbVFKWmexjQK0DlFOOrbec7CMsvqC0fzY2jm9oXNsS9mPBzUSw5ywjZS1DefpGh9tyruki8qdwdRecEFYYbrYy4VVtflb8FhCIaNeoebGdN1lX26EMRB1KCdVVnH6JmGARlbP3vkO7Z4Ylsav2UfrfjixusB6kPRkWhlJFr161RsVIPUNPiLvSmA7cu2/+TeRo4zoy4i+4wyaGL3ZJhsnoM5VFMD318Dz3krX6kRy69+xVbamHcwiUsvmnJ+2LeucuGd0u/RqF9sqrSFVZvduXwPg4uw49T3W1nV/czMXPGpXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=eldorado.org.br; dmarc=pass action=none
- header.from=eldorado.org.br; dkim=pass header.d=eldorado.org.br; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eldorado.org.br;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xby0EG740+FQj/XuaAZjHYlrqulQmLtma3Wwukl9p1A=;
- b=LYs5iaLLPwT4AzqlpADv8Z+/IHZpQQ3cA7Pwlus/VMxMDacQ452Nj/4agCyzoDGLsi/m/pgv/iOn7UkkTRUAKhN15GKyVwxxrkmiZrN5bTNYkerbtd4Oy3sgFg2FF8/woR7t88fIFODhL7LLV/1eUZb9/81UXgXTquqVXMTZDNPLd49RKuO/ySr63lnRP/Xm2MQNIqxw1pYV1paT7KNJoVhI51NaGiSaGsAE8xg7ZI0t2d9hT4MQb4RdASIIoZvMl2pNMEmx+CFMKlCdNrzg2XvMiWFcTlK3EjTrZUp9QCwHCr0fokrn1UYaEDuKczpPTdFapawJRwztRb8zeINyQw==
-Received: from CPXPR80MB5224.lamprd80.prod.outlook.com (2603:10d6:103:f::13)
- by CP2PR80MB4467.lamprd80.prod.outlook.com (2603:10d6:102:48::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Mon, 25 Oct
- 2021 18:52:07 +0000
-Received: from CPXPR80MB5224.lamprd80.prod.outlook.com
- ([fe80::bdcf:f3e5:cc0b:4047]) by CPXPR80MB5224.lamprd80.prod.outlook.com
- ([fe80::bdcf:f3e5:cc0b:4047%3]) with mapi id 15.20.4628.020; Mon, 25 Oct 2021
- 18:52:07 +0000
-From: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>
-Subject: RE: [PATCH v3 16/22] target/ppc: Move dtstdc[q]/dtstdg[q] to
- decodetree
-Thread-Topic: [PATCH v3 16/22] target/ppc: Move dtstdc[q]/dtstdg[q] to
- decodetree
-Thread-Index: AQHXpjbRhgQN95zcFUCdmi6n0jJGHKveQSwAgAYRU1A=
-Date: Mon, 25 Oct 2021 18:52:07 +0000
-Message-ID: <CPXPR80MB52245A34281585A6B9F962C0DA839@CPXPR80MB5224.lamprd80.prod.outlook.com>
-References: <20210910112624.72748-1-luis.pires@eldorado.org.br>
- <20210910112624.72748-17-luis.pires@eldorado.org.br>
- <a460a151-c1ad-36f4-b76c-ac34af0281db@linaro.org>
-In-Reply-To: <a460a151-c1ad-36f4-b76c-ac34af0281db@linaro.org>
-Accept-Language: pt-BR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none; linaro.org; dmarc=none action=none header.from=eldorado.org.br; 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cc17adbd-9b53-4acc-16c6-08d997e88b20
-x-ms-traffictypediagnostic: CP2PR80MB4467:
-x-microsoft-antispam-prvs: <CP2PR80MB446739C5DA394C5C76B4D336DA839@CP2PR80MB4467.lamprd80.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: yiYGjfaym24AUnkpWBDRqsTX3f1tjsq/qApQreoR3F6H2Xdk+00d1bvdelavgiHtKecR7slnQrSSYrYNQ8chkLfgIu/pQXocNytjGKLTSOIa59vEQXH+3SDZx2W42jOOKuWMl1KJD9DxADdCtbSGwoSnJnvtOKLW3oOzzkKxxN9LRTbn/9902LQVTrz3GjVDln1GnWeBFHH/Kgm0nkXXAMwTEiYJXpfJY/2A3fjOYDYc6BXDo4hoSNcxgJs44RnTTYPBxAoCt8sT8WKOyZkCTXhULufqRQ5eKZoNshdXY+cbf6/6zdFZfg8Xbmj+t0LgmjwDsxRqQddcGtYtqTx+kIEEpGYCCJgrMMyWddtz4k0yVlMdZxiWffvO02B4PBE3wLyISiOpcKcCnWad/Dx+OmcPgKeg8oMW4qkhHteC8NrhbHR8G5Bgyp7zFtoz3fm1vCMVujalvnsLf9pTwDEw2/bfVTnwArmMn6qSIgSfhaOpcze5tbJ3kHKp5xCmUfbujBuPlM/ZBKdSZ680ApKVceeUFijxs4rVhXv5YEPq16nJVmfRbIhXMBFJJS9bUovH1CXVAIw9Bh9fetdWT3D6SvlEDWwkBBEzNsIyeC0igEmpS50Q0DizEuYEuxl01l1WskibagaV67ZZh2A/fnraigDU2e4uWQq5kzjYMLsRREcEed/av3fwQS3cRublRGYAACX8IzlW7qYM69sLSV9S8Vx7cTJUa5I8J52QnIw92tg88AYagNOeFN/XLGIf9dKHkUMin4l5+8WerKze6IaLz+68lc5wbTNyM0VrnQGdxRw=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CPXPR80MB5224.lamprd80.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(54906003)(71200400001)(110136005)(38100700002)(4744005)(316002)(2906002)(8676002)(7696005)(33656002)(4326008)(5660300002)(52536014)(66476007)(122000001)(83380400001)(6506007)(53546011)(66946007)(66556008)(26005)(8936002)(86362001)(66446008)(38070700005)(9686003)(76116006)(186003)(64756008)(55016002)(508600001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SzJVVysyMzhSODVFT2F3bWFnODEvbnRMdE1VUW1Oa3VMYmpONGtIanZqM1pZ?=
- =?utf-8?B?c3gzTkxDUGg4LzkzK2lQT1lxeUVpamJKck1yV2k2ZWh1RytFcVczYmUxZkJn?=
- =?utf-8?B?TWNubThHOERmQnk2NFlEMEEvVEVyRjMwbElpT2lEV1ZaMFFBZCtHZnAvQ3pR?=
- =?utf-8?B?Rm9iZzhlVURmRG9uRmxKbGovQ3pnWCtGVFMrNDNxWm5acm9FZitZT1dMVTRR?=
- =?utf-8?B?Zm1sa3pWRVRtbk5Jcnp3Kzd2V0N1dU1qUnQvTmdpVHNlOCs5NEhweWlLZ1RC?=
- =?utf-8?B?cWo0U2YvcVNQMFFxcnE2YndYQjEyMEtKVjlLUUM4ejk4YnQ3NndVY240cmFV?=
- =?utf-8?B?d0RuUk9RZzd0a1FLL0czZlE5aWNUeUQ1WkxEOG5OcisvRE9tVWFhT0tEMXBC?=
- =?utf-8?B?amJ0ZDZ2QjA1SFFFcGxhOTVoSFNVZDhBK3FjOVRSd2sxV0JrTUp3ZDE3N1Q4?=
- =?utf-8?B?bUFKK2M4ZE5MUjhqN3B5SGlJSFV3bTFxdGxqY3BhSFNrd1kwelJnY1huaCsz?=
- =?utf-8?B?WkdaemowNy9ScjUvWW4zbDBBOVlETnFsakRGRHF0RG1uVS9IV0NwaGkzeDNu?=
- =?utf-8?B?T1FrQ3R3djRzYXZKdzF4dHR1cG9ZelVnakN1dW1DWjJmS1UwVCtqOHRTekc1?=
- =?utf-8?B?SEJYVVBSL0dTK0d6MStBSTFZUzJaRGdkNkQvWVppSXFxZG1uOUJYcFFXU0hH?=
- =?utf-8?B?Z014WUxMUnFMemMyUFYzTUhRbmJQSkhtTHlIckpSSGw3eTN0VGlkcDhpcDFX?=
- =?utf-8?B?emRIclBBRklRTVdNaXEvUmd1TVFlRE9MNDNiQldoTnJ4VmV3U0hUN2pBWUc5?=
- =?utf-8?B?VG85ZkF2S0hKeDVKbnZ1UzVlLzdGN1k2NnJaazdTdW9LdWVwY1FydUtaYmlR?=
- =?utf-8?B?MnFRTXZQRWZQdlA4MUFBQytLY2pNbVVaZTMzeGJkd09rVG9XamptYTNWMTBo?=
- =?utf-8?B?TStleW1LU3lMdjNlUGZUY3dXTkpjanlYVXF0elcycWpNc2RqcmJNVGtKT0hJ?=
- =?utf-8?B?aXM3ZFJCc1ZkODJBdDNkV3BselhBT2VONDFaL201MDUrUFpycTNFaWV1TnB2?=
- =?utf-8?B?dm51TE5tTHd5Z2luTk1XWmxzdDgxR29ScVRGaFRzS213MXd2ZTEyUU5ld2Zn?=
- =?utf-8?B?SU4xZ1ArOXRaVHJqcFlwd0xxNVJNUUw4bGFONC9aS0hJbVE5eThLUlpsZXJU?=
- =?utf-8?B?bzlRTjNaWVNWblp5SXpYcTgzSXUvWTNsNXhvWXpCNWJ6SStmU3phcEpBaFJj?=
- =?utf-8?B?NXVHSlh5TTI3Zmw3WXJlWmRRbzJlbXZ5Z1U3QlRPYmxocW1LUGdWZ3k3aCtz?=
- =?utf-8?B?dFNDeTFwVk0vVk42eFNuSjNTams2N0FLYTNrNXFrVDRaMTRJdDJSZDdMNklk?=
- =?utf-8?B?VEYzQk9CN2h0QndGaUlpcnFnNEVqVGxaTnpLZlZROXJaN1pWNWdyUm5yWlk5?=
- =?utf-8?B?TGhVQVlXMDlYb0FPSG5BTE5wb3h0VU5UZzh4ZTQvRmNVamd5QU9TamYwY2dm?=
- =?utf-8?B?VHo0ZitaOVYxckdrTjM3N3pPV09kUUNyYUt5aXZESVNDclFTNGtJVi9keitT?=
- =?utf-8?B?WS9BME5tbkFxSHpGMm9VVG1yZ2VKSHpuLzdTNXNPK1B0R2xQQTQvejVFdnp1?=
- =?utf-8?B?ZDVhUjVnclJxNEMyU2VVRzhFdUFyRmhINjNRZ09GSmRtcGI4MklTQkNXYnZI?=
- =?utf-8?B?OWZMSVNRNG5FR0x3L2FheGVlUnE0cFJRZUd1cXUxYjh3aG9FNExYNUgralpy?=
- =?utf-8?B?WEhnenNmUmEvTUJwL2x1VkpnUmpVbFp0dk9DbXJRTDZiK0RTM0FicXI4V1cr?=
- =?utf-8?B?NUhpR1NnZVAyY09aWjNjYzh1bEMzWDlhV3ZUR2FBT2hXNVdHVU5lbVBxUmtH?=
- =?utf-8?B?N2FDQzVIN2Y3K3JSTldPcCtEUTFDV3FJbzBRdDdtL2VYRHlvMW9OYVMyeWRh?=
- =?utf-8?B?b0RQNksyYTJhbTdGZFk0UUhQWTlhM0UvaEgrdTdKUXNNbVp4QjB5cEp3cUx5?=
- =?utf-8?B?ZjVGY3I1N2VicVNCZzU5d0N1R0lFYnh6RERxQUdBRHJLNUNmdUJsLzZocCti?=
- =?utf-8?B?Z3JCTDhIOC9PYVBXN1lCdWdhNmZzdHgyUDV3SWJ6TjB3TXY4bzF4SkRQWVpO?=
- =?utf-8?B?R0x4RUZUVEpsN2QyVGtQZzhRMmxHdXp6eTV3eWdPZGdUQVUyQ3FrdWJUUGM2?=
- =?utf-8?B?cFE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mf5EG-00042n-AC
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 15:01:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635188510;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ebfqdms0ZVdN1KCpehdztsTYrt5bHqLKF6Hh6B2c6PY=;
+ b=VGM0y5nH6bZOGE4IMM9e1YkjNOJqBZJQcTR3a9Tt33QXHWAWY6wIMLVZDvFg88CIptjWmQ
+ 0ahlIJl8xo+zD/j+s82MG5ZGY7RrZR5uNC7PVtFrF5rWYs2vYz3ioBXP29ylGgiWsN+0Gv
+ lkfqsV0MGWK9IaWjMqKiNuNp0tPBZj8=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-519-_XTfWXQUMy-4pwGg01nRVA-1; Mon, 25 Oct 2021 15:01:48 -0400
+X-MC-Unique: _XTfWXQUMy-4pwGg01nRVA-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ j190-20020a1f23c7000000b002a420cdd181so3647540vkj.21
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 12:01:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ebfqdms0ZVdN1KCpehdztsTYrt5bHqLKF6Hh6B2c6PY=;
+ b=o/SoLDzwwKQvkCF9eIL5K8SBZUHpEaHH+W3Y1RIaYWnT4VOnw9olVG1CUqN40Nxp/a
+ k1Poc6gjL6Pi0XHQB82OUp9BFBcfo1/HeQY/NViBhjTP72prHqDoe8Ltid/pQRn0RNNH
+ aQGQQmUuxyQJ0GgOVI2xpGKk3cZMQVA/CiogmX79wJ7Kaa5I8uA0Xmqw3skdz8vumueC
+ NVif8hIHZafi2MY5jqDa2omtGPytl3u9hkfFRCmui7k46jyzQgzwVPhpckrDzG8ZRUhr
+ 3q/K2OaBAWdqQV+xoztf5qxCLt9qVZvWT+IroC3e+dtwTa7aMBiuCeZTP2t/ulEb6GcD
+ hwCw==
+X-Gm-Message-State: AOAM5335fFXVAlHWLnCz3x7Kjl34jw88EERHmPOl6qE17Pf/xkYcswSO
+ A4JC7BB09TmrnqKkkTsMH226lxfIhA4dIL3h4kJxQcAalwBB4x0FwIt/NBTb6FDlLOoXrSyHQGI
+ WlZEqVYSkhk8qO+ESmoyyXTT8jFZWCDw=
+X-Received: by 2002:a05:6122:c89:: with SMTP id
+ ba9mr16948723vkb.25.1635188507993; 
+ Mon, 25 Oct 2021 12:01:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxeRqiHE1N7fqKTerlsD85EHsCkahK1YxzW4HAT6CaHo/EnQYeV4rtffegmSOxEiuq3Ys3l3noFUiVhUgKnnTE=
+X-Received: by 2002:a05:6122:c89:: with SMTP id
+ ba9mr16948692vkb.25.1635188507813; 
+ Mon, 25 Oct 2021 12:01:47 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: eldorado.org.br
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CPXPR80MB5224.lamprd80.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc17adbd-9b53-4acc-16c6-08d997e88b20
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Oct 2021 18:52:07.1578 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b9397c69-e827-4afc-a365-ab275e41638f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YkYbICE/4P1QnsCPJ6u3r1Q2rR4vPHgjTwgW94pPC7DZozLwa6/rWGy4pGNth2h4/Vyywg1Tc8ND6A3KjjFh6g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CP2PR80MB4467
-Received-SPF: pass client-ip=40.107.82.98;
- envelope-from=luis.pires@eldorado.org.br;
- helo=NAM01-SN1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20211025052532.3859634-1-armbru@redhat.com>
+ <20211025052532.3859634-2-armbru@redhat.com>
+In-Reply-To: <20211025052532.3859634-2-armbru@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 25 Oct 2021 15:01:37 -0400
+Message-ID: <CAFn=p-YsLXCQDqHSTiUqOHcS1OBxcFa15bXQ=ggagabQDX8N=Q@mail.gmail.com>
+Subject: Re: [PATCH 1/9] qapi: New special feature flag "unstable"
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000263cf105cf31fe05"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -148,29 +90,321 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- "groug@kaod.org" <groug@kaod.org>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com,
+ Daniel Berrange <berrange@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ libvir-list@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
+ mdroth@linux.vnet.ibm.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Eric Blake <eblake@redhat.com>, libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogUmljaGFyZCBIZW5kZXJzb24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+DQo+
-IE9uIDkvMTAvMjEgNDoyNiBBTSwgTHVpcyBQaXJlcyB3cm90ZToNCj4gPiArJloyMl9iZl9mcmEg
-ICAgIGJmIGZyYSBkbQ0KPiA+ICtAWjIyX2JmX2ZyYSAgICAgLi4uLi4uIGJmOjMgLi4gZnJhOjUg
-ZG06NiAuLi4uLi4uLi4gLiAgICAgICAgICAgJloyMl9iZl9mcmENCj4gPiArDQo+ID4gKyV6MjJf
-ZnJhcCAgICAgICAxNzo0ICFmdW5jdGlvbj10aW1lc18yDQo+ID4gK0BaMjJfYmZfZnJhcCAgICAu
-Li4uLi4gYmY6MyAuLiAuLi4uMCBkbTo2IC4uLi4uLi4uLiAuICAgICAgICAgICAmWjIyX2JmX2Zy
-YQ0KPiBmcmE9JXoyMl9mcmFwDQo+IA0KPiBIb3cgY29uZnVzaW5nLiAgVGhlcmUncyBhIHR5cG8g
-aW4gdGhlIG1hbnVhbCBmb3IgdGhlc2UgaW5zbnMsIHdpdGggdGhlIG1pbm9yDQo+IG9wY29kZSAo
-WE8pIGZpZWxkIGF0IHRoZSB3cm9uZyBsb2NhdGlvbi4gIEl0J3MgY29ycmVjdCBpbiB0aGUgc3Vt
-bWFyeSBvZg0KPiBpbnN0cnVjdGlvbiBmb3JtYXRzIGF0IHRoZSBiZWdpbm5pbmcgb2YgdGhlIG1h
-bnVhbC4NCg0KUmlnaHQhIFRoaXMgd2FzIGFsc28gdGhlIGNhc2UgZm9yIGRzY2xpW3FdL2RzY3Jp
-W3FdLiBJJ3ZlIHJlcG9ydGVkIHRoaXMsIGFuZCBpdCBzaG91bGQgYmUgZml4ZWQgaW4gdGhlIG5l
-eHQgcmVsZWFzZSBvZiB0aGUgSVNBLg0KDQo+IEZ1bmN0aW9uYWwgY2hhbmdlOiB5b3UncmUgbm8g
-bG9uZ2VyIHN0b3JpbmcgbmlwLiAgSXQgZG9lcyBzZWVtIHdyb25nLCBidXQgdGhhdA0KPiBmaXgg
-c2hvdWxkIGJlIGJyb2tlbiBvdXQgdG8gYSBzZXBhcmF0ZSBwYXRjaC4NCg0KVGhhbmtzLCBJJ3Zl
-IG1vdmVkIHRoZSBuaXAgdXBkYXRlIGNoYW5nZXMgdG8gYSBzZXBhcmF0ZSBwYXRjaCBpbiB0aGUg
-bmV3IHNlcmllcy4NCg0KLS0NCkx1aXMgUGlyZXMNCkluc3RpdHV0byBkZSBQZXNxdWlzYXMgRUxE
-T1JBRE8NCkF2aXNvIExlZ2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6Ly93d3cuZWxkb3JhZG8ub3Jn
-LmJyL2Rpc2NsYWltZXIuaHRtbD4NCg==
+--000000000000263cf105cf31fe05
+Content-Type: text/plain; charset="UTF-8"
+
+On Mon, Oct 25, 2021 at 1:26 AM Markus Armbruster <armbru@redhat.com> wrote:
+
+> By convention, names starting with "x-" are experimental.  The parts
+> of external interfaces so named may be withdrawn or changed
+> incompatibly in future releases.
+>
+> Drawback: promoting something from experimental to stable involves a
+> name change.  Client code needs to be updated.
+>
+> Moreover, the convention is not universally observed:
+>
+> * QOM type "input-barrier" has properties "x-origin", "y-origin".
+>   Looks accidental, but it's ABI since 4.2.
+>
+> * QOM types "memory-backend-file", "memory-backend-memfd",
+>   "memory-backend-ram", and "memory-backend-epc" have a property
+>   "x-use-canonical-path-for-ramblock-id" that is documented to be
+>   stable despite its name.
+>
+> We could document these exceptions, but documentation helps only
+> humans.  We want to recognize "unstable" in code, like "deprecated".
+>
+> Replace the convention by a new special feature flag "unstable".  It
+> will be recognized by the QAPI generator, like the existing feature
+> flag "deprecated", and unlike regular feature flags.
+>
+> This commit updates documentation and prepares tests.  The next commit
+> updates the QAPI schema.  The remaining patches update the QAPI
+> generator and wire up -compat policy checking.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  docs/devel/qapi-code-gen.rst            | 9 ++++++---
+>  tests/qapi-schema/qapi-schema-test.json | 7 +++++--
+>  tests/qapi-schema/qapi-schema-test.out  | 5 +++++
+>  3 files changed, 16 insertions(+), 5 deletions(-)
+>
+> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+> index 4071c9074a..38f2d7aad3 100644
+> --- a/docs/devel/qapi-code-gen.rst
+> +++ b/docs/devel/qapi-code-gen.rst
+> @@ -713,6 +713,10 @@ member as deprecated.  It is not supported elsewhere
+> so far.
+>  Interfaces so marked may be withdrawn in future releases in accordance
+>  with QEMU's deprecation policy.
+>
+> +Feature "unstable" marks a command, event, enum value, or struct
+> +member as unstable.  It is not supported elsewhere so far.  Interfaces
+> +so marked may be withdrawn or changed incompatibly in future releases.
+> +
+>
+>  Naming rules and reserved names
+>  -------------------------------
+> @@ -746,9 +750,8 @@ Member name ``u`` and names starting with ``has-`` or
+> ``has_`` are reserved
+>  for the generator, which uses them for unions and for tracking
+>  optional members.
+>
+> -Any name (command, event, type, member, or enum value) beginning with
+> -``x-`` is marked experimental, and may be withdrawn or changed
+> -incompatibly in a future release.
+> +Names beginning with ``x-`` used to signify "experimental".  This
+> +convention has been replaced by special feature "unstable".
+>
+>  Pragmas ``command-name-exceptions`` and ``member-name-exceptions`` let
+>  you violate naming rules.  Use for new code is strongly discouraged. See
+> diff --git a/tests/qapi-schema/qapi-schema-test.json
+> b/tests/qapi-schema/qapi-schema-test.json
+> index b677ab861d..43b8697002 100644
+> --- a/tests/qapi-schema/qapi-schema-test.json
+> +++ b/tests/qapi-schema/qapi-schema-test.json
+> @@ -273,7 +273,7 @@
+>    'data': { 'foo': { 'type': 'int', 'features': [ 'deprecated' ] } },
+>    'features': [ 'feature1' ] }
+>  { 'struct': 'FeatureStruct2',
+> -  'data': { 'foo': 'int' },
+> +  'data': { 'foo': { 'type': 'int', 'features': [ 'unstable' ] } },
+>    'features': [ { 'name': 'feature1' } ] }
+>  { 'struct': 'FeatureStruct3',
+>    'data': { 'foo': 'int' },
+> @@ -331,7 +331,7 @@
+>  { 'command': 'test-command-features1',
+>    'features': [ 'deprecated' ] }
+>  { 'command': 'test-command-features3',
+> -  'features': [ 'feature1', 'feature2' ] }
+> +  'features': [ 'unstable', 'feature1', 'feature2' ] }
+>
+>  { 'command': 'test-command-cond-features1',
+>    'features': [ { 'name': 'feature1', 'if': 'TEST_IF_FEATURE_1'} ] }
+> @@ -348,3 +348,6 @@
+>
+>  { 'event': 'TEST_EVENT_FEATURES1',
+>    'features': [ 'deprecated' ] }
+> +
+> +{ 'event': 'TEST_EVENT_FEATURES2',
+> +  'features': [ 'unstable' ] }
+> diff --git a/tests/qapi-schema/qapi-schema-test.out
+> b/tests/qapi-schema/qapi-schema-test.out
+> index 16846dbeb8..1f9585fa9b 100644
+> --- a/tests/qapi-schema/qapi-schema-test.out
+> +++ b/tests/qapi-schema/qapi-schema-test.out
+> @@ -308,6 +308,7 @@ object FeatureStruct1
+>      feature feature1
+>  object FeatureStruct2
+>      member foo: int optional=False
+> +        feature unstable
+>      feature feature1
+>  object FeatureStruct3
+>      member foo: int optional=False
+> @@ -373,6 +374,7 @@ command test-command-features1 None -> None
+>      feature deprecated
+>  command test-command-features3 None -> None
+>      gen=True success_response=True boxed=False oob=False preconfig=False
+> +    feature unstable
+>      feature feature1
+>      feature feature2
+>  command test-command-cond-features1 None -> None
+> @@ -394,6 +396,9 @@ event TEST_EVENT_FEATURES0 FeatureStruct1
+>  event TEST_EVENT_FEATURES1 None
+>      boxed=False
+>      feature deprecated
+> +event TEST_EVENT_FEATURES2 None
+> +    boxed=False
+> +    feature unstable
+>  module include/sub-module.json
+>  include sub-sub-module.json
+>  object SecondArrayRef
+> --
+> 2.31.1
+>
+>
+Feels odd to combine the doc update *and* test prep, but eh, whatever.
+
+Reviewed-by: John Snow <jsnow@redhat.com>
+
+--000000000000263cf105cf31fe05
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 25, 2021 at 1:26 AM Marku=
+s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">By c=
+onvention, names starting with &quot;x-&quot; are experimental.=C2=A0 The p=
+arts<br>
+of external interfaces so named may be withdrawn or changed<br>
+incompatibly in future releases.<br>
+<br>
+Drawback: promoting something from experimental to stable involves a<br>
+name change.=C2=A0 Client code needs to be updated.<br>
+<br>
+Moreover, the convention is not universally observed:<br>
+<br>
+* QOM type &quot;input-barrier&quot; has properties &quot;x-origin&quot;, &=
+quot;y-origin&quot;.<br>
+=C2=A0 Looks accidental, but it&#39;s ABI since 4.2.<br>
+<br>
+* QOM types &quot;memory-backend-file&quot;, &quot;memory-backend-memfd&quo=
+t;,<br>
+=C2=A0 &quot;memory-backend-ram&quot;, and &quot;memory-backend-epc&quot; h=
+ave a property<br>
+=C2=A0 &quot;x-use-canonical-path-for-ramblock-id&quot; that is documented =
+to be<br>
+=C2=A0 stable despite its name.<br>
+<br>
+We could document these exceptions, but documentation helps only<br>
+humans.=C2=A0 We want to recognize &quot;unstable&quot; in code, like &quot=
+;deprecated&quot;.<br>
+<br>
+Replace the convention by a new special feature flag &quot;unstable&quot;.=
+=C2=A0 It<br>
+will be recognized by the QAPI generator, like the existing feature<br>
+flag &quot;deprecated&quot;, and unlike regular feature flags.<br>
+<br>
+This commit updates documentation and prepares tests.=C2=A0 The next commit=
+<br>
+updates the QAPI schema.=C2=A0 The remaining patches update the QAPI<br>
+generator and wire up -compat policy checking.<br>
+<br>
+Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" t=
+arget=3D"_blank">armbru@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0docs/devel/qapi-code-gen.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ | 9 ++++++---<br>
+=C2=A0tests/qapi-schema/qapi-schema-test.json | 7 +++++--<br>
+=C2=A0tests/qapi-schema/qapi-schema-test.out=C2=A0 | 5 +++++<br>
+=C2=A03 files changed, 16 insertions(+), 5 deletions(-)<br>
+<br>
+diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst<br=
+>
+index 4071c9074a..38f2d7aad3 100644<br>
+--- a/docs/devel/qapi-code-gen.rst<br>
++++ b/docs/devel/qapi-code-gen.rst<br>
+@@ -713,6 +713,10 @@ member as deprecated.=C2=A0 It is not supported elsewh=
+ere so far.<br>
+=C2=A0Interfaces so marked may be withdrawn in future releases in accordanc=
+e<br>
+=C2=A0with QEMU&#39;s deprecation policy.<br>
+<br>
++Feature &quot;unstable&quot; marks a command, event, enum value, or struct=
+<br>
++member as unstable.=C2=A0 It is not supported elsewhere so far.=C2=A0 Inte=
+rfaces<br>
++so marked may be withdrawn or changed incompatibly in future releases.<br>
++<br>
+<br>
+=C2=A0Naming rules and reserved names<br>
+=C2=A0-------------------------------<br>
+@@ -746,9 +750,8 @@ Member name ``u`` and names starting with ``has-`` or `=
+`has_`` are reserved<br>
+=C2=A0for the generator, which uses them for unions and for tracking<br>
+=C2=A0optional members.<br>
+<br>
+-Any name (command, event, type, member, or enum value) beginning with<br>
+-``x-`` is marked experimental, and may be withdrawn or changed<br>
+-incompatibly in a future release.<br>
++Names beginning with ``x-`` used to signify &quot;experimental&quot;.=C2=
+=A0 This<br>
++convention has been replaced by special feature &quot;unstable&quot;.<br>
+<br>
+=C2=A0Pragmas ``command-name-exceptions`` and ``member-name-exceptions`` le=
+t<br>
+=C2=A0you violate naming rules.=C2=A0 Use for new code is strongly discoura=
+ged. See<br>
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qa=
+pi-schema-test.json<br>
+index b677ab861d..43b8697002 100644<br>
+--- a/tests/qapi-schema/qapi-schema-test.json<br>
++++ b/tests/qapi-schema/qapi-schema-test.json<br>
+@@ -273,7 +273,7 @@<br>
+=C2=A0 =C2=A0&#39;data&#39;: { &#39;foo&#39;: { &#39;type&#39;: &#39;int&#3=
+9;, &#39;features&#39;: [ &#39;deprecated&#39; ] } },<br>
+=C2=A0 =C2=A0&#39;features&#39;: [ &#39;feature1&#39; ] }<br>
+=C2=A0{ &#39;struct&#39;: &#39;FeatureStruct2&#39;,<br>
+-=C2=A0 &#39;data&#39;: { &#39;foo&#39;: &#39;int&#39; },<br>
++=C2=A0 &#39;data&#39;: { &#39;foo&#39;: { &#39;type&#39;: &#39;int&#39;, &=
+#39;features&#39;: [ &#39;unstable&#39; ] } },<br>
+=C2=A0 =C2=A0&#39;features&#39;: [ { &#39;name&#39;: &#39;feature1&#39; } ]=
+ }<br>
+=C2=A0{ &#39;struct&#39;: &#39;FeatureStruct3&#39;,<br>
+=C2=A0 =C2=A0&#39;data&#39;: { &#39;foo&#39;: &#39;int&#39; },<br>
+@@ -331,7 +331,7 @@<br>
+=C2=A0{ &#39;command&#39;: &#39;test-command-features1&#39;,<br>
+=C2=A0 =C2=A0&#39;features&#39;: [ &#39;deprecated&#39; ] }<br>
+=C2=A0{ &#39;command&#39;: &#39;test-command-features3&#39;,<br>
+-=C2=A0 &#39;features&#39;: [ &#39;feature1&#39;, &#39;feature2&#39; ] }<br=
+>
++=C2=A0 &#39;features&#39;: [ &#39;unstable&#39;, &#39;feature1&#39;, &#39;=
+feature2&#39; ] }<br>
+<br>
+=C2=A0{ &#39;command&#39;: &#39;test-command-cond-features1&#39;,<br>
+=C2=A0 =C2=A0&#39;features&#39;: [ { &#39;name&#39;: &#39;feature1&#39;, &#=
+39;if&#39;: &#39;TEST_IF_FEATURE_1&#39;} ] }<br>
+@@ -348,3 +348,6 @@<br>
+<br>
+=C2=A0{ &#39;event&#39;: &#39;TEST_EVENT_FEATURES1&#39;,<br>
+=C2=A0 =C2=A0&#39;features&#39;: [ &#39;deprecated&#39; ] }<br>
++<br>
++{ &#39;event&#39;: &#39;TEST_EVENT_FEATURES2&#39;,<br>
++=C2=A0 &#39;features&#39;: [ &#39;unstable&#39; ] }<br>
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qap=
+i-schema-test.out<br>
+index 16846dbeb8..1f9585fa9b 100644<br>
+--- a/tests/qapi-schema/qapi-schema-test.out<br>
++++ b/tests/qapi-schema/qapi-schema-test.out<br>
+@@ -308,6 +308,7 @@ object FeatureStruct1<br>
+=C2=A0 =C2=A0 =C2=A0feature feature1<br>
+=C2=A0object FeatureStruct2<br>
+=C2=A0 =C2=A0 =C2=A0member foo: int optional=3DFalse<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 feature unstable<br>
+=C2=A0 =C2=A0 =C2=A0feature feature1<br>
+=C2=A0object FeatureStruct3<br>
+=C2=A0 =C2=A0 =C2=A0member foo: int optional=3DFalse<br>
+@@ -373,6 +374,7 @@ command test-command-features1 None -&gt; None<br>
+=C2=A0 =C2=A0 =C2=A0feature deprecated<br>
+=C2=A0command test-command-features3 None -&gt; None<br>
+=C2=A0 =C2=A0 =C2=A0gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3D=
+False preconfig=3DFalse<br>
++=C2=A0 =C2=A0 feature unstable<br>
+=C2=A0 =C2=A0 =C2=A0feature feature1<br>
+=C2=A0 =C2=A0 =C2=A0feature feature2<br>
+=C2=A0command test-command-cond-features1 None -&gt; None<br>
+@@ -394,6 +396,9 @@ event TEST_EVENT_FEATURES0 FeatureStruct1<br>
+=C2=A0event TEST_EVENT_FEATURES1 None<br>
+=C2=A0 =C2=A0 =C2=A0boxed=3DFalse<br>
+=C2=A0 =C2=A0 =C2=A0feature deprecated<br>
++event TEST_EVENT_FEATURES2 None<br>
++=C2=A0 =C2=A0 boxed=3DFalse<br>
++=C2=A0 =C2=A0 feature unstable<br>
+=C2=A0module include/sub-module.json<br>
+=C2=A0include sub-sub-module.json<br>
+=C2=A0object SecondArrayRef<br>
+-- <br>
+2.31.1<br>
+<br></blockquote></div><div class=3D"gmail_quote"><br></div><div class=3D"g=
+mail_quote">Feels odd to combine the doc update *and* test prep, but eh, wh=
+atever.</div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote=
+">Reviewed-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redh=
+at.com</a>&gt;<br></div></div>
+
+--000000000000263cf105cf31fe05--
+
 
