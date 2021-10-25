@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37D9439843
+	by mail.lfdr.de (Postfix) with ESMTPS id 30578439842
 	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 16:13:44 +0200 (CEST)
-Received: from localhost ([::1]:42428 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:42418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf0jP-0005hr-Sd
+	id 1mf0jP-0005hb-9M
 	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 10:13:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54298)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mf0fe-000101-I9
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:09:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31471)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mf0go-0003Dx-Gd
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:11:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mf0fc-0005ZJ-FS
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:09:50 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mf0gl-0000bs-SC
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:11:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635170987;
+ s=mimecast20190719; t=1635171059;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z/T/IvEVgc7GqBTFKVhzJzJeo8g/kRyHun53y0nlQDE=;
- b=EEkkFbmjalnI7ZljmgjIAGB/nR3EdPobLXOyG/yCEPD9aPaCqDHx6RqHNnoBBza/eTOwkn
- mMGtXHbQOEqwnJnwUEt9EayVO01TmyUDvvbmYdMgsqaqe3lB8W9g+073e7/P7sHcrnx/in
- UuAnS3Uglf3KfL/A//by/gsm+0vL6hQ=
+ bh=nR8+BJbUg9ImSBITyWtn3/LY+8SjnAH0hF0ElPVyfiw=;
+ b=ZRIln4zkAoN4jnoMlHujMmLpjhNtU3MBlYekp0ShXzRD5WWR/Entoect5GYMyet9FJIiSf
+ amKCH/JqvLuvMGF9gLYNfa1uapwewdicB87eYa8Gea/Ql8l/lJDLqJeugeZ7xzmfnk9wwh
+ KXBxmznslOReXuaOxNLc9VX3KW3hcCQ=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-U50e-d6yOvKiiNrKWdRuFw-1; Mon, 25 Oct 2021 10:09:45 -0400
-X-MC-Unique: U50e-d6yOvKiiNrKWdRuFw-1
+ us-mta-217-RhJqE7PwMuiESIzwYeJjDw-1; Mon, 25 Oct 2021 10:10:57 -0400
+X-MC-Unique: RhJqE7PwMuiESIzwYeJjDw-1
 Received: by mail-wm1-f72.google.com with SMTP id
- d73-20020a1c1d4c000000b0032ca7ec21a4so244972wmd.1
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 07:09:45 -0700 (PDT)
+ b197-20020a1c1bce000000b0032ca040eb40so3225971wmb.7
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 07:10:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Z/T/IvEVgc7GqBTFKVhzJzJeo8g/kRyHun53y0nlQDE=;
- b=FENkrfVuEQcIyYZLrYIcejuEsMO/R4bTWBC33YIKNVwb3QiBEoFNDpmSTehBwLjeYm
- nv/HBHbQk882+HW3lPyZZtSVGoXDfLhDiM/G3Yl4WWvzeqN7zAWjlTk5xAWn+fblsaW4
- 60qiK+vscmHnY7fsFOdikjddEX6j2Mmj9hVFnB3Mypr6VRxc5Xt6Xkso5iWMg8A3hUuv
- 6lUJU3C9WjgCm84hRFUXmxsKAb2cQAqn15/33NOhfmNPeZotfKjKZx+BI80voqUpj2KB
- cc3qsSEWqViaXbMD72a4M9YMGasiRSghf4TWvpPlOYGXaJkWnPp/wB/TfIdRvds4SYiF
- qQPw==
-X-Gm-Message-State: AOAM530c4gXD4ObPR9CB66Z2P+6JjeO/rJx+TOb2zHBbCibHRyVqvTuc
- CDr7+c4KjgiI0KrDt5HLTSCX4oZUEKsYvicxthT58PhaiZU/WX0eFDUPSEpk5Kq9zAGRksl8bt1
- IGSALpNO2twqpYUc=
-X-Received: by 2002:adf:959a:: with SMTP id p26mr23123118wrp.342.1635170984245; 
- Mon, 25 Oct 2021 07:09:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwdqwXHn8VFB1acGdAzMYAvMn6ZuONsTe7i/gdblfpfNE30oYeNNXei2y9+ZzkBRUH9+KlERw==
-X-Received: by 2002:adf:959a:: with SMTP id p26mr23123036wrp.342.1635170983842; 
- Mon, 25 Oct 2021 07:09:43 -0700 (PDT)
+ bh=nR8+BJbUg9ImSBITyWtn3/LY+8SjnAH0hF0ElPVyfiw=;
+ b=gyUKaSCve2i3DHIJS6t3TyS7OcabuE26xvanN0lJ40d5ECr49GZ8zI+VDC2NqSpxac
+ 8M6uwhdREAkOSnaZ3HdbnvwMrJEpPcH8f8nH/F2VxcVgJlPHOwXSsuSJkO0JZbdG4RKH
+ 3BhpC0ePvLX6dtLWhXHxH5aSQPCyavxn40Sb32cG6POLkLZeswCM7UOF2egdhreAXeG/
+ Z2H64KD8uEqE+pUXMKl01ZgRr+wmwK/sVK0aCiz2dgYmpcLdHtCUi4CFgUagLqoSPOi8
+ a/BHau/rlSoHTfetYSLaYTSM0rybHSXfXGYLiORUW5JQzWSYiETyJ8zY0PbZsK2QOMUK
+ gm1A==
+X-Gm-Message-State: AOAM533p6NoewUOJ0fhhO2XYJhv7+ySeF1gkBQ84h86Ybpc+bCch76WF
+ ddQk8d9Bt6cGe4bkcRCVYl/xgC+Tq6Cn2pfopBHt3Vs4ZS1SJwZaVfG8/9BXLmNlOzxu7OBKX1r
+ KvVO6lQC3GBBRhmw=
+X-Received: by 2002:a05:600c:24d:: with SMTP id
+ 13mr8910384wmj.150.1635171055733; 
+ Mon, 25 Oct 2021 07:10:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzU03ZeMkOMm0w3KxlWRomoWTkMHWJv4pkwNML4aSpoDE/i+BmowIHrpEGqSOXPMVY7WlwZIA==
+X-Received: by 2002:a05:600c:24d:: with SMTP id
+ 13mr8910348wmj.150.1635171055445; 
+ Mon, 25 Oct 2021 07:10:55 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id e9sm16669412wrn.2.2021.10.25.07.09.42
+ by smtp.gmail.com with ESMTPSA id u10sm13093060wrm.34.2021.10.25.07.10.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 07:09:43 -0700 (PDT)
-Message-ID: <5291fbc6-ac6c-8632-c3ba-ab1252ee7a28@redhat.com>
-Date: Mon, 25 Oct 2021 16:09:41 +0200
+ Mon, 25 Oct 2021 07:10:54 -0700 (PDT)
+Message-ID: <23cec6d8-0625-cf7c-59ff-f42c91143345@redhat.com>
+Date: Mon, 25 Oct 2021 16:10:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v4 00/25] block layer: split block APIs in global state
- and I/O
+Subject: Re: [PATCH v4 23/25] block-backend-common.h: split function pointers
+ in BlockDevOps
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 References: <20211025101735.2060852-1-eesposit@redhat.com>
+ <20211025101735.2060852-24-eesposit@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211025101735.2060852-1-eesposit@redhat.com>
+In-Reply-To: <20211025101735.2060852-24-eesposit@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.846,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.846, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,38 +114,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/25/21 12:17, Emanuele Giuseppe Esposito wrote:
-[...]
+> Assertions in the callers of the funciton pointrs are already
+> added by previous patches.
 
-> Each function in the GS API will have an assertion, checking
-> that it is always running under BQL.
-> I/O functions are instead thread safe (or so should be), meaning
-> that they *can* run under BQL, but also in an iothread in another
-> AioContext. Therefore they do not provide any assertion, and
-> need to be audited manually to verify the correctness.
-> 
-> Adding assetions has helped finding 2 bugs already, as shown in
-> my series "Migration: fix missing iothread locking".
-> 
-> Tested this series by running unit tests, qemu-iotests and qtests
-> (x86_64).
-> Some functions in the GS API are used everywhere but not
-> properly tested. Therefore their assertion is never actually run in
-> the tests, so despite my very careful auditing, it is not impossible
-> to exclude that some will trigger while actually using QEMU.
-> 
-> Patch 1 introduces qemu_in_main_thread(), the function used in
-> all assertions. This had to be introduced otherwise all unit tests
-> would fail, since they run in the main loop but use the code in
-> stubs/iothread.c
-> Patches 2-14 and 19-25 (with the exception of patch 9, that is an additional
-> assert) are all structured in the same way: first we split the header
-> and in the next (even) patch we add assertions.
-> The rest of the patches ontain either both assertions and split,
-> or have no assertions.
+Typo "function pointers".
 
-This seems a lot of assertions added in hot-path code.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  include/sysemu/block-backend-common.h | 28 ++++++++++++++++++++++-----
+>  1 file changed, 23 insertions(+), 5 deletions(-)
 
-Does it makes sense to use a BLOCK_ASSERT() macro instead,
-only expanded when configure with --enable-debug?
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
