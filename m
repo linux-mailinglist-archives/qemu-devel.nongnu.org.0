@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AACD439E0A
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 19:57:00 +0200 (CEST)
-Received: from localhost ([::1]:47194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0046439E11
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 20:03:38 +0200 (CEST)
+Received: from localhost ([::1]:57442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf4DT-0006EE-AN
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 13:56:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49806)
+	id 1mf4Jt-0004sc-TU
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 14:03:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mf45f-0000n8-N8
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:48:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24331)
+ id 1mf4H0-0002f0-Co
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 14:00:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mf45c-0003Gl-1o
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:48:54 -0400
+ id 1mf4Gp-0004aQ-JL
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 14:00:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635184129;
+ s=mimecast20190719; t=1635184825;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2M05zuobEk2nFNGiLUYdkTTMjlvXui1J1/dQfqZnJF4=;
- b=diqC70Hth1NlD87cj08AOa2j+gZ4e1tBVloogxsox0tstQwCazmTKvHQY5sLQRBfGgTWBO
- V9nAM0jPZm+QiIqIcNMupwzdjXVUUhIJix1leKY1s8upEv3ICyYGdz8KX+Cnl569+ksl/v
- XtTcNDUqKyOjmUNKaLDIMKgEiom3G9M=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-3NjgtbrQP3qhCZo7iux2LA-1; Mon, 25 Oct 2021 13:48:48 -0400
-X-MC-Unique: 3NjgtbrQP3qhCZo7iux2LA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c128-20020a1c9a86000000b0032cbafd99a2so288802wme.1
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 10:48:48 -0700 (PDT)
+ bh=6jV9LtyF2zq4VbVcNZgYPqHFGKQyO46k7O+s+5FQ2s4=;
+ b=AkfTh59NDBPWyEzRA4nU1ER/fLWpAWa47isovQbLlFAwh5VuCZ4bavB9B8kiU+FDNUJgje
+ gPv4PzQlMYy4opbhhLFmhDMKl9Q7Q1fZOS3Vy+ZmVmLyu1UGjnrqH1ufa+I/T1Fn0HhirW
+ tW1pUxhjhVTS2yEBp6BRwFqCZTGDWcs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-560-SlpWl6iKO_qxD-oQgGJYTw-1; Mon, 25 Oct 2021 14:00:24 -0400
+X-MC-Unique: SlpWl6iKO_qxD-oQgGJYTw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ z20-20020a05600c221400b0032cb38a76a9so296571wml.8
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 11:00:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=2M05zuobEk2nFNGiLUYdkTTMjlvXui1J1/dQfqZnJF4=;
- b=P2LM4FuypjasPYkv32ENUHDws0x9foV+f3FallMYjaRXqH5Vy3YHZSxSDoT1p03Z7e
- KisQk5jT/+/V86xsYsqDpvJzbj7ehh3O4zAHv1Z6kXH0w2EbOdSmABBt/Wnifnl1DIAK
- M/eTTlQ3oM/iPO+Si3RXp2BQmcE5RnjRlm7qiaK1cwwr+p5zsGnl98kbYRdK9mmoKarL
- BjZZSfo8O/h0j041Gn8lRhqeeB/3bEzyzqjlPVNlcHAB972M5huRSuHY4E3JWvNFuon3
- eNGK0rCMDMfhSJjz7mHy0EbmoisYSWNDAZDRcBbVjzaM7RNiT/10OEHrFaAzeA+K9nt2
- 0oig==
-X-Gm-Message-State: AOAM531SqCJjzNE3krQcc6Itsso+bqMNQGRcjzddvWC6rVmztglkTb+B
- UwQ74vLz+CpOYb1pSs+bIPDxgTDyPNoX3K0Sh/wc5WAFmaeaWovwC3Q7ecJqwBUreBciwMZ4RVm
- Ujn/ACKfAijm+Z6E=
-X-Received: by 2002:a5d:518f:: with SMTP id k15mr13194866wrv.43.1635184127462; 
- Mon, 25 Oct 2021 10:48:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy5RHc9V/OLPA6W/EPeO/3tIyvn7Iq7tD+RLrwVR9O2dX9nyY6j+ogAro9GvjeUPALW9VrfcA==
-X-Received: by 2002:a5d:518f:: with SMTP id k15mr13194840wrv.43.1635184127213; 
- Mon, 25 Oct 2021 10:48:47 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=T3DFaKFEsXZOm5gyIopmKooLsoo8QM6Z1aDxQ4gcpqc=;
+ b=FTyChQEjiIJj+Dr06ImTevqGp09G5yh8Q12tOZXrWWbfRx2XlVObFQAcHzhc6muBbM
+ JLzoHSOdcuGb/AZwE1+44OLL4YVH6ioh/7bgBwdddaaEIVJGNcTQ9y1xrr1ARGA7RZKL
+ mDPWGAwteWpRfB8hMgbiuwZORNHBCZtzYMOcHWUH8lvl3Yl/UwzPsSprX7+/jzqpZcFc
+ EI3AEngu6qkvJvM6cu5fUk4AHzkeQtWPmfPoKdZ0Xf16z81NS5LbF1B+pFrE6DmXLPL0
+ TXjQ1ajQTD0B0a5NtFGmZ4sKJ6/Cost6Txp9UGe8am1wYteIjPUxnK/b4zpydi2kFVG5
+ SNPA==
+X-Gm-Message-State: AOAM53355TFLw7ewYQE84Ab7PWFkEfDcUkxk/DTJ178Qkp+tfLp3LDrE
+ 5zFGj/t+QTB8k/D0u+Xtj+ZsC171ncRV1a5dL5qbJShi7D6m64/Tl+1lE1W8sFgzAB3+GRXjsif
+ b/neDJiM1Gv5j4A0=
+X-Received: by 2002:adf:ea81:: with SMTP id s1mr12283362wrm.59.1635184822829; 
+ Mon, 25 Oct 2021 11:00:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxuOoufRer8sO6RcBbbNpPbf8L3NLz4sRvwsAVS9PaSuozVBXSPmEWsgkOkE52hhtDwiN6nwQ==
+X-Received: by 2002:adf:ea81:: with SMTP id s1mr12283331wrm.59.1635184822619; 
+ Mon, 25 Oct 2021 11:00:22 -0700 (PDT)
 Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
  [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id c17sm16447481wmk.23.2021.10.25.10.48.46
+ by smtp.gmail.com with ESMTPSA id c17sm10448634wrv.22.2021.10.25.11.00.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 10:48:46 -0700 (PDT)
-Date: Mon, 25 Oct 2021 18:48:44 +0100
+ Mon, 25 Oct 2021 11:00:21 -0700 (PDT)
+Date: Mon, 25 Oct 2021 19:00:20 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH] virtiofsd: xattr mapping add a new type "unsupported"
-Message-ID: <YXbt/JnPITP780GO@work-vm>
-References: <YUt9qbmgAfCFfg5t@redhat.com>
+Subject: Re: [PATCH 00/13] virtiofsd: Support notification queue and
+Message-ID: <YXbwtHt6xo7I+Jlc@work-vm>
+References: <20210930153037.1194279-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YUt9qbmgAfCFfg5t@redhat.com>
+In-Reply-To: <20210930153037.1194279-1-vgoyal@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
@@ -74,15 +76,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,115 +98,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
+Cc: stefanha@redhat.com, miklos@szeredi.hu, qemu-devel@nongnu.org,
+ iangelak@redhat.com, virtio-fs@redhat.com, jaggel@bu.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Vivek Goyal (vgoyal@redhat.com) wrote:
-> Right now for xattr remapping, we support types of "prefix", "ok" or "bad".
-> Type "bad" returns -EPERM on setxattr and hides xattr in listxattr. For
-> getxattr, mapping code returns -EPERM but getxattr code converts it to -ENODATA.
-> 
-> I need a new semantics where if an xattr is unsupported, then
-> getxattr()/setxattr() return -ENOTSUP and listxattr() should hide the xattr.
-> This is needed to simulate that security.selinux is not supported by
-> virtiofs filesystem and in that case client falls back to some default
-> label specified by policy.
-> 
-> So add a new type "unsupported" which returns -ENOTSUP on getxattr() and
-> setxattr() and hides xattrs in listxattr().
-> 
-> For example, one can use following mapping rule to not support
-> security.selinux xattr and allow others.
-> 
-> "-o xattrmap=/unsupported/all/security.selinux/security.selinux//ok/all///"
-> 
-> Suggested-by: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> Hi,
+>=20
+> Here are the patches to support notification queue and blocking
+> posix locks. One of the biggest change since las time has been
+> creation of custom thread pool for handling locking requests.=20
+> Thanks to Ioannis for doing most of the work on custom thread
+> pool.
+>=20
+> I have posted corresponding kernel changes here.
+>=20
+> https://lore.kernel.org/linux-fsdevel/20210930143850.1188628-1-vgoyal@red=
+hat.com/T/#mb2d0fbfdb580ef33b6e812d0acbd16333b11f2cf
 
-Queued
+I'm queuing:
+[PATCH 03/13] virtiofsd: Remove unused virtio_fs_config definition
+[PATCH 04/13] virtiofsd: Add a helper to send element on virtqueue
+[PATCH 05/13] virtiofsd: Add a helper to stop all queues
 
-> ---
->  docs/tools/virtiofsd.rst         |    6 ++++++
->  tools/virtiofsd/passthrough_ll.c |   17 ++++++++++++++---
->  2 files changed, 20 insertions(+), 3 deletions(-)
-> 
-> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
-> ===================================================================
-> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2021-09-22 08:37:16.070377732 -0400
-> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2021-09-22 14:17:09.543016250 -0400
-> @@ -2465,6 +2465,11 @@ static void lo_flock(fuse_req_t req, fus
->   * Automatically reversed on read
->   */
->  #define XATTR_MAP_FLAG_PREFIX  (1 <<  2)
-> +/*
-> + * The attribute is unsupported;
-> + * ENOTSUP on write, hidden on read.
-> + */
-> +#define XATTR_MAP_FLAG_UNSUPPORTED     (1 <<  3)
->  
->  /* scopes */
->  /* Apply rule to get/set/remove */
-> @@ -2636,6 +2641,8 @@ static void parse_xattrmap(struct lo_dat
->              tmp_entry.flags |= XATTR_MAP_FLAG_OK;
->          } else if (strstart(map, "bad", &map)) {
->              tmp_entry.flags |= XATTR_MAP_FLAG_BAD;
-> +        } else if (strstart(map, "unsupported", &map)) {
-> +            tmp_entry.flags |= XATTR_MAP_FLAG_UNSUPPORTED;
->          } else if (strstart(map, "map", &map)) {
->              /*
->               * map is sugar that adds a number of rules, and must be
-> @@ -2646,8 +2653,8 @@ static void parse_xattrmap(struct lo_dat
->          } else {
->              fuse_log(FUSE_LOG_ERR,
->                       "%s: Unexpected type;"
-> -                     "Expecting 'prefix', 'ok', 'bad' or 'map' in rule %zu\n",
-> -                     __func__, lo->xattr_map_nentries);
-> +                     "Expecting 'prefix', 'ok', 'bad', 'unsupported' or 'map'"
-> +                     " in rule %zu\n", __func__, lo->xattr_map_nentries);
->              exit(1);
->          }
->  
-> @@ -2749,6 +2756,9 @@ static int xattr_map_client(const struct
->              if (cur_entry->flags & XATTR_MAP_FLAG_BAD) {
->                  return -EPERM;
->              }
-> +            if (cur_entry->flags & XATTR_MAP_FLAG_UNSUPPORTED) {
-> +                return -ENOTSUP;
-> +            }
->              if (cur_entry->flags & XATTR_MAP_FLAG_OK) {
->                  /* Unmodified name */
->                  return 0;
-> @@ -2788,7 +2798,8 @@ static int xattr_map_server(const struct
->  
->          if ((cur_entry->flags & XATTR_MAP_FLAG_SERVER) &&
->              (strstart(server_name, cur_entry->prepend, &end))) {
-> -            if (cur_entry->flags & XATTR_MAP_FLAG_BAD) {
-> +            if (cur_entry->flags & XATTR_MAP_FLAG_BAD ||
-> +                cur_entry->flags & XATTR_MAP_FLAG_UNSUPPORTED) {
->                  return -ENODATA;
->              }
->              if (cur_entry->flags & XATTR_MAP_FLAG_OK) {
-> Index: rhvgoyal-qemu/docs/tools/virtiofsd.rst
-> ===================================================================
-> --- rhvgoyal-qemu.orig/docs/tools/virtiofsd.rst	2021-09-22 08:37:15.938372097 -0400
-> +++ rhvgoyal-qemu/docs/tools/virtiofsd.rst	2021-09-22 14:44:09.814188712 -0400
-> @@ -183,6 +183,12 @@ Using ':' as the separator a rule is of
->    'ok' as either an explicit terminator or for special handling of certain
->    patterns.
->  
-> +- 'unsupported' - If a client tries to use a name matching 'key' it's
-> +  denied using ENOTSUP; when the server passes an attribute
-> +  name matching 'prepend' it's hidden.  In many ways it's use is very like
-> +  'ok' as either an explicit terminator or for special handling of certain
-> +  patterns.
-> +
->  **key** is a string tested as a prefix on an attribute name originating
->  on the client.  It maybe empty in which case a 'client' rule
->  will always match on client names.
-> 
-> 
--- 
+from this series; they're separate cleanups.
+
+Dave
+
+> Any feedback is welcome.
+>=20
+> Thanks
+> Vivek
+>=20
+> Vivek Goyal (13):
+>   virtio_fs.h: Add notification queue feature bit
+>   virtiofsd: fuse.h header file changes for lock notification
+>   virtiofsd: Remove unused virtio_fs_config definition
+>   virtiofsd: Add a helper to send element on virtqueue
+>   virtiofsd: Add a helper to stop all queues
+>   vhost-user-fs: Use helpers to create/cleanup virtqueue
+>   virtiofsd: Release file locks using F_UNLCK
+>   virtiofsd: Create a notification queue
+>   virtiofsd: Specify size of notification buffer using config space
+>   virtiofsd: Custom threadpool for remote blocking posix locks requests
+>   virtiofsd: Shutdown notification queue in the end
+>   virtiofsd: Implement blocking posix locks
+>   virtiofsd, seccomp: Add clock_nanosleep() to allow list
+>=20
+>  hw/virtio/vhost-user-fs-pci.c              |   4 +-
+>  hw/virtio/vhost-user-fs.c                  | 158 ++++++++--
+>  include/hw/virtio/vhost-user-fs.h          |   4 +
+>  include/standard-headers/linux/fuse.h      |  11 +-
+>  include/standard-headers/linux/virtio_fs.h |   5 +
+>  tools/virtiofsd/fuse_i.h                   |   1 +
+>  tools/virtiofsd/fuse_lowlevel.c            |  37 ++-
+>  tools/virtiofsd/fuse_lowlevel.h            |  26 ++
+>  tools/virtiofsd/fuse_virtio.c              | 339 +++++++++++++++++----
+>  tools/virtiofsd/meson.build                |   1 +
+>  tools/virtiofsd/passthrough_ll.c           |  91 +++++-
+>  tools/virtiofsd/passthrough_seccomp.c      |   2 +
+>  tools/virtiofsd/tpool.c                    | 331 ++++++++++++++++++++
+>  tools/virtiofsd/tpool.h                    |  18 ++
+>  14 files changed, 915 insertions(+), 113 deletions(-)
+>  create mode 100644 tools/virtiofsd/tpool.c
+>  create mode 100644 tools/virtiofsd/tpool.h
+>=20
+> --=20
+> 2.31.1
+>=20
+>=20
+--=20
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
