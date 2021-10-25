@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B791439F09
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 21:12:51 +0200 (CEST)
-Received: from localhost ([::1]:60458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7866F439F0C
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 21:14:11 +0200 (CEST)
+Received: from localhost ([::1]:36688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf5Os-0004pn-47
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 15:12:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40720)
+	id 1mf5QA-0007ph-Hb
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 15:14:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mf5Kv-0001Na-2W
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 15:08:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56916)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mf5Ks-0007Ll-VV
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 15:08:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635188922;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CH3lVWaVGOZVAsnFBU7YQAe2n1uCm+mqbqmaRGirhTc=;
- b=FCkQ4Xze9xmjZI/7RD3J8phF8crP2YgDSlUiL0jzwIgMbmm2jdQ/SUg/QUhRsD+vqZPxAz
- rxKPBng+bvd553RACH8+ClBxYJ4GZcFkMvWnLO6fH9Ss9nw+18xvDR09rfkdnxCIxlvabL
- lFFSH9wI9/sF4wii3aoRHKqDoChp16k=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-XAOTCYNIONmfQamyfeESXQ-1; Mon, 25 Oct 2021 15:08:40 -0400
-X-MC-Unique: XAOTCYNIONmfQamyfeESXQ-1
-Received: by mail-ua1-f69.google.com with SMTP id
- j42-20020ab0186a000000b002b0bf3870deso6881344uag.23
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 12:08:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mf5MK-0003QE-HX
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 15:10:12 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:37586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mf5MI-0008Vv-LO
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 15:10:12 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id n11so8606788plf.4
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 12:10:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hVanuikBIg7iyJOS0bHt7RhnYa/QqZ8SXAaMv28MRCc=;
+ b=I5YeXiU+E8K4hSFqUrjuT3DlfFvbelVcqh9PwQz4z/Jra09M5jLZ1cqfVeGGxChfvO
+ +8RDlP1PuMf5yp9v668yCt+YC6nA2Req9Vjdm71UMOQFfEBaAAgvThvtf9/LSCp3I293
+ cNNKpqBRZNFMl1I8VqqIoXn12eRoa4gIrSWcQSE6+OpjBZiXb/zhc3NTnqUF3AjjXyxQ
+ gEPZI/VuQVeWOmYjZiAA3I9nx1SNhS8flyyGW8fa9ZjGU7joORocQkjNwCPi39GGZn9z
+ jxNhPKMmcaPLz6yo3K4mTKvDWhkpaXMlpOA74J6VkBtW6hmRr46JTO7OjD4i9zCi7A8Z
+ PFHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CH3lVWaVGOZVAsnFBU7YQAe2n1uCm+mqbqmaRGirhTc=;
- b=Iq149DcPDC607mq980ya2uxCs/JGg87NrVduw6+W4TvzwbNhEXpyRNUB3hbL0RjOXL
- E6aeOLN2c3b8SuUZ/KImvhS+C9qrBINx3hvDohEU4x0SBleC2z921P3Nam0Ymm7ZIaF5
- kDf8tnVnAw/OFClfM7UCVqNtgPQneNJLWVzqI4bfRinCz49cH4OwhQdMz2M/LDzp95PJ
- OeW0pNr5SF3rcFBq6gVmZ+4wgyxzoi2Tn3P6whMNcmBBq2Kr7ZZBmyrq5ZEZpcoXdWTy
- rmNPZouYZQbKAqvkfWq+LIgsJ1EMx4LNxlNB6aIxvEZI7GwMSgCRQGtJT0zeukVw28Sx
- AYQA==
-X-Gm-Message-State: AOAM530fX7i9oRaj6LW37y2FnuTdqim8SDLxna2Hd6zOtAtPClMWmQIl
- CU+Z7s4NHItmGBK9dbT0CnF0PQPZWk7LczCfM2o/ix52MoiUdCmhy+5KtPdTjtEtYUYsIZoRHSg
- +dm4phhkgNrFnAfQ2aodkEmKjuslEFlw=
-X-Received: by 2002:a05:6122:2224:: with SMTP id
- bb36mr17172985vkb.23.1635188920232; 
- Mon, 25 Oct 2021 12:08:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/LcAOvXPDxOZSIYV9ByMTYd/GyCWpqEIH5iXfqqAU60uL9uP1f/khAACCwf0XIAdA+1JZ0MEoSqqnIuiojWg=
-X-Received: by 2002:a05:6122:2224:: with SMTP id
- bb36mr17172953vkb.23.1635188919993; 
- Mon, 25 Oct 2021 12:08:39 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hVanuikBIg7iyJOS0bHt7RhnYa/QqZ8SXAaMv28MRCc=;
+ b=CaNAlofTomhyqK4iYS0Go/vJ0a4Y5NEpSpVwbV5mZMVVGaLgMi/5i3mcCi5Mku5fe2
+ yparEdGcP+vBT6i7A4Jxv1qHPSaJ60MOz3FloyfNaIbFqFotwNo25bgqLFMq+fsgwe8K
+ 7LXB4oLChyR3FhfGvS36aiOOAvhtBy4WN4wdIe0cBS01yjUrekz8z4nTBJyFSfP0PxpZ
+ cocflusj4mcyKZQd5SDL68te/+2ONhoJ5CcSbOZCsxcmSQmOfO/lolTSxciLRMAU3f8p
+ wKGaKs3/zJ9PxZ5WSXqBL8PROGYbTbxlfBi26rvNcKUDi9hssOoN+gc2mq8qjXsxbSEz
+ hOnQ==
+X-Gm-Message-State: AOAM5337Z2Wak1ttN6wUaIE0jEtFzrh8yW0X8Z85xQ9v+mmdjYmht8YE
+ NuGdcx5+1bxLpc1jDiberceMaQ==
+X-Google-Smtp-Source: ABdhPJzmmm0LVJc1Us3arsoLIJg85QV6Q0QPG1TuAt6WrJdewJ4WNLfrZHZa36dzpbpLRqFjq0piGw==
+X-Received: by 2002:a17:902:ed86:b0:140:2896:3fc7 with SMTP id
+ e6-20020a170902ed8600b0014028963fc7mr17660065plj.37.1635189009192; 
+ Mon, 25 Oct 2021 12:10:09 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id m22sm19302177pfo.71.2021.10.25.12.10.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Oct 2021 12:10:08 -0700 (PDT)
+Subject: Re: [PATCH v4 05/17] target/riscv: array for the 64 upper bits of
+ 128-bit registers
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211025122818.168890-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211025122818.168890-6-frederic.petrot@univ-grenoble-alpes.fr>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <18de8766-9193-12a9-fda3-6b8b7a59bc56@linaro.org>
+Date: Mon, 25 Oct 2021 12:10:07 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211025052532.3859634-1-armbru@redhat.com>
- <20211025052532.3859634-4-armbru@redhat.com>
-In-Reply-To: <20211025052532.3859634-4-armbru@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 25 Oct 2021 15:08:29 -0400
-Message-ID: <CAFn=p-YAfS1esUOFsjgyg51jjMFHSg72jnqfmLW=x1P+BYmNQQ@mail.gmail.com>
-Subject: Re: [PATCH 3/9] qapi: Eliminate QCO_NO_OPTIONS for a slight
- simplification
-To: Markus Armbruster <armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000b7a16d05cf3216b7"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211025122818.168890-6-frederic.petrot@univ-grenoble-alpes.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.846,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,174 +91,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com,
- Daniel Berrange <berrange@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- libvir-list@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
- mdroth@linux.vnet.ibm.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>, libguestfs@redhat.com
+Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
+ palmer@dabbelt.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b7a16d05cf3216b7
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, Oct 25, 2021 at 1:25 AM Markus Armbruster <armbru@redhat.com> wrote:
-
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On 10/25/21 5:28 AM, Frédéric Pétrot wrote:
+> The upper 64-bit of the 128-bit registers have now a place inside
+> the cpu state structure, and are created as globals for future use.
+> 
+> Signed-off-by: Frédéric Pétrot<frederic.petrot@univ-grenoble-alpes.fr>
+> Co-authored-by: Fabien Portas<fabien.portas@grenoble-inp.org>
 > ---
->  include/qapi/qmp/dispatch.h | 1 -
->  monitor/misc.c              | 3 +--
->  scripts/qapi/commands.py    | 5 +----
->  3 files changed, 2 insertions(+), 7 deletions(-)
->
-> diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-> index 075203dc67..0ce88200b9 100644
-> --- a/include/qapi/qmp/dispatch.h
-> +++ b/include/qapi/qmp/dispatch.h
-> @@ -21,7 +21,6 @@ typedef void (QmpCommandFunc)(QDict *, QObject **, Error
-> **);
->
->  typedef enum QmpCommandOptions
->  {
-> -    QCO_NO_OPTIONS            =  0x0,
->      QCO_NO_SUCCESS_RESP       =  (1U << 0),
->      QCO_ALLOW_OOB             =  (1U << 1),
->      QCO_ALLOW_PRECONFIG       =  (1U << 2),
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index ffe7966870..3556b177f6 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -230,8 +230,7 @@ static void monitor_init_qmp_commands(void)
->
->      qmp_init_marshal(&qmp_commands);
->
-> -    qmp_register_command(&qmp_commands, "device_add", qmp_device_add,
-> -                         QCO_NO_OPTIONS);
-> +    qmp_register_command(&qmp_commands, "device_add", qmp_device_add, 0);
->
->      QTAILQ_INIT(&qmp_cap_negotiation_commands);
->      qmp_register_command(&qmp_cap_negotiation_commands,
-> "qmp_capabilities",
-> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-> index 3654825968..c8a975528f 100644
-> --- a/scripts/qapi/commands.py
-> +++ b/scripts/qapi/commands.py
-> @@ -229,15 +229,12 @@ def gen_register_command(name: str,
->      if coroutine:
->          options += ['QCO_COROUTINE']
->
-> -    if not options:
-> -        options = ['QCO_NO_OPTIONS']
-> -
->      ret = mcgen('''
->      qmp_register_command(cmds, "%(name)s",
->                           qmp_marshal_%(c_name)s, %(opts)s);
->  ''',
->                  name=name, c_name=c_name(name),
-> -                opts=" | ".join(options))
-> +                opts=' | '.join(options) or 0)
->      return ret
->
->
->
-I'm not a big fan of naked constants on the C side, but the generator
-simplification is nice. I suppose it's worth the trade-off if you like it
-better this way.
+>   target/riscv/cpu.h       |  2 ++
+>   target/riscv/cpu.c       |  9 +++++++++
+>   target/riscv/machine.c   | 20 ++++++++++++++++++++
+>   target/riscv/translate.c |  5 ++++-
+>   4 files changed, 35 insertions(+), 1 deletion(-)
 
-"eh".
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: John Snow <jsnow@redhat.com>
-
---000000000000b7a16d05cf3216b7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 25, 2021 at 1:25 AM Marku=
-s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Sign=
-ed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" targe=
-t=3D"_blank">armbru@redhat.com</a>&gt;<br>
----<br>
-=C2=A0include/qapi/qmp/dispatch.h | 1 -<br>
-=C2=A0monitor/misc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3 +-=
--<br>
-=C2=A0scripts/qapi/commands.py=C2=A0 =C2=A0 | 5 +----<br>
-=C2=A03 files changed, 2 insertions(+), 7 deletions(-)<br>
-<br>
-diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h<br>
-index 075203dc67..0ce88200b9 100644<br>
---- a/include/qapi/qmp/dispatch.h<br>
-+++ b/include/qapi/qmp/dispatch.h<br>
-@@ -21,7 +21,6 @@ typedef void (QmpCommandFunc)(QDict *, QObject **, Error =
-**);<br>
-<br>
-=C2=A0typedef enum QmpCommandOptions<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 QCO_NO_OPTIONS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D=
-=C2=A0 0x0,<br>
-=C2=A0 =C2=A0 =C2=A0QCO_NO_SUCCESS_RESP=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D=C2=A0=
- (1U &lt;&lt; 0),<br>
-=C2=A0 =C2=A0 =C2=A0QCO_ALLOW_OOB=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0=3D=C2=A0 (1U &lt;&lt; 1),<br>
-=C2=A0 =C2=A0 =C2=A0QCO_ALLOW_PRECONFIG=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D=C2=A0=
- (1U &lt;&lt; 2),<br>
-diff --git a/monitor/misc.c b/monitor/misc.c<br>
-index ffe7966870..3556b177f6 100644<br>
---- a/monitor/misc.c<br>
-+++ b/monitor/misc.c<br>
-@@ -230,8 +230,7 @@ static void monitor_init_qmp_commands(void)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0qmp_init_marshal(&amp;qmp_commands);<br>
-<br>
--=C2=A0 =C2=A0 qmp_register_command(&amp;qmp_commands, &quot;device_add&quo=
-t;, qmp_device_add,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0QCO_NO_OPTIONS);<br>
-+=C2=A0 =C2=A0 qmp_register_command(&amp;qmp_commands, &quot;device_add&quo=
-t;, qmp_device_add, 0);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0QTAILQ_INIT(&amp;qmp_cap_negotiation_commands);<br>
-=C2=A0 =C2=A0 =C2=A0qmp_register_command(&amp;qmp_cap_negotiation_commands,=
- &quot;qmp_capabilities&quot;,<br>
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py<br>
-index 3654825968..c8a975528f 100644<br>
---- a/scripts/qapi/commands.py<br>
-+++ b/scripts/qapi/commands.py<br>
-@@ -229,15 +229,12 @@ def gen_register_command(name: str,<br>
-=C2=A0 =C2=A0 =C2=A0if coroutine:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0options +=3D [&#39;QCO_COROUTINE&#39;]<br=
->
-<br>
--=C2=A0 =C2=A0 if not options:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 options =3D [&#39;QCO_NO_OPTIONS&#39;]<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0ret =3D mcgen(&#39;&#39;&#39;<br>
-=C2=A0 =C2=A0 =C2=A0qmp_register_command(cmds, &quot;%(name)s&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 qmp_marshal_%(c_name)s, %(opts)s);<br>
-=C2=A0&#39;&#39;&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0name=3Dname, =
-c_name=3Dc_name(name),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 opts=3D&quot; | &q=
-uot;.join(options))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 opts=3D&#39; | &#3=
-9;.join(options) or 0)<br>
-=C2=A0 =C2=A0 =C2=A0return ret<br>
-<br>
-<br></blockquote></div><div class=3D"gmail_quote"><br></div><div class=3D"g=
-mail_quote">I&#39;m not a big fan of naked constants on the C side, but the=
- generator simplification is nice. I suppose it&#39;s worth the trade-off i=
-f you like it better this way.<br></div><div class=3D"gmail_quote"><br></di=
-v><div class=3D"gmail_quote">&quot;eh&quot;.</div><div class=3D"gmail_quote=
-"><br></div><div class=3D"gmail_quote">Reviewed-by: John Snow &lt;<a href=
-=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt;</div><div class=3D"gm=
-ail_quote"><br></div></div>
-
---000000000000b7a16d05cf3216b7--
-
+r~
 
