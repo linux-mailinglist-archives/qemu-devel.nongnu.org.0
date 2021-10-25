@@ -2,91 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 341B343947B
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 13:07:01 +0200 (CEST)
-Received: from localhost ([::1]:46062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB1E439486
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 13:12:11 +0200 (CEST)
+Received: from localhost ([::1]:48312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mexoi-0001uI-BC
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 07:07:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34734)
+	id 1mexti-0003hK-CM
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 07:12:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mexnC-0000hN-NX
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 07:05:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33963)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1mexri-0002nz-BY
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 07:10:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.153.124]:32361)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mexn8-0003aP-4C
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 07:05:25 -0400
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1mexrf-0003io-L8
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 07:10:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635159920;
+ s=mimecast20190719; t=1635160202;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EkFFP+Jr2BY9vMzJ0cFYr9O3kVeLom+TyTuy//tyM+8=;
- b=NTz+z1J36qux16SczcMxS+Xu3TViBKe2pptPG4Qd/dEu1HplXXZOhXeyZiAzCQkaKOrTp2
- iI8snXRE1xbxx8yp6rtGzsMC4QRrqHI4OAEHQCuy+Q4T7L/7szc8fY1T75SKkz3venBAQU
- je+oCpbfKU8gMU2QgtLxUidNTMjqyoE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-ESKqt6LNMOKjYZLGnDnigA-1; Mon, 25 Oct 2021 07:05:19 -0400
-X-MC-Unique: ESKqt6LNMOKjYZLGnDnigA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- q13-20020a1ca70d000000b0032ca7b7fad6so2040290wme.0
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 04:05:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=EkFFP+Jr2BY9vMzJ0cFYr9O3kVeLom+TyTuy//tyM+8=;
- b=l54goeAjaBKPQH2/xM3n5kQ4pRwOSkrFy7WXFJVhhl5Lgji4FhXXcyH+zrcpVBM61B
- 6ZyeZq6nxQIgNgq1flGf4TbtiBI1v3awk4XPwCmyprKBgHPnKKWPAj2uo17DunnlJPHB
- lsr/gwO5g7Z95btm+YZWw8/gc/y8mRZjoH0aP5X3/ou/lNeA6II5XYMQ/ta11upGISN8
- 8rOFJ5ySgv+0boNe/DMt6lA9+KjWhVG4V4PzzVSHjo7RDvlgcjuSeSwFh39YWLsaDvtK
- d2tRJfmYfbpjVdqI5gRxkFBmLT4xPZpiuMFfAwBh7A1KZKlG8h0Ze3iJizFi2LAXQFCy
- LKbA==
-X-Gm-Message-State: AOAM532islK6aJJ9zSnTuChFnb1854Sg5fDRoVUOprHr6KKFk0fjumWu
- OM3EJTQ7dAoXuxVYR1vrm0MjOkR/ibDjiYC9+wwS7slqUlcJfXuZuGjZmsO/Yafee9VPe9ma9B4
- shSALBTeVn8O7/dg=
-X-Received: by 2002:a1c:1bd7:: with SMTP id b206mr9357945wmb.57.1635159918250; 
- Mon, 25 Oct 2021 04:05:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzv8Iqt15BwG5YgJAoAY1+EfAOBzyI5C/qGejHzwFj5PsEfVhWmSQ9MGbt/cxrIfiTXFoIZ5Q==
-X-Received: by 2002:a1c:1bd7:: with SMTP id b206mr9357910wmb.57.1635159917986; 
- Mon, 25 Oct 2021 04:05:17 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id 25sm18475062wmo.18.2021.10.25.04.05.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 04:05:17 -0700 (PDT)
-Message-ID: <0eec4002-0061-69c1-4ca8-92f9e9263ed1@redhat.com>
-Date: Mon, 25 Oct 2021 13:05:16 +0200
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rHS/SiEYGWt3UwElG9d7AZ++K4uQxrv+/xonv2j8tzI=;
+ b=SSBbFu96tCcdHLAxc6SNOL0r/87GsPnPFzHEKIZNa6EvHTOZV7CsVDEuddx/hHPHgn5CTv
+ Zoc19fCQNVYuVGDPPpp/YnA3FkG6pNjIO9+yOotsG57eHrpnBOhnl1uzk73vrGfxbBX0Fj
+ BHJKNAmmYAgp1hiRZ28q37yWqW33XkI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-HipuOq-INIO1WVqTpP20wA-1; Mon, 25 Oct 2021 07:08:17 -0400
+X-MC-Unique: HipuOq-INIO1WVqTpP20wA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43FB4101AFBF
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 11:08:16 +0000 (UTC)
+Received: from maggie.redhat.com (unknown [10.43.2.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BEF0F57CAB
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 11:08:15 +0000 (UTC)
+From: Michal Privoznik <mprivozn@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qmp: Stabilize preconfig
+Date: Mon, 25 Oct 2021 13:08:05 +0200
+Message-Id: <b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] block/export/fuse.c: fix musl build
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Fabrice Fontaine <fontaine.fabrice@gmail.com>, qemu-devel@nongnu.org
-References: <20211022095209.1319671-1-fontaine.fabrice@gmail.com>
- <3ff66c29-7377-3fb5-a317-50e5a12eeea6@redhat.com>
-In-Reply-To: <3ff66c29-7377-3fb5-a317-50e5a12eeea6@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.153.124; envelope-from=mprivozn@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.846, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,55 +74,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/21 13:01, Philippe Mathieu-Daudé wrote:
-> On 10/22/21 11:52, Fabrice Fontaine wrote:
->> Include linux/falloc.h if CONFIG_FALLOCATE_ZERO_RANGE is defined to fix
->> https://gitlab.com/qemu-project/qemu/-/commit/50482fda98bd62e072c30b7ea73c985c4e9d9bbb
->> and avoid the following build failure on musl:
->>
->> ../block/export/fuse.c: In function 'fuse_fallocate':
->> ../block/export/fuse.c:643:21: error: 'FALLOC_FL_ZERO_RANGE' undeclared (first use in this function)
->>   643 |     else if (mode & FALLOC_FL_ZERO_RANGE) {
->>       |                     ^~~~~~~~~~~~~~~~~~~~
->>
->> Fixes:
->>  - http://autobuild.buildroot.org/results/be24433a429fda681fb66698160132c1c99bc53b
-> 
-> The 2 previous lines aren't really helpful, however this is:
-> 
-> Fixes: 50482fda98b ("block/export/fuse.c: fix musl build")
+The -preconfig option and exit-preconfig command are around for
+quite some time now. However, they are still marked as unstable.
+This is suboptimal because it may block some upper layer in
+consuming it. In this specific case - Libvirt avoids using
+experimental features.
 
-Also better to change this patch subject to distinct:
-"block/export/fuse.c: fix musl build (again)"
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ docs/system/managed-startup.rst | 2 +-
+ monitor/hmp-cmds.c              | 2 +-
+ qapi/misc.json                  | 6 +++---
+ qemu-options.hx                 | 5 ++---
+ softmmu/vl.c                    | 4 ++--
+ tests/qtest/numa-test.c         | 8 ++++----
+ tests/qtest/qmp-test.c          | 6 +++---
+ 7 files changed, 16 insertions(+), 17 deletions(-)
 
->> Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
->> ---
->>  block/export/fuse.c | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/block/export/fuse.c b/block/export/fuse.c
->> index 2e3bf8270b..823c126d23 100644
->> --- a/block/export/fuse.c
->> +++ b/block/export/fuse.c
->> @@ -31,6 +31,10 @@
->>  #include <fuse.h>
->>  #include <fuse_lowlevel.h>
->>  
->> +#if defined(CONFIG_FALLOCATE_ZERO_RANGE)
->> +#include <linux/falloc.h>
->> +#endif
->> +
->>  #ifdef __linux__
->>  #include <linux/fs.h>
->>  #endif
->>
-> 
-> With 'Fixes:' tag:
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+diff --git a/docs/system/managed-startup.rst b/docs/system/managed-startup.rst
+index 9bcf98ea79..f3291b867b 100644
+--- a/docs/system/managed-startup.rst
++++ b/docs/system/managed-startup.rst
+@@ -32,4 +32,4 @@ machine, including but not limited to:
+ - ``query-qmp-schema``
+ - ``query-commands``
+ - ``query-status``
+-- ``x-exit-preconfig``
++- ``exit-preconfig``
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index bcaa41350e..5ccb823b97 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1001,7 +1001,7 @@ void hmp_exit_preconfig(Monitor *mon, const QDict *qdict)
+ {
+     Error *err = NULL;
+ 
+-    qmp_x_exit_preconfig(&err);
++    qmp_exit_preconfig(&err);
+     hmp_handle_error(mon, err);
+ }
+ 
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 5c2ca3b556..0f75d60996 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -175,7 +175,7 @@
+ { 'command': 'cont' }
+ 
+ ##
+-# @x-exit-preconfig:
++# @exit-preconfig:
+ #
+ # Exit from "preconfig" state
+ #
+@@ -191,11 +191,11 @@
+ #
+ # Example:
+ #
+-# -> { "execute": "x-exit-preconfig" }
++# -> { "execute": "exit-preconfig" }
+ # <- { "return": {} }
+ #
+ ##
+-{ 'command': 'x-exit-preconfig', 'allow-preconfig': true }
++{ 'command': 'exit-preconfig', 'allow-preconfig': true }
+ 
+ ##
+ # @human-monitor-command:
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 5f375bbfa6..d27778869b 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3936,10 +3936,9 @@ SRST
+ ``--preconfig``
+     Pause QEMU for interactive configuration before the machine is
+     created, which allows querying and configuring properties that will
+-    affect machine initialization. Use QMP command 'x-exit-preconfig' to
++    affect machine initialization. Use QMP command 'exit-preconfig' to
+     exit the preconfig state and move to the next state (i.e. run guest
+-    if -S isn't used or pause the second time if -S is used). This
+-    option is experimental.
++    if -S isn't used or pause the second time if -S is used).
+ ERST
+ 
+ DEF("S", 0, QEMU_OPTION_S, \
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index af0c4cbd99..09a9ec06f9 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2730,7 +2730,7 @@ static void qemu_machine_creation_done(void)
+     }
+ }
+ 
+-void qmp_x_exit_preconfig(Error **errp)
++void qmp_exit_preconfig(Error **errp)
+ {
+     if (phase_check(PHASE_MACHINE_INITIALIZED)) {
+         error_setg(errp, "The command is permitted only before machine initialization");
+@@ -3770,7 +3770,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     }
+ 
+     if (!preconfig_requested) {
+-        qmp_x_exit_preconfig(&error_fatal);
++        qmp_exit_preconfig(&error_fatal);
+     }
+     qemu_init_displays();
+     accel_setup_post(current_machine);
+diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
+index 90bf68a5b3..bea95b1832 100644
+--- a/tests/qtest/numa-test.c
++++ b/tests/qtest/numa-test.c
+@@ -285,7 +285,7 @@ static void pc_dynamic_cpu_cfg(const void *data)
+         " 'arguments': { 'type': 'cpu', 'node-id': 1, 'socket-id': 0 } }")));
+ 
+     /* let machine initialization to complete and run */
+-    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'x-exit-preconfig' }")));
++    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'exit-preconfig' }")));
+     qtest_qmp_eventwait(qs, "RESUME");
+ 
+     /* check that CPUs are mapped as expected */
+@@ -443,7 +443,7 @@ static void pc_hmat_build_cfg(const void *data)
+ 
+     /* let machine initialization to complete and run */
+     g_assert_false(qmp_rsp_is_err(qtest_qmp(qs,
+-        "{ 'execute': 'x-exit-preconfig' }")));
++        "{ 'execute': 'exit-preconfig' }")));
+     qtest_qmp_eventwait(qs, "RESUME");
+ 
+     qtest_quit(qs);
+@@ -482,7 +482,7 @@ static void pc_hmat_off_cfg(const void *data)
+ 
+     /* let machine initialization to complete and run */
+     g_assert_false(qmp_rsp_is_err(qtest_qmp(qs,
+-        "{ 'execute': 'x-exit-preconfig' }")));
++        "{ 'execute': 'exit-preconfig' }")));
+     qtest_qmp_eventwait(qs, "RESUME");
+ 
+     qtest_quit(qs);
+@@ -533,7 +533,7 @@ static void pc_hmat_erange_cfg(const void *data)
+ 
+     /* let machine initialization to complete and run */
+     g_assert_false(qmp_rsp_is_err(qtest_qmp(qs,
+-        "{ 'execute': 'x-exit-preconfig' }")));
++        "{ 'execute': 'exit-preconfig' }")));
+     qtest_qmp_eventwait(qs, "RESUME");
+ 
+     qtest_quit(qs);
+diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
+index cd27fae3de..f0aaa94d8a 100644
+--- a/tests/qtest/qmp-test.c
++++ b/tests/qtest/qmp-test.c
+@@ -299,7 +299,7 @@ static void test_qmp_preconfig(void)
+     qobject_unref(rsp);
+ 
+     /* exit preconfig state */
+-    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'x-exit-preconfig' }")));
++    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'exit-preconfig' }")));
+     qtest_qmp_eventwait(qs, "RESUME");
+ 
+     /* check that query-status returns running state */
+@@ -309,8 +309,8 @@ static void test_qmp_preconfig(void)
+     g_assert_cmpstr(qdict_get_try_str(ret, "status"), ==, "running");
+     qobject_unref(rsp);
+ 
+-    /* check that x-exit-preconfig returns error after exiting preconfig */
+-    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'x-exit-preconfig' }")));
++    /* check that exit-preconfig returns error after exiting preconfig */
++    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'exit-preconfig' }")));
+ 
+     /* enabled commands, no error expected  */
+     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-cpus-fast' }")));
+-- 
+2.32.0
 
 
