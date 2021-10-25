@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A5F439FDE
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 21:23:01 +0200 (CEST)
-Received: from localhost ([::1]:49320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0556C439F72
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 21:19:08 +0200 (CEST)
+Received: from localhost ([::1]:42642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf5Yi-000868-9k
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 15:23:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41590)
+	id 1mf5Ux-0003dv-2V
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 15:19:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1mf5OT-0006EI-JW; Mon, 25 Oct 2021 15:12:25 -0400
-Received: from [201.28.113.2] (port=19851 helo=outlook.eldorado.org.br)
+ id 1mf5OY-0006UL-Km; Mon, 25 Oct 2021 15:12:31 -0400
+Received: from [201.28.113.2] (port=11219 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <luis.pires@eldorado.org.br>)
- id 1mf5OQ-0005n6-An; Mon, 25 Oct 2021 15:12:24 -0400
+ id 1mf5OW-0006mU-3Y; Mon, 25 Oct 2021 15:12:30 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 25 Oct 2021 16:12:18 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 25 Oct 2021 16:12:26 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 8B518800145;
- Mon, 25 Oct 2021 16:12:17 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 1A564800145;
+ Mon, 25 Oct 2021 16:12:26 -0300 (-03)
 From: Luis Pires <luis.pires@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 01/19] host-utils: move checks out of divu128/divs128
-Date: Mon, 25 Oct 2021 16:11:36 -0300
-Message-Id: <20211025191154.350831-2-luis.pires@eldorado.org.br>
+Subject: [PATCH v4 02/19] host-utils: move udiv_qrnnd() to host-utils
+Date: Mon, 25 Oct 2021 16:11:37 -0300
+Message-Id: <20211025191154.350831-3-luis.pires@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211025191154.350831-1-luis.pires@eldorado.org.br>
 References: <20211025191154.350831-1-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 Oct 2021 19:12:18.0218 (UTC)
- FILETIME=[3A7C18A0:01D7C9D4]
+X-OriginalArrivalTime: 25 Oct 2021 19:12:26.0422 (UTC)
+ FILETIME=[3F5FED60:01D7C9D4]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -61,207 +61,220 @@ Cc: Luis Pires <luis.pires@eldorado.org.br>, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In preparation for changing the divu128/divs128 implementations
-to allow for quotients larger than 64 bits, move the div-by-zero
-and overflow checks to the callers.
+Move udiv_qrnnd() from include/fpu/softfloat-macros.h to host-utils,
+so it can be reused by divu128().
 
 Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/clock.h        |  5 +++--
- include/qemu/host-utils.h | 36 +++++++++++++----------------------
- target/ppc/int_helper.c   | 14 +++++++++-----
- util/host-utils.c         | 40 ++++++++++++++++++---------------------
- 4 files changed, 43 insertions(+), 52 deletions(-)
+ include/fpu/softfloat-macros.h | 82 ----------------------------------
+ include/qemu/host-utils.h      | 81 +++++++++++++++++++++++++++++++++
+ 2 files changed, 81 insertions(+), 82 deletions(-)
 
-diff --git a/include/hw/clock.h b/include/hw/clock.h
-index 11f67fb970..7443e6c4ab 100644
---- a/include/hw/clock.h
-+++ b/include/hw/clock.h
-@@ -324,8 +324,9 @@ static inline uint64_t clock_ns_to_ticks(const Clock *clk, uint64_t ns)
-         return 0;
-     }
-     /*
--     * Ignore divu128() return value as we've caught div-by-zero and don't
--     * need different behaviour for overflow.
-+     * BUG: when CONFIG_INT128 is not defined, the current implementation of
-+     * divu128 does not return a valid truncated quotient, so the result will
-+     * be wrong.
-      */
-     divu128(&lo, &hi, clk->period);
-     return lo;
-diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-index ca9f3f021b..e82e6239af 100644
---- a/include/qemu/host-utils.h
-+++ b/include/qemu/host-utils.h
-@@ -52,36 +52,26 @@ static inline uint64_t muldiv64(uint64_t a, uint32_t b, uint32_t c)
-     return (__int128_t)a * b / c;
+diff --git a/include/fpu/softfloat-macros.h b/include/fpu/softfloat-macros.h
+index 81c3fe8256..f35cdbfa63 100644
+--- a/include/fpu/softfloat-macros.h
++++ b/include/fpu/softfloat-macros.h
+@@ -8,7 +8,6 @@
+  * so some portions are provided under:
+  *  the SoftFloat-2a license
+  *  the BSD license
+- *  GPL-v2-or-later
+  *
+  * Any future contributions to this file after December 1st 2014 will be
+  * taken to be licensed under the Softfloat-2a license unless specifically
+@@ -75,10 +74,6 @@ this code that are retained.
+  * THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+-/* Portions of this work are licensed under the terms of the GNU GPL,
+- * version 2 or later. See the COPYING file in the top-level directory.
+- */
+-
+ #ifndef FPU_SOFTFLOAT_MACROS_H
+ #define FPU_SOFTFLOAT_MACROS_H
+ 
+@@ -585,83 +580,6 @@ static inline uint64_t estimateDiv128To64(uint64_t a0, uint64_t a1, uint64_t b)
+ 
  }
  
--static inline int divu128(uint64_t *plow, uint64_t *phigh, uint64_t divisor)
+-/* From the GNU Multi Precision Library - longlong.h __udiv_qrnnd
+- * (https://gmplib.org/repo/gmp/file/tip/longlong.h)
+- *
+- * Licensed under the GPLv2/LGPLv3
+- */
+-static inline uint64_t udiv_qrnnd(uint64_t *r, uint64_t n1,
+-                                  uint64_t n0, uint64_t d)
 -{
--    if (divisor == 0) {
--        return 1;
--    } else {
--        __uint128_t dividend = ((__uint128_t)*phigh << 64) | *plow;
--        __uint128_t result = dividend / divisor;
--        *plow = result;
--        *phigh = dividend % divisor;
--        return result > UINT64_MAX;
+-#if defined(__x86_64__)
+-    uint64_t q;
+-    asm("divq %4" : "=a"(q), "=d"(*r) : "0"(n0), "1"(n1), "rm"(d));
+-    return q;
+-#elif defined(__s390x__) && !defined(__clang__)
+-    /* Need to use a TImode type to get an even register pair for DLGR.  */
+-    unsigned __int128 n = (unsigned __int128)n1 << 64 | n0;
+-    asm("dlgr %0, %1" : "+r"(n) : "r"(d));
+-    *r = n >> 64;
+-    return n;
+-#elif defined(_ARCH_PPC64) && defined(_ARCH_PWR7)
+-    /* From Power ISA 2.06, programming note for divdeu.  */
+-    uint64_t q1, q2, Q, r1, r2, R;
+-    asm("divdeu %0,%2,%4; divdu %1,%3,%4"
+-        : "=&r"(q1), "=r"(q2)
+-        : "r"(n1), "r"(n0), "r"(d));
+-    r1 = -(q1 * d);         /* low part of (n1<<64) - (q1 * d) */
+-    r2 = n0 - (q2 * d);
+-    Q = q1 + q2;
+-    R = r1 + r2;
+-    if (R >= d || R < r2) { /* overflow implies R > d */
+-        Q += 1;
+-        R -= d;
 -    }
-+static inline void divu128(uint64_t *plow, uint64_t *phigh, uint64_t divisor)
-+{
-+    __uint128_t dividend = ((__uint128_t)*phigh << 64) | *plow;
-+    __uint128_t result = dividend / divisor;
-+    *plow = result;
-+    *phigh = dividend % divisor;
- }
- 
--static inline int divs128(int64_t *plow, int64_t *phigh, int64_t divisor)
-+static inline void divs128(int64_t *plow, int64_t *phigh, int64_t divisor)
- {
--    if (divisor == 0) {
--        return 1;
--    } else {
--        __int128_t dividend = ((__int128_t)*phigh << 64) | (uint64_t)*plow;
--        __int128_t result = dividend / divisor;
--        *plow = result;
--        *phigh = dividend % divisor;
--        return result != *plow;
--    }
-+    __int128_t dividend = ((__int128_t)*phigh << 64) | (uint64_t)*plow;
-+    __int128_t result = dividend / divisor;
-+    *plow = result;
-+    *phigh = dividend % divisor;
- }
- #else
- void muls64(uint64_t *plow, uint64_t *phigh, int64_t a, int64_t b);
- void mulu64(uint64_t *plow, uint64_t *phigh, uint64_t a, uint64_t b);
--int divu128(uint64_t *plow, uint64_t *phigh, uint64_t divisor);
--int divs128(int64_t *plow, int64_t *phigh, int64_t divisor);
-+void divu128(uint64_t *plow, uint64_t *phigh, uint64_t divisor);
-+void divs128(int64_t *plow, int64_t *phigh, int64_t divisor);
- 
- static inline uint64_t muldiv64(uint64_t a, uint32_t b, uint32_t c)
- {
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index f5dac3aa87..510faf24cf 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -104,10 +104,11 @@ uint64_t helper_divdeu(CPUPPCState *env, uint64_t ra, uint64_t rb, uint32_t oe)
-     uint64_t rt = 0;
-     int overflow = 0;
- 
--    overflow = divu128(&rt, &ra, rb);
+-    *r = R;
+-    return Q;
+-#else
+-    uint64_t d0, d1, q0, q1, r1, r0, m;
 -
--    if (unlikely(overflow)) {
-+    if (unlikely(rb == 0 || ra >= rb)) {
-+        overflow = 1;
-         rt = 0; /* Undefined */
-+    } else {
-+        divu128(&rt, &ra, rb);
-     }
- 
-     if (oe) {
-@@ -122,10 +123,13 @@ uint64_t helper_divde(CPUPPCState *env, uint64_t rau, uint64_t rbu, uint32_t oe)
-     int64_t rt = 0;
-     int64_t ra = (int64_t)rau;
-     int64_t rb = (int64_t)rbu;
--    int overflow = divs128(&rt, &ra, rb);
-+    int overflow = 0;
- 
--    if (unlikely(overflow)) {
-+    if (unlikely(rb == 0 || uabs64(ra) >= uabs64(rb))) {
-+        overflow = 1;
-         rt = 0; /* Undefined */
-+    } else {
-+        divs128(&rt, &ra, rb);
-     }
- 
-     if (oe) {
-diff --git a/util/host-utils.c b/util/host-utils.c
-index a789a11b46..701a371843 100644
---- a/util/host-utils.c
-+++ b/util/host-utils.c
-@@ -86,24 +86,23 @@ void muls64 (uint64_t *plow, uint64_t *phigh, int64_t a, int64_t b)
-     *phigh = rh;
- }
- 
--/* Unsigned 128x64 division.  Returns 1 if overflow (divide by zero or */
--/* quotient exceeds 64 bits).  Otherwise returns quotient via plow and */
--/* remainder via phigh. */
--int divu128(uint64_t *plow, uint64_t *phigh, uint64_t divisor)
-+/*
-+ * Unsigned 128-by-64 division. Returns quotient via plow and
-+ * remainder via phigh.
-+ * The result must fit in 64 bits (plow) - otherwise, the result
-+ * is undefined.
-+ * This function will cause a division by zero if passed a zero divisor.
-+ */
-+void divu128(uint64_t *plow, uint64_t *phigh, uint64_t divisor)
- {
-     uint64_t dhi = *phigh;
-     uint64_t dlo = *plow;
-     unsigned i;
-     uint64_t carry = 0;
- 
--    if (divisor == 0) {
--        return 1;
--    } else if (dhi == 0) {
-+    if (divisor == 0 || dhi == 0) {
-         *plow  = dlo / divisor;
-         *phigh = dlo % divisor;
--        return 0;
--    } else if (dhi >= divisor) {
--        return 1;
-     } else {
- 
-         for (i = 0; i < 64; i++) {
-@@ -120,15 +119,20 @@ int divu128(uint64_t *plow, uint64_t *phigh, uint64_t divisor)
- 
-         *plow = dlo;
-         *phigh = dhi;
--        return 0;
-     }
- }
- 
--int divs128(int64_t *plow, int64_t *phigh, int64_t divisor)
-+/*
-+ * Signed 128-by-64 division. Returns quotient via plow and
-+ * remainder via phigh.
-+ * The result must fit in 64 bits (plow) - otherwise, the result
-+ * is undefined.
-+ * This function will cause a division by zero if passed a zero divisor.
-+ */
-+void divs128(int64_t *plow, int64_t *phigh, int64_t divisor)
- {
-     int sgn_dvdnd = *phigh < 0;
-     int sgn_divsr = divisor < 0;
--    int overflow = 0;
- 
-     if (sgn_dvdnd) {
-         *plow = ~(*plow);
-@@ -145,19 +149,11 @@ int divs128(int64_t *plow, int64_t *phigh, int64_t divisor)
-         divisor = 0 - divisor;
-     }
- 
--    overflow = divu128((uint64_t *)plow, (uint64_t *)phigh, (uint64_t)divisor);
-+    divu128((uint64_t *)plow, (uint64_t *)phigh, (uint64_t)divisor);
- 
-     if (sgn_dvdnd  ^ sgn_divsr) {
-         *plow = 0 - *plow;
-     }
+-    d0 = (uint32_t)d;
+-    d1 = d >> 32;
 -
--    if (!overflow) {
--        if ((*plow < 0) ^ (sgn_dvdnd ^ sgn_divsr)) {
--            overflow = 1;
+-    r1 = n1 % d1;
+-    q1 = n1 / d1;
+-    m = q1 * d0;
+-    r1 = (r1 << 32) | (n0 >> 32);
+-    if (r1 < m) {
+-        q1 -= 1;
+-        r1 += d;
+-        if (r1 >= d) {
+-            if (r1 < m) {
+-                q1 -= 1;
+-                r1 += d;
+-            }
 -        }
 -    }
+-    r1 -= m;
 -
--    return overflow;
- }
- #endif
+-    r0 = r1 % d1;
+-    q0 = r1 / d1;
+-    m = q0 * d0;
+-    r0 = (r0 << 32) | (uint32_t)n0;
+-    if (r0 < m) {
+-        q0 -= 1;
+-        r0 += d;
+-        if (r0 >= d) {
+-            if (r0 < m) {
+-                q0 -= 1;
+-                r0 += d;
+-            }
+-        }
+-    }
+-    r0 -= m;
+-
+-    *r = r0;
+-    return (q1 << 32) | q0;
+-#endif
+-}
+-
+ /*----------------------------------------------------------------------------
+ | Returns an approximation to the square root of the 32-bit significand given
+ | by `a'.  Considered as an integer, `a' must be at least 2^31.  If bit 0 of
+diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
+index e82e6239af..08a17e16e5 100644
+--- a/include/qemu/host-utils.h
++++ b/include/qemu/host-utils.h
+@@ -23,6 +23,10 @@
+  * THE SOFTWARE.
+  */
  
++/* Portions of this work are licensed under the terms of the GNU GPL,
++ * version 2 or later. See the COPYING file in the top-level directory.
++ */
++
+ #ifndef HOST_UTILS_H
+ #define HOST_UTILS_H
+ 
+@@ -726,4 +730,81 @@ void urshift(uint64_t *plow, uint64_t *phigh, int32_t shift);
+  */
+ void ulshift(uint64_t *plow, uint64_t *phigh, int32_t shift, bool *overflow);
+ 
++/* From the GNU Multi Precision Library - longlong.h __udiv_qrnnd
++ * (https://gmplib.org/repo/gmp/file/tip/longlong.h)
++ *
++ * Licensed under the GPLv2/LGPLv3
++ */
++static inline uint64_t udiv_qrnnd(uint64_t *r, uint64_t n1,
++                                  uint64_t n0, uint64_t d)
++{
++#if defined(__x86_64__)
++    uint64_t q;
++    asm("divq %4" : "=a"(q), "=d"(*r) : "0"(n0), "1"(n1), "rm"(d));
++    return q;
++#elif defined(__s390x__) && !defined(__clang__)
++    /* Need to use a TImode type to get an even register pair for DLGR.  */
++    unsigned __int128 n = (unsigned __int128)n1 << 64 | n0;
++    asm("dlgr %0, %1" : "+r"(n) : "r"(d));
++    *r = n >> 64;
++    return n;
++#elif defined(_ARCH_PPC64) && defined(_ARCH_PWR7)
++    /* From Power ISA 2.06, programming note for divdeu.  */
++    uint64_t q1, q2, Q, r1, r2, R;
++    asm("divdeu %0,%2,%4; divdu %1,%3,%4"
++        : "=&r"(q1), "=r"(q2)
++        : "r"(n1), "r"(n0), "r"(d));
++    r1 = -(q1 * d);         /* low part of (n1<<64) - (q1 * d) */
++    r2 = n0 - (q2 * d);
++    Q = q1 + q2;
++    R = r1 + r2;
++    if (R >= d || R < r2) { /* overflow implies R > d */
++        Q += 1;
++        R -= d;
++    }
++    *r = R;
++    return Q;
++#else
++    uint64_t d0, d1, q0, q1, r1, r0, m;
++
++    d0 = (uint32_t)d;
++    d1 = d >> 32;
++
++    r1 = n1 % d1;
++    q1 = n1 / d1;
++    m = q1 * d0;
++    r1 = (r1 << 32) | (n0 >> 32);
++    if (r1 < m) {
++        q1 -= 1;
++        r1 += d;
++        if (r1 >= d) {
++            if (r1 < m) {
++                q1 -= 1;
++                r1 += d;
++            }
++        }
++    }
++    r1 -= m;
++
++    r0 = r1 % d1;
++    q0 = r1 / d1;
++    m = q0 * d0;
++    r0 = (r0 << 32) | (uint32_t)n0;
++    if (r0 < m) {
++        q0 -= 1;
++        r0 += d;
++        if (r0 >= d) {
++            if (r0 < m) {
++                q0 -= 1;
++                r0 += d;
++            }
++        }
++    }
++    r0 -= m;
++
++    *r = r0;
++    return (q1 << 32) | q0;
++#endif
++}
++
+ #endif
 -- 
 2.25.1
 
