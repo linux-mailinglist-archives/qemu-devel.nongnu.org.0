@@ -2,69 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D61439C2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 18:58:09 +0200 (CEST)
-Received: from localhost ([::1]:55864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8361E439CC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 19:03:57 +0200 (CEST)
+Received: from localhost ([::1]:32872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf3IT-0004UE-Mn
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 12:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39752)
+	id 1mf3O7-0008DB-73
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 13:03:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mf3HA-0003ko-Ns
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 12:56:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38617)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mf3MG-0006sm-Ne
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:02:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mf3H7-0006Og-4C
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 12:56:43 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mf3MD-0004MQ-VA
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:01:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635180999;
+ s=mimecast20190719; t=1635181315;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gy/tPJm5wrnT5rvwJGt71DHUl6kk6qEeUFUy+P7Hr5k=;
- b=TCfeuvv57LqKyzmYoWGiBfJ4CDJTKtn3OapcC/ewBQO+F/6nEgK24VC/K9Kuh2uc6YHKEl
- pqhnyToR57DllhLS7lbO6HhQEvkQSSmEaSS0KihqhiC21o7OTioZiWKQoMI0YOUglaZOmi
- H3POn3/nIoaf8JNuaaUBDLwJaUozDVU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-Kkp5gGrFMQyd3J0qOxa3PQ-1; Mon, 25 Oct 2021 12:56:35 -0400
-X-MC-Unique: Kkp5gGrFMQyd3J0qOxa3PQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5731318D6A2C;
- Mon, 25 Oct 2021 16:56:33 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC9945D9D5;
- Mon, 25 Oct 2021 16:56:13 +0000 (UTC)
-Date: Mon, 25 Oct 2021 17:56:12 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Elena <elena.ufimtseva@oracle.com>
-Subject: Re: MMIO/PIO dispatch file descriptors (ioregionfd) design discussion
-Message-ID: <YXbhrJDTBu6AQsuF@stefanha-x1.localdomain>
-References: <88ca79d2e378dcbfb3988b562ad2c16c4f929ac7.camel@gmail.com>
- <YWUeZVnTVI7M/Psr@heatpipe>
- <YXamUDa5j9uEALYr@stefanha-x1.localdomain>
- <20211025152122.GA25901@nuker>
+ bh=g1OhYFmWZD2nVfXoHgLXq1rtdwZaudtFMZuHl2wFRDo=;
+ b=NLbX8rywE3UQ7WMVAgyI9hl3nVl8NO5GJpbtcUT9wmrqTgWorcRI4ZG8Mavs2U6GXjd/CM
+ MD9lOjvYPc6+TN9JreF/edsAtHdwzXmPQrEThb0bBDzsyuD1EIzPVVVqnnq4RL9RzXA04l
+ 1KUW/JNUuxurIC23BvDmCbugCMs2yCw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-316-P5J9tuEQNIC9pm5YXYneuA-1; Mon, 25 Oct 2021 13:01:52 -0400
+X-MC-Unique: P5J9tuEQNIC9pm5YXYneuA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ k2-20020adfc702000000b0016006b2da9bso3387518wrg.1
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 10:01:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=g1OhYFmWZD2nVfXoHgLXq1rtdwZaudtFMZuHl2wFRDo=;
+ b=TOYLGd2ca43AyvlnBz9ms+nxRTOYupALMn3oBqaLp0d6UUbSYflswlO22axtrtplW9
+ JryfLTsWEn2qdSKBkMeih2EotX5l7k0U+GBwUg9uS1P0WmjhT68ZuNIPAWTrYNhVFr75
+ jsqVzCdTX5B/dnfA1MAtSKsQfqx/n1CtYtVChbddDr40gv7GsTh0XypTQjKvr8mxx9u7
+ uqhUCZB8Y5hnOWqlhhuGDQFVUaoz7ciVYRPeyOXSjNypZohqX3XZcOe2yLmULWC7axfK
+ /vf1X3aaT9xHirvgn6efPCzoNs6m4MKzp1J+rr0nUabj4xVKpvSBz4zsC/eZic8i7RZ2
+ NpVw==
+X-Gm-Message-State: AOAM531KHnfqZtlx+07VhVF84NvFfD1ECgGZVFp7jstXNxbFsRZ4s+AL
+ 4FScU/Rz8AkwUK9qR58lNwCRH8tWGmqKXiN8zjRME/lZVUVLxEL6C5fIVVQT722aKu+gxK25LTp
+ M9sDdR/QDnorAlFA=
+X-Received: by 2002:a05:6000:156e:: with SMTP id
+ 14mr24705797wrz.358.1635181311143; 
+ Mon, 25 Oct 2021 10:01:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz8cbJ0WyW8PPxuztcnmO7RMTRpirvQBgZcC5ysqLkzQs5xPglBa+TEQ9GEY6r1ly8FO6gvIQ==
+X-Received: by 2002:a05:6000:156e:: with SMTP id
+ 14mr24705754wrz.358.1635181310858; 
+ Mon, 25 Oct 2021 10:01:50 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id r1sm11827547wmr.36.2021.10.25.10.01.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Oct 2021 10:01:50 -0700 (PDT)
+Message-ID: <7f54174b-4f90-13bf-6905-6febb6203575@redhat.com>
+Date: Mon, 25 Oct 2021 19:01:49 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="63SiROHZXyxNKkHV"
-Content-Disposition: inline
-In-Reply-To: <20211025152122.GA25901@nuker>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] qmp: Stabilize preconfig
+To: Markus Armbruster <armbru@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>
+References: <b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com>
+ <87bl3dfg9v.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <87bl3dfg9v.fsf@dusky.pond.sub.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.846, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,96 +103,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, kvm@vger.kernel.org,
- mst@redhat.com, jasowang@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
- eafanasova@gmail.com, felipe@nutanix.com, dinechin@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 25/10/21 14:19, Markus Armbruster wrote:
+> Michal Privoznik <mprivozn@redhat.com> writes:
+> 
+>> The -preconfig option and exit-preconfig command are around for
+>> quite some time now. However, they are still marked as unstable.
+>> This is suboptimal because it may block some upper layer in
+>> consuming it. In this specific case - Libvirt avoids using
+>> experimental features.
+>>
+>> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+> 
+> If I remember correctly, the motivation for -preconfig was NUMA
+> configuration via QMP.  More uses may have appeared since.
+> 
+> Back then, I questioned the need for yet another option and yet another
+> state: why not -S?
+> 
+> The answer boiled down to
+> 
+> 0. Yes, having just one would be a simpler and cleaner interface, but
+> 
+> 1. the godawful mess QEMU startup has become makes -S unsuitable for
+>     some things we want to do, so we need -preconfig,
+> 
+> 2. which is in turn unsuitable for other things we want to do, so we
+>     still need -S".
+> 
+> 3. Cleaning up the mess to the point where "simpler and cleaner" becomes
+>     viable again is not in the cards right now.
 
---63SiROHZXyxNKkHV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Some things have changed since then:
 
-On Mon, Oct 25, 2021 at 08:21:22AM -0700, Elena wrote:
-> On Mon, Oct 25, 2021 at 01:42:56PM +0100, Stefan Hajnoczi wrote:
-> > On Mon, Oct 11, 2021 at 10:34:29PM -0700, elena wrote:
-> > > On Wed, Nov 25, 2020 at 12:44:07PM -0800, Elena Afanasova wrote:
-> > > > Hello,
-> > > >
-> > >=20
-> > > Hi
-> > >=20
-> > > Sorry for top-posting, just wanted to provide a quik update.
-> > > We are currently working on the support for ioregionfd in Qemu and wi=
-ll
-> > > be posting the patches soon. Plus the KVM patches will be posted based
-> > > of the RFC v3 with some fixes if there are no objections from Elena's=
- side
-> > > who originally posted KVM RFC patchset.
-> >=20
-> > Hi Elena,
->=20
-> Hello Stefan.
->=20
-> > I'm curious what approach you want to propose for QEMU integration. A
-> > while back I thought about the QEMU API. It's possible to implement it
-> > along the lines of the memory_region_add_eventfd() API where each
-> > ioregionfd is explicitly added by device emulation code. An advantage of
-> > this approach is that a MemoryRegion can have multiple ioregionfds, but
-> > I'm not sure if that is a useful feature.
-> >
->=20
-> This is the approach that is currently in the works. Agree, I dont see
-> much of the application here at this point to have multiple ioregions
-> per MemoryRegion.
-> I added Memory API/eventfd approach to the vfio-user as well to try
-> things out.
->=20
-> > An alternative is to cover the entire MemoryRegion with one ioregionfd.
-> > That way the device emulation code can use ioregionfd without much fuss
-> > since there is a 1:1 mapping between MemoryRegions, which are already
-> > there in existing devices. There is no need to think deeply about which
-> > ioregionfds to create for a device.
-> >
-> > A new API called memory_region_set_aio_context(MemoryRegion *mr,
-> > AioContext *ctx) would cause ioregionfd (or a userspace fallback for
-> > non-KVM cases) to execute the MemoryRegion->read/write() accessors from
-> > the given AioContext. The details of ioregionfd are hidden behind the
-> > memory_region_set_aio_context() API, so the device emulation code
-> > doesn't need to know the capabilities of ioregionfd.
->=20
-> >=20
-> > The second approach seems promising if we want more devices to use
-> > ioregionfd inside QEMU because it requires less ioregionfd-specific
-> > code.
-> >=20
-> I like this approach as well.
-> As you have mentioned, the device emulation code with first approach
-> does have to how to handle the region accesses. The second approach will
-> make things more transparent. Let me see how can I modify what there is
-> there now and may ask further questions.
+* The preconfig implementation is much, much better than it used to be. 
+  There's no preconfig runstate anymore and QEMU effectively always 
+starts in preconfig mode; it simply invokes x-exit-preconfig if 
+preconfig is not specified.  This also made it sensible to add a lot 
+make more commands to allow_preconfig.
 
-Thanks, I look forward to patches you are working on!
+* On the other hand, preconfig still does not support all machine 
+initialization, and especially it does not support device-add (so 
+libvirt could not, for example, remove all of its 
+-blockdev/-netdev/-device code in favor of QMP).  And -machine supports 
+compound options (albeit not JSON yet; see commit d8fb7d0969, "vl: 
+switch -M parsing to keyval", 2021-07-06) which those could be used for 
+NUMA.  This makes preconfig mode much less interesting compared to a 
+QMP-only QEMU executable.
 
-Stefan
+If we decide that preconfig is the way to go, I would still not 
+stabilize it in its current form, and would do a couple aesthetic 
+adjustments before: 1) make loadvm, cont and migrate-incoming exit 
+preconfig, 2) add a new command finish-machine-init be the equivalent of 
+"exit preconfig and stay paused", 3) make -S implicit if -preconfig is 
+specified.
 
---63SiROHZXyxNKkHV
-Content-Type: application/pgp-signature; name="signature.asc"
+As an aside, I agree with the original decision not to expose 
+allow-preconfig in query-qmp-schema.  Originally only a couple commands 
+were exposed in preconfig mode; these days, a command should simply be 
+allowed in preconfig mode if it makes sense, and the only ones that are 
+missing are block device commands[1].  That patch should be a 
+precondition for stabilizing preconfig.
 
------BEGIN PGP SIGNATURE-----
+>     The implementation is a bit of a hack: it splices in an additional
+>     main loop before machine creation, in special runstate preconfig.  New
+>     command exit-preconfig exits that main loop.  QEMU continues
+>     initializing, creates the machine, and runs the good old main loop.
+>     The replacement of the main loop is transparent to monitors.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmF24awACgkQnKSrs4Gr
-c8hQAQf8DVrkwvoSkLStUhByGMfGnrHMpU8Sl0QH4rAmcfnvJ4RlKOLqN7uMAyjk
-fEx9R20fRPP7Pd2lgt/7EuKMfQhluh24RvWtnZRaMoj5h2JkrYKeASK606LE4rhB
-a0JYQZhcoqu07kAusyUEQ3KdAukHBLWaOG48LvrVSb4Bi1f6oijmsfJUlT242hgK
-i07Z5I6ePVQuld0lrh/i6SExErO6f2giwq2QmujQKWVDKku59PE0BR6YgCTVuEoL
-mKRKrq1+5W4bpOL5xaoM4xm2bWyy3EsFbPwJTyn0hVOyBgSxoaXpEYGtdsIvpWSF
-L48OwyICKrG4JauEyK8I9lSFc+KgCQ==
-=hHQl
------END PGP SIGNATURE-----
+Quite an understatement. :)
 
---63SiROHZXyxNKkHV--
+> Before we make it a stable interface, we should ponder:
+> 
+> * Is cleaning up the mess to the point where "simpler and cleaner"
+>    becomes viable again still impractical?
+> 
+> * If yes, what are the chances of it becoming practical?
+
+To sum up: it's been cleaned up, and preconfig has benefited from it. 
+The question is whether to keep cleaning up (and then the obvious 
+direction is the QMP-only QEMU executable), or decide that we've gotten 
+to the point of diminishing returns.
+
+Paolo
+
+[1] https://patchew.org/QEMU/20210511153949.506200-1-pbonzini@redhat.com/
 
 
