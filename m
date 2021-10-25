@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6E5439660
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:32:50 +0200 (CEST)
-Received: from localhost ([::1]:52102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FAED439676
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:38:31 +0200 (CEST)
+Received: from localhost ([::1]:34324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mez9k-0000Fe-Sm
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:32:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52840)
+	id 1mezFG-0007hR-99
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:38:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mez5Y-0005hF-N1
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:28:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58700)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mez5n-0005re-Jb; Mon, 25 Oct 2021 08:28:43 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:43062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mez5U-0007oe-Cq
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:28:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635164903;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bfhf29acjme6BH0zjt9s6qlowp7e49X8VBRS0hQbG6k=;
- b=cv6lojQCc8rjCD0HVJaEtSfQdjQ4Q1ZIeqCGgtAqsxPWL5mlXnhfYCXDjJQpWorkxZqu+w
- g+obPSbhi5e5vU4s132lZSLkSeLnw3Zrxm2oRT4MRZulRwTW7wLM9P28y9xIxjclVnB0Ls
- kz9o5/RZRXxUG5cixZDeJgQIyKjIX4E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-cAJxSkp7P0-AscVZthX19Q-1; Mon, 25 Oct 2021 08:28:20 -0400
-X-MC-Unique: cAJxSkp7P0-AscVZthX19Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mez5l-00083W-Cs; Mon, 25 Oct 2021 08:28:43 -0400
+Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 1BAEE41965;
+ Mon, 25 Oct 2021 14:28:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=univ-grenoble-alpes.fr; s=2020; t=1635164913;
+ bh=CrGAg0XluHvjypIQoChkRG8OCZ7bzXGXawDAStTZlxg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=coNik2FD19DztaLtpbXiVwyVfxkAAALUMI7dc1HiqPJlgnV6lL1kHH3SBN1uzGI8o
+ Zl0chhs2S0yPpoLatA6JPZsN4xzZm6rOrWrKiChTHob2tYD7bhQbvk4WdJJL/Wi0nF
+ cvPrjeN8ral84QUI9snKpedvqrHN7Jrkg62DIQEpHosEG9L53acmIoCpT6vt3+HhnL
+ cJsV6XFZ0UNeZqhRRIL1NfHURf91RhNxQ24IlO3CVzqjM7/KlwOuSDAEVgY9Jzi24M
+ 5vDSFItq6O6HaL4Ly8yr0LKujgyJaqweVhCXYtx2lsfPIqMeyMGgO7II5lBNwA4Ob8
+ PFhuRZx6x/O/Q==
+Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id EE2DA60070;
+ Mon, 25 Oct 2021 14:28:32 +0200 (CEST)
+Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA214100CCC1;
- Mon, 25 Oct 2021 12:28:18 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58EC3694B5;
- Mon, 25 Oct 2021 12:28:06 +0000 (UTC)
-Date: Mon, 25 Oct 2021 13:28:05 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 0/5] trace: inroduce qmp: trace namespace
-Message-ID: <YXai1V5L/lVB3IL0@stefanha-x1.localdomain>
-References: <20210923195451.714796-1-vsementsov@virtuozzo.com>
- <87czoa8nul.fsf@dusky.pond.sub.org>
- <9b6f4ade-7be4-6dd0-7b14-950de92d2cc5@virtuozzo.com>
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id BBD4A14005D;
+ Mon, 25 Oct 2021 14:28:32 +0200 (CEST)
+From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v4 05/17] target/riscv: array for the 64 upper bits of 128-bit
+ registers
+Date: Mon, 25 Oct 2021 14:28:06 +0200
+Message-Id: <20211025122818.168890-6-frederic.petrot@univ-grenoble-alpes.fr>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211025122818.168890-1-frederic.petrot@univ-grenoble-alpes.fr>
+References: <20211025122818.168890-1-frederic.petrot@univ-grenoble-alpes.fr>
 MIME-Version: 1.0
-In-Reply-To: <9b6f4ade-7be4-6dd0-7b14-950de92d2cc5@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qApJvWpCGOsz+sju"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (41)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,143 +81,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, michael.roth@amd.com,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, den@openvz.org
+Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
+ alistair.francis@wdc.com, fabien.portas@grenoble-inp.org, palmer@dabbelt.com,
+ =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---qApJvWpCGOsz+sju
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The upper 64-bit of the 128-bit registers have now a place inside
+the cpu state structure, and are created as globals for future use.
 
-On Thu, Oct 14, 2021 at 06:22:32PM +0300, Vladimir Sementsov-Ogievskiy wrot=
-e:
-> 12.10.2021 14:49, Markus Armbruster wrote:
-> > Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
-> >=20
-> > > Hi all!
-> > >=20
-> > > We have handle_qmp_command and qmp_command_repond trace points to tra=
-ce
-> > > qmp commands. They are very useful to debug problems involving
-> > > management tools like libvirt.
-> > >=20
-> > > But tracing all qmp commands is too much.
-> > >=20
-> > > Here I suggest a kind of tracing namespace. Formally this series adds=
- a
-> > > trace points called qmp:<some-command> for every command, which may b=
-e
-> > > enabled in separate like
-> > >=20
-> > >    --trace qmp:drive-backup
-> > >=20
-> > > or by pattern like
-> > >=20
-> > >    --trace qmp:block-job-*
-> > >=20
-> > > or similarly with help of qmp command trace-event-set-state.
-> > >=20
-> > > This also allows to enable tracing of some qmp commands permanently
-> > >   (by downstream patch or in libvirt xml). For example, I'm going to
-> > > enable tracing of block job comamnds and blockdev-* commands in
-> > > Virtuozzo. Qemu logs are often too empty (for example, in comparison
-> > > with Libvirt), logging block jobs is not too much but will be very
-> > > helpful.
-> >=20
-> > What exactly is traced?  Peeking at PATCH 5... looks like it's input
-> > that makes it to qmp_dispatch() and command responses, but not events.
-> >=20
-> > Fine print on "input that makes it to qmp_dispatch()":
-> >=20
-> > * You trace right before we execute the command, not when we receive,
-> >    parse and enqueue input.
-> >=20
-> > * Corollary: input with certain errors is not traced.
-> >=20
-> > * You don't trace the input text, you trace the unparsed parse tree.
-> >=20
-> > All fine, I presume.
-> >=20
-> > Existing tracepoints in monitor/qmp.c, and what information they send
-> > (inessential bits omitted for clarity):
-> >=20
-> > * handle_qmp_command
-> >=20
-> >    Handling a QMP command: unparsed parse tree
-> >=20
-> >    Fine print, safe to ignore:
-> >=20
-> >    - Out-of-band commands will be executed right away, in-band commands
-> >      will be queued.  Tracepoints monitor_qmp_in_band_enqueue and
-> >      monitor_qmp_in_band_dequeue provide insight into that.
-> >=20
-> >    - This also receives and queues parse errors, without tracing them.
-> >      Tracepoint monitor_qmp_err_in_band traces them as they are dequeue=
-d.
-> >=20
-> > * monitor_qmp_cmd_in_band
-> >=20
-> >    About to execute in-band command: command ID, if any
-> >=20
-> > * monitor_qmp_cmd_out_of_band
-> >=20
-> >    About to execute out-of-band command: command ID, if any
-> >=20
-> > * monitor_qmp_respond
-> >=20
-> >    About to send command response or event: QObject
-> >=20
-> > For input, --trace qmp:* is like --trace handle_qmp_command, except it
-> > traces late rather than early.
-> >=20
-> > For output, --trace qmp:* is like --trace monitor_qmp_respond less
-> > events.
-> >=20
-> > The main improvement over existing tracepoints seems to be the ability
-> > to filter on command names.
-> >=20
-> > To get that, you overload the @name argument of QMP command
-> > trace-event-set-state.  In addition to the documented meaning "Event
-> > name pattern", it also has an alternate, undocumented meaning "QMP
-> > command name pattern".  The "undocumented" part is easy enough to fix.
-> > However, QMP heavily frowns on argument values that need to be parsed.
->=20
-> Still, pattern is parsed anyway, as pattern. But yes, this patch adds
-> rather specific and tricky logic, which a lot more than just a pattern
-> to search through the list.
->=20
-> Another possible way is to update QAPI code generator to insert a persona=
-l
-> trace point for each qmp command.. That seems more complicated to impleme=
-nt,
-> but I can try.
+Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
+---
+ target/riscv/cpu.h       |  2 ++
+ target/riscv/cpu.c       |  9 +++++++++
+ target/riscv/machine.c   | 20 ++++++++++++++++++++
+ target/riscv/translate.c |  5 ++++-
+ 4 files changed, 35 insertions(+), 1 deletion(-)
 
-That's what came to mind when I saw this series too. The QAPI generator
-can create a trace event for each QMP command. That way each command has
-a dedicated trace event that can be enabled/disabled in the usual way
-(e.g. built-in "trace" monitor command, SystemTap scripts, etc) without
-introducing special syntax.
-
-Stefan
-
---qApJvWpCGOsz+sju
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmF2otUACgkQnKSrs4Gr
-c8hKEgf/XaxAEljJADDJj6PhotepKP0D9ia5KrVWRZVFX0xxWiXrtZz0pKPcKGBj
-7Ou689Bpp+jW6llzOmU2yWBh8ceRa8dU9Iyb5N57QUsi76XED4BPmSuT0Wn6c9cT
-aCyGgPjYHDU/WSeqoN4sS+itjbBJgeJxXS09mBEKahGUkFi7Yri26yRZcsbhD4cY
-pLrnDuxIGQWi9LdrPCV34aZJCfn7o1tQL1//r4yysstAG+GEyojsD9gXoqPbFH05
-+Le7gCKpBU60wDlFvuhvlgK0AYLjkaCJpZ6H3ahq0o1x1z651uRs7renlSHuyS35
-lpDQgZJ5+8Mi1oOjSGgypffSX5Q0sQ==
-=zony
------END PGP SIGNATURE-----
-
---qApJvWpCGOsz+sju--
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index a33dc30be8..f6d7a1793d 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -109,6 +109,7 @@ FIELD(VTYPE, VILL, sizeof(target_ulong) * 8 - 1, 1)
+ 
+ struct CPURISCVState {
+     target_ulong gpr[32];
++    target_ulong gprh[32]; /* 64 top bits of the 128-bit registers */
+     uint64_t fpr[32]; /* assume both F and D extensions */
+ 
+     /* vector coprocessor state. */
+@@ -326,6 +327,7 @@ static inline bool riscv_feature(CPURISCVState *env, int feature)
+ #include "cpu_user.h"
+ 
+ extern const char * const riscv_int_regnames[];
++extern const char * const riscv_int_regnamesh[];
+ extern const char * const riscv_fpr_regnames[];
+ 
+ const char *riscv_cpu_get_trap_name(target_ulong cause, bool async);
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 788fa0b11c..8c1cda35b4 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -42,6 +42,15 @@ const char * const riscv_int_regnames[] = {
+   "x28/t3",  "x29/t4", "x30/t5", "x31/t6"
+ };
+ 
++const char * const riscv_int_regnamesh[] = {
++  "x0h/zeroh", "x1h/rah",  "x2h/sph",   "x3h/gph",   "x4h/tph",  "x5h/t0h",
++  "x6h/t1h",   "x7h/t2h",  "x8h/s0h",   "x9h/s1h",   "x10h/a0h", "x11h/a1h",
++  "x12h/a2h",  "x13h/a3h", "x14h/a4h",  "x15h/a5h",  "x16h/a6h", "x17h/a7h",
++  "x18h/s2h",  "x19h/s3h", "x20h/s4h",  "x21h/s5h",  "x22h/s6h", "x23h/s7h",
++  "x24h/s8h",  "x25h/s9h", "x26h/s10h", "x27h/s11h", "x28h/t3h", "x29h/t4h",
++  "x30h/t5h",  "x31h/t6h"
++};
++
+ const char * const riscv_fpr_regnames[] = {
+   "f0/ft0",   "f1/ft1",  "f2/ft2",   "f3/ft3",   "f4/ft4",  "f5/ft5",
+   "f6/ft6",   "f7/ft7",  "f8/fs0",   "f9/fs1",   "f10/fa0", "f11/fa1",
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+index f64b2a96c1..78636ec96d 100644
+--- a/target/riscv/machine.c
++++ b/target/riscv/machine.c
+@@ -84,6 +84,14 @@ static bool vector_needed(void *opaque)
+     return riscv_has_ext(env, RVV);
+ }
+ 
++static bool rv128_needed(void *opaque)
++{
++    RISCVCPU *cpu = opaque;
++    CPURISCVState *env = &cpu->env;
++
++    return env->misa_mxl_max == MXL_RV128;
++}
++
+ static const VMStateDescription vmstate_vector = {
+     .name = "cpu/vector",
+     .version_id = 1,
+@@ -138,6 +146,17 @@ static const VMStateDescription vmstate_hyper = {
+     }
+ };
+ 
++static const VMStateDescription vmstate_rv128 = {
++    .name = "cpu/rv128",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = rv128_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINTTL_ARRAY(env.gprh, RISCVCPU, 32),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ const VMStateDescription vmstate_riscv_cpu = {
+     .name = "cpu",
+     .version_id = 3,
+@@ -191,6 +210,7 @@ const VMStateDescription vmstate_riscv_cpu = {
+         &vmstate_pmp,
+         &vmstate_hyper,
+         &vmstate_vector,
++        &vmstate_rv128,
+         NULL
+     }
+ };
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 5c7971b189..63a52bb707 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -32,7 +32,7 @@
+ #include "instmap.h"
+ 
+ /* global register indices */
+-static TCGv cpu_gpr[32], cpu_pc, cpu_vl;
++static TCGv cpu_gpr[32], cpu_gprh[32], cpu_pc, cpu_vl;
+ static TCGv_i64 cpu_fpr[32]; /* assume F and D extensions */
+ static TCGv load_res;
+ static TCGv load_val;
+@@ -749,10 +749,13 @@ void riscv_translate_init(void)
+      * unless you specifically block reads/writes to reg 0.
+      */
+     cpu_gpr[0] = NULL;
++    cpu_gprh[0] = NULL;
+ 
+     for (i = 1; i < 32; i++) {
+         cpu_gpr[i] = tcg_global_mem_new(cpu_env,
+             offsetof(CPURISCVState, gpr[i]), riscv_int_regnames[i]);
++        cpu_gprh[i] = tcg_global_mem_new(cpu_env,
++            offsetof(CPURISCVState, gprh[i]), riscv_int_regnamesh[i]);
+     }
+ 
+     for (i = 0; i < 32; i++) {
+-- 
+2.33.0
 
 
