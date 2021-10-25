@@ -2,80 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663EE439DE7
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 19:51:05 +0200 (CEST)
-Received: from localhost ([::1]:56808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AACD439E0A
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 19:57:00 +0200 (CEST)
+Received: from localhost ([::1]:47194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf47k-0002AY-4I
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 13:51:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49502)
+	id 1mf4DT-0006EE-AN
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 13:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mf43U-0007kK-0g
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:46:44 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:37540)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mf43S-0001ZD-08
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:46:39 -0400
-Received: by mail-pg1-x531.google.com with SMTP id s136so11693248pgs.4
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 10:46:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PsY3srdz7P6HvoiYKkW5N5D1l2mQoeSJNpODmaarFUM=;
- b=vh8HUj4vIsuJ3BvDLDKCM6DHFGFOGMAyM7ze4XfNk4d9WZbLw/ssmVzASN2XsBgOiC
- h8u6SwFDwdp3bSkcE0X2owScovmzTE/Mxngh5cx/c5PYR72LhbWcE0a9vT5W01Oupows
- OLCGVDJPLlNxY0iqc9/LehYMYnw4eN42UUxdZrdlGafsNAW37SzoheDLLeM11nC+82O1
- CipYLOH4EE7amqqa9CsZKoc8FWr+nBHLNVw/By56k9EODGeGrTPeS07A9OjmvOB36tMd
- o7adfxJIdMzZy74esnkVfeMnwrLTbhoD1GtKc3siTB0Fr0qp6xd2V5FDwrjPxUk37lnV
- kzLQ==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mf45f-0000n8-N8
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:48:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24331)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mf45c-0003Gl-1o
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:48:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635184129;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2M05zuobEk2nFNGiLUYdkTTMjlvXui1J1/dQfqZnJF4=;
+ b=diqC70Hth1NlD87cj08AOa2j+gZ4e1tBVloogxsox0tstQwCazmTKvHQY5sLQRBfGgTWBO
+ V9nAM0jPZm+QiIqIcNMupwzdjXVUUhIJix1leKY1s8upEv3ICyYGdz8KX+Cnl569+ksl/v
+ XtTcNDUqKyOjmUNKaLDIMKgEiom3G9M=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-365-3NjgtbrQP3qhCZo7iux2LA-1; Mon, 25 Oct 2021 13:48:48 -0400
+X-MC-Unique: 3NjgtbrQP3qhCZo7iux2LA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ c128-20020a1c9a86000000b0032cbafd99a2so288802wme.1
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 10:48:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PsY3srdz7P6HvoiYKkW5N5D1l2mQoeSJNpODmaarFUM=;
- b=a1aCt9GAMKbnHIbYjBrtYZhOXpXJs1SzdEiN8WNv/XWTjZC9Sc/ULQQ4FkDvSZ+oIp
- xTNy6ziiQ/6HU/NieBm+Kn44ZTwqF7S4A2kkqaAVYlPPROtVAns1yckaRpnKHcSAuhbN
- A/adpN0Iyq8LcJpSVYD9znCJ/6O8VitaBUbKjyAgbD41O6ccRmA/M2acItoDRQ70WPfX
- k/0RH+5r/P5UPTM2wL33WW0UJCrLvDNmnI1OfxPnCkKaG/CrMPNPxTKtpXCOvsjAWd3g
- SUJHNcLV+lc35h+KtHixdnvg7x6Ba/hXOZ0hENKAzJK2KF0LcMlBa3PvaFOOR9okv5LO
- hmKg==
-X-Gm-Message-State: AOAM5317xwtjRujQikSP4iYRlQMA0HHCaDxz0HnkYWWmAC4QXXHUvKnH
- VmrjNuXZsbMWpAL+R9oM45jWww==
-X-Google-Smtp-Source: ABdhPJw2XmY8TEddq9LCFBcZIqDpIGnrKEI/HqETLHTgxJPCnFdJD0KC/KF+nbLvHyX9VCcap3CPFQ==
-X-Received: by 2002:a63:9554:: with SMTP id t20mr5823758pgn.36.1635183995447; 
- Mon, 25 Oct 2021 10:46:35 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id s13sm22348745pfk.175.2021.10.25.10.46.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 10:46:34 -0700 (PDT)
-Subject: Re: [PATCH v3 36/48] tcg/optimize: Split out fold_xi_to_x
-To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20211021210539.825582-1-richard.henderson@linaro.org>
- <20211021210539.825582-37-richard.henderson@linaro.org>
- <CPXPR80MB522451793293BE9FDB45EF99DA839@CPXPR80MB5224.lamprd80.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d53a7834-a3a8-75fe-66fd-74b955083131@linaro.org>
-Date: Mon, 25 Oct 2021 10:46:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=2M05zuobEk2nFNGiLUYdkTTMjlvXui1J1/dQfqZnJF4=;
+ b=P2LM4FuypjasPYkv32ENUHDws0x9foV+f3FallMYjaRXqH5Vy3YHZSxSDoT1p03Z7e
+ KisQk5jT/+/V86xsYsqDpvJzbj7ehh3O4zAHv1Z6kXH0w2EbOdSmABBt/Wnifnl1DIAK
+ M/eTTlQ3oM/iPO+Si3RXp2BQmcE5RnjRlm7qiaK1cwwr+p5zsGnl98kbYRdK9mmoKarL
+ BjZZSfo8O/h0j041Gn8lRhqeeB/3bEzyzqjlPVNlcHAB972M5huRSuHY4E3JWvNFuon3
+ eNGK0rCMDMfhSJjz7mHy0EbmoisYSWNDAZDRcBbVjzaM7RNiT/10OEHrFaAzeA+K9nt2
+ 0oig==
+X-Gm-Message-State: AOAM531SqCJjzNE3krQcc6Itsso+bqMNQGRcjzddvWC6rVmztglkTb+B
+ UwQ74vLz+CpOYb1pSs+bIPDxgTDyPNoX3K0Sh/wc5WAFmaeaWovwC3Q7ecJqwBUreBciwMZ4RVm
+ Ujn/ACKfAijm+Z6E=
+X-Received: by 2002:a5d:518f:: with SMTP id k15mr13194866wrv.43.1635184127462; 
+ Mon, 25 Oct 2021 10:48:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy5RHc9V/OLPA6W/EPeO/3tIyvn7Iq7tD+RLrwVR9O2dX9nyY6j+ogAro9GvjeUPALW9VrfcA==
+X-Received: by 2002:a5d:518f:: with SMTP id k15mr13194840wrv.43.1635184127213; 
+ Mon, 25 Oct 2021 10:48:47 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id c17sm16447481wmk.23.2021.10.25.10.48.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Oct 2021 10:48:46 -0700 (PDT)
+Date: Mon, 25 Oct 2021 18:48:44 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH] virtiofsd: xattr mapping add a new type "unsupported"
+Message-ID: <YXbt/JnPITP780GO@work-vm>
+References: <YUt9qbmgAfCFfg5t@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CPXPR80MB522451793293BE9FDB45EF99DA839@CPXPR80MB5224.lamprd80.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.846,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YUt9qbmgAfCFfg5t@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,20 +95,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/21 7:26 AM, Luis Fernando Fujita Pires wrote:
-> You missed adding 'fold_xi_to_x(ctx, op, -1)' to fold_orc() in this commit.
-> It ended up being added in patch 42, but it should be here.
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> Right now for xattr remapping, we support types of "prefix", "ok" or "bad".
+> Type "bad" returns -EPERM on setxattr and hides xattr in listxattr. For
+> getxattr, mapping code returns -EPERM but getxattr code converts it to -ENODATA.
+> 
+> I need a new semantics where if an xattr is unsupported, then
+> getxattr()/setxattr() return -ENOTSUP and listxattr() should hide the xattr.
+> This is needed to simulate that security.selinux is not supported by
+> virtiofs filesystem and in that case client falls back to some default
+> label specified by policy.
+> 
+> So add a new type "unsupported" which returns -ENOTSUP on getxattr() and
+> setxattr() and hides xattrs in listxattr().
+> 
+> For example, one can use following mapping rule to not support
+> security.selinux xattr and allow others.
+> 
+> "-o xattrmap=/unsupported/all/security.selinux/security.selinux//ok/all///"
+> 
+> Suggested-by: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 
-Oops, yes.
+Queued
 
-> And should we use fold_xi_to_x() to optimize multiply and divide when i==1, too?
+> ---
+>  docs/tools/virtiofsd.rst         |    6 ++++++
+>  tools/virtiofsd/passthrough_ll.c |   17 ++++++++++++++---
+>  2 files changed, 20 insertions(+), 3 deletions(-)
+> 
+> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
+> ===================================================================
+> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2021-09-22 08:37:16.070377732 -0400
+> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2021-09-22 14:17:09.543016250 -0400
+> @@ -2465,6 +2465,11 @@ static void lo_flock(fuse_req_t req, fus
+>   * Automatically reversed on read
+>   */
+>  #define XATTR_MAP_FLAG_PREFIX  (1 <<  2)
+> +/*
+> + * The attribute is unsupported;
+> + * ENOTSUP on write, hidden on read.
+> + */
+> +#define XATTR_MAP_FLAG_UNSUPPORTED     (1 <<  3)
+>  
+>  /* scopes */
+>  /* Apply rule to get/set/remove */
+> @@ -2636,6 +2641,8 @@ static void parse_xattrmap(struct lo_dat
+>              tmp_entry.flags |= XATTR_MAP_FLAG_OK;
+>          } else if (strstart(map, "bad", &map)) {
+>              tmp_entry.flags |= XATTR_MAP_FLAG_BAD;
+> +        } else if (strstart(map, "unsupported", &map)) {
+> +            tmp_entry.flags |= XATTR_MAP_FLAG_UNSUPPORTED;
+>          } else if (strstart(map, "map", &map)) {
+>              /*
+>               * map is sugar that adds a number of rules, and must be
+> @@ -2646,8 +2653,8 @@ static void parse_xattrmap(struct lo_dat
+>          } else {
+>              fuse_log(FUSE_LOG_ERR,
+>                       "%s: Unexpected type;"
+> -                     "Expecting 'prefix', 'ok', 'bad' or 'map' in rule %zu\n",
+> -                     __func__, lo->xattr_map_nentries);
+> +                     "Expecting 'prefix', 'ok', 'bad', 'unsupported' or 'map'"
+> +                     " in rule %zu\n", __func__, lo->xattr_map_nentries);
+>              exit(1);
+>          }
+>  
+> @@ -2749,6 +2756,9 @@ static int xattr_map_client(const struct
+>              if (cur_entry->flags & XATTR_MAP_FLAG_BAD) {
+>                  return -EPERM;
+>              }
+> +            if (cur_entry->flags & XATTR_MAP_FLAG_UNSUPPORTED) {
+> +                return -ENOTSUP;
+> +            }
+>              if (cur_entry->flags & XATTR_MAP_FLAG_OK) {
+>                  /* Unmodified name */
+>                  return 0;
+> @@ -2788,7 +2798,8 @@ static int xattr_map_server(const struct
+>  
+>          if ((cur_entry->flags & XATTR_MAP_FLAG_SERVER) &&
+>              (strstart(server_name, cur_entry->prepend, &end))) {
+> -            if (cur_entry->flags & XATTR_MAP_FLAG_BAD) {
+> +            if (cur_entry->flags & XATTR_MAP_FLAG_BAD ||
+> +                cur_entry->flags & XATTR_MAP_FLAG_UNSUPPORTED) {
+>                  return -ENODATA;
+>              }
+>              if (cur_entry->flags & XATTR_MAP_FLAG_OK) {
+> Index: rhvgoyal-qemu/docs/tools/virtiofsd.rst
+> ===================================================================
+> --- rhvgoyal-qemu.orig/docs/tools/virtiofsd.rst	2021-09-22 08:37:15.938372097 -0400
+> +++ rhvgoyal-qemu/docs/tools/virtiofsd.rst	2021-09-22 14:44:09.814188712 -0400
+> @@ -183,6 +183,12 @@ Using ':' as the separator a rule is of
+>    'ok' as either an explicit terminator or for special handling of certain
+>    patterns.
+>  
+> +- 'unsupported' - If a client tries to use a name matching 'key' it's
+> +  denied using ENOTSUP; when the server passes an attribute
+> +  name matching 'prepend' it's hidden.  In many ways it's use is very like
+> +  'ok' as either an explicit terminator or for special handling of certain
+> +  patterns.
+> +
+>  **key** is a string tested as a prefix on an attribute name originating
+>  on the client.  It maybe empty in which case a 'client' rule
+>  will always match on client names.
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-A good idea; I'll put that in a new patch.
-
-
-r~
 
