@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB84A439751
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 15:16:58 +0200 (CEST)
-Received: from localhost ([::1]:42938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20114439758
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 15:19:25 +0200 (CEST)
+Received: from localhost ([::1]:49058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mezqT-00049l-MS
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 09:16:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36556)
+	id 1mezsq-0008Hp-7n
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 09:19:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1meznp-0001w0-G7
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 09:14:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31456)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mezqf-0006Av-Py
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 09:17:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1meznn-00008i-HD
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 09:14:12 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mezqd-0003cv-UX
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 09:17:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635167650;
+ s=mimecast20190719; t=1635167826;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Qs7nOitmRghlB3YuLZvrOZ203A+AAaY25ZqFxMXPuDo=;
- b=S8KqSr601c9OIf8cUjTzyJ/CB4rUmp3rPV/2IyHWmaKgECGt7lf/6vg8x3S1JiZRZLFa5u
- oqDRZvRrwkGueE15onAd8tcdaf28e/zQfT+CWbP3fZdgAaeQOsYZ8T66b1iV727dtsNwhk
- B9pti9YXbrp84Xbt+bkJdUjyiZ3uPU8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-lx1MvGCTOnOcynV4RhYkOg-1; Mon, 25 Oct 2021 09:14:09 -0400
-X-MC-Unique: lx1MvGCTOnOcynV4RhYkOg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- z137-20020a1c7e8f000000b0030cd1800d86so3661857wmc.2
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 06:14:09 -0700 (PDT)
+ bh=39InTYrt85GPVG/kl+vToxekaZ9C2eiPvSX8fuYQGts=;
+ b=MHMidsfEb4soP0QufCFShEHmqODrFJ+Bc4qm5phzIuFMj17teMbf87fNKhqGzo0GoZ4qPJ
+ ECbC94dlAjD9goeK3Jk5vhPdzBkdk9PpzkqqYX5DlA0W3W/ktP0AcxSphaF0YZDiC9QEuv
+ nd0vLnWgHsk1PZCA9oyVQtB12Tjt1Do=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-366-x6EBaJUTPhiqnt5lPtMjxg-1; Mon, 25 Oct 2021 09:17:01 -0400
+X-MC-Unique: x6EBaJUTPhiqnt5lPtMjxg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ f63-20020a1c3842000000b0032a621260deso3491619wma.8
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 06:17:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Qs7nOitmRghlB3YuLZvrOZ203A+AAaY25ZqFxMXPuDo=;
- b=i75HPqoB8mfOg9nEFkHKCiNo2fEG33tiN+9mzDQo0GfTmRaqtGAvnpUWY+bsWlGAqh
- 4hA35nGiGGeJn8CSqWAZI5DXnLI+XNPDrHtg+DuZ+rer46MZsQwU10giOvNF62EAFXF/
- SrVOSbJ+SYKWSn1Q2LPgzRIcwj1ksfKP7gnCkvE8fwpU4QqsRQOiJM9i8/rn4X3AjPYt
- athlkR9BCI5vuozvtpUMPVDOq519nnjTySv05bTjWYB13tN3viXT6Jisl+1zBrvEhGh+
- MLGCvoyPmaxz7pwteC9qSqUmzr79egnArVNvVMt8kI6Sb0xhQeY6MMMlJUNS2D5Avck+
- DctA==
-X-Gm-Message-State: AOAM530/Pm2kLHkc1rEKVK/1x1skko384xWNDcCaLv7fZv5PEPjWqbkq
- y0j7+S5dq/BeGy8T/fXLN+qniW1mcLiOPaA3AB39Bn0zbhNk2wapRmZV9xjk7tbjhoWSZ8QSmj9
- S0i+mTIQ+nFFIyOo=
-X-Received: by 2002:a05:600c:283:: with SMTP id
- 3mr19675147wmk.190.1635167647993; 
- Mon, 25 Oct 2021 06:14:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz2ghACcgjlF6DrD6/cd85Ln2nTbUei0csVJiUOtzL0TIPJ6/fHTJB6G9T1SkpBvAn3Dpxh1g==
-X-Received: by 2002:a05:600c:283:: with SMTP id
- 3mr19675126wmk.190.1635167647764; 
- Mon, 25 Oct 2021 06:14:07 -0700 (PDT)
+ bh=39InTYrt85GPVG/kl+vToxekaZ9C2eiPvSX8fuYQGts=;
+ b=KjZbnNioLM0gsRlWTGoiwU64W5u9p+Stp6TxOG5teZ1uMk0kwD4sgMCgtWBpcjtyFN
+ Wb3kwaqfAFCzy3rpsAwYfef8ML7CSo21xlkTC+gYjzUl1Ap2IKvHuFWrdmf4HTYo2ACc
+ DToQMZ0I4e96wMRODcSlTe+UpWALmyRGPJv2K4fY7nX0nb0DX/P+MeCVG+Ua3IMHm1ZZ
+ Q11WE60SVEo2QcCaSeX3v6TNmoK8uQb/C7p3NCe9gJG+MOoTS747gyZhcf89PaT2/sc7
+ AmT74itKj3Dgr4D/d372swe/RHTVv2lLYMo0QWjy8PnsGe3UDjAuL+Wxq8PoRgiPjmXV
+ bPQA==
+X-Gm-Message-State: AOAM533xLpUfBz7W4xhjIHNadSW8SIthiUrIa23kPAaNssyGleaXeWsq
+ 3uqZQG6xLpZO8z4nfnkGoZ6PlPHW2pGUmZ7xdtQyVGQxpDpl8ekj9Y83SZ1ah1bBvb1kfbRtD4+
+ TzQTnIRdAdNL0HFg=
+X-Received: by 2002:a5d:5915:: with SMTP id v21mr23502384wrd.270.1635167820145; 
+ Mon, 25 Oct 2021 06:17:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyqr2JMoT+LHM3Sm5PWib6XV7bp5Xoz/G90LQYi+6jfKsoLIz9pvKIaiDwnQbYFsDlLjTmwNA==
+X-Received: by 2002:a5d:5915:: with SMTP id v21mr23502341wrd.270.1635167819947; 
+ Mon, 25 Oct 2021 06:16:59 -0700 (PDT)
 Received: from redhat.com ([2a03:c5c0:207e:bfd4:918:2bfe:a2a5:6abe])
- by smtp.gmail.com with ESMTPSA id q123sm5280213wma.20.2021.10.25.06.13.58
+ by smtp.gmail.com with ESMTPSA id p1sm5614806wmq.23.2021.10.25.06.16.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 06:14:07 -0700 (PDT)
-Date: Mon, 25 Oct 2021 09:13:54 -0400
+ Mon, 25 Oct 2021 06:16:59 -0700 (PDT)
+Date: Mon, 25 Oct 2021 09:16:53 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 7/8] pci: Add pci_for_each_device_all()
-Message-ID: <20211025091003-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH 5/8] pci: Add pci_for_each_root_bus()
+Message-ID: <20211025091435-mutt-send-email-mst@kernel.org>
 References: <20211021104259.57754-1-peterx@redhat.com>
- <20211021104259.57754-8-peterx@redhat.com>
- <20211021064948-mutt-send-email-mst@kernel.org>
- <YXIi65J4XiVcdYeZ@xz-m1.local>
- <20211022042642-mutt-send-email-mst@kernel.org>
- <YXapwC46W3Kzq5Qr@xz-m1.local>
+ <20211021104259.57754-6-peterx@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YXapwC46W3Kzq5Qr@xz-m1.local>
+In-Reply-To: <20211021104259.57754-6-peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -110,72 +104,77 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 25, 2021 at 08:57:36PM +0800, Peter Xu wrote:
-> On Fri, Oct 22, 2021 at 04:43:43AM -0400, Michael S. Tsirkin wrote:
-> > On Fri, Oct 22, 2021 at 10:33:15AM +0800, Peter Xu wrote:
-> > > Hi, Michael,
-> > > 
-> > > On Thu, Oct 21, 2021 at 06:54:59AM -0400, Michael S. Tsirkin wrote:
-> > > > > +typedef struct {
-> > > > > +    pci_bus_dev_fn fn;
-> > > > > +    void *opaque;
-> > > > > +} pci_bus_dev_args;
-> > > > 
-> > > > code style violation. CamelCase for structs pls.
-> > > 
-> > > OK.
-> > > 
-> > > > > +/* Call 'fn' for each pci device on the system */
-> > > > > +void pci_for_each_device_all(pci_bus_dev_fn fn, void *opaque);
-> > > > 
-> > > > Instead of hacking pci making initialization o(N^2),
-> > > 
-> > > Why it's O(N^2)?  One vIOMMU walks O(N), and we only have one vIOMMU, or am I
-> > > wrong?
-> > 
-> > What I meant is this is O(N) and if called M times will be O(N * M)
-> > yes your patches only call once so O(N), still we can do better.
+On Thu, Oct 21, 2021 at 06:42:56PM +0800, Peter Xu wrote:
+> Add a helper to loop over each root bus of the system, either the default root
+> bus or extended buses like pxb-pcie.
 > 
-> I see.
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  hw/pci/pci.c         | 26 ++++++++++++++++++++++++++
+>  include/hw/pci/pci.h |  2 ++
+>  2 files changed, 28 insertions(+)
 > 
-> > 
-> > > > can't we add a variant of object_resolve_path_type ?
-> > > 
-> > > Could you elaborate?  Here what we want to do is to make sure there're no
-> > > specific PCI devices registered, and potentially it can be more than one type
-> > > of device in the future.
-> > > 
-> > > Thanks,
-> > 
-> > All you seem to care about is checking there's no VFIO
-> > (why - should really be documented in a code comment much more clearly).
-> 
-> Right, Alex asked the same question.  I'll make sure to mention that in the
-> commit message in the next version.
-> 
-> > Looks like object_resolve_path_type does that with O(1) complexity.
-> > If we need a variant that checks for multiple types we can add that.
-> 
-> It's still O(N), or am I wrong?  I mean for example there's the loop in
-> object_resolve_partial_path().
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 4a84e478ce..1623bc9099 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -2097,6 +2097,32 @@ void pci_for_each_bus_depth_first(PCIBus *bus, pci_bus_ret_fn begin,
+>      }
+>  }
+>  
+> +typedef struct {
+> +    pci_bus_fn fn;
+> +    void *opaque;
+> +} pci_root_bus_args;
+> +
 
-Only if there's a hash collision.
+coding style violation
 
-> But yeah I can use that too if you prefer, it's just that when we want to
-> detect more types of pci classes it could be slower iiuc, because we'll need to
-> call object_resolve_path_type() once for each type.  For pci bus scan it's
-> always one round because we only have at most one x86 vIOMMU for each guest.
-> 
-> At the meantime, IMHO patch 1-6 are cleanups that should be good even without
-> patch 7/8. If we prefer object_resolve_path_type() I'd still think it would be
-> good to propose patch 1-6 separately (with some patch properly squashed as
-> suggested by reviewers)?
-> 
-> Thanks,
+> +static int pci_find_root_bus(Object *obj, void *opaque)
+> +{
+> +    pci_root_bus_args *args = opaque;
+> +
+> +    if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {
+> +        PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
+> +
+> +        if (bus) {
+> +            args->fn(bus, args->opaque);
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +void pci_for_each_root_bus(pci_bus_fn fn, void *opaque)
+> +{
+> +    pci_root_bus_args args = { .fn = fn, .opaque = opaque };
+> +
+> +    object_child_foreach_recursive(object_get_root(), pci_find_root_bus, &args);
+> +}
+>  
+>  PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn)
+>  {
 
-OK let's handle that separately.
 
+How about adding an API with a type filter to the qom core?
+E.g.
+object_child_foreach_type_recursive getting a type.
+
+
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index a7e81f04d3..9e490d8969 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -474,6 +474,8 @@ void pci_for_each_device_under_bus_reverse(PCIBus *bus,
+>                                             void *opaque);
+>  void pci_for_each_bus_depth_first(PCIBus *bus, pci_bus_ret_fn begin,
+>                                    pci_bus_fn end, void *parent_state);
+> +/* Call `fn' for each pci root bus on the system */
+> +void pci_for_each_root_bus(pci_bus_fn fn, void *opaque);
+>  PCIDevice *pci_get_function_0(PCIDevice *pci_dev);
+>  
+>  /* Use this wrapper when specific scan order is not required. */
 > -- 
-> Peter Xu
+> 2.32.0
 
 
