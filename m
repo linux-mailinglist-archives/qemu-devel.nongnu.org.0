@@ -2,69 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC22439820
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 16:07:40 +0200 (CEST)
-Received: from localhost ([::1]:54578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266EA439826
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 16:09:43 +0200 (CEST)
+Received: from localhost ([::1]:60026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf0dW-0002gI-4B
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 10:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53130)
+	id 1mf0fV-0006io-Tv
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 10:09:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mf0ao-00011e-BA
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:04:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40692)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mf0d8-0003hm-N4
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:07:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mf0aj-00019Y-Mh
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:04:50 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mf0d2-0003aY-24
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:07:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635170685;
+ s=mimecast20190719; t=1635170823;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HKEnONRlH5Xxq5bRpDjorOFunO5VxQTFUTYvYjDa3lE=;
- b=E5nGjkmVaEoTgJaH/8/XbZc3itUbwu7nqI50mJteHRKNkltC3gfpuoOcjbP4+Fykjm9gP4
- FwCONNoPwlxdnGUYec0DcVGyNNfMVChSTFxQsnSNdK/Z7NnPrcmM19ZeK9FHcMT05Jn8Nc
- kyf1YOQ1znG4RgTplI2Kob91BroUp4Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-3R5HvcSzN7yWFYbApJVRow-1; Mon, 25 Oct 2021 10:04:41 -0400
-X-MC-Unique: 3R5HvcSzN7yWFYbApJVRow-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE4358066F5;
- Mon, 25 Oct 2021 14:04:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E0E36F920;
- Mon, 25 Oct 2021 14:04:23 +0000 (UTC)
-Date: Mon, 25 Oct 2021 16:04:21 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH 1/3] file-posix: add `aio-max-batch` option
-Message-ID: <YXa5ZesOSr/gd6v3@redhat.com>
-References: <20210923143100.182979-1-sgarzare@redhat.com>
- <20210923143100.182979-2-sgarzare@redhat.com>
- <YXGE0e/08DZXO1pj@stefanha-x1.localdomain>
- <20211025102006.hc6vjbqze3u7mqpr@steredhat>
+ bh=KO+Plb/8NUfGvbclsrErOlSEb2MH4gIXxdqzH/ARO1o=;
+ b=IqBF73ZkxAj6pRVSyTXDjZtegIVhG+PkodD9/wqWjYJSbGF04fr9XXDb/Bw2k9NgpR1kv/
+ O07wSEljugWVgRKtlrfisaDTQHXsAfI0vPp6uzzV96E+TzxScQrXnvCQL3SfJUCW+5z8XM
+ CJc4hoony2qSRRDC4VMjEeSqJ0R6kbU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-543-ZxAZavhsMveuORMnGpeXoQ-1; Mon, 25 Oct 2021 10:06:53 -0400
+X-MC-Unique: ZxAZavhsMveuORMnGpeXoQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ a15-20020a056000188f00b00161068d8461so3270951wri.11
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 07:06:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KO+Plb/8NUfGvbclsrErOlSEb2MH4gIXxdqzH/ARO1o=;
+ b=cHkhPRMIag/kIb/inlNVLXNwwDNJSBabKPpGUpjzMXrW9L1znJj3fow9+IAuVZlSMf
+ xeKmreaCdWM0ZqPFMGOzTFojMW17aNvnLBRHevAg+Uvm2beJGblA6XRwtHXdfu4Ltcj7
+ bEwiTjZTuWLEhBZET2eKmR8xrvdP/ZPY5EwmqrPkVOlH5k0iEapqn1pR/bMble3vBn1x
+ Dy5COTA/nlkm6gO9YuCjLN3NU+e5M+HLmvLuy2AjCcXHw7bD2XsiUgScdTkzlUcDTUY8
+ xF4JQeNq7uIpAFEW0PFVANAPWcmGboNNHzNJ6YMjPa2wRZseeABrowx06ppWIABcXaBB
+ sG8g==
+X-Gm-Message-State: AOAM531PaburxlaIt3VzgXgjfRe0iGrvLLTLvFhhisRdaqlWjcr9f6XD
+ rIOtce5hS4VanXcAwBhYXeOLAq47ysZL8aJrec7zMiH6KXcbp82Mqcxz90evOXz+q1eIFs4CmSN
+ FEQl6U7ZcjFWxCoo=
+X-Received: by 2002:a1c:1bc7:: with SMTP id b190mr31443526wmb.69.1635170811710; 
+ Mon, 25 Oct 2021 07:06:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy7S9u5S8uFr1+QxXuOW2ywT8C75AESCu/YeWJ1g7jhnw3lWn3XHA2pX/X8GILC2T9SkUIcAQ==
+X-Received: by 2002:a1c:1bc7:: with SMTP id b190mr31443460wmb.69.1635170811334; 
+ Mon, 25 Oct 2021 07:06:51 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id k17sm21186923wmj.0.2021.10.25.07.06.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Oct 2021 07:06:50 -0700 (PDT)
+Message-ID: <6498c6ec-2b41-f10c-a993-c1d52bd9bf92@redhat.com>
+Date: Mon, 25 Oct 2021 16:06:49 +0200
 MIME-Version: 1.0
-In-Reply-To: <20211025102006.hc6vjbqze3u7mqpr@steredhat>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [RFC PATCH-for-5.2? 4/5] tests/acceptance: Only run tests tagged
+ 'gating-ci' on GitLab CI
+To: "Daniel P . Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <20201102144245.2134077-1-philmd@redhat.com>
+ <20201102144245.2134077-5-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20201102144245.2134077-5-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ NICE_REPLY_A=-2.846, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,75 +102,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Fabien Chouteau <chouteau@adacore.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>, qemu-ppc@nongnu.org,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ Antony Pavlov <antonynpavlov@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.10.2021 um 12:20 hat Stefano Garzarella geschrieben:
-> On Thu, Oct 21, 2021 at 04:18:41PM +0100, Stefan Hajnoczi wrote:
-> > On Thu, Sep 23, 2021 at 04:30:58PM +0200, Stefano Garzarella wrote:
-> > > Commit d7ddd0a161 ("linux-aio: limit the batch size using
-> > > `aio-max-batch` parameter") added a way to limit the batch size
-> > > of Linux AIO backend for the entire AIO context.
-> > > 
-> > > The same AIO context can be shared by multiple devices, so
-> > > latency-sensitive devices may want to limit the batch size even
-> > > more to avoid increasing latency.
-> > > 
-> > > For this reason we add the `aio-max-batch` option to the file
-> > > backend, which will be used by the next commits to limit the size of
-> > > batches including requests generated by this device.
-> > > 
-> > > Suggested-by: Kevin Wolf <kwolf@redhat.com>
-> > > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> > > ---
-> > >  qapi/block-core.json | 5 +++++
-> > >  block/file-posix.c   | 9 +++++++++
-> > >  2 files changed, 14 insertions(+)
-> > > 
-> > > diff --git a/qapi/block-core.json b/qapi/block-core.json
-> > > index c8ce1d9d5d..1a8ed325bc 100644
-> > > --- a/qapi/block-core.json
-> > > +++ b/qapi/block-core.json
-> > > @@ -2851,6 +2851,10 @@
-> > >  #              for this device (default: none, forward the commands via SG_IO;
-> > >  #              since 2.11)
-> > >  # @aio: AIO backend (default: threads) (since: 2.8)
-> > > +# @aio-max-batch: maximum number of requests in an AIO backend batch that
-> > > +#                 contains request from this block device. 0 means that the
-> > 
-> > The first sentence is a little unclear. I guess s/request/requests/ but
-> > that still doesn't doesn't fully explain how this works.
-> > 
-> > Does the AIO backend use the minimum aio-max-batch value of all its
-> > blockdevs?
+On 11/2/20 15:42, Philippe Mathieu-Daudé wrote:
+> To avoid breaking our CI each time a test is added, switch from the
+> "run all but disable some" to "only run the tagged tests on CI".
+> This way we can add a test to the repository, and promote it to
+> 'gating-ci' once it is proven stable enough.
 > 
-> It's a little simpler to avoid having to recalculate the minimum for each
-> attach/release of blockdevs.
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
 > 
-> When the blockdev does submit or unplug, the queue is flushed if the number
-> of requests in the batch is greater or equal then the smallest aio-max-batch
-> value of the blockdev and the AIO context.
+> TODO: where to add documentation?
 > 
-> > 
-> > Maybe:
-> > 
-> >  maximum number of requests to batch together into a single submission
-> >  in the AIO backend. If multiple BlockdevOptionsFile sharing an AIO
-> >  backend have different values the smallest value is chosen. ...
+> - docs/devel/testing.rst (too big, split?)
+> - tests/acceptance/README.rst
 > 
-> Whath about this:
+> ---
+>  tests/Makefile.include | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->   maximum number of requests to batch together into a single submission
->   in the AIO backend. The smallest value between this and AIO context's
-> aio-max-batch value is chosen. ...
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 3a0524ce740..f39ba760c17 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -126,7 +126,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+>              $(TESTS_VENV_DIR)/bin/python -m avocado \
+>              --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+>              --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
+> -            $(AVOCADO_TAGS) \
+> +            $(AVOCADO_TAGS) -t gating-ci \
+>              $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
+>              "AVOCADO", "tests/acceptance")
 
-I like this, except that AioContexts are an implementation detail. I
-think we should refer to the iothread object instead, which is the user
-visible interface to AioContexts.
-
-Kevin
+self-NAck, this has to be added in acceptance_test_job_template
+in .gitlab-ci.d/buildtest-template.yml, not in tests/Makefile.include.
 
 
