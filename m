@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8C74396D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:55:27 +0200 (CEST)
-Received: from localhost ([::1]:48128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032D64396BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:53:44 +0200 (CEST)
+Received: from localhost ([::1]:43420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mezVe-0002te-7J
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:55:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56228)
+	id 1mezTz-0008Bg-1P
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:53:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mezJp-00006z-7v
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:43:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21975)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mezJm-0003dB-M5
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:43:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635165789;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=79f/9afnwtB829IMzgS0+GQeVHdsj73e3rNCJCAuleY=;
- b=DVJnsMPhEtwXBJ0U4ryCGl+rWG5xnhqnwJJ0YK56tdBLRoH1UhOdNsEum6gHlqGC+zcnXw
- fwZQSdxfdeNIRQsAr0VbTsoktWTkw9PYt6oesKQVmk90im0G97mpRbYt/ZjE7NNVBKKc22
- YAIVZnYR5aatyusg9pKAF3SmqsgkwZo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-dUyAEKn0Ne6zLaA8wcLKsw-1; Mon, 25 Oct 2021 08:43:04 -0400
-X-MC-Unique: dUyAEKn0Ne6zLaA8wcLKsw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AACF0101F000;
- Mon, 25 Oct 2021 12:43:02 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53C825BAFB;
- Mon, 25 Oct 2021 12:42:57 +0000 (UTC)
-Date: Mon, 25 Oct 2021 13:42:56 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: elena <elena.ufimtseva@oracle.com>
-Subject: Re: MMIO/PIO dispatch file descriptors (ioregionfd) design discussion
-Message-ID: <YXamUDa5j9uEALYr@stefanha-x1.localdomain>
-References: <88ca79d2e378dcbfb3988b562ad2c16c4f929ac7.camel@gmail.com>
- <YWUeZVnTVI7M/Psr@heatpipe>
+ (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
+ id 1mezKN-0001Fk-Uy
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:43:47 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:36420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
+ id 1mezKL-0004ht-7R
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:43:46 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ v1-20020a17090a088100b001a21156830bso4829631pjc.1
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 05:43:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kOs2Bq1/GGwM4a/Wa2Jzo0+y+GnD8X3Yq7P4b31d40w=;
+ b=IM0+tT/7xYFRiSnrIyJnmiXpF0UU8WsNw7VtuVrJkIiO/sdNuOsEDoSjHlQigP9z6e
+ 5zZYQGx9Ae8HKzyLYhhNK8H57DSqU8PLFGtYhjF+bNhzbyLOI7a/PSz2VK2d5mTRxizz
+ hQGwUep5kZJpytuCPDTMxaL6ArqigAHQYiRvR8U/Fw6x+2I4mjGFZj2fY6OQoyw/nT5J
+ ccbg7fNGH2ufXxOC1nGoAfQq47Mb/H1XHYK8QbbFLfVPQC/KsxICdMsqxNvTKFt5pO2b
+ eYFArvx1u4YqyLgLpD/R4e0QWxgfLfmgse7crdFsQy6RkTQfRH4UpMUdZe8aytl0GXyf
+ v6nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kOs2Bq1/GGwM4a/Wa2Jzo0+y+GnD8X3Yq7P4b31d40w=;
+ b=GZVIdNKqtkvKCz8/XbL/RxVF6uFfjC2SvdB/SvasNMKOLbovxD3BIdJjcRjevQ38ss
+ 2CR/75ZN/dOp+cGrLm38F4GjuZ6BLCXhiRWSwsjiLEWg+LSFyfmPWE2byyZFicolW7Sj
+ ROq+RtBfFDt4GyVGvkn2xkIYchJ2dPPgDd0zdZW3SfuRJ1ZmeFVGnw9NF9lX+cQw2Ks4
+ 1Vl+KLn5YbyXJc7gcfYHIpjVNLmac5ldMOg2sFge61+az2VvjRmn1nBC4pfUqfnvM0Dl
+ 2kIh91i98sZjK3naViC+HsPM0IdZ0r5F4VsLbANX0OD3ambONFj/8GLVZy/pBLRvt0DQ
+ Q3/g==
+X-Gm-Message-State: AOAM532pBjcF8LQhzix0yzrpYrIoMKZrTevDraztFJrnzrgu2TuS8t+u
+ lyTV6Ib0Mnr5OtaO9cp6hihfJw==
+X-Google-Smtp-Source: ABdhPJz9w/uM74No566XEkad42u+MYyXaqkl6mhcrIq0o42lYm1HvY9X+Y+TMHTMzJl/a97ZveyXdg==
+X-Received: by 2002:a17:90b:4b4f:: with SMTP id
+ mi15mr6673589pjb.150.1635165822792; 
+ Mon, 25 Oct 2021 05:43:42 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:6817:c049:7263:28b8:7cdf:c7e4])
+ by smtp.googlemail.com with ESMTPSA id nn2sm3293461pjb.34.2021.10.25.05.43.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Oct 2021 05:43:42 -0700 (PDT)
+From: Rahul Pathak <rpathak@ventanamicro.com>
+To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, bmeng.cn@gmail.com,
+ Alistair.Francis@wdc.com
+Subject: [PATCH v2 0/2] mconfigptr support
+Date: Mon, 25 Oct 2021 18:13:17 +0530
+Message-Id: <20211025124319.195290-1-rpathak@ventanamicro.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PKDBWrlb7QGTn9i6"
-Content-Disposition: inline
-In-Reply-To: <YWUeZVnTVI7M/Psr@heatpipe>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=rpathak@ventanamicro.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,73 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, kvm@vger.kernel.org,
- mst@redhat.com, jasowang@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
- eafanasova@gmail.com, felipe@nutanix.com, dinechin@redhat.com
+Cc: rpathak@ventanamicro.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Patches add the mconfigptr csr support. 
+mconfigptr is newly incorporated in risc-v privileged architecture
+specification 1.12 version. 
+priv spec 1.12.0 version check is also added.
 
---PKDBWrlb7QGTn9i6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 11, 2021 at 10:34:29PM -0700, elena wrote:
-> On Wed, Nov 25, 2020 at 12:44:07PM -0800, Elena Afanasova wrote:
-> > Hello,
-> >
->=20
-> Hi
->=20
-> Sorry for top-posting, just wanted to provide a quik update.
-> We are currently working on the support for ioregionfd in Qemu and will
-> be posting the patches soon. Plus the KVM patches will be posted based
-> of the RFC v3 with some fixes if there are no objections from Elena's side
-> who originally posted KVM RFC patchset.
+qemu-system-riscv64 -nographic -machine virt -cpu rv64,priv_spec=v1.12.0
 
-Hi Elena,
-I'm curious what approach you want to propose for QEMU integration. A
-while back I thought about the QEMU API. It's possible to implement it
-along the lines of the memory_region_add_eventfd() API where each
-ioregionfd is explicitly added by device emulation code. An advantage of
-this approach is that a MemoryRegion can have multiple ioregionfds, but
-I'm not sure if that is a useful feature.
+Changelog:
 
-An alternative is to cover the entire MemoryRegion with one ioregionfd.
-That way the device emulation code can use ioregionfd without much fuss
-since there is a 1:1 mapping between MemoryRegions, which are already
-there in existing devices. There is no need to think deeply about which
-ioregionfds to create for a device.
+v1->v2
+------
+1. Added privileged architecture spec version 1.12 ("v1.12.0") check
+2. Added predicate function for mconfigptr which verifies
+for priv spec version v1.12.0 or higher.
 
-A new API called memory_region_set_aio_context(MemoryRegion *mr,
-AioContext *ctx) would cause ioregionfd (or a userspace fallback for
-non-KVM cases) to execute the MemoryRegion->read/write() accessors from
-the given AioContext. The details of ioregionfd are hidden behind the
-memory_region_set_aio_context() API, so the device emulation code
-doesn't need to know the capabilities of ioregionfd.
+Thanks
+Rahul
 
-The second approach seems promising if we want more devices to use
-ioregionfd inside QEMU because it requires less ioregionfd-specific
-code.
+Rahul Pathak (2):
+  target/riscv: Add priv spec 1.12.0 version check
+  target/riscv: csr: Implement mconfigptr CSR
 
-Stefan
+ target/riscv/cpu.c      |  4 +++-
+ target/riscv/cpu.h      |  1 +
+ target/riscv/cpu_bits.h |  1 +
+ target/riscv/csr.c      | 19 +++++++++++++++----
+ 4 files changed, 20 insertions(+), 5 deletions(-)
 
---PKDBWrlb7QGTn9i6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmF2plAACgkQnKSrs4Gr
-c8hugQgAsK965URBPD6/lg7f0ucQqEchs2Spk7bGtxC1VOoSL7mxqgDmaNGfqzME
-BWlS7vNeCaaiT13vsw1H0rDh6QumtlQpnJfNkNnX+K2tjxjZIftNnhlRiN/NHbzN
-ZbeBAJKlf6yf9wuePTMwu+zxR6yPFIAVVZrvPh27OInSOEkRMCx1MmjqyA3pRnFX
-gyY8Krxcrgh1rgoyC03MNOkTRTEHExn40sNcIXcqcNfwd1k/dEAXnaiulT1qya1i
-o/b6L4LGDpw5BwwqsTu2dSJ6+cjhiaJ2BPuSewFjGf8xr37IXKB2hexPmar958sI
-gvbcgCEHS+0KtUXXb5O8VA3f5HRmNQ==
-=zbN3
------END PGP SIGNATURE-----
-
---PKDBWrlb7QGTn9i6--
+-- 
+2.25.1
 
 
