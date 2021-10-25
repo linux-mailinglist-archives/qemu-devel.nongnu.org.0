@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59F22439288
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 11:35:57 +0200 (CEST)
-Received: from localhost ([::1]:58094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F22439306
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 11:49:51 +0200 (CEST)
+Received: from localhost ([::1]:36984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mewOZ-0003zp-W5
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 05:35:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39386)
+	id 1mewc1-0001TN-UQ
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 05:49:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mewLs-0002tB-0t
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 05:33:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53648)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mewLn-0001FJ-Fv
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 05:33:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635154381;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3gyHbIAEmzb305hMpHypKfjq2PwK766HVEVZ79xk65c=;
- b=Vt1mSO0htxSVF3tQ9V7P+3OekjThxCIzNtQOzlLOp117mzuWkJRk7dee1nEGQJ7NRaSm+p
- OGS7W47oVHBtOVvUiTUFYiBFJf01Zr5PAkKK8yeQ9ifxELCEp0oRroXuVr2ruQUQgodVjp
- fcUlT2qVSnml3Iua5KqV3bJI3FBI6LI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-xddTXZryP0ue7gNYB54YUw-1; Mon, 25 Oct 2021 05:32:56 -0400
-X-MC-Unique: xddTXZryP0ue7gNYB54YUw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 642A98026AD;
- Mon, 25 Oct 2021 09:32:55 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3AB5A1948C;
- Mon, 25 Oct 2021 09:32:54 +0000 (UTC)
-Date: Mon, 25 Oct 2021 11:32:52 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-Subject: Re: [PATCH] block/export/fuse.c: fix musl build
-Message-ID: <YXZ5xOMH1kMfegZ3@redhat.com>
-References: <20211022095209.1319671-1-fontaine.fabrice@gmail.com>
+ (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
+ id 1mewab-00005f-0N; Mon, 25 Oct 2021 05:48:21 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:40942)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
+ id 1mewaS-0007zK-28; Mon, 25 Oct 2021 05:48:20 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id 5so24212711edw.7;
+ Mon, 25 Oct 2021 02:48:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=l9Mb7xrUw5tmK9FC0zY4WPRtuX0enKpxN6T2u3KNfg0=;
+ b=iHqVaQSMZSC5+L+R+v1FOx8kwQ5o/Rdcfr6jiLyntpyiVlG4DldR4p9WuecQoVeRYi
+ yD/10YAvBlSrN/dy8bsphCcnWMKOBVpoN0OPuN8ezsp/VVu5BNOamymzwpkkbgof+sRn
+ ieReHaEEgSZLrsv5X7NGY30tsZO/JzdCyl8zL1lTIRjX93xI3RoewQLdEAubw8oyw1+Y
+ gqC4IMY2G/A+c/GSx9+6PAnIVtf14UhvyCBG84nqgKHtP7BDYsjzaQxWKWnykluBRtGu
+ oXdKw6qoWGo/RUQsPwQM1j5fjewU1DyPYk2YfmcBXe7OmLgVINeNQRmjeP+bqd9H0W/b
+ 8zrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=l9Mb7xrUw5tmK9FC0zY4WPRtuX0enKpxN6T2u3KNfg0=;
+ b=gYZ0D3BB1vVjBiAxp2ky436FTAZHl2HwsdvVvry3O8cw5fbkVtVVnq+mUcPnlO8EPW
+ DF8HAf/59deU3rZmSjZNLAyCGNlPg+kZRR3UKNEgvxr0bvWTfZL3E3rtAijWINvj6dsh
+ rCLc4+v+SXgeI2rcNb9eLC0Qw8z9gASeIEDm3PARKvNqrtm7XWL7Ojw+QsDV20vO0KC/
+ cJd5lWk4V9klSQPAm6QZXVy4bhD9OW74oSjHrgviN+RTFrkhvgq26gK4hAxAYimZObgi
+ 9w+rgAdfU7SabTC5us+4dLh6RdoY2c/NWJKZi85o8uJj2A916QZkZgwwHyQ5uctiKgZU
+ MVUg==
+X-Gm-Message-State: AOAM532BHIzlAJmOVjv6nYGVDqhPsFVAnIbrxGBFL0C++6dmnWMtie/e
+ GDYKF7hXV1T3KYCQCzgVnQJ1YqDIZBCZiY3qh1g=
+X-Google-Smtp-Source: ABdhPJw6huN9Vbsa/hwULyMl9UaIUfRi/usf65jTiNf0RwngjcXWKLHQIkdZaGbEG4AB8dQSuyoXwk2UdMSeyGJ9q6Y=
+X-Received: by 2002:aa7:ce83:: with SMTP id y3mr24237482edv.43.1635155289448; 
+ Mon, 25 Oct 2021 02:48:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211022095209.1319671-1-fontaine.fabrice@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210522154429.361235-1-josemartins90@gmail.com>
+ <CAKmqyKNSG4ACk-QQ9_0XzAXWr_NPE3sijxbs+6Kz3J=N_k+LMw@mail.gmail.com>
+ <2e3c4d2f-475f-4d02-6be5-a89628cd6815@c-sky.com>
+ <CAC41xo1ftM_WcjNOio2ii-BtqtDh6RTEvsmwO69GU6taOCzYRA@mail.gmail.com>
+ <CAC41xo12s+uHEyLkc6vO07iBAC84o6aHBFFdqxDm3NQjBYjuAw@mail.gmail.com>
+ <CAKmqyKMb-VNiQZv-ZFeCMwPQ3hkm1ODn_w55pGdBgpxtwg8tnw@mail.gmail.com>
+In-Reply-To: <CAKmqyKMb-VNiQZv-ZFeCMwPQ3hkm1ODn_w55pGdBgpxtwg8tnw@mail.gmail.com>
+From: Jose Martins <josemartins90@gmail.com>
+Date: Mon, 25 Oct 2021 10:47:58 +0100
+Message-ID: <CAC41xo2yWzJgttwEn6rG_wmkarN58OLmV0nh1ksbbjRG1gpuYw@mail.gmail.com>
+Subject: Re: [PATCH v3] target/riscv: fix VS interrupts forwarding to HS
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=josemartins90@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,31 +80,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 22.10.2021 um 11:52 hat Fabrice Fontaine geschrieben:
-> Include linux/falloc.h if CONFIG_FALLOCATE_ZERO_RANGE is defined to fix
-> https://gitlab.com/qemu-project/qemu/-/commit/50482fda98bd62e072c30b7ea73c985c4e9d9bbb
-> and avoid the following build failure on musl:
-> 
-> ../block/export/fuse.c: In function 'fuse_fallocate':
-> ../block/export/fuse.c:643:21: error: 'FALLOC_FL_ZERO_RANGE' undeclared (first use in this function)
->   643 |     else if (mode & FALLOC_FL_ZERO_RANGE) {
->       |                     ^~~~~~~~~~~~~~~~~~~~
-> 
-> Fixes:
->  - http://autobuild.buildroot.org/results/be24433a429fda681fb66698160132c1c99bc53b
-> 
-> Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+> From your last response I thought you sent a different series that
+> replaces this patch. If that's not the case do you mind sending this
+> patch again?
 
-This patches makes sense to me, but does this mean that commit 50482fda
-was completely untested and the build still failed after the patch?
+I already sent the patch series here:
+https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg00553.html. I
+got confused, I should have raised this issue in that thread. Let me
+know if you still want me to resend it.
 
-If so, is at least this one tested and builds successfully now?
-
-Kevin
-
+Jose
 
