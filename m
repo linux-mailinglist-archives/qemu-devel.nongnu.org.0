@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE45439DEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 19:52:27 +0200 (CEST)
-Received: from localhost ([::1]:33810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663EE439DE7
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 19:51:05 +0200 (CEST)
+Received: from localhost ([::1]:56808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf494-0005ge-FG
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 13:52:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47654)
+	id 1mf47k-0002AY-4I
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 13:51:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1mf3tt-0000Iu-7u; Mon, 25 Oct 2021 13:36:45 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:45029)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mf43U-0007kK-0g
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:46:44 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:37540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1mf3tf-0001zU-24; Mon, 25 Oct 2021 13:36:43 -0400
-Received: by mail-ed1-x530.google.com with SMTP id a26so2537950edy.11;
- Mon, 25 Oct 2021 10:36:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=qRkVlY5FpL2EgGFei+8X6hixFzpDnG8xWG9BcSES9JE=;
- b=YF7HhlfAadTNxdcj+cPS/1PHxvPJvqQiC9jtl3ojuXgAUv5JndLM1DSaozN1WZjLhy
- I7q6YIreJFXs2bqH3nER0Hh2ymfg8jiABKXMyMc5+7sR5fk7wpCSbpsoTUYYyf/5MQHQ
- mZkMDXl5f5hBt54129ZbhQ2GLdFhv8NOBmyZJa1NOfXtMQOuNAX2mGhY/oNuQR4OwRno
- 61JaD+T8pAZqTp6oql08yl24K5IDwoshTzL2WiGnwbORzIrX7Fgnr4Te0/Eg4kV9dNOP
- Pbvrstb/fF9EWom97hryHv7m2N0/RzPuJRVXNTwvcjoADqYHcEVdIkAekuocMkLwPwCS
- iy3g==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mf43S-0001ZD-08
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:46:39 -0400
+Received: by mail-pg1-x531.google.com with SMTP id s136so11693248pgs.4
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 10:46:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PsY3srdz7P6HvoiYKkW5N5D1l2mQoeSJNpODmaarFUM=;
+ b=vh8HUj4vIsuJ3BvDLDKCM6DHFGFOGMAyM7ze4XfNk4d9WZbLw/ssmVzASN2XsBgOiC
+ h8u6SwFDwdp3bSkcE0X2owScovmzTE/Mxngh5cx/c5PYR72LhbWcE0a9vT5W01Oupows
+ OLCGVDJPLlNxY0iqc9/LehYMYnw4eN42UUxdZrdlGafsNAW37SzoheDLLeM11nC+82O1
+ CipYLOH4EE7amqqa9CsZKoc8FWr+nBHLNVw/By56k9EODGeGrTPeS07A9OjmvOB36tMd
+ o7adfxJIdMzZy74esnkVfeMnwrLTbhoD1GtKc3siTB0Fr0qp6xd2V5FDwrjPxUk37lnV
+ kzLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=qRkVlY5FpL2EgGFei+8X6hixFzpDnG8xWG9BcSES9JE=;
- b=fLtX7mOz8e5EqALWvpaijkg0L73OhG7cwvQtZJ73d5uGDX058fssDQdwIxf4l94QaL
- QhRgK5u1hsy9tRlg8erxfMnKe4bvXLQrL7JFYCAkbNjYdLd7kTh1UFXwEb/dEcohAJBy
- Pb0S/VN5t/WlXFWZ1cTQqhbAJXVafETOsAEHVtTIh/Jsr1Wg7pxEJC7oiVGC2RX0Oh6f
- DBrmTHH6SqP3l03u7t5T65KFx/77UlY9AGKxJAcPRoW+2myfAMocvM/EuZ7nqskAWHfd
- z3hwkCH5BfayqcOge6eUGPG+nnC7eKcz+hAPH/5J3vkIKZBWAJEXc4F7akFUArY13fd/
- F2pQ==
-X-Gm-Message-State: AOAM532hZGpe+Oftn9hQBKuQuJq9gMwjtVwnLGDLDEpbC0+Cgd7omJ81
- tmyUgTchZkX53iSd5f6Hm1Q=
-X-Google-Smtp-Source: ABdhPJxTAzF+ZsCghQnGvurSKlCcAC5VXcSmurHZWdAEAckdVIJIA7CCpOlnjo16UalSU1E/3TkwVw==
-X-Received: by 2002:a17:906:1d1a:: with SMTP id
- n26mr24166573ejh.479.1635183386722; 
- Mon, 25 Oct 2021 10:36:26 -0700 (PDT)
-Received: from neptune.lab ([46.39.229.76])
- by smtp.googlemail.com with ESMTPSA id q14sm9718871edj.42.2021.10.25.10.36.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 10:36:26 -0700 (PDT)
-From: Alexey Baturo <baturo.alexey@gmail.com>
-X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
-To: 
-Subject: [PATCH v17 8/8] target/riscv: Allow experimental J-ext to be turned on
-Date: Mon, 25 Oct 2021 20:36:09 +0300
-Message-Id: <20211025173609.2724490-9-space.monkey.delivers@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211025173609.2724490-1-space.monkey.delivers@gmail.com>
-References: <20211025173609.2724490-1-space.monkey.delivers@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PsY3srdz7P6HvoiYKkW5N5D1l2mQoeSJNpODmaarFUM=;
+ b=a1aCt9GAMKbnHIbYjBrtYZhOXpXJs1SzdEiN8WNv/XWTjZC9Sc/ULQQ4FkDvSZ+oIp
+ xTNy6ziiQ/6HU/NieBm+Kn44ZTwqF7S4A2kkqaAVYlPPROtVAns1yckaRpnKHcSAuhbN
+ A/adpN0Iyq8LcJpSVYD9znCJ/6O8VitaBUbKjyAgbD41O6ccRmA/M2acItoDRQ70WPfX
+ k/0RH+5r/P5UPTM2wL33WW0UJCrLvDNmnI1OfxPnCkKaG/CrMPNPxTKtpXCOvsjAWd3g
+ SUJHNcLV+lc35h+KtHixdnvg7x6Ba/hXOZ0hENKAzJK2KF0LcMlBa3PvaFOOR9okv5LO
+ hmKg==
+X-Gm-Message-State: AOAM5317xwtjRujQikSP4iYRlQMA0HHCaDxz0HnkYWWmAC4QXXHUvKnH
+ VmrjNuXZsbMWpAL+R9oM45jWww==
+X-Google-Smtp-Source: ABdhPJw2XmY8TEddq9LCFBcZIqDpIGnrKEI/HqETLHTgxJPCnFdJD0KC/KF+nbLvHyX9VCcap3CPFQ==
+X-Received: by 2002:a63:9554:: with SMTP id t20mr5823758pgn.36.1635183995447; 
+ Mon, 25 Oct 2021 10:46:35 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id s13sm22348745pfk.175.2021.10.25.10.46.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Oct 2021 10:46:34 -0700 (PDT)
+Subject: Re: [PATCH v3 36/48] tcg/optimize: Split out fold_xi_to_x
+To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20211021210539.825582-1-richard.henderson@linaro.org>
+ <20211021210539.825582-37-richard.henderson@linaro.org>
+ <CPXPR80MB522451793293BE9FDB45EF99DA839@CPXPR80MB5224.lamprd80.prod.outlook.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d53a7834-a3a8-75fe-66fd-74b955083131@linaro.org>
+Date: Mon, 25 Oct 2021 10:46:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=baturo.alexey@gmail.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CPXPR80MB522451793293BE9FDB45EF99DA839@CPXPR80MB5224.lamprd80.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.846,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,45 +89,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
- Alistair Francis <alistair.francis@wdc.com>, kupokupokupopo@gmail.com,
- palmer@dabbelt.com, Bin Meng <bmeng.cn@gmail.com>
+Cc: "alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On 10/25/21 7:26 AM, Luis Fernando Fujita Pires wrote:
+> You missed adding 'fold_xi_to_x(ctx, op, -1)' to fold_orc() in this commit.
+> It ended up being added in patch 42, but it should be here.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 16fac64806..7d53125dbc 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -562,6 +562,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-             }
-             set_vext_version(env, vext_version);
-         }
-+        if (cpu->cfg.ext_j) {
-+            ext |= RVJ;
-+        }
- 
-         set_misa(env, env->misa_mxl, ext);
-     }
-@@ -637,6 +640,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
-     DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-+    DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
--- 
-2.30.2
+Oops, yes.
 
+> And should we use fold_xi_to_x() to optimize multiply and divide when i==1, too?
+
+A good idea; I'll put that in a new patch.
+
+
+r~
 
