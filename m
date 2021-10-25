@@ -2,45 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1095439974
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 16:58:13 +0200 (CEST)
-Received: from localhost ([::1]:33948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F2943997E
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 16:59:59 +0200 (CEST)
+Received: from localhost ([::1]:38862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf1QT-0001L7-46
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 10:58:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38402)
+	id 1mf1SA-0004c4-KZ
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 10:59:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>) id 1mf1OZ-0008E6-Hm
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:56:15 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:48176 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>) id 1mf1OX-0001bV-AW
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:56:15 -0400
-Received: from [192.168.106.118]
- (dynamic-095-114-012-148.95.114.pool.telefonica.de [95.114.12.148])
- by csgraf.de (Postfix) with ESMTPSA id EDFCC608043E;
- Mon, 25 Oct 2021 16:56:11 +0200 (CEST)
-Message-ID: <543422ff-4556-04d7-77bb-88095dd69805@csgraf.de>
-Date: Mon, 25 Oct 2021 16:56:11 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mf1Qs-00039X-Kh
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:58:38 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:33611)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mf1Qo-0003FK-FX
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:58:38 -0400
+Received: by mail-pg1-x531.google.com with SMTP id r28so6850950pga.0
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 07:58:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KT0HFOPEZfxT/Hx5zbOsHK6qtEo2Ov503tpbnuW8Ujc=;
+ b=Wij2kiK3wkPyzZo6kp7858QhWEdExr/DTsb9bk1kxRI5gUdSJ3iP+9OXhvs1zqfUJB
+ elWNP3KT/k4FLD9Fn9k209Qli1mTUd5tM9Eg96aVUBu+2UuPn95VNnVIdp3QelW42cs8
+ Y3C21rUEmMMxdopNl6xsMXJueMb4wDZNmJdRyBmCk+puMWp9+qQhyhEtivQ4qdhApViG
+ vGzCuCKg+VfAmiDyweXbivbbjbpoVWOSPkM6/idN3O1pv/PiT4dQShwms7ScPZ5CfSZs
+ PgR0UYcRsTstqxc0tSFyKR/Mb19OL9I2sKvOgmpTHgc51vxxlwp50Jrj677H58s178kX
+ 4xlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KT0HFOPEZfxT/Hx5zbOsHK6qtEo2Ov503tpbnuW8Ujc=;
+ b=cHQaWxnPahiD4G5p7OeaWY66i0FeZh7YPaiHPW3u1ewWlkhDsPgXeIc1z4QkfWOWga
+ 0uGrhjTVcvwEgWMBObz8jKTk42o6Rdx+qet7QFgNsZOe6DP55GGeHxmn/z8cZqy8cMCh
+ ik7oHkRBfjvL3GOWgelBGUPa/egOmpFEFBj8EewHrmWWObz+kqkcbkwL8I+EFScpwCWz
+ TqbS6RB7T73KedWBBRY/El9ZC38pqgSBKThHQ711JlXWzXaQcofsepwoC9XJZkQN1QNu
+ SOl1LYdeApFM5ixnoKYkYGZySmQeG2+ElZNOsdEKOb4lnwDcj/5lZuId/ghqkji4zbbX
+ bwAQ==
+X-Gm-Message-State: AOAM5308WiJ0sjx4pLKOEfQ9xQknKNomG+H0gdGT/UKH8eR8Pd5ax7hv
+ MvBcvDT1bLo5Ra7pOj6Y0Oh6Aw==
+X-Google-Smtp-Source: ABdhPJx6Ulqii2mAcXJZIZqhzEo5tVyxw0RS/6zDBeHlKrQfvCUhpMMD7PPOlaWoY2CksRg50l/e6Q==
+X-Received: by 2002:a63:894a:: with SMTP id v71mr11191795pgd.451.1635173912724; 
+ Mon, 25 Oct 2021 07:58:32 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id v19sm16848640pfu.179.2021.10.25.07.58.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Oct 2021 07:58:32 -0700 (PDT)
+Subject: Re: [PATCH v6 00/15] target/riscv: Rationalize XLEN and operand length
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org
+References: <20211020031709.359469-1-richard.henderson@linaro.org>
+ <17397bbe-7dfe-ac2e-6033-4ab4840a11bd@c-sky.com>
+ <663d5df5-c107-c4ce-99e0-2a5d336a69ca@linaro.org>
+ <606880b5-83fc-6ab6-6d34-fb2b71536f99@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4de33722-7cb9-7566-6830-a45709eda452@linaro.org>
+Date: Mon, 25 Oct 2021 07:58:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.1
-Subject: Re: [PATCH v5] isa-applesmc: provide OSK forwarding on Apple hosts
+In-Reply-To: <606880b5-83fc-6ab6-6d34-fb2b71536f99@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, qemu-devel@nongnu.org
-References: <20211025142138.9393-1-yaroshchuk2000@gmail.com>
-From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <20211025142138.9393-1-yaroshchuk2000@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -46
-X-Spam_score: -4.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
 X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.846,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.846,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,107 +89,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: phil@philjordan.eu, t0rr3sp3dr0@gmail.com,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, f4bug@amsat.org,
- laurent@vivier.eu, r.bolshakov@yadro.com, pbonzini@redhat.com,
- gsomlo@gmail.com, suse@csgraf.de
+Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/25/21 2:24 AM, LIU Zhiwei wrote:
+>> I think extending on write is the correct thing. 
+> 
+> Thanks. I will pick this way.
+> 
+>> Jumps, exception entry and return, gdb write.
+> 
+> If we carefully process jumps and gdb write, I think we can omit exception entry and 
+> return. Is it right?
 
-On 25.10.21 16:21, Vladislav Yaroshchuk wrote:
-> On Apple hosts we can read AppleSMC OSK key directly from host's
-> SMC and forward this value to QEMU Guest.
->
-> Usage:
-> `-device isa-applesmc,osk=host`
->
-> Apple licence allows use and run up to two additional copies
-> or instances of macOS operating within virtual operating system
-> environments on each Apple-branded computer that is already running
-> the Apple Software, for purposes of:
-> - software development
-> - testing during software development
-> - using macOS Server
-> - personal, non-commercial use
->
-> Guest macOS requires AppleSMC with correct OSK. The most legal
-> way to pass it to the Guest is to forward the key from host SMC
-> without any value exposion.
->
-> Enable this feature by default on Apple devices
->
-> Based on https://web.archive.org/web/20200103161737/osxbook.com/book/bonus/chapter7/tpmdrmmyth/
->
-> Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-> ---
->   hw/misc/applesmc.c | 121 +++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 121 insertions(+)
->
-> diff --git a/hw/misc/applesmc.c b/hw/misc/applesmc.c
-> index 1b9acaf1d3..6bd2584ca0 100644
-> --- a/hw/misc/applesmc.c
-> +++ b/hw/misc/applesmc.c
-> @@ -37,6 +37,11 @@
->   #include "qemu/module.h"
->   #include "qemu/timer.h"
->   #include "qom/object.h"
-> +#include "qapi/error.h"
-> +
-> +#if defined(__APPLE__) && defined(__MACH__)
-> +#include <IOKit/IOKitLib.h>
-> +#endif
->   
->   /* #define DEBUG_SMC */
->   
-> @@ -312,9 +317,106 @@ static const MemoryRegionOps applesmc_err_io_ops = {
->       },
->   };
->   
-> +#if defined(__APPLE__) && defined(__MACH__)
-> +/*
-> + * Based on
-> + * https://web.archive.org/web/20200103161737/osxbook.com/book/bonus/chapter7/tpmdrmmyth/
-> + */
-> +enum {
-> +    SMC_HANDLE_EVENT     = 2,
-> +    SMC_READ_KEY         = 5
+No, though you'd probably have to create a special test case to see it.
+
+On exception return, a 64-bit OS can write a 64-bit value into SEPC.  But when SEPC is 
+copied to PC during SRET, UXL should be examined and the assignment should extend for a 
+32-bit user program.
+
+Exception entry would seem to be limited on its face by SXLEN; STVEC will always contain 
+the same number of bits as PC, so no (additional) extension would be required.  But we do 
+have to be careful to interpret the target_ulong value properly for the current SXLEN.
 
 
-Anonymous enums are not great. Would you mind to just make them 
-#define's instead?
-
-
-> +};
-> +
-> +struct AppleSMCParam {
-> +    uint32_t    key;
-> +    uint8_t     pad0[22];
-> +    IOByteCount data_size;
-> +    uint8_t     pad1[10];
-> +    uint8_t     command;
-> +    uint32_t    pad2;
-> +    uint8_t     bytes[32];
-> +};
-> +
-> +static bool applesmc_read_host_osk(char *host_osk, Error **errp)
-> +{
-> +    assert(host_osk != NULL);
-> +
-> +    io_service_t    hostsmc_service = IO_OBJECT_NULL;
-> +    io_connect_t    hostsmc_connect = IO_OBJECT_NULL;
-> +    size_t          smc_param_size = sizeof(struct AppleSMCParam);
-> +    IOReturn        status = kIOReturnError;
-> +    int             i;
-
-
-No need to align the variable names. If anything, better follow the 
-Reverse Christmas Tree model :)
-
-Also, let's wait for v6 until Daniel and me agreed on the parameter.
-
-
-Alex
-
-
+r~
 
