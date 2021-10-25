@@ -2,95 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C327443964A
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:26:56 +0200 (CEST)
-Received: from localhost ([::1]:42600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42328439665
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:33:31 +0200 (CEST)
+Received: from localhost ([::1]:54080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mez43-0001wK-RX
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:26:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51716)
+	id 1mezAQ-0001dU-C8
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:33:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mez0G-0008DQ-V7
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:23:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58855)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mez5n-0005rd-Dx; Mon, 25 Oct 2021 08:28:43 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:42676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mez0E-0003Dn-HV
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:23:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635164577;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dnWGek/OTKv8qjVhDP2JBoYyDXb0X8qYK2WogjGEBlY=;
- b=LvXt34K1Tm0gdN+iOZUIeUEsufHa5KBLZUSIBiAH9Ugkgo3EXC4+fuHVr6j+F88jzGKO1j
- gV8Xz7w2mpsKRB7E4wJjsc2C0TO7V0GS2ez4P/s7yuhFkHPbo2jNeSHAn86uKIbp9gTu2v
- bhLaxlLgb50/rPN0xMov4W6Y3VdlPQM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-nQ01XctSOVmN7gYGgV9EHA-1; Mon, 25 Oct 2021 08:22:56 -0400
-X-MC-Unique: nQ01XctSOVmN7gYGgV9EHA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- x13-20020a05640226cd00b003dd4720703bso3755077edd.8
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 05:22:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dnWGek/OTKv8qjVhDP2JBoYyDXb0X8qYK2WogjGEBlY=;
- b=Eh4mwvCKCooOs89mXShVD2Cc1F7DdyN9KbVcmHmshwTJTckkLFUWvt3lw/DjToOrYF
- OvylhHAkFXshG/k28fDrDfOfQyKImjjBfhSN2t3RIkTOb9t64Adq2Gop5UxKOugAB0ee
- 3TlKYIWueIbIC3TlPM3Xa/N/mL64liCeU+1JZi3bL4Do0AluCFvqsMCFrIJJ2AxQC35O
- 6oY3rKHbYxLgXQs/vrwpJlY2+rbSAfwDidOg4TFpeaLHq8eZlmrVsina90o/+KQXsJwl
- zxSJTkQKmZq6/Y1aCaF8kX+mi1Vdqso2rL/5nOu8iwfC5YiXp+szRsFAyenLRaJrgLQS
- br7A==
-X-Gm-Message-State: AOAM531tzsmDVJA9DeCwEI2mXh5S6RwaBJiWG0F9B0YoGsAaPWPngRTn
- 7Vjgv28/16eLkQ9UJi0v0XjvkwBo4jeZTMo4/JTL+3SOsdQ5oWcgpkbk40siqqGvcCqmPBISBpw
- BqDzYwCf9mIQZKr0=
-X-Received: by 2002:a50:bf4d:: with SMTP id g13mr26450539edk.195.1635164575396; 
- Mon, 25 Oct 2021 05:22:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxgJkmP913Gkf/YpCKo1fFeaU4TOI1FLSmx024ZnkDQMwjN+NBwAQG79RZUHJpOcwN7G28f+w==
-X-Received: by 2002:a50:bf4d:: with SMTP id g13mr26450525edk.195.1635164575252; 
- Mon, 25 Oct 2021 05:22:55 -0700 (PDT)
-Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id
- m5sm3455891ejc.62.2021.10.25.05.22.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 05:22:54 -0700 (PDT)
-Subject: Re: [PATCH v4 02/25] include/block/block: split header into I/O and
- global state API
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-block@nongnu.org
-References: <20211025101735.2060852-1-eesposit@redhat.com>
- <20211025101735.2060852-3-eesposit@redhat.com>
- <8bd4dc02-d6bb-7138-f3fc-81c1f83b0a71@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <5420f20b-7157-22f5-e0db-87af68d95302@redhat.com>
-Date: Mon, 25 Oct 2021 14:22:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mez5g-0007vU-Dq; Mon, 25 Oct 2021 08:28:43 -0400
+Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 9FABD4155A;
+ Mon, 25 Oct 2021 14:28:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=univ-grenoble-alpes.fr; s=2020; t=1635164911;
+ bh=X6ues7rS+wXaXLKD/QjtH1xkvKtBSRo+n/L1qQY71EI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=mzlsMR3HwZetEYEcodHUEEKd9pFq48d+HJ+fGYTwaJIWBa6NVHbFylxMWAlw7uWKV
+ 0MWxTND8zMZkS1om5WxIdAs28Wrzy8sA7k6a/RWH1IQD86QrOQOyHtouRnTgF0rBPV
+ c8QBL8fqABetVcJ77OAmDNOaaDTjM16acKVbmyvPvQ2xwa/7eoHFg6/Ym0bfP98OYl
+ aFbmHSq58NM1f9RKN9ozzjKF1WD4SUi78lKtKrmre8hTOv5/Lp8qYLjLK/q6q03p+o
+ VGSGjhSkTmvIJoCWVhEayG1vcAXstV+qnfT9FauniZLXcZrV1jyCXmZ+8PxZD6RdY9
+ 5GIPJQDGxoSVQ==
+Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 85A7660066;
+ Mon, 25 Oct 2021 14:28:31 +0200 (CEST)
+Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id BEC2A14005A;
+ Mon, 25 Oct 2021 14:28:30 +0200 (CEST)
+From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v4 00/17] Adding partial support for 128-bit riscv target
+Date: Mon, 25 Oct 2021 14:28:01 +0200
+Message-Id: <20211025122818.168890-1-frederic.petrot@univ-grenoble-alpes.fr>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-In-Reply-To: <8bd4dc02-d6bb-7138-f3fc-81c1f83b0a71@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.846, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (41)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,56 +78,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
+ alistair.francis@wdc.com, fabien.portas@grenoble-inp.org, palmer@dabbelt.com,
+ =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series of patches provides partial 128-bit support for the riscv
+target architecture, namely RVI and RVM, with very minimal csr support.
 
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->> ---
->>   block.c                            |   3 +
->>   block/meson.build                  |   7 +-
->>   include/block/block-common.h       | 389 +++++++++++++
-> 
-> Can this patch be split in 3?
-> 
-> (first)
-> 
->>   include/block/block-global-state.h | 286 ++++++++++
-> 
-> (second)
-> 
->>   include/block/block-io.h           | 306 ++++++++++
-> 
-> (third)
+Per Richard suggestions, this v4 makes the accesses to the gprs
+safer and cleaner, which paves the way to a more integrated 64/128
+version.
+It also uses locals for load/store/div/rem helpers, cleans out the 128-bit
+div/rem code, corrects numerous bugs and performs optimizations on shifts
+and mults, all pointed out by Richard.
+It finally withdraws the change in page size and the vm schemes we
+previously introduced.
 
-I think it is a good idea especially for future patches, since it 
-improves readability. For this series I think it has already been fully 
-reviewed, so it won't matter too much. But I will follow this logic for 
-the upcoming job patches, thanks.
+However, there is still some work:
+- 128-bit atomic align accesses: for now, mttcg is disabled, my
+  understanding there is, to say the least, low
+- full 64/128 bit integration to remove the need for a 128-bit
+  executable. There are places in which I do not yet see clearly
+  how to handle this.
 
-> 
->>   include/block/block.h              | 878 +----------------------------
->>   6 files changed, 1012 insertions(+), 857 deletions(-)
->>   create mode 100644 include/block/block-common.h
->>   create mode 100644 include/block/block-global-state.h
->>   create mode 100644 include/block/block-io.h
-> 
-> Also consider enabling scripts/git.orderfile to ease patch review.
-> 
+Frédéric Pétrot (17):
+  exec/memop: Rename MO_Q definition as MO_UQ and add MO_UO
+  qemu/int128: addition of a few 128-bit operations
+  target/riscv: additional macros to check instruction support
+  target/riscv: separation of bitwise logic and aritmetic helpers
+  target/riscv: array for the 64 upper bits of 128-bit registers
+  target/riscv: setup everything so that riscv128-softmmu compiles
+  target/riscv: moving some insns close to similar insns
+  target/riscv: accessors to registers upper part and 128-bit load/store
+  target/riscv: support for 128-bit bitwise instructions
+  target/riscv: support for 128-bit U-type instructions
+  target/riscv: support for 128-bit shift instructions
+  target/riscv: support for 128-bit arithmetic instructions
+  target/riscv: support for 128-bit M extension
+  target/riscv: adding high part of some csrs
+  target/riscv: helper functions to wrap calls to 128-bit csr insns
+  target/riscv: modification of the trans_csrxx for 128-bit support
+  target/riscv: actual functions to realize crs 128-bit insns
 
-Done, thanks for pointing it out.
+ configs/devices/riscv128-softmmu/default.mak |  17 +
+ configs/targets/riscv128-softmmu.mak         |   6 +
+ include/disas/dis-asm.h                      |   1 +
+ include/exec/memop.h                         |  13 +-
+ include/hw/riscv/sifive_cpu.h                |   3 +
+ include/qemu/int128.h                        |  26 +
+ target/arm/translate-a32.h                   |   4 +-
+ target/riscv/cpu-param.h                     |   5 +
+ target/riscv/cpu.h                           |  28 +
+ target/riscv/cpu_bits.h                      |   1 +
+ target/riscv/helper.h                        |   9 +
+ target/riscv/insn16.decode                   |  27 +-
+ target/riscv/insn32.decode                   |  25 +
+ disas/riscv.c                                |   5 +
+ target/arm/translate-a64.c                   |   8 +-
+ target/arm/translate-neon.c                  |   6 +-
+ target/arm/translate-sve.c                   |   2 +-
+ target/arm/translate-vfp.c                   |   8 +-
+ target/arm/translate.c                       |   2 +-
+ target/ppc/translate.c                       |  24 +-
+ target/riscv/cpu.c                           |  31 +-
+ target/riscv/csr.c                           | 191 ++++-
+ target/riscv/gdbstub.c                       |   8 +
+ target/riscv/m128_helper.c                   | 109 +++
+ target/riscv/machine.c                       |  22 +
+ target/riscv/op_helper.c                     |  44 ++
+ target/riscv/translate.c                     | 252 +++++-
+ target/sparc/translate.c                     |   4 +-
+ util/int128.c                                | 218 ++++++
+ target/ppc/translate/fixedpoint-impl.c.inc   |  20 +-
+ target/ppc/translate/fp-impl.c.inc           |   4 +-
+ target/ppc/translate/vsx-impl.c.inc          |   4 +-
+ target/riscv/insn_trans/trans_rvb.c.inc      |  48 +-
+ target/riscv/insn_trans/trans_rvd.c.inc      |  12 +-
+ target/riscv/insn_trans/trans_rvf.c.inc      |   6 +-
+ target/riscv/insn_trans/trans_rvi.c.inc      | 770 ++++++++++++++++---
+ target/riscv/insn_trans/trans_rvm.c.inc      | 197 ++++-
+ tcg/aarch64/tcg-target.c.inc                 |   2 +-
+ tcg/arm/tcg-target.c.inc                     |  10 +-
+ tcg/i386/tcg-target.c.inc                    |   4 +-
+ tcg/mips/tcg-target.c.inc                    |   4 +-
+ tcg/ppc/tcg-target.c.inc                     |   8 +-
+ tcg/riscv/tcg-target.c.inc                   |   6 +-
+ tcg/s390x/tcg-target.c.inc                   |  10 +-
+ target/riscv/Kconfig                         |   3 +
+ target/riscv/meson.build                     |   1 +
+ util/meson.build                             |   1 +
+ 47 files changed, 1925 insertions(+), 284 deletions(-)
+ create mode 100644 configs/devices/riscv128-softmmu/default.mak
+ create mode 100644 configs/targets/riscv128-softmmu.mak
+ create mode 100644 target/riscv/m128_helper.c
+ create mode 100644 util/int128.c
 
-Emanuele
+-- 
+2.33.0
 
 
