@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1A85439643
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:23:45 +0200 (CEST)
-Received: from localhost ([::1]:38396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ACF1439655
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:28:56 +0200 (CEST)
+Received: from localhost ([::1]:46616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mez0z-0007VY-30
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:23:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50856)
+	id 1mez5z-0004lN-Go
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:28:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1meyxC-0004Gc-EJ
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:19:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54468)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1meyx9-0000MV-Vf
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:19:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635164387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=siDtBdDMKQxOIqXY1erg0DYx8V3vPp0tPCTFu8qUxHo=;
- b=BZgwxQRKkspSvbGEDOTpIBBArroA+KDgtwGayLL4vrr8y8mtwYn2NPcfaPAdL5KR+68Yom
- MaXsKMpkJXO6ndfRXrIglaI1rzXhy94jWixpwCQ3m3eI4IMIlCTYWbPdkl4p2RRoFQcVWK
- KmRVt/PgXmcKuko5o8JT6dB9gfJnuak=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-KoF8WAwsPnmouTQ_rwokqA-1; Mon, 25 Oct 2021 08:19:43 -0400
-X-MC-Unique: KoF8WAwsPnmouTQ_rwokqA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1CD2CC621
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 12:19:42 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E40219D9D;
- Mon, 25 Oct 2021 12:19:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 036C011380A7; Mon, 25 Oct 2021 14:19:40 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Michal Privoznik <mprivozn@redhat.com>
-Subject: Re: [PATCH] qmp: Stabilize preconfig
-References: <b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com>
-Date: Mon, 25 Oct 2021 14:19:40 +0200
-In-Reply-To: <b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com>
- (Michal Privoznik's message of "Mon, 25 Oct 2021 13:08:05 +0200")
-Message-ID: <87bl3dfg9v.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1meyy3-0004oZ-J4
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:20:45 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37526)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1meyy0-00016q-Qo
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:20:43 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id e12so12486049wra.4
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 05:20:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BPbqZW84fmuxmXayForUqJ+RoBwE49fXDUKoO4Fml7I=;
+ b=U71D9eUaRSu2Sje+6H755nSMTC9P4v8JDFMdcdIN9sD1JqyYuvn/YNtzEfdmp1zT3D
+ mc7Jr5XVtvC8j6zw/RpngHRmIRTTpFzhpvuInI0s3PhWFJCM99eXKb6wJrXUEK/qmOtA
+ kiZUQr5SxndkhB2fOdwQpjcp8tuqpVpNfG/3vXyb57SJ2dmCvYAzdRR/w9QEdRH7PJNz
+ 2DW5NTKL1b0SxVQ89tku0fw9Ko9QPFDNiY7reqObd1KAH0NOCRyqEOp3HCxR/G+iO3jw
+ 8PCrwOK+2B/mWqHowOmzjIaxOiS0XHKENP54PjAIU5kTy/vd08nBjuZxWU53Asc7aayL
+ SptA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BPbqZW84fmuxmXayForUqJ+RoBwE49fXDUKoO4Fml7I=;
+ b=m1/AX4dAxxUxDTgSGmu1bACY3mGFkctSVQBBrKVpVnQS0zijt8oyaz5nJWq2jKfhSm
+ zs+2ibqnk1QNrXX71pethU20oH1b0FWVllWlUe0PVFeyLRqso6Zpg71x99FDXe+5U2TC
+ A5Lx5tc4dRLF4L5GOJd67h2lbZBrZvmw4ARI1MOvv8XeXiq9jrB8WT4hpXppYggV1LrL
+ jKkc/i5h3Urcv2bTBXztFqKk8MUFA6JXUBtaAld8PdXAArV+59nS1GjU7/ZOINljTiBD
+ yRgYyfDGJLWQCBN8FK0PJyjLI9894PoHdOSoFZQNwqxDjUC6043AJiaVWNKa42HEjZRX
+ yT9w==
+X-Gm-Message-State: AOAM5327s1XHBahLIkfodipv6J5MgM1guqA2fkbuK4lHBhIC7simckRw
+ Zaq0FJSXHBDu/tM2Qtd80UI=
+X-Google-Smtp-Source: ABdhPJwq7bCNuzF1V05VhWgMRG7Xel6xQkIdCtl9VxbfwJKkW15p1lm/siCF8HM2dSQ5P4Yjz67Zdg==
+X-Received: by 2002:adf:f211:: with SMTP id p17mr23313979wro.37.1635164438029; 
+ Mon, 25 Oct 2021 05:20:38 -0700 (PDT)
+Received: from [192.168.50.34] (static-180-27-86-188.ipcom.comunitel.net.
+ [188.86.27.180])
+ by smtp.gmail.com with ESMTPSA id s8sm16329537wrr.15.2021.10.25.05.20.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Oct 2021 05:20:37 -0700 (PDT)
+Message-ID: <6f955022-ba0c-5dbf-05bd-cb73d910a40f@amsat.org>
+Date: Mon, 25 Oct 2021 14:20:36 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 0/4] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
+ interrupts
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <cover.1635161629.git.balaton@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <cover.1635161629.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.846,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,161 +90,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Michal Privoznik <mprivozn@redhat.com> writes:
+On 10/25/21 13:33, BALATON Zoltan wrote:
+> This is the same as posted before just omitting the two patches that
+> are optimisations by caching the func0 and avoiding QOM casts which
+> could not be measured to have an effect but these reamaining patches
+> are still needed to fix USB interrupts on pegasos2
+> 
+> Gerd, could you please take them?
+> 
+> Regards,
+> 
+> BALATON Zoltan (4):
+>   usb/uhci: Misc clean up
+>   usb/uhci: Disallow user creating a vt82c686-uhci-pci device
+>   usb/uhci: Replace pci_set_irq with qemu_set_irq
+>   hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI interrupts
 
-> The -preconfig option and exit-preconfig command are around for
-> quite some time now. However, they are still marked as unstable.
-> This is suboptimal because it may block some upper layer in
-> consuming it. In this specific case - Libvirt avoids using
-> experimental features.
->
-> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-
-If I remember correctly, the motivation for -preconfig was NUMA
-configuration via QMP.  More uses may have appeared since.
-
-Back then, I questioned the need for yet another option and yet another
-state: why not -S?
-
-The answer boiled down to
-
-0. Yes, having just one would be a simpler and cleaner interface, but
-
-1. the godawful mess QEMU startup has become makes -S unsuitable for
-   some things we want to do, so we need -preconfig,
-
-2. which is in turn unsuitable for other things we want to do, so we
-   still need -S".
-
-3. Cleaning up the mess to the point where "simpler and cleaner" becomes
-   viable again is not in the cards right now.
-
-Details in the sub-thread
-    Message-ID: <87zi21apkh.fsf@dusky.pond.sub.org>
-    https://lists.gnu.org/archive/html/qemu-devel/2018-04/msg02447.html
-
-My conclusion was
-
-    My gut's reaction to preconfig is as nauseous as ever.  It adds
-    complexity we wouldn't want or need with sanely structured program
-    startup.  It might still be the best we can do, and something we need to
-    do.  You have to take on technical debt sometimes.  To know for sure
-    this is the case here, we'd have to explore alternatives more seriously.
-    Like repaying some of the existing technical debt around there.  Sadly,
-    I lack the time to take on such a project.
-
-    Since I lack the money to put where my mouth is, I'm going to shut up
-    and get out of your way.
-
-    Message-ID: <87tvqx12no.fsf@dusky.pond.sub.org>
-    https://lists.gnu.org/archive/html/qemu-devel/2018-05/msg05584.html
-
-However, we made it experimental:
-
-commit 361ac948a5c960ce7a093cec1744bff0d5af3dec
-Author: Markus Armbruster <armbru@redhat.com>
-Date:   Thu Jul 5 11:14:02 2018 +0200
-
-    cli qmp: Mark --preconfig, exit-preconfig experimental
-    
-    Committing to the current --preconfig / exit-preconfig interface
-    before it has seen any use is premature.  Mark both as experimental,
-    the former in documentation, the latter by renaming it to
-    x-exit-preconfig.
-    
-    See the previous commit for more detailed rationale.
-    
-    Signed-off-by: Markus Armbruster <armbru@redhat.com>
-    Message-Id: <20180705091402.26244-3-armbru@redhat.com>
-    Reviewed-by: Eric Blake <eblake@redhat.com>
-    Acked-by: Eduardo Habkost <ehabkost@redhat.com>
-    Acked-by: Igor Mammedov <imammedo@redhat.com>
-    [Straightforward conflict with commit 514337c142f resolved]
-
-commit 1f214ee1b83afd10fd5e1b63f4ecc03f9a8115c4
-Author: Markus Armbruster <armbru@redhat.com>
-Date:   Thu Jul 5 11:14:01 2018 +0200
-
-    qapi: Do not expose "allow-preconfig" in query-qmp-schema
-    
-    According to commit 047f7038f58, option --preconfig
-    
-        [...] allows pausing QEMU in the new RUN_STATE_PRECONFIG state,
-        allowing the configuration of QEMU from QMP before the machine
-        jumps into board initialization code of machine_run_board_init()
-    
-        The intent is to allow management to query machine state and
-        additionally configure it using previous query results within one
-        QEMU instance (i.e. eliminate the need to start QEMU twice, 1st to
-        query board specific parameters and 2nd for actual VM start using
-        query results for additional parameters).
-    
-    The implementation is a bit of a hack: it splices in an additional
-    main loop before machine creation, in special runstate preconfig.  New
-    command exit-preconfig exits that main loop.  QEMU continues
-    initializing, creates the machine, and runs the good old main loop.
-    The replacement of the main loop is transparent to monitors.
-    
-    Sadly, some commands expect initialization to be complete.  Running
-    them in --preconfig's main loop violates their preconditions.  Since
-    we don't really know which commands are safe, we use a whitelist.
-    This drags the concept of run state into the QMP core.
-    
-    The whitelist is done as a command flag in the QAPI schema (commit
-    d6fe3d02e9a).  Drags the concept of run state further into the QAPI
-    language.
-    
-    The command flag is exposed in query-qmp-schema (also commit
-    d6fe3d02e9a).  This makes it ABI.
-    
-    I consider the whole thing an offensively ugly hack, but sometimes an
-    ugly hack is the best we can do to solve a problem people have.
-    
-    The need described by the commit message quote above is genuine.  The
-    proper solution would be a main loop that permits complete
-    configuration via QMP.  This is out of reach, thus the hack.
-    
-    However, even though the need is genuine, it isn't urgent: libvirt is
-    not going to use this anytime soon.  Baking a hack into ABI before it
-    has any users is a bad idea.
-    
-    This commit reverts the parts of commit d6fe3d02e9a that affect ABI
-    via query-qmp-schema.  The commit did the following:
-    
-    (1) Add command flag 'allow-preconfig' to the QAPI schema language
-    
-    (2) Pass it to code generators
-    
-    (3) Have the commands.py code generator pass it to the command
-        registry (so commit 047f7038f58 can use it as whitelist)
-    
-    (4) Add 'allow-preconfig' to SchemaInfoCommand (neglecting to update
-        qapi-code-gen.txt section "Client JSON Protocol introspection")
-    
-    (5) Set 'allow-preconfig': true for commands qmp_capabilities,
-        query-commands, query-command-line-options, query-status
-    
-    Revert exactly (4), plus a bit of documentation added to
-    qemu-tech.info in commit 047f7038f58.
-    
-    Shrinks query-qmp-schema's output from 126.5KiB to 121.8KiB for me.
-    
-    Signed-off-by: Markus Armbruster <armbru@redhat.com>
-    Message-Id: <20180705091402.26244-2-armbru@redhat.com>
-    Reviewed-by: Eric Blake <eblake@redhat.com>
-    Acked-by: Eduardo Habkost <ehabkost@redhat.com>
-    Acked-by: Igor Mammedov <imammedo@redhat.com>
-    [Straightforward conflict with commit d626b6c1ae7 resolved]
-
-Before we make it a stable interface, we should ponder:
-
-* Is cleaning up the mess to the point where "simpler and cleaner"
-  becomes viable again still impractical?
-
-* If yes, what are the chances of it becoming practical?
-
+Thanks, series applied to mips-next tree.
 
