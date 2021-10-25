@@ -2,70 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF59D438F50
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 08:20:58 +0200 (CEST)
-Received: from localhost ([::1]:43876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 822C7438F9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 08:39:20 +0200 (CEST)
+Received: from localhost ([::1]:54116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1metLt-0002Yy-OU
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 02:20:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60416)
+	id 1metde-0001os-T4
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 02:39:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1metIM-0000TN-5q; Mon, 25 Oct 2021 02:17:18 -0400
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:39868)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1metIK-0005jL-9o; Mon, 25 Oct 2021 02:17:17 -0400
-Received: by mail-il1-x12b.google.com with SMTP id j3so11642259ilr.6;
- Sun, 24 Oct 2021 23:17:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=V2skusRr9+EK8bme4ViOkVXYkqTrmJRNsZ4waQCivHc=;
- b=mMB5A4sEeBfrq5wfHLnodx3o6mfcN5mti1tH5fN8xewiObn5uDqnuLDujwnN1aM25Y
- xISQddaAxr204Fampf9kc/lPbB5Os5vEw4HHFq09/GcmPHYsGvmkAGZx/hvZEo6r+RXK
- qibAvU/VBwi35i+lcqAzstnD2TSelKiuIV3ils02YEo9xtu2/OZ6z2YAhOeJ95s/DTtA
- IgbYLTqlolCWccw/ciSdjc2h1EnP35f3iIQ7i01tG7bxfEvFXIkn4HvvRWFpxmdRDInO
- 374Go+gj0XIK/5wWjBk2lVTnIF1J10aL3Nooonabb1CipRm5zTPJtXJeuvRhOQqY//kV
- SSbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=V2skusRr9+EK8bme4ViOkVXYkqTrmJRNsZ4waQCivHc=;
- b=wzoh2U95onxj568LTpVtjdQ5Z04tvpyDhxRoRZah3kBULPSzOSLoIOSRdAqekRzdBC
- Mz91GZ6H/tk7Ic+crMJMXd4k9jG0jEk95J5N4Julz/Ac24oWS1p2I6KQw6tzCcWHINpR
- hSr9AOW5dEPVItfNLtcObNtTFDQAIE3f8QjCIxYATdIzIzJVec04BVy6odARpCoJU4rw
- FvG21a6z4Msztq1CfrDrXT2ibltsL0VrWRnw/44p/R+KzDr1XS0aI+YaVsg75wo86xa2
- jdXc/xLzqO32Yjwab1HpgDP6La5ptDl6sIYZOzbQFrmAdDW7N0GLNzBPlS4y+DZTunuP
- f+Dg==
-X-Gm-Message-State: AOAM530zm7wFl2h3D40u9KHAMNq5NBneoFz6ep+WKFsEt1xfSu729TlV
- mojmRD+4ycaN7fe50nGi4AR8HkmHbVJAZu6EsY4=
-X-Google-Smtp-Source: ABdhPJwVaUnuzOL8hSSeYiwLHqJ2cLUXqnJg2IqQHkom3VBYTc6WMfbtpglOdY41BIDtZIDla31/MhBtfawOsfRDHZA=
-X-Received: by 2002:a05:6e02:1402:: with SMTP id
- n2mr8796672ilo.208.1635142634960; 
- Sun, 24 Oct 2021 23:17:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1metWZ-0000l2-2d; Mon, 25 Oct 2021 02:31:59 -0400
+Received: from isrv.corpit.ru ([86.62.121.231]:43721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1metWK-0000ot-Jg; Mon, 25 Oct 2021 02:31:58 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id E4D37407BB;
+ Mon, 25 Oct 2021 09:31:31 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 073A2141;
+ Mon, 25 Oct 2021 09:31:32 +0300 (MSK)
+Subject: Re: [PATCH] block/export/fuse.c: fix musl build
+To: Fabrice Fontaine <fontaine.fabrice@gmail.com>, qemu-devel@nongnu.org
+References: <20211022095209.1319671-1-fontaine.fabrice@gmail.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Message-ID: <6168250e-9bd6-a672-4f1f-b1ecf8f8cd4c@msgid.tls.msk.ru>
+Date: Mon, 25 Oct 2021 09:31:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211015074627.3957162-1-frank.chang@sifive.com>
- <20211015074627.3957162-69-frank.chang@sifive.com>
-In-Reply-To: <20211015074627.3957162-69-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 25 Oct 2021 16:16:48 +1000
-Message-ID: <CAKmqyKP1xkzuYkcNkENi3KUGS6-U71Ryfo0jNxVFN4paVYXb4w@mail.gmail.com>
-Subject: Re: [PATCH v8 61/78] target/riscv: rvv-1.0: floating-point/integer
- type-convert instructions
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211022095209.1319671-1-fontaine.fabrice@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.33,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,178 +55,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 15, 2021 at 6:43 PM <frank.chang@sifive.com> wrote:
->
-> From: Frank Chang <frank.chang@sifive.com>
->
-> Add the following instructions:
->
-> * vfcvt.rtz.xu.f.v
-> * vfcvt.rtz.x.f.v
->
-> Also adjust GEN_OPFV_TRANS() to accept multiple floating-point rounding
-> modes.
->
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+22.10.2021 12:52, Fabrice Fontaine пишет:
+> Include linux/falloc.h if CONFIG_FALLOCATE_ZERO_RANGE is defined to fix
+> https://gitlab.com/qemu-project/qemu/-/commit/50482fda98bd62e072c30b7ea73c985c4e9d9bbb
+> and avoid the following build failure on musl:
+> 
+> ../block/export/fuse.c: In function 'fuse_fallocate':
+> ../block/export/fuse.c:643:21: error: 'FALLOC_FL_ZERO_RANGE' undeclared (first use in this function)
+>    643 |     else if (mode & FALLOC_FL_ZERO_RANGE) {
+>        |                     ^~~~~~~~~~~~~~~~~~~~
+> 
+> Fixes:
+>   - http://autobuild.buildroot.org/results/be24433a429fda681fb66698160132c1c99bc53b
+> 
+> Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
 > ---
->  target/riscv/insn32.decode              | 11 ++--
->  target/riscv/insn_trans/trans_rvv.c.inc | 84 +++++++++++++++----------
->  2 files changed, 59 insertions(+), 36 deletions(-)
->
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 20b3095f56c..02064f8ec98 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -585,10 +585,13 @@ vmfge_vf        011111 . ..... ..... 101 ..... 1010111 @r_vm
->  vfclass_v       010011 . ..... 10000 001 ..... 1010111 @r2_vm
->  vfmerge_vfm     010111 0 ..... ..... 101 ..... 1010111 @r_vm_0
->  vfmv_v_f        010111 1 00000 ..... 101 ..... 1010111 @r2
-> -vfcvt_xu_f_v    100010 . ..... 00000 001 ..... 1010111 @r2_vm
-> -vfcvt_x_f_v     100010 . ..... 00001 001 ..... 1010111 @r2_vm
-> -vfcvt_f_xu_v    100010 . ..... 00010 001 ..... 1010111 @r2_vm
-> -vfcvt_f_x_v     100010 . ..... 00011 001 ..... 1010111 @r2_vm
+>   block/export/fuse.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/block/export/fuse.c b/block/export/fuse.c
+> index 2e3bf8270b..823c126d23 100644
+> --- a/block/export/fuse.c
+> +++ b/block/export/fuse.c
+> @@ -31,6 +31,10 @@
+>   #include <fuse.h>
+>   #include <fuse_lowlevel.h>
+>   
+> +#if defined(CONFIG_FALLOCATE_ZERO_RANGE)
+
+shouldn't it be "if !defined" ?
+
+/mjt
+
+> +#include <linux/falloc.h>
+> +#endif
 > +
-> +vfcvt_xu_f_v       010010 . ..... 00000 001 ..... 1010111 @r2_vm
-> +vfcvt_x_f_v        010010 . ..... 00001 001 ..... 1010111 @r2_vm
-> +vfcvt_f_xu_v       010010 . ..... 00010 001 ..... 1010111 @r2_vm
-> +vfcvt_f_x_v        010010 . ..... 00011 001 ..... 1010111 @r2_vm
-> +vfcvt_rtz_xu_f_v   010010 . ..... 00110 001 ..... 1010111 @r2_vm
-> +vfcvt_rtz_x_f_v    010010 . ..... 00111 001 ..... 1010111 @r2_vm
->  vfwcvt_xu_f_v   100010 . ..... 01000 001 ..... 1010111 @r2_vm
->  vfwcvt_x_f_v    100010 . ..... 01001 001 ..... 1010111 @r2_vm
->  vfwcvt_f_xu_v   100010 . ..... 01010 001 ..... 1010111 @r2_vm
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 676336a5200..b1ea15517c0 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -1,5 +1,4 @@
->  /*
-> - * RISC-V translation routines for the RVV Standard Extension.
->   *
->   * Copyright (c) 2020 T-Head Semiconductor Co., Ltd. All rights reserved.
->   *
-> @@ -2368,34 +2367,41 @@ static bool opfv_check(DisasContext *s, arg_rmr *a)
->             vext_check_ss(s, a->rd, a->rs2, a->vm);
->  }
->
-> -#define GEN_OPFV_TRANS(NAME, CHECK)                                \
-> -static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-> -{                                                                  \
-> -    if (CHECK(s, a)) {                                             \
-> -        uint32_t data = 0;                                         \
-> -        static gen_helper_gvec_3_ptr * const fns[3] = {            \
-> -            gen_helper_##NAME##_h,                                 \
-> -            gen_helper_##NAME##_w,                                 \
-> -            gen_helper_##NAME##_d,                                 \
-> -        };                                                         \
-> -        TCGLabel *over = gen_new_label();                          \
-> -        gen_set_rm(s, RISCV_FRM_DYN);                              \
-> -        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> -                                                                   \
-> -        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-> -        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> -        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-> -                           vreg_ofs(s, a->rs2), cpu_env,           \
-> -                           s->vlen / 8, s->vlen / 8, data,         \
-> -                           fns[s->sew - 1]);                       \
-> -        mark_vs_dirty(s);                                          \
-> -        gen_set_label(over);                                       \
-> -        return true;                                               \
-> -    }                                                              \
-> -    return false;                                                  \
-> +static bool do_opfv(DisasContext *s, arg_rmr *a,
-> +                    gen_helper_gvec_3_ptr *fn,
-> +                    bool (*checkfn)(DisasContext *, arg_rmr *),
-> +                    int rm)
-> +{
-> +    if (checkfn(s, a)) {
-> +        uint32_t data = 0;
-> +        TCGLabel *over = gen_new_label();
-> +        gen_set_rm(s, rm);
-> +        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> +
-> +        data = FIELD_DP32(data, VDATA, VM, a->vm);
-> +        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> +        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
-> +                           vreg_ofs(s, a->rs2), cpu_env,
-> +                           s->vlen / 8, s->vlen / 8, data, fn);
-> +        mark_vs_dirty(s);
-> +        gen_set_label(over);
-> +        return true;
-> +    }
-> +    return false;
-> +}
-> +
-> +#define GEN_OPFV_TRANS(NAME, CHECK, FRM)               \
-> +static bool trans_##NAME(DisasContext *s, arg_rmr *a)  \
-> +{                                                      \
-> +    static gen_helper_gvec_3_ptr * const fns[3] = {    \
-> +        gen_helper_##NAME##_h,                         \
-> +        gen_helper_##NAME##_w,                         \
-> +        gen_helper_##NAME##_d                          \
-> +    };                                                 \
-> +    return do_opfv(s, a, fns[s->sew - 1], CHECK, FRM); \
->  }
->
-> -GEN_OPFV_TRANS(vfsqrt_v, opfv_check)
-> +GEN_OPFV_TRANS(vfsqrt_v, opfv_check, RISCV_FRM_DYN)
->
->  /* Vector Floating-Point MIN/MAX Instructions */
->  GEN_OPFVV_TRANS(vfmin_vv, opfvv_check)
-> @@ -2441,7 +2447,7 @@ GEN_OPFVF_TRANS(vmfgt_vf, opfvf_cmp_check)
->  GEN_OPFVF_TRANS(vmfge_vf, opfvf_cmp_check)
->
->  /* Vector Floating-Point Classify Instruction */
-> -GEN_OPFV_TRANS(vfclass_v, opfv_check)
-> +GEN_OPFV_TRANS(vfclass_v, opfv_check, RISCV_FRM_DYN)
->
->  /* Vector Floating-Point Merge Instruction */
->  GEN_OPFVF_TRANS(vfmerge_vfm,  opfvf_check)
-> @@ -2495,10 +2501,24 @@ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
->  }
->
->  /* Single-Width Floating-Point/Integer Type-Convert Instructions */
-> -GEN_OPFV_TRANS(vfcvt_xu_f_v, opfv_check)
-> -GEN_OPFV_TRANS(vfcvt_x_f_v, opfv_check)
-> -GEN_OPFV_TRANS(vfcvt_f_xu_v, opfv_check)
-> -GEN_OPFV_TRANS(vfcvt_f_x_v, opfv_check)
-> +#define GEN_OPFV_CVT_TRANS(NAME, HELPER, FRM)               \
-> +static bool trans_##NAME(DisasContext *s, arg_rmr *a)       \
-> +{                                                           \
-> +    static gen_helper_gvec_3_ptr * const fns[3] = {         \
-> +        gen_helper_##HELPER##_h,                            \
-> +        gen_helper_##HELPER##_w,                            \
-> +        gen_helper_##HELPER##_d                             \
-> +    };                                                      \
-> +    return do_opfv(s, a, fns[s->sew - 1], opfv_check, FRM); \
-> +}
-> +
-> +GEN_OPFV_CVT_TRANS(vfcvt_xu_f_v, vfcvt_xu_f_v, RISCV_FRM_DYN)
-> +GEN_OPFV_CVT_TRANS(vfcvt_x_f_v, vfcvt_x_f_v, RISCV_FRM_DYN)
-> +GEN_OPFV_CVT_TRANS(vfcvt_f_xu_v, vfcvt_f_xu_v, RISCV_FRM_DYN)
-> +GEN_OPFV_CVT_TRANS(vfcvt_f_x_v, vfcvt_f_x_v, RISCV_FRM_DYN)
-> +/* Reuse the helper functions from vfcvt.xu.f.v and vfcvt.x.f.v */
-> +GEN_OPFV_CVT_TRANS(vfcvt_rtz_xu_f_v, vfcvt_xu_f_v, RISCV_FRM_RTZ)
-> +GEN_OPFV_CVT_TRANS(vfcvt_rtz_x_f_v, vfcvt_x_f_v, RISCV_FRM_RTZ)
->
->  /* Widening Floating-Point/Integer Type-Convert Instructions */
->
-> --
-> 2.25.1
->
->
+>   #ifdef __linux__
+>   #include <linux/fs.h>
+>   #endif
+> 
+
 
