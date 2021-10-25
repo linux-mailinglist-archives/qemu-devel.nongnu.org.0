@@ -2,82 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ACF1439655
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:28:56 +0200 (CEST)
-Received: from localhost ([::1]:46616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C327443964A
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:26:56 +0200 (CEST)
+Received: from localhost ([::1]:42600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mez5z-0004lN-Go
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:28:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51110)
+	id 1mez43-0001wK-RX
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1meyy3-0004oZ-J4
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:20:45 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1meyy0-00016q-Qo
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:20:43 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id e12so12486049wra.4
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 05:20:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BPbqZW84fmuxmXayForUqJ+RoBwE49fXDUKoO4Fml7I=;
- b=U71D9eUaRSu2Sje+6H755nSMTC9P4v8JDFMdcdIN9sD1JqyYuvn/YNtzEfdmp1zT3D
- mc7Jr5XVtvC8j6zw/RpngHRmIRTTpFzhpvuInI0s3PhWFJCM99eXKb6wJrXUEK/qmOtA
- kiZUQr5SxndkhB2fOdwQpjcp8tuqpVpNfG/3vXyb57SJ2dmCvYAzdRR/w9QEdRH7PJNz
- 2DW5NTKL1b0SxVQ89tku0fw9Ko9QPFDNiY7reqObd1KAH0NOCRyqEOp3HCxR/G+iO3jw
- 8PCrwOK+2B/mWqHowOmzjIaxOiS0XHKENP54PjAIU5kTy/vd08nBjuZxWU53Asc7aayL
- SptA==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mez0G-0008DQ-V7
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:23:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58855)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mez0E-0003Dn-HV
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:23:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635164577;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dnWGek/OTKv8qjVhDP2JBoYyDXb0X8qYK2WogjGEBlY=;
+ b=LvXt34K1Tm0gdN+iOZUIeUEsufHa5KBLZUSIBiAH9Ugkgo3EXC4+fuHVr6j+F88jzGKO1j
+ gV8Xz7w2mpsKRB7E4wJjsc2C0TO7V0GS2ez4P/s7yuhFkHPbo2jNeSHAn86uKIbp9gTu2v
+ bhLaxlLgb50/rPN0xMov4W6Y3VdlPQM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-449-nQ01XctSOVmN7gYGgV9EHA-1; Mon, 25 Oct 2021 08:22:56 -0400
+X-MC-Unique: nQ01XctSOVmN7gYGgV9EHA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ x13-20020a05640226cd00b003dd4720703bso3755077edd.8
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 05:22:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BPbqZW84fmuxmXayForUqJ+RoBwE49fXDUKoO4Fml7I=;
- b=m1/AX4dAxxUxDTgSGmu1bACY3mGFkctSVQBBrKVpVnQS0zijt8oyaz5nJWq2jKfhSm
- zs+2ibqnk1QNrXX71pethU20oH1b0FWVllWlUe0PVFeyLRqso6Zpg71x99FDXe+5U2TC
- A5Lx5tc4dRLF4L5GOJd67h2lbZBrZvmw4ARI1MOvv8XeXiq9jrB8WT4hpXppYggV1LrL
- jKkc/i5h3Urcv2bTBXztFqKk8MUFA6JXUBtaAld8PdXAArV+59nS1GjU7/ZOINljTiBD
- yRgYyfDGJLWQCBN8FK0PJyjLI9894PoHdOSoFZQNwqxDjUC6043AJiaVWNKa42HEjZRX
- yT9w==
-X-Gm-Message-State: AOAM5327s1XHBahLIkfodipv6J5MgM1guqA2fkbuK4lHBhIC7simckRw
- Zaq0FJSXHBDu/tM2Qtd80UI=
-X-Google-Smtp-Source: ABdhPJwq7bCNuzF1V05VhWgMRG7Xel6xQkIdCtl9VxbfwJKkW15p1lm/siCF8HM2dSQ5P4Yjz67Zdg==
-X-Received: by 2002:adf:f211:: with SMTP id p17mr23313979wro.37.1635164438029; 
- Mon, 25 Oct 2021 05:20:38 -0700 (PDT)
-Received: from [192.168.50.34] (static-180-27-86-188.ipcom.comunitel.net.
- [188.86.27.180])
- by smtp.gmail.com with ESMTPSA id s8sm16329537wrr.15.2021.10.25.05.20.37
+ bh=dnWGek/OTKv8qjVhDP2JBoYyDXb0X8qYK2WogjGEBlY=;
+ b=Eh4mwvCKCooOs89mXShVD2Cc1F7DdyN9KbVcmHmshwTJTckkLFUWvt3lw/DjToOrYF
+ OvylhHAkFXshG/k28fDrDfOfQyKImjjBfhSN2t3RIkTOb9t64Adq2Gop5UxKOugAB0ee
+ 3TlKYIWueIbIC3TlPM3Xa/N/mL64liCeU+1JZi3bL4Do0AluCFvqsMCFrIJJ2AxQC35O
+ 6oY3rKHbYxLgXQs/vrwpJlY2+rbSAfwDidOg4TFpeaLHq8eZlmrVsina90o/+KQXsJwl
+ zxSJTkQKmZq6/Y1aCaF8kX+mi1Vdqso2rL/5nOu8iwfC5YiXp+szRsFAyenLRaJrgLQS
+ br7A==
+X-Gm-Message-State: AOAM531tzsmDVJA9DeCwEI2mXh5S6RwaBJiWG0F9B0YoGsAaPWPngRTn
+ 7Vjgv28/16eLkQ9UJi0v0XjvkwBo4jeZTMo4/JTL+3SOsdQ5oWcgpkbk40siqqGvcCqmPBISBpw
+ BqDzYwCf9mIQZKr0=
+X-Received: by 2002:a50:bf4d:: with SMTP id g13mr26450539edk.195.1635164575396; 
+ Mon, 25 Oct 2021 05:22:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxgJkmP913Gkf/YpCKo1fFeaU4TOI1FLSmx024ZnkDQMwjN+NBwAQG79RZUHJpOcwN7G28f+w==
+X-Received: by 2002:a50:bf4d:: with SMTP id g13mr26450525edk.195.1635164575252; 
+ Mon, 25 Oct 2021 05:22:55 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id
+ m5sm3455891ejc.62.2021.10.25.05.22.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 05:20:37 -0700 (PDT)
-Message-ID: <6f955022-ba0c-5dbf-05bd-cb73d910a40f@amsat.org>
-Date: Mon, 25 Oct 2021 14:20:36 +0200
+ Mon, 25 Oct 2021 05:22:54 -0700 (PDT)
+Subject: Re: [PATCH v4 02/25] include/block/block: split header into I/O and
+ global state API
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-block@nongnu.org
+References: <20211025101735.2060852-1-eesposit@redhat.com>
+ <20211025101735.2060852-3-eesposit@redhat.com>
+ <8bd4dc02-d6bb-7138-f3fc-81c1f83b0a71@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <5420f20b-7157-22f5-e0db-87af68d95302@redhat.com>
+Date: Mon, 25 Oct 2021 14:22:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 0/4] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
- interrupts
+In-Reply-To: <8bd4dc02-d6bb-7138-f3fc-81c1f83b0a71@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1635161629.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <cover.1635161629.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.846,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.846, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,25 +103,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/21 13:33, BALATON Zoltan wrote:
-> This is the same as posted before just omitting the two patches that
-> are optimisations by caching the func0 and avoiding QOM casts which
-> could not be measured to have an effect but these reamaining patches
-> are still needed to fix USB interrupts on pegasos2
-> 
-> Gerd, could you please take them?
-> 
-> Regards,
-> 
-> BALATON Zoltan (4):
->   usb/uhci: Misc clean up
->   usb/uhci: Disallow user creating a vt82c686-uhci-pci device
->   usb/uhci: Replace pci_set_irq with qemu_set_irq
->   hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI interrupts
 
-Thanks, series applied to mips-next tree.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>> ---
+>>   block.c                            |   3 +
+>>   block/meson.build                  |   7 +-
+>>   include/block/block-common.h       | 389 +++++++++++++
+> 
+> Can this patch be split in 3?
+> 
+> (first)
+> 
+>>   include/block/block-global-state.h | 286 ++++++++++
+> 
+> (second)
+> 
+>>   include/block/block-io.h           | 306 ++++++++++
+> 
+> (third)
+
+I think it is a good idea especially for future patches, since it 
+improves readability. For this series I think it has already been fully 
+reviewed, so it won't matter too much. But I will follow this logic for 
+the upcoming job patches, thanks.
+
+> 
+>>   include/block/block.h              | 878 +----------------------------
+>>   6 files changed, 1012 insertions(+), 857 deletions(-)
+>>   create mode 100644 include/block/block-common.h
+>>   create mode 100644 include/block/block-global-state.h
+>>   create mode 100644 include/block/block-io.h
+> 
+> Also consider enabling scripts/git.orderfile to ease patch review.
+> 
+
+Done, thanks for pointing it out.
+
+Emanuele
+
 
