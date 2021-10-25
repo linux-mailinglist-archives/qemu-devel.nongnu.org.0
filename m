@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86264439452
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 12:56:52 +0200 (CEST)
-Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0742A43945F
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 12:58:50 +0200 (CEST)
+Received: from localhost ([::1]:34320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mexet-0006GX-L5
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 06:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59276)
+	id 1mexgn-0002C8-0B
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 06:58:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mexaO-0001Bl-KC
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 06:52:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25437)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mexer-0007p9-09
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 06:56:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mexaL-0008SI-KO
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 06:52:11 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mexeo-00043Y-UR
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 06:56:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635159127;
+ s=mimecast20190719; t=1635159406;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BlolW14N7xLzFqi1Qgud260T45n4OFnKtouNQv+3rjY=;
- b=OUycBaui6HMz3RXIgw7dc5Z76D24nW942HDCI4TzV6s8LMYfvEtH26Ck7yioP72jxDkfDG
- WDAQDt9dnvFmZXUOsATS4ib1si0nRU7BAQzRyOzF/uzzH3x9ILrh5djXQYVkO/wxr4xhbA
- BalAIIV+PUzVtwrfA+A1Bupx6+j0J7A=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-caEcmLQbOnSkRlzA1q7RhA-1; Mon, 25 Oct 2021 06:52:06 -0400
-X-MC-Unique: caEcmLQbOnSkRlzA1q7RhA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m1-20020a1ca301000000b003231d5b3c4cso3360085wme.5
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 03:52:06 -0700 (PDT)
+ bh=nHvfItxWfEtMzRu8Na0a1zSIVIhx2d5joBNHOgPeunI=;
+ b=Th/nFRYr3/hqJtEvDWKppQX0/P0tTWNpo7LNWW2JfnBIOI3IG3d3UtStxNDBr0EBdpJTz4
+ IusgF9IE+vQGs/SEsGTuiaOq93sRgnnhY/HqB3MnvsFE8Mj87gyy3XvLhsFAOOjDsX4GEW
+ QrFCqbExVml4F9RXBThqFhzKXAyd5X8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-KOzuIuSqPhO96Yhzt0y1FQ-1; Mon, 25 Oct 2021 06:56:44 -0400
+X-MC-Unique: KOzuIuSqPhO96Yhzt0y1FQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ u14-20020a05600c19ce00b0030d8549d49aso5698512wmq.0
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 03:56:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=BlolW14N7xLzFqi1Qgud260T45n4OFnKtouNQv+3rjY=;
- b=KYD/W5OVPwOQH5Z0/NSDtcvzikHyKyhmaT79Z1IxFv1UYIWMYxHoLIFn8Eh7bpjtrF
- p4fmCO5hXRqffsDk06xdwAcnBnodRfCxkZuPzOYBsf8FbNVN5KUqwJiGL68LhseFVWbt
- 2VCVHQ/qaUlXYm5d2RK6d5ubmJXb8/6Xg+bwA1svcmLaIksNHnZWR72tYMyya4K6SP4f
- jkrTkpyWh0vQNw8ay23HjIeT+ugrF34EFbsqm9qob3UcSuCZMU0YRMSYaHleOM9nQxKf
- TVAaMkHbifLbja5vWXjZ0WgUZkM4YMtSKuxlk0XjO27SyU4XPUp3x09tin0sxEEKNup8
- 6+xg==
-X-Gm-Message-State: AOAM533UguIYzjkuPw3XSI8x8CMvSgPggktpK3AfA6bGB74ys4obZ05q
- CuvsVyTj1vS66URYvLmQ8X0ppwCmLLFvfNt9Mlfx7NiPV9Fxmo/23/dl7iTGCg/NDIomCgMHqm6
- GpPF3+41WgHrm1k8=
-X-Received: by 2002:a05:6000:54e:: with SMTP id
- b14mr18871092wrf.308.1635159125106; 
- Mon, 25 Oct 2021 03:52:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwo5RpJoWg/OaGYL7OI5bajkXad5I//UyBPj0GBIikjpVnj2XckvyR7YsTBuFAUVoYpJbSULQ==
-X-Received: by 2002:a05:6000:54e:: with SMTP id
- b14mr18871067wrf.308.1635159124908; 
- Mon, 25 Oct 2021 03:52:04 -0700 (PDT)
+ bh=nHvfItxWfEtMzRu8Na0a1zSIVIhx2d5joBNHOgPeunI=;
+ b=C3NxMRvuaq7/GfQ2ozgI74knsNEG94KRHs0rzsqViXTe4vOxkM5CzotaGRPG+p4tlo
+ Xu6Oj0a4EBtGbpdLY3HlgEymBTX0Cskn1AqXf2rutNx5GzqyJXS6dkZN6dvS7Yvlm84g
+ Zwg1NaZxooTgjIz724xYIK5PJzQEFmLQgBuOSOmoZ9kO2bSsUgJZo+K+UV+9tlSgGyGO
+ 67xKEyQpbTtSlur5BM7LzdiT1NpqsGCDh+L4p66ScUklhCNmZnxJQLRcSRl3TSFRnOsM
+ XkbPQS4fL8+jlQaCz8lOqX44OGe70wX72K0RpuYByScCucLWI5G1GFnpJL0BitvyfAE/
+ v/mg==
+X-Gm-Message-State: AOAM532DJPsNlX7UYK2OT+4r3TjUomNpzesIrPDJ6JqqrjmOmznqiB/9
+ 1z0bxuvpq/cWLGkhW0op8sFG0jwV2tchTZmFKTVLsbfiethZVB9B02b2KurTVMKjDr3j4LTUrud
+ U9tmA5Gq/teWss9w=
+X-Received: by 2002:adf:e0c1:: with SMTP id m1mr22919907wri.241.1635159403842; 
+ Mon, 25 Oct 2021 03:56:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGlk3lhGE0W0w12VJaVEH44KaF0hsFQGuOBP/H9scvjtlpPGKmqu42Y/0wdS84saS++12KWQ==
+X-Received: by 2002:adf:e0c1:: with SMTP id m1mr22919888wri.241.1635159403719; 
+ Mon, 25 Oct 2021 03:56:43 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id o194sm9368136wme.40.2021.10.25.03.52.04
+ by smtp.gmail.com with ESMTPSA id u1sm9592603wrt.97.2021.10.25.03.56.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 03:52:04 -0700 (PDT)
-Message-ID: <9535743f-5cc0-f756-2a3f-cebd2e1401d6@redhat.com>
-Date: Mon, 25 Oct 2021 12:52:03 +0200
+ Mon, 25 Oct 2021 03:56:43 -0700 (PDT)
+Message-ID: <3554676c-c763-11b6-ac68-211e3006a42b@redhat.com>
+Date: Mon, 25 Oct 2021 12:56:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH] configure: do not duplicate CPU_CFLAGS into QEMU_LDFLAGS
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211025082000.629088-1-pbonzini@redhat.com>
+Subject: Re: [PATCH] hvf: Avoid mapping regions < PAGE_SIZE as ram
+To: Alexander Graf <agraf@csgraf.de>, Cameron Esfahani <dirty@apple.com>
+References: <20211025082558.96864-1-agraf@csgraf.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211025082000.629088-1-pbonzini@redhat.com>
+In-Reply-To: <20211025082558.96864-1-agraf@csgraf.de>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -55
@@ -99,25 +97,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/21 10:20, Paolo Bonzini wrote:
+Hi Alex,
 
-Can we prefix with this?
-
-  Since commit 4dba2789084 ("configure, meson: move CPU_CFLAGS
-  out of QEMU_CFLAGS"),
-
-> CPU_CFLAGS is included in the link commands both during configure
-> and (via config-meson.cross) during meson.  It need not be added
-> separately to QEMU_LDFLAGS.
+On 10/25/21 10:25, Alexander Graf wrote:
+> HVF has generic memory listener code that adds all RAM regions as HVF RAM
+> regions. However, HVF can only handle page aligned, page granule regions.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> So let's ignore regions that are not page aligned and sized. They will be
+> trapped as MMIO instead.
+> 
+> Signed-off-by: Alexander Graf <agraf@csgraf.de>
 > ---
->  configure | 53 ++++++++++++++---------------------------------------
->  1 file changed, 14 insertions(+), 39 deletions(-)
+>  accel/hvf/hvf-accel-ops.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
+> index 6bf319d34c..090155853a 100644
+> --- a/accel/hvf/hvf-accel-ops.c
+> +++ b/accel/hvf/hvf-accel-ops.c
+> @@ -135,6 +135,12 @@ static void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
+>          }
+>      }
+>  
+> +    if (int128_get64(section->size) & (qemu_real_host_page_size - 1) ||
+> +        section->offset_within_address_space & (qemu_real_host_page_size - 1)) {
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Could we use QEMU_IS_ALIGNED() instead?
+
+> +        /* Not page aligned, so we can not map as RAM */
+> +        add = false;
+> +    }
+> +
+>      mem = hvf_find_overlap_slot(
+>              section->offset_within_address_space,
+>              int128_get64(section->size));
+> 
 
 
