@@ -2,72 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1B943A3AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 21:59:40 +0200 (CEST)
-Received: from localhost ([::1]:36860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA7443A3F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 22:08:46 +0200 (CEST)
+Received: from localhost ([::1]:53608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf68B-0006h8-Dj
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 15:59:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51896)
+	id 1mf6Gz-0001E8-SD
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 16:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=925953cd0=atish.patra@wdc.com>)
- id 1mf65M-00030x-Cc; Mon, 25 Oct 2021 15:56:44 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:65116)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=925953cd0=atish.patra@wdc.com>)
- id 1mf65J-0005UD-DX; Mon, 25 Oct 2021 15:56:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1635191801; x=1666727801;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=tUQgS5eOlpWjMk3FNRgJfYwMC66YQeueSFikhyLdJeM=;
- b=Wj1A9Azgbw0j95DhUM/+byzJgh3W8qhV2gjiYTg4rHK9LDLumi3osLuE
- r/K8a4o9xYsOdFsciYVEOea6EyDiu8lpYXURkZRpe9Le5eShpcHMQ9Y0m
- mLum6yudNPQ3zjphrvvurYXSPlMUyKhi8Vc6y6rT1rw2D8Z085eYx/c7T
- rjqTLOyUBYxAjnAzji4aq34RWQ8NtUzWiGAH3nnwR+UP/7O0B93Yycv+H
- YnD9ncwaRW2VE7PPVIalLOdvT84bBc1/xwnro82J96bcwgS7baIzujuxZ
- aoUJS7vRUje0YrpS5uffzBb1wGE77nhzyuzUfkAMaOsESNleI1Kd+ojGL g==;
-X-IronPort-AV: E=Sophos;i="5.87,181,1631548800"; d="scan'208";a="287683010"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2021 03:56:25 +0800
-IronPort-SDR: mkjvU4Cv3tlVwreuHOcvjT/axTMf/LgLFk4xzZRTbRpckJqb4bnlWtnbN4TRwZq2+aehtvsG3D
- p512UpbFedVXc7rG4YAMf8QBeey112SKPlxwDa6YKVRZavtZqKd8aaAfgSF8OLPJVW7W/pusLx
- Kl9BSGwgbQbretRtbF3GujbEEDv+8T+s/lw9gbIoH7zAroZWGb2sSmjbXywcZUWwk5jNH5ETAi
- OkuDmUjPBmKEz6cQUspG7yY82YqmlupzBAdDoNjbxiEoghq+TTNh8uB5MSMJAz+kzrm9RfXLZy
- Xf+HyUj+wgBDrtsloyo9GNn6
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2021 12:31:56 -0700
-IronPort-SDR: sPDR31JKsX9FYVZ5bif3gGpnoS/j7zrjALD+W1osSA0GkjAu/bXD71DhnMUjlEtmdN+BrkKxJa
- +5kJB6ejoD2fuW/HfX7kH5HnTHCOL1ykIUBH2F3IfacO2B0rdqGw++fDk+hgO9qKxNdskP5vTV
- t400noQAfs+aEWlR3ulfn3y+OVcqKK1qJBRS28+ED+5b0iQ+EEl6RRTl8CFid9QIgPxoURn8sS
- h9+u6m6a++6IOcakgq3jPYKZQmwyAxX6bIl/ijwQyF2B/w9Aj+kIU8kL9BqfCDEFu2SjpdF34t
- zKA=
-WDCIronportException: Internal
-Received: from unknown (HELO hulk.wdc.com) ([10.225.167.27])
- by uls-op-cesaip01.wdc.com with ESMTP; 25 Oct 2021 12:56:27 -0700
-From: Atish Patra <atish.patra@wdc.com>
-To: qemu-devel@nongnu.org
-Subject: [ PATCH v3 10/10] hw/riscv: virt: Add PMU DT node to the device tree
-Date: Mon, 25 Oct 2021 12:56:01 -0700
-Message-Id: <20211025195601.245631-11-atish.patra@wdc.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211025195601.245631-1-atish.patra@wdc.com>
-References: <20211025195601.245631-1-atish.patra@wdc.com>
+ (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
+ id 1mf5Re-0002YR-Ge; Mon, 25 Oct 2021 15:15:42 -0400
+Received: from [201.28.113.2] (port=19916 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <luis.pires@eldorado.org.br>)
+ id 1mf5Rc-0001bh-6F; Mon, 25 Oct 2021 15:15:42 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 25 Oct 2021 16:12:28 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 94C2F800BA7;
+ Mon, 25 Oct 2021 16:12:28 -0300 (-03)
+From: Luis Pires <luis.pires@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v4 17/19] target/ppc: Move dqua[q], drrnd[q] to decodetree
+Date: Mon, 25 Oct 2021 16:11:52 -0300
+Message-Id: <20211025191154.350831-18-luis.pires@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211025191154.350831-1-luis.pires@eldorado.org.br>
+References: <20211025191154.350831-1-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.143.124;
- envelope-from=prvs=925953cd0=atish.patra@wdc.com; helo=esa2.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 25 Oct 2021 19:12:28.0912 (UTC)
+ FILETIME=[40DBDF00:01D7C9D4]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,176 +57,246 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Atish Patra <atish.patra@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Cc: Luis Pires <luis.pires@eldorado.org.br>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ richard.henderson@linaro.org, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Qemu virt machine can support few cache events and cycle/instret counters.
-It also supports counter overflow for these events.
+Move the following instructions to decodetree:
+dqua:   DFP Quantize
+dquaq:  DFP Quantize Quad
+drrnd:  DFP Reround
+drrndq: DFP Reround Quad
 
-Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
-capabilities. There are some dummy nodes added for testing as well.
-
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
+Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/riscv/virt.c    | 36 ++++++++++++++++++++++++++
- target/riscv/pmp.c |  1 +
- target/riscv/pmu.c | 63 ++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 100 insertions(+)
+ target/ppc/dfp_helper.c             |  8 ++---
+ target/ppc/helper.h                 |  8 ++---
+ target/ppc/insn32.decode            | 18 +++++++++--
+ target/ppc/translate/dfp-impl.c.inc | 50 +++++++++++++----------------
+ target/ppc/translate/dfp-ops.c.inc  | 25 ---------------
+ 5 files changed, 47 insertions(+), 62 deletions(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index ec0cb69b8c73..b246d2e339eb 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -28,6 +28,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/char/serial.h"
- #include "target/riscv/cpu.h"
-+#include "target/riscv/pmu.h"
- #include "hw/riscv/riscv_hart.h"
- #include "hw/riscv/virt.h"
- #include "hw/riscv/boot.h"
-@@ -406,6 +407,39 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
-     g_free(plic_cells);
+diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
+index df3e6c7cb1..a50a73d3c0 100644
+--- a/target/ppc/dfp_helper.c
++++ b/target/ppc/dfp_helper.c
+@@ -769,8 +769,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *a,        \
+     set_dfp##size(t, &dfp.vt);                                          \
  }
  
-+static void create_fdt_socket_pmu(RISCVVirtState *s,
-+                                  int socket, uint32_t *phandle,
-+                                  uint32_t *intc_phandles)
-+{
-+    int cpu;
-+    char *pmu_name;
-+    RISCVCPU hart;
-+    uint32_t *pmu_cells;
-+    MachineState *mc = MACHINE(s);
+-DFP_HELPER_QUA(dqua, 64)
+-DFP_HELPER_QUA(dquaq, 128)
++DFP_HELPER_QUA(DQUA, 64)
++DFP_HELPER_QUA(DQUAQ, 128)
+ 
+ static void _dfp_reround(uint8_t rmc, int32_t ref_sig, int32_t xmax,
+                              struct PPC_DFP *dfp)
+@@ -847,8 +847,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *a,        \
+     set_dfp##size(t, &dfp.vt);                                          \
+ }
+ 
+-DFP_HELPER_RRND(drrnd, 64)
+-DFP_HELPER_RRND(drrndq, 128)
++DFP_HELPER_RRND(DRRND, 64)
++DFP_HELPER_RRND(DRRNDQ, 128)
+ 
+ #define DFP_HELPER_RINT(op, postprocs, size)                                   \
+ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,               \
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 520cce8378..cb05cc168c 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -720,10 +720,10 @@ DEF_HELPER_3(DTSTSFI, i32, env, i32, fprp)
+ DEF_HELPER_3(DTSTSFIQ, i32, env, i32, fprp)
+ DEF_HELPER_5(DQUAI, void, env, fprp, fprp, i32, i32)
+ DEF_HELPER_5(DQUAIQ, void, env, fprp, fprp, i32, i32)
+-DEF_HELPER_5(dqua, void, env, fprp, fprp, fprp, i32)
+-DEF_HELPER_5(dquaq, void, env, fprp, fprp, fprp, i32)
+-DEF_HELPER_5(drrnd, void, env, fprp, fprp, fprp, i32)
+-DEF_HELPER_5(drrndq, void, env, fprp, fprp, fprp, i32)
++DEF_HELPER_5(DQUA, void, env, fprp, fprp, fprp, i32)
++DEF_HELPER_5(DQUAQ, void, env, fprp, fprp, fprp, i32)
++DEF_HELPER_5(DRRND, void, env, fprp, fprp, fprp, i32)
++DEF_HELPER_5(DRRNDQ, void, env, fprp, fprp, fprp, i32)
+ DEF_HELPER_5(DRINTX, void, env, fprp, fprp, i32, i32)
+ DEF_HELPER_5(DRINTXQ, void, env, fprp, fprp, i32, i32)
+ DEF_HELPER_5(DRINTN, void, env, fprp, fprp, i32, i32)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index f0e17580e0..86dbdada47 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -77,11 +77,19 @@
+ %z22_frap       17:4 !function=times_2
+ @Z22_bf_frap    ...... bf:3 .. ....0 dm:6 ......... .           &Z22_bf_fra fra=%z22_frap
+ 
+-&Z23_tb         frt frb r:bool rmc rc:bool
+-@Z23_tb         ...... frt:5 .... r:1 frb:5 rmc:2 ........ rc:1 &Z23_tb
++&Z23_tab        frt fra frb rmc rc:bool
++@Z23_tab        ...... frt:5 fra:5 frb:5 rmc:2 ........ rc:1    &Z23_tab
+ 
+ %z23_frtp       22:4 !function=times_2
++%z23_frap       17:4 !function=times_2
+ %z23_frbp       12:4 !function=times_2
++@Z23_tabp       ...... ....0 ....0 ....0 rmc:2 ........ rc:1    &Z23_tab frt=%z23_frtp fra=%z23_frap frb=%z23_frbp
 +
-+    pmu_cells = g_new0(uint32_t, s->soc[socket].num_harts * 2);
++@Z23_tp_a_bp    ...... ....0 fra:5 ....0 rmc:2 ........ rc:1    &Z23_tab frt=%z23_frtp frb=%z23_frbp
 +
-+    for (cpu = 0; cpu < s->soc[socket].num_harts; cpu++) {
-+        pmu_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
-+        pmu_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_PMU_OVF);
-+    }
++&Z23_tb         frt frb r:bool rmc rc:bool
++@Z23_tb         ...... frt:5 .... r:1 frb:5 rmc:2 ........ rc:1 &Z23_tb
 +
-+    pmu_name = g_strdup_printf("/soc/pmu");
-+    qemu_fdt_add_subnode(mc->fdt, pmu_name);
-+    qemu_fdt_setprop_string(mc->fdt, pmu_name, "compatible", "riscv,pmu");
-+    hart = s->soc[0].harts[0];
-+    if (hart.cfg.ext_sscof) {
-+        qemu_fdt_setprop_cell(mc->fdt, pmu_name, "#interrupt-cells", 1);
-+        qemu_fdt_setprop(mc->fdt, pmu_name, "interrupts-extended", pmu_cells,
-+                         s->soc[socket].num_harts * sizeof(uint32_t) * 2);
-+    }
-+    riscv_pmu_generate_fdt_node(mc->fdt, pmu_name);
+ @Z23_tbp        ...... ....0 .... r:1 ....0 rmc:2 ........ rc:1 &Z23_tb frt=%z23_frtp frb=%z23_frbp
+ 
+ &Z23_te_tb      te frt frb rmc rc:bool
+@@ -211,6 +219,12 @@ DTSTSFIQ        111111 ... - ...... ..... 1010100011 -  @X_bf_uim_bp
+ DQUAI           111011 ..... ..... ..... .. 01000011 .  @Z23_te_tb
+ DQUAIQ          111111 ..... ..... ..... .. 01000011 .  @Z23_te_tbp
+ 
++DQUA            111011 ..... ..... ..... .. 00000011 .  @Z23_tab
++DQUAQ           111111 ..... ..... ..... .. 00000011 .  @Z23_tabp
 +
-+    g_free(pmu_name);
-+    g_free(pmu_cells);
++DRRND           111011 ..... ..... ..... .. 00100011 .  @Z23_tab
++DRRNDQ          111111 ..... ..... ..... .. 00100011 .  @Z23_tp_a_bp
++
+ DRINTX          111011 ..... ---- . ..... .. 01100011 . @Z23_tb
+ DRINTXQ         111111 ..... ---- . ..... .. 01100011 . @Z23_tbp
+ 
+diff --git a/target/ppc/translate/dfp-impl.c.inc b/target/ppc/translate/dfp-impl.c.inc
+index cb481d028a..30d65ffb46 100644
+--- a/target/ppc/translate/dfp-impl.c.inc
++++ b/target/ppc/translate/dfp-impl.c.inc
+@@ -86,28 +86,25 @@ static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a)   \
+     return true;                                             \
+ }
+ 
+-#define GEN_DFP_T_A_B_I32_Rc(name, i32fld)       \
+-static void gen_##name(DisasContext *ctx)        \
+-{                                                \
+-    TCGv_ptr rt, ra, rb;                         \
+-    TCGv_i32 i32;                                \
+-    if (unlikely(!ctx->fpu_enabled)) {           \
+-        gen_exception(ctx, POWERPC_EXCP_FPU);    \
+-        return;                                  \
+-    }                                            \
+-    rt = gen_fprp_ptr(rD(ctx->opcode));          \
+-    ra = gen_fprp_ptr(rA(ctx->opcode));          \
+-    rb = gen_fprp_ptr(rB(ctx->opcode));          \
+-    i32 = tcg_const_i32(i32fld(ctx->opcode));    \
+-    gen_helper_##name(cpu_env, rt, ra, rb, i32); \
+-    if (unlikely(Rc(ctx->opcode) != 0)) {        \
+-        gen_set_cr1_from_fpscr(ctx);             \
+-    }                                            \
+-    tcg_temp_free_ptr(rt);                       \
+-    tcg_temp_free_ptr(rb);                       \
+-    tcg_temp_free_ptr(ra);                       \
+-    tcg_temp_free_i32(i32);                      \
+-    }
++#define TRANS_DFP_T_A_B_I32_Rc(NAME, I32FLD)                 \
++static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a)   \
++{                                                            \
++    TCGv_ptr rt, ra, rb;                                     \
++    REQUIRE_INSNS_FLAGS2(ctx, DFP);                          \
++    REQUIRE_FPU(ctx);                                        \
++    rt = gen_fprp_ptr(a->frt);                               \
++    ra = gen_fprp_ptr(a->fra);                               \
++    rb = gen_fprp_ptr(a->frb);                               \
++    gen_helper_##NAME(cpu_env, rt, ra, rb,                   \
++                      tcg_constant_i32(a->I32FLD));          \
++    if (unlikely(a->rc)) {                                   \
++        gen_set_cr1_from_fpscr(ctx);                         \
++    }                                                        \
++    tcg_temp_free_ptr(rt);                                   \
++    tcg_temp_free_ptr(ra);                                   \
++    tcg_temp_free_ptr(rb);                                   \
++    return true;                                             \
 +}
-+
-+
- static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
-                                bool is_32_bit, uint32_t *phandle,
-                                uint32_t *irq_mmio_phandle,
-@@ -445,6 +479,8 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
-         create_fdt_socket_plic(s, memmap, socket, phandle,
-             intc_phandles, xplic_phandles);
  
-+        create_fdt_socket_pmu(s, socket, phandle, intc_phandles);
-+
-         g_free(intc_phandles);
-         g_free(clust_name);
-     }
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 54abf425835c..2e2145e51903 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -25,6 +25,7 @@
- #include "cpu.h"
- #include "trace.h"
- #include "exec/exec-all.h"
-+#include "sysemu/device_tree.h"
+ #define GEN_DFP_T_B_Rc(name)                     \
+ static void gen_##name(DisasContext *ctx)        \
+@@ -172,10 +169,10 @@ TRANS_DFP_BF_I_B(DTSTSFI)
+ TRANS_DFP_BF_I_B(DTSTSFIQ)
+ TRANS_DFP_T_B_U32_U32_Rc(DQUAI, te, rmc)
+ TRANS_DFP_T_B_U32_U32_Rc(DQUAIQ, te, rmc)
+-GEN_DFP_T_A_B_I32_Rc(dqua, RMC)
+-GEN_DFP_T_A_B_I32_Rc(dquaq, RMC)
+-GEN_DFP_T_A_B_I32_Rc(drrnd, RMC)
+-GEN_DFP_T_A_B_I32_Rc(drrndq, RMC)
++TRANS_DFP_T_A_B_I32_Rc(DQUA, rmc)
++TRANS_DFP_T_A_B_I32_Rc(DQUAQ, rmc)
++TRANS_DFP_T_A_B_I32_Rc(DRRND, rmc)
++TRANS_DFP_T_A_B_I32_Rc(DRRNDQ, rmc)
+ TRANS_DFP_T_B_U32_U32_Rc(DRINTX, r, rmc)
+ TRANS_DFP_T_B_U32_U32_Rc(DRINTXQ, r, rmc)
+ TRANS_DFP_T_B_U32_U32_Rc(DRINTN, r, rmc)
+@@ -201,7 +198,6 @@ GEN_DFP_T_FPR_I32_Rc(dscliq, rA, DCM)
+ GEN_DFP_T_FPR_I32_Rc(dscri, rA, DCM)
+ GEN_DFP_T_FPR_I32_Rc(dscriq, rA, DCM)
  
- static void pmp_write_cfg(CPURISCVState *env, uint32_t addr_index,
-     uint8_t val);
-diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
-index 25bdbdf48ff7..9e11af85576d 100644
---- a/target/riscv/pmu.c
-+++ b/target/riscv/pmu.c
-@@ -19,9 +19,72 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "pmu.h"
-+#include "sysemu/device_tree.h"
+-#undef GEN_DFP_T_A_B_I32_Rc
+ #undef GEN_DFP_T_B_Rc
+ #undef GEN_DFP_T_FPR_I32_Rc
  
- #define RISCV_TIMEBASE_FREQ 1000000000 /* 1Ghz */
+diff --git a/target/ppc/translate/dfp-ops.c.inc b/target/ppc/translate/dfp-ops.c.inc
+index c563f84a0b..3e0dfae796 100644
+--- a/target/ppc/translate/dfp-ops.c.inc
++++ b/target/ppc/translate/dfp-ops.c.inc
+@@ -5,12 +5,6 @@ GEN_HANDLER_E(name, 0x3B, op1, op2, mask, PPC_NONE, PPC2_DFP)
+ GEN_HANDLER_E(name, 0x3B, op1, 0x00 | op2, mask, PPC_NONE, PPC2_DFP), \
+ GEN_HANDLER_E(name, 0x3B, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP)
  
-+/**
-+ * To keep it simple, any event can be mapped to any programmable counters in
-+ * QEMU. The generic cycle & instruction count events can also be monitored
-+ * using programmable counters. In that case, mcycle & minstret must continue
-+ * to provide the correct value as well.
-+ */
-+void riscv_pmu_generate_fdt_node(void *fdt, char *pmu_name)
-+{
-+    uint32_t fdt_event_map[6] = {};
-+    uint32_t fdt_event_ctr_map[20] = {};
-+    uint32_t fdt_raw_event_ctr_map[6] = {};
-+
-+    /* Dummy event and mhpmevent values */
-+    fdt_event_map[0] = cpu_to_be32(0x00000009);
-+    fdt_event_map[1] = cpu_to_be32(0x00000000);
-+    fdt_event_map[2] = cpu_to_be32(0x00000200);
-+    fdt_event_map[3] = cpu_to_be32(0x00010000);
-+    fdt_event_map[4] = cpu_to_be32(0x00000100);
-+    fdt_event_map[5] = cpu_to_be32(0x00000002);
-+    qemu_fdt_setprop(fdt, pmu_name, "pmu,event-to-mhpmevent",
-+                     fdt_event_map, sizeof(fdt_event_map));
-+
-+   /* SBI_PMU_HW_CPU_CYCLES */
-+   fdt_event_ctr_map[0] = cpu_to_be32(0x00000001);
-+   fdt_event_ctr_map[1] = cpu_to_be32(0x00000001);
-+   fdt_event_ctr_map[2] = cpu_to_be32(0x00000FF9);
-+
-+   /* SBI_PMU_HW_INSTRUCTIONS */
-+   fdt_event_ctr_map[3] = cpu_to_be32(0x00000002);
-+   fdt_event_ctr_map[4] = cpu_to_be32(0x00000002);
-+   fdt_event_ctr_map[5] = cpu_to_be32(0x00000FFC);
-+
-+   /* SBI_PMU_HW_CACHE_DTLB : READ : MISS */
-+   fdt_event_ctr_map[6] = cpu_to_be32(0x00010019);
-+   fdt_event_ctr_map[7] = cpu_to_be32(0x00010019);
-+   fdt_event_ctr_map[8] = cpu_to_be32(0x00001F0);
-+
-+   /* SBI_PMU_HW_CACHE_DTLB : WRITE : MISS */
-+   fdt_event_ctr_map[9] = cpu_to_be32(0x0001001B);
-+   fdt_event_ctr_map[10] = cpu_to_be32(0x0001001B);
-+   fdt_event_ctr_map[11] = cpu_to_be32(0x00001F0);
-+
-+   /* SBI_PMU_HW_CACHE_ITLB : READ : MISS */
-+   fdt_event_ctr_map[12] = cpu_to_be32(0x00010021);
-+   fdt_event_ctr_map[13] = cpu_to_be32(0x00010021);
-+   fdt_event_ctr_map[14] = cpu_to_be32(0x00001F0);
-+
-+   qemu_fdt_setprop(fdt, pmu_name, "pmu,event-to-mhpmcounters",
-+                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
-+
-+   /* Dummy raw events */
-+   fdt_raw_event_ctr_map[0] = cpu_to_be32(0x00000000);
-+   fdt_raw_event_ctr_map[1] = cpu_to_be32(0x00020002);
-+   fdt_raw_event_ctr_map[2] = cpu_to_be32(0x00000F00);
-+   fdt_raw_event_ctr_map[3] = cpu_to_be32(0x00000000);
-+   fdt_raw_event_ctr_map[4] = cpu_to_be32(0x00020003);
-+   fdt_raw_event_ctr_map[5] = cpu_to_be32(0x000000F0);
-+   qemu_fdt_setprop(fdt, pmu_name, "pmu,raw-event-to-mhpmcounters",
-+                    fdt_raw_event_ctr_map,
-+                    sizeof(fdt_raw_event_ctr_map));
-+}
-+
- static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
- {
-     if (ctr_idx < 3 || ctr_idx >= RV_MAX_MHPMCOUNTERS ||
+-#define _GEN_DFP_LONGx4(name, op1, op2, mask) \
+-GEN_HANDLER_E(name, 0x3B, op1, 0x00 | op2, mask, PPC_NONE, PPC2_DFP), \
+-GEN_HANDLER_E(name, 0x3B, op1, 0x08 | op2, mask, PPC_NONE, PPC2_DFP), \
+-GEN_HANDLER_E(name, 0x3B, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP), \
+-GEN_HANDLER_E(name, 0x3B, op1, 0x18 | op2, mask, PPC_NONE, PPC2_DFP)
+-
+ #define _GEN_DFP_QUAD(name, op1, op2, mask) \
+ GEN_HANDLER_E(name, 0x3F, op1, op2, mask, PPC_NONE, PPC2_DFP)
+ 
+@@ -18,12 +12,6 @@ GEN_HANDLER_E(name, 0x3F, op1, op2, mask, PPC_NONE, PPC2_DFP)
+ GEN_HANDLER_E(name, 0x3F, op1, 0x00 | op2, mask, PPC_NONE, PPC2_DFP), \
+ GEN_HANDLER_E(name, 0x3F, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP)
+ 
+-#define _GEN_DFP_QUADx4(name, op1, op2, mask)                         \
+-GEN_HANDLER_E(name, 0x3F, op1, 0x00 | op2, mask, PPC_NONE, PPC2_DFP), \
+-GEN_HANDLER_E(name, 0x3F, op1, 0x08 | op2, mask, PPC_NONE, PPC2_DFP), \
+-GEN_HANDLER_E(name, 0x3F, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP), \
+-GEN_HANDLER_E(name, 0x3F, op1, 0x18 | op2, mask, PPC_NONE, PPC2_DFP)
+-
+ #define GEN_DFP_T_B_Rc(name, op1, op2) \
+ _GEN_DFP_LONG(name, op1, op2, 0x001F0000)
+ 
+@@ -36,15 +24,6 @@ _GEN_DFP_QUAD(name, op1, op2, 0x003F0000)
+ #define GEN_DFP_T_Bp_Rc(name, op1, op2) \
+ _GEN_DFP_QUAD(name, op1, op2, 0x001F0800)
+ 
+-#define GEN_DFP_T_A_B_RMC_Rc(name, op1, op2) \
+-_GEN_DFP_LONGx4(name, op1, op2, 0x00000000)
+-
+-#define GEN_DFP_Tp_Ap_Bp_RMC_Rc(name, op1, op2) \
+-_GEN_DFP_QUADx4(name, op1, op2, 0x02010800)
+-
+-#define GEN_DFP_Tp_A_Bp_RMC_Rc(name, op1, op2) \
+-_GEN_DFP_QUADx4(name, op1, op2, 0x02000800)
+-
+ #define GEN_DFP_SP_T_B_Rc(name, op1, op2) \
+ _GEN_DFP_LONG(name, op1, op2, 0x00070000)
+ 
+@@ -63,10 +42,6 @@ _GEN_DFP_LONGx2(name, op1, op2, 0x00000000)
+ #define GEN_DFP_Tp_Ap_SH_Rc(name, op1, op2) \
+ _GEN_DFP_QUADx2(name, op1, op2, 0x00210000)
+ 
+-GEN_DFP_T_A_B_RMC_Rc(dqua, 0x03, 0x00),
+-GEN_DFP_Tp_Ap_Bp_RMC_Rc(dquaq, 0x03, 0x00),
+-GEN_DFP_T_A_B_RMC_Rc(drrnd, 0x03, 0x01),
+-GEN_DFP_Tp_A_Bp_RMC_Rc(drrndq, 0x03, 0x01),
+ GEN_DFP_T_B_Rc(dctdp, 0x02, 0x08),
+ GEN_DFP_Tp_B_Rc(dctqpq, 0x02, 0x08),
+ GEN_DFP_T_B_Rc(drsp, 0x02, 0x18),
 -- 
-2.31.1
+2.25.1
 
 
