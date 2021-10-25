@@ -2,88 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1614743902E
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 09:18:41 +0200 (CEST)
-Received: from localhost ([::1]:44822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0E5E43902F
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 09:18:56 +0200 (CEST)
+Received: from localhost ([::1]:45708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meuFk-0000Bq-3z
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 03:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39184)
+	id 1meuG0-0000nN-3L
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 03:18:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1meuE1-0006tO-2Q
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 03:16:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35290)
+ id 1meuEu-0007Ue-T1
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 03:17:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1meuDz-0004dL-6Z
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 03:16:52 -0400
+ id 1meuEk-0005Ix-Ju
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 03:17:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635146210;
+ s=mimecast20190719; t=1635146258;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=AXaPRVztN+4ZHkzs1Vj1+5zUayaUKwlrFVboeLXvCT8=;
- b=c3pRB4y9Y5FMCF9zKjArTORT33yR8IPttrb/gU4xrCZF76ZP9TAQc/hdt2+MNHXLw14ZVs
- /FGYrdPJ1CVCvZsFYAIinO+O9o+sXsMpzySr334pWjM/IDLvgChyRrEf91DzfCtW4M+xpv
- swVX9Q6ePxTW4/Cj9xnXmH8nmoQVMjE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-rCrnUKKZNROSC-N50Hrc9g-1; Mon, 25 Oct 2021 03:16:46 -0400
-X-MC-Unique: rCrnUKKZNROSC-N50Hrc9g-1
-Received: by mail-wr1-f72.google.com with SMTP id
- x1-20020adfffc1000000b001679fc9c018so2917926wrs.18
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 00:16:46 -0700 (PDT)
+ bh=ePR29g8guYG0nmZw2ZgyFLZqEwTIWTw3Hr1LzYFcNZA=;
+ b=gloJNUttzVjO/XXo9ds3Q4PTWJVMBYS+tL5L6JagCkmznEVrofMc4mqIz3fnTbiEyNEmjc
+ aOT4kfqYOXtH5QH86xkHRdD+42pQNP94TU76al8q3CFuFTkCXM5n8rn036RsuS94YkdBb0
+ Op2AOr6jSgpFAR4DT6lSV1s0CBRBYG8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-45-eRGuoT82MQieqgIOqhSGbA-1; Mon, 25 Oct 2021 03:17:34 -0400
+X-MC-Unique: eRGuoT82MQieqgIOqhSGbA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o22-20020a1c7516000000b0030d6f9c7f5fso3323679wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 00:17:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
- bh=AXaPRVztN+4ZHkzs1Vj1+5zUayaUKwlrFVboeLXvCT8=;
- b=mYRS0tbvwNXfOLBspsIN97cuN5DOwoTbhOoviKYWIKujiAFcFhNWpKuF0DhPWTJ31I
- Ojc28hb9QfOTnqO1wnjOCzEdn4IaujyYvvNbGRdpf+2eocqGH1nmnhk94G12iCKAgpZ9
- nfuo8jBIUorHN2pW3UmtsJOagh7L1o2hOTtJxrJkgrHF4KxF8XqZVMQisyVE280CO4Ov
- iUtK3YIhlfyphtbXcTeop6elbN0mT74CQUDncgXpsEvDzn8Eh3g+J0lkEP5l73fPu5Lc
- ygqHw+Nc7r9xyplhpqVfFrbngzVs33xyA+WYFDLFc/oM7KbFaojT5/OqMfbRebtO5Ilv
- E5Hw==
-X-Gm-Message-State: AOAM533OnOiafsunywMy4In7zTjKm2dT9PpFHKAKye8damAbdvp20yPT
- cRtuj/OeRYsD5Z9Y/wxK6ASHsX9MJqDYPhdCoz+RxQVOXYzJ60ptvXODCtqjKBPXN3ZPxKzvr8O
- GeYCuwLS15pK7UYc=
-X-Received: by 2002:adf:ee42:: with SMTP id w2mr21415860wro.227.1635146205151; 
- Mon, 25 Oct 2021 00:16:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZemU/XTJ/mxi69YOtDuALUY8uQZIRn/9tUDgc3pltvHlfdpAK6dwRGN+sB7wFFHX11vHVdg==
-X-Received: by 2002:adf:ee42:: with SMTP id w2mr21415848wro.227.1635146205025; 
- Mon, 25 Oct 2021 00:16:45 -0700 (PDT)
+ bh=ePR29g8guYG0nmZw2ZgyFLZqEwTIWTw3Hr1LzYFcNZA=;
+ b=ku0tx3hSH0d6cIXAh43l4jefF8nKjX4kQLawOvVHzQ+86ZIjjbSK3NueAstnkCHvIH
+ V4JiJC9g3trbXHC4ZpPAchLBRVyOelLRCHEdb8sqxG0CVsSp2Scub1QVlGYNgJrsaQ5y
+ Ncsa66kqpdBkaX3BLUSau8coS8AWZX+O+dn32ShekGGyta7nN0exBrb6CmM7i2m88W/K
+ gC41Pigqp3OUbM76TJweSwWMOgEezcY3z15abTTDFzCfJK0GA7t44QD9eB0tcwBdcpwK
+ EGgTOzIVAxHTTOvs4C10hxGI5Vr0gYKVQskX2B/RSM1dOBqkwzCRoJXar5aVLlKZY5TU
+ D/Jw==
+X-Gm-Message-State: AOAM531x0sWQ6vGmuRIuUxDjtxG6tnZbcuG4FaZewyMOn9Kt+VTRF+AE
+ /IKXszFIt9jmbrcBNDmASs875mejczVhK3ue0yjKYrlHbYjPuFWAEfhrqjjF5t16Aaj9bgMhBdE
+ YBZDPkbxGb1OMjjU=
+X-Received: by 2002:a05:6000:144a:: with SMTP id
+ v10mr609511wrx.161.1635146253479; 
+ Mon, 25 Oct 2021 00:17:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyRwA1eG6W1/N9oKJY5LEAiulJr7+kqAs8JPPaQ7lUZdlAzwalES+Vxk6WFwN6HjEuK7mo4uw==
+X-Received: by 2002:a05:6000:144a:: with SMTP id
+ v10mr609492wrx.161.1635146253362; 
+ Mon, 25 Oct 2021 00:17:33 -0700 (PDT)
 Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
  [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id m12sm2755227wrq.69.2021.10.25.00.16.44
+ by smtp.gmail.com with ESMTPSA id g5sm4152115wrw.4.2021.10.25.00.17.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 00:16:44 -0700 (PDT)
+ Mon, 25 Oct 2021 00:17:32 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 2/9] qapi: Mark unstable QMP parts with feature 'unstable'
-In-Reply-To: <20211025052532.3859634-3-armbru@redhat.com> (Markus Armbruster's
- message of "Mon, 25 Oct 2021 07:25:25 +0200")
+Subject: Re: [PATCH 3/9] qapi: Eliminate QCO_NO_OPTIONS for a slight
+ simplification
+In-Reply-To: <20211025052532.3859634-4-armbru@redhat.com> (Markus Armbruster's
+ message of "Mon, 25 Oct 2021 07:25:26 +0200")
 References: <20211025052532.3859634-1-armbru@redhat.com>
- <20211025052532.3859634-3-armbru@redhat.com>
+ <20211025052532.3859634-4-armbru@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Mon, 25 Oct 2021 09:16:40 +0200
-Message-ID: <87ilxl376v.fsf@secure.mitica>
+Date: Mon, 25 Oct 2021 09:17:32 +0200
+Message-ID: <87ee89375f.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,11 +109,6 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Markus Armbruster <armbru@redhat.com> wrote:
-> Add special feature 'unstable' everywhere the name starts with 'x-',
-> except for InputBarrierProperties member x-origin and
-> MemoryBackendProperties member x-use-canonical-path-for-ramblock-id,
-> because these two are actually stable.
->
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
