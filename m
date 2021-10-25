@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87BD43A2FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 21:53:26 +0200 (CEST)
-Received: from localhost ([::1]:50456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3FB943A3C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 22:02:06 +0200 (CEST)
+Received: from localhost ([::1]:42134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf629-0005DZ-SM
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 15:53:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48850)
+	id 1mf6AW-0001q9-Vl
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 16:02:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>) id 1mf5uj-0005VD-9Y
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 15:45:45 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:48338 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>) id 1mf5ue-0002dm-2W
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 15:45:44 -0400
-Received: from [192.168.106.118]
- (dynamic-095-114-012-148.95.114.pool.telefonica.de [95.114.12.148])
- by csgraf.de (Postfix) with ESMTPSA id B89F06080614;
- Mon, 25 Oct 2021 21:45:35 +0200 (CEST)
-Message-ID: <d1f2f7d5-5376-f7c3-73d4-c7df95f94206@csgraf.de>
-Date: Mon, 25 Oct 2021 21:45:35 +0200
+ (Exim 4.90_1) (envelope-from <prvs=925953cd0=atish.patra@wdc.com>)
+ id 1mf659-0002Ou-UR; Mon, 25 Oct 2021 15:56:31 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:65114)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=925953cd0=atish.patra@wdc.com>)
+ id 1mf656-0005S8-GL; Mon, 25 Oct 2021 15:56:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1635191788; x=1666727788;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=B1jnmU90YFUZ4lkwBbs3WQbYpNQ8AvKpzI7aLY6zbxg=;
+ b=e0aAqjb1pKR+39saTlXWNjncuYVoZUgIe6F7rcwOORWyryRMi+jLIASV
+ W+TMwxozzJVvT1J300T6lQkSocmiDH5fg6rWHZqm7d85ylHSYL3HN0oX8
+ 3uzvjje2vgY/3g0zh2nprwVSvGVPWsv9KNzYA4lz5Gm2oYKOr5mXRV9y1
+ wCxUe2/ltxy3s27ZyIgzxZd8la4Akl2UK0EB+wL8D4CrwgFvLBdFs0pCn
+ v4oj6F6TL4Y0+ML7bMNOFV4O04Q0DCjB4tgm56hI8bNERn8au01FgQQIl
+ hg/UDRHEkJ2/8DTKS4mdkcsJ+3fiNg01uaOMsJRB6DAMedqwwwWE6KbOJ w==;
+X-IronPort-AV: E=Sophos;i="5.87,181,1631548800"; d="scan'208";a="287682999"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2021 03:56:23 +0800
+IronPort-SDR: 6kJSP4IjC9ilGyfUQnVOFKX8JUINZLgMhyOFLBQibDrXI0f8LqeZ3YlLpbYC3Ev4MN6nlg3Do3
+ 84XtE7DJ0PfpCJjEmDkaTOugfJ8uuNFo9NsswTCFzQ9sqUQ+ZcWOUtcAV3uoTb4zsIpY/ntVcf
+ pn/g7U071WnHScfx08MJ8vesrNECvLC3gkcXWMdw4eFar7p4Fci1lUSaFjDSAf/6mQlagFHO6D
+ uGl8Im2FGY35UA1C/g/xUrycIlraO9dQXNen69jzim6oZLqvCHxUca8yu2KnVoqKJIcCuly4FA
+ FCQxGRfQOotaUBVEs65TICIl
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2021 12:31:54 -0700
+IronPort-SDR: WhBz/9Jd7grjdwsXirPq6M4YMyCWNXOdCGq68INhajPzC6rCnpIxNhTgW9ngBFkObUqezKMZHS
+ E6xY9pruIyb7y3ANHJsVjpWxTPuSuImODrx+Tvob6eG7ut7TArdFAUYdUSX25b7V1Yhy41MMZN
+ oJUsDeOKFYLwU7ysSAEvSclw7DQRPjqIsONs9kd3Fn/rrvUJ5K/Xwoddd0dCm/aO3yBOaJE9GL
+ OtqOBIZgXViTbcXQgfV5SMufoODrVjBDfuHpZLtTtNeK3BXpME9xotX+llw+RImK5CkX1VMEOx
+ iWs=
+WDCIronportException: Internal
+Received: from unknown (HELO hulk.wdc.com) ([10.225.167.27])
+ by uls-op-cesaip01.wdc.com with ESMTP; 25 Oct 2021 12:56:24 -0700
+From: Atish Patra <atish.patra@wdc.com>
+To: qemu-devel@nongnu.org
+Subject: [ PATCH v3 00/10] Improve PMU support
+Date: Mon, 25 Oct 2021 12:55:51 -0700
+Message-Id: <20211025195601.245631-1-atish.patra@wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.1
-Subject: Re: [PATCH v4] isa-applesmc: provide OSK forwarding on Apple hosts
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20211022161448.81579-1-yaroshchuk2000@gmail.com>
- <394b94ad-3de6-2dfb-4aaf-344dcef8ec18@csgraf.de>
- <YXa9sCG+crLWnK29@redhat.com>
- <cab92a49-f382-355b-5b93-19b6c94741b9@csgraf.de>
- <YXbDmlw8GqdBtFc2@redhat.com>
- <81e13473-7bfc-4e32-98ef-c0df717f3b0f@csgraf.de>
- <YXbI/SrmRLrvKPZR@redhat.com>
-From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <YXbI/SrmRLrvKPZR@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -46
-X-Spam_score: -4.7
+Received-SPF: pass client-ip=68.232.143.124;
+ envelope-from=prvs=925953cd0=atish.patra@wdc.com; helo=esa2.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.846,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,138 +78,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Phil Dennis-Jordan <phil@philjordan.eu>,
- =?UTF-8?Q?Pedro_To=cc=82rres?= <t0rr3sp3dr0@gmail.com>,
- Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, suse@csgraf.de,
- f4bug@amsat.org, qemu-devel@nongnu.org, r.bolshakov@yadro.com,
- "Gabriel L. Somlo" <gsomlo@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- laurent@vivier.eu
+Cc: Atish Patra <atish.patra@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The latest version of the SBI specification includes a Performance Monitoring
+Unit(PMU) extension[1] which allows the supervisor to start/stop/configure
+various PMU events. The Sscofpmf ('Ss' for Privileged arch and Supervisor-level
+extensions, and 'cofpmf' for Count OverFlow and Privilege Mode Filtering)
+extension[2] allows the perf like tool to handle overflow interrupts and
+filtering support.
 
-On 25.10.21 17:10, Daniel P. Berrangé wrote:
-> On Mon, Oct 25, 2021 at 04:53:57PM +0200, Alexander Graf wrote:
->> On 25.10.21 16:47, Daniel P. Berrangé wrote:
->>> On Mon, Oct 25, 2021 at 04:42:22PM +0200, Alexander Graf wrote:
->>>> On 25.10.21 16:22, Daniel P. Berrangé wrote:
->>>>> On Mon, Oct 25, 2021 at 12:13:32PM +0200, Alexander Graf wrote:
->>>>>> On 22.10.21 18:14, Vladislav Yaroshchuk wrote:
->>>>>>> On Apple hosts we can read AppleSMC OSK key directly from host's
->>>>>>> SMC and forward this value to QEMU Guest.
->>>>>>>
->>>>>>> Usage:
->>>>>>> `-device isa-applesmc,hostosk=on`
->>>>>>>
->>>>>>> Apple licence allows use and run up to two additional copies
->>>>>>> or instances of macOS operating within virtual operating system
->>>>>>> environments on each Apple-branded computer that is already running
->>>>>>> the Apple Software, for purposes of:
->>>>>>> - software development
->>>>>>> - testing during software development
->>>>>>> - using macOS Server
->>>>>>> - personal, non-commercial use
->>>>>>>
->>>>>>> Guest macOS requires AppleSMC with correct OSK. The most legal
->>>>>>> way to pass it to the Guest is to forward the key from host SMC
->>>>>>> without any value exposion.
->>>>>>>
->>>>>>> Based on https://web.archive.org/web/20200103161737/osxbook.com/book/bonus/chapter7/tpmdrmmyth/
->>>>>>>
->>>>>>> Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
->>>>>>> @@ -331,6 +464,25 @@ static void applesmc_isa_realize(DeviceState *dev, Error **errp)
->>>>>>>          isa_register_ioport(&s->parent_obj, &s->io_err,
->>>>>>>                              s->iobase + APPLESMC_ERR_PORT);
->>>>>>> +    if (s->hostosk_flag) {
->>>>>>> +        /*
->>>>>>> +         * Property 'hostosk' has higher priority than 'osk'
->>>>>>> +         * and shadows it.
->>>>>>> +         * Free user-provided 'osk' property value
->>>>>>> +         */
->>>>>>> +        if (s->osk) {
->>>>>>> +            warn_report("isa-applesmc.osk is shadowed "
->>>>>>> +                        "by isa-applesmc.hostosk");
->>>>>>> +            g_free(s->osk);
->>>>>>> +        }
->>>>>>> +
->>>>>>> +        if (!applesmc_read_host_osk(&s->osk, &err)) {
->>>>>>> +            /* On host OSK retrieval error report a warning */
->>>>>>> +            error_report_err(err);
->>>>>>> +            s->osk = default_osk;
->>>>>>> +        }
->>>>>>> +    }
->>>>>> This part is yucky. A few things:
->>>>>>
->>>>>> 1) QEMU in general does not fail user requested operations silently. If the
->>>>>> user explicitly asked to read the host OSK and we couldn't, it must
->>>>>> propagate that error.
->>>>>> 2) In tandem to the above, I think the only consistent CX is to make both
->>>>>> options mutually exclusive. The easiest way to achieve that IMHO would be to
->>>>>> overload the "osk" property. If it is "host", then use the host one.
->>>>>> 3) Should we make "osk"="host" the default on macOS as well then? Of course,
->>>>>> that one should *not* fail hard when it can't read the key, because it's an
->>>>>> implicit request rather than an explicit one.
->>>>> The problem with using a magic string value for the existing "osk"
->>>>> parameter is that this is not introspectable by management apps.
->>>> What introspectability would you like to have?
->>> Essentially to answer the question
->>>
->>>     "Does this QEMU support OSK passthrough from the host"
->>>
->>> Mgmt apps like libvirt introspect using various query-XXX QMP commands.
->>> For devices, the typical approach is to ask for the list of properties
->>> the device supports. If we're just accepting a new magic value on an
->>> existing property there is no way to query for existance of that feature.
->>> If we add a "host-osk=bool" parameter introspectability is trivially
->>> satisfied.
->>
->> Ok, the only flow that remains sensible in that case to me sounds like the
->> following:
-> Just need an extra check upfront:
->
->   if (s->osk && s->use_hoist_osk)
->       error_setg(errp, ...)
->   else
->   
->> if (s->osk) {
->>      /* Use osk */
-> This should fail hard if the provided value is the wrong length - currently
-> it falls back with a warning IIUC.
->
->> } else if (s->use_host_osk) {
->>      /* Use host OSK. Fail hard if we can't find it */
->> } else if (can_use_host_osk) {
->>      /* See if we can extract the key from the host. If not, fall back to old
->> behavior */
->> } else {
->>      /* Old fallback behavior */
-> Was this old fallback behaviour actually useful ? IIUC it means it is using
->
->
->    static char default_osk[64] = "This is a dummy key. Enter the real key "
->                                  "using the -osk parameter";
->
-> which obviously isn't a valid key that will work with any gust OS that
-> cares. I guess it at least let QEMU startup, but any the guest OS that
-> checks the key will be unhappy.
->
-> If if don't think default_osk is actually useful, then we could simplify
-> further to
->
->   if (s->osk && s->use_host_osk) {
->       error_setg(errp, ...)
->   } else if (s->osk) {
->      /* Use osk. Fail hard if invalid (ie wrong length) */
->   } else if (s->use_host_osk) {
->      /* Use host OSK. Fail hard if we can't find it */
->   } else {
->      /* try to use host OSK, fail hard if we can't find it or non-OS-X build */
->   }
+This series implements full PMU infrastructure to support
+PMU in virt machine. This will allow us to add any PMU events in future.
+
+Currently, this series enables the following omu events.
+1. cycle count
+2. instruction count
+3. DTLB load/store miss
+4. ITLB prefetch miss
+
+The first two are computed using host ticks while last three are counted during
+cpu_tlb_fill. We can do both sampling and count from guest userspace.
+This series has been tested on both RV64 and RV32. Both Linux[3] and Opensbi[4]
+patches are required to get the perf working.
+
+Here is an output of perf stat/report while running hackbench with OpenSBI & Linux
+kernel patches applied [3].
+
+Perf stat:
+==========
+[root@fedora-riscv riscv]# perf stat -e r8000000000000005 -e r8000000000000007 \
+-e r8000000000000006 -e r0000000000020002 -e r0000000000020004 -e branch-misses \
+-e cache-misses -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses \
+-e cycles -e instructions perf bench sched messaging -g 15 -l 10 \
+Running with 15*40 (== 600) tasks.
+Time: 6.578
+
+ Performance counter stats for './hackbench -pipe 15 process':
+
+             1,794      r8000000000000005      (52.59%) --> SBI_PMU_FW_SET_TIMER
+             2,859      r8000000000000007      (60.74%) --> SBI_PMU_FW_IPI_RECVD
+             4,205      r8000000000000006      (68.71%) --> SBI_PMU_FW_IPI_SENT
+                 0      r0000000000020002      (81.69%)
+     <not counted>      r0000000000020004      (0.00%)
+     <not counted>      branch-misses          (0.00%)
+     <not counted>      cache-misses           (0.00%)
+         7,878,328      dTLB-load-misses       (15.60%)
+           680,270      dTLB-store-misses      (28.45%)
+         8,287,931      iTLB-load-misses       (39.24%)
+    20,008,506,675      cycles                 (48.60%)
+    21,484,427,932      instructions   # 1.07  insn per cycle (56.60%)
+
+       1.681344735 seconds time elapsed
+
+       0.614460000 seconds user
+       8.313254000 seconds sys
 
 
-In the example above, use_host_osk=on and use_host_osk=off yield the 
-exact same behavior, so we don't need the switch, no?
+Perf record:
+============
+[root@fedora-riscv riscv]# perf record -e cycles -e instructions \
+-e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses -c 10000 \
+perf bench sched messaging -g 15 -l 10
+# Running 'sched/messaging' benchmark:
+# 20 sender and receiver processes per group
+# 15 groups == 600 processes run
 
-Alex
+     Total time: 1.261 [sec]
+[ perf record: Woken up 1 times to write data ]
+[ perf record: Captured and wrote 0.101 MB perf.data (845 samples) ]
+
+[root@fedora-riscv riscv]# perf report
+Available samples                                                               
+407 cycles                                                                     _
+407 instructions                                                               _
+18 dTLB-load-misses                                                            _
+2 dTLB-store-misses                                                            _
+11 iTLB-load-misses                                                            _
+..
+
+Changes from v2->v3:
+1. Addressed all the comments on PATCH1-4.
+2. Split patch1 into two separate patches.
+3. Added explicit comments to explain the event types in DT node.
+4. Rebased on latest Qemu.
+
+Changes from v1->v2:
+1. Dropped the ACks from v1 as signficant changes happened after v1.
+2. sscofpmf support.
+3. A generic counter management framework.
+
+[1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sbi.adoc
+[2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/edit
+[3] https://github.com/atishp04/opensbi/tree/pmu_sscofpmf_v2 
+[3] https://github.com/atishp04/linux/tree/riscv_pmu_v4
+[4] https://github.com/atishp04/qemu/tree/riscv_pmu_v3
+
+Atish Patra (10):
+target/riscv: Fix PMU CSR predicate function
+target/riscv: Implement PMU CSR predicate function for
+target/riscv: pmu: Rename the counters extension to pmu
+target/riscv: pmu: Make number of counters configurable
+target/riscv: Implement mcountinhibit CSR
+target/riscv: Add support for hpmcounters/hpmevents
+target/riscv: Support mcycle/minstret write operation
+target/riscv: Add sscofpmf extension support
+target/riscv: Add few cache related PMU events
+hw/riscv: virt: Add PMU DT node to the device tree
+
+hw/riscv/virt.c           |  36 ++
+target/riscv/cpu.c        |  14 +-
+target/riscv/cpu.h        |  51 ++-
+target/riscv/cpu_bits.h   |  59 +++
+target/riscv/cpu_helper.c |  26 ++
+target/riscv/csr.c        | 827 +++++++++++++++++++++++++++++---------
+target/riscv/machine.c    |  30 +-
+target/riscv/meson.build  |   1 +
+target/riscv/pmp.c        |   1 +
+target/riscv/pmu.c        | 434 ++++++++++++++++++++
+target/riscv/pmu.h        |  37 ++
+11 files changed, 1332 insertions(+), 184 deletions(-)
+create mode 100644 target/riscv/pmu.c
+create mode 100644 target/riscv/pmu.h
+
+--
+2.31.1
 
 
