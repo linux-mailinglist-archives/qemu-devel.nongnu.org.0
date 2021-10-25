@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 486CC438ED8
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 07:31:42 +0200 (CEST)
-Received: from localhost ([::1]:43066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B43438ECA
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 07:28:23 +0200 (CEST)
+Received: from localhost ([::1]:33954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mesaD-0005n6-AN
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 01:31:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54138)
+	id 1mesX0-0008BG-Nx
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 01:28:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mesUd-0005IS-V7
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 01:25:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46253)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mesUj-0005OK-2Y
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 01:26:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mesUb-0005GP-0O
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 01:25:55 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mesUh-0005ME-1D
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 01:26:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635139552;
+ s=mimecast20190719; t=1635139558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0Pae19ZvE+tk/uq7rnhHFYh50rzZEaPr3MYzebwKmFw=;
- b=EkvRd0ryYAPw0iIw7OjdphxQQhmj+MUkUngFlsBKV1ADCH6vgAK4Wql3UNRWko96vM8piw
- kBs8D4HNmeTdwbeOmuTzG+O4za33lDJpZOcL7DkCGPWbwJpz/yttIm2f++QkB7FkgBgzXk
- CtnJ2AtPPvh9TC18MO8JLI30VXf3pHQ=
+ bh=Bjp40QDMjzLp4z/JRZN/dq3S4AhYW7hNmIAirog1dOg=;
+ b=FE1iDTHloLvj6ECC1ApA+SIFevUGHhV5kjt/JaJ0lWU0Tyfm6BwsY0XwuoZAasOgXLcrnL
+ Ou4af/Upnwg4OLg4KX4ySibGl0TelZT5fnohdZASz69zltFKIuxj+fmZvY4MncjYKltup2
+ U+lETK9MT/Fh2B8qkudCS+LG/BsgILo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-lSk_f53yNDugbAWI7Qbjww-1; Mon, 25 Oct 2021 01:25:48 -0400
-X-MC-Unique: lSk_f53yNDugbAWI7Qbjww-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-486-mY2m8B7yPTaAOA1ppdHfRA-1; Mon, 25 Oct 2021 01:25:55 -0400
+X-MC-Unique: mY2m8B7yPTaAOA1ppdHfRA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18C721006AA2;
- Mon, 25 Oct 2021 05:25:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FBE6802B52;
+ Mon, 25 Oct 2021 05:25:54 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D32B5C25D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D6D060BF4;
  Mon, 25 Oct 2021 05:25:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DEF2011380CA; Mon, 25 Oct 2021 07:25:32 +0200 (CEST)
+ id E25B011380CD; Mon, 25 Oct 2021 07:25:32 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/9] qapi: Generalize struct member policy checking
-Date: Mon, 25 Oct 2021 07:25:28 +0200
-Message-Id: <20211025052532.3859634-6-armbru@redhat.com>
+Subject: [PATCH 6/9] qapi: Generalize command policy checking
+Date: Mon, 25 Oct 2021 07:25:29 +0200
+Message-Id: <20211025052532.3859634-7-armbru@redhat.com>
 In-Reply-To: <20211025052532.3859634-1-armbru@redhat.com>
 References: <20211025052532.3859634-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -86,314 +86,161 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The generated visitor functions call visit_deprecated_accept() and
-visit_deprecated() when visiting a struct member with special feature
-flag 'deprecated'.  This makes the feature flag visible to the actual
-visitors.  I want to make feature flag 'unstable' visible there as
-well, so I can add policy for it.
+The code to check command policy can see special feature flag
+'deprecated' as command flag QCO_DEPRECATED.  I want to make feature
+flag 'unstable' visible there as well, so I can add policy for it.
 
-To let me make it visible, replace these functions by
-visit_policy_reject() and visit_policy_skip(), which take the member's
-special features as an argument.  Note that the new functions have the
-opposite sense, i.e. the return value flips.
+To let me make it visible, add member @special_features (a bitset of
+QapiSpecialFeature) to QmpCommand, and adjust the generator to pass it
+through qmp_register_command().  Then replace "QCO_DEPRECATED in
+@flags" by QAPI_DEPRECATED in @special_features", and drop
+QCO_DEPRECATED.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/qapi/visitor-impl.h   |  6 ++++--
- include/qapi/visitor.h        | 17 +++++++++++++----
- qapi/qapi-forward-visitor.c   | 16 +++++++++-------
- qapi/qapi-visit-core.c        | 22 ++++++++++++----------
- qapi/qobject-input-visitor.c  | 15 ++++++++++-----
- qapi/qobject-output-visitor.c |  9 ++++++---
- qapi/trace-events             |  4 ++--
- scripts/qapi/visit.py         | 14 +++++++-------
- 8 files changed, 63 insertions(+), 40 deletions(-)
+ include/qapi/qmp/dispatch.h          | 5 +++--
+ monitor/misc.c                       | 6 ++++--
+ qapi/qmp-dispatch.c                  | 2 +-
+ qapi/qmp-registry.c                  | 4 +++-
+ storage-daemon/qemu-storage-daemon.c | 3 ++-
+ scripts/qapi/commands.py             | 9 ++++-----
+ 6 files changed, 17 insertions(+), 12 deletions(-)
 
-diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
-index 72b6537bef..2badec5ba4 100644
---- a/include/qapi/visitor-impl.h
-+++ b/include/qapi/visitor-impl.h
-@@ -114,10 +114,12 @@ struct Visitor
-     void (*optional)(Visitor *v, const char *name, bool *present);
+diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
+index 0ce88200b9..1e4240fd0d 100644
+--- a/include/qapi/qmp/dispatch.h
++++ b/include/qapi/qmp/dispatch.h
+@@ -25,7 +25,6 @@ typedef enum QmpCommandOptions
+     QCO_ALLOW_OOB             =  (1U << 1),
+     QCO_ALLOW_PRECONFIG       =  (1U << 2),
+     QCO_COROUTINE             =  (1U << 3),
+-    QCO_DEPRECATED            =  (1U << 4),
+ } QmpCommandOptions;
  
-     /* Optional */
--    bool (*deprecated_accept)(Visitor *v, const char *name, Error **errp);
-+    bool (*policy_reject)(Visitor *v, const char *name,
-+                          unsigned special_features, Error **errp);
+ typedef struct QmpCommand
+@@ -34,6 +33,7 @@ typedef struct QmpCommand
+     /* Runs in coroutine context if QCO_COROUTINE is set */
+     QmpCommandFunc *fn;
+     QmpCommandOptions options;
++    unsigned special_features;
+     QTAILQ_ENTRY(QmpCommand) node;
+     bool enabled;
+     const char *disable_reason;
+@@ -42,7 +42,8 @@ typedef struct QmpCommand
+ typedef QTAILQ_HEAD(QmpCommandList, QmpCommand) QmpCommandList;
  
-     /* Optional */
--    bool (*deprecated)(Visitor *v, const char *name);
-+    bool (*policy_skip)(Visitor *v, const char *name,
-+                        unsigned special_features);
+ void qmp_register_command(QmpCommandList *cmds, const char *name,
+-                          QmpCommandFunc *fn, QmpCommandOptions options);
++                          QmpCommandFunc *fn, QmpCommandOptions options,
++                          unsigned special_features);
+ const QmpCommand *qmp_find_command(const QmpCommandList *cmds,
+                                    const char *name);
+ void qmp_disable_command(QmpCommandList *cmds, const char *name,
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 3556b177f6..c2d227a07c 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -230,11 +230,13 @@ static void monitor_init_qmp_commands(void)
  
-     /* Must be set */
-     VisitorType type;
-diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
-index dcb96018a9..d53a84c9ba 100644
---- a/include/qapi/visitor.h
-+++ b/include/qapi/visitor.h
-@@ -461,22 +461,31 @@ void visit_end_alternate(Visitor *v, void **obj);
- bool visit_optional(Visitor *v, const char *name, bool *present);
+     qmp_init_marshal(&qmp_commands);
  
- /*
-- * Should we reject deprecated member @name?
-+ * Should we reject member @name due to policy?
-+ *
-+ * @special_features is the member's special features encoded as a
-+ * bitset of QapiSpecialFeature.
-  *
-  * @name must not be NULL.  This function is only useful between
-  * visit_start_struct() and visit_end_struct(), since only objects
-  * have deprecated members.
-  */
--bool visit_deprecated_accept(Visitor *v, const char *name, Error **errp);
-+bool visit_policy_reject(Visitor *v, const char *name,
-+                         unsigned special_features, Error **errp);
+-    qmp_register_command(&qmp_commands, "device_add", qmp_device_add, 0);
++    qmp_register_command(&qmp_commands, "device_add",
++                         qmp_device_add, 0, 0);
  
- /*
-- * Should we visit deprecated member @name?
-+ *
-+ * Should we skip member @name due to policy?
-+ *
-+ * @special_features is the member's special features encoded as a
-+ * bitset of QapiSpecialFeature.
-  *
-  * @name must not be NULL.  This function is only useful between
-  * visit_start_struct() and visit_end_struct(), since only objects
-  * have deprecated members.
-  */
--bool visit_deprecated(Visitor *v, const char *name);
-+bool visit_policy_skip(Visitor *v, const char *name,
-+                       unsigned special_features);
- 
- /*
-  * Set policy for handling deprecated management interfaces.
-diff --git a/qapi/qapi-forward-visitor.c b/qapi/qapi-forward-visitor.c
-index a4b111e22a..25d098aa8a 100644
---- a/qapi/qapi-forward-visitor.c
-+++ b/qapi/qapi-forward-visitor.c
-@@ -246,25 +246,27 @@ static void forward_field_optional(Visitor *v, const char *name, bool *present)
-     visit_optional(ffv->target, name, present);
+     QTAILQ_INIT(&qmp_cap_negotiation_commands);
+     qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilities",
+-                         qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONFIG);
++                         qmp_marshal_qmp_capabilities,
++                         QCO_ALLOW_PRECONFIG, 0);
  }
  
--static bool forward_field_deprecated_accept(Visitor *v, const char *name,
--                                            Error **errp)
-+static bool forward_field_policy_reject(Visitor *v, const char *name,
-+                                        unsigned special_features,
-+                                        Error **errp)
- {
-     ForwardFieldVisitor *ffv = to_ffv(v);
- 
-     if (!forward_field_translate_name(ffv, &name, errp)) {
-         return false;
+ /* Set the current CPU defined by the user. Callers must hold BQL. */
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index 7e943a0af5..8cca18c891 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -176,7 +176,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+                   "The command %s has not been found", command);
+         goto out;
      }
--    return visit_deprecated_accept(ffv->target, name, errp);
-+    return visit_policy_reject(ffv->target, name, special_features, errp);
- }
+-    if (cmd->options & QCO_DEPRECATED) {
++    if (cmd->special_features & 1u << QAPI_DEPRECATED) {
+         switch (compat_policy.deprecated_input) {
+         case COMPAT_POLICY_INPUT_ACCEPT:
+             break;
+diff --git a/qapi/qmp-registry.c b/qapi/qmp-registry.c
+index f78c064aae..485bc5e6fc 100644
+--- a/qapi/qmp-registry.c
++++ b/qapi/qmp-registry.c
+@@ -16,7 +16,8 @@
+ #include "qapi/qmp/dispatch.h"
  
--static bool forward_field_deprecated(Visitor *v, const char *name)
-+static bool forward_field_policy_skip(Visitor *v, const char *name,
-+                                      unsigned special_features)
+ void qmp_register_command(QmpCommandList *cmds, const char *name,
+-                          QmpCommandFunc *fn, QmpCommandOptions options)
++                          QmpCommandFunc *fn, QmpCommandOptions options,
++                          unsigned special_features)
  {
-     ForwardFieldVisitor *ffv = to_ffv(v);
+     QmpCommand *cmd = g_malloc0(sizeof(*cmd));
  
-     if (!forward_field_translate_name(ffv, &name, NULL)) {
-         return false;
-     }
--    return visit_deprecated(ffv->target, name);
-+    return visit_policy_skip(ffv->target, name, special_features);
+@@ -27,6 +28,7 @@ void qmp_register_command(QmpCommandList *cmds, const char *name,
+     cmd->fn = fn;
+     cmd->enabled = true;
+     cmd->options = options;
++    cmd->special_features = special_features;
+     QTAILQ_INSERT_TAIL(cmds, cmd, node);
  }
  
- static void forward_field_complete(Visitor *v, void *opaque)
-@@ -313,8 +315,8 @@ Visitor *visitor_forward_field(Visitor *target, const char *from, const char *to
-     v->visitor.type_any = forward_field_type_any;
-     v->visitor.type_null = forward_field_type_null;
-     v->visitor.optional = forward_field_optional;
--    v->visitor.deprecated_accept = forward_field_deprecated_accept;
--    v->visitor.deprecated = forward_field_deprecated;
-+    v->visitor.policy_reject = forward_field_policy_reject;
-+    v->visitor.policy_skip = forward_field_policy_skip;
-     v->visitor.complete = forward_field_complete;
-     v->visitor.free = forward_field_free;
+diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+index 10a1a33761..52cf17e8ac 100644
+--- a/storage-daemon/qemu-storage-daemon.c
++++ b/storage-daemon/qemu-storage-daemon.c
+@@ -146,7 +146,8 @@ static void init_qmp_commands(void)
  
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index 49136ae88e..b4a81f1757 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -139,22 +139,24 @@ bool visit_optional(Visitor *v, const char *name, bool *present)
-     return *present;
+     QTAILQ_INIT(&qmp_cap_negotiation_commands);
+     qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilities",
+-                         qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONFIG);
++                         qmp_marshal_qmp_capabilities,
++                         QCO_ALLOW_PRECONFIG, 0);
  }
  
--bool visit_deprecated_accept(Visitor *v, const char *name, Error **errp)
-+bool visit_policy_reject(Visitor *v, const char *name,
-+                         unsigned special_features, Error **errp)
- {
--    trace_visit_deprecated_accept(v, name);
--    if (v->deprecated_accept) {
--        return v->deprecated_accept(v, name, errp);
-+    trace_visit_policy_reject(v, name);
-+    if (v->policy_reject) {
-+        return v->policy_reject(v, name, special_features, errp);
-     }
--    return true;
-+    return false;
- }
- 
--bool visit_deprecated(Visitor *v, const char *name)
-+bool visit_policy_skip(Visitor *v, const char *name,
-+                       unsigned special_features)
- {
--    trace_visit_deprecated(v, name);
--    if (v->deprecated) {
--        return v->deprecated(v, name);
-+    trace_visit_policy_skip(v, name);
-+    if (v->policy_skip) {
-+        return v->policy_skip(v, name, special_features);
-     }
--    return true;
-+    return false;
- }
- 
- void visit_set_policy(Visitor *v, CompatPolicy *policy)
-diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index 71b24a4429..fda485614b 100644
---- a/qapi/qobject-input-visitor.c
-+++ b/qapi/qobject-input-visitor.c
-@@ -662,16 +662,21 @@ static void qobject_input_optional(Visitor *v, const char *name, bool *present)
-     *present = true;
- }
- 
--static bool qobject_input_deprecated_accept(Visitor *v, const char *name,
--                                            Error **errp)
-+static bool qobject_input_policy_reject(Visitor *v, const char *name,
-+                                        unsigned special_features,
-+                                        Error **errp)
- {
-+    if (!(special_features && 1u << QAPI_DEPRECATED)) {
-+        return false;
-+    }
-+
-     switch (v->compat_policy.deprecated_input) {
-     case COMPAT_POLICY_INPUT_ACCEPT:
--        return true;
-+        return false;
-     case COMPAT_POLICY_INPUT_REJECT:
-         error_setg(errp, "Deprecated parameter '%s' disabled by policy",
-                    name);
--        return false;
-+        return true;
-     case COMPAT_POLICY_INPUT_CRASH:
-     default:
-         abort();
-@@ -712,7 +717,7 @@ static QObjectInputVisitor *qobject_input_visitor_base_new(QObject *obj)
-     v->visitor.end_list = qobject_input_end_list;
-     v->visitor.start_alternate = qobject_input_start_alternate;
-     v->visitor.optional = qobject_input_optional;
--    v->visitor.deprecated_accept = qobject_input_deprecated_accept;
-+    v->visitor.policy_reject = qobject_input_policy_reject;
-     v->visitor.free = qobject_input_free;
- 
-     v->root = qobject_ref(obj);
-diff --git a/qapi/qobject-output-visitor.c b/qapi/qobject-output-visitor.c
-index 9b7f510036..b5c6564cbb 100644
---- a/qapi/qobject-output-visitor.c
-+++ b/qapi/qobject-output-visitor.c
-@@ -13,6 +13,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qapi/compat-policy.h"
- #include "qapi/qobject-output-visitor.h"
- #include "qapi/visitor-impl.h"
- #include "qemu/queue.h"
-@@ -208,9 +209,11 @@ static bool qobject_output_type_null(Visitor *v, const char *name,
-     return true;
- }
- 
--static bool qobject_output_deprecated(Visitor *v, const char *name)
-+static bool qobject_output_policy_skip(Visitor *v, const char *name,
-+                                       unsigned special_features)
- {
--    return v->compat_policy.deprecated_output != COMPAT_POLICY_OUTPUT_HIDE;
-+    return !(special_features && 1u << QAPI_DEPRECATED)
-+        || v->compat_policy.deprecated_output == COMPAT_POLICY_OUTPUT_HIDE;
- }
- 
- /* Finish building, and return the root object.
-@@ -262,7 +265,7 @@ Visitor *qobject_output_visitor_new(QObject **result)
-     v->visitor.type_number = qobject_output_type_number;
-     v->visitor.type_any = qobject_output_type_any;
-     v->visitor.type_null = qobject_output_type_null;
--    v->visitor.deprecated = qobject_output_deprecated;
-+    v->visitor.policy_skip = qobject_output_policy_skip;
-     v->visitor.complete = qobject_output_complete;
-     v->visitor.free = qobject_output_free;
- 
-diff --git a/qapi/trace-events b/qapi/trace-events
-index cccafc07e5..ab108c4f0e 100644
---- a/qapi/trace-events
-+++ b/qapi/trace-events
-@@ -17,8 +17,8 @@ visit_start_alternate(void *v, const char *name, void *obj, size_t size) "v=%p n
- visit_end_alternate(void *v, void *obj) "v=%p obj=%p"
- 
- visit_optional(void *v, const char *name, bool *present) "v=%p name=%s present=%p"
--visit_deprecated_accept(void *v, const char *name) "v=%p name=%s"
--visit_deprecated(void *v, const char *name) "v=%p name=%s"
-+visit_policy_reject(void *v, const char *name) "v=%p name=%s"
-+visit_policy_skip(void *v, const char *name) "v=%p name=%s"
- 
- visit_type_enum(void *v, const char *name, int *obj) "v=%p name=%s obj=%p"
- visit_type_int(void *v, const char *name, int64_t *obj) "v=%p name=%s obj=%p"
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 9d9196a143..e13bbe4292 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -21,7 +21,7 @@
-     indent,
-     mcgen,
+ static int getopt_set_loc(int argc, char **argv, const char *optstring,
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index c8a975528f..21001bbd6b 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -26,6 +26,7 @@
+     QAPISchemaModularCVisitor,
+     build_params,
+     ifcontext,
++    gen_special_features,
  )
--from .gen import QAPISchemaModularCVisitor, ifcontext
-+from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
  from .schema import (
      QAPISchema,
-     QAPISchemaEnumMember,
-@@ -76,7 +76,6 @@ def gen_visit_object_members(name: str,
-                      c_type=base.c_name())
+@@ -217,9 +218,6 @@ def gen_register_command(name: str,
+                          coroutine: bool) -> str:
+     options = []
  
-     for memb in members:
--        deprecated = 'deprecated' in [f.name for f in memb.features]
-         ret += memb.ifcond.gen_if()
-         if memb.optional:
-             ret += mcgen('''
-@@ -84,14 +83,15 @@ def gen_visit_object_members(name: str,
+-    if 'deprecated' in [f.name for f in features]:
+-        options += ['QCO_DEPRECATED']
+-
+     if not success_response:
+         options += ['QCO_NO_SUCCESS_RESP']
+     if allow_oob:
+@@ -231,10 +229,11 @@ def gen_register_command(name: str,
+ 
+     ret = mcgen('''
+     qmp_register_command(cmds, "%(name)s",
+-                         qmp_marshal_%(c_name)s, %(opts)s);
++                         qmp_marshal_%(c_name)s, %(opts)s, %(feats)s);
  ''',
-                          name=memb.name, c_name=c_name(memb.name))
-             indent.increase()
--        if deprecated:
-+        special_features = gen_special_features(memb.features)
-+        if special_features != '0':
-             ret += mcgen('''
--    if (!visit_deprecated_accept(v, "%(name)s", errp)) {
-+    if (visit_policy_reject(v, "%(name)s", %(special_features)s, errp)) {
-         return false;
-     }
--    if (visit_deprecated(v, "%(name)s")) {
-+    if (!visit_policy_skip(v, "%(name)s", %(special_features)s)) {
- ''',
--                         name=memb.name)
-+                         name=memb.name, special_features=special_features)
-             indent.increase()
-         ret += mcgen('''
-     if (!visit_type_%(c_type)s(v, "%(name)s", &obj->%(c_name)s, errp)) {
-@@ -100,7 +100,7 @@ def gen_visit_object_members(name: str,
- ''',
-                      c_type=memb.type.c_name(), name=memb.name,
-                      c_name=c_name(memb.name))
--        if deprecated:
-+        if special_features != '0':
-             indent.decrease()
-             ret += mcgen('''
-     }
+                 name=name, c_name=c_name(name),
+-                opts=' | '.join(options) or 0)
++                opts=' | '.join(options) or 0,
++                feats=gen_special_features(features))
+     return ret
+ 
+ 
 -- 
 2.31.1
 
