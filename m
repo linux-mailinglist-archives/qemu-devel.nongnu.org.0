@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A8FF438C70
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 00:53:14 +0200 (CEST)
-Received: from localhost ([::1]:55240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737C5438CD8
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 02:39:56 +0200 (CEST)
+Received: from localhost ([::1]:43806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1memMb-0008AO-Bv
-	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 18:53:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39454)
+	id 1meo1q-0008B6-QQ
+	for lists+qemu-devel@lfdr.de; Sun, 24 Oct 2021 20:39:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <spamcollector@cableone.net>)
- id 1memLi-0007VX-36
- for qemu-devel@nongnu.org; Sun, 24 Oct 2021 18:52:18 -0400
-Received: from mail2.cableone.syn-alias.com ([69.168.106.66]:59250
- helo=mail.cableone.net)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1menvz-00059l-8W; Sun, 24 Oct 2021 20:33:52 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:42477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <spamcollector@cableone.net>)
- id 1memLf-0004G9-Eb
- for qemu-devel@nongnu.org; Sun, 24 Oct 2021 18:52:17 -0400
-DKIM-Signature: v=1; a=rsa-sha1; d=cableone.net; s=20180516; c=relaxed/simple; 
- q=dns/txt; i=@cableone.net; t=1635115930;
- h=From:Subject:Date:To:MIME-Version:Content-Type;
- bh=ZTnWofhxJlK1WgJCU+1bLn6eRy8=;
- b=hztQGqkYafLQ62Ll3/lR7k6JTXDcBd1TXNqL7EG4q6TQbE5kj5L26pgNXGGOMHcI
- bzeMtBwQbE8aQj3ifiyuAjuQCnNDgI8ka2t/n+1XUG/1L9dj/uwQ0jOShY8cRjL6
- Fd5mAHbt5MkjhUbbDy+mi24hs5vLjdHkjdRN0kqulRTp0sTFsv0MTi9PcaPSIFsw
- ysxVETejgm+/99iK/ywX8oj3Oo1UkX6jJQ3QVISaT8+44IxJmBBuGHopGSjIQz8h
- Et43icTfqv0yR3gmxjAkCoiRNDMr2KGA1I+RinFDDyZNzwagvtTj6V8oXlznopRL
- WiP8ekHnLdYGszKOs+ptXg==;
-X-Authed-Username: c3BhbWNvbGxlY3RvckBjYWJsZW9uZS5uZXQ=
-Received: from [10.80.124.25] ([10.80.124.25:53818]
- helo=md04.lapis.bos.sync.lan)
- by mail.cableone.net (envelope-from <spamcollector@cableone.net>)
- (ecelerity 3.6.25.56547 r(Core:3.6.25.0)) with ESMTP
- id 78/6C-02286-A93E5716; Sun, 24 Oct 2021 18:52:10 -0400
-Date: Sun, 24 Oct 2021 18:52:10 -0400 (EDT)
-From: spam collector <spamcollector@cableone.net>
-To: qemu-devel@nongnu.org
-Message-ID: <1778539601.5719140.1635115930316.JavaMail.zimbra@cableone.net>
-Subject: UASP and Streams
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1menvw-0008P2-2E; Sun, 24 Oct 2021 20:33:50 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4Hcwt665HPz4xbM; Mon, 25 Oct 2021 11:33:34 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1635122014;
+ bh=b9MgtRTrQrNvDDjR7v3rJw2ZPN3Bm+NZfobG/ELsJPc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MPKp0oNM9Cf0LiLOajxxkgv3wPL8fYd8fr+zGM8Lw32lAvYxoSuPoxe6ALgDROAnL
+ E/P18CuKtfKGemlltevLpRzWCQtScWC10FLZMHWT4l/D2czokakRFdEPT8cxTwNq0a
+ YcqHLaWn8qHg1pCjJyZtwWwyzUJuANS9QOG+LmyI=
+Date: Mon, 25 Oct 2021 11:21:06 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 3/4] target/ppc: Use tcg_constant_tl() in gen_op_cmp()
+Message-ID: <YXX4cgZ6nHzRj4Br@yekko>
+References: <20211024161619.325903-1-f4bug@amsat.org>
+ <20211024161619.325903-4-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [72.24.78.79]
-X-Mailer: Zimbra 8.7.6_GA_1776 (ZimbraWebClient - FF92 (Win)/8.7.6_GA_1776)
-Thread-Index: Dov+MgfQKdyEp0sWzATAkiRaZYEBwA==
-Thread-Topic: UASP and Streams
-X-Vade-Verdict: clean
-X-Vade-Analysis-1: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefgedgudegucetufdoteggodetrfdotffvucfrrhho
-X-Vade-Analysis-2: fhhilhgvmecuufgjpfetvefqtfdpuffrmfdpqfgfvfenuceurghilhhouhhtmecufedtudenucenucfj
-X-Vade-Analysis-3: ughrpeffhffvkffugggtgfhiofhtsehtjegttdertdejnecuhfhrohhmpehsphgrmhcutgholhhlvggt
-X-Vade-Analysis-4: thhorhcuoehsphgrmhgtohhllhgvtghtohhrsegtrggslhgvohhnvgdrnhgvtheqnecuggftrfgrthht
-X-Vade-Analysis-5: vghrnhepleetudffueehgfefteevvdfhgeejteffkeetgedugeduueehueefteeuiefhleejnecuffho
-X-Vade-Analysis-6: mhgrihhnpehgihhtlhgrsgdrtghomhenucfkphepuddtrdektddruddvgedrvdehpdejvddrvdegrdej
-X-Vade-Analysis-7: kedrjeelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddtrdektddruddv
-X-Vade-Analysis-8: gedrvdehpdhhvghlohepmhgutdegrdhlrghpihhsrdgsohhsrdhshihntgdrlhgrnhdpmhgrihhlfhhr
-X-Vade-Analysis-9: ohhmpehsphgrmhgtohhllhgvtghtohhrsegtrggslhgvohhnvgdrnhgvthdprhgtphhtthhopehqvghm
-X-Vade-Analysis-10: uhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhhohhsthepshhmthhprdhlrghpihhsrdgsohhsrdhs
-X-Vade-Analysis-11: hihntgdrlhgrnhdpshhpfhepnhgvuhhtrhgrlhdpughkihhmpedpnhgspghrtghpthhtohepuddptehu
-X-Vade-Analysis-12: thhhqdgfshgvrhep
-X-Vade-Client: LAPIS
-Received-SPF: pass client-ip=69.168.106.66;
- envelope-from=spamcollector@cableone.net; helo=mail.cableone.net
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_05=-0.5, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XmnCEcH7312jy7Iy"
+Content-Disposition: inline
+In-Reply-To: <20211024161619.325903-4-f4bug@amsat.org>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,31 +58,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have a question about the emulation of streams and UASP with the two xhci controller options QEMU supports: qemu-xhci and nec-usb-xhci
 
-It is my understanding that the UASP code checks to see if streams are supported by simply checking if the device is a Super Speed Device?
+--XmnCEcH7312jy7Iy
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-https://gitlab.com/qemu-project/qemu/-/blob/master/hw/usb/dev-uas.c#L338
-  static bool uas_using_streams(UASDevice *uas)
-  {
-      return uas->dev.speed == USB_SPEED_SUPER;
-  }
+On Sun, Oct 24, 2021 at 06:16:18PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Avoid using a TCG temporary by moving the compared values
+> to the constant pool.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 
-The "qemu-xhci" xHC option supports streams, however the "nec-usb-xhci" xHC option does not.
-xHC:HCCPARAMS1: Bits 15:12 = 7 on the former and 0 on the latter.
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-Also, the above code assumes the device attached supports streams.
+> ---
+>  target/ppc/translate.c | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 518337bcb7f..507f6699f47 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -1430,23 +1430,20 @@ static opc_handler_t invalid_handler =3D {
+>  static inline void gen_op_cmp(TCGv arg0, TCGv arg1, int s, int crf)
+>  {
+>      TCGv t0 =3D tcg_temp_new();
+> -    TCGv t1 =3D tcg_temp_new();
+>      TCGv_i32 t =3D tcg_temp_new_i32();
+> =20
+> -    tcg_gen_movi_tl(t0, CRF_EQ);
+> -    tcg_gen_movi_tl(t1, CRF_LT);
+>      tcg_gen_movcond_tl((s ? TCG_COND_LT : TCG_COND_LTU),
+> -                       t0, arg0, arg1, t1, t0);
+> -    tcg_gen_movi_tl(t1, CRF_GT);
+> +                       t0, arg0, arg1,
+> +                       tcg_constant_tl(CRF_LT), tcg_constant_tl(CRF_EQ));
+>      tcg_gen_movcond_tl((s ? TCG_COND_GT : TCG_COND_GTU),
+> -                       t0, arg0, arg1, t1, t0);
+> +                       t0, arg0, arg1,
+> +                       tcg_constant_tl(CRF_GT), t0);
+> =20
+>      tcg_gen_trunc_tl_i32(t, t0);
+>      tcg_gen_trunc_tl_i32(cpu_crf[crf], cpu_so);
+>      tcg_gen_or_i32(cpu_crf[crf], cpu_crf[crf], t);
+> =20
+>      tcg_temp_free(t0);
+> -    tcg_temp_free(t1);
+>      tcg_temp_free_i32(t);
+>  }
+> =20
 
-My question is, does QEMU's current implementation of UASP assume that streams are supported by the xHCI xHC?
-If so, UASP won't work with the "nec-usb-xhci" xHC option.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Also, if the Guest OS doesn't support streams on a xHC that does--by this OS setting the correct values in the xHCI EndPoint's Context ( MaxPStreams = 0, LSA = 0, HID = 1, etc. )--a correct emulation should still work without streams, correct?
+--XmnCEcH7312jy7Iy
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Is the above information a correct assumption on the current UASP emulation, or have I missed something all-together?
+-----BEGIN PGP SIGNATURE-----
 
-Anyway, I thank all of you who have put in so much time and effort into this emulator.  It is much appreciated.
-Ben
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmF1+HIACgkQbDjKyiDZ
+s5JIPxAAzvdB2EyIosgQP7WZXEsnVFVPleMqaCBxhFOHdkUpWt0C0lHit6MHbVBa
+xOODwAsJgU8ygwIYQZqfUwah5cA5NI9EXFFAb9J8709SNmBORlJOb6eu9s0q3ZH7
+LYxi42xr/iqXnaavTZjnT8D02+EP31T8o+ZW9aHenTpgHkSsRO+nP2OIM3totm14
+YyEKDCg6acX4ggBN211CUd3AsLnwypeLrfVuk67xAhjitBXt62fZqdfkb1pLDpp1
+zkjENBWC+ogq1huzlkomt0dxkP/m8U/Z3+v1GqyfviWtQQTWpIzX6y17W/eB3ObG
+u/AiU94dV3Bj7FfChHPw7p5SQTHt5V64uFByppS20EPqD9lOaYUkd4oTt4fFgHsi
+wPWyt04gHYLuc8w8x6OWk0DgZB+7Q9kKxwU7MtHUGXqqwmacEMtxu53z5XOhCw69
+yh6fw164NsOnZbjC1B/yIIX0dinzg6YgK7jcFD4khNiLro1DY8nRu3lCLr5bqoCE
+DyoO9WttClzGl3f+uUYZWzNC85onO+Z8ZHw+5tCLGCuFl8siJc+QvoBHm6LdXF1/
+y+O6Yu23TuimEdyEpxL1/t5lvuCicGhUIqVnisRLPqLFvd4/LKYKtewX2SD8ANMm
+HjO6vJgdDcIUY8QpB98cpe76xK+qm0K27U/kvpW9CPzkmPw/XlI=
+=oOSh
+-----END PGP SIGNATURE-----
+
+--XmnCEcH7312jy7Iy--
 
