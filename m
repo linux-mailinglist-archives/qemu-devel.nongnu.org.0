@@ -2,96 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E894439D99
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 19:29:47 +0200 (CEST)
-Received: from localhost ([::1]:33654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F88B439DA7
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 19:33:09 +0200 (CEST)
+Received: from localhost ([::1]:35874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf3n7-0002vj-Tn
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 13:29:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46008)
+	id 1mf3qO-0004Y0-NU
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 13:33:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mf3kB-0000W1-Kt
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:26:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mf3k6-000770-RI
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:26:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635182797;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=j+wMrnw3uZwXEh1xDHlB5AOfWDk21PJF9KxVbWGlI04=;
- b=cReMPFBECmynzWlEVJsEt231DoDqq8fs7B7TDZheB4VouREC7saBs9Lr1rwocmNVBZ2/DX
- ncwEvzemROpVRvRg3LZguTG/9T6hWDKenA3k1EubrxT9Ie6W/OoPW2TPjlChq6eF3bwczR
- 97QE1FchrU95P2gN8VbTGwyA4qk79vA=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-4dXINpUKNZW3Yn7iyTYlvw-1; Mon, 25 Oct 2021 13:26:36 -0400
-X-MC-Unique: 4dXINpUKNZW3Yn7iyTYlvw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- f4-20020a50e084000000b003db585bc274so10533509edl.17
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 10:26:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mf3pO-0003rN-61
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:32:06 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:44924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mf3pM-000331-59
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 13:32:05 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ oa12-20020a17090b1bcc00b0019f715462a8so595315pjb.3
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 10:32:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+asivq2hKBL2AagU9a3VoFSCoFThCBgKzJfWC1Its6s=;
+ b=o+oeiyUosy2htgpD2tHPDbcpcAcwjO69DDjsPgTKvCcFRtxqAlD7G9dvS3Le/Koald
+ 0ZF9kBKOHgEZKYd3vPhX7fq9QaFOmeDfpWjbn+WKFDfjFoVVovBVpUHTk5No79vUjX1P
+ NhEUoNjrsUTkEjO5bHhpFGCvMT5rzCzMPdYF7N99oRyM+FTnZq0gsLVuz2v+hRp0L9pB
+ cJsUkbZKFl719monKWrE4RqkL0GM54vHxgGHbLiWVWZyoZ0evy//B30uCpBgkXkbND9M
+ pRmyhgYlqZ3N3iJmbTCfI1XcdWjnWm0Hp5Vtjma1kwUHpnOENUQcXr/T75Wf2akKMxI4
+ 8XCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=j+wMrnw3uZwXEh1xDHlB5AOfWDk21PJF9KxVbWGlI04=;
- b=HQgcr6LbOl+5pINJFB1nPj7M7Q/4e/rWY27S2kpHN7eH/32hXOMF2uub9Mg6htyXkn
- DnA8JJFC8le474ktYB8MVw4jjRgYXO0MpOXdjvZq71LnvX8qBCmbIJorfc9m5iDaif2u
- eWTbytoO97sodYmOt8/xRaCxpucCrfBE3Ouu/MVjN77LRVn7hEurBZdQ1cNcBKZ9BK6U
- KAJJOca1iB4HlgO1VHVYTXdazj+wiWKoH9jqLq9Gy/Li67yLGB+rlUgZ/628le7eGFfQ
- JzzYAhGVGRaHLsg7ZXOk0KaRpFOXmIVd34dbcWu7mcdbowKxtW/jTlcY189Q7e7G1L/i
- B5sw==
-X-Gm-Message-State: AOAM530/FnL2IGyHe89dV2aO6DVkOQpqPdGziBAG8Cy7rB9eNl31YNyo
- aRcTLmnrwm0GrgEEduuotbWynV/3Lna7trAaW4db8AV74OJR34vXrtVRoKJev5T7AdHVrgh2bKk
- tjYOKgQ5KM4yUZZM=
-X-Received: by 2002:a17:906:269a:: with SMTP id
- t26mr24086299ejc.20.1635182794768; 
- Mon, 25 Oct 2021 10:26:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy8IKIRpayT2OPzPsuV7iFgpo5dWHXvK4Tyed3ggpXlJfuuJhCRnJ1UjdrrKNf95fiSHeYxkA==
-X-Received: by 2002:a17:906:269a:: with SMTP id
- t26mr24086267ejc.20.1635182794426; 
- Mon, 25 Oct 2021 10:26:34 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id sb11sm1912178ejc.25.2021.10.25.10.26.30
+ bh=+asivq2hKBL2AagU9a3VoFSCoFThCBgKzJfWC1Its6s=;
+ b=bTUNvSqM3W743g+Pp0bfGG59mQy20oVfzRAFuQazm0j74IR9R25/pdmy4CRXJBvC69
+ HOqPpfjDd2VyMRdPvEbNP4vZCI5DhQo5eYqhM/haiEfYmpASHsfU92ndF0wHr5B5EMw+
+ ms5l4FICx1OCotyoULg7O/htTwOYRWfPCa9Y/rDknYLm6t31QsQhC6oVzGHDv/JlUk17
+ B9DW41QEIL9ZLByyXhB9Y7xz/ntH6wm17N2Fq5A7OSWK6SH30xpJvY2k1Ggwxl9DA2tu
+ TyjQuEalBket1qhs85Ky106aMKJBcQoJjlf9O88FxcaqdCgNcZKna9xIKORLaU5gtKfH
+ t8Cg==
+X-Gm-Message-State: AOAM532WyhyotMthh2NUWwo6tGkol+53teDrXIOPH2AD5x5QY9c6XbC+
+ eirDRhfLukwlnP2rG/J+L44q6A==
+X-Google-Smtp-Source: ABdhPJwZvQY0xESwbj3eCZ/rkWOr4fj2OgFZDIoAoBi/wc2WGjM8zX6iS++Hhjkago/smYp038OakA==
+X-Received: by 2002:a17:90a:f401:: with SMTP id
+ ch1mr35204736pjb.136.1635183121513; 
+ Mon, 25 Oct 2021 10:32:01 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id m10sm15559653pfk.78.2021.10.25.10.32.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 10:26:33 -0700 (PDT)
-Message-ID: <e5ae0f02-4e21-faa3-7ef1-8e95422be21f@redhat.com>
-Date: Mon, 25 Oct 2021 19:26:28 +0200
+ Mon, 25 Oct 2021 10:32:01 -0700 (PDT)
+Subject: Re: [PATCH v3 34/48] tcg/optimize: Split out fold_to_not
+To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20211021210539.825582-1-richard.henderson@linaro.org>
+ <20211021210539.825582-35-richard.henderson@linaro.org>
+ <CPXPR80MB52241B3E9288764685587103DA839@CPXPR80MB5224.lamprd80.prod.outlook.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c98f2859-d8bc-73fe-73c6-50417bda713f@linaro.org>
+Date: Mon, 25 Oct 2021 10:31:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: configure --extra-cflags and --extra-ldflags values not
- propagating to meson?
-To: Thomas Huth <thuth@redhat.com>, Owen LaGarde <olagarde@gmail.com>,
- qemu-devel@nongnu.org
-References: <CACDcNnWWbzkH5-h6=BoXdA92DyVfTD7Kp=Spoz62yXw5t+tLGw@mail.gmail.com>
- <a105f305-b1e8-f97a-fa09-f083190e34cb@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <a105f305-b1e8-f97a-fa09-f083190e34cb@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CPXPR80MB52241B3E9288764685587103DA839@CPXPR80MB5224.lamprd80.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.846, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.846,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,100 +91,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/10/21 15:10, Thomas Huth wrote:
+On 10/25/21 7:17 AM, Luis Fernando Fujita Pires wrote:
+> From: Richard Henderson <richard.henderson@linaro.org>
+>> Split out the conditional conversion from a more complex logical operation to a
+>> simple NOT.  Create a couple more helpers to make this easy for the outer-most
+>> logical operations.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   tcg/optimize.c | 154 +++++++++++++++++++++++++++----------------------
+>>   1 file changed, 86 insertions(+), 68 deletions(-)
 > 
-> I see a similar behavior with netmap now - I've got the corresponding 
-> header file in a non-standard directory, and up to commit 
-> 837b84b1c078bf3e909 it used to work fine to do:
+>>   static bool fold_eqv(OptContext *ctx, TCGOp *op)  {
+>> -    return fold_const2(ctx, op);
+>> +    if (fold_const2(ctx, op) ||
+>> +        fold_xi_to_not(ctx, op, 0)) {
 > 
-> .../configure --enable-netmap \
->      --extra-cflags=-I/path/to/netmap/sys
+> Should be fold_ix_to_not (not fold xi_to_not).
+
+No, because for eqv we expect the second operand to be the constant -- eqv is commutative.
+
 > 
-> but since the conversion to meson, this does not seem to work anymore.
-> 
-> Paolo, any ideas?
+>>   static bool fold_orc(OptContext *ctx, TCGOp *op)  {
+>> -    return fold_const2(ctx, op);
+>> +    if (fold_const2(ctx, op) ||
+>> +        fold_xi_to_not(ctx, op, 0)) {
 
-Meson (intentionally) does not add QEMU_CFLAGS to cc.compiles/cc.links
-tests, as they are supposed to be  independent.  This however is not
-true of CFLAGS.
+But for orc you are correct.  Thanks.
 
-The fix should be to add --extra-cflags/--extra-ldflags to the c_args
-and c_link_args of config-meson.cross, instead of adding them to
-QEMU_CFLAGS/QEMU_LDFLAGS:
 
-diff --git a/configure b/configure
-index 99051f3254..94224b9931 100755
---- a/configure
-+++ b/configure
-@@ -174,14 +174,14 @@ update_cxxflags() {
-  
-  compile_object() {
-    local_cflags="$1"
--  do_cc $CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -c -o $TMPO $TMPC
-+  do_cc $CFLAGS $EXTRA_CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -c -o $TMPO $TMPC
-  }
-  
-  compile_prog() {
-    local_cflags="$1"
-    local_ldflags="$2"
--  do_cc $CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -o $TMPE $TMPC \
--      $LDFLAGS $CONFIGURE_LDFLAGS $QEMU_LDFLAGS $local_ldflags
-+  do_cc $CFLAGS $EXTRA_CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -o $TMPE $TMPC \
-+      $LDFLAGS $EXTRA_LDFLAGS $CONFIGURE_LDFLAGS $QEMU_LDFLAGS $local_ldflags
-  }
-  
-  # symbolically link $1 to $2.  Portable version of "ln -sf".
-@@ -285,6 +285,9 @@ for opt do
-    esac
-  done
-  
-+EXTRA_CFLAGS=""
-+EXTRA_LDFLAGS=""
-+
-  xen_ctrl_version="$default_feature"
-  xfs="$default_feature"
-  membarrier="$default_feature"
-@@ -357,13 +360,11 @@ for opt do
-    ;;
-    --cpu=*) cpu="$optarg"
-    ;;
--  --extra-cflags=*) QEMU_CFLAGS="$QEMU_CFLAGS $optarg"
--                    QEMU_LDFLAGS="$QEMU_LDFLAGS $optarg"
-+  --extra-cflags=*) EXTRA_CFLAGS="$EXTRA_CFLAGS $optarg"
-    ;;
-    --extra-cxxflags=*) QEMU_CXXFLAGS="$QEMU_CXXFLAGS $optarg"
-    ;;
--  --extra-ldflags=*) QEMU_LDFLAGS="$QEMU_LDFLAGS $optarg"
--                     EXTRA_LDFLAGS="$optarg"
-+  --extra-ldflags=*) EXTRA_LDFLAGS="$EXTRA_LDFLAGS $optarg"
-    ;;
-    --enable-debug-info) debug_info="yes"
-    ;;
-@@ -3508,10 +3509,10 @@ if test "$skip_meson" = no; then
-  
-    test -z "$cxx" && echo "link_language = 'c'" >> $cross
-    echo "[built-in options]" >> $cross
--  echo "c_args = [${CFLAGS:+$(meson_quote $CFLAGS)}]" >> $cross
--  echo "cpp_args = [${CXXFLAGS:+$(meson_quote $CXXFLAGS)}]" >> $cross
--  echo "c_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS)}]" >> $cross
--  echo "cpp_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS)}]" >> $cross
-+  echo "c_args = [${CFLAGS:+$(meson_quote $CFLAGS $EXTRA_CFLAGS)}]" >> $cross
-+  echo "cpp_args = [${CXXFLAGS:+$(meson_quote $CXXFLAGS $EXTRA_CFLAGS)}]" >> $cross
-+  echo "c_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS $EXTRA_LDFLAGS)}]" >> $cross
-+  echo "cpp_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS $EXTRA_LDFLAGS)}]" >> $cross
-    echo "[binaries]" >> $cross
-    echo "c = [$(meson_quote $cc $CPU_CFLAGS)]" >> $cross
-    test -n "$cxx" && echo "cpp = [$(meson_quote $cxx $CPU_CFLAGS)]" >> $cross
-
-except that I haven't figured out the exact (current) behavior of
---extra-cxxflags.  Also, it would require a re-configure of any tree that
-includes --extra-cflags or --extra-ldflags.
-
-Thanks,
-
-Paolo
-
+r~
 
