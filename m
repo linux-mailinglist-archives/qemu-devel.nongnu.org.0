@@ -2,80 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9B6439EB3
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 20:50:04 +0200 (CEST)
-Received: from localhost ([::1]:60596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD2F439EBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 20:52:09 +0200 (CEST)
+Received: from localhost ([::1]:34830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf52p-0002K4-N4
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 14:50:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35430)
+	id 1mf54q-00043a-6V
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 14:52:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mf4zv-0000fG-SW
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 14:47:03 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:53076)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mf4zu-0006ue-4a
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 14:47:03 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id oa4so8992441pjb.2
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 11:46:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jrhKvmnhHW2Qn3MRqI5S03s5/79OInQui5KWYxRx4Ro=;
- b=Haa6zC+dCAmtrMJNgXCfkXCtfs8UmFkSU5X/1NSkoAXlOFgxwzTukff53U9q3aQRHy
- Irv1rrWICRsXVodpyTHSzgzMV+CYK63DIbpxyr3kZ2XBb71yaL17Bw02QfgsyLljJ/5A
- dqxIW208I5TkwNO/wJMHeDzmKvnyMnqPRVTaFlxyJCbJWv2zXYDrDb1pPPIWK8tifyuf
- NyKl9yE6HbufS485nkHK8UCyGXmdguQp1GPTkQTEouLdoQC7Z8hu/xAwX0J/I8LyZEyC
- cQmI3fP3XuWtEfRP/pZoRmK16fHtXjBSNmVoXGATa+Ks3GAc8H/jSCvxnL+zXplSQTzK
- xxIw==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mf50s-00016x-Ai
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 14:48:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58426)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mf50p-0007hK-Dk
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 14:48:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635187676;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fYfItJnMQXNyJ0eLC4OInJhpCJ+FkrRZHtJ2X8P1eF4=;
+ b=BRFH67HbRZic+fpuQp8h7c4wKqbfptvS44Z+5YvQaD8YOL6TtyKP7NyLQBXA1VSK3swupD
+ rXXYEBEeGeiXMU+PbuiIpsTaTCzYSRWEShjS8uDUpcGCyahdAO9HmkM8iLI5wjikECbolU
+ RbRo7rOflkvdUbWWUs2LcQwJLfPAJTo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-200-4tSJfc-HMnaT0gwOYKCCNg-1; Mon, 25 Oct 2021 14:47:55 -0400
+X-MC-Unique: 4tSJfc-HMnaT0gwOYKCCNg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ z17-20020a7bc7d1000000b0032cafafaf79so340272wmk.5
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 11:47:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jrhKvmnhHW2Qn3MRqI5S03s5/79OInQui5KWYxRx4Ro=;
- b=AMgxGGfhmL1K6OnGTJeWrpR5J4H/ESdQZyqBhZ5lHBlcd3uK7AvRuDi7P76RIvQ72C
- tCSOoHlyp/B68X8cDAy70k6erob6GuOBAffdimCDz58RphCd751JYxM+184l+bO99zUs
- ozmHQ+HrhCVi83hJrHhinehaUthka5JT/qu6J/wYIm5Ya2/cZG2TLqBBxwg2qP8JrSkc
- C7kELyc0MY7nHuDb2RaFnPDZIJLLWpO6qAW+5KNX4ycl7MvkYP7xOblBCiQlBIM7ZLuU
- JABCew292pcdvsDy+GilzhBCpmY7AJYOYzms1MptDRfsO8bbkS7lYl4kv0ZBUWS5DQkB
- k2mQ==
-X-Gm-Message-State: AOAM531kNuatBhEWDWB8nQiXwpi0XIHhWcwsJ0Cp2oCHr7frp8XdTn9M
- MjoACM8axUZBKgRp8joE8glC6A==
-X-Google-Smtp-Source: ABdhPJydx1fv0cyzqnRZ3DSsdiIQBNijR0f97vatS8S2P4FUQLvmqRfF528NE6EU8ZIi1S+JA/9Mpw==
-X-Received: by 2002:a17:90a:be17:: with SMTP id
- a23mr20583530pjs.82.1635187617407; 
- Mon, 25 Oct 2021 11:46:57 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id u193sm16314734pgc.34.2021.10.25.11.46.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 11:46:57 -0700 (PDT)
-Subject: Re: [PATCH v17 3/8] target/riscv: Support CSRs required for RISC-V PM
- extension except for the h-mode
-To: Alexey Baturo <baturo.alexey@gmail.com>
-References: <20211025173609.2724490-1-space.monkey.delivers@gmail.com>
- <20211025173609.2724490-4-space.monkey.delivers@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9143ada5-eaf5-c790-ba60-7572809bf732@linaro.org>
-Date: Mon, 25 Oct 2021 11:46:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=fYfItJnMQXNyJ0eLC4OInJhpCJ+FkrRZHtJ2X8P1eF4=;
+ b=fAfusAvNaFKxTk1oEDIne1D3ZCZuy/jFi/3T5KPSiSTFavI9AMMWc8cYgAMao5IU9k
+ LxNbTq4t/2qrsQ+7203U61I8tqHShxns+arHBo+Lvw9aVxeKzI1/dPNQZr77dR7xBHAU
+ CR6a+7b4cU7sZml0T/NAQhSN6P4L4eAQSEHfz6g9hG4Fs1Ua3xvo680rqiXL10X87+da
+ JVz9MgKvzLlIUibYG0STLi2rlFO7Q1CsrRe0KY539misFM9U7UoALQihP/ir8plG5UW7
+ XDzoTfqAL8EsbyfEpBIQ2oWufc6sByi2z+p/f8dR+dS92d686H2BzdspnEsg0jJQY8gP
+ fEVQ==
+X-Gm-Message-State: AOAM533fykAnnm4A6Qq0C4PqW9jKu6ICydQCOccxZv1Jxy2ZVKLzZH0a
+ wJX74u84dmPNaxYByDBrpONDhDld2zNeEDM0ygBMTi3qchq4S8CvM9riUxKn/LmoDgdiB5dHWKl
+ Z6IncNDt+f3LihpFNqIB/J7e74rSv5SBXzTg9Yd+10MlXIPskMUv/RoRzOwoDtEtnyak=
+X-Received: by 2002:adf:e0cc:: with SMTP id m12mr26311593wri.62.1635187673433; 
+ Mon, 25 Oct 2021 11:47:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyIg/+tmOUWjwO9YkRLMC8YSUFv4Uz2jopY9w9oR2Gg0jAiCQnknwhHyR7e9q8e4jivTJTPGQ==
+X-Received: by 2002:adf:e0cc:: with SMTP id m12mr26311560wri.62.1635187673117; 
+ Mon, 25 Oct 2021 11:47:53 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id a134sm9161239wmd.9.2021.10.25.11.47.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Oct 2021 11:47:52 -0700 (PDT)
+Date: Mon, 25 Oct 2021 19:47:50 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, virtio-fs@redhat.com
+Subject: Re: [PATCH] virtiofsd: Error on bad socket group name
+Message-ID: <YXb71uIKOIGhqHCg@work-vm>
+References: <20211014122554.34599-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211025173609.2724490-4-space.monkey.delivers@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.846,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211014122554.34599-1-dgilbert@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,29 +95,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, qemu-devel@nongnu.org,
- space.monkey.delivers@gmail.com, Alistair.Francis@wdc.com,
- kupokupokupopo@gmail.com, palmer@dabbelt.com
+Cc: xiagao@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/21 10:36 AM, Alexey Baturo wrote:
-> +    /* User Pointer Masking */
-> +    [CSR_UMTE]    =    { "umte",    pointer_masking, read_umte,    write_umte    },
-> +    [CSR_UPMMASK] =    { "upmmask", pointer_masking, read_upmmask, write_upmmask },
-> +    [CSR_UPMBASE] =    { "upmbase", pointer_masking, read_upmbase, write_upmbase },
-> +    /* Machine Pointer Masking */
-> +    [CSR_MMTE]    =    { "mmte",    pointer_masking, read_mmte,    write_mmte    },
-> +    [CSR_MPMMASK] =    { "mpmmask", pointer_masking, read_mpmmask, write_mpmmask },
-> +    [CSR_MPMBASE] =    { "mpmbase", pointer_masking, read_mpmbase, write_mpmbase },
-> +    /* Supervisor Pointer Masking */
-> +    [CSR_SMTE]    =    { "smte",    pointer_masking, read_smte,    write_smte    },
-> +    [CSR_SPMMASK] =    { "spmmask", pointer_masking, read_spmmask, write_spmmask },
-> +    [CSR_SPMBASE] =    { "spmbase", pointer_masking, read_spmbase, write_spmbase },
+* Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> Make the '--socket-group=' option fail if the group name is unknown:
+> 
+> ./tools/virtiofsd/virtiofsd .... --socket-group=zaphod
+> vhost socket: unable to find group 'zaphod'
+> 
+> Reported-by: Xiaoling Gao <xiagao@redhat.com>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Surely the S-mode and U-mode csrs surely also depend on RVS and RVU respectively?
+Queued
 
+> ---
+>  tools/virtiofsd/fuse_virtio.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+> index 8f4fd165b9..39eebffb62 100644
+> --- a/tools/virtiofsd/fuse_virtio.c
+> +++ b/tools/virtiofsd/fuse_virtio.c
+> @@ -999,6 +999,13 @@ static int fv_create_listen_socket(struct fuse_session *se)
+>                           "vhost socket failed to set group to %s (%d): %m\n",
+>                           se->vu_socket_group, g->gr_gid);
+>              }
+> +        } else {
+> +            fuse_log(FUSE_LOG_ERR,
+> +                     "vhost socket: unable to find group '%s'\n",
+> +                     se->vu_socket_group);
+> +            close(listen_sock);
+> +            umask(old_umask);
+> +            return -1;
+>          }
+>      }
+>      umask(old_umask);
+> -- 
+> 2.31.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-r~
 
