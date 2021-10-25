@@ -2,74 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEAB3439734
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 15:08:25 +0200 (CEST)
-Received: from localhost ([::1]:49278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF01439749
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 15:13:12 +0200 (CEST)
+Received: from localhost ([::1]:35888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meziC-00060Y-Gf
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 09:08:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60378)
+	id 1mezmo-0007iG-QL
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 09:13:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mezYh-0003RI-5m
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:58:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21374)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mezk2-0003ZG-Mf
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 09:10:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mezYf-0003DB-07
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:58:34 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mezjz-00055G-N8
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 09:10:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635166711;
+ s=mimecast20190719; t=1635167413;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+LkJauOp5MRCzZA1aNMyyxci6VK6ZsABfKRSGEkw4H4=;
- b=XeOG1E5LNUiSG8d9CVsBJSSIKL4aTR73hrAW37AdSpRPh8+so3VtMwLZLyRfgjyCveDMBR
- zW8iSlbsCcKLV5RjE4sdRYOt5h0FGNHDTkpYqLDYxRSDeM47sq0dqKzFdUHKkhzCfYuTZG
- uW6yOg0sMAvfmxOTAZu/TF50+Ui7M5A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-UQ_9pii2OcKMHnqTijKlBg-1; Mon, 25 Oct 2021 08:58:30 -0400
-X-MC-Unique: UQ_9pii2OcKMHnqTijKlBg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10E798018AC;
- Mon, 25 Oct 2021 12:58:29 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 239D861064;
- Mon, 25 Oct 2021 12:58:26 +0000 (UTC)
-Date: Mon, 25 Oct 2021 14:58:25 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Peter Lieven <pl@kamp.de>
-Subject: Re: [PATCH v5 0/6] block/rbd: migrate to coroutines and add write
- zeroes support
-Message-ID: <YXap8SAOT5Kb41E2@redhat.com>
-References: <YObtGbd5jlQNUbn0@redhat.com>
- <77F23D4A-18B3-4367-9D4E-9710FA6269B2@kamp.de>
- <YOgjFRNxUH2GUXyN@redhat.com>
- <2f156d36-52f0-a375-cfe7-f17164b306ad@kamp.de>
- <32b18db2-0a39-2945-1d06-e189273062c2@kamp.de>
+ bh=a9N5Q6AlyUM/TFSfI0Dd9uI2sBbwOjU0+BXRIgAnEbM=;
+ b=jJV3xm/0eWBZvgMDHqkf7168rrmK+60hMqGvtcS2gKBwUdoDqPPIt9Yw1/zzz38cO0jwyI
+ 8rEeFPuLF08OOF3idylOGKItRViSLvXsRQ/qyUwkJMIDk5Mv4QtzPhVXyO1E3zQwA1NS7V
+ 04+BVsMW0+mhapzbyESbgQfcrko9m68=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-LvGqnEBxNXiBPGoX4gAhNQ-1; Mon, 25 Oct 2021 09:10:12 -0400
+X-MC-Unique: LvGqnEBxNXiBPGoX4gAhNQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ f1-20020a5d64c1000000b001611832aefeso3197853wri.17
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 06:10:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:to:references:cc:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=a9N5Q6AlyUM/TFSfI0Dd9uI2sBbwOjU0+BXRIgAnEbM=;
+ b=x3/X5oCWGuGU9EdmfBrUcq6gCB8sbvuRrx02hdFOd+TLDtdqPUwSYTVsMhzBYsQw2M
+ ZDS2e//T9/BS+dXelcpRAKy4aTB4PXs1woRBn6Zv4k+J873KsiRm09/gM55K5ZbU9jYM
+ 7DsO+jMLR9tVDOXlg4EjrHpT3zStsINAOEnDKTCRGWHTpwz3X1hkPeigFqrwz1s8FI3P
+ OIunJZS9VUIxaB2mlquSg5OF6w33U0qD04vhtYUC56PH3+HhwIgFPL1BxHntdZlO1dLO
+ iq9S1wCsimNBc7anbp11SVD5/8Z2EuGGD6iRaHkWx2rkWUai840bFfA9uWG4ilWYmSbE
+ J7SQ==
+X-Gm-Message-State: AOAM532jV44BSLHZYVhndQNYfaquENHBm4KcwJR7N43CFU81zsnYQjVw
+ 6kp9OzoM4PAB+YrECE2INQFgWBkWrw88CuCn5UzYtlj1s/UprPAhPsKDlFi37F5OTK+pmEm67l0
+ zzRe7B2BROT9cqCo=
+X-Received: by 2002:adf:a183:: with SMTP id u3mr23485785wru.330.1635167411114; 
+ Mon, 25 Oct 2021 06:10:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzQ6t6wMvJRney9c9rRO6+H+Y7r3NCDzViWYQ9KrSr3ag5P5pNkXmQqUW0z5W6VxivBN2Z+KQ==
+X-Received: by 2002:adf:a183:: with SMTP id u3mr23485740wru.330.1635167410816; 
+ Mon, 25 Oct 2021 06:10:10 -0700 (PDT)
+Received: from thuth.remote.csb (tmo-096-150.customers.d1-online.com.
+ [80.187.96.150])
+ by smtp.gmail.com with ESMTPSA id v6sm2338298wrx.17.2021.10.25.06.10.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Oct 2021 06:10:10 -0700 (PDT)
+To: Owen LaGarde <olagarde@gmail.com>, qemu-devel@nongnu.org
+References: <CACDcNnWWbzkH5-h6=BoXdA92DyVfTD7Kp=Spoz62yXw5t+tLGw@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: configure --extra-cflags and --extra-ldflags values not
+ propagating to meson?
+Message-ID: <a105f305-b1e8-f97a-fa09-f083190e34cb@redhat.com>
+Date: Mon, 25 Oct 2021 15:10:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <32b18db2-0a39-2945-1d06-e189273062c2@kamp.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CACDcNnWWbzkH5-h6=BoXdA92DyVfTD7Kp=Spoz62yXw5t+tLGw@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.846, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,89 +98,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Christian Theune <ct@flyingcircus.io>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ilya Dryomov <idryomov@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.10.2021 um 13:39 hat Peter Lieven geschrieben:
-> Am 16.09.21 um 14:34 schrieb Peter Lieven:
-> > Am 09.07.21 um 12:21 schrieb Kevin Wolf:
-> > > Am 08.07.2021 um 20:23 hat Peter Lieven geschrieben:
-> > > > Am 08.07.2021 um 14:18 schrieb Kevin Wolf <kwolf@redhat.com>:
-> > > > > Am 07.07.2021 um 20:13 hat Peter Lieven geschrieben:
-> > > > > > > Am 06.07.2021 um 17:25 schrieb Kevin Wolf <kwolf@redhat.com>:
-> > > > > > > Am 06.07.2021 um 16:55 hat Peter Lieven geschrieben:
-> > > > > > > > I will have a decent look after my vacation.
-> > > > > > > Sounds good, thanks. Enjoy your vacation!
-> > > > > > As I had to fire up my laptop to look into another issue anyway, I
-> > > > > > have sent two patches for updating MAINTAINERS and to fix the int vs.
-> > > > > > bool mix for task->complete.
-> > > > > I think you need to reevaluate your definition of vacation. ;-)
-> > > > Lets talk about this when the kids are grown up. Sometimes sending
-> > > > patches can be quite relaxing :-)
-> > > Heh, fair enough. :-)
-> > > 
-> > > > > But thanks anyway.
-> > > > > 
-> > > > > > As Paolos fix (5f50be9b5) is relatively new and there are maybe other
-> > > > > > non obvious problems when removing the BH indirection and we are close
-> > > > > > to soft freeze I would leave the BH removal change for 6.2.
-> > > > > Sure, code cleanups aren't urgent.
-> > > > Isn’t the indirection also a slight performance drop?
-> > > Yeah, I guess technically it is, though I doubt it's measurable.
-> > 
-> > 
-> > As promised I was trying to remove the indirection through the BH after Qemu 6.1 release.
-> > 
-> > However, if I remove the BH I run into the following assertion while running some fio tests:
-> > 
-> > 
-> > qemu-system-x86_64: ../block/block-backend.c:1197: blk_wait_while_drained: Assertion `blk->in_flight > 0' failed.
-> > 
-> > 
-> > Any idea?
-> > 
-> > 
-> > This is what I changed:
-> > 
-> > 
-> > diff --git a/block/rbd.c b/block/rbd.c
-> > index 3cb24f9981..bc1dbc20f7 100644
-> > --- a/block/rbd.c
-> > +++ b/block/rbd.c
-> > @@ -1063,13 +1063,6 @@ static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
-> >      return 0;
-> >  }
-> > 
-> > -static void qemu_rbd_finish_bh(void *opaque)
-> > -{
-> > -    RBDTask *task = opaque;
-> > -    task->complete = true;
-> > -    aio_co_wake(task->co);
-> > -}
-> > -
-> >  /*
-> >   * This is the completion callback function for all rbd aio calls
-> >   * started from qemu_rbd_start_co().
-> > @@ -1083,8 +1076,8 @@ static void qemu_rbd_completion_cb(rbd_completion_t c, RBDTask *task)
-> >  {
-> >      task->ret = rbd_aio_get_return_value(c);
-> >      rbd_aio_release(c);
-> > -    aio_bh_schedule_oneshot(bdrv_get_aio_context(task->bs),
-> > -                            qemu_rbd_finish_bh, task);
-> > +    task->complete = true;
-> > +    aio_co_wake(task->co);
-> >  }
+On 22/10/2021 13.20, Owen LaGarde wrote:
+> Am I using --extra-cflags and --extra-ldflags wrong in the configure call?
 > 
-> Kevin, Paolo, any idea?
+> I'd like to source build several pre-reqs specific to supporting the qemu source
+> build.  I'd specifically not like to install neither the qemu or re-req builds
+> at the system level.  Normally I'd expect the --extra-cflags and --extra-ldflags
+> configure options to do this but they do not appear to propagate to meson.  
+> There
+> was an approved meson patch back in 2018 for extra-cflags / extra-ldflags 
+> and qemu
+> is currently using meson >5.8(?) but it doesn't look like configure is 
+> adding the
+> args anywhere in the build tree.  There are a number of ways to do this, what's
+> appropriate / future-proof wrt building qemu from source?  And why is configure
+> supporting --extra-[c,ld]args but not doing anything with the values?
 
-Not really, I don't see the connection between both places.
+I see a similar behavior with netmap now - I've got the corresponding header 
+file in a non-standard directory, and up to commit 837b84b1c078bf3e909 it 
+used to work fine to do:
 
-Do you have a stack trace for the crash?
+.../configure --enable-netmap \
+     --extra-cflags=-I/path/to/netmap/sys
 
-Kevin
+but since the conversion to meson, this does not seem to work anymore.
+
+Paolo, any ideas?
+
+  Thomas
+
+
+PS: As a work-around, it seems to be fine to pass the flags via the CFLAGS 
+environment variable instead:
+
+CFLAGS=-I/path/to/netmap/sys .../configure --enable-netmap
 
 
