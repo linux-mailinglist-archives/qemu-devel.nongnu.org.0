@@ -2,92 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849C3439ACB
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 17:49:36 +0200 (CEST)
-Received: from localhost ([::1]:46682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38CF7439ADD
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 17:52:09 +0200 (CEST)
+Received: from localhost ([::1]:49208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf2EB-00074U-3j
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 11:49:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50494)
+	id 1mf2Ge-0000Tk-C3
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 11:52:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mf2CO-0005nH-2i
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 11:47:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46462)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mf2CJ-0004NJ-4h
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 11:47:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635176857;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OllWm8tBhSCHCLDATZBw+EdX2LqIkuJejncPaP6xydA=;
- b=YkRe/GhVaFBn1heJX/siI9c/LyXq106ybX62yHO179MCPaej1UIOpjunJ+ovJl4x9p8OW2
- lbG5g3ljUwb5Rp5vD4sFtUY8zH4WyOo/mLFyyuOMeN2yv7/EeVGkox+fWw36HPVer8HjZn
- Bn6oxrZ8UQOMBUScgehUs6JkJ5SEWrA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-SpbDfxbnNq-qGRrrKTuiBQ-1; Mon, 25 Oct 2021 11:47:35 -0400
-X-MC-Unique: SpbDfxbnNq-qGRrrKTuiBQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 205-20020a1c01d6000000b0032ca8044e20so2534837wmb.6
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 08:47:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mf2EJ-0007ha-3B
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 11:49:43 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36800)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mf2EG-0006C5-0T
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 11:49:41 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id w15so10022842wra.3
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 08:49:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Do0mSR6Bp4v82q8g0hbBqxuQxsyeMCzzZ1TSnvKqeBI=;
+ b=dxhSMd8gI3wyIKE5r/4m38VWIIY30YAxrWqrQQF16Gz9pwh+5iUFafuHWGZ+fsl0yw
+ tS3Tjn4beX6Z5jPG1Mm1KV8H8AahG+k3lkjSf1q0mVBKvrgnQ8rr9xS1AZ7o/q+qq2Vp
+ Ek/+r7YtYDuDVDCy0r9BczY7wgdoGGf9uN8lDE7OiXw0qAd4qZ1oooV8/rVtlzy005Gq
+ EHyAe0vfLqu4B4Hpz6KKX/ZJEjrrybW1PYWmiHDecw/vZUBmzca/TV8KClOVzuQUGUmZ
+ XlUDmE17tyh8+JzdNFZPuTQ8Z73HNSy1lYuw/cIakjH/tYVtdtPcY/OmIrXronAgDRuQ
+ 86Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=OllWm8tBhSCHCLDATZBw+EdX2LqIkuJejncPaP6xydA=;
- b=pGxef4MdR1vuquYA4ec4rR0Xs8daipMiHVjn1eFMvA2MJMJrpHeC/Isl1gogWmef1U
- xi81TAY/Gh3jRCdEMJcTtDXkLWESp39bCTr9a2whBezbn5hoLHAUf3MVJiFjZqv/+Hgu
- WmtHse7IqNF8xHOGtVf1G3Smae9rd2ohMJx7dFvrsKCaoEVppFkEdqliNincKZFW2eSc
- VaUC3Be80Zl7Q4aoLP3kyO3ZnkuFLvJ5vETgAPwEgRv6ru+/0sjQrDNLmQj9LEaC2HDG
- INCCtaVSQmCHb+D8PAEvWRg9hx7nfzwTSGM2gAyjQ2c9X6v0Xpf1sSNHZ1KnvhlMQaFk
- 4d0g==
-X-Gm-Message-State: AOAM531jyQxolaWfsbA1JM0L75rGbc9ojxOEgYNEQhA6JxL7Zuy8CZCT
- 5Tr/QwSwlwqgDHj1JJxqAqkO0CDBjdVc8f0G+2Y7AJVKYjjcTfbHXZUxRPe/qFQlBW5JRQm9P3h
- DMK7tkZQGQw9CLuI=
-X-Received: by 2002:a7b:c359:: with SMTP id l25mr49991194wmj.84.1635176854442; 
- Mon, 25 Oct 2021 08:47:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwLB/niOatd+Vxlku98xG6EfRzTYqPuEkwn0XuG51PJkV6IH3roZQg5o6T0Y/QXDE0lMxEbSQ==
-X-Received: by 2002:a7b:c359:: with SMTP id l25mr49991157wmj.84.1635176854118; 
- Mon, 25 Oct 2021 08:47:34 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id m31sm1790394wms.25.2021.10.25.08.47.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 08:47:33 -0700 (PDT)
-Message-ID: <3b78f982-74e6-fc04-edab-aa77bdb8f4c9@redhat.com>
-Date: Mon, 25 Oct 2021 17:47:32 +0200
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Do0mSR6Bp4v82q8g0hbBqxuQxsyeMCzzZ1TSnvKqeBI=;
+ b=05pQWg+M9L9LcUDJWD4PO1LqlRn+d3QkOUOZOb+8WrE8YpFmbpvvdzDNyJ/5Z6wjc9
+ pQV1W397eYnu54C3gEaYHP8/TAyS/ovFFaLwZAJWx6tm4fmcYTqJ6QSjfJCy4aH7+cBs
+ 3uGmMo87RMFEvn7pzsp9rb+OwaDJcNK0f2hyC59q0tot/Gepd0OK0XEReSkoekWUoExp
+ vaaNkTANJO0pt39LHrJX7Oep/J2LgGSgefSzfe150yXjFJ9wFuA6GCxPLpLJ3fUS7CpB
+ cQnIV8MAnS/R4Jx+qGWfAneM8bdOdiOB1G2Ule0ibFmL7t/MSrgafGAKccPsbEjkVc8Z
+ dsFw==
+X-Gm-Message-State: AOAM530Xf3nn3yRQDm1ytfoCw4dKmw1Lg/QwtyOfOfVZYCK2Luaf/nXP
+ Kxb+2Rw3nhYAyQfYhx9MXfFAqw==
+X-Google-Smtp-Source: ABdhPJwM8TgAKvrjZaxZ1MYGZJNjO4hRNpAkzJE+Usnfb7GKbjM7gnUh7jVNr7wAjTNJq19T2TexqA==
+X-Received: by 2002:a5d:6d0a:: with SMTP id e10mr24536897wrq.157.1635176977468; 
+ Mon, 25 Oct 2021 08:49:37 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o194sm10176375wme.40.2021.10.25.08.49.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Oct 2021 08:49:36 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 25ED51FF96;
+ Mon, 25 Oct 2021 16:49:35 +0100 (BST)
+References: <163491872706.304355.11795681036780988723.stgit@pc-System-Product-Name>
+ <163491882316.304355.6955215012706902188.stgit@pc-System-Product-Name>
+User-agent: mu4e 1.7.4; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: NDNF <arkaisp2021@gmail.com>
+Subject: Re: [PATCH v3 1/3] src/plugins: sorted list
+Date: Mon, 25 Oct 2021 16:48:55 +0100
+In-reply-to: <163491882316.304355.6955215012706902188.stgit@pc-System-Product-Name>
+Message-ID: <87zgqx14vl.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 02/17] qemu/int128: addition of a few 128-bit operations
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211025122818.168890-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211025122818.168890-3-frederic.petrot@univ-grenoble-alpes.fr>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211025122818.168890-3-frederic.petrot@univ-grenoble-alpes.fr>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.846, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,26 +87,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, bin.meng@windriver.com,
- alistair.francis@wdc.com, palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Cc: arkadiy.ivanov@ispras.ru, qemu-devel@nongnu.org, pavel.dovgaluk@ispras.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/21 14:28, Frédéric Pétrot wrote:
-> Addition of not, xor, div and rem on 128-bit integers, used in particular
-> within div/rem and csr helpers for computations on 128-bit registers in
-> the 128-bit riscv target.
-> 
-> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
-> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
+
+NDNF <arkaisp2021@gmail.com> writes:
+
+> The list is sorted to make it easier to find missing characters
+>
+> Signed-off-by: Ivanov Arkady <arkadiy.ivanov@ispras.ru>
 > ---
->  include/qemu/int128.h |  26 +++++
->  util/int128.c         | 218 ++++++++++++++++++++++++++++++++++++++++++
->  util/meson.build      |   1 +
->  3 files changed, 245 insertions(+)
->  create mode 100644 util/int128.c
+>  plugins/qemu-plugins.symbols |   52 +++++++++++++++++++++---------------=
+------
+>  1 file changed, 26 insertions(+), 26 deletions(-)
 
-If you ever have to respin, please split the logical operations in
-one patch and the div/rem in another.
+Your baseline must be old because we already have a sorted list since:
 
+  1156a03372 (plugins: sort exported symbol list)
+
+--=20
+Alex Benn=C3=A9e
 
