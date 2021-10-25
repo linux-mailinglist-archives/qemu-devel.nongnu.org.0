@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD05439675
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:38:08 +0200 (CEST)
-Received: from localhost ([::1]:33326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA40439684
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:43:59 +0200 (CEST)
+Received: from localhost ([::1]:47082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mezEt-00070t-7x
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53216)
+	id 1mezKY-000891-AL
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:43:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mez6C-0006Te-Sw; Mon, 25 Oct 2021 08:29:09 -0400
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:43110)
+ id 1mez6E-0006VW-AR; Mon, 25 Oct 2021 08:29:11 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:43116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mez69-00087J-OH; Mon, 25 Oct 2021 08:29:08 -0400
-Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 58D9F41AEB;
+ id 1mez69-00087U-Ox; Mon, 25 Oct 2021 08:29:10 -0400
+Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id DA0E541AEF;
  Mon, 25 Oct 2021 14:28:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=univ-grenoble-alpes.fr; s=2020; t=1635164915;
- bh=Jsfdnn9fmQX25DCB9x7cNC8krS3rLPaQfYC9SyINQKw=;
+ bh=Yd4JUM3tPb7y6mATLzioGQ04byH/nS4PUed+b3PWtqA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JI3/Pq67YkXXjNpO06ju55niFbaQUezz/YxOJ8F8kz7/v0ezIPu+A/1U3csEaUN3j
- KjIOBHjPI9Ak5E3X58WEqMBPdWkZij1QUKrVxKpwGv9SqQkNvqXrC9CDtpr1y5ngD3
- 0bp2JsoTFKCMWUMdcCA/fu/EBhrFwH2KgFIl+xh6zOi5p4+5sfyaMv9zUdc3J2ipIC
- bR910HimSdW35EYmiFREuPYe867CQeRQkxukVAIZBeiw64uKxe7DVW6DkAhAPGgU+6
- eebFFEFCcnWr/98P86cLP+gF1mJzz8RsqVIGKc+46BDXcFk318/jObANlLQrf0FU4v
- ZZMM7aTBskGXw==
+ b=0GKxb5a292f5vrpkgOYmQ8vkj9eM0WE10Om0ajS+Fuqar22pDs5PB1pZUu0tkW/hA
+ eYno5YOnSnZw7LmQ2uAbPhjzvL1zbnNyi2217MkkJBbakf62TQpMNAjGN9/MtgJt+g
+ 9y3h4cRJdvUy8ZMY5yk+O1nDYQIz9MVeLUg2b78rwrgWq1S4E4UFskxpYH0uEuoLdB
+ Nr/Qdcy48lSpduVZl+6O4vMNxzB8XUmMUhgZXbPr9FYkqW4IGYAqKSsa7u6ppTDMM/
+ I1yex7dan5nWsYxtPacwkyWvD0txcwsd7NcTXKzC1M0xtTGmQvfTxjtkHrYn5j7ku2
+ 23+LQWI83AS+Q==
 Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id 41D2460067;
+ by mailhost.u-ga.fr (Postfix) with ESMTP id BC4CC60066;
  Mon, 25 Oct 2021 14:28:35 +0200 (CEST)
 Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 09B8A14005A;
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 69C9F14005A;
  Mon, 25 Oct 2021 14:28:35 +0200 (CEST)
 From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
  <frederic.petrot@univ-grenoble-alpes.fr>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v4 14/17] target/riscv: adding high part of some csrs
-Date: Mon, 25 Oct 2021 14:28:15 +0200
-Message-Id: <20211025122818.168890-15-frederic.petrot@univ-grenoble-alpes.fr>
+Subject: [PATCH v4 15/17] target/riscv: helper functions to wrap calls to
+ 128-bit csr insns
+Date: Mon, 25 Oct 2021 14:28:16 +0200
+Message-Id: <20211025122818.168890-16-frederic.petrot@univ-grenoble-alpes.fr>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211025122818.168890-1-frederic.petrot@univ-grenoble-alpes.fr>
 References: <20211025122818.168890-1-frederic.petrot@univ-grenoble-alpes.fr>
@@ -87,44 +88,135 @@ Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding the high part of a very minimal set of csr.
+Given the side effects they have, the csr instructions are realized as
+helpers. We extend this existing infrastructure for 128-bit sized csr.
+We return 128-bit values using the same approach as for div/rem.
+Theses helpers all call a unique function that is currently a fallback
+on the 64-bit version.
+The trans_csrxx functions supporting 128-bit are yet to be implemented.
 
 Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
 Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/cpu.h     | 4 ++++
- target/riscv/machine.c | 2 ++
- 2 files changed, 6 insertions(+)
+ target/riscv/cpu.h       |  4 ++++
+ target/riscv/helper.h    |  3 +++
+ target/riscv/csr.c       | 17 ++++++++++++++++
+ target/riscv/op_helper.c | 44 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 68 insertions(+)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 923ef01583..d8093be74d 100644
+index d8093be74d..328ba42a30 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -194,6 +194,10 @@ struct CPURISCVState {
-     target_ulong hgatp;
-     uint64_t htimedelta;
+@@ -470,6 +470,10 @@ typedef RISCVException (*riscv_csr_op_fn)(CPURISCVState *env, int csrno,
+                                           target_ulong new_value,
+                                           target_ulong write_mask);
  
-+    /* Upper 64-bits of 128-bit CSRs */
-+    uint64_t mscratchh;
-+    uint64_t sscratchh;
++RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
++                                Int128 *ret_value,
++                                Int128 new_value, Int128 write_mask);
 +
-     /* Virtual CSRs */
-     /*
-      * For RV32 this is 32-bit vsstatus and 32-bit vsstatush.
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index 78636ec96d..df4e667c59 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -153,6 +153,8 @@ static const VMStateDescription vmstate_rv128 = {
-     .needed = rv128_needed,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINTTL_ARRAY(env.gprh, RISCVCPU, 32),
-+        VMSTATE_UINT64(env.mscratchh, RISCVCPU),
-+        VMSTATE_UINT64(env.sscratchh, RISCVCPU),
-         VMSTATE_END_OF_LIST()
-     }
- };
+ typedef struct {
+     const char *name;
+     riscv_csr_predicate_fn predicate;
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 957ae8a2a2..1ef43e0daf 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -66,6 +66,9 @@ DEF_HELPER_FLAGS_2(clmulr, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_2(csrr, tl, env, int)
+ DEF_HELPER_3(csrw, void, env, int, tl)
+ DEF_HELPER_4(csrrw, tl, env, int, tl, tl)
++DEF_HELPER_2(csrr_i128, tl, env, int)
++DEF_HELPER_4(csrw_i128, void, env, int, tl, tl)
++DEF_HELPER_6(csrrw_i128, tl, env, int, tl, tl, tl, tl)
+ #ifndef CONFIG_USER_ONLY
+ DEF_HELPER_2(sret, tl, env, tl)
+ DEF_HELPER_2(mret, tl, env, tl)
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 69e4d65fcd..8a791d6b7c 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -1516,6 +1516,23 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+     return RISCV_EXCP_NONE;
+ }
+ 
++RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
++                               Int128 *ret_value,
++                               Int128 new_value, Int128 write_mask)
++{
++    /* fall back to 64-bit version for now */
++    target_ulong ret_64;
++    RISCVException ret = riscv_csrrw(env, csrno, &ret_64,
++                                     int128_getlo(new_value),
++                                     int128_getlo(write_mask));
++
++    if (ret_value) {
++        *ret_value = int128_make64(ret_64);
++    }
++
++    return ret;
++}
++
+ /*
+  * Debugger support.  If not in user mode, set env->debugger before the
+  * riscv_csrrw call and clear it after the call.
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index ee7c24efe7..f4cf9c4698 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -69,6 +69,50 @@ target_ulong helper_csrrw(CPURISCVState *env, int csr,
+     return val;
+ }
+ 
++target_ulong helper_csrr_i128(CPURISCVState *env, int csr)
++{
++    Int128 rv = int128_zero();
++    RISCVException ret = riscv_csrrw_i128(env, csr, &rv,
++                                          int128_zero(),
++                                          int128_zero());
++
++    if (ret != RISCV_EXCP_NONE) {
++        riscv_raise_exception(env, ret, GETPC());
++    }
++
++    env->retxh = int128_gethi(rv);
++    return int128_getlo(rv);
++}
++
++void helper_csrw_i128(CPURISCVState *env, int csr,
++                      target_ulong srcl, target_ulong srch)
++{
++    RISCVException ret = riscv_csrrw_i128(env, csr, NULL,
++                                          int128_make128(srcl, srch),
++                                          UINT128_MAX);
++
++    if (ret != RISCV_EXCP_NONE) {
++        riscv_raise_exception(env, ret, GETPC());
++    }
++}
++
++target_ulong helper_csrrw_i128(CPURISCVState *env, int csr,
++                       target_ulong srcl, target_ulong srch,
++                       target_ulong maskl, target_ulong maskh)
++{
++    Int128 rv = int128_zero();
++    RISCVException ret = riscv_csrrw_i128(env, csr, &rv,
++                                          int128_make128(srcl, srch),
++                                          int128_make128(maskl, maskh));
++
++    if (ret != RISCV_EXCP_NONE) {
++        riscv_raise_exception(env, ret, GETPC());
++    }
++
++    env->retxh = int128_gethi(rv);
++    return int128_getlo(rv);
++}
++
+ #ifndef CONFIG_USER_ONLY
+ 
+ target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
 -- 
 2.33.0
 
