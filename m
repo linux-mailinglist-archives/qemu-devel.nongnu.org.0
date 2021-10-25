@@ -2,80 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5517C43A556
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 22:58:11 +0200 (CEST)
-Received: from localhost ([::1]:37862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B88A43A5AE
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 23:17:56 +0200 (CEST)
+Received: from localhost ([::1]:44294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf72n-0006ej-PN
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 16:58:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39288)
+	id 1mf7Lu-00039Y-8e
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 17:17:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mf71p-0005tb-TR
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 16:57:09 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39734)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mf71o-0002xb-D1
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 16:57:09 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id z14so13983055wrg.6
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 13:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ldL0Cwgf1ti/CCDwOiVE0T5AJ48OViLNNVcCv7AJ6Js=;
- b=kBEFA6KOJpYcrvzBW7tVeArKOXHkkxC6UvDMffcoxZysWUj9fD3vGXjHiV3W1krJUu
- k57NWVg9pJl00GF/O+/y/rwPJDihtJ/bcQ2yhRRK/yePgPyYa0n0q3BSDBE+KlbwBQ0A
- zMbvpzfhLT+QN9rZ/Kx4KwWWqEWWoT5sc7jScvgYsOeuL+9Up4+XUEhOPmrrsSMV9N5U
- Vo7o6OQsT8f604GlLAHead+UZMRJfCOi5jNNVe0dhsDmDTbHgoqiuAVKScw2P1TF9lSz
- y//uN8hEyACwD8UFxLpZmsmIv6+4yfQhgImgicC8Jtd4NL21aLlfoHn+4GhpMKhCo5L2
- UN7A==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mf7Jz-0002T6-UB
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 17:15:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26672)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mf7Jt-0001cw-Gf
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 17:15:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635196545;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JL3A9XyF1VBSgL47JmnVTipoBpP02jbl8+cU0fLnuQM=;
+ b=Vb+mGVazAtdg5o/k0SA1zWgh6HANyrfhieeRwU4b7lSZP7DC/C+EHKR3Um2Y3AZPL4NUwY
+ hHNEROEZlLO+/JuC9+GiHvjN7viVDtByrDYFH4VJ2NkVDiyf+GXb2k5MHyFrIPkgcJ68+J
+ rwz1Re6pwxc41SfsmdQ/P3BGeYsaut0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-cCH-RNsIP2iSDWC87SSbqw-1; Mon, 25 Oct 2021 17:15:44 -0400
+X-MC-Unique: cCH-RNsIP2iSDWC87SSbqw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ f63-20020a1c3842000000b0032a621260deso162446wma.8
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 14:15:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ldL0Cwgf1ti/CCDwOiVE0T5AJ48OViLNNVcCv7AJ6Js=;
- b=TUX5kH9do+YkUlZ7TFVSIAUmsdq2sxo0YqBTSVNyy/WjzM1gC9L+clcSjzA3TuS0l5
- rBHXhcK1Y+SRPZQQHTboGK+bFqGsDypIytGUL9tpAMxFUjyn2mNCuaveAi8qvOngWPO4
- wGionQrcleUY6iN2RU3vfZlIAto2d792u+ctfkKpzfqB66KK+oh0/fds2crlZ9ymCA99
- I3+cFPGhszXKTbtbYd7R14u0H2mTyoBYSWHcgWJM3kJTijdE1qh6zursADjuUVge6jWF
- a9HDhRVP9kSRZU/GYhbp7jEeGr9lx32/OLUQ/SiJxrc2TR0IsbL3fVHS4jx5/hnIGN0Z
- tzkw==
-X-Gm-Message-State: AOAM530wHoRReMYsGOA8ArwBTKRrcJdccFO4o1VFPMN8KEiWh5q6lhGZ
- tVHwquFjivx/aWJ2EAVCN1w=
-X-Google-Smtp-Source: ABdhPJxRXO4Tg6vP9Yl2gWfjNk7itNtWJpnC+LuifvIjfWT9G17hviQjRSbsjfYwqZ9aZro+i/caAA==
-X-Received: by 2002:a5d:59a7:: with SMTP id p7mr26580797wrr.141.1635195426297; 
- Mon, 25 Oct 2021 13:57:06 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id e2sm12451698wrt.8.2021.10.25.13.57.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 13:57:01 -0700 (PDT)
-Message-ID: <21b998e6-f915-a96b-0802-41156b4db76a@amsat.org>
-Date: Mon, 25 Oct 2021 22:57:00 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=JL3A9XyF1VBSgL47JmnVTipoBpP02jbl8+cU0fLnuQM=;
+ b=v7zcd+6o+s99U5NZqV87D0TEEVINYAps9j26VldzSJvCjXkGpY5gVvVZQCULWobtxg
+ /CX70mZqq63szfzNG5zPC1WDOiAgvdusoN2iSiHtHia49iCpis/UP51Itwh72F8x+5fM
+ AhTyD0eEu7cCkAETWlecLogQQCJxOckBLn1WnFYXcomvh4wfrAySWG/gBhtBCygzJ5Ng
+ hGE8N+1gkVeZMxyPRVoDqePX34c1yYOetPAWNWp9XyHRyWWw9XbaYUnKCiTdeuiJOH4S
+ 1fE4I9WG15bFwrIb+/4fSlTctc+afi7/vbrZoglUn71v896VB0y2sG/SS0LwTmnkYlnD
+ ztZQ==
+X-Gm-Message-State: AOAM532SfizDwH82uj/jICOEXk7CyAhJbEQZPBSGX/Yru3vzrlvaS+1S
+ qGplu26ThWYD1dRxb7xWYktuge08saqcuKcpM+QOlkDuV0ovrwtSCHZ+OW9jrpYod6nqbi3BQZE
+ kdkQ8K+WWVhiqm7Y=
+X-Received: by 2002:a05:600c:4f8b:: with SMTP id
+ n11mr21876287wmq.54.1635196543384; 
+ Mon, 25 Oct 2021 14:15:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwbgeC1omsxixC50Q/9JKcKXz0JavQaS1xw0pM4T0lHVhp96SHvh9KUOKrzUhLCHI1YOX3NUQ==
+X-Received: by 2002:a05:600c:4f8b:: with SMTP id
+ n11mr21876248wmq.54.1635196543143; 
+ Mon, 25 Oct 2021 14:15:43 -0700 (PDT)
+Received: from redhat.com ([2.55.12.86])
+ by smtp.gmail.com with ESMTPSA id 25sm19672339wmo.18.2021.10.25.14.15.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Oct 2021 14:15:42 -0700 (PDT)
+Date: Mon, 25 Oct 2021 17:15:39 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v2] hw/i386: Rename default_bus_bypass_iommu
+Message-ID: <20211025171532-mutt-send-email-mst@kernel.org>
+References: <20211025104737.1560274-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] hvf: arm: Ignore cache operations on MMIO
-Content-Language: en-US
-To: Alexander Graf <agraf@csgraf.de>, Cameron Esfahani <dirty@apple.com>
-References: <20211025191349.52992-1-agraf@csgraf.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211025191349.52992-1-agraf@csgraf.de>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20211025104737.1560274-1-jean-philippe@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.846,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,86 +96,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kettenis@openbsd.org, qemu-devel@nongnu.org,
- AJ Barris <AwlsomeAlex@github.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Paolo Bonzini <pbonzini@redhat.com>, osy@github.com
+Cc: ehabkost@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ Eric Auger <eric.auger@redhat.com>, pbonzini@redhat.com,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/21 21:13, Alexander Graf wrote:
-> Apple's Hypervisor.Framework forwards cache operations as MMIO traps
-> into user space. For MMIO however, these have no meaning: There is no
-> cache attached to them.
+On Mon, Oct 25, 2021 at 11:47:38AM +0100, Jean-Philippe Brucker wrote:
+> Since commit d8fb7d0969d5 ("vl: switch -M parsing to keyval"), machine
+> parameter definitions cannot use underscores, because keyval_dashify()
+> transforms them to dashes and the parser doesn't find the parameter.
 > 
-> So let's filter SYS instructions for DATA exits out and treat them as nops.
+> This affects option default_bus_bypass_iommu which was introduced in the
+> same release:
 > 
-> This fixes OpenBSD booting as guest.
+> $ qemu-system-x86_64 -M q35,default_bus_bypass_iommu=on
+> qemu-system-x86_64: Property 'pc-q35-6.1-machine.default-bus-bypass-iommu' not found
 > 
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> Reported-by: AJ Barris <AwlsomeAlex@github.com>
+> Rename the parameter to "default-bus-bypass-iommu". Passing
+> "default_bus_bypass_iommu" is still valid since the underscore are
+> transformed automatically.
+> 
+> Fixes: c9e96b04fc19 ("hw/i386: Add a default_bus_bypass_iommu pc machine option")
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Tested-by: Eric Auger <eric.auger@redhat.com>
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
 > ---
->  target/arm/hvf/hvf.c | 32 ++++++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
+> v1: https://lore.kernel.org/qemu-devel/20211013160607.649990-3-jean-philippe@linaro.org/
+> v2: no change, added review tag and resending to be merged separately
+>     from the equivalent arm fix
+> ---
+>  hw/i386/pc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-> index bff3e0cde7..46ff4892a7 100644
-> --- a/target/arm/hvf/hvf.c
-> +++ b/target/arm/hvf/hvf.c
-> @@ -1098,6 +1098,33 @@ static void hvf_sync_vtimer(CPUState *cpu)
->      }
->  }
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 86223acfd3..54e4c00dce 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1718,7 +1718,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+>      object_class_property_add_bool(oc, "hpet",
+>          pc_machine_get_hpet, pc_machine_set_hpet);
 >  
-> +static bool hvf_emulate_insn(CPUState *cpu)
-> +{
-> +    ARMCPU *arm_cpu = ARM_CPU(cpu);
-> +    CPUARMState *env = &arm_cpu->env;
-> +    uint32_t insn;
-> +
-> +    /*
-> +     * We ran into an instruction that traps for data, but is not
-> +     * hardware predecoded. This should not ever happen for well
-> +     * behaved guests. Let's try to see if we can somehow rescue
-> +     * the situation.
-> +     */
-> +
-> +    cpu_synchronize_state(cpu);
-> +    if (cpu_memory_rw_debug(cpu, env->pc, &insn, 4, 0)) {
-
-What about using cpu_ldl_data()?
-
-> +        /* Could not read the instruction */
-> +        return false;
-> +    }
-> +
-> +    if ((insn & 0xffc00000) == 0xd5000000) {
-
-Could there be an endianess issue here?
-
-Otherwise,
-Reviewed-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-
-> +        /* MSR/MRS/SYS/SYSL - happens for cache ops which are nops on data */
-> +        return true;
-> +    }
-> +
-> +    return false;
-> +}
-> +
->  int hvf_vcpu_exec(CPUState *cpu)
->  {
->      ARMCPU *arm_cpu = ARM_CPU(cpu);
-> @@ -1156,6 +1183,11 @@ int hvf_vcpu_exec(CPUState *cpu)
->                               hvf_exit->exception.physical_address, isv,
->                               iswrite, s1ptw, len, srt);
+> -    object_class_property_add_bool(oc, "default_bus_bypass_iommu",
+> +    object_class_property_add_bool(oc, "default-bus-bypass-iommu",
+>          pc_machine_get_default_bus_bypass_iommu,
+>          pc_machine_set_default_bus_bypass_iommu);
 >  
-> +        if (!isv) {
-> +            g_assert(hvf_emulate_insn(cpu));
-> +            advance_pc = true;
-> +            break;
-> +        }
->          assert(isv);
->  
->          if (iswrite) {
-> 
+> -- 
+> 2.33.0
 
 
