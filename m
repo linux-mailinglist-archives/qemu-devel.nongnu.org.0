@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0224C4397CE
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 15:46:59 +0200 (CEST)
-Received: from localhost ([::1]:34858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC22439820
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 16:07:40 +0200 (CEST)
+Received: from localhost ([::1]:54578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf0JV-0004l0-M0
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 09:46:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47412)
+	id 1mf0dW-0002gI-4B
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 10:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mf0H4-0001yN-W7; Mon, 25 Oct 2021 09:44:27 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:54845)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mf0H2-00085r-Lw; Mon, 25 Oct 2021 09:44:26 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id g141so10763321wmg.4;
- Mon, 25 Oct 2021 06:44:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4r5ESUFk6fj0BmLyk28sgPzkuPAWkSScjkoN3mQuycc=;
- b=go9enP1AQmjYd8gAF4mRP2O93WWtMJt7T3+kb1vOyGUsX530GUyQTAE03qkePuTdTI
- FaGAjZe+wHRLu1VMHy31nbNuRW0CbStK9gUOdHQ+oeY2NTjyF1E4l8YZnSwT0Yx24JNC
- dbCvp/n0g3OW8jt6m8I52S34kcPbxBeeRDmp98Tyg30Wvlk7nMBMjxO8ExkwqjrjZ76N
- wNc2zhhHpm66Xqv6tetwcuSxG8cWhlYrrhpH6X4JnoPtGzwcHkZn+hn+xTVoPJbMG2Ue
- MupcG4fw3NIJzJwp8oGODNAlZtSYF6W046ijy4IVNmMwPUMCFtMPvg3S71Gt6bCz9b+S
- jtGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4r5ESUFk6fj0BmLyk28sgPzkuPAWkSScjkoN3mQuycc=;
- b=TVSR0Ajha46K0JpVKZ4Js+rRRh6weod6PcCuZ9YXvhOtpJ7es/T2Zk3ptGKtNs1TrP
- NlDXZjuedctJ8KSg4HM1smVbjvRmnRHhMlgBWTCnR+PJHmEQwb5444K6y/OwSTJfJ/iB
- N0U20Wo9jBknMT/QFtJbZIc/WskwiXqTuwDN9QJiM32bGXughOKCwXWDlLjfpGWvtSZn
- 3T7T4+fH2EPO9OPnOZJpmKZv4DtRpm1nm4BdWnsuvGoPpqLjvcH1qxKjz4k+t3FSG8Re
- Tn6K66114Szrb8H276NPlGSUoPLVk/L+GS0/OZf2R1SKD7A4KsUJA48aX85l0fsiTMqz
- PYrA==
-X-Gm-Message-State: AOAM531Cok02Rot4/RVMYOmkWTPzFc6YxerZXZkRx2/gNU7kNalWvMNe
- 64roYw0KYAWkdlArilGlyvB3+kQZHsA=
-X-Google-Smtp-Source: ABdhPJxBELzbJS5uGim3a49F3dWkEdYdPKosjpud8FntowodvCE/infRDS6CcIKCB9dRGDci5lGStA==
-X-Received: by 2002:a05:600c:20f:: with SMTP id
- 15mr19874319wmi.58.1635169462460; 
- Mon, 25 Oct 2021 06:44:22 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id f7sm15342590wmg.14.2021.10.25.06.44.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 06:44:21 -0700 (PDT)
-Message-ID: <05d74be9-acb6-b682-c869-1f5580580a37@amsat.org>
-Date: Mon, 25 Oct 2021 15:44:20 +0200
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mf0ao-00011e-BA
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:04:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40692)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mf0aj-00019Y-Mh
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 10:04:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635170685;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HKEnONRlH5Xxq5bRpDjorOFunO5VxQTFUTYvYjDa3lE=;
+ b=E5nGjkmVaEoTgJaH/8/XbZc3itUbwu7nqI50mJteHRKNkltC3gfpuoOcjbP4+Fykjm9gP4
+ FwCONNoPwlxdnGUYec0DcVGyNNfMVChSTFxQsnSNdK/Z7NnPrcmM19ZeK9FHcMT05Jn8Nc
+ kyf1YOQ1znG4RgTplI2Kob91BroUp4Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-15-3R5HvcSzN7yWFYbApJVRow-1; Mon, 25 Oct 2021 10:04:41 -0400
+X-MC-Unique: 3R5HvcSzN7yWFYbApJVRow-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE4358066F5;
+ Mon, 25 Oct 2021 14:04:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E0E36F920;
+ Mon, 25 Oct 2021 14:04:23 +0000 (UTC)
+Date: Mon, 25 Oct 2021 16:04:21 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [PATCH 1/3] file-posix: add `aio-max-batch` option
+Message-ID: <YXa5ZesOSr/gd6v3@redhat.com>
+References: <20210923143100.182979-1-sgarzare@redhat.com>
+ <20210923143100.182979-2-sgarzare@redhat.com>
+ <YXGE0e/08DZXO1pj@stefanha-x1.localdomain>
+ <20211025102006.hc6vjbqze3u7mqpr@steredhat>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 0/6] tests/acceptance: Add bFLT loader linux-user test
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-References: <20210927163116.1998349-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210927163116.1998349-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.846,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211025102006.hc6vjbqze3u7mqpr@steredhat>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,69 +78,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, qemu-arm@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Warner Losh <imp@bsdimp.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Almost one month passed... ping?
+Am 25.10.2021 um 12:20 hat Stefano Garzarella geschrieben:
+> On Thu, Oct 21, 2021 at 04:18:41PM +0100, Stefan Hajnoczi wrote:
+> > On Thu, Sep 23, 2021 at 04:30:58PM +0200, Stefano Garzarella wrote:
+> > > Commit d7ddd0a161 ("linux-aio: limit the batch size using
+> > > `aio-max-batch` parameter") added a way to limit the batch size
+> > > of Linux AIO backend for the entire AIO context.
+> > > 
+> > > The same AIO context can be shared by multiple devices, so
+> > > latency-sensitive devices may want to limit the batch size even
+> > > more to avoid increasing latency.
+> > > 
+> > > For this reason we add the `aio-max-batch` option to the file
+> > > backend, which will be used by the next commits to limit the size of
+> > > batches including requests generated by this device.
+> > > 
+> > > Suggested-by: Kevin Wolf <kwolf@redhat.com>
+> > > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> > > ---
+> > >  qapi/block-core.json | 5 +++++
+> > >  block/file-posix.c   | 9 +++++++++
+> > >  2 files changed, 14 insertions(+)
+> > > 
+> > > diff --git a/qapi/block-core.json b/qapi/block-core.json
+> > > index c8ce1d9d5d..1a8ed325bc 100644
+> > > --- a/qapi/block-core.json
+> > > +++ b/qapi/block-core.json
+> > > @@ -2851,6 +2851,10 @@
+> > >  #              for this device (default: none, forward the commands via SG_IO;
+> > >  #              since 2.11)
+> > >  # @aio: AIO backend (default: threads) (since: 2.8)
+> > > +# @aio-max-batch: maximum number of requests in an AIO backend batch that
+> > > +#                 contains request from this block device. 0 means that the
+> > 
+> > The first sentence is a little unclear. I guess s/request/requests/ but
+> > that still doesn't doesn't fully explain how this works.
+> > 
+> > Does the AIO backend use the minimum aio-max-batch value of all its
+> > blockdevs?
+> 
+> It's a little simpler to avoid having to recalculate the minimum for each
+> attach/release of blockdevs.
+> 
+> When the blockdev does submit or unplug, the queue is flushed if the number
+> of requests in the batch is greater or equal then the smallest aio-max-batch
+> value of the blockdev and the AIO context.
+> 
+> > 
+> > Maybe:
+> > 
+> >  maximum number of requests to batch together into a single submission
+> >  in the AIO backend. If multiple BlockdevOptionsFile sharing an AIO
+> >  backend have different values the smallest value is chosen. ...
+> 
+> Whath about this:
+> 
+>   maximum number of requests to batch together into a single submission
+>   in the AIO backend. The smallest value between this and AIO context's
+> aio-max-batch value is chosen. ...
 
-(adding Cleber who wasn't Cc'ed)
+I like this, except that AioContexts are an implementation detail. I
+think we should refer to the iothread object instead, which is the user
+visible interface to AioContexts.
 
-On 9/27/21 18:31, Philippe Mathieu-Daudé wrote:
-> Since v3:
-> - rebased
-> - addressed Wainer review comments from v2
-> - rename avocado_qemu.Test -> QemuSystemTest
-> 
-> Since v2:
-> - rebased tests/acceptance/avocado_qemu/__init__.py patches
-> - extract has_cmd() from virtiofs_submounts.py
-> - check cpio availability with has_cmd()
-> 
-> Philippe Mathieu-Daudé (6):
->   tests/acceptance: Extract QemuBaseTest from Test
->   tests/acceptance: Make pick_default_qemu_bin() more generic
->   tests/acceptance: Introduce QemuUserTest base class
->   tests/acceptance: Share useful helpers from virtiofs_submounts test
->   tests/acceptance: Add bFLT loader linux-user test
->   tests/acceptance: Rename avocado_qemu.Test -> QemuSystemTest
-> 
->  tests/acceptance/avocado_qemu/__init__.py    | 158 ++++++++++++++-----
->  tests/acceptance/boot_linux_console.py       |   4 +-
->  tests/acceptance/cpu_queries.py              |   4 +-
->  tests/acceptance/empty_cpu_model.py          |   4 +-
->  tests/acceptance/info_usernet.py             |   4 +-
->  tests/acceptance/linux_initrd.py             |   4 +-
->  tests/acceptance/linux_ssh_mips_malta.py     |   5 +-
->  tests/acceptance/load_bflt.py                |  54 +++++++
->  tests/acceptance/machine_arm_canona1100.py   |   4 +-
->  tests/acceptance/machine_arm_integratorcp.py |   4 +-
->  tests/acceptance/machine_arm_n8x0.py         |   4 +-
->  tests/acceptance/machine_avr6.py             |   4 +-
->  tests/acceptance/machine_m68k_nextcube.py    |   4 +-
->  tests/acceptance/machine_microblaze.py       |   4 +-
->  tests/acceptance/machine_mips_fuloong2e.py   |   4 +-
->  tests/acceptance/machine_mips_loongson3v.py  |   4 +-
->  tests/acceptance/machine_mips_malta.py       |   4 +-
->  tests/acceptance/machine_ppc.py              |   4 +-
->  tests/acceptance/machine_rx_gdbsim.py        |   4 +-
->  tests/acceptance/machine_s390_ccw_virtio.py  |   4 +-
->  tests/acceptance/machine_sparc_leon3.py      |   4 +-
->  tests/acceptance/migration.py                |   4 +-
->  tests/acceptance/multiprocess.py             |   4 +-
->  tests/acceptance/pc_cpu_hotplug_props.py     |   4 +-
->  tests/acceptance/ppc_prep_40p.py             |   4 +-
->  tests/acceptance/version.py                  |   4 +-
->  tests/acceptance/virtio-gpu.py               |   4 +-
->  tests/acceptance/virtio_check_params.py      |   4 +-
->  tests/acceptance/virtio_version.py           |   4 +-
->  tests/acceptance/virtiofs_submounts.py       |  59 +------
->  tests/acceptance/vnc.py                      |   4 +-
->  tests/acceptance/x86_cpu_model_versions.py   |   4 +-
->  32 files changed, 235 insertions(+), 153 deletions(-)
->  create mode 100644 tests/acceptance/load_bflt.py
-> 
+Kevin
+
 
