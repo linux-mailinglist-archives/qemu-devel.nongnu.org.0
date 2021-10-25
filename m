@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 825094396B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:53:15 +0200 (CEST)
-Received: from localhost ([::1]:42122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0752D439679
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 14:40:07 +0200 (CEST)
+Received: from localhost ([::1]:38090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mezTW-0007KE-FR
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:53:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53054)
+	id 1mezGo-0001mw-0B
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 08:40:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mez5q-0005tP-0B; Mon, 25 Oct 2021 08:28:47 -0400
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:43092)
+ id 1mez6A-0006Pc-1S; Mon, 25 Oct 2021 08:29:06 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:43090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mez5n-00085P-Jq; Mon, 25 Oct 2021 08:28:45 -0400
-Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 1A4C141991;
+ id 1mez67-00085R-L9; Mon, 25 Oct 2021 08:29:05 -0400
+Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 5891941A83;
  Mon, 25 Oct 2021 14:28:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=univ-grenoble-alpes.fr; s=2020; t=1635164914;
- bh=/bNWm2CFEsWTQuQiFZGa3cZy0Xiybgs7M/tdpEV7Gfk=;
+ bh=CDLOH5KLJqjjJyhk64e79ajNgoRDyTEZjw1WAtSm7f8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EEz5ZtKorV25bZmhLmhJuCYeegAukgyug9yXX5Z8opKqpHc5FVJONYhZO7P5SA8iP
- clUMU5wIhMN2cDJEMTQOX5opnJ5/1y9UWW8JDpZdkB8lZ2k76zqG5h1zVEZLBdDKzQ
- hQyudLm249U6SvO7olutwTc2bCXOSkpS0nfrc1NK2Du05lZTPZb5GW93zYIkMudeKt
- B37H7iOMu6Lb+hvLDEgWpY1dcChZcNaTvMl3sSblnlhw9GaLB8IMpegjMx+/KNJeyO
- dZZ0+MUrZx4f3zKw73+p2EA0NdVgDOP2U+v9A6sfL11AsV+Q3fqVPXi6HZsmX9nrsa
- LHJ1vmNqPr2cQ==
+ b=P9Kr2IIZCX7IUzHiCWlsrcHHBiX142Yg/9BpINC3Ny6aC44UTqbd0i2CZYgETjPdk
+ 6H4guU3zperEsHsCEmNLbLWHoJhPLZF5CVHVhbQu7q6DmxeCKgRQxh1wKYPagnjz4R
+ 656L0lhLG87Cfqmui5zWOhwIMI6EFXfQVLq4UXkF7dudTDq/mywYRRxseCkULEuUaz
+ iklFh+s4qVE29qf+9+LzMofl/iQF120w6QPD3o/kTEE4lq2of8U9LYwgKuZUbPHEEh
+ zkVlmSdIjets42brdP6zHNPKI/cDJZ0d3d6bcPT2vKDEE6MTOUdr0GXaimyOkx7Yzv
+ OQ+odGfW5tBLg==
 Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id F22BD60066;
- Mon, 25 Oct 2021 14:28:33 +0200 (CEST)
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 3600A60070;
+ Mon, 25 Oct 2021 14:28:34 +0200 (CEST)
 Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id C02A114005D;
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 01DA414005A;
  Mon, 25 Oct 2021 14:28:33 +0200 (CEST)
 From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
  <frederic.petrot@univ-grenoble-alpes.fr>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v4 09/17] target/riscv: support for 128-bit bitwise
- instructions
-Date: Mon, 25 Oct 2021 14:28:10 +0200
-Message-Id: <20211025122818.168890-10-frederic.petrot@univ-grenoble-alpes.fr>
+Subject: [PATCH v4 10/17] target/riscv: support for 128-bit U-type instructions
+Date: Mon, 25 Oct 2021 14:28:11 +0200
+Message-Id: <20211025122818.168890-11-frederic.petrot@univ-grenoble-alpes.fr>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211025122818.168890-1-frederic.petrot@univ-grenoble-alpes.fr>
 References: <20211025122818.168890-1-frederic.petrot@univ-grenoble-alpes.fr>
@@ -88,53 +87,78 @@ Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 128-bit bitwise instructions do not need any function prototype change
-as the functions can be applied independently on the lower and upper part of
-the registers.
+Adding the 128-bit version of lui and auipc, and introducing to that end
+a set register with immediat function to handle extension on 128 bits.
 
 Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
 Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
 ---
- target/riscv/translate.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ target/riscv/translate.c                | 22 ++++++++++++++++++++++
+ target/riscv/insn_trans/trans_rvi.c.inc |  8 ++++----
+ 2 files changed, 26 insertions(+), 4 deletions(-)
 
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 070db77ca5..b183ad2b6e 100644
+index b183ad2b6e..ab706d799a 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -426,7 +426,15 @@ static bool gen_logic_imm_fn(DisasContext *ctx, arg_i *a,
+@@ -282,6 +282,28 @@ static void gen_set_gpr(DisasContext *ctx, int reg_num, TCGv t)
+     }
+ }
  
-     func(dest, src1, a->imm);
- 
--    gen_set_gpr(ctx, a->rd, dest);
-+    if (get_xl(ctx) == MXL_RV128) {
-+        TCGv src1h = get_gprh(ctx, a->rs1);
-+        TCGv desth = dest_gprh(ctx, a->rd);
++static void gen_set_gpri(DisasContext *ctx, int reg_num, target_long imm)
++{
++    if (reg_num != 0) {
++        switch (get_ol(ctx)) {
++        case MXL_RV32:
++            tcg_gen_movi_tl(cpu_gpr[reg_num], imm);
++            tcg_gen_ext32s_tl(cpu_gpr[reg_num], cpu_gpr[reg_num]);
++            break;
++        case MXL_RV64:
++        case MXL_RV128:
++            tcg_gen_movi_tl(cpu_gpr[reg_num], imm);
++            break;
++        default:
++            g_assert_not_reached();
++        }
 +
-+        func(desth, src1h, -(a->imm < 0));
-+        gen_set_gpr128(ctx, a->rd, dest, desth);
-+    } else {
-+        gen_set_gpr(ctx, a->rd, dest);
++        if (get_xl_max(ctx) == MXL_RV128) {
++            tcg_gen_movi_tl(cpu_gprh[reg_num], -(imm < 0));
++        }
 +    }
++}
++
+ static void gen_set_gpr128(DisasContext *ctx, int reg_num, TCGv rl, TCGv rh)
+ {
+     if (get_ol(ctx) != MXL_RV128) {
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index d17bde6a3a..3222a45d72 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -26,14 +26,14 @@ static bool trans_illegal(DisasContext *ctx, arg_empty *a)
  
+ static bool trans_c64_illegal(DisasContext *ctx, arg_empty *a)
+ {
+-     REQUIRE_64BIT(ctx);
+-     return trans_illegal(ctx, a);
++    REQUIRE_64_OR_128BIT(ctx);
++    return trans_illegal(ctx, a);
+ }
+ 
+ static bool trans_lui(DisasContext *ctx, arg_lui *a)
+ {
+     if (a->rd != 0) {
+-        tcg_gen_movi_tl(cpu_gpr[a->rd], a->imm);
++        gen_set_gpri(ctx, a->rd, a->imm);
+     }
      return true;
  }
-@@ -440,7 +448,16 @@ static bool gen_logic(DisasContext *ctx, arg_r *a, DisasExtend ext,
- 
-     func(dest, src1, src2);
- 
--    gen_set_gpr(ctx, a->rd, dest);
-+    if (get_xl(ctx) == MXL_RV128) {
-+        TCGv src1h = get_gprh(ctx, a->rs1);
-+        TCGv src2h = get_gprh(ctx, a->rs2);
-+        TCGv desth = dest_gprh(ctx, a->rd);
-+
-+        func(desth, src1h, src2h);
-+        gen_set_gpr128(ctx, a->rd, dest, desth);
-+    } else {
-+        gen_set_gpr(ctx, a->rd, dest);
-+    }
- 
+@@ -41,7 +41,7 @@ static bool trans_lui(DisasContext *ctx, arg_lui *a)
+ static bool trans_auipc(DisasContext *ctx, arg_auipc *a)
+ {
+     if (a->rd != 0) {
+-        tcg_gen_movi_tl(cpu_gpr[a->rd], a->imm + ctx->base.pc_next);
++        gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
+     }
      return true;
  }
 -- 
