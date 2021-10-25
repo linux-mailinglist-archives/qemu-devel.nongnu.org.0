@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B864C438E53
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 06:29:05 +0200 (CEST)
-Received: from localhost ([::1]:36568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 670E9438E52
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 06:29:04 +0200 (CEST)
+Received: from localhost ([::1]:36490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1merbc-0004Ll-Ph
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 00:29:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45090)
+	id 1merbb-0004Ij-F4
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 00:29:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1merXR-0006Tr-3W
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 00:24:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30830)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1merXO-0006NB-QJ
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 00:24:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1merXP-0006oz-2x
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 00:24:44 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1merXM-0006al-5s
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 00:24:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635135882;
+ s=mimecast20190719; t=1635135879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/7bGzHcRMoSCx9w5hRqzo+lvUPzSfpqMf12UJ/k6xV4=;
- b=Uc0E3Zu/ywEZOjdAZr7yrHT8Mp+c7DFo0OH9p3BmuqQlE6znhqMyScjZaY/CS3V/ugW0iN
- UuxchykEh2RFz0vQ1xO/b5XMuq6CTHFX6uwNjygpkYpMmuDu2MrehZuEktfqqe4Z25wktN
- /4iDm4hk1tO3A14H7SgoJS/6h/q+XDo=
+ bh=ujcP5WRFtzs3sZBBhx5NaWSDE0NKlhl4MYokQBXhGLg=;
+ b=KRgVr/ZFZjAQGxe9b8jfy0zBq+yChmFBBktx/sv1Kn6RRTOpsDNiD1y4hkklMOvhUOM9MY
+ 82vNP0rTdVL3BbfrVVb2w85bUephvqeyRmzo+OI4954b2DDaoV5/6PJBkBkvBOyRzVlRLh
+ i7jIkVNM3XsFDz6p430fOvssWb/II1k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-dWDWv8jRPRKJErwM25rN8A-1; Mon, 25 Oct 2021 00:24:27 -0400
-X-MC-Unique: dWDWv8jRPRKJErwM25rN8A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-583-eEKFS2IiNke6qDfVh4op3Q-1; Mon, 25 Oct 2021 00:24:20 -0400
+X-MC-Unique: eEKFS2IiNke6qDfVh4op3Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA476362FC;
- Mon, 25 Oct 2021 04:24:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0C61806689;
+ Mon, 25 Oct 2021 04:24:18 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA6CD60CC3;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ABC0C5BAFF;
  Mon, 25 Oct 2021 04:24:07 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 00EF411380AA; Mon, 25 Oct 2021 06:24:05 +0200 (CEST)
+ id 042B611380B8; Mon, 25 Oct 2021 06:24:06 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/5] qapi: Enable enum member introspection to show more
- than name
-Date: Mon, 25 Oct 2021 06:24:01 +0200
-Message-Id: <20211025042405.3762351-2-armbru@redhat.com>
+Subject: [PATCH v4 2/5] qapi: Add feature flags to enum members
+Date: Mon, 25 Oct 2021 06:24:02 +0200
+Message-Id: <20211025042405.3762351-3-armbru@redhat.com>
 In-Reply-To: <20211025042405.3762351-1-armbru@redhat.com>
 References: <20211025042405.3762351-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,205 +85,294 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The next commit will add feature flags to enum members.  There's a
-problem, though: query-qmp-schema shows an enum type's members as an
-array of member names (SchemaInfoEnum member @values).  If it showed
-an array of objects with a name member, we could simply add more
-members to these objects.  Since it's just strings, we can't.
+This is quite similar to commit 84ab008687 "qapi: Add feature flags to
+struct members", only for enums instead of structs.
 
-I can see three ways to correct this design mistake:
-
-1. Do it the way we should have done it, plus compatibility goo.
-
-   We want a ['SchemaInfoEnumMember'] member in SchemaInfoEnum.  Since
-   changing @values would be a compatibility break, add a new member
-   @members instead.
-
-   @values is now redundant.  In my testing, output of
-   qemu-system-x86_64's query-qmp-schema grows by 11% (18.5KiB).
-
-   We can deprecate @values now and drop it later.  This will break
-   outmoded clients.  Well-behaved clients such as libvirt are
-   expected to break cleanly.
-
-2. Like 1, but omit "boring" elements of @member, and empty @member.
-
-   @values does not become redundant.  @members augments it.  Somewhat
-   cumbersome, but output of query-qmp-schema grows only as we make
-   enum members non-boring.
-
-   There is nothing to deprecate here.
-
-3. Versioned query-qmp-schema.
-
-   query-qmp-schema provides either @values or @members.  The QMP
-   client can select which version it wants.  There is no redundant
-   output.
-
-   We can deprecate old versions and eventually drop them.  This will
-   break outmoded clients.  Breaking cleanly is easier than for 1.
-
-   While 1 and 2 operate within the common rules for compatible
-   evolution apply (section "Compatibility considerations" in
-   docs/devel/qapi-code-gen.rst), 3 bypasses them.  Attractive when
-   operating within the rules is just too awkward.  Not the case here.
-
-This commit implements 1.  Libvirt developers prefer it.
-
-Deprecate @values in favour of @members.  Since query-qmp-schema
-compatibility is pretty fundamental for management applications, an
-extended grace period is advised.
+Special feature flag 'deprecated' is silently ignored there.  This is
+okay only because it will be implemented shortly.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Tested-by: Peter Krempa <pkrempa@redhat.com>
-Acked-by: Peter Krempa <pkrempa@redhat.com>
 ---
- docs/about/deprecated.rst    |  6 ++++++
- docs/devel/qapi-code-gen.rst | 15 +++++++++++----
- qapi/introspect.json         | 25 +++++++++++++++++++++++--
- scripts/qapi/introspect.py   | 18 ++++++++++++++----
- 4 files changed, 54 insertions(+), 10 deletions(-)
+ docs/devel/qapi-code-gen.rst                  | 16 +++++++++-----
+ qapi/compat.json                              |  2 ++
+ qapi/introspect.json                          |  5 ++++-
+ scripts/qapi/expr.py                          |  3 ++-
+ scripts/qapi/introspect.py                    |  5 +++--
+ scripts/qapi/schema.py                        | 22 +++++++++++++++++--
+ tests/qapi-schema/doc-good.json               |  5 ++++-
+ tests/qapi-schema/doc-good.out                |  3 +++
+ tests/qapi-schema/doc-good.txt                |  3 +++
+ .../qapi-schema/enum-dict-member-unknown.err  |  2 +-
+ tests/qapi-schema/qapi-schema-test.json       |  3 ++-
+ tests/qapi-schema/qapi-schema-test.out        |  1 +
+ tests/qapi-schema/test-qapi.py                |  1 +
+ 13 files changed, 57 insertions(+), 14 deletions(-)
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 0bed6ecb1d..be19317470 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -228,6 +228,12 @@ Use the more generic commands ``block-export-add`` and ``block-export-del``
- instead.  As part of this deprecation, where ``nbd-server-add`` used a
- single ``bitmap``, the new ``block-export-add`` uses a list of ``bitmaps``.
- 
-+``query-qmp-schema`` return value member ``values`` (since 6.2)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Member ``values`` in return value elements with meta-type ``enum`` is
-+deprecated.  Use ``members`` instead.
-+
- System accelerators
- -------------------
- 
 diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-index b2569de486..d267889d2c 100644
+index d267889d2c..4071c9074a 100644
 --- a/docs/devel/qapi-code-gen.rst
 +++ b/docs/devel/qapi-code-gen.rst
-@@ -1231,14 +1231,21 @@ Example: the SchemaInfo for ['str'] ::
-       "element-type": "str" }
+@@ -200,7 +200,9 @@ Syntax::
+              '*if': COND,
+              '*features': FEATURES }
+     ENUM-VALUE = STRING
+-               | { 'name': STRING, '*if': COND }
++               | { 'name': STRING,
++                   '*if': COND,
++                   '*features': FEATURES }
  
- The SchemaInfo for an enumeration type has meta-type "enum" and
--variant member "values".  The values are listed in no particular
--order; clients must search the entire enum when learning whether a
--particular value is supported.
-+variant member "members".
-+
-+"members" is a JSON array describing the enumeration values.  Each
-+element is a JSON object with member "name" (the member's name).  The
-+"members" array is in no particular order; clients must search the
-+entire array when learning whether a particular value is supported.
+ Member 'enum' names the enum type.
  
- Example: the SchemaInfo for MyEnum from section `Enumeration types`_ ::
+@@ -706,8 +708,10 @@ QEMU shows a certain behaviour.
+ Special features
+ ~~~~~~~~~~~~~~~~
  
-     { "name": "MyEnum", "meta-type": "enum",
--      "values": [ "value1", "value2", "value3" ] }
-+      "members": [
-+        { "name": "value1" },
-+        { "name": "value2" },
-+        { "name": "value3" }
-+      ] }
+-Feature "deprecated" marks a command, event, or struct member as
+-deprecated.  It is not supported elsewhere so far.
++Feature "deprecated" marks a command, event, enum value, or struct
++member as deprecated.  It is not supported elsewhere so far.
++Interfaces so marked may be withdrawn in future releases in accordance
++with QEMU's deprecation policy.
  
- The SchemaInfo for a built-in type has the same name as the type in
- the QAPI schema (see section `Built-in Types`_), with one exception
+ 
+ Naming rules and reserved names
+@@ -1157,7 +1161,8 @@ and "variants".
+ 
+ "members" is a JSON array describing the object's common members, if
+ any.  Each element is a JSON object with members "name" (the member's
+-name), "type" (the name of its type), and optionally "default".  The
++name), "type" (the name of its type), "features" (a JSON array of
++feature strings), and "default".  The latter two are optional.  The
+ member is optional if "default" is present.  Currently, "default" can
+ only have value null.  Other values are reserved for future
+ extensions.  The "members" array is in no particular order; clients
+@@ -1234,7 +1239,8 @@ The SchemaInfo for an enumeration type has meta-type "enum" and
+ variant member "members".
+ 
+ "members" is a JSON array describing the enumeration values.  Each
+-element is a JSON object with member "name" (the member's name).  The
++element is a JSON object with member "name" (the member's name), and
++optionally "features" (a JSON array of feature strings).  The
+ "members" array is in no particular order; clients must search the
+ entire array when learning whether a particular value is supported.
+ 
+diff --git a/qapi/compat.json b/qapi/compat.json
+index ae3afc22df..1d2b76f00c 100644
+--- a/qapi/compat.json
++++ b/qapi/compat.json
+@@ -42,6 +42,8 @@
+ # with feature 'deprecated'.  We may want to extend it to cover
+ # semantic aspects, CLI, and experimental features.
+ #
++# Limitation: not implemented for deprecated enumeration values.
++#
+ # @deprecated-input: how to handle deprecated input (default 'accept')
+ # @deprecated-output: how to handle deprecated output (default 'accept')
+ #
 diff --git a/qapi/introspect.json b/qapi/introspect.json
-index 39bd303778..9683e884f8 100644
+index 9683e884f8..183148b2e9 100644
 --- a/qapi/introspect.json
 +++ b/qapi/introspect.json
-@@ -142,14 +142,35 @@
+@@ -167,10 +167,13 @@
  #
- # Additional SchemaInfo members for meta-type 'enum'.
+ # @name: the member's name, as defined in the QAPI schema.
  #
--# @values: the enumeration type's values, in no particular order.
-+# @members: the enum type's members, in no particular order
-+#           (since 6.2).
++# @features: names of features associated with the member, in no
++#            particular order.
 +#
-+# @values: the enumeration type's member names, in no particular order.
-+#          Redundant with @members.  Just for backward compatibility.
-+#
-+# Features:
-+# @deprecated: Member @values is deprecated.  Use @members instead.
- #
- # Values of this type are JSON string on the wire.
- #
- # Since: 2.5
+ # Since: 6.2
  ##
- { 'struct': 'SchemaInfoEnum',
--  'data': { 'values': ['str'] } }
-+  'data': { 'members': [ 'SchemaInfoEnumMember' ],
-+            'values': { 'type': [ 'str' ],
-+                        'features': [ 'deprecated' ] } } }
-+
-+##
-+# @SchemaInfoEnumMember:
-+#
-+# An object member.
-+#
-+# @name: the member's name, as defined in the QAPI schema.
-+#
-+# Since: 6.2
-+##
-+{ 'struct': 'SchemaInfoEnumMember',
-+  'data': { 'name': 'str' } }
+ { 'struct': 'SchemaInfoEnumMember',
+-  'data': { 'name': 'str' } }
++  'data': { 'name': 'str', '*features': [ 'str' ] } }
  
  ##
  # @SchemaInfoArray:
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index 819ea6ad97..3cb389e875 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -472,7 +472,7 @@ def check_enum(expr: _JSONObject, info: QAPISourceInfo) -> None:
+                   for m in members]
+     for member in members:
+         source = "'data' member"
+-        check_keys(member, info, source, ['name'], ['if'])
++        check_keys(member, info, source, ['name'], ['if', 'features'])
+         member_name = member['name']
+         check_name_is_str(member_name, info, source)
+         source = "%s '%s'" % (source, member_name)
+@@ -483,6 +483,7 @@ def check_enum(expr: _JSONObject, info: QAPISourceInfo) -> None:
+                          permit_upper=permissive,
+                          permit_underscore=permissive)
+         check_if(member, info, source)
++        check_features(member.get('features'), info)
+ 
+ 
+ def check_struct(expr: _JSONObject, info: QAPISourceInfo) -> None:
 diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 4c079ee627..6334546363 100644
+index 6334546363..67c7d89aae 100644
 --- a/scripts/qapi/introspect.py
 +++ b/scripts/qapi/introspect.py
-@@ -68,6 +68,7 @@
- # TypedDict constructs, so they are broadly typed here as simple
- # Python Dicts.
- SchemaInfo = Dict[str, object]
-+SchemaInfoEnumMember = Dict[str, object]
- SchemaInfoObject = Dict[str, object]
- SchemaInfoObjectVariant = Dict[str, object]
- SchemaInfoObjectMember = Dict[str, object]
-@@ -274,8 +275,16 @@ def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
+@@ -275,12 +275,13 @@ def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
              obj['features'] = self._gen_features(features)
          self._trees.append(Annotated(obj, ifcond, comment))
  
--    def _gen_member(self, member: QAPISchemaObjectTypeMember
--                    ) -> Annotated[SchemaInfoObjectMember]:
-+    @staticmethod
-+    def _gen_enum_member(member: QAPISchemaEnumMember
-+                         ) -> Annotated[SchemaInfoEnumMember]:
-+        obj: SchemaInfoEnumMember = {
-+            'name': member.name,
-+        }
-+        return Annotated(obj, member.ifcond)
-+
-+    def _gen_object_member(self, member: QAPISchemaObjectTypeMember
-+                           ) -> Annotated[SchemaInfoObjectMember]:
-         obj: SchemaInfoObjectMember = {
+-    @staticmethod
+-    def _gen_enum_member(member: QAPISchemaEnumMember
++    def _gen_enum_member(self, member: QAPISchemaEnumMember
+                          ) -> Annotated[SchemaInfoEnumMember]:
+         obj: SchemaInfoEnumMember = {
              'name': member.name,
-             'type': self._use_type(member.type)
-@@ -305,7 +314,8 @@ def visit_enum_type(self, name: str, info: Optional[QAPISourceInfo],
-                         prefix: Optional[str]) -> None:
-         self._gen_tree(
-             name, 'enum',
--            {'values': [Annotated(m.name, m.ifcond) for m in members]},
-+            {'members': [self._gen_enum_member(m) for m in members],
-+             'values': [Annotated(m.name, m.ifcond) for m in members]},
-             ifcond, features
-         )
- 
-@@ -322,7 +332,7 @@ def visit_object_type_flat(self, name: str, info: Optional[QAPISourceInfo],
-                                members: List[QAPISchemaObjectTypeMember],
-                                variants: Optional[QAPISchemaVariants]) -> None:
-         obj: SchemaInfoObject = {
--            'members': [self._gen_member(m) for m in members]
-+            'members': [self._gen_object_member(m) for m in members]
          }
-         if variants:
-             obj['tag'] = variants.tag_member.name
++        if member.features:
++            obj['features'] = self._gen_features(member.features)
+         return Annotated(obj, member.ifcond)
+ 
+     def _gen_object_member(self, member: QAPISchemaObjectTypeMember
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 004d7095ff..6d5f46509a 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -708,6 +708,19 @@ def describe(self, info):
+ class QAPISchemaEnumMember(QAPISchemaMember):
+     role = 'value'
+ 
++    def __init__(self, name, info, ifcond=None, features=None):
++        super().__init__(name, info, ifcond)
++        for f in features or []:
++            assert isinstance(f, QAPISchemaFeature)
++            f.set_defined_in(name)
++        self.features = features or []
++
++    def connect_doc(self, doc):
++        super().connect_doc(doc)
++        if doc:
++            for f in self.features:
++                doc.connect_feature(f)
++
+ 
+ class QAPISchemaFeature(QAPISchemaMember):
+     role = 'feature'
+@@ -980,9 +993,14 @@ def _make_features(self, features, info):
+                                   QAPISchemaIfCond(f.get('if')))
+                 for f in features]
+ 
++    def _make_enum_member(self, name, ifcond, features, info):
++        return QAPISchemaEnumMember(name, info,
++                                    QAPISchemaIfCond(ifcond),
++                                    self._make_features(features, info))
++
+     def _make_enum_members(self, values, info):
+-        return [QAPISchemaEnumMember(v['name'], info,
+-                                     QAPISchemaIfCond(v.get('if')))
++        return [self._make_enum_member(v['name'], v.get('if'),
++                                       v.get('features'), info)
+                 for v in values]
+ 
+     def _make_array_type(self, element_type, info):
+diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.json
+index 86dc25d2bd..74745fb405 100644
+--- a/tests/qapi-schema/doc-good.json
++++ b/tests/qapi-schema/doc-good.json
+@@ -58,11 +58,14 @@
+ #
+ # Features:
+ # @enum-feat: Also _one_ {and only}
++# @enum-member-feat: a member feature
+ #
+ # @two is undocumented
+ ##
+ { 'enum': 'Enum',
+-  'data': [ { 'name': 'one', 'if': 'IFONE' }, 'two' ],
++  'data': [ { 'name': 'one', 'if': 'IFONE',
++              'features': [ 'enum-member-feat' ] },
++            'two' ],
+   'features': [ 'enum-feat' ],
+   'if': 'IFCOND' }
+ 
+diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
+index 5a324e2627..9dd65b9d92 100644
+--- a/tests/qapi-schema/doc-good.out
++++ b/tests/qapi-schema/doc-good.out
+@@ -13,6 +13,7 @@ module doc-good.json
+ enum Enum
+     member one
+         if IFONE
++        feature enum-member-feat
+     member two
+     if IFCOND
+     feature enum-feat
+@@ -108,6 +109,8 @@ The _one_ {and only}
+ 
+     feature=enum-feat
+ Also _one_ {and only}
++    feature=enum-member-feat
++a member feature
+     section=None
+ @two is undocumented
+ doc symbol=Base
+diff --git a/tests/qapi-schema/doc-good.txt b/tests/qapi-schema/doc-good.txt
+index 701402ee5e..b3b76bd43f 100644
+--- a/tests/qapi-schema/doc-good.txt
++++ b/tests/qapi-schema/doc-good.txt
+@@ -56,6 +56,9 @@ Features
+ "enum-feat"
+    Also _one_ {and only}
+ 
++"enum-member-feat"
++   a member feature
++
+ "two" is undocumented
+ 
+ 
+diff --git a/tests/qapi-schema/enum-dict-member-unknown.err b/tests/qapi-schema/enum-dict-member-unknown.err
+index f8617ea179..235cde0c49 100644
+--- a/tests/qapi-schema/enum-dict-member-unknown.err
++++ b/tests/qapi-schema/enum-dict-member-unknown.err
+@@ -1,3 +1,3 @@
+ enum-dict-member-unknown.json: In enum 'MyEnum':
+ enum-dict-member-unknown.json:2: 'data' member has unknown key 'bad-key'
+-Valid keys are 'if', 'name'.
++Valid keys are 'features', 'if', 'name'.
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+index 2ec50109cb..b677ab861d 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -301,7 +301,8 @@
+                                  'TEST_IF_COND_2'] } } ] }
+ 
+ { 'enum': 'FeatureEnum1',
+-  'data': [ 'eins', 'zwei', 'drei' ],
++  'data': [ 'eins', 'zwei',
++            { 'name': 'drei', 'features': [ 'deprecated' ] } ],
+   'features': [ 'feature1' ] }
+ 
+ { 'union': 'FeatureUnion1',
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
+index 9337adc9ea..16846dbeb8 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -341,6 +341,7 @@ enum FeatureEnum1
+     member eins
+     member zwei
+     member drei
++        feature deprecated
+     feature feature1
+ object q_obj_FeatureUnion1-base
+     member tag: FeatureEnum1 optional=False
+diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.py
+index c717a7a90b..2160cef082 100755
+--- a/tests/qapi-schema/test-qapi.py
++++ b/tests/qapi-schema/test-qapi.py
+@@ -37,6 +37,7 @@ def visit_enum_type(self, name, info, ifcond, features, members, prefix):
+         for m in members:
+             print('    member %s' % m.name)
+             self._print_if(m.ifcond, indent=8)
++            self._print_features(m.features, indent=8)
+         self._print_if(ifcond)
+         self._print_features(features)
+ 
 -- 
 2.31.1
 
