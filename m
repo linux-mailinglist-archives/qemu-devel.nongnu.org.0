@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E63A43A394
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 21:58:39 +0200 (CEST)
-Received: from localhost ([::1]:58996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74B043A06E
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 21:28:16 +0200 (CEST)
+Received: from localhost ([::1]:59224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf67A-0002Vt-Co
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 15:58:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42142)
+	id 1mf5dn-0006Ms-Kb
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 15:28:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1mf5Q6-0001AP-HB; Mon, 25 Oct 2021 15:14:07 -0400
+ id 1mf5QE-0001GR-2c; Mon, 25 Oct 2021 15:14:14 -0400
 Received: from [201.28.113.2] (port=13660 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <luis.pires@eldorado.org.br>)
- id 1mf5Q4-0000Ju-6I; Mon, 25 Oct 2021 15:14:05 -0400
+ id 1mf5QA-0000Ju-Gn; Mon, 25 Oct 2021 15:14:12 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 25 Oct 2021 16:12:27 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 25 Oct 2021 16:12:28 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 8E072800BA7;
+ by power9a (Postfix) with ESMTP id BC269800145;
  Mon, 25 Oct 2021 16:12:27 -0300 (-03)
 From: Luis Pires <luis.pires@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 11/19] target/ppc: Implement DCTFIXQQ
-Date: Mon, 25 Oct 2021 16:11:46 -0300
-Message-Id: <20211025191154.350831-12-luis.pires@eldorado.org.br>
+Subject: [PATCH v4 12/19] target/ppc: Do not update nip on DFP instructions
+Date: Mon, 25 Oct 2021 16:11:47 -0300
+Message-Id: <20211025191154.350831-13-luis.pires@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211025191154.350831-1-luis.pires@eldorado.org.br>
 References: <20211025191154.350831-1-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 Oct 2021 19:12:27.0891 (UTC)
- FILETIME=[40401430:01D7C9D4]
+X-OriginalArrivalTime: 25 Oct 2021 19:12:28.0081 (UTC)
+ FILETIME=[405D1210:01D7C9D4]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -61,148 +61,82 @@ Cc: Luis Pires <luis.pires@eldorado.org.br>, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the following PowerISA v3.1 instruction:
-dctfixqq: DFP Convert To Fixed Quadword Quad
+Before moving the existing DFP instructions to decodetree, drop the
+nip update that shouldn't be done for these instructions.
 
 Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/dfp_helper.c             | 52 +++++++++++++++++++++++++++++
- target/ppc/helper.h                 |  1 +
- target/ppc/insn32.decode            |  5 +++
- target/ppc/translate/dfp-impl.c.inc | 17 ++++++++++
- 4 files changed, 75 insertions(+)
+ target/ppc/translate/dfp-impl.c.inc | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-index 6b837c4450..6ab46d7db5 100644
---- a/target/ppc/dfp_helper.c
-+++ b/target/ppc/dfp_helper.c
-@@ -51,6 +51,11 @@ static void set_dfp128(ppc_fprp_t *dfp, ppc_vsr_t *src)
-     dfp[1].VsrD(0) = src->VsrD(1);
- }
- 
-+static void set_dfp128_to_avr(ppc_avr_t *dst, ppc_vsr_t *src)
-+{
-+    *dst = *src;
-+}
-+
- struct PPC_DFP {
-     CPUPPCState *env;
-     ppc_vsr_t vt, va, vb;
-@@ -1020,6 +1025,53 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)              \
- DFP_HELPER_CTFIX(dctfix, 64)
- DFP_HELPER_CTFIX(dctfixq, 128)
- 
-+void helper_DCTFIXQQ(CPUPPCState *env, ppc_avr_t *t, ppc_fprp_t *b)
-+{
-+    struct PPC_DFP dfp;
-+    dfp_prepare_decimal128(&dfp, 0, b, env);
-+
-+    if (unlikely(decNumberIsSpecial(&dfp.b))) {
-+        uint64_t invalid_flags = FP_VX | FP_VXCVI;
-+        if (decNumberIsInfinite(&dfp.b)) {
-+            if (decNumberIsNegative(&dfp.b)) {
-+                dfp.vt.VsrD(0) = INT64_MIN;
-+                dfp.vt.VsrD(1) = 0;
-+            } else {
-+                dfp.vt.VsrD(0) = INT64_MAX;
-+                dfp.vt.VsrD(1) = UINT64_MAX;
-+            }
-+        } else { /* NaN */
-+            dfp.vt.VsrD(0) = INT64_MIN;
-+            dfp.vt.VsrD(1) = 0;
-+            if (decNumberIsSNaN(&dfp.b)) {
-+                invalid_flags |= FP_VXSNAN;
-+            }
-+        }
-+        dfp_set_FPSCR_flag(&dfp, invalid_flags, FP_VE);
-+    } else if (unlikely(decNumberIsZero(&dfp.b))) {
-+        dfp.vt.VsrD(0) = 0;
-+        dfp.vt.VsrD(1) = 0;
-+    } else {
-+        decNumberToIntegralExact(&dfp.b, &dfp.b, &dfp.context);
-+        decNumberIntegralToInt128(&dfp.b, &dfp.context,
-+                &dfp.vt.VsrD(1), &dfp.vt.VsrD(0));
-+        if (decContextTestStatus(&dfp.context, DEC_Invalid_operation)) {
-+            if (decNumberIsNegative(&dfp.b)) {
-+                dfp.vt.VsrD(0) = INT64_MIN;
-+                dfp.vt.VsrD(1) = 0;
-+            } else {
-+                dfp.vt.VsrD(0) = INT64_MAX;
-+                dfp.vt.VsrD(1) = UINT64_MAX;
-+            }
-+            dfp_set_FPSCR_flag(&dfp, FP_VX | FP_VXCVI, FP_VE);
-+        } else {
-+            dfp_check_for_XX(&dfp);
-+        }
-+    }
-+
-+    set_dfp128_to_avr(t, &dfp.vt);
-+}
-+
- static inline void dfp_set_bcd_digit_64(ppc_vsr_t *t, uint8_t digit,
-                                         unsigned n)
- {
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index fff7bd46ad..20041ce977 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -737,6 +737,7 @@ DEF_HELPER_3(dcffixq, void, env, fprp, fprp)
- DEF_HELPER_3(DCFFIXQQ, void, env, fprp, avr)
- DEF_HELPER_3(dctfix, void, env, fprp, fprp)
- DEF_HELPER_3(dctfixq, void, env, fprp, fprp)
-+DEF_HELPER_3(DCTFIXQQ, void, env, avr, fprp)
- DEF_HELPER_4(ddedpd, void, env, fprp, fprp, i32)
- DEF_HELPER_4(ddedpdq, void, env, fprp, fprp, i32)
- DEF_HELPER_4(denbcd, void, env, fprp, fprp, i32)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 92ea2d0739..6d97f9ae3b 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -47,6 +47,10 @@
- %x_frtp         22:4 !function=times_2
- @X_frtp_vrb     ...... ....0 ..... vrb:5 .......... .           &X_frtp_vrb frtp=%x_frtp
- 
-+&X_vrt_frbp     vrt frbp
-+%x_frbp         12:4 !function=times_2
-+@X_vrt_frbp     ...... vrt:5 ..... ....0 .......... .           &X_vrt_frbp frbp=%x_frbp
-+
- ### Fixed-Point Load Instructions
- 
- LBZ             100010 ..... ..... ................     @D
-@@ -128,6 +132,7 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
- ### Decimal Floating-Point Conversion Instructions
- 
- DCFFIXQQ        111111 ..... 00000 ..... 1111100010 -   @X_frtp_vrb
-+DCTFIXQQ        111111 ..... 00001 ..... 1111100010 -   @X_vrt_frbp
- 
- ## Vector Bit Manipulation Instruction
- 
 diff --git a/target/ppc/translate/dfp-impl.c.inc b/target/ppc/translate/dfp-impl.c.inc
-index d5b66567a6..e149777481 100644
+index e149777481..1431d955c6 100644
 --- a/target/ppc/translate/dfp-impl.c.inc
 +++ b/target/ppc/translate/dfp-impl.c.inc
-@@ -247,3 +247,20 @@ static bool trans_DCFFIXQQ(DisasContext *ctx, arg_DCFFIXQQ *a)
- 
-     return true;
- }
-+
-+static bool trans_DCTFIXQQ(DisasContext *ctx, arg_DCTFIXQQ *a)
-+{
-+    TCGv_ptr rt, rb;
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, DFP);
-+    REQUIRE_FPU(ctx);
-+    REQUIRE_VECTOR(ctx);
-+
-+    rt = gen_avr_ptr(a->vrt);
-+    rb = gen_fprp_ptr(a->frbp);
-+    gen_helper_DCTFIXQQ(cpu_env, rt, rb);
-+    tcg_temp_free_ptr(rt);
-+    tcg_temp_free_ptr(rb);
-+
-+    return true;
-+}
+@@ -15,7 +15,6 @@ static void gen_##name(DisasContext *ctx)        \
+         gen_exception(ctx, POWERPC_EXCP_FPU);    \
+         return;                                  \
+     }                                            \
+-    gen_update_nip(ctx, ctx->base.pc_next - 4);  \
+     rd = gen_fprp_ptr(rD(ctx->opcode));          \
+     ra = gen_fprp_ptr(rA(ctx->opcode));          \
+     rb = gen_fprp_ptr(rB(ctx->opcode));          \
+@@ -36,7 +35,6 @@ static void gen_##name(DisasContext *ctx)         \
+         gen_exception(ctx, POWERPC_EXCP_FPU);     \
+         return;                                   \
+     }                                             \
+-    gen_update_nip(ctx, ctx->base.pc_next - 4);            \
+     ra = gen_fprp_ptr(rA(ctx->opcode));           \
+     rb = gen_fprp_ptr(rB(ctx->opcode));           \
+     gen_helper_##name(cpu_crf[crfD(ctx->opcode)], \
+@@ -54,7 +52,6 @@ static void gen_##name(DisasContext *ctx)         \
+         gen_exception(ctx, POWERPC_EXCP_FPU);     \
+         return;                                   \
+     }                                             \
+-    gen_update_nip(ctx, ctx->base.pc_next - 4);            \
+     uim = tcg_const_i32(UIMM5(ctx->opcode));      \
+     rb = gen_fprp_ptr(rB(ctx->opcode));           \
+     gen_helper_##name(cpu_crf[crfD(ctx->opcode)], \
+@@ -72,7 +69,6 @@ static void gen_##name(DisasContext *ctx)         \
+         gen_exception(ctx, POWERPC_EXCP_FPU);     \
+         return;                                   \
+     }                                             \
+-    gen_update_nip(ctx, ctx->base.pc_next - 4);   \
+     ra = gen_fprp_ptr(rA(ctx->opcode));           \
+     dcm = tcg_const_i32(DCM(ctx->opcode));        \
+     gen_helper_##name(cpu_crf[crfD(ctx->opcode)], \
+@@ -90,7 +86,6 @@ static void gen_##name(DisasContext *ctx)             \
+         gen_exception(ctx, POWERPC_EXCP_FPU);         \
+         return;                                       \
+     }                                                 \
+-    gen_update_nip(ctx, ctx->base.pc_next - 4);       \
+     rt = gen_fprp_ptr(rD(ctx->opcode));               \
+     rb = gen_fprp_ptr(rB(ctx->opcode));               \
+     u32_1 = tcg_const_i32(u32f1(ctx->opcode));        \
+@@ -114,7 +109,6 @@ static void gen_##name(DisasContext *ctx)        \
+         gen_exception(ctx, POWERPC_EXCP_FPU);    \
+         return;                                  \
+     }                                            \
+-    gen_update_nip(ctx, ctx->base.pc_next - 4);  \
+     rt = gen_fprp_ptr(rD(ctx->opcode));          \
+     ra = gen_fprp_ptr(rA(ctx->opcode));          \
+     rb = gen_fprp_ptr(rB(ctx->opcode));          \
+@@ -137,7 +131,6 @@ static void gen_##name(DisasContext *ctx)        \
+         gen_exception(ctx, POWERPC_EXCP_FPU);    \
+         return;                                  \
+     }                                            \
+-    gen_update_nip(ctx, ctx->base.pc_next - 4);  \
+     rt = gen_fprp_ptr(rD(ctx->opcode));          \
+     rb = gen_fprp_ptr(rB(ctx->opcode));          \
+     gen_helper_##name(cpu_env, rt, rb);          \
+@@ -157,7 +150,6 @@ static void gen_##name(DisasContext *ctx)          \
+         gen_exception(ctx, POWERPC_EXCP_FPU);      \
+         return;                                    \
+     }                                              \
+-    gen_update_nip(ctx, ctx->base.pc_next - 4);    \
+     rt = gen_fprp_ptr(rD(ctx->opcode));            \
+     rs = gen_fprp_ptr(fprfld(ctx->opcode));        \
+     i32 = tcg_const_i32(i32fld(ctx->opcode));      \
 -- 
 2.25.1
 
