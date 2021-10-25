@@ -2,69 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ADC743901D
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 09:11:46 +0200 (CEST)
-Received: from localhost ([::1]:39232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD1C43902D
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 09:17:19 +0200 (CEST)
+Received: from localhost ([::1]:41570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1meu90-0004HN-Lr
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 03:11:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38314)
+	id 1meuEQ-0006Op-JH
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 03:17:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
- id 1meu6V-0003Mi-VF; Mon, 25 Oct 2021 03:09:07 -0400
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:39677)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
- id 1meu6T-0005J9-JT; Mon, 25 Oct 2021 03:09:07 -0400
-Received: by mail-lf1-x12a.google.com with SMTP id l13so11092109lfg.6;
- Mon, 25 Oct 2021 00:09:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Bvx6eLm3KyFd08/ERZVX4YP5tTxtbmmY+S8nOpoX87o=;
- b=m62jZnV4ajlhcqCeFdV6+0u5r52+3OsTt/bWSMeKvSW/2lFjzEdSD2/d/eR/ozyd/3
- b0jBlDz+euOGnlCYlE5PuHx7QRerfTdNxGM4LsC8XFQry36EL7PgASN49IZ5NXuvGLxz
- /W0YFQF/+UFUTjJ69gq1ZxBbpKLBUC1BzIjHtUIpLwHL5UjfXCYCTOZf0c7VaOhE5bo9
- HjLSHO8NE8UQQ2htC8dqoJ26OzS59To8T5xvY6kCk9l2oOUxK4G94hFjb0aXFZuaFacI
- Ygvf1WoyE3t8TW7qO5mCVxiXb3aYHl9fjEdAUKdNt3Zs2LBdXemlibPdqwXZ3OKXEVrz
- l+7w==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1meuD5-0005c2-AY
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 03:15:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32993)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1meuD0-0002g1-46
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 03:15:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635146147;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=8WX5rSW/QmCFIeuFwXpZBTrQhkI0qobyAWpri5qGZTo=;
+ b=gT43Vjb0ZxY9xtW2eheTza77yW9yNBdF5dYZqDY984cvu5CJ+BTbaZV3avsUZ6u4aDNmpq
+ qUOUl08+yNfwV/DF0fEPB5deJtTAxonkU2tfVkfpMkXyJKHIeYyykMqji+XkQ4fMJBPunV
+ WT5yJ/jFRQ6z+nwqMEJwTAk9IUNuEKA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357-BiRRR51bP9yT0MOjCtiCkw-1; Mon, 25 Oct 2021 03:15:46 -0400
+X-MC-Unique: BiRRR51bP9yT0MOjCtiCkw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ z20-20020a05600c221400b0032cb38a76a9so923449wml.8
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 00:15:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Bvx6eLm3KyFd08/ERZVX4YP5tTxtbmmY+S8nOpoX87o=;
- b=wBMxUp11wUN5G5OvbWOG4VHhVkyq2eVpYuXez4Xd/jqoUvn9Znr3tq2s1a6cbqVprq
- yMxWkhdKULEf0uKj1RIoeC+p6khJUoLAvmAE2hIJn1brT+DAvjfHl2NRsRPSB7mm1qLW
- BgCHGQQOWLwjsiKbS7ymGK5H39mYkzvgQd38zrTIBNK/5mE8q5LWruGkh+mZKYvOcy7+
- QyvzE8FY2YyN+IvpPIddBrH6r14fyMM0qSExVsMruWMDqyNH/oVH9nkhTUxhuPdV3TBp
- FPDarDX+b4HYRKXtMTEStWR4sO6Hxq9p5S9LKEmhdlidYO2eN+njSfXu/emkd2SykMxH
- wTIQ==
-X-Gm-Message-State: AOAM532mvX/mRxyyvDz7dgn5n7aDr4uxMMJi1pjzevlGbHrVBVya9O6u
- GFRD/uQztFB6cmTGAyiDabvoaYGVBS+Xet4C84A=
-X-Google-Smtp-Source: ABdhPJwxCafMSqDYCBffJ2zDXbSg9FZ9Gm8JWhi7vrib3+QZUf7ZWHiMM96yXyvGUWrhcrrkEoJom6tHSY9xGrKTP0Y=
-X-Received: by 2002:a05:6512:1284:: with SMTP id
- u4mr15733059lfs.614.1635145742559; 
- Mon, 25 Oct 2021 00:09:02 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=8WX5rSW/QmCFIeuFwXpZBTrQhkI0qobyAWpri5qGZTo=;
+ b=lyNu8yKujA+tX0bgw9oZ3VR7IpYgjLajvNEZodaDuhQncTvRnAjjbXOk4fmqPv0LLQ
+ HUkas/NBMbrfT+xtiKKm/hxm2Ui8AMjgmiYPTuSjmO0LAg0cncGuiN10SYmZczI0SM+R
+ ryBvpTXqqDXVg1IUE7FwbAtOIMG2aOwcFSHWocYyWrDe8mBrBoz7TSv5BCxvVABn23jO
+ waozOHzZaB4pO82ZguWWWsZbwJp69YLTHpiBOHnzskxWdvEQdjLVe/emjdqxnhv70iIq
+ TQSsTa/1Qu+X4akLf2iW/y088g5TlccziKOxD7UM4VsjBOwTDDOYjTZFmcfAUtG6WVno
+ bXyg==
+X-Gm-Message-State: AOAM532cMwEWaEmGFb+zKjAEkpSxtMcDL4oUEtRfoU+ziEX/v6DvJkcm
+ e3sdS+d1COedv4DusSh5godTOJoSZSZyzywGaHwNO9CIl9kR0SZ7sRC3qjar/ffjc15NcbjPSbs
+ D5zAjl5/a5l9Q8ys=
+X-Received: by 2002:a5d:64ee:: with SMTP id g14mr21291269wri.376.1635146145345; 
+ Mon, 25 Oct 2021 00:15:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzUi4MLzqbLAJsfidGiUxn2IPbhgVawgXIRVlbov6knwqqaLot/ttx3NtyGg93FsvkPE2T3mQ==
+X-Received: by 2002:a5d:64ee:: with SMTP id g14mr21291222wri.376.1635146145072; 
+ Mon, 25 Oct 2021 00:15:45 -0700 (PDT)
+Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
+ [188.86.86.233])
+ by smtp.gmail.com with ESMTPSA id w4sm11054318wrk.76.2021.10.25.00.15.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Oct 2021 00:15:44 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 1/9] qapi: New special feature flag "unstable"
+In-Reply-To: <20211025052532.3859634-2-armbru@redhat.com> (Markus Armbruster's
+ message of "Mon, 25 Oct 2021 07:25:24 +0200")
+References: <20211025052532.3859634-1-armbru@redhat.com>
+ <20211025052532.3859634-2-armbru@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Mon, 25 Oct 2021 09:15:40 +0200
+Message-ID: <87mtmx378j.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20211022095209.1319671-1-fontaine.fabrice@gmail.com>
- <6168250e-9bd6-a672-4f1f-b1ecf8f8cd4c@msgid.tls.msk.ru>
-In-Reply-To: <6168250e-9bd6-a672-4f1f-b1ecf8f8cd4c@msgid.tls.msk.ru>
-From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-Date: Mon, 25 Oct 2021 09:08:50 +0200
-Message-ID: <CAPi7W81D3odjCd0-sTyrE8jUP+fkM6F7u0neW+aLGHDh97r6sg@mail.gmail.com>
-Subject: Re: [PATCH] block/export/fuse.c: fix musl build
-To: mjt@tls.msk.ru
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=fontaine.fabrice@gmail.com; helo=mail-lf1-x12a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,69 +96,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: quintela@redhat.com
+Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, libvir-list@redhat.com,
+ eblake@redhat.com, mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
+ jsnow@redhat.com, libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le lun. 25 oct. 2021 =C3=A0 08:31, Michael Tokarev <mjt@tls.msk.ru> a =C3=
-=A9crit :
+Markus Armbruster <armbru@redhat.com> wrote:
+> By convention, names starting with "x-" are experimental.  The parts
+> of external interfaces so named may be withdrawn or changed
+> incompatibly in future releases.
 >
-> 22.10.2021 12:52, Fabrice Fontaine =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > Include linux/falloc.h if CONFIG_FALLOCATE_ZERO_RANGE is defined to fix
-> > https://gitlab.com/qemu-project/qemu/-/commit/50482fda98bd62e072c30b7ea=
-73c985c4e9d9bbb
-> > and avoid the following build failure on musl:
-> >
-> > ../block/export/fuse.c: In function 'fuse_fallocate':
-> > ../block/export/fuse.c:643:21: error: 'FALLOC_FL_ZERO_RANGE' undeclared=
- (first use in this function)
-> >    643 |     else if (mode & FALLOC_FL_ZERO_RANGE) {
-> >        |                     ^~~~~~~~~~~~~~~~~~~~
-> >
-> > Fixes:
-> >   - http://autobuild.buildroot.org/results/be24433a429fda681fb666981601=
-32c1c99bc53b
-> >
-> > Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-> > ---
-> >   block/export/fuse.c | 4 ++++
-> >   1 file changed, 4 insertions(+)
-> >
-> > diff --git a/block/export/fuse.c b/block/export/fuse.c
-> > index 2e3bf8270b..823c126d23 100644
-> > --- a/block/export/fuse.c
-> > +++ b/block/export/fuse.c
-> > @@ -31,6 +31,10 @@
-> >   #include <fuse.h>
-> >   #include <fuse_lowlevel.h>
-> >
-> > +#if defined(CONFIG_FALLOCATE_ZERO_RANGE)
+> Drawback: promoting something from experimental to stable involves a
+> name change.  Client code needs to be updated.
 >
-> shouldn't it be "if !defined" ?
-Nope, here is an extract of meson.build:
+> Moreover, the convention is not universally observed:
+>
+> * QOM type "input-barrier" has properties "x-origin", "y-origin".
+>   Looks accidental, but it's ABI since 4.2.
+>
+> * QOM types "memory-backend-file", "memory-backend-memfd",
+>   "memory-backend-ram", and "memory-backend-epc" have a property
+>   "x-use-canonical-path-for-ramblock-id" that is documented to be
+>   stable despite its name.
+>
+> We could document these exceptions, but documentation helps only
+> humans.  We want to recognize "unstable" in code, like "deprecated".
+>
+> Replace the convention by a new special feature flag "unstable".  It
+> will be recognized by the QAPI generator, like the existing feature
+> flag "deprecated", and unlike regular feature flags.
+>
+> This commit updates documentation and prepares tests.  The next commit
+> updates the QAPI schema.  The remaining patches update the QAPI
+> generator and wire up -compat policy checking.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-config_host_data.set('CONFIG_FALLOCATE_ZERO_RANGE',
-                     cc.has_header_symbol('linux/falloc.h',
-'FALLOC_FL_ZERO_RANGE'))
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-So, CONFIG_FALLOCATE_ZERO_RANGE is defined if FALLOC_FL_ZERO_RANGE is
-found in linux/falloc.h which is fine.
-However, because linux/falloc.h is not included in fuse.c, a build
-failure will be raised on musl (which does not define
-FALLOC_FL_ZERO_RANGE)
->
-> /mjt
->
-> > +#include <linux/falloc.h>
-> > +#endif
-> > +
-> >   #ifdef __linux__
-> >   #include <linux/fs.h>
-> >   #endif
-> >
->
-Best Regards,
-
-Fabrice
 
