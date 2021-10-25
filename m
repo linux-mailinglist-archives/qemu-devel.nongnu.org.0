@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41F2439767
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 15:22:09 +0200 (CEST)
-Received: from localhost ([::1]:54746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAB3439734
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 15:08:25 +0200 (CEST)
+Received: from localhost ([::1]:49278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mezvV-0003rl-01
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 09:22:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59976)
+	id 1meziC-00060Y-Gf
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 09:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mezY1-0001Zg-HP
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:57:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58671)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mezYh-0003RI-5m
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:58:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mezXx-0002Qr-5M
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:57:51 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mezYf-0003DB-07
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 08:58:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635166666;
+ s=mimecast20190719; t=1635166711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CwmfppKT2h/2FCm0HQt9qMvmGiGUyD4/C5l+mi7YRtY=;
- b=IBA9kH9aDtdLWydgKgK+gVqiKDkTLcOibN3q8JAXjdaAWRrR+IpJfkJxVDrRCrPXBGQgRY
- tEDT87BOnWz+/lxHyXqI0BZbt9SS+L0tAd+2i2zT8p8PFQzZ4olx5kHU2hUZtVpPW5XN0u
- 6tw+FdE0b/OKYnxd+tuR81h6d5TEYdc=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461-1rYoDbejO_OeZArJ2w0jJQ-1; Mon, 25 Oct 2021 08:57:45 -0400
-X-MC-Unique: 1rYoDbejO_OeZArJ2w0jJQ-1
-Received: by mail-pg1-f198.google.com with SMTP id
- z12-20020a655a4c000000b0029506c80060so6232253pgs.20
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 05:57:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=CwmfppKT2h/2FCm0HQt9qMvmGiGUyD4/C5l+mi7YRtY=;
- b=SGXiSKbL/48lYV9jPw5qgXrfqV7RXGQew8r4GitG98mGIFqQBDL1IjULBPxsC/VTLA
- +3DdmSgCTFixcnNgf4YylGyXqwDlP8nynXEbI2RhQwkTzSjwkqA2PLKGVpkych5I5mYf
- INSa6WTmx2+WMaTOHybA3NzRs59ABTOMcLKpEsdvegE63xk3gPhX6NBJwYorKKILqJue
- lTNkOn/IjkGkRuzjRoNtRaIDE8SWi7MOd8ELB+ZTk97T9G7eTOH2vODjkVT7k9he6xc9
- ymMJ0sBZhDMVROBOySFy7U8OoilSw4OcJrlqwpaUzb2j75uBL4X9J9jzZgPR8qixhMe4
- 47mw==
-X-Gm-Message-State: AOAM533uaXZWkb2OtvaJ8xMH/vH4fh1ZlOzesXeEUrF8Cci/ifUKOH0c
- CE9cu5N96F1CScs2hODP1jtfOVS+Tirns2IESaFFA3R9LluKZLX3Q8zQLczeSI8uN4j/y3tzDK7
- FIA2l9706/oSd9os=
-X-Received: by 2002:a17:90b:4c12:: with SMTP id
- na18mr9662325pjb.103.1635166664342; 
- Mon, 25 Oct 2021 05:57:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz9aXXQ+VYH8QSWRWGBGmsXD8Bq0o7czVdzm1bFcp3EfOV0ihXa2ufi7O0gF5xtAKzC5uASWw==
-X-Received: by 2002:a17:90b:4c12:: with SMTP id
- na18mr9662273pjb.103.1635166663873; 
- Mon, 25 Oct 2021 05:57:43 -0700 (PDT)
-Received: from xz-m1.local ([191.101.132.70])
- by smtp.gmail.com with ESMTPSA id v12sm18664202pjs.0.2021.10.25.05.57.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 05:57:43 -0700 (PDT)
-Date: Mon, 25 Oct 2021 20:57:36 +0800
-From: Peter Xu <peterx@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 7/8] pci: Add pci_for_each_device_all()
-Message-ID: <YXapwC46W3Kzq5Qr@xz-m1.local>
-References: <20211021104259.57754-1-peterx@redhat.com>
- <20211021104259.57754-8-peterx@redhat.com>
- <20211021064948-mutt-send-email-mst@kernel.org>
- <YXIi65J4XiVcdYeZ@xz-m1.local>
- <20211022042642-mutt-send-email-mst@kernel.org>
+ bh=+LkJauOp5MRCzZA1aNMyyxci6VK6ZsABfKRSGEkw4H4=;
+ b=XeOG1E5LNUiSG8d9CVsBJSSIKL4aTR73hrAW37AdSpRPh8+so3VtMwLZLyRfgjyCveDMBR
+ zW8iSlbsCcKLV5RjE4sdRYOt5h0FGNHDTkpYqLDYxRSDeM47sq0dqKzFdUHKkhzCfYuTZG
+ uW6yOg0sMAvfmxOTAZu/TF50+Ui7M5A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-UQ_9pii2OcKMHnqTijKlBg-1; Mon, 25 Oct 2021 08:58:30 -0400
+X-MC-Unique: UQ_9pii2OcKMHnqTijKlBg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10E798018AC;
+ Mon, 25 Oct 2021 12:58:29 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 239D861064;
+ Mon, 25 Oct 2021 12:58:26 +0000 (UTC)
+Date: Mon, 25 Oct 2021 14:58:25 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Peter Lieven <pl@kamp.de>
+Subject: Re: [PATCH v5 0/6] block/rbd: migrate to coroutines and add write
+ zeroes support
+Message-ID: <YXap8SAOT5Kb41E2@redhat.com>
+References: <YObtGbd5jlQNUbn0@redhat.com>
+ <77F23D4A-18B3-4367-9D4E-9710FA6269B2@kamp.de>
+ <YOgjFRNxUH2GUXyN@redhat.com>
+ <2f156d36-52f0-a375-cfe7-f17164b306ad@kamp.de>
+ <32b18db2-0a39-2945-1d06-e189273062c2@kamp.de>
 MIME-Version: 1.0
-In-Reply-To: <20211022042642-mutt-send-email-mst@kernel.org>
+In-Reply-To: <32b18db2-0a39-2945-1d06-e189273062c2@kamp.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -97,79 +82,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, Christian Theune <ct@flyingcircus.io>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ilya Dryomov <idryomov@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 22, 2021 at 04:43:43AM -0400, Michael S. Tsirkin wrote:
-> On Fri, Oct 22, 2021 at 10:33:15AM +0800, Peter Xu wrote:
-> > Hi, Michael,
-> > 
-> > On Thu, Oct 21, 2021 at 06:54:59AM -0400, Michael S. Tsirkin wrote:
-> > > > +typedef struct {
-> > > > +    pci_bus_dev_fn fn;
-> > > > +    void *opaque;
-> > > > +} pci_bus_dev_args;
+Am 25.10.2021 um 13:39 hat Peter Lieven geschrieben:
+> Am 16.09.21 um 14:34 schrieb Peter Lieven:
+> > Am 09.07.21 um 12:21 schrieb Kevin Wolf:
+> > > Am 08.07.2021 um 20:23 hat Peter Lieven geschrieben:
+> > > > Am 08.07.2021 um 14:18 schrieb Kevin Wolf <kwolf@redhat.com>:
+> > > > > Am 07.07.2021 um 20:13 hat Peter Lieven geschrieben:
+> > > > > > > Am 06.07.2021 um 17:25 schrieb Kevin Wolf <kwolf@redhat.com>:
+> > > > > > > Am 06.07.2021 um 16:55 hat Peter Lieven geschrieben:
+> > > > > > > > I will have a decent look after my vacation.
+> > > > > > > Sounds good, thanks. Enjoy your vacation!
+> > > > > > As I had to fire up my laptop to look into another issue anyway, I
+> > > > > > have sent two patches for updating MAINTAINERS and to fix the int vs.
+> > > > > > bool mix for task->complete.
+> > > > > I think you need to reevaluate your definition of vacation. ;-)
+> > > > Lets talk about this when the kids are grown up. Sometimes sending
+> > > > patches can be quite relaxing :-)
+> > > Heh, fair enough. :-)
 > > > 
-> > > code style violation. CamelCase for structs pls.
+> > > > > But thanks anyway.
+> > > > > 
+> > > > > > As Paolos fix (5f50be9b5) is relatively new and there are maybe other
+> > > > > > non obvious problems when removing the BH indirection and we are close
+> > > > > > to soft freeze I would leave the BH removal change for 6.2.
+> > > > > Sure, code cleanups aren't urgent.
+> > > > Isn’t the indirection also a slight performance drop?
+> > > Yeah, I guess technically it is, though I doubt it's measurable.
 > > 
-> > OK.
 > > 
-> > > > +/* Call 'fn' for each pci device on the system */
-> > > > +void pci_for_each_device_all(pci_bus_dev_fn fn, void *opaque);
-> > > 
-> > > Instead of hacking pci making initialization o(N^2),
+> > As promised I was trying to remove the indirection through the BH after Qemu 6.1 release.
 > > 
-> > Why it's O(N^2)?  One vIOMMU walks O(N), and we only have one vIOMMU, or am I
-> > wrong?
+> > However, if I remove the BH I run into the following assertion while running some fio tests:
+> > 
+> > 
+> > qemu-system-x86_64: ../block/block-backend.c:1197: blk_wait_while_drained: Assertion `blk->in_flight > 0' failed.
+> > 
+> > 
+> > Any idea?
+> > 
+> > 
+> > This is what I changed:
+> > 
+> > 
+> > diff --git a/block/rbd.c b/block/rbd.c
+> > index 3cb24f9981..bc1dbc20f7 100644
+> > --- a/block/rbd.c
+> > +++ b/block/rbd.c
+> > @@ -1063,13 +1063,6 @@ static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
+> >      return 0;
+> >  }
+> > 
+> > -static void qemu_rbd_finish_bh(void *opaque)
+> > -{
+> > -    RBDTask *task = opaque;
+> > -    task->complete = true;
+> > -    aio_co_wake(task->co);
+> > -}
+> > -
+> >  /*
+> >   * This is the completion callback function for all rbd aio calls
+> >   * started from qemu_rbd_start_co().
+> > @@ -1083,8 +1076,8 @@ static void qemu_rbd_completion_cb(rbd_completion_t c, RBDTask *task)
+> >  {
+> >      task->ret = rbd_aio_get_return_value(c);
+> >      rbd_aio_release(c);
+> > -    aio_bh_schedule_oneshot(bdrv_get_aio_context(task->bs),
+> > -                            qemu_rbd_finish_bh, task);
+> > +    task->complete = true;
+> > +    aio_co_wake(task->co);
+> >  }
 > 
-> What I meant is this is O(N) and if called M times will be O(N * M)
-> yes your patches only call once so O(N), still we can do better.
+> Kevin, Paolo, any idea?
 
-I see.
+Not really, I don't see the connection between both places.
 
-> 
-> > > can't we add a variant of object_resolve_path_type ?
-> > 
-> > Could you elaborate?  Here what we want to do is to make sure there're no
-> > specific PCI devices registered, and potentially it can be more than one type
-> > of device in the future.
-> > 
-> > Thanks,
-> 
-> All you seem to care about is checking there's no VFIO
-> (why - should really be documented in a code comment much more clearly).
+Do you have a stack trace for the crash?
 
-Right, Alex asked the same question.  I'll make sure to mention that in the
-commit message in the next version.
-
-> Looks like object_resolve_path_type does that with O(1) complexity.
-> If we need a variant that checks for multiple types we can add that.
-
-It's still O(N), or am I wrong?  I mean for example there's the loop in
-object_resolve_partial_path().
-
-But yeah I can use that too if you prefer, it's just that when we want to
-detect more types of pci classes it could be slower iiuc, because we'll need to
-call object_resolve_path_type() once for each type.  For pci bus scan it's
-always one round because we only have at most one x86 vIOMMU for each guest.
-
-At the meantime, IMHO patch 1-6 are cleanups that should be good even without
-patch 7/8. If we prefer object_resolve_path_type() I'd still think it would be
-good to propose patch 1-6 separately (with some patch properly squashed as
-suggested by reviewers)?
-
-Thanks,
-
--- 
-Peter Xu
+Kevin
 
 
