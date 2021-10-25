@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE81439F7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 21:19:16 +0200 (CEST)
-Received: from localhost ([::1]:43356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C1343A274
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 21:47:18 +0200 (CEST)
+Received: from localhost ([::1]:37070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf5V5-00047d-HX
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 15:19:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42036)
+	id 1mf5wD-0004HL-84
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 15:47:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1mf5Px-0000pj-5W; Mon, 25 Oct 2021 15:13:57 -0400
+ id 1mf5Q0-0000yP-0X; Mon, 25 Oct 2021 15:14:00 -0400
 Received: from [201.28.113.2] (port=13660 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <luis.pires@eldorado.org.br>)
- id 1mf5Pv-0000Ju-Gj; Mon, 25 Oct 2021 15:13:56 -0400
+ id 1mf5Py-0000Ju-5f; Mon, 25 Oct 2021 15:13:59 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Mon, 25 Oct 2021 16:12:27 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 22926800145;
+ by power9a (Postfix) with ESMTP id 4FDB7800BA7;
  Mon, 25 Oct 2021 16:12:27 -0300 (-03)
 From: Luis Pires <luis.pires@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 08/19] target/ppc: Implement DCFFIXQQ
-Date: Mon, 25 Oct 2021 16:11:43 -0300
-Message-Id: <20211025191154.350831-9-luis.pires@eldorado.org.br>
+Subject: [PATCH v4 09/19] host-utils: Introduce mulu128
+Date: Mon, 25 Oct 2021 16:11:44 -0300
+Message-Id: <20211025191154.350831-10-luis.pires@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211025191154.350831-1-luis.pires@eldorado.org.br>
 References: <20211025191154.350831-1-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 Oct 2021 19:12:27.0454 (UTC)
- FILETIME=[3FFD65E0:01D7C9D4]
+X-OriginalArrivalTime: 25 Oct 2021 19:12:27.0579 (UTC)
+ FILETIME=[401078B0:01D7C9D4]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -61,121 +61,59 @@ Cc: Luis Pires <luis.pires@eldorado.org.br>, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the following PowerISA v3.1 instruction:
-dcffixqq: DFP Convert From Fixed Quadword Quad
-
 Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/dfp_helper.c             | 12 ++++++++++++
- target/ppc/helper.h                 |  1 +
- target/ppc/insn32.decode            |  8 ++++++++
- target/ppc/translate.c              |  5 +++++
- target/ppc/translate/dfp-impl.c.inc | 17 +++++++++++++++++
- 5 files changed, 43 insertions(+)
+ include/qemu/host-utils.h | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-index 07341a69f5..6b837c4450 100644
---- a/target/ppc/dfp_helper.c
-+++ b/target/ppc/dfp_helper.c
-@@ -970,6 +970,18 @@ static void CFFIX_PPs(struct PPC_DFP *dfp)
- DFP_HELPER_CFFIX(dcffix, 64)
- DFP_HELPER_CFFIX(dcffixq, 128)
+diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
+index a3a7ced78d..ca979dc6cc 100644
+--- a/include/qemu/host-utils.h
++++ b/include/qemu/host-utils.h
+@@ -590,6 +590,42 @@ static inline bool umul64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
+ #endif
+ }
  
-+void helper_DCFFIXQQ(CPUPPCState *env, ppc_fprp_t *t, ppc_avr_t *b)
++/*
++ * Unsigned 128x64 multiplication.
++ * Returns true if the result got truncated to 128 bits.
++ * Otherwise, returns false and the multiplication result via plow and phigh.
++ */
++static inline bool mulu128(uint64_t *plow, uint64_t *phigh, uint64_t factor)
 +{
-+    struct PPC_DFP dfp;
++#if defined(CONFIG_INT128) && \
++    (__has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5)
++    bool res;
++    __uint128_t r;
++    __uint128_t f = ((__uint128_t)*phigh << 64) | *plow;
++    res = __builtin_mul_overflow(f, factor, &r);
 +
-+    dfp_prepare_decimal128(&dfp, NULL, NULL, env);
-+    decNumberFromInt128(&dfp.t, (uint64_t)b->VsrD(1), (int64_t)b->VsrD(0));
-+    dfp_finalize_decimal128(&dfp);
-+    CFFIX_PPs(&dfp);
++    *plow = r;
++    *phigh = r >> 64;
 +
-+    set_dfp128(t, &dfp.vt);
++    return res;
++#else
++    uint64_t dhi = *phigh;
++    uint64_t dlo = *plow;
++    uint64_t ahi;
++    uint64_t blo, bhi;
++
++    if (dhi == 0) {
++        mulu64(plow, phigh, dlo, factor);
++        return false;
++    }
++
++    mulu64(plow, &ahi, dlo, factor);
++    mulu64(&blo, &bhi, dhi, factor);
++
++    return uadd64_overflow(ahi, blo, phigh) || bhi != 0;
++#endif
 +}
 +
- #define DFP_HELPER_CTFIX(op, size)                                            \
- void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)              \
- {                                                                             \
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 4076aa281e..fff7bd46ad 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -734,6 +734,7 @@ DEF_HELPER_3(drsp, void, env, fprp, fprp)
- DEF_HELPER_3(drdpq, void, env, fprp, fprp)
- DEF_HELPER_3(dcffix, void, env, fprp, fprp)
- DEF_HELPER_3(dcffixq, void, env, fprp, fprp)
-+DEF_HELPER_3(DCFFIXQQ, void, env, fprp, avr)
- DEF_HELPER_3(dctfix, void, env, fprp, fprp)
- DEF_HELPER_3(dctfixq, void, env, fprp, fprp)
- DEF_HELPER_4(ddedpd, void, env, fprp, fprp, i32)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 9fd8d6b817..92ea2d0739 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -43,6 +43,10 @@
- &X_bfl          bf l:bool ra rb
- @X_bfl          ...... bf:3 - l:1 ra:5 rb:5 ..........- &X_bfl
- 
-+&X_frtp_vrb     frtp vrb
-+%x_frtp         22:4 !function=times_2
-+@X_frtp_vrb     ...... ....0 ..... vrb:5 .......... .           &X_frtp_vrb frtp=%x_frtp
-+
- ### Fixed-Point Load Instructions
- 
- LBZ             100010 ..... ..... ................     @D
-@@ -121,6 +125,10 @@ SETBCR          011111 ..... ..... ----- 0110100000 -   @X_bi
- SETNBC          011111 ..... ..... ----- 0111000000 -   @X_bi
- SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
- 
-+### Decimal Floating-Point Conversion Instructions
-+
-+DCFFIXQQ        111111 ..... 00000 ..... 1111100010 -   @X_frtp_vrb
-+
- ## Vector Bit Manipulation Instruction
- 
- VCFUGED         000100 ..... ..... ..... 10101001101    @VX
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 48a484eef6..6224cb3211 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -7438,6 +7438,11 @@ static inline void set_avr64(int regno, TCGv_i64 src, bool high)
- /*
-  * Helpers for decodetree used by !function for decoding arguments.
-  */
-+static int times_2(DisasContext *ctx, int x)
-+{
-+    return x * 2;
-+}
-+
- static int times_4(DisasContext *ctx, int x)
- {
-     return x * 4;
-diff --git a/target/ppc/translate/dfp-impl.c.inc b/target/ppc/translate/dfp-impl.c.inc
-index 6c556dc2e1..d5b66567a6 100644
---- a/target/ppc/translate/dfp-impl.c.inc
-+++ b/target/ppc/translate/dfp-impl.c.inc
-@@ -230,3 +230,20 @@ GEN_DFP_T_FPR_I32_Rc(dscriq, rA, DCM)
- #undef GEN_DFP_T_A_B_I32_Rc
- #undef GEN_DFP_T_B_Rc
- #undef GEN_DFP_T_FPR_I32_Rc
-+
-+static bool trans_DCFFIXQQ(DisasContext *ctx, arg_DCFFIXQQ *a)
-+{
-+    TCGv_ptr rt, rb;
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, DFP);
-+    REQUIRE_FPU(ctx);
-+    REQUIRE_VECTOR(ctx);
-+
-+    rt = gen_fprp_ptr(a->frtp);
-+    rb = gen_avr_ptr(a->vrb);
-+    gen_helper_DCFFIXQQ(cpu_env, rt, rb);
-+    tcg_temp_free_ptr(rt);
-+    tcg_temp_free_ptr(rb);
-+
-+    return true;
-+}
+ /**
+  * uadd64_carry - addition with carry-in and carry-out
+  * @x, @y: addends
 -- 
 2.25.1
 
