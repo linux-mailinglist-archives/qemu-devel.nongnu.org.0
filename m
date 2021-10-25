@@ -2,47 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 822C7438F9A
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 08:39:20 +0200 (CEST)
-Received: from localhost ([::1]:54116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC91438FB7
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 08:46:15 +0200 (CEST)
+Received: from localhost ([::1]:58404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1metde-0001os-T4
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 02:39:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34178)
+	id 1metkM-0005Fd-Cd
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 02:46:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1metWZ-0000l2-2d; Mon, 25 Oct 2021 02:31:59 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:43721)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1metWK-0000ot-Jg; Mon, 25 Oct 2021 02:31:58 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id E4D37407BB;
- Mon, 25 Oct 2021 09:31:31 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id 073A2141;
- Mon, 25 Oct 2021 09:31:32 +0300 (MSK)
-Subject: Re: [PATCH] block/export/fuse.c: fix musl build
-To: Fabrice Fontaine <fontaine.fabrice@gmail.com>, qemu-devel@nongnu.org
-References: <20211022095209.1319671-1-fontaine.fabrice@gmail.com>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Message-ID: <6168250e-9bd6-a672-4f1f-b1ecf8f8cd4c@msgid.tls.msk.ru>
-Date: Mon, 25 Oct 2021 09:31:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1methQ-0003eo-4E; Mon, 25 Oct 2021 02:43:12 -0400
+Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e]:45942)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1methK-0005tH-Hc; Mon, 25 Oct 2021 02:43:11 -0400
+Received: by mail-il1-x12e.google.com with SMTP id i6so11649906ila.12;
+ Sun, 24 Oct 2021 23:43:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QVEpYRKLXZQahOc2YgQH83gu0IvJN6M0iKf6LgMjYXY=;
+ b=lwhtrUPWjOjLlK315QMbmtHkob8HLFC8/ew9GNzwI921UwpjiRWUikwmaAA+kAdzjg
+ 9LJXSqVJIjXbN/PzlSPJPqwO5rAmSK6igroZewrOX7WB8TliPZhfGAIHH+hpTbzrL4p9
+ 58TS9QrUJyyxY8b+QzYD0c4XgtxGDxhiKK2xu+OEIZlliaOIJ8by6VqPT9/Edj7ldgLm
+ +sNNiwBRHJWdnSQxP7pasjbESbQ3jv8f0rhccz+O+fxY9CtM6SHeg70tsraM99ol5oVI
+ IIhQMbZ1Aot53DE0P2vy5DO+0F9qBtfRtvfkgPGC7ednFI+EFZYkkVPYbiN7REKua2I3
+ ZWCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QVEpYRKLXZQahOc2YgQH83gu0IvJN6M0iKf6LgMjYXY=;
+ b=euK+OS87kC47RzZX9L6VfYoZnKpnBMPAXVLQo+w0oumS31opO1tSqPd6Fv3nTT6HlU
+ GpaZpaE0mpB1qKh6jgFlBP7X3LB5f1XCJIo+vpXxTAbJvCgV4JZtU4Xjtj3dGadlrPVo
+ kO1RE+mP4dPpsnF90kWOaTO34z61jG1L+KeHrIGlZRVUZnhxyOu7l3U7G4FU1PmabFbk
+ LtTIesy7vntvFKx9jgCrsvhzGMvBNVfMvyvuDlCzLiZDP/S8562bgJPbdKE5mcUYXrLQ
+ xlUTWNi7gHf3sq2m1LjcV3+nGEJTAnVzmYQRjxT4BbG+bF0mekionHbdvQ5vcfZcrzb9
+ LqDw==
+X-Gm-Message-State: AOAM533/VzUN8hNfTQebq+hr2rniaVb0uCdV0zLOwv9HFP9VBq9Z8OJ/
+ R4KLLdm7EWibQCD40CRtv1U7q2SZogiR4VxL82Q=
+X-Google-Smtp-Source: ABdhPJzHoIVKt3z8VsC/PaiQBrT1kFMfMzdyxmgllYdM5lHNnIWLyOP6bp43dgYmXjROSXzr2hQi2ZecharxPViQERo=
+X-Received: by 2002:a05:6e02:1b81:: with SMTP id
+ h1mr5093447ili.290.1635144185265; 
+ Sun, 24 Oct 2021 23:43:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211022095209.1319671-1-fontaine.fabrice@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.33,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20211015074627.3957162-1-frank.chang@sifive.com>
+ <20211015074627.3957162-80-frank.chang@sifive.com>
+In-Reply-To: <20211015074627.3957162-80-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 25 Oct 2021 16:42:39 +1000
+Message-ID: <CAKmqyKOPmGc-j9x9Zf2Dm1KJ5v5RCU+GGNfH+e3-YFyNHGR0jw@mail.gmail.com>
+Subject: Re: [PATCH v8 72/78] target/riscv: set mstatus.SD bit when writing fp
+ CSRs
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,49 +78,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-22.10.2021 12:52, Fabrice Fontaine пишет:
-> Include linux/falloc.h if CONFIG_FALLOCATE_ZERO_RANGE is defined to fix
-> https://gitlab.com/qemu-project/qemu/-/commit/50482fda98bd62e072c30b7ea73c985c4e9d9bbb
-> and avoid the following build failure on musl:
-> 
-> ../block/export/fuse.c: In function 'fuse_fallocate':
-> ../block/export/fuse.c:643:21: error: 'FALLOC_FL_ZERO_RANGE' undeclared (first use in this function)
->    643 |     else if (mode & FALLOC_FL_ZERO_RANGE) {
->        |                     ^~~~~~~~~~~~~~~~~~~~
-> 
-> Fixes:
->   - http://autobuild.buildroot.org/results/be24433a429fda681fb66698160132c1c99bc53b
-> 
-> Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+On Fri, Oct 15, 2021 at 6:44 PM <frank.chang@sifive.com> wrote:
+>
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+
+Hey Frank,
+
+You will need to rebase this on the latest master branch.
+
+Alistair
+
 > ---
->   block/export/fuse.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/block/export/fuse.c b/block/export/fuse.c
-> index 2e3bf8270b..823c126d23 100644
-> --- a/block/export/fuse.c
-> +++ b/block/export/fuse.c
-> @@ -31,6 +31,10 @@
->   #include <fuse.h>
->   #include <fuse_lowlevel.h>
->   
-> +#if defined(CONFIG_FALLOCATE_ZERO_RANGE)
-
-shouldn't it be "if !defined" ?
-
-/mjt
-
-> +#include <linux/falloc.h>
-> +#endif
-> +
->   #ifdef __linux__
->   #include <linux/fs.h>
->   #endif
-> 
-
+>  target/riscv/csr.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 9f51626a3d8..3929abb112a 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -224,7 +224,8 @@ static RISCVException write_fflags(CPURISCVState *env, int csrno,
+>                                     target_ulong val)
+>  {
+>  #if !defined(CONFIG_USER_ONLY)
+> -    env->mstatus |= MSTATUS_FS;
+> +    target_ulong sd = riscv_cpu_is_32bit(env) ? MSTATUS32_SD : MSTATUS64_SD;
+> +    env->mstatus |= MSTATUS_FS | sd;
+>  #endif
+>      riscv_cpu_set_fflags(env, val & (FSR_AEXC >> FSR_AEXC_SHIFT));
+>      return RISCV_EXCP_NONE;
+> @@ -241,7 +242,8 @@ static RISCVException write_frm(CPURISCVState *env, int csrno,
+>                                  target_ulong val)
+>  {
+>  #if !defined(CONFIG_USER_ONLY)
+> -    env->mstatus |= MSTATUS_FS;
+> +    target_ulong sd = riscv_cpu_is_32bit(env) ? MSTATUS32_SD : MSTATUS64_SD;
+> +    env->mstatus |= MSTATUS_FS | sd;
+>  #endif
+>      env->frm = val & (FSR_RD >> FSR_RD_SHIFT);
+>      return RISCV_EXCP_NONE;
+> @@ -259,7 +261,8 @@ static RISCVException write_fcsr(CPURISCVState *env, int csrno,
+>                                   target_ulong val)
+>  {
+>  #if !defined(CONFIG_USER_ONLY)
+> -    env->mstatus |= MSTATUS_FS;
+> +    target_ulong sd = riscv_cpu_is_32bit(env) ? MSTATUS32_SD : MSTATUS64_SD;
+> +    env->mstatus |= MSTATUS_FS | sd;
+>  #endif
+>      env->frm = (val & FSR_RD) >> FSR_RD_SHIFT;
+>      riscv_cpu_set_fflags(env, (val & FSR_AEXC) >> FSR_AEXC_SHIFT);
+> --
+> 2.25.1
+>
+>
 
