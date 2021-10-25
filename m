@@ -2,78 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F30F74394CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 13:26:45 +0200 (CEST)
-Received: from localhost ([::1]:58276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A75F4394EB
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 13:37:10 +0200 (CEST)
+Received: from localhost ([::1]:37046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mey7n-0002l1-Jg
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 07:26:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38294)
+	id 1meyHt-0007kH-1c
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 07:37:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mey5M-0001lv-JR
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 07:24:12 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mey5K-0005Y1-NX
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 07:24:12 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id p14so6223163wrd.10
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 04:24:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=f/BAa9sp94NqKP5B4c9amJsD3bi6NZ608OY5VYA4uqE=;
- b=o1OGSyCJNkg1a7pxKx9kbTn9TVAJuVA8ju/EIaC8BXlVnigqhnzGL7/MJhQWH+EhQN
- 2UEPkPVZL4XOdJD3q5HjQSJsJfKcq1qgW9iSqu54Zgvwmx351SEDaXkKUZ+n+7cMfNmu
- 45MkKGOtZdciD9pQqcB4d9uPJ3jmXXhhp4+RbpWr8BE5EcjhpCOd95pvvTPxifrxj4Sc
- QaSvNW4e4RvWU08QVo7aP2lRA0VYm4CgQfSx6N4HhSvvEm/NetOMqr3wworBwJ+QEwF2
- ugIrP4VzKTVZyGKgMVBc7xpgJGXhhHmbZVzBBzc/fYHfiIoIccwQnBm+QezxANEFwW9n
- ZftA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1meyEG-0005uU-JI
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 07:33:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57589)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1meyEC-0004sa-VQ
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 07:33:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635161598;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V+BcmChjrUKah74S12+44KBLNKKGzWTNIrS38mlUYW8=;
+ b=MF/F3YM2N+p1vuulrNWZhqGSsKPWG4+99V+ayU/bQx9wl4L1+5JkPfqUt5n+70kTIdob1v
+ mD9yv5tgBpy/Q3JsG1g4j6QWk5OZ6BD1v9VJ5A/Prp/lOUKrh9+JhgSLT3FOzq+dJ9T/hf
+ cTLCXGVALMjXay3Hhi/b2nKvWB4MC2U=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-439-Cbj7SjucMa2Z4tscyKrkGw-1; Mon, 25 Oct 2021 07:33:17 -0400
+X-MC-Unique: Cbj7SjucMa2Z4tscyKrkGw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ u14-20020a05600c19ce00b0030d8549d49aso5727831wmq.0
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 04:33:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=f/BAa9sp94NqKP5B4c9amJsD3bi6NZ608OY5VYA4uqE=;
- b=XwZxgD1TUFAUa5y0azJumDPv68TrDwR8XbEUQ4gWxU6HqWaQYT3SB6hSTgltMNtAZ2
- 79JWY1de9VrKbxGW44B2VP9obdG7Dv3ZZVWje0FXjXmEjHb6fDL0b3qrwVQNydRWqoH2
- zTgSFJztdqH7VYmpSHRMuCKIDu+0LWoSCssMLqR7X7GSBCUoM/Ix8SFx0g2pKXJX1kS5
- ZK2cc3ChjUKWARvBggQpDb/lm3k1IEkRmTp+DSIcjj1Cg6X+FD+ExEg2y8ifE03n2ywk
- e6rZo/ltVLNorOTXpZnoGGNNgPO31B4iPI5M00ic6rQXGanX7wu3c22xe/yh1C4VuHFS
- XBlw==
-X-Gm-Message-State: AOAM531S1+56nPZAIUQTVdQwlic+c2cpE6R0ViVsmH1n4THBJgD24ISY
- nKLyWJqj1pZqBKolfc7JWc0kFw==
-X-Google-Smtp-Source: ABdhPJy0l61eRh97ngvyTNr8odlt3osqJD660w91tlh0ZcgplYfL8Ni0ULPqkql8KxdN+SSZi8T+Eg==
-X-Received: by 2002:adf:ec03:: with SMTP id x3mr16034800wrn.281.1635161048942; 
- Mon, 25 Oct 2021 04:24:08 -0700 (PDT)
-Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
- [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id n25sm3555479wms.10.2021.10.25.04.24.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 04:24:08 -0700 (PDT)
-Date: Mon, 25 Oct 2021 12:23:46 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v5 04/12] hw/i386/pc: Allow instantiating a virtio-iommu
- device
-Message-ID: <YXaTwq35j67PlPVh@myrica>
-References: <20211020172745.620101-1-jean-philippe@linaro.org>
- <20211020172745.620101-5-jean-philippe@linaro.org>
- <20211021154709.14da294a@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=V+BcmChjrUKah74S12+44KBLNKKGzWTNIrS38mlUYW8=;
+ b=po0S5B1bBNTZZjCGv9QNNPiYBp4IJuagkYtkKB+54Ttmc3oXkAikkedpM9KrJtRk48
+ n/lAuUygRzzSlSWGFbtClqITXn2gaI2BQJlCKpcJ6LgGF0cTtBFEmwjuMIfIPGAOodq5
+ Rl6T7CL4i6msHOgs/Z2gBcgpyGtZB7rBrpj2QrR78rkJclpPGuG5JsBTsFT08BFfkZ43
+ cCH1jdOdIOun95ImO5aEK53v5sSifk2upzNyCLQ8KxgxYiXFqW3QXQZbDPvhfSDn2Osi
+ HzIFHZRVxxNmM4Zx6GYO9Wriiukge24zDgThgiLIgfA6UVWJjB0GJ4DLjUqnDgRLdxqL
+ q0NA==
+X-Gm-Message-State: AOAM533zNVAtcJ3kaxtpvBzwUDvRLFPGRZ6/wT5OV1HbGn2tRlBxfFWa
+ nOhWC7Ak/7e7kxhb50ZMsmGvPY5tffcpmNTYPYmZb4+GEa/hnFS0OTDKKjILP7ke4r5pqRXO8yV
+ et92RsiRyvLbn1/U=
+X-Received: by 2002:a05:6000:144e:: with SMTP id
+ v14mr17502470wrx.9.1635161596687; 
+ Mon, 25 Oct 2021 04:33:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzDmHYUpN1/lcFgLoIsT0CJf9gNr64FLfAXhj0zLdG4tysQRXgeboOhP85gGDW9rf4FQF6uSg==
+X-Received: by 2002:a05:6000:144e:: with SMTP id
+ v14mr17502439wrx.9.1635161596502; 
+ Mon, 25 Oct 2021 04:33:16 -0700 (PDT)
+Received: from [192.168.50.34] (static-180-27-86-188.ipcom.comunitel.net.
+ [188.86.27.180])
+ by smtp.gmail.com with ESMTPSA id l2sm2237436wms.40.2021.10.25.04.33.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Oct 2021 04:33:16 -0700 (PDT)
+Message-ID: <63480ba9-b09f-e6dc-e8d4-48a79f4146ed@redhat.com>
+Date: Mon, 25 Oct 2021 13:33:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211021154709.14da294a@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 01/25] main-loop.h: introduce qemu_in_main_thread()
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20211025101735.2060852-1-eesposit@redhat.com>
+ <20211025101735.2060852-2-eesposit@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211025101735.2060852-2-eesposit@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.846, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,44 +100,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- jasowang@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- peterx@redhat.com, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- ani@anisinha.ca, pbonzini@redhat.com, eric.auger@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 21, 2021 at 03:47:09PM +0200, Igor Mammedov wrote:
-> On Wed, 20 Oct 2021 18:27:38 +0100
-> Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+On 10/25/21 12:17, Emanuele Giuseppe Esposito wrote:
+> When invoked from the main loop, this function is the same
+> as qemu_mutex_iothread_locked, and returns true if the BQL is held.
+> When invoked from iothreads or tests, it returns true only
+> if the current AioContext is the Main Loop.
 > 
-> > Allow instantiating a virtio-iommu device by adding an ACPI Virtual I/O
-> > Translation table (VIOT), which describes the relation between the
-> > virtio-iommu and the endpoints it manages.
-> > 
-> > Add a hotplug handler for virtio-iommu on x86 and set the necessary
-> > reserved region property. On x86, the [0xfee00000, 0xfeefffff] DMA
-> > region is reserved for MSIs. DMA transactions to this range either
-> > trigger IRQ remapping in the IOMMU or bypasses IOMMU translation.
+> This essentially just extends qemu_mutex_iothread_locked to work
+> also in unit tests or other users like storage-daemon, that run
+> in the Main Loop but end up using the implementation in
+> stubs/iothread-lock.c.
 > 
-> shouldn't above be "IO remapping"?
+> Using qemu_mutex_iothread_locked in unit tests defaults to false
+> because they use the implementation in stubs/iothread-lock,
+> making all assertions added in next patches fail despite the
 
-No it is IRQ remapping: DMA writes to this address range are interrupt
-requests and the IOMMU may either perform interrupt remapping or pass it
-to the APIC directly
+"in the following commits"?
 
+> AioContext is still the main loop.
 > 
-> > Although virtio-iommu does not support IRQ remapping it must be informed
-> > of the reserved region so that it can forward DMA transactions targeting
-> > this region.
-> > 
-> > Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> > Tested-by: Eric Auger <eric.auger@redhat.com>
-> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> 
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  include/qemu/main-loop.h | 13 +++++++++++++
+>  softmmu/cpus.c           |  5 +++++
+>  stubs/iothread-lock.c    |  5 +++++
+>  3 files changed, 23 insertions(+)
 
-Thanks!
-Jean
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
