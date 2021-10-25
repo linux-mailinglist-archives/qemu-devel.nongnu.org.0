@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5F2439BFE
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 18:47:12 +0200 (CEST)
-Received: from localhost ([::1]:46462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D61439C2C
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 18:58:09 +0200 (CEST)
+Received: from localhost ([::1]:55864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf37v-0006CO-PP
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 12:47:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36980)
+	id 1mf3IT-0004UE-Mn
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 12:58:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mf352-0004fx-Fj
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 12:44:12 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:35489)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mf34o-00083W-F0
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 12:44:12 -0400
-Received: by mail-wr1-x436.google.com with SMTP id s19so13853829wra.2
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 09:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=oNzO4k03fno3JK6Qe1ntgahvdY0l1mWowojR9Rd/sCU=;
- b=eZLToUrzTbIhqwbKEH/lwR0ByH5U4ib6D9+d24kD77ZwKppKOpBm6gyqSPl2ljoD/+
- I1k5+n1b7FXXuc4V0ZLDuQrMdWw4zk8s/GcFYBc80I9QYz8d89vhF06SKR8Dcl4ecTN1
- 7v8c5rWCOETtTGBDxalDOj8MrOeY+WlYcawuu6dSJF/WvMTKjsuSoKwkvt+3P826NvRv
- 6CXB5xDPkqgQcVWfiElYmjMS0mQzvn3CEBfhyhlakQY+CjSPTZUS8sEoy9U9jp2qB5eH
- tc44n2eF7cVAZl9Pp+6OudIpTpfRGl5A5m+0fASaNpxrQ1Dfb7EJVht10srb5uT6cO1z
- xTHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=oNzO4k03fno3JK6Qe1ntgahvdY0l1mWowojR9Rd/sCU=;
- b=mZSdwGhrImRi1cQyZnG6aiXa1xL8+GQroBRxBp2+4m2v6PQJoyn/CJxs9qrQ0i3V39
- /WEu2hiDbRb6cK7J9IY9oC9yA/DF7uFSR2omoslu4fsIJQOKN3YU378vdamWt2wrmCAF
- 9VYUTl0BK2TVrjV/FKHv4QJ6LYzGDWIbyDi/4rhpbNtPbPGlTDeU83Fn0yY76U/JFYRq
- YXppngT5C3evSpRSNKHy5Pl5TF4FipUDcjmYj3ihEHbiur3fhL4xX/TlaXzkr+XvOOIF
- dboB5TQjlLrLiY7Nnxjp6nZY78UIGEcYRLBnmfCOAdFYl07+27qNb2z3O/LgyyHx1JQZ
- fC7w==
-X-Gm-Message-State: AOAM531eSAtUMVP+nxbK3AwMU4zH8Geoq3S3VzgGduEvxKrQwlNX3eMv
- yxPSEXd3pJRzVIuX2WcM0+E=
-X-Google-Smtp-Source: ABdhPJxD+ABN8F9hUErYPGD0x/GLIa/IUIxPAuT2w8qmalrNOtj2Y5isPYogeMmfawrfh/ZI1UwjyQ==
-X-Received: by 2002:adf:d1e3:: with SMTP id g3mr25249728wrd.63.1635180236268; 
- Mon, 25 Oct 2021 09:43:56 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id t1sm19680160wre.32.2021.10.25.09.43.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 09:43:55 -0700 (PDT)
-Message-ID: <d4ddd96f-a766-d03b-6884-c7d0d94c8cb1@amsat.org>
-Date: Mon, 25 Oct 2021 18:43:54 +0200
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mf3HA-0003ko-Ns
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 12:56:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mf3H7-0006Og-4C
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 12:56:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635180999;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gy/tPJm5wrnT5rvwJGt71DHUl6kk6qEeUFUy+P7Hr5k=;
+ b=TCfeuvv57LqKyzmYoWGiBfJ4CDJTKtn3OapcC/ewBQO+F/6nEgK24VC/K9Kuh2uc6YHKEl
+ pqhnyToR57DllhLS7lbO6HhQEvkQSSmEaSS0KihqhiC21o7OTioZiWKQoMI0YOUglaZOmi
+ H3POn3/nIoaf8JNuaaUBDLwJaUozDVU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-252-Kkp5gGrFMQyd3J0qOxa3PQ-1; Mon, 25 Oct 2021 12:56:35 -0400
+X-MC-Unique: Kkp5gGrFMQyd3J0qOxa3PQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5731318D6A2C;
+ Mon, 25 Oct 2021 16:56:33 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC9945D9D5;
+ Mon, 25 Oct 2021 16:56:13 +0000 (UTC)
+Date: Mon, 25 Oct 2021 17:56:12 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Elena <elena.ufimtseva@oracle.com>
+Subject: Re: MMIO/PIO dispatch file descriptors (ioregionfd) design discussion
+Message-ID: <YXbhrJDTBu6AQsuF@stefanha-x1.localdomain>
+References: <88ca79d2e378dcbfb3988b562ad2c16c4f929ac7.camel@gmail.com>
+ <YWUeZVnTVI7M/Psr@heatpipe>
+ <YXamUDa5j9uEALYr@stefanha-x1.localdomain>
+ <20211025152122.GA25901@nuker>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 17/33] target/mips: Convert MSA FILL opcode to decodetree
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211023214803.522078-1-f4bug@amsat.org>
- <20211023214803.522078-18-f4bug@amsat.org>
- <05abb10d-25c6-3b39-dd43-cc269dc1dcb0@linaro.org>
- <2aed4407-9fd4-bcef-3e98-18446bcf3e94@amsat.org>
- <f6c6002b-c143-50c6-f849-5fb317a7ae76@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <f6c6002b-c143-50c6-f849-5fb317a7ae76@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.846,
- SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="63SiROHZXyxNKkHV"
+Content-Disposition: inline
+In-Reply-To: <20211025152122.GA25901@nuker>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,54 +77,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Luis Pires <luis.pires@eldorado.org.br>
+Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, kvm@vger.kernel.org,
+ mst@redhat.com, jasowang@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ eafanasova@gmail.com, felipe@nutanix.com, dinechin@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/21 19:26, Richard Henderson wrote:
-> On 10/24/21 9:44 AM, Philippe Mathieu-Daudé wrote:
->> On 10/24/21 07:04, Richard Henderson wrote:
->>> On 10/23/21 2:47 PM, Philippe Mathieu-Daudé wrote:
->>>> Convert the FILL opcode (Vector Fill from GPR) to decodetree.
->>>>
->>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>> ---
->>>>    target/mips/tcg/msa.decode      |  2 ++
->>>>    target/mips/tcg/msa_translate.c | 40
->>>> +++++++++++++++++++++++----------
->>>>    2 files changed, 30 insertions(+), 12 deletions(-)
->>
->>>>    +static bool trans_FILL(DisasContext *ctx, arg_msa_r *a)
->>>> +{
->>>> +    TCGv_i32 twd;
->>>> +    TCGv_i32 tws;
->>>> +    TCGv_i32 tdf;
->>>> +
->>>> +    if (!check_msa_access(ctx)) {
->>>> +        return false;
->>>> +    }
->>>> +
->>>> +    if (TARGET_LONG_BITS != 64 && a->df == DF_DOUBLE) {
->>>> +        /* Double format valid only for MIPS64 */
->>>> +        gen_reserved_instruction(ctx);
->>>> +        return true;
->>>> +    }
->>>
->>> I expect this reserved check should be above the MSA is disabled check,
->>> within check_msa_access.
->>>
->>>> +    twd = tcg_const_i32(a->wd);
->>>> +    tws = tcg_const_i32(a->ws);
->>>
->>> tcg_constant_i32.
->>
->> Hmm I am confused here, only 'df' is constant, 'ws' is GPR[$rs].
->> Since it is limited in [0,32[ and used read-only by the helper,
->> we can also pass it as constant?
-> 
-> What?  You're passing the constant ws to the helper, not the contents of
-> the gpr -- that's what the helper is expecting.
 
-OK got it now, thanks :)
+--63SiROHZXyxNKkHV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Oct 25, 2021 at 08:21:22AM -0700, Elena wrote:
+> On Mon, Oct 25, 2021 at 01:42:56PM +0100, Stefan Hajnoczi wrote:
+> > On Mon, Oct 11, 2021 at 10:34:29PM -0700, elena wrote:
+> > > On Wed, Nov 25, 2020 at 12:44:07PM -0800, Elena Afanasova wrote:
+> > > > Hello,
+> > > >
+> > >=20
+> > > Hi
+> > >=20
+> > > Sorry for top-posting, just wanted to provide a quik update.
+> > > We are currently working on the support for ioregionfd in Qemu and wi=
+ll
+> > > be posting the patches soon. Plus the KVM patches will be posted based
+> > > of the RFC v3 with some fixes if there are no objections from Elena's=
+ side
+> > > who originally posted KVM RFC patchset.
+> >=20
+> > Hi Elena,
+>=20
+> Hello Stefan.
+>=20
+> > I'm curious what approach you want to propose for QEMU integration. A
+> > while back I thought about the QEMU API. It's possible to implement it
+> > along the lines of the memory_region_add_eventfd() API where each
+> > ioregionfd is explicitly added by device emulation code. An advantage of
+> > this approach is that a MemoryRegion can have multiple ioregionfds, but
+> > I'm not sure if that is a useful feature.
+> >
+>=20
+> This is the approach that is currently in the works. Agree, I dont see
+> much of the application here at this point to have multiple ioregions
+> per MemoryRegion.
+> I added Memory API/eventfd approach to the vfio-user as well to try
+> things out.
+>=20
+> > An alternative is to cover the entire MemoryRegion with one ioregionfd.
+> > That way the device emulation code can use ioregionfd without much fuss
+> > since there is a 1:1 mapping between MemoryRegions, which are already
+> > there in existing devices. There is no need to think deeply about which
+> > ioregionfds to create for a device.
+> >
+> > A new API called memory_region_set_aio_context(MemoryRegion *mr,
+> > AioContext *ctx) would cause ioregionfd (or a userspace fallback for
+> > non-KVM cases) to execute the MemoryRegion->read/write() accessors from
+> > the given AioContext. The details of ioregionfd are hidden behind the
+> > memory_region_set_aio_context() API, so the device emulation code
+> > doesn't need to know the capabilities of ioregionfd.
+>=20
+> >=20
+> > The second approach seems promising if we want more devices to use
+> > ioregionfd inside QEMU because it requires less ioregionfd-specific
+> > code.
+> >=20
+> I like this approach as well.
+> As you have mentioned, the device emulation code with first approach
+> does have to how to handle the region accesses. The second approach will
+> make things more transparent. Let me see how can I modify what there is
+> there now and may ask further questions.
+
+Thanks, I look forward to patches you are working on!
+
+Stefan
+
+--63SiROHZXyxNKkHV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmF24awACgkQnKSrs4Gr
+c8hQAQf8DVrkwvoSkLStUhByGMfGnrHMpU8Sl0QH4rAmcfnvJ4RlKOLqN7uMAyjk
+fEx9R20fRPP7Pd2lgt/7EuKMfQhluh24RvWtnZRaMoj5h2JkrYKeASK606LE4rhB
+a0JYQZhcoqu07kAusyUEQ3KdAukHBLWaOG48LvrVSb4Bi1f6oijmsfJUlT242hgK
+i07Z5I6ePVQuld0lrh/i6SExErO6f2giwq2QmujQKWVDKku59PE0BR6YgCTVuEoL
+mKRKrq1+5W4bpOL5xaoM4xm2bWyy3EsFbPwJTyn0hVOyBgSxoaXpEYGtdsIvpWSF
+L48OwyICKrG4JauEyK8I9lSFc+KgCQ==
+=hHQl
+-----END PGP SIGNATURE-----
+
+--63SiROHZXyxNKkHV--
+
 
