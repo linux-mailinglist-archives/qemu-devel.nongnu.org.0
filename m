@@ -2,68 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968E443A6AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 00:35:40 +0200 (CEST)
-Received: from localhost ([::1]:46726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72AD943A6C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 00:41:56 +0200 (CEST)
+Received: from localhost ([::1]:50428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf8Z9-0001O5-NO
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 18:35:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33104)
+	id 1mf8fD-00044j-JJ
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 18:41:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mf8XY-0000OX-U4; Mon, 25 Oct 2021 18:34:00 -0400
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:45719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mf8XU-0006zt-4K; Mon, 25 Oct 2021 18:34:00 -0400
-Received: by mail-il1-x132.google.com with SMTP id i6so14758856ila.12;
- Mon, 25 Oct 2021 15:33:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tbbH0wA7I6yT0zpY8GTQpovQ8CHyTZ5SdSKH5oWuVak=;
- b=A8qzEUwKNwPSzmuMaLQ19uVqyXRXZZS0wm7mcKjHB3WZT9Z/U+WtK6TjQZkAMWHAHL
- ulg3Ve6igWiBxBuo62olFRz0MPciPTZHD83yvhDMZ7B4EWoXrwRoARRAnJ6mhqqQ97cz
- 12o4bHpq/9A4fJtz5xsUcwn/0nOuz6HJsHdZj00ePzuU5WzzYE7IVP7sR70v5gBRNI4G
- EWRvA2oXvvp/rGmsTSjvHsMQQ2L+78uXYOy2H1xVDAk8EkXs08SkTKgxIsLP/+X611Ii
- 9kTAcYQpnnPceQWLLrYo32Q9FoOAHwDLevX32Lu17a0u9waSja4p/+dSTnNXDSftnlSP
- 1FJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tbbH0wA7I6yT0zpY8GTQpovQ8CHyTZ5SdSKH5oWuVak=;
- b=UexJ4dgAk8oQeVtDInhFC7bqX2rYokhexohHT4oz+OEsLoZ0f+UYBepSNkbQv0moGU
- tBgqDiOYVHnRcElXpYZMLbtnxSHfV50iiI302CrnCAAD8UCZBmMmf35DamU2Jk74ctmK
- xf8tSP+9s7IbUuxPilhx+gj561xGb3dTHQ8qO6gOU4e5oddIRRqA+oqscEYSKE7VKteX
- CbCPglJEWPX0NMXiDibvo8+IvGVEZxodYXWXzsHX8YWqhTcbL6WGs7nFI+VY2cwg2vJZ
- QlEPaE5JKOcBAlk00qugNg3rYKj+9JqB1hVZyX5ZpypgO3H3kN5Fxp+D04z3iVtQKQbi
- 5hHQ==
-X-Gm-Message-State: AOAM531fbXgBdoBtB0fszslcGugXaG1aSPQaIdeMa+dD5eJOK2VGIM4H
- bOLbZZ5LuJlai6aPHsPKxD61hlFwmhVDDCl21Ug=
-X-Google-Smtp-Source: ABdhPJwvz8CaC6FkV0NhUSVaIl0RDJPCQ1PG5I8em8Ye1fVu9uEV2FHulqAEJ5PYM4mqeWYCfFeunOxDEVUuED5fNkk=
-X-Received: by 2002:a05:6e02:1be4:: with SMTP id
- y4mr2250461ilv.74.1635201234644; 
- Mon, 25 Oct 2021 15:33:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mf8e9-00039y-KN
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 18:40:49 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:31301)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mf8e6-0005h4-M4
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 18:40:48 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 99BFF7463B7;
+ Tue, 26 Oct 2021 00:40:42 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 77B8D746353; Tue, 26 Oct 2021 00:40:42 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 753447462D3;
+ Tue, 26 Oct 2021 00:40:42 +0200 (CEST)
+Date: Tue, 26 Oct 2021 00:40:42 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Subject: Re: Looking for advise on debugging a non-boot kernel on
+ qemu-system-sh4
+In-Reply-To: <db8b375b-0403-e7b3-44a6-89e440b5e2d2@physik.fu-berlin.de>
+Message-ID: <82c6635-68c7-9b51-3f6c-7555dfb7958c@eik.bme.hu>
+References: <4882e4cc-6754-1c8a-a8ae-a2ceeca115fb@physik.fu-berlin.de>
+ <e11d3ee1-2a25-7633-babd-d45f36b04c5b@eik.bme.hu>
+ <013d782d-0d7c-8204-cab2-08102a7d80f4@physik.fu-berlin.de>
+ <3c524162-e83-a9b3-1e28-2aa28dbefa76@eik.bme.hu>
+ <f0933be1-75ee-b053-1f53-f96258d41163@physik.fu-berlin.de>
+ <d2553511-b83c-d4f1-5a88-b661bc97eb@eik.bme.hu>
+ <9189dbe7-cf92-19c7-dee5-b707262964d1@physik.fu-berlin.de>
+ <3f483f63-9e68-b1da-01ab-a1e05dcf45aa@physik.fu-berlin.de>
+ <378d863-abbb-57b7-d624-ce1ca81d09c@eik.bme.hu>
+ <105383e6-9dab-e2bd-ffe2-fead5555f37c@physik.fu-berlin.de>
+ <c3cf7b52-10bc-eff3-c08a-d6e743cb863@eik.bme.hu>
+ <db8b375b-0403-e7b3-44a6-89e440b5e2d2@physik.fu-berlin.de>
 MIME-Version: 1.0
-References: <20211025040657.262696-1-alistair.francis@opensource.wdc.com>
- <CAEUhbmVGDtkBAC1cTEno_cCcC_RW30_0xMGS+z5uLOiiwJw9Sw@mail.gmail.com>
-In-Reply-To: <CAEUhbmVGDtkBAC1cTEno_cCcC_RW30_0xMGS+z5uLOiiwJw9Sw@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 26 Oct 2021 08:33:28 +1000
-Message-ID: <CAKmqyKOgnfJiKObyFNKLD=xWN3if0t0EEEMScFGg-iOaFCS_sg@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: opentitan: Fixup the PLIC context addresses
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,36 +68,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@opensource.wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 25, 2021 at 2:16 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Tue, 26 Oct 2021, John Paul Adrian Glaubitz wrote:
+> Hi Zoltan!
 >
-> On Mon, Oct 25, 2021 at 12:07 PM Alistair Francis
-> <alistair.francis@opensource.wdc.com> wrote:
-> >
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > Fixup the PLIC context address to correctly support the threshold and
-> > claim register.
-> >
-> > Fixes: ef63100648 ("hw/riscv: opentitan: Update to the latest build")
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  hw/riscv/opentitan.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
+> On 10/23/21 15:22, BALATON Zoltan wrote:
+>>> You either need to strip the kernel with "strip vmlinux" or use the image from arch/sh/
+>>> boot/zImage.
+>>
+>> I've actually used that kernel but looked at the wrong uncompressed size, it's indeed just
+>> 9.2MB when stripped so that should work. I was trying to debug further and found two problems:
+>>
+>> Commit abb0cd93494 (accel/tcg: Split out log_cpu_exec) seems to have broken -singlestep -d in_asm,cpu
+>> output with sh after a delay slot. Since that commit I get:
+>> (...)
+>> This seems to take a wrong turn at the delayed branch and somehow ends up at 0x8c800964 instead of
+>> 0x8c801528 but I'm not sure where to look firther why. I'm cc-ing Richard for both the -d cpu and
+>> this hoping he has some more insight.
 >
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Shall we open a bug report?
 
-Thanks!
+Well, we don't know yet what to put in the bug report apart from there is 
+some bug somewhere. That's not too useful. I now understand that the -d 
+output is not showing already translated TBs (I knew this but most of the 
+time with -singlestep it gives good results anyway) but here it runs the 
+loops without further output then we only see the first loop iteration and 
+the end result. So the problem is not that it goes to 0x8c800964 as I 
+think that's part of the loop for decompressing the kernel but it seems 
+something is overwriting 0x8c800964 while it still expects to run code 
+from there but I don't know what and why. One way to find could be to 
+disassemble the kernel code and compare that with the -d output and check 
+every instruction manually but that takes a lot of time or if you have a 
+cross debugger you could try attaching that to QEMU and try to debug it 
+that way but I don't have that either. Any other idea how to find out what 
+is happening?
 
-Applied to riscv-to-apply.next
-
-Alistair
+Regards,
+BALATON Zoltan
 
