@@ -2,53 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AD943A6C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 00:41:56 +0200 (CEST)
-Received: from localhost ([::1]:50428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BCE43A76F
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 00:47:43 +0200 (CEST)
+Received: from localhost ([::1]:53388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mf8fD-00044j-JJ
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 18:41:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34422)
+	id 1mf8ko-0006sM-Q3
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 18:47:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mf8e9-00039y-KN
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 18:40:49 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:31301)
+ id 1mf8jT-0006CQ-ED
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 18:46:19 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:40975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mf8e6-0005h4-M4
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 18:40:48 -0400
+ id 1mf8jR-0002cG-RE
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 18:46:19 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 99BFF7463B7;
- Tue, 26 Oct 2021 00:40:42 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 6471A746353;
+ Tue, 26 Oct 2021 00:46:16 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 77B8D746353; Tue, 26 Oct 2021 00:40:42 +0200 (CEST)
+ id E28C0746333; Tue, 26 Oct 2021 00:46:15 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 753447462D3;
- Tue, 26 Oct 2021 00:40:42 +0200 (CEST)
-Date: Tue, 26 Oct 2021 00:40:42 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id DD2507462D3;
+ Tue, 26 Oct 2021 00:46:15 +0200 (CEST)
+Date: Tue, 26 Oct 2021 00:46:15 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Subject: Re: Looking for advise on debugging a non-boot kernel on
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: Commit abb0cd93494 breaks -singlestep -d in_asm,cpu with
  qemu-system-sh4
-In-Reply-To: <db8b375b-0403-e7b3-44a6-89e440b5e2d2@physik.fu-berlin.de>
-Message-ID: <82c6635-68c7-9b51-3f6c-7555dfb7958c@eik.bme.hu>
-References: <4882e4cc-6754-1c8a-a8ae-a2ceeca115fb@physik.fu-berlin.de>
- <e11d3ee1-2a25-7633-babd-d45f36b04c5b@eik.bme.hu>
- <013d782d-0d7c-8204-cab2-08102a7d80f4@physik.fu-berlin.de>
- <3c524162-e83-a9b3-1e28-2aa28dbefa76@eik.bme.hu>
- <f0933be1-75ee-b053-1f53-f96258d41163@physik.fu-berlin.de>
- <d2553511-b83c-d4f1-5a88-b661bc97eb@eik.bme.hu>
- <9189dbe7-cf92-19c7-dee5-b707262964d1@physik.fu-berlin.de>
- <3f483f63-9e68-b1da-01ab-a1e05dcf45aa@physik.fu-berlin.de>
- <378d863-abbb-57b7-d624-ce1ca81d09c@eik.bme.hu>
- <105383e6-9dab-e2bd-ffe2-fead5555f37c@physik.fu-berlin.de>
- <c3cf7b52-10bc-eff3-c08a-d6e743cb863@eik.bme.hu>
- <db8b375b-0403-e7b3-44a6-89e440b5e2d2@physik.fu-berlin.de>
+In-Reply-To: <2f43f570-6ff6-610d-ff98-e566a0cfd0cb@amsat.org>
+Message-ID: <d03b87-c341-bc9e-693e-aad0741397f@eik.bme.hu>
+References: <ec65bc8f-2f99-9f49-d6ee-7b96e67a3a1b@eik.bme.hu>
+ <2f43f570-6ff6-610d-ff98-e566a0cfd0cb@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
+Content-Type: multipart/mixed;
+ boundary="3866299591-390510809-1635201975=:53658"
+X-Spam-Probability: 9%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
@@ -73,40 +64,37 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 26 Oct 2021, John Paul Adrian Glaubitz wrote:
-> Hi Zoltan!
->
-> On 10/23/21 15:22, BALATON Zoltan wrote:
->>> You either need to strip the kernel with "strip vmlinux" or use the image from arch/sh/
->>> boot/zImage.
->>
->> I've actually used that kernel but looked at the wrong uncompressed size, it's indeed just
->> 9.2MB when stripped so that should work. I was trying to debug further and found two problems:
->>
->> Commit abb0cd93494 (accel/tcg: Split out log_cpu_exec) seems to have broken -singlestep -d in_asm,cpu
->> output with sh after a delay slot. Since that commit I get:
->> (...)
->> This seems to take a wrong turn at the delayed branch and somehow ends up at 0x8c800964 instead of
->> 0x8c801528 but I'm not sure where to look firther why. I'm cc-ing Richard for both the -d cpu and
->> this hoping he has some more insight.
->
-> Shall we open a bug report?
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Well, we don't know yet what to put in the bug report apart from there is 
-some bug somewhere. That's not too useful. I now understand that the -d 
-output is not showing already translated TBs (I knew this but most of the 
-time with -singlestep it gives good results anyway) but here it runs the 
-loops without further output then we only see the first loop iteration and 
-the end result. So the problem is not that it goes to 0x8c800964 as I 
-think that's part of the loop for decompressing the kernel but it seems 
-something is overwriting 0x8c800964 while it still expects to run code 
-from there but I don't know what and why. One way to find could be to 
-disassemble the kernel code and compare that with the -d output and check 
-every instruction manually but that takes a lot of time or if you have a 
-cross debugger you could try attaching that to QEMU and try to debug it 
-that way but I don't have that either. Any other idea how to find out what 
-is happening?
+--3866299591-390510809-1635201975=:53658
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Mon, 25 Oct 2021, Philippe Mathieu-Daudé wrote:
+> On 10/25/21 23:16, BALATON Zoltan wrote:
+>> Hello,
+>>
+>> Commit abb0cd93494 (accel/tcg: Split out log_cpu_exec) seems to have
+>> broken -singlestep -d in_asm,cpu output with qemu-system-sh4 after a
+>> delay slot.
+> [...]
+>> However I still don't understand how the delayed branch ends up at
+>> 0x8c800964 instead of 0x8c801528 above. Is this ouput not showing some
+>> already translated TBs even with -singlestep -d in_asm,cpu,nochain and
+>> that's why I see those cpu dumps without instructions? What's the
+>> correct way to get a trace of all executed instructions?
+>
+> IIUC this commit you now need to use both cpu,exec to get the output?
+
+Nope, I get the same even adding exec. I think it now also prints 
+registers for already translated instructions where in_asm produces no 
+ouput whereas before it was only dumping state when in_asm also had ouput. 
+So now we get a lot more cpu state but we don't really know what they are 
+for. Not sure what's the use of that, the previous output looked more 
+useful.
 
 Regards,
 BALATON Zoltan
+--3866299591-390510809-1635201975=:53658--
 
