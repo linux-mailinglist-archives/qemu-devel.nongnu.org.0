@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0D9439411
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 12:52:28 +0200 (CEST)
-Received: from localhost ([::1]:47172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC704393FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Oct 2021 12:49:05 +0200 (CEST)
+Received: from localhost ([::1]:38600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mexad-000080-6Z
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 06:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49352)
+	id 1mexXN-0002nJ-16
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 06:49:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mex4Y-0005v1-4W
+ id 1mex4X-0005v0-M3
  for qemu-devel@nongnu.org; Mon, 25 Oct 2021 06:19:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26290)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mex4V-0007HO-Er
+ id 1mex4V-0007Gw-9n
  for qemu-devel@nongnu.org; Mon, 25 Oct 2021 06:19:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1635157154;
@@ -25,30 +25,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CQkbxFqgNjfPpcxkdpaCw0LWM9ordDFCKkIkVNLNUGs=;
- b=e2sJtbcd7015hIWURN4P0wz++DFzMlvepYaB8WnrtoxAbZ2bd7TTsarZW33NdUGHVwBdVl
- DG3+aqDQ7CI8S+VRwi5y1wmfI30isB8HZ0R/BmnTaTmtAq2QKssbiTi3g4g/JpvA11vaQ3
- 8X23ksmxsSGF9v3TScCn7Tcg4yn01A8=
+ bh=gK0ll+F7P/91Xa6bvFOkD2r1M+KSiqbmblh8npRLZIk=;
+ b=Xw4JuLXviveNBmWIdrduWhmf01wPDbBZUUhuXPniGZxGk26IRJ6G8PQNzpZE+qAyq0dRql
+ ouGhpdcEiogCoghFg9SeMq2FfEsgF+fbSrul0S0gMpJWgcfmtfYdzHmFwC482aE1/DnVOb
+ fJVriu+JLT3bwLdc6hyDAGettBdMonU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-hKiu80zSOLyJtFaC_mHtFQ-1; Mon, 25 Oct 2021 06:19:11 -0400
-X-MC-Unique: hKiu80zSOLyJtFaC_mHtFQ-1
+ us-mta-283-Ed7qT8YPO12uSXYB6CBXgw-1; Mon, 25 Oct 2021 06:19:13 -0400
+X-MC-Unique: Ed7qT8YPO12uSXYB6CBXgw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94BD3362F8;
- Mon, 25 Oct 2021 10:19:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBB8E36301;
+ Mon, 25 Oct 2021 10:19:11 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 663355E275;
- Mon, 25 Oct 2021 10:19:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE0F65E26A;
+ Mon, 25 Oct 2021 10:19:10 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 22/25] block_int-common.h: assertions in the callers of
- BdrvChildClass function pointers
-Date: Mon, 25 Oct 2021 06:17:32 -0400
-Message-Id: <20211025101735.2060852-23-eesposit@redhat.com>
+Subject: [PATCH v4 23/25] block-backend-common.h: split function pointers in
+ BlockDevOps
+Date: Mon, 25 Oct 2021 06:17:33 -0400
+Message-Id: <20211025101735.2060852-24-eesposit@redhat.com>
 In-Reply-To: <20211025101735.2060852-1-eesposit@redhat.com>
 References: <20211025101735.2060852-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -94,89 +94,66 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Assertions in the callers of the funciton pointrs are already
+added by previous patches.
+
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/sysemu/block-backend-common.h | 28 ++++++++++++++++++++++-----
+ 1 file changed, 23 insertions(+), 5 deletions(-)
 
-diff --git a/block.c b/block.c
-index 40c4729b8d..da80e89ad4 100644
---- a/block.c
-+++ b/block.c
-@@ -1462,6 +1462,7 @@ const BdrvChildClass child_of_bds = {
+diff --git a/include/sysemu/block-backend-common.h b/include/sysemu/block-backend-common.h
+index 52ff6a4d26..9ffd098458 100644
+--- a/include/sysemu/block-backend-common.h
++++ b/include/sysemu/block-backend-common.h
+@@ -17,6 +17,14 @@
  
- AioContext *bdrv_child_get_parent_aio_context(BdrvChild *c)
- {
-+    assert(qemu_in_main_thread());
-     return c->klass->get_parent_aio_context(c);
- }
- 
-@@ -2085,6 +2086,7 @@ bool bdrv_is_writable(BlockDriverState *bs)
- 
- static char *bdrv_child_user_desc(BdrvChild *c)
- {
-+    assert(qemu_in_main_thread());
-     return c->klass->get_parent_desc(c);
- }
- 
-@@ -2718,6 +2720,7 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
-     int drain_saldo;
- 
-     assert(!child->frozen);
-+    assert(qemu_in_main_thread());
- 
-     if (old_bs && new_bs) {
-         assert(bdrv_get_aio_context(old_bs) == bdrv_get_aio_context(new_bs));
-@@ -2806,6 +2809,8 @@ static void bdrv_attach_child_common_abort(void *opaque)
-     BdrvChild *child = *s->child;
-     BlockDriverState *bs = child->bs;
- 
-+    assert(qemu_in_main_thread());
+ /* Callbacks for block device models */
+ typedef struct BlockDevOps {
 +
-     bdrv_replace_child_noperm(child, NULL);
- 
-     if (bdrv_get_aio_context(bs) != s->old_child_ctx) {
-@@ -3164,6 +3169,7 @@ void bdrv_unref_child(BlockDriverState *parent, BdrvChild *child)
- static void bdrv_parent_cb_change_media(BlockDriverState *bs, bool load)
- {
-     BdrvChild *c;
-+    assert(qemu_in_main_thread());
-     QLIST_FOREACH(c, &bs->parents, next_parent) {
-         if (c->klass->change_media) {
-             c->klass->change_media(c, load);
-@@ -3655,6 +3661,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
- 
-     assert(!child_class || !flags);
-     assert(!child_class == !parent);
-+    assert(qemu_in_main_thread());
- 
-     if (reference) {
-         bool options_non_empty = options ? qdict_size(options) : false;
-@@ -4041,6 +4048,7 @@ static BlockReopenQueue *bdrv_reopen_queue_child(BlockReopenQueue *bs_queue,
-      * important to avoid graph changes between the recursive queuing here and
-      * bdrv_reopen_multiple(). */
-     assert(bs->quiesce_counter > 0);
-+    assert(qemu_in_main_thread());
- 
-     if (bs_queue == NULL) {
-         bs_queue = g_new0(BlockReopenQueue, 1);
-@@ -7097,6 +7105,7 @@ void bdrv_set_aio_context_ignore(BlockDriverState *bs,
-     BdrvChild *child, *parent;
- 
-     g_assert(qemu_get_current_aio_context() == qemu_get_aio_context());
-+    assert(qemu_in_main_thread());
- 
-     if (old_context == new_context) {
-         return;
-@@ -7173,6 +7182,7 @@ static bool bdrv_parent_can_set_aio_context(BdrvChild *c, AioContext *ctx,
-         return true;
-     }
-     *ignore = g_slist_prepend(*ignore, c);
-+    assert(qemu_in_main_thread());
- 
++    /*
++     * Global state (GS) API. These functions run under the BQL lock.
++     *
++     * See include/block/block-global-state.h for more information about
++     * the GS API.
++     */
++
      /*
-      * A BdrvChildClass that doesn't handle AioContext changes cannot
+      * Runs when virtual media changed (monitor commands eject, change)
+      * Argument load is true on load and false on eject.
+@@ -34,16 +42,26 @@ typedef struct BlockDevOps {
+      * true, even if they do not support eject requests.
+      */
+     void (*eject_request_cb)(void *opaque, bool force);
+-    /*
+-     * Is the virtual tray open?
+-     * Device models implement this only when the device has a tray.
+-     */
+-    bool (*is_tray_open)(void *opaque);
++
+     /*
+      * Is the virtual medium locked into the device?
+      * Device models implement this only when device has such a lock.
+      */
+     bool (*is_medium_locked)(void *opaque);
++
++    /*
++     * I/O API functions. These functions are thread-safe.
++     *
++     * See include/block/block-io.h for more information about
++     * the I/O API.
++     */
++
++    /*
++     * Is the virtual tray open?
++     * Device models implement this only when the device has a tray.
++     */
++    bool (*is_tray_open)(void *opaque);
++
+     /*
+      * Runs when the size changed (e.g. monitor command block_resize)
+      */
 -- 
 2.27.0
 
