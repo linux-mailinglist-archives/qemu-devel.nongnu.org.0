@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF83A43B8E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:03:02 +0200 (CEST)
-Received: from localhost ([::1]:45268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 929B443B909
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:09:07 +0200 (CEST)
+Received: from localhost ([::1]:55972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfQmq-0001hb-T3
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51420)
+	id 1mfQsk-0000bC-Bb
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:09:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfQgS-0003Zg-VA
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:56:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52893)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfQgV-0003bc-MB
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:56:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfQgO-0004Xl-2K
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:56:24 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfQgQ-0004Xr-NU
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:56:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1635270979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aNr6SNMc0oBTtifDVANAHZqAY+Pl5cwKRo2yK0XeY90=;
- b=KE9o5TCsMiGXgNCU7boZP5SrdrwgPksB3Z4W5yg1N4TqoCrROU9QA7L4/BEorLHBxaXMne
- JeW45JexcGtfS+Wq4bN4wdoTAc7NawtFz7l1YfB/CMA9xnjUmnlZW8lvCG1LbIkCu5y/Da
- xMyy8oj4XilYChXk4/vP3LqkE+Me6jc=
+ bh=VujbkLlEdDLV66q1zgixgLhSMurEoZPivssICNtAi8w=;
+ b=Os8RE4buYgswmjC/aS+iTdQtXcL9wfVHdhiLXQBKk/vBZrYGG1cAbBWD+MvSSPaZjUXHm+
+ MKZRMoXUQF45elBOQ30AyGfrsM0BdiYS3jbAw1en7YG3Z1FGx32aj39LFLUFAH3oxSl0Ih
+ ENUnGALkVVUa7Wqc4LZghXk2F80IwOc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-L-0dErxBP3q9ckrREMJLHA-1; Tue, 26 Oct 2021 13:56:16 -0400
-X-MC-Unique: L-0dErxBP3q9ckrREMJLHA-1
+ us-mta-598-96bNrN9iNMyua-28iXVCjA-1; Tue, 26 Oct 2021 13:56:18 -0400
+X-MC-Unique: 96bNrN9iNMyua-28iXVCjA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87D6110247A7;
- Tue, 26 Oct 2021 17:56:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D9BC802B7A;
+ Tue, 26 Oct 2021 17:56:17 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.17.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BBF805DF21;
- Tue, 26 Oct 2021 17:56:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF5675DF21;
+ Tue, 26 Oct 2021 17:56:16 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 2/8] python/machine: Handle QMP errors on close more
- meticulously
-Date: Tue, 26 Oct 2021 13:56:06 -0400
-Message-Id: <20211026175612.4127598-3-jsnow@redhat.com>
+Subject: [PATCH v5 4/8] iotests: Accommodate async QMP Exception classes
+Date: Tue, 26 Oct 2021 13:56:08 -0400
+Message-Id: <20211026175612.4127598-5-jsnow@redhat.com>
 In-Reply-To: <20211026175612.4127598-1-jsnow@redhat.com>
 References: <20211026175612.4127598-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,100 +84,74 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To use the AQMP backend, Machine just needs to be a little more diligent
-about what happens when closing a QMP connection. The operation is no
-longer a freebie in the async world; it may return errors encountered in
-the async bottom half on incoming message receipt, etc.
+(But continue to support the old ones for now, too.)
 
-(AQMP's disconnect, ultimately, serves as the quiescence point where all
-async contexts are gathered together, and any final errors reported at
-that point.)
+There are very few cases of any user of QEMUMachine or a subclass
+thereof relying on a QMP Exception type. If you'd like to check for
+yourself, you want to grep for all of the derivatives of QMPError,
+excluding 'AQMPError' and its derivatives. That'd be these:
 
-Because async QMP continues to check for messages asynchronously, it's
-almost certainly likely that the loop will have exited due to EOF after
-issuing the last 'quit' command. That error will ultimately be bubbled
-up when attempting to close the QMP connection. The manager class here
-then is free to discard it -- if it was expected.
+- QMPError
+- QMPConnectError
+- QMPCapabilitiesError
+- QMPTimeoutError
+- QMPProtocolError
+- QMPResponseError
+- QMPBadPortError
+
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- python/qemu/machine/machine.py | 48 +++++++++++++++++++++++++++++-----
- 1 file changed, 42 insertions(+), 6 deletions(-)
+ scripts/simplebench/bench_block_job.py    | 3 ++-
+ tests/qemu-iotests/tests/mirror-top-perms | 5 +++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index 0bd40bc2f76..a0cf69786b4 100644
---- a/python/qemu/machine/machine.py
-+++ b/python/qemu/machine/machine.py
-@@ -342,9 +342,15 @@ def _post_shutdown(self) -> None:
-         # Comprehensive reset for the failed launch case:
-         self._early_cleanup()
+diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebench/bench_block_job.py
+index 4f03c121697..a403c35b08f 100755
+--- a/scripts/simplebench/bench_block_job.py
++++ b/scripts/simplebench/bench_block_job.py
+@@ -28,6 +28,7 @@
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+ from qemu.machine import QEMUMachine
+ from qemu.qmp import QMPConnectError
++from qemu.aqmp import ConnectError
  
--        if self._qmp_connection:
--            self._qmp.close()
--            self._qmp_connection = None
-+        try:
-+            self._close_qmp_connection()
-+        except Exception as err:  # pylint: disable=broad-except
-+            LOG.warning(
-+                "Exception closing QMP connection: %s",
-+                str(err) if str(err) else type(err).__name__
-+            )
-+        finally:
-+            assert self._qmp_connection is None
  
-         self._close_qemu_log_file()
+ def bench_block_job(cmd, cmd_args, qemu_args):
+@@ -49,7 +50,7 @@ def bench_block_job(cmd, cmd_args, qemu_args):
+         vm.launch()
+     except OSError as e:
+         return {'error': 'popen failed: ' + str(e)}
+-    except (QMPConnectError, socket.timeout):
++    except (QMPConnectError, ConnectError, socket.timeout):
+         return {'error': 'qemu failed: ' + str(vm.get_log())}
  
-@@ -420,6 +426,31 @@ def _launch(self) -> None:
-                                        close_fds=False)
-         self._post_launch()
+     try:
+diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-iotests/tests/mirror-top-perms
+index 3d475aa3a54..a2d5c269d7a 100755
+--- a/tests/qemu-iotests/tests/mirror-top-perms
++++ b/tests/qemu-iotests/tests/mirror-top-perms
+@@ -21,8 +21,9 @@
  
-+    def _close_qmp_connection(self) -> None:
-+        """
-+        Close the underlying QMP connection, if any.
-+
-+        Dutifully report errors that occurred while closing, but assume
-+        that any error encountered indicates an abnormal termination
-+        process and not a failure to close.
-+        """
-+        if self._qmp_connection is None:
-+            return
-+
-+        try:
-+            self._qmp.close()
-+        except EOFError:
-+            # EOF can occur as an Exception here when using the Async
-+            # QMP backend. It indicates that the server closed the
-+            # stream. If we successfully issued 'quit' at any point,
-+            # then this was expected. If the remote went away without
-+            # our permission, it's worth reporting that as an abnormal
-+            # shutdown case.
-+            if not (self._user_killed or self._quit_issued):
-+                raise
-+        finally:
-+            self._qmp_connection = None
-+
-     def _early_cleanup(self) -> None:
-         """
-         Perform any cleanup that needs to happen before the VM exits.
-@@ -460,9 +491,14 @@ def _soft_shutdown(self, timeout: Optional[int]) -> None:
-         self._early_cleanup()
+ import os
  
-         if self._qmp_connection:
--            if not self._quit_issued:
--                # Might raise ConnectionReset
--                self.qmp('quit')
-+            try:
-+                if not self._quit_issued:
-+                    # May raise ExecInterruptedError or StateError if the
-+                    # connection dies or has *already* died.
-+                    self.qmp('quit')
-+            finally:
-+                # Regardless, we want to quiesce the connection.
-+                self._close_qmp_connection()
+-from qemu import qmp
++from qemu.aqmp import ConnectError
+ from qemu.machine import machine
++from qemu.qmp import QMPConnectError
  
-         # May raise subprocess.TimeoutExpired
-         self._subp.wait(timeout=timeout)
+ import iotests
+ from iotests import qemu_img
+@@ -102,7 +103,7 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
+             self.vm_b.launch()
+             print('ERROR: VM B launched successfully, this should not have '
+                   'happened')
+-        except qmp.QMPConnectError:
++        except (QMPConnectError, ConnectError):
+             assert 'Is another process using the image' in self.vm_b.get_log()
+ 
+         result = self.vm.qmp('block-job-cancel',
 -- 
 2.31.1
 
