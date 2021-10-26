@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E3843B733
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 18:29:48 +0200 (CEST)
-Received: from localhost ([::1]:48810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D902B43B746
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 18:34:34 +0200 (CEST)
+Received: from localhost ([::1]:58202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfPKd-0007R8-DU
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 12:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33770)
+	id 1mfPPF-0005O7-VX
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 12:34:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mfPHC-0001mc-El
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:26:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23976)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mfPH9-0003QR-Ee
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:26:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635265570;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DKN6bHZEUqMJNhDlUI4LFRs17Ui5Q3fOLC0Ii1MHSJ8=;
- b=ZW42iPuABnUCIY6UsV5jvELBzHhB5Ytt4Vp5yibMK/EqOWJsgsKE62kYyOHKgRfGq0co/1
- e73yBQY62iV13JmIRo7zJR2bwhNHZNMGaM5jH3qKilS8gHHZRYqZtzIxojXRwn+9oyb24q
- hypDPSB9YS93i5khQ/XXRv/zJBbnKG4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-3rPOTzsAPpaZUA5-BZK1HA-1; Tue, 26 Oct 2021 12:26:09 -0400
-X-MC-Unique: 3rPOTzsAPpaZUA5-BZK1HA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A466362F9;
- Tue, 26 Oct 2021 16:26:08 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C33CC5F4E0;
- Tue, 26 Oct 2021 16:26:07 +0000 (UTC)
-Date: Tue, 26 Oct 2021 17:26:06 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [RFC 1/2] tls: add macros for coroutine-safe TLS variables
-Message-ID: <YXgsHghh2BCrb1S0@stefanha-x1.localdomain>
-References: <20211025140716.166971-1-stefanha@redhat.com>
- <20211025140716.166971-2-stefanha@redhat.com>
- <YXa7zMZG2saNHInI@redhat.com>
- <YXgFg0aHtvXNorUS@stefanha-x1.localdomain>
- <YXgMSFJhfE6mdVIq@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mfPNb-0003kh-5q
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:32:51 -0400
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:46748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mfPNY-0004HV-VL
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:32:50 -0400
+Received: by mail-lf1-x136.google.com with SMTP id c28so17404308lfv.13
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 09:32:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=bde3vkAqmUKII5gp95zh6eDbLURrx73+WulnJnzd+iQ=;
+ b=gC6MHNPjlYJZQw/CuTHFWR1TryExf5YTEdr4eGUvOV3BUWWIaubthDVEoVZ+BR6NfS
+ A1Tw3xPzDUb9CaygstbkF6O7bGsp28QEN/xh+48dZ1y08sP4ZCGMxnVyOrmv1AHImPgD
+ kTup40v4yPIUmw4cLAO9+C05W4Fh3KCjX6zDvrsbsviVzA2ziyD5YsY8piJAPMTmk0NP
+ NssGsThsaL7pAQQM6piqbLcni4T0mwOQ2mTyuokq7kvqh7WmV8fn1k04nbYnWFfsrNyW
+ RkkVFowZq+YrtWzpLfSkuzUeE33L1eJxBC8EGAJCsnPl2FkmbaN3/S1S98cjyzVX4NDV
+ Dikg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=bde3vkAqmUKII5gp95zh6eDbLURrx73+WulnJnzd+iQ=;
+ b=wkkmj8L0dRJRZCRM4wgKs/lNMySxnAih3jydmylOJ1wfBCoOeerZeAiQNA+CnFdYUx
+ zL7HdpCybBAglyuyVomEFIW/h5yexAQ70jURJT+1c1SOAkCUhnfY99ZuqztGHwJ1tAU1
+ 1hppVzdjFsPMhKwzaVGGhkglYSwB3pm6Rwn4WW3zj91QbtCRp9d8/LJAdAm0PEv2Ty21
+ 0inBZphJxbJkCu0dcp6LcfcP1nKsvPH0LQydBr2gayJL6C6Iis+k7AxZGaFus8BAMGFR
+ itOFDCLxAwtjlW+WXTccJ09RBP2HSVi/FcEosfkyxv2/UOYqKmVosBJ88P1/FZkY6EmM
+ lg6g==
+X-Gm-Message-State: AOAM53383Vbp02FuMnrl6n6UxpNEYNV+uGY5kDovmoJq9fswjtK2sMW5
+ 1aDVRUvoqNlLDoHokihWEBW10g==
+X-Google-Smtp-Source: ABdhPJzRFnG7wCjYrJvgdJWx9gwsgqZl5hCmKTx2YV0bwBZwDsBBX30ua9+YSMh5B6e98euizxtH0w==
+X-Received: by 2002:a05:6512:a82:: with SMTP id
+ m2mr7195938lfu.212.1635265966832; 
+ Tue, 26 Oct 2021 09:32:46 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n19sm1973748lfu.207.2021.10.26.09.32.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Oct 2021 09:32:45 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6A1601FF96;
+ Tue, 26 Oct 2021 17:32:44 +0100 (BST)
+References: <20211021210539.825582-1-richard.henderson@linaro.org>
+ <20211021210539.825582-42-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.4; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 41/48] tcg/optimize: Sink commutative operand
+ swapping into fold functions
+Date: Tue, 26 Oct 2021 17:27:23 +0100
+In-reply-to: <20211021210539.825582-42-richard.henderson@linaro.org>
+Message-ID: <87o87bzqz7.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <YXgMSFJhfE6mdVIq@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fiAn+geC4ab5qwdC"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=alex.bennee@linaro.org; helo=mail-lf1-x136.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,60 +89,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fweimer@redhat.com, Fam Zheng <fam@euphon.net>, thuth@redhat.com,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, sguelton@redhat.com
+Cc: luis.pires@eldorado.org.br, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---fiAn+geC4ab5qwdC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 26, 2021 at 04:10:16PM +0200, Kevin Wolf wrote:
-> Am 26.10.2021 um 15:41 hat Stefan Hajnoczi geschrieben:
-> > Actually, nevermind what I said about the callback scenario. I don't
-> > think that is a problem because the compiler cannot assume the __thread
-> > variable remains unchanged across the callback. Therefore it cannot
-> > safely cache the value.
->=20
-> And additionally, I think callbacks are never coroutine_fn (especially
-> not if they come from an external library), so they must not yield
-> anyway.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-There's a tiny chance that the third-party library was called from
-coroutine context and the callback invokes a non-coroutine_fn that uses
-qemu_in_coroutine() to dynamically decide it's possible to yield. But it
-seems very unlikely.
+> Most of these are handled by creating a fold_const2_commutative
+> to handle all of the binary operators.  The rest were already
+> handled on a case-by-case basis in the switch, and have their
+> own fold function in which to place the call.
+>
+> We now have only one major switch on TCGOpcode.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/optimize.c | 128 ++++++++++++++++++++++---------------------------
+>  1 file changed, 56 insertions(+), 72 deletions(-)
+>
+> diff --git a/tcg/optimize.c b/tcg/optimize.c
+> index ba068e7d3e..92b35a8c3f 100644
+> --- a/tcg/optimize.c
+> +++ b/tcg/optimize.c
+> @@ -696,6 +696,12 @@ static bool fold_const2(OptContext *ctx, TCGOp *op)
+>      return false;
+>  }
+>=20=20
+> +static bool fold_const2_commutative(OptContext *ctx, TCGOp *op)
+> +{
+> +    swap_commutative(op->args[0], &op->args[1], &op->args[2]);
+> +    return fold_const2(ctx, op);
+> +}
+> +
+>  static bool fold_masks(OptContext *ctx, TCGOp *op)
+>  {
+>      uint64_t a_mask =3D ctx->a_mask;
+> @@ -832,7 +838,7 @@ static bool fold_xx_to_x(OptContext *ctx, TCGOp *op)
+>=20=20
+>  static bool fold_add(OptContext *ctx, TCGOp *op)
+>  {
+> -    if (fold_const2(ctx, op) ||
+> +    if (fold_const2_commutative(ctx, op) ||
+>          fold_xi_to_x(ctx, op, 0)) {
+>          return true;
+>      }
+> @@ -891,6 +897,9 @@ static bool fold_addsub2(OptContext *ctx, TCGOp *op, =
+bool add)
+>=20=20
+>  static bool fold_add2(OptContext *ctx, TCGOp *op)
+>  {
+> +    swap_commutative(op->args[0], &op->args[2], &op->args[4]);
+> +    swap_commutative(op->args[1], &op->args[3], &op->args[5]);
+> +
+>      return fold_addsub2(ctx, op, true);
+>  }
+>=20=20
+> @@ -898,7 +907,7 @@ static bool fold_and(OptContext *ctx, TCGOp *op)
+>  {
+>      uint64_t z1, z2;
+>=20=20
+> -    if (fold_const2(ctx, op) ||
+> +    if (fold_const2_commutative(ctx, op) ||
+>          fold_xi_to_i(ctx, op, 0) ||
+>          fold_xi_to_x(ctx, op, -1) ||
+>          fold_xx_to_x(ctx, op)) {
+> @@ -950,8 +959,13 @@ static bool fold_andc(OptContext *ctx, TCGOp *op)
+>  static bool fold_brcond(OptContext *ctx, TCGOp *op)
+>  {
+>      TCGCond cond =3D op->args[2];
+> -    int i =3D do_constant_folding_cond(ctx->type, op->args[0], op->args[=
+1], cond);
+> +    int i;
+>=20=20
+> +    if (swap_commutative(-1, &op->args[0], &op->args[1])) {
 
-> > So I think only the header file scenario is a problem.
->=20
-> The mere existence of a __thread variable in the header file isn't a
-> problem either, but if QEMU accesses it, we would have to implement
-> wrappers similar to what you're proposing for QEMU's thread local
-> variables.
+I find this a bit magical. I couldn't find anything about TCGArg except
+it's type:
 
-There could be static inline functions that access it in the header
-file. If QEMU calls those functions then the compiler can optimize that.
+  typedef tcg_target_ulong TCGArg;
 
-Stefan
+so I'm not sure what to make of -1 in this case. I guess it just means
+we never have a (sum =3D=3D 0 && dest =3D=3D a2) leg but it's not obvious
+reading the fold code.
+>=20=20
+> +    if (swap_commutative(-1, &op->args[1], &op->args[2])) {
+> +        op->args[5] =3D cond =3D tcg_swap_cond(cond);
+> +    }
 
---fiAn+geC4ab5qwdC
-Content-Type: application/pgp-signature; name="signature.asc"
+Also here.
 
------BEGIN PGP SIGNATURE-----
+<snip>
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmF4LB4ACgkQnKSrs4Gr
-c8hGJgf/VZRchYhKgsLb606DYxEcRrfG9Lkoy+zB//Jw93GbTUS2iuDOTqQF9OMj
-yBa+AacOC51jtBeb4gqbjwc0OmMrQ4rO1AnKXPk02ptxkqvmhsxO1dcDAs40VIQl
-7BrO4c2DehDuIMxFYpvSg3VD90ZQnWIEjVicRhYh442Ihwol2M8uh+WEoKR3zLBc
-DQaaJGbpU7ED8Rn9aqvB1PmrE5X2dTZ8xqq231RHfhwV1JLzIxih61wmbAW0H6P/
-rEX14goYVPyVLgAe/e6WRJ7MRVpdSYzKdNr9QccJdJ+BU5OCBo/4LhuRql0qTVVD
-5pv5oxdMbLnB5AX3ZE7HKJb6HNvB6A==
-=RlKW
------END PGP SIGNATURE-----
-
---fiAn+geC4ab5qwdC--
-
+--=20
+Alex Benn=C3=A9e
 
