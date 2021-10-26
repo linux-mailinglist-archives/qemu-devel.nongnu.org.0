@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59C143BDEF
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 01:33:59 +0200 (CEST)
-Received: from localhost ([::1]:58922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 228B943BDD7
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 01:26:35 +0200 (CEST)
+Received: from localhost ([::1]:42414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfVx8-0003nD-Ru
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 19:33:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53194)
+	id 1mfVpy-0000nY-72
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 19:26:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfVaH-0003N3-M0
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 19:10:21 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:37431)
+ id 1mfVaC-0003Fn-S8
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 19:10:16 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:40714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfVa4-0001zy-D2
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 19:10:21 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- t5-20020a17090a4e4500b001a0a284fcc2so3572028pjl.2
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 16:10:08 -0700 (PDT)
+ id 1mfVa6-00020G-KW
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 19:10:16 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ n36-20020a17090a5aa700b0019fa884ab85so3547877pji.5
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 16:10:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OJWu7yUFUqO6SxASLIr2hIPwbeHCDr8GBSl6LyJ/KfE=;
- b=mx2ZQvdUOlgQRL4QVlM/4jfnS2kAxO+buqtlqmTic0lVb103aBSrPCcAcH0cVPY4hS
- mz7xbe52mtT7puXSb+Jm2DeUbN4FUOdZYMwhemWk6BMULu0Szy+P0iEtiSQO0mmuXR/t
- Vug2MKUm0AkHZbAREQX6w/mgnb85OQtAmlEONv40sbyAGRYUOgQ9iNnfzg/4NqiWHnJ/
- glzzH3epp2idnj7PqIYUao1rglGa9KxV5n7jWhSORiFHmjUCVyWWvgmT/T4+rrdntxYl
- EBvGPVE6P8HXZ2vq8mXLm2qRsy17rptSw9q/GQZ6OJJDxQJU25g/7g/EeMMlMmPI0mSB
- 4hxQ==
+ bh=I6H+U1ruTrcwXeKIJx0xdeAaOvB86vmaSGOOcxgJmqQ=;
+ b=OjPTYBejdyS1FFlOYasGX5aDXcRrEysuEDE8n3PI5MQwMmfP80Stgx1366uB1wpTW3
+ UEQXQkKpxN+ulVFoVgYA+lZOrWqQZ+jpHt8c+hcvfxGU/nCdz3r8qD8nI41VWZSTmp8H
+ toJEQNW0SYnN1MQwvFL9zSzLTM944zjmbY4nfidkFDW5bnuNQwoqzWD7dyjqUqvrErCm
+ ZIGK5+GTsawzxmSrHg39plqmCudz3IkhU0n23EosOjQ8TFE1qCguKf/dkwwYhDM11nVF
+ 04L8Ci1q4Erj807FFmC0kHYFoBvTRhzdQ73jJcvt+kKZSs2Nb90WwF2laC9EQxUEuY0d
+ f+xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OJWu7yUFUqO6SxASLIr2hIPwbeHCDr8GBSl6LyJ/KfE=;
- b=rnXZkjHWA9MxqoUk801O7s4U1QcD/N0Vr26vUpcqrDXFX17Dsg90dKocTp/Hh3lCMa
- I+qObwCHPB3S3GJxHM3RiXSEZqr1sU9o81woYTu7agF1H8h8iKz9MvzWMQKc8c14rO9l
- +AyrtjYcPDcoZ7lBvoBcSjOyvme1+FI47G4zGdB6wDBh167lE2pjuq7EbQCgZKISAXgc
- BZT7HuvlSEepwpO7o0iuiOYlXsRN3bId9LpOTy0ofXOyRTF3xiwZautFGEQGw0t1a66n
- NtedxroA+J8ezqkz22UUsbp1ndxnPjNZHUrBS5iePShrID6JiKYl1YBou1Zv1R1m/r0J
- q1Cg==
-X-Gm-Message-State: AOAM533BxKqyBAgYwEOc73Y4+mEKgl9m/bRjiQmeuxURgk5YK2Ry0qjm
- GWmFH2OZkSIEx2WdRb9xjxASp+6l4suI6g==
-X-Google-Smtp-Source: ABdhPJwnu5ERrxpyyHegIfSL3WiaHwORzkyuiEDam7diebgnLlRmsFKi1AJDU7CbS1oqIcX8WZzkEw==
-X-Received: by 2002:a17:902:db04:b0:13e:f118:54de with SMTP id
- m4-20020a170902db0400b0013ef11854demr25668384plx.44.1635289807264; 
- Tue, 26 Oct 2021 16:10:07 -0700 (PDT)
+ bh=I6H+U1ruTrcwXeKIJx0xdeAaOvB86vmaSGOOcxgJmqQ=;
+ b=cxbL6NIqtkSDGEAlizGoc4tpN9H0YPPLwLg2VzewPmLt539DcESBDIcO08FgXqCLEG
+ NrssjCUdq/YZ8yXzIxDhIDcaFcbYieWapS0lqs2iPvyMqmhof7006tB3UuvlNZsBQqh4
+ R3eAgQiMLtxWIHXit5j0LRBYtf71UTnF39nwPGqF19jqNHwrcg4N1AwagcJCR8mGPgQN
+ ECe1zmGH/DlAV3Q2ALkwA1sqPAsBkurmcuGfU1sIpQdMvuu0n7jCCNCx9tQ7c/0Xfm06
+ gPrfpSI6J21+clL5xhGPCoPSYEyUQl5xBXbsO0NMxPjpKNiTadQwsD1o+leK/pncArrk
+ eDAQ==
+X-Gm-Message-State: AOAM53017KjZxIH2EGrZa9C5ixje7Bh0UtfHfok1Fh7hGdXn87FY8mvf
+ LVhRSOV9R0ymG14aFisLanShf7jln6iY2g==
+X-Google-Smtp-Source: ABdhPJxWwapmIwqkyk+ue/5EOnf2waziD1dWgA6wxYw9k3LeX861LTiCXAdOxEs8FO9U6aYFYfrHXQ==
+X-Received: by 2002:a17:902:e5c9:b0:140:32f:54c5 with SMTP id
+ u9-20020a170902e5c900b00140032f54c5mr25383828plf.65.1635289808066; 
+ Tue, 26 Oct 2021 16:10:08 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id t22sm4450630pfg.63.2021.10.26.16.10.06
+ by smtp.gmail.com with ESMTPSA id t22sm4450630pfg.63.2021.10.26.16.10.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 16:10:06 -0700 (PDT)
+ Tue, 26 Oct 2021 16:10:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 25/51] tcg/optimize: Split out fold_deposit
-Date: Tue, 26 Oct 2021 16:09:17 -0700
-Message-Id: <20211026230943.1225890-26-richard.henderson@linaro.org>
+Subject: [PATCH v4 26/51] tcg/optimize: Split out fold_count_zeros
+Date: Tue, 26 Oct 2021 16:09:18 -0700
+Message-Id: <20211026230943.1225890-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211026230943.1225890-1-richard.henderson@linaro.org>
 References: <20211026230943.1225890-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,42 +93,48 @@ Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 25 +++++++++++++++----------
- 1 file changed, 15 insertions(+), 10 deletions(-)
+ tcg/optimize.c | 32 ++++++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
 
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 3bd5f043c8..2c57d08760 100644
+index 2c57d08760..dd65f1afcd 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -878,6 +878,18 @@ static bool fold_ctpop(OptContext *ctx, TCGOp *op)
-     return fold_const1(ctx, op);
+@@ -873,6 +873,20 @@ static bool fold_call(OptContext *ctx, TCGOp *op)
+     return true;
  }
  
-+static bool fold_deposit(OptContext *ctx, TCGOp *op)
++static bool fold_count_zeros(OptContext *ctx, TCGOp *op)
 +{
-+    if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
-+        uint64_t t1 = arg_info(op->args[1])->val;
-+        uint64_t t2 = arg_info(op->args[2])->val;
++    if (arg_is_const(op->args[1])) {
++        uint64_t t = arg_info(op->args[1])->val;
 +
-+        t1 = deposit64(t1, op->args[3], op->args[4], t2);
-+        return tcg_opt_gen_movi(ctx, op, op->args[0], t1);
++        if (t != 0) {
++            t = do_constant_folding(op->opc, t, 0);
++            return tcg_opt_gen_movi(ctx, op, op->args[0], t);
++        }
++        return tcg_opt_gen_mov(ctx, op, op->args[0], op->args[2]);
 +    }
 +    return false;
 +}
 +
- static bool fold_divide(OptContext *ctx, TCGOp *op)
+ static bool fold_ctpop(OptContext *ctx, TCGOp *op)
  {
-     return fold_const2(ctx, op);
-@@ -1741,16 +1753,6 @@ void tcg_optimize(TCGContext *s)
+     return fold_const1(ctx, op);
+@@ -1739,20 +1753,6 @@ void tcg_optimize(TCGContext *s)
              }
              break;
  
--        CASE_OP_32_64(deposit):
--            if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
--                tmp = deposit64(arg_info(op->args[1])->val,
--                                op->args[3], op->args[4],
--                                arg_info(op->args[2])->val);
--                tcg_opt_gen_movi(&ctx, op, op->args[0], tmp);
+-        CASE_OP_32_64(clz):
+-        CASE_OP_32_64(ctz):
+-            if (arg_is_const(op->args[1])) {
+-                TCGArg v = arg_info(op->args[1])->val;
+-                if (v != 0) {
+-                    tmp = do_constant_folding(opc, v, 0);
+-                    tcg_opt_gen_movi(&ctx, op, op->args[0], tmp);
+-                } else {
+-                    tcg_opt_gen_mov(&ctx, op, op->args[0], op->args[2]);
+-                }
 -                continue;
 -            }
 -            break;
@@ -136,16 +142,17 @@ index 3bd5f043c8..2c57d08760 100644
          default:
              break;
  
-@@ -1778,6 +1780,9 @@ void tcg_optimize(TCGContext *s)
+@@ -1777,6 +1777,10 @@ void tcg_optimize(TCGContext *s)
+         case INDEX_op_brcond2_i32:
+             done = fold_brcond2(&ctx, op);
+             break;
++        CASE_OP_32_64(clz):
++        CASE_OP_32_64(ctz):
++            done = fold_count_zeros(&ctx, op);
++            break;
          CASE_OP_32_64(ctpop):
              done = fold_ctpop(&ctx, op);
              break;
-+        CASE_OP_32_64(deposit):
-+            done = fold_deposit(&ctx, op);
-+            break;
-         CASE_OP_32_64(div):
-         CASE_OP_32_64(divu):
-             done = fold_divide(&ctx, op);
 -- 
 2.25.1
 
