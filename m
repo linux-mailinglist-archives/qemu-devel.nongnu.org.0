@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4FF43AC38
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 08:20:56 +0200 (CEST)
-Received: from localhost ([::1]:50028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86E4443AC5A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 08:40:07 +0200 (CEST)
+Received: from localhost ([::1]:32798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfFpM-0007LS-5u
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 02:20:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45542)
+	id 1mfG7y-0007En-AG
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 02:40:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mfFO2-0006dv-4d; Tue, 26 Oct 2021 01:52:39 -0400
-Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:60770)
+ id 1mfFOk-0006wH-DV; Tue, 26 Oct 2021 01:53:22 -0400
+Received: from mx2.freebsd.org ([96.47.72.81]:61214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mfFNt-0000KR-Sh; Tue, 26 Oct 2021 01:52:34 -0400
-Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
+ id 1mfFOb-000120-K8; Tue, 26 Oct 2021 01:53:21 -0400
+Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits)
  client-signature RSA-PSS (4096 bits))
  (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id D94FC77C7F;
- Tue, 26 Oct 2021 05:52:26 +0000 (UTC)
+ by mx2.freebsd.org (Postfix) with ESMTPS id 89A0C78283;
+ Tue, 26 Oct 2021 05:53:09 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: from smtp.freebsd.org (smtp.freebsd.org [96.47.72.83])
+Received: from smtp.freebsd.org (smtp.freebsd.org
+ [IPv6:2610:1c1:1:606c::24b:4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
  client-signature RSA-PSS (4096 bits) client-digest SHA256)
  (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4HdgvZ5RWsz3JKs;
- Tue, 26 Oct 2021 05:52:26 +0000 (UTC)
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4HdgwP35G1z3J3b;
+ Tue, 26 Oct 2021 05:53:09 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
- [209.85.160.169])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com
+ [209.85.219.43])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
  (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id 9BA6BCCFD;
- Tue, 26 Oct 2021 05:52:26 +0000 (UTC)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id 4A9A2C36E;
+ Tue, 26 Oct 2021 05:53:09 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: by mail-qt1-f169.google.com with SMTP id o12so12481238qtq.7;
- Mon, 25 Oct 2021 22:52:26 -0700 (PDT)
-X-Gm-Message-State: AOAM5304/+8C1j1MJY4CQnMS4fQ44kD9n231HJe6pClWURvazqfXGaqs
- kU9y5JeVriQl3zo6B3lu+xt524VRvp/93ljpBoI=
-X-Google-Smtp-Source: ABdhPJxzQtQ2h6Aj2z97NKn01fBnjpEjwvlboMY99CIBgdKvZBWkr5qdhihK0JHYFTZ4yqKR8VD3ylPnKVXg7C+shSU=
-X-Received: by 2002:ac8:57c3:: with SMTP id w3mr22202139qta.132.1635227546370; 
- Mon, 25 Oct 2021 22:52:26 -0700 (PDT)
+Received: by mail-qv1-f43.google.com with SMTP id u25so534264qve.2;
+ Mon, 25 Oct 2021 22:53:09 -0700 (PDT)
+X-Gm-Message-State: AOAM5324JAitpCk7454DHprzZxbmF8PlHevyjhhv5DUns8/kD8dpn5WE
+ cq+QK23g1GgVk89FS2imMsHAqGxjMpFjp0VP4dk=
+X-Google-Smtp-Source: ABdhPJxZRUV0XYtMSE36Dwkay10GH+IIMLTYOAPeLQBwZA55xq93hmDgGW6w3DifdY2wKf47UhVpX3zyX8kJfVIudbA=
+X-Received: by 2002:a0c:eb11:: with SMTP id j17mr20731512qvp.51.1635227588957; 
+ Mon, 25 Oct 2021 22:53:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-12-imp@bsdimp.com>
-In-Reply-To: <20211019164447.16359-12-imp@bsdimp.com>
+ <20211019164447.16359-8-imp@bsdimp.com>
+In-Reply-To: <20211019164447.16359-8-imp@bsdimp.com>
 From: Kyle Evans <kevans@freebsd.org>
-Date: Tue, 26 Oct 2021 00:52:15 -0500
-X-Gmail-Original-Message-ID: <CACNAnaE6VnuvYWFF=uteKxQYG9m34iWDkeUazxZ16ic1bg7MoQ@mail.gmail.com>
-Message-ID: <CACNAnaE6VnuvYWFF=uteKxQYG9m34iWDkeUazxZ16ic1bg7MoQ@mail.gmail.com>
-Subject: Re: [PATCH 11/24] bsd-user/arm/target_arch_vmparam.h: Parameters for
- arm address space
+Date: Tue, 26 Oct 2021 00:52:58 -0500
+X-Gmail-Original-Message-ID: <CACNAnaHZbPwnX7O2hO0Uv5YdNtrYUp3DJeA67mpMKo1w306uag@mail.gmail.com>
+Message-ID: <CACNAnaHZbPwnX7O2hO0Uv5YdNtrYUp3DJeA67mpMKo1w306uag@mail.gmail.com>
+Subject: Re: [PATCH 07/24] bsd-user/arm/target_arch_cpu.h: Implment trivial
+ EXCP exceptions
 To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2610:1c1:1:606c::19:2;
- envelope-from=kevans@freebsd.org; helo=mx2.freebsd.org
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=96.47.72.81; envelope-from=kevans@freebsd.org;
+ helo=mx2.freebsd.org
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -81,81 +83,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Stacey Son <sson@freebsd.org>, qemu-trivial@nongnu.org,
  Kyle Evans <kevans@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Mika=C3=ABl_Urankar?= <mikael.urankar@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, Oct 19, 2021 at 11:45 AM Warner Losh <imp@bsdimp.com> wrote:
 >
-> Various parameters describing the layout of the ARM address space. In
-> addition, define routines to get the stack pointer and to set the second
-> return value.
+> Implent EXCP_UDEF, EXCP_DEBUG, EXCP_INTERRUPT, EXCP_ATOMIC and
+
+s/Implent/Implement/
+
+> EXCP_YIELD. The first two generate a signal to the emulated
+> binary. EXCP_ATOMIC handles atomic operations. The remainder are fancy
+> nops.
 >
 > Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> Signed-off-by: Mika=C3=ABl Urankar <mikael.urankar@gmail.com>
 > Signed-off-by: Klye Evans <kevans@FreeBSD.org>
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->  bsd-user/arm/target_arch_vmparam.h | 48 ++++++++++++++++++++++++++++++
->  1 file changed, 48 insertions(+)
->  create mode 100644 bsd-user/arm/target_arch_vmparam.h
+>  bsd-user/arm/target_arch_cpu.h | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
 >
-> diff --git a/bsd-user/arm/target_arch_vmparam.h b/bsd-user/arm/target_arch_vmparam.h
-> new file mode 100644
-> index 0000000000..4bbc04ddf5
-> --- /dev/null
-> +++ b/bsd-user/arm/target_arch_vmparam.h
-> @@ -0,0 +1,48 @@
-> +/*
-> + *  arm VM parameters definitions
-> + *
-> + *  Copyright (c) 2013 Stacey D. Son
-> + *
-> + *  This program is free software; you can redistribute it and/or modify
-> + *  it under the terms of the GNU General Public License as published by
-> + *  the Free Software Foundation; either version 2 of the License, or
-> + *  (at your option) any later version.
-> + *
-> + *  This program is distributed in the hope that it will be useful,
-> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + *  GNU General Public License for more details.
-> + *
-> + *  You should have received a copy of the GNU General Public License
-> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +#ifndef _TARGET_ARCH_VMPARAM_H_
-> +#define _TARGET_ARCH_VMPARAM_H_
+> diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cp=
+u.h
+> index 94c9109c3f..f22384676a 100644
+> --- a/bsd-user/arm/target_arch_cpu.h
+> +++ b/bsd-user/arm/target_arch_cpu.h
+> @@ -47,6 +47,34 @@ static inline void target_cpu_loop(CPUARMState *env)
+>          cpu_exec_end(cs);
+>          process_queued_cpu_work(cs);
+>          switch (trapnr) {
+> +        case EXCP_UDEF:
+> +            {
+> +                /* See arm/arm/undefined.c undefinedinstruction(); */
+> +                info.si_addr =3D env->regs[15];
+> +                info.si_signo =3D TARGET_SIGILL;
+> +                info.si_errno =3D 0;
+> +                info.si_code =3D TARGET_ILL_ILLADR;
+> +                queue_signal(env, info.si_signo, &info);
+> +            }
+> +            break;
+> +        case EXCP_INTERRUPT:
+> +            /* just indicate that signals should be handled asap */
+> +            break;
+> +        case EXCP_DEBUG:
+> +            {
 > +
-> +#include "cpu.h"
-> +
-> +/* compare to sys/arm/include/vmparam.h */
-> +#define TARGET_MAXTSIZ      (64 * MiB)           /* max text size */
-> +#define TARGET_DFLDSIZ      (128 * MiB)          /* initial data size limit */
-> +#define TARGET_MAXDSIZ      (512 * MiB)          /* max data size */
-> +#define TARGET_DFLSSIZ      (4 * MiB)            /* initial stack size limit */
-> +#define TARGET_MAXSSIZ      (64 * MiB)           /* max stack size */
-> +#define TARGET_SGROWSIZ     (128 * KiB)          /* amount to grow stack */
-> +
-> +#define TARGET_RESERVED_VA  0xf7000000
-> +
-> +                /* KERNBASE - 512 MB */
-> +#define TARGET_VM_MAXUSER_ADDRESS   (0xc0000000 - (512 * MiB))
-> +#define TARGET_USRSTACK             TARGET_VM_MAXUSER_ADDRESS
-> +
-> +static inline abi_ulong get_sp_from_cpustate(CPUARMState *state)
-> +{
-> +    return state->regs[13]; /* sp */
-> +}
-> +
-> +static inline void set_second_rval(CPUARMState *state, abi_ulong retval2)
-> +{
-> +    state->regs[1] = retval2;
-> +}
-> +
-> +#endif  /* ! _TARGET_ARCH_VMPARAM_H_ */
+> +                info.si_signo =3D TARGET_SIGTRAP;
+> +                info.si_errno =3D 0;
+> +                info.si_code =3D TARGET_TRAP_BRKPT;
+> +                queue_signal(env, info.si_signo, &info);
+> +            }
+> +            break;
+> +        case EXCP_ATOMIC:
+> +            cpu_exec_step_atomic(cs);
+> +            break;
+> +        case EXCP_YIELD:
+> +            /* nothing to do here for user-mode, just resume guest code =
+*/
+> +            break;
+>          default:
+>              fprintf(stderr, "qemu: unhandled CPU exception 0x%x - aborti=
+ng\n",
+>                      trapnr);
 > --
 > 2.32.0
 >
+
+Modulo typo:
 
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 
