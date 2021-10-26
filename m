@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929B443B909
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:09:07 +0200 (CEST)
-Received: from localhost ([::1]:55972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F8243B901
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:06:39 +0200 (CEST)
+Received: from localhost ([::1]:50940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfQsk-0000bC-Bb
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:09:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51482)
+	id 1mfQqM-0005Wz-Qc
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:06:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfQgV-0003bc-MB
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfQgW-0003be-7G
  for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:56:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39958)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfQgQ-0004Xr-NU
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfQgS-0004YK-AS
  for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:56:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635270979;
+ s=mimecast20190719; t=1635270982;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VujbkLlEdDLV66q1zgixgLhSMurEoZPivssICNtAi8w=;
- b=Os8RE4buYgswmjC/aS+iTdQtXcL9wfVHdhiLXQBKk/vBZrYGG1cAbBWD+MvSSPaZjUXHm+
- MKZRMoXUQF45elBOQ30AyGfrsM0BdiYS3jbAw1en7YG3Z1FGx32aj39LFLUFAH3oxSl0Ih
- ENUnGALkVVUa7Wqc4LZghXk2F80IwOc=
+ bh=6F7EokPgG8CupzwpVYA7pJZn03fGA9vq4abIY7XobU0=;
+ b=OSPcCNgpT9BbAuBAF2PZLffv+Eo1fWU31qMK8z1hK4SxLr0aNaxUBstq4HQlgzkXm76oHz
+ iT0wc5lsNtiUp6zZ3TwIXZ+ZjC1c4e9C7OpUNunZld9lN2zLEBDzxEdgDKOebcC/Vt5gZw
+ PSF3OjO8L+CyVEOi07AbZCKYF22ReYw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-598-96bNrN9iNMyua-28iXVCjA-1; Tue, 26 Oct 2021 13:56:18 -0400
-X-MC-Unique: 96bNrN9iNMyua-28iXVCjA-1
+ us-mta-566-o-nRK4dAOIyjmfqne2QtGQ-1; Tue, 26 Oct 2021 13:56:19 -0400
+X-MC-Unique: o-nRK4dAOIyjmfqne2QtGQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D9BC802B7A;
- Tue, 26 Oct 2021 17:56:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DA87801FCE;
+ Tue, 26 Oct 2021 17:56:18 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.17.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF5675DF21;
- Tue, 26 Oct 2021 17:56:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A12405DF21;
+ Tue, 26 Oct 2021 17:56:17 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 4/8] iotests: Accommodate async QMP Exception classes
-Date: Tue, 26 Oct 2021 13:56:08 -0400
-Message-Id: <20211026175612.4127598-5-jsnow@redhat.com>
+Subject: [PATCH v5 5/8] iotests: Conditionally silence certain AQMP errors
+Date: Tue, 26 Oct 2021 13:56:09 -0400
+Message-Id: <20211026175612.4127598-6-jsnow@redhat.com>
 In-Reply-To: <20211026175612.4127598-1-jsnow@redhat.com>
 References: <20211026175612.4127598-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,74 +84,105 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(But continue to support the old ones for now, too.)
+AQMP likes to be very chatty about errors it encounters. In general,
+this is good because it allows us to get good diagnostic information for
+otherwise complex async failures.
 
-There are very few cases of any user of QEMUMachine or a subclass
-thereof relying on a QMP Exception type. If you'd like to check for
-yourself, you want to grep for all of the derivatives of QMPError,
-excluding 'AQMPError' and its derivatives. That'd be these:
+For example, during a failed QMP connection attempt, we might see:
 
-- QMPError
-- QMPConnectError
-- QMPCapabilitiesError
-- QMPTimeoutError
-- QMPProtocolError
-- QMPResponseError
-- QMPBadPortError
++ERROR:qemu.aqmp.qmp_client.qemub-2536319:Negotiation failed: EOFError
++ERROR:qemu.aqmp.qmp_client.qemub-2536319:Failed to establish session: EOFError
 
+This might be nice in iotests output, because failure scenarios
+involving the new QMP library will be spelled out plainly in the output
+diffs.
+
+For tests that are intentionally causing this scenario though, filtering
+that log output could be a hassle. For now, add a context manager that
+simply lets us toggle this output off during a critical region.
+
+(Additionally, a forthcoming patch allows the use of either legacy or
+async QMP to be toggled with an environment variable. In this
+circumstance, we can't amend the iotest output to just always expect the
+error message, either. Just suppress it for now. More rigorous log
+filtering can be investigated later if/when it is deemed safe to
+permanently replace the legacy QMP library.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- scripts/simplebench/bench_block_job.py    | 3 ++-
- tests/qemu-iotests/tests/mirror-top-perms | 5 +++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/iotests.py             | 20 +++++++++++++++++++-
+ tests/qemu-iotests/tests/mirror-top-perms | 12 ++++++++----
+ 2 files changed, 27 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebench/bench_block_job.py
-index 4f03c121697..a403c35b08f 100755
---- a/scripts/simplebench/bench_block_job.py
-+++ b/scripts/simplebench/bench_block_job.py
-@@ -28,6 +28,7 @@
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
- from qemu.machine import QEMUMachine
- from qemu.qmp import QMPConnectError
-+from qemu.aqmp import ConnectError
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index e5fff6ddcfc..e2f9d873ada 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -30,7 +30,7 @@
+ import subprocess
+ import sys
+ import time
+-from typing import (Any, Callable, Dict, Iterable,
++from typing import (Any, Callable, Dict, Iterable, Iterator,
+                     List, Optional, Sequence, TextIO, Tuple, Type, TypeVar)
+ import unittest
+ 
+@@ -114,6 +114,24 @@
+ sample_img_dir = os.environ['SAMPLE_IMG_DIR']
  
  
- def bench_block_job(cmd, cmd_args, qemu_args):
-@@ -49,7 +50,7 @@ def bench_block_job(cmd, cmd_args, qemu_args):
-         vm.launch()
-     except OSError as e:
-         return {'error': 'popen failed: ' + str(e)}
--    except (QMPConnectError, socket.timeout):
-+    except (QMPConnectError, ConnectError, socket.timeout):
-         return {'error': 'qemu failed: ' + str(vm.get_log())}
- 
-     try:
++@contextmanager
++def change_log_level(
++        logger_name: str, level: int = logging.CRITICAL) -> Iterator[None]:
++    """
++    Utility function for temporarily changing the log level of a logger.
++
++    This can be used to silence errors that are expected or uninteresting.
++    """
++    _logger = logging.getLogger(logger_name)
++    current_level = _logger.level
++    _logger.setLevel(level)
++
++    try:
++        yield
++    finally:
++        _logger.setLevel(current_level)
++
++
+ def unarchive_sample_image(sample, fname):
+     sample_fname = os.path.join(sample_img_dir, sample + '.bz2')
+     with bz2.open(sample_fname) as f_in, open(fname, 'wb') as f_out:
 diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-iotests/tests/mirror-top-perms
-index 3d475aa3a54..a2d5c269d7a 100755
+index a2d5c269d7a..0a51a613f39 100755
 --- a/tests/qemu-iotests/tests/mirror-top-perms
 +++ b/tests/qemu-iotests/tests/mirror-top-perms
-@@ -21,8 +21,9 @@
- 
- import os
- 
--from qemu import qmp
-+from qemu.aqmp import ConnectError
- from qemu.machine import machine
-+from qemu.qmp import QMPConnectError
+@@ -26,7 +26,7 @@ from qemu.machine import machine
+ from qemu.qmp import QMPConnectError
  
  import iotests
- from iotests import qemu_img
-@@ -102,7 +103,7 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
-             self.vm_b.launch()
-             print('ERROR: VM B launched successfully, this should not have '
-                   'happened')
--        except qmp.QMPConnectError:
-+        except (QMPConnectError, ConnectError):
+-from iotests import qemu_img
++from iotests import change_log_level, qemu_img
+ 
+ 
+ image_size = 1 * 1024 * 1024
+@@ -100,9 +100,13 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
+         self.vm_b.add_blockdev(f'file,node-name=drive0,filename={source}')
+         self.vm_b.add_device('virtio-blk,drive=drive0,share-rw=on')
+         try:
+-            self.vm_b.launch()
+-            print('ERROR: VM B launched successfully, this should not have '
+-                  'happened')
++            # Silence AQMP errors temporarily.
++            # TODO: Remove this and just allow the errors to be logged when
++            # AQMP fully replaces QMP.
++            with change_log_level('qemu.aqmp'):
++                self.vm_b.launch()
++                print('ERROR: VM B launched successfully, '
++                      'this should not have happened')
+         except (QMPConnectError, ConnectError):
              assert 'Is another process using the image' in self.vm_b.get_log()
  
-         result = self.vm.qmp('block-job-cancel',
 -- 
 2.31.1
 
