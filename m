@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283FF43AFFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:24:57 +0200 (CEST)
-Received: from localhost ([::1]:33116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C501E43AFFB
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:24:58 +0200 (CEST)
+Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfJdY-0002vT-9R
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51268)
+	id 1mfJdZ-00031o-Rt
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:24:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfJbT-0000r5-EK
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:22:47 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:34780)
+ id 1mfJbV-0000s8-Q8
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:22:49 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfJbK-0007PN-Lz
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:22:45 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- o4-20020a1c7504000000b0032cab7473caso831547wmc.1
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:22:37 -0700 (PDT)
+ id 1mfJbN-0007Pc-1G
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:22:49 -0400
+Received: by mail-wr1-x430.google.com with SMTP id e4so18238847wrc.7
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:22:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ngRXN6C0rFj50pv5HlX9iEwqM22NePpMgE0oGy9fjwo=;
- b=ynw7J+s/qjycEQ4hsT4/u55OlWBDoKM+fwuB38nj7JT6Ed7tK4XDbTZOayvKISXkHb
- hAmI7oc9hu6dKBJId1aH8X4wUZru9X9rt7nAXi+H0/VmMjOm0obOMWIp2DWv620HWbPz
- aDiNCRTtssJJv+GfdH6Whcohzw6om/JnfDMTg52zZNn38boc8YyQLeGCgmsk7XXrXGbn
- FgTrz7hMYJ98b2B3zjF1tGPAlFY8Yr7vgw9GH5PNy75dANNCj0M1HfaEYCa3L6fAiArC
- L+9de58HXUVWA8jF6uHaNBTmZ2JXoYirndvDorG3JgK4UkWEXanmfw2BlCpZuEXma0si
- RMTA==
+ bh=YuaBu1rOwjU9MDwY7+fh2xhLZTl7FZqKtWIuPxT1DVk=;
+ b=NSXQdQluZUUYRYtkJZgwvJrfYfbzeATcU4Y+uDdiIWxdAg80PFHirKgNdrVjWGGgi2
+ wFXsOQfbhZ0N6++K0mUx90EQrh798vUncVBF451leG2PyO4N+fBNVrDtIFHlOViZrwnk
+ QIfn6DSKnwKZHJiYZaRN/ULOt4pKKQGbd8/A1G1a1Dt2FHqrUE8kjbewkw+/WM4Z3bmU
+ aUBQugzzKVr1UJINVnDMP7UFb2VYwu2+7AMhIJaDZAWnPvOyJzc/9GRkDgYbGewoQE5l
+ n6UZxTyGq7zshljzOK0dJ2onDbZkiiZVUwNkNWGPd+gxF5KvrG0ABQLAvobEHcJcUhaS
+ ZvLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ngRXN6C0rFj50pv5HlX9iEwqM22NePpMgE0oGy9fjwo=;
- b=dYnHRC0OeUB+LluAzB42PBxNwjipIEBLSHXXV21T0Jqptlkwj16oS7L1qKkOW6hWqB
- He6aaLhWTDbJf2gPnbMZW/u6UiMueD370iIAM8j6dvhjf7GVydrnQgtBuEBVfps17i+n
- RlPkA6J6iqGGiZAv2IDbbEqrazMZHmw7jAqDUWTtdAMbwwmfk4g9Mgvv9RJFq8jRrWcG
- 4RvwNhTlFWpn/jnvepriIGVCJHV5aPunoK6lufAfQXlQtYy4qAC8wL8imjzh9q2R3Tlh
- Ps9grrQlIpPuSb9lJJ+xvqPZgJ8+E+ouOCeJe6XH6CVg7MUWDJZFd8wD3DvE21+dBidC
- lF3A==
-X-Gm-Message-State: AOAM532qT3U8rXTy5qnrFOIFfibHWyQLZjVznzHuEUxSkAgpPpvCKZuP
- 97xuVqH0iFGAgsLYervriDx+LQ==
-X-Google-Smtp-Source: ABdhPJyMWvkzEFkEhZ1PxSm6A0dHqIcxl0uU2dwWBdluVBZqGL3dZIJbeMqck2TmqYkh1b5fRiEp5w==
-X-Received: by 2002:a05:600c:209:: with SMTP id 9mr955040wmi.143.1635243756742; 
- Tue, 26 Oct 2021 03:22:36 -0700 (PDT)
+ bh=YuaBu1rOwjU9MDwY7+fh2xhLZTl7FZqKtWIuPxT1DVk=;
+ b=X85Keuh76nNKQmY7NdwGnRKOnx5erO2cBxn9tlgPpqSVNHV/NxuWMerassYJiSc1e2
+ 7uaBVhPCxZVBrhinohMChd75rW/TSJKz8keOhuKWIon1SQL097wycOBqe9u4PL1Rx+31
+ hSQL/rH9H0pz/beKovkwzhQNliE8A0y55GIn5R2+ILDKYzwrh+cLwGJ08qR63aZHiV26
+ aOncUZzgjRX/J423FCGIFV+PW6WCmETT6kyF437txYVEsKqj9cUgDtbtBujNKKn3eVde
+ oOp4kj3APWaKjc88u7RF4TEvYnpa3Kvyr9b4c2PBebVc5VmyUf+FthU7BEAyUzy0Ss2/
+ TC6g==
+X-Gm-Message-State: AOAM533Q8pmSIS6UFOZLFC3/L1k91S2JypMMny3Y3EWRcRXeq75uqvYk
+ GASrg/WBDcVrj23KjKkJBnUYww==
+X-Google-Smtp-Source: ABdhPJxjz1VQHeGz5qJjtBwagInjheC81ZafsvDxyuJZKE0+YhA+9dkbKxGYEYpXdgWYS7fBlyYq4w==
+X-Received: by 2002:adf:fe0b:: with SMTP id n11mr31374500wrr.371.1635243759671; 
+ Tue, 26 Oct 2021 03:22:39 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l1sm9363051wrb.73.2021.10.26.03.22.35
+ by smtp.gmail.com with ESMTPSA id q123sm183504wma.20.2021.10.26.03.22.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 26 Oct 2021 03:22:35 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D2F231FF98;
+ by zen.linaroharston (Postfix) with ESMTP id DFBD71FF99;
  Tue, 26 Oct 2021 11:22:34 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 01/28] tests/docker: Use apt build-dep in debian10
-Date: Tue, 26 Oct 2021 11:22:07 +0100
-Message-Id: <20211026102234.3961636-2-alex.bennee@linaro.org>
+Subject: [PATCH  v1 02/28] tests/docker: Simplify debian-all-test-cross
+Date: Tue, 26 Oct 2021 11:22:08 +0100
+Message-Id: <20211026102234.3961636-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211026102234.3961636-1-alex.bennee@linaro.org>
 References: <20211026102234.3961636-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,39 +98,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Replace the complex apt-get subshell with apt build-dep.
+The base debian10 image contains enough to build qemu;
+we do not need to repeat that within the new image.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20211014224435.2539547-2-richard.henderson@linaro.org>
+Message-Id: <20211014224435.2539547-3-richard.henderson@linaro.org>
 ---
- tests/docker/dockerfiles/debian10.docker | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ tests/docker/dockerfiles/debian-all-test-cross.docker | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index b414af1b9f..d3bbb90c64 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -14,7 +14,8 @@ RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.lis
+diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
+index dedcea58b4..b185b7c15a 100644
+--- a/tests/docker/dockerfiles/debian-all-test-cross.docker
++++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
+@@ -8,11 +8,6 @@
+ #
+ FROM qemu/debian10
  
- # Install common build utilities
- RUN apt update && \
--    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
-+    DEBIAN_FRONTEND=noninteractive \
-+    apt install -yy eatmydata && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt install -y --no-install-recommends \
-         bc \
-@@ -33,5 +34,7 @@ RUN apt update && \
-         psmisc \
-         python3 \
-         python3-sphinx \
--        python3-sphinx-rtd-theme \
--        $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
-+        python3-sphinx-rtd-theme
-+
-+RUN DEBIAN_FRONTEND=noninteractive eatmydata \
-+    apt build-dep -yy qemu
+-# What we need to build QEMU itself
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt build-dep -yy qemu
+-
+ # Add the foreign architecture we want and install dependencies
+ RUN DEBIAN_FRONTEND=noninteractive eatmydata \
+         apt install -y --no-install-recommends \
 -- 
 2.30.2
 
