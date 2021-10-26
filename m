@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE1443BBDF
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 22:53:31 +0200 (CEST)
-Received: from localhost ([::1]:52132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9FB43BBE0
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 22:53:59 +0200 (CEST)
+Received: from localhost ([::1]:53172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfTRq-0000t2-NA
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 16:53:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57506)
+	id 1mfTSI-0001Za-6u
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 16:53:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfTOo-0006jl-1r
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:50:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60528)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mfTPb-0007Tq-MG
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:51:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfTOm-0004Bq-4U
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:50:21 -0400
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mfTPZ-0004b7-FN
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:51:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635281419;
+ s=mimecast20190719; t=1635281465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+qB2fy6LSrF0zb3inyyel0/osOitvVm+lQp9JD6PvSQ=;
- b=AK67tlwd+KC6UWflgBUl85VKaoQIiEbscedPOjclgtjY+5XF97/EnFy0w2ooBAm3Zw0AjH
- sL63B6ZYp43kACs9CnNclbtwnbdDFc5SdqyPvZ3yEI38sYgE3hxxVyaO43vGOVI6ulxpYc
- 16wdzIVUWQlL62s6LraKUlPEb60V5Cs=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-RJaWchtaNBinG9gkaVPfhw-1; Tue, 26 Oct 2021 16:50:16 -0400
-X-MC-Unique: RJaWchtaNBinG9gkaVPfhw-1
-Received: by mail-vk1-f198.google.com with SMTP id
- n13-20020ac5c88d000000b002dc8bace789so364527vkl.0
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 13:50:16 -0700 (PDT)
+ bh=JSE5bhA+8kwNfrcTOGdZDdnIz/5IAxwQWR8kJI66clY=;
+ b=hSS1vXCYee90PQcX/NWieBzYXA5y65zi5LdpMWT95kLCSFALoSCtAbRuzj2tog6TVxEdls
+ TXrmH5OQedOVskBAOmRv2H22Se/vnGrK5yc+2F47g3C5PM6rDQqTr1hAyY3NVaI6ruNfec
+ cCDL/P4ae83rsfN5KljeWJZ6p28g1QA=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-asSnePp1MzCYxRxI0ceGxA-1; Tue, 26 Oct 2021 16:51:03 -0400
+X-MC-Unique: asSnePp1MzCYxRxI0ceGxA-1
+Received: by mail-pf1-f199.google.com with SMTP id
+ w13-20020a62dd0d000000b0047bce3ae63bso349888pff.2
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 13:51:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+qB2fy6LSrF0zb3inyyel0/osOitvVm+lQp9JD6PvSQ=;
- b=CZcfNS2N69DMTzYd/TcSH/Bn74CIzmXf+CRhuJhd/xjlJBQlAV9z9RP66MW8tjQxZf
- rvsg5yoaBIqN4QlAKSx6WZ6O2Q+aIAW+cLRlZTxYZr28LmwVDsg05X1LwL39svuUyaRq
- 1KuM0ddmsWjQfMQ/1IebO7ss5qVdU7nVcw7Jpn+uSH941YLMnBdbj8gsH9Gc/PfZYt44
- 162G++f+49OdTNuj5j7kqCI1P7spBwLJVSIrNwG4GM0ZcuczXwsWcDZ6N6UjSVrXJB9b
- PcPEeDMvQGomZq29RVM0XE9BdnjW8B+hDX7uIH4lYePnaloKZSYviIBB+Nxd2CTmXBrf
- PasA==
-X-Gm-Message-State: AOAM5306dm8R5KvBz7bg59m7u30rK1IqBMqSgrbtgBhGLOs+fpaz8KdW
- KNFSHj3Cd9q8q6OhCM5/LMijOFFsI9a/ma87YYw8QkyZtHVa8ZNNPxbJNGeU26mkzKbmz9Ib0pN
- ZfciEy6P9rP4Ug0EYpwWGXK422sRDmRk=
-X-Received: by 2002:a67:ed07:: with SMTP id l7mr26286405vsp.40.1635281415638; 
- Tue, 26 Oct 2021 13:50:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxhglDrnTAy0nYhqqEjWV4/s7D3S8sQavI+pNAY6t6h0ROnpcUFtw/8w5UKsd7xpdMOi/TFnEPUcHZxavk0fRc=
-X-Received: by 2002:a67:ed07:: with SMTP id l7mr26286370vsp.40.1635281415423; 
- Tue, 26 Oct 2021 13:50:15 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=JSE5bhA+8kwNfrcTOGdZDdnIz/5IAxwQWR8kJI66clY=;
+ b=PgMAyrpzLZC0lzNTCEaGhFC3a2MMryAQOPgttKj6PKmWdobtbGWhZumzuVoQ0agd4z
+ kC1uMOAAs2hLeHGdp0W6wrstzyfRcKDGL6aRnLtitPm9VY5psX5aRqKYFq3/6+aznevs
+ qn400i024A70FmDkh1PgQdGW0FpDGc9FKh4mCfGCMHLNNLy1Ze9Pg5DxQ+yqrgAMLbUU
+ W6+qTmFedBE6mLT0InfFTuTm4Hn2NAs2VLn6RyeP+47C1AuO5SK9L5fTKLPOFkp1XYZr
+ OiiS7t0AvQT37eVFF48p5ee3VKXxcqwnghwY4LMTc2yK4/jDov4nSJQibXoV+j7EnxZI
+ y/Rw==
+X-Gm-Message-State: AOAM532QyzGPrJWGVfjT+22miDmS2ptcVXvGX5IUkIcrxymd0c838ekV
+ xXHX3wn2/mkbKzX9NhxofdsupEU61d1NYuZkR3ojqIJv21VqaSVGiLmXXWOuHZvpX9wlOSVN2U3
+ CZJVm+2sBfWAZsa79GdDMEvCwKGlBZzg=
+X-Received: by 2002:a17:902:a702:b029:12b:aa0f:d553 with SMTP id
+ w2-20020a170902a702b029012baa0fd553mr24194159plq.3.1635281462577; 
+ Tue, 26 Oct 2021 13:51:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw2sRTa92sPIFAOakW6N9TVb47qieokLzP+VQcUHX8XOQlO7mBHuzfnYCoiRBtpaR7PBbkmqcZbeNojayPPo/I=
+X-Received: by 2002:a17:902:a702:b029:12b:aa0f:d553 with SMTP id
+ w2-20020a170902a702b029012baa0fd553mr24194118plq.3.1635281462311; Tue, 26 Oct
+ 2021 13:51:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211025042405.3762351-1-armbru@redhat.com>
- <20211025042405.3762351-4-armbru@redhat.com>
-In-Reply-To: <20211025042405.3762351-4-armbru@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 26 Oct 2021 16:50:04 -0400
-Message-ID: <CAFn=p-aVaPo__uQBCSVYCRozraOW=QycLZwREhYC6mTs9DB80A@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] qapi: Move compat policy from QObject to generic
- visitor
-To: Markus Armbruster <armbru@redhat.com>
+References: <20211026102234.3961636-1-alex.bennee@linaro.org>
+ <20211026102234.3961636-7-alex.bennee@linaro.org>
+In-Reply-To: <20211026102234.3961636-7-alex.bennee@linaro.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Tue, 26 Oct 2021 17:50:36 -0300
+Message-ID: <CAKJDGDbzTbCZswmTUzF=QQuVxqScs_kXU-Ckk2NYsq20=6JktQ@mail.gmail.com>
+Subject: Re: [PATCH v1 06/28] tests/docker: Add debian-microblaze-cross image
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000dfdeb405cf479f9e"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_BL_SPAMCOP_NET=1.347, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,49 +93,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel Berrange <berrange@redhat.com>, libvir-list@redhat.com,
- qemu-devel <qemu-devel@nongnu.org>, mdroth@linux.vnet.ibm.com,
- Peter Krempa <pkrempa@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>, libguestfs@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>, minyihh@uci.edu,
+ Daniel Berrange <berrange@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, kuhn.chenqun@huawei.com,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, robhenry@microsoft.com,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000dfdeb405cf479f9e
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, Oct 25, 2021 at 12:24 AM Markus Armbruster <armbru@redhat.com>
-wrote:
-
-> The next commit needs to access compat policy from the generic visitor
-> core.  Move it there from qobject input and output visitor.
+On Tue, Oct 26, 2021 at 7:22 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 >
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+> From: Richard Henderson <richard.henderson@linaro.org>
+>
+> Build the entire cross tool chain from source.
+> For this reason, default to caching.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> [AJB: Update MAINTAINERS]
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Message-Id: <20211014224435.2539547-7-richard.henderson@linaro.org>
+> ---
+>  MAINTAINERS                                   |  1 +
+>  tests/docker/Makefile.include                 |  6 ++
+>  .../build-toolchain.sh                        | 88 +++++++++++++++++++
+>  3 files changed, 95 insertions(+)
+>  create mode 100755 tests/docker/dockerfiles/debian-microblaze-cross.d/bu=
+ild-toolchain.sh
 >
 
-"LGTM".
-
---000000000000dfdeb405cf479f9e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 25, 2021 at 12:24 AM Mark=
-us Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The=
- next commit needs to access compat policy from the generic visitor<br>
-core.=C2=A0 Move it there from qobject input and output visitor.<br>
-<br>
-Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" t=
-arget=3D"_blank">armbru@redhat.com</a>&gt;<br>
-Reviewed-by: Eric Blake &lt;<a href=3D"mailto:eblake@redhat.com" target=3D"=
-_blank">eblake@redhat.com</a>&gt;<br></blockquote><div><br></div><div>&quot=
-;LGTM&quot;.<br></div></div></div>
-
---000000000000dfdeb405cf479f9e--
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
