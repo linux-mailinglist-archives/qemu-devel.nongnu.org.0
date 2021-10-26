@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DCC43AC59
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 08:39:36 +0200 (CEST)
-Received: from localhost ([::1]:60318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9AE643AC7F
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 08:56:17 +0200 (CEST)
+Received: from localhost ([::1]:43800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfG7T-0006jR-0G
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 02:39:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47590)
+	id 1mfGNa-00075I-Li
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 02:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mfFcR-0004Hh-K3; Tue, 26 Oct 2021 02:07:31 -0400
-Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:47127)
+ id 1mfFcg-0004Oh-2p; Tue, 26 Oct 2021 02:07:46 -0400
+Received: from mx2.freebsd.org ([96.47.72.81]:47380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mfFcI-0001vY-CO; Tue, 26 Oct 2021 02:07:31 -0400
+ id 1mfFcd-0001x4-6M; Tue, 26 Oct 2021 02:07:45 -0400
 Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits)
  client-signature RSA-PSS (4096 bits))
  (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id 12C9E7A5D9;
- Tue, 26 Oct 2021 06:07:17 +0000 (UTC)
+ by mx2.freebsd.org (Postfix) with ESMTPS id A79FC7A5E0;
+ Tue, 26 Oct 2021 06:07:41 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: from smtp.freebsd.org (smtp.freebsd.org
- [IPv6:2610:1c1:1:606c::24b:4])
+Received: from smtp.freebsd.org (smtp.freebsd.org [96.47.72.83])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
  client-signature RSA-PSS (4096 bits) client-digest SHA256)
  (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4HdhDh6qlyz3Lpb;
- Tue, 26 Oct 2021 06:07:16 +0000 (UTC)
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4HdhF93zhNz3LxJ;
+ Tue, 26 Oct 2021 06:07:41 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
- [209.85.222.173])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
+ [209.85.219.45])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
  (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id C2C98D403;
- Tue, 26 Oct 2021 06:07:16 +0000 (UTC)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id 69E7BD3BE;
+ Tue, 26 Oct 2021 06:07:41 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: by mail-qk1-f173.google.com with SMTP id h20so13995389qko.13;
- Mon, 25 Oct 2021 23:07:16 -0700 (PDT)
-X-Gm-Message-State: AOAM532hM2fBlZaUNAQLjcbNJRqsld3UONZTyp4BghJWNe/f6Oim0m9K
- 808EQcqvuvzWYHR7dpJFvee9S66+fo1Uip46aOQ=
-X-Google-Smtp-Source: ABdhPJxO0N1Vhj6uxmeeY5WAG6sl8t3oCWjpzItMIUGILeu6NM1va7wmKtfTkSQRWHpCjGq9GR7bkK04kuz7gQ1h/vU=
-X-Received: by 2002:a05:620a:424f:: with SMTP id
- w15mr17482640qko.258.1635228436506; 
- Mon, 25 Oct 2021 23:07:16 -0700 (PDT)
+Received: by mail-qv1-f45.google.com with SMTP id b1so6895964qvk.5;
+ Mon, 25 Oct 2021 23:07:41 -0700 (PDT)
+X-Gm-Message-State: AOAM532BDFWD4cA4FOQteaKZMdB21NqRe6nwMugn7qQdrg8EALf8e+4X
+ /WC8WLppT8Su17VJMwgAqO+naH03Snh1gs6koxc=
+X-Google-Smtp-Source: ABdhPJyQF1yyn7RKbEUUn0LTVibOGx0JAGRQ+jN/v3RrFTKFn6pr5eDqwHm3wT+55M6CwjOAXs9rOhavQkj22GT8vIM=
+X-Received: by 2002:ad4:5966:: with SMTP id eq6mr20866442qvb.64.1635228461152; 
+ Mon, 25 Oct 2021 23:07:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-20-imp@bsdimp.com>
-In-Reply-To: <20211019164447.16359-20-imp@bsdimp.com>
+ <20211019164447.16359-15-imp@bsdimp.com>
+In-Reply-To: <20211019164447.16359-15-imp@bsdimp.com>
 From: Kyle Evans <kevans@freebsd.org>
-Date: Tue, 26 Oct 2021 01:07:05 -0500
-X-Gmail-Original-Message-ID: <CACNAnaH1pNrHjxUOsuP2ZLj2hdJKKw2WJubS7sdsKL6TeHFCsw@mail.gmail.com>
-Message-ID: <CACNAnaH1pNrHjxUOsuP2ZLj2hdJKKw2WJubS7sdsKL6TeHFCsw@mail.gmail.com>
-Subject: Re: [PATCH 19/24] bsd-user/arm/target_arch_signal.h: arm user context
- and trapframe for signals
+Date: Tue, 26 Oct 2021 01:07:30 -0500
+X-Gmail-Original-Message-ID: <CACNAnaGoJNziKqKYVqfNm0Bf0fs_KL7ctZBmMOYwOdHL5=x2OQ@mail.gmail.com>
+Message-ID: <CACNAnaGoJNziKqKYVqfNm0Bf0fs_KL7ctZBmMOYwOdHL5=x2OQ@mail.gmail.com>
+Subject: Re: [PATCH 14/24] bsd-user/arm/target_arch_elf.h: arm defines for ELF
 To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2610:1c1:1:606c::19:2;
- envelope-from=kevans@freebsd.org; helo=mx2.freebsd.org
+Received-SPF: pass client-ip=96.47.72.81; envelope-from=kevans@freebsd.org;
+ helo=mx2.freebsd.org
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -89,73 +86,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, Oct 19, 2021 at 11:45 AM Warner Losh <imp@bsdimp.com> wrote:
 >
-> Arm specific user context structures for signal handling and the closely
-> related trap frame.
+> Basic set of defines needed for arm ELF file activation.
 >
 > Signed-off-by: Stacey Son <sson@FreeBSD.org>
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->  bsd-user/arm/target_arch_signal.h | 38 +++++++++++++++++++++++++++++++
->  1 file changed, 38 insertions(+)
+>  bsd-user/arm/target_arch_elf.h | 36 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+>  create mode 100644 bsd-user/arm/target_arch_elf.h
 >
-> diff --git a/bsd-user/arm/target_arch_signal.h b/bsd-user/arm/target_arch_signal.h
-> index 9fee58ca9c..67355ff28f 100644
-> --- a/bsd-user/arm/target_arch_signal.h
-> +++ b/bsd-user/arm/target_arch_signal.h
-> @@ -90,4 +90,42 @@ typedef struct target_mcontext {
->      } __fpu;
->  } target_mcontext_t;
->
-> +typedef struct target_ucontext {
-> +    target_sigset_t     uc_sigmask;
-> +    target_mcontext_t   uc_mcontext;
-> +    abi_ulong           uc_link;
-> +    target_stack_t      uc_stack;
-> +    int32_t             uc_flags;
-> +    int32_t             __spare__[4];
-> +} target_ucontext_t;
+> diff --git a/bsd-user/arm/target_arch_elf.h b/bsd-user/arm/target_arch_elf.h
+> new file mode 100644
+> index 0000000000..15b5c66511
+> --- /dev/null
+> +++ b/bsd-user/arm/target_arch_elf.h
+> @@ -0,0 +1,36 @@
+> +/*
+> + *  arm ELF definitions
+> + *
+> + *  Copyright (c) 2013 Stacey D. Son
+> + *
+> + *  This program is free software; you can redistribute it and/or modify
+> + *  it under the terms of the GNU General Public License as published by
+> + *  the Free Software Foundation; either version 2 of the License, or
+> + *  (at your option) any later version.
+> + *
+> + *  This program is distributed in the hope that it will be useful,
+> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + *  GNU General Public License for more details.
+> + *
+> + *  You should have received a copy of the GNU General Public License
+> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +#ifndef _TARGET_ARCH_ELF_H_
+> +#define _TARGET_ARCH_ELF_H_
 > +
-> +struct target_sigframe {
-> +    target_siginfo_t    sf_si;  /* saved siginfo */
-> +    target_ucontext_t   sf_uc;  /* saved ucontext */
-> +};
+> +#define ELF_START_MMAP 0x80000000
+> +#define ELF_ET_DYN_LOAD_ADDR    0x500000
 > +
+> +#define elf_check_arch(x) ((x) == EM_ARM)
 > +
-
-We might be able to kill this extra newline? I'm not familiar enough
-with qemu's style preferences here...
-
-> +/* compare to sys/arm/include/frame.h */
-> +struct target_trapframe {
-> +    abi_ulong tf_spsr; /* Zero on arm26 */
-> +    abi_ulong tf_r0;
-> +    abi_ulong tf_r1;
-> +    abi_ulong tf_r2;
-> +    abi_ulong tf_r3;
-> +    abi_ulong tf_r4;
-> +    abi_ulong tf_r5;
-> +    abi_ulong tf_r6;
-> +    abi_ulong tf_r7;
-> +    abi_ulong tf_r8;
-> +    abi_ulong tf_r9;
-> +    abi_ulong tf_r10;
-> +    abi_ulong tf_r11;
-> +    abi_ulong tf_r12;
-> +    abi_ulong tf_usr_sp;
-> +    abi_ulong tf_usr_lr;
-> +    abi_ulong tf_svc_sp; /* Not used on arm26 */
-> +    abi_ulong tf_svc_lr; /* Not used on arm26 */
-> +    abi_ulong tf_pc;
-> +};
+> +#define ELF_CLASS       ELFCLASS32
+> +#define ELF_DATA        ELFDATA2LSB
+> +#define ELF_ARCH        EM_ARM
 > +
->  #endif /* !_TARGET_ARCH_SIGNAL_H_ */
+> +#define USE_ELF_CORE_DUMP
+> +#define ELF_EXEC_PAGESIZE       4096
+> +
+> +#define ELF_HWCAP 0
+> +
+> +#endif /* _TARGET_ARCH_ELF_H_ */
 > --
 > 2.32.0
 >
-
-I didn't think we actually supported arm26, but I see those comments
-also exist verbatim in machine/frame.h; no objection to reflecting
-them here, as well.
 
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 
