@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B3243AC68
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 08:48:28 +0200 (CEST)
-Received: from localhost ([::1]:37198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C6143AC9D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 09:06:13 +0200 (CEST)
+Received: from localhost ([::1]:51068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfGG3-00029C-5C
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 02:48:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48554)
+	id 1mfGXD-0003wD-9o
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 03:06:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mfFh7-0006xW-Tk; Tue, 26 Oct 2021 02:12:22 -0400
-Received: from mx2.freebsd.org ([96.47.72.81]:12127)
+ id 1mfFhi-0007Ak-6y; Tue, 26 Oct 2021 02:12:58 -0400
+Received: from mx2.freebsd.org ([96.47.72.81]:12592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mfFh4-0002xe-30; Tue, 26 Oct 2021 02:12:21 -0400
-Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
+ id 1mfFhY-00030V-FS; Tue, 26 Oct 2021 02:12:54 -0400
+Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits)
  client-signature RSA-PSS (4096 bits))
  (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id 4D0617BB24;
- Tue, 26 Oct 2021 06:12:17 +0000 (UTC)
+ by mx2.freebsd.org (Postfix) with ESMTPS id 4BCD47BAA8;
+ Tue, 26 Oct 2021 06:12:47 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
 Received: from smtp.freebsd.org (smtp.freebsd.org
  [IPv6:2610:1c1:1:606c::24b:4])
@@ -31,33 +31,34 @@ Received: from smtp.freebsd.org (smtp.freebsd.org
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
  client-signature RSA-PSS (4096 bits) client-digest SHA256)
  (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4HdhLT1NQ8z3N9X;
- Tue, 26 Oct 2021 06:12:17 +0000 (UTC)
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4HdhM31K83z3N9v;
+ Tue, 26 Oct 2021 06:12:47 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+ [209.85.222.180])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
  (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id 1156ED414;
- Tue, 26 Oct 2021 06:12:17 +0000 (UTC)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id 0E69BCFB8;
+ Tue, 26 Oct 2021 06:12:47 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: by mail-qt1-f176.google.com with SMTP id w8so12529881qts.4;
- Mon, 25 Oct 2021 23:12:17 -0700 (PDT)
-X-Gm-Message-State: AOAM533Cyn3ZMOk4DCYgXH6FkLbl8sNHSKEJux+YhmIuwEwMAPaLpxAs
- JD7lI3aPBB8BcApsXhCZjPiZtz6L5HEO5WXfwCk=
-X-Google-Smtp-Source: ABdhPJzL7ufmDoK5R85CVYMcfTwozZ8N6gpyekn4Lfk3tkRMGgnzusu1rg1+skcNrPlF/Ffp8hrxR2/aE9fuUWWy74Q=
-X-Received: by 2002:ac8:5747:: with SMTP id 7mr22352365qtx.11.1635228736730;
- Mon, 25 Oct 2021 23:12:16 -0700 (PDT)
+Received: by mail-qk1-f180.google.com with SMTP id x123so14155575qke.7;
+ Mon, 25 Oct 2021 23:12:47 -0700 (PDT)
+X-Gm-Message-State: AOAM532Lr5fEjMC6w+XAe2WVQJNkGo2Kp9Dav0J4ey9EpPXZRbeLj/Qw
+ wceVFX8BOoxVJKqG6164pmmP8UC1yz8wi6CYsJM=
+X-Google-Smtp-Source: ABdhPJw0dNKYpPhfOjhVycb4ESLZWr/Nz0uuCg2He5n3oeH92ikXFkDG7HrkJiQ83BIzw3GOplHTzUzXq5VHnouWy4E=
+X-Received: by 2002:a37:9f02:: with SMTP id i2mr17306604qke.305.1635228766774; 
+ Mon, 25 Oct 2021 23:12:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-23-imp@bsdimp.com>
-In-Reply-To: <20211019164447.16359-23-imp@bsdimp.com>
+ <20211019164447.16359-24-imp@bsdimp.com>
+In-Reply-To: <20211019164447.16359-24-imp@bsdimp.com>
 From: Kyle Evans <kevans@freebsd.org>
-Date: Tue, 26 Oct 2021 01:12:05 -0500
-X-Gmail-Original-Message-ID: <CACNAnaEz4jJHO6WQEo0wK8LK30s45HZaK+QSOHWsSE87WgKQ9w@mail.gmail.com>
-Message-ID: <CACNAnaEz4jJHO6WQEo0wK8LK30s45HZaK+QSOHWsSE87WgKQ9w@mail.gmail.com>
-Subject: Re: [PATCH 22/24] bsd-user/arm/target_arch_signal.h: arm set_mcontext
+Date: Tue, 26 Oct 2021 01:12:36 -0500
+X-Gmail-Original-Message-ID: <CACNAnaHA3096Apc-ry3qm676XxFQVYXmLT9a=JfUNxQZ9EXX2A@mail.gmail.com>
+Message-ID: <CACNAnaHA3096Apc-ry3qm676XxFQVYXmLT9a=JfUNxQZ9EXX2A@mail.gmail.com>
+Subject: Re: [PATCH 23/24] bsd-user/arm/target_arch_signal.h: arm
+ get_ucontext_sigreturn
 To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=96.47.72.81; envelope-from=kevans@freebsd.org;
@@ -79,60 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@freebsd.org>, qemu-trivial@nongnu.org,
- Klye Evans <kevans@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Stacey Son <sson@freebsd.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, Oct 19, 2021 at 11:45 AM Warner Losh <imp@bsdimp.com> wrote:
 >
-> Move the machine context to the CPU state.
+> Update ucontext to implement sigreturn.
 >
 > Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Klye Evans <kevans@FreeBSD.org>
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->  bsd-user/arm/target_arch_signal.h | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
+>  bsd-user/arm/target_arch_signal.h | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 >
 > diff --git a/bsd-user/arm/target_arch_signal.h b/bsd-user/arm/target_arch_signal.h
-> index 302fdc2846..1d051af9ae 100644
+> index 1d051af9ae..7da68c727c 100644
 > --- a/bsd-user/arm/target_arch_signal.h
 > +++ b/bsd-user/arm/target_arch_signal.h
-> @@ -201,4 +201,35 @@ static inline abi_long get_mcontext(CPUARMState *regs, target_mcontext_t *mcp,
+> @@ -232,4 +232,22 @@ static inline abi_long set_mcontext(CPUARMState *regs, target_mcontext_t *mcp,
 >      return err;
 >  }
 >
-> +/* Compare to arm/arm/machdep.c set_mcontext() */
-> +static inline abi_long set_mcontext(CPUARMState *regs, target_mcontext_t *mcp,
-> +        int srflag)
+> +/* Compare to arm/arm/machdep.c sys_sigreturn() */
+> +static inline abi_long get_ucontext_sigreturn(CPUARMState *regs,
+> +        abi_ulong target_sf, abi_ulong *target_uc)
 > +{
-> +    int err = 0;
-> +    const uint32_t *gr = mcp->__gregs;
-> +    uint32_t cpsr;
+> +    uint32_t cpsr = cpsr_read(regs);
 > +
-> +    regs->regs[0] = tswap32(gr[TARGET_REG_R0]);
-> +    regs->regs[1] = tswap32(gr[TARGET_REG_R1]);
-> +    regs->regs[2] = tswap32(gr[TARGET_REG_R2]);
-> +    regs->regs[3] = tswap32(gr[TARGET_REG_R3]);
-> +    regs->regs[4] = tswap32(gr[TARGET_REG_R4]);
-> +    regs->regs[5] = tswap32(gr[TARGET_REG_R5]);
-> +    regs->regs[6] = tswap32(gr[TARGET_REG_R6]);
-> +    regs->regs[7] = tswap32(gr[TARGET_REG_R7]);
-> +    regs->regs[8] = tswap32(gr[TARGET_REG_R8]);
-> +    regs->regs[9] = tswap32(gr[TARGET_REG_R9]);
-> +    regs->regs[10] = tswap32(gr[TARGET_REG_R10]);
-> +    regs->regs[11] = tswap32(gr[TARGET_REG_R11]);
-> +    regs->regs[12] = tswap32(gr[TARGET_REG_R12]);
+> +    *target_uc = 0;
 > +
-> +    regs->regs[13] = tswap32(gr[TARGET_REG_SP]);
-> +    regs->regs[14] = tswap32(gr[TARGET_REG_LR]);
-> +    regs->regs[15] = tswap32(gr[TARGET_REG_PC]);
-> +    cpsr = tswap32(gr[TARGET_REG_CPSR]);
-> +    cpsr_write(regs, cpsr, CPSR_USER | CPSR_EXEC, CPSRWriteByInstr);
+> +    if ((cpsr & CPSR_M) != ARM_CPU_MODE_USR ||
+> +            (cpsr & (CPSR_I | CPSR_F)) != 0) {
+> +        return -TARGET_EINVAL;
+> +    }
 > +
-> +    return err;
+> +    *target_uc = target_sf;
+> +
+> +    return 0;
 > +}
 > +
 >  #endif /* !_TARGET_ARCH_SIGNAL_H_ */
