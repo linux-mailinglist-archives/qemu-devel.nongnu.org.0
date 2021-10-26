@@ -2,81 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ADE743B9D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:44:10 +0200 (CEST)
-Received: from localhost ([::1]:59270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623B243BA06
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:57:19 +0200 (CEST)
+Received: from localhost ([::1]:58190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfRQf-0007ir-BG
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:44:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58986)
+	id 1mfRdO-0000vB-GA
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfRJe-0007Yn-FO
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:36:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57274)
+ (Exim 4.90_1) (envelope-from <pc@us.ibm.com>)
+ id 1mfRSS-00040h-Lc; Tue, 26 Oct 2021 14:46:04 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfRJX-0003MV-AS
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:36:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635273404;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=A1FVa/Xlx/tz1Stay2aztVoZjErW5j/p5pdrJX0MHOg=;
- b=Axp726YVC7qSapW9SMu/icRZ/9O49pMWXjBX5SKmoUrdBCJTJAa9kqt9QEwQLj5R0JgHLB
- g1UHJ1b5xQBa9qRF9264Q24KLwzWBSUkJM+AkxULpUeq2Ha5SFzBmLR/Zf37R7anN/yL7C
- qqIm+y8QDut9vb0J6a2jmCY4On5WtyQ=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-65T1seGwMDaq_NFl8dtoKA-1; Tue, 26 Oct 2021 14:36:43 -0400
-X-MC-Unique: 65T1seGwMDaq_NFl8dtoKA-1
-Received: by mail-vk1-f200.google.com with SMTP id
- r3-20020a1fc103000000b002dc60ab179cso139064vkf.23
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 11:36:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=A1FVa/Xlx/tz1Stay2aztVoZjErW5j/p5pdrJX0MHOg=;
- b=QtABGZuhpo1IgrpmbgEzl0RkZswqMuGg5kF/fly4f43s3M6JHxlpoJuI6PFCFXii3+
- PEXkEWXQDq3ypjlVr8/APK6J3W8tqhluyMIaC0WQ2yqV7ciqkl9J/Act2inxN09DPhXg
- zLNJNuyBmBLx6m3/mNRD2NuEV99QEJYwJgGISJXFjBa7E5vkK/V/UnH5Eu5FeUSUe8Zv
- XmMhef5Uo4NttC4Mr1rw8lee4O3uSEJ2izH5X3yGuYfTl20Eni7YEbJqYXqFtySOKErQ
- K5m3b1gmaWMvwakRHGe0c9Tgcj4579Q1WMH307DMTece/GA7MAu4mB+4w6Vy9mp/GdbW
- iLCQ==
-X-Gm-Message-State: AOAM530LL55TCvEdjAld8m3tPGmJiM1pJ78gnuwVVbNUyOTYfBzLOycq
- ZFBiwBWH/zXHSeDMW9l/J2JoaSUXn7cNPLwQ1xt4oP80bCQ/Gqn7b8LreoJhEzZATJYC8I1UH10
- 34dqc1VNx9q+ppR59kECosMjVyrNbfSo=
-X-Received: by 2002:a67:f685:: with SMTP id n5mr25187587vso.31.1635273402779; 
- Tue, 26 Oct 2021 11:36:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwGAS/S7DQQvzOdYfXkuj0hIvTp68AE48QSlhkErcjG4UXZvI3R2DETOLkStOqpTIqxB5fsXWRPnaw7P8jkb7o=
-X-Received: by 2002:a67:f685:: with SMTP id n5mr25187557vso.31.1635273402585; 
- Tue, 26 Oct 2021 11:36:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pc@us.ibm.com>)
+ id 1mfRSO-00064W-QK; Tue, 26 Oct 2021 14:45:59 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19QIK5vd022407; 
+ Tue, 26 Oct 2021 18:45:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=sh868/WrOYO5HvTdxMOj6j4JTUqdsM7/rcGJVsqoyyo=;
+ b=OxHo48EgUeUEYbnBW+Gf/ySQOO6+81dhhqvVMauK8SuubtNXwD9+fD9tj2VEnBKugcMS
+ tReZrBSRcKdTVXQyZibSurp1M28+EEk9ZOgDai4jMOnrMHLenRiiix+30vATU2sv/zkQ
+ 5GBwN2joiog3ysopcqJcXlsKS4I1RPPCKw/FYTMVxdMFRfjyMoQUQLbATdPlHewq3lb/
+ v/4t2Bu95LV6YoEDRdj4x0xRuWuR9MLUnu2q0N8k3daV4re+WRJ7dHLviRm65vlAoVlI
+ dsATmTorLtWi7Fjr1BNBE6JB7LMsKjE7F/VNS/y5OanuMcVXlOl++wbE2vuyVsWYKr9Z 2w== 
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bx4ygrwby-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Oct 2021 18:45:32 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19QIcrhH026857;
+ Tue, 26 Oct 2021 18:45:31 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma03wdc.us.ibm.com with ESMTP id 3bx4f02jb5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Oct 2021 18:45:31 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 19QIjUX836831576
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 26 Oct 2021 18:45:30 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 50D82AE05C;
+ Tue, 26 Oct 2021 18:45:30 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EDD7BAE060;
+ Tue, 26 Oct 2021 18:45:28 +0000 (GMT)
+Received: from li-24c3614c-2adc-11b2-a85c-85f334518bdb.ibm.com (unknown
+ [9.77.153.132]) by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Tue, 26 Oct 2021 18:45:28 +0000 (GMT)
+Date: Tue, 26 Oct 2021 13:45:26 -0500
+From: "Paul A. Clarke" <pc@us.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 16/33] target/ppc: Implement Vector Insert Word from GPR
+ using Immediate insns
+Message-ID: <20211026184526.GB645383@li-24c3614c-2adc-11b2-a85c-85f334518bdb.ibm.com>
+References: <20211021194547.672988-1-matheus.ferst@eldorado.org.br>
+ <20211021194547.672988-17-matheus.ferst@eldorado.org.br>
+ <4a9f95b2-3f9e-f835-0315-7632a5e6996a@linaro.org>
+ <2f6cca6e-6a3e-7341-7d92-4b1b4708ee1e@eldorado.org.br>
+ <f41b24cd-9ce5-4836-9c77-ea4edaacb021@linaro.org>
 MIME-Version: 1.0
-References: <20211019144918.3159078-1-jsnow@redhat.com>
- <20211019144918.3159078-13-jsnow@redhat.com>
- <df8bd300-1d04-7df8-7916-8b004766d173@redhat.com>
-In-Reply-To: <df8bd300-1d04-7df8-7916-8b004766d173@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 26 Oct 2021 14:36:31 -0400
-Message-ID: <CAFn=p-ZrKaxnefmOJZRxt718jcSAe3TqeJAUch3DOaEne92cwg@mail.gmail.com>
-Subject: Re: [PATCH v2 12/15] iotests/linters: Add entry point for linting via
- Python CI
-To: Hanna Reitz <hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000045a79405cf45c26c"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f41b24cd-9ce5-4836-9c77-ea4edaacb021@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: VTvIpMbzjZh4THvA0Qjdm3Jjq7ZD8tyl
+X-Proofpoint-ORIG-GUID: VTvIpMbzjZh4THvA0Qjdm3Jjq7ZD8tyl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-26_05,2021-10-26_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0
+ malwarescore=0 mlxscore=0 bulkscore=0 adultscore=0 clxscore=1011
+ mlxlogscore=906 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2110260103
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pc@us.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,103 +104,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Cc: lucas.castro@eldorado.org.br, qemu-devel@nongnu.org, groug@kaod.org,
+ luis.pires@eldorado.org.br, qemu-ppc@nongnu.org,
+ "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000045a79405cf45c26c
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Oct 26, 2021 at 09:58:15AM -0700, Richard Henderson wrote:
+> On 10/26/21 7:33 AM, Matheus K. Ferst wrote:
+> > It says that "if UIM is greater than N, the result is undefined." My
+> > first read was also that the outcome is "boundedly undefined," but I
+> > guess it can be understood as "the resulting value in VRT will be
+> > undefined" (like when the pseudo-code uses "VRT <- 0xUUUU_..._UUUU"), in
+> > which case this patch and Mambo are correct.
+> 
+> If the reference simulator is fine with it, I am too.
 
-On Tue, Oct 26, 2021 at 6:57 AM Hanna Reitz <hreitz@redhat.com> wrote:
+FYI, it appears that the hardware does a partial insert, per an experiment:
+```
+1: x/i $pc
+=> 0x100006d4 <foo+4>:  vinsw   v2,r3,14
+(gdb) p $v2.v4_int32
+$1 = {0x1, 0x1, 0x1, 0x1}
+(gdb) p $r3
+$2 = 0x12345678
+(gdb) nexti
+(gdb) p $v2.v4_int32
+$3 = {0x1234, 0x1, 0x1, 0x1}
+````
 
-> On 19.10.21 16:49, John Snow wrote:
-> > We need at least a tiny little shim here to join test file discovery
-> > with test invocation. This logic could conceivably be hosted somewhere
-> > in python/, but I felt it was strictly the least-rude thing to keep the
-> > test logic here in iotests/, even if this small function isn't itself an
-> > iotest.
-> >
-> > Note that we don't actually even need the executable bit here, we'll be
-> > relying on the ability to run this module as a script using Python CLI
-> > arguments. No chance it gets misunderstood as an actual iotest that way.
-> >
-> > (It's named, not in tests/, doesn't have the execute bit, and doesn't
-> > have an execution shebang.)
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >   tests/qemu-iotests/linters.py | 27 +++++++++++++++++++++++++++
-> >   1 file changed, 27 insertions(+)
->
-> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
->
->
-Thanks! I'll endeavor to try and clean up the list of exempted files to
-continue cleaning up this mess, but it's not a top priority right now. I'll
-put it on the backburner after I finish typing the QAPI generator. A lot of
-the weird compatibility goop will go away over time as I consolidate more
-of the venv logic.
+> I'm just a bit disappointed with the laxness of the pseudocode -- they've
+> got that 0xuuuu syntax elsewhere, but not here.
 
-(I think this series is good to go, now? I think it could be applied in any
-order vs my other series. If you want, if/when you give the go-ahead for
-the other series, I could just stage them both myself and make sure they
-work well together and save you the headache.)
-
---js
-
---00000000000045a79405cf45c26c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 26, 2021 at 6:57 AM Hanna=
- Reitz &lt;<a href=3D"mailto:hreitz@redhat.com">hreitz@redhat.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 19.10.2=
-1 16:49, John Snow wrote:<br>
-&gt; We need at least a tiny little shim here to join test file discovery<b=
-r>
-&gt; with test invocation. This logic could conceivably be hosted somewhere=
-<br>
-&gt; in python/, but I felt it was strictly the least-rude thing to keep th=
-e<br>
-&gt; test logic here in iotests/, even if this small function isn&#39;t its=
-elf an<br>
-&gt; iotest.<br>
-&gt;<br>
-&gt; Note that we don&#39;t actually even need the executable bit here, we&=
-#39;ll be<br>
-&gt; relying on the ability to run this module as a script using Python CLI=
-<br>
-&gt; arguments. No chance it gets misunderstood as an actual iotest that wa=
-y.<br>
-&gt;<br>
-&gt; (It&#39;s named, not in tests/, doesn&#39;t have the execute bit, and =
-doesn&#39;t<br>
-&gt; have an execution shebang.)<br>
-&gt;<br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0tests/qemu-iotests/linters.py | 27 +++++++++++++++++++++++=
-++++<br>
-&gt;=C2=A0 =C2=A01 file changed, 27 insertions(+)<br>
-<br>
-Reviewed-by: Hanna Reitz &lt;<a href=3D"mailto:hreitz@redhat.com" target=3D=
-"_blank">hreitz@redhat.com</a>&gt;<br>
-<br></blockquote><div><br></div><div>Thanks! I&#39;ll endeavor to try and c=
-lean up the list of exempted files to continue cleaning up this mess, but i=
-t&#39;s not a top priority right now. I&#39;ll put it on the backburner aft=
-er I finish typing the QAPI generator. A lot of the weird compatibility goo=
-p will go away over time as I consolidate more of the venv logic.<br><br></=
-div><div>(I think this series is good to go, now? I think it could be appli=
-ed in any order vs my other series. If you want, if/when you give the go-ah=
-ead for the other series, I could just stage them both myself and make sure=
- they work well together and save you the headache.)<br></div><div><br></di=
-v><div>--js<br></div></div></div>
-
---00000000000045a79405cf45c26c--
-
+PC
 
