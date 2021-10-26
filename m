@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1FE643B92E
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:13:24 +0200 (CEST)
-Received: from localhost ([::1]:34840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B1243B957
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:19:54 +0200 (CEST)
+Received: from localhost ([::1]:47898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfQwu-0005Rw-1h
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:13:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54192)
+	id 1mfR3B-0005r9-J9
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:19:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfQt5-0002bG-1B
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:09:28 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33335)
+ id 1mfQvC-00050L-Ew
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:11:38 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54092)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfQt2-0006cM-Pc
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:09:26 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id m22so17466399wrb.0
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 11:09:24 -0700 (PDT)
+ id 1mfQv8-0006ma-Q5
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:11:36 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id j205so290471wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 11:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6CSLYgRhQjvLCdk922IFAeRHe+vBdRQ4LaRqWHB0w8Y=;
- b=ALZjHamvVo7BP/jc5WEDZg2L7lO/3Dnri63+i9i9b8bfEJ4WGQ31/bW2hB6oxzAr7R
- n15UHq5Kn85x94UV2BRJEHho4qkORqHEEM8r/sUNsWuP2Du9VBXsmBAehOMaFhI7X+io
- 9lLPe25vVol6JwELzNTGHtrmNDAmRWSuLMXlt264mT5sJmhKRztDiiq2oP2SSBK3Lmv9
- JjO45dFy4pgmxkCaIC+rit4cMx/NihpzCY0OxfopSI9BEzyeVC58WshOim4q2Nl85n7l
- egcCr1/pk874teUu/O0R8augDMMAoMzIKh0Lz5NnIseLe2YFfqefs17PNrCYAlLCMmU/
- DGfg==
+ bh=A2tbc9rkrrjlOInAljrzgvKVJKv97nJ+B6+wz8E74kQ=;
+ b=nivs9ZFUGmV4S8lksr9PO8Cx4S2hJW3gBnHq7xBXJ8peXbNWjX0PUS8zfAIRbUd1WE
+ NSJEH/0HAvyIB/AGpTMSwfeu+cxRuOZL+c3Udm2HxhTYs66taoQjc11B7kIaKSuHqe8F
+ cU7J+zwTu2SRJQkkD56s5CmjKvpboF0jqn/IJo/aAPV12Du/ZQwJSP+Z1gGpaSy4tIjl
+ nhOoV6ESOo1oyvLkD9tI/9maPXFx0OQw0GBZAUg8K6kdkVCYEUEmiU52eoS6riXrpase
+ vbPqGhxOCnYCQPoZZl1fWc0763xqAI/BiJam+BXrMRmfVv4fDzxW+75KsFkuecIuM66+
+ DjaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=6CSLYgRhQjvLCdk922IFAeRHe+vBdRQ4LaRqWHB0w8Y=;
- b=xFYgtfLPhQVA796Q3mCqHgmAWJSugmXvs8BKHMgbfgxLjaB0JcPGqB4tAnZd6jmyn3
- /WbGFgtR2I6xsKM/4mU2Ffa5+stGlqsQZE/aNBECppX2ln5TDstM+wlvy17tlaWKn8cg
- JlvnMTHuQyY0UzwfcNlgbcPa63Ml3haDEHfgNKFvo+Fpd3E8auqgasKT4GkKKCDJOO3k
- 7Uf/gvludvSBwXtxMMe708hZPWLAhbFQKN9Hl1oQrpMkT6zojIU61lObuRS4GrCArNQK
- xie8m3G5exbTCx8mn4CgMePDa5Byr2SlK8aleOd/eF72OiOYU2ZPLWBQxK5qTcBfXIo2
- IYeA==
-X-Gm-Message-State: AOAM5300usCXsK03Gv+hVarh34je6FqzzvrDaswr4L7p+6QHOT9znGAz
- gxfs7VDpq9wDyLWqq8u0BTaOQUFSSbk=
-X-Google-Smtp-Source: ABdhPJxLP6DbDIi3mVcgPiRnoet/OgAgSi/sO4qYC81Wn1KeL4Pzp5uUfCE0+6EGiXCPECWW4rOI7g==
-X-Received: by 2002:adf:9c11:: with SMTP id f17mr34498175wrc.147.1635271763092; 
- Tue, 26 Oct 2021 11:09:23 -0700 (PDT)
-Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=A2tbc9rkrrjlOInAljrzgvKVJKv97nJ+B6+wz8E74kQ=;
+ b=rXuK/lJPOJ5wh1tLXiD9SSPjhcjwjjpZKYJhIdoGPzDpslBPkoA1KrfgIs+m5BfetP
+ 1gwA7rLGrbxdshzOTeIFvZTrFZqiXsmaDJDoguheuhTWm8Obbn/CKsZxQY3GI7Jk0hoE
+ 8JMM7nk6eykat4PKxckpPW2cW+D7cSd7UdPVE9eBupipWXEKHmPA0fPQbwWyDKDWPjsl
+ nk2l6Wf/xncaVPOWR4jl45W9P0OSHPpPWB0f3PKBQ9okaWdaYVZwc2kcbZv35OoxBj5Q
+ s6yGRR6CUiIiaqsneWBQAHE6X80AaghepH4tCTiXECEkqLMzjbs5yJ3UZZzVPdZPlm45
+ lzqQ==
+X-Gm-Message-State: AOAM533ldBiStDFY660ZSXwmsfim9BQWEdpSmWQ5L4uVPwSg7ZomfOv6
+ CFw2UqG7sqw9tSEaFla1FbI=
+X-Google-Smtp-Source: ABdhPJz9+MTMAMqPprCxyjC3mQyNxemHbawMGkZEaCwp4bEUJ/VJ7+XFHFFFrMeMHvETUhlm2rMu9Q==
+X-Received: by 2002:a05:600c:220f:: with SMTP id
+ z15mr290300wml.100.1635271893258; 
+ Tue, 26 Oct 2021 11:11:33 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id z6sm1676990wmp.1.2021.10.26.11.09.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 11:09:21 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] target/mips: Fix Loongson-3A4000 MSAIR config register
-Date: Tue, 26 Oct 2021 20:09:20 +0200
-Message-Id: <20211026180920.1085516-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
+ by smtp.gmail.com with ESMTPSA id 3sm1238933wms.5.2021.10.26.11.11.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Oct 2021 11:11:32 -0700 (PDT)
+Message-ID: <1779653c-c3f5-a7eb-cb5c-f9ade5a058ac@amsat.org>
+Date: Tue, 26 Oct 2021 20:11:31 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] tests/tcg: remove debug polluting make output
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20211026173914.79377-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211026173914.79377-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.215,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -83,62 +91,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: fam@euphon.net, berrange@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When using the Loongson-3A4000 CPU, the MSAIR is returned with a
-zero value (because unimplemented). Checking on real hardware,
-this value appears incorrect:
+On 10/26/21 19:39, Alex Bennée wrote:
+> Fixes: 5343a837cd ("tests/tcg: move some multiarch files and make conditional")
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  tests/tcg/multiarch/Makefile.target | 1 -
+>  1 file changed, 1 deletion(-)
 
-  $ cat /proc/cpuinfo
-  system type     : generic-loongson-machine
-  machine         : loongson,generic
-  cpu model       : Loongson-3 V0.4  FPU V0.1
-  model name      : Loongson-3A R4 (Loongson-3A4000) @ 1800MHz
-  isa             : mips1 mips2 mips3 mips4 mips5 mips32r1 mips32r2 mips64r1 mips64r2
-  ASEs implemented        : vz msa loongson-mmi loongson-cam loongson-ext loongson-ext2
-  ...
-
-Checking the CFCMSA opcode result with gdb we get 0x60140:
-
-  Breakpoint 1, 0x00000001200037c4 in main ()
-  1: x/i $pc
-  => 0x1200037c4 <main+52>:  cfcmsa       v0,msa_ir
-  (gdb) si
-  0x00000001200037c8 in main ()
-  (gdb) i r v0
-  v0: 0x60140
-
-MSAIR bits 17 and 18 are "reserved" per the spec revision 1.12,
-so mask them out, and set MSAIR=0x0140 for the Loongson-3A4000
-CPU model added in commit af868995e1b.
-
-Cc: Huacai Chen <chenhuacai@kernel.org>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v2: Mask out bits 17/18
----
- target/mips/cpu-defs.c.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
-index cbc45fcb0e8..ee8b322a564 100644
---- a/target/mips/cpu-defs.c.inc
-+++ b/target/mips/cpu-defs.c.inc
-@@ -886,6 +886,7 @@ const mips_def_t mips_defs[] =
-                     (0x1 << FCR0_D) | (0x1 << FCR0_S),
-         .CP1_fcr31 = 0,
-         .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
-+        .MSAIR = (0x01 << MSAIR_ProcID) | (0x40 << MSAIR_Rev),
-         .SEGBITS = 48,
-         .PABITS = 48,
-         .insn_flags = CPU_MIPS64R2 | INSN_LOONGSON3A |
--- 
-2.31.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
