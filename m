@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72CF643B507
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 17:03:38 +0200 (CEST)
-Received: from localhost ([::1]:56736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B111E43B501
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 17:01:00 +0200 (CEST)
+Received: from localhost ([::1]:51032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfNzF-0006XI-JN
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 11:03:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40012)
+	id 1mfNwh-0002eI-RL
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 11:00:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mfNt1-00079J-Sl
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 10:57:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40538)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mfNt0-0001Rf-0H
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 10:57:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635260227;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=+t75zai9rxdPIpwKm9TymWF0bxxQQoekYL2ZBS7kr70=;
- b=RbKxdU69e1ej2ymxLGpbEybjuykDl3xUPPxQtAuuLKeB5RD3OmyybtQ+sr8d8S5QTJxj+7
- ZXpacaRSUjLnQ+i9wliGAEvh14pp/kU7rd/nbjdea+BeyMwS4fIkh6qbzcWOV786wwes9F
- MslKOdOkkyO0veQhmKbMePk0kK6UW1Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-538-BerieSx3PTSNmvaq4PFp9A-1; Tue, 26 Oct 2021 10:57:04 -0400
-X-MC-Unique: BerieSx3PTSNmvaq4PFp9A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E94519057A1;
- Tue, 26 Oct 2021 14:57:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.218])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 75525AFD90;
- Tue, 26 Oct 2021 14:56:28 +0000 (UTC)
-Date: Tue, 26 Oct 2021 15:56:26 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 1/9] qapi: New special feature flag "unstable"
-Message-ID: <YXgXGocQsFu/Cnzr@redhat.com>
-References: <20211025052532.3859634-1-armbru@redhat.com>
- <20211025052532.3859634-2-armbru@redhat.com>
- <YXewOaSDEXJDYV+1@redhat.com> <87r1c83z5c.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mfNuD-00009L-C8
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 10:58:25 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33786)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mfNu2-0001Xy-Bs
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 10:58:24 -0400
+Received: by mail-wr1-x431.google.com with SMTP id m22so16450582wrb.0
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 07:58:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Vnkuq1AYSkUP5+5R9SqV6zxJzBGglRpVU31mbV+LRug=;
+ b=dfkoLW5s65H6y2Sgr4nDKXJ3HelQcN6p/TIg86iWAncCmpGPyN1YZi/KxuEN2dHxXt
+ TjTgsNHMJpa/Nfg8/DlXKTWg6i9to5d4UpobFppcmDJI32cCmUesR/btwdbLc5Nh9Tll
+ PYvzM7LTKqMBneoMHGipzL3hnFizHvYghk9zVVAxBUSK8zMTVthddH07/vrYl8k+mxG5
+ Sjd69k126ptd9kM064T281hY3fsUgf+KgXjv/agK8GWUOIIwZOfNjAFnW0kfHsaMCF1w
+ LyRil87qG7Rg6Z1nMPdB1qRht1sSQDY9eRD0auoFd6kLhEL9RsxqEa2fXbA1jLcT/VPM
+ brxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Vnkuq1AYSkUP5+5R9SqV6zxJzBGglRpVU31mbV+LRug=;
+ b=hhvqIa+lJeeIbMzGxu77J5zG+66Y+md3HeA+92gyo3Y5zOrpVzzU+nBjBq7ogrICAy
+ ijiQt4Dcwp0WwQAH8ucLFOH8+XBs/icef7Yd/d7OvDv2POLnnofJRmruhUp2ylEV/Pr2
+ xeBW2dAvR5hQx7mQD/SZLIj0OFULafkezUayuNTKpzHFGcOryuxc5V+bFMF3UAvYg8S4
+ XArtG7Vn9EgWphq8psEIWwBVw0V1Gu+uYJw6/cmMTFbGD90KF2IHDsn9B3rgeAAFh8Mf
+ 557oDmVAd3SOjdlfrDQ2yhANpHcEtYzyGofAeb0uynFe7oVdn+0R4O4xIQCtThG2Q6Hx
+ ix2A==
+X-Gm-Message-State: AOAM533HsGYheIPrPQiWBmJwGXeeGr5ZrLMuLzJd2SvKmKFsuPzjHrRI
+ cLOyO2ybiwEhIOIWO3VNFwI=
+X-Google-Smtp-Source: ABdhPJw6Deg/sRRYJZzuTYqrajhDYanAxLl4r9QRyThHxqV5NL9BUPkoBiwHbN1X18NR5t7Z3FkuJA==
+X-Received: by 2002:a5d:4d05:: with SMTP id z5mr18819170wrt.408.1635260292880; 
+ Tue, 26 Oct 2021 07:58:12 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id v4sm12079462wrs.86.2021.10.26.07.58.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Oct 2021 07:58:12 -0700 (PDT)
+Message-ID: <a7d65f8c-efbf-3001-f840-df6951acc2c3@amsat.org>
+Date: Tue, 26 Oct 2021 16:58:10 +0200
 MIME-Version: 1.0
-In-Reply-To: <87r1c83z5c.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v1 03/28] tests/docker: Update debian-hexagon-cross to a
+ newer toolchain
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Brian Cain <bcain@quicinc.com>
+References: <20211026102234.3961636-1-alex.bennee@linaro.org>
+ <20211026102234.3961636-4-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211026102234.3961636-4-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.215,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,90 +92,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, quintela@redhat.com, libvir-list@redhat.com,
- eblake@redhat.com, mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
- jsnow@redhat.com, libguestfs@redhat.com
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>,
+ Brian Cain <brian.cain@gmail.com>, pbonzini@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, berrange@redhat.com,
+ robhenry@microsoft.com, aaron@os.amperecomputing.com,
+ Willian Rampazzo <willianr@redhat.com>, mahmoudabdalghany@outlook.com,
+ minyihh@uci.edu, cota@braap.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
+ crosa@redhat.com, kuhn.chenqun@huawei.com, ma.mandourr@gmail.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 26, 2021 at 11:37:19AM +0200, Markus Armbruster wrote:
-> Kevin Wolf <kwolf@redhat.com> writes:
+On 10/26/21 12:22, Alex Bennée wrote:
+> From: Brian Cain <brian.cain@gmail.com>
 > 
-> > Am 25.10.2021 um 07:25 hat Markus Armbruster geschrieben:
-> >> By convention, names starting with "x-" are experimental.  The parts
-> >> of external interfaces so named may be withdrawn or changed
-> >> incompatibly in future releases.
-> >> 
-> >> Drawback: promoting something from experimental to stable involves a
-> >> name change.  Client code needs to be updated.
-> >> 
-> >> Moreover, the convention is not universally observed:
-> >> 
-> >> * QOM type "input-barrier" has properties "x-origin", "y-origin".
-> >>   Looks accidental, but it's ABI since 4.2.
-> >> 
-> >> * QOM types "memory-backend-file", "memory-backend-memfd",
-> >>   "memory-backend-ram", and "memory-backend-epc" have a property
-> >>   "x-use-canonical-path-for-ramblock-id" that is documented to be
-> >>   stable despite its name.
-> >> 
-> >> We could document these exceptions, but documentation helps only
-> >> humans.  We want to recognize "unstable" in code, like "deprecated".
-> >> 
-> >> Replace the convention by a new special feature flag "unstable".  It
-> >> will be recognized by the QAPI generator, like the existing feature
-> >> flag "deprecated", and unlike regular feature flags.
-> >> 
-> >> This commit updates documentation and prepares tests.  The next commit
-> >> updates the QAPI schema.  The remaining patches update the QAPI
-> >> generator and wire up -compat policy checking.
-> >> 
-> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> >
-> > Obviously, replacing the old convention gets rid of the old drawbacks,
-> > but adds a new one: While using x- makes it very obvious for a human
-> > user that this is an unstable feature, a feature flag in the schema will
-> > almost certainly go unnoticed in manual use.
+> The new dockerfile uses a complete toolchain built by CodeLinaro.
+> Remove the special casing that was necessary when the dockerfile
+> built the toolchain from source.
+
+Can we start using .container_job_template for the
+currently special-cased hexagon-cross-container job then?
+
+> Suggested-by: Brian Cain <bcain@quicinc.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> [AJB: fix MAINTAINERS]
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20211014224435.2539547-4-richard.henderson@linaro.org>
 > 
-> I thought about this, but neglected to put it in writing.  My bad.
-> 
-> Manual use of unstable interfaces is mostly fine.  Human users can adapt
-> to changing interfaces.  HMP works that way.
-> 
-> Management applications are better off with a feature flag than with a
-> naming convention we sometimes ignore.
-
-We will sometimes ignore/forget the feature flag too though, so I'm
-not convinced there's much difference there.
-
-> If we want to keep "unstable" obvious to the humans who write such
-> programs, we can continue to require "x-", in addition to the feature
-> flag.  We pay for it with renames, and the risk of forgetting to rename
-> in time (which is what got us the awkward stable
-> "x-use-canonical-path-for-ramblock-id").  Tradeoff.  I chose not to, but
-> if y'all think we should...
-
-IMHO the renames arguably make life easier for mgmt apps, as they
-only need to check for the name without the x- prefix, and they
-know they won't be accidentally using the fature from an older
-QEMU where it was unstable because the older QEMU had a different
-name they won't be checking for.
-
-We can just as easily forget to remove the "unstable" feature
-flag, as forget to rename.
-
-The plus point about the feature flag is that it is aligned with
-the "deprecated" feature flag, and potentially aligned with a
-future "insecure" feature flag.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> squash! tests/docker: Update debian-hexagon-cross to a newer toolchain
+> ---
+>  MAINTAINERS                                   |   1 -
+>  tests/docker/Makefile.include                 |  24 +--
+>  .../dockerfiles/debian-hexagon-cross.docker   |  45 +-----
+>  .../build-toolchain.sh                        | 141 ------------------
+>  4 files changed, 9 insertions(+), 202 deletions(-)
+>  delete mode 100755 tests/docker/dockerfiles/debian-hexagon-cross.docker.d/build-toolchain.sh
 
