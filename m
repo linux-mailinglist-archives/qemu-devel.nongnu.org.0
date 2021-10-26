@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E374743AD28
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 09:24:13 +0200 (CEST)
-Received: from localhost ([::1]:43842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DCC43AC59
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 08:39:36 +0200 (CEST)
+Received: from localhost ([::1]:60318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfGoe-0001mw-NE
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 03:24:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47002)
+	id 1mfG7T-0006jR-0G
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 02:39:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mfFZC-0002sX-1F; Tue, 26 Oct 2021 02:04:10 -0400
-Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:45736)
+ id 1mfFcR-0004Hh-K3; Tue, 26 Oct 2021 02:07:31 -0400
+Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:47127)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mfFZ7-0001Se-DK; Tue, 26 Oct 2021 02:04:08 -0400
+ id 1mfFcI-0001vY-CO; Tue, 26 Oct 2021 02:07:31 -0400
 Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits)
  client-signature RSA-PSS (4096 bits))
  (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id 89A2D7A56B;
- Tue, 26 Oct 2021 06:04:01 +0000 (UTC)
+ by mx2.freebsd.org (Postfix) with ESMTPS id 12C9E7A5D9;
+ Tue, 26 Oct 2021 06:07:17 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: from smtp.freebsd.org (smtp.freebsd.org [96.47.72.83])
+Received: from smtp.freebsd.org (smtp.freebsd.org
+ [IPv6:2610:1c1:1:606c::24b:4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
  client-signature RSA-PSS (4096 bits) client-digest SHA256)
  (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4Hdh8x1qcfz3M2L;
- Tue, 26 Oct 2021 06:04:01 +0000 (UTC)
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4HdhDh6qlyz3Lpb;
+ Tue, 26 Oct 2021 06:07:16 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
+ [209.85.222.173])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
  (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id 1F37FCB9C;
- Tue, 26 Oct 2021 06:04:01 +0000 (UTC)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id C2C98D403;
+ Tue, 26 Oct 2021 06:07:16 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: by mail-qk1-f176.google.com with SMTP id 77so14124579qkh.6;
- Mon, 25 Oct 2021 23:04:01 -0700 (PDT)
-X-Gm-Message-State: AOAM531LYkk25VENzMJAjVjO/laE41II5cv6OBhpl1YSOWQJJxUJQkgc
- k6wtNeArmDZaaHM67Z22rdIuF2HKICdW+R6F9GM=
-X-Google-Smtp-Source: ABdhPJwpxiVg4c/DdyQV/zumttQfZPk/hW7G2Bwldjz+0crS/yutBSiRyDsZmaWFirhGE50JGSk4q9XXHhq16Po7Ipg=
+Received: by mail-qk1-f173.google.com with SMTP id h20so13995389qko.13;
+ Mon, 25 Oct 2021 23:07:16 -0700 (PDT)
+X-Gm-Message-State: AOAM532hM2fBlZaUNAQLjcbNJRqsld3UONZTyp4BghJWNe/f6Oim0m9K
+ 808EQcqvuvzWYHR7dpJFvee9S66+fo1Uip46aOQ=
+X-Google-Smtp-Source: ABdhPJxO0N1Vhj6uxmeeY5WAG6sl8t3oCWjpzItMIUGILeu6NM1va7wmKtfTkSQRWHpCjGq9GR7bkK04kuz7gQ1h/vU=
 X-Received: by 2002:a05:620a:424f:: with SMTP id
- w15mr17472248qko.258.1635228240805; 
- Mon, 25 Oct 2021 23:04:00 -0700 (PDT)
+ w15mr17482640qko.258.1635228436506; 
+ Mon, 25 Oct 2021 23:07:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-19-imp@bsdimp.com>
-In-Reply-To: <20211019164447.16359-19-imp@bsdimp.com>
+ <20211019164447.16359-20-imp@bsdimp.com>
+In-Reply-To: <20211019164447.16359-20-imp@bsdimp.com>
 From: Kyle Evans <kevans@freebsd.org>
-Date: Tue, 26 Oct 2021 01:03:50 -0500
-X-Gmail-Original-Message-ID: <CACNAnaF8uekw-mUVDVo5jyxTfwyMWDAfONwRszaNfi58PDW9Ng@mail.gmail.com>
-Message-ID: <CACNAnaF8uekw-mUVDVo5jyxTfwyMWDAfONwRszaNfi58PDW9Ng@mail.gmail.com>
-Subject: Re: [PATCH 18/24] bsd-user/arm/target_arch_signal.h: arm machine
- context for signals
+Date: Tue, 26 Oct 2021 01:07:05 -0500
+X-Gmail-Original-Message-ID: <CACNAnaH1pNrHjxUOsuP2ZLj2hdJKKw2WJubS7sdsKL6TeHFCsw@mail.gmail.com>
+Message-ID: <CACNAnaH1pNrHjxUOsuP2ZLj2hdJKKw2WJubS7sdsKL6TeHFCsw@mail.gmail.com>
+Subject: Re: [PATCH 19/24] bsd-user/arm/target_arch_signal.h: arm user context
+ and trapframe for signals
 To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2610:1c1:1:606c::19:2;
@@ -88,61 +89,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, Oct 19, 2021 at 11:45 AM Warner Losh <imp@bsdimp.com> wrote:
 >
+> Arm specific user context structures for signal handling and the closely
+> related trap frame.
+>
 > Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Klye Evans <kevans@FreeBSD.org>
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->  bsd-user/arm/target_arch_signal.h | 36 +++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
+>  bsd-user/arm/target_arch_signal.h | 38 +++++++++++++++++++++++++++++++
+>  1 file changed, 38 insertions(+)
 >
 > diff --git a/bsd-user/arm/target_arch_signal.h b/bsd-user/arm/target_arch_signal.h
-> index 973183d99c..9fee58ca9c 100644
+> index 9fee58ca9c..67355ff28f 100644
 > --- a/bsd-user/arm/target_arch_signal.h
 > +++ b/bsd-user/arm/target_arch_signal.h
-> @@ -54,4 +54,40 @@
->  #define TARGET_MINSIGSTKSZ  (1024 * 4)                  /* min sig stack size */
->  #define TARGET_SIGSTKSZ     (TARGET_MINSIGSTKSZ + 32768)  /* recommended size */
+> @@ -90,4 +90,42 @@ typedef struct target_mcontext {
+>      } __fpu;
+>  } target_mcontext_t;
 >
-> +/* arm/arm/machdep.c */
-> +struct target_sigcontext {
-> +    target_sigset_t sc_mask;    /* signal mask to retstore */
-> +    int32_t     sc_onstack;     /* sigstack state to restore */
-> +    abi_long    sc_pc;          /* pc at time of signal */
-> +    abi_long    sc_reg[32];     /* processor regs 0 to 31 */
-> +    abi_long    mullo, mulhi;   /* mullo and mulhi registers */
-> +    int32_t     sc_fpused;      /* fp has been used */
-> +    abi_long    sc_fpregs[33];  /* fp regs 0 to 31 & csr */
-> +    abi_long    sc_fpc_eir;     /* fp exception instr reg */
-> +    /* int32_t reserved[8]; */
+> +typedef struct target_ucontext {
+> +    target_sigset_t     uc_sigmask;
+> +    target_mcontext_t   uc_mcontext;
+> +    abi_ulong           uc_link;
+> +    target_stack_t      uc_stack;
+> +    int32_t             uc_flags;
+> +    int32_t             __spare__[4];
+> +} target_ucontext_t;
+> +
+> +struct target_sigframe {
+> +    target_siginfo_t    sf_si;  /* saved siginfo */
+> +    target_ucontext_t   sf_uc;  /* saved ucontext */
 > +};
 > +
-> +typedef struct {
-> +    uint32_t    __fp_fpsr;
-> +    struct {
-> +        uint32_t    __fp_exponent;
-> +        uint32_t    __fp_mantissa_hi;
-> +        uint32_t    __fp_mantissa_lo;
-> +    }       __fp_fr[8];
-> +} target__fpregset_t;
 > +
-> +typedef struct {
-> +    uint32_t    __vfp_fpscr;
-> +    uint32_t    __vfp_fstmx[33];
-> +    uint32_t    __vfp_fpsid;
-> +} target__vfpregset_t;
-> +
-> +typedef struct target_mcontext {
-> +    uint32_t        __gregs[TARGET__NGREG];
-> +    union {
-> +        target__fpregset_t  __fpregs;
-> +        target__vfpregset_t __vfpregs;
-> +    } __fpu;
-> +} target_mcontext_t;
+
+We might be able to kill this extra newline? I'm not familiar enough
+with qemu's style preferences here...
+
+> +/* compare to sys/arm/include/frame.h */
+> +struct target_trapframe {
+> +    abi_ulong tf_spsr; /* Zero on arm26 */
+> +    abi_ulong tf_r0;
+> +    abi_ulong tf_r1;
+> +    abi_ulong tf_r2;
+> +    abi_ulong tf_r3;
+> +    abi_ulong tf_r4;
+> +    abi_ulong tf_r5;
+> +    abi_ulong tf_r6;
+> +    abi_ulong tf_r7;
+> +    abi_ulong tf_r8;
+> +    abi_ulong tf_r9;
+> +    abi_ulong tf_r10;
+> +    abi_ulong tf_r11;
+> +    abi_ulong tf_r12;
+> +    abi_ulong tf_usr_sp;
+> +    abi_ulong tf_usr_lr;
+> +    abi_ulong tf_svc_sp; /* Not used on arm26 */
+> +    abi_ulong tf_svc_lr; /* Not used on arm26 */
+> +    abi_ulong tf_pc;
+> +};
 > +
 >  #endif /* !_TARGET_ARCH_SIGNAL_H_ */
 > --
 > 2.32.0
 >
+
+I didn't think we actually supported arm26, but I see those comments
+also exist verbatim in machine/frame.h; no objection to reflecting
+them here, as well.
 
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 
