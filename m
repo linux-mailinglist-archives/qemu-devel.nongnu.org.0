@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF1543BA03
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:54:04 +0200 (CEST)
-Received: from localhost ([::1]:51808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3573843B9BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:39:48 +0200 (CEST)
+Received: from localhost ([::1]:50408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfRaE-00053y-3a
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57618)
+	id 1mfRMR-0001lS-Aa
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:39:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1mfRAF-0007rq-PX
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:27:11 -0400
-Received: from mga11.intel.com ([192.55.52.93]:17211)
+ id 1mfRAI-0007t7-Bd
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:27:18 -0400
+Received: from mga11.intel.com ([192.55.52.93]:17186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1mfRAC-0007Ao-Ad
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:27:11 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="227438573"
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; d="scan'208";a="227438573"
+ id 1mfRAF-0007AP-Ss
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:27:14 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="227438575"
+X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; d="scan'208";a="227438575"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Oct 2021 11:26:56 -0700
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; d="scan'208";a="497480958"
+X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; d="scan'208";a="497480965"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 11:26:53 -0700
+ 26 Oct 2021 11:26:54 -0700
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>
-Subject: [PATCH V4 2/3] net/filter: Remove vnet_hdr from filter-rewriter
-Date: Wed, 27 Oct 2021 02:17:29 +0800
-Message-Id: <20211026181730.3102184-3-chen.zhang@intel.com>
+Subject: [PATCH V4 3/3] net/colo-compare.c: Remove vnet_hdr and check in
+ payload from colo-compare
+Date: Wed, 27 Oct 2021 02:17:30 +0800
+Message-Id: <20211026181730.3102184-4-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211026181730.3102184-1-chen.zhang@intel.com>
 References: <20211026181730.3102184-1-chen.zhang@intel.com>
@@ -62,97 +63,145 @@ Cc: Zhang Chen <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the vnet header a necessary part of filter transfer protocol.
-So we need remove the module switch here.
+Enable vnet_hdr in payload by default. Make it easier to find module
+communication configuration errors.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/filter-rewriter.c | 26 +-------------------------
- qemu-options.hx       |  6 +++---
- 2 files changed, 4 insertions(+), 28 deletions(-)
+ net/colo-compare.c | 41 ++++++++++++++---------------------------
+ qemu-options.hx    |  5 ++---
+ 2 files changed, 16 insertions(+), 30 deletions(-)
 
-diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
-index cb3a96cde1..acc09f20fa 100644
---- a/net/filter-rewriter.c
-+++ b/net/filter-rewriter.c
-@@ -34,7 +34,6 @@ struct RewriterState {
-     NetQueue *incoming_queue;
-     /* hashtable to save connection */
-     GHashTable *connection_track_table;
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index b100e7b51f..ecb21917c6 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -119,7 +119,7 @@ struct CompareState {
+     SocketReadState notify_rs;
+     SendCo out_sendco;
+     SendCo notify_sendco;
 -    bool vnet_hdr;
-     bool failover_mode;
- };
++    int local_vnet_hdr_len;
+     uint64_t compare_timeout;
+     uint32_t expired_scan_cycle;
  
-@@ -266,9 +265,7 @@ static ssize_t colo_rewriter_receive_iov(NetFilterState *nf,
+@@ -725,7 +725,6 @@ static void colo_compare_connection(void *opaque, void *user_data)
+ static void coroutine_fn _compare_chr_send(void *opaque)
+ {
+     SendCo *sendco = opaque;
+-    CompareState *s = sendco->s;
+     int ret = 0;
  
-     iov_to_buf(iov, iovcnt, 0, buf, size);
+     while (!g_queue_is_empty(&sendco->send_list)) {
+@@ -740,7 +739,7 @@ static void coroutine_fn _compare_chr_send(void *opaque)
+             goto err;
+         }
  
--    if (s->vnet_hdr) {
--        vnet_hdr_len = nf->netdev->vnet_hdr_len;
--    }
-+    vnet_hdr_len = nf->netdev->vnet_hdr_len;
- 
-     pkt = packet_new_nocopy(buf, size, vnet_hdr_len);
- 
-@@ -395,27 +392,10 @@ static void colo_rewriter_setup(NetFilterState *nf, Error **errp)
-     s->incoming_queue = qemu_new_net_queue(qemu_netfilter_pass_to_next, nf);
+-        if (!sendco->notify_remote_frame && s->vnet_hdr) {
++        if (!sendco->notify_remote_frame) {
+             /*
+              * We send vnet header len make other module(like filter-redirector)
+              * know how to parse net packet correctly.
+@@ -1034,22 +1033,6 @@ static void compare_set_outdev(Object *obj, const char *value, Error **errp)
+     s->outdev = g_strdup(value);
  }
  
--static bool filter_rewriter_get_vnet_hdr(Object *obj, Error **errp)
+-static bool compare_get_vnet_hdr(Object *obj, Error **errp)
 -{
--    RewriterState *s = FILTER_REWRITER(obj);
+-    CompareState *s = COLO_COMPARE(obj);
 -
 -    return s->vnet_hdr;
 -}
 -
--static void filter_rewriter_set_vnet_hdr(Object *obj,
--                                         bool value,
--                                         Error **errp)
+-static void compare_set_vnet_hdr(Object *obj,
+-                                 bool value,
+-                                 Error **errp)
 -{
--    RewriterState *s = FILTER_REWRITER(obj);
+-    CompareState *s = COLO_COMPARE(obj);
 -
 -    s->vnet_hdr = value;
 -}
 -
- static void filter_rewriter_init(Object *obj)
+ static char *compare_get_notify_dev(Object *obj, Error **errp)
  {
-     RewriterState *s = FILTER_REWRITER(obj);
+     CompareState *s = COLO_COMPARE(obj);
+@@ -1157,6 +1140,9 @@ static void compare_pri_rs_finalize(SocketReadState *pri_rs)
+     CompareState *s = container_of(pri_rs, CompareState, pri_rs);
+     Connection *conn = NULL;
  
++    /* Update colo-compare local vnet_hdr_len */
++    s->local_vnet_hdr_len = pri_rs->vnet_hdr_len;
++
+     if (packet_enqueue(s, PRIMARY_IN, &conn)) {
+         trace_colo_compare_main("primary: unsupported packet in");
+         compare_chr_send(s,
+@@ -1176,6 +1162,12 @@ static void compare_sec_rs_finalize(SocketReadState *sec_rs)
+     CompareState *s = container_of(sec_rs, CompareState, sec_rs);
+     Connection *conn = NULL;
+ 
++    /* Check the secondary vnet_hdr_len */
++    if (s->local_vnet_hdr_len != sec_rs->vnet_hdr_len) {
++        error_report("colo-compare got a different packet vnet_hdr_len"
++        " from local, please check the nodes -device configuration");
++    }
++
+     if (packet_enqueue(s, SECONDARY_IN, &conn)) {
+         trace_colo_compare_main("secondary: unsupported packet in");
+     } else {
+@@ -1289,8 +1281,8 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+         return;
+     }
+ 
+-    net_socket_rs_init(&s->pri_rs, compare_pri_rs_finalize, s->vnet_hdr);
+-    net_socket_rs_init(&s->sec_rs, compare_sec_rs_finalize, s->vnet_hdr);
++    net_socket_rs_init(&s->pri_rs, compare_pri_rs_finalize, true);
++    net_socket_rs_init(&s->sec_rs, compare_sec_rs_finalize, true);
+ 
+     /* Try to enable remote notify chardev, currently just for Xen COLO */
+     if (s->notify_dev) {
+@@ -1299,8 +1291,7 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+             return;
+         }
+ 
+-        net_socket_rs_init(&s->notify_rs, compare_notify_rs_finalize,
+-                           s->vnet_hdr);
++        net_socket_rs_init(&s->notify_rs, compare_notify_rs_finalize, false);
+     }
+ 
+     s->out_sendco.s = s;
+@@ -1396,10 +1387,6 @@ static void colo_compare_init(Object *obj)
+     object_property_add(obj, "max_queue_size", "uint32",
+                         get_max_queue_size,
+                         set_max_queue_size, NULL, NULL);
+-
 -    s->vnet_hdr = false;
-     s->failover_mode = FAILOVER_MODE_OFF;
+-    object_property_add_bool(obj, "vnet_hdr_support", compare_get_vnet_hdr,
+-                             compare_set_vnet_hdr);
  }
  
-@@ -423,10 +403,6 @@ static void colo_rewriter_class_init(ObjectClass *oc, void *data)
- {
-     NetFilterClass *nfc = NETFILTER_CLASS(oc);
- 
--    object_class_property_add_bool(oc, "vnet_hdr_support",
--                                   filter_rewriter_get_vnet_hdr,
--                                   filter_rewriter_set_vnet_hdr);
--
-     nfc->setup = colo_rewriter_setup;
-     nfc->cleanup = colo_rewriter_cleanup;
-     nfc->receive_iov = colo_rewriter_receive_iov;
+ void colo_compare_cleanup(void)
 diff --git a/qemu-options.hx b/qemu-options.hx
-index 38c03812a7..6d3b7ab8a0 100644
+index 6d3b7ab8a0..c966035b4b 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -4958,12 +4958,12 @@ SRST
-         id can not be the same. we can just use indev or outdev, but at
-         least one of indev or outdev need to be specified.
+@@ -4976,15 +4976,14 @@ SRST
+         stored. The file format is libpcap, so it can be analyzed with
+         tools such as tcpdump or Wireshark.
  
--    ``-object filter-rewriter,id=id,netdev=netdevid,queue=all|rx|tx,[vnet_hdr_support][,position=head|tail|id=<id>][,insert=behind|before]``
-+    ``-object filter-rewriter,id=id,netdev=netdevid,queue=all|rx|tx[,position=head|tail|id=<id>][,insert=behind|before]``
-         Filter-rewriter is a part of COLO project.It will rewrite tcp
-         packet to secondary from primary to keep secondary tcp
-         connection,and rewrite tcp packet to primary from secondary make
--        tcp packet can be handled by client.if it has the
--        vnet\_hdr\_support flag, we can parse packet with vnet header.
-+        tcp packet can be handled by client. Filter-rewriter support
-+        parse packet with vnet header.
- 
-         usage: colo secondary: -object
-         filter-redirector,id=f1,netdev=hn0,queue=tx,indev=red0 -object
+-    ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,vnet_hdr_support][,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}][,max_queue_size=@var{size}]``
++    ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}][,max_queue_size=@var{size}]``
+         Colo-compare gets packet from primary\_in chardevid and
+         secondary\_in, then compare whether the payload of primary packet
+         and secondary packet are the same. If same, it will output
+         primary packet to out\_dev, else it will notify COLO-framework to do
+         checkpoint and send primary packet to out\_dev. In order to
+         improve efficiency, we need to put the task of comparison in
+-        another iothread. If it has the vnet\_hdr\_support flag,
+-        colo compare will send/recv packet with vnet\_hdr\_len.
++        another iothread. colo compare will send/recv packet with vnet\_hdr\_len.
+         The compare\_timeout=@var{ms} determines the maximum time of the
+         colo-compare hold the packet. The expired\_scan\_cycle=@var{ms}
+         is to set the period of scanning expired primary node network packets.
 -- 
 2.25.1
 
