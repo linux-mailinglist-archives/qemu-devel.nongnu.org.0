@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648E243B00A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:31:29 +0200 (CEST)
-Received: from localhost ([::1]:46974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D48043B02A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:37:10 +0200 (CEST)
+Received: from localhost ([::1]:36114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfJjs-00042x-Cx
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:31:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51412)
+	id 1mfJpN-0007M4-Au
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:37:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfJbc-00011t-0x
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:22:56 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53239)
+ id 1mfJbZ-0000x2-Os
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:22:53 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfJba-0007Rv-Ff
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:22:55 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id m42so13566293wms.2
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:22:54 -0700 (PDT)
+ id 1mfJbX-0007R9-Up
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:22:53 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id o14so1004785wra.12
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:22:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pQ3BdzkSMgKgR2yCwD+Jc0cjVeoWcI6lFMea0A48Un4=;
- b=pSTV3+NNeRHm9tnmF2HuuYNYvclG2QKKBD0egEjxFgQU4HhlMXGAbHgztCrSgyhcaH
- a55uzxWIWDqCWW9cAcdmqHQtzdK64KLE7OvDpJCS5tT28RSSToDTvILeRcDPpyoL1oi3
- f36lAayL9fDqkbjZ88pOiLmHLdMiDDe9PrfSzsupiTmTFAzWSlPe8MvT2XkMSkzGK6xK
- Y4x+E6oJy8q3AYwXcVLurRcLnF4I0M6eQR/PMfXznH4Ft/eEH9ySJ6SFMbSfsVDgoxa6
- gqxCOHhQ9RJRFl+ZVRAD7oRmup+OiWE85LqAhyUk6SDEk2zhxbJFWKPHjncwj8Yn+skr
- Xu2A==
+ bh=+nzfSAkBBnW95G1HHY0jfzp30Kl0kRtuu1gHbOZwLl8=;
+ b=LsiI3iGnLoQmxDgb98ObsxOE52D4KcgVrmTaUzWCuho+OZiQII6FOMWKumju8VUsog
+ yx/av0zwf8llGLsTLsErNzXhX+QVB9aSEdWfaYSSeBsxk+FpQ/fJo5ky8uYR5PdsFVNf
+ ZsyFcC49mXwa6Fmwl0z/IwNG4l+OBaSgvrwq7qFAYg2zjp0gAgP9NtSxsGKmZcOqe6sH
+ f1KefDaKyUvnkuy17iSMKyVNAnPWN1ZjdpOd6ABXHSEPAFfnZjszeXqPxjywYeL/p0Le
+ ozm533dzgE6WA/biR6GQmvIG7EFv11CbZZAwDGiKPG8oP26fwrY8yCpMSprqSjywyKS3
+ IiTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pQ3BdzkSMgKgR2yCwD+Jc0cjVeoWcI6lFMea0A48Un4=;
- b=Q2JdUb2eP+ngHmenVGS/85ohlnDYZhY8xARpjyCGH7tmYbHvvM+IDZeZ+m+LxWlJSX
- gUHJ0MsedivDfZA9aqx38SZcX0yv4bKw7wYc3aB9satgmzbYsuPm7vXRX6HNpILjojFP
- ZJVkEpdcLhQKlqvusNdkUf7sMjE5es/q90gIBFtSH/3Xr7+IBTrg2OnvfF+RvjqzIpet
- Y7TyS8Lw8JJyUYzO0/QnyEKpfA6pL2k/90XCoaaFLAnEgD8cy584VujRUt8IjQnh6C9g
- 3RxAQ1m+sctYiF7YmRoJsVY4uELdTZ3pdyqttkUBPqi7vuy0nwyO46Drzy+Z3xmUJ6Qu
- ya5A==
-X-Gm-Message-State: AOAM531xfdRv1zd4h97cDg+A5rMHbaWLyvxDAA8ms8nCR9mUvfpEYWg+
- gO8Qn4i5rxhkJk/bEoCdJdtqJA==
-X-Google-Smtp-Source: ABdhPJyyqO8B0WCROWZAqLZp3PPUtVaJr6Sm5YyRmSCBdq3PDfyKMxPh38GkEU/7Jgn9ikVrXMkRng==
-X-Received: by 2002:a7b:c955:: with SMTP id i21mr4263332wml.53.1635243773138; 
- Tue, 26 Oct 2021 03:22:53 -0700 (PDT)
+ bh=+nzfSAkBBnW95G1HHY0jfzp30Kl0kRtuu1gHbOZwLl8=;
+ b=e5E9tgYQqnN+QyCmqa392/GPldbg10DB9tEXYtrKU3M0bCtMtvyZjkQ/3HW6XMXoHI
+ il0T+GYk1B2bDiLtfhEfxsG7CfyEVGDjn5IKEx0CPIKkHfsqNFHckLvu6Mj85fRWrwJy
+ 7shFgX6vjW+dzyDMmxv6IG1X/pGOq/qA0D+EPinhwWah/1IPr+/knd4SO1z2v1Hyckzh
+ Qfe+zsWk0ZtB0KnpEoOwWS3SEp5uTcaVkB9YBcl8tlGnO23mV8cnvB7dPD9kpi9kp/Ms
+ aeMqYEkn8wMl5UDwW8WZl2P1zurpeV2KqFl3XlYPG9LL1usbbC/+CV8NrU/KWxgX6wLR
+ MXeg==
+X-Gm-Message-State: AOAM531dGpsMu3Gb6DWZzuoO+vhyMl/sLOQ9tmBQXgQoiPuhnBLkQ9RC
+ Fep74EMXivxAFQrvnhLvuaaiHQ==
+X-Google-Smtp-Source: ABdhPJz608cB6IIjzdGF4jhxuXFxEfe8eIEVpK13ldgP4JIcUe6hT+vgjTruOTymWhmvnqLnhBc+fw==
+X-Received: by 2002:a5d:64c9:: with SMTP id f9mr12533839wri.416.1635243770557; 
+ Tue, 26 Oct 2021 03:22:50 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o20sm171536wmq.47.2021.10.26.03.22.40
+ by smtp.gmail.com with ESMTPSA id m35sm1683375wms.2.2021.10.26.03.22.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 26 Oct 2021 03:22:48 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 882111FFA5;
+ by zen.linaroharston (Postfix) with ESMTP id A0C071FFA6;
  Tue, 26 Oct 2021 11:22:35 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 09/28] tests/docker: split PARTIAL into PARTIAL and VIRTUAL
- images
-Date: Tue, 26 Oct 2021 11:22:15 +0100
-Message-Id: <20211026102234.3961636-10-alex.bennee@linaro.org>
+Subject: [PATCH  v1 10/28] tests/docker: allow non-unique userid
+Date: Tue, 26 Oct 2021 11:22:16 +0100
+Message-Id: <20211026102234.3961636-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211026102234.3961636-1-alex.bennee@linaro.org>
 References: <20211026102234.3961636-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,41 +96,37 @@ Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, minyihh@uci.edu,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is mostly to ensure we don't include the toolchain and bootstrap
-builds in DOCKER_IMAGES which is useful when verifying all images
-still build.
+This is a bit of a band-aid against hand-built images that have been
+accidentally polluted by a user build. All images pulled from the
+registry shouldn't have the user defined.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ tests/docker/docker.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index e943ac33b0..5bbbaceed1 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -11,8 +11,10 @@ HOST_ARCH = $(if $(ARCH),$(ARCH),$(shell uname -m))
- DOCKER_SUFFIX := .docker
- DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
- # we don't run tests on intermediate images (used as base by another image)
--DOCKER_PARTIAL_IMAGES := debian10 debian11 debian-bootstrap empty
--DOCKER_IMAGES := $(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker))))
-+DOCKER_PARTIAL_IMAGES := debian10 debian11
-+# we don't directly build virtual images (they are used to build other images)
-+DOCKER_VIRTUAL_IMAGES := debian-bootstrap debian-toolchain empty
-+DOCKER_IMAGES := $(sort $(filter-out $(DOCKER_VIRTUAL_IMAGES), $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
- DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
- # Use a global constant ccache directory to speed up repetitive builds
- DOCKER_CCACHE_DIR := $$HOME/.cache/qemu-docker-ccache
-@@ -204,7 +206,7 @@ DOCKER_PARTIAL_IMAGES += fedora-cris-cross
- # packages.
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 78dd13171e..5eadf0bb7b 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -336,7 +336,7 @@ def build_image(self, tag, docker_dir, dockerfile,
+             uid = os.getuid()
+             uname = getpwuid(uid).pw_name
+             tmp_df.write("\n")
+-            tmp_df.write("RUN id %s 2>/dev/null || useradd -u %d -U %s" %
++            tmp_df.write("RUN id %s 2>/dev/null || useradd -o -u %d -U %s" %
+                          (uname, uid, uname))
  
- # Expand all the pre-requistes for each docker image and test combination
--$(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES)), \
-+$(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES) $(DOCKER_VIRTUAL_IMAGES),$(DOCKER_IMAGES)), \
- 	$(foreach t,$(DOCKER_TESTS), \
- 		$(eval .PHONY: docker-$t@$i) \
- 		$(eval docker-$t@$i: docker-image-$i docker-run-$t@$i) \
+         tmp_df.write("\n")
+@@ -590,7 +590,7 @@ def run(self, args, argv):
+             uid = os.getuid()
+             uname = getpwuid(uid).pw_name
+             df.write("\n")
+-            df.write("RUN id %s 2>/dev/null || useradd -u %d -U %s" %
++            df.write("RUN id %s 2>/dev/null || useradd -o -u %d -U %s" %
+                      (uname, uid, uname))
+ 
+         df_bytes = BytesIO(bytes(df.getvalue(), "UTF-8"))
 -- 
 2.30.2
 
