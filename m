@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5545A43AD38
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 09:32:43 +0200 (CEST)
-Received: from localhost ([::1]:60484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE5743AD72
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 09:44:43 +0200 (CEST)
+Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfGws-0004mQ-Bt
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 03:32:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53032)
+	id 1mfH8V-0000Lj-1P
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 03:44:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=9269cd5e3=Anup.Patel@wdc.com>)
- id 1mfGB6-00038C-3m; Tue, 26 Oct 2021 02:43:21 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:17124)
+ id 1mfGB5-00037r-0V; Tue, 26 Oct 2021 02:43:19 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:17108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=9269cd5e3=Anup.Patel@wdc.com>)
- id 1mfGAw-000075-76; Tue, 26 Oct 2021 02:43:19 -0400
+ id 1mfGAw-0008KZ-Cx; Tue, 26 Oct 2021 02:43:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1635230589; x=1666766589;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=cCSVrMFQZK0YBYECnnhAPfLUnCnHNqNNUJ+jWklO1VM=;
- b=LSvAUrbBBZ6UkHDkfkvZR8X89mU2G81dgxq8mjL3tYDNBtvKtn9h2qUa
- 3oE0+eNw1Mt4n3kz7nW514eoqYLq70+9NnDDrYcg49xn23qVvLqPiuWsi
- +HE/i6KVuoDmLGtp21R9I9nbH8YjOHEe0Ev1q8XiCwI3wnc8+vKTzZWjW
- G1g2LDYZNbnHbPOAqJ8YE4M+BoK/El2DXj2oLBonJaWCJO7TnU6LqqrxE
- 4zNiMVyt8zClsFpCzM1iaryEM28IlssVBPQknPBZgjNMKbafCAhi8XAwo
- UcqqKT9r5AupPlJPJRMSbJVEQ/77PH4pSREVfdHfrsmOa8f6QXsEFbus5 g==;
-X-IronPort-AV: E=Sophos;i="5.87,182,1631548800"; d="scan'208";a="188620394"
-Received: from mail-dm6nam08lp2040.outbound.protection.outlook.com (HELO
- NAM04-DM6-obe.outbound.protection.outlook.com) ([104.47.73.40])
- by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2021 14:43:05 +0800
+ bh=z3qIOXYfVWykrEEtE+DZx9v+O2iQ78PhkBTRuSZjnU8=;
+ b=hQB9bYLYTtwVHNs5mZ1iGc36yZcbfXJBlqHI41bF8O4nstwTj7E12YaO
+ LAP4DCo7NPPiAfS9ToaSN430+1Yznh6rf23cjQWHHmbSniQXRRFY0W7Q+
+ D9BJ7dmSq4uVCjkkJOPvp5FL4duFDDv6MRUuf/RcoEBO6fY+ibdWxSrod
+ nUBK+a2CFVkUSFkcuUXJ9HLsdp/l6HmdsPIsQq5BbWwHGlPav252T4N2n
+ mK2bWwfoIaAKW0DKoa3oQ2sp10WDIBEQMLafdasMZNaQX/MhmYHGruHlj
+ ocqkn9/OLUMqY0d6v8+JAO4skc6qji9AQ8NatTgI9v6Z+31MUiiAv3PE8 A==;
+X-IronPort-AV: E=Sophos;i="5.87,182,1631548800"; d="scan'208";a="188620397"
+Received: from mail-dm6nam08lp2043.outbound.protection.outlook.com (HELO
+ NAM04-DM6-obe.outbound.protection.outlook.com) ([104.47.73.43])
+ by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2021 14:43:08 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gF7jD+i39TroE1pb1tCRGvjeeV5TY2mpoEzTyTBxXQEnUvAOoJZxDqeb6mprDGtr6/zI2DgBB/nBIhqxHe8kesguETLhod2LdckYruxtRNtKFVE2u3JtsDeeWR7ERpK6TfzOHV9Q4EmOxWtBCL7KZ4EPa2VOknZZ7itoZf0XLcUgdDb9kVY9czisuLt1G6CVsKGtPUiIQ0KGACkhCLcdDMi3itdet3lq87hoqHlAIb8D637QAJg5HbNQI5UfFWrV6veodL2bmzoFunUjaD0Y9eAqBupDL/JgUBCVeXEnlxJHgSorX6fwBUOJwHkiCiIGU6Eo3cIArnvpc7lb1McvdA==
+ b=M4L+PLQQXWU8PZYCGo9DsSU+npEapysINuxjjAAX0DuhIDKKTM2LME1zFMWg4nEB/+Pg6fVowTkP/LDZC7GGBNRSzmYRpFbRzd55EHd+xBUgXtLFxZyRyOpaIYF9uZe+Yk3OetDIsyq0SkR5FcZZj4LU7ZVV7o5/Tf8620XPb4mlKkw9Owgn867zAuqKEF2a+IpsHzvE3aqQV4sErJKkUbGPpLp65eJZAiwvd8QXSy5Fy/ok5YdjraXWkhqRFzSNKEhz0igN0nM5Rzct1mBqEY6I7XBwzE5i+KRwbAVpaX06878B90a3WeRhRIBcjQ6qv6rPMbOizoFz/viMa8nXJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZlRWqy2KFGv4IYynZao2oNqPMPDr2xUqua+m+KlFHS4=;
- b=Vpt+eBlR8qB16tUcSEKqyMEBISKCrPGnEAXRwGewUhWrzpSZOaZAnnp5LC2MCsMEEYSGX5J1L/PjGgpXkr/URuEbdlhhn5UuN2RdR+yJXiPPpdrrWcd9Im+c23TsiKPdcEwzK0GzbhQmK4kydzdHIInvGCMKWgouSXeok2VtSrAv7KaRJ5ir36X8xTptiZorbkqhznpn03EZx/1z/FLex4L1MLdUS1/lTEiKti9tqgsFwz80A3aBGM3+wSgZY6zK3ES2BlcD9XbeBPXRSIFjUYn7pxO7NuLTrU/fh4f1J3igSrnFBmCWRXxeeef1i0xlseYO0MPvbMh5xTN9GTSpOw==
+ bh=dL1YDusRsyUzrz9kwwbmLXyN21mUnwX+DADOnb91Df4=;
+ b=OZx9q3p6thOvjLtkZ0faiclyo7lXHRgKik4U/00/QgPLEIjd1XWF742CA2nwYHl33DSPKBZieQqWv0ToErT4CzUxW/ISrBNwX9DrMR9+426hDJ8I0jWMdrwdEkDkVUUgd844g9rnWcMTl698BSVpCrEOgdJzm8VyXo3aA1H2BXt2Os/DMtW08NY+1h4rxGAl9Ud03x+hjKhnxmY/Ni4yp6iyp7mNGHAn8RrMM5Leqf8f8c9PNvQbNGCn3SYOsqqplGnPoh8g6UIEtXyzCvaDw37EpLtEltJ245w96h0XMUT4Id/xzAgELeKw3054Vl5TWGhO+qF6OwTYRqXUxdjJaQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZlRWqy2KFGv4IYynZao2oNqPMPDr2xUqua+m+KlFHS4=;
- b=Uj3BxQSrRDoZ2j+X/zCiORErG0vLXkXoTBlcuI1A22yXG4MANqelPTPvxnfhr59R/oqvvOmW7pKOx3YlZdGY2pCVGNVkom3aykuF0nEVwH0Mlie8mmZ27P8MlR1vJ+A4fvj8LkjwVrfAUOWuMUwd8xc4wVQFpB1LUlF7NQOxCE0=
+ bh=dL1YDusRsyUzrz9kwwbmLXyN21mUnwX+DADOnb91Df4=;
+ b=jyJmDV6xdw35S7txvd5IGiwrGxhqPUhA9sJnjXI23j0MYebEca3k1MzSO2aw+UTag2vLvbFLaJJry1raUY2HrYtMx4deLXMj3gJeL2o2mdeoveGYigMHBLNZEnW7/9KIKwqa1ipzA7jeo3Y2qp5NYmRuVMZvdoEz8kjWzx8XHz8=
 Authentication-Results: linaro.org; dkim=none (message not signed)
  header.d=none;linaro.org; dmarc=none action=none header.from=wdc.com;
 Received: from CO6PR04MB7812.namprd04.prod.outlook.com (2603:10b6:303:138::6)
  by CO6PR04MB8394.namprd04.prod.outlook.com (2603:10b6:303:141::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.16; Tue, 26 Oct
- 2021 06:43:04 +0000
+ 2021 06:43:07 +0000
 Received: from CO6PR04MB7812.namprd04.prod.outlook.com
  ([fe80::8100:4308:5b21:8d97]) by CO6PR04MB7812.namprd04.prod.outlook.com
  ([fe80::8100:4308:5b21:8d97%9]) with mapi id 15.20.4628.022; Tue, 26 Oct 2021
- 06:43:04 +0000
+ 06:43:07 +0000
 From: Anup Patel <anup.patel@wdc.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v4 03/22] target/riscv: Implement hgeie and hgeip CSRs
-Date: Tue, 26 Oct 2021 12:12:08 +0530
-Message-Id: <20211026064227.2014502-4-anup.patel@wdc.com>
+Subject: [PATCH v4 04/22] target/riscv: Improve delivery of guest external
+ interrupts
+Date: Tue, 26 Oct 2021 12:12:09 +0530
+Message-Id: <20211026064227.2014502-5-anup.patel@wdc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211026064227.2014502-1-anup.patel@wdc.com>
 References: <20211026064227.2014502-1-anup.patel@wdc.com>
@@ -79,59 +80,59 @@ MIME-Version: 1.0
 Received: from wdc.com (122.162.126.221) by
  MA1PR01CA0161.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:71::31) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4628.22 via Frontend Transport; Tue, 26 Oct 2021 06:43:01 +0000
+ 15.20.4628.22 via Frontend Transport; Tue, 26 Oct 2021 06:43:04 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ed0cc16a-e04f-4ab1-ef01-08d9984bdccb
+X-MS-Office365-Filtering-Correlation-Id: 257f4ff9-494c-42e0-d864-08d9984bde93
 X-MS-TrafficTypeDiagnostic: CO6PR04MB8394:
-X-Microsoft-Antispam-PRVS: <CO6PR04MB8394C1A02AC36958677FE8378D849@CO6PR04MB8394.namprd04.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <CO6PR04MB8394A5093AA429E793007A378D849@CO6PR04MB8394.namprd04.prod.outlook.com>
 WDCIPOUTBOUND: EOP-TRUE
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u6kvlVRqy/7uScAZukUSkdlqfD8MPgwFLaRx2Na74gX5/EElXNd9dywZ9RNalg0CkpJ7SRVfO3bB06BjT2pWjMOcG73je0x6iQZe+8qerUDstN0FGFnfDpXUogKueQ8TcM2Rk3heymixFLhYXPdY/orrDYwNTy+XkqqqaVN2Cg0n+UqBzFRIbpBOceKjSULwg86mmRSUB0GikpSQ5HJS9aR46Jq0SmEONd1BivrUedlbQDqtfReyf0s2/rwOpM/YeX4P13Q/dvZG1gh7wE2ct+Jbv6wpRz2g6tMdZIb+84cP2kl1O2m1MKInZ39ME1csh1Lkcl3jlpcgq05RPFn2CDSY0r6cjJGmbYyNWG012kj1dWwWme87EfpOfageTzgrrf7t+pfuyLHpf3NtrRti5vgN4HHpbkvkn+mrTPILmUjp1A9Sihmb5QRH/nyktIiSBwlC4ZEC4rpO5RC8q7dci9NnSvqVAZkneAX6DbNg1gW4UlQRMDmQsAhVWqajBKWEKmchVgVQCn4rDYqySSu0HcjSqhKUfrNcIvCxTQumHpNUqaKbI8XTisgICYv3Kva2K0HllFD6amacarwLRIYkYrODpU5fUS3WNRrcNB7+K7MpiijBKaIX/8BS0rUmgjw/CHEeVrN7okg1BrTQO5PEgXPTCkBdDI6qx/jTTY8VGKVV8eJeEqcNYUGo2Zybd+aUoUHT6/xCJgm0+MTL7Govrw==
+X-Microsoft-Antispam-Message-Info: /bmiSBX9nihlgR4Ob3lcS7Qya0qz8Daztb55snRMMxaVlgehQU94XJeEu2wULhXSguRK8tyO9olRZNVBPqeat3PR/+XKfZsEP7mQHeoT0kNk26LgRm4MKsWVwMufBcfUJy98k/rxCA0P/ftewMmKB4axEop0IolFtWHbFlZbFjG9BbFA1GZJdmxDIO5cwrKR99sLbYYN4cddxqV9BZNT8b5bM6nXfoFWLd/VzsKlTy3eFL4RWV99YBBT0xHjGYvcCjnxo6sGH1O7LVLTuklApLiTL4XlXSaIGjOqlRhO0lKxot5f3v6xEw3iiJxgkbFoHzVV9uEtXP6NRbaS8u9E9wDOpPJTd/NuLZz4xqJX5CaJwuGfBeYZgI2f+wSDw2o/whW3cnC8yRHvIMcyA2Bmm5ZJNiIBTFHE/ldr8H7hIL8RIW7/3xVTnj1gtuQ3yU3jrhiuKe5brlShHn1s9dHDexqH/RJO6Do+GGWFnJt5QGnWV8O6ic57qkNAxUKVnYTkJrvLxkW9Z3XO1lOJFkSo41jYLCS8a3Lqq/8TdrT0Y/hyv0QK9MRshuXsAw12djQdp/2ynm7VuFqOFmMlvTvcdRSBLrI/TRNdXJMfXWn1N7sZeU0zjYDGQBgrUQR4pxyjQQNOtiTolDdEcERaf+CmaMwkPahKN3fCQKU1ghjTWGsuLSthwObfy3/7hADbLrDIevzdNNQg/xCQvR/Q4VV26Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO6PR04MB7812.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(2616005)(956004)(83380400001)(8886007)(508600001)(8936002)(44832011)(82960400001)(8676002)(5660300002)(55016002)(186003)(26005)(36756003)(1076003)(38350700002)(66556008)(38100700002)(66476007)(66946007)(316002)(52116002)(7696005)(4326008)(86362001)(54906003)(2906002)(30864003)(110136005);
+ SFS:(4636009)(366004)(2616005)(956004)(83380400001)(8886007)(508600001)(8936002)(44832011)(82960400001)(8676002)(5660300002)(55016002)(186003)(26005)(36756003)(1076003)(38350700002)(66556008)(38100700002)(66476007)(66946007)(316002)(52116002)(7696005)(4326008)(86362001)(54906003)(2906002)(110136005);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XQBVUfHVRuhdQwLMrmuffmFxfqlh4PaIJuCWE+p6qP2dr6pXKVo1isV/e+Ty?=
- =?us-ascii?Q?5l5NiMa3wiIpULnYj+AFq2K5bkipf3Jm7lT029TiQRMFrVCZDXw0eBtQCZeE?=
- =?us-ascii?Q?lOz2EuWD019sCI22rP1Jpwj06QEQrBuuDRurGnjLLQ62k4k+xp1hlXZobrII?=
- =?us-ascii?Q?TFr8fxWyPI3SzXX8pYOZg82subOwDn3J6QLHV5XH4YG1zctNL7u76edlfEPH?=
- =?us-ascii?Q?SZ2NP5sBmzjDTuZZRHKkXrxd5Anq5g4P7yXtz1ncXpH9ZbVl24wSYoWfzGPH?=
- =?us-ascii?Q?khuOc1XkIorqiMiNrTpJZxPm2scNiZLv3oazqCbsypheeZaNCJKv98omAsNJ?=
- =?us-ascii?Q?BU+pvjBS//VBcPeq+Hrz9o+TecI99J4LiytSUmzrRbQYlq7rfXil95Gj9/pg?=
- =?us-ascii?Q?lurabhUMpUgMpbs5mAd7AQ1uXv+EFUX1XPoHdOr+Vw4GsIH6BA5xOD0vam90?=
- =?us-ascii?Q?J1EIXaT6bpuICsgKxxIiw9m/C2/wFGQuWw2cppjVq/ZoLuJrcQT2aAcl+Rcc?=
- =?us-ascii?Q?KXP0kISteUu0amKqgTv2peOWGU5PTbIQOb+r1PVc56FtqQgEp0mIKg2BhqTE?=
- =?us-ascii?Q?JoMUNpyj0XEFc2wJuFSv4WwXu0oOgZlGwsxC9/yie4QHlKfI8Ndi3ut/Q3Lz?=
- =?us-ascii?Q?1vs2UPbJgPwqMSG0TeQcOY0QMUEmRbQs9m3biPEssuiIgDisxTTExJg15XwU?=
- =?us-ascii?Q?9fORwRh2wYTi4sweJenVEYx88dkfTtWKm9HGKUYba5aWJhnbHh3jcJi3RICV?=
- =?us-ascii?Q?VEGH8hn+MH+uqdgVrC3lkwrl3CAPsCe80MZjKgSrsvlHk7EcaDt/tYnj1ZYP?=
- =?us-ascii?Q?IYzaN8YnmuGTwmgschZCBtvqmAyA1+L+c730gjq667daM7oMQV8/RtpnDBFS?=
- =?us-ascii?Q?YErfjab78rtjsxm9d+njIdaVTiyvMC9VeDJonPKqhQLm2JX+gipSML7M+xp6?=
- =?us-ascii?Q?DTgzT8DkK9M+mcsE+br5JYH+NDjW+qpOK6ojg206B6VOa5y1mB+GmQPQZuR/?=
- =?us-ascii?Q?S7sPv33h7nkpAS4Z8TgLE12sl5Xki36Y4CkMNLL+n+jPC3qhbyGb/WqkrUpc?=
- =?us-ascii?Q?YOsbSWsVktEKVODEn3kkgnzBmIlnDhsA5nORqsijxh7Vty4xst064Bt9kyzh?=
- =?us-ascii?Q?0d7hf3tlZyG2+LhH3vYCOeP+P9HrKPZssLHtXZRBsSPGKJa0nmCe0zDIYozc?=
- =?us-ascii?Q?P6i3s7LuuX9eDM26mlji1ikAR+7InjmW3sTABDhrl7QV8yLeJJBEvWBUGgYp?=
- =?us-ascii?Q?Cv0WvyrI+MKemGmwOcRs8G5eyVDutD4QrcQloxXpmgZGl2jA9/TshboaEb2T?=
- =?us-ascii?Q?FS/5fxCCoBxgwsmjOTZ3DfLVTD9ZmajNkCcLXxzLsTQqxTMLWp7ZhIq6VJXr?=
- =?us-ascii?Q?BjB9itEYbbfErR7jkc7dPH63r1za9TDc1Dxb6kXwZBJ7fQvm7wHfJMO2TO0P?=
- =?us-ascii?Q?jlIMIUjtdfIBembAOaJfaV7YZYEZm/eITl9Haluozidx1J7fbVtgc9PQtuSd?=
- =?us-ascii?Q?2jz3b3/Lfeya7frU98O1j6GxJN8n6OXzrs0uCVWButJfmxrTx9qC3qRf8Rd+?=
- =?us-ascii?Q?8+wqmYeBNpCxcFue+HkSXkyqxw1M0hWKWMa4pizcl6dG84/XfitkYvcRBLgU?=
- =?us-ascii?Q?cJT3rDkeAr8slCX17c0hf6E=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GS4GjMVjKViE50/l2y5CdHEsxUdgk3RnIeP8GaadQbbMmcRIMR1lqdUYaJ+T?=
+ =?us-ascii?Q?Qkr3/3UErCXSTo1y9rEZisvo2M+gTthpG2/+5+nvWQDD0Wo0LIexV9Ol21n2?=
+ =?us-ascii?Q?kh74zxHqkUwz9G4YsB+u0IZ+8fIKCQAEpMoLSZoTh+lxlssfemzXmK8QMU+0?=
+ =?us-ascii?Q?FjPWySLgpAFL3HWCek69I4+s5vn+CFxGakIknLqATu+DZaOj8l1GXRYiJrKf?=
+ =?us-ascii?Q?BOKsD7ab2Zf85A6O3Nzf0MwlbUs9iOAXCJsx7JTIldVHZShfAILszeBybToU?=
+ =?us-ascii?Q?Rl3yR3g8HgFhybBwzPumaYEq1cyBcn4CSmltURupO5Dbq02XqN59YhEj1BAx?=
+ =?us-ascii?Q?zb7r5yIgsjlXATlkAzLaN22juTJN9xs1/SpBDVkZXA2UJajy7t5EJ5j9yYG4?=
+ =?us-ascii?Q?UCTeMtoq8F3P3YuauKEcaxVCuwBkpUDeyVTzEhGzawIwBhmFBqRh3Xqc9yZe?=
+ =?us-ascii?Q?ufv5fUzZZSp8eHkGSFhXizsdFjtDnmf5A0dGpjZ4H9hu7A/Fdt6MWYOxu4sc?=
+ =?us-ascii?Q?jO9xy8JTL1Ndxr3UI4HVF4RDRs1S+YeRAC4CMSSu/SUiX5rPmjbL+67lW9LH?=
+ =?us-ascii?Q?wkkynbBI+7SZZWZoAbWnSHbcVfXrTsXLXvRG6hbkXTrUgxMnfPwNnGaQKspV?=
+ =?us-ascii?Q?KtmiOMXr1nkDWu8DimHpHO0n9KvBhFn7bi/f/WpvyMPf4znq6ZOmoZZ1l5qP?=
+ =?us-ascii?Q?ys+jLC0b47CgcngM0ZgRUASJ1CtcyMYHCZVqQ7+gKO4K2+4E206vDEInnZTD?=
+ =?us-ascii?Q?+8whbx/L56bZiMyAO5l2KEsffST9zZYr3z6vAIcF/hu0RrtPEFGaHd3+Kng2?=
+ =?us-ascii?Q?N3Jz6K0G3XuTOKGpT5sPXfVCrhhlA3Sl3OptlHeC5WUD1HGIYO/cY2Sp9rKV?=
+ =?us-ascii?Q?6d0pDoRVwOb8W0seRroiqPcyBJqi9+lKPp94Pt+C6/RuDCQ7lTcLg6tVp7sR?=
+ =?us-ascii?Q?og2IN/tr25u/+2jYQ/CQ2I1ZikQfz9FnyoJcvBcHnK7U0dQoLKHP+Da1nyTr?=
+ =?us-ascii?Q?J/xvoJ3uWftonDjMWpW+HrtF8LWQv6m4v9ErHe6gDQjCQD4i5x48ujjVOmSq?=
+ =?us-ascii?Q?RTRocB8Zp3ubX6Pprf+C7tZ/ewMexyC/DMFvDsyzn2V0RRDeuuaU7/HAlkAL?=
+ =?us-ascii?Q?wsUchmmvlDly/lczv8SeDVitsphKwFCsGW4M1nNY3SMj+Kb5RHYkZWxl7dsa?=
+ =?us-ascii?Q?G78awBeFB7xTotZPOxJmJcAmatEfMtPtwgASf2J+yPeQDykSgdeVp+txxTNg?=
+ =?us-ascii?Q?fmVBuZ/hMuWm3RGBwjl2Q8P7+ib9V2ARgM9rXjWSIpoRFCzspzHpC0G96FHp?=
+ =?us-ascii?Q?BIrxsxhZttbqAME43ec20DYi20SwJfwYQY69ITsNPwUBV/w3ahVkRQt0IPBy?=
+ =?us-ascii?Q?cHcIvyFUNV8YP79eFUl3X9HyOHI8t3/649265zX9bjGeZVnju2czqhjM7pLy?=
+ =?us-ascii?Q?2/2XpW8Ume4DHfkt7jIywqbNvelQmnzkNoD8qX6h11z9QD8ABncejE+bifRu?=
+ =?us-ascii?Q?1XS06aL5sZSR61y3yKZNNhsCc+rxJXUFJAvOwEqza9Q8d3wtcFCduaPU1jN0?=
+ =?us-ascii?Q?DM7UKUUZd6JzS2mHtrM0wC/e2F1XTuDGvreM+JVK95ENh7BDgS8wR6uevrfl?=
+ =?us-ascii?Q?udAa0o3PUvHh3nmtBsVZYY4=3D?=
 X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed0cc16a-e04f-4ab1-ef01-08d9984bdccb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 257f4ff9-494c-42e0-d864-08d9984bde93
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR04MB7812.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 06:43:04.4883 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 06:43:07.4811 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XNSXFXUKv7/RRg7BqeZUNCN+EdrP20IsEcIv8EkJELknJEUPRNQbgDtbm9ENvgqcF9IvQCKr84uHw5//xr3YVA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: vUYuBJH+JLVF7Wq2xXUJUC64OyMiOAMd9XNZjisikW2ueNGuEZ8a7I9K4ICEnvy/pqgLeWDMC+KK8z+Hu5J44w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB8394
 Received-SPF: pass client-ip=216.71.153.141;
  envelope-from=prvs=9269cd5e3=Anup.Patel@wdc.com; helo=esa3.hgst.iphmx.com
@@ -156,362 +157,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-riscv@nongnu.org, Anup Patel <anup@brainfault.org>,
  Anup Patel <anup.patel@wdc.com>, qemu-devel@nongnu.org,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bmeng.cn@gmail.com>
+ Atish Patra <atish.patra@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The hgeie and hgeip CSRs are required for emulating an external
-interrupt controller capable of injecting virtual external
-interrupt to Guest/VM running at VS-level.
+The guest external interrupts from an interrupt controller are
+delivered only when the Guest/VM is running (i.e. V=1). This means
+any guest external interrupt which is triggered while the Guest/VM
+is not running (i.e. V=0) will be missed on QEMU resulting in Guest
+with sluggish response to serial console input and other I/O events.
+
+To solve this, we check and inject interrupt after setting V=1.
 
 Signed-off-by: Anup Patel <anup.patel@wdc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c        | 61 ++++++++++++++++++++++++++++-----------
- target/riscv/cpu.h        |  5 ++++
- target/riscv/cpu_bits.h   |  1 +
- target/riscv/cpu_helper.c | 36 +++++++++++++++++++++--
- target/riscv/csr.c        | 43 ++++++++++++++++++---------
- target/riscv/machine.c    |  6 ++--
- 6 files changed, 117 insertions(+), 35 deletions(-)
+ target/riscv/cpu_helper.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 0460a3972b..8042c4ebcf 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -570,23 +570,49 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
- static void riscv_cpu_set_irq(void *opaque, int irq, int level)
- {
-     RISCVCPU *cpu = RISCV_CPU(opaque);
-+    CPURISCVState *env = &cpu->env;
- 
--    switch (irq) {
--    case IRQ_U_SOFT:
--    case IRQ_S_SOFT:
--    case IRQ_VS_SOFT:
--    case IRQ_M_SOFT:
--    case IRQ_U_TIMER:
--    case IRQ_S_TIMER:
--    case IRQ_VS_TIMER:
--    case IRQ_M_TIMER:
--    case IRQ_U_EXT:
--    case IRQ_S_EXT:
--    case IRQ_VS_EXT:
--    case IRQ_M_EXT:
--        riscv_cpu_update_mip(cpu, 1 << irq, BOOL_TO_MASK(level));
--        break;
--    default:
-+    if (irq < IRQ_LOCAL_MAX) {
-+        switch (irq) {
-+        case IRQ_U_SOFT:
-+        case IRQ_S_SOFT:
-+        case IRQ_VS_SOFT:
-+        case IRQ_M_SOFT:
-+        case IRQ_U_TIMER:
-+        case IRQ_S_TIMER:
-+        case IRQ_VS_TIMER:
-+        case IRQ_M_TIMER:
-+        case IRQ_U_EXT:
-+        case IRQ_S_EXT:
-+        case IRQ_VS_EXT:
-+        case IRQ_M_EXT:
-+            riscv_cpu_update_mip(cpu, 1 << irq, BOOL_TO_MASK(level));
-+            break;
-+        default:
-+            g_assert_not_reached();
-+        }
-+    } else if (irq < (IRQ_LOCAL_MAX + IRQ_LOCAL_GUEST_MAX)) {
-+        /* Require H-extension for handling guest local interrupts */
-+        if (!riscv_has_ext(env, RVH)) {
-+            g_assert_not_reached();
-+        }
-+
-+        /* Compute bit position in HGEIP CSR */
-+        irq = irq - IRQ_LOCAL_MAX + 1;
-+        if (env->geilen < irq) {
-+            g_assert_not_reached();
-+        }
-+
-+        /* Update HGEIP CSR */
-+        env->hgeip &= ~((target_ulong)1 << irq);
-+        if (level) {
-+            env->hgeip |= (target_ulong)1 << irq;
-+        }
-+
-+        /* Update mip.SGEIP bit */
-+        riscv_cpu_update_mip(cpu, MIP_SGEIP,
-+                             BOOL_TO_MASK(!!(env->hgeie & env->hgeip)));
-+    } else {
-         g_assert_not_reached();
-     }
- }
-@@ -599,7 +625,8 @@ static void riscv_cpu_init(Object *obj)
-     cpu_set_cpustate_pointers(cpu);
- 
- #ifndef CONFIG_USER_ONLY
--    qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set_irq, IRQ_LOCAL_MAX);
-+    qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set_irq,
-+                      IRQ_LOCAL_MAX + IRQ_LOCAL_GUEST_MAX);
- #endif /* CONFIG_USER_ONLY */
- }
- 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index a33dc30be8..bbf469f079 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -148,6 +148,7 @@ struct CPURISCVState {
-     target_ulong priv;
-     /* This contains QEMU specific information about the virt state. */
-     target_ulong virt;
-+    target_ulong geilen;
-     target_ulong resetvec;
- 
-     target_ulong mhartid;
-@@ -185,6 +186,8 @@ struct CPURISCVState {
-     target_ulong htval;
-     target_ulong htinst;
-     target_ulong hgatp;
-+    target_ulong hgeie;
-+    target_ulong hgeip;
-     uint64_t htimedelta;
- 
-     /* Virtual CSRs */
-@@ -337,6 +340,8 @@ int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
- int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- bool riscv_cpu_fp_enabled(CPURISCVState *env);
-+target_ulong riscv_cpu_get_geilen(CPURISCVState *env);
-+void riscv_cpu_set_geilen(CPURISCVState *env, target_ulong geilen);
- bool riscv_cpu_virt_enabled(CPURISCVState *env);
- void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
- bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env);
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 8a5a4cde95..335e0193a9 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -500,6 +500,7 @@ typedef enum RISCVException {
- #define IRQ_M_EXT                          11
- #define IRQ_S_GEXT                         12
- #define IRQ_LOCAL_MAX                      13
-+#define IRQ_LOCAL_GUEST_MAX                (TARGET_LONG_BITS - 1)
- 
- /* mip masks */
- #define MIP_USIP                           (1 << IRQ_U_SOFT)
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 0d1132f39d..bb7ac9890b 100644
+index bb7ac9890b..04df3792a8 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -125,7 +125,10 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
- 
-     target_ulong pending = env->mip & env->mie &
-                                ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
--    target_ulong vspending = (env->mip & env->mie &
-+    target_ulong vsgemask =
-+                (target_ulong)1 << get_field(env->hstatus, HSTATUS_VGEIN);
-+    target_ulong vsgein = (env->hgeip & vsgemask) ? MIP_VSEIP : 0;
-+    target_ulong vspending = ((env->mip | vsgein) & env->mie &
-                               (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP));
- 
-     target_ulong mie    = env->priv < PRV_M ||
-@@ -241,6 +244,28 @@ void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env)
+@@ -287,6 +287,19 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
      }
+ 
+     env->virt = set_field(env->virt, VIRT_ONOFF, enable);
++
++    if (enable) {
++       /*
++        * The guest external interrupts from an interrupt controller are
++        * delivered only when the Guest/VM is running (i.e. V=1). This means
++        * any guest external interrupt which is triggered while the Guest/VM
++        * is not running (i.e. V=0) will be missed on QEMU resulting in guest
++        * with sluggish response to serial console input and other I/O events.
++        *
++        * To solve this, we check and inject interrupt after setting V=1.
++        */
++        riscv_cpu_update_mip(env_archcpu(env), 0, 0);
++    }
  }
  
-+target_ulong riscv_cpu_get_geilen(CPURISCVState *env)
-+{
-+    if (!riscv_has_ext(env, RVH)) {
-+        return 0;
-+    }
-+
-+    return env->geilen;
-+}
-+
-+void riscv_cpu_set_geilen(CPURISCVState *env, target_ulong geilen)
-+{
-+    if (!riscv_has_ext(env, RVH)) {
-+        return;
-+    }
-+
-+    if (geilen > (TARGET_LONG_BITS - 1)) {
-+        return;
-+    }
-+
-+    env->geilen = geilen;
-+}
-+
- bool riscv_cpu_virt_enabled(CPURISCVState *env)
- {
-     if (!riscv_has_ext(env, RVH)) {
-@@ -302,9 +327,14 @@ uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value)
- {
-     CPURISCVState *env = &cpu->env;
-     CPUState *cs = CPU(cpu);
--    uint32_t old = env->mip;
-+    uint32_t gein, vsgein = 0, old = env->mip;
-     bool locked = false;
- 
-+    if (riscv_cpu_virt_enabled(env)) {
-+        gein = get_field(env->hstatus, HSTATUS_VGEIN);
-+        vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
-+    }
-+
-     if (!qemu_mutex_iothread_locked()) {
-         locked = true;
-         qemu_mutex_lock_iothread();
-@@ -312,7 +342,7 @@ uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value)
- 
-     env->mip = (env->mip & ~mask) | (value & mask);
- 
--    if (env->mip) {
-+    if (env->mip | vsgein) {
-         cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-     } else {
-         cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 9a0a0c0679..7ff285282b 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -793,7 +793,7 @@ static RISCVException rmw_mip(CPURISCVState *env, int csrno,
-     RISCVCPU *cpu = env_archcpu(env);
-     /* Allow software control of delegable interrupts not claimed by hardware */
-     target_ulong mask = write_mask & delegable_ints & ~env->miclaim;
--    uint32_t old_mip;
-+    uint32_t gin, old_mip;
- 
-     if (mask) {
-         old_mip = riscv_cpu_update_mip(cpu, mask, (new_value & mask));
-@@ -801,6 +801,11 @@ static RISCVException rmw_mip(CPURISCVState *env, int csrno,
-         old_mip = env->mip;
-     }
- 
-+    if (csrno != CSR_HVIP) {
-+        gin = get_field(env->hstatus, HSTATUS_VGEIN);
-+        old_mip |= (env->hgeip & ((target_ulong)1 << gin)) ? MIP_VSEIP : 0;
-+    }
-+
-     if (ret_value) {
-         *ret_value = old_mip;
-     }
-@@ -963,7 +968,7 @@ static RISCVException rmw_vsip(CPURISCVState *env, int csrno,
-                                target_ulong new_value, target_ulong write_mask)
- {
-     /* Shift the S bits to their VS bit location in mip */
--    int ret = rmw_mip(env, 0, ret_value, new_value << 1,
-+    int ret = rmw_mip(env, csrno, ret_value, new_value << 1,
-                       (write_mask << 1) & vsip_writable_mask & env->hideleg);
- 
-     if (ret_value) {
-@@ -983,7 +988,7 @@ static RISCVException rmw_sip(CPURISCVState *env, int csrno,
-     if (riscv_cpu_virt_enabled(env)) {
-         ret = rmw_vsip(env, CSR_VSIP, ret_value, new_value, write_mask);
-     } else {
--        ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
-+        ret = rmw_mip(env, csrno, ret_value, new_value,
-                       write_mask & env->mideleg & sip_writable_mask);
-     }
- 
-@@ -1102,7 +1107,7 @@ static RISCVException rmw_hvip(CPURISCVState *env, int csrno,
-                                target_ulong *ret_value,
-                                target_ulong new_value, target_ulong write_mask)
- {
--    int ret = rmw_mip(env, 0, ret_value, new_value,
-+    int ret = rmw_mip(env, csrno, ret_value, new_value,
-                       write_mask & hvip_writable_mask);
- 
-     if (ret_value) {
-@@ -1115,7 +1120,7 @@ static RISCVException rmw_hip(CPURISCVState *env, int csrno,
-                               target_ulong *ret_value,
-                               target_ulong new_value, target_ulong write_mask)
- {
--    int ret = rmw_mip(env, 0, ret_value, new_value,
-+    int ret = rmw_mip(env, csrno, ret_value, new_value,
-                       write_mask & hip_writable_mask);
- 
-     if (ret_value) {
-@@ -1152,15 +1157,27 @@ static RISCVException write_hcounteren(CPURISCVState *env, int csrno,
-     return RISCV_EXCP_NONE;
- }
- 
--static RISCVException write_hgeie(CPURISCVState *env, int csrno,
--                                  target_ulong val)
-+static RISCVException read_hgeie(CPURISCVState *env, int csrno,
-+                                 target_ulong *val)
- {
-     if (val) {
--        qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
-+        *val = env->hgeie;
-     }
-     return RISCV_EXCP_NONE;
- }
- 
-+static RISCVException write_hgeie(CPURISCVState *env, int csrno,
-+                                  target_ulong val)
-+{
-+    /* Only GEILEN:1 bits implemented and BIT0 is never implemented */
-+    val &= ((((target_ulong)1) << env->geilen) - 1) << 1;
-+    env->hgeie = val;
-+    /* Update mip.SGEIP bit */
-+    riscv_cpu_update_mip(env_archcpu(env), MIP_SGEIP,
-+                         BOOL_TO_MASK(!!(env->hgeie & env->hgeip)));
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_htval(CPURISCVState *env, int csrno,
-                                  target_ulong *val)
- {
-@@ -1188,11 +1205,11 @@ static RISCVException write_htinst(CPURISCVState *env, int csrno,
-     return RISCV_EXCP_NONE;
- }
- 
--static RISCVException write_hgeip(CPURISCVState *env, int csrno,
--                                  target_ulong val)
-+static RISCVException read_hgeip(CPURISCVState *env, int csrno,
-+                                 target_ulong *val)
- {
-     if (val) {
--        qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
-+        *val = env->hgeip;
-     }
-     return RISCV_EXCP_NONE;
- }
-@@ -1619,10 +1636,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_HIP]         = { "hip",         hmode,   NULL,   NULL,     rmw_hip           },
-     [CSR_HIE]         = { "hie",         hmode,   read_hie,         write_hie         },
-     [CSR_HCOUNTEREN]  = { "hcounteren",  hmode,   read_hcounteren,  write_hcounteren  },
--    [CSR_HGEIE]       = { "hgeie",       hmode,   read_zero,        write_hgeie       },
-+    [CSR_HGEIE]       = { "hgeie",       hmode,   read_hgeie,       write_hgeie       },
-     [CSR_HTVAL]       = { "htval",       hmode,   read_htval,       write_htval       },
-     [CSR_HTINST]      = { "htinst",      hmode,   read_htinst,      write_htinst      },
--    [CSR_HGEIP]       = { "hgeip",       hmode,   read_zero,        write_hgeip       },
-+    [CSR_HGEIP]       = { "hgeip",       hmode,   read_hgeip,       NULL              },
-     [CSR_HGATP]       = { "hgatp",       hmode,   read_hgatp,       write_hgatp       },
-     [CSR_HTIMEDELTA]  = { "htimedelta",  hmode,   read_htimedelta,  write_htimedelta  },
-     [CSR_HTIMEDELTAH] = { "htimedeltah", hmode32, read_htimedeltah, write_htimedeltah },
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index f64b2a96c1..fe99ec7304 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -102,8 +102,8 @@ static const VMStateDescription vmstate_vector = {
- 
- static const VMStateDescription vmstate_hyper = {
-     .name = "cpu/hyper",
--    .version_id = 1,
--    .minimum_version_id = 1,
-+    .version_id = 2,
-+    .minimum_version_id = 2,
-     .needed = hyper_needed,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINTTL(env.hstatus, RISCVCPU),
-@@ -113,6 +113,8 @@ static const VMStateDescription vmstate_hyper = {
-         VMSTATE_UINTTL(env.htval, RISCVCPU),
-         VMSTATE_UINTTL(env.htinst, RISCVCPU),
-         VMSTATE_UINTTL(env.hgatp, RISCVCPU),
-+        VMSTATE_UINTTL(env.hgeie, RISCVCPU),
-+        VMSTATE_UINTTL(env.hgeip, RISCVCPU),
-         VMSTATE_UINT64(env.htimedelta, RISCVCPU),
- 
-         VMSTATE_UINT64(env.vsstatus, RISCVCPU),
+ bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env)
 -- 
 2.25.1
 
