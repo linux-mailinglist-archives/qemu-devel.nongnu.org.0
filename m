@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CCC43BA6F
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 21:12:04 +0200 (CEST)
-Received: from localhost ([::1]:47806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA2343BA95
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 21:19:34 +0200 (CEST)
+Received: from localhost ([::1]:52660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfRrf-000551-PF
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 15:12:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38806)
+	id 1mfRyv-0000Bq-Gq
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 15:19:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfRql-0004Of-7d
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 15:11:07 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfRqi-0001rF-Di
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 15:11:06 -0400
-Received: by mail-wr1-x435.google.com with SMTP id d13so727wrf.11
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 12:11:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=bvYB2KZzWc0X7Wfe8VNgfi6fm8RD8a1if4tX2K/MsUA=;
- b=eNMLQ5e8aWrztNtqLbc1CRDB9VolfACwmJ8XEn5G5h1YinbNHXbZAA7i4u4HSaxIrZ
- u+HsIeZJxsSo+dqDSpR1rA56K1LnzFVQv+p6K5ynsW7GYd1S9rmUAdCRNwjR9f4Nk8dd
- cXouGQD6v9n6tbQdJ8pESaTRN2Q1lSP/xFsZ27jhnby08HuMm/m4w27w4sPNJCpitDXx
- Lf/73k+/kG2i/j4qYAC//xbIPPv/hGAO2G7uoMasKzOBBQmOpA4bKLTK4lYss+m0TKEy
- HG36JzDU0qoQdKI+WfsqSlCdonkct+DATif25vTZ8B7VE1t9nzIOkTZONDYKGLL8E6c+
- D5xg==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfRxq-00079B-7J
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 15:18:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45144)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfRxm-0002jK-FY
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 15:18:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635275900;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SaA8lM+twoIRwUaSaFOjpPiedUh/DanAegjIIZH2wE0=;
+ b=LkS3fGJ7jvLG5b5mcgLppT67nITYuDEyCp4HP8mlg/TbCqHAgRa9cb1D/9WIb6Iy/BjH1X
+ 5B+gsAR7CIweZyHOirxpM/10D0VaF5RRqxBV/DwsvEndxKG9YKJV+T2pvTWsTmiJcgIIqv
+ TENftJxTO+QPtuRvX4SgMvwgAi6QnAg=
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-240-i6YM9kTGOMeTsrOYZP3MqA-1; Tue, 26 Oct 2021 15:18:18 -0400
+X-MC-Unique: i6YM9kTGOMeTsrOYZP3MqA-1
+Received: by mail-vk1-f198.google.com with SMTP id
+ w124-20020a1fc682000000b0029aceaf35b2so201187vkf.19
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 12:18:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=bvYB2KZzWc0X7Wfe8VNgfi6fm8RD8a1if4tX2K/MsUA=;
- b=kRSmY38IcmRcRXJqlm/hcS2nnX/qJ4IrClw2dK1rTL3Xlk1e8Wa8GMz3mvGlSSEq8n
- C8kdJ/B85/rcnXeGa8uZ2/Twjaj3hIOpNv8mDZarHteROmC76aBPxTqNGV/9Cw9dRBmQ
- fKdEscRUmrB54RpQv0wmjO2FbTr3fz2Fd6kkFbFtJwLnkCuv8lNc0NJZDd+2LFRFLdjT
- YaRzceCb+ttbGGdEErfetd6GfMryYuTeY+3mkmCZFUTt8p2qnKJhuQLgzYtzic4CsfN+
- yiJ3EOof7frytL/JIjDDnN3EOEcyTNLvYmIrvZ1gSTAabrFH2OTQvUiX/yVYYXVn1IXz
- HrQg==
-X-Gm-Message-State: AOAM532yqrGwsYCOcfz0cSuObmx1+MffJHNicGHa6Zh3v1Yy+uFBOIwg
- IlqoLDzBgQnTNKzWAsNqdCU=
-X-Google-Smtp-Source: ABdhPJzhPMwEIys6tSkBihClTIaO2a8R4+fit/fqMHkXraQlJnGM/FmDn0m0QBDEaEqMVWf0M5VarA==
-X-Received: by 2002:adf:f902:: with SMTP id b2mr34681128wrr.265.1635275462908; 
- Tue, 26 Oct 2021 12:11:02 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id x6sm2063470wro.63.2021.10.26.12.11.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 12:11:02 -0700 (PDT)
-Message-ID: <b8538023-d9fc-4409-3552-05f2bf0e71e9@amsat.org>
-Date: Tue, 26 Oct 2021 21:11:01 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SaA8lM+twoIRwUaSaFOjpPiedUh/DanAegjIIZH2wE0=;
+ b=huOWjvadkIXjwYt1NTDl+e3z2uL8UBkz1FriPtmIMRyYhbdSAyrFe0QKzKO9mgf36O
+ qwAHjsipF6/4cpKHW5XQy3eTQ44gyYdJFpSC9eK0yu4e4ZirnZGtvWHTlwkeYGp4DKZ7
+ zHWwQQX0Y/E7sLchjiD9lP8uPjVoO218zZ4Bz19vxpTZcbSG5/wRnfosdrrKpreGMYRT
+ b3Y0M18AURUXvL27QtRbT7NfvqycneVJyu/P4Cu6mp0YuA1P/vnGYoIk4lZtdOAlchgw
+ A/9zA8oj14WYJPOiQOGvW9/DqdXa49d0b5+8VTpz7q6Vvwx+wtl3NBfrqvj5H/GAHUPw
+ jQGQ==
+X-Gm-Message-State: AOAM531dJsbJRMNFIuUOTaAqU6B9vf7zDKmtBI3YV4NuTlKJhpzikc9A
+ cx7HTpz0i6pYmGsHKc2bzgFBJlTr2xa/roWkUOBogEkZL5oFv36WGacytVt04Bqtayabcn41iZ1
+ K3EmS8EOmyYOt5zEiDSrpp63qv22FAYU=
+X-Received: by 2002:a05:6122:2020:: with SMTP id
+ l32mr1592843vkd.10.1635275898108; 
+ Tue, 26 Oct 2021 12:18:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1xwdiJvQwl9Og6pidV8zm/kKiO+r02btCLWmkPClTKoFTu1QFtRXnOnyXY1iv7nT80pOayVC6oobHu2/5VGQ=
+X-Received: by 2002:a05:6122:2020:: with SMTP id
+ l32mr1592789vkd.10.1635275897847; 
+ Tue, 26 Oct 2021 12:18:17 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 37/48] tcg/optimize: Split out fold_ix_to_i
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211021210539.825582-1-richard.henderson@linaro.org>
- <20211021210539.825582-38-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211021210539.825582-38-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+References: <20211011131558.3273255-1-armbru@redhat.com>
+ <YWVsheOBwyx+3QOM@redhat.com> <87r1cq78hs.fsf@dusky.pond.sub.org>
+In-Reply-To: <87r1cq78hs.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 26 Oct 2021 15:18:07 -0400
+Message-ID: <CAFn=p-ZOE+KgYE8FoAeCpW+FL3cRgM1HKzAQFy8TBYigZQb6HQ@mail.gmail.com>
+Subject: Re: [PATCH] qapi: Improve input_type_enum()'s error message
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000000054f205cf46572c"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.215,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_BL_SPAMCOP_NET=1.347, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,18 +90,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luis.pires@eldorado.org.br, alex.bennee@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Max Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/21/21 23:05, Richard Henderson wrote:
-> Pull the "op r, 0, b => movi r, 0" optimization into a function,
-> and use it in fold_shift.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/optimize.c | 28 ++++++++++------------------
->  1 file changed, 10 insertions(+), 18 deletions(-)
+--0000000000000054f205cf46572c
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Tue, Oct 12, 2021 at 8:10 AM Markus Armbruster <armbru@redhat.com> wrote:
+
+> Kevin Wolf <kwolf@redhat.com> writes:
+>
+> > Am 11.10.2021 um 15:15 hat Markus Armbruster geschrieben:
+> >> The error message claims the parameter is invalid:
+> >>
+> >>     $ qemu-system-x86_64 -object qom-type=nonexistent
+> >>     qemu-system-x86_64: -object qom-type=nonexistent: Invalid parameter
+> 'nonexistent'
+> >>
+> >> What's wrong is actually the *value* 'nonexistent'.  Improve the
+> >> message to
+> >>
+> >>     qemu-system-x86_64: -object qom-type=nonexistent: Parameter
+> 'qom-type' does not accept value 'nonexistent'
+> >>
+> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> >> ---
+> >>  qapi/qapi-visit-core.c          | 3 ++-
+> >>  tests/unit/check-qom-proplist.c | 2 +-
+> >>  tests/qemu-iotests/049.out      | 6 +++---
+> >>  tests/qemu-iotests/206.out      | 2 +-
+> >>  tests/qemu-iotests/237.out      | 6 +++---
+> >>  tests/qemu-iotests/245          | 2 +-
+> >
+> > Good that you remembered to update iotests cases. I'm afraid there are
+> > two more that need an update.
+> >
+> > 287 contains these lines:
+> >
+> >     output=$(_make_test_img -o 'compression_type=zstd' 64M;
+> _cleanup_test_img)
+> >     if echo "$output" | grep -q "Invalid parameter 'zstd'"; then
+> >         _notrun "ZSTD is disabled"
+> >     fi
+> >
+> > Instead of skipping the test case when zstd support is not compiled in,
+> > this test fails now.
+> >
+> > 308 contains a similar check for FUSE support and fails now when FUSE
+> > support is disabled.
+>
+> 287 passes for me.  I figure that's because I built with CONFIG_ZSTD.
+> 308 I simply missed.
+>
+> Thanks for your help!
+>
+
+This likely fixes https://gitlab.com/qemu-project/qemu/-/issues/608 and you
+could include that in your commit message if it isn't too late.
+
+--js
+
+--0000000000000054f205cf46572c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 12, 2021 at 8:10 AM Marku=
+s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Kevi=
+n Wolf &lt;<a href=3D"mailto:kwolf@redhat.com" target=3D"_blank">kwolf@redh=
+at.com</a>&gt; writes:<br>
+<br>
+&gt; Am 11.10.2021 um 15:15 hat Markus Armbruster geschrieben:<br>
+&gt;&gt; The error message claims the parameter is invalid:<br>
+&gt;&gt; <br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0$ qemu-system-x86_64 -object qom-type=3Dnonexis=
+tent<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0qemu-system-x86_64: -object qom-type=3Dnonexist=
+ent: Invalid parameter &#39;nonexistent&#39;<br>
+&gt;&gt; <br>
+&gt;&gt; What&#39;s wrong is actually the *value* &#39;nonexistent&#39;.=C2=
+=A0 Improve the<br>
+&gt;&gt; message to<br>
+&gt;&gt; <br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0qemu-system-x86_64: -object qom-type=3Dnonexist=
+ent: Parameter &#39;qom-type&#39; does not accept value &#39;nonexistent&#3=
+9;<br>
+&gt;&gt; <br>
+&gt;&gt; Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redh=
+at.com" target=3D"_blank">armbru@redhat.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 qapi/qapi-visit-core.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3=
+ ++-<br>
+&gt;&gt;=C2=A0 tests/unit/check-qom-proplist.c | 2 +-<br>
+&gt;&gt;=C2=A0 tests/qemu-iotests/049.out=C2=A0 =C2=A0 =C2=A0 | 6 +++---<br=
+>
+&gt;&gt;=C2=A0 tests/qemu-iotests/206.out=C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+&gt;&gt;=C2=A0 tests/qemu-iotests/237.out=C2=A0 =C2=A0 =C2=A0 | 6 +++---<br=
+>
+&gt;&gt;=C2=A0 tests/qemu-iotests/245=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2=
+ +-<br>
+&gt;<br>
+&gt; Good that you remembered to update iotests cases. I&#39;m afraid there=
+ are<br>
+&gt; two more that need an update.<br>
+&gt;<br>
+&gt; 287 contains these lines:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0output=3D$(_make_test_img -o &#39;compression_type=
+=3Dzstd&#39; 64M; _cleanup_test_img)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0if echo &quot;$output&quot; | grep -q &quot;Invalid=
+ parameter &#39;zstd&#39;&quot;; then<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0_notrun &quot;ZSTD is disabled&quot;<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0fi<br>
+&gt;<br>
+&gt; Instead of skipping the test case when zstd support is not compiled in=
+,<br>
+&gt; this test fails now.<br>
+&gt;<br>
+&gt; 308 contains a similar check for FUSE support and fails now when FUSE<=
+br>
+&gt; support is disabled.<br>
+<br>
+287 passes for me.=C2=A0 I figure that&#39;s because I built with CONFIG_ZS=
+TD.<br>
+308 I simply missed.<br>
+<br>
+Thanks for your help!<br></blockquote><div><br></div><div>This likely fixes=
+ <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/608">https://gitl=
+ab.com/qemu-project/qemu/-/issues/608</a> and you could include that in you=
+r commit message if it isn&#39;t too late.</div><div><br></div><div>--js<br=
+> </div></div></div>
+
+--0000000000000054f205cf46572c--
+
 
