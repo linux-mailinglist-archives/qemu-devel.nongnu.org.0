@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C01243A936
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 02:27:24 +0200 (CEST)
-Received: from localhost ([::1]:34094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0D943A93B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 02:29:33 +0200 (CEST)
+Received: from localhost ([::1]:39342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfAJH-0004m9-Mi
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 20:27:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52310)
+	id 1mfALN-0008QL-0S
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 20:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mfAG1-0002YM-4F
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 20:24:01 -0400
-Received: from mail-oo1-xc36.google.com ([2607:f8b0:4864:20::c36]:45588)
+ (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mfAFz-0002Xk-S2
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 20:23:59 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:40838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mfAFw-0008O5-QQ
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 20:24:00 -0400
-Received: by mail-oo1-xc36.google.com with SMTP id
- o26-20020a4abe9a000000b002b74bffdef0so4235337oop.12
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 17:23:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mfAFy-0008Ol-6I
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 20:23:59 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id
+ s18-20020a0568301e1200b0054e77a16651so17305810otr.7
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 17:23:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kMlC5BTTcEqI4zPA4Xepglue53WFz0S1SEhTBdcAgjc=;
- b=iYX2cjKm+J3NnixoeZhUu9+34V4RQ8ekCWN9QUZx6OK5qjFbzn3GBnLolrR8X0R9lV
- l5PReeWgddPIHYr3dwppddDOaQQyXvnnFAcOnXxDHE5s8JEHKY0S5iPW1VU4UekSuhWJ
- dTml9IX5Huhqxuvy2X/k7XgoCvaM8LtROGUiM=
+ bh=Sp+xZsyopFZ2T6IJKWb8wBn8wTMxA4UWheot3sKW/F4=;
+ b=Fny340p7AiznfiGZm5Ab0bgUqUPQonj2at1RUosk0gdZ/p+3XBGUhyvNz8OvRwsOT9
+ uHEoG+8K8PR5i/WmHJ+DRCLjTzxuGdhathymEtz8gd2KrOwOvTPB9+lS/ZBbIqpdpMr3
+ m9P/6sA08I18J98/OQ5oS04rgmigf3y90Mvn0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kMlC5BTTcEqI4zPA4Xepglue53WFz0S1SEhTBdcAgjc=;
- b=P8w7+v8xlUhHyBEQH/G68RFVvlURk7YYv4KtQ5A9I0znNg9qlur2OgaJ+5uHmw+do/
- aro/P+INXDT1zsCt8YpfKisu3Xndg5xE5PCnu8cQsN3qza5M1HosLlERKNBPCh1kRQld
- vjg14q5Dhn6kzyHv7A0znO7ZcoaAIo0nqkjviYKS98ijN8Fk3c3nTj8WH6jyT9Rq3dnf
- khlDpL4WCThBTaHePOrDnLscvXDPAbukhtbJhKiTqdYnz/ki9GmuCQX2oCV+/tHFoBJ2
- MyIX3KobIImp9AuXxBdFEz9BShrMyskuv5aMVsYqg7sWDqOztWhSKS9Syf6G6IVW4tZq
- M50Q==
-X-Gm-Message-State: AOAM532f92tgZWiBwXe9m2nb8EbATry4Esx6VTljvwcizp3URmHzThaH
- EkmXqqpFCE4OTkbyS05BNftfIg==
-X-Google-Smtp-Source: ABdhPJwh7h1bDDhI3D7ZD6ioOaKBwuPWESoahgZRgwlhpQDVLhr5z9HbRuH2dB/zJXzRAdGqX2ftVw==
-X-Received: by 2002:a05:6820:16a2:: with SMTP id
- bc34mr14874809oob.66.1635207835779; 
- Mon, 25 Oct 2021 17:23:55 -0700 (PDT)
+ bh=Sp+xZsyopFZ2T6IJKWb8wBn8wTMxA4UWheot3sKW/F4=;
+ b=jNBY09w7TZNbmVs6JXlBdQRC6OOaO20Stw4yTe+E+WZWbhv9VjOFXbngGf0nWmJHhL
+ Jqo0hTkauQ+rhNkAxrCGqnc72IqMkmsLl5oX0IKoxvMXCUrEg76yS2Cj8lxbSLLdUJrH
+ E0ownqsQd70kubrbl87P0zxgEp9G/E7ERfqkGanhbRg0324wpydF6QTD0rGSMBY/w8gi
+ J2uKdWOU0z+xFSWCOcAKGTUIAaPDI8YexCYttLIZvDn7uDOWs8qPVatj7vwlm7fnnv1+
+ 7EcogE0/tONWX8Ke1cKP9sbVxaEGDgJj7twkHcJxaa5qh+MTA8u3qlYAF/QWx4oc++Cv
+ jWNQ==
+X-Gm-Message-State: AOAM532SC+OYYm/X8oDeU6IecOaqpY//jUgI15T33Pm/aaXXjZeBuZDo
+ TbaEHqpZ+H9CkzbIj8VdOcYDUQ==
+X-Google-Smtp-Source: ABdhPJxGlqYVbG1U06sMaVd2mTUaddx7ijkxjoysMsc9/qeRCuS/+F5OR1Tq28EgMQZJ4iHa5xM18Q==
+X-Received: by 2002:a05:6830:124d:: with SMTP id
+ s13mr17123900otp.336.1635207836900; 
+ Mon, 25 Oct 2021 17:23:56 -0700 (PDT)
 Received: from kiwi.bld.corp.google.com (c-67-190-101-114.hsd1.co.comcast.net.
  [67.190.101.114])
- by smtp.gmail.com with ESMTPSA id v24sm3331926oou.45.2021.10.25.17.23.54
+ by smtp.gmail.com with ESMTPSA id v24sm3331926oou.45.2021.10.25.17.23.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 17:23:55 -0700 (PDT)
+ Mon, 25 Oct 2021 17:23:56 -0700 (PDT)
 From: Simon Glass <sjg@chromium.org>
 To: U-Boot Mailing List <u-boot@lists.denx.de>
-Subject: [PATCH v5 03/26] arm: qemu: Mention -nographic in the docs
-Date: Mon, 25 Oct 2021 18:23:21 -0600
-Message-Id: <20211026002344.405160-4-sjg@chromium.org>
+Subject: [PATCH v5 04/26] arm: riscv: qemu: Explain how to extract the
+ generated dt
+Date: Mon, 25 Oct 2021 18:23:22 -0600
+Message-Id: <20211026002344.405160-5-sjg@chromium.org>
 X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
 In-Reply-To: <20211026002344.405160-1-sjg@chromium.org>
 References: <20211026002344.405160-1-sjg@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c36;
- envelope-from=sjg@chromium.org; helo=mail-oo1-xc36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=sjg@chromium.org; helo=mail-ot1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,39 +88,116 @@ Cc: Tom Rini <trini@konsulko.com>, Albert Aribaud <albert.u.boot@aribaud.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Without this option QEMU appears to hang. Add it to avoid confusion.
+QEMU currently generates a devicetree for use with U-Boot. Explain how to
+obtain it.
+
+Also explain how to merge it to produce a devicetree with the U-Boot
+features included.
 
 Signed-off-by: Simon Glass <sjg@chromium.org>
 ---
 
-(no changes since v1)
+Changes in v5:
+- Merge RISC-V and ARM patches since they are similar
 
- doc/board/emulation/qemu-arm.rst | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ doc/board/emulation/qemu-arm.rst   |  3 ++
+ doc/board/emulation/qemu-riscv.rst |  3 ++
+ doc/develop/devicetree/dt_qemu.rst | 48 ++++++++++++++++++++++++++++++
+ doc/develop/devicetree/index.rst   |  1 +
+ 4 files changed, 55 insertions(+)
+ create mode 100644 doc/develop/devicetree/dt_qemu.rst
 
 diff --git a/doc/board/emulation/qemu-arm.rst b/doc/board/emulation/qemu-arm.rst
-index 8d7fda10f15..97b6ec64905 100644
+index 97b6ec64905..a39df046fc3 100644
 --- a/doc/board/emulation/qemu-arm.rst
 +++ b/doc/board/emulation/qemu-arm.rst
-@@ -41,14 +41,15 @@ The minimal QEMU command line to get U-Boot up and running is:
+@@ -21,6 +21,9 @@ The 'virt' platform provides the following as the basic functionality:
  
- - For ARM::
+ Additionally, a number of optional peripherals can be added to the PCI bus.
  
--    qemu-system-arm -machine virt -bios u-boot.bin
-+    qemu-system-arm -machine virt -nographic -bios u-boot.bin
++See :doc:`../../develop/devicetree/dt_qemu` for information on how to see
++the devicetree actually generated by QEMU.
++
+ Building U-Boot
+ ---------------
+ Set the CROSS_COMPILE environment variable as usual, and run:
+diff --git a/doc/board/emulation/qemu-riscv.rst b/doc/board/emulation/qemu-riscv.rst
+index 4b8e104a215..3409fff8117 100644
+--- a/doc/board/emulation/qemu-riscv.rst
++++ b/doc/board/emulation/qemu-riscv.rst
+@@ -13,6 +13,9 @@ The QEMU virt machine models a generic RISC-V virtual machine with support for
+ the VirtIO standard networking and block storage devices. It has CLINT, PLIC,
+ 16550A UART devices in addition to VirtIO and it also uses device-tree to pass
+ configuration information to guest software. It implements RISC-V privileged
++
++See :doc:`../../develop/devicetree/dt_qemu` for information on how to see
++the devicetree actually generated by QEMU.
+ architecture spec v1.10.
  
- - For AArch64::
- 
--    qemu-system-aarch64 -machine virt -cpu cortex-a57 -bios u-boot.bin
-+    qemu-system-aarch64 -machine virt -nographic -cpu cortex-a57 -bios u-boot.bin
- 
- Note that for some odd reason qemu-system-aarch64 needs to be explicitly
--told to use a 64-bit CPU or it will boot in 32-bit mode.
-+told to use a 64-bit CPU or it will boot in 32-bit mode. The -nographic argument
-+ensures that output appears on the terminal. Use Ctrl-A X to quit.
- 
- Additional persistent U-boot environment support can be added as follows:
- 
+ Building U-Boot
+diff --git a/doc/develop/devicetree/dt_qemu.rst b/doc/develop/devicetree/dt_qemu.rst
+new file mode 100644
+index 00000000000..1392a2cae97
+--- /dev/null
++++ b/doc/develop/devicetree/dt_qemu.rst
+@@ -0,0 +1,48 @@
++.. SPDX-License-Identifier: GPL-2.0+
++
++Devicetree in QEMU
++==================
++
++For QEMU on ARM, RISC-V and one PPC target, the devicetree is created on the
++fly by QEMU. It is intended for use in Linux but can be used by U-Boot also,
++so long as any nodes/properties needed by U-Boot are merged in.
++
++When `CONFIG_OF_BOARD` is enabled
++
++
++Obtaining the QEMU devicetree
++-----------------------------
++
++Where QEMU generates its own devicetree to pass to U-Boot tou can use
++`-dtb u-boot.dtb` to force QEMU to use U-Boot's in-tree version.
++
++To obtain the devicetree that qemu generates, add `-machine dumpdtb=qemu.dtb`,
++e.g.::
++
++    qemu-system-arm -machine virt -machine dumpdtb=qemu.dtb
++
++    qemu-system-aarch64 -machine virt -machine dumpdtb=qemu.dtb
++
++    qemu-system-riscv64 -machine virt -machine dumpdtb=qemu.dtb
++
++
++Merging in U-Boot nodes/properties
++----------------------------------
++
++Various U-Boot features require nodes and properties in the U-Boot devicetree
++and at present QEMU is unaware of these. To use these you must manually merge
++in the appropriate pieces.
++
++One way to do this is with dtc. This command runs dtc on each .dtb file in turn,
++to produce a text file. It drops the duplicate header on the qemu one. Then it
++joins them up and runs them through dtc to compile the output::
++
++    qemu-system-arm -machine virt -machine dumpdtb=qemu.dtb
++    cat  <(dtc -I dtb qemu.dtb) <(dtc -I dtb  u-boot.dtb |grep -v /dts-v1/) |dtc - -o merged.dtb
++
++You can then run qemu with the merged devicetree, e.g.::
++
++    qemu-system-arm -machine virt -nographic -bios u-boot.bin -dtb merged.dtb
++
++Note that there seems to be a bug in some versions of qemu where the output of
++dumpdtb does not quite match what is provided to U-Boot.
+diff --git a/doc/develop/devicetree/index.rst b/doc/develop/devicetree/index.rst
+index b5b33dfea0f..fc2fb41b1bb 100644
+--- a/doc/develop/devicetree/index.rst
++++ b/doc/develop/devicetree/index.rst
+@@ -12,3 +12,4 @@ build-time and runtime configuration.
+    intro
+    control
+    dt_update
++   dt_qemu
 -- 
 2.33.0.1079.g6e70778dc9-goog
 
