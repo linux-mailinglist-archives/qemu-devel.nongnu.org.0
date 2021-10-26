@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B467B43AFCA
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:14:34 +0200 (CEST)
-Received: from localhost ([::1]:48892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF7C43AFEF
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:19:50 +0200 (CEST)
+Received: from localhost ([::1]:51878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfJTV-0002f8-SE
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:14:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49274)
+	id 1mfJYb-0004rR-N2
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:19:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mfJRv-0001mk-Du
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:12:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39590)
+ id 1mfJXB-0004BU-Mm
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:18:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mfJRp-0000MV-Ee
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:12:51 -0400
+ id 1mfJX6-00030u-Hn
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:18:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635243168;
+ s=mimecast20190719; t=1635243495;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JP2E4OeqYm5CCkgt855/VzFV5Hb9dKvY2bcBt0hUHks=;
- b=Sb3Xppji635uagMaZ7uHQLc5nYsoO+Tg42LoOrpEapIa8fQvCVu//eIX+8FFAHbYCFnCRy
- usLKrQtzxAkGkKO5mEsFybjUC5lv02Y5STlNFOB81okBx3cuA8CPDr0598twbb3c8UmUkg
- 3/5urjh95rdWTT8k2q9TI2lyi7Ufy5M=
+ bh=BjCwWlg+Sjwq27e/3slNW7toAQ3gtmzc/I+XhFmhihs=;
+ b=hLbyV8+L5hTw2vO08QGfd57KSnxoCq6iJzOCfYWiqlrLHpJYqgqTiqEiHCijTURoossug8
+ qISS4QPK7Ug/t0W2Ydi/BStlh3cZ991ld/reu57Rie4JZ3QfqVs7AhYuDTHdGGKZwUJVgS
+ 7xlfyw8Bfeo8WsfncKKzAQDU/icfKFU=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-Cti2zYgqMA6sBMmKzdSEug-1; Tue, 26 Oct 2021 06:12:47 -0400
-X-MC-Unique: Cti2zYgqMA6sBMmKzdSEug-1
+ us-mta-513-qYKk1njvNPaeFxIgfOydyg-1; Tue, 26 Oct 2021 06:18:14 -0400
+X-MC-Unique: qYKk1njvNPaeFxIgfOydyg-1
 Received: by mail-wm1-f69.google.com with SMTP id
- q13-20020a1ca70d000000b0032ca7b7fad6so830858wme.0
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:12:47 -0700 (PDT)
+ g9-20020a1c9d09000000b0032cc23db051so745782wme.3
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:18:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=JP2E4OeqYm5CCkgt855/VzFV5Hb9dKvY2bcBt0hUHks=;
- b=xm79WRp9rpgSnwETpxmbntf4ROPaR2s8dP0x/5g2igIWgmzuoz0c2DWfQXJ0nltZbU
- hdFZoTsmNog0f0JSz2xjvlMfvJoFFbWHDKovgnaNMcTa1n/mHCn75GyTl4L10xlaRCZl
- HdDR7A6r/Pa+VaCPjF//Tc4dbcjn1yQ/mk0q+kItmEuJvchpsJDgHPXLA9DyhsWKBrJc
- HI0Ni2EAoMT2YE2mK731rby0UledLk8TlEapMuO/TEqF8wQmLqciArOI3U3FvWuKsYUM
- xYCkwumYR0ZX02cSrM2v2Zv0rhMWOT1vtH8u0HDKaeQPrLFj5dyveqfqCQ1/NzG+4z0L
- J2HQ==
-X-Gm-Message-State: AOAM533gFSFeR+vWFUH+zkuwNDJmjIKeZ/38MUJgt0C/ZLp2fRw0zrtB
- NuJH04eypF4jaP7NHrO6r3xqarCGnCdbrrUkQCpYiyn2MiMxYHPpFQNnCL3XPMF+WiG3miJE0Dx
- 4/e7ZijmGanMN/1k=
-X-Received: by 2002:adf:f1d2:: with SMTP id z18mr21569010wro.160.1635243166147; 
- Tue, 26 Oct 2021 03:12:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyn/YLPdSM0FCBVkpkulYN7asUNG/v9olugsiWDxKnuk2Tbe/FAX/3TspSoepcki4f2VAzh0g==
-X-Received: by 2002:adf:f1d2:: with SMTP id z18mr21568953wro.160.1635243165722; 
- Tue, 26 Oct 2021 03:12:45 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=BjCwWlg+Sjwq27e/3slNW7toAQ3gtmzc/I+XhFmhihs=;
+ b=bu/jb9n5EWtuaEX/rBccydWZ7dc1y4iJW4fLXwb+iZrYlPaOy/hT+6FTLMcxixSVYx
+ Ga4NsH5ZemxI47ZO6v0Uj9Mt7BjqdiiqzpIfDB6BEVXf8nYe8urgTw4nkMxZDRLNgmYM
+ p+jszI5th24RykfosxxjC0kSKonsxM1EhBleMo4DYev9xkQjnIZzkHXdCH5QXPA7zkml
+ 4/R3WqLb81Jaj5+E6a4ijuJRzsQdp86pIjCUvmULquDt6BNe0wSpDaZMnaRKgCK/yoET
+ DIl0qdvZlPrZzBxlnWM9WIN1vohfd2lGg061EMrrxqqXJ+ZcdsNbCL93duZ9/AqHjbkp
+ 56rQ==
+X-Gm-Message-State: AOAM530r7V7s+zPM3jBFoBd/L0l7O2yXKcCl70+ra6WKtkLL49apVbpM
+ 6BbNMLs++taJUfh7C2pPdXs6BPGJwBJCTrRC18RZBP3Lk43feieV56X83YTvYGO/9J1VbTLR6om
+ FXBqULw4FwCJv8Q4=
+X-Received: by 2002:adf:c78d:: with SMTP id l13mr29710314wrg.134.1635243492911; 
+ Tue, 26 Oct 2021 03:18:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyrTUDVX/lDvo1cZsNrHOhQdU4rxetE7x7o8/b3FxnMcrLjSXE5wT05QANnZJ2fIidvi4e0TA==
+X-Received: by 2002:adf:c78d:: with SMTP id l13mr29710284wrg.134.1635243492724; 
+ Tue, 26 Oct 2021 03:18:12 -0700 (PDT)
 Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
  [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id r4sm9304528wrp.26.2021.10.26.03.12.44
+ by smtp.gmail.com with ESMTPSA id b8sm1563558wri.53.2021.10.26.03.18.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 03:12:45 -0700 (PDT)
-Date: Tue, 26 Oct 2021 11:12:42 +0100
+ Tue, 26 Oct 2021 03:18:11 -0700 (PDT)
+Date: Tue, 26 Oct 2021 11:18:10 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Reiter <s.reiter@proxmox.com>
-Subject: Re: [PATCH v7 3/4] qapi/monitor: allow VNC display id in
- set/expire_password
-Message-ID: <YXfUmsCg9Xh8DI6D@work-vm>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v7 0/4] VNC-related HMP/QMP fixes
+Message-ID: <YXfV4vf5+YLFXYbA@work-vm>
 References: <20211021100135.4146766-1-s.reiter@proxmox.com>
- <20211021100135.4146766-4-s.reiter@proxmox.com>
+ <87k0i6d5l5.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20211021100135.4146766-4-s.reiter@proxmox.com>
+In-Reply-To: <87k0i6d5l5.fsf@dusky.pond.sub.org>
 User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -101,7 +97,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Reiter <s.reiter@proxmox.com>, qemu-devel@nongnu.org,
  =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
@@ -109,409 +105,13 @@ Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Reiter (s.reiter@proxmox.com) wrote:
-> It is possible to specify more than one VNC server on the command line,
-> either with an explicit ID or the auto-generated ones à la "default",
-> "vnc2", "vnc3", ...
-> 
-> It is not possible to change the password on one of these extra VNC
-> displays though. Fix this by adding a "display" parameter to the
-> "set_password" and "expire_password" QMP and HMP commands.
-> 
-> For HMP, the display is specified using the "-d" value flag.
-> 
-> For QMP, the schema is updated to explicitly express the supported
-> variants of the commands with protocol-discriminated unions.
-> 
-> Suggested-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+* Markus Armbruster (armbru@redhat.com) wrote:
+> I'm done reviewing.  David, care to have another look at the HMP part?
 
-For the HMP side:
+Yep, looking good to me - is that going via qmp, hmp, or vnc ?
 
+Dave
 
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  hmp-commands.hx    |  24 +++++-----
->  monitor/hmp-cmds.c |  45 ++++++++++++------
->  monitor/qmp-cmds.c |  36 ++++++---------
->  qapi/ui.json       | 112 +++++++++++++++++++++++++++++++++++----------
->  4 files changed, 148 insertions(+), 69 deletions(-)
-> 
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index cf723c69ac..9fbb207b35 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1514,33 +1514,35 @@ ERST
->  
->      {
->          .name       = "set_password",
-> -        .args_type  = "protocol:s,password:s,connected:s?",
-> -        .params     = "protocol password action-if-connected",
-> +        .args_type  = "protocol:s,password:s,display:-dV,connected:s?",
-> +        .params     = "protocol password [-d display] [action-if-connected]",
->          .help       = "set spice/vnc password",
->          .cmd        = hmp_set_password,
->      },
->  
->  SRST
-> -``set_password [ vnc | spice ] password [ action-if-connected ]``
-> -  Change spice/vnc password.  *action-if-connected* specifies what
-> -  should happen in case a connection is established: *fail* makes the
-> -  password change fail.  *disconnect* changes the password and
-> +``set_password [ vnc | spice ] password [ -d display ] [ action-if-connected ]``
-> +  Change spice/vnc password.  *display* can be used with 'vnc' to specify
-> +  which display to set the password on.  *action-if-connected* specifies
-> +  what should happen in case a connection is established: *fail* makes
-> +  the password change fail.  *disconnect* changes the password and
->    disconnects the client.  *keep* changes the password and keeps the
->    connection up.  *keep* is the default.
->  ERST
->  
->      {
->          .name       = "expire_password",
-> -        .args_type  = "protocol:s,time:s",
-> -        .params     = "protocol time",
-> +        .args_type  = "protocol:s,time:s,display:-dV",
-> +        .params     = "protocol time [-d display]",
->          .help       = "set spice/vnc password expire-time",
->          .cmd        = hmp_expire_password,
->      },
->  
->  SRST
-> -``expire_password [ vnc | spice ]`` *expire-time*
-> -  Specify when a password for spice/vnc becomes
-> -  invalid. *expire-time* accepts:
-> +``expire_password [ vnc | spice ] expire-time [ -d display ]``
-> +  Specify when a password for spice/vnc becomes invalid.
-> +  *display* behaves the same as in ``set_password``.
-> +  *expire-time* accepts:
->  
->    ``now``
->      Invalidate password instantly.
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index b8abe69609..f0f0c82d59 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1451,24 +1451,34 @@ void hmp_set_password(Monitor *mon, const QDict *qdict)
->  {
->      const char *protocol  = qdict_get_str(qdict, "protocol");
->      const char *password  = qdict_get_str(qdict, "password");
-> +    const char *display = qdict_get_try_str(qdict, "display");
->      const char *connected = qdict_get_try_str(qdict, "connected");
->      Error *err = NULL;
-> -    DisplayProtocol proto;
-> -    SetPasswordAction conn;
->  
-> -    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-> -                            DISPLAY_PROTOCOL_VNC, &err);
-> +    SetPasswordOptions opts = {
-> +        .password = (char *)password,
-> +    };
-> +
-> +    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-> +                                    DISPLAY_PROTOCOL_VNC, &err);
->      if (err) {
->          goto out;
->      }
->  
-> -    conn = qapi_enum_parse(&SetPasswordAction_lookup, connected,
-> -                           SET_PASSWORD_ACTION_KEEP, &err);
-> -    if (err) {
-> -        goto out;
-> +    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
-> +        opts.u.vnc.has_display = !!display;
-> +        opts.u.vnc.display = (char *)display;
-> +    } else if (opts.protocol == DISPLAY_PROTOCOL_SPICE) {
-> +        opts.u.spice.has_connected = !!connected;
-> +        opts.u.spice.connected =
-> +            qapi_enum_parse(&SetPasswordAction_lookup, connected,
-> +                            SET_PASSWORD_ACTION_KEEP, &err);
-> +        if (err) {
-> +            goto out;
-> +        }
->      }
->  
-> -    qmp_set_password(proto, password, !!connected, conn, &err);
-> +    qmp_set_password(&opts, &err);
->  
->  out:
->      hmp_handle_error(mon, err);
-> @@ -1478,16 +1488,25 @@ void hmp_expire_password(Monitor *mon, const QDict *qdict)
->  {
->      const char *protocol  = qdict_get_str(qdict, "protocol");
->      const char *whenstr = qdict_get_str(qdict, "time");
-> +    const char *display = qdict_get_try_str(qdict, "display");
->      Error *err = NULL;
-> -    DisplayProtocol proto;
->  
-> -    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-> -                            DISPLAY_PROTOCOL_VNC, &err);
-> +    ExpirePasswordOptions opts = {
-> +        .time = (char *)whenstr,
-> +    };
-> +
-> +    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-> +                                    DISPLAY_PROTOCOL_VNC, &err);
->      if (err) {
->          goto out;
->      }
->  
-> -    qmp_expire_password(proto, whenstr, &err);
-> +    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
-> +        opts.u.vnc.has_display = !!display;
-> +        opts.u.vnc.display = (char *)display;
-> +    }
-> +
-> +    qmp_expire_password(&opts, &err);
->  
->  out:
->      hmp_handle_error(mon, err);
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 0654d7289a..5637bd70b6 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -163,35 +163,27 @@ void qmp_system_wakeup(Error **errp)
->      qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, errp);
->  }
->  
-> -void qmp_set_password(DisplayProtocol protocol, const char *password,
-> -                      bool has_connected, SetPasswordAction connected,
-> -                      Error **errp)
-> +void qmp_set_password(SetPasswordOptions *opts, Error **errp)
->  {
-> -    int disconnect_if_connected = 0;
-> -    int fail_if_connected = 0;
-> -    int rc;
-> +    int rc = 0;
->  
-> -    if (has_connected) {
-> -        fail_if_connected = connected == SET_PASSWORD_ACTION_FAIL;
-> -        disconnect_if_connected = connected == SET_PASSWORD_ACTION_DISCONNECT;
-> -    }
-> -
-> -    if (protocol == DISPLAY_PROTOCOL_SPICE) {
-> +    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
->          if (!qemu_using_spice(errp)) {
->              return;
->          }
-> -        rc = qemu_spice.set_passwd(password, fail_if_connected,
-> -                                   disconnect_if_connected);
-> +        rc = qemu_spice.set_passwd(opts->password,
-> +                opts->u.spice.connected == SET_PASSWORD_ACTION_FAIL,
-> +                opts->u.spice.connected == SET_PASSWORD_ACTION_DISCONNECT);
->      } else {
-> -        assert(protocol == DISPLAY_PROTOCOL_VNC);
-> -        if (fail_if_connected || disconnect_if_connected) {
-> +        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
-> +        if (opts->u.vnc.connected != SET_PASSWORD_ACTION_KEEP) {
->              /* vnc supports "connected=keep" only */
->              error_setg(errp, QERR_INVALID_PARAMETER, "connected");
->              return;
->          }
->          /* Note that setting an empty password will not disable login through
->           * this interface. */
-> -        rc = vnc_display_password(NULL, password);
-> +        rc = vnc_display_password(opts->u.vnc.display, opts->password);
->      }
->  
->      if (rc != 0) {
-> @@ -199,11 +191,11 @@ void qmp_set_password(DisplayProtocol protocol, const char *password,
->      }
->  }
->  
-> -void qmp_expire_password(DisplayProtocol protocol, const char *whenstr,
-> -                         Error **errp)
-> +void qmp_expire_password(ExpirePasswordOptions *opts, Error **errp)
->  {
->      time_t when;
->      int rc;
-> +    const char *whenstr = opts->time;
->  
->      if (strcmp(whenstr, "now") == 0) {
->          when = 0;
-> @@ -215,14 +207,14 @@ void qmp_expire_password(DisplayProtocol protocol, const char *whenstr,
->          when = strtoull(whenstr, NULL, 10);
->      }
->  
-> -    if (protocol == DISPLAY_PROTOCOL_SPICE) {
-> +    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
->          if (!qemu_using_spice(errp)) {
->              return;
->          }
->          rc = qemu_spice.set_pw_expire(when);
->      } else {
-> -        assert(protocol == DISPLAY_PROTOCOL_VNC);
-> -        rc = vnc_display_pw_expire(NULL, when);
-> +        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
-> +        rc = vnc_display_pw_expire(opts->u.vnc.display, when);
->      }
->  
->      if (rc != 0) {
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index 15cc19dcc5..99ac29ad9c 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -39,20 +39,61 @@
->    'data': [ 'fail', 'disconnect', 'keep' ] }
->  
->  ##
-> -# @set_password:
-> +# @SetPasswordOptions:
->  #
-> -# Sets the password of a remote display session.
-> +# General options for set_password.
->  #
->  # @protocol: - 'vnc' to modify the VNC server password
->  #            - 'spice' to modify the Spice server password
->  #
->  # @password: the new password
->  #
-> -# @connected: how to handle existing clients when changing the
-> -#             password.  If nothing is specified, defaults to 'keep'
-> -#             'fail' to fail the command if clients are connected
-> -#             'disconnect' to disconnect existing clients
-> -#             'keep' to maintain existing clients
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'union': 'SetPasswordOptions',
-> +  'base': { 'protocol': 'DisplayProtocol',
-> +            'password': 'str' },
-> +  'discriminator': 'protocol',
-> +  'data': { 'vnc': 'SetPasswordOptionsVnc',
-> +            'spice': 'SetPasswordOptionsSpice' } }
-> +
-> +##
-> +# @SetPasswordOptionsSpice:
-> +#
-> +# Options for set_password specific to the SPICE procotol.
-> +#
-> +# @connected: How to handle existing clients when changing the
-> +#             password. If nothing is specified, defaults to 'keep'.
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'struct': 'SetPasswordOptionsSpice',
-> +  'data': { '*connected': 'SetPasswordAction' } }
-> +
-> +##
-> +# @SetPasswordOptionsVnc:
-> +#
-> +# Options for set_password specific to the VNC procotol.
-> +#
-> +# @display: The id of the display where the password should be changed.
-> +#           Defaults to the first.
-> +#
-> +# @connected: How to handle existing clients when changing the
-> +#             password.
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'struct': 'SetPasswordOptionsVnc',
-> +  'data': { '*display': 'str',
-> +            '*connected': 'SetPasswordAction' }}
-> +
-> +##
-> +# @set_password:
-> +#
-> +# Set the password of a remote display server.
->  #
->  # Returns: - Nothing on success
->  #          - If Spice is not enabled, DeviceNotFound
-> @@ -66,18 +107,16 @@
->  # <- { "return": {} }
->  #
->  ##
-> -{ 'command': 'set_password',
-> -  'data': { 'protocol': 'DisplayProtocol',
-> -            'password': 'str',
-> -            '*connected': 'SetPasswordAction' } }
-> +{ 'command': 'set_password', 'boxed': true, 'data': 'SetPasswordOptions' }
->  
->  ##
-> -# @expire_password:
-> +# @ExpirePasswordOptions:
->  #
-> -# Expire the password of a remote display server.
-> -#
-> -# @protocol: the name of the remote display protocol 'vnc' or 'spice'
-> +# General options for expire_password.
->  #
-> +# @protocol: - 'vnc' to modify the VNC server expiration
-> +#            - 'spice' to modify the Spice server expiration
-> +
->  # @time: when to expire the password.
->  #
->  #        - 'now' to expire the password immediately
-> @@ -85,16 +124,45 @@
->  #        - '+INT' where INT is the number of seconds from now (integer)
->  #        - 'INT' where INT is the absolute time in seconds
->  #
-> -# Returns: - Nothing on success
-> -#          - If @protocol is 'spice' and Spice is not active, DeviceNotFound
-> -#
-> -# Since: 0.14
-> -#
->  # Notes: Time is relative to the server and currently there is no way to
->  #        coordinate server time with client time.  It is not recommended to
->  #        use the absolute time version of the @time parameter unless you're
->  #        sure you are on the same machine as the QEMU instance.
->  #
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'union': 'ExpirePasswordOptions',
-> +  'base': { 'protocol': 'DisplayProtocol',
-> +            'time': 'str' },
-> +  'discriminator': 'protocol',
-> +  'data': { 'vnc': 'ExpirePasswordOptionsVnc' } }
-> +
-> +##
-> +# @ExpirePasswordOptionsVnc:
-> +#
-> +# Options for expire_password specific to the VNC procotol.
-> +#
-> +# @display: The id of the display where the expiration should be changed.
-> +#           Defaults to the first.
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +
-> +{ 'struct': 'ExpirePasswordOptionsVnc',
-> +  'data': { '*display': 'str' } }
-> +
-> +##
-> +# @expire_password:
-> +#
-> +# Expire the password of a remote display server.
-> +#
-> +# Returns: - Nothing on success
-> +#          - If @protocol is 'spice' and Spice is not active, DeviceNotFound
-> +#
-> +# Since: 0.14
-> +#
->  # Example:
->  #
->  # -> { "execute": "expire_password", "arguments": { "protocol": "vnc",
-> @@ -102,9 +170,7 @@
->  # <- { "return": {} }
->  #
->  ##
-> -{ 'command': 'expire_password',
-> -  'data': { 'protocol': 'DisplayProtocol',
-> -            'time': 'str' } }
-> +{ 'command': 'expire_password', 'boxed': true, 'data': 'ExpirePasswordOptions' }
->  
->  ##
->  # @screendump:
-> -- 
-> 2.30.2
-> 
-> 
 -- 
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
