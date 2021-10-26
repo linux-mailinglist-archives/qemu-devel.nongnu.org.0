@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6691E43B061
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:43:10 +0200 (CEST)
-Received: from localhost ([::1]:54066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E31A43B075
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:47:07 +0200 (CEST)
+Received: from localhost ([::1]:34458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfJvB-0002Tw-Ed
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:43:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52802)
+	id 1mfJz0-0008Ar-70
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:47:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfJht-0001cy-4q
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:29:25 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:35377)
+ id 1mfJhu-0001fl-1Q
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:29:26 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfJhr-0004ei-5w
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:29:24 -0400
-Received: by mail-wr1-x429.google.com with SMTP id s19so18199012wra.2
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:29:22 -0700 (PDT)
+ id 1mfJhr-0004fE-PS
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:29:25 -0400
+Received: by mail-wr1-x429.google.com with SMTP id u18so14915337wrg.5
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:29:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5nc1aRJ5hwFpLdq28mQ7T73wF2chGMJXK8KdXx7nbm4=;
- b=WTw/9GhrCRU008VX3ZeBULgs4FLDr0tQX3qyUZFuvnhJO8OWfG7m2BgxqwRUshlrBC
- hG9ZSsnDi3hWBbFArqGhMqbYlRUuT6jy6j+U62Q7BgKTv8IRE6y8kDTyeXYAhdpfKcvn
- gcJ/pnlThmZ8VfzwqveH3hJu7Nmn5X4LQpTGy2Sl9g2XvRW0zzVYQjXYxZwBq97oGglq
- VpeXdegI4SN+iC6LtotV21lm5L8wa8cj0FJriSzVoNs8wYIN3f6TP/YKLU7ejLGXNS2R
- ++uBl6K7bX3nCuM+PJdVaTGMlvmxpEHT31d4dH2rhy+MtmwbwkyfS64h/RzVWuf/3pO5
- c7fw==
+ bh=TKAhaqUZkEkOPDX3ZodBC29pmC1lvQH92Rx59LD9Vfk=;
+ b=V780SdvD2otuCojzNNz2PylO+FLSUN28n/QsWX9Zc3l7O8i8u3PEzePNtWvebpDLDw
+ HrTgKtQGmDcfURjJEOJ2XlbrSdUyJMGHhr24dtgfHI4eUo9cCFb5C39M0NwzW+yZHVxM
+ plNDDbGaCSuiXXZ14Nuio9/63TopXwGK29gZseznus6Fi/Uov216gZ0rJJmhOO1qeqER
+ HIhfIftF6suXWKibniHjbDiFOAqo+I4bCmIBGf7ZX5gw1YCnclQbW1nu0xkF0LMosimu
+ 4MELXE0IkYGElA4giaw/3uY7UKU6KjLZd/eRUmSTg+COFi7cryOrku1pE+XVSiC0jm7A
+ eGZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5nc1aRJ5hwFpLdq28mQ7T73wF2chGMJXK8KdXx7nbm4=;
- b=13/zltZDMYTmfGmR8Cy5Gdj+1Rcw3ucMVIC8BX/q7D/ot+h7SRahkc2Nu8LB/Q/aQc
- yEOjsMSz8g4iQOC20Awbl7l8Dj5xIJ2pw9xhBq/Tei1BSLH/NAbN7OiJvsMY9k/xG2DH
- qbybrl55tbmEgqfOQgouGnr0HOa41cQv0/Mu38KOAmDxMUzY2NZNKDO20O+sZ4Ich1Sm
- ZvQlARvGQCXAMK0RZdcOMYVeNTgo7F/ErPppLXUKo22wJFjAjcQDcbdpGsPfvu/+TMNj
- 5o3pVv3PEUBhfTwm06EL3oPu7LJTW3CwL2PyInjUDiQAGdXT9uqRjn5jsvmjYElcuSNx
- Z0kw==
-X-Gm-Message-State: AOAM533ZJqosdlcfdwne5kYSHYACf+jfl4xWKJfslIpNuasjR5vRnPhB
- YVIddu8BYrpmKYt+Oc5FSKvf4A==
-X-Google-Smtp-Source: ABdhPJwlR0enq4o9J6UfhevLuG9x+N7D7ScBZbkuYdVwu6/I1+M4MwUn8FeFSSeWhAVKJ20F586CxQ==
-X-Received: by 2002:adf:ee8b:: with SMTP id b11mr30370106wro.349.1635244160710; 
- Tue, 26 Oct 2021 03:29:20 -0700 (PDT)
+ bh=TKAhaqUZkEkOPDX3ZodBC29pmC1lvQH92Rx59LD9Vfk=;
+ b=lslRuAsFCf5JW1SZsiXB+wUFn81pC603PtcTmj1Q1SZ+xIP1EVxPbR5pbQiNhAP7r7
+ 9FWGKAXLVpC3y/v0YG1hmQOnPqdDWMS8WcQZJ+xN+y2Y3VZHQ17nN1Cq3ExgD1IjneYv
+ osRJHJbPCVgmPBcp7B90vamT99Tl/5xmA6tJkoWbMk1TPsFzq3u27f/f5QB1AJ1EMP3r
+ urRO/2hMkTcX9eJhJeYyfpey80EnId9E5EhaMOsLHvjAM0TVwUfLhWDuExxTRlmfD489
+ IDTQs598QD6hvt23ABMZGY4ZYdZbOzZz5O6S1Aal1ude3YhPLK9yyPQ+THR2K1d1O01N
+ bV/g==
+X-Gm-Message-State: AOAM530YWApPQhRT2bThQsQxt2ncGtrXbt8aV72cM3WTgKuL58NaP5YG
+ LTmzHjnMI7c2QBrokP7nceX1pQ==
+X-Google-Smtp-Source: ABdhPJyipWmv/nSk5N5C6ddhKaRpZrrF1wfyT2JMOYcWxKAlduwwRXuFof9psOY1LbbXG5m7ePx+0w==
+X-Received: by 2002:a05:6000:11ce:: with SMTP id
+ i14mr14442031wrx.102.1635244162466; 
+ Tue, 26 Oct 2021 03:29:22 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j10sm4370643wrx.94.2021.10.26.03.29.18
+ by smtp.gmail.com with ESMTPSA id 3sm200368wms.5.2021.10.26.03.29.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 26 Oct 2021 03:29:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 56A781FFB3;
+ by zen.linaroharston (Postfix) with ESMTP id 63ED31FFB4;
  Tue, 26 Oct 2021 11:22:36 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 18/28] chardev: don't exit() straight away on C-a x
-Date: Tue, 26 Oct 2021 11:22:24 +0100
-Message-Id: <20211026102234.3961636-19-alex.bennee@linaro.org>
+Subject: [PATCH v1 19/28] tests/plugins: extend the insn plugin to track
+ opcode sizes
+Date: Tue, 26 Oct 2021 11:22:25 +0100
+Message-Id: <20211026102234.3961636-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211026102234.3961636-1-alex.bennee@linaro.org>
 References: <20211026102234.3961636-1-alex.bennee@linaro.org>
@@ -87,87 +89,96 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com,
- kuhn.chenqun@huawei.com,
- =?UTF-8?q?Lukas=20J=C3=BCnger?= <lukas.junger@greensocs.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, f4bug@amsat.org,
- robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ kuhn.chenqun@huawei.com, f4bug@amsat.org, robhenry@microsoft.com,
+ mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ ma.mandourr@gmail.com, Alexandre Iooss <erdnaxe@crans.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While there are a number of uses in the code-base of the exit(0)
-pattern it gets in the way of clean exit which can do all of it's
-house-keeping. In particular it was reported that you can crash
-plugins this way because TCG can still be running on other threads
-when the atexit callback is called.
-
-Use qmp_quit() instead which takes care of some housekeeping before
-triggering the shutdown.
+This is mostly a convenience feature for identifying frontends that do
+multiple repeat loads so I can test changes to the instruction
+tracking interface.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reported-by: Lukas Jünger <lukas.junger@greensocs.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20211018140226.838137-1-alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20211019092901.1519570-1-alex.bennee@linaro.org>
 ---
- chardev/char-mux.c | 3 ++-
- stubs/qmp-quit.c   | 8 ++++++++
- stubs/meson.build  | 1 +
- 3 files changed, 11 insertions(+), 1 deletion(-)
- create mode 100644 stubs/qmp-quit.c
+ tests/plugin/insn.c | 37 +++++++++++++++++++++++++++++++++++--
+ 1 file changed, 35 insertions(+), 2 deletions(-)
 
-diff --git a/chardev/char-mux.c b/chardev/char-mux.c
-index ada0c6866f..ee2d47b20d 100644
---- a/chardev/char-mux.c
-+++ b/chardev/char-mux.c
-@@ -28,6 +28,7 @@
- #include "qemu/option.h"
- #include "chardev/char.h"
- #include "sysemu/block-backend.h"
-+#include "qapi/qapi-commands-control.h"
- #include "chardev-internal.h"
+diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
+index 0f6a1938c1..d229fdc001 100644
+--- a/tests/plugin/insn.c
++++ b/tests/plugin/insn.c
+@@ -18,6 +18,8 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
  
- /* MUX driver for serial I/O splitting */
-@@ -157,7 +158,7 @@ static int mux_proc_byte(Chardev *chr, MuxChardev *d, int ch)
-             {
-                  const char *term =  "QEMU: Terminated\n\r";
-                  qemu_chr_write_all(chr, (uint8_t *)term, strlen(term));
--                 exit(0);
-+                 qmp_quit(NULL);
-                  break;
-             }
-         case 's':
-diff --git a/stubs/qmp-quit.c b/stubs/qmp-quit.c
-new file mode 100644
-index 0000000000..a3ff47f7bd
---- /dev/null
-+++ b/stubs/qmp-quit.c
-@@ -0,0 +1,8 @@
-+#include "qemu/osdep.h"
-+#include "qapi/qapi-commands-control.h"
-+#include "qapi/qmp/dispatch.h"
+ static uint64_t insn_count;
+ static bool do_inline;
++static bool do_size;
++static GArray *sizes;
+ 
+ static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
+ {
+@@ -49,13 +51,35 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+                 insn, vcpu_insn_exec_before, QEMU_PLUGIN_CB_NO_REGS,
+                 GUINT_TO_POINTER(vaddr));
+         }
 +
-+void qmp_quit(Error **errp)
-+{
-+    g_assert_not_reached();
-+}
-diff --git a/stubs/meson.build b/stubs/meson.build
-index f6aa3aa94f..71469c1d50 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -31,6 +31,7 @@ stub_ss.add(files('pci-bus.c'))
- stub_ss.add(files('qemu-timer-notify-cb.c'))
- stub_ss.add(files('qmp_memory_device.c'))
- stub_ss.add(files('qmp-command-available.c'))
-+stub_ss.add(files('qmp-quit.c'))
- stub_ss.add(files('qtest.c'))
- stub_ss.add(files('ram-block.c'))
- stub_ss.add(files('ramfb.c'))
++        if (do_size) {
++            size_t sz = qemu_plugin_insn_size(insn);
++            if (sz > sizes->len) {
++                g_array_set_size(sizes, sz);
++            }
++            unsigned long *cnt = &g_array_index(sizes, unsigned long, sz);
++            (*cnt)++;
++        }
+     }
+ }
+ 
+ static void plugin_exit(qemu_plugin_id_t id, void *p)
+ {
+-    g_autofree gchar *out = g_strdup_printf("insns: %" PRIu64 "\n", insn_count);
+-    qemu_plugin_outs(out);
++    g_autoptr(GString) out = g_string_new(NULL);
++
++    if (do_size) {
++        int i;
++        for (i = 0; i <= sizes->len; i++) {
++            unsigned long *cnt = &g_array_index(sizes, unsigned long, i);
++            if (*cnt) {
++                g_string_append_printf(out,
++                                       "len %d bytes: %ld insns\n", i, *cnt);
++            }
++        }
++    } else {
++        g_string_append_printf(out, "insns: %" PRIu64 "\n", insn_count);
++    }
++    qemu_plugin_outs(out->str);
+ }
+ 
+ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+@@ -70,12 +94,21 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+                 fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
+                 return -1;
+             }
++        } else if (g_strcmp0(tokens[0], "sizes") == 0) {
++            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &do_size)) {
++                fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
++                return -1;
++            }
+         } else {
+             fprintf(stderr, "option parsing failed: %s\n", opt);
+             return -1;
+         }
+     }
+ 
++    if (do_size) {
++        sizes = g_array_new(true, true, sizeof(unsigned long));
++    }
++
+     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
+     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
+     return 0;
 -- 
 2.30.2
 
