@@ -2,79 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B500643BBD6
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 22:48:26 +0200 (CEST)
-Received: from localhost ([::1]:44590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4C243BBDD
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 22:52:06 +0200 (CEST)
+Received: from localhost ([::1]:48274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfTMv-00046d-JC
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 16:48:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56008)
+	id 1mfTQT-0006b9-PW
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 16:52:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfTK2-0002ZD-5p
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:45:26 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:40595)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfTJv-0002U6-Mx
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:45:25 -0400
-Received: by mail-pf1-x436.google.com with SMTP id o133so595272pfg.7
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 13:45:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NAULZMsfq3PXbvRDTP/rMPQPJGNGRVxJw75uKfWmEwA=;
- b=hZbWaofGW5waR9mJgTeCWHw2kDcv5EfOlHlQcozekZ4r59jsvgaii48tXNvmi7H2xb
- lCe4bVZtNVh50/etRhFzfluP0bvmB7FcfSKZ3gAtfv1RzgItpUzSpz4MUxNlir3/1x7j
- oR1wLWIlrKKGXbD/AMKIJrOnbnBKiKxt+n6BObL4iw7bKOxhnzEFcmI/KOTKxjmsI/rn
- KmlmGZ7l/tUxG8ReCOvfgOzaB7InMzjj2n5T1+mXG2Nk2f9+hXh+ZtI0rHlOatK8miMd
- YgsZxMjmckjolr86slhSL/Ee15fM84xXc6T5HiTExMgOa0V39tab9AdcLAjOJUoSfW0Y
- 6UJg==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mfTLd-0003eX-Pd
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:47:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49526)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mfTLY-0002z7-FU
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:47:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635281219;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BNzYoiE6nEPNT7ejTjcHogSvevgIPT8uDwhZdKZC8Uo=;
+ b=UydI1WwJYAVNNvQqZ/lMbd3O6Mqr0POAeDrQzFH3RArXlN1Lqlvn4FIIpj44gZQI6F3Mpp
+ P0BRzFIB1JZCofGC+NHbCZqMHcMvYJIlS13drFlheZBowNiNGUyQcDhrdaRSmTmqpqjgId
+ dszXpegUCukgtwmiQpjH2mA6+deIET4=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-PApIFTFZOqyUujR-35kymQ-1; Tue, 26 Oct 2021 16:46:55 -0400
+X-MC-Unique: PApIFTFZOqyUujR-35kymQ-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ x25-20020aa79199000000b0044caf0d1ba8so348652pfa.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 13:46:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NAULZMsfq3PXbvRDTP/rMPQPJGNGRVxJw75uKfWmEwA=;
- b=jhSKiQpUV2vapouLnECAQSiEZ4CB1aOQZmYNnA3ElaWqiumxmKSGrQ+tf7OjRo/4cz
- w1uu5mla1mQeOGikvr9GBWNBS5EnWKfPbeuZ4+0vRDQ5NbqU625yBmdI87uRNVwDJ7Kv
- KGKAi+TMhnIHTFtnXHJ5r1H3MCzFj2ZcqVn9I12nvHbTocSZzkTdC1lgxtHdEOoWUA8d
- JQ/whThdgXThOGcNCtirNcqwTiRE8f2Uj8Rx2tD6oqWxDtQLzQc9G9LCyQ6lRtI6EUbk
- iVpTK/ZZxlM5NGeQjL3Q8repr/Bxtlak+QWCLpg/pDajD3mS+kq3KoUv2C2TY9JAYTfg
- mIZw==
-X-Gm-Message-State: AOAM531b2BGCclSco+uvMmeNImnfe5lutJu34rPFVoSm+gRI4Iz/ThS6
- Q6LjeE6F54L4CoJ1PnUl8219xg==
-X-Google-Smtp-Source: ABdhPJwsc5Az7sOJMak21u0wWudgd3zMqq3R6tjzCCy3/rx4vVRXVpcqADFvySsof6blT7hoP19y/g==
-X-Received: by 2002:a05:6a00:1742:b0:47c:28d:ee2c with SMTP id
- j2-20020a056a00174200b0047c028dee2cmr10986985pfc.55.1635281117899; 
- Tue, 26 Oct 2021 13:45:17 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id p9sm22981060pfn.7.2021.10.26.13.45.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 13:45:17 -0700 (PDT)
-Subject: Re: [PATCH] tests/tcg: remove debug polluting make output
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20211026173914.79377-1-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c643207a-4f84-5883-5439-2c127f04fc06@linaro.org>
-Date: Tue, 26 Oct 2021 13:45:15 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BNzYoiE6nEPNT7ejTjcHogSvevgIPT8uDwhZdKZC8Uo=;
+ b=XxI9ssbrQ1KiAKsCGzOz/xKAZB+vHXYjrzI5ohVJcqEGzjqMJ6C0J0R9zqDEYjNMBA
+ 1UXl8SKe3iAHNkfQ9cq/KB/Sq0sKRv0nYyBiCrOCpAcx7CPHmNEwB0HXRVolN9cSr86W
+ I9bj+ACDpAUoOfMaZCkfsSJG653IAwRStOJRhMxUK9miDwYYsIS0shTmEtLoCrFTc7nB
+ qyxKsLuVbWZUeIdjPXAdIdFccUFKO8WAcRZiI96fxAfIxZsJmv2cbcGPuEslj9saPw+V
+ WOUNvkpgFTmN/0s9XTEzQxV2i4aJjEN8RfZlqjiHOLzE3I8gAfVyheqwnkLpog7yWpSc
+ J3Mw==
+X-Gm-Message-State: AOAM533n+bGYhEKhkXLl+8B+kGYPZUSWskSaohiuooNHfSPQA1mg9SDd
+ ++Gg6AOQTPBjJMwSH5wl4q0mXv3ijUvjOmnOblcO6rGACETplWN7S35gm+B6E4f6JpdDP3wSuqi
+ lf/0u8m6sjltehB8xa8RazEkUmGambV4=
+X-Received: by 2002:aa7:81c2:0:b0:47c:1d4:67f5 with SMTP id
+ c2-20020aa781c2000000b0047c01d467f5mr11770346pfn.38.1635281213963; 
+ Tue, 26 Oct 2021 13:46:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzJpH4miZraLraHRUoKnJLbHGE85NVNCTxQtw6vVl9MU41eUGpfQplscT5TlLoDRe5f2M9Vd5I3NWGVc8zGoNQ=
+X-Received: by 2002:aa7:81c2:0:b0:47c:1d4:67f5 with SMTP id
+ c2-20020aa781c2000000b0047c01d467f5mr11770318pfn.38.1635281213632; Tue, 26
+ Oct 2021 13:46:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211026173914.79377-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.215,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20211026102234.3961636-1-alex.bennee@linaro.org>
+ <20211026102234.3961636-5-alex.bennee@linaro.org>
+In-Reply-To: <20211026102234.3961636-5-alex.bennee@linaro.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Tue, 26 Oct 2021 17:46:27 -0300
+Message-ID: <CAKJDGDbXWXkghYKt+XOeBF7HLFQ962wwgQoyHzFy0iGWehi9Og@mail.gmail.com>
+Subject: Re: [PATCH v1 04/28] gitlab-ci: Remove special casing for hexagon
+ testing
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,19 +94,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>, minyihh@uci.edu,
+ Daniel Berrange <berrange@redhat.com>, kuhn.chenqun@huawei.com,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, robhenry@microsoft.com,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/21 10:39 AM, Alex Bennée wrote:
-> Fixes: 5343a837cd ("tests/tcg: move some multiarch files and make conditional")
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+On Tue, Oct 26, 2021 at 7:22 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>
+> From: Richard Henderson <richard.henderson@linaro.org>
+>
+> Now that the hexagon container is using a pre-built
+> toolchain, we do not need to make the build optional.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Message-Id: <20211014224435.2539547-5-richard.henderson@linaro.org>
 > ---
->   tests/tcg/multiarch/Makefile.target | 1 -
->   1 file changed, 1 deletion(-)
+>  .gitlab-ci.d/buildtest.yml       |  4 ----
+>  .gitlab-ci.d/container-cross.yml | 27 +++------------------------
+>  2 files changed, 3 insertions(+), 28 deletions(-)
+>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
-r~
 
