@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F1943BBCB
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 22:44:20 +0200 (CEST)
-Received: from localhost ([::1]:40658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B784D43BBD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 22:47:54 +0200 (CEST)
+Received: from localhost ([::1]:43230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfTIw-0001IA-Lm
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 16:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55344)
+	id 1mfTMP-00039Z-Rs
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 16:47:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfTHH-0008Hf-Bq
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:42:35 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:46868)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfTHF-00028b-8D
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:42:34 -0400
-Received: by mail-pf1-x433.google.com with SMTP id x66so560873pfx.13
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 13:42:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=y+1/hG5rPhKGtu2CIVhjqeKa6yIOeU9S/k81ABTNAik=;
- b=tbOiP0+/52Pp5b0x7xPsL7EY5L6jfSACpAhZrMlYx/oB+USDsnKvt7l+oBcnwI+8ds
- Som3UJgPdgA6FGOmiiyJAOkjnJqJJbi1CrpkeJlYG9zTIC0doi/rxxDulFlMo8xB73x3
- /pFqj67TxMTGcWpMTG87pJAu7S5yk7IpZBIRAAKKQUBty/RgqeaeugBYjsA5W2ijpFb3
- BF7i7zaweH0ziTYcg3x8Ey4c3rg7ZEZEj0OPCA+TEhL8C2Z/QxEondYlab0p69vC+8E1
- YDK0oqrctpEIkaGcF4LjR4fkiOaQPYhGQj/DJ/OOmuVff9F0eqNvcEC69ALo5jJRYyc+
- irTg==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfTJM-000254-Rv
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:44:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24682)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfTJI-0002Mp-K2
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:44:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635281078;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EMVAHeufflVrKk+S8YdyoEJhRVm1bI9op8JghzxCmkU=;
+ b=coMCJToEC1YwiqaTcYjx/R6+wzjHmH6JSR2pWYwDJ3QGIx80Gh4w7UKcMamTdYIMCXarlS
+ XoFBs1pVEx+TMip0Wu/owsb3xtIdTmWgEtBKDrQ88u35BuOwTKYmNYZ3ryfjTP7eNrSn0u
+ OdAH0eFIw/Fv54QRX9qgTC5HIxV/J/w=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-531-UlipKg6_O16ZQtZuxs3VuA-1; Tue, 26 Oct 2021 16:44:36 -0400
+X-MC-Unique: UlipKg6_O16ZQtZuxs3VuA-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ e5-20020ab04985000000b002cad81164cbso210566uad.10
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 13:44:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=y+1/hG5rPhKGtu2CIVhjqeKa6yIOeU9S/k81ABTNAik=;
- b=W6JUQ12LBJLcku1Q/SDOK18hDgmejkTPVZ2AVtktl3ObKjjBSSqKbpMQKn8rcMTBdH
- FBMBzuytonBSTEvge9S5AEZfIAFz34f0Hknxse28v5XWOaxzi2bz6tKHNXVEDUH4r38C
- 3KyaB6qlTuFkpRpcERpOX5G6vOj2QT5IoPBBnOuCOq6pozwJQVIKaPOn5EkHLN04Bwd7
- R4Irjh+7gM4e9CdVTwzk64VejqNlEec3FQF88WHkPWFdhR/u6rL2osge+v8B1edRdfjm
- vxOBpFjrCeoGJ8WFXUjrYjNvbBmaxGsDkk2rk2G/Qv2/LEeoLP0ZUkuIUKKCnEFr+qKY
- Szfw==
-X-Gm-Message-State: AOAM531dIOyLfAWlic1RvYBV0+AWLyCNTIu71ODKAZc392TKwk49d9Aw
- rejbmDwK1ms0202cH4wdS4iN8A==
-X-Google-Smtp-Source: ABdhPJxz6xOWibfMrHPLAJAkAnay4MnwyJjK0gOEkxqdkFcG2uRl1WT8knffHzotjGdwM0Ze52zjGQ==
-X-Received: by 2002:a63:4f:: with SMTP id 76mr20722825pga.457.1635280951222;
- Tue, 26 Oct 2021 13:42:31 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id g8sm3840179pfv.123.2021.10.26.13.42.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 13:42:29 -0700 (PDT)
-Subject: Re: [PATCH v1 10/28] tests/docker: allow non-unique userid
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20211026102234.3961636-1-alex.bennee@linaro.org>
- <20211026102234.3961636-11-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <270fd718-14aa-dae9-d72b-71b9607ab374@linaro.org>
-Date: Tue, 26 Oct 2021 13:42:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EMVAHeufflVrKk+S8YdyoEJhRVm1bI9op8JghzxCmkU=;
+ b=m9Oiqrhs4A9UbAJRj7A4Qtf6i4ZQW1Ut3dJZxy/ryFDg1/bq+DKrfBMfdrFnBWTX/m
+ RJivtRqSXGMGkydH3g8SKikrY7EXDyOQbsMtnypLbUt2vRU65le1tiXYt6PWGBORF/GO
+ nnOWEMed9MMAPBc2vkxSsZCOrTKArjFqubJuV0rop6LporBuUyyuHOYzM6tTZnZiz8mr
+ S1nl5UM8cYe5UU8Rx0MXeW5qv/g6hJbxaiexmHjdmgDQRZzBP3fQ5WId5go+IIjWGKIF
+ nobjF+I1d7vqhaeGMv80S6gduM3TO3Veik6J2pqX2UMkfcSUk7aBkWBa0+NMAWdiSXh3
+ FccA==
+X-Gm-Message-State: AOAM531+iIecR4y9dN2N/fATpLB7Q/RWRmfw988pp4w18q8lAoJCOjjt
+ yvqSQUWdCvcIcOL8/jgvYzZ/yS4LgoNLst9QwXvp2FPtb6WOL9aEHJZt+cBB+dLxDu3fB+wQQqi
+ cvo06RpaRRbroOVQcTMdnzj3FpECCd9U=
+X-Received: by 2002:a05:6122:2020:: with SMTP id
+ l32mr2167272vkd.10.1635281075715; 
+ Tue, 26 Oct 2021 13:44:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGRJA3EGFQKsaCYMp0H4eHMuTt7vowZG+u4m36eR1r+sDGfpqQfc2vBpUzLj4KuBQStWBonrUrWcFUFbKj+ZA=
+X-Received: by 2002:a05:6122:2020:: with SMTP id
+ l32mr2167253vkd.10.1635281075536; 
+ Tue, 26 Oct 2021 13:44:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211026102234.3961636-11-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <20211025042405.3762351-1-armbru@redhat.com>
+ <20211025042405.3762351-2-armbru@redhat.com>
+In-Reply-To: <20211025042405.3762351-2-armbru@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 26 Oct 2021 16:44:24 -0400
+Message-ID: <CAFn=p-bQueEX7N+JuAXVUsYazsHvrvxnuFHCshjoOgM=1FsfUg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] qapi: Enable enum member introspection to show
+ more than name
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000009d9b6605cf478b0c"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.215,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,30 +90,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- pbonzini@redhat.com, f4bug@amsat.org, robhenry@microsoft.com,
- aaron@os.amperecomputing.com, Willian Rampazzo <willianr@redhat.com>,
- mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
- crosa@redhat.com, kuhn.chenqun@huawei.com, ma.mandourr@gmail.com,
- aurelien@aurel32.net
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel Berrange <berrange@redhat.com>, libvir-list@redhat.com,
+ qemu-devel <qemu-devel@nongnu.org>, mdroth@linux.vnet.ibm.com,
+ Peter Krempa <pkrempa@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Eric Blake <eblake@redhat.com>, libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/21 3:22 AM, Alex Bennée wrote:
-> This is a bit of a band-aid against hand-built images that have been
-> accidentally polluted by a user build. All images pulled from the
-> registry shouldn't have the user defined.
+--0000000000009d9b6605cf478b0c
+Content-Type: text/plain; charset="UTF-8"
 
-I believe that I've fixed the images currently uploaded.
+On Mon, Oct 25, 2021 at 12:24 AM Markus Armbruster <armbru@redhat.com>
+wrote:
 
-I think we ought to totally rewrite now we add users to images.  I don't think we can 
-reasonably layer one image upon another without getting the user added at an intermediate 
-image.  At present the only way to do this is NOCACHE=1 NOUSER=1, so that all of the 
-intermediate images are also rebuilt, and also force nouser.
+> The next commit will add feature flags to enum members.  There's a
+> problem, though: query-qmp-schema shows an enum type's members as an
+> array of member names (SchemaInfoEnum member @values).  If it showed
+> an array of objects with a name member, we could simply add more
+> members to these objects.  Since it's just strings, we can't.
+>
+> I can see three ways to correct this design mistake:
+>
+> 1. Do it the way we should have done it, plus compatibility goo.
+>
+>    We want a ['SchemaInfoEnumMember'] member in SchemaInfoEnum.  Since
+>    changing @values would be a compatibility break, add a new member
+>    @members instead.
+>
+>    @values is now redundant.  In my testing, output of
+>    qemu-system-x86_64's query-qmp-schema grows by 11% (18.5KiB).
+>
+>    We can deprecate @values now and drop it later.  This will break
+>    outmoded clients.  Well-behaved clients such as libvirt are
+>    expected to break cleanly.
+>
+> 2. Like 1, but omit "boring" elements of @member, and empty @member.
+>
+>    @values does not become redundant.  @members augments it.  Somewhat
+>    cumbersome, but output of query-qmp-schema grows only as we make
+>    enum members non-boring.
+>
+>    There is nothing to deprecate here.
+>
+> 3. Versioned query-qmp-schema.
+>
+>    query-qmp-schema provides either @values or @members.  The QMP
+>    client can select which version it wants.  There is no redundant
+>    output.
+>
+>    We can deprecate old versions and eventually drop them.  This will
+>    break outmoded clients.  Breaking cleanly is easier than for 1.
+>
+>    While 1 and 2 operate within the common rules for compatible
+>    evolution apply (section "Compatibility considerations" in
+>    docs/devel/qapi-code-gen.rst), 3 bypasses them.  Attractive when
+>    operating within the rules is just too awkward.  Not the case here.
+>
+> This commit implements 1.  Libvirt developers prefer it.
+>
+> Deprecate @values in favour of @members.  Since query-qmp-schema
+> compatibility is pretty fundamental for management applications, an
+> extended grace period is advised.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Tested-by: Peter Krempa <pkrempa@redhat.com>
+> Acked-by: Peter Krempa <pkrempa@redhat.com>
+>
 
-Does this patch really help in the meantime?
+Reviewed-by: John Snow <jsnow@redhat.com>
 
+--0000000000009d9b6605cf478b0c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-r~
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 25, 2021 at 12:24 AM Mark=
+us Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The=
+ next commit will add feature flags to enum members.=C2=A0 There&#39;s a<br=
+>
+problem, though: query-qmp-schema shows an enum type&#39;s members as an<br=
+>
+array of member names (SchemaInfoEnum member @values).=C2=A0 If it showed<b=
+r>
+an array of objects with a name member, we could simply add more<br>
+members to these objects.=C2=A0 Since it&#39;s just strings, we can&#39;t.<=
+br>
+<br>
+I can see three ways to correct this design mistake:<br>
+<br>
+1. Do it the way we should have done it, plus compatibility goo.<br>
+<br>
+=C2=A0 =C2=A0We want a [&#39;SchemaInfoEnumMember&#39;] member in SchemaInf=
+oEnum.=C2=A0 Since<br>
+=C2=A0 =C2=A0changing @values would be a compatibility break, add a new mem=
+ber<br>
+=C2=A0 =C2=A0@members instead.<br>
+<br>
+=C2=A0 =C2=A0@values is now redundant.=C2=A0 In my testing, output of<br>
+=C2=A0 =C2=A0qemu-system-x86_64&#39;s query-qmp-schema grows by 11% (18.5Ki=
+B).<br>
+<br>
+=C2=A0 =C2=A0We can deprecate @values now and drop it later.=C2=A0 This wil=
+l break<br>
+=C2=A0 =C2=A0outmoded clients.=C2=A0 Well-behaved clients such as libvirt a=
+re<br>
+=C2=A0 =C2=A0expected to break cleanly.<br>
+<br>
+2. Like 1, but omit &quot;boring&quot; elements of @member, and empty @memb=
+er.<br>
+<br>
+=C2=A0 =C2=A0@values does not become redundant.=C2=A0 @members augments it.=
+=C2=A0 Somewhat<br>
+=C2=A0 =C2=A0cumbersome, but output of query-qmp-schema grows only as we ma=
+ke<br>
+=C2=A0 =C2=A0enum members non-boring.<br>
+<br>
+=C2=A0 =C2=A0There is nothing to deprecate here.<br>
+<br>
+3. Versioned query-qmp-schema.<br>
+<br>
+=C2=A0 =C2=A0query-qmp-schema provides either @values or @members.=C2=A0 Th=
+e QMP<br>
+=C2=A0 =C2=A0client can select which version it wants.=C2=A0 There is no re=
+dundant<br>
+=C2=A0 =C2=A0output.<br>
+<br>
+=C2=A0 =C2=A0We can deprecate old versions and eventually drop them.=C2=A0 =
+This will<br>
+=C2=A0 =C2=A0break outmoded clients.=C2=A0 Breaking cleanly is easier than =
+for 1.<br>
+<br>
+=C2=A0 =C2=A0While 1 and 2 operate within the common rules for compatible<b=
+r>
+=C2=A0 =C2=A0evolution apply (section &quot;Compatibility considerations&qu=
+ot; in<br>
+=C2=A0 =C2=A0docs/devel/qapi-code-gen.rst), 3 bypasses them.=C2=A0 Attracti=
+ve when<br>
+=C2=A0 =C2=A0operating within the rules is just too awkward.=C2=A0 Not the =
+case here.<br>
+<br>
+This commit implements 1.=C2=A0 Libvirt developers prefer it.<br>
+<br>
+Deprecate @values in favour of @members.=C2=A0 Since query-qmp-schema<br>
+compatibility is pretty fundamental for management applications, an<br>
+extended grace period is advised.<br>
+<br>
+Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" t=
+arget=3D"_blank">armbru@redhat.com</a>&gt;<br>
+Reviewed-by: Eric Blake &lt;<a href=3D"mailto:eblake@redhat.com" target=3D"=
+_blank">eblake@redhat.com</a>&gt;<br>
+Tested-by: Peter Krempa &lt;<a href=3D"mailto:pkrempa@redhat.com" target=3D=
+"_blank">pkrempa@redhat.com</a>&gt;<br>
+Acked-by: Peter Krempa &lt;<a href=3D"mailto:pkrempa@redhat.com" target=3D"=
+_blank">pkrempa@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Revi=
+ewed-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com=
+</a>&gt;<br></div><div>=C2=A0</div></div></div>
+
+--0000000000009d9b6605cf478b0c--
+
 
