@@ -2,88 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF7C43AFEF
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:19:50 +0200 (CEST)
-Received: from localhost ([::1]:51878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E5E43AFF0
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:21:27 +0200 (CEST)
+Received: from localhost ([::1]:55150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfJYb-0004rR-N2
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50394)
+	id 1mfJaB-00075n-1I
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:21:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mfJXB-0004BU-Mm
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:18:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25662)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mfJY1-0005CZ-2l
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:19:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mfJX6-00030u-Hn
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:18:21 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mfJXz-0003mb-O5
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:19:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635243495;
+ s=mimecast20190719; t=1635243551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BjCwWlg+Sjwq27e/3slNW7toAQ3gtmzc/I+XhFmhihs=;
- b=hLbyV8+L5hTw2vO08QGfd57KSnxoCq6iJzOCfYWiqlrLHpJYqgqTiqEiHCijTURoossug8
- qISS4QPK7Ug/t0W2Ydi/BStlh3cZ991ld/reu57Rie4JZ3QfqVs7AhYuDTHdGGKZwUJVgS
- 7xlfyw8Bfeo8WsfncKKzAQDU/icfKFU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-qYKk1njvNPaeFxIgfOydyg-1; Tue, 26 Oct 2021 06:18:14 -0400
-X-MC-Unique: qYKk1njvNPaeFxIgfOydyg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- g9-20020a1c9d09000000b0032cc23db051so745782wme.3
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:18:13 -0700 (PDT)
+ bh=KLCNbs+r0JavqR2Ym82qx1pceQFlzjoIt7cGqu052xI=;
+ b=T3+aspfICt3vtB4BzjX809CeYNTfSIQxJ7lwDTwHY7oEgShmZBvDXq2VDQsO7oJT0vn0QJ
+ BYXY7ruoPsk0nLR6K/9noIdGXYNxcXCCPUm5zsX4XEPTwbGjCRHVvKE2Wb1YiPKNidD8r3
+ 37L55CuumMrAF4DvD7w0sS+95AKwGtc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-7oHlM1n7M6mJckRRqz7nBQ-1; Tue, 26 Oct 2021 06:19:09 -0400
+X-MC-Unique: 7oHlM1n7M6mJckRRqz7nBQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ h16-20020a05640250d000b003dd8167857aso1908861edb.0
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:19:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=BjCwWlg+Sjwq27e/3slNW7toAQ3gtmzc/I+XhFmhihs=;
- b=bu/jb9n5EWtuaEX/rBccydWZ7dc1y4iJW4fLXwb+iZrYlPaOy/hT+6FTLMcxixSVYx
- Ga4NsH5ZemxI47ZO6v0Uj9Mt7BjqdiiqzpIfDB6BEVXf8nYe8urgTw4nkMxZDRLNgmYM
- p+jszI5th24RykfosxxjC0kSKonsxM1EhBleMo4DYev9xkQjnIZzkHXdCH5QXPA7zkml
- 4/R3WqLb81Jaj5+E6a4ijuJRzsQdp86pIjCUvmULquDt6BNe0wSpDaZMnaRKgCK/yoET
- DIl0qdvZlPrZzBxlnWM9WIN1vohfd2lGg061EMrrxqqXJ+ZcdsNbCL93duZ9/AqHjbkp
- 56rQ==
-X-Gm-Message-State: AOAM530r7V7s+zPM3jBFoBd/L0l7O2yXKcCl70+ra6WKtkLL49apVbpM
- 6BbNMLs++taJUfh7C2pPdXs6BPGJwBJCTrRC18RZBP3Lk43feieV56X83YTvYGO/9J1VbTLR6om
- FXBqULw4FwCJv8Q4=
-X-Received: by 2002:adf:c78d:: with SMTP id l13mr29710314wrg.134.1635243492911; 
- Tue, 26 Oct 2021 03:18:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyrTUDVX/lDvo1cZsNrHOhQdU4rxetE7x7o8/b3FxnMcrLjSXE5wT05QANnZJ2fIidvi4e0TA==
-X-Received: by 2002:adf:c78d:: with SMTP id l13mr29710284wrg.134.1635243492724; 
- Tue, 26 Oct 2021 03:18:12 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id b8sm1563558wri.53.2021.10.26.03.18.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 03:18:11 -0700 (PDT)
-Date: Tue, 26 Oct 2021 11:18:10 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v7 0/4] VNC-related HMP/QMP fixes
-Message-ID: <YXfV4vf5+YLFXYbA@work-vm>
-References: <20211021100135.4146766-1-s.reiter@proxmox.com>
- <87k0i6d5l5.fsf@dusky.pond.sub.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KLCNbs+r0JavqR2Ym82qx1pceQFlzjoIt7cGqu052xI=;
+ b=mpVEn8hZ3DlbKR5vOFvrR3iYL+ZR9TKxEO4R2aX4MLfeKnCZ1m2AsAx0W2yZEmeXrn
+ p7+aSWlJGSJp4C4VNWTrDOegrPqJV5P8ca+mtvlhh3q1GBHhyq3TyK2eS2dbf4e7wnZ+
+ y7+HLt9XqyBqEMP/fwVLYb/02nMWZ3Ybu9p9OVZTRI1q2rUc99CdaswtJmZjWOfS9ant
+ 985uYw9I7TDheCk36B04r7msSItDtGo/p2kaSLg2ECuN04BiCoMTBbZd9rSQ8+wStV1p
+ zwbQ36COnZAgebo2F6btiSGZBmFO+QLoQ0AA8Xoy0HqKYQTt5kJRYCOo1mVl2kJ3hx63
+ Tviw==
+X-Gm-Message-State: AOAM5316R3NccuEC3yPMlgly8c/9I8mCsLfkkPd34k8NLf7P5bpVkQlo
+ W6JPV/oy8DvNyZbHHVPYiXu4xg/Vm+UmvWMMceyBy0M4qCwkr18UcByDRlyVwp8lnHRkQryzb5m
+ vIl4QVKpt1Ziowyc=
+X-Received: by 2002:a05:6402:4389:: with SMTP id
+ o9mr35761171edc.38.1635243548763; 
+ Tue, 26 Oct 2021 03:19:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzaluoqEdaZyA83HcnoQv8aLd+r/Y/evpOOS3mkDCCiCkjQQM9KSlLKpJLAGGgCK4KbRXD3sQ==
+X-Received: by 2002:a05:6402:4389:: with SMTP id
+ o9mr35761132edc.38.1635243548558; 
+ Tue, 26 Oct 2021 03:19:08 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id nc7sm4180719ejc.63.2021.10.26.03.19.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Oct 2021 03:19:08 -0700 (PDT)
+Message-ID: <27909f7c-556c-8999-bc6a-f819630fa6ff@redhat.com>
+Date: Tue, 26 Oct 2021 12:19:07 +0200
 MIME-Version: 1.0
-In-Reply-To: <87k0i6d5l5.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 09/15] iotests/297: update tool availability checks
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20211019144918.3159078-1-jsnow@redhat.com>
+ <20211019144918.3159078-10-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211019144918.3159078-10-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.846, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,23 +101,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
- Stefan Reiter <s.reiter@proxmox.com>, qemu-devel@nongnu.org,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Markus Armbruster (armbru@redhat.com) wrote:
-> I'm done reviewing.  David, care to have another look at the HMP part?
+On 19.10.21 16:49, John Snow wrote:
+> As mentioned in 'iotests/297: Don't rely on distro-specific linter
+> binaries', these checks are overly strict. Update them to be in-line
+> with how we actually invoke the linters themselves.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   tests/qemu-iotests/297 | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
 
-Yep, looking good to me - is that going via qmp, hmp, or vnc ?
-
-Dave
-
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
