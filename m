@@ -2,50 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3573843B9BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:39:48 +0200 (CEST)
-Received: from localhost ([::1]:50408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A85343B9BD
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:39:56 +0200 (CEST)
+Received: from localhost ([::1]:44722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfRMR-0001lS-Aa
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:39:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57644)
+	id 1mfRMY-0006IP-RZ
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:39:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1mfRAI-0007t7-Bd
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:27:18 -0400
-Received: from mga11.intel.com ([192.55.52.93]:17186)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mfR3e-0008Ea-Hy; Tue, 26 Oct 2021 14:20:25 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:36197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1mfRAF-0007AP-Ss
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:27:14 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="227438575"
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; d="scan'208";a="227438575"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 11:26:56 -0700
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; d="scan'208";a="497480965"
-Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 11:26:54 -0700
-From: Zhang Chen <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: [PATCH V4 3/3] net/colo-compare.c: Remove vnet_hdr and check in
- payload from colo-compare
-Date: Wed, 27 Oct 2021 02:17:30 +0800
-Message-Id: <20211026181730.3102184-4-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211026181730.3102184-1-chen.zhang@intel.com>
-References: <20211026181730.3102184-1-chen.zhang@intel.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mfR3a-0005oS-NA; Tue, 26 Oct 2021 14:20:22 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id B9D6B5C021D;
+ Tue, 26 Oct 2021 14:20:15 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 26 Oct 2021 14:20:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=T0k5ft5HLXAwQ9NnVCzLOO2Tvw0
+ +vMQUlMx7MPzYJ0g=; b=WnPLyUr/1YzBaYr8tLqb6DVLwOsa/AITSq4OIK8qvYd
+ InHQVA0KueOUW17T0L1klR4DAC/Nz5n4Ejm/FQO+duKRXgt2WK8u2Vd+8OO8EgIq
+ gmgtO3eAg6FGeEWmCJICPkh2Lt6TRBiICa+tld3KCPXAxVn1hFLjwLYZ9PIsyYiB
+ Dyvt2Hhd3xkWB3v5bMDUrmJZjxqayo6eN0Da5vQof6H9XE3p/mSbzqVaseY83GC7
+ WxsXFxMYr/4ckoaHj31r41bSVoj+RjHA1uLBnChxiV4VL3weFzGqpw8g0+E/N4H2
+ 8zWu7OXIDTs4OO1o5r24dTSp/BYUm8E0hXtdyKV8usQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=T0k5ft
+ 5HLXAwQ9NnVCzLOO2Tvw0+vMQUlMx7MPzYJ0g=; b=GMcwt8tfLJ/39jiX72YqcZ
+ jd/Id/xr+VqqPcGdDTFh/ErezislfaKC9KJHFVGbyqw0HlaZkYZI62bEtFExE+IC
+ KrlWvpIlASqTe18Dx7UAjMY2Yo17D2FNY935nuFV+mA4utbX8aULKxq27GbfVBTt
+ MmNRmizy2J5l4eqzqONSPEgUzs7yuCnPi9jumtHzQrNluGJ2IO9FixYjYqU2iPy/
+ VnDsWsNxEaV4BFjsH/vOBaboNiFzZ94yKAZ+CeVsq1VaLHw8iNQZcjX/yylz9p9U
+ 5NalQXT4MUOGVMr/kfCJe8/96DDBwcmYVw4DEDuFSt7oBDspK1+8YoHgsserTsuw
+ ==
+X-ME-Sender: <xms:3kZ4Ycw8BjQnbhETD510TW0Udk7Je23pk2oGrRkQdzLq_Da93D76oQ>
+ <xme:3kZ4YQRHTf3wz4LrutCEoiZgIAogrtFc4b3iZhFT1B_FJFdJI1GgbPmABuvBN0ayf
+ oC1j4n7c94C-A1ysQ8>
+X-ME-Received: <xmr:3kZ4YeUsxS7_-sH1OMg15liM8VpQSLL6BfG_tRObUF_gJX4j0qKHXYQUmR-z_x9EXqvwrlLYloUtfR1qqveecQWBxcGLqc4OnWW7m8y7HOg1YeC_6Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefkedgheegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejuddvfeffgfdvjefhleevtdevgeejteelveeiueejleeuledtueeiieetjeev
+ vdenucffohhmrghinhepghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:3kZ4YahHSU5CIFvV8JpFVDp7tahxGJzj9yDyeK-TiMAZayU9zFgWgQ>
+ <xmx:3kZ4YeA2uCbou0QEgBZG2UjXozQkQeo5J1TG6y5N4Zq0VaL76nf0PQ>
+ <xmx:3kZ4YbI5I1VoW516q0M7cgKgpRzVmvI2wLNIpxO_m7BIeNVeq0VEBw>
+ <xmx:30Z4YZNjwqRRIeJ2JODyB-x09SAiD_2LSJynjsH4mP39A_82j7JD9A>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 26 Oct 2021 14:20:13 -0400 (EDT)
+Date: Tue, 26 Oct 2021 20:20:12 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+Subject: Re: [PATCH 00/15] hw/nvme: SR-IOV with Virtualization Enhancements
+Message-ID: <YXhG3L+brG0q6o/2@apples.localdomain>
+References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=chen.zhang@intel.com;
- helo=mga11.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="keEPMuyC0/cxUS4B"
+Content-Disposition: inline
+In-Reply-To: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,151 +92,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, Markus Armbruster <armbru@redhat.com>
+Cc: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable vnet_hdr in payload by default. Make it easier to find module
-communication configuration errors.
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- net/colo-compare.c | 41 ++++++++++++++---------------------------
- qemu-options.hx    |  5 ++---
- 2 files changed, 16 insertions(+), 30 deletions(-)
+--keEPMuyC0/cxUS4B
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index b100e7b51f..ecb21917c6 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -119,7 +119,7 @@ struct CompareState {
-     SocketReadState notify_rs;
-     SendCo out_sendco;
-     SendCo notify_sendco;
--    bool vnet_hdr;
-+    int local_vnet_hdr_len;
-     uint64_t compare_timeout;
-     uint32_t expired_scan_cycle;
- 
-@@ -725,7 +725,6 @@ static void colo_compare_connection(void *opaque, void *user_data)
- static void coroutine_fn _compare_chr_send(void *opaque)
- {
-     SendCo *sendco = opaque;
--    CompareState *s = sendco->s;
-     int ret = 0;
- 
-     while (!g_queue_is_empty(&sendco->send_list)) {
-@@ -740,7 +739,7 @@ static void coroutine_fn _compare_chr_send(void *opaque)
-             goto err;
-         }
- 
--        if (!sendco->notify_remote_frame && s->vnet_hdr) {
-+        if (!sendco->notify_remote_frame) {
-             /*
-              * We send vnet header len make other module(like filter-redirector)
-              * know how to parse net packet correctly.
-@@ -1034,22 +1033,6 @@ static void compare_set_outdev(Object *obj, const char *value, Error **errp)
-     s->outdev = g_strdup(value);
- }
- 
--static bool compare_get_vnet_hdr(Object *obj, Error **errp)
--{
--    CompareState *s = COLO_COMPARE(obj);
--
--    return s->vnet_hdr;
--}
--
--static void compare_set_vnet_hdr(Object *obj,
--                                 bool value,
--                                 Error **errp)
--{
--    CompareState *s = COLO_COMPARE(obj);
--
--    s->vnet_hdr = value;
--}
--
- static char *compare_get_notify_dev(Object *obj, Error **errp)
- {
-     CompareState *s = COLO_COMPARE(obj);
-@@ -1157,6 +1140,9 @@ static void compare_pri_rs_finalize(SocketReadState *pri_rs)
-     CompareState *s = container_of(pri_rs, CompareState, pri_rs);
-     Connection *conn = NULL;
- 
-+    /* Update colo-compare local vnet_hdr_len */
-+    s->local_vnet_hdr_len = pri_rs->vnet_hdr_len;
-+
-     if (packet_enqueue(s, PRIMARY_IN, &conn)) {
-         trace_colo_compare_main("primary: unsupported packet in");
-         compare_chr_send(s,
-@@ -1176,6 +1162,12 @@ static void compare_sec_rs_finalize(SocketReadState *sec_rs)
-     CompareState *s = container_of(sec_rs, CompareState, sec_rs);
-     Connection *conn = NULL;
- 
-+    /* Check the secondary vnet_hdr_len */
-+    if (s->local_vnet_hdr_len != sec_rs->vnet_hdr_len) {
-+        error_report("colo-compare got a different packet vnet_hdr_len"
-+        " from local, please check the nodes -device configuration");
-+    }
-+
-     if (packet_enqueue(s, SECONDARY_IN, &conn)) {
-         trace_colo_compare_main("secondary: unsupported packet in");
-     } else {
-@@ -1289,8 +1281,8 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
-         return;
-     }
- 
--    net_socket_rs_init(&s->pri_rs, compare_pri_rs_finalize, s->vnet_hdr);
--    net_socket_rs_init(&s->sec_rs, compare_sec_rs_finalize, s->vnet_hdr);
-+    net_socket_rs_init(&s->pri_rs, compare_pri_rs_finalize, true);
-+    net_socket_rs_init(&s->sec_rs, compare_sec_rs_finalize, true);
- 
-     /* Try to enable remote notify chardev, currently just for Xen COLO */
-     if (s->notify_dev) {
-@@ -1299,8 +1291,7 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
-             return;
-         }
- 
--        net_socket_rs_init(&s->notify_rs, compare_notify_rs_finalize,
--                           s->vnet_hdr);
-+        net_socket_rs_init(&s->notify_rs, compare_notify_rs_finalize, false);
-     }
- 
-     s->out_sendco.s = s;
-@@ -1396,10 +1387,6 @@ static void colo_compare_init(Object *obj)
-     object_property_add(obj, "max_queue_size", "uint32",
-                         get_max_queue_size,
-                         set_max_queue_size, NULL, NULL);
--
--    s->vnet_hdr = false;
--    object_property_add_bool(obj, "vnet_hdr_support", compare_get_vnet_hdr,
--                             compare_set_vnet_hdr);
- }
- 
- void colo_compare_cleanup(void)
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 6d3b7ab8a0..c966035b4b 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4976,15 +4976,14 @@ SRST
-         stored. The file format is libpcap, so it can be analyzed with
-         tools such as tcpdump or Wireshark.
- 
--    ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,vnet_hdr_support][,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}][,max_queue_size=@var{size}]``
-+    ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}][,max_queue_size=@var{size}]``
-         Colo-compare gets packet from primary\_in chardevid and
-         secondary\_in, then compare whether the payload of primary packet
-         and secondary packet are the same. If same, it will output
-         primary packet to out\_dev, else it will notify COLO-framework to do
-         checkpoint and send primary packet to out\_dev. In order to
-         improve efficiency, we need to put the task of comparison in
--        another iothread. If it has the vnet\_hdr\_support flag,
--        colo compare will send/recv packet with vnet\_hdr\_len.
-+        another iothread. colo compare will send/recv packet with vnet\_hdr\_len.
-         The compare\_timeout=@var{ms} determines the maximum time of the
-         colo-compare hold the packet. The expired\_scan\_cycle=@var{ms}
-         is to set the period of scanning expired primary node network packets.
--- 
-2.25.1
+On Oct  7 18:23, Lukasz Maniak wrote:
+> Hi,
+>=20
+> This series of patches is an attempt to add support for the following
+> sections of NVMe specification revision 1.4:
+>=20
+> 8.5 Virtualization Enhancements (Optional)
+>     8.5.1 VQ Resource Definition
+>     8.5.2 VI Resource Definition
+>     8.5.3 Secondary Controller States and Resource Configuration
+>     8.5.4 Single Root I/O Virtualization and Sharing (SR-IOV)
+>=20
+> The NVMe controller's Single Root I/O Virtualization and Sharing
+> implementation is based on patches introducing SR-IOV support for PCI
+> Express proposed by Knut Omang:
+> https://lists.gnu.org/archive/html/qemu-devel/2015-10/msg05155.html
+>=20
+> However, based on what I was able to find historically, Knut's patches
+> have not yet been pulled into QEMU due to no example of a working device
+> up to this point:
+> https://lists.gnu.org/archive/html/qemu-devel/2017-10/msg02722.html
+>=20
+> In terms of design, the Physical Function controller and the Virtual
+> Function controllers are almost independent, with few exceptions:
+> PF handles flexible resource allocation for all its children (VFs have
+> read-only access to this data), and reset (PF explicitly calls it on VFs).
+> Since the MMIO access is serialized, no extra precautions are required
+> to handle concurrent resets, as well as the secondary controller state
+> access doesn't need to be atomic.
+>=20
+> A controller with full SR-IOV support must be capable of handling the
+> Namespace Management command. As there is a pending review with this
+> functionality, this patch list is not duplicating efforts.
+> Yet, NS management patches are not required to test the SR-IOV support.
+>=20
+> We tested the patches on Ubuntu 20.04.3 LTS with kernel 5.4.0. We have
+> hit various issues with NVMe CLI (list and virt-mgmt commands) between
+> releases from version 1.09 to master, thus we chose this golden NVMe CLI
+> hash for testing: a50a0c1.
+>=20
+> The implementation is not 100% finished and certainly not bug free,
+> since we are already aware of some issues e.g. interaction with
+> namespaces related to AER, or unexpected (?) kernel behavior in more
+> complex reset scenarios. However, our SR-IOV implementation is already
+> able to support typical SR-IOV use cases, so we believe the patches are
+> ready to share with the community.
+>=20
+> Hope you find some time to review the work we did, and share your
+> thoughts.
+>=20
+> Kind regards,
+> Lukasz
 
+Hi Lukasz,
+
+If possible, can you share a brief guide on testing this? I keep hitting
+an assert
+
+  qemu-system-x86_64: ../hw/pci/pci.c:1215: pci_register_bar: Assertion `!p=
+ci_is_vf(pci_dev)' failed.
+
+when I try to modify sriov_numvfs. This should be fixed anyway, but I
+might be doing something wrong in the first place.
+
+--keEPMuyC0/cxUS4B
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmF4RtgACgkQTeGvMW1P
+DenLlAf9Hyzqcq5TLQrjiFpDPIWsch2MwIw/PVExwc+PppCUvTGGv6zWh4i8oG2y
+YN2bjOJ9muAdXfOGaYhj3lCZhlklz35YS49ulKKiT3SqNfTOvRMSEzqQ+tLNljo0
+zrxXTTj7F9AW6ksSWmrauI9kaM69tAgCvDDd24Yvd9AHYShwtKnv7MXw5ldeVsgS
+MWWaoencq6JUNM7OgxbGqEyjInPpqc63tGadpJbm0rzIVV9QlN7/y9UpFtXefNY/
+UhlpZFeUbJUGrgBve/6iXaDAz2SOZaHXTx5sbLhJ50yLiXSWfnQ3arnS/iGRCtaM
+mrkf8QI1Y2C+BYYA56VE90HejWUS5A==
+=/YkO
+-----END PGP SIGNATURE-----
+
+--keEPMuyC0/cxUS4B--
 
