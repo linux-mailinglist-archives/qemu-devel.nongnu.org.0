@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA5A43BC1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 23:12:52 +0200 (CEST)
-Received: from localhost ([::1]:48818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE4243BC5A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 23:25:55 +0200 (CEST)
+Received: from localhost ([::1]:59100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfTkZ-0001Hx-E0
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 17:12:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60938)
+	id 1mfTxC-0000PG-55
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 17:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfTic-0008F6-Aw
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 17:10:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48581)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfTut-00087e-HE
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 17:23:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfTia-0005Xd-B4
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 17:10:50 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfTum-0001Dj-RD
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 17:23:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635282647;
+ s=mimecast20190719; t=1635283402;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Kwsj0Q5/JnDR6WYK+DO+qgFfUZPFjbk3kvhgOuVI5C8=;
- b=ibffLRZWQUNxQpou5dIh+exE/xzQyEEOEQN9CLw7OnEbrOtn5XeXbDgx6C285zUwHhoW6S
- SMdCS3s2xDKJ3OhOoFfvvhYz80QgVXzP8ih5uDT5LUST6sSFZoWYElqhL9MeyC0IZtLEPN
- bvcxEQwYPnf1v21hFobYbm5EfEzprgw=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-tE3ayAY6NXunkqnW9xfqpQ-1; Tue, 26 Oct 2021 17:10:46 -0400
-X-MC-Unique: tE3ayAY6NXunkqnW9xfqpQ-1
-Received: by mail-vk1-f200.google.com with SMTP id
- p79-20020a1f2952000000b002dca61a7524so342661vkp.16
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 14:10:45 -0700 (PDT)
+ bh=SijIpOP2NQ6jxTxqiG4vXYFOQ5jIKJY5HHi2BbMbfXE=;
+ b=AI+SD39uocCY2Plas3wfSP9VHD/36R0xR9LTVQ7Tbc8GM5K2YKpC7kye6MFq4tnvpttkPA
+ zzuXO1i3OdZ2WC3ZKHxpBq3ZoyDVf4SW47pFq+lR24MRTqvrXWt9A1BapEtLwhB9EvBurZ
+ Q47YzUDWxr0Mg8Hf8K8nzEaS/WTp+hk=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430-uI-cZP6VMG2QkJrrvlcOsg-1; Tue, 26 Oct 2021 17:23:19 -0400
+X-MC-Unique: uI-cZP6VMG2QkJrrvlcOsg-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ j29-20020ab0185d000000b002cbb3c4660bso231926uag.23
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 14:23:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Kwsj0Q5/JnDR6WYK+DO+qgFfUZPFjbk3kvhgOuVI5C8=;
- b=D/oDH5zbRjA1DDey1RINh+9+/wUynJHDZMZ5bFu8q6NxliDZEz79xqtUugu3ddZBe0
- kW/pv58IeXJPyaFy+Kwk16YWLjl86fT9tLQMRU9kXecWVV2z6NsFOY5DZ2HE/jxZdaWd
- njZKWQfEWpfgbOsp/iTt2Ze93zHWUPdFN7hqWc64Ekb0vEu6zaDTDhLfHo/O2YBCnd1V
- LlwwlQDcMbW+dwCEcXz0D7YV0EBZm2m7jh/8SBSBgNJEx20z0Fs2eNtNil+iK6Hyvj00
- hkFIn6Z3BZ+cbc8yMv/rEfrNRJbEAya5jyqVVISSVbIAf7O08my9B/CUcQqqNbx1q2Qo
- 25RQ==
-X-Gm-Message-State: AOAM531uHbQUUx9D0/VlIMVNK5C7uxO9hLQcz390WymSqIIDr1Bi0qQ/
- l7L8TG2pelsG3D60TBtmxY+XcipOStsnreR6EGK59mm9nNpBXigpZ9wPDnGliw18rGcC3/w2NFs
- I/YhYpAqAvs0lxo2ZzCw+S3Fcde4S8/4=
-X-Received: by 2002:ab0:4e14:: with SMTP id g20mr25496853uah.50.1635282645482; 
- Tue, 26 Oct 2021 14:10:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/EaqPXTtEgY9WpTxxVbED8ctdu7n4UFP3BY7LxQh9+PUnLntXJCBXPFkOCY1aft4Rstvn6pyqKyHxIn9TTPo=
-X-Received: by 2002:ab0:4e14:: with SMTP id g20mr25496828uah.50.1635282645340; 
- Tue, 26 Oct 2021 14:10:45 -0700 (PDT)
+ bh=SijIpOP2NQ6jxTxqiG4vXYFOQ5jIKJY5HHi2BbMbfXE=;
+ b=fhd0JYWkkR6vsgDlYiuFc0D4qCwWxBCUfGls4TDaQxOdjrWa44pCUPTbu5cTqYEXyD
+ 6JkwtEaJfGTRWC2NmAwfPLJ22IoNFIv6wyKh6dblxCSMBUVMAViRfpJjoa1YTWxnQs1X
+ e1GyVTH/MYmvRUdjwEPBVVy8ek0/ufPyoXnJyyiOBNHIEYn85kdw/0m1s+Hm3zk4EzQK
+ soarcBOYyMytjUeGv3swU0xIhj2LoXczaSAV8PXdQuEIkvx8Yo0rEasyqkytS1gzOwvA
+ JiO9Q8Ofvc2G/vY2Zd1829OIBTHpMBOd5Kg6Jmbdxb4p5hPMOh/p2Z0Sm7PMp2y5W+Xl
+ 39uw==
+X-Gm-Message-State: AOAM530uB0UpaY6rBfbxrZjrdfBbNFRrOpkYdbYeBoRyg6Z6xAg5z+GG
+ gpKqGa+GZJMOzoMTtbVjfzGADKaoe8kyHjvZ221ZF7q4U3m2fuPIwQOzcawrLt7nkdJfKhCNmV3
+ EGpXB4ZmAt0NH1CerbPy7DpegmJs6tKw=
+X-Received: by 2002:a05:6122:2224:: with SMTP id
+ bb36mr26247985vkb.23.1635283398639; 
+ Tue, 26 Oct 2021 14:23:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJweBqRYck79p63umhlVSre0H0WbWHlRCJPi74lBuX1NZJwluhcoEM4oSE56OCqbAX1yZCv/qLUQg5rqgihWEUs=
+X-Received: by 2002:a05:6122:2224:: with SMTP id
+ bb36mr26247959vkb.23.1635283398424; 
+ Tue, 26 Oct 2021 14:23:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211015105344.152591-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20211015105344.152591-1-marcandre.lureau@redhat.com>
+References: <20210917161320.201086-1-kwolf@redhat.com>
+In-Reply-To: <20210917161320.201086-1-kwolf@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Tue, 26 Oct 2021 17:10:34 -0400
-Message-ID: <CAFn=p-a+qN=JLJC4X-gB-ahUkeKkvCAbzpMrv78_f6T82vc-=g@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] Some Sphinx improvements
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 26 Oct 2021 17:23:07 -0400
+Message-ID: <CAFn=p-ahKc+EjkUAPnSODQNY808z-qyc-DQUsseAobmB8A8NwA@mail.gmail.com>
+Subject: Re: [PATCH v4 0/8] qapi: Add support for aliases
+To: Kevin Wolf <kwolf@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000002ee9e505cf47e990"
+Content-Type: multipart/alternative; boundary="000000000000120f6505cf481646"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_BL_SPAMCOP_NET=1.347, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,118 +88,543 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002ee9e505cf47e990
+--000000000000120f6505cf481646
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 15, 2021 at 6:57 AM <marcandre.lureau@redhat.com> wrote:
+On Fri, Sep 17, 2021 at 12:13 PM Kevin Wolf <kwolf@redhat.com> wrote:
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> This series introduces alias definitions for QAPI object types (structs
+> and unions).
 >
-> Hi,
+> This allows using the same QAPI type and visitor even when the syntax
+> has some variations between different external interfaces such as QMP
+> and the command line.
 >
-> I have collected a few Sphinx-related improvements to improve depfile
-> generation
-> and add some keyboard navigation. Hope you'll like it.
+>
+I'm absurdly late to the party here, and I'm afraid my involvement may only
+stall your progress even further, but ... can you fill me in on the
+slightly-less-higher-level details here?
+
+I'm curious as to the nature of "has some variations" and how the aliases
+help alleviate them. Do you accomplish that compatibility by using
+different names for different fields of the struct?
+
+so e.g. x.foo can be used as an alias for x.bar, but both map ultimately
+onto 'x.foo'? Or does this series provide for some more fundamental
+mechanical changes to map one type onto another?
+
+
+> It also provides a new tool for evolving the schema while maintaining
+> backwards compatibility (possibly during a deprecation period).
+>
+> The first user is intended to be a QAPIfied -chardev command line
+> option, for which I'll send a separate series. A git tag is available
+> that contains both this series and the chardev changes that make use of
+> it:
+>
+>     https://repo.or.cz/qemu/kevin.git qapi-alias-chardev-v4
+>
+>
+v4:
+> - Make sure to keep a defined order of aliases in StackObject.aliases
+> - Added patch 4 to allow for better error messages when wildcard aliases
+>   provide a second value for a member, which may or may not be consumed
+>   elsewhere.
+> - Resolve chained aliases only once instead of just checking that they
+>   can be resolved while looking for matching aliases, and actually
+>   resolving them at the end. This is not only a code simplification, but
+>   actually necessary for correct error messages on conflicts.
+> - Separate schema.py cleanup patch by Markus ('qapi: Revert an
+>   accidental change from list to view object')
+> - Fixed alias name checks in the QAPI generator
+> - Changed check_path() to avoid modifying its 'path' parameter
+> - Some more test cases
+> - Coding style fixes
+> - Documentation improvements
+>
+> v3:
+> - Mention the new functions in the big comment in visitor.h. However,
+>   since the comment is about users of the visitor rather than the
+>   generated code, it seems like to wrong place to go into details.
+> - Updated commit message for patch 3 ('Simplify full_name_nth() ...')
+> - Patch 4 ('qapi: Apply aliases in qobject-input-visitor'):
+>     - Multiple matching wildcard aliases are considered conflicting now
+>     - Improved comments for several functions
+>     - Renamed bool *implicit_object into *is_alias_prefix, which
+>       describes better what it is rather than what it is used for
+>     - Simplified alias_present() into input_present()
+>     - Fixed potential use of wrong StackObject in error message
+> - Patch 5 ('qapi: Add support for aliases'):
+>     - Made QAPISchemaAlias a QAPISchemaMember
+>     - Check validity of alias source paths (must exist in at least one
+>       variant, no optional objects in the path of a wildcard alias, no
+>       alias loops)
+> - Many new tests cases, both positive and negative, including unit tests
+>   of the generated visit functions
+> - Coding style changes
+> - Rebased documentation (.txt -> .rst conversion in master)
 >
 > v2:
->  - fix test 'output:' regression
->  - fix javascript indentation (Paolo)
->  - split "meson: remove explicit extensions dependency file list" (Paolo)
+> - Renamed 'alias' to 'name' in all data structures describing aliases
+> - Tons of new or changed comments and other documentation
+> - Be more explicit that empty 'source' is invalid and assert it
+> - Fixed full_name_so() for lists (added a parameter to tell the function
+>   whether the name of a list member or the list itself is meant)
+> - Changed some QAPI generator error messages
+> - Assert the type of parameters in QAPISchemaAlias.__init__()
 >
-> Marc-Andr=C3=A9 Lureau (8):
->   docs/sphinx: add loaded modules to generated depfile
->   docs/sphinx: add static files to generated depfile
->   docs/sphinx: add templates files to generated depfile
->   tests/qapi-schema/meson: add depfile to sphinx doc
->   meson: drop sphinx_extn_depends
->   meson: drop sphinx_template_files
->   docs/sphinx: set navigation_with_keys=3DTrue
->   docs/sphinx: add 's' keyboard binding to focus search
+> Kevin Wolf (7):
+>   qapi: Add interfaces for alias support to Visitor
+>   qapi: Remember alias definitions in qobject-input-visitor
+>   qapi: Simplify full_name_nth() in qobject-input-visitor
+>   qapi: Store Error in StackObject.h for qobject-input-visitor
+>   qapi: Apply aliases in qobject-input-visitor
+>   qapi: Add support for aliases
+>   tests/qapi-schema: Test cases for aliases
 >
->  docs/conf.py                  |  7 ++++++-
->  docs/meson.build              | 10 ----------
->  docs/sphinx-static/custom.js  |  9 +++++++++
->  docs/sphinx/depfile.py        | 19 +++++++++++++++++--
->  tests/qapi-schema/meson.build |  6 ++++--
->  5 files changed, 36 insertions(+), 15 deletions(-)
->  create mode 100644 docs/sphinx-static/custom.js
+> Markus Armbruster (1):
+>   qapi: Revert an accidental change from list to view object
+>
+>  docs/devel/qapi-code-gen.rst                  | 109 ++++-
+>  docs/sphinx/qapidoc.py                        |   2 +-
+>  include/qapi/visitor-impl.h                   |  12 +
+>  include/qapi/visitor.h                        |  59 ++-
+>  qapi/qapi-visit-core.c                        |  22 +
+>  qapi/qobject-input-visitor.c                  | 452 ++++++++++++++++--
+>  tests/unit/test-qmp-cmds.c                    |  10 +
+>  tests/unit/test-qobject-input-visitor.c       | 271 +++++++++++
+>  scripts/qapi/expr.py                          |  54 ++-
+>  scripts/qapi/schema.py                        | 117 ++++-
+>  scripts/qapi/types.py                         |   4 +-
+>  scripts/qapi/visit.py                         |  34 +-
+>  tests/qapi-schema/test-qapi.py                |   7 +-
+>  tests/qapi-schema/alias-bad-type.err          |   2 +
+>  tests/qapi-schema/alias-bad-type.json         |   3 +
+>  tests/qapi-schema/alias-bad-type.out          |   0
+>  tests/qapi-schema/alias-missing-source.err    |   2 +
+>  tests/qapi-schema/alias-missing-source.json   |   3 +
+>  tests/qapi-schema/alias-missing-source.out    |   0
+>  tests/qapi-schema/alias-name-bad-type.err     |   2 +
+>  tests/qapi-schema/alias-name-bad-type.json    |   3 +
+>  tests/qapi-schema/alias-name-bad-type.out     |   0
+>  tests/qapi-schema/alias-name-conflict.err     |   2 +
+>  tests/qapi-schema/alias-name-conflict.json    |   4 +
+>  tests/qapi-schema/alias-name-conflict.out     |   0
+>  tests/qapi-schema/alias-recursive.err         |   2 +
+>  tests/qapi-schema/alias-recursive.json        |   4 +
+>  tests/qapi-schema/alias-recursive.out         |   0
+>  tests/qapi-schema/alias-source-bad-type.err   |   2 +
+>  tests/qapi-schema/alias-source-bad-type.json  |   3 +
+>  tests/qapi-schema/alias-source-bad-type.out   |   0
+>  .../alias-source-elem-bad-type.err            |   2 +
+>  .../alias-source-elem-bad-type.json           |   3 +
+>  .../alias-source-elem-bad-type.out            |   0
+>  tests/qapi-schema/alias-source-empty.err      |   2 +
+>  tests/qapi-schema/alias-source-empty.json     |   3 +
+>  tests/qapi-schema/alias-source-empty.out      |   0
+>  .../alias-source-inexistent-variants.err      |   2 +
+>  .../alias-source-inexistent-variants.json     |  12 +
+>  .../alias-source-inexistent-variants.out      |   0
+>  tests/qapi-schema/alias-source-inexistent.err |   2 +
+>  .../qapi-schema/alias-source-inexistent.json  |   3 +
+>  tests/qapi-schema/alias-source-inexistent.out |   0
+>  .../alias-source-non-object-path.err          |   2 +
+>  .../alias-source-non-object-path.json         |   3 +
+>  .../alias-source-non-object-path.out          |   0
+>  .../alias-source-non-object-wildcard.err      |   2 +
+>  .../alias-source-non-object-wildcard.json     |   3 +
+>  .../alias-source-non-object-wildcard.out      |   0
+>  ...lias-source-optional-wildcard-indirect.err |   2 +
+>  ...ias-source-optional-wildcard-indirect.json |   6 +
+>  ...lias-source-optional-wildcard-indirect.out |   0
+>  .../alias-source-optional-wildcard.err        |   2 +
+>  .../alias-source-optional-wildcard.json       |   5 +
+>  .../alias-source-optional-wildcard.out        |   0
+>  tests/qapi-schema/alias-unknown-key.err       |   3 +
+>  tests/qapi-schema/alias-unknown-key.json      |   3 +
+>  tests/qapi-schema/alias-unknown-key.out       |   0
+>  tests/qapi-schema/aliases-bad-type.err        |   2 +
+>  tests/qapi-schema/aliases-bad-type.json       |   3 +
+>  tests/qapi-schema/aliases-bad-type.out        |   0
+>  tests/qapi-schema/meson.build                 |  16 +
+>  tests/qapi-schema/qapi-schema-test.json       |  35 ++
+>  tests/qapi-schema/qapi-schema-test.out        |  44 ++
+>  tests/qapi-schema/unknown-expr-key.err        |   2 +-
+>  65 files changed, 1290 insertions(+), 57 deletions(-)
+>  create mode 100644 tests/qapi-schema/alias-bad-type.err
+>  create mode 100644 tests/qapi-schema/alias-bad-type.json
+>  create mode 100644 tests/qapi-schema/alias-bad-type.out
+>  create mode 100644 tests/qapi-schema/alias-missing-source.err
+>  create mode 100644 tests/qapi-schema/alias-missing-source.json
+>  create mode 100644 tests/qapi-schema/alias-missing-source.out
+>  create mode 100644 tests/qapi-schema/alias-name-bad-type.err
+>  create mode 100644 tests/qapi-schema/alias-name-bad-type.json
+>  create mode 100644 tests/qapi-schema/alias-name-bad-type.out
+>  create mode 100644 tests/qapi-schema/alias-name-conflict.err
+>  create mode 100644 tests/qapi-schema/alias-name-conflict.json
+>  create mode 100644 tests/qapi-schema/alias-name-conflict.out
+>  create mode 100644 tests/qapi-schema/alias-recursive.err
+>  create mode 100644 tests/qapi-schema/alias-recursive.json
+>  create mode 100644 tests/qapi-schema/alias-recursive.out
+>  create mode 100644 tests/qapi-schema/alias-source-bad-type.err
+>  create mode 100644 tests/qapi-schema/alias-source-bad-type.json
+>  create mode 100644 tests/qapi-schema/alias-source-bad-type.out
+>  create mode 100644 tests/qapi-schema/alias-source-elem-bad-type.err
+>  create mode 100644 tests/qapi-schema/alias-source-elem-bad-type.json
+>  create mode 100644 tests/qapi-schema/alias-source-elem-bad-type.out
+>  create mode 100644 tests/qapi-schema/alias-source-empty.err
+>  create mode 100644 tests/qapi-schema/alias-source-empty.json
+>  create mode 100644 tests/qapi-schema/alias-source-empty.out
+>  create mode 100644 tests/qapi-schema/alias-source-inexistent-variants.err
+>  create mode 100644 tests/qapi-schema/alias-source-inexistent-variants.json
+>  create mode 100644 tests/qapi-schema/alias-source-inexistent-variants.out
+>  create mode 100644 tests/qapi-schema/alias-source-inexistent.err
+>  create mode 100644 tests/qapi-schema/alias-source-inexistent.json
+>  create mode 100644 tests/qapi-schema/alias-source-inexistent.out
+>  create mode 100644 tests/qapi-schema/alias-source-non-object-path.err
+>  create mode 100644 tests/qapi-schema/alias-source-non-object-path.json
+>  create mode 100644 tests/qapi-schema/alias-source-non-object-path.out
+>  create mode 100644 tests/qapi-schema/alias-source-non-object-wildcard.err
+>  create mode 100644 tests/qapi-schema/alias-source-non-object-wildcard.json
+>  create mode 100644 tests/qapi-schema/alias-source-non-object-wildcard.out
+>  create mode 100644
+> tests/qapi-schema/alias-source-optional-wildcard-indirect.err
+>  create mode 100644
+> tests/qapi-schema/alias-source-optional-wildcard-indirect.json
+>  create mode 100644
+> tests/qapi-schema/alias-source-optional-wildcard-indirect.out
+>  create mode 100644 tests/qapi-schema/alias-source-optional-wildcard.err
+>  create mode 100644 tests/qapi-schema/alias-source-optional-wildcard.json
+>  create mode 100644 tests/qapi-schema/alias-source-optional-wildcard.out
+>  create mode 100644 tests/qapi-schema/alias-unknown-key.err
+>  create mode 100644 tests/qapi-schema/alias-unknown-key.json
+>  create mode 100644 tests/qapi-schema/alias-unknown-key.out
+>  create mode 100644 tests/qapi-schema/aliases-bad-type.err
+>  create mode 100644 tests/qapi-schema/aliases-bad-type.json
+>  create mode 100644 tests/qapi-schema/aliases-bad-type.out
 >
 > --
-> 2.33.0.721.g106298f7f9
+> 2.31.1
 >
 >
-The javascript blurb selecting the correct DOM node being any better
-probably requires the search input box itself being given an 'id'
-parameter, but I don't know if that's something the theme we're using
-allows us to customize in any way. I'm not a webdev at all, so ... I'll
-assume it's fine?
 
-Reviewed-by: John Snow <jsnow@redhat.com>
-
---0000000000002ee9e505cf47e990
+--000000000000120f6505cf481646
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 15, 2021 at 6:57 AM &lt;<=
-a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fr=
-om: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.co=
-m" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 17, 2021 at 12:13 PM Kevi=
+n Wolf &lt;<a href=3D"mailto:kwolf@redhat.com">kwolf@redhat.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This series =
+introduces alias definitions for QAPI object types (structs<br>
+and unions).<br>
 <br>
-Hi,<br>
+This allows using the same QAPI type and visitor even when the syntax<br>
+has some variations between different external interfaces such as QMP<br>
+and the command line.<br>
+<br></blockquote><div><br></div><div><div>I&#39;m absurdly late to the part=
+y here, and I&#39;m afraid my involvement may only stall your progress even=
+ further, but ... can you fill me in on the slightly-less-higher-level deta=
+ils here?</div><div><br></div></div><div>I&#39;m curious as to the nature o=
+f &quot;has some variations&quot; and how the aliases help alleviate them. =
+Do you accomplish that compatibility by using different names for different=
+ fields of the struct?</div><div><br></div><div>so e.g. x.foo can be used a=
+s an alias for x.bar, but both map ultimately onto &#39;x.foo&#39;? Or does=
+ this series provide for some more fundamental mechanical changes to map on=
+e type onto another?<br></div><div>=C2=A0</div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
+It also provides a new tool for evolving the schema while maintaining<br>
+backwards compatibility (possibly during a deprecation period).<br>
 <br>
-I have collected a few Sphinx-related improvements to improve depfile gener=
-ation<br>
-and add some keyboard navigation. Hope you&#39;ll like it.<br>
+The first user is intended to be a QAPIfied -chardev command line<br>
+option, for which I&#39;ll send a separate series. A git tag is available<b=
+r>
+that contains both this series and the chardev changes that make use of<br>
+it:<br>
+<br>
+=C2=A0 =C2=A0 <a href=3D"https://repo.or.cz/qemu/kevin.git" rel=3D"noreferr=
+er" target=3D"_blank">https://repo.or.cz/qemu/kevin.git</a> qapi-alias-char=
+dev-v4<br>
+<br></blockquote><div><br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">
+v4:<br>
+- Make sure to keep a defined order of aliases in StackObject.aliases<br>
+- Added patch 4 to allow for better error messages when wildcard aliases<br=
+>
+=C2=A0 provide a second value for a member, which may or may not be consume=
+d<br>
+=C2=A0 elsewhere.<br>
+- Resolve chained aliases only once instead of just checking that they<br>
+=C2=A0 can be resolved while looking for matching aliases, and actually<br>
+=C2=A0 resolving them at the end. This is not only a code simplification, b=
+ut<br>
+=C2=A0 actually necessary for correct error messages on conflicts.<br>
+- Separate schema.py cleanup patch by Markus (&#39;qapi: Revert an<br>
+=C2=A0 accidental change from list to view object&#39;)<br>
+- Fixed alias name checks in the QAPI generator<br>
+- Changed check_path() to avoid modifying its &#39;path&#39; parameter<br>
+- Some more test cases<br>
+- Coding style fixes<br>
+- Documentation improvements<br>
+<br>
+v3:<br>
+- Mention the new functions in the big comment in visitor.h. However,<br>
+=C2=A0 since the comment is about users of the visitor rather than the<br>
+=C2=A0 generated code, it seems like to wrong place to go into details.<br>
+- Updated commit message for patch 3 (&#39;Simplify full_name_nth() ...&#39=
+;)<br>
+- Patch 4 (&#39;qapi: Apply aliases in qobject-input-visitor&#39;):<br>
+=C2=A0 =C2=A0 - Multiple matching wildcard aliases are considered conflicti=
+ng now<br>
+=C2=A0 =C2=A0 - Improved comments for several functions<br>
+=C2=A0 =C2=A0 - Renamed bool *implicit_object into *is_alias_prefix, which<=
+br>
+=C2=A0 =C2=A0 =C2=A0 describes better what it is rather than what it is use=
+d for<br>
+=C2=A0 =C2=A0 - Simplified alias_present() into input_present()<br>
+=C2=A0 =C2=A0 - Fixed potential use of wrong StackObject in error message<b=
+r>
+- Patch 5 (&#39;qapi: Add support for aliases&#39;):<br>
+=C2=A0 =C2=A0 - Made QAPISchemaAlias a QAPISchemaMember<br>
+=C2=A0 =C2=A0 - Check validity of alias source paths (must exist in at leas=
+t one<br>
+=C2=A0 =C2=A0 =C2=A0 variant, no optional objects in the path of a wildcard=
+ alias, no<br>
+=C2=A0 =C2=A0 =C2=A0 alias loops)<br>
+- Many new tests cases, both positive and negative, including unit tests<br=
+>
+=C2=A0 of the generated visit functions<br>
+- Coding style changes<br>
+- Rebased documentation (.txt -&gt; .rst conversion in master)<br>
 <br>
 v2:<br>
-=C2=A0- fix test &#39;output:&#39; regression<br>
-=C2=A0- fix javascript indentation (Paolo)<br>
-=C2=A0- split &quot;meson: remove explicit extensions dependency file list&=
-quot; (Paolo)<br>
+- Renamed &#39;alias&#39; to &#39;name&#39; in all data structures describi=
+ng aliases<br>
+- Tons of new or changed comments and other documentation<br>
+- Be more explicit that empty &#39;source&#39; is invalid and assert it<br>
+- Fixed full_name_so() for lists (added a parameter to tell the function<br=
+>
+=C2=A0 whether the name of a list member or the list itself is meant)<br>
+- Changed some QAPI generator error messages<br>
+- Assert the type of parameters in QAPISchemaAlias.__init__()<br>
 <br>
-Marc-Andr=C3=A9 Lureau (8):<br>
-=C2=A0 docs/sphinx: add loaded modules to generated depfile<br>
-=C2=A0 docs/sphinx: add static files to generated depfile<br>
-=C2=A0 docs/sphinx: add templates files to generated depfile<br>
-=C2=A0 tests/qapi-schema/meson: add depfile to sphinx doc<br>
-=C2=A0 meson: drop sphinx_extn_depends<br>
-=C2=A0 meson: drop sphinx_template_files<br>
-=C2=A0 docs/sphinx: set navigation_with_keys=3DTrue<br>
-=C2=A0 docs/sphinx: add &#39;s&#39; keyboard binding to focus search<br>
+Kevin Wolf (7):<br>
+=C2=A0 qapi: Add interfaces for alias support to Visitor<br>
+=C2=A0 qapi: Remember alias definitions in qobject-input-visitor<br>
+=C2=A0 qapi: Simplify full_name_nth() in qobject-input-visitor<br>
+=C2=A0 qapi: Store Error in StackObject.h for qobject-input-visitor<br>
+=C2=A0 qapi: Apply aliases in qobject-input-visitor<br>
+=C2=A0 qapi: Add support for aliases<br>
+=C2=A0 tests/qapi-schema: Test cases for aliases<br>
 <br>
-=C2=A0docs/conf.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 7 ++++++-<br>
-=C2=A0docs/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 10=
- ----------<br>
-=C2=A0docs/sphinx-static/custom.js=C2=A0 |=C2=A0 9 +++++++++<br>
-=C2=A0docs/sphinx/depfile.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 19 ++++++++++++++=
-+++--<br>
-=C2=A0tests/qapi-schema/meson.build |=C2=A0 6 ++++--<br>
-=C2=A05 files changed, 36 insertions(+), 15 deletions(-)<br>
-=C2=A0create mode 100644 docs/sphinx-static/custom.js<br>
+Markus Armbruster (1):<br>
+=C2=A0 qapi: Revert an accidental change from list to view object<br>
+<br>
+=C2=A0docs/devel/qapi-code-gen.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 | 109 ++++-<br>
+=C2=A0docs/sphinx/qapidoc.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+=C2=A0include/qapi/visitor-impl.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 12 +<br>
+=C2=A0include/qapi/visitor.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 59 ++-<br>
+=C2=A0qapi/qapi-visit-core.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 22 +<br>
+=C2=A0qapi/qobject-input-visitor.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 | 452 ++++++++++++++++--<br>
+=C2=A0tests/unit/test-qmp-cmds.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 10 +<br>
+=C2=A0tests/unit/test-qobject-input-visitor.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 2=
+71 +++++++++++<br>
+=C2=A0scripts/qapi/expr.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 54 ++-<br>
+=C2=A0scripts/qapi/schema.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 117 ++++-<br>
+=C2=A0scripts/qapi/types.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A04 +-<br>
+=C2=A0scripts/qapi/visit.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 34 +-<br>
+=C2=A0tests/qapi-schema/test-qapi.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A07 +-<br>
+=C2=A0tests/qapi-schema/alias-bad-type.err=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A02 +<br>
+=C2=A0tests/qapi-schema/alias-bad-type.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 =C2=A03 +<br>
+=C2=A0tests/qapi-schema/alias-bad-type.out=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A00<br>
+=C2=A0tests/qapi-schema/alias-missing-source.err=C2=A0 =C2=A0 |=C2=A0 =C2=
+=A02 +<br>
+=C2=A0tests/qapi-schema/alias-missing-source.json=C2=A0 =C2=A0|=C2=A0 =C2=
+=A03 +<br>
+=C2=A0tests/qapi-schema/alias-missing-source.out=C2=A0 =C2=A0 |=C2=A0 =C2=
+=A00<br>
+=C2=A0tests/qapi-schema/alias-name-bad-type.err=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+=C2=A02 +<br>
+=C2=A0tests/qapi-schema/alias-name-bad-type.json=C2=A0 =C2=A0 |=C2=A0 =C2=
+=A03 +<br>
+=C2=A0tests/qapi-schema/alias-name-bad-type.out=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+=C2=A00<br>
+=C2=A0tests/qapi-schema/alias-name-conflict.err=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+=C2=A02 +<br>
+=C2=A0tests/qapi-schema/alias-name-conflict.json=C2=A0 =C2=A0 |=C2=A0 =C2=
+=A04 +<br>
+=C2=A0tests/qapi-schema/alias-name-conflict.out=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+=C2=A00<br>
+=C2=A0tests/qapi-schema/alias-recursive.err=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 =C2=A02 +<br>
+=C2=A0tests/qapi-schema/alias-recursive.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A04 +<br>
+=C2=A0tests/qapi-schema/alias-recursive.out=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 =C2=A00<br>
+=C2=A0tests/qapi-schema/alias-source-bad-type.err=C2=A0 =C2=A0|=C2=A0 =C2=
+=A02 +<br>
+=C2=A0tests/qapi-schema/alias-source-bad-type.json=C2=A0 |=C2=A0 =C2=A03 +<=
+br>
+=C2=A0tests/qapi-schema/alias-source-bad-type.out=C2=A0 =C2=A0|=C2=A0 =C2=
+=A00<br>
+=C2=A0.../alias-source-elem-bad-type.err=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 =C2=A02 +<br>
+=C2=A0.../alias-source-elem-bad-type.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 =C2=A03 +<br>
+=C2=A0.../alias-source-elem-bad-type.out=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 =C2=A00<br>
+=C2=A0tests/qapi-schema/alias-source-empty.err=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A02 +<br>
+=C2=A0tests/qapi-schema/alias-source-empty.json=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+=C2=A03 +<br>
+=C2=A0tests/qapi-schema/alias-source-empty.out=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A00<br>
+=C2=A0.../alias-source-inexistent-variants.err=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A02 +<br>
+=C2=A0.../alias-source-inexistent-variants.json=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+12 +<br>
+=C2=A0.../alias-source-inexistent-variants.out=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A00<br>
+=C2=A0tests/qapi-schema/alias-source-inexistent.err |=C2=A0 =C2=A02 +<br>
+=C2=A0.../qapi-schema/alias-source-inexistent.json=C2=A0 |=C2=A0 =C2=A03 +<=
+br>
+=C2=A0tests/qapi-schema/alias-source-inexistent.out |=C2=A0 =C2=A00<br>
+=C2=A0.../alias-source-non-object-path.err=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A02 +<br>
+=C2=A0.../alias-source-non-object-path.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 =C2=A03 +<br>
+=C2=A0.../alias-source-non-object-path.out=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A00<br>
+=C2=A0.../alias-source-non-object-wildcard.err=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A02 +<br>
+=C2=A0.../alias-source-non-object-wildcard.json=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+=C2=A03 +<br>
+=C2=A0.../alias-source-non-object-wildcard.out=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A00<br>
+=C2=A0...lias-source-optional-wildcard-indirect.err |=C2=A0 =C2=A02 +<br>
+=C2=A0...ias-source-optional-wildcard-indirect.json |=C2=A0 =C2=A06 +<br>
+=C2=A0...lias-source-optional-wildcard-indirect.out |=C2=A0 =C2=A00<br>
+=C2=A0.../alias-source-optional-wildcard.err=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A02 +<br>
+=C2=A0.../alias-source-optional-wildcard.json=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A05 +<br>
+=C2=A0.../alias-source-optional-wildcard.out=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A00<br>
+=C2=A0tests/qapi-schema/alias-unknown-key.err=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A03 +<br>
+=C2=A0tests/qapi-schema/alias-unknown-key.json=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A03 +<br>
+=C2=A0tests/qapi-schema/alias-unknown-key.out=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A00<br>
+=C2=A0tests/qapi-schema/aliases-bad-type.err=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A02 +<br>
+=C2=A0tests/qapi-schema/aliases-bad-type.json=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A03 +<br>
+=C2=A0tests/qapi-schema/aliases-bad-type.out=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A00<br>
+=C2=A0tests/qapi-schema/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 16 +<br>
+=C2=A0tests/qapi-schema/qapi-schema-test.json=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 35 ++<br>
+=C2=A0tests/qapi-schema/qapi-schema-test.out=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 44 ++<br>
+=C2=A0tests/qapi-schema/unknown-expr-key.err=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A02 +-<br>
+=C2=A065 files changed, 1290 insertions(+), 57 deletions(-)<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-bad-type.err<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-bad-type.json<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-bad-type.out<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-missing-source.err<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-missing-source.json<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-missing-source.out<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-name-bad-type.err<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-name-bad-type.json<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-name-bad-type.out<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-name-conflict.err<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-name-conflict.json<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-name-conflict.out<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-recursive.err<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-recursive.json<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-recursive.out<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-bad-type.err<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-bad-type.json<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-bad-type.out<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-elem-bad-type.err<b=
+r>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-elem-bad-type.json<=
+br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-elem-bad-type.out<b=
+r>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-empty.err<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-empty.json<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-empty.out<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-inexistent-variants=
+.err<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-inexistent-variants=
+.json<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-inexistent-variants=
+.out<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-inexistent.err<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-inexistent.json<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-inexistent.out<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-non-object-path.err=
+<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-non-object-path.jso=
+n<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-non-object-path.out=
+<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-non-object-wildcard=
+.err<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-non-object-wildcard=
+.json<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-non-object-wildcard=
+.out<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-optional-wildcard-i=
+ndirect.err<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-optional-wildcard-i=
+ndirect.json<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-optional-wildcard-i=
+ndirect.out<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-optional-wildcard.e=
+rr<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-optional-wildcard.j=
+son<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-source-optional-wildcard.o=
+ut<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-unknown-key.err<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-unknown-key.json<br>
+=C2=A0create mode 100644 tests/qapi-schema/alias-unknown-key.out<br>
+=C2=A0create mode 100644 tests/qapi-schema/aliases-bad-type.err<br>
+=C2=A0create mode 100644 tests/qapi-schema/aliases-bad-type.json<br>
+=C2=A0create mode 100644 tests/qapi-schema/aliases-bad-type.out<br>
 <br>
 -- <br>
-2.33.0.721.g106298f7f9<br>
-<br></blockquote></div><div class=3D"gmail_quote"><br></div><div class=3D"g=
-mail_quote">The javascript blurb selecting the correct DOM node being any b=
-etter probably requires the search input box itself being given an &#39;id&=
-#39; parameter, but I don&#39;t know if that&#39;s something the theme we&#=
-39;re using allows us to customize in any way. I&#39;m not a webdev at all,=
- so ... I&#39;ll assume it&#39;s fine?</div><div class=3D"gmail_quote"><br>=
-</div><div class=3D"gmail_quote">Reviewed-by: John Snow &lt;<a href=3D"mail=
-to:jsnow@redhat.com">jsnow@redhat.com</a>&gt;</div><div class=3D"gmail_quot=
-e"><br></div><div class=3D"gmail_quote"><div>=C2=A0</div></div></div>
+2.31.1<br>
+<br>
+</blockquote></div></div>
 
---0000000000002ee9e505cf47e990--
+--000000000000120f6505cf481646--
 
 
