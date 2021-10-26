@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6050443B583
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 17:26:27 +0200 (CEST)
-Received: from localhost ([::1]:50910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82CE243B5AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 17:32:52 +0200 (CEST)
+Received: from localhost ([::1]:40582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfOLK-0007K5-GL
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 11:26:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45526)
+	id 1mfORX-0002dW-Kd
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 11:32:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfOBg-0001Cv-71
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 11:16:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51519)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfOBe-0006Kv-5Z
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 11:16:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635261385;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QzWJ3IRIlNxM5tYAGhKCHigNvBE2Ya/X/GCGuWUWLJw=;
- b=YM04Hr2NsYSSSkYGm8MhPF9vttdWlW0uGlYCmOqgdFCtY5ZJisyvuRQBNVVANU9znrHDTM
- thcUJ5Dx+wl533mZxYQllUF+fj8HsbbESjT4WpcQOGlFFuc22X90t4pGtv9FJi7E3UMaSw
- 2/VHUuLBx/hojO1pb5ezBJFruLfQgUw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356--yRNtiSHM2GW5ZUfm3toBw-1; Tue, 26 Oct 2021 11:16:22 -0400
-X-MC-Unique: -yRNtiSHM2GW5ZUfm3toBw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E32718414A6;
- Tue, 26 Oct 2021 15:16:20 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D6BF60C5F;
- Tue, 26 Oct 2021 15:16:20 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B65F711380A7; Tue, 26 Oct 2021 17:16:18 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 2/2] docs/devel/qapi-code-gen: Belatedly document
- feature documentation
-References: <20211026111023.76937-1-armbru@redhat.com>
- <20211026111023.76937-3-armbru@redhat.com>
- <YXgY5flIoi1rwUzh@redhat.com>
-Date: Tue, 26 Oct 2021 17:16:18 +0200
-In-Reply-To: <YXgY5flIoi1rwUzh@redhat.com> (Kevin Wolf's message of "Tue, 26
- Oct 2021 17:04:05 +0200")
-Message-ID: <875ytjg6kd.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mfOCW-0002uM-B9
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 11:17:26 -0400
+Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:36464)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mfOCU-0006VR-Mb
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 11:17:19 -0400
+Received: by mail-lj1-x229.google.com with SMTP id q16so16624918ljg.3
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 08:17:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=wIMyYoZAvtN4V3q7k3RGWl6R2X6iQlmvyjSzIPPaKMg=;
+ b=UcPzC51lXis3EOjX/In4Ghz92wRo5m8gFZegqGGtX7r3niw1YIWGB3XlOVLwrBjUOE
+ kbeQNff6k7FCUgJO/DWYK0O6uEif3T2kF3Qiq59rfMbPVn+rMyANfiEYWq5zEb1F2P1A
+ GiwGxaGbH2A3B+NAkrXrDa612Oag8Ba52YhHa0P3cTdeLOLtj1bnQXTHO5KpMitpDCTu
+ aXfV2TjZPg2V7knGzyQdX+iERSnW3Q7pbM/1EJsCXoX3XNJAUu6FIaSlyZoDtPFPMdcI
+ 52kAgHSWRSgAyjH9Zifz5GXKA1ZivJIvyV8E9dwdwbO31Dhc5AYlqW99eMph5c9w5DpZ
+ EZ+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=wIMyYoZAvtN4V3q7k3RGWl6R2X6iQlmvyjSzIPPaKMg=;
+ b=wbb7SVZnK4u4WHi531zHyc+jLHxaY74poAI9g3WRnOEknSe8Zxgsx09mlO6I3sdLDg
+ EVo3lF9VA+T/7vMj5Gt0IbkkcIlIshHt2tqnF2RHDpW6X3caIVJJkiIsXLxmDe0hLeTS
+ LYlRJYxqLaY1OBfm1bL0pTHXH6YCIn2Zl/l28OUWS8W139KRDuxlnhw9gk74H23VGYJ9
+ N0juzLEUEHNarE76Gj0P+ln1qDe9PgXAP8OV04IfIFUqasP3bElS1torek4mz+EkwSP5
+ ReWF3L3OwmTJNGsEcBGBAiLZgt0kNhgR4Ed0OtbD0/zUVuntCRl9kLIAkjxYOgheiK3s
+ 8yCg==
+X-Gm-Message-State: AOAM531VHq+axmrS5yeexVBIZD0iZdZAsmf8Fpd1s/0H4QSz7KHOQhr6
+ bEce366c0Apxd9QrILGHkEOoIycq6hJzEg==
+X-Google-Smtp-Source: ABdhPJztA4b3We97macFhYZsSPxjUeFyd5MOBoX0Fjo+ZPRDVXwQC/vR5eJgByJ7uBHQk+LDYZhvgQ==
+X-Received: by 2002:a2e:6808:: with SMTP id c8mr25484885lja.138.1635261435682; 
+ Tue, 26 Oct 2021 08:17:15 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l8sm1957810lfh.57.2021.10.26.08.17.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Oct 2021 08:17:14 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 69E4B1FF96;
+ Tue, 26 Oct 2021 16:17:01 +0100 (BST)
+References: <20211021210539.825582-1-richard.henderson@linaro.org>
+ <20211021210539.825582-13-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.4; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 12/48] tcg/optimize: Split out finish_folding
+Date: Tue, 26 Oct 2021 16:16:56 +0100
+In-reply-to: <20211021210539.825582-13-richard.henderson@linaro.org>
+Message-ID: <87ilxj24uq.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::229;
+ envelope-from=alex.bennee@linaro.org; helo=mail-lj1-x229.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,54 +87,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, eblake@redhat.com, mdroth@linux.vnet.ibm.com,
- Markus Armbruster <armbru@redhat.com>, marcandre.lureau@redhat.com,
- jsnow@redhat.com
+Cc: luis.pires@eldorado.org.br, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
 
-> Am 26.10.2021 um 13:10 hat Markus Armbruster geschrieben:
->> Commit 6a8c0b5102 "qapi: Add feature flags to struct types" neglected
->> to document how to document feature flags.  Make up for that.
->> 
->> Cc: Kevin Wolf <kwolf@redhat.com>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  docs/devel/qapi-code-gen.rst | 23 +++++++++++++++--------
->>  1 file changed, 15 insertions(+), 8 deletions(-)
->> 
->> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
->> index 1f6805a705..4b79623f51 100644
->> --- a/docs/devel/qapi-code-gen.rst
->> +++ b/docs/devel/qapi-code-gen.rst
->> @@ -949,15 +949,16 @@ definition must have documentation.
->>  Definition documentation starts with a line naming the definition,
->>  followed by an optional overview, a description of each argument (for
->>  commands and events), member (for structs and unions), branch (for
->> -alternates), or value (for enums), and finally optional tagged
->> -sections.
->> +alternates), or value (for enums), a description of each feature (if
->> +any), and finally optional tagged sections.
->>  
->> -Descriptions of arguments can span multiple lines.  The description
->> -text can start on the line following the '\@argname:', in which case it
->> -must not be indented at all.  It can also start on the same line as
->> -the '\@argname:'.  In this case if it spans multiple lines then second
->> -and subsequent lines must be indented to line up with the first
->> -character of the first line of the description::
->> +The description of an argument or feature 'name' starts with
->> +'\@name:'.  The description text can start on the line following the
->> +'\@argname:', in which case it must not be indented at all.  It can
->> +also start on the same line as the '\@argname:'.  In this case if it
->> +spans multiple lines then second and subsequent lines must be indented
->> +to line up with the first character of the first line of the
->> +description::
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Copy z_mask into OptContext, for writeback to the
+> first output within the new function.
 >
-> I'm confused. Are @name and @argname really two different things? What
-> does each one mean?
+> Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Editing screwup!  I meant to use @name every time.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
