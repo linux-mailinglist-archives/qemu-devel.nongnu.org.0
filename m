@@ -2,93 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E746443B75D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 18:38:02 +0200 (CEST)
-Received: from localhost ([::1]:36544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C0443B75A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 18:37:32 +0200 (CEST)
+Received: from localhost ([::1]:34852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfPSc-0001UI-1B
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 12:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35208)
+	id 1mfPS7-0000Fe-KO
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 12:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mfPOy-0005mk-Gj
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:34:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36986)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mfPOw-0004Od-4s
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:34:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635266050;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6Qgz6Via96HkR2nFJAQOwvUo/uFRIoXzqo+BreND9YY=;
- b=EJ/Uk31Ynd9OgGWoYOsOWBPawDk9/c2wqwOW94W4+w/LMREn8FvzMCtH1RuO0G8HOu0qST
- hsls/DoaO9qIrIQO+4bLwT0HxPIj1tykPzHy/1CFPvlK+6Tvb8TWQ6710Hzs6oSffbDftJ
- TsAPZjMrqN1ppkGglEfZXC+BkEaNIjM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-579-EeF84KrwMKezgxLDUk-lsQ-1; Tue, 26 Oct 2021 12:34:09 -0400
-X-MC-Unique: EeF84KrwMKezgxLDUk-lsQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- w7-20020a056402268700b003dd46823a18so7714351edd.18
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 09:34:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mfPPD-0006Qh-SN
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:34:32 -0400
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:44576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mfPPC-0004Pu-1K
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:34:31 -0400
+Received: by mail-lj1-x230.google.com with SMTP id s19so16901629ljj.11
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 09:34:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=oA4d7UQCFmNYbtPu1okuyVQtFphNNu2FuXqzcdwqOnI=;
+ b=ytPV1AWHBFFFz/nvahVDUpZrOLR1IcNJXTNbZgr2gfQrrYKD59oHTf1c/O40Ny6mCH
+ UUMY7mXeWF2rNvYtQ27u7uBwzTI3AbzCtT8v5YcnvND3mhLry/ysehH3p2cvNTITFOhN
+ qCs6smSZlFUfaL0yr6vkJWwLvhdM7EAZ/kniXHfTRC5w6LcCDKj8xBSnLgXgYsudvBD7
+ 7qYiTVhgbpeBiBP2MHBxhNhRoHcJLyEtP7LJybbDv2ygOb+F+NemJNvFDdZBXGLgwtJE
+ l0ZjQx69mFrmuUuHRc4qulGhtzDcQhpFWflWD+RACDMCZUGIqFxltt65tkmCiDhJKVWI
+ M1xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6Qgz6Via96HkR2nFJAQOwvUo/uFRIoXzqo+BreND9YY=;
- b=PJiX7pvt5hZOfK0/QWr4CiDG8CHyr+i820vZefnoCDPfJzHr0lfHXGmnhRH2wc2Aih
- Qf6Uz6fcnLHa0Ww337MTLhNymY1cLVdjaMftjPF1x4L3y6+Z6Kfwj4AHA8rOS8ZTOmz5
- eJoW0ITeXZjmx8whjYd5hh8sK3s5ukR28uoceOjiqujV3NLM42RNvxUMf4iH++Ay0fCP
- CooTjJ3TvXR/BSepAVHnXaGiefNRlkk+CqAY7cTcEbzuY8hy7tK6EEueTHmiYmyYzqje
- wr7NQBxuo1+rsXG8Jm18W+oivMfmSO9NasanI40M/kz0ijoOup+eAzPCRWehezn3TO1K
- xx0A==
-X-Gm-Message-State: AOAM533jj6lxY2euZBRkjl7T+PHqWhvAKNENDkAd0+KWOKF/xu8Sgywr
- W3SfuYWWHr7llDjq7Dth5sBalebS4tuTepziCMeqTQlejY8dmr29hwNmu43etkgxUauyxU31v/H
- SmWGHZuAhc6jPbcY=
-X-Received: by 2002:a50:becf:: with SMTP id e15mr38422228edk.114.1635266047841; 
- Tue, 26 Oct 2021 09:34:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxrIvylJlMlckvS4AjFc8JrblkxeTwROxV53yTzadKGtU++GM/j2l3TB30z3cf5C1+JPbfwOg==
-X-Received: by 2002:a50:becf:: with SMTP id e15mr38422190edk.114.1635266047582; 
- Tue, 26 Oct 2021 09:34:07 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id q2sm9595377eje.118.2021.10.26.09.34.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 09:34:06 -0700 (PDT)
-Message-ID: <af0511ea-1322-76d5-a3c6-bcfc577c4987@redhat.com>
-Date: Tue, 26 Oct 2021 18:34:05 +0200
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=oA4d7UQCFmNYbtPu1okuyVQtFphNNu2FuXqzcdwqOnI=;
+ b=UqDxU/2oi56EP0kLhtvJKC/Gn4TXZf/k/YidQNRtV7gwQLomYQ58HYWYcxSuE5WJGA
+ osnxKoh4rM7qNepJgulil77WqCgAEu1GbX9QzUFZDIsi4FMrLvnQCCqvdQpebDd+myib
+ DIAHzYXpZPePwwBMRbI3ABvEBZZX93adPMK1oiZa44RxUrqi7w0qj302GHpe+GVHbsvR
+ QdTIxrgAq8hWcp+dvZMekQ7iTvrZINnfA3lMGUAzA/FXsQcXG0gJB5KAG/qWeg4TjB5v
+ sXk3RJKrZnbD6atCKlgxZTbLtKvf09BdQhOQIB/R4A7IOJABjzyc0qy4hftCWnLOtbLT
+ 2iKw==
+X-Gm-Message-State: AOAM533C1+eqPp43eYsseib5pLvO1yfFILRVzJMe8D4fkpDveT23vgqo
+ 3bj+IMe4jBWnQpHR2/7ex4jFcg==
+X-Google-Smtp-Source: ABdhPJzZI4gGFdcEACOwRyEhF5pJiiqr7UXZg0OdmovgrqSL1QuJ4ox2HViJEJ0uDIwpyzDEC7d1xA==
+X-Received: by 2002:a05:651c:111:: with SMTP id
+ a17mr26536247ljb.145.1635266068393; 
+ Tue, 26 Oct 2021 09:34:28 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w26sm2397002ljh.18.2021.10.26.09.34.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Oct 2021 09:34:27 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5C3691FF96;
+ Tue, 26 Oct 2021 17:34:26 +0100 (BST)
+References: <20211021210539.825582-1-richard.henderson@linaro.org>
+ <20211021210539.825582-45-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.4; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 44/48] tcg/optimize: Optimize sign extensions
+Date: Tue, 26 Oct 2021 17:34:16 +0100
+In-reply-to: <20211021210539.825582-45-richard.henderson@linaro.org>
+Message-ID: <87k0hzzqwd.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] hvf: Avoid mapping regions < PAGE_SIZE as ram
-To: Alexander Graf <agraf@csgraf.de>, Cameron Esfahani <dirty@apple.com>
-References: <20211025082558.96864-1-agraf@csgraf.de>
- <6c9b6035-276c-1e15-7b7f-81094473368b@redhat.com>
- <a19cfe8f-a013-b2da-7893-50d7c1ecfecd@csgraf.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <a19cfe8f-a013-b2da-7893-50d7c1ecfecd@csgraf.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.215, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::230;
+ envelope-from=alex.bennee@linaro.org; helo=mail-lj1-x230.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,33 +88,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+Cc: luis.pires@eldorado.org.br, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/10/21 21:10, Alexander Graf wrote:
->>>           }
->>>       }
->>>   +    if (int128_get64(section->size) & (qemu_real_host_page_size - 
->>> 1) ||
->>> +        section->offset_within_address_space & 
->>> (qemu_real_host_page_size - 1)) {
->>> +        /* Not page aligned, so we can not map as RAM */
->>> +        add = false;
->>> +    }
->>> +
->>>       mem = hvf_find_overlap_slot(
->>>               section->offset_within_address_space,
->>>               int128_get64(section->size));
->>>
->>
->> Queued, thanks.
-> 
-> 
-> You probably want v2 instead :)
 
-That's actually what I had applied. :)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Paolo
+> Certain targets, like riscv, produce signed 32-bit results.
+> This can lead to lots of redundant extensions as values are
+> manipulated.
+>
+> Begin by tracking only the obvious sign-extensions, and
+> converting them to simple copies when possible.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
