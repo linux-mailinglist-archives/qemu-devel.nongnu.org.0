@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B282943B017
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:34:08 +0200 (CEST)
-Received: from localhost ([::1]:55656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 648E243B00A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:31:29 +0200 (CEST)
+Received: from localhost ([::1]:46974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfJmR-0001Xj-Ny
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:34:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51442)
+	id 1mfJjs-00042x-Cx
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:31:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfJbh-0001Ey-6s
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:23:01 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38466)
+ id 1mfJbc-00011t-0x
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:22:56 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfJbR-0007Q6-9a
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:23:00 -0400
-Received: by mail-wr1-x429.google.com with SMTP id u18so14882458wrg.5
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:22:44 -0700 (PDT)
+ id 1mfJba-0007Rv-Ff
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:22:55 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id m42so13566293wms.2
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:22:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+GXjIZSWU/U5ppISCei450OTir4ISL2+HnT7Ict5FVI=;
- b=V+ARYHhZuk+nUviwxbxR5ioKkQD+LxwZReV/UJX0qjXx3f8Rp2dYx945jPtKY7E1Ns
- pHVfJJw1MS4clU0rnAIH4/ya7WzF14s0FIOfSTT8uYEVzUkr3wcXQsmc6eVDwDCDHOWt
- x7iZ6jgZ47dLGa6t7G2TZuUFGk2cqgakjRbZVCJuFZPiC0s8Z8gnlHDeYuTF7N8wI9Yy
- O1zUqNVhqniZ2sfKvbXbSwHir0oyuFJhRMxi+vzRvbjhx8x4XLZ2u45H8U/JoxI872eb
- CEpxM6kCxGr4HEl2KekDQkqbbOzdMvjkvYKwRsWWvV3kwMaO2SXoJ2Rb7tzDqwlSeBdb
- vYCw==
+ bh=pQ3BdzkSMgKgR2yCwD+Jc0cjVeoWcI6lFMea0A48Un4=;
+ b=pSTV3+NNeRHm9tnmF2HuuYNYvclG2QKKBD0egEjxFgQU4HhlMXGAbHgztCrSgyhcaH
+ a55uzxWIWDqCWW9cAcdmqHQtzdK64KLE7OvDpJCS5tT28RSSToDTvILeRcDPpyoL1oi3
+ f36lAayL9fDqkbjZ88pOiLmHLdMiDDe9PrfSzsupiTmTFAzWSlPe8MvT2XkMSkzGK6xK
+ Y4x+E6oJy8q3AYwXcVLurRcLnF4I0M6eQR/PMfXznH4Ft/eEH9ySJ6SFMbSfsVDgoxa6
+ gqxCOHhQ9RJRFl+ZVRAD7oRmup+OiWE85LqAhyUk6SDEk2zhxbJFWKPHjncwj8Yn+skr
+ Xu2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+GXjIZSWU/U5ppISCei450OTir4ISL2+HnT7Ict5FVI=;
- b=sVzXd4tAFd7ygKLpyeXZujuvbpWlnn4gkR7jjFf2m6d0NDgaSVMqIA5IBiEhS+5BTu
- i8QezaxXCyeEqnWAyFobrhQuHMylcgl7Cf8RrLrz1eLmtZeM1W9hnd2a0r/s2QfFw8s9
- cuvpCH3seZ6D2pe46KYDU43jEhIh7aQQ5T25KBkuXwzQJMOZJE6n4EjfcNvJM1Ceux12
- Qr8BL2DhHZBr4p+gRx+ZbwHZRvoWgSdCjPzHYUzPxdq9aSrMhtOlOd7cK0tC++Ubg7eP
- bJvwtXTAFTXjf1MAVcz1Wty8GjQB5ewKgHGLiF8AdFkkvhv/7C9aqHTHgc46xgJ3xo2q
- mxOA==
-X-Gm-Message-State: AOAM532CIWH3rnBLWCpRU/+zsr8gsbQIxuiPJH4VAeHlv8aIK9U85d8m
- MJiw8M8sIZWMyOyul6TbD5QQhQ==
-X-Google-Smtp-Source: ABdhPJzi06i1RO3+i7eZY2azole7IETkYN+OssN9gGaZQOZABJXL4eVwZ9o0aGhemxk6mWVpwZKEuA==
-X-Received: by 2002:adf:e489:: with SMTP id i9mr2385125wrm.22.1635243763258;
- Tue, 26 Oct 2021 03:22:43 -0700 (PDT)
+ bh=pQ3BdzkSMgKgR2yCwD+Jc0cjVeoWcI6lFMea0A48Un4=;
+ b=Q2JdUb2eP+ngHmenVGS/85ohlnDYZhY8xARpjyCGH7tmYbHvvM+IDZeZ+m+LxWlJSX
+ gUHJ0MsedivDfZA9aqx38SZcX0yv4bKw7wYc3aB9satgmzbYsuPm7vXRX6HNpILjojFP
+ ZJVkEpdcLhQKlqvusNdkUf7sMjE5es/q90gIBFtSH/3Xr7+IBTrg2OnvfF+RvjqzIpet
+ Y7TyS8Lw8JJyUYzO0/QnyEKpfA6pL2k/90XCoaaFLAnEgD8cy584VujRUt8IjQnh6C9g
+ 3RxAQ1m+sctYiF7YmRoJsVY4uELdTZ3pdyqttkUBPqi7vuy0nwyO46Drzy+Z3xmUJ6Qu
+ ya5A==
+X-Gm-Message-State: AOAM531xfdRv1zd4h97cDg+A5rMHbaWLyvxDAA8ms8nCR9mUvfpEYWg+
+ gO8Qn4i5rxhkJk/bEoCdJdtqJA==
+X-Google-Smtp-Source: ABdhPJyyqO8B0WCROWZAqLZp3PPUtVaJr6Sm5YyRmSCBdq3PDfyKMxPh38GkEU/7Jgn9ikVrXMkRng==
+X-Received: by 2002:a7b:c955:: with SMTP id i21mr4263332wml.53.1635243773138; 
+ Tue, 26 Oct 2021 03:22:53 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n68sm183053wmn.13.2021.10.26.03.22.38
+ by smtp.gmail.com with ESMTPSA id o20sm171536wmq.47.2021.10.26.03.22.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 03:22:39 -0700 (PDT)
+ Tue, 26 Oct 2021 03:22:48 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7C0991FF9F;
+ by zen.linaroharston (Postfix) with ESMTP id 882111FFA5;
  Tue, 26 Oct 2021 11:22:35 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 08/28] tests/tcg: Fix some targets default cross compiler
- path
-Date: Tue, 26 Oct 2021 11:22:14 +0100
-Message-Id: <20211026102234.3961636-9-alex.bennee@linaro.org>
+Subject: [PATCH v1 09/28] tests/docker: split PARTIAL into PARTIAL and VIRTUAL
+ images
+Date: Tue, 26 Oct 2021 11:22:15 +0100
+Message-Id: <20211026102234.3961636-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211026102234.3961636-1-alex.bennee@linaro.org>
 References: <20211026102234.3961636-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,67 +87,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com,
- kuhn.chenqun@huawei.com, f4bug@amsat.org, robhenry@microsoft.com,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, minyihh@uci.edu,
+ berrange@redhat.com, kuhn.chenqun@huawei.com, f4bug@amsat.org,
+ robhenry@microsoft.com, Willian Rampazzo <willianr@redhat.com>,
  mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This is mostly to ensure we don't include the toolchain and bootstrap
+builds in DOCKER_IMAGES which is useful when verifying all images
+still build.
 
-We do not want a shell command substitution, but a parameter
-substitution (with assignment). Replace $() -> ${}, otherwise
-the expanded command return an empty string and the $cross_cc
-variable is not set.
-
-Fixes: 634ef789f8e ("tests/tcg: add more default compilers to configure.sh")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20211023164329.328137-1-f4bug@amsat.org>
 ---
- tests/tcg/configure.sh | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ tests/docker/Makefile.include | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 149eeb15ff..0d3ac839ee 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -46,7 +46,7 @@ fi
- : ${cross_cc_aarch64="aarch64-linux-gnu-gcc"}
- : ${cross_cc_aarch64_be="$cross_cc_aarch64"}
- : ${cross_cc_cflags_aarch64_be="-mbig-endian"}
--: $(cross_cc_alpha="alpha-linux-gnu-gcc")
-+: ${cross_cc_alpha="alpha-linux-gnu-gcc"}
- : ${cross_cc_arm="arm-linux-gnueabihf-gcc"}
- : ${cross_cc_cflags_armeb="-mbig-endian"}
- : ${cross_cc_hexagon="hexagon-unknown-linux-musl-clang"}
-@@ -56,17 +56,17 @@ fi
- : ${cross_cc_cflags_i386="-m32"}
- : ${cross_cc_m68k="m68k-linux-gnu-gcc"}
- : $(cross_cc_microblaze="microblaze-linux-musl-gcc")
--: $(cross_cc_mips64el="mips64el-linux-gnuabi64-gcc")
--: $(cross_cc_mips64="mips64-linux-gnuabi64-gcc")
--: $(cross_cc_mipsel="mipsel-linux-gnu-gcc")
--: $(cross_cc_mips="mips-linux-gnu-gcc")
-+: ${cross_cc_mips64el="mips64el-linux-gnuabi64-gcc"}
-+: ${cross_cc_mips64="mips64-linux-gnuabi64-gcc"}
-+: ${cross_cc_mipsel="mipsel-linux-gnu-gcc"}
-+: ${cross_cc_mips="mips-linux-gnu-gcc"}
- : ${cross_cc_ppc="powerpc-linux-gnu-gcc"}
- : ${cross_cc_cflags_ppc="-m32"}
- : ${cross_cc_ppc64="powerpc64-linux-gnu-gcc"}
- : ${cross_cc_ppc64le="powerpc64le-linux-gnu-gcc"}
--: $(cross_cc_riscv64="riscv64-linux-gnu-gcc")
-+: ${cross_cc_riscv64="riscv64-linux-gnu-gcc"}
- : ${cross_cc_s390x="s390x-linux-gnu-gcc"}
--: $(cross_cc_sh4="sh4-linux-gnu-gcc")
-+: ${cross_cc_sh4="sh4-linux-gnu-gcc"}
- : ${cross_cc_cflags_sparc="-m32 -mv8plus -mcpu=ultrasparc"}
- : ${cross_cc_sparc64="sparc64-linux-gnu-gcc"}
- : ${cross_cc_cflags_sparc64="-m64 -mcpu=ultrasparc"}
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index e943ac33b0..5bbbaceed1 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -11,8 +11,10 @@ HOST_ARCH = $(if $(ARCH),$(ARCH),$(shell uname -m))
+ DOCKER_SUFFIX := .docker
+ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+ # we don't run tests on intermediate images (used as base by another image)
+-DOCKER_PARTIAL_IMAGES := debian10 debian11 debian-bootstrap empty
+-DOCKER_IMAGES := $(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker))))
++DOCKER_PARTIAL_IMAGES := debian10 debian11
++# we don't directly build virtual images (they are used to build other images)
++DOCKER_VIRTUAL_IMAGES := debian-bootstrap debian-toolchain empty
++DOCKER_IMAGES := $(sort $(filter-out $(DOCKER_VIRTUAL_IMAGES), $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
+ DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+ # Use a global constant ccache directory to speed up repetitive builds
+ DOCKER_CCACHE_DIR := $$HOME/.cache/qemu-docker-ccache
+@@ -204,7 +206,7 @@ DOCKER_PARTIAL_IMAGES += fedora-cris-cross
+ # packages.
+ 
+ # Expand all the pre-requistes for each docker image and test combination
+-$(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES)), \
++$(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES) $(DOCKER_VIRTUAL_IMAGES),$(DOCKER_IMAGES)), \
+ 	$(foreach t,$(DOCKER_TESTS), \
+ 		$(eval .PHONY: docker-$t@$i) \
+ 		$(eval docker-$t@$i: docker-image-$i docker-run-$t@$i) \
 -- 
 2.30.2
 
