@@ -2,53 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3070043AE32
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 10:37:32 +0200 (CEST)
-Received: from localhost ([::1]:38348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DBD43AE35
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 10:38:58 +0200 (CEST)
+Received: from localhost ([::1]:42258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfHxb-0002HW-B0
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 04:37:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51176)
+	id 1mfHyz-0004rq-72
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 04:38:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mfHq0-0003lZ-UH
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 04:29:41 -0400
-Received: from mga12.intel.com ([192.55.52.136]:38418)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mfHmk-0004Oh-VP
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 04:26:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mfHpx-0001ls-20
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 04:29:40 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10148"; a="209938090"
-X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="209938090"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 01:29:32 -0700
-X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="497209084"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.144.101])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 26 Oct 2021 01:29:30 -0700
-Date: Tue, 26 Oct 2021 16:15:06 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 5/5] sgx: Reset the vEPC regions during VM reboot
-Message-ID: <20211026081506.GA11341@yangzhon-Virtual>
-References: <20211022192754.58196-1-yang.zhong@intel.com>
- <20211022192754.58196-6-yang.zhong@intel.com>
- <6e04392e-e52b-2011-0d62-4a6c24628e7b@redhat.com>
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mfHmi-0000Vs-LQ
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 04:26:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635236774;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DaZrNteD3X3vtoUlD6VCiIG3DSVWWgRBBeLVB9WFvz4=;
+ b=cuqyHVy9r2CCPubHn4Px4Ui8/m5lConv/B/bKlRZi2sscz8Y106SomKEVLfHRoELIsKaRu
+ Tc8eZ70KXcCkPJYvYQKOIgYOuaPEdrotsPT2ol2siJ+ZbTongxobppwyivPT9lMg6shaIn
+ Yyeu63bau+9H2ear1UsGKGwd0PBGUOI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-LirWa60_PfKuCFImblcpkg-1; Tue, 26 Oct 2021 04:26:13 -0400
+X-MC-Unique: LirWa60_PfKuCFImblcpkg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ s3-20020a1ca903000000b0032326edebe1so729180wme.2
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 01:26:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=DaZrNteD3X3vtoUlD6VCiIG3DSVWWgRBBeLVB9WFvz4=;
+ b=pbQ/lKalRoWMVWdwk0Kubt37hGN6X0TAcqDvQQjPce5ww2H/dmeXVpgycf7a6QynmQ
+ SyfMMRhJNS0bFsYIGrqxV7u1cBZn2L5AlyBeykI80BXt7EqX0r92Y7m0Ui+5+/YuNbJP
+ 8qYE6yjsyOWtO5KR5debX4JcDsd3EC0/axrbPL5K2L8WhmTwkiNeH5vxPUjVMZKRWYAu
+ AP/FA/YN/S9umlzkNb4Spdr3xqHSCLp2r4GQ6d1uQp95aLHQ68uGMS+GC5M0eJU7kV1c
+ UeNuqv9C5qoCGinEJJ7R8GRwgkPj5yb4W+95NUSVxj5xCJiuJChNwhO+aPT2fZnYmUt0
+ 7GUA==
+X-Gm-Message-State: AOAM5319I18UE/j31nqo9irOCakxc2OMQRUPk9deEajXDtsHh1nojw0v
+ SbMSJtIgXTuS2mp9LuCmrZEUF60vsG7w+p9tMFJ0lSMenCFNdIuYkj9iijDnnox477SJIuuHNo0
+ qs2cyLBUHmNygh7g=
+X-Received: by 2002:a7b:c049:: with SMTP id u9mr9912540wmc.102.1635236772271; 
+ Tue, 26 Oct 2021 01:26:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJymqBUNxdL+S24VpJydUnxZCQADK10f1hSJflM5CFO2xGPL44y0OS5apHncRothbWeLmtvtsg==
+X-Received: by 2002:a7b:c049:: with SMTP id u9mr9912505wmc.102.1635236772015; 
+ Tue, 26 Oct 2021 01:26:12 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id l21sm11446879wms.16.2021.10.26.01.26.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Oct 2021 01:26:11 -0700 (PDT)
+Message-ID: <8c1a733f-d609-93bc-eec3-a7d8b339aded@redhat.com>
+Date: Tue, 26 Oct 2021 10:26:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6e04392e-e52b-2011-0d62-4a6c24628e7b@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=yang.zhong@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 4/4] iotests: add qemu-img-compare-stat test
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20211021101236.1144824-1-vsementsov@virtuozzo.com>
+ <20211021101236.1144824-5-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211021101236.1144824-5-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.846, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,79 +99,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, philmd@redhat.com, jarkko@kernel.org,
- eblake@redhat.com, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org,
+ nsoffer@redhat.com, nikita.lapshin@virtuozzo.com, den@openvz.org,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 22, 2021 at 11:46:30PM +0200, Paolo Bonzini wrote:
-> On 22/10/21 21:27, Yang Zhong wrote:
-> >+
-> >+    for (j = 0; j < num; j++) {
-> >+        epc = pcms->sgx_epc.sections[j];
-> >+        hostmem = MEMORY_BACKEND(epc->hostmem);
-> >+        fd = memory_region_get_fd(host_memory_backend_get_memory(hostmem));
-> >+
-> >+        failures = ioctl(fd, SGX_IOC_VEPC_REMOVE_ALL);
-> >+        if (failures < 0) {
-> >+            return failures;
-> >+        } else if (failures > 0) {
-> >+            /* Remove SECS pages */
-> >+            sleep(1);
-> >+            failures_1 = ioctl(fd, SGX_IOC_VEPC_REMOVE_ALL);
-> >+        }
-> >+
-> >+        /*
-> >+         * The host or guest can support 8 EPC sections, use the
-> >+         * corresponding bit to show each section removal status.
-> >+         */
-> >+        if (failures_1) {
-> >+            set_bit(j, &ret);
-> >+        }
-> >+    }
-> 
-> This sleep is not necessary, just do two tries on all the regions.
-> So something like
-> 
->     int failures;
-> 
->     /*
->      * The second pass is needed to remove SECS pages that could not
->      * be removed during the first.
->      */
->     for (i = 0; i < 2; i++) {
->         failures = 0;
->         for (j = 0; j < pcms->sgx_epc.nr_sections; j++) {
->             epc = pcms->sgx_epc.sections[j];
->             hostmem = MEMORY_BACKEND(epc->hostmem);
->             fd =
-> memory_region_get_fd(host_memory_backend_get_memory(hostmem));
-> 
->             r = ioctl(fd, SGX_IOC_VEPC_REMOVE_ALL);
->             if (r < 0) {
->                 return r;
->             }
->             if (r > 0) {
->                 /* SECS pages remain */
->                 failures++;
->                 if (pass == 1) {
->                     error_report("cannot reset vEPC section %d\n", j);
->                 }
->             }
->         }
->         if (!failures) {
->             return 0;
->         }
->     }
->     return failures;
-> 
-> is enough, without any need to do further retries.
+On 21.10.21 12:12, Vladimir Sementsov-Ogievskiy wrote:
+> Test new feature qemu-img compare --stat.
 >
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   .../qemu-iotests/tests/qemu-img-compare-stat  |  88 +++++++++++++++
+>   .../tests/qemu-img-compare-stat.out           | 106 ++++++++++++++++++
+>   2 files changed, 194 insertions(+)
+>   create mode 100755 tests/qemu-iotests/tests/qemu-img-compare-stat
+>   create mode 100644 tests/qemu-iotests/tests/qemu-img-compare-stat.out
 
-  Thanks Paolo, i will update it in the next version. Please also
-  help review other patches, thanks! 
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
-  Yang
-
-> Paolo
 
