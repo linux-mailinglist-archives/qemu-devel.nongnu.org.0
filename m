@@ -2,79 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E3C43B4F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 16:58:56 +0200 (CEST)
-Received: from localhost ([::1]:45850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CF643B507
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 17:03:38 +0200 (CEST)
+Received: from localhost ([::1]:56736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfNuh-0007bE-TA
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 10:58:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39078)
+	id 1mfNzF-0006XI-JN
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 11:03:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfNrI-0003pa-5c
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 10:55:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41816)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mfNt1-00079J-Sl
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 10:57:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfNrF-00014b-UF
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 10:55:23 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mfNt0-0001Rf-0H
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 10:57:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635260119;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HydchOjaPM6cp7iyVMRMimgnp2tQrCLOoHuc2pcUzOQ=;
- b=AWM3eUEpumYxZkhE8bbV3+6ay3YxHHrXUPQUMtHI37z0O+1fuy6f9j6AzOwxgAGwnDDThb
- f2G5HYHjQOUZlnYAi0H7/bgHbfSMbnCAkIt0XjcANMxKZ84Z13v8gecXu7XN4Lzrqd8cGS
- UYVfP+pMzOH87CxzAsj6oFavNjJD1ZU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-nJ0YmWd8O-uMoUQbXT8vKQ-1; Tue, 26 Oct 2021 10:55:18 -0400
-X-MC-Unique: nJ0YmWd8O-uMoUQbXT8vKQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v18-20020a7bcb52000000b00322fea1d5b7so1041035wmj.9
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 07:55:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HydchOjaPM6cp7iyVMRMimgnp2tQrCLOoHuc2pcUzOQ=;
- b=B72ijQjZ3F8yWZcWcj5hW+LAfkv2iM1S0RR2OjeZ7Y/yP9RS4yhADW/kQGQjwJxFOQ
- lZLsNY85Ab6s0pR4AlDbOnBmTGWzqufCbpShAg0YeB0pFqDvZo3tDy8zYiPH+72BPtWM
- LfDFzAJsrh9P0XB1deoNj93pLMicWoAGft3FPU2juHrLkIObHNoOVOr7nCyNwH6O4C38
- gxQJcBqQy/zD9Hr7bl+wwuPgo8nTID86V2IRcHc6pOMvd3ffpuvHcGIWxPe5z1xDpHNO
- I7gaseCFWAzZtvui627HPFg65nUKFGXw2ITSNMmPFsWvTkz5oSsXFCQ2e9R8YDwAaK4v
- ESnw==
-X-Gm-Message-State: AOAM530czs3769hH3hz/I6TYiYxLgn5WEW6cxWmOHIi1nZnCREX/PwAM
- EqFdfzBXqgMN0JeHyc/rcAmRjKI6uB2eedhKdNL1saNqtmHX4LvSIePYXf2QptrudSfbzHPOddj
- i40q5kg2cyBtvAC5XI/VjgCFQbNrMva5DNfKvvMy0E6f5HEzkyNP7E5odPaGolv9I
-X-Received: by 2002:a5d:5274:: with SMTP id l20mr5643588wrc.328.1635260116915; 
- Tue, 26 Oct 2021 07:55:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4TclYkT0qtiTo6bxjxD6df5LtmaJwld8Gnua3VCtZRWcXFHHVb9AKOSh5ZOMsY48aVEPT+A==
-X-Received: by 2002:a5d:5274:: with SMTP id l20mr5643539wrc.328.1635260116571; 
- Tue, 26 Oct 2021 07:55:16 -0700 (PDT)
-Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id p3sm18868712wrs.10.2021.10.26.07.55.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 07:55:16 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] gitlab-ci: Only push docker images to registry from
- /master branch
-Date: Tue, 26 Oct 2021 16:55:09 +0200
-Message-Id: <20211026145509.1029274-2-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211026145509.1029274-1-philmd@redhat.com>
-References: <20211026145509.1029274-1-philmd@redhat.com>
+ s=mimecast20190719; t=1635260227;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=+t75zai9rxdPIpwKm9TymWF0bxxQQoekYL2ZBS7kr70=;
+ b=RbKxdU69e1ej2ymxLGpbEybjuykDl3xUPPxQtAuuLKeB5RD3OmyybtQ+sr8d8S5QTJxj+7
+ ZXpacaRSUjLnQ+i9wliGAEvh14pp/kU7rd/nbjdea+BeyMwS4fIkh6qbzcWOV786wwes9F
+ MslKOdOkkyO0veQhmKbMePk0kK6UW1Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-538-BerieSx3PTSNmvaq4PFp9A-1; Tue, 26 Oct 2021 10:57:04 -0400
+X-MC-Unique: BerieSx3PTSNmvaq4PFp9A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E94519057A1;
+ Tue, 26 Oct 2021 14:57:03 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.218])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 75525AFD90;
+ Tue, 26 Oct 2021 14:56:28 +0000 (UTC)
+Date: Tue, 26 Oct 2021 15:56:26 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 1/9] qapi: New special feature flag "unstable"
+Message-ID: <YXgXGocQsFu/Cnzr@redhat.com>
+References: <20211025052532.3859634-1-armbru@redhat.com>
+ <20211025052532.3859634-2-armbru@redhat.com>
+ <YXewOaSDEXJDYV+1@redhat.com> <87r1c83z5c.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
+In-Reply-To: <87r1c83z5c.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -95,99 +80,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, quintela@redhat.com, libvir-list@redhat.com,
+ eblake@redhat.com, mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
+ jsnow@redhat.com, libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Users expect images pulled from registry.gitlab.com/qemu-project/qemu/
-to be stable. QEMU repository workflow pushes merge candidates to
-the /staging branch, and on success the same commit is pushed as
-/master. If /staging fails, we do not want to push the built images
-to the registry. Therefore limit the 'docker push' command to the
-/master branch on the mainstream CI. The fork behavior is unchanged.
+On Tue, Oct 26, 2021 at 11:37:19AM +0200, Markus Armbruster wrote:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > Am 25.10.2021 um 07:25 hat Markus Armbruster geschrieben:
+> >> By convention, names starting with "x-" are experimental.  The parts
+> >> of external interfaces so named may be withdrawn or changed
+> >> incompatibly in future releases.
+> >> 
+> >> Drawback: promoting something from experimental to stable involves a
+> >> name change.  Client code needs to be updated.
+> >> 
+> >> Moreover, the convention is not universally observed:
+> >> 
+> >> * QOM type "input-barrier" has properties "x-origin", "y-origin".
+> >>   Looks accidental, but it's ABI since 4.2.
+> >> 
+> >> * QOM types "memory-backend-file", "memory-backend-memfd",
+> >>   "memory-backend-ram", and "memory-backend-epc" have a property
+> >>   "x-use-canonical-path-for-ramblock-id" that is documented to be
+> >>   stable despite its name.
+> >> 
+> >> We could document these exceptions, but documentation helps only
+> >> humans.  We want to recognize "unstable" in code, like "deprecated".
+> >> 
+> >> Replace the convention by a new special feature flag "unstable".  It
+> >> will be recognized by the QAPI generator, like the existing feature
+> >> flag "deprecated", and unlike regular feature flags.
+> >> 
+> >> This commit updates documentation and prepares tests.  The next commit
+> >> updates the QAPI schema.  The remaining patches update the QAPI
+> >> generator and wire up -compat policy checking.
+> >> 
+> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> >
+> > Obviously, replacing the old convention gets rid of the old drawbacks,
+> > but adds a new one: While using x- makes it very obvious for a human
+> > user that this is an unstable feature, a feature flag in the schema will
+> > almost certainly go unnoticed in manual use.
+> 
+> I thought about this, but neglected to put it in writing.  My bad.
+> 
+> Manual use of unstable interfaces is mostly fine.  Human users can adapt
+> to changing interfaces.  HMP works that way.
+> 
+> Management applications are better off with a feature flag than with a
+> naming convention we sometimes ignore.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- .gitlab-ci.d/container-template.yml | 11 ++++++++++-
- .gitlab-ci.d/edk2.yml               | 11 ++++++++++-
- .gitlab-ci.d/opensbi.yml            | 11 ++++++++++-
- 3 files changed, 30 insertions(+), 3 deletions(-)
+We will sometimes ignore/forget the feature flag too though, so I'm
+not convinced there's much difference there.
 
-diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container-template.yml
-index 1baecd94606..0a736644b22 100644
---- a/.gitlab-ci.d/container-template.yml
-+++ b/.gitlab-ci.d/container-template.yml
-@@ -16,6 +16,15 @@
-           -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
-           -r $CI_REGISTRY/qemu-project/qemu
-     - docker tag "qemu/$NAME" "$TAG"
--    - docker push "$TAG"
-+    # On mainstream CI, we only want to push images on the master branch,
-+    # so skip the other cases (tag or non-master branch).
-+    - if test "$CI_PROJECT_NAMESPACE" = "qemu-project" &&
-+         test -n "$CI_COMMIT_TAG"
-+              -o "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH";
-+      then
-+        :;
-+      else
-+        docker push "$TAG";
-+      fi
-   after_script:
-     - docker logout
-diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
-index 13d0f8b019f..e15f80f4874 100644
---- a/.gitlab-ci.d/edk2.yml
-+++ b/.gitlab-ci.d/edk2.yml
-@@ -33,7 +33,16 @@ docker-edk2:
-  - docker build --cache-from $IMAGE_TAG --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-                                         --tag $IMAGE_TAG .gitlab-ci.d/edk2
-  - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-- - docker push $IMAGE_TAG
-+ # On mainstream CI, we only want to push images on the master branch,
-+ # so skip the other cases (tag or non-master branch).
-+ - if test "$CI_PROJECT_NAMESPACE" = "qemu-project" &&
-+      test -n "$CI_COMMIT_TAG"
-+           -o "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH";
-+   then
-+      :;
-+   else
-+      docker push "$IMAGE_TAG";
-+   fi
- 
- build-edk2:
-  extends: .edk2_job_rules
-diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
-index 5e0a2477c5d..a38ccbe5baa 100644
---- a/.gitlab-ci.d/opensbi.yml
-+++ b/.gitlab-ci.d/opensbi.yml
-@@ -34,7 +34,16 @@ docker-opensbi:
-  - docker build --cache-from $IMAGE_TAG --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-                                         --tag $IMAGE_TAG .gitlab-ci.d/opensbi
-  - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-- - docker push $IMAGE_TAG
-+ # On mainstream CI, we only want to push images on the master branch,
-+ # so skip the other cases (tag or non-master branch).
-+ - if test "$CI_PROJECT_NAMESPACE" = "qemu-project" &&
-+      test -n "$CI_COMMIT_TAG"
-+           -o "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH";
-+   then
-+      :;
-+   else
-+      docker push "$IMAGE_TAG";
-+   fi
- 
- build-opensbi:
-  extends: .opensbi_job_rules
+> If we want to keep "unstable" obvious to the humans who write such
+> programs, we can continue to require "x-", in addition to the feature
+> flag.  We pay for it with renames, and the risk of forgetting to rename
+> in time (which is what got us the awkward stable
+> "x-use-canonical-path-for-ramblock-id").  Tradeoff.  I chose not to, but
+> if y'all think we should...
+
+IMHO the renames arguably make life easier for mgmt apps, as they
+only need to check for the name without the x- prefix, and they
+know they won't be accidentally using the fature from an older
+QEMU where it was unstable because the older QEMU had a different
+name they won't be checking for.
+
+We can just as easily forget to remove the "unstable" feature
+flag, as forget to rename.
+
+The plus point about the feature flag is that it is aligned with
+the "deprecated" feature flag, and potentially aligned with a
+future "insecure" feature flag.
+
+Regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
