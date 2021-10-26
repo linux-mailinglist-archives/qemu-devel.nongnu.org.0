@@ -2,55 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C731943AADB
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 05:51:05 +0200 (CEST)
-Received: from localhost ([::1]:35752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E94243AB52
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 06:31:27 +0200 (CEST)
+Received: from localhost ([::1]:41626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfDUO-0005wn-UG
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 23:51:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55066)
+	id 1mfE7S-0003Hq-3r
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 00:31:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mfDQd-0001NR-Ul
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 23:47:12 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2836)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mfE5x-0002b0-N9
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 00:29:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mfDQZ-0002K7-7z
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 23:47:11 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Hdd1Z4w1KzbhMZ;
- Tue, 26 Oct 2021 11:42:26 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Tue, 26 Oct 2021 11:47:03 +0800
-Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Tue, 26 Oct 2021 11:47:02 +0800
-From: Yanan Wang <wangyanan55@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3 2/2] tests/unit: Add an unit test for smp parsing
-Date: Tue, 26 Oct 2021 11:46:59 +0800
-Message-ID: <20211026034659.22040-3-wangyanan55@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20211026034659.22040-1-wangyanan55@huawei.com>
-References: <20211026034659.22040-1-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mfE5r-0003OS-Ne
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 00:29:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635222584;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UOorz8Wyu98joomTnFv4zcB7ToafMS5tBC0Aj4wZLNU=;
+ b=WOaUYDWL34RB235n0MbZZDR10ObXSPkr1faW+BGr5FeEhTA3d2wLn0dCs7Nu7BfOf1cSAw
+ VMyMV1LiKBDJR1JvnATQNyQb4Vz60iZAjO7HHZv95sAw1K4ZGKUeceEGi7zebsb20XF2qh
+ t81k1HDht7U4OXJ4Tdv50AB1Vc7EJl0=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-571-BaT1xTspPdeSXi3u3JhZvg-1; Tue, 26 Oct 2021 00:29:43 -0400
+X-MC-Unique: BaT1xTspPdeSXi3u3JhZvg-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ u17-20020a05651206d100b003fd714d9a38so730984lff.8
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 21:29:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=UOorz8Wyu98joomTnFv4zcB7ToafMS5tBC0Aj4wZLNU=;
+ b=7L5zTKqmlO/lC2qSXilqkaBvJ9juZT/cmPPxM8qm7YkyRzLF8TzYE9XYbU1YieAZcl
+ Sq4wXEdNAX77tuOjzN6bhyOwj6LBXc33hpFoXXaUShEfVDUdm556ZUpRB0019sS+uls9
+ ra6BvW+oD0Hs01CX4Q6hxeC2xSL2wJFZUW7uw8KfEXWhrjXM7UoF3S0egJE9pPyAt0cO
+ lQbcdKd0/YyyUTOQlz9fsrZjt1stugpk/JczJgq0VG/tYpv4xvIif4yj84PrVu3tagXx
+ jAzEKB9YyCBbrDKjvNTKy8avhdpDo2T60p11etQ2QSe+5UtqoW8Iro2kr5Wm2+tX/C3b
+ W3tw==
+X-Gm-Message-State: AOAM532j66xNbej4fPsh50QaqoPLB6Pqv56voSso0jClWEam7A+qC/IG
+ kV5mP1mjpG6lXtrxjShPdFgewI5suaNqinPH9PXtu4RfYOPs2tIFxWXkQZ/F7DoSeiCK5W4cuqE
+ vqedcAXZ0zxaiOPnawiv2ei+DcM0ZQrI=
+X-Received: by 2002:a2e:8605:: with SMTP id a5mr4776277lji.107.1635222581684; 
+ Mon, 25 Oct 2021 21:29:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJykvzomp1pJB0ctc4XssRm+jJ2StF7lOaI9zIa5CKpdX2/Q9nwwytbqpe864nmpCnkXcFP3LjSh5erojyV/iww=
+X-Received: by 2002:a2e:8605:: with SMTP id a5mr4776252lji.107.1635222581309; 
+ Mon, 25 Oct 2021 21:29:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20211001070603.307037-1-eperezma@redhat.com>
+ <20211001070603.307037-19-eperezma@redhat.com>
+ <79905c11-e313-ad60-17dc-1a47d35f12cc@redhat.com>
+ <CACGkMEtc6tw5xauzw=1zSFUfC0oSRfokZbA6QsR7nEe5T7-4_A@mail.gmail.com>
+ <CAJaqyWfvT36tbnSRhMoQcWXCYhjdkaOs_E3yKisPhv-o0oajCQ@mail.gmail.com>
+ <CACGkMEvHopK4akFLeg56qN35AnJUHURs2MnFNwLWtOTvJ643uA@mail.gmail.com>
+ <CAJaqyWdK6ZWeB3r2bU9SthL2Z9qWPR++km5QAzD48XH3Srv8mA@mail.gmail.com>
+ <CACGkMEtFirKqFvS_wWu65wEDecSYwBo6Ke_H9eKzv5OrJzkwrw@mail.gmail.com>
+ <CAJaqyWeqK1tyHXuVub0G34s=tVPV9fq5BC7g5-Db4HAcZzyOTw@mail.gmail.com>
+ <CACGkMEuSCSaF4LDUe+X+KFuxGupYDUuNTO=FQUo5oir9pM=b8w@mail.gmail.com>
+ <CAJaqyWfuJUX3TMDeRxYVZDwU+iwPsNoaUtMwMedEbg1fYz8cSQ@mail.gmail.com>
+In-Reply-To: <CAJaqyWfuJUX3TMDeRxYVZDwU+iwPsNoaUtMwMedEbg1fYz8cSQ@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 26 Oct 2021 12:29:30 +0800
+Message-ID: <CACGkMEvx6B4mhUMdVD9+H5VznT1J_ZDsuQvUnJgXKtyPW=38kQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 18/20] vhost: Add VhostIOVATree
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,653 +100,364 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus
- Armbruster <armbru@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
- wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have a generic parser smp_parse(), let's add an unit
-test for the code. All possible valid/invalid SMP configurations
-that the user can specify are covered.
+On Thu, Oct 21, 2021 at 10:34 PM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
+>
+> On Thu, Oct 21, 2021 at 10:12 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Thu, Oct 21, 2021 at 3:03 PM Eugenio Perez Martin
+> > <eperezma@redhat.com> wrote:
+> > >
+> > > On Thu, Oct 21, 2021 at 4:34 AM Jason Wang <jasowang@redhat.com> wrot=
+e:
+> > > >
+> > > > On Wed, Oct 20, 2021 at 8:07 PM Eugenio Perez Martin
+> > > > <eperezma@redhat.com> wrote:
+> > > > >
+> > > > > On Wed, Oct 20, 2021 at 11:01 AM Jason Wang <jasowang@redhat.com>=
+ wrote:
+> > > > > >
+> > > > > > On Wed, Oct 20, 2021 at 3:54 PM Eugenio Perez Martin
+> > > > > > <eperezma@redhat.com> wrote:
+> > > > > > >
+> > > > > > > On Tue, Oct 19, 2021 at 11:23 AM Jason Wang <jasowang@redhat.=
+com> wrote:
+> > > > > > > >
+> > > > > > > > On Tue, Oct 19, 2021 at 4:32 PM Jason Wang <jasowang@redhat=
+.com> wrote:
+> > > > > > > > >
+> > > > > > > > >
+> > > > > > > > > =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:06, Eugenio P=C3=
+=A9rez =E5=86=99=E9=81=93:
+> > > > > > > > > > This tree is able to look for a translated address from=
+ an IOVA address.
+> > > > > > > > > >
+> > > > > > > > > > At first glance is similar to util/iova-tree. However, =
+SVQ working on
+> > > > > > > > > > devices with limited IOVA space need more capabilities,=
+ like allocating
+> > > > > > > > > > IOVA chunks or perform reverse translations (qemu addre=
+sses to iova).
+> > > > > > > > >
+> > > > > > > > >
+> > > > > > > > > I don't see any reverse translation is used in the shadow=
+ code. Or
+> > > > > > > > > anything I missed?
+> > > > > > > >
+> > > > > > > > Ok, it looks to me that it is used in the iova allocator. B=
+ut I think
+> > > > > > > > it's better to decouple it to an independent allocator inst=
+ead of
+> > > > > > > > vhost iova tree.
+> > > > > > > >
+> > > > > > >
+> > > > > > > Reverse translation is used every time a buffer is made avail=
+able,
+> > > > > > > since buffers content are not copied, only the descriptors to=
+ SVQ
+> > > > > > > vring.
+> > > > > >
+> > > > > > I may miss something but I didn't see the code? Qemu knows the =
+VA of
+> > > > > > virtqueue, and the VA of the VQ is stored in the VirtQueueElem?
+> > > > > >
+> > > > >
+> > > > > It's used in the patch 20/20, could that be the misunderstanding?=
+ The
+> > > > > function calling it is vhost_svq_translate_addr.
+> > > > >
+> > > > > Qemu knows the VA address of the buffer, but it must offer a vali=
+d SVQ
+> > > > > iova to the device. That is the translation I mean.
+> > > >
+> > > > Ok, I get you. So if I understand correctly, what you did is:
+> > > >
+> > > > 1) allocate IOVA during region_add
+> > > > 2) preform VA->IOVA reverse lookup in handle_kick
+> > > >
+> > > > This should be fine, but here're some suggestions:
+> > > >
+> > > > 1) remove the assert(map) in vhost_svq_translate_addr() since guest
+> > > > can add e.g BAR address
+> > >
+> > > Wouldn't VirtQueue block them in virtqueue_pop / address_space_read_*
+> > > functions? I'm fine to remove it but I would say it adds value agains=
+t
+> > > coding error.
+> >
+> > I think not. Though these addresses were excluded in
+> > vhost_vdpa_listener_skipped_section(). For Qemu memory core, they are
+> > valid addresses. Qemu emulate how hardware work (e.g pci p2p), so dma
+> > to bar is allowed.
+> >
+>
+> Ok I will treat them as errors.
+>
+> > >
+> > > > 2) we probably need a better name vhost_iova_tree_alloc(), maybe
+> > > > "vhost_iova_tree_map_alloc()"
+> > > >
+> > >
+> > > Ok I will change for the next version.
+> > >
+> > > > There's actually another method.
+> > > >
+> > > > 1) don't do IOVA/map allocation in region_add()
+> > > > 2) do the allocation in handle_kick(), then we know the IOVA so no
+> > > > reverse lookup
+> > > >
+> > > > The advantage is that this can work for the case of vIOMMU. And the=
+y
+> > > > should perform the same:
+> > > >
+> > > > 1) you method avoid the iova allocation per sg
+> > > > 2) my method avoid the reverse lookup per sg
+> > > >
+> > >
+> > > It's somehow doable, but we are replacing a tree search with a linear
+> > > insertion at this moment.
+> > >
+> > > I would say that guest's IOVA -> qemu vaddr part works with no change
+> > > for vIOMMU, since VirtQueue's virtqueue_pop already gives us the vadd=
+r
+> > > even in the case of vIOMMU.
+> >
+> > So in this case:
+> >
+> > 1) listener gives us GPA->host IOVA (host IOVA is allocated per GPA)
+>
+> Right, that was a miss from my side, I think I get your point way better =
+now.
+>
+> So now vhost-iova-tree translates GPA -> host IOVA in vIOMMU case, and
+> it is updated at the same frequency than guest physical memory hotplug
+> / unplug (little during migration, I guess). There are special entries
+> for SVQ vrings, that the tree does not map with GPA for obvious
+> reasons, and you cannot locate them when looking by GPA.
 
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
----
- MAINTAINERS                 |   1 +
- tests/unit/meson.build      |   1 +
- tests/unit/test-smp-parse.c | 594 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 596 insertions(+)
- create mode 100644 tests/unit/test-smp-parse.c
+Yes.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 80ec27d76a..310a9512ea 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1633,6 +1633,7 @@ F: include/hw/boards.h
- F: include/hw/core/cpu.h
- F: include/hw/cpu/cluster.h
- F: include/sysemu/numa.h
-+F: tests/unit/test-smp-parse.c
- T: git https://gitlab.com/ehabkost/qemu.git machine-next
- 
- Xtensa Machines
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index 7c297d7e5c..5e81525bef 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -45,6 +45,7 @@ tests = {
-   'test-uuid': [],
-   'ptimer-test': ['ptimer-test-stubs.c', meson.project_source_root() / 'hw/core/ptimer.c'],
-   'test-qapi-util': [],
-+  'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-smp.c'],
- }
- 
- if have_system or have_tools
-diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-new file mode 100644
-index 0000000000..e96abe9ba4
---- /dev/null
-+++ b/tests/unit/test-smp-parse.c
-@@ -0,0 +1,594 @@
-+/*
-+ * SMP parsing unit-tests
-+ *
-+ * Copyright (c) 2021 Huawei Technologies Co., Ltd
-+ *
-+ * Authors:
-+ *  Yanan Wang <wangyanan55@huawei.com>
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
-+ * See the COPYING.LIB file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qom/object.h"
-+#include "qemu/module.h"
-+#include "qapi/error.h"
-+
-+#include "hw/boards.h"
-+
-+#define T true
-+#define F false
-+
-+#define MIN_CPUS 1   /* set the min CPUs supported by the machine as 1 */
-+#define MAX_CPUS 512 /* set the max CPUs supported by the machine as 512 */
-+
-+/*
-+ * Used to define the generic 3-level CPU topology hierarchy
-+ *  -sockets/cores/threads
-+ */
-+#define SMP_CONFIG_GENERIC(ha, a, hb, b, hc, c, hd, d, he, e) \
-+        {                                                     \
-+            .has_cpus    = ha, .cpus    = a,                  \
-+            .has_sockets = hb, .sockets = b,                  \
-+            .has_cores   = hc, .cores   = c,                  \
-+            .has_threads = hd, .threads = d,                  \
-+            .has_maxcpus = he, .maxcpus = e,                  \
-+        }
-+
-+#define CPU_TOPOLOGY_GENERIC(a, b, c, d, e)                   \
-+        {                                                     \
-+            .cpus     = a,                                    \
-+            .sockets  = b,                                    \
-+            .cores    = c,                                    \
-+            .threads  = d,                                    \
-+            .max_cpus = e,                                    \
-+        }
-+
-+/*
-+ * Currently a 4-level topology hierarchy is supported on PC machines
-+ *  -sockets/dies/cores/threads
-+ */
-+#define SMP_CONFIG_WITH_DIES(ha, a, hb, b, hc, c, hd, d, he, e, hf, f) \
-+        {                                                     \
-+            .has_cpus    = ha, .cpus    = a,                  \
-+            .has_sockets = hb, .sockets = b,                  \
-+            .has_dies    = hc, .dies    = c,                  \
-+            .has_cores   = hd, .cores   = d,                  \
-+            .has_threads = he, .threads = e,                  \
-+            .has_maxcpus = hf, .maxcpus = f,                  \
-+        }
-+
-+/**
-+ * @config - the given SMP configuration
-+ * @expect_prefer_sockets - the expected parsing result for the
-+ * valid configuration, when sockets are preferred over cores
-+ * @expect_prefer_cores - the expected parsing result for the
-+ * valid configuration, when cores are preferred over sockets
-+ * @expect_error - the expected error report when the given
-+ * configuration is invalid
-+ */
-+typedef struct SMPTestData {
-+    SMPConfiguration config;
-+    CpuTopology expect_prefer_sockets;
-+    CpuTopology expect_prefer_cores;
-+    const char *expect_error;
-+} SMPTestData;
-+
-+/* Type info of the tested machine */
-+static const TypeInfo smp_machine_info = {
-+    .name = TYPE_MACHINE,
-+    .parent = TYPE_OBJECT,
-+    .class_size = sizeof(MachineClass),
-+    .instance_size = sizeof(MachineState),
-+};
-+
-+/*
-+ * List all the possible valid sub-collections of the generic 5
-+ * topology parameters (i.e. cpus/maxcpus/sockets/cores/threads),
-+ * then test the automatic calculation algorithm of the missing
-+ * values in the parser.
-+ */
-+static struct SMPTestData data_generic_valid[] = {
-+    {
-+        /* config: no configuration provided
-+         * expect: cpus=1,sockets=1,cores=1,threads=1,maxcpus=1 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, F, 0, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(1, 1, 1, 1, 1),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(1, 1, 1, 1, 1),
-+    }, {
-+        /* config: -smp 8
-+         * prefer_sockets: cpus=8,sockets=8,cores=1,threads=1,maxcpus=8
-+         * prefer_cores: cpus=8,sockets=1,cores=8,threads=1,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, F, 0, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 8, 1, 1, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 1, 8, 1, 8),
-+    }, {
-+        /* config: -smp sockets=2
-+         * expect: cpus=2,sockets=2,cores=1,threads=1,maxcpus=2 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, F, 0, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(2, 2, 1, 1, 2),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(2, 2, 1, 1, 2),
-+    }, {
-+        /* config: -smp cores=4
-+         * expect: cpus=4,sockets=1,cores=4,threads=1,maxcpus=4 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, T, 4, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(4, 1, 4, 1, 4),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(4, 1, 4, 1, 4),
-+    }, {
-+        /* config: -smp threads=2
-+         * expect: cpus=2,sockets=1,cores=1,threads=2,maxcpus=2 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, F, 0, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(2, 1, 1, 2, 2),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(2, 1, 1, 2, 2),
-+    }, {
-+        /* config: -smp maxcpus=16
-+         * prefer_sockets: cpus=16,sockets=16,cores=1,threads=1,maxcpus=16
-+         * prefer_cores: cpus=16,sockets=1,cores=16,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, F, 0, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 16, 1, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 1, 16, 1, 16),
-+    }, {
-+        /* config: -smp 8,sockets=2
-+         * expect: cpus=8,sockets=2,cores=4,threads=1,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, F, 0, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+    }, {
-+        /* config: -smp 8,cores=4
-+         * expect: cpus=8,sockets=2,cores=4,threads=1,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, T, 4, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+    }, {
-+        /* config: -smp 8,threads=2
-+         * prefer_sockets: cpus=8,sockets=4,cores=1,threads=2,maxcpus=8
-+         * prefer_cores: cpus=8,sockets=1,cores=4,threads=2,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, F, 0, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 4, 1, 2, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 1, 4, 2, 8),
-+    }, {
-+        /* config: -smp 8,maxcpus=16
-+         * prefer_sockets: cpus=8,sockets=16,cores=1,threads=1,maxcpus=16
-+         * prefer_cores: cpus=8,sockets=1,cores=16,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, F, 0, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 16, 1, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 1, 16, 1, 16),
-+    }, {
-+        /* config: -smp sockets=2,cores=4
-+         * expect: cpus=8,sockets=2,cores=4,threads=1,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, T, 4, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+    }, {
-+        /* config: -smp sockets=2,threads=2
-+         * expect: cpus=4,sockets=2,cores=1,threads=2,maxcpus=4 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, F, 0, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(4, 2, 1, 2, 4),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(4, 2, 1, 2, 4),
-+    }, {
-+        /* config: -smp sockets=2,maxcpus=16
-+         * expect: cpus=16,sockets=2,cores=8,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, F, 0, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 2, 8, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 2, 8, 1, 16),
-+    }, {
-+        /* config: -smp cores=4,threads=2
-+         * expect: cpus=8,sockets=1,cores=4,threads=2,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, T, 4, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 1, 4, 2, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 1, 4, 2, 8),
-+    }, {
-+        /* config: -smp cores=4,maxcpus=16
-+         * expect: cpus=16,sockets=4,cores=4,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, T, 4, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 4, 4, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 4, 4, 1, 16),
-+    }, {
-+        /* config: -smp threads=2,maxcpus=16
-+         * prefer_sockets: cpus=16,sockets=8,cores=1,threads=2,maxcpus=16
-+         * prefer_cores: cpus=16,sockets=1,cores=8,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, F, 0, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 8, 1, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 1, 8, 2, 16),
-+    }, {
-+        /* config: -smp 8,sockets=2,cores=4
-+         * expect: cpus=8,sockets=2,cores=4,threads=1,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, T, 4, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+    }, {
-+        /* config: -smp 8,sockets=2,threads=2
-+         * expect: cpus=8,sockets=2,cores=2,threads=2,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, F, 0, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 2, 2, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 2, 2, 8),
-+    }, {
-+        /* config: -smp 8,sockets=2,maxcpus=16
-+         * expect: cpus=8,sockets=2,cores=8,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, F, 0, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 8, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 8, 1, 16),
-+    }, {
-+        /* config: -smp 8,cores=4,threads=2
-+         * expect: cpus=8,sockets=1,cores=4,threads=2,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, T, 4, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 1, 4, 2, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 1, 4, 2, 8),
-+    }, {
-+        /* config: -smp 8,cores=4,maxcpus=16
-+         * expect: cpus=8,sockets=4,cores=4,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, T, 4, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 4, 4, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 4, 4, 1, 16),
-+    }, {
-+        /* config: -smp 8,threads=2,maxcpus=16
-+         * prefer_sockets: cpus=8,sockets=8,cores=1,threads=2,maxcpus=16
-+         * prefer_cores: cpus=8,sockets=1,cores=8,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, F, 0, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 8, 1, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 1, 8, 2, 16),
-+    }, {
-+        /* config: -smp sockets=2,cores=4,threads=2
-+         * expect: cpus=16,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, T, 4, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp sockets=2,cores=4,maxcpus=16
-+         * expect: cpus=16,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, T, 4, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp sockets=2,threads=2,maxcpus=16
-+         * expect: cpus=16,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, F, 0, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp cores=4,threads=2,maxcpus=16
-+         * expect: cpus=16,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, T, 4, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp 8,sockets=2,cores=4,threads=1
-+         * expect: cpus=8,sockets=2,cores=4,threads=1,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, T, 4, T, 1, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+    }, {
-+        /* config: -smp 8,sockets=2,cores=4,maxcpus=16
-+         * expect: cpus=8,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, T, 4, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp 8,sockets=2,threads=2,maxcpus=16
-+         * expect: cpus=8,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, F, 0, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp 8,cores=4,threads=2,maxcpus=16
-+         * expect: cpus=8,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, T, 4, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp sockets=2,cores=4,threads=2,maxcpus=16
-+         * expect: cpus=16,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, T, 4, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp 8,sockets=2,cores=4,threads=2,maxcpus=16
-+         * expect: cpus=8,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, T, 4, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+    },
-+};
-+
-+static struct SMPTestData data_generic_invalid[] = {
-+    {
-+        /* config: -smp 2,dies=2 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 2, F, 0, T, 2, F, 0, F, 0, F, 0),
-+        .expect_error = "dies not supported by this machine's CPU topology",
-+    }, {
-+        /* config: -smp 8,sockets=2,cores=4,threads=2,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, T, 4, T, 2, T, 8),
-+        .expect_error = "Invalid CPU topology: "
-+                        "product of the hierarchy must match maxcpus: "
-+                        "sockets (2) * cores (4) * threads (2) "
-+                        "!= maxcpus (8)",
-+    }, {
-+        /* config: -smp 18,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 18, T, 2, T, 4, T, 2, T, 16),
-+        .expect_error = "Invalid CPU topology: "
-+                        "maxcpus must be equal to or greater than smp: "
-+                        "sockets (2) * cores (4) * threads (2) "
-+                        "== maxcpus (16) < smp_cpus (18)",
-+    }, {
-+        /* config: -smp 1
-+         * should tweak the supported min CPUs to 2 for testing */
-+        .config = SMP_CONFIG_GENERIC(T, 1, F, 0, F, 0, F, 0, F, 0),
-+        .expect_error = "Invalid SMP CPUs 1. The min CPUs supported "
-+                        "by machine '(null)' is 2",
-+    }, {
-+        /* config: -smp 512
-+         * should tweak the supported max CPUs to 511 for testing */
-+        .config = SMP_CONFIG_GENERIC(T, 512, F, 0, F, 0, F, 0, F, 0),
-+        .expect_error = "Invalid SMP CPUs 512. The max CPUs supported "
-+                        "by machine '(null)' is 511",
-+    },
-+};
-+
-+static struct SMPTestData data_with_dies_invalid[] = {
-+    {
-+        /* config: -smp 16,sockets=2,dies=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, T, 2, T, 2, T, 4, T, 2, T, 16),
-+        .expect_error = "Invalid CPU topology: "
-+                        "product of the hierarchy must match maxcpus: "
-+                        "sockets (2) * dies (2) * cores (4) * threads (2) "
-+                        "!= maxcpus (16)",
-+    }, {
-+        /* config: -smp 34,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 34, T, 2, T, 2, T, 4, T, 2, T, 32),
-+        .expect_error = "Invalid CPU topology: "
-+                        "maxcpus must be equal to or greater than smp: "
-+                        "sockets (2) * dies (2) * cores (4) * threads (2) "
-+                        "== maxcpus (32) < smp_cpus (34)",
-+    },
-+};
-+
-+static char *smp_config_to_string(SMPConfiguration *config)
-+{
-+    return g_strdup_printf(
-+        "(SMPConfiguration) {\n"
-+        "    .has_cpus    = %5s, cpus    = %ld,\n"
-+        "    .has_sockets = %5s, sockets = %ld,\n"
-+        "    .has_dies    = %5s, dies    = %ld,\n"
-+        "    .has_cores   = %5s, cores   = %ld,\n"
-+        "    .has_threads = %5s, threads = %ld,\n"
-+        "    .has_maxcpus = %5s, maxcpus = %ld,\n"
-+        "}",
-+        config->has_cpus ? "true" : "false", config->cpus,
-+        config->has_sockets ? "true" : "false", config->sockets,
-+        config->has_dies ? "true" : "false", config->dies,
-+        config->has_cores ? "true" : "false", config->cores,
-+        config->has_threads ? "true" : "false", config->threads,
-+        config->has_maxcpus ? "true" : "false", config->maxcpus);
-+}
-+
-+static char *cpu_topology_to_string(CpuTopology *topo)
-+{
-+    return g_strdup_printf(
-+        "(CpuTopology) {\n"
-+        "    .cpus     = %u,\n"
-+        "    .sockets  = %u,\n"
-+        "    .dies     = %u,\n"
-+        "    .cores    = %u,\n"
-+        "    .threads  = %u,\n"
-+        "    .max_cpus = %u,\n"
-+        "}",
-+        topo->cpus, topo->sockets, topo->dies,
-+        topo->cores, topo->threads, topo->max_cpus);
-+}
-+
-+static void check_parse(MachineState *ms, SMPConfiguration *config,
-+                        CpuTopology *expect_topo, const char *expect_err,
-+                        bool is_valid)
-+{
-+    g_autofree char *config_str = smp_config_to_string(config);
-+    g_autofree char *expect_topo_str = cpu_topology_to_string(expect_topo);
-+    g_autofree char *output_topo_str = NULL;
-+    Error *err = NULL;
-+
-+    /* call the generic parser smp_parse() */
-+    smp_parse(ms, config, &err);
-+
-+    output_topo_str = cpu_topology_to_string(&ms->smp);
-+
-+    /* when the configuration is supposed to be valid */
-+    if (is_valid) {
-+        if ((err == NULL) &&
-+            (ms->smp.cpus == expect_topo->cpus) &&
-+            (ms->smp.sockets == expect_topo->sockets) &&
-+            (ms->smp.dies == expect_topo->dies) &&
-+            (ms->smp.cores == expect_topo->cores) &&
-+            (ms->smp.threads == expect_topo->threads) &&
-+            (ms->smp.max_cpus == expect_topo->max_cpus)) {
-+            return;
-+        }
-+
-+        if (err != NULL) {
-+            g_printerr("Test smp_parse failed!\n"
-+                       "Input configuration: %s\n"
-+                       "Should be valid: yes\n"
-+                       "Expected topology: %s\n\n"
-+                       "Result is valid: no\n"
-+                       "Output error report: %s\n",
-+                       config_str, expect_topo_str, error_get_pretty(err));
-+            goto end;
-+        }
-+
-+        g_printerr("Test smp_parse failed!\n"
-+                   "Input configuration: %s\n"
-+                   "Should be valid: yes\n"
-+                   "Expected topology: %s\n\n"
-+                   "Result is valid: yes\n"
-+                   "Output topology: %s\n",
-+                   config_str, expect_topo_str, output_topo_str);
-+        goto end;
-+    }
-+
-+    /* when the configuration is supposed to be invalid */
-+    if (err != NULL) {
-+        if (expect_err == NULL ||
-+            g_str_equal(expect_err, error_get_pretty(err))) {
-+            error_free(err);
-+            return;
-+        }
-+
-+        g_printerr("Test smp_parse failed!\n"
-+                   "Input configuration: %s\n"
-+                   "Should be valid: no\n"
-+                   "Expected error report: %s\n\n"
-+                   "Result is valid: no\n"
-+                   "Output error report: %s\n",
-+                   config_str, expect_err, error_get_pretty(err));
-+        goto end;
-+    }
-+
-+    g_printerr("Test smp_parse failed!\n"
-+               "Input configuration: %s\n"
-+               "Should be valid: no\n"
-+               "Expected error report: %s\n\n"
-+               "Result is valid: yes\n"
-+               "Output topology: %s\n",
-+               config_str, expect_err, output_topo_str);
-+
-+end:
-+    if (err != NULL) {
-+        error_free(err);
-+    }
-+
-+    abort();
-+}
-+
-+static void smp_parse_test(MachineState *ms, SMPTestData *data, bool is_valid)
-+{
-+    MachineClass *mc = MACHINE_GET_CLASS(ms);
-+
-+    mc->smp_props.prefer_sockets = true;
-+    check_parse(ms, &data->config, &data->expect_prefer_sockets,
-+                data->expect_error, is_valid);
-+
-+    mc->smp_props.prefer_sockets = false;
-+    check_parse(ms, &data->config, &data->expect_prefer_cores,
-+                data->expect_error, is_valid);
-+}
-+
-+/* The parsed results of the unsupported parameters should be 1 */
-+static void unsupported_params_init(MachineClass *mc, SMPTestData *data)
-+{
-+    if (!mc->smp_props.dies_supported) {
-+        data->expect_prefer_sockets.dies = 1;
-+        data->expect_prefer_cores.dies = 1;
-+    }
-+}
-+
-+/* Reset the related machine properties before each sub-test */
-+static void smp_machine_class_init(MachineClass *mc)
-+{
-+    mc->min_cpus = MIN_CPUS;
-+    mc->max_cpus = MAX_CPUS;
-+
-+    mc->smp_props.prefer_sockets = true;
-+    mc->smp_props.dies_supported = false;
-+}
-+
-+static void test_generic(void)
-+{
-+    Object *obj = object_new(TYPE_MACHINE);
-+    MachineState *ms = MACHINE(obj);
-+    MachineClass *mc = MACHINE_GET_CLASS(obj);
-+    SMPTestData *data = &(SMPTestData){0};
-+    int i;
-+
-+    smp_machine_class_init(mc);
-+
-+    for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
-+        *data = data_generic_valid[i];
-+        unsupported_params_init(mc, data);
-+
-+        smp_parse_test(ms, data, true);
-+
-+        /* Unsupported parameters can be provided with their values as 1 */
-+        data->config.has_dies = true;
-+        data->config.dies = 1;
-+        smp_parse_test(ms, data, true);
-+    }
-+
-+    /* Reset the supported min CPUs and max CPUs */
-+    mc->min_cpus = 2;
-+    mc->max_cpus = 511;
-+
-+    for (i = 0; i < ARRAY_SIZE(data_generic_invalid); i++) {
-+        *data = data_generic_invalid[i];
-+        unsupported_params_init(mc, data);
-+
-+        smp_parse_test(ms, data, false);
-+    }
-+
-+    object_unref(obj);
-+}
-+
-+static void test_with_dies(void)
-+{
-+    Object *obj = object_new(TYPE_MACHINE);
-+    MachineState *ms = MACHINE(obj);
-+    MachineClass *mc = MACHINE_GET_CLASS(obj);
-+    SMPTestData *data = &(SMPTestData){0};
-+    unsigned int num_dies = 2;
-+    int i;
-+
-+    smp_machine_class_init(mc);
-+    mc->smp_props.dies_supported = true;
-+
-+    for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
-+        *data = data_generic_valid[i];
-+        unsupported_params_init(mc, data);
-+
-+        /* when dies parameter is omitted, it will be set as 1 */
-+        data->expect_prefer_sockets.dies = 1;
-+        data->expect_prefer_cores.dies = 1;
-+
-+        smp_parse_test(ms, data, true);
-+
-+        /* when dies parameter is specified */
-+        data->config.has_dies = true;
-+        data->config.dies = num_dies;
-+        if (data->config.has_cpus) {
-+            data->config.cpus *= num_dies;
-+        }
-+        if (data->config.has_maxcpus) {
-+            data->config.maxcpus *= num_dies;
-+        }
-+
-+        data->expect_prefer_sockets.dies = num_dies;
-+        data->expect_prefer_sockets.cpus *= num_dies;
-+        data->expect_prefer_sockets.max_cpus *= num_dies;
-+        data->expect_prefer_cores.dies = num_dies;
-+        data->expect_prefer_cores.cpus *= num_dies;
-+        data->expect_prefer_cores.max_cpus *= num_dies;
-+
-+        smp_parse_test(ms, data, true);
-+    }
-+
-+    for (i = 0; i < ARRAY_SIZE(data_with_dies_invalid); i++) {
-+        *data = data_with_dies_invalid[i];
-+        unsupported_params_init(mc, data);
-+
-+        smp_parse_test(ms, data, false);
-+    }
-+
-+    object_unref(obj);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+    g_test_init(&argc, &argv, NULL);
-+
-+    module_call_init(MODULE_INIT_QOM);
-+    type_register_static(&smp_machine_info);
-+
-+    g_test_add_func("/test-smp-parse/generic", test_generic);
-+    g_test_add_func("/test-smp-parse/with_dies", test_with_dies);
-+
-+    g_test_run();
-+
-+    return 0;
-+}
--- 
-2.19.1
+>
+> Let's assume too that only SVQ vrings have been sent as IOMMU / IOTLB
+> map, with the relation Host iova -> qemu's VA.
+>
+> > 2) virtqueue_pop gives us guest IOVA -> VA
+> >
+> > We still need extra logic to lookup the vIOMMU to get the guest IOVA
+> > GPA then we can know the host IOVA.
+> >
+>
+> That's somehow right, but I think this does not need to be *another*
+> search, insertion, etc. Please see below.
+>
+> > If we allocate after virtqueue_pop(), we can follow the same logic as
+> > without vIOMMU. Just allocate an host IOVA then all is done.
+> >
+> > > The only change I would add for that case
+> > > is the SVQ -> device map/unmapping part, so the device cannot access
+> > > random addresses but only the exposed ones. I'm assuming that part is
+> > > O(1).
+> > >
+> > > This way, we already have a tree with all the possible guest's
+> > > addresses, and we only need to look for it's SVQ iova -> vaddr
+> > > translation. This is a O(log(N)) operation,
+> >
+> > Yes, but it's requires traverse the vIOMMU page table which should be
+> > slower than our own iova tree?
+> >
+>
+> The lookup over vIOMMU is not needed (to perform twice), since
+> virtqueue_pop already do it. We already have that data here, just need
+> to extract it.
+
+For 'extract' do you mean fetching it from IOMMU's IOTLB via
+address_space_get_iotlb_entry()? Yes, it would be faster and probably
+an O(1).
+
+> Not saying that is complicated, just saying that I
+> didn't dedicate a lot of time to figure out how. The calltrace of it
+> is:
+>
+> #0  address_space_translate_iommu
+>     (iommu_mr, xlat, plen_out, page_mask_out, is_write, is_mmio,
+> target_as, attrs) at ../softmmu/physmem.c:418
+> #1  flatview_do_translate
+>     (fv, addr, xlat, plen_out, page_mask_out, is_write, is_mmio,
+> target_as, attrs) at ../softmmu/physmem.c:505
+> #2  flatview_translate
+>     (fv, addr, xlat, plen, is_write, attrs) at ../softmmu/physmem.c:565
+> #3  address_space_map (as, addr, plen, is_write, attrs)
+>     at ../softmmu/physmem.c:3183
+> #4  dma_memory_map (as, addr, len, dir)
+>     at /home/qemu/svq/include/sysemu/dma.h:202
+> #5  virtqueue_map_desc
+>     (vdev, p_num_sg, addr, iov, max_num_sg, is_write, pa, sz) at
+> ../hw/virtio/virtio.c:1314
+> #6  virtqueue_split_pop (vq, sz) at ../hw/virtio/virtio.c:1488
+>
+> So with that GPA we can locate its correspond entry in the
+> vhost-iova-tree, in a read-only operation, O(log(N)). And element
+> address in qemu's va is not going to change until we mark it as used.
+>
+> This process (all the stack call trace) needs to be serialized somehow
+> in qemu's memory system internals, I'm just assuming that it will be
+> faster than the one we can do in SVQ with little effort, and it will
+> help to reduce duplication. If is not the case, I think it is even
+> more beneficial to improve it, than to reinvent it in SVQ.
+
+I think so.
+
+Thanks
+
+>
+> After that, an iommu map needs to be sent to the device, as (qemu's
+> iommu obtained from the tree, qemu's VA, length, ...). We may even
+> batch them. Another option is to wait for the miss(), but I think that
+> would be a waste of resources.
+>
+> The reverse is also true with the unmapping: When we see an used
+> descriptor, IOTLB unmap(s) will be sent before send the descriptor to
+> guest as used.
+>
+> > > and read only, so it's
+> > > easily parallelizable when we make each SVQ in it's own thread (if
+> > > needed).
+> >
+> > Yes, this is because the host IOVA was allocated before by the memory l=
+istener.
+> >
+>
+> Right.
+>
+> > > The only thing left is to expose that with an iommu miss
+> > > (O(1)) and unmap it on used buffers processing (also O(1)). The
+> > > domination operation keeps being VirtQueue's own code lookup for
+> > > guest's IOVA -> GPA, which I'm assuming is already well optimized and
+> > > will benefit from future optimizations since qemu's memory system is
+> > > frequently used.
+> > >
+> > > To optimize your use case we would need to add a custom (and smarter
+> > > than the currently used) allocator to SVQ. I've been looking for ways
+> > > to reuse glibc or similar in our own arenas but with no luck. It will
+> > > be code that SVQ needs to maintain by and for itself anyway.
+> >
+> > The benefit is to have separate iova allocation from the tree.
+> >
+> > >
+> > > In either case it should not be hard to switch to your method, just a
+> > > few call changes in the future, if we achieve a faster allocator.
+> > >
+> > > Would that make sense?
+> >
+> > Yes, feel free to choose any method you wish or feel simpler in the nex=
+t series.
+> >
+> > >
+> > > > >
+> > > > > > >
+> > > > > > > At this point all the limits are copied to vhost iova tree in=
+ the next
+> > > > > > > revision I will send, defined at its creation at
+> > > > > > > vhost_iova_tree_new(). They are outside of util/iova-tree, on=
+ly sent
+> > > > > > > to the latter at allocation time.
+> > > > > > >
+> > > > > > > Since vhost_iova_tree has its own vhost_iova_tree_alloc(), th=
+at wraps
+> > > > > > > the iova_tree_alloc() [1], limits could be kept in vhost-vdpa=
+ and make
+> > > > > > > them an argument of vhost_iova_tree_alloc. But I'm not sure i=
+f it's
+> > > > > > > what you are proposing or I'm missing something.
+> > > > > >
+> > > > > > If the reverse translation is only used in iova allocation, I m=
+eant to
+> > > > > > split the logic of IOVA allocation itself.
+> > > > > >
+> > > > >
+> > > > > Still don't understand it, sorry :). In SVQ setup we allocate an =
+iova
+> > > > > address for every guest's GPA address its driver can use. After t=
+hat
+> > > > > there should be no allocation unless memory is hotplugged.
+> > > > >
+> > > > > So the limits are only needed precisely at allocation time. Not s=
+ure
+> > > > > if that is what you mean here, but to first allocate and then che=
+ck if
+> > > > > it is within the range could lead to false negatives, since there
+> > > > > could be a valid range *in* the address but the iova allocator
+> > > > > returned us another range that fell outside the range. How could =
+we
+> > > > > know the cause if it is not using the range itself?
+> > > >
+> > > > See my above reply. And we can teach the iova allocator to return t=
+he
+> > > > IOVA in the range that vhost-vDPA supports.
+> > > >
+> > >
+> > > Ok,
+> > >
+> > > For the next series it will be that way. I'm pretty sure we are
+> > > aligned in this part, but the lack of code in this series makes it
+> > > very hard to discuss it :).
+> >
+> > Fine. Let's see.
+> >
+> > Thanks
+> >
+> > >
+> > > Thanks!
+> > >
+> > > > Thanks
+> > > >
+> > > > >
+> > > > > > >
+> > > > > > > Either way, I think it is harder to talk about this specific =
+case
+> > > > > > > without code, since this one still does not address the limit=
+s. Would
+> > > > > > > you prefer me to send another RFC in WIP quality, with *not* =
+all
+> > > > > > > comments addressed? I would say that there is not a lot of pe=
+nding
+> > > > > > > work to send the next one, but it might be easier for all of =
+us.
+> > > > > >
+> > > > > > I'd prefer to try to address them all, otherwise it's not easy =
+to see
+> > > > > > what is missing.
+> > > > > >
+> > > > >
+> > > > > Got it, I will do it that way then!
+> > > > >
+> > > > > Thanks!
+> > > > >
+> > > > > > Thanks
+> > > > > >
+> > > > > > >
+> > > > > > > Thanks!
+> > > > > > >
+> > > > > > > [1] This util/iova-tree method will be proposed in the next s=
+eries,
+> > > > > > > and vhost_iova_tree wraps it since it needs to keep in sync b=
+oth
+> > > > > > > trees: iova->qemu vaddr for iova allocation and the reverse o=
+ne to
+> > > > > > > translate available buffers.
+> > > > > > >
+> > > > > > > > Thanks
+> > > > > > > >
+> > > > > > >
+> > > > > >
+> > > > >
+> > > >
+> > >
+> >
+>
 
 
