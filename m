@@ -2,90 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F125F43B572
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 17:23:19 +0200 (CEST)
-Received: from localhost ([::1]:42326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346C743B577
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 17:24:56 +0200 (CEST)
+Received: from localhost ([::1]:46432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfOIJ-0001ZF-1w
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 11:23:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44838)
+	id 1mfOJr-0004Kq-A9
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 11:24:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfO9b-0006AE-2n
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 11:14:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53416)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfOB4-0008FB-6i
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 11:15:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfO9Z-0003Z1-B3
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 11:14:18 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfOB2-0006Dv-FG
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 11:15:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635261256;
+ s=mimecast20190719; t=1635261347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V/T4sM39EPDWhLh7FV6n0mdxypeW5kyL6rY0c+a8oZs=;
- b=HOKziOBhUuU5msMBHwygx1ltpAiCPePnMgn9GX6tb9Y8++N59T3A+aRlJTYaiCEwW7p+Ct
- /Z04EvPBY8z1MAu+Z77KKdFWov/e5Gp48QFJhiJywOnn0bRcIbsXhPa5w1z0jx3Ik4VieS
- dyLI/SOpJS3u+cqo+dHNTAwcF8fvrdg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-12-AW7eWCJGNwuGgoyvXScivA-1; Tue, 26 Oct 2021 11:14:15 -0400
-X-MC-Unique: AW7eWCJGNwuGgoyvXScivA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- f1-20020a5d64c1000000b001611832aefeso4088302wri.17
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 08:14:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=V/T4sM39EPDWhLh7FV6n0mdxypeW5kyL6rY0c+a8oZs=;
- b=OeIB9MPRu5N5WloWuOZzDxnX3r55fLna5j9fgk9O61UFU2PS3KLv/ghMoIwtcrxfko
- oo+Zg3Bk4nv7DaQNyuuH5VTcUTAcL2FVhiWVSKm3oguFzodQNzuE0jg/lIh9Z1ccM3zj
- zdRkiK+VH1KEe/3Kx8nT+a/GtsziOzi8kDkYPKkecAn7ozvNTuRAl7vi6B1hPwD2le0R
- b8C66BeCeI0OP6kDOHwVbMLz05e2x9Q8N2QBXYSHsSEMv0A4sCwuq/4Ui2ObBnrnqmI7
- zcrp4IgC3zbHpL8qKMBWIYRN+lzlEslMGfU3WZObrMXfDP3mG0I3eGKbCo6UZaOl4f2i
- bFZQ==
-X-Gm-Message-State: AOAM531/Ee6YuGcs6jf2VlcSN9Mje8NFIEOinEMRmUowooPGVqB2knYi
- OdVXtg5/oT9jv0nr/GlRw2ZfTtrX9KAF10spkJsLt9aUukQyqkI89l9sC1vryUmsBTaftQBpJ83
- M5wjDLdNcXrxyMiA=
-X-Received: by 2002:a5d:59a3:: with SMTP id p3mr32817060wrr.146.1635261252287; 
- Tue, 26 Oct 2021 08:14:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzt+07dhVQcINgPn89Xe9syt0wFzi6gPj5VixWCvijrNyoUVG49vKEs9coreVtHQuxVus+BJg==
-X-Received: by 2002:a5d:59a3:: with SMTP id p3mr32816837wrr.146.1635261250307; 
- Tue, 26 Oct 2021 08:14:10 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id o194sm985304wme.40.2021.10.26.08.14.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 08:14:09 -0700 (PDT)
-Message-ID: <6fc89222-c836-a52b-2d67-fd8a8b175e58@redhat.com>
-Date: Tue, 26 Oct 2021 17:14:08 +0200
+ bh=XClyofZcaxSOe54dXRPpMgyDh3OxSuvKq2e3pJ+w6oU=;
+ b=Rn/FmhxW1GJRJaJgAI3COuUXqKpZpyljSUKwTf9dEC4LvY/evJ1Yx5PIughmDWuJjiJs87
+ Z+BDJQcaYUo4rQICl4w7tRhq9hMu99Q1rT4zSzbe0zlkMBGqMWzzp5RN4UnwFViDYxb9cf
+ O2nnNjNB178KNlBZSH5hItREKi03CGg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-340-8YARrrL7N1CHohsJtzEnCA-1; Tue, 26 Oct 2021 11:15:46 -0400
+X-MC-Unique: 8YARrrL7N1CHohsJtzEnCA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02B6A100B3BA;
+ Tue, 26 Oct 2021 15:15:45 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 568E9AFD81;
+ Tue, 26 Oct 2021 15:15:12 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A042911380A7; Tue, 26 Oct 2021 17:15:10 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH 1/9] qapi: New special feature flag "unstable"
+References: <20211025052532.3859634-1-armbru@redhat.com>
+ <20211025052532.3859634-2-armbru@redhat.com>
+ <YXewOaSDEXJDYV+1@redhat.com> <87r1c83z5c.fsf@dusky.pond.sub.org>
+ <YXgXGocQsFu/Cnzr@redhat.com>
+Date: Tue, 26 Oct 2021 17:15:10 +0200
+In-Reply-To: <YXgXGocQsFu/Cnzr@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Tue, 26 Oct 2021 15:56:26 +0100")
+Message-ID: <87a6ivg6m9.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 2/3] hw/smbios: Use qapi for SmbiosEntryPointType
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
-References: <20211026151100.1691925-1-ehabkost@redhat.com>
- <20211026151100.1691925-3-ehabkost@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211026151100.1691925-3-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.215, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,59 +84,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, quintela@redhat.com, libvir-list@redhat.com,
+ eblake@redhat.com, mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
+ jsnow@redhat.com, libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/21 17:10, Eduardo Habkost wrote:
-> This prepares for exposing the SMBIOS entry point type as a
-> machine property on x86.
-> 
-> Based on a patch from Daniel P. Berrangé.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
-> First version of this code was submitted at:
-> https://lore.kernel.org/qemu-devel/20200908165438.1008942-5-berrange@redhat.com
-> 
-> Changes from v2:
-> * Rename "2_0"/"3_1" to "32"/"64", to
->   make the names more QAPI-friendly (as underscores and dots are
->   not allowed by QAPI)
-> * Move definition from smbios.json back to machine.json
->   (no need for a separate file just for one enum)
-> 
-> Changes from v1:
-> * Patch was split in two
-> * Moved definition to smbios.json
-> ---
->  include/hw/firmware/smbios.h | 10 ++--------
->  qapi/machine.json            | 12 ++++++++++++
->  2 files changed, 14 insertions(+), 8 deletions(-)
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> +##
-> +# @SmbiosEntryPointType:
-> +#
-> +# @32: SMBIOS version 2.1 (32-bit) Entry Point
-> +#
-> +# @64: SMBIOS version 3.0 (64-bit) Entry Point
-> +#
-> +# Since: 6.1
+> On Tue, Oct 26, 2021 at 11:37:19AM +0200, Markus Armbruster wrote:
+>> Kevin Wolf <kwolf@redhat.com> writes:
+>>=20
+>> > Am 25.10.2021 um 07:25 hat Markus Armbruster geschrieben:
+>> >> By convention, names starting with "x-" are experimental.  The parts
+>> >> of external interfaces so named may be withdrawn or changed
+>> >> incompatibly in future releases.
+>> >>=20
+>> >> Drawback: promoting something from experimental to stable involves a
+>> >> name change.  Client code needs to be updated.
+>> >>=20
+>> >> Moreover, the convention is not universally observed:
+>> >>=20
+>> >> * QOM type "input-barrier" has properties "x-origin", "y-origin".
+>> >>   Looks accidental, but it's ABI since 4.2.
+>> >>=20
+>> >> * QOM types "memory-backend-file", "memory-backend-memfd",
+>> >>   "memory-backend-ram", and "memory-backend-epc" have a property
+>> >>   "x-use-canonical-path-for-ramblock-id" that is documented to be
+>> >>   stable despite its name.
+>> >>=20
+>> >> We could document these exceptions, but documentation helps only
+>> >> humans.  We want to recognize "unstable" in code, like "deprecated".
+>> >>=20
+>> >> Replace the convention by a new special feature flag "unstable".  It
+>> >> will be recognized by the QAPI generator, like the existing feature
+>> >> flag "deprecated", and unlike regular feature flags.
+>> >>=20
+>> >> This commit updates documentation and prepares tests.  The next commi=
+t
+>> >> updates the QAPI schema.  The remaining patches update the QAPI
+>> >> generator and wire up -compat policy checking.
+>> >>=20
+>> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> >
+>> > Obviously, replacing the old convention gets rid of the old drawbacks,
+>> > but adds a new one: While using x- makes it very obvious for a human
+>> > user that this is an unstable feature, a feature flag in the schema wi=
+ll
+>> > almost certainly go unnoticed in manual use.
+>>=20
+>> I thought about this, but neglected to put it in writing.  My bad.
+>>=20
+>> Manual use of unstable interfaces is mostly fine.  Human users can adapt
+>> to changing interfaces.  HMP works that way.
+>>=20
+>> Management applications are better off with a feature flag than with a
+>> naming convention we sometimes ignore.
+>
+> We will sometimes ignore/forget the feature flag too though, so I'm
+> not convinced there's much difference there.
 
-6.2, otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+-compat unstable-input=3Dreject,unstable-output=3Dhide should help you stay
+on the straight & narrow :)
 
-> +##
-> +{ 'enum': 'SmbiosEntryPointType',
-> +  'data': [ '32', '64' ] }
-> 
+>> If we want to keep "unstable" obvious to the humans who write such
+>> programs, we can continue to require "x-", in addition to the feature
+>> flag.  We pay for it with renames, and the risk of forgetting to rename
+>> in time (which is what got us the awkward stable
+>> "x-use-canonical-path-for-ramblock-id").  Tradeoff.  I chose not to, but
+>> if y'all think we should...
+>
+> IMHO the renames arguably make life easier for mgmt apps, as they
+> only need to check for the name without the x- prefix, and they
+> know they won't be accidentally using the fature from an older
+> QEMU where it was unstable because the older QEMU had a different
+> name they won't be checking for.
+>
+> We can just as easily forget to remove the "unstable" feature
+> flag, as forget to rename.
+>
+> The plus point about the feature flag is that it is aligned with
+> the "deprecated" feature flag, and potentially aligned with a
+> future "insecure" feature flag.
+
+Yup.
 
 
