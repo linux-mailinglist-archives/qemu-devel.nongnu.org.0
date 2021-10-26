@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA4B943B6FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 18:19:15 +0200 (CEST)
-Received: from localhost ([::1]:51188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B687943B703
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 18:22:20 +0200 (CEST)
+Received: from localhost ([::1]:56830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfPAQ-0006rL-TJ
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 12:19:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58198)
+	id 1mfPDP-0002JX-RJ
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 12:22:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfP0z-00044y-8l
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:09:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49721)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfP0x-0005h4-5N
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:09:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635264566;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PAPMDihZW5bRCjGpFhAQgtPfywXUPobk2P77VKbbT60=;
- b=TAKtAghxBsOjtjOk6uyT+JyDG3EDn3xqamH7L2RmtMo2AbSwNxiQZDGmeUGGH+5VsW8Rvx
- g3qNE9IbAVqqkCdTSWaP6VtJNkXaXKCu7XnHgVLHiUgZJn2gOdhXMspQrO8bVYpmGzEMO0
- lG0Pa1trD+qcp4yfn07F1sT+z2NuyTA=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-ZBPB5yy8MKubXpd-T_Mnww-1; Tue, 26 Oct 2021 12:09:24 -0400
-X-MC-Unique: ZBPB5yy8MKubXpd-T_Mnww-1
-Received: by mail-ua1-f69.google.com with SMTP id
- 60-20020a9f23c2000000b002cb6cb64439so6689541uao.5
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 09:09:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mfP2K-0005kd-3G
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:10:53 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:33564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mfP2I-0003vv-8K
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:10:51 -0400
+Received: by mail-pf1-x433.google.com with SMTP id t184so13025pfd.0
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 09:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TKXPk1mzKW64+n66jLup5c9RHRl72GnttIod5PYjA9c=;
+ b=DtDFRw7sTWwPusfh/WFOA6OmEuhFHJXCSKgAkYlQJBjeCGSiGhZkIXae0LVbnf58i4
+ yqzx/ro7bNtmHLjkLZb0muYl9m+6oXT2HIILRrkYS3JqFyC+N6fOh9KnWAQhvHEsx0hf
+ FqCpq5J4z4mFrDhPWFfPWrQsgkLkIDQ+DWF7bBwNDLyri4sHvLpwUjL/o4ETmvzk2ftq
+ 01QNvI7jMtG1M+7lDm9Mex8HWzKM7UiclCKfXskMO7P2xZqAjyuSbBOaj96EWINU2z3m
+ fbo5RI4W9hjlnW07Wy4Vd0ChJZequel8fphTkRfw1i8y81pEhu53xf8sXa25pDig95tU
+ ERLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PAPMDihZW5bRCjGpFhAQgtPfywXUPobk2P77VKbbT60=;
- b=5vamo2be13kO+jWBd7T2b1U+IQxYeUeF3H7I93wF1ykYM2Um7nUZGQycQS1AsDzWlq
- ePh0bGilWaM7Ced0YDwYDYwuZnpvZ4s7B/p89Kaa2pnIgrmcDNXmtmAsjzmVfYbawZhS
- GD1pORaDrFXuGlm2NkTAZLjBby7GXsb6GvGmJlRlLn2nahN4xZiDCZ6Buc032LX/xcbq
- xN2DVM6A0lhGT/5+ujXpr7Jzuo94oMA8/QjTq6WXiY1RrA4AattQCSLKyMsU9uUnYzDT
- N4fYzxuQKWmJXEM3eIpqEVgpThKhWrk425E0aw0hyFY8QLjrnv4fcinR1RP5KMnrPgky
- fktw==
-X-Gm-Message-State: AOAM5305QfCiBaS7HafYdPx+verSe3xLv8lE3nv05lNbzosaP3ylSmwd
- IuawbDRtB904NDqsITi+nH5OYQwsSjNtZHFbTekvHAlmdoHFwaoKh/UwYbdDfNMHMszDl2Sy3CM
- yVH20KKxw8xKyFxsMtuNHjq4SxmwYfHQ=
-X-Received: by 2002:a67:f685:: with SMTP id n5mr24031514vso.31.1635264563978; 
- Tue, 26 Oct 2021 09:09:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwJ7d8BrEDP/4yFxk4whQk8FrwqzrGF9eXF3ulS/CjOcd+7fo49mnG0IlXlRNJdQjCpAAy99RdkjQzh8TICn70=
-X-Received: by 2002:a67:f685:: with SMTP id n5mr24031472vso.31.1635264563637; 
- Tue, 26 Oct 2021 09:09:23 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TKXPk1mzKW64+n66jLup5c9RHRl72GnttIod5PYjA9c=;
+ b=hcTXUmdlJWPwbw6svckmkvxZ1bkcoCXF2dGdoRyiuZxmax57b49jFnh8/M6D6iac2t
+ Q1ULoYNtI8DH81Y/XtOXy34/DvozbkiB6XysCSnAh6XHYQQ4p/qpUua8BbpCs8p+RWDz
+ kS7R3DPV2uZbMo88PYOdSnHj2oALvPo/4i8Ab+W1pv4yQAT5n5HTBHfqI3XRiUrMc1y+
+ 4xwVQGJv8yUgKbu3dJv/OKdld6Q1qc3CRq8jexnM+g+lfDnQDiozq7XiilWRfOVFjsUV
+ IfgLfA1suN2P00cvTCy2cyb8oja65Js1qBLB0m9eJsffgKfsrT2YWlXQNwB+kJQcfrx6
+ U4VA==
+X-Gm-Message-State: AOAM5306F+KgDe0vf8ZbfZJRXz6DQEZBaIVr1JArvVYlx5MF/JrsEj18
+ oW3//wC6pm7F9mXO2cEZMuXgiQ==
+X-Google-Smtp-Source: ABdhPJxwbu4/VU5BPoBYMw4Skt3A/++muP+9kVLiCcmd/ll6vBgQ6tz2rCRV61S3bnKTkyD8Dy1fpQ==
+X-Received: by 2002:aa7:9043:0:b0:44d:13c7:14a5 with SMTP id
+ n3-20020aa79043000000b0044d13c714a5mr26566194pfo.86.1635264648667; 
+ Tue, 26 Oct 2021 09:10:48 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id w185sm22894637pfb.38.2021.10.26.09.10.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Oct 2021 09:10:48 -0700 (PDT)
+Subject: Re: [PATCH v2] hvf: arm: Ignore cache operations on MMIO
+To: Alexander Graf <agraf@csgraf.de>, Cameron Esfahani <dirty@apple.com>
+References: <20211026071241.74889-1-agraf@csgraf.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <13a13852-4fb4-a0f8-6740-354c8054aed1@linaro.org>
+Date: Tue, 26 Oct 2021 09:10:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211026111023.76937-1-armbru@redhat.com>
- <20211026111023.76937-2-armbru@redhat.com>
-In-Reply-To: <20211026111023.76937-2-armbru@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 26 Oct 2021 12:09:12 -0400
-Message-ID: <CAFn=p-aeUyaaomFkc_WjK-7FkzbvzNgwgs1FDsibeOuOBNt1dw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] docs/devel/qapi-code-gen: Drop a duplicate paragraph
-To: Markus Armbruster <armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000006e01d005cf43b3bc"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20211026071241.74889-1-agraf@csgraf.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.215,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,115 +87,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- mdroth@linux.vnet.ibm.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, kettenis@openbsd.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006e01d005cf43b3bc
-Content-Type: text/plain; charset="UTF-8"
+On 10/26/21 12:12 AM, Alexander Graf wrote:
+> +        if (cm) {
+> +            /* We don't cache MMIO regions */
+> +            advance_pc = true;
+> +            break;
+> +        }
+> +
+>           assert(isv);
 
-On Tue, Oct 26, 2021 at 7:10 AM Markus Armbruster <armbru@redhat.com> wrote:
+The assert should come first.  If the "iss valid" bit is not set, then nothing else in the 
+word is defined.
 
-> Commit 55ec69f8b1 "docs/devel/qapi-code-gen.txt: Update to new rST
-> backend conventions" accidentally duplicated a paragraph.  Drop it.
->
->
-Fixes: 55ec69f8b1
-.... well, on second thought, that backport would have to go backwards
-through a ReST conversion, so ... maybe not. Nevermind.
-
-
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->
-
-Reviewed-by: John Snow <jsnow@redhat.com>
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-> ---
->  docs/devel/qapi-code-gen.rst | 6 ------
->  1 file changed, 6 deletions(-)
->
-> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-> index b2569de486..1f6805a705 100644
-> --- a/docs/devel/qapi-code-gen.rst
-> +++ b/docs/devel/qapi-code-gen.rst
-> @@ -993,12 +993,6 @@ multiline argument descriptions.
->  A 'Since: x.y.z' tagged section lists the release that introduced the
->  definition.
->
-> -The text of a section can start on a new line, in
-> -which case it must not be indented at all.  It can also start
-> -on the same line as the 'Note:', 'Returns:', etc tag.  In this
-> -case if it spans multiple lines then second and subsequent
-> -lines must be indented to match the first.
-> -
->  An 'Example' or 'Examples' section is automatically rendered
->  entirely as literal fixed-width text.  In other sections,
->  the text is formatted, and rST markup can be used.
-> --
-> 2.31.1
->
->
-
---0000000000006e01d005cf43b3bc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 26, 2021 at 7:10 AM Marku=
-s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Comm=
-it 55ec69f8b1 &quot;docs/devel/qapi-code-gen.txt: Update to new rST<br>
-backend conventions&quot; accidentally duplicated a paragraph.=C2=A0 Drop i=
-t.<br>
-<br></blockquote><div><br></div><div>Fixes: 55ec69f8b1</div><div>.... well,=
- on second thought, that backport would have to go backwards through a ReST=
- conversion, so ... maybe not. Nevermind.<br></div><div>=C2=A0</div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">
-Cc: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=3D=
-"_blank">peter.maydell@linaro.org</a>&gt;<br>
-Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" t=
-arget=3D"_blank">armbru@redhat.com</a>&gt;<br></blockquote><div><br></div><=
-div>Reviewed-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@re=
-dhat.com</a>&gt;<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">
----<br>
-=C2=A0docs/devel/qapi-code-gen.rst | 6 ------<br>
-=C2=A01 file changed, 6 deletions(-)<br>
-<br>
-diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst<br=
->
-index b2569de486..1f6805a705 100644<br>
---- a/docs/devel/qapi-code-gen.rst<br>
-+++ b/docs/devel/qapi-code-gen.rst<br>
-@@ -993,12 +993,6 @@ multiline argument descriptions.<br>
-=C2=A0A &#39;Since: x.y.z&#39; tagged section lists the release that introd=
-uced the<br>
-=C2=A0definition.<br>
-<br>
--The text of a section can start on a new line, in<br>
--which case it must not be indented at all.=C2=A0 It can also start<br>
--on the same line as the &#39;Note:&#39;, &#39;Returns:&#39;, etc tag.=C2=
-=A0 In this<br>
--case if it spans multiple lines then second and subsequent<br>
--lines must be indented to match the first.<br>
--<br>
-=C2=A0An &#39;Example&#39; or &#39;Examples&#39; section is automatically r=
-endered<br>
-=C2=A0entirely as literal fixed-width text.=C2=A0 In other sections,<br>
-=C2=A0the text is formatted, and rST markup can be used.<br>
--- <br>
-2.31.1<br>
-<br>
-</blockquote></div></div>
-
---0000000000006e01d005cf43b3bc--
-
+r~
 
