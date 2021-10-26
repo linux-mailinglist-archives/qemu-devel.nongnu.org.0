@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484B443AF3D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 11:40:40 +0200 (CEST)
-Received: from localhost ([::1]:45454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8114543AF46
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 11:43:07 +0200 (CEST)
+Received: from localhost ([::1]:50014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfIwe-0005J9-Ci
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 05:40:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41798)
+	id 1mfIz4-0008UW-Lq
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 05:43:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfIuM-00041w-OI
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 05:38:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50516)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfIuF-0001Eu-4G
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 05:38:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635241085;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=96DriNahY2WIbXrBsJuQEF8oVzbmMedOB6J10uFnqZQ=;
- b=LTNTKkR0DnzjTskIFGP45ge6hqJ6EZzzRNwadNu1Z1UMnbXHsIZc8A3B8jdYilEpLej4qJ
- 4oftVSfld3DHOfn9q1kjc34Eu8RWjMBVJJS8ysHR7P0q11tLmTAb84aNX/0e+kIB/tdw5a
- YVcjSlkm5rQLPMd62QTuFUG0Lqd3ezQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-vgHMLfQmOPatr7Q4Xf2J5w-1; Tue, 26 Oct 2021 05:38:03 -0400
-X-MC-Unique: vgHMLfQmOPatr7Q4Xf2J5w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0E2C10A8E04;
- Tue, 26 Oct 2021 09:38:02 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A4F619724;
- Tue, 26 Oct 2021 09:37:20 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2B62711380A7; Tue, 26 Oct 2021 11:37:19 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 1/9] qapi: New special feature flag "unstable"
-References: <20211025052532.3859634-1-armbru@redhat.com>
- <20211025052532.3859634-2-armbru@redhat.com>
- <YXewOaSDEXJDYV+1@redhat.com>
-Date: Tue, 26 Oct 2021 11:37:19 +0200
-In-Reply-To: <YXewOaSDEXJDYV+1@redhat.com> (Kevin Wolf's message of "Tue, 26
- Oct 2021 09:37:29 +0200")
-Message-ID: <87r1c83z5c.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mfIxw-00075p-59
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 05:41:57 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52963)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mfIxt-00063y-7O
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 05:41:55 -0400
+Received: by mail-wm1-x335.google.com with SMTP id m42so13449247wms.2
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 02:41:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BmMrpYkgE/fWANKuzs5Jq3pS/XyK0/piOHbkSrbmmZU=;
+ b=wvQGtyI78kw9nVM9Vxuzg3QyJMq/9aiy4ldGAHMKdGomIiCg7qV6wDxEbf81rSWemY
+ evjdhYfUYQw8ayFhl4BmjlHUnMm9g43f9qQdFnhhLAKALiOw4V0dGkVGJuDWOyKdXr9N
+ LueAaqqP8/CMHsa9xI3bzJyw/0TrEUH0xlgTUNN/YjnOqQ/EAhRb2OJTHtWFUWe4cb4M
+ 7aorBI7gnjBOupne0P0dGBtt3+0qAcRf1RPhTv/UqGZbcC29cw7O8XWqiE0/W5HyVVcs
+ uWtYPqLaee9fBl8PcFM/665wYNNorNtBt9PiD50xIsx0dYUvQ+gKJW7Ovmz7uzis/gV7
+ ebDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BmMrpYkgE/fWANKuzs5Jq3pS/XyK0/piOHbkSrbmmZU=;
+ b=iYnsbKA+JVv2j6dXy0L6QvQ59dVAmf8YGtD7FI0//2/VJJnyduXnFewIqJZ/Z8/qG6
+ 1O5TMuVtVKgTqdjgQYnD7wYmCjKNSzc07Y236JYRtSVXdB2EolqD5mvOt6SSQ/a+0ZkC
+ c4ki2q0ATPyN77k9EdoCcCp5MtIwZ3R6y1nBc0RQXhkZdeuaZWhFO52DbYcxe0FKBS7e
+ AmSmERFzeA8iJm/SS7rKWj/3PjJZsxUgcfah25H5NOP41Kob//t+6hE9I9x29phop4xs
+ wdOqPqtNPbMd6rTBtrHHZ+Kiwj3lRc9R0kDuoTYGkeyl2Pa+w12e5WETRUYT3m/48rCi
+ Vqlg==
+X-Gm-Message-State: AOAM532LqFMKI3ZQWcgUGzKP2/guHSHVFo0xPrIx35JWsgivSpPtZ5u+
+ eRSGpySoTVJnCDI0TfInViqJcw==
+X-Google-Smtp-Source: ABdhPJyGt/3oBxO4OH//6VrUutrYq+naOY7Ej8ZIdm6gN/Zh7MVuOP/SBN1GHltF8Bp4WR6s5AM9/w==
+X-Received: by 2002:a05:600c:1912:: with SMTP id
+ j18mr7870695wmq.173.1635241311644; 
+ Tue, 26 Oct 2021 02:41:51 -0700 (PDT)
+Received: from localhost.localdomain
+ (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id s3sm71554wmh.30.2021.10.26.02.41.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Oct 2021 02:41:51 -0700 (PDT)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PATCH v2] hw/arm/virt: Rename default_bus_bypass_iommu
+Date: Tue, 26 Oct 2021 10:37:34 +0100
+Message-Id: <20211026093733.2144161-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,72 +83,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, quintela@redhat.com, libvir-list@redhat.com,
- eblake@redhat.com, mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
- jsnow@redhat.com, libguestfs@redhat.com
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+Since commit d8fb7d0969d5 ("vl: switch -M parsing to keyval"), machine
+parameter definitions cannot use underscores, because keyval_dashify()
+transforms them to dashes and the parser doesn't find the parameter.
 
-> Am 25.10.2021 um 07:25 hat Markus Armbruster geschrieben:
->> By convention, names starting with "x-" are experimental.  The parts
->> of external interfaces so named may be withdrawn or changed
->> incompatibly in future releases.
->> 
->> Drawback: promoting something from experimental to stable involves a
->> name change.  Client code needs to be updated.
->> 
->> Moreover, the convention is not universally observed:
->> 
->> * QOM type "input-barrier" has properties "x-origin", "y-origin".
->>   Looks accidental, but it's ABI since 4.2.
->> 
->> * QOM types "memory-backend-file", "memory-backend-memfd",
->>   "memory-backend-ram", and "memory-backend-epc" have a property
->>   "x-use-canonical-path-for-ramblock-id" that is documented to be
->>   stable despite its name.
->> 
->> We could document these exceptions, but documentation helps only
->> humans.  We want to recognize "unstable" in code, like "deprecated".
->> 
->> Replace the convention by a new special feature flag "unstable".  It
->> will be recognized by the QAPI generator, like the existing feature
->> flag "deprecated", and unlike regular feature flags.
->> 
->> This commit updates documentation and prepares tests.  The next commit
->> updates the QAPI schema.  The remaining patches update the QAPI
->> generator and wire up -compat policy checking.
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->
-> Obviously, replacing the old convention gets rid of the old drawbacks,
-> but adds a new one: While using x- makes it very obvious for a human
-> user that this is an unstable feature, a feature flag in the schema will
-> almost certainly go unnoticed in manual use.
+This affects option default_bus_bypass_iommu which was introduced in the
+same release:
 
-I thought about this, but neglected to put it in writing.  My bad.
+$ qemu-system-aarch64 -M virt,default_bus_bypass_iommu=on
+qemu-system-aarch64: Property 'virt-6.1-machine.default-bus-bypass-iommu' not found
 
-Manual use of unstable interfaces is mostly fine.  Human users can adapt
-to changing interfaces.  HMP works that way.
+Rename the parameter to "default-bus-bypass-iommu". Passing
+"default_bus_bypass_iommu" is still valid since the underscore are
+transformed automatically.
 
-Management applications are better off with a feature flag than with a
-naming convention we sometimes ignore.
+Fixes: 6d7a85483a06 ("hw/arm/virt: Add default_bus_bypass_iommu machine option")
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Eric Auger <eric.auger@redhat.com>
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+---
+v2: Resending to be merged separately from the equivalent x86 fix,
+    already queued by Paolo [2]. No change other than added review tag.
+v1: https://lore.kernel.org/qemu-devel/20211013160607.649990-2-jean-philippe@linaro.org/
 
-The most potential for trouble is in between: programs that aren't
-full-fledged management applications.
+[2] https://lore.kernel.org/qemu-devel/55e7387a-4bc0-1743-1013-19c38a6ceb77@redhat.com/
+---
+ hw/arm/virt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-If we want to keep "unstable" obvious to the humans who write such
-programs, we can continue to require "x-", in addition to the feature
-flag.  We pay for it with renames, and the risk of forgetting to rename
-in time (which is what got us the awkward stable
-"x-use-canonical-path-for-ramblock-id").  Tradeoff.  I chose not to, but
-if y'all think we should...
-
-What we can't do, at least not easily, is to use *only* the "x-"
-convention: it is not reliable.  We'd have to add a way to say 'this is
-stable even though the name starts with "x-"'.
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index ca433adb5b..369552ad45 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2737,10 +2737,10 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+                                           "Set the IOMMU type. "
+                                           "Valid values are none and smmuv3");
+ 
+-    object_class_property_add_bool(oc, "default_bus_bypass_iommu",
++    object_class_property_add_bool(oc, "default-bus-bypass-iommu",
+                                    virt_get_default_bus_bypass_iommu,
+                                    virt_set_default_bus_bypass_iommu);
+-    object_class_property_set_description(oc, "default_bus_bypass_iommu",
++    object_class_property_set_description(oc, "default-bus-bypass-iommu",
+                                           "Set on/off to enable/disable "
+                                           "bypass_iommu for default root bus");
+ 
+-- 
+2.33.0
 
 
