@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5299043A949
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 02:33:29 +0200 (CEST)
-Received: from localhost ([::1]:44592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC14643A93C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 02:29:56 +0200 (CEST)
+Received: from localhost ([::1]:39670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfAPA-00043K-Dr
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 20:33:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52334)
+	id 1mfALj-0000CK-T3
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 20:29:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mfAG7-0002c4-6j
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 20:24:07 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:45800)
+ (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mfAG5-0002al-5v
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 20:24:05 -0400
+Received: from mail-oo1-xc2c.google.com ([2607:f8b0:4864:20::c2c]:46771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mfAG0-0008Pr-Rc
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 20:24:06 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id z126so17976037oiz.12
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 17:23:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mfAG1-0008S0-9e
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 20:24:04 -0400
+Received: by mail-oo1-xc2c.google.com with SMTP id
+ d144-20020a4a5296000000b002b6cf3f9aceso3143009oob.13
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 17:24:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9JsOy8CcCoZNFgBiCYFmkzD6EOEwVKEK5bfEl0/UbZ4=;
- b=O0ABBSBn35P+Agb8mCYMhRFQGzOPPP9Mi3aUCqMr6+i/ovidWAaSQ91mIAXE5qyUzc
- Q9e4mZSdtnl5IQyZDs0IE/lYDUfMMnfn00LrTlubksDzxBxJcWsCxOBChH915aOim/Pi
- PNwGfuGM3/9U1rMn/DViSpErl8UXdFsYmIRnk=
+ bh=pgIlmFiuY/+YFZAjUqgNRwaHiZ0uX0nwJ18Im3X5+CI=;
+ b=GfPzvxHbw+SJXx+h8Yrm21y4m73M2EEFnfzMC6SNS4UhAejmouSd+vAsYPut8k9ZZY
+ rXvCeq+kmt9ycFEP7bIteikcTWCl5Sm72K5S2srwGsjRZVnO2s/ptQFVX1RxxDe70YmS
+ ve+jTP4sZSmpWiUbZxDPu6DVGI8/ovtqfVnpI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9JsOy8CcCoZNFgBiCYFmkzD6EOEwVKEK5bfEl0/UbZ4=;
- b=HQvBNE2Q+sU2OsUpazeYwRMuXdh7YaAj1eiN/dsao2x4I5m3zJBTaE+4TCBFye2/sf
- nDCDYBzfPYztA7ZxxGMqCP8DQly+ASv+Bi5rnroMnGtq3IGquXMLhrVNYgjupIuYM16s
- NwMRrLbp4GcidEdm6qSBQii5x0OWpxdnaddwa+6x9kybbh8miUI4lRxhAkpkRx3ZjRBD
- X1TICq6PiUkfmEl3IkxFDFaHyBLH37SnABNmPnagCMmjLahz52AuX+qQ9rJuoYUZ5BGk
- 6FPtaDUzh4wY6cgFdEB0lQSTHXQJoSXAKvhvF537LjJxeAex7XCOfR6s61DgLWSPcXEb
- 3qWw==
-X-Gm-Message-State: AOAM531Ii8xbU4DMF+RLZ+dRwgEhtlPvtyM1TZc/VRDrovzxKpQWj6FE
- OX5jr5y0qLCWrKZ2krkg+GL+tg==
-X-Google-Smtp-Source: ABdhPJw0gEy5mnUcLtYBkb8wqbuy9yAx1FyrbQ07E6z9UH6Bwm6pPYVkYzzX3ZAPkx+FBhG8Lrbh6Q==
-X-Received: by 2002:aca:c156:: with SMTP id r83mr25194978oif.78.1635207839120; 
- Mon, 25 Oct 2021 17:23:59 -0700 (PDT)
+ bh=pgIlmFiuY/+YFZAjUqgNRwaHiZ0uX0nwJ18Im3X5+CI=;
+ b=IVyECvjUv8oA/sxKQSvodIHL7jYBpJXigNq9ZpwQ08kzICClvv9dlxSUPhHQD9CgCt
+ +oGtKtI6bYTZTy2zb5q+i8E0j0Wm/SF/CIb08XXm+xerW8KKJ49Z7lMuA9735vKnJhfC
+ XhYlsGNLZzPLsgw1PcX7DjwvZGnwFVWf+08Tl9s/gMoJuJRpHV1DVwnncKZMjIPCBmeN
+ NghNrQzBVm1FC0oTDpoM0vKaVvHkMY9gYt8pTgR5WB+Jf1rhkI8KtPNtlHTciOvoHHqF
+ ciRBejuSb6cUdYAYcLyweT7hoTV2CV5RlLjbEJQA7AluZXsTnuJ7VPZ4J9l9TkxToVPU
+ /edQ==
+X-Gm-Message-State: AOAM5313cp5iZkPFEl1tSmzvDpAeZY3jFBYFQ4NJq3eycLuhpcvNKW3o
+ RLQyqoz/N4jxYYw6iFz5/XDdf2KZqcE=
+X-Google-Smtp-Source: ABdhPJzMQYFCB6XyXlNjNoCgMb+zZeEYzBS2gQKPxgcdqAVgej/bZdK0ZAupr8ppFoTU1yJkgjy8aQ==
+X-Received: by 2002:a4a:3c07:: with SMTP id d7mr14376066ooa.84.1635207840182; 
+ Mon, 25 Oct 2021 17:24:00 -0700 (PDT)
 Received: from kiwi.bld.corp.google.com (c-67-190-101-114.hsd1.co.comcast.net.
  [67.190.101.114])
- by smtp.gmail.com with ESMTPSA id v24sm3331926oou.45.2021.10.25.17.23.58
+ by smtp.gmail.com with ESMTPSA id v24sm3331926oou.45.2021.10.25.17.23.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 17:23:58 -0700 (PDT)
+ Mon, 25 Oct 2021 17:23:59 -0700 (PDT)
 From: Simon Glass <sjg@chromium.org>
 To: U-Boot Mailing List <u-boot@lists.denx.de>
-Subject: [PATCH v5 06/26] arm: qemu: Add a devicetree file for qemu_arm64
-Date: Mon, 25 Oct 2021 18:23:24 -0600
-Message-Id: <20211026002344.405160-7-sjg@chromium.org>
+Subject: [PATCH v5 07/26] riscv: qemu: Add devicetree files for qemu_riscv32/64
+Date: Mon, 25 Oct 2021 18:23:25 -0600
+Message-Id: <20211026002344.405160-8-sjg@chromium.org>
 X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
 In-Reply-To: <20211026002344.405160-1-sjg@chromium.org>
 References: <20211026002344.405160-1-sjg@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=sjg@chromium.org; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
+ envelope-from=sjg@chromium.org; helo=mail-oo1-xc2c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,440 +79,586 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Rini <trini@konsulko.com>, Albert Aribaud <albert.u.boot@aribaud.net>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>, Simon Glass <sjg@chromium.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, qemu-devel@nongnu.org,
- Sean Anderson <seanga2@gmail.com>, Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
- Mark Kettenis <mark.kettenis@xs4all.nl>
+Cc: Tom Rini <trini@konsulko.com>, Heinrich Schuchardt <xypron.glpk@gmx.de>,
+ Simon Glass <sjg@chromium.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ qemu-devel@nongnu.org, Sean Anderson <seanga2@gmail.com>,
+ Bin Meng <bmeng.cn@gmail.com>, Mark Kettenis <mark.kettenis@xs4all.nl>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add this file, generated from qemu, so there is a reference devicetree
+Add these files, generated from qemu, so there is a reference devicetree
 in the U-Boot tree.
+
+Split the existing qemu-virt into two, since we need a different
+devicetree for 32- and 64-bit machines.
 
 Signed-off-by: Simon Glass <sjg@chromium.org>
 ---
 
 (no changes since v1)
 
- arch/arm/dts/Makefile        |   2 +-
- arch/arm/dts/qemu-arm64.dts  | 381 +++++++++++++++++++++++++++++++++++
- configs/qemu_arm64_defconfig |   1 +
- 3 files changed, 383 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm/dts/qemu-arm64.dts
+ arch/riscv/dts/Makefile              |   2 +-
+ arch/riscv/dts/qemu-virt.dts         |   8 -
+ arch/riscv/dts/qemu-virt32.dts       | 217 +++++++++++++++++++++++++++
+ arch/riscv/dts/qemu-virt64.dts       | 217 +++++++++++++++++++++++++++
+ configs/qemu-riscv32_defconfig       |   1 +
+ configs/qemu-riscv32_smode_defconfig |   1 +
+ configs/qemu-riscv32_spl_defconfig   |   2 +-
+ configs/qemu-riscv64_defconfig       |   1 +
+ configs/qemu-riscv64_smode_defconfig |   1 +
+ configs/qemu-riscv64_spl_defconfig   |   2 +-
+ 10 files changed, 441 insertions(+), 11 deletions(-)
+ delete mode 100644 arch/riscv/dts/qemu-virt.dts
+ create mode 100644 arch/riscv/dts/qemu-virt32.dts
+ create mode 100644 arch/riscv/dts/qemu-virt64.dts
 
-diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index 7ab8b145f3f..e70293bb849 100644
---- a/arch/arm/dts/Makefile
-+++ b/arch/arm/dts/Makefile
-@@ -1153,7 +1153,7 @@ dtb-$(CONFIG_TARGET_IMX8MM_CL_IOT_GATE_OPTEE) += imx8mm-cl-iot-gate-optee.dtb
+diff --git a/arch/riscv/dts/Makefile b/arch/riscv/dts/Makefile
+index b6e9166767b..90d3f35e6e3 100644
+--- a/arch/riscv/dts/Makefile
++++ b/arch/riscv/dts/Makefile
+@@ -2,7 +2,7 @@
  
- dtb-$(CONFIG_TARGET_EA_LPC3250DEVKITV2) += lpc3250-ea3250.dtb
- 
--dtb-$(CONFIG_ARCH_QEMU) += qemu-arm.dtb
-+dtb-$(CONFIG_ARCH_QEMU) += qemu-arm.dtb qemu-arm64.dtb
- 
- targets += $(dtb-y)
- 
-diff --git a/arch/arm/dts/qemu-arm64.dts b/arch/arm/dts/qemu-arm64.dts
+ dtb-$(CONFIG_TARGET_AX25_AE350) += ae350_32.dtb ae350_64.dtb
+ dtb-$(CONFIG_TARGET_MICROCHIP_ICICLE) += microchip-mpfs-icicle-kit.dtb
+-dtb-$(CONFIG_TARGET_QEMU_VIRT) += qemu-virt.dtb
++dtb-$(CONFIG_TARGET_QEMU_VIRT) += qemu-virt32.dtb qemu-virt64.dtb
+ dtb-$(CONFIG_TARGET_OPENPITON_RISCV64) += openpiton-riscv64.dtb
+ dtb-$(CONFIG_TARGET_SIFIVE_UNLEASHED) += hifive-unleashed-a00.dtb
+ dtb-$(CONFIG_TARGET_SIFIVE_UNMATCHED) += hifive-unmatched-a00.dtb
+diff --git a/arch/riscv/dts/qemu-virt.dts b/arch/riscv/dts/qemu-virt.dts
+deleted file mode 100644
+index fecff542b91..00000000000
+--- a/arch/riscv/dts/qemu-virt.dts
++++ /dev/null
+@@ -1,8 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0+
+-/*
+- * Copyright (C) 2021, Bin Meng <bmeng.cn@gmail.com>
+- */
+-
+-/dts-v1/;
+-
+-#include "binman.dtsi"
+diff --git a/arch/riscv/dts/qemu-virt32.dts b/arch/riscv/dts/qemu-virt32.dts
 new file mode 100644
-index 00000000000..7590e49cc84
+index 00000000000..3c449413523
 --- /dev/null
-+++ b/arch/arm/dts/qemu-arm64.dts
-@@ -0,0 +1,381 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
++++ b/arch/riscv/dts/qemu-virt32.dts
+@@ -0,0 +1,217 @@
++// SPDX-License-Identifier: GPL-2.0+
 +/*
-+ * Sample device tree for qemu_arm64
-+
-+ * Copyright 2021 Google LLC
++ * Copyright (C) 2021, Bin Meng <bmeng.cn@gmail.com>
 + */
 +
 +/dts-v1/;
 +
++#include "binman.dtsi"
++
 +/ {
-+	interrupt-parent = <0x8001>;
-+	#size-cells = <0x02>;
 +	#address-cells = <0x02>;
-+	compatible = "linux,dummy-virt";
++	#size-cells = <0x02>;
++	compatible = "riscv-virtio";
++	model = "riscv-virtio,qemu";
 +
-+	psci {
-+		migrate = <0xc4000005>;
-+		cpu_on = <0xc4000003>;
-+		cpu_off = <0x84000002>;
-+		cpu_suspend = <0xc4000001>;
-+		method = "hvc";
-+		compatible = "arm,psci-0.2\0arm,psci";
-+	};
-+
-+	memory@40000000 {
-+		reg = <0x00 0x40000000 0x00 0x8000000>;
-+		device_type = "memory";
-+	};
-+
-+	platform@c000000 {
-+		interrupt-parent = <0x8001>;
-+		ranges = <0x00 0x00 0xc000000 0x2000000>;
-+		#address-cells = <0x01>;
-+		#size-cells = <0x01>;
-+		compatible = "qemu,platform\0simple-bus";
-+	};
-+
-+	fw-cfg@9020000 {
++	fw-cfg@10100000 {
 +		dma-coherent;
-+		reg = <0x00 0x9020000 0x00 0x18>;
++		reg = <0x00 0x10100000 0x00 0x18>;
 +		compatible = "qemu,fw-cfg-mmio";
 +	};
 +
-+	virtio_mmio@a000000 {
-+		dma-coherent;
-+		interrupts = <0x00 0x10 0x01>;
-+		reg = <0x00 0xa000000 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a000200 {
-+		dma-coherent;
-+		interrupts = <0x00 0x11 0x01>;
-+		reg = <0x00 0xa000200 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a000400 {
-+		dma-coherent;
-+		interrupts = <0x00 0x12 0x01>;
-+		reg = <0x00 0xa000400 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a000600 {
-+		dma-coherent;
-+		interrupts = <0x00 0x13 0x01>;
-+		reg = <0x00 0xa000600 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a000800 {
-+		dma-coherent;
-+		interrupts = <0x00 0x14 0x01>;
-+		reg = <0x00 0xa000800 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a000a00 {
-+		dma-coherent;
-+		interrupts = <0x00 0x15 0x01>;
-+		reg = <0x00 0xa000a00 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a000c00 {
-+		dma-coherent;
-+		interrupts = <0x00 0x16 0x01>;
-+		reg = <0x00 0xa000c00 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a000e00 {
-+		dma-coherent;
-+		interrupts = <0x00 0x17 0x01>;
-+		reg = <0x00 0xa000e00 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a001000 {
-+		dma-coherent;
-+		interrupts = <0x00 0x18 0x01>;
-+		reg = <0x00 0xa001000 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a001200 {
-+		dma-coherent;
-+		interrupts = <0x00 0x19 0x01>;
-+		reg = <0x00 0xa001200 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a001400 {
-+		dma-coherent;
-+		interrupts = <0x00 0x1a 0x01>;
-+		reg = <0x00 0xa001400 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a001600 {
-+		dma-coherent;
-+		interrupts = <0x00 0x1b 0x01>;
-+		reg = <0x00 0xa001600 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a001800 {
-+		dma-coherent;
-+		interrupts = <0x00 0x1c 0x01>;
-+		reg = <0x00 0xa001800 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a001a00 {
-+		dma-coherent;
-+		interrupts = <0x00 0x1d 0x01>;
-+		reg = <0x00 0xa001a00 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a001c00 {
-+		dma-coherent;
-+		interrupts = <0x00 0x1e 0x01>;
-+		reg = <0x00 0xa001c00 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a001e00 {
-+		dma-coherent;
-+		interrupts = <0x00 0x1f 0x01>;
-+		reg = <0x00 0xa001e00 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a002000 {
-+		dma-coherent;
-+		interrupts = <0x00 0x20 0x01>;
-+		reg = <0x00 0xa002000 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a002200 {
-+		dma-coherent;
-+		interrupts = <0x00 0x21 0x01>;
-+		reg = <0x00 0xa002200 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a002400 {
-+		dma-coherent;
-+		interrupts = <0x00 0x22 0x01>;
-+		reg = <0x00 0xa002400 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a002600 {
-+		dma-coherent;
-+		interrupts = <0x00 0x23 0x01>;
-+		reg = <0x00 0xa002600 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a002800 {
-+		dma-coherent;
-+		interrupts = <0x00 0x24 0x01>;
-+		reg = <0x00 0xa002800 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a002a00 {
-+		dma-coherent;
-+		interrupts = <0x00 0x25 0x01>;
-+		reg = <0x00 0xa002a00 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a002c00 {
-+		dma-coherent;
-+		interrupts = <0x00 0x26 0x01>;
-+		reg = <0x00 0xa002c00 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a002e00 {
-+		dma-coherent;
-+		interrupts = <0x00 0x27 0x01>;
-+		reg = <0x00 0xa002e00 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a003000 {
-+		dma-coherent;
-+		interrupts = <0x00 0x28 0x01>;
-+		reg = <0x00 0xa003000 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a003200 {
-+		dma-coherent;
-+		interrupts = <0x00 0x29 0x01>;
-+		reg = <0x00 0xa003200 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a003400 {
-+		dma-coherent;
-+		interrupts = <0x00 0x2a 0x01>;
-+		reg = <0x00 0xa003400 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a003600 {
-+		dma-coherent;
-+		interrupts = <0x00 0x2b 0x01>;
-+		reg = <0x00 0xa003600 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a003800 {
-+		dma-coherent;
-+		interrupts = <0x00 0x2c 0x01>;
-+		reg = <0x00 0xa003800 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a003a00 {
-+		dma-coherent;
-+		interrupts = <0x00 0x2d 0x01>;
-+		reg = <0x00 0xa003a00 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a003c00 {
-+		dma-coherent;
-+		interrupts = <0x00 0x2e 0x01>;
-+		reg = <0x00 0xa003c00 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	virtio_mmio@a003e00 {
-+		dma-coherent;
-+		interrupts = <0x00 0x2f 0x01>;
-+		reg = <0x00 0xa003e00 0x00 0x200>;
-+		compatible = "virtio,mmio";
-+	};
-+
-+	pcie@10000000 {
-+		interrupt-map-mask = <0x1800 0x00 0x00 0x07>;
-+		interrupt-map = <0x00 0x00 0x00 0x01 0x8001 0x00 0x00 0x00
-+			0x03 0x04 0x00 0x00 0x00 0x02 0x8001 0x00
-+			0x00 0x00 0x04 0x04 0x00 0x00 0x00 0x03
-+			0x8001 0x00 0x00 0x00 0x05 0x04 0x00 0x00
-+			0x00 0x04 0x8001 0x00 0x00 0x00 0x06 0x04
-+			0x800 0x00 0x00 0x01 0x8001 0x00 0x00 0x00
-+			0x04 0x04 0x800 0x00 0x00 0x02 0x8001 0x00
-+			0x00 0x00 0x05 0x04 0x800 0x00 0x00 0x03
-+			0x8001 0x00 0x00 0x00 0x06 0x04 0x800 0x00
-+			0x00 0x04 0x8001 0x00 0x00 0x00 0x03 0x04
-+			0x1000 0x00 0x00 0x01 0x8001 0x00 0x00 0x00
-+			0x05 0x04 0x1000 0x00 0x00 0x02 0x8001 0x00
-+			0x00 0x00 0x06 0x04 0x1000 0x00 0x00 0x03
-+			0x8001 0x00 0x00 0x00 0x03 0x04 0x1000 0x00
-+			0x00 0x04 0x8001 0x00 0x00 0x00 0x04 0x04
-+			0x1800 0x00 0x00 0x01 0x8001 0x00 0x00 0x00
-+			0x06 0x04 0x1800 0x00 0x00 0x02 0x8001 0x00
-+			0x00 0x00 0x03 0x04 0x1800 0x00 0x00 0x03
-+			0x8001 0x00 0x00 0x00 0x04 0x04 0x1800 0x00
-+			0x00 0x04 0x8001 0x00 0x00 0x00 0x05 0x04>;
-+		#interrupt-cells = <0x01>;
-+		ranges = <0x1000000 0x00 0x00 0x00
-+			0x3eff0000 0x00 0x10000 0x2000000
-+			0x00 0x10000000 0x00 0x10000000
-+			0x00 0x2eff0000 0x3000000 0x80
-+			0x00 0x80 0x00 0x80
-+			0x00>;
-+		reg = <0x40 0x10000000 0x00 0x10000000>;
-+		msi-parent = <0x8002>;
-+		dma-coherent;
-+		bus-range = <0x00 0xff>;
-+		linux,pci-domain = <0x00>;
-+		#size-cells = <0x02>;
-+		#address-cells = <0x03>;
-+		device_type = "pci";
-+		compatible = "pci-host-ecam-generic";
-+	};
-+
-+	pl031@9010000 {
-+		clock-names = "apb_pclk";
-+		clocks = <0x8000>;
-+		interrupts = <0x00 0x02 0x04>;
-+		reg = <0x00 0x9010000 0x00 0x1000>;
-+		compatible = "arm,pl031\0arm,primecell";
-+	};
-+
-+	pl011@9000000 {
-+		clock-names = "uartclk\0apb_pclk";
-+		clocks = <0x8000 0x8000>;
-+		interrupts = <0x00 0x01 0x04>;
-+		reg = <0x00 0x9000000 0x00 0x1000>;
-+		compatible = "arm,pl011\0arm,primecell";
-+	};
-+
-+	pmu {
-+		interrupts = <0x01 0x07 0x104>;
-+		compatible = "arm,armv8-pmuv3";
-+	};
-+
-+	intc@8000000 {
-+		phandle = <0x8001>;
-+		reg = <0x00 0x8000000 0x00 0x10000 0x00 0x8010000 0x00 0x10000>;
-+		compatible = "arm,cortex-a15-gic";
-+		ranges;
-+		#size-cells = <0x02>;
-+		#address-cells = <0x02>;
-+		interrupt-controller;
-+		#interrupt-cells = <0x03>;
-+
-+		v2m@8020000 {
-+			phandle = <0x8002>;
-+			reg = <0x00 0x8020000 0x00 0x1000>;
-+			msi-controller;
-+			compatible = "arm,gic-v2m-frame";
-+		};
-+	};
-+
-+	flash@0 {
++	flash@20000000 {
 +		bank-width = <0x04>;
-+		reg = <0x00 0x00 0x00 0x4000000 0x00 0x4000000 0x00 0x4000000>;
++		reg = <0x00 0x20000000 0x00 0x2000000
++			0x00 0x22000000 0x00 0x2000000>;
 +		compatible = "cfi-flash";
 +	};
 +
++	chosen {
++		bootargs = [00];
++		stdout-path = "/soc/uart@10000000";
++	};
++
++	memory@80000000 {
++		device_type = "memory";
++		reg = <0x00 0x80000000 0x00 0x8000000>;
++	};
++
 +	cpus {
-+		#size-cells = <0x00>;
 +		#address-cells = <0x01>;
++		#size-cells = <0x00>;
++		timebase-frequency = <0x989680>;
 +
 +		cpu@0 {
-+			reg = <0x00>;
-+			compatible = "arm,cortex-a57";
++			phandle = <0x01>;
 +			device_type = "cpu";
++			reg = <0x00>;
++			status = "okay";
++			compatible = "riscv";
++			riscv,isa = "rv32imafdcsu";
++			mmu-type = "riscv,sv32";
++
++			interrupt-controller {
++				#interrupt-cells = <0x01>;
++				interrupt-controller;
++				compatible = "riscv,cpu-intc";
++				phandle = <0x02>;
++			};
++		};
++
++		cpu-map {
++
++			cluster0 {
++
++				core0 {
++					cpu = <0x01>;
++				};
++			};
 +		};
 +	};
 +
-+	timer {
-+		interrupts = <0x01 0x0d 0x104 0x01 0x0e 0x104 0x01 0x0b 0x104 0x01 0x0a 0x104>;
-+		always-on;
-+		compatible = "arm,armv8-timer\0arm,armv7-timer";
++	soc {
++		#address-cells = <0x02>;
++		#size-cells = <0x02>;
++		compatible = "simple-bus";
++		ranges;
++
++		rtc@101000 {
++			interrupts = <0x0b>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x101000 0x00 0x1000>;
++			compatible = "google,goldfish-rtc";
++		};
++
++		uart@10000000 {
++			interrupts = <0x0a>;
++			interrupt-parent = <0x03>;
++			clock-frequency = <0x384000>;
++			reg = <0x00 0x10000000 0x00 0x100>;
++			compatible = "ns16550a";
++		};
++
++		poweroff {
++			value = <0x5555>;
++			offset = <0x00>;
++			regmap = <0x04>;
++			compatible = "syscon-poweroff";
++		};
++
++		reboot {
++			value = <0x7777>;
++			offset = <0x00>;
++			regmap = <0x04>;
++			compatible = "syscon-reboot";
++		};
++
++		test@100000 {
++			phandle = <0x04>;
++			reg = <0x00 0x100000 0x00 0x1000>;
++			compatible = "sifive,test1\0sifive,test0\0syscon";
++		};
++
++		pci@30000000 {
++			interrupt-map-mask = <0x1800 0x00 0x00 0x07>;
++			interrupt-map = <0x00 0x00 0x00 0x01 0x03 0x20 0x00 0x00
++				0x00 0x02 0x03 0x21 0x00 0x00 0x00 0x03
++				0x03 0x22 0x00 0x00 0x00 0x04 0x03 0x23
++				0x800 0x00 0x00 0x01 0x03 0x21 0x800 0x00
++				0x00 0x02 0x03 0x22 0x800 0x00 0x00 0x03
++				0x03 0x23 0x800 0x00 0x00 0x04 0x03 0x20
++				0x1000 0x00 0x00 0x01 0x03 0x22 0x1000 0x00
++				0x00 0x02 0x03 0x23 0x1000 0x00 0x00 0x03
++				0x03 0x20 0x1000 0x00 0x00 0x04 0x03 0x21
++				0x1800 0x00 0x00 0x01 0x03 0x23 0x1800 0x00
++				0x00 0x02 0x03 0x20 0x1800 0x00 0x00 0x03
++				0x03 0x21 0x1800 0x00 0x00 0x04 0x03 0x22>;
++			ranges = <0x1000000 0x00 0x00 0x00
++				0x3000000 0x00 0x10000 0x2000000
++				0x00 0x40000000 0x00 0x40000000
++				0x00 0x40000000 0x3000000 0x03
++				0x00 0x03 0x00 0x01
++				0x00>;
++			reg = <0x00 0x30000000 0x00 0x10000000>;
++			dma-coherent;
++			bus-range = <0x00 0xff>;
++			linux,pci-domain = <0x00>;
++			device_type = "pci";
++			compatible = "pci-host-ecam-generic";
++			#size-cells = <0x02>;
++			#interrupt-cells = <0x01>;
++			#address-cells = <0x03>;
++		};
++
++		virtio_mmio@10008000 {
++			interrupts = <0x08>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10008000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10007000 {
++			interrupts = <0x07>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10007000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10006000 {
++			interrupts = <0x06>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10006000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10005000 {
++			interrupts = <0x05>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10005000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10004000 {
++			interrupts = <0x04>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10004000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10003000 {
++			interrupts = <0x03>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10003000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10002000 {
++			interrupts = <0x02>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10002000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10001000 {
++			interrupts = <0x01>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10001000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		plic@c000000 {
++			phandle = <0x03>;
++			riscv,ndev = <0x35>;
++			reg = <0x00 0xc000000 0x00 0x210000>;
++			interrupts-extended = <0x02 0x0b 0x02 0x09>;
++			interrupt-controller;
++			compatible = "sifive,plic-1.0.0\0riscv,plic0";
++			#interrupt-cells = <0x01>;
++			#address-cells = <0x00>;
++		};
++
++		clint@2000000 {
++			interrupts-extended = <0x02 0x03 0x02 0x07>;
++			reg = <0x00 0x2000000 0x00 0x10000>;
++			compatible = "sifive,clint0\0riscv,clint0";
++		};
++	};
++};
+diff --git a/arch/riscv/dts/qemu-virt64.dts b/arch/riscv/dts/qemu-virt64.dts
+new file mode 100644
+index 00000000000..61bc084e280
+--- /dev/null
++++ b/arch/riscv/dts/qemu-virt64.dts
+@@ -0,0 +1,217 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright (C) 2021, Bin Meng <bmeng.cn@gmail.com>
++ */
++
++/dts-v1/;
++
++#include "binman.dtsi"
++
++/ {
++	#address-cells = <0x02>;
++	#size-cells = <0x02>;
++	compatible = "riscv-virtio";
++	model = "riscv-virtio,qemu";
++
++	fw-cfg@10100000 {
++		dma-coherent;
++		reg = <0x00 0x10100000 0x00 0x18>;
++		compatible = "qemu,fw-cfg-mmio";
 +	};
 +
-+	apb-pclk {
-+		phandle = <0x8000>;
-+		clock-output-names = "clk24mhz";
-+		clock-frequency = <0x16e3600>;
-+		#clock-cells = <0x00>;
-+		compatible = "fixed-clock";
++	flash@20000000 {
++		bank-width = <0x04>;
++		reg = <0x00 0x20000000 0x00 0x2000000
++			0x00 0x22000000 0x00 0x2000000>;
++		compatible = "cfi-flash";
 +	};
 +
 +	chosen {
-+		stdout-path = "/pl011@9000000";
++		bootargs = [00];
++		stdout-path = "/soc/uart@10000000";
++	};
++
++	memory@80000000 {
++		device_type = "memory";
++		reg = <0x00 0x80000000 0x00 0x8000000>;
++	};
++
++	cpus {
++		#address-cells = <0x01>;
++		#size-cells = <0x00>;
++		timebase-frequency = <0x989680>;
++
++		cpu@0 {
++			phandle = <0x01>;
++			device_type = "cpu";
++			reg = <0x00>;
++			status = "okay";
++			compatible = "riscv";
++			riscv,isa = "rv64imafdcsu";
++			mmu-type = "riscv,sv48";
++
++			interrupt-controller {
++				#interrupt-cells = <0x01>;
++				interrupt-controller;
++				compatible = "riscv,cpu-intc";
++				phandle = <0x02>;
++			};
++		};
++
++		cpu-map {
++
++			cluster0 {
++
++				core0 {
++					cpu = <0x01>;
++				};
++			};
++		};
++	};
++
++	soc {
++		#address-cells = <0x02>;
++		#size-cells = <0x02>;
++		compatible = "simple-bus";
++		ranges;
++
++		rtc@101000 {
++			interrupts = <0x0b>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x101000 0x00 0x1000>;
++			compatible = "google,goldfish-rtc";
++		};
++
++		uart@10000000 {
++			interrupts = <0x0a>;
++			interrupt-parent = <0x03>;
++			clock-frequency = <0x384000>;
++			reg = <0x00 0x10000000 0x00 0x100>;
++			compatible = "ns16550a";
++		};
++
++		poweroff {
++			value = <0x5555>;
++			offset = <0x00>;
++			regmap = <0x04>;
++			compatible = "syscon-poweroff";
++		};
++
++		reboot {
++			value = <0x7777>;
++			offset = <0x00>;
++			regmap = <0x04>;
++			compatible = "syscon-reboot";
++		};
++
++		test@100000 {
++			phandle = <0x04>;
++			reg = <0x00 0x100000 0x00 0x1000>;
++			compatible = "sifive,test1\0sifive,test0\0syscon";
++		};
++
++		pci@30000000 {
++			interrupt-map-mask = <0x1800 0x00 0x00 0x07>;
++			interrupt-map = <0x00 0x00 0x00 0x01 0x03 0x20 0x00 0x00
++				0x00 0x02 0x03 0x21 0x00 0x00 0x00 0x03
++				0x03 0x22 0x00 0x00 0x00 0x04 0x03 0x23
++				0x800 0x00 0x00 0x01 0x03 0x21 0x800 0x00
++				0x00 0x02 0x03 0x22 0x800 0x00 0x00 0x03
++				0x03 0x23 0x800 0x00 0x00 0x04 0x03 0x20
++				0x1000 0x00 0x00 0x01 0x03 0x22 0x1000 0x00
++				0x00 0x02 0x03 0x23 0x1000 0x00 0x00 0x03
++				0x03 0x20 0x1000 0x00 0x00 0x04 0x03 0x21
++				0x1800 0x00 0x00 0x01 0x03 0x23 0x1800 0x00
++				0x00 0x02 0x03 0x20 0x1800 0x00 0x00 0x03
++				0x03 0x21 0x1800 0x00 0x00 0x04 0x03 0x22>;
++			ranges = <0x1000000 0x00 0x00 0x00
++				0x3000000 0x00 0x10000 0x2000000
++				0x00 0x40000000 0x00 0x40000000
++				0x00 0x40000000 0x3000000 0x03
++				0x00 0x03 0x00 0x01
++				0x00>;
++			reg = <0x00 0x30000000 0x00 0x10000000>;
++			dma-coherent;
++			bus-range = <0x00 0xff>;
++			linux,pci-domain = <0x00>;
++			device_type = "pci";
++			compatible = "pci-host-ecam-generic";
++			#size-cells = <0x02>;
++			#interrupt-cells = <0x01>;
++			#address-cells = <0x03>;
++		};
++
++		virtio_mmio@10008000 {
++			interrupts = <0x08>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10008000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10007000 {
++			interrupts = <0x07>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10007000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10006000 {
++			interrupts = <0x06>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10006000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10005000 {
++			interrupts = <0x05>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10005000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10004000 {
++			interrupts = <0x04>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10004000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10003000 {
++			interrupts = <0x03>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10003000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10002000 {
++			interrupts = <0x02>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10002000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		virtio_mmio@10001000 {
++			interrupts = <0x01>;
++			interrupt-parent = <0x03>;
++			reg = <0x00 0x10001000 0x00 0x1000>;
++			compatible = "virtio,mmio";
++		};
++
++		plic@c000000 {
++			phandle = <0x03>;
++			riscv,ndev = <0x35>;
++			reg = <0x00 0xc000000 0x00 0x210000>;
++			interrupts-extended = <0x02 0x0b 0x02 0x09>;
++			interrupt-controller;
++			compatible = "sifive,plic-1.0.0\0riscv,plic0";
++			#interrupt-cells = <0x01>;
++			#address-cells = <0x00>;
++		};
++
++		clint@2000000 {
++			interrupts-extended = <0x02 0x03 0x02 0x07>;
++			reg = <0x00 0x2000000 0x00 0x10000>;
++			compatible = "sifive,clint0\0riscv,clint0";
++		};
 +	};
 +};
-diff --git a/configs/qemu_arm64_defconfig b/configs/qemu_arm64_defconfig
-index cf5a03e8a2f..e51ce5c799f 100644
---- a/configs/qemu_arm64_defconfig
-+++ b/configs/qemu_arm64_defconfig
-@@ -5,6 +5,7 @@ CONFIG_NR_DRAM_BANKS=1
- CONFIG_ENV_SIZE=0x40000
- CONFIG_ENV_SECT_SIZE=0x40000
- CONFIG_SYS_MALLOC_LEN=0x1000000
-+CONFIG_DEFAULT_DEVICE_TREE="qemu-arm64"
- CONFIG_AHCI=y
+diff --git a/configs/qemu-riscv32_defconfig b/configs/qemu-riscv32_defconfig
+index e77e3ed53a0..54953cd347b 100644
+--- a/configs/qemu-riscv32_defconfig
++++ b/configs/qemu-riscv32_defconfig
+@@ -2,6 +2,7 @@ CONFIG_RISCV=y
+ CONFIG_NR_DRAM_BANKS=1
+ CONFIG_ENV_SIZE=0x20000
+ CONFIG_SYS_MALLOC_LEN=0x800000
++CONFIG_DEFAULT_DEVICE_TREE="qemu-virt32"
+ CONFIG_TARGET_QEMU_VIRT=y
  CONFIG_DISTRO_DEFAULTS=y
- CONFIG_SYS_LOAD_ADDR=0x40200000
+ CONFIG_SYS_LOAD_ADDR=0x80200000
+diff --git a/configs/qemu-riscv32_smode_defconfig b/configs/qemu-riscv32_smode_defconfig
+index 03787416f10..21ee08a643e 100644
+--- a/configs/qemu-riscv32_smode_defconfig
++++ b/configs/qemu-riscv32_smode_defconfig
+@@ -2,6 +2,7 @@ CONFIG_RISCV=y
+ CONFIG_NR_DRAM_BANKS=1
+ CONFIG_ENV_SIZE=0x20000
+ CONFIG_SYS_MALLOC_LEN=0x800000
++CONFIG_DEFAULT_DEVICE_TREE="qemu-virt32"
+ CONFIG_TARGET_QEMU_VIRT=y
+ CONFIG_RISCV_SMODE=y
+ CONFIG_DISTRO_DEFAULTS=y
+diff --git a/configs/qemu-riscv32_spl_defconfig b/configs/qemu-riscv32_spl_defconfig
+index b0e655be416..3909c9a15ad 100644
+--- a/configs/qemu-riscv32_spl_defconfig
++++ b/configs/qemu-riscv32_spl_defconfig
+@@ -2,7 +2,7 @@ CONFIG_RISCV=y
+ CONFIG_NR_DRAM_BANKS=1
+ CONFIG_ENV_SIZE=0x20000
+ CONFIG_SYS_MALLOC_LEN=0x800000
+-CONFIG_DEFAULT_DEVICE_TREE="qemu-virt"
++CONFIG_DEFAULT_DEVICE_TREE="qemu-virt32"
+ CONFIG_SPL=y
+ CONFIG_TARGET_QEMU_VIRT=y
+ CONFIG_RISCV_SMODE=y
+diff --git a/configs/qemu-riscv64_defconfig b/configs/qemu-riscv64_defconfig
+index 1f8dc2d2053..303ad2d5f39 100644
+--- a/configs/qemu-riscv64_defconfig
++++ b/configs/qemu-riscv64_defconfig
+@@ -2,6 +2,7 @@ CONFIG_RISCV=y
+ CONFIG_NR_DRAM_BANKS=1
+ CONFIG_ENV_SIZE=0x20000
+ CONFIG_SYS_MALLOC_LEN=0x800000
++CONFIG_DEFAULT_DEVICE_TREE="qemu-virt64"
+ CONFIG_TARGET_QEMU_VIRT=y
+ CONFIG_ARCH_RV64I=y
+ CONFIG_DISTRO_DEFAULTS=y
+diff --git a/configs/qemu-riscv64_smode_defconfig b/configs/qemu-riscv64_smode_defconfig
+index bdcec1fdaba..62cdf91699f 100644
+--- a/configs/qemu-riscv64_smode_defconfig
++++ b/configs/qemu-riscv64_smode_defconfig
+@@ -2,6 +2,7 @@ CONFIG_RISCV=y
+ CONFIG_NR_DRAM_BANKS=1
+ CONFIG_ENV_SIZE=0x20000
+ CONFIG_SYS_MALLOC_LEN=0x800000
++CONFIG_DEFAULT_DEVICE_TREE="qemu-virt64"
+ CONFIG_TARGET_QEMU_VIRT=y
+ CONFIG_ARCH_RV64I=y
+ CONFIG_RISCV_SMODE=y
+diff --git a/configs/qemu-riscv64_spl_defconfig b/configs/qemu-riscv64_spl_defconfig
+index 9745c1a586a..34d88da41b0 100644
+--- a/configs/qemu-riscv64_spl_defconfig
++++ b/configs/qemu-riscv64_spl_defconfig
+@@ -2,7 +2,7 @@ CONFIG_RISCV=y
+ CONFIG_NR_DRAM_BANKS=1
+ CONFIG_ENV_SIZE=0x20000
+ CONFIG_SYS_MALLOC_LEN=0x800000
+-CONFIG_DEFAULT_DEVICE_TREE="qemu-virt"
++CONFIG_DEFAULT_DEVICE_TREE="qemu-virt64"
+ CONFIG_SPL=y
+ CONFIG_TARGET_QEMU_VIRT=y
+ CONFIG_ARCH_RV64I=y
 -- 
 2.33.0.1079.g6e70778dc9-goog
 
