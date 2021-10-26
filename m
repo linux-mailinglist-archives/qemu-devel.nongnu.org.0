@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B8143B322
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 15:24:38 +0200 (CEST)
-Received: from localhost ([::1]:36642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC23743B335
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 15:33:12 +0200 (CEST)
+Received: from localhost ([::1]:47150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfMRQ-00056P-SJ
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 09:24:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34778)
+	id 1mfMZj-0004Ek-Ec
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 09:33:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mfMPv-0004Gl-UG
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 09:23:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31553)
+ id 1mfMWv-0002pQ-Cj
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 09:30:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mfMPs-0004ke-PK
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 09:23:02 -0400
+ id 1mfMWs-0005ni-08
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 09:30:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635254576;
+ s=mimecast20190719; t=1635255012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LqJnhxCI0nLhXnzMdktkaPsan3lfV/eGj5V7gvoxlCw=;
- b=iSOCftpPCCXuyHd/gsCMcwT4u5l8WXUq59BnPyw/BcEnFDgp42wp4+73Fpnrl6M8+ryt3K
- TI1of0t6xvY4A44TayZXYFwxDsEFd7Aqa6KKeZQn/u3Gqrygm7UxJVN1TiuabaYKDwsqx3
- VhgkcKaPl7QayZDeLOkf1colq3AHN3g=
+ bh=ZqEu0SeUInyUrcY4Twe704Ja3bO16BF0Wf0EeoL2QiU=;
+ b=A21RcuuyFhCOsAiEkGXUg/OEQ8RyXvSg+iQfO8W8bLKLEZQfsxGyPIOz6b7xaPWTI3R4Tn
+ TBQ3qB0jU/9wgIdxjazrabdDc46V0Kr7Vz+MYNtbcZZtRJ3OOeB5MJ4iJKEUpi8IlRktqS
+ gydSZLXTwi+4CTr7GNUFEO6yXsmE68Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-_J9hRjRrMfGVLF9KmL0EBg-1; Tue, 26 Oct 2021 09:22:54 -0400
-X-MC-Unique: _J9hRjRrMfGVLF9KmL0EBg-1
+ us-mta-208-P3Rk9Yl-O--wfWp3c4zIqg-1; Tue, 26 Oct 2021 09:30:08 -0400
+X-MC-Unique: P3Rk9Yl-O--wfWp3c4zIqg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7692A100B7A1;
- Tue, 26 Oct 2021 13:22:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A14DE8144EA;
+ Tue, 26 Oct 2021 13:30:02 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8DCF760241;
- Tue, 26 Oct 2021 13:22:11 +0000 (UTC)
-Date: Tue, 26 Oct 2021 14:22:10 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B93E860FFD;
+ Tue, 26 Oct 2021 13:30:01 +0000 (UTC)
+Date: Tue, 26 Oct 2021 14:30:00 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Warner Losh <imp@bsdimp.com>
-Subject: Re: [RFC 0/2] tls: add macros for coroutine-safe TLS variables
-Message-ID: <YXgBArG7wRi+hpMx@stefanha-x1.localdomain>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [RFC 1/2] tls: add macros for coroutine-safe TLS variables
+Message-ID: <YXgC2N+sc76WNhLE@stefanha-x1.localdomain>
 References: <20211025140716.166971-1-stefanha@redhat.com>
- <2ca9c094-61e6-54b8-89a8-6dad22514c96@linaro.org>
- <CANCZdfr5TAUYeZaRrm0TM-iEaV+BNwWw_JTUHbcr5QwPWhO0iQ@mail.gmail.com>
+ <20211025140716.166971-2-stefanha@redhat.com>
+ <fea06711-f4dd-9932-5b2d-06a408c7adf6@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CANCZdfr5TAUYeZaRrm0TM-iEaV+BNwWw_JTUHbcr5QwPWhO0iQ@mail.gmail.com>
+In-Reply-To: <fea06711-f4dd-9932-5b2d-06a408c7adf6@linaro.org>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="eex7utyf1FFv/kMX"
+ protocol="application/pgp-signature"; boundary="JvPs4EL5PdP3A9jS"
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -80,98 +80,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fweimer@redhat.com, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Fam Zheng <fam@euphon.net>,
+Cc: fweimer@redhat.com, Kevin Wolf <kwolf@redhat.com>, thuth@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>,
  sguelton@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---eex7utyf1FFv/kMX
+--JvPs4EL5PdP3A9jS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 25, 2021 at 05:27:29PM -0600, Warner Losh wrote:
-> On Mon, Oct 25, 2021 at 10:18 AM Richard Henderson <
-> richard.henderson@linaro.org> wrote:
+On Mon, Oct 25, 2021 at 10:19:04AM -0700, Richard Henderson wrote:
+> On 10/25/21 7:07 AM, Stefan Hajnoczi wrote:
+> > Compiler optimizations can cache TLS values across coroutine yield
+> > points, resulting in stale values from the previous thread when a
+> > coroutine is re-entered by a new thread.
+> ...
+> >   include/qemu/tls.h | 142 ++++++++++++++++++++++++++++++++++++++++++++=
++
 >=20
-> > On 10/25/21 7:07 AM, Stefan Hajnoczi wrote:
-> > > This is a preview of how we can solve the coroutines TLS problem.
-> > Coroutines
-> > > re-entered from another thread sometimes see stale TLS values. This
-> > happens
-> > > because compilers may cache values across yield points, so a value fr=
-om
-> > the
-> > > previous thread will be used when the coroutine is re-entered in anot=
-her
-> > > thread.
-> >
-> > I'm not thrilled by this, but I guess it does work.
-> >
-> > It could be worthwhile to add some inline asm instead for specific host=
-s
-> > -- one
-> > instruction instead of an out-of-line call.
-> >
-> >
-> > > Serge Guelton developed this technique, see the first patch for detai=
-ls.
-> > I'm
-> > > submitting it for discussion before I go ahead with a full conversion=
- of
-> > the
-> > > source tree.
-> > >
-> > > Todo:
-> > > - Convert all uses of __thread
-> > > - Extend checkpatch.pl to reject code that uses __thread
-> >
-> > Absolutely not.  *Perhaps* one or two tls variables which are accessibl=
-e
-> > by coroutines,
-> > but there are plenty that have absolutely no relation.  Especially
-> > everything related to
-> > user-only execution.
-> >
+> Better as qemu/coroutine-tls.h, since it is needed for no other purpose.
 >=20
-> I had the same worry. I'd also worry that the hoops that are jumped throu=
-gh
-> for
-> coroutines would somehow conflict with the low-level user-only execution
-> environment. I mean, it should be fine, but I know I'd be cranky if I tra=
-ced
-> obscure regressions to being forced to use this construct...
+> > +#define QEMU_DEFINE_TLS(type, var) \
+> > +    __thread type qemu_tls_##var; \
+> > +    type get_##var(void) { return qemu_tls_##var; } \
+> > +    void set_##var(type v) { qemu_tls_##var =3D v; }
+>=20
+> You might as well make the variable static, since it may only be referenc=
+ed
+> by these two functions.
 
-I have the opposite worry:
+Oops, that's a bug. It should be declared extern. QEMU_DEFINE_TLS() is
+meant for use in header files.
 
-If "safe" TLS variables are opt-in then we'll likely have obscure bugs
-when code changes to access a TLS variable that was previously never
-accessed from a coroutine. There is no compiler error and no way to
-detect this. When it happens debugging it is painful.
+>=20
+> > +#define QEMU_DEFINE_STATIC_TLS(type, var) \
+> > +    static __thread type qemu_tls_##var; \
+> > +    static __attribute__((noinline)) type get_##var(void); \
+> > +    static type get_##var(void) { return qemu_tls_##var; } \
+> > +    static __attribute__((noinline)) void set_##var(type v); \
+> > +    static void set_##var(type v) { qemu_tls_##var =3D v; }
+>=20
+> You don't need separate function declarations; you can fold them together=
+.
+>=20
+> If would be nice to inline this when possible,
+>=20
+> #if defined(__aarch64__)
+> #define QEMU_COROUTINE_TLS_ADDR(RET, VAR)                       \
+>     asm volatile("mrs %0, tpidr_el0\n\t"                        \
+>                  "add %0, %0, #:tprel_hi12:"#VAR", lsl #12\n\t" \
+>                  "add %0, %0, #:tprel_lo12_nc:"#VAR             \
+>                  : "=3Dr"(RET))
+> #elif defined(__powerpc64__)
+> #define QEMU_COROUTINE_TLS_ADDR(RET, VAR)                       \
+>     asm volatile("addis %0,13,"#VAR"@tprel@ha\n\t"              \
+>                  "add   %0,%0,"#VAR"@tprel@l"                   \
+>                  : "=3Dr"(RET))
+> #elif defined(__riscv)
+> #define QEMU_COROUTINE_TLS_ADDR(RET, VAR)                       \
+>     asm volatile("lui  %0,%%tprel_hi("#VAR")\n\t"               \
+>                  "add  %0,%0,%%tprel_add("#VAR")\n\t"           \
+>                  "addi %0,%0,%%tprel_lo("#VAR")"                \
+>                  : "=3Dr"(RET))
+> #elif defined(__x86_64__)
+> #define QEMU_COROUTINE_TLS_ADDR(RET, VAR)                       \
+>     asm volatile("mov %%fs:"#VAR"@tpoff, %0" : "=3Dr"(RET))
+> #endif
+>=20
+> #ifdef QEMU_COROUTINE_TLS_ADDR
+> #define QEMU_COROUTINE_TLS_DECLARE(TYPE, VAR)                   \
+>     extern __thread TYPE co_tls_##VAR;                          \
+>     static inline TYPE get_##VAR(void)                          \
+>     { TYPE *p; QEMU_COROUTINE_TLS_ADDR(p, co_tls_##VAR); return *p; } \
+>     static inline void set_##VAR(TYPE v)                        \
+>     { TYPE *p; QEMU_COROUTINE_TLS_ADDR(p, co_tls_##VAR); *p =3D v; }
+> #else
+>     etc
+> #endif
 
-That's why I think all __thread variables should be converted.
+Nice. That makes me wonder if it's possible to write a portable version:
+
+  static inline TYPE get_##VAR(void) \
+  { volatile TYPE *p =3D &co_tls_##VAR; return *p; }
+
+But the trouble is we need &co_tls_##VAR to be "volatile" and I don't
+think there is a way to express that?
 
 Stefan
 
---eex7utyf1FFv/kMX
+--JvPs4EL5PdP3A9jS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmF4AQIACgkQnKSrs4Gr
-c8jLYQf/Zwvu1/O5Y9cJg2XZpjd/7i/tIOe7JbLLlFz8crmPEJwFCkfjwDSL8Wbe
-f/XjXKdr3beu5urtakB/Vv/94SS145ZkX4s6WD3I/mYJHh6KwAPgvXOIgU8dFjgS
-SJsZrZ3qEHVDAPbALXHDFe10hPB3gazUVCcREf/Hd+0oUXguqgpqbnHVgDsTrxQz
-WDUpDFZVNQWO9khr19kIjmtHAI+9iw5f/iNvcfaAauFjPfFhQz8a0aMOOS8zNsgp
-7f1vJ1PWFM99Gb/NAUNKKG7ZmXHMGEJYOcjqQFfgZPGZGFigDzhDxRaqfDLSwYj2
-TGg4D+JXljWjnFuaphnL07GlddXi3g==
-=Q1qg
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmF4AtgACgkQnKSrs4Gr
+c8hrNggAsKRQXpIwzSn/9X07ao+Ci4Zxl+zJmDsGYON+771V5RB6hS6wgGVRka7q
+8Mb6NTNFay5Rmr+jrJGpAghTi0k03amZlSUQCsGOIPhfMFyRinaS6xB5cYr/NWg3
+5AU0+K8E+lHdIppmv33fvrvXgCu/rDMdjof96d0SlAoJpP5Q3Uhh4jBVmd7N/lRS
+Q+zJoKgfHi9ojEK2kVPHz3GpAYfGfQquLJKWyFWeYEgT1MhgzdQ6S28RxnYKeYMA
+ixkSeyDtq+k2qjegr2/ct4RHCsq4aJD6xn42l5U5oiDth24a0v5dV4Dx680ULRWJ
+rmsrq/i48jUNL+ZYaX4QoAbiGQiAHg==
+=eJrE
 -----END PGP SIGNATURE-----
 
---eex7utyf1FFv/kMX--
+--JvPs4EL5PdP3A9jS--
 
 
