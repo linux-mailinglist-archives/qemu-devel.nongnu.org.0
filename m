@@ -2,91 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D413E43B7E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 19:04:48 +0200 (CEST)
-Received: from localhost ([::1]:59950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F41E43B7E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 19:05:20 +0200 (CEST)
+Received: from localhost ([::1]:33256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfPsV-00030e-VL
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 13:04:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41072)
+	id 1mfPt1-00043u-Do
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 13:05:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfPpO-0000OP-JW
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:01:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46577)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mfPqD-0001DN-Du
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:02:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfPpK-0003OW-Sr
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:01:32 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mfPqB-0003ZN-BI
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:02:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635267688;
+ s=mimecast20190719; t=1635267742;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4WKOHd7UJzBB/JaRWgcUVILjBf4/3B0fkgSRHuHpgsg=;
- b=HNyh4NaRYhNTk8QnJojXLjD7kVS2B5WkJzGYjbA8C4O32VTYm7zBBksrBY9t6oOpze796a
- jqO2vJNrd/WA5F0fGQveJfJQBVfWrb2KTyu4era/YJ6kFl6T1tXYtrs6OKGqdJEXwLGp/K
- 2NWHVnTrkhw7cKJnxnVjmNS6dN3ioaM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-f7qWB5jLOXOJ4FS2ugf94Q-1; Tue, 26 Oct 2021 13:01:27 -0400
-X-MC-Unique: f7qWB5jLOXOJ4FS2ugf94Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v18-20020a7bcb52000000b00322fea1d5b7so1191194wmj.9
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 10:01:27 -0700 (PDT)
+ bh=WhtluN/XirUhu/E7Z/YCKpa/MlfNCnzJk2txJvVjccA=;
+ b=UnJEKBI/FVcqAaORh00u84eI0esYBKre2+4PAv9+Tp1RY5K0jLx0QdA7rk+/GYIs5mtKkF
+ 4A28Bw6MipjuQHGASlM2V5L6CG5w3B1sLO4AvyMR7MgONR8fd1fCO52MtsTC8e1osSyn0N
+ Rk5wo61CHxDBPCPsImwq9z5Hw5wh7Uo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-4ZSKOBHPPP-CuxKMmOTFcg-1; Tue, 26 Oct 2021 13:02:20 -0400
+X-MC-Unique: 4ZSKOBHPPP-CuxKMmOTFcg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ b197-20020a1c1bce000000b0032ca040eb40so1224883wmb.7
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 10:02:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4WKOHd7UJzBB/JaRWgcUVILjBf4/3B0fkgSRHuHpgsg=;
- b=nhCsJ4oS4kP6AU58f/uS+OyCkg6O4Sv4Yf3Hqo59B6vAe7kem9QMukSjrkBSUO3UTd
- VjoLuXAbP2VLRjImUt028PCBcVY1ijAiiVdIDM/10VOjafmMxfZB/xrksnSR+d9scvpL
- SfKOBakw/W6zBJ3IaSBZl5qrnpNfxMBTg8t2pqcvt8vyJSgvnRHUKitIZX3ceRc0E0nC
- K/uPQmi2gVi4UgV+cwxQ3NPvcTd/3+D45iJ0wh5WB97UsosuLMZSDe7ECmnr41xTEVem
- hMf9ekE/Kd4FHpYHQgTYE6U+7ztda79KmyGvCSP6P2rdX8KREZWHjeVOZGAuM/T+fqma
- Uu7g==
-X-Gm-Message-State: AOAM533PnfBQuVJ/Z928YalogKb4H4t1g9GQmiKX2KLPnmYlkikU/nyx
- NQNaPqjTb4GW6CXo90yPOoW1nX0LvN3m49BBdR+tO/xsWLAbK/IsOyneL4EsGjuscuDm58UPfMn
- 6CidGtJKe6rgzDn4=
-X-Received: by 2002:adf:fe0b:: with SMTP id n11mr34158537wrr.371.1635267686472; 
- Tue, 26 Oct 2021 10:01:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzO34TQZJ0XkVxFg5CZE3s+eBRSasIiDE6uEhFB/zXP8OsDXBdhKvM6UITaM5FxFKE/12sQcQ==
-X-Received: by 2002:adf:fe0b:: with SMTP id n11mr34158523wrr.371.1635267686354; 
- Tue, 26 Oct 2021 10:01:26 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id b69sm1047282wmb.37.2021.10.26.10.01.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 10:01:25 -0700 (PDT)
-Message-ID: <7d5dd3e5-668f-c6cf-0c6a-34e3e806cc8f@redhat.com>
-Date: Tue, 26 Oct 2021 19:01:24 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=WhtluN/XirUhu/E7Z/YCKpa/MlfNCnzJk2txJvVjccA=;
+ b=XzI/a0932lMiHDwI0TabjI6RwCtZ51z13AwAPZKrFdH6zgxkG9NV1s+K33zIx6iuMg
+ Cg9lxSk0OX12YA+SpOkRkTp/Tg6/JR2ec2BEn/LEFUdJHqeo1dGICuer2Sc0NlcC/R4D
+ hZ0EfMgFJ6bHGUOxpMT+HUlPUIKF9pwuWywZWa8f153TTfTH7aAa5nV9d0setG9Z0vBm
+ 14uAeJ0ph0/YyMJCxlpSHO3XJumnebod54cvEApE0KqpLSXBGvIfytLhiwoF8SP1eEkb
+ tCJIlQfp2JCikx4HboT910VLSUeiCnL1u/rafsFfZvmdW0w4wVkB3vUcDhbyUffUDTi3
+ 8AoQ==
+X-Gm-Message-State: AOAM5331qUEuHuAVbMmaMlQpvCcTwQv8uiUcaAtheQoOiLI4O2OzG9PP
+ je87utiyEk8Up5fABIHdLRM8W02YupWMJx6qU8X647LDm/JcLJmaEKOxvtJ5llCpjkyb86JsYfE
+ 6VzjfafyQCIkUcNw=
+X-Received: by 2002:adf:c986:: with SMTP id f6mr34886767wrh.216.1635267739115; 
+ Tue, 26 Oct 2021 10:02:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy5WWmIWFwoyaYWQZ6FpvBV8LDBClMDmMrl1q+j7EnUXG2Lu6/nUCdK1E7KFMx7NhjR/4pNtg==
+X-Received: by 2002:adf:c986:: with SMTP id f6mr34886710wrh.216.1635267738768; 
+ Tue, 26 Oct 2021 10:02:18 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id n12sm1061411wrv.30.2021.10.26.10.02.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Oct 2021 10:02:18 -0700 (PDT)
+Date: Tue, 26 Oct 2021 18:02:16 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Subject: Re: [PATCH] hw/net: store timers for e1000 in vmstate
+Message-ID: <YXg0mFqaEjlaigd6@work-vm>
+References: <163524428177.1917083.7115508068018047923.stgit@pasha-ThinkPad-X280>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 3/3] memory: Update description of
- memory_region_is_mapped()
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20211026160649.47545-1-david@redhat.com>
- <20211026160649.47545-4-david@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211026160649.47545-4-david@redhat.com>
+In-Reply-To: <163524428177.1917083.7115508068018047923.stgit@pasha-ThinkPad-X280>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.215, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,21 +95,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: jasowang@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/21 18:06, David Hildenbrand wrote:
-> Let's update the documentation, making it clearer what the semantics
-> of memory_region_is_mapped() actually are.
+* Pavel Dovgalyuk (pavel.dovgalyuk@ispras.ru) wrote:
+> Setting timers randomly when vmstate is loaded breaks
+> execution determinism.
+> Therefore this patch allows saving mit and autoneg timers
+> for e1000. It makes execution deterministic and allows
+> snapshotting and reverse debugging in icount mode.
 > 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  include/exec/memory.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I think you need to wire those needed's to machine types (via a
+parameter or something) so that they don't break backwards migration
+compatibility.
+
+Dave
+
+> ---
+>  hw/net/e1000.c |   61 ++++++++++++++++++++++++++++++++++++++++++++++----------
+>  1 file changed, 50 insertions(+), 11 deletions(-)
+> 
+> diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+> index a30546c5d5..2f706f7298 100644
+> --- a/hw/net/e1000.c
+> +++ b/hw/net/e1000.c
+> @@ -37,6 +37,7 @@
+>  #include "qemu/iov.h"
+>  #include "qemu/module.h"
+>  #include "qemu/range.h"
+> +#include "sysemu/replay.h"
+>  
+>  #include "e1000x_common.h"
+>  #include "trace.h"
+> @@ -1407,7 +1408,7 @@ static int e1000_pre_save(void *opaque)
+>       * complete auto-negotiation immediately. This allows us to look
+>       * at MII_SR_AUTONEG_COMPLETE to infer link status on load.
+>       */
+> -    if (nc->link_down && have_autoneg(s)) {
+> +    if (replay_mode == REPLAY_MODE_NONE && nc->link_down && have_autoneg(s)) {
+>          s->phy_reg[PHY_STATUS] |= MII_SR_AUTONEG_COMPLETE;
+>      }
+>  
+> @@ -1438,22 +1439,12 @@ static int e1000_post_load(void *opaque, int version_id)
+>              s->mac_reg[TADV] = 0;
+>          s->mit_irq_level = false;
+>      }
+> -    s->mit_ide = 0;
+> -    s->mit_timer_on = true;
+> -    timer_mod(s->mit_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 1);
+>  
+>      /* nc.link_down can't be migrated, so infer link_down according
+>       * to link status bit in mac_reg[STATUS].
+>       * Alternatively, restart link negotiation if it was in progress. */
+>      nc->link_down = (s->mac_reg[STATUS] & E1000_STATUS_LU) == 0;
+>  
+> -    if (have_autoneg(s) &&
+> -        !(s->phy_reg[PHY_STATUS] & MII_SR_AUTONEG_COMPLETE)) {
+> -        nc->link_down = false;
+> -        timer_mod(s->autoneg_timer,
+> -                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 500);
+> -    }
+> -
+>      s->tx.props = s->mig_props;
+>      if (!s->received_tx_tso) {
+>          /* We received only one set of offload data (tx.props)
+> @@ -1472,6 +1463,13 @@ static int e1000_tx_tso_post_load(void *opaque, int version_id)
+>      return 0;
+>  }
+>  
+> +static int e1000_mit_timer_post_load(void *opaque, int version_id)
+> +{
+> +    E1000State *s = opaque;
+> +    s->mit_timer_on = true;
+> +    return 0;
+> +}
+> +
+>  static bool e1000_mit_state_needed(void *opaque)
+>  {
+>      E1000State *s = opaque;
+> @@ -1493,6 +1491,21 @@ static bool e1000_tso_state_needed(void *opaque)
+>      return chkflag(TSO);
+>  }
+>  
+> +static bool e1000_mit_timer_needed(void *opaque)
+> +{
+> +    E1000State *s = opaque;
+> +
+> +    return s->mit_timer_on;
+> +}
+> +
+> +static bool e1000_autoneg_timer_needed(void *opaque)
+> +{
+> +    E1000State *s = opaque;
+> +
+> +    return have_autoneg(s)
+> +           && !(s->phy_reg[PHY_STATUS] & MII_SR_AUTONEG_COMPLETE);
+> +}
+> +
+>  static const VMStateDescription vmstate_e1000_mit_state = {
+>      .name = "e1000/mit_state",
+>      .version_id = 1,
+> @@ -1541,6 +1554,30 @@ static const VMStateDescription vmstate_e1000_tx_tso_state = {
+>      }
+>  };
+>  
+> +static const VMStateDescription vmstate_e1000_mit_timer = {
+> +    .name = "e1000/mit_timer",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = e1000_mit_timer_needed,
+> +    .post_load = e1000_mit_timer_post_load,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_TIMER_PTR(mit_timer, E1000State),
+> +        VMSTATE_UINT32(mit_ide, E1000State),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static const VMStateDescription vmstate_e1000_autoneg_timer = {
+> +    .name = "e1000/autoneg_timer",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = e1000_autoneg_timer_needed,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_TIMER_PTR(autoneg_timer, E1000State),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static const VMStateDescription vmstate_e1000 = {
+>      .name = "e1000",
+>      .version_id = 2,
+> @@ -1622,6 +1659,8 @@ static const VMStateDescription vmstate_e1000 = {
+>          &vmstate_e1000_mit_state,
+>          &vmstate_e1000_full_mac_state,
+>          &vmstate_e1000_tx_tso_state,
+> +        &vmstate_e1000_mit_timer,
+> +        &vmstate_e1000_autoneg_timer,
+>          NULL
+>      }
+>  };
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
