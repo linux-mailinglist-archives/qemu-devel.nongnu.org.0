@@ -2,83 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B1243B957
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:19:54 +0200 (CEST)
-Received: from localhost ([::1]:47898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D18D43B9FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 20:51:23 +0200 (CEST)
+Received: from localhost ([::1]:44116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfR3B-0005r9-J9
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:19:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54432)
+	id 1mfRXd-0008JC-Bb
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 14:51:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfQvC-00050L-Ew
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:11:38 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54092)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfQv8-0006ma-Q5
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:11:36 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id j205so290471wmj.3
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 11:11:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=A2tbc9rkrrjlOInAljrzgvKVJKv97nJ+B6+wz8E74kQ=;
- b=nivs9ZFUGmV4S8lksr9PO8Cx4S2hJW3gBnHq7xBXJ8peXbNWjX0PUS8zfAIRbUd1WE
- NSJEH/0HAvyIB/AGpTMSwfeu+cxRuOZL+c3Udm2HxhTYs66taoQjc11B7kIaKSuHqe8F
- cU7J+zwTu2SRJQkkD56s5CmjKvpboF0jqn/IJo/aAPV12Du/ZQwJSP+Z1gGpaSy4tIjl
- nhOoV6ESOo1oyvLkD9tI/9maPXFx0OQw0GBZAUg8K6kdkVCYEUEmiU52eoS6riXrpase
- vbPqGhxOCnYCQPoZZl1fWc0763xqAI/BiJam+BXrMRmfVv4fDzxW+75KsFkuecIuM66+
- DjaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=A2tbc9rkrrjlOInAljrzgvKVJKv97nJ+B6+wz8E74kQ=;
- b=rXuK/lJPOJ5wh1tLXiD9SSPjhcjwjjpZKYJhIdoGPzDpslBPkoA1KrfgIs+m5BfetP
- 1gwA7rLGrbxdshzOTeIFvZTrFZqiXsmaDJDoguheuhTWm8Obbn/CKsZxQY3GI7Jk0hoE
- 8JMM7nk6eykat4PKxckpPW2cW+D7cSd7UdPVE9eBupipWXEKHmPA0fPQbwWyDKDWPjsl
- nk2l6Wf/xncaVPOWR4jl45W9P0OSHPpPWB0f3PKBQ9okaWdaYVZwc2kcbZv35OoxBj5Q
- s6yGRR6CUiIiaqsneWBQAHE6X80AaghepH4tCTiXECEkqLMzjbs5yJ3UZZzVPdZPlm45
- lzqQ==
-X-Gm-Message-State: AOAM533ldBiStDFY660ZSXwmsfim9BQWEdpSmWQ5L4uVPwSg7ZomfOv6
- CFw2UqG7sqw9tSEaFla1FbI=
-X-Google-Smtp-Source: ABdhPJz9+MTMAMqPprCxyjC3mQyNxemHbawMGkZEaCwp4bEUJ/VJ7+XFHFFFrMeMHvETUhlm2rMu9Q==
-X-Received: by 2002:a05:600c:220f:: with SMTP id
- z15mr290300wml.100.1635271893258; 
- Tue, 26 Oct 2021 11:11:33 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id 3sm1238933wms.5.2021.10.26.11.11.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 11:11:32 -0700 (PDT)
-Message-ID: <1779653c-c3f5-a7eb-cb5c-f9ade5a058ac@amsat.org>
-Date: Tue, 26 Oct 2021 20:11:31 +0200
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1mfRAB-0007rN-Nb
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:27:09 -0400
+Received: from mga11.intel.com ([192.55.52.93]:17186)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1mfRA8-0007AP-1v
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 14:27:06 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="227438567"
+X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; d="scan'208";a="227438567"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 11:26:56 -0700
+X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; d="scan'208";a="497480947"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 11:26:49 -0700
+From: Zhang Chen <chen.zhang@intel.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: [PATCH V4 0/3] net/filter: Optimize filters vnet_hdr support
+Date: Wed, 27 Oct 2021 02:17:27 +0800
+Message-Id: <20211026181730.3102184-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] tests/tcg: remove debug polluting make output
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20211026173914.79377-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211026173914.79377-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.215,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=chen.zhang@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,17 +55,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Zhang Chen <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/21 19:39, Alex Bennée wrote:
-> Fixes: 5343a837cd ("tests/tcg: move some multiarch files and make conditional")
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  tests/tcg/multiarch/Makefile.target | 1 -
->  1 file changed, 1 deletion(-)
+This series make filters and colo-compare module support vnet_hdr by
+default. And also support -device non-virtio-net(like e1000.) at the same time.
+It can adapt -device automatically to avoid wrong setting between
+different filters when enable/disable virtio-net-pci. So no need to keep the
+"vnet_hdr_support" flag in filter's property. 
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Optimize the filter transfer protocol from:
+1.size -----> 2.real network payload.
+to:
+1.size -----> 2.vnet_hdr_len. -----> 3.real network payload.
+
+When receiving node get the network packet, it will compare with
+the local vnet_hdr_len. If they are not the same, report a error.
+because this kind of packet cannot be correctly parsed by receiving
+node. For the colo-compare, it need to compare whether the two sides
+vnet_hdr_len are equal.
+
+
+v4:
+    Rewrite patches to impliment it in filter transfer protocol payload.
+    Remove filters and colo-compare's "vnet_hdr_support" flag.
+
+v3:
+    Fix some typos.
+    Rebased for Qemu 6.2.
+
+v2:
+    Detect virtio-net driver and apply vnet_hdr_support
+    automatically. (Jason)
+
+Zhang Chen (3):
+  net/filter: Remove vnet_hdr from filter-mirror and filter-redirector
+  net/filter: Remove vnet_hdr from filter-rewriter
+  net/colo-compare.c: Remove vnet_hdr and check in payload from
+    colo-compare
+
+ net/colo-compare.c    | 41 +++++++-------------
+ net/filter-mirror.c   | 88 ++++++++++---------------------------------
+ net/filter-rewriter.c | 26 +------------
+ qemu-options.hx       | 25 ++++++------
+ 4 files changed, 45 insertions(+), 135 deletions(-)
+
+-- 
+2.25.1
+
 
