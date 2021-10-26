@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B027243BC0B
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 23:07:26 +0200 (CEST)
-Received: from localhost ([::1]:43372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91CF743BC0E
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 23:07:41 +0200 (CEST)
+Received: from localhost ([::1]:44032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfTfH-0005mZ-2E
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 17:07:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
+	id 1mfTfY-0006Eg-NE
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 17:07:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfTco-0003tk-NL
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 17:04:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57577)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mfTd9-0004Nu-F0
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 17:05:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfTck-0002iz-Tt
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 17:04:49 -0400
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mfTd7-0002mZ-5m
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 17:05:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635282284;
+ s=mimecast20190719; t=1635282308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3gtzjNBsp+1vYU2mzSETOT3mg1SLCPnrZu4xT3MfmUE=;
- b=bWt+kg+joCILkNYU3pcZ8RIiguNlRSY4aCFyp3t64aBpJ66oQh2C76DPs2nIOnuujv0iDI
- YU65In3dXhBngvSxaJT/bAuh36xL8cGEQ0FTVnZx7LethqPIcm+NGnRn0uJFkQzXax1Vaa
- 5kgM32JM01VEhyIG7TM+HJhAVjgQbcU=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-ucmeQMKlOJyHQQbEz1vDNQ-1; Tue, 26 Oct 2021 17:04:41 -0400
-X-MC-Unique: ucmeQMKlOJyHQQbEz1vDNQ-1
-Received: by mail-vk1-f200.google.com with SMTP id
- q76-20020a1f5c4f000000b002dc9e9530fbso368679vkb.1
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 14:04:40 -0700 (PDT)
+ bh=DJq1riufOzpkadyuHchK3D2Lo0zxLtbXmWp9uM1TsRE=;
+ b=KLjTIgd5rULuZzCWd6unwb3k1vXYNURlRLz4HScwsA6Ctl8kDuRYoAznQ6BSc0l+eIHMgU
+ Fo0NZZwZlG2ult0XwYL6767k2aVhl/JqDqKKfFbZ8059S4mgarcMlCmCbVGbdYFps94cX1
+ 4rWn3gsvhf5lmp1Ih9T08ZqkncFPtTA=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-336-6iKNWxCZPXCgKT_HC9xQgA-1; Tue, 26 Oct 2021 17:05:07 -0400
+X-MC-Unique: 6iKNWxCZPXCgKT_HC9xQgA-1
+Received: by mail-pg1-f197.google.com with SMTP id
+ m74-20020a633f4d000000b0029fed7e61f9so340544pga.16
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 14:05:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3gtzjNBsp+1vYU2mzSETOT3mg1SLCPnrZu4xT3MfmUE=;
- b=TD+nrmqBUBLaIgqEaakP+ZCu1jWzFULzjBJscEkIK65tNE289WbDLNvoQiONMhwL9P
- PDByurp0AYu+2vU4NhUmqzWXFBgEk3yj/a0cl2ADK6OsDvxZLo0v3Dy4eZYooi8CI2ny
- zesXZbCkKTXyaHvHBSic8w96EOc0V76xNjkPYNO/6ibcjfAvPiFH4ABlWnBKULiDVbvP
- 9y0hloYzyw0GEj9BPJejfQLnD6JnAmwa0Ytz7nhPBFyJfSUIExxqxqrw58hrNxe6dzow
- Wyl0cwt+zYM+kVYuDUYBfk3Qfd3/RSWMfNvg4R1SmtIhWNR5VAUG+Z5kUgfKaO6ucbZz
- wcFQ==
-X-Gm-Message-State: AOAM530XcSF12ZY+k4y1gt2IpLTp7kyftTH0ibH/7HEJtvjvFcEZWu1k
- /Fn6hcZ1/8Zge3+cshqADyswxWYyFVgoIpnc3ROTWiJdqyzJ/Ct92XgUZpwHFXixpF5Ao92Vi/g
- fIz9jwCUVZkX55xT9809fx9GghwODa1E=
-X-Received: by 2002:a67:ed07:: with SMTP id l7mr26380082vsp.40.1635282280518; 
- Tue, 26 Oct 2021 14:04:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzI7K3Xn4lK7zTkq2qeYudIBvOsC6JBCZjbenPskTTUUzS+pKgQzT2FU1j+uhC/tjZs8l0bktF1VQIWIZPu7L0=
-X-Received: by 2002:a67:ed07:: with SMTP id l7mr26380048vsp.40.1635282280307; 
- Tue, 26 Oct 2021 14:04:40 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DJq1riufOzpkadyuHchK3D2Lo0zxLtbXmWp9uM1TsRE=;
+ b=AgLp8rneOvE1FhlcVxrwNzmVQ6TJCbvDAuC5fKTD2UD4Gr2a07uwEl1t7ztsdbiVGZ
+ yN+EswtxbrY+gsvwk3yzLbp18JSYWJ2gCICG6rJHFWpWLaRtszcdcKV45kz46Nqy0Lgi
+ BIJSI314cEgt43LWVZ9GAIGwXswp4wsYYibqzU24cR5b6xxInfETEuZBdIiMyGAsbGu1
+ v63h2NaYEWU6lPP/6hITytz/ZZs9gYAOdD6sj4NoGEjrIXoGDC6tkqrCasDm3DyOFPK6
+ Hn4GcwQ2yjRA8ltWt4dGzKu1uKE9IhAUP/4y+9kqJ9qyrujvCMyoENZDN5RWMX3/V7wv
+ DcpA==
+X-Gm-Message-State: AOAM5302XwapKaxt9VMS5bAUxbhfhVBDYe3NUghNA7wexLyBVi3x3+1a
+ WcV+uADgJHjlds9gPqMCw1cgAQKWJujSfJqL9YUk0K+WwngoOdQD/lU+fIZEszsvlWHzDYzEnWm
+ UaLSjKscmIyWlnEVpQDIQbEOgO9PeFqc=
+X-Received: by 2002:a62:7d8d:0:b0:47b:dfd7:e888 with SMTP id
+ y135-20020a627d8d000000b0047bdfd7e888mr22840826pfc.42.1635282305995; 
+ Tue, 26 Oct 2021 14:05:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxx/69hzs/aLE1J9g35BAPTFzT9GsW0jFDP8B2CldUhCu3cdjXPoujIHtycDYOznpydHeZ1YSJxjGKR/AtvR2s=
+X-Received: by 2002:a62:7d8d:0:b0:47b:dfd7:e888 with SMTP id
+ y135-20020a627d8d000000b0047bdfd7e888mr22840790pfc.42.1635282305690; Tue, 26
+ Oct 2021 14:05:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211015105344.152591-1-marcandre.lureau@redhat.com>
- <20211015105344.152591-2-marcandre.lureau@redhat.com>
-In-Reply-To: <20211015105344.152591-2-marcandre.lureau@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 26 Oct 2021 17:04:29 -0400
-Message-ID: <CAFn=p-by8_BkEqZk6bF6Pj2hPQ79Wdvead_Y_f1ELmfpgFUJ-Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/8] docs/sphinx: add loaded modules to generated
- depfile
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+References: <20211026145509.1029274-1-philmd@redhat.com>
+ <20211026145509.1029274-2-philmd@redhat.com>
+In-Reply-To: <20211026145509.1029274-2-philmd@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Tue, 26 Oct 2021 18:04:39 -0300
+Message-ID: <CAKJDGDYOh=wjEKTWQhtfJBWm5VqLDRT5wfgmyoinqpuHN2Eijw@mail.gmail.com>
+Subject: Re: [PATCH 1/1] gitlab-ci: Only push docker images to registry from
+ /master branch
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000006cefa205cf47d3b6"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_BL_SPAMCOP_NET=1.347, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,166 +94,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006cefa205cf47d3b6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Oct 15, 2021 at 6:57 AM <marcandre.lureau@redhat.com> wrote:
-
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+On Tue, Oct 26, 2021 at 11:55 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
+> Users expect images pulled from registry.gitlab.com/qemu-project/qemu/
+> to be stable. QEMU repository workflow pushes merge candidates to
+> the /staging branch, and on success the same commit is pushed as
+> /master. If /staging fails, we do not want to push the built images
+> to the registry. Therefore limit the 'docker push' command to the
+> /master branch on the mainstream CI. The fork behavior is unchanged.
 >
-You also fix *when* the deps are generated. Small commit message blurb
-would be nice.
-
-
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-
-Reviewed-by: John Snow <jsnow@redhat.com>
-
-
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  docs/sphinx/depfile.py | 14 ++++++++++++--
->  1 file changed, 12 insertions(+), 2 deletions(-)
->
-> diff --git a/docs/sphinx/depfile.py b/docs/sphinx/depfile.py
-> index 277fdf0f56..b6fb926df1 100644
-> --- a/docs/sphinx/depfile.py
-> +++ b/docs/sphinx/depfile.py
-> @@ -12,6 +12,7 @@
->
->  import os
->  import sphinx
-> +import sys
->
->  __version__ =3D '1.0'
->
-> @@ -20,8 +21,17 @@ def get_infiles(env):
->          yield env.doc2path(x)
->          yield from ((os.path.join(env.srcdir, dep)
->                      for dep in env.dependencies[x]))
-> +    for mod in sys.modules.values():
-> +        if hasattr(mod, '__file__'):
-> +            if mod.__file__:
-> +                yield mod.__file__
->
->
-(How annoying that built-in modules aren't a different class and that this
-attribute really is just entirely missing sometimes ...)
-
-
-> -def write_depfile(app, env):
-> +
-> +def write_depfile(app, exception):
-> +    if exception:
-> +        return
-> +
-> +    env =3D app.env
->      if not env.config.depfile:
->          return
->
-> @@ -42,7 +52,7 @@ def write_depfile(app, env):
->  def setup(app):
->      app.add_config_value('depfile', None, 'env')
->      app.add_config_value('depfile_stamp', None, 'env')
-> -    app.connect('env-updated', write_depfile)
-> +    app.connect('build-finished', write_depfile)
->
->      return dict(
->          version =3D __version__,
-> --
-> 2.33.0.721.g106298f7f9
->
->
+>  .gitlab-ci.d/container-template.yml | 11 ++++++++++-
+>  .gitlab-ci.d/edk2.yml               | 11 ++++++++++-
+>  .gitlab-ci.d/opensbi.yml            | 11 ++++++++++-
+>  3 files changed, 30 insertions(+), 3 deletions(-)
 >
 
---0000000000006cefa205cf47d3b6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 15, 2021 at 6:57 AM &lt;<=
-a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fr=
-om: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.co=
-m" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-<br></blockquote><div><br></div><div>You also fix *when* the deps are gener=
-ated. Small commit message blurb would be nice.<br></div><div>=C2=A0</div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
-Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br></bl=
-ockquote><div><br></div><div>Reviewed-by: John Snow &lt;<a href=3D"mailto:j=
-snow@redhat.com">jsnow@redhat.com</a>&gt;<br></div><div>=C2=A0</div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0docs/sphinx/depfile.py | 14 ++++++++++++--<br>
-=C2=A01 file changed, 12 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/docs/sphinx/depfile.py b/docs/sphinx/depfile.py<br>
-index 277fdf0f56..b6fb926df1 100644<br>
---- a/docs/sphinx/depfile.py<br>
-+++ b/docs/sphinx/depfile.py<br>
-@@ -12,6 +12,7 @@<br>
-<br>
-=C2=A0import os<br>
-=C2=A0import sphinx<br>
-+import sys<br>
-<br>
-=C2=A0__version__ =3D &#39;1.0&#39;<br>
-<br>
-@@ -20,8 +21,17 @@ def get_infiles(env):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0yield env.doc2path(x)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0yield from ((os.path.join(env.srcdir, dep=
-)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0for dep in env.dependencies[x]))<br>
-+=C2=A0 =C2=A0 for mod in sys.modules.values():<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if hasattr(mod, &#39;__file__&#39;):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if mod.__file__:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 yield mod.__file__=
-<br>
-<br></blockquote><div><br></div><div>(How annoying that built-in modules ar=
-en&#39;t a different class and that this attribute really is just entirely =
-missing sometimes ...)<br></div><div>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">
--def write_depfile(app, env):<br>
-+<br>
-+def write_depfile(app, exception):<br>
-+=C2=A0 =C2=A0 if exception:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-+<br>
-+=C2=A0 =C2=A0 env =3D app.env<br>
-=C2=A0 =C2=A0 =C2=A0if not env.config.depfile:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return<br>
-<br>
-@@ -42,7 +52,7 @@ def write_depfile(app, env):<br>
-=C2=A0def setup(app):<br>
-=C2=A0 =C2=A0 =C2=A0app.add_config_value(&#39;depfile&#39;, None, &#39;env&=
-#39;)<br>
-=C2=A0 =C2=A0 =C2=A0app.add_config_value(&#39;depfile_stamp&#39;, None, &#3=
-9;env&#39;)<br>
--=C2=A0 =C2=A0 app.connect(&#39;env-updated&#39;, write_depfile)<br>
-+=C2=A0 =C2=A0 app.connect(&#39;build-finished&#39;, write_depfile)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return dict(<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0version =3D __version__,<br>
--- <br>
-2.33.0.721.g106298f7f9<br>
-<br>
-<br>
-</blockquote></div></div>
-
---0000000000006cefa205cf47d3b6--
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
