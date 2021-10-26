@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DE843BB82
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 22:22:27 +0200 (CEST)
-Received: from localhost ([::1]:44204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263D743BB86
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 22:26:16 +0200 (CEST)
+Received: from localhost ([::1]:47184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfSxm-000109-4b
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 16:22:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51250)
+	id 1mfT1T-00033d-5s
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 16:26:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfSw4-0000Ch-1C
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:20:40 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:42796)
+ id 1mfSyz-00028j-MX
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:23:41 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:42960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfSw2-0003P0-B2
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:20:39 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id t7so621183pgl.9
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 13:20:37 -0700 (PDT)
+ id 1mfSyy-0004LF-2p
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 16:23:41 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id v16so359196ple.9
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 13:23:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wuWdxNPtj0F1cYWlstXVqrF+y7XheO/eKzXWPc+dHYQ=;
- b=Wn9SuGdFP2LKf+bEpK1m9T90aWZX4togi5Dk/fgDAHFs7k1y+fhZNfBYtPCeM5DNF4
- v0ph4buNy/qSWXYCoRtHb/h+Xpx4H9PceNP/1cHd4ekvS4S3+Ba7PZFKPk7nJYABEZVL
- lwWpjl5iHzF34Ig6g2eLKXyF7a1SX9U6JAoNY/Do54mGd/BHHljOELqt3oUDdqdFo4Sw
- 3dBZL1LnzOQnAg/f6V4uqeTM+GZSOR3PHXnfiZRvrYkoOCH6lNkQAIayapSbPvO50t48
- 2B0XbwF+SXnTNFGwpsX8jvm5E8cWenX/gQgnURC8X/Rfz5YsZvjj5qg6/R66pxmFc+8i
- ElwA==
+ bh=z07nv1RVSlGZCw+tIN2VUKupIRCCNdBDZ2x8nvioqPw=;
+ b=ydFMpTQoYcMYGTZlN5LQH7uGERCoVL4+TxQgrXFyHrfRaf8nzhPBAeLIB8GvwNi2vb
+ OL/1OES7+mRnf0TvP5ekF/5jWXY6s1CaM1mD1AHmL7ga9cdN59EwG5w1mqD3EumDvXmM
+ B73/c8rRTXhTvcXZ/K+7fTNgCOPBdtX7HTOMD6sPyT9euunETmu0mb4fSrZyOun/zgRB
+ 8VLAVLv3CU8CHAa3jsq4qx0wB8AmEsMOayArkacQ/Y2dRCmkKRp7yk66BQgVeUDB4AmP
+ aZHspoh5UQNOS0CM9DkFmUuuTfy7IxKh+5JTx2XzzCAyOjI/8e+jGp+UXUHEWlgOVtCC
+ RJ9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=wuWdxNPtj0F1cYWlstXVqrF+y7XheO/eKzXWPc+dHYQ=;
- b=mJeFeZhjQ7VgIMxuMCUNzSTWwXLgUM/q6Mb7GESCulV/4qqyuAZ8fkuIIKlj+FP6KQ
- ov/UvFIUYxitQjv+sayuX7uXXTSQRDTcz1X/ZrPkjpEBz/DbGXBTwgCD48vbGw+V10E0
- 9x33W4MOUPk1j5/t7U4l/QlNcQBa5MWhVAiX+FSdCPMW4u0fk7yJ1OeOy+0dvr/KZpoT
- zVDzhnil6biU2CNwLTZSTWqwWfUWzNJqOMPTBdeOzx3zQpx9xakrynQJicNfHCZfalFP
- Qk6vwXgRN85IrAYnJ0GO1CAA00bkftOtnpEYWdkYmW06iznlHM1JcOwFS2WpnBsUZbfb
- RCRw==
-X-Gm-Message-State: AOAM530IhRKCVitmx/vLP4e1JMKYrnsNUBeMllogzrje9pyp15Co3wu+
- D0smhTEoWQS0uSvjnDoB6PeFyw==
-X-Google-Smtp-Source: ABdhPJwD9jUZvRb/nnaCw9YCAfybhP47H+kX5B5Q7AdlY1orgKZt2zZxwF1VIuHuuOToZb8MLAe4kA==
-X-Received: by 2002:a05:6a00:984:b0:47b:f5b0:7226 with SMTP id
- u4-20020a056a00098400b0047bf5b07226mr13558508pfg.62.1635279636091; 
- Tue, 26 Oct 2021 13:20:36 -0700 (PDT)
+ bh=z07nv1RVSlGZCw+tIN2VUKupIRCCNdBDZ2x8nvioqPw=;
+ b=mGPdBketfZP742y6SuWku/Bu75tynTauv6UmlbyI5OYuRM4cHiY0fmWHtUwOdPk/Ti
+ JtD2+Ys13Ii9Dv1/a+Wye8CXuS/xbMKQSaAJac6TyTr5+ZBhYXJs1uZAPAs+xzW5dVLY
+ lZMW1X9er5U9viYYU/aJUFDdLIRb7fKyBYczdK2Aq/JchxaSWeqwtK1U3YsZA+ANVzR0
+ W1ozLFRaTPaQPEwU/CLKtTFO8OemAaR6zpKpL0PFwX6sMIQQ0s+yUSeBqT7p3tp/7jxa
+ Crzkk2j/Hzf1Mc7XXWvBwGze83TNx5tVlwlqVIcu/unAjSqYFndfB3qSiCnZ+U0XxAir
+ x3GQ==
+X-Gm-Message-State: AOAM530d9/DfmNIP3wJQNGkdjfUyQo0DkCVx/xgPXaLJ1zker2q5KuqG
+ 8xPqf2RXK0M0VQm8YUkRMXLFqtELIor8Vw==
+X-Google-Smtp-Source: ABdhPJxm6p9PZVV13CAHBUrvLTBI02KugUoZciQbIqfOtWTdMra1kB/cN9deaOR/CCjXhSOi5AWD0g==
+X-Received: by 2002:a17:90a:7e93:: with SMTP id
+ j19mr1095064pjl.172.1635279818622; 
+ Tue, 26 Oct 2021 13:23:38 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id w13sm1709765pjc.29.2021.10.26.13.20.34
+ by smtp.gmail.com with ESMTPSA id g22sm6402577pfj.181.2021.10.26.13.23.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 13:20:35 -0700 (PDT)
-Subject: Re: [PATCH v1 23/28] tracing: remove the trace-tcg includes from the
- build
+ Tue, 26 Oct 2021 13:23:38 -0700 (PDT)
+Subject: Re: [PATCH v1 24/28] tracing: excise the tcg related from tracetool
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20211026102234.3961636-1-alex.bennee@linaro.org>
- <20211026102234.3961636-24-alex.bennee@linaro.org>
+ <20211026102234.3961636-25-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <062296db-fc75-ae8b-908a-7f4eea7796ea@linaro.org>
-Date: Tue, 26 Oct 2021 13:20:33 -0700
+Message-ID: <6232fbe4-5f69-a5ac-1842-ce7421df6382@linaro.org>
+Date: Tue, 26 Oct 2021 13:23:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211026102234.3961636-24-alex.bennee@linaro.org>
+In-Reply-To: <20211026102234.3961636-25-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -90,25 +89,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, pbonzini@redhat.com, f4bug@amsat.org,
- robhenry@microsoft.com, aaron@os.amperecomputing.com,
+Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com,
+ kuhn.chenqun@huawei.com, f4bug@amsat.org, robhenry@microsoft.com,
  Luis Vilanova <vilanova@imperial.ac.uk>, mahmoudabdalghany@outlook.com,
- minyihh@uci.edu, cota@braap.org, stefanha@redhat.com, crosa@redhat.com,
- kuhn.chenqun@huawei.com, ma.mandourr@gmail.com, aurelien@aurel32.net
+ aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/26/21 3:22 AM, Alex Bennée wrote:
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Cc: Luis Vilanova<vilanova@imperial.ac.uk>
-> Cc: Stefan Hajnoczi<stefanha@redhat.com>
-> ---
->   include/trace-tcg.h | 6 ------
->   trace/meson.build   | 1 -
->   2 files changed, 7 deletions(-)
->   delete mode 100644 include/trace-tcg.h
+> diff --git a/include/exec/helper-gen.h b/include/exec/helper-gen.h
+> index 1c2e7a8ed3..7b6ca975ef 100644
+> --- a/include/exec/helper-gen.h
+> +++ b/include/exec/helper-gen.h
+> @@ -79,8 +79,6 @@ static inline void glue(gen_helper_, name)(dh_retvar_decl(ret)          \
+>   }
+>   
+>   #include "helper.h"
+> -#include "trace/generated-helpers.h"
+> -#include "trace/generated-helpers-wrappers.h"
+>   #include "accel/tcg/tcg-runtime.h"
+>   #include "accel/tcg/plugin-helpers.h"
+>   
+> diff --git a/include/exec/helper-proto.h b/include/exec/helper-proto.h
+> index ba100793a7..c4b1bda632 100644
+> --- a/include/exec/helper-proto.h
+> +++ b/include/exec/helper-proto.h
+> @@ -38,7 +38,6 @@ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
+>   #define IN_HELPER_PROTO
+>   
+>   #include "helper.h"
+> -#include "trace/generated-helpers.h"
+>   #include "accel/tcg/tcg-runtime.h"
+>   #include "accel/tcg/plugin-helpers.h"
+>   
+> diff --git a/include/exec/helper-tcg.h b/include/exec/helper-tcg.h
+> index 16cd318b83..3933258f1a 100644
+> --- a/include/exec/helper-tcg.h
+> +++ b/include/exec/helper-tcg.h
+> @@ -59,7 +59,6 @@
+>       | dh_typemask(t5, 5) | dh_typemask(t6, 6) | dh_typemask(t7, 7) },
+>   
+>   #include "helper.h"
+> -#include "trace/generated-helpers.h"
+>   #include "accel/tcg/tcg-runtime.h"
+>   #include "accel/tcg/plugin-helpers.h"
+>   
 
+These should have gone with the previous patch.
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
