@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733F243A937
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 02:27:25 +0200 (CEST)
-Received: from localhost ([::1]:33960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5299043A949
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 02:33:29 +0200 (CEST)
+Received: from localhost ([::1]:44592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfAJI-0004gq-JV
-	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 20:27:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52324)
+	id 1mfAPA-00043K-Dr
+	for lists+qemu-devel@lfdr.de; Mon, 25 Oct 2021 20:33:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mfAG2-0002Z0-JP
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 20:24:02 -0400
-Received: from mail-oo1-xc29.google.com ([2607:f8b0:4864:20::c29]:45576)
+ (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mfAG7-0002c4-6j
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 20:24:07 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:45800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mfAFz-0008Ov-2h
- for qemu-devel@nongnu.org; Mon, 25 Oct 2021 20:24:02 -0400
-Received: by mail-oo1-xc29.google.com with SMTP id
- o26-20020a4abe9a000000b002b74bffdef0so4235368oop.12
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 17:23:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mfAG0-0008Pr-Rc
+ for qemu-devel@nongnu.org; Mon, 25 Oct 2021 20:24:06 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id z126so17976037oiz.12
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 17:23:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9SOBNx+Mhv1/Zb0OexIU1wWZuQZ3kyrotve7/YJvQpQ=;
- b=AtGcDXn1PWgFZfg5k+QFG/7Ky8Dohp/yUWzEDsNsmQi7YdDv6A7E/a4GNlwouQ69lp
- aK4avTsc8cUO0+IxF6rFocTsvLR2KVIpcD1QScMVWfgpOyDClpZHUtas+WdOMfupmV/b
- +HuiJ4D15eAo13p3wZoHn4jsgq28Ko3B//WY8=
+ bh=9JsOy8CcCoZNFgBiCYFmkzD6EOEwVKEK5bfEl0/UbZ4=;
+ b=O0ABBSBn35P+Agb8mCYMhRFQGzOPPP9Mi3aUCqMr6+i/ovidWAaSQ91mIAXE5qyUzc
+ Q9e4mZSdtnl5IQyZDs0IE/lYDUfMMnfn00LrTlubksDzxBxJcWsCxOBChH915aOim/Pi
+ PNwGfuGM3/9U1rMn/DViSpErl8UXdFsYmIRnk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9SOBNx+Mhv1/Zb0OexIU1wWZuQZ3kyrotve7/YJvQpQ=;
- b=nIUDqGwVD/C4UHZber7VtrMEzicx8qPSae/fUwf5bwOs/DedpMnJ2VgLN9N+8NJExD
- RMo1QRVUTPMPXP7ed8xCR5N+pbtIyyPs8T/6ki8OsvhoU/Hmcxr6q+2q0xfPYXQsyyxs
- fWunp6vn9pH8yaPZpfwAt2TVhnbFSfOuYSV4XqGuLkEvO2w9cXOMJL4sR2jSLRbhcwVF
- YzMIzxHfdLtb8lt1jG5ZVL+6Jul2pY8D0sS7R3rkwUqruSu4FjnRuuShZlMwXoV6nPx9
- p+GSj9fGu9rCM+R5GSIRj++zPT2bzscBsEWZ+dRQCIXzmqr9XMaMSGG7JtHL6uUQrwPv
- THOw==
-X-Gm-Message-State: AOAM533ccJyvh91EbFEEqqOIMjXvYdhmY97+AOKYU4QikNerpZz8GdAI
- R8YVtbxdthM+dZEI35UQvRGPQw==
-X-Google-Smtp-Source: ABdhPJxovN8S3AXfdbt32c4cXStc103G7/vGWwCZl/mWMGbzGTkgFSsyM+baq16IlelhSXYEvx6B6A==
-X-Received: by 2002:a4a:4fcf:: with SMTP id c198mr14917570oob.26.1635207838027; 
- Mon, 25 Oct 2021 17:23:58 -0700 (PDT)
+ bh=9JsOy8CcCoZNFgBiCYFmkzD6EOEwVKEK5bfEl0/UbZ4=;
+ b=HQvBNE2Q+sU2OsUpazeYwRMuXdh7YaAj1eiN/dsao2x4I5m3zJBTaE+4TCBFye2/sf
+ nDCDYBzfPYztA7ZxxGMqCP8DQly+ASv+Bi5rnroMnGtq3IGquXMLhrVNYgjupIuYM16s
+ NwMRrLbp4GcidEdm6qSBQii5x0OWpxdnaddwa+6x9kybbh8miUI4lRxhAkpkRx3ZjRBD
+ X1TICq6PiUkfmEl3IkxFDFaHyBLH37SnABNmPnagCMmjLahz52AuX+qQ9rJuoYUZ5BGk
+ 6FPtaDUzh4wY6cgFdEB0lQSTHXQJoSXAKvhvF537LjJxeAex7XCOfR6s61DgLWSPcXEb
+ 3qWw==
+X-Gm-Message-State: AOAM531Ii8xbU4DMF+RLZ+dRwgEhtlPvtyM1TZc/VRDrovzxKpQWj6FE
+ OX5jr5y0qLCWrKZ2krkg+GL+tg==
+X-Google-Smtp-Source: ABdhPJw0gEy5mnUcLtYBkb8wqbuy9yAx1FyrbQ07E6z9UH6Bwm6pPYVkYzzX3ZAPkx+FBhG8Lrbh6Q==
+X-Received: by 2002:aca:c156:: with SMTP id r83mr25194978oif.78.1635207839120; 
+ Mon, 25 Oct 2021 17:23:59 -0700 (PDT)
 Received: from kiwi.bld.corp.google.com (c-67-190-101-114.hsd1.co.comcast.net.
  [67.190.101.114])
- by smtp.gmail.com with ESMTPSA id v24sm3331926oou.45.2021.10.25.17.23.57
+ by smtp.gmail.com with ESMTPSA id v24sm3331926oou.45.2021.10.25.17.23.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 17:23:57 -0700 (PDT)
+ Mon, 25 Oct 2021 17:23:58 -0700 (PDT)
 From: Simon Glass <sjg@chromium.org>
 To: U-Boot Mailing List <u-boot@lists.denx.de>
-Subject: [PATCH v5 05/26] arm: qemu: Add a devicetree file for qemu_arm
-Date: Mon, 25 Oct 2021 18:23:23 -0600
-Message-Id: <20211026002344.405160-6-sjg@chromium.org>
+Subject: [PATCH v5 06/26] arm: qemu: Add a devicetree file for qemu_arm64
+Date: Mon, 25 Oct 2021 18:23:24 -0600
+Message-Id: <20211026002344.405160-7-sjg@chromium.org>
 X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
 In-Reply-To: <20211026002344.405160-1-sjg@chromium.org>
 References: <20211026002344.405160-1-sjg@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c29;
- envelope-from=sjg@chromium.org; helo=mail-oo1-xc29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=sjg@chromium.org; helo=mail-oi1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,34 +94,34 @@ Signed-off-by: Simon Glass <sjg@chromium.org>
 
 (no changes since v1)
 
- arch/arm/dts/Makefile      |   2 +
- arch/arm/dts/qemu-arm.dts  | 402 +++++++++++++++++++++++++++++++++++++
- configs/qemu_arm_defconfig |   1 +
- 3 files changed, 405 insertions(+)
- create mode 100644 arch/arm/dts/qemu-arm.dts
+ arch/arm/dts/Makefile        |   2 +-
+ arch/arm/dts/qemu-arm64.dts  | 381 +++++++++++++++++++++++++++++++++++
+ configs/qemu_arm64_defconfig |   1 +
+ 3 files changed, 383 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm/dts/qemu-arm64.dts
 
 diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index a88aecc5bd9..7ab8b145f3f 100644
+index 7ab8b145f3f..e70293bb849 100644
 --- a/arch/arm/dts/Makefile
 +++ b/arch/arm/dts/Makefile
-@@ -1153,6 +1153,8 @@ dtb-$(CONFIG_TARGET_IMX8MM_CL_IOT_GATE_OPTEE) += imx8mm-cl-iot-gate-optee.dtb
+@@ -1153,7 +1153,7 @@ dtb-$(CONFIG_TARGET_IMX8MM_CL_IOT_GATE_OPTEE) += imx8mm-cl-iot-gate-optee.dtb
  
  dtb-$(CONFIG_TARGET_EA_LPC3250DEVKITV2) += lpc3250-ea3250.dtb
  
-+dtb-$(CONFIG_ARCH_QEMU) += qemu-arm.dtb
-+
+-dtb-$(CONFIG_ARCH_QEMU) += qemu-arm.dtb
++dtb-$(CONFIG_ARCH_QEMU) += qemu-arm.dtb qemu-arm64.dtb
+ 
  targets += $(dtb-y)
  
- # Add any required device tree compiler flags here
-diff --git a/arch/arm/dts/qemu-arm.dts b/arch/arm/dts/qemu-arm.dts
+diff --git a/arch/arm/dts/qemu-arm64.dts b/arch/arm/dts/qemu-arm64.dts
 new file mode 100644
-index 00000000000..fed558ced98
+index 00000000000..7590e49cc84
 --- /dev/null
-+++ b/arch/arm/dts/qemu-arm.dts
-@@ -0,0 +1,402 @@
++++ b/arch/arm/dts/qemu-arm64.dts
+@@ -0,0 +1,381 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Sample device tree for qemu_arm
++ * Sample device tree for qemu_arm64
 +
 + * Copyright 2021 Google LLC
 + */
@@ -136,10 +135,10 @@ index 00000000000..fed558ced98
 +	compatible = "linux,dummy-virt";
 +
 +	psci {
-+		migrate = <0x84000005>;
-+		cpu_on = <0x84000003>;
++		migrate = <0xc4000005>;
++		cpu_on = <0xc4000003>;
 +		cpu_off = <0x84000002>;
-+		cpu_suspend = <0x84000001>;
++		cpu_suspend = <0xc4000001>;
 +		method = "hvc";
 +		compatible = "arm,psci-0.2\0arm,psci";
 +	};
@@ -387,29 +386,6 @@ index 00000000000..fed558ced98
 +		compatible = "virtio,mmio";
 +	};
 +
-+	gpio-keys {
-+		#address-cells = <0x01>;
-+		#size-cells = <0x00>;
-+		compatible = "gpio-keys";
-+
-+		poweroff {
-+			gpios = <0x8003 0x03 0x00>;
-+			linux,code = <0x74>;
-+			label = "GPIO Key Poweroff";
-+		};
-+	};
-+
-+	pl061@9030000 {
-+		phandle = <0x8003>;
-+		clock-names = "apb_pclk";
-+		clocks = <0x8000>;
-+		interrupts = <0x00 0x07 0x04>;
-+		gpio-controller;
-+		#gpio-cells = <0x02>;
-+		compatible = "arm,pl061\0arm,primecell";
-+		reg = <0x00 0x9030000 0x00 0x1000>;
-+	};
-+
 +	pcie@10000000 {
 +		interrupt-map-mask = <0x1800 0x00 0x00 0x07>;
 +		interrupt-map = <0x00 0x00 0x00 0x01 0x8001 0x00 0x00 0x00
@@ -439,10 +415,10 @@ index 00000000000..fed558ced98
 +			0x00 0x2eff0000 0x3000000 0x80
 +			0x00 0x80 0x00 0x80
 +			0x00>;
-+		reg = <0x00000000 0x3f000000 0x00000000 0x01000000>;
++		reg = <0x40 0x10000000 0x00 0x10000000>;
 +		msi-parent = <0x8002>;
 +		dma-coherent;
-+		bus-range = <0x00 0x0f>;
++		bus-range = <0x00 0xff>;
 +		linux,pci-domain = <0x00>;
 +		#size-cells = <0x02>;
 +		#address-cells = <0x03>;
@@ -467,6 +443,8 @@ index 00000000000..fed558ced98
 +	};
 +
 +	pmu {
++		interrupts = <0x01 0x07 0x104>;
++		compatible = "arm,armv8-pmuv3";
 +	};
 +
 +	intc@8000000 {
@@ -499,7 +477,7 @@ index 00000000000..fed558ced98
 +
 +		cpu@0 {
 +			reg = <0x00>;
-+			compatible = "arm,cortex-a15";
++			compatible = "arm,cortex-a57";
 +			device_type = "cpu";
 +		};
 +	};
@@ -507,7 +485,7 @@ index 00000000000..fed558ced98
 +	timer {
 +		interrupts = <0x01 0x0d 0x104 0x01 0x0e 0x104 0x01 0x0b 0x104 0x01 0x0a 0x104>;
 +		always-on;
-+		compatible = "arm,armv7-timer";
++		compatible = "arm,armv8-timer\0arm,armv7-timer";
 +	};
 +
 +	apb-pclk {
@@ -522,18 +500,18 @@ index 00000000000..fed558ced98
 +		stdout-path = "/pl011@9000000";
 +	};
 +};
-diff --git a/configs/qemu_arm_defconfig b/configs/qemu_arm_defconfig
-index ded58d387ad..81ca4ca9166 100644
---- a/configs/qemu_arm_defconfig
-+++ b/configs/qemu_arm_defconfig
+diff --git a/configs/qemu_arm64_defconfig b/configs/qemu_arm64_defconfig
+index cf5a03e8a2f..e51ce5c799f 100644
+--- a/configs/qemu_arm64_defconfig
++++ b/configs/qemu_arm64_defconfig
 @@ -5,6 +5,7 @@ CONFIG_NR_DRAM_BANKS=1
  CONFIG_ENV_SIZE=0x40000
  CONFIG_ENV_SECT_SIZE=0x40000
  CONFIG_SYS_MALLOC_LEN=0x1000000
-+CONFIG_DEFAULT_DEVICE_TREE="qemu-arm"
- CONFIG_TARGET_QEMU_ARM_32BIT=y
- CONFIG_ARMV7_LPAE=y
++CONFIG_DEFAULT_DEVICE_TREE="qemu-arm64"
  CONFIG_AHCI=y
+ CONFIG_DISTRO_DEFAULTS=y
+ CONFIG_SYS_LOAD_ADDR=0x40200000
 -- 
 2.33.0.1079.g6e70778dc9-goog
 
