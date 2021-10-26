@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E31A43B075
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:47:07 +0200 (CEST)
-Received: from localhost ([::1]:34458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 133A243B0B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 13:03:28 +0200 (CEST)
+Received: from localhost ([::1]:37350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfJz0-0008Ar-70
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:47:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52816)
+	id 1mfKEp-0004B6-5F
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 07:03:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfJhu-0001fl-1Q
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:29:26 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38543)
+ id 1mfJi9-0002ZZ-No
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:29:41 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:39659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfJhr-0004fE-PS
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:29:25 -0400
-Received: by mail-wr1-x429.google.com with SMTP id u18so14915337wrg.5
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:29:23 -0700 (PDT)
+ id 1mfJi7-0004hG-MX
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:29:41 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ y205-20020a1c7dd6000000b0032cc8c2800fso1657666wmc.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:29:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TKAhaqUZkEkOPDX3ZodBC29pmC1lvQH92Rx59LD9Vfk=;
- b=V780SdvD2otuCojzNNz2PylO+FLSUN28n/QsWX9Zc3l7O8i8u3PEzePNtWvebpDLDw
- HrTgKtQGmDcfURjJEOJ2XlbrSdUyJMGHhr24dtgfHI4eUo9cCFb5C39M0NwzW+yZHVxM
- plNDDbGaCSuiXXZ14Nuio9/63TopXwGK29gZseznus6Fi/Uov216gZ0rJJmhOO1qeqER
- HIhfIftF6suXWKibniHjbDiFOAqo+I4bCmIBGf7ZX5gw1YCnclQbW1nu0xkF0LMosimu
- 4MELXE0IkYGElA4giaw/3uY7UKU6KjLZd/eRUmSTg+COFi7cryOrku1pE+XVSiC0jm7A
- eGZQ==
+ bh=IQrJ14mdqhvYV5+ImzRfNnyvnL5jhONPouFr5OP3Q0g=;
+ b=RTbbwTtFpfHshnfXcSscNDh1eDMdOy5eZ5ZGj/Sf5DGdw/dKHxnpW4ulX0VuG0hVgj
+ 8ECZIH2ye5Q0xKlAPOr20KU580CKgFZKAMHqDUDlH4DObaorvOxG40YEp7U3rRg7KJjl
+ FEeKJFkONVwtVqkBt+yqykB51E1948RgVP9Rcth5dlwzEd5ftGSWfHbZlig5wRKRTCma
+ 8cS/VrVjNQ0FRHX5InoAcCBizxxuUqGaRUlDoQo6rgDNiYLutPmDnFkiPYTqnS2lFZNs
+ 7oJ9Ou9YJMv6LxAzpq/yJG/1CKSEBwJ+Tkh2VeNLAQ1SyxruGx5K5jVaxqOZDP0s02I0
+ N9Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TKAhaqUZkEkOPDX3ZodBC29pmC1lvQH92Rx59LD9Vfk=;
- b=lslRuAsFCf5JW1SZsiXB+wUFn81pC603PtcTmj1Q1SZ+xIP1EVxPbR5pbQiNhAP7r7
- 9FWGKAXLVpC3y/v0YG1hmQOnPqdDWMS8WcQZJ+xN+y2Y3VZHQ17nN1Cq3ExgD1IjneYv
- osRJHJbPCVgmPBcp7B90vamT99Tl/5xmA6tJkoWbMk1TPsFzq3u27f/f5QB1AJ1EMP3r
- urRO/2hMkTcX9eJhJeYyfpey80EnId9E5EhaMOsLHvjAM0TVwUfLhWDuExxTRlmfD489
- IDTQs598QD6hvt23ABMZGY4ZYdZbOzZz5O6S1Aal1ude3YhPLK9yyPQ+THR2K1d1O01N
- bV/g==
-X-Gm-Message-State: AOAM530YWApPQhRT2bThQsQxt2ncGtrXbt8aV72cM3WTgKuL58NaP5YG
- LTmzHjnMI7c2QBrokP7nceX1pQ==
-X-Google-Smtp-Source: ABdhPJyipWmv/nSk5N5C6ddhKaRpZrrF1wfyT2JMOYcWxKAlduwwRXuFof9psOY1LbbXG5m7ePx+0w==
-X-Received: by 2002:a05:6000:11ce:: with SMTP id
- i14mr14442031wrx.102.1635244162466; 
- Tue, 26 Oct 2021 03:29:22 -0700 (PDT)
+ bh=IQrJ14mdqhvYV5+ImzRfNnyvnL5jhONPouFr5OP3Q0g=;
+ b=QrIzt81x4rIHngOqgtgewFoMmuSWiTT6u2EDcz5VH1zyUdURsdCG+cXFkG9Q2I7QCk
+ AiL3h55iAcmV9jQWKuebuSZPdpMhaL0zWb1Zd9QI1IDQxYIjh81HrrH0JVc/IkRRsrT6
+ twT2nrRndgl1k2VS4MUuJCDGHUF7n7sMPoPiueR9CSgYvVZsoN4FPTQQ7eE0QcmBeNiT
+ nr2pXGInKjqQA4N2epCDRfc9bBA6R5FNUuIRVWLWj5c+dJGh8Vf6eUuifY5H4B6lXpDG
+ 6c+ctC6wcJGvRZ0ngdDGm6O+2aWbc3rfPdsQfAQx/Yd8TGZuiwPi+h3Xj2bqhf+Guc+c
+ e5bw==
+X-Gm-Message-State: AOAM532ELl8yPFLMIjYoaEYHjSSZ53jXyLbYS5bb71j52JipY5lY6eVK
+ ig2jLbUzxqvAx3qVtKC8unBzGw==
+X-Google-Smtp-Source: ABdhPJw1vHC5l20dRjW5FE1T38o36QriN4xZViex+OXpMXntUfv2ybf//8H1p1dvXOuzYc18bkP34A==
+X-Received: by 2002:a05:600c:21c5:: with SMTP id
+ x5mr18646500wmj.27.1635244178354; 
+ Tue, 26 Oct 2021 03:29:38 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 3sm200368wms.5.2021.10.26.03.29.18
+ by smtp.gmail.com with ESMTPSA id q14sm9155325wrv.55.2021.10.26.03.29.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 03:29:19 -0700 (PDT)
+ Tue, 26 Oct 2021 03:29:29 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 63ED31FFB4;
+ by zen.linaroharston (Postfix) with ESMTP id 817FE1FFB5;
  Tue, 26 Oct 2021 11:22:36 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 19/28] tests/plugins: extend the insn plugin to track
- opcode sizes
-Date: Tue, 26 Oct 2021 11:22:25 +0100
-Message-Id: <20211026102234.3961636-20-alex.bennee@linaro.org>
+Subject: [PATCH v1 20/28] plugins: try and make plugin_insn_append more
+ ergonomic
+Date: Tue, 26 Oct 2021 11:22:26 +0100
+Message-Id: <20211026102234.3961636-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211026102234.3961636-1-alex.bennee@linaro.org>
 References: <20211026102234.3961636-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,96 +90,125 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com,
- kuhn.chenqun@huawei.com, f4bug@amsat.org, robhenry@microsoft.com,
- mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- ma.mandourr@gmail.com, Alexandre Iooss <erdnaxe@crans.org>,
+ kuhn.chenqun@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
+ f4bug@amsat.org, robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is mostly a convenience feature for identifying frontends that do
-multiple repeat loads so I can test changes to the instruction
-tracking interface.
+Currently we make the assumption that the guest frontend loads all
+op code bytes sequentially. This mostly holds up for regular fixed
+encodings but some architectures like s390x like to re-read the
+instruction which causes weirdness to occur. Rather than changing the
+frontends make the plugin API a little more ergonomic and able to
+handle the re-read case.
+
+Stuff will still get strange if we read ahead of the opcode but so far
+no front ends have done that and this patch asserts the case so we can
+catch it early if they do.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/plugin/insn.c | 37 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 35 insertions(+), 2 deletions(-)
+ include/exec/plugin-gen.h | 12 ++++++++++--
+ include/qemu/plugin.h     |  7 +++++--
+ accel/tcg/plugin-gen.c    |  3 +--
+ accel/tcg/translator.c    |  2 +-
+ 4 files changed, 17 insertions(+), 7 deletions(-)
 
-diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
-index 0f6a1938c1..d229fdc001 100644
---- a/tests/plugin/insn.c
-+++ b/tests/plugin/insn.c
-@@ -18,6 +18,8 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+diff --git a/include/exec/plugin-gen.h b/include/exec/plugin-gen.h
+index b1b72b5d90..f92f169739 100644
+--- a/include/exec/plugin-gen.h
++++ b/include/exec/plugin-gen.h
+@@ -27,13 +27,21 @@ void plugin_gen_insn_end(void);
+ void plugin_gen_disable_mem_helpers(void);
+ void plugin_gen_empty_mem_callback(TCGv addr, uint32_t info);
  
- static uint64_t insn_count;
- static bool do_inline;
-+static bool do_size;
-+static GArray *sizes;
- 
- static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
+-static inline void plugin_insn_append(const void *from, size_t size)
++static inline void plugin_insn_append(abi_ptr pc, const void *from, size_t size)
  {
-@@ -49,13 +51,35 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-                 insn, vcpu_insn_exec_before, QEMU_PLUGIN_CB_NO_REGS,
-                 GUINT_TO_POINTER(vaddr));
-         }
-+
-+        if (do_size) {
-+            size_t sz = qemu_plugin_insn_size(insn);
-+            if (sz > sizes->len) {
-+                g_array_set_size(sizes, sz);
-+            }
-+            unsigned long *cnt = &g_array_index(sizes, unsigned long, sz);
-+            (*cnt)++;
-+        }
-     }
- }
+     struct qemu_plugin_insn *insn = tcg_ctx->plugin_insn;
++    abi_ptr off;
  
- static void plugin_exit(qemu_plugin_id_t id, void *p)
+     if (insn == NULL) {
+         return;
+     }
++    off = pc - insn->vaddr;
++    if (off < insn->data->len) {
++        g_byte_array_set_size(insn->data, off);
++    } else if (off > insn->data->len) {
++        /* we have an unexpected gap */
++        g_assert_not_reached();
++    }
+ 
+     insn->data = g_byte_array_append(insn->data, from, size);
+ }
+@@ -62,7 +70,7 @@ static inline void plugin_gen_disable_mem_helpers(void)
+ static inline void plugin_gen_empty_mem_callback(TCGv addr, uint32_t info)
+ { }
+ 
+-static inline void plugin_insn_append(const void *from, size_t size)
++static inline void plugin_insn_append(abi_ptr pc, const void *from, size_t size)
+ { }
+ 
+ #endif /* CONFIG_PLUGIN */
+diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+index b3172b147f..145f8a221a 100644
+--- a/include/qemu/plugin.h
++++ b/include/qemu/plugin.h
+@@ -163,10 +163,12 @@ struct qemu_plugin_tb {
+ 
+ /**
+  * qemu_plugin_tb_insn_get(): get next plugin record for translation.
+- *
++ * @tb: the internal tb context
++ * @pc: address of instruction
+  */
+ static inline
+-struct qemu_plugin_insn *qemu_plugin_tb_insn_get(struct qemu_plugin_tb *tb)
++struct qemu_plugin_insn *qemu_plugin_tb_insn_get(struct qemu_plugin_tb *tb,
++                                                 uint64_t pc)
  {
--    g_autofree gchar *out = g_strdup_printf("insns: %" PRIu64 "\n", insn_count);
--    qemu_plugin_outs(out);
-+    g_autoptr(GString) out = g_string_new(NULL);
-+
-+    if (do_size) {
-+        int i;
-+        for (i = 0; i <= sizes->len; i++) {
-+            unsigned long *cnt = &g_array_index(sizes, unsigned long, i);
-+            if (*cnt) {
-+                g_string_append_printf(out,
-+                                       "len %d bytes: %ld insns\n", i, *cnt);
-+            }
-+        }
-+    } else {
-+        g_string_append_printf(out, "insns: %" PRIu64 "\n", insn_count);
-+    }
-+    qemu_plugin_outs(out->str);
- }
+     struct qemu_plugin_insn *insn;
+     int i, j;
+@@ -179,6 +181,7 @@ struct qemu_plugin_insn *qemu_plugin_tb_insn_get(struct qemu_plugin_tb *tb)
+     g_byte_array_set_size(insn->data, 0);
+     insn->calls_helpers = false;
+     insn->mem_helper = false;
++    insn->vaddr = pc;
  
- QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-@@ -70,12 +94,21 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-                 fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
-                 return -1;
-             }
-+        } else if (g_strcmp0(tokens[0], "sizes") == 0) {
-+            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &do_size)) {
-+                fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
-+                return -1;
-+            }
-         } else {
-             fprintf(stderr, "option parsing failed: %s\n", opt);
-             return -1;
-         }
+     for (i = 0; i < PLUGIN_N_CB_TYPES; i++) {
+         for (j = 0; j < PLUGIN_N_CB_SUBTYPES; j++) {
+diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
+index 61be64b78c..22d95fe1c3 100644
+--- a/accel/tcg/plugin-gen.c
++++ b/accel/tcg/plugin-gen.c
+@@ -876,9 +876,8 @@ void plugin_gen_insn_start(CPUState *cpu, const DisasContextBase *db)
+     struct qemu_plugin_tb *ptb = tcg_ctx->plugin_tb;
+     struct qemu_plugin_insn *pinsn;
+ 
+-    pinsn = qemu_plugin_tb_insn_get(ptb);
++    pinsn = qemu_plugin_tb_insn_get(ptb, db->pc_next);
+     tcg_ctx->plugin_insn = pinsn;
+-    pinsn->vaddr = db->pc_next;
+     plugin_gen_empty_callback(PLUGIN_GEN_FROM_INSN);
+ 
+     /*
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index 390bd9db0a..f06c314266 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -169,7 +169,7 @@ static inline void translator_maybe_page_protect(DisasContextBase *dcbase,
+         if (do_swap) {                                                  \
+             ret = swap_fn(ret);                                         \
+         }                                                               \
+-        plugin_insn_append(&ret, sizeof(ret));                          \
++        plugin_insn_append(pc, &ret, sizeof(ret));                      \
+         return ret;                                                     \
      }
  
-+    if (do_size) {
-+        sizes = g_array_new(true, true, sizeof(unsigned long));
-+    }
-+
-     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
-     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
-     return 0;
 -- 
 2.30.2
 
