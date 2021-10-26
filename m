@@ -2,69 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A21F443B0CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 13:11:51 +0200 (CEST)
-Received: from localhost ([::1]:47548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2244E43B0D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 13:15:06 +0200 (CEST)
+Received: from localhost ([::1]:54598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfKMw-0003hB-JJ
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 07:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53048)
+	id 1mfKQ5-0008VS-2G
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 07:15:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mfJiO-0003Xj-QJ
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:29:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22653)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mfJiN-0004ix-93
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:29:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635244194;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nhY0US1Pzg2IsbywAGvvPhkmFTIXgdohpxdTEUK5FG0=;
- b=TKsK87U6FXOqzJjsaPoSXTJc3MReKcnqPfTBdv1mad/mkwScOVw4fwVG2m8kSSJpyUru6S
- YuZjGyXyW7BBqXYXBstFVb+Y3KXAVYY4ONBg2QZQnmnJskAdYCEBnL8sQKY+9vuG+vqiWN
- w0KdN2bYerSfu+wzwOJtqN4+9fYng14=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-_TVwi_KCOESPtzInPXlTHg-1; Tue, 26 Oct 2021 06:29:53 -0400
-X-MC-Unique: _TVwi_KCOESPtzInPXlTHg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 627471006AD5
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 10:29:44 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.39.195.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ADF151042AEF;
- Tue, 26 Oct 2021 10:29:43 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1mfJk1-0006YN-FH
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:31:37 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:39288)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1mfJjy-00050Q-1T
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:31:37 -0400
+Received: from [127.0.1.1] (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 0846540A2BAE;
+ Tue, 26 Oct 2021 10:31:22 +0000 (UTC)
+Subject: [PATCH] hw/net: store timers for e1000 in vmstate
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] virtiofsd: Error on bad socket group name
-Date: Tue, 26 Oct 2021 11:29:33 +0100
-Message-Id: <20211026102933.103139-6-dgilbert@redhat.com>
-In-Reply-To: <20211026102933.103139-1-dgilbert@redhat.com>
-References: <20211026102933.103139-1-dgilbert@redhat.com>
+Date: Tue, 26 Oct 2021 13:31:21 +0300
+Message-ID: <163524428177.1917083.7115508068018047923.stgit@pasha-ThinkPad-X280>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,45 +50,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vgoyal@redhat.com
+Cc: jasowang@redhat.com, pavel.dovgalyuk@ispras.ru, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Setting timers randomly when vmstate is loaded breaks
+execution determinism.
+Therefore this patch allows saving mit and autoneg timers
+for e1000. It makes execution deterministic and allows
+snapshotting and reverse debugging in icount mode.
 
-Make the '--socket-group=' option fail if the group name is unknown:
-
-./tools/virtiofsd/virtiofsd .... --socket-group=zaphod
-vhost socket: unable to find group 'zaphod'
-
-Reported-by: Xiaoling Gao <xiagao@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20211014122554.34599-1-dgilbert@redhat.com>
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 ---
- tools/virtiofsd/fuse_virtio.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/net/e1000.c |   61 ++++++++++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 50 insertions(+), 11 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index baead08b28..60b96470c5 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -988,6 +988,13 @@ static int fv_create_listen_socket(struct fuse_session *se)
-                          "vhost socket failed to set group to %s (%d): %m\n",
-                          se->vu_socket_group, g->gr_gid);
-             }
-+        } else {
-+            fuse_log(FUSE_LOG_ERR,
-+                     "vhost socket: unable to find group '%s'\n",
-+                     se->vu_socket_group);
-+            close(listen_sock);
-+            umask(old_umask);
-+            return -1;
-         }
+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+index a30546c5d5..2f706f7298 100644
+--- a/hw/net/e1000.c
++++ b/hw/net/e1000.c
+@@ -37,6 +37,7 @@
+ #include "qemu/iov.h"
+ #include "qemu/module.h"
+ #include "qemu/range.h"
++#include "sysemu/replay.h"
+ 
+ #include "e1000x_common.h"
+ #include "trace.h"
+@@ -1407,7 +1408,7 @@ static int e1000_pre_save(void *opaque)
+      * complete auto-negotiation immediately. This allows us to look
+      * at MII_SR_AUTONEG_COMPLETE to infer link status on load.
+      */
+-    if (nc->link_down && have_autoneg(s)) {
++    if (replay_mode == REPLAY_MODE_NONE && nc->link_down && have_autoneg(s)) {
+         s->phy_reg[PHY_STATUS] |= MII_SR_AUTONEG_COMPLETE;
      }
-     umask(old_umask);
--- 
-2.31.1
+ 
+@@ -1438,22 +1439,12 @@ static int e1000_post_load(void *opaque, int version_id)
+             s->mac_reg[TADV] = 0;
+         s->mit_irq_level = false;
+     }
+-    s->mit_ide = 0;
+-    s->mit_timer_on = true;
+-    timer_mod(s->mit_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 1);
+ 
+     /* nc.link_down can't be migrated, so infer link_down according
+      * to link status bit in mac_reg[STATUS].
+      * Alternatively, restart link negotiation if it was in progress. */
+     nc->link_down = (s->mac_reg[STATUS] & E1000_STATUS_LU) == 0;
+ 
+-    if (have_autoneg(s) &&
+-        !(s->phy_reg[PHY_STATUS] & MII_SR_AUTONEG_COMPLETE)) {
+-        nc->link_down = false;
+-        timer_mod(s->autoneg_timer,
+-                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 500);
+-    }
+-
+     s->tx.props = s->mig_props;
+     if (!s->received_tx_tso) {
+         /* We received only one set of offload data (tx.props)
+@@ -1472,6 +1463,13 @@ static int e1000_tx_tso_post_load(void *opaque, int version_id)
+     return 0;
+ }
+ 
++static int e1000_mit_timer_post_load(void *opaque, int version_id)
++{
++    E1000State *s = opaque;
++    s->mit_timer_on = true;
++    return 0;
++}
++
+ static bool e1000_mit_state_needed(void *opaque)
+ {
+     E1000State *s = opaque;
+@@ -1493,6 +1491,21 @@ static bool e1000_tso_state_needed(void *opaque)
+     return chkflag(TSO);
+ }
+ 
++static bool e1000_mit_timer_needed(void *opaque)
++{
++    E1000State *s = opaque;
++
++    return s->mit_timer_on;
++}
++
++static bool e1000_autoneg_timer_needed(void *opaque)
++{
++    E1000State *s = opaque;
++
++    return have_autoneg(s)
++           && !(s->phy_reg[PHY_STATUS] & MII_SR_AUTONEG_COMPLETE);
++}
++
+ static const VMStateDescription vmstate_e1000_mit_state = {
+     .name = "e1000/mit_state",
+     .version_id = 1,
+@@ -1541,6 +1554,30 @@ static const VMStateDescription vmstate_e1000_tx_tso_state = {
+     }
+ };
+ 
++static const VMStateDescription vmstate_e1000_mit_timer = {
++    .name = "e1000/mit_timer",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = e1000_mit_timer_needed,
++    .post_load = e1000_mit_timer_post_load,
++    .fields = (VMStateField[]) {
++        VMSTATE_TIMER_PTR(mit_timer, E1000State),
++        VMSTATE_UINT32(mit_ide, E1000State),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static const VMStateDescription vmstate_e1000_autoneg_timer = {
++    .name = "e1000/autoneg_timer",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = e1000_autoneg_timer_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_TIMER_PTR(autoneg_timer, E1000State),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static const VMStateDescription vmstate_e1000 = {
+     .name = "e1000",
+     .version_id = 2,
+@@ -1622,6 +1659,8 @@ static const VMStateDescription vmstate_e1000 = {
+         &vmstate_e1000_mit_state,
+         &vmstate_e1000_full_mac_state,
+         &vmstate_e1000_tx_tso_state,
++        &vmstate_e1000_mit_timer,
++        &vmstate_e1000_autoneg_timer,
+         NULL
+     }
+ };
 
 
