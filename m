@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD9843BDC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 01:21:12 +0200 (CEST)
-Received: from localhost ([::1]:53954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3A543BDAA
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 01:15:11 +0200 (CEST)
+Received: from localhost ([::1]:36368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfVkl-0006IK-PZ
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 19:21:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52750)
+	id 1mfVew-0002tv-B6
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 19:15:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfVZo-0002nM-V6
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 19:09:53 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:45835)
+ id 1mfVZq-0002oW-1D
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 19:09:54 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:35380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfVZn-0001vv-Gn
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 19:09:52 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id f8so617772plo.12
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 16:09:51 -0700 (PDT)
+ id 1mfVZo-0001w7-Fw
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 19:09:53 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ n11-20020a17090a2bcb00b001a1e7a0a6a6so3597421pje.0
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 16:09:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WL784dDelb2n11jVqBh0M/kFnuIJJZnBgr5d6GB5NwI=;
- b=vZhr/9LXtW4qWcPeY6duuF4Qh7wp3+y7p+wmPVM7duBPAnFQUk/BAq266s6wrLFb8G
- n0A5KahyPYFh07CgkOu2sDmLBxVccYBa8P5AQgubpk2TpoAgwAQiDBMRjw7t8xbgNWYI
- im2mnWz+D7Xwy2696A8w7NLCKQX9+/o/cZf8eA+lBF+wk5fM6IXks5MvSv1/LWaMmZma
- At+DwGeggbE9qcMwxbIQmycdCILVSjDWViW7oxxVW9aljQKpGvhrXvMmPoU7hQ5S1png
- LxX8gCjc93LyrtMAEDTNVZxpl09kqVoAwpDKRZ6Al6YVKUrcNojHjGcnnBbhgqzbqVar
- HHrg==
+ bh=apxi4gdi/2+dlekZiDFnJhG83/VEpB6pYIdUYdxg0AQ=;
+ b=Zlqn8ZEtUiesxXdbRwKyPohvMFlID3t7vj9+O0m5D6ZylBHSQ17hCii0P+FoLLHAnp
+ URScYrNeVuQf1K+6AfbmxHM1SZv/DxTB/bZuO8/LMnlMfTEDK3nQMFdr2z+8QGDaMpdh
+ udqCP/K3oHZNZVWPTkxIvZPVF4OGUGHqNYtBbzjmfYMBlCGGVtwdEFx10VLaIR+BNC+y
+ vYANOqop/eKl5JstaOKYic0p7Um9Ax3umDgctDs1nSdh/EI8d5z6qN4RmxCc6uE0bVFZ
+ 1M+u7HLxr2usSLnysdAOM2EcOQQojG6tgKWmTqn2GhtgI6Apeab91xlAm85QyWvWzx9N
+ pgDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WL784dDelb2n11jVqBh0M/kFnuIJJZnBgr5d6GB5NwI=;
- b=wfX6caVKwJHkQeYj8rgQjNAuA0/5mw3NgO/UOx7D+QGkpmBgz/Qss5Gj5rJXNahxjD
- 1AF6Wd/TT7zwRVw0mMkuvjn0aEjueld4IfrTl8AnIgNwrNO0vy5oNqN3v4b5y8uZ97Er
- wUfMr2qxiWS5XmdjDIcLpvhA3XTxw3uRBg8Dljr/EAo1NpmyLYoIN/CmB87scWTndR55
- xDgi6bkVH1ruwzF3gIJA68fDwiJPZEIIa+oPiOkGVaD2UOf5+x3x215cB4fJWFOJwzkC
- fFT0ym+Fq9AM1t4MnXEhAMjAAf3fpVGrH/Bs+xyGCvBGOo9jsl6bBF6qWQX2DfMAZRK1
- YOQQ==
-X-Gm-Message-State: AOAM532AWWTDYtXReIe7b75252iUU4Aljg1GoQ59DNXmNs//VEfP8NIC
- IIm6v8fJIgYdAlyOMLhc/1bGhQmPucYfHg==
-X-Google-Smtp-Source: ABdhPJx6aYCkNMNGlqdrExwLZgmDj0v3QXhyK+7zd4yt3egoYGf81xhnX0+/zBxpS7zofNMm7K1u7g==
-X-Received: by 2002:a17:902:70cb:b0:13e:91f3:641a with SMTP id
- l11-20020a17090270cb00b0013e91f3641amr24463507plt.13.1635289790141; 
- Tue, 26 Oct 2021 16:09:50 -0700 (PDT)
+ bh=apxi4gdi/2+dlekZiDFnJhG83/VEpB6pYIdUYdxg0AQ=;
+ b=sPfAtQns7CqQzWkO8Ro6FZfiTL2dL580xPynGxHKqr78kA82vehCdYAZ1pB/6GMMh6
+ GoEEOD/YfFJX/Fp6EQoHyAXv8/kaR9JB+4wlfUyC4zPIEhhGs+pkbqK9bh/xm8I3+zs/
+ DkF2QNhE5+oNAhKQHO7qUjjIREYRZ9DPSkRhek7U22mP3gHVfOzIqasgCjRlFtyTZdTx
+ kuSjMplPt6YJLd3Cw3nfiHYTnMRPeNRMkVbbw+2OeepPxdc7DHPgPkSGISUcljzVJXjn
+ Ztr9J5wZMGiJKOsQjW1sEzuTRh9/VzCh1gM0FnR5WiuRTkAJiF9gJTEqEYzc2Y1SLRtw
+ qFdg==
+X-Gm-Message-State: AOAM533U9UvHKF3gAag1sMbsohVhMq1ZAvr1bgmJkDDejzpjgHQMVvXd
+ eTe1AYtcOHs/g+yBd99LDH3FodMR7xmYJA==
+X-Google-Smtp-Source: ABdhPJwVMXik70yYtYToYMoAP1QU6EOAsk4kDxAtdGF9+1sfIpW2RpZfB4gJePQlDlov/TQ2AOKbYw==
+X-Received: by 2002:a17:90a:8006:: with SMTP id
+ b6mr1864217pjn.185.1635289791210; 
+ Tue, 26 Oct 2021 16:09:51 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id t22sm4450630pfg.63.2021.10.26.16.09.49
+ by smtp.gmail.com with ESMTPSA id t22sm4450630pfg.63.2021.10.26.16.09.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 16:09:49 -0700 (PDT)
+ Tue, 26 Oct 2021 16:09:50 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 06/51] tcg/optimize: Split out init_arguments
-Date: Tue, 26 Oct 2021 16:08:58 -0700
-Message-Id: <20211026230943.1225890-7-richard.henderson@linaro.org>
+Subject: [PATCH v4 07/51] tcg/optimize: Split out copy_propagate
+Date: Tue, 26 Oct 2021 16:08:59 -0700
+Message-Id: <20211026230943.1225890-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211026230943.1225890-1-richard.henderson@linaro.org>
 References: <20211026230943.1225890-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,44 +89,33 @@ Cc: luis.pires@eldorado.org.br, alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There was no real reason for calls to have separate code here.
-Unify init for calls vs non-calls using the call path, which
-handles TCG_CALL_DUMMY_ARG.
+Continue splitting tcg_optimize.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 25 +++++++++++--------------
- 1 file changed, 11 insertions(+), 14 deletions(-)
+ tcg/optimize.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index b875d76354..019c5aaf81 100644
+index 019c5aaf81..fad6f5de1f 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -128,11 +128,6 @@ static void init_ts_info(OptContext *ctx, TCGTemp *ts)
+@@ -611,6 +611,19 @@ static void init_arguments(OptContext *ctx, TCGOp *op, int nb_args)
      }
  }
  
--static void init_arg_info(OptContext *ctx, TCGArg arg)
--{
--    init_ts_info(ctx, arg_temp(arg));
--}
--
- static TCGTemp *find_better_copy(TCGContext *s, TCGTemp *ts)
- {
-     TCGTemp *i, *g, *l;
-@@ -606,6 +601,16 @@ static bool swap_commutative2(TCGArg *p1, TCGArg *p2)
-     return false;
- }
- 
-+static void init_arguments(OptContext *ctx, TCGOp *op, int nb_args)
++static void copy_propagate(OptContext *ctx, TCGOp *op,
++                           int nb_oargs, int nb_iargs)
 +{
-+    for (int i = 0; i < nb_args; i++) {
++    TCGContext *s = ctx->tcg;
++
++    for (int i = nb_oargs; i < nb_oargs + nb_iargs; i++) {
 +        TCGTemp *ts = arg_temp(op->args[i]);
-+        if (ts) {
-+            init_ts_info(ctx, ts);
++        if (ts && ts_is_copy(ts)) {
++            op->args[i] = temp_arg(find_better_copy(s, ts));
 +        }
 +    }
 +}
@@ -133,27 +123,22 @@ index b875d76354..019c5aaf81 100644
  /* Propagate constants and copies, fold constant expressions. */
  void tcg_optimize(TCGContext *s)
  {
-@@ -636,19 +641,11 @@ void tcg_optimize(TCGContext *s)
-         if (opc == INDEX_op_call) {
-             nb_oargs = TCGOP_CALLO(op);
-             nb_iargs = TCGOP_CALLI(op);
--            for (i = 0; i < nb_oargs + nb_iargs; i++) {
--                TCGTemp *ts = arg_temp(op->args[i]);
--                if (ts) {
--                    init_ts_info(&ctx, ts);
--                }
--            }
-         } else {
-             nb_oargs = def->nb_oargs;
+@@ -646,14 +659,7 @@ void tcg_optimize(TCGContext *s)
              nb_iargs = def->nb_iargs;
--            for (i = 0; i < nb_oargs + nb_iargs; i++) {
--                init_arg_info(&ctx, op->args[i]);
--            }
          }
-+        init_arguments(&ctx, op, nb_oargs + nb_iargs);
+         init_arguments(&ctx, op, nb_oargs + nb_iargs);
+-
+-        /* Do copy propagation */
+-        for (i = nb_oargs; i < nb_oargs + nb_iargs; i++) {
+-            TCGTemp *ts = arg_temp(op->args[i]);
+-            if (ts && ts_is_copy(ts)) {
+-                op->args[i] = temp_arg(find_better_copy(s, ts));
+-            }
+-        }
++        copy_propagate(&ctx, op, nb_oargs, nb_iargs);
  
-         /* Do copy propagation */
-         for (i = nb_oargs; i < nb_oargs + nb_iargs; i++) {
+         /* For commutative operations make constant second argument */
+         switch (opc) {
 -- 
 2.25.1
 
