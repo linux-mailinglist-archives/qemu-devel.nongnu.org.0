@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B9D43BE4C
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 02:02:42 +0200 (CEST)
-Received: from localhost ([::1]:54204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4881243BE50
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 02:04:26 +0200 (CEST)
+Received: from localhost ([::1]:56498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfWOv-0005As-Lr
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 20:02:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53962)
+	id 1mfWQb-0006iJ-ED
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 20:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfVdN-0000AF-46
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 19:13:33 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:36676)
+ id 1mfVdR-0000FN-5q
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 19:13:37 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:34692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfVdK-00037T-JB
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 19:13:32 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id m26so920146pff.3
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 16:13:30 -0700 (PDT)
+ id 1mfVdO-000380-1t
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 19:13:36 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id 127so927123pfu.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 16:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DsfypDh+crhT4o2nCKU8fbNZB88YlA0a4vqSSNYIH70=;
- b=CXfoGMYDzsrpKv8DFBNp3N/E/87b+Irh2rHJas5orfylmIx8kaL7LVXsJctfrMl1Iq
- 2NB0vK8drtqviscdpx78N9v3JLFOVpzzDtlgOetxTDQUQhxwbC+UEcIu1gJq+Ru0qAGx
- oTasaC2THWuAENGibkV9cgHpsymd4QfUwJYZSbHpPGOZweAVuCrZwjNp8m0TtXgcAPm5
- L+tPFDNDtsPwPCvjZ1S1c+ES2GB0fXx1FYeNvOzjTIn0OdGonZEJsHUvQhof28osoije
- 5f3ZDfczPsV4tbAappVslaxm+C0rtiwv6eaaTbsMt7vXWUuGZhQQ0v2tiEUDmYrwdFgq
- z3eQ==
+ bh=mUsUojes9E/WUS/+YAxDThhgpmUv93fOZ4TSPj0umDw=;
+ b=g1h0Vs1yJD7Ng8siQMw0CnP28NAO1orCan+yDZvbkaVto0lEdd5e2SwSmoW0r06K5p
+ P8FWXk/AQWqRiHChHsD8C+i1X2n60X9uq76SYYtzojPXMUdfHk3ppZIODmYBWwIj4CAA
+ 0HlPV2xOUOelsq8cGaI17nCrTFojHEpe4cAwmtuLz93eeh0BdkPmCFzbw1al3EEi1Ln/
+ ZoHXULB4gGGuyWgbSPZ6+mvPd+N3wzOPJ3XDJR0dS8amZiFVD9aMhbWMDZjmKsh96ZWM
+ NrP3PLJLrh5lFPEMkFSs7C8NBIE+3gUT60rPLwsyOM6BWC8DYqxxWmOEAbI6/hixqSRQ
+ eusQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DsfypDh+crhT4o2nCKU8fbNZB88YlA0a4vqSSNYIH70=;
- b=nHw18W3xtcsin7bFQruFuiPoXg1aZZR0AXGxjfLG+CjLDUXIChF7qMboYhEoHtUEmS
- rO0VJQQitFwsSZAPfDSxFIwu6iOpoH2EhYEt/Wzt+LSogL7Gi8QQaI19Wa2bkR3PXlk9
- 7ZEEUmV+opZ6PSK4DoMAjTsEtcNzNUjSrmOglqKGxRdfWehHLaIt6vuqeSqKdRPd4jkr
- ihQXuC6anLWZ/y62TojM38/C15Ihx/Cl4OmSJyZXN0Zidb/oTWNs33iS7OXIDJVHtJjq
- f6Yj4qntKkpMLFxGCvTgg0yVPz3AtuzWjb+v6bn5Q5UvY11QFtFMix06ck2/qgz4A6dA
- Hyig==
-X-Gm-Message-State: AOAM532CtsziSCrnm/dVjQmIyE6bXCRewML0F5gNh5684soXnWKN6zjB
- JgJAPUjbsWkDAi8LtL0N4Kw9B2AtL6h0AA==
-X-Google-Smtp-Source: ABdhPJwjQgIg7B5RnVfNRQYxW0ExhHa8CfBwDRU8uUaOdQ7lGFEtXn+T73nsl8m043NIJVd8FaZPog==
-X-Received: by 2002:a63:e446:: with SMTP id i6mr21738116pgk.288.1635290009020; 
- Tue, 26 Oct 2021 16:13:29 -0700 (PDT)
+ bh=mUsUojes9E/WUS/+YAxDThhgpmUv93fOZ4TSPj0umDw=;
+ b=3xI8Nj8wmaejuNao4Z7T1kIPg6qWOUmBFnjEeS0kv+IhXchgzZ2QjjEq7phPfMF4w9
+ llpkgGyyb/FFN+pBQm8W/ALCuOouz4hO666nH1Sn93SZL8KpNKF1vzolKVvrj1cegHIL
+ bJ9rR7BXnehBFw6UzrnTAGJNf5IvY0YHyiQIyY7AaNLZQfc6iXd63EPqkCfzMGcMDVl/
+ //xfFOdBYZg7WFnT6TF+UFJ9bMB6Gcq9WnQIsD5JpfULLe4pX2K1xxV4Nblex3MiGlZf
+ iOtDnitS0KCZuO9mBbkMy1GXuUJ0qkCzUD71wB67Qrc9i5IRmFgn1Fw4zXpHhpurs2Ee
+ 3jTQ==
+X-Gm-Message-State: AOAM530uyn05KWsc9yA3/Ycd2HqYGaTBRAPBgnsH46vGJ3ZeZoMqddAH
+ D/xd4tQ1cQYDtlVI3NUnQdD7xYQoJ4UNlw==
+X-Google-Smtp-Source: ABdhPJwqcLumEAWOx7J6qJ6QJv/HXM6yeNjkivtW/YM2x7K71ll8FFZEEp0szN3Uoa3adO0WRHw8/Q==
+X-Received: by 2002:a62:8017:0:b0:47b:fc93:f252 with SMTP id
+ j23-20020a628017000000b0047bfc93f252mr13686215pfd.39.1635290012860; 
+ Tue, 26 Oct 2021 16:13:32 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id d6sm24158122pfa.39.2021.10.26.16.13.27
+ by smtp.gmail.com with ESMTPSA id d6sm24158122pfa.39.2021.10.26.16.13.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 16:13:28 -0700 (PDT)
+ Tue, 26 Oct 2021 16:13:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 47/51] tcg/optimize: Optimize sign extensions
-Date: Tue, 26 Oct 2021 16:09:39 -0700
-Message-Id: <20211026230943.1225890-48-richard.henderson@linaro.org>
+Subject: [PATCH v4 51/51] tcg/optimize: Propagate sign info for shifting
+Date: Tue, 26 Oct 2021 16:09:43 -0700
+Message-Id: <20211026230943.1225890-52-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211026230943.1225890-1-richard.henderson@linaro.org>
 References: <20211026230943.1225890-1-richard.henderson@linaro.org>
@@ -64,13 +65,12 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
  envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,354 +87,100 @@ Cc: luis.pires@eldorado.org.br, alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Certain targets, like riscv, produce signed 32-bit results.
-This can lead to lots of redundant extensions as values are
-manipulated.
+For constant shifts, we can simply shift the s_mask.
 
-Begin by tracking only the obvious sign-extensions, and
-converting them to simple copies when possible.
+For variable shifts, we know that sar does not reduce
+the s_mask, which helps for sequences like
+
+    ext32s_i64  t, in
+    sar_i64     t, t, v
+    ext32s_i64  out, t
+
+allowing the final extend to be eliminated.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 123 ++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 102 insertions(+), 21 deletions(-)
+ tcg/optimize.c | 50 +++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 47 insertions(+), 3 deletions(-)
 
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 6c6c523a85..742417ca1e 100644
+index ccabc5ed54..98ebe93f04 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -43,6 +43,7 @@ typedef struct TempOptInfo {
-     TCGTemp *next_copy;
-     uint64_t val;
-     uint64_t z_mask;  /* mask bit is 0 if and only if value bit is 0 */
-+    uint64_t s_mask;  /* a left-aligned mask of clrsb(value) bits. */
- } TempOptInfo;
+@@ -85,6 +85,18 @@ static uint64_t smask_from_zmask(uint64_t zmask)
+     return ~(~0ull >> rep);
+ }
  
- typedef struct OptContext {
-@@ -53,9 +54,37 @@ typedef struct OptContext {
-     /* In flight values from optimization. */
-     uint64_t a_mask;  /* mask bit is 0 iff value identical to first input */
-     uint64_t z_mask;  /* mask bit is 0 iff value bit is 0 */
-+    uint64_t s_mask;  /* mask of clrsb(value) bits */
-     TCGType type;
- } OptContext;
- 
-+/* Calculate the smask for a specific value. */
-+static uint64_t smask_from_value(uint64_t value)
-+{
-+    int rep = clrsb64(value);
-+    return ~(~0ull >> rep);
-+}
-+
 +/*
-+ * Calculate the smask for a given set of known-zeros.
-+ * If there are lots of zeros on the left, we can consider the remainder
-+ * an unsigned field, and thus the corresponding signed field is one bit
-+ * larger.
++ * Recreate a properly left-aligned smask after manipulation.
++ * Some bit-shuffling, particularly shifts and rotates, may
++ * retain sign bits on the left, but may scatter disconnected
++ * sign bits on the right.  Retain only what remains to the left.
 + */
-+static uint64_t smask_from_zmask(uint64_t zmask)
++static uint64_t smask_from_smask(int64_t smask)
 +{
-+    /*
-+     * Only the 0 bits are significant for zmask, thus the msb itself
-+     * must be zero, else we have no sign information.
-+     */
-+    int rep = clz64(zmask);
-+    if (rep == 0) {
-+        return 0;
-+    }
-+    rep -= 1;
-+    return ~(~0ull >> rep);
++    /* Only the 1 bits are significant for smask */
++    return smask_from_zmask(~smask);
 +}
 +
  static inline TempOptInfo *ts_info(TCGTemp *ts)
  {
      return ts->state_ptr;
-@@ -94,6 +123,7 @@ static void reset_ts(TCGTemp *ts)
-     ti->prev_copy = ts;
-     ti->is_const = false;
-     ti->z_mask = -1;
-+    ti->s_mask = 0;
- }
+@@ -1842,18 +1854,50 @@ static bool fold_sextract(OptContext *ctx, TCGOp *op)
  
- static void reset_temp(TCGArg arg)
-@@ -124,9 +154,11 @@ static void init_ts_info(OptContext *ctx, TCGTemp *ts)
-         ti->is_const = true;
-         ti->val = ts->val;
-         ti->z_mask = ts->val;
-+        ti->s_mask = smask_from_value(ts->val);
-     } else {
-         ti->is_const = false;
-         ti->z_mask = -1;
-+        ti->s_mask = 0;
-     }
- }
- 
-@@ -220,6 +252,7 @@ static bool tcg_opt_gen_mov(OptContext *ctx, TCGOp *op, TCGArg dst, TCGArg src)
-     op->args[1] = src;
- 
-     di->z_mask = si->z_mask;
-+    di->s_mask = si->s_mask;
- 
-     if (src_ts->type == dst_ts->type) {
-         TempOptInfo *ni = ts_info(si->next_copy);
-@@ -658,13 +691,15 @@ static void finish_folding(OptContext *ctx, TCGOp *op)
- 
-     nb_oargs = def->nb_oargs;
-     for (i = 0; i < nb_oargs; i++) {
--        reset_temp(op->args[i]);
-+        TCGTemp *ts = arg_temp(op->args[i]);
-+        reset_ts(ts);
-         /*
--         * Save the corresponding known-zero bits mask for the
-+         * Save the corresponding known-zero/sign bits mask for the
-          * first output argument (only one supported so far).
-          */
-         if (i == 0) {
--            arg_info(op->args[i])->z_mask = ctx->z_mask;
-+            ts_info(ts)->z_mask = ctx->z_mask;
-+            ts_info(ts)->s_mask = ctx->s_mask;
-         }
-     }
- }
-@@ -714,6 +749,7 @@ static bool fold_masks(OptContext *ctx, TCGOp *op)
+ static bool fold_shift(OptContext *ctx, TCGOp *op)
  {
-     uint64_t a_mask = ctx->a_mask;
-     uint64_t z_mask = ctx->z_mask;
-+    uint64_t s_mask = ctx->s_mask;
- 
-     /*
-      * 32-bit ops generate 32-bit results, which for the purpose of
-@@ -725,7 +761,9 @@ static bool fold_masks(OptContext *ctx, TCGOp *op)
-     if (ctx->type == TCG_TYPE_I32) {
-         a_mask = (int32_t)a_mask;
-         z_mask = (int32_t)z_mask;
-+        s_mask |= MAKE_64BIT_MASK(32, 32);
-         ctx->z_mask = z_mask;
-+        ctx->s_mask = s_mask;
-     }
- 
-     if (z_mask == 0) {
-@@ -1071,7 +1109,7 @@ static bool fold_brcond2(OptContext *ctx, TCGOp *op)
- 
- static bool fold_bswap(OptContext *ctx, TCGOp *op)
- {
--    uint64_t z_mask, sign;
-+    uint64_t z_mask, s_mask, sign;
- 
-     if (arg_is_const(op->args[1])) {
-         uint64_t t = arg_info(op->args[1])->val;
-@@ -1081,6 +1119,7 @@ static bool fold_bswap(OptContext *ctx, TCGOp *op)
-     }
- 
-     z_mask = arg_info(op->args[1])->z_mask;
++    uint64_t s_mask, z_mask, sign;
 +
-     switch (op->opc) {
-     case INDEX_op_bswap16_i32:
-     case INDEX_op_bswap16_i64:
-@@ -1099,6 +1138,7 @@ static bool fold_bswap(OptContext *ctx, TCGOp *op)
-     default:
-         g_assert_not_reached();
-     }
-+    s_mask = smask_from_zmask(z_mask);
- 
-     switch (op->args[2] & (TCG_BSWAP_OZ | TCG_BSWAP_OS)) {
-     case TCG_BSWAP_OZ:
-@@ -1107,14 +1147,17 @@ static bool fold_bswap(OptContext *ctx, TCGOp *op)
-         /* If the sign bit may be 1, force all the bits above to 1. */
-         if (z_mask & sign) {
-             z_mask |= sign;
-+            s_mask = sign << 1;
-         }
-         break;
-     default:
-         /* The high bits are undefined: force all bits above the sign to 1. */
-         z_mask |= sign << 1;
-+        s_mask = 0;
-         break;
-     }
-     ctx->z_mask = z_mask;
-+    ctx->s_mask = s_mask;
- 
-     return fold_masks(ctx, op);
- }
-@@ -1262,21 +1305,24 @@ static bool fold_eqv(OptContext *ctx, TCGOp *op)
- static bool fold_extract(OptContext *ctx, TCGOp *op)
- {
-     uint64_t z_mask_old, z_mask;
-+    int pos = op->args[2];
-+    int len = op->args[3];
- 
-     if (arg_is_const(op->args[1])) {
-         uint64_t t;
- 
-         t = arg_info(op->args[1])->val;
--        t = extract64(t, op->args[2], op->args[3]);
-+        t = extract64(t, pos, len);
-         return tcg_opt_gen_movi(ctx, op, op->args[0], t);
-     }
- 
-     z_mask_old = arg_info(op->args[1])->z_mask;
--    z_mask = sextract64(z_mask_old, op->args[2], op->args[3]);
--    if (op->args[2] == 0) {
-+    z_mask = extract64(z_mask_old, pos, len);
-+    if (pos == 0) {
-         ctx->a_mask = z_mask_old ^ z_mask;
-     }
-     ctx->z_mask = z_mask;
-+    ctx->s_mask = smask_from_zmask(z_mask);
- 
-     return fold_masks(ctx, op);
- }
-@@ -1302,14 +1348,16 @@ static bool fold_extract2(OptContext *ctx, TCGOp *op)
- 
- static bool fold_exts(OptContext *ctx, TCGOp *op)
- {
--    uint64_t z_mask_old, z_mask, sign;
-+    uint64_t s_mask_old, s_mask, z_mask, sign;
-     bool type_change = false;
- 
-     if (fold_const1(ctx, op)) {
+     if (fold_const2(ctx, op) ||
+         fold_ix_to_i(ctx, op, 0) ||
+         fold_xi_to_x(ctx, op, 0)) {
          return true;
      }
  
--    z_mask_old = z_mask = arg_info(op->args[1])->z_mask;
-+    z_mask = arg_info(op->args[1])->z_mask;
 +    s_mask = arg_info(op->args[1])->s_mask;
-+    s_mask_old = s_mask;
- 
-     switch (op->opc) {
-     CASE_OP_32_64(ext8s):
-@@ -1333,10 +1381,14 @@ static bool fold_exts(OptContext *ctx, TCGOp *op)
- 
-     if (z_mask & sign) {
-         z_mask |= sign;
--    } else if (!type_change) {
--        ctx->a_mask = z_mask_old ^ z_mask;
-     }
-+    s_mask |= sign << 1;
-+
-     ctx->z_mask = z_mask;
-+    ctx->s_mask = s_mask;
-+    if (!type_change) {
-+        ctx->a_mask = s_mask & ~s_mask_old;
-+    }
- 
-     return fold_masks(ctx, op);
- }
-@@ -1375,6 +1427,7 @@ static bool fold_extu(OptContext *ctx, TCGOp *op)
-     }
- 
-     ctx->z_mask = z_mask;
-+    ctx->s_mask = smask_from_zmask(z_mask);
-     if (!type_change) {
-         ctx->a_mask = z_mask_old ^ z_mask;
-     }
-@@ -1605,8 +1658,12 @@ static bool fold_qemu_ld(OptContext *ctx, TCGOp *op)
-     MemOp mop = get_memop(oi);
-     int width = 8 * memop_size(mop);
- 
--    if (!(mop & MO_SIGN) && width < 64) {
--        ctx->z_mask = MAKE_64BIT_MASK(0, width);
-+    if (width < 64) {
-+        ctx->s_mask = MAKE_64BIT_MASK(width, 64 - width);
-+        if (!(mop & MO_SIGN)) {
-+            ctx->z_mask = MAKE_64BIT_MASK(0, width);
-+            ctx->s_mask <<= 1;
-+        }
-     }
- 
-     /* Opcodes that touch guest memory stop the mb optimization.  */
-@@ -1725,23 +1782,31 @@ static bool fold_setcond2(OptContext *ctx, TCGOp *op)
- 
- static bool fold_sextract(OptContext *ctx, TCGOp *op)
- {
--    int64_t z_mask_old, z_mask;
-+    uint64_t z_mask, s_mask, s_mask_old;
-+    int pos = op->args[2];
-+    int len = op->args[3];
- 
-     if (arg_is_const(op->args[1])) {
-         uint64_t t;
- 
-         t = arg_info(op->args[1])->val;
--        t = sextract64(t, op->args[2], op->args[3]);
-+        t = sextract64(t, pos, len);
-         return tcg_opt_gen_movi(ctx, op, op->args[0], t);
-     }
- 
--    z_mask_old = arg_info(op->args[1])->z_mask;
--    z_mask = sextract64(z_mask_old, op->args[2], op->args[3]);
--    if (op->args[2] == 0 && z_mask >= 0) {
--        ctx->a_mask = z_mask_old ^ z_mask;
--    }
 +    z_mask = arg_info(op->args[1])->z_mask;
-+    z_mask = sextract64(z_mask, pos, len);
-     ctx->z_mask = z_mask;
- 
-+    s_mask_old = arg_info(op->args[1])->s_mask;
-+    s_mask = sextract64(s_mask_old, pos, len);
-+    s_mask |= MAKE_64BIT_MASK(len, 64 - len);
-+    ctx->s_mask = s_mask;
 +
-+    if (pos == 0) {
-+        ctx->a_mask = s_mask & ~s_mask_old;
+     if (arg_is_const(op->args[2])) {
+-        ctx->z_mask = do_constant_folding(op->opc, ctx->type,
+-                                          arg_info(op->args[1])->z_mask,
+-                                          arg_info(op->args[2])->val);
++        int sh = arg_info(op->args[2])->val;
++
++        ctx->z_mask = do_constant_folding(op->opc, ctx->type, z_mask, sh);
++
++        s_mask = do_constant_folding(op->opc, ctx->type, s_mask, sh);
++        ctx->s_mask = smask_from_smask(s_mask);
++
+         return fold_masks(ctx, op);
+     }
++
++    switch (op->opc) {
++    CASE_OP_32_64(sar):
++        /*
++         * Arithmetic right shift will not reduce the number of
++         * input sign repetitions.
++         */
++        ctx->s_mask = s_mask;
++        break;
++    CASE_OP_32_64(shr):
++        /*
++         * If the sign bit is known zero, then logical right shift
++         * will not reduced the number of input sign repetitions.
++         */
++        sign = (s_mask & -s_mask) >> 1;
++        if (!(z_mask & sign)) {
++            ctx->s_mask = s_mask;
++        }
++        break;
++    default:
++        break;
 +    }
 +
-     return fold_masks(ctx, op);
+     return false;
  }
  
-@@ -1818,14 +1883,26 @@ static bool fold_tcg_ld(OptContext *ctx, TCGOp *op)
- {
-     /* We can't do any folding with a load, but we can record bits. */
-     switch (op->opc) {
-+    CASE_OP_32_64(ld8s):
-+        ctx->s_mask = MAKE_64BIT_MASK(8, 56);
-+        break;
-     CASE_OP_32_64(ld8u):
-         ctx->z_mask = MAKE_64BIT_MASK(0, 8);
-+        ctx->s_mask = MAKE_64BIT_MASK(9, 55);
-+        break;
-+    CASE_OP_32_64(ld16s):
-+        ctx->s_mask = MAKE_64BIT_MASK(16, 48);
-         break;
-     CASE_OP_32_64(ld16u):
-         ctx->z_mask = MAKE_64BIT_MASK(0, 16);
-+        ctx->s_mask = MAKE_64BIT_MASK(17, 47);
-+        break;
-+    case INDEX_op_ld32s_i64:
-+        ctx->s_mask = MAKE_64BIT_MASK(32, 32);
-         break;
-     case INDEX_op_ld32u_i64:
-         ctx->z_mask = MAKE_64BIT_MASK(0, 32);
-+        ctx->s_mask = MAKE_64BIT_MASK(33, 31);
-         break;
-     default:
-         g_assert_not_reached();
-@@ -1888,9 +1965,10 @@ void tcg_optimize(TCGContext *s)
-             ctx.type = TCG_TYPE_I32;
-         }
- 
--        /* Assume all bits affected, and no bits known zero. */
-+        /* Assume all bits affected, no bits known zero, no sign reps. */
-         ctx.a_mask = -1;
-         ctx.z_mask = -1;
-+        ctx.s_mask = 0;
- 
-         /*
-          * Process each opcode.
-@@ -1963,8 +2041,11 @@ void tcg_optimize(TCGContext *s)
-         case INDEX_op_extrh_i64_i32:
-             done = fold_extu(&ctx, op);
-             break;
-+        CASE_OP_32_64(ld8s):
-         CASE_OP_32_64(ld8u):
-+        CASE_OP_32_64(ld16s):
-         CASE_OP_32_64(ld16u):
-+        case INDEX_op_ld32s_i64:
-         case INDEX_op_ld32u_i64:
-             done = fold_tcg_ld(&ctx, op);
-             break;
 -- 
 2.25.1
 
