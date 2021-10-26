@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02AE543B0E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 13:16:50 +0200 (CEST)
-Received: from localhost ([::1]:55734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB36D43B14C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 13:34:39 +0200 (CEST)
+Received: from localhost ([::1]:47172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfKRl-0000sT-58
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 07:16:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33634)
+	id 1mfKj0-0006cc-IE
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 07:34:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfKNh-0006fg-Ri
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 07:12:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22711)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfKhZ-0005x2-7a
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 07:33:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfKNg-0005vc-4U
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 07:12:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfKhH-0002qx-Qt
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 07:33:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635246755;
+ s=mimecast20190719; t=1635247969;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wyTWkZHHkOczDTcH69FVzVHQ9Lbd9dFk8ecI5I+7uEQ=;
- b=HN3dx130+mfONYZEXAMbvd5oo8rfliXpYc7o0K3rp+seU0IPVGkVpXjcKP9erZ71tnFTv2
- 5o80IDV+QfmTnF2c59OK5/10JFbjJRSVgXBL9Z0rbSDxTnUt6hvDmoie4YMK+nW9bCtlvG
- LUrOUxSQ+8rZBm8/MEi6EBWRT92dQP4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-BBqKh2ieOAC0HJ7XTA6nTg-1; Tue, 26 Oct 2021 07:12:33 -0400
-X-MC-Unique: BBqKh2ieOAC0HJ7XTA6nTg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5-20020a1c0005000000b0032c9c156acbso4937228wma.9
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 04:12:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=wyTWkZHHkOczDTcH69FVzVHQ9Lbd9dFk8ecI5I+7uEQ=;
- b=EMWMhysOPXMsG2WnG0xmE0Kb/KVCsZJg67Y+snIYMZXad9cgIxZTlIHMYLyFJ+hzQk
- TeHTihnBBITHUlDx8V+OMsUKnmLTgOZLTfXF2vNSpM0YqOjpzrVsz+bBhlIzYu/v5+iO
- CTS4AV5Y4SMGVwwxw1uU28gbNPcSF+l5J/4G1BphlEm4VgOAzY3KlSC1qIKmuqArds59
- 6X5gCQhqSmZD1QcBEnkbnPAznCa3B+nU6htmqs4rao/QqRzXVPwi6xy+TiVHgRKOrNfQ
- 3mz7eLNDpnELYdubPgfMwJIAKA1b3i++nlFiJwHhlAtoaIFvJB+nyFVumP9oUTLKLScY
- YQ3g==
-X-Gm-Message-State: AOAM533uQ4gp2l8UdhDV6HaI+oiqLJ0fIFRttDzxwNRN+3kWY+ZO5b6r
- 777S74WoQrf3npMMqM7LQkiXme5a7yJx0qlwKRjJNbyvct1bX91EYZ9al//uQ2kNGt9eDrvl3FJ
- M2DWD9xIzZL7XW64=
-X-Received: by 2002:a05:6000:128f:: with SMTP id
- f15mr30994678wrx.143.1635246752846; 
- Tue, 26 Oct 2021 04:12:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwHW72BV2Imq2wAATC5P/21dW7YjnUYq0GcQxvhuOI6Fz6rcLT8AhpmZj2+UdUe4qBPKw89EA==
-X-Received: by 2002:a05:6000:128f:: with SMTP id
- f15mr30994650wrx.143.1635246752680; 
- Tue, 26 Oct 2021 04:12:32 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id c17sm295796wmk.23.2021.10.26.04.12.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 04:12:32 -0700 (PDT)
-Message-ID: <834e3cc1-f012-7daa-bb56-b3f670d19fd1@redhat.com>
-Date: Tue, 26 Oct 2021 13:12:31 +0200
+ bh=93DBcPXieqWG93XNM7GA2S+PSvcdcXVkvr1BaYChjNc=;
+ b=FqkeJo5O+ig4gvrtyo+wWO2ETBS65uBMRQKoYfyp6RBQBjMjp4RLGKpII074id91v+lzCg
+ 6JVpCtCo84rUQ5j6uwiUgq/rbgFLmzshWYSJStBOOnD9QjtqVjLFYWEF3DxDphkIls/2Su
+ LhpG3uCh4ZUq1OGO9DthShg23me9XnQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-239-F25O9lPEOe-U7aPc-1V38A-1; Tue, 26 Oct 2021 07:32:46 -0400
+X-MC-Unique: F25O9lPEOe-U7aPc-1V38A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F557107B0E0;
+ Tue, 26 Oct 2021 11:32:45 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE294641AA;
+ Tue, 26 Oct 2021 11:32:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6364611380A7; Tue, 26 Oct 2021 13:32:29 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v7 0/4] VNC-related HMP/QMP fixes
+References: <20211021100135.4146766-1-s.reiter@proxmox.com>
+ <87k0i6d5l5.fsf@dusky.pond.sub.org> <YXfV4vf5+YLFXYbA@work-vm>
+Date: Tue, 26 Oct 2021 13:32:29 +0200
+In-Reply-To: <YXfV4vf5+YLFXYbA@work-vm> (David Alan Gilbert's message of "Tue, 
+ 26 Oct 2021 11:18:10 +0100")
+Message-ID: <87mtmwja2a.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 1/2] docs/devel/qapi-code-gen: Drop a duplicate paragraph
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20211026111023.76937-1-armbru@redhat.com>
- <20211026111023.76937-2-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211026111023.76937-2-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.215, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,21 +78,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, jsnow@redhat.com,
- mdroth@linux.vnet.ibm.com, eblake@redhat.com, marcandre.lureau@redhat.com
+Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ Stefan Reiter <s.reiter@proxmox.com>, qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/21 13:10, Markus Armbruster wrote:
-> Commit 55ec69f8b1 "docs/devel/qapi-code-gen.txt: Update to new rST
-> backend conventions" accidentally duplicated a paragraph.  Drop it.
-> 
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  docs/devel/qapi-code-gen.rst | 6 ------
->  1 file changed, 6 deletions(-)
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> * Markus Armbruster (armbru@redhat.com) wrote:
+>> I'm done reviewing.  David, care to have another look at the HMP part?
+>
+> Yep, looking good to me - is that going via qmp, hmp, or vnc ?
+
+Either is fine with me.
+
+David, Gerd, do you have anything queued up already?
 
 
