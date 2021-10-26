@@ -2,57 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B538543B69C
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 18:11:16 +0200 (CEST)
-Received: from localhost ([::1]:35010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D1843B68B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 18:09:29 +0200 (CEST)
+Received: from localhost ([::1]:60048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfP2h-00042L-HW
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 12:11:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57580)
+	id 1mfP0y-0001vT-0s
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 12:09:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mfOyv-0007I1-RT
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:07:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29493)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mfOzG-0007d9-Mh
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:07:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mfOys-0003za-LP
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:07:20 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mfOzE-00043U-IY
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 12:07:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635264435;
+ s=mimecast20190719; t=1635264459;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BAcueG9S/nVw6Y/4rK6HkFGzJzB+ZTXRmBuQW5yjaD8=;
- b=jDXbmSAJurWdIm15vLixvrCLLFVwseijUzf5yzogiEwJQ78tYvjr3voKeO/evFRh4lPC9Z
- fxXnAlxm57Qu45ruBJVD8n6mbMaAJInOoNGLAFsm3WNEhHWObKzba3uWBgKJAe1YIC4Qeq
- L3a4tl2Y2ABPTcfsy9lhT7z6jmOoHik=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CeJpYCXg7EA6G8snVr6W6qAUpTz5okwf/oso6QY/UA4=;
+ b=VV//XC1qs4pso/x1DJLXWuNcN/TNbEC+M+0w3v3RfVXuIt4VbmrTfegV5gjT1uKzFfLPT2
+ fGBJ7x5jAPXEen8DEgN30b8RZwV2W9y+wEPHC/KLJEi/jVhm0myg0D9k3JK7aw6jrboImQ
+ AFav86IngMeGsBiZEMEzwKm2M2KsLvE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-8lmygVrtMEanlkjYR7W37A-1; Tue, 26 Oct 2021 12:07:12 -0400
-X-MC-Unique: 8lmygVrtMEanlkjYR7W37A-1
+ us-mta-564-vi1Fy0NAPwGDlr7JdiwCHw-1; Tue, 26 Oct 2021 12:07:38 -0400
+X-MC-Unique: vi1Fy0NAPwGDlr7JdiwCHw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69C451006AA5;
- Tue, 26 Oct 2021 16:07:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0309362FB;
+ Tue, 26 Oct 2021 16:07:37 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EDBF61972D;
- Tue, 26 Oct 2021 16:06:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B43F3E2CB;
+ Tue, 26 Oct 2021 16:07:11 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] memory: memory_region_is_mapped() cleanups
-Date: Tue, 26 Oct 2021 18:06:46 +0200
-Message-Id: <20211026160649.47545-1-david@redhat.com>
+Subject: [PATCH v2 1/3] machine: Use host_memory_backend_is_mapped() in
+ machine_consume_memdev()
+Date: Tue, 26 Oct 2021 18:06:47 +0200
+Message-Id: <20211026160649.47545-2-david@redhat.com>
+In-Reply-To: <20211026160649.47545-1-david@redhat.com>
+References: <20211026160649.47545-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,45 +84,34 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the follow-up of [1].
+memory_region_is_mapped() is the wrong check, we actually want to check
+whether the backend is already marked mapped.
 
-Playing with memory_region_is_mapped(), I realized that memory regions
-mapped via an alias behave a little bit "differently", as they don't have
-their ->container set.
-* memory_region_is_mapped() will never succeed for memory regions mapped
-  via an alias
-* memory_region_to_address_space(), memory_region_find(),
-  memory_region_find_rcu(), memory_region_present() won't work, which seems
-  okay, because we don't expect such memory regions getting passed to these
-  functions.
-* memory_region_to_absolute_addr() will result in a wrong address. As
-  the result is only used for tracing, that is tolerable.
+For example, memory regions mapped via an alias, such as NVDIMMs,
+currently don't make memory_region_is_mapped() return "true". As the
+machine is initialized before any memory devices (and thereby before
+NVDIMMs are initialized), this isn't a fix but merely a cleanup.
 
-Let's cleanup/fix the code and documentation of memory_region_is_mapped()
-and change one user that really should be checking something else.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ hw/core/machine.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1] https://lkml.kernel.org/r/20211011174522.14351-1-david@redhat.com
-
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
-
-David Hildenbrand (3):
-  machine: Use host_memory_backend_is_mapped() in
-    machine_consume_memdev()
-  memory: Make memory_region_is_mapped() succeed when mapped via an
-    alias
-  memory: Update description of memory_region_is_mapped()
-
- hw/core/machine.c     |  2 +-
- include/exec/memory.h |  4 +++-
- softmmu/memory.c      | 12 +++++++++++-
- 3 files changed, 15 insertions(+), 3 deletions(-)
-
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index b8d95eec32..a1db865939 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -1260,7 +1260,7 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
+ {
+     MemoryRegion *ret = host_memory_backend_get_memory(backend);
+ 
+-    if (memory_region_is_mapped(ret)) {
++    if (host_memory_backend_is_mapped(backend)) {
+         error_report("memory backend %s can't be used multiple times.",
+                      object_get_canonical_path_component(OBJECT(backend)));
+         exit(EXIT_FAILURE);
 -- 
 2.31.1
 
