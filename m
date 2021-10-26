@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3785F43B4F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 16:57:41 +0200 (CEST)
-Received: from localhost ([::1]:43740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E3C43B4F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 16:58:56 +0200 (CEST)
+Received: from localhost ([::1]:45850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfNtU-0006Aa-Aw
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 10:57:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39066)
+	id 1mfNuh-0007bE-TA
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 10:58:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfNrH-0003nw-6F
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfNrI-0003pa-5c
  for qemu-devel@nongnu.org; Tue, 26 Oct 2021 10:55:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59924)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfNrA-00011f-6h
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 10:55:20 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfNrF-00014b-UF
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 10:55:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635260114;
+ s=mimecast20190719; t=1635260119;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=p/gR15rcrlMZneiHMesM251aq0sIvOBIBL0VFkaJQmw=;
- b=PZzvEHu5SECSfsY0YmR59UONmeMNPJTSk7uE3Sj/HjtJLcVmMcYj5FdZcyXEjFQhOCBbyb
- JkfiBP95wCar+jBUiFiduffmXmwP4upANWO7tE0iDJOqQ1DZpSioVPKckBO13dwBp8pkt4
- WA2bNDO2ta7Fp4Rj5WjIIvPRhVFJjs4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-O7Cy0QUKPtexgX0x4f0zlg-1; Tue, 26 Oct 2021 10:55:13 -0400
-X-MC-Unique: O7Cy0QUKPtexgX0x4f0zlg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- y12-20020a1c7d0c000000b0032ccaad73d0so776828wmc.5
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 07:55:13 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HydchOjaPM6cp7iyVMRMimgnp2tQrCLOoHuc2pcUzOQ=;
+ b=AWM3eUEpumYxZkhE8bbV3+6ay3YxHHrXUPQUMtHI37z0O+1fuy6f9j6AzOwxgAGwnDDThb
+ f2G5HYHjQOUZlnYAi0H7/bgHbfSMbnCAkIt0XjcANMxKZ84Z13v8gecXu7XN4Lzrqd8cGS
+ UYVfP+pMzOH87CxzAsj6oFavNjJD1ZU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-282-nJ0YmWd8O-uMoUQbXT8vKQ-1; Tue, 26 Oct 2021 10:55:18 -0400
+X-MC-Unique: nJ0YmWd8O-uMoUQbXT8vKQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v18-20020a7bcb52000000b00322fea1d5b7so1041035wmj.9
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 07:55:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5yYkOyYJtvEnOGt8O20lwyz6uEN5AxvswxkXxfI4wsU=;
- b=BwbqWSk90Mw5jYiChxVbgJeaaC3ZZv2Ado0JBGJZdVixWJbhzMDGC8OKSnjANt/C4J
- if8arYGxNv/k78Y9+B31A9/Wia2khAIxLcWDWXOOiivJwCkmVVq5+zPKpjn3PtmWf8Qo
- upokNbweTJLXyMSFV7PjpyMW2U7U8pE8UgMc+6NaktIzG2SfXBZo+YCtkTdzinocjDE2
- 3bdKsdF21HjXWRj7P6tBG/POOXTxskvf/4gbmFbLCWUrDZ2N6va9qTFkYBwBrfOHdwFf
- Co9Rwce9N7nWDILCIuNKkk6LfxlIWEocygZSJcUNMMI2CGizf6rUEWAHsIkqmTTSwq9f
- L47g==
-X-Gm-Message-State: AOAM533KN5V4Z6G/0e4Iw6zssBwCaRjZKkMZtJL5MmuOuWyQFFfWep92
- mYpnnCl1mAsMlap53lWaKqap9Yz+7yKpDB7GEFRE9fh0hGmMA8FWbOtplJYpwY56q7PjYGVV/OP
- H3zaeEzee2nFbtm7g+WCBHnC50w/nnAQhPVeHvsdW+o38YpBMEeunPOcMBbDe1+vz
-X-Received: by 2002:a05:600c:190a:: with SMTP id
- j10mr28011012wmq.184.1635260112122; 
- Tue, 26 Oct 2021 07:55:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxYwQXaA+0OjTFgwxrrQzMGz2wdwL8R7pL9lmvyWFaYBasp+HmSbgIxshU57T9JfWBKE9Q1Sw==
-X-Received: by 2002:a05:600c:190a:: with SMTP id
- j10mr28010980wmq.184.1635260111917; 
- Tue, 26 Oct 2021 07:55:11 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=HydchOjaPM6cp7iyVMRMimgnp2tQrCLOoHuc2pcUzOQ=;
+ b=B72ijQjZ3F8yWZcWcj5hW+LAfkv2iM1S0RR2OjeZ7Y/yP9RS4yhADW/kQGQjwJxFOQ
+ lZLsNY85Ab6s0pR4AlDbOnBmTGWzqufCbpShAg0YeB0pFqDvZo3tDy8zYiPH+72BPtWM
+ LfDFzAJsrh9P0XB1deoNj93pLMicWoAGft3FPU2juHrLkIObHNoOVOr7nCyNwH6O4C38
+ gxQJcBqQy/zD9Hr7bl+wwuPgo8nTID86V2IRcHc6pOMvd3ffpuvHcGIWxPe5z1xDpHNO
+ I7gaseCFWAzZtvui627HPFg65nUKFGXw2ITSNMmPFsWvTkz5oSsXFCQ2e9R8YDwAaK4v
+ ESnw==
+X-Gm-Message-State: AOAM530czs3769hH3hz/I6TYiYxLgn5WEW6cxWmOHIi1nZnCREX/PwAM
+ EqFdfzBXqgMN0JeHyc/rcAmRjKI6uB2eedhKdNL1saNqtmHX4LvSIePYXf2QptrudSfbzHPOddj
+ i40q5kg2cyBtvAC5XI/VjgCFQbNrMva5DNfKvvMy0E6f5HEzkyNP7E5odPaGolv9I
+X-Received: by 2002:a5d:5274:: with SMTP id l20mr5643588wrc.328.1635260116915; 
+ Tue, 26 Oct 2021 07:55:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw4TclYkT0qtiTo6bxjxD6df5LtmaJwld8Gnua3VCtZRWcXFHHVb9AKOSh5ZOMsY48aVEPT+A==
+X-Received: by 2002:a5d:5274:: with SMTP id l20mr5643539wrc.328.1635260116571; 
+ Tue, 26 Oct 2021 07:55:16 -0700 (PDT)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id p12sm21087246wrr.67.2021.10.26.07.55.10
+ by smtp.gmail.com with ESMTPSA id p3sm18868712wrs.10.2021.10.26.07.55.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 07:55:11 -0700 (PDT)
+ Tue, 26 Oct 2021 07:55:16 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/1] gitlab-ci: Only push docker images to mainstream registry
- from /master
-Date: Tue, 26 Oct 2021 16:55:08 +0200
-Message-Id: <20211026145509.1029274-1-philmd@redhat.com>
+Subject: [PATCH 1/1] gitlab-ci: Only push docker images to registry from
+ /master branch
+Date: Tue, 26 Oct 2021 16:55:09 +0200
+Message-Id: <20211026145509.1029274-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211026145509.1029274-1-philmd@redhat.com>
+References: <20211026145509.1029274-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -107,44 +108,86 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-I guess I got very unlucky because I happened to pull the docker=0D
-images from the mainstream registry in a very short time frame=0D
-where they jumped back in time... Then I kept using them to run=0D
-my tests during 1 week trying to understand why I was having odd=0D
-build failures. Then I realize the Ubuntu docker images were out=0D
-of sync. I pulled again and it was working, so I searched for the=0D
-mainstream job producing the outdated images and found a pipeline=0D
-pushing the 'stable-6.0-staging' branch. This branch doesn't=0D
-contain the recent gitlab-ci and Dockerfile changes...=0D
-=0D
-Similarly, this branch doesn't contain commit eafadbbbac0=0D
-("gitlab: only let pages be published from default branch") so=0D
-outdated documentation got pushed for a short time.=0D
-=0D
-This patch won't fix branches pushed from the past, but at least=0D
-it should avoid to reproduce this problem in the future.=0D
-=0D
-Any idea how to improve the GitLab infrastructure to avoid these=0D
-kind of problems in the future? Is it possible to enforce=0D
-restrictions from the project configuration, rather than the=0D
-repository YAML file?=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (1):=0D
-  gitlab-ci: Only push docker images to registry from /master branch=0D
-=0D
- .gitlab-ci.d/container-template.yml | 11 ++++++++++-=0D
- .gitlab-ci.d/edk2.yml               | 11 ++++++++++-=0D
- .gitlab-ci.d/opensbi.yml            | 11 ++++++++++-=0D
- 3 files changed, 30 insertions(+), 3 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Users expect images pulled from registry.gitlab.com/qemu-project/qemu/
+to be stable. QEMU repository workflow pushes merge candidates to
+the /staging branch, and on success the same commit is pushed as
+/master. If /staging fails, we do not want to push the built images
+to the registry. Therefore limit the 'docker push' command to the
+/master branch on the mainstream CI. The fork behavior is unchanged.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ .gitlab-ci.d/container-template.yml | 11 ++++++++++-
+ .gitlab-ci.d/edk2.yml               | 11 ++++++++++-
+ .gitlab-ci.d/opensbi.yml            | 11 ++++++++++-
+ 3 files changed, 30 insertions(+), 3 deletions(-)
+
+diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container-template.yml
+index 1baecd94606..0a736644b22 100644
+--- a/.gitlab-ci.d/container-template.yml
++++ b/.gitlab-ci.d/container-template.yml
+@@ -16,6 +16,15 @@
+           -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
+           -r $CI_REGISTRY/qemu-project/qemu
+     - docker tag "qemu/$NAME" "$TAG"
+-    - docker push "$TAG"
++    # On mainstream CI, we only want to push images on the master branch,
++    # so skip the other cases (tag or non-master branch).
++    - if test "$CI_PROJECT_NAMESPACE" = "qemu-project" &&
++         test -n "$CI_COMMIT_TAG"
++              -o "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH";
++      then
++        :;
++      else
++        docker push "$TAG";
++      fi
+   after_script:
+     - docker logout
+diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
+index 13d0f8b019f..e15f80f4874 100644
+--- a/.gitlab-ci.d/edk2.yml
++++ b/.gitlab-ci.d/edk2.yml
+@@ -33,7 +33,16 @@ docker-edk2:
+  - docker build --cache-from $IMAGE_TAG --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+                                         --tag $IMAGE_TAG .gitlab-ci.d/edk2
+  - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+- - docker push $IMAGE_TAG
++ # On mainstream CI, we only want to push images on the master branch,
++ # so skip the other cases (tag or non-master branch).
++ - if test "$CI_PROJECT_NAMESPACE" = "qemu-project" &&
++      test -n "$CI_COMMIT_TAG"
++           -o "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH";
++   then
++      :;
++   else
++      docker push "$IMAGE_TAG";
++   fi
+ 
+ build-edk2:
+  extends: .edk2_job_rules
+diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
+index 5e0a2477c5d..a38ccbe5baa 100644
+--- a/.gitlab-ci.d/opensbi.yml
++++ b/.gitlab-ci.d/opensbi.yml
+@@ -34,7 +34,16 @@ docker-opensbi:
+  - docker build --cache-from $IMAGE_TAG --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+                                         --tag $IMAGE_TAG .gitlab-ci.d/opensbi
+  - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+- - docker push $IMAGE_TAG
++ # On mainstream CI, we only want to push images on the master branch,
++ # so skip the other cases (tag or non-master branch).
++ - if test "$CI_PROJECT_NAMESPACE" = "qemu-project" &&
++      test -n "$CI_COMMIT_TAG"
++           -o "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH";
++   then
++      :;
++   else
++      docker push "$IMAGE_TAG";
++   fi
+ 
+ build-opensbi:
+  extends: .opensbi_job_rules
+-- 
+2.31.1
 
 
