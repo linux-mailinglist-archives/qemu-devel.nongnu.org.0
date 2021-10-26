@@ -2,92 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1CD43AB57
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 06:34:44 +0200 (CEST)
-Received: from localhost ([::1]:43826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A32C43AB87
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 07:05:09 +0200 (CEST)
+Received: from localhost ([::1]:51838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfEAd-0004u7-TD
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 00:34:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33256)
+	id 1mfEe4-0003A6-2K
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 01:05:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mfE96-0004EA-JS
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 00:33:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mfE91-0006Cs-3y
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 00:33:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635222782;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b2V04gA7nHO/Uv5YTWr9KCHw0Yl10VSOzYYw5ZzU9JE=;
- b=R5HxPqHFBv0PbDgxYiGLNOZrK6M154CtFtqn08uiHfijBsXcQDg+OujZMItJxaQv6xAYd+
- sABJ/Tz957GQ5jobO9CR0VEa1+0Qwe7Yf2jhW+xFTVN2EVaZTl9ZrlIPZU0+4SS5SK3rDb
- S00KCPk3UqYta8TciujGo53p5i+G5GM=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-n8s6gorKOg2hUFtOryX39A-1; Tue, 26 Oct 2021 00:33:01 -0400
-X-MC-Unique: n8s6gorKOg2hUFtOryX39A-1
-Received: by mail-lj1-f199.google.com with SMTP id
- z9-20020a2e3509000000b00210f31ea0e3so3784036ljz.16
- for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 21:33:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mfEcB-0001kn-HX
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 01:03:11 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:54977)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mfEc9-0008DI-DP
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 01:03:11 -0400
+Received: by mail-wm1-x333.google.com with SMTP id g141so12790294wmg.4
+ for <qemu-devel@nongnu.org>; Mon, 25 Oct 2021 22:03:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=K4dwIin+kAjocSuB7DTVHkvAbJrTs6HidXT+/BVEKm4=;
+ b=4VXDmc3qL/za9Old9/c3plUGrlbiNQOcd1XN2Wl9h+Knn4xBIel9fVqfozdSS78Hx3
+ 8m88gPYUWhMrApPGyrXrp3+pUInyq8b04w6/jLcMPqxTvYs/5csWCMqLpPVh+hyFg1dH
+ qg85ZN5cQxPHVaVWd57/X/FHt6JZFtQu80jD7MQRtYmeqIqqwE9bgJsvhCxVsxLJkTqK
+ mLTE051lecdPip8uhRdAr1RGVfuFfgVdSXUOnaA4uY2m/Zy5jyr8OLELECLhxYMpGT6/
+ pYlukxJh0CKtolDrpfbZwWZRhlDqEqy5Mk8O1KCw7078oBefs88ZlYGk7GSVXPJ1rN6g
+ S+RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=b2V04gA7nHO/Uv5YTWr9KCHw0Yl10VSOzYYw5ZzU9JE=;
- b=dQGXLgGy40k9QRNEOwfNxobgay91yOfEwEdjM4PQqAZ7YXFrB0RO69s/BRkKuBe87T
- LiTIfBIMKtc4EAIBG6h1IrxBHl5kNKvT7x/BPo3XFCDk+P90jirepO0qLx4J6ClgTaHf
- qx3zTyha3JLfdIzCiM60aL1HTdAiSKOtLt9IZ+pHbhXd8Wr9+4PRMfTMkWHc9gpyCiUg
- eBQLZvQ198pgx4ih2vMUICwmdbMoMAQb3A1o2nBsfMqSVZbnhmX7JNm4dQskhYje1BVs
- sCRTx/j2oSx/qbbTa966J4WsWQI/8cRLZWUA7+yeT2Nz7w2wVO1nA/S8KWyTxlicZCYq
- 5DxA==
-X-Gm-Message-State: AOAM530609pZeOy0Bi1egPpxPIFgz/NzeqdIqYKJKdivJFf+ZPkn1aOg
- Vgd+fSHsKCBI2FMfaV3SPNNVEzghbVxlsy52WaOFbVe6WSELskJpn0PM4TOf5VDO4lC0k7tZebw
- ouhAGuN8qHj2XAOu8xoc4eGj0qgWRMr4=
-X-Received: by 2002:a05:6512:32c1:: with SMTP id
- f1mr21479551lfg.498.1635222779152; 
- Mon, 25 Oct 2021 21:32:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxjNXcN4ZgMbrZjWjuVXsGUgY3u5jqxKPMqJi/89CuLhHXMsN2mZIqL65lnwsQf3TdBHlWTqgaPUaUjrw1G0nw=
-X-Received: by 2002:a05:6512:32c1:: with SMTP id
- f1mr21479516lfg.498.1635222778700; 
- Mon, 25 Oct 2021 21:32:58 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=K4dwIin+kAjocSuB7DTVHkvAbJrTs6HidXT+/BVEKm4=;
+ b=msxpa3NAPHRBZ9MEno+YtRw2BCgK8+Wnp6FJfgKQXv5Sgn1IxcOJmEt5UuDrr5scGj
+ voC2dzdLYK9N6Rwo2eYTOY9nydF+XTf4zoqb2GWjDHajn+VrnnnqWhv8+yTHNM3UdzEZ
+ hLLgrpt1oHp//dXe6s1ZFvtYWLFSMvN7lu8wO7oYhxZU18vFLHG58wMKbmO+tlMsc4B0
+ 5xwv2chsCVh2fG82yTYLaLRXwh9JJR6MtmrExI1ktqq0ECcLAK1J7buZjQeYptJ1Nxlz
+ 8vZZaCUuypK5oFl5HPyx6mFxx0NF4VEbBXkRH4hj2WJa3Tg64m662KKhrnAx7VxBWqci
+ SLwA==
+X-Gm-Message-State: AOAM532QbCiVAWXriu0GFfvMu8bXpe4YtjNlpyteIU+fZ48gBxSFTBtB
+ 5sRqFn0P8rvBHs562mZ7yGD/8sD41QgqnkOy3DWohw==
+X-Google-Smtp-Source: ABdhPJwYi4Wirz9+8ZkCBGV1VBv5Z/eflW1ObRkZhOYOkeYF5AbdPp1TVXrAJ3HPawULMhpgloLitUPIXe/ocDilGbY=
+X-Received: by 2002:a1c:7201:: with SMTP id n1mr52955332wmc.176.1635224586453; 
+ Mon, 25 Oct 2021 22:03:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211001070603.307037-1-eperezma@redhat.com>
- <20211001070603.307037-21-eperezma@redhat.com>
- <a426c22c-f41a-4e3f-d140-7e7a0defeacb@redhat.com>
- <CAJaqyWcRcm9rwuTqJHS0FmuMrXpoCvF34TzXKQmxXTfZssZ-jA@mail.gmail.com>
- <CACGkMEtgOc6ccaV5fckMwgEccEwL=sfuvkGymjAsQh7Tvn9krw@mail.gmail.com>
- <CACGkMEsjnnsTbCOdEP6iq8Fwc0=BSKfheGPubg7bcbF-BPU1gg@mail.gmail.com>
- <CAJaqyWe6R_32Se75XF3+NUZyiWr+cLYQ_86LExmom-vCRT9G0g@mail.gmail.com>
- <CACGkMEs_HEfV6PE4LRex7cqKtux2RtQUDz8MTgROa2dWchNfwg@mail.gmail.com>
- <CAJaqyWd9LjpA5w2f1s+pNmdNjYPvcbJgPqY+Qv1fWb+6LPPzAg@mail.gmail.com>
-In-Reply-To: <CAJaqyWd9LjpA5w2f1s+pNmdNjYPvcbJgPqY+Qv1fWb+6LPPzAg@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 26 Oct 2021 12:32:47 +0800
-Message-ID: <CACGkMEsCZrCpteT22B-55b4a+tUKuefLtP8yfiGQPQursYatrg@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 20/20] vdpa: Add custom IOTLB translations to SVQ
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20211023084638.1697057-1-anup.patel@wdc.com>
+In-Reply-To: <20211023084638.1697057-1-anup.patel@wdc.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Tue, 26 Oct 2021 10:32:54 +0530
+Message-ID: <CAAhSdy1FYmv-D3O42tBeeiK-AYJ1sMC53ApOKhaMiSo1SUfekA@mail.gmail.com>
+Subject: Re: [PATCH v3 00/22] QEMU RISC-V AIA support
+To: Anup Patel <anup.patel@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::333;
+ envelope-from=anup@brainfault.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,682 +76,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Eric Blake <eblake@redhat.com>, Michael Lilja <ml@napatech.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ QEMU Developers <qemu-devel@nongnu.org>, Atish Patra <atish.patra@wdc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 20, 2021 at 7:57 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
->
-> On Wed, Oct 20, 2021 at 11:03 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Wed, Oct 20, 2021 at 2:52 PM Eugenio Perez Martin
-> > <eperezma@redhat.com> wrote:
-> > >
-> > > On Wed, Oct 20, 2021 at 4:07 AM Jason Wang <jasowang@redhat.com> wrot=
-e:
-> > > >
-> > > > On Wed, Oct 20, 2021 at 10:02 AM Jason Wang <jasowang@redhat.com> w=
-rote:
-> > > > >
-> > > > > On Tue, Oct 19, 2021 at 6:29 PM Eugenio Perez Martin
-> > > > > <eperezma@redhat.com> wrote:
-> > > > > >
-> > > > > > On Tue, Oct 19, 2021 at 11:25 AM Jason Wang <jasowang@redhat.co=
-m> wrote:
-> > > > > > >
-> > > > > > >
-> > > > > > > =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:06, Eugenio P=C3=A9re=
-z =E5=86=99=E9=81=93:
-> > > > > > > > Use translations added in VhostIOVATree in SVQ.
-> > > > > > > >
-> > > > > > > > Now every element needs to store the previous address also,=
- so VirtQueue
-> > > > > > > > can consume the elements properly. This adds a little overh=
-ead per VQ
-> > > > > > > > element, having to allocate more memory to stash them. As a=
- possible
-> > > > > > > > optimization, this allocation could be avoided if the descr=
-iptor is not
-> > > > > > > > a chain but a single one, but this is left undone.
-> > > > > > > >
-> > > > > > > > TODO: iova range should be queried before, and add logic to=
- fail when
-> > > > > > > > GPA is outside of its range and memory listener or svq add =
-it.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > > > > > ---
-> > > > > > > >   hw/virtio/vhost-shadow-virtqueue.h |   4 +-
-> > > > > > > >   hw/virtio/vhost-shadow-virtqueue.c | 130 ++++++++++++++++=
-++++++++-----
-> > > > > > > >   hw/virtio/vhost-vdpa.c             |  40 ++++++++-
-> > > > > > > >   hw/virtio/trace-events             |   1 +
-> > > > > > > >   4 files changed, 152 insertions(+), 23 deletions(-)
-> > > > > > > >
-> > > > > > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio=
-/vhost-shadow-virtqueue.h
-> > > > > > > > index b7baa424a7..a0e6b5267a 100644
-> > > > > > > > --- a/hw/virtio/vhost-shadow-virtqueue.h
-> > > > > > > > +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> > > > > > > > @@ -11,6 +11,7 @@
-> > > > > > > >   #define VHOST_SHADOW_VIRTQUEUE_H
-> > > > > > > >
-> > > > > > > >   #include "hw/virtio/vhost.h"
-> > > > > > > > +#include "hw/virtio/vhost-iova-tree.h"
-> > > > > > > >
-> > > > > > > >   typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
-> > > > > > > >
-> > > > > > > > @@ -28,7 +29,8 @@ bool vhost_svq_start(struct vhost_dev *de=
-v, unsigned idx,
-> > > > > > > >   void vhost_svq_stop(struct vhost_dev *dev, unsigned idx,
-> > > > > > > >                       VhostShadowVirtqueue *svq);
-> > > > > > > >
-> > > > > > > > -VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev,=
- int idx);
-> > > > > > > > +VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev,=
- int idx,
-> > > > > > > > +                                    VhostIOVATree *iova_ma=
-p);
-> > > > > > > >
-> > > > > > > >   void vhost_svq_free(VhostShadowVirtqueue *vq);
-> > > > > > > >
-> > > > > > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio=
-/vhost-shadow-virtqueue.c
-> > > > > > > > index 2fd0bab75d..9db538547e 100644
-> > > > > > > > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > > > > > > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > > > > > > > @@ -11,12 +11,19 @@
-> > > > > > > >   #include "hw/virtio/vhost-shadow-virtqueue.h"
-> > > > > > > >   #include "hw/virtio/vhost.h"
-> > > > > > > >   #include "hw/virtio/virtio-access.h"
-> > > > > > > > +#include "hw/virtio/vhost-iova-tree.h"
-> > > > > > > >
-> > > > > > > >   #include "standard-headers/linux/vhost_types.h"
-> > > > > > > >
-> > > > > > > >   #include "qemu/error-report.h"
-> > > > > > > >   #include "qemu/main-loop.h"
-> > > > > > > >
-> > > > > > > > +typedef struct SVQElement {
-> > > > > > > > +    VirtQueueElement elem;
-> > > > > > > > +    void **in_sg_stash;
-> > > > > > > > +    void **out_sg_stash;
-> > > > > > > > +} SVQElement;
-> > > > > > > > +
-> > > > > > > >   /* Shadow virtqueue to relay notifications */
-> > > > > > > >   typedef struct VhostShadowVirtqueue {
-> > > > > > > >       /* Shadow vring */
-> > > > > > > > @@ -46,8 +53,11 @@ typedef struct VhostShadowVirtqueue {
-> > > > > > > >       /* Virtio device */
-> > > > > > > >       VirtIODevice *vdev;
-> > > > > > > >
-> > > > > > > > +    /* IOVA mapping if used */
-> > > > > > > > +    VhostIOVATree *iova_map;
-> > > > > > > > +
-> > > > > > > >       /* Map for returning guest's descriptors */
-> > > > > > > > -    VirtQueueElement **ring_id_maps;
-> > > > > > > > +    SVQElement **ring_id_maps;
-> > > > > > > >
-> > > > > > > >       /* Next head to expose to device */
-> > > > > > > >       uint16_t avail_idx_shadow;
-> > > > > > > > @@ -79,13 +89,6 @@ bool vhost_svq_valid_device_features(uin=
-t64_t *dev_features)
-> > > > > > > >               continue;
-> > > > > > > >
-> > > > > > > >           case VIRTIO_F_ACCESS_PLATFORM:
-> > > > > > > > -            /* SVQ needs this feature disabled. Can't cont=
-inue */
-> > > > > > > > -            if (*dev_features & BIT_ULL(b)) {
-> > > > > > > > -                clear_bit(b, dev_features);
-> > > > > > > > -                r =3D false;
-> > > > > > > > -            }
-> > > > > > > > -            break;
-> > > > > > > > -
-> > > > > > > >           case VIRTIO_F_VERSION_1:
-> > > > > > > >               /* SVQ needs this feature, so can't continue =
-*/
-> > > > > > > >               if (!(*dev_features & BIT_ULL(b))) {
-> > > > > > > > @@ -126,6 +129,64 @@ static void vhost_svq_set_notification=
-(VhostShadowVirtqueue *svq, bool enable)
-> > > > > > > >       }
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > > +static void vhost_svq_stash_addr(void ***stash, const stru=
-ct iovec *iov,
-> > > > > > > > +                                 size_t num)
-> > > > > > > > +{
-> > > > > > > > +    size_t i;
-> > > > > > > > +
-> > > > > > > > +    if (num =3D=3D 0) {
-> > > > > > > > +        return;
-> > > > > > > > +    }
-> > > > > > > > +
-> > > > > > > > +    *stash =3D g_new(void *, num);
-> > > > > > > > +    for (i =3D 0; i < num; ++i) {
-> > > > > > > > +        (*stash)[i] =3D iov[i].iov_base;
-> > > > > > > > +    }
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +static void vhost_svq_unstash_addr(void **stash, struct io=
-vec *iov, size_t num)
-> > > > > > > > +{
-> > > > > > > > +    size_t i;
-> > > > > > > > +
-> > > > > > > > +    if (num =3D=3D 0) {
-> > > > > > > > +        return;
-> > > > > > > > +    }
-> > > > > > > > +
-> > > > > > > > +    for (i =3D 0; i < num; ++i) {
-> > > > > > > > +        iov[i].iov_base =3D stash[i];
-> > > > > > > > +    }
-> > > > > > > > +    g_free(stash);
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +static void vhost_svq_translate_addr(const VhostShadowVirt=
-queue *svq,
-> > > > > > > > +                                     struct iovec *iovec, =
-size_t num)
-> > > > > > > > +{
-> > > > > > > > +    size_t i;
-> > > > > > > > +
-> > > > > > > > +    for (i =3D 0; i < num; ++i) {
-> > > > > > > > +        VhostDMAMap needle =3D {
-> > > > > > > > +            .translated_addr =3D iovec[i].iov_base,
-> > > > > > > > +            .size =3D iovec[i].iov_len,
-> > > > > > > > +        };
-> > > > > > > > +        size_t off;
-> > > > > > > > +
-> > > > > > > > +        const VhostDMAMap *map =3D vhost_iova_tree_find_io=
-va(svq->iova_map,
-> > > > > > > > +                                                          =
- &needle);
-> > > > > > >
-> > > > > > >
-> > > > > > > Is it possible that we end up with more than one maps here?
-> > > > > > >
-> > > > > >
-> > > > > > Actually it is possible, since there is no guarantee that one
-> > > > > > descriptor (or indirect descriptor) maps exactly to one iov. It=
- could
-> > > > > > map to many if qemu vaddr is not contiguous but GPA + size is. =
-This is
-> > > > > > something that must be fixed for the next revision, so thanks f=
-or
-> > > > > > pointing it out!
-> > > > > >
-> > > > > > Taking that into account, the condition that svq vring avail_id=
-x -
-> > > > > > used_idx was always less or equal than guest's vring avail_idx =
--
-> > > > > > used_idx is not true anymore. Checking for that before adding b=
-uffers
-> > > > > > to SVQ is the easy part, but how could we recover in that case?
-> > > > > >
-> > > > > > I think that the easy solution is to check for more available b=
-uffers
-> > > > > > unconditionally at the end of vhost_svq_handle_call, which hand=
-les the
-> > > > > > SVQ used and is supposed to make more room for available buffer=
-s. So
-> > > > > > vhost_handle_guest_kick would not check if eventfd is set or no=
-t
-> > > > > > anymore.
-> > > > > >
-> > > > > > Would that make sense?
-> > > > >
-> > > > > Yes, I think it should work.
-> > > >
-> > > > Btw, I wonder how to handle indirect descriptors. SVQ doesn't use
-> > > > indirect descriptors for now, but it looks like a must otherwise we
-> > > > may end up SVQ is full before VQ.
-> > > >
-> > >
-> > > We can get to that situation without indirect too, if a single
-> > > descriptor maps to more than one sg buffer. The next revision is goin=
-g
-> > > to control that too.
-> > >
-> > > > It looks to me an easy way is to always use indirect descriptors if=
- #sg >=3D 2?
-> > > >
-> > >
-> > > I will use that, but that does not solve the case where a descriptor
-> > > maps to > 1 different buffers in qemu vaddr.
-> >
-> > Right, so we need to deal with the case when SVQ is out of space.
-> >
-> >
-> > > So I think that some
-> > > check after marking descriptors as used is a must somehow.
-> >
-> > I thought it should be before processing the available buffer?
->
-> Yes, I meant after that. Somehow, because I include checking the
-> number of sg buffers as "processing". :).
->
-> > It's
-> > the guest driver that make sure there's sufficient space for used
-> > ring?
-> >
->
-> (I think we are talking the same with different words, but just in
-> case I will develop the idea here with an example).
->
-> The guest is able to check if there is enough space in the SVQ's
-> vring, but not in the device's vring. As an example of this, imagine
-> that a guest makes available a GPA contiguous buffer of 64K, one
-> descriptor. However, this memory is divided into 16 chunks of 4K in
-> qemu's VA space. Imagine that at this moment there are only eight
-> slots free in each vring, and that neither communication is using
-> indirect descriptors.
->
-> The guest only needs 1 descriptor available to make that buffer
-> available, so it will add to avail ring. But SVQ needs 16 chained
-> descriptors, so the buffer is not going to reach the device until it
-> makes at least 8 more descriptors as used. SVQ checked for the amount
-> of available room, as you said, but it cannot forward the available
-> one.
->
-> Since the guest already sent kick when it made the descriptor
-> available, we need another mechanism to know when we have all the
-> needed free slots in the SVQ vring. And that's what I meant with the
-> check after marking some buffers as available.
->
-> I still think it is not worth it to protect the forwarding methods of
-> hogging BQL, since there must be a limit sooner or later, but it is
-> something that is worth putting on the table again. But this requires
-> changes for the next version for sure.
->
-> I can think in more scenarios, like guest making available an indirect
-> descriptor of vq size that needs to be splitted in even more sgs. Qemu
-> already does not support more than 1024 sgs buffers in VirtQueue, but
-> a driver (as SVQ) must *not* create an indirect descriptor chain
-> longer than the Queue Size. Should we always increase vq size to 1024
-> always? I think these are highly unlikely, but again these concerns
-> must be at least commented here.
->
-> Does it make sense?
+Hi Alistair,
 
-Makes a lot of sense. It's better to make the code robust without any
-assumption on both host and guest configuration.
+On Sat, Oct 23, 2021 at 2:17 PM Anup Patel <anup.patel@wdc.com> wrote:
+>
+> The advanced interrupt architecture (AIA) extends the per-HART local
+> interrupt support. Along with this, it also adds IMSIC (MSI contrllor)
+> and Advanced PLIC (wired interrupt controller).
+>
+> The latest AIA draft specification can be found here:
+> https://github.com/riscv/riscv-aia/releases/download/0.2-draft.27/riscv-interrupts-027.pdf
+>
+> This series adds RISC-V AIA support in QEMU which includes emulating all
+> AIA local CSRs, APLIC, and IMSIC. Only AIA local interrupt filtering is
+> not implemented because we don't have any local interrupt greater than 12.
+>
+> To enable AIA in QEMU, use one of the following:
+> 1) Only AIA local interrupt CSRs: Pass "x-aia=true" as CPU paramenter
+>    in the QEMU command-line
+> 2) Only APLIC for virt machine: Pass "aia=aplic" as machine parameter
+>    in the QEMU command-line
+> 3) Both APLIC and IMSIC for virt machine: Pass "aia=aplic-imsic" as
+>    machine parameter in the QEMU command-line
+> 4) Both APLIC and IMSIC with 2 guest files for virt machine: Pass
+>    "aia=aplic-imsic,aia-guests=2" as machine parameter in the QEMU
+>    command-line
+>
+> To test series, we require OpenSBI and Linux with AIA support which can
+> be found in riscv_aia_v1 branch at:
+> https://github.com/avpatel/opensbi.git
+> https://github.com/avpatel/linux.git
+>
+> This series can be found riscv_aia_v3 branch at:
+> https://github.com/avpatel/qemu.git
+>
+> Changes since v2:
+>  - Update PATCH4 to check and inject interrupt after V=1 when
+>    transitioning from V=0 to V=1
+>
+> Changes since v1:
+>  - Revamped whole series and created more granular patches
+>  - Added HGEIE and HGEIP CSR emulation for H-extension
+>  - Added APLIC emulation
+>  - Added IMSIC emulation
+>
+> Anup Patel (22):
+>   target/riscv: Fix trap cause for RV32 HS-mode CSR access from RV64
+>     HS-mode
+>   target/riscv: Implement SGEIP bit in hip and hie CSRs
+>   target/riscv: Implement hgeie and hgeip CSRs
+>   target/riscv: Improve delivery of guest external interrupts
+>   target/riscv: Allow setting CPU feature from machine/device emulation
+>   target/riscv: Add AIA cpu feature
+>   target/riscv: Add defines for AIA CSRs
+>   target/riscv: Allow AIA device emulation to set ireg rmw callback
+>   target/riscv: Implement AIA local interrupt priorities
+>   target/riscv: Implement AIA CSRs for 64 local interrupts on RV32
+>   target/riscv: Implement AIA hvictl and hviprioX CSRs
+>   target/riscv: Implement AIA interrupt filtering CSRs
+>   target/riscv: Implement AIA mtopi, stopi, and vstopi CSRs
+>   target/riscv: Implement AIA xiselect and xireg CSRs
+>   target/riscv: Implement AIA IMSIC interface CSRs
+>   hw/riscv: virt: Use AIA INTC compatible string when available
+>   target/riscv: Allow users to force enable AIA CSRs in HART
+>   hw/intc: Add RISC-V AIA APLIC device emulation
+>   hw/riscv: virt: Add optional AIA APLIC support to virt machine
+>   hw/intc: Add RISC-V AIA IMSIC device emulation
+>   hw/riscv: virt: Add optional AIA IMSIC support to virt machine
+>   docs/system: riscv: Document AIA options for virt machine
 
-Thanks
+The PATCH19 and PATCH21 uses "aplic,xxx" and "imsic,xxx" DT
+properties which is not allowed as-per Linux DT schema checker
+because "aplic" and "imsic" prefixes are not vendor names. Instead
+of this we should use "riscv" prefix which is registered vendor in
+Linux DT bindings.
+
+I will send v4 to fix the above.
+
+Regards,
+Anup
 
 >
-> Thanks!
+>  docs/system/riscv/virt.rst    |   16 +
+>  hw/intc/Kconfig               |    6 +
+>  hw/intc/meson.build           |    2 +
+>  hw/intc/riscv_aplic.c         |  970 +++++++++++++++++++++++++
+>  hw/intc/riscv_imsic.c         |  443 ++++++++++++
+>  hw/riscv/Kconfig              |    2 +
+>  hw/riscv/virt.c               |  694 +++++++++++++++---
+>  include/hw/intc/riscv_aplic.h |   73 ++
+>  include/hw/intc/riscv_imsic.h |   68 ++
+>  include/hw/riscv/virt.h       |   40 +-
+>  target/riscv/cpu.c            |   97 ++-
+>  target/riscv/cpu.h            |   67 +-
+>  target/riscv/cpu_bits.h       |  132 ++++
+>  target/riscv/cpu_helper.c     |  300 +++++++-
+>  target/riscv/csr.c            | 1273 ++++++++++++++++++++++++++++++---
+>  target/riscv/machine.c        |   24 +-
+>  16 files changed, 3901 insertions(+), 306 deletions(-)
+>  create mode 100644 hw/intc/riscv_aplic.c
+>  create mode 100644 hw/intc/riscv_imsic.c
+>  create mode 100644 include/hw/intc/riscv_aplic.h
+>  create mode 100644 include/hw/intc/riscv_imsic.h
 >
-> > Thanks
-> >
-> > >
-> > >
-> > > > Thanks
-> > > >
-> > > > >
-> > > > > Thanks
-> > > > >
-> > > > > >
-> > > > > > Thanks!
-> > > > > >
-> > > > > > >
-> > > > > > > > +        /*
-> > > > > > > > +         * Map cannot be NULL since iova map contains all =
-guest space and
-> > > > > > > > +         * qemu already has a physical address mapped
-> > > > > > > > +         */
-> > > > > > > > +        assert(map);
-> > > > > > > > +
-> > > > > > > > +        /*
-> > > > > > > > +         * Map->iova chunk size is ignored. What to do if =
-descriptor
-> > > > > > > > +         * (addr, size) does not fit is delegated to the d=
-evice.
-> > > > > > > > +         */
-> > > > > > > > +        off =3D needle.translated_addr - map->translated_a=
-ddr;
-> > > > > > > > +        iovec[i].iov_base =3D (void *)(map->iova + off);
-> > > > > > > > +    }
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > >   static void vhost_vring_write_descs(VhostShadowVirtqueue =
-*svq,
-> > > > > > > >                                       const struct iovec *i=
-ovec,
-> > > > > > > >                                       size_t num, bool more=
-_descs, bool write)
-> > > > > > > > @@ -156,8 +217,9 @@ static void vhost_vring_write_descs(Vho=
-stShadowVirtqueue *svq,
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > >   static unsigned vhost_svq_add_split(VhostShadowVirtqueue =
-*svq,
-> > > > > > > > -                                    VirtQueueElement *elem=
-)
-> > > > > > > > +                                    SVQElement *svq_elem)
-> > > > > > > >   {
-> > > > > > > > +    VirtQueueElement *elem =3D &svq_elem->elem;
-> > > > > > > >       int head;
-> > > > > > > >       unsigned avail_idx;
-> > > > > > > >       vring_avail_t *avail =3D svq->vring.avail;
-> > > > > > > > @@ -167,6 +229,12 @@ static unsigned vhost_svq_add_split(Vh=
-ostShadowVirtqueue *svq,
-> > > > > > > >       /* We need some descriptors here */
-> > > > > > > >       assert(elem->out_num || elem->in_num);
-> > > > > > > >
-> > > > > > > > +    vhost_svq_stash_addr(&svq_elem->in_sg_stash, elem->in_=
-sg, elem->in_num);
-> > > > > > > > +    vhost_svq_stash_addr(&svq_elem->out_sg_stash, elem->ou=
-t_sg, elem->out_num);
-> > > > > > >
-> > > > > > >
-> > > > > > > I wonder if we can solve the trick like stash and unstash wit=
-h a
-> > > > > > > dedicated sgs in svq_elem, instead of reusing the elem.
-> > > > > > >
-> > > > > >
-> > > > > > Actually yes, it would be way simpler to use a new sgs array in
-> > > > > > svq_elem. I will change that.
-> > > > > >
-> > > > > > Thanks!
-> > > > > >
-> > > > > > > Thanks
-> > > > > > >
-> > > > > > >
-> > > > > > > > +
-> > > > > > > > +    vhost_svq_translate_addr(svq, elem->in_sg, elem->in_nu=
-m);
-> > > > > > > > +    vhost_svq_translate_addr(svq, elem->out_sg, elem->out_=
-num);
-> > > > > > > > +
-> > > > > > > >       vhost_vring_write_descs(svq, elem->out_sg, elem->out_=
-num,
-> > > > > > > >                               elem->in_num > 0, false);
-> > > > > > > >       vhost_vring_write_descs(svq, elem->in_sg, elem->in_nu=
-m, false, true);
-> > > > > > > > @@ -187,7 +255,7 @@ static unsigned vhost_svq_add_split(Vho=
-stShadowVirtqueue *svq,
-> > > > > > > >
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > > -static void vhost_svq_add(VhostShadowVirtqueue *svq, VirtQ=
-ueueElement *elem)
-> > > > > > > > +static void vhost_svq_add(VhostShadowVirtqueue *svq, SVQEl=
-ement *elem)
-> > > > > > > >   {
-> > > > > > > >       unsigned qemu_head =3D vhost_svq_add_split(svq, elem)=
-;
-> > > > > > > >
-> > > > > > > > @@ -221,7 +289,7 @@ static void vhost_handle_guest_kick(Eve=
-ntNotifier *n)
-> > > > > > > >           }
-> > > > > > > >
-> > > > > > > >           while (true) {
-> > > > > > > > -            VirtQueueElement *elem =3D virtqueue_pop(svq->=
-vq, sizeof(*elem));
-> > > > > > > > +            SVQElement *elem =3D virtqueue_pop(svq->vq, si=
-zeof(*elem));
-> > > > > > > >               if (!elem) {
-> > > > > > > >                   break;
-> > > > > > > >               }
-> > > > > > > > @@ -247,7 +315,7 @@ static bool vhost_svq_more_used(VhostSh=
-adowVirtqueue *svq)
-> > > > > > > >       return svq->used_idx !=3D svq->shadow_used_idx;
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > > -static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirt=
-queue *svq)
-> > > > > > > > +static SVQElement *vhost_svq_get_buf(VhostShadowVirtqueue =
-*svq)
-> > > > > > > >   {
-> > > > > > > >       vring_desc_t *descs =3D svq->vring.desc;
-> > > > > > > >       const vring_used_t *used =3D svq->vring.used;
-> > > > > > > > @@ -279,7 +347,7 @@ static VirtQueueElement *vhost_svq_get_=
-buf(VhostShadowVirtqueue *svq)
-> > > > > > > >       descs[used_elem.id].next =3D svq->free_head;
-> > > > > > > >       svq->free_head =3D used_elem.id;
-> > > > > > > >
-> > > > > > > > -    svq->ring_id_maps[used_elem.id]->len =3D used_elem.len=
-;
-> > > > > > > > +    svq->ring_id_maps[used_elem.id]->elem.len =3D used_ele=
-m.len;
-> > > > > > > >       return g_steal_pointer(&svq->ring_id_maps[used_elem.i=
-d]);
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > > @@ -296,12 +364,19 @@ static void vhost_svq_handle_call_no_=
-test(EventNotifier *n)
-> > > > > > > >
-> > > > > > > >           vhost_svq_set_notification(svq, false);
-> > > > > > > >           while (true) {
-> > > > > > > > -            g_autofree VirtQueueElement *elem =3D vhost_sv=
-q_get_buf(svq);
-> > > > > > > > -            if (!elem) {
-> > > > > > > > +            g_autofree SVQElement *svq_elem =3D vhost_svq_=
-get_buf(svq);
-> > > > > > > > +            VirtQueueElement *elem;
-> > > > > > > > +            if (!svq_elem) {
-> > > > > > > >                   break;
-> > > > > > > >               }
-> > > > > > > >
-> > > > > > > >               assert(i < svq->vring.num);
-> > > > > > > > +            elem =3D &svq_elem->elem;
-> > > > > > > > +
-> > > > > > > > +            vhost_svq_unstash_addr(svq_elem->in_sg_stash, =
-elem->in_sg,
-> > > > > > > > +                                   elem->in_num);
-> > > > > > > > +            vhost_svq_unstash_addr(svq_elem->out_sg_stash,=
- elem->out_sg,
-> > > > > > > > +                                   elem->out_num);
-> > > > > > > >               virtqueue_fill(vq, elem, elem->len, i++);
-> > > > > > > >           }
-> > > > > > > >
-> > > > > > > > @@ -451,14 +526,24 @@ void vhost_svq_stop(struct vhost_dev =
-*dev, unsigned idx,
-> > > > > > > >       event_notifier_set_handler(&svq->host_notifier, NULL)=
-;
-> > > > > > > >
-> > > > > > > >       for (i =3D 0; i < svq->vring.num; ++i) {
-> > > > > > > > -        g_autofree VirtQueueElement *elem =3D svq->ring_id=
-_maps[i];
-> > > > > > > > +        g_autofree SVQElement *svq_elem =3D svq->ring_id_m=
-aps[i];
-> > > > > > > > +        VirtQueueElement *elem;
-> > > > > > > > +
-> > > > > > > > +        if (!svq_elem) {
-> > > > > > > > +            continue;
-> > > > > > > > +        }
-> > > > > > > > +
-> > > > > > > > +        elem =3D &svq_elem->elem;
-> > > > > > > > +        vhost_svq_unstash_addr(svq_elem->in_sg_stash, elem=
-->in_sg,
-> > > > > > > > +                               elem->in_num);
-> > > > > > > > +        vhost_svq_unstash_addr(svq_elem->out_sg_stash, ele=
-m->out_sg,
-> > > > > > > > +                               elem->out_num);
-> > > > > > > > +
-> > > > > > > >           /*
-> > > > > > > >            * Although the doc says we must unpop in order, =
-it's ok to unpop
-> > > > > > > >            * everything.
-> > > > > > > >            */
-> > > > > > > > -        if (elem) {
-> > > > > > > > -            virtqueue_unpop(svq->vq, elem, elem->len);
-> > > > > > > > -        }
-> > > > > > > > +        virtqueue_unpop(svq->vq, elem, elem->len);
-> > > > > > > >       }
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > > @@ -466,7 +551,8 @@ void vhost_svq_stop(struct vhost_dev *d=
-ev, unsigned idx,
-> > > > > > > >    * Creates vhost shadow virtqueue, and instruct vhost dev=
-ice to use the shadow
-> > > > > > > >    * methods and file descriptors.
-> > > > > > > >    */
-> > > > > > > > -VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev,=
- int idx)
-> > > > > > > > +VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev,=
- int idx,
-> > > > > > > > +                                    VhostIOVATree *iova_ma=
-p)
-> > > > > > > >   {
-> > > > > > > >       int vq_idx =3D dev->vq_index + idx;
-> > > > > > > >       unsigned num =3D virtio_queue_get_num(dev->vdev, vq_i=
-dx);
-> > > > > > > > @@ -500,11 +586,13 @@ VhostShadowVirtqueue *vhost_svq_new(s=
-truct vhost_dev *dev, int idx)
-> > > > > > > >       memset(svq->vring.desc, 0, driver_size);
-> > > > > > > >       svq->vring.used =3D qemu_memalign(qemu_real_host_page=
-_size, device_size);
-> > > > > > > >       memset(svq->vring.used, 0, device_size);
-> > > > > > > > +    svq->iova_map =3D iova_map;
-> > > > > > > > +
-> > > > > > > >       for (i =3D 0; i < num - 1; i++) {
-> > > > > > > >           svq->vring.desc[i].next =3D cpu_to_le16(i + 1);
-> > > > > > > >       }
-> > > > > > > >
-> > > > > > > > -    svq->ring_id_maps =3D g_new0(VirtQueueElement *, num);
-> > > > > > > > +    svq->ring_id_maps =3D g_new0(SVQElement *, num);
-> > > > > > > >       event_notifier_set_handler(&svq->call_notifier,
-> > > > > > > >                                  vhost_svq_handle_call);
-> > > > > > > >       return g_steal_pointer(&svq);
-> > > > > > > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.=
-c
-> > > > > > > > index a9c680b487..f5a12fee9d 100644
-> > > > > > > > --- a/hw/virtio/vhost-vdpa.c
-> > > > > > > > +++ b/hw/virtio/vhost-vdpa.c
-> > > > > > > > @@ -176,6 +176,18 @@ static void vhost_vdpa_listener_region=
-_add(MemoryListener *listener,
-> > > > > > > >                                            vaddr, section->=
-readonly);
-> > > > > > > >
-> > > > > > > >       llsize =3D int128_sub(llend, int128_make64(iova));
-> > > > > > > > +    if (v->shadow_vqs_enabled) {
-> > > > > > > > +        VhostDMAMap mem_region =3D {
-> > > > > > > > +            .translated_addr =3D vaddr,
-> > > > > > > > +            .size =3D int128_get64(llsize) - 1,
-> > > > > > > > +            .perm =3D IOMMU_ACCESS_FLAG(true, section->rea=
-donly),
-> > > > > > > > +        };
-> > > > > > > > +
-> > > > > > > > +        int r =3D vhost_iova_tree_alloc(v->iova_map, &mem_=
-region);
-> > > > > > > > +        assert(r =3D=3D VHOST_DMA_MAP_OK);
-> > > > > > > > +
-> > > > > > > > +        iova =3D mem_region.iova;
-> > > > > > > > +    }
-> > > > > > > >
-> > > > > > > >       ret =3D vhost_vdpa_dma_map(v, iova, int128_get64(llsi=
-ze),
-> > > > > > > >                                vaddr, section->readonly);
-> > > > > > > > @@ -754,6 +766,23 @@ static bool  vhost_vdpa_force_iommu(st=
-ruct vhost_dev *dev)
-> > > > > > > >       return true;
-> > > > > > > >   }
-> > > > > > > >
-> > > > > > > > +static int vhost_vdpa_get_iova_range(struct vhost_dev *dev=
-,
-> > > > > > > > +                                     hwaddr *first, hwaddr=
- *last)
-> > > > > > > > +{
-> > > > > > > > +    int ret;
-> > > > > > > > +    struct vhost_vdpa_iova_range range;
-> > > > > > > > +
-> > > > > > > > +    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_IOVA_RANGE=
-, &range);
-> > > > > > > > +    if (ret !=3D 0) {
-> > > > > > > > +        return ret;
-> > > > > > > > +    }
-> > > > > > > > +
-> > > > > > > > +    *first =3D range.first;
-> > > > > > > > +    *last =3D range.last;
-> > > > > > > > +    trace_vhost_vdpa_get_iova_range(dev, *first, *last);
-> > > > > > > > +    return ret;
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > >   /**
-> > > > > > > >    * Maps QEMU vaddr memory to device in a suitable way for=
- shadow virtqueue:
-> > > > > > > >    * - It always reference qemu memory address, not guest's=
- memory.
-> > > > > > > > @@ -881,6 +910,7 @@ static bool vhost_vdpa_svq_start_vq(str=
-uct vhost_dev *dev, unsigned idx)
-> > > > > > > >   static unsigned vhost_vdpa_enable_svq(struct vhost_vdpa *=
-v, bool enable)
-> > > > > > > >   {
-> > > > > > > >       struct vhost_dev *hdev =3D v->dev;
-> > > > > > > > +    hwaddr iova_first, iova_last;
-> > > > > > > >       unsigned n;
-> > > > > > > >       int r;
-> > > > > > > >
-> > > > > > > > @@ -894,7 +924,7 @@ static unsigned vhost_vdpa_enable_svq(s=
-truct vhost_vdpa *v, bool enable)
-> > > > > > > >           /* Allocate resources */
-> > > > > > > >           assert(v->shadow_vqs->len =3D=3D 0);
-> > > > > > > >           for (n =3D 0; n < hdev->nvqs; ++n) {
-> > > > > > > > -            VhostShadowVirtqueue *svq =3D vhost_svq_new(hd=
-ev, n);
-> > > > > > > > +            VhostShadowVirtqueue *svq =3D vhost_svq_new(hd=
-ev, n, v->iova_map);
-> > > > > > > >               if (unlikely(!svq)) {
-> > > > > > > >                   g_ptr_array_set_size(v->shadow_vqs, 0);
-> > > > > > > >                   return 0;
-> > > > > > > > @@ -903,6 +933,8 @@ static unsigned vhost_vdpa_enable_svq(s=
-truct vhost_vdpa *v, bool enable)
-> > > > > > > >           }
-> > > > > > > >       }
-> > > > > > > >
-> > > > > > > > +    r =3D vhost_vdpa_get_iova_range(hdev, &iova_first, &io=
-va_last);
-> > > > > > > > +    assert(r =3D=3D 0);
-> > > > > > > >       r =3D vhost_vdpa_vring_pause(hdev);
-> > > > > > > >       assert(r =3D=3D 0);
-> > > > > > > >
-> > > > > > > > @@ -913,6 +945,12 @@ static unsigned vhost_vdpa_enable_svq(=
-struct vhost_vdpa *v, bool enable)
-> > > > > > > >           }
-> > > > > > > >       }
-> > > > > > > >
-> > > > > > > > +    memory_listener_unregister(&v->listener);
-> > > > > > > > +    if (vhost_vdpa_dma_unmap(v, iova_first,
-> > > > > > > > +                             (iova_last - iova_first) & TA=
-RGET_PAGE_MASK)) {
-> > > > > > > > +        error_report("Fail to invalidate device iotlb");
-> > > > > > > > +    }
-> > > > > > > > +
-> > > > > > > >       /* Reset device so it can be configured */
-> > > > > > > >       r =3D vhost_vdpa_dev_start(hdev, false);
-> > > > > > > >       assert(r =3D=3D 0);
-> > > > > > > > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-event=
-s
-> > > > > > > > index 8ed19e9d0c..650e521e35 100644
-> > > > > > > > --- a/hw/virtio/trace-events
-> > > > > > > > +++ b/hw/virtio/trace-events
-> > > > > > > > @@ -52,6 +52,7 @@ vhost_vdpa_set_vring_call(void *dev, unsi=
-gned int index, int fd) "dev: %p index:
-> > > > > > > >   vhost_vdpa_get_features(void *dev, uint64_t features) "de=
-v: %p features: 0x%"PRIx64
-> > > > > > > >   vhost_vdpa_set_owner(void *dev) "dev: %p"
-> > > > > > > >   vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc=
-_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq:=
- %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr=
-: 0x%"PRIx64
-> > > > > > > > +vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint6=
-4_t last) "dev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
-> > > > > > > >
-> > > > > > > >   # virtio.c
-> > > > > > > >   virtqueue_alloc_element(void *elem, size_t sz, unsigned i=
-n_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
-> > > > > > >
-> > > > > >
-> > > >
-> > >
-> >
+> --
+> 2.25.1
 >
-
 
