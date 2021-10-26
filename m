@@ -2,79 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707D843B7FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 19:14:11 +0200 (CEST)
-Received: from localhost ([::1]:49304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 832C343B826
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 19:27:54 +0200 (CEST)
+Received: from localhost ([::1]:60622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfQ1a-0006ei-Gq
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 13:14:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43618)
+	id 1mfQEr-0006SY-75
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 13:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfQ0M-0005HD-0V
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:12:54 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:34506)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfQ0K-0003Fr-EO
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:12:53 -0400
-Received: by mail-pf1-x436.google.com with SMTP id 127so132677pfu.1
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 10:12:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EfAZawKBvE0EsUME/4DRIpJCmUTNEMqpFVbadrwQYzM=;
- b=V4en9ffh2VZnIYIBVgwbG59w8LsO1Yz/gDFXEGuJIIJDWashCn3bIrcz+ufLIK2kDy
- yeeO6NrvdRjchOpnv8dy+UjYfMoi4tV69ZZ4aHFpC25lfc3VClgkkymeLnnO1+upMd8p
- qJCCsSqm+FFA9vaIT9M4iVdy+9qHLjrE8BOuWd3VNwvOr2Dj0jaBevLjfUboLJ4dKD8t
- Rjg4RIswbxoQJlNlHWl1vgriI/shj8jMajWJbSZHCo9VikS0l0I/2og9Fncxii5pGxe9
- RUIb1ZpW/55LDMWugwZn7WtSIyavVnhNU/QHwVayt3ukIG6fukNJOUja0q5HRjQOIy5n
- xfuw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mfQDT-0004XZ-DQ
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:26:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44562)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mfQDP-0005cd-A0
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:26:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635269181;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aNrdlIcWymeH0daG0aSXc0VG8sJYLBEclOlstk6IxEw=;
+ b=B3c8UZYlqcNSyAjUelCEUXRK2vlQbAuJqwCposbIB2X1/GMpPNxU527sVGFSjZ8tdy3fzr
+ Yeof16MJBmRyVIcKtBnmYrvqCQT6uZWRjPGU5V3Mryy3NkdSXkW+JvDfUh75Fpv2hHcyHZ
+ WeEQa/RcOvGroTJ+0a9t92QYuqQwVP4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-588-2f4t-7_YNm6AHT1TWiDNAg-1; Tue, 26 Oct 2021 13:26:19 -0400
+X-MC-Unique: 2f4t-7_YNm6AHT1TWiDNAg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ f18-20020a5d58f2000000b001645b92c65bso90257wrd.6
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 10:26:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EfAZawKBvE0EsUME/4DRIpJCmUTNEMqpFVbadrwQYzM=;
- b=HUS6qEKIPNAhCfN6lIr/DppstMjL1eqp4SqKIcC1wk8FFzOi5eOYywD8LIz+0Q7N+8
- GtnPaQ+QY+Gy4oIh9LUg33rBvv0B63aKYnl0sBVCsD+81bVRp3wqt3/gL3lV0O74KZS1
- lziUbiWfd3i+tKO6gi1Y4JwLNnmByJAa3M15NrJTT+SlEi5eKnAH5bPwm3tMWEJj+ggr
- +Uk7TwRROEy5UXht0hY/x7z0rg9H+SCBx2B91ooXRL888VV28QLujocXkybbx7oGFAPE
- H8L9llwNh1ifm5ZmwG6inQsU01H1O/V8hEmUlP2w7SZC+dtlFm9AOvH2EDA0y9isBLb4
- dDdQ==
-X-Gm-Message-State: AOAM5301bfsUVHo1jqVeaVpFtK778kDqtLqFJrBSznepDCkpGJ1eP2UW
- ANxCafLWobC6cK9bCL8kbti+c3scBaF8Yg==
-X-Google-Smtp-Source: ABdhPJxzIa6SFYypQSkhaQcusGj9w4zvFMyoYBiEB+KUq/hxpNjTo2MJlcl7w/33dooF7d3oHF3zow==
-X-Received: by 2002:a63:36cb:: with SMTP id
- d194mr19651081pga.401.1635268369816; 
- Tue, 26 Oct 2021 10:12:49 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id n19sm1406329pjq.40.2021.10.26.10.12.49
+ bh=aNrdlIcWymeH0daG0aSXc0VG8sJYLBEclOlstk6IxEw=;
+ b=eL8+XGT2zw2q7uY+Xs5wDbSAtI2G6BC2PBBFmrr9viHuHJUsO7jdzIk6fdGSJwwGTu
+ F14U7tXqONyo0g8yupnX2voMy0gFn2vKZZu4DwmHCdznGdeNf8D27+ryuSCEdI3H4zyj
+ XJ83qffeTcsg6vm2JfM4ABw/MGhoXcYycvDaSJ1KDTtm0Q/rWEAfEl2vkKIzFkJ4g2DQ
+ q4m/sjrzuKDg+gzAlTpC1fksPgQAalK5ywREcmnEghs+frHfFS+58XwTY8B6/hyyrFt/
+ T3K98gVBcj581Fq/tMtnbWAL7Ga4596tWy/yyKgsbqp/SzkEpaFtb3SWnuiSgiOr3T/H
+ jyOA==
+X-Gm-Message-State: AOAM5305/JdVjWrqRFzuxn1dhCE5QlWPRY1odgVQMae3mnA7jt7IIjTn
+ R/IsF8zyt5EISIgc37rAydUXgEYAx3j6gPKfOBtfe1AeRFOJf1sdo/BHKdseh/TDgAXreTa3lqR
+ EOZfDgZxExdiJ/tk=
+X-Received: by 2002:a05:6000:128f:: with SMTP id
+ f15mr33592642wrx.143.1635269178602; 
+ Tue, 26 Oct 2021 10:26:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyEnv7N8KJhVqTMyhfvziFwnyxjr+FaHSPKaRxc1yoolWvUklXLTz6W+qccFzSLIjdFnyAmPg==
+X-Received: by 2002:a05:6000:128f:: with SMTP id
+ f15mr33592608wrx.143.1635269178366; 
+ Tue, 26 Oct 2021 10:26:18 -0700 (PDT)
+Received: from thuth.remote.csb (tmo-096-150.customers.d1-online.com.
+ [80.187.96.150])
+ by smtp.gmail.com with ESMTPSA id p21sm1153030wmc.11.2021.10.26.10.26.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 10:12:49 -0700 (PDT)
-Subject: Re: [PULL 0/5] virtiofs queue
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>, qemu-devel@nongnu.org
-References: <20211026102933.103139-1-dgilbert@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <cd4e581a-3890-1531-0ff7-de3debb0c9e8@linaro.org>
-Date: Tue, 26 Oct 2021 10:12:47 -0700
+ Tue, 26 Oct 2021 10:26:17 -0700 (PDT)
+Subject: Re: [RFC 0/2] tls: add macros for coroutine-safe TLS variables
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <20211025140716.166971-1-stefanha@redhat.com>
+ <2ca9c094-61e6-54b8-89a8-6dad22514c96@linaro.org>
+ <CANCZdfr5TAUYeZaRrm0TM-iEaV+BNwWw_JTUHbcr5QwPWhO0iQ@mail.gmail.com>
+ <YXgBArG7wRi+hpMx@stefanha-x1.localdomain>
+ <85df7de0-cebb-efe9-d26b-f459a37a6621@linaro.org>
+ <YXguEo8UQUX/cRo9@stefanha-x1.localdomain>
+ <4b8a5b71-0ec2-7c2c-6929-de303ec29a53@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <d1bbc5ee-53ba-dce2-9eb8-9320f03e9734@redhat.com>
+Date: Tue, 26 Oct 2021 19:26:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211026102933.103139-1-dgilbert@redhat.com>
+In-Reply-To: <4b8a5b71-0ec2-7c2c-6929-de303ec29a53@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.215,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.215, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,50 +106,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vgoyal@redhat.com
+Cc: fweimer@redhat.com, Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Fam Zheng <fam@euphon.net>,
+ Warner Losh <imp@bsdimp.com>, sguelton@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/21 3:29 AM, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On 26/10/2021 19.10, Richard Henderson wrote:
+> On 10/26/21 9:34 AM, Stefan Hajnoczi wrote:
+>> On Tue, Oct 26, 2021 at 08:10:16AM -0700, Richard Henderson wrote:
+>>> On 10/26/21 6:22 AM, Stefan Hajnoczi wrote:
+>>>> If "safe" TLS variables are opt-in then we'll likely have obscure bugs
+>>>> when code changes to access a TLS variable that was previously never
+>>>> accessed from a coroutine. There is no compiler error and no way to
+>>>> detect this. When it happens debugging it is painful.
+>>>
+>>> Co-routines are never used in user-only builds.
+>>
+>> If developers have the choice of using __thread then bugs can slip
+>> through.
 > 
-> The following changes since commit c5b2f559814104f4145f8bc310f4d33c7ead8f49:
+> Huh?  How.  No, really.
 > 
->    Merge remote-tracking branch 'remotes/vivier/tags/trivial-branch-for-6.2-pull-request' into staging (2021-10-23 14:30:10 -0700)
+>> Are you concerned about performance, the awkwardness of calling
+>> getters/setters, or something else for qemu-user?
 > 
-> are available in the Git repository at:
+> Awkwardness first, performance second.
 > 
->    https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20211026
-> 
-> for you to fetch changes up to 555a76e5e5dc2cd3c84c5e1bc060be17d5b32584:
-> 
->    virtiofsd: Error on bad socket group name (2021-10-25 19:38:32 +0100)
-> 
-> ----------------------------------------------------------------
-> Virtiofsd pull 2021-10-26
-> 
-> New 'unsupported' feature for xattr mapping
->    Good for hiding selinux
-> 
-> Plus some tidy ups and error handling.
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> ----------------------------------------------------------------
-> Dr. David Alan Gilbert (1):
->        virtiofsd: Error on bad socket group name
-> 
-> Vivek Goyal (4):
->        virtiofsd: xattr mapping add a new type "unsupported"
->        virtiofsd: Remove unused virtio_fs_config definition
->        virtiofsd: Add a helper to send element on virtqueue
->        virtiofsd: Add a helper to stop all queues
-> 
->   docs/tools/virtiofsd.rst         |  6 +++
->   tools/virtiofsd/fuse_virtio.c    | 80 +++++++++++++++++++---------------------
->   tools/virtiofsd/passthrough_ll.c | 17 +++++++--
->   3 files changed, 58 insertions(+), 45 deletions(-)
+> I'll also note that coroutines never run on vcpu threads, only io threads.  
+> So I'll resist any use of these interfaces in TCG as well.
 
-Applied, thanks.
+Would it maybe make sense to tweak check_patch.pl to forbid __thread in 
+certain folders only, e.g. block/ and util/ (i.e. where we know that there 
+might be code that the iothreads are using)?
 
-r~
+  Thomas
+
 
