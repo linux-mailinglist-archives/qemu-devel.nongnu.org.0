@@ -2,86 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F41E43B7E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 19:05:20 +0200 (CEST)
-Received: from localhost ([::1]:33256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D244043B7EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 19:09:22 +0200 (CEST)
+Received: from localhost ([::1]:41412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfPt1-00043u-Do
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 13:05:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41346)
+	id 1mfPwv-0001GD-Fw
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 13:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mfPqD-0001DN-Du
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:02:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30129)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfPvS-0008EY-AF
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:07:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mfPqB-0003ZN-BI
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:02:25 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mfPvP-0007EK-5a
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 13:07:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635267742;
+ s=mimecast20190719; t=1635268065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=WhtluN/XirUhu/E7Z/YCKpa/MlfNCnzJk2txJvVjccA=;
- b=UnJEKBI/FVcqAaORh00u84eI0esYBKre2+4PAv9+Tp1RY5K0jLx0QdA7rk+/GYIs5mtKkF
- 4A28Bw6MipjuQHGASlM2V5L6CG5w3B1sLO4AvyMR7MgONR8fd1fCO52MtsTC8e1osSyn0N
- Rk5wo61CHxDBPCPsImwq9z5Hw5wh7Uo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-4ZSKOBHPPP-CuxKMmOTFcg-1; Tue, 26 Oct 2021 13:02:20 -0400
-X-MC-Unique: 4ZSKOBHPPP-CuxKMmOTFcg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- b197-20020a1c1bce000000b0032ca040eb40so1224883wmb.7
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 10:02:20 -0700 (PDT)
+ bh=MMA5GC+aN7XdmlakOwOw2zofaWGqViC9y/1CHeZpiMU=;
+ b=Q6DpLHyrGmEXxstCykq0z1d0yECEVKVQycYuOkzw93AJGHfZhgBAmADfR1TowW+6VqypdY
+ omVmMd0/jzFJ0OAeHJj0IJ+jfRx6iTJJ64sd+thLPQZCOjvTD2SCRnAd/Kry8haBk8noQy
+ bD4LRwnQEfHyIJeE/HuHLCNg1UdjHRg=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-29-eDQwNPYbMfOKvmjJ8Vxmzg-1; Tue, 26 Oct 2021 13:07:44 -0400
+X-MC-Unique: eDQwNPYbMfOKvmjJ8Vxmzg-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ n6-20020a1f2706000000b002a45b52f52dso24257vkn.22
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 10:07:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=WhtluN/XirUhu/E7Z/YCKpa/MlfNCnzJk2txJvVjccA=;
- b=XzI/a0932lMiHDwI0TabjI6RwCtZ51z13AwAPZKrFdH6zgxkG9NV1s+K33zIx6iuMg
- Cg9lxSk0OX12YA+SpOkRkTp/Tg6/JR2ec2BEn/LEFUdJHqeo1dGICuer2Sc0NlcC/R4D
- hZ0EfMgFJ6bHGUOxpMT+HUlPUIKF9pwuWywZWa8f153TTfTH7aAa5nV9d0setG9Z0vBm
- 14uAeJ0ph0/YyMJCxlpSHO3XJumnebod54cvEApE0KqpLSXBGvIfytLhiwoF8SP1eEkb
- tCJIlQfp2JCikx4HboT910VLSUeiCnL1u/rafsFfZvmdW0w4wVkB3vUcDhbyUffUDTi3
- 8AoQ==
-X-Gm-Message-State: AOAM5331qUEuHuAVbMmaMlQpvCcTwQv8uiUcaAtheQoOiLI4O2OzG9PP
- je87utiyEk8Up5fABIHdLRM8W02YupWMJx6qU8X647LDm/JcLJmaEKOxvtJ5llCpjkyb86JsYfE
- 6VzjfafyQCIkUcNw=
-X-Received: by 2002:adf:c986:: with SMTP id f6mr34886767wrh.216.1635267739115; 
- Tue, 26 Oct 2021 10:02:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy5WWmIWFwoyaYWQZ6FpvBV8LDBClMDmMrl1q+j7EnUXG2Lu6/nUCdK1E7KFMx7NhjR/4pNtg==
-X-Received: by 2002:adf:c986:: with SMTP id f6mr34886710wrh.216.1635267738768; 
- Tue, 26 Oct 2021 10:02:18 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id n12sm1061411wrv.30.2021.10.26.10.02.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 10:02:18 -0700 (PDT)
-Date: Tue, 26 Oct 2021 18:02:16 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Subject: Re: [PATCH] hw/net: store timers for e1000 in vmstate
-Message-ID: <YXg0mFqaEjlaigd6@work-vm>
-References: <163524428177.1917083.7115508068018047923.stgit@pasha-ThinkPad-X280>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MMA5GC+aN7XdmlakOwOw2zofaWGqViC9y/1CHeZpiMU=;
+ b=VhCtOiI9XQ2hG605SkwueW1Hv8Hsdd9dWuADIBOKuh3IeG2J0T4ZEvVsR8u2BzIcDG
+ AVi7zjcUX0/7PgdmSuHxX+pyeWfVLfB/pjJvs+/8JTN+uEyhMzPJl0s972TAXwvfyQx8
+ cm4oher3ZiofB8hbrnLUqm9Rx/bS5MW42LYJ09zUVAuUbqlb9LlImQp1iBDEft1LzSco
+ Lj3bGZpb7CycDWU0+1NKw/HBC7ysEfPEnKVRvCgoAK2LJ1tZO6rkPbbEdsaVpkxyqXSm
+ c+Mw0YaMkI8qcKoVq2inhiGEaJBs6aLk+yGKLFSt4Gg4Se9UaBLxFsdcZriufeiJhEPF
+ L18g==
+X-Gm-Message-State: AOAM531nj+4BJ9rRGBedDS2zeDKKg5VBjHmmET+iMyItd12NKRL8ZSvk
+ TU16qdvsjp814EeBD2VHWVbj7SqG8QZ1DEzdG7j3SI04v3+iu/2CMNkOgXYh6cIu7Q2iAT+Aovr
+ cJduec8SAL3/Vkc4qeR9vMhQU3Rt2WMA=
+X-Received: by 2002:a67:ed07:: with SMTP id l7mr24593414vsp.40.1635268063502; 
+ Tue, 26 Oct 2021 10:07:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxafJ3fz5r2nwkt8MHknWs1gOHF5TzWcEe/W/U9i9qH7EvIcJrtcOSGdwcXy9295qY0T+medxBXsJDlIGV3wzw=
+X-Received: by 2002:a67:ed07:: with SMTP id l7mr24593375vsp.40.1635268063248; 
+ Tue, 26 Oct 2021 10:07:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <163524428177.1917083.7115508068018047923.stgit@pasha-ThinkPad-X280>
-User-Agent: Mutt/2.0.7 (2021-05-04)
+References: <20211013215748.2154908-1-jsnow@redhat.com>
+ <20211013215748.2154908-7-jsnow@redhat.com>
+ <53d27c1f-c9de-5608-7f6a-f64bc39fb159@redhat.com>
+In-Reply-To: <53d27c1f-c9de-5608-7f6a-f64bc39fb159@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 26 Oct 2021 13:07:32 -0400
+Message-ID: <CAFn=p-Y3nCHY4Kp+9ngG077-kZXLOCo8Uv0hr9FTqreNvA58yQ@mail.gmail.com>
+Subject: Re: [PATCH v4 6/8] iotests/300: avoid abnormal shutdown race condition
+To: Hanna Reitz <hreitz@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: multipart/alternative; boundary="00000000000005d63705cf448423"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,151 +89,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Pavel Dovgalyuk (pavel.dovgalyuk@ispras.ru) wrote:
-> Setting timers randomly when vmstate is loaded breaks
-> execution determinism.
-> Therefore this patch allows saving mit and autoneg timers
-> for e1000. It makes execution deterministic and allows
-> snapshotting and reverse debugging in icount mode.
-> 
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+--00000000000005d63705cf448423
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I think you need to wire those needed's to machine types (via a
-parameter or something) so that they don't break backwards migration
-compatibility.
+On Mon, Oct 25, 2021 at 9:20 AM Hanna Reitz <hreitz@redhat.com> wrote:
 
-Dave
+> On 13.10.21 23:57, John Snow wrote:
+> > Wait for the destination VM to close itself instead of racing to shut i=
+t
+> > down first, which produces different error log messages from AQMP
+> > depending on precisely when we tried to shut it down.
+> >
+> > (For example: We may try to issue 'quit' immediately prior to the targe=
+t
+> > VM closing its QMP socket, which will cause an ECONNRESET error to be
+> > logged. Waiting for the VM to exit itself avoids the race on shutdown
+> > behavior.)
+> >
+> > Reported-by: Hanna Reitz <hreitz@redhat.com>
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >   tests/qemu-iotests/300 | 12 ++++--------
+> >   1 file changed, 4 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
+> > index 10f9f2a8da6..bbea7248005 100755
+> > --- a/tests/qemu-iotests/300
+> > +++ b/tests/qemu-iotests/300
+> > @@ -24,8 +24,6 @@ import random
+> >   import re
+> >   from typing import Dict, List, Optional
+> >
+> > -from qemu.machine import machine
+> > -
+> >   import iotests
+> >
+> >
+> > @@ -461,12 +459,10 @@ class
+> TestBlockBitmapMappingErrors(TestDirtyBitmapMigration):
+> >                         f"'{self.src_node_name}': Name is longer than
+> 255 bytes",
+> >                         log)
+> >
+> > -        # Expect abnormal shutdown of the destination VM because of
+> > -        # the failed migration
+> > -        try:
+> > -            self.vm_b.shutdown()
+> > -        except machine.AbnormalShutdown:
+> > -            pass
+> > +        # Destination VM will terminate w/ error of its own accord
+> > +        # due to the failed migration.
+> > +        self.vm_b.wait()
+> > +        assert self.vm_b.exitcode() > 0
+>
+> Trying to test, I can see that this fails iotest 297, because
+> `.exitcode()` is `Optional[int]`...
+>
+> (I can=E2=80=99t believe how long it took me to figure this out =E2=80=93=
+ the message
+> =E2=80=9C300:465: Unsupported operand types for < ("int" and "None")=E2=
+=80=9D made me
+> believe that it was 300 that was failing, because `exitcode()` was
+> returning `None` for some inconceivable reason.  I couldn=E2=80=99t under=
+stand
+> why my usual test setup failed on every run, but I couldn=E2=80=99t get 3=
+00 to
+> fail manually...  Until I noticed that the message came below the =E2=80=
+=9C297=E2=80=9D
+> line, not the =E2=80=9C300=E2=80=9D line...)
+>
+>
+Oops. Is there anything we can do to improve the visual clarity there?
 
-> ---
->  hw/net/e1000.c |   61 ++++++++++++++++++++++++++++++++++++++++++++++----------
->  1 file changed, 50 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-> index a30546c5d5..2f706f7298 100644
-> --- a/hw/net/e1000.c
-> +++ b/hw/net/e1000.c
-> @@ -37,6 +37,7 @@
->  #include "qemu/iov.h"
->  #include "qemu/module.h"
->  #include "qemu/range.h"
-> +#include "sysemu/replay.h"
->  
->  #include "e1000x_common.h"
->  #include "trace.h"
-> @@ -1407,7 +1408,7 @@ static int e1000_pre_save(void *opaque)
->       * complete auto-negotiation immediately. This allows us to look
->       * at MII_SR_AUTONEG_COMPLETE to infer link status on load.
->       */
-> -    if (nc->link_down && have_autoneg(s)) {
-> +    if (replay_mode == REPLAY_MODE_NONE && nc->link_down && have_autoneg(s)) {
->          s->phy_reg[PHY_STATUS] |= MII_SR_AUTONEG_COMPLETE;
->      }
->  
-> @@ -1438,22 +1439,12 @@ static int e1000_post_load(void *opaque, int version_id)
->              s->mac_reg[TADV] = 0;
->          s->mit_irq_level = false;
->      }
-> -    s->mit_ide = 0;
-> -    s->mit_timer_on = true;
-> -    timer_mod(s->mit_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 1);
->  
->      /* nc.link_down can't be migrated, so infer link_down according
->       * to link status bit in mac_reg[STATUS].
->       * Alternatively, restart link negotiation if it was in progress. */
->      nc->link_down = (s->mac_reg[STATUS] & E1000_STATUS_LU) == 0;
->  
-> -    if (have_autoneg(s) &&
-> -        !(s->phy_reg[PHY_STATUS] & MII_SR_AUTONEG_COMPLETE)) {
-> -        nc->link_down = false;
-> -        timer_mod(s->autoneg_timer,
-> -                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 500);
-> -    }
-> -
->      s->tx.props = s->mig_props;
->      if (!s->received_tx_tso) {
->          /* We received only one set of offload data (tx.props)
-> @@ -1472,6 +1463,13 @@ static int e1000_tx_tso_post_load(void *opaque, int version_id)
->      return 0;
->  }
->  
-> +static int e1000_mit_timer_post_load(void *opaque, int version_id)
-> +{
-> +    E1000State *s = opaque;
-> +    s->mit_timer_on = true;
-> +    return 0;
-> +}
-> +
->  static bool e1000_mit_state_needed(void *opaque)
->  {
->      E1000State *s = opaque;
-> @@ -1493,6 +1491,21 @@ static bool e1000_tso_state_needed(void *opaque)
->      return chkflag(TSO);
->  }
->  
-> +static bool e1000_mit_timer_needed(void *opaque)
-> +{
-> +    E1000State *s = opaque;
-> +
-> +    return s->mit_timer_on;
-> +}
-> +
-> +static bool e1000_autoneg_timer_needed(void *opaque)
-> +{
-> +    E1000State *s = opaque;
-> +
-> +    return have_autoneg(s)
-> +           && !(s->phy_reg[PHY_STATUS] & MII_SR_AUTONEG_COMPLETE);
-> +}
-> +
->  static const VMStateDescription vmstate_e1000_mit_state = {
->      .name = "e1000/mit_state",
->      .version_id = 1,
-> @@ -1541,6 +1554,30 @@ static const VMStateDescription vmstate_e1000_tx_tso_state = {
->      }
->  };
->  
-> +static const VMStateDescription vmstate_e1000_mit_timer = {
-> +    .name = "e1000/mit_timer",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = e1000_mit_timer_needed,
-> +    .post_load = e1000_mit_timer_post_load,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_TIMER_PTR(mit_timer, E1000State),
-> +        VMSTATE_UINT32(mit_ide, E1000State),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static const VMStateDescription vmstate_e1000_autoneg_timer = {
-> +    .name = "e1000/autoneg_timer",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = e1000_autoneg_timer_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_TIMER_PTR(autoneg_timer, E1000State),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  static const VMStateDescription vmstate_e1000 = {
->      .name = "e1000",
->      .version_id = 2,
-> @@ -1622,6 +1659,8 @@ static const VMStateDescription vmstate_e1000 = {
->          &vmstate_e1000_mit_state,
->          &vmstate_e1000_full_mac_state,
->          &vmstate_e1000_tx_tso_state,
-> +        &vmstate_e1000_mit_timer,
-> +        &vmstate_e1000_autoneg_timer,
->          NULL
->      }
->  };
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
+> Hanna
+>
+>
+Embarrassing. I scrutinized the other series I sent out, but forgot to
+apply the same tests to this one. :(
+Fixed, sorry for the noise.
+
+--js
+
+--00000000000005d63705cf448423
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 25, 2021 at 9:20 AM Hanna=
+ Reitz &lt;<a href=3D"mailto:hreitz@redhat.com">hreitz@redhat.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 13.10.2=
+1 23:57, John Snow wrote:<br>
+&gt; Wait for the destination VM to close itself instead of racing to shut =
+it<br>
+&gt; down first, which produces different error log messages from AQMP<br>
+&gt; depending on precisely when we tried to shut it down.<br>
+&gt;<br>
+&gt; (For example: We may try to issue &#39;quit&#39; immediately prior to =
+the target<br>
+&gt; VM closing its QMP socket, which will cause an ECONNRESET error to be<=
+br>
+&gt; logged. Waiting for the VM to exit itself avoids the race on shutdown<=
+br>
+&gt; behavior.)<br>
+&gt;<br>
+&gt; Reported-by: Hanna Reitz &lt;<a href=3D"mailto:hreitz@redhat.com" targ=
+et=3D"_blank">hreitz@redhat.com</a>&gt;<br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0tests/qemu-iotests/300 | 12 ++++--------<br>
+&gt;=C2=A0 =C2=A01 file changed, 4 insertions(+), 8 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300<br>
+&gt; index 10f9f2a8da6..bbea7248005 100755<br>
+&gt; --- a/tests/qemu-iotests/300<br>
+&gt; +++ b/tests/qemu-iotests/300<br>
+&gt; @@ -24,8 +24,6 @@ import random<br>
+&gt;=C2=A0 =C2=A0import re<br>
+&gt;=C2=A0 =C2=A0from typing import Dict, List, Optional<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -from qemu.machine import machine<br>
+&gt; -<br>
+&gt;=C2=A0 =C2=A0import iotests<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; @@ -461,12 +459,10 @@ class TestBlockBitmapMappingErrors(TestDirtyBitm=
+apMigration):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0f&quot;&#39;{self.src_node_name}&#39;: Name is longer t=
+han 255 bytes&quot;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0log)<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Expect abnormal shutdown of the destina=
+tion VM because of<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 # the failed migration<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm_b.shutdown()<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 except machine.AbnormalShutdown:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pass<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Destination VM will terminate w/ error =
+of its own accord<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # due to the failed migration.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm_b.wait()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert self.vm_b.exitcode() &gt; 0<br>
+<br>
+Trying to test, I can see that this fails iotest 297, because <br>
+`.exitcode()` is `Optional[int]`...<br>
+<br>
+(I can=E2=80=99t believe how long it took me to figure this out =E2=80=93 t=
+he message <br>
+=E2=80=9C300:465: Unsupported operand types for &lt; (&quot;int&quot; and &=
+quot;None&quot;)=E2=80=9D made me <br>
+believe that it was 300 that was failing, because `exitcode()` was <br>
+returning `None` for some inconceivable reason.=C2=A0 I couldn=E2=80=99t un=
+derstand <br>
+why my usual test setup failed on every run, but I couldn=E2=80=99t get 300=
+ to <br>
+fail manually...=C2=A0 Until I noticed that the message came below the =E2=
+=80=9C297=E2=80=9D <br>
+line, not the =E2=80=9C300=E2=80=9D line...)<br>
+<br></blockquote><div><br></div><div>Oops. Is there anything we can do to i=
+mprove the visual clarity there?<br></div><div>=C2=A0</div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
+Hanna<br>
+<br></blockquote><div><br></div><div>Embarrassing. I scrutinized the other =
+series I sent out, but forgot to apply the same tests to this one. :(</div>=
+<div>Fixed, sorry for the noise.</div><div><br></div><div>--js<br></div><di=
+v><br></div><div><br></div><div><br></div><div><br></div><div><br></div><di=
+v> <br></div></div></div>
+
+--00000000000005d63705cf448423--
 
 
