@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75B243B031
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:38:22 +0200 (CEST)
-Received: from localhost ([::1]:39016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB8343B060
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Oct 2021 12:42:57 +0200 (CEST)
+Received: from localhost ([::1]:52780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfJqX-0000sX-O6
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:38:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51428)
+	id 1mfJuy-0001cn-3C
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 06:42:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfJbf-0001AF-14
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:22:59 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36544)
+ id 1mfJhu-0001i0-IE
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:29:26 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:42836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfJbd-0007So-8Z
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:22:58 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id i9so2433509wrc.3
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:22:56 -0700 (PDT)
+ id 1mfJhs-0004fL-Kv
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 06:29:26 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ b82-20020a1c8055000000b0032ccc728d63so376385wmd.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 03:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nAdmbpsGRI7IIKYGmTuV2CO734xKeZibs75jIXQLIvc=;
- b=uAisMZJQ2TAlgHbNEkmuPsJ3fcUv/gugiWHuZ8C6F0oRW+grAj6xNXLlzc3Rpwu6Dq
- klbgdrgkIRkKIAWI/obEZyN1+bSbSjgTqe1kxVRfsjhZOvj4v8MG9VGaO3nN2NSkmBLV
- HbHmviekIrK8hqZdSrZy6aq6axHfLjnuXfFsxp9F8pxBO7YExEYG6RyUReegBoUeEnx1
- jkSywOnZDlcdIwNjtm6rXmVzNlgZbcUQL8cett90cTawEUgR179NBOLcJwKKN4JFFwo8
- d0dMUevNW8Q1yZvfANN8GCahvlKDVfiVhfkpZiIl/EhQ7uNQ2Fg1+d9Tj9OsoKi+b1cA
- VjFw==
+ bh=okvwrtf08W8uarrzKrlBybF3KpHoBrIYOL+cAd6cfzU=;
+ b=BOynbW+GsXxu9VhXl9s03GXdghsmfqm+gD1jshUy90EthV19NGWGRulsuAonBvjnZK
+ 8WoWzE8S8/zAkSdc64Q530pbtmyhF/T0uKb5mX71jtvb9g3+5TH0d9ORG1++DWNyEVsR
+ qYI1zoc+4TwMxAL7CWkPMLziuXR3joa+bpEyKA+ewe+ryuwg49na5PnFdbivYGYO6a2Y
+ VJaFr66HQ+lM8zn3OjoRzrRz9u+MZCvKIwq9CdXOo45291SxZzUo3Zu0na0jx60272OZ
+ t4HAWN1Lcj3tprMeuXy/Kvp7CFTWFzoVYNaPwc+RAAjbmTXUDEuzQ3PJu/PVpkKOFDZq
+ yJsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nAdmbpsGRI7IIKYGmTuV2CO734xKeZibs75jIXQLIvc=;
- b=jQNLVfr4DaWMPIqMvVYIq6YXqecIpA6I35U+jHhvASiRVdCcT57gGneD3fep3PUEXJ
- zouP8E0Rs7KKUZPwB2YjSq0SLUQbUpqLJ/Czf1CUD5hN94zld1bYi8ar8gOfwyaiUeOS
- yWgFtg897LnNe67MhlGUdUzJUG/prZVLhkWlDPm55ESu7WUHNaugizAy+oXCs9CmehPF
- MQCrbFuLTIh1+6OEcsOY/wI1Mrs80GZjkI4LBJ+NAFAXJcXLyTcp1GSujCtAxkkGAblB
- sDzYmh8gy2fnkH1RgBde8uMt6lkAHflHs5JZTXinX9AIBukMZK+k6moS5o0ROvZ6wYWy
- mZpQ==
-X-Gm-Message-State: AOAM533kK9qoc7UZNIJKl78ec3siwU+OEaOpAuq2gkSU8Cmc+oNGUbBD
- EI//QYe+XrdSEhFqA1N4TYDfhg==
-X-Google-Smtp-Source: ABdhPJzJmEPUvKbMH7ueYeDwncu9SBtNpfaTwSkRQ6kLYO68UC4UMZ3RkyBE5ZbQ6xs7X6n0q7L7MQ==
-X-Received: by 2002:adf:a413:: with SMTP id d19mr31502352wra.246.1635243775913; 
- Tue, 26 Oct 2021 03:22:55 -0700 (PDT)
+ bh=okvwrtf08W8uarrzKrlBybF3KpHoBrIYOL+cAd6cfzU=;
+ b=F/eMP590Ad/g9OzxzX1fsJrBathTfAt2aJ3ocyjdAKIv9a9EaoHeElXSx6f1HYs0dj
+ WqSX31VQUQJR/wwl4bBCALMSh4tsIGsRFola5lrNKyB67Qe/gPpmnN/+5a7fe57qsYba
+ x+kiQFOVcPpQg63wuTfpCzG7Byxol75L0iCwEgxCpO8XgEDnptD2tzwJn0QZ04kHcaoV
+ Gd3YLNcyK5uSwtTTXrp2rE0/A3r7TBmm72dh5Lbb4EoKIlOAmAEI5BmxZjLx6/RZmX3O
+ 9ctvnB3BIOgJb65tkcJ63MSABzHBCp0m3ZjTvAXmQ66SGMgW9oDjXyzeXgjyRpsOLN1I
+ qLWQ==
+X-Gm-Message-State: AOAM533//JoMtyVJbIFXvIfF16v7x7vnxgXk2L+fIxeJ0DiiqVtFCqh4
+ i+vBJiSMuwwoY8p90IZalzsbmA==
+X-Google-Smtp-Source: ABdhPJx68hTW0xUygxIl9EuCAmSa86JZyIFPqZOIEKMmVwLgH44O7DHFbh3+v/ypS8jWWbARX/mlrg==
+X-Received: by 2002:a1c:7f4a:: with SMTP id a71mr19988887wmd.177.1635244163219; 
+ Tue, 26 Oct 2021 03:29:23 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p21sm196958wmc.11.2021.10.26.03.22.45
+ by smtp.gmail.com with ESMTPSA id o10sm192309wmr.31.2021.10.26.03.29.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 03:22:54 -0700 (PDT)
+ Tue, 26 Oct 2021 03:29:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 21E8B1FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id 3DCE71FFBC;
  Tue, 26 Oct 2021 11:22:37 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 25/28] plugins: add helper functions for coverage plugins
-Date: Tue, 26 Oct 2021 11:22:31 +0100
-Message-Id: <20211026102234.3961636-26-alex.bennee@linaro.org>
+Subject: [PATCH  v1 26/28] contrib/plugins: add a drcov plugin
+Date: Tue, 26 Oct 2021 11:22:32 +0100
+Message-Id: <20211026102234.3961636-27-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211026102234.3961636-1-alex.bennee@linaro.org>
 References: <20211026102234.3961636-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,154 +99,200 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ivanov Arkady <arkadiy.ivanov@ispras.ru>
 
-Which provide information about:
-- start_code.
-- end_code.
-- entry.
-- path to the executable binary.
+This patch adds the ability to generate files in drcov format. Primary
+goal this script is to have coverage logfiles thatwork in Lighthouse.
 
 Signed-off-by: Ivanov Arkady <arkadiy.ivanov@ispras.ru>
-Message-Id: <163491883461.304355.8210754161847179432.stgit@pc-System-Product-Name>
-[AJB: reword title, better descriptions, defaults, rm export, fix include]
+Message-Id: <163491884553.304355.13246023070235438959.stgit@pc-System-Product-Name>
+[AJB: use g_ptr_array instead of slist]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/qemu/qemu-plugin.h   | 34 ++++++++++++++++++++++++++
- plugins/api.c                | 46 ++++++++++++++++++++++++++++++++++++
- plugins/qemu-plugins.symbols |  4 ++++
- 3 files changed, 84 insertions(+)
+ contrib/plugins/drcov.c  | 163 +++++++++++++++++++++++++++++++++++++++
+ contrib/plugins/Makefile |   1 +
+ 2 files changed, 164 insertions(+)
+ create mode 100644 contrib/plugins/drcov.c
 
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index 5f1017201f..535ddbf0ae 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -590,4 +590,38 @@ void qemu_plugin_outs(const char *string);
-  */
- bool qemu_plugin_bool_parse(const char *name, const char *val, bool *ret);
- 
-+/**
-+ * qemu_plugin_path_to_binary() - path to binary file being executed
-+ *
-+ * Return a string representing the path to the binary. For user-mode
-+ * this is the main executable. For system emulation we currently
-+ * return NULL. The user should g_free() the string once no longer
-+ * needed.
-+ */
-+const char *qemu_plugin_path_to_binary(void);
-+
-+/**
-+ * qemu_plugin_start_code() - returns start of text segment
-+ *
-+ * Returns the nominal start address of the main text segment in
-+ * user-mode. Currently returns 0 for system emulation.
-+ */
-+uint64_t qemu_plugin_start_code(void);
-+
-+/**
-+ * qemu_plugin_end_code() - returns end of text segment
-+ *
-+ * Returns the nominal end address of the main text segment in
-+ * user-mode. Currently returns 0 for system emulation.
-+ */
-+uint64_t qemu_plugin_end_code(void);
-+
-+/**
-+ * qemu_plugin_entry_code() - returns start address for module
-+ *
-+ * Returns the nominal entry address of the main text segment in
-+ * user-mode. Currently returns 0 for system emulation.
-+ */
-+uint64_t qemu_plugin_entry_code(void);
-+
- #endif /* QEMU_PLUGIN_API_H */
-diff --git a/plugins/api.c b/plugins/api.c
-index b143b09ce9..e6a2c9dde3 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -44,6 +44,9 @@
- #ifndef CONFIG_USER_ONLY
- #include "qemu/plugin-memory.h"
- #include "hw/boards.h"
-+#else
-+#include "qemu.h"
-+#include "loader.h"
- #endif
- 
- /* Uninstall and Reset handlers */
-@@ -391,3 +394,46 @@ bool qemu_plugin_bool_parse(const char *name, const char *value, bool *ret)
- {
-     return name && value && qapi_bool_parse(name, value, ret, NULL);
- }
-+
+diff --git a/contrib/plugins/drcov.c b/contrib/plugins/drcov.c
+new file mode 100644
+index 0000000000..b4a855adaf
+--- /dev/null
++++ b/contrib/plugins/drcov.c
+@@ -0,0 +1,163 @@
 +/*
-+ * Binary path, start and end locations
++ * Copyright (C) 2021, Ivanov Arkady <arkadiy.ivanov@ispras.ru>
++ *
++ * Drcov - a DynamoRIO-based tool that collects coverage information
++ * from a binary. Primary goal this script is to have coverage log
++ * files that work in Lighthouse.
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
 + */
-+const char *qemu_plugin_path_to_binary(void)
++
++#include <inttypes.h>
++#include <assert.h>
++#include <stdlib.h>
++#include <inttypes.h>
++#include <string.h>
++#include <unistd.h>
++#include <stdio.h>
++#include <glib.h>
++
++#include <qemu-plugin.h>
++
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
++static char header[] = "DRCOV VERSION: 2\n"
++                "DRCOV FLAVOR: drcov-64\n"
++                "Module Table: version 2, count 1\n"
++                "Columns: id, base, end, entry, path\n";
++
++static FILE *fp;
++static const char *file_name = "file.drcov.trace";
++static GMutex lock;
++
++typedef struct {
++    uint32_t start;
++    uint16_t size;
++    uint16_t mod_id;
++    bool     exec;
++} bb_entry_t;
++
++/* Translated blocks */
++static GPtrArray *blocks;
++
++static void printf_header(unsigned long count)
 +{
-+    char *path = NULL;
-+#ifdef CONFIG_USER_ONLY
-+    TaskState *ts = (TaskState *) current_cpu->opaque;
-+    path = g_strdup(ts->bprm->filename);
-+#endif
-+    return path;
++    fprintf(fp, "%s", header);
++    const char *path = qemu_plugin_path_to_binary();
++    uint64_t start_code = qemu_plugin_start_code();
++    uint64_t end_code = qemu_plugin_end_code();
++    uint64_t entry = qemu_plugin_entry_code();
++    fprintf(fp, "0, 0x%lx, 0x%lx, 0x%lx, %s\n",
++            start_code, end_code, entry, path);
++    fprintf(fp, "BB Table: %ld bbs\n", count);
 +}
 +
-+uint64_t qemu_plugin_start_code(void)
++static void printf_char_array32(uint32_t data)
 +{
-+    uint64_t start = 0;
-+#ifdef CONFIG_USER_ONLY
-+    TaskState *ts = (TaskState *) current_cpu->opaque;
-+    start = ts->info->start_code;
-+#endif
-+    return start;
++    const uint8_t *bytes = (const uint8_t *)(&data);
++    fwrite(bytes, sizeof(char), sizeof(data), fp);
 +}
 +
-+uint64_t qemu_plugin_end_code(void)
++static void printf_char_array16(uint16_t data)
 +{
-+    uint64_t end = 0;
-+#ifdef CONFIG_USER_ONLY
-+    TaskState *ts = (TaskState *) current_cpu->opaque;
-+    end = ts->info->end_code;
-+#endif
-+    return end;
++    const uint8_t *bytes = (const uint8_t *)(&data);
++    fwrite(bytes, sizeof(char), sizeof(data), fp);
 +}
 +
-+uint64_t qemu_plugin_entry_code(void)
++
++static void printf_el(gpointer data, gpointer user_data)
 +{
-+    uint64_t entry = 0;
-+#ifdef CONFIG_USER_ONLY
-+    TaskState *ts = (TaskState *) current_cpu->opaque;
-+    entry = ts->info->entry;
-+#endif
-+    return entry;
++    bb_entry_t *bb = (bb_entry_t *)data;
++    if (bb->exec) {
++        printf_char_array32(bb->start);
++        printf_char_array16(bb->size);
++        printf_char_array16(bb->mod_id);
++    }
++    g_free(bb);
 +}
-diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
-index 4834756ba3..71f6c90549 100644
---- a/plugins/qemu-plugins.symbols
-+++ b/plugins/qemu-plugins.symbols
-@@ -1,5 +1,7 @@
- {
-   qemu_plugin_bool_parse;
-+  qemu_plugin_end_code;
-+  qemu_plugin_entry_code;
-   qemu_plugin_get_hwaddr;
-   qemu_plugin_hwaddr_device_name;
-   qemu_plugin_hwaddr_is_io;
-@@ -17,6 +19,7 @@
-   qemu_plugin_n_max_vcpus;
-   qemu_plugin_n_vcpus;
-   qemu_plugin_outs;
-+  qemu_plugin_path_to_binary;
-   qemu_plugin_register_atexit_cb;
-   qemu_plugin_register_flush_cb;
-   qemu_plugin_register_vcpu_exit_cb;
-@@ -33,6 +36,7 @@
-   qemu_plugin_register_vcpu_tb_exec_inline;
-   qemu_plugin_register_vcpu_tb_trans_cb;
-   qemu_plugin_reset;
-+  qemu_plugin_start_code;
-   qemu_plugin_tb_get_insn;
-   qemu_plugin_tb_n_insns;
-   qemu_plugin_tb_vaddr;
++
++static void count_block(gpointer data, gpointer user_data)
++{
++    unsigned long *count = (unsigned long *) user_data;
++    bb_entry_t *bb = (bb_entry_t *)data;
++    if (bb->exec) {
++        *count = *count + 1;
++    }
++}
++
++static void plugin_exit(qemu_plugin_id_t id, void *p)
++{
++    unsigned long count = 0;
++    g_mutex_lock(&lock);
++    g_ptr_array_foreach(blocks, count_block, &count);
++
++    /* Print function */
++    printf_header(count);
++    g_ptr_array_foreach(blocks, printf_el, NULL);
++
++    /* Clear */
++    g_ptr_array_free(blocks, true);
++
++    fclose(fp);
++
++    g_mutex_unlock(&lock);
++}
++
++static void plugin_init(void)
++{
++    fp = fopen(file_name, "wb");
++    blocks = g_ptr_array_sized_new(128);
++}
++
++static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
++{
++    bb_entry_t *bb = (bb_entry_t *) udata;
++
++    g_mutex_lock(&lock);
++    bb->exec = true;
++    g_mutex_unlock(&lock);
++}
++
++static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
++{
++    uint64_t pc = qemu_plugin_tb_vaddr(tb);
++    size_t n = qemu_plugin_tb_n_insns(tb);
++
++    g_mutex_lock(&lock);
++
++    bb_entry_t *bb = g_new0(bb_entry_t, 1);
++    for (int i = 0; i < n; i++) {
++        bb->size += qemu_plugin_insn_size(qemu_plugin_tb_get_insn(tb, i));
++    }
++
++    bb->start = pc;
++    bb->mod_id = 0;
++    bb->exec = false;
++    g_ptr_array_add(blocks, bb);
++
++    g_mutex_unlock(&lock);
++    qemu_plugin_register_vcpu_tb_exec_cb(tb, vcpu_tb_exec,
++                                         QEMU_PLUGIN_CB_NO_REGS,
++                                         (void *)bb);
++
++}
++
++QEMU_PLUGIN_EXPORT
++int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
++                        int argc, char **argv)
++{
++    for (int i = 0; i < argc; i++) {
++        g_autofree char **tokens = g_strsplit(argv[i], "=", 2);
++        if (g_strcmp0(tokens[0], "filename") == 0) {
++            file_name = g_strdup(tokens[1]);
++        }
++    }
++
++    plugin_init();
++
++    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
++    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++
++    return 0;
++}
+diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
+index 54ac5ccd9f..df3499f4f2 100644
+--- a/contrib/plugins/Makefile
++++ b/contrib/plugins/Makefile
+@@ -20,6 +20,7 @@ NAMES += howvec
+ NAMES += lockstep
+ NAMES += hwprofile
+ NAMES += cache
++NAMES += drcov
+ 
+ SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
+ 
 -- 
 2.30.2
 
