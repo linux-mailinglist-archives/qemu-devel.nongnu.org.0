@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83AF843C212
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 07:17:34 +0200 (CEST)
-Received: from localhost ([::1]:38482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 069E943C219
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 07:22:32 +0200 (CEST)
+Received: from localhost ([::1]:41794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfbJd-00064s-LF
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 01:17:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56720)
+	id 1mfbOR-00005W-4t
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 01:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mfbIW-0005AW-Lg
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 01:16:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39862)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mfbMk-0007bE-4F
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 01:20:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mfbIS-00056r-07
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 01:16:21 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mfbMg-000695-I6
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 01:20:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635311776;
+ s=mimecast20190719; t=1635312042;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9VRPWwwpjAw70W3UfdX/uMVJKvaG6SKNzbULtzXfAAY=;
- b=YlfhYgpm+kocwk/XcIAGd3uai872hW4EqlYfmZaALr7R3BsEi1jA1sKAl7bGGsYBThUB9P
- wNAz4+sHCdLsX/8VbC/ivCCfCpVjmH90u242TwigOD7RQmHBl6nG5VxBWEAB4ZtaIg56Sx
- bf09qLK3G3jdzx4+oTTQPOxO0OMi8YI=
+ bh=JpGSizgBFtVNG8BCv524YGUrBZk4/+K/1JMKV+/s490=;
+ b=DR0CrWjOlUhZaMV+e+4szgP/8YlWfEuO2FNMt4SE8BpNrW3rxDhMacob8qkKBGIWJlfYHn
+ 7OoJMUBLqJTiysNwi79kygxftoLbuRJoxLyO2oo+ZupytUtubE3JZNBUHOeLqnxxtYAcOE
+ twCXWMin4+8jTQcAnAtw6g1AFivXnb8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-2pZ8mDS7MIiCmBuayzaheQ-1; Wed, 27 Oct 2021 01:16:12 -0400
-X-MC-Unique: 2pZ8mDS7MIiCmBuayzaheQ-1
+ us-mta-197-xN5De8obNHyGEIAEHRhxFw-1; Wed, 27 Oct 2021 01:20:38 -0400
+X-MC-Unique: xN5De8obNHyGEIAEHRhxFw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F5441006AA2;
- Wed, 27 Oct 2021 05:16:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 357D49F92A;
+ Wed, 27 Oct 2021 05:20:37 +0000 (UTC)
 Received: from [10.64.54.187] (vpn2-54-187.bne.redhat.com [10.64.54.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 415D4101E692;
- Wed, 27 Oct 2021 05:16:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4698A104253E;
+ Wed, 27 Oct 2021 05:20:32 +0000 (UTC)
 Subject: Re: [PATCH] hw/arm/virt: Expose empty NUMA nodes through ACPI
-To: Andrew Jones <drjones@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
 References: <20211025234101.224705-1-gshan@redhat.com>
- <20211026062523.xjsnwl64hte3zphi@gator.home>
+ <20211026114751.427205bc@redhat.com>
 From: Gavin Shan <gshan@redhat.com>
-Message-ID: <ebbf0627-7865-3128-6e5e-bed4ba1eafd5@redhat.com>
-Date: Wed, 27 Oct 2021 16:16:01 +1100
+Message-ID: <b7b100dc-0555-774a-5b98-2ebc4f2645b0@redhat.com>
+Date: Wed, 27 Oct 2021 16:20:30 +1100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <20211026062523.xjsnwl64hte3zphi@gator.home>
+In-Reply-To: <20211026114751.427205bc@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
@@ -60,15 +60,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.215, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.215, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,18 +83,35 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, shan.gavin@gmail.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com, ehabkost@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/21 5:25 PM, Andrew Jones wrote:
-> On Tue, Oct 26, 2021 at 07:41:01AM +0800, Gavin Shan wrote:
+On 10/26/21 8:47 PM, Igor Mammedov wrote:
+> On Tue, 26 Oct 2021 07:41:01 +0800
+> Gavin Shan <gshan@redhat.com> wrote:
+> 
 >> The empty NUMA nodes, where no memory resides, aren't exposed
 >> through ACPI SRAT table. It's not user preferred behaviour because
 >> the corresponding memory node devices are missed from the guest
 >> kernel as the following example shows, and memory can't be hot
 >> added to these empty NUMA nodes at later point.
+> 
+> a error message one gets would be useful here.
+> 
+> btw:
+> memory hotplug seems to work for x86 without adding empty nodes.
+> So it beg a question, if absence of empty nodes is the issue here.
+> 
+
+Yes, the memory can be still hot added even the empty NUMA nodes
+aren't exposed. However, we still need to expose them so that
+the guest kernel has the information as the users specifies.
+
+I will make the commit log more precise in v2.
+
 >>
 >>    /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
 >>    -accel kvm -machine virt,gic-version=host               \
@@ -110,13 +128,6 @@ On 10/26/21 5:25 PM, Andrew Jones wrote:
 >>    node0
 >>    node1
 >>    node2
-> 
-> node2 shouldn't be in this list, should it?
-> 
-
-Yes, the list shouldn't include node2. I'll amend the commit
-log in v2.
-
 >>
 >> This exposes these empty NUMA nodes through ACPI SRAT table. With
 >> this applied, the corresponding memory node devices can be found
@@ -167,13 +178,6 @@ log in v2.
 >>       }
 >>   
 >>       if (ms->nvdimms_state->is_enabled) {
->> -- 
->> 2.23.0
->>
-> 
-> Besides the possible issue with the commit message,
-> 
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
 > 
 
 Thanks,
