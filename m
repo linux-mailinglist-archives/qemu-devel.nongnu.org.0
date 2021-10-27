@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B541443D097
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 20:21:19 +0200 (CEST)
-Received: from localhost ([::1]:52230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF1143D0BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 20:26:26 +0200 (CEST)
+Received: from localhost ([::1]:60618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfnY6-0006YG-Qp
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 14:21:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52288)
+	id 1mfnd3-00045z-Mv
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 14:26:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfnLp-0004Zg-6T
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 14:08:37 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:53989)
+ id 1mfnLt-0004ht-UM
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 14:08:42 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfnLn-00042S-IE
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 14:08:36 -0400
-Received: by mail-wm1-x331.google.com with SMTP id 192so1863697wme.3
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 11:08:35 -0700 (PDT)
+ id 1mfnLs-00043U-2A
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 14:08:41 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id d3so5589108wrh.8
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 11:08:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=S/kO/l3nZv9J0gGrC7cR0/+HRvwOX/9ne3z6XoOubpg=;
- b=hIxT6zuS4KnshewdTiIBQFDLNrLP4PpFxSq9wFAceWYmWBzZ3bI78OAyASkyZcb2fq
- W6dDe29auvE/pkE5tBpOCshMQgU89AemDenMa9iBqO85bWfe5mSSN2WXPEbLHkynknGM
- LFZ9o0JAPKYMX+0Xml0SUY2Ls0ZRdyPaedMAINT/TCbrh2j/dVi3tqw9yq/GgC1glQV4
- ttM+jhZvsmLOZCBLcHgDPS71Soh0zw2vUKxKguZFlgcy9jaBLJ8F5SsWjmo6WttrlI/v
- 6phHxyfwB9LQaugQ3soWk7CIRC6fyVFdF6As6anY/oTv/43tyuJkbIQkT4ZOTA0Y3x6m
- H3ig==
+ bh=xAIPlMylYJ3Gy0H1MVl3gxJpMTP4ALLpwFtXCjc+06Q=;
+ b=Ch49NJNpgGIrAj2MTu0h1aC7gKNjPGg5Ge30Q+3toYJzzaAy78/sxR5vDK/RoEt7s0
+ PXya7H1wGoqEVJFHLXnfTVZv17IwiMk/old7QnsUAuqdvsqUpSz0q2EmOjZJe9o7C7Rs
+ E8G/NdNtFZ65mQIq/nSuhgM07Z63XWbegZKnumlBc21CrXORoM1RP+hzF9iVFDfG8Fhg
+ FBj1V839BRzu5QICpvhWmQQNXRyn/NeGHuJO0/+TDMjf2IerpFR+0/zwtVe9qvMHboic
+ 7pmCIAyloQDbkl5RxTDtS88dBvN/fP2l6JaKY3Sx49tFlzgk06XksCdmlAU2TlEWYGCv
+ p2vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=S/kO/l3nZv9J0gGrC7cR0/+HRvwOX/9ne3z6XoOubpg=;
- b=N5H1u5y93OzbHJh1uHjaHTuNiKTdeO0KhQayNDlXaKgsfYwHNaGL/X0Wc5v3S9UGhB
- VaDFcaqCU7NCqX4Gnd29mfvO4iHW/9ITp5KzPREtR3lcu7a0Bd1eoEQAAXH2kF9XTcBD
- VJlf91RE6o5A/s/73WbbeG5eZdqBBsxEqkKCFXfftb0YBYcHIWpyUb7L4wceAdK5kCEA
- JSmrSluBT6zXjXhH256Wo65+AWnJ3Wyn+TDIPApzk2bsprDFyI/csor+puM3aMDzSml3
- wcVxTxD6rnXYwFOfO1oxIBOlXlbAvS7Ba78SK2a5Q62sVlvKzKa22UnFjmK5uR2xSMzs
- eexw==
-X-Gm-Message-State: AOAM5309KQN0tDs7cN2/GRBzVpeYUwPgDZT3t12zhcyl3MsU2C9B5Yvx
- iTAu+q7cNw2Q2p5/ux+zAJWzUeU+xqc=
-X-Google-Smtp-Source: ABdhPJy7tJkhVCKTEC+4QMQMsUwIK53rltBhTvLfIMFcK+mQNkCdZyjLTx34RSeQLBQMAL65pSFsWQ==
-X-Received: by 2002:a7b:c94c:: with SMTP id i12mr7186284wml.67.1635358113809; 
- Wed, 27 Oct 2021 11:08:33 -0700 (PDT)
+ bh=xAIPlMylYJ3Gy0H1MVl3gxJpMTP4ALLpwFtXCjc+06Q=;
+ b=flf1WVwKOrytyvme9cFGxWbXuFHmlh2nwaeuNwlRIUD5rG2PdFaKKm0VsvWSoVlBmB
+ 2D96KAp+bu+VUUVUB6Qd0cIlx9ekp3lznpE3fdG5uWK69RfgJQYZpk7eSgxI6aBWvYmF
+ k5rDX/OW1MxSIozWm+FERArgP5aj78KicjASyiAI+svtMorKH644Gkw3ffvRM6cBaaNu
+ l9xcVSP8j8C8rHJvHpwKrDrNXHA/iyWJp9RkyDYpfFKEyo/tPJxy5ueeAdRCblctbRi/
+ MgvAl5bAbXOeAypz4b81i+SS6OSuNftsX6biiT2NAOoiNllqry+sj3M8UoKsfUFe1mEQ
+ /VCA==
+X-Gm-Message-State: AOAM532Mn+3zyGGQLOUfuui64m5YdEFmHAIXTWBKN99AUZrB1VskIb5i
+ TazwLNhSKF5ztgl+Y4a0TzafWYuGv8c=
+X-Google-Smtp-Source: ABdhPJxSTLBLj6/CABJX7P4yMHaX2cfD4HWjnsxG8M5ks9CsRNQvUL/MTz6KtGfd9zl1EnqaPVa9ow==
+X-Received: by 2002:adf:fccc:: with SMTP id f12mr10539949wrs.64.1635358118490; 
+ Wed, 27 Oct 2021 11:08:38 -0700 (PDT)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id u6sm419622wmc.29.2021.10.27.11.08.32
+ by smtp.gmail.com with ESMTPSA id q14sm565035wrv.55.2021.10.27.11.08.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Oct 2021 11:08:33 -0700 (PDT)
+ Wed, 27 Oct 2021 11:08:37 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/32] target/mips: Convert MSA load/store instruction
- format to decodetree
-Date: Wed, 27 Oct 2021 20:07:11 +0200
-Message-Id: <20211027180730.1551932-14-f4bug@amsat.org>
+Subject: [PATCH v2 14/32] target/mips: Convert MSA 2RF instruction format to
+ decodetree
+Date: Wed, 27 Oct 2021 20:07:12 +0200
+Message-Id: <20211027180730.1551932-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211027180730.1551932-1-f4bug@amsat.org>
 References: <20211027180730.1551932-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,175 +87,220 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert load/store instructions to decodetree.
+Convert 2-register floating-point operations to decodetree.
 
 Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v2: Add TRANS_DF_x() and use an array of 4 functions (tip from Richard)
----
- target/mips/tcg/msa.decode      |  5 ++
- target/mips/tcg/msa_translate.c | 86 +++++++++++----------------------
- 2 files changed, 32 insertions(+), 59 deletions(-)
+ target/mips/tcg/msa.decode      |  19 ++++++
+ target/mips/tcg/msa_translate.c | 111 +++++++-------------------------
+ 2 files changed, 44 insertions(+), 86 deletions(-)
 
 diff --git a/target/mips/tcg/msa.decode b/target/mips/tcg/msa.decode
-index af374f08969..ca25d79bda4 100644
+index ca25d79bda4..395a2cbafeb 100644
 --- a/target/mips/tcg/msa.decode
 +++ b/target/mips/tcg/msa.decode
-@@ -17,12 +17,14 @@
+@@ -13,6 +13,7 @@
+ 
+ &r                  rs rt rd sa
+ 
++&msa_r              df  wd ws wt
+ &msa_bz             df        wt sa
  &msa_ldi            df  wd       sa
  &msa_i5             df  wd ws    sa
- &msa_i8             df  wd ws    sa
-+&msa_ldst           df  wd ws    sa
- &msa_bit            df  wd ws       m
- 
- %dfm_df             16:7 !function=msa_bit_df
- %dfm_m              16:7 !function=msa_bit_m
- 
- @lsa                ...... rs:5 rt:5 rd:5 ... sa:2 ......   &r
-+@ldst               ...... sa:s10 ws:5 wd:5 .... df:2       &msa_ldst
+@@ -27,6 +28,7 @@
+ @ldst               ...... sa:s10 ws:5 wd:5 .... df:2       &msa_ldst
  @bz_v               ...... ... ..    wt:5 sa:16             &msa_bz df=3
  @bz                 ...... ...  df:2 wt:5 sa:16             &msa_bz
++@2rf                ...... ......... df:1 ws:5 wd:5 ......  &msa_r wt=0
  @u5                 ...... ... df:2 sa:5  ws:5 wd:5 ......  &msa_i5
-@@ -79,5 +81,8 @@ BNZ                 010001 111 .. ..... ................    @bz
+ @s5                 ...... ... df:2 sa:s5 ws:5 wd:5 ......  &msa_i5
+ @i8_df              ......     df:2 sa:s8 ws:5 wd:5 ......  &msa_i8
+@@ -81,6 +83,23 @@ BNZ                 010001 111 .. ..... ................    @bz
    SRARI             011110 010 ....... ..... .....  001010  @bit
    SRLRI             011110 011 ....... ..... .....  001010  @bit
  
-+  LD                011110 .......... ..... .....   1000 .. @ldst
-+  ST                011110 .......... ..... .....   1001 .. @ldst
++  FCLASS            011110 110010000 . ..... .....  011110  @2rf
++  FTRUNC_S          011110 110010001 . ..... .....  011110  @2rf
++  FTRUNC_U          011110 110010010 . ..... .....  011110  @2rf
++  FSQRT             011110 110010011 . ..... .....  011110  @2rf
++  FRSQRT            011110 110010100 . ..... .....  011110  @2rf
++  FRCP              011110 110010101 . ..... .....  011110  @2rf
++  FRINT             011110 110010110 . ..... .....  011110  @2rf
++  FLOG2             011110 110010111 . ..... .....  011110  @2rf
++  FEXUPL            011110 110011000 . ..... .....  011110  @2rf
++  FEXUPR            011110 110011001 . ..... .....  011110  @2rf
++  FFQL              011110 110011010 . ..... .....  011110  @2rf
++  FFQR              011110 110011011 . ..... .....  011110  @2rf
++  FTINT_S           011110 110011100 . ..... .....  011110  @2rf
++  FTINT_U           011110 110011101 . ..... .....  011110  @2rf
++  FFINT_S           011110 110011110 . ..... .....  011110  @2rf
++  FFINT_U           011110 110011111 . ..... .....  011110  @2rf
 +
-   MSA               011110 --------------------------
- }
+   LD                011110 .......... ..... .....   1000 .. @ldst
+   ST                011110 .......... ..... .....   1001 .. @ldst
+ 
 diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
-index d0b990a49f6..afb9124501e 100644
+index afb9124501e..a61ba9a4db8 100644
 --- a/target/mips/tcg/msa_translate.c
 +++ b/target/mips/tcg/msa_translate.c
-@@ -41,16 +41,6 @@ enum {
-     OPC_MSA_3RF_1B  = 0x1B | OPC_MSA,
-     OPC_MSA_3RF_1C  = 0x1C | OPC_MSA,
-     OPC_MSA_VEC     = 0x1E | OPC_MSA,
--
--    /* MI10 instruction */
--    OPC_LD_B        = (0x20) | OPC_MSA,
--    OPC_LD_H        = (0x21) | OPC_MSA,
--    OPC_LD_W        = (0x22) | OPC_MSA,
--    OPC_LD_D        = (0x23) | OPC_MSA,
--    OPC_ST_B        = (0x24) | OPC_MSA,
--    OPC_ST_H        = (0x25) | OPC_MSA,
--    OPC_ST_W        = (0x26) | OPC_MSA,
--    OPC_ST_D        = (0x27) | OPC_MSA,
+@@ -44,7 +44,7 @@ enum {
  };
  
  enum {
-@@ -322,6 +312,7 @@ static inline bool check_msa_enabled(DisasContext *ctx)
-     return true;
+-    /* VEC/2R/2RF instruction */
++    /* VEC/2R instruction */
+     OPC_AND_V       = (0x00 << 21) | OPC_MSA_VEC,
+     OPC_OR_V        = (0x01 << 21) | OPC_MSA_VEC,
+     OPC_NOR_V       = (0x02 << 21) | OPC_MSA_VEC,
+@@ -54,7 +54,6 @@ enum {
+     OPC_BSEL_V      = (0x06 << 21) | OPC_MSA_VEC,
+ 
+     OPC_MSA_2R      = (0x18 << 21) | OPC_MSA_VEC,
+-    OPC_MSA_2RF     = (0x19 << 21) | OPC_MSA_VEC,
+ 
+     /* 2R instruction df(bits 17..16) = _b, _h, _w, _d */
+     OPC_FILL_df     = (0x00 << 18) | OPC_MSA_2R,
+@@ -62,24 +61,6 @@ enum {
+     OPC_NLOC_df     = (0x02 << 18) | OPC_MSA_2R,
+     OPC_NLZC_df     = (0x03 << 18) | OPC_MSA_2R,
+ 
+-    /* 2RF instruction df(bit 16) = _w, _d */
+-    OPC_FCLASS_df   = (0x00 << 17) | OPC_MSA_2RF,
+-    OPC_FTRUNC_S_df = (0x01 << 17) | OPC_MSA_2RF,
+-    OPC_FTRUNC_U_df = (0x02 << 17) | OPC_MSA_2RF,
+-    OPC_FSQRT_df    = (0x03 << 17) | OPC_MSA_2RF,
+-    OPC_FRSQRT_df   = (0x04 << 17) | OPC_MSA_2RF,
+-    OPC_FRCP_df     = (0x05 << 17) | OPC_MSA_2RF,
+-    OPC_FRINT_df    = (0x06 << 17) | OPC_MSA_2RF,
+-    OPC_FLOG2_df    = (0x07 << 17) | OPC_MSA_2RF,
+-    OPC_FEXUPL_df   = (0x08 << 17) | OPC_MSA_2RF,
+-    OPC_FEXUPR_df   = (0x09 << 17) | OPC_MSA_2RF,
+-    OPC_FFQL_df     = (0x0A << 17) | OPC_MSA_2RF,
+-    OPC_FFQR_df     = (0x0B << 17) | OPC_MSA_2RF,
+-    OPC_FTINT_S_df  = (0x0C << 17) | OPC_MSA_2RF,
+-    OPC_FTINT_U_df  = (0x0D << 17) | OPC_MSA_2RF,
+-    OPC_FFINT_S_df  = (0x0E << 17) | OPC_MSA_2RF,
+-    OPC_FFINT_U_df  = (0x0F << 17) | OPC_MSA_2RF,
+-
+     /* 3R instruction df(bits 22..21) = _b, _h, _w, d */
+     OPC_SLL_df      = (0x0 << 23) | OPC_MSA_3R_0D,
+     OPC_ADDV_df     = (0x0 << 23) | OPC_MSA_3R_0E,
+@@ -1931,73 +1912,34 @@ static void gen_msa_2r(DisasContext *ctx)
+     tcg_temp_free_i32(tws);
  }
  
-+typedef void gen_helper_piv(TCGv_ptr, TCGv_i32, TCGv);
- typedef void gen_helper_piii(TCGv_ptr, TCGv_i32, TCGv_i32, TCGv_i32);
- typedef void gen_helper_piiii(TCGv_ptr, TCGv_i32, TCGv_i32, TCGv_i32, TCGv_i32);
- 
-@@ -339,6 +330,15 @@ typedef void gen_helper_piiii(TCGv_ptr, TCGv_i32, TCGv_i32, TCGv_i32, TCGv_i32);
-         return FUNC(ctx, a, __VA_ARGS__); \
-     }
- 
-+#define TRANS_DF_x(TYPE, NAME, trans_func, gen_func) \
-+    static gen_helper_p##TYPE * const NAME##_tab[4] = { \
-+        gen_func##_b, gen_func##_h, gen_func##_w, gen_func##_d \
-+    }; \
-+    TRANS_MSA(NAME, trans_func, NAME##_tab[a->df])
-+
-+#define TRANS_DF_iv(NAME, trans_func, gen_func) \
-+    TRANS_DF_x(iv, NAME, trans_func, gen_func)
-+
- static void gen_check_zero_element(TCGv tresult, uint8_t df, uint8_t wt,
-                                    TCGCond cond)
+-static void gen_msa_2rf(DisasContext *ctx)
++static bool trans_msa_2rf(DisasContext *ctx, arg_msa_r *a,
++                          gen_helper_piii *gen_msa_2rf)
  {
-@@ -2097,55 +2097,6 @@ static bool trans_MSA(DisasContext *ctx, arg_MSA *a)
-     case OPC_MSA_VEC:
-         gen_msa_vec(ctx);
+-#define MASK_MSA_2RF(op)    (MASK_MSA_MINOR(op) | (op & (0x1f << 21)) | \
+-                            (op & (0xf << 17)))
+-    uint8_t ws = (ctx->opcode >> 11) & 0x1f;
+-    uint8_t wd = (ctx->opcode >> 6) & 0x1f;
+-    uint8_t df = (ctx->opcode >> 16) & 0x1;
+-    TCGv_i32 twd = tcg_const_i32(wd);
+-    TCGv_i32 tws = tcg_const_i32(ws);
+-    /* adjust df value for floating-point instruction */
+-    TCGv_i32 tdf = tcg_constant_i32(DF_WORD + df);
++    gen_msa_2rf(cpu_env,
++                tcg_constant_i32(DF_WORD + a->df),
++                tcg_constant_i32(a->wd),
++                tcg_constant_i32(a->ws));
+ 
+-    switch (MASK_MSA_2RF(ctx->opcode)) {
+-    case OPC_FCLASS_df:
+-        gen_helper_msa_fclass_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FTRUNC_S_df:
+-        gen_helper_msa_ftrunc_s_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FTRUNC_U_df:
+-        gen_helper_msa_ftrunc_u_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FSQRT_df:
+-        gen_helper_msa_fsqrt_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FRSQRT_df:
+-        gen_helper_msa_frsqrt_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FRCP_df:
+-        gen_helper_msa_frcp_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FRINT_df:
+-        gen_helper_msa_frint_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FLOG2_df:
+-        gen_helper_msa_flog2_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FEXUPL_df:
+-        gen_helper_msa_fexupl_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FEXUPR_df:
+-        gen_helper_msa_fexupr_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FFQL_df:
+-        gen_helper_msa_ffql_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FFQR_df:
+-        gen_helper_msa_ffqr_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FTINT_S_df:
+-        gen_helper_msa_ftint_s_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FTINT_U_df:
+-        gen_helper_msa_ftint_u_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FFINT_S_df:
+-        gen_helper_msa_ffint_s_df(cpu_env, tdf, twd, tws);
+-        break;
+-    case OPC_FFINT_U_df:
+-        gen_helper_msa_ffint_u_df(cpu_env, tdf, twd, tws);
+-        break;
+-    }
+-
+-    tcg_temp_free_i32(twd);
+-    tcg_temp_free_i32(tws);
++    return true;
+ }
+ 
++TRANS_MSA(FCLASS,   trans_msa_2rf, gen_helper_msa_fclass_df);
++TRANS_MSA(FTRUNC_S, trans_msa_2rf, gen_helper_msa_fclass_df);
++TRANS_MSA(FTRUNC_U, trans_msa_2rf, gen_helper_msa_ftrunc_s_df);
++TRANS_MSA(FSQRT,    trans_msa_2rf, gen_helper_msa_fsqrt_df);
++TRANS_MSA(FRSQRT,   trans_msa_2rf, gen_helper_msa_frsqrt_df);
++TRANS_MSA(FRCP,     trans_msa_2rf, gen_helper_msa_frcp_df);
++TRANS_MSA(FRINT,    trans_msa_2rf, gen_helper_msa_frint_df);
++TRANS_MSA(FLOG2,    trans_msa_2rf, gen_helper_msa_flog2_df);
++TRANS_MSA(FEXUPL,   trans_msa_2rf, gen_helper_msa_fexupl_df);
++TRANS_MSA(FEXUPR,   trans_msa_2rf, gen_helper_msa_fexupr_df);
++TRANS_MSA(FFQL,     trans_msa_2rf, gen_helper_msa_ffql_df);
++TRANS_MSA(FFQR,     trans_msa_2rf, gen_helper_msa_ffqr_df);
++TRANS_MSA(FTINT_S,  trans_msa_2rf, gen_helper_msa_ftint_s_df);
++TRANS_MSA(FTINT_U,  trans_msa_2rf, gen_helper_msa_ftint_u_df);
++TRANS_MSA(FFINT_S,  trans_msa_2rf, gen_helper_msa_ffint_s_df);
++TRANS_MSA(FFINT_U,  trans_msa_2rf, gen_helper_msa_ffint_u_df);
++
+ static void gen_msa_vec_v(DisasContext *ctx)
+ {
+ #define MASK_MSA_VEC(op)    (MASK_MSA_MINOR(op) | (op & (0x1f << 21)))
+@@ -2056,9 +1998,6 @@ static void gen_msa_vec(DisasContext *ctx)
+     case OPC_MSA_2R:
+         gen_msa_2r(ctx);
          break;
--    case OPC_LD_B:
--    case OPC_LD_H:
--    case OPC_LD_W:
--    case OPC_LD_D:
--    case OPC_ST_B:
--    case OPC_ST_H:
--    case OPC_ST_W:
--    case OPC_ST_D:
--        {
--            int32_t s10 = sextract32(ctx->opcode, 16, 10);
--            uint8_t rs = (ctx->opcode >> 11) & 0x1f;
--            uint8_t wd = (ctx->opcode >> 6) & 0x1f;
--            uint8_t df = (ctx->opcode >> 0) & 0x3;
--
--            TCGv_i32 twd = tcg_const_i32(wd);
--            TCGv taddr = tcg_temp_new();
--            gen_base_offset_addr(ctx, taddr, rs, s10 << df);
--
--            switch (MASK_MSA_MINOR(opcode)) {
--            case OPC_LD_B:
--                gen_helper_msa_ld_b(cpu_env, twd, taddr);
--                break;
--            case OPC_LD_H:
--                gen_helper_msa_ld_h(cpu_env, twd, taddr);
--                break;
--            case OPC_LD_W:
--                gen_helper_msa_ld_w(cpu_env, twd, taddr);
--                break;
--            case OPC_LD_D:
--                gen_helper_msa_ld_d(cpu_env, twd, taddr);
--                break;
--            case OPC_ST_B:
--                gen_helper_msa_st_b(cpu_env, twd, taddr);
--                break;
--            case OPC_ST_H:
--                gen_helper_msa_st_h(cpu_env, twd, taddr);
--                break;
--            case OPC_ST_W:
--                gen_helper_msa_st_w(cpu_env, twd, taddr);
--                break;
--            case OPC_ST_D:
--                gen_helper_msa_st_d(cpu_env, twd, taddr);
--                break;
--            }
--
--            tcg_temp_free_i32(twd);
--            tcg_temp_free(taddr);
--        }
+-    case OPC_MSA_2RF:
+-        gen_msa_2rf(ctx);
 -        break;
      default:
          MIPS_INVAL("MSA instruction");
          gen_reserved_instruction(ctx);
-@@ -2155,6 +2106,23 @@ static bool trans_MSA(DisasContext *ctx, arg_MSA *a)
-     return true;
- }
- 
-+static bool trans_msa_ldst(DisasContext *ctx, arg_msa_ldst *a,
-+                           gen_helper_piv *gen_msa_ldst)
-+{
-+    TCGv taddr = tcg_temp_new();
-+
-+    gen_base_offset_addr(ctx, taddr, a->ws, a->sa << a->df);
-+
-+    gen_msa_ldst(cpu_env, tcg_constant_i32(a->wd), taddr);
-+
-+    tcg_temp_free(taddr);
-+
-+    return true;
-+}
-+
-+TRANS_DF_iv(LD, trans_msa_ldst, gen_helper_msa_ld);
-+TRANS_DF_iv(ST, trans_msa_ldst, gen_helper_msa_st);
-+
- static bool trans_LSA(DisasContext *ctx, arg_r *a)
- {
-     return gen_lsa(ctx, a->rd, a->rt, a->rs, a->sa);
 -- 
 2.31.1
 
