@@ -2,82 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A421C43C126
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 06:08:05 +0200 (CEST)
-Received: from localhost ([::1]:57326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1EF43C127
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 06:08:09 +0200 (CEST)
+Received: from localhost ([::1]:57382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfaEO-0000zH-8h
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 00:08:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45138)
+	id 1mfaES-00011T-Fr
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 00:08:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mfaCd-0007rP-Es
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 00:06:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36108)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mfaCa-0007oq-Le
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 00:06:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635307570;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hPVPMeYCGobsOS3z8AYVluVI2eA/CM2Nwvqnjf39dAk=;
- b=Dx5l8P/SsaQm/Yc5jGCkUgIrNnOhcBcbrtPzdwO/LatdkxxH2mZN1W2Pd/T7bp5ZIiuYsp
- 1Zynqrf99M3340udYMVh8mfvyhnQTD1z4QvhbAf6WoYeNOHbYQczfqjghpLZOJuL8DZzHk
- wuhcOxvWiSJEkjf5pac5FhHk2cf54dQ=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-aQOv_gWLMxO2P5w2pwzqng-1; Wed, 27 Oct 2021 00:06:09 -0400
-X-MC-Unique: aQOv_gWLMxO2P5w2pwzqng-1
-Received: by mail-lj1-f197.google.com with SMTP id
- v11-20020a2e990b000000b0021174a28c48so232155lji.13
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 21:06:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mfaCZ-0007pu-DE; Wed, 27 Oct 2021 00:06:11 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:50928)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mfaCX-0007oV-H7; Wed, 27 Oct 2021 00:06:11 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id b71so580400wmd.0;
+ Tue, 26 Oct 2021 21:06:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=j15Dmu2/LkB8pFkQJBaKct/trn6G6kqBHrkk9r89YMw=;
+ b=KHqy47t3pZu+fPs+pmsuQ0tgOwF52oyDplARMs0d5LVdyfm2RCt+s5BcigOWuhjNah
+ epVZlNPbVU7xoPnROiaX0y3GNZp+ejqTfbCFAgJQJmv3lFnTw3eeJxL8e08ulAXA1jBC
+ x9q7QG4VEXAczmNXtaJrtE9XApvmOWt8PuWQ/p8FtLReHDUycXn92nZoB5ayuW6jTfSx
+ TqTrGu6BMcStGbV20jHgjnx7q/Gez7OVbyBz30S6iHiwc8at0kLHlPEEzrLxGFIYWFx3
+ weXffzlj025D/6wbvvxKBkFA3+SlX8OGFJHqjO+vv2qh6YBkluY7HgiUth8K3Dg8EG49
+ GRoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hPVPMeYCGobsOS3z8AYVluVI2eA/CM2Nwvqnjf39dAk=;
- b=eGM4rwW0aFvcjxvCglER4V3KAjF2eBlN93bBuh8WFJuywvwQjoqoDkAQQH4S7N+gj0
- RR2H8lmoSFEEekTQezOOFWeelFLicN2BWRd0tUv0PmnU89DiXzHx0/0a6s3T68Ik0NTE
- Y0Xcrl2Dbvhfyfg4iZ8lCBQdwtFopz8H3pVpTY2WHDwyRIglhl3CnVPiF42DogrPzU47
- TDkM+hr8BOyaHyPtbC2nnBBa9Na8dpu6jGXmYYx04hYbk+lnIUi9u5Sy4knMxHy70oXb
- qd9C3gUfo+NgFzYOdIW0jI20961CfzKkVn//j+2SEqnlxWQzNTLZu3IEPf2Mt9ccFVYh
- CwEg==
-X-Gm-Message-State: AOAM5334sYiBGJDxl9SzszCXq5iYmFBM3UqZySlTQSX4HmChYhhTmLCR
- 81MRi9NOnZeUDiQXrSInMd3kWhHU2TRKsKSc7Uu6eCrtx8wubd1RBlOuSG9SEK52igCXWKSvM0b
- UZz1tX8GdtURnUaf5GdNnDJ1DCbvKqrc=
-X-Received: by 2002:a05:6512:3b26:: with SMTP id
- f38mr11640959lfv.629.1635307567048; 
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=j15Dmu2/LkB8pFkQJBaKct/trn6G6kqBHrkk9r89YMw=;
+ b=tC3IL4S+MRWQboxZ0i6fkiv24+yrF2E0LM0oQDQchNkx5cc3Xq5xzLBilgd9gs4MQX
+ b53jLsJs00e1HNRmwZBgC683LgBvK56wjpjUbxBqvLYUKmekPxJ+eRO3HStSOOBotJ94
+ bbkDPZTqs1ad1UvEK9K8G1JR3SwQ9IJyc5TRxJ23Aad9RdUDGffX/CsNRDQyMlWeY099
+ 9cwYr+ndIlJIpVumSZ1xnJ8yPGklGjID4XAYunA6OXNGqYWYhSa2nNoYCH4wfLt3tM8C
+ YHorIuHkuGbRMRj4FVhP+q59ht+CrgRdcVOet6FZwYWzyHefcomFSBhu18IVv916dTE8
+ rJcA==
+X-Gm-Message-State: AOAM532ySFipO0jF/e1NhoQKVNmbB9z+yMpfHu2FdlCSdfDXyZRx1+4c
+ unsLytWldIZDcO+AQLpfP8Q=
+X-Google-Smtp-Source: ABdhPJziNhP4FW7WCMKXpyfxVJ+ooQuEirEAXACCL7NjnvfoUiR2AuQv/We3WFQBjvWPuekZq8+dyg==
+X-Received: by 2002:a1c:27c1:: with SMTP id n184mr3077275wmn.190.1635307567398; 
  Tue, 26 Oct 2021 21:06:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwufWvKDJsjnfqhdmMOzVCO53U0VYeU246EpyiqC7ebuoglDA654o0ww1vcdfWmtMmPNqX5XiKZOZc2J+1bsWc=
-X-Received: by 2002:a05:6512:3b26:: with SMTP id
- f38mr11640935lfv.629.1635307566787; 
- Tue, 26 Oct 2021 21:06:06 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id k6sm21013926wri.83.2021.10.26.21.06.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Oct 2021 21:06:05 -0700 (PDT)
+Message-ID: <125ddbae-7855-d42d-9156-e8bbe7e21e56@amsat.org>
+Date: Wed, 27 Oct 2021 06:06:03 +0200
 MIME-Version: 1.0
-References: <163524428177.1917083.7115508068018047923.stgit@pasha-ThinkPad-X280>
-In-Reply-To: <163524428177.1917083.7115508068018047923.stgit@pasha-ThinkPad-X280>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 27 Oct 2021 12:05:56 +0800
-Message-ID: <CACGkMEuwW6miZ0GAqFC7WFK+1oOAYoz7x-zC-+Z-u0A_n3x0aA@mail.gmail.com>
-Subject: Re: [PATCH] hw/net: store timers for e1000 in vmstate
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: Deprecate the ppc405 boards in QEMU? (was: [PATCH v3 4/7]
+ MAINTAINERS: Orphan obscure ppc platforms)
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
+ <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
+ <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
+ <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
+ <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
+ <1397f18f-f187-6f48-ed6c-13c0b77abed9@redhat.com> <YVug7l8LWl3e+DN5@yekko>
+ <9aeb7010-0a17-864a-cfac-ea5d90356085@csgroup.eu>
+ <YVwRfETMFxFKuXO1@redhat.com>
+ <268ffea6-9a3e-fcba-6722-7d1f24cf5794@amsat.org>
+ <YVx7YGqUENP83vNF@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <YVx7YGqUENP83vNF@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.215,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,151 +97,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ dbarboza@redhat.com, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Greg Kurz <groug@kaod.org>,
+ Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 26, 2021 at 6:36 PM Pavel Dovgalyuk
-<pavel.dovgalyuk@ispras.ru> wrote:
->
-> Setting timers randomly when vmstate is loaded breaks
-> execution determinism.
-> Therefore this patch allows saving mit and autoneg timers
-> for e1000. It makes execution deterministic and allows
-> snapshotting and reverse debugging in icount mode.
->
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-> ---
->  hw/net/e1000.c |   61 ++++++++++++++++++++++++++++++++++++++++++++++----------
->  1 file changed, 50 insertions(+), 11 deletions(-)
->
-> diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-> index a30546c5d5..2f706f7298 100644
-> --- a/hw/net/e1000.c
-> +++ b/hw/net/e1000.c
-> @@ -37,6 +37,7 @@
->  #include "qemu/iov.h"
->  #include "qemu/module.h"
->  #include "qemu/range.h"
-> +#include "sysemu/replay.h"
->
->  #include "e1000x_common.h"
->  #include "trace.h"
-> @@ -1407,7 +1408,7 @@ static int e1000_pre_save(void *opaque)
->       * complete auto-negotiation immediately. This allows us to look
->       * at MII_SR_AUTONEG_COMPLETE to infer link status on load.
->       */
-> -    if (nc->link_down && have_autoneg(s)) {
-> +    if (replay_mode == REPLAY_MODE_NONE && nc->link_down && have_autoneg(s)) {
->          s->phy_reg[PHY_STATUS] |= MII_SR_AUTONEG_COMPLETE;
->      }
->
-> @@ -1438,22 +1439,12 @@ static int e1000_post_load(void *opaque, int version_id)
->              s->mac_reg[TADV] = 0;
->          s->mit_irq_level = false;
->      }
-> -    s->mit_ide = 0;
-> -    s->mit_timer_on = true;
-> -    timer_mod(s->mit_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 1);
->
->      /* nc.link_down can't be migrated, so infer link_down according
->       * to link status bit in mac_reg[STATUS].
->       * Alternatively, restart link negotiation if it was in progress. */
->      nc->link_down = (s->mac_reg[STATUS] & E1000_STATUS_LU) == 0;
->
-> -    if (have_autoneg(s) &&
-> -        !(s->phy_reg[PHY_STATUS] & MII_SR_AUTONEG_COMPLETE)) {
-> -        nc->link_down = false;
-> -        timer_mod(s->autoneg_timer,
-> -                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 500);
-> -    }
+On 10/5/21 18:20, Daniel P. Berrangé wrote:
+> On Tue, Oct 05, 2021 at 06:15:35PM +0200, Philippe Mathieu-Daudé wrote:
+>> On 10/5/21 10:49, Daniel P. Berrangé wrote:
+>>> On Tue, Oct 05, 2021 at 06:44:23AM +0200, Christophe Leroy wrote:
+>>
+>>>> I will look at it, please allow me a few weeks though.
+>>>
+>>> Once something is deprecated, it remains in QEMU for a minimum of two
+>>> release cycles, before being deleted. At any time in that deprecation
+>>> period it can be returned to supported status, if someone provides a
+>>> good enough justification to keep it.
+>>
+>> My understanding is once being in deprecated state for 2 releases, it
+>> can be removed, but it doesn't have to be removed (assuming it is
+>> functional and nobody complains). Am I incorrect?
+> 
+> It should be removed after 2 releases. Things live longer because
+> people forget or are busy with other things, but ultimately anything
+> in the deprecated list is liable to be deleted at any point after
+> the 2 release minimum is up.
+> 
+> If we change our minds about deleting something, then it should
+> be un-deprecated.
 
-So we won't get those timers armed after migration unconditionally. Is
-this intended?
+Sigh. This is more work on me then.
 
-Thanks
+>> I am raising this because the nanoMIPS support is in deprecated state
+>> since more than 2 releases, but it is still in-tree and I try to keep
+>> it functional. However, since no toolchain reached mainstream GCC/LLVM
+>> it is not easy to maintain. By keeping it in that state we give some
+>> time to other communities to have their toolchain upstreamed / merged.
+> 
+> If you're trying to keep it functional and aren't going to remove
+> it, then it shouldn't be marked deprecated.
 
-> -
->      s->tx.props = s->mig_props;
->      if (!s->received_tx_tso) {
->          /* We received only one set of offload data (tx.props)
-> @@ -1472,6 +1463,13 @@ static int e1000_tx_tso_post_load(void *opaque, int version_id)
->      return 0;
->  }
->
-> +static int e1000_mit_timer_post_load(void *opaque, int version_id)
-> +{
-> +    E1000State *s = opaque;
-> +    s->mit_timer_on = true;
-> +    return 0;
-> +}
-> +
->  static bool e1000_mit_state_needed(void *opaque)
->  {
->      E1000State *s = opaque;
-> @@ -1493,6 +1491,21 @@ static bool e1000_tso_state_needed(void *opaque)
->      return chkflag(TSO);
->  }
->
-> +static bool e1000_mit_timer_needed(void *opaque)
-> +{
-> +    E1000State *s = opaque;
-> +
-> +    return s->mit_timer_on;
-> +}
-> +
-> +static bool e1000_autoneg_timer_needed(void *opaque)
-> +{
-> +    E1000State *s = opaque;
-> +
-> +    return have_autoneg(s)
-> +           && !(s->phy_reg[PHY_STATUS] & MII_SR_AUTONEG_COMPLETE);
-> +}
-> +
->  static const VMStateDescription vmstate_e1000_mit_state = {
->      .name = "e1000/mit_state",
->      .version_id = 1,
-> @@ -1541,6 +1554,30 @@ static const VMStateDescription vmstate_e1000_tx_tso_state = {
->      }
->  };
->
-> +static const VMStateDescription vmstate_e1000_mit_timer = {
-> +    .name = "e1000/mit_timer",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = e1000_mit_timer_needed,
-> +    .post_load = e1000_mit_timer_post_load,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_TIMER_PTR(mit_timer, E1000State),
-> +        VMSTATE_UINT32(mit_ide, E1000State),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static const VMStateDescription vmstate_e1000_autoneg_timer = {
-> +    .name = "e1000/autoneg_timer",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = e1000_autoneg_timer_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_TIMER_PTR(autoneg_timer, E1000State),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  static const VMStateDescription vmstate_e1000 = {
->      .name = "e1000",
->      .version_id = 2,
-> @@ -1622,6 +1659,8 @@ static const VMStateDescription vmstate_e1000 = {
->          &vmstate_e1000_mit_state,
->          &vmstate_e1000_full_mac_state,
->          &vmstate_e1000_tx_tso_state,
-> +        &vmstate_e1000_mit_timer,
-> +        &vmstate_e1000_autoneg_timer,
->          NULL
->      }
->  };
->
-
+OK, I'll move it back to Odd-fixes.
 
