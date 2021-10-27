@@ -2,90 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83DE43CE37
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:03:41 +0200 (CEST)
-Received: from localhost ([::1]:38164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0AE043CE82
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:16:50 +0200 (CEST)
+Received: from localhost ([::1]:37296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mflOu-0005nj-8e
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:03:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35134)
+	id 1mflbd-0007bC-KE
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:16:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfkyM-0000YR-9x
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:36:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46711)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfkyJ-0008Py-PJ
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:36:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635348970;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1taKNRd/dhL4RUUlTjc/oI6kjIS/GXZZimFnv3Kyvls=;
- b=VzKW1y92Nv/uF/ttXBt79Oaow8WpoiLfnau3RnOVptafAqwRGV+UVQxXNNS/MLtxSAB13W
- AF14UU+5bui9EXSq/NssLW8iDCbgSelNEg3SVFJP3NCYd3Nnc3orjwWt2wGahWh49U+M0z
- G0KhWTYNS2jcaxZl/UW+5YVq/Jj9QGo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-ft8i8U8LMPez7scocJoWhQ-1; Wed, 27 Oct 2021 11:36:08 -0400
-X-MC-Unique: ft8i8U8LMPez7scocJoWhQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- u15-20020a5d514f000000b001687ebddea3so806675wrt.8
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 08:36:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mfkzu-0002KR-4H
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:37:54 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37840)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mfkzr-0002lV-8V
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:37:49 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ 82-20020a1c0055000000b0032ccc3ad5c1so4698701wma.2
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 08:37:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=1taKNRd/dhL4RUUlTjc/oI6kjIS/GXZZimFnv3Kyvls=;
- b=qcZ/aI/PWt/kgNGHYaCrHABDY6M5s/z07EeWiB5p7PRbWToFK9bsUnbGBv54cn8MnO
- D9EyL9FX2K64UtP7ctNR2n5+H3roqSBhQNdkgrY9gM+70Gpuhv3L1yrqhf8Tj0lWgCiT
- cTGfWMEyKolrpoHnCHiThjJCs45echcbgJtmPc8PDLylbzUns9PMRfSzRSI+N/rF9brP
- bZOcESXIrmEOAJiB0cznyGx8hqsfp4zuI2VTi2Vy1wKsqo6qucZR3xrzMKg/9gXTem51
- 4zbWmSWRphidJmES85iVrXtvIq86HCKTpGy/nefPf4cTDUi6UaZJeQ5qcNHYpYbWhb6F
- zYAQ==
-X-Gm-Message-State: AOAM531sp72WA6GLg3q1fPffoOkE4Af20nwJJD3IfW4JCBl4cOFw4dRt
- 0mVtzEIYK2p5DA1JyNfgu0+owfdiT0S6tYveWACMJmILcp5pcUZ0n0bJSdJoPLWEzkifZexH+4m
- zZ0fme+5+l5d5f00=
-X-Received: by 2002:adf:d1e3:: with SMTP id g3mr41933237wrd.63.1635348965380; 
- Wed, 27 Oct 2021 08:36:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy3FrdOJWfGv3pFkL1cTeX10GaG0s5sFNvxv7h+MCkEH/ahFWMSng2RIk0M25RWveM7+Nm7Yw==
-X-Received: by 2002:adf:d1e3:: with SMTP id g3mr41933213wrd.63.1635348965177; 
- Wed, 27 Oct 2021 08:36:05 -0700 (PDT)
+ bh=8edYIwnNzh8R+KraDI08DyMMpWuESZG/Tm8bi7gpzFg=;
+ b=UjjSsX7tqEcyYpuyHjwV9U7X6Ibdjn/AIr0KoMUnSYiX+PjzV5+7bX9voWPD9PHR3W
+ QJ5d8NE+LeLA8Z6DJHN9sEsqZB/3KMxCqupW8hNTNNGfSwsMNa8h7tAebAr1cUAgNZCC
+ VGX7vQnKcZE0plY4AxabzdwkzXzHY9PGYdJxdFe9HnNMY5HeyuiZFhpd/JgIXGimyahF
+ T0GkQvRjDlDg3olrqNH62nP9z8pLoeSLiknrwAW0ah34lBk2IhU8HGK9T8NxZ+m/Xz2a
+ QuWfna/K+MfFGyC+yvLDRDSf6nBltFil6ZcMZcONnbQyDO/PFfNBv9kz3PTWwkfjXo9n
+ aW2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=8edYIwnNzh8R+KraDI08DyMMpWuESZG/Tm8bi7gpzFg=;
+ b=ATeDz+DoTczToE5lSPyPgABoS1CyOsBCutMd9YBw+fXbKmRUw1tSH82CkMqXMqcW9E
+ 9Q6GJzHTExMXtTSqojFK445dDRNEwdayY20Yr+8NH105wkdyGBSsh4UUkGa5YPXGwZsY
+ QGqwpPJ0xuojVUfLAz+qkY5Gv9FC53ziccChcM1dlOjg+7V+G0s3oMYWE2uPXdf+YMZI
+ 1MFPezsms4CmWozU0J1EJ+vAD7aJZd3h+nZR5cc95y8UN/iswfjHI4ivcLMj7efqbCy9
+ pLkbFsDCrGjbZudBEOC+9Otquvk7HKK63BxB3euG+w0BcFeCZU/9s38QrA+2D/OvtTRI
+ hbeA==
+X-Gm-Message-State: AOAM5312Q0cwHjGl4VT34/Lcj4Uog2jJECSVpLaImW6ZYjHSvTLnjKbQ
+ O6OeIadfFw4dHAtva6284ZQ=
+X-Google-Smtp-Source: ABdhPJx3PGuMel6bl0LjQvSy9U0ONGEqFsF4optrdeM8Q57Cy4lUoh8rReeYwjuxqW7P/YOQYP/kkg==
+X-Received: by 2002:a1c:7f0a:: with SMTP id a10mr6683662wmd.60.1635349065751; 
+ Wed, 27 Oct 2021 08:37:45 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id j9sm176687wrt.96.2021.10.27.08.36.04
+ by smtp.gmail.com with ESMTPSA id u5sm205618wrg.57.2021.10.27.08.37.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 08:36:04 -0700 (PDT)
-Message-ID: <dd17a177-c7eb-b879-a980-a986344b9cac@redhat.com>
-Date: Wed, 27 Oct 2021 17:36:03 +0200
+ Wed, 27 Oct 2021 08:37:45 -0700 (PDT)
+Message-ID: <3d34f8cc-acec-febc-5a96-d4db9676b7a7@amsat.org>
+Date: Wed, 27 Oct 2021 17:37:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PULL 0/8] 9p queue 2021-10-27
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <cover.1635340713.git.qemu_oss@crudebyte.com>
- <1763549.VT83FdeJ1q@silver>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <1763549.VT83FdeJ1q@silver>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v2 11/11] hw/intc/sh_intc: Drop another useless macro
 Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <cover.1635342377.git.balaton@eik.bme.hu>
+ <2cac149cc6eaa157efa1704229b107e17ab8df3e.1635342377.git.balaton@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <2cac149cc6eaa157efa1704229b107e17ab8df3e.1635342377.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.847,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.847,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,77 +91,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Christian,
-
-On 10/27/21 16:05, Christian Schoenebeck wrote:
-> On Mittwoch, 27. Oktober 2021 15:18:33 CEST Christian Schoenebeck wrote:
->> The following changes since commit 931ce30859176f0f7daac6bac255dae5eb21284e:
->>
->>   Merge remote-tracking branch 'remotes/dagrh/tags/pull-virtiofs-20211026'
->> into staging (2021-10-26 07:38:41 -0700)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20211027
->>
->> for you to fetch changes up to 7e985780aaab93d2c5be9b62d8d386568dfb071e:
->>
->>   9pfs: use P9Array in v9fs_walk() (2021-10-27 14:45:22 +0200)
->>
->> ----------------------------------------------------------------
->> 9pfs: performance fix and cleanup
->>
->> * First patch fixes suboptimal I/O performance on guest due to previously
->>   incorrect block size being transmitted to 9p client.
->>
->> * Subsequent patches are cleanup ones intended to reduce code complexity.
->>
->> ----------------------------------------------------------------
->> Christian Schoenebeck (8):
->>       9pfs: fix wrong I/O block size in Rgetattr
->>       9pfs: deduplicate iounit code
->>       9pfs: simplify blksize_to_iounit()
->>       9pfs: introduce P9Array
->>       fsdev/p9array.h: check scalar type in P9ARRAY_NEW()
->>       9pfs: make V9fsString usable via P9Array API
->>       9pfs: make V9fsPath usable via P9Array API
->>       9pfs: use P9Array in v9fs_walk()
->>
->>  fsdev/9p-marshal.c |   2 +
->>  fsdev/9p-marshal.h |   3 +
->>  fsdev/file-op-9p.h |   2 +
->>  fsdev/p9array.h    | 160
->> +++++++++++++++++++++++++++++++++++++++++++++++++++++ hw/9pfs/9p.c       | 
->> 70 +++++++++++++----------
->>  5 files changed, 208 insertions(+), 29 deletions(-)
->>  create mode 100644 fsdev/p9array.h
+On 10/27/21 15:46, BALATON Zoltan wrote:
+> The INT_REG_PARAMS macro was only used a few times within one function
+> on adjacent lines and is actually more complex than writing out the
+> parameters so simplify it by expanding the macro at call sites and
+> dropping the #define.
 > 
-> Regarding last 5 patches: Daniel raised a concern that not using g_autoptr 
-> would deviate from current QEMU coding patterns:
-> https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg00081.html
-> 
-> Unfortunately I saw no way to address his concern without adding unnecessary 
-> code complexity, so I decided to make this a 9p local type (QArray -> P9Array) 
-> for now, which can easily be replaced in future (e.g. when there will be 
-> something appropriate on glib side).
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>  hw/intc/sh_intc.c | 15 ++++-----------
+>  1 file changed, 4 insertions(+), 11 deletions(-)
 
-Hmm various patches aren't reviewed yet... In particular
-patch #5 has a Suggested-by tag without Reviewed-by, this
-looks odd.
-
-See https://wiki.qemu.org/Contribute/SubmitAPullRequest:
-
-  Don't send pull requests for code that hasn't passed review.
-  A pull request says these patches are ready to go into QEMU now,
-  so they must have passed the standard code review processes. In
-  particular if you've corrected issues in one round of code review,
-  you need to send your fixed patch series as normal to the list;
-  you can't put it in a pull request until it's gone through.
-  (Extremely trivial fixes may be OK to just fix in passing, but
-  if in doubt err on the side of not.)
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
