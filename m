@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A2343C0FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 05:49:51 +0200 (CEST)
-Received: from localhost ([::1]:41514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7323F43C108
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 05:56:45 +0200 (CEST)
+Received: from localhost ([::1]:52704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfZwj-0005jl-SL
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 23:49:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40308)
+	id 1mfa3Q-0005mz-K2
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 23:56:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfZvV-00053G-Df
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 23:48:33 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34457)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfZvT-0004qR-NM
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 23:48:33 -0400
-Received: by mail-wr1-x433.google.com with SMTP id d10so1741481wrb.1
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 20:48:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mC0pHf8fBVA2lPsPhjUjU/Hi4r9anLf+a+p5ln/Tw2w=;
- b=h5xDEaSLNBssoJExVCUiWkGHTzIiMNHuhLRoiunsTk4LTmrOCKusldgGdJ8X/YEUoj
- 2/IUeoqq0+kmhqUkYufiPhZ49Tmxqcld3DIUHb/BeSKMYUQrRhey1ytoUYLayc2MIVY7
- g0zCudsso/2rwlpY+1q7Gx4wZqh+0scmCQdsXmMP8qhgDaBw5rWYeJAo4+lvwW9EgbL7
- WlAuR4h7SjWZg77V9XeXtpRHYGjv2T4qi66pIkg24q40EoFoS++dg/g0DHPcDCzgDLBf
- R+fP93YMUnjr8tYzDiXifafy31DdSG1rQinL4IuDkBko97cKTot8bWQi4T5JqktHGZW0
- vNzQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfa0w-0003Ja-K2
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 23:54:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47622)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfa0q-0001eH-Oh
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 23:54:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635306840;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=c1A9SpErqwV8DiCwlNUlAMho0ZWXy+0jGmOMtms+pJo=;
+ b=VVp/Uv/NOAtxjnUruArSveTlsAbGEra+YLkEftV22DTEG8OLMcs7e3fXLe5lNhtW1i1uPf
+ OPrjEjXBqupcY/XIKYpcoUi8gLPKGNc8FgfqVflqrqQluWy9FPwRFy9QfLD/+phxH0ImgD
+ EZ17jq1tmL3mMmaAGyyVB9evyuT2yJg=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-lFgKxTP5OfKHviSUwrx7jw-1; Tue, 26 Oct 2021 23:53:59 -0400
+X-MC-Unique: lFgKxTP5OfKHviSUwrx7jw-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ d6-20020a63d646000000b00268d368ead8so875189pgj.6
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 20:53:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mC0pHf8fBVA2lPsPhjUjU/Hi4r9anLf+a+p5ln/Tw2w=;
- b=teXx29NhqwUBgSWA0NvRNov1RzASvLDrrVyiT43SRHPdhCRYV4Jb/HmEiU39NEUX1k
- qy4tAO07T3xQJfZioRbR16flgNCjtBAxGEruhr+zW9xz+DJUlV8GK83tquWP9RKqrasS
- l4MebtX0BcAaZwr/ZouieizN0bfoaij1juXWfxHtajvfSmS0WrwIFK/gFNd4Wn+GBBbX
- scrZ5hY8j9Cz+4xnuG50a40vcWBlvW2Ov2ARFMo9giEmfPUTAY0sjQCREPQJEWoCSJy8
- 9vJRIu/eKW01ohVNik/ljgtpNCBHqmcdTknAR+BKnezPWoSYMe2hNXkE+CgPi4esbpoE
- gnVg==
-X-Gm-Message-State: AOAM533VvgeJiSKwLsFaXV2N88KTauHieQST2AuZzY5sM6l4qIs0PKKt
- P4x+OSWEnd34V46k9A2nZ5Q=
-X-Google-Smtp-Source: ABdhPJxZxdkilKG5Y4oSubGvX43bJfvmE/7ERmdB6/1TNj4dvCmpo2EhqFFAv50gE6OdT+I+7oqs1g==
-X-Received: by 2002:adf:f252:: with SMTP id b18mr37385894wrp.292.1635306509586; 
- Tue, 26 Oct 2021 20:48:29 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id j9sm2275501wms.39.2021.10.26.20.48.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 20:48:21 -0700 (PDT)
-Message-ID: <2e0f0533-5f1a-7822-91b6-795c34ee90c9@amsat.org>
-Date: Wed, 27 Oct 2021 05:48:20 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=c1A9SpErqwV8DiCwlNUlAMho0ZWXy+0jGmOMtms+pJo=;
+ b=LYUthz5Yi4fhURzfHJQC/gaMg9qM1skUQls6ca30zJawWF4AahEHyDcEfmwZqmgXMr
+ OZKL4OfInNpgWjKmLNbkgRgdIv3h7DylqW8G576yLYwStgMbwRYkkmXJawqRChxVdFzK
+ zv6YCRJC8PVsax2jSqYFzXY8gfsir7Dn/IG8u27IYpVgCnJVSoziYakllqsODgnX0td4
+ FMFb/4apaW1VmVZDZwo75DLX5tq4QOb0R/p38omSD/FipHWLyQ7OzTevg6hk3YuQ/bTH
+ HyjoDjITy7fS+IZ9FWX7b87mdQgNzZGdZbQevwFK17dfo8xshxSRSVZ7nDOiIHQnoNP3
+ bkgw==
+X-Gm-Message-State: AOAM532+Gup5s8Jq5p/N5hr9WB7tbUE7t8Q4TBAkd5ONm/4LzDnr2Dcb
+ GrM2716sLOuxf/NHWbDBtAVt71tHXysPrX5sWd2ti0tzwEVC6CC3zxcFS4ZgDIxFNVMC6Sk34mC
+ WkLyG74oXPiBw5T8=
+X-Received: by 2002:a17:902:c60b:b0:13f:59f9:db90 with SMTP id
+ r11-20020a170902c60b00b0013f59f9db90mr25434620plr.37.1635306838328; 
+ Tue, 26 Oct 2021 20:53:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxl19VKsLa3k+yeA3yfFSgnols7SEhc2TtHsag19WIxoLP9wIinjCqYUD+nnfAFiR9k/0grng==
+X-Received: by 2002:a17:902:c60b:b0:13f:59f9:db90 with SMTP id
+ r11-20020a170902c60b00b0013f59f9db90mr25434607plr.37.1635306837960; 
+ Tue, 26 Oct 2021 20:53:57 -0700 (PDT)
+Received: from xz-m1.local ([191.101.132.60])
+ by smtp.gmail.com with ESMTPSA id 11sm23479519pfl.41.2021.10.26.20.53.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Oct 2021 20:53:57 -0700 (PDT)
+Date: Wed, 27 Oct 2021 11:53:52 +0800
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2 0/3] memory: memory_region_is_mapped() cleanups
+Message-ID: <YXjNULIsRufbyRZX@xz-m1.local>
+References: <20211026160649.47545-1-david@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 4/4] MAINTAINERS: Agree to maintain nanoMIPS TCG frontend
-Content-Language: en-US
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20211004092515.3819836-1-f4bug@amsat.org>
- <20211004092515.3819836-5-f4bug@amsat.org>
- <82956a55-18f3-c220-ced9-0eb0e76a30ae@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <82956a55-18f3-c220-ced9-0eb0e76a30ae@flygoat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.215,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211026160649.47545-1-david@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,54 +93,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paul Burton <paulburton@kernel.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/4/21 22:08, Jiaxun Yang wrote:
-> 在 2021/10/4 10:25, Philippe Mathieu-Daudé 写道:
->> As of this commit, the nanoMIPS toolchains haven't been merged
->> in mainstream projects. However MediaTek provides a toolchain:
->> https://github.com/MediaTek-Labs/nanomips-gnu-toolchain/releases/tag/nanoMIPS-2021.02-01
->>
->>
->> Since I now have spent more time with the ISA, I agree to maintain
->> it along with the other MIPS ISA.
->>
->> For historical notes, see commit a60442eb8 ("Deprecate nanoMIPS ISA").
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+On Tue, Oct 26, 2021 at 06:06:46PM +0200, David Hildenbrand wrote:
+> This is the follow-up of [1].
 > 
-> Probably it's worthy to ask MTK folks if they are willing to maintain QEMU?
+> Playing with memory_region_is_mapped(), I realized that memory regions
+> mapped via an alias behave a little bit "differently", as they don't have
+> their ->container set.
 
-Well it is not like I am hiding this patch, it is posted on a public
-mailing list...
+The patches look ok to me, though I have a few pure questions to ask..
 
->> ---
->>   MAINTAINERS | 6 +-----
->>   1 file changed, 1 insertion(+), 5 deletions(-)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index f1d7279a0f2..8ce47417eff 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -237,14 +237,10 @@ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
->>   S: Odd Fixes
->>   F: target/mips/
->>   F: disas/mips.c
->> +X: disas/nanomips.*
->>   F: docs/system/cpu-models-mips.rst.inc
->>   F: tests/tcg/mips/
->>   -MIPS TCG CPUs (nanoMIPS ISA)
->> -S: Orphan
->> -F: disas/nanomips.*
->> -F: target/mips/tcg/*nanomips*
->> -
->>   NiosII TCG CPUs
->>   M: Chris Wulff <crwulff@gmail.com>
->>   M: Marek Vasut <marex@denx.de>
-> 
-> 
+> * memory_region_is_mapped() will never succeed for memory regions mapped
+>   via an alias
+
+I think you mentioned that in commit message of patch 2 that it fixes no real
+problem so far, so I'm also wondering in which case it'll help.  Say, normally
+when there's an alias of another MR and we want to know whether the MR is
+mapped, we simply call memory_region_is_mapped() upon the alias .
+
+To verify my thoughts, I did look up a few memory_region_is_mapped() random
+callers that used with alias and that's what they did:
+
+Here'sthe dino.c example:
+
+*** hw/hppa/dino.c:
+gsc_to_pci_forwarding[151]     if (!memory_region_is_mapped(mem)) {
+gsc_to_pci_forwarding[155]     } else if (memory_region_is_mapped(mem)) {
+
+The "mem" points to:
+
+        MemoryRegion *mem = &s->pci_mem_alias[i];
+
+Which is the alias.
+
+Another one:
+
+*** hw/pci-host/pnv_phb3.c:
+pnv_phb3_check_m32[121]        if (memory_region_is_mapped(&phb->mr_m32)) {
+pnv_phb3_update_regions[1076]  if (memory_region_is_mapped(&phb->mr_m32)) {
+
+Andmr_m32 is the alias MR itself:
+
+    memory_region_init_alias(&phb->mr_m32, OBJECT(phb), "phb3-m32",
+                             &phb->pci_mmio, start, size);
+
+I mean, if it should always be very straightforward to fetch the alias mr, then
+I'm just afraid patch 2 won't really help in any real use case but pure overhead.
+
+And I hope we won't trigger problem with any use case where
+memory_region_is_mapped() returned false previously but then it'll return true
+after patch 2, because logically with the old code one can detect explicitly on
+"whether this original MR is mapped somewhere, irrelevant of other alias
+mappings upon this mr".  Patch 2 blurrs it from that pov.
+
+> * memory_region_to_address_space(), memory_region_find(),
+>   memory_region_find_rcu(), memory_region_present() won't work, which seems
+>   okay, because we don't expect such memory regions getting passed to these
+>   functions.
+
+Looks right.
+
+> * memory_region_to_absolute_addr() will result in a wrong address. As
+>   the result is only used for tracing, that is tolerable.
+
+memory_region_{read|write}_accessor() seem to be only called from the address
+space layer, so it looks fine even for tracing as it'll always fetch the alias,
+afaiu.  Phil's patch may change that fact, though, it seems.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
