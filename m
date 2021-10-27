@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0A343C220
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 07:24:24 +0200 (CEST)
-Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D08A43C234
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 07:29:15 +0200 (CEST)
+Received: from localhost ([::1]:47888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfbQF-0001jr-6V
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 01:24:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57790)
+	id 1mfbUw-0004VW-Gj
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 01:29:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfbPM-00015W-0S
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 01:23:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43960)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfbSr-0002fM-Sa
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 01:27:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfbPK-0006Rg-9y
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 01:23:27 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfbSp-0006ra-RJ
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 01:27:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635312205;
+ s=mimecast20190719; t=1635312423;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FsuM1ZGEuHCfUw36OsdVssjF+XkVK3yMHKROEpvyHzA=;
- b=Gd7RFM8dus2l0qmc0cALBzpvmIfYlrg5yvqX2tzDcou/jhwlmqvHBMIDRcy0l10uLSsk/j
- cjPcdtrpEkxA36ynwQRdgGfoZZdCXCmYhOBLKtOt6b3jqjR3oe5heimfR/iDTj/JZnhn2z
- gczVU5b6GZ9j8FaztJD78NoQYSfMcoA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-0wkviBvVO-ehjfKibT9HBw-1; Wed, 27 Oct 2021 01:23:21 -0400
-X-MC-Unique: 0wkviBvVO-ehjfKibT9HBw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4944D10A8E01;
- Wed, 27 Oct 2021 05:23:20 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B874B19724;
- Wed, 27 Oct 2021 05:23:00 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4CAD611380A7; Wed, 27 Oct 2021 07:22:59 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v4 5/5] block: Deprecate transaction type drive-backup
-References: <20211025042405.3762351-1-armbru@redhat.com>
- <20211025042405.3762351-6-armbru@redhat.com>
- <CAFn=p-ZfdUO5hfxjqFLt_kUD24jvAbPURyJ6Cozvdq5SLb0YcA@mail.gmail.com>
-Date: Wed, 27 Oct 2021 07:22:59 +0200
-In-Reply-To: <CAFn=p-ZfdUO5hfxjqFLt_kUD24jvAbPURyJ6Cozvdq5SLb0YcA@mail.gmail.com>
- (John Snow's message of "Tue, 26 Oct 2021 16:54:34 -0400")
-Message-ID: <87v91jca8c.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tNUkMj71ZVn8jmHA3e61AHAHvz+uWT58Gaoet/Aoutw=;
+ b=BNj4tfLOpq85C+ZbhhnOj1qZM21PUcSHoP2qWNVwQU42FckweYP97e+TRaNlIgq0zuuoYg
+ tUb8Pc8CLJg01juSSvfQN+dbdzrS22sFi2jDo4QOdHkKE2dnqYFMVSVJ5Stf6zqUZYGWtm
+ MC7zbpsdPQfdtns9a8dfZti3FASIywk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-557-s9gDvHg7OC2DVGZGvIKt4w-1; Wed, 27 Oct 2021 01:26:59 -0400
+X-MC-Unique: s9gDvHg7OC2DVGZGvIKt4w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n189-20020a1c27c6000000b00322f2e380f2so1677036wmn.6
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 22:26:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vGWMflSbVdTg/jH3GRmUuQs8/GysPLkfteQ8xyoFdYA=;
+ b=CLi32uD4osYA4lp/9Q67+pPCF6hwbzAOojYlidrRGijwCFujSFxS8GvoNhZL9tVOHD
+ m+mQmo/lH6Tx1VedAo0EJ01oXPj4UdNppMtFT94TKFGO/uSHDSLc11h+o6JJG6VNhqKk
+ Ci9OaKjtZgkb/oCgaucUTdHzh9M7n9f0Nh2dT6PL5rgzpPPVAI/xNCCJ5KJ7rhe3dsjL
+ FqUaaAtss/ne9zMkFdHoo4Ytbupo+OkXhTK5eaefMaIjmyxK9KhytS6VJRZ61GorSVqH
+ TK1845P6cGhICfZ0y5d5M4S36R8T4WM6Fag0MsRH90aFVamkmYvLV48z0sWu9+OLPKNX
+ HT7g==
+X-Gm-Message-State: AOAM533YwkdXaNJAZ2PCfCmpkhuQs/R1DxNkjqy2dvU2Lzwh0L75j2xN
+ UJlM5X41OcJ/FeL7XrwlvAO2phE6f9zgNg8SXMYcEEs2mAtFoSMx6OnnTaOjUR+ug0vq/jGMnQu
+ A5dCXerh4I7X+F1mTbMO7eHYKoJGnKbi45lz4OzK3GFWW1pKlG3hqnWMP1icj3oTh
+X-Received: by 2002:a5d:6484:: with SMTP id o4mr37563994wri.337.1635312418339; 
+ Tue, 26 Oct 2021 22:26:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx+GUaQhXuOQA4Dsl/oIMurBSb7u8WvQ02rhgFonOG5zp4WqC4YWzs114cUFbHO4dwdu5VVaw==
+X-Received: by 2002:a5d:6484:: with SMTP id o4mr37563973wri.337.1635312418117; 
+ Tue, 26 Oct 2021 22:26:58 -0700 (PDT)
+Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id x10sm3031788wrt.76.2021.10.26.22.26.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Oct 2021 22:26:57 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-6.0.1 0/2] gitlab-ci: Only push docker images to
+ mainstream registry from /master
+Date: Wed, 27 Oct 2021 07:26:54 +0200
+Message-Id: <20211027052656.1275436-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,88 +92,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel Berrange <berrange@redhat.com>, libvir-list@redhat.com,
- qemu-devel <qemu-devel@nongnu.org>, mdroth@linux.vnet.ibm.com,
- Peter Krempa <pkrempa@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>, libguestfs@redhat.com
+Cc: Michael Roth <michael.roth@amd.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
-
-> On Mon, Oct 25, 2021 at 12:24 AM Markus Armbruster <armbru@redhat.com>
-> wrote:
->
->> Several moons ago, Vladimir posted
->>
->>     Subject: [PATCH v2 3/3] qapi: deprecate drive-backup
->>     Date: Wed,  5 May 2021 16:58:03 +0300
->>     Message-Id: <20210505135803.67896-4-vsementsov@virtuozzo.com>
->>     https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01394.html
->>
->> with this
->>
->>     TODO: We also need to deprecate drive-backup transaction action..
->>     But union members in QAPI doesn't support 'deprecated' feature. I tried
->>     to dig a bit, but failed :/ Markus, could you please help with it? At
->>     least by advice?
->>
->> This is one way to resolve it.  Sorry it took so long.
->>
->>
-> I'll share the blame for not pushing back on the other series, but ...
->
->
->> John explored another way, namely adding feature flags to union
->> branches.  Could also be useful, say to add different features to
->> branches in multiple unions sharing the same tag enum.
->>
->>
-> ... this way seems simpler for now, and I trust your intuition on what's
-> easier to support as I don't have a solid grasp of the C interfaces at play
-> for actually parsing the input. We can always revisit the other thing later
-> if/when we need it.
->
->
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  qapi/transaction.json | 6 +++++-
->>  1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/qapi/transaction.json b/qapi/transaction.json
->> index d175b5f863..381a2df782 100644
->> --- a/qapi/transaction.json
->> +++ b/qapi/transaction.json
->> @@ -54,6 +54,10 @@
->>  # @blockdev-snapshot-sync: since 1.1
->>  # @drive-backup: Since 1.6
->>  #
->> +# Features:
->> +# @deprecated: Member @drive-backup is deprecated.  Use member
->> +#              @blockdev-backup instead.
->> +#
->>  # Since: 1.1
->>  ##
->>  { 'enum': 'TransactionActionKind',
->> @@ -62,7 +66,7 @@
->>              'block-dirty-bitmap-disable', 'block-dirty-bitmap-merge',
->>              'blockdev-backup', 'blockdev-snapshot',
->>              'blockdev-snapshot-internal-sync', 'blockdev-snapshot-sync',
->> -            'drive-backup' ] }
->> +            { 'name': 'drive-backup', 'features': [ 'deprecated' ] } ] }
->>
->>  ##
->>  # @AbortWrapper:
->> --
->> 2.31.1
->>
->>
-> Seems pretty clean to me overall. What's the reason for wanting it to be
-> RFC?
-
-I believe it depends on the remainder of Vladimir's series.
+Hi Michael,=0D
+=0D
+2 more patches to avoid gitlab-ci mayhem when you push the=0D
+stable tags. See this cover for more info:=0D
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg846861.html=0D
+=0D
+Based-on: <20211019140944.152419-1-michael.roth@amd.com>=0D
+"Patch Round-up for stable 6.0.1, freeze on 2021-10-26"=0D
+=0D
+Daniel P. Berrang=C3=A9 (1):=0D
+  gitlab: only let pages be published from default branch=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (1):=0D
+  gitlab-ci: Only push docker images to registry from /master branch=0D
+=0D
+ .gitlab-ci.d/containers.yml | 11 ++++++++++-=0D
+ .gitlab-ci.d/edk2.yml       | 11 ++++++++++-=0D
+ .gitlab-ci.d/opensbi.yml    | 11 ++++++++++-=0D
+ .gitlab-ci.yml              | 18 ++++++++++++++++++=0D
+ 4 files changed, 48 insertions(+), 3 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
