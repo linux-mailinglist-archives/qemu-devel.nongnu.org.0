@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE47743CCA5
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 16:45:52 +0200 (CEST)
-Received: from localhost ([::1]:43606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E9343CCF4
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:04:59 +0200 (CEST)
+Received: from localhost ([::1]:53570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfkBb-0002Wq-S2
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 10:45:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41954)
+	id 1mfkU6-0003Mz-7d
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:04:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfjS7-0003us-7p
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:52 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28151)
+ id 1mfjSA-0003vO-RJ
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:57 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:28152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfjS3-0004Ut-Hi
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:50 -0400
+ id 1mfjS6-0004Vh-D4
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:54 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 121567561A5;
+ by localhost (Postfix) with SMTP id 31A637561B1;
  Wed, 27 Oct 2021 15:58:42 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id AFE0075605E; Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
-Message-Id: <5bfade7f5e807a3e950b328a5a11a67859e176cf.1635342377.git.balaton@eik.bme.hu>
+ id B44EF756078; Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
+Message-Id: <d1a2e6c3e1e9bc7eb69b9ae2cc1c708db6b9b3e3.1635342377.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635342377.git.balaton@eik.bme.hu>
 References: <cover.1635342377.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 07/11] hw/char/sh_serial: Add device id to trace output
+Subject: [PATCH v2 08/11] hw/intc/sh_intc: Use existing macro instead of local
+ one
 Date: Wed, 27 Oct 2021 15:46:17 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,61 +62,57 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Normally there are at least two sh_serial instances. Add device id to
-trace messages to make it clear which instance they belong to
-otherwise its not possible to tell which serial device is accessed.
+The INTC_A7 local macro does the same as the A7ADDR from
+include/sh/sh.h so use the latter and drop the local macro definiion.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/char/sh_serial.c  | 6 ++++--
- hw/char/trace-events | 4 ++--
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ hw/intc/sh_intc.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
-index ad576b693b..3c400b2dd1 100644
---- a/hw/char/sh_serial.c
-+++ b/hw/char/sh_serial.c
-@@ -94,9 +94,10 @@ static void sh_serial_write(void *opaque, hwaddr offs,
-                             uint64_t val, unsigned size)
+diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
+index c1058d97c0..0bd27aaf4f 100644
+--- a/hw/intc/sh_intc.c
++++ b/hw/intc/sh_intc.c
+@@ -16,8 +16,6 @@
+ #include "hw/sh4/sh.h"
+ #include "trace.h"
+ 
+-#define INTC_A7(x) ((x) & 0x1fffffff)
+-
+ void sh_intc_toggle_source(struct intc_source *source,
+                            int enable_adj, int assert_adj)
  {
-     SHSerialState *s = opaque;
-+    DeviceState *d = DEVICE(s);
-     unsigned char ch;
- 
--    trace_sh_serial_write(size, offs, val);
-+    trace_sh_serial_write(d->id, size, offs, val);
-     switch (offs) {
-     case 0x00: /* SMR */
-         s->smr = val & ((s->feat & SH_SERIAL_FEAT_SCIF) ? 0x7b : 0xff);
-@@ -213,6 +214,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
-                                unsigned size)
+@@ -112,12 +110,12 @@ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
+ static unsigned int sh_intc_mode(unsigned long address,
+                                  unsigned long set_reg, unsigned long clr_reg)
  {
-     SHSerialState *s = opaque;
-+    DeviceState *d = DEVICE(s);
-     uint32_t ret = ~0;
+-    if ((address != INTC_A7(set_reg)) &&
+-        (address != INTC_A7(clr_reg)))
++    if ((address != A7ADDR(set_reg)) &&
++        (address != A7ADDR(clr_reg)))
+         return INTC_MODE_NONE;
  
- #if 0
-@@ -305,7 +307,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
-             break;
-         }
-     }
--    trace_sh_serial_read(size, offs, ret);
-+    trace_sh_serial_read(d->id, size, offs, ret);
+     if (set_reg && clr_reg) {
+-        if (address == INTC_A7(set_reg)) {
++        if (address == A7ADDR(set_reg)) {
+             return INTC_MODE_DUAL_SET;
+         } else {
+             return INTC_MODE_DUAL_CLR;
+@@ -297,11 +295,11 @@ static unsigned int sh_intc_register(MemoryRegion *sysmem,
  
-     if (ret & ~((1 << 16) - 1)) {
-         qemu_log_mask(LOG_UNIMP, "sh_serial: unsupported read from 0x%02"
-diff --git a/hw/char/trace-events b/hw/char/trace-events
-index 4a92e7674a..2ecb36232e 100644
---- a/hw/char/trace-events
-+++ b/hw/char/trace-events
-@@ -103,5 +103,5 @@ exynos_uart_rx_timeout(uint32_t channel, uint32_t stat, uint32_t intsp) "UART%d:
- cadence_uart_baudrate(unsigned baudrate) "baudrate %u"
+ #define SH_INTC_IOMEM_FORMAT "interrupt-controller-%s-%s-%s"
+     snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "p4");
+-    memory_region_init_alias(iomem_p4, NULL, name, iomem, INTC_A7(address), 4);
++    memory_region_init_alias(iomem_p4, NULL, name, iomem, A7ADDR(address), 4);
+     memory_region_add_subregion(sysmem, P4ADDR(address), iomem_p4);
  
- # sh_serial.c
--sh_serial_read(unsigned size, uint64_t offs, uint64_t val) " size %d offs 0x%02" PRIx64 " -> 0x%02" PRIx64
--sh_serial_write(unsigned size, uint64_t offs, uint64_t val) "size %d offs 0x%02" PRIx64 " <- 0x%02" PRIx64
-+sh_serial_read(char *id, unsigned size, uint64_t offs, uint64_t val) " %s size %d offs 0x%02" PRIx64 " -> 0x%02" PRIx64
-+sh_serial_write(char *id, unsigned size, uint64_t offs, uint64_t val) "%s size %d offs 0x%02" PRIx64 " <- 0x%02" PRIx64
+     snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "a7");
+-    memory_region_init_alias(iomem_a7, NULL, name, iomem, INTC_A7(address), 4);
++    memory_region_init_alias(iomem_a7, NULL, name, iomem, A7ADDR(address), 4);
+     memory_region_add_subregion(sysmem, A7ADDR(address), iomem_a7);
+ #undef SH_INTC_IOMEM_FORMAT
+ 
 -- 
 2.21.4
 
