@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD3343BF8A
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 04:21:12 +0200 (CEST)
-Received: from localhost ([::1]:47210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC85B43C01B
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 04:39:29 +0200 (CEST)
+Received: from localhost ([::1]:50652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfYYw-0002oz-Nf
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 22:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53680)
+	id 1mfYqe-0005yX-CG
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 22:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfYXa-0002A8-Az
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 22:19:46 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:45807)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mfYpp-0004oU-7D; Tue, 26 Oct 2021 22:38:37 -0400
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:42712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfYXY-0005Yk-S1
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 22:19:45 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- ls14-20020a17090b350e00b001a00e2251c8so914058pjb.4
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 19:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=d3XU1luYAaJWgr4yOleNDxR8WS8Od3WI5HbLKncJxY4=;
- b=WtDfQYEksBJlSuwV1oNBIKcDlX7EmukhYMp61d4R+k+tfGlUD0R0ZuVMAC/im2GHSK
- JpwLBm7JS4kEnLCBgf1FeUWlCfu8tHJOX5gigbcZFXcpyxBLJigJAiO0yYvY2oRFFmqa
- iyas+pSsT+cXTlCGdqH+/eCBurh8SxWn66gCA5v6J3n4HZAumZeFq8g5ZQCges9CpSJU
- nWk4YUoQ3+kU4l3NAtBOKRS/4lMSLpIaMqJH2aoZWrRiub4DM1jIkKEoZMvhoH57/jGS
- zGuuwgvoMflvbPGbSNwsPuabIyjyw2R6SQg6YnEf1W23d+t2BkvXwwCQyCr/1Ef+ixsn
- V7Qg==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mfYpn-0000lI-Bg; Tue, 26 Oct 2021 22:38:36 -0400
+Received: by mail-io1-xd2c.google.com with SMTP id n67so1815817iod.9;
+ Tue, 26 Oct 2021 19:38:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3hqbw/mdcOgUDSVxVL8UzC6dJ91tb0zhr1++4d4NMpw=;
+ b=dwSdqrMxZ4le+DdQNyhWKL9YirE5QFHpuSDXqT77jXujppLH6aTygy5dLXYjlkdekM
+ HUxGdYsuVjsEigS8P3eyWjkOZnJCpgDASQQahKvlLKXC6bVG8x7g0IPgfsyovRbCiu+H
+ ThAbxCXS39aCf8uN1pYZhzIvq2RwjpO2DqAWDoH3zbwY39hfHYvUQxJpPVNPBVFrh2ra
+ bvgcIqnQevvk5qkcuuh6pOU6bhBDsdpi1nS5KpK1HNyEMImeOH5wNGmpWIWRxrSnbILb
+ YLpcUm+5Scpb8OdSBf+ywnPqsigJMs1zENMcWTAtEiHfQgj4WylgFG4GqsUSuEw71VM9
+ +s7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=d3XU1luYAaJWgr4yOleNDxR8WS8Od3WI5HbLKncJxY4=;
- b=ecDl7KK7LZfMBy2k9XthatxD0z5jIg2fcXXtNHhBHkgmMN8kEHZSU3QOrAQYmniDKY
- WWiVaVz7rOOzRGgOw29kh5UmT3i8ypQ6eEdETpFbS4j+x9ylj4TwJTpFDTobdP+WbjEV
- C9xsSjhTGw9Pj24rGyTCsDf4G1/o78YTjj/NnHZ5zYjdzp47cnJEK8MDPuGPlqD6xDUw
- MQ+eAJj/fgjSFGnLLtke6AvNk8LA+N2VgK0HEMaUqzQuhcs1tgTwwwPnKZ2be/5UZOfO
- ds8x6t3y+R4s/D3ETlkTYmd56v6NZZXCjw4RNLxKMyX24JWIXhZ/tGZZk1R2nIs3ra13
- rf3A==
-X-Gm-Message-State: AOAM533rqHSNCqX+t1uz4g0wApyLkXOgvcOY2vo2gxCX2cJEg+uZCGt8
- GD5TSVq7DgQUSQxigtaykbvHsg==
-X-Google-Smtp-Source: ABdhPJxPQpUzpR/RIhL/+QcW4rHZh/4ocxhB/aRVuDWrzdRAI0XYZsmcEnmGKRuH42FWFX0dWv/usA==
-X-Received: by 2002:a17:90a:f401:: with SMTP id
- ch1mr2764077pjb.136.1635301182287; 
- Tue, 26 Oct 2021 19:19:42 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id nn2sm2236343pjb.34.2021.10.26.19.19.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 19:19:41 -0700 (PDT)
-Subject: Re: [PATCH 4/6] hw/sh4/r2d: Use error_report instead of fprintf to
- stderr
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1635298341.git.balaton@eik.bme.hu>
- <a4711f8ec7ff38175c2d57f55704656af219aef0.1635298341.git.balaton@eik.bme.hu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <86daf802-6f16-3671-56f4-653d3af2d6ac@linaro.org>
-Date: Tue, 26 Oct 2021 19:19:40 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3hqbw/mdcOgUDSVxVL8UzC6dJ91tb0zhr1++4d4NMpw=;
+ b=hOKcXC92YP3zbVgxrlFvbaCQ8qMPHt9Wx/atb74yEoDJA5VufGrKUvoHYSfTQk+zlA
+ k12XPMSoCbGMv/dsiWtJWsG9p+W3euQsm1XFFqDA/m2XMb5C/zIE1zjva1/h9j82R4B7
+ oagIPT4qZ+HBS8ZTPo2jklOZJQHOKvlPiAkb3AFm5nInxCUqicgp+hGkUNscA8V2/S5I
+ CgOsNY9YZkQJO8/eiAtoZ9omslkiJ+YAUPCpf1skBAFW1lp6KrYOsbaG5dUveN/gj896
+ IInddq9Jrl8ZDLZ3aPQqvHookqP65/NzDVfyFJJeKVvYexv76NszJYdM2xqFu658aNmP
+ bEHA==
+X-Gm-Message-State: AOAM532rCY7d3Ho0fav+/Gl3PwQi0ilyNFFhBoG6x75wO64UtfNf078z
+ PFiKIG4LXl6N63Q/DAET19nHRxMEmFgjXHzRUFA=
+X-Google-Smtp-Source: ABdhPJy4L2T60SOcIB4X879Nzj37EwA+jWMRb6/wb9xciiKqEzUDffq2WtDp6O6vbf9Wt8/JEisU6b4OjRTIxPIahz0=
+X-Received: by 2002:a05:6602:2bf7:: with SMTP id
+ d23mr17717779ioy.187.1635302313558; 
+ Tue, 26 Oct 2021 19:38:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a4711f8ec7ff38175c2d57f55704656af219aef0.1635298341.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.215,
+References: <20211025124319.195290-1-rpathak@ventanamicro.com>
+ <20211025124319.195290-2-rpathak@ventanamicro.com>
+In-Reply-To: <20211025124319.195290-2-rpathak@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 27 Oct 2021 12:38:07 +1000
+Message-ID: <CAKmqyKORccGLiwCtFu=-M88bDXbKJiYPFh38tccB5=hBDdrCPg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] target/riscv: Add priv spec 1.12.0 version check
+To: Rahul Pathak <rpathak@ventanamicro.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,19 +77,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/21 6:32 PM, BALATON Zoltan wrote:
-> Signed-off-by: BALATON Zoltan<balaton@eik.bme.hu>
+On Mon, Oct 25, 2021 at 10:55 PM Rahul Pathak <rpathak@ventanamicro.com> wrote:
+>
+> Signed-off-by: Rahul Pathak <rpathak@ventanamicro.com>
 > ---
->   hw/sh4/r2d.c | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
+>  target/riscv/cpu.c | 4 +++-
+>  target/riscv/cpu.h | 1 +
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 788fa0b11c..83c3814a5a 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -405,7 +405,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>      }
+>
+>      if (cpu->cfg.priv_spec) {
+> -        if (!g_strcmp0(cpu->cfg.priv_spec, "v1.11.0")) {
+> +        if (!g_strcmp0(cpu->cfg.priv_spec, "v1.12.0")) {
+> +            priv_version = PRIV_VERSION_1_12_0;
+> +        } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.11.0")) {
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This change, actually allowing the user to enable the spec, should be
+in a separate patch at the end of the series.
 
-r~
+The idea is to add the feature, then expose it.
+
+Alistair
+
+
+>              priv_version = PRIV_VERSION_1_11_0;
+>          } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.10.0")) {
+>              priv_version = PRIV_VERSION_1_10_0;
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index a33dc30be8..67c52e6f9e 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -79,6 +79,7 @@ enum {
+>
+>  #define PRIV_VERSION_1_10_0 0x00011000
+>  #define PRIV_VERSION_1_11_0 0x00011100
+> +#define PRIV_VERSION_1_12_0 0x00011200
+>
+>  #define VEXT_VERSION_0_07_1 0x00000701
+>
+> --
+> 2.25.1
+>
+>
 
