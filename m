@@ -2,83 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D5B43C31E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 08:40:40 +0200 (CEST)
-Received: from localhost ([::1]:36354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3F243C310
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 08:36:02 +0200 (CEST)
+Received: from localhost ([::1]:59534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfcc2-0003fT-EZ
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 02:40:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38786)
+	id 1mfcXY-000084-Ss
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 02:36:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mfcTE-0007BH-R8
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 02:31:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40213)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1mfcTT-0007Fa-7I
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 02:31:47 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:4096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mfcSy-00058t-Om
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 02:31:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635316276;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UTSQ9AWaX0VvomMGviku3CMrgXXSah3b3C1da+x3fSA=;
- b=D7iyioGbMzc4jMoIWbJJOebwzoDbekrb7hrxgTQVFe/x8IE8RP7AW69SQ0ISDg1obIjOuF
- Mf+BpDeTV0Runy3JIvwjHeSJ78gMUjBDUAMSRcvrw+eXebuYSpB9YIfQOEOuwKGEifkcMK
- EdNE0KC0escLMrZWQwFtm6aaiXQa6uU=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-1jUfoBniPWewPvQ9tHOICw-1; Wed, 27 Oct 2021 02:31:14 -0400
-X-MC-Unique: 1jUfoBniPWewPvQ9tHOICw-1
-Received: by mail-lf1-f70.google.com with SMTP id
- b12-20020a0565120b8c00b003ffa7050931so916807lfv.13
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 23:31:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UTSQ9AWaX0VvomMGviku3CMrgXXSah3b3C1da+x3fSA=;
- b=xA6GUeVBFnqHxV7+ZNmW/vh0s+t7SVdxVAIpETq/4w8uBGVeRrWrGcrapXsdCLl4I7
- LNIvg789H77kxA5Fm1kCBquVyd740QcaS7StWc0x8bWC8lw3naBwRCuSFKcmfBfGAEWu
- HnJw46Jh1ZfG4IqUBeiypSzElbHfDzjd3EW/iCltd/YMs0MOrzOnkRCKyL8KkZ3WVOOB
- PR6kVhG3bNWZMGuWhs8gdc5drIlLH5BKjHZu3o/MRJqmBAz8qURb9AAAn1paRc37sifw
- 1iA0Iuc7gvmSuPJNu/a+h0LhXkue9s1LlVxbNB/qs7zvZ5xklluKc/AHoJ1RnyCdv9L+
- aXPg==
-X-Gm-Message-State: AOAM530u3ZTl5WDyt1DJwQ7SR+FCMCu4lwHYrQhcGpQghMmm8YnWTn7U
- 4IZFdpMdmj9EktDuubYEj3Ivmxlow9D5CapZZQVqnY3paRBzwC82H9GivNm5BLhH7EbOvwXkCBL
- wmOfwS7ulrOv6tn7czNMCmK7HrvC/778=
-X-Received: by 2002:a2e:9a55:: with SMTP id k21mr4326256ljj.318.1635316273374; 
- Tue, 26 Oct 2021 23:31:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzYuGEPJtsftPTNXHySq7GKENfRv3cS/K3Fmqz/71sGZ9t1y7VrTbJtVqwyhnJ1itcvi+TlBxEt3A55etjZKYw=
-X-Received: by 2002:a2e:9a55:: with SMTP id k21mr4326229ljj.318.1635316273130; 
- Tue, 26 Oct 2021 23:31:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1mfcTD-0005Ac-47
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 02:31:46 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HfJk173tkz90TR;
+ Wed, 27 Oct 2021 14:31:21 +0800 (CST)
+Received: from dggpeml500005.china.huawei.com (7.185.36.59) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Wed, 27 Oct 2021 14:31:22 +0800
+Received: from [10.174.186.51] (10.174.186.51) by
+ dggpeml500005.china.huawei.com (7.185.36.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Wed, 27 Oct 2021 14:31:21 +0800
+Subject: Re: [PATCH v12 0/6] support dirtyrate at the granualrity of vcpu
+To: Hyman Huang <huangy81@chinatelecom.cn>, Peter Xu <peterx@redhat.com>
+References: <cover.1624982116.git.huangy81@chinatelecom.cn>
+ <YWjaQ80LZGvPPoeX@t490s>
+ <78929c64-ca4d-6c6a-f371-99cd508e958a@chinatelecom.cn>
+From: Zheng Chuan <zhengchuan@huawei.com>
+Message-ID: <c5c179f1-6b3c-0aa5-7f69-f8d7ad554373@huawei.com>
+Date: Wed, 27 Oct 2021 14:31:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20211009075612.230283-1-leobras@redhat.com>
- <20211009075612.230283-2-leobras@redhat.com>
- <YWZ3kbsbUmCyr6Ot@t490s> <YWZ9lWKsU83JCZxS@t490s>
- <CAJ6HWG4pvP7dJ1=kgHKGAa8r=bgOcLT+YsZtSum0SnSLBNc3fg@mail.gmail.com>
- <YXjueV6ixuFVgn/7@xz-m1.local>
-In-Reply-To: <YXjueV6ixuFVgn/7@xz-m1.local>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Wed, 27 Oct 2021 03:31:14 -0300
-Message-ID: <CAJ6HWG7Txr6ppjctfarQaS-ix-dp-OQVLraLQ5KJStXty4KHEg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] QIOChannel: Add io_writev_zerocopy &
- io_flush_zerocopy callbacks
-To: Peter Xu <peterx@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lsoaresp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+In-Reply-To: <78929c64-ca4d-6c6a-f371-99cd508e958a@chinatelecom.cn>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.186.51]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpeml500005.china.huawei.com (7.185.36.59)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=zhengchuan@huawei.com; helo=szxga02-in.huawei.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.215,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,38 +68,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Jason Wang <jasowang@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, Xiexiangyou <xiexiangyou@huawei.com>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 27, 2021 at 3:15 AM Peter Xu <peterx@redhat.com> wrote:
->
-> On Wed, Oct 27, 2021 at 03:07:13AM -0300, Leonardo Bras Soares Passos wrote:
-> > > >
-> > > >            if (flags & ZEROCOPY) {
-> > > >                assert(fds == NULL && nfds == 0);
-> >
-> > Quick question: Why is this assert needed?
->
-> Not required I think; just want to make sure no one passes in the fds when
-> using zero copy mode.
+Hi.
+I have no objection for the implement code itself.
+But we should know or let the user know the performance penalty and conflicted with migration compared to the hash method, especially for the performance of vm with hugepages.
 
-Ok, that makes sense.
-I will add it then, thanks!
+On 2021/10/15 10:07, Hyman Huang wrote:
+> 
+> 
+> 在 2021/10/15 9:32, Peter Xu 写道:
+>> On Wed, Jun 30, 2021 at 12:01:17AM +0800, huangy81@chinatelecom.cn wrote:
+>>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>>
+>>> v12
+>>> - adjust the order of calculating dirty rate
+>>>    let memory_global_dirty_log_sync before calculating as
+>>>    v11 version description.
+>>
+>> Ping for Yong. >
+>> Dave/Juan, any plan to review/merge this series (along with the other series of
+>> dirty logging)?
+>>
+>> I found it useful when I wanted to modify the program I used to generate
+>> constant dirty workload - this series can help me to verify the change.
+>>
+>> I still keep thinking this series is something good to have.  Thanks,
+> the dirtyrate calculation has already been used to estimate time of live migration in "e cloud" production of chinatelecom, it also predict the migration success ratio, which provide valuable information for the cloud management plane when selecting which vm should be migrated.
+>>
+> 
 
->
-> Thanks,
->
-> --
-> Peter Xu
->
-
-
-Best regards,
-Leo
-
+-- 
+Regards.
+Chuan
 
