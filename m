@@ -2,83 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467C343C1CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 06:43:41 +0200 (CEST)
-Received: from localhost ([::1]:33194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF6243C1CA
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 06:41:52 +0200 (CEST)
+Received: from localhost ([::1]:59208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfamq-0007Bh-7l
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 00:43:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50750)
+	id 1mfal6-0005dz-29
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 00:41:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfalW-0006T8-Cd
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 00:42:18 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44823)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfalU-0008PD-G7
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 00:42:18 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id d13so1818495wrf.11
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 21:42:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=i+RvLcioqyZge6E/ZtYfti7CRhrbbFUhUiC71Py2Gbw=;
- b=a2235nMSnvhl6oUaUSdxCCtZyby0CwAqoHgv4OdGAPFOKZlZaAlJj7RWOkyXshlB15
- 7h4QL3fnnlXQIFhZaLaHvr8I1Y3B9YmuasTpI9LApoHysVEZRjsNGZCikTasELtFzyYb
- XLz3suj/MgTmmwGaGjXjJMjb1ff8ArcFXYHOVvR9vQszeDMeZ0mj184Vgy832JU12Xds
- 8yuPyKP1kMz/UCmbCYD4gO1isEqdDb3dJj8woLL9VoM2Qm/QAvLSHd6nMYrtGPuk96Dr
- a8MMo5m1mesg0vkB0JfDQJE7YZPsoz0RvW8vUiiR8AUHdwgPn7VgJkYX/rgUVxLgxFcv
- dYaw==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mfajr-0004ut-01
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 00:40:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23454)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mfajo-00060F-7A
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 00:40:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635309630;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=umNHLK22isz46d0CPlxEp9fKVa33A7WuYaWv/7Tl3LE=;
+ b=SXfjnf37wV93TNj5Pgp2PT69c+HjKYqfJgR3PEHlSBuGVoNz8ce8cbXPP4092J0UYv3/P2
+ YT88NaNtyMlNDiCjQNpbb88fhqKRcbA0gUPvQZTcQwdNQWHq00aV7jdyrRCV6bOZczPc7H
+ a9TNJEfxv67qcFnuvwCV+o1qAfzdlS0=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-497-umEhtPr3OX-EPpcUUtrZsQ-1; Wed, 27 Oct 2021 00:40:28 -0400
+X-MC-Unique: umEhtPr3OX-EPpcUUtrZsQ-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ hg3-20020a17090b300300b001a3fd07578aso296155pjb.6
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 21:40:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=i+RvLcioqyZge6E/ZtYfti7CRhrbbFUhUiC71Py2Gbw=;
- b=qfRi2IxMm9CapwQSEsX6blrfEyka14C1G0/pMZ3X+W/m0fOw833bwlEqIQ4crgcwUU
- pV46c8qoES1ToRsqx0hgL4JJHfmbvHJGASLgn8xFCDRV47NZnhla8zako3HShmH+0v84
- aPr/gLWkkhPV89tANBezxJPIevPdf7ps5oTtER7MntGr0hwIoU70TcyfYw1aN4xxrPYp
- fbzQoApy13ErV9YpBOHzjKdlEmA08B7K/Ac3kMofudrQsDY7+5LLsR2KCxYiN953Z7jr
- hKOWWbLFKbVWIcx1mw+HrVxxta0e2eiRLeTiDFH3gi5I09RktD6eGVjTSisFPmG05ZOa
- Pm6Q==
-X-Gm-Message-State: AOAM530YswFLy5hlKugkBZq3uCjsCnVoCS8uPTESuben8SQnlcx2D9Ej
- QVyOAU2V5W9p7MpNOduk7/k=
-X-Google-Smtp-Source: ABdhPJygUwDYiSDJZ0C2qM+TZu1vdhwXh/JKyZfExcsQzaqnmCrK6a2QHxtqY23hGmM3oVBpw5YFIQ==
-X-Received: by 2002:a5d:6502:: with SMTP id x2mr34417291wru.121.1635309734948; 
- Tue, 26 Oct 2021 21:42:14 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id v185sm2306940wme.35.2021.10.26.21.40.00
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=umNHLK22isz46d0CPlxEp9fKVa33A7WuYaWv/7Tl3LE=;
+ b=Cjv+9r5E97Lai8LRXk9r4SvW0tMt/6yV9duBF41KLzBZzBnvGkZAY2wutNvUQxRgDF
+ dyjmo1TuR5tg7KNnlv2Jxkrnv3i4SILMrtdSF1HGt5b51cB2yZI8uXS5qvh8BhuHmP7p
+ bg9xsOh6cj+2ps+gv8QnZBGJFi4joJ/mbAdjQWGePhFykkpm1dsvjo/cB5o7HjdhV2oT
+ WMjikJ8cTT4fG0OYA2TKSxFOnItdUYDq4PnJRhpRibCk7T45b2zIzT250ACe1yUQBvs1
+ oIuQaOH0rqkUcGKK85TSdzGl+S1LJys+OPGk5u6uNNbI0DYcXNLutljivKqW5A+Tr9cS
+ /p6Q==
+X-Gm-Message-State: AOAM530QgoqQCYXodUyLEW8Mam0N/8fJLmkxJ+fUZhPHT0HSbeui6r6g
+ 9uUJ5SsVKwm4VVxQqe+vTWcf1uELR6OKaBTsa+47MZH+9onrC6rT9a4siQJGzdX99WAQKNwbW3T
+ jHClKSZR8YuI7wpQJWn+4ot4yoEQQHoZWmKeDPi7eHkzbpp6D73yUEAkU645EGOphF5E=
+X-Received: by 2002:a17:90b:4f8c:: with SMTP id
+ qe12mr3287896pjb.237.1635309627587; 
+ Tue, 26 Oct 2021 21:40:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyAdYKVzxDH4WYp7bhic7VnhqYC1aIhehe/LqYZ7/3acisj/8kM8gyaY8dHpFWmZv+UAH2DPQ==
+X-Received: by 2002:a17:90b:4f8c:: with SMTP id
+ qe12mr3287862pjb.237.1635309627202; 
+ Tue, 26 Oct 2021 21:40:27 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id l11sm26299563pfu.55.2021.10.26.21.40.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 21:40:43 -0700 (PDT)
-Message-ID: <2e025148-5840-50ef-3a2c-14930700073e@amsat.org>
-Date: Wed, 27 Oct 2021 06:39:59 +0200
+ Tue, 26 Oct 2021 21:40:26 -0700 (PDT)
+Subject: Re: [PATCH] e1000: fix tx re-entrancy problem
+To: Jon Maloy <jmaloy@redhat.com>, qemu-devel@nongnu.org
+References: <20211021161047.578751-1-jmaloy@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <e4005dba-3e44-71ac-a1bc-edffdf503f8a@redhat.com>
+Date: Wed, 27 Oct 2021 12:40:20 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] target/avr: Optimize various functions using extract
- opcode
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211003142142.3674844-1-f4bug@amsat.org>
- <f366b3e5-cf3d-d2b7-b7ef-3ec79568a164@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <f366b3e5-cf3d-d2b7-b7ef-3ec79568a164@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20211021161047.578751-1-jmaloy@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.215,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.215, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,32 +101,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Rolnik <mrolnik@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
 
-On 10/3/21 17:24, Richard Henderson wrote:
-> On 10/3/21 10:21 AM, Philippe Mathieu-Daud√© wrote:
->> When running the scripts/coccinelle/tcg_gen_extract.cocci
->> Coccinelle semantic patch on target/avr/, we get:
->>
->> ¬†¬† [DBG] candidate at target/avr/translate.c:228
->> ¬†¬† [DBG] candidate at target/avr/translate.c:266
->> ¬†¬† [DBG] candidate at target/avr/translate.c:885
->> ¬†¬† [DBG] candidate at target/avr/translate.c:924
->> ¬†¬† [DBG] candidate at target/avr/translate.c:962
->>
->> Manually inspect and replace combinations of (shri, andi)
->> opcodes by the extract opcode.
->>
->> Signed-off-by: Philippe Mathieu-Daud√©<f4bug@amsat.org>
->> ---
->> ¬† target/avr/translate.c | 16 +++++-----------
->> ¬† 1 file changed, 5 insertions(+), 11 deletions(-)
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+‘⁄ 2021/10/22 …œŒÁ12:10, Jon Maloy –¥µ¿:
+> The fact that the MMIO handler is not re-entrant causes an infinite
+> loop under certain conditions:
+>
+> Guest write to TDT ->  Loopback -> RX (DMA to TDT) -> TX
+>
+> We now eliminate the effect of this problem locally in e1000, by adding
+> a boolean in struct E1000State indicating when the TX side is busy. This
+> will cause any entering new call to return early instead of interfering
+> with the ongoing work, and eliminates any risk of looping.
+>
+> This is intended to address CVE-2021-20257.
+>
+> Signed-off-by: Jon Maloy <jmaloy@redhat.com>
 
-Do you mind taking this patch via tcg-next?
+
+Applied.
+
+Thanks
+
+
+> ---
+>   hw/net/e1000.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+>
+> diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+> index a30546c5d5..f5bc81296d 100644
+> --- a/hw/net/e1000.c
+> +++ b/hw/net/e1000.c
+> @@ -107,6 +107,7 @@ struct E1000State_st {
+>           e1000x_txd_props props;
+>           e1000x_txd_props tso_props;
+>           uint16_t tso_frames;
+> +        bool busy;
+>       } tx;
+>   
+>       struct {
+> @@ -763,6 +764,11 @@ start_xmit(E1000State *s)
+>           return;
+>       }
+>   
+> +    if (s->tx.busy) {
+> +        return;
+> +    }
+> +    s->tx.busy = true;
+> +
+>       while (s->mac_reg[TDH] != s->mac_reg[TDT]) {
+>           base = tx_desc_base(s) +
+>                  sizeof(struct e1000_tx_desc) * s->mac_reg[TDH];
+> @@ -789,6 +795,7 @@ start_xmit(E1000State *s)
+>               break;
+>           }
+>       }
+> +    s->tx.busy = false;
+>       set_ics(s, 0, cause);
+>   }
+>   
+
 
