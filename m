@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C991443C57F
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 10:49:26 +0200 (CEST)
-Received: from localhost ([::1]:46270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE6F43C59D
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 10:53:15 +0200 (CEST)
+Received: from localhost ([::1]:51464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfecf-0005mI-Uo
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 04:49:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34106)
+	id 1mfegM-00017Z-Jz
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 04:53:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mfeZt-0003Wg-AS; Wed, 27 Oct 2021 04:46:36 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:53875)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mfecx-0007WH-Cx
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 04:49:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mfeZp-00046R-Oz; Wed, 27 Oct 2021 04:46:32 -0400
-Received: from [192.168.100.1] ([82.142.14.190]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MIxFi-1mMU3o2NCM-00KNsk; Wed, 27 Oct 2021 10:46:22 +0200
-Message-ID: <1ef2bb43-3f8f-aa90-0bb8-288cea6bc911@vivier.eu>
-Date: Wed, 27 Oct 2021 10:46:21 +0200
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mfecv-0005eW-13
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 04:49:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635324580;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KNdfYIPCPP0CAAe2h5mdsLlJsvmSuuBz3ElYKgWv7Sc=;
+ b=cGpUE5Wf/bnBoCoZyqasl/vG0TM43iWj9oxwZtn9W+V+wxkoyGp5nwiq/9WF/Hya5EqH5T
+ xsm6weT4bD7EZv1/BdVf3GLlJGmD476Fh0nb7nz5lRw24jT4A9zpBqgRx5F7U3HjCYtU7h
+ iGXL7neakmK+Ub8P+PR0fvE5Oy0gm2o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-440-W-mbXH5kMKumvw4afgt7Yw-1; Wed, 27 Oct 2021 04:49:36 -0400
+X-MC-Unique: W-mbXH5kMKumvw4afgt7Yw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D9FE1006AA3;
+ Wed, 27 Oct 2021 08:49:35 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9505860BF1;
+ Wed, 27 Oct 2021 08:49:33 +0000 (UTC)
+Date: Wed, 27 Oct 2021 09:49:31 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-6.0.1 0/2] gitlab-ci: Only push docker images to
+ mainstream registry from /master
+Message-ID: <YXkSm13RTFCWyWxR@redhat.com>
+References: <20211027052656.1275436-1-philmd@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 0/3] hw/input/lasips2: QOM'ify the Lasi PS/2
-Content-Language: fr
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20210920064048.2729397-1-f4bug@amsat.org>
- <e4da8e9f-7874-0852-792e-645eb7b0d078@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <e4da8e9f-7874-0852-792e-645eb7b0d078@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20211027052656.1275436-1-philmd@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0peTWl5GYnwjaC1L+e8vrgevxuyZSk9cj3/p2YUDGN8LClcOC0J
- KYTd1qRAbZyv7Kt0HZuUwFlIuE1Jab0AMZFgfdjfaeB7gCItvcjcVo1FrSujZHHkli6eB+7
- LT/qgCtDWEnmq1Z6cyqve4LR0Z2+OHM/+QtbTJBxMr9mIT1GK97m1vLQXb8FiJXCLlbDxit
- Moq96fkLZQHu1Z6M4i9SQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:s3ae0TVxprw=:IWmUCK+g8vnQ5EUsmkiz65
- mPiS5rL45vDtpRzRVdjqf8kSXFEh4qZX/g6UfaIDq5EgLiztTIHZp4XJ+Kefjk6lG40p6+Tyq
- 0VQlgotY7oL2r4/XhZsdJyukl36wEdPHoKT5EPF6OZwUuc8O0RkEALn5WfAaUfYRAmkRC/6IC
- MXINt8UPNZxEFEXwniasFn5oQSAOlcYjynhU9CUzscOKXlg8ZHWjXQg7zkYuCg1GiFudUzDl7
- pUnM2WXneZ9z9WrJjaCtuzcY9i8LaW+t3DsrlwrPXGpcoUuOcGZqUth9rHLnLcYt8lxkrjekB
- Wh0V3EXy1t7n+PxvyLa22vqlvia+3FIU9+xwesJ4q1R9FxVRHBw38v6KB+5k4qoM7ArJP3hq1
- 0noggAUASgLj3UWe/d6EHD//ZdTUDbGlCfSieeOpFHKM+9CBaTrocdi+HVV5iL+THYvRzalNs
- 2RwHMwXGl5kNEwf03PCaWyTFyevThtK8JkyBkMRPr514qcOhHevrMfuBDCbawszYL6+CPaCyF
- p64OJV/6LIxFsW/K8Ex/O5DpcrbQ3qXoDuqZbxb2n3CUuCHkcAckqZzChRbGxJebIq2MwzVcd
- 31qmFiFVIvtiBLeWIQz00vuZpJvj9B08QGolEqJiDaKoV3hmu71Nnw0A38Fzdm1O4m/xJ7cvw
- 50ndKi6fDPmMEIkPfZ3ePAg2CnYwBLeOPjmnF/GgbDnpD3CXYsBFfDfm/3TpHIV4de1U=
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.215,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,32 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sven Schnelle <svens@stackframe.org>, Helge Deller <deller@gmx.de>,
- Richard Henderson <richard.henderson@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, Thomas Huth <thuth@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/10/2021 à 07:11, Philippe Mathieu-Daudé a écrit :
-> Cc'ing qemu-trivial@ (fully reviewed).
+On Wed, Oct 27, 2021 at 07:26:54AM +0200, Philippe Mathieu-Daudé wrote:
+> Hi Michael,
 > 
-> On 9/20/21 08:40, Philippe Mathieu-Daudé wrote:
->> Slowly nuking non-QOM devices: Lasi PS/2's turn.
->>
->> Philippe Mathieu-Daudé (3):
->>    hw/input/lasips2: Fix typos in function names
->>    hw/input/lasips2: Move LASIPS2State declaration to
->>      'hw/input/lasips2.h'
->>    hw/input/lasips2: QOM'ify the Lasi PS/2
->>
->>   include/hw/input/lasips2.h | 31 ++++++++++++++++--
->>   hw/hppa/lasi.c             | 10 +++++-
->>   hw/input/lasips2.c         | 64 +++++++++++++++++++-------------------
->>   3 files changed, 70 insertions(+), 35 deletions(-)
->>
+> 2 more patches to avoid gitlab-ci mayhem when you push the
+> stable tags. See this cover for more info:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg846861.html
+
+Please don't push this to stable - Thomas points out that it is broken
+when any changes to dockerfiles are made.
+
+> 
+> Based-on: <20211019140944.152419-1-michael.roth@amd.com>
+> "Patch Round-up for stable 6.0.1, freeze on 2021-10-26"
+> 
+> Daniel P. Berrangé (1):
+>   gitlab: only let pages be published from default branch
+> 
+> Philippe Mathieu-Daudé (1):
+>   gitlab-ci: Only push docker images to registry from /master branch
+> 
+>  .gitlab-ci.d/containers.yml | 11 ++++++++++-
+>  .gitlab-ci.d/edk2.yml       | 11 ++++++++++-
+>  .gitlab-ci.d/opensbi.yml    | 11 ++++++++++-
+>  .gitlab-ci.yml              | 18 ++++++++++++++++++
+>  4 files changed, 48 insertions(+), 3 deletions(-)
+> 
+> -- 
+> 2.31.1
+> 
+> 
 > 
 
-Applied to my trivial-patches branch.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Thanks,
-Laurent
 
