@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D464043CC97
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 16:43:34 +0200 (CEST)
-Received: from localhost ([::1]:38934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E793343CCEE
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:02:45 +0200 (CEST)
+Received: from localhost ([::1]:47598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfk9N-0007nj-Vn
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 10:43:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41984)
+	id 1mfkRw-0007l3-Tw
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:02:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfjS9-0003vI-11
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:57 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28150)
+ id 1mfjS5-0003tl-Bd
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:50 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfjS5-0004Uu-1b
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:51 -0400
+ id 1mfjS0-0004Tt-4v
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:47 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 145327561AE;
- Wed, 27 Oct 2021 15:58:42 +0200 (CEST)
+ by localhost (Postfix) with SMTP id AF5F7756060;
+ Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 94B3F756036; Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
-Message-Id: <c788cbcd379e42908b55df5785c031e437f81a5b.1635342377.git.balaton@eik.bme.hu>
+ id 8D0C47463B7; Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
+Message-Id: <f03f38eb6b70b8586f33868b0ba4839f3b214fc9.1635342377.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635342377.git.balaton@eik.bme.hu>
 References: <cover.1635342377.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 02/11] hw//sh4: Use qemu_log instead of fprintf to stderr
+Subject: [PATCH v2 01/11] hw/sh4: Fix a typo in a comment
 Date: Wed, 27 Oct 2021 15:46:17 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -64,96 +64,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/char/sh_serial.c |  7 ++++---
- hw/sh4/sh7750.c     | 13 ++++++-------
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ hw/timer/sh_timer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
-index 1b1e6a6a04..c4231975c7 100644
---- a/hw/char/sh_serial.c
-+++ b/hw/char/sh_serial.c
-@@ -30,6 +30,7 @@
- #include "hw/sh4/sh.h"
- #include "chardev/char-fe.h"
- #include "qapi/error.h"
-+#include "qemu/log.h"
- #include "qemu/timer.h"
- 
- //#define DEBUG_SERIAL
-@@ -200,8 +201,8 @@ static void sh_serial_write(void *opaque, hwaddr offs,
+diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
+index 02eb865908..0a18ac8276 100644
+--- a/hw/timer/sh_timer.c
++++ b/hw/timer/sh_timer.c
+@@ -107,7 +107,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
+         if (s->enabled) {
+             /*
+              * Pause the timer if it is running. This may cause some inaccuracy
+-             * dure to rounding, but avoids a whole lot of other messyness
++             * due to rounding, but avoids a whole lot of other messyness
+              */
+             ptimer_stop(s->timer);
          }
-     }
- 
--    fprintf(stderr, "sh_serial: unsupported write to 0x%02"
--            HWADDR_PRIx "\n", offs);
-+    qemu_log_mask(LOG_UNIMP, "sh_serial: unsupported write to 0x%02"
-+                  HWADDR_PRIx "\n", offs);
-     abort();
- }
- 
-@@ -307,7 +308,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
- #endif
- 
-     if (ret & ~((1 << 16) - 1)) {
--        fprintf(stderr, "sh_serial: unsupported read from 0x%02"
-+        qemu_log_mask(LOG_UNIMP, "sh_serial: unsupported read from 0x%02"
-                 HWADDR_PRIx "\n", offs);
-         abort();
-     }
-diff --git a/hw/sh4/sh7750.c b/hw/sh4/sh7750.c
-index ca7e261aba..f2f251f165 100644
---- a/hw/sh4/sh7750.c
-+++ b/hw/sh4/sh7750.c
-@@ -24,6 +24,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/log.h"
- #include "hw/irq.h"
- #include "hw/sh4/sh.h"
- #include "sysemu/sysemu.h"
-@@ -205,13 +206,13 @@ static void portb_changed(SH7750State *s, uint16_t prev)
- 
- static void error_access(const char *kind, hwaddr addr)
- {
--    fprintf(stderr, "%s to %s (0x" TARGET_FMT_plx ") not supported\n",
--            kind, regname(addr), addr);
-+    qemu_log_mask(LOG_GUEST_ERROR, "%s to %s (0x" TARGET_FMT_plx
-+                  ") not supported\n", kind, regname(addr), addr);
- }
- 
- static void ignore_access(const char *kind, hwaddr addr)
- {
--    fprintf(stderr, "%s to %s (0x" TARGET_FMT_plx ") ignored\n",
-+    qemu_log_mask(LOG_UNIMP, "%s to %s (0x" TARGET_FMT_plx ") ignored\n",
-             kind, regname(addr), addr);
- }
- 
-@@ -241,8 +242,7 @@ static uint32_t sh7750_mem_readw(void *opaque, hwaddr addr)
-     case SH7750_PCR_A7:
-         return s->pcr;
-     case SH7750_RFCR_A7:
--        fprintf(stderr,
--                "Read access to refresh count register, incrementing\n");
-+        /* Read access to refresh count register, incrementing */
-         return s->rfcr++;
-     case SH7750_PDTRA_A7:
-         return porta_lines(s);
-@@ -363,13 +363,12 @@ static void sh7750_mem_writew(void *opaque, hwaddr addr,
-         portb_changed(s, temp);
-         return;
-     case SH7750_RFCR_A7:
--        fprintf(stderr, "Write access to refresh count register\n");
-         s->rfcr = mem_value;
-         return;
-     case SH7750_GPIOIC_A7:
-         s->gpioic = mem_value;
-         if (mem_value != 0) {
--            fprintf(stderr, "I/O interrupts not implemented\n");
-+            qemu_log_mask(LOG_UNIMP, "I/O interrupts not implemented\n");
-             abort();
-         }
-         return;
 -- 
 2.21.4
 
