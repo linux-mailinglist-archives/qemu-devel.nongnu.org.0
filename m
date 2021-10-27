@@ -2,77 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D29343CDDA
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:42:18 +0200 (CEST)
-Received: from localhost ([::1]:47366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFAF43CDE7
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:48:24 +0200 (CEST)
+Received: from localhost ([::1]:33836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfl4D-00070u-Cl
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:42:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54824)
+	id 1mflA6-00007u-JW
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:48:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <trini@konsulko.com>)
- id 1mfkMM-0001FY-GN
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:56:58 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:34714)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <trini@konsulko.com>)
- id 1mfkMK-00052k-Tv
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:56:58 -0400
-Received: by mail-qt1-x833.google.com with SMTP id v17so2719524qtp.1
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 07:56:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=jY0E1cOJTzsXkt41MT2UFx0i1yzVa72LPx8852DQWBQ=;
- b=PiZJPek/aRare1E95tkLZJtHgWNINw7cBjTYAyG6gVTKFcEy90a4wXRxRbvjGzvV3j
- hAemVYbNzrUTbnfDYH+7XjwBlOPbKxCgCNDTScUb02Q14zJbf23aji/ATkeGmFAYBRpu
- VAK7exf+iqFaR2n7alA//G+4XPiQ5DZV+rgH0=
+ (Exim 4.90_1) (envelope-from <heinrich.schuchardt@canonical.com>)
+ id 1mfkS2-0001VC-FK
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:02:51 -0400
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:53362)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <heinrich.schuchardt@canonical.com>)
+ id 1mfkRx-0005uc-FM
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:02:50 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 3FC2B3F1A1
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 15:02:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1635346963;
+ bh=gtGoWrsAJ0AztuvvfB7h/9nPJ8J+pOSK0y5s/O4kiMU=;
+ h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+ In-Reply-To:Content-Type;
+ b=S707+cffnPPoxF0tyKfAjGHUZMg2TXV7g8Wlbo1JxQS6CS4PiHLOekVrFV3xCIoEY
+ hsOeYit0pDdaSX39p8XwW0IxoNsjEvTKweRRW2MECs5QKz31ZwyUi8tMMNNXuE5JuB
+ iRw+wZ3NgLRkbMhwUxMqZCSQFvBMCmjiCKgrsIiHwSvwT9LO3zJJImBfqjMmvHgDhu
+ jNO2ZRsgFDfYR3JxoIQUx0wFHH6HfwTPnMfbKwa4XaCWuSVJOBx+RA8ftxZjDm6RsX
+ MdjqU27VXKdKF75S/yspVEmelbiTZ37oCn0wKDFm2lXtBJ4HHCcfUoEij+N+a2U1dU
+ Ch8zG/2BZ799A==
+Received: by mail-wr1-f72.google.com with SMTP id
+ b8-20020adff248000000b00171bceb5139so731318wrp.18
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 08:02:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=jY0E1cOJTzsXkt41MT2UFx0i1yzVa72LPx8852DQWBQ=;
- b=gTO3wVoQ0uXD2niwxUpEa6y+mPUhYBmywdrHj8kwgkBKXK0wydZo6LpTtt1nD8Rkyy
- BbqAOOS9lQCWmzJL5xdDarTtYS26xtjXjPaZyRpjTZH4sdcyJ/ywgFC20v1JyGq0CBPi
- oul2fuLo9PKrSuCBn6BA4UePiaZ9KIitbFAm/OwJQQ9tMXPx0vLB1WzvsKB1FaGeU5ba
- Kypk9AveQHAJvRyUAg9H/4REgO+77B8qC8ru/gFDaxFP3AgL+n6E3PuE8Fu7FJI7L9BJ
- 0wB7kXFyFXZyBY6ZDZDJOSoVKYqh+5EZLACrMy9hD/w7Bq4Syk2Ybfp+jWk9Q1qRXYTS
- c/5Q==
-X-Gm-Message-State: AOAM532q4UBp+KBBvOUKQeMnnZBmEsOuMGnh5bnb+c7dA7hgfJjL1hpZ
- XWeT88UG40QkaS2Bo5W2NjO1iA==
-X-Google-Smtp-Source: ABdhPJxU1MDmiRfZSnJECf7SUVZg0hupcFJQjcb3/gBBYZt7iVXbd4+ajylM3h9ZVPmNMynny+lITg==
-X-Received: by 2002:ac8:5755:: with SMTP id 21mr31775376qtx.353.1635346615981; 
- Wed, 27 Oct 2021 07:56:55 -0700 (PDT)
-Received: from bill-the-cat
- (2603-6081-7b01-cbda-0044-6cb5-81ac-bb0c.res6.spectrum.com.
- [2603:6081:7b01:cbda:44:6cb5:81ac:bb0c])
- by smtp.gmail.com with ESMTPSA id w185sm150692qkd.30.2021.10.27.07.56.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Oct 2021 07:56:55 -0700 (PDT)
-Date: Wed, 27 Oct 2021 10:56:53 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 05/16] arm: qemu: Add a devicetree file for qemu_arm64
-Message-ID: <20211027145653.GB8284@bill-the-cat>
-References: <20211013010120.96851-1-sjg@chromium.org>
- <20211013010120.96851-6-sjg@chromium.org>
- <CAHFG_=UDFn9MQfJz6oTAg15PiR2nt6QkoZS58+gsOMMVo31AXQ@mail.gmail.com>
- <87v91iwmoc.fsf@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=gtGoWrsAJ0AztuvvfB7h/9nPJ8J+pOSK0y5s/O4kiMU=;
+ b=tbC6pnOlmAs6qnpE4/7CnpEYG3VJtpORcBsrVbyAQPIwtY62WeYfuEqrctm8U15077
+ obR3YPkM3y54wghDvY0H07JDR97ITUJYy+D9pq2ruiKIj2Y201hf2qryh4qqloEK6YC6
+ UBCVi//JZcOTs4TGQxCv3E4i5hWUtFbSkbmQFB1ymmW8saIDRafQBoENoWKRb27ffYRU
+ zkGfyXSWgN+UAoHHzART4GRgcJwMUzsLWea//KjQgDi1nwtXaTesyKgyjLowJmEG8jrC
+ wfwNmS4arRqyDgeHGsfltZaqpybOgUjhZM2V7jpzljX/c8ZRX7dlG0L30+wlBFPf/3Cx
+ CuDw==
+X-Gm-Message-State: AOAM532hqDXzRiw0kiJWgC1DWhLR/t8JiKWkMZfWyBLkOXl2J8kYFNMM
+ vIySiC7V4TZUa6tKLVdlFZcVQSDPcZWxvflh7NDv7C6oAkLkitw15r44yF8GWhku1R7fQAUU7nz
+ V5VTWqj0IApLGZNNS3XBf6bjTnhGBiirI
+X-Received: by 2002:a1c:540c:: with SMTP id i12mr6156588wmb.6.1635346962618;
+ Wed, 27 Oct 2021 08:02:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxng2xYS0AxE9aNGOeOYtjmv+8olh0+08wthcXcBm/gkBHYELO2DVSgiZsgFrhWDa/btEaItA==
+X-Received: by 2002:a1c:540c:: with SMTP id i12mr6156509wmb.6.1635346962189;
+ Wed, 27 Oct 2021 08:02:42 -0700 (PDT)
+Received: from [192.168.123.55] (ip-88-152-144-157.hsi03.unitymediagroup.de.
+ [88.152.144.157])
+ by smtp.gmail.com with ESMTPSA id v3sm141306wrg.23.2021.10.27.08.02.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Oct 2021 08:02:41 -0700 (PDT)
+Message-ID: <51292fc6-e9a9-015a-34ac-f7cbcf18f203@canonical.com>
+Date: Wed, 27 Oct 2021 17:02:39 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ofekNuVaYCKmvJ0U"
-Content-Disposition: inline
-In-Reply-To: <87v91iwmoc.fsf@linaro.org>
-X-Clacks-Overhead: GNU Terry Pratchett
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=trini@konsulko.com; helo=mail-qt1-x833.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.2
+Subject: Re: [PATCH 00/16] fdt: Make OF_BOARD a boolean option
+Content-Language: en-US
+To: Tom Rini <trini@konsulko.com>
+References: <CAPnjgZ3D+h1ov2yL73iz_3zmPkJrM4mGrQLhsKL9qu9Ez0-j2A@mail.gmail.com>
+ <CAHFG_=ULjFFcF_BWzknPPw23CeMX=d-Cprhad085nX_r1NhE1g@mail.gmail.com>
+ <CAPnjgZ3+QP3ogPA=zKWHoctkr4C2rSos_yVmJjp_MYZ-O0sKeQ@mail.gmail.com>
+ <20211014145626.GC7964@bill-the-cat>
+ <CAPnjgZ3=evGbgSg-aen6pkOXZ4DCxX8vcX9cn4qswJQRNNSzLQ@mail.gmail.com>
+ <20211014152801.GF7964@bill-the-cat>
+ <CAPnjgZ2Y-uvmhQmhxnBN7Wa+Tz=ZL0bWpnJi6xCW-P8p+C-qCw@mail.gmail.com>
+ <20211027124840.GR8284@bill-the-cat>
+ <CAHFG_=U01QDd05K80-OHtJBgi01Kho1jY52QTQ-GO6mDDU7spg@mail.gmail.com>
+ <e210136c-65c1-72f1-485f-e54a5e8248b3@canonical.com>
+ <20211027145552.GA8284@bill-the-cat>
+From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+In-Reply-To: <20211027145552.GA8284@bill-the-cat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=185.125.188.122;
+ envelope-from=heinrich.schuchardt@canonical.com;
+ helo=smtp-relay-internal-0.canonical.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.847,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,69 +110,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Heiko Schocher <hs@denx.de>,
- =?iso-8859-1?Q?Fran=E7ois?= Ozog <francois.ozog@linaro.org>,
- Albert Aribaud <albert.u.boot@aribaud.net>,
- Neil Armstrong <narmstrong@baylibre.com>, qemu-devel@nongnu.org,
- Andre Przywara <andre.przywara@arm.com>, Simon Glass <sjg@chromium.org>,
+Cc: Liviu Dudau <liviu.dudau@foss.arm.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Sean Anderson <seanga2@gmail.com>,
+ Atish Patra <atish.patra@wdc.com>, Zong Li <zong.li@sifive.com>,
+ Stefan Roese <sr@denx.de>, Fabio Estevam <festevam@gmail.com>,
+ Rainer Boschung <rainer.boschung@hitachi-powergrids.com>,
+ =?UTF-8?Q?Fran=c3=a7ois_Ozog?= <francois.ozog@linaro.org>,
+ Stephen Warren <swarren@nvidia.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>, Niel Fourie <lusus@denx.de>,
+ Michal Simek <michal.simek@xilinx.com>,
+ =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
+ Jerry Van Baren <vanbaren@cideas.com>, Ramon Fried <rfried.dev@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Valentin Longchamp <valentin.longchamp@hitachi-powergrids.com>,
+ Heiko Schocher <hs@denx.de>, Peter Robinson <pbrobinson@gmail.com>,
+ Sinan Akman <sinan@writeme.com>, Thomas Fitzsimmons <fitzsim@fitzsim.org>,
+ Wolfgang Denk <wd@denx.de>, Stephen Warren <swarren@wwwdotorg.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Andre Przywara <andre.przywara@arm.com>, Tim Harvey <tharvey@gateworks.com>,
+ Ashok Reddy Soma <ashok.reddy.soma@xilinx.com>, Rick Chen <rick@andestech.com>,
+ Alexander Graf <agraf@csgraf.de>, Green Wan <green.wan@sifive.com>,
+ T Karthik Reddy <t.karthik.reddy@xilinx.com>,
+ Anastasiia Lukianenko <anastasiia_lukianenko@epam.com>,
+ Albert Aribaud <albert.u.boot@aribaud.net>, Michal Simek <monstr@monstr.eu>,
+ Matthias Brugger <mbrugger@suse.com>, Leo <ycliang@andestech.com>,
+ Tero Kristo <kristo@kernel.org>, U-Boot Mailing List <u-boot@lists.denx.de>,
+ David Abdurachmanov <david.abdurachmanov@sifive.com>,
+ Priyanka Jain <priyanka.jain@nxp.com>, Simon Glass <sjg@chromium.org>,
  Ilias Apalodimas <ilias.apalodimas@linaro.org>,
  Christian Hewitt <christianshewitt@gmail.com>,
- Kever Yang <kever.yang@rock-chips.com>, Rick Chen <rick@andestech.com>,
- U-Boot Mailing List <u-boot@lists.denx.de>,
- Jagan Teki <jagan@amarulasolutions.com>, Sean Anderson <seanga2@gmail.com>,
- Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>, Fabio Estevam <festevam@gmail.com>,
- Tim Harvey <tharvey@gateworks.com>, Peter Robinson <pbrobinson@gmail.com>
+ Aaron Williams <awilliams@marvell.com>,
+ Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
+ Tianrui Wei <tianrui-wei@outlook.com>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+ Dimitri John Ledkov <dimitri.ledkov@canonical.com>,
+ Padmarao Begari <padmarao.begari@microchip.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/27/21 16:55, Tom Rini wrote:
+> On Wed, Oct 27, 2021 at 03:23:01PM +0200, Heinrich Schuchardt wrote:
+> 
+> [snip]
+>> One passed to U-Boot for fixups and further passed to the OS. This
+>> devicetree may originate from a prior boot stage, from a file loaded by
+>> U-Boot, or from a later bootstage, e.g systemd-boot's devicetree command.
+> 
+> I assume systemd-boot is implementing the same logic that extlinux.conf
+> has used for forever, yes?
 
---ofekNuVaYCKmvJ0U
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It is loading the file and then calls U-Boot's implementation of the EFI 
+Device Tree Fixup Protocol for fixups before passing the device-tree to 
+the OS.
 
-On Wed, Oct 27, 2021 at 03:44:08PM +0100, Alex Benn=C3=A9e wrote:
->=20
-> Fran=C3=A7ois Ozog <francois.ozog@linaro.org> writes:
->=20
-> > Hi Simon
-> >
-> > The only place I could agree with this file presence is in the document=
-ation directory, not in dts. It creates a mental picture  for the reader
-> > an entirely bad mind scheme around Qemu and DT.
-> >
-> > And even in a documentation directory I would place a bug warning: don=
-=E2=80=99t use this with any kernel , Qemu generates a DT dynamically
-> > based on cpu, memory and devices specified at the command line.
->=20
-> Certainly for the arm, aarch64 and riscv "virt" machines you should
-> always use the QEMU generated DTB. I'm not entirely clear what a
-> qemu_arm and qemu_arm64 def targets are meant to be in this context.
+> 
+>> This devicetree will not contain any U-Boot specific information.
+> 
+> To repeat, it must only have official bindings, yes, regardless of what
+> project they come from.
+> 
 
-Agreed.  We cannot include random device trees in U-Boot for devices
-that generate their own at run time or otherwise have the source of
-truth elsewhere.
+Don't expect prior firmware stages to provide any U-Boot specific stuff 
+whatever official or non-official U-Boot specific bindings exist.
 
---=20
-Tom
+Best regards
 
---ofekNuVaYCKmvJ0U
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmF5aLUACgkQFHw5/5Y0
-tyyE3Qv7By4ZScROAq6Z8M1IN948ZclwHo/QAyU22EMcJsz8CfiTKaun2r7BC21S
-fcJWLKYS77VPhVezj+onBhvpLX3b6RF3MLJvWgYFh/bZZYWIVqNBb/bhhjsZI0qZ
-j4V+8abBlHBOfKfZOnu0rgW97GsT9frQqUgj7b7WCY2Cx+F0zWX5HfCRgSxazJgH
-Xed+jjqxggWMsHrSF8Sb4QsEc12wOCZ1D7xmRUqU+wL1T09Jll+Q9IP/gjJzNSEy
-wB2YpA5LMnt92ekCnzUlXz5MqI1EXrEnpOXEmDc3lbiw1iakiGQxS/uViB33cnGT
-iYYLGgqaK43P9M0vbaos1aeN24v2XTWuO48/m1czWFjgM7rRHcw3Otg7kQqCsoYf
-YOmJY/uRlEUf7R8t/u01iVl0+q6rplWgIjP39Ud+cxUuF8gzVeuEFPrVT4M0lCxc
-n9EFlqKuv25VnnlfZ6n0W1LlGtFygyvaTTNxL3wH1L+vRfsVwrkPT1iidRSWlR10
-Y7rB+SHh
-=gMfa
------END PGP SIGNATURE-----
-
---ofekNuVaYCKmvJ0U--
+Heinrich
 
