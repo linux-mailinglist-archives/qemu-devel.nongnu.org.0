@@ -2,83 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4058043CFE9
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 19:39:13 +0200 (CEST)
-Received: from localhost ([::1]:47264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC4443CFD2
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 19:33:59 +0200 (CEST)
+Received: from localhost ([::1]:37592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfmtM-0005qc-10
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 13:39:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40640)
+	id 1mfmoI-0007iu-Be
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 13:33:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfmiO-0002SI-Dr
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 13:27:52 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfmiM-0005Zd-DZ
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 13:27:52 -0400
-Received: by mail-wr1-x431.google.com with SMTP id d10so5471674wrb.1
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 10:27:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=o/D5qtHptXthzXWbGJQgP4qnxn5j7AKAPg/d70R4Hp4=;
- b=WgSFp3UbjlzgK7llzt/xd6F2MmElqgU+DJt9xAmb9V6nDIdPb0bkizL0ahVI/NUk+I
- DmHLhArPqzI8ZKdLbJ4k4/B8tc1zjoms1seLmwCOOeP++56I5zsUJKi/doUrQV+bozZw
- z27CkXa2O3o8JftBpQLS08/L/Wb33zFQY4bR/QpGcbAcv6rMaeoWgCZF2XS82HDl6R83
- BH0cF0701urkXTt1P2vsQ5/q3zPc4bTgCTglH4spcINjvEzmYWG2+B4jvSeBo/mlfj86
- LjXiZCQ+M4gP38YbdMK1csTlxy7Otw7H6l/UQtmWnFWxG7mZYtK2rY0ks1gAzLZeT0f9
- x5hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=o/D5qtHptXthzXWbGJQgP4qnxn5j7AKAPg/d70R4Hp4=;
- b=FJVDd/Z59ubW1084MelmIIEoPs82U9KeO4//MRVa7VVm9Dq7NRGO8+xULzIdRZ2rsU
- aUaDQS3VkZEKmb6jEmOQikpPPsoaaJDxZCn4fRJj1J0eqvfyrMG44hDdbYChDyiHYBmq
- HsuMqycaz24GPxgtPkXrR4FWQA/uoeFZWBukGc3MOzuSU8WCQlZ+zEyI0Nnr03gys0Sa
- sX6gK69aevgILTDWfYQGWoHqRwhh9jYarjVw5rMxiyiObkcskiHEu4nSnEJXocC8iiBR
- NrIXMAaoijKGaH5XHbPlMH0rtu1u39ORMK+ivY1s2le9Q9itAUX9jEDjpV0Eo1EYsazA
- kK2Q==
-X-Gm-Message-State: AOAM530D9bXYvHN8vAnEiDLM1fUzFnU1WwKaLbVIJrJDx2/xOVG9p5k8
- q0N9VCbB4VkygcFOiTtGhRI=
-X-Google-Smtp-Source: ABdhPJzDi+1KfGN1QdEveMRWWNpCyjehErHzVaujnTt6sUWhGGgUe5klBeoG9aKfeVCpySH5/1E04A==
-X-Received: by 2002:adf:a496:: with SMTP id g22mr42613810wrb.250.1635355668258; 
- Wed, 27 Oct 2021 10:27:48 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id x21sm3996960wmc.14.2021.10.27.10.27.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 10:27:47 -0700 (PDT)
-Message-ID: <1a83b087-8b12-a10f-8b0a-390eb71ac459@amsat.org>
-Date: Wed, 27 Oct 2021 19:27:45 +0200
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mfmjp-0004hJ-Ap
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 13:29:21 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:51141)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mfmjl-0005nK-M7
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 13:29:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=b5CNdaosu3cP4qM0HAjwyN+DWXLWy0Xzf7W5d9otdAs=; b=e3TIPmihb8BYtb9WiVSZzYD08B
+ OHV2yAQjusf2EQgaDOy7Z1U5UVOb4mCrGG3dypIhR0FW10TlqBC8tZo00wx4Ng1Au+oY0MEEaf7Wu
+ XZUVcR2SAUEodpbJr7f1mmaL5slEJGgFI4b4n1vvMSEEKMvxMSsU4ogjmZp0X5Te92NdOwXmp7hlL
+ zUE9Oj1K+0olJtCQZg/WeaBsDTPCKoqXsf6BZ1vLsThhDc+jOU6rfza55fhNK00kySmqfeA7zV1Gy
+ Jh/BhEtWlviyQAyhj1BtztChiVSb0ryHaZC92iB4Dyw9esno/yNTfxsA/oADUOVY8I4zFxKKELblj
+ WvQuY/NbBtVAaNXGqO1HO4H0ukvnHZdNbIagElXb6JMSrJlSTP5CX/QMwVAjcTk9Fy7BGymIJQ9aZ
+ HPnyWDyBLp5+jFjs003++j5jFPpHZEMLGzHJjfhXNxuRywffY87uEhXdE2k6usUMCzX7clTay1vWd
+ 49Xq8J55nHGu2AKP/RVmIF4u5eGgp2dEDHfUjoHbTeugaAu4c+0k0WyHjyUFNBz/SmbEOwwd0Y3A7
+ jzv6mWA6AoSVzwj7QYzwSsmsjemurnsEpdkT0v4o4FiF1iIR4ByH/aQy9MFY7bpJ3Z8Q5DpojFGfu
+ U3LmPvwgIHRoT5zOv0Z7/jdTaGisu6obtB0LfZ3A4=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Greg Kurz <groug@kaod.org>
+Subject: Re: [PULL 0/8] 9p queue 2021-10-27
+Date: Wed, 27 Oct 2021 19:29:13 +0200
+Message-ID: <13405882.ftTnZbQXCH@silver>
+In-Reply-To: <36b93ef0-bcff-1be6-ce8d-03cd61f0a0fd@redhat.com>
+References: <cover.1635340713.git.qemu_oss@crudebyte.com>
+ <2647527.eb0YlLX8Cn@silver> <36b93ef0-bcff-1be6-ce8d-03cd61f0a0fd@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 26/33] target/mips: Convert MSA ELM instruction format to
- decodetree
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211023214803.522078-1-f4bug@amsat.org>
- <20211023214803.522078-27-f4bug@amsat.org>
- <68ccd429-4878-51c9-ef31-331d57730c9c@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <68ccd429-4878-51c9-ef31-331d57730c9c@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.847,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,34 +66,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Luis Pires <luis.pires@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/21 22:52, Richard Henderson wrote:
-> On 10/23/21 2:47 PM, Philippe Mathieu-Daudé wrote:
->> +static bool trans_msa_elm_df(DisasContext *ctx, arg_msa_elm *a,
->> +                             void (*gen_msa_elm_df)(TCGv_ptr, TCGv_i32,
->> +                                                    TCGv_i32, TCGv_i32,
->> +                                                    TCGv_i32))
->> +{
->> +    TCGv_i32 twd;
->> +    TCGv_i32 tws;
->> +    TCGv_i32 tdf;
->> +    TCGv_i32 tn;
->> +    uint32_t df, n;
->> +
->> +    if (!df_extract(df_elm, a->df, &df, &n)) {
->> +        gen_reserved_instruction(ctx);
->> +        return true;
->> +    }
-> 
-> Again, I think this should happen before the access check.
-> 
-> You could even return false from these extractions, because they
-> represent an invalid encoding for this instruction.  In a different
-> context, there could be another grouped insn that matches.
+On Mittwoch, 27. Oktober 2021 18:48:10 CEST Philippe Mathieu-Daud=E9 wrote:
+> On 10/27/21 18:21, Christian Schoenebeck wrote:
+> > On Mittwoch, 27. Oktober 2021 17:36:03 CEST Philippe Mathieu-Daud=E9 wr=
+ote:
+> >> Hi Christian,
+> >>=20
+> >> On 10/27/21 16:05, Christian Schoenebeck wrote:
+> >>> On Mittwoch, 27. Oktober 2021 15:18:33 CEST Christian Schoenebeck wro=
+te:
+> >>>> The following changes since commit
+> >=20
+> > 931ce30859176f0f7daac6bac255dae5eb21284e:
+> >>>>   Merge remote-tracking branch
+> >>>>   'remotes/dagrh/tags/pull-virtiofs-20211026'
+> >>>>=20
+> >>>> into staging (2021-10-26 07:38:41 -0700)
+> >>>>=20
+> >>>> are available in the Git repository at:
+> >>>>   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20211027
+> >>>>=20
+> >>>> for you to fetch changes up to=20
+7e985780aaab93d2c5be9b62d8d386568dfb071e:
+> >>>>   9pfs: use P9Array in v9fs_walk() (2021-10-27 14:45:22 +0200)
+> >>>>=20
+> >>>> ----------------------------------------------------------------
+> >>>> 9pfs: performance fix and cleanup
+> >>>>=20
+> >>>> * First patch fixes suboptimal I/O performance on guest due to
+> >>>> previously
+> >>>>=20
+> >>>>   incorrect block size being transmitted to 9p client.
+> >>>>=20
+> >>>> * Subsequent patches are cleanup ones intended to reduce code
+> >>>> complexity.
+> >>>>=20
+> >>>> ----------------------------------------------------------------
+> >>>>=20
+> >>>> Christian Schoenebeck (8):
+> >>>>       9pfs: fix wrong I/O block size in Rgetattr
+> >>>>       9pfs: deduplicate iounit code
+> >>>>       9pfs: simplify blksize_to_iounit()
+> >>>>       9pfs: introduce P9Array
+> >>>>       fsdev/p9array.h: check scalar type in P9ARRAY_NEW()
+> >>>>       9pfs: make V9fsString usable via P9Array API
+> >>>>       9pfs: make V9fsPath usable via P9Array API
+> >>>>       9pfs: use P9Array in v9fs_walk()
+> >>>> =20
+> >>>>  fsdev/9p-marshal.c |   2 +
+> >>>>  fsdev/9p-marshal.h |   3 +
+> >>>>  fsdev/file-op-9p.h |   2 +
+> >>>>  fsdev/p9array.h    | 160
+> >>>>=20
+> >>>> +++++++++++++++++++++++++++++++++++++++++++++++++++++ hw/9pfs/9p.c
+> >>>>=20
+> >>>> 70 +++++++++++++----------
+> >>>>=20
+> >>>>  5 files changed, 208 insertions(+), 29 deletions(-)
+> >>>>  create mode 100644 fsdev/p9array.h
+> >>>=20
+> >>> Regarding last 5 patches: Daniel raised a concern that not using
+> >>> g_autoptr
+> >>> would deviate from current QEMU coding patterns:
+> >>> https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg00081.html
+> >>>=20
+> >>> Unfortunately I saw no way to address his concern without adding
+> >>> unnecessary code complexity, so I decided to make this a 9p local type
+> >>> (QArray -> P9Array) for now, which can easily be replaced in future
+> >>> (e.g.
+> >>> when there will be something appropriate on glib side).
+> >>=20
+> >> Hmm various patches aren't reviewed yet... In particular
+> >> patch #5 has a Suggested-by tag without Reviewed-by, this
+> >> looks odd.
+> >>=20
+> >> See https://wiki.qemu.org/Contribute/SubmitAPullRequest:
+> >>   Don't send pull requests for code that hasn't passed review.
+> >>   A pull request says these patches are ready to go into QEMU now,
+> >>   so they must have passed the standard code review processes. In
+> >>   particular if you've corrected issues in one round of code review,
+> >>   you need to send your fixed patch series as normal to the list;
+> >>   you can't put it in a pull request until it's gone through.
+> >>   (Extremely trivial fixes may be OK to just fix in passing, but
+> >>   if in doubt err on the side of not.)
+> >=20
+> > There are in general exactly two persons adding their RBs to 9p patches,
+> > which is either Greg or me, and Greg made it already clear that he bare=
+ly
+> > has time for anything above trivial set.
+> >=20
+> > So what do you suggest? You want to participate and review 9p patches?
+>=20
+> Well I am a bit surprised...
+>=20
+> $ git log --oneline \
+>     --grep=3D'Reviewed-by: Philippe Mathieu-Daud=E9' -- hw/9pfs/ | wc -l
+> 18
+>=20
+> I also reviewed patch #3 if this pull request...
+>=20
+>=20
+> Now I see you posted this 4 times in 2 months, so indeed eventual
+> reviewers had plenty of time to look at your patches.
+>=20
+> Note I haven't said I'd NAck your pull request, I noticed your own
+> concern wrt Daniel comment, so I looked at the patch and realized
+> it was not reviewed, and simply said this is this is odd.
+>=20
+> Regards,
+>=20
+> Phil.
 
-Yes, you are correct.
+Philippe, of course I understand why this looks odd to you, and yes you=20
+reviewed that particular patch. But the situation on the 9p front is like t=
+his=20
+for >2 years now: people quickly come by to nack patches, but even after=20
+having addressed their concerns they barely add their RBs afterwards. That=
+=20
+means I am currently forced to send out PRs without RBs once in a while.
+
+The mentioned 5 patches look like overkill on first sight, but they are jus=
+t=20
+intended as preparatory ones. I actually should fix a protocol implementati=
+on=20
+deficit in "Twalk" request handling, and that in turn means I will have to =
+add=20
+complexity to function v9fs_walk(). But before even daring to do so, I shou=
+ld=20
+get rid of as much of complexity as possible. Because we already had a bunc=
+h=20
+of issues in that function before. I believe these are trivial 5 patches. B=
+ut=20
+I can also accompany them with test cases if somebody is worried.
+
+Greg, I could also drop them now, but the general issue will retain: Realit=
+y=20
+is that I am the only person working on 9p right now and a fact that I cann=
+ot=20
+change. The rest is for other people to decide.
+
+Best regards,
+Christian Schoenebeck
+
+
 
