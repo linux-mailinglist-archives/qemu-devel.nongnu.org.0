@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2138143CD02
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:06:31 +0200 (CEST)
-Received: from localhost ([::1]:55882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE47743CCA5
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 16:45:52 +0200 (CEST)
+Received: from localhost ([::1]:43606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfkVZ-0004ts-S2
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:06:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41986)
+	id 1mfkBb-0002Wq-S2
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 10:45:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfjS9-0003vJ-17
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:57 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28154)
+ id 1mfjS7-0003us-7p
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:52 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfjS6-0004Vc-9A
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:51 -0400
+ id 1mfjS3-0004Ut-Hi
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:50 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 34EB17561B9;
+ by localhost (Postfix) with SMTP id 121567561A5;
  Wed, 27 Oct 2021 15:58:42 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B8E50756197; Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
-Message-Id: <21f98d137754b1c58de3cec2c3e4a7df7cc936ce.1635342377.git.balaton@eik.bme.hu>
+ id AFE0075605E; Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
+Message-Id: <5bfade7f5e807a3e950b328a5a11a67859e176cf.1635342377.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635342377.git.balaton@eik.bme.hu>
 References: <cover.1635342377.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 09/11] hw/intc/sh_intc: Turn some defines into an enum
+Subject: [PATCH v2 07/11] hw/char/sh_serial: Add device id to trace output
 Date: Wed, 27 Oct 2021 15:46:17 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,80 +61,61 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Turn the INTC_MODE defines into an enum (except the one which is a
-flag) and clean up the function returning these to make it clearer by
-removing nested ifs and superfluous parenthesis.
+Normally there are at least two sh_serial instances. Add device id to
+trace messages to make it clear which instance they belong to
+otherwise its not possible to tell which serial device is accessed.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/intc/sh_intc.c | 43 +++++++++++++++++++------------------------
- 1 file changed, 19 insertions(+), 24 deletions(-)
+ hw/char/sh_serial.c  | 6 ++++--
+ hw/char/trace-events | 4 ++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index 0bd27aaf4f..18461ff554 100644
---- a/hw/intc/sh_intc.c
-+++ b/hw/intc/sh_intc.c
-@@ -100,33 +100,27 @@ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
-     abort();
- }
- 
--#define INTC_MODE_NONE       0
--#define INTC_MODE_DUAL_SET   1
--#define INTC_MODE_DUAL_CLR   2
--#define INTC_MODE_ENABLE_REG 3
--#define INTC_MODE_MASK_REG   4
--#define INTC_MODE_IS_PRIO    8
--
--static unsigned int sh_intc_mode(unsigned long address,
--                                 unsigned long set_reg, unsigned long clr_reg)
-+#define INTC_MODE_IS_PRIO 0x80
-+typedef enum {
-+    INTC_MODE_NONE,
-+    INTC_MODE_DUAL_SET,
-+    INTC_MODE_DUAL_CLR,
-+    INTC_MODE_ENABLE_REG,
-+    INTC_MODE_MASK_REG,
-+} SHIntCMode;
-+
-+
-+static SHIntCMode sh_intc_mode(unsigned long address, unsigned long set_reg,
-+                               unsigned long clr_reg)
+diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
+index ad576b693b..3c400b2dd1 100644
+--- a/hw/char/sh_serial.c
++++ b/hw/char/sh_serial.c
+@@ -94,9 +94,10 @@ static void sh_serial_write(void *opaque, hwaddr offs,
+                             uint64_t val, unsigned size)
  {
--    if ((address != A7ADDR(set_reg)) &&
--        (address != A7ADDR(clr_reg)))
-+    if (address != A7ADDR(set_reg) && address != A7ADDR(clr_reg)) {
-         return INTC_MODE_NONE;
--
--    if (set_reg && clr_reg) {
--        if (address == A7ADDR(set_reg)) {
--            return INTC_MODE_DUAL_SET;
--        } else {
--            return INTC_MODE_DUAL_CLR;
--        }
-     }
--
--    if (set_reg) {
--        return INTC_MODE_ENABLE_REG;
--    } else {
--        return INTC_MODE_MASK_REG;
-+    if (set_reg && clr_reg) {
-+        return address == A7ADDR(set_reg) ?
-+               INTC_MODE_DUAL_SET : INTC_MODE_DUAL_CLR;
-     }
-+    return set_reg ? INTC_MODE_ENABLE_REG : INTC_MODE_MASK_REG;
- }
+     SHSerialState *s = opaque;
++    DeviceState *d = DEVICE(s);
+     unsigned char ch;
  
- static void sh_intc_locate(struct intc_desc *desc,
-@@ -137,7 +131,8 @@ static void sh_intc_locate(struct intc_desc *desc,
-                            unsigned int *width,
-                            unsigned int *modep)
+-    trace_sh_serial_write(size, offs, val);
++    trace_sh_serial_write(d->id, size, offs, val);
+     switch (offs) {
+     case 0x00: /* SMR */
+         s->smr = val & ((s->feat & SH_SERIAL_FEAT_SCIF) ? 0x7b : 0xff);
+@@ -213,6 +214,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+                                unsigned size)
  {
--    unsigned int i, mode;
-+    SHIntCMode mode;
-+    unsigned int i;
+     SHSerialState *s = opaque;
++    DeviceState *d = DEVICE(s);
+     uint32_t ret = ~0;
  
-     /* this is slow but works for now */
+ #if 0
+@@ -305,7 +307,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+             break;
+         }
+     }
+-    trace_sh_serial_read(size, offs, ret);
++    trace_sh_serial_read(d->id, size, offs, ret);
  
+     if (ret & ~((1 << 16) - 1)) {
+         qemu_log_mask(LOG_UNIMP, "sh_serial: unsupported read from 0x%02"
+diff --git a/hw/char/trace-events b/hw/char/trace-events
+index 4a92e7674a..2ecb36232e 100644
+--- a/hw/char/trace-events
++++ b/hw/char/trace-events
+@@ -103,5 +103,5 @@ exynos_uart_rx_timeout(uint32_t channel, uint32_t stat, uint32_t intsp) "UART%d:
+ cadence_uart_baudrate(unsigned baudrate) "baudrate %u"
+ 
+ # sh_serial.c
+-sh_serial_read(unsigned size, uint64_t offs, uint64_t val) " size %d offs 0x%02" PRIx64 " -> 0x%02" PRIx64
+-sh_serial_write(unsigned size, uint64_t offs, uint64_t val) "size %d offs 0x%02" PRIx64 " <- 0x%02" PRIx64
++sh_serial_read(char *id, unsigned size, uint64_t offs, uint64_t val) " %s size %d offs 0x%02" PRIx64 " -> 0x%02" PRIx64
++sh_serial_write(char *id, unsigned size, uint64_t offs, uint64_t val) "%s size %d offs 0x%02" PRIx64 " <- 0x%02" PRIx64
 -- 
 2.21.4
 
