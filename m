@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A1643BF72
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 04:16:05 +0200 (CEST)
-Received: from localhost ([::1]:44944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD3343BF8A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 04:21:12 +0200 (CEST)
+Received: from localhost ([::1]:47210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfYU0-00012d-OH
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 22:16:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52426)
+	id 1mfYYw-0002oz-Nf
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 22:21:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfYS4-0008Ct-Me
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 22:14:04 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:42817)
+ id 1mfYXa-0002A8-Az
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 22:19:46 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:45807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfYS2-0000UY-TW
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 22:14:04 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- nn3-20020a17090b38c300b001a03bb6c4ebso927451pjb.1
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 19:14:02 -0700 (PDT)
+ id 1mfYXY-0005Yk-S1
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 22:19:45 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ ls14-20020a17090b350e00b001a00e2251c8so914058pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 19:19:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=t7Z9xtJFCYbRv3Y0wHZpGBDtLcFWAn4Icv/dZjmS28c=;
- b=FGV/AJ33EIUyPvv6XmycNyHHsVk6ScPj0daT/yJ/H2fKoVvJ4c4FqSmz0ZXFRkdUaz
- QGXLww99xOCquJR3594nXY9uBeZs+gGczTa/jnHV8mURHG5Hy9OEbf8HvIxx4pOEz591
- a7nxCnRRwmv1WzCM+e3bEiBtrLyG09FfqWaG6QhRqzexgHVfy9eaK9SqReOGN2w+E4fE
- uZ98tNqTs11aS0l+ZqOdwK7o41p8zSQ9XKtBeQGPvQmEQzpom7snAM7Dk3m30/4u73VZ
- W33a8PQGZyBgZd8/wAE7AgrdHyzkTE7onwMC36PgxtBLI8uDtrbY6FBK4GSURQJcAm54
- AL9w==
+ bh=d3XU1luYAaJWgr4yOleNDxR8WS8Od3WI5HbLKncJxY4=;
+ b=WtDfQYEksBJlSuwV1oNBIKcDlX7EmukhYMp61d4R+k+tfGlUD0R0ZuVMAC/im2GHSK
+ JpwLBm7JS4kEnLCBgf1FeUWlCfu8tHJOX5gigbcZFXcpyxBLJigJAiO0yYvY2oRFFmqa
+ iyas+pSsT+cXTlCGdqH+/eCBurh8SxWn66gCA5v6J3n4HZAumZeFq8g5ZQCges9CpSJU
+ nWk4YUoQ3+kU4l3NAtBOKRS/4lMSLpIaMqJH2aoZWrRiub4DM1jIkKEoZMvhoH57/jGS
+ zGuuwgvoMflvbPGbSNwsPuabIyjyw2R6SQg6YnEf1W23d+t2BkvXwwCQyCr/1Ef+ixsn
+ V7Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=t7Z9xtJFCYbRv3Y0wHZpGBDtLcFWAn4Icv/dZjmS28c=;
- b=PFjwXQLCC/higYl8382hfDZmFotY1BiesgzK6iNn0ENOUIOj23HqEj6Gyv1OI6Ve3H
- itUbU+S1rg4DkBFOIDhLGXsmU7LVuMeLH8Lnxjf6+dTy4kR2A3fjL1v5QsGqYC4BjIwF
- KA5Fip8tEw54jlmGJ1b185asZ67qijQTY0Pzhz7MHhSQ03JGtO29aBELYqLqk/sa6eAY
- 7JlcgzlxQ7qIP/ZHtb7lDRjQVG6yc90jJcQxtEcyyZ3OsdsP/GDU+aSzZpopyCeVu8hJ
- P75Wv82BFCsE8hYdm6NRVaK/OGg1/6Y0H1QS7MCermpQvMPRjN3fUvEajZ4duIN/u4CF
- O8HA==
-X-Gm-Message-State: AOAM5303juGoqauxvzW/m6gwX4AosILTvTugNel1f9mjHmo/SKQNPsEh
- +QC8RLcVL756O9IIvJlg6bRb7A==
-X-Google-Smtp-Source: ABdhPJxEhexiFCciCFXJ6QWyAx1FODXeFHnCyW0rZz3YlPpIkDizJ/QwYB2slfcCCBq/dmEhza4Drg==
-X-Received: by 2002:a17:90b:1bce:: with SMTP id
- oa14mr2674463pjb.225.1635300841456; 
- Tue, 26 Oct 2021 19:14:01 -0700 (PDT)
+ bh=d3XU1luYAaJWgr4yOleNDxR8WS8Od3WI5HbLKncJxY4=;
+ b=ecDl7KK7LZfMBy2k9XthatxD0z5jIg2fcXXtNHhBHkgmMN8kEHZSU3QOrAQYmniDKY
+ WWiVaVz7rOOzRGgOw29kh5UmT3i8ypQ6eEdETpFbS4j+x9ylj4TwJTpFDTobdP+WbjEV
+ C9xsSjhTGw9Pj24rGyTCsDf4G1/o78YTjj/NnHZ5zYjdzp47cnJEK8MDPuGPlqD6xDUw
+ MQ+eAJj/fgjSFGnLLtke6AvNk8LA+N2VgK0HEMaUqzQuhcs1tgTwwwPnKZ2be/5UZOfO
+ ds8x6t3y+R4s/D3ETlkTYmd56v6NZZXCjw4RNLxKMyX24JWIXhZ/tGZZk1R2nIs3ra13
+ rf3A==
+X-Gm-Message-State: AOAM533rqHSNCqX+t1uz4g0wApyLkXOgvcOY2vo2gxCX2cJEg+uZCGt8
+ GD5TSVq7DgQUSQxigtaykbvHsg==
+X-Google-Smtp-Source: ABdhPJxPQpUzpR/RIhL/+QcW4rHZh/4ocxhB/aRVuDWrzdRAI0XYZsmcEnmGKRuH42FWFX0dWv/usA==
+X-Received: by 2002:a17:90a:f401:: with SMTP id
+ ch1mr2764077pjb.136.1635301182287; 
+ Tue, 26 Oct 2021 19:19:42 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id t11sm8770769pgi.73.2021.10.26.19.14.00
+ by smtp.gmail.com with ESMTPSA id nn2sm2236343pjb.34.2021.10.26.19.19.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 19:14:00 -0700 (PDT)
-Subject: Re: [PATCH 3/6] hw/sh4: Change debug printfs to traces
+ Tue, 26 Oct 2021 19:19:41 -0700 (PDT)
+Subject: Re: [PATCH 4/6] hw/sh4/r2d: Use error_report instead of fprintf to
+ stderr
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1635298341.git.balaton@eik.bme.hu>
- <031a5111bb1ef1e66fd8f05fbe4a5ecbbcb25396.1635298341.git.balaton@eik.bme.hu>
+ <a4711f8ec7ff38175c2d57f55704656af219aef0.1635298341.git.balaton@eik.bme.hu>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f595e837-4245-1492-8abd-16dabdb06571@linaro.org>
-Date: Tue, 26 Oct 2021 19:13:59 -0700
+Message-ID: <86daf802-6f16-3671-56f4-653d3af2d6ac@linaro.org>
+Date: Tue, 26 Oct 2021 19:19:40 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <031a5111bb1ef1e66fd8f05fbe4a5ecbbcb25396.1635298341.git.balaton@eik.bme.hu>
+In-Reply-To: <a4711f8ec7ff38175c2d57f55704656af219aef0.1635298341.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -96,21 +97,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/26/21 6:32 PM, BALATON Zoltan wrote:
-> +    trace_sh_serial("write", size, offs, val);
->       switch (offs) {
->       case 0x00: /* SMR */
->           s->smr = val & ((s->feat & SH_SERIAL_FEAT_SCIF) ? 0x7b : 0xff);
-> @@ -302,10 +298,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
->               break;
->           }
->       }
-> -#ifdef DEBUG_SERIAL
-> -    printf("sh_serial: read offs=0x%02x val=0x%x\n",
-> -           offs, ret);
-> -#endif
-> +    trace_sh_serial("read ", size, offs, ret);
+> Signed-off-by: BALATON Zoltan<balaton@eik.bme.hu>
+> ---
+>   hw/sh4/r2d.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 
-I suggest two separate sh_serial_{read,write} tracepoints.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
