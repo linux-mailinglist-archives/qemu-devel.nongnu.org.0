@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77FEA43C17E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 06:31:06 +0200 (CEST)
-Received: from localhost ([::1]:51538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3E143C183
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 06:34:40 +0200 (CEST)
+Received: from localhost ([::1]:54342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfaaf-0008O5-Jo
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 00:31:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48388)
+	id 1mfae7-00026x-LC
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 00:34:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfaYl-0007Zn-Ok
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 00:29:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41850)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfaYj-0006kj-0j
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 00:29:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635308942;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=N+Bfdv68E35Y6/zXKW/iN2dQOvtqQq79Gt4ZY1BapFs=;
- b=hqGFQcv5yzF+BBYGqtKK7/7L/dbs5+XSm6Nm0MoGuFtNUbmzvWps9X1FeIiH9jn2lPMlT/
- TOyWbjfR9Q/QZn7k1xYCA4hNFWj4BFR/qgaP06vXP3N5uBdKXaTtMUaZ0/H2oi/l6bcmv0
- pphv1wDK1+rAOY0kun3fxyToy4yuBZ4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527--68_tU3aPZ2TEVdLAtr0Pg-1; Wed, 27 Oct 2021 00:29:00 -0400
-X-MC-Unique: -68_tU3aPZ2TEVdLAtr0Pg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A2A110060F2;
- Wed, 27 Oct 2021 04:28:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7723062A41;
- Wed, 27 Oct 2021 04:28:53 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E712B11380A7; Wed, 27 Oct 2021 06:28:51 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH v2 1/3] file-posix: add `aio-max-batch` option
-References: <20211026162346.253081-1-sgarzare@redhat.com>
- <20211026162346.253081-2-sgarzare@redhat.com>
-Date: Wed, 27 Oct 2021 06:28:51 +0200
-In-Reply-To: <20211026162346.253081-2-sgarzare@redhat.com> (Stefano
- Garzarella's message of "Tue, 26 Oct 2021 18:23:44 +0200")
-Message-ID: <87zgqvccqk.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mfacW-0001Et-9T; Wed, 27 Oct 2021 00:33:00 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39511)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mfacU-0000Wk-B9; Wed, 27 Oct 2021 00:33:00 -0400
+Received: by mail-wr1-x429.google.com with SMTP id z14so1823080wrg.6;
+ Tue, 26 Oct 2021 21:32:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gcDfBT+nVmjBS0zmnRzE+Z2orskNbR+Zt8uSm0u2edc=;
+ b=Leo07byBoWZdw21BQUauJI0cR2ttdh+ftm/vUiSnYUTjHvoy6HCpcOJP+NPN3BivrE
+ 9hDlDig8aMwoDjR8k3rtmmCYBSgV9aZbNh+iLohAlnWd/MEcPsksWZ5h+YseIuZY2R2N
+ OAqKlqf3S47VaTZy6NPIpHBmW+tGMHZ08SFSNI1MAHTkTa6/hHFVdLMdT8EGDBauiYQe
+ SkikeBdI5T6AR08Kgmz5Cp37goYfjBz6bOnX/6ulB5I6y9WrK3xOfT493wjM1tduA+ci
+ YFW6aYCVcHNk1mYBbcUhGobDE9U69p5nGUpO78d/3j/8AT5NDbhNoHdbhZmuJ4sGS4gd
+ i0aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=gcDfBT+nVmjBS0zmnRzE+Z2orskNbR+Zt8uSm0u2edc=;
+ b=lTBR6EhV2foJmjJyXyBUXULIblxsUNi5iYxSJw+SFeGaHNSxicfIK1rWnqVz+/uiea
+ 7e+TwjVF2EHNU/FRsWGuk0leT2YCzWYv6wm5KtWTcj3Kvg5RmYCFoS3ICX6lZ5jD7E8e
+ 10c0kchdoPP//eghfugUmHIw2YJwTzGZLUP8HnxsBnmHkG28kJkZ/Exz2dTWFZ+0ZIqZ
+ MMFUFJh7WIw/5LgDEVIr6KjwAQUE+b+bfc0Cb9veKc1MmV35DRFpsE20R95CWZVxLgP+
+ f7c02fM+qfuc+HCgLU+JVDz/aOYz0mnOGqGt6sIzaZLrPyGgctLUd3WjKNW7glh/NBhp
+ I4/g==
+X-Gm-Message-State: AOAM531UBb6aHqyH0cyI4AqXb+NHy/OIDsLZVWEvis8/Ts2j5tHo14UY
+ lejIBwlyjLQWqjX9xjaoqwBvaRuIqgY=
+X-Google-Smtp-Source: ABdhPJxfM04MajiCnxqMZK14OljkDnJJSTjAB/1B5ncmh5OdlNJJKeRnp6O2MbaMpUDXHQZH1BKUeA==
+X-Received: by 2002:a05:6000:15c6:: with SMTP id
+ y6mr36901276wry.382.1635309176312; 
+ Tue, 26 Oct 2021 21:32:56 -0700 (PDT)
+Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id a134sm2454137wmd.9.2021.10.26.21.32.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Oct 2021 21:32:55 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] .mailmap: Fix more contributor entries
+Date: Wed, 27 Oct 2021 06:32:54 +0200
+Message-Id: <20211027043254.1248097-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,66 +82,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: qemu-trivial@nongnu.org, Hyman Huang <huangy81@chinatelecom.cn>,
+ Pan Nengyuan <pannengyuan@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alex Chen <alex.chen@huawei.com>, Haibin Zhang <haibinzhang@tencent.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefano Garzarella <sgarzare@redhat.com> writes:
+These authors have some incorrect author email field.
 
-> Commit d7ddd0a161 ("linux-aio: limit the batch size using
-> `aio-max-batch` parameter") added a way to limit the batch size
-> of Linux AIO backend for the entire AIO context.
->
-> The same AIO context can be shared by multiple devices, so
-> latency-sensitive devices may want to limit the batch size even
-> more to avoid increasing latency.
->
-> For this reason we add the `aio-max-batch` option to the file
-> backend, which will be used by the next commits to limit the size of
-> batches including requests generated by this device.
->
-> Suggested-by: Kevin Wolf <kwolf@redhat.com>
-> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> ---
->
-> Notes:
->     v2:
->     - @aio-max-batch documentation rewrite [Stefan, Kevin]
->
->  qapi/block-core.json | 7 +++++++
->  block/file-posix.c   | 9 +++++++++
->  2 files changed, 16 insertions(+)
->
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 6d3217abb6..fef76b0ea2 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -2896,6 +2896,12 @@
->  #              for this device (default: none, forward the commands via SG_IO;
->  #              since 2.11)
->  # @aio: AIO backend (default: threads) (since: 2.8)
-> +# @aio-max-batch: maximum number of requests to batch together into a single
-> +#                 submission in the AIO backend. The smallest value between
-> +#                 this and the aio-max-batch value of the IOThread object is
-> +#                 chosen.
-> +#                 0 means that the AIO backend will handle it automatically.
-> +#                 (default: 0, since 6.2)
+Acked-by: Pan Nengyuan <pannengyuan@huawei.com>
+Reviewed-by: Alex Chen <alex.chen@huawei.com>
+Reviewed-by: Hyman Huang <huangy81@chinatelecom.cn>
+Reviewed-by: Haibin Zhang <haibinzhang@tencent.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+Patch fully reviewed/acked.
+---
+ .mailmap | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-"(default 0) (since 6.2)" seems to be more common.
-
->  # @locking: whether to enable file locking. If set to 'auto', only enable
->  #           when Open File Descriptor (OFD) locking API is available
->  #           (default: auto, since 2.10)
-> @@ -2924,6 +2930,7 @@
->              '*pr-manager': 'str',
->              '*locking': 'OnOffAuto',
->              '*aio': 'BlockdevAioOptions',
-> +            '*aio-max-batch': 'int',
->              '*drop-cache': {'type': 'bool',
->                              'if': 'CONFIG_LINUX'},
->              '*x-check-cache-dropped': 'bool' },
+diff --git a/.mailmap b/.mailmap
+index f029d1c21fe..8beb2f95ae2 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -69,6 +69,7 @@ Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
+ # git author config, or had utf8/latin1 encoding issues.
+ Aaron Lindsay <aaron@os.amperecomputing.com>
+ Alexey Gerasimenko <x1917x@gmail.com>
++Alex Chen <alex.chen@huawei.com>
+ Alex Ivanov <void@aleksoft.net>
+ Andreas Färber <afaerber@suse.de>
+ Bandan Das <bsd@redhat.com>
+@@ -99,9 +100,11 @@ Gautham R. Shenoy <ego@in.ibm.com>
+ Gautham R. Shenoy <ego@linux.vnet.ibm.com>
+ Gonglei (Arei) <arei.gonglei@huawei.com>
+ Guang Wang <wang.guang55@zte.com.cn>
++Haibin Zhang <haibinzhang@tencent.com>
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+ Hanna Reitz <hreitz@redhat.com> <mreitz@redhat.com>
+ Hervé Poussineau <hpoussin@reactos.org>
++Hyman Huang <huangy81@chinatelecom.cn>
+ Jakub Jermář <jakub@jermar.eu>
+ Jakub Jermář <jakub.jermar@kernkonzept.com>
+ Jean-Christophe Dubois <jcd@tribudubois.net>
+@@ -135,6 +138,7 @@ Nicholas Thomas <nick@bytemark.co.uk>
+ Nikunj A Dadhania <nikunj@linux.vnet.ibm.com>
+ Orit Wasserman <owasserm@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>
++Pan Nengyuan <pannengyuan@huawei.com>
+ Pavel Dovgaluk <dovgaluk@ispras.ru>
+ Pavel Dovgaluk <pavel.dovgaluk@gmail.com>
+ Pavel Dovgaluk <Pavel.Dovgaluk@ispras.ru>
+-- 
+2.31.1
 
 
