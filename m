@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9F843CDDB
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:43:28 +0200 (CEST)
-Received: from localhost ([::1]:50750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679EE43CD9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:32:34 +0200 (CEST)
+Received: from localhost ([::1]:57148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfl5L-0000rD-S7
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:43:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52234)
+	id 1mfkuk-0002d3-3g
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:32:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfkC1-0004pO-Iw
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:46:17 -0400
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:43740)
+ id 1mfkEh-0007UB-CF
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:49:03 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:52819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mfkBz-0004Yq-Tr
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:46:17 -0400
-Received: by mail-lf1-x12f.google.com with SMTP id bq11so6659920lfb.10
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 07:46:15 -0700 (PDT)
+ id 1mfkEf-0002Sy-QX
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:49:03 -0400
+Received: by mail-wm1-x331.google.com with SMTP id m42so2884435wms.2
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 07:49:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=c34hQmPUhdgmqzTo1Y+CpF2P4Cwf0O/GLGeFEbxP7AE=;
- b=jOWMt0WUE8EvI8SAqQeg//e2ZdMRO2Xph+YiJf6EyRITu2TzKG6YCAUyYjo3A8Qx4A
- cVr0EXDEW+eup2PoPbhopBqNmvyoewzwkVRBCdwt/ILPxF+/C1sIYdJxp1nRn8hyH9xB
- wOA6VqBnM+PsTqTiGkd8VupFHWXmEGdMcPVuwi6QiqoV+cnZVTV/lx8ydv3SLWyv/sFQ
- e9oIXZqoaWyxB0I7tzYUY9So+NLQoaGJYB742g/zE71mbMBL5GixWS0bOzwm/1Zn7pAF
- NWUVx9PHAFz2zkBfNQowbpwUDz51ZsTLGrp5fex9NLk6x3hxIT4Qt2eVI/5cP09N4g4k
- cUBA==
+ bh=j5TqA7f5qV+85+7dblkPWMD0OThufQFGlQcRPWN6Sgs=;
+ b=hsrjeLZGBtOEUmZpRV+eiHVz9q3v4MzRIwgNl466s4VuBm+my/XJMjbrj4umOVMrrw
+ rj2JrXLRu01MYCs+LnaPJ1Sjb6IpNBYEpYE6QjuSDGtR3j/mMxq7bX5uXDq8fD5Walis
+ z/nuU6NLSMUfT8jcwf4D7f8RsSGc4tFk+qa53bN0wtICk72lhnaEO8p0bod9sbpHhxNa
+ et09J5ouVTHaIp0Sx2FfhD5yhs9e6Hl4C4hpUb3HFXBGwvBrHAyXvu6ydUIz6+CRkA9g
+ 0vXXfX/MHhsJncRunOSPRJ+y8mTWtn8i/w2vNHhNFO+IAWX+HpHiDRF7Qepittii5Cvu
+ XBrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=c34hQmPUhdgmqzTo1Y+CpF2P4Cwf0O/GLGeFEbxP7AE=;
- b=lOQMar7V4FFBDhD6ON3+VxaYMMJdK90fqLfC3Iy8N6xYPug/JznDISe5p+50blFpUk
- FgKTR+hy+iXanGW4dmnctL/gzw/6R0i36CbsVWeg2UX8GHlsPxVLI4PkYFsuFklItG21
- u1vSaPPLzQQ+t/sYWJLhYTy86AMUAWcu7QCr8F2VqHu+wOJncpQZC+xuh+ayIXoV7nxk
- p/DTrhHsGhsWv/O8Irqu76XigwIl6vCBcFgbEH6UTGJfA+d2DfkqILunam94ZtnKUDDd
- E4/LxVxrz0vnfY4s2RoWva+NfshBtQh3vuPWKGyvSUFfCtpQjqE3LtCmcZgF6p0BYgBG
- 8lcA==
-X-Gm-Message-State: AOAM530vItvUddOsHKSJwDsyXnOfMLowCqxJaZZsAfldfY17BsUSB3m8
- NTJn6NnBNndts2PKR0G3gdvXKw==
-X-Google-Smtp-Source: ABdhPJxptsqcu/7zrfgtWXlok+G2HbLQfUQzvF7JXvLA9BVUhdE3zWOx7ksum6S49hRfGoZEImZYTA==
-X-Received: by 2002:a05:6512:1053:: with SMTP id
- c19mr3653534lfb.223.1635345973874; 
- Wed, 27 Oct 2021 07:46:13 -0700 (PDT)
+ bh=j5TqA7f5qV+85+7dblkPWMD0OThufQFGlQcRPWN6Sgs=;
+ b=hM1axlD9oS8MP2WEtRX/3U2yv+qG6Y0Q6Wy0BkVhL7TCNjB4C1r6UE88msXcAxbHPl
+ qyRB41L2O3xcCdmrgPQumCEuRV8/OvJpMKFgpdFwE+xw3oJ+b2NYzRWji0XkEBJmIqUQ
+ Df9PEDorJr9VqatiCSCA1+qKqor0PQpOM4jWgO6ygJb39MQBb6cyc1waTAgxZBIeFf9q
+ dyx5zDLMYH7jKKMfQ77swAFlSJk5tL6fffmwYA3a1HY/oWWx6qylJT4qYDdFRovv8YZo
+ VbcNflYGNwkg5QoBHxHAI/cB60PI4R/+8sKD1Jxipv2n2x20IHfCHV5mgV5+Jw4XJ8e7
+ lVjQ==
+X-Gm-Message-State: AOAM530lCwlVdRgA4RGgLfb8jJYhG4bVUYzmpfQomYovZ5F2dPQa05rQ
+ bg0z3O55sJeyW1ah6O4HRgY1cA==
+X-Google-Smtp-Source: ABdhPJy5Q8CeO0hlfuDb2IoJjTB9LPIETU5/em+BVcIIb4yRytD+XuldWoigTbXBnwS4c06JwWmdNw==
+X-Received: by 2002:a05:600c:4c09:: with SMTP id
+ d9mr6214098wmp.129.1635346139568; 
+ Wed, 27 Oct 2021 07:48:59 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b15sm10289ljp.95.2021.10.27.07.46.12
+ by smtp.gmail.com with ESMTPSA id r11sm63254wro.93.2021.10.27.07.48.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Oct 2021 07:46:12 -0700 (PDT)
+ Wed, 27 Oct 2021 07:48:58 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F18231FF96;
- Wed, 27 Oct 2021 15:46:11 +0100 (BST)
-References: <20211013010120.96851-1-sjg@chromium.org>
- <20211013010120.96851-6-sjg@chromium.org>
- <CAHFG_=UDFn9MQfJz6oTAg15PiR2nt6QkoZS58+gsOMMVo31AXQ@mail.gmail.com>
+ by zen.linaroharston (Postfix) with ESMTP id D57401FF96;
+ Wed, 27 Oct 2021 15:48:57 +0100 (BST)
+References: <20211026102234.3961636-1-alex.bennee@linaro.org>
+ <20211026102234.3961636-28-alex.bennee@linaro.org>
+ <f647640c-b3db-de10-13a7-f768f4b618c8@linaro.org>
 User-agent: mu4e 1.7.4; emacs 28.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Fran=C3=A7ois?= Ozog <francois.ozog@linaro.org>
-Subject: Re: [PATCH 05/16] arm: qemu: Add a devicetree file for qemu_arm64
-Date: Wed, 27 Oct 2021 15:44:08 +0100
-In-reply-to: <CAHFG_=UDFn9MQfJz6oTAg15PiR2nt6QkoZS58+gsOMMVo31AXQ@mail.gmail.com>
-Message-ID: <87v91iwmoc.fsf@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v1 27/28] tests/tcg: remove duplicate EXTRA_RUNS
+Date: Wed, 27 Oct 2021 15:48:28 +0100
+In-reply-to: <f647640c-b3db-de10-13a7-f768f4b618c8@linaro.org>
+Message-ID: <87r1c6wmjq.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
- envelope-from=alex.bennee@linaro.org; helo=mail-lf1-x12f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,35 +89,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Albert Aribaud <albert.u.boot@aribaud.net>, Tom Rini <trini@konsulko.com>,
- Heiko Schocher <hs@denx.de>, Neil Armstrong <narmstrong@baylibre.com>,
- qemu-devel@nongnu.org, Andre Przywara <andre.przywara@arm.com>,
- Simon Glass <sjg@chromium.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Christian Hewitt <christianshewitt@gmail.com>,
- Kever Yang <kever.yang@rock-chips.com>, Rick Chen <rick@andestech.com>,
- U-Boot Mailing List <u-boot@lists.denx.de>,
- Jagan Teki <jagan@amarulasolutions.com>, Sean Anderson <seanga2@gmail.com>,
- Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>, Fabio Estevam <festevam@gmail.com>,
- Tim Harvey <tharvey@gateworks.com>, Peter Robinson <pbrobinson@gmail.com>
+Cc: fam@euphon.net, berrange@redhat.com, pbonzini@redhat.com,
+ aaron@os.amperecomputing.com, qemu-devel@nongnu.org, robhenry@microsoft.com,
+ f4bug@amsat.org, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
+ cota@braap.org, stefanha@redhat.com, crosa@redhat.com, kuhn.chenqun@huawei.com,
+ ma.mandourr@gmail.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Fran=C3=A7ois Ozog <francois.ozog@linaro.org> writes:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Hi Simon
+> On 10/26/21 3:22 AM, Alex Benn=C3=A9e wrote:
+>> We set it bellow outside the #if leg.
+>> Signed-off-by: Alex Benn=C3=A9e<alex.bennee@linaro.org>
+>> ---
+>>   tests/tcg/multiarch/Makefile.target | 2 --
+>>   1 file changed, 2 deletions(-)
 >
-> The only place I could agree with this file presence is in the documentat=
-ion directory, not in dts. It creates a mental picture  for the reader
-> an entirely bad mind scheme around Qemu and DT.
->
-> And even in a documentation directory I would place a bug warning: don=E2=
-=80=99t use this with any kernel , Qemu generates a DT dynamically
-> based on cpu, memory and devices specified at the command line.
+> Surely it's better to have them inside the IF?
+> Why add tests that we're definitely going to SKIP?
 
-Certainly for the arm, aarch64 and riscv "virt" machines you should
-always use the QEMU generated DTB. I'm not entirely clear what a
-qemu_arm and qemu_arm64 def targets are meant to be in this context.
+At least this way you get a visual indication of tests that are skipped
+(and you might be able to do something about that).
+
 
 --=20
 Alex Benn=C3=A9e
