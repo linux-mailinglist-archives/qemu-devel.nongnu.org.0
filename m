@@ -2,89 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF23243C587
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 10:50:53 +0200 (CEST)
-Received: from localhost ([::1]:47466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C991443C57F
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 10:49:26 +0200 (CEST)
+Received: from localhost ([::1]:46270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfee4-0006cr-Ac
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 04:50:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33944)
+	id 1mfecf-0005mI-Uo
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 04:49:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mfeYh-0002FC-DY
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 04:45:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34462)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mfeZt-0003Wg-AS; Wed, 27 Oct 2021 04:46:36 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:53875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mfeYW-0003j0-UQ
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 04:45:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635324304;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=obbha5kqgzDPVtkCGfRRsF1Asrt2XmEA1EVvLtNMDQY=;
- b=UxM+VhXvnl28y1kwGKSwCSn8fpKkI2pxeHDi/AspvJCKZejwgpZiRdlB+JK5owN+BBs1+p
- jmbCCEDESPBBlxdNDivkihz/pJtV8O898fOFHgooKXukfD/lFjwGJWS+WcryLJ7FtUfhOL
- vwVlGyFnPtI+KY6OLoZ6ElLfkm1TEzo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-JqPJQ1LsMJqdUzfRgus1Ng-1; Wed, 27 Oct 2021 04:45:01 -0400
-X-MC-Unique: JqPJQ1LsMJqdUzfRgus1Ng-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s9-20020adfecc9000000b001726822ce9fso219740wro.4
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 01:45:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=obbha5kqgzDPVtkCGfRRsF1Asrt2XmEA1EVvLtNMDQY=;
- b=BKI9WkIu/ltlHnwbW9hCdK8UVqrRcgWVKPvHdl5TjOWXuxrJdnm39E8bPhxE8IJUT/
- 847sOODKovFLUfSNj0t6TzYIflmcjYAq96rzV7/Qu8jswMMxmsYNxDzDGlHMeILCkD3s
- /j4t+evY6Odbb3222KQyiA5JHBPyzQEyiEWH/MhEwqGN/4Tq2rpsgAL9rcs9pA7aIi7l
- ykVko66x6LktpNsinNCKuLUPtKnTaqzzyU0Ni3vpRTxTkP1CSLseigc727hNRY+q7rm6
- FFLFOYH+QGKpfiCgaqLpl4p+K12o3L4RhOeS89WQDl1OT/s7Ef40xUqXcMPkJCLQdlPN
- jhyg==
-X-Gm-Message-State: AOAM532J8V1BRMpNpt78+ghgKen1Ix8dvaigFvmk9yCCdxrvAmxaoR/a
- ymiifrH3wr3uuig445uE9rFO1lxQ4psmu/DAZjrVuFnmb3Yg4+V/vEONrOso/QRkh+NEAFOJIyQ
- QzDvRqxvQkBSG7Ow=
-X-Received: by 2002:a1c:7911:: with SMTP id l17mr4423266wme.138.1635324300401; 
- Wed, 27 Oct 2021 01:45:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxRjTarAK33qi7U7IdsCfxjDSyV2x+pUWJBz/qg5GeBKYn6QxO0AoTGt6yBZRQ0aq6J6wD07g==
-X-Received: by 2002:a1c:7911:: with SMTP id l17mr4423243wme.138.1635324300232; 
- Wed, 27 Oct 2021 01:45:00 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id l2sm2962848wmc.3.2021.10.27.01.44.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Oct 2021 01:44:59 -0700 (PDT)
-Date: Wed, 27 Oct 2021 09:44:57 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v7 0/4] VNC-related HMP/QMP fixes
-Message-ID: <YXkRiQUWZabW/nuY@work-vm>
-References: <20211021100135.4146766-1-s.reiter@proxmox.com>
- <87k0i6d5l5.fsf@dusky.pond.sub.org> <YXfV4vf5+YLFXYbA@work-vm>
- <87mtmwja2a.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mfeZp-00046R-Oz; Wed, 27 Oct 2021 04:46:32 -0400
+Received: from [192.168.100.1] ([82.142.14.190]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MIxFi-1mMU3o2NCM-00KNsk; Wed, 27 Oct 2021 10:46:22 +0200
+Message-ID: <1ef2bb43-3f8f-aa90-0bb8-288cea6bc911@vivier.eu>
+Date: Wed, 27 Oct 2021 10:46:21 +0200
 MIME-Version: 1.0
-In-Reply-To: <87mtmwja2a.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 0/3] hw/input/lasips2: QOM'ify the Lasi PS/2
+Content-Language: fr
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20210920064048.2729397-1-f4bug@amsat.org>
+ <e4da8e9f-7874-0852-792e-645eb7b0d078@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <e4da8e9f-7874-0852-792e-645eb7b0d078@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:0peTWl5GYnwjaC1L+e8vrgevxuyZSk9cj3/p2YUDGN8LClcOC0J
+ KYTd1qRAbZyv7Kt0HZuUwFlIuE1Jab0AMZFgfdjfaeB7gCItvcjcVo1FrSujZHHkli6eB+7
+ LT/qgCtDWEnmq1Z6cyqve4LR0Z2+OHM/+QtbTJBxMr9mIT1GK97m1vLQXb8FiJXCLlbDxit
+ Moq96fkLZQHu1Z6M4i9SQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:s3ae0TVxprw=:IWmUCK+g8vnQ5EUsmkiz65
+ mPiS5rL45vDtpRzRVdjqf8kSXFEh4qZX/g6UfaIDq5EgLiztTIHZp4XJ+Kefjk6lG40p6+Tyq
+ 0VQlgotY7oL2r4/XhZsdJyukl36wEdPHoKT5EPF6OZwUuc8O0RkEALn5WfAaUfYRAmkRC/6IC
+ MXINt8UPNZxEFEXwniasFn5oQSAOlcYjynhU9CUzscOKXlg8ZHWjXQg7zkYuCg1GiFudUzDl7
+ pUnM2WXneZ9z9WrJjaCtuzcY9i8LaW+t3DsrlwrPXGpcoUuOcGZqUth9rHLnLcYt8lxkrjekB
+ Wh0V3EXy1t7n+PxvyLa22vqlvia+3FIU9+xwesJ4q1R9FxVRHBw38v6KB+5k4qoM7ArJP3hq1
+ 0noggAUASgLj3UWe/d6EHD//ZdTUDbGlCfSieeOpFHKM+9CBaTrocdi+HVV5iL+THYvRzalNs
+ 2RwHMwXGl5kNEwf03PCaWyTFyevThtK8JkyBkMRPr514qcOhHevrMfuBDCbawszYL6+CPaCyF
+ p64OJV/6LIxFsW/K8Ex/O5DpcrbQ3qXoDuqZbxb2n3CUuCHkcAckqZzChRbGxJebIq2MwzVcd
+ 31qmFiFVIvtiBLeWIQz00vuZpJvj9B08QGolEqJiDaKoV3hmu71Nnw0A38Fzdm1O4m/xJ7cvw
+ 50ndKi6fDPmMEIkPfZ3ePAg2CnYwBLeOPjmnF/GgbDnpD3CXYsBFfDfm/3TpHIV4de1U=
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.215,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,32 +70,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
- Stefan Reiter <s.reiter@proxmox.com>, qemu-devel@nongnu.org,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: Sven Schnelle <svens@stackframe.org>, Helge Deller <deller@gmx.de>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Markus Armbruster (armbru@redhat.com) wrote:
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
+Le 27/10/2021 à 07:11, Philippe Mathieu-Daudé a écrit :
+> Cc'ing qemu-trivial@ (fully reviewed).
 > 
-> > * Markus Armbruster (armbru@redhat.com) wrote:
-> >> I'm done reviewing.  David, care to have another look at the HMP part?
-> >
-> > Yep, looking good to me - is that going via qmp, hmp, or vnc ?
+> On 9/20/21 08:40, Philippe Mathieu-Daudé wrote:
+>> Slowly nuking non-QOM devices: Lasi PS/2's turn.
+>>
+>> Philippe Mathieu-Daudé (3):
+>>    hw/input/lasips2: Fix typos in function names
+>>    hw/input/lasips2: Move LASIPS2State declaration to
+>>      'hw/input/lasips2.h'
+>>    hw/input/lasips2: QOM'ify the Lasi PS/2
+>>
+>>   include/hw/input/lasips2.h | 31 ++++++++++++++++--
+>>   hw/hppa/lasi.c             | 10 +++++-
+>>   hw/input/lasips2.c         | 64 +++++++++++++++++++-------------------
+>>   3 files changed, 70 insertions(+), 35 deletions(-)
+>>
 > 
-> Either is fine with me.
-> 
-> David, Gerd, do you have anything queued up already?
 
-No I've also got nothing else at th emoment.
+Applied to my trivial-patches branch.
 
-Dave
-
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Thanks,
+Laurent
 
