@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B1743CE8F
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:18:09 +0200 (CEST)
-Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB41A43CEC1
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:29:14 +0200 (CEST)
+Received: from localhost ([::1]:38444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mflcv-0001TE-02
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:18:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37062)
+	id 1mflnd-0002vG-JK
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:29:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfl6K-000509-DZ
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:44:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57762)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfl6E-0004hA-Sj
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:44:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfl6G-00044v-Ur
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:44:28 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfl6C-00041v-1n
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:44:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635349464;
+ s=mimecast20190719; t=1635349459;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KL956w+yp3eR386KeAsK0GFBU7bupGQLvSnSu6w2Ivw=;
- b=VISPBUHTBz65SAdCQiQ5ymus05uIzU685tVttq4UVSlLXsMN5GugJPcn+CX8RSxOQslqP1
- truS2fwQQ3nc8YkgMpmD0ya1zi73bqAA4Rno5BN9v5jC/UX4Y1S3kxnGHCsKJPDvba8yAy
- 55JYumtME/HBuVzBHuwSi2JBWKgdbdk=
+ bh=5oFdOC3ZalCz3veMVdcJnzMZp0Zut3uOShm0YnMrNv0=;
+ b=WWvVHz3xBFuRn5tHRLfEovRgE9m8QfLOwqX7lF8cvD+JsCqE2OypdXMvst//5/cIGA2IP1
+ 7Fb+f1aqlGhV81R0F3pAhGrX6B32ukZWpsPYVvF7a3Sria6h7CtuIiXyONE4L/yAne7exz
+ DwbVfaeXQCogV74uqJY45SiorMo00BA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-MRiciOYGPKOo1zh4m4nXdw-1; Wed, 27 Oct 2021 11:44:20 -0400
-X-MC-Unique: MRiciOYGPKOo1zh4m4nXdw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-106-LVgQf6FANfiAtb3s8joV2A-1; Wed, 27 Oct 2021 11:44:16 -0400
+X-MC-Unique: LVgQf6FANfiAtb3s8joV2A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2BC2100CCC5;
- Wed, 27 Oct 2021 15:44:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52792802B61;
+ Wed, 27 Oct 2021 15:44:15 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 819B26A904;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82705196FA;
  Wed, 27 Oct 2021 15:44:08 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 19F9A11380AA; Wed, 27 Oct 2021 17:44:07 +0200 (CEST)
+ id 1DAC211380B8; Wed, 27 Oct 2021 17:44:07 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] qapi: Improve input_type_enum()'s error message
-Date: Wed, 27 Oct 2021 17:44:03 +0200
-Message-Id: <20211027154407.214122-2-armbru@redhat.com>
+Subject: [PULL 2/5] qapi: Enable enum member introspection to show more than
+ name
+Date: Wed, 27 Oct 2021 17:44:04 +0200
+Message-Id: <20211027154407.214122-3-armbru@redhat.com>
 In-Reply-To: <20211027154407.214122-1-armbru@redhat.com>
 References: <20211027154407.214122-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -78,165 +79,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- richard.henderson@linaro.org
+Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Peter Krempa <pkrempa@redhat.com>, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The error message claims the parameter is invalid:
+The next commit will add feature flags to enum members.  There's a
+problem, though: query-qmp-schema shows an enum type's members as an
+array of member names (SchemaInfoEnum member @values).  If it showed
+an array of objects with a name member, we could simply add more
+members to these objects.  Since it's just strings, we can't.
 
-    $ qemu-system-x86_64 -object qom-type=nonexistent
-    qemu-system-x86_64: -object qom-type=nonexistent: Invalid parameter 'nonexistent'
+I can see three ways to correct this design mistake:
 
-What's wrong is actually the *value* 'nonexistent'.  Improve the
-message to
+1. Do it the way we should have done it, plus compatibility goo.
 
-    qemu-system-x86_64: -object qom-type=nonexistent: Parameter 'qom-type' does not accept value 'nonexistent'
+   We want a ['SchemaInfoEnumMember'] member in SchemaInfoEnum.  Since
+   changing @values would be a compatibility break, add a new member
+   @members instead.
 
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/608
+   @values is now redundant.  In my testing, output of
+   qemu-system-x86_64's query-qmp-schema grows by 11% (18.5KiB).
+
+   We can deprecate @values now and drop it later.  This will break
+   outmoded clients.  Well-behaved clients such as libvirt are
+   expected to break cleanly.
+
+2. Like 1, but omit "boring" elements of @member, and empty @member.
+
+   @values does not become redundant.  @members augments it.  Somewhat
+   cumbersome, but output of query-qmp-schema grows only as we make
+   enum members non-boring.
+
+   There is nothing to deprecate here.
+
+3. Versioned query-qmp-schema.
+
+   query-qmp-schema provides either @values or @members.  The QMP
+   client can select which version it wants.  There is no redundant
+   output.
+
+   We can deprecate old versions and eventually drop them.  This will
+   break outmoded clients.  Breaking cleanly is easier than for 1.
+
+   While 1 and 2 operate within the common rules for compatible
+   evolution apply (section "Compatibility considerations" in
+   docs/devel/qapi-code-gen.rst), 3 bypasses them.  Attractive when
+   operating within the rules is just too awkward.  Not the case here.
+
+This commit implements 1.  Libvirt developers prefer it.
+
+Deprecate @values in favour of @members.  Since query-qmp-schema
+compatibility is pretty fundamental for management applications, an
+extended grace period is advised.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20211020180231.434071-1-armbru@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Tested-by: Peter Krempa <pkrempa@redhat.com>
+Acked-by: Peter Krempa <pkrempa@redhat.com>
+Message-Id: <20211025042405.3762351-2-armbru@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- qapi/qapi-visit-core.c          | 3 ++-
- tests/unit/check-qom-proplist.c | 2 +-
- tests/qemu-iotests/049.out      | 6 +++---
- tests/qemu-iotests/206.out      | 2 +-
- tests/qemu-iotests/237.out      | 6 +++---
- tests/qemu-iotests/245          | 2 +-
- tests/qemu-iotests/287          | 2 +-
- tests/qemu-iotests/308          | 2 +-
- 8 files changed, 13 insertions(+), 12 deletions(-)
+ docs/about/deprecated.rst    |  6 ++++++
+ docs/devel/qapi-code-gen.rst | 15 +++++++++++----
+ qapi/introspect.json         | 25 +++++++++++++++++++++++--
+ scripts/qapi/introspect.py   | 18 ++++++++++++++----
+ 4 files changed, 54 insertions(+), 10 deletions(-)
 
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index a641adec51..7310f0a0ca 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -392,7 +392,8 @@ static bool input_type_enum(Visitor *v, const char *name, int *obj,
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 0bed6ecb1d..be19317470 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -228,6 +228,12 @@ Use the more generic commands ``block-export-add`` and ``block-export-del``
+ instead.  As part of this deprecation, where ``nbd-server-add`` used a
+ single ``bitmap``, the new ``block-export-add`` uses a list of ``bitmaps``.
  
-     value = qapi_enum_parse(lookup, enum_str, -1, NULL);
-     if (value < 0) {
--        error_setg(errp, QERR_INVALID_PARAMETER, enum_str);
-+        error_setg(errp, "Parameter '%s' does not accept value '%s'",
-+                   name ? name : "null", enum_str);
-         g_free(enum_str);
-         return false;
-     }
-diff --git a/tests/unit/check-qom-proplist.c b/tests/unit/check-qom-proplist.c
-index 48503e0dff..ed341088d3 100644
---- a/tests/unit/check-qom-proplist.c
-+++ b/tests/unit/check-qom-proplist.c
-@@ -488,7 +488,7 @@ static void test_dummy_badenum(void)
-     g_assert(dobj == NULL);
-     g_assert(err != NULL);
-     g_assert_cmpstr(error_get_pretty(err), ==,
--                    "Invalid parameter 'yeti'");
-+                    "Parameter 'av' does not accept value 'yeti'");
++``query-qmp-schema`` return value member ``values`` (since 6.2)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Member ``values`` in return value elements with meta-type ``enum`` is
++deprecated.  Use ``members`` instead.
++
+ System accelerators
+ -------------------
  
-     g_assert(object_resolve_path_component(parent, "dummy0")
-              == NULL);
-diff --git a/tests/qemu-iotests/049.out b/tests/qemu-iotests/049.out
-index 01f7b1f240..8719c91b48 100644
---- a/tests/qemu-iotests/049.out
-+++ b/tests/qemu-iotests/049.out
-@@ -174,11 +174,11 @@ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off comp
+diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+index b2569de486..d267889d2c 100644
+--- a/docs/devel/qapi-code-gen.rst
++++ b/docs/devel/qapi-code-gen.rst
+@@ -1231,14 +1231,21 @@ Example: the SchemaInfo for ['str'] ::
+       "element-type": "str" }
  
- qemu-img create -f qcow2 -o compat=0.42 TEST_DIR/t.qcow2 64M
- Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=67108864 compat=0.42 lazy_refcounts=off refcount_bits=16
--qemu-img: TEST_DIR/t.qcow2: Invalid parameter '0.42'
-+qemu-img: TEST_DIR/t.qcow2: Parameter 'version' does not accept value '0.42'
+ The SchemaInfo for an enumeration type has meta-type "enum" and
+-variant member "values".  The values are listed in no particular
+-order; clients must search the entire enum when learning whether a
+-particular value is supported.
++variant member "members".
++
++"members" is a JSON array describing the enumeration values.  Each
++element is a JSON object with member "name" (the member's name).  The
++"members" array is in no particular order; clients must search the
++entire array when learning whether a particular value is supported.
  
- qemu-img create -f qcow2 -o compat=foobar TEST_DIR/t.qcow2 64M
- Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=67108864 compat=foobar lazy_refcounts=off refcount_bits=16
--qemu-img: TEST_DIR/t.qcow2: Invalid parameter 'foobar'
-+qemu-img: TEST_DIR/t.qcow2: Parameter 'version' does not accept value 'foobar'
+ Example: the SchemaInfo for MyEnum from section `Enumeration types`_ ::
  
- == Check preallocation option ==
+     { "name": "MyEnum", "meta-type": "enum",
+-      "values": [ "value1", "value2", "value3" ] }
++      "members": [
++        { "name": "value1" },
++        { "name": "value2" },
++        { "name": "value3" }
++      ] }
  
-@@ -190,7 +190,7 @@ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off prea
+ The SchemaInfo for a built-in type has the same name as the type in
+ the QAPI schema (see section `Built-in Types`_), with one exception
+diff --git a/qapi/introspect.json b/qapi/introspect.json
+index 39bd303778..9683e884f8 100644
+--- a/qapi/introspect.json
++++ b/qapi/introspect.json
+@@ -142,14 +142,35 @@
+ #
+ # Additional SchemaInfo members for meta-type 'enum'.
+ #
+-# @values: the enumeration type's values, in no particular order.
++# @members: the enum type's members, in no particular order
++#           (since 6.2).
++#
++# @values: the enumeration type's member names, in no particular order.
++#          Redundant with @members.  Just for backward compatibility.
++#
++# Features:
++# @deprecated: Member @values is deprecated.  Use @members instead.
+ #
+ # Values of this type are JSON string on the wire.
+ #
+ # Since: 2.5
+ ##
+ { 'struct': 'SchemaInfoEnum',
+-  'data': { 'values': ['str'] } }
++  'data': { 'members': [ 'SchemaInfoEnumMember' ],
++            'values': { 'type': [ 'str' ],
++                        'features': [ 'deprecated' ] } } }
++
++##
++# @SchemaInfoEnumMember:
++#
++# An object member.
++#
++# @name: the member's name, as defined in the QAPI schema.
++#
++# Since: 6.2
++##
++{ 'struct': 'SchemaInfoEnumMember',
++  'data': { 'name': 'str' } }
  
- qemu-img create -f qcow2 -o preallocation=1234 TEST_DIR/t.qcow2 64M
- Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off preallocation=1234 compression_type=zlib size=67108864 lazy_refcounts=off refcount_bits=16
--qemu-img: TEST_DIR/t.qcow2: Invalid parameter '1234'
-+qemu-img: TEST_DIR/t.qcow2: Parameter 'preallocation' does not accept value '1234'
+ ##
+ # @SchemaInfoArray:
+diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+index 4c079ee627..6334546363 100644
+--- a/scripts/qapi/introspect.py
++++ b/scripts/qapi/introspect.py
+@@ -68,6 +68,7 @@
+ # TypedDict constructs, so they are broadly typed here as simple
+ # Python Dicts.
+ SchemaInfo = Dict[str, object]
++SchemaInfoEnumMember = Dict[str, object]
+ SchemaInfoObject = Dict[str, object]
+ SchemaInfoObjectVariant = Dict[str, object]
+ SchemaInfoObjectMember = Dict[str, object]
+@@ -274,8 +275,16 @@ def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
+             obj['features'] = self._gen_features(features)
+         self._trees.append(Annotated(obj, ifcond, comment))
  
- == Check encryption option ==
+-    def _gen_member(self, member: QAPISchemaObjectTypeMember
+-                    ) -> Annotated[SchemaInfoObjectMember]:
++    @staticmethod
++    def _gen_enum_member(member: QAPISchemaEnumMember
++                         ) -> Annotated[SchemaInfoEnumMember]:
++        obj: SchemaInfoEnumMember = {
++            'name': member.name,
++        }
++        return Annotated(obj, member.ifcond)
++
++    def _gen_object_member(self, member: QAPISchemaObjectTypeMember
++                           ) -> Annotated[SchemaInfoObjectMember]:
+         obj: SchemaInfoObjectMember = {
+             'name': member.name,
+             'type': self._use_type(member.type)
+@@ -305,7 +314,8 @@ def visit_enum_type(self, name: str, info: Optional[QAPISourceInfo],
+                         prefix: Optional[str]) -> None:
+         self._gen_tree(
+             name, 'enum',
+-            {'values': [Annotated(m.name, m.ifcond) for m in members]},
++            {'members': [self._gen_enum_member(m) for m in members],
++             'values': [Annotated(m.name, m.ifcond) for m in members]},
+             ifcond, features
+         )
  
-diff --git a/tests/qemu-iotests/206.out b/tests/qemu-iotests/206.out
-index b68c443867..3593e8e9c2 100644
---- a/tests/qemu-iotests/206.out
-+++ b/tests/qemu-iotests/206.out
-@@ -192,7 +192,7 @@ Job failed: Could not resize image: Failed to grow the L1 table: File too large
- 
- === Invalid version ===
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "qcow2", "file": "node0", "size": 67108864, "version": "v1"}}}
--{"error": {"class": "GenericError", "desc": "Invalid parameter 'v1'"}}
-+{"error": {"class": "GenericError", "desc": "Parameter 'version' does not accept value 'v1'"}}
- 
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "qcow2", "file": "node0", "lazy-refcounts": true, "size": 67108864, "version": "v2"}}}
- {"return": {}}
-diff --git a/tests/qemu-iotests/237.out b/tests/qemu-iotests/237.out
-index aa94986803..2f09ff5512 100644
---- a/tests/qemu-iotests/237.out
-+++ b/tests/qemu-iotests/237.out
-@@ -116,13 +116,13 @@ Job failed: Cannot find device='this doesn't exist' nor node-name='this doesn't
- == Invalid adapter types ==
- 
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"adapter-type": "foo", "driver": "vmdk", "file": "node0", "size": 33554432}}}
--{"error": {"class": "GenericError", "desc": "Invalid parameter 'foo'"}}
-+{"error": {"class": "GenericError", "desc": "Parameter 'adapter-type' does not accept value 'foo'"}}
- 
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"adapter-type": "IDE", "driver": "vmdk", "file": "node0", "size": 33554432}}}
--{"error": {"class": "GenericError", "desc": "Invalid parameter 'IDE'"}}
-+{"error": {"class": "GenericError", "desc": "Parameter 'adapter-type' does not accept value 'IDE'"}}
- 
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"adapter-type": "legacyesx", "driver": "vmdk", "file": "node0", "size": 33554432}}}
--{"error": {"class": "GenericError", "desc": "Invalid parameter 'legacyesx'"}}
-+{"error": {"class": "GenericError", "desc": "Parameter 'adapter-type' does not accept value 'legacyesx'"}}
- 
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"adapter-type": 1, "driver": "vmdk", "file": "node0", "size": 33554432}}}
- {"error": {"class": "GenericError", "desc": "Invalid parameter type for 'options.adapter-type', expected: string"}}
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index 9b12b42eed..24ac43f70e 100755
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -149,7 +149,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         self.reopen(opts, {'node-name': ''}, "Failed to find node with node-name=''")
-         self.reopen(opts, {'node-name': None}, "Invalid parameter type for 'options[0].node-name', expected: string")
-         self.reopen(opts, {'driver': 'raw'}, "Cannot change the option 'driver'")
--        self.reopen(opts, {'driver': ''}, "Invalid parameter ''")
-+        self.reopen(opts, {'driver': ''}, "Parameter 'driver' does not accept value ''")
-         self.reopen(opts, {'driver': None}, "Invalid parameter type for 'options[0].driver', expected: string")
-         self.reopen(opts, {'file': 'not-found'}, "Cannot find device='' nor node-name='not-found'")
-         self.reopen(opts, {'file': ''}, "Cannot find device='' nor node-name=''")
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-index 22ce9ff0e4..2d5334e8bf 100755
---- a/tests/qemu-iotests/287
-+++ b/tests/qemu-iotests/287
-@@ -53,7 +53,7 @@ CLUSTER_SIZE=65536
- 
- # Check if we can run this test.
- output=$(_make_test_img -o 'compression_type=zstd' 64M; _cleanup_test_img)
--if echo "$output" | grep -q "Invalid parameter 'zstd'"; then
-+if echo "$output" | grep -q "Parameter 'compression-type' does not accept value 'zstd'"; then
-     _notrun "ZSTD is disabled"
- fi
- 
-diff --git a/tests/qemu-iotests/308 b/tests/qemu-iotests/308
-index 6b386bd523..2e3f8f4282 100755
---- a/tests/qemu-iotests/308
-+++ b/tests/qemu-iotests/308
-@@ -148,7 +148,7 @@ rmdir "$EXT_MP" 2>/dev/null
- rm -f "$EXT_MP"
- output=$(fuse_export_add 'export-err' "'mountpoint': '$EXT_MP'" error)
- 
--if echo "$output" | grep -q "Invalid parameter 'fuse'"; then
-+if echo "$output" | grep -q "Parameter 'type' does not accept value 'fuse'"; then
-     _notrun 'No FUSE support'
- fi
- 
+@@ -322,7 +332,7 @@ def visit_object_type_flat(self, name: str, info: Optional[QAPISourceInfo],
+                                members: List[QAPISchemaObjectTypeMember],
+                                variants: Optional[QAPISchemaVariants]) -> None:
+         obj: SchemaInfoObject = {
+-            'members': [self._gen_member(m) for m in members]
++            'members': [self._gen_object_member(m) for m in members]
+         }
+         if variants:
+             obj['tag'] = variants.tag_member.name
 -- 
 2.31.1
 
