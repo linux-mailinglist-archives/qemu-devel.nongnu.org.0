@@ -2,70 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB77343CE29
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:59:19 +0200 (CEST)
-Received: from localhost ([::1]:57536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F68343CE38
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:04:20 +0200 (CEST)
+Received: from localhost ([::1]:40094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mflKg-00089x-FJ
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:59:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35002)
+	id 1mflPX-000761-If
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:04:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mfky0-0008KH-VE
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:35:53 -0400
-Received: from mail-vk1-xa2a.google.com ([2607:f8b0:4864:20::a2a]:36620)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mfkxw-0007VG-D6
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:35:52 -0400
-Received: by mail-vk1-xa2a.google.com with SMTP id f126so1555225vke.3
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 08:35:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KEqOPD63ohc+18MOP9CqgBMIqiebgcvfB8HxXeIL/jA=;
- b=xnhJ9NmmpyRB8VJ7Szs7Jv++AmQ90bKF3kYbFbUyfFW3qX/BXtm0A3LdK0Cb9TYfA5
- 5yESE4ZD5FzkGVtUsuIkHbcbSNh4DVwCZmdteC7cmfBzRMMqMrZEN5uiNyL0Ayw/DyDW
- FAfhEN1ZbK3QGHe1pO5T+x/fQW5rYdveLkc1GzZyaQOHZnrKpwWjv7skNBBiEleKW9ii
- PHBGPmpsUCA2mQ2MUi177IGLtWVFDmlAtSQTH9hZGU/JPTo1nXFahAIZq3PkWy6rwLx6
- 1S68ofGzCTnHS1cKRdfbHd/E5roy8PMhyBh1t08ZrwBoaZLoVi1Oa/HA0zTLZOTnf/lp
- m36A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KEqOPD63ohc+18MOP9CqgBMIqiebgcvfB8HxXeIL/jA=;
- b=B9dN0QM7h3x6aKb1EJE4Dd2zrTo1Xzqc61oy6vnRoyjZ3aKXAey4ggysgSSAMquBdY
- hRFaeZ8GDWN1vQgqMkwr8qPP2hqOUTkj+nunGuXpVF2n4G60V8FYsFspadWZKX8YAjzs
- FJ9aFEsyi25TXk4/CO5xEriNiU12uUf+Du8ncVXsex8JNdjOe/1jZ8Y64qqILhq+X5C+
- od6ovWrV1m24PBcW6dx7wlN4rjkgyq2LDmlm699c0xPsrHCHN7KlTyUDj8thA4tH7UbH
- OMwK4+Rw9yjizLRxEYJoyLh5l7uB4maHMIijm3tQQqhgDzIgsfe5T7FhTtdwLOfAgGjU
- FAzQ==
-X-Gm-Message-State: AOAM533kKJ2eNRdC37zqqk5/9Wp93CbX+T7/95A1EWUSc61KP+OsVjZA
- Ou1a094oF0ej9ptZoMYOvcwjWi2A2QdnVLfgh+sxpX4mBNYyjA==
-X-Google-Smtp-Source: ABdhPJyZuy3Aedl/vVzTIGixtqP3PE2GWldY9WUZLfNImZXCWDVRFJI9+a6D1eQvUdpJOzVJLEmP2XSVF2DISOUoQZ0=
-X-Received: by 2002:a1f:6416:: with SMTP id y22mr20664698vkb.18.1635348944411; 
- Wed, 27 Oct 2021 08:35:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1mfkhk-0001QR-TI
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:19:06 -0400
+Received: from mail-bn8nam12on2060e.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5b::60e]:57313
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1mfkhf-0008Nq-Ox
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:19:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LVyFLNna6M8TEu21NpGOycK61QtYmlpCNy0fEfBlYumLAvqeOarvNj3nlYvw6Dk1dpkNalgviRE5PJT5kyxu5CqV9kdpHKTz2kIBePZj8nVn3glDtFu49AOnywhkrafJGIZK4FVDnJgCBceJxx7MUvlaqZL0HAtCRXcfUDv8EVGdAKah6PTcvfVGB3CGHCq+xOuH0Qnxl7tf4HIZDtjDuJV/FbeWHc/DaFbbJZgLptRP+y6Gg9KLOBudcPs5UM3qhhlnBuRCsAMD1R6MnmYCDdyYqrpBkY5B5cpI0QRMerMJwJmbnT0JRsTB3ybW8LUYLpK6gGA5o8SoD55vTpdWJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Gxbh4oP8LFGPD008+HEXf4kRJYRj2hSO0CN6PcGGLH8=;
+ b=EjO0nd4vAvvam4NF9UJHorb7EzlNczyF89yOLFdA1Pj+ojhEdHam8eP5cOsOcRwG/thcU9JdJrNpm9E5TrlQA0KUXQ1w1VeKfbVS902Trh87zVm443NGsWE+1+QzXV47PkjhFzRYKDzDMauAZIol+fmtsDzChan4vQPQmr1aL+IypJNiHK0IVxqi00urX/aC4yjTziz1BuOK6mnAgGXt88TlZoa6VFM+SIfYmkiA/zmzk++wM5albA25oUQHIZiWxKm5wWoVENucFfZLF0MURo8ezX7oMrSXwQoqutAZf+oYQH+0nU15m1iWRhfsU7iOFvqLcMsCmwjFh3vmKbTesg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gxbh4oP8LFGPD008+HEXf4kRJYRj2hSO0CN6PcGGLH8=;
+ b=ZrOKaZO5eIYCF9DIcHSQ8azaKh9+4mcz/zLjlJupEdsQALVGVJ5idwip6djSnqVU8iPFfdLgXCW6Rs9r2vC1GgLucaYqoMCvbw0s6NkrPwTP0scXDD8G2rnZV+p4UHuhjgzgkprld1HsZgpBcluXym5qlqikPbKfs4M5fRyI0/E=
+Received: from MW4PR03CA0007.namprd03.prod.outlook.com (2603:10b6:303:8f::12)
+ by BN9PR12MB5209.namprd12.prod.outlook.com (2603:10b6:408:11a::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Wed, 27 Oct
+ 2021 15:13:55 +0000
+Received: from CO1NAM11FT019.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8f:cafe::75) by MW4PR03CA0007.outlook.office365.com
+ (2603:10b6:303:8f::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.22 via Frontend
+ Transport; Wed, 27 Oct 2021 15:13:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT019.mail.protection.outlook.com (10.13.175.57) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4649.14 via Frontend Transport; Wed, 27 Oct 2021 15:13:55 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Wed, 27 Oct
+ 2021 10:13:54 -0500
+Date: Wed, 27 Oct 2021 09:33:49 -0500
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+CC: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, Alex
+ =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, Richard Henderson
+ <richard.henderson@linaro.org>, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH-for-6.0.1 0/2] gitlab-ci: Only push docker images to
+ mainstream registry from /master
+Message-ID: <20211027143349.s4kh5z4soj6h5cct@amd.com>
+References: <20211027052656.1275436-1-philmd@redhat.com>
+ <YXkSm13RTFCWyWxR@redhat.com>
+ <6a9cfd05-e2fd-0091-44c8-25f7229d5877@redhat.com>
 MIME-Version: 1.0
-References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-14-imp@bsdimp.com>
- <CACNAnaHUq==anp0uQhxk3o=MuLeyaii+MsMPZc3_pBnuS-wCag@mail.gmail.com>
- <CACNAnaH-=mFx-tPd4nVVv+Y=oRe6Vj4Um51rr0u1GBFGk0P=tQ@mail.gmail.com>
-In-Reply-To: <CACNAnaH-=mFx-tPd4nVVv+Y=oRe6Vj4Um51rr0u1GBFGk0P=tQ@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Wed, 27 Oct 2021 09:35:33 -0600
-Message-ID: <CANCZdfo8ZXYozgzWSqzkhxrH=BYD6RjG3_MbcZNHidVwmTMZWw@mail.gmail.com>
-Subject: Re: [PATCH 13/24] bsd-user/arm/target_arch_thread.h: Routines to
- create and switch to a thread
-To: Kyle Evans <kevans@freebsd.org>
-Content-Type: multipart/alternative; boundary="000000000000ea70d805cf57580b"
-Received-SPF: none client-ip=2607:f8b0:4864:20::a2a;
- envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa2a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6a9cfd05-e2fd-0091-44c8-25f7229d5877@redhat.com>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d55b78c7-e290-4fe8-b225-08d9995c6482
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5209:
+X-Microsoft-Antispam-PRVS: <BN9PR12MB520925263AA5241BB0AA437D95859@BN9PR12MB5209.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YGJ0Lh4omdkJxmAwVlXepU4S7DO77mFAV7UKCVtFqiNbbm1s7QQzP8iClcbrZcsvGFEiZIuzjyTL1lKcbfMTvZ/NozH1N5CN4FfAnPi3OxjjcWEzmsPobU39B0hAbmTVzqiOgb136COuCZ+EyqZmJ7T7RR6wlJBqqk9vFbF6rDScxobvacPyjI06Jco1kmWhGxsvkyzRCDY/i5zvvIxWQ7AryISyxAMJDC33Zy48QBqsAYKvOEQ+WrSUMEruxW0UIzFMJllc+QJO1UWIaG+k1bym+GX2QJqggpkJMAvmVUck/kTlUCljJ0WrmueNWUhuEjTspjvqwYAwajPPQhS3aqJvKYLR4TQeutSKTad7NiXp/wdaBOaBD+li3o5FrSkFaBU+SnM9QKx8fpOwHj4E3fxR/d4IF6SYnoQoNnPhwogG2AqQkdknsgqmSmSYlEt5VK+bmvyVqTtt3HCWDgr6NdPcRSQxTaXeOFkj1ZCmp5mViIWjLODhZO7PBVASbN0KQ8FGPHsOz8fZUnxK/Hc+KNKGTgAiWQCgAQTgPYg8WOz7VDOca0Lu0U17BW3IeHEjcyNwOR1rCjcseGcmLf7SDAi4lrddGhZs2AF8hCaTOfPWubHajuaHD8EVykE8y20fT46vnucA6kkSX6hbvqLw/SkTl5bRgMHBmBtZkTnzUqyWM32gomE9jmeFPS4w8hx3QW7udBxG0UfzNfi0QtEP/0wUNC32pEaDZIels79YIMsiO4/uGCB43rYZZ6q+xjTfQ8+ZbOQhv3F+lYRlPCSqaqJ27LDUIXZq22dUbgpJLuh1yUh3zgfnwkEndP1NdC4N
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(46966006)(36840700001)(316002)(186003)(26005)(356005)(54906003)(47076005)(82310400003)(4001150100001)(70206006)(1076003)(86362001)(2906002)(44832011)(5660300002)(16526019)(36756003)(81166007)(6916009)(36860700001)(70586007)(8936002)(4326008)(53546011)(83380400001)(2616005)(426003)(6666004)(336012)(45080400002)(8676002)(966005)(508600001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2021 15:13:55.0494 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d55b78c7-e290-4fe8-b225-08d9995c6482
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT019.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5209
+Received-SPF: softfail client-ip=2a01:111:f400:fe5b::60e;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,304 +125,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Stacey Son <sson@freebsd.org>,
- Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Michael Roth <michael.roth@amd.com>
+From:  Michael Roth via <qemu-devel@nongnu.org>
 
---000000000000ea70d805cf57580b
-Content-Type: text/plain; charset="UTF-8"
+On Wed, Oct 27, 2021 at 12:09:39PM +0200, Philippe Mathieu-Daudé wrote:
+> +Richard/Peter
+> 
+> On 10/27/21 10:49, Daniel P. Berrangé wrote:
+> > On Wed, Oct 27, 2021 at 07:26:54AM +0200, Philippe Mathieu-Daudé wrote:
+> >> Hi Michael,
+> >>
+> >> 2 more patches to avoid gitlab-ci mayhem when you push the
+> >> stable tags. See this cover for more info:
+> >> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.mail-archive.com%2Fqemu-devel%40nongnu.org%2Fmsg846861.html&amp;data=04%7C01%7Cmichael.roth%40amd.com%7C3c19b44a450a4db8aa1c08d99931e741%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637709261892671750%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=kPrWrqTCJSgz%2FLoCfYNDyIb6zqXY%2Fl8v1p4IgUg5psM%3D&amp;reserved=0
+> > 
+> > Please don't push this to stable - Thomas points out that it is broken
+> > when any changes to dockerfiles are made.
+> 
+> But we still don't want to update the registry with these old
+> images...
+> 
+> What is the plan then, hold the stable tag until we figure out
+> the best fix?
+> 
+> Otherwise Michael can use 'git-push --push-option=ci.skip' to
+> not trigger a CI pipeline when pushing stable tags (running
+> CI pipelines previously in his own gitlab namespace).
 
-On Tue, Oct 26, 2021 at 12:11 AM Kyle Evans <kevans@freebsd.org> wrote:
+I can take this approach for now.
 
-> On Tue, Oct 26, 2021 at 1:01 AM Kyle Evans <kevans@freebsd.org> wrote:
-> >
-> > On Tue, Oct 19, 2021 at 11:45 AM Warner Losh <imp@bsdimp.com> wrote:
-> > >
-> > > Implement target_thread_init (to create a thread) and target_set_upcall
-> > > (to switch to a thread) for arm.
-> > >
-> > > Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> > > Signed-off-by: Klye Evans <kevans@FreeBSD.org>
-> > > Signed-off-by: Warner Losh <imp@bsdimp.com>
-> > > ---
-> > >  bsd-user/arm/target_arch_thread.h | 71 +++++++++++++++++++++++++++++++
-> > >  1 file changed, 71 insertions(+)
-> > >  create mode 100644 bsd-user/arm/target_arch_thread.h
-> > >
-> > > diff --git a/bsd-user/arm/target_arch_thread.h
-> b/bsd-user/arm/target_arch_thread.h
-> > > new file mode 100644
-> > > index 0000000000..317364bb84
-> > > --- /dev/null
-> > > +++ b/bsd-user/arm/target_arch_thread.h
-> > > @@ -0,0 +1,71 @@
-> > > +/*
-> > > + *  arm thread support
-> > > + *
-> > > + *  Copyright (c) 2013 Stacey D. Son
-> > > + *
-> > > + *  This program is free software; you can redistribute it and/or
-> modify
-> > > + *  it under the terms of the GNU General Public License as published
-> by
-> > > + *  the Free Software Foundation; either version 2 of the License, or
-> > > + *  (at your option) any later version.
-> > > + *
-> > > + *  This program is distributed in the hope that it will be useful,
-> > > + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > > + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> > > + *  GNU General Public License for more details.
-> > > + *
-> > > + *  You should have received a copy of the GNU General Public License
-> > > + *  along with this program; if not, see <
-> http://www.gnu.org/licenses/>.
-> > > + */
-> > > +#ifndef _TARGET_ARCH_THREAD_H_
-> > > +#define _TARGET_ARCH_THREAD_H_
-> > > +
-> > > +/* Compare to arm/arm/vm_machdep.c cpu_set_upcall_kse() */
-> > > +static inline void target_thread_set_upcall(CPUARMState *regs,
-> abi_ulong entry,
-> > > +    abi_ulong arg, abi_ulong stack_base, abi_ulong stack_size)
-> > > +{
-> > > +    abi_ulong sp;
-> > > +
-> > > +    /*
-> > > +     * Make sure the stack is properly aligned.
-> > > +     * arm/include/param.h (STACKLIGN() macro)
-> > > +     */
-> > > +    sp = (u_int)((stack_base + stack_size) -
-> > > +        sizeof(struct target_trapframe)) & ~0x7;
-> > > +
-> > > +    /* sp = stack base */
-> > > +    regs->regs[13] = sp;
-> > > +    /* pc = start function entry */
-> > > +    regs->regs[15] = entry & 0xfffffffe;
-> > > +    /* r0 = arg */
-> > > +    regs->regs[0] = arg;
-> > > +    regs->spsr = ARM_CPU_MODE_USR;
-> > > +    if (entry & 0x1) {
-> > > +        regs->spsr |= CPSR_T;
-> > > +    }
-> > > +}
-> > > +
-> > > +static inline void target_thread_init(struct target_pt_regs *regs,
-> > > +        struct image_info *infop)
-> > > +{
-> > > +    abi_long stack = infop->start_stack;
-> > > +    memset(regs, 0, sizeof(*regs));
-> > > +    regs->ARM_cpsr = 0x10;
-> > > +    if (infop->entry & 1) {
-> > > +        regs->ARM_cpsr |= CPSR_T;
-> > > +    }
-> > > +    regs->ARM_pc = infop->entry & 0xfffffffe;
-> > > +    regs->ARM_sp = infop->start_stack;
-> > > +    if (bsd_type == target_freebsd) {
-> > > +        regs->ARM_lr = infop->entry & 0xfffffffe;
-> > > +    }
-> > > +    /* FIXME - what to for failure of get_user()? */
-> > > +    get_user_ual(regs->ARM_r2, stack + 8); /* envp */
-> > > +    get_user_ual(regs->ARM_r1, stack + 4); /* envp */
-> > > +    /* XXX: it seems that r0 is zeroed after ! */
-> > > +    regs->ARM_r0 = 0;
-> > > +    /* For uClinux PIC binaries.  */
-> > > +    /* XXX: Linux does this only on ARM with no MMU (do we care ?) */
-> > > +    regs->ARM_r10 = infop->start_data;
-> > > +}
-> > > +
-> > > +#endif /* !_TARGET_ARCH_THREAD_H_ */
-> > > --
-> > > 2.32.0
-> > >
-> >
-> > I think it's obvious enough to folks already familiar with ARM, but I
-> > wonder if we shouldn't add in some basic commentary about the thumb
-> > bits above. Something like:
-> >
-> > /*
-> >  * The low bit in an entry point indicates a thumb instruction; the
-> entry point
-> >  * can't actually exist at this address because it must be 16- or 32-
-> > bit aligned.
-> >  * The low bit gets masked off and the T bit in CSPR is twiddled to
-> > indicate thumb.
-> >  */
->
-> s/CSPR/CPSR/
->
+Thanks everyone for all the debugging/suggestions.
 
-Does
+-Mike
 
-    /*
-     * Thumb mode is encoded by the low bit in the entry point (since ARM
-can't
-     * execute at odd addresses). When it's set, set the Thumb bit (T) in
-the
-     * CPSR.
-     */
-
- Look good to you?
-
-Warner
-
---000000000000ea70d805cf57580b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 26, 2021 at 12:11 AM Kyle=
- Evans &lt;<a href=3D"mailto:kevans@freebsd.org">kevans@freebsd.org</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, =
-Oct 26, 2021 at 1:01 AM Kyle Evans &lt;<a href=3D"mailto:kevans@freebsd.org=
-" target=3D"_blank">kevans@freebsd.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Tue, Oct 19, 2021 at 11:45 AM Warner Losh &lt;<a href=3D"mailto:imp=
-@bsdimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; Implement target_thread_init (to create a thread) and target_set_=
-upcall<br>
-&gt; &gt; (to switch to a thread) for arm.<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Stacey Son &lt;sson@FreeBSD.org&gt;<br>
-&gt; &gt; Signed-off-by: Klye Evans &lt;kevans@FreeBSD.org&gt;<br>
-&gt; &gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" =
-target=3D"_blank">imp@bsdimp.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 bsd-user/arm/target_arch_thread.h | 71 ++++++++++++++++++++=
-+++++++++++<br>
-&gt; &gt;=C2=A0 1 file changed, 71 insertions(+)<br>
-&gt; &gt;=C2=A0 create mode 100644 bsd-user/arm/target_arch_thread.h<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/bsd-user/arm/target_arch_thread.h b/bsd-user/arm/tar=
-get_arch_thread.h<br>
-&gt; &gt; new file mode 100644<br>
-&gt; &gt; index 0000000000..317364bb84<br>
-&gt; &gt; --- /dev/null<br>
-&gt; &gt; +++ b/bsd-user/arm/target_arch_thread.h<br>
-&gt; &gt; @@ -0,0 +1,71 @@<br>
-&gt; &gt; +/*<br>
-&gt; &gt; + *=C2=A0 arm thread support<br>
-&gt; &gt; + *<br>
-&gt; &gt; + *=C2=A0 Copyright (c) 2013 Stacey D. Son<br>
-&gt; &gt; + *<br>
-&gt; &gt; + *=C2=A0 This program is free software; you can redistribute it =
-and/or modify<br>
-&gt; &gt; + *=C2=A0 it under the terms of the GNU General Public License as=
- published by<br>
-&gt; &gt; + *=C2=A0 the Free Software Foundation; either version 2 of the L=
-icense, or<br>
-&gt; &gt; + *=C2=A0 (at your option) any later version.<br>
-&gt; &gt; + *<br>
-&gt; &gt; + *=C2=A0 This program is distributed in the hope that it will be=
- useful,<br>
-&gt; &gt; + *=C2=A0 but WITHOUT ANY WARRANTY; without even the implied warr=
-anty of<br>
-&gt; &gt; + *=C2=A0 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=
-=A0 See the<br>
-&gt; &gt; + *=C2=A0 GNU General Public License for more details.<br>
-&gt; &gt; + *<br>
-&gt; &gt; + *=C2=A0 You should have received a copy of the GNU General Publ=
-ic License<br>
-&gt; &gt; + *=C2=A0 along with this program; if not, see &lt;<a href=3D"htt=
-p://www.gnu.org/licenses/" rel=3D"noreferrer" target=3D"_blank">http://www.=
-gnu.org/licenses/</a>&gt;.<br>
-&gt; &gt; + */<br>
-&gt; &gt; +#ifndef _TARGET_ARCH_THREAD_H_<br>
-&gt; &gt; +#define _TARGET_ARCH_THREAD_H_<br>
-&gt; &gt; +<br>
-&gt; &gt; +/* Compare to arm/arm/vm_machdep.c cpu_set_upcall_kse() */<br>
-&gt; &gt; +static inline void target_thread_set_upcall(CPUARMState *regs, a=
-bi_ulong entry,<br>
-&gt; &gt; +=C2=A0 =C2=A0 abi_ulong arg, abi_ulong stack_base, abi_ulong sta=
-ck_size)<br>
-&gt; &gt; +{<br>
-&gt; &gt; +=C2=A0 =C2=A0 abi_ulong sp;<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 /*<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0* Make sure the stack is properly aligned.<b=
-r>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0* arm/include/param.h (STACKLIGN() macro)<br=
->
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; &gt; +=C2=A0 =C2=A0 sp =3D (u_int)((stack_base + stack_size) -<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(struct target_trapframe)) &am=
-p; ~0x7;<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 /* sp =3D stack base */<br>
-&gt; &gt; +=C2=A0 =C2=A0 regs-&gt;regs[13] =3D sp;<br>
-&gt; &gt; +=C2=A0 =C2=A0 /* pc =3D start function entry */<br>
-&gt; &gt; +=C2=A0 =C2=A0 regs-&gt;regs[15] =3D entry &amp; 0xfffffffe;<br>
-&gt; &gt; +=C2=A0 =C2=A0 /* r0 =3D arg */<br>
-&gt; &gt; +=C2=A0 =C2=A0 regs-&gt;regs[0] =3D arg;<br>
-&gt; &gt; +=C2=A0 =C2=A0 regs-&gt;spsr =3D ARM_CPU_MODE_USR;<br>
-&gt; &gt; +=C2=A0 =C2=A0 if (entry &amp; 0x1) {<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 regs-&gt;spsr |=3D CPSR_T;<br>
-&gt; &gt; +=C2=A0 =C2=A0 }<br>
-&gt; &gt; +}<br>
-&gt; &gt; +<br>
-&gt; &gt; +static inline void target_thread_init(struct target_pt_regs *reg=
-s,<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct image_info *infop)<br>
-&gt; &gt; +{<br>
-&gt; &gt; +=C2=A0 =C2=A0 abi_long stack =3D infop-&gt;start_stack;<br>
-&gt; &gt; +=C2=A0 =C2=A0 memset(regs, 0, sizeof(*regs));<br>
-&gt; &gt; +=C2=A0 =C2=A0 regs-&gt;ARM_cpsr =3D 0x10;<br>
-&gt; &gt; +=C2=A0 =C2=A0 if (infop-&gt;entry &amp; 1) {<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 regs-&gt;ARM_cpsr |=3D CPSR_T;<br>
-&gt; &gt; +=C2=A0 =C2=A0 }<br>
-&gt; &gt; +=C2=A0 =C2=A0 regs-&gt;ARM_pc =3D infop-&gt;entry &amp; 0xffffff=
-fe;<br>
-&gt; &gt; +=C2=A0 =C2=A0 regs-&gt;ARM_sp =3D infop-&gt;start_stack;<br>
-&gt; &gt; +=C2=A0 =C2=A0 if (bsd_type =3D=3D target_freebsd) {<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 regs-&gt;ARM_lr =3D infop-&gt;entry =
-&amp; 0xfffffffe;<br>
-&gt; &gt; +=C2=A0 =C2=A0 }<br>
-&gt; &gt; +=C2=A0 =C2=A0 /* FIXME - what to for failure of get_user()? */<b=
-r>
-&gt; &gt; +=C2=A0 =C2=A0 get_user_ual(regs-&gt;ARM_r2, stack + 8); /* envp =
-*/<br>
-&gt; &gt; +=C2=A0 =C2=A0 get_user_ual(regs-&gt;ARM_r1, stack + 4); /* envp =
-*/<br>
-&gt; &gt; +=C2=A0 =C2=A0 /* XXX: it seems that r0 is zeroed after ! */<br>
-&gt; &gt; +=C2=A0 =C2=A0 regs-&gt;ARM_r0 =3D 0;<br>
-&gt; &gt; +=C2=A0 =C2=A0 /* For uClinux PIC binaries.=C2=A0 */<br>
-&gt; &gt; +=C2=A0 =C2=A0 /* XXX: Linux does this only on ARM with no MMU (d=
-o we care ?) */<br>
-&gt; &gt; +=C2=A0 =C2=A0 regs-&gt;ARM_r10 =3D infop-&gt;start_data;<br>
-&gt; &gt; +}<br>
-&gt; &gt; +<br>
-&gt; &gt; +#endif /* !_TARGET_ARCH_THREAD_H_ */<br>
-&gt; &gt; --<br>
-&gt; &gt; 2.32.0<br>
-&gt; &gt;<br>
-&gt;<br>
-&gt; I think it&#39;s obvious enough to folks already familiar with ARM, bu=
-t I<br>
-&gt; wonder if we shouldn&#39;t add in some basic commentary about the thum=
-b<br>
-&gt; bits above. Something like:<br>
-&gt;<br>
-&gt; /*<br>
-&gt;=C2=A0 * The low bit in an entry point indicates a thumb instruction; t=
-he entry point<br>
-&gt;=C2=A0 * can&#39;t actually exist at this address because it must be 16=
-- or 32-<br>
-&gt; bit aligned.<br>
-&gt;=C2=A0 * The low bit gets masked off and the T bit in CSPR is twiddled =
-to<br>
-&gt; indicate thumb.<br>
-&gt;=C2=A0 */<br>
-<br>
-s/CSPR/CPSR/<br></blockquote><div><br></div><div>Does</div><div>=C2=A0</div=
->=C2=A0 =C2=A0 /*<br>=C2=A0 =C2=A0 =C2=A0* Thumb mode is encoded by the low=
- bit in the entry point (since ARM can&#39;t<br>=C2=A0 =C2=A0 =C2=A0* execu=
-te at odd addresses). When it&#39;s set, set the Thumb bit (T) in the<br>=
-=C2=A0 =C2=A0 =C2=A0* CPSR.<br><div>=C2=A0 =C2=A0 =C2=A0*/</div><div><br></=
-div><div>=C2=A0Look good to you?</div><div><br></div><div>Warner</div></div=
-></div>
-
---000000000000ea70d805cf57580b--
+> 
+> >> Based-on: <20211019140944.152419-1-michael.roth@amd.com>
+> >> "Patch Round-up for stable 6.0.1, freeze on 2021-10-26"
+> >>
+> >> Daniel P. Berrangé (1):
+> >>   gitlab: only let pages be published from default branch
+> >>
+> >> Philippe Mathieu-Daudé (1):
+> >>   gitlab-ci: Only push docker images to registry from /master branch
+> >>
+> >>  .gitlab-ci.d/containers.yml | 11 ++++++++++-
+> >>  .gitlab-ci.d/edk2.yml       | 11 ++++++++++-
+> >>  .gitlab-ci.d/opensbi.yml    | 11 ++++++++++-
+> >>  .gitlab-ci.yml              | 18 ++++++++++++++++++
+> >>  4 files changed, 48 insertions(+), 3 deletions(-)
+> >>
+> >> -- 
+> >> 2.31.1
+> >>
+> >>
+> >>
+> > 
+> > Regards,
+> > Daniel
+> > 
+> 
 
