@@ -2,31 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23FFF43CC92
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 16:42:35 +0200 (CEST)
-Received: from localhost ([::1]:35360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A729B43CC75
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 16:39:57 +0200 (CEST)
+Received: from localhost ([::1]:59340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfk8Q-0005P1-8s
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 10:42:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41896)
+	id 1mfk5s-0002Tv-O3
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 10:39:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfjS5-0003tp-Ej
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:50 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28114)
+ id 1mfjS9-0003vK-2W
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:57 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfjS0-0004Ts-Rh
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:49 -0400
+ id 1mfjS6-0004Vd-9J
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:52 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A583775605A;
- Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 533F07561C4;
+ Wed, 27 Oct 2021 15:58:42 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 858F2746353; Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
-Message-Id: <cover.1635342377.git.balaton@eik.bme.hu>
+ id C22A7756062; Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
+Message-Id: <2cac149cc6eaa157efa1704229b107e17ab8df3e.1635342377.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1635342377.git.balaton@eik.bme.hu>
+References: <cover.1635342377.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 00/11] More SH4 clean ups
+Subject: [PATCH v2 11/11] hw/intc/sh_intc: Drop another useless macro
 Date: Wed, 27 Oct 2021 15:46:17 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -59,47 +61,55 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: <cover.1635036053.git.balaton@eik.bme.hu>
-^ (hw/sh4: Codeing style fixes)
+The INT_REG_PARAMS macro was only used a few times within one function
+on adjacent lines and is actually more complex than writing out the
+parameters so simplify it by expanding the macro at call sites and
+dropping the #define.
 
-Continuing the clean up stared in previous series this now removes
-printfs and QOM-ify sh_serial.
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/intc/sh_intc.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-v2: separate sh_serial trace events, split QOM-ify patch for easier
-review and some more patches to clean up sh_intc a bit
-
-Regards,
-BALATON Zoltan
-
-BALATON Zoltan (11):
-  hw/sh4: Fix a typo in a comment
-  hw//sh4: Use qemu_log instead of fprintf to stderr
-  hw/sh4: Change debug printfs to traces
-  hw/sh4/r2d: Use error_report instead of fprintf to stderr
-  hw/char/sh_serial: Rename type sh_serial_state to SHSerialState
-  hw/char/sh_serial: QOM-ify
-  hw/char/sh_serial: Add device id to trace output
-  hw/intc/sh_intc: Use existing macro instead of local one
-  hw/intc/sh_intc: Turn some defines into an enum
-  hw/intc/sh_intc: Clean up iomem region
-  hw/intc/sh_intc: Drop another useless macro
-
- hw/char/sh_serial.c   | 149 +++++++++++++++++++++++------------------
- hw/char/trace-events  |   4 ++
- hw/intc/sh_intc.c     | 151 +++++++++++++-----------------------------
- hw/intc/trace-events  |   8 +++
- hw/sh4/r2d.c          |   5 +-
- hw/sh4/sh7750.c       |  83 +++++++++++++++--------
- hw/sh4/trace-events   |   3 +
- hw/sh4/trace.h        |   1 +
- hw/timer/sh_timer.c   |  14 +---
- hw/timer/trace-events |   3 +
- include/hw/sh4/sh.h   |   9 +--
- meson.build           |   1 +
- 12 files changed, 214 insertions(+), 217 deletions(-)
- create mode 100644 hw/sh4/trace-events
- create mode 100644 hw/sh4/trace.h
-
+diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
+index fc1905f299..d3616b0078 100644
+--- a/hw/intc/sh_intc.c
++++ b/hw/intc/sh_intc.c
+@@ -432,16 +432,12 @@ int sh_intc_init(MemoryRegion *sysmem,
+     desc->irqs = qemu_allocate_irqs(sh_intc_set_irq, desc, nr_sources);
+     memory_region_init_io(&desc->iomem, NULL, &sh_intc_ops, desc, "intc", 4);
+ 
+-#define INT_REG_PARAMS(reg_struct, type, action, j) \
+-        reg_struct->action##_reg, #type, #action, j
+     if (desc->mask_regs) {
+         for (i = 0; i < desc->nr_mask_regs; i++) {
+             struct intc_mask_reg *mr = desc->mask_regs + i;
+ 
+-            j += sh_intc_register(sysmem, desc,
+-                                  INT_REG_PARAMS(mr, mask, set, j));
+-            j += sh_intc_register(sysmem, desc,
+-                                  INT_REG_PARAMS(mr, mask, clr, j));
++            j += sh_intc_register(sysmem, desc, mr->set_reg, "mask", "set", j);
++            j += sh_intc_register(sysmem, desc, mr->clr_reg, "mask", "clr", j);
+         }
+     }
+ 
+@@ -449,13 +445,10 @@ int sh_intc_init(MemoryRegion *sysmem,
+         for (i = 0; i < desc->nr_prio_regs; i++) {
+             struct intc_prio_reg *pr = desc->prio_regs + i;
+ 
+-            j += sh_intc_register(sysmem, desc,
+-                                  INT_REG_PARAMS(pr, prio, set, j));
+-            j += sh_intc_register(sysmem, desc,
+-                                  INT_REG_PARAMS(pr, prio, clr, j));
++            j += sh_intc_register(sysmem, desc, pr->set_reg, "prio", "set", j);
++            j += sh_intc_register(sysmem, desc, pr->clr_reg, "prio", "clr", j);
+         }
+     }
+-#undef INT_REG_PARAMS
+ 
+     return 0;
+ }
 -- 
 2.21.4
 
