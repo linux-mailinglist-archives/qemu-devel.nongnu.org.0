@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8CF43CD3E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:13:50 +0200 (CEST)
-Received: from localhost ([::1]:45712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8669E43CD75
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:26:57 +0200 (CEST)
+Received: from localhost ([::1]:45846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfkcf-0000JQ-4w
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:13:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47964)
+	id 1mfkpM-00032b-42
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:26:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <trini@konsulko.com>)
- id 1mfjse-0007dj-V2
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:26:16 -0400
-Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734]:42986)
+ id 1mfjxM-0003ef-N5
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:31:08 -0400
+Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33]:38689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <trini@konsulko.com>)
- id 1mfjsc-000081-L3
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:26:16 -0400
-Received: by mail-qk1-x734.google.com with SMTP id y10so2546923qkp.9
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 07:26:14 -0700 (PDT)
+ id 1mfjxK-0000mz-6o
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:31:08 -0400
+Received: by mail-qv1-xf33.google.com with SMTP id c9so1554031qvm.5
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 07:31:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=oclMzJZuBQlZ0W8fpBnPYToGN8C7l/nPxCoXo+HKfRI=;
- b=rczBDIn5h3K6hxCjiyi/1YP2H1n4u2zmDEvGLivpmcagKuM3gq2TVZBroOVJpLDMLu
- TpkGklCVXloOf3+fCO4J3YZFEtz7vkIMXFCcgAvWIBiXLprFh0YUhnwWMSrfrj88e3Gq
- 2pwWVW3CN7dIBUKzgTRiG/ngcXhLNCA9hdzU4=
+ bh=V6gJCcy5qEaA0owibzVNeojsv/TAtb9XWQoJ8QYvbm0=;
+ b=f6F3EZIo14Ws7bxg1Xc/s4qoEHv0VLng9uwlvCdp6FkscXfVIbYG/G3DKsy5WoSDm/
+ M3naK9CD6NTep1lwQxm9hOLx0RnIrKu1G2S/5urq9tvLE2raoj4rVhnvP3ZSacY0NWd5
+ u4DwBd5RxXmEzzUVYpMRxHbn5i5xiJYj1O56U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=oclMzJZuBQlZ0W8fpBnPYToGN8C7l/nPxCoXo+HKfRI=;
- b=k/zb4O9eHNYC+DpKNVPP+wS8tLA8BN5itQVHuUZdlzHAQk2kShou+ViZrInTNq88tI
- 3bVG7VVBoTRniLhpNWNahN25Rir2/Cy7j5woTFydFmqBonbkDbdhIIoXs+Ho/Loj7K9n
- NTRwM2fauZ8Hr7MZxUQKjfyyZ35IJMnbBCFJkNWtI/Ssl1dBhAmiwRL/eb8Qsn29VJgB
- 8toPB53XlFAaq83Iom5/SjUWtr8xMpiKJ8cJIMcUbiLnTwo3UHqNDKo4kracW6OQDoVp
- cBZOC5D9pV4gG/JR8Na0AGRdwdbvT7E6rbjYcJfMVmaM+LMEJHczMUuBIjQNJXHLN6Cc
- Nmbg==
-X-Gm-Message-State: AOAM533hsHPRkTzPRGVkzJ4OpuXjZvHI2NMnyTyo2B9zmmR0u35Ki0Zy
- cPPJj+wKR6k+11eqHWja/ItKJw==
-X-Google-Smtp-Source: ABdhPJzfceeU5kk1AXykp7Wz4subrHNDyaTGTTmZahDcWW1R+V6f2pWh6W3jESrNDAYei153AIO45g==
-X-Received: by 2002:a05:620a:2942:: with SMTP id
- n2mr4732013qkp.309.1635344773164; 
- Wed, 27 Oct 2021 07:26:13 -0700 (PDT)
+ bh=V6gJCcy5qEaA0owibzVNeojsv/TAtb9XWQoJ8QYvbm0=;
+ b=hAUKtFdFyzWQNUsX7lPGOAFpYBTn7yIrh6kspHpDGi5ngPWrQS/XpFjZHklQEjma6e
+ 09RVZyiWdgmQNjUsctplMMpz+rbKG89Yong8WD8ERqxHLzSVNVwE07oTJqsv3GVAYZS3
+ oC1GOE68ZymZsXVVQ9IkXMf3igk2TMaaEZyGzp6nNeKaegXN9ParqHlC4L5MgpHZ/QL9
+ mnqAfLjmiKfYBB6o/x1LErhZ01x7k7y+K5a1H3WrqJaHkYn96vOEMqTtRX6kc9kIvnnq
+ FlHF7JdmBJWCab0ZOlG3cmAYORBRjSsjdEijBaT01z1pIFr5jlhDDRu5z+uDFHsJguts
+ 6Y8Q==
+X-Gm-Message-State: AOAM530M6HqvHCOBKqaS5tJHa2h18Q3Z0EWURozOE64t6AyiTVAjM6RW
+ bYu4+V3XaIMLFK6L2q27QS9tcA==
+X-Google-Smtp-Source: ABdhPJyvIQ0uuTquMx92CXkmwiFEc/40Kkb5UQWEpJh6UEOAassO9H70fQhLUvR1RT1HOaPB+e6mIA==
+X-Received: by 2002:ad4:596c:: with SMTP id eq12mr29830903qvb.62.1635345059473; 
+ Wed, 27 Oct 2021 07:30:59 -0700 (PDT)
 Received: from bill-the-cat
  (2603-6081-7b01-cbda-0044-6cb5-81ac-bb0c.res6.spectrum.com.
  [2603:6081:7b01:cbda:44:6cb5:81ac:bb0c])
- by smtp.gmail.com with ESMTPSA id c4sm85520qkf.122.2021.10.27.07.26.09
+ by smtp.gmail.com with ESMTPSA id q6sm28052qtn.65.2021.10.27.07.30.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Oct 2021 07:26:12 -0700 (PDT)
-Date: Wed, 27 Oct 2021 10:26:08 -0400
+ Wed, 27 Oct 2021 07:30:58 -0700 (PDT)
+Date: Wed, 27 Oct 2021 10:30:54 -0400
 From: Tom Rini <trini@konsulko.com>
-To: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+To: =?iso-8859-1?Q?Fran=E7ois?= Ozog <francois.ozog@linaro.org>
 Subject: Re: [PATCH 00/16] fdt: Make OF_BOARD a boolean option
-Message-ID: <20211027142608.GX8284@bill-the-cat>
+Message-ID: <20211027143054.GY8284@bill-the-cat>
 References: <CAPnjgZ3+QP3ogPA=zKWHoctkr4C2rSos_yVmJjp_MYZ-O0sKeQ@mail.gmail.com>
  <20211014145626.GC7964@bill-the-cat>
  <CAPnjgZ3=evGbgSg-aen6pkOXZ4DCxX8vcX9cn4qswJQRNNSzLQ@mail.gmail.com>
@@ -63,15 +62,16 @@ References: <CAPnjgZ3+QP3ogPA=zKWHoctkr4C2rSos_yVmJjp_MYZ-O0sKeQ@mail.gmail.com>
  <CAPnjgZ2Y-uvmhQmhxnBN7Wa+Tz=ZL0bWpnJi6xCW-P8p+C-qCw@mail.gmail.com>
  <YXekTkeL73NM0UOU@apalos.home> <20211027125916.GS8284@bill-the-cat>
  <CAHFG_=U_=85YKtzVBP7eQ5z+b52Y=xrFJLPNy7nsFk-nR6QeJg@mail.gmail.com>
- <20211027133840.GV8284@bill-the-cat> <YXlYi2KozBjmMb+v@apalos.home>
+ <20211027133840.GV8284@bill-the-cat>
+ <CAHFG_=Vnpj1T_rqaxnHFTz4H4wiw_ziUJP0VudFS4WBUOb0i6w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="f4arffV+Mc+T1KhS"
+ protocol="application/pgp-signature"; boundary="6yuPXOSZRpyw7iEV"
 Content-Disposition: inline
-In-Reply-To: <YXlYi2KozBjmMb+v@apalos.home>
+In-Reply-To: <CAHFG_=Vnpj1T_rqaxnHFTz4H4wiw_ziUJP0VudFS4WBUOb0i6w@mail.gmail.com>
 X-Clacks-Overhead: GNU Terry Pratchett
-Received-SPF: pass client-ip=2607:f8b0:4864:20::734;
- envelope-from=trini@konsulko.com; helo=mail-qk1-x734.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
+ envelope-from=trini@konsulko.com; helo=mail-qv1-xf33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,7 +99,6 @@ Cc: Liviu Dudau <liviu.dudau@foss.arm.com>,
  Atish Patra <atish.patra@wdc.com>, Zong Li <zong.li@sifive.com>,
  Stefan Roese <sr@denx.de>, Fabio Estevam <festevam@gmail.com>,
  Rainer Boschung <rainer.boschung@hitachi-powergrids.com>,
- =?iso-8859-1?Q?Fran=E7ois?= Ozog <francois.ozog@linaro.org>,
  Stephen Warren <swarren@nvidia.com>,
  Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
  Heinrich Schuchardt <xypron.glpk@gmx.de>, Niel Fourie <lusus@denx.de>,
@@ -122,6 +121,7 @@ Cc: Liviu Dudau <liviu.dudau@foss.arm.com>,
  Tero Kristo <kristo@kernel.org>, U-Boot Mailing List <u-boot@lists.denx.de>,
  David Abdurachmanov <david.abdurachmanov@sifive.com>,
  Priyanka Jain <priyanka.jain@nxp.com>, Simon Glass <sjg@chromium.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
  Christian Hewitt <christianshewitt@gmail.com>,
  Aaron Williams <awilliams@marvell.com>,
  Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
@@ -134,20 +134,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---f4arffV+Mc+T1KhS
+--6yuPXOSZRpyw7iEV
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 27, 2021 at 04:47:55PM +0300, Ilias Apalodimas wrote:
-> Hi trying to reply to all at the same time!
+On Wed, Oct 27, 2021 at 03:48:48PM +0200, Fran=E7ois Ozog wrote:
+> On Wed, 27 Oct 2021 at 15:38, Tom Rini <trini@konsulko.com> wrote:
 >=20
-> On Wed, Oct 27, 2021 at 09:38:40AM -0400, Tom Rini wrote:
 > > On Wed, Oct 27, 2021 at 03:30:18PM +0200, Fran=E7ois Ozog wrote:
 > > > Hi Tom,
-> > >=20
+> > >
 > > > On Wed, 27 Oct 2021 at 14:59, Tom Rini <trini@konsulko.com> wrote:
-> > >=20
+> > >
 > > > > On Tue, Oct 26, 2021 at 09:46:38AM +0300, Ilias Apalodimas wrote:
 > > > > > Hi Simon,
 > > > > >
@@ -156,22 +155,22 @@ On Wed, Oct 27, 2021 at 04:47:55PM +0300, Ilias Apalodimas wrote:
 > > > > > [...]
 > > > > >
 > > > > > > >
-> > > > > > > I really want to see what the binary case looks like since we=
- could
+> > > > > > > I really want to see what the binary case looks like since we
+> > could
 > > > > then
-> > > > > > > kill off rpi_{3,3_b,4}_defconfig and I would need to see if w=
-e could
+> > > > > > > kill off rpi_{3,3_b,4}_defconfig and I would need to see if we
+> > could
 > > > > > > > then also do a rpi_arm32_defconfig too.
 > > > > > > >
-> > > > > > > I want to see less device trees in U-Boot sources, if they ca=
-n come
+> > > > > > > I want to see less device trees in U-Boot sources, if they can
+> > come
 > > > > > > > functionally correct from the hardware/our caller.
 > > > > > > >
 > > > > > > > And I'm not seeing how we make use of "U-Boot /config" if we =
 also
 > > > > don't
-> > > > > > > use the device tree from build time at run time, ignoring the=
- device
+> > > > > > > use the device tree from build time at run time, ignoring the
+> > device
 > > > > > > > tree provided to us at run time by the caller.
 > > > > > >
 > > > > > > Firstly I should say that I find building firmware very messy a=
@@ -179,14 +178,16 @@ nd
 > > > > > > confusing these days. Lots of things to build and it's hard to =
 find
 > > > > > > the instructions. It doesn't have to be that way, but if we car=
-ry on
+ry
+> > on
 > > > > > > as we are, it will continue to be messy and in five years you w=
 ill
 > > > > > > need a Ph.D and a lucky charm to boot on any modern board. My
 > > > > > > objective here is to simplify things, bringing some consistency=
- to the
-> > > > > > different components. Binman was one effort there. I feel that =
-putting
+ to
+> > the
+> > > > > > different components. Binman was one effort there. I feel that
+> > putting
 > > > > > > at least the U-Boot house in order, in my role as devicetree
 > > > > > > maintainer (and as author of devicetree support in U-Boot back =
 in
@@ -195,34 +196,36 @@ in
 > > > > > > If we set things up correctly and agree on the bindings, device=
 tree
 > > > > > > can be the unifying configuration mechanism through the whole of
-> > > > > > firmware (except for very early bits) and into the OS, this wil=
-l set
+> > > > > > firmware (except for very early bits) and into the OS, this will
+> > set
 > > > > > > us up very well to deal with the complexity that is coming.
 > > > > > >
 > > > > > > Anyway, here are the mental steps that I've gone through over t=
-he past
+he
+> > past
 > > > > > > two months:
 > > > > > >
 > > > > > > Step 1: At present, some people think U-Boot is not even allowe=
 d to
 > > > > > > have its own nodes/properties in the DT. It is an abuse of the
 > > > > > > devicetree standard, like the /chosen node but with less histor=
-y. We
-> > > > > > should sacrifice efficiency, expedience and expandability on th=
-e altar
+y.
+> > We
+> > > > > > should sacrifice efficiency, expedience and expandability on the
+> > altar
 > > > > > > of 'devicetree is a hardware description'. How do we get over t=
 hat
-> > > > > > one? Wel, I just think we need to accept that U-Boot uses devic=
-etree
-> > > > > > for its own purposes, as well as for booting the OS. I am not s=
-aying
+> > > > > > one? Wel, I just think we need to accept that U-Boot uses
+> > devicetree
+> > > > > > for its own purposes, as well as for booting the OS. I am not
+> > saying
 > > > > > > it always has to have those properties, but with existing featu=
 res
 > > > > > > like verified boot, SPL as well as complex firmware images where
-> > > > > > U-Boot needs to be able to find things in the image, it is esse=
-ntial.
-> > > > > > So let's just assume that we need this everywhere, since we cer=
-tainly
+> > > > > > U-Boot needs to be able to find things in the image, it is
+> > essential.
+> > > > > > So let's just assume that we need this everywhere, since we
+> > certainly
 > > > > > > need it in at least some places.
 > > > > > >
 > > > > > > (stop reading here if you disagree, because nothing below will =
@@ -230,15 +233,16 @@ make
 > > > > > > any sense...you can still use U-Boot v2011.06 which doesn't have
 > > > > > > OF_CONTROL :-)
 > > > > >
-> > > > > Having U-Boot keep it's *internal* config state in DTs is fine.  =
-Adding
-> > > > > that to the DTs that are copied over from linux isn't imho.  Ther=
-e are
-> > > > > various reasons for that.  First of all syncing device trees is a=
- huge
+> > > > > Having U-Boot keep it's *internal* config state in DTs is fine.
+> > Adding
+> > > > > that to the DTs that are copied over from linux isn't imho.  There
+> > are
+> > > > > various reasons for that.  First of all syncing device trees is a
+> > huge
 > > > > pain
 > > > > > and that's probably one of the main reasons our DTs are out of sy=
-nc for a
+nc
+> > for a
 > > > > > large number of boards.
 > > > >
 > > > > This re-sync is only a pain because:
@@ -248,42 +252,39 @@ ARE
 > > > > 2. DTS files are getting closer to being the super stable API that =
 has
 > > > >    been promised now that there's validation tools.
->=20
-> Agree on both, but still this is the reality we have to deal with right n=
-ow
->=20
 > > > >
 > > > > Some SoCs, like stm32 are doing an amazing job and keeping things in
 > > > > sync, every release.  Others like NXP are violating rule #1.
-> > >=20
+> > >
 > > > With NXP commitment to SystemReady on some IMX8 boards, I think this =
 is
 > > > changing,
 > > > at least for the SystemReady boards.
-> >=20
+> >
 > > I'd really like to see some progress (as would the other non-NXP folks
 > > working on NXP SoCs) in that regard.
-> >=20
+> >
 > > > > Still
 > > > > others like some TI platforms get bit by #2 (I solved one of these,=
  and
 > > > > need to cycle back to the one you and I talked about on IRC a while
 > > > > back, I bet it's another node name dash changed to underbar).
 > > > >
-> > > > > The point is this was fine in 2011 were we had SPL only,  but the=
- reality
+> > > > > The point is this was fine in 2011 were we had SPL only,  but the
+> > reality
 > > > > > today is completely different.  There's previous stage boot loade=
-rs (and
+rs
+> > (and
 > > > > > enough cases were vendors prefer those over SPL).  If that bootlo=
 ader
 > > > > needs
-> > > > > to use it's own device tree for whatever reason,  imposing restri=
-ctions
+> > > > > to use it's own device tree for whatever reason,  imposing
+> > restrictions
 > > > > on
-> > > > > it wrt to the device tree it has to include,  and require them to=
- have
-> > > > > knowledge of U-Boot and it's internal config mechanism makes no s=
-ense not
+> > > > > it wrt to the device tree it has to include,  and require them to
+> > have
+> > > > > knowledge of U-Boot and it's internal config mechanism makes no
+> > sense not
 > > > > > to mention it doesn't scale at all.
 > > > >
 > > > > If you are passing the full device tree around, a few more
@@ -294,45 +295,138 @@ all
 > > > > kilobyte file coming in from Linux instead.
 > > >
 > > > This is not about size but about firmware supply chain organization.
-> >=20
+> >
 > > That's great since it means we just need the bindings reviewed then
 > > everyone can pass whatever everyone else needs.
-> >=20
->=20
-> Size here is not my concern.  If the bindings u-boot expects gets
-> upstreamed I am obviously fine with the previous stage bootloader passing
-> them over.  What I strongly disagree,  is *demand* the previous stage boot
-> loader have knowledge about them if they are not in upstream.
+> >
+> > > > > Step 2: Assume U-Boot has its own nodes/properties. How do they g=
+et
+> > > > > > there? Well, we have u-boot.dtsi files for that (the 2016 patch
+> > > > > > "6d427c6b1fa binman: Automatically include a U-Boot .dtsi file"=
+),
+> > we
+> > > > > > have binman definitions, etc. So we need a way to overlay those
+> > things
+> > > > > > into the DT. We already support this for in-tree DTs, so IMO th=
+is
+> > is
+> > > > > > easy. Just require every board to have an in-tree DT. It helps =
+with
+> > > > > > discoverability and documentation, anyway. That is this series.
+> > > > >
+> > > > > Again, the board might decide for it's own reason to provide it's=
+ own
+> > > > DT.
+> > > > > IMHO U-Boot must be able to cope with that and asking DTs to be
+> > included
+> > > > in
+> > > > > U-Boot source is not the right way to do that,  not to mention ca=
+ses
+> > were
+> > > > > that's completely unrealistic (e.g QEMU or a board that reads the=
+ DTB
+> > > > from
+> > > > > it's flash).
+> > > > >
+> > > > > > (I think most of us are at the beginning of step 2, unsure abou=
+t it
+> > > > > > and worried about step 3)
+> > > > > >
+> > > > > > Step 3: Ah, but there are flows (i.e. boards that use a particu=
+lar
+> > > > > > flow only, or boards that sometimes use a flow) which need the =
+DT
+> > to
+> > > > > > come from a prior stage. How to handle that? IMO that is only
+> > going to
+> > > > > > grow as every man and his dog get into the write-a-bootloader
+> > > > > > business.
+> > > > >
+> > > > > And that's exactly why we have to come up with something that sca=
+les,
+> > > > without
+> > > > > having to add a bunch of unusable DTs in U-Boot.
+> > > >
+> > > > Both of these are solved by having our bindings reviewed and upstre=
+amed
+> > > > and then what we need included in the authoritative dts files.
+> > > >
+> > > There shall be authoritative System Device Trees as vendors are worki=
+ng
+> > on.
+> > > Those System Device Trees cover all aspects of a board, not just the
+> > > Cortex-A part that U-Boot cares about.
+> > > Out of those system device trees, a tool (lopper) is going to carve o=
+ut
+> > the
+> > > "authoritative dts for the cortex-A".
+> > > Essentially, that carve out will correspond to what would come out of
+> > Linux.
+> >
+> > s/Linux/software/
+> >
+> > > This scheme will not be generalized, just adopted by vendors on some
+> > > boards.
+> > > DT for those board become part of the OS ABI (meaning, the driver
+> > > developper is constrained).
+> >
+> > OK?  And is going to pick and choose which valid bindings to implement?
+> > Or is it going to provide half a node for Linux?  No?  I assume no.  So
+> > it will also provide whatever bindings we've upstreamed and say need to
+> > be passed.
+> >
+> Until we can agree on a better scheme, Linux will server as the basis for
+> most of the bindings.
 
-I also agree that bindings MUST be upstreamed for there to be a
-reasonable expectation that any other project (or human creating a dts)
-be adding them, either statically or any sort of run-time modification
-(think memory information, this gets fixed up at run-time often still).
+Yes, this is the de-facto standard since the beginning.
 
-And it may end up being zero "u-boot,FOO" bindings where this is the
-case.  Or it may end up being related to secure / verified boot stuff
-only.
+> Some projects, like TF-A maintain their own bindings specifications. I
+
+And as I keep saying I believe this to be totally wrong.  Unless and
+only unless the TF-A bindings are for TF-A only to care about, and then
+it's just one-off do what you guys want non-standard stuff.
+
+> guess U-Boot shall do the same.
+
+No, U-Boot is going to upstream the bindings that we want to have be
+considered official.
+
+> The U-Boot DT (for properties or whatever purpose) can be stored in a
+> various of U-Boot decided ways and as part of the TF-A FIP image in the
+> ad-hoc section: NT_FW_CONFIG. Passing FIP information to U-Boot to retrie=
+ve
+> the NF_FW_CONFIG should be part of the blob_list discussion that started a
+> while ago.
+
+Yes, we'll have to see where things progress about what bindings are
+needed, and where.
+
+> For System Device Tree, the bindings and the master repo will be maintain=
+ed
+> in devicetree.org (AFAIK).
+
+Interesting, okay.
 
 --=20
 Tom
 
---f4arffV+Mc+T1KhS
+--6yuPXOSZRpyw7iEV
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmF5YX0ACgkQFHw5/5Y0
-tyyolAwApp9hGjJ4u4TQAL8GUqvIcKCigcQG85vXHX3eG3JBqiPGSLcaiKGyYSAC
-h3P+CZtoubgYx6UlgjBzQgHT/lc1p6s2cnphEpYKDu7wjUugzZhBPc6ICgH9cPhI
-cvLVE1cbjD4qMbugyuL39WY6MwjRAYoULhl8KVnvkfbsh3gqV9DsGCag/WMF/uCv
-sZENt9KaVkF5UOSHElriPd0f8N4AFTsNhCuhh8RaCp8YFis6liny5MmBo648H1fT
-jAL5pm66cSCt810k6YMG5Qlx6nnt1WWHqVn9UGraM505UvH9FL9DoUkjWpDXq5JI
-dx4PCyhNpKqKcTVQAkmBhT2WuysZsLb0XLqtglyz4XEMvpMO0ga1FLQQQ6BhQIAN
-Fa4Qc5wFIYUDdM2PLPSr9ShpTmVTJQwImXpoj9qYgEKINhokqb19lSbIa0mS7xbZ
-59NguV/2FfCWFT5gaxWwtgB+m3Ix0i76raiHkKxj1Rq4cB925GZYxglXaFEnKbZt
-OIRBMK1v
-=UgF4
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmF5Yp4ACgkQFHw5/5Y0
+tywjqQwAod6unMRd7pNc5wo4dcljMmOkIasPpSt7M50PbhHFVtdvZYERKxYdlRZQ
+TUzn9aDDOf/JsjB/we6mnpnvfBAneWCaZ/I1C8HHLqLpuVVuE0sogAsrsexU2Psw
+SojxpwT/XLp0GWCEUm96cW7xcj9ENP0A0utx7uTdYMjATvTOfsixOrNbQF7tTCvy
+sCEAs6Vso1lQSZQXsyIEKfi/jJsElYV5vnmDOUqxrq/xuF9sJAmOeTFXL160Mocc
+5wUCtv4m1iFkyWwEOKglSWdMa7X8aV1lcwimQQTGFIU7Zw4Kc1Sut2PDdPtohN2A
+THoZ9snqpgrOdYXWaZ2to48w6sezyWuqlNJPXeqpCtBYvAPusAhRD4qztjZBAudF
+TJgcRc4yBitiZKWf9G/qWIjIRwN0kk5UHT5lZ2G3bQ06GzXpMcV6PaJEqsA/Y0wW
+QQZSM6GvCr4u7tAEmEGBrtsiIWBnKT2Ow/k+qTSFRAgNnGD0dHiRL0s9+5NA89V5
+8TMKMMOD
+=yy95
 -----END PGP SIGNATURE-----
 
---f4arffV+Mc+T1KhS--
+--6yuPXOSZRpyw7iEV--
 
