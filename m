@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B3843CE75
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:14:25 +0200 (CEST)
-Received: from localhost ([::1]:60538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7494643CEAC
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:24:20 +0200 (CEST)
+Received: from localhost ([::1]:57654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mflZI-0004Fy-34
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:14:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35804)
+	id 1mflit-00051m-8b
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:24:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfl0c-00038d-Ao
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:38:38 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:36750)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfl0a-0002rE-1M
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:38:33 -0400
-Received: by mail-pg1-x531.google.com with SMTP id 75so3307015pga.3
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 08:38:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nU7IfCWFzZa2N0c3DJVlgxxc2HK0HWAXUNQShqV2Bn0=;
- b=VDVkh1maTCDnVDp5J0OyAVwNCTzD2sFe0mlUnr8KBwKOSf8Qk5QXxNNhe6MuujbhtS
- HCd5MrAcNt29W7wzmKG1AOy+4muTR79mh88y5mZaTKsttBqrBo7aKcjaqGWwpRtNm7v8
- 37FYry32uTwrGFHq9q7dC0r5czl7RSh35jFQfsB+DVOj86wesjRGTxNwR2+WPgTY4vYc
- GtYkF0X0Hyvpd+gk1rjZX4fLJWsit467yFMlk5+334de2twkiT0CjVQGwGm/wNZNZ3da
- nOUyyCTFaRaMsm/Hx3PyuB47Htgvo0XdIwe3js6GaT/fL4hW6qkk/TzZ7//N8FGVtO3Q
- Ptfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nU7IfCWFzZa2N0c3DJVlgxxc2HK0HWAXUNQShqV2Bn0=;
- b=b2dqHeqinC2yAPvHK2jrnskaZzwwmqLaelMTOanoFvX+mlwhqDeR2kIvuQRoG8CSPD
- 5m4SAIQ+HBpL0mG3UUkzrB+iWgQsTxpPn3IcR/+Y6mx7awMRdks13miUZcj7zo95f8Dg
- wkXByqBVX5DizS8b6kZSuY8CC0KtTjcvVq0NYE5wflaQqP5N/0qeZXX/8hflD8KLOgRl
- QpFqVWTwpldOewyb6Xxtw+ELbjONMOWagjDzFoU0fEK9/Lv+7Megvl+LGQTTOgYsyfV4
- 7rM/Zfg8e+MaJ6ym4eAm5Abvtno9YgPl7oa955h+HqyAZo/+N+wi9CWnSBu+WqY6ifVk
- ksQA==
-X-Gm-Message-State: AOAM533XdFYLeGyiDAPVRk1wZbOdMYwGtdBJ0zSLquLOHFTPnKgilru9
- CdaPicVj/QJ8dQt6V3LUdOfBPQ==
-X-Google-Smtp-Source: ABdhPJzj+w/LzGtpjE2cWII/2nY/bmG5oLh//lDEelXJfMTyoP43lidkY66rwp66TJYOG0fLiG9IBA==
-X-Received: by 2002:a62:5304:0:b0:44c:719c:a2c with SMTP id
- h4-20020a625304000000b0044c719c0a2cmr31988479pfb.13.1635349110521; 
- Wed, 27 Oct 2021 08:38:30 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id c11sm4390050pji.38.2021.10.27.08.38.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 08:38:30 -0700 (PDT)
-Subject: Re: [PATCH 3/6] hw/sh4: Change debug printfs to traces
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <cover.1635298341.git.balaton@eik.bme.hu>
- <031a5111bb1ef1e66fd8f05fbe4a5ecbbcb25396.1635298341.git.balaton@eik.bme.hu>
- <f595e837-4245-1492-8abd-16dabdb06571@linaro.org>
- <a942fa0-5cb6-b8ae-6dbe-47fc94db417@eik.bme.hu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <10f55b5b-becb-efab-3aec-dc15c5101518@linaro.org>
-Date: Wed, 27 Oct 2021 08:38:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mfl2g-0005fW-0f
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:40:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59961)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mfl2S-0006td-Gg
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:40:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635349226;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DqvYcta8ONagule8Opef3FJBnMzKeQN2kAPpfkjaXHY=;
+ b=eBM8zJJ8AyfS4SmIAXZ8l8f8GpPyORE01piNb60AzGUUSiZRC7lzuDyh6wyW36npgHDUbn
+ oc5cawFM8ULSZ1u8jcKozW64p/BdVkFTWLWOxGtDjVk9kQmy7jNxvqs0IQniatsssx8A/e
+ 3czqMMcA8pLIA4BDyXu6OqIVzHtUWu0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-450--yVMRHVFN0yDnkPMyJXFjw-1; Wed, 27 Oct 2021 11:40:23 -0400
+X-MC-Unique: -yVMRHVFN0yDnkPMyJXFjw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08F1E1B18BC0;
+ Wed, 27 Oct 2021 15:40:22 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A6961042AA9;
+ Wed, 27 Oct 2021 15:40:11 +0000 (UTC)
+Date: Wed, 27 Oct 2021 16:40:10 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v3 03/12] vfio-user: define vfio-user-server object
+Message-ID: <YXly2vSh/bhgr0i/@stefanha-x1.localdomain>
+References: <cover.1633929457.git.jag.raman@oracle.com>
+ <13dba991f1de91711e5c3cad9a332d6e7c5eee7b.1633929457.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <a942fa0-5cb6-b8ae-6dbe-47fc94db417@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.847,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <13dba991f1de91711e5c3cad9a332d6e7c5eee7b.1633929457.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="MdsxplAPz8LsARlO"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,21 +79,255 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>, qemu-devel@nongnu.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
+ swapnil.ingle@nutanix.com, john.levon@nutanix.com, philmd@redhat.com,
+ qemu-devel@nongnu.org, alex.williamson@redhat.com, marcandre.lureau@gmail.com,
+ thanos.makatos@nutanix.com, pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/27/21 2:40 AM, BALATON Zoltan wrote:
->> I suggest two separate sh_serial_{read,write} tracepoints.
-> 
-> Thought about that but it's unlikely one would only want to trace one direction, more 
-> likely to want all access to the device. But if it's a requirement I can split this into 
-> separate _read and _write.
+--MdsxplAPz8LsARlO
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sure, but it's just as easy to enable sh_serial_* to get both tracepoints.
+On Mon, Oct 11, 2021 at 01:31:08AM -0400, Jagannathan Raman wrote:
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index 0222bb4506..97de79cc36 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -705,6 +705,20 @@
+>  { 'struct': 'RemoteObjectProperties',
+>    'data': { 'fd': 'str', 'devid': 'str' } }
+> =20
+> +##
+> +# @VfioUserServerProperties:
+> +#
+> +# Properties for vfio-user-server objects.
+> +#
+> +# @socket: socket to be used by the libvfiouser library
+> +#
+> +# @device: the id of the device to be emulated at the server
+> +#
+> +# Since: 6.0
 
+6.2
 
-r~
+> +##
+> +{ 'struct': 'VfioUserServerProperties',
+> +  'data': { 'socket': 'SocketAddress', 'device': 'str' } }
+> +
+>  ##
+>  # @RngProperties:
+>  #
+> @@ -830,7 +844,8 @@
+>      'tls-creds-psk',
+>      'tls-creds-x509',
+>      'tls-cipher-suites',
+> -    'x-remote-object'
+> +    'x-remote-object',
+> +    'vfio-user-server'
+
+Should it have the experimental prefix ('x-') or is the QAPI interface
+stable? I think some things to think about are whether a single process
+can host multiple device servers, whether hotplug is possible, etc. If
+the interface is stable then it must be able to accomodate future
+features (at least ones we can anticipate right now :)).
+
+>    ] }
+> =20
+>  ##
+> @@ -887,7 +902,8 @@
+>        'tls-creds-psk':              'TlsCredsPskProperties',
+>        'tls-creds-x509':             'TlsCredsX509Properties',
+>        'tls-cipher-suites':          'TlsCredsProperties',
+> -      'x-remote-object':            'RemoteObjectProperties'
+> +      'x-remote-object':            'RemoteObjectProperties',
+> +      'vfio-user-server':           'VfioUserServerProperties'
+>    } }
+> =20
+>  ##
+> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+> new file mode 100644
+> index 0000000000..c2a300f0ff
+> --- /dev/null
+> +++ b/hw/remote/vfio-user-obj.c
+> @@ -0,0 +1,173 @@
+> +/**
+> + * QEMU vfio-user-server server object
+> + *
+> + * Copyright =A9 2021 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL-v2, version 2 or=
+ later.
+> + *
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +/**
+> + * Usage: add options:
+> + *     -machine x-remote
+> + *     -device <PCI-device>,id=3D<pci-dev-id>
+> + *     -object vfio-user-server,id=3D<id>,type=3Dunix,path=3D<socket-pat=
+h>,
+
+I expected socket.type=3D and socket.path=3D based on the QAPI schema. Is
+this command-line example correct?
+
+> + *             device=3D<pci-dev-id>
+> + *
+> + * Note that vfio-user-server object must be used with x-remote machine =
+only.
+> + * This server could only support PCI devices for now.
+> + *
+> + * type - SocketAddress type - presently "unix" alone is supported. Requ=
+ired
+> + *        option
+> + *
+> + * path - named unix socket, it will be created by the server. It is
+> + *        a required option
+> + *
+> + * device - id of a device on the server, a required option. PCI devices
+> + *          alone are supported presently.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +
+> +#include "qom/object.h"
+> +#include "qom/object_interfaces.h"
+> +#include "qemu/error-report.h"
+> +#include "trace.h"
+> +#include "sysemu/runstate.h"
+> +#include "hw/boards.h"
+> +#include "hw/remote/machine.h"
+> +#include "qapi/error.h"
+> +#include "qapi/qapi-visit-sockets.h"
+> +
+> +#define TYPE_VFU_OBJECT "vfio-user-server"
+> +OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
+> +
+> +struct VfuObjectClass {
+> +    ObjectClass parent_class;
+> +
+> +    unsigned int nr_devs;
+> +
+> +    /* Maximum number of devices the server could support */
+> +    unsigned int max_devs;
+> +};
+> +
+> +struct VfuObject {
+> +    /* private */
+> +    Object parent;
+> +
+> +    SocketAddress *socket;
+> +
+> +    char *device;
+> +};
+> +
+> +static void vfu_object_set_socket(Object *obj, Visitor *v, const char *n=
+ame,
+> +                                  void *opaque, Error **errp)
+> +{
+> +    VfuObject *o =3D VFU_OBJECT(obj);
+> +
+> +    g_free(o->socket);
+
+qapi_free_SocketAddress(o->socket)?
+
+> +
+> +    o->socket =3D NULL;
+> +
+> +    visit_type_SocketAddress(v, name, &o->socket, errp);
+> +
+> +    if (o->socket->type !=3D SOCKET_ADDRESS_TYPE_UNIX) {
+> +        error_setg(&error_abort, "vfu: Unsupported socket type - %s",
+> +                   o->socket->u.q_unix.path);
+
+o->socket must be freed and set it to NULL again, otherwise setting the
+property appears to fail but the SocketAddress actually retains the
+invalid value.
+
+> +        return;
+> +    }
+> +
+> +    trace_vfu_prop("socket", o->socket->u.q_unix.path);
+> +}
+> +
+> +static void vfu_object_set_device(Object *obj, const char *str, Error **=
+errp)
+> +{
+> +    VfuObject *o =3D VFU_OBJECT(obj);
+> +
+> +    g_free(o->device);
+> +
+> +    o->device =3D g_strdup(str);
+> +
+> +    trace_vfu_prop("device", str);
+> +}
+> +
+> +static void vfu_object_init(Object *obj)
+> +{
+> +    VfuObjectClass *k =3D VFU_OBJECT_GET_CLASS(obj);
+> +
+> +    if (!object_dynamic_cast(OBJECT(current_machine), TYPE_REMOTE_MACHIN=
+E)) {
+> +        error_setg(&error_abort, "vfu: %s only compatible with %s machin=
+e",
+> +                   TYPE_VFU_OBJECT, TYPE_REMOTE_MACHINE);
+> +        return;
+> +    }
+> +
+> +    if (k->nr_devs >=3D k->max_devs) {
+> +        error_setg(&error_abort,
+> +                   "Reached maximum number of vfio-user-server devices: =
+%u",
+> +                   k->max_devs);
+> +        return;
+> +    }
+> +
+> +    k->nr_devs++;
+> +}
+> +
+> +static void vfu_object_finalize(Object *obj)
+> +{
+> +    VfuObjectClass *k =3D VFU_OBJECT_GET_CLASS(obj);
+> +    VfuObject *o =3D VFU_OBJECT(obj);
+> +
+> +    k->nr_devs--;
+> +
+> +    g_free(o->socket);
+
+qapi_free_SocketAddress(o->socket)?
+
+> +
+> +    g_free(o->device);
+> +
+> +    if (k->nr_devs =3D=3D 0) {
+> +        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+> +    }
+
+This won't work for all use cases. The user may wish to create/delete
+vhost-user servers at runtime without terminating the process when there
+are none left. An boolean option can be added in the future to control
+this behavior, so it's okay to leave this as is.
+
+--MdsxplAPz8LsARlO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmF5ctkACgkQnKSrs4Gr
+c8i2GAf8D5nkOchDq4yUwh2Idk+oOpWgS/djQwZj92Rhtmex7bUPmKRndQl9WPDG
+PPCJuRe9Bd0UeIOF6uWSpJGLejcjLtCMW+XUUo3Yx1XgjKv6OwpoCWwja64zdsYb
+4It3tQlQXJ53AlgC9boiyqpM5FZzXGzqOOZp4mKd02VtBquqQjynUHMYr2IoPP65
+FAoq0Nn77ebRdPsftUX+YsBCQpGclNJwFzUVOY8mixXpGdsOWgnX94gsAB0t84OG
+o6efOJIOLZuOU+SIwhwgYoW8br8ZlRnxdQJo36zDh1KUMmT6iWA1eXlu9lGh4CAz
+fZ8qjBvWO7004UMTch6n4kA/+fzdlg==
+=VNMb
+-----END PGP SIGNATURE-----
+
+--MdsxplAPz8LsARlO--
+
 
