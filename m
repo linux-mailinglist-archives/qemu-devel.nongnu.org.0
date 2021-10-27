@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB0B43CE2E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:00:10 +0200 (CEST)
-Received: from localhost ([::1]:59512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DACC43CE24
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:59:12 +0200 (CEST)
+Received: from localhost ([::1]:57142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mflLV-00013V-Lc
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:00:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59308)
+	id 1mflKZ-0007uv-69
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:59:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfkgB-0008Ek-TL
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:17:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfkg8-0008Fo-Du
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:17:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635347843;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FQUvpdIJdUI3hbtfuy+/AMKs53HvrBBM9mJzJGANM2Q=;
- b=ODWJpmGVnbuW4jw0tFZq/pJ0cAQ0FleJjtRyLdqNY+6GZQ9+XJ56oJFQrr0RkKhcZfYScV
- wZlcw9k75RLIHdVXZvb8Xs7lW5iMLtwHwqCr+NIUM90sfASp1MYw5jy4Qj4iMX90bonWrj
- Dg5+/OGQ0BPtgUUzs1xFyXw6zWEvHuQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-sCGoAoLxPI6_tIjIHdfy8Q-1; Wed, 27 Oct 2021 11:17:18 -0400
-X-MC-Unique: sCGoAoLxPI6_tIjIHdfy8Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B6E318125C0;
- Wed, 27 Oct 2021 15:17:17 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 080A518533;
- Wed, 27 Oct 2021 15:17:11 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7155511380A7; Wed, 27 Oct 2021 17:17:10 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH] qapi: Improve input_type_enum()'s error message
-References: <20211011131558.3273255-1-armbru@redhat.com>
- <YWVsheOBwyx+3QOM@redhat.com> <87r1cq78hs.fsf@dusky.pond.sub.org>
- <CAFn=p-ZOE+KgYE8FoAeCpW+FL3cRgM1HKzAQFy8TBYigZQb6HQ@mail.gmail.com>
- <874k93c8hq.fsf@dusky.pond.sub.org>
-Date: Wed, 27 Oct 2021 17:17:10 +0200
-In-Reply-To: <874k93c8hq.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Wed, 27 Oct 2021 08:00:33 +0200")
-Message-ID: <87bl3a7b0p.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1mfkor-00042y-Td
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:26:25 -0400
+Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:37420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1mfkop-0002SD-Ph
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:26:25 -0400
+Received: by mail-lf1-x12b.google.com with SMTP id bp15so6986863lfb.4
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 08:26:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ahZU4k0J/U5sRPBLSiZHxJ4JUNXjhmGoq7Cv288rrxc=;
+ b=Kd/wZkjQXRrs1vKZ3N70DUu1XD+WJfwNYwf8rOFeEinIalaqwv8oApTWUPQFfvwu44
+ nafcHJLFzE1mBeLBFrR/ruEAI5aq8Ac9QQXpsvmf5mnQMUvb/JF8umGBEr8Fx+HQxt/i
+ gL55jHw3nKcoPhUSo3z8W7OHobRYYpbWdox9ZMxfqdKao3JqHeMmYPGC1+yD2xghQA7F
+ kqfTskkf8iwFyU/eh9cRc3HQGPyR8vWxHxOc/hID4rqSpZgzpQhDay2X99/aZ31AHniZ
+ 3MXTwhMV1kZnHnOiVe/LL35/QTwCZJch4hHGJw/YKlyhuXHVBWp/3BjiJmwOgwahY7+a
+ 9lnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ahZU4k0J/U5sRPBLSiZHxJ4JUNXjhmGoq7Cv288rrxc=;
+ b=gAAssUF8BdpCP441z4g5JfjeYrcTFapSWKX7mRnzVJWp65+qFk3CIxzcZ1ZpAk/vhB
+ In82zZoFh1HAINODymal/5pli/fp4GyjdUl97AjpvywdCCkw6yofENvurabN7w0BLBp/
+ mcyIQxuHB2GZDxb581cjrk41GPlh3hyNO0F6tXzynhhEIvbRon/h7ENuaYscFwDXb3H2
+ oy3k0+hAWXnoEjXB3B9CbHLdzxzrk3h73/v8GoTzdEuVHWOIH6QCSzli7RcnmDQg+JVO
+ x97kcn4SvOzmkQShmCpPEIKaLZU5V4UwRScdTkCFn3G4MDoctptmrHaACBBqGXgr1jlr
+ 9KDQ==
+X-Gm-Message-State: AOAM531Ifp2Qc0IaFziX92GkGPaczQWOEQ9/bH+9ptb/wLdDnrZCQG3x
+ U6NpsbqNyBU5xg4ZO6tAmycGlbpCXf4h8iTgTpw=
+X-Google-Smtp-Source: ABdhPJyGYj6FPzSsWdIkYbesHZ65/Nk0Aw10Fxf/0PCOWKxCPYWIiHEx46odEdo0A4605p5nh2byEruljPxw++eeLkk=
+X-Received: by 2002:a05:6512:3ca3:: with SMTP id
+ h35mr17503500lfv.128.1635348381246; 
+ Wed, 27 Oct 2021 08:26:21 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20211027151012.2639284-1-imammedo@redhat.com>
+In-Reply-To: <20211027151012.2639284-1-imammedo@redhat.com>
+From: Jason Andryuk <jandryuk@gmail.com>
+Date: Wed, 27 Oct 2021 11:26:09 -0400
+Message-ID: <CAKf6xpvKQmof7Khfb4d59dsNEQY-YFUoAo40ocoL=5qcrbWK9g@mail.gmail.com>
+Subject: Re: [PATCH v2] qtest: fix 'expression is always false' build failure
+ in qtest_has_accel()
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
+ envelope-from=jandryuk@gmail.com; helo=mail-lf1-x12b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,24 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
-
-> John Snow <jsnow@redhat.com> writes:
+On Wed, Oct 27, 2021 at 11:10 AM Igor Mammedov <imammedo@redhat.com> wrote:
 >
->> This likely fixes https://gitlab.com/qemu-project/qemu/-/issues/608 and you
->> could include that in your commit message if it isn't too late.
+> If KVM is disabled or not present, qtest library build
+> may fail with:
+>    libqtest.c: In function 'qtest_has_accel':
+>       comparison of unsigned expression < 0 is always false
+>       [-Werror=type-limits]
+>          for (i = 0; i < ARRAY_SIZE(targets); i++) {
 >
-> It's not.
+> due to empty 'targets' array.
+> Fix it by making sure that CONFIG_KVM_TARGETS isn't empty.
 >
-> Have you verified it fixes the bug, or is it just an educated guess?
+> Fixes: e741aff0f43343 ("tests: qtest: add qtest_has_accel() to check if tested binary supports accelerator")
+> Reported-by: Jason Andryuk <jandryuk@gmail.com>
+> Suggested-by: "Michael S. Tsirkin" <mst@redhat.com>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 
-I did: it does fix it.
+Tested-by: Jason Andryuk <jandryuk@gmail.com>
 
+Thanks,
+Jason
 
