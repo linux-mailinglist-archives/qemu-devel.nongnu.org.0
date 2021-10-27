@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B376B43C0E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 05:42:56 +0200 (CEST)
-Received: from localhost ([::1]:37024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A2343C0FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 05:49:51 +0200 (CEST)
+Received: from localhost ([::1]:41514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfZq3-0002Kl-Qz
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 23:42:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39436)
+	id 1mfZwj-0005jl-SL
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 23:49:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfZok-0001ZX-T7
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 23:41:38 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36792)
+ id 1mfZvV-00053G-Df
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 23:48:33 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfZoj-0007eH-9C
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 23:41:34 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- z11-20020a1c7e0b000000b0030db7b70b6bso5029021wmc.1
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 20:41:31 -0700 (PDT)
+ id 1mfZvT-0004qR-NM
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 23:48:33 -0400
+Received: by mail-wr1-x433.google.com with SMTP id d10so1741481wrb.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 20:48:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=o/VUjPRP20xqIeo/7Z4PtzKf1LBvMF39qPqHQjfdxi0=;
- b=DB/H6vF5cGgCLOTOlVZc5x3hzryXR1roIXJlQo74H5mwPjj2UopwbhcYUrRKH8Arqk
- LlZTdjvC5RTYQiARNO1OkvEM2xel2xoKqCbZXxWM3aPP+VNBYYrHpmpOxhY219/BTH/M
- 9Q7xEAuCU+D5Hdng/pmZzXHSrE0KkWGyAN4Qwp9tZ/v+ssIrs4Ac5kOcK923lpSWk7XK
- qICqZV2/Xec8mY7tFl2QexAyHA5kv4ZaFOidpLTsA47+3a+KsyXakhQKAQ/9Ds3pnnrT
- hsUVmSuSur/+0zVNncGHiXp40hO2E9ghgLm54Db8Mc7hQZJfx85iMCxELA9iWlH+Gopp
- 3h3Q==
+ bh=mC0pHf8fBVA2lPsPhjUjU/Hi4r9anLf+a+p5ln/Tw2w=;
+ b=h5xDEaSLNBssoJExVCUiWkGHTzIiMNHuhLRoiunsTk4LTmrOCKusldgGdJ8X/YEUoj
+ 2/IUeoqq0+kmhqUkYufiPhZ49Tmxqcld3DIUHb/BeSKMYUQrRhey1ytoUYLayc2MIVY7
+ g0zCudsso/2rwlpY+1q7Gx4wZqh+0scmCQdsXmMP8qhgDaBw5rWYeJAo4+lvwW9EgbL7
+ WlAuR4h7SjWZg77V9XeXtpRHYGjv2T4qi66pIkg24q40EoFoS++dg/g0DHPcDCzgDLBf
+ R+fP93YMUnjr8tYzDiXifafy31DdSG1rQinL4IuDkBko97cKTot8bWQi4T5JqktHGZW0
+ vNzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:from:to:cc:references:in-reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=o/VUjPRP20xqIeo/7Z4PtzKf1LBvMF39qPqHQjfdxi0=;
- b=qg7nyhGiNiNIqS748Wgs1SWyC5MIZoG33I+eaBBI1jww82kE1WeLkUe6jztMfocOdm
- Uo8l41JCOE+fynPu+TrlkFJHbBpNcUgcLTAjUqCHtzSopWu3rNUC/g858F+kLlawJSRR
- ixMIR3iN0N+6wEs5PdwG0DgZRbHvRAMtpWAJj3RAWJG73UW/CPKTU5mOnakRNzN8+TT8
- iqVebo1gTrj52LbpzRArD0EULzqhn0O/kjUDYXLFPZXj/GbAmGKtvWfok4ZEeIV7HEos
- tAZgwH9X7jUpuDud0bZarGdeSMNV/BKjmL7Tmnl8obaj7BDwcFSkvIa3n3YAQptYBPEM
- p4xw==
-X-Gm-Message-State: AOAM532Azoc1PFcmOt2TR69uHESiUziIzps0PyTQ5IVZjmrOk3nJXDJL
- TmDMOOVS9WbThBBfOBpeEp6ikVLChko=
-X-Google-Smtp-Source: ABdhPJzrSj78TwSh/jtbkosVWSiqVpIW1MfF5ll8oZt9ByVvkNln0HeoKS1BLvx+Qp3WrVq1+j1vBg==
-X-Received: by 2002:a1c:29c2:: with SMTP id p185mr3010176wmp.43.1635306087087; 
- Tue, 26 Oct 2021 20:41:27 -0700 (PDT)
+ bh=mC0pHf8fBVA2lPsPhjUjU/Hi4r9anLf+a+p5ln/Tw2w=;
+ b=teXx29NhqwUBgSWA0NvRNov1RzASvLDrrVyiT43SRHPdhCRYV4Jb/HmEiU39NEUX1k
+ qy4tAO07T3xQJfZioRbR16flgNCjtBAxGEruhr+zW9xz+DJUlV8GK83tquWP9RKqrasS
+ l4MebtX0BcAaZwr/ZouieizN0bfoaij1juXWfxHtajvfSmS0WrwIFK/gFNd4Wn+GBBbX
+ scrZ5hY8j9Cz+4xnuG50a40vcWBlvW2Ov2ARFMo9giEmfPUTAY0sjQCREPQJEWoCSJy8
+ 9vJRIu/eKW01ohVNik/ljgtpNCBHqmcdTknAR+BKnezPWoSYMe2hNXkE+CgPi4esbpoE
+ gnVg==
+X-Gm-Message-State: AOAM533VvgeJiSKwLsFaXV2N88KTauHieQST2AuZzY5sM6l4qIs0PKKt
+ P4x+OSWEnd34V46k9A2nZ5Q=
+X-Google-Smtp-Source: ABdhPJxZxdkilKG5Y4oSubGvX43bJfvmE/7ERmdB6/1TNj4dvCmpo2EhqFFAv50gE6OdT+I+7oqs1g==
+X-Received: by 2002:adf:f252:: with SMTP id b18mr37385894wrp.292.1635306509586; 
+ Tue, 26 Oct 2021 20:48:29 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id v191sm2172734wme.36.2021.10.26.20.41.11
+ by smtp.gmail.com with ESMTPSA id j9sm2275501wms.39.2021.10.26.20.48.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 20:41:13 -0700 (PDT)
-Message-ID: <58c4a298-4f22-c7f2-e754-3ac802c50ee2@amsat.org>
-Date: Wed, 27 Oct 2021 05:41:11 +0200
+ Tue, 26 Oct 2021 20:48:21 -0700 (PDT)
+Message-ID: <2e0f0533-5f1a-7822-91b6-795c34ee90c9@amsat.org>
+Date: Wed, 27 Oct 2021 05:48:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 2/4] MAINTAINERS: Add entries to cover MIPS CPS / GIC
- hardware
+Subject: Re: [PATCH 4/4] MAINTAINERS: Agree to maintain nanoMIPS TCG frontend
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org, Paul Burton <paulburton@kernel.org>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
 References: <20211004092515.3819836-1-f4bug@amsat.org>
- <20211004092515.3819836-3-f4bug@amsat.org>
- <bac271eb-bae1-d13f-5605-b82559222ef1@amsat.org>
-In-Reply-To: <bac271eb-bae1-d13f-5605-b82559222ef1@amsat.org>
+ <20211004092515.3819836-5-f4bug@amsat.org>
+ <82956a55-18f3-c220-ced9-0eb0e76a30ae@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <82956a55-18f3-c220-ced9-0eb0e76a30ae@flygoat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -93,71 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paul Burton <paulburton@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/21 00:21, Philippe Mathieu-Daudé wrote:
-> Hi Paul,
-> 
-> You are the maintainer of the Boston machine which is the
-> only one using these peripherals; would you agree to be
-> (co-)maintainer of these files?
-
-I am going to respin this patch removing Paul name.
-
-> On 10/4/21 11:25, Philippe Mathieu-Daudé wrote:
->> MIPS CPS and GIC models are unrelated to the TCG frontend.
->> Move them as new sections under the 'Devices' group.
+On 10/4/21 22:08, Jiaxun Yang wrote:
+> 在 2021/10/4 10:25, Philippe Mathieu-Daudé 写道:
+>> As of this commit, the nanoMIPS toolchains haven't been merged
+>> in mainstream projects. However MediaTek provides a toolchain:
+>> https://github.com/MediaTek-Labs/nanomips-gnu-toolchain/releases/tag/nanoMIPS-2021.02-01
 >>
->> Cc: Paul Burton <paulburton@kernel.org>
+>>
+>> Since I now have spent more time with the ISA, I agree to maintain
+>> it along with the other MIPS ISA.
+>>
+>> For historical notes, see commit a60442eb8 ("Deprecate nanoMIPS ISA").
+>>
 >> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> 
+> Probably it's worthy to ask MTK folks if they are willing to maintain QEMU?
+
+Well it is not like I am hiding this patch, it is posted on a public
+mailing list...
+
 >> ---
->>  MAINTAINERS | 22 ++++++++++++++++------
->>  1 file changed, 16 insertions(+), 6 deletions(-)
+>>   MAINTAINERS | 6 +-----
+>>   1 file changed, 1 insertion(+), 5 deletions(-)
 >>
 >> diff --git a/MAINTAINERS b/MAINTAINERS
->> index cfee52a3046..a5268ad0651 100644
+>> index f1d7279a0f2..8ce47417eff 100644
 >> --- a/MAINTAINERS
 >> +++ b/MAINTAINERS
->> @@ -239,14 +239,8 @@ F: target/mips/
->>  F: configs/devices/mips*/*
->>  F: disas/mips.c
->>  F: docs/system/cpu-models-mips.rst.inc
->> -F: hw/intc/mips_gic.c
->>  F: hw/mips/
->> -F: hw/misc/mips_*
->> -F: hw/timer/mips_gictimer.c
->> -F: include/hw/intc/mips_gic.h
->>  F: include/hw/mips/
->> -F: include/hw/misc/mips_*
->> -F: include/hw/timer/mips_gictimer.h
->>  F: tests/tcg/mips/
->>  
->>  MIPS TCG CPUs (nanoMIPS ISA)
->> @@ -2271,6 +2265,22 @@ S: Odd Fixes
->>  F: hw/intc/openpic.c
->>  F: include/hw/ppc/openpic.h
->>  
->> +MIPS CPS
->> +M: Paul Burton <paulburton@kernel.org>
->> +M: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> +S: Odd Fixes
->> +F: hw/misc/mips_*
->> +F: include/hw/misc/mips_*
->> +
->> +MIPS GIC
->> +M: Paul Burton <paulburton@kernel.org>
->> +M: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> +S: Odd Fixes
->> +F: hw/intc/mips_gic.c
->> +F: hw/timer/mips_gictimer.c
->> +F: include/hw/intc/mips_gic.h
->> +F: include/hw/timer/mips_gictimer.h
->> +
->>  Subsystems
->>  ----------
->>  Overall Audio backends
->>
+>> @@ -237,14 +237,10 @@ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+>>   S: Odd Fixes
+>>   F: target/mips/
+>>   F: disas/mips.c
+>> +X: disas/nanomips.*
+>>   F: docs/system/cpu-models-mips.rst.inc
+>>   F: tests/tcg/mips/
+>>   -MIPS TCG CPUs (nanoMIPS ISA)
+>> -S: Orphan
+>> -F: disas/nanomips.*
+>> -F: target/mips/tcg/*nanomips*
+>> -
+>>   NiosII TCG CPUs
+>>   M: Chris Wulff <crwulff@gmail.com>
+>>   M: Marek Vasut <marex@denx.de>
+> 
 > 
 
