@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B229443C318
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 08:38:12 +0200 (CEST)
-Received: from localhost ([::1]:34110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D5B43C31E
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 08:40:40 +0200 (CEST)
+Received: from localhost ([::1]:36354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfcZf-00029P-RN
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 02:38:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38726)
+	id 1mfcc2-0003fT-EZ
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 02:40:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mfcSS-0006qH-TU
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 02:30:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37389)
+ id 1mfcTE-0007BH-R8
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 02:31:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mfcSB-00053Q-UI
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 02:30:43 -0400
+ id 1mfcSy-00058t-Om
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 02:31:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635316224;
+ s=mimecast20190719; t=1635316276;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sgMFLWm+FHFo3vieHbs7wbs3iS1zffnuA3iFOBHVmdg=;
- b=NaR2vEXWfvOlCEc6vwAf4dd5eH06NV6fitu6C1fZDLvQJ9GnAnzzXgkQxyeu4KnHLZFuPC
- kUAe1l3oX1s3Y1bHkmV7bCK+zf/2IGdb6cJE2msU+A0s+Bgf46B/14vnU/Qch7jW8U0p4H
- C+b/kvwQ6WUYUnL0gN46CEsKb02WpEo=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-O_roTCw2Pquk5dgCLS9c2Q-1; Wed, 27 Oct 2021 02:30:22 -0400
-X-MC-Unique: O_roTCw2Pquk5dgCLS9c2Q-1
-Received: by mail-lf1-f71.google.com with SMTP id
- bq29-20020a056512151d00b003ffce2467adso928415lfb.3
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 23:30:22 -0700 (PDT)
+ bh=UTSQ9AWaX0VvomMGviku3CMrgXXSah3b3C1da+x3fSA=;
+ b=D7iyioGbMzc4jMoIWbJJOebwzoDbekrb7hrxgTQVFe/x8IE8RP7AW69SQ0ISDg1obIjOuF
+ Mf+BpDeTV0Runy3JIvwjHeSJ78gMUjBDUAMSRcvrw+eXebuYSpB9YIfQOEOuwKGEifkcMK
+ EdNE0KC0escLMrZWQwFtm6aaiXQa6uU=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-1jUfoBniPWewPvQ9tHOICw-1; Wed, 27 Oct 2021 02:31:14 -0400
+X-MC-Unique: 1jUfoBniPWewPvQ9tHOICw-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ b12-20020a0565120b8c00b003ffa7050931so916807lfv.13
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 23:31:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=sgMFLWm+FHFo3vieHbs7wbs3iS1zffnuA3iFOBHVmdg=;
- b=cdNh+A2yZzJMgB1hsh6bbOZPhcCNgFObar/HLKRA2BdFKJxtstYUWtAPcmLGkzh9b1
- gD+mxO88aJCdTHA/2GSQAiqBsQ3XKso57pXMhE+saJg5+Zj4mpsN3u/utW9PzXX1ra2/
- 0T1BbPl7HrHVmem70ZdT3asvxHOpI1hveqtLna+vOvnJl89nhsgmub2fW4gbSdX7b7L4
- N5kgGpmcWVm/I+fayo2aFHxeS4/ODjQ1/CA/EgBUo3epV+mYEMN3OT0OLpcy3KojtUfo
- s+jZ0C39WuP3AHa+UewUGcNi/FWa5yTbhasaiflJXTceLg4TSeS7iQ6omShA7ZTuWaNt
- bWGQ==
-X-Gm-Message-State: AOAM532p1UXyDS4fdX8GSQH9EdiNP2RwHRft68e2SxpRB8gCuCs2GXrS
- MRfxDw8erSkaAmGIzKthYZgeJi3MrckznufEewpc8hJzA+AMdeRuweKqirTSGM3ltHSGMHeXXh0
- 0aqSxL6v3VcjN62PtEiJ09dnY7PCa8nY=
-X-Received: by 2002:ac2:5978:: with SMTP id h24mr18017716lfp.370.1635316221365; 
- Tue, 26 Oct 2021 23:30:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx2vcnOYqu3sBBBMAkltcDEP1r6gLM2weD0BtiZLkK9xtm3XqH63MBuCPIBV7yjCgTNC2OApBp+Tjnh5r48DU4=
-X-Received: by 2002:ac2:5978:: with SMTP id h24mr18017689lfp.370.1635316221137; 
- Tue, 26 Oct 2021 23:30:21 -0700 (PDT)
+ bh=UTSQ9AWaX0VvomMGviku3CMrgXXSah3b3C1da+x3fSA=;
+ b=xA6GUeVBFnqHxV7+ZNmW/vh0s+t7SVdxVAIpETq/4w8uBGVeRrWrGcrapXsdCLl4I7
+ LNIvg789H77kxA5Fm1kCBquVyd740QcaS7StWc0x8bWC8lw3naBwRCuSFKcmfBfGAEWu
+ HnJw46Jh1ZfG4IqUBeiypSzElbHfDzjd3EW/iCltd/YMs0MOrzOnkRCKyL8KkZ3WVOOB
+ PR6kVhG3bNWZMGuWhs8gdc5drIlLH5BKjHZu3o/MRJqmBAz8qURb9AAAn1paRc37sifw
+ 1iA0Iuc7gvmSuPJNu/a+h0LhXkue9s1LlVxbNB/qs7zvZ5xklluKc/AHoJ1RnyCdv9L+
+ aXPg==
+X-Gm-Message-State: AOAM530u3ZTl5WDyt1DJwQ7SR+FCMCu4lwHYrQhcGpQghMmm8YnWTn7U
+ 4IZFdpMdmj9EktDuubYEj3Ivmxlow9D5CapZZQVqnY3paRBzwC82H9GivNm5BLhH7EbOvwXkCBL
+ wmOfwS7ulrOv6tn7czNMCmK7HrvC/778=
+X-Received: by 2002:a2e:9a55:: with SMTP id k21mr4326256ljj.318.1635316273374; 
+ Tue, 26 Oct 2021 23:31:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzYuGEPJtsftPTNXHySq7GKENfRv3cS/K3Fmqz/71sGZ9t1y7VrTbJtVqwyhnJ1itcvi+TlBxEt3A55etjZKYw=
+X-Received: by 2002:a2e:9a55:: with SMTP id k21mr4326229ljj.318.1635316273130; 
+ Tue, 26 Oct 2021 23:31:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211009075612.230283-1-leobras@redhat.com>
- <20211009075612.230283-3-leobras@redhat.com>
- <YWZ6JIstNuvuOWtt@t490s>
-In-Reply-To: <YWZ6JIstNuvuOWtt@t490s>
+ <20211009075612.230283-2-leobras@redhat.com>
+ <YWZ3kbsbUmCyr6Ot@t490s> <YWZ9lWKsU83JCZxS@t490s>
+ <CAJ6HWG4pvP7dJ1=kgHKGAa8r=bgOcLT+YsZtSum0SnSLBNc3fg@mail.gmail.com>
+ <YXjueV6ixuFVgn/7@xz-m1.local>
+In-Reply-To: <YXjueV6ixuFVgn/7@xz-m1.local>
 From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Wed, 27 Oct 2021 03:30:22 -0300
-Message-ID: <CAJ6HWG6gPWHeoNUdJtDbUr=ZdWp9C5aKQXH-Af6TtS-Fqb3hjQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] QIOChannelSocket: Implement io_writev_zerocopy &
- io_flush_zerocopy for CONFIG_LINUX
+Date: Wed, 27 Oct 2021 03:31:14 -0300
+Message-ID: <CAJ6HWG7Txr6ppjctfarQaS-ix-dp-OQVLraLQ5KJStXty4KHEg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] QIOChannel: Add io_writev_zerocopy &
+ io_flush_zerocopy callbacks
 To: Peter Xu <peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
@@ -98,87 +100,30 @@ Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 13, 2021 at 3:18 AM Peter Xu <peterx@redhat.com> wrote:
+On Wed, Oct 27, 2021 at 3:15 AM Peter Xu <peterx@redhat.com> wrote:
 >
-> On Sat, Oct 09, 2021 at 04:56:12AM -0300, Leonardo Bras wrote:
-> > @@ -154,6 +161,17 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
-> >          return -1;
-> >      }
+> On Wed, Oct 27, 2021 at 03:07:13AM -0300, Leonardo Bras Soares Passos wrote:
+> > > >
+> > > >            if (flags & ZEROCOPY) {
+> > > >                assert(fds == NULL && nfds == 0);
 > >
-> > +#ifdef CONFIG_LINUX
-> > +    ret = qemu_setsockopt(fd, SOL_SOCKET, SO_ZEROCOPY, &v, sizeof(v));
-> > +    if (ret < 0) {
-> > +        /* Zerocopy not available on host */
-> > +        return 0;
-> > +    }
-> > +
-> > +    qio_channel_set_feature(QIO_CHANNEL(ioc),
-> > +                            QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY);
+> > Quick question: Why is this assert needed?
 >
-> This is okay I think, but looks a bit weird.  Maybe nicer to be written as:
->
-> #if LINUX
->       ret = setsockopt();
->       if (ret == 0) {
->           qio_channel_set_feature(...);
->       }
-> #endif
->       return 0;
->
-> ?
+> Not required I think; just want to make sure no one passes in the fds when
+> using zero copy mode.
 
-Yeah, I also questioned myself about this one.
-At the time I ended up writing like this because the lines above used
-the behavior "if error, then exit/abort", and so I thought that this
-would be the better way to include this feature.
-But I did not consider that this is not an error exit, but a 'maybe
-feature instead'.
-
-So, I will change that like you suggested.
+Ok, that makes sense.
+I will add it then, thanks!
 
 >
-> > +#endif
-> > +
-> >      return 0;
-> >  }
->
-> [...]
->
-> > +static ssize_t qio_channel_socket_writev_zerocopy(QIOChannel *ioc,
-> > +                                                  const struct iovec *iov,
-> > +                                                  size_t niov,
-> > +                                                  Error **errp)
-> > +{
-> > +    QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
-> > +    ssize_t ret;
-> > +
-> > +    ret = qio_channel_socket_writev_flags(ioc, iov, niov, NULL, 0,
-> > +                                          MSG_ZEROCOPY, errp);
-> > +    if (ret == QIO_CHANNEL_ERR_NOBUFS) {
-> > +        if (errp && *errp) {
->
-> Hmm this seems wrong, *errp should be NULL in most cases, meanwhile I think
-> error_setg*() takes care of errp==NULL too, so maybe we can drop this?
-
-Yeah, you are correct.
-I ended up confused about how to use err, thanks for making it more clear!
-
->
-> > +            error_setg_errno(errp, errno,
-> > +                             "Process can't lock enough memory for using MSG_ZEROCOPY");
-> > +        }
-> > +        return -1;
-> > +    }
-> > +
-> > +    sioc->zerocopy_queued++;
-> > +    return ret;
-> > +}
+> Thanks,
 >
 > --
 > Peter Xu
 >
 
+
 Best regards,
-Leonardo Bras
+Leo
 
 
