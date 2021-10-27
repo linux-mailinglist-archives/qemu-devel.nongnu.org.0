@@ -2,71 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2593143D026
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 19:54:41 +0200 (CEST)
-Received: from localhost ([::1]:41728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3EE43CF82
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 19:16:13 +0200 (CEST)
+Received: from localhost ([::1]:60350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfn8K-0004cv-94
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 13:54:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56540)
+	id 1mfmX5-0000nb-VN
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 13:16:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mfm0j-0000N5-BK
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:42:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58725)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfm66-00086c-Ev
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:48:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mfm0g-0005PI-TK
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:42:44 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfm64-0007L9-3W
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:48:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635352961;
+ s=mimecast20190719; t=1635353295;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5IJevb7UogFyfrwEoqgbv4GNfEhOeYMannAoS7LywvA=;
- b=E05ZcynxurXYEadw82kiEaNKyeB4bcOLv5Qxux68y6qH8IA3n1qAMif72eT8QiMAuzWsDn
- 6pUwIZQnB84SrjTn4860/UqOP9IdE9/JyWnt07SL2vpPb3Cs+lIL2OYEF2Y2sLlsRj3IEj
- /59pO68jRWxuaTyRqw6lk3JnHIVTKYo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-xv54k4MqOpq3YfQeAKx9kQ-1; Wed, 27 Oct 2021 12:42:38 -0400
-X-MC-Unique: xv54k4MqOpq3YfQeAKx9kQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6C6F8066F3;
- Wed, 27 Oct 2021 16:42:36 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA6B61B4B8;
- Wed, 27 Oct 2021 16:42:14 +0000 (UTC)
-Date: Wed, 27 Oct 2021 17:42:13 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v3 12/12] vfio-user: acceptance test
-Message-ID: <YXmBZQha5XpDzo8D@stefanha-x1.localdomain>
-References: <cover.1633929457.git.jag.raman@oracle.com>
- <b5d78f1452a85057c257e1f9efca527d05ff0388.1633929457.git.jag.raman@oracle.com>
+ bh=iNrCMK9rEd/6FAkTNmsM1t5UDjlKMsqH9ZHK6cTmTLw=;
+ b=cSmgydp6qwZixid1ZEvk4GvLDh+xLihHsw+j4KkKtX+NusqgyZy9cuxogJbdBfe2WIEF0p
+ aHs9EfzLRkBKuASYSDe4aAmWcSlMkrii51U4/CGWlegX5g6XDwp0ld6fsmxBzmo8vsONrU
+ cBFt2DGx/dxPJWhzX7damBaUMLnq+ns=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-533-4vXkBUV4PkeMEsXWvZOW0w-1; Wed, 27 Oct 2021 12:48:12 -0400
+X-MC-Unique: 4vXkBUV4PkeMEsXWvZOW0w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ k6-20020a7bc306000000b0030d92a6bdc7so1420259wmj.3
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 09:48:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iNrCMK9rEd/6FAkTNmsM1t5UDjlKMsqH9ZHK6cTmTLw=;
+ b=TJEHXeusNNVX2YOmYE53N+h1ub3JJnDobsjgEJ4THTzGveU/U3w2DtfdafLNGMJ5Sg
+ SzxtU9lF4NE2cxclEAM3lp81sxS2vkQaEkSRP9S1RzF0u3VYrAxAc86lO948hJCvQGPZ
+ yOdxvFwOzfdrtXUK9ZVsBj0p+KBGM49b0J97EMFVlp1lbMGDtbsqXKYdSOVFsCFOSfsj
+ 9HeiqvSicKIiOazCfGDWdZK+ChKKUjsNhMDYRs5W7L/CE0jy2OvH3ftiPoBNFtMq5U6X
+ QSVqK+qqwFUSsrqikUj4c7MhUedF/f2elzNZCqxAJUje0V0H7S4v6UgE42amoKl1beag
+ 0dZQ==
+X-Gm-Message-State: AOAM530PJjKAziz5aUXSxoF3GPSq3T18eXfRZKgmn+5D0IuEt7erYNcq
+ 7PN7itrozX63/p+yyQzVLe3vT0MVsab582nID68nHryapXvuahgcitIb0rf7Dtsjma1QMV4SjVv
+ 8XpEehE3MESlTTLU=
+X-Received: by 2002:a7b:ce8f:: with SMTP id q15mr6797904wmj.136.1635353291448; 
+ Wed, 27 Oct 2021 09:48:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwdBAmLE45QYhKTV2sGdna5NjsR+ErpphgWkJBnEYw0TSuc9LyRjqT4elZmVqDAs4DUi2UVvg==
+X-Received: by 2002:a7b:ce8f:: with SMTP id q15mr6797875wmj.136.1635353291225; 
+ Wed, 27 Oct 2021 09:48:11 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id e18sm368506wrv.44.2021.10.27.09.48.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Oct 2021 09:48:10 -0700 (PDT)
+Message-ID: <36b93ef0-bcff-1be6-ce8d-03cd61f0a0fd@redhat.com>
+Date: Wed, 27 Oct 2021 18:48:10 +0200
 MIME-Version: 1.0
-In-Reply-To: <b5d78f1452a85057c257e1f9efca527d05ff0388.1633929457.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PULL 0/8] 9p queue 2021-10-27
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+References: <cover.1635340713.git.qemu_oss@crudebyte.com>
+ <1763549.VT83FdeJ1q@silver> <dd17a177-c7eb-b879-a980-a986344b9cac@redhat.com>
+ <2647527.eb0YlLX8Cn@silver>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <2647527.eb0YlLX8Cn@silver>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="w/rJ/qJU78ovK1wZ"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.847, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,108 +99,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
- swapnil.ingle@nutanix.com, john.levon@nutanix.com, philmd@redhat.com,
- qemu-devel@nongnu.org, alex.williamson@redhat.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com, pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---w/rJ/qJU78ovK1wZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 10/27/21 18:21, Christian Schoenebeck wrote:
+> On Mittwoch, 27. Oktober 2021 17:36:03 CEST Philippe Mathieu-Daudé wrote:
+>> Hi Christian,
+>>
+>> On 10/27/21 16:05, Christian Schoenebeck wrote:
+>>> On Mittwoch, 27. Oktober 2021 15:18:33 CEST Christian Schoenebeck wrote:
+>>>> The following changes since commit 
+> 931ce30859176f0f7daac6bac255dae5eb21284e:
+>>>>   Merge remote-tracking branch
+>>>>   'remotes/dagrh/tags/pull-virtiofs-20211026'
+>>>>
+>>>> into staging (2021-10-26 07:38:41 -0700)
+>>>>
+>>>> are available in the Git repository at:
+>>>>   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20211027
+>>>>
+>>>> for you to fetch changes up to 7e985780aaab93d2c5be9b62d8d386568dfb071e:
+>>>>   9pfs: use P9Array in v9fs_walk() (2021-10-27 14:45:22 +0200)
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> 9pfs: performance fix and cleanup
+>>>>
+>>>> * First patch fixes suboptimal I/O performance on guest due to previously
+>>>>
+>>>>   incorrect block size being transmitted to 9p client.
+>>>>
+>>>> * Subsequent patches are cleanup ones intended to reduce code complexity.
+>>>>
+>>>> ----------------------------------------------------------------
+>>>>
+>>>> Christian Schoenebeck (8):
+>>>>       9pfs: fix wrong I/O block size in Rgetattr
+>>>>       9pfs: deduplicate iounit code
+>>>>       9pfs: simplify blksize_to_iounit()
+>>>>       9pfs: introduce P9Array
+>>>>       fsdev/p9array.h: check scalar type in P9ARRAY_NEW()
+>>>>       9pfs: make V9fsString usable via P9Array API
+>>>>       9pfs: make V9fsPath usable via P9Array API
+>>>>       9pfs: use P9Array in v9fs_walk()
+>>>>  
+>>>>  fsdev/9p-marshal.c |   2 +
+>>>>  fsdev/9p-marshal.h |   3 +
+>>>>  fsdev/file-op-9p.h |   2 +
+>>>>  fsdev/p9array.h    | 160
+>>>>
+>>>> +++++++++++++++++++++++++++++++++++++++++++++++++++++ hw/9pfs/9p.c      
+>>>> |
+>>>> 70 +++++++++++++----------
+>>>>
+>>>>  5 files changed, 208 insertions(+), 29 deletions(-)
+>>>>  create mode 100644 fsdev/p9array.h
+>>>
+>>> Regarding last 5 patches: Daniel raised a concern that not using g_autoptr
+>>> would deviate from current QEMU coding patterns:
+>>> https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg00081.html
+>>>
+>>> Unfortunately I saw no way to address his concern without adding
+>>> unnecessary code complexity, so I decided to make this a 9p local type
+>>> (QArray -> P9Array) for now, which can easily be replaced in future (e.g.
+>>> when there will be something appropriate on glib side).
+>>
+>> Hmm various patches aren't reviewed yet... In particular
+>> patch #5 has a Suggested-by tag without Reviewed-by, this
+>> looks odd.
+>>
+>> See https://wiki.qemu.org/Contribute/SubmitAPullRequest:
+>>
+>>   Don't send pull requests for code that hasn't passed review.
+>>   A pull request says these patches are ready to go into QEMU now,
+>>   so they must have passed the standard code review processes. In
+>>   particular if you've corrected issues in one round of code review,
+>>   you need to send your fixed patch series as normal to the list;
+>>   you can't put it in a pull request until it's gone through.
+>>   (Extremely trivial fixes may be OK to just fix in passing, but
+>>   if in doubt err on the side of not.)
+> 
+> There are in general exactly two persons adding their RBs to 9p patches, which 
+> is either Greg or me, and Greg made it already clear that he barely has time 
+> for anything above trivial set.
+> 
+> So what do you suggest? You want to participate and review 9p patches?
 
-On Mon, Oct 11, 2021 at 01:31:17AM -0400, Jagannathan Raman wrote:
-> Acceptance test for libvfio-user in QEMU
->=20
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->  MAINTAINERS                   |  1 +
->  tests/acceptance/vfio-user.py | 96 +++++++++++++++++++++++++++++++++++
->  2 files changed, 97 insertions(+)
->  create mode 100644 tests/acceptance/vfio-user.py
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 79ff8331dc..a98d37423b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3422,6 +3422,7 @@ F: hw/remote/iohub.c
->  F: include/hw/remote/iohub.h
->  F: subprojects/libvfio-user
->  F: hw/remote/vfio-user-obj.c
-> +F: tests/acceptance/vfio-user.py
-> =20
->  EBPF:
->  M: Jason Wang <jasowang@redhat.com>
-> diff --git a/tests/acceptance/vfio-user.py b/tests/acceptance/vfio-user.p=
-y
-> new file mode 100644
-> index 0000000000..5eb5cabc68
-> --- /dev/null
-> +++ b/tests/acceptance/vfio-user.py
-> @@ -0,0 +1,96 @@
-> +# vfio-user protocol sanity test
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later.  See the COPYING file in the top-level directory.
-> +
-> +
-> +import os
-> +import socket
-> +import uuid
-> +
-> +from avocado_qemu import Test
-> +from avocado_qemu import wait_for_console_pattern
-> +from avocado_qemu import exec_command
-> +from avocado_qemu import exec_command_and_wait_for_pattern
-> +
-> +class VfioUser(Test):
-> +    """
-> +    :avocado: tags=3Dvfiouser
-> +    """
-> +    KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
-> +
-> +    def do_test(self, kernel_url, initrd_url, kernel_command_line,
-> +                machine_type):
-> +        """Main test method"""
-> +        self.require_accelerator('kvm')
-> +
-> +        kernel_path =3D self.fetch_asset(kernel_url)
-> +        initrd_path =3D self.fetch_asset(initrd_url)
-> +
-> +        socket =3D os.path.join('/tmp', str(uuid.uuid4()))
-> +        if os.path.exists(socket):
-> +            os.remove(socket)
-> +
-> +        # Create remote process
-> +        remote_vm =3D self.get_vm()
-> +        remote_vm.add_args('-machine', 'x-remote')
-> +        remote_vm.add_args('-nodefaults')
-> +        remote_vm.add_args('-device', 'lsi53c895a,id=3Dlsi1')
-> +        remote_vm.add_args('-object', 'vfio-user,id=3Dvfioobj1,'
-> +                           'devid=3Dlsi1,socket=3D'+socket)
+Well I am a bit surprised...
 
-The object is called "vfio-user-server" and the parameter syntax seems
-to be outdated. Does this test pass?
+$ git log --oneline \
+    --grep='Reviewed-by: Philippe Mathieu-Daudé' -- hw/9pfs/ | wc -l
+18
 
---w/rJ/qJU78ovK1wZ
-Content-Type: application/pgp-signature; name="signature.asc"
+I also reviewed patch #3 if this pull request...
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmF5gWUACgkQnKSrs4Gr
-c8jhIgf/V3zOl5ZOqx+WfS3SxBIK2GCrX2xRGSWki9Il0xboVXuuR1dXytKuMWMM
-OQG+dRecsKs3QuXlzUSNGZiSP+VBtGsR80Lh+K/ZuWt3fypoy48FjakpEjRq2p6T
-UWIEEP7sUhLYdUc/KXMT6D4bRBwuCxYk046dz8+jG2+hELvDNX9koACTKtEur62w
-azbAZHfF+Y9oN7f3XW4yGfuWE1luUKjUEhZzNKYNCp9P0b9lU6nlamj0ib/aCb68
-BCLwwPn82xEOgLhawEN4hsrNcw4+EcvRad5s/nQe9QZJ+3Kkj87GQWxqv7MWBaNN
-SpOcOJnxvZoUqJgeMRjK9ubFZ4cxfA==
-=GwyJ
------END PGP SIGNATURE-----
+Now I see you posted this 4 times in 2 months, so indeed eventual
+reviewers had plenty of time to look at your patches.
 
---w/rJ/qJU78ovK1wZ--
+Note I haven't said I'd NAck your pull request, I noticed your own
+concern wrt Daniel comment, so I looked at the patch and realized
+it was not reviewed, and simply said this is this is odd.
+
+Regards,
+
+Phil.
 
 
