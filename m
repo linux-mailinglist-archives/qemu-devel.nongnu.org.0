@@ -2,94 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DADA43CD2D
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:11:49 +0200 (CEST)
-Received: from localhost ([::1]:39144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0B443CD1F
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:10:04 +0200 (CEST)
+Received: from localhost ([::1]:36270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfkai-0004Ge-NI
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:11:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43306)
+	id 1mfkZ0-0002JX-NE
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:10:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mfjXp-0000PK-ET
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:04:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26541)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mfjYr-0000tY-0P
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:05:49 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:39689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mfjXk-0005Km-Cl
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:04:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635343476;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YN/bLTk9W4jFoqX1MmfKo8264P/GPmaZJoxCKcTGJ7Q=;
- b=dgiD7E9TL4xr7Udan54iMO2ZCHqgyZLe7soZmlGbbSl2kkMZ6xN60xNMxQr6SnjsgdK8MC
- vXtMahDWypsz645RyBknoAbUsuIr8tsa9WsTvBdU7EaafURfPUEbSRlwwoRO8C3NUTL+1t
- E8KUG0WXLPXki4LemiWm+rC6alYt6iE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-Gh3VTSCKMu2Cwlh0TFBr1w-1; Wed, 27 Oct 2021 10:04:33 -0400
-X-MC-Unique: Gh3VTSCKMu2Cwlh0TFBr1w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- i8-20020a5d6308000000b001742659b50eso286815wru.23
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 07:04:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=YN/bLTk9W4jFoqX1MmfKo8264P/GPmaZJoxCKcTGJ7Q=;
- b=OsDblifKunXlJQy2o7GwB/TL6r7A02ecilrS/Q58DQKRapZLTMGDcaCWiO1bD8eiVM
- q520WIoyv/BdsiA9Vb+X5HKyjU4LlPTL3huZ/M9QUofRQLBQwtgj46y/flmR9FiiJ13v
- wutm3R09QCeUKRytatcN2GeIn8SxqiJHDrL7a1PFBKtsqhnLi5HFigq1QFiVi3HNLhzL
- Ec2axdIa8J3Syhpr2IyO+ZBiaj4VXmOQCXKSPQMLdRuYgpkKUd9xcTkA1DChr94yPBYb
- Mhdr8Vj1MGJBwdQYwCFQbYpvlF6cnaTjrB7HGqSl3nmBTtehGAfNucPK/4EZiK9J//A8
- bxfQ==
-X-Gm-Message-State: AOAM530qP7gptCJy1LiktZ1JzQzzbczKTbazrSkBRmLcEpyk6eWve6Ma
- gTBD/4QtWCp6r3W5C65scINdoCVYlriIHXpuBd9uzaKA0QrFmyTlL/kZ0o3TqOqPBOOauH1oeUx
- yB5+1kirXc7QjHKE=
-X-Received: by 2002:a05:6000:18af:: with SMTP id
- b15mr39135215wri.359.1635343472026; 
- Wed, 27 Oct 2021 07:04:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyMG5hMHU+fqjF6OiSm16HnX+RXpo9rofMs4qTZ/GsQ4SgoEFZ97KLsPkMhH1j+K05s+YoZkQ==
-X-Received: by 2002:a05:6000:18af:: with SMTP id
- b15mr39135082wri.359.1635343471021; 
- Wed, 27 Oct 2021 07:04:31 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23d76.dip0.t-ipconnect.de. [79.242.61.118])
- by smtp.gmail.com with ESMTPSA id 126sm3461950wmz.28.2021.10.27.07.04.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 07:04:29 -0700 (PDT)
-Message-ID: <7f1ee7ea-0100-a7ac-4322-316ccc75d85f@redhat.com>
-Date: Wed, 27 Oct 2021 16:04:28 +0200
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mfjYn-0005cN-TS
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:05:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=hEeG/4SRebofxOZFLZqx11DEwYH/8UzBFqHv+vpicAs=; b=DSNCqBKXFz1NxQ4DNdYF050Thf
+ srEH6leWzWWP143P8QrP0bLhnwobKGuL+ALyIgw7Pba7GMybCrdQmo/fWnK7fhRERnCvjmXbQjmvx
+ Tcz+JYyP46oVXdk50S3dkQK4mEiBSMKeJiK3lWfRSuGf79f9eEEDqpEpBwv4hl4ESu6dGcav/Yf/7
+ EElg52zVVwwUk+P+bM7wdsIVGghp0aGSefwsPNv4Un9Vsmu4lvKEmezoFUnq0IvBRIQHXY76sb6fF
+ jbtKHVRHtZ1akxPyvIosNro2oPvv/yz93O50onoRJoylN2e1B+SrP4PbJFeCB2guC8kEVkaBmYdsl
+ qCG2esD9rv6nY4LMHpoFPbzG+GtRPS8im71YQ4RxsDhsg/gE+AnL6TTDhNZsFNIvhRxi3mn6k9fqN
+ XRLWCFCt/4Plm+WZcFWEZfzCgeR8Bfqdq6qgtOugi03g+Wa45hjPFYrffMW0GiGBSCn4PgbfCtQSn
+ H8L3wQD8O7JdHveVwtAyeu7BiXoPSOSoGW22OIJp3cVNIdYZ1uhADTzL/1tSHKKTH2ApLba6kA2Is
+ dy1uMRcwM4fQ1WIbhdg/gzHFfRB59sP0pSim04XQVAFcTLuw3ygTkJgtpxFkdV000FFg1NRYZvpk4
+ OGOkYJuCQ8lWArvi3k4WJxO0ZUA4nkDzGe1DunQPs=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PULL 0/8] 9p queue 2021-10-27
+Date: Wed, 27 Oct 2021 16:05:39 +0200
+Message-ID: <1763549.VT83FdeJ1q@silver>
+In-Reply-To: <cover.1635340713.git.qemu_oss@crudebyte.com>
+References: <cover.1635340713.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v1 02/12] vhost: Return number of free memslots
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211027124531.57561-1-david@redhat.com>
- <20211027124531.57561-3-david@redhat.com>
- <4ce74e8f-080d-9a0d-1b5b-6f7a7203e2ab@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <4ce74e8f-080d-9a0d-1b5b-6f7a7203e2ab@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.847, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,53 +64,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Sebastien Boeuf <sebastien.boeuf@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- Hui Zhu <teawater@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.10.21 15:36, Philippe Mathieu-Daudé wrote:
-> On 10/27/21 14:45, David Hildenbrand wrote:
->> Let's return the number of free slots instead of only checking if there
->> is a free slot. Required to support memory devices that consume multiple
->> memslots.
->>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>  hw/mem/memory-device.c    | 2 +-
->>  hw/virtio/vhost-stub.c    | 2 +-
->>  hw/virtio/vhost.c         | 4 ++--
->>  include/hw/virtio/vhost.h | 2 +-
->>  4 files changed, 5 insertions(+), 5 deletions(-)
+On Mittwoch, 27. Oktober 2021 15:18:33 CEST Christian Schoenebeck wrote:
+> The following changes since commit 931ce30859176f0f7daac6bac255dae5eb21284e:
 > 
->> --- a/hw/virtio/vhost-stub.c
->> +++ b/hw/virtio/vhost-stub.c
->> @@ -2,7 +2,7 @@
->>  #include "hw/virtio/vhost.h"
->>  #include "hw/virtio/vhost-user.h"
->>  
->> -bool vhost_has_free_slot(void)
->> +unsigned int vhost_get_free_memslots(void)
->>  {
->>      return true;
+>   Merge remote-tracking branch 'remotes/dagrh/tags/pull-virtiofs-20211026'
+> into staging (2021-10-26 07:38:41 -0700)
 > 
->        return 0;
+> are available in the Git repository at:
+> 
+>   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20211027
+> 
+> for you to fetch changes up to 7e985780aaab93d2c5be9b62d8d386568dfb071e:
+> 
+>   9pfs: use P9Array in v9fs_walk() (2021-10-27 14:45:22 +0200)
+> 
+> ----------------------------------------------------------------
+> 9pfs: performance fix and cleanup
+> 
+> * First patch fixes suboptimal I/O performance on guest due to previously
+>   incorrect block size being transmitted to 9p client.
+> 
+> * Subsequent patches are cleanup ones intended to reduce code complexity.
+> 
+> ----------------------------------------------------------------
+> Christian Schoenebeck (8):
+>       9pfs: fix wrong I/O block size in Rgetattr
+>       9pfs: deduplicate iounit code
+>       9pfs: simplify blksize_to_iounit()
+>       9pfs: introduce P9Array
+>       fsdev/p9array.h: check scalar type in P9ARRAY_NEW()
+>       9pfs: make V9fsString usable via P9Array API
+>       9pfs: make V9fsPath usable via P9Array API
+>       9pfs: use P9Array in v9fs_walk()
+> 
+>  fsdev/9p-marshal.c |   2 +
+>  fsdev/9p-marshal.h |   3 +
+>  fsdev/file-op-9p.h |   2 +
+>  fsdev/p9array.h    | 160
+> +++++++++++++++++++++++++++++++++++++++++++++++++++++ hw/9pfs/9p.c       | 
+> 70 +++++++++++++----------
+>  5 files changed, 208 insertions(+), 29 deletions(-)
+>  create mode 100644 fsdev/p9array.h
 
-Oh wait, no. This actually has to be
+Regarding last 5 patches: Daniel raised a concern that not using g_autoptr 
+would deviate from current QEMU coding patterns:
+https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg00081.html
 
-"return ~0U;" (see real vhost_get_free_memslots())
+Unfortunately I saw no way to address his concern without adding unnecessary 
+code complexity, so I decided to make this a 9p local type (QArray -> P9Array) 
+for now, which can easily be replaced in future (e.g. when there will be 
+something appropriate on glib side).
 
-... because there is no vhost and consequently no limit applies.
+Best regards,
+Christian Schoenebeck
 
--- 
-Thanks,
-
-David / dhildenb
 
 
