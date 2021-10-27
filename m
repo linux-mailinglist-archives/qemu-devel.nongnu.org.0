@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE9B43CDC8
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:38:34 +0200 (CEST)
-Received: from localhost ([::1]:38636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D29343CDDA
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:42:18 +0200 (CEST)
+Received: from localhost ([::1]:47366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfl0b-0000y2-7o
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:38:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54638)
+	id 1mfl4D-00070u-Cl
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:42:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <trini@konsulko.com>)
- id 1mfkLO-0007eX-Qp
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:55:59 -0400
-Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:45586)
+ id 1mfkMM-0001FY-GN
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:56:58 -0400
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:34714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <trini@konsulko.com>)
- id 1mfkLN-0004rz-7D
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:55:58 -0400
-Received: by mail-qk1-x72b.google.com with SMTP id bp7so2628031qkb.12
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 07:55:56 -0700 (PDT)
+ id 1mfkMK-00052k-Tv
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:56:58 -0400
+Received: by mail-qt1-x833.google.com with SMTP id v17so2719524qtp.1
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 07:56:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=t87NgW7+Q5+N1cjShv5lN2cUaG/InGrtraoXM/QJWZ8=;
- b=nqNZzVwiJX4bX7QrFWmuM538zjOD3ylwkngEy+BxM9TqwO+aoBc+B5mNVJGJ2Fqm1X
- lyRok8CRnak4laOny5oKrvjPyU2zYYyJrDg57kKP2GqO6BYD/qRwbkJtBhw2YoejWPI5
- oHy1/sReWrQtLITpb0cqSLORAsSbLHfJgdYs4=
+ bh=jY0E1cOJTzsXkt41MT2UFx0i1yzVa72LPx8852DQWBQ=;
+ b=PiZJPek/aRare1E95tkLZJtHgWNINw7cBjTYAyG6gVTKFcEy90a4wXRxRbvjGzvV3j
+ hAemVYbNzrUTbnfDYH+7XjwBlOPbKxCgCNDTScUb02Q14zJbf23aji/ATkeGmFAYBRpu
+ VAK7exf+iqFaR2n7alA//G+4XPiQ5DZV+rgH0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=t87NgW7+Q5+N1cjShv5lN2cUaG/InGrtraoXM/QJWZ8=;
- b=7XcBIM4cYCnFVDrpYbfk1QDsM8Cge5Ro+3RYmO7tSSN+7qABC1TjkGHZq44MzDb5qp
- 9XFOtLLFOOcw6d+4UMk8K/MKMaBnjXbU1RFeC7E+nXckLsgUDa/x65qLV6azwUD4Tt9t
- +vqwrqIVLn7tH8zwlC7dxyFoBY0xM39OR6jyDdPIsJGTEqFGs9OSTnkdKzsbtwjKZeiv
- Qo1zRn9nHw5CehJ9MK5t1Lw6kdJTXsVt69ZdJo6MzxxzGtQDGWVDIC7Z4O0gmu0OdAZg
- qSOHjLIJML0Ulf7JTCcqg6yCxYOmjvd8wh9tV29p/yqIag15zplyc1j61EMWD8Z+vnS6
- LQ/Q==
-X-Gm-Message-State: AOAM5309ZAxzpvgveQwfRMNOC8NPxSA5++YLUAoZu9l9+LBZY59V5mnt
- V9KfsneGi5N+l1uzUr8O10iOrw==
-X-Google-Smtp-Source: ABdhPJyuUU2Pwoo3Lin3/rJ8ON4IV8f/QpZAyLtid9ugIb8P8DdglgdJE61mTTFNgJtauo+PGWsjQg==
-X-Received: by 2002:ae9:e80a:: with SMTP id a10mr25083004qkg.399.1635346556288; 
- Wed, 27 Oct 2021 07:55:56 -0700 (PDT)
+ bh=jY0E1cOJTzsXkt41MT2UFx0i1yzVa72LPx8852DQWBQ=;
+ b=gTO3wVoQ0uXD2niwxUpEa6y+mPUhYBmywdrHj8kwgkBKXK0wydZo6LpTtt1nD8Rkyy
+ BbqAOOS9lQCWmzJL5xdDarTtYS26xtjXjPaZyRpjTZH4sdcyJ/ywgFC20v1JyGq0CBPi
+ oul2fuLo9PKrSuCBn6BA4UePiaZ9KIitbFAm/OwJQQ9tMXPx0vLB1WzvsKB1FaGeU5ba
+ Kypk9AveQHAJvRyUAg9H/4REgO+77B8qC8ru/gFDaxFP3AgL+n6E3PuE8Fu7FJI7L9BJ
+ 0wB7kXFyFXZyBY6ZDZDJOSoVKYqh+5EZLACrMy9hD/w7Bq4Syk2Ybfp+jWk9Q1qRXYTS
+ c/5Q==
+X-Gm-Message-State: AOAM532q4UBp+KBBvOUKQeMnnZBmEsOuMGnh5bnb+c7dA7hgfJjL1hpZ
+ XWeT88UG40QkaS2Bo5W2NjO1iA==
+X-Google-Smtp-Source: ABdhPJxU1MDmiRfZSnJECf7SUVZg0hupcFJQjcb3/gBBYZt7iVXbd4+ajylM3h9ZVPmNMynny+lITg==
+X-Received: by 2002:ac8:5755:: with SMTP id 21mr31775376qtx.353.1635346615981; 
+ Wed, 27 Oct 2021 07:56:55 -0700 (PDT)
 Received: from bill-the-cat
  (2603-6081-7b01-cbda-0044-6cb5-81ac-bb0c.res6.spectrum.com.
  [2603:6081:7b01:cbda:44:6cb5:81ac:bb0c])
- by smtp.gmail.com with ESMTPSA id h2sm131348qkf.106.2021.10.27.07.55.53
+ by smtp.gmail.com with ESMTPSA id w185sm150692qkd.30.2021.10.27.07.56.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Oct 2021 07:55:55 -0700 (PDT)
-Date: Wed, 27 Oct 2021 10:55:52 -0400
+ Wed, 27 Oct 2021 07:56:55 -0700 (PDT)
+Date: Wed, 27 Oct 2021 10:56:53 -0400
 From: Tom Rini <trini@konsulko.com>
-To: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
-Subject: Re: [PATCH 00/16] fdt: Make OF_BOARD a boolean option
-Message-ID: <20211027145552.GA8284@bill-the-cat>
-References: <CAPnjgZ3D+h1ov2yL73iz_3zmPkJrM4mGrQLhsKL9qu9Ez0-j2A@mail.gmail.com>
- <CAHFG_=ULjFFcF_BWzknPPw23CeMX=d-Cprhad085nX_r1NhE1g@mail.gmail.com>
- <CAPnjgZ3+QP3ogPA=zKWHoctkr4C2rSos_yVmJjp_MYZ-O0sKeQ@mail.gmail.com>
- <20211014145626.GC7964@bill-the-cat>
- <CAPnjgZ3=evGbgSg-aen6pkOXZ4DCxX8vcX9cn4qswJQRNNSzLQ@mail.gmail.com>
- <20211014152801.GF7964@bill-the-cat>
- <CAPnjgZ2Y-uvmhQmhxnBN7Wa+Tz=ZL0bWpnJi6xCW-P8p+C-qCw@mail.gmail.com>
- <20211027124840.GR8284@bill-the-cat>
- <CAHFG_=U01QDd05K80-OHtJBgi01Kho1jY52QTQ-GO6mDDU7spg@mail.gmail.com>
- <e210136c-65c1-72f1-485f-e54a5e8248b3@canonical.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH 05/16] arm: qemu: Add a devicetree file for qemu_arm64
+Message-ID: <20211027145653.GB8284@bill-the-cat>
+References: <20211013010120.96851-1-sjg@chromium.org>
+ <20211013010120.96851-6-sjg@chromium.org>
+ <CAHFG_=UDFn9MQfJz6oTAg15PiR2nt6QkoZS58+gsOMMVo31AXQ@mail.gmail.com>
+ <87v91iwmoc.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="oRWDw5wXQ3uCJU7V"
+ protocol="application/pgp-signature"; boundary="ofekNuVaYCKmvJ0U"
 Content-Disposition: inline
-In-Reply-To: <e210136c-65c1-72f1-485f-e54a5e8248b3@canonical.com>
+In-Reply-To: <87v91iwmoc.fsf@linaro.org>
 X-Clacks-Overhead: GNU Terry Pratchett
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
- envelope-from=trini@konsulko.com; helo=mail-qk1-x72b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=trini@konsulko.com; helo=mail-qt1-x833.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,89 +86,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liviu Dudau <liviu.dudau@foss.arm.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Linus Walleij <linus.walleij@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- Kever Yang <kever.yang@rock-chips.com>, Sean Anderson <seanga2@gmail.com>,
- Atish Patra <atish.patra@wdc.com>, Zong Li <zong.li@sifive.com>,
- Stefan Roese <sr@denx.de>, Fabio Estevam <festevam@gmail.com>,
- Rainer Boschung <rainer.boschung@hitachi-powergrids.com>,
+Cc: Heiko Schocher <hs@denx.de>,
  =?iso-8859-1?Q?Fran=E7ois?= Ozog <francois.ozog@linaro.org>,
- Stephen Warren <swarren@nvidia.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>, Niel Fourie <lusus@denx.de>,
- Michal Simek <michal.simek@xilinx.com>,
- Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
- Jerry Van Baren <vanbaren@cideas.com>, Ramon Fried <rfried.dev@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Longchamp <valentin.longchamp@hitachi-powergrids.com>,
- Heiko Schocher <hs@denx.de>, Peter Robinson <pbrobinson@gmail.com>,
- Sinan Akman <sinan@writeme.com>, Thomas Fitzsimmons <fitzsim@fitzsim.org>,
- Wolfgang Denk <wd@denx.de>, Stephen Warren <swarren@wwwdotorg.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Andre Przywara <andre.przywara@arm.com>, Tim Harvey <tharvey@gateworks.com>,
- Ashok Reddy Soma <ashok.reddy.soma@xilinx.com>, Rick Chen <rick@andestech.com>,
- Alexander Graf <agraf@csgraf.de>, Green Wan <green.wan@sifive.com>,
- T Karthik Reddy <t.karthik.reddy@xilinx.com>,
- Anastasiia Lukianenko <anastasiia_lukianenko@epam.com>,
- Albert Aribaud <albert.u.boot@aribaud.net>, Michal Simek <monstr@monstr.eu>,
- Matthias Brugger <mbrugger@suse.com>, Leo <ycliang@andestech.com>,
- Tero Kristo <kristo@kernel.org>, U-Boot Mailing List <u-boot@lists.denx.de>,
- David Abdurachmanov <david.abdurachmanov@sifive.com>,
- Priyanka Jain <priyanka.jain@nxp.com>, Simon Glass <sjg@chromium.org>,
+ Albert Aribaud <albert.u.boot@aribaud.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, qemu-devel@nongnu.org,
+ Andre Przywara <andre.przywara@arm.com>, Simon Glass <sjg@chromium.org>,
  Ilias Apalodimas <ilias.apalodimas@linaro.org>,
  Christian Hewitt <christianshewitt@gmail.com>,
- Aaron Williams <awilliams@marvell.com>,
- Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
- Tianrui Wei <tianrui-wei@outlook.com>, Bin Meng <bmeng.cn@gmail.com>,
- Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
- Dimitri John Ledkov <dimitri.ledkov@canonical.com>,
- Padmarao Begari <padmarao.begari@microchip.com>
+ Kever Yang <kever.yang@rock-chips.com>, Rick Chen <rick@andestech.com>,
+ U-Boot Mailing List <u-boot@lists.denx.de>,
+ Jagan Teki <jagan@amarulasolutions.com>, Sean Anderson <seanga2@gmail.com>,
+ Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>, Fabio Estevam <festevam@gmail.com>,
+ Tim Harvey <tharvey@gateworks.com>, Peter Robinson <pbrobinson@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---oRWDw5wXQ3uCJU7V
-Content-Type: text/plain; charset=us-ascii
+--ofekNuVaYCKmvJ0U
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 27, 2021 at 03:23:01PM +0200, Heinrich Schuchardt wrote:
+On Wed, Oct 27, 2021 at 03:44:08PM +0100, Alex Benn=C3=A9e wrote:
+>=20
+> Fran=C3=A7ois Ozog <francois.ozog@linaro.org> writes:
+>=20
+> > Hi Simon
+> >
+> > The only place I could agree with this file presence is in the document=
+ation directory, not in dts. It creates a mental picture  for the reader
+> > an entirely bad mind scheme around Qemu and DT.
+> >
+> > And even in a documentation directory I would place a bug warning: don=
+=E2=80=99t use this with any kernel , Qemu generates a DT dynamically
+> > based on cpu, memory and devices specified at the command line.
+>=20
+> Certainly for the arm, aarch64 and riscv "virt" machines you should
+> always use the QEMU generated DTB. I'm not entirely clear what a
+> qemu_arm and qemu_arm64 def targets are meant to be in this context.
 
-[snip]
-> One passed to U-Boot for fixups and further passed to the OS. This
-> devicetree may originate from a prior boot stage, from a file loaded by
-> U-Boot, or from a later bootstage, e.g systemd-boot's devicetree command.
-
-I assume systemd-boot is implementing the same logic that extlinux.conf
-has used for forever, yes?
-
-> This devicetree will not contain any U-Boot specific information.
-
-To repeat, it must only have official bindings, yes, regardless of what
-project they come from.
+Agreed.  We cannot include random device trees in U-Boot for devices
+that generate their own at run time or otherwise have the source of
+truth elsewhere.
 
 --=20
 Tom
 
---oRWDw5wXQ3uCJU7V
+--ofekNuVaYCKmvJ0U
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmF5aHcACgkQFHw5/5Y0
-tyztPwwAhAXbyFdKVT7XKtjQorj9h6CU8No19oSNzMjXksFnoVhLJeedZj7PGB64
-2r56ZQcKWxywmWNNts2mvvhQizyZd89deakHD+CCXYpidWhTVzVFALKgg3Iga8tV
-Sg9SP2cDCQA8z+/t+6xwO8yB2y/eEvLtwzzzWj8MfRh5ADhCZcNYBsWjHqPi72fe
-uMbJT7YbilwMXlAlLiMauKwcHagRvKyqfg1JNXIx/R0k7eau1ZcZ2kN68VddmcQy
-k7GTVHsBthrKM0BCuEyreFef4YxEVqllj27P5sGRm2plKVc53FRxMgm4TlHikON7
-A7OC4ms1ei1pSoaezRF9JudyW8jR9xj7VLLtjpMFgR1Xcr3uAGmfQ1gNlWjlgzlk
-9HvYpI5F3PelGTfSGPAu7JkiduAsD5ULZB/U3vUlz46rfM07sy4YQlXLlnQUUIFq
-mBBtLRgj+SwQ1fwaiUQAmo8x+SRxSYG0LrSLdd8Dhh5jTHRlqegaWhjKJrYEABo4
-VNs2K00Y
-=MbxJ
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmF5aLUACgkQFHw5/5Y0
+tyyE3Qv7By4ZScROAq6Z8M1IN948ZclwHo/QAyU22EMcJsz8CfiTKaun2r7BC21S
+fcJWLKYS77VPhVezj+onBhvpLX3b6RF3MLJvWgYFh/bZZYWIVqNBb/bhhjsZI0qZ
+j4V+8abBlHBOfKfZOnu0rgW97GsT9frQqUgj7b7WCY2Cx+F0zWX5HfCRgSxazJgH
+Xed+jjqxggWMsHrSF8Sb4QsEc12wOCZ1D7xmRUqU+wL1T09Jll+Q9IP/gjJzNSEy
+wB2YpA5LMnt92ekCnzUlXz5MqI1EXrEnpOXEmDc3lbiw1iakiGQxS/uViB33cnGT
+iYYLGgqaK43P9M0vbaos1aeN24v2XTWuO48/m1czWFjgM7rRHcw3Otg7kQqCsoYf
+YOmJY/uRlEUf7R8t/u01iVl0+q6rplWgIjP39Ud+cxUuF8gzVeuEFPrVT4M0lCxc
+n9EFlqKuv25VnnlfZ6n0W1LlGtFygyvaTTNxL3wH1L+vRfsVwrkPT1iidRSWlR10
+Y7rB+SHh
+=gMfa
 -----END PGP SIGNATURE-----
 
---oRWDw5wXQ3uCJU7V--
+--ofekNuVaYCKmvJ0U--
 
