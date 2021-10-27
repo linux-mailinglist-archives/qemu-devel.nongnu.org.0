@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4391943D067
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 20:13:33 +0200 (CEST)
-Received: from localhost ([::1]:40418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B751E43D0BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 20:29:58 +0200 (CEST)
+Received: from localhost ([::1]:37640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfnQa-0006cm-15
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 14:13:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51964)
+	id 1mfngT-0007q8-Rt
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 14:29:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfnL4-0003Vm-8H
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 14:07:51 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35436)
+ id 1mfnLB-0003XG-Ef
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 14:07:58 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:39489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfnL2-0003vI-Iq
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 14:07:50 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id g7so4528556wrb.2
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 11:07:48 -0700 (PDT)
+ id 1mfnL8-0003w2-SW
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 14:07:56 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ y205-20020a1c7dd6000000b0032cc8c2800fso6122865wmc.4
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 11:07:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m3rhdTjX14scTjWuT5S0L7YoHWbP+7G4pT+NVxV5R9s=;
- b=S2FIeOQb9fsO2z4/avorQ7taDVtx+elmuDp6iCYJPh56HFu7MP47IK+u9lc0ISU2ga
- EfBv1sR7I1hgbMjFdSKS7wVhxTU4z6zCvxel4rG65P/RVCsY0doMNFpXaB4FvVlxcDvB
- bZ+c2ulmoQV4fQaHWhNIDG3ryR3u6BEwNXiDM/SliJZF0qVWsa56qOii3bVXDL6bgfDb
- xmLmOb36RFR7MospydinIXwdgKwXYKroShia/SAcMAKmueAjt/xo3T/0lCSS3QIY+32l
- 38oJuxix+wffyrg2IeTittI8KyNvZp0NRlMPeAqb7FEappvy2IdAB0GwztsotRUH1Rll
- WDXg==
+ bh=w1WlsmvsxrgkCAUcSauJsghkKBvyVMTDwpkFjialjgo=;
+ b=bPy5lemmKeRXFUW+DmRo4st0ui6UCkx/H1jRlJZtsVrQ+u85vCx+9RpJqyot0CJwYP
+ uu3WHtOIO841tPijZEE6a6KJ/qGVjl6nGFh81iVaLSNv6M8bCgQN8DdXhnQeQHHZLplS
+ Z1VsM/8hGSSFNAjurbDc1GM2l+nacXpyyThp1GD64BR8CfjNHPAdlFq8LV/0qZD1eJ62
+ Hf8ZaSN/uQ4aJ48LHDk5teCv3Bq3PSMtVEBhPrGKI4Iv5RCIfF/KuonjVNbz2ELDn1D1
+ k4D87U+WbHW0Kv5Czy/iLfSytbdOn84AlYpFpcSQiJ/oTZNn6PdwJGbU+AyKbsc9qwcr
+ 9OYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=m3rhdTjX14scTjWuT5S0L7YoHWbP+7G4pT+NVxV5R9s=;
- b=GnPfi0wHgjOaRwW5ppUXnAv9iaEAwCuXIJMHDKBsyrXCrq6fksPcuR3BesJreUABQ7
- dV5tTn/A8RN5qP+ms//v5MF3LsPVRmfW/T4JqX/553LrXTZ0whNEpYoSScl4OReAz4/c
- b3RhkSwxLXHuaBEeI2DFpVTnP3hMeFxjHbfWFOwVld2f+SESv58DoYogKn9wgIoHZ9c+
- da+A57qe01RYEKTOfRvzpXokU12Eooj1Pcls65IxiBGFa8fRnfMD/ConBvH6Kx9cVeLL
- I1oPtLYGMnp4UK38c0IeEQyHjCiTBjmMgM1hs/YxMGYAwSmmL/9dRyjoQhMnWs0ln9gT
- DcVQ==
-X-Gm-Message-State: AOAM5321B9onH6d6PMmIy5bqA5gf/Sjr3yunv9CVbEe0ghvp5fx5tO0V
- aojDwTkP+2eTEpWzsGqCDrcUg6iqvmc=
-X-Google-Smtp-Source: ABdhPJweMxBztzilQLF4lX+THfR5Y+BLnUCNmF0Stjiu/BnGxfSpCgqJgN31FqXGzS1HE+lCLQzwJQ==
-X-Received: by 2002:adf:d1cd:: with SMTP id b13mr29765050wrd.178.1635358066931; 
- Wed, 27 Oct 2021 11:07:46 -0700 (PDT)
+ bh=w1WlsmvsxrgkCAUcSauJsghkKBvyVMTDwpkFjialjgo=;
+ b=p+us7hoaSOYP/ed2eygXlhl/4fPHHDBTobSLuFmHVjazchMfPMIRRqSzx/+td/4OK+
+ okwjdPoJCFnEjWwHK84NVhIaClm9kY4R0o3ljeWBkKIshyd8P/MXshKNlsKbZSrwC/sO
+ ajGeLEu+35pChwLIV3QhQesTlxjBJiE5v/JrnXkNMZ9EZHVEZUOd9figRtbzLT0gnGjN
+ nrH0fq35nZbCV0trEbalKpzHvTPehkN+wRy7Yrm0x1cYjhcb32aD0fI4JF5m/+e4iMqu
+ d2+KuTo0RynwqGh9sCJjwQF3tZlHuok8/DOscY+voXzOgheDL+oFrWihYlgDFEYY/K72
+ /pPw==
+X-Gm-Message-State: AOAM5327PLNOVCztIhDjmFmChljSsREmfSlHo9uHBljoO6rKtO/unZof
+ 0/LLEZmK1fFtip/5JZkeNZ0u5iZq+Hk=
+X-Google-Smtp-Source: ABdhPJwj7ei661WUAceyBFYCC+HmqQ4IPO7yEjITfI0I/UMCSu57fmKDD1z6MFIMLN2gvDXd5AZ22Q==
+X-Received: by 2002:a7b:c103:: with SMTP id w3mr7349823wmi.145.1635358072231; 
+ Wed, 27 Oct 2021 11:07:52 -0700 (PDT)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id f1sm579718wru.12.2021.10.27.11.07.46
+ by smtp.gmail.com with ESMTPSA id g19sm527171wmg.34.2021.10.27.11.07.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Oct 2021 11:07:46 -0700 (PDT)
+ Wed, 27 Oct 2021 11:07:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/32] tests/tcg/mips: Run MSA opcodes tests on user-mode
- emulation
-Date: Wed, 27 Oct 2021 20:07:01 +0200
-Message-Id: <20211027180730.1551932-4-f4bug@amsat.org>
+Subject: [PATCH v2 04/32] target/mips: Use dup_const() to simplify
+Date: Wed, 27 Oct 2021 20:07:02 +0200
+Message-Id: <20211027180730.1551932-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211027180730.1551932-1-f4bug@amsat.org>
 References: <20211027180730.1551932-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,174 +87,54 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following commits added various user-mode tests
-for various MSA instructions:
+The dup_const() helper makes the code easier to follow, use it.
 
- - 0fdd986a6c8 ("Add tests for MSA integer add instructions")
- - 1be82d89011 ("Add tests for MSA integer average instructions")
- - 1d336c87a3c ("Add tests for MSA bit set instructions")
- - 1e6bea794c8 ("Add tests for MSA integer max/min instructions")
- - 2a367db039f ("Add tests for MSA pack instructions")
- - 3d9569b8550 ("Add tests for MSA move instructions")
- - 4b302ce90db ("Add tests for MSA integer multiply instructions")
- - 520e210c0aa ("Add tests for MSA integer compare instructions")
- - 53e116fed6d ("Add tests for MSA integer subtract instructions")
- - 666952ea7c1 ("Add tests for MSA bit move instructions")
- - 72f463bc080 ("Add tests for MSA integer divide instructions")
- - 8598f5fac1c ("Add tests for MSA FP max/min instructions")
- - 99d423e576a ("Add tests for MSA shift instructions")
- - a8f91dd9fd0 ("Add tests for MSA integer dot product instructions")
- - b62592ab655 ("Add tests for MSA bit counting instructions")
- - ba632924450 ("Add tests for MSA logic instructions")
- - fc76f486677 ("Add tests for MSA interleave instructions")
-
-Cover them in the buildsys machinery so they are run automatically
-when calling 'make check-tcg'.
-
-Start running them on the mips64el target.
-
-Cc: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Notes:
+ target/mips/tcg/msa_translate.c | 23 +++--------------------
+ 1 file changed, 3 insertions(+), 20 deletions(-)
 
-- I am using $wilcard because because the test files are in multiple
-directories ($MSA_TEST_CLASS).
-
-- mips32 tests are disabled because the Debian toolchain produces:
-
-  /usr/mips-linux-gnu/include/gnu/stubs.h:17:11: fatal error:
-  gnu/stubs-o32_hard_2008.h: No such file or directory
-   # include <gnu/stubs-o32_hard_2008.h>
-             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
----
- tests/tcg/mips/ase-msa.mak         | 30 ++++++++++++++++++++++++++++++
- MAINTAINERS                        |  1 +
- tests/tcg/mips/Makefile.target     |  5 +++++
- tests/tcg/mips64/Makefile.target   |  9 +++++++++
- tests/tcg/mips64el/Makefile.target | 12 ++++++++++++
- tests/tcg/mipsel/Makefile.target   |  9 +++++++++
- 6 files changed, 66 insertions(+)
- create mode 100644 tests/tcg/mips/ase-msa.mak
- create mode 100644 tests/tcg/mips64/Makefile.target
- create mode 100644 tests/tcg/mips64el/Makefile.target
- create mode 100644 tests/tcg/mipsel/Makefile.target
-
-diff --git a/tests/tcg/mips/ase-msa.mak b/tests/tcg/mips/ase-msa.mak
-new file mode 100644
-index 00000000000..be1ba967a5b
---- /dev/null
-+++ b/tests/tcg/mips/ase-msa.mak
-@@ -0,0 +1,30 @@
-+# -*- Mode: makefile -*-
-+#
-+# MIPS MSA specific TCG tests
-+#
-+# Copyright (c) 2021 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
+diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
+index 3ef912da6b8..bc57e06d923 100644
+--- a/target/mips/tcg/msa_translate.c
++++ b/target/mips/tcg/msa_translate.c
+@@ -313,28 +313,11 @@ static void gen_check_zero_element(TCGv tresult, uint8_t df, uint8_t wt,
+ {
+     /* generates tcg ops to check if any element is 0 */
+     /* Note this function only works with MSA_WRLEN = 128 */
+-    uint64_t eval_zero_or_big = 0;
+-    uint64_t eval_big = 0;
++    uint64_t eval_zero_or_big = dup_const(df, 0x01);
++    uint64_t eval_big = dup_const(df, 0x80);
+     TCGv_i64 t0 = tcg_temp_new_i64();
+     TCGv_i64 t1 = tcg_temp_new_i64();
+-    switch (df) {
+-    case DF_BYTE:
+-        eval_zero_or_big = 0x0101010101010101ULL;
+-        eval_big = 0x8080808080808080ULL;
+-        break;
+-    case DF_HALF:
+-        eval_zero_or_big = 0x0001000100010001ULL;
+-        eval_big = 0x8000800080008000ULL;
+-        break;
+-    case DF_WORD:
+-        eval_zero_or_big = 0x0000000100000001ULL;
+-        eval_big = 0x8000000080000000ULL;
+-        break;
+-    case DF_DOUBLE:
+-        eval_zero_or_big = 0x0000000000000001ULL;
+-        eval_big = 0x8000000000000000ULL;
+-        break;
+-    }
 +
-+MSA_DIR = $(SRC_PATH)/tests/tcg/mips/user/ase/msa
-+
-+MSA_TEST_CLASS = bit-count bit-move bit-set fixed-multiply \
-+				float-max-min int-add int-average int-compare int-divide \
-+				int-dot-product interleave int-max-min int-modulo \
-+				int-multiply int-subtract logic move pack shift
-+
-+MSA_TEST_SRCS = $(foreach class,$(MSA_TEST_CLASS),$(wildcard $(MSA_DIR)/$(class)/*.c))
-+
-+MSA_TESTS = $(patsubst %.c,%,$(notdir $(MSA_TEST_SRCS)))
-+
-+$(MSA_TESTS): CFLAGS+=-mmsa $(MSA_CFLAGS)
-+$(MSA_TESTS): %: $(foreach CLASS,$(MSA_TEST_CLASS),$(wildcard $(MSA_DIR)/$(CLASS)/%.c))
-+	$(CC) -static $(CFLAGS) -o $@ \
-+		$(foreach CLASS,$(MSA_TEST_CLASS),$(wildcard $(MSA_DIR)/$(CLASS)/$@.c))
-+
-+$(foreach test,$(MSA_TESTS),run-$(test)): QEMU_OPTS += -cpu $(MSA_CPU)
-+
-+# FIXME: These tests fail when using plugins
-+ifneq ($(CONFIG_PLUGIN),y)
-+TESTS += $(MSA_TESTS)
-+endif
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 894dc431052..0a1475a6e83 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3112,6 +3112,7 @@ R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Odd Fixes
- F: tcg/mips/
-+F: tests/tcg/mips*
- 
- PPC TCG target
- M: Richard Henderson <richard.henderson@linaro.org>
-diff --git a/tests/tcg/mips/Makefile.target b/tests/tcg/mips/Makefile.target
-index 1a994d5525e..fc54f144f37 100644
---- a/tests/tcg/mips/Makefile.target
-+++ b/tests/tcg/mips/Makefile.target
-@@ -17,3 +17,8 @@ TESTS += $(MIPS_TESTS)
- hello-mips: CFLAGS+=-mno-abicalls -fno-PIC -mabi=32
- hello-mips: LDFLAGS+=-nostdlib
- endif
-+
-+# FIXME enable MSA tests
-+#MSA_CFLAGS=-march=mips32r5 -mnan=2008
-+#MSA_CPU=P5600
-+#include $(SRC_PATH)/tests/tcg/mips/ase-msa.mak
-diff --git a/tests/tcg/mips64/Makefile.target b/tests/tcg/mips64/Makefile.target
-new file mode 100644
-index 00000000000..d876b92f219
---- /dev/null
-+++ b/tests/tcg/mips64/Makefile.target
-@@ -0,0 +1,9 @@
-+# -*- Mode: makefile -*-
-+#
-+# mips64el specific TCG tests
-+#
-+# Copyright (c) 2021 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+# 64-bit MSA is tested on little-endian target
-diff --git a/tests/tcg/mips64el/Makefile.target b/tests/tcg/mips64el/Makefile.target
-new file mode 100644
-index 00000000000..87c0d6dce18
---- /dev/null
-+++ b/tests/tcg/mips64el/Makefile.target
-@@ -0,0 +1,12 @@
-+# -*- Mode: makefile -*-
-+#
-+# mips64el specific TCG tests
-+#
-+# Copyright (c) 2021 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+# MSA
-+MSA_CFLAGS=-march=mips64r5 -mnan=legacy
-+MSA_CPU=Loongson-3A4000
-+include $(SRC_PATH)/tests/tcg/mips/ase-msa.mak
-diff --git a/tests/tcg/mipsel/Makefile.target b/tests/tcg/mipsel/Makefile.target
-new file mode 100644
-index 00000000000..c8acacb4497
---- /dev/null
-+++ b/tests/tcg/mipsel/Makefile.target
-@@ -0,0 +1,9 @@
-+# -*- Mode: makefile -*-
-+#
-+# mipsel specific TCG tests
-+#
-+# Copyright (c) 2021 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+# 32-bit MSA is tested on big-endian target
+     tcg_gen_subi_i64(t0, msa_wr_d[wt << 1], eval_zero_or_big);
+     tcg_gen_andc_i64(t0, t0, msa_wr_d[wt << 1]);
+     tcg_gen_andi_i64(t0, t0, eval_big);
 -- 
 2.31.1
 
