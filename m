@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0475E43CEF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:47:24 +0200 (CEST)
-Received: from localhost ([::1]:49604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FAA243CF99
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 19:21:32 +0200 (CEST)
+Received: from localhost ([::1]:43658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfm5C-0004Wq-To
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:47:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46846)
+	id 1mfmcF-0000IZ-4x
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 13:21:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mflUi-0007pT-Ry
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:09:41 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:41740)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mflVc-0000MD-8l
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:10:36 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:44867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mflUg-0000wT-P8
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:09:40 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id z11so2320326plg.8
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 09:09:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mflVT-00016S-Hn
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:10:33 -0400
+Received: by mail-pg1-x536.google.com with SMTP id c4so3347260pgv.11
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 09:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=sender:from:mime-version:subject:in-reply-to:date:cc
  :content-transfer-encoding:message-id:references:to;
- bh=nDLNw4NzS+OFYgWzLcYqyaTGLZjSdDHrGBc5dzBeZk0=;
- b=ejc68wehlk3efGD4lZMwGDDQ3insSq76684T6lHIeYJxwfiKT6+W1/ZxTjF8TD1GV1
- 0nZ7yBuhAAAnDaZ1MaCKeq8btirkrWhkDMPUBPBPxXyFiPem1a2l7LBLn7+AS4wpJPob
- 3XSYRqNIm06BVKI6l/I8DO/G/RGQDi+Bch2o6cCHc5KfbwK/X9UDNZCnS3ANTa/LkvyP
- BW4nwPvKT44Ie1xqtj9IGiik7O5chVQhTES9SFLzdt9OmzCnv69J8jLCJnFm1h6kxZHZ
- htwLwU12kjcGE9XqJ3EkgGyKRoVYWgqvy0h8B6thVMH1z0aDFipbi8wqGdi1c4AJQ6A+
- RScQ==
+ bh=NMuSpFtePuW0FeFj4pDC7ShmNaulMV6zqVNnTfTX0WU=;
+ b=BQCAelkR/lFK8i7B+yEzQUOQGoTxVm/f/Kq6DeT3RWr9PB+3/h2uIWBENItd9iPEcC
+ 0yKBq+yMzdPh2E7GGJLRiyRTkbvH3iX1a5WC+JMfOBMF1SzmT9wl10c3yl3ZcLkEjJhD
+ /6alHIgcc5OGzI8g1s9UbsjhQL9Oth8dm6Fz4g1ndZl9vUAy70BRSJtoR7gUpj46TUSK
+ y2TCNqkdvwn5oUyRhdS/ckHrEr5iGjJBw6CC3ccOp22Yrw2zi0VQ8goh3oA5hJdsjWj4
+ ToyX6bii5r/tJOB9EQqu1QlogUDDDpCb9pK57+iH9lMRJFD1FfSKIee2ABH8E1Q5Cuss
+ 1CGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:mime-version:subject:in-reply-to
  :date:cc:content-transfer-encoding:message-id:references:to;
- bh=nDLNw4NzS+OFYgWzLcYqyaTGLZjSdDHrGBc5dzBeZk0=;
- b=loUsSiTFGddY7o6jIv2SwOxgDFQZCrJLDPRP5KF39Zqspzoc0RdwOCPxMM6EQFt/wq
- uu+J0/UL03tIb2VvDZNDU7foG0+EDXEPrjaezaEDxUMX6oF2a1qkNAmwWFMzFAvk+3Ks
- wE8IH3CSSqXlT2NEHOEp4aYNKLaxV0KLCAc1Oe2Bxuqe2FhvUiIfquDHzmeZs8w1lJf9
- 3s0lMIlKhBAmRPy/2wZzvOexPz7CPxL9Tq8zRoUl0vk8mWK13qVCNn2GULtTrImm82KU
- iLSaUquoURT+YkwZRVaYPhQ2onUlHp92KHEjp3WQjOO9PnqwPMEoPFRVAdHqro5+CQ+8
- inMg==
-X-Gm-Message-State: AOAM533ZTR209X+OqcpWr+Nn0EM3lm/ZBzQfWkmDzJDA8bEDNUXXEjcT
- c0ZyoLWEvFdxlhjKNc5fb/q/jg==
-X-Google-Smtp-Source: ABdhPJwG0ho/0QfyK/9yP3eE3x9kITiw+dGLZSZK9SLz04ZUVKv+9ANofxlAu5j7lVsgYzM9ILKAnQ==
-X-Received: by 2002:a17:90a:a598:: with SMTP id
- b24mr6811302pjq.214.1635350975556; 
- Wed, 27 Oct 2021 09:09:35 -0700 (PDT)
+ bh=NMuSpFtePuW0FeFj4pDC7ShmNaulMV6zqVNnTfTX0WU=;
+ b=ssXW7u5Z2uBYOoCBMNldzumaR9LrxdPSZBy9ocUNe8kJZVOyU/aq9W43VXtfBkzN+Y
+ pk/olEj3YtcIOTxJtZnh3hOXVqS/OrEhDAlJaYeiZf1Yv+VN50rsVAZNMsIcIJpuC3jg
+ i+TdSKhxYk45Y0JNKmsjb9oW422oVsFU1UDSds0miRh+M3arA1OeDbJ48n6fRBZPnJqT
+ aLYUUGh65eO3UQtkkPse5cJvNPjIeJfJ0XoPP/m7PC8MwvSB3tAPwyrZf13Rm6pe9kw7
+ 6strlyaEUjK0arVOPHOdjUdVrz0w+A9vX7g5w23p3hgBNFHF5uZlxLtVi1sWccwUUF/E
+ 1DFw==
+X-Gm-Message-State: AOAM530mcj4QykItFbKxMYExIsQgZWDAunvO/M1dxbc/Vo90Do2/87f9
+ Byzq+d7NcOB6bhka2k6gAC711w==
+X-Google-Smtp-Source: ABdhPJwOpbOEYjPgtwy9L8fcvnIST24WAk5XgwpYVB8/ZMgIFF5H0dp1pCewUO1ut8GcWz/p+/LWIQ==
+X-Received: by 2002:aa7:8246:0:b0:44b:4870:1b09 with SMTP id
+ e6-20020aa78246000000b0044b48701b09mr34235238pfn.82.1635351025255; 
+ Wed, 27 Oct 2021 09:10:25 -0700 (PDT)
 Received: from ?IPv6:2603:300b:6:5100:91db:7d7:39c3:b8a1?
  ([2603:300b:6:5100:91db:7d7:39c3:b8a1])
- by smtp.gmail.com with ESMTPSA id b13sm5195379pjl.15.2021.10.27.09.09.33
+ by smtp.gmail.com with ESMTPSA id b13sm5195379pjl.15.2021.10.27.09.10.23
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 27 Oct 2021 09:09:35 -0700 (PDT)
+ Wed, 27 Oct 2021 09:10:24 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 X-Google-Original-From: Warner Losh <bsdimp@gmail.com>
 Content-Type: text/plain;
 	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.7\))
-Subject: Re: [PATCH v1 25/28] plugins: add helper functions for coverage
- plugins
-In-Reply-To: <e26b5d8b-fe12-c0f5-0cd3-6a2e7421c0c0@linaro.org>
-Date: Wed, 27 Oct 2021 10:09:31 -0600
+Subject: Re: [PATCH  v1 12/28] ebpf: really include it only in system emulators
+In-Reply-To: <20211026102234.3961636-13-alex.bennee@linaro.org>
+Date: Wed, 27 Oct 2021 10:10:23 -0600
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <6C94810E-93F3-49E5-B4F7-995C41D64453@gmail.com>
+Message-Id: <059076AD-CB0C-4CBC-B7F2-90C8666AE650@gmail.com>
 References: <20211026102234.3961636-1-alex.bennee@linaro.org>
- <20211026102234.3961636-26-alex.bennee@linaro.org>
- <e26b5d8b-fe12-c0f5-0cd3-6a2e7421c0c0@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
+ <20211026102234.3961636-13-alex.bennee@linaro.org>
+To: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
 X-Mailer: Apple Mail (2.3608.120.23.2.7)
-Received-SPF: none client-ip=2607:f8b0:4864:20::62e;
- envelope-from=wlosh@bsdimp.com; helo=mail-pl1-x62e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::536;
+ envelope-from=wlosh@bsdimp.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,34 +86,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com,
- kuhn.chenqun@huawei.com, qemu-devel@nongnu.org, robhenry@microsoft.com,
- f4bug@amsat.org, mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com,
- cota@braap.org, Ivanov Arkady <arkadiy.ivanov@ispras.ru>, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
- Alexandre Iooss <erdnaxe@crans.org>,
- =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: fam@euphon.net, berrange@redhat.com, pbonzini@redhat.com,
+ aaron@os.amperecomputing.com, qemu-devel@nongnu.org, robhenry@microsoft.com,
+ f4bug@amsat.org, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
+ cota@braap.org, stefanha@redhat.com, crosa@redhat.com, kuhn.chenqun@huawei.com,
+ ma.mandourr@gmail.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-> On Oct 26, 2021, at 2:25 PM, Richard Henderson =
-<richard.henderson@linaro.org> wrote:
+> On Oct 26, 2021, at 4:22 AM, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
 >=20
-> On 10/26/21 3:22 AM, Alex Benn=C3=A9e wrote:
->> +#else
->> +#include "qemu.h"
->> +#include "loader.h"
+> From: Paolo Bonzini <pbonzini@redhat.com>
 >=20
-> There is no bsd-user/loader.h.
+> eBPF libraries are being included in user emulators, which is useless =
+and
+> also breaks --static compilation if a shared library for libbpf is
+> present in the system.
+>=20
+> Reported-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Message-Id: <20211012162252.263933-1-pbonzini@redhat.com>
 
-Should there be?
+Reviewed-bt: Warner Losh <imp@bsdimp.com>
 
-Warner
-
-
-> r~
+> ---
+> meson.build | 2 --
+> 1 file changed, 2 deletions(-)
+>=20
+> diff --git a/meson.build b/meson.build
+> index 2c5b53cbe2..bc520b579c 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2610,8 +2610,6 @@ subdir('bsd-user')
+> subdir('linux-user')
+> subdir('ebpf')
+>=20
+> -common_ss.add(libbpf)
+> -
+> specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
+>=20
+> linux_user_ss.add(files('thunk.c'))
+> --=20
+> 2.30.2
+>=20
 >=20
 
 
