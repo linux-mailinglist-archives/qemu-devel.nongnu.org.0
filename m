@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130F943BF2E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 03:44:10 +0200 (CEST)
-Received: from localhost ([::1]:54604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8B543BF2F
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 03:44:18 +0200 (CEST)
+Received: from localhost ([::1]:54760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfXz7-0004GQ-1s
-	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 21:44:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47008)
+	id 1mfXzF-0004Mi-E8
+	for lists+qemu-devel@lfdr.de; Tue, 26 Oct 2021 21:44:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfXwP-0001XL-Bs
+ id 1mfXwP-0001WB-0A
  for qemu-devel@nongnu.org; Tue, 26 Oct 2021 21:41:21 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:62157)
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:62135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfXwM-0003J4-BX
- for qemu-devel@nongnu.org; Tue, 26 Oct 2021 21:41:21 -0400
+ id 1mfXwI-0003G7-Ao
+ for qemu-devel@nongnu.org; Tue, 26 Oct 2021 21:41:20 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 25C2575619C;
- Wed, 27 Oct 2021 03:41:16 +0200 (CEST)
+ by localhost (Postfix) with SMTP id D977B756047;
+ Wed, 27 Oct 2021 03:41:08 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9D867748F58; Wed, 27 Oct 2021 03:41:08 +0200 (CEST)
-Message-Id: <c788cbcd379e42908b55df5785c031e437f81a5b.1635298341.git.balaton@eik.bme.hu>
+ id A7DD4756040; Wed, 27 Oct 2021 03:41:08 +0200 (CEST)
+Message-Id: <a4711f8ec7ff38175c2d57f55704656af219aef0.1635298341.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635298341.git.balaton@eik.bme.hu>
 References: <cover.1635298341.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 2/6] hw//sh4: Use qemu_log instead of fprintf to stderr
+Subject: [PATCH 4/6] hw/sh4/r2d: Use error_report instead of fprintf to stderr
 Date: Wed, 27 Oct 2021 03:32:21 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,96 +63,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/char/sh_serial.c |  7 ++++---
- hw/sh4/sh7750.c     | 13 ++++++-------
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ hw/sh4/r2d.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
-index 1b1e6a6a04..c4231975c7 100644
---- a/hw/char/sh_serial.c
-+++ b/hw/char/sh_serial.c
-@@ -30,6 +30,7 @@
- #include "hw/sh4/sh.h"
- #include "chardev/char-fe.h"
- #include "qapi/error.h"
-+#include "qemu/log.h"
- #include "qemu/timer.h"
- 
- //#define DEBUG_SERIAL
-@@ -200,8 +201,8 @@ static void sh_serial_write(void *opaque, hwaddr offs,
-         }
-     }
- 
--    fprintf(stderr, "sh_serial: unsupported write to 0x%02"
--            HWADDR_PRIx "\n", offs);
-+    qemu_log_mask(LOG_UNIMP, "sh_serial: unsupported write to 0x%02"
-+                  HWADDR_PRIx "\n", offs);
-     abort();
- }
- 
-@@ -307,7 +308,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
- #endif
- 
-     if (ret & ~((1 << 16) - 1)) {
--        fprintf(stderr, "sh_serial: unsupported read from 0x%02"
-+        qemu_log_mask(LOG_UNIMP, "sh_serial: unsupported read from 0x%02"
-                 HWADDR_PRIx "\n", offs);
-         abort();
-     }
-diff --git a/hw/sh4/sh7750.c b/hw/sh4/sh7750.c
-index ca7e261aba..f2f251f165 100644
---- a/hw/sh4/sh7750.c
-+++ b/hw/sh4/sh7750.c
-@@ -24,6 +24,7 @@
-  */
- 
+diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
+index 57ccae7249..72759413f3 100644
+--- a/hw/sh4/r2d.c
++++ b/hw/sh4/r2d.c
+@@ -26,6 +26,7 @@
  #include "qemu/osdep.h"
-+#include "qemu/log.h"
- #include "hw/irq.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
++#include "qemu/error-report.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
  #include "hw/sh4/sh.h"
- #include "sysemu/sysemu.h"
-@@ -205,13 +206,13 @@ static void portb_changed(SH7750State *s, uint16_t prev)
- 
- static void error_access(const char *kind, hwaddr addr)
- {
--    fprintf(stderr, "%s to %s (0x" TARGET_FMT_plx ") not supported\n",
--            kind, regname(addr), addr);
-+    qemu_log_mask(LOG_GUEST_ERROR, "%s to %s (0x" TARGET_FMT_plx
-+                  ") not supported\n", kind, regname(addr), addr);
- }
- 
- static void ignore_access(const char *kind, hwaddr addr)
- {
--    fprintf(stderr, "%s to %s (0x" TARGET_FMT_plx ") ignored\n",
-+    qemu_log_mask(LOG_UNIMP, "%s to %s (0x" TARGET_FMT_plx ") ignored\n",
-             kind, regname(addr), addr);
- }
- 
-@@ -241,8 +242,7 @@ static uint32_t sh7750_mem_readw(void *opaque, hwaddr addr)
-     case SH7750_PCR_A7:
-         return s->pcr;
-     case SH7750_RFCR_A7:
--        fprintf(stderr,
--                "Read access to refresh count register, incrementing\n");
-+        /* Read access to refresh count register, incrementing */
-         return s->rfcr++;
-     case SH7750_PDTRA_A7:
-         return porta_lines(s);
-@@ -363,13 +363,12 @@ static void sh7750_mem_writew(void *opaque, hwaddr addr,
-         portb_changed(s, temp);
-         return;
-     case SH7750_RFCR_A7:
--        fprintf(stderr, "Write access to refresh count register\n");
-         s->rfcr = mem_value;
-         return;
-     case SH7750_GPIOIC_A7:
-         s->gpioic = mem_value;
-         if (mem_value != 0) {
--            fprintf(stderr, "I/O interrupts not implemented\n");
-+            qemu_log_mask(LOG_UNIMP, "I/O interrupts not implemented\n");
-             abort();
+@@ -324,7 +325,7 @@ static void r2d_init(MachineState *machine)
+                                           SDRAM_BASE + LINUX_LOAD_OFFSET,
+                                           INITRD_LOAD_OFFSET - LINUX_LOAD_OFFSET);
+         if (kernel_size < 0) {
+-            fprintf(stderr, "qemu: could not load kernel '%s'\n", kernel_filename);
++            error_report("qemu: could not load kernel '%s'", kernel_filename);
+             exit(1);
          }
-         return;
+ 
+@@ -345,7 +346,7 @@ static void r2d_init(MachineState *machine)
+                                           SDRAM_SIZE - INITRD_LOAD_OFFSET);
+ 
+         if (initrd_size < 0) {
+-            fprintf(stderr, "qemu: could not load initrd '%s'\n", initrd_filename);
++            error_report("qemu: could not load initrd '%s'", initrd_filename);
+             exit(1);
+         }
+ 
 -- 
 2.21.4
 
