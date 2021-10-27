@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF8943CEA5
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:22:04 +0200 (CEST)
-Received: from localhost ([::1]:50020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DCA743CEB2
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:25:01 +0200 (CEST)
+Received: from localhost ([::1]:58850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mflgh-00082L-UF
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:22:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36352)
+	id 1mfljY-0005pA-63
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:25:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfl3J-0006Wm-B6
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:41:22 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53181)
+ id 1mfl4m-0002Xe-Uk
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:42:53 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54160)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfl3H-0001q3-Hk
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:41:21 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id m42so3037644wms.2
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 08:41:19 -0700 (PDT)
+ id 1mfl4k-0003sG-ND
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:42:52 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id 192so1492476wme.3
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 08:42:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=FMk50lKfQM1mDKuy10nO9KEq/tYBcMKOpTfx1qp4e+s=;
- b=VXDT7QG1K+w/WRzXK2TuYZodsZdk0NCD32sy2whpPPJtofjDnfVfsAnbKgAteMkvS8
- jgtVDa72Wg48JvUreQO2xIpByZD/95rMS67W+jZeKTdeyHNCzePRxpcfiI60upWN6HB2
- vFO1D5MQrOQnCwQ5os7m01bmjHSqhTAd4ORa1AP/RHuEkd2L74WpCPFLUFvpFw0vcKk6
- xfLi8TgiV0BRK70nQQUU8V6I1F3kVeo35/r4slLutvr13ra6ZoLxdSiNYbTL/iMmrfWq
- yIluz0TyjViL9E2n3Hv8T8Zc1V+gSLRTpb+kErddAAVE9zlwoLp9ruhUY6EOzOnn+RXl
- noPQ==
+ bh=bdso/lsEeW7B4M85/U3Mw8B4/Aqyj6cwf7BTxkhn0/c=;
+ b=bWuPu+z0pP6ZmC9Y//bln8JslLtwPzSDpw9OLMUDVMDgwNsIbrcCeZ6X9lxh5E9Msh
+ UMk66F3P/gHxlj5AJuryYPLTJiykGlC+gfV22OXTJMLNiU7QQx+wwZ30HiMkBdofzufs
+ YUhbEq6DD8dSzWLwj6oT00cmM9TLIdiH9mHeXnuhrbFbUsUqzI/13wE7kZmVqpL2ItIY
+ g6YDZr2z18BbFJvht4JIG/Yh/K9sCxjB+Lh4MVmsif4Ay5NZYSmdobQZJBW+nLVFK89m
+ lf8pFotgBrVJRp9lrDtlX8RD2P/LZh4AXFngI7l6URdas32489TbDxePn6EIwN6NAlcg
+ Qmhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=FMk50lKfQM1mDKuy10nO9KEq/tYBcMKOpTfx1qp4e+s=;
- b=ROJ0Ge085rGxEOIgMe9Vh250KC3YP9mevlp3efu0dG+d5oc6yOeO2HD7D20yo5kXnl
- dQaSNNobY2u0mv+FekTIj0W06ng3nw5wkd8tK52OlkAQDELsRZ1yJHzuH6JI7EhpyeGJ
- aNphRUGHwNb2MSqG0Orf9G4IfVXEi37EDwfJ3znt5CsQQKe2bbHVTZBOyhktJvUO3qZL
- 2uarzRJCOe06Oy5UMK/487k/gfLA2L6FKxyijdDFiFVDiJzNilljnBcWDqUcMhRKMtcj
- eIWHBxhWY+kQ4Hl2O1Uwej3ykhBSbERi2ckkencEC+cvSdaZYcVS/dUCRKHlTUKK8RVe
- zAxA==
-X-Gm-Message-State: AOAM533ylxMksn6ytILO9QVjsrhp38Ypjg8iInQS2NV4smGndBUrFhHH
- vepW2DnuB4aPZAUFMgj0NVY=
-X-Google-Smtp-Source: ABdhPJyaTwrwNWdHADl5D9N5XEdHTthar2PS2lEPIm26WHLyOskcIehb4feUZJINEdG0YQppwVkFAg==
-X-Received: by 2002:a05:600c:1d19:: with SMTP id
- l25mr6568896wms.119.1635349278050; 
- Wed, 27 Oct 2021 08:41:18 -0700 (PDT)
+ bh=bdso/lsEeW7B4M85/U3Mw8B4/Aqyj6cwf7BTxkhn0/c=;
+ b=0Qbc/Exj6xLfDZ2hFM2tSI18iPAtDK46OZuvWVqIN9k1vECpuMdqmDXuBUnXla+hrP
+ BdyEbX3zVz4BBKWHzYQIFcLeKyr+kY1qlU1apKjZYNC2LYCnIxyQ9YxPYTms/F8Gt5YF
+ Nx+LvYvF/XJ7hCTMTiWRwjTkZxiByvdMtL/jsa2Mzq9Tn0X3Za/XTyQzOjMmvrkRw+F8
+ elDoNvS4uoFlaIPBcFsiW/R5DJ1/F3S6VxmSDLvuoT/DukMkyFooVdHxXLljakhkTLFC
+ CjMDvFax0ESlnMIVXQLqUH5GEob+UNxHDQ/FTAqzuxJ/8rOCf9ynmDklLi807f9+3cil
+ GVSA==
+X-Gm-Message-State: AOAM532ciXtfRzAfvXcxWtOygXrrG3sBb+2hNfRbpu7HZb3622M9QaDr
+ LHxKGyPkRNrU8pSTGpCfp80=
+X-Google-Smtp-Source: ABdhPJwiDJdXFqO5KnqqH5c0PdLheLro7b1i0p4om5drIJBPVhL/TdT2zBaAySgDibtXIVc4EgjaiA==
+X-Received: by 2002:a05:600c:2104:: with SMTP id
+ u4mr186745wml.23.1635349369438; 
+ Wed, 27 Oct 2021 08:42:49 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id x7sm3513997wmi.43.2021.10.27.08.41.17
+ by smtp.gmail.com with ESMTPSA id c17sm147059wmk.23.2021.10.27.08.42.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 08:41:17 -0700 (PDT)
-Message-ID: <ce659b4d-1be1-db0f-566d-ffa42d3357dd@amsat.org>
-Date: Wed, 27 Oct 2021 17:41:16 +0200
+ Wed, 27 Oct 2021 08:42:48 -0700 (PDT)
+Message-ID: <0e3fdeaa-9580-ed81-ee17-63ec0c19a062@amsat.org>
+Date: Wed, 27 Oct 2021 17:42:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v2 05/11] hw/char/sh_serial: Rename type sh_serial_state
- to SHSerialState
+Subject: Re: [PATCH v2 01/11] hw/sh4: Fix a typo in a comment
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1635342377.git.balaton@eik.bme.hu>
- <029a0597b27a0f2ed989f5838451269c176b6310.1635342377.git.balaton@eik.bme.hu>
+ <f03f38eb6b70b8586f33868b0ba4839f3b214fc9.1635342377.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <029a0597b27a0f2ed989f5838451269c176b6310.1635342377.git.balaton@eik.bme.hu>
+In-Reply-To: <f03f38eb6b70b8586f33868b0ba4839f3b214fc9.1635342377.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
@@ -100,12 +99,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/27/21 15:46, BALATON Zoltan wrote:
-> Coding style says types should be camel case.
-> 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/char/sh_serial.c | 24 +++++++++++-------------
->  1 file changed, 11 insertions(+), 13 deletions(-)
+>  hw/timer/sh_timer.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
+> index 02eb865908..0a18ac8276 100644
+> --- a/hw/timer/sh_timer.c
+> +++ b/hw/timer/sh_timer.c
+> @@ -107,7 +107,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
+>          if (s->enabled) {
+>              /*
+>               * Pause the timer if it is running. This may cause some inaccuracy
+> -             * dure to rounding, but avoids a whole lot of other messyness
+> +             * due to rounding, but avoids a whole lot of other messyness
 
+Also "messiness", otherwise:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+>               */
+>              ptimer_stop(s->timer);
+>          }
+> 
+
 
