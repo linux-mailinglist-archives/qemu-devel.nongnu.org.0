@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B797B43CF0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:53:41 +0200 (CEST)
-Received: from localhost ([::1]:37252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CBF343CF0C
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:52:27 +0200 (CEST)
+Received: from localhost ([::1]:34734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfmBI-00076d-RH
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50610)
+	id 1mfmA6-0005L0-Oq
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mflg0-000085-HN
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:21:21 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:48021)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mflgO-00012W-Fo
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:21:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mflfu-0003oj-NH
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:21:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=Lf5MuGZ4m1wU5Vr/Bxs6dtiQ/8xNFsuIftEtEYxB3mg=; b=IZtreAw0KbfubGTm4Dhy7q1t4/
- rjQ3HSrioRt1YK4RQPJ/XX4aJAW8PaHnAEmfXBtB5cEQspX+jp9x6SeSbMlmKyIwDrShFo61hrfje
- Y5vaN8C4HwHwNxq7/itmI+bWsj7QUJiSPd+5snmoEnCduKOCQPTJajdAIUCD/UKzCGEL10a/ca4Vy
- IF5K9OJ4Bn+R4aQfOit0uvYxz4LPMavT2kO5/yY5hxpw9c10UdQW+/LhaUR9x8IjGVraN2VZY6AvO
- ghvz5L0WFKlzxARTBJgUCTB/ND7NgPPN+CqS7/bMfxQIS8ziVqlsq/i/M12IOy/auHQ/agnNYaaIi
- QaFaA1oTl9cBYu+RGypLrvCYbQ9+PIhdvGz4+5ngCojK8dWl7J0diSSGB65Ik1FSjvlJjTLhumnTC
- gLxJZJmWPOxQgnpFF+vZpPSjAZ5VjvHUW5NQIkzfNuJLTE07bLfe/i63v5GM5l4rRjL0FVcAkkiry
- azzrZdva9nNGqNmfnlNW4vYtqkWHn3NzACbjsYB/CpQYRK151z7WPVGnOrpoOypGECFk7rCEqla18
- K2cY5sopoAEy4+A45So2/tro+o+2cFkg5q4rPD5lJsCCbxIZaGdneTp2DVXpv7D7M/h+f7gJu3sem
- 4KtnM5R4+Lakv/k9MjKNfBzocl3J3x8Rw5awNbut4=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
-Subject: Re: [PULL 0/8] 9p queue 2021-10-27
-Date: Wed, 27 Oct 2021 18:21:10 +0200
-Message-ID: <2647527.eb0YlLX8Cn@silver>
-In-Reply-To: <dd17a177-c7eb-b879-a980-a986344b9cac@redhat.com>
-References: <cover.1635340713.git.qemu_oss@crudebyte.com>
- <1763549.VT83FdeJ1q@silver> <dd17a177-c7eb-b879-a980-a986344b9cac@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mflgK-00040V-C6
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:21:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635351698;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6yHroobUybbRa25KXF60pdE4jj3BBqZFpsK/nkCLGFE=;
+ b=YLtevKuqxiwkIS9fRMJbgmfN4hx8EKWU8JNgYhIWrOLsnohr/XTwBEC8O6pGXYN7kqd9F8
+ Ym/Ecb9OO4wW4HABF9i6IXKO/zFC0QOb3b0jBWft9901g3fUv1HktjDs5nQh9/N8Jkd3uo
+ T8y1rjEW/PndBE4/2ZeicIq/ZiXCBGg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-_kOAH6l4Nq2h7clxjX8Z3w-1; Wed, 27 Oct 2021 12:21:33 -0400
+X-MC-Unique: _kOAH6l4Nq2h7clxjX8Z3w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D73FD18D6A25;
+ Wed, 27 Oct 2021 16:21:31 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 408BA5DF35;
+ Wed, 27 Oct 2021 16:21:31 +0000 (UTC)
+Date: Wed, 27 Oct 2021 17:21:30 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v3 06/12] vfio-user: run vfio-user context
+Message-ID: <YXl8ilTXICU+0EHk@stefanha-x1.localdomain>
+References: <cover.1633929457.git.jag.raman@oracle.com>
+ <489671ef49381437a03917a87dc143dd9fc90559.1633929457.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <489671ef49381437a03917a87dc143dd9fc90559.1633929457.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="epZhOi5c+BLGmMUR"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,100 +79,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
+ swapnil.ingle@nutanix.com, john.levon@nutanix.com, philmd@redhat.com,
+ qemu-devel@nongnu.org, alex.williamson@redhat.com, marcandre.lureau@gmail.com,
+ thanos.makatos@nutanix.com, pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 27. Oktober 2021 17:36:03 CEST Philippe Mathieu-Daud=E9 wrote:
-> Hi Christian,
->=20
-> On 10/27/21 16:05, Christian Schoenebeck wrote:
-> > On Mittwoch, 27. Oktober 2021 15:18:33 CEST Christian Schoenebeck wrote:
-> >> The following changes since commit=20
-931ce30859176f0f7daac6bac255dae5eb21284e:
-> >>   Merge remote-tracking branch
-> >>   'remotes/dagrh/tags/pull-virtiofs-20211026'
-> >>=20
-> >> into staging (2021-10-26 07:38:41 -0700)
-> >>=20
-> >> are available in the Git repository at:
-> >>   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20211027
-> >>=20
-> >> for you to fetch changes up to 7e985780aaab93d2c5be9b62d8d386568dfb071=
-e:
-> >>   9pfs: use P9Array in v9fs_walk() (2021-10-27 14:45:22 +0200)
-> >>=20
-> >> ----------------------------------------------------------------
-> >> 9pfs: performance fix and cleanup
-> >>=20
-> >> * First patch fixes suboptimal I/O performance on guest due to previou=
-sly
-> >>=20
-> >>   incorrect block size being transmitted to 9p client.
-> >>=20
-> >> * Subsequent patches are cleanup ones intended to reduce code complexi=
-ty.
-> >>=20
-> >> ----------------------------------------------------------------
-> >>=20
-> >> Christian Schoenebeck (8):
-> >>       9pfs: fix wrong I/O block size in Rgetattr
-> >>       9pfs: deduplicate iounit code
-> >>       9pfs: simplify blksize_to_iounit()
-> >>       9pfs: introduce P9Array
-> >>       fsdev/p9array.h: check scalar type in P9ARRAY_NEW()
-> >>       9pfs: make V9fsString usable via P9Array API
-> >>       9pfs: make V9fsPath usable via P9Array API
-> >>       9pfs: use P9Array in v9fs_walk()
-> >> =20
-> >>  fsdev/9p-marshal.c |   2 +
-> >>  fsdev/9p-marshal.h |   3 +
-> >>  fsdev/file-op-9p.h |   2 +
-> >>  fsdev/p9array.h    | 160
-> >>=20
-> >> +++++++++++++++++++++++++++++++++++++++++++++++++++++ hw/9pfs/9p.c    =
- =20
-> >> |
-> >> 70 +++++++++++++----------
-> >>=20
-> >>  5 files changed, 208 insertions(+), 29 deletions(-)
-> >>  create mode 100644 fsdev/p9array.h
-> >=20
-> > Regarding last 5 patches: Daniel raised a concern that not using g_auto=
-ptr
-> > would deviate from current QEMU coding patterns:
-> > https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg00081.html
-> >=20
-> > Unfortunately I saw no way to address his concern without adding
-> > unnecessary code complexity, so I decided to make this a 9p local type
-> > (QArray -> P9Array) for now, which can easily be replaced in future (e.=
-g.
-> > when there will be something appropriate on glib side).
->=20
-> Hmm various patches aren't reviewed yet... In particular
-> patch #5 has a Suggested-by tag without Reviewed-by, this
-> looks odd.
->=20
-> See https://wiki.qemu.org/Contribute/SubmitAPullRequest:
->=20
->   Don't send pull requests for code that hasn't passed review.
->   A pull request says these patches are ready to go into QEMU now,
->   so they must have passed the standard code review processes. In
->   particular if you've corrected issues in one round of code review,
->   you need to send your fixed patch series as normal to the list;
->   you can't put it in a pull request until it's gone through.
->   (Extremely trivial fixes may be OK to just fix in passing, but
->   if in doubt err on the side of not.)
+--epZhOi5c+BLGmMUR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There are in general exactly two persons adding their RBs to 9p patches, wh=
-ich=20
-is either Greg or me, and Greg made it already clear that he barely has tim=
-e=20
-for anything above trivial set.
+On Mon, Oct 11, 2021 at 01:31:11AM -0400, Jagannathan Raman wrote:
+> Setup a handler to run vfio-user context. The context is driven by
+> messages to the file descriptor associated with it - get the fd for
+> the context and hook up the handler with it
+>=20
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> ---
+>  hw/remote/vfio-user-obj.c | 75 ++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 74 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+> index 7ce4e5b256..05f7fff19c 100644
+> --- a/hw/remote/vfio-user-obj.c
+> +++ b/hw/remote/vfio-user-obj.c
+> @@ -42,6 +42,7 @@
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-visit-sockets.h"
+>  #include "qemu/notify.h"
+> +#include "qemu/thread.h"
+>  #include "sysemu/sysemu.h"
+>  #include "libvfio-user.h"
+>  #include "hw/qdev-core.h"
+> @@ -72,6 +73,8 @@ struct VfuObject {
+>      vfu_ctx_t *vfu_ctx;
+> =20
+>      PCIDevice *pci_dev;
+> +
+> +    int vfu_poll_fd;
+>  };
+> =20
+>  static void vfu_object_set_socket(Object *obj, Visitor *v, const char *n=
+ame,
+> @@ -105,6 +108,58 @@ static void vfu_object_set_device(Object *obj, const=
+ char *str, Error **errp)
+>      trace_vfu_prop("device", str);
+>  }
+> =20
+> +static void vfu_object_ctx_run(void *opaque)
+> +{
+> +    VfuObject *o =3D opaque;
+> +    int ret =3D -1;
+> +
+> +    while (ret !=3D 0) {
+> +        ret =3D vfu_run_ctx(o->vfu_ctx);
+> +        if (ret < 0) {
+> +            if (errno =3D=3D EINTR) {
+> +                continue;
+> +            } else if (errno =3D=3D ENOTCONN) {
+> +                qemu_set_fd_handler(o->vfu_poll_fd, NULL, NULL, NULL);
+> +                o->vfu_poll_fd =3D -1;
+> +                object_unparent(OBJECT(o));
+> +                break;
+> +            } else {
+> +                error_setg(&error_abort, "vfu: Failed to run device %s -=
+ %s",
+> +                           o->device, strerror(errno));
+> +                 break;
+> +            }
 
-So what do you suggest? You want to participate and review 9p patches?
+The libvfio-user.h doc comments say this function can return -1 (EAGAIN)
+when LIBVFIO_USER_FLAG_ATTACH_NB was used. Is the doc comment wrong
+since this patch seems to rely on vfu_run_ctx() returning 0 when there
+are no more commands to process?
 
-Best regards,
-Christian Schoenebeck
+> +        }
+> +    }
+> +}
+> +
+> +static void vfu_object_attach_ctx(void *opaque)
+> +{
+> +    VfuObject *o =3D opaque;
+> +    int ret;
+> +
+> +    qemu_set_fd_handler(o->vfu_poll_fd, NULL, NULL, NULL);
+> +    o->vfu_poll_fd =3D -1;
+> +
+> +retry_attach:
+> +    ret =3D vfu_attach_ctx(o->vfu_ctx);
+> +    if (ret < 0 && (errno =3D=3D EAGAIN || errno =3D=3D EWOULDBLOCK)) {
+> +        goto retry_attach;
 
+Can we wait for the poll fd to become readable instead of spinning? I
+don't know the libvfio-user APIs so I'm not sure, but it would be nice
+to avoid a busy loop.
+
+> +    } else if (ret < 0) {
+> +        error_setg(&error_abort,
+
+error_abort is not appropriate for hotplugged objects, where it's less
+likely that the user wants to terminate the process when a failure
+occurs. If asynchronous errors occur then QMP Events should be raised so
+the QMP client gets notified and can deal with them.
+
+> +                   "vfu: Failed to attach device %s to context - %s",
+> +                   o->device, strerror(errno));
+> +        return;
+> +    }
+> +
+> +    o->vfu_poll_fd =3D vfu_get_poll_fd(o->vfu_ctx);
+> +    if (o->vfu_poll_fd < 0) {
+> +        error_setg(&error_abort, "vfu: Failed to get poll fd %s", o->dev=
+ice);
+> +        return;
+> +    }
+> +
+> +    qemu_set_fd_handler(o->vfu_poll_fd, vfu_object_ctx_run, NULL, o);
+> +}
+> +
+>  /*
+>   * vfio-user-server depends on the availability of the 'socket' and 'dev=
+ice'
+>   * properties. It also depends on devices instantiated in QEMU. These
+> @@ -120,7 +175,8 @@ static void vfu_object_machine_done(Notifier *notifie=
+r, void *data)
+>      vfu_pci_type_t pci_type =3D VFU_PCI_TYPE_CONVENTIONAL;
+>      int ret;
+> =20
+> -    o->vfu_ctx =3D vfu_create_ctx(VFU_TRANS_SOCK, o->socket->u.q_unix.pa=
+th, 0,
+> +    o->vfu_ctx =3D vfu_create_ctx(VFU_TRANS_SOCK, o->socket->u.q_unix.pa=
+th,
+> +                                LIBVFIO_USER_FLAG_ATTACH_NB,
+>                                  o, VFU_DEV_TYPE_PCI);
+>      if (o->vfu_ctx =3D=3D NULL) {
+>          error_setg(&error_abort, "vfu: Failed to create context - %s",
+> @@ -152,6 +208,21 @@ static void vfu_object_machine_done(Notifier *notifi=
+er, void *data)
+>                     o->device, strerror(errno));
+>          return;
+>      }
+> +
+> +    ret =3D vfu_realize_ctx(o->vfu_ctx);
+> +    if (ret < 0) {
+> +        error_setg(&error_abort, "vfu: Failed to realize device %s- %s",
+> +                   o->device, strerror(errno));
+> +        return;
+> +    }
+> +
+> +    o->vfu_poll_fd =3D vfu_get_poll_fd(o->vfu_ctx);
+> +    if (o->vfu_poll_fd < 0) {
+> +        error_setg(&error_abort, "vfu: Failed to get poll fd %s", o->dev=
+ice);
+> +        return;
+> +    }
+> +
+> +    qemu_set_fd_handler(o->vfu_poll_fd, vfu_object_attach_ctx, NULL, o);
+>  }
+> =20
+>  static void vfu_object_init(Object *obj)
+> @@ -178,6 +249,8 @@ static void vfu_object_init(Object *obj)
+> =20
+>      o->machine_done.notify =3D vfu_object_machine_done;
+>      qemu_add_machine_init_done_notifier(&o->machine_done);
+> +
+> +    o->vfu_poll_fd =3D -1;
+
+This must be done before the qemu_add_machine_init_done_notifier() call
+in the hotplug case. qemu_add_machine_init_done_notifier() invokes the
+notifier callback immediately if machine init was already done.
+
+--epZhOi5c+BLGmMUR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmF5fIoACgkQnKSrs4Gr
+c8hjMQgAqYvZZXhAQ5LSdSIJMGsT3zhqGk+gOypk8y1YC+gr3A6ZPcn4IUSKOeMH
+Q4qkLQKNmH8uRh36UtOoXAfiBanOqJKicuGbC20rD3r4QcbBv0RZa9SZCDAUyVGt
+A6YNiBsAUUTVZ+khAXJSSDElH7ZAQ9hEx+JZEF4JVGKBYzCB4xKkBHiFdvkFqION
+/ksJ06QR95xOX9nllkzgMNDvChg6HGGul+MYoJoW8Z+hnWPh9QK/lRDK+CDyJzaK
+nLFluOmqbou/rcAf8/2EOVhOtO1z36AE67OwStL4DfwJwSdp3uPVKBqrI+uULcXu
+1Lr0H/kI5u++TaThbl2S7mGpkqZw7A==
+=fXBn
+-----END PGP SIGNATURE-----
+
+--epZhOi5c+BLGmMUR--
 
 
