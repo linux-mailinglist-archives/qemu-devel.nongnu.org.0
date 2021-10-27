@@ -2,57 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC4443CFD2
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 19:33:59 +0200 (CEST)
-Received: from localhost ([::1]:37592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B93743D000
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 19:47:12 +0200 (CEST)
+Received: from localhost ([::1]:55020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfmoI-0007iu-Be
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 13:33:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41084)
+	id 1mfn15-0002o9-BN
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 13:47:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mfmjp-0004hJ-Ap
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 13:29:21 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:51141)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mfmoB-0001Op-9T
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 13:33:52 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:23261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mfmjl-0005nK-M7
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 13:29:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=b5CNdaosu3cP4qM0HAjwyN+DWXLWy0Xzf7W5d9otdAs=; b=e3TIPmihb8BYtb9WiVSZzYD08B
- OHV2yAQjusf2EQgaDOy7Z1U5UVOb4mCrGG3dypIhR0FW10TlqBC8tZo00wx4Ng1Au+oY0MEEaf7Wu
- XZUVcR2SAUEodpbJr7f1mmaL5slEJGgFI4b4n1vvMSEEKMvxMSsU4ogjmZp0X5Te92NdOwXmp7hlL
- zUE9Oj1K+0olJtCQZg/WeaBsDTPCKoqXsf6BZ1vLsThhDc+jOU6rfza55fhNK00kySmqfeA7zV1Gy
- Jh/BhEtWlviyQAyhj1BtztChiVSb0ryHaZC92iB4Dyw9esno/yNTfxsA/oADUOVY8I4zFxKKELblj
- WvQuY/NbBtVAaNXGqO1HO4H0ukvnHZdNbIagElXb6JMSrJlSTP5CX/QMwVAjcTk9Fy7BGymIJQ9aZ
- HPnyWDyBLp5+jFjs003++j5jFPpHZEMLGzHJjfhXNxuRywffY87uEhXdE2k6usUMCzX7clTay1vWd
- 49Xq8J55nHGu2AKP/RVmIF4u5eGgp2dEDHfUjoHbTeugaAu4c+0k0WyHjyUFNBz/SmbEOwwd0Y3A7
- jzv6mWA6AoSVzwj7QYzwSsmsjemurnsEpdkT0v4o4FiF1iIR4ByH/aQy9MFY7bpJ3Z8Q5DpojFGfu
- U3LmPvwgIHRoT5zOv0Z7/jdTaGisu6obtB0LfZ3A4=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Greg Kurz <groug@kaod.org>
-Subject: Re: [PULL 0/8] 9p queue 2021-10-27
-Date: Wed, 27 Oct 2021 19:29:13 +0200
-Message-ID: <13405882.ftTnZbQXCH@silver>
-In-Reply-To: <36b93ef0-bcff-1be6-ce8d-03cd61f0a0fd@redhat.com>
-References: <cover.1635340713.git.qemu_oss@crudebyte.com>
- <2647527.eb0YlLX8Cn@silver> <36b93ef0-bcff-1be6-ce8d-03cd61f0a0fd@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mfmo7-0006Yd-5D
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 13:33:50 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 4996F756036;
+ Wed, 27 Oct 2021 19:33:44 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 21633748F58; Wed, 27 Oct 2021 19:33:44 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 1F5A2746399;
+ Wed, 27 Oct 2021 19:33:44 +0200 (CEST)
+Date: Wed, 27 Oct 2021 19:33:44 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 08/11] hw/intc/sh_intc: Use existing macro instead of
+ local one
+In-Reply-To: <508511d1-a38c-d3ec-b4d0-b92f8d503ef@eik.bme.hu>
+Message-ID: <cf8f092-15e2-40df-de11-42e07a28b32d@eik.bme.hu>
+References: <cover.1635342377.git.balaton@eik.bme.hu>
+ <d1a2e6c3e1e9bc7eb69b9ae2cc1c708db6b9b3e3.1635342377.git.balaton@eik.bme.hu>
+ <b2078399-d80a-96ac-5dee-007ea1b70a68@amsat.org>
+ <508511d1-a38c-d3ec-b4d0-b92f8d503ef@eik.bme.hu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1464161963-1635356024=:34647"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,150 +61,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 27. Oktober 2021 18:48:10 CEST Philippe Mathieu-Daud=E9 wrote:
-> On 10/27/21 18:21, Christian Schoenebeck wrote:
-> > On Mittwoch, 27. Oktober 2021 17:36:03 CEST Philippe Mathieu-Daud=E9 wr=
-ote:
-> >> Hi Christian,
-> >>=20
-> >> On 10/27/21 16:05, Christian Schoenebeck wrote:
-> >>> On Mittwoch, 27. Oktober 2021 15:18:33 CEST Christian Schoenebeck wro=
-te:
-> >>>> The following changes since commit
-> >=20
-> > 931ce30859176f0f7daac6bac255dae5eb21284e:
-> >>>>   Merge remote-tracking branch
-> >>>>   'remotes/dagrh/tags/pull-virtiofs-20211026'
-> >>>>=20
-> >>>> into staging (2021-10-26 07:38:41 -0700)
-> >>>>=20
-> >>>> are available in the Git repository at:
-> >>>>   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20211027
-> >>>>=20
-> >>>> for you to fetch changes up to=20
-7e985780aaab93d2c5be9b62d8d386568dfb071e:
-> >>>>   9pfs: use P9Array in v9fs_walk() (2021-10-27 14:45:22 +0200)
-> >>>>=20
-> >>>> ----------------------------------------------------------------
-> >>>> 9pfs: performance fix and cleanup
-> >>>>=20
-> >>>> * First patch fixes suboptimal I/O performance on guest due to
-> >>>> previously
-> >>>>=20
-> >>>>   incorrect block size being transmitted to 9p client.
-> >>>>=20
-> >>>> * Subsequent patches are cleanup ones intended to reduce code
-> >>>> complexity.
-> >>>>=20
-> >>>> ----------------------------------------------------------------
-> >>>>=20
-> >>>> Christian Schoenebeck (8):
-> >>>>       9pfs: fix wrong I/O block size in Rgetattr
-> >>>>       9pfs: deduplicate iounit code
-> >>>>       9pfs: simplify blksize_to_iounit()
-> >>>>       9pfs: introduce P9Array
-> >>>>       fsdev/p9array.h: check scalar type in P9ARRAY_NEW()
-> >>>>       9pfs: make V9fsString usable via P9Array API
-> >>>>       9pfs: make V9fsPath usable via P9Array API
-> >>>>       9pfs: use P9Array in v9fs_walk()
-> >>>> =20
-> >>>>  fsdev/9p-marshal.c |   2 +
-> >>>>  fsdev/9p-marshal.h |   3 +
-> >>>>  fsdev/file-op-9p.h |   2 +
-> >>>>  fsdev/p9array.h    | 160
-> >>>>=20
-> >>>> +++++++++++++++++++++++++++++++++++++++++++++++++++++ hw/9pfs/9p.c
-> >>>>=20
-> >>>> 70 +++++++++++++----------
-> >>>>=20
-> >>>>  5 files changed, 208 insertions(+), 29 deletions(-)
-> >>>>  create mode 100644 fsdev/p9array.h
-> >>>=20
-> >>> Regarding last 5 patches: Daniel raised a concern that not using
-> >>> g_autoptr
-> >>> would deviate from current QEMU coding patterns:
-> >>> https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg00081.html
-> >>>=20
-> >>> Unfortunately I saw no way to address his concern without adding
-> >>> unnecessary code complexity, so I decided to make this a 9p local type
-> >>> (QArray -> P9Array) for now, which can easily be replaced in future
-> >>> (e.g.
-> >>> when there will be something appropriate on glib side).
-> >>=20
-> >> Hmm various patches aren't reviewed yet... In particular
-> >> patch #5 has a Suggested-by tag without Reviewed-by, this
-> >> looks odd.
-> >>=20
-> >> See https://wiki.qemu.org/Contribute/SubmitAPullRequest:
-> >>   Don't send pull requests for code that hasn't passed review.
-> >>   A pull request says these patches are ready to go into QEMU now,
-> >>   so they must have passed the standard code review processes. In
-> >>   particular if you've corrected issues in one round of code review,
-> >>   you need to send your fixed patch series as normal to the list;
-> >>   you can't put it in a pull request until it's gone through.
-> >>   (Extremely trivial fixes may be OK to just fix in passing, but
-> >>   if in doubt err on the side of not.)
-> >=20
-> > There are in general exactly two persons adding their RBs to 9p patches,
-> > which is either Greg or me, and Greg made it already clear that he bare=
-ly
-> > has time for anything above trivial set.
-> >=20
-> > So what do you suggest? You want to participate and review 9p patches?
->=20
-> Well I am a bit surprised...
->=20
-> $ git log --oneline \
->     --grep=3D'Reviewed-by: Philippe Mathieu-Daud=E9' -- hw/9pfs/ | wc -l
-> 18
->=20
-> I also reviewed patch #3 if this pull request...
->=20
->=20
-> Now I see you posted this 4 times in 2 months, so indeed eventual
-> reviewers had plenty of time to look at your patches.
->=20
-> Note I haven't said I'd NAck your pull request, I noticed your own
-> concern wrt Daniel comment, so I looked at the patch and realized
-> it was not reviewed, and simply said this is this is odd.
->=20
-> Regards,
->=20
-> Phil.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Philippe, of course I understand why this looks odd to you, and yes you=20
-reviewed that particular patch. But the situation on the 9p front is like t=
-his=20
-for >2 years now: people quickly come by to nack patches, but even after=20
-having addressed their concerns they barely add their RBs afterwards. That=
-=20
-means I am currently forced to send out PRs without RBs once in a while.
+--3866299591-1464161963-1635356024=:34647
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-The mentioned 5 patches look like overkill on first sight, but they are jus=
-t=20
-intended as preparatory ones. I actually should fix a protocol implementati=
-on=20
-deficit in "Twalk" request handling, and that in turn means I will have to =
-add=20
-complexity to function v9fs_walk(). But before even daring to do so, I shou=
-ld=20
-get rid of as much of complexity as possible. Because we already had a bunc=
-h=20
-of issues in that function before. I believe these are trivial 5 patches. B=
-ut=20
-I can also accompany them with test cases if somebody is worried.
+On Wed, 27 Oct 2021, BALATON Zoltan wrote:
+> On Wed, 27 Oct 2021, Philippe Mathieu-Daudé wrote:
+>> On 10/27/21 15:46, BALATON Zoltan wrote:
+>>> The INTC_A7 local macro does the same as the A7ADDR from
+>>> include/sh/sh.h so use the latter and drop the local macro definiion.
+>> 
+>> Typo "definition".
+>> 
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> ---
+>>>  hw/intc/sh_intc.c | 12 +++++-------
+>>>  1 file changed, 5 insertions(+), 7 deletions(-)
+>>> 
+>>> diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
+>>> index c1058d97c0..0bd27aaf4f 100644
+>>> --- a/hw/intc/sh_intc.c
+>>> +++ b/hw/intc/sh_intc.c
+>>> @@ -16,8 +16,6 @@
+>>>  #include "hw/sh4/sh.h"
+>>>  #include "trace.h"
+>>> 
+>>> -#define INTC_A7(x) ((x) & 0x1fffffff)
+>>> -
+>>>  void sh_intc_toggle_source(struct intc_source *source,
+>>>                             int enable_adj, int assert_adj)
+>>>  {
+>>> @@ -112,12 +110,12 @@ int sh_intc_get_pending_vector(struct intc_desc 
+>>> *desc, int imask)
+>>>  static unsigned int sh_intc_mode(unsigned long address,
+>>>                                   unsigned long set_reg, unsigned long 
+>>> clr_reg)
+>>>  {
+>>> -    if ((address != INTC_A7(set_reg)) &&
+>>> -        (address != INTC_A7(clr_reg)))
+>>> +    if ((address != A7ADDR(set_reg)) &&
+>>> +        (address != A7ADDR(clr_reg)))
+>>>          return INTC_MODE_NONE;
+>>>
+>>>      if (set_reg && clr_reg) {
+>>> -        if (address == INTC_A7(set_reg)) {
+>>> +        if (address == A7ADDR(set_reg)) {
+>>>              return INTC_MODE_DUAL_SET;
+>>>          } else {
+>>>              return INTC_MODE_DUAL_CLR;
+>>> @@ -297,11 +295,11 @@ static unsigned int sh_intc_register(MemoryRegion 
+>>> *sysmem,
+>>>
+>>>  #define SH_INTC_IOMEM_FORMAT "interrupt-controller-%s-%s-%s"
+>>>      snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, 
+>>> "p4");
+>>> -    memory_region_init_alias(iomem_p4, NULL, name, iomem, 
+>>> INTC_A7(address), 4);
+>>> +    memory_region_init_alias(iomem_p4, NULL, name, iomem, 
+>>> A7ADDR(address), 4);
+>>>      memory_region_add_subregion(sysmem, P4ADDR(address), iomem_p4);
+>>>
+>>>      snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, 
+>>> "a7");
+>>> -    memory_region_init_alias(iomem_a7, NULL, name, iomem, 
+>>> INTC_A7(address), 4);
+>>> +    memory_region_init_alias(iomem_a7, NULL, name, iomem, 
+>>> A7ADDR(address), 4);
+>> 
+>> I wonder why the address is masked out... It looks there is a mismatch
+>> in the memory region mapping. Anyway this predates this cleanup, so:
+>
+> This seems to be a peculiarity of the SH architecture. Like MIPS, it has some 
+> strange memory mapping conventions where same registers appear in different 
+> areas at predefined addresses. These macros just calculate that address.
 
-Greg, I could also drop them now, but the general issue will retain: Realit=
-y=20
-is that I am the only person working on 9p right now and a fact that I cann=
-ot=20
-change. The rest is for other people to decide.
+Hmm, on second look it creates alias at A7ADDR into the original region so 
+maybe reducing the size from 4GB could break that. I'll have to check 
+again what this is doing.
 
-Best regards,
-Christian Schoenebeck
-
-
+Regards,
+BALATON Zoltan
+--3866299591-1464161963-1635356024=:34647--
 
