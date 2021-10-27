@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E793343CCEE
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:02:45 +0200 (CEST)
-Received: from localhost ([::1]:47598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2138143CD02
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:06:31 +0200 (CEST)
+Received: from localhost ([::1]:55882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfkRw-0007l3-Tw
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:02:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41882)
+	id 1mfkVZ-0004ts-S2
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfjS5-0003tl-Bd
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:50 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28116)
+ id 1mfjS9-0003vJ-17
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:57 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfjS0-0004Tt-4v
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:47 -0400
+ id 1mfjS6-0004Vc-9A
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:51 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id AF5F7756060;
- Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 34EB17561B9;
+ Wed, 27 Oct 2021 15:58:42 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8D0C47463B7; Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
-Message-Id: <f03f38eb6b70b8586f33868b0ba4839f3b214fc9.1635342377.git.balaton@eik.bme.hu>
+ id B8E50756197; Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
+Message-Id: <21f98d137754b1c58de3cec2c3e4a7df7cc936ce.1635342377.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635342377.git.balaton@eik.bme.hu>
 References: <cover.1635342377.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 01/11] hw/sh4: Fix a typo in a comment
+Subject: [PATCH v2 09/11] hw/intc/sh_intc: Turn some defines into an enum
 Date: Wed, 27 Oct 2021 15:46:17 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,25 +61,80 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- hw/timer/sh_timer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Turn the INTC_MODE defines into an enum (except the one which is a
+flag) and clean up the function returning these to make it clearer by
+removing nested ifs and superfluous parenthesis.
 
-diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
-index 02eb865908..0a18ac8276 100644
---- a/hw/timer/sh_timer.c
-+++ b/hw/timer/sh_timer.c
-@@ -107,7 +107,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
-         if (s->enabled) {
-             /*
-              * Pause the timer if it is running. This may cause some inaccuracy
--             * dure to rounding, but avoids a whole lot of other messyness
-+             * due to rounding, but avoids a whole lot of other messyness
-              */
-             ptimer_stop(s->timer);
-         }
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/intc/sh_intc.c | 43 +++++++++++++++++++------------------------
+ 1 file changed, 19 insertions(+), 24 deletions(-)
+
+diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
+index 0bd27aaf4f..18461ff554 100644
+--- a/hw/intc/sh_intc.c
++++ b/hw/intc/sh_intc.c
+@@ -100,33 +100,27 @@ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
+     abort();
+ }
+ 
+-#define INTC_MODE_NONE       0
+-#define INTC_MODE_DUAL_SET   1
+-#define INTC_MODE_DUAL_CLR   2
+-#define INTC_MODE_ENABLE_REG 3
+-#define INTC_MODE_MASK_REG   4
+-#define INTC_MODE_IS_PRIO    8
+-
+-static unsigned int sh_intc_mode(unsigned long address,
+-                                 unsigned long set_reg, unsigned long clr_reg)
++#define INTC_MODE_IS_PRIO 0x80
++typedef enum {
++    INTC_MODE_NONE,
++    INTC_MODE_DUAL_SET,
++    INTC_MODE_DUAL_CLR,
++    INTC_MODE_ENABLE_REG,
++    INTC_MODE_MASK_REG,
++} SHIntCMode;
++
++
++static SHIntCMode sh_intc_mode(unsigned long address, unsigned long set_reg,
++                               unsigned long clr_reg)
+ {
+-    if ((address != A7ADDR(set_reg)) &&
+-        (address != A7ADDR(clr_reg)))
++    if (address != A7ADDR(set_reg) && address != A7ADDR(clr_reg)) {
+         return INTC_MODE_NONE;
+-
+-    if (set_reg && clr_reg) {
+-        if (address == A7ADDR(set_reg)) {
+-            return INTC_MODE_DUAL_SET;
+-        } else {
+-            return INTC_MODE_DUAL_CLR;
+-        }
+     }
+-
+-    if (set_reg) {
+-        return INTC_MODE_ENABLE_REG;
+-    } else {
+-        return INTC_MODE_MASK_REG;
++    if (set_reg && clr_reg) {
++        return address == A7ADDR(set_reg) ?
++               INTC_MODE_DUAL_SET : INTC_MODE_DUAL_CLR;
+     }
++    return set_reg ? INTC_MODE_ENABLE_REG : INTC_MODE_MASK_REG;
+ }
+ 
+ static void sh_intc_locate(struct intc_desc *desc,
+@@ -137,7 +131,8 @@ static void sh_intc_locate(struct intc_desc *desc,
+                            unsigned int *width,
+                            unsigned int *modep)
+ {
+-    unsigned int i, mode;
++    SHIntCMode mode;
++    unsigned int i;
+ 
+     /* this is slow but works for now */
+ 
 -- 
 2.21.4
 
