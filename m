@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BD943C3B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 09:20:10 +0200 (CEST)
-Received: from localhost ([::1]:49706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F65E43C3E1
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 09:29:22 +0200 (CEST)
+Received: from localhost ([::1]:53710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfdEH-0007qK-20
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 03:20:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46080)
+	id 1mfdNB-0002Z5-3t
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 03:29:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfdDQ-00071H-83
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 03:19:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56289)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mfdML-0001st-Hx
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 03:28:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfdDN-0006LS-Iy
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 03:19:15 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mfdMJ-0008MI-Dj
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 03:28:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635319152;
+ s=mimecast20190719; t=1635319705;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CgkPhLjzffZHQ7xjdCwjF4BqYArCwLq2vDkhi+oZOww=;
- b=NUVGYbC7vRK3cY+UiV/Xav2KcY6B1BLiE/zqTNBvzJMLitaivVgRTeIFqx9rem6K4qkg+b
- l/pAPVhGOXnQUHW3J2QxjcwxMxdJaWY6qdQm7lEhcrGu+E2FVaFvOlwXCfvaxmi+gIbRXb
- 9nmEvDP8SxU6dJk8uu5byW/eHhF/A9I=
+ bh=vjxVdZe4j3Yz63EadQN8rgsDrZ+8rF/q9gEYK3cpcqI=;
+ b=eqr6K8M2xgAdPhBe+k5nr7I4bw9mROvDfj+GNOR+25soQLskrV568jYqlZMEk8L1qTXcbk
+ d9tSgBRENus76mizAkiT1mHMIIDv/7coRReXJBjO7no1jv0g16dm6AsXCKzYUNFS7ecmUX
+ +hcI0wej5ior4/yThB+ue8/+yvwJNL8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-RBBLUJixPAOURM7Qijjf3g-1; Wed, 27 Oct 2021 03:19:10 -0400
-X-MC-Unique: RBBLUJixPAOURM7Qijjf3g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-528-nyY00O5cNUOXGLqvyWFW7Q-1; Wed, 27 Oct 2021 03:28:24 -0400
+X-MC-Unique: nyY00O5cNUOXGLqvyWFW7Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74CC61018720;
- Wed, 27 Oct 2021 07:19:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C98419D9D;
- Wed, 27 Oct 2021 07:19:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8CB8A11380A7; Wed, 27 Oct 2021 09:19:07 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH V4 1/3] net/filter: Remove vnet_hdr from filter-mirror
- and filter-redirector
-References: <20211026181730.3102184-1-chen.zhang@intel.com>
- <20211026181730.3102184-2-chen.zhang@intel.com>
- <8948cdd0-7f4c-9b77-a02f-582b4fe96adf@redhat.com>
- <MWHPR11MB0031AA6B818E9BBE4B1D78589B859@MWHPR11MB0031.namprd11.prod.outlook.com>
- <fbdf6a0d-739f-9949-abf1-35b7ed1a29da@redhat.com>
- <MWHPR11MB003173BB1E208D240823E8D39B859@MWHPR11MB0031.namprd11.prod.outlook.com>
- <CACGkMEvQ638LTT-YsLmGNONDCiBJFJ9JOVrDTeH_ktLp6D7gbg@mail.gmail.com>
-Date: Wed, 27 Oct 2021 09:19:07 +0200
-In-Reply-To: <CACGkMEvQ638LTT-YsLmGNONDCiBJFJ9JOVrDTeH_ktLp6D7gbg@mail.gmail.com>
- (Jason Wang's message of "Wed, 27 Oct 2021 14:45:28 +0800")
-Message-ID: <87ee87aqac.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 861EB802B4F;
+ Wed, 27 Oct 2021 07:28:23 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-241.phx2.redhat.com
+ [10.3.112.241])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C221760843;
+ Wed, 27 Oct 2021 07:27:56 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id E913218007B7; Wed, 27 Oct 2021 09:27:54 +0200 (CEST)
+Date: Wed, 27 Oct 2021 09:27:54 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v7 0/4] VNC-related HMP/QMP fixes
+Message-ID: <20211027072754.uzrgqdavqltnfndq@sirius.home.kraxel.org>
+References: <20211021100135.4146766-1-s.reiter@proxmox.com>
+ <87k0i6d5l5.fsf@dusky.pond.sub.org> <YXfV4vf5+YLFXYbA@work-vm>
+ <87mtmwja2a.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <87mtmwja2a.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,43 +80,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Zhang, Chen" <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
- Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ Stefan Reiter <s.reiter@proxmox.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jason Wang <jasowang@redhat.com> writes:
+On Tue, Oct 26, 2021 at 01:32:29PM +0200, Markus Armbruster wrote:
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
+> 
+> > * Markus Armbruster (armbru@redhat.com) wrote:
+> >> I'm done reviewing.  David, care to have another look at the HMP part?
+> >
+> > Yep, looking good to me - is that going via qmp, hmp, or vnc ?
+> 
+> Either is fine with me.
+> 
+> David, Gerd, do you have anything queued up already?
 
-> On Wed, Oct 27, 2021 at 2:40 PM Zhang, Chen <chen.zhang@intel.com> wrote:
+Nothing queued atm, no objections to someone else picking this up.
 
-[...]
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
->> > >> I wonder if we break management layer. If yes, maybe it's better to
->> > >> keep the vnet_hdr_support here.
->> > >
->> > > Yes and no,   With this series of patches, filters have ability to automatically
->> > > Configure the appropriate vnet_hdr_support flag according to the current environment.
->> > > And can report error when can't fixing the vnet_hdr(The user cannot fix it from the previous way ).
->> > > So I think no need for the user to configure this option, some relevant background knowledge required.
->> > >
->> > > For the management layer, keep the vnet_hdr_support may be meaningless except for compatibility.
->> > > In this situation, Do you think we still need to keep the vnet_hdr_support for management layer?
->> >
->> >
->> > So it depends on whether management layer like libvirt has already
->> > supported this. If yes, we may get errors using new qemu with old libvirt?
->>
->> As far as I know, Current management layer like upstream libvirt is no COLO official support yet.
->> And some real CSPs use libvirt passthrough qmp command to Qemu for manage COLO VM.
->
-> So the question still, it looks to me it requires the modification of
-> the layers on top of libvirt? If the answer is yes, we'd better keep
-> that compatibility.
-
-When in doubt, maintain compatibility.
-
-We may want to deprecate parameters that have become unnecessary.
-
-[...]
+take care,
+  Gerd
 
 
