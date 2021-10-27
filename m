@@ -2,47 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E9343CCF4
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:04:59 +0200 (CEST)
-Received: from localhost ([::1]:53570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23FFF43CC92
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 16:42:35 +0200 (CEST)
+Received: from localhost ([::1]:35360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfkU6-0003Mz-7d
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:04:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42000)
+	id 1mfk8Q-0005P1-8s
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 10:42:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfjSA-0003vO-RJ
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:57 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:28152)
+ id 1mfjS5-0003tp-Ej
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:50 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mfjS6-0004Vh-D4
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:54 -0400
+ id 1mfjS0-0004Ts-Rh
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:58:49 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 31A637561B1;
- Wed, 27 Oct 2021 15:58:42 +0200 (CEST)
+ by localhost (Postfix) with SMTP id A583775605A;
+ Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B44EF756078; Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
-Message-Id: <d1a2e6c3e1e9bc7eb69b9ae2cc1c708db6b9b3e3.1635342377.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1635342377.git.balaton@eik.bme.hu>
-References: <cover.1635342377.git.balaton@eik.bme.hu>
+ id 858F2746353; Wed, 27 Oct 2021 15:58:41 +0200 (CEST)
+Message-Id: <cover.1635342377.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 08/11] hw/intc/sh_intc: Use existing macro instead of local
- one
+Subject: [PATCH v2 00/11] More SH4 clean ups
 Date: Wed, 27 Oct 2021 15:46:17 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,57 +59,47 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The INTC_A7 local macro does the same as the A7ADDR from
-include/sh/sh.h so use the latter and drop the local macro definiion.
+Based-on: <cover.1635036053.git.balaton@eik.bme.hu>
+^ (hw/sh4: Codeing style fixes)
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/intc/sh_intc.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+Continuing the clean up stared in previous series this now removes
+printfs and QOM-ify sh_serial.
 
-diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index c1058d97c0..0bd27aaf4f 100644
---- a/hw/intc/sh_intc.c
-+++ b/hw/intc/sh_intc.c
-@@ -16,8 +16,6 @@
- #include "hw/sh4/sh.h"
- #include "trace.h"
- 
--#define INTC_A7(x) ((x) & 0x1fffffff)
--
- void sh_intc_toggle_source(struct intc_source *source,
-                            int enable_adj, int assert_adj)
- {
-@@ -112,12 +110,12 @@ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
- static unsigned int sh_intc_mode(unsigned long address,
-                                  unsigned long set_reg, unsigned long clr_reg)
- {
--    if ((address != INTC_A7(set_reg)) &&
--        (address != INTC_A7(clr_reg)))
-+    if ((address != A7ADDR(set_reg)) &&
-+        (address != A7ADDR(clr_reg)))
-         return INTC_MODE_NONE;
- 
-     if (set_reg && clr_reg) {
--        if (address == INTC_A7(set_reg)) {
-+        if (address == A7ADDR(set_reg)) {
-             return INTC_MODE_DUAL_SET;
-         } else {
-             return INTC_MODE_DUAL_CLR;
-@@ -297,11 +295,11 @@ static unsigned int sh_intc_register(MemoryRegion *sysmem,
- 
- #define SH_INTC_IOMEM_FORMAT "interrupt-controller-%s-%s-%s"
-     snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "p4");
--    memory_region_init_alias(iomem_p4, NULL, name, iomem, INTC_A7(address), 4);
-+    memory_region_init_alias(iomem_p4, NULL, name, iomem, A7ADDR(address), 4);
-     memory_region_add_subregion(sysmem, P4ADDR(address), iomem_p4);
- 
-     snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "a7");
--    memory_region_init_alias(iomem_a7, NULL, name, iomem, INTC_A7(address), 4);
-+    memory_region_init_alias(iomem_a7, NULL, name, iomem, A7ADDR(address), 4);
-     memory_region_add_subregion(sysmem, A7ADDR(address), iomem_a7);
- #undef SH_INTC_IOMEM_FORMAT
- 
+v2: separate sh_serial trace events, split QOM-ify patch for easier
+review and some more patches to clean up sh_intc a bit
+
+Regards,
+BALATON Zoltan
+
+BALATON Zoltan (11):
+  hw/sh4: Fix a typo in a comment
+  hw//sh4: Use qemu_log instead of fprintf to stderr
+  hw/sh4: Change debug printfs to traces
+  hw/sh4/r2d: Use error_report instead of fprintf to stderr
+  hw/char/sh_serial: Rename type sh_serial_state to SHSerialState
+  hw/char/sh_serial: QOM-ify
+  hw/char/sh_serial: Add device id to trace output
+  hw/intc/sh_intc: Use existing macro instead of local one
+  hw/intc/sh_intc: Turn some defines into an enum
+  hw/intc/sh_intc: Clean up iomem region
+  hw/intc/sh_intc: Drop another useless macro
+
+ hw/char/sh_serial.c   | 149 +++++++++++++++++++++++------------------
+ hw/char/trace-events  |   4 ++
+ hw/intc/sh_intc.c     | 151 +++++++++++++-----------------------------
+ hw/intc/trace-events  |   8 +++
+ hw/sh4/r2d.c          |   5 +-
+ hw/sh4/sh7750.c       |  83 +++++++++++++++--------
+ hw/sh4/trace-events   |   3 +
+ hw/sh4/trace.h        |   1 +
+ hw/timer/sh_timer.c   |  14 +---
+ hw/timer/trace-events |   3 +
+ include/hw/sh4/sh.h   |   9 +--
+ meson.build           |   1 +
+ 12 files changed, 214 insertions(+), 217 deletions(-)
+ create mode 100644 hw/sh4/trace-events
+ create mode 100644 hw/sh4/trace.h
+
 -- 
 2.21.4
 
