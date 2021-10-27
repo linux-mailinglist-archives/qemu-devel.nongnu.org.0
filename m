@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665B943CCDB
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 16:57:25 +0200 (CEST)
-Received: from localhost ([::1]:36476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B060343CC9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 16:44:19 +0200 (CEST)
+Received: from localhost ([::1]:40880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfkMm-00006M-6n
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 10:57:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40432)
+	id 1mfkA6-0000g8-PG
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 10:44:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfjLO-0004oi-8X
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:51:57 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37632)
+ id 1mfjQ8-00024j-BZ
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:56:48 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:52088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfjLM-0007ST-SO
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:51:53 -0400
-Received: by mail-wr1-x436.google.com with SMTP id e12so4333023wra.4
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 06:51:52 -0700 (PDT)
+ id 1mfjQ1-0004Es-MT
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:56:44 -0400
+Received: by mail-wm1-x336.google.com with SMTP id z200so1890638wmc.1
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 06:56:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=PFF+TY8oxA7goWt6FbIFndIOc0WOXq7l9i7HOHx0SMA=;
- b=crdDmve6Xf2uJL0AMHGwJlL1mpdX2+VtaA7Ce95s+atEu8VikgLxHVE3uM0UsLw9qq
- zcF8ppEauVVIdswM6P0jqe4HpJRPloJUoctC7f+6kVe4DQdHriT9EUBGHzqjARbpdMrk
- qXdMT9kZCYI+4VQYLd5Jqc5AD8WK/0bmxVBD85te/FhmzQttPVySPxzCDUivmWpi6oJ9
- D5hpREXMS7y+1nlKCK7owAvlDh/aZ6VDAFb1I5WpKSSIJzpZQZHHGzcDcOvoof6haiFR
- l4HQpWXzqc0Q5ZR0fqPdsbi1uVckfCIKLfYNCUsM6qWwRv07fJLxunjMoju8fxhhUX3h
- gB2g==
+ bh=rGc6cJII8hzgCAKlCSGlEgepOT+Do5Fqk1rpfX79Bx0=;
+ b=NUArEbE6Xu266zB6EB6OKoaAqLrKlBVjp4nWqHQBVagrc+XbnmzteKpaBqXq8pt4K6
+ aR0xK4HzKrj8Vwr+Vj93nn8Jdol6PB/uWqEqFVZbNY6nCgduxrzSZPgusWBBG8z0Ok0A
+ bQxV4Bpssd/bHSqfLyqfbUnM4TB++qe0EMatJDdzr/Nu9WGy02I0l6VRK5C4RXsLXKCO
+ NRZu2/K9T5DfaVythmiP8zLDKg5mq8RcJUOXwigVLIB9OmL7E0otrRlT6TBnlc5DwHdJ
+ vEo45H7EkSeYEsfQ83TP63vCHQisNI5+4k3ElfcioFa4Yl+RFUGJTeJg8nI1RDTu9W2m
+ 0nGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=PFF+TY8oxA7goWt6FbIFndIOc0WOXq7l9i7HOHx0SMA=;
- b=DGz/yjBSSLRYUTc/3cWf0EgDN3fh4e8dn9liEfYRQVT69WgIasXNOzK3w4ZRKdrC1U
- PUzvKc736L5Ox8hDObX01/ToyNbmtJVKe3Yy+t+mSC1JtmW48G6l0n8evXiMaqBWFzx6
- cQ7I6dJsslO/MHTs3mFuU4P5FJzp0Kz/ui+sf2TRk0pjv1mNLJLNAiuFIMi07oSZmQ4f
- S1rvv0x48TocuJvxH7FTVq+6wNwFY/d9VrJvA94ChbRQ+s3Qh6bNYLqIz7F+7sXm46z5
- EFKfpYW9k18r8RfxQTT/r2aCzScFQXfqRb+3BpnGzlvddSNIyjxvDGzYkrQ3ne1nKe6U
- x/0w==
-X-Gm-Message-State: AOAM532PCvjZ+l5dmXfzEBhpMCpN7tSRvKNgjm3NCAQOf7Jc81yRSkbx
- IjSakZCOxXXTVKIgykBgM4g=
-X-Google-Smtp-Source: ABdhPJxIVGLSrRGSnclKpxDMR3bNeJ82JSV8m20A5LlCu4qiz4xzohExkOe1tT6LcPjxFzTgq90jbg==
-X-Received: by 2002:adf:959a:: with SMTP id p26mr39378882wrp.342.1635342711645; 
- Wed, 27 Oct 2021 06:51:51 -0700 (PDT)
+ bh=rGc6cJII8hzgCAKlCSGlEgepOT+Do5Fqk1rpfX79Bx0=;
+ b=1YiqCUYxzhf8yq9/KlqGx5fmqeF832woeyGYJixYsiqFynSUIi16bx3Q8sq040Ngbq
+ a1FHF48BKjRLizvpJBuctbe3/4K2OF4ioqXfkMZmdMzSK6B0veIfpP50qYmmab4N2m/q
+ 4CIpJS9C9GSRz0Kv0cyaD7fln7jboNO7gpNElit6Ro6vbNuwYAPDCBOxK9ScQr7kVx2L
+ ZrtGkasRKr+Mt8zGLcspTqdE4LrZ4ztFZyxtDSUlMvTgFj0neTIZPLkuRlExWEkZ8/Ns
+ 5mVv81mEVPl5jhAC9w0sZwLubcxLIAm/k2Hw5CbkEHswmTqpxeJ4xIzcjfrNh3LPK7I5
+ fDFw==
+X-Gm-Message-State: AOAM532mabZhFTV3hGzrJlENH5KjtzByxrZLJal34UGNbn1iDotiA7pJ
+ jywBdGoFHK/y8c2K8IqHgBE=
+X-Google-Smtp-Source: ABdhPJyJysFNo7Am9ws6GmoS0dWabVafxBnzbzP4xkWgOiF/rMEzCz7WNhuWsoyYi9PUbM+Ghw7WLQ==
+X-Received: by 2002:a1c:7201:: with SMTP id n1mr5783578wmc.176.1635342999763; 
+ Wed, 27 Oct 2021 06:56:39 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id o1sm12990751wru.91.2021.10.27.06.51.50
+ by smtp.gmail.com with ESMTPSA id k17sm5870147wmj.0.2021.10.27.06.56.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 06:51:51 -0700 (PDT)
-Message-ID: <ab17a2b5-ed8a-76bb-640a-2c90c7dc3e3e@amsat.org>
-Date: Wed, 27 Oct 2021 15:51:50 +0200
+ Wed, 27 Oct 2021 06:56:39 -0700 (PDT)
+Message-ID: <eea5523e-643b-af5c-4b8e-c4f2541e4028@amsat.org>
+Date: Wed, 27 Oct 2021 15:56:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v4 46/51] tcg/optimize: Use fold_xx_to_i for rem
+Subject: Re: [PATCH v4 44/51] tcg/optimize: Use fold_xi_to_x for mul
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211026230943.1225890-1-richard.henderson@linaro.org>
- <20211026230943.1225890-47-richard.henderson@linaro.org>
+ <20211026230943.1225890-45-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211026230943.1225890-47-richard.henderson@linaro.org>
+In-Reply-To: <20211026230943.1225890-45-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.847,
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.847,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,13 +95,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/27/21 01:09, Richard Henderson wrote:
-> Recognize the constant function for remainder.
+> Recognize the identity function for low-part multiply.
 > 
 > Suggested-by: Luis Pires <luis.pires@eldorado.org.br>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/optimize.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  tcg/optimize.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
