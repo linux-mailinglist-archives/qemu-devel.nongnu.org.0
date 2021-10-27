@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9333943C8D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 13:50:52 +0200 (CEST)
-Received: from localhost ([::1]:56252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2395C43C8EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 13:55:06 +0200 (CEST)
+Received: from localhost ([::1]:34720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfhSF-0004O1-8p
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 07:50:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39150)
+	id 1mfhWK-0000tl-Uz
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 07:55:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1mfhKd-0001Ee-TT; Wed, 27 Oct 2021 07:42:59 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:9164)
+ id 1mfhKd-0001Ed-Pb; Wed, 27 Oct 2021 07:42:59 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:10694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1mfhKZ-00070F-CU; Wed, 27 Oct 2021 07:42:59 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19RBgEVZ020462; 
- Wed, 27 Oct 2021 11:42:34 GMT
+ id 1mfhKZ-00070M-Iz; Wed, 27 Oct 2021 07:42:57 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19RBgA0o012296; 
+ Wed, 27 Oct 2021 11:42:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=80BCLn8ckqmKo5081wlWbJxwtMB7K7y7d2SZOQKoMm0=;
- b=CS0QOlsIsRHrO4AOfScc5NpXczhtEjCTzf4v8MbBRAsecw+Z5lrSCc72PJlSf9FWlf2o
- HrPJb4hWyqjzCTfvD4dVSKspRQ/o+dfuWneA1vvwTBwVdQ7c2k7eNl0x7J1s57UCmyRz
- AwQS5r0uvQ5LIQ/mH0YRp3OTjlhNRgTMGxDtpr28klKhmhqWcyNm1mfw/debPBOXjAZj
- /uFkvhDgKH3zjIwdw/82NomlbqVGjpXHHOZTDxS+bYZo/zcnJTP9R8FDzfAdVbrlZOnu
- VZN3xkfJmbkxFlMaG9oQ6m6KbYxBWAw1+CHOyfkJVszvUYf28y9VD5/Og1gWAhUbMgU9 Xw== 
+ bh=EDyhOHnSSI0eU3CG7KUElf1bCePkvnpBTxbzpPGgmUY=;
+ b=TVSud83aRoMcHdEllFTdm0gEq9u450YPpLIzGNXAP6JGC9YQrquMXXxHjQl2+lWiRCYz
+ v+kOMRXFeMSCD0cyGo2xb4COAwCSchipgA47rcmeuuPhsOZ5/WIPBw/H3/1jGdkHYiuT
+ xHihBR2Rp340Ibks6aqn33I7VHcZFFlK0zAweifY2yHisxcLWpT8xSdQyu+KCPEBP5gm
+ nIOLbo9MHo10f1APtjryXWHSiLJyuQQVsx73KWwZfD7XeZ65ALrjHdrmoSfMAEwT0kQb
+ mKU6bIfhy4Xp47XpYrdJkeNfEVIqyE/nSxNhprbP34romdOFfv5a+4mbYnRYDjW3NmLZ +g== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3bx4fjjpua-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3bx4fg1uvg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 27 Oct 2021 11:42:34 +0000
+ Wed, 27 Oct 2021 11:42:37 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19RBfYNl006977;
- Wed, 27 Oct 2021 11:42:33 GMT
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19RBfYVs006996;
+ Wed, 27 Oct 2021 11:42:36 GMT
 Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
- by aserp3020.oracle.com with ESMTP id 3bx4gcjgx6-1
+ (mail-dm6nam10lp2105.outbound.protection.outlook.com [104.47.58.105])
+ by aserp3020.oracle.com with ESMTP id 3bx4gcjgyh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 27 Oct 2021 11:42:33 +0000
+ Wed, 27 Oct 2021 11:42:36 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZwI9eFYsjiYUxyi9A0Nv+rTVDU429cvOpcy5b287NrSTHXs9HL9XMMZkHXeg0NnRuBSJl17/LfIse5h8YntvsCZsdGnSX5E/k24GVSWCyozkffyBSC5IwQf3IURLea1nFRwhQjDGJurCfyD1Dn53mctVYmOJLGTZ1VKVfusix0gq0HdPXKXaRr+OUeXW8cVuXPRfLJ2v1RluFjwmQfl8pOQYcMf5PP96Ao3APeIhAvQoirDkrn1DuFZawQPP3cDDKwpbpP3NLPEfzwIeKDTznPlC4jZWPkEa9feztMFI8902uH3vRM4ZTKToo8HbtJOB0CQfuIdpDT7xxJWbNQoVfA==
+ b=Cg3rEzGrGkIsiZWl+We7FHSO51aMWBhDSuKmgz7aWYLBS336fyE66nqn9FVvVzcisKRQO3AnEvdN5wnYNj7y9ouyjkZ8hOvea+fPVT1swXq9/izmvEwPIFt3cyERqN+1kuD2vIvoALx2yARZ5ajors2551KiELN1BDc8P8+VBrnrFZ15ZTj69abgjgwGEx3Eavn0NIRfx53ZhYSjIcK59HLDT7ZalCzJJwf4N6hJxijrNmfy608XoXZg4HRUkj4EocxRsWvUiI3NrynfoWl2ndwW1+1HX049ayg0Oerd6MsLs/o9IxpsYEfj/fNiLhsvXNqKcg97giXG+4gKYgzF2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=80BCLn8ckqmKo5081wlWbJxwtMB7K7y7d2SZOQKoMm0=;
- b=eYCnrn+MBjUNfwgz3o3yJzBC2TGckL9lkTtx4LyVAAmCf7N7bvsbyOKT2r/4V5+Jm/oyIK+Y0F/Lgl1N2eundEui1+GRShGuNysiA0fPCXt21P23ozAX7spGjmmtRb7gJqhEIqZq9i3y/2d7CxBC9bAy2w7dr2B/nT84Q00dDpyjTn5ML1jvbgdzh3aodXi6Kn+FWjO44foxKFNjvE4CttEPSIiy0IzYhe0iSz3eOOYR7owvn1pNzP8UtIC5xZudqM6rY2S8oi2SqFzYUTfpL/+x/Gnm00ZSRqvILt0z1NCekEVEeOqOtdVsN2HgK4FOsY3s+Um8t86sEhLN9JHveg==
+ bh=EDyhOHnSSI0eU3CG7KUElf1bCePkvnpBTxbzpPGgmUY=;
+ b=XakB75yoR0jUNJwvCc7g9qj26tytbcNIw7zWmbJ+fnjY1Q0IEY/H0xQBweGihltWFh53DoW6oi+Iwi/BVOeaxnQg+ksGhO44Py8SWDe2TlPf6HlW4aE0OqyVHFCGZ10w8NdjM7O6MZtTZcCN5G+3pOcaV8ImgBRy1LF1/30O1oFPwoUm7/lr8rGhfp2TbPHQno3bg86vtFYV82C1ypiSC5M9BjqNl3Vktrn8rzdYHm4dm6PZqfPN+fM35ou2a08eZHKQuKFfQiKMWkbtT7agCsDtBDlqF5CvDiIifTOp8PUW3XMc4CFqG+vbfiiBKX59HgtuE5UIg+zOyHspDiZ2Rg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=80BCLn8ckqmKo5081wlWbJxwtMB7K7y7d2SZOQKoMm0=;
- b=Udkd/T8QPj0kwDAWBJeDegREyVOiLRqmxwH/xy/OnT8+xc8q3TW85aemeFrrjLWVXFr5GfFULAQeRyX8YkNKvy9yiMJOFtqzCXYyzUt6BX4bJNfxhiFx81SKwfB0nD+CKecROX4T7jnkyXgxyp2hp6g/8YCQayFWYMcJAAz8yA8=
+ bh=EDyhOHnSSI0eU3CG7KUElf1bCePkvnpBTxbzpPGgmUY=;
+ b=ircTNDSyexiAHd2QECBah411qazM2OgfjioMxb6VaufH577Kb/DH0jkEiateH9nhO4TssgZ6dvs7FVgf1PETaXc4un2fSai4gsc/nLmx+aL+Dl/QL4Qp/2FGwQ3GTgxeLcTR6i5fulL0EASBKGNuZiDEtOAJBCcS3NDeYiPl3wk=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from PH0PR10MB4664.namprd10.prod.outlook.com (2603:10b6:510:41::11)
  by PH0PR10MB4744.namprd10.prod.outlook.com (2603:10b6:510:3c::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Wed, 27 Oct
- 2021 11:42:30 +0000
+ 2021 11:42:34 +0000
 Received: from PH0PR10MB4664.namprd10.prod.outlook.com
  ([fe80::3446:f4ea:c037:4517]) by PH0PR10MB4664.namprd10.prod.outlook.com
  ([fe80::3446:f4ea:c037:4517%6]) with mapi id 15.20.4649.014; Wed, 27 Oct 2021
- 11:42:30 +0000
+ 11:42:34 +0000
 From: Jonah Palmer <jonah.palmer@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 1/8] virtio: drop name parameter for virtio_init()
-Date: Wed, 27 Oct 2021 07:41:42 -0400
-Message-Id: <1635334909-31614-2-git-send-email-jonah.palmer@oracle.com>
+Subject: [PATCH v8 2/8] virtio: add vhost support for virtio devices
+Date: Wed, 27 Oct 2021 07:41:43 -0400
+Message-Id: <1635334909-31614-3-git-send-email-jonah.palmer@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1635334909-31614-1-git-send-email-jonah.palmer@oracle.com>
 References: <1635334909-31614-1-git-send-email-jonah.palmer@oracle.com>
@@ -85,58 +85,58 @@ Received: from jonpalme-lnx.us.oracle.com (209.17.40.40) by
  SJ0PR13CA0088.namprd13.prod.outlook.com (2603:10b6:a03:2c4::33) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.13 via Frontend
- Transport; Wed, 27 Oct 2021 11:42:27 +0000
+ Transport; Wed, 27 Oct 2021 11:42:31 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 865e24fe-53ec-4786-bc39-08d9993edbed
+X-MS-Office365-Filtering-Correlation-Id: dd00cdfb-f1b3-4800-0943-08d9993eddf8
 X-MS-TrafficTypeDiagnostic: PH0PR10MB4744:
-X-Microsoft-Antispam-PRVS: <PH0PR10MB4744AAA56B75D3CE2656FCCFE8859@PH0PR10MB4744.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1728;
+X-Microsoft-Antispam-PRVS: <PH0PR10MB474484894C20A66D502AA286E8859@PH0PR10MB4744.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1122;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qGBpAfQjKj0qeWGyCnHxJ9djiTZgAEOqtgRK8Xw4nUProP5u59HUALCdORVrQk/+TgKz9oZv9JL9/JDQ5EJTQlIUG4TlbnqhdrwzexpcfSEL/lITxVlboAw+MNLU9HlpSU+8mKsn/67w33wRiS2ASNKZ8IOT/QzDUomppSQDKhmSR43Bq3wv/czgo22kst95NF5ADNOTmEWY13jYr/pwV81y/tRt0hRaKoKSMdvONnjcWNJu4lm+ITLHalLnmIUuxKmQhIOKV51fakeyQj7/vQHWe/KL4tBfSARm7DhAohbK6Ped1Pc65upnEORKKb9qrDiyEXFlL17cVDbN7i9v01pQjUQbe7mJK7HrmzChtDwUPIembEcJPMUKPdsZ3qNqyZjQllzHohbilrs/jEOwkHi0wSobWzi7Pu5OmgfMtJehVr0+k3m7J3dnqxnz9ZjePHO+vez2EbZ/dZpVy8bMYQq7aL5PxZnyLnCOgQ4R2CYURjJWczeXJL0uZlE0rkoh/uABFrhaSeEkMoBp9q7lLChKJnMDoFYaZ4ua3J++SNgtaEXFiE5Owo7FfF1iS3mOGTAFqqE+AKggYViIgDBZYc63TzdGEW+a2rs1KwVuGSB10TC/uIGqqYUN1uPoLmgtATOhyZC4aCgVHjxEjc4X4ju9ZIgEVfPsfQTbooeOQ07I5W9ZLJp1GhRX16tLBWgcZrKh1l0lKkdgqtcfzw3umQ==
+X-Microsoft-Antispam-Message-Info: vXTeQMeTMAG9J4htTtg6z0xVGN1W5fTUb9c/h30L1bafz8KJMOU5D5at5F7zNfLIWp7oduE1PJaV/husvOhfLhjRk/PeEE18m+LeUemanHly4PRj5ICk2tHcq3rVtCnTg4aTBe47dxu0xDrW7t+vZMNh07+8e6cylO0nZ7TL/jfbwdgux/hPk1vqp9zHUpJDtQk1UvENmitNKNGg3VVvlM+0vh1equPR96VwvtV8VRE0YQsi2NUVUek/fN0KDtUw0kfLZHqLZs5EJKP5p2siOs5GG8CkKKjcjKrb3VWhvwzPGxaL55dcXtglw5eN2DMwrIOkL/MQcWTlGI0MgVNLiMBB+gdh2AZnJKf6/tfNdUdhb+o/vIaOZW6+0NuLmv9wve8i0a9OW3WJVHLmr3VQqyTlptWUxuYgzKSpwQ7uIVh8Vq9MWHctxcLZ15WNb4e6NXtW3Pv8TdqnNCbGiSv3kPA85XExlYHrNSkjYUhzLylrKVpLC5Sbg3ZIvQqVU8JmaStB6SrXZfGpzAssKabazSYzJ9M1A4PdN5hBQkVm5UDLz/KoNhlWq1l5LpqG69jzU2HVBuQBhjKSTgLlUkbff3jo3YiDGF7UC1/hcous0MpwfiWLcnsfj8Yve/xq/A7Y31a78zG5F0OSbY15x/WBMUZr8628st/9mk0M54DuAZArNq+y3PpcQFO9mCHJOSjl5O1un+i2ok9xF4vmQ5wikw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH0PR10MB4664.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(366004)(66476007)(44832011)(26005)(4326008)(316002)(38350700002)(38100700002)(8936002)(6916009)(956004)(36756003)(2616005)(2906002)(30864003)(86362001)(83380400001)(7416002)(5660300002)(52116002)(508600001)(6666004)(8676002)(186003)(66946007)(6486002)(7696005)(66556008);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?L8WcI31LAuIzSaCerR587P3sjJS9lP/wMyCxWgP56KTK7MgKztk7Ky/DDIdY?=
- =?us-ascii?Q?ph0YWUcM4UJDdUr2DWlMllNZi0t5iZ24XSiNdrHwQ1i36vlOApSUKvVbnbgG?=
- =?us-ascii?Q?EhZ82YzL6wM6eX2sxaQxY+wOITQH1FjJ/vHHj1iCCd8GjC0pElKR6ymKmyRi?=
- =?us-ascii?Q?uK0YRS3oZtv1cDJeTLdKMWv4MAcuIN3C7VTFicvMhn/gSnMSMJrCJdmyNUn3?=
- =?us-ascii?Q?L2V9cvwXIGrCZq4OK97+Ema6zpOyIrl46/Z/3YkF8aGwnFsf+8kJneHxQpnL?=
- =?us-ascii?Q?H4YHZwL2GB7/IxfTjNmFj8UhwgMHMXwkGHgToXAmBP9sjbcttfYW5Cy+xJud?=
- =?us-ascii?Q?izYQ2Lrh3znMZzj7yqYTuJL22g+gkcSmlYmwDfM2uFRLUe2hkjhWKVBMNWWi?=
- =?us-ascii?Q?k3KCR3qLe7piMnr3yqHcNdhpubHdN2JPFGn+MDyuvnzeP9ec3MCUg5A6ngEP?=
- =?us-ascii?Q?tMQi2sK2bzRcH8FDZSdW8uF/XbNYOyZ4cZ68h0fBqOCdIS5KSmaszC2ACzD1?=
- =?us-ascii?Q?IujB60zypmABv1ZYYEu1Pn6b9QCh/FxDB8s78148nBOXd1dUQgWcHcfvrK68?=
- =?us-ascii?Q?RAa6JL4LgjnwQbO/BQ2X4isLgiqyrxaR0L+UUuBGahlLkVO767/YKVKa1GkE?=
- =?us-ascii?Q?yn9S5IrIiz4xLIGMcyu+xoijHGKu9a5N2omI90rqXiezWZKXNpZ5fv/v/5AM?=
- =?us-ascii?Q?OVUUbi/W1dOnHJZvtYxYJ4At/6eyJSE7CMrkdRY/fKPxciNnjZY8a4r3PC1J?=
- =?us-ascii?Q?G8Wo4ZCug6dZReTsiWJ8/FdoDZns7aFfbC8VnJog1u7LODUiRcPWqL8R7zKg?=
- =?us-ascii?Q?99LG+airGAv0M7GTvF+vpZ7m6DbydcG9lpHbpGNLxcBndSN141H1VLQQQijt?=
- =?us-ascii?Q?/LOs6NKhTMkmVoi424lmDjj8ch8t9jr7LVsJWaH58Sr7GyDNkWJSo7cxE9zm?=
- =?us-ascii?Q?TUeBRKKTcDQ98wiDftRYI1JnU0KYfbHtm6EcbfsmYVlhLjnJF26gtWrS/+vL?=
- =?us-ascii?Q?98BKfNdMtZW/QdobmO9nM5gyaUEDFYrMdO+KmBdylJn72uVbjszuo4EejyVp?=
- =?us-ascii?Q?pMHyBzFKvbeLHtz4R71Gwk8CHIg1BcfDqq+FPgw7b9bldVe8UTTxc5MLmcK5?=
- =?us-ascii?Q?Xf2Rie7CyJskNejkRMgXBZb6782yRd+H4OwrdZryvTE7AGbZ6s4f991ODDTe?=
- =?us-ascii?Q?jl4G2vzFwegbmLvBEZMP+7M6h2H9GyaleVgq3Im+Hp3tNLjCjYdENWC53pdm?=
- =?us-ascii?Q?4CrJ8s5oFMFGh5a6jkb6bT7xb9LPq4lgOuT4LWgKE6cOuCM/G7fT7OxYJp4m?=
- =?us-ascii?Q?c3xKKN3B5txVIbZFpNPdcaJ3rK8B3Hy/QBexCt24xpfDl0BMZClQiUm4Mn2t?=
- =?us-ascii?Q?FyplRghtILk4Tt5nKL23974T+lfgQAna6F3yHOXeT0HkfvhqrCvAx57c6LUH?=
- =?us-ascii?Q?nhdetKpVnlhRH2l+Hhc8eE9i3frSrTHVztJe3qxYti6CIeJ+m64VnVWDAAmL?=
- =?us-ascii?Q?jXjXa2Z1qgPXsEIrM2QXaErcYEfYJxbyXBoJZWzWnFQEUVoib75fYJEZvDsl?=
- =?us-ascii?Q?eYFl9LBA0RR1fsfSy5VZjl+l7Tb2jIlOjCJgd7c/kctN20CRpfrRgi2Eja4a?=
- =?us-ascii?Q?PFN/FTRzr9KEWGmIsgqkziY=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?N09EwU5L9F4hBH7BVEhPCt7aJglxpalONbaG+jJ1X/GgVkWOrJU5z97c42gr?=
+ =?us-ascii?Q?8sb3mOuBFcN0yfmm3YZ/nZvnJJn4BJv+uQflHW5q5PIqOOGjJkaLXtxMCyKT?=
+ =?us-ascii?Q?4ftf85zk97ilV+GZt0PDHDmte5OnlbWmtCWe0frDF6k0E/qPGxU2HZiFDl5k?=
+ =?us-ascii?Q?AbFMvTHcc0rsrJCByzPqEkvRPgmSfQ+Doi7e3hidQPxV5iXySfHtUyAPWjBx?=
+ =?us-ascii?Q?9vDjk+2mV3uytb4lYNR3GS90Z47yuh8yYslTM+lrgG2mFQBOYeab5sWiN+x3?=
+ =?us-ascii?Q?duvTP5l4mvLnfEyFEBGtqX2KCZ/ptOQaQCD7nFzvu4rVHOCh0llXEXcgHG4O?=
+ =?us-ascii?Q?z/PDHdu1DwrAqLVRbCaZgK5nGeLHDx7GnWERJC5/iX3saZP8+SZkd3zzQQZk?=
+ =?us-ascii?Q?EvzXr3sC2wFXeXy/owPzQKf+l8LT2x87M9dPVHpfgZtkaBaKkKT+5p2fLD60?=
+ =?us-ascii?Q?JYh6Ht+JT/oiuIup0n5CV60TMxGQKVVdBe01HAT9lA1DIsxV+7ORTglZqo7M?=
+ =?us-ascii?Q?LFXpjUdaXSCVXdeYA97zFiCuEh7QRIfQJICi7HxGjOHZxxL/LdR+HqZHFb0e?=
+ =?us-ascii?Q?wZgngXtCHdEye1PZynjoODZHe7LisRf7LYdcJ4MFW6u7glasaMb8KtVMRhqK?=
+ =?us-ascii?Q?NlcbgrOcqS5hnjim9A2j/XhnyKgZCP6XQcyNLVCCmMcZs5y0WXKQFkQt7X6X?=
+ =?us-ascii?Q?8SGY5b8zBgBqw389aBhL36w+kIhZ2Kvzr9OJ7hRu+1T/Z235NQtxag0yCYB3?=
+ =?us-ascii?Q?IJhH9E6TGzESN6/b6trZFPuwghhmeg5C7EWAGzctKneVmBsj0sR2ot7q11n+?=
+ =?us-ascii?Q?BYN7XYoUz4wAhzZwpWsW82HNzSX5ERcS0/db+Uo9zuQxlhQaZ1PhbabG4ohT?=
+ =?us-ascii?Q?t/laMCXdpb0YDNOFfmP4AYHfEOagJvglcGtywwmO6zzn0RnUXRcZdbCLr50f?=
+ =?us-ascii?Q?SvrOQVbPA/WSzkh9cCCVb9bbVTBofaD/oNebJX6sIqJi14Z5huE7RPVS2X3H?=
+ =?us-ascii?Q?kop3aFHY0Df0/8gH90/nIeLimCaLfacNGt/FgYkPWwViOWSy/OvG2E+VRbWI?=
+ =?us-ascii?Q?rhLIJhcX7i+LYF1rlHFuu/k2OS0KBYJCX3L/aGq7XhHKvULNkFJeZLic4RGk?=
+ =?us-ascii?Q?mvewsA06D1yEBClYO4heSw+II3ctKokmKBkc5l5ZqwD+rbgDWTOmhKWE3Zdx?=
+ =?us-ascii?Q?IQ+DfGTkzDf01RrnydvSxN75iQpDT+OZsWxXTFccaqXR8p+cjM7YLUA3iM2y?=
+ =?us-ascii?Q?Gl9gJn+pqWGlcsCEbWtFgU+/UUgGn26onU6JIsR5hHm44GeRRu+eQGaY1v31?=
+ =?us-ascii?Q?4Za2SsZ/O50UdLC4c0pjp+ZXdbsciRJZUc1xHJWyqAa0zupkmWgUkIZE0qb3?=
+ =?us-ascii?Q?TAtw5vO0f56Hh9Ru/RdSFC6JeDbQFkowtiC16XBTpNgMy3sKNRs9UZZJFavX?=
+ =?us-ascii?Q?nJ0F+B53OcC9jcT2+4vyUaz8YSwG6BFKR6Gfc+NaQWdWn+piPf5asaiIrbKL?=
+ =?us-ascii?Q?gFudLskG8BmLrLsu6b23VyWzVlj+zNeqacZBxGO9jh5dFtUcEwqEIqdF0CMM?=
+ =?us-ascii?Q?a8Wl8JcYI+Y/csr6Ifrmj6kMwc5MiG4iu8+e0BDGWd1YqLLH1HpKQSBpNHU1?=
+ =?us-ascii?Q?DCmZB4Pfn9hcC/4dzXqETkY=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 865e24fe-53ec-4786-bc39-08d9993edbed
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd00cdfb-f1b3-4800-0943-08d9993eddf8
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4664.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2021 11:42:30.7951 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2021 11:42:34.2241 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qV7T2v43R1CMnppGKEQN+z8KKtinqUmaidwlqJzuDZrXLpnmnEVc4B8NbRjLlGv8D38EpWrmB0Yfdquk40M/yQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1P7z0wSEZfNLtfB4MYuDD2LVc5lz+k0oGCWdvQKADDD5kOu0HGRja8xEFxAztuMNi7sM3x3+Mjbaup27C+sr7Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4744
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10149
  signatures=668683
@@ -145,8 +145,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
  bulkscore=0 phishscore=0 mlxscore=0 spamscore=0 adultscore=0
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2110270071
-X-Proofpoint-GUID: jhpbRjt2AKfpC6Z4EED0kaZgZVn1oN5s
-X-Proofpoint-ORIG-GUID: jhpbRjt2AKfpC6Z4EED0kaZgZVn1oN5s
+X-Proofpoint-ORIG-GUID: bMKpR8NVABTyq3vQV3bgoEHvPBgkZkXO
+X-Proofpoint-GUID: bMKpR8NVABTyq3vQV3bgoEHvPBgkZkXO
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=jonah.palmer@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -179,459 +179,328 @@ Cc: mst@redhat.com, qemu_oss@crudebyte.com, kraxel@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch drops the name parameter for the virtio_init function.
+This patch adds a get_vhost() callback function for VirtIODevices that
+returns the device's corresponding vhost_dev structure if the vhost
+device is running. This patch also adds a vhost_started flag for VirtIODevices.
 
-The pair between the numeric device ID and the string device ID
-(name) of a virtio device already exists, but not in a way that
-lets us map between them.
-
-This patch will let us do this and removes the need for the name
-parameter in virtio_init().
+Previously, a VirtIODevice wouldn't be able to tell if its corresponding
+vhost device was active or not.
 
 Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
 ---
- hw/9pfs/virtio-9p-device.c                  |  2 +-
- hw/block/vhost-user-blk.c                   |  2 +-
- hw/block/virtio-blk.c                       |  2 +-
- hw/char/virtio-serial-bus.c                 |  4 +--
- hw/display/virtio-gpu-base.c                |  2 +-
- hw/input/virtio-input.c                     |  3 +-
- hw/net/virtio-net.c                         |  2 +-
- hw/scsi/virtio-scsi.c                       |  3 +-
- hw/virtio/vhost-user-fs.c                   |  3 +-
- hw/virtio/vhost-user-i2c.c                  |  6 +---
- hw/virtio/vhost-user-rng.c                  |  2 +-
- hw/virtio/vhost-user-vsock.c                |  2 +-
- hw/virtio/vhost-vsock-common.c              |  4 +--
- hw/virtio/vhost-vsock.c                     |  2 +-
- hw/virtio/virtio-balloon.c                  |  3 +-
- hw/virtio/virtio-crypto.c                   |  2 +-
- hw/virtio/virtio-iommu.c                    |  3 +-
- hw/virtio/virtio-mem.c                      |  3 +-
- hw/virtio/virtio-pmem.c                     |  3 +-
- hw/virtio/virtio-rng.c                      |  2 +-
- hw/virtio/virtio.c                          | 45 +++++++++++++++++++++++++++--
- include/hw/virtio/vhost-vsock-common.h      |  2 +-
- include/hw/virtio/virtio-gpu.h              |  3 +-
- include/hw/virtio/virtio.h                  |  3 +-
- include/standard-headers/linux/virtio_ids.h |  1 +
- 25 files changed, 68 insertions(+), 41 deletions(-)
+ hw/block/vhost-user-blk.c      |  7 +++++++
+ hw/display/vhost-user-gpu.c    |  7 +++++++
+ hw/input/vhost-user-input.c    |  7 +++++++
+ hw/net/virtio-net.c            |  9 +++++++++
+ hw/scsi/vhost-scsi.c           |  8 ++++++++
+ hw/virtio/vhost-user-fs.c      |  7 +++++++
+ hw/virtio/vhost-user-rng.c     |  7 +++++++
+ hw/virtio/vhost-vsock-common.c |  7 +++++++
+ hw/virtio/vhost.c              |  3 +++
+ hw/virtio/virtio-crypto.c      | 10 ++++++++++
+ hw/virtio/virtio.c             |  1 +
+ include/hw/virtio/virtio.h     |  3 +++
+ 12 files changed, 76 insertions(+)
 
-diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
-index 54ee93b..5f522e6 100644
---- a/hw/9pfs/virtio-9p-device.c
-+++ b/hw/9pfs/virtio-9p-device.c
-@@ -216,7 +216,7 @@ static void virtio_9p_device_realize(DeviceState *dev, Error **errp)
-     }
- 
-     v->config_size = sizeof(struct virtio_9p_config) + strlen(s->fsconf.tag);
--    virtio_init(vdev, "virtio-9p", VIRTIO_ID_9P, v->config_size);
-+    virtio_init(vdev, VIRTIO_ID_9P, v->config_size);
-     v->vq = virtio_add_queue(vdev, MAX_REQ, handle_9p_output);
- }
- 
 diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index ba13cb8..f61f8c1 100644
+index f61f8c1..b059da1 100644
 --- a/hw/block/vhost-user-blk.c
 +++ b/hw/block/vhost-user-blk.c
-@@ -490,7 +490,7 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    virtio_init(vdev, "virtio-blk", VIRTIO_ID_BLOCK,
-+    virtio_init(vdev, VIRTIO_ID_BLOCK,
-                 sizeof(struct virtio_blk_config));
- 
-     s->virtqs = g_new(VirtQueue *, s->num_queues);
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index f139cd7..505e574 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -1213,7 +1213,7 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
- 
-     virtio_blk_set_config_size(s, s->host_features);
- 
--    virtio_init(vdev, "virtio-blk", VIRTIO_ID_BLOCK, s->config_size);
-+    virtio_init(vdev, VIRTIO_ID_BLOCK, s->config_size);
- 
-     s->blk = conf->conf.blk;
-     s->rq = NULL;
-diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
-index f01ec21..232f4c9 100644
---- a/hw/char/virtio-serial-bus.c
-+++ b/hw/char/virtio-serial-bus.c
-@@ -1044,8 +1044,8 @@ static void virtio_serial_device_realize(DeviceState *dev, Error **errp)
-                             VIRTIO_CONSOLE_F_EMERG_WRITE)) {
-         config_size = offsetof(struct virtio_console_config, emerg_wr);
-     }
--    virtio_init(vdev, "virtio-serial", VIRTIO_ID_CONSOLE,
--                config_size);
-+
-+    virtio_init(vdev, VIRTIO_ID_CONSOLE, config_size);
- 
-     /* Spawn a new virtio-serial bus on which the ports will ride as devices */
-     qbus_init(&vser->bus, sizeof(vser->bus), TYPE_VIRTIO_SERIAL_BUS,
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index c8da480..5411a7b 100644
---- a/hw/display/virtio-gpu-base.c
-+++ b/hw/display/virtio-gpu-base.c
-@@ -170,7 +170,7 @@ virtio_gpu_base_device_realize(DeviceState *qdev,
-     }
- 
-     g->virtio_config.num_scanouts = cpu_to_le32(g->conf.max_outputs);
--    virtio_init(VIRTIO_DEVICE(g), "virtio-gpu", VIRTIO_ID_GPU,
-+    virtio_init(VIRTIO_DEVICE(g), VIRTIO_ID_GPU,
-                 sizeof(struct virtio_gpu_config));
- 
-     if (virtio_gpu_virgl_enabled(g->conf)) {
-diff --git a/hw/input/virtio-input.c b/hw/input/virtio-input.c
-index 54bcb46..5b5398b 100644
---- a/hw/input/virtio-input.c
-+++ b/hw/input/virtio-input.c
-@@ -257,8 +257,7 @@ static void virtio_input_device_realize(DeviceState *dev, Error **errp)
-     vinput->cfg_size += 8;
-     assert(vinput->cfg_size <= sizeof(virtio_input_config));
- 
--    virtio_init(vdev, "virtio-input", VIRTIO_ID_INPUT,
--                vinput->cfg_size);
-+    virtio_init(vdev, VIRTIO_ID_INPUT, vinput->cfg_size);
-     vinput->evt = virtio_add_queue(vdev, 64, virtio_input_handle_evt);
-     vinput->sts = virtio_add_queue(vdev, 64, virtio_input_handle_sts);
- }
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index f2014d5..b275acf 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3383,7 +3383,7 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
-     }
- 
-     virtio_net_set_config_size(n, n->host_features);
--    virtio_init(vdev, "virtio-net", VIRTIO_ID_NET, n->config_size);
-+    virtio_init(vdev, VIRTIO_ID_NET, n->config_size);
- 
-     /*
-      * We set a lower limit on RX queue size to what it always was.
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 51fd095..ce71939 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -972,8 +972,7 @@ void virtio_scsi_common_realize(DeviceState *dev,
-     VirtIOSCSICommon *s = VIRTIO_SCSI_COMMON(dev);
-     int i;
- 
--    virtio_init(vdev, "virtio-scsi", VIRTIO_ID_SCSI,
--                sizeof(VirtIOSCSIConfig));
-+    virtio_init(vdev, VIRTIO_ID_SCSI, sizeof(VirtIOSCSIConfig));
- 
-     if (s->conf.num_queues == VIRTIO_SCSI_AUTO_NUM_QUEUES) {
-         s->conf.num_queues = 1;
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index c595957..b875640 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -219,8 +219,7 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    virtio_init(vdev, "vhost-user-fs", VIRTIO_ID_FS,
--                sizeof(struct virtio_fs_config));
-+    virtio_init(vdev, VIRTIO_ID_FS, sizeof(struct virtio_fs_config));
- 
-     /* Hiprio queue */
-     fs->hiprio_vq = virtio_add_queue(vdev, fs->conf.queue_size, vuf_handle_output);
-diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-index d172632..efc6fc0 100644
---- a/hw/virtio/vhost-user-i2c.c
-+++ b/hw/virtio/vhost-user-i2c.c
-@@ -14,10 +14,6 @@
- #include "qemu/error-report.h"
- #include "standard-headers/linux/virtio_ids.h"
- 
--/* Remove this once the header is updated in Linux kernel */
--#ifndef VIRTIO_ID_I2C_ADAPTER
--#define VIRTIO_ID_I2C_ADAPTER                34
--#endif
- 
- static void vu_i2c_start(VirtIODevice *vdev)
- {
-@@ -220,7 +216,7 @@ static void vu_i2c_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    virtio_init(vdev, "vhost-user-i2c", VIRTIO_ID_I2C_ADAPTER, 0);
-+    virtio_init(vdev, VIRTIO_ID_I2C_ADAPTER, 0);
- 
-     i2c->vhost_dev.nvqs = 1;
-     i2c->vq = virtio_add_queue(vdev, 4, vu_i2c_handle_output);
-diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
-index 209ee5b..08bccba 100644
---- a/hw/virtio/vhost-user-rng.c
-+++ b/hw/virtio/vhost-user-rng.c
-@@ -203,7 +203,7 @@ static void vu_rng_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    virtio_init(vdev, "vhost-user-rng", VIRTIO_ID_RNG, 0);
-+    virtio_init(vdev, VIRTIO_ID_RNG, 0);
- 
-     rng->req_vq = virtio_add_queue(vdev, 4, vu_rng_handle_output);
-     if (!rng->req_vq) {
-diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
-index 52bd682..0f8ff99 100644
---- a/hw/virtio/vhost-user-vsock.c
-+++ b/hw/virtio/vhost-user-vsock.c
-@@ -107,7 +107,7 @@ static void vuv_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    vhost_vsock_common_realize(vdev, "vhost-user-vsock");
-+    vhost_vsock_common_realize(vdev);
- 
-     vhost_dev_set_config_notifier(&vvc->vhost_dev, &vsock_ops);
- 
-diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
-index 3f37712..e8f6249 100644
---- a/hw/virtio/vhost-vsock-common.c
-+++ b/hw/virtio/vhost-vsock-common.c
-@@ -220,11 +220,11 @@ int vhost_vsock_common_post_load(void *opaque, int version_id)
-     return 0;
+@@ -568,6 +568,12 @@ static void vhost_user_blk_instance_init(Object *obj)
+                                   "/disk@0,0", DEVICE(obj));
  }
  
--void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name)
-+void vhost_vsock_common_realize(VirtIODevice *vdev)
- {
-     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
- 
--    virtio_init(vdev, name, VIRTIO_ID_VSOCK,
-+    virtio_init(vdev, VIRTIO_ID_VSOCK,
-                 sizeof(struct virtio_vsock_config));
- 
-     /* Receive and transmit queues belong to vhost */
-diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-index 478c0c9..3d4ede9 100644
---- a/hw/virtio/vhost-vsock.c
-+++ b/hw/virtio/vhost-vsock.c
-@@ -166,7 +166,7 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
-         qemu_set_nonblock(vhostfd);
-     }
- 
--    vhost_vsock_common_realize(vdev, "vhost-vsock");
-+    vhost_vsock_common_realize(vdev);
- 
-     ret = vhost_dev_init(&vvc->vhost_dev, (void *)(uintptr_t)vhostfd,
-                          VHOST_BACKEND_TYPE_KERNEL, 0, errp);
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index c6962fc..641a394 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -885,8 +885,7 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
-     VirtIOBalloon *s = VIRTIO_BALLOON(dev);
-     int ret;
- 
--    virtio_init(vdev, "virtio-balloon", VIRTIO_ID_BALLOON,
--                virtio_balloon_config_size(s));
-+    virtio_init(vdev, VIRTIO_ID_BALLOON, virtio_balloon_config_size(s));
- 
-     ret = qemu_add_balloon_handler(virtio_balloon_to_target,
-                                    virtio_balloon_stat, s);
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-index 54f9bbb..cca5237 100644
---- a/hw/virtio/virtio-crypto.c
-+++ b/hw/virtio/virtio-crypto.c
-@@ -810,7 +810,7 @@ static void virtio_crypto_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    virtio_init(vdev, "virtio-crypto", VIRTIO_ID_CRYPTO, vcrypto->config_size);
-+    virtio_init(vdev, VIRTIO_ID_CRYPTO, vcrypto->config_size);
-     vcrypto->curr_queues = 1;
-     vcrypto->vqs = g_malloc0(sizeof(VirtIOCryptoQueue) * vcrypto->max_queues);
-     for (i = 0; i < vcrypto->max_queues; i++) {
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 1b23e8e..92c5eb7 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -973,8 +973,7 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VirtIOIOMMU *s = VIRTIO_IOMMU(dev);
- 
--    virtio_init(vdev, "virtio-iommu", VIRTIO_ID_IOMMU,
--                sizeof(struct virtio_iommu_config));
-+    virtio_init(vdev, VIRTIO_ID_IOMMU, sizeof(struct virtio_iommu_config));
- 
-     memset(s->iommu_pcibus_by_bus_num, 0, sizeof(s->iommu_pcibus_by_bus_num));
- 
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index df91e45..dbef06c 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -737,8 +737,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
-                         vmem->block_size;
-     vmem->bitmap = bitmap_new(vmem->bitmap_size);
- 
--    virtio_init(vdev, TYPE_VIRTIO_MEM, VIRTIO_ID_MEM,
--                sizeof(struct virtio_mem_config));
-+    virtio_init(vdev, VIRTIO_ID_MEM, sizeof(struct virtio_mem_config));
-     vmem->vq = virtio_add_queue(vdev, 128, virtio_mem_handle_request);
- 
-     host_memory_backend_set_mapped(vmem->memdev, true);
-diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
-index d1aeb90..8cbbd78 100644
---- a/hw/virtio/virtio-pmem.c
-+++ b/hw/virtio/virtio-pmem.c
-@@ -123,8 +123,7 @@ static void virtio_pmem_realize(DeviceState *dev, Error **errp)
-     }
- 
-     host_memory_backend_set_mapped(pmem->memdev, true);
--    virtio_init(vdev, TYPE_VIRTIO_PMEM, VIRTIO_ID_PMEM,
--                sizeof(struct virtio_pmem_config));
-+    virtio_init(vdev, VIRTIO_ID_PMEM, sizeof(struct virtio_pmem_config));
-     pmem->rq_vq = virtio_add_queue(vdev, 128, virtio_pmem_flush);
- }
- 
-diff --git a/hw/virtio/virtio-rng.c b/hw/virtio/virtio-rng.c
-index cc8e9f7..7e12fc0 100644
---- a/hw/virtio/virtio-rng.c
-+++ b/hw/virtio/virtio-rng.c
-@@ -215,7 +215,7 @@ static void virtio_rng_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    virtio_init(vdev, "virtio-rng", VIRTIO_ID_RNG, 0);
-+    virtio_init(vdev, VIRTIO_ID_RNG, 0);
- 
-     vrng->vq = virtio_add_queue(vdev, 8, handle_input);
-     vrng->quota_remaining = vrng->conf.max_bytes;
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index cc69a9b..be98b4d 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -133,6 +133,45 @@ struct VirtQueue
-     QLIST_ENTRY(VirtQueue) node;
- };
- 
-+const char *virtio_device_names[] = {
-+    [VIRTIO_ID_NET] = "virtio-net",
-+    [VIRTIO_ID_BLOCK] = "virtio-blk",
-+    [VIRTIO_ID_CONSOLE] = "virtio-serial",
-+    [VIRTIO_ID_RNG] = "virtio-rng",
-+    [VIRTIO_ID_BALLOON] = "virtio-balloon",
-+    [VIRTIO_ID_IOMEM] = "virtio-iomem",
-+    [VIRTIO_ID_RPMSG] = "virtio-rpmsg",
-+    [VIRTIO_ID_SCSI] = "virtio-scsi",
-+    [VIRTIO_ID_9P] = "virtio-9p",
-+    [VIRTIO_ID_MAC80211_WLAN] = "virtio-mac-wlan",
-+    [VIRTIO_ID_RPROC_SERIAL] = "virtio-rproc-serial",
-+    [VIRTIO_ID_CAIF] = "virtio-caif",
-+    [VIRTIO_ID_MEMORY_BALLOON] = "virtio-mem-balloon",
-+    [VIRTIO_ID_GPU] = "virtio-gpu",
-+    [VIRTIO_ID_CLOCK] = "virtio-clk",
-+    [VIRTIO_ID_INPUT] = "virtio-input",
-+    [VIRTIO_ID_VSOCK] = "vhost-vsock",
-+    [VIRTIO_ID_CRYPTO] = "virtio-crypto",
-+    [VIRTIO_ID_SIGNAL_DIST] = "virtio-signal",
-+    [VIRTIO_ID_PSTORE] = "virtio-pstore",
-+    [VIRTIO_ID_IOMMU] = "virtio-iommu",
-+    [VIRTIO_ID_MEM] = "virtio-mem",
-+    [VIRTIO_ID_SOUND] = "virtio-sound",
-+    [VIRTIO_ID_FS] = "vhost-user-fs",
-+    [VIRTIO_ID_PMEM] = "virtio-pmem",
-+    [VIRTIO_ID_MAC80211_HWSIM] = "virtio-mac-hwsim",
-+    [VIRTIO_ID_I2C_ADAPTER] = "vhost-user-i2c",
-+    [VIRTIO_ID_BT] = "virtio-bluetooth"
-+};
-+
-+static const char *virtio_id_to_name(uint16_t device_id)
++static struct vhost_dev *vhost_user_blk_get_vhost(VirtIODevice *vdev)
 +{
-+    assert(device_id < G_N_ELEMENTS(virtio_device_names));
-+    const char *name = virtio_device_names[device_id];
-+    assert(name != NULL);
-+    return name;
++    VHostUserBlk *s = VHOST_USER_BLK(vdev);
++    return &s->dev;
 +}
 +
- /* Called within call_rcu().  */
- static void virtio_free_region_cache(VRingMemoryRegionCaches *caches)
- {
-@@ -3235,8 +3274,8 @@ void virtio_instance_init_common(Object *proxy_obj, void *data,
-     qdev_alias_all_properties(vdev, proxy_obj);
+ static const VMStateDescription vmstate_vhost_user_blk = {
+     .name = "vhost-user-blk",
+     .minimum_version_id = 1,
+@@ -602,6 +608,7 @@ static void vhost_user_blk_class_init(ObjectClass *klass, void *data)
+     vdc->get_features = vhost_user_blk_get_features;
+     vdc->set_status = vhost_user_blk_set_status;
+     vdc->reset = vhost_user_blk_reset;
++    vdc->get_vhost = vhost_user_blk_get_vhost;
  }
  
--void virtio_init(VirtIODevice *vdev, const char *name,
--                 uint16_t device_id, size_t config_size)
-+void virtio_init(VirtIODevice *vdev, uint16_t device_id,
-+                 size_t config_size)
+ static const TypeInfo vhost_user_blk_info = {
+diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+index 49df56c..6e93b46 100644
+--- a/hw/display/vhost-user-gpu.c
++++ b/hw/display/vhost-user-gpu.c
+@@ -565,6 +565,12 @@ vhost_user_gpu_device_realize(DeviceState *qdev, Error **errp)
+     g->vhost_gpu_fd = -1;
+ }
+ 
++static struct vhost_dev *vhost_user_gpu_get_vhost(VirtIODevice *vdev)
++{
++    VhostUserGPU *g = VHOST_USER_GPU(vdev);
++    return &g->vhost->dev;
++}
++
+ static Property vhost_user_gpu_properties[] = {
+     VIRTIO_GPU_BASE_PROPERTIES(VhostUserGPU, parent_obj.conf),
+     DEFINE_PROP_END_OF_LIST(),
+@@ -586,6 +592,7 @@ vhost_user_gpu_class_init(ObjectClass *klass, void *data)
+     vdc->guest_notifier_pending = vhost_user_gpu_guest_notifier_pending;
+     vdc->get_config = vhost_user_gpu_get_config;
+     vdc->set_config = vhost_user_gpu_set_config;
++    vdc->get_vhost = vhost_user_gpu_get_vhost;
+ 
+     device_class_set_props(dc, vhost_user_gpu_properties);
+ }
+diff --git a/hw/input/vhost-user-input.c b/hw/input/vhost-user-input.c
+index 273e96a..43d2ff3 100644
+--- a/hw/input/vhost-user-input.c
++++ b/hw/input/vhost-user-input.c
+@@ -79,6 +79,12 @@ static void vhost_input_set_config(VirtIODevice *vdev,
+     virtio_notify_config(vdev);
+ }
+ 
++static struct vhost_dev *vhost_input_get_vhost(VirtIODevice *vdev)
++{
++    VHostUserInput *vhi = VHOST_USER_INPUT(vdev);
++    return &vhi->vhost->dev;
++}
++
+ static const VMStateDescription vmstate_vhost_input = {
+     .name = "vhost-user-input",
+     .unmigratable = 1,
+@@ -93,6 +99,7 @@ static void vhost_input_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_vhost_input;
+     vdc->get_config = vhost_input_get_config;
+     vdc->set_config = vhost_input_set_config;
++    vdc->get_vhost = vhost_input_get_vhost;
+     vic->realize = vhost_input_realize;
+     vic->change_active = vhost_input_change_active;
+ }
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index b275acf..2449b9c 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -3610,6 +3610,14 @@ static bool dev_unplug_pending(void *opaque)
+     return vdc->primary_unplug_pending(dev);
+ }
+ 
++static struct vhost_dev *virtio_net_get_vhost(VirtIODevice *vdev)
++{
++    VirtIONet *n = VIRTIO_NET(vdev);
++    NetClientState *nc = qemu_get_queue(n->nic);
++    struct vhost_net *net = get_vhost_net(nc->peer);
++    return &net->dev;
++}
++
+ static const VMStateDescription vmstate_virtio_net = {
+     .name = "virtio-net",
+     .minimum_version_id = VIRTIO_NET_VM_VERSION,
+@@ -3712,6 +3720,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
+     vdc->post_load = virtio_net_post_load_virtio;
+     vdc->vmsd = &vmstate_virtio_net_device;
+     vdc->primary_unplug_pending = primary_unplug_pending;
++    vdc->get_vhost = virtio_net_get_vhost;
+ }
+ 
+ static const TypeInfo virtio_net_info = {
+diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
+index 039caf2..b0a9c45 100644
+--- a/hw/scsi/vhost-scsi.c
++++ b/hw/scsi/vhost-scsi.c
+@@ -264,6 +264,13 @@ static void vhost_scsi_unrealize(DeviceState *dev)
+     virtio_scsi_common_unrealize(dev);
+ }
+ 
++static struct vhost_dev *vhost_scsi_get_vhost(VirtIODevice *vdev)
++{
++    VHostSCSI *s = VHOST_SCSI(vdev);
++    VHostSCSICommon *vsc = VHOST_SCSI_COMMON(s);
++    return &vsc->dev;
++}
++
+ static Property vhost_scsi_properties[] = {
+     DEFINE_PROP_STRING("vhostfd", VirtIOSCSICommon, conf.vhostfd),
+     DEFINE_PROP_STRING("wwpn", VirtIOSCSICommon, conf.wwpn),
+@@ -298,6 +305,7 @@ static void vhost_scsi_class_init(ObjectClass *klass, void *data)
+     vdc->get_features = vhost_scsi_common_get_features;
+     vdc->set_config = vhost_scsi_common_set_config;
+     vdc->set_status = vhost_scsi_set_status;
++    vdc->get_vhost = vhost_scsi_get_vhost;
+     fwc->get_dev_path = vhost_scsi_common_get_fw_dev_path;
+ }
+ 
+diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+index b875640..e513e4f 100644
+--- a/hw/virtio/vhost-user-fs.c
++++ b/hw/virtio/vhost-user-fs.c
+@@ -276,6 +276,12 @@ static void vuf_device_unrealize(DeviceState *dev)
+     fs->vhost_dev.vqs = NULL;
+ }
+ 
++static struct vhost_dev *vuf_get_vhost(VirtIODevice *vdev)
++{
++    VHostUserFS *fs = VHOST_USER_FS(vdev);
++    return &fs->vhost_dev;
++}
++
+ static const VMStateDescription vuf_vmstate = {
+     .name = "vhost-user-fs",
+     .unmigratable = 1,
+@@ -313,6 +319,7 @@ static void vuf_class_init(ObjectClass *klass, void *data)
+     vdc->set_status = vuf_set_status;
+     vdc->guest_notifier_mask = vuf_guest_notifier_mask;
+     vdc->guest_notifier_pending = vuf_guest_notifier_pending;
++    vdc->get_vhost = vuf_get_vhost;
+ }
+ 
+ static const TypeInfo vuf_info = {
+diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
+index 08bccba..3a7bf8e 100644
+--- a/hw/virtio/vhost-user-rng.c
++++ b/hw/virtio/vhost-user-rng.c
+@@ -247,6 +247,12 @@ static void vu_rng_device_unrealize(DeviceState *dev)
+     vhost_user_cleanup(&rng->vhost_user);
+ }
+ 
++static struct vhost_dev *vu_rng_get_vhost(VirtIODevice *vdev)
++{
++    VHostUserRNG *rng = VHOST_USER_RNG(vdev);
++    return &rng->vhost_dev;
++}
++
+ static const VMStateDescription vu_rng_vmstate = {
+     .name = "vhost-user-rng",
+     .unmigratable = 1,
+@@ -272,6 +278,7 @@ static void vu_rng_class_init(ObjectClass *klass, void *data)
+     vdc->set_status = vu_rng_set_status;
+     vdc->guest_notifier_mask = vu_rng_guest_notifier_mask;
+     vdc->guest_notifier_pending = vu_rng_guest_notifier_pending;
++    vdc->get_vhost = vu_rng_get_vhost;
+ }
+ 
+ static const TypeInfo vu_rng_info = {
+diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+index e8f6249..665a0df 100644
+--- a/hw/virtio/vhost-vsock-common.c
++++ b/hw/virtio/vhost-vsock-common.c
+@@ -261,6 +261,12 @@ static Property vhost_vsock_common_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
++static struct vhost_dev *vhost_vsock_common_get_vhost(VirtIODevice *vdev)
++{
++    VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
++    return &vvc->vhost_dev;
++}
++
+ static void vhost_vsock_common_class_init(ObjectClass *klass, void *data)
  {
-     BusState *qbus = qdev_get_parent_bus(DEVICE(vdev));
-     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
-@@ -3265,7 +3304,7 @@ void virtio_init(VirtIODevice *vdev, const char *name,
-         vdev->vq[i].host_notifier_enabled = false;
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -270,6 +276,7 @@ static void vhost_vsock_common_class_init(ObjectClass *klass, void *data)
+     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+     vdc->guest_notifier_mask = vhost_vsock_common_guest_notifier_mask;
+     vdc->guest_notifier_pending = vhost_vsock_common_guest_notifier_pending;
++    vdc->get_vhost = vhost_vsock_common_get_vhost;
+ }
+ 
+ static const TypeInfo vhost_vsock_common_info = {
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 437347a..96b15a1 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1745,6 +1745,7 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
+     /* should only be called after backend is connected */
+     assert(hdev->vhost_ops);
+ 
++    vdev->vhost_started = true;
+     hdev->started = true;
+     hdev->vdev = vdev;
+ 
+@@ -1821,6 +1822,7 @@ fail_mem:
+ fail_features:
+ 
+     hdev->started = false;
++    vdev->vhost_started = false;
+     return r;
+ }
+ 
+@@ -1850,6 +1852,7 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
      }
+     vhost_log_put(hdev, true);
+     hdev->started = false;
++    vdev->vhost_started = false;
+     hdev->vdev = NULL;
+ }
  
--    vdev->name = name;
-+    vdev->name = virtio_id_to_name(device_id);
-     vdev->config_len = config_size;
-     if (vdev->config_len) {
-         vdev->config = g_malloc0(config_size);
-diff --git a/include/hw/virtio/vhost-vsock-common.h b/include/hw/virtio/vhost-vsock-common.h
-index d8b565b..076b7ab 100644
---- a/include/hw/virtio/vhost-vsock-common.h
-+++ b/include/hw/virtio/vhost-vsock-common.h
-@@ -44,7 +44,7 @@ int vhost_vsock_common_start(VirtIODevice *vdev);
- void vhost_vsock_common_stop(VirtIODevice *vdev);
- int vhost_vsock_common_pre_save(void *opaque);
- int vhost_vsock_common_post_load(void *opaque, int version_id);
--void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name);
-+void vhost_vsock_common_realize(VirtIODevice *vdev);
- void vhost_vsock_common_unrealize(VirtIODevice *vdev);
- uint64_t vhost_vsock_common_get_features(VirtIODevice *vdev, uint64_t features,
-                                          Error **errp);
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index 24c6628..96e7702 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -22,6 +22,7 @@
- #include "sysemu/vhost-user-backend.h"
+diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+index cca5237..7d63b8c 100644
+--- a/hw/virtio/virtio-crypto.c
++++ b/hw/virtio/virtio-crypto.c
+@@ -961,6 +961,15 @@ static bool virtio_crypto_guest_notifier_pending(VirtIODevice *vdev, int idx)
+     return cryptodev_vhost_virtqueue_pending(vdev, queue, idx);
+ }
  
- #include "standard-headers/linux/virtio_gpu.h"
-+#include "standard-headers/linux/virtio_ids.h"
- #include "qom/object.h"
++static struct vhost_dev *virtio_crypto_get_vhost(VirtIODevice *vdev)
++{
++    VirtIOCrypto *vcrypto = VIRTIO_CRYPTO(vdev);
++    CryptoDevBackend *b = vcrypto->cryptodev;
++    CryptoDevBackendClient *cc = b->conf.peers.ccs[0];
++    CryptoDevBackendVhost *vhost_crypto = cryptodev_get_vhost(cc, b, 0);
++    return &vhost_crypto->dev;
++}
++
+ static void virtio_crypto_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -977,6 +986,7 @@ static void virtio_crypto_class_init(ObjectClass *klass, void *data)
+     vdc->set_status = virtio_crypto_set_status;
+     vdc->guest_notifier_mask = virtio_crypto_guest_notifier_mask;
+     vdc->guest_notifier_pending = virtio_crypto_guest_notifier_pending;
++    vdc->get_vhost = virtio_crypto_get_vhost;
+ }
  
- #define TYPE_VIRTIO_GPU_BASE "virtio-gpu-base"
-@@ -37,8 +38,6 @@ OBJECT_DECLARE_SIMPLE_TYPE(VirtIOGPUGL, VIRTIO_GPU_GL)
- #define TYPE_VHOST_USER_GPU "vhost-user-gpu"
- OBJECT_DECLARE_SIMPLE_TYPE(VhostUserGPU, VHOST_USER_GPU)
+ static void virtio_crypto_instance_init(Object *obj)
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index be98b4d..7050bd5 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -3289,6 +3289,7 @@ void virtio_init(VirtIODevice *vdev, uint16_t device_id,
  
--#define VIRTIO_ID_GPU 16
--
- struct virtio_gpu_simple_resource {
-     uint32_t resource_id;
-     uint32_t width;
+     vdev->start_on_kick = false;
+     vdev->started = false;
++    vdev->vhost_started = false;
+     vdev->device_id = device_id;
+     vdev->status = 0;
+     qatomic_set(&vdev->isr, 0);
 diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 8bab9cf..bfc73ec 100644
+index bfc73ec..105b98c 100644
 --- a/include/hw/virtio/virtio.h
 +++ b/include/hw/virtio/virtio.h
-@@ -165,8 +165,7 @@ struct VirtioDeviceClass {
+@@ -22,6 +22,7 @@
+ #include "standard-headers/linux/virtio_config.h"
+ #include "standard-headers/linux/virtio_ring.h"
+ #include "qom/object.h"
++#include "hw/virtio/vhost.h"
+ 
+ /* A guest should never accept this.  It implies negotiation is broken. */
+ #define VIRTIO_F_BAD_FEATURE		30
+@@ -102,6 +103,7 @@ struct VirtIODevice
+     bool started;
+     bool start_on_kick; /* when virtio 1.0 feature has not been negotiated */
+     bool disable_legacy_check;
++    bool vhost_started;
+     VMChangeStateEntry *vmstate;
+     char *bus_name;
+     uint8_t device_endian;
+@@ -160,6 +162,7 @@ struct VirtioDeviceClass {
+     int (*post_load)(VirtIODevice *vdev);
+     const VMStateDescription *vmsd;
+     bool (*primary_unplug_pending)(void *opaque);
++    struct vhost_dev *(*get_vhost)(VirtIODevice *vdev);
+ };
+ 
  void virtio_instance_init_common(Object *proxy_obj, void *data,
-                                  size_t vdev_size, const char *vdev_name);
- 
--void virtio_init(VirtIODevice *vdev, const char *name,
--                         uint16_t device_id, size_t config_size);
-+void virtio_init(VirtIODevice *vdev, uint16_t device_id, size_t config_size);
- void virtio_cleanup(VirtIODevice *vdev);
- 
- void virtio_error(VirtIODevice *vdev, const char *fmt, ...) GCC_FMT_ATTR(2, 3);
-diff --git a/include/standard-headers/linux/virtio_ids.h b/include/standard-headers/linux/virtio_ids.h
-index 4fe842c..3957d11 100644
---- a/include/standard-headers/linux/virtio_ids.h
-+++ b/include/standard-headers/linux/virtio_ids.h
-@@ -55,6 +55,7 @@
- #define VIRTIO_ID_FS			26 /* virtio filesystem */
- #define VIRTIO_ID_PMEM			27 /* virtio pmem */
- #define VIRTIO_ID_MAC80211_HWSIM	29 /* virtio mac80211-hwsim */
-+#define VIRTIO_ID_I2C_ADAPTER           34 /* virtio I2C adapater */
- #define VIRTIO_ID_BT			40 /* virtio bluetooth */
- 
- #endif /* _LINUX_VIRTIO_IDS_H */
 -- 
 1.8.3.1
 
