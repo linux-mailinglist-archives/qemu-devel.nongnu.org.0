@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8525E43C97A
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 14:20:51 +0200 (CEST)
-Received: from localhost ([::1]:43410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C608C43C997
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 14:26:22 +0200 (CEST)
+Received: from localhost ([::1]:47102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfhvE-0001vQ-Sc
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 08:20:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45954)
+	id 1mfi0b-0005oD-V8
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 08:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mfhnJ-0004t0-5v
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 08:12:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40152)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mfht2-0001Rw-2l
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 08:18:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mfhnC-0005dl-Qs
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 08:12:34 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mfhsz-0003jA-IE
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 08:18:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635336749;
+ s=mimecast20190719; t=1635337107;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d3feJZl8evrrrglhhIfR+uug3QdLVUfueXpm6fmx/j4=;
- b=Nopvsh65wyFxLknurNZpG/ABByryZBlgaHFNyWPEt6Y0ZxpkqqVuhkuQNEDheCOF3ucDBE
- LdCZk6NSl2pnyhac1TR0DsBmpYYGdqvLwjn9zsmC45/39AHOt5CmtpDMQ6pVEGe7gh4aga
- 04ReD6cg5CIcbQ/z5mC7t1kE2SUAIwU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-ZHD15-lKMVuTOOJoCfiVpw-1; Wed, 27 Oct 2021 08:12:28 -0400
-X-MC-Unique: ZHD15-lKMVuTOOJoCfiVpw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u15-20020a5d514f000000b001687ebddea3so590740wrt.8
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 05:12:28 -0700 (PDT)
+ bh=tFIgiVnifMgRwNQPMXhHYWMf/GeHjsWBjZYs+jO0Y7k=;
+ b=XHsaYoWpBOapKKKt6/+m4M3SA4G2OEF2E3pszVh0ZwFFOolEcA60n0MHo+8/cXA7+3DDwi
+ pmryib71mEupTkGp1TJnH36wR+gCwXiddjmXG1W6sDhuKyhw8C2PtfArMM4q8ZuxefB7Is
+ rHDTz5ZUhlNlf9GYE9LQNAC9LayrHvA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-596-BrsAAxYoP7Ka6Rg__An3LA-1; Wed, 27 Oct 2021 08:18:26 -0400
+X-MC-Unique: BrsAAxYoP7Ka6Rg__An3LA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ i187-20020a1c3bc4000000b0032ccd252cf3so1176145wma.7
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 05:18:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=d3feJZl8evrrrglhhIfR+uug3QdLVUfueXpm6fmx/j4=;
- b=a8aT7uCzc5fKt3W/v8KRhYZUYs5agaZpu3Z8ADWckiexLeBUxEnEPw3VIuOJtr/UrR
- Fa+Iuj8JoKX/9AHmol9norxwqT+PwCmCHuZy9LWKHFEqSyMFzDOiE65q+rbxPAprWbpR
- RZysBt8E/P8WTBKmnrh4YHrDEzGElmsHk8J17jlD+E3yC8N8kwLzMerBXrW8BuWrswwJ
- H3eyXZgdP2UBj+Q5NyvCUpDAyJT+30iH0WfoOPKxR2KnIJoqxVub0x02Hj/8RPMGxWHd
- Ewpcdh2GNfNKVvLG5IMf6mAH+IeSKjPM+GLV+tiyrM1LCK8qZjkm7WBFzoYv7c1bQH8H
- fsDw==
-X-Gm-Message-State: AOAM533RRMNsd4zfp49FuUpkJtbHCpOQbgwI6i/5OMiAB9dKf7+c55B/
- R5BY8Rk/p9N7o6Y8tpfr3cJBnb1KdxyyJiletFV/1jpmzXLWfCT42fiANoTkmvprzj3PnEAE1pr
- A7NxTMzqwZ5v1rYE=
-X-Received: by 2002:a5d:4983:: with SMTP id r3mr22578057wrq.29.1635336747342; 
- Wed, 27 Oct 2021 05:12:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzgebO19VWLcfnc6YO/L4le0og5ecHk5L0q78daqQh+mk/VWgHkxH6fv19XwWthho+Gva944Q==
-X-Received: by 2002:a5d:4983:: with SMTP id r3mr22578023wrq.29.1635336747087; 
- Wed, 27 Oct 2021 05:12:27 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23d76.dip0.t-ipconnect.de. [79.242.61.118])
- by smtp.gmail.com with ESMTPSA id l124sm3470911wml.8.2021.10.27.05.12.26
+ bh=tFIgiVnifMgRwNQPMXhHYWMf/GeHjsWBjZYs+jO0Y7k=;
+ b=VqOH9SiCdVAxMHHW2JLx8Kql08FA+nqOvOc+uL70T6vxtdosUBWY1ngz/fudjxa+F4
+ Akv6lJxPxZlCyYPluWF4Vkl66yaMNBXjoO44NN0EhU1yl99xJ8Atedk6tBwtDyS4A3bE
+ bBb4GFwsS3EbrKDX+QzphEG+/xiDcvkjK8jxapKvPhMEWHZtfCWDdqF0ynErVegEk7/A
+ mNpgsjXSmNs0/CBB8hzD93ND3GSHu2KbgMNrxr8lEeYX1SxuePcGQ7OpXMFPG6n/rW7v
+ ICxyX5hfdfWExTZVFmoMd20K1qRGMReTPSjqsdZT56D1vCfp9exR7mnGeIp8ahu7g8Nq
+ zFAQ==
+X-Gm-Message-State: AOAM531PIYStrbl5Ta6Bdu8rlIc5IE304fhIzfwsrzxQvLFAaro7Hdeo
+ Od0KrIZ6nD6T7bqhYBfRMbz5oplaadCTtDQI43aSnctPp6sjX7WMcYHylHOGJzqsG6CyRK+ufDb
+ OlFeuo1EnAHpRQe0=
+X-Received: by 2002:a5d:624c:: with SMTP id m12mr1854122wrv.160.1635337105016; 
+ Wed, 27 Oct 2021 05:18:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzPICPQzEw+seP3IEF7/7fCgOXobeCx+fagqodyzLzY3+4MzApMoOC1EdYYi/5a4DLQ1wPYrw==
+X-Received: by 2002:a5d:624c:: with SMTP id m12mr1854087wrv.160.1635337104826; 
+ Wed, 27 Oct 2021 05:18:24 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.14.190])
+ by smtp.gmail.com with ESMTPSA id q123sm3352933wma.20.2021.10.27.05.18.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 05:12:26 -0700 (PDT)
-Message-ID: <6ed7c905-1652-75ac-4dbe-e16bbd1bb40e@redhat.com>
-Date: Wed, 27 Oct 2021 14:12:26 +0200
+ Wed, 27 Oct 2021 05:18:24 -0700 (PDT)
+Message-ID: <cabcfcef-7ba1-ea75-2cd8-cbe44ff02ab6@redhat.com>
+Date: Wed, 27 Oct 2021 14:18:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2 2/3] memory: Make memory_region_is_mapped() succeed
- when mapped via an alias
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211026160649.47545-1-david@redhat.com>
- <20211026160649.47545-3-david@redhat.com>
- <c2ab26d6-b7bd-a92b-cae8-1a66992dd94f@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <c2ab26d6-b7bd-a92b-cae8-1a66992dd94f@redhat.com>
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v8 5/8] qmp: decode feature & status bits in virtio-status
+To: David Hildenbrand <david@redhat.com>,
+ Jonah Palmer <jonah.palmer@oracle.com>, qemu-devel@nongnu.org
+References: <1635334909-31614-1-git-send-email-jonah.palmer@oracle.com>
+ <1635334909-31614-6-git-send-email-jonah.palmer@oracle.com>
+ <00c6f307-4bcc-d9f7-3abb-bde6615eadcd@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <00c6f307-4bcc-d9f7-3abb-bde6615eadcd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -55
 X-Spam_score: -5.6
@@ -101,83 +101,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, thuth@redhat.com, mathieu.poirier@linaro.org,
+ qemu-block@nongnu.org, mst@redhat.com, armbru@redhat.com, pbonzini@redhat.com,
+ qemu_oss@crudebyte.com, groug@kaod.org, dgilbert@redhat.com,
+ eric.auger@redhat.com, arei.gonglei@huawei.com, kraxel@redhat.com,
+ stefanha@redhat.com, michael.roth@amd.com, si-wei.liu@oracle.com,
+ marcandre.lureau@redhat.com, boris.ostrovsky@oracle.com,
+ raphael.norwitz@nutanix.com, eblake@redhat.com, joao.m.martins@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.10.21 19:00, Philippe Mathieu-Daudé wrote:
-> On 10/26/21 18:06, David Hildenbrand wrote:
->> memory_region_is_mapped() currently does not return "true" when a memory
->> region is mapped via an alias.
+On 27/10/2021 13:59, David Hildenbrand wrote:
+> On 27.10.21 13:41, Jonah Palmer wrote:
+>> From: Laurent Vivier <lvivier@redhat.com>
 >>
->> Assuming we have:
->>     alias (A0) -> alias (A1) -> region (R0)
->> Mapping A0 would currently only make memory_region_is_mapped() succeed
->> on A0, but not on A1 and R0.
+>> Display feature names instead of bitmaps for host, guest, and
+>> backend for VirtIODevice.
 >>
->> Let's fix that by adding a "mapped_via_alias" counter to memory regions and
->> updating it accordingly when an alias gets (un)mapped.
+>> Display status names instead of bitmaps for VirtIODevice.
 >>
->> I am not aware of actual issues, this is rather a cleanup to make it
->> consistent.
+>> Display feature names instead of bitmaps for backend, protocol,
+>> acked, and features (hdev->features) for vhost devices.
 >>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> Decode features according to device type. Decode status
+>> according to configuration status bitmap (config_status_map).
+>> Decode vhost user protocol features according to vhost user
+>> protocol bitmap (vhost_user_protocol_map).
+>>
+>> Transport features are on the first line. Undecoded bits
+>> (if any) are stored in a separate field. Vhost device field
+>> wont show if there's no vhost active for a given VirtIODevice.
+>>
+>> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
 >> ---
->>  include/exec/memory.h |  1 +
->>  softmmu/memory.c      | 12 +++++++++++-
->>  2 files changed, 12 insertions(+), 1 deletion(-)
->>
->> diff --git a/include/exec/memory.h b/include/exec/memory.h
->> index a185b6dcb8..35382d9870 100644
->> --- a/include/exec/memory.h
->> +++ b/include/exec/memory.h
->> @@ -707,6 +707,7 @@ struct MemoryRegion {
->>      const MemoryRegionOps *ops;
->>      void *opaque;
->>      MemoryRegion *container;
->> +    int mapped_via_alias; /* Mapped via an alias, container might be NULL */
->>      Int128 size;
->>      hwaddr addr;
->>      void (*destructor)(MemoryRegion *mr);
->> diff --git a/softmmu/memory.c b/softmmu/memory.c
->> index e5826faa0c..17ca896c38 100644
->> --- a/softmmu/memory.c
->> +++ b/softmmu/memory.c
->> @@ -2524,8 +2524,13 @@ static void memory_region_add_subregion_common(MemoryRegion *mr,
->>                                                 hwaddr offset,
->>                                                 MemoryRegion *subregion)
->>  {
->> +    MemoryRegion *alias;
->> +
->>      assert(!subregion->container);
->>      subregion->container = mr;
->> +    for (alias = subregion->alias; alias; alias = alias->alias) {
->> +        alias->mapped_via_alias++;
->> +    }
->>      subregion->addr = offset;
->>      memory_region_update_container_subregions(subregion);
->>  }
->> @@ -2550,9 +2555,14 @@ void memory_region_add_subregion_overlap(MemoryRegion *mr,
->>  void memory_region_del_subregion(MemoryRegion *mr,
->>                                   MemoryRegion *subregion)
->>  {
->> +    MemoryRegion *alias;
->> +
->>      memory_region_transaction_begin();
->>      assert(subregion->container == mr);
->>      subregion->container = NULL;
->> +    for (alias = subregion->alias; alias; alias = alias->alias) {
->> +        alias->mapped_via_alias--;
+>>   hw/block/virtio-blk.c          |  28 ++
+>>   hw/char/virtio-serial-bus.c    |  11 +
+>>   hw/display/virtio-gpu-base.c   |  18 +-
+>>   hw/input/virtio-input.c        |  11 +-
+>>   hw/net/virtio-net.c            |  47 ++++
+>>   hw/scsi/virtio-scsi.c          |  17 ++
+>>   hw/virtio/vhost-user-fs.c      |  10 +
+>>   hw/virtio/vhost-vsock-common.c |  10 +
+>>   hw/virtio/virtio-balloon.c     |  14 +
+>>   hw/virtio/virtio-crypto.c      |  10 +
+>>   hw/virtio/virtio-iommu.c       |  14 +
+>>   hw/virtio/virtio.c             | 273 ++++++++++++++++++-
+>>   include/hw/virtio/vhost.h      |   3 +
+>>   include/hw/virtio/virtio.h     |  17 ++
+>>   qapi/virtio.json               | 577 ++++++++++++++++++++++++++++++++++++++---
 > 
->            assert(alias->mapped_via_alias >= 0);
+> Any particular reason we're not handling virtio-mem?
+> 
+> (there is only a single feature bit so far, a second one to be
+> introduced soon)
+> 
 
-Makes sense, I'll respin with that -- thanks!
+I think this is because the v1 of the series has been written in March 2020 and it has not 
+been update when virtio-mem has been added (June 2020).
 
--- 
 Thanks,
+Laurent
 
-David / dhildenb
 
 
