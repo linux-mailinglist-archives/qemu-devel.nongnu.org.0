@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCCA43CBD3
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 16:18:41 +0200 (CEST)
-Received: from localhost ([::1]:56368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F2B43CB97
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 16:08:25 +0200 (CEST)
+Received: from localhost ([::1]:39794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfjlI-0005EE-1o
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 10:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35300)
+	id 1mfjbM-0002JA-Hd
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 10:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <cc82fde9c7b4b598907914896ee6942fa866258c@lizzy.crudebyte.com>)
- id 1mfj0Y-00074z-Eq
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:30:26 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:50005)
+ (envelope-from <b565bccb00afe8b73d529bbc3a38682996dac5c7@lizzy.crudebyte.com>)
+ id 1mfizr-0006nz-5v
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:29:42 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:33045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <cc82fde9c7b4b598907914896ee6942fa866258c@lizzy.crudebyte.com>)
- id 1mfj0S-0008KO-K0
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:30:19 -0400
+ (envelope-from <b565bccb00afe8b73d529bbc3a38682996dac5c7@lizzy.crudebyte.com>)
+ id 1mfizp-0008GJ-E8
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 09:29:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=qEgYYYFODGYaDwvKrWVyugQSMZX0F3EapHRlySQpKA8=; b=Sb/dg
- GMd7kuQiAJ4oydPF/ilc7ioPVv5X8zgszsE074H5kqQEs4yqOckefHSNhnLa3bUJdXfBO63CUxV1S
- LZu8wM6rdcBXObX3JKvL7LTm2CIV/pB+IZKN8awy2RwRtWrthNEVIea3SY3OE8ez4H4TqA4OYh0kq
- HIqhX790l1Kh1gZWTlxvw6MwOGHgb0xLuTH0cUS4YWSMTAB44UK+xUm3r+ixOmhU7xJuk+VrdR0Yr
- RDV4D2N9zt+ovOgMG1PL0+lDOAOhP8zlacIBq67LceBqkfep23I5/+StqRTxIUCtxE008jTiFYO10
- BmuIz5vScbekK8+me7sSQFdK+5TAw==;
-Message-Id: <cc82fde9c7b4b598907914896ee6942fa866258c.1635340713.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=JPtML+yKgUmqWHtx9VLt/Ry2pW8G66YfrpM0A9IB40I=; b=IF0nf
+ 9jlLFsf+RpFYjWl2opQzY0LEKaWXoKeizGCqdxTv76E6uIi3yghQQCoWEL810Z1caw77gCxhCqM1Q
+ DPoA3+bOKtpkLEGDYVsLLijrga6hhp1RQazsmhGVqRuzl3MxYGiVUaKhJVqnpXuKFDDy782SAbx+V
+ CjEO5cQQ9tXTLPSb1sND4F/hdr7qaFEyPKw0laSI0nk7nGVQvCjN0SP4eU4TDVoTloT90CPA6w8h4
+ pRshIvuR26GzEKfef/UWK26vuHj2UpohvZofTaMpUQnO5/Q+UxUUjSb16haVprR7FNVaH2SUXbxUM
+ eSjAmL4nB8sa2AYqDg+K/dMyyQcMA==;
+Message-Id: <b565bccb00afe8b73d529bbc3a38682996dac5c7.1635340713.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1635340713.git.qemu_oss@crudebyte.com>
 References: <cover.1635340713.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Wed, 27 Oct 2021 15:18:33 +0200
-Subject: [PULL 7/8] 9pfs: make V9fsPath usable via P9Array API
+Subject: [PULL 2/8] 9pfs: deduplicate iounit code
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=cc82fde9c7b4b598907914896ee6942fa866258c@lizzy.crudebyte.com;
+ envelope-from=b565bccb00afe8b73d529bbc3a38682996dac5c7@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,46 +63,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <79a0ddf8375f6c95f0565ef155a1bf1e9387664f.1633097129.git.qemu_oss@crudebyte.com>
----
- fsdev/file-op-9p.h | 2 ++
- hw/9pfs/9p.c       | 2 ++
- 2 files changed, 4 insertions(+)
+Remove redundant code that translates host fileystem's block
+size into 9p client (guest side) block size.
 
-diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
-index 42f677cf38..8fd89f0447 100644
---- a/fsdev/file-op-9p.h
-+++ b/fsdev/file-op-9p.h
-@@ -18,6 +18,7 @@
- #include <utime.h>
- #include <sys/vfs.h>
- #include "qemu-fsdev-throttle.h"
-+#include "p9array.h"
- 
- #define SM_LOCAL_MODE_BITS    0600
- #define SM_LOCAL_DIR_MODE_BITS    0700
-@@ -105,6 +106,7 @@ struct V9fsPath {
-     uint16_t size;
-     char *data;
- };
-+P9ARRAY_DECLARE_TYPE(V9fsPath);
- 
- typedef union V9fsFidOpenState V9fsFidOpenState;
- 
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <129bb71d5119e61d335f1e3107e472e4beea223a.1632758315.git.qemu_oss@crudebyte.com>
+---
+ hw/9pfs/9p.c | 41 ++++++++++++++++++++---------------------
+ 1 file changed, 20 insertions(+), 21 deletions(-)
+
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index e874899ef5..15bb16f466 100644
+index 708b030474..5c57344667 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -50,6 +50,8 @@ enum {
-     Oappend = 0x80,
- };
+@@ -1262,18 +1262,26 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
+ #define P9_STATS_ALL           0x00003fffULL /* Mask for All fields above */
  
-+P9ARRAY_DEFINE_TYPE(V9fsPath, v9fs_path_free);
-+
- static ssize_t pdu_marshal(V9fsPDU *pdu, size_t offset, const char *fmt, ...)
+ 
+-static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct stat *stbuf)
++/**
++ * Convert host filesystem's block size into an appropriate block size for
++ * 9p client (guest OS side). The value returned suggests an "optimum" block
++ * size for 9p I/O, i.e. to maximize performance.
++ *
++ * @pdu: 9p client request
++ * @blksize: host filesystem's block size
++ */
++static int32_t blksize_to_iounit(const V9fsPDU *pdu, int32_t blksize)
  {
-     ssize_t ret;
+     int32_t iounit = 0;
+     V9fsState *s = pdu->s;
+ 
+     /*
+-     * iounit should be multiples of st_blksize (host filesystem block size)
++     * iounit should be multiples of blksize (host filesystem block size)
+      * as well as less than (client msize - P9_IOHDRSZ)
+      */
+-    if (stbuf->st_blksize) {
+-        iounit = stbuf->st_blksize;
+-        iounit *= (s->msize - P9_IOHDRSZ) / stbuf->st_blksize;
++    if (blksize) {
++        iounit = blksize;
++        iounit *= (s->msize - P9_IOHDRSZ) / blksize;
+     }
+     if (!iounit) {
+         iounit = s->msize - P9_IOHDRSZ;
+@@ -1281,6 +1289,11 @@ static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct stat *stbuf)
+     return iounit;
+ }
+ 
++static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct stat *stbuf)
++{
++    return blksize_to_iounit(pdu, stbuf->st_blksize);
++}
++
+ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
+                                 V9fsStatDotl *v9lstat)
+ {
+@@ -1899,23 +1912,9 @@ out_nofid:
+ static int32_t coroutine_fn get_iounit(V9fsPDU *pdu, V9fsPath *path)
+ {
+     struct statfs stbuf;
+-    int32_t iounit = 0;
+-    V9fsState *s = pdu->s;
++    int err = v9fs_co_statfs(pdu, path, &stbuf);
+ 
+-    /*
+-     * iounit should be multiples of f_bsize (host filesystem block size
+-     * and as well as less than (client msize - P9_IOHDRSZ))
+-     */
+-    if (!v9fs_co_statfs(pdu, path, &stbuf)) {
+-        if (stbuf.f_bsize) {
+-            iounit = stbuf.f_bsize;
+-            iounit *= (s->msize - P9_IOHDRSZ) / stbuf.f_bsize;
+-        }
+-    }
+-    if (!iounit) {
+-        iounit = s->msize - P9_IOHDRSZ;
+-    }
+-    return iounit;
++    return blksize_to_iounit(pdu, (err >= 0) ? stbuf.f_bsize : 0);
+ }
+ 
+ static void coroutine_fn v9fs_open(void *opaque)
 -- 
 2.20.1
 
