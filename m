@@ -2,87 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE59443CE8C
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:17:53 +0200 (CEST)
-Received: from localhost ([::1]:40446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FF543CEC8
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 18:34:04 +0200 (CEST)
+Received: from localhost ([::1]:43046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mflce-0001NF-Ak
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:17:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36200)
+	id 1mflsI-0006Bj-6l
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 12:34:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mfl2h-0005lE-H3
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:40:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42021)
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1mfl2x-0006Lx-93; Wed, 27 Oct 2021 11:41:00 -0400
+Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:48148)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mfl2f-0007SC-07
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 11:40:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635349234;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WW8JNbKaYWgKbKMAzLi3WEvCv45Hrsz4KQyCTn+SwdQ=;
- b=YprtzIcOzBqNCVQj/DJsTnjSilLmh5ISZb+zJEZiM3mr9neN+/V5zGBFxZELiAgTFGpJxg
- w6ONoiHtufkaPs/CsaeXBLAQ9TNwKIzAXjV5RkXgEBxpemnYjri01H2L9HYaP73iEwUR7d
- U7UhV3OZ2+HX4Gquv2ncc9y+S4ujFZU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-sy1H5LgSNMOmgLJKuU8Vzw-1; Wed, 27 Oct 2021 11:40:30 -0400
-X-MC-Unique: sy1H5LgSNMOmgLJKuU8Vzw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- i9-20020a508709000000b003dd4b55a3caso2679565edb.19
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 08:40:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=WW8JNbKaYWgKbKMAzLi3WEvCv45Hrsz4KQyCTn+SwdQ=;
- b=aZzCstKjvfLcr6GVuDJtHDimJ18KiSJDMzwGFqPVF7waJmdS88LuRoyxSXKhyTxWyZ
- dgwRJ71oN28WweSrjVrto9VJDN1W2s3+2/9G+zTVtv4w6Z68+6WSwE/p12yvkHomqipS
- wZaoyMoJa1jeARSxxKOZMnFxbfEEgM3a5SJrW9M79o6cxvuaiAVc+PDcPf9Gps4DPQFU
- 5lfLXNNGczspIjiDdC4WOwnHGxJyuihODBbMj5g8Q/LUn2izEx8uaJdaSzdlnj5HOPhg
- oLnqN3PH6mOUps19in35KLCye5Ey/I2zXtecPo/Onni4gXtv+nCz/+bsEMruiml9/nLj
- bQoQ==
-X-Gm-Message-State: AOAM531pkVCNKV80t5TqtB61V1S4OQWdVaTqmzC8kNEVlhG6p8oztpUZ
- NEIIBm5fgLnbYw5IRk+chv9ZtEr/KnbRcwgVvhUbMJaukTP3kUk75t0zISQa4Y0db5AP//An8wr
- J5ALnShnNaWqcIRw=
-X-Received: by 2002:aa7:c941:: with SMTP id h1mr46650268edt.128.1635349229759; 
- Wed, 27 Oct 2021 08:40:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxA5Kdodfm4eUgFU2hfNlv0EdP5yghDYEd+/GbH99jCv6BYpo9ghFFHOKxx7Js5GZu8EBOTAA==
-X-Received: by 2002:aa7:c941:: with SMTP id h1mr46650229edt.128.1635349229507; 
- Wed, 27 Oct 2021 08:40:29 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id f22sm133905ejh.74.2021.10.27.08.40.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Oct 2021 08:40:29 -0700 (PDT)
-Date: Wed, 27 Oct 2021 17:40:28 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH v2] hw/arm/virt: Expose empty NUMA nodes through ACPI
-Message-ID: <20211027174028.1f16fcfb@redhat.com>
-In-Reply-To: <20211027052958.280741-1-gshan@redhat.com>
-References: <20211027052958.280741-1-gshan@redhat.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1mfl2u-0008K7-Sc; Wed, 27 Oct 2021 11:40:58 -0400
+Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits)
+ client-signature RSA-PSS (4096 bits))
+ (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
+ by mx2.freebsd.org (Postfix) with ESMTPS id B418D79C0F;
+ Wed, 27 Oct 2021 15:40:47 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: from smtp.freebsd.org (smtp.freebsd.org
+ [IPv6:2610:1c1:1:606c::24b:4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4HfXvz4PNsz3LtZ;
+ Wed, 27 Oct 2021 15:40:47 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
+ [209.85.219.51])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
+ (Authenticated sender: kevans)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id 71A762CEDF;
+ Wed, 27 Oct 2021 15:40:47 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: by mail-qv1-f51.google.com with SMTP id h11so1986674qvk.4;
+ Wed, 27 Oct 2021 08:40:47 -0700 (PDT)
+X-Gm-Message-State: AOAM530fPxlpeyx8t4MLLjjcfiV4s4FgU9uDx71TO6FcQElAuH1Ljhb5
+ zPNPyf9B3nij4OZ+02D0553INPQkjhjCTZxanr4=
+X-Google-Smtp-Source: ABdhPJyeAfPWFoSF2yMBe6fIFN1C/w56b4L9rRQpWBFPVocdHHItSl92HKRzXuzZcL1XIX1nLCCPfos45SeMJgoYSyg=
+X-Received: by 2002:ad4:58ed:: with SMTP id di13mr6047294qvb.51.1635349246781; 
+ Wed, 27 Oct 2021 08:40:46 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211019164447.16359-1-imp@bsdimp.com>
+ <20211019164447.16359-14-imp@bsdimp.com>
+ <CACNAnaHUq==anp0uQhxk3o=MuLeyaii+MsMPZc3_pBnuS-wCag@mail.gmail.com>
+ <CACNAnaH-=mFx-tPd4nVVv+Y=oRe6Vj4Um51rr0u1GBFGk0P=tQ@mail.gmail.com>
+ <CANCZdfo8ZXYozgzWSqzkhxrH=BYD6RjG3_MbcZNHidVwmTMZWw@mail.gmail.com>
+In-Reply-To: <CANCZdfo8ZXYozgzWSqzkhxrH=BYD6RjG3_MbcZNHidVwmTMZWw@mail.gmail.com>
+From: Kyle Evans <kevans@freebsd.org>
+Date: Wed, 27 Oct 2021 10:40:35 -0500
+X-Gmail-Original-Message-ID: <CACNAnaHuMt8o+myXPypyNYVYBuhwhQXfgenwnx+36uEyTZisoA@mail.gmail.com>
+Message-ID: <CACNAnaHuMt8o+myXPypyNYVYBuhwhQXfgenwnx+36uEyTZisoA@mail.gmail.com>
+Subject: Re: [PATCH 13/24] bsd-user/arm/target_arch_thread.h: Routines to
+ create and switch to a thread
+To: Warner Losh <imp@bsdimp.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2610:1c1:1:606c::19:2;
+ envelope-from=kevans@freebsd.org; helo=mx2.freebsd.org
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,122 +83,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, ehabkost@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- shan.gavin@gmail.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Stacey Son <sson@freebsd.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Oct 2021 13:29:58 +0800
-Gavin Shan <gshan@redhat.com> wrote:
+On Wed, Oct 27, 2021 at 10:35 AM Warner Losh <imp@bsdimp.com> wrote:
+>
+>
+>
+> On Tue, Oct 26, 2021 at 12:11 AM Kyle Evans <kevans@freebsd.org> wrote:
+>>
+>> On Tue, Oct 26, 2021 at 1:01 AM Kyle Evans <kevans@freebsd.org> wrote:
+>> >
+>> > On Tue, Oct 19, 2021 at 11:45 AM Warner Losh <imp@bsdimp.com> wrote:
+>> > >
+>> > > Implement target_thread_init (to create a thread) and target_set_upcall
+>> > > (to switch to a thread) for arm.
+>> > >
+>> > > Signed-off-by: Stacey Son <sson@FreeBSD.org>
+>> > > Signed-off-by: Klye Evans <kevans@FreeBSD.org>
+>> > > Signed-off-by: Warner Losh <imp@bsdimp.com>
+>> > > ---
+>> > >  bsd-user/arm/target_arch_thread.h | 71 +++++++++++++++++++++++++++++++
+>> > >  1 file changed, 71 insertions(+)
+>> > >  create mode 100644 bsd-user/arm/target_arch_thread.h
+>> > >
+>> > > diff --git a/bsd-user/arm/target_arch_thread.h b/bsd-user/arm/target_arch_thread.h
+>> > > new file mode 100644
+>> > > index 0000000000..317364bb84
+>> > > --- /dev/null
+>> > > +++ b/bsd-user/arm/target_arch_thread.h
+>> > > @@ -0,0 +1,71 @@
+>> > > +/*
+>> > > + *  arm thread support
+>> > > + *
+>> > > + *  Copyright (c) 2013 Stacey D. Son
+>> > > + *
+>> > > + *  This program is free software; you can redistribute it and/or modify
+>> > > + *  it under the terms of the GNU General Public License as published by
+>> > > + *  the Free Software Foundation; either version 2 of the License, or
+>> > > + *  (at your option) any later version.
+>> > > + *
+>> > > + *  This program is distributed in the hope that it will be useful,
+>> > > + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> > > + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>> > > + *  GNU General Public License for more details.
+>> > > + *
+>> > > + *  You should have received a copy of the GNU General Public License
+>> > > + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+>> > > + */
+>> > > +#ifndef _TARGET_ARCH_THREAD_H_
+>> > > +#define _TARGET_ARCH_THREAD_H_
+>> > > +
+>> > > +/* Compare to arm/arm/vm_machdep.c cpu_set_upcall_kse() */
+>> > > +static inline void target_thread_set_upcall(CPUARMState *regs, abi_ulong entry,
+>> > > +    abi_ulong arg, abi_ulong stack_base, abi_ulong stack_size)
+>> > > +{
+>> > > +    abi_ulong sp;
+>> > > +
+>> > > +    /*
+>> > > +     * Make sure the stack is properly aligned.
+>> > > +     * arm/include/param.h (STACKLIGN() macro)
+>> > > +     */
+>> > > +    sp = (u_int)((stack_base + stack_size) -
+>> > > +        sizeof(struct target_trapframe)) & ~0x7;
+>> > > +
+>> > > +    /* sp = stack base */
+>> > > +    regs->regs[13] = sp;
+>> > > +    /* pc = start function entry */
+>> > > +    regs->regs[15] = entry & 0xfffffffe;
+>> > > +    /* r0 = arg */
+>> > > +    regs->regs[0] = arg;
+>> > > +    regs->spsr = ARM_CPU_MODE_USR;
+>> > > +    if (entry & 0x1) {
+>> > > +        regs->spsr |= CPSR_T;
+>> > > +    }
+>> > > +}
+>> > > +
+>> > > +static inline void target_thread_init(struct target_pt_regs *regs,
+>> > > +        struct image_info *infop)
+>> > > +{
+>> > > +    abi_long stack = infop->start_stack;
+>> > > +    memset(regs, 0, sizeof(*regs));
+>> > > +    regs->ARM_cpsr = 0x10;
+>> > > +    if (infop->entry & 1) {
+>> > > +        regs->ARM_cpsr |= CPSR_T;
+>> > > +    }
+>> > > +    regs->ARM_pc = infop->entry & 0xfffffffe;
+>> > > +    regs->ARM_sp = infop->start_stack;
+>> > > +    if (bsd_type == target_freebsd) {
+>> > > +        regs->ARM_lr = infop->entry & 0xfffffffe;
+>> > > +    }
+>> > > +    /* FIXME - what to for failure of get_user()? */
+>> > > +    get_user_ual(regs->ARM_r2, stack + 8); /* envp */
+>> > > +    get_user_ual(regs->ARM_r1, stack + 4); /* envp */
+>> > > +    /* XXX: it seems that r0 is zeroed after ! */
+>> > > +    regs->ARM_r0 = 0;
+>> > > +    /* For uClinux PIC binaries.  */
+>> > > +    /* XXX: Linux does this only on ARM with no MMU (do we care ?) */
+>> > > +    regs->ARM_r10 = infop->start_data;
+>> > > +}
+>> > > +
+>> > > +#endif /* !_TARGET_ARCH_THREAD_H_ */
+>> > > --
+>> > > 2.32.0
+>> > >
+>> >
+>> > I think it's obvious enough to folks already familiar with ARM, but I
+>> > wonder if we shouldn't add in some basic commentary about the thumb
+>> > bits above. Something like:
+>> >
+>> > /*
+>> >  * The low bit in an entry point indicates a thumb instruction; the entry point
+>> >  * can't actually exist at this address because it must be 16- or 32-
+>> > bit aligned.
+>> >  * The low bit gets masked off and the T bit in CSPR is twiddled to
+>> > indicate thumb.
+>> >  */
+>>
+>> s/CSPR/CPSR/
+>
+>
+> Does
+>
+>     /*
+>      * Thumb mode is encoded by the low bit in the entry point (since ARM can't
+>      * execute at odd addresses). When it's set, set the Thumb bit (T) in the
+>      * CPSR.
+>      */
+>
+>  Look good to you?
+>
 
-> The empty NUMA nodes, where no memory resides, aren't exposed
-> through ACPI SRAT table. It's not user preferred behaviour because
-> the corresponding memory node devices are missed from the guest
-> kernel as the following example shows. It means the guest kernel
-> doesn't have the node information as user specifies. However,
-> memory can be still hot added to these empty NUMA nodes when
-> they're not exposed.
-> 
->   /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
->   -accel kvm -machine virt,gic-version=host               \
->   -cpu host -smp 4,sockets=2,cores=2,threads=1            \
->   -m 1024M,slots=16,maxmem=64G                            \
->   -object memory-backend-ram,id=mem0,size=512M            \
->   -object memory-backend-ram,id=mem1,size=512M            \
->   -numa node,nodeid=0,cpus=0-1,memdev=mem0                \
->   -numa node,nodeid=1,cpus=2-3,memdev=mem1                \
->   -numa node,nodeid=2                                     \
->   -numa node,nodeid=3                                     \
->      :
->   guest# ls /sys/devices/system/node | grep node
->   node0
->   node1
->   (qemu) object_add memory-backend-ram,id=hp-mem0,size=1G
->   (qemu) device_add pc-dimm,id=hp-dimm0,node=3,memdev=hp-mem0
->   guest# ls /sys/devices/system/node | grep node
->   node0
->   node1
->   node2
->   guest# cat /sys/devices/system/node/node2/meminfo | grep MemTotal
->   Node 2 MemTotal:    1048576 kB
-> 
-> This exposes these empty NUMA nodes through ACPI SRAT table. With
-> this applied, the corresponding memory node devices can be found
-> from the guest. Note that the hotpluggable capability is explicitly
-> given to these empty NUMA nodes for sake of completeness.
-> 
->   guest# ls /sys/devices/system/node | grep node
->   node0
->   node1
->   node2
->   node3
->   guest# cat /sys/devices/system/node/node3/meminfo | grep MemTotal
->   Node 3 MemTotal:    0 kB
->   (qemu) object_add memory-backend-ram,id=hp-mem0,size=1G
->   (qemu) device_add pc-dimm,id=hp-dimm0,node=3,memdev=hp-mem0
->   guest# cat /sys/devices/system/node/node3/meminfo | grep MemTotal
->   Node 3 MemTotal:    1048576 kB
+Yeah, that works for me!
 
-I'm still not sure why this is necessary and if it's a good idea,
-is there a real hardware that have such nodes?
+Thanks,
 
-SRAT is used to assign resources to nodes, I haven't seen it being
-used  as means to describe an empty node anywhere in the spec.
-(perhaps we should not allow empty nodes on QEMU CLI at all).
-
-Then if we really need this, why it's done for ARM only
-and not for x86?
-
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
-> ---
-> v2: Improved commit log as suggested by Drew and Igor.
-> ---
->  hw/arm/virt-acpi-build.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 674f902652..a4c95b2f64 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -526,6 +526,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->      const CPUArchIdList *cpu_list = mc->possible_cpu_arch_ids(ms);
->      AcpiTable table = { .sig = "SRAT", .rev = 3, .oem_id = vms->oem_id,
->                          .oem_table_id = vms->oem_table_id };
-> +    MemoryAffinityFlags flags;
->  
->      acpi_table_begin(&table, table_data);
->      build_append_int_noprefix(table_data, 1, 4); /* Reserved */
-> @@ -547,12 +548,15 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->  
->      mem_base = vms->memmap[VIRT_MEM].base;
->      for (i = 0; i < ms->numa_state->num_nodes; ++i) {
-> -        if (ms->numa_state->nodes[i].node_mem > 0) {
-> -            build_srat_memory(table_data, mem_base,
-> -                              ms->numa_state->nodes[i].node_mem, i,
-> -                              MEM_AFFINITY_ENABLED);
-> -            mem_base += ms->numa_state->nodes[i].node_mem;
-> +        if (ms->numa_state->nodes[i].node_mem) {
-> +            flags = MEM_AFFINITY_ENABLED;
-> +        } else {
-> +            flags = MEM_AFFINITY_ENABLED | MEM_AFFINITY_HOTPLUGGABLE;
->          }
-> +
-> +        build_srat_memory(table_data, mem_base,
-> +                          ms->numa_state->nodes[i].node_mem, i, flags);
-that will create 0 length memory range, which is "Enabled",
-I'm not sure it's safe thing to do.
-
-As side effect this will also create empty ranges for memory-less
-nodes that have only CPUs, where it's not necessary.
-
-I'd really try avoid adding empty ranges unless it hard requirement,
-described somewhere or fixes a bug that can't be fixed elsewhere.
-
-> +        mem_base += ms->numa_state->nodes[i].node_mem;
->      }
->  
->      if (ms->nvdimms_state->is_enabled) {
-
+Kyle Evans
 
