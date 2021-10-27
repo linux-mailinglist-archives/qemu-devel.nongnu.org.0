@@ -2,91 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A3EE43CF82
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 19:16:13 +0200 (CEST)
-Received: from localhost ([::1]:60350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F8E43D02A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 19:56:08 +0200 (CEST)
+Received: from localhost ([::1]:44032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfmX5-0000nb-VN
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 13:16:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57926)
+	id 1mfn9k-0006CG-3x
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 13:56:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfm66-00086c-Ev
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:48:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60585)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1mfm8Y-0004EV-FH; Wed, 27 Oct 2021 12:50:51 -0400
+Received: from mga09.intel.com ([134.134.136.24]:3915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfm64-0007L9-3W
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 12:48:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635353295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iNrCMK9rEd/6FAkTNmsM1t5UDjlKMsqH9ZHK6cTmTLw=;
- b=cSmgydp6qwZixid1ZEvk4GvLDh+xLihHsw+j4KkKtX+NusqgyZy9cuxogJbdBfe2WIEF0p
- aHs9EfzLRkBKuASYSDe4aAmWcSlMkrii51U4/CGWlegX5g6XDwp0ld6fsmxBzmo8vsONrU
- cBFt2DGx/dxPJWhzX7damBaUMLnq+ns=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-4vXkBUV4PkeMEsXWvZOW0w-1; Wed, 27 Oct 2021 12:48:12 -0400
-X-MC-Unique: 4vXkBUV4PkeMEsXWvZOW0w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- k6-20020a7bc306000000b0030d92a6bdc7so1420259wmj.3
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 09:48:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iNrCMK9rEd/6FAkTNmsM1t5UDjlKMsqH9ZHK6cTmTLw=;
- b=TJEHXeusNNVX2YOmYE53N+h1ub3JJnDobsjgEJ4THTzGveU/U3w2DtfdafLNGMJ5Sg
- SzxtU9lF4NE2cxclEAM3lp81sxS2vkQaEkSRP9S1RzF0u3VYrAxAc86lO948hJCvQGPZ
- yOdxvFwOzfdrtXUK9ZVsBj0p+KBGM49b0J97EMFVlp1lbMGDtbsqXKYdSOVFsCFOSfsj
- 9HeiqvSicKIiOazCfGDWdZK+ChKKUjsNhMDYRs5W7L/CE0jy2OvH3ftiPoBNFtMq5U6X
- QSVqK+qqwFUSsrqikUj4c7MhUedF/f2elzNZCqxAJUje0V0H7S4v6UgE42amoKl1beag
- 0dZQ==
-X-Gm-Message-State: AOAM530PJjKAziz5aUXSxoF3GPSq3T18eXfRZKgmn+5D0IuEt7erYNcq
- 7PN7itrozX63/p+yyQzVLe3vT0MVsab582nID68nHryapXvuahgcitIb0rf7Dtsjma1QMV4SjVv
- 8XpEehE3MESlTTLU=
-X-Received: by 2002:a7b:ce8f:: with SMTP id q15mr6797904wmj.136.1635353291448; 
- Wed, 27 Oct 2021 09:48:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwdBAmLE45QYhKTV2sGdna5NjsR+ErpphgWkJBnEYw0TSuc9LyRjqT4elZmVqDAs4DUi2UVvg==
-X-Received: by 2002:a7b:ce8f:: with SMTP id q15mr6797875wmj.136.1635353291225; 
- Wed, 27 Oct 2021 09:48:11 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id e18sm368506wrv.44.2021.10.27.09.48.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 09:48:10 -0700 (PDT)
-Message-ID: <36b93ef0-bcff-1be6-ce8d-03cd61f0a0fd@redhat.com>
-Date: Wed, 27 Oct 2021 18:48:10 +0200
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1mfm8T-0007lO-DD; Wed, 27 Oct 2021 12:50:50 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="230066551"
+X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="230066551"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 09:50:40 -0700
+X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="447614639"
+Received: from lmaniak-dev.igk.intel.com ([10.55.248.48])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 09:50:38 -0700
+Date: Wed, 27 Oct 2021 18:49:30 +0200
+From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH 00/15] hw/nvme: SR-IOV with Virtualization Enhancements
+Message-ID: <20211027164930.GC3331@lmaniak-dev.igk.intel.com>
+References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
+ <YXhG3L+brG0q6o/2@apples.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PULL 0/8] 9p queue 2021-10-27
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-References: <cover.1635340713.git.qemu_oss@crudebyte.com>
- <1763549.VT83FdeJ1q@silver> <dd17a177-c7eb-b879-a980-a986344b9cac@redhat.com>
- <2647527.eb0YlLX8Cn@silver>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <2647527.eb0YlLX8Cn@silver>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.847, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YXhG3L+brG0q6o/2@apples.localdomain>
+Received-SPF: none client-ip=134.134.136.24;
+ envelope-from=lukasz.maniak@linux.intel.com; helo=mga09.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,110 +57,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
+Cc: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/27/21 18:21, Christian Schoenebeck wrote:
-> On Mittwoch, 27. Oktober 2021 17:36:03 CEST Philippe Mathieu-Daudé wrote:
->> Hi Christian,
->>
->> On 10/27/21 16:05, Christian Schoenebeck wrote:
->>> On Mittwoch, 27. Oktober 2021 15:18:33 CEST Christian Schoenebeck wrote:
->>>> The following changes since commit 
-> 931ce30859176f0f7daac6bac255dae5eb21284e:
->>>>   Merge remote-tracking branch
->>>>   'remotes/dagrh/tags/pull-virtiofs-20211026'
->>>>
->>>> into staging (2021-10-26 07:38:41 -0700)
->>>>
->>>> are available in the Git repository at:
->>>>   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20211027
->>>>
->>>> for you to fetch changes up to 7e985780aaab93d2c5be9b62d8d386568dfb071e:
->>>>   9pfs: use P9Array in v9fs_walk() (2021-10-27 14:45:22 +0200)
->>>>
->>>> ----------------------------------------------------------------
->>>> 9pfs: performance fix and cleanup
->>>>
->>>> * First patch fixes suboptimal I/O performance on guest due to previously
->>>>
->>>>   incorrect block size being transmitted to 9p client.
->>>>
->>>> * Subsequent patches are cleanup ones intended to reduce code complexity.
->>>>
->>>> ----------------------------------------------------------------
->>>>
->>>> Christian Schoenebeck (8):
->>>>       9pfs: fix wrong I/O block size in Rgetattr
->>>>       9pfs: deduplicate iounit code
->>>>       9pfs: simplify blksize_to_iounit()
->>>>       9pfs: introduce P9Array
->>>>       fsdev/p9array.h: check scalar type in P9ARRAY_NEW()
->>>>       9pfs: make V9fsString usable via P9Array API
->>>>       9pfs: make V9fsPath usable via P9Array API
->>>>       9pfs: use P9Array in v9fs_walk()
->>>>  
->>>>  fsdev/9p-marshal.c |   2 +
->>>>  fsdev/9p-marshal.h |   3 +
->>>>  fsdev/file-op-9p.h |   2 +
->>>>  fsdev/p9array.h    | 160
->>>>
->>>> +++++++++++++++++++++++++++++++++++++++++++++++++++++ hw/9pfs/9p.c      
->>>> |
->>>> 70 +++++++++++++----------
->>>>
->>>>  5 files changed, 208 insertions(+), 29 deletions(-)
->>>>  create mode 100644 fsdev/p9array.h
->>>
->>> Regarding last 5 patches: Daniel raised a concern that not using g_autoptr
->>> would deviate from current QEMU coding patterns:
->>> https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg00081.html
->>>
->>> Unfortunately I saw no way to address his concern without adding
->>> unnecessary code complexity, so I decided to make this a 9p local type
->>> (QArray -> P9Array) for now, which can easily be replaced in future (e.g.
->>> when there will be something appropriate on glib side).
->>
->> Hmm various patches aren't reviewed yet... In particular
->> patch #5 has a Suggested-by tag without Reviewed-by, this
->> looks odd.
->>
->> See https://wiki.qemu.org/Contribute/SubmitAPullRequest:
->>
->>   Don't send pull requests for code that hasn't passed review.
->>   A pull request says these patches are ready to go into QEMU now,
->>   so they must have passed the standard code review processes. In
->>   particular if you've corrected issues in one round of code review,
->>   you need to send your fixed patch series as normal to the list;
->>   you can't put it in a pull request until it's gone through.
->>   (Extremely trivial fixes may be OK to just fix in passing, but
->>   if in doubt err on the side of not.)
+On Tue, Oct 26, 2021 at 08:20:12PM +0200, Klaus Jensen wrote:
+> On Oct  7 18:23, Lukasz Maniak wrote:
+> > Hi,
+> > 
+> > This series of patches is an attempt to add support for the following
+> > sections of NVMe specification revision 1.4:
+> > 
+> > 8.5 Virtualization Enhancements (Optional)
+> >     8.5.1 VQ Resource Definition
+> >     8.5.2 VI Resource Definition
+> >     8.5.3 Secondary Controller States and Resource Configuration
+> >     8.5.4 Single Root I/O Virtualization and Sharing (SR-IOV)
+> > 
+> > The NVMe controller's Single Root I/O Virtualization and Sharing
+> > implementation is based on patches introducing SR-IOV support for PCI
+> > Express proposed by Knut Omang:
+> > https://lists.gnu.org/archive/html/qemu-devel/2015-10/msg05155.html
+> > 
+> > However, based on what I was able to find historically, Knut's patches
+> > have not yet been pulled into QEMU due to no example of a working device
+> > up to this point:
+> > https://lists.gnu.org/archive/html/qemu-devel/2017-10/msg02722.html
+> > 
+> > In terms of design, the Physical Function controller and the Virtual
+> > Function controllers are almost independent, with few exceptions:
+> > PF handles flexible resource allocation for all its children (VFs have
+> > read-only access to this data), and reset (PF explicitly calls it on VFs).
+> > Since the MMIO access is serialized, no extra precautions are required
+> > to handle concurrent resets, as well as the secondary controller state
+> > access doesn't need to be atomic.
+> > 
+> > A controller with full SR-IOV support must be capable of handling the
+> > Namespace Management command. As there is a pending review with this
+> > functionality, this patch list is not duplicating efforts.
+> > Yet, NS management patches are not required to test the SR-IOV support.
+> > 
+> > We tested the patches on Ubuntu 20.04.3 LTS with kernel 5.4.0. We have
+> > hit various issues with NVMe CLI (list and virt-mgmt commands) between
+> > releases from version 1.09 to master, thus we chose this golden NVMe CLI
+> > hash for testing: a50a0c1.
+> > 
+> > The implementation is not 100% finished and certainly not bug free,
+> > since we are already aware of some issues e.g. interaction with
+> > namespaces related to AER, or unexpected (?) kernel behavior in more
+> > complex reset scenarios. However, our SR-IOV implementation is already
+> > able to support typical SR-IOV use cases, so we believe the patches are
+> > ready to share with the community.
+> > 
+> > Hope you find some time to review the work we did, and share your
+> > thoughts.
+> > 
+> > Kind regards,
+> > Lukasz
 > 
-> There are in general exactly two persons adding their RBs to 9p patches, which 
-> is either Greg or me, and Greg made it already clear that he barely has time 
-> for anything above trivial set.
+> Hi Lukasz,
 > 
-> So what do you suggest? You want to participate and review 9p patches?
+> If possible, can you share a brief guide on testing this? I keep hitting
+> an assert
+> 
+>   qemu-system-x86_64: ../hw/pci/pci.c:1215: pci_register_bar: Assertion `!pci_is_vf(pci_dev)' failed.
+> 
+> when I try to modify sriov_numvfs. This should be fixed anyway, but I
+> might be doing something wrong in the first place.
 
-Well I am a bit surprised...
+Hi Klaus,
 
-$ git log --oneline \
-    --grep='Reviewed-by: Philippe Mathieu-Daudé' -- hw/9pfs/ | wc -l
-18
+Let me share all the details about the steps I did to run 7 fully
+functional VF controllers and failed to reproduce the assert.
 
-I also reviewed patch #3 if this pull request...
+I rebased v1 patches to eliminate any recent regression onto the current
+master 931ce30859.
 
+I configured build as follows:
+./configure \
+--target-list=x86_64-softmmu \
+--enable-kvm
 
-Now I see you posted this 4 times in 2 months, so indeed eventual
-reviewers had plenty of time to look at your patches.
+Then I launched QEMU using these options:
+./qemu-system-x86_64 \
+-m 4096 \
+-smp 4 \
+-drive file=qemu-os.qcow2 \
+-nographic \
+-enable-kvm \
+-machine q35 \
+-device pcie-root-port,slot=0,id=rp0 \
+-device nvme-subsys,id=subsys0 \
+-device nvme,serial=1234,id=nvme0,subsys=subsys0,bus=rp0,sriov_max_vfs=127,sriov_max_vq_per_vf=2,sriov_max_vi_per_vf=1
 
-Note I haven't said I'd NAck your pull request, I noticed your own
-concern wrt Daniel comment, so I looked at the patch and realized
-it was not reviewed, and simply said this is this is odd.
+Next, I issued below commands as root to configure VFs:
+nvme virt-mgmt /dev/nvme0 -c 0 -r 1 -a 1 -n 0
+nvme virt-mgmt /dev/nvme0 -c 0 -r 0 -a 1 -n 0
+nvme reset /dev/nvme0
+echo 1 > /sys/bus/pci/rescan
 
-Regards,
+nvme virt-mgmt /dev/nvme0 -c 1 -r 1 -a 8 -n 1
+nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 8 -n 2
+nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 9 -n 0
+nvme virt-mgmt /dev/nvme0 -c 2 -r 1 -a 8 -n 1
+nvme virt-mgmt /dev/nvme0 -c 2 -r 0 -a 8 -n 2
+nvme virt-mgmt /dev/nvme0 -c 2 -r 0 -a 9 -n 0
+nvme virt-mgmt /dev/nvme0 -c 3 -r 1 -a 8 -n 1
+nvme virt-mgmt /dev/nvme0 -c 3 -r 0 -a 8 -n 2
+nvme virt-mgmt /dev/nvme0 -c 3 -r 0 -a 9 -n 0
+nvme virt-mgmt /dev/nvme0 -c 4 -r 1 -a 8 -n 1
+nvme virt-mgmt /dev/nvme0 -c 4 -r 0 -a 8 -n 2
+nvme virt-mgmt /dev/nvme0 -c 4 -r 0 -a 9 -n 0
+nvme virt-mgmt /dev/nvme0 -c 5 -r 1 -a 8 -n 1
+nvme virt-mgmt /dev/nvme0 -c 5 -r 0 -a 8 -n 2
+nvme virt-mgmt /dev/nvme0 -c 5 -r 0 -a 9 -n 0
+nvme virt-mgmt /dev/nvme0 -c 6 -r 1 -a 8 -n 1
+nvme virt-mgmt /dev/nvme0 -c 6 -r 0 -a 8 -n 2
+nvme virt-mgmt /dev/nvme0 -c 6 -r 0 -a 9 -n 0
+nvme virt-mgmt /dev/nvme0 -c 7 -r 1 -a 8 -n 1
+nvme virt-mgmt /dev/nvme0 -c 7 -r 0 -a 8 -n 2
+nvme virt-mgmt /dev/nvme0 -c 7 -r 0 -a 9 -n 0
 
-Phil.
+echo 7 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
 
+If you use only up to patch 05 inclusive then this command should do all
+the job:
+echo 7 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
+
+The OS I used for the host and guest was Ubuntu 20.04.3 LTS.
+
+Can you share more call stack for assert or the configuration you are
+trying to run?
+
+Thanks,
+Lukasz
 
