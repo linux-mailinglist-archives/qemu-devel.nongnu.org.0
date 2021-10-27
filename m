@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA9443CCF9
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:05:32 +0200 (CEST)
-Received: from localhost ([::1]:54292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 041A243CCEF
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 17:03:09 +0200 (CEST)
+Received: from localhost ([::1]:48434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfkUd-0003q9-Vb
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:05:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44922)
+	id 1mfkSK-0008Ie-2J
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 11:03:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfjec-0007mr-Ur
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:11:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33461)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mfjeZ-0003A8-F8
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:11:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635343902;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rPlcjmpRh7lIBb9ysHvcn9Jm3y0keBJttZPoQy9XWeU=;
- b=SA5KFqhjOi5AFneriUuPW2/VvZ4XL+2NyCh9cSCyj5kvc8wehhQ5Su4xgwMwRzaGs1nDz2
- iUuXxYpl5G1VgMPID4YP60l1kKZn7B9iTRJKX1oVqQMmJWhCqb/TVVo+6mdXaSZrV+ekFo
- 3QZqQomv9/AQ6BfHwjiag6iAo15w/Rw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-HOEtUQQkOaiKyf-h9_z0Dg-1; Wed, 27 Oct 2021 10:11:41 -0400
-X-MC-Unique: HOEtUQQkOaiKyf-h9_z0Dg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- i187-20020a1c3bc4000000b0032ccd252cf3so1307076wma.7
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 07:11:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1mfjmb-0000sP-1Z
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:20:01 -0400
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:38659)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1mfjmX-0005HD-UK
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 10:20:00 -0400
+Received: by mail-lj1-x22c.google.com with SMTP id n7so4980633ljp.5
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 07:19:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GotKWnUo/ZJmrfoB05cYT7DbhAYrAPpzP1P8I/T5lCU=;
+ b=crKYhL0yQ2IL03Mx1V54TLrR+eyZNnXM+3sL+pZeCpMvSeE57+t4nBrIdWZbmhP+St
+ LIsYRQJzK9NTc6/vDJycVOVS26YBhhwGP3TuhJw/iVMN2f+pWfeFmPIGRyMJfQq1Kzhu
+ h4m4QoE5ySswpoecstTaX4jOYksoFRj+xPjjKH6KMqy1czHQePnDlQ/aroLJis6G99oD
+ 91Sh7aAF4yVREzwb41PCYtyKkgtgqbNJ7mqvRWoL74eaKlsyopH/mtDYZ0npmRn+gqtF
+ yPBfTLLanl6OIAN5Snco99RdJnl5EHZUCjKHUkrVF5Qe+akj+/mHb23lD+hWzLrttHFZ
+ kXJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=rPlcjmpRh7lIBb9ysHvcn9Jm3y0keBJttZPoQy9XWeU=;
- b=r1fhUWELkLEYWfIaDces62LloAKrr4L8iejnxMDOMC5Ncy73+xhvSoTwjjVqANVn+g
- wvZjS+D86CqerlC54kA+gj+n76XEjIWTw7GWbgkcHSnFzZUHCc/njTBMV9IEm+POGi9c
- +fUQMzT9lDcDuC6ibOt+TVyOxF/pS5iPZmwraAwM5YCU6CzWEQTeTcj64wnYb+Yjt4Wj
- le6uPxwhIiOdErf9NHcL/u7a19pPvxBGn2x/QhAFBLea2SKMYfjHoEA11JgbI5w4L+nC
- bmTEBsbdtC6U3uLh24eWQ5c9py9vqLV2tgccIHyAYDzLy8s1rdn4N6jKdKQkhR10ro55
- yIHA==
-X-Gm-Message-State: AOAM531OGvDyZewZspaymb98NuQFnYhhgoyvItmAoe8bnysAb1gMU3Qk
- bI/wX99jeB5HDJzDyZYNme/+tPNrldnqNwGWa5qkR0DahWr246e02edOOQL1mhiRRAtDSCAwE7z
- dsJETAkkGJ4Y78FY=
-X-Received: by 2002:a05:600c:3b89:: with SMTP id
- n9mr5942151wms.7.1635343900272; 
- Wed, 27 Oct 2021 07:11:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy1FjwOf1e6IdsT5TMePNBMDiAYa24+2CFNIXTvefxpkQihLhiTxR4JuhEFTMrIeN+uxEoKeQ==
-X-Received: by 2002:a05:600c:3b89:: with SMTP id
- n9mr5942126wms.7.1635343900116; 
- Wed, 27 Oct 2021 07:11:40 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id j7sm4782010wmq.32.2021.10.27.07.11.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 07:11:39 -0700 (PDT)
-Message-ID: <8fc703aa-a256-fdef-36a5-6faad3da47d6@redhat.com>
-Date: Wed, 27 Oct 2021 16:11:38 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GotKWnUo/ZJmrfoB05cYT7DbhAYrAPpzP1P8I/T5lCU=;
+ b=g2QutCneqj5+DAm/6WFnAB0iPL/8ELbhtr53KqEYdyklLgQ7QbY+elzCeK4sw95KzI
+ BCf/sYXXwfXazgupKOFsYCAKCtV651TZNPMxPiMMe/Z5gWYD3HIUd5ZzN2qJ8efEw0ud
+ kbyBuXqQpfHGoa7oAaa8fMoaUkqpZvAj4UmeMBb91wEwRfsyKPK9F7vN6UE/FwDIY6x9
+ 4aBejUcHTBpyId9paMWVmVCxB7p2ncx7p32VYbvgYo5ebHAlimBE+ZNVfONUkOvKE/3T
+ SjLCZl8A8M0EgDqFo3T0A25iMLU7qkj/q7VaUA/jdtBT3wom/JvA4yor5kDESDuFpx/D
+ C4Qw==
+X-Gm-Message-State: AOAM532/8dBUp0szE6ie6SEh1nFLVlw6Mls3xdbixcO6xr0bfUCbOBlR
+ q+rYSq2dgDp4AW0IZG7w90mTfODB7+E++340Jhs=
+X-Google-Smtp-Source: ABdhPJw0WOZuldU+5z//4gGGOVM6O9a3HIr3m9CnhtrTGaSIntxe2kjUuUSOYBNTI9hbA6M8gqN0I0XQlitTnDTdSK0=
+X-Received: by 2002:a2e:553:: with SMTP id 80mr5514433ljf.459.1635344394235;
+ Wed, 27 Oct 2021 07:19:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v1 02/12] vhost: Return number of free memslots
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20211027124531.57561-1-david@redhat.com>
- <20211027124531.57561-3-david@redhat.com>
- <4ce74e8f-080d-9a0d-1b5b-6f7a7203e2ab@redhat.com>
- <7f1ee7ea-0100-a7ac-4322-316ccc75d85f@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <7f1ee7ea-0100-a7ac-4322-316ccc75d85f@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.847, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211027074542.2607865-1-imammedo@redhat.com>
+ <20211027042734-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211027042734-mutt-send-email-mst@kernel.org>
+From: Jason Andryuk <jandryuk@gmail.com>
+Date: Wed, 27 Oct 2021 10:19:42 -0400
+Message-ID: <CAKf6xpvjZSD1p8dqa9G+mSNzXGj2_H=q-a3tSY9U7jhxfSBkuw@mail.gmail.com>
+Subject: Re: [PATCH] qtest: fix 'expression is always false' build failure in
+ qtest_has_accel()
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
+ envelope-from=jandryuk@gmail.com; helo=mail-lj1-x22c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,47 +78,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Sebastien Boeuf <sebastien.boeuf@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- Hui Zhu <teawater@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/27/21 16:04, David Hildenbrand wrote:
-> On 27.10.21 15:36, Philippe Mathieu-Daudé wrote:
->> On 10/27/21 14:45, David Hildenbrand wrote:
->>> Let's return the number of free slots instead of only checking if there
->>> is a free slot. Required to support memory devices that consume multiple
->>> memslots.
->>>
->>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>> ---
->>>  hw/mem/memory-device.c    | 2 +-
->>>  hw/virtio/vhost-stub.c    | 2 +-
->>>  hw/virtio/vhost.c         | 4 ++--
->>>  include/hw/virtio/vhost.h | 2 +-
->>>  4 files changed, 5 insertions(+), 5 deletions(-)
+On Wed, Oct 27, 2021 at 4:34 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Wed, Oct 27, 2021 at 03:45:42AM -0400, Igor Mammedov wrote:
+> > If KVM is disabled or not present, qtest library build
+> > may fail with:
+> >    libqtest.c: In function 'qtest_has_accel':
+> >       comparison of unsigned expression < 0 is always false
+> >       [-Werror=type-limits]
+> >          for (i = 0; i < ARRAY_SIZE(targets); i++) {
+> >
+> > due to empty 'targets' array.
+> > Fix it by compiling KVM related part only if
+> > CONFIG_KVM_TARGETS is set.
+> >
+> > Fixes: e741aff0f43343 ("tests: qtest: add qtest_has_accel() to check if tested binary supports accelerator")
+> > Reported-by: Jason Andryuk <jandryuk@gmail.com>
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+>
+>
+> > ---
+> >  tests/qtest/libqtest.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+> > index 25aeea385b..9833e16f84 100644
+> > --- a/tests/qtest/libqtest.c
+> > +++ b/tests/qtest/libqtest.c
+> > @@ -931,6 +931,7 @@ bool qtest_has_accel(const char *accel_name)
+> >          return false;
+> >  #endif
+> >      } else if (g_str_equal(accel_name, "kvm")) {
+> > +#if defined(CONFIG_KVM_TARGETS)
+>
+> Ugh.
+>         const char *targets[] = { CONFIG_KVM_TARGETS };
+>
+> are you use CONFIG_KVM_TARGETS is not defined?
+>
+> Looks like it's defined, just empty.
+>
+> which is not standard C BTW.
+>
+> How about we just add an empty string in meson?
+>
+> diff --git a/meson.build b/meson.build
+> index 2c5b53cbe2..ff85e9c2af 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -75,7 +75,7 @@ else
+>    kvm_targets = []
+>  endif
+>
+> -kvm_targets_c = ''
+> +kvm_targets_c = '""'
+>  if not get_option('kvm').disabled() and targetos == 'linux'
+>    kvm_targets_c = '"' + '" ,"'.join(kvm_targets) + '"'
+>  endif
 
->>> -bool vhost_has_free_slot(void)
->>> +unsigned int vhost_get_free_memslots(void)
->>>  {
->>>      return true;
->>
->>        return 0;
-> 
-> Oh wait, no. This actually has to be
-> 
-> "return ~0U;" (see real vhost_get_free_memslots())
-> 
-> ... because there is no vhost and consequently no limit applies.
+This allows Debian buster (gcc 8.3.0) to compile.
 
-Indeed.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
+Thanks,
+Jason
 
