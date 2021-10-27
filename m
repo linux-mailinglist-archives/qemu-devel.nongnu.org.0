@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870A343C136
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 06:17:03 +0200 (CEST)
-Received: from localhost ([::1]:36504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCCA43C13D
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 06:19:03 +0200 (CEST)
+Received: from localhost ([::1]:42304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfaN4-0006D4-GO
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 00:17:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46392)
+	id 1mfaP0-0001n5-Dt
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 00:19:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfaKU-0004My-CC
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 00:14:22 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:52082)
+ id 1mfaKY-0004RZ-Rt
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 00:14:26 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mfaKS-0003g3-L7
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 00:14:22 -0400
-Received: by mail-wm1-x331.google.com with SMTP id z200so515257wmc.1
- for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 21:14:20 -0700 (PDT)
+ id 1mfaKX-0003gT-AX
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 00:14:26 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ a20-20020a1c7f14000000b003231d13ee3cso5046765wmd.3
+ for <qemu-devel@nongnu.org>; Tue, 26 Oct 2021 21:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gwRR0kuLG7fnaclPtlCAL5fZgzDG9n9cByX/vyjw9DI=;
- b=cVD2mSv8J1u/078qmZ91f6jgtM49jW92AHUY+2svqUWKCXOchfoVy1WnoLpawW6yh9
- ro8L5ttTLXkkCLoikrHtsneJZ8133hEIccv4wDWIQecQnjxw1wInCiA+D5kj7quuBVlB
- 1qJRd/ZpPJG1fZkwLaVXhISAv1rj6feAtfMYc3PFVbahFKZQhCzU+KawlnZmnPBt3aBZ
- Sfx/fCy52fOX/Sqxe/enBxE1bk9Q5vM/iAW9ZMrykCZcMbDh4FfJ1Aq9wtvAIJH/cPPv
- bWQ63Jw7Vsqbe33lznjdmltyc7OTaDME0s4jJ2OfPCKRXufsnAPeraf35ZyqjhYQpyGy
- tfRw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ZDM0lgYWgrRxIig92VwVxQ5l6+lgRxIeI1FuXQJgf+M=;
+ b=IlX+ATn3haXEGgp1tekjlptSVE5zI5IkCyjjbuzrvgrMjKeaXOMhuXUWAgGxIpKOkE
+ MCxHvKZNNkD41dvYXS2+/miZs5SKk9BSj05o7K8aqvjMq8s5W6PkIJtnEdY8HD6g53l9
+ kdfcl1aI4Yv/rIONwi2hqJJvASNFe3fxCSI2CSMSEUPJaX9zwQ4T92dDdFvV2Mn2/ovL
+ tykx0KZUPwrwPQYxSea1IcvjReucfiuG523A4tw5qm1F2xA1DkVDAwsoePq2ev8xx2Ta
+ ZW/kHSt1nd4t21EBLM093xti/eRNNt3R54zPh6QEitSEVhNzLcSMusY/gcs1qdBBIoIj
+ TTZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=gwRR0kuLG7fnaclPtlCAL5fZgzDG9n9cByX/vyjw9DI=;
- b=zy/8jhdBKyG1fpVFEP4HmzTwcBxBbQaUi+8E4qCRo86bqm+OyjUx5GTJzE0wUY1cfE
- RTl88t3dytE82tBrwcOdTkNIyFkgjgyPw9m0/7EeWg8aEiKe2OTbcfYXtGg9Co47F8Q9
- w4WCgDSrtK1qBEXTzm218E9BB6MLzdcbOWNpGjzJDj4uAAOFIrc0kodqUnyz131zoNGw
- qfCKgLg5xPyX+mcHbyf4+F40dNrPhrUh91eYKI/gHPP68Sb7YHEJbUj7/+6fX9an4TwX
- 91H9pLWZ1prcGaqFxuauYupxAhibZsece/3vFdCEgMEWhr6DFQiu35bWTO+ooThOnPrV
- kygw==
-X-Gm-Message-State: AOAM5337PmmSYUQmy5c4LNxz7ePjZuk6FTpHhYN7OAzhJMqwjl1KCpTw
- 0d0eROpussjOo1XwK1p+BHp1K4aa2Vk=
-X-Google-Smtp-Source: ABdhPJysfKQU8KzaYliBUHa839DewzjwWJ3pke04qxz6GuJj0J+8KxJU8RX4+v4z39X8Upw0xbkM1Q==
-X-Received: by 2002:a1c:ac86:: with SMTP id v128mr3031008wme.3.1635308058873; 
- Tue, 26 Oct 2021 21:14:18 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ZDM0lgYWgrRxIig92VwVxQ5l6+lgRxIeI1FuXQJgf+M=;
+ b=uwijSke829OMpDdKYiKKymPpOWTV9N64NKCIMxjPXo70yZ+5z18D60FvsPJC3QANZF
+ sZ5RNwhw0I+12tgdQXDdXO8IvZvm8aDjcnfqzTXNvnEEwTx/d8f4SBw1tRMtSHBM4qrV
+ kzbZNB2Iw2mjxhYs32jL9KlY/vTqhE2uzJ3bZq1peKLLSxehJK9WOStVAtS4j6MqW1/l
+ 9O+E/NDQKQOupyimEzDd+MnTP7uUgGY9GEE7Xn0o56VA3Z3TXkNqssTNIWwzOCya4aCf
+ IDbRQkc0qiLnDCpHBFbPUw5gaOfa6Pvcr7MQlTitjI+VJWgBheDdPXBbjCuELwuS/x31
+ XwKA==
+X-Gm-Message-State: AOAM530MiB42w5h8kjQVh+CWAizheTPc+Lmjmwk9vZlmPI8s93uqe1Xq
+ J9hnfGGd0UKP5UAW07N8uxLWMwyTxvk=
+X-Google-Smtp-Source: ABdhPJz83fFgwwyM0hYwXDRCPlDQDkE79b+wyZ5uO3yNS6CdKF4/M9dJ2yRfx9j5Xg5FUBLq73mhYA==
+X-Received: by 2002:a1c:f:: with SMTP id 15mr3287700wma.66.1635308063889;
+ Tue, 26 Oct 2021 21:14:23 -0700 (PDT)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id h22sm2455477wmq.42.2021.10.26.21.14.17
+ by smtp.gmail.com with ESMTPSA id a2sm20498963wru.82.2021.10.26.21.14.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 21:14:18 -0700 (PDT)
+ Tue, 26 Oct 2021 21:14:23 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/4] MAINTAINERS: Sanitize 'MIPS TCG CPUs' section
-Date: Wed, 27 Oct 2021 06:14:12 +0200
-Message-Id: <20211027041416.1237433-1-f4bug@amsat.org>
+Subject: [PATCH v2 1/4] MAINTAINERS: Add MIPS general architecture support
+ entry
+Date: Wed, 27 Oct 2021 06:14:13 +0200
+Message-Id: <20211027041416.1237433-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211027041416.1237433-1-f4bug@amsat.org>
+References: <20211027041416.1237433-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,24 +93,43 @@ Cc: libvir-list@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move various files unrelated to MIPS TCG frontend into=0D
-new sections.=0D
-=0D
-Since v1:=0D
-- Do not add Paul without his consent=0D
-- un-deprecate nanoMIPS=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (4):=0D
-  MAINTAINERS: Add MIPS general architecture support entry=0D
-  MAINTAINERS: Add entries to cover MIPS CPS / GIC hardware=0D
-  MAINTAINERS: Split MIPS TCG frontend vs MIPS machines/hardware=0D
-  MAINTAINERS: Agree to maintain nanoMIPS TCG frontend=0D
-=0D
- docs/about/deprecated.rst | 23 ---------------------=0D
- MAINTAINERS               | 43 +++++++++++++++++++++++++--------------=0D
- 2 files changed, 28 insertions(+), 38 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+The architecture is covered in TCG (frontend and backend)
+and hardware models. Add a generic section matching the
+'mips' word in patch subjects.
+
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20211004092515.3819836-2-f4bug@amsat.org>
+---
+ MAINTAINERS | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 894dc431052..5369fe2a129 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -109,6 +109,12 @@ K: ^Subject:.*(?i)s390x?
+ T: git https://gitlab.com/cohuck/qemu.git s390-next
+ L: qemu-s390x@nongnu.org
+ 
++MIPS general architecture support
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
++R: Jiaxun Yang <jiaxun.yang@flygoat.com>
++S: Odd Fixes
++K: ^Subject:.*(?i)mips
++
+ Guest CPU cores (TCG)
+ ---------------------
+ Overall TCG CPUs
+@@ -242,7 +248,6 @@ F: include/hw/mips/
+ F: include/hw/misc/mips_*
+ F: include/hw/timer/mips_gictimer.h
+ F: tests/tcg/mips/
+-K: ^Subject:.*(?i)mips
+ 
+ MIPS TCG CPUs (nanoMIPS ISA)
+ S: Orphan
+-- 
+2.31.1
+
 
