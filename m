@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E65743D186
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 21:17:20 +0200 (CEST)
-Received: from localhost ([::1]:60836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C48C43D10B
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Oct 2021 20:48:04 +0200 (CEST)
+Received: from localhost ([::1]:41250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfoQJ-0004Jl-6A
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 15:17:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57640)
+	id 1mfnxz-0004Rx-O9
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 14:48:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mfnl4-0007Fn-Fe
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 14:34:42 -0400
-Received: from mail-ua1-x92d.google.com ([2607:f8b0:4864:20::92d]:42866)
+ (Exim 4.90_1) (envelope-from <trini@konsulko.com>)
+ id 1mfnpU-00032Q-G2
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 14:39:16 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:40935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mfnl1-0007HM-AI
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 14:34:42 -0400
-Received: by mail-ua1-x92d.google.com with SMTP id v20so6716489uaj.9
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 11:34:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7dNx7gETPiEfZGGmSdFoP/+TR3hcobx6Q9KQOEM2Msw=;
- b=VqaCPAnKo2HvnvuFn/Xq8FOWCa9yUwXxcUedwi+CU6i5t+Q/tmipd9BHA1oJa1tsXL
- 4H4ZbUyncIEw+eNe+rV1o6q4dBcerYSIWo3JVESW9giwc7LKSuBkgN2N5ZgmEKtlCX2M
- qrDuMX9v7UFG/ZaeaB+Skqqx9CZOM+y2qD5JQ=
+ (Exim 4.90_1) (envelope-from <trini@konsulko.com>)
+ id 1mfnpR-00085u-Rc
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 14:39:15 -0400
+Received: by mail-qk1-x729.google.com with SMTP id x123so3381328qke.7
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 11:39:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=NIJWI43p26d05DM0VRBdGbMWQbJrwn82y81LzSMnCIc=;
+ b=Mr4m0oHcKFmS5P6k6v+P5n+lD3WMsP/ka4Ai6aJghWEc9xJ3nYM9wtiqFXuj8DvPpb
+ bxTbhC1xW+H5Ic58zbQJK7oZHX/0+cCuEzOx1i1MjpDzOmvYUYrGShwkI5ZDOJ3HWJJf
+ 9lYjl1UTITDRWA3VrPm9YRUphl+seArC3qRn8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7dNx7gETPiEfZGGmSdFoP/+TR3hcobx6Q9KQOEM2Msw=;
- b=dHDJG4hlbRMUA1zusLNSem/5I56yFbmgDVry/FILUv4X+Es/3x54B9+uy0GZip+rO/
- JGVjBlu1Y2NHbiqsPFImcr0I5j1mW2l2TGDPE5OWhpjw5RMQGOP7rCvjeAfAOccyZbEh
- gxWhP3QBwKf0pk3q+1V8LEbYjlVna8xQmSjzWtXWmKXLaMckR24XeFiTu4oP2/WGLZl6
- f7X4c1aSysgZx+qHyRYJVnAKPNg8ihS0BJ0rqu9U0zqyKLL9GvJUKNmXiPpr3znCitrT
- 72PP3H4ZHZOqC7TRODK+cKCEgvSNZQLTFvEpr9H3UjAGRgTRvPFsN7cqeAa7LcZZJuTq
- wB5A==
-X-Gm-Message-State: AOAM532ei021gECuQIMyeYLwN5s0G5ux3CqGsG2qQcEiY+RPV7MVzIsR
- gOaFoLFwlgbacY9klHAlHIVAsFR2OMxlVfBeaY3LuA==
-X-Google-Smtp-Source: ABdhPJxP/K0zyLZZEVlf5nC3E+utfg6ByJTwAYzHNYrvdDax/SxrRJlqgTCafKfCq/DZBLr/dbAkgSA2AS5qv7LP97c=
-X-Received: by 2002:a05:6102:34e4:: with SMTP id
- bi4mr26801442vsb.20.1635359677616; 
- Wed, 27 Oct 2021 11:34:37 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NIJWI43p26d05DM0VRBdGbMWQbJrwn82y81LzSMnCIc=;
+ b=r/Cc98nogfkEmdpaz3FzuoysIIxmMmgfV24ylt5ojkGPcXQ34DQJ23G/84UASKggvJ
+ bd5vXJyQMp8D4ndCVavDFr/Zm5LQXsMIWOzCtsBCagXu4CyuQECSEG+CoFtebf7vLz7a
+ TUR2fMd+8LDPIDvtyLEFSkniC/IuOOQJI8EsvVBFVgQXIFv8lu5XglB82ipUhk5AaHOT
+ 3zHj2PBIOgQuDPavV/1Ybp/4il6vQWIZ9opBRngTWjztpAim7skuLzvQw3OCBblT3chm
+ 9Kyf7WRn4QF/tOeg0t4luZUbAhZa5NBGCwpl6L2mQbK7Dw3tvPQAYODajjPpNjHSbulT
+ joJA==
+X-Gm-Message-State: AOAM531OAacBXTxwIBPMB6/BNWmPF0QVcflP2HHAaHjWFKsEv8zWp0Oq
+ rCzjMqMtfu13XchhcCtAazAunw==
+X-Google-Smtp-Source: ABdhPJzJaQSkmKsIal04xpghcelbs71bLjsfXUKrvJBLo/P38uK5YlVqgJ9G4+1yCvUSjcHR5sPaag==
+X-Received: by 2002:ae9:de02:: with SMTP id s2mr25985726qkf.215.1635359952790; 
+ Wed, 27 Oct 2021 11:39:12 -0700 (PDT)
+Received: from bill-the-cat
+ (2603-6081-7b01-cbda-0044-6cb5-81ac-bb0c.res6.spectrum.com.
+ [2603:6081:7b01:cbda:44:6cb5:81ac:bb0c])
+ by smtp.gmail.com with ESMTPSA id m2sm528614qkp.124.2021.10.27.11.39.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Oct 2021 11:39:12 -0700 (PDT)
+Date: Wed, 27 Oct 2021 14:39:10 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Simon Glass <sjg@chromium.org>
+Subject: Re: [PATCH 05/16] arm: qemu: Add a devicetree file for qemu_arm64
+Message-ID: <20211027183910.GH8284@bill-the-cat>
 References: <20211013010120.96851-1-sjg@chromium.org>
  <20211013010120.96851-6-sjg@chromium.org>
  <CAHFG_=UDFn9MQfJz6oTAg15PiR2nt6QkoZS58+gsOMMVo31AXQ@mail.gmail.com>
  <87v91iwmoc.fsf@linaro.org> <20211027145653.GB8284@bill-the-cat>
-In-Reply-To: <20211027145653.GB8284@bill-the-cat>
-From: Simon Glass <sjg@chromium.org>
-Date: Wed, 27 Oct 2021 12:34:26 -0600
-Message-ID: <CAPnjgZ1sKULC6wKuEWsdjzFsmDK3ECVUTiE7kjp18psgACREVQ@mail.gmail.com>
-Subject: Re: [PATCH 05/16] arm: qemu: Add a devicetree file for qemu_arm64
-To: Tom Rini <trini@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92d;
- envelope-from=sjg@google.com; helo=mail-ua1-x92d.google.com
-X-Spam_score_int: -92
-X-Spam_score: -9.3
-X-Spam_bar: ---------
-X-Spam_report: (-9.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+ <CAPnjgZ1sKULC6wKuEWsdjzFsmDK3ECVUTiE7kjp18psgACREVQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="pVF9EYSGkiif4dMH"
+Content-Disposition: inline
+In-Reply-To: <CAPnjgZ1sKULC6wKuEWsdjzFsmDK3ECVUTiE7kjp18psgACREVQ@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=trini@konsulko.com; helo=mail-qk1-x729.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,7 +88,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Heiko Schocher <hs@denx.de>,
- =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>,
+ =?iso-8859-1?Q?Fran=E7ois?= Ozog <francois.ozog@linaro.org>,
  Albert Aribaud <albert.u.boot@aribaud.net>,
  Neil Armstrong <narmstrong@baylibre.com>,
  QEMU Developers <qemu-devel@nongnu.org>,
@@ -90,45 +99,73 @@ Cc: Heiko Schocher <hs@denx.de>,
  U-Boot Mailing List <u-boot@lists.denx.de>,
  Jagan Teki <jagan@amarulasolutions.com>, Sean Anderson <seanga2@gmail.com>,
  Fabio Estevam <festevam@gmail.com>, Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
  Peter Robinson <pbrobinson@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
 
-On Wed, 27 Oct 2021 at 08:56, Tom Rini <trini@konsulko.com> wrote:
->
-> On Wed, Oct 27, 2021 at 03:44:08PM +0100, Alex Benn=C3=A9e wrote:
+--pVF9EYSGkiif4dMH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Oct 27, 2021 at 12:34:26PM -0600, Simon Glass wrote:
+> Hi all,
+>=20
+> On Wed, 27 Oct 2021 at 08:56, Tom Rini <trini@konsulko.com> wrote:
 > >
-> > Fran=C3=A7ois Ozog <francois.ozog@linaro.org> writes:
-> >
-> > > Hi Simon
+> > On Wed, Oct 27, 2021 at 03:44:08PM +0100, Alex Benn=C3=A9e wrote:
 > > >
-> > > The only place I could agree with this file presence is in the docume=
-ntation directory, not in dts. It creates a mental picture  for the reader
-> > > an entirely bad mind scheme around Qemu and DT.
+> > > Fran=C3=A7ois Ozog <francois.ozog@linaro.org> writes:
 > > >
-> > > And even in a documentation directory I would place a bug warning: do=
-n=E2=80=99t use this with any kernel , Qemu generates a DT dynamically
-> > > based on cpu, memory and devices specified at the command line.
+> > > > Hi Simon
+> > > >
+> > > > The only place I could agree with this file presence is in the docu=
+mentation directory, not in dts. It creates a mental picture  for the reader
+> > > > an entirely bad mind scheme around Qemu and DT.
+> > > >
+> > > > And even in a documentation directory I would place a bug warning: =
+don=E2=80=99t use this with any kernel , Qemu generates a DT dynamically
+> > > > based on cpu, memory and devices specified at the command line.
+> > >
+> > > Certainly for the arm, aarch64 and riscv "virt" machines you should
+> > > always use the QEMU generated DTB. I'm not entirely clear what a
+> > > qemu_arm and qemu_arm64 def targets are meant to be in this context.
 > >
-> > Certainly for the arm, aarch64 and riscv "virt" machines you should
-> > always use the QEMU generated DTB. I'm not entirely clear what a
-> > qemu_arm and qemu_arm64 def targets are meant to be in this context.
->
-> Agreed.  We cannot include random device trees in U-Boot for devices
-> that generate their own at run time or otherwise have the source of
-> truth elsewhere.
+> > Agreed.  We cannot include random device trees in U-Boot for devices
+> > that generate their own at run time or otherwise have the source of
+> > truth elsewhere.
+>=20
+> Until we have a way of bringing in the u-boot.dtsi that people in QEMU
+> can agree on, I don't see an alternative. I will send a series for the
+> bloblist handoff next week and I think you will all see what I mean.
 
-Until we have a way of bringing in the u-boot.dtsi that people in QEMU
-can agree on, I don't see an alternative. I will send a series for the
-bloblist handoff next week and I think you will all see what I mean.
+I think the alternative is that QEMU in U-Boot just can't be used for
+certain features.  Which is annoying in that it would be good to use it
+to test certain feature, yes.  It's generating a good and valid enough
+dtb for Linux, so it should be good enough for us in general.
 
-Perhaps all this will be easier a year or so, if we continue to make
-progress on the devicetree validation/sharing stuff, but for now, this
-seems like the only viable approach to me.
+--=20
+Tom
 
-Regards,
-Simon
+--pVF9EYSGkiif4dMH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmF5nMoACgkQFHw5/5Y0
+tyz+wAv/dly234YsjqU4iqeUERxgfuAppQoK28yAJiw5cXekTdEAdpNfbAiGDZD9
+124kercVWvN9v19Cl0vzeZjJ0l1IS4daFPKabEVDTx0cdxBgjpxAa5+HqvsV2Ics
+SyqgDuFoGCg0n4YQpm1gN88gmetWMqEdBuYtxOa+5ilaoAd/8N8U1OZ8ymIG9a2J
+wrysZtASoN3J9KsL2ZpiohaZwcA1/HMjyEV+HexDOqABBUIJpNQvKvWjjwOFW9el
+BdGQSSjgyL5hO8v1/eLCLdg40aYk7tdOPB1aXDOm5q9CU9Qjmk7v0AhZ+yIcGNqJ
+gK5pNwM22fLtCGW5MCau9YMRy+rg8KHDWI89nUDXa09fw/kIUGp3rn7TJ6dWvmkN
+QpcRBmEa3b1Y+DVwAx6+mB2n8wJ1GGkpzaXpy14M4OYF+svxWBR7GxcqgvQs3tv8
+o2weLz4n0Kv0zYffcR9zBIWtwd4nkRl/w+/DfH6UnJ7YHKav1rJWzR3lkRK9n8Dp
+4v6pkTQ8
+=8ply
+-----END PGP SIGNATURE-----
+
+--pVF9EYSGkiif4dMH--
 
