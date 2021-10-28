@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B57543E4A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 17:10:14 +0200 (CEST)
-Received: from localhost ([::1]:60464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E0343E49A
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 17:08:42 +0200 (CEST)
+Received: from localhost ([::1]:58680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg72j-0001s2-Cb
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 11:10:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39624)
+	id 1mg71F-0000gG-Cg
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 11:08:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mg6yZ-0006lP-4G
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:05:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43693)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mg6ya-0006lk-5i
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:05:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mg6yM-00079A-N5
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:05:45 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mg6yT-0007C9-If
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:05:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635433541;
+ s=mimecast20190719; t=1635433545;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BP2YG+UwU9At2GQjrOrvf7QoxC3M4wZVtXRCu8IsEeY=;
- b=TjkGzlmgXnOkH2gZG4zrYyTFvctDXxl5L4wYAOpcjZx4j2gMMLTl0cwaDTPsom1Rd+LRYi
- CVwSek6WEzyhXxa09MCZZAs+AM/bZiOkaW0wj0Ab00wRJiw6611ocEDPiwxoXY7q80rFkE
- QnS8SU7CSxx8XP42p6caEVz1BDdHHFk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-379-7gVa7QvqN-iod2DJO9LNNA-1; Thu, 28 Oct 2021 11:05:40 -0400
-X-MC-Unique: 7gVa7QvqN-iod2DJO9LNNA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- f18-20020a5d58f2000000b001645b92c65bso2236832wrd.6
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 08:05:39 -0700 (PDT)
+ bh=8q5NxY4tZqQ6nhyl14l1qak+/GhyQMQefx1CQ7dFSew=;
+ b=GM5y7XINaRg+762D80/TVUxV9ISNZzWYkIFZvIw7jGwoLEd9pWigX0jyWuXhlbQM7lYoRs
+ 9nM1qDfAk3bRh5jay2dyvrab3hP+B3LylZyLlxIlu1NeIJuLk6w0/gdi0LK7qvvi43zBz5
+ SbKubCXI5CWXCg1dc18ZTFHd72tAx1s=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-jE34CjoUNHq0truS20VqcA-1; Thu, 28 Oct 2021 11:05:44 -0400
+X-MC-Unique: jE34CjoUNHq0truS20VqcA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 125-20020a1c0183000000b003306ae8bfb7so453857wmb.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 08:05:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BP2YG+UwU9At2GQjrOrvf7QoxC3M4wZVtXRCu8IsEeY=;
- b=XfN9Z9pAROd7p0Yf+jyUaaAiDcfXZOHDuitnoNVDHnWn9cgoqj8V/bqi+QRdmtrX7l
- z8fOiPE1Rvw06uLwwdkUUOzgJzHdoD0fStP8XGBUTyv62I0M5VPS1j8BiaztXYPg8zfc
- VfuetpuKOKp+RsS5dJkmhIZec7lxmiKCwWkFbkW3vpBLITR+Z5C/naimWYq0uszcmuJp
- Q8tbhrSGVD0PYxD5ULKcXoJRHN2pZ5EHztD+G8ECIhDgGzxR5UBhii0bsQC+t6wCaeUy
- gssci3d4VI+BkqXJHtkyU1CZXGCvxROGhZwCWN+W7n2yso+8mFTlmEV0WWPLVfuPkEaj
- TiNA==
-X-Gm-Message-State: AOAM532AsZE4tKKfguNJSP4WS+e4mqMYNdsHMV+xLqpzkS9Egxv8rMNq
- rQrSclc/wC32wuMPyZCfbbh2rkyeDMLYycvKukkEzdWV4l3bc6mGVwvFJINZ3PjZQX3ouLeGUu+
- ghsP1RI74W7RkbWeD/y0sxN+WrkSGILhcleojgT1jETsqYdGXLAoh9w7Eq0Ftn4B5
-X-Received: by 2002:adf:959a:: with SMTP id p26mr6332351wrp.342.1635433538356; 
- Thu, 28 Oct 2021 08:05:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyfdaIODQY29LG0UaL6aZJ/CT3C9MkLEbsk0ssVIEjXTS5y0fcCVo0BKxF3WM4rkYpS0feH1Q==
-X-Received: by 2002:adf:959a:: with SMTP id p26mr6332298wrp.342.1635433538083; 
- Thu, 28 Oct 2021 08:05:38 -0700 (PDT)
+ bh=8q5NxY4tZqQ6nhyl14l1qak+/GhyQMQefx1CQ7dFSew=;
+ b=NhFXfHAm0OYQG6CPnpUh1CGN2L27aZYFN0setQaO6jCewTnFQaU0u8zkb1txK/L6oU
+ oCSoACdEKSg5e9UxAiXlHvEBkdBxRVZ7K0QUz33822MpC3prrNCEMbDpSaWfw/HlIm2D
+ 2HUlCtUeXsvrIzN7WRb2XNUaNPg4h60DtlEg7gqpnLr0/0aSzvJSCttkSkFmfsdxagkC
+ SoFm68iFHyxuGfXTFYTVW9zP0DZT/4fp69w+6PhPjxxh0GzIAq3UZFiZCjGNxG846MUh
+ DxHr/sv0i/h1JoQqLyjRKmnsNWe3dYMALOdbB9mKvuNkEg9P0iUcgkVsef+8DiywfoBR
+ a2lg==
+X-Gm-Message-State: AOAM530YhnG7VgfkGPQGTmEttvewogcoF7xKQ0xYXv2z68GsAUOR2fdp
+ bRxsjP8btwisEKN5FDwiKbfIHwZOCxgV3snM3nSoKbugmVZQYgE2Rx8R3n5ihy/sct5mhy6rR/S
+ 9mOPbM9W4LQGhrvTJXRWuk33ZAZIYpqbjmaoDwpcqtO+pCClYeQ6WJ7lXAzyZOwbZ
+X-Received: by 2002:a5d:40c9:: with SMTP id b9mr6434990wrq.409.1635433542848; 
+ Thu, 28 Oct 2021 08:05:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzd1kqs1by55shHybx9lNYM5phs/FDWTGPd6saDF/V6Wo9O75N5Gwy7mKGDkWq7aS/rAzA+QQ==
+X-Received: by 2002:a5d:40c9:: with SMTP id b9mr6434964wrq.409.1635433542668; 
+ Thu, 28 Oct 2021 08:05:42 -0700 (PDT)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id e9sm3252978wrn.2.2021.10.28.08.05.37
+ by smtp.gmail.com with ESMTPSA id e8sm3468827wrp.58.2021.10.28.08.05.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Oct 2021 08:05:37 -0700 (PDT)
+ Thu, 28 Oct 2021 08:05:42 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] hw/core: Extract hotplug-related functions to
- qdev-hotplug.c
-Date: Thu, 28 Oct 2021 17:05:20 +0200
-Message-Id: <20211028150521.1973821-4-philmd@redhat.com>
+Subject: [PATCH 4/4] hw/core: Restrict hotplug to system emulation
+Date: Thu, 28 Oct 2021 17:05:21 +0200
+Message-Id: <20211028150521.1973821-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211028150521.1973821-1-philmd@redhat.com>
 References: <20211028150521.1973821-1-philmd@redhat.com>
@@ -102,190 +101,86 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Restrict hotplug to system emulation, add stubs for the other uses.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/core/qdev-hotplug.c | 73 ++++++++++++++++++++++++++++++++++++++++++
- hw/core/qdev.c         | 60 ----------------------------------
- hw/core/meson.build    |  1 +
- 3 files changed, 74 insertions(+), 60 deletions(-)
- create mode 100644 hw/core/qdev-hotplug.c
+ hw/core/hotplug-stubs.c | 34 ++++++++++++++++++++++++++++++++++
+ hw/core/meson.build     | 12 ++++++++++--
+ 2 files changed, 44 insertions(+), 2 deletions(-)
+ create mode 100644 hw/core/hotplug-stubs.c
 
-diff --git a/hw/core/qdev-hotplug.c b/hw/core/qdev-hotplug.c
+diff --git a/hw/core/hotplug-stubs.c b/hw/core/hotplug-stubs.c
 new file mode 100644
-index 00000000000..d495d0e9c70
+index 00000000000..7aadaa29bd5
 --- /dev/null
-+++ b/hw/core/qdev-hotplug.c
-@@ -0,0 +1,73 @@
++++ b/hw/core/hotplug-stubs.c
+@@ -0,0 +1,34 @@
 +/*
-+ * QDev Hotplug handlers
++ * Hotplug handler stubs
 + *
 + * Copyright (c) Red Hat
++ *
++ * Authors:
++ *  Philippe Mathieu-Daudé <philmd@redhat.com>,
 + *
 + * SPDX-License-Identifier: GPL-2.0-or-later
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + */
-+
 +#include "qemu/osdep.h"
 +#include "hw/qdev-core.h"
-+#include "hw/boards.h"
-+
-+HotplugHandler *qdev_get_machine_hotplug_handler(DeviceState *dev)
-+{
-+    MachineState *machine;
-+    MachineClass *mc;
-+    Object *m_obj = qdev_get_machine();
-+
-+    if (object_dynamic_cast(m_obj, TYPE_MACHINE)) {
-+        machine = MACHINE(m_obj);
-+        mc = MACHINE_GET_CLASS(machine);
-+        if (mc->get_hotplug_handler) {
-+            return mc->get_hotplug_handler(machine, dev);
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+bool qdev_hotplug_allowed(DeviceState *dev, Error **errp)
-+{
-+    MachineState *machine;
-+    MachineClass *mc;
-+    Object *m_obj = qdev_get_machine();
-+
-+    if (object_dynamic_cast(m_obj, TYPE_MACHINE)) {
-+        machine = MACHINE(m_obj);
-+        mc = MACHINE_GET_CLASS(machine);
-+        if (mc->hotplug_allowed) {
-+            return mc->hotplug_allowed(machine, dev, errp);
-+        }
-+    }
-+
-+    return true;
-+}
-+
-+HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev)
-+{
-+    if (dev->parent_bus) {
-+        return dev->parent_bus->hotplug_handler;
-+    }
-+    return NULL;
-+}
 +
 +HotplugHandler *qdev_get_hotplug_handler(DeviceState *dev)
 +{
-+    HotplugHandler *hotplug_ctrl = qdev_get_machine_hotplug_handler(dev);
-+
-+    if (hotplug_ctrl == NULL && dev->parent_bus) {
-+        hotplug_ctrl = qdev_get_bus_hotplug_handler(dev);
-+    }
-+    return hotplug_ctrl;
++    return NULL;
 +}
 +
-+/* can be used as ->unplug() callback for the simple cases */
-+void qdev_simple_device_unplug_cb(HotplugHandler *hotplug_dev,
-+                                  DeviceState *dev, Error **errp)
++void hotplug_handler_pre_plug(HotplugHandler *plug_handler,
++                              DeviceState *plugged_dev,
++                              Error **errp)
 +{
-+    qdev_unrealize(dev);
++    g_assert_not_reached();
 +}
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 7f06403752d..cede76fce47 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -33,7 +33,6 @@
- #include "qapi/visitor.h"
- #include "qemu/error-report.h"
- #include "qemu/option.h"
--#include "hw/hotplug.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
- #include "hw/boards.h"
-@@ -238,58 +237,6 @@ void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
-     dev->alias_required_for_version = required_for_version;
- }
- 
--HotplugHandler *qdev_get_machine_hotplug_handler(DeviceState *dev)
--{
--    MachineState *machine;
--    MachineClass *mc;
--    Object *m_obj = qdev_get_machine();
--
--    if (object_dynamic_cast(m_obj, TYPE_MACHINE)) {
--        machine = MACHINE(m_obj);
--        mc = MACHINE_GET_CLASS(machine);
--        if (mc->get_hotplug_handler) {
--            return mc->get_hotplug_handler(machine, dev);
--        }
--    }
--
--    return NULL;
--}
--
--bool qdev_hotplug_allowed(DeviceState *dev, Error **errp)
--{
--    MachineState *machine;
--    MachineClass *mc;
--    Object *m_obj = qdev_get_machine();
--
--    if (object_dynamic_cast(m_obj, TYPE_MACHINE)) {
--        machine = MACHINE(m_obj);
--        mc = MACHINE_GET_CLASS(machine);
--        if (mc->hotplug_allowed) {
--            return mc->hotplug_allowed(machine, dev, errp);
--        }
--    }
--
--    return true;
--}
--
--HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev)
--{
--    if (dev->parent_bus) {
--        return dev->parent_bus->hotplug_handler;
--    }
--    return NULL;
--}
--
--HotplugHandler *qdev_get_hotplug_handler(DeviceState *dev)
--{
--    HotplugHandler *hotplug_ctrl = qdev_get_machine_hotplug_handler(dev);
--
--    if (hotplug_ctrl == NULL && dev->parent_bus) {
--        hotplug_ctrl = qdev_get_bus_hotplug_handler(dev);
--    }
--    return hotplug_ctrl;
--}
--
- static int qdev_prereset(DeviceState *dev, void *opaque)
- {
-     trace_qdev_reset_tree(dev, object_get_typename(OBJECT(dev)));
-@@ -371,13 +318,6 @@ static void device_reset_child_foreach(Object *obj, ResettableChildCallback cb,
-     }
- }
- 
--/* can be used as ->unplug() callback for the simple cases */
--void qdev_simple_device_unplug_cb(HotplugHandler *hotplug_dev,
--                                  DeviceState *dev, Error **errp)
--{
--    qdev_unrealize(dev);
--}
--
- bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
- {
-     assert(!dev->realized && !dev->parent_bus);
++
++void hotplug_handler_plug(HotplugHandler *plug_handler,
++                          DeviceState *plugged_dev,
++                          Error **errp)
++{
++    g_assert_not_reached();
++}
 diff --git a/hw/core/meson.build b/hw/core/meson.build
-index 4d04069f85f..85f2ad1374b 100644
+index 85f2ad1374b..afc5ed2c906 100644
 --- a/hw/core/meson.build
 +++ b/hw/core/meson.build
-@@ -11,6 +11,7 @@
+@@ -1,7 +1,6 @@
+ # core qdev-related obj files, also used by *-user and unit tests
+ hwcore_ss.add(files(
+   'bus.c',
+-  'hotplug.c',
+   'qdev-properties.c',
+   'qdev.c',
+   'reset.c',
+@@ -11,8 +10,17 @@
    'irq.c',
    'clock.c',
    'qdev-clock.c',
-+  'qdev-hotplug.c',
+-  'qdev-hotplug.c',
  ))
++if have_system
++  hwcore_ss.add(files(
++    'hotplug.c',
++    'qdev-hotplug.c',
++  ))
++else
++  hwcore_ss.add(files(
++    'hotplug-stubs.c',
++  ))
++endif
  
  common_ss.add(files('cpu-common.c'))
+ softmmu_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
 -- 
 2.31.1
 
