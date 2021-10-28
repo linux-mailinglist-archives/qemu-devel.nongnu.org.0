@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B061543F27A
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 00:13:26 +0200 (CEST)
-Received: from localhost ([::1]:40030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1924443F284
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 00:14:25 +0200 (CEST)
+Received: from localhost ([::1]:42402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgDeH-0000HO-PN
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 18:13:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44738)
+	id 1mgDfE-0001rs-4K
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 18:14:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mgDS9-0005bj-V2; Thu, 28 Oct 2021 18:00:53 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64004)
+ id 1mgDS7-0005b0-Uv; Thu, 28 Oct 2021 18:00:53 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31244
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mgDRw-0007Wt-5N; Thu, 28 Oct 2021 18:00:53 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19SLQpig015517; 
- Thu, 28 Oct 2021 22:00:34 GMT
+ id 1mgDRw-0007WY-5G; Thu, 28 Oct 2021 18:00:51 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19SLODXn030911; 
+ Thu, 28 Oct 2021 22:00:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=JQeFMVaD6s2RpuiTGyeQT2YhwCE+unHut0t6RqQu0LY=;
- b=jZoTMUTwIEbf1cQHdS9z/HVGIPt9sdxNa99GTTd/knVltcqhXftnIklQdu8uOLNqLAbb
- 3E+9DrcsuwP93Qf9RiPtdzHBNKAmTtqPU54rFuOYI1AzK0BNy94hVT7iA5cGQwjAdrAE
- IRoW4km1+8msL1buquCp5S+2FqS55hByajhqQuibGqat/y2PJ6JnmJX5Sw/lQugkg9XR
- wYtOiXslGr6H+Imnsw0/DrQ7oXGoEqxCm6X2KILEgLJC81h1+lxRZVcIANT16kCtzprJ
- xdYhqriSQi6CJRAWViD5DLjXzcGOBgJK2tPDNYps+ZYDHD1xdv7DCwDcXuwQlRaoJYaX Og== 
+ bh=ZhRZsbqMV1pDRs5+mgJb3Ty7RNROaNLBkJJxRCtLesY=;
+ b=DNC1rZ2uwmQvegvKysWizC765r5kWTqUw+R/yR/HXEv574756P1e5Bn/tlKUlMC/JA/2
+ ZGFLRr2A/UZgFhparwWyS1XD//6HAtUFwzyfa71+poePchRim/wRRMdQxXL02f2QP/Rx
+ ppszS4YcpR6nEb4PBoIhUCM9CL3to+Fln3V+kSksM4TF5Ep3Ww6+axa1ugp8VIGq+M6m
+ js31Oy0Cim+vznoQo60vZ9jWVbjImSOooURt4Lgson21GSXBEeqGHQlwTTY9jdJKnm0F
+ Zzh8Y8O8XNd06+jUfxNfACtdeovGWv4Wkjg3NU4UdSZMEi/yfev1UPoHL4GcnF30RqjP 1g== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c03skrp0s-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c03r58ped-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 Oct 2021 22:00:34 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19SLr6GB021858;
- Thu, 28 Oct 2021 22:00:34 GMT
+ Thu, 28 Oct 2021 22:00:33 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19SLuU5P029135;
+ Thu, 28 Oct 2021 22:00:33 GMT
 Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
  [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c03skrnym-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c03r58pdm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 28 Oct 2021 22:00:33 +0000
 Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19SLwh2S004629;
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19SLwh2R004629;
  Thu, 28 Oct 2021 22:00:31 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 3bx4etn2tj-1
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3bx4etn2th-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 28 Oct 2021 22:00:31 +0000
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com
  (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 19SM0Sqe57999818
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 19SM0S1j47841748
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 28 Oct 2021 22:00:28 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A475BA4065;
- Thu, 28 Oct 2021 22:00:27 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 1A9ECA406A;
+ Thu, 28 Oct 2021 22:00:28 +0000 (GMT)
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5BAC1A4080;
+ by IMSVA (Postfix) with ESMTP id BB523A4062;
  Thu, 28 Oct 2021 22:00:27 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
  by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
@@ -69,34 +70,34 @@ From: Halil Pasic <pasic@linux.ibm.com>
 To: "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, 
  Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
  qemu-devel@nongnu.org
-Subject: [RFC PATCH v1 2/3] virtio-ccw: use virtio_force_modern
-Date: Fri, 29 Oct 2021 00:00:16 +0200
-Message-Id: <20211028220017.930806-3-pasic@linux.ibm.com>
+Subject: [RFC PATCH v1 3/3] virtio-pci: use virtio_force_modern()
+Date: Fri, 29 Oct 2021 00:00:17 +0200
+Message-Id: <20211028220017.930806-4-pasic@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211028220017.930806-1-pasic@linux.ibm.com>
 References: <20211028220017.930806-1-pasic@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: HrE6Qeu8NeH4ZtU51e3qdw746cJQFwk9
-X-Proofpoint-GUID: 2GrYpBay5F8TK0Nnebx2zjBeLR6NEyvC
+X-Proofpoint-GUID: z1jEpk12SdN1r-x8qFfI_7YGNEIjF2o5
+X-Proofpoint-ORIG-GUID: FUEzK8iQFAb0rZ57wDy3VPvp3uTMR7wK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
  definitions=2021-10-28_05,2021-10-26_01,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- malwarescore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 mlxlogscore=999 impostorscore=0 adultscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ mlxlogscore=910 clxscore=1015 impostorscore=0 mlxscore=0 phishscore=0
+ priorityscore=1501 spamscore=0 adultscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2110280112
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
 X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,32 +117,26 @@ Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fact that revision > 0 was negotiated implies that VIRTIO_VERSION_1
-aka modern must be used. This negotiation is done before the obligatory
-reset. Let us call virtio_force_modern() after the reset if revision > 0
-was negotiated, so that the VIRTIO_VERSION_1 feature can be set, and
-endianness starts working as it should for devices that comply to the
-virtio spec.
+Let us detect usage via the modern interface by tapping into the place
+that implements the 'modern' reset.
 
 Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
 ---
- hw/s390x/virtio-ccw.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/virtio/virtio-pci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index 6a2df1c1e9..88fbe87942 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -266,6 +266,9 @@ static void virtio_ccw_reset_virtio(VirtioCcwDevice *dev, VirtIODevice *vdev)
-         dev->summary_indicator = NULL;
-     }
-     ccw_dev->sch->thinint_active = false;
-+    if (dev->revision > 0) {
-+        virtio_force_modern(vdev);
-+    }
- }
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 6e16e2705c..8dd862da21 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1297,6 +1297,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
  
- static int virtio_ccw_handle_set_vq(SubchDev *sch, CCW1 ccw, bool check_len,
+         if (vdev->status == 0) {
+             virtio_pci_reset(DEVICE(proxy));
++            virtio_force_modern(virtio_bus_get_device(&proxy->bus));
+         }
+ 
+         break;
 -- 
 2.25.1
 
