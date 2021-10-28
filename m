@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C583643F16B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 23:17:03 +0200 (CEST)
-Received: from localhost ([::1]:53308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E01F243F189
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 23:21:23 +0200 (CEST)
+Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgCli-0006W5-Qu
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 17:17:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34986)
+	id 1mgCpu-0003sW-NB
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 17:21:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgCdu-0006Yv-8Y
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 17:08:59 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46728)
+ id 1mgCe3-0006f3-Nw
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 17:09:09 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:36855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgCds-0004RC-Lb
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 17:08:58 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id k7so12398816wrd.13
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 14:08:56 -0700 (PDT)
+ id 1mgCdz-0004Rz-1r
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 17:09:06 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id s13so5298113wrb.3
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 14:09:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=K8jf+7unp+HAJCVd0e1nDlJt/bt1yvln0F8p9tQcrpo=;
- b=HzYD3VOVovQJEuBvVIkEVj8j8jJK3QkjNOdKCCQQZo2YbVI0Cl598/TUnARWzYfdVR
- 66rw1DATNYMx5mWFSqjlT7lAtnTcc5axXHtioqG3CKkh5K+7NHmaToqAlpzNUAUy5c4H
- xI0rQOkzjFrsYyHUpUkw43CL3XnJaQrhlkvuvKknSbVLvpiU3wbbhRy45R07xX8h12nA
- ADZkR9vY47v3p9NFQeVpUWd4Kxio7pSRHLdUKtcVmj8S4uSfRoQyUzGNDnItD+bkJ334
- RSRogHtCDyEHVD8FnDfbWHUyblzWFBozpKqq+1+/Zw4GdjGJ4LaUace7q+nAB9fHRz7B
- Z9wQ==
+ bh=m3rhdTjX14scTjWuT5S0L7YoHWbP+7G4pT+NVxV5R9s=;
+ b=du8dyYyuTC3GBq6WnZLFZbPKGRTOU5VAxrxdOEbVtNt8vzMh5XblHN93BqfbQbFlsh
+ 3/F095IvbQBK7NCdGWUl9su0KPaj3fhv73res/oE2Fpii4FrvpLh3031e6gToThWFZ7g
+ emiwpy06FCjLnyAtHE3VWNrDW2yB8F0pMyz8gcrwTCB2wFnpyi5TLM0iM4w9V1kz/FOy
+ 4Ll3MI40huaCvRpzuiEpSOk9w63LoceOVqBP5AK+oRO+ZVXo4jHzRRrrUOpjG8vZGE88
+ 1EyNwEGY2OAQQpC2GNk5dYVe+XQdIGC+g+1LLojvGscBz5fQSnmh4BzvrveJtKNFDAav
+ hPDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=K8jf+7unp+HAJCVd0e1nDlJt/bt1yvln0F8p9tQcrpo=;
- b=jD4snbdq+tJRltYGaUeol3aTpdPSKMhzSiB+Mstsiubt5wNT6y6002ivtX+s0fA6mk
- BtWZb574izzDlYFz4x8rjpB4ArRBWDJT8HbLjcrXDnam72YiBvFCwpwppssbSp2ixDts
- fTAgdgTkD0hxDi/v1bi441tAdxy5Vqr30caSzynzBvZrAb5We2BafxNr0VkP+gMHN1i1
- fqFzpWsrQdT9y67upXQXTAml4uS7mj6CWSuwGjedK/f/vz8h6jqe2myKK+VE5KAU4vGb
- 6d4UbOXs6+PD5H8m6xuhof1YZEyzeiNeZlnAVrnLWW8Cf/2tt5E6lpX4rSnRqU4SsCEI
- o7lw==
-X-Gm-Message-State: AOAM530mn9W+Woi41s568FgYgo8mv48s9LOB3EL/Q7d3wSFstQEQULML
- M0rNH4BTR8NGxElmz7wyM/D4uyp6icA=
-X-Google-Smtp-Source: ABdhPJz/bAiAgt7CE+zKfeVCjExXEQ+ErLyEYIN95Fc6SUMIKD57TbHIVsbNomRn6koeeKMsHziSnQ==
-X-Received: by 2002:a5d:64e2:: with SMTP id g2mr8786576wri.253.1635455335127; 
- Thu, 28 Oct 2021 14:08:55 -0700 (PDT)
+ bh=m3rhdTjX14scTjWuT5S0L7YoHWbP+7G4pT+NVxV5R9s=;
+ b=ZE4cdBph2AGJZ/njuveAWM5mMKwcUiSfXOdDNt7NBY4xArb+Y8db1ldh9sUsQKNd4/
+ d/xZaixBJXToJfG4YcmcZ9/KrbYrS2laXCpRJmKEMEGDMdyxF5LkD+dDyR3ZcDqZJELl
+ +07wSafnO2AWOqF60/jDSMTYQxhV/h8TA6XpVNhqqewIcBnC9PQUpSwL/qjqHC6tzw8N
+ EmXYixAx7QxbjOTnsCjXOXwX2SPpQcTlTEJbzWODG/ER1cn40F8jAq0+q3xUIjjO+DHA
+ 1yH2beQA3zcAnWSU1xn5EWY7et96u3IOPnK8fGb/DbWOF/HyDZO8RNmJCHHR0p3HR3lr
+ DH8Q==
+X-Gm-Message-State: AOAM5325ruXPjR/L1cnDjafmGh9dIaiByLDdOnEEkVvhA2cZWuTNeZjH
+ G+PYO87A3holVrH6a3c0EQNE3cC4Hs4=
+X-Google-Smtp-Source: ABdhPJxAwb9+dfAn22dw+BMH12+LEcOXQ9tvH7KLjvUO7K8nHx7nWL1pYUu9mONXbNCPoOycIJql4Q==
+X-Received: by 2002:a5d:4d0f:: with SMTP id z15mr8625948wrt.57.1635455340535; 
+ Thu, 28 Oct 2021 14:09:00 -0700 (PDT)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id e9sm3983785wrn.2.2021.10.28.14.08.54
+ by smtp.gmail.com with ESMTPSA id u15sm3692579wmq.12.2021.10.28.14.08.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Oct 2021 14:08:54 -0700 (PDT)
+ Thu, 28 Oct 2021 14:09:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/32] target/mips: Fix MSA MSUBV.B opcode
-Date: Thu, 28 Oct 2021 23:08:13 +0200
-Message-Id: <20211028210843.2120802-3-f4bug@amsat.org>
+Subject: [PATCH v3 03/32] tests/tcg/mips: Run MSA opcodes tests on user-mode
+ emulation
+Date: Thu, 28 Oct 2021 23:08:14 +0200
+Message-Id: <20211028210843.2120802-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211028210843.2120802-1-f4bug@amsat.org>
 References: <20211028210843.2120802-1-f4bug@amsat.org>
@@ -85,70 +86,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The result of the 'Vector Multiply and Subtract' opcode is
-incorrect with Byte vectors. Probably due to a copy/paste error,
-commit 5f148a02327 mistakenly used the $wt (target register)
-instead  of $wd (destination register) as first operand. Fix that.
+The following commits added various user-mode tests
+for various MSA instructions:
 
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Fixes: 5f148a02327 ("target/mips: msa: Split helpers for MSUBV.<B|H|W|D>")
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+ - 0fdd986a6c8 ("Add tests for MSA integer add instructions")
+ - 1be82d89011 ("Add tests for MSA integer average instructions")
+ - 1d336c87a3c ("Add tests for MSA bit set instructions")
+ - 1e6bea794c8 ("Add tests for MSA integer max/min instructions")
+ - 2a367db039f ("Add tests for MSA pack instructions")
+ - 3d9569b8550 ("Add tests for MSA move instructions")
+ - 4b302ce90db ("Add tests for MSA integer multiply instructions")
+ - 520e210c0aa ("Add tests for MSA integer compare instructions")
+ - 53e116fed6d ("Add tests for MSA integer subtract instructions")
+ - 666952ea7c1 ("Add tests for MSA bit move instructions")
+ - 72f463bc080 ("Add tests for MSA integer divide instructions")
+ - 8598f5fac1c ("Add tests for MSA FP max/min instructions")
+ - 99d423e576a ("Add tests for MSA shift instructions")
+ - a8f91dd9fd0 ("Add tests for MSA integer dot product instructions")
+ - b62592ab655 ("Add tests for MSA bit counting instructions")
+ - ba632924450 ("Add tests for MSA logic instructions")
+ - fc76f486677 ("Add tests for MSA interleave instructions")
+
+Cover them in the buildsys machinery so they are run automatically
+when calling 'make check-tcg'.
+
+Start running them on the mips64el target.
+
+Cc: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/msa_helper.c | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+Notes:
 
-diff --git a/target/mips/tcg/msa_helper.c b/target/mips/tcg/msa_helper.c
-index d978909527f..5667b1f0a15 100644
---- a/target/mips/tcg/msa_helper.c
-+++ b/target/mips/tcg/msa_helper.c
-@@ -3303,22 +3303,22 @@ void helper_msa_msubv_b(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
+- I am using $wilcard because because the test files are in multiple
+directories ($MSA_TEST_CLASS).
+
+- mips32 tests are disabled because the Debian toolchain produces:
+
+  /usr/mips-linux-gnu/include/gnu/stubs.h:17:11: fatal error:
+  gnu/stubs-o32_hard_2008.h: No such file or directory
+   # include <gnu/stubs-o32_hard_2008.h>
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+ tests/tcg/mips/ase-msa.mak         | 30 ++++++++++++++++++++++++++++++
+ MAINTAINERS                        |  1 +
+ tests/tcg/mips/Makefile.target     |  5 +++++
+ tests/tcg/mips64/Makefile.target   |  9 +++++++++
+ tests/tcg/mips64el/Makefile.target | 12 ++++++++++++
+ tests/tcg/mipsel/Makefile.target   |  9 +++++++++
+ 6 files changed, 66 insertions(+)
+ create mode 100644 tests/tcg/mips/ase-msa.mak
+ create mode 100644 tests/tcg/mips64/Makefile.target
+ create mode 100644 tests/tcg/mips64el/Makefile.target
+ create mode 100644 tests/tcg/mipsel/Makefile.target
+
+diff --git a/tests/tcg/mips/ase-msa.mak b/tests/tcg/mips/ase-msa.mak
+new file mode 100644
+index 00000000000..be1ba967a5b
+--- /dev/null
++++ b/tests/tcg/mips/ase-msa.mak
+@@ -0,0 +1,30 @@
++# -*- Mode: makefile -*-
++#
++# MIPS MSA specific TCG tests
++#
++# Copyright (c) 2021 Philippe Mathieu-Daudé <f4bug@amsat.org>
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++MSA_DIR = $(SRC_PATH)/tests/tcg/mips/user/ase/msa
++
++MSA_TEST_CLASS = bit-count bit-move bit-set fixed-multiply \
++				float-max-min int-add int-average int-compare int-divide \
++				int-dot-product interleave int-max-min int-modulo \
++				int-multiply int-subtract logic move pack shift
++
++MSA_TEST_SRCS = $(foreach class,$(MSA_TEST_CLASS),$(wildcard $(MSA_DIR)/$(class)/*.c))
++
++MSA_TESTS = $(patsubst %.c,%,$(notdir $(MSA_TEST_SRCS)))
++
++$(MSA_TESTS): CFLAGS+=-mmsa $(MSA_CFLAGS)
++$(MSA_TESTS): %: $(foreach CLASS,$(MSA_TEST_CLASS),$(wildcard $(MSA_DIR)/$(CLASS)/%.c))
++	$(CC) -static $(CFLAGS) -o $@ \
++		$(foreach CLASS,$(MSA_TEST_CLASS),$(wildcard $(MSA_DIR)/$(CLASS)/$@.c))
++
++$(foreach test,$(MSA_TESTS),run-$(test)): QEMU_OPTS += -cpu $(MSA_CPU)
++
++# FIXME: These tests fail when using plugins
++ifneq ($(CONFIG_PLUGIN),y)
++TESTS += $(MSA_TESTS)
++endif
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 894dc431052..0a1475a6e83 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3112,6 +3112,7 @@ R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Odd Fixes
+ F: tcg/mips/
++F: tests/tcg/mips*
  
--    pwd->b[0]  = msa_msubv_df(DF_BYTE, pwt->b[0],  pws->b[0],  pwt->b[0]);
--    pwd->b[1]  = msa_msubv_df(DF_BYTE, pwt->b[1],  pws->b[1],  pwt->b[1]);
--    pwd->b[2]  = msa_msubv_df(DF_BYTE, pwt->b[2],  pws->b[2],  pwt->b[2]);
--    pwd->b[3]  = msa_msubv_df(DF_BYTE, pwt->b[3],  pws->b[3],  pwt->b[3]);
--    pwd->b[4]  = msa_msubv_df(DF_BYTE, pwt->b[4],  pws->b[4],  pwt->b[4]);
--    pwd->b[5]  = msa_msubv_df(DF_BYTE, pwt->b[5],  pws->b[5],  pwt->b[5]);
--    pwd->b[6]  = msa_msubv_df(DF_BYTE, pwt->b[6],  pws->b[6],  pwt->b[6]);
--    pwd->b[7]  = msa_msubv_df(DF_BYTE, pwt->b[7],  pws->b[7],  pwt->b[7]);
--    pwd->b[8]  = msa_msubv_df(DF_BYTE, pwt->b[8],  pws->b[8],  pwt->b[8]);
--    pwd->b[9]  = msa_msubv_df(DF_BYTE, pwt->b[9],  pws->b[9],  pwt->b[9]);
--    pwd->b[10] = msa_msubv_df(DF_BYTE, pwt->b[10], pws->b[10], pwt->b[10]);
--    pwd->b[11] = msa_msubv_df(DF_BYTE, pwt->b[11], pws->b[11], pwt->b[11]);
--    pwd->b[12] = msa_msubv_df(DF_BYTE, pwt->b[12], pws->b[12], pwt->b[12]);
--    pwd->b[13] = msa_msubv_df(DF_BYTE, pwt->b[13], pws->b[13], pwt->b[13]);
--    pwd->b[14] = msa_msubv_df(DF_BYTE, pwt->b[14], pws->b[14], pwt->b[14]);
--    pwd->b[15] = msa_msubv_df(DF_BYTE, pwt->b[15], pws->b[15], pwt->b[15]);
-+    pwd->b[0]  = msa_msubv_df(DF_BYTE, pwd->b[0],  pws->b[0],  pwt->b[0]);
-+    pwd->b[1]  = msa_msubv_df(DF_BYTE, pwd->b[1],  pws->b[1],  pwt->b[1]);
-+    pwd->b[2]  = msa_msubv_df(DF_BYTE, pwd->b[2],  pws->b[2],  pwt->b[2]);
-+    pwd->b[3]  = msa_msubv_df(DF_BYTE, pwd->b[3],  pws->b[3],  pwt->b[3]);
-+    pwd->b[4]  = msa_msubv_df(DF_BYTE, pwd->b[4],  pws->b[4],  pwt->b[4]);
-+    pwd->b[5]  = msa_msubv_df(DF_BYTE, pwd->b[5],  pws->b[5],  pwt->b[5]);
-+    pwd->b[6]  = msa_msubv_df(DF_BYTE, pwd->b[6],  pws->b[6],  pwt->b[6]);
-+    pwd->b[7]  = msa_msubv_df(DF_BYTE, pwd->b[7],  pws->b[7],  pwt->b[7]);
-+    pwd->b[8]  = msa_msubv_df(DF_BYTE, pwd->b[8],  pws->b[8],  pwt->b[8]);
-+    pwd->b[9]  = msa_msubv_df(DF_BYTE, pwd->b[9],  pws->b[9],  pwt->b[9]);
-+    pwd->b[10] = msa_msubv_df(DF_BYTE, pwd->b[10], pws->b[10], pwt->b[10]);
-+    pwd->b[11] = msa_msubv_df(DF_BYTE, pwd->b[11], pws->b[11], pwt->b[11]);
-+    pwd->b[12] = msa_msubv_df(DF_BYTE, pwd->b[12], pws->b[12], pwt->b[12]);
-+    pwd->b[13] = msa_msubv_df(DF_BYTE, pwd->b[13], pws->b[13], pwt->b[13]);
-+    pwd->b[14] = msa_msubv_df(DF_BYTE, pwd->b[14], pws->b[14], pwt->b[14]);
-+    pwd->b[15] = msa_msubv_df(DF_BYTE, pwd->b[15], pws->b[15], pwt->b[15]);
- }
- 
- void helper_msa_msubv_h(CPUMIPSState *env,
+ PPC TCG target
+ M: Richard Henderson <richard.henderson@linaro.org>
+diff --git a/tests/tcg/mips/Makefile.target b/tests/tcg/mips/Makefile.target
+index 1a994d5525e..fc54f144f37 100644
+--- a/tests/tcg/mips/Makefile.target
++++ b/tests/tcg/mips/Makefile.target
+@@ -17,3 +17,8 @@ TESTS += $(MIPS_TESTS)
+ hello-mips: CFLAGS+=-mno-abicalls -fno-PIC -mabi=32
+ hello-mips: LDFLAGS+=-nostdlib
+ endif
++
++# FIXME enable MSA tests
++#MSA_CFLAGS=-march=mips32r5 -mnan=2008
++#MSA_CPU=P5600
++#include $(SRC_PATH)/tests/tcg/mips/ase-msa.mak
+diff --git a/tests/tcg/mips64/Makefile.target b/tests/tcg/mips64/Makefile.target
+new file mode 100644
+index 00000000000..d876b92f219
+--- /dev/null
++++ b/tests/tcg/mips64/Makefile.target
+@@ -0,0 +1,9 @@
++# -*- Mode: makefile -*-
++#
++# mips64el specific TCG tests
++#
++# Copyright (c) 2021 Philippe Mathieu-Daudé <f4bug@amsat.org>
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++# 64-bit MSA is tested on little-endian target
+diff --git a/tests/tcg/mips64el/Makefile.target b/tests/tcg/mips64el/Makefile.target
+new file mode 100644
+index 00000000000..87c0d6dce18
+--- /dev/null
++++ b/tests/tcg/mips64el/Makefile.target
+@@ -0,0 +1,12 @@
++# -*- Mode: makefile -*-
++#
++# mips64el specific TCG tests
++#
++# Copyright (c) 2021 Philippe Mathieu-Daudé <f4bug@amsat.org>
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++# MSA
++MSA_CFLAGS=-march=mips64r5 -mnan=legacy
++MSA_CPU=Loongson-3A4000
++include $(SRC_PATH)/tests/tcg/mips/ase-msa.mak
+diff --git a/tests/tcg/mipsel/Makefile.target b/tests/tcg/mipsel/Makefile.target
+new file mode 100644
+index 00000000000..c8acacb4497
+--- /dev/null
++++ b/tests/tcg/mipsel/Makefile.target
+@@ -0,0 +1,9 @@
++# -*- Mode: makefile -*-
++#
++# mipsel specific TCG tests
++#
++# Copyright (c) 2021 Philippe Mathieu-Daudé <f4bug@amsat.org>
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++# 32-bit MSA is tested on big-endian target
 -- 
 2.31.1
 
