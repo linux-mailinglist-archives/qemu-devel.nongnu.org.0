@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A869E43E3C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 16:31:56 +0200 (CEST)
-Received: from localhost ([::1]:49446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C21943E3E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 16:37:57 +0200 (CEST)
+Received: from localhost ([::1]:35908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg6Rf-0005gI-Oq
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 10:31:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58266)
+	id 1mg6XU-0007P2-79
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 10:37:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mg6OR-0003kj-U0
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:28:35 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:35629)
+ (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mg6QF-0006Cx-HQ
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:30:29 -0400
+Received: from mail-ua1-x92c.google.com ([2607:f8b0:4864:20::92c]:35812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mg6OP-0005Nt-2b
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:28:35 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id g8so25926294edb.2
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 07:28:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=U81IzbDIyGmekvfq6EM/Dm5l949v1ekX00r5OD99uFg=;
- b=iB0Cbyxcbu//8LXHs3rUxsRr4c+8FlSC733HdLwoBvpbozFRxssAWsFn7hN8CEGe3C
- ZYz7prOci3Hrovp2ZtoZVTn5ShqZkYicMHnsY3/dEZiwz2qJsA3orf3E4QJD+ySnpjjQ
- aWW0oJJnd/khKwdbgFBMm4vsRpDl/BWhkEUAMQTE+m/LkldxFRmG1VcRFU4NanvIPWYD
- zr1nquIdoCs7fZ20La/M0TRRPLp4v+9JmORaKHUL4xWSCgjb4Z+p6oHAiKgR/PxrIbMS
- qkKYSbo1ssqwbFj5MPTMx5xRbMYaj3bgSVjcLb32n8k9vzKn0cH4s7vxffU9pjDbnZFT
- FygQ==
+ (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mg6QB-0005bl-9y
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:30:26 -0400
+Received: by mail-ua1-x92c.google.com with SMTP id q13so11950019uaq.2
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 07:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=SFlvJTNt8CqJLDyyKj1QIs/uGZHNLWOLf2qxtd1Jsuw=;
+ b=NW5jY3QlYgHI41BetEDvrx4+uLH0RGNfYoBbG5h3lk5WRIhsIk7wFYNn6LiUf31cSd
+ pgIgSKwinAFaFlZenC29edLj1+GdDcGf1QJUqGrz09XXsDVpvA8CHexeBwxww6f+vM5h
+ FN2uXI1490QPZchujk3ZTIHYTWDMF+cbqnNBU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=U81IzbDIyGmekvfq6EM/Dm5l949v1ekX00r5OD99uFg=;
- b=6nKAdsUY3CLAbNN1WtRbjSE2r46HAi5Ar8P4dfArIWCdiUV5i3J8jznkQFQDdJa9Wr
- uPwAldwkCGG6VZu/NCg8kbddVGzJ1/k6xnokwQavJ3KiPlGVvBygekE74EsnKbko9Dyi
- VLAU9Cea3tUmXhHGQQdo+Cw2aBxVvUVLrgdxJyRp+GPN9NafC7l/uSr7bzV7QF21MNFm
- K5przZjbBNAPJat4ASrK/vRctfG2e6njJovdcjzWYlIIMr9f4HPyOgSUnBprsKdMT0oI
- PnQ9onBupgVd5DhdIuH8DInWscfiMMK9uN/Wxdh9X1dMnL2iiCXkwkkApvVkGuqE76P+
- Vngg==
-X-Gm-Message-State: AOAM533FZAoOIj5NQVDtIaJc72WA7mg7zQBkmezTFYR+brxAXCSy0Hjn
- yxkD4tIEvBkTvYH80dOoW5dDoGGH/Uo=
-X-Google-Smtp-Source: ABdhPJyvuNbVcK82n5ppuSCLZ6xM+NfrBl36xNuHeAOpW9teUcGRDunmao5edymnHYS4fkxRbn5P1w==
-X-Received: by 2002:aa7:d497:: with SMTP id b23mr6615362edr.218.1635431310300; 
- Thu, 28 Oct 2021 07:28:30 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id q23sm1517201ejr.0.2021.10.28.07.28.29
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Oct 2021 07:28:29 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] build: use "meson test" as the test harness
-Date: Thu, 28 Oct 2021 16:28:26 +0200
-Message-Id: <20211028142826.57327-3-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211028142826.57327-1-pbonzini@redhat.com>
-References: <20211028142826.57327-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=SFlvJTNt8CqJLDyyKj1QIs/uGZHNLWOLf2qxtd1Jsuw=;
+ b=bkd3+8UaqtyJ+bU5L7BKVAW0/E6KvIfk1V5pEXsuDDy5rUIpQO0djmT2kANZAfB7bP
+ P9pgEqqWOPvo5jxEkRAmMk8PSiyvADU125/mosBPbfEEeoITYrd0Be3zdrxAuXWUIHN3
+ bkyNkyFW30+lyUhzIeHUblwV/+MgBsIt9bcJ87bILVDH824OAWwv/722fX/VDGORh6yR
+ +djkDKf59TFkZuoyp1c90DeB3eG7xfSsIjWgJasXJi23avt19sO90rdiX0EACkjCeqCP
+ +icpAZmy6QIrA898PeRVeMWVo363NIhY1DS+8R1rh7xW6aSPNyCqTk5AUyAss/WqP8Bx
+ 5aUg==
+X-Gm-Message-State: AOAM5302lpwgozNUvFQKvY0XxsRrW+jFxiWsCaDf0IZtDegZYobyjCF+
+ IQnAxSrvy+9MXW571GthJZzEmR3hfW/74q52uFGoAQ==
+X-Google-Smtp-Source: ABdhPJxM0JZ35WjtzAZnIa2osaZocuI2kFYCu7+VKtCzlWwiaXh8LeHd+BR/+JagSdvnrpiIMQj4KpkSF1PLzvWq67I=
+X-Received: by 2002:ab0:22d0:: with SMTP id z16mr4642655uam.143.1635431419707; 
+ Thu, 28 Oct 2021 07:30:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20211013010120.96851-1-sjg@chromium.org>
+ <CAEUhbmWY5gKmqbipurcDQ0DuNJyv8cLWsnyqx5h+tFqeVng8Ag@mail.gmail.com>
+ <20211013013450.GJ7964@bill-the-cat>
+ <CAPnjgZ3D+h1ov2yL73iz_3zmPkJrM4mGrQLhsKL9qu9Ez0-j2A@mail.gmail.com>
+ <CAHFG_=ULjFFcF_BWzknPPw23CeMX=d-Cprhad085nX_r1NhE1g@mail.gmail.com>
+ <CAPnjgZ3+QP3ogPA=zKWHoctkr4C2rSos_yVmJjp_MYZ-O0sKeQ@mail.gmail.com>
+ <20211014145626.GC7964@bill-the-cat>
+ <CAPnjgZ3=evGbgSg-aen6pkOXZ4DCxX8vcX9cn4qswJQRNNSzLQ@mail.gmail.com>
+ <20211014152801.GF7964@bill-the-cat>
+ <CAPnjgZ2Y-uvmhQmhxnBN7Wa+Tz=ZL0bWpnJi6xCW-P8p+C-qCw@mail.gmail.com>
+ <YXekTkeL73NM0UOU@apalos.home>
+ <CAPnjgZ3gQJz2YLhGuj-8RBok7ijc9s-vg2Q2ZDyQx71QfpWd5g@mail.gmail.com>
+ <CAHFG_=XivFRi-quuMkExT9XOt3EsJ6T9TJ5MiV7cQwCj3OuK7A@mail.gmail.com>
+In-Reply-To: <CAHFG_=XivFRi-quuMkExT9XOt3EsJ6T9TJ5MiV7cQwCj3OuK7A@mail.gmail.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Thu, 28 Oct 2021 08:30:08 -0600
+Message-ID: <CAPnjgZ0jfpFcbC6HNbWhP8kK531ePzBro2Jn8Fi==GgcWAej6Q@mail.gmail.com>
+Subject: Re: [PATCH 00/16] fdt: Make OF_BOARD a boolean option
+To: =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92c;
+ envelope-from=sjg@google.com; helo=mail-ua1-x92c.google.com
+X-Spam_score_int: -92
+X-Spam_score: -9.3
+X-Spam_bar: ---------
+X-Spam_report: (-9.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,721 +86,427 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Liviu Dudau <Liviu.Dudau@foss.arm.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Sean Anderson <seanga2@gmail.com>,
+ Atish Patra <Atish.Patra@wdc.com>, Zong Li <zong.li@sifive.com>,
+ Stefan Roese <sr@denx.de>, Fabio Estevam <festevam@gmail.com>,
+ Rainer Boschung <rainer.boschung@hitachi-powergrids.com>,
+ Tom Rini <trini@konsulko.com>, Stephen Warren <swarren@nvidia.com>,
+ Oleksandr Andrushchenko <Oleksandr_Andrushchenko@epam.com>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>, Niel Fourie <lusus@denx.de>,
+ Michal Simek <michal.simek@xilinx.com>,
+ =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>,
+ Jerry Van Baren <vanbaren@cideas.com>, Ramon Fried <rfried.dev@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Valentin Longchamp <valentin.longchamp@hitachi-powergrids.com>,
+ Heiko Schocher <hs@denx.de>, Peter Robinson <pbrobinson@gmail.com>,
+ Sinan Akman <sinan@writeme.com>, Thomas Fitzsimmons <fitzsim@fitzsim.org>,
+ Wolfgang Denk <wd@denx.de>, Stephen Warren <swarren@wwwdotorg.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Andre Przywara <andre.przywara@arm.com>, Tim Harvey <tharvey@gateworks.com>,
+ Ashok Reddy Soma <ashok.reddy.soma@xilinx.com>, Rick Chen <rick@andestech.com>,
+ Alexander Graf <agraf@csgraf.de>, Green Wan <green.wan@sifive.com>,
+ T Karthik Reddy <t.karthik.reddy@xilinx.com>,
+ Anastasiia Lukianenko <Anastasiia_Lukianenko@epam.com>,
+ Albert Aribaud <albert.u.boot@aribaud.net>, Michal Simek <monstr@monstr.eu>,
+ Matthias Brugger <mbrugger@suse.com>, Leo <ycliang@andestech.com>,
+ Tero Kristo <kristo@kernel.org>, U-Boot Mailing List <u-boot@lists.denx.de>,
+ David Abdurachmanov <david.abdurachmanov@sifive.com>,
+ Priyanka Jain <priyanka.jain@nxp.com>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Christian Hewitt <christianshewitt@gmail.com>,
+ Aaron Williams <awilliams@marvell.com>,
+ Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
+ Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+ Tianrui Wei <tianrui-wei@outlook.com>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+ Dimitri John Ledkov <dimitri.ledkov@canonical.com>,
+ Padmarao Begari <padmarao.begari@microchip.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"meson test" starting with version 0.57 is just as capable and easy to
-use as QEMU's own TAP driver.  All existing options for "make check"
-work.  The only required code change involves how to mark "slow" tests.
+Hi Fran=C3=A7ois,
 
-The rules for .tap output are replaced by JUnit XML; GitLab is able
-to parse that output and present it in the CI pipeline report.
+On Thu, 28 Oct 2021 at 02:21, Fran=C3=A7ois Ozog <francois.ozog@linaro.org>=
+ wrote:
+>
+> Hi Simon,
+>
+> Le jeu. 28 oct. 2021 =C3=A0 04:51, Simon Glass <sjg@chromium.org> a =C3=
+=A9crit :
+>>
+>> Hi Ilias,
+>>
+>> On Tue, 26 Oct 2021 at 00:46, Ilias Apalodimas
+>> <ilias.apalodimas@linaro.org> wrote:
+>> >
+>> > Hi Simon,
+>> >
+>> > A bit late to the party, sorry!
+>>
+>> (Did you remember the beer? I am replying to this but I don't think it
+>> is all that helpful for me to reply to a lot of things on this thread,
+>> since I would not be adding much to my cover letter and patches)
+>>
+>> >
+>> > [...]
+>> >
+>> > > >
+>> > > > I really want to see what the binary case looks like since we coul=
+d then
+>> > > > kill off rpi_{3,3_b,4}_defconfig and I would need to see if we cou=
+ld
+>> > > > then also do a rpi_arm32_defconfig too.
+>> > > >
+>> > > > I want to see less device trees in U-Boot sources, if they can com=
+e
+>> > > > functionally correct from the hardware/our caller.
+>> > > >
+>> > > > And I'm not seeing how we make use of "U-Boot /config" if we also =
+don't
+>> > > > use the device tree from build time at run time, ignoring the devi=
+ce
+>> > > > tree provided to us at run time by the caller.
+>> > >
+>> > > Firstly I should say that I find building firmware very messy and
+>> > > confusing these days. Lots of things to build and it's hard to find
+>> > > the instructions. It doesn't have to be that way, but if we carry on
+>> > > as we are, it will continue to be messy and in five years you will
+>> > > need a Ph.D and a lucky charm to boot on any modern board. My
+>> > > objective here is to simplify things, bringing some consistency to t=
+he
+>> > > different components. Binman was one effort there. I feel that putti=
+ng
+>> > > at least the U-Boot house in order, in my role as devicetree
+>> > > maintainer (and as author of devicetree support in U-Boot back in
+>> > > 2011), is the next step.
+>> > >
+>> > > If we set things up correctly and agree on the bindings, devicetree
+>> > > can be the unifying configuration mechanism through the whole of
+>> > > firmware (except for very early bits) and into the OS, this will set
+>> > > us up very well to deal with the complexity that is coming.
+>> > >
+>> > > Anyway, here are the mental steps that I've gone through over the pa=
+st
+>> > > two months:
+>> > >
+>> > > Step 1: At present, some people think U-Boot is not even allowed to
+>> > > have its own nodes/properties in the DT. It is an abuse of the
+>> > > devicetree standard, like the /chosen node but with less history. We
+>> > > should sacrifice efficiency, expedience and expandability on the alt=
+ar
+>> > > of 'devicetree is a hardware description'. How do we get over that
+>> > > one? Wel, I just think we need to accept that U-Boot uses devicetree
+>> > > for its own purposes, as well as for booting the OS. I am not saying
+>> > > it always has to have those properties, but with existing features
+>> > > like verified boot, SPL as well as complex firmware images where
+>> > > U-Boot needs to be able to find things in the image, it is essential=
+.
+>> > > So let's just assume that we need this everywhere, since we certainl=
+y
+>> > > need it in at least some places.
+>> > >
+>> > > (stop reading here if you disagree, because nothing below will make
+>> > > any sense...you can still use U-Boot v2011.06 which doesn't have
+>> > > OF_CONTROL :-)
+>> >
+>> > Having U-Boot keep it's *internal* config state in DTs is fine.  Addin=
+g
+>> > that to the DTs that are copied over from linux isn't imho.  There are
+>> > various reasons for that.  First of all syncing device trees is a huge=
+ pain
+>> > and that's probably one of the main reasons our DTs are out of sync fo=
+r a
+>> > large number of boards.
+>> > The point is this was fine in 2011 were we had SPL only,  but the real=
+ity
+>> > today is completely different.  There's previous stage boot loaders (a=
+nd
+>> > enough cases were vendors prefer those over SPL).  If that bootloader =
+needs
+>> > to use it's own device tree for whatever reason,  imposing restriction=
+s on
+>> > it wrt to the device tree it has to include,  and require them to have
+>> > knowledge of U-Boot and it's internal config mechanism makes no sense =
+not
+>> > to mention it doesn't scale at all.
+>>
+>> I think the solution here may be the binman image packer. It works
+>> from a description of the image (i.e. is data-driver) and can collect
+>> all the pieces together. The U-Boot properties (and the ones required
+>> by TF-A, etc.) can be added at package time.
+>>
+>> If you think about it, it doesn't matter what properties are in the DT
+>> that is put into the firmware image. TF-A, for example, is presumably
+>> reading a devicetree from flash, so what does it care if it has some
+>> U-Boot properties in it?
+>
+>
+> I am going to change my position in all mail threads I participate.
+> I was trying to make patches relevant in the future and conceptually clea=
+n. That may not be the most effective position: I should just care about Li=
+naro and its members being able to implement SystemReady concepts.
+>
+>
+> If you mandate U-Boot has nodes in the device tree passed to the OS, we c=
+an put DT fragment in  the nt_fw_config section of the fip and merge it at =
+boot time. So there is a solution compatible with SystemReady.
+>
+> If you want to put fake, non future proof, DT sources in the dts for plat=
+forms that are organized to provide the authoritative DT to U-Boot at runti=
+me, that's kind of your choice (hopefully representing the rest of U-Boot c=
+ommunity). There will be quirk code in U-Boot to redo the adaptations on it=
+s non authoritative DT that the platform previous stage firmware does (alre=
+ady saw one in the past month); as Mark said there will be issues over time=
+; and it will confuse people about the role of the DT. But I am fine with i=
+t as it does not impair Linaro and its members ability to implement SystemR=
+eady way of handling DT.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- Makefile              |   3 +-
- meson.build           |   5 +-
- scripts/mtest2make.py | 104 ++++--------
- scripts/tap-driver.pl | 379 ------------------------------------------
- scripts/tap-merge.pl  | 111 -------------
- tests/fp/meson.build  |   2 +-
- 6 files changed, 41 insertions(+), 563 deletions(-)
- delete mode 100755 scripts/tap-driver.pl
- delete mode 100755 scripts/tap-merge.pl
+OK thank you. It doesn't sound like you are very on-board though.
+Also, you mischaracterise my intent with in-tree devicetrees.
 
-diff --git a/Makefile b/Makefile
-index 74c5b46d38..5d66c35ea5 100644
---- a/Makefile
-+++ b/Makefile
-@@ -145,7 +145,8 @@ NINJAFLAGS = $(if $V,-v) $(if $(MAKE.n), -n) $(if $(MAKE.k), -k0) \
-         $(filter-out -j, $(lastword -j1 $(filter -l% -j%, $(MAKEFLAGS)))) \
- 
- ninja-cmd-goals = $(or $(MAKECMDGOALS), all)
--ninja-cmd-goals += $(foreach t, $(.tests), $(.test.deps.$t))
-+ninja-cmd-goals += $(foreach t, $(.check.build-suites), $(.check-$t.deps))
-+ninja-cmd-goals += $(foreach t, $(.bench.build-suites), $(.bench-$t.deps))
- 
- makefile-targets := build.ninja ctags TAGS cscope dist clean uninstall
- # "ninja -t targets" also lists all prerequisites.  If build system
-diff --git a/meson.build b/meson.build
-index 2c5b53cbe2..9b59436f72 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1,8 +1,11 @@
- project('qemu', ['c'], meson_version: '>=0.58.2',
-         default_options: ['warning_level=1', 'c_std=gnu11', 'cpp_std=gnu++11', 'b_colorout=auto',
--                          'b_staticpic=false'],
-+                          'b_staticpic=false', 'stdsplit=false'],
-         version: files('VERSION'))
- 
-+add_test_setup('quick', exclude_suites: 'slow', is_default: true)
-+add_test_setup('slow', env: ['G_TEST_SLOW=1', 'SPEED=slow'])
-+
- not_found = dependency('', required: false)
- keyval = import('keyval')
- ss = import('sourceset')
-diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
-index 02c0453e67..29625ce8cc 100644
---- a/scripts/mtest2make.py
-+++ b/scripts/mtest2make.py
-@@ -13,101 +13,67 @@
- 
- class Suite(object):
-     def __init__(self):
--        self.tests = list()
--        self.slow_tests = list()
--        self.executables = set()
-+        self.deps = set()
- 
- print('''
- SPEED = quick
- 
--# $1 = environment, $2 = test command, $3 = test name, $4 = dir
--.test-human-tap = $1 $(if $4,(cd $4 && $2),$2) -m $(SPEED) < /dev/null | ./scripts/tap-driver.pl --test-name="$3" $(if $(V),,--show-failures-only)
--.test-human-exitcode = $1 $(PYTHON) scripts/test-driver.py $(if $4,-C$4) $(if $(V),--verbose) -- $2 < /dev/null
--.test-tap-tap = $1 $(if $4,(cd $4 && $2),$2) < /dev/null | sed "s/^[a-z][a-z]* [0-9]*/& $3/" || true
--.test-tap-exitcode = printf "%s\\n" 1..1 "`$1 $(if $4,(cd $4 && $2),$2) < /dev/null > /dev/null || echo "not "`ok 1 $3"
--.test.human-print = echo $(if $(V),'$1 $2','Running test $3') &&
--.test.env = MALLOC_PERTURB_=$${MALLOC_PERTURB_:-$$(( $${RANDOM:-0} % 255 + 1))}
-+.mtestargs = --no-rebuild -t 0
-+.mtestargs += $(subst -j,--num-processes , $(filter-out -j, $(lastword -j1 $(filter -j%, $(MAKEFLAGS)))))
-+ifneq ($(SPEED), quick)
-+.mtestargs += --setup $(SPEED)
-+endif
- 
--# $1 = test name, $2 = test target (human or tap)
--.test.run = $(call .test.$2-print,$(.test.env.$1),$(.test.cmd.$1),$(.test.name.$1)) $(call .test-$2-$(.test.driver.$1),$(.test.env.$1),$(.test.cmd.$1),$(.test.name.$1),$(.test.dir.$1))
--
--.test.output-format = human
-+.check.mtestargs = $(MTESTARGS) $(.mtestargs) $(if $(V),--verbose,--print-errorlogs)
-+.bench.mtestargs = $(MTESTARGS) $(.mtestargs) --benchmark --verbose
- ''')
- 
- introspect = json.load(sys.stdin)
--i = 0
- 
- def process_tests(test, targets, suites):
--    global i
--    env = ' '.join(('%s=%s' % (shlex.quote(k), shlex.quote(v))
--                    for k, v in test['env'].items()))
-     executable = test['cmd'][0]
-     try:
-         executable = os.path.relpath(executable)
-     except:
-         pass
--    if test['workdir'] is not None:
--        try:
--            test['cmd'][0] = os.path.relpath(executable, test['workdir'])
--        except:
--            test['cmd'][0] = executable
--    else:
--        test['cmd'][0] = executable
--    cmd = ' '.join((shlex.quote(x) for x in test['cmd']))
--    driver = test['protocol'] if 'protocol' in test else 'exitcode'
--
--    i += 1
--    if test['workdir'] is not None:
--        print('.test.dir.%d := %s' % (i, shlex.quote(test['workdir'])))
- 
-     deps = (targets.get(x, []) for x in test['depends'])
-     deps = itertools.chain.from_iterable(deps)
--
--    print('.test.name.%d := %s' % (i, test['name']))
--    print('.test.driver.%d := %s' % (i, driver))
--    print('.test.env.%d := $(.test.env) %s' % (i, env))
--    print('.test.cmd.%d := %s' % (i, cmd))
--    print('.test.deps.%d := %s' % (i, ' '.join(deps)))
--    print('.PHONY: run-test-%d' % (i,))
--    print('run-test-%d: $(.test.deps.%d)' % (i,i))
--    print('\t@$(call .test.run,%d,$(.test.output-format))' % (i,))
-+    deps = list(deps)
- 
-     test_suites = test['suite'] or ['default']
--    is_slow = any(s.endswith('-slow') for s in test_suites)
-     for s in test_suites:
-         # The suite name in the introspection info is "PROJECT:SUITE"
-         s = s.split(':')[1]
--        if s.endswith('-slow'):
--            s = s[:-5]
--        if is_slow:
--            suites[s].slow_tests.append(i)
--        else:
--            suites[s].tests.append(i)
--        suites[s].executables.add(executable)
-+        if s == 'slow':
-+            continue
-+        suites[s].deps.update(deps)
- 
- def emit_prolog(suites, prefix):
--    all_tap = ' '.join(('%s-report-%s.tap' % (prefix, k) for k in suites.keys()))
--    print('.PHONY: %s %s-report.tap %s' % (prefix, prefix, all_tap))
--    print('%s: run-tests' % (prefix,))
--    print('%s-report.tap %s: %s-report%%.tap: all' % (prefix, all_tap, prefix))
--    print('''\t$(MAKE) .test.output-format=tap --quiet -Otarget V=1 %s$* | ./scripts/tap-merge.pl | tee "$@" \\
--              | ./scripts/tap-driver.pl $(if $(V),, --show-failures-only)''' % (prefix, ))
-+    all_targets = ' '.join((f'{prefix}-{k}' for k in suites.keys()))
-+    all_xml = ' '.join((f'{prefix}-report-{k}.junit.xml' for k in suites.keys()))
-+    print(f'all-{prefix}-targets = {all_targets}')
-+    print(f'all-{prefix}-xml = {all_xml}')
-+    print(f'.PHONY: {prefix} do-meson-{prefix} {prefix}-report.junit.xml $(all-{prefix}-targets) $(all-{prefix}-xml)')
-+    print(f'ifeq ($(filter {prefix}, $(MAKECMDGOALS)),)')
-+    print(f'.{prefix}.mtestargs += $(foreach s,$(sort $(.{prefix}.mtest-suites)), --suite $s)')
-+    print(f'endif')
-+    print(f'{prefix}-build: run-ninja')
-+    print(f'{prefix} $(all-{prefix}-targets): do-meson-{prefix}')
-+    print(f'do-meson-{prefix}: run-ninja; $(if $(MAKE.n),,+)$(MESON) test $(.{prefix}.mtestargs)')
-+    print(f'{prefix}-report.junit.xml $(all-{prefix}-xml): {prefix}-report%.junit.xml: run-ninja')
-+    print(f'\t$(MAKE) {prefix}$* MTESTARGS="$(MTESTARGS) --logbase {prefix}-report$*" && ln -f meson-logs/$@ .')
- 
- def emit_suite(name, suite, prefix):
--    executables = ' '.join(suite.executables)
--    slow_test_numbers = ' '.join((str(x) for x in suite.slow_tests))
--    test_numbers = ' '.join((str(x) for x in suite.tests))
--    target = '%s-%s' % (prefix, name)
--    print('.test.quick.%s := %s' % (target, test_numbers))
--    print('.test.slow.%s := $(.test.quick.%s) %s' % (target, target, slow_test_numbers))
--    print('%s-build: %s' % (prefix, executables))
--    print('.PHONY: %s' % (target, ))
--    print('.PHONY: %s-report-%s.tap' % (prefix, name))
--    print('%s: run-tests' % (target, ))
--    print('ifneq ($(filter %s %s, $(MAKECMDGOALS)),)' % (target, prefix))
--    print('.tests += $(.test.$(SPEED).%s)' % (target, ))
--    print('endif')
--    print('all-%s-targets += %s' % (prefix, target))
-+    deps = ' '.join(suite.deps)
-+    targets = f'{prefix}-{name} {prefix}-report-{name}.junit.xml {prefix} {prefix}-report.junit.xml'
-+    print(f'.{prefix}-{name}.deps = {deps}')
-+    print(f'ifneq ($(filter {prefix}-build {targets}, $(MAKECMDGOALS)),)')
-+    print(f'.{prefix}.build-suites += {name}')
-+    print(f'endif')
-+    print(f'ifneq ($(filter {targets}, $(MAKECMDGOALS)),)')
-+    print(f'.{prefix}.mtest-suites += {name}')
-+    print(f'endif')
- 
- targets = {t['id']: [os.path.relpath(f) for f in t['filename']]
-            for t in introspect['targets']}
-@@ -125,5 +91,3 @@ def emit_suite(name, suite, prefix):
- emit_prolog(benchsuites, 'bench')
- for name, suite in benchsuites.items():
-     emit_suite(name, suite, 'bench')
--
--print('run-tests: $(patsubst %, run-test-%, $(.tests))')
-diff --git a/scripts/tap-driver.pl b/scripts/tap-driver.pl
-deleted file mode 100755
-index b1d3880c50..0000000000
---- a/scripts/tap-driver.pl
-+++ /dev/null
-@@ -1,379 +0,0 @@
--#! /usr/bin/env perl
--# Copyright (C) 2011-2013 Free Software Foundation, Inc.
--# Copyright (C) 2018 Red Hat, Inc.
--#
--# This program is free software; you can redistribute it and/or modify
--# it under the terms of the GNU General Public License as published by
--# the Free Software Foundation; either version 2, or (at your option)
--# any later version.
--#
--# This program is distributed in the hope that it will be useful,
--# but WITHOUT ANY WARRANTY; without even the implied warranty of
--# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--# GNU General Public License for more details.
--#
--# You should have received a copy of the GNU General Public License
--# along with this program.  If not, see <https://www.gnu.org/licenses/>.
--
--# As a special exception to the GNU General Public License, if you
--# distribute this file as part of a program that contains a
--# configuration script generated by Autoconf, you may include it under
--# the same distribution terms that you use for the rest of that program.
--
--# ---------------------------------- #
--#  Imports, static data, and setup.  #
--# ---------------------------------- #
--
--use warnings FATAL => 'all';
--use strict;
--use Getopt::Long ();
--use TAP::Parser;
--use Term::ANSIColor qw(:constants);
--
--my $ME = "tap-driver.pl";
--my $VERSION = "2018-11-30";
--
--my $USAGE = <<'END';
--Usage:
--  tap-driver [--test-name=TEST] [--color={always|never|auto}]
--             [--verbose] [--show-failures-only]
--END
--
--my $HELP = "$ME: TAP-aware test driver for QEMU testsuite harness." .
--           "\n" . $USAGE;
--
--# It's important that NO_PLAN evaluates "false" as a boolean.
--use constant NO_PLAN => 0;
--use constant EARLY_PLAN => 1;
--use constant LATE_PLAN => 2;
--
--use constant DIAG_STRING => "#";
--
--# ------------------- #
--#  Global variables.  #
--# ------------------- #
--
--my $testno = 0;     # Number of test results seen so far.
--my $bailed_out = 0; # Whether a "Bail out!" directive has been seen.
--my $failed = 0;     # Final exit code
--
--# Whether the TAP plan has been seen or not, and if yes, which kind
--# it is ("early" is seen before any test result, "late" otherwise).
--my $plan_seen = NO_PLAN;
--
--# ----------------- #
--#  Option parsing.  #
--# ----------------- #
--
--my %cfg = (
--  "color" => 0,
--  "verbose" => 0,
--  "show-failures-only" => 0,
--);
--
--my $color = "auto";
--my $test_name = undef;
--
--# Perl's Getopt::Long allows options to take optional arguments after a space.
--# Prevent --color by itself from consuming other arguments
--foreach (@ARGV) {
--  if ($_ eq "--color" || $_ eq "-color") {
--    $_ = "--color=$color";
--  }
--}
--
--Getopt::Long::GetOptions
--  (
--    'help' => sub { print $HELP; exit 0; },
--    'version' => sub { print "$ME $VERSION\n"; exit 0; },
--    'test-name=s' => \$test_name,
--    'color=s'  => \$color,
--    'show-failures-only' => sub { $cfg{"show-failures-only"} = 1; },
--    'verbose' => sub { $cfg{"verbose"} = 1; },
--  ) or exit 1;
--
--if ($color =~ /^always$/i) {
--  $cfg{'color'} = 1;
--} elsif ($color =~ /^never$/i) {
--  $cfg{'color'} = 0;
--} elsif ($color =~ /^auto$/i) {
--  $cfg{'color'} = (-t STDOUT);
--} else {
--  die "Invalid color mode: $color\n";
--}
--
--# ------------- #
--#  Prototypes.  #
--# ------------- #
--
--sub colored ($$);
--sub decorate_result ($);
--sub extract_tap_comment ($);
--sub handle_tap_bailout ($);
--sub handle_tap_plan ($);
--sub handle_tap_result ($);
--sub is_null_string ($);
--sub main ();
--sub report ($;$);
--sub stringify_result_obj ($);
--sub testsuite_error ($);
--
--# -------------- #
--#  Subroutines.  #
--# -------------- #
--
--# If the given string is undefined or empty, return true, otherwise
--# return false.  This function is useful to avoid pitfalls like:
--#   if ($message) { print "$message\n"; }
--# which wouldn't print anything if $message is the literal "0".
--sub is_null_string ($)
--{
--  my $str = shift;
--  return ! (defined $str and length $str);
--}
--
--sub stringify_result_obj ($)
--{
--  my $result_obj = shift;
--  if ($result_obj->is_unplanned || $result_obj->number != $testno)
--    {
--      return "ERROR";
--    }
--  elsif ($plan_seen == LATE_PLAN)
--    {
--      return "ERROR";
--    }
--  elsif (!$result_obj->directive)
--    {
--      return $result_obj->is_ok ? "PASS" : "FAIL";
--    }
--  elsif ($result_obj->has_todo)
--    {
--      return $result_obj->is_actual_ok ? "XPASS" : "XFAIL";
--    }
--  elsif ($result_obj->has_skip)
--    {
--      return $result_obj->is_ok ? "SKIP" : "FAIL";
--    }
--  die "$ME: INTERNAL ERROR"; # NOTREACHED
--}
--
--sub colored ($$)
--{
--  my ($color_string, $text) = @_;
--  return $color_string . $text . RESET;
--}
--
--sub decorate_result ($)
--{
--  my $result = shift;
--  return $result unless $cfg{"color"};
--  my %color_for_result =
--    (
--      "ERROR" => BOLD.MAGENTA,
--      "PASS"  => GREEN,
--      "XPASS" => BOLD.YELLOW,
--      "FAIL"  => BOLD.RED,
--      "XFAIL" => YELLOW,
--      "SKIP"  => BLUE,
--    );
--  if (my $color = $color_for_result{$result})
--    {
--      return colored ($color, $result);
--    }
--  else
--    {
--      return $result; # Don't colorize unknown stuff.
--    }
--}
--
--sub report ($;$)
--{
--  my ($msg, $result, $explanation) = (undef, @_);
--  if ($result =~ /^(?:X?(?:PASS|FAIL)|SKIP|ERROR)/)
--    {
--      # Output on console might be colorized.
--      $msg = decorate_result($result);
--      if ($result =~ /^(?:PASS|XFAIL|SKIP)/)
--        {
--          return if $cfg{"show-failures-only"};
--        }
--      else
--        {
--          $failed = 1;
--        }
--    }
--  elsif ($result eq "#")
--    {
--      $msg = "  ";
--    }
--  else
--    {
--      die "$ME: INTERNAL ERROR"; # NOTREACHED
--    }
--  $msg .= " $explanation" if defined $explanation;
--  print $msg . "\n";
--}
--
--sub testsuite_error ($)
--{
--  report "ERROR", "$test_name - $_[0]";
--}
--
--sub handle_tap_result ($)
--{
--  $testno++;
--  my $result_obj = shift;
--
--  my $test_result = stringify_result_obj $result_obj;
--  my $string = $result_obj->number;
--
--  my $description = $result_obj->description;
--  $string .= " $test_name" unless is_null_string $test_name;
--  $string .= " $description" unless is_null_string $description;
--
--  if ($plan_seen == LATE_PLAN)
--    {
--      $string .= " # AFTER LATE PLAN";
--    }
--  elsif ($result_obj->is_unplanned)
--    {
--      $string .= " # UNPLANNED";
--    }
--  elsif ($result_obj->number != $testno)
--    {
--      $string .= " # OUT-OF-ORDER (expecting $testno)";
--    }
--  elsif (my $directive = $result_obj->directive)
--    {
--      $string .= " # $directive";
--      my $explanation = $result_obj->explanation;
--      $string .= " $explanation"
--        unless is_null_string $explanation;
--    }
--
--  report $test_result, $string;
--}
--
--sub handle_tap_plan ($)
--{
--  my $plan = shift;
--  if ($plan_seen)
--    {
--      # Error, only one plan per stream is acceptable.
--      testsuite_error "multiple test plans";
--      return;
--    }
--  # The TAP plan can come before or after *all* the TAP results; we speak
--  # respectively of an "early" or a "late" plan.  If we see the plan line
--  # after at least one TAP result has been seen, assume we have a late
--  # plan; in this case, any further test result seen after the plan will
--  # be flagged as an error.
--  $plan_seen = ($testno >= 1 ? LATE_PLAN : EARLY_PLAN);
--  # If $testno > 0, we have an error ("too many tests run") that will be
--  # automatically dealt with later, so don't worry about it here.  If
--  # $plan_seen is true, we have an error due to a repeated plan, and that
--  # has already been dealt with above.  Otherwise, we have a valid "plan
--  # with SKIP" specification, and should report it as a particular kind
--  # of SKIP result.
--  if ($plan->directive && $testno == 0)
--    {
--      my $explanation = is_null_string ($plan->explanation) ?
--                        undef : "- " . $plan->explanation;
--      report "SKIP", $explanation;
--    }
--}
--
--sub handle_tap_bailout ($)
--{
--  my ($bailout, $msg) = ($_[0], "Bail out!");
--  $bailed_out = 1;
--  $msg .= " " . $bailout->explanation
--    unless is_null_string $bailout->explanation;
--  testsuite_error $msg;
--}
--
--sub extract_tap_comment ($)
--{
--  my $line = shift;
--  if (index ($line, DIAG_STRING) == 0)
--    {
--      # Strip leading `DIAG_STRING' from `$line'.
--      $line = substr ($line, length (DIAG_STRING));
--      # And strip any leading and trailing whitespace left.
--      $line =~ s/(?:^\s*|\s*$)//g;
--      # Return what is left (if any).
--      return $line;
--    }
--  return "";
--}
--
--sub main ()
--{
--  my $iterator = TAP::Parser::Iterator::Stream->new(\*STDIN);
--  my $parser = TAP::Parser->new ({iterator => $iterator });
--
--  STDOUT->autoflush(1);
--  while (defined (my $cur = $parser->next))
--    {
--      # Parsing of TAP input should stop after a "Bail out!" directive.
--      next if $bailed_out;
--
--      if ($cur->is_plan)
--        {
--          handle_tap_plan ($cur);
--        }
--      elsif ($cur->is_test)
--        {
--          handle_tap_result ($cur);
--        }
--      elsif ($cur->is_bailout)
--        {
--          handle_tap_bailout ($cur);
--        }
--      elsif ($cfg{"verbose"})
--        {
--          my $comment = extract_tap_comment ($cur->raw);
--          report "#", "$comment" if length $comment;
--       }
--    }
--  # A "Bail out!" directive should cause us to ignore any following TAP
--  # error.
--  if (!$bailed_out)
--    {
--      if (!$plan_seen)
--        {
--          testsuite_error "missing test plan";
--        }
--      elsif ($parser->tests_planned != $parser->tests_run)
--        {
--          my ($planned, $run) = ($parser->tests_planned, $parser->tests_run);
--          my $bad_amount = $run > $planned ? "many" : "few";
--          testsuite_error (sprintf "too %s tests run (expected %d, got %d)",
--                                   $bad_amount, $planned, $run);
--        }
--    }
--}
--
--# ----------- #
--#  Main code. #
--# ----------- #
--
--main;
--exit($failed);
--
--# Local Variables:
--# perl-indent-level: 2
--# perl-continued-statement-offset: 2
--# perl-continued-brace-offset: 0
--# perl-brace-offset: 0
--# perl-brace-imaginary-offset: 0
--# perl-label-offset: -2
--# cperl-indent-level: 2
--# cperl-brace-offset: 0
--# cperl-continued-brace-offset: 0
--# cperl-label-offset: -2
--# cperl-extra-newline-before-brace: t
--# cperl-merge-trailing-else: nil
--# cperl-continued-statement-offset: 2
--# End:
-diff --git a/scripts/tap-merge.pl b/scripts/tap-merge.pl
-deleted file mode 100755
-index 10ccf57bb2..0000000000
---- a/scripts/tap-merge.pl
-+++ /dev/null
-@@ -1,111 +0,0 @@
--#! /usr/bin/env perl
--# Copyright (C) 2018 Red Hat, Inc.
--#
--# Author: Paolo Bonzini <pbonzini@redhat.com>
--#
--# This program is free software; you can redistribute it and/or modify
--# it under the terms of the GNU General Public License as published by
--# the Free Software Foundation; either version 2, or (at your option)
--# any later version.
--#
--# This program is distributed in the hope that it will be useful,
--# but WITHOUT ANY WARRANTY; without even the implied warranty of
--# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--# GNU General Public License for more details.
--#
--# You should have received a copy of the GNU General Public License
--# along with this program.  If not, see <https://www.gnu.org/licenses/>.
--
--# ---------------------------------- #
--#  Imports, static data, and setup.  #
--# ---------------------------------- #
--
--use warnings FATAL => 'all';
--use strict;
--use Getopt::Long ();
--use TAP::Parser;
--
--my $ME = "tap-merge.pl";
--my $VERSION = "2018-11-30";
--
--my $HELP = "$ME: merge multiple TAP inputs from stdin.";
--
--use constant DIAG_STRING => "#";
--
--# ----------------- #
--#  Option parsing.  #
--# ----------------- #
--
--Getopt::Long::GetOptions
--  (
--    'help' => sub { print $HELP; exit 0; },
--    'version' => sub { print "$ME $VERSION\n"; exit 0; },
--  );
--
--# -------------- #
--#  Subroutines.  #
--# -------------- #
--
--sub main ()
--{
--  my $iterator = TAP::Parser::Iterator::Stream->new(\*STDIN);
--  my $parser = TAP::Parser->new ({iterator => $iterator });
--  my $testno = 0;     # Number of test results seen so far.
--  my $bailed_out = 0; # Whether a "Bail out!" directive has been seen.
--
--  STDOUT->autoflush(1);
--  while (defined (my $cur = $parser->next))
--    {
--      if ($cur->is_bailout)
--        {
--          $bailed_out = 1;
--          print DIAG_STRING . " " . $cur->as_string . "\n";
--          next;
--        }
--      elsif ($cur->is_plan)
--        {
--          $bailed_out = 0;
--          next;
--        }
--      elsif ($cur->is_test)
--        {
--          $bailed_out = 0 if $cur->number == 1;
--          $testno++;
--          $cur = TAP::Parser::Result::Test->new({
--                          ok => $cur->ok,
--                          test_num => $testno,
--                          directive => $cur->directive,
--                          explanation => $cur->explanation,
--                          description => $cur->description
--                  });
--        }
--      elsif ($cur->is_version)
--        {
--          next if $testno > 0;
--        }
--      print $cur->as_string . "\n" unless $bailed_out;
--    }
--  print "1..$testno\n";
--}
--
--# ----------- #
--#  Main code. #
--# ----------- #
--
--main;
--
--# Local Variables:
--# perl-indent-level: 2
--# perl-continued-statement-offset: 2
--# perl-continued-brace-offset: 0
--# perl-brace-offset: 0
--# perl-brace-imaginary-offset: 0
--# perl-label-offset: -2
--# cperl-indent-level: 2
--# cperl-brace-offset: 0
--# cperl-continued-brace-offset: 0
--# cperl-label-offset: -2
--# cperl-extra-newline-before-brace: t
--# cperl-merge-trailing-else: nil
--# cperl-continued-statement-offset: 2
--# End:
-diff --git a/tests/fp/meson.build b/tests/fp/meson.build
-index 07e2cdc8d2..32d57031fc 100644
---- a/tests/fp/meson.build
-+++ b/tests/fp/meson.build
-@@ -622,7 +622,7 @@ test('fp-test-mulAdd', fptest,
-      # no fptest_rounding_args
-      args: fptest_args +
-            ['f16_mulAdd', 'f32_mulAdd', 'f64_mulAdd', 'f128_mulAdd'],
--     suite: ['softfloat-slow', 'softfloat-ops-slow'], timeout: 90)
-+     suite: ['softfloat', 'softfloat-ops', 'slow'], timeout: 90)
- 
- fpbench = executable(
-   'fp-bench',
--- 
-2.31.1
+I would be happy enough for now if you could accept that U-Boot has
+nodes/properties of its own in the devicetree. It has been a feature
+of U-Boot for 10 years now.
 
+Regards,
+Simon
+
+
+>
+>>
+>>
+>> As to syncing, we have solved this using u-boot.dtsi files in U-Boot,
+>> so I think this can be dealt with.
+>>
+>> >
+>> > >
+>> > > Step 2: Assume U-Boot has its own nodes/properties. How do they get
+>> > > there? Well, we have u-boot.dtsi files for that (the 2016 patch
+>> > > "6d427c6b1fa binman: Automatically include a U-Boot .dtsi file"), we
+>> > > have binman definitions, etc. So we need a way to overlay those thin=
+gs
+>> > > into the DT. We already support this for in-tree DTs, so IMO this is
+>> > > easy. Just require every board to have an in-tree DT. It helps with
+>> > > discoverability and documentation, anyway. That is this series.
+>> > >
+>> >
+>> > Again, the board might decide for it's own reason to provide it's own =
+DT.
+>> > IMHO U-Boot must be able to cope with that and asking DTs to be includ=
+ed in
+>> > U-Boot source is not the right way to do that,  not to mention cases w=
+ere
+>> > that's completely unrealistic (e.g QEMU or a board that reads the DTB =
+from
+>> > it's flash).
+>>
+>> I think you are at step 2. See above for my response.
+>>
+>> >
+>> > > (I think most of us are at the beginning of step 2, unsure about it
+>> > > and worried about step 3)
+>> > >
+>> > > Step 3: Ah, but there are flows (i.e. boards that use a particular
+>> > > flow only, or boards that sometimes use a flow) which need the DT to
+>> > > come from a prior stage. How to handle that? IMO that is only going =
+to
+>> > > grow as every man and his dog get into the write-a-bootloader
+>> > > business.
+>> >
+>> > And that's exactly why we have to come up with something that scales, =
+ without
+>> > having to add a bunch of unusable DTs in U-Boot.
+>>
+>> In what way does this not scale? How are the DTs unusable? If there is
+>> a standard binding, we should be fine.
+>>
+>> >
+>> > > We need a way to provide the U-Boot nodes/properties in a
+>> > > form that the prior stage can consume and integrate with its build
+>> > > system. Is TF-A the only thing being discussed here? If so, let's ju=
+st
+>> > > do it. We have the u-boot.dtsi and we can use binman to put the imag=
+e
+>> > > together, for example. Or we can get clever and create some sort of
+>> > > overlay dtb.
+>> > >
+>> > > Step 3a. But I don't want to do that. a) If U-Boot needs this stuff
+>> > > then it will need to build it in and use two devicetrees, one intern=
+al
+>> > > and one from the prior stage....well that is not very efficient and =
+it
+>> > > is going to be confusing for people to figure out what U-Boot is
+>> > > actually doing. But we actually already do that in a lot of cases
+>> > > where U-Boot passes a DT to the kernel which is different to the one
+>> > > it uses. So perhaps we have three devicetrees? OMG.
+>> >
+>> > No we don't. That's a moot point. If you separate the DTs U-Boot
+>> > provides the internal one and inherits one 'generic'.  Linux will be a=
+ble to use
+>> > that.  So the only case were you'll need 3 DTs is if the *vendor* brea=
+ks the
+>> > DT across kernel versions,  In which case there's not much you can do =
+to
+>> > begin with and that's already a case we have to deal with.
+>>
+>> Linux actually doesn't care if the U-Boot properties are in the tree,
+>> so long as we have proper bindings. My point here is we only need
+>> either:
+>>
+>> a. one devicetree, shared with Linux and U-Boot (and TF-A?)
+>> b. two devicetrees, one for use in firmware and one for passing to Linux
+>>
+>> We don't need to separate out the U-Boot properties into a second (or
+>> third) devicetree. There just isn't any point.
+>>
+>> >
+>> > > b) Well then
+>> > > U-Boot can have its own small devicetree with its bits and then U-Bo=
+ot
+>> > > can merge the two when it starts. Again that is not very efficient. =
+It
+>> > > means that U-Boot cannot be controlled by the prior stage (e.g. to g=
+et
+>> > > its public key from there or to enable/disable the console), so
+>> > > unified firmware config is not possible. It will get very confusing,
+>> > > particularly for debugging U-Boot. c) Some other scheme to avoid
+>> > > accepting step 3...please stop!
+>> > >
+>> > > Step 4: Yes, but there is QEMU, which makes the devicetree up out of
+>> > > whole cloth. What about that? Well, we are just going to have to dea=
+l
+>> > > with that. We can easily merge in the U-Boot nodes/properties and
+>> > > update the U-Boot CI scripts to do this, as needed, e.g. with
+>> > > qemu-riscv64_spl. It's only one use case, although Xen might do
+>> > > something similar.
+>> > >
+>> > > To my mind, that deals with both the build-time and run-time issues.
+>> > > We have a discoverable DT in U-Boot, which should be considered the
+>> > > source of truth for most boards. We can sync it with Linux
+>> > > automatically with the tooling that I hope Rob Herring will come up
+>> > > with. We can use an empty one where there really is no default,
+>> > > although I'd argue that is making perfect an enemy of the good.
+>> > >
+>> > > Step 5: If we get clever and want to remove them from the U-Boot tre=
+e
+>> > > and pick them up from somewhere else, we can do that with sufficient
+>> > > tooling. Perhaps we should set a timeline for that? A year? Two? Six=
+?
+>> >
+>> > We can start slowly migrating boards and see how that works out.
+>> > We could either use 2 device trees as you proposed, or have u-boot mer=
+ge
+>> > the 'u-boot' DTB and the inherited DTB before DM comes up.  OTOH I'd p=
+refer
+>> > if linux gets handed a clean device tree without the u-boot internals =
+in
+>> > it, so I think 2 discrete DTs is cleaner overall.
+>>
+>> I know you would prefer that, but does it really matter in practice?
+>> What is the objection, actually?
+>>
+>> As I mentioned on the call, I think the prior stage should do any
+>> merging or fixing up. Trying to do that sort of thing in 'early' code
+>> in U-Boot (or any other program, including Linux) is such a pain. With
+>> U-Boot, for example, we don't even have any RAM available to do it
+>> with half the time and it would dramatically increase the amount of
+>> memory needed prior to relocation. It just isn't a very good idea to
+>> try to do this in early code. It is also completely unnecessary, once
+>> you get past the philosophical objections.
+>>
+>> If TF-A wants to be in the picture, let it deal with the implications
+>> and responsibility thus incurred. TF-A has no right to tell U-Boot how
+>> to handle its config. TF-A is 0.5m LOC, i.e. a lot, almost a quarter
+>> of the size of U-Boot. It duplicates loads of things in there. No one
+>> will even *notice* an FDT merge function, which is actually only 70
+>> LOC:
+>>
+>> /**
+>>  * overlay_apply_node - Merges a node into the base device tree
+>>  * @fdt: Base Device Tree blob
+>>  * @target: Node offset in the base device tree to apply the fragment to
+>>  * @fdto: Device tree overlay blob
+>>  * @node: Node offset in the overlay holding the changes to merge
+>>  *
+>>  * overlay_apply_node() merges a node into a target base device tree
+>>  * node pointed.
+>>  *
+>>  * This is part of the final step in the device tree overlay
+>>  * application process, when all the phandles have been adjusted and
+>>  * resolved and you just have to merge overlay into the base device
+>>  * tree.
+>>  *
+>>  * returns:
+>>  *      0 on success
+>>  *      Negative error code on failure
+>>  */
+>> static int overlay_apply_node(void *fdt, int target,
+>>                void *fdto, int node)
+>> {
+>>    int property;
+>>    int subnode;
+>>
+>>    fdt_for_each_property_offset(property, fdto, node) {
+>>       const char *name;
+>>       const void *prop;
+>>       int prop_len;
+>>       int ret;
+>>
+>>       prop =3D fdt_getprop_by_offset(fdto, property, &name,
+>>                     &prop_len);
+>>       if (prop_len =3D=3D -FDT_ERR_NOTFOUND)
+>>          return -FDT_ERR_INTERNAL;
+>>       if (prop_len < 0)
+>>          return prop_len;
+>>
+>>       ret =3D fdt_setprop(fdt, target, name, prop, prop_len);
+>>       if (ret)
+>>          return ret;
+>>    }
+>>
+>>    fdt_for_each_subnode(subnode, fdto, node) {
+>>       const char *name =3D fdt_get_name(fdto, subnode, NULL);
+>>       int nnode;
+>>       int ret;
+>>
+>>       nnode =3D fdt_add_subnode(fdt, target, name);
+>>       if (nnode =3D=3D -FDT_ERR_EXISTS) {
+>>          nnode =3D fdt_subnode_offset(fdt, target, name);
+>>          if (nnode =3D=3D -FDT_ERR_NOTFOUND)
+>>             return -FDT_ERR_INTERNAL;
+>>       }
+>>
+>>       if (nnode < 0)
+>>          return nnode;
+>>
+>>       ret =3D overlay_apply_node(fdt, nnode, fdto, subnode);
+>>       if (ret)
+>>          return ret;
+>>    }
+>>
+>>    return 0;
+>>
+>>
+>>
+>> }
+>>
+>>
+>> >
+>> > Regards
+>> > /Ilias
+>> > >
+>> > > To repeat, if we set things up correctly and agree on the bindings,
+>> > > devicetree can be the unifying configuration mechanism through the
+>> > > whole of firmware (except for very early bits) and into the OS. I fe=
+el
+>> > > this will set us up very well to deal with the complexity that is
+>> > > coming.
+>> > >
+>>
+>> Regards,
+>> Simon
 
