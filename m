@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B607743E3C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 16:31:52 +0200 (CEST)
-Received: from localhost ([::1]:49158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E0143E3DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 16:35:56 +0200 (CEST)
+Received: from localhost ([::1]:55764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg6Rb-0005Ul-Jr
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 10:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58240)
+	id 1mg6VX-0001kE-Hg
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 10:35:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mg6OP-0003kQ-Pv
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:28:33 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:42576)
+ id 1mg6OS-0003lS-7U
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:28:36 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:45812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mg6ON-0005Nd-S2
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:28:33 -0400
-Received: by mail-ed1-x531.google.com with SMTP id w15so25749312edc.9
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 07:28:30 -0700 (PDT)
+ id 1mg6OQ-0005O0-FN
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:28:35 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id m17so24538345edc.12
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 07:28:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ahJyQ0o7VPVxset9iOqDSqY0Bgm/wDs5Bp78QciNB8Q=;
- b=HVrpa27sw1i9Yhqd2UN2ypt4myNxokIdkuyPTJoTMknaVfT42E0jNJ0PElW3nNCuqw
- KmDzLIHw2L6Gis/LNkauNdNon5T2zl6ISVZunbNrnepqB2Phe3e7teqF/5mJNhbYIIDn
- ktP5p6SCFHRy4bWEsNhYLspioa7wwwUUKei7EWUEOPWmb2NznFa1sppjcGJCEgGkOluo
- l6inYk0xEIaQLb4+ULe2pZ5EjCSZ01FGLH0b/tyA+BpIYlRuevSXPo9qe1V5AJSyKXUl
- ONQ4Y63yXyJLRIXsuPX0XtZeSLhs7+zF6rMuTtqY+Ry3W///pVpi1+YyNe9hsMP/Vp5e
- jKLA==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=6qfx6HM/Y3HMQHUhWaDf+0QWkNIBVJGDZ1UAk6w8sKI=;
+ b=Xl4qoTGakpm4xqVOlmXAu71YLS/uJJwlp2XxH+XIvcWCFSjq1pwTJT49F1xhB/r/3k
+ Pxc66KoDtO4Mi0N4Cim75w9DwXsSN8ECU1oXvaDVvs2eqFeSZrLjjYRfSrTUzMv08c3X
+ vUulswErKuMv26iTHk4kkPHbE1/xv5AB83F20w+6q1iXlY7NPg52PVCL7+WOanopJ6zU
+ 3MhQT5yNNWor+eR8zn2h/kFISPvTutHscwy0uBcaUkLo0yZ/t+oZCDwmMvXMwwH1/qOn
+ ++O3hWttvvDlWMcULKJfOED/GFRzkqNkUpqshg2uOKxkM7VD5tKwBgjMAoi4gIu5naGc
+ LEug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=ahJyQ0o7VPVxset9iOqDSqY0Bgm/wDs5Bp78QciNB8Q=;
- b=3tX5bcwTfqHCB8Bx9WMSfM2VM9M4tuSjtC7rg3RWmZsdTPeSzXx7BbTvQ8g/8dZz2z
- eceeOZoDK6N4NVhdbARjjWkVnAgIZiu3nwGGDaO+LWKNcXGIBVs3w6bozZAA0o+SkJKW
- Bdmfq0aLtiIUG/rs6M4S0QSh13NxsUmAVT2tV7Q904G+OK5TPWDDZo2kEU9EewH1RR52
- PZ86ij9g1gEU10O/zACSSGJ7anUhhfzDkgnXe779nrKxZQEM4yzpKKXky6NdTcAVQJRk
- iiblS7S3EqoMptsg3AypybNP+LcttdpLppALUkm4Q9dsV1vlk+QawQUiETBNVFHoZ+pS
- Al+w==
-X-Gm-Message-State: AOAM531tbgscRJr16qmmb6UcVUBO+xg+SKXmfetibjicwwo+RVumz7Su
- HNBbYPApj8nswGEfJjrX+LgwR0E2K44=
-X-Google-Smtp-Source: ABdhPJx4M0UOG4v06rQDiOWWo4ddxWBayREuftQegRkK3JvnabQ9/VI/5PD9dnOGJkoi/ptzoMztMg==
-X-Received: by 2002:a17:906:fa03:: with SMTP id
- lo3mr5807727ejb.210.1635431308744; 
- Thu, 28 Oct 2021 07:28:28 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=6qfx6HM/Y3HMQHUhWaDf+0QWkNIBVJGDZ1UAk6w8sKI=;
+ b=k/U/+sAaZjD9V7SOKftgtsvL/LH743Ss+8x16yZ46K2tznZ0eg7RBy11pQuQYRP5jv
+ 6eUf1ybzDjlAlsSx7FaVUC6yArat29S8qhEyP16PKFVTTh5j0oI/V5D/dS1+pw7MmnBR
+ 7Jy+Pr2Cv61TRFDINExbTKtt1H99az7z6Q785MJ4wFtR8xQgTyCQ9InD3c6DtZBQIAHR
+ v59MJO9Y99bkysQu7OrGdOqH6Y61W/F/yTBBFLGoPlnphqVJgubE/N0IOY1IT6qkf+bP
+ /eYCY0VBfioU4sgxFEZZz3BVrcMkt1tOCtvBWqk9VJ3/j40tiofTWxxK67V6wl4MjNES
+ LpUw==
+X-Gm-Message-State: AOAM532xzoykmTj3xeW8xZGJDRFfLGbfvG7oJGAWA3RR/wLCmZe+fUlo
+ wF3CpJiUdNGWgK6FiorDW5MHsBHPGzI=
+X-Google-Smtp-Source: ABdhPJyF7jaqbLKIKrdJnPKoW5NHqyHRAZma9UOqpCZD12yOhv3zHxFov4tsU+Tv15rgreiUPXpgGg==
+X-Received: by 2002:a50:f087:: with SMTP id v7mr6480031edl.126.1635431309414; 
+ Thu, 28 Oct 2021 07:28:29 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id q23sm1517201ejr.0.2021.10.28.07.28.27
+ by smtp.gmail.com with ESMTPSA id q23sm1517201ejr.0.2021.10.28.07.28.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Oct 2021 07:28:28 -0700 (PDT)
+ Thu, 28 Oct 2021 07:28:29 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Replace custom test harness with "meson test"
-Date: Thu, 28 Oct 2021 16:28:24 +0200
-Message-Id: <20211028142826.57327-1-pbonzini@redhat.com>
+Subject: [PATCH 1/2] meson: bump submodule to 0.59.3
+Date: Thu, 28 Oct 2021 16:28:25 +0200
+Message-Id: <20211028142826.57327-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211028142826.57327-1-pbonzini@redhat.com>
+References: <20211028142826.57327-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,67 +87,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+This gains some bugfixes, especially:
 
-Starting with Meson 0.57, "meson test" has all features of QEMU's
-makefile-based harness and more.  In particular, some features that
-were added to reach feature parity are:
+- it fixes the introspection of array options.  While technically we
+still support Meson 0.58.2, this issue only appears when adding a new
+option and not if the user is just building QEMU.  In the relatively
+rare case of a contributor using --meson to point to a 0.58 version,
+review can catch spurious changes to scripts/meson-buildoptions.sh
+easily.
 
-* print reproducer command line for each failed test right below the test
+- it fixes "meson test" when it is not the process group leader.  Make is
+the process group leader when "make check" invokes "meson test", so this
+is a requirement for using it as a test harness.
 
-* keep the output of multiple (non-TAP) tests together in verbose mode,
-  similar to "make --output-sync target"
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure                     |  2 +-
+ meson                         |  2 +-
+ scripts/meson-buildoptions.py | 16 ----------------
+ 3 files changed, 2 insertions(+), 18 deletions(-)
 
-* report on TAP subtests as they are encountered
-
-It also includes nicer handling of test interruption, logging of the run
-in the meson-logs/ subdirectory, and a progress report/spinner.  For
-these reasons it would be nice to adopt it and remove the Perl scripts
-that we have to present TAP output nicely.  It is also possible to
-change qemu-iotests to TAP and describe it in tests/qemu-iotests/meson.build,
-but this is left for later.
-
-For people using "make check" there should be little or no change.
-Otherwise:
-
-* if you want to try "meson test", note that there could be timeouts on
-  slower systems (and in particular OpenBSD is insanely slow on some
-  tests).  Also if you use "meson test", note that CTRL+C will only
-  interrupt the longest running test.  Pressing CTRL+C repeatedly three
-  times (which you would likely do anyway, that's how humans work)
-  interrupts the whole run.  This behavior does not apply to "make check".
-
-* If you were using make check-report.tap and similar, they are replaced
-  by targets like make check-report.junit.xml.  This is because Gitlab
-  is able to parse the resulting XML and include on the website a report
-  of which tests failed.
-
-An example of non-verbose "make check" output is available at
-https://gitlab.com/bonzini/qemu/-/jobs/1680980620.  A verbose run
-instead is like https://asciinema.org/a/e5irnEszSnAheOHM30exbo3F6
-(does not include check-block).
-
-Paolo
-
-RFC->v1:
-- include submodule bump to 0.59.3
-- do not include check-block part
-
-Paolo Bonzini (2):
-  meson: bump submodule to 0.59.3
-  build: use "meson test" as the test harness
-
- Makefile                      |   3 +-
- configure                     |   2 +-
- meson                         |   2 +-
- meson.build                   |   5 +-
- scripts/meson-buildoptions.py |  16 --
- scripts/mtest2make.py         | 104 ++++--------
- scripts/tap-driver.pl         | 379 ------------------------------------------
- scripts/tap-merge.pl          | 111 -------------
- tests/fp/meson.build          |   2 +-
- 9 files changed, 43 insertions(+), 581 deletions(-)
+diff --git a/configure b/configure
+index c0018a304f..73af9a7b30 100755
+--- a/configure
++++ b/configure
+@@ -1500,7 +1500,7 @@ python_version=$($python -c 'import sys; print("%d.%d.%d" % (sys.version_info[0]
+ python="$python -B"
+ 
+ if test -z "$meson"; then
+-    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.59.2; then
++    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.59.3; then
+         meson=meson
+     elif test $git_submodules_action != 'ignore' ; then
+         meson=git
+diff --git a/meson b/meson
+index b25d94e7c7..12f9f04ba0 160000
+--- a/meson
++++ b/meson
+@@ -1 +1 @@
+-Subproject commit b25d94e7c77fda05a7fdfe8afe562cf9760d69da
++Subproject commit 12f9f04ba0decfda425dbbf9a501084c153a2d18
+diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.py
+index 256523c09d..96969d89ee 100755
+--- a/scripts/meson-buildoptions.py
++++ b/scripts/meson-buildoptions.py
+@@ -150,23 +150,7 @@ def print_parse(options):
+     print("}")
+ 
+ 
+-def fixup_options(options):
+-    # Meson <= 0.60 does not include the choices in array options, fix that up
+-    for opt in options:
+-        if opt["name"] == "trace_backends":
+-            opt["choices"] = [
+-                "dtrace",
+-                "ftrace",
+-                "log",
+-                "nop",
+-                "simple",
+-                "syslog",
+-                "ust",
+-            ]
+-
+-
+ options = load_options(json.load(sys.stdin))
+-fixup_options(options)
+ print("# This file is generated by meson-buildoptions.py, do not edit!")
+ print_help(options)
+ print_parse(options)
 -- 
 2.31.1
+
 
 
