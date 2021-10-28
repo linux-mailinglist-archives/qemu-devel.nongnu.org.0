@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A2FB43DF26
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 12:44:06 +0200 (CEST)
-Received: from localhost ([::1]:53508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB95043DF8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 12:54:46 +0200 (CEST)
+Received: from localhost ([::1]:45176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg2tB-0006gs-5O
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 06:44:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58360)
+	id 1mg33V-0003bT-K6
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 06:54:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mg2jh-0001GW-FH
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 06:34:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29390)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mg2ll-0003E0-C6
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 06:36:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mg2jd-00047a-QE
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 06:34:16 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mg2lj-0004RD-80
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 06:36:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635417251;
+ s=mimecast20190719; t=1635417382;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tZ/rbhc1wpzfAV8rZcugxR5UQ5u31IEJ7MW5DYWYX98=;
- b=XblajDRUWExDONL1Rw3GV4fOqQGj4jrvSyZOOCzAqBOCo/DbcAy/sPgNRfCku/trvU4HeG
- 9Pgsdx6KY/R3GQNcB+Cvsn43ujmLt16juZAn1JTyBhhnNrsagbjLR2Kn9s3O+jjvDgrLfB
- 1r9Ym5aSgsw00xmS8f7gMvvWhd09Muc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-2gsADVI5OoqBOnL92f2fIw-1; Thu, 28 Oct 2021 06:34:09 -0400
-X-MC-Unique: 2gsADVI5OoqBOnL92f2fIw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- i2-20020adfefc2000000b001709de9b770so1993097wrp.16
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 03:34:09 -0700 (PDT)
+ bh=usLIF5d//usagb1ggSffy4b5UHt+oXepfyekjt37p50=;
+ b=iJ8IylUjleWQYMoveMYdLkLbbz4/nwXBwpL5/gV9nMoUn17D9Xy6hxyIKFNXdpPLR7wrTR
+ 7Fkrv3s8CpqZWhSfek8OmL8khb5AvhA5VxONXB821uRgfStp8d8dbIim6XMHWo4ligQU/0
+ 2AgenMj58hY/zGDOF9C6qqOYOSOr5zM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-4hXpPMh0P52jSdkKjbLuqg-1; Thu, 28 Oct 2021 06:36:21 -0400
+X-MC-Unique: 4hXpPMh0P52jSdkKjbLuqg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ u14-20020a05600c19ce00b0030d8549d49aso2605891wmq.0
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 03:36:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=tZ/rbhc1wpzfAV8rZcugxR5UQ5u31IEJ7MW5DYWYX98=;
- b=rC0tb8N7dP7SDByA3pFPx4hK1VNs6K8ie4+Vx0cEeP9FjuxrISHlYQxBRoL7/cxTsT
- ls27ilIfUeLfJPdKkG6fBBJP5pDW68l64UNAdduRDf+FpU5F3cVmYCMs28WXj0h2g6g6
- V6WdFgd1Efm6gJNF9fOa/PNh2bfj0H3jtt2tU7RajjASpOI8GBTNMVD1SiHZLCh9xhJz
- UYEYeQ7rf32Y5tb8DF79dav1kKHRt6dec2qBIp/OZV8fPmgvDFdKVOgmJ01wxFJYS5tk
- XudKUZ5f0RCe/nXfs8AJzuNSDCtB+ZtfV+qUaDX+yGNqws5TwUigYuKta1+Gdf+1KGs2
- nxew==
-X-Gm-Message-State: AOAM531AUB4KwL8bX5GmlbaHqJ3Wof3iBcefcHMBkC5fQ1iZ0GkA5/8U
- y03aWWxwIaaV+DcUXY8mInawxHf8Ja69YgG3ymVsnQreAdG5DT0LKneKAUpw6tIaL+qg9ieHnmw
- u+VloDvKHn76wH3A=
-X-Received: by 2002:a7b:c103:: with SMTP id w3mr11513640wmi.179.1635417248075; 
- Thu, 28 Oct 2021 03:34:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyMwD+t3BRJ8kGlIqtccDmwF7AFJLPcwEqMFA0QvIYZMl82yng9c8sKnY1B0KLmmiIw9PN0+Q==
-X-Received: by 2002:a7b:c103:: with SMTP id w3mr11513609wmi.179.1635417247715; 
- Thu, 28 Oct 2021 03:34:07 -0700 (PDT)
+ bh=usLIF5d//usagb1ggSffy4b5UHt+oXepfyekjt37p50=;
+ b=ezQ1vvA0ihHP1SfDoYHle49bJTjZLY2m72DCaSYZQ5s13gklaYzfNHo/6JKI2dX9G2
+ 5c1nx04onX0XhTWSyVZWNOKHqhb/aR54xfSYcyFhP2J85kkAeRsSFE3PiMRTx4rV/K0R
+ 1gxI5JL6FI85gU2YfhePea3KgxXIsLYbogp/IshbTD3dQm1bw2V0Qol6n0Z7nD4aD8Nz
+ 01mEUG2DVd46P8jduVYlKwVeuyr1kFjKW4FwBBLymE4+oz4bomUeJCCHTJVxb6TSEk1k
+ 3ZpZrSMaraH5SQz/q8Ew8tK6cCG0So1RrMcslyFBwuV1Svxwgft9wKF2O9C+J0M/C5/G
+ A91g==
+X-Gm-Message-State: AOAM530pfa4KjB3hHHY8ZXPD+hDCQbTcfLraZkzxsz5JxUb7QrYKxR2Z
+ FfRtzrZohMB8iI3wC6F79pqEfnGrM+zARRkzvwj6PUe85R5h5+PKaBkLvioTRJlh7ry2gdosHBo
+ Ys0cMl3WehZNOMxk=
+X-Received: by 2002:a1c:7e87:: with SMTP id z129mr3517227wmc.75.1635417379551; 
+ Thu, 28 Oct 2021 03:36:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxT19q53ZvutqKDE22xZa37vCshaolFGADzYqsmRz5HsKrf1Csc/8DbFeoFjlBFpakDbxQryA==
+X-Received: by 2002:a1c:7e87:: with SMTP id z129mr3517209wmc.75.1635417379312; 
+ Thu, 28 Oct 2021 03:36:19 -0700 (PDT)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id l2sm6804635wmi.1.2021.10.28.03.34.07
+ by smtp.gmail.com with ESMTPSA id c17sm2639789wrv.22.2021.10.28.03.36.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Oct 2021 03:34:07 -0700 (PDT)
-Message-ID: <f9dd697b-02ef-7f67-32ff-595e9f2d9457@redhat.com>
-Date: Thu, 28 Oct 2021 12:34:06 +0200
+ Thu, 28 Oct 2021 03:36:19 -0700 (PDT)
+Message-ID: <b7e07e35-fccb-4662-5528-fbf91368ba56@redhat.com>
+Date: Thu, 28 Oct 2021 12:36:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v2 11/15] iotests: split linters.py out from 297
+Subject: Re: [PATCH v2 12/15] iotests/linters: Add entry point for linting via
+ Python CI
 To: John Snow <jsnow@redhat.com>
 References: <20211019144918.3159078-1-jsnow@redhat.com>
- <20211019144918.3159078-12-jsnow@redhat.com>
- <ebded478-63ee-a2d2-7b90-d6d6926d9291@redhat.com>
- <CAFn=p-agMGtbryADMxgiG5OLFSXyZd+Zf9YrJyyyRVXgN2UGgA@mail.gmail.com>
+ <20211019144918.3159078-13-jsnow@redhat.com>
+ <df8bd300-1d04-7df8-7916-8b004766d173@redhat.com>
+ <CAFn=p-ZrKaxnefmOJZRxt718jcSAe3TqeJAUch3DOaEne92cwg@mail.gmail.com>
+ <CAFn=p-Z-4UYQJ+fLpwYUkLQoPwJGGuwS3tszs=6x2tCy0NgkoA@mail.gmail.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <CAFn=p-agMGtbryADMxgiG5OLFSXyZd+Zf9YrJyyyRVXgN2UGgA@mail.gmail.com>
+In-Reply-To: <CAFn=p-Z-4UYQJ+fLpwYUkLQoPwJGGuwS3tszs=6x2tCy0NgkoA@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,15 +81,15 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.847,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.847, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,129 +108,76 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.10.21 20:30, John Snow wrote:
+On 26.10.21 21:45, John Snow wrote:
 >
 >
-> On Tue, Oct 26, 2021 at 6:51 AM Hanna Reitz <hreitz@redhat.com> wrote:
->
->     On 19.10.21 16:49, John Snow wrote:
->     > Now, 297 is just the iotests-specific incantations and
->     linters.py is as
->     > minimal as I can think to make it. The only remaining element in
->     here
->     > that ought to be configuration and not code is the list of skip
->     files,
->     > but they're still numerous enough that repeating them for mypy and
->     > pylint configurations both would be ... a hassle.
->     >
->     > Signed-off-by: John Snow <jsnow@redhat.com>
->     > ---
->     >   tests/qemu-iotests/297        | 72
->     +++++----------------------------
->     >   tests/qemu-iotests/linters.py | 76
->     +++++++++++++++++++++++++++++++++++
->     >   2 files changed, 87 insertions(+), 61 deletions(-)
->     >   create mode 100644 tests/qemu-iotests/linters.py
->
->     Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+> On Tue, Oct 26, 2021 at 2:36 PM John Snow <jsnow@redhat.com> wrote:
 >
 >
-> Thanks!
 >
->     I wonder about `check_linter()`, though.  By not moving it to
->     linters.py, we can’t use it in its entry point, and so the Python
->     test
->     infrastructure will have a strong dependency on these linters. Though
->     then again, it probably already does, and I suppose that’s one of the
->     points hindering us from running this from make check?
+>     On Tue, Oct 26, 2021 at 6:57 AM Hanna Reitz <hreitz@redhat.com> wrote:
+>
+>         On 19.10.21 16:49, John Snow wrote:
+>         > We need at least a tiny little shim here to join test file
+>         discovery
+>         > with test invocation. This logic could conceivably be hosted
+>         somewhere
+>         > in python/, but I felt it was strictly the least-rude thing
+>         to keep the
+>         > test logic here in iotests/, even if this small function
+>         isn't itself an
+>         > iotest.
+>         >
+>         > Note that we don't actually even need the executable bit
+>         here, we'll be
+>         > relying on the ability to run this module as a script using
+>         Python CLI
+>         > arguments. No chance it gets misunderstood as an actual
+>         iotest that way.
+>         >
+>         > (It's named, not in tests/, doesn't have the execute bit,
+>         and doesn't
+>         > have an execution shebang.)
+>         >
+>         > Signed-off-by: John Snow <jsnow@redhat.com>
+>         > ---
+>         >   tests/qemu-iotests/linters.py | 27 +++++++++++++++++++++++++++
+>         >   1 file changed, 27 insertions(+)
+>
+>         Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 >
 >
-> That one is left behind because it uses iotests API to skip a test. 
-> Environment setup that guarantees we won't *need* to skip the test is 
-> handled by the virtual environment setup magic in qemu/python/Makefile.
+>     Thanks! I'll endeavor to try and clean up the list of exempted
+>     files to continue cleaning up this mess, but it's not a top
+>     priority right now. I'll put it on the backburner after I finish
+>     typing the QAPI generator. A lot of the weird compatibility goop
+>     will go away over time as I consolidate more of the venv logic.
 >
->     Hanna
+>     (I think this series is good to go, now? I think it could be
+>     applied in any order vs my other series. If you want, if/when you
+>     give the go-ahead for the other series, I could just stage them
+>     both myself and make sure they work well together and save you the
+>     headache.)
 >
 >
-> More info than you require:
+> Update: I pre-emptively staged both series (the iotests one first, 
+> followed by the AQMP one) to jsnow/python and verified that all of the 
+> python tests pass for each commit between:
 >
-> There's maybe about four ways you could run the python tests that 
-> might make sense depending on who you are and what you're trying to 
-> accomplish; they're documented in "make help" and again in 
-> qemu/python/README.rst;
+> [14] python-add-iotest-linters-to   # python: Add iotest linters to 
+> test suite
+> ...
+> [22] python-iotests-replace-qmp     # python, iotests: replace qmp 
+> with aqmp
 >
-> (1) make check-dev -- makes a venv with whatever python you happen to 
-> have, installs the latest packages, runs the tests
-> (2) make check-pipenv -- requires python 3.6 specifically, installs 
-> the *oldest* packages, runs the tests
-> (3) make check-tox -- requires python 3.6 through 3.10, installs the 
-> newest packages, runs the tests per each python version
-> (4) make check -- perform no setup at all, just run the tests in the 
-> current environment. (Used directly by all three prior invocations)
+> and I'm running the CI on all of that now at 
+> https://gitlab.com/jsnow/qemu/-/pipelines/396002744
+>
+> (I just wanted to double-check they didn't conflict with each other in 
+> any unanticipated ways. Let me know if I should send the PR or if 
+> that'll just create hassle for you.)
 
-AFAIU these are all to be run in build/python?  Isn’t any of them hooked 
-up to the global `make check` in build?  Because...
-
-> In general, I assume that human beings that aren't working on Python 
-> stuff actively will be using (1) at their interactive console, if they 
-> decide to run any of these at all.
-
-...I’m just running `make check` in the build directory.
-
-I would have hoped that this is hooked up to something that won’t fail 
-because I don’t have some necessary tools installed or perhaps even 
-because I have the wrong version of some tools installed (although the 
-latter would be kind of questionable...).  Would be nice if the global 
-`make check` had a summary on what was skipped...
-
-> It imposes the least pre-requirements while still endeavoring to be a 
-> target that will "just work".
-> Options (2) and (3) are what power the CI tests 'check-python-pipenv' 
-> and 'check-python-tox', respectively; with(2) being the one that 
-> actually gates the CI.
-> Option (4) is only really a convenience for bypassing the venv-setup 
-> stuff if you want to construct your own (or not use one at all). So 
-> the tests just assume that the tools they have available will work. 
-> It's kind of a 'power user' target.
->
-> The way the CI works at the moment is that it uses a "fedora:latest" 
-> base image and installs python interpreters 3.6 through 3.10 
-> inclusive, pipenv, and tox. From there, it has enough juice to run the 
-> makefile targets which take care of all of the actual linting 
-> dependencies and their different versions to get a wider matrix on the 
-> version testing to ensure we're still keeping compatibility with the 
-> 3.6 platform while also checking for new problems that show up on the 
-> bleeding edge.
-
-Perhaps it’s unreasonable, but I’d prefer if a local `make check` would 
-already run most tests in some form or another and that I don’t have to 
-push to gitlab and wait for the CI there.
-
-I mean, I can of course also integrate a `cd python && make check-dev` 
-invocation into my test scripts, but it doesn’t feel right to 
-special-case one test area.
-
-> iotests 297 right now doesn't do any python environment setup at all, 
-> so we can't guarantee that the linters are present, so we decide to 
-> allow the test to be skipped. My big hesitation of adding this test 
-> directly into 'make check' is that I will need to do some environment 
-> probing to make sure that the 'pylint' version isn't too old -- or 
-> otherwise set up a venv in the build directory that can be used to run 
-> tests. I know we already set one up for the acceptance tests, so maybe 
-> there's an opportunity to re-use that venv, but I need to make sure 
-> that the dependencies between the two sets of tests are aligned. I 
-> don't know if they agree, currently.
-
-I see.
-
-> I think I probably want to minimize the number of different virtual 
-> python environments we create during the build, so I will look into 
-> what problems might exist in re-purposing the acceptance test venv. If 
-> that can get squared away easily, there's likely no real big barrier 
-> to adding more tests that rely on a python venv to get cooking during 
-> the normal build/check process, including iotest 297.
-
-OK, thanks for the explanation!
+No, I’m all good with you taking (the blame for) them. :)
 
 Hanna
 
