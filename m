@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3D543E79C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 19:59:06 +0200 (CEST)
-Received: from localhost ([::1]:60362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4457B43E7F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 20:03:17 +0200 (CEST)
+Received: from localhost ([::1]:36874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg9g9-0004mi-7E
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 13:59:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51286)
+	id 1mg9kB-00082s-CL
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 14:03:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mg9eP-0002jk-Ri
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 13:57:18 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:35755)
+ id 1mg9h3-0006xD-6l
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 14:00:01 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:36470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mg9eL-0003Mz-6m
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 13:57:17 -0400
-Received: by mail-pf1-x433.google.com with SMTP id l203so6732032pfd.2
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 10:57:12 -0700 (PDT)
+ id 1mg9h0-0003kL-W5
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 14:00:00 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id m26so6734359pff.3
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 10:59:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DaNu3bX4bE0t3vBLSD6sgEgQIXEaqDei4TVhavXzD88=;
- b=kDem403eNo4fhmUHMNj0axXHUi/Pr40UMEHpjcKKY8AHWYIgAeXcc1JL3jD9gbSCAm
- az9mmyzQY++bz0G+rOowm5Bg11gKlyFdl85eRPJOz5PPdlnHR9gYBecTlJfsmpTIR8ay
- DbzuDSINXSetgvgmxPEAbneuXfr5YO7mAQp+5cC3THuIedIm5XrrmdRQ/+JAJ8J7SGI7
- IgR0QXFuXzDJoSLVbJ09+a+asGfx/uD1m9HfCl9gqSvOrh0b6GWE6Y5uEOZSHa1CeFUr
- +vK1brt5fRmzLuoDI6zETJmSQzt7y37n3v8aylE9hJxP2ULkvMJMJO50HGG69pC856oY
- BdFQ==
+ bh=vzru+Ul7oQKPRnL9dRhiftIZ4OdXGapraNifo8F/Qrg=;
+ b=Zgh/6rHhDdqwChZY7htGz8Wpp5zcS5n28MQyrAA4BxUaMQcKje0TZXnxsF3cG939K5
+ fZMrM16bWTeoM9oov89ZZTSZ8vSnkMK81WEd83JNIdO4FXDEU7v6bDghNOpLgYv99ZXy
+ IZHNevEfaDd/pn6ZNH4Vn/0mkbRiRs9T6eT/2rR6vRViW1bOu5PsahxvJTIA0+Hvpx0M
+ AsaEyNWaaUJmMsih0WAJf1ONXegdwPl4lQGFv6ngbtnr+fR6090mO/eMJHy7d2K5A/uW
+ 4sukrZ7fPKRVxdVJQ7HTlbYvFOz72GmHM/LdqRyU09PU6nPEKc09SVm05G4GWrOze/P3
+ CiQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DaNu3bX4bE0t3vBLSD6sgEgQIXEaqDei4TVhavXzD88=;
- b=nJOw01ERnqODPRGYQzSfl626KBY17saQesCx/u4hhRc/BGee9KCo6yvTVWT8pJiFP7
- 8Fa8vUJ5Ed7+9MvGoD44WXjydZQNWuu1TN1RPyCllVhspsQ+KxUpnA/Yaiq885I0CAU0
- cipnrkc9b5TPDx1TO/WjqjUyGbVDGqi23VXaO1q3ICXvi79yi/mPbtvykepW+NKznYYX
- U6ekOWzRRWiAbyXHWrxFInulxuqjZknd4QTgPd+Bq+GMdseLelKOEL33hVwaK5qKPCJd
- HOcYtKXk7+m5Sj3x6zlNRD4rc6amQF4nO2N7wriorQwg6+2WtAfn4bd5wnSo/nNnH19O
- TaLw==
-X-Gm-Message-State: AOAM533dBCuhxAZxFEQnLxNUe1tqygRMW2evdC6gi6bkBs3BCWrxiAJC
- SLSkgah0cWHpUJOSkXlIMGDKp6XeQ2ZK5w==
-X-Google-Smtp-Source: ABdhPJxo6Qc2Kim1+/lao16ZOoKIJTQA8u8ao2nT5kf5pOMN6rZg4wUUJDGhc/Vk+ZfclaqaeNq3ZQ==
-X-Received: by 2002:a05:6a00:148c:b0:47c:1776:3599 with SMTP id
- v12-20020a056a00148c00b0047c17763599mr5817527pfu.32.1635443831132; 
- Thu, 28 Oct 2021 10:57:11 -0700 (PDT)
+ bh=vzru+Ul7oQKPRnL9dRhiftIZ4OdXGapraNifo8F/Qrg=;
+ b=GBBTR4SSZjoQDfFQjMe4cMC8n36vh9i3X/YBWjgH/+a0JsaycHN4D+9ba8BjgRHLMG
+ iCHuXPrYjBSv27KtTx+un30PDEnVFx8LuW+Yl2hcH2VFORShGHGhc9gajQOA3ynvdEky
+ DlZDdnjNRYG1z2Xh3Y1Fnxjz+k0qAL8l12BaiU3zovj1nKwmG2nPFqM3qukzJdbgiWAs
+ Nn/MpGOgASgjYz2x0eHXHJlAQ0RaPsduCVtJ8qO+zvF7Hyp4XVskQEFciIrrOYrHlqXB
+ aiknLDh9vIXHCK9fg9V7jVsmZ2Ji+UjylJz8quQ2YndvYUrdBONuOfkP7AUUQlktPIQV
+ DJ6A==
+X-Gm-Message-State: AOAM533LT/DBzCQZmvTWu9sQUiRoLArgallrUinrrIYX+sgtYgThrbce
+ H+w974HzUYdxy5p0qs5erSz+ug==
+X-Google-Smtp-Source: ABdhPJwWn2aqZ5gpLSa3yMxRl2eT88iBSRwRIQBRq5JMfMLqwRvcOAy4HPnmYCSEusgawSQ4UDEMWw==
+X-Received: by 2002:aa7:924d:0:b0:47b:d390:da8d with SMTP id
+ 13-20020aa7924d000000b0047bd390da8dmr5851588pfp.15.1635443997462; 
+ Thu, 28 Oct 2021 10:59:57 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id f203sm4110741pfa.112.2021.10.28.10.57.10
+ by smtp.gmail.com with ESMTPSA id x5sm4654105pfh.153.2021.10.28.10.59.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Oct 2021 10:57:10 -0700 (PDT)
-Subject: Re: [PATCH 22/24] bsd-user/arm/target_arch_signal.h: arm set_mcontext
+ Thu, 28 Oct 2021 10:59:56 -0700 (PDT)
+Subject: Re: [PATCH 23/24] bsd-user/arm/target_arch_signal.h: arm
+ get_ucontext_sigreturn
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-23-imp@bsdimp.com>
+ <20211019164447.16359-24-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9c25d8f0-3cf9-4449-4244-72bc3a90529c@linaro.org>
-Date: Thu, 28 Oct 2021 10:57:08 -0700
+Message-ID: <2cd05217-d8c8-329e-ec4f-bbec1c5174f5@linaro.org>
+Date: Thu, 28 Oct 2021 10:59:54 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211019164447.16359-23-imp@bsdimp.com>
+In-Reply-To: <20211019164447.16359-24-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -48
 X-Spam_score: -4.9
 X-Spam_bar: ----
 X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.847,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,17 +89,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Klye Evans <kevans@FreeBSD.org>,
+Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@freebsd.org>,
  Michael Tokarev <mjt@tls.msk.ru>, Stacey Son <sson@FreeBSD.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/19/21 9:44 AM, Warner Losh wrote:
-> +    cpsr = tswap32(gr[TARGET_REG_CPSR]);
-> +    cpsr_write(regs, cpsr, CPSR_USER | CPSR_EXEC, CPSRWriteByInstr);
+> +/* Compare to arm/arm/machdep.c sys_sigreturn() */
+> +static inline abi_long get_ucontext_sigreturn(CPUARMState *regs,
+> +        abi_ulong target_sf, abi_ulong *target_uc)
+> +{
+> +    uint32_t cpsr = cpsr_read(regs);
+> +
+> +    *target_uc = 0;
+> +
+> +    if ((cpsr & CPSR_M) != ARM_CPU_MODE_USR ||
+> +            (cpsr & (CPSR_I | CPSR_F)) != 0) {
+> +        return -TARGET_EINVAL;
+> +    }
+> +
+> +    *target_uc = target_sf;
+> +
+> +    return 0;
+> +}
 
-The kernel's set_mcontext validates CPSR_{M,I,F}.
+Since you've not yet filled in signal.c, I can't opine too much, but I'll note that the 
+kernel has this check in set_mcontext, and sys_sigreturn defers to that for the validation.
+
+So I think this can just be the final assignment.
 
 
 r~
