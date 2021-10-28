@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE80C43E638
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 18:37:48 +0200 (CEST)
-Received: from localhost ([::1]:59544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA7643E67B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 18:47:01 +0200 (CEST)
+Received: from localhost ([::1]:53346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg8PR-00018B-QS
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 12:37:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55468)
+	id 1mg8YO-0007gi-GO
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 12:47:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mg80H-00066C-9r
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 12:11:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41759)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mg82v-0001kJ-2z
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 12:14:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30228)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mg80D-00077U-NH
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 12:11:44 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mg82t-0008An-Lr
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 12:14:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635437501;
+ s=mimecast20190719; t=1635437666;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Zcq4YFOVWM/kGcsh4L98hR6lUc6fwt/lRiMrM7IyWBU=;
- b=LgEAlKBa77xo3BlCT6uwyALoBcXogWTSUi4elXNNnFk1sSL8K9Insj11j/7z8j0jAnQSqU
- swOvvLFW7Y0k3PbYfnkz52nQpR7GijgNOKzLnV07okZrsWOKDkqqTy/UWggi2WfjQWm3n5
- xiZXXSeIaUX1GEV1NEy8xelISJ7ZB/c=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-4xN0_kYfMmeqFeqYsTU19A-1; Thu, 28 Oct 2021 12:11:38 -0400
-X-MC-Unique: 4xN0_kYfMmeqFeqYsTU19A-1
-Received: by mail-oo1-f70.google.com with SMTP id
- g11-20020a4a924b000000b002b76277c71bso2900475ooh.22
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 09:11:38 -0700 (PDT)
+ bh=vNRAhs+lX0diImmZK92mWw2v0/NdAbv4AL9MjgxyK3o=;
+ b=iVBoL6+PG8C1TL9IVzPeM/xs7RdxwKFu8wDFO0Vhl+nqU1TVQdzGC60XvJe5w7fYwkQ8rc
+ E1DqCdEaA9os8Tx9im3qKQPQHIdl3ferBqRKD8BejOKep0MnMLzXB+a/7Q2zEYGTMUagS5
+ RdtP5IJhwOmhvcn15q89pv/5zHpyepg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-23-i4bFU1xzNAqQ4dkI1vadrw-1; Thu, 28 Oct 2021 12:14:24 -0400
+X-MC-Unique: i4bFU1xzNAqQ4dkI1vadrw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 67-20020a1c0046000000b0032cd88916e5so915699wma.6
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 09:14:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Zcq4YFOVWM/kGcsh4L98hR6lUc6fwt/lRiMrM7IyWBU=;
- b=FoALKqNF7GSs1qLED8fx2wYXcySvPHWDSP/jifXiMQYZHioVIjw5NUsDIKWRkr11CT
- hjFaTnrt0GJHi3PN9EYbSu2Zs61Dm0AfQijfh6rDcnvL9monfiE3aUsi+sIKPU9Km48/
- w4+99WTNFrWRiPbd/pgLVU0lR7fQ7ZRCN60iex/58kWKpcGy9PevxYAi4QnIIfSUR+2N
- r01zzuO1npo8xM5pHaKinArkd/cp/Z13ZMAMg7zr9KUTuL7q141Cp39KrBZrPlN90Y9a
- FmH0S5Dz+hcHX5iezDiUnIy4RR8fwMRLX6szM2W0S3vxqxsNSDJFaRVcsfdy96fUylRt
- TNyg==
-X-Gm-Message-State: AOAM531PDFmAinfvLsho2Z4Ftjh6z55umhezf7GkojUVDa88Leqaj1Ww
- ldT9OntABWsTWKQhgDwVmq+mRTSteAzmDKD8BMhfIqYVJmiCmVd0MqRFCPkMzlrWpm5UrPlWvMg
- LfJnEnTyB4sQD1gA=
-X-Received: by 2002:aca:606:: with SMTP id 6mr3865359oig.82.1635437497572;
- Thu, 28 Oct 2021 09:11:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyKksyD9U5/pbdsloURINgjV509to/REhTGI7bPDAtInSt0OOBA8CRiJAOzg+3T1a5qmYOUVA==
-X-Received: by 2002:aca:606:: with SMTP id 6mr3865318oig.82.1635437497263;
- Thu, 28 Oct 2021 09:11:37 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239])
- by smtp.gmail.com with ESMTPSA id bp21sm1230693oib.31.2021.10.28.09.11.36
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=vNRAhs+lX0diImmZK92mWw2v0/NdAbv4AL9MjgxyK3o=;
+ b=q53KLM6WnZ33EOrn6qPtLNz31TOAC3f1NYasP2hDr3GRLqej5r0dsdxwv9kKYKSAYh
+ HGOP+he6g+3V703QjffzaIkTdYQnJvWcFo/D8qHxgfhYiKwVjL3ubkUzHsmbsu3V65ly
+ zSLH607+XpmBlWSteNR91MxeoPIRFYEOS4cqQ4FIUswEUrgEbUryX/R3g2eL9hAGvFI0
+ paKGmjOt6/IDE6gIOFfK2Znm2/ZXLnNNXX2L1alja+ZFZCQ3UmjI5uJfC4t5weWhv9rY
+ qaIMevlMfKmBGXt7j0iM1vjY32HrN4l2wLi8zhP2e14+bUK1ErphnxfXX5vvRabAv+SJ
+ 1vZA==
+X-Gm-Message-State: AOAM533rVAl7ELzzIEcuGDT95CiHdmDmyW0C73bZxjYfzuWidJYhW52g
+ uKkk1wBrXJW/Zk1L2kNSyXS8z0CEI/RrAQ/3ixeWTZ8ZkAov4RrPArHE/75Ow1iXdd1+nVSS3cY
+ FbcaCCWoHU4qC6Rg=
+X-Received: by 2002:a05:600c:19d0:: with SMTP id
+ u16mr5462352wmq.154.1635437662750; 
+ Thu, 28 Oct 2021 09:14:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0WhYU9stJjwAPIi09WoQE+ANRxNqsA3pjm9ugZIaLqvKxGX9iHDDYefxvLtCgTspqlj8nZA==
+X-Received: by 2002:a05:600c:19d0:: with SMTP id
+ u16mr5462299wmq.154.1635437662386; 
+ Thu, 28 Oct 2021 09:14:22 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id m3sm3373063wrx.52.2021.10.28.09.14.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Oct 2021 09:11:36 -0700 (PDT)
-Date: Thu, 28 Oct 2021 10:11:35 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v2 5/5] pc/q35: Add pre-plug hook for x86-iommu
-Message-ID: <20211028101135.72672e80.alex.williamson@redhat.com>
-In-Reply-To: <YXrDgeembpIiJ0BE@xz-m1.local>
-References: <20211028043129.38871-1-peterx@redhat.com>
- <20211028043129.38871-6-peterx@redhat.com>
- <20211028085242.770a9dde.alex.williamson@redhat.com>
- <YXrDgeembpIiJ0BE@xz-m1.local>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ Thu, 28 Oct 2021 09:14:21 -0700 (PDT)
+Date: Thu, 28 Oct 2021 17:14:19 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v4 05/22] docs/devel: update error handling guidance for
+ HMP commands
+Message-ID: <YXrMW3WysIJqFg5N@work-vm>
+References: <20211028155457.967291-1-berrange@redhat.com>
+ <20211028155457.967291-6-berrange@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20211028155457.967291-6-berrange@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -99,108 +102,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Michael Roth <michael.roth@amd.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Oct 2021 23:36:33 +0800
-Peter Xu <peterx@redhat.com> wrote:
-
-> On Thu, Oct 28, 2021 at 08:52:42AM -0600, Alex Williamson wrote:
-> > > +void x86_iommu_pre_plug(X86IOMMUState *iommu, Error **errp)
-> > > +{
-> > > +    bool ambiguous = false;
-> > > +    Object *object;
-> > > +
-> > > +    object = object_resolve_path_type("", TYPE_VFIO_PCI, &ambiguous);
-> > > +    if (object || ambiguous) {
-> > > +        /* There're one or more vfio-pci devices detected */
-> > > +        error_setg(errp, "Please specify all the vfio-pci devices to be after "
-> > > +                   "the vIOMMU device");
-> > > +    }  
-> > 
-> > I still really don't buy the argument that vfio-pci is the only driver
-> > that does "this thing", therefore we can just look for vfio-pci devices
-> > by name rather than try to generically detect devices that have this
-> > dependency.  That seems short sighted.
-> > 
-> > I've already suggested that pci-core could record on the PCIDevice
-> > structure if the device address space has been accessed.  We could also
-> > do something like create a TYPE_PCI_AS_DEVICE class derived from
-> > TYPE_PCI_DEVICE and any PCI drivers that make use of the device address
-> > space before machine-init-done would be of this class.  That could even
-> > be enforced by pci_device_iommu_address_space() and would allow the
-> > same sort of object resolution as used here.  Thanks,  
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> Best practice is to use the 'hmp_handle_error' function, not
+> 'monitor_printf' or 'error_report_err'. This ensures that the
+> message always gets an 'Error: ' prefix, distinguishing it
+> from normal command output.
 > 
-> Sorry Alex, I didn't receive any follow up so I thought you were fine with it.
-> 
-> I was always fine with either way, though I think another parent class would be
-> an overkill just for this.  Would you think below acceptable?
-> 
-> ---8<---
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 5cdf1d4298..2156b5d3ed 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -3266,6 +3266,7 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
->      pdc->exit = vfio_exitfn;
->      pdc->config_read = vfio_pci_read_config;
->      pdc->config_write = vfio_pci_write_config;
-> +    pdc->require_consolidated_iommu_as = true;
->  }
-> 
->  static const TypeInfo vfio_pci_dev_info = {
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 6813f128e0..ffddc766ba 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -239,6 +239,14 @@ struct PCIDeviceClass {
->       */
->      bool is_bridge;
-> 
-> +    /*
-> +     * Set this to true when a pci device needs consolidated result from the
-> +     * pci_device_iommu_address_space() in its realize() fn.  This also means
-> +     * when specified in cmdline, this "-device" parameter needs to be put
-> +     * before the vIOMMU devices so as to make it work.
-> +     */
-> +    bool require_consolidated_iommu_as;
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Maybe this is where the naming of the previous attempt along these lines
-didn't work.  There's no "consolidation" requirement and the IOMMU is
-only related in that it is a driver that provides new address spaces
-for devices.  This is why I thought we might be able to make it
-automatic if pci_device_iommu_address_space() records that the address
-space for a device has been consumed.
+Yes OK; but that is potentially discouraging people from adding helpful
+errors; certainly I'd want them to add text if they were calling
+multiple qmp functions, so you knew what failed.
 
-What we're trying to describe is that the address space object for a
-device must be fixed at the time the device is realized.  Along those
-lines, maybe a better name is something like "required_fixed_as_obj".
 
-> +
->      /* rom bar */
->      const char *romfile;
->  };
-> ---8<---
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+>  docs/devel/writing-monitor-commands.rst | 19 +++++++------------
+>  1 file changed, 7 insertions(+), 12 deletions(-)
 > 
-> Then I'll need to pick the dropped patch back on pci scanning, since then I
-> won't be able to use object_resolve_path_type() anymore, and I'll need to check
-> up PCIDeviceClass instead.
-
-Better.  Like the class layering proposal, a downside is that the
-driver needs to be aware that it's imposing this requirement to be able
-to mark it in the class init function rather than some automatic means,
-like an "as_object_consumed" flag set automatically on the device
-structure via accessors like pci_device_iommu_address_space().  Thanks,
-
-Alex
+> diff --git a/docs/devel/writing-monitor-commands.rst b/docs/devel/writing-monitor-commands.rst
+> index a973c48f66..a381b52024 100644
+> --- a/docs/devel/writing-monitor-commands.rst
+> +++ b/docs/devel/writing-monitor-commands.rst
+> @@ -293,9 +293,7 @@ Here's the implementation of the "hello-world" HMP command::
+>       Error *err = NULL;
+>  
+>       qmp_hello_world(!!message, message, &err);
+> -     if (err) {
+> -         monitor_printf(mon, "%s\n", error_get_pretty(err));
+> -         error_free(err);
+> +     if (hmp_handle_error(mon, err)) {
+>           return;
+>       }
+>   }
+> @@ -307,9 +305,10 @@ There are three important points to be noticed:
+>  1. The "mon" and "qdict" arguments are mandatory for all HMP functions. The
+>     former is the monitor object. The latter is how the monitor passes
+>     arguments entered by the user to the command implementation
+> -2. hmp_hello_world() performs error checking. In this example we just print
+> -   the error description to the user, but we could do more, like taking
+> -   different actions depending on the error qmp_hello_world() returns
+> +2. hmp_hello_world() performs error checking. In this example we just call
+> +   hmp_handle_error() which prints a message to the user, but we could do
+> +   more, like taking different actions depending on the error
+> +   qmp_hello_world() returns
+>  3. The "err" variable must be initialized to NULL before performing the
+>     QMP call
+>  
+> @@ -466,9 +465,7 @@ Here's the HMP counterpart of the query-alarm-clock command::
+>       Error *err = NULL;
+>  
+>       clock = qmp_query_alarm_clock(&err);
+> -     if (err) {
+> -         monitor_printf(mon, "Could not query alarm clock information\n");
+> -         error_free(err);
+> +     if (hmp_handle_error(mon, err)) {
+>           return;
+>       }
+>  
+> @@ -607,9 +604,7 @@ has to traverse the list, it's shown below for reference::
+>       Error *err = NULL;
+>  
+>       method_list = qmp_query_alarm_methods(&err);
+> -     if (err) {
+> -         monitor_printf(mon, "Could not query alarm methods\n");
+> -         error_free(err);
+> +     if (hmp_handle_error(mon, err)) {
+>           return;
+>       }
+>  
+> -- 
+> 2.31.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
