@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AC0743D870
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 03:11:06 +0200 (CEST)
-Received: from localhost ([::1]:39142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6017C43D874
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 03:15:07 +0200 (CEST)
+Received: from localhost ([::1]:45216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mftwf-0003L4-Gn
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 21:11:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44730)
+	id 1mfu0Y-0007X9-7n
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 21:15:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mftuq-0002Zd-7z
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 21:09:12 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:46940)
+ id 1mftwO-00044M-OC
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 21:10:48 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:38563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mftuo-0002MU-Cl
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 21:09:11 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- lx5-20020a17090b4b0500b001a262880e99so3382886pjb.5
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 18:09:09 -0700 (PDT)
+ id 1mftwM-0002mB-LG
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 21:10:48 -0400
+Received: by mail-pl1-x629.google.com with SMTP id i5so3264010pla.5
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 18:10:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=P6vPPxwJggaNE9YcTJQRovGRBMTZJp7bi2Gm3s0t5Bs=;
- b=WzOR/OuElglI+wln4udVcwXlX7EWtKhZ7mkNXVyjzoZJfGcetBPQhsOJBu/IFeUmz5
- LECISKY2rvzI3E/9IzcTdcS1LwjuqRL3PigwlApmIM78yvkIDdJ1CeCKrjM46QCoF7HC
- 2hCYHDt9ZS9TyuMucz/uyTiE/8r3gChKEsUGDoiy2JbsCw6dXV2fG3FRV57F6LvF/awB
- WFbIy4Ez9wtg1/fdEqKle4a2c2Lzpc0RuazzmDCIB/mypZKjqmw7zv0ToPsxvf/IrTbD
- 4gNsjfhVS55iHWtaFsSUIAZavTR84izPjO+GNkTf5lW9wPS9FVrrKSZaPX8cwQnZVsAk
- wCHA==
+ bh=ippkNK4wYCdmdq02MwHe/okgfOfAfmPcGtUK5fGYDl0=;
+ b=OQIWJV+Xg2FaM8z0kE6cLizPSvTVnp02R0ASBKZZbbTXaOsa21tJttHI+o2Sf75j5M
+ HnNsVWRVQVouGr4ndzxBN43L+ftQe/AgxUE5RD1p7PdzlSO26ug2VEYgysT42b2YSv+b
+ vQugOuCEblmegYL5WzsCcYQCrLhecUsdqvdfdJLyjDHjG0VCl6Dcl+rN9b+UofO3Aoun
+ lKWRhWHFx59iXAlhHMvMZRcGAj6J6DWLGEDtbtq1bveN9TmObc4yY41dYCVkmmCtzCR2
+ 49UGMisU4uRi+J0b00JJxrZzPZaMFt4F4kKETrBj06QwahcYj5EDrHXqNZlc5KH2KVsl
+ Ifsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=P6vPPxwJggaNE9YcTJQRovGRBMTZJp7bi2Gm3s0t5Bs=;
- b=BRrlD2SdNuTp452972vi5d4hxD/aUKcebAFVVlYoi0l7PiaOIob7T0bR6Df9e1rLqg
- AjqySj+3Xv8k9c++LiA1ONdEL84F17CXif3BFAG97zlohKiyxuDRWvfDNCT7Y/59jqSX
- vcURvrWBEEVhS8X3PWgFBYw+DqMCOE9b95Djd3C5QcLHR+fKsoJbJd/H9I9uhkZoP5RH
- lYNjNMYzoKdVKhifg/1tAqpH1ff0HdGafTmIsQfAZmPTcYDa80eUAeLXbasW8Ydd7cTc
- fxzdEY6xHvCHsFDhvPxRjIzj2FsOyZfAUmLqhKiOUGJdgkw9hb3+osShouedOHAqo2lL
- 6Hmw==
-X-Gm-Message-State: AOAM532aYa9Kw5WvA4s6Z/IMg5rcRH1AGGP3NNF+yMgMrR5NPrk9dwFS
- Uoe0JkDxNJqrq7HCnjPT7KohYQ==
-X-Google-Smtp-Source: ABdhPJzumR537rpTfysr49zkPqx0/72kHW6chmX4+PLxD6zapHlq8R9mSh/mt6hD8Q6RdKeUxfBkBg==
-X-Received: by 2002:a17:90b:4a05:: with SMTP id
- kk5mr1182580pjb.25.1635383348868; 
- Wed, 27 Oct 2021 18:09:08 -0700 (PDT)
+ bh=ippkNK4wYCdmdq02MwHe/okgfOfAfmPcGtUK5fGYDl0=;
+ b=pyZtIffC8emjWHizctDz4svnbtjVZT4ve1vQjo/X8H2Ioyy2Jgt5gMFiRCxW5o7n2+
+ gMrZNVhzLrajhQuUIQ+WpxTgfaFuiZGXhV1HSPlMe/1tHQA5F5T2f+8nloyHYpsylK77
+ OHVeuKRam7RqmoQQgK+RNeFofOGw723N72jicUZgcMwbtjwK5xfU0AC80A/KRjqQ2YxN
+ nRyhI8p7BfXaSWeADkRl+NP1ko2z2EKT0LDcFbqCUJvWzZfrVQYOaUucBEuSHRRJBrJy
+ s03JKOPkKYxw1RAfMbINxHc4xhm6LwjQVXaEgMSv9tWU6vmIL1RT6U5qBnei9/qn5fSe
+ kH4w==
+X-Gm-Message-State: AOAM533Xg3EioPkNu2JgV4HqPiChTT4QrhDMbxeqfpMDRf1Z4G+q4Xra
+ DsaETyT2OTFgMExcY4z/kcTOeg==
+X-Google-Smtp-Source: ABdhPJwlmDK9qkC4EuHAbYEnYvPHZAh66rvszhtxjO/i+yNGdNd+X/wUaBLjSnNMYrc9In+q/dF32Q==
+X-Received: by 2002:a17:903:1111:b0:13f:d1d7:fb5c with SMTP id
+ n17-20020a170903111100b0013fd1d7fb5cmr908871plh.47.1635383445231; 
+ Wed, 27 Oct 2021 18:10:45 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id r14sm874410pgf.49.2021.10.27.18.09.08
+ by smtp.gmail.com with ESMTPSA id u13sm835122pga.92.2021.10.27.18.10.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 18:09:08 -0700 (PDT)
-Subject: Re: [PATCH v2 3/4] MAINTAINERS: Split MIPS TCG frontend vs MIPS
- machines/hardware
+ Wed, 27 Oct 2021 18:10:44 -0700 (PDT)
+Subject: Re: [PATCH v2 4/4] MAINTAINERS: Agree to maintain nanoMIPS TCG
+ frontend
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20211027041416.1237433-1-f4bug@amsat.org>
- <20211027041416.1237433-4-f4bug@amsat.org>
+ <20211027041416.1237433-5-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <929e41f1-b987-a078-c3b1-605481b79bdb@linaro.org>
-Date: Wed, 27 Oct 2021 18:09:07 -0700
+Message-ID: <ed566043-b36a-54f2-519b-426365851d05@linaro.org>
+Date: Wed, 27 Oct 2021 18:10:43 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211027041416.1237433-4-f4bug@amsat.org>
+In-Reply-To: <20211027041416.1237433-5-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -48
 X-Spam_score: -4.9
 X-Spam_bar: ----
@@ -91,21 +90,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Paul Burton <paulburton@kernel.org>
+Cc: libvir-list@redhat.com, Petar Jovanovic <petar.jovanovic@syrmia.com>,
+ Paul Burton <paulburton@kernel.org>,
+ Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/26/21 9:14 PM, Philippe Mathieu-Daudé wrote:
-> Hardware emulated models don't belong to the TCG MAINTAINERS
-> section. Move them to a new 'Overall MIPS Machines' section
-> in the 'MIPS Machines' group.
+> As of this commit, the nanoMIPS toolchains haven't been merged
+> in mainstream projects. However MediaTek provides a toolchain:
+> https://github.com/MediaTek-Labs/nanomips-gnu-toolchain/releases/tag/nanoMIPS-2021.02-01
 > 
-> Reviewed-by: Jiaxun Yang<jiaxun.yang@flygoat.com>
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> Message-Id:<20211004092515.3819836-4-f4bug@amsat.org>
+> QEMU deprecation policy schedules code for removal. If we don't
+> need / want to remove, we should un-deprecated [*].
+> 
+> Since I now have spent more time with the ISA, I agree to maintain
+> it along with the other MIPS ISA. Therefore remove its deprecation
+> notice.
+> 
+> For historical notes, see commit a60442eb8 ("Deprecate nanoMIPS ISA").
+> 
+> [*] https://lore.kernel.org/qemu-devel/YVx7YGqUENP83vNF@redhat.com/
+> 
+> Cc: Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
+> Cc: Petar Jovanovic <petar.jovanovic@syrmia.com>
+> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   MAINTAINERS | 10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
