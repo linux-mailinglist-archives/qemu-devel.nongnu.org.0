@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B99843DA74
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 06:38:28 +0200 (CEST)
-Received: from localhost ([::1]:39204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E484843DA77
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 06:39:41 +0200 (CEST)
+Received: from localhost ([::1]:43500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfxBL-0002fj-Kc
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 00:38:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49100)
+	id 1mfxCX-0005Xb-2G
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 00:39:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfx5C-0004Nd-Jb
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:32:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28977)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfx5H-0004Xg-9R
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:32:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfx5A-0000TU-Ke
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:32:06 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfx5F-0000UB-Dp
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:32:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635395524;
+ s=mimecast20190719; t=1635395528;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pgTHIAPHXkkbULyCuKmi+XPo0/hjZBL6MtokIFprPvs=;
- b=ILBa41sv3eW1c+ZkP5ONgbslte7p3Rwe35r28+Di10nh2WK0lB+tGH2R43PjqCskYNxBRZ
- 6A1vokyphwoDihfYOBjtYYg+TbwItXzm5oDXronPgg6XNX54zVFC40kZpPVSNj+Ec+3scE
- fwYP4h9jHpUaj/w0g4pILGBqHbsEm+I=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-Zf3P0FPtNECbl7ORgjqlSA-1; Thu, 28 Oct 2021 00:32:02 -0400
-X-MC-Unique: Zf3P0FPtNECbl7ORgjqlSA-1
-Received: by mail-pg1-f198.google.com with SMTP id
- p28-20020a637f5c000000b002a3c58b5917so2646264pgn.23
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 21:32:02 -0700 (PDT)
+ bh=07LHrb6kZNzZ4/fu3Eq9r55HxFAxKolf5VDQaKGM4hU=;
+ b=KJn7NR0TrZC+YJSxkbBSAM0DRiFUopWeeuEi59DmOprQtP6ZnpCjI8AhZw8o+SeK4v/3FN
+ V6BaGLwG6fDnm2HhEEHjOGttLhLC9a/fixZe5jHh7TOYXgthaIxt23vOl7H0vz4qvARhwW
+ Vrlm1J9Ln2ew4RVdzwuz14w6l7Moq3I=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-352-D4MxLVtRPoiAeyswa8_qNA-1; Thu, 28 Oct 2021 00:32:07 -0400
+X-MC-Unique: D4MxLVtRPoiAeyswa8_qNA-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ r13-20020a17090a1bcd00b001a1b1747cd2so2807077pjr.9
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 21:32:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pgTHIAPHXkkbULyCuKmi+XPo0/hjZBL6MtokIFprPvs=;
- b=0iLPonlqe2VAhYWzRiysLa4encL9eAsOzeX/3mUyfgq2PrRtbR/RoC3ALIhMXglFV6
- S9XPbuy1hURU1DKROEGM3FviMsZGQ8wD0QbxXqDEmG/i4hoK6jkDoyQfYeE0AF1LOdNt
- Pd8Dl+Fg3amMf3sAkD0MbVF8O3z3HmEfSHEYvCPXjx8gMEGQfr8nEY/4v2FKj97ncxrh
- hznxzx2odHyWUau2cvNF1TueDYahdm9Oqe+DDbXzlJT+czxpZIsVUhvBpXIk1alLrudy
- pVt7bIAlIbbiQx5s8x5dxcdiKBK04xqw6z+qSeOzgLhWutCQZUmgzxT5F9xntQcta2hC
- J+pQ==
-X-Gm-Message-State: AOAM531MyqsqaNb8Th7N0GTtxbjwgykQui5jr4N1rEnjUNdnO7r7JlJG
- 9YHjXxfKFwaHsiTtjG1E8P7rPP0x8JhJd3Vd6thrTglw7Pg/McNEaPGhTA1vpMVHr36XhEwejPi
- eHZbalc4KRWwJaB3eTi8MmsaVy6Bo3SYXMFEoxEwxi5vTFjBnyTXH3h2XeX7nui2D
-X-Received: by 2002:a17:90a:644d:: with SMTP id
- y13mr2057980pjm.10.1635395521299; 
- Wed, 27 Oct 2021 21:32:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxi2balo4iS5FNHItyKoQlOCvZ7NFqP/tawuSh5V7bmrhkfP9tEpS7se0TnwisRipUc2HduSg==
-X-Received: by 2002:a17:90a:644d:: with SMTP id
- y13mr2057939pjm.10.1635395520974; 
- Wed, 27 Oct 2021 21:32:00 -0700 (PDT)
+ bh=07LHrb6kZNzZ4/fu3Eq9r55HxFAxKolf5VDQaKGM4hU=;
+ b=GNQ0H/umB079U/EI89Ips029yqcu9vY9SiN3ul5F+qGqMNrl+/66/6TT0aIdcu9TmR
+ Qq/YupuGqXExchVmiYYt9UincWCoJkDfOWWVxZnF41TevD5bLk+n9G2P3RD2Pa9sS6vb
+ RBVwCMRlJzMow8Pm48+d25Z7wil7HH49zWuiEUOvcuUMTe/WEKAJk8dPvPenh/RCA8tR
+ g93xgE0TzJlZl6nPC1zHIydb+Cn6oHbHt6DK8YltEVGKVEqSDsNUMA2jC3NMsXNYG9Tq
+ btywB97MA/Oe7K27+M0yQzjW0zg2LD6JOBLcOXK2EAhUdH1uImmbxhnUyA+5tKCdvUXE
+ Gwjg==
+X-Gm-Message-State: AOAM533qrHg8vWLuT3LDzuTtBhLM1ktkGIByLbxD4whiLR4+Jn2QsLE7
+ H4D9Dbh7wrbRCbo284sXi9/lm/S0rSONBDpzgP9Omc7ufVrUei8M1rM8oNaYIk9U3N49RJexc/U
+ iYDe0uCWz0XIInXiTtVWJhQOu1bTHaupRi9+oPeYpS5vmX8nh5CFNpeD0/L1cnU4b
+X-Received: by 2002:a05:6a00:2ab:b0:47b:ee2c:62fb with SMTP id
+ q11-20020a056a0002ab00b0047bee2c62fbmr1953569pfs.82.1635395526183; 
+ Wed, 27 Oct 2021 21:32:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxg1Wr3goSq54D+NmwpIw1kzEVekW2zuwTplXT2875a32II6O+BqTyp1pIeEBEoU60E6nSSMg==
+X-Received: by 2002:a05:6a00:2ab:b0:47b:ee2c:62fb with SMTP id
+ q11-20020a056a0002ab00b0047bee2c62fbmr1953523pfs.82.1635395525669; 
+ Wed, 27 Oct 2021 21:32:05 -0700 (PDT)
 Received: from localhost.localdomain ([191.101.132.60])
- by smtp.gmail.com with ESMTPSA id k22sm1483074pfi.149.2021.10.27.21.31.54
+ by smtp.gmail.com with ESMTPSA id k22sm1483074pfi.149.2021.10.27.21.32.01
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 27 Oct 2021 21:32:00 -0700 (PDT)
+ Wed, 27 Oct 2021 21:32:05 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/5] qom: object_child_foreach_recursive_type()
-Date: Thu, 28 Oct 2021 12:31:27 +0800
-Message-Id: <20211028043129.38871-4-peterx@redhat.com>
+Subject: [PATCH v2 4/5] pci: Add pci_for_each_root_bus()
+Date: Thu, 28 Oct 2021 12:31:28 +0800
+Message-Id: <20211028043129.38871-5-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211028043129.38871-1-peterx@redhat.com>
 References: <20211028043129.38871-1-peterx@redhat.com>
@@ -74,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -108,85 +108,197 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add this sister helper besides object_child_foreach_recursive() to loop over
-child objects only if the object can be casted to a specific type.
+Add a helper to loop over each root bus of the system, either the default root
+bus or extended buses like pxb-pcie.
 
-Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+There're three places that can be rewritten with the pci_for_each_root_bus()
+helper that we just introduced.  De-dup the code.
+
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- include/qom/object.h | 20 ++++++++++++++++++++
- qom/object.c         | 27 +++++++++++++++++++++++++++
- 2 files changed, 47 insertions(+)
+ hw/arm/virt-acpi-build.c | 31 +++++++++++--------------------
+ hw/i386/acpi-build.c     | 38 ++++++++++----------------------------
+ hw/pci/pci.c             | 26 ++++++++++++++++++++++++++
+ include/hw/pci/pci.h     |  2 ++
+ 4 files changed, 49 insertions(+), 48 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index faae0d841f..355277db40 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -1926,6 +1926,26 @@ int object_child_foreach(Object *obj, int (*fn)(Object *child, void *opaque),
- int object_child_foreach_recursive(Object *obj,
-                                    int (*fn)(Object *child, void *opaque),
-                                    void *opaque);
-+
-+/**
-+ * object_child_foreach_recursive_type:
-+ * @obj: the object whose children will be navigated
-+ * @type: the typename string to scan
-+ * @fn: the iterator function to be called
-+ * @opaque: an opaque value that will be passed to the iterator
-+ *
-+ * This is a special version of object_child_foreach_recursive() so that we
-+ * only call the fn() if the child can be casted to the @typename specified.
-+ * Please refer to the comments above object_child_foreach_recursive() for
-+ * more details.
-+ *
-+ * Returns: The last value returned by @fn, or 0 if there is no child.
-+ */
-+int object_child_foreach_recursive_type(Object *obj,
-+                                        const char *typename,
-+                                        int (*fn)(Object *child, void *opaque),
-+                                        void *opaque);
-+
- /**
-  * container_get:
-  * @root: root of the #path, e.g., object_get_root()
-diff --git a/qom/object.c b/qom/object.c
-index 6be710bc40..d25ca09b1d 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1134,6 +1134,33 @@ int object_child_foreach_recursive(Object *obj,
-     return do_object_child_foreach(obj, fn, opaque, true);
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 674f902652..adba51f35a 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -264,28 +264,20 @@ struct AcpiIortIdMapping {
+ typedef struct AcpiIortIdMapping AcpiIortIdMapping;
+ 
+ /* Build the iort ID mapping to SMMUv3 for a given PCI host bridge */
+-static int
+-iort_host_bridges(Object *obj, void *opaque)
++static void
++iort_host_bridges(PCIBus *bus, void *opaque)
+ {
+-    GArray *idmap_blob = opaque;
+-
+-    if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {
+-        PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
+-
+-        if (bus && !pci_bus_bypass_iommu(bus)) {
+-            int min_bus, max_bus;
++    if (!pci_bus_bypass_iommu(bus)) {
++        int min_bus, max_bus;
+ 
+-            pci_bus_range(bus, &min_bus, &max_bus);
++        pci_bus_range(bus, &min_bus, &max_bus);
+ 
+-            AcpiIortIdMapping idmap = {
+-                .input_base = min_bus << 8,
+-                .id_count = (max_bus - min_bus + 1) << 8,
+-            };
+-            g_array_append_val(idmap_blob, idmap);
+-        }
++        AcpiIortIdMapping idmap = {
++            .input_base = min_bus << 8,
++            .id_count = (max_bus - min_bus + 1) << 8,
++        };
++        g_array_append_val((GArray *)opaque, idmap);
+     }
+-
+-    return 0;
+ }
+ 
+ static int iort_idmap_compare(gconstpointer a, gconstpointer b)
+@@ -320,8 +312,7 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     if (vms->iommu == VIRT_IOMMU_SMMUV3) {
+         AcpiIortIdMapping next_range = {0};
+ 
+-        object_child_foreach_recursive(object_get_root(),
+-                                       iort_host_bridges, smmu_idmaps);
++        pci_for_each_root_bus(iort_host_bridges, smmu_idmaps);
+ 
+         /* Sort the smmu idmap by input_base */
+         g_array_sort(smmu_idmaps, iort_idmap_compare);
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index a76b17ed92..3e50acfe35 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -2123,20 +2123,12 @@ insert_scope(PCIBus *bus, PCIDevice *dev, void *opaque)
+ }
+ 
+ /* For a given PCI host bridge, walk and insert DMAR scope */
+-static int
+-dmar_host_bridges(Object *obj, void *opaque)
++static void
++dmar_host_bridges(PCIBus *bus, void *opaque)
+ {
+-    GArray *scope_blob = opaque;
+-
+-    if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {
+-        PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
+-
+-        if (bus && !pci_bus_bypass_iommu(bus)) {
+-            pci_for_each_device_under_bus(bus, insert_scope, scope_blob);
+-        }
++    if (!pci_bus_bypass_iommu(bus)) {
++        pci_for_each_device_under_bus(bus, insert_scope, opaque);
+     }
+-
+-    return 0;
+ }
+ 
+ /*
+@@ -2165,8 +2157,7 @@ build_dmar_q35(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+      * Insert scope for each PCI bridge and endpoint device which
+      * is attached to a bus with iommu enabled.
+      */
+-    object_child_foreach_recursive(object_get_root(),
+-                                   dmar_host_bridges, scope_blob);
++    pci_for_each_root_bus(dmar_host_bridges, scope_blob);
+ 
+     assert(iommu);
+     if (x86_iommu_ir_supported(iommu)) {
+@@ -2329,20 +2320,12 @@ insert_ivhd(PCIBus *bus, PCIDevice *dev, void *opaque)
+ }
+ 
+ /* For all PCI host bridges, walk and insert IVHD entries */
+-static int
+-ivrs_host_bridges(Object *obj, void *opaque)
++static void
++ivrs_host_bridges(PCIBus *bus, void *opaque)
+ {
+-    GArray *ivhd_blob = opaque;
+-
+-    if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {
+-        PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
+-
+-        if (bus && !pci_bus_bypass_iommu(bus)) {
+-            pci_for_each_device_under_bus(bus, insert_ivhd, ivhd_blob);
+-        }
++    if (!pci_bus_bypass_iommu(bus)) {
++        pci_for_each_device_under_bus(bus, insert_ivhd, opaque);
+     }
+-
+-    return 0;
+ }
+ 
+ static void
+@@ -2380,8 +2363,7 @@ build_amd_iommu(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+      * blob further below.  Fall back to an entry covering all devices, which
+      * is sufficient when no aliases are present.
+      */
+-    object_child_foreach_recursive(object_get_root(),
+-                                   ivrs_host_bridges, ivhd_blob);
++    pci_for_each_root_bus(ivrs_host_bridges, ivhd_blob);
+ 
+     if (!ivhd_blob->len) {
+         /*
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 4a84e478ce..258290f4eb 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2097,6 +2097,32 @@ void pci_for_each_bus_depth_first(PCIBus *bus, pci_bus_ret_fn begin,
+     }
  }
  
 +typedef struct {
-+    const char *typename;
-+    int (*fn)(Object *child, void *opaque);
++    pci_bus_fn fn;
 +    void *opaque;
-+} ObjectTypeArgs;
++} PCIRootBusArgs;
 +
-+static int object_child_hook(Object *child, void *opaque)
++static int pci_find_root_bus(Object *obj, void *opaque)
 +{
-+    ObjectTypeArgs *args = opaque;
++    PCIRootBusArgs *args = opaque;
++    PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
 +
-+    if (object_dynamic_cast(child, args->typename)) {
-+        return args->fn(child, args->opaque);
++    if (bus) {
++        args->fn(bus, args->opaque);
 +    }
 +
 +    return 0;
 +}
 +
-+int object_child_foreach_recursive_type(Object *obj,
-+                                        const char *typename,
-+                                        int (*fn)(Object *child, void *opaque),
-+                                        void *opaque)
++void pci_for_each_root_bus(pci_bus_fn fn, void *opaque)
 +{
-+    ObjectTypeArgs args = { .typename = typename, .fn = fn, .opaque = opaque };
++    PCIRootBusArgs args = { .fn = fn, .opaque = opaque };
 +
-+    return object_child_foreach_recursive(obj, object_child_hook, &args);
++    object_child_foreach_recursive_type(object_get_root(),
++                                        TYPE_PCI_HOST_BRIDGE,
++                                        pci_find_root_bus,
++                                        &args);
 +}
-+
- static void object_class_get_list_tramp(ObjectClass *klass, void *opaque)
+ 
+ PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn)
  {
-     GSList **list = opaque;
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 5c4016b995..6813f128e0 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -474,6 +474,8 @@ void pci_for_each_device_under_bus_reverse(PCIBus *bus,
+                                            void *opaque);
+ void pci_for_each_bus_depth_first(PCIBus *bus, pci_bus_ret_fn begin,
+                                   pci_bus_fn end, void *parent_state);
++/* Call `fn' for each pci root bus on the system */
++void pci_for_each_root_bus(pci_bus_fn fn, void *opaque);
+ PCIDevice *pci_get_function_0(PCIDevice *pci_dev);
+ 
+ /* Use this wrapper when specific scan order is not required. */
 -- 
 2.32.0
 
