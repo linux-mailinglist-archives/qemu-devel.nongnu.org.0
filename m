@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5514043E42C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 16:48:01 +0200 (CEST)
-Received: from localhost ([::1]:53630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C59643E43F
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 16:51:27 +0200 (CEST)
+Received: from localhost ([::1]:59214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg6hE-0002Y0-Do
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 10:48:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33606)
+	id 1mg6kY-0006Vy-7p
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 10:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mg6dy-0001Ea-Ax
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:44:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43614)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg6ge-0003SX-7Y
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:47:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mg6dv-0000ws-CG
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:44:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg6gb-0001qW-TE
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:47:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635432273;
+ s=mimecast20190719; t=1635432441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wTOwNt/4FB4rCxzCB+80vEdbHuCPuWHjmZNkQPLTj/k=;
- b=Um6kisuQxYZxJ+duEhJTNxjELGgkeIRtHefK2uvr1z500bOd8aAsofqelsFWVCJtFFpYws
- ZMt43q5pKIYa8xp9zx8Hl198Qye2aZT17ecBwm1zag8TG5QZotD+vOWzKNV5qeWJNOb2II
- cp57qEPKo4ja0Xz/+42xqeW8ZnLXBjc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-f93cb5DCMCeUt7JJsznHBQ-1; Thu, 28 Oct 2021 10:44:32 -0400
-X-MC-Unique: f93cb5DCMCeUt7JJsznHBQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- z137-20020a1c7e8f000000b0030cd1800d86so2482777wmc.2
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 07:44:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=wTOwNt/4FB4rCxzCB+80vEdbHuCPuWHjmZNkQPLTj/k=;
- b=4iRUOqWpplFBaEzLndrbL4CjhuoHVIOXPP8vqIS4ozBoxCsTuZxG3eBGbQ4s4hLih5
- WaHuL5cqhUlf3MPsRsukEk8bJGuift6Rfp/HotRfx1C43JiBWpTni00d2PhQtnUjg85F
- 69JYPQne1bNHrL5/yalprG2L5l4APLSlX6FL7nRA+7n9tQN/w3TJTNL757Khun/aX770
- 8lwlKrvvv10ClzhlwIYy/ULH0nYFzvR0F+rbMqnBQIgVhG9+QqWIcE/3OH/jgzwPQ4gW
- h5w67S8KwhiBTTtKsvH82DBdPPPF7Ghjissu1rYZO+ZTE2B/AmQRejnSqZIJrC/yqqzl
- K07A==
-X-Gm-Message-State: AOAM533M0mHjIDYzcGG5UYGM2KtrpEBcEsBpLYBrpuhGHYFcGhnuSvpQ
- g+M0nQ4AXUJiykUsQ5WW+r0gg6KkAAqeEenz6JacIstVRtp6xsvnkjbDwHLNKmDJDD+K/pWucGr
- uUB79QKoS1yz/Wq8=
-X-Received: by 2002:a05:600c:3584:: with SMTP id
- p4mr12577605wmq.168.1635432271000; 
- Thu, 28 Oct 2021 07:44:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZxYWuUsBIJ/zETwDJCE2fOQXSZGXmED31r0ffEvJFfy+SO56DVn9C8FN6+64/CijuD6qnzg==
-X-Received: by 2002:a05:600c:3584:: with SMTP id
- p4mr12577581wmq.168.1635432270820; 
- Thu, 28 Oct 2021 07:44:30 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id n7sm3242807wra.37.2021.10.28.07.44.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Oct 2021 07:44:30 -0700 (PDT)
-Message-ID: <91def190-d563-e463-7915-525d67631194@redhat.com>
-Date: Thu, 28 Oct 2021 16:44:28 +0200
+ bh=BJzRzBWq1ZUQTal6oVIuY+PcRlZYl9F6azALMzFkCtE=;
+ b=MVBgaK4Q+P3E+mv/3OrY9oCmhf75qGvDs+SFcqD5/S/2M+Ioc6vr7x4A55Vm4ArbIOC3Qf
+ mxLJPknvsx+PufwIr90NvNl86vD5wY8Q438MYq/U4uJghdBerIU4RnHPYC8RhTGCJVt3yL
+ +W0NfnfxcaAA5HoK79BUH8Lhlk/wzBY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-9wAhSMHLPo-PobkyRvxHYA-1; Thu, 28 Oct 2021 10:47:18 -0400
+X-MC-Unique: 9wAhSMHLPo-PobkyRvxHYA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF680814245;
+ Thu, 28 Oct 2021 14:47:16 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D13826E73;
+ Thu, 28 Oct 2021 14:47:16 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 630F111380A7; Thu, 28 Oct 2021 16:47:14 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v3 04/19] docs/devel: add example of command returning
+ unstructured text
+References: <20210930132349.3601823-1-berrange@redhat.com>
+ <20210930132349.3601823-5-berrange@redhat.com>
+Date: Thu, 28 Oct 2021 16:47:14 +0200
+In-Reply-To: <20210930132349.3601823-5-berrange@redhat.com> ("Daniel
+ P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Thu, 30 Sep 2021 14:23:34
+ +0100")
+Message-ID: <87r1c5nr4d.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 0/2] hw/core/machine: Add an unit test for smp_parse
-To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org
-References: <20211026034659.22040-1-wangyanan55@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211026034659.22040-1-wangyanan55@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.847, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,44 +83,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Cornelia Huck <cohuck@redhat.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/21 05:46, Yanan Wang wrote:
-> Hi,
-> 
-> This is v3 which introduces an unit test for generic smp_parse.
-> 
-> We have had enough discussions about what kind of SMP configurations
-> by the user should be considered valid and what should be invalid.
-> Since we have finished optimizing the SMP parsing code, then this
-> test normatively listed all the possible valid/invalid configurations
-> that the user can provide. This can be a testing tool when we
-> introduce new topology members and need to touch the parsing code.
-> 
-> For your reference, some related discussion is here:
-> https://lore.kernel.org/qemu-devel/YOxf+sxzUSJdbY+j@redhat.com/
-> 
-> Changelog:
-> v2->v3:
-> - add Andrew's R-b for PATCH #1
-> - drop an unused macro definition in PATCH #2
-> - v2: https://lore.kernel.org/qemu-devel/20211013074119.23028-1-wangyanan55@huawei.com/
-> 
-> v1->v2:
-> - split smp_parse out into a separate .c file instead of a header (patch #1)
-> - dropped an unnecessary function and add Andrew's R-b (patch #2)
-> - v1: https://lore.kernel.org/qemu-devel/20211010103954.20644-1-wangyanan55@huawei.com/
-> 
-> Yanan Wang (2):
->   hw/core/machine: Split out the smp parsing code
->   tests/unit: Add an unit test for smp parsing
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> This illustrates how to add a QMP command returning unstructured text,
+> following the guidelines added in the previous patch. The example uses
+> a simplified version of 'info roms'.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  docs/devel/writing-monitor-commands.rst | 87 ++++++++++++++++++++++++-
+>  1 file changed, 86 insertions(+), 1 deletion(-)
+>
+> diff --git a/docs/devel/writing-monitor-commands.rst b/docs/devel/writing=
+-monitor-commands.rst
+> index 0f3b751dab..82a382d700 100644
+> --- a/docs/devel/writing-monitor-commands.rst
+> +++ b/docs/devel/writing-monitor-commands.rst
+> @@ -375,7 +375,9 @@ best practices. An example where this approach is tak=
+en is the QMP
+>  command "x-query-registers". This returns a formatted dump of the
+>  architecture specific CPU state. The way the data is formatted varies
+>  across QEMU targets, is liable to change over time, and is only
+> -intended to be consumed as an opaque string by machines.
+> +intended to be consumed as an opaque string by machines. Refer to the
+> +`Writing a debugging aid returning unstructured text`_ section for
+> +an illustration.
+> =20
+>  User Defined Types
+>  ~~~~~~~~~~~~~~~~~~
+> @@ -647,3 +649,86 @@ has to traverse the list, it's shown below for refer=
+ence::
+> =20
+>       qapi_free_TimerAlarmMethodList(method_list);
+>   }
+> +
+> +Writing a debugging aid returning unstructured text
+> +---------------------------------------------------
+> +
+> +As discussed in section `Modelling data in QAPI`_, it is required that
+> +commands expecting machine usage be using fine-grained QAPI data types.
+> +The exception to this rule applies when the command is solely intended
+> +as a debugging aid and allows for returning unstructured text. This is
+> +commonly needed for query commands that report aspects of QEMU's
+> +internal state that are useful to human operators.
+> +
+> +In this example we will consider a simplified variant of the HMP
+> +command ``info roms``. Following the earlier rules, this command will
+> +need to live under the ``x-`` name prefix, so its QMP implementation
+> +will be called ``x-query-roms``. It will have no parameters and will
+> +return a single text string::
+> +
+> + { 'struct': 'HumanReadableText',
+> +   'data': { 'human-readable-text': 'str' } }
+> +
+> + { 'command': 'x-query-roms',
+> +   'returns': 'HumanReadableText' }
+> +
+> +The ``HumanReadableText`` struct is intended to be used for all
+> +commands, under the ``x-`` name prefix that are returning unstructured
+> +text targetted at humans. It should never be used for commands outside
+> +the ``x-`` name prefix, as those should be using structured QAPI types.
 
+This clashes with my "[PATCH v2 0/9] Configurable policy for handling
+unstable interfaces", which replaces "you must give unstable stuff names
+starting with 'x-'" by "you must give unstable stuff feature flag
+'unstable' (and may give it a name starting with 'x-')".
+
+> +
+> +Implementing the QMP command
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +The QMP implementation will typically involve creating a ``GString``
+> +object and printing formatted data into it::
+> +
+> + HumanReadableText *qmp_x_query_roms(Error **errp)
+> + {
+> +     g_autoptr(GString) buf =3D g_string_new("");
+> +     Rom *rom;
+> +
+> +     QTAILQ_FOREACH(rom, &roms, next) {
+> +        g_string_append_printf("%s size=3D0x%06zx name=3D\"%s\"\n",
+> +                               memory_region_name(rom->mr),
+> +                               rom->romsize,
+> +                               rom->name);
+> +     }
+> +
+> +     return human_readable_text_from_str(buf);
+> + }
+> +
+> +
+> +Implementing the HMP command
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Now that the QMP command is in place, we can also make it available in
+> +the human monitor (HMP) as shown in previous examples. The HMP
+> +implementations will all look fairly similar, as all they need do is
+> +invoke the QMP command and then print the resulting text or error
+> +message. Here's the implementation of the "info roms" HMP command::
+> +
+> + void hmp_info_roms(Monitor *mon, const QDict *qdict)
+> + {
+> +     Error err =3D NULL;
+> +     g_autoptr(HumanReadableText) info =3D qmp_x_query_roms(&err);
+> +
+> +     if (err) {
+> +         error_report_err(err);
+> +         return;
+> +     }
+
+There's hmp_handle_error().
+
+If it returned whether there's an error, we could write
+
+        if (hmp_handle_error(err)) {
+            return;
+        }
+
+Of course, qmp_x_query_roms() can't fail, so we could just as well do
+
+        g_autoptr(HumanReadableText) info =3D qmp_x_query_roms(&error_abort=
+);
+
+Okay as long as we show how to report errors in HMP commands
+*somewhere*, but the use of &error_abort needs explaining.  Not sure
+that's an improvement here.
+
+Aside: the existing examples show questionable error handling.  The
+first one uses error_get_pretty() instead of hmp_handle_error().  The
+other two throw away the error they get from the QMP command, and report
+"Could not query ..." instead, which is a bit of an anti-pattern.
+
+> +     monitor_printf(mon, "%s\n", info->human_readable_text);
+
+Sure you want to print an extra newline?
+
+If not, then consider
+
+        monitor_puts(mon, info->human_readable_text);
+
+> + }
+> +
+> +Also, you have to add the function's prototype to the hmp.h file.
+> +
+> +There's one last step to actually make the command available to
+> +monitor users, we should add it to the hmp-commands-info.hx file::
+> +
+> +    {
+> +        .name       =3D "roms",
+> +        .args_type  =3D "",
+> +        .params     =3D "",
+> +        .help       =3D "show roms",
+> +        .cmd        =3D hmp_info_roms,
+> +    },
 
 
