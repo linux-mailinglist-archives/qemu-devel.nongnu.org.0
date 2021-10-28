@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418CA43EA0A
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 23:12:27 +0200 (CEST)
-Received: from localhost ([::1]:45292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9004C43F16D
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 23:17:08 +0200 (CEST)
+Received: from localhost ([::1]:53598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgChG-000139-AN
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 17:12:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35044)
+	id 1mgCln-0006iG-JX
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 17:17:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgCe6-0006fh-DH
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 17:09:11 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51920)
+ id 1mgCe9-0006kj-Js
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 17:09:13 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:35474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgCe4-0004SU-KF
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 17:09:10 -0400
-Received: by mail-wm1-x329.google.com with SMTP id z200so6156158wmc.1
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 14:09:07 -0700 (PDT)
+ id 1mgCe7-0004Wi-NC
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 17:09:13 -0400
+Received: by mail-wr1-x436.google.com with SMTP id i5so4794432wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 14:09:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tUcloN7N3DBv1r6VYXOgVRmRPwO5rl6SFdnuUp8Ul+o=;
- b=R8r+W43RDpNWniFSH+vFBu9w85LQzxsbcNYbKSXXe5TLZjBnySYQWTPSgdrzkNBWD1
- +lnY3Cuu1bsr1qTstqkoOJ9yGkfX3v+8oSJqtP+mifP90K1IXdxBqJFKxALsGJkOCxM2
- fZBiDe+a4nKGYXkQBDOp8sl3dZqvJwiE4K28HMV9HG6l70Biy7L5romAEg1jRN/C9vWY
- 9YiFe0AFnWUkfXAkyc//OIiq/uTjhUUhg/9yCxN3OHd+A86gh7jRhyRGxDBEOni/UB8V
- 2Rq79N88oZltT5PXBWKOkY9qAW0VMvIyu4xNHNb0APG6kKg90VwtaapNXCNdzrzfu/J/
- ZHoQ==
+ bh=YAKg+J+/v36lzQhjd3D8tkZ+FOwUKvRjy9noDtRnWEA=;
+ b=XwQQx1TDvgMuRglgi7abeLDaVeCCMmlk0jccUvA8TSnmm9FHvBzosstCUHpFYfFNR3
+ 1MTDlHpKywGVCtwmlHvmlReJpnITFPHqRhXs2XA/prczRP1luVYYcLgcwQvtwjfPY8sj
+ eawORhqhpFoLpa8XYc6br9tITBg7SIgt0OjFEHGkkAExaAcA6aOfPOEKXN1WfeYes/KI
+ j7Z0OMyt0FiP3ZJ+pQX2gC9Q/SEzx2v4ABn6djmzQG42Ls9GVEuCGErxmX7yjL6qUiYo
+ U9PPbfUT4kvSQlYYH4o/W/XdeIsvMS0gEn6xziGgNBMjw/IUO5DJr3iLxvyPsSsuL8nO
+ ocww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tUcloN7N3DBv1r6VYXOgVRmRPwO5rl6SFdnuUp8Ul+o=;
- b=jyKYHTvOT2Py55PYkEVqjJqpSC6jDAnM9riMAWLGETp5IJjNGRgL+3S2j/DPzchzzN
- jizxXK/UCc1AZ/gbcFdTW3eV07dOjjjfE9qWo58QOi/+J7HT1EvtSCIAD8GoQGrlXlAW
- vlXvJOlsSbvdCAJJwJQgwBjrImcm5QlCI/hptMpiJ9Jo7YWef76IvXMopx1Cgk6V9voZ
- 2LEjTmHSgDQbkIhPcHdBvc8iYe5z38eYHsDKAcFUMhvnlK2M9eGTACR1lsCXNgkm/MZt
- jlOwf7IbhXpfuKwOWwiXf0/NiZhcRkm+SXlxuyK3tXqZ4d4+hAAYch4wJALnYkv6zv30
- 7xww==
-X-Gm-Message-State: AOAM5336eENb976otmZ09IhTZZ+e/6ErXFSK8rrDbWCRYnApnHOT3NvL
- vpoAd5hcUrLxTpqEyAhD0I14vSif43Q=
-X-Google-Smtp-Source: ABdhPJzKCd+OcSNJr8dyIvyfGbMGvh0J26JgKzJsOHVed8FKhRxvlEqpDeAupOtb9fP9ABpN+PkoDA==
-X-Received: by 2002:a05:600c:218:: with SMTP id
- 24mr15307123wmi.192.1635455345578; 
- Thu, 28 Oct 2021 14:09:05 -0700 (PDT)
+ bh=YAKg+J+/v36lzQhjd3D8tkZ+FOwUKvRjy9noDtRnWEA=;
+ b=UI3Dt53h2jdpCUWbJ+esFVcmCUYZOA+fv40m4Rs2y9Poy6c9y7vxPpf/pg79sHMxgc
+ 8JRZXaByb5fXf5q1hnKV62r5Qg6KmaKnm9eq9q/Cled5iiNfbfIoRdqQOy28b58H4FeU
+ vF+Li+8JlZa2Kl2HqaEdv101qWvebYQ4xXFT3QzDae6dh3cVlE2VLWH3UKOPyMy+8QJu
+ 1QiDxDdhckAHCqbzbrQFjg4UFgFmgZe5bJnPepopYNAO5Lu7o5fPvG4NkzGJXQZZfisH
+ aarObvq35vlA+n2jDinKNJyGrxBbFCbdCMFEjkSX1cPi0gxVjtj1gcZmaam2TL1345hJ
+ Dewg==
+X-Gm-Message-State: AOAM532qnrr95/JSnknlFe9NEbZRqZnCTT9l8A3DJbENjDvqfgx7yCel
+ egWihyclAEBYzS+SE0Rv2EzIug7AvQw=
+X-Google-Smtp-Source: ABdhPJz61yIdg0/AD5SLpJIUYcyyh6VsisNtGN2A4x8hzDmpgrnwUHz+oubSIIUXAmZuTKkChkw5hw==
+X-Received: by 2002:a5d:6d0a:: with SMTP id e10mr8631741wrq.348.1635455350281; 
+ Thu, 28 Oct 2021 14:09:10 -0700 (PDT)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id p1sm7339858wmq.23.2021.10.28.14.09.04
+ by smtp.gmail.com with ESMTPSA id k63sm7300090wme.22.2021.10.28.14.09.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Oct 2021 14:09:05 -0700 (PDT)
+ Thu, 28 Oct 2021 14:09:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/32] target/mips: Use dup_const() to simplify
-Date: Thu, 28 Oct 2021 23:08:15 +0200
-Message-Id: <20211028210843.2120802-5-f4bug@amsat.org>
+Subject: [PATCH v3 05/32] target/mips: Have check_msa_access() return a boolean
+Date: Thu, 28 Oct 2021 23:08:16 +0200
+Message-Id: <20211028210843.2120802-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211028210843.2120802-1-f4bug@amsat.org>
 References: <20211028210843.2120802-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,52 +92,84 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The dup_const() helper makes the code easier to follow, use it.
+Have check_msa_access() return a boolean value so we can
+return early if MSA is not enabled (the instruction got
+decoded properly, but we raised an exception).
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20211027180730.1551932-6-f4bug@amsat.org>
 ---
-v3: Fix eval_big
----
- target/mips/tcg/msa_translate.c | 23 +++--------------------
- 1 file changed, 3 insertions(+), 20 deletions(-)
+ target/mips/tcg/msa_translate.c | 25 ++++++++++++++++++-------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
 
 diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
-index 3ef912da6b8..6fefb06da7c 100644
+index 6fefb06da7c..242d6ccf669 100644
 --- a/target/mips/tcg/msa_translate.c
 +++ b/target/mips/tcg/msa_translate.c
-@@ -313,28 +313,11 @@ static void gen_check_zero_element(TCGv tresult, uint8_t df, uint8_t wt,
+@@ -293,19 +293,24 @@ void msa_translate_init(void)
+     }
+ }
+ 
+-static inline int check_msa_access(DisasContext *ctx)
++/*
++ * Check if MSA is enabled.
++ * This function is always called with MSA available.
++ * If MSA is disabled, raise an exception.
++ */
++static inline bool check_msa_enabled(DisasContext *ctx)
  {
-     /* generates tcg ops to check if any element is 0 */
-     /* Note this function only works with MSA_WRLEN = 128 */
--    uint64_t eval_zero_or_big = 0;
--    uint64_t eval_big = 0;
-+    uint64_t eval_zero_or_big = dup_const(df, 1);
-+    uint64_t eval_big = eval_zero_or_big << ((8 << df) - 1);
-     TCGv_i64 t0 = tcg_temp_new_i64();
-     TCGv_i64 t1 = tcg_temp_new_i64();
--    switch (df) {
--    case DF_BYTE:
--        eval_zero_or_big = 0x0101010101010101ULL;
--        eval_big = 0x8080808080808080ULL;
--        break;
--    case DF_HALF:
--        eval_zero_or_big = 0x0001000100010001ULL;
--        eval_big = 0x8000800080008000ULL;
--        break;
--    case DF_WORD:
--        eval_zero_or_big = 0x0000000100000001ULL;
--        eval_big = 0x8000000080000000ULL;
--        break;
--    case DF_DOUBLE:
--        eval_zero_or_big = 0x0000000000000001ULL;
--        eval_big = 0x8000000000000000ULL;
--        break;
--    }
-+
-     tcg_gen_subi_i64(t0, msa_wr_d[wt << 1], eval_zero_or_big);
-     tcg_gen_andc_i64(t0, t0, msa_wr_d[wt << 1]);
-     tcg_gen_andi_i64(t0, t0, eval_big);
+     if (unlikely((ctx->hflags & MIPS_HFLAG_FPU) &&
+                  !(ctx->hflags & MIPS_HFLAG_F64))) {
+         gen_reserved_instruction(ctx);
+-        return 0;
++        return false;
+     }
+ 
+     if (unlikely(!(ctx->hflags & MIPS_HFLAG_MSA))) {
+         generate_exception_end(ctx, EXCP_MSADIS);
+-        return 0;
++        return false;
+     }
+-    return 1;
++    return true;
+ }
+ 
+ static void gen_check_zero_element(TCGv tresult, uint8_t df, uint8_t wt,
+@@ -337,7 +342,9 @@ static bool gen_msa_BxZ_V(DisasContext *ctx, int wt, int s16, TCGCond cond)
+ {
+     TCGv_i64 t0;
+ 
+-    check_msa_access(ctx);
++    if (!check_msa_enabled(ctx)) {
++        return true;
++    }
+ 
+     if (ctx->hflags & MIPS_HFLAG_BMASK) {
+         gen_reserved_instruction(ctx);
+@@ -369,7 +376,9 @@ static bool trans_BNZ_V(DisasContext *ctx, arg_msa_bz *a)
+ 
+ static bool gen_msa_BxZ(DisasContext *ctx, int df, int wt, int s16, bool if_not)
+ {
+-    check_msa_access(ctx);
++    if (!check_msa_enabled(ctx)) {
++        return true;
++    }
+ 
+     if (ctx->hflags & MIPS_HFLAG_BMASK) {
+         gen_reserved_instruction(ctx);
+@@ -2141,7 +2150,9 @@ static bool trans_MSA(DisasContext *ctx, arg_MSA *a)
+ {
+     uint32_t opcode = ctx->opcode;
+ 
+-    check_msa_access(ctx);
++    if (!check_msa_enabled(ctx)) {
++        return true;
++    }
+ 
+     switch (MASK_MSA_MINOR(opcode)) {
+     case OPC_MSA_I8_00:
 -- 
 2.31.1
 
