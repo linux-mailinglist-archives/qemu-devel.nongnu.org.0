@@ -2,97 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA85743DA97
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 06:54:31 +0200 (CEST)
-Received: from localhost ([::1]:36392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EFC243DA99
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 06:57:27 +0200 (CEST)
+Received: from localhost ([::1]:42272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfxQr-0003l3-MI
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 00:54:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50792)
+	id 1mfxTi-0007rT-Ix
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 00:57:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=928ee31ee=alistair.francis@opensource.wdc.com>)
- id 1mfxHB-00084K-94
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:44:29 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:41722)
+ id 1mfxHG-0008D6-Fd
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:44:34 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:13343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=928ee31ee=alistair.francis@opensource.wdc.com>)
- id 1mfxH4-0002ce-Jy
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:44:27 -0400
+ id 1mfxHC-0004ka-80
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:44:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1635396262; x=1666932262;
+ t=1635396270; x=1666932270;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=NYpkni887wsvZV9VMS0VGs5wJ2vISIuVhBmrnIJ8b4U=;
- b=I/cMqDNU6s15AvLmGfsPlnzgKdGHCy6NFjud61iZG1LiOqrkkuuSa8SZ
- Umh5qE/aG9pI2brHmDw7BfDQnPkrxP53lobRrp3ScSfGapZgVrPcoE6tp
- e0DLn+a4LzRBkB67tXlFlYYGGigMSU7wP4bSuDYdzpT0ZdRfagmj6GkA/
- lrwPeT0yBGEg+Y2ngf92WSGFj22FZL0xS5/xhNdDi7zOgU6otJhrpNWnX
- EFibxlR/D/QoFwrN5rehVf2ZWNOMvV789FYzfdvSQUJHfjUHYcYi2X0Qc
- TgOCiplqK7+DDu7uBWnipBQ+tw7wchUGz6mslcuj5uALliPoowzOG6stE Q==;
-X-IronPort-AV: E=Sophos;i="5.87,188,1631548800"; d="scan'208";a="184975499"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 28 Oct 2021 12:44:22 +0800
-IronPort-SDR: b3mo7HKIJOJM5P1QPIvNWjNjqPKWPdcSO9MZ9ywHeyQXLp9JyORbtdJV+3M3Es+LFT5rmoYj2I
- VHyo5RYpxLz+X07pmSkv/RKCb83hN/lMD4a2L3SwFn7DeyH1pZRiJXpCub5KavbV9rno7qHR2k
- 80IG0+IYevYWG458lCwUCGQApGvd6zL2lTSyW8RaOYiavwexptVylHoajqcovJNN/b67YQJcFL
- uDfybApCa6p7A74cHVeLbKllmPzQLiGcbwQzAXAUyXVVv8f9Is/ApmU5kanr/wIr77Ka7gAizF
- Yqzwm82MFG4wwMHXkdtfDDtB
+ bh=Jp9UVWaLwVNIzQpBAwcwf23Ysj/NKdZvzmtw/yFvBeM=;
+ b=T/D3Hhd7NRUWoREROHNfGPOz9CzF/5vT7p/oY4Mv0om24dp2kvezga/C
+ LvWHQSzio4903SzdEnrnOlPcSWYfyyTOMRaDHSIo9Xjrp01U11ZXtrZtQ
+ DENkzJM87k4mltyZGdNHWMj6gBjfzvIgIs0HMC9XPIFvMcb8R8qvb+aYe
+ /dGi3kvSBaTOG6a+t+jamXW2OoCqeVYZjfEzvkKnE9M9OfDKRvRHf5nDm
+ DR8jqykFUB0UMXh9bvpJbgCd+qf497ep3pmMSIoMLSy0KGKUM7NNmUFkf
+ x3tC5h2MpgpINlNSsGRpdCPwke6erkrn8rpBILVp2f9pJVIe2U1PIjrSU A==;
+X-IronPort-AV: E=Sophos;i="5.87,188,1631548800"; d="scan'208";a="287922951"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 28 Oct 2021 12:44:28 +0800
+IronPort-SDR: EZGGwzxp6Cuwp8aExCS3nKiVVTP/VZwMrb9kiFpasJxunr7Fh0MKQYpVZUNsvLJ3ppaFLaHW5K
+ 1Cyv3Vfbf2yCMDCoDllT/C/6vd+WPo4xduAZzkNMSM9phS5jElQMJa2UU8GSiVp6o0xU79/o5Z
+ qSPTK8rRWxMgTZPVPGlMAWeZY5z+4YXKasNtJJDLkF1aR+Rt/5MZXtKXtMPvQKou9aFs38tfQ9
+ TRaZOWOJjmIfGHA2qrbZs6ZHomfgBGzO90tCPnXn6niUTnrjNwa3dw6HahT/pXWx18itYE3LTT
+ dcQLyuDauhEpF9MOMJjuol+g
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 21:18:17 -0700
-IronPort-SDR: DYUKaFYB4hiX4d5ee6crPNDMGrA6khsYrMiTcrSynNl/QWR9RKyr6OC7jK2K3YjFgxzf1nhS94
- 4JWaJt5dhxftnGdMFGPUHjkOUk+Qvsh8JSFXA6jd39wIInL5lPla6pcwSFj7hF8znEmQBC51tz
- 11vaS3ASs1wLHXpY4QtaA89+gF9P1W22M3JCRZJOzkLfyqI2cPJPui8CS196p/ICPjDzzpGAGC
- +qRkHr7u3+XonGbMbElW0Zq0GHoV9nHzRAaQdLxthDxc3rRKIi7SCTK6yr+Ndl1RM+Rv7ochE0
- Jx4=
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 21:19:56 -0700
+IronPort-SDR: 4NuxtVJfnPnzfNzK8E4YMPamtOuirduFqd1d/bJwfMNsuNhMiawC5Ngmf4DbsTKJTJ9mq6BKW1
+ mjsGFz0QAsKipo2PAbwB/HIxFQqhXsyCO4di3dlpRh/GM2Ac8byAwpR1KMwOsH10PxnUexX/Lu
+ xgr/4ecaaG2qgAxD2Wfj7aPu4e2SXuUsSJkm89C0A1mLvyFmxTZl8IkGqJnEUptsn6/wMM39Ii
+ hIFd9GNToNLD/8Rk9jYEvI95NJPOj/H265cMKJWUvH5DqdQY1OJ0Czz776dbvzEKocp1WXUpYf
+ LMI=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 21:44:22 -0700
+ 27 Oct 2021 21:44:28 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HftJ553sxz1RtVn
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 21:44:21 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HftJD137xz1RtVx
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 21:44:28 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1635396261; x=1637988262; bh=NYpkni887wsvZV9VMS
- 0VGs5wJ2vISIuVhBmrnIJ8b4U=; b=IJtbyPKYJFndEQhwrKB/C40uKlWCBWXjHL
- E5V3a/E3oY1lkdNYoRjGpKSluM9Oa1JmStdmt3wcwMUSoCGk07ShYPTVwWMUULJO
- m2iJl4Gwtw0VBTeoMcHQighMuhUMqg2F/CwnexDLa/8dZuux8pLo9h/nr6QfwGRY
- zmA2t/0xj6E9fJNw5Ve3zlcwK9oZeQhL7exstoZAh972DgKqpz96MIyw/ddCqkaa
- E4eyNR2q94lfR8bWlLEzOQHhWMafr3s1bDHDfp/qqKErXHyyYP37ZSHIG6xpAa6W
- vv+Re/bYN7+Bwts7L3tCOZI4mGRUx6KFQbmxHnRBoPJ6iLTY/MiQ==
+ :from; s=dkim; t=1635396267; x=1637988268; bh=Jp9UVWaLwVNIzQpBAw
+ cwf23Ysj/NKdZvzmtw/yFvBeM=; b=Y5DQKH4pfgvqzg+5rCD8i41pJFt+1CTTB/
+ Id9lIjSgCb1VJOxfQc73vb/lv1zf27VRMbhYr+AMJjFktQMC6SMowa0Rlb9upGvQ
+ Ixr81PGatr+fhMdQc14XtCA8ZTJKHL52FKlUlxmqgfOCfCGyLlj35n3yV33xSUBU
+ xcR3oyQglLC9qP/oUrDDEavT/0zPtAwaaMtHFB/x50DATdq2Vr7UA6bRwuUqYh2P
+ AAKjCkSYmJKdnzS+cm0LJH6K48dKe3a4ncsyXBONTKq5f/2k0i6P/y3Uw6n53p0k
+ upUhx9Prree5DnRk5Pvj+QZ85pnR9RlpAxAgdjQBgenkyYY66b+g==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id bYyQBgl3IC4s for <qemu-devel@nongnu.org>;
- Wed, 27 Oct 2021 21:44:21 -0700 (PDT)
+ port 10026) with ESMTP id YLysdODVzFVF for <qemu-devel@nongnu.org>;
+ Wed, 27 Oct 2021 21:44:27 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.40])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HftJ224pQz1RtVl;
- Wed, 27 Oct 2021 21:44:17 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HftJ64dkcz1RtVl;
+ Wed, 27 Oct 2021 21:44:22 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bmeng.cn@gmail.com>
-Subject: [PULL 06/18] hw/riscv: opentitan: Fixup the PLIC context addresses
-Date: Thu, 28 Oct 2021 14:43:30 +1000
-Message-Id: <20211028044342.3070385-7-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Alexey Baturo <baturo.alexey@gmail.com>,
+ Alexey Baturo <space.monkey.delivers@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+Subject: [PULL 07/18] target/riscv: Add J-extension into RISC-V
+Date: Thu, 28 Oct 2021 14:43:31 +1000
+Message-Id: <20211028044342.3070385-8-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211028044342.3070385-1-alistair.francis@opensource.wdc.com>
 References: <20211028044342.3070385-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.45;
+Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=928ee31ee=alistair.francis@opensource.wdc.com;
- helo=esa6.hgst.iphmx.com
+ helo=esa2.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -115,36 +117,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+From: Alexey Baturo <baturo.alexey@gmail.com>
 
-Fixup the PLIC context address to correctly support the threshold and
-claim register.
-
-Fixes: ef63100648 ("hw/riscv: opentitan: Update to the latest build")
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: 20211025040657.262696-1-alistair.francis@opensource.wdc.com
+Message-id: 20211025173609.2724490-2-space.monkey.delivers@gmail.com
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/opentitan.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/riscv/cpu.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 83e1511f28..c531450b9f 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -161,8 +161,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
-_soc, Error **errp)
-     qdev_prop_set_uint32(DEVICE(&s->plic), "pending-base", 0x1000);
-     qdev_prop_set_uint32(DEVICE(&s->plic), "enable-base", 0x2000);
-     qdev_prop_set_uint32(DEVICE(&s->plic), "enable-stride", 0x18);
--    qdev_prop_set_uint32(DEVICE(&s->plic), "context-base", 0x200004);
--    qdev_prop_set_uint32(DEVICE(&s->plic), "context-stride", 4);
-+    qdev_prop_set_uint32(DEVICE(&s->plic), "context-base", 0x200000);
-+    qdev_prop_set_uint32(DEVICE(&s->plic), "context-stride", 8);
-     qdev_prop_set_uint32(DEVICE(&s->plic), "aperture-size", memmap[IBEX_=
-DEV_PLIC].size);
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index a33dc30be8..1cfc6a53a0 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -65,6 +65,7 @@
+ #define RVS RV('S')
+ #define RVU RV('U')
+ #define RVH RV('H')
++#define RVJ RV('J')
 =20
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->plic), errp)) {
+ /* S extension denotes that Supervisor mode exists, however it is possib=
+le
+    to have a core that support S mode but does not have an MMU and there
+@@ -291,6 +292,7 @@ struct RISCVCPU {
+         bool ext_s;
+         bool ext_u;
+         bool ext_h;
++        bool ext_j;
+         bool ext_v;
+         bool ext_zba;
+         bool ext_zbb;
 --=20
 2.31.1
 
