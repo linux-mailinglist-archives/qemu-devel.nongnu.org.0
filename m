@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B303243E90D
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 21:42:36 +0200 (CEST)
-Received: from localhost ([::1]:55434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD5043E90A
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 21:39:28 +0200 (CEST)
+Received: from localhost ([::1]:51982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgBIJ-0003wU-SL
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 15:42:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44290)
+	id 1mgBFG-0001P0-IU
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 15:39:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mgBC3-00071D-0q
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:36:07 -0400
-Received: from mail-ua1-x934.google.com ([2607:f8b0:4864:20::934]:39804)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mgBBy-0000nb-W8
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:36:06 -0400
-Received: by mail-ua1-x934.google.com with SMTP id ba32so13712183uab.6
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 12:36:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PAjfajqf6hhzWsw0ynUSYD8tS6fzbX5F+OgUJQ+LEr4=;
- b=GgkW3uG8kP3DNEj9qGg+RrKZCla8tv1BkcOMdckr0XaAj7wrWGUzUqnMafkSZPU6Ko
- rxepff7+/ZbHq/17vfk4mKLknkPF+TGFt8diP5bENq7V0H8dFKdchpmSx2DoW1LBDj4a
- Ed/V24V+G+90/ieQGk6blyHoCUlSD+5haKN4xm7kdB01iD8VZxLDx+SCBhbp8Mfx5oO4
- UF4p5uXXhcIRMo/PubFNLj/qvEkiFAxYiMiFk1HAhMmTjOdIMz3pMB45qabhC5MzTZC+
- QUhjW03NrZMri/WwLHZUSLhuoZFnFZH7rH42TKbRUCZYx8sQJzHEjJghMxiLpgu1sj/f
- 9ZHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PAjfajqf6hhzWsw0ynUSYD8tS6fzbX5F+OgUJQ+LEr4=;
- b=Ms5c5lemk2ZtyJWq4L/zs1Lct7GLPekvAeF5pZCqcfBx1HWUvxa0zuhH6Wy2z2E0gH
- 62X8uhvHau5XH98qtOyU3jY551YYmxm1ckbpelRlY6xROHJIX6MPOYNkpS7FkEBDuNjr
- 7LUB1tiHNYoUbKmB7tM3nYp9wFIZ+C7hmj3KD3lZSV0n8eq/pNDyauOry1UETMV1Eq+I
- fufCcOhAAzel1Ys35o6ZVF2BRxRIiioHRpHMlxDu6cdbKZ/DaGkLqY3MsD7lSl2oIF8X
- yexroKnayZic7ROvKi+91KNIGnlv9MfdZtAeEPsZs6G8zipiAgtAWkekR+7M2KfNzrux
- kc9A==
-X-Gm-Message-State: AOAM530QAoopoQYEBS5UoWw52cBbRIWTwBujElww6oVp8hRZdD4RVkaq
- mK/ipK9m3sWSGAZ16kZ29fk83i3oDkqsUFn50/5kLA==
-X-Google-Smtp-Source: ABdhPJzHGxC3TvWfm43gozX7b1zE6w9gUORmeROIiOq40JACIZZdL+L1ymaHo4hizGpxdZxPx9HXWuUrlkJbCEdhSc4=
-X-Received: by 2002:a05:6102:5494:: with SMTP id
- bk20mr7512819vsb.6.1635449761371; 
- Thu, 28 Oct 2021 12:36:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mgBDU-0008OX-0t
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:37:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23101)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mgBDP-000147-Ad
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:37:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635449850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rchxB5iyw2l7IkGbg40bainTa+kQEnKPw/nHAUdVV/A=;
+ b=M0CYw4Vxn9W0LetqZrYIb2Ligg9ZEzqIHNZnG32VTCPtJXBPzr3sasxhR77GcGHs0tZIAz
+ +REod9XHfIoN9xDeoOr7t6TeYXWiHWHCvbeoUfAHuyyPVNh4DtHBxT8WJGp2bTI/3l7map
+ R33+uO0FCAIcYb4BzXy+NeC/8VMrANU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-146-w53ikSFXOg6Sp9klfz8-cA-1; Thu, 28 Oct 2021 15:37:27 -0400
+X-MC-Unique: w53ikSFXOg6Sp9klfz8-cA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74FD51006AA2;
+ Thu, 28 Oct 2021 19:37:26 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F0A0F5F707;
+ Thu, 28 Oct 2021 19:37:08 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8646E11380A7; Thu, 28 Oct 2021 21:37:07 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Reiter <s.reiter@proxmox.com>
+Subject: Re: [PATCH v7 0/4] VNC-related HMP/QMP fixes
+References: <20211021100135.4146766-1-s.reiter@proxmox.com>
+ <87fssl3emb.fsf@dusky.pond.sub.org>
+Date: Thu, 28 Oct 2021 21:37:07 +0200
+In-Reply-To: <87fssl3emb.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Thu, 28 Oct 2021 07:25:16 +0200")
+Message-ID: <87r1c5lz4s.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-13-imp@bsdimp.com>
- <264949a3-4bc2-e4a1-8a4f-61ee43008c91@linaro.org>
-In-Reply-To: <264949a3-4bc2-e4a1-8a4f-61ee43008c91@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 28 Oct 2021 13:35:50 -0600
-Message-ID: <CANCZdfo-Q2Xhsesbx9-gZhumFhLE+8akCtoWbfSpaNDnd2TJrA@mail.gmail.com>
-Subject: Re: [PATCH 12/24] bsd-user/arm/target_arch_sigtramp.h: Signal
- Trampoline for arm
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000132a2c05cf6ed281"
-Received-SPF: none client-ip=2607:f8b0:4864:20::934;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x934.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,113 +79,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@freebsd.org>, QEMU Trivial <qemu-trivial@nongnu.org>,
- Kyle Evans <kevans@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000132a2c05cf6ed281
-Content-Type: text/plain; charset="UTF-8"
+Markus Armbruster <armbru@redhat.com> writes:
 
-On Thu, Oct 28, 2021 at 9:42 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 10/19/21 9:44 AM, Warner Losh wrote:
-> > +    /*
-> > +     * The code has to load r7 manually rather than using
-> > +     * "ldr r7, =SYS_return to make sure the size of the
-> > +     * code is correct.
-> > +     */
+> Stefan Reiter <s.reiter@proxmox.com> writes:
 >
-> This comment was applicable to the original freebsd asm source; it has no
-> bearing on the
-> hex instructions below
-
-
-Yea, the code size will always be correct...
-
-
-> > +    uint32_t sigtramp_code[] = {
-> > +    /* 1 */ 0xE1A0000D,                  /* mov r0, sp */
-> > +    /* 2 */ 0xE2800000 + sigf_uc,        /* add r0, r0, #SIGF_UC */
+>> Since the removal of the generic 'qmp_change' command, one can no longer replace
+>> the 'default' VNC display listen address at runtime (AFAIK). For our users who
+>> need to set up a secondary VNC access port, this means configuring a second VNC
+>> display (in addition to our standard one for web-access), but it turns out one
+>> cannot set a password on this second display at the moment, as the
+>> 'set_password' call only operates on the 'default' display.
+>>
+>> Additionally, using secret objects, the password is only read once at startup.
+>> This could be considered a bug too, but is not touched in this series and left
+>> for a later date.
 >
-> I guess this was a bit of thumb1 source that accidentally became ABI?
-> Otherwise I can't think why you wouldn't squish the mov into the add.
->
+> Queued, thanks!
 
-It's in our ABI. gdb and others know what the sigcode signature looks like
-for sigreturn
-so we can't really change it without a lot of pain... So we're kinda stuck
-with very
-old-school ARM code sequences for our modern armv7 port. There's likely no
-reason to have the defensive call to sys_exit either, but like I said,
-we're kinda
-stuck with it w/o replacing it in a number of external sources...  You may
-see similar
-issues with the aarch64 code I'll post next.
+Unqueued, because it fails to compile with --disable-vnc and with
+--disable-spice.  I failed to catch this in review, sorry.
 
+Making it work takes a tiresome amount of #ifdeffery (sketch appended).
+Missing: removal of stubs that are no longer used,
+e.g. vnc_display_password() in ui/vnc-stubs.c.  Feels like more trouble
+than it's worth.
 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
-
-thanks!
-
-Warner
+To maximize our chances to get this into 6.2, please respin without the
+'if' conditionals.  Yes, this makes introspection less useful, but it's
+no worse than before the patch.
 
 
-> r~
->
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 5292617b44..39ca0b5ead 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -69,8 +69,10 @@
+   'base': { 'protocol': 'DisplayProtocol',
+             'password': 'str' },
+   'discriminator': 'protocol',
+-  'data': { 'vnc': 'SetPasswordOptionsVnc',
+-            'spice': 'SetPasswordOptionsSpice' } }
++  'data': { 'vnc': { 'type': 'SetPasswordOptionsVnc',
++                     'if': 'CONFIG_VNC' },
++            'spice': { 'type': 'SetPasswordOptionsSpice',
++                       'if': 'CONFIG_SPICE' } } }
+ 
+ ##
+ # @SetPasswordOptionsSpice:
+@@ -155,7 +157,8 @@
+   'base': { 'protocol': 'DisplayProtocol',
+             'time': 'str' },
+   'discriminator': 'protocol',
+-  'data': { 'vnc': 'ExpirePasswordOptionsVnc' } }
++  'data': { 'vnc': { 'type': 'ExpirePasswordOptionsVnc',
++                     'if': 'CONFIG_VNC' } } }
+ 
+ ##
+ # @ExpirePasswordOptionsVnc:
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index f0f0c82d59..f714b2d316 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1451,24 +1451,40 @@ void hmp_set_password(Monitor *mon, const QDict *qdict)
+ {
+     const char *protocol  = qdict_get_str(qdict, "protocol");
+     const char *password  = qdict_get_str(qdict, "password");
++#if defined(CONFIG_SPICE) || defined(CONFIG_VNC)
+     const char *display = qdict_get_try_str(qdict, "display");
++#endif
++#ifdef CONFIG_SPICE
+     const char *connected = qdict_get_try_str(qdict, "connected");
++#endif
+     Error *err = NULL;
++    int proto;
+ 
+     SetPasswordOptions opts = {
+         .password = (char *)password,
+     };
+ 
+-    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
+-                                    DISPLAY_PROTOCOL_VNC, &err);
++    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol, -1, &err);
+     if (err) {
+         goto out;
+     }
+ 
+-    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
++    switch (proto) {
++#ifdef CONFIG_VNC
++    case -1:
++        proto = DISPLAY_PROTOCOL_VNC;
++        /* fall through */
++    case DISPLAY_PROTOCOL_VNC:
+         opts.u.vnc.has_display = !!display;
+         opts.u.vnc.display = (char *)display;
+-    } else if (opts.protocol == DISPLAY_PROTOCOL_SPICE) {
++        break;
++#else
++    case -1:
++        error_setg(&err, "FIXME");
++        goto out;
++#endif
++#ifdef CONFIG_SPICE
++    case DISPLAY_PROTOCOL_SPICE:
+         opts.u.spice.has_connected = !!connected;
+         opts.u.spice.connected =
+             qapi_enum_parse(&SetPasswordAction_lookup, connected,
+@@ -1476,8 +1492,13 @@ void hmp_set_password(Monitor *mon, const QDict *qdict)
+         if (err) {
+             goto out;
+         }
++        break;
++#endif
++    default:
++        ;
+     }
+ 
++    opts.protocol = proto;
+     qmp_set_password(&opts, &err);
+ 
+ out:
+@@ -1488,22 +1509,34 @@ void hmp_expire_password(Monitor *mon, const QDict *qdict)
+ {
+     const char *protocol  = qdict_get_str(qdict, "protocol");
+     const char *whenstr = qdict_get_str(qdict, "time");
++#if defined(CONFIG_SPICE) || defined(CONFIG_VNC)
+     const char *display = qdict_get_try_str(qdict, "display");
++#endif
+     Error *err = NULL;
++    int proto;
+ 
+     ExpirePasswordOptions opts = {
+         .time = (char *)whenstr,
+     };
+ 
+-    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
+-                                    DISPLAY_PROTOCOL_VNC, &err);
++    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol, -1, &err);
+     if (err) {
+         goto out;
+     }
+ 
+-    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
++    switch (proto) {
++#ifdef CONFIG_VNC
++    case -1:
++        proto = DISPLAY_PROTOCOL_VNC;
++        /* fall through */
++    case DISPLAY_PROTOCOL_VNC:
+         opts.u.vnc.has_display = !!display;
+         opts.u.vnc.display = (char *)display;
++#else
++    case -1:
++        error_setg(&err, "FIXME");
++        goto out;
++#endif
+     }
+ 
+     qmp_expire_password(&opts, &err);
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 4825d0cbea..69a9c2977a 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -167,18 +167,26 @@ void qmp_set_password(SetPasswordOptions *opts, Error **errp)
+ {
+     int rc = 0;
+ 
+-    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
++    switch (opts->protocol) {
++#ifdef CONFIG_SPICE
++    case DISPLAY_PROTOCOL_SPICE:
+         if (!qemu_using_spice(errp)) {
+             return;
+         }
+         rc = qemu_spice.set_passwd(opts->password,
+                 opts->u.spice.connected == SET_PASSWORD_ACTION_FAIL,
+                 opts->u.spice.connected == SET_PASSWORD_ACTION_DISCONNECT);
+-    } else {
+-        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
++        break;
++#endif
++#ifdef CONFIG_VNC
++    case DISPLAY_PROTOCOL_VNC:
+         /* Note that setting an empty password will not disable login through
+          * this interface. */
+         rc = vnc_display_password(opts->u.vnc.display, opts->password);
++        break;
++#endif
++    default:
++        abort();
+     }
+ 
+     if (rc != 0) {
+@@ -202,14 +210,22 @@ void qmp_expire_password(ExpirePasswordOptions *opts, Error **errp)
+         when = strtoull(whenstr, NULL, 10);
+     }
+ 
+-    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
++    switch (opts->protocol) {
++#ifdef CONFIG_SPICE
++    case DISPLAY_PROTOCOL_SPICE:
+         if (!qemu_using_spice(errp)) {
+             return;
+         }
+         rc = qemu_spice.set_pw_expire(when);
+-    } else {
+-        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
++        break;
++#endif
++#ifdef CONFIG_VNC
++    case DISPLAY_PROTOCOL_VNC:
+         rc = vnc_display_pw_expire(opts->u.vnc.display, when);
++        break;
++#endif
++    default:
++        abort();
+     }
+ 
+     if (rc != 0) {
 
---000000000000132a2c05cf6ed281
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 28, 2021 at 9:42 AM Richa=
-rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
-nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On 10/19/21 9:44 AM, Warner Losh wrote:<br>
-&gt; +=C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* The code has to load r7 manually rather than us=
-ing<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* &quot;ldr r7, =3DSYS_return to make sure the si=
-ze of the<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* code is correct.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-<br>
-This comment was applicable to the original freebsd asm source; it has no b=
-earing on the <br>
-hex instructions below</blockquote><div><br></div><div>Yea, the code size w=
-ill always be correct...</div><div>=C2=A0</div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">&gt; +=C2=A0 =C2=A0 uint32_t sigtramp_code[] =3D {<br=
->
-&gt; +=C2=A0 =C2=A0 /* 1 */ 0xE1A0000D,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* mov r0, sp */<br>
-&gt; +=C2=A0 =C2=A0 /* 2 */ 0xE2800000 + sigf_uc,=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 /* add r0, r0, #SIGF_UC */<br>
-<br>
-I guess this was a bit of thumb1 source that accidentally became ABI?<br>
-Otherwise I can&#39;t think why you wouldn&#39;t squish the mov into the ad=
-d.<br></blockquote><div><br></div><div>It&#39;s in our ABI. gdb and others =
-know what the sigcode=C2=A0signature looks like for sigreturn</div><div>so =
-we can&#39;t really change=C2=A0it without a lot of pain... So we&#39;re ki=
-nda stuck with very</div><div>old-school ARM code sequences for our modern =
-armv7 port. There&#39;s likely no</div><div>reason to have the defensive ca=
-ll to sys_exit either, but like I said, we&#39;re kinda</div><div>stuck wit=
-h it w/o replacing it in a number of external sources...=C2=A0 You may see =
-similar</div><div>issues with the aarch64 code I&#39;ll post next.</div><di=
-v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br></blockqu=
-ote><div><br></div><div>thanks!</div><div><br></div><div>Warner</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-r~<br>
-</blockquote></div></div>
-
---000000000000132a2c05cf6ed281--
 
