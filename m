@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2403343D84B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 02:59:16 +0200 (CEST)
-Received: from localhost ([::1]:55688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33AF243D84A
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 02:58:53 +0200 (CEST)
+Received: from localhost ([::1]:54456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mftlD-0003Wj-9b
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 20:59:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42866)
+	id 1mftkq-0002gH-9z
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 20:58:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mftga-00005L-OV
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:54:31 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:38660)
+ id 1mfthX-0000aa-Qm
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:55:33 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:35382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mftgZ-0000ml-5c
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:54:28 -0400
-Received: by mail-pf1-x429.google.com with SMTP id k26so4363615pfi.5
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 17:54:26 -0700 (PDT)
+ id 1mfthV-0000ql-P7
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:55:27 -0400
+Received: by mail-pl1-x631.google.com with SMTP id n18so3251943plc.2
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 17:55:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ey7w2R2wbWV5X8Hx6NtpBMADhn+mL2JO8GzvzICaG+Y=;
- b=x1aGi5m6uRSu8Ml7150XRhx6wOMJTL+ldKBIsi1Zqo/sVQPNi68vrfMjwR2rBOMGrt
- YKU3AY4Q5RMoZ/RXjKIWoDO/iAfDqIHQJUKz9mGJY2HhnnW6nNze7nRZNmTIFuGjOICv
- QoB/po3ax0Ifgrr5AqMf08c9eeTPiVhZ2qmELJeP1hbWmdLWaeQxM5sSGvTNMpZ16V3O
- R/YBaG0UpWFIvYVlfp7ZIwF4ur/vYcPUh4ySxRvOn+yLzoPl1uQI5QjcK0sOpZoyh8Ed
- LM29Zf6+DfmltPtUcFd7wz0GPCP3/Ujn94irCE+RqbEuBYuiwUF95KlKQau3rDK8Pyz9
- TG+Q==
+ bh=oq61yYoAsHqRv4kMCqCBMgtDmQe11dP6AbN3IELbFIo=;
+ b=jDghlyTJVB/cZWldllH/sm0+FtXEtpIZn85FX69xrieybo1eDhBGdC70SJrUQXeN8z
+ dv1d6bKkw8L0/gEbLbjoiBK70Z70s4We22H3a2T5l/sXZLbD5dGRSDsklXutCQx1/b/t
+ FW//ZR5pM+4VFTJdJxpmxUtuUUnCeyfgk4EkDqhw3jAqfu7owoEzaqFpm2c5jMaS0P/O
+ 1qQUOo+hGzXclAUrm+hhjmcAAJyaNrnN5OjNWUnH4cHErPwhrQaQySLA6XnlMT+isCpR
+ wyAacIYzGhfEp4uGMViTWATJ0V+k8QYMNz0iu+oj7YHR1uyXfTAVcnFuuzAL08ZS7taU
+ tZgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ey7w2R2wbWV5X8Hx6NtpBMADhn+mL2JO8GzvzICaG+Y=;
- b=WiZNwKztf3c67Kj8F2NAb3PWXm4g5vOAIZxyzXDYraGfzCXenD/LTzweDHaGWNWOnd
- Eucakp9Ai52hhJ0umptceXIU5o5Etk9ADByeOHfyZ0ZKebX8p0z8kJzWgpMbCjH2NWnA
- DD/tymQ+SOD6apVVC62lDyKMu30pzDxiv6Gd8SZziZs0HDLqyM+FlCD+fKNkltZ0La+k
- K/LnOjcZBNB5f1lgUFnfwy9d75kSztNF1V1kOitq5di1Lx0SsiJtvVX3A7DntpOWXyTE
- uVeGzRti8f7kRJstpV3VkTwzbPdwRCCeX+6utcs8w86mvtaO2XYOkiTm6k2jFm3b2xsg
- otGQ==
-X-Gm-Message-State: AOAM531iW3TZc87RYO1ebE9VDPHZenO3tI+A6K92F9EwMvQDj1xvc1Bs
- EqQNnCPhK3T6SSTzfE8eDuZvhw==
-X-Google-Smtp-Source: ABdhPJyPPxROrBCZhtcmRrDUnd56BgG7e63XFMfwuLczgfq8CQeMQe0KIhFNg6URiT5aH/3M0HUlHQ==
-X-Received: by 2002:a05:6a00:2181:b0:44c:f4bc:2f74 with SMTP id
- h1-20020a056a00218100b0044cf4bc2f74mr1160668pfi.68.1635382465134; 
- Wed, 27 Oct 2021 17:54:25 -0700 (PDT)
+ bh=oq61yYoAsHqRv4kMCqCBMgtDmQe11dP6AbN3IELbFIo=;
+ b=VMu9lGTPJuPfmzZ8LUXfHmep5W+ReW6vUHACejPD2XBTtzgEjPuUbA9vsoupA6e61n
+ ghZtiFFn7JrO3JF4zAGYVXDxnGOFEKw6rukSEdEVBcRGYmwY5cPWDk5sH2pKssUADjZU
+ 7lb7o+3SquiYmMDdPLnB6qF+e+waeD8t2Sk6ooAqPYJtD6YS4vHkE+92zpuo/h1X/you
+ WMWmLgg1oD6AgeOmYyqOK1jtXfzXsoek1qsXZpgZ2+A/KZ2jn/xTp5rBkr2pNSeAg/rG
+ lextshouKinVakzEOT2EdYayFrfpBzSrYMP1eDBARpY+1ZUtujYWvCksm1t1Wjs4CDor
+ hJYw==
+X-Gm-Message-State: AOAM533ExCM0suWFCWl8LTV1vpOgPVEUs5ag7+w2stYAmf9ManDwSwbp
+ 7j5NVqL2du9hhrMfi0v3gU0D/Q==
+X-Google-Smtp-Source: ABdhPJytIPMjqkDJNvEhlMCHXC4DjPaCd8k78rDLG+ffiWEPearimt2LbRmiy3DaAHdIzgLChdYWow==
+X-Received: by 2002:a17:902:ecca:b0:141:569b:6fda with SMTP id
+ a10-20020a170902ecca00b00141569b6fdamr870333plh.48.1635382520958; 
+ Wed, 27 Oct 2021 17:55:20 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id o6sm888934pgq.4.2021.10.27.17.54.24
+ by smtp.gmail.com with ESMTPSA id mi3sm839277pjb.41.2021.10.27.17.55.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 17:54:24 -0700 (PDT)
-Subject: Re: [PATCH v3 13/18] hw/intc/sh_intc: Remove excessive parenthesis
+ Wed, 27 Oct 2021 17:55:20 -0700 (PDT)
+Subject: Re: [PATCH v3 14/18] hw/intc/sh_intc: Use array index instead of
+ pointer arithmetics
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1635371671.git.balaton@eik.bme.hu>
- <c348abc5e52babc9f5f323184761b54888421208.1635371671.git.balaton@eik.bme.hu>
+ <fde64967d4cdb4a3ff28a77ad2ea0554366376f8.1635371671.git.balaton@eik.bme.hu>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a699e3d5-e0c4-6d54-740f-38a72482d394@linaro.org>
-Date: Wed, 27 Oct 2021 17:54:23 -0700
+Message-ID: <d6b60624-9e22-30db-a3e8-aab9f9375a63@linaro.org>
+Date: Wed, 27 Oct 2021 17:55:19 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <c348abc5e52babc9f5f323184761b54888421208.1635371671.git.balaton@eik.bme.hu>
+In-Reply-To: <fde64967d4cdb4a3ff28a77ad2ea0554366376f8.1635371671.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -48
 X-Spam_score: -4.9
 X-Spam_bar: ----
@@ -95,13 +96,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/27/21 2:54 PM, BALATON Zoltan wrote:
-> Drop unneded parenthesis and split up one complex expression to write
-> it with less brackets so it's easier to follow.
+> Address of element i is one word thus clearer than array + i.
 > 
 > Signed-off-by: BALATON Zoltan<balaton@eik.bme.hu>
 > ---
->   hw/intc/sh_intc.c | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
+>   hw/intc/sh_intc.c | 28 ++++++++++++++--------------
+>   1 file changed, 14 insertions(+), 14 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
