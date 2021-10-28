@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2AF43E80D
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 20:10:40 +0200 (CEST)
-Received: from localhost ([::1]:46688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689C843E89C
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 20:47:01 +0200 (CEST)
+Received: from localhost ([::1]:59328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg9rK-0006T5-47
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 14:10:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52806)
+	id 1mgAQV-0008Pf-88
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 14:46:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mg9kj-0001tD-6D
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 14:03:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mg9kf-0005JT-Gz
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 14:03:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635444223;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eOIJEpJ7ZyIaN+8A6+sXggPzsVq34cku0Q0Pe6bLhgA=;
- b=RTlcGlQGFp9jh50+gMvFAKqOdj+wV6bIXqAJdiwlxUxcOwqalg7in3vVaDfCsjV3JDyhnf
- 4aZ3FI0dcVnvNZsmgasUNAA5eg9OS37gt/TzsEwfzSbIyFO6JrO9CfDmyN5XXF4eExKZYT
- bcInG34RQMlbNY+MvkdPySe49g8C8hk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-6m8aVmlTOa2eD6n2pMEpZw-1; Thu, 28 Oct 2021 14:03:40 -0400
-X-MC-Unique: 6m8aVmlTOa2eD6n2pMEpZw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74D60802B4F
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 18:03:39 +0000 (UTC)
-Received: from thuth.remote.csb (unknown [10.39.193.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 908795C1B4;
- Thu, 28 Oct 2021 18:03:38 +0000 (UTC)
-Subject: Re: [PATCH 2/2] build: use "meson test" as the test harness
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211028142826.57327-1-pbonzini@redhat.com>
- <20211028142826.57327-3-pbonzini@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <60e3154f-16a2-98d9-ec29-e4c6a2291c20@redhat.com>
-Date: Thu, 28 Oct 2021 20:03:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mgAOY-0007WN-DV
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 14:44:58 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:44862)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mgAOJ-0002FX-Qz
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 14:44:58 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ oa12-20020a17090b1bcc00b0019f715462a8so5486356pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 11:44:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xUaMSkTBy7HnFxop844la5qi0uRA6k9UHy9ncF0Y1cs=;
+ b=QRTzQxo9aLotFF7N1rVLasGGHoE+6aPXXHXpQe6XS8Gdijs4frgv7YYSs7M4FabwCb
+ WAKF1++UjXDI/DwRf9Vg0lj51aPGYjnWHSHLUWX/buHT4olxIVW2K049AxxwAEJExXWz
+ +Yxu/XEfkqjGo9hpEkUqlGwSAwG4/g18pCN2kmqZbOo8PcXIVW1GIGvYDALpgi8tFTBv
+ +gIa5jXONtQ0I+WjhkJKgSRWpKROTqawG9+htwEmJmQVT/Ld89N/uRYQjiVe0kUTzoAT
+ zKPaK9AHYrWxleqIdB3wV4GQ1d6v6foeW24yEEKsh8AV5XNlnF0oa+RVAZsAtvYllyF2
+ gThg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xUaMSkTBy7HnFxop844la5qi0uRA6k9UHy9ncF0Y1cs=;
+ b=BsGjjhR8UHyewDAUlsFdVoYjRCpFNrqfyLG+0KjrlNIo4SGTidKaGRFrURZtb8UvMV
+ tAhfq2LU4PY7em2f78tZpl/D8MYkxEYK4HWGpEI3fqV1N/M3DpgPReKjrFOIp7n9QZbJ
+ qbfjW1UTAs9tE+E04g6BShWveoXoFkfeBXia59dH03RD8ZIRUeMoxLIJ2UFHGn5E5vuc
+ A2dsVg+rNW32VPNXxIeQENPDas90VN8fwyewl/+LiAEjRBwfw+LunCWsMWMSJ2yj+Xu0
+ cHdhj1j4bFIZVCNuvvaQ4FC5J2l2wCMW5Gej2yrq5sg8BQ+E5vYwpBN/cznD1LnEqKPx
+ OacA==
+X-Gm-Message-State: AOAM5325v/1a2dgs9NBBwSudOcV49B9rY3sJe5btGXV9RkKNK+fTCOta
+ jMKESY4u2F7VaaLJJrERl+AOecsEJ/bvKg==
+X-Google-Smtp-Source: ABdhPJzgZXdHrdYy0aBYaRfZtv7sOmxCM5aoQtMZbadwoFw1cIn/azrkokWIJemtNyU5dspWyLPe9Q==
+X-Received: by 2002:a17:903:11c9:b0:13f:f28f:f77 with SMTP id
+ q9-20020a17090311c900b0013ff28f0f77mr5451830plh.79.1635446682008; 
+ Thu, 28 Oct 2021 11:44:42 -0700 (PDT)
+Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
+ [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id mp16sm3800129pjb.1.2021.10.28.11.44.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Oct 2021 11:44:41 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tcg: Extend call args using the correct opcodes
+Date: Thu, 28 Oct 2021 11:44:40 -0700
+Message-Id: <20211028184440.1508585-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211028142826.57327-3-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.847, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,50 +82,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: luis.pires@eldorado.org.br, alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/10/2021 16.28, Paolo Bonzini wrote:
-> "meson test" starting with version 0.57 is just as capable and easy to
-> use as QEMU's own TAP driver.  All existing options for "make check"
-> work.  The only required code change involves how to mark "slow" tests.
-> 
-> The rules for .tap output are replaced by JUnit XML; GitLab is able
-> to parse that output and present it in the CI pipeline report.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   Makefile              |   3 +-
->   meson.build           |   5 +-
->   scripts/mtest2make.py | 104 ++++--------
->   scripts/tap-driver.pl | 379 ------------------------------------------
->   scripts/tap-merge.pl  | 111 -------------
->   tests/fp/meson.build  |   2 +-
->   6 files changed, 41 insertions(+), 563 deletions(-)
->   delete mode 100755 scripts/tap-driver.pl
->   delete mode 100755 scripts/tap-merge.pl
-[...]
-> diff --git a/tests/fp/meson.build b/tests/fp/meson.build
-> index 07e2cdc8d2..32d57031fc 100644
-> --- a/tests/fp/meson.build
-> +++ b/tests/fp/meson.build
-> @@ -622,7 +622,7 @@ test('fp-test-mulAdd', fptest,
->        # no fptest_rounding_args
->        args: fptest_args +
->              ['f16_mulAdd', 'f32_mulAdd', 'f64_mulAdd', 'f128_mulAdd'],
-> -     suite: ['softfloat-slow', 'softfloat-ops-slow'], timeout: 90)
-> +     suite: ['softfloat', 'softfloat-ops', 'slow'], timeout: 90)
->   
->   fpbench = executable(
->     'fp-bench',
-> 
+Pretending that the source is i64 when it is in fact i32 is
+incorrect; we have type-changing opcodes that must be used.
+This bug trips up the subsequent change to the optimizer.
 
-Thanks for the update, this works definitely better than the RFC already. 
-However, I spotted another oddity: "make check-softfloat" now is way slower 
-than before, it takes more than 2 minutes now, while it finished within 20 
-seconds before your change ... looks like you've included some slow tests 
-into the normal run now?
+Fixes: 4f2331e5b67a
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
 
-  Thomas
+This fixes a problem found in s390x host testing, and should
+be considered patch 41.5/51 in
+
+  [PATCH v4 00/51] tcg: optimize redundant sign extensions
+
+just before 
+
+  tcg/optimize: Stop forcing z_mask to "garbage" for 32-bit values
+
+
+r~
+
+---
+ tcg/tcg.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 024a22cf39..6332cdceca 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1508,11 +1508,11 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
+ 
+         if (is_32bit) {
+             TCGv_i64 temp = tcg_temp_new_i64();
+-            TCGv_i64 orig = temp_tcgv_i64(args[i]);
++            TCGv_i32 orig = temp_tcgv_i32(args[i]);
+             if (is_signed) {
+-                tcg_gen_ext32s_i64(temp, orig);
++                tcg_gen_ext_i32_i64(temp, orig);
+             } else {
+-                tcg_gen_ext32u_i64(temp, orig);
++                tcg_gen_extu_i32_i64(temp, orig);
+             }
+             args[i] = tcgv_i64_temp(temp);
+         }
+-- 
+2.25.1
 
 
