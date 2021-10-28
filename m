@@ -2,86 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD6743DA76
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 06:39:25 +0200 (CEST)
-Received: from localhost ([::1]:42482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B0943DA8A
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 06:47:45 +0200 (CEST)
+Received: from localhost ([::1]:49964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfxCG-0004ro-Ko
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 00:39:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49806)
+	id 1mfxKK-0001ea-Ig
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 00:47:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mfxAw-0003SD-Id
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:38:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42360)
+ (Exim 4.90_1)
+ (envelope-from <prvs=928ee31ee=alistair.francis@opensource.wdc.com>)
+ id 1mfxGi-0007gJ-2q
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:44:00 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:41703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mfxAu-0001dk-Gn
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:38:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635395879;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IwmvqbizbpFr8/0Zj7R41yyWHItp+jC5sgd9OHzAMvc=;
- b=bC+N0dsKLljL+4vzVGFacFn0K3DmOJdoFRyaTWuPp21ez2D7pc2vPsqY/la55Q+uEv1Qny
- dj696HwtXD6LqbVzisBDSwlF2yRUM9JO3Zt8gEKtBuY3mgRsLPbpe1Wj9JIeHue5FsuxfT
- wRoplfpWy2z4I6fe5VydyJyeZwdRle8=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-C0dRunJCMl6FBJnyAczWeA-1; Thu, 28 Oct 2021 00:37:57 -0400
-X-MC-Unique: C0dRunJCMl6FBJnyAczWeA-1
-Received: by mail-lf1-f71.google.com with SMTP id
- h21-20020a0565123c9500b003ffa23a0577so2291821lfv.18
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 21:37:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IwmvqbizbpFr8/0Zj7R41yyWHItp+jC5sgd9OHzAMvc=;
- b=T8VYzekrfhI7a2EXBnY4ta7pOsAIxQ1SNgbKeJF5ZeMfQ2duaIIbnylA1bCvuXBXug
- 8mKcnHjkcldJPrFn8Rhe7oPuZAtdFSmIxLi9nTkpgCHSbbz6NNO6TFHbpv+rrLyiKF2a
- Mj+Q+LEsvlPm63ZGra4I87Nf6CrBN4PNcSJ2zNNu3xeK++HJH74fS4JwRXaHXgFaC5Dk
- OQe+IFaRzmNz3qe47F2Fh6qEtnoiCQaN/AXVsM7xYRFs9vw441umz9YJ3ZVisMy/Ezsv
- o0bLtu4WJTKNYr6BCMG+UZvW6yPWNOMQH51lArb5h/+pTX+0mduOT5OuXbF4MwOrerVn
- bCLQ==
-X-Gm-Message-State: AOAM531TUoMXOLmWBJscYkdEZPVwGoV8xrL+R2IwWGhsdffGHQu6Cz6F
- FNC1ZDZL/ghWNGi+KnNINL2W3ZsZIHnwzqvbnlykjZdVo1SRGPRIPXHBluk4fhv/E57duy/IQst
- /Cx68+/4vmqbCOI5cX4oYKGsP5oe4vTg=
-X-Received: by 2002:a2e:a883:: with SMTP id m3mr2163108ljq.472.1635395876281; 
- Wed, 27 Oct 2021 21:37:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyF7yGRIw8BUbNLka+mKaKwBZ5zYPdbzLg/nhQLFjTq/TLFkgvOeCFSZ3pFlRxiI1Un4dCtKZk42pbXSikBVsw=
-X-Received: by 2002:a2e:a883:: with SMTP id m3mr2163088ljq.472.1635395876037; 
- Wed, 27 Oct 2021 21:37:56 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=928ee31ee=alistair.francis@opensource.wdc.com>)
+ id 1mfxGf-0001GX-A2
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:43:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1635396237; x=1666932237;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=TGJt0n0LmddYT2UdTE2+Xhe+xmz8vhN2tfxSNdEgUs8=;
+ b=PQQ4kX99EhmPcwuV58QsIovUR64YQeuqptDfjyYM5hM1e/rWMR1hRzbO
+ 0uJ1zRX1ZPBysruUHr/OX8c4/8Qx5i+jhYjuWP502tV/DkwFkB8pUdYXH
+ HeuSwJMOcME+qDjRAFZLD3YAq1t+M3I5ZpjNvZOjxRiok7rhs0o+rxqoW
+ dCnRK2letf1yo3nQBOSWJf4SijuEOznE7gIZRnE/z4u50w0sBRPSEvcqp
+ k7E5IDv7RfqYW8YkP3ocsDsV5ilLWGtTA6td6Pi77W971QGACdRZ55+bg
+ mUIDqjNDj/lQNnfZgdajI8PkpNHJ1kcZyc0iKa6r0zdh+en4jCrTehv6L Q==;
+X-IronPort-AV: E=Sophos;i="5.87,188,1631548800"; d="scan'208";a="184975462"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 28 Oct 2021 12:43:54 +0800
+IronPort-SDR: E34cTRWl6qF1wBJ8ca+2k54CDTFXYlqVr2BfGfocRoeDgBAgoJr9maw9OkAZ94dGo0CMkbboiS
+ +QNqsPCw0Q5aXwJubjbktqqOPFMkTi2DrZKzweF0yvr6nb/0dve8a/fFwzH4OnwnDI1UeiqSH0
+ 5w6E18Gg1RgyLRtsHoYH7+pWNAQeLh8l96jsKL7+RijuBQkkuCRbVmECacnvzwZSxrTQKr5w1J
+ U4XoxLVNVdbEfmdnoO7D1PMUrfUjvWVIs6vMxqNPvuXRcX1sCnB9VhtfZIGBANV6bM2bHr490P
+ fqBbBx/HBo5LN/UE96JmrbOy
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 21:17:49 -0700
+IronPort-SDR: ph056GA5vJ3oh/9wgjlrMkxkHSX8PnwddXJ2DD1KGMjQOwHhm2c3WBFm+R1hW4gBLgPRxBsAJn
+ Axv/aKCjEvVsj/tPWdxlPYvVEMuWMr+DBOUnGnH4vAfj7hLlG++WbPnF9Qf88fSTQWtdAo3cAw
+ rTwFPB77YKLYTPt5bAozvHuY1pIL3Q2ZtA19luFjqGMfMQ43JBGpM+j5J+u8UIgYetlaPN8sZr
+ 7NMOjQM6g4yXj2qLMMPcC2r9F5q6mI7Y6p+WwncT4J24GTt1AuLRNhFYe2apgVLlU9ezbBhDIh
+ 59I=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 21:43:54 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HftHY5qM9z1RtVn
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 21:43:53 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1635396233; x=1637988234; bh=TGJt0n0LmddYT2UdTE2+Xhe+xmz8vhN2
+ tfxSNdEgUs8=; b=YhkbITwi5hcVzmO9Bqu4EwQpihj7MkjSY1Y/cGKdbCdoqsu2
+ Y/BabBP1w/ENfq98M99c85ljFQpwKM8kLoPXfhB7Fx0SwutXhSJa0pUFdXiwGyjC
+ dCHl0NHVExZq8MGUbwj1xZUbq6hzfOfg8/AJ6/l+VdL5IfoSTbPRjQpNzwr6WU/T
+ hNlVPiKix8Kv9H2UYxFuBpIDdcWdyYMOpLDTt3nXzzOP+BZ4RuG2l/q5AwBxeAQa
+ Xp5faFCJpLhcBBLRaSqmd+AdcJlr/nwMwRj56XLhND1ScpV5tPErO1gidp6ucz0F
+ kW2HRXfow9VPWz1avEByVlG0ZoGlsJmMNdnZ/A==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id TDK4LWBYMqVR for <qemu-devel@nongnu.org>;
+ Wed, 27 Oct 2021 21:43:53 -0700 (PDT)
+Received: from toolbox.alistair23.me (unknown [10.225.165.40])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HftHV5BJgz1RtVl;
+ Wed, 27 Oct 2021 21:43:50 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 00/18] riscv-to-apply queue
+Date: Thu, 28 Oct 2021 14:43:24 +1000
+Message-Id: <20211028044342.3070385-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211009075612.230283-1-leobras@redhat.com>
- <20211009075612.230283-4-leobras@redhat.com>
- <20211011193156.biedorxjetduaf7y@redhat.com>
- <CAJ6HWG5neqLVdO_o+uzykOj3S-N5T0XUHv1_7Qo37_pw0eP_ZQ@mail.gmail.com>
- <87sfx6g55m.fsf@dusky.pond.sub.org>
- <CAJ6HWG6a5zDR49LQa3iRKLPVWo7toEOgJugsx3oV1c++pT4rhw@mail.gmail.com>
- <87sfwl3h5i.fsf@dusky.pond.sub.org>
-In-Reply-To: <87sfwl3h5i.fsf@dusky.pond.sub.org>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Thu, 28 Oct 2021 01:37:58 -0300
-Message-ID: <CAJ6HWG5qg9B-yx=YGvXW3RB+is1A+Ech66o=0=ihCiyUtpmjhQ@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] multifd: Implement zerocopy write in multifd
- migration (multifd-zerocopy)
-To: Markus Armbruster <armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lsoaresp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.154.45;
+ envelope-from=prvs=928ee31ee=alistair.francis@opensource.wdc.com;
+ helo=esa6.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,88 +111,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 28, 2021 at 1:30 AM Markus Armbruster <armbru@redhat.com> wrote:
->
-> Leonardo Bras Soares Passos <leobras@redhat.com> writes:
->
-> [...]
->
-> >> The general argument for having QAPI schema 'if' mirror the C
-> >> implementation's #if is introspection.  Let me explain why that matters.
-> >>
-> >> Consider a management application that supports a range of QEMU
-> >> versions, say 5.0 to 6.2.  Say it wants to use an QMP command that is
-> >> new in QEMU 6.2.  The sane way to do that is to probe for the command
-> >> with query-qmp-schema.  Same for command arguments, and anything else
-> >> QMP.
-> >>
-> >> If you doubt "sane", check out Part II of "QEMU interface introspection:
-> >> From hacks to solutions"[*].
-> >>
-> >> The same technique works when a QMP command / argument / whatever is
-> >> compile-time conditional ('if' in the schema).  The code the management
-> >> application needs anyway to deal with older QEMU now also deals with
-> >> "compiled out".  Nice.
-> >>
-> >> Of course, a command or argument present in QEMU can still fail, and the
-> >> management application still needs to handle failure.  Distinguishing
-> >> different failure modes can be bothersome and/or fragile.
-> >>
-> >> By making the QAPI schema conditional mirror the C conditional, you
-> >> squash the failure mode "this version of QEMU supports it, but this
-> >> build of QEMU does not" into "this version of QEMU does not support
-> >> it".  Makes sense, doesn't it?
-> >>
-> >> A minor additional advantage is less generated code.
-> >>
-> >>
-> >>
-> >> [*] http://events17.linuxfoundation.org/sites/events/files/slides/armbru-qemu-introspection.pdf
-> >>
-> >
-> > This was very informative, thanks!
-> > I now understand the rationale about this choice.
-> >
-> > TBH I am not very used to this syntax.
-> > I did a take a peek at some other json files, and ended adding this
-> > lines in code, which compiled just fine:
-> >
-> > for : enum MigrationParameter
-> > {'name': 'multifd-zerocopy', 'if' : 'CONFIG_LINUX'},
-> >
-> > for : struct MigrateSetParameters and struct MigrationParameters:
-> > '*multifd-zerocopy': { 'type': 'bool', 'if': 'CONFIG_LINUX' },
-> >
-> > Is that enough? Is there any other necessary change?
->
-> Looks good to me.
->
-> The QAPI schema language is documented in docs/devel/qapi-code-gen.rst.
+From: Alistair Francis <alistair.francis@wdc.com>
 
-Thanks for reviewing and for pointing this docs!
+The following changes since commit c52d69e7dbaaed0ffdef8125e79218672c3016=
+1d:
 
->
-> If you're curious, you can diff code generated into qapi/ before and
-> after adding the 'if'.
+  Merge remote-tracking branch 'remotes/cschoenebeck/tags/pull-9p-2021102=
+7' into staging (2021-10-27 11:45:18 -0700)
 
-Good idea!
+are available in the Git repository at:
 
->
-> > Thanks for reviewing and for helping out with this!
->
-> My pleasure!
->
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20211028
 
-:)
+for you to fetch changes up to 344b61e1478c8eb37e81b96f63d8f5071f5a38e1:
 
-Best regards,
-Leo
+  target/riscv: remove force HS exception (2021-10-28 14:39:23 +1000)
 
+----------------------------------------------------------------
+Fifth RISC-V PR for QEMU 6.2
+
+ - Use a shared PLIC config helper function
+ - Fixup the OpenTitan PLIC configuration
+ - Add support for the experimental J extension
+ - Update the fmin/fmax handling
+ - Fixup VS interrupt forwarding
+
+----------------------------------------------------------------
+Alexey Baturo (7):
+      target/riscv: Add J-extension into RISC-V
+      target/riscv: Add CSR defines for RISC-V PM extension
+      target/riscv: Support CSRs required for RISC-V PM extension except =
+for the h-mode
+      target/riscv: Add J extension state description
+      target/riscv: Print new PM CSRs in QEMU logs
+      target/riscv: Support pointer masking for RISC-V for i/c/f/d/a type=
+s of instructions
+      target/riscv: Allow experimental J-ext to be turned on
+
+Alistair Francis (6):
+      hw/riscv: virt: Don't use a macro for the PLIC configuration
+      hw/riscv: boot: Add a PLIC config string function
+      hw/riscv: sifive_u: Use the PLIC config helper function
+      hw/riscv: microchip_pfsoc: Use the PLIC config helper function
+      hw/riscv: virt: Use the PLIC config helper function
+      hw/riscv: opentitan: Fixup the PLIC context addresses
+
+Anatoly Parshintsev (1):
+      target/riscv: Implement address masking functions required for RISC=
+-V Pointer Masking extension
+
+Chih-Min Chao (2):
+      softfloat: add APIs to handle alternative sNaN propagation for fmax=
+/fmin
+      target/riscv: change the api for RVF/RVD fmin/fmax
+
+Jose Martins (2):
+      target/riscv: fix VS interrupts forwarding to HS
+      target/riscv: remove force HS exception
+
+ include/fpu/softfloat.h                 |  10 ++
+ include/hw/riscv/boot.h                 |   2 +
+ include/hw/riscv/microchip_pfsoc.h      |   1 -
+ include/hw/riscv/sifive_u.h             |   1 -
+ include/hw/riscv/virt.h                 |   1 -
+ target/riscv/cpu.h                      |  17 +-
+ target/riscv/cpu_bits.h                 | 102 +++++++++++-
+ fpu/softfloat.c                         |  19 ++-
+ hw/riscv/boot.c                         |  25 +++
+ hw/riscv/microchip_pfsoc.c              |  14 +-
+ hw/riscv/opentitan.c                    |   4 +-
+ hw/riscv/sifive_u.c                     |  14 +-
+ hw/riscv/virt.c                         |  20 +--
+ target/riscv/cpu.c                      |  13 ++
+ target/riscv/cpu_helper.c               |  72 +++-----
+ target/riscv/csr.c                      | 285 ++++++++++++++++++++++++++=
+++++++
+ target/riscv/fpu_helper.c               |  16 +-
+ target/riscv/machine.c                  |  27 +++
+ target/riscv/translate.c                |  43 +++++
+ fpu/softfloat-parts.c.inc               |  25 ++-
+ target/riscv/insn_trans/trans_rva.c.inc |   3 +
+ target/riscv/insn_trans/trans_rvd.c.inc |   2 +
+ target/riscv/insn_trans/trans_rvf.c.inc |   2 +
+ target/riscv/insn_trans/trans_rvi.c.inc |   2 +
+ 24 files changed, 605 insertions(+), 115 deletions(-)
 
