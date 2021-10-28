@@ -2,43 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B2243E04A
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 13:54:28 +0200 (CEST)
-Received: from localhost ([::1]:50308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164AB43E052
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 13:57:05 +0200 (CEST)
+Received: from localhost ([::1]:54706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg3zF-0004xW-PC
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 07:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45030)
+	id 1mg41n-0007vS-5D
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 07:57:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1mg3tS-0001EC-S4
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 07:48:28 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:45592)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1mg3tQ-0002ST-Tl
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 07:48:26 -0400
-Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 5C72340D403D;
- Thu, 28 Oct 2021 11:48:23 +0000 (UTC)
-Subject: [PATCH 4/4] icount: preserve cflags when custom tb is about to execute
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-To: qemu-devel@nongnu.org
-Date: Thu, 28 Oct 2021 14:48:22 +0300
-Message-ID: <163542170287.2127597.18369415404458239885.stgit@pasha-ThinkPad-X280>
-In-Reply-To: <163542167953.2127597.8760651610734002929.stgit@pasha-ThinkPad-X280>
-References: <163542167953.2127597.8760651610734002929.stgit@pasha-ThinkPad-X280>
-User-Agent: StGit/0.23
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mg3vq-0002EP-UN
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 07:50:55 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2837)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mg3vn-0003S1-NL
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 07:50:54 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Hg3fY2hD1zbhGl;
+ Thu, 28 Oct 2021 19:45:57 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Thu, 28 Oct 2021 19:50:37 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.15; Thu, 28 Oct 2021 19:50:36 +0800
+Subject: Re: [PATCH v3 0/2] hw/core/machine: Add an unit test for smp_parse
+To: <qemu-devel@nongnu.org>
+References: <20211026034659.22040-1-wangyanan55@huawei.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <f65b3dc9-ae9a-3e58-b95a-3a26a036bd5e@huawei.com>
+Date: Thu, 28 Oct 2021 19:50:36 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211026034659.22040-1-wangyanan55@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme710-chm.china.huawei.com (10.1.199.106) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.847,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -52,44 +67,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pavel.dovgalyuk@ispras.ru, david@redhat.com, richard.henderson@linaro.org,
- peterx@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>, wanghaibin.wang@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When debugging with the watchpoints, qemu may need to create
-TB with single instruction. This is achieved by setting cpu->cflags_next_tb.
-But when this block is about to execute, it may be interrupted by another
-thread. In this case cflags will be lost and next executed TB will not
-be the special one.
-This patch checks TB exit reason and restores cflags_next_tb to allow
-finding the interrupted block.
+Hi,
+Does this short series have a chance to get on the train for 6.2
+before the closely coming soft-feature freeze? It would be very
+nice to have a test finally, since all the previous work on -smp
+code has been completed and merged, IMO. 😉
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
----
- accel/tcg/cpu-exec.c |   10 ++++++++++
- 1 file changed, 10 insertions(+)
+Regards,
+Yanan
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index c9764c1325..af1c6e6ba3 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -842,6 +842,16 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
-          * cpu_handle_interrupt.  cpu_handle_interrupt will also
-          * clear cpu->icount_decr.u16.high.
-          */
-+        if (cpu->cflags_next_tb == -1
-+            && (!use_icount || !(tb->cflags & CF_USE_ICOUNT)
-+                || cpu_neg(cpu)->icount_decr.u16.low >= tb->icount)) {
-+            /*
-+             * icount is disabled or there are enough instructions
-+             * in the budget, do not retranslate this block with
-+             * different parameters.
-+             */
-+            cpu->cflags_next_tb = tb->cflags;
-+        }
-         return;
-     }
- 
+On 2021/10/26 11:46, Yanan Wang wrote:
+> Hi,
+>
+> This is v3 which introduces an unit test for generic smp_parse.
+>
+> We have had enough discussions about what kind of SMP configurations
+> by the user should be considered valid and what should be invalid.
+> Since we have finished optimizing the SMP parsing code, then this
+> test normatively listed all the possible valid/invalid configurations
+> that the user can provide. This can be a testing tool when we
+> introduce new topology members and need to touch the parsing code.
+>
+> For your reference, some related discussion is here:
+> https://lore.kernel.org/qemu-devel/YOxf+sxzUSJdbY+j@redhat.com/
+>
+> Changelog:
+> v2->v3:
+> - add Andrew's R-b for PATCH #1
+> - drop an unused macro definition in PATCH #2
+> - v2: https://lore.kernel.org/qemu-devel/20211013074119.23028-1-wangyanan55@huawei.com/
+>
+> v1->v2:
+> - split smp_parse out into a separate .c file instead of a header (patch #1)
+> - dropped an unnecessary function and add Andrew's R-b (patch #2)
+> - v1: https://lore.kernel.org/qemu-devel/20211010103954.20644-1-wangyanan55@huawei.com/
+>
+> Yanan Wang (2):
+>    hw/core/machine: Split out the smp parsing code
+>    tests/unit: Add an unit test for smp parsing
+>
+>   MAINTAINERS                 |   2 +
+>   hw/core/machine-smp.c       | 181 +++++++++++
+>   hw/core/machine.c           | 159 ----------
+>   hw/core/meson.build         |   2 +
+>   include/hw/boards.h         |   1 +
+>   tests/unit/meson.build      |   1 +
+>   tests/unit/test-smp-parse.c | 594 ++++++++++++++++++++++++++++++++++++
+>   7 files changed, 781 insertions(+), 159 deletions(-)
+>   create mode 100644 hw/core/machine-smp.c
+>   create mode 100644 tests/unit/test-smp-parse.c
+>
+> --
+> 2.19.1
+>
+> .
 
 
