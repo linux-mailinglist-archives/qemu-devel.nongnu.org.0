@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1366143DA6D
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 06:34:21 +0200 (CEST)
-Received: from localhost ([::1]:60424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B99843DA74
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 06:38:28 +0200 (CEST)
+Received: from localhost ([::1]:39204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfx7M-0006Ec-3O
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 00:34:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49078)
+	id 1mfxBL-0002fj-Kc
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 00:38:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfx55-00047P-T1
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:31:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35842)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfx5C-0004Nd-Jb
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:32:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfx54-0000TJ-0C
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:31:59 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfx5A-0000TU-Ke
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:32:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635395517;
+ s=mimecast20190719; t=1635395524;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n8lDU7FEmiXvrdQWCCVGE+omVdmuTswIs2+DgDzt7Rc=;
- b=F/Gkbhoco4UjmleJhZHURI9fPwP3OQfdX6Q4iJ28KE6cUGZgCbGM6WG/3gAEhMulj9YFPm
- cY3oXXt3UmOQgqFAsGu2AHNAYfNclnBExGoE2kx2v8jG0mVE+VciO49svYqH+uH6qNE31U
- rZxvn8YKY8EMLhx7VFECn4mACkvflX8=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-jqJvFVp6MXu585TT4_-Diw-1; Thu, 28 Oct 2021 00:31:56 -0400
-X-MC-Unique: jqJvFVp6MXu585TT4_-Diw-1
-Received: by mail-pj1-f69.google.com with SMTP id
- y22-20020a17090a6c9600b001a38db472c0so2522911pjj.7
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 21:31:56 -0700 (PDT)
+ bh=pgTHIAPHXkkbULyCuKmi+XPo0/hjZBL6MtokIFprPvs=;
+ b=ILBa41sv3eW1c+ZkP5ONgbslte7p3Rwe35r28+Di10nh2WK0lB+tGH2R43PjqCskYNxBRZ
+ 6A1vokyphwoDihfYOBjtYYg+TbwItXzm5oDXronPgg6XNX54zVFC40kZpPVSNj+Ec+3scE
+ fwYP4h9jHpUaj/w0g4pILGBqHbsEm+I=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-455-Zf3P0FPtNECbl7ORgjqlSA-1; Thu, 28 Oct 2021 00:32:02 -0400
+X-MC-Unique: Zf3P0FPtNECbl7ORgjqlSA-1
+Received: by mail-pg1-f198.google.com with SMTP id
+ p28-20020a637f5c000000b002a3c58b5917so2646264pgn.23
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 21:32:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=n8lDU7FEmiXvrdQWCCVGE+omVdmuTswIs2+DgDzt7Rc=;
- b=sgr5OY1ZONP/vQo8wF/dX0GXzg8epwUrlwmUlLcMAOr0pyDn2QMRa6ZaB1O7ZYcNB3
- V0835aW2PM6kVW1ExiLHtvpkyolSCQ+6/36qwz9t6MZInhOVivpPj0x0qWFcQGqCJlGj
- p1PV1rY7qmpeFxvKG9ynkuAoc1pCZ5e1ijEHkW3uML7i0UkuUR+ZXT6vHAz1nEDA2sP1
- Y2SA3bXwT4NCQS0xCYPQ6gXsvTDP5i/oRbWDNi6DJmd5o6c/HY6JkLW5sdXduvFjOlZn
- wutTprqRnfKmnwHh8zqZL60AZa+AOxNnbjnj6ZlQzrgBJY8gnVlrLe043IoMI2YVN4kR
- /H4w==
-X-Gm-Message-State: AOAM53090Z8k3fNPELl14Aon4/0ilWh/FOm7HKQJVBjATWpsi1VC1Mgo
- kbpq1szXUXZyMAR+3WDMbJd/5edl1q6Cy5C25vnCYNPHgwBgXVB4SDH3kMeuLj7lhJbyPOLSXlM
- Py0oy35UzCAAiOwYvv0q2eAq7fr2sgyIpif9xXPzSp/ndr7AnnLeMpFPU2FPs03IM
-X-Received: by 2002:aa7:8111:0:b0:47b:e311:cdae with SMTP id
- b17-20020aa78111000000b0047be311cdaemr1768656pfi.71.1635395514725; 
- Wed, 27 Oct 2021 21:31:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzzoZgeokAYahQc2nDjtEblSwziyI4PDuav4FpOHqbeBBic085ptrU93G/JiKkaQj9M7x4NDA==
-X-Received: by 2002:aa7:8111:0:b0:47b:e311:cdae with SMTP id
- b17-20020aa78111000000b0047be311cdaemr1768611pfi.71.1635395514280; 
- Wed, 27 Oct 2021 21:31:54 -0700 (PDT)
+ bh=pgTHIAPHXkkbULyCuKmi+XPo0/hjZBL6MtokIFprPvs=;
+ b=0iLPonlqe2VAhYWzRiysLa4encL9eAsOzeX/3mUyfgq2PrRtbR/RoC3ALIhMXglFV6
+ S9XPbuy1hURU1DKROEGM3FviMsZGQ8wD0QbxXqDEmG/i4hoK6jkDoyQfYeE0AF1LOdNt
+ Pd8Dl+Fg3amMf3sAkD0MbVF8O3z3HmEfSHEYvCPXjx8gMEGQfr8nEY/4v2FKj97ncxrh
+ hznxzx2odHyWUau2cvNF1TueDYahdm9Oqe+DDbXzlJT+czxpZIsVUhvBpXIk1alLrudy
+ pVt7bIAlIbbiQx5s8x5dxcdiKBK04xqw6z+qSeOzgLhWutCQZUmgzxT5F9xntQcta2hC
+ J+pQ==
+X-Gm-Message-State: AOAM531MyqsqaNb8Th7N0GTtxbjwgykQui5jr4N1rEnjUNdnO7r7JlJG
+ 9YHjXxfKFwaHsiTtjG1E8P7rPP0x8JhJd3Vd6thrTglw7Pg/McNEaPGhTA1vpMVHr36XhEwejPi
+ eHZbalc4KRWwJaB3eTi8MmsaVy6Bo3SYXMFEoxEwxi5vTFjBnyTXH3h2XeX7nui2D
+X-Received: by 2002:a17:90a:644d:: with SMTP id
+ y13mr2057980pjm.10.1635395521299; 
+ Wed, 27 Oct 2021 21:32:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxi2balo4iS5FNHItyKoQlOCvZ7NFqP/tawuSh5V7bmrhkfP9tEpS7se0TnwisRipUc2HduSg==
+X-Received: by 2002:a17:90a:644d:: with SMTP id
+ y13mr2057939pjm.10.1635395520974; 
+ Wed, 27 Oct 2021 21:32:00 -0700 (PDT)
 Received: from localhost.localdomain ([191.101.132.60])
- by smtp.gmail.com with ESMTPSA id k22sm1483074pfi.149.2021.10.27.21.31.47
+ by smtp.gmail.com with ESMTPSA id k22sm1483074pfi.149.2021.10.27.21.31.54
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 27 Oct 2021 21:31:53 -0700 (PDT)
+ Wed, 27 Oct 2021 21:32:00 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/5] pci: Export pci_for_each_device_under_bus*()
-Date: Thu, 28 Oct 2021 12:31:26 +0800
-Message-Id: <20211028043129.38871-3-peterx@redhat.com>
+Subject: [PATCH v2 3/5] qom: object_child_foreach_recursive_type()
+Date: Thu, 28 Oct 2021 12:31:27 +0800
+Message-Id: <20211028043129.38871-4-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211028043129.38871-1-peterx@redhat.com>
 References: <20211028043129.38871-1-peterx@redhat.com>
@@ -74,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -108,222 +108,85 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-They're actually more commonly used than the helper without _under_bus, because
-most callers do have the pci bus on hand.  After exporting we can switch a lot
-of the call sites to use these two helpers.
+Add this sister helper besides object_child_foreach_recursive() to loop over
+child objects only if the object can be casted to a specific type.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Suggested-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- hw/i386/acpi-build.c       |  5 ++---
- hw/pci/pci.c               | 10 +++++-----
- hw/pci/pcie.c              |  4 +---
- hw/ppc/spapr_pci.c         | 12 +++++-------
- hw/ppc/spapr_pci_nvlink2.c |  7 +++----
- hw/ppc/spapr_pci_vfio.c    |  4 ++--
- hw/s390x/s390-pci-bus.c    |  5 ++---
- hw/xen/xen_pt.c            |  4 ++--
- include/hw/pci/pci.h       |  5 +++++
- 9 files changed, 27 insertions(+), 29 deletions(-)
+ include/qom/object.h | 20 ++++++++++++++++++++
+ qom/object.c         | 27 +++++++++++++++++++++++++++
+ 2 files changed, 47 insertions(+)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 81418b7911..a76b17ed92 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2132,8 +2132,7 @@ dmar_host_bridges(Object *obj, void *opaque)
-         PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
+diff --git a/include/qom/object.h b/include/qom/object.h
+index faae0d841f..355277db40 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1926,6 +1926,26 @@ int object_child_foreach(Object *obj, int (*fn)(Object *child, void *opaque),
+ int object_child_foreach_recursive(Object *obj,
+                                    int (*fn)(Object *child, void *opaque),
+                                    void *opaque);
++
++/**
++ * object_child_foreach_recursive_type:
++ * @obj: the object whose children will be navigated
++ * @type: the typename string to scan
++ * @fn: the iterator function to be called
++ * @opaque: an opaque value that will be passed to the iterator
++ *
++ * This is a special version of object_child_foreach_recursive() so that we
++ * only call the fn() if the child can be casted to the @typename specified.
++ * Please refer to the comments above object_child_foreach_recursive() for
++ * more details.
++ *
++ * Returns: The last value returned by @fn, or 0 if there is no child.
++ */
++int object_child_foreach_recursive_type(Object *obj,
++                                        const char *typename,
++                                        int (*fn)(Object *child, void *opaque),
++                                        void *opaque);
++
+ /**
+  * container_get:
+  * @root: root of the #path, e.g., object_get_root()
+diff --git a/qom/object.c b/qom/object.c
+index 6be710bc40..d25ca09b1d 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -1134,6 +1134,33 @@ int object_child_foreach_recursive(Object *obj,
+     return do_object_child_foreach(obj, fn, opaque, true);
+ }
  
-         if (bus && !pci_bus_bypass_iommu(bus)) {
--            pci_for_each_device(bus, pci_bus_num(bus), insert_scope,
--                                scope_blob);
-+            pci_for_each_device_under_bus(bus, insert_scope, scope_blob);
-         }
-     }
- 
-@@ -2339,7 +2338,7 @@ ivrs_host_bridges(Object *obj, void *opaque)
-         PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
- 
-         if (bus && !pci_bus_bypass_iommu(bus)) {
--            pci_for_each_device(bus, pci_bus_num(bus), insert_ivhd, ivhd_blob);
-+            pci_for_each_device_under_bus(bus, insert_ivhd, ivhd_blob);
-         }
-     }
- 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 17e59cb3a3..4a84e478ce 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1654,9 +1654,9 @@ static const pci_class_desc pci_class_descriptions[] =
-     { 0, NULL}
- };
- 
--static void pci_for_each_device_under_bus_reverse(PCIBus *bus,
--                                                  pci_bus_dev_fn fn,
--                                                  void *opaque)
-+void pci_for_each_device_under_bus_reverse(PCIBus *bus,
-+                                           pci_bus_dev_fn fn,
-+                                           void *opaque)
++typedef struct {
++    const char *typename;
++    int (*fn)(Object *child, void *opaque);
++    void *opaque;
++} ObjectTypeArgs;
++
++static int object_child_hook(Object *child, void *opaque)
++{
++    ObjectTypeArgs *args = opaque;
++
++    if (object_dynamic_cast(child, args->typename)) {
++        return args->fn(child, args->opaque);
++    }
++
++    return 0;
++}
++
++int object_child_foreach_recursive_type(Object *obj,
++                                        const char *typename,
++                                        int (*fn)(Object *child, void *opaque),
++                                        void *opaque)
++{
++    ObjectTypeArgs args = { .typename = typename, .fn = fn, .opaque = opaque };
++
++    return object_child_foreach_recursive(obj, object_child_hook, &args);
++}
++
+ static void object_class_get_list_tramp(ObjectClass *klass, void *opaque)
  {
-     PCIDevice *d;
-     int devfn;
-@@ -1679,8 +1679,8 @@ void pci_for_each_device_reverse(PCIBus *bus, int bus_num,
-     }
- }
- 
--static void pci_for_each_device_under_bus(PCIBus *bus,
--                                          pci_bus_dev_fn fn, void *opaque)
-+void pci_for_each_device_under_bus(PCIBus *bus,
-+                                   pci_bus_dev_fn fn, void *opaque)
- {
-     PCIDevice *d;
-     int devfn;
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index 6e95d82903..914a9bf3d1 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -694,9 +694,7 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
-         (!(old_slt_ctl & PCI_EXP_SLTCTL_PCC) ||
-         (old_slt_ctl & PCI_EXP_SLTCTL_PIC_OFF) != PCI_EXP_SLTCTL_PIC_OFF)) {
-         PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
--        pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
--                            pcie_unplug_device, NULL);
--
-+        pci_for_each_device_under_bus(sec_bus, pcie_unplug_device, NULL);
-         pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
-                                      PCI_EXP_SLTSTA_PDS);
-         if (dev->cap_present & QEMU_PCIE_LNKSTA_DLLLA ||
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 7430bd6314..5bfd4aa9e5 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1317,8 +1317,7 @@ static int spapr_dt_pci_bus(SpaprPhbState *sphb, PCIBus *bus,
-                           RESOURCE_CELLS_SIZE));
- 
-     assert(bus);
--    pci_for_each_device_reverse(bus, pci_bus_num(bus),
--                                spapr_dt_pci_device_cb, &cbinfo);
-+    pci_for_each_device_under_bus_reverse(bus, spapr_dt_pci_device_cb, &cbinfo);
-     if (cbinfo.err) {
-         return cbinfo.err;
-     }
-@@ -2306,8 +2305,8 @@ static void spapr_phb_pci_enumerate_bridge(PCIBus *bus, PCIDevice *pdev,
-         return;
-     }
- 
--    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
--                        spapr_phb_pci_enumerate_bridge, bus_no);
-+    pci_for_each_device_under_bus(sec_bus, spapr_phb_pci_enumerate_bridge,
-+                                  bus_no);
-     pci_default_write_config(pdev, PCI_SUBORDINATE_BUS, *bus_no, 1);
- }
- 
-@@ -2316,9 +2315,8 @@ static void spapr_phb_pci_enumerate(SpaprPhbState *phb)
-     PCIBus *bus = PCI_HOST_BRIDGE(phb)->bus;
-     unsigned int bus_no = 0;
- 
--    pci_for_each_device(bus, pci_bus_num(bus),
--                        spapr_phb_pci_enumerate_bridge,
--                        &bus_no);
-+    pci_for_each_device_under_bus(bus, spapr_phb_pci_enumerate_bridge,
-+                                  &bus_no);
- 
- }
- 
-diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
-index 8ef9b40a18..7fb0cf4d04 100644
---- a/hw/ppc/spapr_pci_nvlink2.c
-+++ b/hw/ppc/spapr_pci_nvlink2.c
-@@ -164,8 +164,7 @@ static void spapr_phb_pci_collect_nvgpu(PCIBus *bus, PCIDevice *pdev,
-         return;
-     }
- 
--    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
--                        spapr_phb_pci_collect_nvgpu, opaque);
-+    pci_for_each_device_under_bus(sec_bus, spapr_phb_pci_collect_nvgpu, opaque);
- }
- 
- void spapr_phb_nvgpu_setup(SpaprPhbState *sphb, Error **errp)
-@@ -183,8 +182,8 @@ void spapr_phb_nvgpu_setup(SpaprPhbState *sphb, Error **errp)
-     sphb->nvgpus->nv2_atsd_current = sphb->nv2_atsd_win_addr;
- 
-     bus = PCI_HOST_BRIDGE(sphb)->bus;
--    pci_for_each_device(bus, pci_bus_num(bus),
--                        spapr_phb_pci_collect_nvgpu, sphb->nvgpus);
-+    pci_for_each_device_under_bus(bus, spapr_phb_pci_collect_nvgpu,
-+                                  sphb->nvgpus);
- 
-     if (sphb->nvgpus->err) {
-         error_propagate(errp, sphb->nvgpus->err);
-diff --git a/hw/ppc/spapr_pci_vfio.c b/hw/ppc/spapr_pci_vfio.c
-index f3b37df8ea..2a76b4e0b5 100644
---- a/hw/ppc/spapr_pci_vfio.c
-+++ b/hw/ppc/spapr_pci_vfio.c
-@@ -164,8 +164,8 @@ static void spapr_phb_vfio_eeh_clear_dev_msix(PCIBus *bus,
- 
- static void spapr_phb_vfio_eeh_clear_bus_msix(PCIBus *bus, void *opaque)
- {
--       pci_for_each_device(bus, pci_bus_num(bus),
--                           spapr_phb_vfio_eeh_clear_dev_msix, NULL);
-+       pci_for_each_device_under_bus(bus, spapr_phb_vfio_eeh_clear_dev_msix,
-+                                     NULL);
- }
- 
- static void spapr_phb_vfio_eeh_pre_reset(SpaprPhbState *sphb)
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index 6fafffb029..1b51a72838 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -1163,8 +1163,7 @@ static void s390_pci_enumerate_bridge(PCIBus *bus, PCIDevice *pdev,
-     }
- 
-     /* Assign numbers to all child bridges. The last is the highest number. */
--    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
--                        s390_pci_enumerate_bridge, s);
-+    pci_for_each_device_under_bus(sec_bus, s390_pci_enumerate_bridge, s);
-     pci_default_write_config(pdev, PCI_SUBORDINATE_BUS, s->bus_no, 1);
- }
- 
-@@ -1193,7 +1192,7 @@ static void s390_pcihost_reset(DeviceState *dev)
-      * on every system reset, we also have to reassign numbers.
-      */
-     s->bus_no = 0;
--    pci_for_each_device(bus, pci_bus_num(bus), s390_pci_enumerate_bridge, s);
-+    pci_for_each_device_under_bus(bus, s390_pci_enumerate_bridge, s);
- }
- 
- static void s390_pcihost_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-index ca0a98187e..027190fa44 100644
---- a/hw/xen/xen_pt.c
-+++ b/hw/xen/xen_pt.c
-@@ -615,8 +615,8 @@ static void xen_pt_region_update(XenPCIPassthroughState *s,
-     }
- 
-     args.type = d->io_regions[bar].type;
--    pci_for_each_device(pci_get_bus(d), pci_dev_bus_num(d),
--                        xen_pt_check_bar_overlap, &args);
-+    pci_for_each_device_under_bus(pci_get_bus(d),
-+                                  xen_pt_check_bar_overlap, &args);
-     if (args.rc) {
-         XEN_PT_WARN(d, "Region: %d (addr: 0x%"FMT_PCIBUS
-                     ", len: 0x%"FMT_PCIBUS") is overlapped.\n",
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 4a8740b76b..5c4016b995 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -467,6 +467,11 @@ void pci_for_each_device(PCIBus *bus, int bus_num,
- void pci_for_each_device_reverse(PCIBus *bus, int bus_num,
-                                  pci_bus_dev_fn fn,
-                                  void *opaque);
-+void pci_for_each_device_under_bus(PCIBus *bus,
-+                                   pci_bus_dev_fn fn, void *opaque);
-+void pci_for_each_device_under_bus_reverse(PCIBus *bus,
-+                                           pci_bus_dev_fn fn,
-+                                           void *opaque);
- void pci_for_each_bus_depth_first(PCIBus *bus, pci_bus_ret_fn begin,
-                                   pci_bus_fn end, void *parent_state);
- PCIDevice *pci_get_function_0(PCIDevice *pci_dev);
+     GSList **list = opaque;
 -- 
 2.32.0
 
