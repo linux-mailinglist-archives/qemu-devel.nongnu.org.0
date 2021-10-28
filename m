@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE26543DEF1
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 12:33:42 +0200 (CEST)
-Received: from localhost ([::1]:58302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6645343DEDA
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 12:29:39 +0200 (CEST)
+Received: from localhost ([::1]:51614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg2j7-0007cz-SC
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 06:33:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56556)
+	id 1mg2fC-0002ws-Fu
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 06:29:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg2bw-0007iI-Ri
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 06:26:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52840)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg2bh-0007OY-HK
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 06:26:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg2bu-00038a-2m
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 06:26:16 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg2ba-000335-8z
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 06:26:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635416773;
+ s=mimecast20190719; t=1635416753;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RDPgHBT7f+x2+AbC8EKp4ayUx7T8RX2e/Quz/wM37uw=;
- b=Jh/zsWDrBLG9Y9/QHdj7Ci6BztwxSHPSfyEm4miVIqz9P+fb8uJv3AnwMXyg+snwWR5lr5
- 6rpSeboEetGvliYknGffpUAPNCOG60BNrhi/ZE5DSkNrH442eFr1uKQSlEDYU7T9WotgeA
- Cs5Jzp9h+NsMNziBfDEFPhh0THBFQ94=
+ bh=Ucsc0op5freB/08okZxxMNbAEARxymAF+C85pXO3aiw=;
+ b=OPC4SQOOAZhVeC90edvzUzPrhO6otNkQA0DtZ3y58W31TN5hsLaT+z9oW5pzqkEfUg3uYm
+ nfgyrWSKaBTrqHrAj8jS/ThEWs9gAABpEP4s3pXV5YEHhx0L5dTRzbGnkFzrOqybvppBzS
+ oByaEiD9W0VHDu43InX/9o/4wZ8Ddb0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-VPqP5m64N5S3GlIkIy_qLg-1; Thu, 28 Oct 2021 06:26:10 -0400
-X-MC-Unique: VPqP5m64N5S3GlIkIy_qLg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-449-Kc_Ey9hQPBaevuXLcLso8w-1; Thu, 28 Oct 2021 06:25:50 -0400
+X-MC-Unique: Kc_Ey9hQPBaevuXLcLso8w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25DB410A8E08;
- Thu, 28 Oct 2021 10:26:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74B83180831A;
+ Thu, 28 Oct 2021 10:25:49 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 661395D740;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 66A5460CA0;
  Thu, 28 Oct 2021 10:25:44 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4C0C511380CD; Thu, 28 Oct 2021 12:25:20 +0200 (CEST)
+ id 4F7EF11380CF; Thu, 28 Oct 2021 12:25:20 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/9] qapi: Generalize command policy checking
-Date: Thu, 28 Oct 2021 12:25:17 +0200
-Message-Id: <20211028102520.747396-7-armbru@redhat.com>
+Subject: [PATCH v2 7/9] qapi: Generalize enum member policy checking
+Date: Thu, 28 Oct 2021 12:25:18 +0200
+Message-Id: <20211028102520.747396-8-armbru@redhat.com>
 In-Reply-To: <20211028102520.747396-1-armbru@redhat.com>
 References: <20211028102520.747396-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -65,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,163 +87,107 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code to check command policy can see special feature flag
-'deprecated' as command flag QCO_DEPRECATED.  I want to make feature
-flag 'unstable' visible there as well, so I can add policy for it.
+The code to check enumeration value policy can see special feature
+flag 'deprecated' in QEnumLookup member flags[value].  I want to make
+feature flag 'unstable' visible there as well, so I can add policy for
+it.
 
-To let me make it visible, add member @special_features (a bitset of
-QapiSpecialFeature) to QmpCommand, and adjust the generator to pass it
-through qmp_register_command().  Then replace "QCO_DEPRECATED in
-@flags" by QAPI_DEPRECATED in @special_features", and drop
-QCO_DEPRECATED.
+Instead of extending flags[], replace it by @special_features (a
+bitset of QapiSpecialFeature), because that's how special features get
+passed around elsewhere.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: John Snow <jsnow@redhat.com>
 ---
- include/qapi/qmp/dispatch.h          | 5 +++--
- monitor/misc.c                       | 6 ++++--
- qapi/qmp-dispatch.c                  | 2 +-
- qapi/qmp-registry.c                  | 4 +++-
- storage-daemon/qemu-storage-daemon.c | 3 ++-
- scripts/qapi/commands.py             | 9 ++++-----
- 6 files changed, 17 insertions(+), 12 deletions(-)
+ include/qapi/util.h    |  5 +----
+ qapi/qapi-visit-core.c |  3 ++-
+ scripts/qapi/types.py  | 22 ++++++++++++----------
+ 3 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-index 0ce88200b9..1e4240fd0d 100644
---- a/include/qapi/qmp/dispatch.h
-+++ b/include/qapi/qmp/dispatch.h
-@@ -25,7 +25,6 @@ typedef enum QmpCommandOptions
-     QCO_ALLOW_OOB             =  (1U << 1),
-     QCO_ALLOW_PRECONFIG       =  (1U << 2),
-     QCO_COROUTINE             =  (1U << 3),
--    QCO_DEPRECATED            =  (1U << 4),
- } QmpCommandOptions;
+diff --git a/include/qapi/util.h b/include/qapi/util.h
+index 7a8d5c7d72..0cc98db9f9 100644
+--- a/include/qapi/util.h
++++ b/include/qapi/util.h
+@@ -15,12 +15,9 @@ typedef enum {
+     QAPI_DEPRECATED,
+ } QapiSpecialFeature;
  
- typedef struct QmpCommand
-@@ -34,6 +33,7 @@ typedef struct QmpCommand
-     /* Runs in coroutine context if QCO_COROUTINE is set */
-     QmpCommandFunc *fn;
-     QmpCommandOptions options;
-+    unsigned special_features;
-     QTAILQ_ENTRY(QmpCommand) node;
-     bool enabled;
-     const char *disable_reason;
-@@ -42,7 +42,8 @@ typedef struct QmpCommand
- typedef QTAILQ_HEAD(QmpCommandList, QmpCommand) QmpCommandList;
+-/* QEnumLookup flags */
+-#define QAPI_ENUM_DEPRECATED 1
+-
+ typedef struct QEnumLookup {
+     const char *const *array;
+-    const unsigned char *const flags;
++    const unsigned char *const special_features;
+     const int size;
+ } QEnumLookup;
  
- void qmp_register_command(QmpCommandList *cmds, const char *name,
--                          QmpCommandFunc *fn, QmpCommandOptions options);
-+                          QmpCommandFunc *fn, QmpCommandOptions options,
-+                          unsigned special_features);
- const QmpCommand *qmp_find_command(const QmpCommandList *cmds,
-                                    const char *name);
- void qmp_disable_command(QmpCommandList *cmds, const char *name,
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 3556b177f6..c2d227a07c 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -230,11 +230,13 @@ static void monitor_init_qmp_commands(void)
- 
-     qmp_init_marshal(&qmp_commands);
- 
--    qmp_register_command(&qmp_commands, "device_add", qmp_device_add, 0);
-+    qmp_register_command(&qmp_commands, "device_add",
-+                         qmp_device_add, 0, 0);
- 
-     QTAILQ_INIT(&qmp_cap_negotiation_commands);
-     qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilities",
--                         qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONFIG);
-+                         qmp_marshal_qmp_capabilities,
-+                         QCO_ALLOW_PRECONFIG, 0);
- }
- 
- /* Set the current CPU defined by the user. Callers must hold BQL. */
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index 7e943a0af5..8cca18c891 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -176,7 +176,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-                   "The command %s has not been found", command);
-         goto out;
+diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
+index f95503cbec..34c59286b2 100644
+--- a/qapi/qapi-visit-core.c
++++ b/qapi/qapi-visit-core.c
+@@ -408,7 +408,8 @@ static bool input_type_enum(Visitor *v, const char *name, int *obj,
+         return false;
      }
--    if (cmd->options & QCO_DEPRECATED) {
-+    if (cmd->special_features & 1u << QAPI_DEPRECATED) {
-         switch (compat_policy.deprecated_input) {
+ 
+-    if (lookup->flags && (lookup->flags[value] & QAPI_ENUM_DEPRECATED)) {
++    if (lookup->special_features
++        && (lookup->special_features[value] & QAPI_DEPRECATED)) {
+         switch (v->compat_policy.deprecated_input) {
          case COMPAT_POLICY_INPUT_ACCEPT:
              break;
-diff --git a/qapi/qmp-registry.c b/qapi/qmp-registry.c
-index f78c064aae..485bc5e6fc 100644
---- a/qapi/qmp-registry.c
-+++ b/qapi/qmp-registry.c
-@@ -16,7 +16,8 @@
- #include "qapi/qmp/dispatch.h"
+diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+index ab2441adc9..3013329c24 100644
+--- a/scripts/qapi/types.py
++++ b/scripts/qapi/types.py
+@@ -16,7 +16,7 @@
+ from typing import List, Optional
  
- void qmp_register_command(QmpCommandList *cmds, const char *name,
--                          QmpCommandFunc *fn, QmpCommandOptions options)
-+                          QmpCommandFunc *fn, QmpCommandOptions options,
-+                          unsigned special_features)
- {
-     QmpCommand *cmd = g_malloc0(sizeof(*cmd));
- 
-@@ -27,6 +28,7 @@ void qmp_register_command(QmpCommandList *cmds, const char *name,
-     cmd->fn = fn;
-     cmd->enabled = true;
-     cmd->options = options;
-+    cmd->special_features = special_features;
-     QTAILQ_INSERT_TAIL(cmds, cmd, node);
- }
- 
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 10a1a33761..52cf17e8ac 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -146,7 +146,8 @@ static void init_qmp_commands(void)
- 
-     QTAILQ_INIT(&qmp_cap_negotiation_commands);
-     qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilities",
--                         qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONFIG);
-+                         qmp_marshal_qmp_capabilities,
-+                         QCO_ALLOW_PRECONFIG, 0);
- }
- 
- static int getopt_set_loc(int argc, char **argv, const char *optstring,
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index c8a975528f..21001bbd6b 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -26,6 +26,7 @@
-     QAPISchemaModularCVisitor,
-     build_params,
-     ifcontext,
-+    gen_special_features,
- )
+ from .common import c_enum_const, c_name, mcgen
+-from .gen import QAPISchemaModularCVisitor, ifcontext
++from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
  from .schema import (
      QAPISchema,
-@@ -217,9 +218,6 @@ def gen_register_command(name: str,
-                          coroutine: bool) -> str:
-     options = []
- 
--    if 'deprecated' in [f.name for f in features]:
--        options += ['QCO_DEPRECATED']
--
-     if not success_response:
-         options += ['QCO_NO_SUCCESS_RESP']
-     if allow_oob:
-@@ -231,10 +229,11 @@ def gen_register_command(name: str,
- 
+     QAPISchemaEnumMember,
+@@ -39,7 +39,7 @@ def gen_enum_lookup(name: str,
+                     members: List[QAPISchemaEnumMember],
+                     prefix: Optional[str] = None) -> str:
+     max_index = c_enum_const(name, '_MAX', prefix)
+-    flags = ''
++    feats = ''
      ret = mcgen('''
-     qmp_register_command(cmds, "%(name)s",
--                         qmp_marshal_%(c_name)s, %(opts)s);
-+                         qmp_marshal_%(c_name)s, %(opts)s, %(feats)s);
+ 
+ const QEnumLookup %(c_name)s_lookup = {
+@@ -54,19 +54,21 @@ def gen_enum_lookup(name: str,
  ''',
-                 name=name, c_name=c_name(name),
--                opts=' | '.join(options) or 0)
-+                opts=' | '.join(options) or 0,
-+                feats=gen_special_features(features))
-     return ret
+                      index=index, name=memb.name)
+         ret += memb.ifcond.gen_endif()
+-        if 'deprecated' in (f.name for f in memb.features):
+-            flags += mcgen('''
+-        [%(index)s] = QAPI_ENUM_DEPRECATED,
+-''',
+-                           index=index)
  
+-    if flags:
++        special_features = gen_special_features(memb.features)
++        if special_features != '0':
++            feats += mcgen('''
++        [%(index)s] = %(special_features)s,
++''',
++                           index=index, special_features=special_features)
++
++    if feats:
+         ret += mcgen('''
+     },
+-    .flags = (const unsigned char[%(max_index)s]) {
++    .special_features = (const unsigned char[%(max_index)s]) {
+ ''',
+                      max_index=max_index)
+-        ret += flags
++        ret += feats
  
+     ret += mcgen('''
+     },
 -- 
 2.31.1
 
