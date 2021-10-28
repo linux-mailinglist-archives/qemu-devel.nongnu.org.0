@@ -2,146 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D9E43DE69
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 12:06:56 +0200 (CEST)
-Received: from localhost ([::1]:37340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E05FA43DEF5
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 12:34:14 +0200 (CEST)
+Received: from localhost ([::1]:58828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg2JD-0000F3-4E
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 06:06:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51316)
+	id 1mg2jd-0007zo-Tt
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 06:34:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mg2Gw-0007hG-VX; Thu, 28 Oct 2021 06:04:34 -0400
-Received: from mail-eopbgr60096.outbound.protection.outlook.com
- ([40.107.6.96]:62775 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ id 1mg2ah-0006tM-5P; Thu, 28 Oct 2021 06:24:59 -0400
+Received: from mail-vi1eur05on2139.outbound.protection.outlook.com
+ ([40.107.21.139]:54305 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mg2Gt-0001hz-HZ; Thu, 28 Oct 2021 06:04:34 -0400
+ id 1mg2ae-00020f-Lx; Thu, 28 Oct 2021 06:24:58 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kR0ZXjpKTyPIatKvDOWbQCCcOPVrBe/973EE36/D8ug7u8tnY+gRi4TVfIkV6B20bxKsN5QSmq+n+PtUOxR75GGzQCSy6v3o6cNTQi9ohy8kOmetE35apqNnbMPpfmKzgpu+IL7Eh93v+tY1yd9PYgUFFp6B1kgZuJjybmhfohjcK8WGxWKoaBPq/q4jw9ychOoffDV5k634fmuppi6YKzy2QNLQudF2DEl59Yuos0rn5dTHPG1GQW/gw78CxKHDQEhBmrdOMTZyMQuWRmXZWozgyx2eepvKtyxgAYrV8b8SY+O4HQG2EXYaQqpA7m4V8iq+eoDopQuAehMFd1ZtjA==
+ b=Td+84w90TpyDeUB8UjAzOGLD0R5IN5FaUa0i585g1FWqNJkU7P60TZ0KOALftoghd04VDUr7yGU3v+WZqzSI2QgFWDHZTHOH4j8IXAQMhHp0mkxbYZ7FL4NKIj4+4/jnOkINdbWpObwZtFdRCqxwuTdZHQMPUyLwxvP2ecSgB3KXlMIwGU69dDywEunTWm03jZdWW8Tr+Q35zvHr+sMFTNAkG3k86IBRATz4fb/8UDmr6fGS48pF+4sonU8vnFZ+3Jr5u+rAZkorWn1vjBhql2IBXXsUHc+bUAc58aZUA9Mwe7aqrpx3ABUPZXCOoJoy6j7jLd+ySbt/O6pfNF2B3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gYOgES8wvynfnkbQfSJsMNuGO4VisM/dpkuIg9HOZ5E=;
- b=Y2M6h8c/QzI7jaxZs7kawMPcS2xPAumeM9qZDNNEh5vIYWbYbBwb0VIweAmm8JdATGRx/aB+b3DqrZrioxRjSAbwgdF2mzflYd0+fKXVd52YgsNTSsk0kYy19Ex7n4xtR/O7oh/HG7c42rJq2vEms6jtchQ+g76MvEWIVDpwWrLNUD2+GJ7DarDmNXdKvUvJER6cqB7H8QOVCXJjxndDfYqtaNVT2GYZ2XosDmgpzHYU/a/UTytUESB38OmrGGZDkt6IPEu9kG6gsA9hs/gEnGVJyhssbHSkugOvCuQg8I9G1sOpX38Snf3qFJiAr8JBZQszZH9+WN+2/BsW+lPkjQ==
+ bh=KOttWXYUN3Rc+M87P98lwp8jNScloWUBVXdMvbAHfNI=;
+ b=jvJVjvQ9tbD58Z2dGTVUvPcTgjM3NFkqfg7VbQq3s0YWb/t4wUW7iKolh4VdAysMHdqm60yU4lbgdg3mITJ+Mwg2cRfaGvghYZWRUYFd5rF73LqmBkA+Abga4+5n/DKQxn2/GWdO/X/cf4LAN/lJCpSlnXJqU4J70pDCK56j0NWMB3OEQGQAQjYLdse3M6j2LSGcR0PkS6CX5SjXVTz1KZfZi1B4hhZEwBYki/d+zyGXEoTjnzCyskTDHP/4TQ2NuwnPtW1D2x2+9cUGk/+391vWOptED/pAaOb/rrBDKIbRUz+ndMLdGJcbTzLobrqaPDeUiR3ZNmCJrIV+nUmmpw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gYOgES8wvynfnkbQfSJsMNuGO4VisM/dpkuIg9HOZ5E=;
- b=F3yDtWRFzevxpdqyCZ+AcPGkVxYsv/flPwQMQSKasqFfTPNyVp8e5z6MeXXPvhv1zpyg1Uz6YAp0uOKVULVmPrCujT14NwL9yciZKbWfK5ICoeqB0W2NBQtOkFuL754YLRwd3COnwmqhZ5pOsa4KA/sJzatN2ZaR8WDtKjF8Tb8=
+ bh=KOttWXYUN3Rc+M87P98lwp8jNScloWUBVXdMvbAHfNI=;
+ b=CN5szFK98Limzf99bX92rvOdPxjYpkJ0rDzTU8HhkgFNbSPwOK1hSPxFNjJgjbhd+mDoBtF6EEUX+BEIOnE+BD1Dz+wmIVMa+QeNgE1p7vtSzwY8qdPsHTslvNwdOJOYCZlhknVWnm5G+17E+UPuLzClYLrNZHu2vJHNtOVxtdU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3863.eurprd08.prod.outlook.com (2603:10a6:20b:8b::20)
+ by AM6PR08MB4535.eurprd08.prod.outlook.com (2603:10a6:20b:74::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Thu, 28 Oct
- 2021 10:04:26 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Thu, 28 Oct
+ 2021 10:24:52 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a994:9f7c:53a5:84bc%5]) with mapi id 15.20.4649.015; Thu, 28 Oct 2021
- 10:04:26 +0000
-Message-ID: <d1f58c9e-f578-7017-282a-26deda1644c4@virtuozzo.com>
-Date: Thu, 28 Oct 2021 13:04:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2 2/4] qemu-img: make --block-size optional for compare
- --stat
-Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, nsoffer@redhat.com,
- eblake@redhat.com, jsnow@redhat.com, den@openvz.org,
- nikita.lapshin@virtuozzo.com
-References: <20211021101236.1144824-1-vsementsov@virtuozzo.com>
- <20211021101236.1144824-3-vsementsov@virtuozzo.com>
- <3afe188c-e6de-e956-b068-af6ae1f988da@redhat.com>
+ 10:24:52 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <3afe188c-e6de-e956-b068-af6ae1f988da@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
+ nsoffer@redhat.com, eblake@redhat.com, jsnow@redhat.com,
+ vsementsov@virtuozzo.com, den@openvz.org, nikita.lapshin@virtuozzo.com
+Subject: [PATCH v3 0/4] qemu-img compare --stat
+Date: Thu, 28 Oct 2021 12:24:37 +0200
+Message-Id: <20211028102441.1878668-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS8PR04CA0146.eurprd04.prod.outlook.com
- (2603:10a6:20b:127::31) To AM7PR08MB5494.eurprd08.prod.outlook.com
+Content-Type: text/plain
+X-ClientProxiedBy: AM5PR0701CA0053.eurprd07.prod.outlook.com
+ (2603:10a6:203:2::15) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Received: from [192.168.100.10] (185.215.60.244) by
- AS8PR04CA0146.eurprd04.prod.outlook.com (2603:10a6:20b:127::31) with
+Received: from kvm.ch-qa.sw.ru (130.117.225.5) by
+ AM5PR0701CA0053.eurprd07.prod.outlook.com (2603:10a6:203:2::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18 via Frontend
- Transport; Thu, 28 Oct 2021 10:04:25 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.4 via Frontend
+ Transport; Thu, 28 Oct 2021 10:24:52 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 593c9ed0-e6cf-43b4-e207-08d999fa52cd
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3863:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3863D2237BADE4BCDE42DB8CC1869@AM6PR08MB3863.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:421;
+X-MS-Office365-Filtering-Correlation-Id: 670e773d-8b69-4abd-76cb-08d999fd2dbc
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4535:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4535ADDA7794484AA5DBF9DBC1869@AM6PR08MB4535.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dAN4IAkjUFgiU6zjbDLqQX/8LFDJxkGtAO4tTlJ/JOEfeXDe2PAJYw3P91ZKGLqokq0UOGHM/mAGim+06UUbXecavWRklrW9oybF2HViYz0CmY8CLHHXKBcJrpvgT9IGWko51UBTF2z4EUHn/Kf5fOsZrlBqgi8A2Vt7GkSsrDrMbOaxtq25VypmCy4hAHnsleTacTB5258UFC0IKHgM2OQJ46dQ/1v7U5BZjlmC91uWfmk8ZxrOSaZk2SONJkpTi7DtgZkFo31RnmBlViV9a1rzHnxvdcbOM60fhMs2UZE5Q/qPVNQkfg8FlmTDpaZ2subNT3k9y0APL9eH4e4q282r0fkPxwFjJgt1XDWDQezCG0rjse41U52hJe18rAAYZK6vQNgyL+EVfu1Lm4v6D0+joZkUOgR6jcZo8gJMt/Spn04ewamSltutriO9Efm218u/qWpx+TYfKUb7tbmSWtoeZVSWyfW8UryRlT6GHyUDpv4gRxCkWVo7ag0v7/8u70xcM6JC8k3mtyoCZg4FL5woxAIdmKyfmq7PlOJ6YJEMdR07I2yfEKLzmgjMHjqZPiOfG7oGgUq0LQS8y4HC9gxE6XQSBRTEUYuEObUE7NcEM89r10IDQDZyD5gDpZJG0ffi/NuCTrJv/u7pbot3oFS9hGJ0bi+CybrE32Lw4FCIrWnswzCGf2JB4moCmSzMWf5OxzRj71GigSY8M9ZagHzPmTmBQxb3dFzm6gdQq4K4RyM50Ppu/+jJlmybtCj+Vv/rBCMe/tP8EFx2OidEAQ==
+X-Microsoft-Antispam-Message-Info: su8UypD5k0YEGFbtzsp/kXoW15Ki3zg1LufVn6YtuZZ0wNC8hJuXg5WdWljT6axEkx6iJ5RaDZmyr2I9a+IWGnP+kXWBG05twqLr/3eO6rCd7GQf2nuvc5G9ynZ1vYWP0dYjRaoeOjLTRB8yZckxPi7gsEOkAQBy5f8HJkHKRQoEqABkzOO4Ki9vi9BWuhjpAcJoWszwuSQ2zqwmcCw7np4nBn89TZtdyoFnSd89sreuA+Y7UGLD7bjdlwSpC3Cj33YnMtGoXdMVWWifz6TYobxhIl6G86wtVL3lQzjSxZOYin8c1VBtsMaxHnUs9EkvqJm/2/lcwAzvspwTQ6gJlGmIGpIEPREqSVYKCppJF25Ij3AHyW34nNZbPpJhIMQio2mrhCPjLG0xe7JjXhdQYau8O2MHzDul6fOic2T3GOk8mMkloHQoNdjSpKlOQJfIxEwTN8cjZX+UdRMFrMa4BA8c525WawPo143OmG+/0DYYKrt/6+ujXoZAYJV/r/tqQZI3iAHlrkqoJEYKju5wymqw2suiZkTJWFNTCacHkuPm3ji6/9r1VyPecTR3Mk8Hb/l5q4ZhPaQc3VHyMUXyKVOG42hVZOykS+bL/H8zFq/a6wSZOwSx54aKSLiacBiYKB7XREeBnvha5IEm5IvzXMo9FtDMvkQuVcDPK4bQsSK5JxpUbRuBXOjg/SALhHbP/bMZt5gCnXAaKfiIuni64Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(508600001)(186003)(53546011)(316002)(2906002)(107886003)(4326008)(8676002)(83380400001)(26005)(8936002)(52116002)(66476007)(66556008)(66946007)(38100700002)(31696002)(2616005)(5660300002)(38350700002)(36756003)(86362001)(31686004)(6486002)(16576012)(956004)(43740500002)(45980500001);
+ SFS:(4636009)(366004)(6506007)(508600001)(66476007)(66946007)(52116002)(83380400001)(107886003)(66556008)(6486002)(8936002)(316002)(36756003)(6512007)(5660300002)(86362001)(186003)(38350700002)(38100700002)(4326008)(26005)(956004)(2616005)(6916009)(2906002)(8676002)(1076003)(6666004);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U0FwU2V2MDB2eitNRUpxcHhrdElpOVN1MDA0bnUydnNkRUFMODlWOWE0clhm?=
- =?utf-8?B?TThwalRPdHNzcVR0OEordHpHUkgrMkxBMVhpYjBCTytJbkU3VytEanByV083?=
- =?utf-8?B?Vkx1WDZNL0xMWjI4cE5rVTdVNVpuY1FqWmJLZlVWZWFLTytuVUtHS2N0WE5v?=
- =?utf-8?B?QkhiZE5USk5SWVlScTdNbW96TWRXMTd3YlZMMjlVMk9kcUZiNXRBcGdaMFJ4?=
- =?utf-8?B?aWs3d014aXVRSkdsM0lDTEQrME45ZW9VbmE2cWdwSlhPNWlTcmpsYWhMWHR1?=
- =?utf-8?B?VHRBN1VlOXVuMDhkMlJ4TUVIbm01bnNMdDB6Y1BTR2FibS9XZ1V2UWFWZ3lZ?=
- =?utf-8?B?dWdpcitxQVJhL3loVnVBUFBCaGdNVW1ObUlwdTh2eHVLYjBFSzVLVG1Ra2Vu?=
- =?utf-8?B?TDlrRzZHWjAwanFRMjZ5QkFvTmZTeUJ1alJTa3BaVlNabDhGYWZzM0ZEbDhj?=
- =?utf-8?B?Wk5DRzN0MnJXQWNDM2o0NUwxRnBvRkp6TFNsUWpnaVpWVXBwT1dWK2lkNVNY?=
- =?utf-8?B?TExyLzFBcjJCTXdhamh6Y3FUMmJRRTNyVDFLZ2FqWk1LQlR4K2pRRkNrZE1E?=
- =?utf-8?B?ZkxlMnJORWc5SkpFcEFpMlZRbktUSFVpb2N0aVFiRlhxdndWMllQWExIanZY?=
- =?utf-8?B?Y0d3aVRmbE0zTmZkWlcyZFdOWjVvZDJyUVVPd2lwOTR1U1R0QjhYbTMxNUFE?=
- =?utf-8?B?VGlnakpaTzZaVktqeUo3bHdweGUwdDBRZFpkVDl4Q3pJeFJSY3djeGdiOEd0?=
- =?utf-8?B?N0g2Y0FZRHI2WExpbEw1S3pud3ZTVzFDR2Z6WHJYWUxFdTduZjN3TCthelZr?=
- =?utf-8?B?b1pnc3dSZTlrWDg1VnJMeUd4SnNPUDg2NG4zeHBsd2lCcVg3dGRac2xsVXRW?=
- =?utf-8?B?YnhwR0VMaVhXcUlZS0llejR5L3UrUWdMUStpOFR2d1RxTk5CVlU2c0o4OVVh?=
- =?utf-8?B?bkVGdTJiY0VTNFk1bCtkQ2NDdjd5OTBhNVArL0R5VXlRazZ1dUltaXMzYnhC?=
- =?utf-8?B?bTVpU0hZVXFsbnVlRjVkb0JCRHlVTHR5ejZKSHlIcHR3MjVUQlpVM3hhZnZp?=
- =?utf-8?B?Q1BPMk1jcmUycVkrbDl1WkZFRVBrRWVpeXhvUDVmako0bGlxVEtoM3hvQ1hS?=
- =?utf-8?B?NkZMMk5DN3ZtOTB6Y0t1ckRhRHA3Wjk3OXlWeUFhS01wT21kTFduZjJCU2RQ?=
- =?utf-8?B?QWV6MVdUNEtDSGRuMmFteHg0MFRRdWRQcGpVUTdkdnVOejBvb1FYWWZnMmlS?=
- =?utf-8?B?aE0vZXpmblZ1NFFMeXhZN2d3VTJuQ2ZrMSs0ZldnSk52ZkJtdi85Q05aZXNt?=
- =?utf-8?B?YVpEays0VkxJV0toNkpUYjVpUjZhTTlSRmJEUkxMbEZYdGlrSk9qc2Voc3I0?=
- =?utf-8?B?cFhnRW9ub2tKYk80K0JiTjNIMS9RQUpzeGZyOVFqNDdEZ2N1aEhacXVtN0lx?=
- =?utf-8?B?Uk5jWHJrQ2VqdHU0VkVqNUdhR2hiZnhvdTFiRHZVaXNJcURSRlJXT1RGOHhp?=
- =?utf-8?B?STBYT1lUMVI4cnhZVTAzTEtBRFFyVGY3QThQaVNlNXBYR3R4T0RsV1FBcUFp?=
- =?utf-8?B?M3dxR1NXWVFuK2F3eUlxcm5halJHaElrQjFXQlB6SUV1ZDhqTTFXSTU5WUIr?=
- =?utf-8?B?c2NjbEVuZHE3NXprNDhTanU2SGFkTnhjeldrbEhlZlhKOFJHK1NtMGNVT0hT?=
- =?utf-8?B?VytQN3VVaWZnUTd2MTNPYXFZd29XcTRnWEpFRGs4Wm50UVRLbDQzSk84QzBh?=
- =?utf-8?B?bkZ3WEVILzM5MHloSHByWkdVUSs1bzNXTjZmQmhhQ09ZWDNJY3ROZFN6TTlI?=
- =?utf-8?B?ZDM2aUNKWmdOYUlhcE42TklaNlo2bDUrTGhZc3NNT3AraHlDYmhsNDJzU3Vz?=
- =?utf-8?B?QWc2ekwrZVNUanVxMlFSTzQwYlFuNzRSaEEwc3ZyVG9WZEgyaXVHUGdZaXdR?=
- =?utf-8?B?VFVDOTZ2SU9UOThBS2tIeHNXalhpeWppZDhHRzBtUFR6UVVhVE1ZVVQ1dlNk?=
- =?utf-8?B?dktnaFVYN25PR2Zwekg1L2Z6M0xOQmp6MGl1TDh4Y1E0ckxvN1JYUHNSQXdw?=
- =?utf-8?B?QUFBWVdaUndXWlgyNVQ5L3N5Rm9nTVFEZnhCeUhqV3k4ejFHaysxRE5KT0Vk?=
- =?utf-8?B?c1JYVEhkWmRBc0FSVHg0TXJpNVd2OVJXS3VZUFNGYldZVG5QWmxOME4xS0RJ?=
- =?utf-8?B?TGdDK1N2SndPMU1OY1Axc1NTeUY3d04vNXJEQnRXYXlBeWJnakZidldIKy9P?=
- =?utf-8?B?OGNKdU1HRWtZY1RQaWd1b2pVa1BBPT0=?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?O0WosD01UriK7VKklKkogbnwTN+olwMNWSVqa7SfdjBxcpMmHYEuDsSLcuu5?=
+ =?us-ascii?Q?P5KE9tTHbORAF9N2JqPapcChOMHVkiDZQE08Qfmr6OyQuexBsQaZQptvsnC/?=
+ =?us-ascii?Q?rpPO69IXitLZqiRhoPyG5vqnW/uEEAlV5zR6SUCeYp6xuJsS/Lqs0GCioaEa?=
+ =?us-ascii?Q?SuQLTIqSZSGOtFvLTCNKNhntFpMZp+Xiy/15QaQgmaFrT82/qfZ4TjPnQqlt?=
+ =?us-ascii?Q?NUaPgsGunglVFlLpwCC1eq1LRfCk90dwH0SnKb8cKepGqv7u6zie29VBzrTe?=
+ =?us-ascii?Q?YZvuw9OWQGzpxVSgnnFjko/yO6SDJrKcgVydzCKuBPcNgX+lUNeRUpBodFbT?=
+ =?us-ascii?Q?n+XDcORY+/2AL4MREkYuPaXQZe4rVFtQkD2CbgiT6wtuDNMIQbUswOOf4tyx?=
+ =?us-ascii?Q?L+RDrm2BVfcn2kmWmIGHm47MfhAg4ytanUfJTNVdk3e2HgW4pYFT6qsP2OQI?=
+ =?us-ascii?Q?EGSzKYwo0erP8Au4TqHjeusiX4DCZQYoPJ2PVbIF6YbvLHkk58jaCzQzwv3C?=
+ =?us-ascii?Q?FQpPkSY2WkoJez3AA5QF+rnpsWJ2paAOx2/Emmm/RGkf3tJ461S85EeTI6Uf?=
+ =?us-ascii?Q?HcAWUEiYXnkj37VEtiH5jSnxnuxCWvGKSgkvaJGrIBvc2XCdUXNjq+S0MKDO?=
+ =?us-ascii?Q?/typMwi4dK+QBaZbaH90+NHop6jvnhF78bAD6W1wvz3wsZrYs2la3fKtlVZy?=
+ =?us-ascii?Q?y6zmAYOaz/3Pcoyc449XXAVLGaTBvomvtu/WmKEfsoTWPuGOqxEnap4vbqvq?=
+ =?us-ascii?Q?+QHqLx49jikxqUEkePtYvyWbeAotKcIyEKvUQbg5N3jqlzO1JTZ0FW+vur3U?=
+ =?us-ascii?Q?R1UbgtOwOc2j7JrOq327AF1+Hj02IBlLPynt+mqGJAeNAu/VSsn9p5wpzh4F?=
+ =?us-ascii?Q?IXTQVQROWSejP+g9/IfN1mMFeSxufwlp3ZkxSAL81SiEdnbVpaPe/nPWR1F2?=
+ =?us-ascii?Q?as5QN4d1QmxbYGiHfDxwLtBU2ieJlf4L17oY201wxGarAwUscizHWLx3HL5n?=
+ =?us-ascii?Q?g/b6HFiuFK/ZveIWyBAmqUvPHej3B6TA+I3F8MfIN9jjffrzJPjWXt2/yVx2?=
+ =?us-ascii?Q?nJsqVsuSbdIY+DDzV5xIMqo4XCmOhU1gVjJKbBtgvuG18Sc0ET3wa9QjdaJa?=
+ =?us-ascii?Q?PvUxRPHelmV0FBRAFffOGwjti/z8jTylt+92un9eJ500Brdpf9GU+sFw/pUW?=
+ =?us-ascii?Q?9oyVuqXgFl1RcXYDiCs45PamsYTTckx6W+o9rQFO79AWRAjLLtvKt7K6n9nO?=
+ =?us-ascii?Q?JfYnVg8c3lGBdVZpixyRn9Wxu/tmCnBJQMqUOv5jxyeWPzlD0Ijo2+B3tMnY?=
+ =?us-ascii?Q?Q35epPmo4xFZNQxiY7LY7ekbSIVC1kRmflvrxk6csTOc90LZeGXqIcRHY5ps?=
+ =?us-ascii?Q?6NUqxWBw8QHBiJ7wrnJ8cypoN9NHPzeYY0MVJSq6nxy4hq1ZV1dMtbRIOO9A?=
+ =?us-ascii?Q?jPAwoNCeBln5CKuogPtMxT30nWBJKNDmFhcg67isbOpY0sDZNOUaCcmYg4lK?=
+ =?us-ascii?Q?/rh2rexLArjpEFFl0JbKfBgNMxqVC4wc+FNddKfU3P+dltvAewnKe+fMYl/x?=
+ =?us-ascii?Q?h7TZislFNloMs4HpzGZxV+pNJNqSxvw/baOdzTzkBID4bKm8o3mBFUsaKbZ9?=
+ =?us-ascii?Q?2FpYElXJ4cR9GQKn3HFRVIY6Jgy/zGVqaH4dhi3zi9GQCWVAnCQK7M81ZxzP?=
+ =?us-ascii?Q?1pFL6w=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 593c9ed0-e6cf-43b4-e207-08d999fa52cd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 670e773d-8b69-4abd-76cb-08d999fd2dbc
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2021 10:04:26.1496 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2021 10:24:52.4280 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +Nbrvu6Ty0m34FXfMbl4SNVTVr09cDh64ATcUDO46G/tnRXKGwGaEbnJpJZitA/DNJ+E4/vWlvBdlpUJtNMn+zjPi5g91RfmpuMEMvWY09Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3863
-Received-SPF: pass client-ip=40.107.6.96;
+X-MS-Exchange-CrossTenant-UserPrincipalName: zXnUGJrQTdGimXOyXoXbkA5nS0ZASS6CMExGBRSO5YtJN7/gh7YeVOu4U7Q24MBpU9FYyt9BO76GAI44AqkFtbP1zC2Bqc0KgWCF2UQ7fpw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4535
+Received-SPF: pass client-ip=40.107.21.139;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.847, RCVD_IN_DNSWL_NONE=-0.0001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -159,133 +143,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-26.10.2021 11:07, Hanna Reitz wrote:
-> On 21.10.21 12:12, Vladimir Sementsov-Ogievskiy wrote:
->> Let's detect block-size automatically if not specified by user:
->>
->>   If both files define cluster-size, use minimum to be more precise.
->>   If both files don't specify cluster-size, use default of 64K
->>   If only one file specify cluster-size, just use it.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   docs/tools/qemu-img.rst |  7 +++-
->>   qemu-img.c              | 71 ++++++++++++++++++++++++++++++++++++-----
->>   qemu-img-cmds.hx        |  4 +--
->>   3 files changed, 71 insertions(+), 11 deletions(-)
-> 
-> Looks good, just grammar nits and a request for an assertion below.
-> 
->> diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
->> index 21164253d4..4b382ca2b0 100644
->> --- a/docs/tools/qemu-img.rst
->> +++ b/docs/tools/qemu-img.rst
->> @@ -170,6 +170,11 @@ Parameters to compare subcommand:
->>     Block size for comparing with ``--stat``. This doesn't guarantee exact
->>     size of comparing chunks, but that guarantee that data chunks being
->>     compared will never cross aligned block-size boundary.
->> +  When unspecified the following logic is used:
->> +
->> +    - If both files define cluster-size, use minimum to be more precise.
->> +    - If both files don't specify cluster-size, use default of 64K
->> +    - If only one file specify cluster-size, just use it.
-> 
-> s/specify/specifies/; and perhaps s/it/that/
-> 
-> [...]
-> 
->> diff --git a/qemu-img.c b/qemu-img.c
->> index 79a0589167..61e7f470bb 100644
->> --- a/qemu-img.c
->> +++ b/qemu-img.c
->> @@ -1407,6 +1407,61 @@ static void cmp_stat_print(ImgCmpStat *stat, int64_t total_bytes)
->>       }
->>   }
->> +/* Get default value for qemu-img compare --block-size option. */
->> +static int img_compare_block_size(BlockDriverState *bs1,
->> +                                  BlockDriverState *bs2,
->> +                                  bool quiet)
->> +{
->> +    const int default_block_size = 64 * 1024; /* 64K */
->> +
->> +    int ret;
->> +    BlockDriverInfo bdi;
->> +    int cluster_size1, cluster_size2, block_size;
->> +    const char *note = "Note: to alter it, set --block-size option.";
->> +    const char *fname1 = bs1->filename;
->> +    const char *fname2 = bs2->filename;
->> +
->> +    ret = bdrv_get_info(bs1, &bdi);
->> +    if (ret < 0 && ret != -ENOTSUP) {
->> +        error_report("Failed to get info of %s: %s", fname1, strerror(-ret));
->> +        return ret;
->> +    }
->> +    cluster_size1 = ret < 0 ? 0 : bdi.cluster_size;
->> +
->> +    ret = bdrv_get_info(bs2, &bdi);
->> +    if (ret < 0 && ret != -ENOTSUP) {
->> +        error_report("Failed to get info of %s: %s", fname2, strerror(-ret));
->> +        return ret;
->> +    }
->> +    cluster_size2 = ret < 0 ? 0 : bdi.cluster_size;
->> +
-> 
-> I’d feel better with an `assert(cluster_size1 >= 0 && cluster_size2 >= 0);` here.
+Hi all!
 
-Hmm.. But it seems obvious: bdi.cluster_size should not be <0 on success of bdrv_get_info.
+Recently we faced the following task:
 
-> 
->> +    if (cluster_size1 > 0 && cluster_size2 > 0) {
->> +        if (cluster_size1 == cluster_size2) {
->> +            block_size = cluster_size1;
->> +        } else {
->> +            block_size = MIN(cluster_size1, cluster_size2);
->> +            qprintf(quiet, "%s and %s has different cluster sizes: %d and %d "
-> 
-> s/has/have/
-> 
->> +                    "correspondingly. Use minimum as block-size for "
-> 
-> s/correspondingly/respectively/; s/Use/Using/ (“Use” sounds like an imperative)
-> 
->> +                    "accuracy: %d. %s\n",
->> +                    fname1, fname2, cluster_size1,
->> +                    cluster_size2, block_size, note);
->> +        }
->> +    } else if (cluster_size1 == 0 && cluster_size2 == 0) {
->> +        block_size = default_block_size;
->> +        qprintf(quiet, "Neither of %s and %s has explicit cluster size. Use "
-> 
-> s/has/have an/; s/Use/Using/
-> 
->> +                "default of %d bytes. %s\n", fname1, fname2, block_size, note);
->> +    } else {
->> +        block_size = MAX(cluster_size1, cluster_size2);
->> +        qprintf(quiet, "%s has explicit cluster size of %d and %s "
-> 
-> s/has/has an/
-> 
->> +                "doesn't have one. Use %d as block-size. %s\n",
-> 
-> s/Use/Using/
-> 
-> Hanna
-> 
->> +                cluster_size1 ? fname1 : fname2, block_size,
->> +                cluster_size1 ? fname2 : fname1,
->> +                block_size, note);
->> +    }
->> +
->> +    return block_size;
->> +}
->> +
->>   /*
->>    * Compares two images. Exit codes:
->>    *
-> 
+Customer comes and say: incremental backup images are too fat. Does you
+incremental backup works correct?
 
+What to answer? We should check something. At least check that
+incremental images doesn't store same data twice. And we don't have a
+tool for it. I just wrote a simple python script to compare raw files
+cluster-by-cluster. Then we've mounted the qcow2 images with help of
+qemu-nbd, the resulting /dev/nbd* were compared and we proved that
+incremental backups don't store same data.
+
+But that leads to idea that some kind of that script would be good to
+have at hand.
+
+So, here is a new option for qemu-img compare, that is a lot more
+powerful and effective than original script, and allows to compare and
+calculate statistics, i.e. how many clusters differs, how many
+clusters changed from unallocated to data, and so on.
+
+For examples of output look at the test in patch 04.
+
+v3:
+qemu-img: implement compare --stat
+  fix wording
+  fix option numbers
+  allocate ImgCmpStat dynamically
+  fix exit statuses
+  restrict using strict mode together with --stat
+
+qemu-img: make --block-size optional for compare --stat
+  fix wording
+
+qemu-img: add --shallow option for qemu-img compare
+  fix option number(rebase on previous fix)
+  add Hanna's r-b
+
+iotests: add qemu-img-compare-stat test
+  add Hanna's r-b
+  s/Agenda/Key/ in test output
+
+Vladimir Sementsov-Ogievskiy (4):
+  qemu-img: implement compare --stat
+  qemu-img: make --block-size optional for compare --stat
+  qemu-img: add --shallow option for qemu-img compare
+  iotests: add qemu-img-compare-stat test
+
+ docs/tools/qemu-img.rst                       |  30 +-
+ qemu-img.c                                    | 275 +++++++++++++++++-
+ qemu-img-cmds.hx                              |   4 +-
+ .../qemu-iotests/tests/qemu-img-compare-stat  |  88 ++++++
+ .../tests/qemu-img-compare-stat.out           | 106 +++++++
+ 5 files changed, 485 insertions(+), 18 deletions(-)
+ create mode 100755 tests/qemu-iotests/tests/qemu-img-compare-stat
+ create mode 100644 tests/qemu-iotests/tests/qemu-img-compare-stat.out
 
 -- 
-Best regards,
-Vladimir
+2.31.1
+
 
