@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7ACA43E60C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 18:24:02 +0200 (CEST)
-Received: from localhost ([::1]:58424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F52843E5F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 18:18:55 +0200 (CEST)
+Received: from localhost ([::1]:47734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg8CA-0005UQ-04
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 12:24:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51346)
+	id 1mg87C-0006KI-AZ
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 12:18:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mg7mx-0005IN-Gd
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:58:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29533)
+ id 1mg7nC-0005Rb-Lf
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:58:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mg7mv-0004Y5-Rx
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:57:59 -0400
+ id 1mg7n9-0004bC-F7
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:58:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635436677;
+ s=mimecast20190719; t=1635436690;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tFp6wR6Hh3gv/eS0nrDHvOxlzeVApi6HP2O6tIIjQk4=;
- b=bVfJuwoWYDq2FxEcLYdnXMBsucq9E6RV1qx1SQ9Gu+p0bVXhrZiguuaF7Y2sXDnXyrHVfE
- oBbR4MTEdV9CaTKNqqba4ABtpntm/CvIqcm745FJj3zgRlsSglZyLM4KSM6sazdUykoE+I
- Bm6XqiP3aas1V+frTbiy8NPjMQp1+dQ=
+ bh=N43BQa5kEusOcZ9HwCJUfIDEUvQTRfgPXUNElXGfWqI=;
+ b=SFF2ObxRkdWEpBq+P8kXl4PWKq6e7qfm6wCJfmacJHjdjSanrzYpME1cCfXuyqjs0XgQ6Q
+ 9DNyio1fuKkMk/fzIyjRF8CjW59GRiV1Bv8WQAET0LUnG3JlleLZZi34X6sxzIXPUBR1Bf
+ IM9H2T7p9dQGJd/t+2Rhu/nWpXkuQ4Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-bBUmh5iSNeecCHBhv4lUeA-1; Thu, 28 Oct 2021 11:57:54 -0400
-X-MC-Unique: bBUmh5iSNeecCHBhv4lUeA-1
+ us-mta-305-OsSbU-QeNVO84hXcZscxxA-1; Thu, 28 Oct 2021 11:58:07 -0400
+X-MC-Unique: OsSbU-QeNVO84hXcZscxxA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCA058066F4;
- Thu, 28 Oct 2021 15:57:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D6BE9126F;
+ Thu, 28 Oct 2021 15:58:05 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.39.195.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC0646F920;
- Thu, 28 Oct 2021 15:57:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4524F6C8F7;
+ Thu, 28 Oct 2021 15:57:53 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 12/22] qapi: introduce x-query-numa QMP command
-Date: Thu, 28 Oct 2021 16:54:47 +0100
-Message-Id: <20211028155457.967291-13-berrange@redhat.com>
+Subject: [PATCH v4 13/22] qapi: introduce x-query-usb QMP command
+Date: Thu, 28 Oct 2021 16:54:48 +0100
+Message-Id: <20211028155457.967291-14-berrange@redhat.com>
 In-Reply-To: <20211028155457.967291-1-berrange@redhat.com>
 References: <20211028155457.967291-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -92,7 +92,7 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a counterpart to the HMP "info numa" command. It is being
+This is a counterpart to the HMP "info usb" command. It is being
 added with an "x-" prefix because this QMP command is intended as an
 adhoc debugging tool and will thus not be modelled in QAPI as fully
 structured data, nor will it have long term guaranteed stability.
@@ -101,145 +101,141 @@ The existing HMP command is rewritten to call the QMP command.
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
  hmp-commands-info.hx       |  2 +-
- hw/core/machine-hmp-cmds.c | 35 ---------------------------------
- hw/core/machine-qmp-cmds.c | 40 ++++++++++++++++++++++++++++++++++++++
+ hw/usb/bus.c               | 24 +++++++++++++++---------
  qapi/machine.json          | 12 ++++++++++++
- 4 files changed, 53 insertions(+), 36 deletions(-)
+ stubs/usb-dev-stub.c       |  8 ++++++++
+ tests/qtest/qmp-cmd-test.c |  2 ++
+ 5 files changed, 38 insertions(+), 10 deletions(-)
 
 diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 84c5e0da10..f66b1ca986 100644
+index f66b1ca986..ef1bfe4f5a 100644
 --- a/hmp-commands-info.hx
 +++ b/hmp-commands-info.hx
-@@ -325,7 +325,7 @@ ERST
+@@ -338,7 +338,7 @@ ERST
          .args_type  = "",
          .params     = "",
-         .help       = "show NUMA information",
--        .cmd        = hmp_info_numa,
-+        .cmd_info_hrt = qmp_x_query_numa,
+         .help       = "show guest USB devices",
+-        .cmd        = hmp_info_usb,
++        .cmd_info_hrt = qmp_x_query_usb,
      },
  
  SRST
-diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
-index c356783ab9..4e2f319aeb 100644
---- a/hw/core/machine-hmp-cmds.c
-+++ b/hw/core/machine-hmp-cmds.c
-@@ -130,38 +130,3 @@ void hmp_info_memdev(Monitor *mon, const QDict *qdict)
-     qapi_free_MemdevList(memdev_list);
-     hmp_handle_error(mon, err);
- }
--
--void hmp_info_numa(Monitor *mon, const QDict *qdict)
--{
--    int i, nb_numa_nodes;
--    NumaNodeMem *node_mem;
--    CpuInfoFastList *cpu_list, *cpu;
--    MachineState *ms = MACHINE(qdev_get_machine());
--
--    nb_numa_nodes = ms->numa_state ? ms->numa_state->num_nodes : 0;
--    monitor_printf(mon, "%d nodes\n", nb_numa_nodes);
--    if (!nb_numa_nodes) {
--        return;
--    }
--
--    cpu_list = qmp_query_cpus_fast(&error_abort);
--    node_mem = g_new0(NumaNodeMem, nb_numa_nodes);
--
--    query_numa_node_mem(node_mem, ms);
--    for (i = 0; i < nb_numa_nodes; i++) {
--        monitor_printf(mon, "node %d cpus:", i);
--        for (cpu = cpu_list; cpu; cpu = cpu->next) {
--            if (cpu->value->has_props && cpu->value->props->has_node_id &&
--                cpu->value->props->node_id == i) {
--                monitor_printf(mon, " %" PRIi64, cpu->value->cpu_index);
--            }
--        }
--        monitor_printf(mon, "\n");
--        monitor_printf(mon, "node %d size: %" PRId64 " MB\n", i,
--                       node_mem[i].node_mem >> 20);
--        monitor_printf(mon, "node %d plugged: %" PRId64 " MB\n", i,
--                       node_mem[i].node_plugged_mem >> 20);
--    }
--    qapi_free_CpuInfoFastList(cpu_list);
--    g_free(node_mem);
--}
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index 216fdfaf3a..4f4ab30f8c 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -15,6 +15,7 @@
- #include "qapi/qmp/qerror.h"
- #include "qapi/qmp/qobject.h"
- #include "qapi/qobject-input-visitor.h"
+diff --git a/hw/usb/bus.c b/hw/usb/bus.c
+index 5d441a7065..92d6ed5626 100644
+--- a/hw/usb/bus.c
++++ b/hw/usb/bus.c
+@@ -2,6 +2,8 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/usb.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-commands-machine.h"
 +#include "qapi/type-helpers.h"
- #include "qemu/main-loop.h"
- #include "qom/qom-qobject.h"
- #include "sysemu/hostmem.h"
-@@ -204,3 +205,42 @@ MemdevList *qmp_query_memdev(Error **errp)
-     object_child_foreach(obj, query_memdev, &list);
-     return list;
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ #include "sysemu/sysemu.h"
+@@ -631,15 +633,16 @@ static char *usb_get_fw_dev_path(DeviceState *qdev)
+     return fw_path;
  }
-+
-+HumanReadableText *qmp_x_query_numa(Error **errp)
-+{
+ 
+-void hmp_info_usb(Monitor *mon, const QDict *qdict)
++HumanReadableText *qmp_x_query_usb(Error **errp)
+ {
 +    g_autoptr(GString) buf = g_string_new("");
-+    int i, nb_numa_nodes;
-+    NumaNodeMem *node_mem;
-+    CpuInfoFastList *cpu_list, *cpu;
-+    MachineState *ms = MACHINE(qdev_get_machine());
+     USBBus *bus;
+     USBDevice *dev;
+     USBPort *port;
+ 
+     if (QTAILQ_EMPTY(&busses)) {
+-        monitor_printf(mon, "USB support not enabled\n");
+-        return;
++        error_setg(errp, "USB support not enabled");
++        return NULL;
+     }
+ 
+     QTAILQ_FOREACH(bus, &busses, next) {
+@@ -647,14 +650,17 @@ void hmp_info_usb(Monitor *mon, const QDict *qdict)
+             dev = port->dev;
+             if (!dev)
+                 continue;
+-            monitor_printf(mon, "  Device %d.%d, Port %s, Speed %s Mb/s, "
+-                           "Product %s%s%s\n",
+-                           bus->busnr, dev->addr, port->path,
+-                           usb_speed(dev->speed), dev->product_desc,
+-                           dev->qdev.id ? ", ID: " : "",
+-                           dev->qdev.id ?: "");
++            g_string_append_printf(buf,
++                                   "  Device %d.%d, Port %s, Speed %s Mb/s, "
++                                   "Product %s%s%s\n",
++                                   bus->busnr, dev->addr, port->path,
++                                   usb_speed(dev->speed), dev->product_desc,
++                                   dev->qdev.id ? ", ID: " : "",
++                                   dev->qdev.id ?: "");
+         }
+     }
 +
-+    nb_numa_nodes = ms->numa_state ? ms->numa_state->num_nodes : 0;
-+    g_string_append_printf(buf, "%d nodes\n", nb_numa_nodes);
-+    if (!nb_numa_nodes) {
-+        goto done;
-+    }
-+
-+    cpu_list = qmp_query_cpus_fast(&error_abort);
-+    node_mem = g_new0(NumaNodeMem, nb_numa_nodes);
-+
-+    query_numa_node_mem(node_mem, ms);
-+    for (i = 0; i < nb_numa_nodes; i++) {
-+        g_string_append_printf(buf, "node %d cpus:", i);
-+        for (cpu = cpu_list; cpu; cpu = cpu->next) {
-+            if (cpu->value->has_props && cpu->value->props->has_node_id &&
-+                cpu->value->props->node_id == i) {
-+                g_string_append_printf(buf, " %" PRIi64, cpu->value->cpu_index);
-+            }
-+        }
-+        g_string_append_printf(buf, "\n");
-+        g_string_append_printf(buf, "node %d size: %" PRId64 " MB\n", i,
-+                               node_mem[i].node_mem >> 20);
-+        g_string_append_printf(buf, "node %d plugged: %" PRId64 " MB\n", i,
-+                               node_mem[i].node_plugged_mem >> 20);
-+    }
-+    qapi_free_CpuInfoFastList(cpu_list);
-+    g_free(node_mem);
-+
-+ done:
 +    return human_readable_text_from_str(buf);
-+}
+ }
+ 
+ /* handle legacy -usbdevice cmd line option */
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 73ff4bc168..3732f80a82 100644
+index 3732f80a82..15b6c98597 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -1412,6 +1412,18 @@
-      '*threads': 'int',
-      '*maxcpus': 'int' } }
- 
+@@ -1447,3 +1447,15 @@
+ ##
+ { 'command': 'x-query-roms',
+   'returns': 'HumanReadableText' }
++
 +##
-+# @x-query-numa:
++# @x-query-usb:
 +#
-+# Query NUMA topology information
++# Query information on the USB devices
 +#
-+# Returns: topology information
++# Returns: USB device information
 +#
 +# Since: 6.2
 +##
-+{ 'command': 'x-query-numa',
++{ 'command': 'x-query-usb',
 +  'returns': 'HumanReadableText' }
+diff --git a/stubs/usb-dev-stub.c b/stubs/usb-dev-stub.c
+index b1adeeb454..aa557692b7 100644
+--- a/stubs/usb-dev-stub.c
++++ b/stubs/usb-dev-stub.c
+@@ -8,6 +8,8 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
++#include "qapi/error.h"
++#include "qapi/qapi-commands-machine.h"
+ #include "sysemu/sysemu.h"
+ #include "monitor/monitor.h"
+ #include "hw/usb.h"
+@@ -19,6 +21,12 @@ USBDevice *usbdevice_create(const char *driver)
+     return NULL;
+ }
+ 
++HumanReadableText *qmp_x_query_usb(Error **errp)
++{
++    error_setg(errp, "Support for USB devices not built-in");
++    return NULL;
++}
 +
- ##
- # @x-query-profile:
- #
+ void hmp_info_usb(Monitor *mon, const QDict *qdict)
+ {
+     monitor_printf(mon, "Support for USB devices not built-in\n");
+diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+index 372c887eea..0d52ea6c4b 100644
+--- a/tests/qtest/qmp-cmd-test.c
++++ b/tests/qtest/qmp-cmd-test.c
+@@ -49,6 +49,8 @@ static int query_error_class(const char *cmd)
+ #ifndef CONFIG_PROFILER
+         { "x-query-profile", ERROR_CLASS_GENERIC_ERROR },
+ #endif
++        /* Only valid with a USB bus added */
++        { "x-query-usb", ERROR_CLASS_GENERIC_ERROR },
+         { NULL, -1 }
+     };
+     int i;
 -- 
 2.31.1
 
