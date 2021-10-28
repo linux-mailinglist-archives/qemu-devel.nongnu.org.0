@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4457B43E7F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 20:03:17 +0200 (CEST)
-Received: from localhost ([::1]:36874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE8743E7F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 20:06:21 +0200 (CEST)
+Received: from localhost ([::1]:40758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg9kB-00082s-CL
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 14:03:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51900)
+	id 1mg9nA-0002GK-IA
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 14:06:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mg9h3-0006xD-6l
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 14:00:01 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:36470)
+ id 1mg9jF-0008Jx-3b
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 14:02:18 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:39702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mg9h0-0003kL-W5
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 14:00:00 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id m26so6734359pff.3
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 10:59:58 -0700 (PDT)
+ id 1mg9j3-0004yT-72
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 14:02:16 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id t21so4992324plr.6
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 11:02:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vzru+Ul7oQKPRnL9dRhiftIZ4OdXGapraNifo8F/Qrg=;
- b=Zgh/6rHhDdqwChZY7htGz8Wpp5zcS5n28MQyrAA4BxUaMQcKje0TZXnxsF3cG939K5
- fZMrM16bWTeoM9oov89ZZTSZ8vSnkMK81WEd83JNIdO4FXDEU7v6bDghNOpLgYv99ZXy
- IZHNevEfaDd/pn6ZNH4Vn/0mkbRiRs9T6eT/2rR6vRViW1bOu5PsahxvJTIA0+Hvpx0M
- AsaEyNWaaUJmMsih0WAJf1ONXegdwPl4lQGFv6ngbtnr+fR6090mO/eMJHy7d2K5A/uW
- 4sukrZ7fPKRVxdVJQ7HTlbYvFOz72GmHM/LdqRyU09PU6nPEKc09SVm05G4GWrOze/P3
- CiQA==
+ bh=KxBB6s+ApjnEywU03krTn/aRpNLuUV1/UczZhD7fAmw=;
+ b=yf/ZIlgVC15hedHzvMvB8KQIhArEH0My0WDFeiKC3hG5yTTB3vGPpZ06LnLpPATFtp
+ 7FOJgnwoaYKkuWHoJJodK+iUB/JKunWvhgCGvdPwHqLRlgQb5defENUDXLdY5+Ynjctw
+ lA5bM+V4BblCfrrRCuf8vvpFhnSpfA63+TEguMYbAwZesxJgP88LRBgMTkcOqV6iCm8y
+ NO/jbV/sBrsnXB79m3OV8NzWn4/rWuz2XAUSKk0umcVGvllr+Jwabn7mkS17vVuN9Z4x
+ e1Xhh989x+MeyJ4TCiN2gAtni6Ht2Ahaa4piB3r0HSWcCaopom5jDBXjxvo9US2DOYnS
+ qSkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=vzru+Ul7oQKPRnL9dRhiftIZ4OdXGapraNifo8F/Qrg=;
- b=GBBTR4SSZjoQDfFQjMe4cMC8n36vh9i3X/YBWjgH/+a0JsaycHN4D+9ba8BjgRHLMG
- iCHuXPrYjBSv27KtTx+un30PDEnVFx8LuW+Yl2hcH2VFORShGHGhc9gajQOA3ynvdEky
- DlZDdnjNRYG1z2Xh3Y1Fnxjz+k0qAL8l12BaiU3zovj1nKwmG2nPFqM3qukzJdbgiWAs
- Nn/MpGOgASgjYz2x0eHXHJlAQ0RaPsduCVtJ8qO+zvF7Hyp4XVskQEFciIrrOYrHlqXB
- aiknLDh9vIXHCK9fg9V7jVsmZ2Ji+UjylJz8quQ2YndvYUrdBONuOfkP7AUUQlktPIQV
- DJ6A==
-X-Gm-Message-State: AOAM533LT/DBzCQZmvTWu9sQUiRoLArgallrUinrrIYX+sgtYgThrbce
- H+w974HzUYdxy5p0qs5erSz+ug==
-X-Google-Smtp-Source: ABdhPJwWn2aqZ5gpLSa3yMxRl2eT88iBSRwRIQBRq5JMfMLqwRvcOAy4HPnmYCSEusgawSQ4UDEMWw==
-X-Received: by 2002:aa7:924d:0:b0:47b:d390:da8d with SMTP id
- 13-20020aa7924d000000b0047bd390da8dmr5851588pfp.15.1635443997462; 
- Thu, 28 Oct 2021 10:59:57 -0700 (PDT)
+ bh=KxBB6s+ApjnEywU03krTn/aRpNLuUV1/UczZhD7fAmw=;
+ b=Qk0o3JtUo1mlh+lNmDfW9+b6mGGCK4urd7rwUJDkqDnUyZexIQADd9ufij8oybIp8j
+ qNPs4M3pG+t6ifxo9HOpIFGBtDEPmSCze2jB6oRUsvlclPBO3OP+8DMFkwcmhdk+zgt+
+ 7y77yzuH9L++gd+zqwSJelEojvIE8tzjCXVwGWHUP6vyAkBxMUg8PLfeoHTFY+YYqtuZ
+ N2jD3Hra+nhwF6wCDM0/QlmAHSCYTWQzOQ9rAbopNiuSjKZhkl30GSCspfgyeQ2JfA5a
+ bahkkjeyqfCBcEZO8sPjVwCOt95HJy6Y7dhmQzD0DaGfjy8dZVBEKLLT7U30OS+1OgXk
+ UyIA==
+X-Gm-Message-State: AOAM530UuQV5YSLd2lhehejo08duk9CCwq+MKNBzcDC9/wrVfWMqt3Va
+ /mMQ+VhZey4lD9Kk0iz1NfNn/w==
+X-Google-Smtp-Source: ABdhPJwb4657WQ7WXTdNhfEz4AA5nYjrXwoa0bjKq0mEyrtBhDN0Ei0Dcb/iDyIUSeIl3UvosLI4qQ==
+X-Received: by 2002:a17:903:22c5:b0:140:298b:9e27 with SMTP id
+ y5-20020a17090322c500b00140298b9e27mr5396801plg.23.1635444123477; 
+ Thu, 28 Oct 2021 11:02:03 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id x5sm4654105pfh.153.2021.10.28.10.59.56
+ by smtp.gmail.com with ESMTPSA id nv5sm3725572pjb.10.2021.10.28.11.02.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Oct 2021 10:59:56 -0700 (PDT)
-Subject: Re: [PATCH 23/24] bsd-user/arm/target_arch_signal.h: arm
- get_ucontext_sigreturn
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+ Thu, 28 Oct 2021 11:02:02 -0700 (PDT)
+Subject: Re: [PATCH 24/24] bsd-user: add arm target build
+To: Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>
 References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-24-imp@bsdimp.com>
+ <20211019164447.16359-25-imp@bsdimp.com>
+ <CACNAnaGiY2NSgCfrx7eTzhOsfXMK4ZZoMzM=GtMt5nFuj5-jGA@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2cd05217-d8c8-329e-ec4f-bbec1c5174f5@linaro.org>
-Date: Thu, 28 Oct 2021 10:59:54 -0700
+Message-ID: <8da2f237-4470-cc76-afd7-a3ca1a060f3f@linaro.org>
+Date: Thu, 28 Oct 2021 11:02:00 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211019164447.16359-24-imp@bsdimp.com>
+In-Reply-To: <CACNAnaGiY2NSgCfrx7eTzhOsfXMK4ZZoMzM=GtMt5nFuj5-jGA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -48
 X-Spam_score: -4.9
 X-Spam_bar: ----
 X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.847,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,36 +88,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@freebsd.org>,
- Michael Tokarev <mjt@tls.msk.ru>, Stacey Son <sson@FreeBSD.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 9:44 AM, Warner Losh wrote:
-> +/* Compare to arm/arm/machdep.c sys_sigreturn() */
-> +static inline abi_long get_ucontext_sigreturn(CPUARMState *regs,
-> +        abi_ulong target_sf, abi_ulong *target_uc)
-> +{
-> +    uint32_t cpsr = cpsr_read(regs);
-> +
-> +    *target_uc = 0;
-> +
-> +    if ((cpsr & CPSR_M) != ARM_CPU_MODE_USR ||
-> +            (cpsr & (CPSR_I | CPSR_F)) != 0) {
-> +        return -TARGET_EINVAL;
-> +    }
-> +
-> +    *target_uc = target_sf;
-> +
-> +    return 0;
-> +}
+On 10/25/21 11:21 PM, Kyle Evans wrote:
+> On Tue, Oct 19, 2021 at 11:45 AM Warner Losh <imp@bsdimp.com> wrote:
+>>
+>> Signed-off-by: Warner Losh <imp@bsdimp.com>
+>> ---
+>>   configs/targets/arm-bsd-user.mak | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>   create mode 100644 configs/targets/arm-bsd-user.mak
+>>
+>> diff --git a/configs/targets/arm-bsd-user.mak b/configs/targets/arm-bsd-user.mak
+>> new file mode 100644
+>> index 0000000000..deea21aaf5
+>> --- /dev/null
+>> +++ b/configs/targets/arm-bsd-user.mak
+>> @@ -0,0 +1,2 @@
+>> +TARGET_ARCH=arm
+>> +TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
+>> --
+>> 2.32.0
+>>
+> 
+> I'm not really qualified to review this one, but it looks basically
+> sane. I note that there's a gdb-xml/arm-vfp-sysregs.xml in the current
+> master that should probably be added to TARGET_XML_FILES.
+> Cross-referencing arm-linux-user and i386-bsd-user, this seems sane
+> and correct and I'm not aware of any other options that we would need
+> to consider setting, so let's call it:
+> 
+> Acked-by: Kyle Evans <kevans@FreeBSD.org>
 
-Since you've not yet filled in signal.c, I can't opine too much, but I'll note that the 
-kernel has this check in set_mcontext, and sys_sigreturn defers to that for the validation.
-
-So I think this can just be the final assignment.
+Yeah, add sysregs.xml and give it
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
 
