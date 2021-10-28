@@ -2,71 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A0C43DF0E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 12:38:23 +0200 (CEST)
-Received: from localhost ([::1]:36706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2FB43DF26
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 12:44:06 +0200 (CEST)
+Received: from localhost ([::1]:53508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg2ne-0003rN-4Y
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 06:38:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56596)
+	id 1mg2tB-0006gs-5O
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 06:44:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg2bz-0007oa-5i
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 06:26:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59240)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mg2jh-0001GW-FH
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 06:34:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg2bx-000396-8z
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 06:26:18 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mg2jd-00047a-QE
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 06:34:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635416776;
+ s=mimecast20190719; t=1635417251;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YEgvUnsaNMoPIQtAjp9F7s7FFZJwSRcVuDGcckVSrAY=;
- b=CLkGVjMAD1bJP7kpYp4D+l4Ly6KU3m3H6pXDPuliz3txQckds/OYevUxJFWxJn2ixQrZoS
- x+6nBB+LMxtb09faLRt9TYauiQe+OoYWPtGPRz3oPCbJseQC8fhGjq+xbpul2zZfDJRbLu
- lhS29i04pZA4dSnycCUsMt2c/9HYuBA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-234-L2I1wvGxPTqf-9WQGqj62g-1; Thu, 28 Oct 2021 06:26:11 -0400
-X-MC-Unique: L2I1wvGxPTqf-9WQGqj62g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 885F9180831D;
- Thu, 28 Oct 2021 10:26:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AF27B60854;
- Thu, 28 Oct 2021 10:25:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 567BA11380DF; Thu, 28 Oct 2021 12:25:20 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 9/9] qapi: Extend -compat to set policy for unstable
- interfaces
-Date: Thu, 28 Oct 2021 12:25:20 +0200
-Message-Id: <20211028102520.747396-10-armbru@redhat.com>
-In-Reply-To: <20211028102520.747396-1-armbru@redhat.com>
-References: <20211028102520.747396-1-armbru@redhat.com>
+ bh=tZ/rbhc1wpzfAV8rZcugxR5UQ5u31IEJ7MW5DYWYX98=;
+ b=XblajDRUWExDONL1Rw3GV4fOqQGj4jrvSyZOOCzAqBOCo/DbcAy/sPgNRfCku/trvU4HeG
+ 9Pgsdx6KY/R3GQNcB+Cvsn43ujmLt16juZAn1JTyBhhnNrsagbjLR2Kn9s3O+jjvDgrLfB
+ 1r9Ym5aSgsw00xmS8f7gMvvWhd09Muc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-513-2gsADVI5OoqBOnL92f2fIw-1; Thu, 28 Oct 2021 06:34:09 -0400
+X-MC-Unique: 2gsADVI5OoqBOnL92f2fIw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ i2-20020adfefc2000000b001709de9b770so1993097wrp.16
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 03:34:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=tZ/rbhc1wpzfAV8rZcugxR5UQ5u31IEJ7MW5DYWYX98=;
+ b=rC0tb8N7dP7SDByA3pFPx4hK1VNs6K8ie4+Vx0cEeP9FjuxrISHlYQxBRoL7/cxTsT
+ ls27ilIfUeLfJPdKkG6fBBJP5pDW68l64UNAdduRDf+FpU5F3cVmYCMs28WXj0h2g6g6
+ V6WdFgd1Efm6gJNF9fOa/PNh2bfj0H3jtt2tU7RajjASpOI8GBTNMVD1SiHZLCh9xhJz
+ UYEYeQ7rf32Y5tb8DF79dav1kKHRt6dec2qBIp/OZV8fPmgvDFdKVOgmJ01wxFJYS5tk
+ XudKUZ5f0RCe/nXfs8AJzuNSDCtB+ZtfV+qUaDX+yGNqws5TwUigYuKta1+Gdf+1KGs2
+ nxew==
+X-Gm-Message-State: AOAM531AUB4KwL8bX5GmlbaHqJ3Wof3iBcefcHMBkC5fQ1iZ0GkA5/8U
+ y03aWWxwIaaV+DcUXY8mInawxHf8Ja69YgG3ymVsnQreAdG5DT0LKneKAUpw6tIaL+qg9ieHnmw
+ u+VloDvKHn76wH3A=
+X-Received: by 2002:a7b:c103:: with SMTP id w3mr11513640wmi.179.1635417248075; 
+ Thu, 28 Oct 2021 03:34:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyMwD+t3BRJ8kGlIqtccDmwF7AFJLPcwEqMFA0QvIYZMl82yng9c8sKnY1B0KLmmiIw9PN0+Q==
+X-Received: by 2002:a7b:c103:: with SMTP id w3mr11513609wmi.179.1635417247715; 
+ Thu, 28 Oct 2021 03:34:07 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id l2sm6804635wmi.1.2021.10.28.03.34.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Oct 2021 03:34:07 -0700 (PDT)
+Message-ID: <f9dd697b-02ef-7f67-32ff-595e9f2d9457@redhat.com>
+Date: Thu, 28 Oct 2021 12:34:06 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 11/15] iotests: split linters.py out from 297
+To: John Snow <jsnow@redhat.com>
+References: <20211019144918.3159078-1-jsnow@redhat.com>
+ <20211019144918.3159078-12-jsnow@redhat.com>
+ <ebded478-63ee-a2d2-7b90-d6d6926d9291@redhat.com>
+ <CAFn=p-agMGtbryADMxgiG5OLFSXyZd+Zf9YrJyyyRVXgN2UGgA@mail.gmail.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <CAFn=p-agMGtbryADMxgiG5OLFSXyZd+Zf9YrJyyyRVXgN2UGgA@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.847,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,201 +100,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, quintela@redhat.com,
- libvir-list@redhat.com, eblake@redhat.com, kchamart@redhat.com,
- mdroth@linux.vnet.ibm.com, dgilbert@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, philmd@redhat.com, jsnow@redhat.com,
- libguestfs@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New option parameters unstable-input and unstable-output set policy
-for unstable interfaces just like deprecated-input and
-deprecated-output set policy for deprecated interfaces (see commit
-6dd75472d5 "qemu-options: New -compat to set policy for deprecated
-interfaces").  This is intended for testing users of the management
-interfaces.  It is experimental.
+On 26.10.21 20:30, John Snow wrote:
+>
+>
+> On Tue, Oct 26, 2021 at 6:51 AM Hanna Reitz <hreitz@redhat.com> wrote:
+>
+>     On 19.10.21 16:49, John Snow wrote:
+>     > Now, 297 is just the iotests-specific incantations and
+>     linters.py is as
+>     > minimal as I can think to make it. The only remaining element in
+>     here
+>     > that ought to be configuration and not code is the list of skip
+>     files,
+>     > but they're still numerous enough that repeating them for mypy and
+>     > pylint configurations both would be ... a hassle.
+>     >
+>     > Signed-off-by: John Snow <jsnow@redhat.com>
+>     > ---
+>     >   tests/qemu-iotests/297        | 72
+>     +++++----------------------------
+>     >   tests/qemu-iotests/linters.py | 76
+>     +++++++++++++++++++++++++++++++++++
+>     >   2 files changed, 87 insertions(+), 61 deletions(-)
+>     >   create mode 100644 tests/qemu-iotests/linters.py
+>
+>     Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+>
+>
+> Thanks!
+>
+>     I wonder about `check_linter()`, though.  By not moving it to
+>     linters.py, we can’t use it in its entry point, and so the Python
+>     test
+>     infrastructure will have a strong dependency on these linters. Though
+>     then again, it probably already does, and I suppose that’s one of the
+>     points hindering us from running this from make check?
+>
+>
+> That one is left behind because it uses iotests API to skip a test. 
+> Environment setup that guarantees we won't *need* to skip the test is 
+> handled by the virtual environment setup magic in qemu/python/Makefile.
+>
+>     Hanna
+>
+>
+> More info than you require:
+>
+> There's maybe about four ways you could run the python tests that 
+> might make sense depending on who you are and what you're trying to 
+> accomplish; they're documented in "make help" and again in 
+> qemu/python/README.rst;
+>
+> (1) make check-dev -- makes a venv with whatever python you happen to 
+> have, installs the latest packages, runs the tests
+> (2) make check-pipenv -- requires python 3.6 specifically, installs 
+> the *oldest* packages, runs the tests
+> (3) make check-tox -- requires python 3.6 through 3.10, installs the 
+> newest packages, runs the tests per each python version
+> (4) make check -- perform no setup at all, just run the tests in the 
+> current environment. (Used directly by all three prior invocations)
 
-For now, this covers only syntactic aspects of QMP, i.e. stuff tagged
-with feature 'unstable'.  We may want to extend it to cover semantic
-aspects, or the command line.
+AFAIU these are all to be run in build/python?  Isn’t any of them hooked 
+up to the global `make check` in build?  Because...
 
-Note that there is no good way for management application to detect
-presence of these new option parameters: they are not visible output
-of query-qmp-schema or query-command-line-options.  Tolerable, because
-it's meant for testing.  If running with -compat fails, skip the test.
+> In general, I assume that human beings that aren't working on Python 
+> stuff actively will be using (1) at their interactive console, if they 
+> decide to run any of these at all.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: John Snow <jsnow@redhat.com>
----
- qapi/compat.json              |  6 +++++-
- include/qapi/util.h           |  1 +
- qapi/qmp-dispatch.c           |  6 ++++++
- qapi/qobject-output-visitor.c |  8 ++++++--
- qemu-options.hx               | 20 +++++++++++++++++++-
- scripts/qapi/events.py        | 10 ++++++----
- scripts/qapi/schema.py        | 10 ++++++----
- 7 files changed, 49 insertions(+), 12 deletions(-)
+...I’m just running `make check` in the build directory.
 
-diff --git a/qapi/compat.json b/qapi/compat.json
-index 74a8493d3d..9bc9804abb 100644
---- a/qapi/compat.json
-+++ b/qapi/compat.json
-@@ -47,9 +47,13 @@
- #
- # @deprecated-input: how to handle deprecated input (default 'accept')
- # @deprecated-output: how to handle deprecated output (default 'accept')
-+# @unstable-input: how to handle unstable input (default 'accept')
-+# @unstable-output: how to handle unstable output (default 'accept')
- #
- # Since: 6.0
- ##
- { 'struct': 'CompatPolicy',
-   'data': { '*deprecated-input': 'CompatPolicyInput',
--            '*deprecated-output': 'CompatPolicyOutput' } }
-+            '*deprecated-output': 'CompatPolicyOutput',
-+            '*unstable-input': 'CompatPolicyInput',
-+            '*unstable-output': 'CompatPolicyOutput' } }
-diff --git a/include/qapi/util.h b/include/qapi/util.h
-index 0cc98db9f9..81a2b13a33 100644
---- a/include/qapi/util.h
-+++ b/include/qapi/util.h
-@@ -13,6 +13,7 @@
- 
- typedef enum {
-     QAPI_DEPRECATED,
-+    QAPI_UNSTABLE,
- } QapiSpecialFeature;
- 
- typedef struct QEnumLookup {
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index e29ade134c..c5c6e521a2 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -59,6 +59,12 @@ bool compat_policy_input_ok(unsigned special_features,
-                                     error_class, kind, name, errp)) {
-         return false;
-     }
-+    if ((special_features & (1u << QAPI_UNSTABLE))
-+        && !compat_policy_input_ok1("Unstable",
-+                                    policy->unstable_input,
-+                                    error_class, kind, name, errp)) {
-+        return false;
-+    }
-     return true;
- }
- 
-diff --git a/qapi/qobject-output-visitor.c b/qapi/qobject-output-visitor.c
-index b155bf4149..74770edd73 100644
---- a/qapi/qobject-output-visitor.c
-+++ b/qapi/qobject-output-visitor.c
-@@ -212,8 +212,12 @@ static bool qobject_output_type_null(Visitor *v, const char *name,
- static bool qobject_output_policy_skip(Visitor *v, const char *name,
-                                        unsigned special_features)
- {
--    return !(special_features & 1u << QAPI_DEPRECATED)
--        || v->compat_policy.deprecated_output == COMPAT_POLICY_OUTPUT_HIDE;
-+    CompatPolicy *pol = &v->compat_policy;
-+
-+    return ((special_features & 1u << QAPI_DEPRECATED)
-+            && pol->deprecated_output == COMPAT_POLICY_OUTPUT_HIDE)
-+        || ((special_features & 1u << QAPI_UNSTABLE)
-+            && pol->unstable_output == COMPAT_POLICY_OUTPUT_HIDE);
- }
- 
- /* Finish building, and return the root object.
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 5f375bbfa6..f051536b63 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3641,7 +3641,9 @@ DEFHEADING(Debug/Expert options:)
- 
- DEF("compat", HAS_ARG, QEMU_OPTION_compat,
-     "-compat [deprecated-input=accept|reject|crash][,deprecated-output=accept|hide]\n"
--    "                Policy for handling deprecated management interfaces\n",
-+    "                Policy for handling deprecated management interfaces\n"
-+    "-compat [unstable-input=accept|reject|crash][,unstable-output=accept|hide]\n"
-+    "                Policy for handling unstable management interfaces\n",
-     QEMU_ARCH_ALL)
- SRST
- ``-compat [deprecated-input=@var{input-policy}][,deprecated-output=@var{output-policy}]``
-@@ -3659,6 +3661,22 @@ SRST
-         Suppress deprecated command results and events
- 
-     Limitation: covers only syntactic aspects of QMP.
-+
-+``-compat [unstable-input=@var{input-policy}][,unstable-output=@var{output-policy}]``
-+    Set policy for handling unstable management interfaces (experimental):
-+
-+    ``unstable-input=accept`` (default)
-+        Accept unstable commands and arguments
-+    ``unstable-input=reject``
-+        Reject unstable commands and arguments
-+    ``unstable-input=crash``
-+        Crash on unstable commands and arguments
-+    ``unstable-output=accept`` (default)
-+        Emit unstable command results and events
-+    ``unstable-output=hide``
-+        Suppress unstable command results and events
-+
-+    Limitation: covers only syntactic aspects of QMP.
- ERST
- 
- DEF("fw_cfg", HAS_ARG, QEMU_OPTION_fwcfg,
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index 82475e84ec..27b44c49f5 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -109,13 +109,15 @@ def gen_event_send(name: str,
-         if not boxed:
-             ret += gen_param_var(arg_type)
- 
--    if 'deprecated' in [f.name for f in features]:
--        ret += mcgen('''
-+    for f in features:
-+        if f.is_special():
-+            ret += mcgen('''
- 
--    if (compat_policy.deprecated_output == COMPAT_POLICY_OUTPUT_HIDE) {
-+    if (compat_policy.%(feat)s_output == COMPAT_POLICY_OUTPUT_HIDE) {
-         return;
-     }
--''')
-+''',
-+                         feat=f.name)
- 
-     ret += mcgen('''
- 
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 55f82d7389..b7b3fc0ce4 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -254,9 +254,11 @@ def doc_type(self):
- 
-     def check(self, schema):
-         QAPISchemaEntity.check(self, schema)
--        if 'deprecated' in [f.name for f in self.features]:
--            raise QAPISemError(
--                self.info, "feature 'deprecated' is not supported for types")
-+        for feat in self.features:
-+            if feat.is_special():
-+                raise QAPISemError(
-+                    self.info,
-+                    f"feature '{feat.name}' is not supported for types")
- 
-     def describe(self):
-         assert self.meta
-@@ -726,7 +728,7 @@ class QAPISchemaFeature(QAPISchemaMember):
-     role = 'feature'
- 
-     def is_special(self):
--        return self.name in ('deprecated')
-+        return self.name in ('deprecated', 'unstable')
- 
- 
- class QAPISchemaObjectTypeMember(QAPISchemaMember):
--- 
-2.31.1
+I would have hoped that this is hooked up to something that won’t fail 
+because I don’t have some necessary tools installed or perhaps even 
+because I have the wrong version of some tools installed (although the 
+latter would be kind of questionable...).  Would be nice if the global 
+`make check` had a summary on what was skipped...
+
+> It imposes the least pre-requirements while still endeavoring to be a 
+> target that will "just work".
+> Options (2) and (3) are what power the CI tests 'check-python-pipenv' 
+> and 'check-python-tox', respectively; with(2) being the one that 
+> actually gates the CI.
+> Option (4) is only really a convenience for bypassing the venv-setup 
+> stuff if you want to construct your own (or not use one at all). So 
+> the tests just assume that the tools they have available will work. 
+> It's kind of a 'power user' target.
+>
+> The way the CI works at the moment is that it uses a "fedora:latest" 
+> base image and installs python interpreters 3.6 through 3.10 
+> inclusive, pipenv, and tox. From there, it has enough juice to run the 
+> makefile targets which take care of all of the actual linting 
+> dependencies and their different versions to get a wider matrix on the 
+> version testing to ensure we're still keeping compatibility with the 
+> 3.6 platform while also checking for new problems that show up on the 
+> bleeding edge.
+
+Perhaps it’s unreasonable, but I’d prefer if a local `make check` would 
+already run most tests in some form or another and that I don’t have to 
+push to gitlab and wait for the CI there.
+
+I mean, I can of course also integrate a `cd python && make check-dev` 
+invocation into my test scripts, but it doesn’t feel right to 
+special-case one test area.
+
+> iotests 297 right now doesn't do any python environment setup at all, 
+> so we can't guarantee that the linters are present, so we decide to 
+> allow the test to be skipped. My big hesitation of adding this test 
+> directly into 'make check' is that I will need to do some environment 
+> probing to make sure that the 'pylint' version isn't too old -- or 
+> otherwise set up a venv in the build directory that can be used to run 
+> tests. I know we already set one up for the acceptance tests, so maybe 
+> there's an opportunity to re-use that venv, but I need to make sure 
+> that the dependencies between the two sets of tests are aligned. I 
+> don't know if they agree, currently.
+
+I see.
+
+> I think I probably want to minimize the number of different virtual 
+> python environments we create during the build, so I will look into 
+> what problems might exist in re-purposing the acceptance test venv. If 
+> that can get squared away easily, there's likely no real big barrier 
+> to adding more tests that rely on a python venv to get cooking during 
+> the normal build/check process, including iotest 297.
+
+OK, thanks for the explanation!
+
+Hanna
 
 
