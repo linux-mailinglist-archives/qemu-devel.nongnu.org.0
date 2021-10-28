@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7B943E4EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 17:19:26 +0200 (CEST)
-Received: from localhost ([::1]:54810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81EB143E4F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 17:22:11 +0200 (CEST)
+Received: from localhost ([::1]:58938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg7Bb-0000HY-5f
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 11:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41206)
+	id 1mg7EI-0003GW-L7
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 11:22:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mg77o-0003np-90
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:15:28 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:36418)
+ id 1mg78B-000471-5e
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:15:52 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:37543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mg77k-0000Zq-Mc
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:15:27 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id 75so6711606pga.3
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 08:15:22 -0700 (PDT)
+ id 1mg789-0000gE-M9
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:15:50 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id v193so6277733pfc.4
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 08:15:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hZynjcNZksCahEJ3jDWoedi8qTmHkUHby2Gd6UMXYRY=;
- b=NgafYgJCly9NV+XxeUnJ7icoT+yxFASDn8Tkld9QqhAJWVy3Jae1ucjmp47yS0z1yf
- FNKvF5e+WGrY0ncfxbt7kJtqiGB4f4TTv4tmk6ZlC3vJp+azswf7LgR+cZdQzOUawptN
- eBr7s3HBRaStsm0aDK7AIMRKAJ8Hl1eNbbKhPPXofJHzjS9OuJ1mIW+DgvP6ip6BdaaG
- d1TjAvZfKRxR9zcAtuamRmlXzW34+lwzd0L+EOu1+/TP0EQMXm0+cZqwUEf8dfy3MuWa
- si5Xh/ayaAH5IzzsL4qFdvXPjUK/AHWP9zikqg7Insu38aqyOd6hZqAp6rLSk7paq/Re
- 7rww==
+ bh=zwRST2ZRmnANfCTLGADUg0tH4Oio4ixVsqvhuocNFCk=;
+ b=QZe8HJ45u+XwutC8HAzmPzVFYSP+KchPvNjhhVtkeVLdoiBUQTvg+P3K7llWC6srBB
+ LxLZxOJjCPY0A1Zlw+WQTntinkG75zAmEM6qiBUHMoh2D8XIB/GqvXyWagRgC1m7cGyY
+ HuWIWJeAMnUkFzpdtcKcMl5PBs0+l1bj/0w1FzRw8TijgmtgsEWc5KLM8fVXhwyvtMZv
+ 6BTgXywLa8aSRQ9E3a9nPHJTHGmrFw3fO60S5ic9TXEiWNKlRI1kOKuREQQJ9CFyF2fz
+ YzXTcz1Ar80C4rbafPZReoOskjULpKfa9HNJByEnJxQpp0kSjoE0F/6cHnLU7tPaaI0i
+ zmDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hZynjcNZksCahEJ3jDWoedi8qTmHkUHby2Gd6UMXYRY=;
- b=JBpwMw6q1BA3iqSR/qOLM/SIBL+9R7fzEuVvv4wOAVuSScb9iBv3Mgya/c7o7MQ85g
- 0U7cvQfhdDs59JgjQ3u4NIRQxl3PrJEAkXul4YNcnGcvfhLajh5bxX4zO2ZvGVknsBxT
- F9VYVrfvE+uRwuAhTNoPT17py+2vybigvVUDicKlx2XHwGD2iy6+Ujoa9BgXKuvvyPI8
- zebepki1taYHDWJnssclA5o0dm7KDsJIT8662JeiU1KmogyYm6qdLYZo9PpMEG+3V/l+
- K6bcj8MpgfbMfs/TtWfaDYQk8KHziIreGNf4dCm4auDYBo9Hbj5cyQtNr3maahGqCigB
- o/Fg==
-X-Gm-Message-State: AOAM531Fl7ddBj0Bpu28ZtNsp+f4XprQV34wTJCrn6F1fAXyA3Z77+vz
- MX7XqAt6dosLgYZpgwvv5231hQ==
-X-Google-Smtp-Source: ABdhPJwTsT2+Wn/Fqg/gIytEgDDPj1krDRsGHevEvZ3D4dG65fEgG2eK+ReUE9dUFxmgSKYxhB0WPA==
-X-Received: by 2002:a63:8648:: with SMTP id x69mr751169pgd.438.1635434121602; 
- Thu, 28 Oct 2021 08:15:21 -0700 (PDT)
+ bh=zwRST2ZRmnANfCTLGADUg0tH4Oio4ixVsqvhuocNFCk=;
+ b=evmMgQAWtUSRYuTjeFOar06xzPBxotQpvRvOmfCNbpQWZtNNxxy0t3rM4BIp5ymUTN
+ tr79cvb8+CZuB6f+yateVBNiCUlYtiLB/OSUMEe+CjOHQFjEC8jfdS41tHyg4/xDafaH
+ SoMeBvlm9PWzSMDtqsvaRQfb5uV9PjlHtHQ4coAuFq3hEh+V/hYp1gT+uvjz1pg6npmt
+ gMH/N9ZNbg1YBUxfI165FVL6B+a45L7BVSEmmUZN6Q7RcLMAjF40yaRD1AoFPTWae7ql
+ duqih0pz3NqMOCANycjrCAl0GY5yh/W5kNKd1wnu0fsBWsii1v+28hkoZMRV7MEQSmGb
+ Bsow==
+X-Gm-Message-State: AOAM530Gj7iXFIXWi/9azoYuSkZGD05nTkjxM1GwJZSoSiej12IAH0r0
+ xDW+iTM36cHJhpc13MUzurWluA==
+X-Google-Smtp-Source: ABdhPJw4UwyhyEVF5cpnVFI476BMrPfwFfpYpprcovUzdPR9u9TkVIO/PM1hrXZotz6uHd9yoWZ9eA==
+X-Received: by 2002:a63:cd0a:: with SMTP id i10mr2983772pgg.429.1635434147331; 
+ Thu, 28 Oct 2021 08:15:47 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id k5sm4341465pfc.111.2021.10.28.08.15.20
+ by smtp.gmail.com with ESMTPSA id me3sm8732616pjb.3.2021.10.28.08.15.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Oct 2021 08:15:20 -0700 (PDT)
-Subject: Re: [PATCH 05/24] bsd-user/arm/target_arch_cpu.h: Implement
- target_cpu_clone_regs
+ Thu, 28 Oct 2021 08:15:46 -0700 (PDT)
+Subject: Re: [PATCH 06/24] bsd-user/arm/target_arch_cpu.h: Dummy
+ target_cpu_loop implementation
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-6-imp@bsdimp.com>
+ <20211019164447.16359-7-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5d21fe60-9001-809d-b7f4-e8cac67da50e@linaro.org>
-Date: Thu, 28 Oct 2021 08:15:19 -0700
+Message-ID: <f97a53c1-af35-2ef3-a442-0003b0df81d5@linaro.org>
+Date: Thu, 28 Oct 2021 08:15:45 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211019164447.16359-6-imp@bsdimp.com>
+In-Reply-To: <20211019164447.16359-7-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -48
 X-Spam_score: -4.9
 X-Spam_bar: ----
@@ -88,20 +88,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@freebsd.org>,
- Michael Tokarev <mjt@tls.msk.ru>, Stacey Son <sson@FreeBSD.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
+ Kyle Evans <kevans@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Sean Bruno <sbruno@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/19/21 9:44 AM, Warner Losh wrote:
-> Implement target_cpu_clone_regs to clone the resister state on a fork.
+> Add a boiler plate CPU loop that does nothing except return an error for
+> all traps.
 > 
+> Signed-off-by: Sean Bruno<sbruno@FreeBSD.org>
 > Signed-off-by: Stacey Son<sson@FreeBSD.org>
 > Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/arm/target_arch_cpu.h | 8 ++++++++
->   1 file changed, 8 insertions(+)
+>   bsd-user/arm/target_arch_cpu.h | 22 ++++++++++++++++++++++
+>   1 file changed, 22 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
