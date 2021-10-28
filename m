@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00CC243E551
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 17:39:35 +0200 (CEST)
-Received: from localhost ([::1]:32926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 858DF43E55C
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 17:44:23 +0200 (CEST)
+Received: from localhost ([::1]:37694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg7V8-0007bX-57
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 11:39:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45952)
+	id 1mg7Zm-0002W5-KW
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 11:44:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mg7T2-0005Yn-Q8
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:37:24 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:46771)
+ id 1mg7YP-0001eK-Gr
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:42:57 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:38891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mg7T0-0003X9-Vp
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:37:24 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id m21so6707952pgu.13
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 08:37:22 -0700 (PDT)
+ id 1mg7YO-0001yT-1D
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:42:57 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ s10-20020a17090a6e4a00b001a5f4da9892so1104184pjm.3
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 08:42:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xTvbEaE+JYEY0XDAYt90hmZHLwXtpYvdVDc0l0vLcnU=;
- b=fZMwJzQaxkfX3GMxuK24aIfvzN/UbyyRoZyB3vqJQ+yWYC0gkl6YSOPkb4tKFpcVh9
- Uqwluru+p5Xp3/QDwi1ZA36vEMyaBQjzsPNrnsbX1nTXw7SgQiccd1B8yU1TaphPASS7
- ENj4FvKmpEOCgitP0PM+X9vgEAlArRLzOoc7/hhbTMWacdZxASygajV84zfqrpaFJX5k
- aDZvDGTC63A+5SuwdQFIDXIflyeQc3W44BpKZC9HVFb2/rL/nWo0szaCQkQmJdLII2wn
- yP78ubotlKIzoXi2751kWP/jq24xSGB9V9pijcjTez/AvTrMQsAsI4dBZZCIkulahI13
- ab8Q==
+ bh=/iKrijP/Dam47Pl/JdkW06cvkbWsVQHH29yiJoGQ1vo=;
+ b=EhRs55D9ninLl9rHmrL599jaxIwcAT+kRJvTeHizg3iQAsOVlhzFbs6eZTFMPTQur4
+ rCKI1ShOQLBg4S8C2r0HOHuaXPMRMzMf8r2689pTYyxk1wfhzHni7PbUUOp/yB2cfz22
+ ltuExdNKH6dsbg+0wniaiHYz2Vb8OxfnkedV+1hO6dK7zu/PdM70jn0XsEFVc7zkAxa8
+ qke4hpjfT434L6WDgBPau55tF5I8/ATWAMOGMrmwY0Ld+Ef9/aHik28/MbRdS0GFCMyJ
+ 8bNh6M5hr9YCDaBSzQleVT5DcoF4+20Ud+FPcoudT0z+sshTIvzhmkKMlA+PqTNljkh4
+ KVPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xTvbEaE+JYEY0XDAYt90hmZHLwXtpYvdVDc0l0vLcnU=;
- b=d+CHE+ad2oHVIs5bZX+YHf70LwNrc2lgbXTN3Q3ZD8gJXYZYCNYYiamOxquv89Tiwn
- b6Sy0rd/oH0WyyQigTgOQ+JbeOspUU9eW6nRAn5e1NPsGGFItyseWiQx7CvI/toVgkUi
- QlDzXPn2NQtbVV5FovSj4vvcEaFPY7NAMYaKnUS6pzNLIWIMtt/GMHa1dLTCtKKReEUb
- /iDF3RFwGMjaNg1ZFKb8UhbN6PxmbLEd5rQMRNg+E2f07h33ESQkYwjw461TAC4xR7gQ
- EkHXml9toUsj9O08IOcUEcyg7nGN9jLem9gHo0L0RrL3NPwbB7QBK8LhS0/i+vqjZhWV
- cvmQ==
-X-Gm-Message-State: AOAM532j5JZfhGHLtIEDHSiQf+IS/Wa9ikUvJ70soqULtTckqcn+1LLX
- 7N8uQlxC1uxxvPJIKLuJTaXxD5UHkl+/uA==
-X-Google-Smtp-Source: ABdhPJzOA1iiUKQl/cf0PvfJpSY8p8fSnpNS+a9XY3ccTWEfVxuD85hbiUCII58m3kuoKksVR5BtGg==
-X-Received: by 2002:aa7:88d1:0:b0:47e:e73:7e49 with SMTP id
- k17-20020aa788d1000000b0047e0e737e49mr4579049pff.56.1635435441740; 
- Thu, 28 Oct 2021 08:37:21 -0700 (PDT)
+ bh=/iKrijP/Dam47Pl/JdkW06cvkbWsVQHH29yiJoGQ1vo=;
+ b=VrrGILBO3MYNUaA8np3R+LjQGzH+CZn/9N95KVXCsmRk6tADBFlzMa8bgJNQgN9jEc
+ qLiXPIDKuD0yikkkuAahY2uJH0lY3tNo/6RozPHZWHWzt7s5htwnhqUJhhy7H9hrLC9c
+ tqes7FKY81w3KsPV9R2rh6v7F6xZ5X9kVtgMnEiZOkxhcAaJKZK55WZv5fVpQrJ3g+mF
+ k3ohkpNi6o+RnndqSR0u5zpOohsdc9YZIp5xN0EYw1xyjk3bwxLNbBzJdX164lyzHXDG
+ EK6S12fnqq3DBEpNnb5f1lVvvrc5SzEKlK9L+rcKML3Z3Yc4a3gLwZ4qiqtqUcVm3sdV
+ xJFA==
+X-Gm-Message-State: AOAM533zaPyyYcC9DrW2sqPMorDsLcVHo0tAXqe8cq60o8iKL2q2KJl8
+ 7BbK8OJafKOcpnvR9RldNbqFVg==
+X-Google-Smtp-Source: ABdhPJyWJGISn4V82YD5B4XBEx90E4B4njnfLU8z7P8GYWEhb1zq1VrojnR8Nb4m8WFsJQacVhCD6w==
+X-Received: by 2002:a17:902:dac5:b0:140:3b56:c7e4 with SMTP id
+ q5-20020a170902dac500b001403b56c7e4mr4676558plx.78.1635435774268; 
+ Thu, 28 Oct 2021 08:42:54 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id z14sm2722169pfe.78.2021.10.28.08.37.20
+ by smtp.gmail.com with ESMTPSA id t4sm3925329pfj.166.2021.10.28.08.42.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Oct 2021 08:37:21 -0700 (PDT)
-Subject: Re: [PATCH 11/24] bsd-user/arm/target_arch_vmparam.h: Parameters for
- arm address space
+ Thu, 28 Oct 2021 08:42:53 -0700 (PDT)
+Subject: Re: [PATCH 12/24] bsd-user/arm/target_arch_sigtramp.h: Signal
+ Trampoline for arm
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-12-imp@bsdimp.com>
+ <20211019164447.16359-13-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5eca9dc5-7f8e-23bd-8a1d-86fed1b4080e@linaro.org>
-Date: Thu, 28 Oct 2021 08:37:18 -0700
+Message-ID: <264949a3-4bc2-e4a1-8a4f-61ee43008c91@linaro.org>
+Date: Thu, 28 Oct 2021 08:42:51 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211019164447.16359-12-imp@bsdimp.com>
+In-Reply-To: <20211019164447.16359-13-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -48
 X-Spam_score: -4.9
 X-Spam_bar: ----
@@ -89,25 +90,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Klye Evans <kevans@FreeBSD.org>,
+Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@freebsd.org>,
  Michael Tokarev <mjt@tls.msk.ru>, Stacey Son <sson@FreeBSD.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/19/21 9:44 AM, Warner Losh wrote:
-> Various parameters describing the layout of the ARM address space. In
-> addition, define routines to get the stack pointer and to set the second
-> return value.
-> 
-> Signed-off-by: Stacey Son<sson@FreeBSD.org>
-> Signed-off-by: Klye Evans<kevans@FreeBSD.org>
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
-> ---
->   bsd-user/arm/target_arch_vmparam.h | 48 ++++++++++++++++++++++++++++++
->   1 file changed, 48 insertions(+)
->   create mode 100644 bsd-user/arm/target_arch_vmparam.h
+> +    /*
+> +     * The code has to load r7 manually rather than using
+> +     * "ldr r7, =SYS_return to make sure the size of the
+> +     * code is correct.
+> +     */
 
+This comment was applicable to the original freebsd asm source; it has no bearing on the 
+hex instructions below.
+
+> +    uint32_t sigtramp_code[] = {
+> +    /* 1 */ 0xE1A0000D,                  /* mov r0, sp */
+> +    /* 2 */ 0xE2800000 + sigf_uc,        /* add r0, r0, #SIGF_UC */
+
+I guess this was a bit of thumb1 source that accidentally became ABI?
+Otherwise I can't think why you wouldn't squish the mov into the add.
+
+Anyway,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
