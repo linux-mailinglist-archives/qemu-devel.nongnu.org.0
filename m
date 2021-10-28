@@ -2,89 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC4743D95B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 04:33:57 +0200 (CEST)
-Received: from localhost ([::1]:60060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0A443D95F
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 04:35:16 +0200 (CEST)
+Received: from localhost ([::1]:34970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfvEq-0004in-Bv
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 22:33:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57162)
+	id 1mfvG7-0006rf-9k
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 22:35:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfvCN-0003zs-Iu
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 22:31:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41034)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfvCH-0001FT-UJ
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 22:31:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635388277;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PdjG3zDir+woIOoT+IFI6xE7mCO63FpcoHo1cqfPSxM=;
- b=a6Oycea8wpoSg4if6WA2xwv8BlL/GDFrgLVaapq2OuHlcPf+M9K1NJ+dqcI7qLENpikzx6
- CQtowzxlPDz487PSh8Hq8qNuVo4iHtptToJBY5h7zHnweyaoGTvIptkMLUw672xatoa+pn
- m5OuASsGHd0LomhNCci412nNeF9eY5A=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-NyHWd_zKP5mOsLC6OoYFWQ-1; Wed, 27 Oct 2021 22:31:15 -0400
-X-MC-Unique: NyHWd_zKP5mOsLC6OoYFWQ-1
-Received: by mail-pj1-f71.google.com with SMTP id
- y9-20020a17090a644900b001a28339f0f3so2925068pjm.0
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 19:31:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
+ id 1mfvDM-0004hH-Gp
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 22:32:24 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39544)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
+ id 1mfvDJ-0001Lb-Dt
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 22:32:23 -0400
+Received: by mail-ed1-x535.google.com with SMTP id r12so18545979edt.6
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 19:32:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Jj9XSAwuolwYN4hf3vcnVNvN6r1wN2htT8wWFV89ObQ=;
+ b=OpkO6YSEcy/+3pH3Yk5PIRXaFxRhYRpwrglTqv4SYbDuBiKnZbcQP98eFCNTa0yLKD
+ X6F5Pg5o5RkWK0X9Fd/cfqaK1WpA/CCV6uh8Kz2uh1L+gPMVgv5QPJKMGwO/TFJpc4Gt
+ 6XdpOe/SjLbaVmR3s69CZCBnfMy9Ar4lkPDc3LxOOKjX+QnkjbBG7+h3kqeSJv0pvdIJ
+ uIlcg+Qqbo72Yp0o3vprnZZnR+NtfB7cKfaq4lS+KOQoGrINSlq24MwxEK/QSI/lxKw4
+ YIilori19BVd6Vr21HAK1195aIR9CQkPNA9MA6rcb700izoSoSzy/f0Mt/h1rto0Toau
+ AdkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=PdjG3zDir+woIOoT+IFI6xE7mCO63FpcoHo1cqfPSxM=;
- b=vVVSJt1brRMhLDzjw1Vor8/B9zHMrnuMQRfckHXk336OgIkJ7NV+g2iwz83Rpbgp8y
- 1FIvfUfyX9xqkkJYTwx8w/D8VKI+b5ZvfrwOafKp4DmBPHIw+IdZx/qAsDZHvBF2c+DR
- i5+ht+Pok/HdEUsmAlOaivdUeTO4NKA5y4BWH/PLh23ifV4Cwz90iTqsSyUHEfvyb4nv
- H3FbdONiFjN1r3UDJfXbK0gVZL0Cng50TGetHgiBFdLVTK64NME6WUB6X1/ACh4X0Kbj
- kHgp1juobgLoB+bajaBFD48HRhhwZifGob6AX8ZDZo+XJ24UEFIzk39i6rC2Q2UvqcR6
- wTkQ==
-X-Gm-Message-State: AOAM531x1l9HpgjntIjobSc8I/6OdNJJ8M9A18X+xzhFGmueGUJ3AdyZ
- LHLMQi2lNGnbughQoaAASu3JdsCKV2Ox9gPPUJhyxdNq2Gkjwost9KDB6pTaUNs1/mVUVesjuwZ
- bFdzaib7Iy38LBMU=
-X-Received: by 2002:a17:90b:4b03:: with SMTP id
- lx3mr1499804pjb.51.1635388274391; 
- Wed, 27 Oct 2021 19:31:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyuyQnbF4Cz9LI6oMDwy/SgOOFZEITyFBeV0f+kWYA7SWV57BiYgsX2IS9vMfpv6CwOcODsog==
-X-Received: by 2002:a17:90b:4b03:: with SMTP id
- lx3mr1499777pjb.51.1635388274063; 
- Wed, 27 Oct 2021 19:31:14 -0700 (PDT)
-Received: from xz-m1.local ([191.101.132.60])
- by smtp.gmail.com with ESMTPSA id h12sm1261488pfv.117.2021.10.27.19.31.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Oct 2021 19:31:13 -0700 (PDT)
-Date: Thu, 28 Oct 2021 10:30:54 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH 8/8] x86-iommu: Fail early if vIOMMU specified after
- vfio-pci
-Message-ID: <YXoLXuoZqxrr8biw@xz-m1.local>
-References: <20211021104259.57754-1-peterx@redhat.com>
- <20211021104259.57754-9-peterx@redhat.com>
- <20211021163039.324e92b1.alex.williamson@redhat.com>
- <YXIehUnQUZ/Odgw7@xz-m1.local> <20211026171139.30bf0c80@redhat.com>
- <YXkOGqA02mm/1vQv@xz-m1.local>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Jj9XSAwuolwYN4hf3vcnVNvN6r1wN2htT8wWFV89ObQ=;
+ b=DpxK84aIhLThRJiAig78FMyRBjWPLGXMJqrRlOgKkha3T8ocMUMdiH51X0sZTVk7Jc
+ uH04u86isBENjotlIKlqtVHwEFnyegH4oZr/ENQN1lUDMZTtK/Q4A4/7JRSHugBTiTOF
+ nzkFeqmvc6e5xQDupUHo8+ORCC5kQVp3jwhCMzcyDJ1PQBY5L56158aGg0uTCy9yk4hZ
+ rRXEJnhBhzGWtim/T7AJMF+zDBZO3dJUe56/dS2slHTI0ozxb40Tk3/dFaipWEd6ol05
+ 516YsWcbQnctmjUfm+JbPwWlKAff6UqILaJW8D4G1A76tAHGGvh3a5Q4giTseQ5qk+g0
+ VUkQ==
+X-Gm-Message-State: AOAM531e7PT/0oXzL/1lfq9AK01P2gr5qv6DfL7CvS4QDiQJhYBXHyEN
+ slP6uRT8vEZBqfVXSM2AypO53h0/Qe0W3j75qwqLhQ==
+X-Google-Smtp-Source: ABdhPJzzOer/yoyYAkGEngrrkIxCXeN4ubZ2ioZ8r/urX9M1M30k4ZLRXB+XsdyZtF+LNqgSondPBisZGJ5oJIw8sHk=
+X-Received: by 2002:a05:6402:1157:: with SMTP id
+ g23mr2292543edw.379.1635388338395; 
+ Wed, 27 Oct 2021 19:32:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YXkOGqA02mm/1vQv@xz-m1.local>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20211025124319.195290-1-rpathak@ventanamicro.com>
+ <20211025124319.195290-3-rpathak@ventanamicro.com>
+ <CAKmqyKMVEZkKdp0vmFo_tc4oFuVhaTRXBiB-uEksYtfjyRibqw@mail.gmail.com>
+In-Reply-To: <CAKmqyKMVEZkKdp0vmFo_tc4oFuVhaTRXBiB-uEksYtfjyRibqw@mail.gmail.com>
+From: Rahul Pathak <rpathak@ventanamicro.com>
+Date: Thu, 28 Oct 2021 08:01:42 +0530
+Message-ID: <CA+Oz1=Ya_j-d1eMJ+jrw=TNWd6EOM613vONR9UU=9ny5MGg=Hg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] target/riscv: csr: Implement mconfigptr CSR
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000faf96805cf6084c9"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=rpathak@ventanamicro.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,129 +80,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 27, 2021 at 04:30:18PM +0800, Peter Xu wrote:
-> On Tue, Oct 26, 2021 at 05:11:39PM +0200, Igor Mammedov wrote:
-> > On Fri, 22 Oct 2021 10:14:29 +0800
-> > Peter Xu <peterx@redhat.com> wrote:
-> > 
-> > > Hi, Alex,
-> > > 
-> > > On Thu, Oct 21, 2021 at 04:30:39PM -0600, Alex Williamson wrote:
-> > > > On Thu, 21 Oct 2021 18:42:59 +0800
-> > > > Peter Xu <peterx@redhat.com> wrote:
-> > > >   
-> > > > > Scan the pci bus to make sure there's no vfio-pci device attached before vIOMMU
-> > > > > is realized.  
-> > > > 
-> > > > Sorry, I'm not onboard with this solution at all.
-> > > > 
-> > > > It would be really useful though if this commit log or a code comment
-> > > > described exactly the incompatibility for which vfio-pci devices are
-> > > > being called out here.  Otherwise I see this as a bit of magic voodoo
-> > > > that gets lost in lore and copied elsewhere and we're constantly trying
-> > > > to figure out specific incompatibilities when vfio-pci devices are
-> > > > trying really hard to be "just another device".  
-> > > 
-> > > Sure, I can enrich the commit message.
-> > > 
-> > > > 
-> > > > I infer from the link of the previous alternate solution that this is
-> > > > to do with the fact that vfio devices attach a memory listener to the
-> > > > device address space.  
-> > > 
-> > > IMHO it's not about the memory listeners, I think that' after vfio detected
-> > > some vIOMMU memory regions already, which must be based on an vIOMMU address
-> > > space being available.  I think the problem is that when realize() vfio-pci we
-> > > fetch the dma address space specifically for getting the vfio group, while that
-> > > could happen too early, even before vIOMMU is created.
-> > > 
-> > > > Interestingly that previous cover letter also discusses how vdpa devices
-> > > > might have a similar issue, which makes it confusing again that we're calling
-> > > > out vfio-pci devices by name rather than for a behavior.  
-> > > 
-> > > Yes I'll need to see whether this approach will be accepted first.  I think
-> > > similar thing could help VDPA but it's not required there because VDPA has
-> > > already worked around using pci_device_iommu_address_space().  So potentially
-> > > the only one to "fix" is the vfio-pci device using along with vIOMMU, when the
-> > > device ordering is specified in the wrong order.  I'll leave the VDPA problem
-> > > to Jason to see whether he prefers keeping current code, or switch to a simpler
-> > > one.  That should be after this one.
-> > > 
-> > > > 
-> > > > If the behavior here is that vfio-pci devices attach a listener to the
-> > > > device address space, then that provides a couple possible options.  We
-> > > > could look for devices that have recorded an interest in their address
-> > > > space, such as by setting a flag on PCIDevice when someone calls
-> > > > pci_device_iommu_address_space(), where we could walk all devices using
-> > > > the code in this series to find a device with such a flag.  
-> > > 
-> > > Right, we can set a flag for all the pci devices that needs to consolidate
-> > > pci_device_iommu_address_space() result, however then it'll be vfio-pci only so
-> > > far.  Btw, I actually proposed similar things two months ago, and I think Igor
-> > > showed concern on that flag being vague on meaning:
-> > 
-> > (1)
-> > > https://lore.kernel.org/qemu-devel/20210906104915.7dd5c934@redhat.com/
-> > 
-> > > 
-> > >   > > Does it need to be a pre_plug hook?  I thought we might just need a flag in the
-> > >   > > pci device classes showing that it should be after vIOMMUs, then in vIOMMU
-> > >   > > realize functions we walk pci bus to make sure no such device exist?
-> > >   > > 
-> > >   > > We could have a base vIOMMU class, then that could be in the realize() of the
-> > >   > > common class.  
-> > >   > 
-> > >   > We basically don't know if device needs IOMMU or not and can work
-> > >   > with/without it just fine. In this case I'd think about IOMMU as board
-> > >   > feature that morphs PCI buses (some of them) (address space, bus numers, ...).
-> > >   > So I don't perceive any iommu flag as a device property at all.
-> > >   > 
-> > >   > As for realize vs pre_plug, the later is the part of abstract realize
-> > >   > (see: device_set_realized) and is already used by some PCI infrastructure:
-> > >   >   ex: pcie_cap_slot_pre_plug_cb/spapr_pci_pre_plug  
-> > > 
-> > > I still think that flag will work, that flag should only shows "whether this
-> > > device needs to be specified earlier than vIOMMU", but I can get the point from
-> > > Igor that it's at least confusing on what does the flag mean.
-> > 
-> > > Meanwhile I
-> > > don't think that flag will be required, as this is not the first time we name a
-> > > special device in the code, e.g. pc_machine_device_pre_plug_cb().
-> > > intel_iommu.c has it too upon vfio-pci already on making sure caching-mode=on
-> > > in vtd_machine_done_notify_one().
-> > 
-> > I pointed to specifically to _pre_plug() handler and not as
-> > implemented here in realize().
-> > Reasoning behind it is that some_device_realize() should not poke
-> > into other devices, while pc_machine_device_pre_plug_cb() is
-> > part of machine code can/may legitimately access its child devices and verify/
-> > configure them. (Hence I'd drop my suggested-by with current impl.)
-> 
-> I see, I didn't try that because I see that q35 even does not have pre_plug()
-> installed yet, so I need to add it in the same patchset, am I right?
-> 
-> Frankly I've also no idea why pc has the pre_plug() but not q35.. But if you
-> think that matters then I can try.
+--000000000000faf96805cf6084c9
+Content-Type: text/plain; charset="UTF-8"
 
-I think I know what I'm missing.. there's the pc_get_hotplug_handler() that
-conditionally fetch the handler, so when I was trying with q35/VT-d the handler
-always returned null..
+On Wed, Oct 27, 2021 at 8:13 AM Alistair Francis <alistair23@gmail.com>
+wrote:
 
-I'll repost with pre_plug(), thanks.
+> On Mon, Oct 25, 2021 at 10:55 PM Rahul Pathak <rpathak@ventanamicro.com>
+> wrote:
+> >
+> > Signed-off-by: Rahul Pathak <rpathak@ventanamicro.com>
+> > ---
+> >  target/riscv/cpu_bits.h |  1 +
+> >  target/riscv/csr.c      | 19 +++++++++++++++----
+> >  2 files changed, 16 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> > index cffcd3a5df..e2f154b7c5 100644
+> > --- a/target/riscv/cpu_bits.h
+> > +++ b/target/riscv/cpu_bits.h
+> > @@ -140,6 +140,7 @@
+> >  #define CSR_MARCHID         0xf12
+> >  #define CSR_MIMPID          0xf13
+> >  #define CSR_MHARTID         0xf14
+> > +#define CSR_MCONFIGPTR      0xf15
+> >
+> >  /* Machine Trap Setup */
+> >  #define CSR_MSTATUS         0x300
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index 69e4d65fcd..2d7f608d49 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -209,6 +209,16 @@ static RISCVException epmp(CPURISCVState *env, int
+> csrno)
+> >
+> >      return RISCV_EXCP_ILLEGAL_INST;
+> >  }
+> > +
+> > +static RISCVException priv1p12(CPURISCVState *env, int csrno)
+> > +{
+> > +       if (env->priv_ver >= PRIV_VERSION_1_12_0) {
+> > +               return RISCV_EXCP_NONE;
+> > +       }
+> > +
+> > +       return RISCV_EXCP_ILLEGAL_INST;
+> > +}
+> > +
+> >  #endif
+> >
+> >  /* User Floating-Point CSRs */
+> > @@ -1569,10 +1579,11 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+> >      [CSR_MINSTRETH] = { "minstreth", any32, read_instreth },
+> >
+> >      /* Machine Information Registers */
+> > -    [CSR_MVENDORID] = { "mvendorid", any,   read_zero    },
+> > -    [CSR_MARCHID]   = { "marchid",   any,   read_zero    },
+> > -    [CSR_MIMPID]    = { "mimpid",    any,   read_zero    },
+> > -    [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid },
+> > +    [CSR_MVENDORID] = { "mvendorid",   any,            read_zero    },
+> > +    [CSR_MARCHID]   = { "marchid",     any,            read_zero    },
+> > +    [CSR_MIMPID]    = { "mimpid",      any,            read_zero    },
+> > +    [CSR_MHARTID]   = { "mhartid",     any,            read_mhartid },
+>
+> Why change these?
+>
+The alignment of all structure entries is consistent in their respective
+blocks, that's why I aligned these with the mconfigptr line.
+It's really not necessary and if my observation on the alignment is
+really not a requirement I will undo this.
 
--- 
-Peter Xu
 
+
+>
+>
+>
+> > +    [CSR_MCONFIGPTR] = {"mconfigptr",  priv1p12,       read_zero    },
+>
+> This looks fine, but there are more changes then this in v1.12.
+> Looking at the preface we need mret/sret changes at least. It also
+> looks like some other changes will need to be implemented or at least
+> checked.
+>
+>
+Agree, I will look into that
+
+
+> Alistair
+>
+> >
+> >      /* Machine Trap Setup */
+> >      [CSR_MSTATUS]     = { "mstatus",    any,   read_mstatus,
+>  write_mstatus     },
+> > --
+> > 2.25.1
+> >
+> >
+>
+
+--000000000000faf96805cf6084c9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-family:verdana,sans-serif"><br></div></div><br><div class=3D"gmail_quote"=
+><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 27, 2021 at 8:13 AM Alis=
+tair Francis &lt;<a href=3D"mailto:alistair23@gmail.com">alistair23@gmail.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">On Mon, Oct 25, 2021 at 10:55 PM Rahul Pathak &lt;<a href=3D"mailto:rpath=
+ak@ventanamicro.com" target=3D"_blank">rpathak@ventanamicro.com</a>&gt; wro=
+te:<br>
+&gt;<br>
+&gt; Signed-off-by: Rahul Pathak &lt;<a href=3D"mailto:rpathak@ventanamicro=
+.com" target=3D"_blank">rpathak@ventanamicro.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 target/riscv/cpu_bits.h |=C2=A0 1 +<br>
+&gt;=C2=A0 target/riscv/csr.c=C2=A0 =C2=A0 =C2=A0 | 19 +++++++++++++++----<=
+br>
+&gt;=C2=A0 2 files changed, 16 insertions(+), 4 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h<br>
+&gt; index cffcd3a5df..e2f154b7c5 100644<br>
+&gt; --- a/target/riscv/cpu_bits.h<br>
+&gt; +++ b/target/riscv/cpu_bits.h<br>
+&gt; @@ -140,6 +140,7 @@<br>
+&gt;=C2=A0 #define CSR_MARCHID=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00xf12<br>
+&gt;=C2=A0 #define CSR_MIMPID=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0xf13<br>
+&gt;=C2=A0 #define CSR_MHARTID=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00xf14<br>
+&gt; +#define CSR_MCONFIGPTR=C2=A0 =C2=A0 =C2=A0 0xf15<br>
+&gt;<br>
+&gt;=C2=A0 /* Machine Trap Setup */<br>
+&gt;=C2=A0 #define CSR_MSTATUS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x300<br>
+&gt; diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
+&gt; index 69e4d65fcd..2d7f608d49 100644<br>
+&gt; --- a/target/riscv/csr.c<br>
+&gt; +++ b/target/riscv/csr.c<br>
+&gt; @@ -209,6 +209,16 @@ static RISCVException epmp(CPURISCVState *env, in=
+t csrno)<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
+&gt;=C2=A0 }<br>
+&gt; +<br>
+&gt; +static RISCVException priv1p12(CPURISCVState *env, int csrno)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (env-&gt;priv_ver &gt;=3D PRIV_VERSION_=
+1_12_0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return RISCV_E=
+XCP_NONE;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_ILLEGAL_INST;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 #endif<br>
+&gt;<br>
+&gt;=C2=A0 /* User Floating-Point CSRs */<br>
+&gt; @@ -1569,10 +1579,11 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =
+=3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 [CSR_MINSTRETH] =3D { &quot;minstreth&quot;, any32=
+, read_instreth },<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 /* Machine Information Registers */<br>
+&gt; -=C2=A0 =C2=A0 [CSR_MVENDORID] =3D { &quot;mvendorid&quot;, any,=C2=A0=
+ =C2=A0read_zero=C2=A0 =C2=A0 },<br>
+&gt; -=C2=A0 =C2=A0 [CSR_MARCHID]=C2=A0 =C2=A0=3D { &quot;marchid&quot;,=C2=
+=A0 =C2=A0any,=C2=A0 =C2=A0read_zero=C2=A0 =C2=A0 },<br>
+&gt; -=C2=A0 =C2=A0 [CSR_MIMPID]=C2=A0 =C2=A0 =3D { &quot;mimpid&quot;,=C2=
+=A0 =C2=A0 any,=C2=A0 =C2=A0read_zero=C2=A0 =C2=A0 },<br>
+&gt; -=C2=A0 =C2=A0 [CSR_MHARTID]=C2=A0 =C2=A0=3D { &quot;mhartid&quot;,=C2=
+=A0 =C2=A0any,=C2=A0 =C2=A0read_mhartid },<br>
+&gt; +=C2=A0 =C2=A0 [CSR_MVENDORID] =3D { &quot;mvendorid&quot;,=C2=A0 =C2=
+=A0any,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 read_zero=C2=A0 =C2=A0 },<=
+br>
+&gt; +=C2=A0 =C2=A0 [CSR_MARCHID]=C2=A0 =C2=A0=3D { &quot;marchid&quot;,=C2=
+=A0 =C2=A0 =C2=A0any,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 read_zero=C2=
+=A0 =C2=A0 },<br>
+&gt; +=C2=A0 =C2=A0 [CSR_MIMPID]=C2=A0 =C2=A0 =3D { &quot;mimpid&quot;,=C2=
+=A0 =C2=A0 =C2=A0 any,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 read_zero=
+=C2=A0 =C2=A0 },<br>
+&gt; +=C2=A0 =C2=A0 [CSR_MHARTID]=C2=A0 =C2=A0=3D { &quot;mhartid&quot;,=C2=
+=A0 =C2=A0 =C2=A0any,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 read_mhartid=
+ },<br>
+<br>
+Why change these?<br></blockquote><div><div class=3D"gmail_default" style=
+=3D"font-family:verdana,sans-serif">The alignment of all structure entries =
+is consistent in their respective=C2=A0</div><div class=3D"gmail_default" s=
+tyle=3D"font-family:verdana,sans-serif">blocks, that&#39;s why I aligned th=
+ese with the mconfigptr=C2=A0line.</div><div class=3D"gmail_default" style=
+=3D"font-family:verdana,sans-serif">It&#39;s really not necessary and if my=
+ observation on the alignment is</div><div class=3D"gmail_default" style=3D=
+"font-family:verdana,sans-serif">really not a requirement I will undo this.=
+</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">
+<br>
+<br>
+<br>
+&gt; +=C2=A0 =C2=A0 [CSR_MCONFIGPTR] =3D {&quot;mconfigptr&quot;,=C2=A0 pri=
+v1p12,=C2=A0 =C2=A0 =C2=A0 =C2=A0read_zero=C2=A0 =C2=A0 },<br>
+<br>
+This looks fine, but there are more changes then this in v1.12.<br>
+Looking at the preface we need mret/sret changes at least. It also<br>
+looks like some other changes will need to be implemented or at least<br>
+checked.<br>
+<br></blockquote><div>=C2=A0</div><div><span class=3D"gmail_default" style=
+=3D"font-family:verdana,sans-serif">Agree, I will look into that</span></di=
+v><div><span class=3D"gmail_default" style=3D"font-family:verdana,sans-seri=
+f"></span>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Alistair<br>
+<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 /* Machine Trap Setup */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 [CSR_MSTATUS]=C2=A0 =C2=A0 =C2=A0=3D { &quot;mstat=
+us&quot;,=C2=A0 =C2=A0 any,=C2=A0 =C2=A0read_mstatus,=C2=A0 =C2=A0 =C2=A0wr=
+ite_mstatus=C2=A0 =C2=A0 =C2=A0},<br>
+&gt; --<br>
+&gt; 2.25.1<br>
+&gt;<br>
+&gt;<br>
+</blockquote></div></div>
+
+--000000000000faf96805cf6084c9--
 
