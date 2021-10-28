@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9CE343E4B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 17:12:37 +0200 (CEST)
-Received: from localhost ([::1]:37878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C125B43E4B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 17:14:36 +0200 (CEST)
+Received: from localhost ([::1]:45380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg753-0005kV-1S
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 11:12:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39548)
+	id 1mg76w-0002Ga-4n
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 11:14:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mg6yG-0006gV-2i
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:05:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36195)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mg6yL-0006ji-63
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:05:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mg6yD-00078L-33
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:05:35 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mg6yH-00078l-SM
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:05:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635433532;
+ s=mimecast20190719; t=1635433536;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=64kbEvhgsvTtmcrJ2XOWOXD5KZT50cBaqVp/eA5mjE8=;
- b=hXE+leyqyK3Q5y3UBVdp/XtoUIbT+AH5OzNTyMGeZKDzqWTtcMzK3L7h9TzGWNolDIVWwM
- MYj8+pTJFD3hxZwP6+D8K1+9vIplH8N86p9uZMmQDhpf7fzgIo8xVX+Zs/IKEhbRIj2bcE
- HCz1J1gzdNRUdMl1sxY1hLan4uFr+oc=
+ bh=bgN4VtmbpKha1U3dbSRWObWfSCBYh9C5Ynebd+aNbtU=;
+ b=WUBXmjcwI5YDMjaD2tpxBKq1E2IYtqo1lsbJs8NKAd5jpz9V9TOJAQD9AHN46fGFuGK/uT
+ IQ2TeE48U0E5FxK56rXwemKP9sgpKTlow4jPJTmnLEchXkY2CFJzIYZFLdgdr4Z/KnkqD8
+ 1CLfQXSUti5k3PkuEdOl1Yrpfkel3Zs=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-NLPHQToXMcSiu57vTXtbJQ-1; Thu, 28 Oct 2021 11:05:31 -0400
-X-MC-Unique: NLPHQToXMcSiu57vTXtbJQ-1
+ us-mta-188-f_1ua9ihPxuGDV2o8o3dHQ-1; Thu, 28 Oct 2021 11:05:35 -0400
+X-MC-Unique: f_1ua9ihPxuGDV2o8o3dHQ-1
 Received: by mail-wr1-f69.google.com with SMTP id
- c4-20020a056000184400b0016e0cc310b3so2243399wri.3
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 08:05:30 -0700 (PDT)
+ d13-20020adf9b8d000000b00160a94c235aso2246908wrc.2
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 08:05:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=64kbEvhgsvTtmcrJ2XOWOXD5KZT50cBaqVp/eA5mjE8=;
- b=gQxHv18MWvfoCwjjyGA2RlpUGDTW5ZEOlBJ4mpg1MF+h54YLaCQWiLITd9W+kTnOVT
- yuISX8d3+Kl1Mc6ZKDxjFXnVQePDhph0cZsdRwMA8O0RIXVTbwFLfYhF8GsYMdmWt2Cr
- 0Of9gp2OQUwBwgOn9uA2J/rqEuGjFPQUoi++09EmYahI8ZA2Q2vGKmvY6gin9+DopSHV
- H+5tyVLhpahdpduS5IxGWARe/f0gY+ALEnyxB3GxyaSM9umkvlXmx6jph75/fuTKi43e
- EcNJxNViBy/Z8YqDpB8Y2JTU4k53aqP9/g8D/l/rG8z04QoynfTj/iSCIWK37fb+TT/g
- xWfg==
-X-Gm-Message-State: AOAM532dmy9I0xzNh2yHQt27bSPrPqm2T2SgOuYjJDrbPlPYNe4kwdtW
- kCTP9j/4pNNtJnqlZh5oiYs6028vYxAa1UT8wAr5BJEf2lzrujfFGm8NUMV0xZa00X0mNN0Thiq
- WpMvf6THfDL+bM6jBwxJ1jX65qGvZaVBpIagQzMTO2pnMDRPIi7lLBdFTpvDaxtou
-X-Received: by 2002:a05:600c:3581:: with SMTP id
- p1mr12883779wmq.34.1635433529429; 
- Thu, 28 Oct 2021 08:05:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw9cNv+UTrZZcL1WQuz+EcitzSKpMp9UvkyFxL9PUhH9XTloF6Tsz5tBixL62aVHvKKaiXXmQ==
-X-Received: by 2002:a05:600c:3581:: with SMTP id
- p1mr12883730wmq.34.1635433529134; 
- Thu, 28 Oct 2021 08:05:29 -0700 (PDT)
+ bh=bgN4VtmbpKha1U3dbSRWObWfSCBYh9C5Ynebd+aNbtU=;
+ b=VLrOcDrs+SmaFdazM59jjwtd/i6vxkoa2zRcP/wRpeCrAf1qeboa3T7zDQ7EA3XtN7
+ ipYmijZJUhq/CZX/mGjBz/qJkpaJZOvpcH+C0rDHt+ZMhLLYtmA1yJWO6Bj4G501evCF
+ LE1C0/OTNhKFMKVkLQ8ZcLAu+TyvtJEo0QDye6WGAaebiWfODi8hlGIxA0Y0gTuhDvY0
+ ONtoVMGFzlS6SljI6WKUEhfAQa39AKw4QWMVlkJoNgnE57rPq8eX42nIkyE784rdJqRg
+ upfrCoCr3fq1poA3muhj3GEmDsFmjtVPqTW0MZizENPqmDtNDkuUt9AVfQptp0Q5FoeR
+ qJhA==
+X-Gm-Message-State: AOAM530M/Dm3/uTHug79qN4xNXHtHlgtCISW/ryz7TTkMu8ORKADV0Hq
+ l0vZOPycCL7Tj/hmGU8J0CD8plyQnITspkUXg9y9Rdvb9BoAH4mOYLE2uCDtq/ZKxKw5ySmmILq
+ TOzcjnTUS4nCdufjQrOBTukljvrihHc3zqaW4RrS+UoN4DcATPQXRD5PiLrC+KKt1
+X-Received: by 2002:a05:600c:4ca9:: with SMTP id
+ g41mr5044235wmp.139.1635433533876; 
+ Thu, 28 Oct 2021 08:05:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzBY6nM4w+6cGO0BZPqNwsdGY74MpF1H5H5JYsXRWlFcytsIqWLK8OMU19gFFGgxqk/oSM8Fg==
+X-Received: by 2002:a05:600c:4ca9:: with SMTP id
+ g41mr5044197wmp.139.1635433533600; 
+ Thu, 28 Oct 2021 08:05:33 -0700 (PDT)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id j10sm3176917wrx.94.2021.10.28.08.05.27
+ by smtp.gmail.com with ESMTPSA id l8sm4265906wry.43.2021.10.28.08.05.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Oct 2021 08:05:28 -0700 (PDT)
+ Thu, 28 Oct 2021 08:05:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] hw/core: Restrict sysemu specific files
-Date: Thu, 28 Oct 2021 17:05:18 +0200
-Message-Id: <20211028150521.1973821-2-philmd@redhat.com>
+Subject: [PATCH 2/4] hw/core: Declare meson source set
+Date: Thu, 28 Oct 2021 17:05:19 +0200
+Message-Id: <20211028150521.1973821-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211028150521.1973821-1-philmd@redhat.com>
 References: <20211028150521.1973821-1-philmd@redhat.com>
@@ -75,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -103,43 +103,57 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All these files don't make sense for tools and user emulation,
-restrict them to system emulation.
+As we want to be able to conditionally add files to the hw/core
+file list, use a source set.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/core/meson.build | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ meson.build         | 4 +++-
+ hw/core/meson.build | 4 ++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
+diff --git a/meson.build b/meson.build
+index 2c5b53cbe2e..2eb76c187c3 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2365,6 +2365,7 @@
+ chardev_ss = ss.source_set()
+ common_ss = ss.source_set()
+ crypto_ss = ss.source_set()
++hwcore_ss = ss.source_set()
+ io_ss = ss.source_set()
+ linux_user_ss = ss.source_set()
+ qmp_ss = ss.source_set()
+@@ -2805,7 +2806,8 @@
+ 
+ chardev = declare_dependency(link_whole: libchardev)
+ 
+-libhwcore = static_library('hwcore', sources: hwcore_files + genh,
++hwcore_ss = hwcore_ss.apply(config_host, strict: false)
++libhwcore = static_library('hwcore', sources: hwcore_ss.sources() + genh,
+                            name_suffix: 'fa',
+                            build_by_default: false)
+ hwcore = declare_dependency(link_whole: libhwcore)
 diff --git a/hw/core/meson.build b/hw/core/meson.build
-index 18f44fb7c24..a829cc4245b 100644
+index a829cc4245b..4d04069f85f 100644
 --- a/hw/core/meson.build
 +++ b/hw/core/meson.build
-@@ -14,15 +14,15 @@
- )
+@@ -1,5 +1,5 @@
+ # core qdev-related obj files, also used by *-user and unit tests
+-hwcore_files = files(
++hwcore_ss.add(files(
+   'bus.c',
+   'hotplug.c',
+   'qdev-properties.c',
+@@ -11,7 +11,7 @@
+   'irq.c',
+   'clock.c',
+   'qdev-clock.c',
+-)
++))
  
  common_ss.add(files('cpu-common.c'))
--common_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
--common_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
--common_ss.add(when: ['CONFIG_GUEST_LOADER', fdt], if_true: files('guest-loader.c'))
--common_ss.add(when: 'CONFIG_OR_IRQ', if_true: files('or-irq.c'))
--common_ss.add(when: 'CONFIG_PLATFORM_BUS', if_true: files('platform-bus.c'))
--common_ss.add(when: 'CONFIG_PTIMER', if_true: files('ptimer.c'))
--common_ss.add(when: 'CONFIG_REGISTER', if_true: files('register.c'))
--common_ss.add(when: 'CONFIG_SPLIT_IRQ', if_true: files('split-irq.c'))
--common_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('stream.c'))
-+softmmu_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
-+softmmu_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
-+softmmu_ss.add(when: ['CONFIG_GUEST_LOADER', fdt], if_true: files('guest-loader.c'))
-+softmmu_ss.add(when: 'CONFIG_OR_IRQ', if_true: files('or-irq.c'))
-+softmmu_ss.add(when: 'CONFIG_PLATFORM_BUS', if_true: files('platform-bus.c'))
-+softmmu_ss.add(when: 'CONFIG_PTIMER', if_true: files('ptimer.c'))
-+softmmu_ss.add(when: 'CONFIG_REGISTER', if_true: files('register.c'))
-+softmmu_ss.add(when: 'CONFIG_SPLIT_IRQ', if_true: files('split-irq.c'))
-+softmmu_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('stream.c'))
- 
- softmmu_ss.add(files(
-   'cpu-sysemu.c',
+ softmmu_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
 -- 
 2.31.1
 
