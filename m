@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD19643D6FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 00:54:45 +0200 (CEST)
-Received: from localhost ([::1]:50142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B8843D7ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 02:05:58 +0200 (CEST)
+Received: from localhost ([::1]:58184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfroh-00088i-A8
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 18:54:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47870)
+	id 1mfsvc-0000ay-Oi
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 20:05:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mfrds-0006kE-5V
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 18:43:32 -0400
-Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:46835)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mfstE-0008K4-Jr
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:03:28 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:44557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mfrdp-0005Hb-M4
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 18:43:31 -0400
-Received: by mail-il1-x129.google.com with SMTP id w10so4634695ilc.13
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 15:43:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vdYpaoFV3ixw53O/F8MKUVwP7C7IKMd3ySSc9QJ5lh8=;
- b=aj60QX+IoaO/RUHlDC2EU18Kdimkn7f/w49O18DV5peI3JH89BIbXTe1Pp5B2uafxh
- bfO3+uvq9pNOR9qnVSKh3Dwj+XJr2gvTMxnjEYhfKaLGol2sAqhgWk53iI07U2laro1u
- a1wQsIQruhvigiESJAh+dU1293t24m+XRR44W15Sf6s4EGjtdWtHRqbumj2F/Mez7P7I
- GnP993tdvaFwxCs1greYA+P2kl1d9y/CIDJup+dPa2d4bqh8oGFgIR0QckQeUgTT3GaV
- CaRUWDfCA7+XdftpEWp3hz0Nr5e7zYEWYZiCWsy2/x/0ZAkTuWA8X4Gbacn73rkWHyR+
- R+NA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mfstC-00052J-Tr
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:03:28 -0400
+Received: by mail-pg1-x532.google.com with SMTP id c4so4553386pgv.11
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 17:03:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Y76q68sz9AzZMEPeI8Ic8VZn0cQPJMBxDvZ9jgU6fN4=;
+ b=GapTNxtRcxsmZXEfa8bUd/hQvolnR+35EtbN6yPxuiGPpga/Vh2dRsEMaQf9Bt2Xpo
+ bcjXTtbtAPlTjS6FBEjLMjjQUu5wHDbHJzlmX7bZsPgqoO75ZIuqWSsR6dFIll0OHKIX
+ 0cKixvHU87Uk6eadR/RVb/vZKuT3fQJQBgSu4X1rf1N6bYWKEuLlyWIgn8oIZ6VlXHBV
+ q5sldmgXv9GhwMtG40DSQncWGYTh9wFaKEvn2DNb1xm3x3UfK8ft7cffzrqWYyZzPbaX
+ YCFyY/eDOhnrpY04T3R+sTEIqkI2ojJJ5kvptFO0OuNHk9dWR8iYl8lDfHnN/jlIkfoX
+ VxjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vdYpaoFV3ixw53O/F8MKUVwP7C7IKMd3ySSc9QJ5lh8=;
- b=69bQQ9uO7LXgvNuYyWKkTae86ty9j86uPGtMQL9+OdU9nAsmTtvQlDXPV5obzlSyN2
- GpMHBT/2UD3cduQPvS7y8lqPu36yzGcNQyu8FpcTeNCXxQtTFKHn8cUeqmRXm6gxQFJb
- 5oe/6BuoRaF/vBhxaYrJ2wSaAR3tNI/QexQTGl9yVS/IzVV3CU1LI3xdUxmkpD2pFt5U
- g/UjiWWrN2Asscc6oAwwDFCqOwPv6UObKS4fPdJcnW61IEvd/mq7AyBtQCCAIxjdyXQw
- QuZPycdIqFCAt+JDvENwooQPneesmNpABEYCOHLjZxn7bvydCtBZDP0oiXgHu/yp+e+v
- hhVg==
-X-Gm-Message-State: AOAM53202IOcbaVGfRJuNlowW4JyKUENLtWtH4gIt7U4XhC/AFocJ6AT
- y5vyyghN0PWztPp9W3WtQRCjlK9eIPX7qqY5gZM=
-X-Google-Smtp-Source: ABdhPJzzITasdMmXDa+qe/BjXxzlwFPI3kqRRq+ZcMwbkxE8tLsCiY8UcQb7WseYD0i08wrBvpvu71tXvO88Hgu0/qA=
-X-Received: by 2002:a05:6e02:1b81:: with SMTP id
- h1mr461219ili.290.1635374607659; 
- Wed, 27 Oct 2021 15:43:27 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Y76q68sz9AzZMEPeI8Ic8VZn0cQPJMBxDvZ9jgU6fN4=;
+ b=N1IPuFGpnnpMf6XpgzQdFmO9HeJ+7FupM7gpF/LXoT+C67SqJlc4hd0bxBcuJyJSD1
+ bOzky1wVwjEHOGO0xiDSFQmpyB3Z6qVaVEY0cFeZQ/fh05XisJ7hiVdectcrae+qdBIr
+ Y4cQMEWt/Tpndz6s4BVYhqeVwqOatvDV4BhmKsLXmUED7/zxzOAQgGOuizTEsRmUMiuX
+ fibw7cKrVUQ29ud2JIifen+YtrO/da9/Ks+9AebVh/AI3ca0xFedgazML5Rtct/uqbzs
+ EHtD5s3XTjsSeY+4gAZ07jtX7RRFtztbciy9nVnqSPD34QnBebvUMqCFH4BQdZkJZ9P6
+ QQKw==
+X-Gm-Message-State: AOAM533LlXKLr/Ig0L2D7huhnAsMcZX+0AY3KPdQd5EJJFm6BT+IiCs1
+ chJ9y1jBzcb4yJc1MfOUl0SkVQ==
+X-Google-Smtp-Source: ABdhPJzVYwazk1nlscLJPJ0WpSXzwwvrH0Cdd7PRgFYBUsbAqH43NX3KDfkur3oFt+9wHJyed5CzkQ==
+X-Received: by 2002:a63:8748:: with SMTP id i69mr712692pge.24.1635379404851;
+ Wed, 27 Oct 2021 17:03:24 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id f203sm1042296pfa.112.2021.10.27.17.03.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Oct 2021 17:03:24 -0700 (PDT)
+Subject: Re: [PATCH v4 41/51] tcg/optimize: Sink commutative operand swapping
+ into fold functions
+To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20211026230943.1225890-1-richard.henderson@linaro.org>
+ <20211026230943.1225890-42-richard.henderson@linaro.org>
+ <CPXPR80MB5224A60FE8542531211B3D2ADA859@CPXPR80MB5224.lamprd80.prod.outlook.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f0d6ef51-383d-17ba-d4e5-f31c6d320930@linaro.org>
+Date: Wed, 27 Oct 2021 17:03:22 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211026140311.158151-1-damien.hedde@greensocs.com>
-In-Reply-To: <20211026140311.158151-1-damien.hedde@greensocs.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 28 Oct 2021 08:43:01 +1000
-Message-ID: <CAKmqyKN7Kr--szF5tgWxfemznvWHg+iBWMMiVy009e+4V2S32w@mail.gmail.com>
-Subject: Re: [PATCH v2] generic-loader: check that binary file target location
- exists
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::129;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x129.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+In-Reply-To: <CPXPR80MB5224A60FE8542531211B3D2ADA859@CPXPR80MB5224.lamprd80.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.847,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,109 +90,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ "f4bug@amsat.org" <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 27, 2021 at 12:03 AM Damien Hedde
-<damien.hedde@greensocs.com> wrote:
->
-> When loading a binary file, we only check if it is smaller than the
-> ram_size. It does not really check if the file will be loaded at an
-> existing location (if there is nothing at the target address, it will
-> "fail" silently later). It prevents loading a binary blob bigger than
-> ram_size too even if the target location is big enough.
->
-> Replace this check by looking for the target memory region size and
-> prevent loading a bigger file than the available space.
->
-> Get rid of "hw/boards.h" include, since we needed it only to access
-> `current_machine`.
->
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+On 10/27/21 1:32 PM, Luis Fernando Fujita Pires wrote:
+> From: Richard Henderson <richard.henderson@linaro.org>
+> 
+>>   static bool fold_add2(OptContext *ctx, TCGOp *op)  {
+>> +    swap_commutative(op->args[0], &op->args[2], &op->args[4]);
+>> +    swap_commutative(op->args[1], &op->args[3], &op->args[5]);
+> 
+> This was existing code, but I would've understood it easier if it had a comment noting that, even though it would be possible for this code to swap args[2] <-> args[4] and not args[3] <-> arg5 (and vice-versa), this would be okay for an add. :)
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Certainly.  Added.
 
-Alistair
 
-> ---
->
-> Hi,
->
-> This is an updated version implementing what we discussed in v1.
->
-> This can be tested easily, eg, using opentitan machine which has a 64K ram
-> located at 0x10000000.
->
-> the following works (we a blob corresponding to the whole ram)
-> | $ dd bs=1K count=64 if=/dev/zero of=blob.bin
-> | $ qemu-system-riscv32 -display none -M opentitan -device loader,addr=0x10000000,file=blob.bin
->
-> but this command fails because we load a blob which is too big
-> | $ dd bs=1K count=64 if=/dev/zero of=blob.bin
-> | $ qemu-system-riscv32 -display none -M opentitan -device loader,addr=0x10001000,file=blob.bin
-> | qemu-system-riscv32: -device loader,addr=0x10001000,file=blob.bin: Cannot load specified image blob.bin
->
-> and this command fails too (we load a blob at an unmapped location)
-> | $ dd bs=1K count=64 if=/dev/zero of=blob.bin
-> | $ qemu-system-riscv32 -display none -M opentitan -device loader,addr=0x0,file=blob.bin
-> | qemu-system-riscv32: -device loader,addr=0x0,file=blob.bin: Address 0x0 does not exists
->
-> Thanks,
-> Damien
->
-> v2:
->  + instead of disabling the ram_size check, look for the target
->
-> v1: https://lists.nongnu.org/archive/html/qemu-devel/2021-10/msg01077.html
->
-> See also the original discussion about generic-loader:
-> https://lists.gnu.org/archive/html/qemu-devel/2016-02/msg04668.html
-> https://lists.gnu.org/archive/html/qemu-devel/2016-02/msg04681.html
-> ---
->  hw/core/generic-loader.c | 20 +++++++++++++++++---
->  1 file changed, 17 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
-> index d14f932eea..88d3f9fd56 100644
-> --- a/hw/core/generic-loader.c
-> +++ b/hw/core/generic-loader.c
-> @@ -34,7 +34,6 @@
->  #include "hw/core/cpu.h"
->  #include "sysemu/dma.h"
->  #include "sysemu/reset.h"
-> -#include "hw/boards.h"
->  #include "hw/loader.h"
->  #include "hw/qdev-properties.h"
->  #include "qapi/error.h"
-> @@ -153,8 +152,23 @@ static void generic_loader_realize(DeviceState *dev, Error **errp)
->          }
->
->          if (size < 0 || s->force_raw) {
-> -            /* Default to the maximum size being the machine's ram size */
-> -            size = load_image_targphys_as(s->file, s->addr, current_machine->ram_size, as);
-> +            MemoryRegion *root = as ? as->root : get_system_memory();
-> +            MemoryRegionSection mrs;
-> +            uint64_t avail = 0;
-> +
-> +            mrs = memory_region_find(root, s->addr, 1);
-> +
-> +            if (mrs.mr) {
-> +                avail = int128_get64(mrs.mr->size) - mrs.offset_within_region;
-> +                memory_region_unref(mrs.mr);
-> +            } else {
-> +                error_setg(errp, "Address 0x%" PRIx64 " does not exists",
-> +                           s->addr);
-> +                return;
-> +            }
-> +
-> +            /* Limit the file size to the memory region space */
-> +            size = load_image_targphys_as(s->file, s->addr, avail, as);
->          } else {
->              s->addr = entry;
->          }
-> --
-> 2.33.0
->
+r~
 
