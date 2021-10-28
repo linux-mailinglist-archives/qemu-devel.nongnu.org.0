@@ -2,60 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BF4C43E076
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 14:05:52 +0200 (CEST)
-Received: from localhost ([::1]:34456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D6E43E104
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 14:29:51 +0200 (CEST)
+Received: from localhost ([::1]:50596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg4AJ-000590-8h
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 08:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48332)
+	id 1mg4XW-0000vf-4z
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 08:29:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mg47r-0004TG-Gr
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 08:03:21 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:37929)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mg47k-00064R-OC
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 08:03:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=1wP8Wtn6B3HLaQsTnWI9l4mJXDmlq1NeKcB3guwlNxE=; b=O8ai+O0086TX9qiv0uhQRPbjcu
- YMt4NkUTXBuDRvFwSQ6x2tvPCmUzZY9P7cYBFCfjQ8/Sn5/BgvTR0iHPndb9Zhf1p52oopdHvprvL
- UFdL3EmA41doNK1S2YupweiC8tte31jzyRjrH7DOVqLVipQuyOg/22RmsznCXiwz8J8C1dGW4ajsh
- Gu8msCQ7GGDGkK3a2i4gKF5ozUq+ujywBI64I8K3oX8fQ7z69MOus7SnIkjDHMg78VFkRRs0vhhjB
- DOrnKDw+s8gdmP5O2x8mexfKmCjFK9YkQXABC1RKi/oRYSTQxrLd0LLwBWQaffz1i/t6a/Y8UsQ54
- 8pWkWVfTEVnx7E/FWnRMKETjYmbA+V4kXNijGKDhoWUQ3DbUG+T/evNrabB8RGcJvFSlCLXH7BekZ
- Mq2gNZmu/MOKf8Z/wJStKccBgohdDdtDc22bR/ulr8NL6xGeqm9wnHsnuQiVjVZ8WY3B82LOyR/V0
- /Hk9lYgFrfnEHKf14/CCUD+pkGIgKhkGXY1a7rznxZ0UpqtIwftqQ63VDCgr41+L/1ZV+Q0tTTLdk
- QwPHYf/t0bOImX7GRwOz8UXOrHW/2dtkI1BzVj/zTZ4+80HmZMpPJdsR6hdWRLn9dHWUiHiesbFp2
- lD42Xd4HkScoHRKoIGimV2eKQuqVhXiiEFaHveQgA=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
-Subject: Re: [PULL 0/8] 9p queue 2021-10-27
-Date: Thu, 28 Oct 2021 14:03:08 +0200
-Message-ID: <3116841.G7nDPmeRIp@silver>
-In-Reply-To: <0550cde6-3284-92c0-94bb-e9e66553104f@linaro.org>
-References: <cover.1635340713.git.qemu_oss@crudebyte.com>
- <13405882.ftTnZbQXCH@silver>
- <0550cde6-3284-92c0-94bb-e9e66553104f@linaro.org>
+ (Exim 4.90_1) (envelope-from <luis.machado@linaro.org>)
+ id 1mg4Se-0007BV-24
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 08:24:48 -0400
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:39486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luis.machado@linaro.org>)
+ id 1mg4Sb-0003ti-TN
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 08:24:47 -0400
+Received: by mail-oi1-x231.google.com with SMTP id s190so7224292oie.6
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 05:24:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=j2qZdEu06KEBFkmGkgUzf7kRqrWyreB+4Rj8F+/+FZc=;
+ b=O3RMG23+brR7Kr2sNXbxiDOPOO142k8cIG8n4M2M5MrRweJraaYf9YtAV0bv7UAflk
+ XZzgiqcJv3ACLAKLfZRllrQR/SIgz/tjJQIBWZBxYjkFWjd4hJmuC0euUiucq+vNaNzY
+ NDiLjwFgo7dg9a5k7m5kDpH73mxZnaphMFbDtFH94h58dRa4xN7va8zKgRff0ow6u3Wg
+ SuXnCvYNw6yqyeMFduYuKdwANZ+zZYo+vu8+/OS+Qp6hyxyMvCwZDH/V2rwcVqWQF+FD
+ 7SLqbADDYOu+16/526OzlTI/hthurrtHXvMd/s7ElBhZhvIF4c7aThZLgd8CvemFTaGX
+ frng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=j2qZdEu06KEBFkmGkgUzf7kRqrWyreB+4Rj8F+/+FZc=;
+ b=ElNw1qQd1QajWZISKgvtnjnz5W4xoSdljHLOOILGv2TsqyRWpfJOvft1HgDQ84JC4O
+ VUPrrKkXwbCzib0uZF5zQLNg0/QswQBQHHscJEMwJWjra1SrghyPusSsWbIjAJ2h7Rsb
+ 4PW/Sj9iLWl4aUSUR2gtYfv9xOtxNDSybTtGkXilq25GlChziwtbE9l1NVbrLesalIxx
+ VbwfOKOC/0V+m9bNEjBbPf1GFnjP2Mw3Onb+XMM25uEogDhmQ5IR47wLLhp8Nyfjc7zm
+ QzebCIH5B9QCN0eBoakRZ4emnKBiiq5ENUOuX3yfZd3B4ENRS+IZMGjhvAtsuQDAVE2E
+ ZV8Q==
+X-Gm-Message-State: AOAM533M2JJoF/tcFk6IVl4FLI4CVD16uzEeJvkVUcFDpKAtIiV5JteV
+ DK5RCJ6h99RvHneT9XAyZTZeug==
+X-Google-Smtp-Source: ABdhPJwMggFDGpx1pVkZxp5DaiKCTTzCw2cP2AxIXWxCGF4qerGLlCHDnFFdyZ95S1Df8DaCq9QvzA==
+X-Received: by 2002:aca:be54:: with SMTP id o81mr8273430oif.64.1635423883934; 
+ Thu, 28 Oct 2021 05:24:43 -0700 (PDT)
+Received: from ?IPv6:2804:7f0:4841:3c03:6478:21a3:2901:16a6?
+ ([2804:7f0:4841:3c03:6478:21a3:2901:16a6])
+ by smtp.gmail.com with ESMTPSA id r44sm1106581otv.39.2021.10.28.05.24.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Oct 2021 05:24:43 -0700 (PDT)
+Subject: Re: Deprecate the ppc405 boards in QEMU? (was: [PATCH v3 4/7]
+ MAINTAINERS: Orphan obscure ppc platforms)
+To: LEROY Christophe <christophe.leroy@csgroup.eu>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+ <20210927044808.73391-5-david@gibson.dropbear.id.au>
+ <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
+ <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
+ <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
+ <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
+ <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
+ <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
+ <1397f18f-f187-6f48-ed6c-13c0b77abed9@redhat.com> <YVug7l8LWl3e+DN5@yekko>
+ <9aeb7010-0a17-864a-cfac-ea5d90356085@csgroup.eu>
+ <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
+ <5e4f78ce-1508-5689-ec29-79edad0c824e@kaod.org>
+ <491d6265-3785-b11-b7f0-621a3d2823@eik.bme.hu>
+ <b9f27c1b-1162-b178-9333-89c0dd707c12@redhat.com>
+ <103e098a-a8ac-a22a-8aad-3df7d8cde148@amsat.org>
+ <939f2d12-38f6-4ab0-b688-384136d1d9c@eik.bme.hu>
+ <4e07823e-7162-525a-4a61-9bed63e85d58@kaod.org>
+ <5263c819-b13c-f48a-d720-15b085537070@csgroup.eu>
+From: Luis Machado <luis.machado@linaro.org>
+Message-ID: <2b5f000b-31c0-bd2c-14a3-63a23f73ab18@linaro.org>
+Date: Thu, 28 Oct 2021 09:24:35 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <5263c819-b13c-f48a-d720-15b085537070@csgroup.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=luis.machado@linaro.org; helo=mail-oi1-x231.google.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.847,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,161 +108,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ "dbarboza@redhat.com" <dbarboza@redhat.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>,
+ "gdb@sourceware.org" <gdb@sourceware.org>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <agraf@csgraf.de>,
+ qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 27. Oktober 2021 20:44:52 CEST Richard Henderson wrote:
-> On 10/27/21 10:29 AM, Christian Schoenebeck wrote:
-> > On Mittwoch, 27. Oktober 2021 18:48:10 CEST Philippe Mathieu-Daud=E9 wr=
-ote:
-> >> On 10/27/21 18:21, Christian Schoenebeck wrote:
-> >>> On Mittwoch, 27. Oktober 2021 17:36:03 CEST Philippe Mathieu-Daud=E9=
-=20
-wrote:
-> >>>> Hi Christian,
-> >>>>=20
-> >>>> On 10/27/21 16:05, Christian Schoenebeck wrote:
-> >>>>> On Mittwoch, 27. Oktober 2021 15:18:33 CEST Christian Schoenebeck=20
-wrote:
-> >>>>>> The following changes since commit
-> >>>=20
-> >>> 931ce30859176f0f7daac6bac255dae5eb21284e:
-> >>>>>>    Merge remote-tracking branch
-> >>>>>>    'remotes/dagrh/tags/pull-virtiofs-20211026'
-> >>>>>>=20
-> >>>>>> into staging (2021-10-26 07:38:41 -0700)
-> >>>>>>=20
-> >>>>>> are available in the Git repository at:
-> >>>>>>    https://github.com/cschoenebeck/qemu.git tags/pull-9p-20211027
-> >>>>>>=20
-> >>>>>> for you to fetch changes up to
-> >=20
-> > 7e985780aaab93d2c5be9b62d8d386568dfb071e:
-> >>>>>>    9pfs: use P9Array in v9fs_walk() (2021-10-27 14:45:22 +0200)
-> >>>>>>=20
-> >>>>>> ----------------------------------------------------------------
-> >>>>>> 9pfs: performance fix and cleanup
-> >>>>>>=20
-> >>>>>> * First patch fixes suboptimal I/O performance on guest due to
-> >>>>>> previously
-> >>>>>>=20
-> >>>>>>    incorrect block size being transmitted to 9p client.
-> >>>>>>=20
-> >>>>>> * Subsequent patches are cleanup ones intended to reduce code
-> >>>>>> complexity.
-> >>>>>>=20
-> >>>>>> ----------------------------------------------------------------
-> >>>>>>=20
-> >>>>>> Christian Schoenebeck (8):
-> >>>>>>        9pfs: fix wrong I/O block size in Rgetattr
-> >>>>>>        9pfs: deduplicate iounit code
-> >>>>>>        9pfs: simplify blksize_to_iounit()
-> >>>>>>        9pfs: introduce P9Array
-> >>>>>>        fsdev/p9array.h: check scalar type in P9ARRAY_NEW()
-> >>>>>>        9pfs: make V9fsString usable via P9Array API
-> >>>>>>        9pfs: make V9fsPath usable via P9Array API
-> >>>>>>        9pfs: use P9Array in v9fs_walk()
-> >>>>>>  =20
-> >>>>>>   fsdev/9p-marshal.c |   2 +
-> >>>>>>   fsdev/9p-marshal.h |   3 +
-> >>>>>>   fsdev/file-op-9p.h |   2 +
-> >>>>>>   fsdev/p9array.h    | 160
-> >>>>>>=20
-> >>>>>> +++++++++++++++++++++++++++++++++++++++++++++++++++++ hw/9pfs/9p.c
-> >>>>>>=20
-> >>>>>> 70 +++++++++++++----------
-> >>>>>>=20
-> >>>>>>   5 files changed, 208 insertions(+), 29 deletions(-)
-> >>>>>>   create mode 100644 fsdev/p9array.h
-> >>>>>=20
-> >>>>> Regarding last 5 patches: Daniel raised a concern that not using
-> >>>>> g_autoptr
-> >>>>> would deviate from current QEMU coding patterns:
-> >>>>> https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg00081.html
-> >>>>>=20
-> >>>>> Unfortunately I saw no way to address his concern without adding
-> >>>>> unnecessary code complexity, so I decided to make this a 9p local t=
-ype
-> >>>>> (QArray -> P9Array) for now, which can easily be replaced in future
-> >>>>> (e.g.
-> >>>>> when there will be something appropriate on glib side).
-> >>>>=20
-> >>>> Hmm various patches aren't reviewed yet... In particular
-> >>>> patch #5 has a Suggested-by tag without Reviewed-by, this
-> >>>> looks odd.
-> >>>>=20
-> >>>> See https://wiki.qemu.org/Contribute/SubmitAPullRequest:
-> >>>>    Don't send pull requests for code that hasn't passed review.
-> >>>>    A pull request says these patches are ready to go into QEMU now,
-> >>>>    so they must have passed the standard code review processes. In
-> >>>>    particular if you've corrected issues in one round of code review,
-> >>>>    you need to send your fixed patch series as normal to the list;
-> >>>>    you can't put it in a pull request until it's gone through.
-> >>>>    (Extremely trivial fixes may be OK to just fix in passing, but
-> >>>>    if in doubt err on the side of not.)
-> >>>=20
-> >>> There are in general exactly two persons adding their RBs to 9p patch=
-es,
-> >>> which is either Greg or me, and Greg made it already clear that he
-> >>> barely
-> >>> has time for anything above trivial set.
-> >>>=20
-> >>> So what do you suggest? You want to participate and review 9p patches?
-> >>=20
-> >> Well I am a bit surprised...
-> >>=20
-> >> $ git log --oneline \
-> >>=20
-> >>      --grep=3D'Reviewed-by: Philippe Mathieu-Daud=E9' -- hw/9pfs/ | wc=
- -l
-> >>=20
-> >> 18
-> >>=20
-> >> I also reviewed patch #3 if this pull request...
-> >>=20
-> >>=20
-> >> Now I see you posted this 4 times in 2 months, so indeed eventual
-> >> reviewers had plenty of time to look at your patches.
-> >>=20
-> >> Note I haven't said I'd NAck your pull request, I noticed your own
-> >> concern wrt Daniel comment, so I looked at the patch and realized
-> >> it was not reviewed, and simply said this is this is odd.
-> >>=20
-> >> Regards,
-> >>=20
-> >> Phil.
-> >=20
-> > Philippe, of course I understand why this looks odd to you, and yes you
-> > reviewed that particular patch. But the situation on the 9p front is li=
-ke
-> > this for >2 years now: people quickly come by to nack patches, but even
-> > after having addressed their concerns they barely add their RBs
-> > afterwards. That means I am currently forced to send out PRs without RBs
-> > once in a while.
-> In know the feeling -- it takes quite some prodding to get tcg patches
-> reviewed, and I have also sent out PRs that are incompletely reviewed.
->=20
-> I see that patch 5 was something I suggested myself, which I then failed =
-to
-> review afterward.  In recompense, I have reviewed the whole patch set:
->=20
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->=20
-> I think the P9Array is fairly clever, and I do prefer it over glib ugline=
-ss.
->  I can imagine only C++ being an improvement over what you've created.
->=20
-> Rather than force you to re-create the PR, I'll simply apply this along w=
-ith
-> the S-o-b, to the merge object.
->=20
->=20
-> r~
-
-Thanks Richard, I highly appreciate that!
-
-Best regards,
-Christian Schoenebeck
 
 
+On 10/20/21 10:16 AM, LEROY Christophe wrote:
+> 
+> 
+> Le 20/10/2021 à 14:43, Cédric Le Goater a écrit :
+>> On 10/20/21 13:42, BALATON Zoltan wrote:
+>>> On Wed, 20 Oct 2021, Philippe Mathieu-Daudé wrote:
+>>>> On 10/5/21 14:29, Thomas Huth wrote:
+>>>>> On 05/10/2021 14.20, BALATON Zoltan wrote:
+>>>>>> On Tue, 5 Oct 2021, Cédric Le Goater wrote:
+>>>>>>> On 10/5/21 08:18, Alexey Kardashevskiy wrote:
+>>>>>>>> On 05/10/2021 15:44, Christophe Leroy wrote:
+>>>>>>>>> Le 05/10/2021 à 02:48, David Gibson a écrit :
+>>>>>>>>>> On Fri, Oct 01, 2021 at 04:18:49PM +0200, Thomas Huth wrote:
+>>>>>>>>>>> On 01/10/2021 15.04, Christophe Leroy wrote:
+>>>>>>>>>>>> Le 01/10/2021 à 14:04, Thomas Huth a écrit :
+>>>>>>>>>>>>> On 01/10/2021 13.12, Peter Maydell wrote:
+>>>>>>>>>>>>>> On Fri, 1 Oct 2021 at 10:43, Thomas Huth <thuth@redhat.com>
+>>>>>>>>>>>>>> wrote:
+>>>>>>>>>>>>>>> Nevertheless, as long as nobody has a hint where to find that
+>>>>>>>>>>>>>>> ppc405_rom.bin, I think both boards are pretty useless in
+>>>>>>>>>>>>>>> QEMU (as far as I
+>>>>>>>>>>>>>>> can see, they do not work without the bios at all, so it's
+>>>>>>>>>>>>>>> also not possible
+>>>>>>>>>>>>>>> to use a Linux image with the "-kernel" CLI option directly).
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> It is at least in theory possible to run bare-metal code on
+>>>>>>>>>>>>>> either board, by passing either a pflash or a bios argument.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> True. I did some more research, and seems like there was once
+>>>>>>>>>>>>> support for those boards in u-boot, but it got removed there a
+>>>>>>>>>>>>> couple of years ago already:
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/98f705c9cefdf
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/b147ff2f37d5b
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/7514037bcdc37
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>> But I agree that there seem to be no signs of anybody actually
+>>>>>>>>>>>>>> successfully using these boards for anything, so we should
+>>>>>>>>>>>>>> deprecate-and-delete them.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Yes, let's mark them as deprecated now ... if someone still
+>>>>>>>>>>>>> uses
+>>>>>>>>>>>>> them and speaks up, we can still revert the deprecation again.
+>>>>>>>>>>>>
+>>>>>>>>>>>> I really would like to be able to use them to validate Linux
+>>>>>>>>>>>> Kernel
+>>>>>>>>>>>> changes, hence looking for that missing BIOS.
+>>>>>>>>>>>>
+>>>>>>>>>>>> If we remove ppc405 from QEMU, we won't be able to do any
+>>>>>>>>>>>> regression
+>>>>>>>>>>>> tests of Linux Kernel on those processors.
+>>>>>>>>>>>
+>>>>>>>>>>> If you/someone managed to compile an old version of u-boot for
+>>>>>>>>>>> one of these
+>>>>>>>>>>> two boards, so that we would finally have something for
+>>>>>>>>>>> regression testing,
+>>>>>>>>>>> we can of course also keep the boards in QEMU...
+>>>>>>>>>>
+>>>>>>>>>> I can see that it would be usefor for some cases, but unless
+>>>>>>>>>> someone
+>>>>>>>>>> volunteers to track down the necessary firmware and look after
+>>>>>>>>>> it, I
+>>>>>>>>>> think we do need to deprecate it - I certainly don't have the
+>>>>>>>>>> capacity
+>>>>>>>>>> to look into this.
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> I will look at it, please allow me a few weeks though.
+>>>>>>>>
+>>>>>>>> Well, building it was not hard but now I'd like to know what board
+>>>>>>>> QEMU actually emulates, there are way too many codenames and PVRs.
+>>>>>>>
+>>>>>>> yes. We should try to reduce the list below. Deprecating embedded
+>>>>>>> machines
+>>>>>>> is one way.
+>>>>>>
+>>>>>> Why should we reduce that list? It's good to have different cpu
+>>>>>> options when one wants to test code for different PPC versions (maybe
+>>>>>> also in user mode) or just to have a quick list of these at one place.
+>>>>>
+>>>>> I think there are many CPUs in that list which cannot be used with any
+>>>>> board, some of them might be also in a very incomplete state. So
+>>>>> presenting such a big list to the users is confusing and might create
+>>>>> wrong expectations. It would be good to remove at least the CPUs which
+>>>>> are really completely useless.
+>>>>
+>>>> Maybe only remove some from system emulation but keep all of them
+>>>> in user emulation?
+>>>
+>>> Or keep them all but mark those that are not tested/may be incomplete?
+>>> So the used can see what is expected to work and what may need to be
+>>> fixed. That way somebody may try and fix it whereas if it's not there
+>>> they are unlikely to try to add it.
+>>
+>>
+>> The bamboo machine with 440 CPUs is booting with the latest kernel
+>> and we have an acceptance test for it now, thanks to Thomas. There
+>> is not much effort in keeping them in a working state until someone
+>> volunteers. Hopefully, Christophe is making sure that we are not
+>> breaking anything with Linux support.
+>>
+>> The 405 machine are still close to deprecation I think. We are still
+>> struggling to boot one with mainline Linux, using uboot provided by
+>> Thomas which skips SDRAM init. It is not clear to me if u-boot is
+>> strictly necessary. It depends if Linux relies on it to do some
+>> pre-initialization of HW. I guess once we find a good DTS for it, or
+>> not, we can take a decision.
+>>
+> 
+> I now have a hacked configuration booting linux with the hotfoot DTS and
+> the kernel is booting up to starting /init
+> 
+> Then it is faulting forever taking a DSI for write protection. The
+> problem is now likely in Linux and I'm investigating it, but I'm having
+> problem with GDB (7.8.1), I'm hitting the bug
+> https://sourceware.org/bugzilla/show_bug.cgi?id=17700
+> 
+> And GDB 11.1 coredumps while reading vmlinux's symbols
+> 
+> Hopefully I'll find a GDB version between 7.8 and 11 that works.
+> 
+
+Just to confirm, you're not really having problems with the ARM port of 
+GDB, right? It is a 32-bit PowerPC one. The bug you pointed out is only 
+a reference to a similar one for PowerPC?
 
