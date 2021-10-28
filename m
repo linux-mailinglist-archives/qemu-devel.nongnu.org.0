@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F41D43E5F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 18:19:35 +0200 (CEST)
-Received: from localhost ([::1]:50144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0458D43E5CA
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 18:10:12 +0200 (CEST)
+Received: from localhost ([::1]:57756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg87q-0007yu-DL
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 12:19:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51050)
+	id 1mg7yk-0002JK-FW
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 12:10:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mg7mR-0003xt-UJ
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:57:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43437)
+ id 1mg7mb-0004Xh-Vc
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:57:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mg7mQ-0004TM-0I
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:57:27 -0400
+ id 1mg7ma-0004VE-9k
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:57:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635436645;
+ s=mimecast20190719; t=1635436655;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K+uUtvBZwNV0JiYmSOvDnSIiGNED4uCQ0Vl36Pi6tRQ=;
- b=JVzQWqJMqnQPjmenVsLE6WwbKsreAAx92QUwK9Hu2dqAAbdsud3t7nDz7krw8DxrYWbI2K
- QzZvBiXeyynFaDrz2mCYDH8YbQ11Sg/fV4x5cHXq09VCcUIpAyOfdJWpqYCtj+17QgoBL5
- 73RyHXMBx/zRVVd3efPN6Xgd2uECh2c=
+ bh=SYdCvuAoRByUR70HdBQfqN8NwbjlvZg0vexUnZ1CsrU=;
+ b=cnkQkkq6Vw15cSDIyiUK1Ft385O8tC+gPZnzEay7kWUYL1ZSVs4ebVrokO/5gsXBeViykN
+ RYwLFJd4qjjFQGBGMed8oyGgGhgXFkEfPMH2NunL5mtRYVMkjyQPYKnujJgOKQ4EzxqYcv
+ R1Fi+yg5+CW+IlaPX+S+yuR4mN4tEL8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-Nz73paXJO4yIdfPFyWa30Q-1; Thu, 28 Oct 2021 11:57:24 -0400
-X-MC-Unique: Nz73paXJO4yIdfPFyWa30Q-1
+ us-mta-47-q1JpUH71PUifPEJrCb4Z6A-1; Thu, 28 Oct 2021 11:57:32 -0400
+X-MC-Unique: q1JpUH71PUifPEJrCb4Z6A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B18F41023F4E;
- Thu, 28 Oct 2021 15:57:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0959C1023F5E;
+ Thu, 28 Oct 2021 15:57:31 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.39.195.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F11D0708DF;
- Thu, 28 Oct 2021 15:57:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 06AC86F920;
+ Thu, 28 Oct 2021 15:57:22 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 09/22] docs/devel: document expectations for HMP commands
- in the future
-Date: Thu, 28 Oct 2021 16:54:44 +0100
-Message-Id: <20211028155457.967291-10-berrange@redhat.com>
+Subject: [PATCH v4 10/22] qapi: introduce x-query-roms QMP command
+Date: Thu, 28 Oct 2021 16:54:45 +0100
+Message-Id: <20211028155457.967291-11-berrange@redhat.com>
 In-Reply-To: <20211028155457.967291-1-berrange@redhat.com>
 References: <20211028155457.967291-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,15 +57,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,39 +92,131 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We no longer wish to have commands implemented in HMP only. All commands
-should start with a QMP implementation and the HMP merely be a shim
-around this. To reduce the burden of implementing QMP commands where
-there is low expectation of machine usage, requirements for QAPI
-modelling are relaxed provided the command is under the "x-" name
-prefix.
+This is a counterpart to the HMP "info roms" command. It is being
+added with an "x-" prefix because this QMP command is intended as an
+adhoc debugging tool and will thus not be modelled in QAPI as fully
+structured data, nor will it have long term guaranteed stability.
+The existing HMP command is rewritten to call the QMP command.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/devel/writing-monitor-commands.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hmp-commands-info.hx |  2 +-
+ hw/core/loader.c     | 39 ++++++++++++++++++++++-----------------
+ monitor/misc.c       |  1 +
+ qapi/machine.json    | 12 ++++++++++++
+ 4 files changed, 36 insertions(+), 18 deletions(-)
 
-diff --git a/docs/devel/writing-monitor-commands.rst b/docs/devel/writing-monitor-commands.rst
-index b87992df91..b3e2c8481d 100644
---- a/docs/devel/writing-monitor-commands.rst
-+++ b/docs/devel/writing-monitor-commands.rst
-@@ -11,6 +11,14 @@ For an in-depth introduction to the QAPI framework, please refer to
- docs/devel/qapi-code-gen.txt. For documentation about the QMP protocol,
- start with docs/interop/qmp-intro.txt.
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 24c478aead..b6325d36ed 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -594,7 +594,7 @@ ERST
+         .args_type  = "",
+         .params     = "",
+         .help       = "show roms",
+-        .cmd        = hmp_info_roms,
++        .cmd_info_hrt = qmp_x_query_roms,
+     },
  
-+New commands may be implemented in QMP only.  New HMP commands should be
-+implemented on top of QMP.  The typical HMP command wraps around an
-+equivalent QMP command, but HMP convenience commands built from QMP
-+building blocks are also fine.  The long term goal is to make all
-+existing HMP commands conform to this, to fully isolate HMP from the
-+internals of QEMU. Refer to the `Writing a debugging aid returning
-+unstructured text`_ section for further guidance on commands that
-+would have traditionally been HMP only.
+ SRST
+diff --git a/hw/core/loader.c b/hw/core/loader.c
+index c7f97fdce8..052a0fd719 100644
+--- a/hw/core/loader.c
++++ b/hw/core/loader.c
+@@ -46,6 +46,8 @@
+ #include "qemu-common.h"
+ #include "qemu/datadir.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-commands-machine.h"
++#include "qapi/type-helpers.h"
+ #include "trace.h"
+ #include "hw/hw.h"
+ #include "disas/disas.h"
+@@ -1474,32 +1476,35 @@ void *rom_ptr_for_as(AddressSpace *as, hwaddr addr, size_t size)
+     return cbdata.rom;
+ }
  
- Overview
- --------
+-void hmp_info_roms(Monitor *mon, const QDict *qdict)
++HumanReadableText *qmp_x_query_roms(Error **errp)
+ {
+     Rom *rom;
++    g_autoptr(GString) buf = g_string_new("");
+ 
+     QTAILQ_FOREACH(rom, &roms, next) {
+         if (rom->mr) {
+-            monitor_printf(mon, "%s"
+-                           " size=0x%06zx name=\"%s\"\n",
+-                           memory_region_name(rom->mr),
+-                           rom->romsize,
+-                           rom->name);
++            g_string_append_printf(buf, "%s"
++                                   " size=0x%06zx name=\"%s\"\n",
++                                   memory_region_name(rom->mr),
++                                   rom->romsize,
++                                   rom->name);
+         } else if (!rom->fw_file) {
+-            monitor_printf(mon, "addr=" TARGET_FMT_plx
+-                           " size=0x%06zx mem=%s name=\"%s\"\n",
+-                           rom->addr, rom->romsize,
+-                           rom->isrom ? "rom" : "ram",
+-                           rom->name);
++            g_string_append_printf(buf, "addr=" TARGET_FMT_plx
++                                   " size=0x%06zx mem=%s name=\"%s\"\n",
++                                   rom->addr, rom->romsize,
++                                   rom->isrom ? "rom" : "ram",
++                                   rom->name);
+         } else {
+-            monitor_printf(mon, "fw=%s/%s"
+-                           " size=0x%06zx name=\"%s\"\n",
+-                           rom->fw_dir,
+-                           rom->fw_file,
+-                           rom->romsize,
+-                           rom->name);
++            g_string_append_printf(buf, "fw=%s/%s"
++                                   " size=0x%06zx name=\"%s\"\n",
++                                   rom->fw_dir,
++                                   rom->fw_file,
++                                   rom->romsize,
++                                   rom->name);
+         }
+     }
++
++    return human_readable_text_from_str(buf);
+ }
+ 
+ typedef enum HexRecord HexRecord;
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 3cb5269356..54df4e9e24 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -71,6 +71,7 @@
+ #include "qapi/qapi-commands-misc.h"
+ #include "qapi/qapi-commands-qom.h"
+ #include "qapi/qapi-commands-trace.h"
++#include "qapi/qapi-commands-machine.h"
+ #include "qapi/qapi-init-commands.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp-event.h"
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 5db54df298..26d4ef8195 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1411,3 +1411,15 @@
+      '*cores': 'int',
+      '*threads': 'int',
+      '*maxcpus': 'int' } }
++
++##
++# @x-query-roms:
++#
++# Query information on the registered ROMS
++#
++# Returns: registered ROMs
++#
++# Since: 6.2
++##
++{ 'command': 'x-query-roms',
++  'returns': 'HumanReadableText' }
 -- 
 2.31.1
 
