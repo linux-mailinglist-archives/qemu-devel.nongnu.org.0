@@ -2,34 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D92943E95D
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 22:12:06 +0200 (CEST)
-Received: from localhost ([::1]:38484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB4743E943
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 22:04:45 +0200 (CEST)
+Received: from localhost ([::1]:50656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgBkr-0006GV-7K
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 16:12:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49246)
+	id 1mgBdk-0003tZ-G5
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 16:04:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgBWa-0003eI-EQ
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:57:22 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:64526)
+ id 1mgBWT-0003a5-3X
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:57:13 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:64441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgBWV-0000OJ-GE
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:57:19 -0400
+ id 1mgBWQ-0008SL-7b
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:57:12 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 35CBF75619C;
- Thu, 28 Oct 2021 21:57:06 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 6C8D9756072;
+ Thu, 28 Oct 2021 21:57:05 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9021F7561AE; Thu, 28 Oct 2021 21:57:05 +0200 (CEST)
-Message-Id: <6c5014e86298b5d511a0e4e80f405683ad4191c2.1635449225.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1635449225.git.balaton@eik.bme.hu>
-References: <cover.1635449225.git.balaton@eik.bme.hu>
+ id 49D06755FE6; Thu, 28 Oct 2021 21:57:05 +0200 (CEST)
+Message-Id: <cover.1635449225.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 16/23] hw/intc/sh_intc: Replace abort() with
- g_assert_not_reached()
+Date: Thu, 28 Oct 2021 21:27:05 +0200
+Subject: [PATCH v4 00/23] More SH4 clean ups
 Date: Thu, 28 Oct 2021 21:27:05 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -38,11 +36,11 @@ To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, INVALID_DATE=1.096,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,48 +60,68 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All the places that call abort should not happen which is better
-marked by g_assert_not_reached.
+Based-on: <cover.1635036053.git.balaton@eik.bme.hu>
+^ (hw/sh4: Codeing style fixes)
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- hw/intc/sh_intc.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Continuing the clean up stared in previous series. This got big enough
+for now so I'll wait until these are merged (hopefully before the
+freeze) before going on so I don't have to carry them in my tree. Only
+plan to submit another version if needed from review otherwise that's
+it for now.
 
-diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index 57c341c030..56a288e093 100644
---- a/hw/intc/sh_intc.c
-+++ b/hw/intc/sh_intc.c
-@@ -96,8 +96,7 @@ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
-             return source->vect;
-         }
-     }
--
--    abort();
-+    g_assert_not_reached();
- }
- 
- #define INTC_MODE_IS_PRIO 0x80
-@@ -169,8 +168,7 @@ static void sh_intc_locate(struct intc_desc *desc,
-             return;
-         }
-     }
--
--    abort();
-+    g_assert_not_reached();
- }
- 
- static void sh_intc_toggle_mask(struct intc_desc *desc, intc_enum id,
-@@ -241,7 +239,7 @@ static void sh_intc_write(void *opaque, hwaddr offset,
-         value = *valuep & ~value;
-         break;
-     default:
--        abort();
-+        g_assert_not_reached();
-     }
- 
-     for (k = 0; k <= first; k++) {
+v4: Drop changes from fprintf before abort() as Philippe said, only
+change sh_serial now which can use hw_error instead; missed two more
+debug printfs in sh_timer that I've also added now; some more clean ups
+
+v3: Correct mistakes found in review, drop size change of sh_intc
+iomem as that was wrong so only rename it, more clean ups
+
+v2: separate sh_serial trace events, split QOM-ify patch for easier
+review and some more patches to clean up sh_intc a bit
+
+Regards,
+
+BALATON Zoltan (23):
+  hw/sh4: Fix typos in a comment
+  hw/char/sh_serial: Use hw_error instead of fprintf and abort
+  hw/sh4: Change debug printfs to traces
+  hw/sh4/r2d: Use error_report instead of fprintf to stderr
+  hw/char/sh_serial: Rename type sh_serial_state to SHSerialState
+  hw/char/sh_serial: QOM-ify
+  hw/char/sh_serial: Add device id to trace output
+  hw/intc/sh_intc: Use existing macro instead of local one
+  hw/intc/sh_intc: Turn some defines into an enum
+  hw/intc/sh_intc: Rename iomem region
+  hw/intc/sh_intc: Drop another useless macro
+  hw/intc/sh_intc: Move sh_intc_register() closer to its only user
+  hw/intc/sh_intc: Remove excessive parenthesis
+  hw/intc/sh_intc: Use array index instead of pointer arithmetics
+  hw/intc/sh_intc: Inline and drop sh_intc_source() function
+  hw/intc/sh_intc: Replace abort() with g_assert_not_reached()
+  hw/intc/sh_intc: Avoid using continue in loops
+  hw/intc/sh_intc: Simplify allocating sources array
+  hw/intc/sh_intc: Remove unneeded local variable initialisers
+  hw/timer/sh_timer: Rename sh_timer_state to SHTimerState
+  hw/timer/sh_timer: Fix format strings and remove casts
+  hw/timer/sh_timer: Do not wrap lines that are not too long
+  hw/timer/sh_timer: Fix timer memory region size
+
+ hw/char/sh_serial.c   | 151 +++++++++--------
+ hw/char/trace-events  |   4 +
+ hw/intc/sh_intc.c     | 369 +++++++++++++++++-------------------------
+ hw/intc/trace-events  |   8 +
+ hw/sh4/r2d.c          |   5 +-
+ hw/sh4/sh7750.c       |  74 ++++++---
+ hw/sh4/trace-events   |   3 +
+ hw/sh4/trace.h        |   1 +
+ hw/timer/sh_timer.c   |  66 +++-----
+ hw/timer/trace-events |   5 +
+ include/hw/sh4/sh.h   |   9 +-
+ meson.build           |   1 +
+ 12 files changed, 331 insertions(+), 365 deletions(-)
+ create mode 100644 hw/sh4/trace-events
+ create mode 100644 hw/sh4/trace.h
+
 -- 
 2.21.4
 
