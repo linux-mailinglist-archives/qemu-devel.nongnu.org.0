@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED3743D853
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 03:01:41 +0200 (CEST)
-Received: from localhost ([::1]:59200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED5743D864
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 03:08:39 +0200 (CEST)
+Received: from localhost ([::1]:35072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mftnY-0005w7-UW
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 21:01:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43310)
+	id 1mftuJ-0000cK-42
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 21:08:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mftkz-000495-IZ
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:59:01 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:41840)
+ id 1mftsE-00086V-U2
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 21:06:31 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:38559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mftkx-0001Eb-OW
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:59:01 -0400
-Received: by mail-pg1-x531.google.com with SMTP id 83so4686449pgc.8
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 17:58:59 -0700 (PDT)
+ id 1mftsC-00024l-IN
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 21:06:30 -0400
+Received: by mail-pl1-x633.google.com with SMTP id i5so3257326pla.5
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 18:06:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vgpgH36sKbFU5ObfmM7VU9wnvblL5HtjPT9nPRO0Pa8=;
- b=AhsM7XLR4qSLP1c5x24tZFikm1vn5tH0s6P/VaHg3PbRRoT8aQmhJCIsrhYYD5lVNx
- dccwtB+m7pSgh+d8yFCD8PUlT8GpnYct3GYDqqp209ekH1cSpEbbVy175cDkdMHba21V
- RIaSGXGskM/XAbfLNQ4g/iU6FuFAKa7FMCZctPzVEf04JbyfKksK327ZzR/99Hjfl4TI
- sSrotDQtk/46rr8cN3C8IeO6r3PZM367UXO9p3sAuZLT3wxM2IwIFvveIj2EkpsYoo8A
- HE/488c0U0CEnGIeEiry4V5zaKU+YlK6ZhMm9xjfbotxe0uTUmuEZGmox23j9sPsFv1R
- KVDw==
+ bh=GG0FjW3MtKlY1zhT6IT2SFHFHvh+VM0Cj5zRo1CvFbI=;
+ b=YijtiV+AE7Ib/UCUL94Md8PfekL//mh+7sz5z9B3HLAaBJMx2FVZQynbiOPbED51xT
+ Je1oinZB/zCjmCzzLuv88chHvC6P9geu7BVi362t7OYxEc62moL3pelyLkmIJkczaB8N
+ 9wJcQtOzaaBxeGHmeAyTbtAeiCOnenhdoXqWVM0UAVDpjlzwvU72hNsB8t9OQTEah+pZ
+ 6QoRSVXpW+qG7pVwWKi7/jCNy9ElitHjnaezsuKThYz6vhmc2A7xUSs6Ia8Vbn2jRtFb
+ sxFnkp6ZxJVd3fxHtX0UNYJGcLrSJZ0WKCwd6SWvo4Pg68ot+NKBh6G1uUYmHIKC/5I4
+ yLqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=vgpgH36sKbFU5ObfmM7VU9wnvblL5HtjPT9nPRO0Pa8=;
- b=6qEzXW3/yKeFcNifsLZcui8MCg2kexUChpMofpbhIl7lZEVEpB5rL+9ck1ISyW72nP
- pXu9SIOQw3OkGz2vsw8RD9qx8fUFscoEn8zNpo47lbd3zTxf/QJ9kINsHVq+/Hrc2mw7
- 97XbDtwdRhYzDE4ChHKnUBoz+CXqTsGPKlKVpY+m7TEVgu6cBs/sF6HkjFXxavIuHODg
- sW0hrBu/R9/cYxtlYBxFsBYK0bpeMPKUQSRasZQJ0YeyjqmlNrJh96V4D+16GH5B/teW
- SsBBrM+WxKgwoDUKtHna7O07kToPnRd7bt//wupCpYs1fMIHjccEHC3Dh+8D+WwNvDLh
- EuXw==
-X-Gm-Message-State: AOAM5328iT/2DA8/N++ulxaUMGp0K54YoJxCWHPQdCPl2z+Ac5rJyO4Q
- oNl3SDDFaSAQvk28LTlWm9tWbg==
-X-Google-Smtp-Source: ABdhPJxUi3Gon9A1bgBn8THOYHT5XOn+vnjC5hEiK1CFeHrD9Yf3G4d8/TchgjVl1bhjydFdcNfPRg==
-X-Received: by 2002:a62:e30f:0:b0:47b:d137:bb7b with SMTP id
- g15-20020a62e30f000000b0047bd137bb7bmr1090105pfh.1.1635382738496; 
- Wed, 27 Oct 2021 17:58:58 -0700 (PDT)
+ bh=GG0FjW3MtKlY1zhT6IT2SFHFHvh+VM0Cj5zRo1CvFbI=;
+ b=hpPo5GJdLcaksuG3b1o8HBlsXj59w0qhdmteeC2X6QJtnL/sA1AQs5YaG9ysWu5jVW
+ cFGQfketFtgvZQX9t82A3o7ZF6+4QVC3KI6IW2jjfJzG10l3qLjZQmag5rHYXiK7nnb8
+ ZmVyEivVv38QKe/D0kPoJA3MOq4tRWICgQONkB9d8+PPbEeygPPb1i+pDu1AAKxNyfAE
+ qTN0YF/V12MZtt0wDdDsMz/mCZA7IeKstCQPou3uEvpBw6T9MVytgQ0/s82W2uGgcPvp
+ XPs7tnHqK9IIRTp84z4eI/U+BlYZa9/I5RhnG9bbiqVnixOnoDf6ejBMMseTcgXCXHhH
+ cgoQ==
+X-Gm-Message-State: AOAM533TiZDUDIJoGd+Nk6zwrmOBxxBppxjBhnUYgT+yNnPNtqHdES1a
+ RACRb0FEnVUGhq0AWdzOMHRmyQ==
+X-Google-Smtp-Source: ABdhPJy5rkf3nZutmi09SyVY0ZQX2dVnY6J1vnRPDJkXBQ2SvRwzTvilZQ0n0owHhYllMCUzJrZqxA==
+X-Received: by 2002:a17:902:ce90:b0:140:5de3:9cb3 with SMTP id
+ f16-20020a170902ce9000b001405de39cb3mr904092plg.7.1635383186811; 
+ Wed, 27 Oct 2021 18:06:26 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id om13sm5814006pjb.12.2021.10.27.17.58.57
+ by smtp.gmail.com with ESMTPSA id f9sm1129206pfj.190.2021.10.27.18.06.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 17:58:58 -0700 (PDT)
-Subject: Re: [PATCH v3 17/18] hw/intc/sh_intc: Avoid using continue in loops
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1635371671.git.balaton@eik.bme.hu>
- <33958026ad6cf470c43bd3d38d4ecdde76c82670.1635371671.git.balaton@eik.bme.hu>
+ Wed, 27 Oct 2021 18:06:26 -0700 (PDT)
+Subject: Re: [PATCH v2 1/4] MAINTAINERS: Add MIPS general architecture support
+ entry
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20211027041416.1237433-1-f4bug@amsat.org>
+ <20211027041416.1237433-2-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bbb894c0-11d2-9632-f7ef-bebb0ffc827b@linaro.org>
-Date: Wed, 27 Oct 2021 17:58:56 -0700
+Message-ID: <73ef5ce1-3d17-6e1c-b225-e9a77514b5a6@linaro.org>
+Date: Wed, 27 Oct 2021 18:06:24 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <33958026ad6cf470c43bd3d38d4ecdde76c82670.1635371671.git.balaton@eik.bme.hu>
+In-Reply-To: <20211027041416.1237433-2-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -48
 X-Spam_score: -4.9
 X-Spam_bar: ----
@@ -88,22 +90,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: libvir-list@redhat.com, Paul Burton <paulburton@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/27/21 2:54 PM, BALATON Zoltan wrote:
-> Instead of if !expr continue else do something it is more straight
-> forward to say if expr then do something, especially if the action is
-> just a few lines. Remove such uses of continue to make the code easier
-> to follow.
+On 10/26/21 9:14 PM, Philippe Mathieu-Daudé wrote:
+> The architecture is covered in TCG (frontend and backend)
+> and hardware models. Add a generic section matching the
+> 'mips' word in patch subjects.
 > 
-> Signed-off-by: BALATON Zoltan<balaton@eik.bme.hu>
+> Reviewed-by: Jiaxun Yang<jiaxun.yang@flygoat.com>
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> Message-Id:<20211004092515.3819836-2-f4bug@amsat.org>
 > ---
->   hw/intc/sh_intc.c | 44 ++++++++++++++++++++------------------------
->   1 file changed, 20 insertions(+), 24 deletions(-)
+>   MAINTAINERS | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
