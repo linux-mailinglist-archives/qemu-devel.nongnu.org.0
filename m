@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787C243E934
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 22:01:11 +0200 (CEST)
-Received: from localhost ([::1]:41998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 232D043E965
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 22:13:58 +0200 (CEST)
+Received: from localhost ([::1]:44854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgBaI-0006OA-63
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 16:01:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49060)
+	id 1mgBmf-0002BK-7O
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 16:13:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgBWT-0003aK-KC
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:57:13 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:64452)
+ id 1mgBWl-0003oP-NE
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:57:33 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:64532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgBWQ-0008T5-7O
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:57:13 -0400
+ id 1mgBWh-0000P9-Is
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:57:31 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BE26E7561D1;
- Thu, 28 Oct 2021 21:57:05 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 40E597561FB;
+ Thu, 28 Oct 2021 21:57:06 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4F69D756041; Thu, 28 Oct 2021 21:57:05 +0200 (CEST)
-Message-Id: <207fba1e2c8499dc9f5bb584f0701adabc48a275.1635449225.git.balaton@eik.bme.hu>
+ id 937487561B1; Thu, 28 Oct 2021 21:57:05 +0200 (CEST)
+Message-Id: <215edc2834072b774b029945b1c5020973e14adc.1635449225.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635449225.git.balaton@eik.bme.hu>
 References: <cover.1635449225.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 01/23] hw/sh4: Fix typos in a comment
+Subject: [PATCH v4 17/23] hw/intc/sh_intc: Avoid using continue in loops
 Date: Thu, 28 Oct 2021 21:27:05 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,26 +61,97 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Instead of if !expr continue else do something it is more straight
+forward to say if expr then do something, especially if the action is
+just a few lines. Remove such uses of continue to make the code easier
+to follow.
+
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/timer/sh_timer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/intc/sh_intc.c | 44 ++++++++++++++++++++------------------------
+ 1 file changed, 20 insertions(+), 24 deletions(-)
 
-diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
-index 02eb865908..cc7c1897a8 100644
---- a/hw/timer/sh_timer.c
-+++ b/hw/timer/sh_timer.c
-@@ -107,7 +107,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
-         if (s->enabled) {
-             /*
-              * Pause the timer if it is running. This may cause some inaccuracy
--             * dure to rounding, but avoids a whole lot of other messyness
-+             * due to rounding, but avoids a whole lot of other messiness
-              */
-             ptimer_stop(s->timer);
+diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
+index 56a288e093..eb58707e83 100644
+--- a/hw/intc/sh_intc.c
++++ b/hw/intc/sh_intc.c
+@@ -140,15 +140,14 @@ static void sh_intc_locate(struct intc_desc *desc,
+             struct intc_mask_reg *mr = &desc->mask_regs[i];
+ 
+             mode = sh_intc_mode(address, mr->set_reg, mr->clr_reg);
+-            if (mode == INTC_MODE_NONE) {
+-                continue;
++            if (mode != INTC_MODE_NONE) {
++                *modep = mode;
++                *datap = &mr->value;
++                *enums = mr->enum_ids;
++                *first = mr->reg_width - 1;
++                *width = 1;
++                return;
+             }
+-            *modep = mode;
+-            *datap = &mr->value;
+-            *enums = mr->enum_ids;
+-            *first = mr->reg_width - 1;
+-            *width = 1;
+-            return;
          }
+     }
+ 
+@@ -157,15 +156,14 @@ static void sh_intc_locate(struct intc_desc *desc,
+             struct intc_prio_reg *pr = &desc->prio_regs[i];
+ 
+             mode = sh_intc_mode(address, pr->set_reg, pr->clr_reg);
+-            if (mode == INTC_MODE_NONE) {
+-                continue;
++            if (mode != INTC_MODE_NONE) {
++                *modep = mode | INTC_MODE_IS_PRIO;
++                *datap = &pr->value;
++                *enums = pr->enum_ids;
++                *first = pr->reg_width / pr->field_width - 1;
++                *width = pr->field_width;
++                return;
+             }
+-            *modep = mode | INTC_MODE_IS_PRIO;
+-            *datap = &pr->value;
+-            *enums = pr->enum_ids;
+-            *first = pr->reg_width / pr->field_width - 1;
+-            *width = pr->field_width;
+-            return;
+         }
+     }
+     g_assert_not_reached();
+@@ -246,10 +244,9 @@ static void sh_intc_write(void *opaque, hwaddr offset,
+         mask = (1 << width) - 1;
+         mask <<= (first - k) * width;
+ 
+-        if ((*valuep & mask) == (value & mask)) {
+-            continue;
++        if ((*valuep & mask) != (value & mask)) {
++            sh_intc_toggle_mask(desc, enum_ids[k], value & mask, 0);
+         }
+-        sh_intc_toggle_mask(desc, enum_ids[k], value & mask, 0);
+     }
+ 
+     *valuep = value;
+@@ -342,12 +339,11 @@ void sh_intc_register_sources(struct intc_desc *desc,
+             s->next_enum_id = gr->enum_ids[0];
+ 
+             for (k = 1; k < ARRAY_SIZE(gr->enum_ids); k++) {
+-                if (!gr->enum_ids[k]) {
+-                    continue;
++                if (gr->enum_ids[k]) {
++                    id = gr->enum_ids[k - 1];
++                    s = &desc->sources[id];
++                    s->next_enum_id = gr->enum_ids[k];
+                 }
+-                id = gr->enum_ids[k - 1];
+-                s = &desc->sources[id];
+-                s->next_enum_id = gr->enum_ids[k];
+             }
+             trace_sh_intc_register("group", gr->enum_id, 0xffff,
+                                    s->enable_count, s->enable_max);
 -- 
 2.21.4
 
