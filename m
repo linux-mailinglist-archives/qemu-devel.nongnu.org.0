@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12DDC43D834
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 02:42:17 +0200 (CEST)
-Received: from localhost ([::1]:44240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6949C43D835
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 02:42:35 +0200 (CEST)
+Received: from localhost ([::1]:45216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mftUm-0003Tv-6o
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 20:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40286)
+	id 1mftV4-00047i-A4
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 20:42:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mftQN-0001Fk-4a
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:37:43 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:53976)
+ id 1mftSF-0002bb-TW
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:39:39 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:46684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mftQL-0004fo-KZ
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:37:42 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id v10so2774311pjr.3
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 17:37:41 -0700 (PDT)
+ id 1mftSE-00054q-CN
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:39:39 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id x66so4285338pfx.13
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 17:39:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EYkZh1xgRyrgqQg09sMU4JHgci0r1fAQCTVgQ6lQ91U=;
- b=howZWx2TvzL5nltLy6MTcV7oRFRJQLBlp2fUxL59xg1J+zmlz69izg1VIXKy+ngceY
- Dj62F7qcq1eV0JifeYEUv1tTp7tRbTpIQIdMS+jFXCDP+DUDDdW5n4PO3l/V4ZfmGyaF
- k/JtVENGzEMVk1cvohxyRukCrXTN8nA+veCtzx6xbLX4B/1+Zs05b0u4v8odVI3VFTSq
- UZ79WYNjDSil+pdTWRh7bPsbpAHcvzLOLXNQ8UR2mllUOJoF3iznWPU/qn9lWh/mYgHz
- Yz17TgSBYTJy2PVb/YvOnslbQfDOYoWByQWZibH5YiMwvwKKk51QeWmgULilYqSJ582k
- M2bw==
+ bh=BhHn4quCYSaL0kFYmvR35Y6W53xIe7rII5FdTIqTbq4=;
+ b=Je11Jyo7lskzshlapPrg8cEjBbH9tdnio6iqWAJHs2pbHXuFaUjumI/AdvuMdgZzil
+ Y94LkGu9km80Waepu3m858oe2XsJpMYlicBJIipOGAdkaWQd+kS013q/PGDmHxRBq0W2
+ zPXy/dROc59Bqh+JB94LxVb/ZAsdwV4QPEbeBjXmH86RLq0xe3NU7hnSlK4PhTcD63Hw
+ R9syVsbUmwCInyCsu7byVARGGAbfSXMjAe2dsTU02naiNKTqLFb24jmQpMuGCBLyD91Q
+ 8iy+LLULIpE8ZIQy2ZGst0s2jP1NHPTp9aztLG3UHi9oBobH4e+kSEMgG0mkC3hlpdmV
+ zovQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EYkZh1xgRyrgqQg09sMU4JHgci0r1fAQCTVgQ6lQ91U=;
- b=OYxsUNnPQfublYCuUUJs1Xm6joPioPYAoALO9rT2DErVJMijwzS85qKd/wI4eMlonI
- 1WY8p1eLtAO0x2hwB7WWsa4pNktIvyvRx1GthEZ4BeC3Unb0wdVoQkQP6WTaTA1xm7P3
- shJEcWOpswVUP5N9uMBfZnukUzHtme5iGd8OaxhC6mMhYCgBHsuLnFMjhe+RvIhMTFqw
- QcpoDQO2IBeW6ljfuzuSm8x4D3Hv85DzMa7pHTO5MI+KQtvOF1FjXVqQwNQMMojxdp0Q
- 3aJQqqa587GG5K0YNp7oKUiSzSCZSOdCAJbP6uRyJAajzzWzpRbWulw6mGEa5uEGBZBe
- Zjmg==
-X-Gm-Message-State: AOAM531NMgFK9tYVQbCnp7ZuOY0G/FIy8bivOys9MpgudYhdxdnz2pdV
- TTCN2dI6VSJ2uJRSZ2fHbeqzNQ==
-X-Google-Smtp-Source: ABdhPJx9WZXkw+88+vrAADMACyc2FWCuu3mrYnPntrdrJejUATi7U2Vx7OZCBQMU1keq5VTXCbgCUA==
-X-Received: by 2002:a17:90b:1bd2:: with SMTP id
- oa18mr9234337pjb.164.1635381460213; 
- Wed, 27 Oct 2021 17:37:40 -0700 (PDT)
+ bh=BhHn4quCYSaL0kFYmvR35Y6W53xIe7rII5FdTIqTbq4=;
+ b=xws1CAhxi4xFIp/ftEHwLCLcND9KjUTs3wQTcm+Fsw05M5denkLFTaozp6x+uwwWA9
+ zAse4LpUoaHeF5/GcxrSapIRDHVEDjdPTj9wTgxOOp1wQAKcr/WANOHWl4SGA+RJaWO9
+ qaHFSFXWbOpAzv/WAROhAgiFJSt4Lac86lFhGDNJi8RmC5A5aEAbHd/uyDHJkIudW3Wd
+ wjLBIDCl9NoBCpdnKw1CNv8V372SG1iLgHz1glj46dmRz+sX3wMPZciCZur43SwM80vE
+ SMBtD8/61NTuoLtpXk0/hfkxXrR6cprmQkpFJEhsZkaHWFWtJU6v2FUwZ0cN/RXtpCSV
+ +c3w==
+X-Gm-Message-State: AOAM531bJN9B0uN8q1yYifQ5dHQm3FdXiiCcfyPhZkNFoEmEo6CgZ7ea
+ 7NPTIJQCVyXZT7ARpnWH+mHAhw==
+X-Google-Smtp-Source: ABdhPJxQJRmNtLVGNRny25rc4VyVKEw9nvf2Lxh07/QBB8+ij6KPxC6IWetw0GHN47+6pMJSFCW40w==
+X-Received: by 2002:a65:648b:: with SMTP id e11mr823975pgv.138.1635381576538; 
+ Wed, 27 Oct 2021 17:39:36 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id b24sm861908pgm.26.2021.10.27.17.37.39
+ by smtp.gmail.com with ESMTPSA id x5sm1109767pfh.153.2021.10.27.17.39.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 17:37:39 -0700 (PDT)
-Subject: Re: [PATCH v3 08/18] hw/intc/sh_intc: Use existing macro instead of
- local one
+ Wed, 27 Oct 2021 17:39:35 -0700 (PDT)
+Subject: Re: [PATCH v3 10/18] hw/intc/sh_intc: Rename iomem region
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1635371671.git.balaton@eik.bme.hu>
- <8bcf22e9ec3a823bfec7cff6417015f6659dd0e5.1635371671.git.balaton@eik.bme.hu>
+ <dd33ff8b51028f1828647e6d0f5080208d6151cf.1635371671.git.balaton@eik.bme.hu>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d469579c-c05a-cf17-c4d2-0a6ca953f7df@linaro.org>
-Date: Wed, 27 Oct 2021 17:37:38 -0700
+Message-ID: <5197a821-2841-8543-503a-5dda8ef850e7@linaro.org>
+Date: Wed, 27 Oct 2021 17:39:34 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <8bcf22e9ec3a823bfec7cff6417015f6659dd0e5.1635371671.git.balaton@eik.bme.hu>
+In-Reply-To: <dd33ff8b51028f1828647e6d0f5080208d6151cf.1635371671.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -48
 X-Spam_score: -4.9
 X-Spam_bar: ----
@@ -96,14 +94,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/27/21 2:54 PM, BALATON Zoltan wrote:
-> The INTC_A7 local macro does the same as the A7ADDR from
-> include/sh/sh.h so use the latter and drop the local macro definition.
+> Rename the iomem region to "intc" from "interrupt-controller" which
+> makes the info mtree output less wide as it is already too wide
+> because of all the aliases. Also drop the format macro which was only
+> used twice in close proximity so we can just use the literal string
+> instead without a macro definition.
 > 
 > Signed-off-by: BALATON Zoltan<balaton@eik.bme.hu>
-> Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   hw/intc/sh_intc.c | 12 +++++-------
->   1 file changed, 5 insertions(+), 7 deletions(-)
+>   hw/intc/sh_intc.c | 11 ++++-------
+>   1 file changed, 4 insertions(+), 7 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
