@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94CD43D829
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 02:34:36 +0200 (CEST)
-Received: from localhost ([::1]:37422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED8B43D82A
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 02:34:46 +0200 (CEST)
+Received: from localhost ([::1]:38162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mftNL-00071I-8Q
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 20:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39536)
+	id 1mftNV-0007Vh-JC
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 20:34:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mftKN-0005Me-48
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:31:31 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:46633)
+ id 1mftKp-0005ZH-G5
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:31:59 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:46642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mftKL-00035m-AU
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:31:30 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id x66so4269159pfx.13
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 17:31:28 -0700 (PDT)
+ id 1mftKm-0003IX-UK
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 20:31:59 -0400
+Received: by mail-pf1-x432.google.com with SMTP id x66so4270133pfx.13
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 17:31:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iEjyz3RimAvmfDo4BNj3fU8BjRbWZ9JKBa19bBTPXXM=;
- b=D2kYFoNLb7aJPYTF1pX4/rdjER4jSWryUYul+T4uImSpxsXQH7CDPLQaTE0hM4lkMJ
- Ymw2V5BdZ3wCg79+ft0XJ9ISzkNa2igI5VwU9SJf1CVrPWxAyI8jiSE3icsec9HInjAa
- S4IBcn1vtcJfwsiG0UirzfToXcFfrFJmxqr+qRYvwMxUxN04pDazjGam7hqRUo1JUeNS
- bv0iX97EJD+A8h03e+inliu2NPmh6bzxDYWwHaf5noLYM4VDGHDhQM9+dkSfxJ9bU6Q3
- /0OgZvotFfFGsjZ0nSO0551W6xm1N9eyBBvtTMVt93nFqvY8FeEFIc9WzKLEkD1egMZU
- V69g==
+ bh=TTMqgzUqFxFokhucs8G0+cMUM5/pMJmluQzxHG9SpYs=;
+ b=iuoIc4W3j0sgzjAVJBl1hOnECQSzpzgT0y5gyxI1gCES6/duuZUFOZo01Q6hq+TFwf
+ NmiwOM35gVNJ537S99DW83QxKCrvlbBvOAuAxpfIa3WJcBZwjhDbgn9r/gICdifVcwGP
+ bqPLuD9uRBBYq1qthksIKLUAfcT/F8zW77s0cOPzNgZVDPCV+Aigw3A4FYCdGokmdN/U
+ wBPXSbwsFsYiO72znYpgO1rJQkQHWc4/3lW7wTbJ0XIxejvPYVEP9Pz+k/yGJyUlSRW7
+ +7H8vpSxdt2huxCFqYqjX6Emu+BSegUeSIsyf+CAi0qFXxAip93qb9bwtfKxkCpCa+IV
+ NfZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=iEjyz3RimAvmfDo4BNj3fU8BjRbWZ9JKBa19bBTPXXM=;
- b=v4y44XycdT0N7MXnj01vY8Cb77qcJX5cDbypRFsf27tTqQ/DkE1W9F+zdzk84FfidW
- I1IzkoSl/eT9vHR8xVG9kfChMvIsbqbH2FfyqtIFBW6+X217SOkae6CLTEXdiXPqsyuq
- Rp08cl+8+Y1TIMqYiOjVAYzgesLJvo4P9HnhbtS3JomnClyn2j/EN4CdSGeSCmqcmT28
- 4Qi8V7W5OKZLfrWtaTf9cpbI2awVJlrHA2nCLYGa4qIWU00xQ0gzTDLnZDndm8FhJ2KL
- xqSmzKmNvFmduPxtAsyBJMf0WI8e0FPYAVW20/SrNQNjMPJ6AuKLaFQVwErCT75H6MEo
- derQ==
-X-Gm-Message-State: AOAM5305iFhLW0kILj8bll+ZscEBtxn9PobuDcwyeXyGT8R1z3IH2nQR
- Z05MjdCSIRsqliTxUVV1hfZKXg==
-X-Google-Smtp-Source: ABdhPJz+6usne7mlpPdqDS1I01n5EWW+M75iPeF2pxJtsCGLR0cDplSRONVCd+zHpKwljRjlzNJiAw==
-X-Received: by 2002:aa7:880d:0:b0:47b:e349:d285 with SMTP id
- c13-20020aa7880d000000b0047be349d285mr951399pfo.31.1635381087679; 
- Wed, 27 Oct 2021 17:31:27 -0700 (PDT)
+ bh=TTMqgzUqFxFokhucs8G0+cMUM5/pMJmluQzxHG9SpYs=;
+ b=RnzrOILbPJwdAq+Y4LXu2R2G2gK46NXQaqfujEPer+QMaEDigVARLA8NJ+4APVKCB5
+ ADJX6Ic6uGp1cQFqxWmPikpphiK15+aXO4VmTfu630I2NrZ/vqQI5zo/Leb/CGDGMdEv
+ Sg9G3XejN0WBJTlLtYHCd+vIDsxhx4KuJnMKFIbRboefVY6awPHEl5ZYXlX6GsWjhbPi
+ 9CmCEES7XMcWofFwBPLi0jACKkwzytfELzMEEzXw9bC2iUlha88jPUew+5xjsT7nYxHy
+ dU3x9kDgI3Htcz9BwJvEjxkfoj/eGwnc3R54Sf5mi5KW3lY06TtarlAiosePImXrutCE
+ R2vw==
+X-Gm-Message-State: AOAM530l5yISuCieeYmoEfAcHDSDJ/kjZdx0m3AjUaiBjULlG45yvwiu
+ VtntWiMGuegGTgkOLsLrYXDVtg==
+X-Google-Smtp-Source: ABdhPJwzoROb/6ZGoHr0Jyp5zInq40Q3rntr5FgnDuptwTLlMUMNpb74nblMd4DBlENsNFeLSyH7yw==
+X-Received: by 2002:aa7:9427:0:b0:47c:3b8e:5253 with SMTP id
+ y7-20020aa79427000000b0047c3b8e5253mr1055910pfo.69.1635381115549; 
+ Wed, 27 Oct 2021 17:31:55 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id z10sm1074710pfh.106.2021.10.27.17.31.26
+ by smtp.gmail.com with ESMTPSA id z3sm1078151pfj.116.2021.10.27.17.31.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 17:31:27 -0700 (PDT)
-Subject: Re: [PATCH v3 03/18] hw/sh4: Change debug printfs to traces
+ Wed, 27 Oct 2021 17:31:55 -0700 (PDT)
+Subject: Re: [PATCH v3 05/18] hw/char/sh_serial: Rename type sh_serial_state
+ to SHSerialState
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1635371671.git.balaton@eik.bme.hu>
- <107f01a0d2eb72cc2bd7055282a0c5fe2a1999f7.1635371671.git.balaton@eik.bme.hu>
+ <a69dc6720a0f440dfed383139455854d7ddf4e3d.1635371671.git.balaton@eik.bme.hu>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <999f99d4-d12f-fa1f-bf3c-b5181c8bfab4@linaro.org>
-Date: Wed, 27 Oct 2021 17:31:25 -0700
+Message-ID: <878bd67c-ad83-7438-f023-77c884b051f0@linaro.org>
+Date: Wed, 27 Oct 2021 17:31:53 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <107f01a0d2eb72cc2bd7055282a0c5fe2a1999f7.1635371671.git.balaton@eik.bme.hu>
+In-Reply-To: <a69dc6720a0f440dfed383139455854d7ddf4e3d.1635371671.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -48
 X-Spam_score: -4.9
 X-Spam_bar: ----
@@ -95,21 +96,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/27/21 2:54 PM, BALATON Zoltan wrote:
+> Coding style says types should be camel case.
+> 
 > Signed-off-by: BALATON Zoltan<balaton@eik.bme.hu>
+> Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   hw/char/sh_serial.c   | 13 ++-----
->   hw/char/trace-events  |  4 +++
->   hw/intc/sh_intc.c     | 79 +++++++++++--------------------------------
->   hw/intc/trace-events  |  8 +++++
->   hw/sh4/sh7750.c       |  8 ++---
->   hw/sh4/trace-events   |  3 ++
->   hw/sh4/trace.h        |  1 +
->   hw/timer/sh_timer.c   | 12 ++-----
->   hw/timer/trace-events |  3 ++
->   meson.build           |  1 +
->   10 files changed, 48 insertions(+), 84 deletions(-)
->   create mode 100644 hw/sh4/trace-events
->   create mode 100644 hw/sh4/trace.h
+>   hw/char/sh_serial.c | 24 +++++++++++-------------
+>   1 file changed, 11 insertions(+), 13 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
