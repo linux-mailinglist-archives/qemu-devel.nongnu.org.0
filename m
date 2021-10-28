@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1443F43E95E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 22:12:07 +0200 (CEST)
-Received: from localhost ([::1]:38566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9D043E95A
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 22:08:36 +0200 (CEST)
+Received: from localhost ([::1]:59130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgBks-0006Kv-5T
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 16:12:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49252)
+	id 1mgBhT-0001Bz-Hh
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 16:08:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgBWc-0003er-Di
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:57:25 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:64534)
+ id 1mgBWY-0003dW-DQ
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:57:18 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:64523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgBWX-0000PA-Ii
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:57:22 -0400
+ id 1mgBWV-0000OF-5X
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 15:57:18 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 5EDDE756192;
+ by localhost (Postfix) with SMTP id 16A7D7561EA;
  Thu, 28 Oct 2021 21:57:06 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A3DEB7561C8; Thu, 28 Oct 2021 21:57:05 +0200 (CEST)
-Message-Id: <7cc78641a1f9fa0f75cb23c6b8d8a0dce9eaaec8.1635449225.git.balaton@eik.bme.hu>
+ id 79F6175619C; Thu, 28 Oct 2021 21:57:05 +0200 (CEST)
+Message-Id: <b538f9c5b709b1a84b8f1c1a0e898f3dfc01ca04.1635449225.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635449225.git.balaton@eik.bme.hu>
 References: <cover.1635449225.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 21/23] hw/timer/sh_timer: Fix format strings and remove
- casts
+Subject: [PATCH v4 11/23] hw/intc/sh_intc: Drop another useless macro
 Date: Thu, 28 Oct 2021 21:27:05 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,64 +61,57 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The type casts are not needed when using the right format strings.
+The INT_REG_PARAMS macro was only used a few times within one function
+on adjacent lines and is actually more complex than writing out the
+parameters so simplify it by expanding the macro at call sites and
+dropping the #define.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/timer/sh_timer.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ hw/intc/sh_intc.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
-index 2038adfb0a..fca27cb247 100644
---- a/hw/timer/sh_timer.c
-+++ b/hw/timer/sh_timer.c
-@@ -77,7 +77,7 @@ static uint32_t sh_timer_read(void *opaque, hwaddr offset)
+diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
+index e386372b6f..763ebbfec2 100644
+--- a/hw/intc/sh_intc.c
++++ b/hw/intc/sh_intc.c
+@@ -433,16 +433,12 @@ int sh_intc_init(MemoryRegion *sysmem,
+     memory_region_init_io(&desc->iomem, NULL, &sh_intc_ops, desc, "intc",
+                           0x100000000ULL);
+ 
+-#define INT_REG_PARAMS(reg_struct, type, action, j) \
+-        reg_struct->action##_reg, #type, #action, j
+     if (desc->mask_regs) {
+         for (i = 0; i < desc->nr_mask_regs; i++) {
+             struct intc_mask_reg *mr = desc->mask_regs + i;
+ 
+-            j += sh_intc_register(sysmem, desc,
+-                                  INT_REG_PARAMS(mr, mask, set, j));
+-            j += sh_intc_register(sysmem, desc,
+-                                  INT_REG_PARAMS(mr, mask, clr, j));
++            j += sh_intc_register(sysmem, desc, mr->set_reg, "mask", "set", j);
++            j += sh_intc_register(sysmem, desc, mr->clr_reg, "mask", "clr", j);
          }
-         /* fall through */
-     default:
--        hw_error("sh_timer_read: Bad offset %x\n", (int)offset);
-+        hw_error("sh_timer_read: Bad offset 0x%"HWADDR_PRIx"\n", offset);
-         return 0;
-     }
- }
-@@ -193,7 +193,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
-         }
-         /* fallthrough */
-     default:
--        hw_error("sh_timer_write: Bad offset %x\n", (int)offset);
-+        hw_error("sh_timer_write: Bad offset 0x%"HWADDR_PRIx"\n", offset);
-     }
-     sh_timer_update(s);
- }
-@@ -264,7 +264,8 @@ static uint64_t tmu012_read(void *opaque, hwaddr offset,
-     trace_sh_timer_read(offset);
-     if (offset >= 0x20) {
-         if (!(s->feat & TMU012_FEAT_3CHAN)) {
--            hw_error("tmu012_write: Bad channel offset %x\n", (int)offset);
-+            hw_error("tmu012_write: Bad channel offset 0x%"HWADDR_PRIx"\n",
-+                     offset);
-         }
-         return sh_timer_read(s->timer[2], offset - 0x20);
-     }
-@@ -282,7 +283,7 @@ static uint64_t tmu012_read(void *opaque, hwaddr offset,
-         return s->tocr;
      }
  
--    hw_error("tmu012_write: Bad offset %x\n", (int)offset);
-+    hw_error("tmu012_write: Bad offset 0x%"HWADDR_PRIx"\n", offset);
+@@ -450,13 +446,10 @@ int sh_intc_init(MemoryRegion *sysmem,
+         for (i = 0; i < desc->nr_prio_regs; i++) {
+             struct intc_prio_reg *pr = desc->prio_regs + i;
+ 
+-            j += sh_intc_register(sysmem, desc,
+-                                  INT_REG_PARAMS(pr, prio, set, j));
+-            j += sh_intc_register(sysmem, desc,
+-                                  INT_REG_PARAMS(pr, prio, clr, j));
++            j += sh_intc_register(sysmem, desc, pr->set_reg, "prio", "set", j);
++            j += sh_intc_register(sysmem, desc, pr->clr_reg, "prio", "clr", j);
+         }
+     }
+-#undef INT_REG_PARAMS
+ 
      return 0;
  }
- 
-@@ -294,7 +295,8 @@ static void tmu012_write(void *opaque, hwaddr offset,
-     trace_sh_timer_write(offset, value);
-     if (offset >= 0x20) {
-         if (!(s->feat & TMU012_FEAT_3CHAN)) {
--            hw_error("tmu012_write: Bad channel offset %x\n", (int)offset);
-+            hw_error("tmu012_write: Bad channel offset 0x%"HWADDR_PRIx"\n",
-+                     offset);
-         }
-         sh_timer_write(s->timer[2], offset - 0x20, value);
-         return;
 -- 
 2.21.4
 
