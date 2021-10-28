@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2951843DCE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 10:25:06 +0200 (CEST)
-Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA0F43DD02
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 10:39:45 +0200 (CEST)
+Received: from localhost ([::1]:58226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg0if-0001w8-8Y
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 04:25:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60802)
+	id 1mg0wq-0004CX-50
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 04:39:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mg0gE-0008TC-Hr
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 04:22:35 -0400
-Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:35833)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mg0gC-0006eK-2S
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 04:22:33 -0400
-Received: by mail-il1-x129.google.com with SMTP id j10so5937069ilu.2
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 01:22:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WLdM16XNjaYWzffnmp+W+0Wszz4KeUw8cmKVa1pQncs=;
- b=R+HXuaCOtOXPBURsMMqNVUeHV6oEZq08mJ0ccYdBCgUDI9sFY1wOFMx5Lj62GhMHnM
- Ir8hVFVXLO/ba9ipXKOYXIrxvf9WTWknaxPX7kw6IeYpynOsWPxx872hYN+n9Q2JK+Yr
- 8UjWnaVeaaiKezuOEHhhG/aA+bSlg+6x7xnboYXx65yieowK4xmNCB8JhLbelwH2FrPd
- pmJ9s6UuiSFX3sENGVUXkzL0/bFruAPXO+UZeVa5Ps2242Mi5xvc/yr3kr2jrnXqtuGj
- v1y25X0cdO5uU6XprySdmYqjxG0QBP8ercDCXSHQMyQtYIfPJDOn50lDa8GpoFZAHnv7
- re7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WLdM16XNjaYWzffnmp+W+0Wszz4KeUw8cmKVa1pQncs=;
- b=0Q1QUK9Rv5LYnCHdJPNm1VLWWXyfMbPTb2TrCQwJKHENVwkC9spd+B3QROxIlvJWnm
- K+nloNZqCpbtz7BqVnECLRhCFEJwSqSNqPxLb3mMJ8YyQYo02a3PFjppDpSvTfETOGts
- 1DxEr5EKGwYwKwMcbhYInCw3If73cB73hcbhjdhQj/KbktLXSvFCi9onEWGt4CHfr4Ju
- cVaX+Rm/ZMbvVivEVdtlgiyZmQo2L4RUZrFxVeckFf1kuAv7afAXgb7XEhUrOd5F9jcu
- 71fQfroLKyx9kbAgoAZCiRuvgeeGLwmraFepqAidE4It927Q7D3tb3+ncwaWy/3fMCZu
- /gfA==
-X-Gm-Message-State: AOAM5326PPRIMfuG9F8zPh1USVbqbRoQ/DrLt+RdwVQ3c5JL5gBI2P7q
- anm9Xen/sw8sZ/ceNfTVjj/gQOlk6v15h0s7jP9gJQ==
-X-Google-Smtp-Source: ABdhPJwJrBsSd0SP2oNy/Fa385Fep1fHgLzAATJbK/YZyPw+XpLPxgftsR2/EFI0+OwiGWDSR/1bBKiTwxIuMPNxx84=
-X-Received: by 2002:a05:6e02:b2a:: with SMTP id
- e10mr2099434ilu.53.1635409348466; 
- Thu, 28 Oct 2021 01:22:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg0ug-0003OS-Ld
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 04:37:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22300)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg0ub-0002gL-Cu
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 04:37:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635410243;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=b/hJu0PUaKZmi2xIK/QATygvML6/IMVozSq+G3wBOGQ=;
+ b=UivuGsHuTRou6rHWcfSIYZb3L295VKuOhALbITs/K2rFqUwdIgOIeW+BM/bZoKNWtVVxRo
+ WNhZz/bfRP16BIX/0g+oacVjSN0uH0VehvHTbkusfnG/Q2j7UMW/LhiyKUiwZJ1JUkdzVZ
+ YjsUfD5nJj24xKRULP9t0iKAnHOXJlM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-bCUj4AlSOWCphtz6dE5uYg-1; Thu, 28 Oct 2021 04:37:21 -0400
+X-MC-Unique: bCUj4AlSOWCphtz6dE5uYg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B272F1018720;
+ Thu, 28 Oct 2021 08:37:20 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 431A660BE5;
+ Thu, 28 Oct 2021 08:36:44 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CC63511380A7; Thu, 28 Oct 2021 10:36:42 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 1/9] qapi: New special feature flag "unstable"
+References: <20211025052532.3859634-1-armbru@redhat.com>
+ <20211025052532.3859634-2-armbru@redhat.com>
+ <YXewOaSDEXJDYV+1@redhat.com> <87r1c83z5c.fsf@dusky.pond.sub.org>
+ <YXfnySLlaqsRlLzb@redhat.com>
+Date: Thu, 28 Oct 2021 10:36:42 +0200
+In-Reply-To: <YXfnySLlaqsRlLzb@redhat.com> (Kevin Wolf's message of "Tue, 26
+ Oct 2021 13:34:33 +0200")
+Message-ID: <878ryd1r6t.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20211028044342.3070385-1-alistair.francis@opensource.wdc.com>
- <20211028044342.3070385-17-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20211028044342.3070385-17-alistair.francis@opensource.wdc.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Thu, 28 Oct 2021 16:22:17 +0800
-Message-ID: <CAE_xrPgiy+OrehPrzt0OZq97jkxGgnBSkEQWbKhROU+v65ac2A@mail.gmail.com>
-Subject: Re: [PULL 16/18] target/riscv: change the api for RVF/RVD fmin/fmax
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: multipart/alternative; boundary="00000000000047329705cf656978"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::129;
- envelope-from=frank.chang@sifive.com; helo=mail-il1-x129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,201 +81,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Chih-Min Chao <chihmin.chao@sifive.com>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, quintela@redhat.com, libvir-list@redhat.com,
+ eblake@redhat.com, mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
+ jsnow@redhat.com, libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000047329705cf656978
-Content-Type: text/plain; charset="UTF-8"
+Kevin Wolf <kwolf@redhat.com> writes:
 
-On Thu, Oct 28, 2021 at 12:45 PM Alistair Francis <
-alistair.francis@opensource.wdc.com> wrote:
+> Am 26.10.2021 um 11:37 hat Markus Armbruster geschrieben:
+>> Kevin Wolf <kwolf@redhat.com> writes:
+>> 
+>> > Am 25.10.2021 um 07:25 hat Markus Armbruster geschrieben:
+>> >> By convention, names starting with "x-" are experimental.  The parts
+>> >> of external interfaces so named may be withdrawn or changed
+>> >> incompatibly in future releases.
+>> >> 
+>> >> Drawback: promoting something from experimental to stable involves a
+>> >> name change.  Client code needs to be updated.
+>> >> 
+>> >> Moreover, the convention is not universally observed:
+>> >> 
+>> >> * QOM type "input-barrier" has properties "x-origin", "y-origin".
+>> >>   Looks accidental, but it's ABI since 4.2.
+>> >> 
+>> >> * QOM types "memory-backend-file", "memory-backend-memfd",
+>> >>   "memory-backend-ram", and "memory-backend-epc" have a property
+>> >>   "x-use-canonical-path-for-ramblock-id" that is documented to be
+>> >>   stable despite its name.
+>> >> 
+>> >> We could document these exceptions, but documentation helps only
+>> >> humans.  We want to recognize "unstable" in code, like "deprecated".
+>> >> 
+>> >> Replace the convention by a new special feature flag "unstable".  It
+>> >> will be recognized by the QAPI generator, like the existing feature
+>> >> flag "deprecated", and unlike regular feature flags.
+>> >> 
+>> >> This commit updates documentation and prepares tests.  The next commit
+>> >> updates the QAPI schema.  The remaining patches update the QAPI
+>> >> generator and wire up -compat policy checking.
+>> >> 
+>> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> >
+>> > Obviously, replacing the old convention gets rid of the old drawbacks,
+>> > but adds a new one: While using x- makes it very obvious for a human
+>> > user that this is an unstable feature, a feature flag in the schema will
+>> > almost certainly go unnoticed in manual use.
+>> 
+>> I thought about this, but neglected to put it in writing.  My bad.
+>> 
+>> Manual use of unstable interfaces is mostly fine.  Human users can adapt
+>> to changing interfaces.  HMP works that way.
+>> 
+>> Management applications are better off with a feature flag than with a
+>> naming convention we sometimes ignore.
+>> 
+>> The most potential for trouble is in between: programs that aren't
+>> full-fledged management applications.
+>> 
+>> If we want to keep "unstable" obvious to the humans who write such
+>> programs, we can continue to require "x-", in addition to the feature
+>> flag.  We pay for it with renames, and the risk of forgetting to rename
+>> in time (which is what got us the awkward stable
+>> "x-use-canonical-path-for-ramblock-id").  Tradeoff.  I chose not to, but
+>> if y'all think we should...
+>
+> Just to clarify, I'm not implying that we should keep it. I'm merely
+> pointing out that there is a tradeoff that requires us to make a choice.
+> The decision for one of the options should be explicit rather than just
+> happening as a side effect. Documenting that it was a conscious decision
+> is probably best done by adding the reasoning for it to the commit
+> message.
 
-> From: Chih-Min Chao <chihmin.chao@sifive.com>
->
-> The sNaN propagation behavior has been changed since
-> cd20cee7 in https://github.com/riscv/riscv-isa-manual.
->
-> Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> Acked-by: Alistair Francis <alistair.francis@wdc.com>
-> Message-id: 20211016085428.3001501-3-frank.chang@sifive.com
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/fpu_helper.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
->
-> diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
-> index 8700516a14..d62f470900 100644
-> --- a/target/riscv/fpu_helper.c
-> +++ b/target/riscv/fpu_helper.c
-> @@ -174,14 +174,18 @@ uint64_t helper_fmin_s(CPURISCVState *env, uint64_t
-> rs1, uint64_t rs2)
->  {
->      float32 frs1 = check_nanbox_s(rs1);
->      float32 frs2 = check_nanbox_s(rs2);
-> -    return nanbox_s(float32_minnum(frs1, frs2, &env->fp_status));
-> +    return nanbox_s(env->priv_ver < PRIV_VERSION_1_11_0 ?
-> +                    float32_minnum(frs1, frs2, &env->fp_status) :
-> +                    float32_minimum_number(frs1, frs2, &env->fp_status));
->  }
->
->  uint64_t helper_fmax_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
->  {
->      float32 frs1 = check_nanbox_s(rs1);
->      float32 frs2 = check_nanbox_s(rs2);
-> -    return nanbox_s(float32_maxnum(frs1, frs2, &env->fp_status));
-> +    return nanbox_s(env->priv_ver < PRIV_VERSION_1_11_0 ?
-> +                    float32_maxnum(frs1, frs2, &env->fp_status) :
-> +                    float32_maximum_number(frs1, frs2, &env->fp_status));
->  }
->
->  uint64_t helper_fsqrt_s(CPURISCVState *env, uint64_t rs1)
-> @@ -283,12 +287,16 @@ uint64_t helper_fdiv_d(CPURISCVState *env, uint64_t
-> frs1, uint64_t frs2)
->
->  uint64_t helper_fmin_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
->  {
-> -    return float64_minnum(frs1, frs2, &env->fp_status);
-> +    return env->priv_ver < PRIV_VERSION_1_11_0 ?
-> +            float64_minnum(frs1, frs2, &env->fp_status) :
-> +            float64_minimum_number(frs1, frs2, &env->fp_status);
->  }
->
->  uint64_t helper_fmax_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
->  {
-> -    return float64_maxnum(frs1, frs2, &env->fp_status);
-> +    return env->priv_ver < PRIV_VERSION_1_11_0 ?
-> +            float64_maxnum(frs1, frs2, &env->fp_status) :
-> +            float64_maximum_number(frs1, frs2, &env->fp_status);
->  }
->
->  uint64_t helper_fcvt_s_d(CPURISCVState *env, uint64_t rs1)
-> --
-> 2.31.1
->
->
-Hi Alistair,
+I rewrote the commit message for v2.
 
-Did you pull the latest v5 patchset?
-https://lists.nongnu.org/archive/html/qemu-riscv/2021-10/msg00557.html
+Thanks!
 
-I added more texts in the commit message to describe why we tie RVF version
-with Priv version.
-I think it's still okay to pull this one as I don't think there's any
-functional changes, IIRC.
+[...]
 
-Regards,
-Frank Chang
-
---00000000000047329705cf656978
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Oct 28, 2021 at 12:45 PM Alistair=
- Francis &lt;<a href=3D"mailto:alistair.francis@opensource.wdc.com">alistai=
-r.francis@opensource.wdc.com</a>&gt; wrote:<br></div><div class=3D"gmail_qu=
-ote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">From: Chih-Min Chao =
-&lt;<a href=3D"mailto:chihmin.chao@sifive.com" target=3D"_blank">chihmin.ch=
-ao@sifive.com</a>&gt;<br>
-<br>
-The sNaN propagation behavior has been changed since<br>
-cd20cee7 in <a href=3D"https://github.com/riscv/riscv-isa-manual" rel=3D"no=
-referrer" target=3D"_blank">https://github.com/riscv/riscv-isa-manual</a>.<=
-br>
-<br>
-Signed-off-by: Chih-Min Chao &lt;<a href=3D"mailto:chihmin.chao@sifive.com"=
- target=3D"_blank">chihmin.chao@sifive.com</a>&gt;<br>
-Signed-off-by: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.com" ta=
-rget=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
-Acked-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.com" =
-target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
-Message-id: <a href=3D"mailto:20211016085428.3001501-3-frank.chang@sifive.c=
-om" target=3D"_blank">20211016085428.3001501-3-frank.chang@sifive.com</a><b=
-r>
-Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.=
-com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
----<br>
-=C2=A0target/riscv/fpu_helper.c | 16 ++++++++++++----<br>
-=C2=A01 file changed, 12 insertions(+), 4 deletions(-)<br>
-<br>
-diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c<br>
-index 8700516a14..d62f470900 100644<br>
---- a/target/riscv/fpu_helper.c<br>
-+++ b/target/riscv/fpu_helper.c<br>
-@@ -174,14 +174,18 @@ uint64_t helper_fmin_s(CPURISCVState *env, uint64_t r=
-s1, uint64_t rs2)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0float32 frs1 =3D check_nanbox_s(rs1);<br>
-=C2=A0 =C2=A0 =C2=A0float32 frs2 =3D check_nanbox_s(rs2);<br>
--=C2=A0 =C2=A0 return nanbox_s(float32_minnum(frs1, frs2, &amp;env-&gt;fp_s=
-tatus));<br>
-+=C2=A0 =C2=A0 return nanbox_s(env-&gt;priv_ver &lt; PRIV_VERSION_1_11_0 ?<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 floa=
-t32_minnum(frs1, frs2, &amp;env-&gt;fp_status) :<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 floa=
-t32_minimum_number(frs1, frs2, &amp;env-&gt;fp_status));<br>
-=C2=A0}<br>
-<br>
-=C2=A0uint64_t helper_fmax_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2=
-)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0float32 frs1 =3D check_nanbox_s(rs1);<br>
-=C2=A0 =C2=A0 =C2=A0float32 frs2 =3D check_nanbox_s(rs2);<br>
--=C2=A0 =C2=A0 return nanbox_s(float32_maxnum(frs1, frs2, &amp;env-&gt;fp_s=
-tatus));<br>
-+=C2=A0 =C2=A0 return nanbox_s(env-&gt;priv_ver &lt; PRIV_VERSION_1_11_0 ?<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 floa=
-t32_maxnum(frs1, frs2, &amp;env-&gt;fp_status) :<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 floa=
-t32_maximum_number(frs1, frs2, &amp;env-&gt;fp_status));<br>
-=C2=A0}<br>
-<br>
-=C2=A0uint64_t helper_fsqrt_s(CPURISCVState *env, uint64_t rs1)<br>
-@@ -283,12 +287,16 @@ uint64_t helper_fdiv_d(CPURISCVState *env, uint64_t f=
-rs1, uint64_t frs2)<br>
-<br>
-=C2=A0uint64_t helper_fmin_d(CPURISCVState *env, uint64_t frs1, uint64_t fr=
-s2)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 return float64_minnum(frs1, frs2, &amp;env-&gt;fp_status);<b=
-r>
-+=C2=A0 =C2=A0 return env-&gt;priv_ver &lt; PRIV_VERSION_1_11_0 ?<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 float64_minnum(frs1, frs2, &amp;=
-env-&gt;fp_status) :<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 float64_minimum_number(frs1, frs=
-2, &amp;env-&gt;fp_status);<br>
-=C2=A0}<br>
-<br>
-=C2=A0uint64_t helper_fmax_d(CPURISCVState *env, uint64_t frs1, uint64_t fr=
-s2)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 return float64_maxnum(frs1, frs2, &amp;env-&gt;fp_status);<b=
-r>
-+=C2=A0 =C2=A0 return env-&gt;priv_ver &lt; PRIV_VERSION_1_11_0 ?<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 float64_maxnum(frs1, frs2, &amp;=
-env-&gt;fp_status) :<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 float64_maximum_number(frs1, frs=
-2, &amp;env-&gt;fp_status);<br>
-=C2=A0}<br>
-<br>
-=C2=A0uint64_t helper_fcvt_s_d(CPURISCVState *env, uint64_t rs1)<br>
--- <br>
-2.31.1<br>
-<br></blockquote><div><br></div><div>Hi Alistair,</div><div><br></div><div>=
-Did you pull the latest v5 patchset?<br><a href=3D"https://lists.nongnu.org=
-/archive/html/qemu-riscv/2021-10/msg00557.html">https://lists.nongnu.org/ar=
-chive/html/qemu-riscv/2021-10/msg00557.html</a>=C2=A0</div><div><br></div><=
-div>I added more texts in the commit message to describe why we tie RVF ver=
-sion with Priv version.</div><div>I think it&#39;s still okay to pull this =
-one as I don&#39;t think there&#39;s any functional changes, IIRC.</div><di=
-v><br></div><div>Regards,</div><div>Frank Chang</div></div></div>
-
---00000000000047329705cf656978--
 
