@@ -2,130 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFCCA43E986
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 22:28:05 +0200 (CEST)
-Received: from localhost ([::1]:37724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC15F43E999
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 22:36:50 +0200 (CEST)
+Received: from localhost ([::1]:53912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgC0K-00005P-Vl
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 16:28:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49808)
+	id 1mgC8n-0002x3-IE
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 16:36:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1mgBZc-0008LG-8y
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 16:00:29 -0400
-Received: from mail-bn3nam01on070b.outbound.protection.outlook.com
- ([2a01:111:f400:fe41::70b]:16896
- helo=NAM01-BN3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1mgBZY-00014m-S5
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 16:00:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nqmpq8CrB5DxpSd+Q+Gi406LqamucFWnEv0wkOnrEoqGWTbTrBOAbHusD7uwsS14+SH/KKw2yijGGc4BUx5Mjz49VxY0KbQzqb6cYB50YBRN8WHsmIE3TwtWuyRURn60TapW9DV29ESW9UYt5CYscHwaenYANFd9PO/KfW7lyX+9UE16Wav5kTL/8KwpZBD1ehNLh/klYfuAW+Y5OA5oSt1vr+fzF4QPnF5G3IZp3owKP1thsyAsdsrrG5oYCESV0g2aARwMiz6WB9BE56DQ7VW3kOyqUSjidGQhNLSzYt2H0TY+HJEQk1yHdaFK7tXKjAgu3BpP9Ox6LOLxETdlQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6dWzhZHb7EL2mEYOUcrVzwTG8RT8Jpnp/5AJpnaB+vM=;
- b=kyAXmpmoDzeAl7lOOj1exQG9rRTORRrR1jYkq6vDYdKMjBkdg/vr4WbxDh/RTmzcZh6E/i6T1eaCWJIfZboBioF+1BIUVMoULY7PoJkweWHHVxpmnrgRH/B32kwN38euFAv5hRL6zkgnGcbHGTSSoHbfr6yiUrZ8knvZzvXs7/Xb2Tcwl4I7JQncaDS+rSJweqigRfMxPjQRAhw/vaEsjb0Nmrcv17VOPfD0b1cyr519Gbx5GLJxkeHm5vguRqRuVg2YKN+AqzKE3RBxuh1jYZH+3NCBVTFLKNQY7+GDQEWiGvKFVJ1hcxrxsTM0MN01cp5tTRd5yYP+OKeoB/8hTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=eldorado.org.br; dmarc=pass action=none
- header.from=eldorado.org.br; dkim=pass header.d=eldorado.org.br; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eldorado.org.br;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6dWzhZHb7EL2mEYOUcrVzwTG8RT8Jpnp/5AJpnaB+vM=;
- b=uarqV4UhnWS3hL80UX8BpLLn1vUaOY5EpzvV3YMoJscgcI6w2TiG8j01n/lgcaRryKWO/RpLB6Cq5yPKZl+5CH+/fbSvVkyDq22uk0QASruebxHGAzRjxm9Pfi9VH6ovvFLiswYvcyBXmMDXE88dZTu+dt3fYvJjkdW+S71tVbzkjohUljIph+unvw656Qkhrrf35UVY7K2esXEumgO0DH9bN/M6+Rp9SwbeZ1G3bx7ABfMjj8EhSPSYa+uIu8QY1+Wue1is8YH2iGlePSVKBOc94tw7Sxf8b4UQ4v22kUm3FzJkgxomkYy6SulxiaSxrTuVbncMk4Z9UBJ8T+x/2w==
-Received: from CPXPR80MB5224.lamprd80.prod.outlook.com (2603:10d6:103:f::13)
- by CP2PR80MB3700.lamprd80.prod.outlook.com (2603:10d6:102:30::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15; Thu, 28 Oct
- 2021 19:55:16 +0000
-Received: from CPXPR80MB5224.lamprd80.prod.outlook.com
- ([fe80::bdcf:f3e5:cc0b:4047]) by CPXPR80MB5224.lamprd80.prod.outlook.com
- ([fe80::bdcf:f3e5:cc0b:4047%3]) with mapi id 15.20.4649.015; Thu, 28 Oct 2021
- 19:55:16 +0000
-From: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] tcg: Extend call args using the correct opcodes
-Thread-Topic: [PATCH] tcg: Extend call args using the correct opcodes
-Thread-Index: AQHXzCviF6AshhHKD0aravUR/u94Zqvo0xKw
-Date: Thu, 28 Oct 2021 19:55:16 +0000
-Message-ID: <CPXPR80MB522462766FEC3606D88E6DCADA869@CPXPR80MB5224.lamprd80.prod.outlook.com>
-References: <20211028184440.1508585-1-richard.henderson@linaro.org>
-In-Reply-To: <20211028184440.1508585-1-richard.henderson@linaro.org>
-Accept-Language: pt-BR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none; linaro.org; dmarc=none action=none header.from=eldorado.org.br; 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d1c94880-b274-4f55-be93-08d99a4cdd3d
-x-ms-traffictypediagnostic: CP2PR80MB3700:
-x-microsoft-antispam-prvs: <CP2PR80MB3700B1780103B635D3038AA3DA869@CP2PR80MB3700.lamprd80.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:462;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: noCWZR8+fiWMCmQcY33cDOeWvyPoPVmXOTt7jog4DDP5BxFGApXUzU7QPQgQo1j1DwZMJ9Dp1rQKPLQpGsVqIQCJ3LnBGgr4cryhObKECB2WiyUtXAyfIPkU82u4hhokFbbFONaKTmBKQqA2bQMO0otTECFgbXyTvybDmDzv4nGaY6P7mL7S8nsUsDpJIiMwo9e8KZvJ5McVifK231TSOeokIWUQPIET2ISDTnctz94TUbikJ+317EoJxLIwGHeOxrovYJOLjuCsIRKSTfYXsjE7XjOkCnFW0vljo3AauRnzOY7/kAYpKhZqwUK4V8NWNP0U9QgmyPZc95pAfz3vxtogPYbXX9oh9tJt0A/lEw2iIw0QVV5rIunlb0rb2PAYIN/k1/poLrwaznocuD3l38EK43I4QZ1zhXYlO1D4DdnurG6gnDJEzWnAvZgys51BL+ZtZ5SvOuBv4sQO2Q2NW3fNRcOOjzYFIy91ITjplcPzGOe/1+qzdXfBgtiyP8brNDfA2OGkcu7qpRuPsbGp97Xw5kly8wvJSKoibrKSqaQ1MX/D4UZ3ACZ8HpjXhkqVNmpxC6AN20f9lQrsA4JFK+UO9huSPFEw+50spqcN0IyYRtGLp05wWmnQEH8n1dXVq2HRlcLxVbUfltwi/qLobjmKK5IyCVr9A2CfVUK4OTQ93LX2kO7P/tzHoBbKWJDYxQKH/NDe//ZxWdHjCL6A7cwvHb3ANXYA1So2gJaHdTwYumUcy1pxmJZ7doaBuWVZBgyIwScIAOMXjV7fgx5tnyQvmWjErEADQIlQiFMQma8=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CPXPR80MB5224.lamprd80.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(38070700005)(4744005)(508600001)(7696005)(2906002)(316002)(66476007)(66556008)(64756008)(26005)(66446008)(76116006)(110136005)(38100700002)(186003)(66946007)(122000001)(9686003)(71200400001)(5660300002)(52536014)(6506007)(83380400001)(55016002)(8936002)(86362001)(33656002)(54906003)(4326008)(8676002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cNeqJSAfzmmLL1zl4ykxYCedqmR7RvZbdPq+I8yLd34u1v52RbTLt92T4D5i?=
- =?us-ascii?Q?2+eyBhxwmdklhmyrZ9AIyODFYbLiyR8pQoP3rai9A5FAMTOHRSzAPD5QPxYB?=
- =?us-ascii?Q?e+HiZo7fps1/ENz0rmp+Z4Mb8MQJ8rc5JVQqHCcxqkDhXe+JvZ7SZdSZNyG0?=
- =?us-ascii?Q?n9I2ybBDQ50l9lgFCgzsYAGxSyfHn523+vmLBuOSeBTsO9HFohfy3EoRyAeG?=
- =?us-ascii?Q?n88gNduAhXomtTLr9R8iVw3hprgJmr4xKuIzwFrhQiZHoMLLVDOIwmFVpTDt?=
- =?us-ascii?Q?TZhYJj0XBresG6AW7raWONehd9U8C434+i4/5QSJ3j0bSwKkfsIVwJUTtnl2?=
- =?us-ascii?Q?LWs+0otkmGPkY13Hmd6aSZUsAi4377S0q7P3aaac6duO5ZThXowzPT6DqsIp?=
- =?us-ascii?Q?Sr0zYc9IiuKAwyYeBu7r7vyE25u+uA+UJNPNpYqMQHzdh1xJZ4MEGiL/Solm?=
- =?us-ascii?Q?PO01AjtJR0klfEpy5ygDfZ2yxG1pHooClibndF7x2kxr72kg2X5nW0uJ9ZH7?=
- =?us-ascii?Q?A+Q5xi+Gld16bEQC0aqaSuXwIc1EeATuMeLSzrUfygi9rmmg0uuSjFOF0f4a?=
- =?us-ascii?Q?RMQNrozdHHICMKckd1qIrIxvrBk3J5MCQz+VprnFx7JL9COstsUPypFa2PCQ?=
- =?us-ascii?Q?TA6M8CB2zg+rJ4uAjldKxAjipo8hVUkQxihGpnwh7EY+CdhRjbCK38G/S9i6?=
- =?us-ascii?Q?rdRpJRK6kWgbEeBCV4nihzgHTXasZVV5gmB+nNWWz0bMKkgkFS3ngriu5607?=
- =?us-ascii?Q?7cB7njgN737QWpfs1ZshkRaYO7JPyEuYRLRKX2/Cn0r8cFnILH/i+SgD/1L9?=
- =?us-ascii?Q?JPNxO5LofPKMOBqIZ1BOd1tJ1W9jTssyyX7c4H8z0CUpgtezmkOwPD9TFmO/?=
- =?us-ascii?Q?ZSEVL81v8Pb8NgbplaJb0ZDxZUhNVex9TKEyaOQ1/IagKwtSQsl3oyq0kgxm?=
- =?us-ascii?Q?BD7M8scFirPI33qjljC1aSzsBwxDa5YHz3zjffjJ6Tb/a/o3ClP0R9BvyvDz?=
- =?us-ascii?Q?ZH87P7Ingvoe4daqsaifYZ56QYe6wiJIAtj9/L9SHu1MVK0b2qdV0q+mnPzX?=
- =?us-ascii?Q?4kkIkMGss7BP66cxy1fQYY4U7Pg1p5BUDTCfevCK6Yy+X1cOwcsWTO0KxXei?=
- =?us-ascii?Q?Q6bTHf1xawVfk+QrKmAPNca6bbiLXTVNz1vG9N5ReZZkfAchRtUQPQaCHLX0?=
- =?us-ascii?Q?WmGMFVsjHjHviJW6AR1UTasl7lgwOXA8dONlbdaIHuOv4GhLV+2YPXIUNI4X?=
- =?us-ascii?Q?Y8Oh7SKKQ78fYWdM5jdUCM6b6wbz/VkCK6l7O/X/Uty1ay1SHQn0KP5blLMy?=
- =?us-ascii?Q?wgLYYfzPws8EF7VAdt/okfu+1M++jXj8/V9vVcJpCcPKUbA0/u/38qSJvEor?=
- =?us-ascii?Q?xzIHc+WRP7wOWbuhdYPNdwY1rQWFUcSYYhYDd/BHcmAGfetiolUv1ed4KXfh?=
- =?us-ascii?Q?h/llRyOAUehQ3GvT1mZQrbaigz0ad/bY0BCU/L5idPLM2ScI0N5X2mlz9thP?=
- =?us-ascii?Q?dC1men373x8FehoKriss8TWyZnfbteqiIU1lJliWdHy8U4+8ypD/12xd2LGg?=
- =?us-ascii?Q?5CvoBPMHcOo4oUp0tFsJjUfWMAjXLXCHbOK6Zivy86RlR35pnEWI9OUubXWw?=
- =?us-ascii?Q?ckrn6MShm6emED+j7kWPiLM=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mgBpx-00007W-Dy
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 16:17:21 -0400
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:37746)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mgBpr-0007W2-H7
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 16:17:20 -0400
+Received: by mail-lf1-x130.google.com with SMTP id i13so6516773lfe.4
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 13:17:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2r/BkAHCtVJiWWd1wOFLaDrTTzvKTPIbX7MqljplsH4=;
+ b=ZSDG14X/VduxeycHHU8iW6GO8h9hngJMTKu1Yj+YmYCFQFpHjFTwjtzzGwFhk/sFXJ
+ r1zWdiwnXDrScNi/ICLgMCNehH9WzQkJD6WAerLX4Kvd6h3S8oFuTqPJxJyOa2zdg/Xg
+ NLVEMh90RJK6IceindJT48eckpJFHfYeyRgXK3ZLIqiqghml4XDlF3zmN7MMFxF5EkgC
+ SkybXWq29PY5jNqFz/g5R+xu418mZqLygGONSZxaLSQqCJrA2HqpKprW7py4Mgk2/2oa
+ ID+YYKvYCIQ0Wj1BHyqdJxdEam1TNlg09U0Ynfzx3M3LaYd2uwVXGNogsXaW24xMXX/+
+ ZyEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2r/BkAHCtVJiWWd1wOFLaDrTTzvKTPIbX7MqljplsH4=;
+ b=GkqkBQEV2RkJlhlcLqcJ1eK+zLnnVnmjw/SFvBXSc48wW9V00QJXtE1kveRp0F2zB+
+ v14n2djmpL3Ugk5DJXzsJsPOfRe+haehLlkIMRX9vN1kUDwQIG6uUCyMwZXT+b2xiJQt
+ k/N2PHcY11NBEq1qG2eIoIe5LrRtnE5hJ/xJ0nMYca8if3t1qdx1c9cbHF/gRgTQgP9x
+ EUnVW5KcSAU0K9LJ6hbpYVyrplut81qEzVPZY4ElulakAO7pTDs6WiNZquYf/WgavLRe
+ WSQzCV3irjdyCRYRs9eOmQl89W8GTEQM+SESS/3IhLSdEHfZf1h/Qz5Yt2QQk96Q+jjx
+ 6L5w==
+X-Gm-Message-State: AOAM5332Y05ID6scri4+SQsN/0w39vnUXVeBo/U8vF3UicWgwg89KrLJ
+ /vuAibH1iUWhgR+R6C5cwcqDP0rwVf0Ps/kcGaVXhg==
+X-Google-Smtp-Source: ABdhPJx+/8RfTHpYASUbhJ1HlPStJiOLMrtlPc6jgQxfWPthyXquPtlJ/vciI1FCN++FaHkTsDTB72vYnaIaSANVG/E=
+X-Received: by 2002:a05:6512:b81:: with SMTP id
+ b1mr6412611lfv.301.1635452233606; 
+ Thu, 28 Oct 2021 13:17:13 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: eldorado.org.br
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CPXPR80MB5224.lamprd80.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1c94880-b274-4f55-be93-08d99a4cdd3d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2021 19:55:16.7380 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b9397c69-e827-4afc-a365-ab275e41638f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SywLp8MV41yuGQhHASRva+3COOzJp4hJWTNi010dX5m7nFzWpneEj8AEGIFMXCrOVtBFPvX53t+rmeavc5g60Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CP2PR80MB3700
-Received-SPF: pass client-ip=2a01:111:f400:fe41::70b;
- envelope-from=luis.pires@eldorado.org.br;
- helo=NAM01-BN3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211019164447.16359-1-imp@bsdimp.com>
+ <20211019164447.16359-19-imp@bsdimp.com>
+ <b4289206-5b16-574d-34bc-42bce93837bc@linaro.org>
+In-Reply-To: <b4289206-5b16-574d-34bc-42bce93837bc@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Thu, 28 Oct 2021 14:16:59 -0600
+Message-ID: <CANCZdfojSzi=WchQ8_cd1Yi3L2pRMQrU3oeWqHu9+m1rNNdskg@mail.gmail.com>
+Subject: Re: [PATCH 18/24] bsd-user/arm/target_arch_signal.h: arm machine
+ context for signals
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000006e7a3605cf6f6557"
+Received-SPF: none client-ip=2a00:1450:4864:20::130;
+ envelope-from=wlosh@bsdimp.com; helo=mail-lf1-x130.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,42 +78,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- "f4bug@amsat.org" <f4bug@amsat.org>
+Cc: Stacey Son <sson@freebsd.org>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Klye Evans <kevans@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
-> Pretending that the source is i64 when it is in fact i32 is incorrect; we=
- have type-
-> changing opcodes that must be used.
-> This bug trips up the subsequent change to the optimizer.
->=20
-> Fixes: 4f2331e5b67a
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->=20
-> This fixes a problem found in s390x host testing, and should be considere=
-d patch
-> 41.5/51 in
->=20
->   [PATCH v4 00/51] tcg: optimize redundant sign extensions
->=20
-> just before
->=20
->   tcg/optimize: Stop forcing z_mask to "garbage" for 32-bit values
->=20
->=20
-> r~
->=20
-> ---
->  tcg/tcg.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+--0000000000006e7a3605cf6f6557
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
+On Thu, Oct 28, 2021 at 11:18 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
---
-Luis Pires
-Instituto de Pesquisas ELDORADO
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+> On 10/19/21 9:44 AM, Warner Losh wrote:
+> > +typedef struct {
+> > +    uint32_t    __fp_fpsr;
+> > +    struct {
+> > +        uint32_t    __fp_exponent;
+> > +        uint32_t    __fp_mantissa_hi;
+> > +        uint32_t    __fp_mantissa_lo;
+> > +    }       __fp_fr[8];
+> > +} target__fpregset_t;
+> > +
+> > +typedef struct {
+> > +    uint32_t    __vfp_fpscr;
+> > +    uint32_t    __vfp_fstmx[33];
+> > +    uint32_t    __vfp_fpsid;
+> > +} target__vfpregset_t;
+> > +
+> > +typedef struct target_mcontext {
+> > +    uint32_t        __gregs[TARGET__NGREG];
+> > +    union {
+> > +        target__fpregset_t  __fpregs;
+> > +        target__vfpregset_t __vfpregs;
+> > +    } __fpu;
+> > +} target_mcontext_t;
+>
+> This doesn't match what I see in sys/arm/include/ucontext.h at all.
+> I don't even see the string "fstmx" anywhere in the source tree.
+>
+
+Yea. This appears to be a copy mostly from mips and is totally
+wrong for ARM. However, despite that, it works by accident because
+the general registers all wind up in the right places and we don't
+actually write to the full context....
+
+I'll respin with the correct headers and any code tweaks that
+are needed. As to 'how this happened' I'm at a loss: git blame
+shows that it came in when the sbruno repo was created which
+is the earliest history I have for the project.
+
+Warner
+
+--0000000000006e7a3605cf6f6557
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 28, 2021 at 11:18 AM Rich=
+ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
+enderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">On 10/19/21 9:44 AM, Warner Losh wrote:<br>
+&gt; +typedef struct {<br>
+&gt; +=C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 __fp_fpsr;<br>
+&gt; +=C2=A0 =C2=A0 struct {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 __fp_exponent;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 __fp_mantissa_hi;<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 __fp_mantissa_lo;<b=
+r>
+&gt; +=C2=A0 =C2=A0 }=C2=A0 =C2=A0 =C2=A0 =C2=A0__fp_fr[8];<br>
+&gt; +} target__fpregset_t;<br>
+&gt; +<br>
+&gt; +typedef struct {<br>
+&gt; +=C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 __vfp_fpscr;<br>
+&gt; +=C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 __vfp_fstmx[33];<br>
+&gt; +=C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 __vfp_fpsid;<br>
+&gt; +} target__vfpregset_t;<br>
+&gt; +<br>
+&gt; +typedef struct target_mcontext {<br>
+&gt; +=C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 =C2=A0 =C2=A0 __gregs[TARGET__NGR=
+EG];<br>
+&gt; +=C2=A0 =C2=A0 union {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 target__fpregset_t=C2=A0 __fpregs;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 target__vfpregset_t __vfpregs;<br>
+&gt; +=C2=A0 =C2=A0 } __fpu;<br>
+&gt; +} target_mcontext_t;<br>
+<br>
+This doesn&#39;t match what I see in sys/arm/include/ucontext.h at all.<br>
+I don&#39;t even see the string &quot;fstmx&quot; anywhere in the source tr=
+ee.<br></blockquote><div><br></div><div>Yea. This appears to be a copy most=
+ly from mips and is totally</div><div>wrong for ARM. However, despite that,=
+ it works by accident because</div><div>the general registers all wind up i=
+n the right places and we don&#39;t</div><div>actually write to the full co=
+ntext....</div><div><br></div><div>I&#39;ll respin with the correct headers=
+ and any code tweaks that</div><div>are needed. As to &#39;how this happene=
+d&#39; I&#39;m at a loss: git blame</div><div>shows that it came in when th=
+e sbruno repo was created which</div><div>is the earliest history I have fo=
+r the project.</div><div><br></div><div>Warner</div></div></div>
+
+--0000000000006e7a3605cf6f6557--
 
