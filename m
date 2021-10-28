@@ -2,100 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D6E43E104
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 14:29:51 +0200 (CEST)
-Received: from localhost ([::1]:50596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC91E43E13A
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 14:47:41 +0200 (CEST)
+Received: from localhost ([::1]:59454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg4XW-0000vf-4z
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 08:29:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53862)
+	id 1mg4om-0000CW-HX
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 08:47:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.machado@linaro.org>)
- id 1mg4Se-0007BV-24
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 08:24:48 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:39486)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luis.machado@linaro.org>)
- id 1mg4Sb-0003ti-TN
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 08:24:47 -0400
-Received: by mail-oi1-x231.google.com with SMTP id s190so7224292oie.6
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 05:24:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=j2qZdEu06KEBFkmGkgUzf7kRqrWyreB+4Rj8F+/+FZc=;
- b=O3RMG23+brR7Kr2sNXbxiDOPOO142k8cIG8n4M2M5MrRweJraaYf9YtAV0bv7UAflk
- XZzgiqcJv3ACLAKLfZRllrQR/SIgz/tjJQIBWZBxYjkFWjd4hJmuC0euUiucq+vNaNzY
- NDiLjwFgo7dg9a5k7m5kDpH73mxZnaphMFbDtFH94h58dRa4xN7va8zKgRff0ow6u3Wg
- SuXnCvYNw6yqyeMFduYuKdwANZ+zZYo+vu8+/OS+Qp6hyxyMvCwZDH/V2rwcVqWQF+FD
- 7SLqbADDYOu+16/526OzlTI/hthurrtHXvMd/s7ElBhZhvIF4c7aThZLgd8CvemFTaGX
- frng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=j2qZdEu06KEBFkmGkgUzf7kRqrWyreB+4Rj8F+/+FZc=;
- b=ElNw1qQd1QajWZISKgvtnjnz5W4xoSdljHLOOILGv2TsqyRWpfJOvft1HgDQ84JC4O
- VUPrrKkXwbCzib0uZF5zQLNg0/QswQBQHHscJEMwJWjra1SrghyPusSsWbIjAJ2h7Rsb
- 4PW/Sj9iLWl4aUSUR2gtYfv9xOtxNDSybTtGkXilq25GlChziwtbE9l1NVbrLesalIxx
- VbwfOKOC/0V+m9bNEjBbPf1GFnjP2Mw3Onb+XMM25uEogDhmQ5IR47wLLhp8Nyfjc7zm
- QzebCIH5B9QCN0eBoakRZ4emnKBiiq5ENUOuX3yfZd3B4ENRS+IZMGjhvAtsuQDAVE2E
- ZV8Q==
-X-Gm-Message-State: AOAM533M2JJoF/tcFk6IVl4FLI4CVD16uzEeJvkVUcFDpKAtIiV5JteV
- DK5RCJ6h99RvHneT9XAyZTZeug==
-X-Google-Smtp-Source: ABdhPJwMggFDGpx1pVkZxp5DaiKCTTzCw2cP2AxIXWxCGF4qerGLlCHDnFFdyZ95S1Df8DaCq9QvzA==
-X-Received: by 2002:aca:be54:: with SMTP id o81mr8273430oif.64.1635423883934; 
- Thu, 28 Oct 2021 05:24:43 -0700 (PDT)
-Received: from ?IPv6:2804:7f0:4841:3c03:6478:21a3:2901:16a6?
- ([2804:7f0:4841:3c03:6478:21a3:2901:16a6])
- by smtp.gmail.com with ESMTPSA id r44sm1106581otv.39.2021.10.28.05.24.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Oct 2021 05:24:43 -0700 (PDT)
-Subject: Re: Deprecate the ppc405 boards in QEMU? (was: [PATCH v3 4/7]
- MAINTAINERS: Orphan obscure ppc platforms)
-To: LEROY Christophe <christophe.leroy@csgroup.eu>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- BALATON Zoltan <balaton@eik.bme.hu>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
- <20210927044808.73391-5-david@gibson.dropbear.id.au>
- <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
- <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
- <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
- <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
- <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
- <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
- <1397f18f-f187-6f48-ed6c-13c0b77abed9@redhat.com> <YVug7l8LWl3e+DN5@yekko>
- <9aeb7010-0a17-864a-cfac-ea5d90356085@csgroup.eu>
- <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
- <5e4f78ce-1508-5689-ec29-79edad0c824e@kaod.org>
- <491d6265-3785-b11-b7f0-621a3d2823@eik.bme.hu>
- <b9f27c1b-1162-b178-9333-89c0dd707c12@redhat.com>
- <103e098a-a8ac-a22a-8aad-3df7d8cde148@amsat.org>
- <939f2d12-38f6-4ab0-b688-384136d1d9c@eik.bme.hu>
- <4e07823e-7162-525a-4a61-9bed63e85d58@kaod.org>
- <5263c819-b13c-f48a-d720-15b085537070@csgroup.eu>
-From: Luis Machado <luis.machado@linaro.org>
-Message-ID: <2b5f000b-31c0-bd2c-14a3-63a23f73ab18@linaro.org>
-Date: Thu, 28 Oct 2021 09:24:35 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1mg4mZ-0007iO-3Q; Thu, 28 Oct 2021 08:45:23 -0400
+Received: from mga09.intel.com ([134.134.136.24]:25262)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1mg4mV-0004cb-AB; Thu, 28 Oct 2021 08:45:22 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="230250226"
+X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; d="scan'208";a="230250226"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2021 05:45:15 -0700
+X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; d="scan'208";a="498383874"
+Received: from lmaniak-dev.igk.intel.com ([10.55.248.48])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2021 05:45:10 -0700
+Date: Thu, 28 Oct 2021 14:43:59 +0200
+From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+To: Naveen Nagar <naveen.n1@samsung.com>
+Subject: Re: [RFC PATCH v2] hw/nvme:Adding Support for namespace management
+Message-ID: <20211028124359.GA2275590@lmaniak-dev.igk.intel.com>
+References: <CGME20210819135248epcas5p1fcc9f399f16a5336e6af004170a0eea4@epcas5p1.samsung.com>
+ <1629378597-30480-1-git-send-email-naveen.n1@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <5263c819-b13c-f48a-d720-15b085537070@csgroup.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=luis.machado@linaro.org; helo=mail-oi1-x231.google.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1629378597-30480-1-git-send-email-naveen.n1@samsung.com>
+Received-SPF: none client-ip=134.134.136.24;
+ envelope-from=lukasz.maniak@linux.intel.com; helo=mga09.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.847,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,146 +57,638 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "dbarboza@redhat.com" <dbarboza@redhat.com>,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- "gdb@sourceware.org" <gdb@sourceware.org>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <agraf@csgraf.de>,
- qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: fam@euphon.net, kwolf@redhat.com, anuj.singh@samsung.com,
+ stefanha@redhat.com, qemu-block@nongnu.org, k.jensen@samsung.com,
+ anaidu.gollu@samsung.com, d.palani@samsung.com, qemu-devel@nongnu.org,
+ linux-nvme@lists.infradead.org, mreitz@redhat.com, kbusch@kernel.org,
+ p.kalghatgi@samsung.com,
+ =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
+ its@irrelevant.dk, prakash.v@samsung.com, raphel.david@samsung.com,
+ jg123.choi@samsung.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Aug 19, 2021 at 06:39:57PM +0530, Naveen Nagar wrote:
+> From: Naveen <naveen.n1@samsung.com>
+> 
+> This patch supports namespace management : create and delete operations.
+> 
+> Since v1:
+> - Modified and moved nvme_ns_identify_common in ns.c file 
+> - Added check for CSI field in NS management
+> - Indentation fix in namespace create
+> 
+> This patch has been tested with the following command and size of image
+> file for unallocated namespaces is taken as 0GB. ns_create will look into
+> the list of unallocated namespaces and it will initialize the same and 
+> return the nsid of the same. A new mandatory field has been added called
+> tnvmcap and we have ensured that the total capacity of namespace created
+> does not exceed tnvmcap
+> 
+> -device nvme-subsys,id=subsys0,tnvmcap=8
+> -device nvme,serial=foo,id=nvme0,subsys=subsys0
+> -device nvme,serial=bar,id=nvme1,subsys=subsys0
+> -drive id=ns1,file=ns1.img,if=none
+> -device nvme-ns,drive=ns1,bus=nvme0,nsid=1,zoned=false,shared=true
+> -drive id=ns2,file=ns2.img,if=none
+> -device nvme-ns,drive=ns2,bus=nvme0,nsid=2,zoned=false,shared=true
+> -drive id=ns3,file=ns3.img,if=none
+> -device nvme-ns,drive=ns3,bus=nvme0,nsid=3,zoned=false,shared=true
+> -drive id=ns4,file=ns4.img,if=none
+> -device nvme-ns,drive=ns4,bus=nvme0,nsid=4,zoned=false,shared=true
+> 
+> Please review and suggest if any changes are required.
+> 
+> Signed-off-by: Naveen Nagar <naveen.n1@samsung.com>
+> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+>   
+> ---
+>  hw/nvme/ctrl.c       | 237 +++++++++++++++++++++++++++++++++++++++++--
+>  hw/nvme/ns.c         |  61 ++++++-----
+>  hw/nvme/nvme.h       |   7 +-
+>  hw/nvme/subsys.c     |   3 +
+>  include/block/nvme.h |  18 +++-
+>  5 files changed, 285 insertions(+), 41 deletions(-)
+> 
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 6baf9e0420..992aaa7d02 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -219,6 +219,7 @@ static const uint32_t nvme_cse_acs[256] = {
+>      [NVME_ADM_CMD_SET_FEATURES]     = NVME_CMD_EFF_CSUPP,
+>      [NVME_ADM_CMD_GET_FEATURES]     = NVME_CMD_EFF_CSUPP,
+>      [NVME_ADM_CMD_ASYNC_EV_REQ]     = NVME_CMD_EFF_CSUPP,
+> +    [NVME_ADM_CMD_NS_MANAGEMENT]    = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_NIC,
+>      [NVME_ADM_CMD_NS_ATTACHMENT]    = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_NIC,
+>      [NVME_ADM_CMD_FORMAT_NVM]       = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
+>  };
+> @@ -4450,11 +4451,19 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req, bool active)
+>      NvmeNamespace *ns;
+>      NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
+>      uint32_t nsid = le32_to_cpu(c->nsid);
+> +    NvmeIdNs *id_ns = NULL;
+> +    uint16_t ret;
+>  
+>      trace_pci_nvme_identify_ns(nsid);
+>  
+> -    if (!nvme_nsid_valid(n, nsid) || nsid == NVME_NSID_BROADCAST) {
+> +    if (!nvme_nsid_valid(n, nsid)) {
+>          return NVME_INVALID_NSID | NVME_DNR;
+> +    } else if (nsid == NVME_NSID_BROADCAST) {
+> +        id_ns = g_new0(NvmeIdNs, 1);
+> +        nvme_ns_identify_common(id_ns);
+> +        ret = nvme_c2h(n, (uint8_t *)id_ns, sizeof(NvmeIdNs), req);
+> +        g_free(id_ns);
+> +        return ret;
+>      }
+>  
+>      ns = nvme_ns(n, nsid);
+> @@ -5184,6 +5193,200 @@ static void nvme_select_iocs_ns(NvmeCtrl *n, NvmeNamespace *ns)
+>      }
+>  }
+>  
+> +static int nvme_blk_truncate(BlockBackend *blk, size_t len, Error **errp)
+> +{
+> +    int ret;
+> +    uint64_t perm, shared_perm;
+> +
+> +    blk_get_perm(blk, &perm, &shared_perm);
+> +
+> +    ret = blk_set_perm(blk, perm | BLK_PERM_RESIZE, shared_perm, errp);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    ret = blk_truncate(blk, len, false, PREALLOC_MODE_OFF, 0, errp);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    ret = blk_set_perm(blk, perm, shared_perm, errp);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static uint32_t nvme_allocate_nsid(NvmeCtrl *n)
+> +{
+> +    uint32_t nsid = 0;
+> +    for (int i = 1; i <= NVME_MAX_NAMESPACES; i++) {
+> +        if (nvme_ns(n, i) || nvme_subsys_ns(n->subsys, i)) {
+> +            continue;
+> +        }
+> +
+> +        nsid = i;
+> +        return nsid;
+> +    }
+> +    return nsid;
+> +}
+> +
+> +static uint16_t nvme_namespace_create(NvmeCtrl *n, NvmeRequest *req)
+> +{
+> +    uint32_t ret;
+> +    NvmeIdNs id_ns_host;
+> +    NvmeSubsystem *subsys = n->subsys;
+> +    Error *err = NULL;
+> +    uint8_t flbas_host;
+> +    uint64_t ns_size;
+> +    int lba_index;
+> +    NvmeNamespace *ns;
+> +    NvmeCtrl *ctrl;
+> +    NvmeIdNs *id_ns;
+> +
+> +    ret = nvme_h2c(n, (uint8_t *)&id_ns_host, sizeof(id_ns_host), req);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    if (id_ns_host.ncap < id_ns_host.nsze) {
+> +        return NVME_THIN_PROVISION_NO_SUPP | NVME_DNR;
+> +    } else if (id_ns_host.ncap > id_ns_host.nsze) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+> +    if (!id_ns_host.nsze) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+> +    if (QSLIST_EMPTY(&subsys->unallocated_namespaces)) {
+> +        return NVME_NS_ID_UNAVAILABLE;
+> +    }
+> +
+> +    ns = QSLIST_FIRST(&subsys->unallocated_namespaces);
+> +    id_ns = &ns->id_ns;
+> +    flbas_host = (id_ns_host.flbas) & (0xF);
+> +
+> +    if (flbas_host > id_ns->nlbaf) {
+> +        return NVME_INVALID_FORMAT | NVME_DNR;
+> +    }
+> +
+> +    ret = nvme_ns_setup(ns, &err);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    id_ns->flbas = id_ns_host.flbas;
+> +    id_ns->dps = id_ns_host.dps;
+> +    id_ns->nmic = id_ns_host.nmic;
+> +
+> +    lba_index = NVME_ID_NS_FLBAS_INDEX(id_ns->flbas);
+> +    ns_size = id_ns_host.nsze * ((1 << id_ns->lbaf[lba_index].ds) +
+> +                (id_ns->lbaf[lba_index].ms));
+> +    id_ns->nvmcap = ns_size;
+> +
+> +    if (ns_size > n->id_ctrl.unvmcap) {
+> +        return NVME_NS_INSUFF_CAP;
+> +    }
+> +
+> +    ret = nvme_blk_truncate(ns->blkconf.blk, id_ns->nvmcap, &err);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    ns->size = blk_getlength(ns->blkconf.blk);
+> +    nvme_ns_init_format(ns);
+> +
+> +    ns->params.nsid = nvme_allocate_nsid(n);
+> +    if (!ns->params.nsid) {
+> +        return NVME_NS_ID_UNAVAILABLE;
+> +    }
+> +    subsys->namespaces[ns->params.nsid] = ns;
+> +
+> +    for (int cntlid = 0; cntlid < ARRAY_SIZE(n->subsys->ctrls); cntlid++) {
+> +        ctrl = nvme_subsys_ctrl(n->subsys, cntlid);
+> +        if (ctrl) {
+> +            ctrl->id_ctrl.unvmcap -= le64_to_cpu(ns->size);
+> +        }
+> +    }
+> +
+> +    stl_le_p(&req->cqe.result, ns->params.nsid);
+> +    QSLIST_REMOVE_HEAD(&subsys->unallocated_namespaces, entry);
+> +    return NVME_SUCCESS;
+> +}
+> +
+> +static void nvme_namespace_delete(NvmeCtrl *n, NvmeNamespace *ns, uint32_t nsid)
+> +{
+> +    NvmeCtrl *ctrl;
+> +    NvmeSubsystem *subsys = n->subsys;
+> +
+> +    subsys->namespaces[nsid] = NULL;
+> +    QSLIST_INSERT_HEAD(&subsys->unallocated_namespaces, ns, entry);
+> +
+> +    for (int cntlid = 0; cntlid < ARRAY_SIZE(n->subsys->ctrls); cntlid++) {
+> +        ctrl = nvme_subsys_ctrl(n->subsys, cntlid);
+> +        if (ctrl) {
+> +            ctrl->id_ctrl.unvmcap += le64_to_cpu(ns->size);
+> +            if (nvme_ns(ctrl, nsid)) {
+> +                nvme_detach_ns(ctrl, ns, nsid);
+> +            }
+> +            nvme_ns_attr_changed_aer(ctrl, nsid);
+> +        }
+> +    }
+> +}
+> +
+> +static uint16_t nvme_ns_management(NvmeCtrl *n, NvmeRequest *req)
+> +{
+> +    uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
+> +    uint8_t sel = dw10 & 0x7;
+> +    uint32_t nsid = le32_to_cpu(req->cmd.nsid);
+> +    uint8_t  csi = le32_to_cpu(req->cmd.cdw11) >> 24;
+> +    NvmeNamespace *ns;
+> +
+> +    if (!n->subsys) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+> +    switch (sel) {
+> +    case NVME_NS_MANAGEMENT_CREATE:
+> +        if (nsid) {
+> +            return NVME_INVALID_FIELD | NVME_DNR;
+> +        }
+> +        if (csi == NVME_CSI_NVM) {
+> +            return nvme_namespace_create(n, req);
+> +        }
+> +        break;
+> +    case NVME_NS_MANAGEMENT_DELETE:
+> +        if (nsid != NVME_NSID_BROADCAST && !nvme_nsid_valid(n, nsid)) {
+> +            return NVME_INVALID_NSID | NVME_DNR;
+> +        }
+> +        if (nsid == NVME_NSID_BROADCAST) {
+> +            uint32_t i;
+> +
+> +            for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
+> +                ns = nvme_subsys_ns(n->subsys, i);
+> +                if (!ns) {
+> +                    continue;
+> +                }
+> +                nvme_namespace_delete(n, ns, i);
+> +            }
+> +            return NVME_SUCCESS;
+> +        } else {
+> +            ns = nvme_subsys_ns(n->subsys, nsid);
+> +            if (!ns) {
+> +                return NVME_INVALID_FIELD | NVME_DNR;
+> +            }
+> +            nvme_namespace_delete(n, ns, nsid);
+> +            return NVME_SUCCESS;
+> +        }
+> +
+> +    default:
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +    return NVME_INVALID_FIELD | NVME_DNR;
+> +}
+> +
+>  static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+>  {
+>      NvmeNamespace *ns;
+> @@ -5239,22 +5442,14 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+>              if (!nvme_ns(ctrl, nsid)) {
+>                  return NVME_NS_NOT_ATTACHED | NVME_DNR;
+>              }
+> -
+> -            ctrl->namespaces[nsid] = NULL;
+> -            ns->attached--;
+> -
+> -            nvme_update_dmrsl(ctrl);
+> +            nvme_detach_ns(ctrl, ns, nsid);
+>          }
+>  
+>          /*
+>           * Add namespace id to the changed namespace id list for event clearing
+>           * via Get Log Page command.
+>           */
+> -        if (!test_and_set_bit(nsid, ctrl->changed_nsids)) {
+> -            nvme_enqueue_event(ctrl, NVME_AER_TYPE_NOTICE,
+> -                               NVME_AER_INFO_NOTICE_NS_ATTR_CHANGED,
+> -                               NVME_LOG_CHANGED_NSLIST);
+> -        }
+> +        nvme_ns_attr_changed_aer(ctrl, nsid);
+>      }
+>  
+>      return NVME_SUCCESS;
+> @@ -5487,6 +5682,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+>          return nvme_get_feature(n, req);
+>      case NVME_ADM_CMD_ASYNC_EV_REQ:
+>          return nvme_aer(n, req);
+> +    case NVME_ADM_CMD_NS_MANAGEMENT:
+> +        return nvme_ns_management(n, req);
+>      case NVME_ADM_CMD_NS_ATTACHMENT:
+>          return nvme_ns_attachment(n, req);
+>      case NVME_ADM_CMD_FORMAT_NVM:
+> @@ -6471,6 +6668,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+>  
+>      if (n->subsys) {
+>          id->cmic |= NVME_CMIC_MULTI_CTRL;
+> +        id->tnvmcap = n->subsys->params.tnvmcap * GiB;
+> +        id->unvmcap = n->subsys->params.tnvmcap * GiB;
+>      }
+>  
+>      NVME_CAP_SET_MQES(cap, 0x7ff);
+> @@ -6518,6 +6717,22 @@ void nvme_attach_ns(NvmeCtrl *n, NvmeNamespace *ns)
+>                              BDRV_REQUEST_MAX_BYTES / nvme_l2b(ns, 1));
+>  }
+>  
+> +void nvme_detach_ns(NvmeCtrl *n, NvmeNamespace *ns, uint32_t nsid)
+> +{
+> +    n->namespaces[nsid] = NULL;
+> +    ns->attached--;
+> +    nvme_update_dmrsl(n);
+> +}
+> +
+> +void nvme_ns_attr_changed_aer(NvmeCtrl *n, uint32_t nsid)
+> +{
+> +    if (!test_and_set_bit(nsid, n->changed_nsids)) {
+> +        nvme_enqueue_event(n, NVME_AER_TYPE_NOTICE,
+> +                           NVME_AER_INFO_NOTICE_NS_ATTR_CHANGED,
+> +                           NVME_LOG_CHANGED_NSLIST);
+> +    }
+> +}
+> +
+>  static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>  {
+>      NvmeCtrl *n = NVME(pci_dev);
+> diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+> index b7cf1494e7..f62a695132 100644
+> --- a/hw/nvme/ns.c
+> +++ b/hw/nvme/ns.c
+> @@ -54,6 +54,30 @@ void nvme_ns_init_format(NvmeNamespace *ns)
+>      id_ns->npda = id_ns->npdg = npdg - 1;
+>  }
+>  
+> +void nvme_ns_identify_common(NvmeIdNs *id_ns)
+> +{
+> +    id_ns->dlfeat = 0x1;
+> +
+> +    /* support DULBE and I/O optimization fields */
+> +    id_ns->nsfeat |= (0x4 | 0x10);
+> +    id_ns->mc = NVME_ID_NS_MC_EXTENDED | NVME_ID_NS_MC_SEPARATE;
+> +    id_ns->dpc = 0x1f;
+> +
+> +    static const NvmeLBAF lbaf[16] = {
+> +        [0] = { .ds =  9           },
+> +        [1] = { .ds =  9, .ms =  8 },
+> +        [2] = { .ds =  9, .ms = 16 },
+> +        [3] = { .ds =  9, .ms = 64 },
+> +        [4] = { .ds = 12           },
+> +        [5] = { .ds = 12, .ms =  8 },
+> +        [6] = { .ds = 12, .ms = 16 },
+> +        [7] = { .ds = 12, .ms = 64 },
+> +    };
+> +
+> +    memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+> +    id_ns->nlbaf = 7;
+> +}
+> +
+>  static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+>  {
+>      static uint64_t ns_count;
+> @@ -65,11 +89,7 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+>      ns->csi = NVME_CSI_NVM;
+>      ns->status = 0x0;
+>  
+> -    ns->id_ns.dlfeat = 0x1;
+> -
+> -    /* support DULBE and I/O optimization fields */
+> -    id_ns->nsfeat |= (0x4 | 0x10);
+> -
+> +    nvme_ns_identify_common(id_ns);
+>      if (ns->params.shared) {
+>          id_ns->nmic |= NVME_NMIC_NS_SHARED;
+>      }
+> @@ -89,32 +109,15 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+>      ds = 31 - clz32(ns->blkconf.logical_block_size);
+>      ms = ns->params.ms;
+>  
+> -    id_ns->mc = NVME_ID_NS_MC_EXTENDED | NVME_ID_NS_MC_SEPARATE;
+> -
+>      if (ms && ns->params.mset) {
+>          id_ns->flbas |= NVME_ID_NS_FLBAS_EXTENDED;
+>      }
+>  
+> -    id_ns->dpc = 0x1f;
+>      id_ns->dps = ns->params.pi;
+>      if (ns->params.pi && ns->params.pil) {
+>          id_ns->dps |= NVME_ID_NS_DPS_FIRST_EIGHT;
+>      }
+>  
+> -    static const NvmeLBAF lbaf[16] = {
+> -        [0] = { .ds =  9           },
+> -        [1] = { .ds =  9, .ms =  8 },
+> -        [2] = { .ds =  9, .ms = 16 },
+> -        [3] = { .ds =  9, .ms = 64 },
+> -        [4] = { .ds = 12           },
+> -        [5] = { .ds = 12, .ms =  8 },
+> -        [6] = { .ds = 12, .ms = 16 },
+> -        [7] = { .ds = 12, .ms = 64 },
+> -    };
+> -
+> -    memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+> -    id_ns->nlbaf = 7;
+> -
+>      for (i = 0; i <= id_ns->nlbaf; i++) {
+>          NvmeLBAF *lbaf = &id_ns->lbaf[i];
+>          if (lbaf->ds == ds) {
+> @@ -402,10 +405,6 @@ int nvme_ns_setup(NvmeNamespace *ns, Error **errp)
+>          return -1;
+>      }
+>  
+> -    if (nvme_ns_init_blk(ns, errp)) {
+> -        return -1;
+> -    }
+> -
+>      if (nvme_ns_init(ns, errp)) {
+>          return -1;
+>      }
+> @@ -481,6 +480,15 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+>          }
+>      }
+>  
+> +    if (nvme_ns_init_blk(ns, errp)) {
+> +        return;
+> +    }
+> +
+> +    if (!ns->size) {
+> +        QSLIST_INSERT_HEAD(&subsys->unallocated_namespaces, ns, entry);
+> +        return;
+> +    }
+> +
+>      if (nvme_ns_setup(ns, errp)) {
+>          return;
+>      }
+> @@ -519,6 +527,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+>  
+>                  if (ctrl) {
+>                      nvme_attach_ns(ctrl, ns);
+> +                    ctrl->id_ctrl.unvmcap -= le64_to_cpu(ns->size);
+>                  }
+>              }
+>  
+> diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+> index 83ffabade4..142268f4e0 100644
+> --- a/hw/nvme/nvme.h
+> +++ b/hw/nvme/nvme.h
+> @@ -51,9 +51,11 @@ typedef struct NvmeSubsystem {
+>  
+>      NvmeCtrl      *ctrls[NVME_MAX_CONTROLLERS];
+>      NvmeNamespace *namespaces[NVME_MAX_NAMESPACES + 1];
+> +    QSLIST_HEAD(, NvmeNamespace) unallocated_namespaces;
+>  
+>      struct {
+>          char *nqn;
+> +        uint64_t tnvmcap;
+>      } params;
+>  } NvmeSubsystem;
+>  
+> @@ -130,7 +132,7 @@ typedef struct NvmeNamespace {
+>      uint16_t     status;
+>      int          attached;
+>  
+> -    QTAILQ_ENTRY(NvmeNamespace) entry;
+> +    QSLIST_ENTRY(NvmeNamespace) entry;
+>  
+>      NvmeIdNsZoned   *id_ns_zoned;
+>      NvmeZone        *zone_array;
+> @@ -259,6 +261,7 @@ int nvme_ns_setup(NvmeNamespace *ns, Error **errp);
+>  void nvme_ns_drain(NvmeNamespace *ns);
+>  void nvme_ns_shutdown(NvmeNamespace *ns);
+>  void nvme_ns_cleanup(NvmeNamespace *ns);
+> +void nvme_ns_identify_common(NvmeIdNs *id_ns);
+>  
+>  typedef struct NvmeAsyncEvent {
+>      QTAILQ_ENTRY(NvmeAsyncEvent) entry;
+> @@ -495,6 +498,8 @@ static inline uint16_t nvme_cid(NvmeRequest *req)
+>  }
+>  
+>  void nvme_attach_ns(NvmeCtrl *n, NvmeNamespace *ns);
+> +void nvme_detach_ns(NvmeCtrl *n, NvmeNamespace *ns, uint32_t nsid);
+> +void nvme_ns_attr_changed_aer(NvmeCtrl *n, uint32_t nsid);
+>  uint16_t nvme_bounce_data(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
+>                            NvmeTxDirection dir, NvmeRequest *req);
+>  uint16_t nvme_bounce_mdata(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
+> diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
+> index 93c35950d6..e30bfbca81 100644
+> --- a/hw/nvme/subsys.c
+> +++ b/hw/nvme/subsys.c
+> @@ -53,11 +53,14 @@ static void nvme_subsys_realize(DeviceState *dev, Error **errp)
+>      qbus_create_inplace(&subsys->bus, sizeof(NvmeBus), TYPE_NVME_BUS, dev,
+>                          dev->id);
+>  
+> +    QSLIST_INIT(&subsys->unallocated_namespaces);
+> +
+>      nvme_subsys_setup(subsys);
+>  }
+>  
+>  static Property nvme_subsystem_props[] = {
+>      DEFINE_PROP_STRING("nqn", NvmeSubsystem, params.nqn),
+> +    DEFINE_PROP_SIZE("tnvmcap", NvmeSubsystem, params.tnvmcap, 0),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> diff --git a/include/block/nvme.h b/include/block/nvme.h
+> index 77aae01174..8a8ca6753b 100644
+> --- a/include/block/nvme.h
+> +++ b/include/block/nvme.h
+> @@ -592,6 +592,7 @@ enum NvmeAdminCommands {
+>      NVME_ADM_CMD_SET_FEATURES   = 0x09,
+>      NVME_ADM_CMD_GET_FEATURES   = 0x0a,
+>      NVME_ADM_CMD_ASYNC_EV_REQ   = 0x0c,
+> +    NVME_ADM_CMD_NS_MANAGEMENT  = 0x0d,
+>      NVME_ADM_CMD_ACTIVATE_FW    = 0x10,
+>      NVME_ADM_CMD_DOWNLOAD_FW    = 0x11,
+>      NVME_ADM_CMD_NS_ATTACHMENT  = 0x15,
+> @@ -882,6 +883,9 @@ enum NvmeStatusCodes {
+>      NVME_FEAT_NOT_CHANGEABLE    = 0x010e,
+>      NVME_FEAT_NOT_NS_SPEC       = 0x010f,
+>      NVME_FW_REQ_SUSYSTEM_RESET  = 0x0110,
+> +    NVME_NS_INSUFF_CAP          = 0x0115,
+> +    NVME_THIN_PROVISION_NO_SUPP = 0x011b,
+> +    NVME_NS_ID_UNAVAILABLE      = 0x0116,
+>      NVME_NS_ALREADY_ATTACHED    = 0x0118,
+>      NVME_NS_PRIVATE             = 0x0119,
+>      NVME_NS_NOT_ATTACHED        = 0x011a,
+> @@ -1056,8 +1060,10 @@ typedef struct QEMU_PACKED NvmeIdCtrl {
+>      uint16_t    mtfa;
+>      uint32_t    hmpre;
+>      uint32_t    hmmin;
+> -    uint8_t     tnvmcap[16];
+> -    uint8_t     unvmcap[16];
+> +    uint64_t    tnvmcap;
+> +    uint64_t    tnvmcap_u;
+> +    uint64_t    unvmcap;
+> +    uint64_t    unvmcap_u;
+>      uint32_t    rpmbs;
+>      uint16_t    edstt;
+>      uint8_t     dsto;
+> @@ -1154,6 +1160,11 @@ enum NvmeIdCtrlCmic {
+>      NVME_CMIC_MULTI_CTRL    = 1 << 1,
+>  };
+>  
+> +enum NvmeNsManagementOperation {
+> +    NVME_NS_MANAGEMENT_CREATE = 0x0,
+> +    NVME_NS_MANAGEMENT_DELETE = 0x1,
+> +};
+> +
+>  #define NVME_CTRL_SQES_MIN(sqes) ((sqes) & 0xf)
+>  #define NVME_CTRL_SQES_MAX(sqes) (((sqes) >> 4) & 0xf)
+>  #define NVME_CTRL_CQES_MIN(cqes) ((cqes) & 0xf)
+> @@ -1285,7 +1296,8 @@ typedef struct QEMU_PACKED NvmeIdNs {
+>      uint16_t    nabo;
+>      uint16_t    nabspf;
+>      uint16_t    noiob;
+> -    uint8_t     nvmcap[16];
+> +    uint64_t    nvmcap;
+> +    uint64_t    nvmcap_u;
+>      uint16_t    npwg;
+>      uint16_t    npwa;
+>      uint16_t    npdg;
+> -- 
+> 2.17.1
+> 
 
+Hi Naveen,
 
-On 10/20/21 10:16 AM, LEROY Christophe wrote:
-> 
-> 
-> Le 20/10/2021 à 14:43, Cédric Le Goater a écrit :
->> On 10/20/21 13:42, BALATON Zoltan wrote:
->>> On Wed, 20 Oct 2021, Philippe Mathieu-Daudé wrote:
->>>> On 10/5/21 14:29, Thomas Huth wrote:
->>>>> On 05/10/2021 14.20, BALATON Zoltan wrote:
->>>>>> On Tue, 5 Oct 2021, Cédric Le Goater wrote:
->>>>>>> On 10/5/21 08:18, Alexey Kardashevskiy wrote:
->>>>>>>> On 05/10/2021 15:44, Christophe Leroy wrote:
->>>>>>>>> Le 05/10/2021 à 02:48, David Gibson a écrit :
->>>>>>>>>> On Fri, Oct 01, 2021 at 04:18:49PM +0200, Thomas Huth wrote:
->>>>>>>>>>> On 01/10/2021 15.04, Christophe Leroy wrote:
->>>>>>>>>>>> Le 01/10/2021 à 14:04, Thomas Huth a écrit :
->>>>>>>>>>>>> On 01/10/2021 13.12, Peter Maydell wrote:
->>>>>>>>>>>>>> On Fri, 1 Oct 2021 at 10:43, Thomas Huth <thuth@redhat.com>
->>>>>>>>>>>>>> wrote:
->>>>>>>>>>>>>>> Nevertheless, as long as nobody has a hint where to find that
->>>>>>>>>>>>>>> ppc405_rom.bin, I think both boards are pretty useless in
->>>>>>>>>>>>>>> QEMU (as far as I
->>>>>>>>>>>>>>> can see, they do not work without the bios at all, so it's
->>>>>>>>>>>>>>> also not possible
->>>>>>>>>>>>>>> to use a Linux image with the "-kernel" CLI option directly).
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> It is at least in theory possible to run bare-metal code on
->>>>>>>>>>>>>> either board, by passing either a pflash or a bios argument.
->>>>>>>>>>>>>
->>>>>>>>>>>>> True. I did some more research, and seems like there was once
->>>>>>>>>>>>> support for those boards in u-boot, but it got removed there a
->>>>>>>>>>>>> couple of years ago already:
->>>>>>>>>>>>>
->>>>>>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/98f705c9cefdf
->>>>>>>>>>>>>
->>>>>>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/b147ff2f37d5b
->>>>>>>>>>>>>
->>>>>>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/7514037bcdc37
->>>>>>>>>>>>>
->>>>>>>>>>>>>> But I agree that there seem to be no signs of anybody actually
->>>>>>>>>>>>>> successfully using these boards for anything, so we should
->>>>>>>>>>>>>> deprecate-and-delete them.
->>>>>>>>>>>>>
->>>>>>>>>>>>> Yes, let's mark them as deprecated now ... if someone still
->>>>>>>>>>>>> uses
->>>>>>>>>>>>> them and speaks up, we can still revert the deprecation again.
->>>>>>>>>>>>
->>>>>>>>>>>> I really would like to be able to use them to validate Linux
->>>>>>>>>>>> Kernel
->>>>>>>>>>>> changes, hence looking for that missing BIOS.
->>>>>>>>>>>>
->>>>>>>>>>>> If we remove ppc405 from QEMU, we won't be able to do any
->>>>>>>>>>>> regression
->>>>>>>>>>>> tests of Linux Kernel on those processors.
->>>>>>>>>>>
->>>>>>>>>>> If you/someone managed to compile an old version of u-boot for
->>>>>>>>>>> one of these
->>>>>>>>>>> two boards, so that we would finally have something for
->>>>>>>>>>> regression testing,
->>>>>>>>>>> we can of course also keep the boards in QEMU...
->>>>>>>>>>
->>>>>>>>>> I can see that it would be usefor for some cases, but unless
->>>>>>>>>> someone
->>>>>>>>>> volunteers to track down the necessary firmware and look after
->>>>>>>>>> it, I
->>>>>>>>>> think we do need to deprecate it - I certainly don't have the
->>>>>>>>>> capacity
->>>>>>>>>> to look into this.
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> I will look at it, please allow me a few weeks though.
->>>>>>>>
->>>>>>>> Well, building it was not hard but now I'd like to know what board
->>>>>>>> QEMU actually emulates, there are way too many codenames and PVRs.
->>>>>>>
->>>>>>> yes. We should try to reduce the list below. Deprecating embedded
->>>>>>> machines
->>>>>>> is one way.
->>>>>>
->>>>>> Why should we reduce that list? It's good to have different cpu
->>>>>> options when one wants to test code for different PPC versions (maybe
->>>>>> also in user mode) or just to have a quick list of these at one place.
->>>>>
->>>>> I think there are many CPUs in that list which cannot be used with any
->>>>> board, some of them might be also in a very incomplete state. So
->>>>> presenting such a big list to the users is confusing and might create
->>>>> wrong expectations. It would be good to remove at least the CPUs which
->>>>> are really completely useless.
->>>>
->>>> Maybe only remove some from system emulation but keep all of them
->>>> in user emulation?
->>>
->>> Or keep them all but mark those that are not tested/may be incomplete?
->>> So the used can see what is expected to work and what may need to be
->>> fixed. That way somebody may try and fix it whereas if it's not there
->>> they are unlikely to try to add it.
->>
->>
->> The bamboo machine with 440 CPUs is booting with the latest kernel
->> and we have an acceptance test for it now, thanks to Thomas. There
->> is not much effort in keeping them in a working state until someone
->> volunteers. Hopefully, Christophe is making sure that we are not
->> breaking anything with Linux support.
->>
->> The 405 machine are still close to deprecation I think. We are still
->> struggling to boot one with mainline Linux, using uboot provided by
->> Thomas which skips SDRAM init. It is not clear to me if u-boot is
->> strictly necessary. It depends if Linux relies on it to do some
->> pre-initialization of HW. I guess once we find a good DTS for it, or
->> not, we can take a decision.
->>
-> 
-> I now have a hacked configuration booting linux with the hotfoot DTS and
-> the kernel is booting up to starting /init
-> 
-> Then it is faulting forever taking a DSI for write protection. The
-> problem is now likely in Linux and I'm investigating it, but I'm having
-> problem with GDB (7.8.1), I'm hitting the bug
-> https://sourceware.org/bugzilla/show_bug.cgi?id=17700
-> 
-> And GDB 11.1 coredumps while reading vmlinux's symbols
-> 
-> Hopefully I'll find a GDB version between 7.8 and 11 that works.
-> 
+I found a bug, it is not possible to attach a created shared namespace
+to more than one controller with current implementation.
 
-Just to confirm, you're not really having problems with the ARM port of 
-GDB, right? It is a 32-bit PowerPC one. The bug you pointed out is only 
-a reference to a similar one for PowerPC?
+Here is the fix.
+
+---
+ hw/nvme/ctrl.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 992aaa7d02..63ea2fcb14 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -5390,6 +5390,7 @@ static uint16_t nvme_ns_management(NvmeCtrl *n, NvmeRequest *req)
+ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+ {
+     NvmeNamespace *ns;
++    NvmeIdNs *id_ns;
+     NvmeCtrl *ctrl;
+     uint16_t list[NVME_CONTROLLER_LIST_SIZE] = {};
+     uint32_t nsid = le32_to_cpu(req->cmd.nsid);
+@@ -5420,6 +5421,7 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+         return NVME_NS_CTRL_LIST_INVALID | NVME_DNR;
+     }
+ 
++    id_ns = &ns->id_ns;
+     *nr_ids = MIN(*nr_ids, NVME_CONTROLLER_LIST_SIZE - 1);
+     for (i = 0; i < *nr_ids; i++) {
+         ctrl = nvme_subsys_ctrl(n->subsys, ids[i]);
+@@ -5432,7 +5434,7 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+                 return NVME_NS_ALREADY_ATTACHED | NVME_DNR;
+             }
+ 
+-            if (ns->attached && !ns->params.shared) {
++            if (ns->attached && !(id_ns->nmic & NVME_NMIC_NS_SHARED)) {
+                 return NVME_NS_PRIVATE | NVME_DNR;
+             }
+ 
+-- 
+2.25.1
+
 
