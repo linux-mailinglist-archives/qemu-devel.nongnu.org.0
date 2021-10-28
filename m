@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4F343D996
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 04:58:39 +0200 (CEST)
-Received: from localhost ([::1]:51584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B08A243D994
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 04:57:16 +0200 (CEST)
+Received: from localhost ([::1]:48740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfvck-0004U2-SH
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 22:58:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58984)
+	id 1mfvbP-0002Rq-QT
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 22:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfvMT-0004mg-S1
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 22:41:51 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:34812)
+ id 1mfvMW-0004pB-3d
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 22:41:53 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:43745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mfvMR-0003PX-4Q
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 22:41:49 -0400
-Received: by mail-pf1-x433.google.com with SMTP id 127so4599995pfu.1
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 19:41:46 -0700 (PDT)
+ id 1mfvMT-0003Pt-Fu
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 22:41:51 -0400
+Received: by mail-pf1-x431.google.com with SMTP id 187so4548335pfc.10
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 19:41:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2aCMzzpED1pnAsbhFWuSe8VI84HPP2h5WLYR7vcie50=;
- b=N6KpV/N53TpV2uSzpgOhidVqONFYCPZTuBbarN9inSx1YHHf/elfSeYdFFryFAkuCE
- rl6dxZoxB1ZVTOWcYlBhDkErv3SbT7NoPsfUTFWVjNqYLV9wUIj2CEEKOn3xQdF7W35i
- UQHupNbTohtYjkqT13Yxj+TqKoNsqjBSPUZQ9xK6wYrTiSfD7Kom57kenDjFygg+8+sD
- 1AR13oyr3h0SgdhzqtHvQ5QQTu5mqQGUkZzXnZB5FbU0oRI7/JdUBzJ2PMLXAsl5YEyL
- p/feOtvRUsGviZJYdv6ppAmNNlsWE8gCq2tkHY+Oybm3BWDJh/FfkkeHVYEuRhfk6Bnz
- rzBg==
+ bh=4b6zM17cF3RrWL3jUN3e39U/QFtejbDytYKYLpCpWYI=;
+ b=tjqoQZ9zyL2GasSXl+4swKPfmx2rdpmXifVx7BqsudB9VcrdcDOeDfD+0ap+bRjd/X
+ Mve+zwlRyQR2+ULiULS8xXS3/clw+YlYaijLfojubEX2p+4evDSKdBjezpLOy/zAQvg7
+ dsiYAHwRWIT3JG+V+1nqSj03HeKil1I3HpghHUXzrcj1pUhkGl4aNtZnED4Gb3UPjhSl
+ 3rn0e+Q5MHqOJ/LLaDlqY2DHgIRa+a0Xi9xnmYoqyDEgog0RoJdpwQusxGuz9hOXI5zU
+ OpwKutirCAF/H2aL6wAC8Dd32fZrIdopO6IEkPjuJF+t7QnfOZE20vSdxYaGgJtPwqiE
+ GV3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2aCMzzpED1pnAsbhFWuSe8VI84HPP2h5WLYR7vcie50=;
- b=cxwXjydlBmmGuYATzvqZ10cCEIWMxdQq/q8zGK5WZ89mPI8Dywr3NVfzcE9yrxvBI9
- N7WUHnFETMzMykWnuoTtwotubFIs//zjy+krjUKfqihiMKGNGFmlvJdj4uiJWWYF2IjT
- vmlc5oanwuR21hdMKAmZpHFBLKsOWt4Ius8nOMWLx95aE34iMoG9pmwqpii2YOvcpcYy
- +3Xnv7NYOt2F4n1vL0rLaiENFdzAutG9YaDgQSGZix/yiEIuLH36UL9ax7pBPOS75xOx
- D+GlkPNxQChezZt645U0KC0b4o0SA6VHYUcaSTJ+Q1+cOSOLluJh/mt8DJEqas2sMppB
- cZTg==
-X-Gm-Message-State: AOAM531SAbdTxM2H94zpqgW8RbJvXkL/U3XT7KWWrP4OyXUXySk8ZY9p
- mOKuyslNU/yClwT269L0lTNuCCy6JoBWmQ==
-X-Google-Smtp-Source: ABdhPJyylmR2T6/WUiWVgtKgawqeiCyVW+eJi4DwFzZTxVCnOa425l97w8+rb+nWByUX+n5jTVNI7w==
-X-Received: by 2002:a63:6d4a:: with SMTP id i71mr1212106pgc.192.1635388905823; 
- Wed, 27 Oct 2021 19:41:45 -0700 (PDT)
+ bh=4b6zM17cF3RrWL3jUN3e39U/QFtejbDytYKYLpCpWYI=;
+ b=4g0Z691zWn0mcKgRchoVsWbOZk8muzsLKXp4g6rISLLBX9MtGnArqakR0f7MWbjJE8
+ hhu6I7VvuxPCeeM1f/jwm60e81appteZurwh9125BEPnot4C7Nf5oM3GBcGxRef0std7
+ FVfpyI2U7ZhmphaRV3X3E7ciEBo06ydlqWT3GaN7jEsnxynGM/TkWNul9xrXmLjXeOjG
+ Y6yVE5+IWOnI9fWRFk0z3o7hT900A4Vdga1xEvhSNiOpE0DJLqLNTdTLlNvuc6ERxGKz
+ Vq1exjH/uUB+9qqgJF5b9Ytl06qREa5mXq4QRYQoqm+0U11EVG732adiV0Hw5r71U3uo
+ 362w==
+X-Gm-Message-State: AOAM530l4oHANznvnkzcFZLZcT06hVNlZxlVYA4UauibAXmYKDXtSfCt
+ nsJ7EqEriK6h0vPdPjQWaPMKI76sZUQZjw==
+X-Google-Smtp-Source: ABdhPJyQLg4pd6cnXDG5d7SAuh4P/GT3Tl67QdA68lPnDJocl9f2UjjwTamRPLAhtOij0UifNQXCBw==
+X-Received: by 2002:a05:6a00:ac8:b029:320:a6bb:880d with SMTP id
+ c8-20020a056a000ac8b0290320a6bb880dmr1574998pfl.41.1635388906485; 
+ Wed, 27 Oct 2021 19:41:46 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
  by smtp.gmail.com with ESMTPSA id c25sm1218824pfn.159.2021.10.27.19.41.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Oct 2021 19:41:45 -0700 (PDT)
+ Wed, 27 Oct 2021 19:41:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/56] tcg/optimize: Split out fold_const{1,2}
-Date: Wed, 27 Oct 2021 19:40:55 -0700
-Message-Id: <20211028024131.1492790-21-richard.henderson@linaro.org>
+Subject: [PULL 21/56] tcg/optimize: Split out fold_setcond2
+Date: Wed, 27 Oct 2021 19:40:56 -0700
+Message-Id: <20211028024131.1492790-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211028024131.1492790-1-richard.henderson@linaro.org>
 References: <20211028024131.1492790-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,353 +89,185 @@ Cc: Luis Pires <luis.pires@eldorado.org.br>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out a whole bunch of placeholder functions, which are
-currently identical.  That won't last as more code gets moved.
-
-Use CASE_32_64_VEC for some logical operators that previously
-missed the addition of vectors.
+Reduce some code duplication by folding the NE and EQ cases.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 271 +++++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 219 insertions(+), 52 deletions(-)
+ tcg/optimize.c | 145 ++++++++++++++++++++++++-------------------------
+ 1 file changed, 72 insertions(+), 73 deletions(-)
 
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 159a5a9ee5..5c3f8e8fcd 100644
+index 5c3f8e8fcd..80e43deb8e 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -660,6 +660,60 @@ static void finish_folding(OptContext *ctx, TCGOp *op)
-     }
+@@ -854,6 +854,75 @@ static bool fold_remainder(OptContext *ctx, TCGOp *op)
+     return fold_const2(ctx, op);
  }
  
-+/*
-+ * The fold_* functions return true when processing is complete,
-+ * usually by folding the operation to a constant or to a copy,
-+ * and calling tcg_opt_gen_{mov,movi}.  They may do other things,
-+ * like collect information about the value produced, for use in
-+ * optimizing a subsequent operation.
-+ *
-+ * These first fold_* functions are all helpers, used by other
-+ * folders for more specific operations.
-+ */
-+
-+static bool fold_const1(OptContext *ctx, TCGOp *op)
++static bool fold_setcond2(OptContext *ctx, TCGOp *op)
 +{
-+    if (arg_is_const(op->args[1])) {
-+        uint64_t t;
++    TCGCond cond = op->args[5];
++    int i = do_constant_folding_cond2(&op->args[1], &op->args[3], cond);
++    int inv = 0;
 +
-+        t = arg_info(op->args[1])->val;
-+        t = do_constant_folding(op->opc, t, 0);
-+        return tcg_opt_gen_movi(ctx, op, op->args[0], t);
++    if (i >= 0) {
++        goto do_setcond_const;
++    }
++
++    switch (cond) {
++    case TCG_COND_LT:
++    case TCG_COND_GE:
++        /*
++         * Simplify LT/GE comparisons vs zero to a single compare
++         * vs the high word of the input.
++         */
++        if (arg_is_const(op->args[3]) && arg_info(op->args[3])->val == 0 &&
++            arg_is_const(op->args[4]) && arg_info(op->args[4])->val == 0) {
++            goto do_setcond_high;
++        }
++        break;
++
++    case TCG_COND_NE:
++        inv = 1;
++        QEMU_FALLTHROUGH;
++    case TCG_COND_EQ:
++        /*
++         * Simplify EQ/NE comparisons where one of the pairs
++         * can be simplified.
++         */
++        i = do_constant_folding_cond(INDEX_op_setcond_i32, op->args[1],
++                                     op->args[3], cond);
++        switch (i ^ inv) {
++        case 0:
++            goto do_setcond_const;
++        case 1:
++            goto do_setcond_high;
++        }
++
++        i = do_constant_folding_cond(INDEX_op_setcond_i32, op->args[2],
++                                     op->args[4], cond);
++        switch (i ^ inv) {
++        case 0:
++            goto do_setcond_const;
++        case 1:
++            op->args[2] = op->args[3];
++            op->args[3] = cond;
++            op->opc = INDEX_op_setcond_i32;
++            break;
++        }
++        break;
++
++    default:
++        break;
++
++    do_setcond_high:
++        op->args[1] = op->args[2];
++        op->args[2] = op->args[4];
++        op->args[3] = cond;
++        op->opc = INDEX_op_setcond_i32;
++        break;
 +    }
 +    return false;
++
++ do_setcond_const:
++    return tcg_opt_gen_movi(ctx, op, op->args[0], i);
 +}
 +
-+static bool fold_const2(OptContext *ctx, TCGOp *op)
-+{
-+    if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
-+        uint64_t t1 = arg_info(op->args[1])->val;
-+        uint64_t t2 = arg_info(op->args[2])->val;
-+
-+        t1 = do_constant_folding(op->opc, t1, t2);
-+        return tcg_opt_gen_movi(ctx, op, op->args[0], t1);
-+    }
-+    return false;
-+}
-+
-+/*
-+ * These outermost fold_<op> functions are sorted alphabetically.
-+ */
-+
-+static bool fold_add(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
-+static bool fold_and(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
-+static bool fold_andc(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
- static bool fold_call(OptContext *ctx, TCGOp *op)
+ static bool fold_shift(OptContext *ctx, TCGOp *op)
  {
-     TCGContext *s = ctx->tcg;
-@@ -692,6 +746,31 @@ static bool fold_call(OptContext *ctx, TCGOp *op)
-     return true;
- }
- 
-+static bool fold_ctpop(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const1(ctx, op);
-+}
-+
-+static bool fold_divide(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
-+static bool fold_eqv(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
-+static bool fold_exts(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const1(ctx, op);
-+}
-+
-+static bool fold_extu(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const1(ctx, op);
-+}
-+
- static bool fold_mb(OptContext *ctx, TCGOp *op)
- {
-     /* Eliminate duplicate and redundant fence instructions.  */
-@@ -716,6 +795,46 @@ static bool fold_mb(OptContext *ctx, TCGOp *op)
-     return true;
- }
- 
-+static bool fold_mul(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
-+static bool fold_mul_highpart(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
-+static bool fold_nand(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
-+static bool fold_neg(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const1(ctx, op);
-+}
-+
-+static bool fold_nor(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
-+static bool fold_not(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const1(ctx, op);
-+}
-+
-+static bool fold_or(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
-+static bool fold_orc(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
- static bool fold_qemu_ld(OptContext *ctx, TCGOp *op)
- {
-     /* Opcodes that touch guest memory stop the mb optimization.  */
-@@ -730,6 +849,26 @@ static bool fold_qemu_st(OptContext *ctx, TCGOp *op)
-     return false;
- }
- 
-+static bool fold_remainder(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
-+static bool fold_shift(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
-+static bool fold_sub(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
-+static bool fold_xor(OptContext *ctx, TCGOp *op)
-+{
-+    return fold_const2(ctx, op);
-+}
-+
- /* Propagate constants and copies, fold constant expressions. */
- void tcg_optimize(TCGContext *s)
- {
-@@ -1276,26 +1415,6 @@ void tcg_optimize(TCGContext *s)
+     return fold_const2(ctx, op);
+@@ -1653,79 +1722,6 @@ void tcg_optimize(TCGContext *s)
              }
              break;
  
--        CASE_OP_32_64(not):
--        CASE_OP_32_64(neg):
--        CASE_OP_32_64(ext8s):
--        CASE_OP_32_64(ext8u):
--        CASE_OP_32_64(ext16s):
--        CASE_OP_32_64(ext16u):
--        CASE_OP_32_64(ctpop):
--        case INDEX_op_ext32s_i64:
--        case INDEX_op_ext32u_i64:
--        case INDEX_op_ext_i32_i64:
--        case INDEX_op_extu_i32_i64:
--        case INDEX_op_extrl_i64_i32:
--        case INDEX_op_extrh_i64_i32:
--            if (arg_is_const(op->args[1])) {
--                tmp = do_constant_folding(opc, arg_info(op->args[1])->val, 0);
--                tcg_opt_gen_movi(&ctx, op, op->args[0], tmp);
+-        case INDEX_op_setcond2_i32:
+-            i = do_constant_folding_cond2(&op->args[1], &op->args[3],
+-                                          op->args[5]);
+-            if (i >= 0) {
+-            do_setcond_const:
+-                tcg_opt_gen_movi(&ctx, op, op->args[0], i);
 -                continue;
+-            }
+-            if ((op->args[5] == TCG_COND_LT || op->args[5] == TCG_COND_GE)
+-                 && arg_is_const(op->args[3])
+-                 && arg_info(op->args[3])->val == 0
+-                 && arg_is_const(op->args[4])
+-                 && arg_info(op->args[4])->val == 0) {
+-                /* Simplify LT/GE comparisons vs zero to a single compare
+-                   vs the high word of the input.  */
+-            do_setcond_high:
+-                reset_temp(op->args[0]);
+-                arg_info(op->args[0])->z_mask = 1;
+-                op->opc = INDEX_op_setcond_i32;
+-                op->args[1] = op->args[2];
+-                op->args[2] = op->args[4];
+-                op->args[3] = op->args[5];
+-                break;
+-            }
+-            if (op->args[5] == TCG_COND_EQ) {
+-                /* Simplify EQ comparisons where one of the pairs
+-                   can be simplified.  */
+-                i = do_constant_folding_cond(INDEX_op_setcond_i32,
+-                                             op->args[1], op->args[3],
+-                                             TCG_COND_EQ);
+-                if (i == 0) {
+-                    goto do_setcond_const;
+-                } else if (i > 0) {
+-                    goto do_setcond_high;
+-                }
+-                i = do_constant_folding_cond(INDEX_op_setcond_i32,
+-                                             op->args[2], op->args[4],
+-                                             TCG_COND_EQ);
+-                if (i == 0) {
+-                    goto do_setcond_high;
+-                } else if (i < 0) {
+-                    break;
+-                }
+-            do_setcond_low:
+-                reset_temp(op->args[0]);
+-                arg_info(op->args[0])->z_mask = 1;
+-                op->opc = INDEX_op_setcond_i32;
+-                op->args[2] = op->args[3];
+-                op->args[3] = op->args[5];
+-                break;
+-            }
+-            if (op->args[5] == TCG_COND_NE) {
+-                /* Simplify NE comparisons where one of the pairs
+-                   can be simplified.  */
+-                i = do_constant_folding_cond(INDEX_op_setcond_i32,
+-                                             op->args[1], op->args[3],
+-                                             TCG_COND_NE);
+-                if (i == 0) {
+-                    goto do_setcond_high;
+-                } else if (i > 0) {
+-                    goto do_setcond_const;
+-                }
+-                i = do_constant_folding_cond(INDEX_op_setcond_i32,
+-                                             op->args[2], op->args[4],
+-                                             TCG_COND_NE);
+-                if (i == 0) {
+-                    goto do_setcond_low;
+-                } else if (i > 0) {
+-                    goto do_setcond_const;
+-                }
 -            }
 -            break;
 -
-         CASE_OP_32_64(bswap16):
-         CASE_OP_32_64(bswap32):
-         case INDEX_op_bswap64_i64:
-@@ -1307,36 +1426,6 @@ void tcg_optimize(TCGContext *s)
-             }
+         default:
              break;
  
--        CASE_OP_32_64(add):
--        CASE_OP_32_64(sub):
--        CASE_OP_32_64(mul):
--        CASE_OP_32_64(or):
--        CASE_OP_32_64(and):
--        CASE_OP_32_64(xor):
--        CASE_OP_32_64(shl):
--        CASE_OP_32_64(shr):
--        CASE_OP_32_64(sar):
--        CASE_OP_32_64(rotl):
--        CASE_OP_32_64(rotr):
--        CASE_OP_32_64(andc):
--        CASE_OP_32_64(orc):
--        CASE_OP_32_64(eqv):
--        CASE_OP_32_64(nand):
--        CASE_OP_32_64(nor):
--        CASE_OP_32_64(muluh):
--        CASE_OP_32_64(mulsh):
--        CASE_OP_32_64(div):
--        CASE_OP_32_64(divu):
--        CASE_OP_32_64(rem):
--        CASE_OP_32_64(remu):
--            if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
--                tmp = do_constant_folding(opc, arg_info(op->args[1])->val,
--                                          arg_info(op->args[2])->val);
--                tcg_opt_gen_movi(&ctx, op, op->args[0], tmp);
--                continue;
--            }
--            break;
--
-         CASE_OP_32_64(clz):
-         CASE_OP_32_64(ctz):
-             if (arg_is_const(op->args[1])) {
-@@ -1637,9 +1726,73 @@ void tcg_optimize(TCGContext *s)
-             }
+@@ -1813,6 +1809,9 @@ void tcg_optimize(TCGContext *s)
+         CASE_OP_32_64(shr):
+             done = fold_shift(&ctx, op);
              break;
- 
-+        default:
++        case INDEX_op_setcond2_i32:
++            done = fold_setcond2(&ctx, op);
 +            break;
-+
-+        /* ---------------------------------------------------------- */
-+        /* Sorted alphabetically by opcode as much as possible. */
-+
-+        CASE_OP_32_64_VEC(add):
-+            done = fold_add(&ctx, op);
-+            break;
-+        CASE_OP_32_64_VEC(and):
-+            done = fold_and(&ctx, op);
-+            break;
-+        CASE_OP_32_64_VEC(andc):
-+            done = fold_andc(&ctx, op);
-+            break;
-+        CASE_OP_32_64(ctpop):
-+            done = fold_ctpop(&ctx, op);
-+            break;
-+        CASE_OP_32_64(div):
-+        CASE_OP_32_64(divu):
-+            done = fold_divide(&ctx, op);
-+            break;
-+        CASE_OP_32_64(eqv):
-+            done = fold_eqv(&ctx, op);
-+            break;
-+        CASE_OP_32_64(ext8s):
-+        CASE_OP_32_64(ext16s):
-+        case INDEX_op_ext32s_i64:
-+        case INDEX_op_ext_i32_i64:
-+            done = fold_exts(&ctx, op);
-+            break;
-+        CASE_OP_32_64(ext8u):
-+        CASE_OP_32_64(ext16u):
-+        case INDEX_op_ext32u_i64:
-+        case INDEX_op_extu_i32_i64:
-+        case INDEX_op_extrl_i64_i32:
-+        case INDEX_op_extrh_i64_i32:
-+            done = fold_extu(&ctx, op);
-+            break;
-         case INDEX_op_mb:
-             done = fold_mb(&ctx, op);
+         CASE_OP_32_64_VEC(sub):
+             done = fold_sub(&ctx, op);
              break;
-+        CASE_OP_32_64(mul):
-+            done = fold_mul(&ctx, op);
-+            break;
-+        CASE_OP_32_64(mulsh):
-+        CASE_OP_32_64(muluh):
-+            done = fold_mul_highpart(&ctx, op);
-+            break;
-+        CASE_OP_32_64(nand):
-+            done = fold_nand(&ctx, op);
-+            break;
-+        CASE_OP_32_64(neg):
-+            done = fold_neg(&ctx, op);
-+            break;
-+        CASE_OP_32_64(nor):
-+            done = fold_nor(&ctx, op);
-+            break;
-+        CASE_OP_32_64_VEC(not):
-+            done = fold_not(&ctx, op);
-+            break;
-+        CASE_OP_32_64_VEC(or):
-+            done = fold_or(&ctx, op);
-+            break;
-+        CASE_OP_32_64_VEC(orc):
-+            done = fold_orc(&ctx, op);
-+            break;
-         case INDEX_op_qemu_ld_i32:
-         case INDEX_op_qemu_ld_i64:
-             done = fold_qemu_ld(&ctx, op);
-@@ -1649,8 +1802,22 @@ void tcg_optimize(TCGContext *s)
-         case INDEX_op_qemu_st_i64:
-             done = fold_qemu_st(&ctx, op);
-             break;
--
--        default:
-+        CASE_OP_32_64(rem):
-+        CASE_OP_32_64(remu):
-+            done = fold_remainder(&ctx, op);
-+            break;
-+        CASE_OP_32_64(rotl):
-+        CASE_OP_32_64(rotr):
-+        CASE_OP_32_64(sar):
-+        CASE_OP_32_64(shl):
-+        CASE_OP_32_64(shr):
-+            done = fold_shift(&ctx, op);
-+            break;
-+        CASE_OP_32_64_VEC(sub):
-+            done = fold_sub(&ctx, op);
-+            break;
-+        CASE_OP_32_64_VEC(xor):
-+            done = fold_xor(&ctx, op);
-             break;
-         }
- 
 -- 
 2.25.1
 
