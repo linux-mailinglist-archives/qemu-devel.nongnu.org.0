@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2EBC43E011
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 13:33:49 +0200 (CEST)
-Received: from localhost ([::1]:37534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59F7A43E014
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 13:34:53 +0200 (CEST)
+Received: from localhost ([::1]:39716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg3fI-0003Wu-5i
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 07:33:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42134)
+	id 1mg3gK-0004yq-Gb
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 07:34:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mg3d0-0001i6-Gk
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 07:31:26 -0400
-Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:44004)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mg3cy-0002sz-98
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 07:31:26 -0400
-Received: by mail-il1-x12d.google.com with SMTP id y14so6381952ilv.10
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 04:31:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mqdA+xWGgZqLgMX9gcjl+Vy/1jzAVC0v1Ci31yZRa08=;
- b=An2eqT1ABSd30QpzQFgls7xxRJ3+MV9A28monUEAvy1MLyWF4Ow4HGS5FFsb21lx45
- FQJfRL8NtGc+SQtw9/zqH6Dw+j3U8Il0S4jeFkoMWFk4FTg3UhBH+RSecW3/y9gih5ea
- hvFURbKa/7jq7DWwcf779/GqjRVm5q4ULnR1S2G/5n9+Yk36zJ8EF9BJ5Powrrc/stHI
- QOsBD2t5yBnTvXpeaU8pFWwTgPbEdoV+RvasorO+kf4dBqLwvfT2GGZo1bSx1F5jj9r1
- 2FUgSBTohBGFmt3Tn1lD7cwt88xnvxjtOZ9k5K+uGkv0bNzElO+ZgbcRNJp1Mol2cgM5
- wiNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mqdA+xWGgZqLgMX9gcjl+Vy/1jzAVC0v1Ci31yZRa08=;
- b=FWEb/49PA41eKRwQYeOP2IJb3ehnCzgJX8NSQ09/2EvyTL2blnF1v4u8H0+PYTgdSL
- YgSCsWf+M/aQStZencZHMEqrsT8BEznvxu3RcclW0tq+LHG1uLTFIANrFiW5/b0bw0ow
- Ug3fyJqA1cwqe0zfGUTMQfDwJlR2eqjFPZKL9PdRb6WZJt0G5xfyq/BDFIG6PIJU+eIu
- 1+VWsKrnFPGgHqKv6ZjT9ehs9kW88ZBGAPY5PPSYccCgTzxzzL2QFHWNNRZ27sb7G+sq
- CeIoYc8huDMsh6U+hfxExQAqdJwvOkoBj+Gd3T8b6pgJmtGq3LkvRYvZlI6BmkhgXC0P
- Cnqg==
-X-Gm-Message-State: AOAM532JjpacS55COzb02xHnYW72f8BJrzK77SpgExL4bTgvRWqUaBzU
- gGy2dywVhehezk9a1uGjYo9PBak3bIOjZxuEZfo=
-X-Google-Smtp-Source: ABdhPJyYU7N9UxoaD+C7ShCQTzUvxaNQboxT7GmrXePTWYDERK5J1i7MJF8Uh63h42eLQCV0XcKv0Q9oCeEmtPCNmEg=
-X-Received: by 2002:a05:6e02:1b81:: with SMTP id
- h1mr2822928ili.290.1635420683066; 
- Thu, 28 Oct 2021 04:31:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mg3e8-0002sF-4O
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 07:32:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41089)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mg3e3-0002xz-Bi
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 07:32:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635420749;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eRudb7KtDm7FjnbgCgbxrjjp8YbY10xlHdv131Q9ezY=;
+ b=LbmAPbVsQACAHpb9XKeKgDOwV/w6kF/S8ry0rGDxmOdHwbYCoylgP54GaVMpNy7wEs2av/
+ 42RiETFY+y8tvFS7DiWDlVdeTPbsg86HNVn1PfV8ZS1l+vvO9V/2d3DWndR0EF9iRjF2CA
+ VHNyWwKsy7YVat2qmzPcgkLMwZRW5h8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-583-wQT6aUxePTS4aDvrM4gnvA-1; Thu, 28 Oct 2021 07:32:25 -0400
+X-MC-Unique: wQT6aUxePTS4aDvrM4gnvA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2AB787950C;
+ Thu, 28 Oct 2021 11:32:24 +0000 (UTC)
+Received: from [10.64.54.26] (vpn2-54-26.bne.redhat.com [10.64.54.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BCE160843;
+ Thu, 28 Oct 2021 11:32:20 +0000 (UTC)
+Subject: Re: [PATCH v2] hw/arm/virt: Expose empty NUMA nodes through ACPI
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20211027052958.280741-1-gshan@redhat.com>
+ <20211027174028.1f16fcfb@redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <fecb9351-ae78-8fcd-e377-623243ef80df@redhat.com>
+Date: Thu, 28 Oct 2021 22:32:09 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-References: <20211028044342.3070385-1-alistair.francis@opensource.wdc.com>
- <20211028044342.3070385-17-alistair.francis@opensource.wdc.com>
- <CAE_xrPgiy+OrehPrzt0OZq97jkxGgnBSkEQWbKhROU+v65ac2A@mail.gmail.com>
-In-Reply-To: <CAE_xrPgiy+OrehPrzt0OZq97jkxGgnBSkEQWbKhROU+v65ac2A@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 28 Oct 2021 21:30:57 +1000
-Message-ID: <CAKmqyKMHeqia5_1+VXd1+2RPq7-uqFVTfcFgDb7kVetgbXyNXQ@mail.gmail.com>
-Subject: Re: [PULL 16/18] target/riscv: change the api for RVF/RVD fmin/fmax
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211027174028.1f16fcfb@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.847, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,92 +81,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chih-Min Chao <chihmin.chao@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Alistair Francis <alistair.francis@opensource.wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, ehabkost@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 28, 2021 at 6:22 PM Frank Chang <frank.chang@sifive.com> wrote:
->
-> On Thu, Oct 28, 2021 at 12:45 PM Alistair Francis <alistair.francis@opensource.wdc.com> wrote:
+On 10/28/21 2:40 AM, Igor Mammedov wrote:
+> On Wed, 27 Oct 2021 13:29:58 +0800
+> Gavin Shan <gshan@redhat.com> wrote:
+> 
+>> The empty NUMA nodes, where no memory resides, aren't exposed
+>> through ACPI SRAT table. It's not user preferred behaviour because
+>> the corresponding memory node devices are missed from the guest
+>> kernel as the following example shows. It means the guest kernel
+>> doesn't have the node information as user specifies. However,
+>> memory can be still hot added to these empty NUMA nodes when
+>> they're not exposed.
 >>
->> From: Chih-Min Chao <chihmin.chao@sifive.com>
+>>    /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
+>>    -accel kvm -machine virt,gic-version=host               \
+>>    -cpu host -smp 4,sockets=2,cores=2,threads=1            \
+>>    -m 1024M,slots=16,maxmem=64G                            \
+>>    -object memory-backend-ram,id=mem0,size=512M            \
+>>    -object memory-backend-ram,id=mem1,size=512M            \
+>>    -numa node,nodeid=0,cpus=0-1,memdev=mem0                \
+>>    -numa node,nodeid=1,cpus=2-3,memdev=mem1                \
+>>    -numa node,nodeid=2                                     \
+>>    -numa node,nodeid=3                                     \
+>>       :
+>>    guest# ls /sys/devices/system/node | grep node
+>>    node0
+>>    node1
+>>    (qemu) object_add memory-backend-ram,id=hp-mem0,size=1G
+>>    (qemu) device_add pc-dimm,id=hp-dimm0,node=3,memdev=hp-mem0
+>>    guest# ls /sys/devices/system/node | grep node
+>>    node0
+>>    node1
+>>    node2
+>>    guest# cat /sys/devices/system/node/node2/meminfo | grep MemTotal
+>>    Node 2 MemTotal:    1048576 kB
 >>
->> The sNaN propagation behavior has been changed since
->> cd20cee7 in https://github.com/riscv/riscv-isa-manual.
+>> This exposes these empty NUMA nodes through ACPI SRAT table. With
+>> this applied, the corresponding memory node devices can be found
+>> from the guest. Note that the hotpluggable capability is explicitly
+>> given to these empty NUMA nodes for sake of completeness.
 >>
->> Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
->> Signed-off-by: Frank Chang <frank.chang@sifive.com>
->> Acked-by: Alistair Francis <alistair.francis@wdc.com>
->> Message-id: 20211016085428.3001501-3-frank.chang@sifive.com
->> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>>    guest# ls /sys/devices/system/node | grep node
+>>    node0
+>>    node1
+>>    node2
+>>    node3
+>>    guest# cat /sys/devices/system/node/node3/meminfo | grep MemTotal
+>>    Node 3 MemTotal:    0 kB
+>>    (qemu) object_add memory-backend-ram,id=hp-mem0,size=1G
+>>    (qemu) device_add pc-dimm,id=hp-dimm0,node=3,memdev=hp-mem0
+>>    guest# cat /sys/devices/system/node/node3/meminfo | grep MemTotal
+>>    Node 3 MemTotal:    1048576 kB
+> 
+> I'm still not sure why this is necessary and if it's a good idea,
+> is there a real hardware that have such nodes?
+> 
+> SRAT is used to assign resources to nodes, I haven't seen it being
+> used  as means to describe an empty node anywhere in the spec.
+> (perhaps we should not allow empty nodes on QEMU CLI at all).
+> 
+> Then if we really need this, why it's done for ARM only
+> and not for x86?
+> 
+
+I think this case exists in real hardware where the memory DIMM
+isn't plugged, but the node is still probed. Besides, this patch
+addresses two issues:
+
+(1) To make the information contained in guest kernel consistent
+     to the command line as the user expects. It means the sysfs
+     entries for these empty NUMA nodes in guest kernel reflects
+     what user provided.
+
+(2) Without this patch, the node number can be twisted from user's
+     perspective. As the example included in the commit log, node3
+     should be created, but node2 is actually created. The patch
+     reserves the NUMA node IDs in advance to avoid the issue.
+
+     /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
+        :
+     -numa node,nodeid=0,cpus=0-1,memdev=mem0                \
+     -numa node,nodeid=1,cpus=2-3,memdev=mem1                \
+     -numa node,nodeid=2                                     \
+     -numa node,nodeid=3                                     \
+     guest# ls /sys/devices/system/node | grep node
+     node0  node1
+     (qemu) object_add memory-backend-ram,id=hp-mem0,size=1G
+     (qemu) device_add pc-dimm,id=hp-dimm0,node=3,memdev=hp-mem0
+     guest# ls /sys/devices/system/node | grep node
+     node0  node1  node2
+
+We definitely need empty NUMA nodes from QEMU CLI. One case I heard
+of is kdump developer specify NUMA nodes and corresponding pc-dimm
+objects for memory hot-add and test the memory usability. I'm not
+familiar with ACPI specification, but linux kernel fetches NUMA
+node IDs from the following ACPI tables on ARM64. It's possible
+the empty NUMA node IDs are parsed from GENERIC_AFFINITY or SLIT
+tables if they exist in the corresponding ACPI tables.
+
+     ACPI_SRAT_TYPE_MEMORY_AFFINITY
+     ACPI_SRAT_TYPE_GENERIC_AFFINITY
+     ACPI_SIG_SLIT                          # if it exists
+
+So I think other architectures including x86 needs similar mechanism
+to expose NUMA node IDs through ACPI table. If you agree, I can post
+additional patches to do this after this one is settled and merged.
+
+>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>> Reviewed-by: Andrew Jones <drjones@redhat.com>
 >> ---
->>  target/riscv/fpu_helper.c | 16 ++++++++++++----
->>  1 file changed, 12 insertions(+), 4 deletions(-)
+>> v2: Improved commit log as suggested by Drew and Igor.
+>> ---
+>>   hw/arm/virt-acpi-build.c | 14 +++++++++-----
+>>   1 file changed, 9 insertions(+), 5 deletions(-)
 >>
->> diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
->> index 8700516a14..d62f470900 100644
->> --- a/target/riscv/fpu_helper.c
->> +++ b/target/riscv/fpu_helper.c
->> @@ -174,14 +174,18 @@ uint64_t helper_fmin_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
->>  {
->>      float32 frs1 = check_nanbox_s(rs1);
->>      float32 frs2 = check_nanbox_s(rs2);
->> -    return nanbox_s(float32_minnum(frs1, frs2, &env->fp_status));
->> +    return nanbox_s(env->priv_ver < PRIV_VERSION_1_11_0 ?
->> +                    float32_minnum(frs1, frs2, &env->fp_status) :
->> +                    float32_minimum_number(frs1, frs2, &env->fp_status));
->>  }
->>
->>  uint64_t helper_fmax_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
->>  {
->>      float32 frs1 = check_nanbox_s(rs1);
->>      float32 frs2 = check_nanbox_s(rs2);
->> -    return nanbox_s(float32_maxnum(frs1, frs2, &env->fp_status));
->> +    return nanbox_s(env->priv_ver < PRIV_VERSION_1_11_0 ?
->> +                    float32_maxnum(frs1, frs2, &env->fp_status) :
->> +                    float32_maximum_number(frs1, frs2, &env->fp_status));
->>  }
->>
->>  uint64_t helper_fsqrt_s(CPURISCVState *env, uint64_t rs1)
->> @@ -283,12 +287,16 @@ uint64_t helper_fdiv_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
->>
->>  uint64_t helper_fmin_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
->>  {
->> -    return float64_minnum(frs1, frs2, &env->fp_status);
->> +    return env->priv_ver < PRIV_VERSION_1_11_0 ?
->> +            float64_minnum(frs1, frs2, &env->fp_status) :
->> +            float64_minimum_number(frs1, frs2, &env->fp_status);
->>  }
->>
->>  uint64_t helper_fmax_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
->>  {
->> -    return float64_maxnum(frs1, frs2, &env->fp_status);
->> +    return env->priv_ver < PRIV_VERSION_1_11_0 ?
->> +            float64_maxnum(frs1, frs2, &env->fp_status) :
->> +            float64_maximum_number(frs1, frs2, &env->fp_status);
->>  }
->>
->>  uint64_t helper_fcvt_s_d(CPURISCVState *env, uint64_t rs1)
->> --
->> 2.31.1
->>
->
-> Hi Alistair,
->
-> Did you pull the latest v5 patchset?
-> https://lists.nongnu.org/archive/html/qemu-riscv/2021-10/msg00557.html
+>> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+>> index 674f902652..a4c95b2f64 100644
+>> --- a/hw/arm/virt-acpi-build.c
+>> +++ b/hw/arm/virt-acpi-build.c
+>> @@ -526,6 +526,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>>       const CPUArchIdList *cpu_list = mc->possible_cpu_arch_ids(ms);
+>>       AcpiTable table = { .sig = "SRAT", .rev = 3, .oem_id = vms->oem_id,
+>>                           .oem_table_id = vms->oem_table_id };
+>> +    MemoryAffinityFlags flags;
+>>   
+>>       acpi_table_begin(&table, table_data);
+>>       build_append_int_noprefix(table_data, 1, 4); /* Reserved */
+>> @@ -547,12 +548,15 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>>   
+>>       mem_base = vms->memmap[VIRT_MEM].base;
+>>       for (i = 0; i < ms->numa_state->num_nodes; ++i) {
+>> -        if (ms->numa_state->nodes[i].node_mem > 0) {
+>> -            build_srat_memory(table_data, mem_base,
+>> -                              ms->numa_state->nodes[i].node_mem, i,
+>> -                              MEM_AFFINITY_ENABLED);
+>> -            mem_base += ms->numa_state->nodes[i].node_mem;
+>> +        if (ms->numa_state->nodes[i].node_mem) {
+>> +            flags = MEM_AFFINITY_ENABLED;
+>> +        } else {
+>> +            flags = MEM_AFFINITY_ENABLED | MEM_AFFINITY_HOTPLUGGABLE;
+>>           }
+>> +
+>> +        build_srat_memory(table_data, mem_base,
+>> +                          ms->numa_state->nodes[i].node_mem, i, flags);
+> that will create 0 length memory range, which is "Enabled",
+> I'm not sure it's safe thing to do.
+> 
+> As side effect this will also create empty ranges for memory-less
+> nodes that have only CPUs, where it's not necessary.
+> 
+> I'd really try avoid adding empty ranges unless it hard requirement,
+> described somewhere or fixes a bug that can't be fixed elsewhere.
+> 
 
-Strange, I don't see it on the patches list. All I see is v4
+It's safe to Linux at least as I tested on ARM64. The (zero) memory
+block doesn't affect anything. Besides, the memory block which has
+been marked as hotpluggable won't be handled in Linux on ARM64
+actually.
 
-Alistair
+Yes, the empty NUMA nodes are meaningless to CPUs until memory is
+hot added into them.
 
->
-> I added more texts in the commit message to describe why we tie RVF version with Priv version.
-> I think it's still okay to pull this one as I don't think there's any functional changes, IIRC.
->
-> Regards,
-> Frank Chang
+
+>> +        mem_base += ms->numa_state->nodes[i].node_mem;
+>>       }
+>>   
+>>       if (ms->nvdimms_state->is_enabled) {
+> 
+
+Thanks,
+Gavin
+
 
