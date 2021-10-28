@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 131F643E78A
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 19:56:12 +0200 (CEST)
-Received: from localhost ([::1]:53208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEEC443E79D
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 19:59:37 +0200 (CEST)
+Received: from localhost ([::1]:34006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg9dK-0008Lw-G1
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 13:56:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50538)
+	id 1mg9gf-00061N-3K
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 13:59:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mg9b0-0006Ch-8i
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 13:53:46 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:37674)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mg9dS-0001Cf-Oz
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 13:56:18 -0400
+Received: from mail-vk1-xa2f.google.com ([2607:f8b0:4864:20::a2f]:46795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mg9ay-0002Ij-3N
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 13:53:45 -0400
-Received: by mail-pl1-x632.google.com with SMTP id n11so5000362plf.4
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 10:53:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tVEFbbebEavpAjA+40ChiTwoU3XdNKynKWf/fcSYhdU=;
- b=Gi1MCdoGTGHCyV8fS7Nt6kXoKl+i0KPlnBAOV69z1+7is6eBolbh9lxYQBK6f0vrjS
- kbsDtwmkOy/B0KDWyUBFKJgVtoYWgoNQ0Rcs/QN2r0Ammt1+GQKWok13ZZEDJJluKXVZ
- yDEHU8tU7gzmAnFisDM/0OFUW+F5hipIBQf/xt4TM//H7L78M3DirjvjihjIjPcWIgdT
- Z4wHYoRu06EZXeHe7nykWgwdA6bQ98QVWSEPZP6UOwOq7CyUBJwUQZiBkA8rtk3BhlWI
- SAucL1+WJDUA5I7JCBEbeJn499/KQJm39lyE488LVtowz2WmW7uBV+cpKzGrwO6JhT8E
- fkHw==
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mg9dQ-0003I3-B9
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 13:56:18 -0400
+Received: by mail-vk1-xa2f.google.com with SMTP id t127so3362623vke.13
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 10:56:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YufxuHKCoPkSZge0E5ciSU/zgYYhE5iYk4XDfnY5eic=;
+ b=3VfAaedUbjecPrPZMICFGRzYBLn7swMMRbdKqvE7xbT2WBl1ew9avsqsSh5ztakuGR
+ qi4MDjBkqCAoJAmrHzwKpWIDcmvuNMJoTA7b9vc03YwsSeR/4LVyM1mICUQme7lmorr+
+ 13+532EnsZ71/DZJqbLr7L+qB70amPnVCJB9U523RDIL07oXL62VJpYTknit12utALCK
+ PQRCBDe+WlpunAOMuV+cvfDftoJQjtBVQ3+hIGGPt/GH+4yYwa1W+9UByrJ0pmbU7qu5
+ Zmd2GPzSGfuguj/wEB3zO5WRAEAUrN0b+QaG3CXT4KWrWlzQdxRaZKVpwhFDCgtILYjf
+ JtVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tVEFbbebEavpAjA+40ChiTwoU3XdNKynKWf/fcSYhdU=;
- b=ujPvPqRg+n3+29cZ9g+EQDXE8ULKK5JqwX9DyvHxcjdDU11zduNQVGeaIwVo93BA3+
- 2AivP0Z7mydFf/zzzj6zEkSqzCdqZwsYMwOkNE11WMAQKfhO+ZDNTGCulOvFxAzST4mU
- yZyz/Md0Qptv/3mBfRApMEjtTA/r5Oxub7xjmVvneJ4NdWpheyT+wkYzfzILhwmKrNzE
- 0DmMjD4v2wI+H1vWyCFj1sPyDvN0RMdakny7zGDyiO6acstgNmgJ6fbCxXUqBlx4aFs9
- rGI894zSD0ufd1/97W6Ee/US04jAW9a//m8iYqnFN+IvEsgqKeBbIl0orNXRjeLY3SSa
- 08Pw==
-X-Gm-Message-State: AOAM532Svw/SuOTpQhLFG9/vHEdAcZccnJuvzyv8X8sSxAgZpH4xwNlm
- cCnrviRy/z5KBLzmFtAu8lpsug==
-X-Google-Smtp-Source: ABdhPJzVYZ1usxe0AVN2PHlbU33UosNCAubzxQDhbcSqEnf8klnVRvF2aOQeCyMYkt6+lqVmwKKA4w==
-X-Received: by 2002:a17:90b:4d09:: with SMTP id
- mw9mr6064847pjb.100.1635443622309; 
- Thu, 28 Oct 2021 10:53:42 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id g22sm4442303pfc.202.2021.10.28.10.53.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Oct 2021 10:53:41 -0700 (PDT)
-Subject: Re: [PATCH 22/24] bsd-user/arm/target_arch_signal.h: arm set_mcontext
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-23-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <344ac222-daa9-c752-8c6a-21773efb8656@linaro.org>
-Date: Thu, 28 Oct 2021 10:53:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YufxuHKCoPkSZge0E5ciSU/zgYYhE5iYk4XDfnY5eic=;
+ b=4DhNXOOUZzu77+NJWpSQ6R9v86EqN5fmZNJsVTYwjh4+7fFwhOHf6eRuW7myvnC2ep
+ 8qqsri+8IMq/aPO9SH7n0NdPoaz5dw2NBH7OsvrnoE1EBBLxchjXmSShKaP2F7mOqtln
+ AeK8Asi3YGh3qDzcTqPjTS5E9CrFSqywhTpOwJzhPv29fhv5XTnLAySHoAR+jDkd4zRX
+ MtX1q9h5GtAaIvQ/9ufSmp88x7C1al/cHNSgLjdYDkK1deuMMxRC1Y2+MbVH1psaAUrr
+ sKyMXA89e9txgMVeX+xDhKrOWF4XPGDHNgxTu5FdBkHxWgYcVtj94FdE9w0doO8a7/Mv
+ n9tQ==
+X-Gm-Message-State: AOAM532a1IEiCJ+QVw9h4Mm2ckSc1BKs30z3jJG46xeOmqDuvHPrNHGI
+ r+vddfgX0VlDhozcd6v3fYOpLc32ccko7/jeaqzzZA==
+X-Google-Smtp-Source: ABdhPJw5ewDo3UEm2LIEzWoqMQYeqNmGzhoGsWwqSfHytVJojKkpujhyfJihUvtkcJ7Z8+6gc3Sv6uJIjwrJyr84ht4=
+X-Received: by 2002:a05:6122:2e8:: with SMTP id
+ b8mr5537371vko.23.1635443774454; 
+ Thu, 28 Oct 2021 10:56:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211019164447.16359-23-imp@bsdimp.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.847,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211019164447.16359-1-imp@bsdimp.com>
+ <20211019164447.16359-10-imp@bsdimp.com>
+ <152e8afa-fc89-5666-e234-a2af6bca6acb@linaro.org>
+In-Reply-To: <152e8afa-fc89-5666-e234-a2af6bca6acb@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Thu, 28 Oct 2021 11:56:03 -0600
+Message-ID: <CANCZdfph7CSPN7KtAT4yGJ7V0wu2BzSVmHmthEEHO1UcXHHHxA@mail.gmail.com>
+Subject: Re: [PATCH 09/24] bsd-user/arm/target_arch_cpu.h: Implement system
+ call dispatch
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000003a123805cf6d6dc8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::a2f;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa2f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,42 +78,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Klye Evans <kevans@FreeBSD.org>,
- Michael Tokarev <mjt@tls.msk.ru>, Stacey Son <sson@FreeBSD.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Stacey Son <sson@freebsd.org>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Klye Evans <kevans@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 9:44 AM, Warner Losh wrote:
-> +    regs->regs[15] = tswap32(gr[TARGET_REG_PC]);
-> +    cpsr = tswap32(gr[TARGET_REG_CPSR]);
-> +    cpsr_write(regs, cpsr, CPSR_USER | CPSR_EXEC, CPSRWriteByInstr);
+--0000000000003a123805cf6d6dc8
+Content-Type: text/plain; charset="UTF-8"
 
-Hmm.  What's the expected behaviour if the saved CPSR state does not match the PC state 
-wrt thumb?
+On Thu, Oct 28, 2021 at 9:35 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-I'm ok if this should fail in spectacular ways, I just wanna know.
+> On 10/19/21 9:44 AM, Warner Losh wrote:
+> > +                env->eabi = 1; /* FreeBSD is eabi only now */
+>
+> Surely this should be set target_cpu_init.  Even then it'd be just for
+> completeness.  This
+> is the kind of thing that shouldn't have escaped linux-user, as it's
+> otherwise unused.
+>
+> Otherwise,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
 
-I *think* what will happen at the moment is that qemu will go into a whacky state in which 
-the translator will read and interpret unaligned data.
+I see no other uses outside of linux-user, so I'm just going to delete this
+line. FreeBSD
+used to support OABI in bsd-user, but always badly and so that code was
+removed.
 
-I have a pending patch set for arm to raise unaligned exceptions for mis-aligned pc.  For 
-arm32 mode, this is fine, and we'll raise the exception.  But for thumb mode, this is 
-architecturally impossible, and the translator will assert.
+Warner
 
-The assert is going to be a problem.  There are a couple of options:
+--0000000000003a123805cf6d6dc8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-(1) TARGET_REG_PC wins: unset PC[0] and adjust CPSR[T] to match.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 28, 2021 at 9:35 AM Richa=
+rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
+nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On 10/19/21 9:44 AM, Warner Losh wrote:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;eabi =
+=3D 1; /* FreeBSD is eabi only now */<br>
+<br>
+Surely this should be set target_cpu_init.=C2=A0 Even then it&#39;d be just=
+ for completeness.=C2=A0 This <br>
+is the kind of thing that shouldn&#39;t have escaped linux-user, as it&#39;=
+s otherwise unused.<br>
+<br>
+Otherwise,<br>
+Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
+ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br></blockqu=
+ote><div><br></div><div>I see no other uses outside of linux-user, so I&#39=
+;m just going to delete this line. FreeBSD</div><div>used to support OABI i=
+n bsd-user, but always badly and so that code was removed.</div><div><br></=
+div><div>Warner=C2=A0</div></div></div>
 
-(2) CPSR_T wins: unset pc[0] if CPSR[T] is set, unchanged otherwise.  (In the Arm ARM 
-psueodcode, pc[0] is hardwired to 0 in thumb mode.)
-
-(3) Don't worry about matching PC[0] and CPSR[T], but do prevent an impossible situation 
-and unset PC[0] always.  If PC[1] is set, and CPSR[T] is unset, then we'll raise unaligned 
-when the cpu restarts.
-
-And, finally, you're missing the mc_vfp_* handling.
-
-
-r~
+--0000000000003a123805cf6d6dc8--
 
