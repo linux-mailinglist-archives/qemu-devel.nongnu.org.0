@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CABF43DA66
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 06:32:30 +0200 (CEST)
-Received: from localhost ([::1]:56678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7BE43DA6F
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 06:36:06 +0200 (CEST)
+Received: from localhost ([::1]:34174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mfx5Z-0003iM-Ce
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 00:32:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48890)
+	id 1mfx93-0007Z1-8w
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 00:36:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfx46-0002yT-6B
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:30:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32699)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfx4r-0003mt-Af
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:31:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mfx43-0000HV-G0
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:30:57 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mfx4p-0000Li-Kd
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 00:31:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635395453;
+ s=mimecast20190719; t=1635395502;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DWgnKO8XQNdqYD5kfulurHIYAvwQFg9vtHlA84pPUsA=;
- b=PTOstugaO9zwf1I3v2XY4aeRfGCI7ReiQfIb2v/e3LC2khB9POlNiJY701UqAYDm4Stxx/
- 5/8edTFUUw5KvzwLGQWcrJVD+C6vuLCUDcX6FbkFX7AeY8D9gKU0kELE7vEHe6T15NYAH+
- i7trB04lYn1sMwgFBIEo1RzhFN4nM0w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-KF0_ZwNSMmamNjE2YNQEdA-1; Thu, 28 Oct 2021 00:30:50 -0400
-X-MC-Unique: KF0_ZwNSMmamNjE2YNQEdA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D81431006AA3
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 04:30:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E0C8360CA1;
- Thu, 28 Oct 2021 04:30:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 758C811380A7; Thu, 28 Oct 2021 06:30:33 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Leonardo Bras Soares Passos <leobras@redhat.com>
-Subject: Re: [PATCH v4 3/3] multifd: Implement zerocopy write in multifd
- migration (multifd-zerocopy)
-References: <20211009075612.230283-1-leobras@redhat.com>
- <20211009075612.230283-4-leobras@redhat.com>
- <20211011193156.biedorxjetduaf7y@redhat.com>
- <CAJ6HWG5neqLVdO_o+uzykOj3S-N5T0XUHv1_7Qo37_pw0eP_ZQ@mail.gmail.com>
- <87sfx6g55m.fsf@dusky.pond.sub.org>
- <CAJ6HWG6a5zDR49LQa3iRKLPVWo7toEOgJugsx3oV1c++pT4rhw@mail.gmail.com>
-Date: Thu, 28 Oct 2021 06:30:33 +0200
-In-Reply-To: <CAJ6HWG6a5zDR49LQa3iRKLPVWo7toEOgJugsx3oV1c++pT4rhw@mail.gmail.com>
- (Leonardo Bras Soares Passos's message of "Wed, 27 Oct 2021 22:56:51
- -0300")
-Message-ID: <87sfwl3h5i.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HnFIQz2oec65q08qJRovIdwn7YPszDR/Xr8+WcSmU3Y=;
+ b=bcGQX3/WBxXeAilUBS1QvTsD3cR/6P46YRdLoRKsCvKWQiEYn7nCmCC2uar9IBspkNMP7f
+ 7o0xTGrij6Zgy2d6ZxQg0syWrc3tH+Jh3VrYOfF1AhG9llsDHbB0LMfHj/KP8HvUJ7Ed+N
+ +wjbMuQFK5hhR6s6Zn4djfanMC0l0pI=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-97-VXqIQpxxPGKjOROUQIuoMg-1; Thu, 28 Oct 2021 00:31:41 -0400
+X-MC-Unique: VXqIQpxxPGKjOROUQIuoMg-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ d7-20020a056a0010c700b0047e4c951cc0so95013pfu.10
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 21:31:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HnFIQz2oec65q08qJRovIdwn7YPszDR/Xr8+WcSmU3Y=;
+ b=Wgsn+zvEG19PB/IpMsKux0TZuXk8FLQ13JCWvO+xeH/A0rnBuZYVCzkh34jtx5v797
+ r62m9cEPFPTPPJdm23jJ8aMyo7JyQ/7yb0w+9L6z7ZO0k3IozDvF1wPNfEcZfdPOoiQF
+ e7eTI03nEZ8YO+YPK3Vbc8C+Xb85es/X7AvgsB1/CFfpVuO+wBOCEU0QmNm9SJafnEMM
+ 24ptuzXOl25OYWNEJjB+nW7Y3eu2yCBApBWjOaVOvL8bk5kiHMU8t0qdmEB33UcU/1Lz
+ +gshlYDi4vsgHVLyuA4Fmkly5DsG7Dpjy+N9mAib/8kau9Ss87MP2nNnFq3VHjYso/I+
+ REzg==
+X-Gm-Message-State: AOAM53349lTfmDH5uARwQojr5ZvGVTJFNs50lZGRKCS0wdz9xRVMDLTZ
+ LO9ZVH2rEwRMmQsMwhmiX5IPiwHw5WBQ7JDoGnTZ+kTtW59uxMJgfzUub/Tn1LYaHXu++kAdnlP
+ d80KcgAusKxh9+x4QyDSyu6j/Tula1ln+cn/VFMDrqDsmsT3pxScCJ/1afbhJraoz
+X-Received: by 2002:a05:6a00:855:b0:44d:4d1e:9080 with SMTP id
+ q21-20020a056a00085500b0044d4d1e9080mr1899258pfk.66.1635395500023; 
+ Wed, 27 Oct 2021 21:31:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtT70FZr/uCIZePh9Do41/p2/9fGIhxT3ZLwYofN5xcqpJI4LPZxPBTqLvXKKsa00JaX9nzg==
+X-Received: by 2002:a05:6a00:855:b0:44d:4d1e:9080 with SMTP id
+ q21-20020a056a00085500b0044d4d1e9080mr1899207pfk.66.1635395499621; 
+ Wed, 27 Oct 2021 21:31:39 -0700 (PDT)
+Received: from localhost.localdomain ([191.101.132.60])
+ by smtp.gmail.com with ESMTPSA id k22sm1483074pfi.149.2021.10.27.21.31.33
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 27 Oct 2021 21:31:39 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/5] pci/iommu: Fail early if vfio-pci detected before
+ vIOMMU
+Date: Thu, 28 Oct 2021 12:31:24 +0800
+Message-Id: <20211028043129.38871-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,75 +93,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, peterx@redhat.com,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Leonardo Bras Soares Passos <leobras@redhat.com> writes:
+Note that patch 1-4 are cleanups for pci subsystem, and patch 5 is a fix to
+fail early for mis-ordered qemu cmdline on vfio and vIOMMU.  Logically they
+should be posted separately and they're not directly related, however to make
+it still correlated to v1 I kept them in the same patchset.
 
-[...]
+In this version I used pre_plug() hook for q35 to detect the ordering issue as
+Igor suggested, meanwhile it's done via object_resolve_path_type() rather than
+scanning the pci bus as Michael suggested.
 
->> The general argument for having QAPI schema 'if' mirror the C
->> implementation's #if is introspection.  Let me explain why that matters.
->>
->> Consider a management application that supports a range of QEMU
->> versions, say 5.0 to 6.2.  Say it wants to use an QMP command that is
->> new in QEMU 6.2.  The sane way to do that is to probe for the command
->> with query-qmp-schema.  Same for command arguments, and anything else
->> QMP.
->>
->> If you doubt "sane", check out Part II of "QEMU interface introspection:
->> From hacks to solutions"[*].
->>
->> The same technique works when a QMP command / argument / whatever is
->> compile-time conditional ('if' in the schema).  The code the management
->> application needs anyway to deal with older QEMU now also deals with
->> "compiled out".  Nice.
->>
->> Of course, a command or argument present in QEMU can still fail, and the
->> management application still needs to handle failure.  Distinguishing
->> different failure modes can be bothersome and/or fragile.
->>
->> By making the QAPI schema conditional mirror the C conditional, you
->> squash the failure mode "this version of QEMU supports it, but this
->> build of QEMU does not" into "this version of QEMU does not support
->> it".  Makes sense, doesn't it?
->>
->> A minor additional advantage is less generated code.
->>
->>
->>
->> [*] http://events17.linuxfoundation.org/sites/events/files/slides/armbru-qemu-introspection.pdf
->>
->
-> This was very informative, thanks!
-> I now understand the rationale about this choice.
->
-> TBH I am not very used to this syntax.
-> I did a take a peek at some other json files, and ended adding this
-> lines in code, which compiled just fine:
->
-> for : enum MigrationParameter
-> {'name': 'multifd-zerocopy', 'if' : 'CONFIG_LINUX'},
->
-> for : struct MigrateSetParameters and struct MigrationParameters:
-> '*multifd-zerocopy': { 'type': 'bool', 'if': 'CONFIG_LINUX' },
->
-> Is that enough? Is there any other necessary change?
+Please review, thanks.
 
-Looks good to me.
+v2 changelog:
+- Picked up r-b where I can
+- Merged patch 1 & 4, 2 & 3, 5 & 6
+- s/pci_root_bus_args/PCIRootBusArgs/ [David, Michael]
+- Replace "void* " with "void *" in pci.h [Phil]
+- Dropped "pci: Add pci_for_each_device_all()"
+- Dropped "x86-iommu: Fail early if vIOMMU specified after vfio-pci"
+- Added "qom: object_child_foreach_recursive_type()"
+- Added "pc/q35: Add pre-plug hook for x86-iommu"
 
-The QAPI schema language is documented in docs/devel/qapi-code-gen.rst.
+v1: https://lore.kernel.org/qemu-devel/20211021104259.57754-1-peterx@redhat.com/
 
-If you're curious, you can diff code generated into qapi/ before and
-after adding the 'if'.
+Peter Xu (5):
+  pci: Define pci_bus_dev_fn/pci_bus_fn/pci_bus_ret_fn
+  pci: Export pci_for_each_device_under_bus*()
+  qom: object_child_foreach_recursive_type()
+  pci: Add pci_for_each_root_bus()
+  pc/q35: Add pre-plug hook for x86-iommu
 
-> Thanks for reviewing and for helping out with this!
+ hw/arm/virt-acpi-build.c    | 31 ++++++++--------------
+ hw/i386/acpi-build.c        | 39 +++++++---------------------
+ hw/i386/pc.c                |  4 +++
+ hw/i386/x86-iommu.c         | 14 ++++++++++
+ hw/pci/pci.c                | 52 +++++++++++++++++++++++++------------
+ hw/pci/pcie.c               |  4 +--
+ hw/ppc/spapr_pci.c          | 12 ++++-----
+ hw/ppc/spapr_pci_nvlink2.c  |  7 +++--
+ hw/ppc/spapr_pci_vfio.c     |  4 +--
+ hw/s390x/s390-pci-bus.c     |  5 ++--
+ hw/xen/xen_pt.c             |  4 +--
+ include/hw/i386/x86-iommu.h |  8 ++++++
+ include/hw/pci/pci.h        | 26 ++++++++++++-------
+ include/qom/object.h        | 20 ++++++++++++++
+ qom/object.c                | 27 +++++++++++++++++++
+ 15 files changed, 160 insertions(+), 97 deletions(-)
 
-My pleasure!
+-- 
+2.32.0
 
 
