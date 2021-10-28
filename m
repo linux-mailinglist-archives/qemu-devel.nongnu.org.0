@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC4843E57E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 17:53:36 +0200 (CEST)
-Received: from localhost ([::1]:53862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0AF43E59E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 17:58:54 +0200 (CEST)
+Received: from localhost ([::1]:35294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg7ig-0005MG-N0
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 11:53:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49036)
+	id 1mg7np-0003fX-7l
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 11:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mg7fc-0001jK-2E
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:50:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48718)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mg7kk-0001CO-OH
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:55:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mg7fX-0002wl-FL
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:50:23 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mg7kh-00044W-AN
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:55:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635436218;
+ s=mimecast20190719; t=1635436537;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=38lWvMwvkmAAhy1Hh6GPsxCADphfLMTkYdfACB4s8fk=;
- b=EDN4I0iFlkKdjWBKQtoO1GyjNhLzs2UZASe73KB6XsakGVHBbNAm9m8pJLx269VSpxvzQj
- Qw8dT27Mo8F8fmnuCf7LFFgNv7xyWPQaDlq9xCDjdv/mQ5hhLaxDxZlXfGCq6h9kGUExOf
- 0eLBoU4UQkggNR6Z17JaNXewO/lNHlE=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1YfU37/aleYiVsCwIIseUMvIi0lD4XGZ/Fuj5eDl/YU=;
+ b=bU2u4va1qD6IFoaYLZtwIUQKcKcU0ZwL9hMQELGs6NRYTEsNoMHhkrOUwC46xoib97/UOk
+ OZXPf1FvRktlgLxTz9bwx56204ntDADBH4NlAmgW9w2TNX91psIM+XZwx07NpnaFNGJu/R
+ JxN0t08McZNc0H3GIDn+C728LI/6f5c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-GX-XOyvFNbmUu57eWyLxZA-1; Thu, 28 Oct 2021 11:50:17 -0400
-X-MC-Unique: GX-XOyvFNbmUu57eWyLxZA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-23-yH9wmjUwMQWN0UoVs-_HsQ-1; Thu, 28 Oct 2021 11:55:35 -0400
+X-MC-Unique: yH9wmjUwMQWN0UoVs-_HsQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 068B45074D;
- Thu, 28 Oct 2021 15:50:16 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BFF760C4A;
- Thu, 28 Oct 2021 15:49:56 +0000 (UTC)
-Date: Thu, 28 Oct 2021 16:49:55 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v4 00/25] block layer: split block APIs in global state
- and I/O
-Message-ID: <YXrGo4OeIR21qhWs@stefanha-x1.localdomain>
-References: <20211025101735.2060852-1-eesposit@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CACD69126B;
+ Thu, 28 Oct 2021 15:55:33 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.195.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B2095F4EA;
+ Thu, 28 Oct 2021 15:54:58 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/22] monitor: explicitly permit QMP commands to be added
+ for all use cases
+Date: Thu, 28 Oct 2021 16:54:35 +0100
+Message-Id: <20211028155457.967291-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211025101735.2060852-1-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="N1TpBYZk9WVtIFxh"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,242 +76,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---N1TpBYZk9WVtIFxh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Oct 25, 2021 at 06:17:10AM -0400, Emanuele Giuseppe Esposito wrote:
-> Currently, block layer APIs like block-backend.h contain a mix of
-> functions that are either running in the main loop and under the
-> BQL, or are thread-safe functions and run in iothreads performing I/O.
-> The functions running under BQL also take care of modifying the
-> block graph, by using drain and/or aio_context_acquire/release.
-> This makes it very confusing to understand where each function
-> runs, and what assumptions it provided with regards to thread
-> safety.
->=20
-> We call the functions running under BQL "global state (GS) API", and
-> distinguish them from the thread-safe "I/O API".
->=20
-> The aim of this series is to split the relevant block headers in
-> global state and I/O sub-headers. The division will be done in
-
-Kevin and Hanna,
-Does one of you want to review and merge this? It affects the entire
-block layer and your input would be valuable.
-
-Thanks,
-Stefan
-
-> this way:
-> header.h will be split in header-global-state.h, header-io.h and
-> header-common.h. The latter will just contain the data structures
-> needed by header-global-state and header-io, and common helpers
-> that are neither in GS nor in I/O. header.h will remain for
-> legacy and to avoid changing all includes in all QEMU c files,
-> but will only include the two new headers. No function shall be
-> added in header.c .
-> Once we split all relevant headers, it will be much easier to see what
-> uses the AioContext lock and remove it, which is the overall main
-> goal of this and other series that I posted/will post.
->=20
-> In addition to splitting the relevant headers shown in this series,
-> it is also very helpful splitting the function pointers in some
-> block structures, to understand what runs under AioContext lock and
-> what doesn't. This is what patches 19-25 do.
->=20
-> Each function in the GS API will have an assertion, checking
-> that it is always running under BQL.
-> I/O functions are instead thread safe (or so should be), meaning
-> that they *can* run under BQL, but also in an iothread in another
-> AioContext. Therefore they do not provide any assertion, and
-> need to be audited manually to verify the correctness.
->=20
-> Adding assetions has helped finding 2 bugs already, as shown in
-> my series "Migration: fix missing iothread locking".
->=20
-> Tested this series by running unit tests, qemu-iotests and qtests
-> (x86_64).
-> Some functions in the GS API are used everywhere but not
-> properly tested. Therefore their assertion is never actually run in
-> the tests, so despite my very careful auditing, it is not impossible
-> to exclude that some will trigger while actually using QEMU.
->=20
-> Patch 1 introduces qemu_in_main_thread(), the function used in
-> all assertions. This had to be introduced otherwise all unit tests
-> would fail, since they run in the main loop but use the code in
-> stubs/iothread.c
-> Patches 2-14 and 19-25 (with the exception of patch 9, that is an additio=
-nal
-> assert) are all structured in the same way: first we split the header
-> and in the next (even) patch we add assertions.
-> The rest of the patches ontain either both assertions and split,
-> or have no assertions.
->=20
-> Next steps once this get reviewed:
-> 1) audit the GS API and replace the AioContext lock with drains,
-> or remove them when not necessary (requires further discussion).
-> 2) [optional as it should be already the case] audit the I/O API
-> and check that thread safety is guaranteed
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
-> v3 -> v4:
-> * blockdev.h (patch 14): blockdev_mark_auto_del, blockdev_auto_del
->   and blk_legacy_dinfo as GS API.
-> * add copyright header to block.h, block-io.h and block-global-state.h
-> * rebase on current master (c5b2f55981)
->=20
-> v2 -> v3:
-> * rename "graph API" into "global state API"
-> * change order of patches, block.h comes before block-backend.h
-> * change GS and I/O comment headers to avoid redundancy, all other
->   headers refer to block-global-state.h and block-io.h
-> * fix typo on GS and I/O headers
-> * use assert instead of g_assert
-> * move bdrv_pwrite_sync, bdrv_block_status and bdrv_co_copy_range_{from/t=
-o}
->   to the I/O API
-> * change assert_bdrv_graph_writable implementation, since we need
->   to introduce additional drains
-> * remove transactions API split
-> * add preparation patch for blockdev.h (patch 13)
-> * backup-top -> copy-on-write
-> * change I/O comment in job.h into a better meaningful explanation
-> * fix all warnings given by checkpatch, mostly due to /* */ to be
->   split in separate lines
-> * rebase on current master (c09124dcb8), and split the following new func=
-tions:
-> =09blk_replace_bs (I/O)
-> =09bdrv_bsc_is_data (I/O)
-> =09bdrv_bsc_invalidate_range (I/O)
-> =09bdrv_bsc_fill (I/O)
-> =09bdrv_new_open_driver_opts (GS)
-> =09blk_get_max_hw_iov (I/O)
->   they are all added in patches 4 and 6.
->=20
-> v1 -> v2:
-> * remove the iothread locking bug fix, and send it as separate patch
-> * rename graph API -> global state API
-> * better documented patch 1 (qemu_in_main_thread)
-> * add and split all other block layer headers
-> * fix warnings given by checkpatch on multiline comments
->=20
-> Emanuele Giuseppe Esposito (25):
->   main-loop.h: introduce qemu_in_main_thread()
->   include/block/block: split header into I/O and global state API
->   assertions for block global state API
->   include/sysemu/block-backend: split header into I/O and global state
->     (GS) API
->   block/block-backend.c: assertions for block-backend
->   include/block/block_int: split header into I/O and global state API
->   assertions for block_int global state API
->   block: introduce assert_bdrv_graph_writable
->   include/block/blockjob_int.h: split header into I/O and GS API
->   assertions for blockjob_int.h
->   include/block/blockjob.h: global state API
->   assertions for blockob.h global state API
->   include/sysemu/blockdev.h: move drive_add and inline drive_def
->   include/systemu/blockdev.h: global state API
->   assertions for blockdev.h global state API
->   include/block/snapshot: global state API + assertions
->   block/copy-before-write.h: global state API + assertions
->   block/coroutines: I/O API
->   block_int-common.h: split function pointers in BlockDriver
->   block_int-common.h: assertion in the callers of BlockDriver function
->     pointers
->   block_int-common.h: split function pointers in BdrvChildClass
->   block_int-common.h: assertions in the callers of BdrvChildClass
->     function pointers
->   block-backend-common.h: split function pointers in BlockDevOps
->   job.h: split function pointers in JobDriver
->   job.h: assertions in the callers of JobDriver funcion pointers
->=20
->  block.c                                     |  188 ++-
->  block/backup.c                              |    1 +
->  block/block-backend.c                       |  105 +-
->  block/commit.c                              |    4 +
->  block/copy-before-write.c                   |    2 +
->  block/copy-before-write.h                   |    7 +
->  block/coroutines.h                          |    6 +
->  block/dirty-bitmap.c                        |    1 +
->  block/io.c                                  |   37 +
->  block/meson.build                           |    7 +-
->  block/mirror.c                              |    4 +
->  block/monitor/bitmap-qmp-cmds.c             |    6 +
->  block/monitor/block-hmp-cmds.c              |    2 +-
->  block/snapshot.c                            |   28 +
->  block/stream.c                              |    2 +
->  blockdev.c                                  |   55 +-
->  blockjob.c                                  |   14 +
->  include/block/block-common.h                |  389 +++++
->  include/block/block-global-state.h          |  286 ++++
->  include/block/block-io.h                    |  306 ++++
->  include/block/block.h                       |  878 +----------
->  include/block/block_int-common.h            | 1193 +++++++++++++++
->  include/block/block_int-global-state.h      |  327 ++++
->  include/block/block_int-io.h                |  163 ++
->  include/block/block_int.h                   | 1478 +------------------
->  include/block/blockjob.h                    |    9 +
->  include/block/blockjob_int.h                |   28 +
->  include/block/snapshot.h                    |   13 +-
->  include/qemu/job.h                          |   16 +
->  include/qemu/main-loop.h                    |   13 +
->  include/sysemu/block-backend-common.h       |   92 ++
->  include/sysemu/block-backend-global-state.h |  122 ++
->  include/sysemu/block-backend-io.h           |  139 ++
->  include/sysemu/block-backend.h              |  269 +---
->  include/sysemu/blockdev.h                   |   24 +-
->  job.c                                       |    9 +
->  migration/savevm.c                          |    2 +
->  softmmu/cpus.c                              |    5 +
->  softmmu/qdev-monitor.c                      |    2 +
->  softmmu/vl.c                                |   25 +-
->  stubs/iothread-lock.c                       |    5 +
->  41 files changed, 3619 insertions(+), 2643 deletions(-)
->  create mode 100644 include/block/block-common.h
->  create mode 100644 include/block/block-global-state.h
->  create mode 100644 include/block/block-io.h
->  create mode 100644 include/block/block_int-common.h
->  create mode 100644 include/block/block_int-global-state.h
->  create mode 100644 include/block/block_int-io.h
->  create mode 100644 include/sysemu/block-backend-common.h
->  create mode 100644 include/sysemu/block-backend-global-state.h
->  create mode 100644 include/sysemu/block-backend-io.h
->=20
-> --=20
-> 2.27.0
->=20
-
---N1TpBYZk9WVtIFxh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmF6xqMACgkQnKSrs4Gr
-c8go5wf/UQ5KxVTooTXduD6RFcxkZt8EiDngT7yHtn86V0MpTzs7VBzHRbApvJLE
-SCB20FgV6XJ0T54oTnKI9s2b9MRDhQI8bbkjlTYm72TbMHHgfL6FTGaA0c9SVVn1
-kB8Z/Kx8TrhAmA3OsH67aGW4QcseB3jQixN3ItlliuHRfezsHSHfYPKq/Bqb0f+Q
-AMhmAplRN+RGLhhiJqEhiRspiwvz/JhHTfHeiSWfD/DkbkV1qwU/HMg5l8jK6IBI
-dC3MFMfTeMYAwYnFbIYh6Xq9l0k7mC7SvoDEl6k4xr2a6Ovfjz+DdrkEGscvNns8
-i1mcdRI0/2uYRxLxFUcKzP0RE0U4sQ==
-=xit3
------END PGP SIGNATURE-----
-
---N1TpBYZk9WVtIFxh--
+Previous postings:=0D
+=0D
+  v1: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02295.html=
+=0D
+  v2: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg03703.html=
+=0D
+  v3: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg07710.html=
+=0D
+=0D
+We are still adding HMP commands without any QMP counterparts. This is=0D
+done because there are a reasonable number of scenarios where the cost=0D
+of designing a QAPI data type for the command is not justified.=0D
+=0D
+This has the downside, however, that we will never be able to fully=0D
+isolate the monitor code from the remainder of QEMU internals. It is=0D
+desirable to be able to get to a point where subsystems in QEMU are=0D
+exclusively implemented using QAPI types and never need to have any=0D
+knowledge of the monitor.=0D
+=0D
+The way to get there is to stop adding commands to HMP only. All=0D
+commands must be implemented using QMP and any HMP equivalent be=0D
+a shim around the QMP implemetation. We don't want to compromise=0D
+our supportability of QMP long term though.=0D
+=0D
+This series proposes that we relax our requirements around fine grained=0D
+QAPI data design, but with the caveat that any command taking this=0D
+design approach is mandated to use the 'x-' name prefix. This tradeoff=0D
+should be suitable for any commands we have been adding exclusively to=0D
+HMP in recent times, and thus mean we have mandate QMP support for all=0D
+new commands going forward.=0D
+=0D
+The series then converts the following HMP commands to be QMP shims.=0D
+=0D
+    info opcount=0D
+    info jit=0D
+    info irq=0D
+    info lapic=0D
+    info cmma=0D
+    info skeys=0D
+    info ramblock=0D
+    info rdma=0D
+    info usb=0D
+    info numa=0D
+    info profile=0D
+    info roms=0D
+=0D
+A full conversion would also enable HMP to be emulated entirely=0D
+outside QEMU. This could be interesting if we introduce a new QEMU=0D
+system emulator binary which is legacy free and 100% controlled=0D
+via QMP, as it would let us provide HMP backcompat around it=0D
+without the burden of HMP being integrated directly.=0D
+=0D
+There are still many HMP commands with no QMP counterpart after=0D
+this series.=0D
+=0D
+ - A few are not relevant to port as they directly=0D
+   reflect HMP functionality (help, info history).=0D
+ - A few are sort of available in QMP but look quite=0D
+   different (drive_add vs blockdev_add)=0D
+ - A few are complicated. "info usbhost" is a dynamically=0D
+   loaded HMP command inside a loadable module and we=0D
+   don't have a way to dynamically register QMP handlers=0D
+   at runtime.=0D
+ - Most are just tedious gruntwork.=0D
+=0D
+Changed in v4:=0D
+=0D
+ - Introduce a 'cmd_info_hrt' callback for HMP commands,=0D
+   to handle common case of an info command with no parameters=0D
+   that returns humand readable text. This simply needs the=0D
+   QMP callback and will print the resulting text=0D
+ - Make hmp_handle_error return bool=0D
+ - Improve HMP error handling docs=0D
+=0D
+Changed in v3:=0D
+=0D
+ - Temporarily spun off the 'info registers' and 'info tlb'=0D
+   conversions. These required 30+ patches across all the=0D
+   targets and was making this series too large and conflict=0D
+   prone and spanning too many subsystems.=0D
+=0D
+   I'll re-submit those two later=0D
+=0D
+ - Pull in a fix for the 'info lapic' command=0D
+=0D
+ - Misc improvements to the documentation after reviews=0D
+=0D
+ - Add helper for GString -> HumanReadableText conversion=0D
+=0D
+Changed in v2:=0D
+=0D
+ - Improved documentation in response to feedback=0D
+ - Finished "info registers" conversion on all targets=0D
+ - Got a bit carried away and converted many many more=0D
+   commands=0D
+=0D
+Daniel P. Berrang=C3=A9 (21):=0D
+  monitor: remove 'info ioapic' HMP command=0D
+  monitor: make hmp_handle_error return a boolean=0D
+  docs/devel: rename file for writing monitor commands=0D
+  docs/devel: tweak headings in monitor command docs=0D
+  docs/devel: update error handling guidance for HMP commands=0D
+  monitor: introduce HumanReadableText and HMP support=0D
+  docs/devel: document expectations for QAPI data modelling for QMP=0D
+  docs/devel: add example of command returning unstructured text=0D
+  docs/devel: document expectations for HMP commands in the future=0D
+  qapi: introduce x-query-roms QMP command=0D
+  qapi: introduce x-query-profile QMP command=0D
+  qapi: introduce x-query-numa QMP command=0D
+  qapi: introduce x-query-usb QMP command=0D
+  qapi: introduce x-query-rdma QMP command=0D
+  qapi: introduce x-query-ramblock QMP command=0D
+  qapi: introduce x-query-skeys QMP command=0D
+  qapi: introduce x-query-cmma QMP command=0D
+  qapi: introduce x-query-lapic QMP command=0D
+  qapi: introduce x-query-irq QMP command=0D
+  qapi: introduce x-query-jit QMP command=0D
+  qapi: introduce x-query-opcount QMP command=0D
+=0D
+Dongli Zhang (1):=0D
+  hmp: synchronize cpu state for lapic info=0D
+=0D
+ accel/tcg/cpu-exec.c                          |  51 +++++-=0D
+ accel/tcg/hmp.c                               |  22 +--=0D
+ accel/tcg/translate-all.c                     |  84 +++++----=0D
+ docs/devel/index.rst                          |   2 +-=0D
+ ...mands.rst =3D> writing-monitor-commands.rst} | 167 ++++++++++++++++--=
+=0D
+ hmp-commands-info.hx                          |  29 +--=0D
+ hw/core/cpu-common.c                          |   7 +=0D
+ hw/core/loader.c                              |  39 ++--=0D
+ hw/core/machine-hmp-cmds.c                    |  38 +---=0D
+ hw/core/machine-qmp-cmds.c                    |  40 +++++=0D
+ hw/rdma/rdma_rm.c                             | 104 +++++------=0D
+ hw/rdma/rdma_rm.h                             |   2 +-=0D
+ hw/rdma/vmw/pvrdma_main.c                     |  31 ++--=0D
+ hw/s390x/s390-skeys.c                         |  35 +++-=0D
+ hw/s390x/s390-stattrib.c                      |  56 ++++--=0D
+ hw/usb/bus.c                                  |  24 ++-=0D
+ include/exec/cpu-all.h                        |   6 +-=0D
+ include/exec/ramlist.h                        |   2 +-=0D
+ include/hw/core/cpu.h                         |  10 ++=0D
+ include/hw/rdma/rdma.h                        |   2 +-=0D
+ include/monitor/hmp-target.h                  |   1 -=0D
+ include/monitor/hmp.h                         |   5 +-=0D
+ include/monitor/monitor.h                     |   2 +=0D
+ include/qapi/type-helpers.h                   |  14 ++=0D
+ include/tcg/tcg.h                             |   4 +-=0D
+ monitor/hmp-cmds.c                            |  99 ++---------=0D
+ monitor/hmp.c                                 |  31 +++-=0D
+ monitor/misc.c                                |  46 ++---=0D
+ monitor/monitor-internal.h                    |   7 +=0D
+ monitor/qmp-cmds.c                            | 116 ++++++++++++=0D
+ qapi/common.json                              |  11 ++=0D
+ qapi/machine-target.json                      |  47 +++++=0D
+ qapi/machine.json                             | 110 ++++++++++++=0D
+ qapi/meson.build                              |   3 +=0D
+ qapi/qapi-type-helpers.c                      |  23 +++=0D
+ scripts/qapi/commands.py                      |   1 +=0D
+ softmmu/physmem.c                             |  19 +-=0D
+ stubs/usb-dev-stub.c                          |   8 +=0D
+ target/i386/cpu-dump.c                        | 161 +++++++++--------=0D
+ target/i386/cpu.h                             |   4 +-=0D
+ target/i386/monitor.c                         |  50 ++++--=0D
+ tcg/tcg.c                                     |  98 +++++-----=0D
+ tests/qtest/qmp-cmd-test.c                    |   8 +=0D
+ 43 files changed, 1082 insertions(+), 537 deletions(-)=0D
+ rename docs/devel/{writing-qmp-commands.rst =3D> writing-monitor-commands.=
+rst} (75%)=0D
+ create mode 100644 include/qapi/type-helpers.h=0D
+ create mode 100644 qapi/qapi-type-helpers.c=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
