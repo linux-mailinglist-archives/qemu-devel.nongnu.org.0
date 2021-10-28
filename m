@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED5743D864
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 03:08:39 +0200 (CEST)
-Received: from localhost ([::1]:35072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326E043D865
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 03:09:06 +0200 (CEST)
+Received: from localhost ([::1]:36498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mftuJ-0000cK-42
-	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 21:08:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44246)
+	id 1mftuj-0001Yh-Bz
+	for lists+qemu-devel@lfdr.de; Wed, 27 Oct 2021 21:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mftsE-00086V-U2
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 21:06:31 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:38559)
+ id 1mfttR-0000DR-MJ
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 21:07:45 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:43895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mftsC-00024l-IN
- for qemu-devel@nongnu.org; Wed, 27 Oct 2021 21:06:30 -0400
-Received: by mail-pl1-x633.google.com with SMTP id i5so3257326pla.5
- for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 18:06:27 -0700 (PDT)
+ id 1mfttO-0002BP-TM
+ for qemu-devel@nongnu.org; Wed, 27 Oct 2021 21:07:45 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ k2-20020a17090ac50200b001a218b956aaso3402625pjt.2
+ for <qemu-devel@nongnu.org>; Wed, 27 Oct 2021 18:07:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GG0FjW3MtKlY1zhT6IT2SFHFHvh+VM0Cj5zRo1CvFbI=;
- b=YijtiV+AE7Ib/UCUL94Md8PfekL//mh+7sz5z9B3HLAaBJMx2FVZQynbiOPbED51xT
- Je1oinZB/zCjmCzzLuv88chHvC6P9geu7BVi362t7OYxEc62moL3pelyLkmIJkczaB8N
- 9wJcQtOzaaBxeGHmeAyTbtAeiCOnenhdoXqWVM0UAVDpjlzwvU72hNsB8t9OQTEah+pZ
- 6QoRSVXpW+qG7pVwWKi7/jCNy9ElitHjnaezsuKThYz6vhmc2A7xUSs6Ia8Vbn2jRtFb
- sxFnkp6ZxJVd3fxHtX0UNYJGcLrSJZ0WKCwd6SWvo4Pg68ot+NKBh6G1uUYmHIKC/5I4
- yLqQ==
+ bh=9qOzf9DHUtcIggYHLgTv8GplGXg1XS7r9Ilkf1GgcHE=;
+ b=U37i+tm8ghNFaTqvu2S6uZjZpocXsonyWRezDtdFP2ATUQZ0AoWgUkwsa9715xr8xq
+ zCHgZl8XCdlP1TaCCuQLT6rYw2EQAFubcNeZo5znJDM9YW6sHUR6eqCyzL+l2vHlhdMZ
+ xVlBFqG41FNLsek/8P9UXw36r+4+zuNto5KGw5aAntxuPCyTbGGgbF9pj8pMtns2BrC5
+ MlONe7j0xKdl3/azLFGo+/NxtEZyXFbu6jk+LdjPwoLejcWRsLO8fC8PKuEEGQOYqNmc
+ Vx8Laj8bUKx2+pF4pqFcp81P+3Ps7CVlL8hfww3mwJsK2ncuYqMZxy+1TXJEdD1nNF5h
+ Nvhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GG0FjW3MtKlY1zhT6IT2SFHFHvh+VM0Cj5zRo1CvFbI=;
- b=hpPo5GJdLcaksuG3b1o8HBlsXj59w0qhdmteeC2X6QJtnL/sA1AQs5YaG9ysWu5jVW
- cFGQfketFtgvZQX9t82A3o7ZF6+4QVC3KI6IW2jjfJzG10l3qLjZQmag5rHYXiK7nnb8
- ZmVyEivVv38QKe/D0kPoJA3MOq4tRWICgQONkB9d8+PPbEeygPPb1i+pDu1AAKxNyfAE
- qTN0YF/V12MZtt0wDdDsMz/mCZA7IeKstCQPou3uEvpBw6T9MVytgQ0/s82W2uGgcPvp
- XPs7tnHqK9IIRTp84z4eI/U+BlYZa9/I5RhnG9bbiqVnixOnoDf6ejBMMseTcgXCXHhH
- cgoQ==
-X-Gm-Message-State: AOAM533TiZDUDIJoGd+Nk6zwrmOBxxBppxjBhnUYgT+yNnPNtqHdES1a
- RACRb0FEnVUGhq0AWdzOMHRmyQ==
-X-Google-Smtp-Source: ABdhPJy5rkf3nZutmi09SyVY0ZQX2dVnY6J1vnRPDJkXBQ2SvRwzTvilZQ0n0owHhYllMCUzJrZqxA==
-X-Received: by 2002:a17:902:ce90:b0:140:5de3:9cb3 with SMTP id
- f16-20020a170902ce9000b001405de39cb3mr904092plg.7.1635383186811; 
- Wed, 27 Oct 2021 18:06:26 -0700 (PDT)
+ bh=9qOzf9DHUtcIggYHLgTv8GplGXg1XS7r9Ilkf1GgcHE=;
+ b=jT7A+4NDV/mrWLA+Od2Pb0NKDB9nxQ5DqSOT5warc/KWmdf8kiqXBIMcUnVp5AeVEQ
+ Jp6C6+0LU1lKjPHL60z5lDtxibQTn43rF2gu2bFw3sofGmY37vrrkFSw8VoHJJ4PTgBF
+ VWTmCodl/M8UFPNOL5z/FbLrxB8wvVTmZ3weY5YbXN0sIaaj8mIVn6IWQRPPSfDFS9fD
+ hNxb1R3EVKPnktqCb0YqRIs4YlOdhO5gjbRWKKEUDVEEFkm9kXdTPgD9E0eWS/jnn9Q+
+ PenWn1Vg74pcnH91qIya8WrguM3TjjeX2x+k/5gDj5/x8Oxq3hQB9Yt3F8cx+EAqxuYR
+ JRlw==
+X-Gm-Message-State: AOAM531HXXMzqjaM9LmhJBhsvY1P+t3Stt56zgJIoQzqpMqUY8Q/Bm3z
+ 9qQ9Yj7FUlPXLLagtpiFjFppFw==
+X-Google-Smtp-Source: ABdhPJwmeDLSergYXhzaY/abJtozTNhtpZZivKG8yAvMyIUhB0tz0kEZ+U8/I20DWKq6ngVV/Q8a7A==
+X-Received: by 2002:a17:90a:ac0c:: with SMTP id
+ o12mr9443029pjq.37.1635383261509; 
+ Wed, 27 Oct 2021 18:07:41 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id f9sm1129206pfj.190.2021.10.27.18.06.26
+ by smtp.gmail.com with ESMTPSA id h24sm1116838pfn.180.2021.10.27.18.07.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 18:06:26 -0700 (PDT)
-Subject: Re: [PATCH v2 1/4] MAINTAINERS: Add MIPS general architecture support
- entry
+ Wed, 27 Oct 2021 18:07:41 -0700 (PDT)
+Subject: Re: [PATCH v2 2/4] MAINTAINERS: Add entries to cover MIPS CPS / GIC
+ hardware
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20211027041416.1237433-1-f4bug@amsat.org>
- <20211027041416.1237433-2-f4bug@amsat.org>
+ <20211027041416.1237433-3-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <73ef5ce1-3d17-6e1c-b225-e9a77514b5a6@linaro.org>
-Date: Wed, 27 Oct 2021 18:06:24 -0700
+Message-ID: <6c3b3c9d-5cb1-0537-a772-89a571a38973@linaro.org>
+Date: Wed, 27 Oct 2021 18:07:39 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211027041416.1237433-2-f4bug@amsat.org>
+In-Reply-To: <20211027041416.1237433-3-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -48
 X-Spam_score: -4.9
 X-Spam_bar: ----
@@ -95,16 +96,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/26/21 9:14 PM, Philippe Mathieu-Daudé wrote:
-> The architecture is covered in TCG (frontend and backend)
-> and hardware models. Add a generic section matching the
-> 'mips' word in patch subjects.
+> MIPS CPS and GIC models are unrelated to the TCG frontend.
+> Move them as new sections under the 'Devices' group.
 > 
+> Cc: Paul Burton<paulburton@kernel.org>
 > Reviewed-by: Jiaxun Yang<jiaxun.yang@flygoat.com>
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> Message-Id:<20211004092515.3819836-2-f4bug@amsat.org>
 > ---
->   MAINTAINERS | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
+>   MAINTAINERS | 20 ++++++++++++++------
+>   1 file changed, 14 insertions(+), 6 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
