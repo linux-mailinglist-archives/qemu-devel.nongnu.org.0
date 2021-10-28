@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C59643E43F
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 16:51:27 +0200 (CEST)
-Received: from localhost ([::1]:59214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4CF43E443
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 16:52:22 +0200 (CEST)
+Received: from localhost ([::1]:34530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg6kY-0006Vy-7p
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 10:51:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34398)
+	id 1mg6lR-0000X4-9W
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 10:52:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg6ge-0003SX-7Y
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:47:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33175)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg6hG-0004Bi-Rr
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:48:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg6gb-0001qW-TE
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:47:23 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mg6hF-0001wH-BT
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 10:48:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635432441;
+ s=mimecast20190719; t=1635432480;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BJzRzBWq1ZUQTal6oVIuY+PcRlZYl9F6azALMzFkCtE=;
- b=MVBgaK4Q+P3E+mv/3OrY9oCmhf75qGvDs+SFcqD5/S/2M+Ioc6vr7x4A55Vm4ArbIOC3Qf
- mxLJPknvsx+PufwIr90NvNl86vD5wY8Q438MYq/U4uJghdBerIU4RnHPYC8RhTGCJVt3yL
- +W0NfnfxcaAA5HoK79BUH8Lhlk/wzBY=
+ bh=ZcQj5nsryuWUyzenSBZe4MSLsYu3EJuCNN9FahbbQ0U=;
+ b=V6so7jq2YkNTlK9Wz+Hmnym1KLJ2VOtJHeaPKqeUu08nVnRP1VjgFqVlz5gjUf0TGc1LHo
+ dhGTMtmspMUAJn9t6XqgQrAUCrxNEog0j5VLou8CT1qpcQKblHKWu1LlclahsOR6n9dCaY
+ TR9P+8RJFcwA08jhIhR8B2gq3NJPGo4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-9wAhSMHLPo-PobkyRvxHYA-1; Thu, 28 Oct 2021 10:47:18 -0400
-X-MC-Unique: 9wAhSMHLPo-PobkyRvxHYA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-391-OqM6Q1z6OvC1L21aCgdZnA-1; Thu, 28 Oct 2021 10:47:57 -0400
+X-MC-Unique: OqM6Q1z6OvC1L21aCgdZnA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF680814245;
- Thu, 28 Oct 2021 14:47:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29D0019251A0;
+ Thu, 28 Oct 2021 14:47:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D13826E73;
- Thu, 28 Oct 2021 14:47:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E07DF5D9DE;
+ Thu, 28 Oct 2021 14:47:55 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 630F111380A7; Thu, 28 Oct 2021 16:47:14 +0200 (CEST)
+ id 97D9C11380A7; Thu, 28 Oct 2021 16:47:54 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v3 04/19] docs/devel: add example of command returning
- unstructured text
+Subject: Re: [PATCH v3 05/19] docs/devel: document expectations for HMP
+ commands in the future
 References: <20210930132349.3601823-1-berrange@redhat.com>
- <20210930132349.3601823-5-berrange@redhat.com>
-Date: Thu, 28 Oct 2021 16:47:14 +0200
-In-Reply-To: <20210930132349.3601823-5-berrange@redhat.com> ("Daniel
- P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Thu, 30 Sep 2021 14:23:34
+ <20210930132349.3601823-6-berrange@redhat.com>
+Date: Thu, 28 Oct 2021 16:47:54 +0200
+In-Reply-To: <20210930132349.3601823-6-berrange@redhat.com> ("Daniel
+ P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Thu, 30 Sep 2021 14:23:35
  +0100")
-Message-ID: <87r1c5nr4d.fsf@dusky.pond.sub.org>
+Message-ID: <87mtmtnr39.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -98,155 +98,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> This illustrates how to add a QMP command returning unstructured text,
-> following the guidelines added in the previous patch. The example uses
-> a simplified version of 'info roms'.
+> We no longer wish to have commands implemented in HMP only. All commands
+> should start with a QMP implementation and the HMP merely be a shim
+> around this. To reduce the burden of implementing QMP commands where
+> there is low expectation of machine usage, requirements for QAPI
+> modelling are relaxed provided the command is under the "x-" name
+> prefix.
 >
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->  docs/devel/writing-monitor-commands.rst | 87 ++++++++++++++++++++++++-
->  1 file changed, 86 insertions(+), 1 deletion(-)
+>  docs/devel/writing-monitor-commands.rst | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >
 > diff --git a/docs/devel/writing-monitor-commands.rst b/docs/devel/writing=
 -monitor-commands.rst
-> index 0f3b751dab..82a382d700 100644
+> index 82a382d700..8fb855e192 100644
 > --- a/docs/devel/writing-monitor-commands.rst
 > +++ b/docs/devel/writing-monitor-commands.rst
-> @@ -375,7 +375,9 @@ best practices. An example where this approach is tak=
-en is the QMP
->  command "x-query-registers". This returns a formatted dump of the
->  architecture specific CPU state. The way the data is formatted varies
->  across QEMU targets, is liable to change over time, and is only
-> -intended to be consumed as an opaque string by machines.
-> +intended to be consumed as an opaque string by machines. Refer to the
-> +`Writing a debugging aid returning unstructured text`_ section for
-> +an illustration.
+> @@ -11,6 +11,14 @@ For an in-depth introduction to the QAPI framework, pl=
+ease refer to
+>  docs/devel/qapi-code-gen.txt. For documentation about the QMP protocol,
+>  start with docs/interop/qmp-intro.txt.
 > =20
->  User Defined Types
->  ~~~~~~~~~~~~~~~~~~
-> @@ -647,3 +649,86 @@ has to traverse the list, it's shown below for refer=
-ence::
+> +New commands may be implemented in QMP only.  New HMP commands should be
+> +implemented on top of QMP.  The typical HMP command wraps around an
+> +equivalent QMP command, but HMP convenience commands built from QMP
+> +building blocks are also fine.  The long term goal is to make all
+> +existing HMP commands conform to this, to fully isolate HMP from the
+> +internals of QEMU. Refer to the `Writing a debugging aid returning
+> +unstructured text`_ section for further guidance on commands that
+> +would have traditionally been HMP only.
 > =20
->       qapi_free_TimerAlarmMethodList(method_list);
->   }
-> +
-> +Writing a debugging aid returning unstructured text
-> +---------------------------------------------------
-> +
-> +As discussed in section `Modelling data in QAPI`_, it is required that
-> +commands expecting machine usage be using fine-grained QAPI data types.
-> +The exception to this rule applies when the command is solely intended
-> +as a debugging aid and allows for returning unstructured text. This is
-> +commonly needed for query commands that report aspects of QEMU's
-> +internal state that are useful to human operators.
-> +
-> +In this example we will consider a simplified variant of the HMP
-> +command ``info roms``. Following the earlier rules, this command will
-> +need to live under the ``x-`` name prefix, so its QMP implementation
-> +will be called ``x-query-roms``. It will have no parameters and will
-> +return a single text string::
-> +
-> + { 'struct': 'HumanReadableText',
-> +   'data': { 'human-readable-text': 'str' } }
-> +
-> + { 'command': 'x-query-roms',
-> +   'returns': 'HumanReadableText' }
-> +
-> +The ``HumanReadableText`` struct is intended to be used for all
-> +commands, under the ``x-`` name prefix that are returning unstructured
-> +text targetted at humans. It should never be used for commands outside
-> +the ``x-`` name prefix, as those should be using structured QAPI types.
+>  Overview
+>  --------
 
-This clashes with my "[PATCH v2 0/9] Configurable policy for handling
-unstable interfaces", which replaces "you must give unstable stuff names
-starting with 'x-'" by "you must give unstable stuff feature flag
-'unstable' (and may give it a name starting with 'x-')".
-
-> +
-> +Implementing the QMP command
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +The QMP implementation will typically involve creating a ``GString``
-> +object and printing formatted data into it::
-> +
-> + HumanReadableText *qmp_x_query_roms(Error **errp)
-> + {
-> +     g_autoptr(GString) buf =3D g_string_new("");
-> +     Rom *rom;
-> +
-> +     QTAILQ_FOREACH(rom, &roms, next) {
-> +        g_string_append_printf("%s size=3D0x%06zx name=3D\"%s\"\n",
-> +                               memory_region_name(rom->mr),
-> +                               rom->romsize,
-> +                               rom->name);
-> +     }
-> +
-> +     return human_readable_text_from_str(buf);
-> + }
-> +
-> +
-> +Implementing the HMP command
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Now that the QMP command is in place, we can also make it available in
-> +the human monitor (HMP) as shown in previous examples. The HMP
-> +implementations will all look fairly similar, as all they need do is
-> +invoke the QMP command and then print the resulting text or error
-> +message. Here's the implementation of the "info roms" HMP command::
-> +
-> + void hmp_info_roms(Monitor *mon, const QDict *qdict)
-> + {
-> +     Error err =3D NULL;
-> +     g_autoptr(HumanReadableText) info =3D qmp_x_query_roms(&err);
-> +
-> +     if (err) {
-> +         error_report_err(err);
-> +         return;
-> +     }
-
-There's hmp_handle_error().
-
-If it returned whether there's an error, we could write
-
-        if (hmp_handle_error(err)) {
-            return;
-        }
-
-Of course, qmp_x_query_roms() can't fail, so we could just as well do
-
-        g_autoptr(HumanReadableText) info =3D qmp_x_query_roms(&error_abort=
-);
-
-Okay as long as we show how to report errors in HMP commands
-*somewhere*, but the use of &error_abort needs explaining.  Not sure
-that's an improvement here.
-
-Aside: the existing examples show questionable error handling.  The
-first one uses error_get_pretty() instead of hmp_handle_error().  The
-other two throw away the error they get from the QMP command, and report
-"Could not query ..." instead, which is a bit of an anti-pattern.
-
-> +     monitor_printf(mon, "%s\n", info->human_readable_text);
-
-Sure you want to print an extra newline?
-
-If not, then consider
-
-        monitor_puts(mon, info->human_readable_text);
-
-> + }
-> +
-> +Also, you have to add the function's prototype to the hmp.h file.
-> +
-> +There's one last step to actually make the command available to
-> +monitor users, we should add it to the hmp-commands-info.hx file::
-> +
-> +    {
-> +        .name       =3D "roms",
-> +        .args_type  =3D "",
-> +        .params     =3D "",
-> +        .help       =3D "show roms",
-> +        .cmd        =3D hmp_info_roms,
-> +    },
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
