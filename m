@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4C943E54A
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 17:36:41 +0200 (CEST)
-Received: from localhost ([::1]:53974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF6643E54B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Oct 2021 17:37:17 +0200 (CEST)
+Received: from localhost ([::1]:55618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mg7SL-0002pd-1m
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 11:36:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45568)
+	id 1mg7St-0003ux-LQ
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 11:37:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mg7Qp-0001jd-Aq
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:35:07 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:39784)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mg7Qm-00038D-F5
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:35:07 -0400
-Received: by mail-pf1-x436.google.com with SMTP id b1so2810107pfm.6
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 08:35:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pbzpAyqEqEU6lw6rIowAcMbDEVJa5p6g6GIFcPtXGaA=;
- b=dgWmsMbsyBLQyzI8UV9kx5CsBqHi5a6Fz9817M78IshB9z6WF4N3z9dJzI8hWiyo6h
- FSK17bzVGt/mjovhqe9V6+Hw5hQTwxulC9Wd2wZ4vdEaozT0GZv9z9HKr+NL1s1NLZCk
- zcDMzFwSa2sASciFlCusSER1rVXgSX8Rpx0LzsrcJY7ie4cpvU+4fn7mXVwCxzdCpjfw
- NTplsDOx8siZYC+eikoobOfc4Q0m2PJk9PBI/BSCCwLpjgJUHOc4DEXbCQYnm5jKGncb
- jmiFqCIp9QzN9fJ1dVrhbQsdwq/T74s5cnV/84jSWSwoST57fn23Pc96J4/Hj6PW6wI4
- fTZw==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mg7Ri-0002VS-CW
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:36:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26415)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mg7Rg-0003Nc-H9
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 11:36:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635435358;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tEH1krRsLg0kW2BYu1RSNtAGYi7A8Q+UN8khxU2TNvk=;
+ b=RsOW3PNYGn6SbGNAIKCsjzK1zQkCKOLv/mTIIF1go0tYx7YuJYCXfEvMa2MB5lpaUYA3r8
+ 3Obn47NG1v5nMC2/V2mBIU0v6KUYzWJzlnt51BkSxeBepCowPcppudwDPwXWex0en3wXv/
+ ZNfVASMpIJ2ZHMgmVP1Y3aM4K9tpclw=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-577-qZnjq-7MO7qySkHNGIarrA-1; Thu, 28 Oct 2021 11:35:53 -0400
+X-MC-Unique: qZnjq-7MO7qySkHNGIarrA-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ h19-20020ab01353000000b002cb5de63c37so3510350uae.8
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 08:35:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pbzpAyqEqEU6lw6rIowAcMbDEVJa5p6g6GIFcPtXGaA=;
- b=B1NH91WIEn+Sk2Sbc72UmeL573PxIr+otm/KGqVjFGEj4fpAxQIgrFXK2E7wTjXAA5
- BLdNP2AIMGA0LxQRT+ZbgnPUDFAM2U0QtYrq6nSN7+8qt+A1Y1+iIiMCeecSdY6dd6nZ
- i/kxX1PZa7G5zXxSNXkkEsHPxGf0LNdoAaziM+uliJfcaVWv4xDaFZtAF2bgGYFuu2Oq
- dUiubDJv4e5VvJj8VbKaJJfyc4dNzuDwJmf26nzgI0ku54dJqdkpXI1MzmPhJvmk/kOi
- V6HTv5/e5v/UCd/0rp3G0qUK2UOpxWe5p6ZrdwrJIZ+gY9hhfBN5N8ht9CgzI4jQoUYt
- Xmtw==
-X-Gm-Message-State: AOAM5322D8Zw6MumnRboxo5FaBCUNR7fOSTM/2IibaLdoqNgVmgrK0mL
- OK2++7xgJ49ERawjd68Rkxkpag==
-X-Google-Smtp-Source: ABdhPJxOSidAlZcNsZKd/WBmWQkO0KzO53yqevLujbsPpjJVW2xcmor85xl6Y8ykj2Rx2+D+m5rOpw==
-X-Received: by 2002:a63:fe03:: with SMTP id p3mr3737262pgh.289.1635435302710; 
- Thu, 28 Oct 2021 08:35:02 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id d12sm2704229pfl.141.2021.10.28.08.35.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Oct 2021 08:35:02 -0700 (PDT)
-Subject: Re: [PATCH 09/24] bsd-user/arm/target_arch_cpu.h: Implement system
- call dispatch
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-10-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <152e8afa-fc89-5666-e234-a2af6bca6acb@linaro.org>
-Date: Thu, 28 Oct 2021 08:35:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tEH1krRsLg0kW2BYu1RSNtAGYi7A8Q+UN8khxU2TNvk=;
+ b=BI+7fxYOt328xBzr8MrHMFMzeK+96RYZK4aYb8TObuNvB04XcnInr7qVQBQyDGcLAy
+ eDV/7eKr0puvtDL+6bmPp/bk9QT9Ybl14IO1zmUpbFKL0Vd9QaeheZk/GjhiIqS0A6wI
+ fuuG3eoyJe3mdpgxhS2yEheM20Zqwm9J1PkDsidvryb/T+5wBaBjEN8f9XQp5RQvqkbl
+ VcjqzpegYl8N3vuO/3s0LCtxtX374Q1YgXnq0xvwvwRV+Bsn9X44SVBOBhDlznnAZPyz
+ IpIDkm7q7Nvr2xnXbAIWCT9L8XmNx/amUr+tYfLLFXL0l/g1pKndeLTkcj4CZsdvXfLh
+ Wr0Q==
+X-Gm-Message-State: AOAM532pWh9EcmYmWv+CII9o6GTymzKtczshMyi5YTqBh9jOkTzaxCuZ
+ jHZCxjgunfij+fKc+gdOk5jCjQZ63Cc1zZdh3/goHrq+8GZJi2+NQDV7XdV0vmk/w+gomI7psR4
+ Lu/vm1eTHs5N6tTA3CtOToxtmaVxqwWw=
+X-Received: by 2002:a05:6122:c9f:: with SMTP id
+ ba31mr5289607vkb.25.1635435352488; 
+ Thu, 28 Oct 2021 08:35:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxIr31gZz43H8uEwf3JTzafLMRl2MeSFbBPjy1jkpS2QslwzHcHhQWjI9A+dsMJspSVNjp1Z8gsfs+jMU+kp6k=
+X-Received: by 2002:a05:6122:c9f:: with SMTP id
+ ba31mr5289569vkb.25.1635435352226; 
+ Thu, 28 Oct 2021 08:35:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211019164447.16359-10-imp@bsdimp.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.847,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211026175612.4127598-1-jsnow@redhat.com>
+ <20211026175612.4127598-3-jsnow@redhat.com>
+ <YXk1wbRWNLlvXxMU@redhat.com>
+ <CAFn=p-bU3SjifQXDEBX07Fxy-G-TAj3hbBJYqMJQ=Xrr0bJqEw@mail.gmail.com>
+ <YXp05svPZwSXOA/d@redhat.com>
+In-Reply-To: <YXp05svPZwSXOA/d@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 28 Oct 2021 11:35:43 -0400
+Message-ID: <CAFn=p-bdJ05=z6KBiHKsMSPjDAZoJ59iJjKGnRhZ97vasyz38g@mail.gmail.com>
+Subject: Re: [PATCH v5 2/8] python/machine: Handle QMP errors on close more
+ meticulously
+To: Kevin Wolf <kwolf@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000390e3805cf6b77a1"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,21 +93,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Klye Evans <kevans@FreeBSD.org>,
- Michael Tokarev <mjt@tls.msk.ru>, Stacey Son <sson@FreeBSD.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/21 9:44 AM, Warner Losh wrote:
-> +                env->eabi = 1; /* FreeBSD is eabi only now */
+--000000000000390e3805cf6b77a1
+Content-Type: text/plain; charset="UTF-8"
 
-Surely this should be set target_cpu_init.  Even then it'd be just for completeness.  This 
-is the kind of thing that shouldn't have escaped linux-user, as it's otherwise unused.
+On Thu, Oct 28, 2021, 6:01 AM Kevin Wolf <kwolf@redhat.com> wrote:
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Am 27.10.2021 um 19:49 hat John Snow geschrieben:
+> > This reply is long, sorry.
+>
+> And after writing half of a very long reply myself, I noticed that I was
+> just very confused, so sorry for making you write a long text for no
+> real reason (well, at least for my first point - for the second one,
+> your explanation was very helpful, so thanks for that).
+>
+> Somehow I ended up completely ignoring the context of the code (it's run
+> as part of shutdown functions) and instead thought of the general
+> condition of QMP connections going away anywhere in the code.
+>
+> I suppose this could be a relevant concern in an actually asynchronous
+> client that may read from the socket (and encounter an error if the QEMU
+> process has already gone away and closed the connection) at any time,
+> but that's not what machine.py is meant for, at least not for now.
+>
+> So I'll just delete what I already wrote. This patch should be fine.
+>
+> Kevin
+>
 
+No problem. The cleanup path here is quite complex, so it wasn't clear that
+there *wasn't* a problem.
 
-r~
+I'd like to upgrade machine.py to use asyncio more natively for the console
+socket and qmp layers in the future and help break it apart into smaller
+pieces that are easier to reason about.
+
+You're right, though, if/when this part becomes async then needing more
+precision on when we mark a vm as defunct will become important.
+
+Thanks for looking at it!
+
+--js
+
+>
+
+--000000000000390e3805cf6b77a1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Thu, Oct 28, 2021, 6:01 AM Kevin Wolf &lt;<a href=
+=3D"mailto:kwolf@redhat.com">kwolf@redhat.com</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex">Am 27.10.2021 um 19:49 hat John Snow geschrieben:=
+<br>
+&gt; This reply is long, sorry.<br>
+<br>
+And after writing half of a very long reply myself, I noticed that I was<br=
+>
+just very confused, so sorry for making you write a long text for no<br>
+real reason (well, at least for my first point - for the second one,<br>
+your explanation was very helpful, so thanks for that).<br>
+<br>
+Somehow I ended up completely ignoring the context of the code (it&#39;s ru=
+n<br>
+as part of shutdown functions) and instead thought of the general<br>
+condition of QMP connections going away anywhere in the code.<br>
+<br>
+I suppose this could be a relevant concern in an actually asynchronous<br>
+client that may read from the socket (and encounter an error if the QEMU<br=
+>
+process has already gone away and closed the connection) at any time,<br>
+but that&#39;s not what machine.py is meant for, at least not for now.<br>
+<br>
+So I&#39;ll just delete what I already wrote. This patch should be fine.<br=
+>
+<br>
+Kevin<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"a=
+uto">No problem. The cleanup path here is quite complex, so it wasn&#39;t c=
+lear that there *wasn&#39;t* a problem.=C2=A0</div><div dir=3D"auto"><br></=
+div><div dir=3D"auto">I&#39;d like to upgrade machine.py to use asyncio mor=
+e natively for the console socket and qmp layers in the future and help bre=
+ak it apart into smaller pieces that are easier to reason about.=C2=A0</div=
+><div dir=3D"auto"><br></div><div dir=3D"auto">You&#39;re right, though, if=
+/when this part becomes async then needing more precision on when we mark a=
+ vm as defunct will become important.</div><div dir=3D"auto"><br></div><div=
+ dir=3D"auto">Thanks for looking at it!</div><div dir=3D"auto"><br></div><d=
+iv dir=3D"auto">--js</div><div dir=3D"auto"><div class=3D"gmail_quote"><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
+cc solid;padding-left:1ex"></blockquote></div></div></div>
+
+--000000000000390e3805cf6b77a1--
+
 
