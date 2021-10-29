@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5094404DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:22:46 +0200 (CEST)
-Received: from localhost ([::1]:52886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AABA4404F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:35:53 +0200 (CEST)
+Received: from localhost ([::1]:33290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgZKn-0000Xf-Hg
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:22:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55122)
+	id 1mgZXU-0008LB-Fi
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:35:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZIy-0006yx-Bg
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:52 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19831)
+ id 1mgZJ7-0007QF-4m
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:01 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:19938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZIv-0005Yn-CL
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:51 -0400
+ id 1mgZJ3-0005au-0J
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:00 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id F19197561DA;
- Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 8DD09756221;
+ Fri, 29 Oct 2021 23:20:44 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 89569756041; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
-Message-Id: <6cb1bcf24572ad8465c20b64fec81157f34bcbe9.1635541329.git.balaton@eik.bme.hu>
+ id CB1C77561B1; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
+Message-Id: <d3bdfdc5ab5ae1c51a6c6c38bde3829a99f85ce5.1635541329.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635541329.git.balaton@eik.bme.hu>
 References: <cover.1635541329.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 05/30] hw/sh4: Coding style: Remove unnecessary casts
+Subject: [PATCH v6 18/30] hw/intc/sh_intc: Drop another useless macro
 Date: Fri, 29 Oct 2021 23:02:09 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,35 +61,57 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The INT_REG_PARAMS macro was only used a few times within one function
+on adjacent lines and is actually more complex than writing out the
+parameters so simplify it by expanding the macro at call sites and
+dropping the #define.
+
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/timer/sh_timer.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/intc/sh_intc.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
-index 68c109ecfd..02eb865908 100644
---- a/hw/timer/sh_timer.c
-+++ b/hw/timer/sh_timer.c
-@@ -233,7 +233,7 @@ static void *sh_timer_init(uint32_t freq, int feat, qemu_irq irq)
- {
-     sh_timer_state *s;
+diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
+index abe8face9d..a25949a6be 100644
+--- a/hw/intc/sh_intc.c
++++ b/hw/intc/sh_intc.c
+@@ -433,16 +433,12 @@ int sh_intc_init(MemoryRegion *sysmem,
+     memory_region_init_io(&desc->iomem, NULL, &sh_intc_ops, desc, "intc",
+                           0x100000000ULL);
  
--    s = (sh_timer_state *)g_malloc0(sizeof(sh_timer_state));
-+    s = g_malloc0(sizeof(*s));
-     s->freq = freq;
-     s->feat = feat;
-     s->tcor = 0xffffffff;
-@@ -358,7 +358,7 @@ void tmu012_init(MemoryRegion *sysmem, hwaddr base,
-     tmu012_state *s;
-     int timer_feat = (feat & TMU012_FEAT_EXTCLK) ? TIMER_FEAT_EXTCLK : 0;
+-#define INT_REG_PARAMS(reg_struct, type, action, j) \
+-        reg_struct->action##_reg, #type, #action, j
+     if (desc->mask_regs) {
+         for (i = 0; i < desc->nr_mask_regs; i++) {
+             struct intc_mask_reg *mr = desc->mask_regs + i;
  
--    s = (tmu012_state *)g_malloc0(sizeof(tmu012_state));
-+    s = g_malloc0(sizeof(*s));
-     s->feat = feat;
-     s->timer[0] = sh_timer_init(freq, timer_feat, ch0_irq);
-     s->timer[1] = sh_timer_init(freq, timer_feat, ch1_irq);
+-            j += sh_intc_register(sysmem, desc,
+-                                  INT_REG_PARAMS(mr, mask, set, j));
+-            j += sh_intc_register(sysmem, desc,
+-                                  INT_REG_PARAMS(mr, mask, clr, j));
++            j += sh_intc_register(sysmem, desc, mr->set_reg, "mask", "set", j);
++            j += sh_intc_register(sysmem, desc, mr->clr_reg, "mask", "clr", j);
+         }
+     }
+ 
+@@ -450,13 +446,10 @@ int sh_intc_init(MemoryRegion *sysmem,
+         for (i = 0; i < desc->nr_prio_regs; i++) {
+             struct intc_prio_reg *pr = desc->prio_regs + i;
+ 
+-            j += sh_intc_register(sysmem, desc,
+-                                  INT_REG_PARAMS(pr, prio, set, j));
+-            j += sh_intc_register(sysmem, desc,
+-                                  INT_REG_PARAMS(pr, prio, clr, j));
++            j += sh_intc_register(sysmem, desc, pr->set_reg, "prio", "set", j);
++            j += sh_intc_register(sysmem, desc, pr->clr_reg, "prio", "clr", j);
+         }
+     }
+-#undef INT_REG_PARAMS
+ 
+     return 0;
+ }
 -- 
 2.21.4
 
