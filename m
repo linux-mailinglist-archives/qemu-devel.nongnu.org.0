@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63DC1440066
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 18:32:02 +0200 (CEST)
-Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD78440071
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 18:37:18 +0200 (CEST)
+Received: from localhost ([::1]:36820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgUnR-0006Af-5X
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 12:32:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45866)
+	id 1mgUsX-0003H8-1x
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 12:37:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgUkn-0004yG-9p
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:29:17 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:36367)
+ id 1mgUr3-0001Cx-JL
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:35:46 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:37742)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgUkl-00048M-Cg
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:29:16 -0400
-Received: by mail-pf1-x429.google.com with SMTP id m26so9738389pff.3
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 09:29:14 -0700 (PDT)
+ id 1mgUr1-0001BN-MP
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:35:45 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id j1so689131plx.4
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 09:35:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HWUSJz0qI8kLeemqobVCvpQRte2r44LscfQg4TCZ6r0=;
- b=D1exJGJRGG/ejKFMZPUOXEUq5bOSie1jq+S6xN1z+ToaT653VrB+B+pz668BSQ7h3Y
- ikGWC+ISdvn+3x1k4ktKvKctrR63gmyBrhcnqM7qnK6mI3WZ63FhDAvCpsQ0gQ/pbph9
- OGXOgyrNk5aLdFveiMPpPp8h/mPAXQc/q0eaDQsI6RiU6c29p6B5MkO7AtVljzZc7P2e
- NNDzwVOW5tYq71bu3kVrSn/9o/U7Rjr/s8dYYe+St2z9jQE8/oedsT/85Sna7iDecdm5
- 0kqrDosNvcx+YQOV/q9NmJxYIpthFOOtivPlx7ktU5c9MFDx0FL3lWjFWM49MgNg0g8O
- X6bQ==
+ bh=AE6/Z0SFfD9T46i0d58JN36sNa1NYElbYE+jwWOZ4eQ=;
+ b=eVFQHaxhCVYIsWsypg3c7KLOHB/PCGk/ZBv03Gg6pg2RaBXEE+aglcKV5jZzy7pSVu
+ c3SZYOzejZiiZ9lRsNkO8TX+PfnJEZWypkghHa3J6jel9FQpL09WzDWsk6nrqKZODI2o
+ G42KK4CkdTfKerrYUib3Om5Y33XioLBprNAqPqO1mXSaEmiC65faMHVoWEQ2Rf5XVtBb
+ 0t8McBtohChfPiSbOrDNjjY3iYuBcJzcalduZZOs7a7jkP5WpeFiaPz0DIHE0MXi3/0Q
+ GXviA/C0YgMt5eIdv6Uyp57DsmrLZrqy2wiMS15dHXMY5ibyKnuTT2yP0FMUAEXt+Xuk
+ VBBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HWUSJz0qI8kLeemqobVCvpQRte2r44LscfQg4TCZ6r0=;
- b=J4BlTRU1ho6d459nSnrRb7Eyj4C70R2EFs+dMooOQUBgRcg0/t2FPq1Vts+jb7fqus
- 2MwdXir+2AM1GbqOr1ZotF8JQbVV0nZ13eTcyhYkfOq4P2Z65j7N8CQtazAFKMw+1WZ9
- gGMWN0p3DcytO361Xf+zu9j6v5C2rRAq9W1KLEemIHYHMQiBaIfuuLllN/GIA2+qesx3
- R1wCkR35Zs5bgqQIuJGHlUR3uiBFUfY43B/45R2JFAnxnmv3yeVjUzVJw9z+7Pu0cJZC
- 64pmWBYiOP39xT3c3pgw2JgViSq+b39KS3T8KHkOmu9nyVQABV3QTTKInjb8nUUr9LUG
- zG0Q==
-X-Gm-Message-State: AOAM531VLa9fjQHZMgBxKVZTtZkApjOpiEs4Z3NOe3BtBe1NSNUQrC0M
- wv7r0EHkvYFVYF9hbqqBP2ASRg==
-X-Google-Smtp-Source: ABdhPJxk+ofrkqyVlo73jOIPT7VDN+IFo7+WvoWyO2rxHMOyWYgcY4Usk7EoRl1nkc3+wPtPL5z8yA==
-X-Received: by 2002:a63:8c0a:: with SMTP id m10mr9001460pgd.142.1635524953753; 
- Fri, 29 Oct 2021 09:29:13 -0700 (PDT)
+ bh=AE6/Z0SFfD9T46i0d58JN36sNa1NYElbYE+jwWOZ4eQ=;
+ b=bLH8Ox/TVpPfwCzuffQ6ISIxTbS6TEgMzaZ5Q0x2KqtPAEM8L7kEa0QIyYvZV1APEY
+ jjhiiIXQU6vKKy+dq6+d8OurtjJVMr4elLo2eOF4Hyf9hlqhLrg+SnHVjLQY3N7bcyZJ
+ jpPFcKmkDgU8FxVT8um+bmfJ+vKGPLsC/ubVQxpctAY3TNQOkqNezO3/J6A4mUoNul8Z
+ gId2AhwbHzZqU06yukWNcBxAcIdDstbvbYrELWgBiD3YBxBvljhBZPwrkaIAVEu5BLGq
+ 0UTP5ZN8HXg1yktQ92IOqqSVhiSZtAGDRiWC+T5eiqbADl8faD1Mz1J8XB8QZIAC7ZU6
+ jBbA==
+X-Gm-Message-State: AOAM532WEo3B6r/A1sGeLbD8DTclHDl1WxUoYng58hDQgLmgTqfrVc2Y
+ 3LCFDap9jebfqsgY9pq5EIHZ3Q==
+X-Google-Smtp-Source: ABdhPJznpC2h/SxMsiyl5nvKNj3nCYREuU+Ztd9AVCayAp+IgefuMUoDHgV67YtWR5UiUC7+IDAleA==
+X-Received: by 2002:a17:90b:92:: with SMTP id
+ bb18mr2813891pjb.133.1635525341689; 
+ Fri, 29 Oct 2021 09:35:41 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id q1sm3298205pfu.81.2021.10.29.09.29.12
+ by smtp.gmail.com with ESMTPSA id k14sm6147892pga.65.2021.10.29.09.35.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 09:29:13 -0700 (PDT)
-Subject: Re: [PATCH v3 18/32] target/mips: Convert MSA 3RF instruction format
- to decodetree (DF_HALF)
+ Fri, 29 Oct 2021 09:35:41 -0700 (PDT)
+Subject: Re: [PATCH v3 20/32] target/mips: Convert MSA 3R instruction format
+ to decodetree (part 1/4)
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20211028210843.2120802-1-f4bug@amsat.org>
- <20211028210843.2120802-19-f4bug@amsat.org>
+ <20211028210843.2120802-21-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <409f76a3-d6e4-9bc4-2c76-74a21d294507@linaro.org>
-Date: Fri, 29 Oct 2021 09:29:11 -0700
+Message-ID: <7b392e80-b4a5-b01a-e9ec-0d2fa6a39e76@linaro.org>
+Date: Fri, 29 Oct 2021 09:35:39 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211028210843.2120802-19-f4bug@amsat.org>
+In-Reply-To: <20211028210843.2120802-21-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -45
 X-Spam_score: -4.6
 X-Spam_bar: ----
@@ -95,21 +96,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/28/21 2:08 PM, Philippe Mathieu-Daudé wrote:
-> Convert 3-register floating-point or fixed-point operations
-> to decodetree.
-> 
-> Reviewed-by: Jiaxun Yang<jiaxun.yang@flygoat.com>
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
-> v3:
-> - Add plus_1(), extract DF in decoder
-> - Remove TRANS_MSA(), call check_msa_enabled in trans_X()
-> ---
->   target/mips/tcg/msa.decode      |  9 +++++
->   target/mips/tcg/msa_translate.c | 68 ++++++++++++++-------------------
->   2 files changed, 38 insertions(+), 39 deletions(-)
+> +@3r                 ...... ...  df:2 wt:5ws:5  wd:5 ......  &msa_r
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Nit: should this be called @3rf, since it includes df and...
+
+> +TRANS(SLD,              trans_msa_3rf,  gen_helper_msa_sld_df);
+
+... you use trans_msa_3rf as the implementation?
+
 
 r~
 
