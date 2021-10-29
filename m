@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 748F444045E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:51:05 +0200 (CEST)
-Received: from localhost ([::1]:51922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91CF6440466
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:54:58 +0200 (CEST)
+Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgYq8-0002Hv-Ga
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:51:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44478)
+	id 1mgYtt-0000JO-K3
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:54:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mgYS2-0002TQ-5y; Fri, 29 Oct 2021 16:26:10 -0400
-Received: from [201.28.113.2] (port=65208 helo=outlook.eldorado.org.br)
+ id 1mgYTE-0004gD-7U; Fri, 29 Oct 2021 16:27:26 -0400
+Received: from [201.28.113.2] (port=43261 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mgYS0-0001sK-JR; Fri, 29 Oct 2021 16:26:09 -0400
+ id 1mgYTC-0002IC-AI; Fri, 29 Oct 2021 16:27:23 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 29 Oct 2021 17:25:58 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 29 Oct 2021 17:26:00 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id C46B2800B36;
- Fri, 29 Oct 2021 17:25:57 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 108B1800B36;
+ Fri, 29 Oct 2021 17:26:00 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 13/34] target/ppc: Implement vpdepd/vpextd instruction
-Date: Fri, 29 Oct 2021 17:24:03 -0300
-Message-Id: <20211029202424.175401-14-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 14/34] target/ppc: Implement vsldbi/vsrdbi instructions
+Date: Fri, 29 Oct 2021 17:24:04 -0300
+Message-Id: <20211029202424.175401-15-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
 References: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 29 Oct 2021 20:25:58.0317 (UTC)
- FILETIME=[2EB8ADD0:01D7CD03]
+X-OriginalArrivalTime: 29 Oct 2021 20:26:00.0544 (UTC)
+ FILETIME=[300C7E00:01D7CD03]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,107 +64,116 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-pdepd and pextd helpers are moved out of #ifdef (TARGET_PPC64) to allow
-them to be reused as GVecGen3.fni8.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/helper.h                 |  2 +-
- target/ppc/insn32.decode            |  2 ++
- target/ppc/int_helper.c             |  2 --
- target/ppc/translate/vmx-impl.c.inc | 32 +++++++++++++++++++++++++++++
- 4 files changed, 35 insertions(+), 3 deletions(-)
+v2:
+- tcg_gen_extract2_i64 instead of shifts and or
+---
+ target/ppc/insn32.decode            |  8 ++++
+ target/ppc/translate/vmx-impl.c.inc | 66 +++++++++++++++++++++++++++++
+ 2 files changed, 74 insertions(+)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 401575b935..0e99f8095c 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -47,9 +47,9 @@ DEF_HELPER_FLAGS_1(popcntb, TCG_CALL_NO_RWG_SE, tl, tl)
- DEF_HELPER_FLAGS_2(cmpb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- DEF_HELPER_3(sraw, tl, env, tl, tl)
- DEF_HELPER_FLAGS_2(CFUGED, TCG_CALL_NO_RWG_SE, i64, i64, i64)
--#if defined(TARGET_PPC64)
- DEF_HELPER_FLAGS_2(PDEPD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
- DEF_HELPER_FLAGS_2(PEXTD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
-+#if defined(TARGET_PPC64)
- DEF_HELPER_FLAGS_2(cmpeqb, TCG_CALL_NO_RWG_SE, i32, tl, tl)
- DEF_HELPER_FLAGS_1(popcntw, TCG_CALL_NO_RWG_SE, tl, tl)
- DEF_HELPER_FLAGS_2(bpermd, TCG_CALL_NO_RWG_SE, i64, i64, i64)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 6ce06b231d..4666c06f55 100644
+index 4666c06f55..257b11113d 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -336,3 +336,5 @@ DSCRIQ          111111 ..... ..... ...... 001100010 .   @Z22_tap_sh_rc
- VCFUGED         000100 ..... ..... ..... 10101001101    @VX
- VCLZDM          000100 ..... ..... ..... 11110000100    @VX
+@@ -38,6 +38,9 @@
+ %dx_d           6:s10 16:5 0:1
+ @DX             ...... rt:5  ..... .......... ..... .   &DX d=%dx_d
+ 
++&VN             vrt vra vrb sh
++@VN             ...... vrt:5 vra:5 vrb:5 .. sh:3 ......         &VN
++
+ &VX             vrt vra vrb
+ @VX             ...... vrt:5 vra:5 vrb:5 .......... .   &VX
+ 
+@@ -338,3 +341,8 @@ VCLZDM          000100 ..... ..... ..... 11110000100    @VX
  VCTZDM          000100 ..... ..... ..... 11111000100    @VX
-+VPDEPD          000100 ..... ..... ..... 10111001101    @VX
-+VPEXTD          000100 ..... ..... ..... 10110001101    @VX
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index f03c864e48..42541736f1 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -386,7 +386,6 @@ uint64_t helper_CFUGED(uint64_t src, uint64_t mask)
-     return left | (right >> n);
- }
- 
--#if defined(TARGET_PPC64)
- uint64_t helper_PDEPD(uint64_t src, uint64_t mask)
- {
-     int i, o;
-@@ -422,7 +421,6 @@ uint64_t helper_PEXTD(uint64_t src, uint64_t mask)
- 
-     return result;
- }
--#endif
- 
- /*****************************************************************************/
- /* PowerPC 601 specific instructions (POWER bridge) */
+ VPDEPD          000100 ..... ..... ..... 10111001101    @VX
+ VPEXTD          000100 ..... ..... ..... 10110001101    @VX
++
++## Vector Permute and Formatting Instruction
++
++VSLDBI          000100 ..... ..... ..... 00 ... 010110  @VN
++VSRDBI          000100 ..... ..... ..... 01 ... 010110  @VN
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 6da8a9123f..cddb3848ab 100644
+index cddb3848ab..6edffd5637 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1607,6 +1607,38 @@ static bool trans_VCTZDM(DisasContext *ctx, arg_VX *a)
-     return true;
+@@ -1257,6 +1257,72 @@ static void gen_vsldoi(DisasContext *ctx)
+     tcg_temp_free_i32(sh);
  }
  
-+static bool trans_VPDEPD(DisasContext *ctx, arg_VX *a)
++static bool trans_VSLDBI(DisasContext *ctx, arg_VN *a)
 +{
-+    static const GVecGen3 g = {
-+        .fni8 = gen_helper_PDEPD,
-+        .vece = MO_64,
-+    };
++    TCGv_i64 t0, t1, t2;
 +
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VECTOR(ctx);
 +
-+    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
-+                   avr_full_offset(a->vrb), 16, 16, &g);
++    t0 = tcg_temp_new_i64();
++    t1 = tcg_temp_new_i64();
++
++    get_avr64(t0, a->vra, true);
++    get_avr64(t1, a->vra, false);
++
++    if (a->sh != 0) {
++        t2 = tcg_temp_new_i64();
++
++        get_avr64(t2, a->vrb, true);
++
++        tcg_gen_extract2_i64(t0, t1, t0, 64 - a->sh);
++        tcg_gen_extract2_i64(t1, t2, t1, 64 - a->sh);
++
++        tcg_temp_free_i64(t2);
++    }
++
++    set_avr64(a->vrt, t0, true);
++    set_avr64(a->vrt, t1, false);
++
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
 +
 +    return true;
 +}
 +
-+static bool trans_VPEXTD(DisasContext *ctx, arg_VX *a)
++static bool trans_VSRDBI(DisasContext *ctx, arg_VN *a)
 +{
-+    static const GVecGen3 g = {
-+        .fni8 = gen_helper_PEXTD,
-+        .vece = MO_64,
-+    };
++    TCGv_i64 t2, t1, t0;
 +
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VECTOR(ctx);
 +
-+    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
-+                   avr_full_offset(a->vrb), 16, 16, &g);
++    t0 = tcg_temp_new_i64();
++    t1 = tcg_temp_new_i64();
++
++    get_avr64(t0, a->vrb, false);
++    get_avr64(t1, a->vrb, true);
++
++    if (a->sh != 0) {
++        t2 = tcg_temp_new_i64();
++
++        get_avr64(t2, a->vra, false);
++
++        tcg_gen_extract2_i64(t0, t0, t1, a->sh);
++        tcg_gen_extract2_i64(t1, t1, t2, a->sh);
++
++        tcg_temp_free_i64(t2);
++    }
++
++    set_avr64(a->vrt, t0, false);
++    set_avr64(a->vrt, t1, true);
++
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
 +
 +    return true;
 +}
 +
- #undef GEN_VR_LDX
- #undef GEN_VR_STX
- #undef GEN_VR_LVE
+ #define GEN_VAFORM_PAIRED(name0, name1, opc2)                           \
+ static void glue(gen_, name0##_##name1)(DisasContext *ctx)              \
+     {                                                                   \
 -- 
 2.25.1
 
