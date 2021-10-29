@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7859144053C
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 00:03:20 +0200 (CEST)
-Received: from localhost ([::1]:47524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5D844054E
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 00:08:17 +0200 (CEST)
+Received: from localhost ([::1]:55416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgZy3-0006FU-JU
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 18:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35448)
+	id 1mga2p-0003CO-Vu
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 18:08:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgZw5-0004oU-G4
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 18:01:19 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44923)
+ id 1mga0s-0001ad-T5
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 18:06:16 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgZw3-0005MO-CT
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 18:01:16 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id d13so18794845wrf.11
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 15:01:14 -0700 (PDT)
+ id 1mga0q-0006bo-7b
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 18:06:14 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id r8so6049232wra.7
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 15:06:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=z4sT093S2P7r4tZAomFVyjP0U8/JgJ3fdPLlMfE4078=;
- b=nltiUIGG0nEsgmoiFMTYe59Qfm5dp+jQHltkfDS8Spf/BMyrQ4We8dUoknOkfFpO0/
- vzU/R82okOCqc+srRAzSza9n76knxe6XtNyxmmpRXTokM/G12wCpSZwTHPpPcnrJvBhU
- uneiFOcjHMnvEroxos9mONzzuKhhe95QUYnY33ftDUTCwFQnkdLx346wbzU9XKvCR29/
- lrcC3+077FI50PgBm0JRZMLSB9WLZjyxNqg+ZUNBgtRZ/GAnlttM9+2QY0MSc0vHJddl
- VDRPWQfn6jtPo5P6bR3H4RRr4sWCEXnGVtJOq3fUf69fIkrlvXXttswwNNvTfpRj8CJ1
- YTTg==
+ bh=ZZMkMXLB2uiahCnorLVDTnjxZvQEzqzjq7Jrl2f7YjE=;
+ b=Ghn05RjHsQOk5nx8Qi/QAihhURj/7x+Bhiq38Rg6vio85vu7o1VaN3GodWUYj4BCl5
+ ISLM94cEfNZIjRYy8Drhy5evGoJohmrlnJZk1hCBEkGSsoJ6I5AQLR9a6KT+a8Q8W0RS
+ S2NZVks3vqglIxUmDxNPtoTi2j5maHzA8xCkZlVZ/IK91nAdx75pbomFUhWjpC5Q92Rb
+ JsGlVvImcJgbIJibqPZUw0zWlhMI1nBVXkAXdWrH5eZBW1FudY1Fwgx/nWNlhGN3oTRS
+ RAtjWr45i/1QCl9NhiK/vVwaUCwkRzfihXbGUBWmG/LbAxtdYn4lIfNsAiISrzm9rCoe
+ gb4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=z4sT093S2P7r4tZAomFVyjP0U8/JgJ3fdPLlMfE4078=;
- b=e5dGryZ8ESYYGKhdoZW33QhOz45KXHek12GbF3PU4jVxth41ZUeUE5zkoiAs3hnGju
- cp8ejNIEHyMdW90Zs39sLaqCNJ4jVO8lMe0T3sSOnk16KBljSXNui8LGIAlm+/XOU0F0
- PkC408XAneoc3tdig+oFYByfYw5FyzNUKZlmFkspP1sdrzUeVgVPkUMpohPlhoyyKUsz
- B6nNOI2WFTpBqxAqryjDJuOmnhbKpkELTcExxmkX/O2421SpJbHogsjh9jDOP8G9g/iu
- 60k1h4LKzBVwkKSYlSsWP0zOPS/p4oxCP03fvrjs72qskc0To/SvA2Jnu3eLr72HPffb
- Cvfg==
-X-Gm-Message-State: AOAM53178lBBFbpIGGSQe+Cqm01cQ3pSGHwe9ybuRVgdyl6rgTihfIzc
- IYFjTJKRfkHQXU3rCFRi0AQ=
-X-Google-Smtp-Source: ABdhPJzQHcQ5HYJIBfso9s/0VIdV/BoMfCgWawIF4wQaUV1ji3ZkQlkrxSKUZTNMPW2Pqw9uKDIQTQ==
-X-Received: by 2002:a5d:44d1:: with SMTP id z17mr6109673wrr.143.1635544873788; 
- Fri, 29 Oct 2021 15:01:13 -0700 (PDT)
+ bh=ZZMkMXLB2uiahCnorLVDTnjxZvQEzqzjq7Jrl2f7YjE=;
+ b=d5gmTcTXgFQjEkI6fJzbOpY3u3OubmXWS+ix1OY9XekA6snzGN4hGvExbqOd+kxoBn
+ XelHqhM8Ku/JVPZ5jRR7EUP36R1JPuuqZYbZ9sagYLdF5a31dCDdHaj7UVarT6Yw5lzI
+ j37p7mRz3vRBpuKg6IwGU2iunGoOsNxy7aWgN/LjtNVcQgjUIlzcpKeENaZYF96hc5qZ
+ zDS8Oxl3tMH20zX1zsv3WsKwGuEjWabgnD/cAr+4frOC2ZnuEM12e8bGTW1A92+6JaPw
+ AUJO/nxZkiKosuOUwya1VtJNLtdbtH9FLFsc8qI76nbGK90rShkZBFRVWDhUlF7Bn5ER
+ BIXw==
+X-Gm-Message-State: AOAM533qtp9YOeAsUbUc62TwulzFpLwr+4NwSiP32rvyl7aItRxUO+xS
+ BkppyyiwtDxQUT3Lb+tRmW8=
+X-Google-Smtp-Source: ABdhPJycd75gLwxbwcCNvOMMWaOgDGfUA66y3EHF1ATRisO+JCyneUD/liJy6UGOOUWhr+nHFBrxaQ==
+X-Received: by 2002:adf:e0c1:: with SMTP id m1mr17699656wri.241.1635545170648; 
+ Fri, 29 Oct 2021 15:06:10 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id k63sm9926601wme.22.2021.10.29.15.01.12
+ by smtp.gmail.com with ESMTPSA id o11sm10451966wry.0.2021.10.29.15.06.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 15:01:13 -0700 (PDT)
-Message-ID: <da45e061-c34e-7a3c-468a-e0f375c97d50@amsat.org>
-Date: Sat, 30 Oct 2021 00:01:12 +0200
+ Fri, 29 Oct 2021 15:06:09 -0700 (PDT)
+Message-ID: <1c4ec639-c727-e750-6d13-3cfa7fbef6dd@amsat.org>
+Date: Sat, 30 Oct 2021 00:06:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v6 12/30] hw/char/sh_serial: Split off sh_serial_reset()
- from sh_serial_init()
+Subject: Re: [PATCH v6 30/30] hw/timer/sh_timer: Remove use of hw_error
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1635541329.git.balaton@eik.bme.hu>
- <ffb46f2814794c8dfc2c5a0cf83086a7bd754e10.1635541329.git.balaton@eik.bme.hu>
+ <f818dc3dd2ac8c3b3d53067f316a716d7f9683d8.1635541329.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <ffb46f2814794c8dfc2c5a0cf83086a7bd754e10.1635541329.git.balaton@eik.bme.hu>
+In-Reply-To: <f818dc3dd2ac8c3b3d53067f316a716d7f9683d8.1635541329.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -39
 X-Spam_score: -4.0
 X-Spam_bar: ----
@@ -99,10 +98,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/29/21 23:02, BALATON Zoltan wrote:
+> The hw_error function calls abort and is not meant to be used by
+> devices. Use qemu_log_mask instead to log and ignore invalid accesses.
+> Also fix format strings to allow dropping type casts of hwaddr and use
+> __func__ instead of hard coding function name in the message which
+> were wrong in two cases.
+> 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->  hw/char/sh_serial.c | 29 +++++++++++++++++------------
->  1 file changed, 17 insertions(+), 12 deletions(-)
+>  hw/timer/sh_timer.c | 40 +++++++++++++++++++++++++---------------
+>  1 file changed, 25 insertions(+), 15 deletions(-)
+> 
+> diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
+> index a6445092e4..8a586f2c4a 100644
+> --- a/hw/timer/sh_timer.c
+> +++ b/hw/timer/sh_timer.c
+> @@ -10,7 +10,7 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "exec/memory.h"
+> -#include "hw/hw.h"
+> +#include "qemu/log.h"
+>  #include "hw/irq.h"
+>  #include "hw/sh4/sh.h"
+>  #include "hw/timer/tmu012.h"
+> @@ -75,11 +75,10 @@ static uint32_t sh_timer_read(void *opaque, hwaddr offset)
+>          if (s->feat & TIMER_FEAT_CAPT) {
+>              return s->tcpr;
+>          }
+> -        /* fall through */
+> -    default:
+> -        hw_error("sh_timer_read: Bad offset %x\n", (int)offset);
+> -        return 0;
+>      }
+> +    qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
+> +                  __func__, offset);
+> +    return 0;
 
+Note, keeping the default case allow to refactor for single return,
+so it is easier to add trace event.
+
+Anyhow,
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
