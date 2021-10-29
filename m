@@ -2,48 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52CD94404EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:28:46 +0200 (CEST)
-Received: from localhost ([::1]:37954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A05440443
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:41:30 +0200 (CEST)
+Received: from localhost ([::1]:34762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgZQb-00010h-9c
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:28:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46436)
+	id 1mgYgr-0007QQ-B5
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:41:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mgYWW-0001he-I9; Fri, 29 Oct 2021 16:30:50 -0400
-Received: from [201.28.113.2] (port=54018 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mgYWT-0004EY-RB; Fri, 29 Oct 2021 16:30:47 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 29 Oct 2021 17:26:37 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 21956800B36;
- Fri, 29 Oct 2021 17:26:37 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH v2 34/34] target/ppc: Implement lxvkq instruction
-Date: Fri, 29 Oct 2021 17:24:25 -0300
-Message-Id: <20211029202424.175401-35-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
-References: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgYRs-0001sx-Jp
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 16:26:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28080)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgYRp-000223-OD
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 16:25:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635539155;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yLJ8hNf/zCn6PN5OKRdVoO3Fn4Kr/pjRdsySfVC7qno=;
+ b=DF70nZ+Y2ff/rtKKRqexrmQIafURPjz3A9DJRMCweFrrAoOQ7lwffWjpOfsmzpN001ioY+
+ +rkkYTBWjtn9wRZ2dU1lCqWEMwum2DBqGGhHXZK6oywf1DDOcf6UFIeTSbeFK+1GcqF+jA
+ 9MTg+8zMkGNgQxX4Qz9Vc/wUpHQcwZQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-543-t8SkRxhSOxu6vQSurMFkaA-1; Fri, 29 Oct 2021 16:25:49 -0400
+X-MC-Unique: t8SkRxhSOxu6vQSurMFkaA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38B77802928;
+ Fri, 29 Oct 2021 20:25:47 +0000 (UTC)
+Received: from redhat.com (ovpn-112-232.phx2.redhat.com [10.3.112.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 45DAD27060;
+ Fri, 29 Oct 2021 20:25:43 +0000 (UTC)
+Date: Fri, 29 Oct 2021 15:25:41 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 1/4] qemu-img: implement compare --stat
+Message-ID: <20211029202541.r56oijl2gclu2avy@redhat.com>
+References: <20211028102441.1878668-1-vsementsov@virtuozzo.com>
+ <20211028102441.1878668-2-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 29 Oct 2021 20:26:37.0647 (UTC)
- FILETIME=[4629F5F0:01D7CD03]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211028102441.1878668-2-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20211022
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,102 +77,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lucas.castro@eldorado.org.br, richard.henderson@linaro.org, groug@kaod.org,
- luis.pires@eldorado.org.br, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- david@gibson.dropbear.id.au
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, nikita.lapshin@virtuozzo.com,
+ qemu-devel@nongnu.org, nsoffer@redhat.com, hreitz@redhat.com, den@openvz.org,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+On Thu, Oct 28, 2021 at 12:24:38PM +0200, Vladimir Sementsov-Ogievskiy wrote:
+> With new option qemu-img compare will not stop at first mismatch, but
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
-v2:
-- valid_values mask removed
----
- target/ppc/insn32.decode            |  7 +++++
- target/ppc/translate/vsx-impl.c.inc | 43 +++++++++++++++++++++++++++++
- 2 files changed, 50 insertions(+)
+With the new --stat option, qemu-img compare...
 
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index fd73946122..e135b8aba4 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -100,6 +100,9 @@
- &X_imm8         xt imm:uint8_t
- @X_imm8         ...... ..... .. imm:8 .......... .              &X_imm8 xt=%x_xt
- 
-+&X_uim5         xt uim:uint8_t
-+@X_uim5         ...... ..... ..... uim:5 .......... .           &X_uim5 xt=%x_xt
-+
- &X_tb_sp_rc     rt rb sp rc:bool
- @X_tb_sp_rc     ...... rt:5 sp:2 ... rb:5 .......... rc:1       &X_tb_sp_rc
- 
-@@ -420,3 +423,7 @@ STXVPX          011111 ..... ..... ..... 0111001101 -   @X_TSXP
- 
- XXSPLTIB        111100 ..... 00 ........ 0101101000 .   @X_imm8
- XXSPLTW         111100 ..... ---.. ..... 010100100 . .  @XX2
-+
-+## VSX Vector Load Special Value Instruction
-+
-+LXVKQ           111100 ..... 11111 ..... 0101101000 .   @X_uim5
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 1b890b60a9..f4f19dd479 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1503,6 +1503,49 @@ static bool trans_XXSPLTI32DX(DisasContext *ctx, arg_8RR_D_IX *a)
-     return true;
- }
- 
-+static bool trans_LXVKQ(DisasContext *ctx, arg_X_uim5 *a)
-+{
-+    static const uint64_t values[32] = {
-+        0, /* Unspecified */
-+        0x3FFF000000000000llu, /* QP +1.0 */
-+        0x4000000000000000llu, /* QP +2.0 */
-+        0x4000800000000000llu, /* QP +3.0 */
-+        0x4001000000000000llu, /* QP +4.0 */
-+        0x4001400000000000llu, /* QP +5.0 */
-+        0x4001800000000000llu, /* QP +6.0 */
-+        0x4001C00000000000llu, /* QP +7.0 */
-+        0x7FFF000000000000llu, /* QP +Inf */
-+        0x7FFF800000000000llu, /* QP dQNaN */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0x8000000000000000llu, /* QP -0.0 */
-+        0xBFFF000000000000llu, /* QP -1.0 */
-+        0xC000000000000000llu, /* QP -2.0 */
-+        0xC000800000000000llu, /* QP -3.0 */
-+        0xC001000000000000llu, /* QP -4.0 */
-+        0xC001400000000000llu, /* QP -5.0 */
-+        0xC001800000000000llu, /* QP -6.0 */
-+        0xC001C00000000000llu, /* QP -7.0 */
-+        0xFFFF000000000000llu, /* QP -Inf */
-+    };
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+    REQUIRE_VSX(ctx);
-+
-+    if (values[a->uim]) {
-+        set_cpu_vsr(a->xt, tcg_constant_i64(0x0), false);
-+        set_cpu_vsr(a->xt, tcg_constant_i64(values[a->uim]), true);
-+    } else {
-+        gen_invalid(ctx);
-+    }
-+
-+    return true;
-+}
-+
- static void gen_xxsldwi(DisasContext *ctx)
- {
-     TCGv_i64 xth, xtl;
+[Of course the subject line should be self-contained: think 'git
+shortlog' and friends.  But I also argue the commit body should
+generally be self-contained, rather than assuming you read the subject
+line - why? because there are enough user interfaces out there
+(including my email program) where the subject line is displayed
+visually far away from the body, to the point that it is not always
+safe to assume someone read the subject line.  If it feels too
+redundant, visual tricks like starting the body with '...' force the
+reader to realize they need to read the subject for full context, but
+that comes with its own set of oddities]
+
+> instead calculate statistics: how many clusters with different data,
+> how many clusters with equal data, how many clusters were unallocated
+> but become data and so on.
+> 
+> We compare images chunk by chunk. Chunk size depends on what
+> block_status returns for both images. It may return less than cluster
+> (remember about qcow2 subclusters), it may return more than cluster (if
+> several consecutive clusters share same status). Finally images may
+> have different cluster sizes. This all leads to ambiguity in how to
+> finally compare the data.
+> 
+> What we can say for sure is that, when we compare two qcow2 images with
+> same cluster size, we should compare clusters with data separately.
+> Otherwise, if we for example compare 10 consecutive clusters of data
+> where only one byte differs we'll report 10 different clusters.
+> Expected result in this case is 1 different cluster and 9 equal ones.
+> 
+> So, to serve this case and just to have some defined rule let's do the
+> following:
+> 
+> 1. Select some block-size for compare procedure. In this commit it must
+>    be specified by user, next commit will add some automatic logic and
+>    make --block-size optional.
+> 
+> 2. Go chunk-by-chunk using block_status as we do now with only one
+>    differency:
+
+difference
+
+>    If block_status() returns DATA region that intersects block-size
+>    aligned boundary, crop this region at this boundary.
+> 
+> This way it's still possible to compare less than cluster and report
+> subcluster-level accuracy, but we newer compare more than one cluster
+> of data.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  docs/tools/qemu-img.rst |  18 +++-
+>  qemu-img.c              | 210 +++++++++++++++++++++++++++++++++++++---
+>  qemu-img-cmds.hx        |   4 +-
+>  3 files changed, 216 insertions(+), 16 deletions(-)
+> 
+> diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+> index d58980aef8..8b6b799dd4 100644
+> --- a/docs/tools/qemu-img.rst
+> +++ b/docs/tools/qemu-img.rst
+> @@ -159,6 +159,18 @@ Parameters to compare subcommand:
+>  
+>    Strict mode - fail on different image size or sector allocation
+>  
+> +.. option:: --stat
+> +
+> +  Instead of exiting on the first mismatch, compare the whole images
+> +  and print statistics on the amount of different pairs of blocks,
+> +  based on their block status and whether they are equal or not.
+> +
+> +.. option:: --block-size BLOCK_SIZE
+> +
+> +  Block size for comparing with ``--stat``. This doesn't guarantee an
+> +  exact size for comparing chunks, but it does guarantee that those
+> +  chunks will never cross a block-size-aligned boundary.
+
+Would it be safe to require that this be a power-of-2?  (If anything,
+requiring now and relaxing later is better than allowing any number
+now but later wishing it were a sane number)
+
+> +
+>  Parameters to convert subcommand:
+>  
+>  .. program:: qemu-img-convert
+> @@ -378,7 +390,7 @@ Command description:
+>  
+>    The rate limit for the commit process is specified by ``-r``.
+>  
+> -.. option:: compare [--object OBJECTDEF] [--image-opts] [-f FMT] [-F FMT] [-T SRC_CACHE] [-p] [-q] [-s] [-U] FILENAME1 FILENAME2
+> +.. option:: compare [--object OBJECTDEF] [--image-opts] [-f FMT] [-F FMT] [-T SRC_CACHE] [-p] [-q] [-s] [-U] [--stat --block-size BLOCK_SIZE] FILENAME1 FILENAME2
+>  
+>    Check if two images have the same content. You can compare images with
+>    different format or settings.
+> @@ -405,9 +417,9 @@ Command description:
+>    The following table sumarizes all exit codes of the compare subcommand:
+>  
+>    0
+> -    Images are identical (or requested help was printed)
+> +    Images are identical (or requested help was printed, or ``--stat`` was used)
+>    1
+> -    Images differ
+> +    Images differ (1 is never returned when ``--stat`` option specified)
+
+Why not?  Even when we print statistics, it's still easy to tell if
+the data appears identical (block status might differ, but the guest
+would see the same content), or had at least one difference.
+
+>    2
+>      Error on opening an image
+>    3
+> diff --git a/qemu-img.c b/qemu-img.c
+> index f036a1d428..0cb7cebe91 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
+
+> +static void cmp_stat_print_status(int status)
+> +{
+> +    printf("%s%s%s%s",
+> +           status & BDRV_BLOCK_DATA ? "D" : "_",
+> +           status & BDRV_BLOCK_ZERO ? "Z" : "_",
+> +           status & BDRV_BLOCK_ALLOCATED ? "A" : "_",
+> +           status & BDRV_BLOCK_EOF ? "E" : "_");
+
+Would this be more efficient with "%c%c%c%c" as the format, and using
+'_' and friends below?
+
+> @@ -1410,6 +1528,25 @@ static int img_compare(int argc, char **argv)
+>      filename1 = argv[optind++];
+>      filename2 = argv[optind++];
+>  
+> +    if (!stat && block_size) {
+> +        error_report("--block-size can be used only together with --stat");
+> +        ret = 2;
+> +        goto out3;
+> +    }
+> +
+> +    if (stat && !block_size) {
+> +        /* TODO: make block-size optional */
+> +        error_report("You must specify --block-size together with --stat");
+> +        ret = 2;
+> +        goto out3;
+> +    }
+> +
+> +    if (stat && strict) {
+> +        error_report("--stat can't be used together with -s");
+> +        ret = 2;
+> +        goto out3;
+> +    }
+
+Given this block...
+
+>  
+>          assert(pnum1 && pnum2);
+>          chunk = MIN(pnum1, pnum2);
+>  
+> -        if (strict) {
+> +        if (strict && !stat) {
+
+...the check for !stat here is dead.
+
+
 -- 
-2.25.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
