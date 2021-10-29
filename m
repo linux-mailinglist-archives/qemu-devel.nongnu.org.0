@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DCE6440518
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:51:41 +0200 (CEST)
-Received: from localhost ([::1]:50590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8CD4404FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:39:47 +0200 (CEST)
+Received: from localhost ([::1]:46934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgZmm-00064g-Md
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:51:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55274)
+	id 1mgZbG-0000cZ-VG
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:39:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZJ3-0007FY-Qn
+ id 1mgZJ3-0007Cs-0t
  for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:57 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19931)
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZJ2-0005aU-3E
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:57 -0400
+ id 1mgZJ1-0005aE-EC
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:56 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 711BA75621B;
+ by localhost (Postfix) with SMTP id 513EC75620F;
  Fri, 29 Oct 2021 23:20:44 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C1E66756198; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
-Message-Id: <4adf4e1ac9d2e728e5a536c69e310d77f0c4455a.1635541329.git.balaton@eik.bme.hu>
+ id A7B56756036; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
+Message-Id: <ffb46f2814794c8dfc2c5a0cf83086a7bd754e10.1635541329.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635541329.git.balaton@eik.bme.hu>
 References: <cover.1635541329.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 16/30] hw/intc/sh_intc: Turn some defines into an enum
+Subject: [PATCH v6 12/30] hw/char/sh_serial: Split off sh_serial_reset() from
+ sh_serial_init()
 Date: Fri, 29 Oct 2021 23:02:09 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,82 +62,65 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Turn the INTC_MODE defines into an enum and clean up the function
-returning these to make it clearer by removing nested ifs and
-superfluous parenthesis. The one remaining #define is a flag which is
-moved further apart by changing its value from 8 to 0x80 to leave some
-spare bits as this is or-ed with the enum value at some places.
-
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/intc/sh_intc.c | 43 +++++++++++++++++++------------------------
- 1 file changed, 19 insertions(+), 24 deletions(-)
+ hw/char/sh_serial.c | 29 +++++++++++++++++------------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
 
-diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index ac47b7f905..16d94458d4 100644
---- a/hw/intc/sh_intc.c
-+++ b/hw/intc/sh_intc.c
-@@ -100,33 +100,27 @@ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
-     abort();
- }
+diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
+index 5ee93dc732..80a548d19d 100644
+--- a/hw/char/sh_serial.c
++++ b/hw/char/sh_serial.c
+@@ -381,18 +381,8 @@ static const MemoryRegionOps sh_serial_ops = {
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
  
--#define INTC_MODE_NONE       0
--#define INTC_MODE_DUAL_SET   1
--#define INTC_MODE_DUAL_CLR   2
--#define INTC_MODE_ENABLE_REG 3
--#define INTC_MODE_MASK_REG   4
--#define INTC_MODE_IS_PRIO    8
--
--static unsigned int sh_intc_mode(unsigned long address,
--                                 unsigned long set_reg, unsigned long clr_reg)
-+#define INTC_MODE_IS_PRIO 0x80
-+typedef enum {
-+    INTC_MODE_NONE,
-+    INTC_MODE_DUAL_SET,
-+    INTC_MODE_DUAL_CLR,
-+    INTC_MODE_ENABLE_REG,
-+    INTC_MODE_MASK_REG,
-+} SHIntCMode;
-+
-+
-+static SHIntCMode sh_intc_mode(unsigned long address, unsigned long set_reg,
-+                               unsigned long clr_reg)
+-void sh_serial_init(MemoryRegion *sysmem,
+-                    hwaddr base, int feat,
+-                    uint32_t freq, Chardev *chr,
+-                    qemu_irq eri_source,
+-                    qemu_irq rxi_source,
+-                    qemu_irq txi_source,
+-                    qemu_irq tei_source,
+-                    qemu_irq bri_source)
++static void sh_serial_reset(SHSerialState *s)
  {
--    if ((address != A7ADDR(set_reg)) &&
--        (address != A7ADDR(clr_reg)))
-+    if (address != A7ADDR(set_reg) && address != A7ADDR(clr_reg)) {
-         return INTC_MODE_NONE;
+-    SHSerialState *s = g_malloc0(sizeof(*s));
 -
--    if (set_reg && clr_reg) {
--        if (address == A7ADDR(set_reg)) {
--            return INTC_MODE_DUAL_SET;
--        } else {
--            return INTC_MODE_DUAL_CLR;
--        }
+-    s->feat = feat;
+     s->flags = SH_SERIAL_FLAG_TEND | SH_SERIAL_FLAG_TDE;
+     s->rtrg = 1;
+ 
+@@ -401,13 +391,28 @@ void sh_serial_init(MemoryRegion *sysmem,
+     s->scr = 1 << 5; /* pretend that TX is enabled so early printk works */
+     s->sptr = 0;
+ 
+-    if (feat & SH_SERIAL_FEAT_SCIF) {
++    if (s->feat & SH_SERIAL_FEAT_SCIF) {
+         s->fcr = 0;
+     } else {
+         s->dr = 0xff;
      }
--
--    if (set_reg) {
--        return INTC_MODE_ENABLE_REG;
--    } else {
--        return INTC_MODE_MASK_REG;
-+    if (set_reg && clr_reg) {
-+        return address == A7ADDR(set_reg) ?
-+               INTC_MODE_DUAL_SET : INTC_MODE_DUAL_CLR;
-     }
-+    return set_reg ? INTC_MODE_ENABLE_REG : INTC_MODE_MASK_REG;
- }
  
- static void sh_intc_locate(struct intc_desc *desc,
-@@ -137,7 +131,8 @@ static void sh_intc_locate(struct intc_desc *desc,
-                            unsigned int *width,
-                            unsigned int *modep)
- {
--    unsigned int i, mode;
-+    SHIntCMode mode;
-+    unsigned int i;
+     sh_serial_clear_fifo(s);
++}
++
++void sh_serial_init(MemoryRegion *sysmem,
++                    hwaddr base, int feat,
++                    uint32_t freq, Chardev *chr,
++                    qemu_irq eri_source,
++                    qemu_irq rxi_source,
++                    qemu_irq txi_source,
++                    qemu_irq tei_source,
++                    qemu_irq bri_source)
++{
++    SHSerialState *s = g_malloc0(sizeof(*s));
++
++    s->feat = feat;
++    sh_serial_reset(s);
  
-     /* this is slow but works for now */
- 
+     memory_region_init_io(&s->iomem, NULL, &sh_serial_ops, s,
+                           "serial", 0x100000000ULL);
 -- 
 2.21.4
 
