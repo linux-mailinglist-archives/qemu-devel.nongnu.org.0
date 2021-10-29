@@ -2,89 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4E043F713
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 08:18:59 +0200 (CEST)
-Received: from localhost ([::1]:38792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B9643F730
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 08:31:51 +0200 (CEST)
+Received: from localhost ([::1]:52198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgLEA-0001mn-9Y
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 02:18:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46614)
+	id 1mgLQc-0003WY-Ah
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 02:31:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mgL5a-0007sW-DD
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 02:10:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32531)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mgL5Y-0002Yu-DG
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 02:10:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635487803;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2u+inP+aKyI76LYtCQk95FBJS6VcSHyRUPCveCzt2tY=;
- b=brIQQdSd7s/GJDlKwOeAc7gl5XtQrJXC15tcmAvTAvJR3RPyy8eLsebxypfkejHz6b3ipf
- YH3RMTiFRlJh9GUbJ7uryk9mMs2Hx5Z+IXJx/JdIh8WJpZL8G3tDh8aSpxW7pdkgsoIdlt
- +GJlgihyiNlUKyYozmfkwZf1c6MaK74=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-czqWcuXUMi263LjRPKlcng-1; Fri, 29 Oct 2021 02:10:02 -0400
-X-MC-Unique: czqWcuXUMi263LjRPKlcng-1
-Received: by mail-wr1-f71.google.com with SMTP id
- p17-20020adff211000000b0017b902a7701so236265wro.19
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 23:10:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2u+inP+aKyI76LYtCQk95FBJS6VcSHyRUPCveCzt2tY=;
- b=YkftofomGjgiqtoNwU67tQkbLkk+A6sxBR/wzEdHhIZAh3BcBSZnl/JgXwbHkV/a3t
- irWqp6WFnrwF2BXhM/kNfDIutJotFe7ysxP/epS9GFsl6X9AKUa4UBOpFVomSfp0YKTc
- wUYT3LD0ao32U+VPmVXbUf2Lxxaq/U/nQq9pgQFWCtpI+fRomP1U7ivsxowtuhVImv9J
- i303KQ+AhKb6hBzh5rL5PsVKSLmCn9pWqRr8nE2XEFX7jd2Yr1bKUus8D4x77UeGS7CD
- +dukq+6K0O+fDqNg6wJPrNsbo20F9QGglxT6A6czdiCYDArL/zGBAqTBTKje03S+7i/z
- gWOg==
-X-Gm-Message-State: AOAM530ODWYH+DZjKdvWB/q/unqDENwc6G0VDV4poSZ2eIl9r+Suvwt1
- nirUZI4LcF+nMoQkrFtd4I3sCm79RF9H4aXF1LdXxhFW9cse7mxf66B/W7OtxMiTRox6cG+XM09
- mTIFBYvETGX62HoQ=
-X-Received: by 2002:adf:e34d:: with SMTP id n13mr11548235wrj.97.1635487800993; 
- Thu, 28 Oct 2021 23:10:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzTkSJRPmQJhqc+BFf8IK1NjyZP0OfMTgJBhSd/NlxzBWplel7TqNHxy9lYkcDZuoWbGTtJwg==
-X-Received: by 2002:adf:e34d:: with SMTP id n13mr11548196wrj.97.1635487800613; 
- Thu, 28 Oct 2021 23:10:00 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id r1sm8891802wmr.36.2021.10.28.23.09.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Oct 2021 23:10:00 -0700 (PDT)
-Message-ID: <a2e059da-4c3a-66b7-6ce6-2b2fed0f980a@redhat.com>
-Date: Fri, 29 Oct 2021 08:09:59 +0200
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1mgLLU-0001H3-0R
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 02:26:32 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:56156 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1mgLLR-0004ev-2G
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 02:26:31 -0400
+Received: from localhost.localdomain (unknown [10.20.42.11])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP2v7k3thNuohAA--.51603S3; 
+ Fri, 29 Oct 2021 14:26:04 +0800 (CST)
+Subject: Re: [PATCH 07/31] target/loongarch: Add loongarch csr/iocsr
+ instruction support
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <1634628917-10031-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1634628917-10031-8-git-send-email-yangxiaojuan@loongson.cn>
+ <cb33aeb0-3a82-1300-cbbc-3e260cee8a5f@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <75e6250e-6cb5-6557-b9dd-ea3fdb0436e2@loongson.cn>
+Date: Fri, 29 Oct 2021 14:26:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] hvf: Use standard CR0 and CR4 register definitions
-To: Cameron Esfahani <dirty@apple.com>, qemu-devel@nongnu.org
-References: <20211029013315.79207-1-dirty@apple.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211029013315.79207-1-dirty@apple.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.847, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <cb33aeb0-3a82-1300-cbbc-3e260cee8a5f@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf9DxP2v7k3thNuohAA--.51603S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxCF4Utr4Dur4xXw15CFyUJrb_yoWrtFW5pF
+ 18Cr4UCr40qF1DZ342qws8Cr1rZw4S9a4jk3yrAwsIyrsrZFn7ArW8Cw43GFWUCrn5Zr4j
+ yay5Z3s29a98taDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUP214x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ F7xvrVAajcxG14v26r1j6r4UMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxV
+ W8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI2
+ 0VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21lc2xSY4
+ AK6svPMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
+ wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc4
+ 0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+ xVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr
+ 0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjtf
+ HUUUUUU==
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.847,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,22 +74,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, r.bolshakov@yadro.com
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
+ philmd@redhat.com, mark.cave-ayland@ilande.co.uk, laurent@vivier.eu,
+ peterx@redhat.com, f4bug@amsat.org, alistair.francis@wdc.com,
+ maobibo@loongson.cn, gaosong@loongson.cn, pbonzini@redhat.com,
+ bmeng.cn@gmail.com, alex.bennee@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/29/21 03:33, Cameron Esfahani wrote:
-> No need to have our own definitions of these registers.
-> 
-> Signed-off-by: Cameron Esfahani <dirty@apple.com>
-> ---
->  target/i386/hvf/vmx.h      | 17 +++++++++--------
->  target/i386/hvf/x86.c      |  6 +++---
->  target/i386/hvf/x86.h      | 34 ----------------------------------
->  target/i386/hvf/x86_mmu.c  |  2 +-
->  target/i386/hvf/x86_task.c |  3 ++-
->  5 files changed, 15 insertions(+), 47 deletions(-)
+Hi, Richard:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 10/20/2021 09:36 AM, Richard Henderson wrote:
+> On 10/19/21 12:34 AM, Xiaojuan Yang wrote:
+>> +target_ulong helper_csr_rdq(CPULoongArchState *env, uint64_t csr)
+>> +{
+>> +    int64_t v;
+>> +
+>> +#define CASE_CSR_RDQ(csr)            \
+>> +    case LOONGARCH_CSR_ ## csr:      \
+>> +    {                                \
+>> +        v = env->CSR_ ## csr;        \
+>> +        break;                       \
+>> +    };                               \
+> 
+> There's absolutely no reason to call a helper function for a simple load.
+> 
+>> +    case LOONGARCH_CSR_PGD:
+>> +
+>> +        if (env->CSR_TLBRERA & 0x1) {
+>> +            v = env->CSR_TLBRBADV;
+>> +        } else {
+>> +            v = env->CSR_BADV;
+>> +        }
+>> +
+>> +        if ((v >> 63) & 0x1) {
+>> +            v = env->CSR_PGDH;
+>> +        } else {
+>> +            v = env->CSR_PGDL;
+>> +        }
+>> +        break;
+> 
+> This is the only one that requires a helper on read.
+> 
+>> +    if (csr == LOONGARCH_CSR_ASID) {
+>> +        if (old_v != val) {
+>> +            tlb_flush(env_cpu(env));
+>> +        }
+>> +    }
+> 
+> And this is the only one that requires a helper on write.
+> 
+>> +    case LOONGARCH_CSR_ESTAT:
+>> +        qatomic_and(&env->CSR_ESTAT, ~mask);
+> 
+> Why do you believe this requires an atomic update?
+> What is going to race with the update to a cpu private value?
+> 
+>> +static bool trans_csrrd(DisasContext *ctx, unsigned rd, unsigned csr)
+>> +{
+>> +    TCGv dest = gpr_dst(ctx, rd, EXT_NONE);
+>> +    gen_helper_csr_rdq(dest, cpu_env, tcg_constant_i64(csr));
+>> +    return true;
+>> +}
+>> +
+>> +static bool trans_csrwr(DisasContext *ctx, unsigned rd, unsigned csr)
+>> +{
+>> +    TCGv dest = gpr_dst(ctx, rd, EXT_NONE);
+>> +    TCGv src1 = gpr_src(ctx, rd, EXT_NONE);
+>> +
+>> +    switch (csr) {
+>> +    case LOONGARCH_CSR_CRMD:
+>> +        tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
+>> +        gen_helper_csr_wrq(dest, cpu_env, src1, tcg_constant_i64(LOONGARCH_CSR_CRMD));
+>> +        tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
+>> +        ctx->base.is_jmp = DISAS_EXIT;
+>> +        break;
+>> +    case LOONGARCH_CSR_EUEN:
+>> +        gen_helper_csr_wrq(dest, cpu_env, src1, tcg_constant_i64(LOONGARCH_CSR_EUEN));
+>> +        /* Stop translation */
+>> +        tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
+>> +        ctx->base.is_jmp = DISAS_EXIT;
+>> +        break;
+>> +    default:
+>> +        gen_helper_csr_wrq(dest, cpu_env, src1, tcg_constant_i64(csr));
+>> +        break;
+>> +    }
+>> +    return true;
+>> +}
+>> +
+>> +static bool trans_csrxchg(DisasContext *ctx, arg_csrxchg *a)
+>> +{
+>> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+>> +    TCGv src1 = gpr_src(ctx, a->rd, EXT_NONE);
+>> +    TCGv src2 = gpr_src(ctx, a->rj, EXT_NONE);
+>> +
+>> +    if (a->rj == 0) {
+>> +        return trans_csrrd(ctx, a->rd, a->csr);
+>> +    } else if (a->rj == 1) {
+>> +        return trans_csrwr(ctx, a->rd, a->csr);
+>> +    }
+> 
+> These should have been decoded separately; see below.
+> 
+> You're missing the check for priv 0 here and in all other functions.
+> 
+>> +
+>> +    if (a->rd == 0) {
+>> +        gen_helper_csr_xchgq_r0(cpu_env, src2, tcg_constant_i64(a->csr));
+>> +    } else {
+>> +        gen_helper_csr_xchgq(dest, cpu_env, src1, src2, tcg_constant_i64(a->csr));
+>> +    }
+> 
+> Why do you believe r0 to require a special case?
+>
+ 
+OK, I have modified  all above.
+
+>> +static bool trans_iocsrrd_b(DisasContext *ctx, arg_iocsrrd_b *a)
+>> +{
+>> +    TCGv tmp = tcg_temp_new();
+>> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+>> +    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+>> +
+>> +    gen_helper_iocsr_read(tmp, cpu_env, src1);
+>> +    tcg_gen_qemu_ld_tl(dest, tmp, ctx->mem_idx, MO_SB);
+> 
+> This is wrong.  From the manual:
+> 
+>   All IOCSR registers use independent addressing space
+> 
+> therefore you cannot simply read from a modified address, you must use a completely different address space.
+> 
+> There are a couple of different solutions that are possible.
+> 
+> (1) Use helper functions calling address_space_ld/st*.
+> 
+> (2) Use a separate mmu_idx, which uses its own address space.
+>     This requires bouncing through MemTxAttrs, since
+>     cpu_asidx_from_attrs only take attrs and not mmu_idx.
+> 
+> The second one is may be overkill, unless there will be any cachable memory in iospace.  I would expect most of it to be device memory.
+> 
+(1) For the iocsr registers, most of them act on the interrupt controller, the read and write will go to interrupt's mmio read/write.
+So I modified the addr to their mmio range. The ext interrupt controller use the sysbus's function to handle the interrupt cascade and
+sysbus_mmio_map to map the address which use the system memory region. So if I use a different address space, I realize a different 
+sysbus_mmio_map function use a different address space, is it feasible ?
+
+(2)Can you help me review the remaining patches? Thanks.
+
+>> +csrxchg          0000 0100 .............. ..... .....     @fmt_rdrjcsr
+> 
+> {
+>   csrrd             0000 0100 .............. 00000 .....     @fmt_rdcsr
+>   csrwr             0000 0100 .............. 00001 .....     @fmt_rdcsr
+>   csrxchg           0000 0100 .............. ..... .....     @fmt_rdrjcsr
+> }
+> 
+> 
+> r~
 
 
