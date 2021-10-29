@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B19043FF50
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 17:18:20 +0200 (CEST)
-Received: from localhost ([::1]:46784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C14843FF5F
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 17:22:10 +0200 (CEST)
+Received: from localhost ([::1]:49744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgTe7-0006tN-Kw
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 11:18:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56466)
+	id 1mgThp-0000WJ-IL
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 11:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mgTbx-0005M0-Pb
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 11:16:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47543)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgTgO-000888-5y
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 11:20:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mgTbu-0002ec-ND
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 11:16:05 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgTgH-0004We-JG
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 11:20:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635520561;
+ s=mimecast20190719; t=1635520831;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=572dH68mNJZpJ5wbBj5rHTHZ6Yd/kWMmi5ePoEJS1fQ=;
- b=ejT1iI9mHzQzKMnOAH063AJKcTIBDVbD1Czt7mZ20KeGo1MDQWuX9jI5itUe4nn6aCjZWs
- IhkxCDNBw8c95Sj4nexytF1/rq0/FNgc7OjSL+eJ6OB7wBnT1r71lXSKgAHL2nU66K7RuU
- k9M9kwbGVxqL9AbtEQwL/kaYxd1RqEY=
+ bh=FiNF/bP2lleNiMrwOiv3WBy3mxZIPMTfFLIHcGb7YnY=;
+ b=KPKDonCsIbSdNsy2vsLmnAl/EHnP/+oC0E1yp9eHcN1MZ4+TQCmseMUClLdjA6SJF7iPz7
+ PJTdnrI6LsywGaGghjMHJs7aLT07PVve3JVThYLXQkhWNcCqES7P67lS5VFmrlG2WfRJEK
+ ZeXcGE9QJlzOsHODeCCgMowdO3XPThk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-0LAjoJZIOImLsdm9L0NjfQ-1; Fri, 29 Oct 2021 11:15:58 -0400
-X-MC-Unique: 0LAjoJZIOImLsdm9L0NjfQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-286-rtoCU9psP5iGrL5XZd96fA-1; Fri, 29 Oct 2021 11:20:28 -0400
+X-MC-Unique: rtoCU9psP5iGrL5XZd96fA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4717E80A5C0;
- Fri, 29 Oct 2021 15:15:57 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ED9315F4E1;
- Fri, 29 Oct 2021 15:15:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7BD0911380A7; Fri, 29 Oct 2021 17:15:41 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 9/9] qapi: Extend -compat to set policy for unstable
- interfaces
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FD6D100D686;
+ Fri, 29 Oct 2021 15:20:27 +0000 (UTC)
+Received: from redhat.com (ovpn-112-232.phx2.redhat.com [10.3.112.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 51027604CC;
+ Fri, 29 Oct 2021 15:20:26 +0000 (UTC)
+Date: Fri, 29 Oct 2021 10:20:24 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 5/9] qapi: Generalize struct member policy checking
+Message-ID: <20211029152024.7x2tiizzswurimdf@redhat.com>
 References: <20211028102520.747396-1-armbru@redhat.com>
- <20211028102520.747396-10-armbru@redhat.com>
- <20211029151009.mv4zqqde6zisywza@redhat.com>
-Date: Fri, 29 Oct 2021 17:15:41 +0200
-In-Reply-To: <20211029151009.mv4zqqde6zisywza@redhat.com> (Eric Blake's
- message of "Fri, 29 Oct 2021 10:10:09 -0500")
-Message-ID: <874k8zdfqa.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ <20211028102520.747396-6-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20211028102520.747396-6-armbru@redhat.com>
+User-Agent: NeoMutt/20211022
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -90,115 +86,66 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+On Thu, Oct 28, 2021 at 12:25:16PM +0200, Markus Armbruster wrote:
+> The generated visitor functions call visit_deprecated_accept() and
+> visit_deprecated() when visiting a struct member with special feature
+> flag 'deprecated'.  This makes the feature flag visible to the actual
+> visitors.  I want to make feature flag 'unstable' visible there as
+> well, so I can add policy for it.
+> 
+> To let me make it visible, replace these functions by
+> visit_policy_reject() and visit_policy_skip(), which take the member's
+> special features as an argument.  Note that the new functions have the
+> opposite sense, i.e. the return value flips.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
-> On Thu, Oct 28, 2021 at 12:25:20PM +0200, Markus Armbruster wrote:
->> New option parameters unstable-input and unstable-output set policy
->> for unstable interfaces just like deprecated-input and
->> deprecated-output set policy for deprecated interfaces (see commit
->> 6dd75472d5 "qemu-options: New -compat to set policy for deprecated
->> interfaces").  This is intended for testing users of the management
->> interfaces.  It is experimental.
->> 
->> For now, this covers only syntactic aspects of QMP, i.e. stuff tagged
->> with feature 'unstable'.  We may want to extend it to cover semantic
->> aspects, or the command line.
->> 
->> Note that there is no good way for management application to detect
->> presence of these new option parameters: they are not visible output
->> of query-qmp-schema or query-command-line-options.  Tolerable, because
->> it's meant for testing.  If running with -compat fails, skip the test.
->
-> Not to mention, once we finish QAPIfying the command line, we could
-> make sure it is visible through introspection at that time (it may
-> require tagging the command line option with a feature, if nothing
-> else makes it pop through).
->
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> Acked-by: John Snow <jsnow@redhat.com>
->> ---
->>  qapi/compat.json              |  6 +++++-
->>  include/qapi/util.h           |  1 +
->>  qapi/qmp-dispatch.c           |  6 ++++++
->>  qapi/qobject-output-visitor.c |  8 ++++++--
->>  qemu-options.hx               | 20 +++++++++++++++++++-
->>  scripts/qapi/events.py        | 10 ++++++----
->>  scripts/qapi/schema.py        | 10 ++++++----
->>  7 files changed, 49 insertions(+), 12 deletions(-)
->> 
->> diff --git a/qapi/compat.json b/qapi/compat.json
->> index 74a8493d3d..9bc9804abb 100644
->> --- a/qapi/compat.json
->> +++ b/qapi/compat.json
->> @@ -47,9 +47,13 @@
->>  #
->>  # @deprecated-input: how to handle deprecated input (default 'accept')
->>  # @deprecated-output: how to handle deprecated output (default 'accept')
->> +# @unstable-input: how to handle unstable input (default 'accept')
->> +# @unstable-output: how to handle unstable output (default 'accept')
->
-> Missing '(since 6.2)' doc tags on the two new policies.
+> +++ b/qapi/qapi-forward-visitor.c
+> @@ -246,25 +246,27 @@ static void forward_field_optional(Visitor *v, const char *name, bool *present)
+>      visit_optional(ffv->target, name, present);
+>  }
+>  
+> -static bool forward_field_deprecated_accept(Visitor *v, const char *name,
+> -                                            Error **errp)
+> +static bool forward_field_policy_reject(Visitor *v, const char *name,
+> +                                        unsigned special_features,
+> +                                        Error **errp)
+>  {
+>      ForwardFieldVisitor *ffv = to_ffv(v);
+>  
+>      if (!forward_field_translate_name(ffv, &name, errp)) {
+>          return false;
 
-Fixing...
+Should this return value be flipped?
 
->>  #
->>  # Since: 6.0
->>  ##
->>  { 'struct': 'CompatPolicy',
->>    'data': { '*deprecated-input': 'CompatPolicyInput',
->> -            '*deprecated-output': 'CompatPolicyOutput' } }
->> +            '*deprecated-output': 'CompatPolicyOutput',
->> +            '*unstable-input': 'CompatPolicyInput',
->> +            '*unstable-output': 'CompatPolicyOutput' } }
->> diff --git a/include/qapi/util.h b/include/qapi/util.h
->> index 0cc98db9f9..81a2b13a33 100644
->> --- a/include/qapi/util.h
->> +++ b/include/qapi/util.h
->> @@ -13,6 +13,7 @@
->>  
->>  typedef enum {
->>      QAPI_DEPRECATED,
->> +    QAPI_UNSTABLE,
->>  } QapiSpecialFeature;
->
->> +++ b/qemu-options.hx
->> @@ -3641,7 +3641,9 @@ DEFHEADING(Debug/Expert options:)
->>  
->>  DEF("compat", HAS_ARG, QEMU_OPTION_compat,
->>      "-compat [deprecated-input=accept|reject|crash][,deprecated-output=accept|hide]\n"
->> -    "                Policy for handling deprecated management interfaces\n",
->> +    "                Policy for handling deprecated management interfaces\n"
->> +    "-compat [unstable-input=accept|reject|crash][,unstable-output=accept|hide]\n"
->> +    "                Policy for handling unstable management interfaces\n",
->
-> It may not be machine-introspectible, but at least we can grep --help
-> output to see when the policy is usable for testing.
->
->>      QEMU_ARCH_ALL)
->>  SRST
->>  ``-compat [deprecated-input=@var{input-policy}][,deprecated-output=@var{output-policy}]``
->> @@ -3659,6 +3661,22 @@ SRST
->>          Suppress deprecated command results and events
->>  
->>      Limitation: covers only syntactic aspects of QMP.
->> +
->> +``-compat [unstable-input=@var{input-policy}][,unstable-output=@var{output-policy}]``
->> +    Set policy for handling unstable management interfaces (experimental):
->
-> Once we QAPIfy the command line, this says we would add the 'unstable'
-> feature flag to '-compat unstable-input'.  How meta ;)
+>      }
+> -    return visit_deprecated_accept(ffv->target, name, errp);
+> +    return visit_policy_reject(ffv->target, name, special_features, errp);
+>  }
+>  
+> -static bool forward_field_deprecated(Visitor *v, const char *name)
+> +static bool forward_field_policy_skip(Visitor *v, const char *name,
+> +                                      unsigned special_features)
+>  {
+>      ForwardFieldVisitor *ffv = to_ffv(v);
+>  
+>      if (!forward_field_translate_name(ffv, &name, NULL)) {
+>          return false;
 
-Yes :)
+and here too?
 
->                                                        And goes along
-> with your comments earlier in the series about how we may use the
-> 'unstable' feature even without the 'x-' naming prefix, once it is
-> machine-detectible.
->
-> With the doc tweak,
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+>      }
+> -    return visit_deprecated(ffv->target, name);
+> +    return visit_policy_skip(ffv->target, name, special_features);
+>  }
+>  
 
-Thanks!
+Otherwise, the rest of the logic changes for flipped sense look right.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
