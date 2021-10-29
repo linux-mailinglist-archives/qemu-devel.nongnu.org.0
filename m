@@ -2,60 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A5243FE8D
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 16:37:48 +0200 (CEST)
-Received: from localhost ([::1]:56876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7510143FEAF
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 16:48:18 +0200 (CEST)
+Received: from localhost ([::1]:47090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgT0s-0006t8-Hi
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 10:37:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44080)
+	id 1mgTB3-00030g-IH
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 10:48:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mgSpb-0006R5-Ko
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 10:26:08 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:39230)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mgT9D-0001ew-MY
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 10:46:23 -0400
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:37210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mgSpV-0003gJ-Tn
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 10:26:07 -0400
-Received: from crumble.bar.greensocs.com (unknown [172.17.10.10])
- by beetle.greensocs.com (Postfix) with ESMTPS id D31DA21CC4;
- Fri, 29 Oct 2021 14:25:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1635517559;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AOvsvjXGpAiB3u74+Ll4gb/+Pp0LglfREbiPDrzOtLs=;
- b=lXr1R9loRs8Ux9TIUIO0p7a+Z21h0K1XGW3MwNb8hgB5SFxv8DKE2t+C+nuw/POZyRHBT4
- Rs4VulL7/xFxCCKrnlgebZVXTVqHLjddjttqQY4YBXVL2UoEk2zGEQ+tss19HFHdCeVFWB
- s2MrBc6fkW8GgTCjUtQgwtZN8jM7TAw=
-From: Damien Hedde <damien.hedde@greensocs.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/3] machine: remove the done notifier for dynamic sysbus
- device type check
-Date: Fri, 29 Oct 2021 16:22:58 +0200
-Message-Id: <20211029142258.484907-4-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211029142258.484907-1-damien.hedde@greensocs.com>
-References: <20211029142258.484907-1-damien.hedde@greensocs.com>
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mgT9A-0008Cf-Bs
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 10:46:23 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 3872A3F8D3
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 14:46:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1635518771;
+ bh=u4kwKIIRgXMtWhqYQKAtFaTX2zlezQn8UOz8jmUHiSY=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=CtYH9LNhdIwBAvdy6XwZ2AOGo98KPUwsnkryQ3Eun54bfYfpq5/1BL+wkRhLjcntE
+ f1NoAPlF5YBWdXU3cxOodYYYFxB6WG+fMs5+zJei/4zCQx97AWHEumL2JPshy6yzDD
+ CxEw1awsJGFUGp3JhkvCzbeJaCnIDdJZuhVbmdUOXO0VkZenk/CnGo/55WD+HIqN4g
+ MrUlh0m0T0DnvijO2AuNU6qCo/KM7cKLd5iSgl+pEhWgkitvoKDdYTk2RhLarc8g0V
+ cD34MeEKlRFKCZImT9revvUq94bYbRoYxLawjd56suVZGmxMlmk3XNCxtPRiLzM5NH
+ l+0B6NjpRloYg==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 092BB2E81BF
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 14:45:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam: Yes
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 29 Oct 2021 14:39:39 -0000
+From: Thomas T <1414466@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: hostfwd qemu trusty ubuntu xenial
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hochl janitor maxco nagaraju-goruganti
+ pconstantine piotr.orzechowski sergey-e srinirap88 th-huth
+X-Launchpad-Bug-Reporter: Sergey V. Lobanov (sergey-e)
+X-Launchpad-Bug-Modifier: Thomas T (hochl)
+References: <20150125172405.12316.8764.malonedeb@soybean.canonical.com>
+Message-Id: <163551837907.29842.17252732918725567254.malone@wampee.canonical.com>
+Subject: [Bug 1414466] Re: -net user,hostfwd=... is not working
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0d8de2bfee2024772b3040d4d19f42f47395ac0d"; Instance="production"
+X-Launchpad-Hash: 6fbd4eae96aacb34d96351315505903923a6a774
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,105 +85,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, mark.burton@greensocs.com,
- edgari@xilinx.com, mirela.grujic@greensocs.com,
- Alistair Francis <alistair.francis@wdc.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1414466 <1414466@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we check sysbus device types during device creation, we
-can remove the check in the machine init done notifier.
-This was the only thing done by this notifier, so we remove the
-whole sysbus_notifier structure of the MachineState.
+I have had the same problem, I tried logging into a buildroot image that
+was started using the following command line:
 
-Note: This notifier was checking all /peripheral and /peripheral-anon
-sysbus devices. Now we only check those added by -device cli option or
-device_add qmp command when handling the command/option. So if there
-are some devices added in one of these containers manually (eg in
-machine C code), these will not be checked anymore.
-This use case does not seem to appear apart from
-hw/xen/xen-legacy-backend.c (it uses qdev_set_id() and in this case,
-not for a sysbus device, so it's ok).
+    qemu-system-i386 -drive
+file=3Doutput/images/disk.img,format=3Draw,index=3D0,media=3Ddisk -vga std =
+-nic
+user,ipv6=3Doff,model=3De1000,mac=3D10:10:10:10:10:10,hostfwd=3Dtcp::4000-:=
+22
 
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
----
+The ssh connection was picked up, but nothing happened. The problem was
+that the network device was not brought up! I added the following to
+/etc/network/interfaces
 
-v3: clarify the commit title
----
- include/hw/boards.h |  1 -
- hw/core/machine.c   | 27 ---------------------------
- 2 files changed, 28 deletions(-)
+    auto eth0
+    iface eth0 inet dhcp
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 85adf660c1..680aa59d4a 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -316,7 +316,6 @@ typedef struct CpuTopology {
- struct MachineState {
-     /*< private >*/
-     Object parent_obj;
--    Notifier sysbus_notifier;
- 
-     /*< public >*/
- 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 0d20104796..2c17418628 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -572,18 +572,6 @@ bool device_type_is_dynamic_sysbus(MachineClass *mc, const char *type)
-     return allowed;
- }
- 
--static void validate_sysbus_device(SysBusDevice *sbdev, void *opaque)
--{
--    MachineState *machine = opaque;
--    MachineClass *mc = MACHINE_GET_CLASS(machine);
--
--    if (!device_is_dynamic_sysbus(mc, DEVICE(sbdev))) {
--        error_report("Option '-device %s' cannot be handled by this machine",
--                     object_class_get_name(object_get_class(OBJECT(sbdev))));
--        exit(1);
--    }
--}
--
- static char *machine_get_memdev(Object *obj, Error **errp)
- {
-     MachineState *ms = MACHINE(obj);
-@@ -599,17 +587,6 @@ static void machine_set_memdev(Object *obj, const char *value, Error **errp)
-     ms->ram_memdev_id = g_strdup(value);
- }
- 
--static void machine_init_notify(Notifier *notifier, void *data)
--{
--    MachineState *machine = MACHINE(qdev_get_machine());
--
--    /*
--     * Loop through all dynamically created sysbus devices and check if they are
--     * all allowed.  If a device is not allowed, error out.
--     */
--    foreach_dynamic_sysbus_device(validate_sysbus_device, machine);
--}
--
- HotpluggableCPUList *machine_query_hotpluggable_cpus(MachineState *machine)
- {
-     int i;
-@@ -1108,10 +1085,6 @@ static void machine_initfn(Object *obj)
-                                         "Table (HMAT)");
-     }
- 
--    /* Register notifier when init is done for sysbus sanity checks */
--    ms->sysbus_notifier.notify = machine_init_notify;
--    qemu_add_machine_init_done_notifier(&ms->sysbus_notifier);
--
-     /* default to mc->default_cpus */
-     ms->smp.cpus = mc->default_cpus;
-     ms->smp.max_cpus = mc->default_cpus;
--- 
-2.33.0
+And voila, I can use
+
+    ssh username@localhost -p 4000
+
+to log into the machine using ssh.
+
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1414466
+
+Title:
+  -net user,hostfwd=3D... is not working
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  QEMU version: git a46b3aaf6bb038d4f6f192a84df204f10929e75c
+
+   /opt/qemu.git/bin/qemu-system-aarch64 --version
+  QEMU emulator version 2.2.50, Copyright (c) 2003-2008 Fabrice Bellard
+
+  Hosts:
+  ovs - host machine (Ubuntu 14.04.1, x86_64)
+  debian8-arm64 - guest=20
+
+  Guest start:
+  user@ovs:~$ /opt/qemu.git/bin/qemu-system-aarch64 -machine virt -cpu cort=
+ex-a57 -nographic -smp 1 -m 512 -kernel vmlinuz-run -initrd initrd-run.img =
+-append "root=3D/dev/sda2 console=3DttyAMA0" -global virtio-blk-device.scsi=
+=3Doff -device virtio-scsi-device,id=3Dscsi -drive file=3Ddebian8-arm64.img=
+,id=3Drootimg,cache=3Dunsafe,if=3Dnone -device scsi-hd,drive=3Drootimg -net=
+dev user,id=3Dunet -device virtio-net-device,netdev=3Dunet -net user,hostfw=
+d=3Dtcp:127.0.0.1:1122-:22
+
+  root@debian8-arm64:~# netstat -ntplu | grep ssh
+  tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTE=
+N      410/sshd       =20
+  tcp6       0      0 :::22                   :::*                    LISTE=
+N      410/sshd      =20
+
+  (no firewall in guest vm)
+
+  user@ovs:~$ netstat -ntplu | grep 1122
+  tcp        0      0 127.0.0.1:1122          0.0.0.0:*               LISTE=
+N      18722/qemu-system-a
+
+  user@ovs:~$ time ssh user@127.0.0.1 -p 1122
+  ssh_exchange_identification: read: Connection reset by peer
+
+  real	1m29.341s
+  user	0m0.005s
+  sys	0m0.000s
+
+  Inside guest vm sshd works fine:
+  root@debian8-arm64:~# ssh user@127.0.0.1 -p 22
+  user@127.0.0.1's password:=20
+  ....
+  user@debian8-arm64:~$ exit
+  logout
+  Connection to 127.0.0.1 closed.
+
+  root@debian8-arm64:~# ssh user@10.0.2.15 -p 22
+  user@10.0.2.15's password:=20
+  ...
+  user@debian8-arm64:~$ exit
+  logout
+  Connection to 10.0.2.15 closed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1414466/+subscriptions
 
 
