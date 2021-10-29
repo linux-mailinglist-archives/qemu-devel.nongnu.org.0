@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7484C44030D
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 21:22:55 +0200 (CEST)
-Received: from localhost ([::1]:48900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56EAF4402F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 21:11:54 +0200 (CEST)
+Received: from localhost ([::1]:51222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgXSo-00073T-Gq
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 15:22:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50122)
+	id 1mgXI9-0005zM-35
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 15:11:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgX7B-0003eW-T9
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:00:35 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:39844)
+ id 1mgXBp-0003AS-TT
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:05:22 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:35532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgX78-0001BH-3s
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:00:33 -0400
-Received: by mail-pl1-x629.google.com with SMTP id t21so7413602plr.6
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 12:00:29 -0700 (PDT)
+ id 1mgXBn-00047Q-BY
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:05:21 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ n11-20020a17090a2bcb00b001a1e7a0a6a6so11351170pje.0
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 12:05:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2vkI6qajBg7c8SuYjDSgczCh72vg00ieNNexMqfjXTQ=;
- b=OaQ/wmHYijyzzKHHP8fI1KBS+Si0mwxyU/2F5QfvFlwwK9MMPvpK1QXfHvufnWqWwN
- yrR7RIXhyoid/y81WxfVb/XxnNdZkVYCERKgEuHOuQUE4CqTehhk9pTcyKi6Yn6b3cM3
- vzWhb3Pz9tb/Kg0chwswFaXOMWJvxHsfLOKoGvtzRq42QzwS/GvslzQKZPjpxv+YvJXI
- RZSjHTwBGJQhrZ39N4ClQ8VI1qiY1PMT9V5r3aov/HBprK29KiVqw3hV6VRA0/duRvb6
- YDrACsHmxc+aNOQbgJnjv6dI1g6r9PdU0pMDjwhWkokdRUZsAhOiLcq3cT+0ogP6mM52
- dMLA==
+ bh=Wgza1XroPssQ0CtgK8UCm9x2jaOBf7VVWeXm08OQO4k=;
+ b=IcsMhEzylfQ6PKE8+FDEwqbJmbWUmFwDazmIKIZt3ZuWJhNlKNWJ3tEe7aSeqjKAAK
+ foDBeLR0LXPIPdONIgy9vMhdiJeDH14nu/ePBp6RDaX1abUp583C3qEdi9iADdFhTQhh
+ AcD5HWACIg+7/R3QgBiNUc2HdIrEB4cjr1FvNdbkba2BBXmOl1D2bvsUHZU2UcLq6Xrh
+ ViUZulp5ZT4BJhCesWAcCAwiIZF29wphj+hhqZbxfCgYnOXYENfqr0dWWD3sIaNCQv92
+ iSc9lnTkhTBAiJDsdO/UUV7Yy0cWOI+NAKXX895OJTQ1tsrLqJpgu6fA8++As6kY+wkc
+ ZGAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=2vkI6qajBg7c8SuYjDSgczCh72vg00ieNNexMqfjXTQ=;
- b=TUVWNLY/97cjz0qWrJYTRGwzDqFlefTJgboCKZSO9cdKNT+dPmjCm+/zdJfnbaWsmJ
- j2nkO0C2ZJLmbHTSdm3YwpJsvrTJgNNnXHEl2+/xT2+0Ov0fR/y8UYTgp8OSpmRTunYt
- OMiA2muXTHDbPiHAVIWXCXnSMlEJ+u/i3LBNZoWEYlUZWl4o4sShR3zpVmuF7S2C0UFo
- eY+HxOo0nLK1TCPIJ/C3MK8eE/0D4/D+zoDFgO3wFy3woaz0ztZCh/B0vnHXuIVzvnKt
- ppNhAgDEJslKi7mbpngo55RgZ93j2flTVEwCQfXm3colqYYPBa9lTGH7gRASBS5cFYBY
- JrEw==
-X-Gm-Message-State: AOAM530plBtamSwZBksZ1fOpPM/DgJfHdP18xQH7ptHC0m0s2W4pBH9/
- FWZcUEMC1oAsIxfbfMRU/T9dHw==
-X-Google-Smtp-Source: ABdhPJxPrK1cGF31ixZhu1oY/rbiIZ5Fa31tDZy4e5vYQQ7wuuSaF+Y7vU25n3cOCmmYaKtCXa/6mw==
-X-Received: by 2002:a17:90a:bc85:: with SMTP id
- x5mr13333384pjr.166.1635534028531; 
- Fri, 29 Oct 2021 12:00:28 -0700 (PDT)
+ bh=Wgza1XroPssQ0CtgK8UCm9x2jaOBf7VVWeXm08OQO4k=;
+ b=HmkW0lh4I9bhWLTy8yFtpXPIEgvnbUaUEf+VtdQv+ZQwewFrecRW4nEf2GnZEiq65J
+ S9S9M+n8zEY1a9vUUQlJ6u9wMf8svv4YRDDtjy7tHvjpi8W1A/J2AEOmeNTnt9zYvtsE
+ +MKu2y9hprQHWaQhUPfvytsu1Yk3L0o/lGsW4wkpRFSaEMt8GzCy+aLmrS+NkxdkbuzR
+ PBDRenvQLWnkbZWScOnA1ki2XCHlTlMGwLqMsMP0PaDA50/4XDOzO+/JOLw9G0TuLaqy
+ lmJG0fOnc5cY3aD7xesf/mAmvFL5HOS7KHDceSKHsM3my3JekGVIizqCeQIATVcVMgoH
+ 73mw==
+X-Gm-Message-State: AOAM531N7P3v+U7SkGmSR7fRihTsv9qEDo0rM3Q6hvGchDOhh+qcH0ed
+ 9qwppkX0TsWtKYdGeOnIwvSJuw==
+X-Google-Smtp-Source: ABdhPJwx2RPlvxLlr0emnCXZIEkdYYpvoUvitpHXg8o2EAnJ1c9cDdfxMi1S64CfmrebY9e7uPxqIg==
+X-Received: by 2002:a17:903:18f:b0:140:658d:851d with SMTP id
+ z15-20020a170903018f00b00140658d851dmr11212454plg.47.1635534301573; 
+ Fri, 29 Oct 2021 12:05:01 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id q18sm8573333pfj.46.2021.10.29.12.00.27
+ by smtp.gmail.com with ESMTPSA id gf23sm6991951pjb.26.2021.10.29.12.05.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 12:00:27 -0700 (PDT)
-Subject: Re: [PATCH v4 13/30] Hexagon HVX (target/hexagon) helper overrides
- infrastructure
+ Fri, 29 Oct 2021 12:05:00 -0700 (PDT)
+Subject: Re: [PATCH v4 14/30] Hexagon HVX (target/hexagon) helper overrides
+ for histogram instructions
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 References: <1634033468-23566-1-git-send-email-tsimpson@quicinc.com>
- <1634033468-23566-14-git-send-email-tsimpson@quicinc.com>
+ <1634033468-23566-15-git-send-email-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <89947902-1f12-9b83-1edb-3fdaf4bcca49@linaro.org>
-Date: Fri, 29 Oct 2021 12:00:26 -0700
+Message-ID: <b4c7465e-bf63-f0d5-c37b-25c51fa6b1fb@linaro.org>
+Date: Fri, 29 Oct 2021 12:04:59 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <1634033468-23566-14-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <1634033468-23566-15-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -45
 X-Spam_score: -4.6
 X-Spam_bar: ----
@@ -94,20 +95,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/12/21 3:10 AM, Taylor Simpson wrote:
-> Build the infrastructure to create overrides for HVX instructions.
-> We create a new empty file (gen_tcg_hvx.h) that will be populated
-> in subsequent patches.
-> 
 > Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
 > ---
->   target/hexagon/gen_tcg_hvx.h        | 21 +++++++++++++++++++++
->   target/hexagon/genptr.c             |  1 +
->   target/hexagon/gen_helper_funcs.py  |  3 ++-
->   target/hexagon/gen_helper_protos.py |  3 ++-
->   target/hexagon/gen_tcg_funcs.py     |  3 ++-
->   target/hexagon/meson.build          | 13 +++++++------
->   6 files changed, 35 insertions(+), 9 deletions(-)
->   create mode 100644 target/hexagon/gen_tcg_hvx.h
+>   target/hexagon/gen_tcg_hvx.h | 106 +++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 106 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
