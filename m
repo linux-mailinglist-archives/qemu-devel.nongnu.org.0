@@ -2,79 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C823F44049C
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:03:00 +0200 (CEST)
-Received: from localhost ([::1]:48440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91798440512
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:48:50 +0200 (CEST)
+Received: from localhost ([::1]:44096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgZ1f-0003A0-Tl
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50554)
+	id 1mgZk1-0001TI-LQ
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:48:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgYsP-0008RZ-V5
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 16:53:25 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:56112)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgYsN-0002T2-QJ
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 16:53:25 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id om14so7980733pjb.5
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 13:53:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/oe66p6hVgoS75WOWQ4VkdHRBYEFckk7VzowxU0MzGw=;
- b=S9/SN/MRi4rUMX9hIIKrG9rUgHUO0JnjbJHg326DSKiQ09rvz/LUYg0UJeawRiaHPC
- w4n+CfbuOpjQZ99ma9zYrqUyr9+0VdVKqPa8vRBVaVmeBXFEPA6n8dSRvt7uHET2Q4f5
- oNLRsxrK+DgEWnBXlw8ftGvKychhMyANIgMevH95ahBConWRypRaLGYx1XtvjcNInB5k
- 22lqGi+OCwXQMBmMMeMlsY62xz8WzZefNCn+lWq+qIlpbv8fU7QvkBxuJ4DXs9hfeUz7
- R+/wTjgTSUObWwk57Wp01vQEWla2HH2EGw9Bh/ICm+0rmDdM75ILh+1b3pEHAjRgv8kS
- S+SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/oe66p6hVgoS75WOWQ4VkdHRBYEFckk7VzowxU0MzGw=;
- b=KiONOpGK6TVaLhBYKEvg22o8mMoqOvcDZVuALxNoBXZKO4Y5+a9S/XeQOGp7hSFvtJ
- 04/EZdbtV7Mc3JOzgdBCp8xJ51BctYSAwt1hpeXovupFJwbRRjaIGmxJG3FnlFt94MbJ
- zwrc6TMx87NdzbJcTxgRScDHw9vpuJwBxxG1zTr0DtWldTNnAp013i+DIL9gUgE9Ml0G
- DBvGQkNUadaTRGMwUC8RqfYUlqU1bAcrG5HpeDnODCwruk5P6FgFBgh+fpk1cRobI6YL
- KdMYuOmPZwN28zim9E1lNV+Ta8ytX5SYIqSlFZZPW7E/TZveCpaEhi+GqMPvXRRoZhqv
- IB5Q==
-X-Gm-Message-State: AOAM533RrezGHi7ta7w3UKRY6IicnEn19Za8w8QmBfFwKNnsgjj38RaO
- fJ1M4bx3zgi16xlsJyGmwlDyeA==
-X-Google-Smtp-Source: ABdhPJxxPlTe0kqtaLXnD0Y+HjohintcNNip09w9zi+ZQM1XInnGViVaK6/FO3oSQLTApwobGFQCdw==
-X-Received: by 2002:a17:90b:3846:: with SMTP id
- nl6mr14131553pjb.53.1635540802285; 
- Fri, 29 Oct 2021 13:53:22 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id k13sm8623789pfc.197.2021.10.29.13.53.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 13:53:21 -0700 (PDT)
-Subject: Re: [PULL v2 00/18] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@opensource.wdc.com>,
- qemu-devel@nongnu.org
-References: <20211029070817.100529-1-alistair.francis@opensource.wdc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <99b0620f-7e80-a273-fb90-99887ed07dfe@linaro.org>
-Date: Fri, 29 Oct 2021 13:53:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mgZJG-0007gM-8H
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:10 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19923)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mgZJC-0005aL-JC
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:10 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 6811D75621A;
+ Fri, 29 Oct 2021 23:20:44 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B2F3A7561A5; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
+Message-Id: <cc1f9ff9f4259ae799750e452f8871849c7a104c.1635541329.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1635541329.git.balaton@eik.bme.hu>
+References: <cover.1635541329.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v6 14/30] hw/char/sh_serial: Add device id to trace output
+Date: Fri, 29 Oct 2021 23:02:09 +0200
 MIME-Version: 1.0
-In-Reply-To: <20211029070817.100529-1-alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.512,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To: qemu-devel@nongnu.org
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,91 +54,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/29/21 12:07 AM, Alistair Francis wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> The following changes since commit c52d69e7dbaaed0ffdef8125e79218672c30161d:
-> 
->    Merge remote-tracking branch 'remotes/cschoenebeck/tags/pull-9p-20211027' into staging (2021-10-27 11:45:18 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20211029-1
-> 
-> for you to fetch changes up to 15161e425ee1bb1180f9cec574cda44fb10c0931:
-> 
->    target/riscv: change the api for RVF/RVD fmin/fmax (2021-10-29 16:56:12 +1000)
-> 
-> ----------------------------------------------------------------
-> Fifth RISC-V PR for QEMU 6.2
-> 
->   - Use a shared PLIC config helper function
->   - Fixup the OpenTitan PLIC configuration
->   - Add support for the experimental J extension
->   - Update the fmin/fmax handling
->   - Fixup VS interrupt forwarding
-> 
-> ----------------------------------------------------------------
-> Alexey Baturo (7):
->        target/riscv: Add J-extension into RISC-V
->        target/riscv: Add CSR defines for RISC-V PM extension
->        target/riscv: Support CSRs required for RISC-V PM extension except for the h-mode
->        target/riscv: Add J extension state description
->        target/riscv: Print new PM CSRs in QEMU logs
->        target/riscv: Support pointer masking for RISC-V for i/c/f/d/a types of instructions
->        target/riscv: Allow experimental J-ext to be turned on
-> 
-> Alistair Francis (6):
->        hw/riscv: virt: Don't use a macro for the PLIC configuration
->        hw/riscv: boot: Add a PLIC config string function
->        hw/riscv: sifive_u: Use the PLIC config helper function
->        hw/riscv: microchip_pfsoc: Use the PLIC config helper function
->        hw/riscv: virt: Use the PLIC config helper function
->        hw/riscv: opentitan: Fixup the PLIC context addresses
-> 
-> Anatoly Parshintsev (1):
->        target/riscv: Implement address masking functions required for RISC-V Pointer Masking extension
-> 
-> Chih-Min Chao (2):
->        softfloat: add APIs to handle alternative sNaN propagation for fmax/fmin
->        target/riscv: change the api for RVF/RVD fmin/fmax
-> 
-> Jose Martins (2):
->        target/riscv: fix VS interrupts forwarding to HS
->        target/riscv: remove force HS exception
-> 
->   include/fpu/softfloat.h                 |  10 ++
->   include/hw/riscv/boot.h                 |   2 +
->   include/hw/riscv/microchip_pfsoc.h      |   1 -
->   include/hw/riscv/sifive_u.h             |   1 -
->   include/hw/riscv/virt.h                 |   1 -
->   target/riscv/cpu.h                      |  17 +-
->   target/riscv/cpu_bits.h                 | 102 +++++++++++-
->   fpu/softfloat.c                         |  19 ++-
->   hw/riscv/boot.c                         |  25 +++
->   hw/riscv/microchip_pfsoc.c              |  14 +-
->   hw/riscv/opentitan.c                    |   4 +-
->   hw/riscv/sifive_u.c                     |  14 +-
->   hw/riscv/virt.c                         |  20 +--
->   target/riscv/cpu.c                      |  13 ++
->   target/riscv/cpu_helper.c               |  72 +++-----
->   target/riscv/csr.c                      | 285 ++++++++++++++++++++++++++++++++
->   target/riscv/fpu_helper.c               |  16 +-
->   target/riscv/machine.c                  |  27 +++
->   target/riscv/translate.c                |  43 +++++
->   fpu/softfloat-parts.c.inc               |  25 ++-
->   target/riscv/insn_trans/trans_rva.c.inc |   3 +
->   target/riscv/insn_trans/trans_rvd.c.inc |   2 +
->   target/riscv/insn_trans/trans_rvf.c.inc |   2 +
->   target/riscv/insn_trans/trans_rvi.c.inc |   2 +
->   24 files changed, 605 insertions(+), 115 deletions(-)
+Normally there are at least two sh_serial instances. Add device id to
+trace messages to make it clear which instance they belong to
+otherwise its not possible to tell which serial device is accessed.
 
-Applied, thanks.
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ hw/char/sh_serial.c  | 6 ++++--
+ hw/char/trace-events | 4 ++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-r~
+diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
+index 808d4ebae7..355886ee3a 100644
+--- a/hw/char/sh_serial.c
++++ b/hw/char/sh_serial.c
+@@ -94,9 +94,10 @@ static void sh_serial_write(void *opaque, hwaddr offs,
+                             uint64_t val, unsigned size)
+ {
+     SHSerialState *s = opaque;
++    DeviceState *d = DEVICE(s);
+     unsigned char ch;
+ 
+-    trace_sh_serial_write(size, offs, val);
++    trace_sh_serial_write(d->id, size, offs, val);
+     switch (offs) {
+     case 0x00: /* SMR */
+         s->smr = val & ((s->feat & SH_SERIAL_FEAT_SCIF) ? 0x7b : 0xff);
+@@ -212,6 +213,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+                                unsigned size)
+ {
+     SHSerialState *s = opaque;
++    DeviceState *d = DEVICE(s);
+     uint32_t ret = UINT32_MAX;
+ 
+ #if 0
+@@ -304,7 +306,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+             break;
+         }
+     }
+-    trace_sh_serial_read(size, offs, ret);
++    trace_sh_serial_read(d->id, size, offs, ret);
+ 
+     if (ret > UINT16_MAX) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+diff --git a/hw/char/trace-events b/hw/char/trace-events
+index 4a92e7674a..2ecb36232e 100644
+--- a/hw/char/trace-events
++++ b/hw/char/trace-events
+@@ -103,5 +103,5 @@ exynos_uart_rx_timeout(uint32_t channel, uint32_t stat, uint32_t intsp) "UART%d:
+ cadence_uart_baudrate(unsigned baudrate) "baudrate %u"
+ 
+ # sh_serial.c
+-sh_serial_read(unsigned size, uint64_t offs, uint64_t val) " size %d offs 0x%02" PRIx64 " -> 0x%02" PRIx64
+-sh_serial_write(unsigned size, uint64_t offs, uint64_t val) "size %d offs 0x%02" PRIx64 " <- 0x%02" PRIx64
++sh_serial_read(char *id, unsigned size, uint64_t offs, uint64_t val) " %s size %d offs 0x%02" PRIx64 " -> 0x%02" PRIx64
++sh_serial_write(char *id, unsigned size, uint64_t offs, uint64_t val) "%s size %d offs 0x%02" PRIx64 " <- 0x%02" PRIx64
+-- 
+2.21.4
 
 
