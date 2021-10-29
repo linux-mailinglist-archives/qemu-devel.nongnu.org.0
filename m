@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1695440505
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:43:24 +0200 (CEST)
-Received: from localhost ([::1]:56352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D07244404F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:32:59 +0200 (CEST)
+Received: from localhost ([::1]:53230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgZel-000709-QP
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:43:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55300)
+	id 1mgZUg-0002s2-V9
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:32:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZJ4-0007IS-S8
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:58 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19924)
+ id 1mgZJ6-0007P1-LX
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:00 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:19940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZJ2-0005aM-Ih
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:58 -0400
+ id 1mgZJ3-0005bC-DN
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:00 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 670EA756219;
+ by localhost (Postfix) with SMTP id 90423756224;
  Fri, 29 Oct 2021 23:20:44 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B8E2675619D; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
-Message-Id: <53f033477c73b7c9b021d36033c590416d6199c7.1635541329.git.balaton@eik.bme.hu>
+ id D091A7561B3; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
+Message-Id: <49f2742bc67cba7164385fafad204ab1e1bd3a0b.1635541329.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635541329.git.balaton@eik.bme.hu>
 References: <cover.1635541329.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 15/30] hw/intc/sh_intc: Use existing macro instead of local
- one
+Subject: [PATCH v6 19/30] hw/intc/sh_intc: Move sh_intc_register() closer to
+ its only user
 Date: Fri, 29 Oct 2021 23:02:09 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,59 +62,94 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The INTC_A7 local macro does the same as the A7ADDR from
-include/sh/sh.h so use the latter and drop the local macro definition.
+The sh_intc_register() function is only used at one place. Move them
+together so it's easier to see what's going on.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/intc/sh_intc.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ hw/intc/sh_intc.c | 60 +++++++++++++++++++++++------------------------
+ 1 file changed, 30 insertions(+), 30 deletions(-)
 
 diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index cd4e07dcba..ac47b7f905 100644
+index a25949a6be..1ec51fdd48 100644
 --- a/hw/intc/sh_intc.c
 +++ b/hw/intc/sh_intc.c
-@@ -16,8 +16,6 @@
- #include "hw/sh4/sh.h"
- #include "trace.h"
+@@ -270,36 +270,6 @@ struct intc_source *sh_intc_source(struct intc_desc *desc, intc_enum id)
+     return NULL;
+ }
  
--#define INTC_A7(x) ((x) & 0x1fffffff)
+-static unsigned int sh_intc_register(MemoryRegion *sysmem,
+-                                     struct intc_desc *desc,
+-                                     const unsigned long address,
+-                                     const char *type,
+-                                     const char *action,
+-                                     const unsigned int index)
+-{
+-    char name[60];
+-    MemoryRegion *iomem, *iomem_p4, *iomem_a7;
 -
- void sh_intc_toggle_source(struct intc_source *source,
-                            int enable_adj, int assert_adj)
- {
-@@ -112,12 +110,12 @@ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
- static unsigned int sh_intc_mode(unsigned long address,
-                                  unsigned long set_reg, unsigned long clr_reg)
- {
--    if ((address != INTC_A7(set_reg)) &&
--        (address != INTC_A7(clr_reg)))
-+    if ((address != A7ADDR(set_reg)) &&
-+        (address != A7ADDR(clr_reg)))
-         return INTC_MODE_NONE;
+-    if (!address) {
+-        return 0;
+-    }
+-
+-    iomem = &desc->iomem;
+-    iomem_p4 = desc->iomem_aliases + index;
+-    iomem_a7 = iomem_p4 + 1;
+-
+-    snprintf(name, sizeof(name), "intc-%s-%s-%s", type, action, "p4");
+-    memory_region_init_alias(iomem_p4, NULL, name, iomem, A7ADDR(address), 4);
+-    memory_region_add_subregion(sysmem, P4ADDR(address), iomem_p4);
+-
+-    snprintf(name, sizeof(name), "intc-%s-%s-%s", type, action, "a7");
+-    memory_region_init_alias(iomem_a7, NULL, name, iomem, A7ADDR(address), 4);
+-    memory_region_add_subregion(sysmem, A7ADDR(address), iomem_a7);
+-
+-    /* used to increment aliases index */
+-    return 2;
+-}
+-
+ static void sh_intc_register_source(struct intc_desc *desc,
+                                     intc_enum source,
+                                     struct intc_group *groups,
+@@ -399,6 +369,36 @@ void sh_intc_register_sources(struct intc_desc *desc,
+     }
+ }
  
-     if (set_reg && clr_reg) {
--        if (address == INTC_A7(set_reg)) {
-+        if (address == A7ADDR(set_reg)) {
-             return INTC_MODE_DUAL_SET;
-         } else {
-             return INTC_MODE_DUAL_CLR;
-@@ -297,11 +295,11 @@ static unsigned int sh_intc_register(MemoryRegion *sysmem,
- 
- #define SH_INTC_IOMEM_FORMAT "interrupt-controller-%s-%s-%s"
-     snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "p4");
--    memory_region_init_alias(iomem_p4, NULL, name, iomem, INTC_A7(address), 4);
++static unsigned int sh_intc_register(MemoryRegion *sysmem,
++                                     struct intc_desc *desc,
++                                     const unsigned long address,
++                                     const char *type,
++                                     const char *action,
++                                     const unsigned int index)
++{
++    char name[60];
++    MemoryRegion *iomem, *iomem_p4, *iomem_a7;
++
++    if (!address) {
++        return 0;
++    }
++
++    iomem = &desc->iomem;
++    iomem_p4 = desc->iomem_aliases + index;
++    iomem_a7 = iomem_p4 + 1;
++
++    snprintf(name, sizeof(name), "intc-%s-%s-%s", type, action, "p4");
 +    memory_region_init_alias(iomem_p4, NULL, name, iomem, A7ADDR(address), 4);
-     memory_region_add_subregion(sysmem, P4ADDR(address), iomem_p4);
- 
-     snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "a7");
--    memory_region_init_alias(iomem_a7, NULL, name, iomem, INTC_A7(address), 4);
++    memory_region_add_subregion(sysmem, P4ADDR(address), iomem_p4);
++
++    snprintf(name, sizeof(name), "intc-%s-%s-%s", type, action, "a7");
 +    memory_region_init_alias(iomem_a7, NULL, name, iomem, A7ADDR(address), 4);
-     memory_region_add_subregion(sysmem, A7ADDR(address), iomem_a7);
- #undef SH_INTC_IOMEM_FORMAT
- 
++    memory_region_add_subregion(sysmem, A7ADDR(address), iomem_a7);
++
++    /* used to increment aliases index */
++    return 2;
++}
++
+ int sh_intc_init(MemoryRegion *sysmem,
+                  struct intc_desc *desc,
+                  int nr_sources,
 -- 
 2.21.4
 
