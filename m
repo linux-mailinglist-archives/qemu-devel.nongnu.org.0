@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C885443F967
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 11:09:10 +0200 (CEST)
-Received: from localhost ([::1]:54864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D0343F966
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 11:08:44 +0200 (CEST)
+Received: from localhost ([::1]:53734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgNsr-0006Er-TE
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 05:09:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33998)
+	id 1mgNsQ-0005Tv-TJ
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 05:08:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mgNjl-0004SN-Jo
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 04:59:45 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:34390)
+ id 1mgNjn-0004Ts-VG
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 04:59:49 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:38450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mgNji-0004UI-UB
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 04:59:45 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id 127so8688252pfu.1
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 01:59:42 -0700 (PDT)
+ id 1mgNjm-0004Uo-HD
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 04:59:47 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id i5so6407280pla.5
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 01:59:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fwKbrfdySSX1Qwo2rwrcbG9wbfVzzSFa+d2xq7yqAcY=;
- b=b9XDa/CsS0G+OC5Z3dhaoT9k63jMErKBNkZ8cbbogoZ1bF1xnuK6+ME2VOwT3UGLM+
- eh/vx+pTNE4VbMSDpfKmjpHGeZm1H1L69hp3ZNL4LkCMBTGap61HwO+DjjWRFE5RLYTj
- yROfwBIPmNbmjS7ktIsxkNfNe6RCcWmE85ATD84ixmaF1pWPSyQooC/QelJdQ+lO/3Jk
- 8abK1alEfjaSMt7lLrZl9Z6ux/g1wgC9DkP+PU7DT6ECUn0ll/ULU9kC+QiiFsnt6QVd
- PNiGHRanj8zGrlmYM17WaKKcdOBxDXEBXR7o0Yf8volsUlTIfM8Dvpg1DDDhLXSx/vr5
- kbdw==
+ bh=DWOZNBjy2UD9L9cTxRsKNeUHvaqk8YVnIwCrDORJ5OA=;
+ b=VXQJDfkTIByK9I83cKnYt/N8x6eerKWcmycd4x6F2/vLzZJGnNcWE2YQVC+dQwliY0
+ sxVr7ItCTiuEDbxkS0w9uPH8iPpVOnPrTT29xuAJ6syNcuYNw7J4eyb93MAtEV3TaxYb
+ VHmykT4jLZn9dk+KhCuyITy/UZf6hjBhJ2h/yTAMd8k7wqz3Z4HGfsibl6+ioqK6OmoP
+ qh03lBRQft0xX+MCU3ddFSsGaJAIMMggrsstr6dFiW+gRaJezvDGqzDiC3zGAla0L5Ea
+ QyX61JgKkFQOU5HXU81NVMjyyJKQHoS7b2cykq578JEFfQup3syHhk9ihgius2LzpgVK
+ iptA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fwKbrfdySSX1Qwo2rwrcbG9wbfVzzSFa+d2xq7yqAcY=;
- b=oaSQ/8Qel0HZuWw10JXwltZlMSURfD3rZ5UeLXKXAD6z64bPYNhg4xy54e7bxsfx9H
- duYxNvAqmzIJf9ev9mprl5+CT1DHHJCYsdMIHaF44MIR5n98gSr+ptGhYWkfJngts5jp
- eIJxO0c24DM//6jM10YmAWV0cD/id3awuEbRyr35GZq0kO4vGXUm2mh1Jr3io5cp29tY
- tLfV43eHM06dPk5t6I7gm7gLZT0qW1EjS+kWKAxkX4y3XRkC+cuxkFNEJotCXoGFCioK
- di0MhuiK7fXAKM6OMlzMdq94jZWl6ZJ1fQvhP62vuacdTsTsmBdepEeA/5c8VRX7MDDC
- rRjQ==
-X-Gm-Message-State: AOAM532cka/K2MM8DJy3lG+93tiGWrvynB/KUuINqSuH1pnO09P/u0uX
- 9bbHDeorXgIV/N0nEOt0oI1k7mzVibAWEwuH
-X-Google-Smtp-Source: ABdhPJwdDSacNSE/6JNiwY8LemSsukSJBVoZiMWewjPRJLKNsMobT06P5MQVsnbv+xtO04MtUo8oJg==
-X-Received: by 2002:a63:91ca:: with SMTP id l193mr7061278pge.213.1635497981603; 
- Fri, 29 Oct 2021 01:59:41 -0700 (PDT)
+ bh=DWOZNBjy2UD9L9cTxRsKNeUHvaqk8YVnIwCrDORJ5OA=;
+ b=CclFBx4XcCKvaJphMHp9sJpF3NIX6yEBoFImbWfFniX0A0dACGL+aKNj6Rh5EolTAg
+ N1sP3JRTtxdYebSH0o79/HANT89776YI4awueKyfKpllcdc2mHZb0zRCpUg0OvofiGri
+ 7Pe87DjfUSNjWPTt3iUs3VkvrSBFxVz54+8KKrWRqRjhiR0HhKvEkevrK//sT+N9nCJy
+ VdTpxX/vEh9mWvPaGHRzguYHPRL7fSL+AuhihEHdfCy54euAXYJVbu9ZcQ9hIMpL3pmE
+ KQ4Jnh5XIazA9/bJlw57Yxy1OewOz2Eg/KLzZjzBX3WoKuU+VP2L/9kyG7DH9R2HONWk
+ tmfQ==
+X-Gm-Message-State: AOAM533DijAakHOZrgdn86uzW9PKiFvglR9ApRWfAG08d42oFJudFtkH
+ xQeNk+mKb9UQACxp2QcAPdeVoLg+PNaTcIlW
+X-Google-Smtp-Source: ABdhPJwVaPRIOsiNhxyuKLBmIG3ouahru/CGRLD55GMwwwltOfibBhYuqCjqWkdTNWZqxhdxE277uA==
+X-Received: by 2002:a17:90a:1b2a:: with SMTP id
+ q39mr10215908pjq.219.1635497985164; 
+ Fri, 29 Oct 2021 01:59:45 -0700 (PDT)
 Received: from localhost.localdomain ([2402:7500:46b:ce55:983b:6962:38ac:e1b9])
- by smtp.gmail.com with ESMTPSA id t13sm5081477pgn.94.2021.10.29.01.59.39
+ by smtp.gmail.com with ESMTPSA id t13sm5081477pgn.94.2021.10.29.01.59.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 01:59:41 -0700 (PDT)
+ Fri, 29 Oct 2021 01:59:44 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 04/76] target/riscv: rvv-1.0: set mstatus.SD bit if
- mstatus.VS is dirty
-Date: Fri, 29 Oct 2021 16:58:09 +0800
-Message-Id: <20211029085922.255197-5-frank.chang@sifive.com>
+Subject: [PATCH v9 05/76] target/riscv: rvv-1.0: add sstatus VS field
+Date: Fri, 29 Oct 2021 16:58:10 +0800
+Message-Id: <20211029085922.255197-6-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211029085922.255197-1-frank.chang@sifive.com>
 References: <20211029085922.255197-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,31 +83,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- qemu-riscv@nongnu.org
+Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/riscv/cpu_bits.h | 1 +
+ target/riscv/csr.c      | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 72a716c9990..bb62da7549d 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -409,6 +409,7 @@ typedef enum {
+ #define SSTATUS_UPIE        0x00000010
+ #define SSTATUS_SPIE        0x00000020
+ #define SSTATUS_SPP         0x00000100
++#define SSTATUS_VS          0x00000600
+ #define SSTATUS_FS          0x00006000
+ #define SSTATUS_XS          0x00018000
+ #define SSTATUS_SUM         0x00040000 /* since: priv-1.10 */
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 9b5bd5d7b49..bb500afdeb5 100644
+index bb500afdeb5..83f4dbd8241 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -502,6 +502,7 @@ static RISCVException read_mhartid(CPURISCVState *env, int csrno,
- static uint64_t add_status_sd(RISCVMXL xl, uint64_t status)
- {
-     if ((status & MSTATUS_FS) == MSTATUS_FS ||
-+        (status & MSTATUS_VS) == MSTATUS_VS ||
-         (status & MSTATUS_XS) == MSTATUS_XS) {
-         switch (xl) {
-         case MXL_RV32:
+@@ -463,7 +463,7 @@ static const target_ulong vs_delegable_excps = DELEGABLE_EXCPS &
+       (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT)));
+ static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
+     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
+-    SSTATUS_SUM | SSTATUS_MXR;
++    SSTATUS_SUM | SSTATUS_MXR | SSTATUS_VS;
+ static const target_ulong sip_writable_mask = SIP_SSIP | MIP_USIP | MIP_UEIP;
+ static const target_ulong hip_writable_mask = MIP_VSSIP;
+ static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
 -- 
 2.25.1
 
