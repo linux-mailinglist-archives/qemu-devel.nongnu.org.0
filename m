@@ -2,96 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A827D43F7D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 09:27:14 +0200 (CEST)
-Received: from localhost ([::1]:52702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD9343F7B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 09:14:45 +0200 (CEST)
+Received: from localhost ([::1]:57976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgMID-0003TV-N8
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 03:27:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35318)
+	id 1mgM68-0003a5-Ca
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 03:14:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=929275e61=alistair.francis@opensource.wdc.com>)
- id 1mgM2w-0000rQ-Ha
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 03:11:26 -0400
+ id 1mgM2z-0000yO-F0
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 03:11:29 -0400
 Received: from esa6.hgst.iphmx.com ([216.71.154.45]:21725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=929275e61=alistair.francis@opensource.wdc.com>)
- id 1mgM2t-0004tB-FY
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 03:11:25 -0400
+ id 1mgM2x-0004tB-N1
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 03:11:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1635491483; x=1667027483;
+ t=1635491488; x=1667027488;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+Af7wKlpUvnUSPSXLQm3DK7gy4CQ7wIfbpuX3QPuLXE=;
- b=kotCn8uJCLR6IgBp8/9TBpjc0l5WlUznCHn5Coqm3F4qf8a/kbLAjHx/
- rCt9o4fxzaviyQ8PxXzN5NLegEEqig9jdFL3tk9siyckfPQdj4SWVSHhl
- bT4tYZD8xT2zkHfwXCTD8utNlY1I6VKiaUq3XBJbBT8NH94xuoYfWOXOf
- KelJMIL9+ptguf5cvffKWw8+U72JI3WybtK5fRoWwdLEgJNbMHdThWmRB
- ypF1akuX4D3Iv7PEjC1uASKHCPqVOGEH8adWFV8V0n0it1Kki+4M+GtKK
- 5IUlMOVpYUiNNxRdsZP4o9robeA3PzfrnmkQkWoHKxu+awTEC4YE8mGmt Q==;
-X-IronPort-AV: E=Sophos;i="5.87,191,1631548800"; d="scan'208";a="185100400"
+ bh=NYpkni887wsvZV9VMS0VGs5wJ2vISIuVhBmrnIJ8b4U=;
+ b=ntABXTCRx9Ddh8fVPjGSI5yxbrpjtRYF65t3zlGN7Z7tL572R5l6GuYT
+ MO4jcoBSkkfJQYle0rx9XFN3ntPj94fXtYCDbun9PnugkTmpHGAsFN5xd
+ nccO8djKoiH4H4YOx91T+qZezQFTqcJOCKQdD6doIBEIvMM530dyN0xVO
+ dT/ybSFdAYDzoPZxJr4Q6yM9uT5i4NMZInNQA4difuoeV5E77z6GEdKhK
+ gz/mGPHV+46GM9fFuzVMw5jVQpND4nop/edux8Lf1Y0birjWL8JoaTG+T
+ semN3/qLX7ktMcrc67JsCNAl3dwTK9ST4P7eMafAIas3jELNRIiP0zi7r Q==;
+X-IronPort-AV: E=Sophos;i="5.87,191,1631548800"; d="scan'208";a="185100409"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 29 Oct 2021 15:11:23 +0800
-IronPort-SDR: 2Ic2GFn03uoMp3RyzXJF6p6ZCFjPyjXdrs7BX7cM/xbiEh+5gqrxfIM8xCGkZVGVlnLMJsj3aD
- 0O4V3JnPABgvYF1zBuBMS4uu+MUSFY90hEGSLeE204CU0WUZKXfmHoIMifZ8wKB7VoTY5PTgyS
- ydp8bBKYNNt4aslNhmoux55FkBCxS5v1nhwi9WuaHt4/Msvg53+R8qX047Xo+ZUmhb0cQPuKNn
- zVLtkWtTrS9IcBkC0G4TEhaGzqLfcNEW21WkORFjJG52Fo4K0XzmfusXRm7E/4ZaAlpGMVWvcM
- 78rEv8Zsr5I07RVH6K+Q5+3V
+ by ob1.hgst.iphmx.com with ESMTP; 29 Oct 2021 15:11:27 +0800
+IronPort-SDR: Ekth/OKNxIVUFSlWkvQ3ZCHjJ6UtKMIEhftzthnq+dXc/EPRTTIhBiNnpJHY2k7UWFEuIgZbGi
+ RJ9iYW/KWiLUZKpAT6t/wCDAolAt6T3Dzy8DbCQFzMmgwkZazKxV9lwbjUrJ/LcmpQZayaV+o+
+ 24qePvmJdy9QJqrqCkXmf6aGnT0+ZKOcO3vi3P6Nbl5t4F5rX2B5uzon0sFx5pNXdMVBp3RDhf
+ Cjf5bjglnh7pwzybt5o006d22C7vojR8Jk2V3/RNKbvmQs4hLfw93WoaYrjemLSCdCG1XXh1Z0
+ zL+Df/9FeXqBlTcA/575pqUN
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2021 23:45:16 -0700
-IronPort-SDR: IpvgN95aYua5VJzyEUEWZbADGgnEdUv2GO3VI36Aa4iO+qdxOcHrWx7ursROGhMz1ZRmDphXuf
- FXQPMwMx1DzAdkPv4CH/7dwtUkRHNV25Ba0QhyzOeZTSMOc9HmbdoxbmebnqQEfSO7QJ0C4GeL
- W0v/4Wb14aNCJltUrcjJa7C5eoqKPpGTPN3K6nZbS26XNdpCWu/5wyjd0fC0bhhiFLUNuHdFqv
- kCkF/SJFTXAz2kSTF7pvhnq8y1zxC6cmHJj/zHfcD+YwhEOkEO0LKbywJmH2A3bbGYljkMopOn
- pEg=
+ 28 Oct 2021 23:45:20 -0700
+IronPort-SDR: caYv6BIqesltYesPz1auxS7Q7c2JE3vGQqE72Vf7g8Jdm2oyiDmLv+oZx2mBQi4SpZFw0SNN5T
+ j/sk3edApy5lRQlm/NpVuQ0HfBHQk/XEFF2ZHehhbpJdlAphZVercDJMXJXf+s8hpU9SgJ5cak
+ PzxlU0fyAHTDOuv9cBxNTq2RA3xty8hPxGVrR1GJ4FnbPrJdMg/SBoR5JJLxoSSOpopjLWba4m
+ JQGu28JFpJT7yPmhSYw+oydrvMpicpgw3MZt1cy9QuN+L48sjH65IxbOsDC665VekiJeJ3VVpd
+ ajs=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2021 00:11:23 -0700
+ 29 Oct 2021 00:11:27 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HgYWG3hbHz1RtVn
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 00:11:22 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HgYWL549Qz1RtVp
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 00:11:26 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1635491482; x=1638083483; bh=+Af7wKl
- pUvnUSPSXLQm3DK7gy4CQ7wIfbpuX3QPuLXE=; b=Ar+XycbD5YpThXbxmaikfjr
- p+fjiQc22xvVXPxMCqCnlbC2SJG/02qqQssCGJ3HfBkoGWOIAtEA8BpBWndVMBLm
- 6boPcXKvzsdEsOBR+4ydQh9ux7KcanowRSsXcFQfar6khpeEwbbtzcPvq6TQeVYV
- /DT5HeFVCgL+V2LbQuTrxbVPGP1PqZTOgKFNBEV9/IZc8ZO9F7HbG38s2QkUUiMr
- D91FwSq/O88TAOgEELo3Y27MEsW7EuIPlHdUjOh+Q+xHETWOyYOBC63kmHcOIzuU
- nGXJtH1oTKm62ITkQKBkkXnaDy2L7xJQpVGvcN9dq3f8vNM/SkONMUwyGeUL0JQ=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1635491486; x=1638083487; bh=NYpkni887wsvZV9VMS
+ 0VGs5wJ2vISIuVhBmrnIJ8b4U=; b=r72wSE+nG6DL+mHWpP9TZ0DTyjcP2kT07A
+ 2wAjjTIAtmrEiheLJKxfJNlc8+291ADCX9dGZzWQ5uvW7Aq9ALoOinVqcZ9SQlPk
+ i8RpsLIZcsDYx2y1ZCE4TToWAZ5WwNtDi7VItPojo3FuZkJCg4y5qcArsY2xGo5C
+ UH2QCQnYOLAJsL8tm8P0AWfGQjZYmeFeN8+iSCw4gPcO9D73rB6cKo4TP2J/ZTMH
+ 7IWoIi8/nW3HtOP4OYFUz9nCb2UI/dHTyuMi2DYfiB7EzdD77YWodQDnf28DqlHT
+ SHuqiSDtu/TGdVV3Y8v97YRucN0vdFaDaYl4OokEFFqwh2ZtZeSQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id TpEc52IU9-xr for <qemu-devel@nongnu.org>;
- Fri, 29 Oct 2021 00:11:22 -0700 (PDT)
+ port 10026) with ESMTP id pQVAngp3nzcg for <qemu-devel@nongnu.org>;
+ Fri, 29 Oct 2021 00:11:26 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.42])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HgYWB5Shwz1RtVl;
- Fri, 29 Oct 2021 00:11:18 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HgYWH07rMz1RtVl;
+ Fri, 29 Oct 2021 00:11:22 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Bin Meng <bmeng.cn@gmail.com>
-Subject: [PULL v2 05/18] hw/riscv: virt: Use the PLIC config helper function
-Date: Fri, 29 Oct 2021 17:08:04 +1000
-Message-Id: <20211029070817.100529-6-alistair.francis@opensource.wdc.com>
+Subject: [PULL v2 06/18] hw/riscv: opentitan: Fixup the PLIC context addresses
+Date: Fri, 29 Oct 2021 17:08:05 +1000
+Message-Id: <20211029070817.100529-7-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211029070817.100529-1-alistair.francis@opensource.wdc.com>
 References: <20211029070817.100529-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.154.45;
  envelope-from=prvs=929275e61=alistair.francis@opensource.wdc.com;
@@ -120,55 +117,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: 20211022060133.3045020-5-alistair.francis@opensource.wdc.com
----
- hw/riscv/virt.c | 20 +-------------------
- 1 file changed, 1 insertion(+), 19 deletions(-)
+Fixup the PLIC context address to correctly support the threshold and
+claim register.
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 28a5909a3b..3af074148e 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -748,24 +748,6 @@ static FWCfgState *create_fw_cfg(const MachineState =
-*mc)
-     return fw_cfg;
- }
+Fixes: ef63100648 ("hw/riscv: opentitan: Update to the latest build")
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-id: 20211025040657.262696-1-alistair.francis@opensource.wdc.com
+---
+ hw/riscv/opentitan.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index 83e1511f28..c531450b9f 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -161,8 +161,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
+_soc, Error **errp)
+     qdev_prop_set_uint32(DEVICE(&s->plic), "pending-base", 0x1000);
+     qdev_prop_set_uint32(DEVICE(&s->plic), "enable-base", 0x2000);
+     qdev_prop_set_uint32(DEVICE(&s->plic), "enable-stride", 0x18);
+-    qdev_prop_set_uint32(DEVICE(&s->plic), "context-base", 0x200004);
+-    qdev_prop_set_uint32(DEVICE(&s->plic), "context-stride", 4);
++    qdev_prop_set_uint32(DEVICE(&s->plic), "context-base", 0x200000);
++    qdev_prop_set_uint32(DEVICE(&s->plic), "context-stride", 8);
+     qdev_prop_set_uint32(DEVICE(&s->plic), "aperture-size", memmap[IBEX_=
+DEV_PLIC].size);
 =20
--/*
-- * Return the per-socket PLIC hart topology configuration string
-- * (caller must free with g_free())
-- */
--static char *plic_hart_config_string(int hart_count)
--{
--    g_autofree const char **vals =3D g_new(const char *, hart_count + 1)=
-;
--    int i;
--
--    for (i =3D 0; i < hart_count; i++) {
--        vals[i] =3D "MS";
--    }
--    vals[i] =3D NULL;
--
--    /* g_strjoinv() obliges us to cast away const here */
--    return g_strjoinv(",", (char **)vals);
--}
--
- static void virt_machine_init(MachineState *machine)
- {
-     const MemMapEntry *memmap =3D virt_memmap;
-@@ -839,7 +821,7 @@ static void virt_machine_init(MachineState *machine)
-         }
-=20
-         /* Per-socket PLIC hart topology configuration string */
--        plic_hart_config =3D plic_hart_config_string(hart_count);
-+        plic_hart_config =3D riscv_plic_hart_config_string(hart_count);
-=20
-         /* Per-socket PLIC */
-         s->plic[i] =3D sifive_plic_create(
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->plic), errp)) {
 --=20
 2.31.1
 
