@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5004405A6
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 01:04:19 +0200 (CEST)
-Received: from localhost ([::1]:56098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2994405AA
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 01:07:05 +0200 (CEST)
+Received: from localhost ([::1]:34544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgav5-00005E-0d
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 19:04:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45154)
+	id 1mgaxk-0004dt-U1
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 19:07:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mgat0-0005eM-DR
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:02:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59935)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mgat2-0005iQ-Nq
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:02:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mgasy-0006vA-CE
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:02:10 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mgat0-0006vS-NT
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:02:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635548527;
+ s=mimecast20190719; t=1635548530;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q2fDFAc7gOIKhashE6Z5lpWxdStHb3k+AZEzvZL+GxU=;
- b=MYWHDBg+0ADWAXqpwgqgeGdtdTh9WdCY9IKupfWOBhXIYWu9pOHTmfnfB0ekYjGFGL80po
- xmcFbno30LUdVSPRxK+PxURe8sByDEgPZC16NYlc7vKyuvAojUcK8WVfYzBS6eKdUEHVnf
- S/9TovVhzUss2c/rpfgxGR4Pa8vFoPg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-hwqUgkNWM0yM9koCVacpXg-1; Fri, 29 Oct 2021 19:02:04 -0400
-X-MC-Unique: hwqUgkNWM0yM9koCVacpXg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d13-20020adf9b8d000000b00160a94c235aso4146391wrc.2
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 16:02:04 -0700 (PDT)
+ bh=fr5VMOOKt0GVUz4qiC1RIeVWBlnPu1If/ZrGlw1UN7k=;
+ b=FTn//fCrcFP+cOMAgkptdzfz8w51wtrnADx5bA2N/pnN6UOejJLcj+tFtLwWOtQKJ/fVSP
+ XMLJ+amm7zELwbvpfFp4YyylO2pS1Y0LrXsJ7XZYDFgM6mDJEnNOCcy8awA/1wW/wF/F9w
+ 7viSCahMVdyk4DUvn0Ln3fTVyqEtxB4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-489-BbGmNmqdMYCXIe0vAUbNzQ-1; Fri, 29 Oct 2021 19:02:09 -0400
+X-MC-Unique: BbGmNmqdMYCXIe0vAUbNzQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r12-20020adfdc8c000000b0017d703c07c0so876546wrj.0
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 16:02:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q2fDFAc7gOIKhashE6Z5lpWxdStHb3k+AZEzvZL+GxU=;
- b=4nm+NXrswYQqVSY0XPDjEVhCSZy0oBQBafkmqDNq3H5sP+DBBH4XPM2zOosdFaWuv6
- +axHy2VDBXBIaaqV80tzLYxxMM3NUqb3OeM5fFSYRVr33DDzVpt5ke1erNWF3VLLH5X7
- hlJ17/8CUGupC3h6gF7+Jnd5ojdeI+MzqqKk20o2vP5zowkuO3aPI4hHP3UptGE8ISHr
- elPjGiVHTry55OM5Qeu7HqOt6AnpHi1lA/lzQfMMZuhfaNiotLhzbHKLPTfNLcGXIkrA
- i5EA+NJ1hNzS/lSVOFVNFyBxsmEUnssdNiYjILrHxB5KZTuS5Lb2w0C1aAupkp3vjKVS
- bHOw==
-X-Gm-Message-State: AOAM532xkDU0Ree99IIJ/VXNtm3mThQITwHo0KlyDFegY1vjsD5SD04j
- rF95TpwptOcYiiTbsiisSdtiepFrv8VZexRAHnEIe6tfFht48W97v+J1qJ1PKh4Rt6BH5HkZP8k
- OoMsSZuU8syUw3KTn2HybeHC1TJIIZXDRwlFHfvKgpr+kaghspBtSih4eSUKuXcCu
-X-Received: by 2002:a1c:9a16:: with SMTP id c22mr7459178wme.160.1635548523069; 
- Fri, 29 Oct 2021 16:02:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwQG9w/QB44HVwDMNYUNEl0fIIEo3NlqkQGCmSiNb0t7Twi0YKWXHqfiI67mdWPjqij9YdvKw==
-X-Received: by 2002:a1c:9a16:: with SMTP id c22mr7459151wme.160.1635548522811; 
- Fri, 29 Oct 2021 16:02:02 -0700 (PDT)
+ bh=fr5VMOOKt0GVUz4qiC1RIeVWBlnPu1If/ZrGlw1UN7k=;
+ b=CZolA9Opuu7uKCI02JhSDLtyuQHK8abh8jCL2bUG/knCWPbTNRkpNwYGQeeHXoT3yW
+ I1HS+O3AXxeYZjiernIV9GPrp/jGfmEu35DgFLT4NdGxqADHkjhyK1ckRqD3f1F3FgeP
+ t20E55yrZc5eY+JAqVOBQ7NdwwB2eQrwV96l24Dm4NaHPHf0w/Cdn8z26KU+1aj/THJ2
+ Md+xH8YsNU8uPf+RoYMvzIIiAMePloJt1OoVG9j6WJ56qbvtR1SR4hK3sl2md3BB/NqF
+ RBNvjVhaXSpq5Bn1mdQDzSV+itzwvhKKJ2HZDP4XBNFQKzkXl/0/xYJhJodk33UqcZRN
+ 0q5g==
+X-Gm-Message-State: AOAM530b0RMCguTSEhx1xsh0aJe/8n9LmvWiVEx0D2WAaCQJcAlA+hzV
+ /SychRcGeq2YHRl2fh/EhQCIgCV5IhN095TnrgvzB7Tpcl+7ym576H1MP413VWBQD3ni9eTbmuA
+ HFYU4wX1A2i21XHGLKsVoT7ew/x8eRxv73UdqAK7KJzYcnR3/08L9czZr8MQfJJov
+X-Received: by 2002:a05:600c:a42:: with SMTP id
+ c2mr22554147wmq.154.1635548527647; 
+ Fri, 29 Oct 2021 16:02:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzrpGWrJ5Q0pokQ5CxmKPkdczx/jh1JX9VeyM4eidl/CsZRs06Mr2UwFWc0wU0GO0poqdcoCw==
+X-Received: by 2002:a05:600c:a42:: with SMTP id
+ c2mr22554117wmq.154.1635548527432; 
+ Fri, 29 Oct 2021 16:02:07 -0700 (PDT)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id m34sm5465765wms.25.2021.10.29.16.02.01
+ by smtp.gmail.com with ESMTPSA id t15sm5909999wmi.24.2021.10.29.16.02.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 16:02:02 -0700 (PDT)
+ Fri, 29 Oct 2021 16:02:07 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] hw/core: Remove uses of QERR_DEVICE_NO_HOTPLUG
-Date: Sat, 30 Oct 2021 01:01:45 +0200
-Message-Id: <20211029230147.2465055-4-philmd@redhat.com>
+Subject: [PATCH 4/5] hw/core: Remove uses of QERR_PROPERTY_VALUE_BAD
+Date: Sat, 30 Oct 2021 01:01:46 +0200
+Message-Id: <20211029230147.2465055-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211029230147.2465055-1-philmd@redhat.com>
 References: <20211029230147.2465055-1-philmd@redhat.com>
@@ -104,58 +106,57 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QERR_DEVICE_NO_HOTPLUG definition is obsolete since 2015 (commit
+QERR_PROPERTY_VALUE_BAD definition is obsolete since 2015 (commit
 4629ed1e989, "qerror: Finally unused, clean up"). Replace the two
 uses and drop the definition.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
  include/qapi/qmp/qerror.h | 3 ---
- hw/core/qdev.c            | 3 ++-
- softmmu/qdev-monitor.c    | 2 +-
- 3 files changed, 3 insertions(+), 5 deletions(-)
+ hw/core/qdev-properties.c | 2 +-
+ target/i386/cpu.c         | 2 +-
+ 3 files changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/include/qapi/qmp/qerror.h b/include/qapi/qmp/qerror.h
-index 596fce0c54e..f49ae01cdb0 100644
+index f49ae01cdb0..a3f44fc4a1e 100644
 --- a/include/qapi/qmp/qerror.h
 +++ b/include/qapi/qmp/qerror.h
-@@ -26,9 +26,6 @@
- #define QERR_DEVICE_IN_USE \
-     "Device '%s' is in use"
+@@ -50,9 +50,6 @@
+ #define QERR_PERMISSION_DENIED \
+     "Insufficient permission to perform this operation"
  
--#define QERR_DEVICE_NO_HOTPLUG \
--    "Device '%s' does not support hotplugging"
+-#define QERR_PROPERTY_VALUE_BAD \
+-    "Property '%s.%s' doesn't take value '%s'"
 -
- #define QERR_FEATURE_DISABLED \
-     "The feature '%s' is not enabled"
+ #define QERR_PROPERTY_VALUE_OUT_OF_RANGE \
+     "Property %s.%s doesn't take value %" PRId64 " (minimum: %" PRId64 ", maximum: %" PRId64 ")"
  
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 7f06403752d..14375861c36 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -734,7 +734,8 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
-     static int unattached_count;
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index c34aac6ebc9..dbea4cf8e5e 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -663,7 +663,7 @@ void error_set_from_qdev_prop_error(Error **errp, int ret, Object *obj,
+         break;
+     default:
+     case -EINVAL:
+-        error_setg(errp, QERR_PROPERTY_VALUE_BAD,
++        error_setg(errp, "Property '%s.%s' doesn't take value '%s'",
+                    object_get_typename(obj), name, value);
+         break;
+     case -ENOENT:
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index fc3ed80ef1e..bc63b80e5bd 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4469,7 +4469,7 @@ static void x86_cpuid_set_vendor(Object *obj, const char *value,
+     int i;
  
-     if (dev->hotplugged && !dc->hotpluggable) {
--        error_setg(errp, QERR_DEVICE_NO_HOTPLUG, object_get_typename(obj));
-+        error_setg(errp, "Device '%s' does not support hotplugging",
-+                   object_get_typename(obj));
+     if (strlen(value) != CPUID_VENDOR_SZ) {
+-        error_setg(errp, QERR_PROPERTY_VALUE_BAD, "", "vendor", value);
++        error_setg(errp, "Property '.vendor' doesn't take value '%s'", value);
          return;
      }
  
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 4851de51a5c..35a885a6623 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -896,7 +896,7 @@ void qdev_unplug(DeviceState *dev, Error **errp)
-     }
- 
-     if (!dc->hotpluggable) {
--        error_setg(errp, QERR_DEVICE_NO_HOTPLUG,
-+        error_setg(errp, "Device '%s' does not support hotplugging",
-                    object_get_typename(OBJECT(dev)));
-         return;
-     }
 -- 
 2.31.1
 
