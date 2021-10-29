@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF4124400EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:06:12 +0200 (CEST)
-Received: from localhost ([::1]:46798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38ADC4400EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:07:12 +0200 (CEST)
+Received: from localhost ([::1]:49600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgVKV-0006cN-Qf
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:06:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49266)
+	id 1mgVLT-00005u-7N
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:07:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgUvt-0007Cs-Be
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:48 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:51112)
+ id 1mgUvm-00074D-Pz
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:38 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:51029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgUvn-00064F-S1
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:45 -0400
+ id 1mgUvd-0004nl-VF
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:37 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 411F07561E6;
- Fri, 29 Oct 2021 18:40:27 +0200 (CEST)
+ by localhost (Postfix) with SMTP id C7BF67561BC;
+ Fri, 29 Oct 2021 18:40:26 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 995DC756072; Fri, 29 Oct 2021 18:40:26 +0200 (CEST)
-Message-Id: <e6300f22ca46587dbadfcc59f49e3ddd813fc4f2.1635524617.git.balaton@eik.bme.hu>
+ id 7675375605E; Fri, 29 Oct 2021 18:40:26 +0200 (CEST)
+Message-Id: <eb0ac84282380fad456dc7c711d2399357faa8cc.1635524616.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635524616.git.balaton@eik.bme.hu>
 References: <cover.1635524616.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v5 12/25] hw/intc/sh_intc: Rename iomem region
+Subject: [PATCH v5 05/25] hw/char/sh_serial: Rename type sh_serial_state to
+ SHSerialState
 Date: Fri, 29 Oct 2021 18:23:36 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,53 +62,109 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename the iomem region to "intc" from "interrupt-controller" which
-makes the info mtree output less wide as it is already too wide
-because of all the aliases. Also drop the format macro which was only
-used twice in close proximity so we can just use the literal string
-instead without a macro definition.
+Coding style says types should be camel case.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/intc/sh_intc.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ hw/char/sh_serial.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
-diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index 18461ff554..e386372b6f 100644
---- a/hw/intc/sh_intc.c
-+++ b/hw/intc/sh_intc.c
-@@ -288,15 +288,13 @@ static unsigned int sh_intc_register(MemoryRegion *sysmem,
-     iomem_p4 = desc->iomem_aliases + index;
-     iomem_a7 = iomem_p4 + 1;
+diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
+index 2d6ea0042e..bc5e0c4404 100644
+--- a/hw/char/sh_serial.c
++++ b/hw/char/sh_serial.c
+@@ -73,9 +73,9 @@ typedef struct {
+     qemu_irq txi;
+     qemu_irq tei;
+     qemu_irq bri;
+-} sh_serial_state;
++} SHSerialState;
  
--#define SH_INTC_IOMEM_FORMAT "interrupt-controller-%s-%s-%s"
--    snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "p4");
-+    snprintf(name, sizeof(name), "intc-%s-%s-%s", type, action, "p4");
-     memory_region_init_alias(iomem_p4, NULL, name, iomem, A7ADDR(address), 4);
-     memory_region_add_subregion(sysmem, P4ADDR(address), iomem_p4);
+-static void sh_serial_clear_fifo(sh_serial_state *s)
++static void sh_serial_clear_fifo(SHSerialState *s)
+ {
+     memset(s->rx_fifo, 0, SH_RX_FIFO_LENGTH);
+     s->rx_cnt = 0;
+@@ -86,7 +86,7 @@ static void sh_serial_clear_fifo(sh_serial_state *s)
+ static void sh_serial_write(void *opaque, hwaddr offs,
+                             uint64_t val, unsigned size)
+ {
+-    sh_serial_state *s = opaque;
++    SHSerialState *s = opaque;
+     unsigned char ch;
  
--    snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "a7");
-+    snprintf(name, sizeof(name), "intc-%s-%s-%s", type, action, "a7");
-     memory_region_init_alias(iomem_a7, NULL, name, iomem, A7ADDR(address), 4);
-     memory_region_add_subregion(sysmem, A7ADDR(address), iomem_a7);
--#undef SH_INTC_IOMEM_FORMAT
+     trace_sh_serial_write(size, offs, val);
+@@ -204,7 +204,7 @@ static void sh_serial_write(void *opaque, hwaddr offs,
+ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+                                unsigned size)
+ {
+-    sh_serial_state *s = opaque;
++    SHSerialState *s = opaque;
+     uint32_t ret = UINT32_MAX;
  
-     /* used to increment aliases index */
-     return 2;
-@@ -432,9 +430,8 @@ int sh_intc_init(MemoryRegion *sysmem,
+ #if 0
+@@ -309,12 +309,12 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+     return ret;
+ }
+ 
+-static int sh_serial_can_receive(sh_serial_state *s)
++static int sh_serial_can_receive(SHSerialState *s)
+ {
+     return s->scr & (1 << 4);
+ }
+ 
+-static void sh_serial_receive_break(sh_serial_state *s)
++static void sh_serial_receive_break(SHSerialState *s)
+ {
+     if (s->feat & SH_SERIAL_FEAT_SCIF) {
+         s->sr |= (1 << 4);
+@@ -323,13 +323,13 @@ static void sh_serial_receive_break(sh_serial_state *s)
+ 
+ static int sh_serial_can_receive1(void *opaque)
+ {
+-    sh_serial_state *s = opaque;
++    SHSerialState *s = opaque;
+     return sh_serial_can_receive(s);
+ }
+ 
+ static void sh_serial_timeout_int(void *opaque)
+ {
+-    sh_serial_state *s = opaque;
++    SHSerialState *s = opaque;
+ 
+     s->flags |= SH_SERIAL_FLAG_RDF;
+     if (s->scr & (1 << 6) && s->rxi) {
+@@ -339,7 +339,7 @@ static void sh_serial_timeout_int(void *opaque)
+ 
+ static void sh_serial_receive1(void *opaque, const uint8_t *buf, int size)
+ {
+-    sh_serial_state *s = opaque;
++    SHSerialState *s = opaque;
+ 
+     if (s->feat & SH_SERIAL_FEAT_SCIF) {
+         int i;
+@@ -369,7 +369,7 @@ static void sh_serial_receive1(void *opaque, const uint8_t *buf, int size)
+ 
+ static void sh_serial_event(void *opaque, QEMUChrEvent event)
+ {
+-    sh_serial_state *s = opaque;
++    SHSerialState *s = opaque;
+     if (event == CHR_EVENT_BREAK) {
+         sh_serial_receive_break(s);
      }
- 
-     desc->irqs = qemu_allocate_irqs(sh_intc_set_irq, desc, nr_sources);
+@@ -390,9 +390,7 @@ void sh_serial_init(MemoryRegion *sysmem,
+                     qemu_irq tei_source,
+                     qemu_irq bri_source)
+ {
+-    sh_serial_state *s;
 -
--    memory_region_init_io(&desc->iomem, NULL, &sh_intc_ops, desc,
--                          "interrupt-controller", 0x100000000ULL);
-+    memory_region_init_io(&desc->iomem, NULL, &sh_intc_ops, desc, "intc",
-+                          0x100000000ULL);
+-    s = g_malloc0(sizeof(sh_serial_state));
++    SHSerialState *s = g_malloc0(sizeof(*s));
  
- #define INT_REG_PARAMS(reg_struct, type, action, j) \
-         reg_struct->action##_reg, #type, #action, j
+     s->feat = feat;
+     s->flags = SH_SERIAL_FLAG_TEND | SH_SERIAL_FLAG_TDE;
 -- 
 2.21.4
 
