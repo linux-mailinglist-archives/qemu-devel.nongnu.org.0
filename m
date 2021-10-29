@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B034405C9
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 01:29:19 +0200 (CEST)
-Received: from localhost ([::1]:57084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FFA64405D6
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 01:41:13 +0200 (CEST)
+Received: from localhost ([::1]:33832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgbJG-0003sH-UB
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 19:29:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50496)
+	id 1mgbUm-0007a5-Bj
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 19:41:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgbI0-0003Am-5D
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:28:00 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:37781)
+ id 1mgbP3-0006U2-Na
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:35:18 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgbHy-0001KE-Cq
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:27:59 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id b12so14743023wrh.4
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 16:27:57 -0700 (PDT)
+ id 1mgbOx-000249-4u
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:35:15 -0400
+Received: by mail-wr1-x433.google.com with SMTP id s13so12034052wrb.3
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 16:35:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=PNOAHlSnvyicwW3/WKj85oc5BhFfYCmBQKZgmXELCgc=;
- b=iq9jhJNe0268/rhRUWbAxMdD0qehaLFtO5ZQ19I2oJSyRqjVtNCQwUi9RXTrkrwiCl
- rSnv3sPC0M5ATM7AnScuiPNKuoTZpJru8NDTVpr8seGZYJz/WihwwDGn2o4+8QupE5qU
- //T0AKrNpdWqsoW7IPoPYguwWo1nUk6jqayas9NDTNR2XN2GeqP7Q/bhxLfs03Iec78y
- 0oQJyvn3goI0yJAO5iw9exFTZdrMnsRg9pwz4xIlPWr2u55YcIvD3jrpCAhnUaTe1VAy
- sC/OP5YIrapSQCHSD6g4Ckjn5b9bRVcwpX9efHzzPJpHMe51k6Ua5bKoFar4JgzPbLsG
- MEfQ==
+ bh=UHQFF232DwJmJHO5uK6MvGr7qtpmXB1LsCeCwVyq0A4=;
+ b=d5r5eGurN6x4ydL2kthSTyZaLfbNe7SPYnaETEI5i3yGqNXTnexg7gqcdUCBCrKysh
+ SSzq5bzNNOHzS1Pw6a72T1Z2JCwhzMddJ68zynRfitg4iOxK9h51sSMSRtaCdqyVQN/K
+ 1UlsM3lOOOBQFmBX3uUsLvKdn+Cdzs0BSKTVG0DoGUPLZvfGy9ub55kHII3RCCmq2vqN
+ f/b/OZDxjadoJIbS2AlkDADQGfZr5R9/QWWIbk6FCXdkCi4gOMt0xV0EQgVFuLyOYOyh
+ PPlplFWjZicqTzGFXdq8DPegTyqca1CAHwckCIPRVYYazaONAMBY7xIB0AUr5e3izyaS
+ YqBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=PNOAHlSnvyicwW3/WKj85oc5BhFfYCmBQKZgmXELCgc=;
- b=vEftAQhqyikB7hGjtw+mkM8eDkSU5XX+TDub5dAObIX9daDRbWxAYuSf9Pw0zD1Baj
- QlWYb0LVdwRxZulfmO9Q5X2AhCp7fnpNBPUZRomZi/v+ap9IgJ99dB8T+DgTwpxyUVZw
- o0+IndlWWfDYGdP+Ki3WfXGihdmbMwPjr0NaZjxhsnOgCBJxbL6/c+LeJcPMoMLc1/AP
- 7MNgBSkHaoFJtECDDzPgg6hpbGWatU/h2b3WEYXTbFubnU/6asOODqYafovuLnTB7Pu1
- pQQUJuNPLVGuE0u1K8u7TVPZwFvgOX8fEPYRH4lVeHaUWn7/Vg61aZyjpKW/Z+n7mUwx
- RPkw==
-X-Gm-Message-State: AOAM533pKqt6vVzEFd4aPHta+sc8P3So67boip+JuJ1hkRZWVaOlOkBL
- RPjI2SGh0G+CahsiIrpsvHc=
-X-Google-Smtp-Source: ABdhPJycKggSed/y69tM0PmoxNyzfWQVG93655vc4aM9quTGzAywGaKWIcq4BG2/MmoRi8Bc+M3I3g==
-X-Received: by 2002:a5d:6781:: with SMTP id v1mr9798326wru.239.1635550076356; 
- Fri, 29 Oct 2021 16:27:56 -0700 (PDT)
+ bh=UHQFF232DwJmJHO5uK6MvGr7qtpmXB1LsCeCwVyq0A4=;
+ b=PkiDgl7yTnu+ycYjs9x28wEJexk14F+UWJvj7c1VIOJqqY0mfMf/9m7G/hSUT76P3i
+ aD3kVcGuqt90V3RrutBJNHXPcG7Wz4h6EvgWlrTatNJmC2MBYpREDxs8c92G5zeDjtfa
+ V+wMRxKPFWzsPlfo7PNs+e4zGNpz/Vms5ium7AWSgPvrIH3hsy6ms1/rJLiBMWqGj8DT
+ 9UngyIbr6wAHd/l/uEXcmNaakUTOy2NNsvAdAwJtrSByYb+x5ZGYavDvhHauMe1MMExR
+ BwrHmQgidASZox56F/zqqWsB3Grlu/msiHzFbmC1CwZL4MDkJKbK3/vKvQLCa7yc0LGY
+ F4Lg==
+X-Gm-Message-State: AOAM530tKqjkUol8Aukc5+Atj+cYsMT6IZwHBXnaZ1lF5rxTbY0jRefw
+ iDrZbYt6fMxIoC8i0ArBYsM=
+X-Google-Smtp-Source: ABdhPJx9u5v2opW7J6G9uHxZO5mggwvCJpM8HpRBAthwQONEko7hOz4xqkXjWHY0KGD8ypkvs/uoTg==
+X-Received: by 2002:a05:6000:1813:: with SMTP id
+ m19mr8086025wrh.51.1635550509618; 
+ Fri, 29 Oct 2021 16:35:09 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id l9sm546093wms.16.2021.10.29.16.27.55
+ by smtp.gmail.com with ESMTPSA id c17sm7096485wmk.23.2021.10.29.16.35.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 16:27:55 -0700 (PDT)
-Message-ID: <fad06cc3-49de-b8ba-4f9e-3b81ff3d5a7e@amsat.org>
-Date: Sat, 30 Oct 2021 01:27:54 +0200
+ Fri, 29 Oct 2021 16:35:09 -0700 (PDT)
+Message-ID: <c2092d40-c98e-e087-ce26-8937e8eb811b@amsat.org>
+Date: Sat, 30 Oct 2021 01:35:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v5 16/67] target/arm: Fixup comment re handle_cpu_signal
+Subject: Re: [PATCH v5 44/67] linux-user: Add cpu_loop_exit_sigbus
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211015041053.2769193-1-richard.henderson@linaro.org>
- <20211015041053.2769193-17-richard.henderson@linaro.org>
+ <20211015041053.2769193-45-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211015041053.2769193-17-richard.henderson@linaro.org>
+In-Reply-To: <20211015041053.2769193-45-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -39
 X-Spam_score: -4.0
 X-Spam_bar: ----
@@ -95,35 +96,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/15/21 06:10, Richard Henderson wrote:
-> The named function no longer exists.
-
-It seems to be declared inlined since QEMU v0.1.0 in 2003!
-
-So it was likely a typo.
-
-Anyhow,
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> Refer to host_signal_handler instead.
+> This is a new interface to be provided by the os emulator for
+> raising SIGBUS on fault.  Use the new record_sigbus target hook.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/sve_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-> index dab5f1d1cd..07be55b7e1 100644
-> --- a/target/arm/sve_helper.c
-> +++ b/target/arm/sve_helper.c
-> @@ -6118,7 +6118,7 @@ DO_LDN_2(4, dd, MO_64)
->   * linux-user/ in its get_user/put_user macros.
->   *
->   * TODO: Construct some helpers, written in assembly, that interact with
-> - * handle_cpu_signal to produce memory ops which can properly report errors
-> + * host_signal_handler to produce memory ops which can properly report errors
->   * without racing.
->   */
->  
-> 
+>  include/exec/exec-all.h | 14 ++++++++++++++
 
+This header deserves a system/user split.
+
+>  linux-user/signal.c     | 14 ++++++++++++++
+>  2 files changed, 28 insertions(+)
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
