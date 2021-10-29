@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C9F43F3BC
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 02:13:14 +0200 (CEST)
-Received: from localhost ([::1]:57000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD81543F462
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 03:35:01 +0200 (CEST)
+Received: from localhost ([::1]:45068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgFWE-0002lU-3S
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 20:13:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36330)
+	id 1mgGnM-0001Mf-BV
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 21:35:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mgFQX-0000Tt-7T
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 20:07:21 -0400
-Received: from mail-ua1-x92f.google.com ([2607:f8b0:4864:20::92f]:40636)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mgFQU-0000Ob-JZ
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 20:07:20 -0400
-Received: by mail-ua1-x92f.google.com with SMTP id e2so14870108uax.7
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 17:07:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K51mCMm+68kFPdXojNgqY/rrH8VYnBt16Se+htBKma8=;
- b=i1XHzszyVemG91Kdudk3F1Eo2iDdUdAWiozIDPwj09DajoUrr42raTrY5NkgxpNUvc
- egK1ur6Gbi1ZsXFDPSOTgNHytsTYT0/d40pLzMfJ0bg4Iy6w8jqa7V0ZoY2QbE5uDeZJ
- 6IPU2GiVDzJhPiHlFj8QgqhwN7u8SmPP6ON4C8yEouPmRsIZ6NTMNHIC1FO3PyTDbomL
- sMY/DPlPPmfOPJpwjAjQZARu5M69wok04KwDkpP1X9nDys5IeEjmjYUKbfstWtRmxuLc
- 3SGkFSyhod2T7W6kzCOnma6huG/lwNRFNbnfmaiekHpD6fXevZRRVyKbNF3UWUCU9WV1
- uVeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=K51mCMm+68kFPdXojNgqY/rrH8VYnBt16Se+htBKma8=;
- b=WP5S10fqYW4e8FZyDNb3N/4d/+oVd0TGGFnQKaV8nzUnpQbuwOulR2bps2CVIcdWiE
- 2TciMyALAI8sBLhc3ditBO6jUpVtiusc4yTdS9e4+cmXSUgkyDp0k/g7aaJJQhR0s+y9
- vP9orlCgu3mFcIzMQU9QEz1oukDDZfkMlSVFlYfu9zoT84uOxeD6C60VAIFSDr3oAF52
- BaD/UwcQ44Uk763ebCSGo0JJGuzD1qTleeSDASetN3rJAVnGGsUGaGJj11vfEfLySy3X
- cHsg854EqfkmeJViTg9tEz91AOYnB2BFZAINOlsHeHwk8ApePA6sR/MB2NPAREjioYOf
- Gjog==
-X-Gm-Message-State: AOAM530Riss8mBgA7y4Ey4RaUpklXjEKtOXdEKO2yG+8iWJ4R6jfIo8R
- BvtXfl26RayVAhjN5gR/0/LLFJDvfvicBB6g9065NA==
-X-Google-Smtp-Source: ABdhPJzKGIZlXMvYfIvCD3ww4TlBx790ofkkLJENH0bv52qMieUyigsvNvDkUiRvHjHlIra4Sb6qUNv+a65DsqK96v4=
-X-Received: by 2002:a05:6102:5494:: with SMTP id
- bk20mr9236895vsb.6.1635466036468; 
- Thu, 28 Oct 2021 17:07:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-23-imp@bsdimp.com>
- <344ac222-daa9-c752-8c6a-21773efb8656@linaro.org>
-In-Reply-To: <344ac222-daa9-c752-8c6a-21773efb8656@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 28 Oct 2021 18:07:05 -0600
-Message-ID: <CANCZdfo8b2uO=g_mGbZx8241nB8qytAsAD-E4nh7MLDCt9KGgw@mail.gmail.com>
-Subject: Re: [PATCH 22/24] bsd-user/arm/target_arch_signal.h: arm set_mcontext
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000025719405cf729c87"
-Received-SPF: none client-ip=2607:f8b0:4864:20::92f;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1mgGlo-0000hj-3l
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 21:33:24 -0400
+Received: from ma1-aaemail-dr-lapp03.apple.com ([17.171.2.72]:47684)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1mgGlm-0002P4-B5
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 21:33:23 -0400
+Received: from pps.filterd (ma1-aaemail-dr-lapp03.apple.com [127.0.0.1])
+ by ma1-aaemail-dr-lapp03.apple.com (8.16.0.42/8.16.0.42) with SMTP id
+ 19T1IK1u011694; Thu, 28 Oct 2021 18:33:18 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=20180706; bh=Rz+eAp5LAF9BlAKZtmnAw+XSsbC2MivA/ic2PUQK+24=;
+ b=m/P6ua3AjQkr0QRmWdZhQW/swwTQW7MzVNwF7LSvzubFuNKar7wKTqjjchklDT+OpXuB
+ Htf/bOlGcJbOckZ+IDuq5E/2hIarWww+qtdLZHvWsEpt0YZyhMQBDRhgt4nExo7EMWi4
+ Q1MjgvGq1I6jW2siK4WEvt5Fia+XpHmp8v4I6JHJX8xywfnAbLMWlK4U0fNVqcUNar0X
+ /mh/lksx3jF46QAP0BFQ5QHvnYJcVBrbR67LKjVa97ydAQ3PjIyEG0jKVfIsiJaql4ef
+ 1hBqbdoi/CfCqFPw8hN87AbtZnms9PDCretaQumj6/3DftdlLA/K4U04y5CLbwAdKWic yw== 
+Received: from rn-mailsvcp-mta-lapp01.rno.apple.com
+ (rn-mailsvcp-mta-lapp01.rno.apple.com [10.225.203.149])
+ by ma1-aaemail-dr-lapp03.apple.com with ESMTP id 3bx4hp0m5p-2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+ Thu, 28 Oct 2021 18:33:17 -0700
+Received: from rn-mailsvcp-mmp-lapp03.rno.apple.com
+ (rn-mailsvcp-mmp-lapp03.rno.apple.com [17.179.253.16])
+ by rn-mailsvcp-mta-lapp01.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
+ 2021)) with ESMTPS id <0R1P00RNLTNGS9F0@rn-mailsvcp-mta-lapp01.rno.apple.com>; 
+ Thu, 28 Oct 2021 18:33:16 -0700 (PDT)
+Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp03.rno.apple.com by
+ rn-mailsvcp-mmp-lapp03.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
+ 2021)) id <0R1P00E00TI23500@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Thu,
+ 28 Oct 2021 18:33:16 -0700 (PDT)
+X-Va-A: 
+X-Va-T-CD: 51115aee971724d6ddf329fb28aa7ad5
+X-Va-E-CD: 63538ac241ea19d3da28a3168c892150
+X-Va-R-CD: 009c9c705aceca092cf2ec7782c5bb67
+X-Va-CD: 0
+X-Va-ID: 3a1bacbd-3941-41e0-96d3-570b807f7a4b
+X-V-A: 
+X-V-T-CD: 51115aee971724d6ddf329fb28aa7ad5
+X-V-E-CD: 63538ac241ea19d3da28a3168c892150
+X-V-R-CD: 009c9c705aceca092cf2ec7782c5bb67
+X-V-CD: 0
+X-V-ID: 1879eda1-db9f-422e-8d7f-f4554d2acd55
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.790
+ definitions=2021-10-28_06:2021-10-26,
+ 2021-10-28 signatures=0
+Received: from Camerons-MBP.attlocal.net (unknown [17.11.119.166])
+ by rn-mailsvcp-mmp-lapp03.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
+ 2021))
+ with ESMTPSA id <0R1P00ZNZTNFBQ00@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Thu,
+ 28 Oct 2021 18:33:16 -0700 (PDT)
+From: Cameron Esfahani <dirty@apple.com>
+To: qemu-devel@nongnu.org
+Cc: r.bolshakov@yadro.com
+Subject: [PATCH] hvf: Use standard CR0 and CR4 register definitions
+Date: Thu, 28 Oct 2021 18:33:15 -0700
+Message-id: <20211029013315.79207-1-dirty@apple.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+MIME-version: 1.0
+Content-transfer-encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.790
+ definitions=2021-10-28_06:2021-10-26,
+ 2021-10-28 signatures=0
+Received-SPF: pass client-ip=17.171.2.72; envelope-from=dirty@apple.com;
+ helo=ma1-aaemail-dr-lapp03.apple.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,150 +99,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@freebsd.org>, QEMU Trivial <qemu-trivial@nongnu.org>,
- Klye Evans <kevans@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000025719405cf729c87
-Content-Type: text/plain; charset="UTF-8"
+No need to have our own definitions of these registers.
 
-On Thu, Oct 28, 2021 at 11:53 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+Signed-off-by: Cameron Esfahani <dirty@apple.com>
+---
+ target/i386/hvf/vmx.h      | 17 +++++++++--------
+ target/i386/hvf/x86.c      |  6 +++---
+ target/i386/hvf/x86.h      | 34 ----------------------------------
+ target/i386/hvf/x86_mmu.c  |  2 +-
+ target/i386/hvf/x86_task.c |  3 ++-
+ 5 files changed, 15 insertions(+), 47 deletions(-)
 
-> On 10/19/21 9:44 AM, Warner Losh wrote:
-> > +    regs->regs[15] = tswap32(gr[TARGET_REG_PC]);
-> > +    cpsr = tswap32(gr[TARGET_REG_CPSR]);
-> > +    cpsr_write(regs, cpsr, CPSR_USER | CPSR_EXEC, CPSRWriteByInstr);
->
-> Hmm.  What's the expected behaviour if the saved CPSR state does not match
-> the PC state
-> wrt thumb?
->
-> I'm ok if this should fail in spectacular ways, I just wanna know.
->
-> I *think* what will happen at the moment is that qemu will go into a
-> whacky state in which
-> the translator will read and interpret unaligned data.
->
-> I have a pending patch set for arm to raise unaligned exceptions for
-> mis-aligned pc.  For
-> arm32 mode, this is fine, and we'll raise the exception.  But for thumb
-> mode, this is
-> architecturally impossible, and the translator will assert.
->
-> The assert is going to be a problem.  There are a couple of options:
->
-> (1) TARGET_REG_PC wins: unset PC[0] and adjust CPSR[T] to match.
->
-> (2) CPSR_T wins: unset pc[0] if CPSR[T] is set, unchanged otherwise.  (In
-> the Arm ARM
-> psueodcode, pc[0] is hardwired to 0 in thumb mode.)
->
-> (3) Don't worry about matching PC[0] and CPSR[T], but do prevent an
-> impossible situation
-> and unset PC[0] always.  If PC[1] is set, and CPSR[T] is unset, then we'll
-> raise unaligned
-> when the cpu restarts.
->
+diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
+index 6df87116f6..29b7deed3c 100644
+--- a/target/i386/hvf/vmx.h
++++ b/target/i386/hvf/vmx.h
+@@ -124,10 +124,11 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
+     uint64_t efer = rvmcs(vcpu, VMCS_GUEST_IA32_EFER);
+     uint64_t old_cr0 = rvmcs(vcpu, VMCS_GUEST_CR0);
+     uint64_t changed_cr0 = old_cr0 ^ cr0;
+-    uint64_t mask = CR0_PG | CR0_CD | CR0_NW | CR0_NE | CR0_ET;
++    uint64_t mask = CR0_PG_MASK | CR0_CD_MASK | CR0_NW_MASK |
++                    CR0_NE_MASK | CR0_ET_MASK;
+     uint64_t entry_ctls;
+ 
+-    if ((cr0 & CR0_PG) && (rvmcs(vcpu, VMCS_GUEST_CR4) & CR4_PAE) &&
++    if ((cr0 & CR0_PG_MASK) && (rvmcs(vcpu, VMCS_GUEST_CR4) & CR4_PAE_MASK) &&
+         !(efer & MSR_EFER_LME)) {
+         address_space_read(&address_space_memory,
+                            rvmcs(vcpu, VMCS_GUEST_CR3) & ~0x1f,
+@@ -142,8 +143,8 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
+     wvmcs(vcpu, VMCS_CR0_SHADOW, cr0);
+ 
+     if (efer & MSR_EFER_LME) {
+-        if (changed_cr0 & CR0_PG) {
+-            if (cr0 & CR0_PG) {
++        if (changed_cr0 & CR0_PG_MASK) {
++            if (cr0 & CR0_PG_MASK) {
+                 enter_long_mode(vcpu, cr0, efer);
+             } else {
+                 exit_long_mode(vcpu, cr0, efer);
+@@ -155,8 +156,8 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
+     }
+ 
+     /* Filter new CR0 after we are finished examining it above. */
+-    cr0 = (cr0 & ~(mask & ~CR0_PG));
+-    wvmcs(vcpu, VMCS_GUEST_CR0, cr0 | CR0_NE | CR0_ET);
++    cr0 = (cr0 & ~(mask & ~CR0_PG_MASK));
++    wvmcs(vcpu, VMCS_GUEST_CR0, cr0 | CR0_NE_MASK | CR0_ET_MASK);
+ 
+     hv_vcpu_invalidate_tlb(vcpu);
+     hv_vcpu_flush(vcpu);
+@@ -164,11 +165,11 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
+ 
+ static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
+ {
+-    uint64_t guest_cr4 = cr4 | CR4_VMXE;
++    uint64_t guest_cr4 = cr4 | CR4_VMXE_MASK;
+ 
+     wvmcs(vcpu, VMCS_GUEST_CR4, guest_cr4);
+     wvmcs(vcpu, VMCS_CR4_SHADOW, cr4);
+-    wvmcs(vcpu, VMCS_CR4_MASK, CR4_VMXE);
++    wvmcs(vcpu, VMCS_CR4_MASK, CR4_VMXE_MASK);
+ 
+     hv_vcpu_invalidate_tlb(vcpu);
+     hv_vcpu_flush(vcpu);
+diff --git a/target/i386/hvf/x86.c b/target/i386/hvf/x86.c
+index 2898bb70a8..91a3fe002c 100644
+--- a/target/i386/hvf/x86.c
++++ b/target/i386/hvf/x86.c
+@@ -119,7 +119,7 @@ bool x86_read_call_gate(struct CPUState *cpu, struct x86_call_gate *idt_desc,
+ bool x86_is_protected(struct CPUState *cpu)
+ {
+     uint64_t cr0 = rvmcs(cpu->hvf->fd, VMCS_GUEST_CR0);
+-    return cr0 & CR0_PE;
++    return cr0 & CR0_PE_MASK;
+ }
+ 
+ bool x86_is_real(struct CPUState *cpu)
+@@ -150,13 +150,13 @@ bool x86_is_long64_mode(struct CPUState *cpu)
+ bool x86_is_paging_mode(struct CPUState *cpu)
+ {
+     uint64_t cr0 = rvmcs(cpu->hvf->fd, VMCS_GUEST_CR0);
+-    return cr0 & CR0_PG;
++    return cr0 & CR0_PG_MASK;
+ }
+ 
+ bool x86_is_pae_enabled(struct CPUState *cpu)
+ {
+     uint64_t cr4 = rvmcs(cpu->hvf->fd, VMCS_GUEST_CR4);
+-    return cr4 & CR4_PAE;
++    return cr4 & CR4_PAE_MASK;
+ }
+ 
+ target_ulong linear_addr(struct CPUState *cpu, target_ulong addr, X86Seg seg)
+diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
+index 782664c2ea..947b98da41 100644
+--- a/target/i386/hvf/x86.h
++++ b/target/i386/hvf/x86.h
+@@ -42,40 +42,6 @@ typedef struct x86_register {
+     };
+ } __attribute__ ((__packed__)) x86_register;
+ 
+-typedef enum x86_reg_cr0 {
+-    CR0_PE =            (1L << 0),
+-    CR0_MP =            (1L << 1),
+-    CR0_EM =            (1L << 2),
+-    CR0_TS =            (1L << 3),
+-    CR0_ET =            (1L << 4),
+-    CR0_NE =            (1L << 5),
+-    CR0_WP =            (1L << 16),
+-    CR0_AM =            (1L << 18),
+-    CR0_NW =            (1L << 29),
+-    CR0_CD =            (1L << 30),
+-    CR0_PG =            (1L << 31),
+-} x86_reg_cr0;
+-
+-typedef enum x86_reg_cr4 {
+-    CR4_VME =            (1L << 0),
+-    CR4_PVI =            (1L << 1),
+-    CR4_TSD =            (1L << 2),
+-    CR4_DE  =            (1L << 3),
+-    CR4_PSE =            (1L << 4),
+-    CR4_PAE =            (1L << 5),
+-    CR4_MSE =            (1L << 6),
+-    CR4_PGE =            (1L << 7),
+-    CR4_PCE =            (1L << 8),
+-    CR4_OSFXSR =         (1L << 9),
+-    CR4_OSXMMEXCPT =     (1L << 10),
+-    CR4_VMXE =           (1L << 13),
+-    CR4_SMXE =           (1L << 14),
+-    CR4_FSGSBASE =       (1L << 16),
+-    CR4_PCIDE =          (1L << 17),
+-    CR4_OSXSAVE =        (1L << 18),
+-    CR4_SMEP =           (1L << 20),
+-} x86_reg_cr4;
+-
+ /* 16 bit Task State Segment */
+ typedef struct x86_tss_segment16 {
+     uint16_t link;
+diff --git a/target/i386/hvf/x86_mmu.c b/target/i386/hvf/x86_mmu.c
+index e9ed0f5aa1..df0b91cd42 100644
+--- a/target/i386/hvf/x86_mmu.c
++++ b/target/i386/hvf/x86_mmu.c
+@@ -129,7 +129,7 @@ static bool test_pt_entry(struct CPUState *cpu, struct gpt_translation *pt,
+ 
+     uint32_t cr0 = rvmcs(cpu->hvf->fd, VMCS_GUEST_CR0);
+     /* check protection */
+-    if (cr0 & CR0_WP) {
++    if (cr0 & CR0_WP_MASK) {
+         if (pt->write_access && !pte_write_access(pte)) {
+             return false;
+         }
+diff --git a/target/i386/hvf/x86_task.c b/target/i386/hvf/x86_task.c
+index 422156128b..e1301599e9 100644
+--- a/target/i386/hvf/x86_task.c
++++ b/target/i386/hvf/x86_task.c
+@@ -174,7 +174,8 @@ void vmx_handle_task_switch(CPUState *cpu, x68_segment_selector tss_sel, int rea
+         //ret = task_switch_16(cpu, tss_sel, old_tss_sel, old_tss_base, &next_tss_desc);
+         VM_PANIC("task_switch_16");
+ 
+-    macvm_set_cr0(cpu->hvf->fd, rvmcs(cpu->hvf->fd, VMCS_GUEST_CR0) | CR0_TS);
++    macvm_set_cr0(cpu->hvf->fd, rvmcs(cpu->hvf->fd, VMCS_GUEST_CR0) |
++                                CR0_TS_MASK);
+     x86_segment_descriptor_to_vmx(cpu, tss_sel, &next_tss_desc, &vmx_seg);
+     vmx_write_segment_descriptor(cpu, &vmx_seg, R_TR);
+ 
+-- 
+2.30.1 (Apple Git-130)
 
-Consider this program:
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
-int g;
-void fortytwo(int arg) { g = 42; }
-int main(int argc, char **argv) {
-        g = 123;
-        signal(SIGALRM, fortytwo); alarm(1); pause();
-        printf("G is %d\n", g);
-}
-
-Built for 'arm' I get
-G is 42
-Build -mthumb I get
-qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-Segmentation fault
-
-So even without your new assert, there are some issues I need to look into
-before I can
-get to this very interesting case :(. These are all good questions, though.
-I clearly have
-some work to do here...
-
-And, finally, you're missing the mc_vfp_* handling.
->
-
-Yes. We don't really support that at the moment, but I'll look into how
-hard that might be
-to add.
-
-Warner
-
---00000000000025719405cf729c87
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 28, 2021 at 11:53 AM Rich=
-ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
-enderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">On 10/19/21 9:44 AM, Warner Losh wrote:<br>
-&gt; +=C2=A0 =C2=A0 regs-&gt;regs[15] =3D tswap32(gr[TARGET_REG_PC]);<br>
-&gt; +=C2=A0 =C2=A0 cpsr =3D tswap32(gr[TARGET_REG_CPSR]);<br>
-&gt; +=C2=A0 =C2=A0 cpsr_write(regs, cpsr, CPSR_USER | CPSR_EXEC, CPSRWrite=
-ByInstr);<br>
-<br>
-Hmm.=C2=A0 What&#39;s the expected behaviour if the saved CPSR state does n=
-ot match the PC state <br>
-wrt thumb?<br>
-<br>
-I&#39;m ok if this should fail in spectacular ways, I just wanna know.<br>
-<br>
-I *think* what will happen at the moment is that qemu will go into a whacky=
- state in which <br>
-the translator will read and interpret unaligned data.<br>
-<br>
-I have a pending patch set for arm to raise unaligned exceptions for mis-al=
-igned pc.=C2=A0 For <br>
-arm32 mode, this is fine, and we&#39;ll raise the exception.=C2=A0 But for =
-thumb mode, this is <br>
-architecturally impossible, and the translator will assert.<br>
-<br>
-The assert is going to be a problem.=C2=A0 There are a couple of options:<b=
-r>
-<br>
-(1) TARGET_REG_PC wins: unset PC[0] and adjust CPSR[T] to match.<br>
-<br>
-(2) CPSR_T wins: unset pc[0] if CPSR[T] is set, unchanged otherwise.=C2=A0 =
-(In the Arm ARM <br>
-psueodcode, pc[0] is hardwired to 0 in thumb mode.)<br>
-<br>
-(3) Don&#39;t worry about matching PC[0] and CPSR[T], but do prevent an imp=
-ossible situation <br>
-and unset PC[0] always.=C2=A0 If PC[1] is set, and CPSR[T] is unset, then w=
-e&#39;ll raise unaligned <br>
-when the cpu restarts.<br></blockquote><div><br></div><div>Consider this pr=
-ogram:</div><div>#include &lt;signal.h&gt;<br>#include &lt;stdio.h&gt;<br>#=
-include &lt;unistd.h&gt;<br>int g;<br>void=C2=A0fortytwo(int arg)=C2=A0{=C2=
-=A0g =3D 42;=C2=A0}<br>int=C2=A0main(int argc, char **argv)=C2=A0{<br>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 g =3D 123;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 signal(S=
-IGALRM, fortytwo);=C2=A0alarm(1);=C2=A0pause();<br>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 printf(&quot;G is %d\n&quot;, g);<br>}<br></div><div><br></div><div>Bui=
-lt for &#39;arm&#39; I get</div><div>G is 42</div><div>Build -mthumb I get<=
-/div><div>qemu: uncaught target signal 11 (Segmentation fault) - core dumpe=
-d<br>Segmentation fault<br></div><div><br></div><div>So even without your n=
-ew assert, there are some issues I need to look into before I can</div><div=
->get to this very interesting case :(. These are all good questions, though=
-. I clearly have</div><div>some work to do here...</div><div><br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">And, finally, you&#39;re miss=
-ing the mc_vfp_* handling.<br></blockquote><div><br></div><div>Yes. We don&=
-#39;t really support that at the moment, but I&#39;ll look into how hard th=
-at might be</div><div>to add.</div><div><br></div><div>Warner</div></div></=
-div>
-
---00000000000025719405cf729c87--
 
