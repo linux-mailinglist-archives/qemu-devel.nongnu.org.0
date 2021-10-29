@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9538F4403E5
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:13:10 +0200 (CEST)
-Received: from localhost ([::1]:55156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F229E4403E6
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:13:32 +0200 (CEST)
+Received: from localhost ([::1]:56440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgYFR-0004zw-De
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:13:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58120)
+	id 1mgYFo-0005tw-3L
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:13:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mgXab-0001B6-4D
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:30:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29230)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mgXaX-00012z-Rw
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:30:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635535853;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RffRICBkgNjZ+qQIth5/dQ+FtAOcMJ1Eqm3jIYjDHkA=;
- b=GKFAZIg0wxhRLFeMfP8v1m00ykBct3W317K2Uji4Jps2o15xg82qdyWnde9ZRPyBHAgL63
- qPldtbAiUN+3KzOHIpvdXCCjN3ei951PgNWcz5rLzXB76pKjOS56hEbToaDXD+Mh4+3ibL
- miSL60y0UcJp7mJUY+rTZulqkJMGwBI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-MNk5xyz7MGWn6l4mFRpGuA-1; Fri, 29 Oct 2021 15:30:49 -0400
-X-MC-Unique: MNk5xyz7MGWn6l4mFRpGuA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4A0E8066F4;
- Fri, 29 Oct 2021 19:30:48 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C06CD57CA5;
- Fri, 29 Oct 2021 19:30:18 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F266311380CD; Fri, 29 Oct 2021 21:30:15 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/9] qapi: Generalize command policy checking
-Date: Fri, 29 Oct 2021 21:30:12 +0200
-Message-Id: <20211029193015.1312198-7-armbru@redhat.com>
-In-Reply-To: <20211029193015.1312198-1-armbru@redhat.com>
-References: <20211029193015.1312198-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mgXeJ-0006gJ-3H
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:34:47 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:43677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mgXeH-0001Xi-J7
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:34:46 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id 187so10107961pfc.10
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 12:34:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=sUMMUIj8FxrUYpJZmDf2CzNQC8fqUMSANo4MHrO51dA=;
+ b=Ioouen8BR/HlIuEVxE3FXlS54JsZf3M3riihGMzb4JjE4bDMpEDEgA1RiNiLnHAI1u
+ 3kC8tepwmZSdEseCJbhvemPuphT9kJysWFdzOE8rr+kP5JV0JoYvdQp9eD+szt7+w98r
+ fE5GANAPb0nlnxNxLH1gdaulhxCkgG/3fXfmLVoxheqCRmpo2VbsmeC0rOVDM6pJCleZ
+ V5e2KrmF5oZFXnYxosKeNonBHsnwSdKTKGyTQy2zq2i+kCEjOpM2KiCl+q43I7XXVMTb
+ J2Yn0DW2P696HNNXzCdimPEY5JxF1i8GPOdVLK/vkoT0KIt5s08WBFd2XLAXkxf66PqE
+ rm4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sUMMUIj8FxrUYpJZmDf2CzNQC8fqUMSANo4MHrO51dA=;
+ b=5O2JdmzKTtuAQ8HUsmD+pmpnfm+MD8DcXp+UqKsJY0mNIO2Cj+QrsJwas78Jc95rtZ
+ Gs2xDDDpKW+OGvOkHOxcep1uh7cjjGft1CFPNdc4gTBcEIIgrCIGQU77B/+nNAVU++9h
+ mFPFGX6YAQd23IV3UT/Y+v5H9jYNd6u/hHQ7Tjbfb8FZgNL49+NKtvPKZ4BQnYBJCwVs
+ M5Xl3pmv6qxyKE6H73vhcvWC4F1X4xY6fSYBp0CVbAw+gK32RPlOPXO1DdaROdgWuOVh
+ HdCKPzBUrADWXDnM++J6umDnMnDWGmcme51usiJq/z704GvVzvgu56fAYYLRR9d1Q8+W
+ ARuw==
+X-Gm-Message-State: AOAM533gkcqsLUHxU8MFwz9SbqEcErZ2PQLIogC3ZFjQsNbhlguaevpH
+ CFxwuUx7D7xtPrZyE3QATrZBCwURuFYXmA==
+X-Google-Smtp-Source: ABdhPJws42MU8bJWZrURfIe+fppT1xutN20vb2O88s8XvtYccUBnEDEmwvaVyTtJtZ7sNlYgRjbNyA==
+X-Received: by 2002:a05:6a00:1484:b0:47b:f6a3:868f with SMTP id
+ v4-20020a056a00148400b0047bf6a3868fmr13032507pfu.66.1635536083778; 
+ Fri, 29 Oct 2021 12:34:43 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id c85sm8211907pfc.146.2021.10.29.12.34.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Oct 2021 12:34:43 -0700 (PDT)
+Subject: Re: [PATCH 3/5] target/riscv: Add a config option for native debug
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
+ <alistair.francis@wdc.com>, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20211029152535.2055096-1-bin.meng@windriver.com>
+ <20211029152535.2055096-4-bin.meng@windriver.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7bd2521d-756b-9656-cf59-211f7836f883@linaro.org>
+Date: Fri, 29 Oct 2021 12:34:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211029152535.2055096-4-bin.meng@windriver.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.512,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,174 +89,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, Eric Blake <eblake@redhat.com>,
- Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code to check command policy can see special feature flag
-'deprecated' as command flag QCO_DEPRECATED.  I want to make feature
-flag 'unstable' visible there as well, so I can add policy for it.
+On 10/29/21 8:25 AM, Bin Meng wrote:
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index eface73e7d..3a2fa97098 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -439,6 +439,10 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>           }
+>       }
+>   
+> +    if (cpu->cfg.debug) {
+> +        set_feature(env, RISCV_FEATURE_DEBUG);
+> +    }
+> +
+>       set_resetvec(env, cpu->cfg.resetvec);
+>   
+>       /* Validate that MISA_MXL is set properly. */
+> @@ -619,6 +623,7 @@ static Property riscv_cpu_properties[] = {
+>       DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+>       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+>       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+> +    DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
+>   
+>       DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
 
-To let me make it visible, add member @special_features (a bitset of
-QapiSpecialFeature) to QmpCommand, and adjust the generator to pass it
-through qmp_register_command().  Then replace "QCO_DEPRECATED in
-@flags" by QAPI_DEPRECATED in @special_features", and drop
-QCO_DEPRECATED.
+This half of the patch needs to come as the last patch, after you've finished 
+implementation.  The first two hunks might as well fold into the first patch.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: John Snow <jsnow@redhat.com>
-Message-Id: <20211028102520.747396-7-armbru@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- include/qapi/qmp/dispatch.h          | 5 +++--
- monitor/misc.c                       | 6 ++++--
- qapi/qmp-dispatch.c                  | 2 +-
- qapi/qmp-registry.c                  | 4 +++-
- storage-daemon/qemu-storage-daemon.c | 3 ++-
- scripts/qapi/commands.py             | 9 ++++-----
- 6 files changed, 17 insertions(+), 12 deletions(-)
 
-diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-index 0ce88200b9..1e4240fd0d 100644
---- a/include/qapi/qmp/dispatch.h
-+++ b/include/qapi/qmp/dispatch.h
-@@ -25,7 +25,6 @@ typedef enum QmpCommandOptions
-     QCO_ALLOW_OOB             =  (1U << 1),
-     QCO_ALLOW_PRECONFIG       =  (1U << 2),
-     QCO_COROUTINE             =  (1U << 3),
--    QCO_DEPRECATED            =  (1U << 4),
- } QmpCommandOptions;
- 
- typedef struct QmpCommand
-@@ -34,6 +33,7 @@ typedef struct QmpCommand
-     /* Runs in coroutine context if QCO_COROUTINE is set */
-     QmpCommandFunc *fn;
-     QmpCommandOptions options;
-+    unsigned special_features;
-     QTAILQ_ENTRY(QmpCommand) node;
-     bool enabled;
-     const char *disable_reason;
-@@ -42,7 +42,8 @@ typedef struct QmpCommand
- typedef QTAILQ_HEAD(QmpCommandList, QmpCommand) QmpCommandList;
- 
- void qmp_register_command(QmpCommandList *cmds, const char *name,
--                          QmpCommandFunc *fn, QmpCommandOptions options);
-+                          QmpCommandFunc *fn, QmpCommandOptions options,
-+                          unsigned special_features);
- const QmpCommand *qmp_find_command(const QmpCommandList *cmds,
-                                    const char *name);
- void qmp_disable_command(QmpCommandList *cmds, const char *name,
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 3556b177f6..c2d227a07c 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -230,11 +230,13 @@ static void monitor_init_qmp_commands(void)
- 
-     qmp_init_marshal(&qmp_commands);
- 
--    qmp_register_command(&qmp_commands, "device_add", qmp_device_add, 0);
-+    qmp_register_command(&qmp_commands, "device_add",
-+                         qmp_device_add, 0, 0);
- 
-     QTAILQ_INIT(&qmp_cap_negotiation_commands);
-     qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilities",
--                         qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONFIG);
-+                         qmp_marshal_qmp_capabilities,
-+                         QCO_ALLOW_PRECONFIG, 0);
- }
- 
- /* Set the current CPU defined by the user. Callers must hold BQL. */
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index 7e943a0af5..8cca18c891 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -176,7 +176,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-                   "The command %s has not been found", command);
-         goto out;
-     }
--    if (cmd->options & QCO_DEPRECATED) {
-+    if (cmd->special_features & 1u << QAPI_DEPRECATED) {
-         switch (compat_policy.deprecated_input) {
-         case COMPAT_POLICY_INPUT_ACCEPT:
-             break;
-diff --git a/qapi/qmp-registry.c b/qapi/qmp-registry.c
-index f78c064aae..485bc5e6fc 100644
---- a/qapi/qmp-registry.c
-+++ b/qapi/qmp-registry.c
-@@ -16,7 +16,8 @@
- #include "qapi/qmp/dispatch.h"
- 
- void qmp_register_command(QmpCommandList *cmds, const char *name,
--                          QmpCommandFunc *fn, QmpCommandOptions options)
-+                          QmpCommandFunc *fn, QmpCommandOptions options,
-+                          unsigned special_features)
- {
-     QmpCommand *cmd = g_malloc0(sizeof(*cmd));
- 
-@@ -27,6 +28,7 @@ void qmp_register_command(QmpCommandList *cmds, const char *name,
-     cmd->fn = fn;
-     cmd->enabled = true;
-     cmd->options = options;
-+    cmd->special_features = special_features;
-     QTAILQ_INSERT_TAIL(cmds, cmd, node);
- }
- 
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 10a1a33761..52cf17e8ac 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -146,7 +146,8 @@ static void init_qmp_commands(void)
- 
-     QTAILQ_INIT(&qmp_cap_negotiation_commands);
-     qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilities",
--                         qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONFIG);
-+                         qmp_marshal_qmp_capabilities,
-+                         QCO_ALLOW_PRECONFIG, 0);
- }
- 
- static int getopt_set_loc(int argc, char **argv, const char *optstring,
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index c8a975528f..21001bbd6b 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -26,6 +26,7 @@
-     QAPISchemaModularCVisitor,
-     build_params,
-     ifcontext,
-+    gen_special_features,
- )
- from .schema import (
-     QAPISchema,
-@@ -217,9 +218,6 @@ def gen_register_command(name: str,
-                          coroutine: bool) -> str:
-     options = []
- 
--    if 'deprecated' in [f.name for f in features]:
--        options += ['QCO_DEPRECATED']
--
-     if not success_response:
-         options += ['QCO_NO_SUCCESS_RESP']
-     if allow_oob:
-@@ -231,10 +229,11 @@ def gen_register_command(name: str,
- 
-     ret = mcgen('''
-     qmp_register_command(cmds, "%(name)s",
--                         qmp_marshal_%(c_name)s, %(opts)s);
-+                         qmp_marshal_%(c_name)s, %(opts)s, %(feats)s);
- ''',
-                 name=name, c_name=c_name(name),
--                opts=' | '.join(options) or 0)
-+                opts=' | '.join(options) or 0,
-+                feats=gen_special_features(features))
-     return ret
- 
- 
--- 
-2.31.1
-
+r~
 
