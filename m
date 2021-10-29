@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A22C4400E8
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:04:46 +0200 (CEST)
-Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F01440105
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:13:39 +0200 (CEST)
+Received: from localhost ([::1]:35774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgVJ7-0004Sw-E2
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:04:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49226)
+	id 1mgVRi-0001SX-FX
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:13:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgUvr-0007C2-C3
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:43 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:51109)
+ id 1mgUw9-0007h4-SQ
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:41:01 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:51126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgUvn-00063o-O1
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:43 -0400
+ id 1mgUw3-0006Tz-2O
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:41:01 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2C57A7561E3;
+ by localhost (Postfix) with SMTP id CE3037561B9;
  Fri, 29 Oct 2021 18:40:27 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8CFFF756040; Fri, 29 Oct 2021 18:40:26 +0200 (CEST)
-Message-Id: <9dc1bb680d5dea2c45b04fff4c00431e4b76e322.1635524617.git.balaton@eik.bme.hu>
+ id D5C7B7561C4; Fri, 29 Oct 2021 18:40:26 +0200 (CEST)
+Message-Id: <5bf2c7b39eed0aa8a2497e7d2dfcf91355d849ae.1635524617.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635524616.git.balaton@eik.bme.hu>
 References: <cover.1635524616.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v5 10/25] hw/intc/sh_intc: Use existing macro instead of local
- one
+Subject: [PATCH v5 25/25] hw/timer/sh_timer: Remove use of hw_error
 Date: Fri, 29 Oct 2021 18:23:36 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,58 +61,143 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The INTC_A7 local macro does the same as the A7ADDR from
-include/sh/sh.h so use the latter and drop the local macro definition.
+The hw_error function calls abort and is not meant to be used by
+devices. Use qemu_log_mask instead to log and ignore invalid accesses.
+Also fix format strings to allow dropping type casts of hwaddr and use
+__func__ instead of hard coding function name in the message which
+were wrong in two cases.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/intc/sh_intc.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ hw/timer/sh_timer.c | 40 +++++++++++++++++++++++++---------------
+ 1 file changed, 25 insertions(+), 15 deletions(-)
 
-diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index c1058d97c0..0bd27aaf4f 100644
---- a/hw/intc/sh_intc.c
-+++ b/hw/intc/sh_intc.c
-@@ -16,8 +16,6 @@
+diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
+index a6445092e4..8a586f2c4a 100644
+--- a/hw/timer/sh_timer.c
++++ b/hw/timer/sh_timer.c
+@@ -10,7 +10,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "exec/memory.h"
+-#include "hw/hw.h"
++#include "qemu/log.h"
+ #include "hw/irq.h"
  #include "hw/sh4/sh.h"
- #include "trace.h"
+ #include "hw/timer/tmu012.h"
+@@ -75,11 +75,10 @@ static uint32_t sh_timer_read(void *opaque, hwaddr offset)
+         if (s->feat & TIMER_FEAT_CAPT) {
+             return s->tcpr;
+         }
+-        /* fall through */
+-    default:
+-        hw_error("sh_timer_read: Bad offset %x\n", (int)offset);
+-        return 0;
+     }
++    qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
++                  __func__, offset);
++    return 0;
+ }
  
--#define INTC_A7(x) ((x) & 0x1fffffff)
--
- void sh_intc_toggle_source(struct intc_source *source,
-                            int enable_adj, int assert_adj)
- {
-@@ -112,12 +110,12 @@ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
- static unsigned int sh_intc_mode(unsigned long address,
-                                  unsigned long set_reg, unsigned long clr_reg)
- {
--    if ((address != INTC_A7(set_reg)) &&
--        (address != INTC_A7(clr_reg)))
-+    if ((address != A7ADDR(set_reg)) &&
-+        (address != A7ADDR(clr_reg)))
-         return INTC_MODE_NONE;
+ static void sh_timer_write(void *opaque, hwaddr offset, uint32_t value)
+@@ -134,7 +133,8 @@ static void sh_timer_write(void *opaque, hwaddr offset, uint32_t value)
+             }
+             /* fallthrough */
+         default:
+-            hw_error("sh_timer_write: Reserved TPSC value\n");
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: Reserved TPSC value\n", __func__);
+         }
+         switch ((value & TIMER_TCR_CKEG) >> 3) {
+         case 0:
+@@ -147,7 +147,8 @@ static void sh_timer_write(void *opaque, hwaddr offset, uint32_t value)
+             }
+             /* fallthrough */
+         default:
+-            hw_error("sh_timer_write: Reserved CKEG value\n");
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: Reserved CKEG value\n", __func__);
+         }
+         switch ((value & TIMER_TCR_ICPE) >> 6) {
+         case 0:
+@@ -159,7 +160,8 @@ static void sh_timer_write(void *opaque, hwaddr offset, uint32_t value)
+             }
+             /* fallthrough */
+         default:
+-            hw_error("sh_timer_write: Reserved ICPE value\n");
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: Reserved ICPE value\n", __func__);
+         }
+         if ((value & TIMER_TCR_UNF) == 0) {
+             s->int_level = 0;
+@@ -168,13 +170,15 @@ static void sh_timer_write(void *opaque, hwaddr offset, uint32_t value)
+         value &= ~TIMER_TCR_UNF;
  
-     if (set_reg && clr_reg) {
--        if (address == INTC_A7(set_reg)) {
-+        if (address == A7ADDR(set_reg)) {
-             return INTC_MODE_DUAL_SET;
+         if ((value & TIMER_TCR_ICPF) && (!(s->feat & TIMER_FEAT_CAPT))) {
+-            hw_error("sh_timer_write: Reserved ICPF value\n");
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: Reserved ICPF value\n", __func__);
+         }
+ 
+         value &= ~TIMER_TCR_ICPF; /* capture not supported */
+ 
+         if (value & TIMER_TCR_RESERVED) {
+-            hw_error("sh_timer_write: Reserved TCR bits set\n");
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: Reserved TCR bits set\n", __func__);
+         }
+         s->tcr = value;
+         ptimer_set_limit(s->timer, s->tcor, 0);
+@@ -192,7 +196,8 @@ static void sh_timer_write(void *opaque, hwaddr offset, uint32_t value)
+         }
+         /* fallthrough */
+     default:
+-        hw_error("sh_timer_write: Bad offset %x\n", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad offset 0x%" HWADDR_PRIx "\n", __func__, offset);
+     }
+     sh_timer_update(s);
+ }
+@@ -262,7 +267,9 @@ static uint64_t tmu012_read(void *opaque, hwaddr offset, unsigned size)
+     trace_sh_timer_read(offset);
+     if (offset >= 0x20) {
+         if (!(s->feat & TMU012_FEAT_3CHAN)) {
+-            hw_error("tmu012_write: Bad channel offset %x\n", (int)offset);
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: Bad channel offset 0x%" HWADDR_PRIx "\n",
++                          __func__, offset);
+         }
+         return sh_timer_read(s->timer[2], offset - 0x20);
+     }
+@@ -280,7 +287,8 @@ static uint64_t tmu012_read(void *opaque, hwaddr offset, unsigned size)
+         return s->tocr;
+     }
+ 
+-    hw_error("tmu012_write: Bad offset %x\n", (int)offset);
++    qemu_log_mask(LOG_GUEST_ERROR,
++                  "%s: Bad offset 0x%" HWADDR_PRIx "\n", __func__, offset);
+     return 0;
+ }
+ 
+@@ -292,7 +300,9 @@ static void tmu012_write(void *opaque, hwaddr offset,
+     trace_sh_timer_write(offset, value);
+     if (offset >= 0x20) {
+         if (!(s->feat & TMU012_FEAT_3CHAN)) {
+-            hw_error("tmu012_write: Bad channel offset %x\n", (int)offset);
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: Bad channel offset 0x%" HWADDR_PRIx "\n",
++                          __func__, offset);
+         }
+         sh_timer_write(s->timer[2], offset - 0x20, value);
+         return;
+@@ -315,7 +325,7 @@ static void tmu012_write(void *opaque, hwaddr offset,
+             sh_timer_start_stop(s->timer[2], value & (1 << 2));
          } else {
-             return INTC_MODE_DUAL_CLR;
-@@ -297,11 +295,11 @@ static unsigned int sh_intc_register(MemoryRegion *sysmem,
- 
- #define SH_INTC_IOMEM_FORMAT "interrupt-controller-%s-%s-%s"
-     snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "p4");
--    memory_region_init_alias(iomem_p4, NULL, name, iomem, INTC_A7(address), 4);
-+    memory_region_init_alias(iomem_p4, NULL, name, iomem, A7ADDR(address), 4);
-     memory_region_add_subregion(sysmem, P4ADDR(address), iomem_p4);
- 
-     snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "a7");
--    memory_region_init_alias(iomem_a7, NULL, name, iomem, INTC_A7(address), 4);
-+    memory_region_init_alias(iomem_a7, NULL, name, iomem, A7ADDR(address), 4);
-     memory_region_add_subregion(sysmem, A7ADDR(address), iomem_a7);
- #undef SH_INTC_IOMEM_FORMAT
+             if (value & (1 << 2)) {
+-                hw_error("tmu012_write: Bad channel\n");
++                qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad channel\n", __func__);
+             }
+         }
  
 -- 
 2.21.4
