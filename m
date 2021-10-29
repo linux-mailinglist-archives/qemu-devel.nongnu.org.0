@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515824404F0
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:32:04 +0200 (CEST)
-Received: from localhost ([::1]:49320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76AE440473
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:56:17 +0200 (CEST)
+Received: from localhost ([::1]:36522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgZTn-0000Av-An
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:32:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46928)
+	id 1mgYvA-0002wX-Ru
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:56:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgYYr-0004xr-La
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 16:33:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51632)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgYja-0004TJ-1q
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 16:44:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgYYo-0006JL-JL
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 16:33:12 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgYjW-0002Lh-KH
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 16:44:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635539588;
+ s=mimecast20190719; t=1635540253;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=F6r18W0RKJ3kxpci2cIANG74Yj8oLMXOh1hAOS2PZeU=;
- b=jOCpUvi7mWCdXePQALAAtrJYBz0H0Ogxr3g+teN6FI6hh3bStmU+5iF19e84aFuXc0lRcS
- IUjRDKJ+6o+H6XJXxRU2TuYmOp+bXjOjm2BZG9D2nbazFEWZNtcWrY0GSHh6L8iMVS5rpY
- dV2bu8VuOeaPXA96vuH1z8h5ruxp208=
+ bh=l2d72+vgyYCZ1XSxK2vdAGa87Y7rw7GJ0KQomShvCCs=;
+ b=QVtoh9aZ1e+pwK15lPVrFYQNmBIFKhmpet9lSZWDngLz3igM8s7ftu8XXx5SGEBr/XaTCr
+ qPuaNT14A4vimRLxeQ2/okoxKdH/Ny0Dq58Z9rqzBTSfJrvYtNYEBMny/LtG9pg836TwJ/
+ B2hNavA/YKxaWCv/L/Iid7Qd985E6ZI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-600-7Cob-CS8MRKJOlD8GkDVOQ-1; Fri, 29 Oct 2021 16:33:07 -0400
-X-MC-Unique: 7Cob-CS8MRKJOlD8GkDVOQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-368--IY4L6rJO5KtGI4cu9btGA-1; Fri, 29 Oct 2021 16:44:10 -0400
+X-MC-Unique: -IY4L6rJO5KtGI4cu9btGA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A12D100CCC7;
- Fri, 29 Oct 2021 20:33:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4F88362F9;
+ Fri, 29 Oct 2021 20:44:09 +0000 (UTC)
 Received: from redhat.com (ovpn-112-232.phx2.redhat.com [10.3.112.232])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2943C604CC;
- Fri, 29 Oct 2021 20:32:59 +0000 (UTC)
-Date: Fri, 29 Oct 2021 15:32:57 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AC26100EBAD;
+ Fri, 29 Oct 2021 20:44:08 +0000 (UTC)
+Date: Fri, 29 Oct 2021 15:44:02 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 2/4] qemu-img: make --block-size optional for compare
- --stat
-Message-ID: <20211029203257.zzu7rzzdlg6tdhwe@redhat.com>
+Subject: Re: [PATCH v3 3/4] qemu-img: add --shallow option for qemu-img compare
+Message-ID: <20211029204402.flo6xeps4pexlujg@redhat.com>
 References: <20211028102441.1878668-1-vsementsov@virtuozzo.com>
- <20211028102441.1878668-3-vsementsov@virtuozzo.com>
+ <20211028102441.1878668-4-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20211028102441.1878668-3-vsementsov@virtuozzo.com>
+In-Reply-To: <20211028102441.1878668-4-vsementsov@virtuozzo.com>
 User-Agent: NeoMutt/20211022
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,39 +83,42 @@ Cc: kwolf@redhat.com, qemu-block@nongnu.org, nikita.lapshin@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 28, 2021 at 12:24:39PM +0200, Vladimir Sementsov-Ogievskiy wrote:
-> Let's detect block-size automatically if not specified by user:
-> 
->  If both files define cluster-size, use minimum to be more precise.
->  If both files don't specify cluster-size, use default of 64K
->  If only one file specify cluster-size, just use it.
+On Thu, Oct 28, 2021 at 12:24:40PM +0200, Vladimir Sementsov-Ogievskiy wrote:
+> Allow compare only top images of backing chains. This is useful to
+
+Allow the comparison of only the top image of backing chains.
+
+> compare images with same backing file or to compare incremental images
+> from the chain of incremental backups with "--stat" option.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 > ---
->  docs/tools/qemu-img.rst |  7 +++-
->  qemu-img.c              | 71 +++++++++++++++++++++++++++++++++++++----
->  qemu-img-cmds.hx        |  4 +--
->  3 files changed, 72 insertions(+), 10 deletions(-)
->
+>  docs/tools/qemu-img.rst | 9 ++++++++-
+>  qemu-img.c              | 8 ++++++--
+>  qemu-img-cmds.hx        | 4 ++--
+>  3 files changed, 16 insertions(+), 5 deletions(-)
+> 
+> diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+> index 9bfdd93d6c..c6e9306c70 100644
+> --- a/docs/tools/qemu-img.rst
+> +++ b/docs/tools/qemu-img.rst
+> @@ -176,6 +176,13 @@ Parameters to compare subcommand:
+>      - If both files don't specify cluster-size, use default of 64K
+>      - If only one file specifies cluster-size, just use that.
+>  
+> +.. option:: --shallow
+> +
+> +  This option prevents opening and comparing any backing files.
+> +  This is useful to compare images with same backing file or to compare
+> +  incremental images from the chain of incremental backups with
+> +  ``--stat`` option.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
-> +    if (cluster_size1 > 0 && cluster_size2 > 0) {
-> +        if (cluster_size1 == cluster_size2) {
-> +            block_size = cluster_size1;
-> +        } else {
-> +            block_size = MIN(cluster_size1, cluster_size2);
-> +            qprintf(quiet, "%s and %s have different cluster sizes: %d and %d "
-> +                    "respectively. Using minimum as block-size for "
-> +                    "accuracy: %d. %s\n",
-> +                    fname1, fname2, cluster_size1,
-> +                    cluster_size2, block_size, note);
-
-Results in a long line; I don't know if it's worth trying to wrap it
-(if we had a generic utility function that took arbitrary text, then
-outputs it wrapped to the user's current terminal column width, I'd
-suggest using that instead - but that's NOT something I expect you to
-write, and I don't know if glib has such a utility).
+If I understand correctly, your implementation makes --shallow an
+all-or-none option (either both images are compared shallow, or
+neither is).  Does it make sense to make it a per-image option
+(--shallow-source, --shallow-dest), where --shallow is a synonym for
+the more verbose --shallow-source --shallow-dest?
 
 -- 
 Eric Blake, Principal Software Engineer
