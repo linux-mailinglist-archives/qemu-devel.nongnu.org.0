@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1B3440103
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:12:37 +0200 (CEST)
-Received: from localhost ([::1]:34338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1B9440108
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:14:40 +0200 (CEST)
+Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgVQh-0000Tk-UM
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:12:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49228)
+	id 1mgVSh-00056t-Sh
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:14:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgUvr-0007C3-DM
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:43 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:51113)
+ id 1mgUwA-0007iP-6n
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:41:02 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:51122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgUvo-00066g-GY
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:43 -0400
+ id 1mgUvr-0006SD-Dd
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:41:01 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 617827561EB;
+ by localhost (Postfix) with SMTP id B85D5756192;
  Fri, 29 Oct 2021 18:40:27 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A8BD17561A5; Fri, 29 Oct 2021 18:40:26 +0200 (CEST)
-Message-Id: <695476af8e88f12287645f4b1df38bc80fe38603.1635524617.git.balaton@eik.bme.hu>
+ id C79E87561B9; Fri, 29 Oct 2021 18:40:26 +0200 (CEST)
+Message-Id: <8ca22ea35d96c611c27bf2fa5e66b4f832410a4a.1635524617.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635524616.git.balaton@eik.bme.hu>
 References: <cover.1635524616.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v5 15/25] hw/intc/sh_intc: Remove excessive parenthesis
+Subject: [PATCH v5 22/25] hw/timer/sh_timer: Rename sh_timer_state to
+ SHTimerState
 Date: Fri, 29 Oct 2021 18:23:36 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,57 +62,99 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drop unneded parenthesis and split up one complex expression to write
-it with less brackets so it's easier to follow.
+According to coding style types should be camel case, also remove
+unneded casts from void *.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/intc/sh_intc.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+The tmu012_state is left for now, that's the real exported object with
+SHTimerState being an internal object for a single timer. I'll come
+back to this when QOM-ifying so only handled SHTimerState in this patch.
 
-diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index 54803bc2ca..537fc503d4 100644
---- a/hw/intc/sh_intc.c
-+++ b/hw/intc/sh_intc.c
-@@ -23,7 +23,7 @@ void sh_intc_toggle_source(struct intc_source *source,
-     int pending_changed = 0;
-     int old_pending;
+ hw/timer/sh_timer.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
+index e1b6145df8..2038adfb0a 100644
+--- a/hw/timer/sh_timer.c
++++ b/hw/timer/sh_timer.c
+@@ -45,11 +45,11 @@ typedef struct {
+     int feat;
+     int enabled;
+     qemu_irq irq;
+-} sh_timer_state;
++} SHTimerState;
  
--    if ((source->enable_count == source->enable_max) && (enable_adj == -1)) {
-+    if (source->enable_count == source->enable_max && enable_adj == -1) {
-         enable_changed = -1;
-     }
-     source->enable_count += enable_adj;
-@@ -68,7 +68,7 @@ void sh_intc_toggle_source(struct intc_source *source,
- static void sh_intc_set_irq(void *opaque, int n, int level)
+ /* Check all active timers, and schedule the next timer interrupt. */
+ 
+-static void sh_timer_update(sh_timer_state *s)
++static void sh_timer_update(SHTimerState *s)
  {
-   struct intc_desc *desc = opaque;
--  struct intc_source *source = &(desc->sources[n]);
-+  struct intc_source *source = &desc->sources[n];
+     int new_level = s->int_level && (s->tcr & TIMER_TCR_UNIE);
  
-   if (level && !source->asserted) {
-     sh_intc_toggle_source(source, 0, 1);
-@@ -164,7 +164,7 @@ static void sh_intc_locate(struct intc_desc *desc,
-             *modep = mode | INTC_MODE_IS_PRIO;
-             *datap = &pr->value;
-             *enums = pr->enum_ids;
--            *first = (pr->reg_width / pr->field_width) - 1;
-+            *first = pr->reg_width / pr->field_width - 1;
-             *width = pr->field_width;
-             return;
-         }
-@@ -245,7 +245,8 @@ static void sh_intc_write(void *opaque, hwaddr offset,
-     }
+@@ -62,7 +62,7 @@ static void sh_timer_update(sh_timer_state *s)
  
-     for (k = 0; k <= first; k++) {
--        mask = ((1 << width) - 1) << ((first - k) * width);
-+        mask = (1 << width) - 1;
-+        mask <<= (first - k) * width;
+ static uint32_t sh_timer_read(void *opaque, hwaddr offset)
+ {
+-    sh_timer_state *s = (sh_timer_state *)opaque;
++    SHTimerState *s = opaque;
  
-         if ((*valuep & mask) == (value & mask)) {
-             continue;
+     switch (offset >> 2) {
+     case OFFSET_TCOR:
+@@ -85,7 +85,7 @@ static uint32_t sh_timer_read(void *opaque, hwaddr offset)
+ static void sh_timer_write(void *opaque, hwaddr offset,
+                             uint32_t value)
+ {
+-    sh_timer_state *s = (sh_timer_state *)opaque;
++    SHTimerState *s = opaque;
+     int freq;
+ 
+     switch (offset >> 2) {
+@@ -200,7 +200,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
+ 
+ static void sh_timer_start_stop(void *opaque, int enable)
+ {
+-    sh_timer_state *s = (sh_timer_state *)opaque;
++    SHTimerState *s = opaque;
+ 
+     trace_sh_timer_start_stop(enable, s->enabled);
+     ptimer_transaction_begin(s->timer);
+@@ -216,14 +216,14 @@ static void sh_timer_start_stop(void *opaque, int enable)
+ 
+ static void sh_timer_tick(void *opaque)
+ {
+-    sh_timer_state *s = (sh_timer_state *)opaque;
++    SHTimerState *s = opaque;
+     s->int_level = s->enabled;
+     sh_timer_update(s);
+ }
+ 
+ static void *sh_timer_init(uint32_t freq, int feat, qemu_irq irq)
+ {
+-    sh_timer_state *s;
++    SHTimerState *s;
+ 
+     s = g_malloc0(sizeof(*s));
+     s->freq = freq;
+@@ -259,7 +259,7 @@ typedef struct {
+ static uint64_t tmu012_read(void *opaque, hwaddr offset,
+                             unsigned size)
+ {
+-    tmu012_state *s = (tmu012_state *)opaque;
++    tmu012_state *s = opaque;
+ 
+     trace_sh_timer_read(offset);
+     if (offset >= 0x20) {
+@@ -289,7 +289,7 @@ static uint64_t tmu012_read(void *opaque, hwaddr offset,
+ static void tmu012_write(void *opaque, hwaddr offset,
+                         uint64_t value, unsigned size)
+ {
+-    tmu012_state *s = (tmu012_state *)opaque;
++    tmu012_state *s = opaque;
+ 
+     trace_sh_timer_write(offset, value);
+     if (offset >= 0x20) {
 -- 
 2.21.4
 
