@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9183343FE74
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 16:30:59 +0200 (CEST)
-Received: from localhost ([::1]:47148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D262C43FE76
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 16:31:00 +0200 (CEST)
+Received: from localhost ([::1]:47150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgSuH-0000Au-IU
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 10:30:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44054)
+	id 1mgSuJ-0000Av-P3
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 10:30:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mgSpY-0006Pe-Mx
+ id 1mgSpY-0006Pd-Mv
  for qemu-devel@nongnu.org; Fri, 29 Oct 2021 10:26:04 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:39176)
+Received: from beetle.greensocs.com ([5.135.226.135]:39210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mgSpV-0003g5-Tq
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 10:26:04 -0400
+ id 1mgSpU-0003gH-TB
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 10:26:03 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.10])
- by beetle.greensocs.com (Postfix) with ESMTPS id D7D0821A8F;
- Fri, 29 Oct 2021 14:25:56 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id DEB0521C38;
+ Fri, 29 Oct 2021 14:25:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1635517557;
+ s=mail; t=1635517558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=huBxGOz5zinexbYxgB4BKQGsLdO/Z+xWnjghER1WKR8=;
- b=CZlgbQ3QqpDMIShJ7Wn3SMnKgamtstYMfx7Y0m3erTn0SLs3dUG83ZSre4TLF8h4JcatZ4
- Bmx0WDKtM1X+i0jvpJsHzOxwKpTs5Eth3RgrDeQ5XHkTHiqzb8DZHOEjvjdr4q61/Pjo+E
- 8GlqbmzA5gIsinHR4jouImWtPyvoHJ8=
+ bh=iIss5qx/DSNm3c9ezG/rlYMAgoQW6tmNSpzgm8XKg/4=;
+ b=VJehLvC6Xf8xKc7MqT2convbXgYuiEt6mWLk289p+gbRD6Iip3jIbkjsp7Hy7PpCUXWIpa
+ KkRgMkHsfq4xbDhj2yJs63GgqE5Wu94MGvuZ9vsyf09AakNnaIzvKRVeoX1ZsD4xoEnDet
+ vz4FcDyeAVhPar1VOLMHZzbZ7XFMSa4=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/3] machine: add device_type_is_dynamic_sysbus function
-Date: Fri, 29 Oct 2021 16:22:56 +0200
-Message-Id: <20211029142258.484907-2-damien.hedde@greensocs.com>
+Subject: [PATCH v3 2/3] qdev-monitor: Check sysbus device type before creating
+ it
+Date: Fri, 29 Oct 2021 16:22:57 +0200
+Message-Id: <20211029142258.484907-3-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211029142258.484907-1-damien.hedde@greensocs.com>
 References: <20211029142258.484907-1-damien.hedde@greensocs.com>
@@ -73,85 +74,52 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now the allowance check for adding a sysbus device using
--device cli option (or device_add qmp command) is done well after
-the device has been created. It is done during the machine init done
-notifier: machine_init_notify() in hw/core/machine.c
+Add an early check to test if the requested sysbus device type
+is allowed by the current machine before creating the device. This
+impacts both -device cli option and device_add qmp command.
 
-This new function will allow us to do the check at the right time and
-issue an error if it fails.
-
-Also make device_is_dynamic_sysbus() use the new function.
+Before this patch, the check was done well after the device has
+been created (in a machine init done notifier). We can now report
+the error right away.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
-Cc: Ani Sinha <ani@anisinha.ca>
 
-v3: change the function name (Ani)
+v3: update error message
 ---
- include/hw/boards.h | 15 +++++++++++++++
- hw/core/machine.c   | 13 ++++++++++---
- 2 files changed, 25 insertions(+), 3 deletions(-)
+ softmmu/qdev-monitor.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 5adbcbb99b..85adf660c1 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -51,6 +51,21 @@ void machine_set_cpu_numa_node(MachineState *machine,
-  */
- void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type);
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index 4851de51a5..e49d9773d2 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -42,6 +42,7 @@
+ #include "qemu/cutils.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/clock.h"
++#include "hw/boards.h"
  
-+/**
-+ * device_type_is_dynamic_sysbus: Check if type is an allowed sysbus device
-+ * type for the machine class.
-+ * @mc: Machine class
-+ * @type: type to check (should be a subtype of TYPE_SYS_BUS_DEVICE)
-+ *
-+ * Returns: true if @type is a type in the machine's list of
-+ * dynamically pluggable sysbus devices; otherwise false.
-+ *
-+ * Check if the QOM type @type is in the list of allowed sysbus device
-+ * types (see machine_class_allowed_dynamic_sysbus_dev()).
-+ * Note that if @type has a parent type in the list, it is allowed too.
-+ */
-+bool device_type_is_dynamic_sysbus(MachineClass *mc, const char *type);
-+
- /**
-  * device_is_dynamic_sysbus: test whether device is a dynamic sysbus device
-  * @mc: Machine class
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index b8d95eec32..0d20104796 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -548,18 +548,25 @@ void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type)
- 
- bool device_is_dynamic_sysbus(MachineClass *mc, DeviceState *dev)
- {
--    bool allowed = false;
--    strList *wl;
-     Object *obj = OBJECT(dev);
- 
-     if (!object_dynamic_cast(obj, TYPE_SYS_BUS_DEVICE)) {
-         return false;
+ /*
+  * Aliases were a bad idea from the start.  Let's keep them
+@@ -254,6 +255,16 @@ static DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
+         return NULL;
      }
  
-+    return device_type_is_dynamic_sysbus(mc, object_get_typename(obj));
-+}
++    if (object_class_dynamic_cast(oc, TYPE_SYS_BUS_DEVICE)) {
++        /* sysbus devices need to be allowed by the machine */
++        MachineClass *mc = MACHINE_CLASS(object_get_class(qdev_get_machine()));
++        if (!device_type_is_dynamic_sysbus(mc, *driver)) {
++            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "driver",
++                       "a dynamic sysbus device type for the machine");
++            return NULL;
++        }
++    }
 +
-+bool device_type_is_dynamic_sysbus(MachineClass *mc, const char *type)
-+{
-+    bool allowed = false;
-+    strList *wl;
-+    ObjectClass *klass = object_class_by_name(type);
-+
-     for (wl = mc->allowed_dynamic_sysbus_devices;
-          !allowed && wl;
-          wl = wl->next) {
--        allowed |= !!object_dynamic_cast(obj, wl->value);
-+        allowed |= !!object_class_dynamic_cast(klass, wl->value);
-     }
+     return dc;
+ }
  
-     return allowed;
 -- 
 2.33.0
 
