@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41764402A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 20:56:31 +0200 (CEST)
-Received: from localhost ([::1]:36014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 388514402A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 20:58:59 +0200 (CEST)
+Received: from localhost ([::1]:44872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgX3F-0001hF-Tj
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 14:56:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46180)
+	id 1mgX5e-0007ic-AT
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 14:58:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mgWoO-00070X-4f
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:41:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34509)
+ id 1mgWp0-0007zZ-LY
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:41:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mgWoI-0001Gq-Vy
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:41:07 -0400
+ id 1mgWoz-0001pR-2s
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:41:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635532862;
+ s=mimecast20190719; t=1635532904;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xJ71lrFz0P4oP02IXNJus6aWSe+jXY8leG8qGrZiugA=;
- b=bbm9DkY7kOmsndxErLWPrZdjq4HpTQ9FOVGzMfY/JyWQzp+Jzh7h6ccXeLMqQNIOPPxlHb
- qF5VN6GgibaXG/FV9i2vYl/4ir3QY1TOOSX4Cm23n7pbU/7HyhKC7ImD+lk2EAsUXudWUh
- DtGmLNqUvOHYDpHtESEe/Fj93HvOVYg=
+ bh=PyiLkHtoPR7tVeK2z9lK3114x884BsTPtJLaXQ3EtbM=;
+ b=CWz1sUyxlTn+n8xL2oLqTVeaXfRjaMD5ydUqAV8D2aU8Z64HAX2YloiWWK+yW1zm3IY15P
+ Ib6fdnE9gc0zshLwC7NgSLmGir1AKpbUzfi8KAxuhZqGPPJu6dJ9HhfAsLEUm1jNGz5gQm
+ 1aiA8H1V6420rkRN2O0Kg/KVMd9R/QM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-WzI2n0QvMXGYri83154kng-1; Fri, 29 Oct 2021 14:40:59 -0400
-X-MC-Unique: WzI2n0QvMXGYri83154kng-1
+ us-mta-555-4Mk5a5siOMmVnWJh0cl0ZQ-1; Fri, 29 Oct 2021 14:41:41 -0400
+X-MC-Unique: 4Mk5a5siOMmVnWJh0cl0ZQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9906A8030A0;
- Fri, 29 Oct 2021 18:40:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95F061006AA2;
+ Fri, 29 Oct 2021 18:41:39 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2976C6F920;
- Fri, 29 Oct 2021 18:39:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F25055D6CF;
+ Fri, 29 Oct 2021 18:40:57 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v5 14/26] Add vhost_svq_set_guest_call_notifier
-Date: Fri, 29 Oct 2021 20:35:13 +0200
-Message-Id: <20211029183525.1776416-15-eperezma@redhat.com>
+Subject: [RFC PATCH v5 15/26] vdpa: Save call_fd in vhost-vdpa
+Date: Fri, 29 Oct 2021 20:35:14 +0200
+Message-Id: <20211029183525.1776416-16-eperezma@redhat.com>
 In-Reply-To: <20211029183525.1776416-1-eperezma@redhat.com>
 References: <20211029183525.1776416-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -92,60 +92,44 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows vhost-vdpa device to set SVQ -> guest notifier to SVQ.
+We need to know it to switch to Shadow VirtQueue.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.h |  1 +
- hw/virtio/vhost-shadow-virtqueue.c | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+)
+ include/hw/virtio/vhost-vdpa.h | 2 ++
+ hw/virtio/vhost-vdpa.c         | 5 +++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-index 9e089edb17..607ec6e5eb 100644
---- a/hw/virtio/vhost-shadow-virtqueue.h
-+++ b/hw/virtio/vhost-shadow-virtqueue.h
-@@ -16,6 +16,7 @@
- typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
+diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+index 6d60092c96..2f57b17208 100644
+--- a/include/hw/virtio/vhost-vdpa.h
++++ b/include/hw/virtio/vhost-vdpa.h
+@@ -33,6 +33,8 @@ typedef struct vhost_vdpa {
+     GPtrArray *shadow_vqs;
+     struct vhost_dev *dev;
+     int kick_fd[VIRTIO_QUEUE_MAX];
++    /* File descriptor the device uses to call VM/SVQ */
++    int call_fd[VIRTIO_QUEUE_MAX];
+     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+ } VhostVDPA;
  
- void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd);
-+void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, int call_fd);
- const EventNotifier *vhost_svq_get_dev_kick_notifier(
-                                               const VhostShadowVirtqueue *svq);
- const EventNotifier *vhost_svq_get_svq_call_notifier(
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 7acac1be87..6535eefccd 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -30,6 +30,9 @@ typedef struct VhostShadowVirtqueue {
-      */
-     EventNotifier svq_kick;
- 
-+    /* Guest's call notifier, where SVQ calls guest. */
-+    EventNotifier svq_call;
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index c388705e73..64f71bd51b 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -761,7 +761,12 @@ static int vhost_vdpa_set_vring_kick(struct vhost_dev *dev,
+ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
+                                        struct vhost_vring_file *file)
+ {
++    struct vhost_vdpa *v = dev->opaque;
++    int vdpa_idx = vhost_vdpa_get_vq_index(dev, file->index);
 +
-     /* Device's host notifier memory region. NULL means no region */
-     void *host_notifier_mr;
- 
-@@ -84,6 +87,19 @@ const EventNotifier *vhost_svq_get_svq_call_notifier(
-     return &svq->hdev_call;
+     trace_vhost_vdpa_set_vring_call(dev, file->index, file->fd);
++
++    v->call_fd[vdpa_idx] = file->fd;
+     return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
  }
  
-+/**
-+ * Set the call notifier for the SVQ to call the guest
-+ *
-+ * @svq Shadow virtqueue
-+ * @call_fd call notifier
-+ *
-+ * Called on BQL context.
-+ */
-+void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, int call_fd)
-+{
-+    event_notifier_init_fd(&svq->svq_call, call_fd);
-+}
-+
- /**
-  * Convenience function to set guest to SVQ kick fd
-  *
 -- 
 2.27.0
 
