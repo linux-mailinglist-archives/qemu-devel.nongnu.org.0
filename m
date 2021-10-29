@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D14440502
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:42:53 +0200 (CEST)
-Received: from localhost ([::1]:53498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430DE440519
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:51:43 +0200 (CEST)
+Received: from localhost ([::1]:50652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgZeE-00055L-Bc
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:42:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55474)
+	id 1mgZmo-00066q-C7
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:51:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZJH-0007hM-Cu
+ id 1mgZJH-0007hK-9c
  for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:12 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19946)
+Received: from zero.eik.bme.hu ([152.66.115.2]:19941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZJE-0005bt-E2
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:11 -0400
+ id 1mgZJD-0005bK-Gr
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:10 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id CED57756192;
+ by localhost (Postfix) with SMTP id B2AE775622D;
  Fri, 29 Oct 2021 23:20:44 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id EB5587561D1; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
-Message-Id: <72efc4f2c4ff8b96848d03dca08e4541ee4076f6.1635541329.git.balaton@eik.bme.hu>
+ id E597E7561CF; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
+Message-Id: <0efaa5e7a1a3ee11f82b3bb1942c287576c67f8b.1635541329.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635541329.git.balaton@eik.bme.hu>
 References: <cover.1635541329.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 25/30] hw/intc/sh_intc: Simplify allocating sources array
+Subject: [PATCH v6 24/30] hw/intc/sh_intc: Avoid using continue in loops
 Date: Fri, 29 Oct 2021 23:02:09 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,44 +61,97 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use g_new0 instead of g_malloc0 and avoid some unneeded temporary
-variable assignments.
+Instead of if !expr continue else do something it is more straight
+forward to say if expr then do something, especially if the action is
+just a few lines. Remove such uses of continue to make the code easier
+to follow.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/intc/sh_intc.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+ hw/intc/sh_intc.c | 44 ++++++++++++++++++++------------------------
+ 1 file changed, 20 insertions(+), 24 deletions(-)
 
 diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index d7cc61b42b..3603b448c2 100644
+index c17d96e9b9..d7cc61b42b 100644
 --- a/hw/intc/sh_intc.c
 +++ b/hw/intc/sh_intc.c
-@@ -400,21 +400,14 @@ int sh_intc_init(MemoryRegion *sysmem,
-     /* Allocate 4 MemoryRegions per register (2 actions * 2 aliases) */
-     desc->iomem_aliases = g_new0(MemoryRegion,
-                                  (nr_mask_regs + nr_prio_regs) * 4);
--
--    j = 0;
--    i = sizeof(struct intc_source) * nr_sources;
--    desc->sources = g_malloc0(i);
--
--    for (i = 0; i < desc->nr_sources; i++) {
--        struct intc_source *source = &desc->sources[i];
--
--        source->parent = desc;
-+    desc->sources = g_new0(struct intc_source, nr_sources);
-+    for (i = 0; i < nr_sources; i++) {
-+        desc->sources[i].parent = desc;
-     }
--
-     desc->irqs = qemu_allocate_irqs(sh_intc_set_irq, desc, nr_sources);
-     memory_region_init_io(&desc->iomem, NULL, &sh_intc_ops, desc, "intc",
-                           0x100000000ULL);
--
-+    j = 0;
-     if (desc->mask_regs) {
-         for (i = 0; i < desc->nr_mask_regs; i++) {
+@@ -140,15 +140,14 @@ static void sh_intc_locate(struct intc_desc *desc,
              struct intc_mask_reg *mr = &desc->mask_regs[i];
+ 
+             mode = sh_intc_mode(address, mr->set_reg, mr->clr_reg);
+-            if (mode == INTC_MODE_NONE) {
+-                continue;
++            if (mode != INTC_MODE_NONE) {
++                *modep = mode;
++                *datap = &mr->value;
++                *enums = mr->enum_ids;
++                *first = mr->reg_width - 1;
++                *width = 1;
++                return;
+             }
+-            *modep = mode;
+-            *datap = &mr->value;
+-            *enums = mr->enum_ids;
+-            *first = mr->reg_width - 1;
+-            *width = 1;
+-            return;
+         }
+     }
+ 
+@@ -157,15 +156,14 @@ static void sh_intc_locate(struct intc_desc *desc,
+             struct intc_prio_reg *pr = &desc->prio_regs[i];
+ 
+             mode = sh_intc_mode(address, pr->set_reg, pr->clr_reg);
+-            if (mode == INTC_MODE_NONE) {
+-                continue;
++            if (mode != INTC_MODE_NONE) {
++                *modep = mode | INTC_MODE_IS_PRIO;
++                *datap = &pr->value;
++                *enums = pr->enum_ids;
++                *first = pr->reg_width / pr->field_width - 1;
++                *width = pr->field_width;
++                return;
+             }
+-            *modep = mode | INTC_MODE_IS_PRIO;
+-            *datap = &pr->value;
+-            *enums = pr->enum_ids;
+-            *first = pr->reg_width / pr->field_width - 1;
+-            *width = pr->field_width;
+-            return;
+         }
+     }
+     g_assert_not_reached();
+@@ -246,10 +244,9 @@ static void sh_intc_write(void *opaque, hwaddr offset,
+         mask = (1 << width) - 1;
+         mask <<= (first - k) * width;
+ 
+-        if ((*valuep & mask) == (value & mask)) {
+-            continue;
++        if ((*valuep & mask) != (value & mask)) {
++            sh_intc_toggle_mask(desc, enum_ids[k], value & mask, 0);
+         }
+-        sh_intc_toggle_mask(desc, enum_ids[k], value & mask, 0);
+     }
+ 
+     *valuep = value;
+@@ -342,12 +339,11 @@ void sh_intc_register_sources(struct intc_desc *desc,
+             s->next_enum_id = gr->enum_ids[0];
+ 
+             for (k = 1; k < ARRAY_SIZE(gr->enum_ids); k++) {
+-                if (!gr->enum_ids[k]) {
+-                    continue;
++                if (gr->enum_ids[k]) {
++                    id = gr->enum_ids[k - 1];
++                    s = &desc->sources[id];
++                    s->next_enum_id = gr->enum_ids[k];
+                 }
+-                id = gr->enum_ids[k - 1];
+-                s = &desc->sources[id];
+-                s->next_enum_id = gr->enum_ids[k];
+             }
+             trace_sh_intc_register("group", gr->enum_id, 0xffff,
+                                    s->enable_count, s->enable_max);
 -- 
 2.21.4
 
