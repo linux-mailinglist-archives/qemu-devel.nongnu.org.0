@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2058B44015B
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:39:13 +0200 (CEST)
-Received: from localhost ([::1]:36040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E598440147
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:26:11 +0200 (CEST)
+Received: from localhost ([::1]:38358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgVqS-0006l9-3O
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:39:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54674)
+	id 1mgVdp-0005wp-Tj
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:26:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mgVON-0006gj-UU
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 13:10:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38520)
+ id 1mgVOd-00070C-4N
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 13:10:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30163)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mgVOJ-0002wd-JH
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 13:10:10 -0400
+ id 1mgVOa-0002z7-PV
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 13:10:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635527405;
+ s=mimecast20190719; t=1635527423;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3htYhkj2rn4CBUaENG2bkbo4znsC+kjKwumMADKc51o=;
- b=KwAI56Nw49ttbEWz2HQMVBprI+rfrVENyjZv3wo4WR5LxP0TYbPMwFc55OmGl7ZmgoeYBG
- 7F597Mx41KsXLBw3KiQ913XLJvjyIszYk5yqbveWmt941qh8eBVx+qYQzV7wEQescilPKH
- pesQ5F1PqSzZwxFdbkhrWeSxLC+fr00=
+ bh=B9QM7cV0yrwt2F4EKrGVAuQ97NMb1sJcCMC8869T5ww=;
+ b=P0xShrmxXbMaa8/LbfGFnLA7VypFoHBMrCvQbH25LowftO6mkDMuqR3lKEGPJeIt1b6yG+
+ 0moU9m+2qIv2LUQKH5MMXe7ip92v5XSPCfwLn6IYbDbr4kizpf5HaT/0R+V1STRVhrtlT+
+ jo1HYjyeRw7CxGz5pa8/wMilQsOW6as=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-YI9qM3H3NnCZRZFgSTZeWw-1; Fri, 29 Oct 2021 13:10:02 -0400
-X-MC-Unique: YI9qM3H3NnCZRZFgSTZeWw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-153-qR2cZLZ4MLSJ8jNAh4tkpA-1; Fri, 29 Oct 2021 13:10:22 -0400
+X-MC-Unique: qR2cZLZ4MLSJ8jNAh4tkpA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9EFD58030AF;
- Fri, 29 Oct 2021 17:09:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AA40A0BD7;
+ Fri, 29 Oct 2021 17:10:21 +0000 (UTC)
 Received: from localhost (unused-10-15-17-6.yyz.redhat.com [10.15.17.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8ECF1045E98;
- Fri, 29 Oct 2021 17:09:57 +0000 (UTC)
-Date: Fri, 29 Oct 2021 13:09:57 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD1115B826;
+ Fri, 29 Oct 2021 17:10:20 +0000 (UTC)
+Date: Fri, 29 Oct 2021 13:10:20 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 0/4] hw/core: Restrict qdev-hotplug to sysemu
-Message-ID: <20211029170957.urmtp5frbjyvb345@habkost.net>
-References: <20211028150521.1973821-1-philmd@redhat.com>
+Subject: Re: [PATCH v4 0/2] hw/core/machine: Add an unit test for smp_parse
+Message-ID: <20211029171020.l25aqeubw4mditxd@habkost.net>
+References: <20211028150913.1975305-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211028150521.1973821-1-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20211028150913.1975305-1-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,21 +79,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 28, 2021 at 05:05:17PM +0200, Philippe Mathieu-Daudé wrote:
-> Restrict various hw/core/ files to sysemu,
-> add stubs for qdev-hotplug.
+On Thu, Oct 28, 2021 at 05:09:11PM +0200, Philippe Mathieu-Daudé wrote:
+> Respin of Yanan Wang v3, based on
+> "hw/core: Restrict qdev-hotplug to sysemu"
 > 
-> Philippe Mathieu-Daudé (4):
->   hw/core: Restrict sysemu specific files
->   hw/core: Declare meson source set
->   hw/core: Extract hotplug-related functions to qdev-hotplug.c
->   hw/core: Restrict hotplug to system emulation
+> Based-on: 20211028150521.1973821-1-philmd@redhat.com
+> https://lore.kernel.org/qemu-devel/20211028150521.1973821-1-philmd@redhat.com
+> 
+> git-backport-diff:
+> Key:
+> [----] : patches are identical
+> [####] : number of functional differences between upstream/downstream patch
+> [down] : patch is downstream-only
+> The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+> 
+> 001/2:[0001] [FC] 'hw/core/machine: Split out the smp parsing code'
+> 002/2:[----] [--] 'tests/unit: Add an unit test for smp parsing'
 
 Acked-by: Eduardo Habkost <ehabkost@redhat.com>
 
