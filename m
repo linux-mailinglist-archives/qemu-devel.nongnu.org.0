@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02945440296
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 20:53:40 +0200 (CEST)
-Received: from localhost ([::1]:59846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8A244022E
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 20:40:39 +0200 (CEST)
+Received: from localhost ([::1]:59718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgX0V-00078v-46
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 14:53:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45034)
+	id 1mgWnu-0004PI-JF
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 14:40:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mgWkT-000189-9X
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:37:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28659)
+ id 1mgWkg-0001dh-3n
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:37:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mgWkP-0000RP-8k
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:37:05 -0400
+ id 1mgWke-0000Tv-89
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:37:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635532619;
+ s=mimecast20190719; t=1635532635;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vM5urdBWcv1DokhHavNNPmwIEWCx+ovypgItH9Om3tE=;
- b=WwqWO6dUd419RB0LMsZqOmkIYXwXA+iIpVb6+htv2d9HOfqF8cCvbYOP4uHmuD4d2rmpjj
- 6CrUkctYFXHLOm5joUMDCW8wY9cpL6KHAinDQFoZ92kp4YRdOrCmJHQ6Yi1QkWpn/MG4U+
- D9kHEpQC4Rilz14mjd6eH6OPJ7uPaac=
+ bh=njCNO4sG44aARsLfXZ27pz7GKj3w+8Zk8L76z4qVvxI=;
+ b=Y+Qat3h2O37a2Ky1lZaBowEK6HjtPzYw9hRsHt+wDL0+O3xy0TNlVRV5gjafZ6X3Anwpac
+ 36yVDPxveeEkhv4u1SWYc2LKu5bSzogaYyiQuISrm/9YJDFWXLW0UCbuX7YoGIUQcBYGm5
+ AHwFei9kDv4o9bXGLiTPWtXmT4BQ2kQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-5KK9FeIBPJ-WUqzacbWAZQ-1; Fri, 29 Oct 2021 14:36:56 -0400
-X-MC-Unique: 5KK9FeIBPJ-WUqzacbWAZQ-1
+ us-mta-292-4-ZFNx1OMeKVUrr5OxTbfA-1; Fri, 29 Oct 2021 14:37:12 -0400
+X-MC-Unique: 4-ZFNx1OMeKVUrr5OxTbfA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB04F1006AA2;
- Fri, 29 Oct 2021 18:36:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27756806688;
+ Fri, 29 Oct 2021 18:37:11 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F3BF5F4E1;
- Fri, 29 Oct 2021 18:36:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 504385D6CF;
+ Fri, 29 Oct 2021 18:36:55 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v5 04/26] virtio-net: Honor VIRTIO_CONFIG_S_DEVICE_STOPPED
-Date: Fri, 29 Oct 2021 20:35:03 +0200
-Message-Id: <20211029183525.1776416-5-eperezma@redhat.com>
+Subject: [RFC PATCH v5 05/26] vhost: Add x-vhost-set-shadow-vq qmp
+Date: Fri, 29 Oct 2021 20:35:04 +0200
+Message-Id: <20211029183525.1776416-6-eperezma@redhat.com>
 In-Reply-To: <20211029183525.1776416-1-eperezma@redhat.com>
 References: <20211029183525.1776416-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -92,105 +92,68 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-So the guest can stop and start net device. It freely implements the RFC
-https://lists.oasis-open.org/archives/virtio-comment/202012/msg00027.html
-
-To stop (as "pause") the device is required to migrate status and vring
-addresses between device and SVQ. Once the device is stopped, the driver
-can request avail_idx, so it can be assigned to SVQ.
-
-This is a WIP commit: as with VIRTIO_F_QUEUE_STATE, is introduced in
-virtio_config.h before of even proposing for the kernel, with no feature
-flag, and, with no checking in the device. It also needs a modified
-vp_vdpa driver that supports to set and retrieve status.
-
-For virtio-net with qemu device there is no need to restore avail
-state: Since every tx and rx operation is entirely done in BQL
-regarding virtio, it would be enough with restore last_avail_idx with
-used_idx. Doing this way test the vq state part of the rest of the
-series.
+Command to set shadow virtqueue mode.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/standard-headers/linux/virtio_config.h | 2 ++
- hw/net/virtio-net.c                            | 6 ++++--
- hw/virtio/virtio-pci.c                         | 7 +++++--
- 3 files changed, 11 insertions(+), 4 deletions(-)
+ qapi/net.json    | 22 ++++++++++++++++++++++
+ net/vhost-vdpa.c |  6 ++++++
+ 2 files changed, 28 insertions(+)
 
-diff --git a/include/standard-headers/linux/virtio_config.h b/include/standard-headers/linux/virtio_config.h
-index 59fad3eb45..b3f6b1365d 100644
---- a/include/standard-headers/linux/virtio_config.h
-+++ b/include/standard-headers/linux/virtio_config.h
-@@ -40,6 +40,8 @@
- #define VIRTIO_CONFIG_S_DRIVER_OK	4
- /* Driver has finished configuring features */
- #define VIRTIO_CONFIG_S_FEATURES_OK	8
-+/* Device is stopped */
-+#define VIRTIO_CONFIG_S_DEVICE_STOPPED 32
- /* Device entered invalid state, driver must reset it */
- #define VIRTIO_CONFIG_S_NEEDS_RESET	0x40
- /* We've given up on this device. */
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index f2014d5ea0..8b7b97e42d 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -198,6 +198,7 @@ static bool virtio_net_started(VirtIONet *n, uint8_t status)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(n);
-     return (status & VIRTIO_CONFIG_S_DRIVER_OK) &&
-+        (!(status & VIRTIO_CONFIG_S_DEVICE_STOPPED)) &&
-         (n->status & VIRTIO_NET_S_LINK_UP) && vdev->vm_running;
+diff --git a/qapi/net.json b/qapi/net.json
+index 7fab2e7cd8..b191b6787b 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -79,6 +79,28 @@
+ { 'command': 'netdev_del', 'data': {'id': 'str'},
+   'allow-preconfig': true }
+ 
++##
++# @x-vhost-set-shadow-vq:
++#
++# Use vhost shadow virtqueue.
++#
++# @name: the device name of the VirtIO device
++#
++# @set: true to use the alternate shadow VQ notifications
++#
++# Returns: Always error, since SVQ is not implemented at the moment.
++#
++# Since: 6.2
++#
++# Example:
++#
++# -> { "execute": "x-vhost-set-shadow-vq",
++#     "arguments": { "name": "virtio-net", "set": false } }
++#
++##
++{ 'command': 'x-vhost-set-shadow-vq', 'data': {'name': 'str', 'set': 'bool'},
++  'if': 'CONFIG_VHOST_VDPA' }
++
+ ##
+ # @NetLegacyNicOptions:
+ #
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 49ab322511..3b360da27d 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -18,6 +18,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/option.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-commands-net.h"
+ #include <linux/vhost.h>
+ #include <sys/ioctl.h>
+ #include <err.h>
+@@ -301,3 +302,8 @@ err:
+ 
+     return -1;
  }
- 
-@@ -386,7 +387,7 @@ static void virtio_net_set_status(struct VirtIODevice *vdev, uint8_t status)
-             qemu_flush_queued_packets(ncs);
-         }
- 
--        if (!q->tx_waiting) {
-+        if (!q->tx_waiting && !(status & VIRTIO_CONFIG_S_DEVICE_STOPPED)) {
-             continue;
-         }
- 
-@@ -1489,7 +1490,8 @@ static bool virtio_net_can_receive(NetClientState *nc)
-     }
- 
-     if (!virtio_queue_ready(q->rx_vq) ||
--        !(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
-+        !(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) ||
-+        vdev->status == VIRTIO_CONFIG_S_DEVICE_STOPPED) {
-         return false;
-     }
- 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index d7bb549033..741a2bd2fa 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -327,13 +327,15 @@ static void virtio_ioport_write(void *opaque, uint32_t addr, uint32_t val)
-         }
-         break;
-     case VIRTIO_PCI_STATUS:
--        if (!(val & VIRTIO_CONFIG_S_DRIVER_OK)) {
-+        if (!(val & VIRTIO_CONFIG_S_DRIVER_OK) ||
-+            val & VIRTIO_CONFIG_S_DEVICE_STOPPED) {
-             virtio_pci_stop_ioeventfd(proxy);
-         }
- 
-         virtio_set_status(vdev, val & 0xFF);
- 
--        if (val & VIRTIO_CONFIG_S_DRIVER_OK) {
-+        if (val & VIRTIO_CONFIG_S_DRIVER_OK &&
-+            !(val & VIRTIO_CONFIG_S_DEVICE_STOPPED)) {
-             virtio_pci_start_ioeventfd(proxy);
-         }
- 
-@@ -1335,6 +1337,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
-                        proxy->vqs[vdev->queue_sel].used[0]);
-             virtio_queue_set_last_avail_idx(vdev, vdev->queue_sel,
-                         proxy->vqs[vdev->queue_sel].state);
-+            virtio_queue_update_used_idx(vdev, vdev->queue_sel);
-             proxy->vqs[vdev->queue_sel].enabled = 1;
-         } else {
-             virtio_error(vdev, "wrong value for queue_enable %"PRIx64, val);
++
++void qmp_x_vhost_set_shadow_vq(const char *name, bool set, Error **errp)
++{
++    error_setg(errp, "Shadow virtqueue still not implemented");
++}
 -- 
 2.27.0
 
