@@ -2,83 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09C34405E1
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 01:51:02 +0200 (CEST)
-Received: from localhost ([::1]:45900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 025534405E6
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 01:51:44 +0200 (CEST)
+Received: from localhost ([::1]:48972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgbeH-0007hb-PR
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 19:51:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53332)
+	id 1mgbex-0001Mb-3v
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 19:51:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgbZr-0004zD-94
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:46:27 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39581)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgbZp-0007G5-Aa
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:46:26 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- b2-20020a1c8002000000b0032fb900951eso4753606wmd.4
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 16:46:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=N6B+gK+TX6iOT+A8IekjAASefkwIdpdIE33iZUw7jz0=;
- b=CqXmhPvVCD4kBASMCCSWi+GwmNoTOGG5FIyl8gH3w9TY5cxZB2u8Hi4vDhV5qMrsgq
- n2A9PEaB3n42iEMxVPzNp48Dhhkypy1Dzv6TLF78tt3UlN6atKv0nhnzjoh+HQrLW5Zd
- ZY/m4uxed7I220lbF5tLeOewxD4xdqoBkg7J1N6iut2L48Ug54zlTzixAkn2UhLvYxG0
- Mng245Si+hQA2o6E/GSYcKySIWuSvCS0OFAetxiqdL/1WvH602GYjhT5H6HuJ7TdUu3A
- yEkZgzrna8wn876CpRFG3AXj6KTt6KeElv3mltuXLDziD5V3DaK/kEmN3NVUX5ao0lL6
- Ammw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=N6B+gK+TX6iOT+A8IekjAASefkwIdpdIE33iZUw7jz0=;
- b=ptTLpYxS95IXIIdbor4INsUBs9ImyQrrhg5FA9CwGKOhb1VaiLXIfN8OuZ6hAlAs9G
- BWgW8ysaagysEZCIrXobmfYZKW10tMwHagoZZSPj25xn8PRQl2obXlj/L3wZEu44elv5
- WBfhjaXXYAcTfy0k3JhxbJmrkEFiGk8Lycdcxjb+v0s5It+3WzQ7H38jpcocxLWirKLC
- LVO467pVXoMa0HT8vqxjdJuGOKXEDddlUQQHK4GkrZ1oytMQA8hvBzHcTV5MmTVLMGs3
- 4g6lqgjUXI1mLQZ6m8RAl2G2y59POSqtvCWu1VKIwwVs4q8X/HJXGNNmXr5kdtdhHjS+
- RNhQ==
-X-Gm-Message-State: AOAM532KIt9P6g3eR3o3zIEx4piMRfBrgtsKjEEPubVgn1mmOdJ8VNqD
- rSlnvBKXUopFciv9W8eyjTQ=
-X-Google-Smtp-Source: ABdhPJwimD80tgtrhlII+tZRuOVgEkb64zWXPar9urhJFPNb6JvLbFo/M+sLySMK8/3lv99xFsPn0A==
-X-Received: by 2002:a1c:a904:: with SMTP id s4mr6848524wme.163.1635551183705; 
- Fri, 29 Oct 2021 16:46:23 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id i3sm9490722wmq.18.2021.10.29.16.46.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 16:46:23 -0700 (PDT)
-Message-ID: <0c1b0d9c-5635-cc9b-283f-a226cf16f4bf@amsat.org>
-Date: Sat, 30 Oct 2021 01:46:21 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mgbbT-0006R4-6y
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:48:12 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:40263)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mgbbQ-0007TC-EF
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:48:05 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id F28E8748F4B;
+ Sat, 30 Oct 2021 01:48:02 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id CDFE2746333; Sat, 30 Oct 2021 01:48:02 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id CC1547462D3;
+ Sat, 30 Oct 2021 01:48:02 +0200 (CEST)
+Date: Sat, 30 Oct 2021 01:48:02 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v6 22/30] hw/intc/sh_intc: Inline and drop sh_intc_source()
+ function
+In-Reply-To: <8ca6ad2d-c04c-b299-437c-1724c79c8551@amsat.org>
+Message-ID: <f43fa362-83f5-c62f-eb4d-9be130cf2827@eik.bme.hu>
+References: <cover.1635541329.git.balaton@eik.bme.hu>
+ <a98d1f7f94e91a42796b7d91e9153a7eaa3d1c44.1635541329.git.balaton@eik.bme.hu>
+ <8ca6ad2d-c04c-b299-437c-1724c79c8551@amsat.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v5 61/67] linux-user: Handle BUS_ADRALN in
- host_signal_handler
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211015041053.2769193-1-richard.henderson@linaro.org>
- <20211015041053.2769193-62-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211015041053.2769193-62-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.512,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1470193298-1635551282=:5796"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,35 +60,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/15/21 06:10, Richard Henderson wrote:
-> Handle BUS_ADRALN via cpu_loop_exit_sigbus, but allow other SIGBUS
-> si_codes to continue into the host-to-guest signal coversion code.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Typo "conversion".
+--3866299591-1470193298-1635551282=:5796
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/signal.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/linux-user/signal.c b/linux-user/signal.c
-> index df2c8678d0..81c45bfce9 100644
-> --- a/linux-user/signal.c
-> +++ b/linux-user/signal.c
-> @@ -860,6 +860,9 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
->              cpu_loop_exit_sigsegv(cpu, guest_addr, access_type, maperr, pc);
->          } else {
->              sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
-> +            if (info->si_code == BUS_ADRALN) {
-> +                cpu_loop_exit_sigbus(cpu, guest_addr, access_type, pc);
-> +            }
->          }
+On Sat, 30 Oct 2021, Philippe Mathieu-Daudé wrote:
+> On 10/29/21 23:02, BALATON Zoltan wrote:
+>> This function is very simple and provides no advantage. Call sites
+>> become simpler without it so just write it in line and drop the
+>> separate function.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>  hw/intc/sh_intc.c        | 54 ++++++++++++++++------------------------
+>>  hw/sh4/sh7750.c          |  4 +--
+>>  include/hw/sh4/sh_intc.h |  2 +-
+>>  3 files changed, 25 insertions(+), 35 deletions(-)
+>
+>>  static void sh_intc_register_source(struct intc_desc *desc,
+>>                                      intc_enum source,
+>>                                      struct intc_group *groups,
+>>                                      int nr_groups)
+>>  {
+>>      unsigned int i, k;
+>> -    struct intc_source *s;
+>> +    intc_enum id;
+>>
+>
+> Maybe:
+>
+>       assert(source != UNUSED);
+>
+>>      if (desc->mask_regs) {
+>>          for (i = 0; i < desc->nr_mask_regs; i++) {
+>>              struct intc_mask_reg *mr = &desc->mask_regs[i];
+>>
+>>              for (k = 0; k < ARRAY_SIZE(mr->enum_ids); k++) {
+>> -                if (mr->enum_ids[k] != source) {
+>> -                    continue;
+>> -                }
+>> -                s = sh_intc_source(desc, mr->enum_ids[k]);
+>> -                if (s) {
+>> -                    s->enable_max++;
+>> +                id = mr->enum_ids[k];
+>> +                if (id && id == source) {
+>
+> Then you can drop the 'id' checks.
 
-To the best of my knowledge,
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+I've tried to preserve the original brhaviour in this patch and not change 
+it for now. This will need to be rewritten anyway beause it does not 
+handle priorities and hard to QOM-ify as it is so I'll come back to this 
+where these will probably change, so for now just leave it to keep the 
+existing behaviour. Then we can revise it later in separate patch.
+
+Thanks for taking the time to review my patches, much appreciated.
+
+Regards,
+BALATON Zoltan
+
+>> +                    desc->sources[id].enable_max++;
+>>                  }
+>>              }
+>>          }
+>
+>
+--3866299591-1470193298-1635551282=:5796--
 
