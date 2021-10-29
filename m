@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D0844010A
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:15:01 +0200 (CEST)
-Received: from localhost ([::1]:42914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8C34400DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:01:14 +0200 (CEST)
+Received: from localhost ([::1]:35000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgVT3-0006PX-1g
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:15:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49294)
+	id 1mgVFh-00071F-8E
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:01:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgUvx-0007Fg-Tp
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:49 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:51116)
+ id 1mgUvn-00075O-DK
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:39 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:51034)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgUvq-0006DO-BU
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:49 -0400
+ id 1mgUvd-0004oC-73
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:39 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 75332756198;
- Fri, 29 Oct 2021 18:40:27 +0200 (CEST)
+ by localhost (Postfix) with SMTP id D8C7F7561CB;
+ Fri, 29 Oct 2021 18:40:26 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id AC9A37561B1; Fri, 29 Oct 2021 18:40:26 +0200 (CEST)
-Message-Id: <8e46054c4ea0f8e1814a69aa5dc6f51f4c6c1a2a.1635524617.git.balaton@eik.bme.hu>
+ id 6BA46756041; Fri, 29 Oct 2021 18:40:26 +0200 (CEST)
+Message-Id: <edfff01fe6dda81c95c2e8d787edb6c0cf97afda.1635524616.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635524616.git.balaton@eik.bme.hu>
 References: <cover.1635524616.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v5 16/25] hw/intc/sh_intc: Use array index instead of pointer
- arithmetics
+Subject: [PATCH v5 03/25] hw/sh4/r2d: Use error_report instead of fprintf to
+ stderr
 Date: Fri, 29 Oct 2021 18:23:36 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -41,8 +41,8 @@ Received-SPF: pass client-ip=2001:738:2001:2001::2001;
 X-Spam_score_int: 0
 X-Spam_score: 0.0
 X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (0.0 / 5.0 requ) SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,145 +62,43 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Address of element i is one word thus clearer than array + i.
-
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/intc/sh_intc.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ hw/sh4/r2d.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index 537fc503d4..b1056f769e 100644
---- a/hw/intc/sh_intc.c
-+++ b/hw/intc/sh_intc.c
-@@ -89,7 +89,7 @@ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
-     }
+diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
+index 57ccae7249..72759413f3 100644
+--- a/hw/sh4/r2d.c
++++ b/hw/sh4/r2d.c
+@@ -26,6 +26,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
++#include "qemu/error-report.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+ #include "hw/sh4/sh.h"
+@@ -324,7 +325,7 @@ static void r2d_init(MachineState *machine)
+                                           SDRAM_BASE + LINUX_LOAD_OFFSET,
+                                           INITRD_LOAD_OFFSET - LINUX_LOAD_OFFSET);
+         if (kernel_size < 0) {
+-            fprintf(stderr, "qemu: could not load kernel '%s'\n", kernel_filename);
++            error_report("qemu: could not load kernel '%s'", kernel_filename);
+             exit(1);
+         }
  
-     for (i = 0; i < desc->nr_sources; i++) {
--        struct intc_source *source = desc->sources + i;
-+        struct intc_source *source = &desc->sources[i];
+@@ -345,7 +346,7 @@ static void r2d_init(MachineState *machine)
+                                           SDRAM_SIZE - INITRD_LOAD_OFFSET);
  
-         if (source->pending) {
-             trace_sh_intc_pending(desc->pending, source->vect);
-@@ -138,7 +138,7 @@ static void sh_intc_locate(struct intc_desc *desc,
+         if (initrd_size < 0) {
+-            fprintf(stderr, "qemu: could not load initrd '%s'\n", initrd_filename);
++            error_report("qemu: could not load initrd '%s'", initrd_filename);
+             exit(1);
+         }
  
-     if (desc->mask_regs) {
-         for (i = 0; i < desc->nr_mask_regs; i++) {
--            struct intc_mask_reg *mr = desc->mask_regs + i;
-+            struct intc_mask_reg *mr = &desc->mask_regs[i];
- 
-             mode = sh_intc_mode(address, mr->set_reg, mr->clr_reg);
-             if (mode == INTC_MODE_NONE) {
-@@ -155,7 +155,7 @@ static void sh_intc_locate(struct intc_desc *desc,
- 
-     if (desc->prio_regs) {
-         for (i = 0; i < desc->nr_prio_regs; i++) {
--            struct intc_prio_reg *pr = desc->prio_regs + i;
-+            struct intc_prio_reg *pr = &desc->prio_regs[i];
- 
-             mode = sh_intc_mode(address, pr->set_reg, pr->clr_reg);
-             if (mode == INTC_MODE_NONE) {
-@@ -176,7 +176,7 @@ static void sh_intc_locate(struct intc_desc *desc,
- static void sh_intc_toggle_mask(struct intc_desc *desc, intc_enum id,
-                                 int enable, int is_group)
- {
--    struct intc_source *source = desc->sources + id;
-+    struct intc_source *source = &desc->sources[id];
- 
-     if (!id) {
-         return;
-@@ -266,7 +266,7 @@ static const MemoryRegionOps sh_intc_ops = {
- struct intc_source *sh_intc_source(struct intc_desc *desc, intc_enum id)
- {
-     if (id) {
--        return desc->sources + id;
-+        return &desc->sources[id];
-     }
-     return NULL;
- }
-@@ -281,7 +281,7 @@ static void sh_intc_register_source(struct intc_desc *desc,
- 
-     if (desc->mask_regs) {
-         for (i = 0; i < desc->nr_mask_regs; i++) {
--            struct intc_mask_reg *mr = desc->mask_regs + i;
-+            struct intc_mask_reg *mr = &desc->mask_regs[i];
- 
-             for (k = 0; k < ARRAY_SIZE(mr->enum_ids); k++) {
-                 if (mr->enum_ids[k] != source) {
-@@ -297,7 +297,7 @@ static void sh_intc_register_source(struct intc_desc *desc,
- 
-     if (desc->prio_regs) {
-         for (i = 0; i < desc->nr_prio_regs; i++) {
--            struct intc_prio_reg *pr = desc->prio_regs + i;
-+            struct intc_prio_reg *pr = &desc->prio_regs[i];
- 
-             for (k = 0; k < ARRAY_SIZE(pr->enum_ids); k++) {
-                 if (pr->enum_ids[k] != source) {
-@@ -313,7 +313,7 @@ static void sh_intc_register_source(struct intc_desc *desc,
- 
-     if (groups) {
-         for (i = 0; i < nr_groups; i++) {
--            struct intc_group *gr = groups + i;
-+            struct intc_group *gr = &groups[i];
- 
-             for (k = 0; k < ARRAY_SIZE(gr->enum_ids); k++) {
-                 if (gr->enum_ids[k] != source) {
-@@ -339,7 +339,7 @@ void sh_intc_register_sources(struct intc_desc *desc,
-     struct intc_source *s;
- 
-     for (i = 0; i < nr_vectors; i++) {
--        struct intc_vect *vect = vectors + i;
-+        struct intc_vect *vect = &vectors[i];
- 
-         sh_intc_register_source(desc, vect->enum_id, groups, nr_groups);
-         s = sh_intc_source(desc, vect->enum_id);
-@@ -352,7 +352,7 @@ void sh_intc_register_sources(struct intc_desc *desc,
- 
-     if (groups) {
-         for (i = 0; i < nr_groups; i++) {
--            struct intc_group *gr = groups + i;
-+            struct intc_group *gr = &groups[i];
- 
-             s = sh_intc_source(desc, gr->enum_id);
-             s->next_enum_id = gr->enum_ids[0];
-@@ -385,7 +385,7 @@ static unsigned int sh_intc_register(MemoryRegion *sysmem,
-     }
- 
-     iomem = &desc->iomem;
--    iomem_p4 = desc->iomem_aliases + index;
-+    iomem_p4 = &desc->iomem_aliases[index];
-     iomem_a7 = iomem_p4 + 1;
- 
-     snprintf(name, sizeof(name), "intc-%s-%s-%s", type, action, "p4");
-@@ -425,7 +425,7 @@ int sh_intc_init(MemoryRegion *sysmem,
-     desc->sources = g_malloc0(i);
- 
-     for (i = 0; i < desc->nr_sources; i++) {
--        struct intc_source *source = desc->sources + i;
-+        struct intc_source *source = &desc->sources[i];
- 
-         source->parent = desc;
-     }
-@@ -436,7 +436,7 @@ int sh_intc_init(MemoryRegion *sysmem,
- 
-     if (desc->mask_regs) {
-         for (i = 0; i < desc->nr_mask_regs; i++) {
--            struct intc_mask_reg *mr = desc->mask_regs + i;
-+            struct intc_mask_reg *mr = &desc->mask_regs[i];
- 
-             j += sh_intc_register(sysmem, desc, mr->set_reg, "mask", "set", j);
-             j += sh_intc_register(sysmem, desc, mr->clr_reg, "mask", "clr", j);
-@@ -445,7 +445,7 @@ int sh_intc_init(MemoryRegion *sysmem,
- 
-     if (desc->prio_regs) {
-         for (i = 0; i < desc->nr_prio_regs; i++) {
--            struct intc_prio_reg *pr = desc->prio_regs + i;
-+            struct intc_prio_reg *pr = &desc->prio_regs[i];
- 
-             j += sh_intc_register(sysmem, desc, pr->set_reg, "prio", "set", j);
-             j += sh_intc_register(sysmem, desc, pr->clr_reg, "prio", "clr", j);
 -- 
 2.21.4
 
