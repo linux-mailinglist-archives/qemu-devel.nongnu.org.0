@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 914E2440532
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:57:14 +0200 (CEST)
-Received: from localhost ([::1]:38342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1695440505
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:43:24 +0200 (CEST)
+Received: from localhost ([::1]:56352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgZs9-0008PX-Ly
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55516)
+	id 1mgZel-000709-QP
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:43:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZJJ-0007iH-SK
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:14 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19945)
+ id 1mgZJ4-0007IS-S8
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:58 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZJE-0005bs-F4
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:13 -0400
+ id 1mgZJ2-0005aM-Ih
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:58 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D08BE756198;
+ by localhost (Postfix) with SMTP id 670EA756219;
  Fri, 29 Oct 2021 23:20:44 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id F0B397561D9; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
-Message-Id: <15e04aa665c68ab5df47bbf505346d413be2fc1c.1635541329.git.balaton@eik.bme.hu>
+ id B8E2675619D; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
+Message-Id: <53f033477c73b7c9b021d36033c590416d6199c7.1635541329.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635541329.git.balaton@eik.bme.hu>
 References: <cover.1635541329.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 26/30] hw/intc/sh_intc: Remove unneeded local variable
- initialisers
+Subject: [PATCH v6 15/30] hw/intc/sh_intc: Use existing macro instead of local
+ one
 Date: Fri, 29 Oct 2021 23:02:09 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -38,10 +38,10 @@ To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) SPF_HELO_NONE=0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,56 +62,59 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sh_intc_locate function will either init these or not return so no
-need to initialise them.
+The INTC_A7 local macro does the same as the A7ADDR from
+include/sh/sh.h so use the latter and drop the local macro definition.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/intc/sh_intc.c | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+ hw/intc/sh_intc.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
 diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index 3603b448c2..1c30988437 100644
+index cd4e07dcba..ac47b7f905 100644
 --- a/hw/intc/sh_intc.c
 +++ b/hw/intc/sh_intc.c
-@@ -196,14 +196,13 @@ static void sh_intc_toggle_mask(struct intc_desc *desc, intc_enum id,
-     }
- }
+@@ -16,8 +16,6 @@
+ #include "hw/sh4/sh.h"
+ #include "trace.h"
  
--static uint64_t sh_intc_read(void *opaque, hwaddr offset,
--                             unsigned size)
-+static uint64_t sh_intc_read(void *opaque, hwaddr offset, unsigned size)
+-#define INTC_A7(x) ((x) & 0x1fffffff)
+-
+ void sh_intc_toggle_source(struct intc_source *source,
+                            int enable_adj, int assert_adj)
  {
-     struct intc_desc *desc = opaque;
--    intc_enum *enum_ids = NULL;
--    unsigned int first = 0;
--    unsigned int width = 0;
--    unsigned int mode = 0;
-+    intc_enum *enum_ids;
-+    unsigned int first;
-+    unsigned int width;
-+    unsigned int mode;
-     unsigned long *valuep;
- 
-     sh_intc_locate(desc, (unsigned long)offset, &valuep,
-@@ -216,12 +215,12 @@ static void sh_intc_write(void *opaque, hwaddr offset,
-                           uint64_t value, unsigned size)
+@@ -112,12 +110,12 @@ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
+ static unsigned int sh_intc_mode(unsigned long address,
+                                  unsigned long set_reg, unsigned long clr_reg)
  {
-     struct intc_desc *desc = opaque;
--    intc_enum *enum_ids = NULL;
--    unsigned int first = 0;
--    unsigned int width = 0;
--    unsigned int mode = 0;
--    unsigned int k;
-+    intc_enum *enum_ids;
-+    unsigned int first;
-+    unsigned int width;
-+    unsigned int mode;
-     unsigned long *valuep;
-+    unsigned int k;
-     unsigned long mask;
+-    if ((address != INTC_A7(set_reg)) &&
+-        (address != INTC_A7(clr_reg)))
++    if ((address != A7ADDR(set_reg)) &&
++        (address != A7ADDR(clr_reg)))
+         return INTC_MODE_NONE;
  
-     trace_sh_intc_write(size, offset, value);
+     if (set_reg && clr_reg) {
+-        if (address == INTC_A7(set_reg)) {
++        if (address == A7ADDR(set_reg)) {
+             return INTC_MODE_DUAL_SET;
+         } else {
+             return INTC_MODE_DUAL_CLR;
+@@ -297,11 +295,11 @@ static unsigned int sh_intc_register(MemoryRegion *sysmem,
+ 
+ #define SH_INTC_IOMEM_FORMAT "interrupt-controller-%s-%s-%s"
+     snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "p4");
+-    memory_region_init_alias(iomem_p4, NULL, name, iomem, INTC_A7(address), 4);
++    memory_region_init_alias(iomem_p4, NULL, name, iomem, A7ADDR(address), 4);
+     memory_region_add_subregion(sysmem, P4ADDR(address), iomem_p4);
+ 
+     snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "a7");
+-    memory_region_init_alias(iomem_a7, NULL, name, iomem, INTC_A7(address), 4);
++    memory_region_init_alias(iomem_a7, NULL, name, iomem, A7ADDR(address), 4);
+     memory_region_add_subregion(sysmem, A7ADDR(address), iomem_a7);
+ #undef SH_INTC_IOMEM_FORMAT
+ 
 -- 
 2.21.4
 
