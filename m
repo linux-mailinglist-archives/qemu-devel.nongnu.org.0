@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E47A44017F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:53:04 +0200 (CEST)
-Received: from localhost ([::1]:53770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E5DB4401D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 20:27:22 +0200 (CEST)
+Received: from localhost ([::1]:41140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgW3r-0002a1-IT
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:53:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35194)
+	id 1mgWb1-000873-En
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 14:27:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgW1W-0008Bh-9L
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 13:50:38 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:34603)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgW1U-0002UN-O4
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 13:50:38 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id 127so9940448pfu.1
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 10:50:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QQLSRbvZuuF3NnYBXxZlEe0yFbD+MpxWPOd8yac5kb4=;
- b=QgWFpTAQPf74Pqz/1uiUB3U0fwWFSivIw6hWg0m4loQ//DlYbnNDROgw433UR481Lk
- L3u3VbCC7ne6/FD2j8lIcmBK+ULEz/o3CIXDjbmk4rSt+1I3IOCUkXYsS3tZzLWCi59T
- Pm1RyRbnypqxoBLr2JrELr439qHOzgJRGiUx52uEpR3zHV4yNnDM2TZhJswz8HmBYhzB
- s37WWqJ79XZ4MnZsxpGt3YJogtf756FBSgANLNcjSP7XIg2kbxke+Jbx7C8EY5kYt+tx
- MSB0P/vLXgHntOui60ImqiEbmxezA+8RbRl7E0YCu+y6INzqVp5y8XZWsu6FcB5Ea85X
- WuCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QQLSRbvZuuF3NnYBXxZlEe0yFbD+MpxWPOd8yac5kb4=;
- b=a3tQnwgQqb3AA4TWl15nH5VkGQFV6lTmXV8hvNj/IzGPFLjqgSqy4vl/r0cIriNZTh
- n9oSuNI+h1BTt8aklICxgtd09fkQa8nwb0c2u1iLre1akWwNEarMov87PoGEu40n53IX
- a7xkMACveCizxGpb53QDHNVIDKi9U13QlR/jGKL3AEn2zObJOutyG5wtXvoMZZLBFTHM
- k/er9dMRm2LDijBvAtZNByuK7gM71SlZ82XpCxPrVDj248MbYT0gMj2ewDVohce2E+kF
- SRyInqw6OvextTDBXBUBc3Fqn/SlclAS5JvnaS5yKryJjMGxl1+1Iqihp1IAe8dVuHe1
- rIJw==
-X-Gm-Message-State: AOAM531MBUTGG+poUNHmtsRBsmqyxKSr00fOqIZTASr0ghmGeQG0bPBj
- slM+QkwVr6VV6t9VKW4BYeTbWQ==
-X-Google-Smtp-Source: ABdhPJylmpg6Uifb0Y+bhqZptQFpfNoiYhblKn6r/SBaYt3pbSCQDOgGXtgGXj/u9pn93TPZ16XG5Q==
-X-Received: by 2002:aa7:924d:0:b0:47b:d390:da8d with SMTP id
- 13-20020aa7924d000000b0047bd390da8dmr12369988pfp.15.1635529835319; 
- Fri, 29 Oct 2021 10:50:35 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id g25sm7399901pfh.216.2021.10.29.10.50.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 10:50:34 -0700 (PDT)
-Subject: Re: [PATCH v3 20/32] target/mips: Convert MSA 3R instruction format
- to decodetree (part 1/4)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20211028210843.2120802-1-f4bug@amsat.org>
- <20211028210843.2120802-21-f4bug@amsat.org>
- <7b392e80-b4a5-b01a-e9ec-0d2fa6a39e76@linaro.org>
- <df826b1b-f563-2fb9-7e92-f823dea61936@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5e9487be-f0cb-391c-11de-461e536fab65@linaro.org>
-Date: Fri, 29 Oct 2021 10:50:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mgWVa-0006Km-Pw
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:21:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25563)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mgWVY-0003Ff-5l
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:21:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635531697;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=thCZk/geEE7YFogYN1D0mdVEF+tNHmEnlgVP2vDHd5I=;
+ b=hxbdzHgRlJzhOZjcw8c9C8TYXKwFdUmbroYHR0lBy/E7U9zIe7hHY6nVDDdz71h93TUClt
+ tdbDc+DK6zx6yidkzRfoID80FCFYzfzvNUl4PVdNOWXuljRgXAFQaV1dROLx0PUvqX1yEm
+ 0zo9aatK5kuY9h6KbRObn4MzRGxmZwA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-71-Kgze3KgGO7yLiKKkd7w3QA-1; Fri, 29 Oct 2021 12:39:45 -0400
+X-MC-Unique: Kgze3KgGO7yLiKKkd7w3QA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E06DA1006AA3;
+ Fri, 29 Oct 2021 16:39:43 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F104569214;
+ Fri, 29 Oct 2021 16:39:42 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [RFC PATCH 08/15] job.c: minor adjustments in preparation to
+ job-driver
+Date: Fri, 29 Oct 2021 12:39:07 -0400
+Message-Id: <20211029163914.4044794-9-eesposit@redhat.com>
+In-Reply-To: <20211029163914.4044794-1-eesposit@redhat.com>
+References: <20211029163914.4044794-1-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <df826b1b-f563-2fb9-7e92-f823dea61936@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.512,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,27 +80,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/29/21 10:23 AM, Philippe Mathieu-Daudé wrote:
-> On 10/29/21 18:35, Richard Henderson wrote:
->> On 10/28/21 2:08 PM, Philippe Mathieu-Daudé wrote:
->>> +@3r                 ...... ...  df:2 wt:5ws:5  wd:5 ......  &msa_r
->>
->> Nit: should this be called @3rf, since it includes df and...
-> 
-> "3R" is how the manual names this instruction class:
-> 
->    Figure 3-40 3R Instruction Format
-> 
-> 3R has 2-bit DF field, 3RF has 1-bit DF field. The other
-> arguments are the same (for the helpers).
+job_event_* functions can be all static, as they are not used
+outside job.c
 
-Ok, I see.
+Add also missing notifier initialization for the on_idle
+list in job_create().
 
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+ job.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-r~
+diff --git a/job.c b/job.c
+index db7ad79745..88d911f2d7 100644
+--- a/job.c
++++ b/job.c
+@@ -464,6 +464,7 @@ void *job_create(const char *job_id, const JobDriver *driver, JobTxn *txn,
+     notifier_list_init(&job->on_finalize_completed);
+     notifier_list_init(&job->on_pending);
+     notifier_list_init(&job->on_ready);
++    notifier_list_init(&job->on_idle);
+ 
+     job_state_transition(job, JOB_STATUS_CREATED);
+     aio_timer_init(qemu_get_aio_context(), &job->sleep_timer,
+@@ -527,12 +528,20 @@ void job_progress_increase_remaining(Job *job, uint64_t delta)
+     progress_increase_remaining(&job->progress, delta);
+ }
+ 
+-void job_event_cancelled(Job *job)
++/**
++ * To be called when a cancelled job is finalised.
++ * Called with job_mutex held.
++ */
++static void job_event_cancelled(Job *job)
+ {
+     notifier_list_notify(&job->on_finalize_cancelled, job);
+ }
+ 
+-void job_event_completed(Job *job)
++/**
++ * To be called when a successfully completed job is finalised.
++ * Called with job_mutex held.
++ */
++static void job_event_completed(Job *job)
+ {
+     notifier_list_notify(&job->on_finalize_completed, job);
+ }
+-- 
+2.27.0
+
 
