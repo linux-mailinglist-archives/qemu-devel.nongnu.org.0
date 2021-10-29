@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38EF643F753
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 08:38:34 +0200 (CEST)
-Received: from localhost ([::1]:33660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1829C43F6EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 08:05:11 +0200 (CEST)
+Received: from localhost ([::1]:59238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgLX7-0001uu-CQ
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 02:38:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37350)
+	id 1mgL0m-0004XF-J0
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 02:05:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgKjt-0003ze-2P
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 01:47:41 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:40589)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgKjr-0002e9-2m
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 01:47:40 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- j128-20020a1c2386000000b003301a98dd62so3227784wmj.5
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 22:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=F3Vo0LdvqDxTsMsBOr5CAD77aoN35M2rBereIQrTQ3c=;
- b=qhUbKKYw5T2Nalq1vOJ8oMCzNkCRCPGqgDMiuqXf3pLAyX3Twzsz2rbXufFmvgLG98
- hNnJ2/CMCaRuHZAfvQkd6EDtRImmGqK0kuMzTwiZkVo2abKUBC9b7vkmjg7gemtUW0PW
- piup67qRJDkdkWFOm+gIB9LJsuKeOMVm0p3Dq+Xpl14VK8YpM/0jAyM/YRiVfkIBNi/1
- XNtUYvbbCq5Kh+0sto97avMb2Rgi/4UpkxbiVaMX91tOS+q2vs6am0PJbk+0HeE3518S
- SAKYW7JMODorwBTrh7IOKsvez7uRuwPW/Ejo4G42uf1ZJk2/4X/MJirS+W6SrXqjs1Ol
- /a8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=F3Vo0LdvqDxTsMsBOr5CAD77aoN35M2rBereIQrTQ3c=;
- b=6GJS2rfaj+hmVH5HlfvnFl6ez7GRWC2QQp1GxsDl+/bTCXyRlEggaIkT/7Wk/yqXU2
- 73JOMkvyYC15KT7i+GRh8DN+w0py6z6gPT4GMb7tbfgqOt7dlxWn+avbFxoRGjeWMiDd
- ucwPiqM4LdjAzhfg5u1wpRLqL5WEmSmbKVhVLfhMyo3xUFUCffuQXx03Wkhh/fYkGQpn
- d697HGIKKmTZN/vf603p5WqjP+Fa2NITQa91NPzrLMBy2qXsHtDLiRuiR/AfN6tyo8XU
- KYpHrQq3YbAW92LfXXctYEj3kwq8GGgwONvZs+kPFG/VSbNZ5FvG/y4ssxw8VMhl5xQd
- jmBg==
-X-Gm-Message-State: AOAM533z7ZachZa8lB61WUNild3WA3Hm1UazRzp2NoZ4BEH0KP5NL7jx
- StR1hLr0QJGwoswGWMlZLOM=
-X-Google-Smtp-Source: ABdhPJzy+yejqb6t+zZ79KcawgLjnYKVA2gaTfrdQXXKQwUP/47fDt8c3kgtHqnZ359MS2QhriFTgg==
-X-Received: by 2002:a7b:c38d:: with SMTP id s13mr211092wmj.12.1635486457846;
- Thu, 28 Oct 2021 22:47:37 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id e9sm4849766wrn.2.2021.10.28.22.47.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Oct 2021 22:47:37 -0700 (PDT)
-Message-ID: <b7ecb713-3f87-1da8-22eb-69826df39907@amsat.org>
-Date: Fri, 29 Oct 2021 07:47:36 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 20/23] hw/timer/sh_timer: Rename sh_timer_state to
- SHTimerState
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mgKwh-00030f-VH
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 02:00:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47121)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mgKw1-0005Yf-BF
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 02:00:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635487211;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TCR3O9Vr26iHxG/DIzz7Q3259kvAwwm1hE4mC0xIVAI=;
+ b=iERWCLdFOI3xEw/OM9zlBi0ZLl2FJdd46n3MBLxRUjmeVtqelZG/X2tinNyKUABGzFsB5v
+ sCSozcDMA+NmeC8/MUWsV7agj0x0pw62y/ZZH5S/i88HBrbNaxJ1IiJdlW2uznXq2Hv66V
+ TU7pkTzHvuf6jlL7nUuLGQDRQub55qs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-147-WpWcMhLoNGm3eA7-C47vmw-1; Fri, 29 Oct 2021 02:00:04 -0400
+X-MC-Unique: WpWcMhLoNGm3eA7-C47vmw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BEF01005E4D;
+ Fri, 29 Oct 2021 06:00:03 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E9861853C;
+ Fri, 29 Oct 2021 06:00:01 +0000 (UTC)
+Subject: Re: [PATCH v4 02/23] hw/char/sh_serial: Use hw_error instead of
+ fprintf and abort
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1635449225.git.balaton@eik.bme.hu>
- <647c291f53b4de0e79b979aaeee761ec4cf01a20.1635449225.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <647c291f53b4de0e79b979aaeee761ec4cf01a20.1635449225.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8
+ <1ecc1748443a161ecb988aab6b89c68e5ae631ff.1635449225.git.balaton@eik.bme.hu>
+ <872302f8-76f1-4613-10af-9c61773e1f58@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <63f46aa0-3fb9-b77d-f784-530547ef8318@redhat.com>
+Date: Fri, 29 Oct 2021 08:00:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <872302f8-76f1-4613-10af-9c61773e1f58@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.847,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.847, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,18 +91,61 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/28/21 21:27, BALATON Zoltan wrote:
-> According to coding style types should be camel case, also remove
-> unneded casts from void *.
+On 29/10/2021 07.38, Philippe Mathieu-Daudé wrote:
+> On 10/28/21 21:27, BALATON Zoltan wrote:
+>> It does the same with dumping some more state but avoids calling abort
+>> directly and printing to stderr from the device model.
 > 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
-> The tmu123_state is left for now, that's the real exported object with
-> SHTimerState being an internal object for a single timer. I'll come
-> back to this when QOM-ifying so only handled SHTimerState in this patch.
-> 
->  hw/timer/sh_timer.c | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
+> hw_error() is unfortunately misnamed, it is meant for CPU code,
+> and we want to get ride of it. What you probably want here is
+> error_report() which also reports to the monitor.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Looking at the text of the messages, maybe it would be even better to use 
+qemu_log_mask(LOG_UNIMP, ...) or qemu_log_mask(LOG_GUEST_ERROR, ...) ?
+
+  Thomas
+
+
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>   hw/char/sh_serial.c | 9 +++------
+>>   1 file changed, 3 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
+>> index 1b1e6a6a04..dbefb51d71 100644
+>> --- a/hw/char/sh_serial.c
+>> +++ b/hw/char/sh_serial.c
+>> @@ -26,6 +26,7 @@
+>>    */
+>>   
+>>   #include "qemu/osdep.h"
+>> +#include "hw/hw.h"
+>>   #include "hw/irq.h"
+>>   #include "hw/sh4/sh.h"
+>>   #include "chardev/char-fe.h"
+>> @@ -200,9 +201,7 @@ static void sh_serial_write(void *opaque, hwaddr offs,
+>>           }
+>>       }
+>>   
+>> -    fprintf(stderr, "sh_serial: unsupported write to 0x%02"
+>> -            HWADDR_PRIx "\n", offs);
+>> -    abort();
+>> +    hw_error("sh_serial: unsupported write to 0x%02"HWADDR_PRIx"\n", offs);
+>>   }
+>>   
+>>   static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+>> @@ -307,9 +306,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+>>   #endif
+>>   
+>>       if (ret & ~((1 << 16) - 1)) {
+>> -        fprintf(stderr, "sh_serial: unsupported read from 0x%02"
+>> -                HWADDR_PRIx "\n", offs);
+>> -        abort();
+>> +        hw_error("sh_serial: unsupported read from 0x%02"HWADDR_PRIx"\n", offs);
+>>       }
+>>   
+>>       return ret;
+>>
+> 
+
 
