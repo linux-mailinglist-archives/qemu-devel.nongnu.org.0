@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D524404FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:38:49 +0200 (CEST)
-Received: from localhost ([::1]:43074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1933B44052F
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:56:18 +0200 (CEST)
+Received: from localhost ([::1]:34978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgZaK-0006W5-O0
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:38:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55188)
+	id 1mgZrF-0006B0-4P
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:56:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZJ1-000767-4y
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:55 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19910)
+ id 1mgZJI-0007hO-4H
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:12 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZIy-0005ZZ-U2
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:54 -0400
+ id 1mgZJE-0005c3-Ku
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:11 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2E0687561FE;
+ by localhost (Postfix) with SMTP id E440A75619D;
  Fri, 29 Oct 2021 23:20:44 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9AE60756194; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
-Message-Id: <6b46045141d6d9cc32e17c223896fa1116384796.1635541329.git.balaton@eik.bme.hu>
+ id 011587561D2; Fri, 29 Oct 2021 23:20:44 +0200 (CEST)
+Message-Id: <d9a9d160c1153a583397e366ab06477f5a31c507.1635541329.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635541329.git.balaton@eik.bme.hu>
 References: <cover.1635541329.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 09/30] hw/char/sh_serial: Do not abort on invalid access
+Subject: [PATCH v6 27/30] hw/timer/sh_timer: Rename sh_timer_state to
+ SHTimerState
 Date: Fri, 29 Oct 2021 23:02:09 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,71 +62,99 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace fprintf with qemu_log_mask LOG_GUEST_ERROR as the intention is
-to handle valid accesses in these functions so if we get to these
-errors then it's an invalid access. Do not abort as that would allow
-the guest to crash QEMU and the practice in other devices is to not do
-that just log and ignore the invalid access. While at it also simplify
-the complex bit ops to check if a return value was set which can be
-done much simpler and clearer.
+According to coding style types should be camel case, also remove
+unneded casts from void *.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/char/sh_serial.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+The tmu012_state is left for now, that's the real exported object with
+SHTimerState being an internal object for a single timer. I'll come
+back to this when QOM-ifying so only handled SHTimerState in this patch.
 
-diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
-index 053f45e1a6..2d6ea0042e 100644
---- a/hw/char/sh_serial.c
-+++ b/hw/char/sh_serial.c
-@@ -31,6 +31,7 @@
- #include "chardev/char-fe.h"
- #include "qapi/error.h"
- #include "qemu/timer.h"
-+#include "qemu/log.h"
- #include "trace.h"
+ hw/timer/sh_timer.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
+index e1b6145df8..2038adfb0a 100644
+--- a/hw/timer/sh_timer.c
++++ b/hw/timer/sh_timer.c
+@@ -45,11 +45,11 @@ typedef struct {
+     int feat;
+     int enabled;
+     qemu_irq irq;
+-} sh_timer_state;
++} SHTimerState;
  
- #define SH_SERIAL_FLAG_TEND (1 << 0)
-@@ -195,17 +196,16 @@ static void sh_serial_write(void *opaque, hwaddr offs,
-             return;
-         }
-     }
--
--    fprintf(stderr, "sh_serial: unsupported write to 0x%02"
--            HWADDR_PRIx "\n", offs);
--    abort();
-+    qemu_log_mask(LOG_GUEST_ERROR,
-+                  "%s: unsupported write to 0x%02" HWADDR_PRIx "\n",
-+                  __func__, offs);
+ /* Check all active timers, and schedule the next timer interrupt. */
+ 
+-static void sh_timer_update(sh_timer_state *s)
++static void sh_timer_update(SHTimerState *s)
+ {
+     int new_level = s->int_level && (s->tcr & TIMER_TCR_UNIE);
+ 
+@@ -62,7 +62,7 @@ static void sh_timer_update(sh_timer_state *s)
+ 
+ static uint32_t sh_timer_read(void *opaque, hwaddr offset)
+ {
+-    sh_timer_state *s = (sh_timer_state *)opaque;
++    SHTimerState *s = opaque;
+ 
+     switch (offset >> 2) {
+     case OFFSET_TCOR:
+@@ -85,7 +85,7 @@ static uint32_t sh_timer_read(void *opaque, hwaddr offset)
+ static void sh_timer_write(void *opaque, hwaddr offset,
+                             uint32_t value)
+ {
+-    sh_timer_state *s = (sh_timer_state *)opaque;
++    SHTimerState *s = opaque;
+     int freq;
+ 
+     switch (offset >> 2) {
+@@ -200,7 +200,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
+ 
+ static void sh_timer_start_stop(void *opaque, int enable)
+ {
+-    sh_timer_state *s = (sh_timer_state *)opaque;
++    SHTimerState *s = opaque;
+ 
+     trace_sh_timer_start_stop(enable, s->enabled);
+     ptimer_transaction_begin(s->timer);
+@@ -216,14 +216,14 @@ static void sh_timer_start_stop(void *opaque, int enable)
+ 
+ static void sh_timer_tick(void *opaque)
+ {
+-    sh_timer_state *s = (sh_timer_state *)opaque;
++    SHTimerState *s = opaque;
+     s->int_level = s->enabled;
+     sh_timer_update(s);
  }
  
- static uint64_t sh_serial_read(void *opaque, hwaddr offs,
-                                unsigned size)
+ static void *sh_timer_init(uint32_t freq, int feat, qemu_irq irq)
  {
-     sh_serial_state *s = opaque;
--    uint32_t ret = ~0;
-+    uint32_t ret = UINT32_MAX;
+-    sh_timer_state *s;
++    SHTimerState *s;
  
- #if 0
-     switch (offs) {
-@@ -299,10 +299,11 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
-     }
-     trace_sh_serial_read(size, offs, ret);
+     s = g_malloc0(sizeof(*s));
+     s->freq = freq;
+@@ -259,7 +259,7 @@ typedef struct {
+ static uint64_t tmu012_read(void *opaque, hwaddr offset,
+                             unsigned size)
+ {
+-    tmu012_state *s = (tmu012_state *)opaque;
++    tmu012_state *s = opaque;
  
--    if (ret & ~((1 << 16) - 1)) {
--        fprintf(stderr, "sh_serial: unsupported read from 0x%02"
--                HWADDR_PRIx "\n", offs);
--        abort();
-+    if (ret > UINT16_MAX) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: unsupported read from 0x%02" HWADDR_PRIx "\n",
-+                      __func__, offs);
-+        ret = 0;
-     }
+     trace_sh_timer_read(offset);
+     if (offset >= 0x20) {
+@@ -289,7 +289,7 @@ static uint64_t tmu012_read(void *opaque, hwaddr offset,
+ static void tmu012_write(void *opaque, hwaddr offset,
+                         uint64_t value, unsigned size)
+ {
+-    tmu012_state *s = (tmu012_state *)opaque;
++    tmu012_state *s = opaque;
  
-     return ret;
+     trace_sh_timer_write(offset, value);
+     if (offset >= 0x20) {
 -- 
 2.21.4
 
