@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E96754403A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 21:58:01 +0200 (CEST)
-Received: from localhost ([::1]:42854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CAB8440355
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 21:38:51 +0200 (CEST)
+Received: from localhost ([::1]:35662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgY0n-0002BR-16
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 15:58:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56674)
+	id 1mgXiE-0002nL-KL
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 15:38:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1mgXWh-0000vt-4o; Fri, 29 Oct 2021 15:26:55 -0400
+ id 1mgXWn-0001De-54; Fri, 29 Oct 2021 15:27:02 -0400
 Received: from [201.28.113.2] (port=50092 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <luis.pires@eldorado.org.br>)
- id 1mgXWf-0000Ch-25; Fri, 29 Oct 2021 15:26:54 -0400
+ id 1mgXWl-0000Ch-9S; Fri, 29 Oct 2021 15:27:00 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 29 Oct 2021 16:24:21 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 29 Oct 2021 16:24:22 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id AA7A8800BA7;
- Fri, 29 Oct 2021 16:24:21 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 08D37800BA7;
+ Fri, 29 Oct 2021 16:24:22 -0300 (-03)
 From: Luis Pires <luis.pires@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v5 13/15] target/ppc: Move dqua[q], drrnd[q] to decodetree
-Date: Fri, 29 Oct 2021 16:24:15 -0300
-Message-Id: <20211029192417.400707-14-luis.pires@eldorado.org.br>
+Subject: [PATCH v5 15/15] target/ppc: Move ddedpd[q], denbcd[q], dscli[q],
+ dscri[q] to decodetree
+Date: Fri, 29 Oct 2021 16:24:17 -0300
+Message-Id: <20211029192417.400707-16-luis.pires@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211029192417.400707-1-luis.pires@eldorado.org.br>
 References: <20211029192417.400707-1-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 29 Oct 2021 19:24:21.0996 (UTC)
- FILETIME=[938ADAC0:01D7CCFA]
+X-OriginalArrivalTime: 29 Oct 2021 19:24:22.0301 (UTC)
+ FILETIME=[93B964D0:01D7CCFA]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,238 +65,293 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Move the following instructions to decodetree:
-dqua:   DFP Quantize
-dquaq:  DFP Quantize Quad
-drrnd:  DFP Reround
-drrndq: DFP Reround Quad
+ddedpd:  DFP Decode DPD To BCD
+ddedpdq: DFP Decode DPD To BCD Quad
+denbcd:  DFP Encode BCD To DPD
+denbcdq: DFP Encode BCD To DPD Quad
+dscli:   DFP Shift Significand Left Immediate
+dscliq:  DFP Shift Significand Left Immediate Quad
+dscri:   DFP Shift Significand Right Immediate
+dscriq:  DFP Shift Significand Right Immediate Quad
+
+Also deleted dfp-ops.c.inc, now that all PPC DFP instructions were
+moved to decodetree.
 
 Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/dfp_helper.c             |  8 ++---
- target/ppc/helper.h                 |  8 ++---
- target/ppc/insn32.decode            | 18 +++++++++--
- target/ppc/translate/dfp-impl.c.inc | 50 +++++++++++++----------------
- target/ppc/translate/dfp-ops.c.inc  | 25 ---------------
- 5 files changed, 47 insertions(+), 62 deletions(-)
+ target/ppc/dfp_helper.c             | 16 ++++-----
+ target/ppc/helper.h                 | 16 ++++-----
+ target/ppc/insn32.decode            | 28 +++++++++++++++
+ target/ppc/translate.c              |  2 --
+ target/ppc/translate/dfp-impl.c.inc | 53 +++++++++++++----------------
+ target/ppc/translate/dfp-ops.c.inc  | 40 ----------------------
+ 6 files changed, 68 insertions(+), 87 deletions(-)
+ delete mode 100644 target/ppc/translate/dfp-ops.c.inc
 
 diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-index df3e6c7cb1..a50a73d3c0 100644
+index d950d0d3fc..0d01ac3de0 100644
 --- a/target/ppc/dfp_helper.c
 +++ b/target/ppc/dfp_helper.c
-@@ -769,8 +769,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *a,        \
-     set_dfp##size(t, &dfp.vt);                                          \
+@@ -1131,8 +1131,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,          \
+     set_dfp##size(t, &dfp.vt);                                            \
  }
  
--DFP_HELPER_QUA(dqua, 64)
--DFP_HELPER_QUA(dquaq, 128)
-+DFP_HELPER_QUA(DQUA, 64)
-+DFP_HELPER_QUA(DQUAQ, 128)
+-DFP_HELPER_DEDPD(ddedpd, 64)
+-DFP_HELPER_DEDPD(ddedpdq, 128)
++DFP_HELPER_DEDPD(DDEDPD, 64)
++DFP_HELPER_DEDPD(DDEDPDQ, 128)
  
- static void _dfp_reround(uint8_t rmc, int32_t ref_sig, int32_t xmax,
-                              struct PPC_DFP *dfp)
-@@ -847,8 +847,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *a,        \
-     set_dfp##size(t, &dfp.vt);                                          \
+ static inline uint8_t dfp_get_bcd_digit_64(ppc_vsr_t *t, unsigned n)
+ {
+@@ -1199,8 +1199,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,             \
+     set_dfp##size(t, &dfp.vt);                                               \
  }
  
--DFP_HELPER_RRND(drrnd, 64)
--DFP_HELPER_RRND(drrndq, 128)
-+DFP_HELPER_RRND(DRRND, 64)
-+DFP_HELPER_RRND(DRRNDQ, 128)
+-DFP_HELPER_ENBCD(denbcd, 64)
+-DFP_HELPER_ENBCD(denbcdq, 128)
++DFP_HELPER_ENBCD(DENBCD, 64)
++DFP_HELPER_ENBCD(DENBCDQ, 128)
  
- #define DFP_HELPER_RINT(op, postprocs, size)                                   \
- void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,               \
+ #define DFP_HELPER_XEX(op, size)                               \
+ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b) \
+@@ -1387,7 +1387,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *a,    \
+     set_dfp##size(t, &dfp.vt);                                      \
+ }
+ 
+-DFP_HELPER_SHIFT(dscli, 64, 1)
+-DFP_HELPER_SHIFT(dscliq, 128, 1)
+-DFP_HELPER_SHIFT(dscri, 64, 0)
+-DFP_HELPER_SHIFT(dscriq, 128, 0)
++DFP_HELPER_SHIFT(DSCLI, 64, 1)
++DFP_HELPER_SHIFT(DSCLIQ, 128, 1)
++DFP_HELPER_SHIFT(DSCRI, 64, 0)
++DFP_HELPER_SHIFT(DSCRIQ, 128, 0)
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 520cce8378..cb05cc168c 100644
+index 4c2a349ce6..6fa3e15fe9 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -720,10 +720,10 @@ DEF_HELPER_3(DTSTSFI, i32, env, i32, fprp)
- DEF_HELPER_3(DTSTSFIQ, i32, env, i32, fprp)
- DEF_HELPER_5(DQUAI, void, env, fprp, fprp, i32, i32)
- DEF_HELPER_5(DQUAIQ, void, env, fprp, fprp, i32, i32)
--DEF_HELPER_5(dqua, void, env, fprp, fprp, fprp, i32)
--DEF_HELPER_5(dquaq, void, env, fprp, fprp, fprp, i32)
--DEF_HELPER_5(drrnd, void, env, fprp, fprp, fprp, i32)
--DEF_HELPER_5(drrndq, void, env, fprp, fprp, fprp, i32)
-+DEF_HELPER_5(DQUA, void, env, fprp, fprp, fprp, i32)
-+DEF_HELPER_5(DQUAQ, void, env, fprp, fprp, fprp, i32)
-+DEF_HELPER_5(DRRND, void, env, fprp, fprp, fprp, i32)
-+DEF_HELPER_5(DRRNDQ, void, env, fprp, fprp, fprp, i32)
- DEF_HELPER_5(DRINTX, void, env, fprp, fprp, i32, i32)
- DEF_HELPER_5(DRINTXQ, void, env, fprp, fprp, i32, i32)
- DEF_HELPER_5(DRINTN, void, env, fprp, fprp, i32, i32)
+@@ -738,18 +738,18 @@ DEF_HELPER_3(DCFFIXQQ, void, env, fprp, avr)
+ DEF_HELPER_3(DCTFIX, void, env, fprp, fprp)
+ DEF_HELPER_3(DCTFIXQ, void, env, fprp, fprp)
+ DEF_HELPER_3(DCTFIXQQ, void, env, avr, fprp)
+-DEF_HELPER_4(ddedpd, void, env, fprp, fprp, i32)
+-DEF_HELPER_4(ddedpdq, void, env, fprp, fprp, i32)
+-DEF_HELPER_4(denbcd, void, env, fprp, fprp, i32)
+-DEF_HELPER_4(denbcdq, void, env, fprp, fprp, i32)
++DEF_HELPER_4(DDEDPD, void, env, fprp, fprp, i32)
++DEF_HELPER_4(DDEDPDQ, void, env, fprp, fprp, i32)
++DEF_HELPER_4(DENBCD, void, env, fprp, fprp, i32)
++DEF_HELPER_4(DENBCDQ, void, env, fprp, fprp, i32)
+ DEF_HELPER_3(DXEX, void, env, fprp, fprp)
+ DEF_HELPER_3(DXEXQ, void, env, fprp, fprp)
+ DEF_HELPER_4(DIEX, void, env, fprp, fprp, fprp)
+ DEF_HELPER_4(DIEXQ, void, env, fprp, fprp, fprp)
+-DEF_HELPER_4(dscri, void, env, fprp, fprp, i32)
+-DEF_HELPER_4(dscriq, void, env, fprp, fprp, i32)
+-DEF_HELPER_4(dscli, void, env, fprp, fprp, i32)
+-DEF_HELPER_4(dscliq, void, env, fprp, fprp, i32)
++DEF_HELPER_4(DSCRI, void, env, fprp, fprp, i32)
++DEF_HELPER_4(DSCRIQ, void, env, fprp, fprp, i32)
++DEF_HELPER_4(DSCLI, void, env, fprp, fprp, i32)
++DEF_HELPER_4(DSCLIQ, void, env, fprp, fprp, i32)
+ 
+ DEF_HELPER_1(tbegin, void, env)
+ DEF_HELPER_FLAGS_1(fixup_thrm, TCG_CALL_NO_RWG, void, env)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index f0e17580e0..86dbdada47 100644
+index 2ce8b0ab95..6aec1c0728 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -77,11 +77,19 @@
+@@ -74,6 +74,16 @@
+ &X_bfl          bf l:bool ra rb
+ @X_bfl          ...... bf:3 - l:1 ra:5 rb:5 ..........- &X_bfl
+ 
++&X_tb_sp_rc     rt rb sp rc:bool
++@X_tb_sp_rc     ...... rt:5 sp:2 ... rb:5 .......... rc:1       &X_tb_sp_rc
++
++@X_tbp_sp_rc    ...... ....0 sp:2 ... ....0 .......... rc:1     &X_tb_sp_rc rt=%x_frtp rb=%x_frbp
++
++&X_tb_s_rc      rt rb s:bool rc:bool
++@X_tb_s_rc      ...... rt:5 s:1 .... rb:5 .......... rc:1       &X_tb_s_rc
++
++@X_tbp_s_rc     ...... ....0 s:1 .... ....0 .......... rc:1     &X_tb_s_rc rt=%x_frtp rb=%x_frbp
++
+ &X_frtp_vrb     frtp vrb
+ @X_frtp_vrb     ...... ....0 ..... vrb:5 .......... .           &X_frtp_vrb frtp=%x_frtp
+ 
+@@ -86,6 +96,12 @@
  %z22_frap       17:4 !function=times_2
  @Z22_bf_frap    ...... bf:3 .. ....0 dm:6 ......... .           &Z22_bf_fra fra=%z22_frap
  
--&Z23_tb         frt frb r:bool rmc rc:bool
--@Z23_tb         ...... frt:5 .... r:1 frb:5 rmc:2 ........ rc:1 &Z23_tb
-+&Z23_tab        frt fra frb rmc rc:bool
-+@Z23_tab        ...... frt:5 fra:5 frb:5 rmc:2 ........ rc:1    &Z23_tab
++&Z22_ta_sh_rc   rt ra sh rc:bool
++@Z22_ta_sh_rc   ...... rt:5 ra:5 sh:6 ......... rc:1            &Z22_ta_sh_rc
++
++%z22_frtp       22:4 !function=times_2
++@Z22_tap_sh_rc  ...... ....0 ....0 sh:6 ......... rc:1          &Z22_ta_sh_rc rt=%z22_frtp ra=%z22_frap
++
+ &Z23_tab        frt fra frb rmc rc:bool
+ @Z23_tab        ...... frt:5 fra:5 frb:5 rmc:2 ........ rc:1    &Z23_tab
  
- %z23_frtp       22:4 !function=times_2
-+%z23_frap       17:4 !function=times_2
- %z23_frbp       12:4 !function=times_2
-+@Z23_tabp       ...... ....0 ....0 ....0 rmc:2 ........ rc:1    &Z23_tab frt=%z23_frtp fra=%z23_frap frb=%z23_frbp
-+
-+@Z23_tp_a_bp    ...... ....0 fra:5 ....0 rmc:2 ........ rc:1    &Z23_tab frt=%z23_frtp frb=%z23_frbp
-+
-+&Z23_tb         frt frb r:bool rmc rc:bool
-+@Z23_tb         ...... frt:5 .... r:1 frb:5 rmc:2 ........ rc:1 &Z23_tb
-+
- @Z23_tbp        ...... ....0 .... r:1 ....0 rmc:2 ........ rc:1 &Z23_tb frt=%z23_frtp frb=%z23_frbp
+@@ -258,12 +274,24 @@ DCTFIXQQ        111111 ..... 00001 ..... 1111100010 -   @X_vrt_frbp
  
- &Z23_te_tb      te frt frb rmc rc:bool
-@@ -211,6 +219,12 @@ DTSTSFIQ        111111 ... - ...... ..... 1010100011 -  @X_bf_uim_bp
- DQUAI           111011 ..... ..... ..... .. 01000011 .  @Z23_te_tb
- DQUAIQ          111111 ..... ..... ..... .. 01000011 .  @Z23_te_tbp
+ ### Decimal Floating-Point Format Instructions
  
-+DQUA            111011 ..... ..... ..... .. 00000011 .  @Z23_tab
-+DQUAQ           111111 ..... ..... ..... .. 00000011 .  @Z23_tabp
++DDEDPD          111011 ..... .. --- ..... 0101000010 .  @X_tb_sp_rc
++DDEDPDQ         111111 ..... .. --- ..... 0101000010 .  @X_tbp_sp_rc
 +
-+DRRND           111011 ..... ..... ..... .. 00100011 .  @Z23_tab
-+DRRNDQ          111111 ..... ..... ..... .. 00100011 .  @Z23_tp_a_bp
++DENBCD          111011 ..... . ---- ..... 1101000010 .  @X_tb_s_rc
++DENBCDQ         111111 ..... . ---- ..... 1101000010 .  @X_tbp_s_rc
 +
- DRINTX          111011 ..... ---- . ..... .. 01100011 . @Z23_tb
- DRINTXQ         111111 ..... ---- . ..... .. 01100011 . @Z23_tbp
+ DXEX            111011 ..... ----- ..... 0101100010 .   @X_tb_rc
+ DXEXQ           111111 ..... ----- ..... 0101100010 .   @X_t_bp_rc
+ 
+ DIEX            111011 ..... ..... ..... 1101100010 .   @X_rc
+ DIEXQ           111111 ..... ..... ..... 1101100010 .   @X_tp_a_bp_rc
+ 
++DSCLI           111011 ..... ..... ...... 001000010 .   @Z22_ta_sh_rc
++DSCLIQ          111111 ..... ..... ...... 001000010 .   @Z22_tap_sh_rc
++
++DSCRI           111011 ..... ..... ...... 001100010 .   @Z22_ta_sh_rc
++DSCRIQ          111111 ..... ..... ...... 001100010 .   @Z22_tap_sh_rc
++
+ ## Vector Bit Manipulation Instruction
+ 
+ VCFUGED         000100 ..... ..... ..... 10101001101    @VX
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 6224cb3211..62414adb75 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -8192,8 +8192,6 @@ GEN_HANDLER2_E(trechkpt, "trechkpt", 0x1F, 0x0E, 0x1F, 0x03FFF800, \
+ 
+ #include "translate/vsx-ops.c.inc"
+ 
+-#include "translate/dfp-ops.c.inc"
+-
+ #include "translate/spe-ops.c.inc"
+ };
  
 diff --git a/target/ppc/translate/dfp-impl.c.inc b/target/ppc/translate/dfp-impl.c.inc
-index cb481d028a..30d65ffb46 100644
+index 736292584c..f9f1d58d44 100644
 --- a/target/ppc/translate/dfp-impl.c.inc
 +++ b/target/ppc/translate/dfp-impl.c.inc
-@@ -86,28 +86,25 @@ static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a)   \
+@@ -123,25 +123,22 @@ static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a)   \
      return true;                                             \
  }
  
--#define GEN_DFP_T_A_B_I32_Rc(name, i32fld)       \
--static void gen_##name(DisasContext *ctx)        \
--{                                                \
--    TCGv_ptr rt, ra, rb;                         \
--    TCGv_i32 i32;                                \
--    if (unlikely(!ctx->fpu_enabled)) {           \
--        gen_exception(ctx, POWERPC_EXCP_FPU);    \
--        return;                                  \
--    }                                            \
--    rt = gen_fprp_ptr(rD(ctx->opcode));          \
--    ra = gen_fprp_ptr(rA(ctx->opcode));          \
--    rb = gen_fprp_ptr(rB(ctx->opcode));          \
--    i32 = tcg_const_i32(i32fld(ctx->opcode));    \
--    gen_helper_##name(cpu_env, rt, ra, rb, i32); \
--    if (unlikely(Rc(ctx->opcode) != 0)) {        \
--        gen_set_cr1_from_fpscr(ctx);             \
--    }                                            \
--    tcg_temp_free_ptr(rt);                       \
--    tcg_temp_free_ptr(rb);                       \
--    tcg_temp_free_ptr(ra);                       \
--    tcg_temp_free_i32(i32);                      \
--    }
-+#define TRANS_DFP_T_A_B_I32_Rc(NAME, I32FLD)                 \
+-#define GEN_DFP_T_FPR_I32_Rc(name, fprfld, i32fld) \
+-static void gen_##name(DisasContext *ctx)          \
+-{                                                  \
+-    TCGv_ptr rt, rs;                               \
+-    TCGv_i32 i32;                                  \
+-    if (unlikely(!ctx->fpu_enabled)) {             \
+-        gen_exception(ctx, POWERPC_EXCP_FPU);      \
+-        return;                                    \
+-    }                                              \
+-    rt = gen_fprp_ptr(rD(ctx->opcode));            \
+-    rs = gen_fprp_ptr(fprfld(ctx->opcode));        \
+-    i32 = tcg_const_i32(i32fld(ctx->opcode));      \
+-    gen_helper_##name(cpu_env, rt, rs, i32);       \
+-    if (unlikely(Rc(ctx->opcode) != 0)) {          \
+-        gen_set_cr1_from_fpscr(ctx);               \
+-    }                                              \
+-    tcg_temp_free_ptr(rt);                         \
+-    tcg_temp_free_ptr(rs);                         \
+-    tcg_temp_free_i32(i32);                        \
++#define TRANS_DFP_T_FPR_I32_Rc(NAME, FPRFLD, I32FLD)         \
 +static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a)   \
 +{                                                            \
-+    TCGv_ptr rt, ra, rb;                                     \
++    TCGv_ptr rt, rx;                                         \
 +    REQUIRE_INSNS_FLAGS2(ctx, DFP);                          \
 +    REQUIRE_FPU(ctx);                                        \
-+    rt = gen_fprp_ptr(a->frt);                               \
-+    ra = gen_fprp_ptr(a->fra);                               \
-+    rb = gen_fprp_ptr(a->frb);                               \
-+    gen_helper_##NAME(cpu_env, rt, ra, rb,                   \
++    rt = gen_fprp_ptr(a->rt);                                \
++    rx = gen_fprp_ptr(a->FPRFLD);                            \
++    gen_helper_##NAME(cpu_env, rt, rx,                       \
 +                      tcg_constant_i32(a->I32FLD));          \
 +    if (unlikely(a->rc)) {                                   \
 +        gen_set_cr1_from_fpscr(ctx);                         \
 +    }                                                        \
 +    tcg_temp_free_ptr(rt);                                   \
-+    tcg_temp_free_ptr(ra);                                   \
-+    tcg_temp_free_ptr(rb);                                   \
++    tcg_temp_free_ptr(rx);                                   \
 +    return true;                                             \
-+}
+ }
  
- #define GEN_DFP_T_B_Rc(name)                     \
- static void gen_##name(DisasContext *ctx)        \
-@@ -172,10 +169,10 @@ TRANS_DFP_BF_I_B(DTSTSFI)
- TRANS_DFP_BF_I_B(DTSTSFIQ)
- TRANS_DFP_T_B_U32_U32_Rc(DQUAI, te, rmc)
- TRANS_DFP_T_B_U32_U32_Rc(DQUAIQ, te, rmc)
--GEN_DFP_T_A_B_I32_Rc(dqua, RMC)
--GEN_DFP_T_A_B_I32_Rc(dquaq, RMC)
--GEN_DFP_T_A_B_I32_Rc(drrnd, RMC)
--GEN_DFP_T_A_B_I32_Rc(drrndq, RMC)
-+TRANS_DFP_T_A_B_I32_Rc(DQUA, rmc)
-+TRANS_DFP_T_A_B_I32_Rc(DQUAQ, rmc)
-+TRANS_DFP_T_A_B_I32_Rc(DRRND, rmc)
-+TRANS_DFP_T_A_B_I32_Rc(DRRNDQ, rmc)
- TRANS_DFP_T_B_U32_U32_Rc(DRINTX, r, rmc)
- TRANS_DFP_T_B_U32_U32_Rc(DRINTXQ, r, rmc)
- TRANS_DFP_T_B_U32_U32_Rc(DRINTN, r, rmc)
-@@ -201,7 +198,6 @@ GEN_DFP_T_FPR_I32_Rc(dscliq, rA, DCM)
- GEN_DFP_T_FPR_I32_Rc(dscri, rA, DCM)
- GEN_DFP_T_FPR_I32_Rc(dscriq, rA, DCM)
+ TRANS_DFP_T_A_B_Rc(DADD)
+@@ -184,20 +181,18 @@ TRANS_DFP_T_B_Rc(DCFFIX)
+ TRANS_DFP_T_B_Rc(DCFFIXQ)
+ TRANS_DFP_T_B_Rc(DCTFIX)
+ TRANS_DFP_T_B_Rc(DCTFIXQ)
+-GEN_DFP_T_FPR_I32_Rc(ddedpd, rB, SP)
+-GEN_DFP_T_FPR_I32_Rc(ddedpdq, rB, SP)
+-GEN_DFP_T_FPR_I32_Rc(denbcd, rB, SP)
+-GEN_DFP_T_FPR_I32_Rc(denbcdq, rB, SP)
++TRANS_DFP_T_FPR_I32_Rc(DDEDPD, rb, sp)
++TRANS_DFP_T_FPR_I32_Rc(DDEDPDQ, rb, sp)
++TRANS_DFP_T_FPR_I32_Rc(DENBCD, rb, s)
++TRANS_DFP_T_FPR_I32_Rc(DENBCDQ, rb, s)
+ TRANS_DFP_T_B_Rc(DXEX)
+ TRANS_DFP_T_B_Rc(DXEXQ)
+ TRANS_DFP_T_A_B_Rc(DIEX)
+ TRANS_DFP_T_A_B_Rc(DIEXQ)
+-GEN_DFP_T_FPR_I32_Rc(dscli, rA, DCM)
+-GEN_DFP_T_FPR_I32_Rc(dscliq, rA, DCM)
+-GEN_DFP_T_FPR_I32_Rc(dscri, rA, DCM)
+-GEN_DFP_T_FPR_I32_Rc(dscriq, rA, DCM)
+-
+-#undef GEN_DFP_T_FPR_I32_Rc
++TRANS_DFP_T_FPR_I32_Rc(DSCLI, ra, sh)
++TRANS_DFP_T_FPR_I32_Rc(DSCLIQ, ra, sh)
++TRANS_DFP_T_FPR_I32_Rc(DSCRI, ra, sh)
++TRANS_DFP_T_FPR_I32_Rc(DSCRIQ, ra, sh)
  
--#undef GEN_DFP_T_A_B_I32_Rc
- #undef GEN_DFP_T_B_Rc
- #undef GEN_DFP_T_FPR_I32_Rc
- 
+ static bool trans_DCFFIXQQ(DisasContext *ctx, arg_DCFFIXQQ *a)
+ {
 diff --git a/target/ppc/translate/dfp-ops.c.inc b/target/ppc/translate/dfp-ops.c.inc
-index c563f84a0b..3e0dfae796 100644
+deleted file mode 100644
+index e29c4b2194..0000000000
 --- a/target/ppc/translate/dfp-ops.c.inc
-+++ b/target/ppc/translate/dfp-ops.c.inc
-@@ -5,12 +5,6 @@ GEN_HANDLER_E(name, 0x3B, op1, op2, mask, PPC_NONE, PPC2_DFP)
- GEN_HANDLER_E(name, 0x3B, op1, 0x00 | op2, mask, PPC_NONE, PPC2_DFP), \
- GEN_HANDLER_E(name, 0x3B, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP)
- 
--#define _GEN_DFP_LONGx4(name, op1, op2, mask) \
++++ /dev/null
+@@ -1,40 +0,0 @@
+-#define _GEN_DFP_LONG(name, op1, op2, mask) \
+-GEN_HANDLER_E(name, 0x3B, op1, op2, mask, PPC_NONE, PPC2_DFP)
+-
+-#define _GEN_DFP_LONGx2(name, op1, op2, mask) \
 -GEN_HANDLER_E(name, 0x3B, op1, 0x00 | op2, mask, PPC_NONE, PPC2_DFP), \
--GEN_HANDLER_E(name, 0x3B, op1, 0x08 | op2, mask, PPC_NONE, PPC2_DFP), \
--GEN_HANDLER_E(name, 0x3B, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP), \
--GEN_HANDLER_E(name, 0x3B, op1, 0x18 | op2, mask, PPC_NONE, PPC2_DFP)
+-GEN_HANDLER_E(name, 0x3B, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP)
 -
- #define _GEN_DFP_QUAD(name, op1, op2, mask) \
- GEN_HANDLER_E(name, 0x3F, op1, op2, mask, PPC_NONE, PPC2_DFP)
- 
-@@ -18,12 +12,6 @@ GEN_HANDLER_E(name, 0x3F, op1, op2, mask, PPC_NONE, PPC2_DFP)
- GEN_HANDLER_E(name, 0x3F, op1, 0x00 | op2, mask, PPC_NONE, PPC2_DFP), \
- GEN_HANDLER_E(name, 0x3F, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP)
- 
--#define _GEN_DFP_QUADx4(name, op1, op2, mask)                         \
+-#define _GEN_DFP_QUAD(name, op1, op2, mask) \
+-GEN_HANDLER_E(name, 0x3F, op1, op2, mask, PPC_NONE, PPC2_DFP)
+-
+-#define _GEN_DFP_QUADx2(name, op1, op2, mask) \
 -GEN_HANDLER_E(name, 0x3F, op1, 0x00 | op2, mask, PPC_NONE, PPC2_DFP), \
--GEN_HANDLER_E(name, 0x3F, op1, 0x08 | op2, mask, PPC_NONE, PPC2_DFP), \
--GEN_HANDLER_E(name, 0x3F, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP), \
--GEN_HANDLER_E(name, 0x3F, op1, 0x18 | op2, mask, PPC_NONE, PPC2_DFP)
+-GEN_HANDLER_E(name, 0x3F, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP)
 -
- #define GEN_DFP_T_B_Rc(name, op1, op2) \
- _GEN_DFP_LONG(name, op1, op2, 0x001F0000)
- 
-@@ -36,15 +24,6 @@ _GEN_DFP_QUAD(name, op1, op2, 0x003F0000)
- #define GEN_DFP_T_Bp_Rc(name, op1, op2) \
- _GEN_DFP_QUAD(name, op1, op2, 0x001F0800)
- 
--#define GEN_DFP_T_A_B_RMC_Rc(name, op1, op2) \
--_GEN_DFP_LONGx4(name, op1, op2, 0x00000000)
+-#define GEN_DFP_SP_T_B_Rc(name, op1, op2) \
+-_GEN_DFP_LONG(name, op1, op2, 0x00070000)
 -
--#define GEN_DFP_Tp_Ap_Bp_RMC_Rc(name, op1, op2) \
--_GEN_DFP_QUADx4(name, op1, op2, 0x02010800)
+-#define GEN_DFP_SP_Tp_Bp_Rc(name, op1, op2) \
+-_GEN_DFP_QUAD(name, op1, op2, 0x00270800)
 -
--#define GEN_DFP_Tp_A_Bp_RMC_Rc(name, op1, op2) \
--_GEN_DFP_QUADx4(name, op1, op2, 0x02000800)
+-#define GEN_DFP_S_T_B_Rc(name, op1, op2) \
+-_GEN_DFP_LONG(name, op1, op2, 0x000F0000)
 -
- #define GEN_DFP_SP_T_B_Rc(name, op1, op2) \
- _GEN_DFP_LONG(name, op1, op2, 0x00070000)
- 
-@@ -63,10 +42,6 @@ _GEN_DFP_LONGx2(name, op1, op2, 0x00000000)
- #define GEN_DFP_Tp_Ap_SH_Rc(name, op1, op2) \
- _GEN_DFP_QUADx2(name, op1, op2, 0x00210000)
- 
--GEN_DFP_T_A_B_RMC_Rc(dqua, 0x03, 0x00),
--GEN_DFP_Tp_Ap_Bp_RMC_Rc(dquaq, 0x03, 0x00),
--GEN_DFP_T_A_B_RMC_Rc(drrnd, 0x03, 0x01),
--GEN_DFP_Tp_A_Bp_RMC_Rc(drrndq, 0x03, 0x01),
- GEN_DFP_T_B_Rc(dctdp, 0x02, 0x08),
- GEN_DFP_Tp_B_Rc(dctqpq, 0x02, 0x08),
- GEN_DFP_T_B_Rc(drsp, 0x02, 0x18),
+-#define GEN_DFP_S_Tp_Bp_Rc(name, op1, op2) \
+-_GEN_DFP_QUAD(name, op1, op2, 0x002F0800)
+-
+-#define GEN_DFP_T_A_SH_Rc(name, op1, op2) \
+-_GEN_DFP_LONGx2(name, op1, op2, 0x00000000)
+-
+-#define GEN_DFP_Tp_Ap_SH_Rc(name, op1, op2) \
+-_GEN_DFP_QUADx2(name, op1, op2, 0x00210000)
+-
+-GEN_DFP_SP_T_B_Rc(ddedpd, 0x02, 0x0a),
+-GEN_DFP_SP_Tp_Bp_Rc(ddedpdq, 0x02, 0x0a),
+-GEN_DFP_S_T_B_Rc(denbcd, 0x02, 0x1a),
+-GEN_DFP_S_Tp_Bp_Rc(denbcdq, 0x02, 0x1a),
+-GEN_DFP_T_A_SH_Rc(dscli, 0x02, 0x02),
+-GEN_DFP_Tp_Ap_SH_Rc(dscliq, 0x02, 0x02),
+-GEN_DFP_T_A_SH_Rc(dscri, 0x02, 0x03),
+-GEN_DFP_Tp_Ap_SH_Rc(dscriq, 0x02, 0x03),
 -- 
 2.25.1
 
