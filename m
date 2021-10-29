@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF02440464
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:54:32 +0200 (CEST)
-Received: from localhost ([::1]:60204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E359844045D
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:51:03 +0200 (CEST)
+Received: from localhost ([::1]:51694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgYtT-00085Y-KE
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:54:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44916)
+	id 1mgYq6-000286-Vf
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:51:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mgYTI-0004jA-0q; Fri, 29 Oct 2021 16:27:28 -0400
+ id 1mgYTK-0004kj-TP; Fri, 29 Oct 2021 16:27:32 -0400
 Received: from [201.28.113.2] (port=43261 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mgYTG-0002IC-9z; Fri, 29 Oct 2021 16:27:27 -0400
+ id 1mgYTJ-0002IC-2Z; Fri, 29 Oct 2021 16:27:30 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 29 Oct 2021 17:26:03 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 29 Oct 2021 17:26:07 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 7DAA9800B36;
- Fri, 29 Oct 2021 17:26:03 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 108EC800B36;
+ Fri, 29 Oct 2021 17:26:07 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 15/34] target/ppc: Implement Vector Insert from GPR using
- GPR index insns
-Date: Fri, 29 Oct 2021 17:24:05 -0300
-Message-Id: <20211029202424.175401-16-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 16/34] target/ppc: Implement Vector Insert Word from GPR
+ using Immediate insns
+Date: Fri, 29 Oct 2021 17:24:06 -0300
+Message-Id: <20211029202424.175401-17-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
 References: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 29 Oct 2021 20:26:04.0025 (UTC)
- FILETIME=[321FA690:01D7CD03]
+X-OriginalArrivalTime: 29 Oct 2021 20:26:07.0570 (UTC)
+ FILETIME=[343C9320:01D7CD03]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -66,140 +66,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Implements the following PowerISA v3.1 instructions:
-vinsblx: Vector Insert Byte from GPR using GPR-specified Left-Index
-vinshlx: Vector Insert Halfword from GPR using GPR-specified Left-Index
-vinswlx: Vector Insert Word from GPR using GPR-specified Left-Index
-vinsdlx: Vector Insert Doubleword from GPR using GPR-specified
-         Left-Index
-vinsbrx: Vector Insert Byte from GPR using GPR-specified Right-Index
-vinshrx: Vector Insert Halfword from GPR using GPR-specified
-         Right-Index
-vinswrx: Vector Insert Word from GPR using GPR-specified Right-Index
-vinsdrx: Vector Insert Doubleword from GPR using GPR-specified
-         Right-Index
-
-The helpers and do_vinsx receive i64 to allow code sharing with the
-future implementation of Vector Insert from VSR using GPR Index.
+vinsw: Vector Insert Word from GPR using immediate-specified index
+vinsd: Vector Insert Doubleword from GPR using immediate-specified
+       index
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
 v2:
 - #ifdef TARGET_PPC64 removed from translation code
-- ELEM_ADDR without VsrB
-- memcpy instead of misaligned store
-- Simplified log message
+- Comments about real hardware behavior
 ---
- target/ppc/helper.h                 |  4 +++
- target/ppc/insn32.decode            |  9 ++++++
- target/ppc/int_helper.c             | 29 +++++++++++++++++
- target/ppc/translate/vmx-impl.c.inc | 50 +++++++++++++++++++++++++++++
- 4 files changed, 92 insertions(+)
+ target/ppc/insn32.decode            |  6 +++++
+ target/ppc/translate/vmx-impl.c.inc | 37 +++++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 0e99f8095c..80f88ce78b 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -228,6 +228,10 @@ DEF_HELPER_3(vinsertb, void, avr, avr, i32)
- DEF_HELPER_3(vinserth, void, avr, avr, i32)
- DEF_HELPER_3(vinsertw, void, avr, avr, i32)
- DEF_HELPER_3(vinsertd, void, avr, avr, i32)
-+DEF_HELPER_4(VINSBLX, void, env, avr, i64, tl)
-+DEF_HELPER_4(VINSHLX, void, env, avr, i64, tl)
-+DEF_HELPER_4(VINSWLX, void, env, avr, i64, tl)
-+DEF_HELPER_4(VINSDLX, void, env, avr, i64, tl)
- DEF_HELPER_2(vextsb2w, void, avr, avr)
- DEF_HELPER_2(vextsh2w, void, avr, avr)
- DEF_HELPER_2(vextsb2d, void, avr, avr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 257b11113d..b794424496 100644
+index b794424496..e1f76aac34 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -344,5 +344,14 @@ VPEXTD          000100 ..... ..... ..... 10110001101    @VX
+@@ -44,6 +44,9 @@
+ &VX             vrt vra vrb
+ @VX             ...... vrt:5 vra:5 vrb:5 .......... .   &VX
  
- ## Vector Permute and Formatting Instruction
++&VX_uim4        vrt uim vrb
++@VX_uim4        ...... vrt:5 . uim:4 vrb:5 ...........  &VX_uim4
++
+ &X              rt ra rb
+ @X              ...... rt:5 ra:5 rb:5 .......... .      &X
  
-+VINSBLX         000100 ..... ..... ..... 01000001111    @VX
-+VINSBRX         000100 ..... ..... ..... 01100001111    @VX
-+VINSHLX         000100 ..... ..... ..... 01001001111    @VX
-+VINSHRX         000100 ..... ..... ..... 01101001111    @VX
-+VINSWLX         000100 ..... ..... ..... 01010001111    @VX
-+VINSWRX         000100 ..... ..... ..... 01110001111    @VX
-+VINSDLX         000100 ..... ..... ..... 01011001111    @VX
-+VINSDRX         000100 ..... ..... ..... 01111001111    @VX
+@@ -353,5 +356,8 @@ VINSWRX         000100 ..... ..... ..... 01110001111    @VX
+ VINSDLX         000100 ..... ..... ..... 01011001111    @VX
+ VINSDRX         000100 ..... ..... ..... 01111001111    @VX
+ 
++VINSW           000100 ..... - .... ..... 00011001111   @VX_uim4
++VINSD           000100 ..... - .... ..... 00111001111   @VX_uim4
 +
  VSLDBI          000100 ..... ..... ..... 00 ... 010110  @VN
  VSRDBI          000100 ..... ..... ..... 01 ... 010110  @VN
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 42541736f1..29715d3e19 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1632,6 +1632,35 @@ VINSERT(h, u16)
- VINSERT(w, u32)
- VINSERT(d, u64)
- #undef VINSERT
-+
-+#if defined(HOST_WORDS_BIGENDIAN)
-+#define ELEM_ADDR(VEC, IDX, SIZE) (&(VEC)->u8[IDX])
-+#else
-+#define ELEM_ADDR(VEC, IDX, SIZE) (&(VEC)->u8[15 - (IDX)] - (SIZE) + 1)
-+#endif
-+
-+#define VINSX(SUFFIX, TYPE) \
-+void glue(glue(helper_VINS, SUFFIX), LX)(CPUPPCState *env, ppc_avr_t *t,       \
-+                                         uint64_t val, target_ulong index)     \
-+{                                                                              \
-+    const int maxidx = ARRAY_SIZE(t->u8) - sizeof(TYPE);                       \
-+    target_long idx = index;                                                   \
-+                                                                               \
-+    if (idx < 0 || idx > maxidx) {                                             \
-+        idx =  idx < 0 ? sizeof(TYPE) - idx : idx;                             \
-+        qemu_log_mask(LOG_GUEST_ERROR,                                         \
-+            "Invalid index for Vector Insert Element after 0x" TARGET_FMT_lx   \
-+            ", RA = " TARGET_FMT_ld " > %d\n", env->nip, idx, maxidx);         \
-+    } else {                                                                   \
-+        memcpy(ELEM_ADDR(t, idx, sizeof(TYPE)), &val, sizeof(TYPE));           \
-+    }                                                                          \
-+}
-+VINSX(B, uint8_t)
-+VINSX(H, uint16_t)
-+VINSX(W, uint32_t)
-+VINSX(D, uint64_t)
-+#undef ELEM_ADDR
-+#undef VINSX
- #if defined(HOST_WORDS_BIGENDIAN)
- #define VEXTRACT(suffix, element)                                            \
-     void helper_vextract##suffix(ppc_avr_t *r, ppc_avr_t *b, uint32_t index) \
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 6edffd5637..21af60c616 100644
+index 21af60c616..9642cfa037 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1238,6 +1238,56 @@ GEN_VXFORM_DUAL(vspltish, PPC_ALTIVEC, PPC_NONE,
- GEN_VXFORM_DUAL(vspltisw, PPC_ALTIVEC, PPC_NONE,
-                 vinsertw, PPC_NONE, PPC2_ISA300);
+@@ -1278,6 +1278,40 @@ static bool do_vinsx_VX(DisasContext *ctx, arg_VX *a, int size, bool right,
+     return ok;
+ }
  
-+static bool do_vinsx(DisasContext *ctx, int vrt, int size, bool right, TCGv ra,
-+            TCGv_i64 rb, void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_i64, TCGv))
-+{
-+    TCGv_ptr t;
-+    TCGv idx;
-+
-+    t = gen_avr_ptr(vrt);
-+    idx = tcg_temp_new();
-+
-+    tcg_gen_andi_tl(idx, ra, 0xF);
-+    if (right) {
-+        tcg_gen_subfi_tl(idx, 16 - size, idx);
-+    }
-+
-+    gen_helper(cpu_env, t, rb, idx);
-+
-+    tcg_temp_free_ptr(t);
-+    tcg_temp_free(idx);
-+
-+    return true;
-+}
-+
-+static bool do_vinsx_VX(DisasContext *ctx, arg_VX *a, int size, bool right,
++static bool do_vins_VX_uim4(DisasContext *ctx, arg_VX_uim4 *a, int size,
 +                        void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_i64, TCGv))
 +{
 +    bool ok;
@@ -208,24 +120,40 @@ index 6edffd5637..21af60c616 100644
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VECTOR(ctx);
 +
++    if (a->uim > (16 - size)) {
++        /*
++         * PowerISA v3.1 says that the resulting value is undefined in this
++         * case, so just log a guest error and leave VRT unchanged. The
++         * real hardware would do a partial insert, e.g. if VRT is zeroed and
++         * RB is 0x12345678, executing "vinsw VRT,RB,14" results in
++         * VRT = 0x0000...00001234, but we don't bother to reproduce this
++         * behavior as software shouldn't rely on it.
++         */
++        qemu_log_mask(LOG_GUEST_ERROR, "Invalid index for VINS* at"
++            " 0x" TARGET_FMT_lx ", UIM = %d > %d\n", ctx->cia, a->uim,
++            16 - size);
++        return true;
++    }
++
 +    val = tcg_temp_new_i64();
 +    tcg_gen_extu_tl_i64(val, cpu_gpr[a->vrb]);
 +
-+    ok = do_vinsx(ctx, a->vrt, size, right, cpu_gpr[a->vra], val, gen_helper);
++    ok = do_vinsx(ctx, a->vrt, size, false, tcg_constant_tl(a->uim), val,
++                  gen_helper);
 +
 +    tcg_temp_free_i64(val);
 +    return ok;
 +}
 +
-+TRANS(VINSBLX, do_vinsx_VX, 1, false, gen_helper_VINSBLX)
-+TRANS(VINSHLX, do_vinsx_VX, 2, false, gen_helper_VINSHLX)
-+TRANS(VINSWLX, do_vinsx_VX, 4, false, gen_helper_VINSWLX)
-+TRANS(VINSDLX, do_vinsx_VX, 8, false, gen_helper_VINSDLX)
-+
-+TRANS(VINSBRX, do_vinsx_VX, 1, true, gen_helper_VINSBLX)
-+TRANS(VINSHRX, do_vinsx_VX, 2, true, gen_helper_VINSHLX)
-+TRANS(VINSWRX, do_vinsx_VX, 4, true, gen_helper_VINSWLX)
-+TRANS(VINSDRX, do_vinsx_VX, 8, true, gen_helper_VINSDLX)
+ TRANS(VINSBLX, do_vinsx_VX, 1, false, gen_helper_VINSBLX)
+ TRANS(VINSHLX, do_vinsx_VX, 2, false, gen_helper_VINSHLX)
+ TRANS(VINSWLX, do_vinsx_VX, 4, false, gen_helper_VINSWLX)
+@@ -1288,6 +1322,9 @@ TRANS(VINSHRX, do_vinsx_VX, 2, true, gen_helper_VINSHLX)
+ TRANS(VINSWRX, do_vinsx_VX, 4, true, gen_helper_VINSWLX)
+ TRANS(VINSDRX, do_vinsx_VX, 8, true, gen_helper_VINSDLX)
+ 
++TRANS(VINSW, do_vins_VX_uim4, 4, gen_helper_VINSWLX)
++TRANS(VINSD, do_vins_VX_uim4, 8, gen_helper_VINSDLX)
 +
  static void gen_vsldoi(DisasContext *ctx)
  {
