@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D52443FA0E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 11:39:31 +0200 (CEST)
-Received: from localhost ([::1]:54164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C3343FA09
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 11:37:20 +0200 (CEST)
+Received: from localhost ([::1]:48168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgOMC-0002Xf-Gs
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 05:39:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35080)
+	id 1mgOK8-000715-0K
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 05:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mgNlZ-000641-Fj
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 05:01:37 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:37567)
+ id 1mgNle-000678-HP
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 05:01:46 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:34407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mgNlX-00061H-8B
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 05:01:36 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- t5-20020a17090a4e4500b001a0a284fcc2so10074687pjl.2
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 02:01:33 -0700 (PDT)
+ id 1mgNlb-00062X-1j
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 05:01:40 -0400
+Received: by mail-pf1-x431.google.com with SMTP id 127so8692657pfu.1
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 02:01:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rOZkko/CTdaE7DpkXpWYbtzqXWlFEusGG9wsyPj6Eso=;
- b=jWme/8E+gsX4RUldW0PvSKdcV8SwfuQ5PgbWBcjod0JVVpwk5ZGVL0Q87kbAsh+PFC
- njm12F1JbOyxt/9r6hdNekV/9cLYfwc7u4Mv6p69rEz0OWXK2oL8gXS6HCNIyQHYY8PN
- EprQYIo4p476GgPL5et1hae4lSgbLZVmnKxjC10TvVq93PK66SlX2blzKTbeIRDFxiQS
- CejxzsM19ojPLSj/bHQ3erZtpbs5f9NN4KeqPc0OGD5u+yzIMtSsF8B2pi8eHVpOx9k1
- h2SnaXW9L/R3CtDiLVl+gr0NRyyZ+ntCFoLInSn9vxYo7B8M+4tZgReXfwlhE1UwTQ62
- QYkA==
+ bh=bWgD4UVQ2TdjrIF+P3KQ6I8xUCtdROW+Zd/TKCzCFU0=;
+ b=V6vWjQHf2ya6dKcqnXdO1fJD3P7Jkp7/I74FFZExPZLQzGbvmmckO0ftJBpgr+dpTj
+ leVLUUWzGnZplfHuaYAqXBx/gZa0s2eaFan0XXaOmf4l/kNoGTc0SNX7nPjvQcNVgJeG
+ ifBYkJDRrG+RjA6x6s5KffcWM4lUn5pDMOPyJ9++IoPmIacm9CDA+KGdNjCaAi4ea+CF
+ 5I2tJlL5mn9lGPdSn4osET/XlRpT28hsLG4hxyNhJKACdUIycz6wix8kgUnJRriveXyE
+ uNbw03UtQaJijs2T+IYmRw14eHYE18V9shiZBSBVIvppxmD0TLp4W1JMmWV3ZxUd+xHS
+ TcdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rOZkko/CTdaE7DpkXpWYbtzqXWlFEusGG9wsyPj6Eso=;
- b=Q9aQ3WHpm0b6mHRNw2QzO3AMLcN7GowUTQl0pzC2wLzjkUa7wQ1tGHNf2zslz6wLMZ
- IMX2cG54yY/Ve9AWBib2LeysouFKzt9Bmj4olNNOylq3GBR3xVTtXNVa4HjqAY7s5dBS
- Tq9tlJ8+8afbQL3hQjArhWw0+bD72BVjFWnBqDrmM+tuEfFcGQv+7FxaWhRWPAyNoyz/
- pzmqvu38wSfVZESMeD/VgUTfXDU9IX8s6m03h0zLFP+6q0V6xMCVlVxz8nCWBLCHo+1t
- X2dPEmRfxJMabsD9GDh1cnORlLUndLzDHJ02far4aUOde0N/Jk6G/hKCzFEMJtCXrKzK
- z8DA==
-X-Gm-Message-State: AOAM532hN1/4TfslWjlFCm5GFFkoGU+6r1kGO0ZNkI0e8xY3KLlUsXzf
- +EFbGA3TvWDgUkXoNaWIMWvYP/mHSeJSQb91
-X-Google-Smtp-Source: ABdhPJwW7jT1NRBDHFRR7lxaheN8AtgvC1Tc43UsF0QUJv8l4cAYuAuttKqE1QRrd99UY07D21tRMg==
-X-Received: by 2002:a17:90a:ba03:: with SMTP id
- s3mr10048879pjr.116.1635498092734; 
- Fri, 29 Oct 2021 02:01:32 -0700 (PDT)
+ bh=bWgD4UVQ2TdjrIF+P3KQ6I8xUCtdROW+Zd/TKCzCFU0=;
+ b=mJUA2YwNFt8CVSQkdTWQv/0HYs69R9gpjp/3ZWsfVhPoX5zIDHYFcAaxPbNNJsqhIi
+ BY1sRjYgAsx+ghPjDIVJn8EHHuv5M6GL2lS2MhR0YrwrQBf/WoPymESo81/q+eprgTe9
+ 73pwhZWGwQ6ixwjAwwC9H+/X/Vc6Q/i4e2u5BVPOL/hvWh/tkx6Y5FktT3cfSOoSTwUa
+ cGpv8qAmW2zqkU+t56t9/nyb8X01t8t0g55ey2G3hAHj/C0aoL6KjeAnCaZeiwbTtM5l
+ ragpGM4E0v7nAC1UjhT8d7rL1xIAsVc3KPUN1fPNRcq0CYve8gUkA/SCKA3/hlAYR7b0
+ gmoA==
+X-Gm-Message-State: AOAM530L/RmOOkXtXRyyjm0QBFp9J1VI4kcruSSFigSLpDjlL7NIBVkW
+ aKOLr8mDRCXcguHT75N6/3evGEADqcIDXmzD
+X-Google-Smtp-Source: ABdhPJztKO59Yg5DDDNnOEyGE1GVS+tLEwg1cjYpwo9iHIONJcCh3HndtRILjzFKVpIkXqWHJo3Uxg==
+X-Received: by 2002:a63:3549:: with SMTP id c70mr7232542pga.120.1635498096259; 
+ Fri, 29 Oct 2021 02:01:36 -0700 (PDT)
 Received: from localhost.localdomain ([2402:7500:46b:ce55:983b:6962:38ac:e1b9])
- by smtp.gmail.com with ESMTPSA id t13sm5081477pgn.94.2021.10.29.02.01.30
+ by smtp.gmail.com with ESMTPSA id t13sm5081477pgn.94.2021.10.29.02.01.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 02:01:32 -0700 (PDT)
+ Fri, 29 Oct 2021 02:01:36 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 32/76] target/riscv: rvv-1.0: iota instruction
-Date: Fri, 29 Oct 2021 16:58:37 +0800
-Message-Id: <20211029085922.255197-33-frank.chang@sifive.com>
+Subject: [PATCH v9 33/76] target/riscv: rvv-1.0: element index instruction
+Date: Fri, 29 Oct 2021 16:58:38 +0800
+Message-Id: <20211029085922.255197-34-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211029085922.255197-1-frank.chang@sifive.com>
 References: <20211029085922.255197-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,7 +86,7 @@ Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
  Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,48 +96,22 @@ Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode              |  2 +-
- target/riscv/insn_trans/trans_rvv.c.inc | 10 ++++++++--
- 2 files changed, 9 insertions(+), 3 deletions(-)
+ target/riscv/insn32.decode | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index d139c0aade7..3ac5162aeb7 100644
+index 3ac5162aeb7..ab274dcde12 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -632,7 +632,7 @@ vfirst_m        010000 . ..... 10001 010 ..... 1010111 @r2_vm
- vmsbf_m         010100 . ..... 00001 010 ..... 1010111 @r2_vm
+@@ -633,7 +633,7 @@ vmsbf_m         010100 . ..... 00001 010 ..... 1010111 @r2_vm
  vmsif_m         010100 . ..... 00011 010 ..... 1010111 @r2_vm
  vmsof_m         010100 . ..... 00010 010 ..... 1010111 @r2_vm
--viota_m         010110 . ..... 10000 010 ..... 1010111 @r2_vm
-+viota_m         010100 . ..... 10000 010 ..... 1010111 @r2_vm
- vid_v           010110 . 00000 10001 010 ..... 1010111 @r1_vm
+ viota_m         010100 . ..... 10000 010 ..... 1010111 @r2_vm
+-vid_v           010110 . 00000 10001 010 ..... 1010111 @r1_vm
++vid_v           010100 . 00000 10001 010 ..... 1010111 @r1_vm
  vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
  vmv_s_x         001101 1 00000 ..... 110 ..... 1010111 @r2
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 9206e6f06c8..80cbf0cadb8 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2757,12 +2757,18 @@ GEN_M_TRANS(vmsbf_m)
- GEN_M_TRANS(vmsif_m)
- GEN_M_TRANS(vmsof_m)
- 
--/* Vector Iota Instruction */
-+/*
-+ * Vector Iota Instruction
-+ *
-+ * 1. The destination register cannot overlap the source register.
-+ * 2. If masked, cannot overlap the mask register ('v0').
-+ * 3. An illegal instruction exception is raised if vstart is non-zero.
-+ */
- static bool trans_viota_m(DisasContext *s, arg_viota_m *a)
- {
-     if (require_rvv(s) &&
-         vext_check_isa_ill(s) &&
--        require_noover(a->rd, s->lmul, a->rs2, 0) &&
-+        !is_overlapped(a->rd, 1 << MAX(s->lmul, 0), a->rs2, 1) &&
-         require_vm(a->vm, a->rd) &&
-         require_align(a->rd, s->lmul)) {
-         uint32_t data = 0;
+ vfmv_f_s        001100 1 ..... 00000 001 ..... 1010111 @r2rd
 -- 
 2.25.1
 
