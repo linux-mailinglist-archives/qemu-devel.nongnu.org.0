@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC21C43FA71
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 12:05:05 +0200 (CEST)
-Received: from localhost ([::1]:56796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD5C43FA7F
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 12:09:48 +0200 (CEST)
+Received: from localhost ([::1]:37394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgOky-0001E9-Fn
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 06:05:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35478)
+	id 1mgOpY-0007CA-02
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 06:09:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mgNmL-0006u8-2E
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 05:02:25 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:39852)
+ id 1mgNmh-0007cc-GZ
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 05:02:48 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:41888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mgNmI-0006Aq-NT
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 05:02:24 -0400
+ id 1mgNmf-0006ED-G7
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 05:02:47 -0400
 Received: by mail-pj1-x1031.google.com with SMTP id
- y14-20020a17090a2b4e00b001a5824f4918so3266830pjc.4
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 02:02:22 -0700 (PDT)
+ na16-20020a17090b4c1000b0019f5bb661f9so6959842pjb.0
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 02:02:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+Ye4CULASMSNzvpQQSPRGMWxcSeeU8VeGUR2jimoV6w=;
- b=AmcC7AkINvU3MpVCzar1OJWMqe1WGP8aFPu/9DUpYhKset+iu4gj5EIQbHH/CMghoG
- V9i3jmQitX0qf2aIQ06U2w5DHYzdvT0C4DiySm5F3sJ9wkeWSdDHwnZZbSgWoxg5xpMW
- 77x+puVYcKc1GYtzWtKdrkirjUki2SnWIUcNlXagShkVnXstuZtSE2Ak6pW3zIMGS9BC
- xZ1LyZ7+BM3e94bhoAwy1nlS2fHRIKnGbcRGTrO5a5TAQcBox164senNUU44Yo1q2crK
- j9AcLMiMYTJwvIbmNvRqPPTLnYV2VsHZHxHoIJiPFefQzJeYzqc2jBMZSO3fyoyIcaTl
- pkAw==
+ bh=FDVelnyvTrVRr2w/aSQUjI8PmccgLdv1IGhjWt6LpFs=;
+ b=VvQiEyHR/LIsRCZzZNOZOtKLe7a58IEhw2/Gs9fIBxPfbMNKHdCuXwzCI94wtr4RcM
+ Id2KovWj3v+bb92055jJNvyub15vvoacBjfQUZ2Mns5YZY29JQM2ITf4JdgJjqkeVGVL
+ vSWEbszmCB3JDHndITwdyFG5usXXQG+AH145aNgMOGSOw72zxh8htuZ2/UdPm6U/z4uQ
+ 6MzjHuKjsmVpJcAEOF6djpFwi5VvywdYdYYAQI2lQIrjkCPkBXErKl3RQpOl7yoScMz5
+ PYsEj2peJZ/uxgclZSsrJQGjavtLii89mpXKnxQ4e0SuxNDVtq/vY3hd5VXgfO9iWIB8
+ mKyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+Ye4CULASMSNzvpQQSPRGMWxcSeeU8VeGUR2jimoV6w=;
- b=zEi3nStcaPRsbA0vQEB0BnhlWmxSbfYhlONKgWILz1W16AaqmpZqxl1Fl5z/wJw/Fr
- gq0Dn+AqAbMX0uPDXq+JRh9a3cfD/+hGmN4qOMt+M+iaU90aMG7Klfx6SixRNi/e/Csm
- Aj90TZfiAJkQ/dumHYg89IULqOPQqKge1t+eiYdX40fPWys+PcDirY+uiNCbelTDCk27
- kQa1QVqIvF9PT+Ra4fW6ha2huATJsY/hph7cnPXlAWHsbne8wxF5gxFandUQRO6g27dQ
- ydwdXxrBgpSxdcAyiLnIFDPvKMd+RhKnuLgn62ktiYOuEydtPs3uAvFNhC1vbwCjbO8F
- nW8Q==
-X-Gm-Message-State: AOAM533GZO2DoGRcMbVfsbRi1BAkxMOdxED/3vt66yElOl45YD3d2nWh
- s/rNBrWOpfk3eStUwsPYdQEHPuY7c2gJm5Do
-X-Google-Smtp-Source: ABdhPJz7o6PuVSWX2Yemc2nMwMPMt+qTP/JWPx5WGN4J2Q4GOTRJsZ7DBhRIyXDaKaP1hr8WP2hLSA==
-X-Received: by 2002:a17:90b:3b52:: with SMTP id
- ot18mr18341975pjb.77.1635498141042; 
- Fri, 29 Oct 2021 02:02:21 -0700 (PDT)
+ bh=FDVelnyvTrVRr2w/aSQUjI8PmccgLdv1IGhjWt6LpFs=;
+ b=Ef5q1tkTEPpeU2DrrjnXpqWhcum3XoZqvpronlg3weSwGKXBK/JHTja9vrlPvmWVVS
+ r6ZhWARB3BewWGgrlx8nM1qvz1A0dCnkq3R+DVocuc0A+nvHe+tMkWWVAvh8HQLa0Jrc
+ xDZDBSRSAmERHNCnxfUOVInU+e7QR0FdKQemw9ZLcCUva0c0iiYRpgW6P47moaVRYToJ
+ GVInJZhvSq+vnwWR6eyXB1IeO028vpGf67fDNZYHk6+/o66RTHSx5RuWSCM9p9WA8mN0
+ /yHgPP6DcD0zqjZl9snJfSjdSo9GmGKC0b1LG1SqIc3YMcnSDU81Lz40w2yA3DPlmOXw
+ Nmqw==
+X-Gm-Message-State: AOAM531RuSEKI1bKAiOVStvMPFXjNwl46HIvl5dhoihBs8hLEhrMU0YN
+ J/pU+J2TLpCJQ48KBEiejBRBNjDnBT8CxPTn
+X-Google-Smtp-Source: ABdhPJyt8ezX2Jqxoj+eP6FmiRLhxRbBiU1VwLZxRo+mEmld0IwvGQ8QJTENfFlgjGLRxIOqggY4RQ==
+X-Received: by 2002:a17:90b:1c8f:: with SMTP id
+ oo15mr18705817pjb.87.1635498164179; 
+ Fri, 29 Oct 2021 02:02:44 -0700 (PDT)
 Received: from localhost.localdomain ([2402:7500:46b:ce55:983b:6962:38ac:e1b9])
- by smtp.gmail.com with ESMTPSA id t13sm5081477pgn.94.2021.10.29.02.02.18
+ by smtp.gmail.com with ESMTPSA id t13sm5081477pgn.94.2021.10.29.02.02.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 02:02:20 -0700 (PDT)
+ Fri, 29 Oct 2021 02:02:43 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 44/76] target/riscv: rvv-1.0: narrowing integer right shift
- instructions
-Date: Fri, 29 Oct 2021 16:58:49 +0800
-Message-Id: <20211029085922.255197-45-frank.chang@sifive.com>
+Subject: [PATCH v9 50/76] target/riscv: rvv-1.0: slide instructions
+Date: Fri, 29 Oct 2021 16:58:55 +0800
+Message-Id: <20211029085922.255197-51-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211029085922.255197-1-frank.chang@sifive.com>
 References: <20211029085922.255197-1-frank.chang@sifive.com>
@@ -66,13 +65,12 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
  envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,217 +87,55 @@ Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
  Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
+* Remove clear function from helper functions as the tail elements
+  are unchanged in RVV 1.0.
+
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/helper.h                   | 24 +++++++-------
- target/riscv/insn32.decode              | 12 +++----
- target/riscv/insn_trans/trans_rvv.c.inc | 42 ++++++++++++-------------
- target/riscv/vector_helper.c            | 24 +++++++-------
- 4 files changed, 51 insertions(+), 51 deletions(-)
+ target/riscv/vector_helper.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index f2e8d107d2f..304c12494d4 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -351,18 +351,18 @@ DEF_HELPER_6(vsra_vx_h, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vsra_vx_w, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vsra_vx_d, void, ptr, ptr, tl, ptr, env, i32)
- 
--DEF_HELPER_6(vnsrl_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnsrl_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnsrl_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnsra_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnsra_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnsra_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnsrl_vx_b, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnsrl_vx_h, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnsrl_vx_w, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnsra_vx_b, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnsra_vx_h, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnsra_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_wv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_wv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_wv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsra_wv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsra_wv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsra_wv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_wx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_wx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_wx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsra_wx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsra_wx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsra_wx_w, void, ptr, ptr, tl, ptr, env, i32)
- 
- DEF_HELPER_6(vmseq_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmseq_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 9c4089d7a7b..a3f1101cd63 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -406,12 +406,12 @@ vsrl_vi         101000 . ..... ..... 011 ..... 1010111 @r_vm
- vsra_vv         101001 . ..... ..... 000 ..... 1010111 @r_vm
- vsra_vx         101001 . ..... ..... 100 ..... 1010111 @r_vm
- vsra_vi         101001 . ..... ..... 011 ..... 1010111 @r_vm
--vnsrl_vv        101100 . ..... ..... 000 ..... 1010111 @r_vm
--vnsrl_vx        101100 . ..... ..... 100 ..... 1010111 @r_vm
--vnsrl_vi        101100 . ..... ..... 011 ..... 1010111 @r_vm
--vnsra_vv        101101 . ..... ..... 000 ..... 1010111 @r_vm
--vnsra_vx        101101 . ..... ..... 100 ..... 1010111 @r_vm
--vnsra_vi        101101 . ..... ..... 011 ..... 1010111 @r_vm
-+vnsrl_wv        101100 . ..... ..... 000 ..... 1010111 @r_vm
-+vnsrl_wx        101100 . ..... ..... 100 ..... 1010111 @r_vm
-+vnsrl_wi        101100 . ..... ..... 011 ..... 1010111 @r_vm
-+vnsra_wv        101101 . ..... ..... 000 ..... 1010111 @r_vm
-+vnsra_wx        101101 . ..... ..... 100 ..... 1010111 @r_vm
-+vnsra_wi        101101 . ..... ..... 011 ..... 1010111 @r_vm
- vmseq_vv        011000 . ..... ..... 000 ..... 1010111 @r_vm
- vmseq_vx        011000 . ..... ..... 100 ..... 1010111 @r_vm
- vmseq_vi        011000 . ..... ..... 011 ..... 1010111 @r_vm
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 357615a11c3..f6202835ff4 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -1690,7 +1690,7 @@ GEN_OPIVI_GVEC_TRANS(vsrl_vi, IMM_TRUNC_SEW, vsrl_vx, shri)
- GEN_OPIVI_GVEC_TRANS(vsra_vi, IMM_TRUNC_SEW, vsra_vx, sari)
- 
- /* Vector Narrowing Integer Right Shift Instructions */
--static bool opivv_narrow_check(DisasContext *s, arg_rmrr *a)
-+static bool opiwv_narrow_check(DisasContext *s, arg_rmrr *a)
- {
-     return require_rvv(s) &&
-            vext_check_isa_ill(s) &&
-@@ -1698,10 +1698,10 @@ static bool opivv_narrow_check(DisasContext *s, arg_rmrr *a)
- }
- 
- /* OPIVV with NARROW */
--#define GEN_OPIVV_NARROW_TRANS(NAME)                               \
-+#define GEN_OPIWV_NARROW_TRANS(NAME)                               \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
- {                                                                  \
--    if (opivv_narrow_check(s, a)) {                                \
-+    if (opiwv_narrow_check(s, a)) {                                \
-         uint32_t data = 0;                                         \
-         static gen_helper_gvec_4_ptr * const fns[3] = {            \
-             gen_helper_##NAME##_b,                                 \
-@@ -1724,10 +1724,10 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
-     }                                                              \
-     return false;                                                  \
- }
--GEN_OPIVV_NARROW_TRANS(vnsra_vv)
--GEN_OPIVV_NARROW_TRANS(vnsrl_vv)
-+GEN_OPIWV_NARROW_TRANS(vnsra_wv)
-+GEN_OPIWV_NARROW_TRANS(vnsrl_wv)
- 
--static bool opivx_narrow_check(DisasContext *s, arg_rmrr *a)
-+static bool opiwx_narrow_check(DisasContext *s, arg_rmrr *a)
- {
-     return require_rvv(s) &&
-            vext_check_isa_ill(s) &&
-@@ -1735,10 +1735,10 @@ static bool opivx_narrow_check(DisasContext *s, arg_rmrr *a)
- }
- 
- /* OPIVX with NARROW */
--#define GEN_OPIVX_NARROW_TRANS(NAME)                                     \
-+#define GEN_OPIWX_NARROW_TRANS(NAME)                                     \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
- {                                                                        \
--    if (opivx_narrow_check(s, a)) {                                      \
-+    if (opiwx_narrow_check(s, a)) {                                      \
-         static gen_helper_opivx * const fns[3] = {                       \
-             gen_helper_##NAME##_b,                                       \
-             gen_helper_##NAME##_h,                                       \
-@@ -1749,14 +1749,14 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
-     return false;                                                        \
- }
- 
--GEN_OPIVX_NARROW_TRANS(vnsra_vx)
--GEN_OPIVX_NARROW_TRANS(vnsrl_vx)
-+GEN_OPIWX_NARROW_TRANS(vnsra_wx)
-+GEN_OPIWX_NARROW_TRANS(vnsrl_wx)
- 
--/* OPIVI with NARROW */
--#define GEN_OPIVI_NARROW_TRANS(NAME, IMM_MODE, OPIVX)                    \
-+/* OPIWI with NARROW */
-+#define GEN_OPIWI_NARROW_TRANS(NAME, IMM_MODE, OPIVX)                    \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
- {                                                                        \
--    if (opivx_narrow_check(s, a)) {                                      \
-+    if (opiwx_narrow_check(s, a)) {                                      \
-         static gen_helper_opivx * const fns[3] = {                       \
-             gen_helper_##OPIVX##_b,                                      \
-             gen_helper_##OPIVX##_h,                                      \
-@@ -1768,8 +1768,8 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
-     return false;                                                        \
- }
- 
--GEN_OPIVI_NARROW_TRANS(vnsra_vi, IMM_ZX, vnsra_vx)
--GEN_OPIVI_NARROW_TRANS(vnsrl_vi, IMM_ZX, vnsrl_vx)
-+GEN_OPIWI_NARROW_TRANS(vnsra_wi, IMM_ZX, vnsra_wx)
-+GEN_OPIWI_NARROW_TRANS(vnsrl_wi, IMM_ZX, vnsrl_wx)
- 
- /* Vector Integer Comparison Instructions */
- /*
-@@ -2034,12 +2034,12 @@ GEN_OPIVI_TRANS(vssrl_vi, IMM_ZX, vssrl_vx, opivx_check)
- GEN_OPIVI_TRANS(vssra_vi, IMM_SX, vssra_vx, opivx_check)
- 
- /* Vector Narrowing Fixed-Point Clip Instructions */
--GEN_OPIVV_NARROW_TRANS(vnclipu_vv)
--GEN_OPIVV_NARROW_TRANS(vnclip_vv)
--GEN_OPIVX_NARROW_TRANS(vnclipu_vx)
--GEN_OPIVX_NARROW_TRANS(vnclip_vx)
--GEN_OPIVI_NARROW_TRANS(vnclipu_vi, IMM_ZX, vnclipu_vx)
--GEN_OPIVI_NARROW_TRANS(vnclip_vi, IMM_ZX, vnclip_vx)
-+GEN_OPIWV_NARROW_TRANS(vnclipu_vv)
-+GEN_OPIWV_NARROW_TRANS(vnclip_vv)
-+GEN_OPIWX_NARROW_TRANS(vnclipu_vx)
-+GEN_OPIWX_NARROW_TRANS(vnclip_vx)
-+GEN_OPIWI_NARROW_TRANS(vnclipu_vi, IMM_ZX, vnclipu_vx)
-+GEN_OPIWI_NARROW_TRANS(vnclip_vi, IMM_ZX, vnclip_vx)
- 
- /*
-  *** Vector Float Point Arithmetic Instructions
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 54405d898b9..e885d4d3539 100644
+index f883fdf4749..d79f59e443e 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -1164,18 +1164,18 @@ GEN_VEXT_SHIFT_VX(vsra_vx_w, int32_t, int32_t, H4, H4, DO_SRL, 0x1f)
- GEN_VEXT_SHIFT_VX(vsra_vx_d, int64_t, int64_t, H8, H8, DO_SRL, 0x3f)
+@@ -4430,17 +4430,22 @@ GEN_VEXT_VSLIDEUP_VX(vslideup_vx_d, uint64_t, H8)
+ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
+                   CPURISCVState *env, uint32_t desc)                      \
+ {                                                                         \
+-    uint32_t vlmax = env_archcpu(env)->cfg.vlen;                          \
++    uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(ETYPE)));           \
+     uint32_t vm = vext_vm(desc);                                          \
+     uint32_t vl = env->vl;                                                \
+-    target_ulong offset = s1, i;                                          \
++    target_ulong i_max, i;                                                \
+                                                                           \
+-    for (i = 0; i < vl; ++i) {                                            \
+-        target_ulong j = i + offset;                                      \
+-        if (!vm && !vext_elem_mask(v0, i)) {                              \
+-            continue;                                                     \
++    i_max = MIN(s1 < vlmax ? vlmax - s1 : 0, vl);                         \
++    for (i = 0; i < i_max; ++i) {                                         \
++        if (vm || vext_elem_mask(v0, i)) {                                \
++            *((ETYPE *)vd + H(i)) = *((ETYPE *)vs2 + H(i + s1));          \
++        }                                                                 \
++    }                                                                     \
++                                                                          \
++    for (i = i_max; i < vl; ++i) {                                        \
++        if (vm || vext_elem_mask(v0, i)) {                                \
++            *((ETYPE *)vd + H(i)) = 0;                                    \
+         }                                                                 \
+-        *((ETYPE *)vd + H(i)) = j >= vlmax ? 0 : *((ETYPE *)vs2 + H(j));  \
+     }                                                                     \
+ }
  
- /* Vector Narrowing Integer Right Shift Instructions */
--GEN_VEXT_SHIFT_VV(vnsrl_vv_b, uint8_t,  uint16_t, H1, H2, DO_SRL, 0xf)
--GEN_VEXT_SHIFT_VV(vnsrl_vv_h, uint16_t, uint32_t, H2, H4, DO_SRL, 0x1f)
--GEN_VEXT_SHIFT_VV(vnsrl_vv_w, uint32_t, uint64_t, H4, H8, DO_SRL, 0x3f)
--GEN_VEXT_SHIFT_VV(vnsra_vv_b, uint8_t,  int16_t, H1, H2, DO_SRL, 0xf)
--GEN_VEXT_SHIFT_VV(vnsra_vv_h, uint16_t, int32_t, H2, H4, DO_SRL, 0x1f)
--GEN_VEXT_SHIFT_VV(vnsra_vv_w, uint32_t, int64_t, H4, H8, DO_SRL, 0x3f)
--GEN_VEXT_SHIFT_VX(vnsrl_vx_b, uint8_t, uint16_t, H1, H2, DO_SRL, 0xf)
--GEN_VEXT_SHIFT_VX(vnsrl_vx_h, uint16_t, uint32_t, H2, H4, DO_SRL, 0x1f)
--GEN_VEXT_SHIFT_VX(vnsrl_vx_w, uint32_t, uint64_t, H4, H8, DO_SRL, 0x3f)
--GEN_VEXT_SHIFT_VX(vnsra_vx_b, int8_t, int16_t, H1, H2, DO_SRL, 0xf)
--GEN_VEXT_SHIFT_VX(vnsra_vx_h, int16_t, int32_t, H2, H4, DO_SRL, 0x1f)
--GEN_VEXT_SHIFT_VX(vnsra_vx_w, int32_t, int64_t, H4, H8, DO_SRL, 0x3f)
-+GEN_VEXT_SHIFT_VV(vnsrl_wv_b, uint8_t,  uint16_t, H1, H2, DO_SRL, 0xf)
-+GEN_VEXT_SHIFT_VV(vnsrl_wv_h, uint16_t, uint32_t, H2, H4, DO_SRL, 0x1f)
-+GEN_VEXT_SHIFT_VV(vnsrl_wv_w, uint32_t, uint64_t, H4, H8, DO_SRL, 0x3f)
-+GEN_VEXT_SHIFT_VV(vnsra_wv_b, uint8_t,  int16_t, H1, H2, DO_SRL, 0xf)
-+GEN_VEXT_SHIFT_VV(vnsra_wv_h, uint16_t, int32_t, H2, H4, DO_SRL, 0x1f)
-+GEN_VEXT_SHIFT_VV(vnsra_wv_w, uint32_t, int64_t, H4, H8, DO_SRL, 0x3f)
-+GEN_VEXT_SHIFT_VX(vnsrl_wx_b, uint8_t, uint16_t, H1, H2, DO_SRL, 0xf)
-+GEN_VEXT_SHIFT_VX(vnsrl_wx_h, uint16_t, uint32_t, H2, H4, DO_SRL, 0x1f)
-+GEN_VEXT_SHIFT_VX(vnsrl_wx_w, uint32_t, uint64_t, H4, H8, DO_SRL, 0x3f)
-+GEN_VEXT_SHIFT_VX(vnsra_wx_b, int8_t, int16_t, H1, H2, DO_SRL, 0xf)
-+GEN_VEXT_SHIFT_VX(vnsra_wx_h, int16_t, int32_t, H2, H4, DO_SRL, 0x1f)
-+GEN_VEXT_SHIFT_VX(vnsra_wx_w, int32_t, int64_t, H4, H8, DO_SRL, 0x3f)
- 
- /* Vector Integer Comparison Instructions */
- #define DO_MSEQ(N, M) (N == M)
 -- 
 2.25.1
 
