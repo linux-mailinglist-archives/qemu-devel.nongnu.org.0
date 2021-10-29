@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AABA4404F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:35:53 +0200 (CEST)
-Received: from localhost ([::1]:33290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1014404EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:29:58 +0200 (CEST)
+Received: from localhost ([::1]:45340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgZXU-0008LB-Fi
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:35:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55346)
+	id 1mgZRl-0005tB-Cq
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:29:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZJ7-0007QF-4m
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:01 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:19938)
+ id 1mgZJ6-0007Nv-EM
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:00 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:19939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZJ3-0005au-0J
+ id 1mgZJ3-0005bA-CJ
  for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:21:00 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8DD09756221;
+ by localhost (Postfix) with SMTP id 92F2E756225;
  Fri, 29 Oct 2021 23:20:44 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id CB1C77561B1; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
-Message-Id: <d3bdfdc5ab5ae1c51a6c6c38bde3829a99f85ce5.1635541329.git.balaton@eik.bme.hu>
+ id D46B37561B9; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
+Message-Id: <a48e849e5b803a952ed15a2502cfece2bde68934.1635541329.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635541329.git.balaton@eik.bme.hu>
 References: <cover.1635541329.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 18/30] hw/intc/sh_intc: Drop another useless macro
+Subject: [PATCH v6 20/30] hw/intc/sh_intc: Remove excessive parenthesis
 Date: Fri, 29 Oct 2021 23:02:09 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,57 +61,57 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The INT_REG_PARAMS macro was only used a few times within one function
-on adjacent lines and is actually more complex than writing out the
-parameters so simplify it by expanding the macro at call sites and
-dropping the #define.
+Drop unneded parenthesis and split up one complex expression to write
+it with less brackets so it's easier to follow.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/intc/sh_intc.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+ hw/intc/sh_intc.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index abe8face9d..a25949a6be 100644
+index 1ec51fdd48..11eba599a3 100644
 --- a/hw/intc/sh_intc.c
 +++ b/hw/intc/sh_intc.c
-@@ -433,16 +433,12 @@ int sh_intc_init(MemoryRegion *sysmem,
-     memory_region_init_io(&desc->iomem, NULL, &sh_intc_ops, desc, "intc",
-                           0x100000000ULL);
+@@ -23,7 +23,7 @@ void sh_intc_toggle_source(struct intc_source *source,
+     int pending_changed = 0;
+     int old_pending;
  
--#define INT_REG_PARAMS(reg_struct, type, action, j) \
--        reg_struct->action##_reg, #type, #action, j
-     if (desc->mask_regs) {
-         for (i = 0; i < desc->nr_mask_regs; i++) {
-             struct intc_mask_reg *mr = desc->mask_regs + i;
+-    if ((source->enable_count == source->enable_max) && (enable_adj == -1)) {
++    if (source->enable_count == source->enable_max && enable_adj == -1) {
+         enable_changed = -1;
+     }
+     source->enable_count += enable_adj;
+@@ -68,7 +68,7 @@ void sh_intc_toggle_source(struct intc_source *source,
+ static void sh_intc_set_irq(void *opaque, int n, int level)
+ {
+     struct intc_desc *desc = opaque;
+-    struct intc_source *source = &(desc->sources[n]);
++    struct intc_source *source = &desc->sources[n];
  
--            j += sh_intc_register(sysmem, desc,
--                                  INT_REG_PARAMS(mr, mask, set, j));
--            j += sh_intc_register(sysmem, desc,
--                                  INT_REG_PARAMS(mr, mask, clr, j));
-+            j += sh_intc_register(sysmem, desc, mr->set_reg, "mask", "set", j);
-+            j += sh_intc_register(sysmem, desc, mr->clr_reg, "mask", "clr", j);
+     if (level && !source->asserted) {
+         sh_intc_toggle_source(source, 0, 1);
+@@ -164,7 +164,7 @@ static void sh_intc_locate(struct intc_desc *desc,
+             *modep = mode | INTC_MODE_IS_PRIO;
+             *datap = &pr->value;
+             *enums = pr->enum_ids;
+-            *first = (pr->reg_width / pr->field_width) - 1;
++            *first = pr->reg_width / pr->field_width - 1;
+             *width = pr->field_width;
+             return;
          }
+@@ -245,7 +245,8 @@ static void sh_intc_write(void *opaque, hwaddr offset,
      }
  
-@@ -450,13 +446,10 @@ int sh_intc_init(MemoryRegion *sysmem,
-         for (i = 0; i < desc->nr_prio_regs; i++) {
-             struct intc_prio_reg *pr = desc->prio_regs + i;
+     for (k = 0; k <= first; k++) {
+-        mask = ((1 << width) - 1) << ((first - k) * width);
++        mask = (1 << width) - 1;
++        mask <<= (first - k) * width;
  
--            j += sh_intc_register(sysmem, desc,
--                                  INT_REG_PARAMS(pr, prio, set, j));
--            j += sh_intc_register(sysmem, desc,
--                                  INT_REG_PARAMS(pr, prio, clr, j));
-+            j += sh_intc_register(sysmem, desc, pr->set_reg, "prio", "set", j);
-+            j += sh_intc_register(sysmem, desc, pr->clr_reg, "prio", "clr", j);
-         }
-     }
--#undef INT_REG_PARAMS
- 
-     return 0;
- }
+         if ((*valuep & mask) == (value & mask)) {
+             continue;
 -- 
 2.21.4
 
