@@ -2,83 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFA64405D6
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 01:41:13 +0200 (CEST)
-Received: from localhost ([::1]:33832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84D3C4405D7
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 01:43:07 +0200 (CEST)
+Received: from localhost ([::1]:35386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgbUm-0007a5-Bj
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 19:41:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51558)
+	id 1mgbWc-0000Fc-0G
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 19:43:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgbP3-0006U2-Na
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:35:18 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36397)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgbOx-000249-4u
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:35:15 -0400
-Received: by mail-wr1-x433.google.com with SMTP id s13so12034052wrb.3
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 16:35:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=UHQFF232DwJmJHO5uK6MvGr7qtpmXB1LsCeCwVyq0A4=;
- b=d5r5eGurN6x4ydL2kthSTyZaLfbNe7SPYnaETEI5i3yGqNXTnexg7gqcdUCBCrKysh
- SSzq5bzNNOHzS1Pw6a72T1Z2JCwhzMddJ68zynRfitg4iOxK9h51sSMSRtaCdqyVQN/K
- 1UlsM3lOOOBQFmBX3uUsLvKdn+Cdzs0BSKTVG0DoGUPLZvfGy9ub55kHII3RCCmq2vqN
- f/b/OZDxjadoJIbS2AlkDADQGfZr5R9/QWWIbk6FCXdkCi4gOMt0xV0EQgVFuLyOYOyh
- PPlplFWjZicqTzGFXdq8DPegTyqca1CAHwckCIPRVYYazaONAMBY7xIB0AUr5e3izyaS
- YqBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=UHQFF232DwJmJHO5uK6MvGr7qtpmXB1LsCeCwVyq0A4=;
- b=PkiDgl7yTnu+ycYjs9x28wEJexk14F+UWJvj7c1VIOJqqY0mfMf/9m7G/hSUT76P3i
- aD3kVcGuqt90V3RrutBJNHXPcG7Wz4h6EvgWlrTatNJmC2MBYpREDxs8c92G5zeDjtfa
- V+wMRxKPFWzsPlfo7PNs+e4zGNpz/Vms5ium7AWSgPvrIH3hsy6ms1/rJLiBMWqGj8DT
- 9UngyIbr6wAHd/l/uEXcmNaakUTOy2NNsvAdAwJtrSByYb+x5ZGYavDvhHauMe1MMExR
- BwrHmQgidASZox56F/zqqWsB3Grlu/msiHzFbmC1CwZL4MDkJKbK3/vKvQLCa7yc0LGY
- F4Lg==
-X-Gm-Message-State: AOAM530tKqjkUol8Aukc5+Atj+cYsMT6IZwHBXnaZ1lF5rxTbY0jRefw
- iDrZbYt6fMxIoC8i0ArBYsM=
-X-Google-Smtp-Source: ABdhPJx9u5v2opW7J6G9uHxZO5mggwvCJpM8HpRBAthwQONEko7hOz4xqkXjWHY0KGD8ypkvs/uoTg==
-X-Received: by 2002:a05:6000:1813:: with SMTP id
- m19mr8086025wrh.51.1635550509618; 
- Fri, 29 Oct 2021 16:35:09 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id c17sm7096485wmk.23.2021.10.29.16.35.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 16:35:09 -0700 (PDT)
-Message-ID: <c2092d40-c98e-e087-ce26-8937e8eb811b@amsat.org>
-Date: Sat, 30 Oct 2021 01:35:07 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mgbQ3-0006uj-Sz
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:36:19 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:18352)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mgbQ1-0002Ii-7M
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 19:36:19 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7CD2A7475FA;
+ Sat, 30 Oct 2021 01:36:15 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id F37FC746333; Sat, 30 Oct 2021 01:36:14 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id EF72B7462D3;
+ Sat, 30 Oct 2021 01:36:14 +0200 (CEST)
+Date: Sat, 30 Oct 2021 01:36:14 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v6 29/30] hw/timer/sh_timer: Fix timer memory region size
+In-Reply-To: <abe8c599-11b7-ea53-a22c-44846d6ffa2a@amsat.org>
+Message-ID: <851b67-fd93-ec4a-cb80-3fd83a9a374@eik.bme.hu>
+References: <cover.1635541329.git.balaton@eik.bme.hu>
+ <82ca7d39f47685f35f735e40ab1dfa8fa1b86b9b.1635541329.git.balaton@eik.bme.hu>
+ <abe8c599-11b7-ea53-a22c-44846d6ffa2a@amsat.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v5 44/67] linux-user: Add cpu_loop_exit_sigbus
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211015041053.2769193-1-richard.henderson@linaro.org>
- <20211015041053.2769193-45-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211015041053.2769193-45-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
+Content-Type: multipart/mixed;
+ boundary="3866299591-1581180928-1635550574=:5796"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.512,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,22 +59,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/15/21 06:10, Richard Henderson wrote:
-> This is a new interface to be provided by the os emulator for
-> raising SIGBUS on fault.  Use the new record_sigbus target hook.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/exec/exec-all.h | 14 ++++++++++++++
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-This header deserves a system/user split.
+--3866299591-1581180928-1635550574=:5796
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
->  linux-user/signal.c     | 14 ++++++++++++++
->  2 files changed, 28 insertions(+)
+On Sat, 30 Oct 2021, Philippe Mathieu-Daudé wrote:
+> On 10/29/21 23:02, BALATON Zoltan wrote:
+>> The timer memory region is only accessed via aliases that are 0x1000
+>> bytes long, no need to have the timer region larger than that.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>  hw/timer/sh_timer.c | 3 +--
+>>  1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
+>> index 250ad41b48..a6445092e4 100644
+>> --- a/hw/timer/sh_timer.c
+>> +++ b/hw/timer/sh_timer.c
+>> @@ -350,8 +350,7 @@ void tmu012_init(MemoryRegion *sysmem, hwaddr base, int feat, uint32_t freq,
+>>                                      ch2_irq0); /* ch2_irq1 not supported */
+>>      }
+>>
+>> -    memory_region_init_io(&s->iomem, NULL, &tmu012_ops, s,
+>> -                          "timer", 0x100000000ULL);
+>> +    memory_region_init_io(&s->iomem, NULL, &tmu012_ops, s, "timer", 0x1000);
+>
+> Per the manual (R01UH0457EJ0401 Rev. 4.01 [*]) Page 317/1128, Table
+> 12.2 "TMU Registers" the first 3 timers (implemented by the tmu012_state
+> structure) fit in a region of 0x30 bytes.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Sent a v7 of this patch only changing it to 0x30 with which the Linux 
+image I've tested still boots but don't know if it uses a timer at all.
+
+> Looking at hw/timer/sh_timer.c I only see a maximum access of 0x40,
+
+Where do you see 0x40?
+
+> where 0x1000 comes from? The P4/A7 aliases?
+
+Yes, as the commit message said. Since this was a last minute change I 
+tried to be safe and not change anything guest visible at this point.
+
+> If you have a way to test and ack, I can replace by 0x40 when applying.
+
+If you think 0x40 is better then I'm fine with that but I don't see a 
+register after 0x2c which is 32 bits so 0x30 length should be enough 
+according to that.
+
+Regards.
+BALATON Zoltan
+
+> [*]
+> https://www.renesas.com/us/en/document/mah/sh7751-group-sh7751r-group-users-manual-hardware?language=en&r=1055171
+>
+>
+--3866299591-1581180928-1635550574=:5796--
 
