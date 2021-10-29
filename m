@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3306E4400A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 18:51:43 +0200 (CEST)
-Received: from localhost ([::1]:37110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88184400A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 18:54:07 +0200 (CEST)
+Received: from localhost ([::1]:45428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgV6U-0006Ci-7r
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 12:51:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48726)
+	id 1mgV8o-0003Yv-Ms
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 12:54:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mgUvC-0006m6-7t
+ id 1mgUvC-0006m7-Bl
  for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34706)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mgUv0-0003WG-NM
+ id 1mgUv2-0003WU-Et
  for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:39:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635525586;
+ s=mimecast20190719; t=1635525587;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SoLHWBqwFq+3bp5mpxge2JH30i6yXLxBS9GlgYhV+PA=;
- b=Hx0V+Wm0Bb9oomsbiJ3f0Rznf9034cguYpdT4LIjq2kjd6q6RIShsqnvwkMoMUJpu1puEh
- yVrXBvk/QRRYOC/vnHc/ZvGkkomQMXnbzwbpuuJYiHD6+75WcGZjD+F7AatOlCmrLTsTox
- PHnlRpF1zjFnG/1gFxQ+d6Z0Uztq2TY=
+ bh=Ej4w4id2oIvNpWP8bETfoA2U8uTAohXxo7FV0unjmOE=;
+ b=cvHeNTvUwKz9r+4WrkfjNcnNwA4McMykUT23j7Yj/Ig0d5ywe9dNypBFqfM3cf4wU9M32y
+ 0U0O4NzOPQfEKNiC5caEIlfqAWCm4C38eNmpdE1so+tiM4bTQg0noryoqgPRappokd32Ah
+ tBOTqMqYgkTSCwWb/yBlX7JfQoUR7B4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-A4YPyzYCO0epW3KfJHN2Hg-1; Fri, 29 Oct 2021 12:39:43 -0400
-X-MC-Unique: A4YPyzYCO0epW3KfJHN2Hg-1
+ us-mta-27-JAwvG79UMCOE1M6WZZxBbw-1; Fri, 29 Oct 2021 12:39:44 -0400
+X-MC-Unique: JAwvG79UMCOE1M6WZZxBbw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD17110A8E04;
- Fri, 29 Oct 2021 16:39:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D711D362F9;
+ Fri, 29 Oct 2021 16:39:42 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DBBBF69214;
- Fri, 29 Oct 2021 16:39:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E751569117;
+ Fri, 29 Oct 2021 16:39:41 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 06/15] jobs: add job-driver.h
-Date: Fri, 29 Oct 2021 12:39:05 -0400
-Message-Id: <20211029163914.4044794-7-eesposit@redhat.com>
+Subject: [RFC PATCH 07/15] job-driver.h: add helper functions
+Date: Fri, 29 Oct 2021 12:39:06 -0400
+Message-Id: <20211029163914.4044794-8-eesposit@redhat.com>
 In-Reply-To: <20211029163914.4044794-1-eesposit@redhat.com>
 References: <20211029163914.4044794-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -58,15 +58,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,322 +90,246 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-job-driver.h contains all functions of job.h that are used by
-the drivers (JobDriver, BlockJobDriver).
+These functions will be useful when job_lock is globally applied,
+as they will allow drivers to access the job struct fields
+without worrying about the job lock.
 
-These functions are unaware of the job_mutex,
-so they all will take and release the lock internally.
-
-No functional change intended.
+Now that we are done with the job API header split, update also
+the comments in blockjob.c (and move them in job.c).
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- include/qemu/job-driver.h  | 152 +++++++++++++++++++++++++++++++++++++
- include/qemu/job-monitor.h |   4 +-
- include/qemu/job.h         | 114 +---------------------------
- 3 files changed, 156 insertions(+), 114 deletions(-)
- create mode 100644 include/qemu/job-driver.h
+ include/qemu/job-driver.h |  21 +++++++
+ blockjob.c                |  20 -------
+ job.c                     | 116 +++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 135 insertions(+), 22 deletions(-)
 
 diff --git a/include/qemu/job-driver.h b/include/qemu/job-driver.h
-new file mode 100644
-index 0000000000..1efd196da8
---- /dev/null
+index 1efd196da8..19ae5ce8f0 100644
+--- a/include/qemu/job-driver.h
 +++ b/include/qemu/job-driver.h
-@@ -0,0 +1,152 @@
+@@ -149,4 +149,25 @@ void job_early_fail(Job *job);
+ /** Moves the @job from RUNNING to READY */
+ void job_transition_to_ready(Job *job);
+ 
++/** Enters the @job if it is not paused */
++void job_enter_not_paused(Job *job);
++
++/** returns @job->ret */
++bool job_has_failed(Job *job);
++
++/** Returns the @job->status */
++JobStatus job_get_status(Job *job);
++
++/** Returns the @job->pause_count */
++int job_get_pause_count(Job *job);
++
++/** Returns @job->paused */
++bool job_get_paused(Job *job);
++
++/** Returns @job->busy */
++bool job_get_busy(Job *job);
++
++/** Return true if @job not paused and not cancelled */
++bool job_not_paused_nor_cancelled(Job *job);
++
+ #endif /* JOB_DRIVER_H */
+diff --git a/blockjob.c b/blockjob.c
+index 4982f6a2b5..53c1e9c406 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -36,21 +36,6 @@
+ #include "qemu/main-loop.h"
+ #include "qemu/timer.h"
+ 
+-/*
+- * The block job API is composed of two categories of functions.
+- *
+- * The first includes functions used by the monitor.  The monitor is
+- * peculiar in that it accesses the block job list with block_job_get, and
+- * therefore needs consistency across block_job_get and the actual operation
+- * (e.g. block_job_set_speed).  The consistency is achieved with
+- * aio_context_acquire/release.  These functions are declared in blockjob.h.
+- *
+- * The second includes functions used by the block job drivers and sometimes
+- * by the core block layer.  These do not care about locking, because the
+- * whole coroutine runs under the AioContext lock, and are declared in
+- * blockjob_int.h.
+- */
+-
+ static bool is_block_job(Job *job)
+ {
+     return job_type(job) == JOB_TYPE_BACKUP ||
+@@ -433,11 +418,6 @@ static void block_job_event_ready(Notifier *n, void *opaque)
+ }
+ 
+ 
+-/*
+- * API for block job drivers and the block layer.  These functions are
+- * declared in blockjob_int.h.
+- */
+-
+ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
+                        JobTxn *txn, BlockDriverState *bs, uint64_t perm,
+                        uint64_t shared_perm, int64_t speed, int flags,
+diff --git a/job.c b/job.c
+index b66d59b746..db7ad79745 100644
+--- a/job.c
++++ b/job.c
+@@ -32,6 +32,23 @@
+ #include "trace/trace-root.h"
+ #include "qapi/qapi-events-job.h"
+ 
 +/*
-+ * Declarations for background jobs
++ * The job API is composed of two categories of functions.
 + *
-+ * Copyright (c) 2011 IBM Corp.
-+ * Copyright (c) 2012, 2018 Red Hat, Inc.
++ * The first includes functions used by the monitor.  The monitor is
++ * peculiar in that it accesses the block job list with job_get, and
++ * therefore needs consistency across job_get and the actual operation
++ * (e.g. job_user_cancel). To achieve this consistency, the caller
++ * calls job_lock/job_unlock itself around the whole operation.
++ * These functions are declared in job-monitor.h.
 + *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
 + *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
++ * The second includes functions used by the block job drivers and sometimes
++ * by the core block layer. These delegate the locking to the callee instead,
++ * and are declared in job-driver.h.
 + */
 +
-+#ifndef JOB_DRIVER_H
-+#define JOB_DRIVER_H
 +
-+#include "job-common.h"
-+
-+/*
-+ * Job driver API.
-+ *
-+ * These functions use are used by job drivers like mirror,
-+ * stream, commit etc. The driver is not aware of the job_mutex
-+ * presence, so these functions use it internally to protect
-+ * job fields (see job-common.h).
-+ *
-+ * Therefore, each function in this API that requires protection
-+ * must have the comment
-+ * "Called with job_mutext *not* held"
-+ * in job.c
-+ */
-+
-+/**
-+ * Create a new long-running job and return it.
-+ *
-+ * @job_id: The id of the newly-created job, or %NULL for internal jobs
-+ * @driver: The class object for the newly-created job.
-+ * @txn: The transaction this job belongs to, if any. %NULL otherwise.
-+ * @ctx: The AioContext to run the job coroutine in.
-+ * @flags: Creation flags for the job. See @JobCreateFlags.
-+ * @cb: Completion function for the job.
-+ * @opaque: Opaque pointer value passed to @cb.
-+ * @errp: Error object.
-+ */
-+void *job_create(const char *job_id, const JobDriver *driver, JobTxn *txn,
-+                 AioContext *ctx, int flags, BlockCompletionFunc *cb,
-+                 void *opaque, Error **errp);
-+
-+/**
-+ * @job: The job that has made progress
-+ * @done: How much progress the job made since the last call
-+ *
-+ * Updates the progress counter of the job.
-+ */
-+void job_progress_update(Job *job, uint64_t done);
-+
-+/**
-+ * @job: The job whose expected progress end value is set
-+ * @remaining: Missing progress (on top of the current progress counter value)
-+ *             until the new expected end value is reached
-+ *
-+ * Sets the expected end value of the progress counter of a job so that a
-+ * completion percentage can be calculated when the progress is updated.
-+ */
-+void job_progress_set_remaining(Job *job, uint64_t remaining);
-+
-+/**
-+ * @job: The job whose expected progress end value is updated
-+ * @delta: Value which is to be added to the current expected end
-+ *         value
-+ *
-+ * Increases the expected end value of the progress counter of a job.
-+ * This is useful for parenthesis operations: If a job has to
-+ * conditionally perform a high-priority operation as part of its
-+ * progress, it calls this function with the expected operation's
-+ * length before, and job_progress_update() afterwards.
-+ * (So the operation acts as a parenthesis in regards to the main job
-+ * operation running in background.)
-+ */
-+void job_progress_increase_remaining(Job *job, uint64_t delta);
-+
-+/**
-+ * @job: A job that has not yet been started.
-+ *
-+ * Begins execution of a job.
-+ * Takes ownership of one reference to the job object.
-+ */
-+void job_start(Job *job);
-+
-+/**
-+ * @job: The job to enter.
-+ *
-+ * Continue the specified job by entering the coroutine.
-+ */
-+void job_enter(Job *job);
-+
-+/**
-+ * @job: The job that is ready to pause.
-+ *
-+ * Pause now if job_pause() has been called. Jobs that perform lots of I/O
-+ * must call this between requests so that the job can be paused.
-+ */
-+void coroutine_fn job_pause_point(Job *job);
-+
-+/**
-+ * @job: The job that calls the function.
-+ *
-+ * Yield the job coroutine.
-+ */
-+void job_yield(Job *job);
-+
-+/**
-+ * @job: The job that calls the function.
-+ * @ns: How many nanoseconds to stop for.
-+ *
-+ * Put the job to sleep (assuming that it wasn't canceled) for @ns
-+ * %QEMU_CLOCK_REALTIME nanoseconds.  Canceling the job will immediately
-+ * interrupt the wait.
-+ */
-+void coroutine_fn job_sleep_ns(Job *job, int64_t ns);
-+
-+/**
-+ * Returns whether the job is scheduled for cancellation (at an
-+ * indefinite point).
-+ */
-+bool job_cancel_requested(Job *job);
-+
-+/** Returns whether the job is scheduled for cancellation. */
-+bool job_is_cancelled(Job *job);
-+
-+/** Returns whether the job is ready to be completed. */
-+bool job_is_ready(Job *job);
-+
-+/** The @job could not be started, free it. */
-+void job_early_fail(Job *job);
-+
-+/** Moves the @job from RUNNING to READY */
-+void job_transition_to_ready(Job *job);
-+
-+#endif /* JOB_DRIVER_H */
-diff --git a/include/qemu/job-monitor.h b/include/qemu/job-monitor.h
-index d92bc4f39d..f473bd298f 100644
---- a/include/qemu/job-monitor.h
-+++ b/include/qemu/job-monitor.h
-@@ -272,10 +272,10 @@ void job_dismiss(Job **job, Error **errp);
-  */
- int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp), Error **errp);
+ /* job_mutex protects the jobs list, but also makes the job API thread-safe. */
+ static QemuMutex job_mutex;
  
--/** Same as job_is_ready(), but assumes job_lock is held. */
-+/** Same as job_is_ready() in job-driver.h, but assumes job_lock is held. */
- bool job_is_ready_locked(Job *job);
+@@ -213,18 +230,94 @@ const char *job_type_str(const Job *job)
+     return JobType_str(job_type(job));
+ }
  
--/** Same as job_early_fail(), but assumes job_lock is held. */
-+/** Same as job_early_fail() in job-driver.h, but assumes job_lock is held. */
- void job_early_fail_locked(Job *job);
+-bool job_is_cancelled(Job *job)
++JobStatus job_get_status(Job *job)
++{
++    JobStatus status;
++    job_lock();
++    status = job->status;
++    job_unlock();
++    return status;
++}
++
++int job_get_pause_count(Job *job)
++{
++    int ret;
++    job_lock();
++    ret = job->pause_count;
++    job_unlock();
++    return ret;
++}
++
++bool job_get_paused(Job *job)
++{
++    bool ret;
++    job_lock();
++    ret = job->paused;
++    job_unlock();
++    return ret;
++}
++
++bool job_get_busy(Job *job)
++{
++    bool ret;
++    job_lock();
++    ret = job->busy;
++    job_unlock();
++    return ret;
++}
++
++bool job_has_failed(Job *job)
++{
++    bool ret;
++    job_lock();
++    ret = job->ret < 0;
++    job_unlock();
++    return ret;
++}
++
++/* Called with job_mutex held. */
++static bool job_is_cancelled_locked(Job *job)
+ {
+     /* force_cancel may be true only if cancelled is true, too */
+     assert(job->cancelled || !job->force_cancel);
+     return job->force_cancel;
+ }
  
- #endif
-diff --git a/include/qemu/job.h b/include/qemu/job.h
-index 8d189ed1c2..4a0b01dd1d 100644
---- a/include/qemu/job.h
-+++ b/include/qemu/job.h
-@@ -27,118 +27,8 @@
- #define JOB_H
+-bool job_cancel_requested(Job *job)
++/* Called with job_mutex *not* held. */
++bool job_is_cancelled(Job *job)
++{
++    bool ret;
++    job_lock();
++    ret = job_is_cancelled_locked(job);
++    job_unlock();
++    return ret;
++}
++
++bool job_not_paused_nor_cancelled(Job *job)
++{
++    bool ret;
++    job_lock();
++    ret = !job->paused && !job_is_cancelled_locked(job);
++    job_unlock();
++    return ret;
++}
++
++/* Called with job_mutex held. */
++static bool job_cancel_requested_locked(Job *job)
+ {
+     return job->cancelled;
+ }
  
- #include "job-monitor.h"
-+#include "job-driver.h"
++/* Called with job_mutex *not* held. */
++bool job_cancel_requested(Job *job)
++{
++    bool ret;
++    job_lock();
++    ret = job_cancel_requested_locked(job);
++    job_unlock();
++    return ret;
++}
++
+ /* Called with job_mutex held. */
+ bool job_is_ready_locked(Job *job)
+ {
+@@ -280,6 +373,16 @@ bool job_is_completed(Job *job)
+     return false;
+ }
  
--/**
-- * Create a new long-running job and return it.
-- *
-- * @job_id: The id of the newly-created job, or %NULL for internal jobs
-- * @driver: The class object for the newly-created job.
-- * @txn: The transaction this job belongs to, if any. %NULL otherwise.
-- * @ctx: The AioContext to run the job coroutine in.
-- * @flags: Creation flags for the job. See @JobCreateFlags.
-- * @cb: Completion function for the job.
-- * @opaque: Opaque pointer value passed to @cb.
-- * @errp: Error object.
-- */
--void *job_create(const char *job_id, const JobDriver *driver, JobTxn *txn,
--                 AioContext *ctx, int flags, BlockCompletionFunc *cb,
--                 void *opaque, Error **errp);
--
--/**
-- * @job: The job that has made progress
-- * @done: How much progress the job made since the last call
-- *
-- * Updates the progress counter of the job.
-- */
--void job_progress_update(Job *job, uint64_t done);
--
--/**
-- * @job: The job whose expected progress end value is set
-- * @remaining: Missing progress (on top of the current progress counter value)
-- *             until the new expected end value is reached
-- *
-- * Sets the expected end value of the progress counter of a job so that a
-- * completion percentage can be calculated when the progress is updated.
-- */
--void job_progress_set_remaining(Job *job, uint64_t remaining);
--
--/**
-- * @job: The job whose expected progress end value is updated
-- * @delta: Value which is to be added to the current expected end
-- *         value
-- *
-- * Increases the expected end value of the progress counter of a job.
-- * This is useful for parenthesis operations: If a job has to
-- * conditionally perform a high-priority operation as part of its
-- * progress, it calls this function with the expected operation's
-- * length before, and job_progress_update() afterwards.
-- * (So the operation acts as a parenthesis in regards to the main job
-- * operation running in background.)
-- */
--void job_progress_increase_remaining(Job *job, uint64_t delta);
--
--/** To be called when a cancelled job is finalised. */
--void job_event_cancelled(Job *job);
--
--/** To be called when a successfully completed job is finalised. */
--void job_event_completed(Job *job);
--
--/**
-- * @job: A job that has not yet been started.
-- *
-- * Begins execution of a job.
-- * Takes ownership of one reference to the job object.
-- */
--void job_start(Job *job);
--
--/**
-- * @job: The job to enter.
-- *
-- * Continue the specified job by entering the coroutine.
-- */
--void job_enter(Job *job);
--
--/**
-- * @job: The job that is ready to pause.
-- *
-- * Pause now if job_pause() has been called. Jobs that perform lots of I/O
-- * must call this between requests so that the job can be paused.
-- */
--void coroutine_fn job_pause_point(Job *job);
--
--/**
-- * @job: The job that calls the function.
-- *
-- * Yield the job coroutine.
-- */
--void job_yield(Job *job);
--
--/**
-- * @job: The job that calls the function.
-- * @ns: How many nanoseconds to stop for.
-- *
-- * Put the job to sleep (assuming that it wasn't canceled) for @ns
-- * %QEMU_CLOCK_REALTIME nanoseconds.  Canceling the job will immediately
-- * interrupt the wait.
-- */
--void coroutine_fn job_sleep_ns(Job *job, int64_t ns);
--
--/** Returns whether the job is being cancelled. */
--bool job_is_cancelled(Job *job);
--
--/**
-- * Returns whether the job is scheduled for cancellation (at an
-- * indefinite point).
-- */
--bool job_cancel_requested(Job *job);
--
--/** Returns whether the job is ready to be completed. */
--bool job_is_ready(Job *job);
--
--/** The @job could not be started, free it. */
--void job_early_fail(Job *job);
--
--/** Moves the @job from RUNNING to READY */
--void job_transition_to_ready(Job *job);
-+/* DO NOT ADD ANYTHING IN HERE. USE ONE OF THE HEADERS INCLUDED ABOVE */
++/* Called with job_mutex lock *not* held */
++static bool job_is_completed_unlocked(Job *job)
++{
++    bool res;
++    job_lock();
++    res = job_is_completed(job);
++    job_unlock();
++    return res;
++}
++
+ static bool job_started(Job *job)
+ {
+     return job->co;
+@@ -579,6 +682,15 @@ void job_pause(Job *job)
+     }
+ }
  
- #endif
++void job_enter_not_paused(Job *job)
++{
++    job_lock();
++    if (!job->paused) {
++        job_enter_cond(job, NULL);
++    }
++    job_unlock();
++}
++
+ void job_resume(Job *job)
+ {
+     assert(job->pause_count > 0);
 -- 
 2.27.0
 
