@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA6144054A
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 00:06:43 +0200 (CEST)
-Received: from localhost ([::1]:52610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7859144053C
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 00:03:20 +0200 (CEST)
+Received: from localhost ([::1]:47524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mga1J-0001K4-W3
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 18:06:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35198)
+	id 1mgZy3-0006FU-JU
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 18:03:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgZvE-0004MY-Nw
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 18:00:25 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38403)
+ id 1mgZw5-0004oU-G4
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 18:01:19 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgZvB-0005BG-M7
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 18:00:24 -0400
-Received: by mail-wr1-x430.google.com with SMTP id u18so18839305wrg.5
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 15:00:20 -0700 (PDT)
+ id 1mgZw3-0005MO-CT
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 18:01:16 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id d13so18794845wrf.11
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 15:01:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=kxju2OX02+kAXihumREswLqZA+DgT1YYU4oI1H0N0k4=;
- b=IWiMkk1QYm1LlWJWooVcJMwhKrN27SYQIkG0mhHBfsi23UAEOyx+MZdiSzv+yr+yLM
- ElLmnh+ireXkOzcMxThv9b52rms8pnVKwMC/p69LYJlssPdsyi8bGaBEBhcW0jpNlLEa
- 0m2um7D/jHNayrxUiBj7PQPFjrHwwc078H+4ir7VWZAf87GB9CKIhKCDuaIajlpNPG8K
- AlO3VdZQqyF00iy9w9sy1IQBdHhyfIHPb4h9qEbT+2RdxTXhmq7skLDeJUp5atiUPh7q
- DZA2sek7L29tY+kdBzMsekgOI16aJY/NfSobSLI6G/y0JIcIjJdR3JAIti+ZfnpZHRIF
- ekKw==
+ bh=z4sT093S2P7r4tZAomFVyjP0U8/JgJ3fdPLlMfE4078=;
+ b=nltiUIGG0nEsgmoiFMTYe59Qfm5dp+jQHltkfDS8Spf/BMyrQ4We8dUoknOkfFpO0/
+ vzU/R82okOCqc+srRAzSza9n76knxe6XtNyxmmpRXTokM/G12wCpSZwTHPpPcnrJvBhU
+ uneiFOcjHMnvEroxos9mONzzuKhhe95QUYnY33ftDUTCwFQnkdLx346wbzU9XKvCR29/
+ lrcC3+077FI50PgBm0JRZMLSB9WLZjyxNqg+ZUNBgtRZ/GAnlttM9+2QY0MSc0vHJddl
+ VDRPWQfn6jtPo5P6bR3H4RRr4sWCEXnGVtJOq3fUf69fIkrlvXXttswwNNvTfpRj8CJ1
+ YTTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=kxju2OX02+kAXihumREswLqZA+DgT1YYU4oI1H0N0k4=;
- b=auMq9K7zvBiF4miHw7uhgsoZAzMph4EwYvn3Gr+hk2z95VqW6Xj/axt+K9QW8cToWU
- 9J22YUUBCgC+OBNKgg4N+2QJgt9D7sdnolBJsgVuuypzbn1EJE9AEXD9vukodmItmbyP
- NqCP8SfsdFN90dBxTnBJ4w6NUHzd48+KXTAsQQe3MmEaTfWj7zNYV61Z4pvTINCCinr8
- Ad+JkuzWyKlicySif3DL/a1ZgcAmrcDp4qeZ9DlvIRDIlF4PUSeuEy42D2hHNI5U8mKm
- gt1hAoRnsRIzK9WE2LxN5uN8pPcNDlxl54TuQssC6IQz7E4H8kLoJmKWFn525cyVbyMt
- dNmw==
-X-Gm-Message-State: AOAM531duWMkgjgRNXg54aou4/s+9Bup3fDKpGaRHN0NBuZ/1QfCJYNI
- sEL2CyV9SfY2VqOHTjjaZCM=
-X-Google-Smtp-Source: ABdhPJxZZdz10fFbtVKffKNAN86Y4auXHOaZHnbmPxVNsZwV28kfbKdvwr0as1gEwhJ9UfSaYhILwA==
-X-Received: by 2002:a05:600c:4ed3:: with SMTP id
- g19mr13807334wmq.85.1635544819828; 
- Fri, 29 Oct 2021 15:00:19 -0700 (PDT)
+ bh=z4sT093S2P7r4tZAomFVyjP0U8/JgJ3fdPLlMfE4078=;
+ b=e5dGryZ8ESYYGKhdoZW33QhOz45KXHek12GbF3PU4jVxth41ZUeUE5zkoiAs3hnGju
+ cp8ejNIEHyMdW90Zs39sLaqCNJ4jVO8lMe0T3sSOnk16KBljSXNui8LGIAlm+/XOU0F0
+ PkC408XAneoc3tdig+oFYByfYw5FyzNUKZlmFkspP1sdrzUeVgVPkUMpohPlhoyyKUsz
+ B6nNOI2WFTpBqxAqryjDJuOmnhbKpkELTcExxmkX/O2421SpJbHogsjh9jDOP8G9g/iu
+ 60k1h4LKzBVwkKSYlSsWP0zOPS/p4oxCP03fvrjs72qskc0To/SvA2Jnu3eLr72HPffb
+ Cvfg==
+X-Gm-Message-State: AOAM53178lBBFbpIGGSQe+Cqm01cQ3pSGHwe9ybuRVgdyl6rgTihfIzc
+ IYFjTJKRfkHQXU3rCFRi0AQ=
+X-Google-Smtp-Source: ABdhPJzQHcQ5HYJIBfso9s/0VIdV/BoMfCgWawIF4wQaUV1ji3ZkQlkrxSKUZTNMPW2Pqw9uKDIQTQ==
+X-Received: by 2002:a5d:44d1:: with SMTP id z17mr6109673wrr.143.1635544873788; 
+ Fri, 29 Oct 2021 15:01:13 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id k17sm6761975wrq.7.2021.10.29.15.00.18
+ by smtp.gmail.com with ESMTPSA id k63sm9926601wme.22.2021.10.29.15.01.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 15:00:19 -0700 (PDT)
-Message-ID: <37a80613-3430-04c1-05f4-48db6559d0fe@amsat.org>
-Date: Sat, 30 Oct 2021 00:00:17 +0200
+ Fri, 29 Oct 2021 15:01:13 -0700 (PDT)
+Message-ID: <da45e061-c34e-7a3c-468a-e0f375c97d50@amsat.org>
+Date: Sat, 30 Oct 2021 00:01:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v6 11/30] hw/char/sh_serial: Embed QEMUTimer in state
- struct
+Subject: Re: [PATCH v6 12/30] hw/char/sh_serial: Split off sh_serial_reset()
+ from sh_serial_init()
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1635541329.git.balaton@eik.bme.hu>
- <fd01eb3720ec32dab06e03019f72f3e177033679.1635541329.git.balaton@eik.bme.hu>
+ <ffb46f2814794c8dfc2c5a0cf83086a7bd754e10.1635541329.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <fd01eb3720ec32dab06e03019f72f3e177033679.1635541329.git.balaton@eik.bme.hu>
+In-Reply-To: <ffb46f2814794c8dfc2c5a0cf83086a7bd754e10.1635541329.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -39
 X-Spam_score: -4.0
 X-Spam_bar: ----
@@ -100,13 +99,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/29/21 23:02, BALATON Zoltan wrote:
-> Instead of allocating timer with timer_new store it directly in the
-> state struct. This makes it simpler to free it together with the device.
-> 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->  hw/char/sh_serial.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  hw/char/sh_serial.c | 29 +++++++++++++++++------------
+>  1 file changed, 17 insertions(+), 12 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
