@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F244405BA
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 01:21:59 +0200 (CEST)
-Received: from localhost ([::1]:45334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F9224405BE
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 01:23:17 +0200 (CEST)
+Received: from localhost ([::1]:52226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgbCA-00043P-KK
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 19:21:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48050)
+	id 1mgbDQ-0000EC-8Q
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 19:23:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgb96-0001Lc-Oy; Fri, 29 Oct 2021 19:18:48 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36762)
+ id 1mgb9A-0001TM-Ci; Fri, 29 Oct 2021 19:18:52 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgb95-0006hJ-1P; Fri, 29 Oct 2021 19:18:48 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id s13so11980771wrb.3;
- Fri, 29 Oct 2021 16:18:43 -0700 (PDT)
+ id 1mgb98-0006hV-Ih; Fri, 29 Oct 2021 19:18:52 -0400
+Received: by mail-wr1-x436.google.com with SMTP id d5so3860593wrc.1;
+ Fri, 29 Oct 2021 16:18:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Zo5TdWihX0fqFGQkJwGnLAD68vX5IqLcZuqWCOpy/Ho=;
- b=J4Iykq4QB5zQtPouXxEGI3R/wbKU4to04JUk4VDaeH0ISOaMify3nHBI4oll8ttpzq
- IA11pkuJYaBxcAQLcqCqj5IZmmkP6kn3ZiRHFpnKu1k5x5Pw2AvUx9GLAW6dbxxi6wfW
- 1eFx7abc0HUhAGQRN7IKDcQ6oXYARP2OJ0XhPO3UXcN7PoHGlyyfrfPYVHm/DMqSNgSw
- CxQ7mWugEueKTXxF6tncBuCE+XyPhuXslb5md7Rm9dpyjNeqf/bmRd0APSRQXj3/Wrd/
- iGy78lZQxKsfqWmA7sTr6VRaFUzBea5bVdmqm09PE180kQHpn85h3Sc8RLVZq7QuxQun
- wcKA==
+ bh=3IMxeujrA9pkHzGmlQQ3ZftEGFPf6+T20rNX3ir1Ss0=;
+ b=n5bGVif8D3yLen/dDyF0GTte3SsTHLjO/RYMesICC77h7js6EO8LEuedJ4dN5ufOLa
+ XzJoWryiZ77TmEbbH2eM/S+tDsBJ2LHj6Takv6D9oasyzki5uGc1VSb1l+acrtFh01L+
+ jSK5yEHMrjBuiWfxsLTOI0muJQOdQmpsFYVkv0HIU5qXDh3wLMgTFUTAt9NrLGi+AqRD
+ 5wZaIl4ak/A+lHmkG9NWglqrJiffy19vZ2gYFbmpPzxzM8ArPZrdqs3XJjNXIBZHXXCN
+ 0lv7dKcMOKZYM026zZeLUHmuoTglPMLeIFwSV3k67Lt0EICcUbQ/3f8GoPONPh/9Grg9
+ X0tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Zo5TdWihX0fqFGQkJwGnLAD68vX5IqLcZuqWCOpy/Ho=;
- b=ZnI2fMrdHKY1yavg7XqaXYP80x1j+GsjfeL4sOY3T/pGiHhelf5y8Gwct+W/Cwee0p
- 9OjUGVkEsPujZRtc52scQOmfKuc1u4KY9FTQOo42k5uuY1E13ix9svG1woGl6VL43355
- 3dYxftmQabzyQ8Vk/shudzn1UW35kora09GR++G7JLk2JuJ+lJN5mD1TyK88pKzsiLNJ
- TtSc5Xbo06kQRjGcc3hwabrCS+kRrvH+MsmX6Qsj/givjwY5FMiYS29tTHr087LnVrAU
- zRDAs5bMwf5NNwocCeU5nQR/A6lqxGe/MV/5p/0lfj/VRv2J5/V/bxi88h1U0rj1baoe
- wEqA==
-X-Gm-Message-State: AOAM533gpWsPOtCqfzpCOVeQTR1a58EqPiaGhszWYiGrO1LkkXf10bpu
- 5pnUH3wkofHrIKNDRVjp/oPdXB0lpJY=
-X-Google-Smtp-Source: ABdhPJysT8T5b44SJnh/1M5c0X0VIoWSAzyfmwxurJO659FjqHig6K1wBKhslhSvdVmSJALCPGko4w==
-X-Received: by 2002:a5d:680b:: with SMTP id w11mr10648818wru.345.1635549522086; 
- Fri, 29 Oct 2021 16:18:42 -0700 (PDT)
+ bh=3IMxeujrA9pkHzGmlQQ3ZftEGFPf6+T20rNX3ir1Ss0=;
+ b=G1ho52l+saz+o+leznp+nO4HOF1/JLnGY+QSaY8RxU3J24LcBE48osjsr3A0fRUh3m
+ 585CbxQXFKkZeO2x7S5uG8V6RoRl8pIRkJsVXvv1OqRfkeXO5B9SvtYBf8eMmIkk0ndl
+ BtOxzICZYYIVthO59PnWXKoPcDoj+Lb2JgBS5uQh9VF8XtOpRB6JrB6HUlu2z0ULFeHq
+ PFQ49GRiKNguji2aaniRXY0zkJbj/FDu43ZSEmPVuSLaS4ONjtlthK86ywodNt6kscsE
+ 78GdAM6XDKjuztjUgu+ZMv0Oleuefa9fZAqseTfpRk5JZHXTkV28ZVjB538JHZ1QpRqF
+ d0iQ==
+X-Gm-Message-State: AOAM5304fQrR8I75JlgtPCfdorR0khFdZbAWh4wnrppbgpayKNUk/leu
+ d9kMlo+pJksP7tdvesBYHb0THlY8Gj8=
+X-Google-Smtp-Source: ABdhPJyP2Dnck145zvnW0eMTZy1ceYVCl2Mdd2RyPC6uRZ//52TA1tmnAjfnhU99jsDmRsOwtJydkQ==
+X-Received: by 2002:a05:600c:2505:: with SMTP id
+ d5mr14526418wma.194.1635549526879; 
+ Fri, 29 Oct 2021 16:18:46 -0700 (PDT)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id r10sm6894065wrl.92.2021.10.29.16.18.40
+ by smtp.gmail.com with ESMTPSA id i7sm2023213wmb.20.2021.10.29.16.18.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 16:18:41 -0700 (PDT)
+ Fri, 29 Oct 2021 16:18:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/5] target/arm: Use tcg_constant_i32() in op_smlad()
-Date: Sat, 30 Oct 2021 01:18:30 +0200
-Message-Id: <20211029231834.2476117-2-f4bug@amsat.org>
+Subject: [PATCH v3 2/5] target/arm: Introduce store_cpu_field_constant() helper
+Date: Sat, 30 Oct 2021 01:18:31 +0200
+Message-Id: <20211029231834.2476117-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211029231834.2476117-1-f4bug@amsat.org>
 References: <20211029231834.2476117-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,30 +90,31 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid using a TCG temporary for a read-only constant.
+Similarly to the store_cpu_field() helper which takes a TCG
+temporary, store its value to the CPUState, introduce the
+store_cpu_field_constant() helper which store a constant to
+CPUState (without using any TCG temporary).
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/arm/translate.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/arm/translate-a32.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index d6af5b1b039..083a6d6ed77 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -7849,10 +7849,9 @@ static bool op_smlad(DisasContext *s, arg_rrrr *a, bool m_swap, bool sub)
-         t3 = tcg_temp_new_i32();
-         tcg_gen_sari_i32(t3, t1, 31);
-         qf = load_cpu_field(QF);
--        one = tcg_const_i32(1);
-+        one = tcg_constant_i32(1);
-         tcg_gen_movcond_i32(TCG_COND_NE, qf, t2, t3, one, qf);
-         store_cpu_field(qf, QF);
--        tcg_temp_free_i32(one);
-         tcg_temp_free_i32(t3);
-         tcg_temp_free_i32(t2);
-     }
+diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
+index 88f15df60e8..17af8dc95a8 100644
+--- a/target/arm/translate-a32.h
++++ b/target/arm/translate-a32.h
+@@ -70,6 +70,9 @@ static inline void store_cpu_offset(TCGv_i32 var, int offset)
+ #define store_cpu_field(var, name) \
+     store_cpu_offset(var, offsetof(CPUARMState, name))
+ 
++#define store_cpu_field_constant(val, name) \
++    tcg_gen_st_i32(tcg_constant_i32(val), cpu_env, offsetof(CPUARMState, name))
++
+ /* Create a new temporary and set it to the value of a CPU register.  */
+ static inline TCGv_i32 load_reg(DisasContext *s, int reg)
+ {
 -- 
 2.31.1
 
