@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8CD4404FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:39:47 +0200 (CEST)
-Received: from localhost ([::1]:46934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D524404FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:38:49 +0200 (CEST)
+Received: from localhost ([::1]:43074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgZbG-0000cZ-VG
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:39:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55250)
+	id 1mgZaK-0006W5-O0
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:38:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZJ3-0007Cs-0t
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:57 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19922)
+ id 1mgZJ1-000767-4y
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:55 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgZJ1-0005aE-EC
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:56 -0400
+ id 1mgZIy-0005ZZ-U2
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 17:20:54 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 513EC75620F;
+ by localhost (Postfix) with SMTP id 2E0687561FE;
  Fri, 29 Oct 2021 23:20:44 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A7B56756036; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
-Message-Id: <ffb46f2814794c8dfc2c5a0cf83086a7bd754e10.1635541329.git.balaton@eik.bme.hu>
+ id 9AE60756194; Fri, 29 Oct 2021 23:20:43 +0200 (CEST)
+Message-Id: <6b46045141d6d9cc32e17c223896fa1116384796.1635541329.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635541329.git.balaton@eik.bme.hu>
 References: <cover.1635541329.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 12/30] hw/char/sh_serial: Split off sh_serial_reset() from
- sh_serial_init()
+Subject: [PATCH v6 09/30] hw/char/sh_serial: Do not abort on invalid access
 Date: Fri, 29 Oct 2021 23:02:09 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -62,65 +61,71 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Replace fprintf with qemu_log_mask LOG_GUEST_ERROR as the intention is
+to handle valid accesses in these functions so if we get to these
+errors then it's an invalid access. Do not abort as that would allow
+the guest to crash QEMU and the practice in other devices is to not do
+that just log and ignore the invalid access. While at it also simplify
+the complex bit ops to check if a return value was set which can be
+done much simpler and clearer.
+
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/char/sh_serial.c | 29 +++++++++++++++++------------
- 1 file changed, 17 insertions(+), 12 deletions(-)
+ hw/char/sh_serial.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
-index 5ee93dc732..80a548d19d 100644
+index 053f45e1a6..2d6ea0042e 100644
 --- a/hw/char/sh_serial.c
 +++ b/hw/char/sh_serial.c
-@@ -381,18 +381,8 @@ static const MemoryRegionOps sh_serial_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
+@@ -31,6 +31,7 @@
+ #include "chardev/char-fe.h"
+ #include "qapi/error.h"
+ #include "qemu/timer.h"
++#include "qemu/log.h"
+ #include "trace.h"
  
--void sh_serial_init(MemoryRegion *sysmem,
--                    hwaddr base, int feat,
--                    uint32_t freq, Chardev *chr,
--                    qemu_irq eri_source,
--                    qemu_irq rxi_source,
--                    qemu_irq txi_source,
--                    qemu_irq tei_source,
--                    qemu_irq bri_source)
-+static void sh_serial_reset(SHSerialState *s)
- {
--    SHSerialState *s = g_malloc0(sizeof(*s));
+ #define SH_SERIAL_FLAG_TEND (1 << 0)
+@@ -195,17 +196,16 @@ static void sh_serial_write(void *opaque, hwaddr offs,
+             return;
+         }
+     }
 -
--    s->feat = feat;
-     s->flags = SH_SERIAL_FLAG_TEND | SH_SERIAL_FLAG_TDE;
-     s->rtrg = 1;
+-    fprintf(stderr, "sh_serial: unsupported write to 0x%02"
+-            HWADDR_PRIx "\n", offs);
+-    abort();
++    qemu_log_mask(LOG_GUEST_ERROR,
++                  "%s: unsupported write to 0x%02" HWADDR_PRIx "\n",
++                  __func__, offs);
+ }
  
-@@ -401,13 +391,28 @@ void sh_serial_init(MemoryRegion *sysmem,
-     s->scr = 1 << 5; /* pretend that TX is enabled so early printk works */
-     s->sptr = 0;
+ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+                                unsigned size)
+ {
+     sh_serial_state *s = opaque;
+-    uint32_t ret = ~0;
++    uint32_t ret = UINT32_MAX;
  
--    if (feat & SH_SERIAL_FEAT_SCIF) {
-+    if (s->feat & SH_SERIAL_FEAT_SCIF) {
-         s->fcr = 0;
-     } else {
-         s->dr = 0xff;
+ #if 0
+     switch (offs) {
+@@ -299,10 +299,11 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+     }
+     trace_sh_serial_read(size, offs, ret);
+ 
+-    if (ret & ~((1 << 16) - 1)) {
+-        fprintf(stderr, "sh_serial: unsupported read from 0x%02"
+-                HWADDR_PRIx "\n", offs);
+-        abort();
++    if (ret > UINT16_MAX) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: unsupported read from 0x%02" HWADDR_PRIx "\n",
++                      __func__, offs);
++        ret = 0;
      }
  
-     sh_serial_clear_fifo(s);
-+}
-+
-+void sh_serial_init(MemoryRegion *sysmem,
-+                    hwaddr base, int feat,
-+                    uint32_t freq, Chardev *chr,
-+                    qemu_irq eri_source,
-+                    qemu_irq rxi_source,
-+                    qemu_irq txi_source,
-+                    qemu_irq tei_source,
-+                    qemu_irq bri_source)
-+{
-+    SHSerialState *s = g_malloc0(sizeof(*s));
-+
-+    s->feat = feat;
-+    sh_serial_reset(s);
- 
-     memory_region_init_io(&s->iomem, NULL, &sh_serial_ops, s,
-                           "serial", 0x100000000ULL);
+     return ret;
 -- 
 2.21.4
 
