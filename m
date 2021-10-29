@@ -2,93 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3213E43FB73
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 13:34:40 +0200 (CEST)
-Received: from localhost ([::1]:56128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 761AB43FBBB
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 13:47:43 +0200 (CEST)
+Received: from localhost ([::1]:59444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgQ9f-0005zc-Ae
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 07:34:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36114)
+	id 1mgQMI-0000i1-2D
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 07:47:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mgQ8Q-0004sP-LC
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 07:33:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41251)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1mgQFp-0007GC-VW
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 07:41:02 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:39369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mgQ8P-0005Lx-7I
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 07:33:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635507200;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kHYlD+ksAkG5Pzbb6ZGO7SD3heAOC/VrhkJu1mknqnk=;
- b=B1G90DpVjT82Q7dQfpg3Iy9DKq+YAmG8dQxeURlQhizCs+MQbEkN2ggiSKNivTkmrJAc5c
- m9IEGkYVsgNgxum/OqwnCLuZwAFBrh57imht4sgudB0SIzusn2AgjyUUX3QCXYGHFSWD9V
- Y1HaawPvdy0x4cBQG1tcOKqF9cQYgGk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-UZo6sKHaOSCgzGEc6qjPMg-1; Fri, 29 Oct 2021 07:33:17 -0400
-X-MC-Unique: UZo6sKHaOSCgzGEc6qjPMg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- a15-20020a056000188f00b00161068d8461so3290395wri.11
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 04:33:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=kHYlD+ksAkG5Pzbb6ZGO7SD3heAOC/VrhkJu1mknqnk=;
- b=yxpXmL5vO8F+wVg/oX9rKkBbzLuBEo2FlJTarPEzkCfIh8J3h1fIjN4LqFzH3aQhVB
- ckVr0k50CfL/poAQDVJ3ZezaGvPnora53tZc4egkJbuR6WUCa/sarmxWuIaX1xfUiCrz
- Hq+AnMyAcQNP6F8w8XOQfsiuVLEB7e1pOJ0YOD/GvpcyTuVYiRDqJSizeJqxsCIt2rSz
- bpmbxPbZnvPnnrINswG247oJRD9LmxjQy/1aQreNxiqdEPAWr2/eV4zx7aRsKqwDSFJO
- 9b6kFIs+rT3mhJPI+aR1nNNoODLeMRrJlffzWfbEB9F+eEm2pjr2LVxKOFjcxqDDg8E6
- LBUg==
-X-Gm-Message-State: AOAM531AvreDzlxWO/HHichAe7w5nkHGkVH9Mw7fA8oRunt5MzpclNdr
- H/4+RJplzGguAB3DhNPuPXrtBtdPaqduPaEyBlzNtOjtB0l2Gjp9s1vKFlbZLk4lmY7hvh2Cduv
- Crymd3LiAhRVfIHs=
-X-Received: by 2002:a05:600c:a42:: with SMTP id
- c2mr18831217wmq.154.1635507196316; 
- Fri, 29 Oct 2021 04:33:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxSoaxG6NngwHP8HnoJuJSXzGFScElIj0YsIt6I7J0nrx+25ScFqyxXAgurYHvE/zgwmBchVQ==
-X-Received: by 2002:a05:600c:a42:: with SMTP id
- c2mr18831180wmq.154.1635507196114; 
- Fri, 29 Oct 2021 04:33:16 -0700 (PDT)
-Received: from [192.168.20.130] (192.red-83-57-30.dynamicip.rima-tde.net.
- [83.57.30.192])
- by smtp.gmail.com with ESMTPSA id w14sm4624440wmi.37.2021.10.29.04.33.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 04:33:15 -0700 (PDT)
-Message-ID: <741557ad-0a8a-1ff4-bc16-278514d0f5e8@redhat.com>
-Date: Fri, 29 Oct 2021 13:33:14 +0200
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1mgQFn-0007kM-OQ
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 07:41:01 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id D75725C0200;
+ Fri, 29 Oct 2021 07:40:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 29 Oct 2021 07:40:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=B
+ 24tUSm26KQzgt8301w4Y3yS2/1r5ZKJHeIXOr7yUI8=; b=jtOa8wp5v84Jex4UL
+ RS4BFeWUj3E5/IHDY/Ta2YI9OsznJt7aeKYphHrVayguQIi9FJDYWgKcmb47QlaY
+ 3YhFfkov7IHOWSJhQ7pEvVXENhuMNLEIQggG9ld1s7xpuqnEiHC6iCIpas9TIbNu
+ iTsHP2vXwvjRhos2dEJTRDm/2fEV55ZcbMGc33q0O860xXps0nPrK76HorxTJmMc
+ BRy5JzN5n2Y4RWqkQFb99/j0eZnXIl1PAtxYtT3jC3sS20ulGOAf2tX9lwO/whbq
+ Nm+2SiNnGJlNr0Ip2wYvpWRru4sou5R1m8PuzEhm8DnaI5sEhuH6pjr/xRPntFGC
+ XbDIQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=B24tUSm26KQzgt8301w4Y3yS2/1r5ZKJHeIXOr7yU
+ I8=; b=gAfrb3nJPK5HZdKDFCkJrcXfHXSVLdFzrJPgCgvyaKtqTNZ2Y2W3+Et/2
+ OWNQhwVt2xJcJFzZaoutOeBSfJCbtSBrvfJqdMScuhccBBFbBx66NiTbZ4LU+c6z
+ KFe+gTr1Rle9YQaMDHw/jIvjwcNHCNgjiU70HqCdfX9J/WX7lT67eHGUqsswUNMk
+ sb6G27126jLs0mEd5I4Hba+f2cqQpis8TxcKCAlOIo31LYx6TeJ90rPRsSbx4NIc
+ /g0cSducwGrdeEEatL7/Yl7w2rQWAa/nKxVxIZQWaeco2f1w4W6Q7/yATdT9W7ob
+ UPnmTu5z+8gQQs0ER0zgNrn+/XG+w==
+X-ME-Sender: <xms:x917Yamz0XxcRmy4VrulokmkB_vlyssOQ_XMoqW6jkRxZM2HcQfl3g>
+ <xme:x917YR1xdQKzx5NoXV4Kgj2H-H32aAYn126eWrcljtatf8o1yQWX5o9LNkDZeFJlV
+ QKzRDz_nGqKZ2eBf0Y>
+X-ME-Received: <xmr:x917YYqPvfOo6AAAr838-mp5SsQ8QOUSJVzYY6fBkh1-Y6B8QavMotj_rrCbimM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdeghedgfeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepkfffgggfuffvfhfhjggtgfesthekredttdefjeenucfhrhhomheplfhirgig
+ uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
+ ggtffrrghtthgvrhhnpeehieduvdevhfekjeeftddtkeeitefhudekvdeiueeulefgleei
+ jeeghedvkeduleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+ hrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:x917YemFx1qyVl1UvJShJM88elmdsuV5ZVp9v9UCjWXcEfhy2lgBmw>
+ <xmx:x917YY0eU6ZzX7w3OFXh2wOmcvhy3uYzJBIO332jN18mefYBj50Omg>
+ <xmx:x917YVtMuW9JO_BhU-ZIPbd6i0dhqpisZtQJhqIyKwYHUdNRsiva-g>
+ <xmx:yN17YVzCHvGKvXiq3iDw59pDH23Hqy-QWR-dixTNDW6AeIAHjV-N5Q>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 29 Oct 2021 07:40:54 -0400 (EDT)
+Message-ID: <e391558c-5c5e-d6be-3c41-824a52c2783b@flygoat.com>
+Date: Fri, 29 Oct 2021 12:40:49 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 4/9] qapi: Tools for sets of special feature flags in
- generated code
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20211028102520.747396-1-armbru@redhat.com>
- <20211028102520.747396-5-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211028102520.747396-5-armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH] target/mips: Remove obsolete FCR0_HAS2008 comment on
+ P5600 CPU
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20211028212103.2126176-1-f4bug@amsat.org>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <20211028212103.2126176-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out3-smtp.messagingengine.com
 X-Spam_score_int: -52
 X-Spam_score: -5.3
 X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.512, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.512,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,30 +98,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, quintela@redhat.com,
- libvir-list@redhat.com, eblake@redhat.com, kchamart@redhat.com,
- mdroth@linux.vnet.ibm.com, dgilbert@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, jsnow@redhat.com, libguestfs@redhat.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/28/21 12:25, Markus Armbruster wrote:
-> New enum QapiSpecialFeature enumerates the special feature flags.
-> 
-> New helper gen_special_features() returns code to represent a
-> collection of special feature flags as a bitset.
-> 
-> The next few commits will put them to use.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: John Snow <jsnow@redhat.com>
+
+在 2021/10/28 22:21, Philippe Mathieu-Daudé 写道:
+> FCR0_HAS2008 flag has been enabled in commit ba5c79f2622
+> ("target-mips: indicate presence of IEEE 754-2008 FPU in
+> R6/R5+MSA CPUs"), so remove the obsolete FIXME comment.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+
+Thanks.
+
+- Jiaxun
+
 > ---
->  include/qapi/util.h    | 4 ++++
->  scripts/qapi/gen.py    | 8 ++++++++
->  scripts/qapi/schema.py | 3 +++
->  3 files changed, 15 insertions(+)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
+>   target/mips/cpu-defs.c.inc | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
+> index cbc45fcb0e8..b946f8f957f 100644
+> --- a/target/mips/cpu-defs.c.inc
+> +++ b/target/mips/cpu-defs.c.inc
+> @@ -369,7 +369,6 @@ const mips_def_t mips_defs[] =
+>            * Config3: VZ, CTXTC, CDMM, TL
+>            * Config4: MMUExtDef
+>            * Config5: MRP
+> -         * FIR(FCR0): Has2008
+>            * */
+>           .name = "P5600",
+>           .CP0_PRid = 0x0001A800,
 
