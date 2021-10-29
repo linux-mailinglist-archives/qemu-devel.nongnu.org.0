@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93E243F94B
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 10:56:06 +0200 (CEST)
-Received: from localhost ([::1]:39292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EAC743F959
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 11:04:10 +0200 (CEST)
+Received: from localhost ([::1]:45056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgNgE-0002Y7-0d
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 04:56:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60890)
+	id 1mgNo1-0007lt-1l
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 05:04:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1mgNe4-0001pd-TX
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 04:53:55 -0400
-Received: from mail-bo1ind01olkn0141.outbound.protection.outlook.com
- ([104.47.101.141]:45409 helo=IND01-BO1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1mgNe0-0002xw-H8
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 04:53:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BT0gEcrBRiFeFtGjBu+HtfCLJZd2nTsgJ3TSHEyd6QX8v+H2k2FrdIMvW3avdU9awIYrH2oeC9Yq8ok0XaKjMW59Jld2newkEzQbIcunCGDCWNZNEJuVXQ6i9ME4WXGIT3ZLyBR5lwl5dgyWbL8TlzFo6CBuJSuy7pK5lTrxQfdiugwSvu6MEijnwY+dTQ8pRb64ZcHR7ZCDBbi7A5KC4uwHEQHdCfZMwYLVOUpv4fMmEwVouAZC6hBXZia7lKb53C7uPJZzE0T0SRPcLjqOz/E9+ope3WEj3MzQTTQ4JDmZ2vQ2GQRlmwudN5GfIu/ezphG2F142KxzxSRegshF/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ntg/P2nTcJlgQ/a17Ofl19HptNZG3I1mVh/C5JQJ6Hg=;
- b=DJGI0VlNVDAqZdqDIEzs7l2G0eU1yQvw9+nKxG++JY9kuufoKC3jX7TfrX5Qn6ts/FZQ+7pfWllsISeAuhQQpNwxWF5A5wENrydBYAkGuWRSdYHCkT6bhJntgUpWltc/WyFmqrM2BoaYwRUittlHmGC7MYtwedoEK5eliNGHcwf6UHtRL04rF26j0CmfyaE+tuASHFUbg6qNOzgpKmYS8NcBKj74CwzPzNrPbZSgxuoanh1h9a/kLMWeGB41T57TmqJetUKluSPELc4wjj+yTyBrn4KnPQs2MkudBl4DqnL7tQ+729y7isqX5BPxa8Owuh82YOnw2ES0XOOzMEK4PA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ntg/P2nTcJlgQ/a17Ofl19HptNZG3I1mVh/C5JQJ6Hg=;
- b=X0wJDG+ELmBBkX/ZWEyELh65EPyOgiBh1uMofmxwaMoSkFabXlzjXJzX44aP2WxfK0eQbPjDbk7EwvUAnR7ELYtN98WacDAeKdXp0SDf2LScg1LL6BPOvYBO44x6JJFxBmqyDRnwDKFlMaIRTAIaTz10qrcZgd5/OgUNL+I4Zp7Ni3oe2K84CLUTUrEbYPRXMIYyX5ChnAnfZzap4Y7PCUBPMrnD9ovZUEt5x74TWhK4uOV/EuunJl98IqDfGNpazMdzUSbdsUxcbNV4d9B6LtbyvG8xdL50nS2AvWcExKckZ6sXaWKIGZxPNRFhBdtqjQ05dYFw8AzvRp0RhWjgyQ==
-Received: from PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:72::9)
- by PN0PR01MB7765.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:b5::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.20; Fri, 29 Oct
- 2021 08:53:42 +0000
-Received: from PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::1dc1:9d95:853f:9a7c]) by PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::1dc1:9d95:853f:9a7c%9]) with mapi id 15.20.4649.015; Fri, 29 Oct 2021
- 08:53:35 +0000
-From: Qiuhao Li <Qiuhao.Li@outlook.com>
-To: Alexander Bulekov <alxndr@bu.edu>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: Re: Possible reward for fuzzer bug fixes? Secure Open Source Rewards
- Program
-Thread-Topic: Possible reward for fuzzer bug fixes? Secure Open Source Rewards
- Program
-Thread-Index: AQHXzArv1dfeV8rpYkSsbE5tylBj2KvprMq2
-Date: Fri, 29 Oct 2021 08:53:35 +0000
-Message-ID: <PN0PR01MB63525F90A1E456E26D536225FC879@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
-References: <20211028144822.jjbw7ypkkman7sow@mozz.bu.edu>
-In-Reply-To: <20211028144822.jjbw7ypkkman7sow@mozz.bu.edu>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-suggested_attachment_session_id: 8e05ecf3-b698-db0e-9aa7-d4b3a1c36b9a
-x-tmn: [A+tRIYLz4CacXcfi/6m4A0DQzpilMAIS]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d32c856a-a7fe-4430-4ce9-08d99ab997e9
-x-ms-traffictypediagnostic: PN0PR01MB7765:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LmsEVHPIm/vXcrdtyzzalt2/kYa8jWd0LYzZ/cBie5s6iUj6LQv2fIagBQcOcOcn/diQl25CMF0qyqk2RH0nvDOxj80tiHkdTpzCEyQJJ9pWfy42zbwt5Qaj7PP287V0ZRbHWanmvYULc++ytlWU89jUJQa0cY1MNOnKdBy8pYL6nbPX6vd57z9rgOxCZdtVp/qiFF9j6o/wF+6cOifxr31a6gycqDqzWhpfQ4omMPm4fAmtaItlfp6AJszpusevwycu8WTRHVyQyP3vlB1D5xCDINkZEvRVywnSBwJYgZLSYzoBFcS5FWdgQ7hd5rzzLtk9hrnPqzkopymMvweUd1NPuSNwZgivIvVxoafOynz04rHrQX6KYxe104GwBOo2L4mCgf+EqYQe/gwRzUMccZsaGN7tnn2fgruvfcR5XL2d5X0TfH3HBs+XehTvsjeoCblzDZymdAjt70tiBK1yzOW0UH/yY5R/QpEyjqCWKtcXgng8gtbxf//jSTQ1kwD7fnkRHiLxkKkJsk8mljqaABr5cEbT003uhNCAe3nj3OBjc2uDTCyz+UslTbNzqUcNXsOt2O4tnPGpo9Wt6+LPiOWcJ3TiX0YrC3pEIurRITZlQ9AsMGsHADwTEzyA0vpF
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: MYFC8LUBG1Wfs4au7BfpDcdWb25YMqvM1e24A7TKfpQViDC2tgce19zBBQLiI/Wk9r+cvaQ/+zLIjol/R0nhKEceJm+197jBFmjLhHpTwE84dEuzS7BUCCbU9enqo0JmAmEMBbnnd64B3flk3cE1zfrSW0v4+LDiK+eEoI5HEPQ0sd4AvMnevu2aBlmDRPQZIK/c27PqV97GyRBW0m2z2j41HR3NEzej/id/D8hbCX6/ijDYkxCOaGXYxH6GgEViPqEjBBslePs3mUHP4NxM319OjGubP+Pw8iEttuYBwkQHR0v+m4P91bE+r2CdsnIyqzEAMLvqfbBX1tr6MtjO8K5FwloLneGcn3VZzd9GKmWWjtItMDTonahia7zpX5QPtxd0rxnoj38KeRN3KJPmOkkc3QyEMCHkyET4xdb1PeK8M1cIg5JTy0kd1aqaGdPjazlhD9IAXs1oP79m0KYQyZizUnAdFMOViCRx/XCWh65VE2MNSJyRUF6jKEi9A2KzoP2GIWOLjnN8UcgQeLttZYv9Vs21sH+qMMDAJflHVygHE1keV79Lj5rRfXnVE0HFMXRGA7gyJhbgDpOLFQbXlR4PfEpehhpyRm9VGa2yW70g/Av97UtgG3Tq+Yq0vskz4mdbD45Gb4u0PWdlSbfpzXmF7EbJO/EVV8TmlI8CaeOTu1lb1dH0YPDgdFngC6zD
-Content-Type: multipart/alternative;
- boundary="_000_PN0PR01MB63525F90A1E456E26D536225FC879PN0PR01MB6352INDP_"
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mgNjY-00040t-3O
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 04:59:32 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:33719)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mgNjV-0004SG-Fs
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 04:59:31 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id t184so8706637pfd.0
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 01:59:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uI/Ie3CHVkZ4Vow8bv/bbAuIBGc22yOWqXHtYCcoSM8=;
+ b=GHa1w+GOdtkds4gie/oUTX+1ALJXD0ZZbYn0py6Fh0bZVKgcpzp5LnUdrMjM1V+uXY
+ Q5q0XCsCoVwBDK9kzWq80FexugCtg3ZQhjfNimnBEDO5ZVYQpnXpIZlfFB25jxTcaCef
+ lZhdHi9wGRGV2cjpbCD1PBBa8CFCNzf8LYR0zkzVYR+4BnMnQIAmVt8//LWX25w5+IBb
+ y5k3WkWI4RJO+f5ZScIzjwipdqdHFGXB60lgzoctfqosibz7DUTU37ox5HwzEACPEO8W
+ FkfcZBKYyi9cTBD86LkjX1lSRHR+s7BEJLqFDpb+oVNgeQ69tkvw2eAR9xqnQl0lME0t
+ 640w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uI/Ie3CHVkZ4Vow8bv/bbAuIBGc22yOWqXHtYCcoSM8=;
+ b=iQGbyJXz4g0kzXtXzfbeoYvFRbYkv8+otwZd84LKX5qD5p1c/q7yUCxNr4Rgsbz28O
+ xmZ0JVeifqER+trSNBBEFDraiAglph/9nu4oZNPHk0Dq3s7cB+uQucfvUHTbpvcT7hS6
+ cm8OV9B2DnjG85VyJ32EwAJ6QguB2gQj7jXnRF00i+GFeRZWCkxzgVeDkgnc9OvupqTn
+ 7eSbzsytV3BiBp98L2D+eOiYb3ssya9wTrbNlCzs1vvQyBCDhU7JxuJL/aemftf57nTV
+ PFtq7pUOut5OjSffwSn5jeGhjTPODUYiOg/WQdfgznqbmiyEGyorgoUrD9JYtroMhjg/
+ E9Rg==
+X-Gm-Message-State: AOAM532RrLONM5b1eD1m+wBU7y+0bpuA9A6b+zsyK/2OcEElbMjQUKl3
+ t+3swNFJTlvFf9Gf5ELSNNk6Tfk37i3j367b
+X-Google-Smtp-Source: ABdhPJztCMX+DC/k84oRWuJPWsJsc4RO5n6FmeLuHNSjfYpGRacd8ig5H0qi8S5C/fnesWX4C89nMQ==
+X-Received: by 2002:a63:af54:: with SMTP id s20mr7045912pgo.284.1635497967165; 
+ Fri, 29 Oct 2021 01:59:27 -0700 (PDT)
+Received: from localhost.localdomain ([2402:7500:46b:ce55:983b:6962:38ac:e1b9])
+ by smtp.gmail.com with ESMTPSA id t13sm5081477pgn.94.2021.10.29.01.59.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Oct 2021 01:59:26 -0700 (PDT)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 00/76] support vector extension v1.0
+Date: Fri, 29 Oct 2021 16:58:05 +0800
+Message-Id: <20211029085922.255197-1-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: d32c856a-a7fe-4430-4ce9-08d99ab997e9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Oct 2021 08:53:35.7583 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB7765
-Received-SPF: pass client-ip=104.47.101.141;
- envelope-from=Qiuhao.Li@outlook.com;
- helo=IND01-BO1-obe.outbound.protection.outlook.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,164 +80,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Bandan Das <bsd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>
+Cc: Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_PN0PR01MB63525F90A1E456E26D536225FC879PN0PR01MB6352INDP_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+From: Frank Chang <frank.chang@sifive.com>
 
-Sounds great. How about mentioning this program on the Security Process web=
- page [1]? Hackers who report vulnerabilities may be interested in fixing b=
-ugs.
+This patchset implements the vector extension v1.0 for RISC-V on QEMU.
 
-Just curious. Why didn't those bugs [2] get fixed before disclosure? It see=
-ms SD and virtio-9p are maintained now.
+RVV v1.0 spec is now fronzen for public review:
+https://github.com/riscv/riscv-v-spec/releases/tag/v1.0
 
-[1] https://www.qemu.org/contribute/security-process/
-[2] https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=3D-reported&q=3DT=
-ype%3DBug-Security%20label%3ADeadline-Exceeded%20qemu&can=3D2
+The port is available here:
+https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v9
 
-________________________________
-From: Alexander Bulekov <alxndr@bu.edu>
-Sent: Thursday, October 28, 2021 22:48
-To: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>; Bandan Das <bsd@redhat.com>; Stefa=
-n Hajnoczi <stefanha@redhat.com>; Thomas Huth <thuth@redhat.com>; Darren Ke=
-nny <darren.kenny@oracle.com>; Qiuhao Li <Qiuhao.Li@outlook.com>
-Subject: Possible reward for fuzzer bug fixes? Secure Open Source Rewards P=
-rogram
+RVV v1.0 can be enabled with -cpu option: v=true and specify vext_spec
+option to v1.0 (i.e. vext_spec=v1.0)
 
-Recently a pilot for the Secure Open Source Rewards program was
-announced [1]. Currently this program is run by the Linux Foundation and
-sponsored by the Google Open Source Security Team.
+Note: This patchset depends on other patchsets listed in Based-on
+      section below so it is not able to be built unless those patchsets
+      are applied.
 
-The page mentions that patches for issues discovered by OSS-Fuzz may be
-eligible for rewards. This seems like it could be a good incentive for
-fixing fuzzer bugs.
+Changelog:
 
-A couple notes:
- * The program also rewards contributions besides fuzzer-bug fixes.
-   Check out the page for full details.
- * It seems that QEMU would qualify for this program. The page mentions
-   that the project should have a greater than 0.6 OpenSSF Criticality
-   Score [2]. This score factors in statistics collected from github
-   (sic!). QEMU's score is currently 0.81078
- * Not limited to individual contributors. Vendors can also qualify for
-   rewards.
- * Work completed before Oct 1, 2021 does not qualify.
- * Individuals in some sanctioned countries are not eligible.
- * The process seems to be:
-    1. Send a fix upstream
-    2. Get it accepted
-    3. Fill out a form to apply for a reward
+v9
+  * Remove explicitly set mstatus.SD patches as mstatus.SD is now
+    set in add_status_sd().
+  * Rebase on riscv-to-apply.next branch.
 
-Any thoughts about this? Should this be something we document/advertise
-somewhere, so developers are aware of this opportunity?
+v8
+  * Use {get,dest}_gpr APIs.
+  * remove vector AMO instructions.
+  * rename vpopc.m to vcpop.m.
+  * rename vle1.v and vse1.v to vlm.v and vsm.v.
+  * rename vmandnot.mm and vmornot.mm to vmandn.mm and vmorn.mm.
 
-[1] https://sos.dev/
-[2] https://github.com/ossf/criticality_score
+v7
+  * remove hardcoded GDB vector registers list.
+  * add vsetivli instruction.
+  * add vle1.v and vse1.v instructions.
 
--Alex
+v6
+  * add vector floating-point reciprocal estimate instruction.
+  * add vector floating-point reciprocal square-root estimate instruction.
+  * update check rules for segment register groups, each segment register
+    group has to follow overlap rules.
+  * update viota.m instruction check rules.
 
---_000_PN0PR01MB63525F90A1E456E26D536225FC879PN0PR01MB6352INDP_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+v5
+  * refactor RVV v1.0 check functions.
+    (Thanks to Richard Henderson's bitwise tricks.)
+  * relax RV_VLEN_MAX to 1024-bits.
+  * implement vstart CSR's behaviors.
+  * trigger illegal instruction exception if frm is not valid for
+    vector floating-point instructions.
+  * rebase on riscv-to-apply.next.
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Sounds great. How about mentioning this program on the Security Process web=
- page [1]? Hackers who report vulnerabilities may be interested in fixing b=
-ugs.
-<div><br>
-</div>
-<div>Just curious. Why didn't those bugs [2] get fixed before disclosure? I=
-t seems SD and virtio-9p are maintained now.</div>
-<div><br>
-</div>
-<div>[1] https://www.qemu.org/contribute/security-process/</div>
-<span>[2] <a href=3D"https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=
-=3D-reported&amp;q=3DType%3DBug-Security%20label%3ADeadline-Exceeded%20qemu=
-&amp;can=3D2" id=3D"LPlnk757974">
-https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=3D-reported&amp;q=3DT=
-ype%3DBug-Security%20label%3ADeadline-Exceeded%20qemu&amp;can=3D2</a></span=
-><br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Alexander Bulekov &lt=
-;alxndr@bu.edu&gt;<br>
-<b>Sent:</b> Thursday, October 28, 2021 22:48<br>
-<b>To:</b> qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;<br>
-<b>Cc:</b> Paolo Bonzini &lt;pbonzini@redhat.com&gt;; Bandan Das &lt;bsd@re=
-dhat.com&gt;; Stefan Hajnoczi &lt;stefanha@redhat.com&gt;; Thomas Huth &lt;=
-thuth@redhat.com&gt;; Darren Kenny &lt;darren.kenny@oracle.com&gt;; Qiuhao =
-Li &lt;Qiuhao.Li@outlook.com&gt;<br>
-<b>Subject:</b> Possible reward for fuzzer bug fixes? Secure Open Source Re=
-wards Program</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">Recently a pilot for the Secure Open Source Reward=
-s program was<br>
-announced [1]. Currently this program is run by the Linux Foundation and<br=
->
-sponsored by the Google Open Source Security Team.<br>
-<br>
-The page mentions that patches for issues discovered by OSS-Fuzz may be<br>
-eligible for rewards. This seems like it could be a good incentive for<br>
-fixing fuzzer bugs.<br>
-<br>
-A couple notes:<br>
-&nbsp;* The program also rewards contributions besides fuzzer-bug fixes.<br=
->
-&nbsp;&nbsp; Check out the page for full details.<br>
-&nbsp;* It seems that QEMU would qualify for this program. The page mention=
-s<br>
-&nbsp;&nbsp; that the project should have a greater than 0.6 OpenSSF Critic=
-ality<br>
-&nbsp;&nbsp; Score [2]. This score factors in statistics collected from git=
-hub<br>
-&nbsp;&nbsp; (sic!). QEMU's score is currently 0.81078<br>
-&nbsp;* Not limited to individual contributors. Vendors can also qualify fo=
-r<br>
-&nbsp;&nbsp; rewards.<br>
-&nbsp;* Work completed before Oct 1, 2021 does not qualify.<br>
-&nbsp;* Individuals in some sanctioned countries are not eligible.<br>
-&nbsp;* The process seems to be:<br>
-&nbsp;&nbsp;&nbsp; 1. Send a fix upstream<br>
-&nbsp;&nbsp;&nbsp; 2. Get it accepted<br>
-&nbsp;&nbsp;&nbsp; 3. Fill out a form to apply for a reward<br>
-<br>
-Any thoughts about this? Should this be something we document/advertise<br>
-somewhere, so developers are aware of this opportunity?<br>
-<br>
-[1] <a href=3D"https://sos.dev/">https://sos.dev/</a><br>
-[2] <a href=3D"https://github.com/ossf/criticality_score">https://github.co=
-m/ossf/criticality_score</a><br>
-<br>
--Alex<br>
-</div>
-</span></font></div>
-</body>
-</html>
+v4
+  * remove explicit float flmul variable in DisasContext.
+  * replace floating-point calculations with shift operations to
+    improve performance.
+  * relax RV_VLEN_MAX to 512-bits.
 
---_000_PN0PR01MB63525F90A1E456E26D536225FC879PN0PR01MB6352INDP_--
+v3
+  * apply nan-box helpers from Richard Henderson.
+  * remove fp16 api changes as they are sent independently in another
+    pathcset by Chih-Min Chao.
+  * remove all tail elements clear functions as tail elements can
+    retain unchanged for either VTA set to undisturbed or agnostic.
+  * add fp16 nan-box check generator function.
+  * add floating-point rounding mode enum.
+  * replace flmul arithmetic with shifts to avoid floating-point
+    conversions.
+  * add Zvqmac extension.
+  * replace gdbstub vector register xml files with dynamic generator.
+  * bumped to RVV v1.0.
+  * RVV v1.0 related changes:
+    * add vl<nf>re<eew>.v and vs<nf>r.v vector whole register
+      load/store instructions
+    * add vrgatherei16 instruction.
+    * rearranged bits in vtype to make vlmul bits into a contiguous
+      field.
+
+v2
+  * drop v0.7.1 support.
+  * replace invisible return check macros with functions.
+  * move mark_vs_dirty() to translators.
+  * add SSTATUS_VS flag for s-mode.
+  * nan-box scalar fp register for floating-point operations.
+  * add gdbstub files for vector registers to allow system-mode
+    debugging with GDB.
+
+Based-on: <20211021160847.2748577-1-frank.chang@sifive.com>
+Based-on: <20211021162956.2772656-1-frank.chang@sifive.com>
+
+Frank Chang (71):
+  target/riscv: drop vector 0.7.1 and add 1.0 support
+  target/riscv: Use FIELD_EX32() to extract wd field
+  target/riscv: rvv-1.0: set mstatus.SD bit if mstatus.VS is dirty
+  target/riscv: rvv-1.0: introduce writable misa.v field
+  target/riscv: rvv-1.0: add translation-time vector context status
+  target/riscv: rvv-1.0: remove rvv related codes from fcsr registers
+  target/riscv: rvv-1.0: check MSTATUS_VS when accessing vector csr
+    registers
+  target/riscv: rvv-1.0: remove MLEN calculations
+  target/riscv: rvv-1.0: add fractional LMUL
+  target/riscv: rvv-1.0: add VMA and VTA
+  target/riscv: rvv-1.0: update check functions
+  target/riscv: introduce more imm value modes in translator functions
+  target/riscv: rvv:1.0: add translation-time nan-box helper function
+  target/riscv: rvv-1.0: remove amo operations instructions
+  target/riscv: rvv-1.0: configure instructions
+  target/riscv: rvv-1.0: stride load and store instructions
+  target/riscv: rvv-1.0: index load and store instructions
+  target/riscv: rvv-1.0: fix address index overflow bug of indexed
+    load/store insns
+  target/riscv: rvv-1.0: fault-only-first unit stride load
+  target/riscv: rvv-1.0: load/store whole register instructions
+  target/riscv: rvv-1.0: update vext_max_elems() for load/store insns
+  target/riscv: rvv-1.0: take fractional LMUL into vector max elements
+    calculation
+  target/riscv: rvv-1.0: floating-point square-root instruction
+  target/riscv: rvv-1.0: floating-point classify instructions
+  target/riscv: rvv-1.0: count population in mask instruction
+  target/riscv: rvv-1.0: find-first-set mask bit instruction
+  target/riscv: rvv-1.0: set-X-first mask bit instructions
+  target/riscv: rvv-1.0: iota instruction
+  target/riscv: rvv-1.0: element index instruction
+  target/riscv: rvv-1.0: allow load element with sign-extended
+  target/riscv: rvv-1.0: register gather instructions
+  target/riscv: rvv-1.0: integer scalar move instructions
+  target/riscv: rvv-1.0: floating-point move instruction
+  target/riscv: rvv-1.0: floating-point scalar move instructions
+  target/riscv: rvv-1.0: whole register move instructions
+  target/riscv: rvv-1.0: integer extension instructions
+  target/riscv: rvv-1.0: single-width averaging add and subtract
+    instructions
+  target/riscv: rvv-1.0: single-width bit shift instructions
+  target/riscv: rvv-1.0: integer add-with-carry/subtract-with-borrow
+  target/riscv: rvv-1.0: narrowing integer right shift instructions
+  target/riscv: rvv-1.0: widening integer multiply-add instructions
+  target/riscv: rvv-1.0: single-width saturating add and subtract
+    instructions
+  target/riscv: rvv-1.0: integer comparison instructions
+  target/riscv: rvv-1.0: floating-point compare instructions
+  target/riscv: rvv-1.0: mask-register logical instructions
+  target/riscv: rvv-1.0: slide instructions
+  target/riscv: rvv-1.0: floating-point slide instructions
+  target/riscv: rvv-1.0: narrowing fixed-point clip instructions
+  target/riscv: rvv-1.0: single-width floating-point reduction
+  target/riscv: rvv-1.0: widening floating-point reduction instructions
+  target/riscv: rvv-1.0: single-width scaling shift instructions
+  target/riscv: rvv-1.0: remove widening saturating scaled multiply-add
+  target/riscv: rvv-1.0: remove vmford.vv and vmford.vf
+  target/riscv: rvv-1.0: remove integer extract instruction
+  target/riscv: rvv-1.0: floating-point min/max instructions
+  target/riscv: introduce floating-point rounding mode enum
+  target/riscv: rvv-1.0: floating-point/integer type-convert
+    instructions
+  target/riscv: rvv-1.0: widening floating-point/integer type-convert
+  target/riscv: add "set round to odd" rounding mode helper function
+  target/riscv: rvv-1.0: narrowing floating-point/integer type-convert
+  target/riscv: rvv-1.0: relax RV_VLEN_MAX to 1024-bits
+  target/riscv: rvv-1.0: implement vstart CSR
+  target/riscv: rvv-1.0: trigger illegal instruction exception if frm is
+    not valid
+  target/riscv: rvv-1.0: floating-point reciprocal square-root estimate
+    instruction
+  target/riscv: rvv-1.0: floating-point reciprocal estimate instruction
+  target/riscv: rvv-1.0: rename r2_zimm to r2_zimm11
+  target/riscv: rvv-1.0: add vsetivli instruction
+  target/riscv: rvv-1.0: add evl parameter to vext_ldst_us()
+  target/riscv: rvv-1.0: add vector unit-stride mask load/store insns
+  target/riscv: rvv-1.0: rename vmandnot.mm and vmornot.mm to vmandn.mm
+    and vmorn.mm
+  target/riscv: rvv-1.0: update opivv_vadc_check() comment
+
+Greentime Hu (1):
+  target/riscv: rvv-1.0: add vlenb register
+
+Hsiangkai Wang (1):
+  target/riscv: gdb: support vector registers for rv64 & rv32
+
+LIU Zhiwei (3):
+  target/riscv: rvv-1.0: add mstatus VS field
+  target/riscv: rvv-1.0: add sstatus VS field
+  target/riscv: rvv-1.0: add vcsr register
+
+ target/riscv/cpu.c                      |   18 +-
+ target/riscv/cpu.h                      |   61 +-
+ target/riscv/cpu_bits.h                 |   10 +
+ target/riscv/cpu_helper.c               |   39 +-
+ target/riscv/csr.c                      |   63 +-
+ target/riscv/fpu_helper.c               |   17 +-
+ target/riscv/gdbstub.c                  |  184 ++
+ target/riscv/helper.h                   |  435 ++-
+ target/riscv/insn32.decode              |  294 +-
+ target/riscv/insn_trans/trans_rvv.c.inc | 2424 +++++++++------
+ target/riscv/internals.h                |   24 +-
+ target/riscv/translate.c                |   71 +-
+ target/riscv/vector_helper.c            | 3601 ++++++++++++-----------
+ 13 files changed, 4150 insertions(+), 3091 deletions(-)
+
+--
+2.25.1
+
 
