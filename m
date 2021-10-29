@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76924400EF
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:07:54 +0200 (CEST)
-Received: from localhost ([::1]:52130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA1C4400D5
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 18:59:22 +0200 (CEST)
+Received: from localhost ([::1]:60586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgVMA-0001oA-2b
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:07:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49306)
+	id 1mgVDt-0005Ig-OC
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 12:59:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgUvy-0007GS-CM
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:50 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:51111)
+ id 1mgUvl-000747-Q6
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:38 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:51024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mgUvn-00064E-Pv
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:50 -0400
+ id 1mgUve-0004uS-6d
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 12:40:33 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4CEB57561EA;
- Fri, 29 Oct 2021 18:40:27 +0200 (CEST)
+ by localhost (Postfix) with SMTP id A43B875619D;
+ Fri, 29 Oct 2021 18:40:26 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9EB00756198; Fri, 29 Oct 2021 18:40:26 +0200 (CEST)
-Message-Id: <2c6bb5417fb13b2550ef3d6b84e1f7acff5e1e8a.1635524617.git.balaton@eik.bme.hu>
+ id 7114C748F57; Fri, 29 Oct 2021 18:40:26 +0200 (CEST)
+Message-Id: <a1c5e37aa6a08b02734690f4ae949e12bac54da1.1635524616.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1635524616.git.balaton@eik.bme.hu>
 References: <cover.1635524616.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v5 13/25] hw/intc/sh_intc: Drop another useless macro
+Subject: [PATCH v5 04/25] hw/char/sh_serial: Do not abort on invalid access
 Date: Fri, 29 Oct 2021 18:23:36 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,57 +61,71 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The INT_REG_PARAMS macro was only used a few times within one function
-on adjacent lines and is actually more complex than writing out the
-parameters so simplify it by expanding the macro at call sites and
-dropping the #define.
+Replace fprintf with qemu_log_mask LOG_GUEST_ERROR as the intention is
+to handle valid accesses in these functions so if we get to these
+errors then it's an invalid access. Do not abort as that would allow
+the guest to crash QEMU and the practice in other devices is to not do
+that just log and ignore the invalid access. While at it also simplify
+the complex bit ops to check if a return value was set which can be
+done much simpler and clearer.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/intc/sh_intc.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+ hw/char/sh_serial.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index e386372b6f..763ebbfec2 100644
---- a/hw/intc/sh_intc.c
-+++ b/hw/intc/sh_intc.c
-@@ -433,16 +433,12 @@ int sh_intc_init(MemoryRegion *sysmem,
-     memory_region_init_io(&desc->iomem, NULL, &sh_intc_ops, desc, "intc",
-                           0x100000000ULL);
+diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
+index 053f45e1a6..2d6ea0042e 100644
+--- a/hw/char/sh_serial.c
++++ b/hw/char/sh_serial.c
+@@ -31,6 +31,7 @@
+ #include "chardev/char-fe.h"
+ #include "qapi/error.h"
+ #include "qemu/timer.h"
++#include "qemu/log.h"
+ #include "trace.h"
  
--#define INT_REG_PARAMS(reg_struct, type, action, j) \
--        reg_struct->action##_reg, #type, #action, j
-     if (desc->mask_regs) {
-         for (i = 0; i < desc->nr_mask_regs; i++) {
-             struct intc_mask_reg *mr = desc->mask_regs + i;
- 
--            j += sh_intc_register(sysmem, desc,
--                                  INT_REG_PARAMS(mr, mask, set, j));
--            j += sh_intc_register(sysmem, desc,
--                                  INT_REG_PARAMS(mr, mask, clr, j));
-+            j += sh_intc_register(sysmem, desc, mr->set_reg, "mask", "set", j);
-+            j += sh_intc_register(sysmem, desc, mr->clr_reg, "mask", "clr", j);
+ #define SH_SERIAL_FLAG_TEND (1 << 0)
+@@ -195,17 +196,16 @@ static void sh_serial_write(void *opaque, hwaddr offs,
+             return;
          }
      }
- 
-@@ -450,13 +446,10 @@ int sh_intc_init(MemoryRegion *sysmem,
-         for (i = 0; i < desc->nr_prio_regs; i++) {
-             struct intc_prio_reg *pr = desc->prio_regs + i;
- 
--            j += sh_intc_register(sysmem, desc,
--                                  INT_REG_PARAMS(pr, prio, set, j));
--            j += sh_intc_register(sysmem, desc,
--                                  INT_REG_PARAMS(pr, prio, clr, j));
-+            j += sh_intc_register(sysmem, desc, pr->set_reg, "prio", "set", j);
-+            j += sh_intc_register(sysmem, desc, pr->clr_reg, "prio", "clr", j);
-         }
-     }
--#undef INT_REG_PARAMS
- 
-     return 0;
+-
+-    fprintf(stderr, "sh_serial: unsupported write to 0x%02"
+-            HWADDR_PRIx "\n", offs);
+-    abort();
++    qemu_log_mask(LOG_GUEST_ERROR,
++                  "%s: unsupported write to 0x%02" HWADDR_PRIx "\n",
++                  __func__, offs);
  }
+ 
+ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+                                unsigned size)
+ {
+     sh_serial_state *s = opaque;
+-    uint32_t ret = ~0;
++    uint32_t ret = UINT32_MAX;
+ 
+ #if 0
+     switch (offs) {
+@@ -299,10 +299,11 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+     }
+     trace_sh_serial_read(size, offs, ret);
+ 
+-    if (ret & ~((1 << 16) - 1)) {
+-        fprintf(stderr, "sh_serial: unsupported read from 0x%02"
+-                HWADDR_PRIx "\n", offs);
+-        abort();
++    if (ret > UINT16_MAX) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: unsupported read from 0x%02" HWADDR_PRIx "\n",
++                      __func__, offs);
++        ret = 0;
+     }
+ 
+     return ret;
 -- 
 2.21.4
 
