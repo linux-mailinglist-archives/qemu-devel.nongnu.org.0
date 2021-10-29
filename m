@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD6643F5E3
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 06:07:43 +0200 (CEST)
-Received: from localhost ([::1]:57944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD4143F62F
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 06:35:56 +0200 (CEST)
+Received: from localhost ([::1]:45842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgJB8-0002kp-7C
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 00:07:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46102)
+	id 1mgJcR-0006Ke-Ig
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 00:35:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1mgJ6r-00089V-H8
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 00:03:18 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:56608)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1mgJ6m-0004H2-W7
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 00:03:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1635480193; x=1667016193;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=VM1H5/Trj+Vc2Ff9aAS6OkMxsEzLM+8TTGcJInlMidc=;
- b=jRjT4e6Ur/6cADb3UNfwC/yDYfRbBYxfuAiliSoXRNtBGvbAdRfwC30H
- C3wvjoCbMVKuctp+2UFmLwzPuQPJcKEzqftm0MaUlF1HJirOEqeKS/n9m
- Dlh7Dh0gQrpNeAG2++PKX8ZhGst3oI75MXyBX52eCG+qxZu5YQXU7/8Uz U=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 28 Oct 2021 21:03:09 -0700
-X-QCInternal: smtphost
-Received: from vu-tsimpson-aus.qualcomm.com (HELO
- vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP; 28 Oct 2021 21:03:08 -0700
-Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 7780B1B42; Thu, 28 Oct 2021 23:03:08 -0500 (CDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mgJaB-0003XS-Om
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 00:33:35 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:40506)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mgJa9-0007sS-ON
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 00:33:35 -0400
+Received: by mail-pg1-x530.google.com with SMTP id l186so8682480pge.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 21:33:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=klLu8DXr4xRs2kB8pTbcoMAtcnu80jrmaZ2/P1Kdops=;
+ b=rNodbgck1sSZAvH2EFjelEyrpRzwdUcnaz4gCkkVWy8Ven0/tJqEQONqp455hhPv47
+ rEt/na4ii06D9iQIHL9PZGQXWnT8L3mRtqEJQ0ImPm0wL8qdiYBIujABGxXtxEb1iW+4
+ 0LItcmqH6e9r0sxvPzA/l2kp0eGd6SX4Y/uf3HATOZugd1vW6tOAJffPBS59Mf94Iz6Q
+ hjbX0CqnMnBHzsgiypqM8hQdZOKezVOme+pDWJZZkDm6knNQMisBzPlHqfGREYjWH1il
+ bCG6uvQDk0vW0SUKbSHx+DBvuvGqk7YqC04mYizgW4WTsE9PtTpB0oAANKOUk9tMjM8Y
+ kTng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=klLu8DXr4xRs2kB8pTbcoMAtcnu80jrmaZ2/P1Kdops=;
+ b=ijoPSO0uB8G97sgoQVpSC5z7UeCdCBrikdP4+c3Iuc6h8jk+jRpKX2qp/WFrM7ds6c
+ r3tK3YNHD8wtwNGLJ/V3hW5djNCuU0Rd1oqVz9xIYuQC6rRslFn/iF6u1BpJxWmOEJYs
+ rAwTsPyvR4PzEce0V0nBOHsyLD7OyuF0qcgNh05jpDrGZQwefOx9lC1+vUuro7WZFbGQ
+ DBKnHsFoXWYhJjmh8c+syAbZkfqP5QZSCrhQS4+ZnHgclrWecmNH33F5IiKH692twVXk
+ zwwvkGs68SDJPSDSdaa6jUr/fpkxt0CegmaZv9keyXduBw92k21b7YLaD9BE5q2P5f7N
+ UAyw==
+X-Gm-Message-State: AOAM530Y4ZYR8TxJzPZ/wKoLvMdPmIz7Ez6IZaIaqqkPs+ttiK/+0xZL
+ OoDzEvOA6y9cjD5EFW0MTXWzK9nuen+TiA==
+X-Google-Smtp-Source: ABdhPJwVdeUmG7DxEdvNyGvGbXDYxYLRiVNUAzDbDzxKC/MPChrFywoD7g/gkNVBmHTcS4p40ImBDw==
+X-Received: by 2002:a63:3fcd:: with SMTP id m196mr6417355pga.417.1635482011015; 
+ Thu, 28 Oct 2021 21:33:31 -0700 (PDT)
+Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
+ [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id i11sm4120257pgp.18.2021.10.28.21.33.29
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Oct 2021 21:33:30 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] Hexagon (target/hexagon) put writes to USR into temp until
- commit
-Date: Thu, 28 Oct 2021 23:02:58 -0500
-Message-Id: <1635480178-26461-3-git-send-email-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1635480178-26461-1-git-send-email-tsimpson@quicinc.com>
-References: <1635480178-26461-1-git-send-email-tsimpson@quicinc.com>
+Subject: [PULL v2 00/60] tcg patch queue
+Date: Thu, 28 Oct 2021 21:32:29 -0700
+Message-Id: <20211029043329.1518029-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=199.106.114.38;
- envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-01.qualcomm.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,139 +83,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, tsimpson@quicinc.com,
- richard.henderson@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Q2hhbmdlIFNFVF9VU1JfRklFTEQgdG8gd3JpdGUgdG8gaGV4X25ld192YWx1ZVtIRVhfUkVHX1VT
-Ul0gaW5zdGVhZApvZiBoZXhfZ3ByW0hFWF9SRUdfVVNSXS4KClRoZW4sIHdlIG5lZWQgY29kZSB0
-byBtYXJrIHRoZSBpbnN0cnVjdGlvbnMgdGhhdCBjYW4gc2V0IGltcGxpY2l0bHkKc2V0IFVTUgot
-IE1hY3JvcyBhZGRlZCB0byBoZXhfY29tbW9uLnB5Ci0gQV9GUE9QIGFkZGVkIGluIHRyYW5zbGF0
-ZS5jCgpUZXN0IGNhc2UgYWRkZWQgaW4gdGVzdHMvdGNnL2hleGFnb24vb3ZlcmZsb3cuYwoKUmV2
-aWV3ZWQtYnk6IFJpY2hhcmQgSGVuZGVyc29uIDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3Jn
-PgpTaWduZWQtb2ZmLWJ5OiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+Ci0t
-LQogdGFyZ2V0L2hleGFnb24vbWFjcm9zLmggICAgICAgICAgIHwgICAyICstCiB0YXJnZXQvaGV4
-YWdvbi9hdHRyaWJzX2RlZi5oLmluYyAgfCAgIDEgKwogdGFyZ2V0L2hleGFnb24vdHJhbnNsYXRl
-LmMgICAgICAgIHwgICA5ICsrKy0KIHRlc3RzL3RjZy9oZXhhZ29uL292ZXJmbG93LmMgICAgICB8
-IDEwNyArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwogdGFyZ2V0L2hleGFn
-b24vaGV4X2NvbW1vbi5weSAgICAgIHwgICAyICsKIHRlc3RzL3RjZy9oZXhhZ29uL01ha2VmaWxl
-LnRhcmdldCB8ICAgMSArCiA2IGZpbGVzIGNoYW5nZWQsIDEyMCBpbnNlcnRpb25zKCspLCAyIGRl
-bGV0aW9ucygtKQogY3JlYXRlIG1vZGUgMTAwNjQ0IHRlc3RzL3RjZy9oZXhhZ29uL292ZXJmbG93
-LmMKCmRpZmYgLS1naXQgYS90YXJnZXQvaGV4YWdvbi9tYWNyb3MuaCBiL3RhcmdldC9oZXhhZ29u
-L21hY3Jvcy5oCmluZGV4IDVjMTljZGUuLjEzZTk1N2IgMTAwNjQ0Ci0tLSBhL3RhcmdldC9oZXhh
-Z29uL21hY3Jvcy5oCisrKyBiL3RhcmdldC9oZXhhZ29uL21hY3Jvcy5oCkBAIC02Miw3ICs2Miw3
-IEBACiAgICAgICAgICAgICAgICAgICAgcmVnX2ZpZWxkX2luZm9bRklFTERdLm9mZnNldCkKIAog
-I2RlZmluZSBTRVRfVVNSX0ZJRUxEKEZJRUxELCBWQUwpIFwKLSAgICBmSU5TRVJUX0JJVFMoZW52
-LT5ncHJbSEVYX1JFR19VU1JdLCByZWdfZmllbGRfaW5mb1tGSUVMRF0ud2lkdGgsIFwKKyAgICBm
-SU5TRVJUX0JJVFMoZW52LT5uZXdfdmFsdWVbSEVYX1JFR19VU1JdLCByZWdfZmllbGRfaW5mb1tG
-SUVMRF0ud2lkdGgsIFwKICAgICAgICAgICAgICAgICAgcmVnX2ZpZWxkX2luZm9bRklFTERdLm9m
-ZnNldCwgKFZBTCkpCiAjZW5kaWYKIApkaWZmIC0tZ2l0IGEvdGFyZ2V0L2hleGFnb24vYXR0cmli
-c19kZWYuaC5pbmMgYi90YXJnZXQvaGV4YWdvbi9hdHRyaWJzX2RlZi5oLmluYwppbmRleCAzODE1
-NTA5Li5lNDRhN2VhIDEwMDY0NAotLS0gYS90YXJnZXQvaGV4YWdvbi9hdHRyaWJzX2RlZi5oLmlu
-YworKysgYi90YXJnZXQvaGV4YWdvbi9hdHRyaWJzX2RlZi5oLmluYwpAQCAtNjQsNiArNjQsNyBA
-QCBERUZfQVRUUklCKElNUExJQ0lUX1dSSVRFU19QMSwgIldyaXRlcyBQcmVkaWNhdGUgMSIsICIi
-LCAiVVJFRy5QMSIpCiBERUZfQVRUUklCKElNUExJQ0lUX1dSSVRFU19QMiwgIldyaXRlcyBQcmVk
-aWNhdGUgMSIsICIiLCAiVVJFRy5QMiIpCiBERUZfQVRUUklCKElNUExJQ0lUX1dSSVRFU19QMywg
-Ik1heSB3cml0ZSBQcmVkaWNhdGUgMyIsICIiLCAiVVJFRy5QMyIpCiBERUZfQVRUUklCKElNUExJ
-Q0lUX1JFQURTX1BDLCAiUmVhZHMgdGhlIFBDIHJlZ2lzdGVyIiwgIiIsICIiKQorREVGX0FUVFJJ
-QihJTVBMSUNJVF9XUklURVNfVVNSLCAiTWF5IHdyaXRlIFVTUiIsICIiLCAiIikKIERFRl9BVFRS
-SUIoV1JJVEVTX1BSRURfUkVHLCAiV3JpdGVzIGEgcHJlZGljYXRlIHJlZ2lzdGVyIiwgIiIsICIi
-KQogCiBERUZfQVRUUklCKENSU0xPVDIzLCAiQ2FuIGV4ZWN1dGUgaW4gc2xvdCAyIG9yIHNsb3Qg
-MyAoQ1IpIiwgIiIsICIiKQpkaWZmIC0tZ2l0IGEvdGFyZ2V0L2hleGFnb24vdHJhbnNsYXRlLmMg
-Yi90YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuYwppbmRleCA3MjRiNGZjLi5lMTBlZjM2IDEwMDY0
-NAotLS0gYS90YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuYworKysgYi90YXJnZXQvaGV4YWdvbi90
-cmFuc2xhdGUuYwpAQCAtMjA0LDcgKzIwNCwxMiBAQCBzdGF0aWMgdm9pZCBtYXJrX2ltcGxpY2l0
-X3JlZ193cml0ZShEaXNhc0NvbnRleHQgKmN0eCwgSW5zbiAqaW5zbiwKICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIGludCBhdHRyaWIsIGludCBybnVtKQogewogICAgIGlmIChH
-RVRfQVRUUklCKGluc24tPm9wY29kZSwgYXR0cmliKSkgewotICAgICAgICBib29sIGlzX3ByZWRp
-Y2F0ZWQgPSBHRVRfQVRUUklCKGluc24tPm9wY29kZSwgQV9DT05ERVhFQyk7CisgICAgICAgIC8q
-CisgICAgICAgICAqIFVTUiBpcyB1c2VkIHRvIHNldCBvdmVyZmxvdyBhbmQgRlAgZXhjZXB0aW9u
-cywKKyAgICAgICAgICogc28gdHJlYXQgaXQgYXMgY29uZGl0aW9uYWwKKyAgICAgICAgICovCisg
-ICAgICAgIGJvb2wgaXNfcHJlZGljYXRlZCA9IEdFVF9BVFRSSUIoaW5zbi0+b3Bjb2RlLCBBX0NP
-TkRFWEVDKSB8fAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICBybnVtID09IEhFWF9SRUdf
-VVNSOwogICAgICAgICBpZiAoaXNfcHJlZGljYXRlZCAmJiAhaXNfcHJlbG9hZGVkKGN0eCwgcm51
-bSkpIHsKICAgICAgICAgICAgIHRjZ19nZW5fbW92X3RsKGhleF9uZXdfdmFsdWVbcm51bV0sIGhl
-eF9ncHJbcm51bV0pOwogICAgICAgICB9CkBAIC0yMzAsNiArMjM1LDggQEAgc3RhdGljIHZvaWQg
-bWFya19pbXBsaWNpdF9yZWdfd3JpdGVzKERpc2FzQ29udGV4dCAqY3R4LCBJbnNuICppbnNuKQog
-ICAgIG1hcmtfaW1wbGljaXRfcmVnX3dyaXRlKGN0eCwgaW5zbiwgQV9JTVBMSUNJVF9XUklURVNf
-U0EwLCBIRVhfUkVHX1NBMCk7CiAgICAgbWFya19pbXBsaWNpdF9yZWdfd3JpdGUoY3R4LCBpbnNu
-LCBBX0lNUExJQ0lUX1dSSVRFU19MQzEsIEhFWF9SRUdfTEMxKTsKICAgICBtYXJrX2ltcGxpY2l0
-X3JlZ193cml0ZShjdHgsIGluc24sIEFfSU1QTElDSVRfV1JJVEVTX1NBMSwgSEVYX1JFR19TQTEp
-OworICAgIG1hcmtfaW1wbGljaXRfcmVnX3dyaXRlKGN0eCwgaW5zbiwgQV9JTVBMSUNJVF9XUklU
-RVNfVVNSLCBIRVhfUkVHX1VTUik7CisgICAgbWFya19pbXBsaWNpdF9yZWdfd3JpdGUoY3R4LCBp
-bnNuLCBBX0ZQT1AsIEhFWF9SRUdfVVNSKTsKIH0KIAogc3RhdGljIHZvaWQgbWFya19pbXBsaWNp
-dF9wcmVkX3dyaXRlcyhEaXNhc0NvbnRleHQgKmN0eCwgSW5zbiAqaW5zbikKZGlmZiAtLWdpdCBh
-L3Rlc3RzL3RjZy9oZXhhZ29uL292ZXJmbG93LmMgYi90ZXN0cy90Y2cvaGV4YWdvbi9vdmVyZmxv
-dy5jCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAuLjE5NmZjZjcKLS0tIC9kZXYv
-bnVsbAorKysgYi90ZXN0cy90Y2cvaGV4YWdvbi9vdmVyZmxvdy5jCkBAIC0wLDAgKzEsMTA3IEBA
-CisvKgorICogIENvcHlyaWdodChjKSAyMDIxIFF1YWxjb21tIElubm92YXRpb24gQ2VudGVyLCBJ
-bmMuIEFsbCBSaWdodHMgUmVzZXJ2ZWQuCisgKgorICogIFRoaXMgcHJvZ3JhbSBpcyBmcmVlIHNv
-ZnR3YXJlOyB5b3UgY2FuIHJlZGlzdHJpYnV0ZSBpdCBhbmQvb3IgbW9kaWZ5CisgKiAgaXQgdW5k
-ZXIgdGhlIHRlcm1zIG9mIHRoZSBHTlUgR2VuZXJhbCBQdWJsaWMgTGljZW5zZSBhcyBwdWJsaXNo
-ZWQgYnkKKyAqICB0aGUgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uOyBlaXRoZXIgdmVyc2lvbiAy
-IG9mIHRoZSBMaWNlbnNlLCBvcgorICogIChhdCB5b3VyIG9wdGlvbikgYW55IGxhdGVyIHZlcnNp
-b24uCisgKgorICogIFRoaXMgcHJvZ3JhbSBpcyBkaXN0cmlidXRlZCBpbiB0aGUgaG9wZSB0aGF0
-IGl0IHdpbGwgYmUgdXNlZnVsLAorICogIGJ1dCBXSVRIT1VUIEFOWSBXQVJSQU5UWTsgd2l0aG91
-dCBldmVuIHRoZSBpbXBsaWVkIHdhcnJhbnR5IG9mCisgKiAgTUVSQ0hBTlRBQklMSVRZIG9yIEZJ
-VE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFLiAgU2VlIHRoZQorICogIEdOVSBHZW5lcmFs
-IFB1YmxpYyBMaWNlbnNlIGZvciBtb3JlIGRldGFpbHMuCisgKgorICogIFlvdSBzaG91bGQgaGF2
-ZSByZWNlaXZlZCBhIGNvcHkgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlCisgKiAg
-YWxvbmcgd2l0aCB0aGlzIHByb2dyYW07IGlmIG5vdCwgc2VlIDxodHRwOi8vd3d3LmdudS5vcmcv
-bGljZW5zZXMvPi4KKyAqLworCisjaW5jbHVkZSA8c3RkbGliLmg+CisjaW5jbHVkZSA8c3RkaW8u
-aD4KKyNpbmNsdWRlIDx1bmlzdGQuaD4KKyNpbmNsdWRlIDxzeXMvdHlwZXMuaD4KKyNpbmNsdWRl
-IDxmY250bC5oPgorI2luY2x1ZGUgPHNldGptcC5oPgorI2luY2x1ZGUgPHNpZ25hbC5oPgorCisK
-K2ludCBlcnI7CisKK3N0YXRpYyB2b2lkIF9fY2hlY2soY29uc3QgY2hhciAqZmlsZW5hbWUsIGlu
-dCBsaW5lLCBpbnQgeCwgaW50IGV4cGVjdCkKK3sKKyAgICBpZiAoeCAhPSBleHBlY3QpIHsKKyAg
-ICAgICAgcHJpbnRmKCJFUlJPUiAlczolZCAtICVkICE9ICVkXG4iLAorICAgICAgICAgICAgICAg
-ZmlsZW5hbWUsIGxpbmUsIHgsIGV4cGVjdCk7CisgICAgICAgIGVycisrOworICAgIH0KK30KKwor
-I2RlZmluZSBjaGVjayh4LCBleHBlY3QpIF9fY2hlY2soX19GSUxFX18sIF9fTElORV9fLCAoeCks
-IChleHBlY3QpKQorCitzdGF0aWMgaW50IHNhdHViKGludCBzcmMsIGludCAqcCwgaW50ICpvdmZf
-cmVzdWx0KQoreworICAgIGludCByZXN1bHQ7CisgICAgaW50IHVzcjsKKworICAgIC8qCisgICAg
-ICogVGhpcyBpbnN0cnVjdGlvbiBjYW4gc2V0IGJpdCAwIChPVkYvb3ZlcmZsb3cpIGluIHVzcgor
-ICAgICAqIENsZWFyIHRoZSBiaXQgZmlyc3QsIHRoZW4gcmV0dXJuIHRoYXQgYml0IHRvIHRoZSBj
-YWxsZXIKKyAgICAgKgorICAgICAqIFdlIGFsc28gc3RvcmUgdGhlIHNyYyBpbnRvICpwIGluIHRo
-ZSBzYW1lIHBhY2tldCwgc28gd2UKKyAgICAgKiBjYW4gZW5zdXJlIHRoZSBvdmVyZmxvdyBkb2Vz
-bid0IGdldCBzZXQgd2hlbiBhbiBleGNlcHRpb24KKyAgICAgKiBpcyBnZW5lcmF0ZWQuCisgICAg
-ICovCisgICAgYXNtIHZvbGF0aWxlKCJyMiA9IHVzclxuXHQiCisgICAgICAgICAgICAgICAgICJy
-MiA9IGNscmJpdChyMiwgIzApXG5cdCIgICAgICAgIC8qIGNsZWFyIG92ZXJmbG93IGJpdCAqLwor
-ICAgICAgICAgICAgICAgICAidXNyID0gcjJcblx0IgorICAgICAgICAgICAgICAgICAie1xuXHQi
-CisgICAgICAgICAgICAgICAgICIgICAgJTAgPSBzYXR1YiglMilcblx0IgorICAgICAgICAgICAg
-ICAgICAiICAgIG1lbXcoJTMpID0gJTJcblx0IgorICAgICAgICAgICAgICAgICAifVxuXHQiCisg
-ICAgICAgICAgICAgICAgICIlMSA9IHVzclxuXHQiCisgICAgICAgICAgICAgICAgIDogIj1yIihy
-ZXN1bHQpLCAiPXIiKHVzcikKKyAgICAgICAgICAgICAgICAgOiAiciIoc3JjKSwgInIiKHApCisg
-ICAgICAgICAgICAgICAgIDogInIyIiwgInVzciIsICJtZW1vcnkiKTsKKyAgKm92Zl9yZXN1bHQg
-PSAodXNyICYgMSk7CisgIHJldHVybiByZXN1bHQ7Cit9CisKK2ludCByZWFkX3Vzcl9vdmVyZmxv
-dyh2b2lkKQoreworICAgIGludCByZXN1bHQ7CisgICAgYXNtIHZvbGF0aWxlKCIlMCA9IHVzclxu
-XHQiIDogIj1yIihyZXN1bHQpKTsKKyAgICByZXR1cm4gcmVzdWx0ICYgMTsKK30KKworCitqbXBf
-YnVmIGptcF9lbnY7CitpbnQgdXNyX292ZXJmbG93OworCitzdGF0aWMgdm9pZCBzaWdfc2Vndihp
-bnQgc2lnLCBzaWdpbmZvX3QgKmluZm8sIHZvaWQgKnB1YykKK3sKKyAgICB1c3Jfb3ZlcmZsb3cg
-PSByZWFkX3Vzcl9vdmVyZmxvdygpOworICAgIGxvbmdqbXAoam1wX2VudiwgMSk7Cit9CisKK2lu
-dCBtYWluKCkKK3sKKyAgICBzdHJ1Y3Qgc2lnYWN0aW9uIGFjdDsKKyAgICBpbnQgb3ZmOworCisg
-ICAgLyogU0lHU0VHViB0ZXN0ICovCisgICAgYWN0LnNhX3NpZ2FjdGlvbiA9IHNpZ19zZWd2Owor
-ICAgIHNpZ2VtcHR5c2V0KCZhY3Quc2FfbWFzayk7CisgICAgYWN0LnNhX2ZsYWdzID0gU0FfU0lH
-SU5GTzsKKyAgICBzaWdhY3Rpb24oU0lHU0VHViwgJmFjdCwgTlVMTCk7CisgICAgaWYgKHNldGpt
-cChqbXBfZW52KSA9PSAwKSB7CisgICAgICAgIHNhdHViKDMwMCwgMCwgJm92Zik7CisgICAgfQor
-CisgICAgYWN0LnNhX2hhbmRsZXIgPSBTSUdfREZMOworICAgIHNpZ2VtcHR5c2V0KCZhY3Quc2Ff
-bWFzayk7CisgICAgYWN0LnNhX2ZsYWdzID0gMDsKKworICAgIGNoZWNrKHVzcl9vdmVyZmxvdywg
-MCk7CisKKyAgICBwdXRzKGVyciA/ICJGQUlMIiA6ICJQQVNTIik7CisgICAgcmV0dXJuIGVyciA/
-IEVYSVRfRkFJTFVSRSA6IEVYSVRfU1VDQ0VTUzsKK30KZGlmZiAtLWdpdCBhL3RhcmdldC9oZXhh
-Z29uL2hleF9jb21tb24ucHkgYi90YXJnZXQvaGV4YWdvbi9oZXhfY29tbW9uLnB5CmluZGV4IGIz
-YjUzNDAuLmE4NGIwMDMgMTAwNzU1Ci0tLSBhL3RhcmdldC9oZXhhZ29uL2hleF9jb21tb24ucHkK
-KysrIGIvdGFyZ2V0L2hleGFnb24vaGV4X2NvbW1vbi5weQpAQCAtNzMsNiArNzMsOCBAQCBkZWYg
-Y2FsY3VsYXRlX2F0dHJpYnMoKToKICAgICBhZGRfcWVtdV9tYWNyb19hdHRyaWIoJ2ZXUklURV9Q
-MScsICdBX1dSSVRFU19QUkVEX1JFRycpCiAgICAgYWRkX3FlbXVfbWFjcm9fYXR0cmliKCdmV1JJ
-VEVfUDInLCAnQV9XUklURVNfUFJFRF9SRUcnKQogICAgIGFkZF9xZW11X21hY3JvX2F0dHJpYign
-ZldSSVRFX1AzJywgJ0FfV1JJVEVTX1BSRURfUkVHJykKKyAgICBhZGRfcWVtdV9tYWNyb19hdHRy
-aWIoJ2ZTRVRfT1ZFUkZMT1cnLCAnQV9JTVBMSUNJVF9XUklURVNfVVNSJykKKyAgICBhZGRfcWVt
-dV9tYWNyb19hdHRyaWIoJ2ZTRVRfTFBDRkcnLCAnQV9JTVBMSUNJVF9XUklURVNfVVNSJykKIAog
-ICAgICMgUmVjdXJzZSBkb3duIG1hY3JvcywgZmluZCBhdHRyaWJ1dGVzIGZyb20gc3ViLW1hY3Jv
-cwogICAgIG1hY3JvVmFsdWVzID0gbGlzdChtYWNyb3MudmFsdWVzKCkpCmRpZmYgLS1naXQgYS90
-ZXN0cy90Y2cvaGV4YWdvbi9NYWtlZmlsZS50YXJnZXQgYi90ZXN0cy90Y2cvaGV4YWdvbi9NYWtl
-ZmlsZS50YXJnZXQKaW5kZXggYzFlMTY1MC4uOGIwN2EyOCAxMDA2NDQKLS0tIGEvdGVzdHMvdGNn
-L2hleGFnb24vTWFrZWZpbGUudGFyZ2V0CisrKyBiL3Rlc3RzL3RjZy9oZXhhZ29uL01ha2VmaWxl
-LnRhcmdldApAQCAtNDAsNSArNDAsNiBAQCBIRVhfVEVTVFMgKz0gbG9hZF91bnBhY2sKIEhFWF9U
-RVNUUyArPSBsb2FkX2FsaWduCiBIRVhfVEVTVFMgKz0gYXRvbWljcwogSEVYX1RFU1RTICs9IGZw
-c3R1ZmYKK0hFWF9URVNUUyArPSBvdmVyZmxvdwogCiBURVNUUyArPSAkKEhFWF9URVNUUykKLS0g
-CjIuNy40Cgo=
+The following changes since commit c52d69e7dbaaed0ffdef8125e79218672c30161d:
+
+  Merge remote-tracking branch 'remotes/cschoenebeck/tags/pull-9p-20211027' into staging (2021-10-27 11:45:18 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20211028
+
+for you to fetch changes up to efd629fb21e2ff6a8f62642d9ed7a23dfee4d320:
+
+  softmmu: fix for "after access" watchpoints (2021-10-28 20:55:07 -0700)
+
+----------------------------------------------------------------
+Improvements to qemu/int128
+Fixes for 128/64 division.
+Cleanup tcg/optimize.c
+Optimize redundant sign extensions
+
+----------------------------------------------------------------
+Frédéric Pétrot (1):
+      qemu/int128: Add int128_{not,xor}
+
+Luis Pires (4):
+      host-utils: move checks out of divu128/divs128
+      host-utils: move udiv_qrnnd() to host-utils
+      host-utils: add 128-bit quotient support to divu128/divs128
+      host-utils: add unit tests for divu128/divs128
+
+Pavel Dovgalyuk (3):
+      softmmu: fix watchpoint processing in icount mode
+      softmmu: remove useless condition in watchpoint check
+      softmmu: fix for "after access" watchpoints
+
+Richard Henderson (52):
+      tcg/optimize: Rename "mask" to "z_mask"
+      tcg/optimize: Split out OptContext
+      tcg/optimize: Remove do_default label
+      tcg/optimize: Change tcg_opt_gen_{mov,movi} interface
+      tcg/optimize: Move prev_mb into OptContext
+      tcg/optimize: Split out init_arguments
+      tcg/optimize: Split out copy_propagate
+      tcg/optimize: Split out fold_call
+      tcg/optimize: Drop nb_oargs, nb_iargs locals
+      tcg/optimize: Change fail return for do_constant_folding_cond*
+      tcg/optimize: Return true from tcg_opt_gen_{mov,movi}
+      tcg/optimize: Split out finish_folding
+      tcg/optimize: Use a boolean to avoid a mass of continues
+      tcg/optimize: Split out fold_mb, fold_qemu_{ld,st}
+      tcg/optimize: Split out fold_const{1,2}
+      tcg/optimize: Split out fold_setcond2
+      tcg/optimize: Split out fold_brcond2
+      tcg/optimize: Split out fold_brcond
+      tcg/optimize: Split out fold_setcond
+      tcg/optimize: Split out fold_mulu2_i32
+      tcg/optimize: Split out fold_addsub2_i32
+      tcg/optimize: Split out fold_movcond
+      tcg/optimize: Split out fold_extract2
+      tcg/optimize: Split out fold_extract, fold_sextract
+      tcg/optimize: Split out fold_deposit
+      tcg/optimize: Split out fold_count_zeros
+      tcg/optimize: Split out fold_bswap
+      tcg/optimize: Split out fold_dup, fold_dup2
+      tcg/optimize: Split out fold_mov
+      tcg/optimize: Split out fold_xx_to_i
+      tcg/optimize: Split out fold_xx_to_x
+      tcg/optimize: Split out fold_xi_to_i
+      tcg/optimize: Add type to OptContext
+      tcg/optimize: Split out fold_to_not
+      tcg/optimize: Split out fold_sub_to_neg
+      tcg/optimize: Split out fold_xi_to_x
+      tcg/optimize: Split out fold_ix_to_i
+      tcg/optimize: Split out fold_masks
+      tcg/optimize: Expand fold_mulu2_i32 to all 4-arg multiplies
+      tcg/optimize: Expand fold_addsub2_i32 to 64-bit ops
+      tcg/optimize: Sink commutative operand swapping into fold functions
+      tcg: Extend call args using the correct opcodes
+      tcg/optimize: Stop forcing z_mask to "garbage" for 32-bit values
+      tcg/optimize: Use fold_xx_to_i for orc
+      tcg/optimize: Use fold_xi_to_x for mul
+      tcg/optimize: Use fold_xi_to_x for div
+      tcg/optimize: Use fold_xx_to_i for rem
+      tcg/optimize: Optimize sign extensions
+      tcg/optimize: Propagate sign info for logical operations
+      tcg/optimize: Propagate sign info for setcond
+      tcg/optimize: Propagate sign info for bit counting
+      tcg/optimize: Propagate sign info for shifting
+
+ include/fpu/softfloat-macros.h |   82 --
+ include/hw/clock.h             |    5 +-
+ include/qemu/host-utils.h      |  121 +-
+ include/qemu/int128.h          |   20 +
+ softmmu/physmem.c              |   41 +-
+ target/ppc/int_helper.c        |   23 +-
+ tcg/optimize.c                 | 2644 ++++++++++++++++++++++++----------------
+ tcg/tcg.c                      |    6 +-
+ tests/unit/test-div128.c       |  197 +++
+ util/host-utils.c              |  147 ++-
+ tests/unit/meson.build         |    1 +
+ 11 files changed, 2075 insertions(+), 1212 deletions(-)
+ create mode 100644 tests/unit/test-div128.c
 
