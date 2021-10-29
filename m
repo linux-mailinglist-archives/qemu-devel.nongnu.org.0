@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE2943F6C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 07:47:48 +0200 (CEST)
-Received: from localhost ([::1]:60336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7003143F6D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 07:51:54 +0200 (CEST)
+Received: from localhost ([::1]:40302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgKjz-0001kz-9w
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 01:47:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36246)
+	id 1mgKnx-0007VS-Iu
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 01:51:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgKde-0007O9-H0
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 01:41:16 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44743)
+ id 1mgKgL-0000kS-5e
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 01:44:01 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:43748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgKdb-0001f2-1N
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 01:41:14 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id d13so14312666wrf.11
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 22:41:09 -0700 (PDT)
+ id 1mgKgI-00023C-Lh
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 01:44:00 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ 67-20020a1c1946000000b0030d4c90fa87so6854739wmz.2
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 22:43:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Y82UYZImFq4VVWByxRnp16AMwNqQ67GxcjzwPIYQ1LU=;
- b=mA4czI3KKb/n4uU2rc5YTbsaxdCZSWtMmT+SRntRMNiT/Qk9ABA/RkuoiLrsUoipcy
- 9rkpxGDcGDQRIKaAXa2qEZhpH9/N/5J1p4JWFdxenVk0yfT1qUWKpznr46fsDZA/ybHm
- syCNmfHlV3ALFzkq4qdDYfrUWyYY+mmkLH6E/TURoxAdRN6x/GeYyk734S5fNkXuDUB4
- 01+gjGiChomOiE8Iiikt03po5o7O26w4sTtjA2HcXhJrsFJtgqyyOvmWQ2qlKotm/KN/
- mWuIp9WPRw9rJdjG7YDcJ8gpDJdi/l7Jg40dDAtCdwMmFpVmeoZFJgr7UtgMaK9Hi6XJ
- 5/VA==
+ bh=uF+kf03qg8nlRIwjeJyFXpWbLl/JoWRqIOUTik/Vk8c=;
+ b=l8jsRQIDou+hr5pjqEaw9knwPaebzNYvD1Qh708odjmlNGTK+I8FYaw/L9IWazIUi9
+ FiapXWMOE2mvKZajRWvkKGnuP3gaY4N9MPLjvH1xCSafFql1TBf7/qnrseDv77g2UHiL
+ Vsl2J+O2me5fcWhELDahMj7m5Xt3yh3GjdIO1VNtl8NLE62ImpJ/eZy8w945ofpfaaAA
+ G1zPRUa0Xdwqc0pCWAeT9Y5KntnHAsDC9wbfsUsjse7eqsz5OAw3YIhYqcxQU5pxDuNo
+ eNhz5vwaAQ+hanQKNRBCyAqI91URc2sM7SAF5j0HcYOtNnwt6gNc7brxOcH4c1uni+4j
+ pO6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Y82UYZImFq4VVWByxRnp16AMwNqQ67GxcjzwPIYQ1LU=;
- b=6mUp8z3nCP8ZKOK9w05aaJwyrLvC3Q9tzWs7BGCJieA1UH95lBs3SKlIHqAdT57X4z
- /iVsSNP/d+VbFl0triQpgElx6xazVKyG17VazjcFc2rT/G+PkQ83WOMffy2BGvZOO8E3
- Nhg2SXoToqClWqfGQQHw39k5a9yiRcpQmnFbfNjY4cK90DT/6vGZRAXo06shu5Xh/M14
- q9+M5EJzC9d0WQxARU2Qbfb/kF6hebXIdkXXAPWcW/f7PayqlRl8naJujlVTVNw76a3s
- C4DSz3tEYMNPq8lkA9TKEKz/sOJAs3dVsoAun3IITmFv2wI0+TODQKUT+P8Dw5JsrL/B
- ottw==
-X-Gm-Message-State: AOAM5309/HC1PTl0I43wkwp05DzuFIr+r5Xtoh7d7rFqbpUpff+m8KvC
- PNG6zjBt86fbWP310rFHbU0=
-X-Google-Smtp-Source: ABdhPJxv9b+djZauhqSgvaq6D6NlGByIAnL3EiVBXUE694hlN4ft0NUA0mR7CyI2r6vhmMmCSAU1Ug==
-X-Received: by 2002:adf:e709:: with SMTP id c9mr11869899wrm.78.1635486068639; 
- Thu, 28 Oct 2021 22:41:08 -0700 (PDT)
+ bh=uF+kf03qg8nlRIwjeJyFXpWbLl/JoWRqIOUTik/Vk8c=;
+ b=eKMmsZoL+LrCEijzF/HdNQkhCuiekut4sLyanN54v+KfmV64vvk9h2zmQBkvi8mVI+
+ SS9ty7Qp8S10SjIa4SKWWs6PUYr/G46K5dyyNO0Z3Vb4/ajKWqxioY5jmsrI6aYI6aKO
+ L1++wNBR9sl12b+j697knnvCYabEe19+FDfyjsHJgcpU3oBTUU9/vn7dxbA2yV8V1t9/
+ 9DV3VgzwRc6Z6gsr1bekIfCXrmP05NlmUsVYxgmwVPISpECvtqFRDdmitLfyBv1Qp3jb
+ 2RfPQ2YYoyquSOHoNDbDJHcsuJmY5gopz756RMII+BLp7oDwp/tgrFl4pwkIBL1/pR+D
+ DveQ==
+X-Gm-Message-State: AOAM532+atJfywBt4I2LRLzjVU2GNGntE6QparvI2kWCmYQmOEALjfUN
+ azNimYmcWd/hC2CiGysBl3w=
+X-Google-Smtp-Source: ABdhPJw8SecbSFaEp0JmTF9gevz+TJA9f9/EEI65BTYo6s7AqqO2RQHtRpm1YB4MnaMTOQh1PjCA9g==
+X-Received: by 2002:a7b:cc8c:: with SMTP id p12mr9025407wma.158.1635486237035; 
+ Thu, 28 Oct 2021 22:43:57 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id d24sm4106470wmb.35.2021.10.28.22.41.07
+ by smtp.gmail.com with ESMTPSA id g2sm4880109wrb.20.2021.10.28.22.43.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Oct 2021 22:41:07 -0700 (PDT)
-Message-ID: <72370de1-7a3f-1cc4-cd4b-a85e7b0854be@amsat.org>
-Date: Fri, 29 Oct 2021 07:41:06 +0200
+ Thu, 28 Oct 2021 22:43:56 -0700 (PDT)
+Message-ID: <e87299dd-f830-853a-01f6-d5f34e55acc9@amsat.org>
+Date: Fri, 29 Oct 2021 07:43:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v4 16/23] hw/intc/sh_intc: Replace abort() with
- g_assert_not_reached()
+Subject: Re: [PATCH v4 14/23] hw/intc/sh_intc: Use array index instead of
+ pointer arithmetics
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1635449225.git.balaton@eik.bme.hu>
- <6c5014e86298b5d511a0e4e80f405683ad4191c2.1635449225.git.balaton@eik.bme.hu>
+ <2ec93dee8471de623e6b0494adfd604cd59e4010.1635449225.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <6c5014e86298b5d511a0e4e80f405683ad4191c2.1635449225.git.balaton@eik.bme.hu>
+In-Reply-To: <2ec93dee8471de623e6b0494adfd604cd59e4010.1635449225.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -99,14 +100,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/28/21 21:27, BALATON Zoltan wrote:
-> All the places that call abort should not happen which is better
-> marked by g_assert_not_reached.
+> Address of element i is one word thus clearer than array + i.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/intc/sh_intc.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
+>  hw/intc/sh_intc.c | 28 ++++++++++++++--------------
+>  1 file changed, 14 insertions(+), 14 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
