@@ -2,87 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E8E43FB02
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 12:44:21 +0200 (CEST)
-Received: from localhost ([::1]:50558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D396943FB0B
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 12:47:48 +0200 (CEST)
+Received: from localhost ([::1]:55828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgPMy-0004re-Qx
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 06:44:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53342)
+	id 1mgPQI-0008Tk-O9
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 06:47:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mgPL0-0003MT-7W
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 06:42:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54355)
+ id 1mgPNX-0006qj-87
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 06:44:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mgPKy-0006Ku-B1
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 06:42:17 -0400
+ id 1mgPNV-0006eF-Ew
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 06:44:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635504134;
+ s=mimecast20190719; t=1635504292;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=fE9ihLbcinmY5vSnKB/JJnVoNS/EoK16XjAzZ3Zu50M=;
- b=JLw/V6y0/5rYRj0vrSyujgM+6GYiubcqRk+0FSTGTh4PKn6UGL8u3r2Uwo2AyIhr8KA5K7
- vZqNUI9eb4eC6J5E+VouAmorvc+Fx99FE64Fdrg7q/tPtePJMVrWMdoIocctVZwgI2R4CQ
- gBn6/5f7BGc+iSgZlA8EKYrJEvNVSQk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-am_588leOaePzn9cGWCT_Q-1; Fri, 29 Oct 2021 06:42:12 -0400
-X-MC-Unique: am_588leOaePzn9cGWCT_Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v5-20020a1cac05000000b0032ccf04ba2cso2283519wme.2
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 03:42:12 -0700 (PDT)
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2BKDZuwJAgpcYs0yQ7As1+hZ11hawjDoazr/LlY+HM8=;
+ b=dkgf5TEeFaynvFS9h2CRqPfOQh1xaf1ydS+EOdXOHkH2SGqXpJWLV6k5JNbdGN6JVfUBvw
+ O/K4LMYdLDmBLticfLENpaBF+ESadsEruWDz1w+WCEQ0slF2mVgXXiTkhmBX0jcl6a7K6M
+ fioZGK/V3bu0aT5iEr1K0ovX42BvMmo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-7bBUnFBvPROW56m-OL5bOw-1; Fri, 29 Oct 2021 06:44:51 -0400
+X-MC-Unique: 7bBUnFBvPROW56m-OL5bOw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 125-20020a1c0183000000b003306ae8bfb7so1246555wmb.7
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 03:44:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=fE9ihLbcinmY5vSnKB/JJnVoNS/EoK16XjAzZ3Zu50M=;
- b=ge4Qu+HRUA5t6qQGSIaKk4pQYCUhpKTf2kA/Ucmd7ZaO3b9zQCtl/V0DUd3awG0CCn
- zk2M1UXy9ZRvIM5BNLapTa4+Fd5zOb6GAGdWGhVkkuAoMeVWn5Cy34xiJ/5UNiYDKfp8
- bctUOo3U//HFZdaDrd1495rU6FNecryApbxw0S+8SUCrqMQIKOtkNg00hz7PfEQFoqZr
- Ifx4nIl3xzKhXQ2Tf39rm9GWoo/3xaO2VP3oxIQwTx0Qg/80w5zqWT26EfEBZzAaAPx+
- N5HWrX69e7JufHjYz1cUa9lqL6Pi0pwjqyJSAF+FvtZirU6xy1CbpbjbMAxASW6490Mx
- FR0Q==
-X-Gm-Message-State: AOAM531SSC5seY8ZwiWKnI82VyRPS+w0ZuT6thRwcuO97vdDTrzBSdWe
- ZMBnN9pL6+dyMxHZzHk8HsvGoiO5jGDH+hWqPjJVsxvqRI5TxMCZm9q9v7Yi44EYDNi/TRYYEVg
- OyPSCejFQ3pAymtk=
-X-Received: by 2002:a5d:47a3:: with SMTP id 3mr13186375wrb.336.1635504131557; 
- Fri, 29 Oct 2021 03:42:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz9aVrqa9DzYvaotlkSph7XCw9b5CAXh1Ad6zo7qRjbCxC96LfKJs/KAEvuXzGZsTT1w/HTig==
-X-Received: by 2002:a5d:47a3:: with SMTP id 3mr13186342wrb.336.1635504131391; 
- Fri, 29 Oct 2021 03:42:11 -0700 (PDT)
+ :user-agent:reply-to:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2BKDZuwJAgpcYs0yQ7As1+hZ11hawjDoazr/LlY+HM8=;
+ b=XMyMyPwMHgNPiAWfxPBgghXBBxoV8JlFeRv3QD67ZSURmre3Uslo1b+28r+gzyUPUG
+ fq0k/zf/FhgGGYJ3PMDYI7T6aNUWFFz2Wg+Wp2mcMxJ97AAQ87CoZJ5Kc8J4GpW4MLdI
+ zjLTEjWLLG7W6oElu/YvVe85/kfGGDPpkEWQhrItwkYq01BEKfDTLXc6PrQYAY580alJ
+ 1E5JBU7jMnGKYDyEqsujZ4dGwia9ApEaAcZBlqGuSIxuTI/YJVCjwwI2BZk16ioi6YpP
+ 9P6OW+acSg/2/+3dltYx0EvNmxucroj4nyw5h9G0bk7LAl1DisQM/bVDYiVEv0q3qZ6T
+ Oxig==
+X-Gm-Message-State: AOAM531UqMJH1aUWThp4lLeA6sjm8bOZhe0SbR0uqt7nPyDtWdw5RGpa
+ QXKNQLa+eouxvdPTF0VrrUqmTkgVP8YhrcROKJPxqPktB+k6016ZGD8WBJSUFK9d89pMNjlF0l4
+ UNvhuT9E+1O8oHUc=
+X-Received: by 2002:a5d:44d1:: with SMTP id z17mr1862330wrr.143.1635504287196; 
+ Fri, 29 Oct 2021 03:44:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJweqb29JeZSUqLNspnLgbaJnjaase0Z/w9ovICSuEKsp7k3psSttEk7IKX00fNF0llvU8IIbg==
+X-Received: by 2002:a5d:44d1:: with SMTP id z17mr1862303wrr.143.1635504287052; 
+ Fri, 29 Oct 2021 03:44:47 -0700 (PDT)
 Received: from localhost ([178.139.224.158])
- by smtp.gmail.com with ESMTPSA id q14sm5479759wrv.55.2021.10.29.03.42.10
+ by smtp.gmail.com with ESMTPSA id q18sm8601088wmc.7.2021.10.29.03.44.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 03:42:11 -0700 (PDT)
+ Fri, 29 Oct 2021 03:44:46 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 5/9] qapi: Generalize struct member policy checking
-In-Reply-To: <20211028102520.747396-6-armbru@redhat.com> (Markus Armbruster's
- message of "Thu, 28 Oct 2021 12:25:16 +0200")
+Subject: Re: [PATCH v2 6/9] qapi: Generalize command policy checking
+In-Reply-To: <20211028102520.747396-7-armbru@redhat.com> (Markus Armbruster's
+ message of "Thu, 28 Oct 2021 12:25:17 +0200")
 References: <20211028102520.747396-1-armbru@redhat.com>
- <20211028102520.747396-6-armbru@redhat.com>
+ <20211028102520.747396-7-armbru@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Fri, 29 Oct 2021 12:42:09 +0200
-Message-ID: <87tuh0t8n2.fsf@secure.mitica>
+Date: Fri, 29 Oct 2021 12:44:45 +0200
+Message-ID: <87pmrot8iq.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,30 +110,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Markus Armbruster <armbru@redhat.com> wrote:
-> The generated visitor functions call visit_deprecated_accept() and
-> visit_deprecated() when visiting a struct member with special feature
-> flag 'deprecated'.  This makes the feature flag visible to the actual
-> visitors.  I want to make feature flag 'unstable' visible there as
-> well, so I can add policy for it.
+> The code to check command policy can see special feature flag
+> 'deprecated' as command flag QCO_DEPRECATED.  I want to make feature
+> flag 'unstable' visible there as well, so I can add policy for it.
 >
-> To let me make it visible, replace these functions by
-> visit_policy_reject() and visit_policy_skip(), which take the member's
-> special features as an argument.  Note that the new functions have the
-> opposite sense, i.e. the return value flips.
+> To let me make it visible, add member @special_features (a bitset of
+> QapiSpecialFeature) to QmpCommand, and adjust the generator to pass it
+> through qmp_register_command().  Then replace "QCO_DEPRECATED in
+> @flags" by QAPI_DEPRECATED in @special_features", and drop
+> QCO_DEPRECATED.
 >
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Acked-by: John Snow <jsnow@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-Reversing accept/reject make things "interesting" for a review point of view.
-
-
-> + * @special_features is the member's special features encoded as a
-> + * bitset of QapiSpecialFeature.
-
-Just to nitty pick, if you rename the variable to features, does the
-sentece is clearer?
-
-Later, Juan.
 
 
