@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD88F4403FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:24:17 +0200 (CEST)
-Received: from localhost ([::1]:50814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B45C44040C
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:26:48 +0200 (CEST)
+Received: from localhost ([::1]:57972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgYQB-0004Wo-Ct
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:24:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33716)
+	id 1mgYSd-0001YR-Fk
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgXtj-0000Ds-Sn
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:50:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56942)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgXuh-0002Ks-6v
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:51:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgXth-0001UW-1l
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:50:42 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgXuf-0004JI-Fk
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:51:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635537040;
+ s=mimecast20190719; t=1635537100;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1IuQ6Flrp2/vhbVQZ7uLl1ISL2N9ShBDT9/PWYk6YAc=;
- b=H/S1XYve41hsBypHiTaJWW0VHFQ+RkkIFuXTH9DJ7RchW8IrZehzO818teYeF52kL/LEHZ
- VTqSfdX6/yhU4Lu6I7tC9b0iHsMMd0EQQU/zZNj4j9xkRStGwwv05FpY1estJMJkisY9LZ
- vRiZ2wmCbVHVYgnC1I5J/o9xyIVdX1Q=
+ bh=dJfSlRBxhyniqYK5lJrFAQhbMFgKZqdQv1mB3Vt7mlg=;
+ b=VHDpYQD5UfaRtQMALwwPpnbGLNRKJDG8RS6unA/nDWXkrkCCUJyrBcix3Ysb8AIvuufeac
+ pNd/qvbCqJn6jqkp4TB2bm1wrw8sdZVWjyig6cWERqJOAriW/KRxIjGJV1igfT6l5BLPRL
+ Sam9Eo3u7NdEbw85dbiGUYFpOZ/qakY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104--PqofFJpOEi09KZkJkuc5w-1; Fri, 29 Oct 2021 15:50:34 -0400
-X-MC-Unique: -PqofFJpOEi09KZkJkuc5w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-503-j2_QfdbBPKam9i7OeBJCGw-1; Fri, 29 Oct 2021 15:51:37 -0400
+X-MC-Unique: j2_QfdbBPKam9i7OeBJCGw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B0631006AA8;
- Fri, 29 Oct 2021 19:50:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1530FA40DB;
+ Fri, 29 Oct 2021 19:51:36 +0000 (UTC)
 Received: from redhat.com (ovpn-112-232.phx2.redhat.com [10.3.112.232])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D132C60CA1;
- Fri, 29 Oct 2021 19:50:02 +0000 (UTC)
-Date: Fri, 29 Oct 2021 14:50:00 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 240EE60854;
+ Fri, 29 Oct 2021 19:51:35 +0000 (UTC)
+Date: Fri, 29 Oct 2021 14:51:33 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Stefan Reiter <s.reiter@proxmox.com>
-Subject: Re: [PATCH v6 1/5] monitor/hmp: add support for flag argument with
+Subject: Re: [PATCH v7 1/4] monitor/hmp: add support for flag argument with
  value
-Message-ID: <20211029195000.mjzlzvcjgzx5dulp@redhat.com>
-References: <20211020135500.2384930-1-s.reiter@proxmox.com>
- <20211020135500.2384930-2-s.reiter@proxmox.com>
+Message-ID: <20211029195133.fhjdznp2vi63xi6e@redhat.com>
+References: <20211021100135.4146766-1-s.reiter@proxmox.com>
+ <20211021100135.4146766-2-s.reiter@proxmox.com>
 MIME-Version: 1.0
-In-Reply-To: <20211020135500.2384930-2-s.reiter@proxmox.com>
+In-Reply-To: <20211021100135.4146766-2-s.reiter@proxmox.com>
 User-Agent: NeoMutt/20211022
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -88,7 +88,7 @@ Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 20, 2021 at 03:54:56PM +0200, Stefan Reiter wrote:
+On Thu, Oct 21, 2021 at 12:01:32PM +0200, Stefan Reiter wrote:
 > Adds support for the "-xV" parameter type, where "-x" denotes a flag
 > name and the "V" suffix indicates that this flag is supposed to take an
 > arbitrary string parameter.
@@ -98,20 +98,8 @@ On Wed, Oct 20, 2021 at 03:54:56PM +0200, Stefan Reiter wrote:
 > 
 > Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
 > ---
-> 
-> v6:
-> It wasn't possible to pass the 'connected' parameter to set_password, since the
-> code to handle optional parameters couldn't live with a different param (not
-> starting with '-') coming up instead - fix that by advancing over the 'value
-> flag' modifier in case `*p != '-'`.
-> 
-> Also change the modifier to 'V' instead of 'S' so it can be distinguished from
-> an actual trailing 'S' type param.
-> 
-> Discovered in testing. I dropped Eric's R-b due to the code change.
 
-Good that you caught it, and correct in dropping my earlier R-b.  But
-now that I've read this version:
+[so my late v6 reply doesn't get lost...]
 
 > +++ b/monitor/monitor-internal.h
 > @@ -63,7 +63,8 @@
@@ -123,14 +111,16 @@ now that I've read this version:
 
 s/an/a/
 
-> + *              specifies an optional string param (e.g. '-fV' allows '-f foo')
->   *
-
-With the typo fix,
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
-[Hmm, I see that you posted v7 in the meantime, and it still has the
-typo, but I already typed this mail]
+> + *              specifies an optional string param (e.g. '-fV' allows '-f foo')
+>   *
+>   */
+>  
+> -- 
+> 2.30.2
+> 
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
