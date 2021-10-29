@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7003143F6D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 07:51:54 +0200 (CEST)
-Received: from localhost ([::1]:40302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 012CB43F6DC
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 07:56:53 +0200 (CEST)
+Received: from localhost ([::1]:51006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgKnx-0007VS-Iu
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 01:51:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36684)
+	id 1mgKsm-0006ou-4U
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 01:56:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgKgL-0000kS-5e
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 01:44:01 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:43748)
+ id 1mgKkc-0004i7-IL
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 01:48:26 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgKgI-00023C-Lh
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 01:44:00 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 67-20020a1c1946000000b0030d4c90fa87so6854739wmz.2
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 22:43:58 -0700 (PDT)
+ id 1mgKka-0002jJ-Nr
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 01:48:26 -0400
+Received: by mail-wr1-x430.google.com with SMTP id o14so14306193wra.12
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 22:48:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=uF+kf03qg8nlRIwjeJyFXpWbLl/JoWRqIOUTik/Vk8c=;
- b=l8jsRQIDou+hr5pjqEaw9knwPaebzNYvD1Qh708odjmlNGTK+I8FYaw/L9IWazIUi9
- FiapXWMOE2mvKZajRWvkKGnuP3gaY4N9MPLjvH1xCSafFql1TBf7/qnrseDv77g2UHiL
- Vsl2J+O2me5fcWhELDahMj7m5Xt3yh3GjdIO1VNtl8NLE62ImpJ/eZy8w945ofpfaaAA
- G1zPRUa0Xdwqc0pCWAeT9Y5KntnHAsDC9wbfsUsjse7eqsz5OAw3YIhYqcxQU5pxDuNo
- eNhz5vwaAQ+hanQKNRBCyAqI91URc2sM7SAF5j0HcYOtNnwt6gNc7brxOcH4c1uni+4j
- pO6w==
+ bh=XpUsBxsQglLOD+Hu9GVDUpo3tBNqhWJKwTW98SGBAsQ=;
+ b=UA+KWJs8PWiwl4+JTQeZiA4u+n0b87XsGYCHs+mHtpL/Vdmz7QhwIrUec3h0bMDrvS
+ lTC9AVXILnPSlFY4wKHR2T2QYcWkutEe2TyAL+zU2aONAUlmknZ5d+jgjjlA4rXR1nZm
+ I3BpKCQv51U6a6i/OPalkXezEH/+iw8YO9pRKFQ2OHDGbWQL1s/yGYd4UWR89oCeLd2q
+ tFDdtwscBg/5IJq9PLJy4wBa4nZpUxOK3rPROEqmVxTyhyhBRY2jmtcKF5XQpakxwfHX
+ +jIGqd2lRYmZ2jVfc49D5CzwNmnH+w/8ZUiuuu6WFYkLem5wLwnQelnM+9EqEhNyQygY
+ /sQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=uF+kf03qg8nlRIwjeJyFXpWbLl/JoWRqIOUTik/Vk8c=;
- b=eKMmsZoL+LrCEijzF/HdNQkhCuiekut4sLyanN54v+KfmV64vvk9h2zmQBkvi8mVI+
- SS9ty7Qp8S10SjIa4SKWWs6PUYr/G46K5dyyNO0Z3Vb4/ajKWqxioY5jmsrI6aYI6aKO
- L1++wNBR9sl12b+j697knnvCYabEe19+FDfyjsHJgcpU3oBTUU9/vn7dxbA2yV8V1t9/
- 9DV3VgzwRc6Z6gsr1bekIfCXrmP05NlmUsVYxgmwVPISpECvtqFRDdmitLfyBv1Qp3jb
- 2RfPQ2YYoyquSOHoNDbDJHcsuJmY5gopz756RMII+BLp7oDwp/tgrFl4pwkIBL1/pR+D
- DveQ==
-X-Gm-Message-State: AOAM532+atJfywBt4I2LRLzjVU2GNGntE6QparvI2kWCmYQmOEALjfUN
- azNimYmcWd/hC2CiGysBl3w=
-X-Google-Smtp-Source: ABdhPJw8SecbSFaEp0JmTF9gevz+TJA9f9/EEI65BTYo6s7AqqO2RQHtRpm1YB4MnaMTOQh1PjCA9g==
-X-Received: by 2002:a7b:cc8c:: with SMTP id p12mr9025407wma.158.1635486237035; 
- Thu, 28 Oct 2021 22:43:57 -0700 (PDT)
+ bh=XpUsBxsQglLOD+Hu9GVDUpo3tBNqhWJKwTW98SGBAsQ=;
+ b=MrPLYIzC0uZR0EZW38W2s8MuEvqSibePPmVqgubo8ki8AGoR5rK9qEmLwsq/1zjvyV
+ 9U5OUtj4XoZLSdWIFotlhgm2fyGUcSeb5Aoo0k4DRFCAuhw9eA5ZsVNb9UMdIssmJz4b
+ L/jX9fK8CCEffgu6/QMvE54G7DERakqQegZXb0j58OcU4qSNM/JJ5ovKdETHQts+teps
+ tjLzoTnJ5Dv99H8bABY+EFBhxFfy89Y8mOnMcjGXhvDUtNVCpFGyffgwmfmu305rCCRs
+ mlu8W+f+j43xqb1OxvEVjNIxPIMPcdByWz992XWSgPzLm2+7tq1blb/1wLP02y0DTroB
+ fE8w==
+X-Gm-Message-State: AOAM5310xfBngrZoOltKFEqzjTdSsPSJag4anjLzXSCstUbCNd+ceaER
+ lhs6E9/ySxQmKZFVbhLemcA=
+X-Google-Smtp-Source: ABdhPJyvwI299hKbF8uiF2zo+wcblZdJ25tODsZQopzihD2XnjHklEgCM3eMAtYTspnTmFAqrvg1+A==
+X-Received: by 2002:adf:ded0:: with SMTP id i16mr6150268wrn.335.1635486503193; 
+ Thu, 28 Oct 2021 22:48:23 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id g2sm4880109wrb.20.2021.10.28.22.43.55
+ by smtp.gmail.com with ESMTPSA id f8sm4782240wrj.41.2021.10.28.22.48.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Oct 2021 22:43:56 -0700 (PDT)
-Message-ID: <e87299dd-f830-853a-01f6-d5f34e55acc9@amsat.org>
-Date: Fri, 29 Oct 2021 07:43:55 +0200
+ Thu, 28 Oct 2021 22:48:22 -0700 (PDT)
+Message-ID: <fdd05a38-8c8d-0236-5351-4256e020d86c@amsat.org>
+Date: Fri, 29 Oct 2021 07:48:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v4 14/23] hw/intc/sh_intc: Use array index instead of
- pointer arithmetics
+Subject: Re: [PATCH v4 22/23] hw/timer/sh_timer: Do not wrap lines that are
+ not too long
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1635449225.git.balaton@eik.bme.hu>
- <2ec93dee8471de623e6b0494adfd604cd59e4010.1635449225.git.balaton@eik.bme.hu>
+ <6e6737d7a4a349399a8c94ec725d74a834d72a21.1635449225.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <2ec93dee8471de623e6b0494adfd604cd59e4010.1635449225.git.balaton@eik.bme.hu>
+In-Reply-To: <6e6737d7a4a349399a8c94ec725d74a834d72a21.1635449225.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -100,13 +99,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/28/21 21:27, BALATON Zoltan wrote:
-> Address of element i is one word thus clearer than array + i.
+> It's more readable to keep things on one line if it fits the length limit.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/intc/sh_intc.c | 28 ++++++++++++++--------------
->  1 file changed, 14 insertions(+), 14 deletions(-)
+>  hw/timer/sh_timer.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
