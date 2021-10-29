@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2507440430
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:36:27 +0200 (CEST)
-Received: from localhost ([::1]:48910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87720440445
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:42:11 +0200 (CEST)
+Received: from localhost ([::1]:34364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgYby-0006Md-I1
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:36:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44300)
+	id 1mgYhW-00079z-8f
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:42:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mgYRg-0001H2-8c; Fri, 29 Oct 2021 16:25:48 -0400
+ id 1mgYRi-0001Nv-SP; Fri, 29 Oct 2021 16:25:50 -0400
 Received: from [201.28.113.2] (port=65208 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mgYRe-0001sK-R5; Fri, 29 Oct 2021 16:25:48 -0400
+ id 1mgYRh-0001sK-BR; Fri, 29 Oct 2021 16:25:50 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 29 Oct 2021 17:25:38 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 29 Oct 2021 17:25:42 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 88011800B36;
- Fri, 29 Oct 2021 17:25:37 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 94EF1800B36;
+ Fri, 29 Oct 2021 17:25:41 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 06/34] target/ppc: Implement PLQ and PSTQ
-Date: Fri, 29 Oct 2021 17:23:56 -0300
-Message-Id: <20211029202424.175401-7-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 07/34] target/ppc: Implement cntlzdm
+Date: Fri, 29 Oct 2021 17:23:57 -0300
+Message-Id: <20211029202424.175401-8-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
 References: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 29 Oct 2021 20:25:38.0054 (UTC)
- FILETIME=[22A4CA60:01D7CD03]
+X-OriginalArrivalTime: 29 Oct 2021 20:25:42.0110 (UTC)
+ FILETIME=[250FAFE0:01D7CD03]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -62,74 +62,78 @@ Cc: lucas.castro@eldorado.org.br, richard.henderson@linaro.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: Luis Pires <luis.pires@eldorado.org.br>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Implement the following PowerISA v3.1 instruction:
+cntlzdm: Count Leading Zeros Doubleword Under Bit Mask
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/insn64.decode                   |  4 ++++
- target/ppc/translate/fixedpoint-impl.c.inc | 12 ++++++++++++
- 2 files changed, 16 insertions(+)
+v2:
+- Inline implementation of cntlzdm
+---
+ target/ppc/insn32.decode                   |  1 +
+ target/ppc/translate/fixedpoint-impl.c.inc | 36 ++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
 
-diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index 11e5ea81d6..48756cd4ca 100644
---- a/target/ppc/insn64.decode
-+++ b/target/ppc/insn64.decode
-@@ -38,6 +38,8 @@ PLWA            000001 00 0--.-- .................. \
-                 101001 ..... ..... ................     @PLS_D
- PLD             000001 00 0--.-- .................. \
-                 111001 ..... ..... ................     @PLS_D
-+PLQ             000001 00 0--.-- .................. \
-+                111000 ..... ..... ................     @PLS_D
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 9cb9fc00b8..221cb00dd6 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -203,6 +203,7 @@ ADDPCIS         010011 ..... ..... .......... 00010 .   @DX
+ ## Fixed-Point Logical Instructions
  
- ### Fixed-Point Store Instructions
+ CFUGED          011111 ..... ..... ..... 0011011100 -   @X
++CNTLZDM         011111 ..... ..... ..... 0000111011 -   @X
  
-@@ -50,6 +52,8 @@ PSTH            000001 10 0--.-- .................. \
- 
- PSTD            000001 00 0--.-- .................. \
-                 111101 ..... ..... ................     @PLS_D
-+PSTQ            000001 00 0--.-- .................. \
-+                111100 ..... ..... ................     @PLS_D
- 
- ### Fixed-Point Arithmetic Instructions
+ ### Float-Point Load Instructions
  
 diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index ff35a96459..0d9c6e0996 100644
+index 0d9c6e0996..c9e9ae35df 100644
 --- a/target/ppc/translate/fixedpoint-impl.c.inc
 +++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -160,6 +160,16 @@ static bool do_ldst_quad(DisasContext *ctx, arg_D *a, bool store, bool prefixed)
+@@ -413,3 +413,39 @@ static bool trans_CFUGED(DisasContext *ctx, arg_X *a)
+ #endif
      return true;
  }
- 
-+static bool do_ldst_quad_PLS_D(DisasContext *ctx, arg_PLS_D *a, bool store)
++
++#if defined(TARGET_PPC64)
++static void do_cntlzdm(TCGv_i64 dst, TCGv_i64 src, TCGv_i64 mask)
 +{
-+    arg_D d;
-+    if (!resolve_PLS_D(ctx, &d, a)) {
-+        return true;
-+    }
++    TCGv_i64 tmp;
++    TCGLabel *l1;
 +
-+    return do_ldst_quad(ctx, &d, store, true);
++    tmp = tcg_temp_local_new_i64();
++    l1 = gen_new_label();
++
++    tcg_gen_and_i64(tmp, src, mask);
++    tcg_gen_clzi_i64(tmp, tmp, 64);
++
++    tcg_gen_brcondi_i64(TCG_COND_EQ, tmp, 0, l1);
++
++    tcg_gen_subfi_i64(tmp, 64, tmp);
++    tcg_gen_shr_i64(tmp, mask, tmp);
++    tcg_gen_ctpop_i64(tmp, tmp);
++
++    gen_set_label(l1);
++
++    tcg_gen_mov_i64(dst, tmp);
 +}
++#endif
 +
- /* Load Byte and Zero */
- TRANS(LBZ, do_ldst_D, false, false, MO_UB)
- TRANS(LBZX, do_ldst_X, false, false, MO_UB)
-@@ -203,6 +213,7 @@ TRANS64(PLD, do_ldst_PLS_D, false, false, MO_Q)
- 
- /* Load Quadword */
- TRANS64(LQ, do_ldst_quad, false, false);
-+TRANS64(PLQ, do_ldst_quad_PLS_D, false);
- 
- /* Store Byte */
- TRANS(STB, do_ldst_D, false, true, MO_UB)
-@@ -234,6 +245,7 @@ TRANS64(PSTD, do_ldst_PLS_D, false, true, MO_Q)
- 
- /* Store Quadword */
- TRANS64(STQ, do_ldst_quad, true, false);
-+TRANS64(PSTQ, do_ldst_quad_PLS_D, true);
- 
- /*
-  * Fixed-Point Compare Instructions
++static bool trans_CNTLZDM(DisasContext *ctx, arg_X *a)
++{
++    REQUIRE_64BIT(ctx);
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++#if defined(TARGET_PPC64)
++    do_cntlzdm(cpu_gpr[a->ra], cpu_gpr[a->rt], cpu_gpr[a->rb]);
++#else
++    qemu_build_not_reached();
++#endif
++    return true;
++}
 -- 
 2.25.1
 
