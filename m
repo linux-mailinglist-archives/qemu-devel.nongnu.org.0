@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1829C43F6EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 08:05:11 +0200 (CEST)
-Received: from localhost ([::1]:59238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F4A43F762
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 08:41:49 +0200 (CEST)
+Received: from localhost ([::1]:36260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgL0m-0004XF-J0
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 02:05:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42494)
+	id 1mgLaG-0003pH-GS
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 02:41:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mgKwh-00030f-VH
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 02:00:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47121)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mgKw1-0005Yf-BF
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 02:00:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635487211;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TCR3O9Vr26iHxG/DIzz7Q3259kvAwwm1hE4mC0xIVAI=;
- b=iERWCLdFOI3xEw/OM9zlBi0ZLl2FJdd46n3MBLxRUjmeVtqelZG/X2tinNyKUABGzFsB5v
- sCSozcDMA+NmeC8/MUWsV7agj0x0pw62y/ZZH5S/i88HBrbNaxJ1IiJdlW2uznXq2Hv66V
- TU7pkTzHvuf6jlL7nUuLGQDRQub55qs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-WpWcMhLoNGm3eA7-C47vmw-1; Fri, 29 Oct 2021 02:00:04 -0400
-X-MC-Unique: WpWcMhLoNGm3eA7-C47vmw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BEF01005E4D;
- Fri, 29 Oct 2021 06:00:03 +0000 (UTC)
-Received: from thuth.remote.csb (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E9861853C;
- Fri, 29 Oct 2021 06:00:01 +0000 (UTC)
-Subject: Re: [PATCH v4 02/23] hw/char/sh_serial: Use hw_error instead of
- fprintf and abort
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1635449225.git.balaton@eik.bme.hu>
- <1ecc1748443a161ecb988aab6b89c68e5ae631ff.1635449225.git.balaton@eik.bme.hu>
- <872302f8-76f1-4613-10af-9c61773e1f58@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <63f46aa0-3fb9-b77d-f784-530547ef8318@redhat.com>
-Date: Fri, 29 Oct 2021 08:00:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mgL13-0005dd-Is
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 02:05:25 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:35438)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mgL0x-0007ns-VV
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 02:05:23 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 207-20020a1c04d8000000b0033123de3425so1180915wme.0
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 23:05:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Rct1UurwpIM5ZWS7MMXBBRXlrLUoj2PHwtsAXxM+f1A=;
+ b=lgDx5bchb/TeuHt/8URa3nxBPCvaNk4RihtajP+hksvEvtzdvOESW+ZO9h1I1Yhx1p
+ lBKDSEr32gO3FQq+mKwg7fF1rDg/5wt858p8PhjbM9cpE5iTXtwED4aaFCMm4FpennAJ
+ WVIXapt+tpNPVsZT/t/+loxpezBb7TGo0OIpNastOtKir4ediV7f3H3TDtfE+iJr3lC/
+ B3Vik3bn4g/4Wz6uyvKCQZ5YTu8nVztuqnaT2zYccdAOX3TUJWwzPkm4uedpLKU+xZjP
+ xXWpg1joLWppxE9JxeCnj20PRr6REp0gTrElu7wpF3m5jL62W9/FwOm3n7oGR3C1X4XG
+ hvdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Rct1UurwpIM5ZWS7MMXBBRXlrLUoj2PHwtsAXxM+f1A=;
+ b=hqdYRlbLQ3U24VvFGDQUOH69+dphLFoKM8sDgVsiLMR5NemHMBiXd8/mh3psKOxNoj
+ gfLLLDBsN95JpFEMc2S8eBPMMtvXkHeVNe+t2Vs21vjS5mborMTHRaYC8CDFnN6w4EUV
+ rhlc9t5QHAknmaFumEg+e0dmfE59ttzghn+PbK02pkbVGnRBkHZrLafT0ko5j3wix0ma
+ 7m3rwdmRYf1WAxLT3EpHuvYkpaYKUPA9svLd5uCx9gulwohlI9sCNbLUyXhS6krOOwiW
+ vKTiATfQDgWzjfcdlF1FmWCZFjsNRu5MZ1haAmVKXxeQ5CnFsQjsnEVivZgXfAbrImcj
+ LtwA==
+X-Gm-Message-State: AOAM531ooEHoQRFQXo1kcGjzA+pQh3odfhvLLAEhJF3cAdhctOZoOCMB
+ 7A8fwaeyOKD25iKp8/uXbRI=
+X-Google-Smtp-Source: ABdhPJyCuIMfK+8No+FVMtqnQ92maFoH8uttd8ixp77JyNcaDG32aNXkNXxNYJEy89C5y/wDAaKmeA==
+X-Received: by 2002:a1c:1b41:: with SMTP id b62mr1540979wmb.93.1635487518342; 
+ Thu, 28 Oct 2021 23:05:18 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id t12sm4456853wmq.44.2021.10.28.23.05.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Oct 2021 23:05:17 -0700 (PDT)
+Message-ID: <3a630845-7f67-7b45-db14-c72dc67c5b26@amsat.org>
+Date: Fri, 29 Oct 2021 08:05:16 +0200
 MIME-Version: 1.0
-In-Reply-To: <872302f8-76f1-4613-10af-9c61773e1f58@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 06/23] hw/char/sh_serial: QOM-ify
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.847, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <cover.1635449225.git.balaton@eik.bme.hu>
+ <3208b60a33e3452b832089aecd5c1aed800eb6bc.1635449225.git.balaton@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <3208b60a33e3452b832089aecd5c1aed800eb6bc.1635449225.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.847,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,61 +98,181 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/10/2021 07.38, Philippe Mathieu-Daudé wrote:
-> On 10/28/21 21:27, BALATON Zoltan wrote:
->> It does the same with dumping some more state but avoids calling abort
->> directly and printing to stderr from the device model.
-> 
-> hw_error() is unfortunately misnamed, it is meant for CPU code,
-> and we want to get ride of it. What you probably want here is
-> error_report() which also reports to the monitor.
+On 10/28/21 21:27, BALATON Zoltan wrote:
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>  hw/char/sh_serial.c | 107 +++++++++++++++++++++++++++-----------------
+>  hw/sh4/sh7750.c     |  62 ++++++++++++++++++-------
+>  include/hw/sh4/sh.h |   9 +---
+>  3 files changed, 114 insertions(+), 64 deletions(-)
 
-Looking at the text of the messages, maybe it would be even better to use 
-qemu_log_mask(LOG_UNIMP, ...) or qemu_log_mask(LOG_GUEST_ERROR, ...) ?
+> +OBJECT_DECLARE_SIMPLE_TYPE(SHSerialState, SH_SERIAL)
+> +
+> +struct SHSerialState {
+> +    SysBusDevice parent;
+[...]
+> -} SHSerialState;
+> +};
+> +
+> +typedef struct {} SHSerialStateClass;
 
-  Thomas
+OBJECT_DECLARE_TYPE()?
 
+> -void sh_serial_init(MemoryRegion *sysmem,
+> -                    hwaddr base, int feat,
+> -                    uint32_t freq, Chardev *chr,
+> -                    qemu_irq eri_source,
+> -                    qemu_irq rxi_source,
+> -                    qemu_irq txi_source,
+> -                    qemu_irq tei_source,
+> -                    qemu_irq bri_source)
+> +static void sh_serial_reset(DeviceState *dev)
 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>   hw/char/sh_serial.c | 9 +++------
->>   1 file changed, 3 insertions(+), 6 deletions(-)
->>
->> diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
->> index 1b1e6a6a04..dbefb51d71 100644
->> --- a/hw/char/sh_serial.c
->> +++ b/hw/char/sh_serial.c
->> @@ -26,6 +26,7 @@
->>    */
->>   
->>   #include "qemu/osdep.h"
->> +#include "hw/hw.h"
->>   #include "hw/irq.h"
->>   #include "hw/sh4/sh.h"
->>   #include "chardev/char-fe.h"
->> @@ -200,9 +201,7 @@ static void sh_serial_write(void *opaque, hwaddr offs,
->>           }
->>       }
->>   
->> -    fprintf(stderr, "sh_serial: unsupported write to 0x%02"
->> -            HWADDR_PRIx "\n", offs);
->> -    abort();
->> +    hw_error("sh_serial: unsupported write to 0x%02"HWADDR_PRIx"\n", offs);
->>   }
->>   
->>   static uint64_t sh_serial_read(void *opaque, hwaddr offs,
->> @@ -307,9 +306,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
->>   #endif
->>   
->>       if (ret & ~((1 << 16) - 1)) {
->> -        fprintf(stderr, "sh_serial: unsupported read from 0x%02"
->> -                HWADDR_PRIx "\n", offs);
->> -        abort();
->> +        hw_error("sh_serial: unsupported read from 0x%02"HWADDR_PRIx"\n", offs);
->>       }
->>   
->>       return ret;
->>
-> 
+Can you extract sh_serial_reset() in a previous patch?
 
+>  {
+> -    SHSerialState *s = g_malloc0(sizeof(*s));
+> +    SHSerialState *s = SH_SERIAL(dev);
+>  
+> -    s->feat = feat;
+>      s->flags = SH_SERIAL_FLAG_TEND | SH_SERIAL_FLAG_TDE;
+>      s->rtrg = 1;
+>  
+> @@ -397,38 +396,64 @@ void sh_serial_init(MemoryRegion *sysmem,
+>      s->scr = 1 << 5; /* pretend that TX is enabled so early printk works */
+>      s->sptr = 0;
+>  
+> -    if (feat & SH_SERIAL_FEAT_SCIF) {
+> +    if (s->feat & SH_SERIAL_FEAT_SCIF) {
+>          s->fcr = 0;
+>      } else {
+>          s->dr = 0xff;
+>      }
+>  
+>      sh_serial_clear_fifo(s);
+> +}
+>  
+> -    memory_region_init_io(&s->iomem, NULL, &sh_serial_ops, s,
+> -                          "serial", 0x100000000ULL);
+
+Keep that, ...
+
+> -    memory_region_init_alias(&s->iomem_p4, NULL, "serial-p4", &s->iomem,
+> -                             0, 0x28);
+> -    memory_region_add_subregion(sysmem, P4ADDR(base), &s->iomem_p4);
+> -
+> -    memory_region_init_alias(&s->iomem_a7, NULL, "serial-a7", &s->iomem,
+> -                             0, 0x28);
+> -    memory_region_add_subregion(sysmem, A7ADDR(base), &s->iomem_a7);
+
+... and these lines become one single sysbus_init_mmio() ...
+
+> -
+> -    if (chr) {
+> -        qemu_chr_fe_init(&s->chr, chr, &error_abort);
+> +static void sh_serial_realize(DeviceState *d, Error **errp)
+> +{
+> +    SHSerialState *s = SH_SERIAL(d);
+> +    MemoryRegion *iomem = g_malloc(sizeof(*iomem));
+> +
+> +    assert(d->id);
+> +    memory_region_init_io(iomem, OBJECT(d), &sh_serial_ops, s, d->id, 0x28);
+> +    sysbus_init_mmio(SYS_BUS_DEVICE(d), iomem);
+> +    qdev_init_gpio_out_named(d, &s->eri, "eri", 1);
+> +    qdev_init_gpio_out_named(d, &s->rxi, "rxi", 1);
+> +    qdev_init_gpio_out_named(d, &s->txi, "txi", 1);
+> +    qdev_init_gpio_out_named(d, &s->tei, "tei", 1);
+> +    qdev_init_gpio_out_named(d, &s->bri, "bri", 1);
+> +
+> +    if (qemu_chr_fe_backend_connected(&s->chr)) {
+>          qemu_chr_fe_set_handlers(&s->chr, sh_serial_can_receive1,
+>                                   sh_serial_receive1,
+>                                   sh_serial_event, NULL, s, NULL, true);
+>      }
+>  
+> -    s->fifo_timeout_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+> -                                         sh_serial_timeout_int, s);
+> +    timer_init_ns(&s->fifo_timeout_timer, QEMU_CLOCK_VIRTUAL,
+> +                  sh_serial_timeout_int, s);
+>      s->etu = NANOSECONDS_PER_SECOND / 9600;
+> -    s->eri = eri_source;
+> -    s->rxi = rxi_source;
+> -    s->txi = txi_source;
+> -    s->tei = tei_source;
+> -    s->bri = bri_source;
+> +}
+
+> @@ -762,6 +766,9 @@ static const MemoryRegionOps sh7750_mmct_ops = {
+>  SH7750State *sh7750_init(SuperHCPU *cpu, MemoryRegion *sysmem)
+>  {
+>      SH7750State *s;
+> +    DeviceState *dev;
+> +    SysBusDevice *sb;
+> +    MemoryRegion *mr, *alias;
+>  
+>      s = g_malloc0(sizeof(SH7750State));
+>      s->cpu = cpu;
+> @@ -807,21 +814,46 @@ SH7750State *sh7750_init(SuperHCPU *cpu, MemoryRegion *sysmem)
+>  
+>      cpu->env.intc_handle = &s->intc;
+>  
+> -    sh_serial_init(sysmem, 0x1fe00000,
+> -                   0, s->periph_freq, serial_hd(0),
+> -                   s->intc.irqs[SCI1_ERI],
+> -                   s->intc.irqs[SCI1_RXI],
+> -                   s->intc.irqs[SCI1_TXI],
+> -                   s->intc.irqs[SCI1_TEI],
+> -                   NULL);
+> -    sh_serial_init(sysmem, 0x1fe80000,
+> -                   SH_SERIAL_FEAT_SCIF,
+> -                   s->periph_freq, serial_hd(1),
+> -                   s->intc.irqs[SCIF_ERI],
+> -                   s->intc.irqs[SCIF_RXI],
+> -                   s->intc.irqs[SCIF_TXI],
+> -                   NULL,
+> -                   s->intc.irqs[SCIF_BRI]);
+> +    /* SCI */
+> +    dev = qdev_new(TYPE_SH_SERIAL);
+> +    dev->id = (char *)"sci";
+> +    qdev_prop_set_chr(dev, "chardev", serial_hd(0));
+> +    sb = SYS_BUS_DEVICE(dev);
+> +    sysbus_realize_and_unref(sb, &error_fatal);
+> +    mr = sysbus_mmio_get_region(sb, 0);
+> +    alias = g_malloc(sizeof(*alias));
+> +    memory_region_init_alias(alias, OBJECT(dev), "sci-p4", mr,
+> +                             0, memory_region_size(mr));
+> +    memory_region_add_subregion(sysmem, P4ADDR(0x1fe00000), alias);
+> +    alias = g_malloc(sizeof(*alias));
+> +    memory_region_init_alias(alias, OBJECT(dev), "sci-a7", mr,
+> +                             0, memory_region_size(mr));
+> +    memory_region_add_subregion(sysmem, A7ADDR(0x1fe00000), alias);
+
+... then you can replace the aliases by 2 sysbus_mmio_map() calls.
+
+> +    qdev_connect_gpio_out_named(dev, "eri", 0, s->intc.irqs[SCI1_ERI]);
+> +    qdev_connect_gpio_out_named(dev, "rxi", 0, s->intc.irqs[SCI1_RXI]);
+> +    qdev_connect_gpio_out_named(dev, "txi", 0, s->intc.irqs[SCI1_TXI]);
+> +    qdev_connect_gpio_out_named(dev, "tei", 0, s->intc.irqs[SCI1_TEI]);
+> +
+> +    /* SCIF */
+> +    dev = qdev_new(TYPE_SH_SERIAL);
+> +    dev->id =  (char *)"scif";
+> +    qdev_prop_set_chr(dev, "chardev", serial_hd(1));
+> +    qdev_prop_set_uint8(dev, "features", SH_SERIAL_FEAT_SCIF);
+> +    sb = SYS_BUS_DEVICE(dev);
+> +    sysbus_realize_and_unref(sb, &error_fatal);
+> +    mr = sysbus_mmio_get_region(sb, 0);
+> +    alias = g_malloc(sizeof(*alias));
+> +    memory_region_init_alias(alias, OBJECT(dev), "scif-p4", mr,
+> +                             0, memory_region_size(mr));
+> +    memory_region_add_subregion(sysmem, P4ADDR(0x1fe80000), alias);
+> +    alias = g_malloc(sizeof(*alias));
+> +    memory_region_init_alias(alias, OBJECT(dev), "scif-a7", mr,
+> +                             0, memory_region_size(mr));
+> +    memory_region_add_subregion(sysmem, A7ADDR(0x1fe80000), alias);
+> +    qdev_connect_gpio_out_named(dev, "eri", 0, s->intc.irqs[SCIF_ERI]);
+> +    qdev_connect_gpio_out_named(dev, "rxi", 0, s->intc.irqs[SCIF_RXI]);
+> +    qdev_connect_gpio_out_named(dev, "txi", 0, s->intc.irqs[SCIF_TXI]);
+> +    qdev_connect_gpio_out_named(dev, "bri", 0, s->intc.irqs[SCIF_BRI]);
+>  
 
