@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E549143FFA8
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 17:35:00 +0200 (CEST)
-Received: from localhost ([::1]:42008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A7143FFB2
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 17:38:01 +0200 (CEST)
+Received: from localhost ([::1]:47134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgTuG-0006Va-2H
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 11:35:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59310)
+	id 1mgTxA-0001a8-5T
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 11:38:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mgTr0-000314-9o
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 11:31:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40897)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mgTuP-0007q0-Uz
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 11:35:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mgTqx-0008Dm-8p
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 11:31:38 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mgTuN-0003EZ-Ga
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 11:35:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635521494;
+ s=mimecast20190719; t=1635521705;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U9XMuabuabju8FkJx/IEmJRxv15uxl8YjsxBXMl+1nA=;
- b=Jv5nCX481YG9+/DJMk207JbEHb3q1KJn9E5x+FbJ34Z6Ex6dWjNZFN8EMNhYB3u93I5bmI
- gG+a+rJYQcJs+hNfMXiy/AbOUG/aAuABbnRW6R3+N4kqrJDUduMrVt8eSKuN6DSROMmE79
- ub1r5Ej29t8OCHxmSTlxx2HhkyY/cVk=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-PCETrrAkOd6Gjpk_OHsvaQ-1; Fri, 29 Oct 2021 11:31:30 -0400
-X-MC-Unique: PCETrrAkOd6Gjpk_OHsvaQ-1
-Received: by mail-oo1-f70.google.com with SMTP id
- k1-20020a4a8501000000b0029ac7b9dc82so4521267ooh.17
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 08:31:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=U9XMuabuabju8FkJx/IEmJRxv15uxl8YjsxBXMl+1nA=;
- b=i3o1XljqEAir9sfPEF6mGvFSi/lehtrnbKiQz+gEx7tDm6vwT3pdc/kDwq4fGszOei
- BTwtn0ea9V1w3GeqKEl1KAhqU3XPce+aLjjITF1L4UZtIVTcygiSfBjpEGfJWAN4Eo1D
- MG49LFuJNe5gxjB6f28yL+WGKKYktokfCR/v2XwPtYslaaGRuAB8Rlou0Fn8fvD9fthx
- An8Odoz2pk2U637DuqBOdanZ2o+KbNrJUZ5jgVz3kh7kGGoInjq0mhfOI5dxj/0H6JaQ
- 5dJTFcYPnBSKnA9M+eWODfpC8ib6vRnFLwHJGjd2HgXwGpQELi7fIo+//Ucw4Bp0m+h1
- PaNA==
-X-Gm-Message-State: AOAM530SzLiyUSMMLVilsZF+W2IB5ch6MdKKnjLMzOkzvVCuxK9eZSqh
- TLZkt0YRC7uuc4Yzke0E0H6oNDP7Z/jKof1+mHit3VFcCGS5Kgf/0nq/t71AKBXX31I9XVdLoeS
- fc9keubu6WFBJFR8=
-X-Received: by 2002:a9d:37e3:: with SMTP id x90mr2582325otb.11.1635521489843; 
- Fri, 29 Oct 2021 08:31:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzD9wgqJPOUkjRULYyCFWEUtqRUUcfgyzv2DA7ntrt/doqaqVvMW4JLoDn6EQbWffwyBsxt0Q==
-X-Received: by 2002:a9d:37e3:: with SMTP id x90mr2582285otb.11.1635521489518; 
- Fri, 29 Oct 2021 08:31:29 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239])
- by smtp.gmail.com with ESMTPSA id p5sm252639otf.38.2021.10.29.08.31.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 08:31:29 -0700 (PDT)
-Date: Fri, 29 Oct 2021 09:31:27 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v2 5/5] pc/q35: Add pre-plug hook for x86-iommu
-Message-ID: <20211029093127.55591ad4.alex.williamson@redhat.com>
-In-Reply-To: <YXtiE9iInfHcTLwm@xz-m1.local>
-References: <20211028043129.38871-1-peterx@redhat.com>
- <20211028043129.38871-6-peterx@redhat.com>
- <20211028085242.770a9dde.alex.williamson@redhat.com>
- <YXrDgeembpIiJ0BE@xz-m1.local>
- <20211028101135.72672e80.alex.williamson@redhat.com>
- <YXtiE9iInfHcTLwm@xz-m1.local>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ bh=0aJKoGheDbDj/ftjO1sGHuFWizEwU9epuneYjZhbesA=;
+ b=HQij8pIAyaC84kUpqe96X4XPCpLR/AV2SX/0VbAyBsV1VPHGzQS/W9YSzTWt3PZXoSFYz9
+ HMyeZaNWytKRCNNHoPeeYeuvIMxW0iKFcnuqCL6N4IKRlmEMT9m9DHk2Oo21jCPhcrcGSB
+ 9fP4pMckrP487sc3KjbhyXu+BlrgzOM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-936i7c2iPZyNFWUFj5gCow-1; Fri, 29 Oct 2021 11:35:03 -0400
+X-MC-Unique: 936i7c2iPZyNFWUFj5gCow-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9A88802B7E;
+ Fri, 29 Oct 2021 15:35:02 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B47D60C17;
+ Fri, 29 Oct 2021 15:34:41 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2F45611380A7; Fri, 29 Oct 2021 17:34:40 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v2 5/9] qapi: Generalize struct member policy checking
+References: <20211028102520.747396-1-armbru@redhat.com>
+ <20211028102520.747396-6-armbru@redhat.com>
+ <20211029152024.7x2tiizzswurimdf@redhat.com>
+Date: Fri, 29 Oct 2021 17:34:40 +0200
+In-Reply-To: <20211029152024.7x2tiizzswurimdf@redhat.com> (Eric Blake's
+ message of "Fri, 29 Oct 2021 10:20:24 -0500")
+Message-ID: <87fssjc0a7.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -101,106 +80,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, quintela@redhat.com,
+ libvir-list@redhat.com, philmd@redhat.com, kchamart@redhat.com,
+ qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com, dgilbert@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, jsnow@redhat.com,
+ libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 29 Oct 2021 10:53:07 +0800
-Peter Xu <peterx@redhat.com> wrote:
+Eric Blake <eblake@redhat.com> writes:
 
-> On Thu, Oct 28, 2021 at 10:11:35AM -0600, Alex Williamson wrote:
-> > Better.  Like the class layering proposal, a downside is that the
-> > driver needs to be aware that it's imposing this requirement to be able
-> > to mark it in the class init function rather than some automatic means,
-> > like an "as_object_consumed" flag set automatically on the device
-> > structure via accessors like pci_device_iommu_address_space().  Thanks,  
-> 
-> Do you mean something like this?
-> 
-> ---8<---
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 258290f4eb..969f4c85fd 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -2729,6 +2729,10 @@ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
->      PCIBus *iommu_bus = bus;
->      uint8_t devfn = dev->devfn;
-> 
-> +    if (!dev->address_space_consumed) {
-> +        dev->address_space_consumed = true;
-> +    }
+> On Thu, Oct 28, 2021 at 12:25:16PM +0200, Markus Armbruster wrote:
+>> The generated visitor functions call visit_deprecated_accept() and
+>> visit_deprecated() when visiting a struct member with special feature
+>> flag 'deprecated'.  This makes the feature flag visible to the actual
+>> visitors.  I want to make feature flag 'unstable' visible there as
+>> well, so I can add policy for it.
+>> 
+>> To let me make it visible, replace these functions by
+>> visit_policy_reject() and visit_policy_skip(), which take the member's
+>> special features as an argument.  Note that the new functions have the
+>> opposite sense, i.e. the return value flips.
+>> 
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>
+>> +++ b/qapi/qapi-forward-visitor.c
+>> @@ -246,25 +246,27 @@ static void forward_field_optional(Visitor *v, const char *name, bool *present)
+>>      visit_optional(ffv->target, name, present);
+>>  }
+>>  
+>> -static bool forward_field_deprecated_accept(Visitor *v, const char *name,
+>> -                                            Error **errp)
+>> +static bool forward_field_policy_reject(Visitor *v, const char *name,
+>> +                                        unsigned special_features,
+>> +                                        Error **errp)
+>>  {
+>>      ForwardFieldVisitor *ffv = to_ffv(v);
+>>  
+>>      if (!forward_field_translate_name(ffv, &name, errp)) {
+>>          return false;
+>
+> Should this return value be flipped?
+>
+>>      }
+>> -    return visit_deprecated_accept(ffv->target, name, errp);
+>> +    return visit_policy_reject(ffv->target, name, special_features, errp);
+>>  }
+>>  
+>> -static bool forward_field_deprecated(Visitor *v, const char *name)
+>> +static bool forward_field_policy_skip(Visitor *v, const char *name,
+>> +                                      unsigned special_features)
+>>  {
+>>      ForwardFieldVisitor *ffv = to_ffv(v);
+>>  
+>>      if (!forward_field_translate_name(ffv, &name, NULL)) {
+>>          return false;
+>
+> and here too?
 
-Could just set it unconditionally.
+Good catch!
 
-> +
->      while (iommu_bus && !iommu_bus->iommu_fn && iommu_bus->parent_dev) {
->          PCIBus *parent_bus = pci_get_bus(iommu_bus->parent_dev);
-> 
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 6813f128e0..704c9bdc6e 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -268,6 +268,13 @@ typedef struct PCIReqIDCache PCIReqIDCache;
->  struct PCIDevice {
->      DeviceState qdev;
->      bool partially_hotplugged;
-> +    /*
-> +     * This will be set after the 1st time the device implementation fetches
-> +     * its dma address space from pci_device_iommu_address_space().  It's used
-> +     * as a sanity check for platform devices like vIOMMU to detect incorrect
-> +     * ordering of device realization.
-> +     */
-> +    bool address_space_consumed;
-> 
->      /* PCI config space */
->      uint8_t *config;
-> ---8<---
-> 
-> Then sanity check in pre-plug of vIOMMU.
-> 
-> The flag will be a bit more "misterious" than the previous approach, imho, as
-> the name of it will be even further from the problem it's going to solve.
-> However it looks at least clean on the changeset and it looks working too.
+These functions are called indirectly like
 
-That seems like a function of how well we name and comment the
-variable, right?  We are making an assumption here that if the address
-space for a device is provided then that address space is no longer
-interchangeable, some decision has already been made based on the
-provided address space.  If we look at the callers of
-pci_device_iommu_address_space(), we have:
+    if (visit_policy_reject(v, "values", 1u << QAPI_DEPRECATED, errp)) {
+        return false;
+    }
+    if (!visit_policy_skip(v, "values", 1u << QAPI_DEPRECATED)) {
+        if (!visit_type_strList(v, "values", &obj->values, errp)) {
+            return false;
+        }
+    }
 
-pci_init_bus_master() - It holds true here that the purpose of
-accessing the address space is to make the memory of that address space
-accessible to the device, the address space cannot be transparently
-swapped for another.
+visit_policy_reject() must return true when it sets an error, or else we
+call visit_policy_skip() with @errp pointing to non-null.
 
-vfio_realize() - The case we're concerned about, potentially the
-earliest use case.
+Same argument for visit_policy_skip().
 
-virtio_pci_iommu_enabled() - AIUI, this is where virtio devices decide
-how DMA flows, the address space of the device cannot be changed after
-this.
-
-kvm_arch_fixup_msi_route() - ARM KVM decides MSI routing here, the
-address space is fixed after this.
-
-Actually, maybe there's a more simple approach, could we further assume
-that if the address space for *any* device relative to an IOMMU is
-evaluated, then we've passed the point where an IOMMU could be added?
-IOW, maybe we don't need a per device flag and a global flag would be
-enough.  A function like pci_iommu_as_evaluated() could report the
-state of that flag.  For convenience to the user though, tracking per
-device to be able to report which devices are mis-ordered could still
-be useful though.  Thanks,
-
-Alex
+>>      }
+>> -    return visit_deprecated(ffv->target, name);
+>> +    return visit_policy_skip(ffv->target, name, special_features);
+>>  }
+>>  
+>
+> Otherwise, the rest of the logic changes for flipped sense look right.
 
 
