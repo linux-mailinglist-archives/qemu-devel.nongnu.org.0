@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B384744017E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:52:27 +0200 (CEST)
-Received: from localhost ([::1]:51048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E47A44017F
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 19:53:04 +0200 (CEST)
+Received: from localhost ([::1]:53770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgW3D-0000ky-Mw
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:52:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34922)
+	id 1mgW3r-0002a1-IT
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 13:53:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgW01-0006YQ-Ig
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 13:49:05 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:36429)
+ id 1mgW1W-0008Bh-9L
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 13:50:38 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:34603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgVzz-0001Yw-Jm
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 13:49:04 -0400
-Received: by mail-pf1-x434.google.com with SMTP id m26so9922789pff.3
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 10:49:03 -0700 (PDT)
+ id 1mgW1U-0002UN-O4
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 13:50:38 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id 127so9940448pfu.1
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 10:50:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hm5QmnkrZIhETASbxBl/Gai4bQLddxcRZmD5lW9fOW8=;
- b=ufzdcMoSSlfMi1Wi99z5v7dy6T4eWZXtiDDNO51zfMAFKHcOZZqAd8J8qPcw1br1O2
- DkU+E3VMOlAPXH33YV8nOPg1utSXU4CaRBqgOV4S1ewT5ImdUN9ps9ZltqjPrlnjT4eN
- aNUOSAndspqr/Om+FLe9+ouIuz1B1VYWCQo7Ugc2/yS516TYm/gaVvMi7hTdM3Llo4q8
- e9HLHrwMtFF9UBFZonQRy4NaYQqvt+sFWbetm8Qn+TFue/xVScEXiWyj9z7yx8kxC8yc
- 7wRrtDxdHULvsFNd9J2r3PXL4p3CwKAUnm36wtnErc1qH7k7Mw9R3RodcmEj722BSOd5
- AQGA==
+ bh=QQLSRbvZuuF3NnYBXxZlEe0yFbD+MpxWPOd8yac5kb4=;
+ b=QgWFpTAQPf74Pqz/1uiUB3U0fwWFSivIw6hWg0m4loQ//DlYbnNDROgw433UR481Lk
+ L3u3VbCC7ne6/FD2j8lIcmBK+ULEz/o3CIXDjbmk4rSt+1I3IOCUkXYsS3tZzLWCi59T
+ Pm1RyRbnypqxoBLr2JrELr439qHOzgJRGiUx52uEpR3zHV4yNnDM2TZhJswz8HmBYhzB
+ s37WWqJ79XZ4MnZsxpGt3YJogtf756FBSgANLNcjSP7XIg2kbxke+Jbx7C8EY5kYt+tx
+ MSB0P/vLXgHntOui60ImqiEbmxezA+8RbRl7E0YCu+y6INzqVp5y8XZWsu6FcB5Ea85X
+ WuCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hm5QmnkrZIhETASbxBl/Gai4bQLddxcRZmD5lW9fOW8=;
- b=hIbOoehmUkMHzVyO6sz2+eVUh/fBJK444m+iQAi9/MM/hvl2h43gX+JgYHS1rcgFMo
- GP7tHDpNP+3gQPz0RtJ/yt26R83OhkSktYKaYJPlYGntsgvjk6loGU4msIgderXmOp3W
- QvuvyR5uTJiqk5iiczdQc1hHs6xpUKmL9X1yqN9Do2gl58+35ZF+ELoOFMhVXDACNIJ5
- lSwAczaOloaXARKUE+yk2Xmu3POlQwdPbDD4fsn1R/VFljJsqvh0ynv2K56+M7UqVHIO
- cCYYBCAcqYnPC0H3UtWzsHBVA6Dl3GQpLfECghNtiaR0TRmov7+5dNtbfFHotd+8h43Q
- FpAg==
-X-Gm-Message-State: AOAM533b2qkxxZVFXwbSsbbJ94XstMwMnN5eIUHN+a2VsP4C2MIP3qFN
- SaCgEQ5y6GGs/+Zobq770fFHfw==
-X-Google-Smtp-Source: ABdhPJxsf94gA0Y35sPz6XKmbRPTsBOdyDP/ZoyEMXc10aWhl1PvaEP4DhVDPmiw0WZNdqc01lHWxQ==
-X-Received: by 2002:a05:6a00:140e:b0:444:b077:51ef with SMTP id
- l14-20020a056a00140e00b00444b07751efmr12308282pfu.61.1635529742057; 
- Fri, 29 Oct 2021 10:49:02 -0700 (PDT)
+ bh=QQLSRbvZuuF3NnYBXxZlEe0yFbD+MpxWPOd8yac5kb4=;
+ b=a3tQnwgQqb3AA4TWl15nH5VkGQFV6lTmXV8hvNj/IzGPFLjqgSqy4vl/r0cIriNZTh
+ n9oSuNI+h1BTt8aklICxgtd09fkQa8nwb0c2u1iLre1akWwNEarMov87PoGEu40n53IX
+ a7xkMACveCizxGpb53QDHNVIDKi9U13QlR/jGKL3AEn2zObJOutyG5wtXvoMZZLBFTHM
+ k/er9dMRm2LDijBvAtZNByuK7gM71SlZ82XpCxPrVDj248MbYT0gMj2ewDVohce2E+kF
+ SRyInqw6OvextTDBXBUBc3Fqn/SlclAS5JvnaS5yKryJjMGxl1+1Iqihp1IAe8dVuHe1
+ rIJw==
+X-Gm-Message-State: AOAM531MBUTGG+poUNHmtsRBsmqyxKSr00fOqIZTASr0ghmGeQG0bPBj
+ slM+QkwVr6VV6t9VKW4BYeTbWQ==
+X-Google-Smtp-Source: ABdhPJylmpg6Uifb0Y+bhqZptQFpfNoiYhblKn6r/SBaYt3pbSCQDOgGXtgGXj/u9pn93TPZ16XG5Q==
+X-Received: by 2002:aa7:924d:0:b0:47b:d390:da8d with SMTP id
+ 13-20020aa7924d000000b0047bd390da8dmr12369988pfp.15.1635529835319; 
+ Fri, 29 Oct 2021 10:50:35 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id p17sm7358895pfn.191.2021.10.29.10.49.01
+ by smtp.gmail.com with ESMTPSA id g25sm7399901pfh.216.2021.10.29.10.50.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 10:49:01 -0700 (PDT)
-Subject: Re: [PATCH 08/31] target/loongarch: Add tlb instruction support
-To: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <1634628917-10031-1-git-send-email-yangxiaojuan@loongson.cn>
- <1634628917-10031-9-git-send-email-yangxiaojuan@loongson.cn>
- <e2b3f726-aa78-3be8-d85f-18f3bf98e7a3@linaro.org>
- <caaeaa89-2ea3-8093-e7c4-c96ad86adf36@loongson.cn>
+ Fri, 29 Oct 2021 10:50:34 -0700 (PDT)
+Subject: Re: [PATCH v3 20/32] target/mips: Convert MSA 3R instruction format
+ to decodetree (part 1/4)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20211028210843.2120802-1-f4bug@amsat.org>
+ <20211028210843.2120802-21-f4bug@amsat.org>
+ <7b392e80-b4a5-b01a-e9ec-0d2fa6a39e76@linaro.org>
+ <df826b1b-f563-2fb9-7e92-f823dea61936@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a00f0283-753d-4c5d-2d93-647f5c40b573@linaro.org>
-Date: Fri, 29 Oct 2021 10:48:59 -0700
+Message-ID: <5e9487be-f0cb-391c-11de-461e536fab65@linaro.org>
+Date: Fri, 29 Oct 2021 10:50:33 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <caaeaa89-2ea3-8093-e7c4-c96ad86adf36@loongson.cn>
+In-Reply-To: <df826b1b-f563-2fb9-7e92-f823dea61936@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -45
 X-Spam_score: -4.6
 X-Spam_bar: ----
@@ -90,38 +92,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
- philmd@redhat.com, mark.cave-ayland@ilande.co.uk, laurent@vivier.eu,
- peterx@redhat.com, f4bug@amsat.org, alistair.francis@wdc.com,
- maobibo@loongson.cn, gaosong@loongson.cn, pbonzini@redhat.com,
- bmeng.cn@gmail.com, alex.bennee@linaro.org, david@gibson.dropbear.id.au
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/29/21 12:01 AM, yangxiaojuan wrote:
->>> +    env->CSR_CPUID = (cs->cpu_index & 0x1ff);
+On 10/29/21 10:23 AM, Philippe Mathieu-Daudé wrote:
+> On 10/29/21 18:35, Richard Henderson wrote:
+>> On 10/28/21 2:08 PM, Philippe Mathieu-Daudé wrote:
+>>> +@3r                 ...... ...  df:2 wt:5ws:5  wd:5 ......  &msa_r
 >>
->> Any reason to have a copy of cpu_index, as opposed to just using that field?  CSR_CPUID is read-only after all.
->>
-> Yes, we need this value, the uefi code read this CPUID when Start slave cores.
+>> Nit: should this be called @3rf, since it includes df and...
+> 
+> "3R" is how the manual names this instruction class:
+> 
+>    Figure 3-40 3R Instruction Format
+> 
+> 3R has 2-bit DF field, 3RF has 1-bit DF field. The other
+> arguments are the same (for the helpers).
 
-That's not what I meant.  You could arrange for the csr read from CPUID to read from 
-cs->cpu_index instead of env->CSR_CPUID.  You don't need a *separate* copy of this value.
-
-I'm a bit concerned about the masking as well.  It would be better for hw/ to ensure that 
-there are no more than 511 cpus.  Otherwise you'll have multiple cpus with identical CPUID.
-
->> ... we have defined interfaces for getting random numbers.
->>
->>
-> Do you mean the qemu_guest_getrandom function? It gets random values that do not limit the range.
-> But I need a random in a fixed range, I cannot find the  Similar interface. Thanks.
-
-Yes, I mean qemu_guest_getrandom.
-
-     uint32_t val;
-     qemu_guest_getrandom_nofail(&val, sizeof(val));
-     return val % (high - low + 1) + low;
+Ok, I see.
 
 
 r~
