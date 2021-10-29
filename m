@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79E44404CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:18:49 +0200 (CEST)
-Received: from localhost ([::1]:44826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925634404E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 23:23:53 +0200 (CEST)
+Received: from localhost ([::1]:54760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgZGy-000395-SA
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:18:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46306)
+	id 1mgZLs-0001ni-L9
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 17:23:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mgYWD-0001Y3-J5; Fri, 29 Oct 2021 16:30:31 -0400
+ id 1mgYWL-0001aU-Bx; Fri, 29 Oct 2021 16:30:37 -0400
 Received: from [201.28.113.2] (port=54018 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mgYWB-0004EY-NX; Fri, 29 Oct 2021 16:30:29 -0400
+ id 1mgYWH-0004EY-PO; Fri, 29 Oct 2021 16:30:36 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Fri, 29 Oct 2021 17:26:36 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 83803800B36;
+ by power9a (Postfix) with ESMTP id EA98D800B36;
  Fri, 29 Oct 2021 17:26:35 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 30/34] target/ppc: implemented XXSPLTI32DX
-Date: Fri, 29 Oct 2021 17:24:21 -0300
-Message-Id: <20211029202424.175401-31-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 31/34] target/ppc: Implemented XXSPLTIW using decodetree
+Date: Fri, 29 Oct 2021 17:24:22 -0300
+Message-Id: <20211029202424.175401-32-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
 References: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 29 Oct 2021 20:26:36.0076 (UTC)
- FILETIME=[453A3EC0:01D7CD03]
+X-OriginalArrivalTime: 29 Oct 2021 20:26:36.0473 (UTC)
+ FILETIME=[4576D290:01D7CD03]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -65,73 +65,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 
-Implemented XXSPLTI32DX emulation using decodetree
+Implemented the XXSPLTIW instruction, using decodetree.
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
-v2:
-- 8RR_D si field is now unsigned
-- Implemented with two tcg_gen_st_i32
----
- target/ppc/insn64.decode            | 11 +++++++++++
- target/ppc/translate/vsx-impl.c.inc | 17 +++++++++++++++++
- 2 files changed, 28 insertions(+)
+ target/ppc/insn64.decode            |  6 ++++++
+ target/ppc/translate/vsx-impl.c.inc | 10 ++++++++++
+ 2 files changed, 16 insertions(+)
 
 diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index 880ac3edc7..134bc60c57 100644
+index 134bc60c57..bd71f616cc 100644
 --- a/target/ppc/insn64.decode
 +++ b/target/ppc/insn64.decode
-@@ -32,6 +32,14 @@
-                 ...... ..... ra:5 ................       \
-                 &PLS_D si=%pls_si rt=%rt_tsxp
+@@ -39,6 +39,10 @@
+ @8RR_D_IX       ...... .. .... .. .. ................ \
+                 ...... ..... ... ix:1 . ................ \
+                 &8RR_D_IX si=%8rr_si xt=%8rr_xt
++&8RR_D          xt si:int32_t
++@8RR_D          ...... .. .... .. .. ................ \
++                ...... ..... ....  . ................ \
++                &8RR_D si=%8rr_si xt=%8rr_xt
  
-+# Format 8RR:D
-+%8rr_si         32:s16 0:16
-+%8rr_xt         16:1 21:5
-+&8RR_D_IX       xt ix si
-+@8RR_D_IX       ...... .. .... .. .. ................ \
-+                ...... ..... ... ix:1 . ................ \
-+                &8RR_D_IX si=%8rr_si xt=%8rr_xt
-+
  ### Fixed-Point Load Instructions
  
- PLBZ            000001 10 0--.-- .................. \
-@@ -156,3 +164,6 @@ PLXVP           000001 00 0--.-- .................. \
-                 111010 ..... ..... ................     @8LS_D_TSXP
+@@ -165,5 +169,7 @@ PLXVP           000001 00 0--.-- .................. \
  PSTXVP          000001 00 0--.-- .................. \
                  111110 ..... ..... ................     @8LS_D_TSXP
-+
-+XXSPLTI32DX     000001 01 0000 -- -- ................ \
-+                100000 ..... 000 .. ................    @8RR_D_IX
+ 
++XXSPLTIW        000001 01 0000 -- -- ................ \
++                100000 ..... 0011 . ................    @8RR_D
+ XXSPLTI32DX     000001 01 0000 -- -- ................ \
+                 100000 ..... 000 .. ................    @8RR_D_IX
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index b64b965255..552f05bbda 100644
+index 552f05bbda..9b8612ee73 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1466,6 +1466,23 @@ static bool trans_XXSPLTIB(DisasContext *ctx, arg_X_imm8 *a)
+@@ -1466,6 +1466,16 @@ static bool trans_XXSPLTIB(DisasContext *ctx, arg_X_imm8 *a)
      return true;
  }
  
-+static bool trans_XXSPLTI32DX(DisasContext *ctx, arg_8RR_D_IX *a)
++static bool trans_XXSPLTIW(DisasContext *ctx, arg_8RR_D *a)
 +{
-+    TCGv_i32 imm;
-+
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VSX(ctx);
 +
-+    imm = tcg_constant_i32(a->si);
-+
-+    tcg_gen_st_i32(imm, cpu_env,
-+        offsetof(CPUPPCState, vsr[a->xt].VsrW(0 + a->ix)));
-+    tcg_gen_st_i32(imm, cpu_env,
-+        offsetof(CPUPPCState, vsr[a->xt].VsrW(2 + a->ix)));
++    tcg_gen_gvec_dup_imm(MO_32, vsr_full_offset(a->xt), 16, 16, a->si);
 +
 +    return true;
 +}
 +
- static void gen_xxsldwi(DisasContext *ctx)
+ static bool trans_XXSPLTI32DX(DisasContext *ctx, arg_8RR_D_IX *a)
  {
-     TCGv_i64 xth, xtl;
+     TCGv_i32 imm;
 -- 
 2.25.1
 
