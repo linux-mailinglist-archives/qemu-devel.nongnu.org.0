@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAFB14402F0
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 21:10:45 +0200 (CEST)
-Received: from localhost ([::1]:46920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFC84402C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 21:03:10 +0200 (CEST)
+Received: from localhost ([::1]:54208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgXH2-00032f-Pz
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 15:10:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46702)
+	id 1mgX9h-0005g9-Uo
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 15:03:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mgWrF-00050R-FK
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:44:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59459)
+ id 1mgWrI-00059U-JZ
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:44:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mgWrD-0002Zz-JG
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:44:05 -0400
+ id 1mgWrG-0002ja-3R
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 14:44:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635533042;
+ s=mimecast20190719; t=1635533045;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PMpRhEmuVv3AwePRNnnG/C1BKzevnWMVK+w+0BrrWgs=;
- b=GxgAGAQWD3/+cwNChJ2zUslEi82Jriaktlm0+7OAXkguW3bdX3EQwue/GGYX8UC6Mm+eAh
- 3Sb8WrMsttr2hCdPkCcx6eO57Q4P2ujNzsonm2av0TR48xQWRl8jp4OFlUb99PoZgOFnkp
- 1Hf/CwKCt66KIL4WFTVixU00mhFexPo=
+ bh=q0/mZGXDhUBt6N133Qs8OckdZIyLUvn28K5bTFro/dE=;
+ b=hZjMUt6oVV2ptRbCVM4VOJ8lWeneU0/fyogxPAH0nZa1lsvTkQlHKg2XTz1zOvxqauq+ra
+ 2ivaGp8ZrKgLnTzXq3bitY0+v5qGS3Szpobb2EhEtBxUFqzMQYRsRu/c0834IBa44QLIAy
+ 43VTaRmwf19dt3dj5NAIz8s5G0/tKFw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-yH9DDElbOMGEF0O3Oe-QJw-1; Fri, 29 Oct 2021 14:43:59 -0400
-X-MC-Unique: yH9DDElbOMGEF0O3Oe-QJw-1
+ us-mta-98-9ElmpipUM1eh7kbVVFu7QQ-1; Fri, 29 Oct 2021 14:44:04 -0400
+X-MC-Unique: 9ElmpipUM1eh7kbVVFu7QQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C520802B7A;
- Fri, 29 Oct 2021 18:43:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB3B45074C;
+ Fri, 29 Oct 2021 18:44:02 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C2A95D6CF;
- Fri, 29 Oct 2021 18:42:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A67E95D6CF;
+ Fri, 29 Oct 2021 18:43:58 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v5 19/26] vdpa: ack VIRTIO_F_QUEUE_STATE if device
- supports it
-Date: Fri, 29 Oct 2021 20:35:18 +0200
-Message-Id: <20211029183525.1776416-20-eperezma@redhat.com>
+Subject: [RFC PATCH v5 20/26] vhost: Add vhost_svq_valid_device_features to
+ shadow vq
+Date: Fri, 29 Oct 2021 20:35:19 +0200
+Message-Id: <20211029183525.1776416-21-eperezma@redhat.com>
 In-Reply-To: <20211029183525.1776416-1-eperezma@redhat.com>
 References: <20211029183525.1776416-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -58,15 +58,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,27 +93,51 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is needed to enable or disable SVQ.
+This allows it to test if the guest has aknowledge an invalid transport
+feature for SVQ. This will include packed vq layout, invalid descriptors
+or event idx at the moment we start forwarding buffers.
+
+We don't check for device features here since they will be re-negotiated
+again. This allows SVQ to both use more advanced features of the device
+when they are available and the guest is not capable of run them, and to
+make SVQ compatible with future transport features.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/virtio/vhost-shadow-virtqueue.h | 2 ++
+ hw/virtio/vhost-shadow-virtqueue.c | 6 ++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index c2580693b3..fc8396ba8a 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -521,6 +521,9 @@ static int vhost_vdpa_set_features(struct vhost_dev *dev,
-     if (vhost_vdpa_one_time_request(dev)) {
-         return 0;
-     }
-+    if (dev->features & BIT_ULL(VIRTIO_F_QUEUE_STATE)) {
-+        features |= BIT_ULL(VIRTIO_F_QUEUE_STATE);
-+    }
+diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
+index ed647d9648..946b2c6295 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.h
++++ b/hw/virtio/vhost-shadow-virtqueue.h
+@@ -15,6 +15,8 @@
  
-     trace_vhost_vdpa_set_features(dev, features);
-     ret = vhost_vdpa_call(dev, VHOST_SET_FEATURES, &features);
+ typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
+ 
++bool vhost_svq_valid_device_features(uint64_t *features);
++
+ void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd);
+ void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, int call_fd);
+ const EventNotifier *vhost_svq_get_dev_kick_notifier(
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index 4a37ed62a8..6e0508a231 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -56,6 +56,12 @@ const EventNotifier *vhost_svq_get_dev_kick_notifier(
+     return &svq->hdev_kick;
+ }
+ 
++/* If the device is using some of these, SVQ cannot communicate */
++bool vhost_svq_valid_device_features(uint64_t *dev_features)
++{
++    return true;
++}
++
+ /* Forward guest notifications */
+ static void vhost_handle_guest_kick(EventNotifier *n)
+ {
 -- 
 2.27.0
 
