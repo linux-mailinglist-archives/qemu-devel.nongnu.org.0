@@ -2,69 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509FA43FE0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 16:10:58 +0200 (CEST)
-Received: from localhost ([::1]:55552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 375FE43FE50
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 16:19:15 +0200 (CEST)
+Received: from localhost ([::1]:36204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgSar-00032m-QX
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 10:10:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39912)
+	id 1mgSiv-0000tS-QR
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 10:19:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mgSZL-0002G7-EN
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 10:09:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41835)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mgSg8-0007uX-V6
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 10:16:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mgSZH-00067q-Eo
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 10:09:18 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mgSg5-0001P5-Uk
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 10:16:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635516553;
+ s=mimecast20190719; t=1635516976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zytPB636mGbAtKtmnL2Knm8zrF4/JdIpj33EPsn0mWk=;
- b=G9FGmVtEXm/N9iNW/nNriuLxWxCJ8Zs/6khyYllf0AtE0PlGoBKfHe0ATknI5m/CmfFOUT
- 0+lvwFMUnV4hE2EZqdmmuraB8LfllvejQlRUk3HEwlKYg92PVIFmFimpFz/sUbIQ7jTTFy
- SY8pNxLndcx2Dxbk18DT8/V9iD+mgtY=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DYfTRWXkURGy/5j4zB03lSM+M2H3qfnYclQpIff4Atk=;
+ b=B8F2vMYz4NUEPCc2oiwWZ8bHulwrtxk63HAML/N7YNapR3OloIQwV+3pbTxmPaOZDNhKJB
+ BhUvMJDlDKPTrP04dv6cRjhGtCIrqKHDTizRnCLOSp8SiK/EugdZnE8HCzZAGExzuoFwuU
+ rQdbANsBzY8djDuH2ngBCkZfYEeR6L8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-_awAhHcePNqKdyZUt89xVQ-1; Fri, 29 Oct 2021 10:09:09 -0400
-X-MC-Unique: _awAhHcePNqKdyZUt89xVQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-383-yBU3EQbAPpuc3kIhXIyumA-1; Fri, 29 Oct 2021 10:16:14 -0400
+X-MC-Unique: yBU3EQbAPpuc3kIhXIyumA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03C7D1006AA7;
- Fri, 29 Oct 2021 14:09:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 841CF60854;
- Fri, 29 Oct 2021 14:08:12 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1905711380A7; Fri, 29 Oct 2021 16:08:11 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 8/9] qapi: Factor out compat_policy_input_ok()
-References: <20211025052532.3859634-1-armbru@redhat.com>
- <20211025052532.3859634-9-armbru@redhat.com>
- <308cdd2b-fb99-74ed-8a93-52897d21d25e@redhat.com>
- <87czns3yqo.fsf@dusky.pond.sub.org>
- <fe045a5c-94ab-97f2-eeb2-3e624b1bd400@redhat.com>
-Date: Fri, 29 Oct 2021 16:08:11 +0200
-In-Reply-To: <fe045a5c-94ab-97f2-eeb2-3e624b1bd400@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 26 Oct 2021 12:39:23
- +0200")
-Message-ID: <87ee83exf8.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C113910144EA
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 14:16:13 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C32AD60BD8;
+ Fri, 29 Oct 2021 14:16:12 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] vhost: Fix last queue index of devices with no cvq
+Date: Fri, 29 Oct 2021 16:16:08 +0200
+Message-Id: <20211029141608.1728855-1-eperezma@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,76 +75,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, quintela@redhat.com,
- libvir-list@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com, libguestfs@redhat.com, marcandre.lureau@redhat.com,
- pbonzini@redhat.com, eblake@redhat.com, dgilbert@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+The -1 assumes that all devices with no cvq have an spare vq allocated
+for them, but with no offer of VIRTIO_NET_F_CTRL_VQ. This may not be the
+case, and the device may have a pair number of queues.
 
-> On 10/26/21 11:46, Markus Armbruster wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->>=20
->>> On 10/25/21 07:25, Markus Armbruster wrote:
->>>> The code to check policy for handling deprecated input is triplicated.
->>>> Factor it out into compat_policy_input_ok() before I mess with it in
->>>> the next commit.
->>>>
->>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>>> ---
->>>>  include/qapi/compat-policy.h |  7 +++++
->>>>  qapi/qapi-visit-core.c       | 18 +++++--------
->>>>  qapi/qmp-dispatch.c          | 51 +++++++++++++++++++++++++++--------=
--
->>>>  qapi/qobject-input-visitor.c | 19 +++-----------
->>>>  4 files changed, 55 insertions(+), 40 deletions(-)
->>>
->>>> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
->>>> index 8cca18c891..e29ade134c 100644
->>>> --- a/qapi/qmp-dispatch.c
->>>> +++ b/qapi/qmp-dispatch.c
->>>> @@ -28,6 +28,40 @@
->>>> =20
->>>>  CompatPolicy compat_policy;
->>>> =20
->>>> +static bool compat_policy_input_ok1(const char *adjective,
->>>> +                                    CompatPolicyInput policy,
->>>> +                                    ErrorClass error_class,
->>>> +                                    const char *kind, const char *nam=
-e,
->>>> +                                    Error **errp)
->>>> +{
->>>> +    switch (policy) {
->>>> +    case COMPAT_POLICY_INPUT_ACCEPT:
->>>> +        return true;
->>>> +    case COMPAT_POLICY_INPUT_REJECT:
->>>> +        error_set(errp, error_class, "%s %s %s disabled by policy",
->>>> +                  adjective, kind, name);
->>>> +        return false;
->>>> +    case COMPAT_POLICY_INPUT_CRASH:
->>>> +    default:
->>>> +        abort();
->>>
->>> g_assert_not_reached() provides a nicer user experience.
->>=20
->> I find it hard to care for making the experience of a crash that should
->> never ever happen nicer :)
->
-> Well COMPAT_POLICY_INPUT_CRASH can happen... What about:
+To fix this, just resort to the lower even number of queues.
 
-Point.
+Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for the virtio device")
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/net/vhost_net.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->    case COMPAT_POLICY_INPUT_CRASH:
->        error_printf("%s %s %s disabled by policy",
->                     adjective, kind, name);
->        abort();
->    default:
->        g_assert_not_reached();
-
-Separate patch.  I'd prefer to delay it a bit, to avoid rocking the boat
-so close to the soft freeze.
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 0d888f29a6..edf56a597f 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -330,7 +330,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+     NetClientState *peer;
+ 
+     if (!cvq) {
+-        last_index -= 1;
++        last_index &= ~1ULL;
+     }
+ 
+     if (!k->set_guest_notifiers) {
+-- 
+2.27.0
 
 
