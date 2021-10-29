@@ -2,90 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD48743FAD3
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 12:35:53 +0200 (CEST)
-Received: from localhost ([::1]:35152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E8E43FB02
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 12:44:21 +0200 (CEST)
+Received: from localhost ([::1]:50558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgPEm-0002T2-EU
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 06:35:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51270)
+	id 1mgPMy-0004re-Qx
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 06:44:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mgPBf-0007zB-2K
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 06:32:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29565)
+ id 1mgPL0-0003MT-7W
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 06:42:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mgPBb-0004Nh-Eb
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 06:32:38 -0400
+ id 1mgPKy-0006Ku-B1
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 06:42:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635503554;
+ s=mimecast20190719; t=1635504134;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=2cH9Xm62+dYOV7Qd24Qpdnj6K7GCfMhXHZ6/HWSf1lY=;
- b=Rd60CzU4GsECbD5ogFy1MIuGylnN4oIfu7e70R99+e59qciLWy74tyHd4jVB9KeYpt4dWT
- mpTpeZorjXbK1lJRdgj/BAqCf8yEaWA3uMU1SOjvqSBgWp+pG9WVLjIrvThAIRqd+Un2qh
- dCHHmufDNsSMwdPzxf85fpit5SW3YOg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-ZmtU0uk7MziGhvC31dWyzg-1; Fri, 29 Oct 2021 06:32:32 -0400
-X-MC-Unique: ZmtU0uk7MziGhvC31dWyzg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r6-20020a1c4406000000b0033119c22fdbso599581wma.4
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 03:32:32 -0700 (PDT)
+ bh=fE9ihLbcinmY5vSnKB/JJnVoNS/EoK16XjAzZ3Zu50M=;
+ b=JLw/V6y0/5rYRj0vrSyujgM+6GYiubcqRk+0FSTGTh4PKn6UGL8u3r2Uwo2AyIhr8KA5K7
+ vZqNUI9eb4eC6J5E+VouAmorvc+Fx99FE64Fdrg7q/tPtePJMVrWMdoIocctVZwgI2R4CQ
+ gBn6/5f7BGc+iSgZlA8EKYrJEvNVSQk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-am_588leOaePzn9cGWCT_Q-1; Fri, 29 Oct 2021 06:42:12 -0400
+X-MC-Unique: am_588leOaePzn9cGWCT_Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v5-20020a1cac05000000b0032ccf04ba2cso2283519wme.2
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 03:42:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
- bh=2cH9Xm62+dYOV7Qd24Qpdnj6K7GCfMhXHZ6/HWSf1lY=;
- b=YPprx0LI/vK+k8ngGX5KK+/2+OXfVLi/qSa9qxn/TGnq85Gl7cg5BTzUtWu56RVqd3
- uY+Q/h1A5b0oh/l3ov/zXE/X2ntrHhGKY2ac+/lXTurBizajn2ehozy8AtcoljffheXI
- tAB39t+y/cnyTo2TmtLYzmU8YJjDO2+2hY+yT6hyjIgtyWnoecTyqWiWWdS4h0E7hH34
- 2w3ULaSbN9HEg82L7Guay8r0G6RijXp+T+bCDV8g+TAsVEy2smjTj5kq1X2L7bPtIvVl
- V/FhiXNKyK8HgJZXaXBhEYDIODQggTKCp1otXGfTzIBSes93eCJnD4ON9tD3jDrs8Sl/
- jKKQ==
-X-Gm-Message-State: AOAM530fypgACaMJCMOfQucKVs+EW7AdXAX7qE1TOGelAuR1qxiyEPvC
- PfelTjyAlzGMxYBzk4qqRWL7BcDFklhClKWibjl8+YxxfZ9a2OhlgcdqRNzftpqGg3Jw8l5/jzv
- BhoVwEFxlnH2S+3A=
-X-Received: by 2002:a05:6000:186c:: with SMTP id
- d12mr13488341wri.237.1635503551806; 
- Fri, 29 Oct 2021 03:32:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwGF8lCnTRhgUguTIU+kfy0ndyWBs4RQIoKa3LMMB8nFEJNJRPNBK2iigai9MkKxgkO+Cui4g==
-X-Received: by 2002:a05:6000:186c:: with SMTP id
- d12mr13488317wri.237.1635503551643; 
- Fri, 29 Oct 2021 03:32:31 -0700 (PDT)
+ bh=fE9ihLbcinmY5vSnKB/JJnVoNS/EoK16XjAzZ3Zu50M=;
+ b=ge4Qu+HRUA5t6qQGSIaKk4pQYCUhpKTf2kA/Ucmd7ZaO3b9zQCtl/V0DUd3awG0CCn
+ zk2M1UXy9ZRvIM5BNLapTa4+Fd5zOb6GAGdWGhVkkuAoMeVWn5Cy34xiJ/5UNiYDKfp8
+ bctUOo3U//HFZdaDrd1495rU6FNecryApbxw0S+8SUCrqMQIKOtkNg00hz7PfEQFoqZr
+ Ifx4nIl3xzKhXQ2Tf39rm9GWoo/3xaO2VP3oxIQwTx0Qg/80w5zqWT26EfEBZzAaAPx+
+ N5HWrX69e7JufHjYz1cUa9lqL6Pi0pwjqyJSAF+FvtZirU6xy1CbpbjbMAxASW6490Mx
+ FR0Q==
+X-Gm-Message-State: AOAM531SSC5seY8ZwiWKnI82VyRPS+w0ZuT6thRwcuO97vdDTrzBSdWe
+ ZMBnN9pL6+dyMxHZzHk8HsvGoiO5jGDH+hWqPjJVsxvqRI5TxMCZm9q9v7Yi44EYDNi/TRYYEVg
+ OyPSCejFQ3pAymtk=
+X-Received: by 2002:a5d:47a3:: with SMTP id 3mr13186375wrb.336.1635504131557; 
+ Fri, 29 Oct 2021 03:42:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz9aVrqa9DzYvaotlkSph7XCw9b5CAXh1Ad6zo7qRjbCxC96LfKJs/KAEvuXzGZsTT1w/HTig==
+X-Received: by 2002:a5d:47a3:: with SMTP id 3mr13186342wrb.336.1635504131391; 
+ Fri, 29 Oct 2021 03:42:11 -0700 (PDT)
 Received: from localhost ([178.139.224.158])
- by smtp.gmail.com with ESMTPSA id f133sm2790718wmf.31.2021.10.29.03.32.30
+ by smtp.gmail.com with ESMTPSA id q14sm5479759wrv.55.2021.10.29.03.42.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 03:32:31 -0700 (PDT)
+ Fri, 29 Oct 2021 03:42:11 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 4/9] qapi: Tools for sets of special feature flags in
- generated code
-In-Reply-To: <20211028102520.747396-5-armbru@redhat.com> (Markus Armbruster's
- message of "Thu, 28 Oct 2021 12:25:15 +0200")
+Subject: Re: [PATCH v2 5/9] qapi: Generalize struct member policy checking
+In-Reply-To: <20211028102520.747396-6-armbru@redhat.com> (Markus Armbruster's
+ message of "Thu, 28 Oct 2021 12:25:16 +0200")
 References: <20211028102520.747396-1-armbru@redhat.com>
- <20211028102520.747396-5-armbru@redhat.com>
+ <20211028102520.747396-6-armbru@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Fri, 29 Oct 2021 12:32:30 +0200
-Message-ID: <87y26ct935.fsf@secure.mitica>
+Date: Fri, 29 Oct 2021 12:42:09 +0200
+Message-ID: <87tuh0t8n2.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,16 +106,30 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Markus Armbruster <armbru@redhat.com> wrote:
-> New enum QapiSpecialFeature enumerates the special feature flags.
+> The generated visitor functions call visit_deprecated_accept() and
+> visit_deprecated() when visiting a struct member with special feature
+> flag 'deprecated'.  This makes the feature flag visible to the actual
+> visitors.  I want to make feature flag 'unstable' visible there as
+> well, so I can add policy for it.
 >
-> New helper gen_special_features() returns code to represent a
-> collection of special feature flags as a bitset.
->
-> The next few commits will put them to use.
+> To let me make it visible, replace these functions by
+> visit_policy_reject() and visit_policy_skip(), which take the member's
+> special features as an argument.  Note that the new functions have the
+> opposite sense, i.e. the return value flips.
 >
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: John Snow <jsnow@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+Reversing accept/reject make things "interesting" for a review point of view.
+
+
+> + * @special_features is the member's special features encoded as a
+> + * bitset of QapiSpecialFeature.
+
+Just to nitty pick, if you rename the variable to features, does the
+sentece is clearer?
+
+Later, Juan.
 
 
