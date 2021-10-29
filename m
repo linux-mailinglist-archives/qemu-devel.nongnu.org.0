@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C14843FF5F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 17:22:10 +0200 (CEST)
-Received: from localhost ([::1]:49744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB92643FF73
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 17:28:03 +0200 (CEST)
+Received: from localhost ([::1]:54870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgThp-0000WJ-IL
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 11:22:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57332)
+	id 1mgTnX-0004Sc-0s
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 11:28:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgTgO-000888-5y
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 11:20:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49057)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mgTgH-0004We-JG
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 11:20:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635520831;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FiNF/bP2lleNiMrwOiv3WBy3mxZIPMTfFLIHcGb7YnY=;
- b=KPKDonCsIbSdNsy2vsLmnAl/EHnP/+oC0E1yp9eHcN1MZ4+TQCmseMUClLdjA6SJF7iPz7
- PJTdnrI6LsywGaGghjMHJs7aLT07PVve3JVThYLXQkhWNcCqES7P67lS5VFmrlG2WfRJEK
- ZeXcGE9QJlzOsHODeCCgMowdO3XPThk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-rtoCU9psP5iGrL5XZd96fA-1; Fri, 29 Oct 2021 11:20:28 -0400
-X-MC-Unique: rtoCU9psP5iGrL5XZd96fA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FD6D100D686;
- Fri, 29 Oct 2021 15:20:27 +0000 (UTC)
-Received: from redhat.com (ovpn-112-232.phx2.redhat.com [10.3.112.232])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 51027604CC;
- Fri, 29 Oct 2021 15:20:26 +0000 (UTC)
-Date: Fri, 29 Oct 2021 10:20:24 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 5/9] qapi: Generalize struct member policy checking
-Message-ID: <20211029152024.7x2tiizzswurimdf@redhat.com>
-References: <20211028102520.747396-1-armbru@redhat.com>
- <20211028102520.747396-6-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mgTlM-0001kk-5v; Fri, 29 Oct 2021 11:25:48 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:41519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mgTlK-00075u-El; Fri, 29 Oct 2021 11:25:47 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id 83so10204452pgc.8;
+ Fri, 29 Oct 2021 08:25:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=au/pD7ep18dUvJZTW0XkqqNT5dJ0nlZW3f73WpmgjsE=;
+ b=gfjbgrJBdfElzjDplNzynfUyLyucxKUpF+aOfUibYJWtcVmIVGjuaSQ+5fEqRXIgcw
+ H2wSgvbVy0jFCDqWl6+XZ+HzBm/rII08aMFVCwRmJsy0KuUBjM30uyGE+dTlbgSfUzth
+ r9iaflY4HW3SX7sZRb4+7TWjfg3SogMmIu+gF/OMuNJaDr6n50+A3Isbs4DEbCvnGXeG
+ kzq/6So6/pmHFg6y08E9OphgxjW/f0xoyqs9FljsoY24o4MNZXwzk9g0Ckz2FzWuOVCL
+ QCns/JX/PrWR1IwmZHc+LyW0uXvGFULHcMGmqH29NlNQa/TeaGJ8dedftgZ4qXGX92wg
+ oZ1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=au/pD7ep18dUvJZTW0XkqqNT5dJ0nlZW3f73WpmgjsE=;
+ b=KOVWO71yTzK6ZlwQHzq8ZMA61hKYPztEhz2CmiQUgUYPLe0GHOLOt+3GxvvDP/k6Fq
+ Ijyg2T+Kpo3K0N57KVeHyHiBw2/qeCmiOKvhSojOGzOiuqzonb2scnvYD8zRxdtC42YJ
+ 2Ezj3iUBOwK4XOSzSi0h8M1jzn5y56cwKsJf0M3eC3NeDvRIuwh1n8s4ykX4QAUHVpQZ
+ r8lEsYEHkGLBgSv4FTUp6MIr1QGYu89UvhqY+vkXXRhlOtDHgdD6qffTKGNG16Mbl0kZ
+ qXq5yP1fZvXiyra6TxcwYqXRMLf6truLbXRvG+WXb6L77Cr38P4P55hkESardDvwhG/7
+ R2QA==
+X-Gm-Message-State: AOAM532vcTPwlUdgwmU6yRcTPOtMbAT58ZN4GB63NY5jPPaRjiLvMnUg
+ SjU+0rVp8eLIcOFOltBiFzr7zbeWf68=
+X-Google-Smtp-Source: ABdhPJzEUwtcTvvS+JnJId4U9+VKzphXwhUc0BUBsJ1XnoB3wHUTJQlcfVSG1ywuDRib3r84Jgt+jQ==
+X-Received: by 2002:a62:ab14:0:b0:47b:e126:ea50 with SMTP id
+ p20-20020a62ab14000000b0047be126ea50mr11532528pff.58.1635521143692; 
+ Fri, 29 Oct 2021 08:25:43 -0700 (PDT)
+Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
+ [147.11.176.192])
+ by smtp.gmail.com with ESMTPSA id q12sm6645790pfk.65.2021.10.29.08.25.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Oct 2021 08:25:43 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+X-Google-Original-From: Bin Meng <bin.meng@windriver.com>
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 0/5] target/riscv: Initial support for native debug feature
+ via M-mode CSRs
+Date: Fri, 29 Oct 2021 23:25:30 +0800
+Message-Id: <20211029152535.2055096-1-bin.meng@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211028102520.747396-6-armbru@redhat.com>
-User-Agent: NeoMutt/20211022
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,75 +83,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, quintela@redhat.com,
- libvir-list@redhat.com, philmd@redhat.com, kchamart@redhat.com,
- qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com, dgilbert@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, jsnow@redhat.com,
- libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 28, 2021 at 12:25:16PM +0200, Markus Armbruster wrote:
-> The generated visitor functions call visit_deprecated_accept() and
-> visit_deprecated() when visiting a struct member with special feature
-> flag 'deprecated'.  This makes the feature flag visible to the actual
-> visitors.  I want to make feature flag 'unstable' visible there as
-> well, so I can add policy for it.
-> 
-> To let me make it visible, replace these functions by
-> visit_policy_reject() and visit_policy_skip(), which take the member's
-> special features as an argument.  Note that the new functions have the
-> opposite sense, i.e. the return value flips.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
 
-> +++ b/qapi/qapi-forward-visitor.c
-> @@ -246,25 +246,27 @@ static void forward_field_optional(Visitor *v, const char *name, bool *present)
->      visit_optional(ffv->target, name, present);
->  }
->  
-> -static bool forward_field_deprecated_accept(Visitor *v, const char *name,
-> -                                            Error **errp)
-> +static bool forward_field_policy_reject(Visitor *v, const char *name,
-> +                                        unsigned special_features,
-> +                                        Error **errp)
->  {
->      ForwardFieldVisitor *ffv = to_ffv(v);
->  
->      if (!forward_field_translate_name(ffv, &name, errp)) {
->          return false;
+This adds initial support for the native debug via the Trigger Module,
+as defined in the RISC-V Debug Specification [1].
 
-Should this return value be flipped?
+Only "Address / Data Match" trigger (type 2) is implemented as of now,
+which is mainly used for hardware breakpoint and watchpoint. The number
+of type 2 triggers implemented is 2, which is the number that we can
+find in the SiFive U54/U74 cores.
 
->      }
-> -    return visit_deprecated_accept(ffv->target, name, errp);
-> +    return visit_policy_reject(ffv->target, name, special_features, errp);
->  }
->  
-> -static bool forward_field_deprecated(Visitor *v, const char *name)
-> +static bool forward_field_policy_skip(Visitor *v, const char *name,
-> +                                      unsigned special_features)
->  {
->      ForwardFieldVisitor *ffv = to_ffv(v);
->  
->      if (!forward_field_translate_name(ffv, &name, NULL)) {
->          return false;
+[1] https://github.com/riscv/riscv-debug-spec/raw/master/riscv-debug-stable.pdf
 
-and here too?
 
->      }
-> -    return visit_deprecated(ffv->target, name);
-> +    return visit_policy_skip(ffv->target, name, special_features);
->  }
->  
+Bin Meng (5):
+  target/riscv: Add initial support for native debug
+  target/riscv: debug: Implement debug related TCGCPUOps
+  target/riscv: Add a config option for native debug
+  target/riscv: csr: Hook debug CSR read/write
+  hw/core: tcg-cpu-ops.h: Update comments of debug_check_watchpoint()
 
-Otherwise, the rest of the logic changes for flipped sense look right.
+ include/hw/core/tcg-cpu-ops.h |   1 +
+ target/riscv/cpu.h            |   7 +
+ target/riscv/debug.h          | 114 +++++++++
+ target/riscv/cpu.c            |  14 ++
+ target/riscv/csr.c            |  57 +++++
+ target/riscv/debug.c          | 439 ++++++++++++++++++++++++++++++++++
+ target/riscv/meson.build      |   1 +
+ 7 files changed, 633 insertions(+)
+ create mode 100644 target/riscv/debug.h
+ create mode 100644 target/riscv/debug.c
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.25.1
 
 
