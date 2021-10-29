@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D396943FB0B
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 12:47:48 +0200 (CEST)
-Received: from localhost ([::1]:55828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F415743FB59
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 13:28:18 +0200 (CEST)
+Received: from localhost ([::1]:46802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgPQI-0008Tk-O9
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 06:47:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53924)
+	id 1mgQ3V-00080m-NX
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 07:28:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mgPNX-0006qj-87
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 06:44:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43655)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mgQ1i-0007Fj-DM
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 07:26:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mgPNV-0006eF-Ew
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 06:44:54 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mgQ1e-0004Y0-CI
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 07:26:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635504292;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1635506780;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2BKDZuwJAgpcYs0yQ7As1+hZ11hawjDoazr/LlY+HM8=;
- b=dkgf5TEeFaynvFS9h2CRqPfOQh1xaf1ydS+EOdXOHkH2SGqXpJWLV6k5JNbdGN6JVfUBvw
- O/K4LMYdLDmBLticfLENpaBF+ESadsEruWDz1w+WCEQ0slF2mVgXXiTkhmBX0jcl6a7K6M
- fioZGK/V3bu0aT5iEr1K0ovX42BvMmo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-7bBUnFBvPROW56m-OL5bOw-1; Fri, 29 Oct 2021 06:44:51 -0400
-X-MC-Unique: 7bBUnFBvPROW56m-OL5bOw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 125-20020a1c0183000000b003306ae8bfb7so1246555wmb.7
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 03:44:51 -0700 (PDT)
+ bh=FbkSlHbtwdX1q3BxXDbXODn1DxxCUz3xWCHFThK4NbY=;
+ b=Y+fdTRmQABVz8XK0MpxJXCsjTzsENfwsC8EV86Y8xCo2YPlpYewW3SlfnFDEGncwMM3vja
+ RnXQ715is1DllCyrbgeh84keXYtk2j1BPeW8Gae8FtnmnwS1DHAFpGhuSs7DZw/04M3UE3
+ 8C9EnVjaIXsUmN70t2a9H8MUVBSRHjM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-GEnaWUT7Mu6H8vfItVppGQ-1; Fri, 29 Oct 2021 07:26:19 -0400
+X-MC-Unique: GEnaWUT7Mu6H8vfItVppGQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 125-20020a1c0183000000b003306ae8bfb7so1295895wmb.7
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 04:26:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=2BKDZuwJAgpcYs0yQ7As1+hZ11hawjDoazr/LlY+HM8=;
- b=XMyMyPwMHgNPiAWfxPBgghXBBxoV8JlFeRv3QD67ZSURmre3Uslo1b+28r+gzyUPUG
- fq0k/zf/FhgGGYJ3PMDYI7T6aNUWFFz2Wg+Wp2mcMxJ97AAQ87CoZJ5Kc8J4GpW4MLdI
- zjLTEjWLLG7W6oElu/YvVe85/kfGGDPpkEWQhrItwkYq01BEKfDTLXc6PrQYAY580alJ
- 1E5JBU7jMnGKYDyEqsujZ4dGwia9ApEaAcZBlqGuSIxuTI/YJVCjwwI2BZk16ioi6YpP
- 9P6OW+acSg/2/+3dltYx0EvNmxucroj4nyw5h9G0bk7LAl1DisQM/bVDYiVEv0q3qZ6T
- Oxig==
-X-Gm-Message-State: AOAM531UqMJH1aUWThp4lLeA6sjm8bOZhe0SbR0uqt7nPyDtWdw5RGpa
- QXKNQLa+eouxvdPTF0VrrUqmTkgVP8YhrcROKJPxqPktB+k6016ZGD8WBJSUFK9d89pMNjlF0l4
- UNvhuT9E+1O8oHUc=
-X-Received: by 2002:a5d:44d1:: with SMTP id z17mr1862330wrr.143.1635504287196; 
- Fri, 29 Oct 2021 03:44:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJweqb29JeZSUqLNspnLgbaJnjaase0Z/w9ovICSuEKsp7k3psSttEk7IKX00fNF0llvU8IIbg==
-X-Received: by 2002:a5d:44d1:: with SMTP id z17mr1862303wrr.143.1635504287052; 
- Fri, 29 Oct 2021 03:44:47 -0700 (PDT)
-Received: from localhost ([178.139.224.158])
- by smtp.gmail.com with ESMTPSA id q18sm8601088wmc.7.2021.10.29.03.44.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 03:44:46 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 6/9] qapi: Generalize command policy checking
-In-Reply-To: <20211028102520.747396-7-armbru@redhat.com> (Markus Armbruster's
- message of "Thu, 28 Oct 2021 12:25:17 +0200")
-References: <20211028102520.747396-1-armbru@redhat.com>
- <20211028102520.747396-7-armbru@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Fri, 29 Oct 2021 12:44:45 +0200
-Message-ID: <87pmrot8iq.fsf@secure.mitica>
+ bh=FbkSlHbtwdX1q3BxXDbXODn1DxxCUz3xWCHFThK4NbY=;
+ b=0/vnpJxu8/3X/NZOaijpFTh2fj8IappiVi8o2mB/PklSWGicDBQAfQZ+56LKEgPP1m
+ yuwc/LURSWJM2ahCj4Wik6fEFUmFMVABEQUjbYaUUn+TcHeIrXHnz3IuWKYA6GcDGt82
+ M+NwXjUHBqpqUh0hwPGWL4YNM9sPLfbVsO643GihF5Gjs1sBPPFBxupX5XPPWs/bMsFT
+ xsOHy8CM16oJHxd4fQCaYjemlmioDtXapmQ60mhna8l/PJvdT+Lp7LVAfYZBhsWRlumV
+ YT66djiay2KqU6vOw1QZ4hXEoJBScGFxN6DnxPmJwx8h85Je6jHgvOwVV14EKAJt6llS
+ CV+w==
+X-Gm-Message-State: AOAM531+Pq127XvZfei+EzYcnk7UkacyAxFztsrhYo5Oe6DrKz33vXJm
+ vpkhmWvsRmd0RJ3AiYvw8CCLrgFY+7CxyfXGKqlxyOsb9FuS+t62JoUz0PI1F61hjF+Q/wP0jOv
+ /3ZfKm+T5kBFVCqw=
+X-Received: by 2002:a5d:58ed:: with SMTP id f13mr3126865wrd.373.1635506778361; 
+ Fri, 29 Oct 2021 04:26:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxYeQXXninl8nuhNJuTLD6xm/Ux86/drY1uv88o5PX7M/NaVFtLBootDPTWWMN3Q7FaRNGzaA==
+X-Received: by 2002:a5d:58ed:: with SMTP id f13mr3126821wrd.373.1635506778163; 
+ Fri, 29 Oct 2021 04:26:18 -0700 (PDT)
+Received: from [192.168.20.130] (192.red-83-57-30.dynamicip.rima-tde.net.
+ [83.57.30.192])
+ by smtp.gmail.com with ESMTPSA id z18sm2131113wrq.11.2021.10.29.04.26.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Oct 2021 04:26:17 -0700 (PDT)
+Message-ID: <7453ba81-3d0c-2ee5-3992-86ecda770755@redhat.com>
+Date: Fri, 29 Oct 2021 13:26:15 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 14/22] qapi: introduce x-query-rdma QMP command
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211028155457.967291-1-berrange@redhat.com>
+ <20211028155457.967291-15-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211028155457.967291-15-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.512, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,31 +99,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, kchamart@redhat.com,
- libvir-list@redhat.com, eblake@redhat.com, philmd@redhat.com,
- mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, jsnow@redhat.com,
- libguestfs@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> wrote:
-> The code to check command policy can see special feature flag
-> 'deprecated' as command flag QCO_DEPRECATED.  I want to make feature
-> flag 'unstable' visible there as well, so I can add policy for it.
->
-> To let me make it visible, add member @special_features (a bitset of
-> QapiSpecialFeature) to QmpCommand, and adjust the generator to pass it
-> through qmp_register_command().  Then replace "QCO_DEPRECATED in
-> @flags" by QAPI_DEPRECATED in @special_features", and drop
-> QCO_DEPRECATED.
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Acked-by: John Snow <jsnow@redhat.com>
+On 10/28/21 17:54, Daniel P. Berrangé wrote:
+> This is a counterpart to the HMP "info rdma" command. It is being
+> added with an "x-" prefix because this QMP command is intended as an
+> adhoc debugging tool and will thus not be modelled in QAPI as fully
+> structured data, nor will it have long term guaranteed stability.
+> The existing HMP command is rewritten to call the QMP command.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  hmp-commands-info.hx      |   2 +-
+>  hw/rdma/rdma_rm.c         | 104 +++++++++++++++++++-------------------
+>  hw/rdma/rdma_rm.h         |   2 +-
+>  hw/rdma/vmw/pvrdma_main.c |  31 ++++++------
+>  include/hw/rdma/rdma.h    |   2 +-
+>  monitor/hmp-cmds.c        |  27 ----------
+>  monitor/qmp-cmds.c        |  32 ++++++++++++
+>  qapi/machine.json         |  12 +++++
+>  8 files changed, 115 insertions(+), 97 deletions(-)
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
