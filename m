@@ -2,81 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC694403AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:00:03 +0200 (CEST)
-Received: from localhost ([::1]:50328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 486BC4403CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:07:22 +0200 (CEST)
+Received: from localhost ([::1]:35354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgY2k-00083W-BJ
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:00:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34284)
+	id 1mgY9p-0008Vz-1w
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:07:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgXva-000405-AM; Fri, 29 Oct 2021 15:52:38 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgXvY-0004Qe-Kf; Fri, 29 Oct 2021 15:52:38 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id m22so18290286wrb.0;
- Fri, 29 Oct 2021 12:52:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dbS8+HUqtQDQmVS3N5PbvwzJ11VAAK6yioq4+Bq87VA=;
- b=oD518lM4g5vVZ/eMFAWx7JFbowk0i7yAIcoLPAz7T5L21CMr0GtANKl3iXYSVmL8X/
- MgZhUwjvCw/NY7+XAyN3MiIyCIawH2XoYQ2divVdP/rXblGGNBTKYKQgfGoqtNa/bcm8
- UX1fMcMvagdp2tzkDaA0HDV4saeVKNkyJfVVpIdKkDGdWxChEC9PHeXT2z8rK2ZwsA7Y
- 5WkJUKM1Wldy38s+ZbCgzShjSJy+pgBmEK4ggA8X0Kg4cPAoFHYr0jdb8lM2WE/AUDjT
- CwLZONBGx9DSW9UYkGCif2Dr9N2ALRy0IDTPlsl6T6TYGHlqMv2rk5nCFaDTTa0AYI6E
- View==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dbS8+HUqtQDQmVS3N5PbvwzJ11VAAK6yioq4+Bq87VA=;
- b=HfzaiB4758EcJUvq1xQtftow45jNrXn78VTv6EIP4UH1GoczpK3B+FftkvoHZ1s0LH
- UIJ/WFEN6JJT3xINYDFVlugYXyW2wvpZbPpr/KfV3dHoy2RS3Du8/YLwF5uvSAyrpeza
- QuqPrM5pQWqMDahdSIGfyCcaaZoBpteV6iE9Ov0JsU5sF2B2Y+4oqxxlj3tJynWM+Q4M
- +u4GJ3UqvDAdMXgr8fcvw7TcaFrbxUaYj0Y8hGfYDic6gIt6aOl6M9s+JKC+8+wKbkrv
- MNbBEEvBh4KQUraS14JeW+6oXj+8WrNEh5JWhoizpArtR/Q2TYMbHRYeOASmKe4EgUAX
- 4pyg==
-X-Gm-Message-State: AOAM532KqAXcQZYDdDKm8ZXMVnoJ2FozvwAX0xtwQ9z8PzU5Z0FxNq9F
- KYYmPEd8YvVeeIhZZWtoZXs=
-X-Google-Smtp-Source: ABdhPJyT0TOfzwmOulGUxUQgx8D2C6A3cSWuXZwdVFAm6KBykIM6nvay4eXebzSaCdbK4eKfLRiESg==
-X-Received: by 2002:a5d:63cd:: with SMTP id c13mr16119476wrw.224.1635537154914; 
- Fri, 29 Oct 2021 12:52:34 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id s13sm9771262wmc.47.2021.10.29.12.52.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 12:52:34 -0700 (PDT)
-Message-ID: <cdd0d0ce-2bb9-a026-dcea-232b6eb6fc3e@amsat.org>
-Date: Fri, 29 Oct 2021 21:52:33 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v5 03/15] target/ppc: Introduce REQUIRE_FPU
-Content-Language: en-US
-To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
+ (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
+ id 1mgXWk-00017G-6D; Fri, 29 Oct 2021 15:26:58 -0400
+Received: from [201.28.113.2] (port=50092 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <luis.pires@eldorado.org.br>)
+ id 1mgXWi-0000Ch-5k; Fri, 29 Oct 2021 15:26:57 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 29 Oct 2021 16:24:22 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id DC292800B36;
+ Fri, 29 Oct 2021 16:24:21 -0300 (-03)
+From: Luis Pires <luis.pires@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v5 14/15] target/ppc: Move dct{dp, qpq}, dr{sp, dpq}, dc{f,
+ t}fix[q], dxex[q] to decodetree
+Date: Fri, 29 Oct 2021 16:24:16 -0300
+Message-Id: <20211029192417.400707-15-luis.pires@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211029192417.400707-1-luis.pires@eldorado.org.br>
 References: <20211029192417.400707-1-luis.pires@eldorado.org.br>
- <20211029192417.400707-4-luis.pires@eldorado.org.br>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211029192417.400707-4-luis.pires@eldorado.org.br>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.512,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 29 Oct 2021 19:24:22.0165 (UTC)
+ FILETIME=[93A4A450:01D7CCFA]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,20 +58,319 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fernando Valle <fernando.valle@eldorado.org.br>,
+Cc: Luis Pires <luis.pires@eldorado.org.br>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  richard.henderson@linaro.org, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/29/21 21:24, Luis Pires wrote:
-> From: Fernando Valle <fernando.valle@eldorado.org.br>
-> 
-> Signed-off-by: Fernando Valle <fernando.valle@eldorado.org.br>
-> Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/ppc/translate.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+Move the following instructions to decodetree:
+dctdp:   DFP Convert To DFP Long
+dctqpq:  DFP Convert To DFP Extended
+drsp:    DFP Round To DFP Short
+drdpq:   DFP Round To DFP Long
+dcffix:  DFP Convert From Fixed
+dcffixq: DFP Convert From Fixed Quad
+dctfix:  DFP Convert To Fixed
+dctfixq: DFP Convert To Fixed Quad
+dxex:    DFP Extract Biased Exponent
+dxexq:   DFP Extract Biased Exponent Quad
 
+Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/ppc/dfp_helper.c             | 20 +++++------
+ target/ppc/helper.h                 | 20 +++++------
+ target/ppc/insn32.decode            | 23 ++++++++++++
+ target/ppc/translate/dfp-impl.c.inc | 54 ++++++++++++++---------------
+ target/ppc/translate/dfp-ops.c.inc  | 22 ------------
+ 5 files changed, 69 insertions(+), 70 deletions(-)
+
+diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
+index a50a73d3c0..d950d0d3fc 100644
+--- a/target/ppc/dfp_helper.c
++++ b/target/ppc/dfp_helper.c
+@@ -885,7 +885,7 @@ static void RINTN_PPs(struct PPC_DFP *dfp)
+ DFP_HELPER_RINT(DRINTN, RINTN_PPs, 64)
+ DFP_HELPER_RINT(DRINTNQ, RINTN_PPs, 128)
+ 
+-void helper_dctdp(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
++void helper_DCTDP(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
+ {
+     struct PPC_DFP dfp;
+     ppc_vsr_t vb;
+@@ -901,7 +901,7 @@ void helper_dctdp(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
+     dfp_set_FPRF_from_FRT(&dfp);
+ }
+ 
+-void helper_dctqpq(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
++void helper_DCTQPQ(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
+ {
+     struct PPC_DFP dfp;
+     ppc_vsr_t vb;
+@@ -916,7 +916,7 @@ void helper_dctqpq(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
+     set_dfp128(t, &dfp.vt);
+ }
+ 
+-void helper_drsp(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
++void helper_DRSP(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
+ {
+     struct PPC_DFP dfp;
+     uint32_t t_short = 0;
+@@ -934,7 +934,7 @@ void helper_drsp(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
+     set_dfp64(t, &vt);
+ }
+ 
+-void helper_drdpq(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
++void helper_DRDPQ(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
+ {
+     struct PPC_DFP dfp;
+     dfp_prepare_decimal128(&dfp, 0, b, env);
+@@ -972,8 +972,8 @@ static void CFFIX_PPs(struct PPC_DFP *dfp)
+     dfp_check_for_XX(dfp);
+ }
+ 
+-DFP_HELPER_CFFIX(dcffix, 64)
+-DFP_HELPER_CFFIX(dcffixq, 128)
++DFP_HELPER_CFFIX(DCFFIX, 64)
++DFP_HELPER_CFFIX(DCFFIXQ, 128)
+ 
+ void helper_DCFFIXQQ(CPUPPCState *env, ppc_fprp_t *t, ppc_avr_t *b)
+ {
+@@ -1022,8 +1022,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)              \
+     set_dfp64(t, &dfp.vt);                                                    \
+ }
+ 
+-DFP_HELPER_CTFIX(dctfix, 64)
+-DFP_HELPER_CTFIX(dctfixq, 128)
++DFP_HELPER_CTFIX(DCTFIX, 64)
++DFP_HELPER_CTFIX(DCTFIXQ, 128)
+ 
+ void helper_DCTFIXQQ(CPUPPCState *env, ppc_avr_t *t, ppc_fprp_t *b)
+ {
+@@ -1233,8 +1233,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b) \
+     }                                                          \
+ }
+ 
+-DFP_HELPER_XEX(dxex, 64)
+-DFP_HELPER_XEX(dxexq, 128)
++DFP_HELPER_XEX(DXEX, 64)
++DFP_HELPER_XEX(DXEXQ, 128)
+ 
+ static void dfp_set_raw_exp_64(ppc_vsr_t *t, uint64_t raw)
+ {
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index cb05cc168c..4c2a349ce6 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -728,22 +728,22 @@ DEF_HELPER_5(DRINTX, void, env, fprp, fprp, i32, i32)
+ DEF_HELPER_5(DRINTXQ, void, env, fprp, fprp, i32, i32)
+ DEF_HELPER_5(DRINTN, void, env, fprp, fprp, i32, i32)
+ DEF_HELPER_5(DRINTNQ, void, env, fprp, fprp, i32, i32)
+-DEF_HELPER_3(dctdp, void, env, fprp, fprp)
+-DEF_HELPER_3(dctqpq, void, env, fprp, fprp)
+-DEF_HELPER_3(drsp, void, env, fprp, fprp)
+-DEF_HELPER_3(drdpq, void, env, fprp, fprp)
+-DEF_HELPER_3(dcffix, void, env, fprp, fprp)
+-DEF_HELPER_3(dcffixq, void, env, fprp, fprp)
++DEF_HELPER_3(DCTDP, void, env, fprp, fprp)
++DEF_HELPER_3(DCTQPQ, void, env, fprp, fprp)
++DEF_HELPER_3(DRSP, void, env, fprp, fprp)
++DEF_HELPER_3(DRDPQ, void, env, fprp, fprp)
++DEF_HELPER_3(DCFFIX, void, env, fprp, fprp)
++DEF_HELPER_3(DCFFIXQ, void, env, fprp, fprp)
+ DEF_HELPER_3(DCFFIXQQ, void, env, fprp, avr)
+-DEF_HELPER_3(dctfix, void, env, fprp, fprp)
+-DEF_HELPER_3(dctfixq, void, env, fprp, fprp)
++DEF_HELPER_3(DCTFIX, void, env, fprp, fprp)
++DEF_HELPER_3(DCTFIXQ, void, env, fprp, fprp)
+ DEF_HELPER_3(DCTFIXQQ, void, env, avr, fprp)
+ DEF_HELPER_4(ddedpd, void, env, fprp, fprp, i32)
+ DEF_HELPER_4(ddedpdq, void, env, fprp, fprp, i32)
+ DEF_HELPER_4(denbcd, void, env, fprp, fprp, i32)
+ DEF_HELPER_4(denbcdq, void, env, fprp, fprp, i32)
+-DEF_HELPER_3(dxex, void, env, fprp, fprp)
+-DEF_HELPER_3(dxexq, void, env, fprp, fprp)
++DEF_HELPER_3(DXEX, void, env, fprp, fprp)
++DEF_HELPER_3(DXEXQ, void, env, fprp, fprp)
+ DEF_HELPER_4(DIEX, void, env, fprp, fprp, fprp)
+ DEF_HELPER_4(DIEXQ, void, env, fprp, fprp, fprp)
+ DEF_HELPER_4(dscri, void, env, fprp, fprp, i32)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 86dbdada47..2ce8b0ab95 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -47,6 +47,15 @@
+ 
+ @X_tp_a_bp_rc   ...... ....0 ra:5 ....0 .......... rc:1         &X_rc rt=%x_frtp rb=%x_frbp
+ 
++&X_tb_rc        rt rb rc:bool
++@X_tb_rc        ...... rt:5 ..... rb:5 .......... rc:1          &X_tb_rc
++
++@X_tbp_rc       ...... ....0 ..... ....0 .......... rc:1        &X_tb_rc rt=%x_frtp rb=%x_frbp
++
++@X_tp_b_rc      ...... ....0 ..... rb:5 .......... rc:1         &X_tb_rc rt=%x_frtp
++
++@X_t_bp_rc      ...... rt:5 ..... ....0 .......... rc:1         &X_tb_rc rb=%x_frbp
++
+ &X_bi           rt bi
+ @X_bi           ...... rt:5 bi:5 ----- .......... -     &X_bi
+ 
+@@ -233,11 +242,25 @@ DRINTNQ         111111 ..... ---- . ..... .. 11100011 . @Z23_tbp
+ 
+ ### Decimal Floating-Point Conversion Instructions
+ 
++DCTDP           111011 ..... ----- ..... 0100000010 .   @X_tb_rc
++DCTQPQ          111111 ..... ----- ..... 0100000010 .   @X_tp_b_rc
++
++DRSP            111011 ..... ----- ..... 1100000010 .   @X_tb_rc
++DRDPQ           111111 ..... ----- ..... 1100000010 .   @X_tbp_rc
++
++DCFFIX          111011 ..... ----- ..... 1100100010 .   @X_tb_rc
++DCFFIXQ         111111 ..... ----- ..... 1100100010 .   @X_tp_b_rc
+ DCFFIXQQ        111111 ..... 00000 ..... 1111100010 -   @X_frtp_vrb
++
++DCTFIX          111011 ..... ----- ..... 0100100010 .   @X_tb_rc
++DCTFIXQ         111111 ..... ----- ..... 0100100010 .   @X_t_bp_rc
+ DCTFIXQQ        111111 ..... 00001 ..... 1111100010 -   @X_vrt_frbp
+ 
+ ### Decimal Floating-Point Format Instructions
+ 
++DXEX            111011 ..... ----- ..... 0101100010 .   @X_tb_rc
++DXEXQ           111111 ..... ----- ..... 0101100010 .   @X_t_bp_rc
++
+ DIEX            111011 ..... ..... ..... 1101100010 .   @X_rc
+ DIEXQ           111111 ..... ..... ..... 1101100010 .   @X_tp_a_bp_rc
+ 
+diff --git a/target/ppc/translate/dfp-impl.c.inc b/target/ppc/translate/dfp-impl.c.inc
+index 30d65ffb46..736292584c 100644
+--- a/target/ppc/translate/dfp-impl.c.inc
++++ b/target/ppc/translate/dfp-impl.c.inc
+@@ -106,23 +106,22 @@ static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a)   \
+     return true;                                             \
+ }
+ 
+-#define GEN_DFP_T_B_Rc(name)                     \
+-static void gen_##name(DisasContext *ctx)        \
+-{                                                \
+-    TCGv_ptr rt, rb;                             \
+-    if (unlikely(!ctx->fpu_enabled)) {           \
+-        gen_exception(ctx, POWERPC_EXCP_FPU);    \
+-        return;                                  \
+-    }                                            \
+-    rt = gen_fprp_ptr(rD(ctx->opcode));          \
+-    rb = gen_fprp_ptr(rB(ctx->opcode));          \
+-    gen_helper_##name(cpu_env, rt, rb);          \
+-    if (unlikely(Rc(ctx->opcode) != 0)) {        \
+-        gen_set_cr1_from_fpscr(ctx);             \
+-    }                                            \
+-    tcg_temp_free_ptr(rt);                       \
+-    tcg_temp_free_ptr(rb);                       \
+-    }
++#define TRANS_DFP_T_B_Rc(NAME)                               \
++static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a)   \
++{                                                            \
++    TCGv_ptr rt, rb;                                         \
++    REQUIRE_INSNS_FLAGS2(ctx, DFP);                          \
++    REQUIRE_FPU(ctx);                                        \
++    rt = gen_fprp_ptr(a->rt);                                \
++    rb = gen_fprp_ptr(a->rb);                                \
++    gen_helper_##NAME(cpu_env, rt, rb);                      \
++    if (unlikely(a->rc)) {                                   \
++        gen_set_cr1_from_fpscr(ctx);                         \
++    }                                                        \
++    tcg_temp_free_ptr(rt);                                   \
++    tcg_temp_free_ptr(rb);                                   \
++    return true;                                             \
++}
+ 
+ #define GEN_DFP_T_FPR_I32_Rc(name, fprfld, i32fld) \
+ static void gen_##name(DisasContext *ctx)          \
+@@ -177,20 +176,20 @@ TRANS_DFP_T_B_U32_U32_Rc(DRINTX, r, rmc)
+ TRANS_DFP_T_B_U32_U32_Rc(DRINTXQ, r, rmc)
+ TRANS_DFP_T_B_U32_U32_Rc(DRINTN, r, rmc)
+ TRANS_DFP_T_B_U32_U32_Rc(DRINTNQ, r, rmc)
+-GEN_DFP_T_B_Rc(dctdp)
+-GEN_DFP_T_B_Rc(dctqpq)
+-GEN_DFP_T_B_Rc(drsp)
+-GEN_DFP_T_B_Rc(drdpq)
+-GEN_DFP_T_B_Rc(dcffix)
+-GEN_DFP_T_B_Rc(dcffixq)
+-GEN_DFP_T_B_Rc(dctfix)
+-GEN_DFP_T_B_Rc(dctfixq)
++TRANS_DFP_T_B_Rc(DCTDP)
++TRANS_DFP_T_B_Rc(DCTQPQ)
++TRANS_DFP_T_B_Rc(DRSP)
++TRANS_DFP_T_B_Rc(DRDPQ)
++TRANS_DFP_T_B_Rc(DCFFIX)
++TRANS_DFP_T_B_Rc(DCFFIXQ)
++TRANS_DFP_T_B_Rc(DCTFIX)
++TRANS_DFP_T_B_Rc(DCTFIXQ)
+ GEN_DFP_T_FPR_I32_Rc(ddedpd, rB, SP)
+ GEN_DFP_T_FPR_I32_Rc(ddedpdq, rB, SP)
+ GEN_DFP_T_FPR_I32_Rc(denbcd, rB, SP)
+ GEN_DFP_T_FPR_I32_Rc(denbcdq, rB, SP)
+-GEN_DFP_T_B_Rc(dxex)
+-GEN_DFP_T_B_Rc(dxexq)
++TRANS_DFP_T_B_Rc(DXEX)
++TRANS_DFP_T_B_Rc(DXEXQ)
+ TRANS_DFP_T_A_B_Rc(DIEX)
+ TRANS_DFP_T_A_B_Rc(DIEXQ)
+ GEN_DFP_T_FPR_I32_Rc(dscli, rA, DCM)
+@@ -198,7 +197,6 @@ GEN_DFP_T_FPR_I32_Rc(dscliq, rA, DCM)
+ GEN_DFP_T_FPR_I32_Rc(dscri, rA, DCM)
+ GEN_DFP_T_FPR_I32_Rc(dscriq, rA, DCM)
+ 
+-#undef GEN_DFP_T_B_Rc
+ #undef GEN_DFP_T_FPR_I32_Rc
+ 
+ static bool trans_DCFFIXQQ(DisasContext *ctx, arg_DCFFIXQQ *a)
+diff --git a/target/ppc/translate/dfp-ops.c.inc b/target/ppc/translate/dfp-ops.c.inc
+index 3e0dfae796..e29c4b2194 100644
+--- a/target/ppc/translate/dfp-ops.c.inc
++++ b/target/ppc/translate/dfp-ops.c.inc
+@@ -12,18 +12,6 @@ GEN_HANDLER_E(name, 0x3F, op1, op2, mask, PPC_NONE, PPC2_DFP)
+ GEN_HANDLER_E(name, 0x3F, op1, 0x00 | op2, mask, PPC_NONE, PPC2_DFP), \
+ GEN_HANDLER_E(name, 0x3F, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP)
+ 
+-#define GEN_DFP_T_B_Rc(name, op1, op2) \
+-_GEN_DFP_LONG(name, op1, op2, 0x001F0000)
+-
+-#define GEN_DFP_Tp_Bp_Rc(name, op1, op2) \
+-_GEN_DFP_QUAD(name, op1, op2, 0x003F0800)
+-
+-#define GEN_DFP_Tp_B_Rc(name, op1, op2) \
+-_GEN_DFP_QUAD(name, op1, op2, 0x003F0000)
+-
+-#define GEN_DFP_T_Bp_Rc(name, op1, op2) \
+-_GEN_DFP_QUAD(name, op1, op2, 0x001F0800)
+-
+ #define GEN_DFP_SP_T_B_Rc(name, op1, op2) \
+ _GEN_DFP_LONG(name, op1, op2, 0x00070000)
+ 
+@@ -42,20 +30,10 @@ _GEN_DFP_LONGx2(name, op1, op2, 0x00000000)
+ #define GEN_DFP_Tp_Ap_SH_Rc(name, op1, op2) \
+ _GEN_DFP_QUADx2(name, op1, op2, 0x00210000)
+ 
+-GEN_DFP_T_B_Rc(dctdp, 0x02, 0x08),
+-GEN_DFP_Tp_B_Rc(dctqpq, 0x02, 0x08),
+-GEN_DFP_T_B_Rc(drsp, 0x02, 0x18),
+-GEN_DFP_Tp_Bp_Rc(drdpq, 0x02, 0x18),
+-GEN_DFP_T_B_Rc(dcffix, 0x02, 0x19),
+-GEN_DFP_Tp_B_Rc(dcffixq, 0x02, 0x19),
+-GEN_DFP_T_B_Rc(dctfix, 0x02, 0x09),
+-GEN_DFP_T_Bp_Rc(dctfixq, 0x02, 0x09),
+ GEN_DFP_SP_T_B_Rc(ddedpd, 0x02, 0x0a),
+ GEN_DFP_SP_Tp_Bp_Rc(ddedpdq, 0x02, 0x0a),
+ GEN_DFP_S_T_B_Rc(denbcd, 0x02, 0x1a),
+ GEN_DFP_S_Tp_Bp_Rc(denbcdq, 0x02, 0x1a),
+-GEN_DFP_T_B_Rc(dxex, 0x02, 0x0b),
+-GEN_DFP_T_Bp_Rc(dxexq, 0x02, 0x0b),
+ GEN_DFP_T_A_SH_Rc(dscli, 0x02, 0x02),
+ GEN_DFP_Tp_Ap_SH_Rc(dscliq, 0x02, 0x02),
+ GEN_DFP_T_A_SH_Rc(dscri, 0x02, 0x03),
+-- 
+2.25.1
+
 
